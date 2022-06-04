@@ -10,13 +10,6 @@ namespace Files.Uwp.Filesystem.Cloud.Providers
 {
     public class SynologyDriveCloudProvider : ICloudProviderDetector
     {
-        private class SynologyDriveConnection
-        {
-            public string ConnectionType { get; set; }
-
-            public string HostName { get; set; }
-        }
-
         public async Task<IList<CloudProvider>> DetectAsync()
         {
             /* Synology Drive stores its information on some files, but we only need sys.sqlite, which is placed on %LocalAppData%\SynologyDrive\data\db
@@ -45,15 +38,13 @@ namespace Files.Uwp.Filesystem.Cloud.Providers
                     // Open the connection and execute the command
                     con.Open();
                     var reader = cmd.ExecuteReader();
-                    var connections = new Dictionary<string, SynologyDriveConnection>();
+                    var connections = new Dictionary<string, (string ConnectionType, string HostName)>();
 
                     while (reader.Read())
                     {
-                        var connection = new SynologyDriveConnection()
-                        {
-                            ConnectionType = reader["conn_type"]?.ToString(),
-                            HostName = reader["host_name"]?.ToString()
-                        };
+                        var connection = (
+                            ConnectionType: reader["conn_type"]?.ToString(), 
+                            HostName: reader["host_name"]?.ToString());
 
                         connections.Add(reader["id"]?.ToString(), connection);
                     }
@@ -69,7 +60,7 @@ namespace Files.Uwp.Filesystem.Cloud.Providers
                             string path = reader2["sync_folder"]?.ToString();
                             if (string.IsNullOrWhiteSpace(path))
                             {
-                                return Array.Empty<CloudProvider>();
+                                continue;
                             }
 
                             var folder = await StorageFolder.GetFolderFromPathAsync(path);
@@ -81,7 +72,6 @@ namespace Files.Uwp.Filesystem.Cloud.Providers
                             };
 
                             results.Add(synologyDriveCloud);
-
                         }
                     }
 
