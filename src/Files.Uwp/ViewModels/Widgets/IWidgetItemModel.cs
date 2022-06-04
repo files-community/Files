@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Files.Uwp.ViewModels.Widgets
 {
@@ -11,5 +12,7 @@ namespace Files.Uwp.ViewModels.Widgets
         string AutomationProperties { get; }
 
         bool IsWidgetSettingEnabled { get; }
+
+        Task RefreshWidget();
     }
 }

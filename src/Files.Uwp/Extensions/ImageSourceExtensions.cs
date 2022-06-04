@@ -1,6 +1,9 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.Storage;
 using Windows.Storage.Streams;
 
 namespace Files.Uwp.Extensions
@@ -16,6 +19,21 @@ namespace Files.Uwp.Extensions
 
             using var readStream = stream.AsStreamForRead();
             return await readStream.ToByteArrayAsync();
+        }
+
+        internal static async Task<byte[]> ToByteArrayAsync(this StorageFile file)
+        {
+            if (file == null)
+            {
+                return null;
+            }
+
+            using (IRandomAccessStream fileStream = await file.OpenAsync(FileAccessMode.Read))
+            {
+                var bytes = new byte[fileStream.Size];
+                await fileStream.ReadAsync(bytes.AsBuffer(), (uint)fileStream.Size, InputStreamOptions.None);
+                return bytes;
+            }
         }
 
         private static async Task<byte[]> ToByteArrayAsync(this Stream stream, CancellationToken cancellationToken = default)

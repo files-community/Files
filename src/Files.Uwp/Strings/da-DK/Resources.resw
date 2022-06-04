@@ -522,9 +522,6 @@
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>Bidragydere</value>
   </data>
-  <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
-    <value>Udgivelsesnoter</value>
-  </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>Emnet er enten ugyldig eller utilgængelig. {0} Fejlmeddelelse: {0} {1}</value>
   </data>
@@ -783,9 +780,6 @@
   <data name="PropertyContentDistributor" xml:space="preserve">
     <value>Indholdsdistributør</value>
   </data>
-  <data name="PropertyDateReleased" xml:space="preserve">
-    <value>Udgivelsesdato</value>
-  </data>
   <data name="PropertySeriesName" xml:space="preserve">
     <value>Serienavn</value>
   </data>
@@ -986,9 +980,6 @@
   </data>
   <data name="SettingsAboutContributorsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Se, hvem der har bidraget til Files</value>
-  </data>
-  <data name="SettingsAboutReleaseNotesListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Find ud af, hvad der er nyt i Files</value>
   </data>
   <data name="SettingsAboutSubmitFeedbackListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Send udviklerne en problemrapport med detaljerede oplysninger</value>
