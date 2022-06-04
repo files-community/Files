@@ -145,10 +145,12 @@ namespace Files.Uwp.DataModels
 
             try
             {
-                (FavoriteItems[oldIndex], FavoriteItems[newIndex]) = (FavoriteItems[newIndex], FavoriteItems[oldIndex]);
+                FavoriteItems.RemoveAt(oldIndex);
+                FavoriteItems.Insert(newIndex, locationItem.Path);
                 lock (favoriteList)
                 {
-                    (favoriteList[oldIndex], favoriteList[newIndex]) = (favoriteList[newIndex], favoriteList[oldIndex]);
+                    favoriteList.RemoveAt(oldIndex);
+                    favoriteList.Insert(newIndex, locationItem);
                 }
                 var e = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, locationItem, newIndex, oldIndex);
                 controller.DataChanged?.Invoke(SectionType.Favorites, e);

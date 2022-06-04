@@ -392,7 +392,7 @@ namespace Files.Uwp.UserControls
                 }
 
                 int oldIndex = App.SidebarPinnedController.Model.IndexOfItem(rightClickedItem);
-                App.SidebarPinnedController.Model.MoveItem(rightClickedItem, oldIndex, 1);
+                App.SidebarPinnedController.Model.MoveItem(rightClickedItem, oldIndex, 0);
 
                 if (isSelectedSidebarItem)
                 {
@@ -455,7 +455,7 @@ namespace Files.Uwp.UserControls
                 }
 
                 int oldIndex = App.SidebarPinnedController.Model.IndexOfItem(rightClickedItem);
-                App.SidebarPinnedController.Model.MoveItem(rightClickedItem, oldIndex, App.SidebarPinnedController.Model.FavoriteItems.Count);
+                App.SidebarPinnedController.Model.MoveItem(rightClickedItem, oldIndex, App.SidebarPinnedController.Model.FavoriteItems.Count - 1);
 
                 if (isSelectedSidebarItem)
                 {
