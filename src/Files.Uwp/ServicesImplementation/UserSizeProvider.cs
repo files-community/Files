@@ -10,7 +10,8 @@ namespace Files.Uwp.ServicesImplementation
 {
     public class UserSizeProvider : ISizeProvider
     {
-        private readonly IPreferencesSettingsService preferences = Ioc.Default.GetRequiredService<IPreferencesSettingsService>();
+        private readonly IPreferencesSettingsService preferences
+            = Ioc.Default.GetRequiredService<IPreferencesSettingsService>();
 
         private ISizeProvider provider;
 
@@ -26,6 +27,9 @@ namespace Files.Uwp.ServicesImplementation
 
         public Task CleanAsync()
             => provider.CleanAsync();
+
+        public async Task ClearAsync()
+            => await provider.ClearAsync();
 
         public Task UpdateAsync(string path, CancellationToken cancellationToken)
             => provider.UpdateAsync(path, cancellationToken);
@@ -46,7 +50,7 @@ namespace Files.Uwp.ServicesImplementation
         {
             if (e.PropertyName is nameof(IPreferencesSettingsService.ShowFolderSize))
             {
-                await provider.CleanAsync();
+                await provider.ClearAsync();
                 provider.SizeChanged -= Provider_SizeChanged;
                 provider = GetProvider();
                 provider.SizeChanged += Provider_SizeChanged;

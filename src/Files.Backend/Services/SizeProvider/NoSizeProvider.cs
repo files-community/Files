@@ -8,8 +8,8 @@ namespace Files.Backend.Services.SizeProvider
     {
         public event EventHandler<SizeChangedEventArgs>? SizeChanged;
 
-        public Task CleanAsync()
-            => Task.CompletedTask;
+        public Task CleanAsync() => Task.CompletedTask;
+        public Task ClearAsync() => Task.CompletedTask;
 
         public Task UpdateAsync(string path, CancellationToken cancellationToken)
             => Task.CompletedTask;

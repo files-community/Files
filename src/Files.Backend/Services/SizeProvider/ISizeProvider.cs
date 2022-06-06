@@ -9,8 +9,9 @@ namespace Files.Backend.Services.SizeProvider
         event EventHandler<SizeChangedEventArgs> SizeChanged;
 
         Task CleanAsync();
-        Task UpdateAsync(string path, CancellationToken cancellationToken);
+        Task ClearAsync();
 
+        Task UpdateAsync(string path, CancellationToken cancellationToken);
         bool TryGetSize(string path, out ulong size);
     }
 }

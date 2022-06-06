@@ -14,7 +14,9 @@ namespace Files.Backend.Services.SizeProvider
 
         public event EventHandler<SizeChangedEventArgs>? SizeChanged;
 
-        public Task CleanAsync()
+        public Task CleanAsync() => Task.CompletedTask;
+
+        public Task ClearAsync()
         {
             sizes.Clear();
             return Task.CompletedTask;

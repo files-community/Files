@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,9 +15,27 @@ namespace Files.Backend.Services.SizeProvider
 
         public async Task CleanAsync()
         {
+            var currentDrives = DriveInfo.GetDrives().Select(x => x.Name).ToArray();
+            var oldDriveNames = providers.Keys.Except(currentDrives).ToArray();
+
+            foreach (var oldDriveName in oldDriveNames)
+            {
+                if (providers.ContainsKey(oldDriveName))
+                {
+                    providers.Remove(oldDriveName);
+                }
+            }
             foreach (var provider in providers.Values)
             {
                 await provider.CleanAsync();
+            }
+        }
+
+        public async Task ClearAsync()
+        {
+            foreach (var provider in providers)
+            {
+                await provider.Value.ClearAsync();
             }
             providers.Clear();
         }
