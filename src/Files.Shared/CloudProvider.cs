@@ -44,6 +44,7 @@ namespace Files.Shared
         Nextcloud,
         Yandex,
         Box,
-        Jottacloud
+        Jottacloud,
+        SynologyDrive
     }
 }
