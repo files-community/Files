@@ -195,7 +195,7 @@ namespace Files.Uwp.ViewModels
                 return new PDFPreview(model);
             }
 
-            if (HtmlPreviewViewModel.Extensions.Contains(ext))
+            if (HtmlPreviewViewModel.ContainsExtensions(ext))
             {
                 var model = new HtmlPreviewViewModel(item);
                 await model.LoadAsync();
@@ -209,7 +209,7 @@ namespace Files.Uwp.ViewModels
                 return new RichTextPreview(model);
             }
 
-            if (CodePreviewViewModel.Extensions.Contains(ext))
+            if (CodePreviewViewModel.ContainsExtensions(ext))
             {
                 var model = new CodePreviewViewModel(item);
                 await model.LoadAsync();
