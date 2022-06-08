@@ -54,12 +54,15 @@ namespace Files.Uwp.Helpers
         {
             foreach (var file in (await folder.GetFilesAsync()).Where(x => x.FileType == ".xaml"))
             {
-                Themes.Add(new AppTheme()
+                if(!Themes.Exists(t => t.AbsolutePath == file.Path))
                 {
-                    Name = file.Name.Replace(".xaml", "", StringComparison.Ordinal),
-                    Path = file.Name,
-                    AbsolutePath = file.Path,
-                });
+                    Themes.Add(new AppTheme()
+                    {
+                        Name = file.Name.Replace(".xaml", "", StringComparison.Ordinal),
+                        Path = file.Name,
+                        AbsolutePath = file.Path,
+                    });
+                }
             }
         }
 
