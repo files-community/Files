@@ -45,7 +45,23 @@ namespace Files.Uwp.ViewModels.Widgets.Bundles
         {
             get
             {
-                string fileName = System.IO.Path.GetFileName(this.Path);
+                string fileName;
+
+                // Network Share path
+                if (System.IO.Path.GetPathRoot(this.Path) == this.Path && this.Path.StartsWith(@"\\")) 
+                {
+                    fileName = this.Path.Substring(this.Path.LastIndexOf(@"\") + 1);
+                }
+                // Drive path
+                else if (System.IO.Path.GetPathRoot(this.Path) == this.Path)
+                {
+                    fileName = this.Path;
+                }
+                else
+                {
+                    fileName = System.IO.Path.GetFileName(this.Path);
+                }
+
 
                 if (fileName.EndsWith(".lnk", StringComparison.Ordinal) || fileName.EndsWith(".url", StringComparison.Ordinal))
                 {
