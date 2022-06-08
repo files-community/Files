@@ -1019,6 +1019,8 @@ namespace Files.Uwp
             }
         }
 
+        private readonly RecycleBinHelpers recycleBinHelpers = new();
+
         protected void InitializeDrag(UIElement containter, ListedItem item)
         {
             if (item is null)
@@ -1027,7 +1029,7 @@ namespace Files.Uwp
             }
 
             UninitializeDrag(containter);
-            if (item.PrimaryItemAttribute == StorageItemTypes.Folder || item.IsExecutable)
+            if ((item.PrimaryItemAttribute == StorageItemTypes.Folder && !recycleBinHelpers.IsPathUnderRecycleBin(item.ItemPath)) || item.IsExecutable)
             {
                 containter.AllowDrop = true;
                 containter.DragOver += Item_DragOver;
