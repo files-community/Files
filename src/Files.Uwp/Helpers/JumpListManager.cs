@@ -78,11 +78,11 @@ namespace Files.Uwp.Helpers
                 {
                     if (path.Equals(CommonPaths.DesktopPath, StringComparison.OrdinalIgnoreCase))
                     {
-                        displayName = "ms-resource:///Resources/SidebarDesktop";
+                        displayName = "ms-resource:///Resources/Desktop";
                     }
                     else if (path.Equals(CommonPaths.DownloadsPath, StringComparison.OrdinalIgnoreCase))
                     {
-                        displayName = "ms-resource:///Resources/SidebarDownloads";
+                        displayName = "ms-resource:///Resources/Downloads";
                     }
                     else if (path.Equals(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
                     {
@@ -99,7 +99,7 @@ namespace Files.Uwp.Helpers
                             case "Music":
                             case "Videos":
                                 // Use localized name
-                                displayName = $"ms-resource:///Resources/Sidebar{libName}";
+                                displayName = $"ms-resource:///Resources/{libName}";
                                 break;
 
                             default:
