@@ -58,6 +58,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <usercontrols:FileIcon
                 x:Name="Icon"
@@ -123,46 +124,36 @@
                 x:Load="{x:Bind ViewModel.DriveFileSystemVisibility, Mode=OneWay}"
                 Style="{StaticResource PropertyValueTextBlock}"
                 Text="{x:Bind ViewModel.DriveFileSystem, Mode=OneWay}" />
-        </Grid>
-
-        <!--  Change application/open with  -->
-        <Grid
-            x:Name="OpenWith"
-            Padding="12"
-            x:Load="{x:Bind ViewModel.IsFileFolder, Mode=OneWay}"
-            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-            BorderThickness="1"
-            ColumnSpacing="8"
-            CornerRadius="4"
-            RowSpacing="8">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition
-                    Width="Auto"
-                    MinWidth="100"
-                    MaxWidth="140" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
 
             <TextBlock
+                x:Name="OpensWith"
+                Grid.Row="3"
                 Grid.Column="0"
+                x:Load="{x:Bind ViewModel.IsFileFolder, Mode=OneWay}"
                 FontWeight="SemiBold"
                 Style="{StaticResource PropertyValueTextBlock}"
                 Text="{helpers:ResourceString Name=OpensWith}" />
-            <TextBlock
+            <Grid
+                x:Name="OpensWithGrid"
+                Grid.Row="3"
                 Grid.Column="1"
-                Style="{StaticResource PropertyValueTextBlock}"
-                Text="{x:Bind ViewModel.AssociatedApplication, Mode=OneWay}"
-                TextTrimming="CharacterEllipsis" />
-            <Button
-                x:Name="ChangeApplication"
-                Grid.Column="2"
-                Click="ChangeApplicationButton_Click"
-                Content="{helpers:ResourceString Name=ChangeApplication}" />
+                x:Load="{x:Bind ViewModel.IsFileFolder, Mode=OneWay}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock
+                    x:Name="OpensWithValue"
+                    Style="{StaticResource PropertyValueTextBlock}"
+                    Text="{x:Bind ViewModel.AssociatedApplication, Mode=OneWay}"
+                    TextTrimming="CharacterEllipsis" />
+                <Button
+                    x:Name="ChangeApplicationButton"
+                    Grid.Column="1"
+                    Click="ChangeApplicationButton_Click"
+                    Content="{helpers:ResourceString Name=ChangeApplication}" />
+            </Grid>
         </Grid>
 
         <!--  Item details  -->
