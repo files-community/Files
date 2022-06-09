@@ -243,11 +243,12 @@ namespace Files.Uwp.ViewModels
             => InstanceViewModel.FolderSettings.LayoutMode == FolderLayoutModes.ColumnView && !IsLayoutAdaptive;
 
         public bool IsLayoutAdaptive
-            => InstanceViewModel.FolderSettings.IsAdaptiveLayoutEnabled && IsAdaptiveLayoutEnabled;
+            => InstanceViewModel.FolderSettings.IsAdaptiveLayoutEnabled
+            && !InstanceViewModel.FolderSettings.IsLayoutModeFixed
+            && IsAdaptiveLayoutEnabled;
 
         public bool IsAdaptiveLayoutEnabled
-            => UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder
-            && !InstanceViewModel.FolderSettings.IsLayoutModeFixed;
+            => UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder;
 
         private bool canCopyPathInPage;
 

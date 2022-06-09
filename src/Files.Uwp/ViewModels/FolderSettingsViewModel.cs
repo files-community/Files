@@ -45,7 +45,8 @@ namespace Files.Uwp.ViewModels
 
             ChangeGroupOptionCommand = new RelayCommand<GroupOption>(ChangeGroupOption);
         }
-        public FolderSettingsViewModel(FolderLayoutModes modeOverride) : this() => rootLayoutMode = modeOverride;
+        public FolderSettingsViewModel(FolderLayoutModes modeOverride) : this() 
+            => (rootLayoutMode, LayoutPreference.IsAdaptiveLayoutOverridden) = (modeOverride, true);
 
         private readonly FolderLayoutModes? rootLayoutMode;
 
@@ -58,7 +59,7 @@ namespace Files.Uwp.ViewModels
             {
                 if (SetProperty(ref LayoutPreference.IsAdaptiveLayoutOverridden, !value, nameof(IsAdaptiveLayoutEnabled)))
                 {
-                    LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
+                    LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference, true));
                 }
             }
         }
@@ -535,6 +536,8 @@ namespace Files.Uwp.ViewModels
         public void ToggleLayoutModeAdaptive()
         {
             IsAdaptiveLayoutEnabled = true; // Adaptive
+
+            LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.Adaptive, GridViewSize));
         }
 
         private void ChangeGroupOption(GroupOption option) => DirectoryGroupOption = option;
