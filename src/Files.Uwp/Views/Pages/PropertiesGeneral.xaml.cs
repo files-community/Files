@@ -8,6 +8,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
+using Windows.UI.Xaml;
 
 namespace Files.Uwp.Views
 {
@@ -106,7 +107,7 @@ namespace Files.Uwp.Views
         {
         }
 
-        private void DiskCleanupButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void DiskCleanupButton_Click(object sender, RoutedEventArgs e)
         {
             if (BaseProperties is DriveProperties driveProps)
             {
@@ -114,6 +115,19 @@ namespace Files.Uwp.Views
 
                 StorageSenseHelper.OpenStorageSense(drive.Path);
             }
+        }
+
+        private async void ChangeApplicationButton_Click(object sender, RoutedEventArgs e)
+        {
+            var filePath = ViewModel.ItemPath + Path.DirectorySeparatorChar + ViewModel.ItemName;
+            await NavigationHelpers.OpenPath(filePath, AppInstance, openViaApplicationPicker: true);
+        }
+
+        private new async void GotFocus(object sender, RoutedEventArgs e)
+        {
+            // Update the application name
+            var filePath = ViewModel.ItemPath + Path.DirectorySeparatorChar + ViewModel.ItemName;
+            ViewModel.AssociatedApplication = await NativeWinApiHelper.GetFileAssociationName(filePath);
         }
     }
 }

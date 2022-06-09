@@ -45,7 +45,7 @@ namespace Files.Uwp.ViewModels.Properties
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
         }
 
-        public override void GetBaseProperties()
+        public override async void GetBaseProperties()
         {
             if (Item != null)
             {
@@ -59,6 +59,7 @@ namespace Files.Uwp.ViewModels.Properties
                 ViewModel.LoadCustomIcon = Item.LoadCustomIcon;
                 ViewModel.CustomIconSource = Item.CustomIconSource;
                 ViewModel.LoadFileIcon = Item.LoadFileIcon;
+                ViewModel.AssociatedApplication = await NativeWinApiHelper.GetFileAssociationName(Item.ItemPath);
 
                 if (Item.IsShortcutItem)
                 {

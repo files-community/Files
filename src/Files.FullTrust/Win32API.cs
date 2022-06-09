@@ -122,6 +122,35 @@ namespace Files.FullTrust
             }
         }
 
+        public static string GetFileAssociationName(string fileName)
+        {
+            if (string.IsNullOrEmpty(fileName))
+            {
+                throw new ArgumentNullException(nameof(fileName));
+            }
+
+            uint cOut = 0;
+            var fileExt = Path.GetExtension(fileName);
+
+            if (string.IsNullOrEmpty(fileExt))
+            {
+                return null;
+            }
+
+            if (ShlwApi.AssocQueryString(ShlwApi.ASSOCF.ASSOCF_VERIFY, ShlwApi.ASSOCSTR.ASSOCSTR_FRIENDLYAPPNAME, fileExt, null, null, ref cOut) != 1)
+            {
+                return null;
+            }
+
+            StringBuilder pOut = new StringBuilder((int)cOut);
+            if (ShlwApi.AssocQueryString(ShlwApi.ASSOCF.ASSOCF_VERIFY, ShlwApi.ASSOCSTR.ASSOCSTR_FRIENDLYAPPNAME, fileExt, null, pOut, ref cOut) != 0)
+            {
+                return null;
+            }
+
+            return pOut.ToString();
+        }
+
         public static string ExtractStringFromDLL(string file, int number)
         {
             var lib = Kernel32.LoadLibrary(file);
@@ -192,7 +221,7 @@ namespace Files.FullTrust
             {
                 var shfi = new Shell32.SHFILEINFO();
                 var flags = Shell32.SHGFI.SHGFI_OVERLAYINDEX | Shell32.SHGFI.SHGFI_ICON | Shell32.SHGFI.SHGFI_SYSICONINDEX | Shell32.SHGFI.SHGFI_ICONLOCATION;
-                var ret = ShellFolderExtensions.GetStringAsPidl(path, out var pidl) ? 
+                var ret = ShellFolderExtensions.GetStringAsPidl(path, out var pidl) ?
                     Shell32.SHGetFileInfo(pidl, 0, ref shfi, Shell32.SHFILEINFO.Size, Shell32.SHGFI.SHGFI_PIDL | flags) :
                     Shell32.SHGetFileInfo(path, 0, ref shfi, Shell32.SHFILEINFO.Size, flags);
                 if (ret == IntPtr.Zero)

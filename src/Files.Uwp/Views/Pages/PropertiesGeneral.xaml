@@ -1,15 +1,16 @@
 ﻿<local:PropertiesTab
     x:Class="Files.Uwp.Views.PropertiesGeneral"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:helpers="using:Files.Uwp.Helpers"
-    xmlns:usercontrols="using:Files.Uwp.UserControls"
-    xmlns:local="using:Files.Uwp.ViewModels.Properties"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Files.Uwp.Helpers"
+    xmlns:local="using:Files.Uwp.ViewModels.Properties"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:usercontrols="using:Files.Uwp.UserControls"
     Loaded="Properties_Loaded"
+    GotFocus="GotFocus"
     mc:Ignorable="d">
 
     <local:PropertiesTab.Resources>
@@ -81,8 +82,8 @@
                 <TextBox
                     x:Name="ItemFileName"
                     x:Load="{x:Bind ViewModel.ItemNameVisibility, Mode=OneWay}"
-                    Text="{x:Bind ViewModel.ItemName, Mode=TwoWay}"
-                    PlaceholderText="{helpers:ResourceString Name=PropertiesItemFileName/PlaceholderText}" />
+                    PlaceholderText="{helpers:ResourceString Name=PropertiesItemFileName/PlaceholderText}"
+                    Text="{x:Bind ViewModel.ItemName, Mode=TwoWay}" />
                 <TextBlock
                     x:Name="itemFilesAndFoldersCountValueTop"
                     x:Load="{x:Bind ViewModel.FilesAndFoldersCountVisibility, Mode=OneWay}"
@@ -122,6 +123,45 @@
                 x:Load="{x:Bind ViewModel.DriveFileSystemVisibility, Mode=OneWay}"
                 Style="{StaticResource PropertyValueTextBlock}"
                 Text="{x:Bind ViewModel.DriveFileSystem, Mode=OneWay}" />
+        </Grid>
+
+        <!--  Change application/open with  -->
+        <Grid
+            x:Name="OpenWith"
+            Padding="12"
+            x:Load="{x:Bind ViewModel.IsFileFolder, Mode=OneWay}"
+            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            ColumnSpacing="8"
+            CornerRadius="4"
+            RowSpacing="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition
+                    Width="Auto"
+                    MinWidth="100"
+                    MaxWidth="140" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <TextBlock
+                Grid.Column="0"
+                FontWeight="SemiBold"
+                Style="{StaticResource PropertyValueTextBlock}"
+                Text="Opens with:" />
+            <TextBlock
+                Grid.Column="1"
+                Style="{StaticResource PropertyValueTextBlock}"
+                Text="{x:Bind ViewModel.AssociatedApplication, Mode=OneWay}" />
+            <Button
+                x:Name="ChangeApplication"
+                Grid.Column="2"
+                Click="ChangeApplicationButton_Click"
+                Content="Change Application" />
         </Grid>
 
         <!--  Item details  -->

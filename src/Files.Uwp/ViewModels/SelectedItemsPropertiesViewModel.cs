@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using Windows.UI.Xaml;
 
 namespace Files.Uwp.ViewModels
@@ -107,8 +108,11 @@ namespace Files.Uwp.ViewModels
             {
                 ItemTypeVisibility = true;
                 SetProperty(ref itemType, value);
+                OnPropertyChanged(nameof(IsFileFolder));
             }
         }
+
+        public bool IsFileFolder => ItemType != "File folder";
 
         private bool itemTypeVisibility = false;
 
@@ -692,6 +696,14 @@ namespace Files.Uwp.ViewModels
         {
             get => isHidden;
             set => SetProperty(ref isHidden, value);
+        }
+
+        private string associatedApplication;
+
+        public string AssociatedApplication
+        {
+            get => associatedApplication;
+            set => SetProperty(ref associatedApplication, value);
         }
     }
 }

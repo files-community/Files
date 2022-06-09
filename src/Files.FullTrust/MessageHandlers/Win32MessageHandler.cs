@@ -130,7 +130,7 @@ namespace Files.FullTrust.MessageHandlers
                         {
                             using var shellFolder = ShellFolderExtensions.GetShellItemFromPathOrPidl(folderPath) as ShellFolder;
                             folder = ShellFolderExtensions.GetShellFileItem(shellFolder);
-                            if ((controlPanel.PIDL.IsParentOf(shellFolder.PIDL, false) || controlPanelCategoryView.PIDL.IsParentOf(shellFolder.PIDL, false)) 
+                            if ((controlPanel.PIDL.IsParentOf(shellFolder.PIDL, false) || controlPanelCategoryView.PIDL.IsParentOf(shellFolder.PIDL, false))
                                 && !shellFolder.Any())
                             {
                                 // Return null to force open unsupported items in explorer
@@ -283,6 +283,13 @@ namespace Files.FullTrust.MessageHandlers
                     {
                         var filePath = (string)message["filepath"];
                         await Win32API.SendMessageAsync(connection, new ValueSet() { { "FileAssociation", await Win32API.GetFileAssociationAsync(filePath, true) } }, message.Get("RequestID", (string)null));
+                    }
+                    break;
+
+                case "GetFileAssociationName":
+                    {
+                        var filePath = (string)message["filepath"];
+                        await Win32API.SendMessageAsync(connection, new ValueSet { { "FileAssociationName", Win32API.GetFileAssociationName(filePath) } }, message.Get("RequestID", (string)null));
                     }
                     break;
 

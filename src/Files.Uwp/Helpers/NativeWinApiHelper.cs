@@ -278,5 +278,28 @@ namespace Files.Uwp.Helpers
             }
             return null;
         }
+
+        public static async Task<string> GetFileAssociationName(string fileName)
+        {
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection == null)
+            {
+                return null;
+            }
+
+            var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet
+            {
+                { "Arguments", "GetFileAssociationName" },
+                { "filepath", fileName }
+            });
+
+            if (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success &&
+                response.ContainsKey("FileAssociationName"))
+            {
+                return (string)response["FileAssociationName"];
+            }
+
+            return null;
+        }
     }
 }
