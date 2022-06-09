@@ -21,14 +21,12 @@ namespace Files.Uwp.ViewModels.Previews
             private set => SetProperty(ref imageSource, value);
         }
 
-        public ImagePreviewViewModel(ListedItem item) : base(item)
-        {
-        }
+        public ImagePreviewViewModel(ListedItem item) : base(item) {}
 
-        public static bool ContainsExtensions(string extension)
+        public static bool ContainsExtension(string extension)
             => extension is ".png" or ".jpg" or ".jpeg" or ".bmp" or ".gif" or ".tiff" or ".ico" or ".webp";
 
-        public override async Task<List<FileProperty>> LoadPreviewAndDetails()
+        public override async Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
         {
             using IRandomAccessStream stream = await Item.ItemFile.OpenAsync(FileAccessMode.Read);
             await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>

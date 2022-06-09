@@ -13,9 +13,9 @@ namespace Files.Uwp.ViewModels.Previews
 
         public RichTextPreviewViewModel(ListedItem item) : base(item) {}
 
-        public static bool ContainsExtensions(string extension) => extension is ".rtf";
+        public static bool ContainsExtension(string extension) => extension is ".rtf";
 
-        public async override Task<List<FileProperty>> LoadPreviewAndDetails()
+        public async override Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
         {
             Stream = await Item.ItemFile.OpenReadAsync();
             return new List<FileProperty>();

@@ -16,12 +16,12 @@ namespace Files.Uwp.ViewModels.Previews
 
         public HtmlPreviewViewModel(ListedItem item) : base(item) {}
 
-        public static bool ContainsExtensions(string extension)
+        public static bool ContainsExtension(string extension)
             => extension is ".htm" or ".html" or ".svg";
 
-        public async override Task<List<FileProperty>> LoadPreviewAndDetails()
+        public async override Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
         {
-            TextValue = await ReadFileAsText(Item.ItemFile);
+            TextValue = await ReadFileAsTextAsync(Item.ItemFile);
             return new List<FileProperty>();
         }
     }

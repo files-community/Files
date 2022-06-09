@@ -1,4 +1,5 @@
-﻿using Files.Uwp.Filesystem;
+﻿using Files.Shared.Extensions;
+using Files.Uwp.Filesystem;
 using Files.Uwp.ViewModels.Properties;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -16,14 +17,12 @@ namespace Files.Uwp.ViewModels.Previews
 
         public MarkdownPreviewViewModel(ListedItem item) : base(item) {}
 
-        public static bool ContainsExtensions(string extension) => extension is ".md" or ".markdown";
+        public static bool ContainsExtension(string extension) => extension is ".md" or ".markdown";
 
-        public override async Task<List<FileProperty>> LoadPreviewAndDetails()
+        public override async Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
         {
-            var text = await ReadFileAsText(Item.ItemFile);
-            TextValue = text.Length < Constants.PreviewPane.TextCharacterLimit
-                ? text
-                : text.Remove(Constants.PreviewPane.TextCharacterLimit);
+            var text = await ReadFileAsTextAsync(Item.ItemFile);
+            TextValue = text.Left(Constants.PreviewPane.TextCharacterLimit);
             return new List<FileProperty>();
         }
     }

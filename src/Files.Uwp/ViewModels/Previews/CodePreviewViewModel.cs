@@ -31,16 +31,16 @@ namespace Files.Uwp.ViewModels.Previews
 
         public CodePreviewViewModel(ListedItem item) : base(item) {}
 
-        public static bool ContainsExtensions(string extension)
+        public static bool ContainsExtension(string extension)
             => extensions.Value.ContainsKey(extension);
 
-        public async override Task<List<FileProperty>> LoadPreviewAndDetails()
+        public async override Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
         {
             var details = new List<FileProperty>();
 
             try
             {
-                var text = TextValue ?? await ReadFileAsText(Item.ItemFile);
+                var text = TextValue ?? await ReadFileAsTextAsync(Item.ItemFile);
                 details.Add(GetFileProperty("PropertyLineCount", text.Split('\n').Length));
 
                 CodeLanguage = extensions.Value[Item.FileExtension.ToLowerInvariant()];
@@ -72,7 +72,7 @@ namespace Files.Uwp.ViewModels.Previews
                 [Languages.PowerShell] = "pwsh,ps1,psd1,psm1",
                 [Languages.Typescript] = "ts,tsx",
                 [Languages.VbDotNet] = "vb,vbs",
-                [Languages.Xml] = "xml,axml,xaml,xsd,xsl,xslt",
+                [Languages.Xml] = "xml,axml,xaml,xsd,xsl,xslt,xlf",
             };
 
             var dictionary = new Dictionary<string, ILanguage>();

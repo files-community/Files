@@ -935,7 +935,7 @@ namespace Files.Uwp.ViewModels
                                 await item.FileImage.SetSourceAsync(Thumbnail);
                                 if (!string.IsNullOrEmpty(item.FileExtension) &&
                                     !item.IsShortcutItem && !item.IsExecutable &&
-                                    !ImagePreviewViewModel.ContainsExtensions(item.FileExtension.ToLowerInvariant()))
+                                    !ImagePreviewViewModel.ContainsExtension(item.FileExtension.ToLowerInvariant()))
                                 {
                                     DefaultIcons.AddIfNotPresent(item.FileExtension.ToLowerInvariant(), item.FileImage);
                                 }
@@ -964,7 +964,7 @@ namespace Files.Uwp.ViewModels
                             item.FileImage = await iconInfo.IconData.ToBitmapAsync();
                             if (!string.IsNullOrEmpty(item.FileExtension) &&
                                 !item.IsShortcutItem && !item.IsExecutable &&
-                                !ImagePreviewViewModel.ContainsExtensions(item.FileExtension.ToLowerInvariant()))
+                                !ImagePreviewViewModel.ContainsExtension(item.FileExtension.ToLowerInvariant()))
                             {
                                 DefaultIcons.AddIfNotPresent(item.FileExtension.ToLowerInvariant(), item.FileImage);
                             }

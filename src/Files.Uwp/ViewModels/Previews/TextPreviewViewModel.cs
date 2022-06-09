@@ -11,8 +11,6 @@ namespace Files.Uwp.ViewModels.Previews
 {
     public class TextPreviewViewModel : BasePreviewModel
     {
-        public TextPreviewViewModel(ListedItem item) : base(item) {}
-
         private string textValue;
         public string TextValue
         {
@@ -20,15 +18,17 @@ namespace Files.Uwp.ViewModels.Previews
             private set => SetProperty(ref textValue, value);
         }
 
-        public static bool ContainsExtensions(string extension) => extension is ".txt";
+        public TextPreviewViewModel(ListedItem item) : base(item) { }
 
-        public async override Task<List<FileProperty>> LoadPreviewAndDetails()
+        public static bool ContainsExtension(string extension) => extension is ".txt";
+
+        public async override Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
         {
             var details = new List<FileProperty>();
 
             try
             {
-                var text = TextValue ?? await ReadFileAsText(Item.ItemFile);
+                var text = TextValue ?? await ReadFileAsTextAsync(Item.ItemFile);
 
                 details.Add(GetFileProperty("PropertyLineCount", text.Split('\n').Length));
                 details.Add(GetFileProperty("PropertyWordCount", text.Split(new[]{' ', '\n'}, StringSplitOptions.RemoveEmptyEntries).Length));
@@ -46,7 +46,7 @@ namespace Files.Uwp.ViewModels.Previews
         public static async Task<TextPreview> TryLoadAsTextAsync(ListedItem item)
         {
             string extension = item.FileExtension?.ToLowerInvariant();
-            if (ExcludedExtensions(extension) || item.FileSizeBytes is 0 || item.FileSizeBytes > Constants.PreviewPane.TryLoadAsTextSizeLimit)
+            if (ExcludedExtensions(extension) || item.FileSizeBytes is 0 or > Constants.PreviewPane.TryLoadAsTextSizeLimit)
             {
                 return null;
             }
@@ -55,7 +55,7 @@ namespace Files.Uwp.ViewModels.Previews
             {
                 item.ItemFile = await StorageFileExtensions.DangerousGetFileFromPathAsync(item.ItemPath);
 
-                var text = await ReadFileAsText(item.ItemFile);
+                var text = await ReadFileAsTextAsync(item.ItemFile);
                 bool isBinaryFile = text.Contains("\0\0\0\0", StringComparison.Ordinal);
                 if (isBinaryFile)
                 {

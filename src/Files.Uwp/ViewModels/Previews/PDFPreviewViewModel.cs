@@ -24,13 +24,21 @@ namespace Files.Uwp.ViewModels.Previews
             private set => SetProperty(ref loadingBarVisibility, value);
         }
 
+        // the pips pager will crash when binding directly to Pages.Count, so count the pages here
+        private int pageCount;
+        public int PageCount
+        {
+            get => pageCount;
+            set => SetProperty(ref pageCount, value);
+        }
+
         public ObservableCollection<PageViewModel> Pages { get; } = new();
 
         public PDFPreviewViewModel(ListedItem item) : base(item) {}
 
-        public static bool ContainsExtensions(string extension) => extension is ".pdf";
+        public static bool ContainsExtension(string extension) => extension is ".pdf";
 
-        public async override Task<List<FileProperty>> LoadPreviewAndDetails()
+        public async override Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
         {
             var fileStream = await Item.ItemFile.OpenReadAsync();
             var pdf = await PdfDocument.LoadFromStreamAsync(fileStream);
@@ -38,22 +46,10 @@ namespace Files.Uwp.ViewModels.Previews
             var details = new List<FileProperty>
             {
                 // Add the number of pages to the details
-                new FileProperty()
-                {
-                    NameResource = "PropertyPageCount",
-                    Value = pdf.PageCount,
-                }
+                GetFileProperty("PropertyPageCount", pdf.PageCount)
             };
 
             return details;
-        }
-
-        // the pips pager will crash when binding directly to Pages.Count, so count the pages here
-        private int pageCount;
-        public int PageCount
-        {
-            get => pageCount;
-            set => SetProperty(ref pageCount, value);
         }
 
         public async void TryLoadPagesAsync(PdfDocument pdf, IRandomAccessStream fileStream)
@@ -106,7 +102,7 @@ namespace Files.Uwp.ViewModels.Previews
 
                     await src.SetSourceAsync(stream);
                     Pages.Add(pageData);
-                    PageCount++;
+                    ++PageCount;
                 });
             }
             LoadingBarVisibility = Visibility.Collapsed;

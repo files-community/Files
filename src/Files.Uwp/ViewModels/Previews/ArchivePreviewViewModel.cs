@@ -13,9 +13,7 @@ namespace Files.Uwp.ViewModels.Previews
     {
         public ArchivePreviewViewModel(ListedItem item) : base(item) {}
 
-        public static bool ContainsExtensions(string extension) => extension is ".zip";
-
-        public override async Task<List<FileProperty>> LoadPreviewAndDetails()
+        public override async Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
         {
             var details = new List<FileProperty>();
             using ZipFile zipFile = new(await Item.ItemFile.OpenStreamForReadAsync());
@@ -39,7 +37,7 @@ namespace Files.Uwp.ViewModels.Previews
             details.Add(GetFileProperty("PropertyItemCount", propertyItemCount));
             details.Add(GetFileProperty("PropertyUncompressedSize", totalSize.ToLongSizeString()));
 
-            _ = await base.LoadPreviewAndDetails(); // Loads the thumbnail preview
+            _ = await base.LoadPreviewAndDetailsAsync(); // Loads the thumbnail preview
             return details;
         }
     }

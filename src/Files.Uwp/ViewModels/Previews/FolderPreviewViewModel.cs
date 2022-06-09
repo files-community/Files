@@ -6,21 +6,24 @@ using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
 using Files.Uwp.ViewModels.Properties;
 using System;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Windows.Storage.FileProperties;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Uwp.ViewModels.Previews
 {
-    public class FolderPreviewViewModel : BasePreviewModel
+    public class FolderPreviewViewModel
     {
+        private readonly IPreferencesSettingsService preferencesSettingsService = Ioc.Default.GetService<IPreferencesSettingsService>();
         private static readonly IDateTimeFormatter dateTimeFormatter = Ioc.Default.GetService<IDateTimeFormatter>();
 
-        private BaseStorageFolder Folder { get; set; }
+        public ListedItem Item { get; }
+
         public BitmapImage Thumbnail { get; set; } = new BitmapImage();
 
-        public FolderPreviewViewModel(ListedItem item): base(item) {}
+        private BaseStorageFolder Folder { get; set; }
+
+        public FolderPreviewViewModel(ListedItem item) => Item = item;
 
         public async Task LoadAsync() => await LoadPreviewAndDetailsAsync();
 
@@ -46,14 +49,13 @@ namespace Files.Uwp.ViewModels.Previews
                 GetFileProperty("PropertyItemPathDisplay", Folder.Path),
             };
 
-            if (userSettingsService.PreferencesSettingsService.AreFileTagsEnabled)
+            if (preferencesSettingsService.AreFileTagsEnabled)
             {
-                Item.FileDetails.Add(new FileProperty()
-                {
-                    NameResource = "FileTags",
-                    Value = Item.FileTagUI?.TagName
-                });
+                Item.FileDetails.Add(GetFileProperty("FileTags", Item.FileTagUI?.TagName));
             }
         }
+
+        private static FileProperty GetFileProperty(string nameResource, object value)
+            => new() { NameResource = nameResource, Value = value };
     }
 }
