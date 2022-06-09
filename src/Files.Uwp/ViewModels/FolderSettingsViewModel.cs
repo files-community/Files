@@ -37,7 +37,8 @@ namespace Files.Uwp.ViewModels
 
             ChangeGroupOptionCommand = new RelayCommand<GroupOption>(ChangeGroupOption);
         }
-        public FolderSettingsViewModel(FolderLayoutModes modeOverride) : this() => rootLayoutMode = modeOverride;
+        public FolderSettingsViewModel(FolderLayoutModes modeOverride) : this() 
+            => (rootLayoutMode, LayoutPreference.IsAdaptiveLayoutOverridden) = (modeOverride, true);
 
         private readonly FolderLayoutModes? rootLayoutMode;
 
