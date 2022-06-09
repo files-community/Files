@@ -47,8 +47,14 @@ namespace Files.FullTrust.Helpers
             parsingPath ??= folderItem.FileSystemPath; // True path on disk
             if (parsingPath == null || !Path.IsPathRooted(parsingPath))
             {
-                // Use PIDL as path
-                parsingPath = $@"\\SHELL\{string.Join("\\", folderItem.PIDL.Select(x => x.GetBytes()).Select(x => Convert.ToBase64String(x, 0, x.Length)))}";
+                parsingPath = parsingPath switch
+                {
+                    "::{645FF040-5081-101B-9F08-00AA002F954E}" => "Shell:RecycleBinFolder",
+                    "::{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}" => "Shell:NetworkPlacesFolder",
+                    "::{208D2C60-3AEA-1069-A2D7-08002B30309D}" => "Shell:NetworkPlacesFolder",
+                    // Use PIDL as path
+                    _ => $@"\\SHELL\{string.Join("\\", folderItem.PIDL.Select(x => x.GetBytes()).Select(x => Convert.ToBase64String(x, 0, x.Length)))}"
+                };
             }
             var fileName = folderItem.Properties.TryGetProperty<string>(Ole32.PROPERTYKEY.System.ItemNameDisplay);
             fileName ??= Path.GetFileName(folderItem.Name); // Original file name
