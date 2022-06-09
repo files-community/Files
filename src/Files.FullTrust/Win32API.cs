@@ -137,13 +137,15 @@ namespace Files.FullTrust
                 return null;
             }
 
-            if (ShlwApi.AssocQueryString(ShlwApi.ASSOCF.ASSOCF_VERIFY, ShlwApi.ASSOCSTR.ASSOCSTR_FRIENDLYAPPNAME, fileExt, null, null, ref cOut) != 1)
+            if (ShlwApi.AssocQueryString(ShlwApi.ASSOCF.ASSOCF_VERIFY | ShlwApi.ASSOCF.ASSOCF_INIT_IGNOREUNKNOWN,
+                    ShlwApi.ASSOCSTR.ASSOCSTR_FRIENDLYAPPNAME, fileExt, null, null, ref cOut) != 1)
             {
                 return null;
             }
 
             StringBuilder pOut = new StringBuilder((int)cOut);
-            if (ShlwApi.AssocQueryString(ShlwApi.ASSOCF.ASSOCF_VERIFY, ShlwApi.ASSOCSTR.ASSOCSTR_FRIENDLYAPPNAME, fileExt, null, pOut, ref cOut) != 0)
+            if (ShlwApi.AssocQueryString(ShlwApi.ASSOCF.ASSOCF_VERIFY | ShlwApi.ASSOCF.ASSOCF_INIT_IGNOREUNKNOWN,
+                    ShlwApi.ASSOCSTR.ASSOCSTR_FRIENDLYAPPNAME, fileExt, null, pOut, ref cOut) != 0)
             {
                 return null;
             }
