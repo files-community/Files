@@ -206,8 +206,9 @@ namespace Files.Uwp.Views
             var tabInstance = CurrentPageType == typeof(DetailsLayoutBrowser) ||
                               CurrentPageType == typeof(GridViewBrowser);
 
-            switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.Key) {
-                case (true, false, false, true, (VirtualKey) 192): // ctrl + ` (accent key), open terminal
+            switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.Key)
+            {
+                case (true, false, false, true, (VirtualKey)192): // ctrl + ` (accent key), open terminal
                     // Check if there is a folder selected, if not use the current directory.
                     string path = FilesystemViewModel.WorkingDirectory;
                     if (SlimContentPage?.SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder)
@@ -276,7 +277,10 @@ namespace Files.Uwp.Views
             if (FilesystemViewModel != null)
             {
                 (sender as FolderSettingsViewModel).UpdateLayoutPreferencesForPath(FilesystemViewModel.WorkingDirectory, e.LayoutPreference);
-                AdaptiveLayoutHelpers.PredictLayoutMode(InstanceViewModel.FolderSettings, FilesystemViewModel);
+                if (e.IsAdaptiveLayoutUpdateRequired)
+                {
+                    AdaptiveLayoutHelpers.PredictLayoutMode(InstanceViewModel.FolderSettings, FilesystemViewModel);
+                }
             }
         }
 

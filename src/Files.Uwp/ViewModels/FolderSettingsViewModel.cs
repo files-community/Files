@@ -51,7 +51,7 @@ namespace Files.Uwp.ViewModels
             {
                 if (SetProperty(ref LayoutPreference.IsAdaptiveLayoutOverridden, !value, nameof(IsAdaptiveLayoutEnabled)))
                 {
-                    LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
+                    LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference, true));
                 }
             }
         }
@@ -675,11 +675,7 @@ namespace Files.Uwp.ViewModels
         {
             IsAdaptiveLayoutEnabled = true; // Adaptive
 
-            if (IsLayoutModeFixed)
-            {
-                // Only necessary on column view, ModernShellPage > LayoutPreferencesUpdateRequired calls PredictLayoutMode
-                LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.Adaptive, GridViewSize));
-            }
+            LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.Adaptive, GridViewSize));
         }
 
         private void ChangeGroupOption(GroupOption option) => DirectoryGroupOption = option;
