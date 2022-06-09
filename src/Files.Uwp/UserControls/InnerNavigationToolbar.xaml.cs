@@ -195,5 +195,7 @@ namespace Files.Uwp.UserControls
             => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge(true);
         private void NavToolbarColumnsHeader_Tapped(object sender, TappedRoutedEventArgs e)
             => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView(true);
+        private void NavToolbarAdaptiveHeader_Tapped(object sender, TappedRoutedEventArgs e)
+            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeAdaptive();
     }
 }

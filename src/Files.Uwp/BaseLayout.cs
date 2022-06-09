@@ -422,7 +422,6 @@ namespace Files.Uwp
             FolderSettings.LayoutModeChangeRequested += BaseFolderSettings_LayoutModeChangeRequested;
             FolderSettings.GroupOptionPreferenceUpdated += FolderSettings_GroupOptionPreferenceUpdated;
             ParentShellPageInstance.FilesystemViewModel.EmptyTextType = EmptyTextType.None;
-            FolderSettings.SetLayoutInformation();
             ParentShellPageInstance.ToolbarViewModel.UpdateSortAndGroupOptions();
 
             if (!navigationArguments.IsSearchResultPage)

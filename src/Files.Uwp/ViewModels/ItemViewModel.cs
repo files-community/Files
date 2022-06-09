@@ -68,7 +68,6 @@ namespace Files.Uwp.ViewModels
         // only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
         public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
         private string folderTypeTextLocalized = "FileFolderListItem".GetLocalized();
-        private SettingsViewModel AppSettings => App.AppSettings;
         private FolderSettingsViewModel folderSettings = null;
         private bool shouldDisplayFileExtensions = false;
         private bool shouldDisplayThumbnails = false;
@@ -1250,8 +1249,6 @@ namespace Files.Uwp.ViewModels
             return groupImage;
         }
 
-        public bool DisableAdaptiveLayout { get; set; }
-
         public void RefreshItems(string previousDir, Action postLoadCallback = null)
         {
             RapidAddItemsToCollectionAsync(WorkingDirectory, previousDir, postLoadCallback);
@@ -1316,10 +1313,7 @@ namespace Files.Uwp.ViewModels
                 ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete, PreviousDirectory = previousDir, Path = path });
                 IsLoadingItems = false;
 
-                if (!DisableAdaptiveLayout)
-                {
-                    AdaptiveLayoutHelpers.PredictLayoutMode(folderSettings, this);
-                }
+                AdaptiveLayoutHelpers.PredictLayoutMode(folderSettings, this);
 
                 if (App.PaneViewModel.IsPreviewSelected)
                 {

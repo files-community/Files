@@ -570,6 +570,9 @@ namespace Files.Uwp.Views.LayoutModes
                     case FolderLayoutModes.GridView:
                         parent.FolderSettings.ToggleLayoutModeGridView(e.GridViewSize);
                         break;
+                    case FolderLayoutModes.Adaptive:
+                        parent.FolderSettings.ToggleLayoutModeAdaptive();
+                        break;
                 }
             }
         }

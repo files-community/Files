@@ -194,6 +194,19 @@ namespace Files.Uwp.Helpers
                             KeyboardAcceleratorTextOverride = "BaseLayoutContextFlyoutColumn/KeyboardAcceleratorTextOverride".GetLocalized(),
                             KeyboardAccelerator = new KeyboardAccelerator{Key = VirtualKey.Number6, Modifiers = VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift, IsEnabled = false}
                         },
+                        // Column view
+                        new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = "Adaptive".GetLocalized(),
+                            Glyph = "\uF576",
+                            ShowInRecycleBin = true,
+                            ShowInSearchPage = true,
+                            ShowInFtpPage = true,
+                            ShowInZipPage = true,
+                            Command = currentInstanceViewModel.FolderSettings.ToggleLayoutModeAdaptiveCommand,
+                            KeyboardAcceleratorTextOverride = "BaseLayoutContextFlyoutAdaptive/KeyboardAcceleratorTextOverride".GetLocalized(),
+                            KeyboardAccelerator = new KeyboardAccelerator{Key = VirtualKey.Number7, Modifiers = VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift, IsEnabled = false}
+                        },
                     }
                 },
                 new ContextMenuFlyoutItemViewModel()
