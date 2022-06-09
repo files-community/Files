@@ -674,6 +674,12 @@ namespace Files.Uwp.ViewModels
         public void ToggleLayoutModeAdaptive()
         {
             IsAdaptiveLayoutEnabled = true; // Adaptive
+
+            if (IsLayoutModeFixed)
+            {
+                // Only necessary on column view, ModernShellPage > LayoutPreferencesUpdateRequired calls PredictLayoutMode
+                LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.Adaptive, GridViewSize));
+            }
         }
 
         private void ChangeGroupOption(GroupOption option) => DirectoryGroupOption = option;

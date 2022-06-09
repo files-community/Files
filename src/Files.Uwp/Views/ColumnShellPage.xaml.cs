@@ -283,11 +283,6 @@ namespace Files.Uwp.Views
 
         private void FolderSettings_LayoutPreferencesUpdateRequired(object sender, LayoutPreferenceEventArgs e)
         {
-            var parent = this.FindAscendant<ModernShellPage>();
-            if (parent != null)
-            {
-                parent.FolderSettings.IsAdaptiveLayoutEnabled = !e.LayoutPreference.IsAdaptiveLayoutOverridden;
-            }
         }
 
         /*
