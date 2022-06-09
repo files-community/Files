@@ -10,6 +10,8 @@ namespace Files.Shared
 
         public string SyncFolder { get; set; }
 
+        public byte[] IconData { get; set; }
+
         public override int GetHashCode()
         {
             return $"{ID}|{SyncFolder}".GetHashCode();
@@ -42,6 +44,7 @@ namespace Files.Shared
         Nextcloud,
         Yandex,
         Box,
-        Jottacloud
+        Jottacloud,
+        SynologyDrive
     }
 }

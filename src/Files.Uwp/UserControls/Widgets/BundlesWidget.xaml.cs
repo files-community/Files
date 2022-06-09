@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using Windows.UI.Xaml.Controls;
+using System.Threading.Tasks;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -33,6 +34,11 @@ namespace Files.Uwp.UserControls.Widgets
             this.InitializeComponent();
 
             this.ViewModel = new BundlesViewModel();
+        }
+
+        public Task RefreshWidget()
+        {
+            return Task.CompletedTask;
         }
 
         #region IDisposable
