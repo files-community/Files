@@ -110,7 +110,7 @@ namespace Files.Uwp.Helpers
                 }).Count();
                 imagesCount = filesystemViewModel.FilesAndFolders.Where((item) =>
                 {
-                    return !string.IsNullOrEmpty(item.FileExtension) && ImagePreviewViewModel.Extensions.Any((ext) => item.FileExtension.Equals(ext, StringComparison.OrdinalIgnoreCase));
+                    return !string.IsNullOrEmpty(item.FileExtension) && ImagePreviewViewModel.ContainsExtensions(item.FileExtension.ToLowerInvariant());
                 }).Count();
                 foldersCount = filesystemViewModel.FilesAndFolders.Where((item) => item.PrimaryItemAttribute == StorageItemTypes.Folder).Count();
                 miscFilesCount = allItemsCount - (mediaCount + imagesCount + foldersCount);

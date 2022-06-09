@@ -15,6 +15,7 @@ using Windows.ApplicationModel.Core;
 using Windows.Storage.FileProperties;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
+using Files.Shared.Extensions;
 
 namespace Files.Uwp.ViewModels.Previews
 {
@@ -22,14 +23,11 @@ namespace Files.Uwp.ViewModels.Previews
     {
         protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
-        public BasePreviewModel(ListedItem item) : base()
-        {
-            Item = item;
-        }
-
         public ListedItem Item { get; internal set; }
 
         public List<FileProperty> DetailsFromPreview { get; set; }
+
+        public BasePreviewModel(ListedItem item) : base() => Item = item;
 
         /// <summary>
         /// This is cancelled when the user has selected another file or closed the pane.
@@ -90,7 +88,7 @@ namespace Files.Uwp.ViewModels.Previews
                                                                                             (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
 
             // adds the value for the file tag
-            if (UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled)
+            if (userSettingsService.PreferencesSettingsService.AreFileTagsEnabled)
             {
                 list.FirstOrDefault(x => x.ID == "filetag").Value = Item.FileTagUI?.TagName;
             }
@@ -118,7 +116,7 @@ namespace Files.Uwp.ViewModels.Previews
             await Task.Run(async () =>
             {
                 DetailsFromPreview = await LoadPreviewAndDetails();
-                if (!UserSettingsService.PaneSettingsService.ShowPreviewOnly)
+                if (!userSettingsService.PaneSettingsService.ShowPreviewOnly)
                 {
                     // Add the details from the preview function, then the system file properties
                     DetailsFromPreview?.ForEach(i => detailsFull.Add(i));
@@ -141,21 +139,17 @@ namespace Files.Uwp.ViewModels.Previews
             await temp.LoadAsync();
         }
 
-        internal class DetailsOnlyPreviewModel : BasePreviewModel
-        {
-            public DetailsOnlyPreviewModel(ListedItem item) : base(item)
-            {
-            }
-
-            public override Task<List<FileProperty>> LoadPreviewAndDetails()
-            {
-                return Task.FromResult(DetailsFromPreview);
-            }
-        }
-
         public static async Task<string> ReadFileAsText(BaseStorageFile file, int maxLength = 10 * 1024 * 1024)
+            => await file.ReadTextAsync(maxLength);
+
+        protected static FileProperty GetFileProperty(string nameResource, object value)
+            => new(){ NameResource = nameResource, Value = value };
+
+        private class DetailsOnlyPreviewModel : BasePreviewModel
         {
-            return await file.ReadTextAsync(maxLength);
+            public DetailsOnlyPreviewModel(ListedItem item) : base(item) {}
+
+            public override Task<List<FileProperty>> LoadPreviewAndDetails() => Task.FromResult(DetailsFromPreview);
         }
     }
 }

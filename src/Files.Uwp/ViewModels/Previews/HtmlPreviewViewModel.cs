@@ -19,7 +19,6 @@ namespace Files.Uwp.ViewModels.Previews
         public static bool ContainsExtensions(string extension)
             => extension is ".htm" or ".html" or ".svg";
 
-
         public async override Task<List<FileProperty>> LoadPreviewAndDetails()
         {
             TextValue = await ReadFileAsText(Item.ItemFile);

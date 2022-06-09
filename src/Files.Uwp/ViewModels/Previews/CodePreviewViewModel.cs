@@ -1,4 +1,5 @@
 ﻿using ColorCode;
+using Files.Shared.Extensions;
 using Files.Uwp.Filesystem;
 using Files.Uwp.ViewModels.Properties;
 using System;
@@ -40,17 +41,10 @@ namespace Files.Uwp.ViewModels.Previews
             try
             {
                 var text = TextValue ?? await ReadFileAsText(Item.ItemFile);
+                details.Add(GetFileProperty("PropertyLineCount", text.Split('\n').Length));
+
                 CodeLanguage = extensions.Value[Item.FileExtension.ToLowerInvariant()];
-
-                details.Add(new FileProperty()
-                {
-                    NameResource = "PropertyLineCount",
-                    Value = text.Split('\n').Length,
-                });
-
-                TextValue = text.Length < Constants.PreviewPane.TextCharacterLimit
-                    ? text
-                    : text.Remove(Constants.PreviewPane.TextCharacterLimit);
+                TextValue = text.Left(Constants.PreviewPane.TextCharacterLimit);
             }
             catch (Exception e)
             {

@@ -9,15 +9,11 @@ namespace Files.Uwp.ViewModels.Previews
 {
     public class RichTextPreviewViewModel : BasePreviewModel
     {
-        public RichTextPreviewViewModel(ListedItem item) : base(item)
-        {
-        }
-
-        public static List<string> Extensions => new List<string>() {
-            ".rtf"
-        };
-
         public IRandomAccessStream Stream { get; set; }
+
+        public RichTextPreviewViewModel(ListedItem item) : base(item) {}
+
+        public static bool ContainsExtensions(string extension) => extension is ".rtf";
 
         public async override Task<List<FileProperty>> LoadPreviewAndDetails()
         {

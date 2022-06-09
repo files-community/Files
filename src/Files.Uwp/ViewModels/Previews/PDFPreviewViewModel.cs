@@ -18,23 +18,17 @@ namespace Files.Uwp.ViewModels.Previews
     public class PDFPreviewViewModel : BasePreviewModel
     {
         private Visibility loadingBarVisibility;
-
-        public PDFPreviewViewModel(ListedItem item) : base(item)
-        {
-        }
-
-        public static List<string> Extensions = new List<string>()
-        {
-            ".pdf",
-        };
-
         public Visibility LoadingBarVisibility
         {
             get => loadingBarVisibility;
-            set => SetProperty(ref loadingBarVisibility, value);
+            private set => SetProperty(ref loadingBarVisibility, value);
         }
 
-        public ObservableCollection<PageViewModel> Pages { get; set; } = new ObservableCollection<PageViewModel>();
+        public ObservableCollection<PageViewModel> Pages { get; } = new();
+
+        public PDFPreviewViewModel(ListedItem item) : base(item) {}
+
+        public static bool ContainsExtensions(string extension) => extension is ".pdf";
 
         public async override Task<List<FileProperty>> LoadPreviewAndDetails()
         {

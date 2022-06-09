@@ -8,27 +8,22 @@ namespace Files.Uwp.ViewModels.Previews
     public class MarkdownPreviewViewModel : BasePreviewModel
     {
         private string textValue;
-
-        public MarkdownPreviewViewModel(ListedItem item) : base(item)
-        {
-        }
-
-        public static List<string> Extensions => new List<string>() {
-            ".md", ".markdown",
-        };
-
         public string TextValue
         {
             get => textValue;
-            set => SetProperty(ref textValue, value);
+            private set => SetProperty(ref textValue, value);
         }
+
+        public MarkdownPreviewViewModel(ListedItem item) : base(item) {}
+
+        public static bool ContainsExtensions(string extension) => extension is ".md" or ".markdown";
 
         public override async Task<List<FileProperty>> LoadPreviewAndDetails()
         {
-            var text = await ReadFileAsText(Item.ItemFile); // await FileIO.ReadTextAsync(Item.ItemFile);
-            var displayText = text.Length < Constants.PreviewPane.TextCharacterLimit ? text : text.Remove(Constants.PreviewPane.TextCharacterLimit);
-            TextValue = displayText;
-
+            var text = await ReadFileAsText(Item.ItemFile);
+            TextValue = text.Length < Constants.PreviewPane.TextCharacterLimit
+                ? text
+                : text.Remove(Constants.PreviewPane.TextCharacterLimit);
             return new List<FileProperty>();
         }
     }

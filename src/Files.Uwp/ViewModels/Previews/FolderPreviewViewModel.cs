@@ -13,17 +13,14 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Uwp.ViewModels.Previews
 {
-    public class FolderPreviewViewModel
+    public class FolderPreviewViewModel : BasePreviewModel
     {
-        private static readonly IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
         private static readonly IDateTimeFormatter dateTimeFormatter = Ioc.Default.GetService<IDateTimeFormatter>();
 
         private BaseStorageFolder Folder { get; set; }
-
-        public ListedItem Item { get; set; }
         public BitmapImage Thumbnail { get; set; } = new BitmapImage();
 
-        public FolderPreviewViewModel(ListedItem item) => Item = item;
+        public FolderPreviewViewModel(ListedItem item): base(item) {}
 
         public async Task LoadAsync() => await LoadPreviewAndDetailsAsync();
 
@@ -41,28 +38,12 @@ namespace Files.Uwp.ViewModels.Previews
             }
 
             var info = await Folder.GetBasicPropertiesAsync();
-            Item.FileDetails = new ObservableCollection<FileProperty>()
+            Item.FileDetails = new()
             {
-                new FileProperty()
-                {
-                    NameResource = "PropertyItemCount",
-                    Value = items.Count,
-                },
-                new FileProperty()
-                {
-                    NameResource = "PropertyDateModified",
-                    Value = dateTimeFormatter.ToLongLabel(info.DateModified)
-                },
-                new FileProperty()
-                {
-                    NameResource = "PropertyDateCreated",
-                    Value = dateTimeFormatter.ToLongLabel(info.ItemDate)
-                },
-                new FileProperty()
-                {
-                    NameResource = "PropertyItemPathDisplay",
-                    Value = Folder.Path,
-                }
+                GetFileProperty("PropertyItemCount", items.Count),
+                GetFileProperty("PropertyDateModified", dateTimeFormatter.ToLongLabel(info.DateModified)),
+                GetFileProperty("PropertyDateCreated", dateTimeFormatter.ToLongLabel(info.ItemDate)),
+                GetFileProperty("PropertyItemPathDisplay", Folder.Path),
             };
 
             if (userSettingsService.PreferencesSettingsService.AreFileTagsEnabled)

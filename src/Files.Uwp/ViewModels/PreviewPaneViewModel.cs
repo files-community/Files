@@ -167,28 +167,28 @@ namespace Files.Uwp.ViewModels
                 return new MediaPreview(model);
             }
 
-            if (MarkdownPreviewViewModel.Extensions.Contains(ext))
+            if (MarkdownPreviewViewModel.ContainsExtensions(ext))
             {
                 var model = new MarkdownPreviewViewModel(item);
                 await model.LoadAsync();
                 return new MarkdownPreview(model);
             }
 
-            if (ImagePreviewViewModel.Extensions.Contains(ext))
+            if (ImagePreviewViewModel.ContainsExtensions(ext))
             {
                 var model = new ImagePreviewViewModel(item);
                 await model.LoadAsync();
                 return new ImagePreview(model);
             }
 
-            if (TextPreviewViewModel.Extensions.Contains(ext))
+            if (TextPreviewViewModel.ContainsExtensions(ext))
             {
                 var model = new TextPreviewViewModel(item);
                 await model.LoadAsync();
                 return new TextPreview(model);
             }
 
-            if (PDFPreviewViewModel.Extensions.Contains(ext))
+            if (PDFPreviewViewModel.ContainsExtensions(ext))
             {
                 var model = new PDFPreviewViewModel(item);
                 await model.LoadAsync();
@@ -202,7 +202,7 @@ namespace Files.Uwp.ViewModels
                 return new HtmlPreview(model);
             }
 
-            if (RichTextPreviewViewModel.Extensions.Contains(ext))
+            if (RichTextPreviewViewModel.ContainsExtensions(ext))
             {
                 var model = new RichTextPreviewViewModel(item);
                 await model.LoadAsync();
