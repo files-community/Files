@@ -9,8 +9,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:usercontrols="using:Files.Uwp.UserControls"
-    Loaded="Properties_Loaded"
     GotFocus="GotFocus"
+    Loaded="Properties_Loaded"
     mc:Ignorable="d">
 
     <local:PropertiesTab.Resources>
@@ -152,16 +152,17 @@
                 Grid.Column="0"
                 FontWeight="SemiBold"
                 Style="{StaticResource PropertyValueTextBlock}"
-                Text="Opens with:" />
+                Text="{helpers:ResourceString Name=OpensWith}" />
             <TextBlock
                 Grid.Column="1"
                 Style="{StaticResource PropertyValueTextBlock}"
-                Text="{x:Bind ViewModel.AssociatedApplication, Mode=OneWay}" />
+                Text="{x:Bind ViewModel.AssociatedApplication, Mode=OneWay}"
+                TextTrimming="CharacterEllipsis" />
             <Button
                 x:Name="ChangeApplication"
                 Grid.Column="2"
                 Click="ChangeApplicationButton_Click"
-                Content="Change Application" />
+                Content="{helpers:ResourceString Name=ChangeApplication}" />
         </Grid>
 
         <!--  Item details  -->
