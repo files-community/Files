@@ -6,6 +6,7 @@
     <RuntimeIdentifiers>win-arm64;win-x86;win-x64</RuntimeIdentifiers>
     <LangVersion>9</LangVersion>
     <Nullable>enable</Nullable>
+    <Configurations>Debug;Release;Sideload</Configurations>
   </PropertyGroup>
 
   <ItemGroup>

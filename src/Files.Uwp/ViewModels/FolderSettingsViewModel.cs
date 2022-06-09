@@ -253,7 +253,7 @@ namespace Files.Uwp.ViewModels
         public event EventHandler<GroupOption> GroupOptionPreferenceUpdated;
 
         public event EventHandler<SortDirection> SortDirectionPreferenceUpdated;
-        
+
         public event EventHandler<bool> SortDirectoriesAlongsideFilesPreferenceUpdated;
 
         public SortOption DirectorySortOption
@@ -307,8 +307,8 @@ namespace Files.Uwp.ViewModels
             {
                 if (SetProperty(ref LayoutPreference.SortDirectoriesAlongsideFiles, value, nameof(SortDirectoriesAlongsideFiles)))
                 {
-                   LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
-                   SortDirectoriesAlongsideFilesPreferenceUpdated?.Invoke(this, SortDirectoriesAlongsideFiles);
+                    LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
+                    SortDirectoriesAlongsideFilesPreferenceUpdated?.Invoke(this, SortDirectoriesAlongsideFiles);
                 }
             }
         }
@@ -328,8 +328,11 @@ namespace Files.Uwp.ViewModels
             IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
             if (userSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder)
             {
-                var layoutPrefs = ReadLayoutPreferencesFromAds(folderPath.TrimEnd('\\'));
-                return layoutPrefs ?? ReadLayoutPreferencesFromSettings(folderPath.TrimEnd('\\').Replace('\\', '_'));
+                folderPath = folderPath.TrimEnd('\\');
+                var layoutPrefs = ReadLayoutPreferencesFromAds(folderPath);
+                return layoutPrefs ??
+                    ReadLayoutPreferencesFromSettings(folderPath.Replace('\\', '_')) ??
+                    GetDefaultPreferences(folderPath);
             }
 
             return LayoutPreferences.DefaultLayoutPreferences;
@@ -405,7 +408,6 @@ namespace Files.Uwp.ViewModels
                 return LayoutPreferences.DefaultLayoutPreferences;
             }
 
-            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
             ApplicationDataContainer dataContainer = localSettings.CreateContainer("LayoutModeContainer", ApplicationDataCreateDisposition.Always);
             folderPath = new string(folderPath.TakeLast(254).ToArray());
             if (dataContainer.Values.ContainsKey(folderPath))
@@ -413,7 +415,14 @@ namespace Files.Uwp.ViewModels
                 ApplicationDataCompositeValue adcv = (ApplicationDataCompositeValue)dataContainer.Values[folderPath];
                 return LayoutPreferences.FromCompositeValue(adcv);
             }
-            else if (folderPath == CommonPaths.DownloadsPath)
+
+            return null;
+        }
+
+        private static LayoutPreferences GetDefaultPreferences(string folderPath)
+        {
+            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+            if (folderPath == CommonPaths.DownloadsPath)
             {
                 // Default for downloads folder is to group by date created
                 return new LayoutPreferences

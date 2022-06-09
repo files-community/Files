@@ -30,7 +30,6 @@ namespace Files.Uwp.Helpers
             return image;
         }
 
-
         /// <summary>
         /// Rotates the image at the specified file path.
         /// </summary>

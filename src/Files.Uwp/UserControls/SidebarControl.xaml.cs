@@ -186,12 +186,12 @@ namespace Files.Uwp.UserControls
         {
             ContextMenuOptions options = item.MenuOptions;
 
-            var model = App.SidebarPinnedController.Model;
-            int index = model.IndexOfItem(item);
-            int count = model.FavoriteItems.Count;
+            var favoriteModel = App.SidebarPinnedController.Model;
+            int favoriteIndex = favoriteModel.IndexOfItem(item);
+            int favoriteCount = favoriteModel.FavoriteItems.Count;
 
-            bool showMoveItemUp = options.IsItemMovable && index > 0;
-            bool showMoveItemDown = options.IsItemMovable && index < count - 1;
+            bool showMoveItemUp = favoriteIndex > 0;
+            bool showMoveItemDown = favoriteIndex < favoriteCount - 1;
 
             return new List<ContextMenuFlyoutItemViewModel>()
             {
@@ -372,7 +372,7 @@ namespace Files.Uwp.UserControls
             if (rightClickedItem.MenuOptions.ShowEmptyRecycleBin)
             {
                 UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar = false;
-                _ = App.SidebarPinnedController.Model.ShowHideRecycleBinItemAsync(false);
+                App.SidebarPinnedController.Model.ShowHideRecycleBinItem(false);
             }
             else if (rightClickedItem.Section == SectionType.Favorites)
             {
@@ -392,7 +392,7 @@ namespace Files.Uwp.UserControls
                 }
 
                 int oldIndex = App.SidebarPinnedController.Model.IndexOfItem(rightClickedItem);
-                App.SidebarPinnedController.Model.MoveItem(rightClickedItem, oldIndex, 1);
+                App.SidebarPinnedController.Model.MoveItem(rightClickedItem, oldIndex, 0);
 
                 if (isSelectedSidebarItem)
                 {
@@ -455,7 +455,7 @@ namespace Files.Uwp.UserControls
                 }
 
                 int oldIndex = App.SidebarPinnedController.Model.IndexOfItem(rightClickedItem);
-                App.SidebarPinnedController.Model.MoveItem(rightClickedItem, oldIndex, App.SidebarPinnedController.Model.FavoriteItems.Count);
+                App.SidebarPinnedController.Model.MoveItem(rightClickedItem, oldIndex, App.SidebarPinnedController.Model.FavoriteItems.Count - 1);
 
                 if (isSelectedSidebarItem)
                 {

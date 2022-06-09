@@ -410,7 +410,7 @@
                     Height="32"
                     x:FieldModifier="public"
                     AccessKey="R"
-                    AutomationProperties.Name="{helpers:ResourceString Name=NavRefreshButton/AutomationProperties/Name}"
+                    AutomationProperties.Name="{helpers:ResourceString Name=NavResfreshButton/AutomationProperties/Name}"
                     Background="Transparent"
                     Command="{x:Bind ViewModel.RefreshClickCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind ViewModel.CanRefresh, Mode=OneWay}"

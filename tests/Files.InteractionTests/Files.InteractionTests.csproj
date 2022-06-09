@@ -5,6 +5,8 @@
     <RootNamespace>Files.InteractionTests</RootNamespace>
 
     <IsPackable>false</IsPackable>
+
+    <Configurations>Debug;Release;Sideload</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
