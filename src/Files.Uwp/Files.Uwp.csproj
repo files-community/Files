@@ -198,6 +198,7 @@
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\ImageSourceExtensions.cs" />
     <Compile Include="Extensions\KeyboardAcceleratorExtensions.cs" />
+    <Compile Include="Filesystem\Cloud\Providers\SynologyDriveCloudProvider.cs" />
     <Compile Include="Filesystem\FilesystemOperations\ShellFilesystemOperations.cs" />
     <Compile Include="Filesystem\FileTagsHelper.cs" />
     <Compile Include="Filesystem\FileTagsManager.cs" />
@@ -230,6 +231,7 @@
     <Compile Include="Helpers\CommonPaths.cs" />
     <Compile Include="Helpers\FileExtensionHelpers.cs" />
     <Compile Include="Helpers\ItemListDisplayHelpers\BlockingListEnumerator.cs" />
+    <Compile Include="Helpers\KnownTypesBinder.cs" />
     <Compile Include="Helpers\LocalizedEnumHelper.cs" />
     <Compile Include="Helpers\ResourceHelpers.cs" />
     <Compile Include="Helpers\FtpHelpers.cs" />
@@ -303,6 +305,7 @@
     <Compile Include="ServicesImplementation\SideloadUpdateService.cs" />
     <Compile Include="ServicesImplementation\ThreadingService.cs" />
     <Compile Include="ServicesImplementation\UpdateService.cs" />
+    <Compile Include="ServicesImplementation\VolumeInfoFactory.cs" />
     <Compile Include="TemplateSelectors\BaseTemplateSelector.cs" />
     <Compile Include="TemplateSelectors\FileSystemDialogItemSelector.cs" />
     <Compile Include="UserControls\ColoredIcon.xaml.cs">
@@ -1543,7 +1546,7 @@
       <Version>2.1.1</Version>
     </PackageReference>
     <PackageReference Include="CommunityToolkit.Mvvm">
-      <Version>8.0.0-preview3</Version>
+      <Version>8.0.0-preview4</Version>
     </PackageReference>
     <PackageReference Include="FluentFTP">
       <Version>36.1.0</Version>
@@ -1585,7 +1588,7 @@
       <Version>7.1.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.8.0-prerelease.220413001</Version>
+      <Version>2.8.0-prerelease.220601001</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed">
       <Version>2.0.1</Version>

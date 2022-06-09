@@ -3307,7 +3307,7 @@ Centrum aplikácií používame na sledovanie používania aplikácií, vyhľad�
         </trans-unit>
         <trans-unit id="SettingsSetAsDefaultFileManagerDescription" translate="yes" xml:space="preserve">
           <source>This option modifies the system registry and can have unexpected side effects on your device. Continue at your own risk.</source>
-          <target state="needs-review-translation">Toto nastavenie upravuje systémové súbory a môže mať neočakávané vedľajšie účinky na vaše zariadenie. Vývojári nenesú žiadnu zodpovednosť v prípade, že sa v dôsledku toho vyskytne problém. Pokračovanie v tejto možnosti znamená uznanie rizík spojených s touto akciou. Upozorňujeme, že odinštalovaním aplikácie Files sa tieto zmeny nevrátia späť a môže vám brániť v otvorení prieskumníka súborov, pokiaľ toto nastavenie nevypnete pred odstránením aplikácie Files zo zariadenia.</target>
+          <target state="translated">Toto nastavenie upravuje systémové súbory a môže mať neočakávané vedľajšie účinky na vaše zariadenie. Vývojári nenesú žiadnu zodpovednosť v prípade, že sa v dôsledku toho vyskytne problém. Pokračovanie v tejto možnosti znamená uznanie rizík spojených s touto akciou.</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="ClearAll" translate="yes" xml:space="preserve">
