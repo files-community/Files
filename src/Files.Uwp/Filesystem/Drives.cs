@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services.SizeProvider;
 using Files.Shared;
 using Files.Shared.Enums;
 using Files.Uwp.DataModels.NavigationControlItems;
@@ -24,7 +25,7 @@ namespace Files.Uwp.Filesystem
     public class DrivesManager : ObservableObject
     {
         private readonly ILogger logger = Ioc.Default.GetService<ILogger>();
-        private readonly IFolderSizeProvider folderSizeProvider = Ioc.Default.GetService<IFolderSizeProvider>();
+        private readonly ISizeProvider folderSizeProvider = Ioc.Default.GetService<ISizeProvider>();
 
         private bool isDriveEnumInProgress;
         private DeviceWatcher watcher;
@@ -289,7 +290,7 @@ namespace Files.Uwp.Filesystem
         private async void Watcher_EnumerationCompleted(DeviceWatcher sender = null, object args = null)
         {
             Debug.WriteLine("DeviceWatcher_EnumerationCompleted");
-            await folderSizeProvider.CleanCacheAsync();
+            await folderSizeProvider.CleanAsync();
         }
 
         private async Task<bool> GetDrivesAsync()

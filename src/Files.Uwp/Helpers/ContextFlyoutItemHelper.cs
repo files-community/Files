@@ -1,12 +1,12 @@
-﻿using Files.Shared;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Input;
+using Files.Backend.Services.Settings;
+using Files.Shared;
 using Files.Shared.Enums;
 using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Interacts;
-using Files.Backend.Services.Settings;
 using Files.Uwp.ViewModels;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -552,6 +552,7 @@ namespace Files.Uwp.Helpers
                     Command = commandsViewModel.PinDirectoryToFavoritesCommand,
                     ShowItem = !itemViewModel.CurrentFolder.IsPinned & userSettingsService.AppearanceSettingsService.ShowFavoritesSection,
                     ShowInFtpPage = true,
+                    ShowInRecycleBin = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -560,6 +561,7 @@ namespace Files.Uwp.Helpers
                     Command = commandsViewModel.UnpinDirectoryFromFavoritesCommand,
                     ShowItem = itemViewModel.CurrentFolder.IsPinned & userSettingsService.AppearanceSettingsService.ShowFavoritesSection,
                     ShowInFtpPage = true,
+                    ShowInRecycleBin = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -742,7 +744,7 @@ namespace Files.Uwp.Helpers
                     Glyph = "\uE7EF",
                     Command = commandsViewModel.RunAsAdminCommand,
                     ShowInSearchPage = true,
-                    ShowItem = new string[]{".bat", ".exe", "cmd" }.Contains(selectedItems.FirstOrDefault().FileExtension, StringComparer.OrdinalIgnoreCase)
+                    ShowItem = new string[]{".bat", ".exe", ".cmd" }.Contains(selectedItems.FirstOrDefault().FileExtension, StringComparer.OrdinalIgnoreCase)
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -750,7 +752,7 @@ namespace Files.Uwp.Helpers
                     Glyph = "\uE7EE",
                     Command = commandsViewModel.RunAsAnotherUserCommand,
                     ShowInSearchPage = true,
-                    ShowItem = new string[]{".bat", ".exe", "cmd" }.Contains(selectedItems.FirstOrDefault().FileExtension, StringComparer.OrdinalIgnoreCase)
+                    ShowItem = new string[]{".bat", ".exe", ".cmd" }.Contains(selectedItems.FirstOrDefault().FileExtension, StringComparer.OrdinalIgnoreCase)
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {

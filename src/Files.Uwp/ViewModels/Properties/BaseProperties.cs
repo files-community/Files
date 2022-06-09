@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Extensions;
 using Files.Shared.Services.DateTimeFormatter;
 using Files.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp;
@@ -9,7 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage.FileProperties;
 using Windows.UI.Core;
-using static Files.Uwp.Helpers.NativeFindStorageItemHelper;
+using static Files.Backend.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.Uwp.ViewModels.Properties

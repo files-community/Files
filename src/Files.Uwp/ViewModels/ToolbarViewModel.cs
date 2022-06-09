@@ -961,6 +961,11 @@ namespace Files.Uwp.ViewModels
 
         public async Task CheckPathInput(string currentInput, string currentSelectedPath, IShellPage shellPage)
         {
+            if (currentInput.Contains("/") && !FtpHelpers.IsFtpPath(currentInput))
+            {
+                currentInput = currentInput.Replace("/", "\\", StringComparison.Ordinal);
+            }
+
             currentInput = currentInput.Replace("\\\\", "\\", StringComparison.Ordinal);
 
             if (currentInput.StartsWith('\\') && !currentInput.StartsWith("\\\\", StringComparison.Ordinal))
