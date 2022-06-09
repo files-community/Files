@@ -48,6 +48,8 @@ namespace Files.Uwp.DataModels.NavigationControlItems
         public bool IsRemovable => Type == DriveType.Removable || Type == DriveType.CDRom;
         public bool IsNetwork => Type == DriveType.Network;
 
+        public bool IsPinned => App.SidebarPinnedController.Model.FavoriteItems.Contains(path);
+
         private ByteSize maxSpace;
         private ByteSize freeSpace;
         private ByteSize spaceUsed;
