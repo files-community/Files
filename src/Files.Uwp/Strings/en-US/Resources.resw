@@ -2775,7 +2775,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Contributors</value>
   </data>
   <data name="ChangeApplication" xml:space="preserve">
-    <value>Change Application</value>
+    <value>Change</value>
   </data>
   <data name="OpensWith" xml:space="preserve">
     <value>Opens with:</value>
