@@ -9,7 +9,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:usercontrols="using:Files.Uwp.UserControls"
-    GotFocus="GotFocus"
+    GotFocus="Properties_GotFocus"
     Loaded="Properties_Loaded"
     mc:Ignorable="d">
 
@@ -129,7 +129,7 @@
                 x:Name="OpensWith"
                 Grid.Row="3"
                 Grid.Column="0"
-                x:Load="{x:Bind ViewModel.IsFileFolder, Mode=OneWay}"
+                x:Load="{x:Bind ViewModel.AssociatedApplicationVisibility, Mode=OneWay}"
                 FontWeight="SemiBold"
                 Style="{StaticResource PropertyValueTextBlock}"
                 Text="{helpers:ResourceString Name=OpensWith}" />
@@ -137,7 +137,7 @@
                 x:Name="OpensWithGrid"
                 Grid.Row="3"
                 Grid.Column="1"
-                x:Load="{x:Bind ViewModel.IsFileFolder, Mode=OneWay}">
+                x:Load="{x:Bind ViewModel.AssociatedApplicationVisibility, Mode=OneWay}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />

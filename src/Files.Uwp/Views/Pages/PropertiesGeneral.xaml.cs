@@ -119,15 +119,19 @@ namespace Files.Uwp.Views
 
         private async void ChangeApplicationButton_Click(object sender, RoutedEventArgs e)
         {
-            var filePath = ViewModel.ItemPath + Path.DirectorySeparatorChar + ViewModel.ItemName;
-            await NavigationHelpers.OpenPath(filePath, AppInstance, openViaApplicationPicker: true);
+            if (BaseProperties is FileProperties fileProps)
+            {
+                await NavigationHelpers.OpenPath(fileProps.Item.ItemPath, AppInstance, openViaApplicationPicker: true);
+            }
         }
 
-        private new async void GotFocus(object sender, RoutedEventArgs e)
+        private async void Properties_GotFocus(object sender, RoutedEventArgs e)
         {
-            // Update the application name
-            var filePath = ViewModel.ItemPath + Path.DirectorySeparatorChar + ViewModel.ItemName;
-            ViewModel.AssociatedApplication = await NativeWinApiHelper.GetFileAssociationName(filePath);
+            if (BaseProperties is FileProperties fileProps)
+            {
+                // Update the application name
+                ViewModel.AssociatedApplication = await NativeWinApiHelper.GetFileAssociationName(fileProps.Item.ItemPath);
+            }
         }
     }
 }

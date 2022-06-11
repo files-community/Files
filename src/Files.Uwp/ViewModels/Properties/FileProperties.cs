@@ -45,7 +45,7 @@ namespace Files.Uwp.ViewModels.Properties
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
         }
 
-        public override async void GetBaseProperties()
+        public override void GetBaseProperties()
         {
             if (Item != null)
             {
@@ -59,7 +59,7 @@ namespace Files.Uwp.ViewModels.Properties
                 ViewModel.LoadCustomIcon = Item.LoadCustomIcon;
                 ViewModel.CustomIconSource = Item.CustomIconSource;
                 ViewModel.LoadFileIcon = Item.LoadFileIcon;
-                ViewModel.AssociatedApplication = await NativeWinApiHelper.GetFileAssociationName(Item.ItemPath);
+                ViewModel.AssociatedApplicationVisibility = true;
 
                 if (Item.IsShortcutItem)
                 {
@@ -108,6 +108,8 @@ namespace Files.Uwp.ViewModels.Properties
 
             ViewModel.ItemSizeVisibility = true;
             ViewModel.ItemSize = Item.FileSizeBytes.ToLongSizeString();
+
+            ViewModel.AssociatedApplication = await NativeWinApiHelper.GetFileAssociationName(Item.ItemPath);
 
             var fileIconData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.ItemPath, 80, Windows.Storage.FileProperties.ThumbnailMode.DocumentsView);
             if (fileIconData != null)

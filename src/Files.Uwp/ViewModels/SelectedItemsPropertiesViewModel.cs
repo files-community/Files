@@ -108,11 +108,8 @@ namespace Files.Uwp.ViewModels
             {
                 ItemTypeVisibility = true;
                 SetProperty(ref itemType, value);
-                OnPropertyChanged(nameof(IsFileFolder));
             }
         }
-
-        public bool IsFileFolder => ItemType != "File folder";
 
         private bool itemTypeVisibility = false;
 
@@ -265,15 +262,12 @@ namespace Files.Uwp.ViewModels
             get => filesAndFoldersCountString;
             set
             {
-                if (FilesAndFoldersCountVisibility == false)
-                {
-                    FilesAndFoldersCountVisibility = true;
-                }
+                FilesAndFoldersCountVisibility = true;
                 SetProperty(ref filesAndFoldersCountString, value);
             }
         }
 
-        public bool filesAndFoldersCountVisibility = false;
+        private bool filesAndFoldersCountVisibility = false;
 
         public bool FilesAndFoldersCountVisibility
         {
@@ -704,6 +698,14 @@ namespace Files.Uwp.ViewModels
         {
             get => associatedApplication;
             set => SetProperty(ref associatedApplication, value);
+        }
+
+        private bool associatedApplicationVisibility = false;
+
+        public bool AssociatedApplicationVisibility
+        {
+            get => associatedApplicationVisibility;
+            set => SetProperty(ref associatedApplicationVisibility, value);
         }
     }
 }
