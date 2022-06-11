@@ -20,7 +20,6 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
-            <converters:LayoutModeToBoolConverter x:Key="LayoutModeConverter" />
             <converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
             <converters1:BoolToVisibilityConverter
                 x:Key="NegatedBoolToVisibilityConverter"

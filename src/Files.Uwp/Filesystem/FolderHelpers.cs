@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using static Files.Uwp.Helpers.NativeFindStorageItemHelper;
+using static Files.Backend.Helpers.NativeFindStorageItemHelper;
 
 namespace Files.Uwp.Filesystem
 {

@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 
-namespace Files.Uwp.Helpers
+namespace Files.Backend.Helpers
 {
     public class NativeFindStorageItemHelper
     {
@@ -31,7 +31,7 @@ namespace Files.Uwp.Helpers
                 Milliseconds = (short)dt.Millisecond;
             }
 
-            public DateTime ToDateTime() => new DateTime(Year, Month, Day, Hour, Minute, Second, Milliseconds, DateTimeKind.Utc);
+            public DateTime ToDateTime() => new(Year, Month, Day, Hour, Minute, Second, Milliseconds, DateTimeKind.Utc);
         }
 
         public enum FINDEX_INFO_LEVELS

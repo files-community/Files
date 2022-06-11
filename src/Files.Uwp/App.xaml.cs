@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services;
 using Files.Backend.Services.Settings;
+using Files.Backend.Services.SizeProvider;
 using Files.Shared;
 using Files.Shared.Extensions;
 using Files.Shared.Services.DateTimeFormatter;
@@ -129,11 +130,12 @@ namespace Files.Uwp
 #endif
                 .AddSingleton<IDateTimeFormatterFactory, DateTimeFormatterFactory>()
                 .AddSingleton<IDateTimeFormatter, UserDateTimeFormatter>()
+                .AddSingleton<IVolumeInfoFactory, VolumeInfoFactory>()
 
                 // TODO(i): FileSystem operations:
                 // (IFilesystemHelpersService, IFilesystemOperationsService)
                 // (IStorageEnumerator, IFallbackStorageEnumerator)
-                .AddSingleton<IFolderSizeProvider, FolderSizeProvider>()
+                .AddSingleton<ISizeProvider, UserSizeProvider>()
 
                 ; // End of service configuration
 
@@ -213,9 +215,7 @@ namespace Files.Uwp
             // Check for required updates
             var updateService = Ioc.Default.GetRequiredService<IUpdateService>();
             await updateService.CheckForUpdates();
-#if !SIDELOAD
             await updateService.DownloadMandatoryUpdates();
-#endif
 
             static async Task OptionalTask(Task task, bool condition)
             {

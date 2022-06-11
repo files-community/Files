@@ -1,7 +1,7 @@
-﻿using Files.Uwp.Helpers;
-using Files.Backend.Services.Settings;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services.Settings;
+using Files.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -146,7 +146,7 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
                 if (value != UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar)
                 {
                     UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar = value;
-                    _ = App.SidebarPinnedController.Model.ShowHideRecycleBinItemAsync(value);
+                    App.SidebarPinnedController.Model.ShowHideRecycleBinItem(value);
                     OnPropertyChanged();
                 }
             }

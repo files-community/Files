@@ -283,7 +283,7 @@ namespace Files.Uwp.Helpers
 
                 if (index == -1)
                 {
-                    return true;
+                    return false;
                 }
 
                 collection.RemoveAt(index);
