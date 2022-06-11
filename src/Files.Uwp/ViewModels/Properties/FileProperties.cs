@@ -59,7 +59,7 @@ namespace Files.Uwp.ViewModels.Properties
                 ViewModel.LoadCustomIcon = Item.LoadCustomIcon;
                 ViewModel.CustomIconSource = Item.CustomIconSource;
                 ViewModel.LoadFileIcon = Item.LoadFileIcon;
-                ViewModel.AssociatedApplicationVisibility = true;
+                ViewModel.AssociatedApplicationVisibility = !Item.IsShortcutItem && !Item.IsExecutable;
 
                 if (Item.IsShortcutItem)
                 {
