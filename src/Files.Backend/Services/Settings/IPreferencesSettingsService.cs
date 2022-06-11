@@ -34,16 +34,11 @@ namespace Files.Backend.Services.Settings
         /// Gets or sets a value indicating whether or not system items should be visible.
         /// </summary>
         bool AreSystemItemsHidden { get; set; }
-        
+
         /// <summary>
         /// Gets or sets a value indicating whether or not to display dot files.
         /// </summary>
         bool ShowDotFiles{ get; set; }
-        
-        /// <summary>
-        /// Gets or sets a value indicating whether or not files should be sorted together with folders.
-        /// </summary>
-        bool ListAndSortDirectoriesAlongsideFiles { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether or not files should open with one click.
@@ -64,11 +59,6 @@ namespace Files.Backend.Services.Settings
         /// Enables saving a unique layout mode, gridview size and sort direction per folder
         /// </summary>
         bool AreLayoutPreferencesPerFolder { get; set; }
-
-        /// <summary>
-        /// Enables adaptive layout that adjusts layout mode based on the context of the directory
-        /// </summary>
-        bool AdaptiveLayoutEnabled { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether or not to enable file tags feature.

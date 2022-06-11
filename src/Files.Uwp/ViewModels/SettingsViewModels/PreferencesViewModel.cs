@@ -2,13 +2,13 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using Files.Backend.Services.Settings;
-using Files.Uwp.Controllers;
-using Files.Uwp.DataModels;
-using Files.Uwp.Extensions;
-using Files.Uwp.Filesystem;
-using Files.Uwp.Helpers;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
+using Files.Shared.Services.DateTimeFormatter;
+using Files.Uwp.Controllers;
+using Files.Uwp.DataModels;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -57,24 +57,8 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
 
             DateTimeOffset sampleDate1 = DateTime.Now;
             DateTimeOffset sampleDate2 = new DateTime(sampleDate1.Year - 5, 12, 31, 14, 30, 0);
-            DateFormats = new List<DateFormatItem>
-            {
-                new DateFormatItem{
-                    Label = "Application".GetLocalized(),
-                    Sample1 = sampleDate1.GetFriendlyDateFromFormat(TimeStyle.Application.GetDateFormat()),
-                    Sample2 = sampleDate2.GetFriendlyDateFromFormat(TimeStyle.Application.GetDateFormat()),
-                },
-                new DateFormatItem{
-                    Label = "SystemTimeStyle".GetLocalized(),
-                    Sample1 = sampleDate1.GetFriendlyDateFromFormat(TimeStyle.System.GetDateFormat()),
-                    Sample2 = sampleDate2.GetFriendlyDateFromFormat(TimeStyle.System.GetDateFormat()),
-                },
-                new DateFormatItem{
-                    Label = "Universal".GetLocalized(),
-                    Sample1 = sampleDate1.GetFriendlyDateFromFormat(TimeStyle.Universal.GetDateFormat()),
-                    Sample2 = sampleDate2.GetFriendlyDateFromFormat(TimeStyle.Universal.GetDateFormat()),
-                },
-            };
+            var styles = new TimeStyle[] { TimeStyle.Application, TimeStyle.System, TimeStyle.Universal };
+            DateFormats = styles.Select(style => new DateFormatItem(style, sampleDate1, sampleDate2)).ToList();
 
             dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
@@ -120,7 +104,7 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
                     string mruToken = entry.Token;
                     var added = await FilesystemTasks.Wrap(async () =>
                     {
-                        IStorageItem item = await mostRecentlyUsed.GetItemAsync(mruToken, AccessCacheOptions.FastLocationsOnly);
+                        IStorageItem item = await mostRecentlyUsed.GetItemAsync(mruToken, AccessCacheOptions.FastLocationsOnly | AccessCacheOptions.SuppressAccessTimeUpdate);
                         if (item.IsOfType(StorageItemTypes.Folder))
                         {
                             menu.Items.Add(new MenuFlyoutItemViewModel(item.Name, string.IsNullOrEmpty(item.Path) ? entry.Metadata : item.Path, AddPageCommand));
@@ -628,12 +612,12 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
 
         public bool ListAndSortDirectoriesAlongsideFiles
         {
-            get => UserSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles;
+            get => UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles;
             set
             {
-                if (value != UserSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles)
+                if (value != UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles)
                 {
-                    UserSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles = value;
+                    UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles = value;
                     OnPropertyChanged();
                 }
             }
@@ -683,8 +667,18 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
 
     public class DateFormatItem
     {
-        public string Label { get; set; }
-        public string Sample1 { get; set; }
-        public string Sample2 { get; set; }
+        public string Label { get; }
+        public string Sample1 { get; }
+        public string Sample2 { get; }
+
+        public DateFormatItem(TimeStyle style, DateTimeOffset sampleDate1, DateTimeOffset sampleDate2)
+        {
+            var factory = Ioc.Default.GetService<IDateTimeFormatterFactory>();
+            var formatter = factory.GetDateTimeFormatter(style);
+
+            Label = formatter.Name;
+            Sample1 = formatter.ToShortLabel(sampleDate1);
+            Sample2 = formatter.ToShortLabel(sampleDate2);
+        }
     }
 }

@@ -17,7 +17,6 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <Style x:Key="AccentColorFontIconStyle" TargetType="FontIcon" />
-            <converters:LayoutModeToBoolConverter x:Key="LayoutModeConverter" />
             <converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
             <converters1:BoolToVisibilityConverter
                 x:Key="NegatedBoolToVisibilityConverter"
@@ -358,18 +357,10 @@
                         <StackPanel Spacing="12">
                             <TextBlock FontWeight="Medium" Text="{helpers:ResourceString Name=NavToolbarManageWidgetsFlyoutHeader/Text}" />
                             <StackPanel Spacing="4">
-                                <ToggleSwitch
-                                    Header="{helpers:ResourceString Name=NavToolbarShowFolderWidget/Header}"
-                                    IsOn="{x:Bind ViewModel.ShowFoldersWidget, Mode=TwoWay}" />
-                                <ToggleSwitch
-                                    Header="{helpers:ResourceString Name=NavToolbarShowDrivesWidget/Header}"
-                                    IsOn="{x:Bind ViewModel.ShowDrivesWidget, Mode=TwoWay}" />
-                                <ToggleSwitch
-                                    Header="{helpers:ResourceString Name=NavToolbarShowBundlesWidget/Header}"
-                                    IsOn="{x:Bind ViewModel.ShowBundlesWidget, Mode=TwoWay}" />
-                                <ToggleSwitch
-                                    Header="{helpers:ResourceString Name=NavToolbarShowRecentFilesWidget/Header}"
-                                    IsOn="{x:Bind ViewModel.ShowRecentFilesWidget, Mode=TwoWay}" />
+                                <ToggleSwitch Header="{helpers:ResourceString Name=NavToolbarShowFolderWidget/Header}" IsOn="{x:Bind ViewModel.ShowFoldersWidget, Mode=TwoWay}" />
+                                <ToggleSwitch Header="{helpers:ResourceString Name=NavToolbarShowDrivesWidget/Header}" IsOn="{x:Bind ViewModel.ShowDrivesWidget, Mode=TwoWay}" />
+                                <ToggleSwitch Header="{helpers:ResourceString Name=NavToolbarShowBundlesWidget/Header}" IsOn="{x:Bind ViewModel.ShowBundlesWidget, Mode=TwoWay}" />
+                                <ToggleSwitch Header="{helpers:ResourceString Name=NavToolbarShowRecentFilesWidget/Header}" IsOn="{x:Bind ViewModel.ShowRecentFilesWidget, Mode=TwoWay}" />
                             </StackPanel>
                         </StackPanel>
                     </Flyout>
@@ -446,15 +437,11 @@
                 <AppBarButton.Flyout>
                     <MenuFlyout contract8Present:ShouldConstrainToRootBounds="False" Placement="Bottom">
                         <MenuFlyoutSubItem Text="{helpers:ResourceString Name=NavToolbarSortByRadioButtons/Text}">
-                            <ToggleMenuFlyoutItem
-                                IsChecked="{x:Bind ViewModel.IsSortedByName, Mode=TwoWay}"
-                                Text="{helpers:ResourceString Name=NavToolbarArrangementOptionName/Text}" />
+                            <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsSortedByName, Mode=TwoWay}" Text="{helpers:ResourceString Name=NavToolbarArrangementOptionName/Text}" />
                             <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsSortedByDateModified, Mode=TwoWay}" Text="{helpers:ResourceString Name=DateModifiedLowerCase}" />
                             <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsSortedByDateCreated, Mode=TwoWay}" Text="{helpers:ResourceString Name=DateCreated}" />
                             <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsSortedBySize, Mode=TwoWay}" Text="{helpers:ResourceString Name=Size}" />
-                            <ToggleMenuFlyoutItem
-                                IsChecked="{x:Bind ViewModel.IsSortedByType, Mode=TwoWay}"
-                                Text="{helpers:ResourceString Name=NavToolbarArrangementOptionType/Text}" />
+                            <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsSortedByType, Mode=TwoWay}" Text="{helpers:ResourceString Name=NavToolbarArrangementOptionType/Text}" />
                             <ToggleMenuFlyoutItem
                                 IsChecked="{x:Bind ViewModel.IsSortedBySyncStatus, Mode=TwoWay}"
                                 IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeCloudDrive, Mode=OneWay}"
@@ -474,15 +461,11 @@
                         </MenuFlyoutSubItem>
                         <MenuFlyoutSubItem Text="{helpers:ResourceString Name=NavToolbarGroupByRadioButtons/Text}">
                             <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsGroupedByNone, Mode=TwoWay}" Text="{helpers:ResourceString Name=None}" />
-                            <ToggleMenuFlyoutItem
-                                IsChecked="{x:Bind ViewModel.IsGroupedByName, Mode=TwoWay}"
-                                Text="{helpers:ResourceString Name=NavToolbarArrangementOptionName/Text}" />
+                            <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsGroupedByName, Mode=TwoWay}" Text="{helpers:ResourceString Name=NavToolbarArrangementOptionName/Text}" />
                             <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsGroupedByDateModified, Mode=TwoWay}" Text="{helpers:ResourceString Name=DateModifiedLowerCase}" />
                             <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsGroupedByDateCreated, Mode=TwoWay}" Text="{helpers:ResourceString Name=DateCreated}" />
                             <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsGroupedBySize, Mode=TwoWay}" Text="{helpers:ResourceString Name=Size}" />
-                            <ToggleMenuFlyoutItem
-                                IsChecked="{x:Bind ViewModel.IsGroupedByType, Mode=TwoWay}"
-                                Text="{helpers:ResourceString Name=NavToolbarArrangementOptionType/Text}" />
+                            <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsGroupedByType, Mode=TwoWay}" Text="{helpers:ResourceString Name=NavToolbarArrangementOptionType/Text}" />
                             <ToggleMenuFlyoutItem
                                 IsChecked="{x:Bind ViewModel.IsGroupedBySyncStatus, Mode=TwoWay}"
                                 IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeCloudDrive, Mode=OneWay}"
@@ -507,6 +490,8 @@
                         <MenuFlyoutSeparator />
                         <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsSortedAscending, Mode=TwoWay}" Text="{helpers:ResourceString Name=Ascending}" />
                         <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsSortedDescending, Mode=TwoWay}" Text="{helpers:ResourceString Name=Descending}" />
+                        <MenuFlyoutSeparator />
+                        <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.AreDirectoriesSortedAlongsideFiles, Mode=TwoWay}" Text="{helpers:ResourceString Name=SettingsListAndSortDirectoriesAlongsideFiles}" />
                     </MenuFlyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
@@ -533,6 +518,7 @@
                                     <RowDefinition MinHeight="30" />
                                     <RowDefinition MinHeight="30" />
                                     <RowDefinition MinHeight="30" />
+                                    <RowDefinition MinHeight="30" />
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="40" />
@@ -555,9 +541,9 @@
                                     Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsViewCommand, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="{StaticResource ControlCornerRadius}"
-                                    IsChecked="{x:Bind ViewModel.InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=DetailsInfo}"
+                                    IsChecked="{x:Bind ViewModel.IsLayoutDetailsView, Mode=OneWay}"
                                     Style="{StaticResource DefaultToggleButtonStyle}"
-                                    ToolTipService.ToolTip="Details (Ctrl+Shift+1)">
+                                    ToolTipService.ToolTip="{helpers:ResourceString Name=NavToolbarDetails/ToolTipService/ToolTip}">
                                     <FontIcon FontSize="16" Glyph="&#xE179;" />
                                 </RadioButton>
 
@@ -582,7 +568,7 @@
                                     Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeTilesCommand, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="{StaticResource ControlCornerRadius}"
-                                    IsChecked="{x:Bind ViewModel.InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=TilesInfo}"
+                                    IsChecked="{x:Bind ViewModel.IsLayoutTilesView, Mode=OneWay}"
                                     Style="{StaticResource DefaultToggleButtonStyle}"
                                     ToolTipService.ToolTip="{helpers:ResourceString Name=NavToolbarTiles/ToolTipService/ToolTip}">
                                     <FontIcon FontSize="16" Glyph="&#xE15C;" />
@@ -609,7 +595,7 @@
                                     Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmallCommand, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="{StaticResource ControlCornerRadius}"
-                                    IsChecked="{x:Bind ViewModel.InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=SmallGridInfo}"
+                                    IsChecked="{x:Bind ViewModel.IsLayoutGridViewSmall, Mode=OneWay}"
                                     Style="{StaticResource DefaultToggleButtonStyle}"
                                     ToolTipService.ToolTip="{helpers:ResourceString Name=NavToolbarSmallIcons/ToolTipService/ToolTip}">
                                     <FontIcon FontSize="16" Glyph="&#xE80A;" />
@@ -623,10 +609,37 @@
                                     Tapped="NavToolbarSmallIconsHeader_Tapped"
                                     Text="{helpers:ResourceString Name=SmallIcons}" />
 
+                                <RadioButton
+                                    Grid.Row="3"
+                                    Grid.Column="0"
+                                    Width="36"
+                                    Height="32"
+                                    MinWidth="0"
+                                    Padding="0"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    AutomationProperties.Name="{helpers:ResourceString Name=NavToolbarMediumIcons/AutomationProperties/Name}"
+                                    Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMediumCommand, Mode=OneWay}"
+                                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
+                                    CornerRadius="{StaticResource ControlCornerRadius}"
+                                    IsChecked="{x:Bind ViewModel.IsLayoutGridViewMedium, Mode=OneWay}"
+                                    Style="{StaticResource DefaultToggleButtonStyle}"
+                                    ToolTipService.ToolTip="{helpers:ResourceString Name=NavToolbarMediumIcons/ToolTipService/ToolTip}">
+                                    <FontIcon FontSize="16" Glyph="&#xF0E2;" />
+                                </RadioButton>
+
+                                <TextBlock
+                                    x:Name="NavToolbarMediumIconsHeader"
+                                    Grid.Row="3"
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    Tapped="NavToolbarMediumIconsHeader_Tapped"
+                                    Text="{helpers:ResourceString Name=MediumIcons}" />
+
                                 <Border
-                                    Grid.RowSpan="3"
+                                    Grid.RowSpan="4"
                                     Grid.Column="2"
-                                    Height="100"
+                                    Height="120"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
                                     BorderBrush="{ThemeResource ControlStrokeColorDefault}"
@@ -641,39 +654,11 @@
                                     Padding="0"
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center"
-                                    AutomationProperties.Name="{helpers:ResourceString Name=NavToolbarMediumIcons/AutomationProperties/Name}"
-                                    Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMediumCommand, Mode=OneWay}"
-                                    CommandParameter="{xh:SystemTypeToXaml Bool=True}"
-                                    CornerRadius="{StaticResource ControlCornerRadius}"
-                                    Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                                    IsChecked="{x:Bind ViewModel.InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=MediumGridInfo}"
-                                    Style="{StaticResource DefaultToggleButtonStyle}"
-                                    ToolTipService.ToolTip="{helpers:ResourceString Name=NavToolbarMediumIcons/ToolTipService/ToolTip}">
-                                    <FontIcon FontSize="16" Glyph="&#xF0E2;" />
-                                </RadioButton>
-
-                                <TextBlock
-                                    x:Name="NavToolbarMediumIconsHeader"
-                                    Grid.Row="0"
-                                    Grid.Column="4"
-                                    VerticalAlignment="Center"
-                                    Tapped="NavToolbarMediumIconsHeader_Tapped"
-                                    Text="{helpers:ResourceString Name=MediumIcons}" />
-
-                                <RadioButton
-                                    Grid.Row="1"
-                                    Grid.Column="3"
-                                    Width="36"
-                                    Height="32"
-                                    MinWidth="0"
-                                    Padding="0"
-                                    HorizontalContentAlignment="Center"
-                                    VerticalContentAlignment="Center"
                                     AutomationProperties.Name="{helpers:ResourceString Name=NavToolbarLargeIcons/AutomationProperties/Name}"
                                     Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLargeCommand, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="{StaticResource ControlCornerRadius}"
-                                    IsChecked="{x:Bind ViewModel.InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=LargeGridInfo}"
+                                    IsChecked="{x:Bind ViewModel.IsLayoutGridViewLarge, Mode=OneWay}"
                                     Style="{StaticResource DefaultToggleButtonStyle}"
                                     ToolTipService.ToolTip="{helpers:ResourceString Name=NavToolbarLargeIcons/ToolTipService/ToolTip}">
                                     <FontIcon FontSize="16" Glyph="&#xE739;" />
@@ -681,14 +666,14 @@
 
                                 <TextBlock
                                     x:Name="NavToolbarLargeIconsHeader"
-                                    Grid.Row="1"
+                                    Grid.Row="0"
                                     Grid.Column="4"
                                     VerticalAlignment="Center"
                                     Tapped="NavToolbarLargeIconsHeader_Tapped"
                                     Text="{helpers:ResourceString Name=LargeIcons}" />
 
                                 <RadioButton
-                                    Grid.Row="2"
+                                    Grid.Row="1"
                                     Grid.Column="3"
                                     Width="36"
                                     Height="32"
@@ -700,7 +685,7 @@
                                     Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeColumnViewCommand, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="{StaticResource ControlCornerRadius}"
-                                    IsChecked="{x:Bind ViewModel.InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=ColumnInfo}"
+                                    IsChecked="{x:Bind ViewModel.IsLayoutColumnsView, Mode=OneWay}"
                                     Style="{StaticResource DefaultToggleButtonStyle}"
                                     ToolTipService.ToolTip="{helpers:ResourceString Name=ColumnsShortcutTooltip}">
                                     <FontIcon
@@ -711,11 +696,38 @@
 
                                 <TextBlock
                                     x:Name="NavToolbarColumnsHeader"
-                                    Grid.Row="2"
+                                    Grid.Row="1"
                                     Grid.Column="4"
                                     VerticalAlignment="Center"
                                     Tapped="NavToolbarColumnsHeader_Tapped"
                                     Text="{helpers:ResourceString Name=Columns}" />
+
+                                <RadioButton
+                                    Grid.Row="2"
+                                    Grid.Column="3"
+                                    Width="36"
+                                    Height="32"
+                                    MinWidth="0"
+                                    Padding="0"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    AutomationProperties.Name="{helpers:ResourceString Name=Adaptive}"
+                                    Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeAdaptiveCommand, Mode=OneWay}"
+                                    CornerRadius="{StaticResource ControlCornerRadius}"
+                                    IsChecked="{x:Bind ViewModel.IsLayoutAdaptive, Mode=OneWay}"
+                                    IsEnabled="{x:Bind ViewModel.IsAdaptiveLayoutEnabled, Mode=OneWay}"
+                                    Style="{StaticResource DefaultToggleButtonStyle}"
+                                    ToolTipService.ToolTip="{helpers:ResourceString Name=AdaptiveShortcutTooltip}">
+                                    <FontIcon FontSize="16" Glyph="&#xF576;" />
+                                </RadioButton>
+
+                                <TextBlock
+                                    x:Name="NavToolbarAdaptiveHeader"
+                                    Grid.Row="2"
+                                    Grid.Column="4"
+                                    VerticalAlignment="Center"
+                                    Tapped="NavToolbarAdaptiveHeader_Tapped"
+                                    Text="{helpers:ResourceString Name=Adaptive}" />
                             </Grid>
 
                             <Border

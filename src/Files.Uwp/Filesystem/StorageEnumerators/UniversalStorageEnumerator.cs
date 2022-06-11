@@ -20,7 +20,6 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
         public static async Task<List<ListedItem>> ListEntries(
             BaseStorageFolder rootFolder,
             StorageFolderWithPath currentStorageFolder,
-            string returnformat,
             Type sourcePageType,
             CancellationToken cancellationToken,
             int countLimit,
@@ -77,7 +76,7 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
                     {
                         if (item.IsOfType(StorageItemTypes.Folder))
                         {
-                            var folder = await AddFolderAsync(item.AsBaseStorageFolder(), currentStorageFolder, returnformat, cancellationToken);
+                            var folder = await AddFolderAsync(item.AsBaseStorageFolder(), currentStorageFolder, cancellationToken);
                             if (folder != null)
                             {
                                 if (defaultIconPairs?.ContainsKey(string.Empty) ?? false)
@@ -89,7 +88,7 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
                         }
                         else
                         {
-                            var fileEntry = await AddFileAsync(item.AsBaseStorageFile(), currentStorageFolder, returnformat, cancellationToken);
+                            var fileEntry = await AddFileAsync(item.AsBaseStorageFile(), currentStorageFolder, cancellationToken);
                             if (fileEntry != null)
                             {
                                 if (defaultIconPairs != null)
@@ -160,14 +159,36 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
             return tempList;
         }
 
-        public static async Task<ListedItem> AddFolderAsync(BaseStorageFolder folder, StorageFolderWithPath currentStorageFolder, string dateReturnFormat, CancellationToken cancellationToken)
+        public static async Task<ListedItem> AddFolderAsync(BaseStorageFolder folder, StorageFolderWithPath currentStorageFolder, CancellationToken cancellationToken)
         {
             var basicProperties = await folder.GetBasicPropertiesAsync();
             if (!cancellationToken.IsCancellationRequested)
             {
-                if (folder is BinStorageFolder binFolder)
+                if (folder is ShortcutStorageFolder linkFolder)
                 {
-                    return new RecycleBinItem(folder.FolderRelativeId, dateReturnFormat)
+                    return new ShortcutItem(folder.FolderRelativeId)
+                    {
+                        PrimaryItemAttribute = StorageItemTypes.Folder,
+                        IsHiddenItem = false,
+                        Opacity = 1,
+                        FileImage = null,
+                        LoadFileIcon = false,
+                        ItemNameRaw = folder.DisplayName,
+                        ItemDateModifiedReal = basicProperties.DateModified,
+                        ItemDateCreatedReal = folder.DateCreated,
+                        ItemType = folder.DisplayType,
+                        ItemPath = folder.Path,
+                        FileSize = null,
+                        FileSizeBytes = 0,
+                        TargetPath = linkFolder.TargetPath,
+                        Arguments = linkFolder.Arguments,
+                        WorkingDirectory = linkFolder.WorkingDirectory,
+                        RunAsAdmin = linkFolder.RunAsAdmin
+                    };
+                }
+                else if (folder is BinStorageFolder binFolder)
+                {
+                    return new RecycleBinItem(folder.FolderRelativeId)
                     {
                         PrimaryItemAttribute = StorageItemTypes.Folder,
                         ItemNameRaw = folder.DisplayName,
@@ -187,7 +208,7 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
                 }
                 else
                 {
-                    return new ListedItem(folder.FolderRelativeId, dateReturnFormat)
+                    return new ListedItem(folder.FolderRelativeId)
                     {
                         PrimaryItemAttribute = StorageItemTypes.Folder,
                         ItemNameRaw = folder.DisplayName,
@@ -210,7 +231,6 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
         public static async Task<ListedItem> AddFileAsync(
             BaseStorageFile file,
             StorageFolderWithPath currentStorageFolder,
-            string dateReturnFormat,
             CancellationToken cancellationToken
         )
         {
@@ -231,13 +251,8 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
                 return null;
             }
 
-            if (file.Name.EndsWith(".lnk", StringComparison.Ordinal) || file.Name.EndsWith(".url", StringComparison.Ordinal))
-            {
-                // This shouldn't happen, StorageFile api does not support shortcuts
-                Debug.WriteLine("Something strange: StorageFile api returned a shortcut");
-            }
             // TODO: is this needed to be handled here?
-            else if (App.LibraryManager.TryGetLibrary(file.Path, out LibraryLocationItem library))
+            if (App.LibraryManager.TryGetLibrary(file.Path, out LibraryLocationItem library))
             {
                 return new LibraryItem(library)
                 {
@@ -247,9 +262,35 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
             }
             else
             {
-                if (file is BinStorageFile binFile)
+                if (file is ShortcutStorageFile linkFile)
                 {
-                    return new RecycleBinItem(file.FolderRelativeId, dateReturnFormat)
+                    var isUrl = linkFile.Name.EndsWith(".url", StringComparison.OrdinalIgnoreCase);
+                    return new ShortcutItem(file.FolderRelativeId)
+                    {
+                        PrimaryItemAttribute = StorageItemTypes.File,
+                        FileExtension = itemFileExtension,
+                        IsHiddenItem = false,
+                        Opacity = 1,
+                        FileImage = null,
+                        LoadFileIcon = itemThumbnailImgVis,
+                        LoadWebShortcutGlyph = isUrl,
+                        ItemNameRaw = itemName,
+                        ItemDateModifiedReal = itemModifiedDate,
+                        ItemDateCreatedReal = itemCreatedDate,
+                        ItemType = itemType,
+                        ItemPath = itemPath,
+                        FileSize = itemSize,
+                        FileSizeBytes = (long)itemSizeBytes,
+                        TargetPath = linkFile.TargetPath,
+                        Arguments = linkFile.Arguments,
+                        WorkingDirectory = linkFile.WorkingDirectory,
+                        RunAsAdmin = linkFile.RunAsAdmin,
+                        IsUrl = isUrl,
+                    };
+                }
+                else if (file is BinStorageFile binFile)
+                {
+                    return new RecycleBinItem(file.FolderRelativeId)
                     {
                         PrimaryItemAttribute = StorageItemTypes.File,
                         FileExtension = itemFileExtension,
@@ -270,7 +311,7 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
                 }
                 else
                 {
-                    return new ListedItem(file.FolderRelativeId, dateReturnFormat)
+                    return new ListedItem(file.FolderRelativeId)
                     {
                         PrimaryItemAttribute = StorageItemTypes.File,
                         FileExtension = itemFileExtension,

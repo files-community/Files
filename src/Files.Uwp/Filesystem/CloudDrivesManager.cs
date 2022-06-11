@@ -1,5 +1,4 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Backend.Services.Settings;
 using Files.Shared;
 using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Uwp.Filesystem.Cloud;
@@ -17,7 +16,6 @@ namespace Files.Uwp.Filesystem
     public class CloudDrivesManager
     {
         private readonly ILogger logger = Ioc.Default.GetService<ILogger>();
-        private readonly IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
 
         public EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
 
@@ -33,13 +31,8 @@ namespace Files.Uwp.Filesystem
             }
         }
 
-        public async Task EnumerateDrivesAsync()
+        public async Task UpdateDrivesAsync()
         {
-            if (!userSettingsService.AppearanceSettingsService.ShowCloudDrivesSection)
-            {
-                return;
-            }
-
             var cloudProviderController = new CloudProviderController();
             var cloudProviders = await cloudProviderController.DetectInstalledCloudProvidersAsync();
 
@@ -59,7 +52,7 @@ namespace Files.Uwp.Filesystem
                     ShowShellItems = true,
                     ShowProperties = true,
                 };
-                var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(provider.SyncFolder, 24);
+                var iconData = provider.IconData ?? await FileThumbnailHelper.LoadIconWithoutOverlayAsync(provider.SyncFolder, 24);
                 if (iconData is not null)
                 {
                     cloudProviderItem.IconData = iconData;

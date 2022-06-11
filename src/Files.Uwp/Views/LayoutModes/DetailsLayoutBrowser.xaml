@@ -56,9 +56,10 @@
                 BasedOn="{StaticResource DefaultGridSplitterStyle}"
                 TargetType="controls:GridSplitter">
                 <Setter Property="Background" Value="Transparent" />
-                <Setter Property="Width" Value="1" />
+                <Setter Property="Width" Value="12" />
                 <Setter Property="Margin" Value="0,4,0,4" />
                 <Setter Property="Opacity" Value="0.8" />
+                <Setter Property="Canvas.ZIndex" Value="1" />
             </Style>
 
             <Style TargetType="ListViewHeaderItem">
@@ -151,6 +152,7 @@
 
             <Style TargetType="uc:DataGridHeader">
                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                <Setter Property="Margin" Value="-4,0" />
             </Style>
 
             <Style
@@ -250,6 +252,10 @@
                                 PointerPressed="Grid_PointerPressed">
                                 <Grid.ContextFlyout>
                                     <MenuFlyout>
+                                        <MenuFlyoutItem
+                                            Click="SizeAllColumnsToFit_Click"
+                                            Text="{helpers:ResourceString Name=SizeAllColumnsToFit}" />
+                                        <MenuFlyoutSeparator />
                                         <ToggleMenuFlyoutItem
                                             Click="ToggleMenuFlyoutItem_Click"
                                             IsChecked="{x:Bind ColumnsViewModel.TagColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"

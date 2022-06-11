@@ -14,7 +14,8 @@ namespace Files.Uwp.Filesystem.Cloud
                 new DropBoxCloudProvider(),
                 new BoxCloudProvider(),
                 new AppleCloudProvider(),
-                new GenericCloudProvider()
+                new GenericCloudProvider(),
+                new SynologyDriveCloudProvider()
             };
 
         public async Task<List<CloudProvider>> DetectInstalledCloudProvidersAsync()

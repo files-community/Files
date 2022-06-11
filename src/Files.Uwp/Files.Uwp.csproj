@@ -57,6 +57,18 @@
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sideload|x86'">
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;DISABLE_XAML_GENERATED_MAIN;SIDELOAD</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|arm64'">
     <DebugSymbols>true</DebugSymbols>
     <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWS_UWP;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
@@ -82,6 +94,18 @@
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sideload|arm64'">
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;DISABLE_XAML_GENERATED_MAIN;SIDELOAD</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>arm64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
     <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWS_UWP;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
@@ -97,6 +121,18 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sideload|x64'">
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;DISABLE_XAML_GENERATED_MAIN;SIDELOAD</DefineConstants>
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -141,7 +177,6 @@
     <Compile Include="Converters\WidthToRightMargin.cs" />
     <Compile Include="Converters\UInt32ToString.cs" />
     <Compile Include="Converters\VisibilityInvertConverter.cs" />
-    <Compile Include="Converters\LayoutModeToBoolConverter.cs" />
     <Compile Include="DataModels\NavigationControlItems\FileTagItem.cs" />
     <Compile Include="DataModels\NavigationControlItems\WslDistroItem.cs" />
     <Compile Include="Extensions\ShellNewEntryExtensions.cs" />
@@ -159,14 +194,13 @@
     </Compile>
     <Compile Include="EventArguments\Bundles\BundlesOpenPathEventArgs.cs" />
     <Compile Include="EventArguments\LayoutPreferenceEventArgs.cs" />
-    <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\ImageSourceExtensions.cs" />
     <Compile Include="Extensions\KeyboardAcceleratorExtensions.cs" />
+    <Compile Include="Filesystem\Cloud\Providers\SynologyDriveCloudProvider.cs" />
     <Compile Include="Filesystem\FilesystemOperations\ShellFilesystemOperations.cs" />
     <Compile Include="Filesystem\FileTagsHelper.cs" />
     <Compile Include="Filesystem\FileTagsManager.cs" />
-    <Compile Include="Filesystem\FolderSizeProvider.cs" />
     <Compile Include="Filesystem\FtpManager.cs" />
     <Compile Include="Filesystem\Permissions\FilePermissionsManager.cs" />
     <Compile Include="Filesystem\Permissions\FileSystemAccessRule.cs" />
@@ -196,6 +230,7 @@
     <Compile Include="Helpers\CommonPaths.cs" />
     <Compile Include="Helpers\FileExtensionHelpers.cs" />
     <Compile Include="Helpers\ItemListDisplayHelpers\BlockingListEnumerator.cs" />
+    <Compile Include="Helpers\KnownTypesBinder.cs" />
     <Compile Include="Helpers\LocalizedEnumHelper.cs" />
     <Compile Include="Helpers\ResourceHelpers.cs" />
     <Compile Include="Helpers\FtpHelpers.cs" />
@@ -248,6 +283,12 @@
     <Compile Include="Serialization\Implementation\DefaultSettingsSerializer.cs" />
     <Compile Include="Serialization\ISettingsSerializer.cs" />
     <Compile Include="Serialization\ISettingsSharingContext.cs" />
+    <Compile Include="ServicesImplementation\DateTimeFormatter\AbstractDateTimeFormatter.cs" />
+    <Compile Include="ServicesImplementation\DateTimeFormatter\ApplicationDateTimeFormatter.cs" />
+    <Compile Include="ServicesImplementation\DateTimeFormatter\DateTimeFormatterFactory.cs" />
+    <Compile Include="ServicesImplementation\DateTimeFormatter\UniversalDateTimeFormatter.cs" />
+    <Compile Include="ServicesImplementation\DateTimeFormatter\SystemDateTimeFormatter.cs" />
+    <Compile Include="ServicesImplementation\DateTimeFormatter\UserDateTimeFormatter.cs" />
     <Compile Include="ServicesImplementation\DialogService.cs" />
     <Compile Include="ServicesImplementation\ImagingService.cs" />
     <Compile Include="ServicesImplementation\LocalizationService.cs" />
@@ -260,8 +301,11 @@
     <Compile Include="ServicesImplementation\Settings\PaneSettingsService.cs" />
     <Compile Include="ServicesImplementation\Settings\UserSettingsService.cs" />
     <Compile Include="ServicesImplementation\Settings\WidgetsSettingsService.cs" />
+    <Compile Include="ServicesImplementation\SideloadUpdateService.cs" />
     <Compile Include="ServicesImplementation\ThreadingService.cs" />
     <Compile Include="ServicesImplementation\UpdateService.cs" />
+    <Compile Include="ServicesImplementation\UserSizeProvider.cs" />
+    <Compile Include="ServicesImplementation\VolumeInfoFactory.cs" />
     <Compile Include="TemplateSelectors\BaseTemplateSelector.cs" />
     <Compile Include="TemplateSelectors\FileSystemDialogItemSelector.cs" />
     <Compile Include="UserControls\ColoredIcon.xaml.cs">
@@ -442,7 +486,6 @@
     <Compile Include="Helpers\JumpListManager.cs" />
     <Compile Include="Helpers\NativeDirectoryChangesHelper.cs" />
     <Compile Include="Helpers\NativeFileOperationsHelper.cs" />
-    <Compile Include="Helpers\NativeFindStorageItemHelper.cs" />
     <Compile Include="Helpers\NativeIoDeviceControlHelper.cs" />
     <Compile Include="Helpers\NativeWinApiHelper.cs" />
     <Compile Include="Helpers\NaturalStringComparer.cs" />
@@ -453,7 +496,6 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Helpers\ItemListDisplayHelpers\BulkConcurrentObservableCollection.cs" />
     <Compile Include="Helpers\ThemeHelper.cs" />
-    <Compile Include="Extensions\Win32FindDataExtensions.cs" />
     <Compile Include="Interacts\RemovableDevice.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="IAddressToolbar.cs" />
@@ -1003,6 +1045,7 @@
     <Content Include="Assets\AppTilesDev\Wide310x150Logo.scale-400.png" />
     <Content Include="Assets\error.png" />
     <Content Include="Assets\FluentIcons\CloudDrive.png" />
+    <Content Include="Assets\FluentIcons\Favorites.png" />
     <Content Include="Assets\FluentIcons\FileTags.png" />
     <Content Include="Assets\FluentIcons\Home.png" />
     <Content Include="Assets\FolderIcon2.svg" />
@@ -1156,6 +1199,10 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Themes\Middle Blue.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Themes\Nightshade.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Content>
@@ -1497,7 +1544,7 @@
       <Version>2.1.1</Version>
     </PackageReference>
     <PackageReference Include="CommunityToolkit.Mvvm">
-      <Version>8.0.0-preview3</Version>
+      <Version>8.0.0-preview4</Version>
     </PackageReference>
     <PackageReference Include="FluentFTP">
       <Version>36.1.0</Version>
@@ -1512,7 +1559,7 @@
       <Version>4.5.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Data.Sqlite.Core">
-      <Version>6.0.4</Version>
+      <Version>6.0.5</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection">
       <Version>6.0.0</Version>
@@ -1539,7 +1586,7 @@
       <Version>7.1.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.8.0-prerelease.220413001</Version>
+      <Version>2.8.0-prerelease.220601001</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed">
       <Version>2.0.1</Version>
@@ -1551,7 +1598,7 @@
       <Version>1.3.4</Version>
     </PackageReference>
     <PackageReference Include="SQLitePCLRaw.bundle_green">
-      <Version>2.0.7</Version>
+      <Version>2.1.0</Version>
     </PackageReference>
     <PackageReference Include="Ude.NetStandard">
       <Version>1.2.0</Version>
@@ -1621,6 +1668,64 @@
   <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '17.0' ">
     <VisualStudioVersion>17.0</VisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sideload|x86'">
+    <OutputPath>bin\x86\Sideload\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;DISABLE_XAML_GENERATED_MAIN;SIDELOAD;CODE_ANALYSIS</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <LangVersion>9.0</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sideload|arm64'">
+    <OutputPath>bin\arm64\Sideload\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;DISABLE_XAML_GENERATED_MAIN;SIDELOAD;CODE_ANALYSIS</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>arm64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <LangVersion>9.0</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sideload|x64'">
+    <OutputPath>bin\x64\Sideload\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;DISABLE_XAML_GENERATED_MAIN;SIDELOAD;CODE_ANALYSIS</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <LangVersion>9.0</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sideload|Win32'">
+    <OutputPath>bin\Win32\Sideload\</OutputPath>
+    <DefineConstants>;CODE_ANALYSIS</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <LangVersion>9.0</LangVersion>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sideload|AnyCPU'">
+    <OutputPath>bin\Sideload\</OutputPath>
+    <DefineConstants>;CODE_ANALYSIS</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <LangVersion>9.0</LangVersion>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.PriResources.targets" Label="MultilingualAppToolkit" Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\v$(MultilingualAppToolkitVersion)\Microsoft.Multilingual.PriResources.targets')" />

@@ -522,9 +522,6 @@
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>Bidragydere</value>
   </data>
-  <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
-    <value>Udgivelsesnoter</value>
-  </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>Emnet er enten ugyldig eller utilgængelig. {0} Fejlmeddelelse: {0} {1}</value>
   </data>
@@ -783,9 +780,6 @@
   <data name="PropertyContentDistributor" xml:space="preserve">
     <value>Indholdsdistributør</value>
   </data>
-  <data name="PropertyDateReleased" xml:space="preserve">
-    <value>Udgivelsesdato</value>
-  </data>
   <data name="PropertySeriesName" xml:space="preserve">
     <value>Serienavn</value>
   </data>
@@ -986,9 +980,6 @@
   </data>
   <data name="SettingsAboutContributorsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Se, hvem der har bidraget til Files</value>
-  </data>
-  <data name="SettingsAboutReleaseNotesListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Find ud af, hvad der er nyt i Files</value>
   </data>
   <data name="SettingsAboutSubmitFeedbackListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Send udviklerne en problemrapport med detaljerede oplysninger</value>
@@ -1758,7 +1749,226 @@
   <data name="FileTagUnknown" xml:space="preserve">
     <value>Ukendt</value>
   </data>
+  <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
+    <value>Mærke</value>
+  </data>
+  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+    <value>Rediger tags</value>
+  </data>
+  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
+    <value>Aktivér mærker</value>
+  </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>Indsæt en disk</value>
+  </data>
+  <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
+    <value>Anvend på alle</value>
+  </data>
+  <data name="PropertyPartOfSet" xml:space="preserve">
+    <value>Del af sæt</value>
+  </data>
+  <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Vælg</value>
+  </data>
+  <data name="AskCredentialDialog.Title" xml:space="preserve">
+    <value>Legitimationsoplysninger er påkrævet</value>
+  </data>
+  <data name="CredentialDialogAnonymous.Content" xml:space="preserve">
+    <value>Anonym</value>
+  </data>
+  <data name="CredentialDialogPassword.PlaceholderText" xml:space="preserve">
+    <value>Adgangskode</value>
+  </data>
+  <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
+    <value>Brugernavn</value>
+  </data>
+  <data name="NoSearchResultsFound" xml:space="preserve">
+    <value>Der blev ikke fundet nogen elementer</value>
+  </data>
+  <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
+    <value>Vis filtypenavne</value>
+  </data>
+  <data name="NavToolbarShowFileExtensions.AutomationProperties.Name" xml:space="preserve">
+    <value>Vis filtypenavne</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>Sprog</value>
+  </data>
+  <data name="SideBarFavoritesMoveToBottom" xml:space="preserve">
+    <value>Flyt til bunden</value>
+  </data>
+  <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
+    <value>Flyt til toppen</value>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>Mærke</value>
+  </data>
+  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
+    <value>Sti til mappen</value>
+  </data>
+  <data name="ExportSettings" xml:space="preserve">
+    <value>Indstillinger for eksport</value>
+  </data>
+  <data name="ImportSettings" xml:space="preserve">
+    <value>Indstillinger for import</value>
+  </data>
+  <data name="ManageSettings" xml:space="preserve">
+    <value>Administrer indstillinger</value>
+  </data>
+  <data name="Customization" xml:space="preserve">
+    <value>Tilpasning</value>
+  </data>
+  <data name="RestoreDefault" xml:space="preserve">
+    <value>Gendan standard</value>
+  </data>
+  <data name="Compatibility" xml:space="preserve">
+    <value>Kompatibilitet</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>Ingen</value>
+  </data>
+  <data name="HighDpiOverride_System" xml:space="preserve">
+    <value>Sys</value>
+  </data>
+  <data name="Windows7" xml:space="preserve">
+    <value>Windows 7</value>
+  </data>
+  <data name="Windows8" xml:space="preserve">
+    <value>Windows 8</value>
+  </data>
+  <data name="OSCompatibility_WindowsVista" xml:space="preserve">
+    <value>Windows Vista</value>
+  </data>
+  <data name="CompatibilityMode" xml:space="preserve">
+    <value>Kompatibilitetstilstand</value>
+  </data>
+  <data name="DisableFullscreenOptimizations" xml:space="preserve">
+    <value>Deaktiver fuldskærmsoptimeringer</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Indstillinger</value>
+  </data>
+  <data name="ReducedColorMode" xml:space="preserve">
+    <value>Reduceret farvetilstand</value>
+  </data>
+  <data name="RunAsAdministrator" xml:space="preserve">
+    <value>Kør som administrator</value>
+  </data>
+  <data name="RunCompatibilityTroubleShooter" xml:space="preserve">
+    <value>Kør fejlfindingsværktøjet Programkompatibilitet</value>
+  </data>
+  <data name="EmptyRecycleBin" xml:space="preserve">
+    <value>Tøm Papirkurv</value>
+  </data>
+  <data name="Sidebar" xml:space="preserve">
+    <value>Sidepanel</value>
+  </data>
+  <data name="FilesAndFolders" xml:space="preserve">
+    <value>Filer og mapper</value>
+  </data>
+  <data name="ClearAll" xml:space="preserve">
+    <value>Ryd alle</value>
+  </data>
+  <data name="Columns" xml:space="preserve">
+    <value>Kolonner</value>
+  </data>
+  <data name="LargeIcons" xml:space="preserve">
+    <value>Store ikoner</value>
+  </data>
+  <data name="MediumIcons" xml:space="preserve">
+    <value>Mellemstore ikoner</value>
+  </data>
+  <data name="SmallIcons" xml:space="preserve">
+    <value>Små ikoner</value>
+  </data>
+  <data name="Tiles" xml:space="preserve">
+    <value>Felter</value>
+  </data>
+  <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
+    <value>Opret bibliotek</value>
+  </data>
+  <data name="Skip" xml:space="preserve">
+    <value>Spring over</value>
+  </data>
+  <data name="Attributes" xml:space="preserve">
+    <value>Attributter</value>
+  </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>Skjult</value>
+  </data>
+  <data name="MoreDetails" xml:space="preserve">
+    <value>Flere oplysninger</value>
+  </data>
+  <data name="ReadOnly" xml:space="preserve">
+    <value>Skrivebeskyttet</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Filtype:</value>
+  </data>
+  <data name="Bytes" xml:space="preserve">
+    <value>Byte</value>
+  </data>
+  <data name="Extract" xml:space="preserve">
+    <value>Pak ud</value>
+  </data>
+  <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+E</value>
+  </data>
+  <data name="RunScript" xml:space="preserve">
+    <value>Kør script</value>
+  </data>
+  <data name="SetAsBackground" xml:space="preserve">
+    <value>Anvend som skrivebordsbaggrund</value>
+  </data>
+  <data name="OpenIn" xml:space="preserve">
+    <value>Åbnet i</value>
+  </data>
+  <data name="RotateLeft" xml:space="preserve">
+    <value>Roter til venstre</value>
+  </data>
+  <data name="RotateRight" xml:space="preserve">
+    <value>Roter til højre</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Installer</value>
+  </data>
+  <data name="CloseTabsToTheRight" xml:space="preserve">
+    <value>Luk faner til højre</value>
+  </data>
+  <data name="CloseOtherTabs" xml:space="preserve">
+    <value>Luk andre faner</value>
+  </data>
+  <data name="Music" xml:space="preserve">
+    <value>Musik</value>
+  </data>
+  <data name="Pictures" xml:space="preserve">
+    <value>Billeder</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>Videoer</value>
+  </data>
+  <data name="UpdateFiles" xml:space="preserve">
+    <value>Opdater filer</value>
+  </data>
+  <data name="StatusCopyFailed" xml:space="preserve">
+    <value>Kopiering mislykkedes</value>
+  </data>
+  <data name="StatusMoveFailed" xml:space="preserve">
+    <value>Blev ikke flyttet.</value>
+  </data>
+  <data name="FileTags" xml:space="preserve">
+    <value>Mærker</value>
+  </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>Sys</value>
+  </data>
+  <data name="Universal" xml:space="preserve">
+    <value>Universel</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
+    <value>Vis miniaturer</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Prøv igen</value>
   </data>
 </root>

@@ -2603,4 +2603,25 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
   <data name="PrepareInProgress" xml:space="preserve">
     <value>Przygotowywanie elementów</value>
   </data>
+  <data name="StatusCopyFailed" xml:space="preserve">
+    <value>Kopiowanie nie powiodło się.</value>
+  </data>
+  <data name="StatusMoveFailed" xml:space="preserve">
+    <value>Przenoszenie nie powiodło się.</value>
+  </data>
+  <data name="FileTags" xml:space="preserve">
+    <value>Tagi</value>
+  </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>Systemowy</value>
+  </data>
+  <data name="Universal" xml:space="preserve">
+    <value>Uniwersalny</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
+    <value>Pokaż miniatury</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Spróbuj ponownie</value>
+  </data>
 </root>

@@ -1,14 +1,17 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services;
 using Files.Backend.Services.Settings;
+using Files.Backend.Services.SizeProvider;
 using Files.Shared;
 using Files.Shared.Extensions;
+using Files.Shared.Services.DateTimeFormatter;
 using Files.Uwp.CommandLine;
 using Files.Uwp.Controllers;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Filesystem.FilesystemHistory;
 using Files.Uwp.Helpers;
 using Files.Uwp.ServicesImplementation;
+using Files.Uwp.ServicesImplementation.DateTimeFormatter;
 using Files.Uwp.ServicesImplementation.Settings;
 using Files.Uwp.UserControls.MultitaskingControl;
 using Files.Uwp.ViewModels;
@@ -120,12 +123,19 @@ namespace Files.Uwp
                 .AddSingleton<IImagingService, ImagingService>()
                 .AddSingleton<IThreadingService, ThreadingService>()
                 .AddSingleton<ILocalizationService, LocalizationService>()
+#if SIDELOAD
+                .AddSingleton<IUpdateService, SideloadUpdateService>()
+#else
                 .AddSingleton<IUpdateService, UpdateService>()
+#endif
+                .AddSingleton<IDateTimeFormatterFactory, DateTimeFormatterFactory>()
+                .AddSingleton<IDateTimeFormatter, UserDateTimeFormatter>()
+                .AddSingleton<IVolumeInfoFactory, VolumeInfoFactory>()
 
                 // TODO(i): FileSystem operations:
                 // (IFilesystemHelpersService, IFilesystemOperationsService)
                 // (IStorageEnumerator, IFallbackStorageEnumerator)
-                .AddSingleton<IFolderSizeProvider, FolderSizeProvider>()
+                .AddSingleton<ISizeProvider, UserSizeProvider>()
 
                 ; // End of service configuration
 
@@ -176,18 +186,19 @@ namespace Files.Uwp
         private static async Task InitializeAppComponentsAsync()
         {
             var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+            var appearanceSettingsService = userSettingsService.AppearanceSettingsService;
 
             // Start off a list of tasks we need to run before we can continue startup
             await Task.Run(async () =>
             {
                 await Task.WhenAll(
                     StartAppCenter(),
-                    DrivesManager.EnumerateDrivesAsync(),
-                    CloudDrivesManager.EnumerateDrivesAsync(),
-                    LibraryManager.EnumerateLibrariesAsync(),
-                    NetworkDrivesManager.EnumerateDrivesAsync(),
-                    WSLDistroManager.EnumerateDrivesAsync(),
-                    FileTagsManager.EnumerateFileTagsAsync(),
+                    DrivesManager.UpdateDrivesAsync(),
+                    OptionalTask(CloudDrivesManager.UpdateDrivesAsync(), appearanceSettingsService.ShowCloudDrivesSection),
+                    LibraryManager.UpdateLibrariesAsync(),
+                    OptionalTask(NetworkDrivesManager.UpdateDrivesAsync(), appearanceSettingsService.ShowNetworkDrivesSection),
+                    OptionalTask(WSLDistroManager.UpdateDrivesAsync(), appearanceSettingsService.ShowWslSection),
+                    OptionalTask(FileTagsManager.UpdateFileTagsAsync(), appearanceSettingsService.ShowFileTagsSection),
                     SidebarPinnedController.InitializeAsync()
                 );
                 await Task.WhenAll(
@@ -205,6 +216,14 @@ namespace Files.Uwp
             var updateService = Ioc.Default.GetRequiredService<IUpdateService>();
             await updateService.CheckForUpdates();
             await updateService.DownloadMandatoryUpdates();
+
+            static async Task OptionalTask(Task task, bool condition)
+            {
+                if (condition)
+                {
+                    await task;
+                }
+            }
         }
 
         private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)

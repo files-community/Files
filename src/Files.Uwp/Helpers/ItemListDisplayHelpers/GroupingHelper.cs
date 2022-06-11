@@ -1,4 +1,6 @@
-﻿using Files.Shared.Enums;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Shared.Enums;
+using Files.Shared.Services.DateTimeFormatter;
 using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem;
 using Microsoft.Toolkit.Uwp;
@@ -10,19 +12,21 @@ namespace Files.Uwp.Helpers
 {
     public static class GroupingHelper
     {
+        private static readonly IDateTimeFormatter dateTimeFormatter = Ioc.Default.GetService<IDateTimeFormatter>();
+
         public static Func<ListedItem, string> GetItemGroupKeySelector(GroupOption option)
         {
             return option switch
             {
                 GroupOption.Name => x => new string(x.ItemName.Take(1).ToArray()).ToUpperInvariant(),
                 GroupOption.Size => x => x.PrimaryItemAttribute != StorageItemTypes.Folder ? GetGroupSizeKey(x.FileSizeBytes) : x.FileSizeDisplay,
-                GroupOption.DateCreated => x => x.ItemDateCreatedReal.GetUserSettingsFriendlyTimeSpan().text,
-                GroupOption.DateModified => x => x.ItemDateModifiedReal.GetUserSettingsFriendlyTimeSpan().text,
+                GroupOption.DateCreated => x => dateTimeFormatter.ToTimeSpanLabel(x.ItemDateCreatedReal).Text,
+                GroupOption.DateModified => x => dateTimeFormatter.ToTimeSpanLabel(x.ItemDateModifiedReal).Text,
                 GroupOption.FileType => x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsShortcutItem ? x.ItemType : x.FileExtension?.ToLowerInvariant() ?? " ",
                 GroupOption.SyncStatus => x => x.SyncStatusString,
                 GroupOption.FileTag => x => x.FileTag,
                 GroupOption.OriginalFolder => x => (x as RecycleBinItem)?.ItemOriginalFolder,
-                GroupOption.DateDeleted => x => (x as RecycleBinItem)?.ItemDateDeletedReal.GetUserSettingsFriendlyTimeSpan().text,
+                GroupOption.DateDeleted => x => dateTimeFormatter.ToTimeSpanLabel((x as RecycleBinItem)?.ItemDateDeletedReal ?? DateTimeOffset.Now).Text,
                 GroupOption.FolderPath => x => PathNormalization.GetParentDir(x.ItemPath.TrimPath()),
                 _ => null,
             };
@@ -68,17 +72,17 @@ namespace Files.Uwp.Helpers
                 }, null),
                 GroupOption.DateCreated => (x =>
                 {
-                    var vals = x.First().ItemDateCreatedReal.GetUserSettingsFriendlyTimeSpan();
-                    x.Model.Subtext = vals.range;
-                    x.Model.Icon = vals.glyph;
-                    x.Model.SortIndexOverride = vals.index;
+                    var vals = dateTimeFormatter.ToTimeSpanLabel(x.First().ItemDateCreatedReal);
+                    x.Model.Subtext = vals.Text;
+                    x.Model.Icon = vals.Glyph;
+                    x.Model.SortIndexOverride = vals.Index;
                 }, null),
                 GroupOption.DateModified => (x =>
                     {
-                        var vals = x.First().ItemDateModifiedReal.GetUserSettingsFriendlyTimeSpan();
-                        x.Model.Subtext = vals.range;
-                        x.Model.Icon = vals.glyph;
-                        x.Model.SortIndexOverride = vals.index;
+                        var vals = dateTimeFormatter.ToTimeSpanLabel(x.First().ItemDateModifiedReal);
+                        x.Model.Subtext = vals.Text;
+                        x.Model.Icon = vals.Glyph;
+                        x.Model.SortIndexOverride = vals.Index;
                     }, null),
 
                 GroupOption.SyncStatus => (x =>
@@ -99,10 +103,10 @@ namespace Files.Uwp.Helpers
 
                 GroupOption.DateDeleted => (x =>
                     {
-                        var vals = (x.First() as RecycleBinItem)?.ItemDateDeletedReal.GetUserSettingsFriendlyTimeSpan() ?? null;
-                        x.Model.Subtext = vals?.range;
-                        x.Model.Icon = vals?.glyph;
-                        x.Model.SortIndexOverride = vals?.index ?? 0;
+                        var vals = dateTimeFormatter.ToTimeSpanLabel((x.First() as RecycleBinItem)?.ItemDateDeletedReal ?? DateTimeOffset.Now);
+                        x.Model.Subtext = vals?.Text;
+                        x.Model.Icon = vals?.Glyph;
+                        x.Model.SortIndexOverride = vals?.Index ?? 0;
                     }, null),
 
                 GroupOption.OriginalFolder => (x =>
