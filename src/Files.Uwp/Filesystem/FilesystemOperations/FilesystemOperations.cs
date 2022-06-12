@@ -247,16 +247,8 @@ namespace Files.Uwp.Filesystem
                     if (fsResult)
                     {
                         var file = (BaseStorageFile)sourceResult;
-                        var fsResultCopy = new FilesystemResult<BaseStorageFile>(null, FileSystemStatusCode.Generic);
-                        if (string.IsNullOrEmpty(file.Path) && collision != NameCollisionOption.ReplaceExisting)
-                        {
-                            // Microsoft bug! When dragging files from .zip, "GenerateUniqueName" option is not respected and the file gets overwritten
-                            fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(destinationResult.Result, Path.GetFileName(file.Name), NameCollisionOption.FailIfExists).AsTask());
-                        }
-                        else
-                        {
-                            fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(destinationResult.Result, Path.GetFileName(file.Name), collision).AsTask());
-                        }
+
+                        var fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(destinationResult.Result, Path.GetFileName(file.Name), collision).AsTask(cancellationToken));
 
                         if (fsResultCopy == FileSystemStatusCode.AlreadyExists)
                         {
