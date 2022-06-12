@@ -122,6 +122,15 @@ namespace Files.FullTrust
             }
         }
 
+        /// <summary>
+        /// Gets the associated full application name with a given file (filetype).
+        /// </summary>
+        /// <param name="fileName">The name of the file.</param>
+        /// <returns>
+        /// A <see cref="string"/> representing the application name. If no associated
+        /// application, returns "Pick an application"
+        /// </returns>
+        /// <exception cref="ArgumentNullException">Thrown if fileName is empty or null.</exception>
         public static string GetFileAssociationName(string fileName)
         {
             if (string.IsNullOrEmpty(fileName))
@@ -137,14 +146,14 @@ namespace Files.FullTrust
                 return null;
             }
 
-            if (ShlwApi.AssocQueryString(ShlwApi.ASSOCF.ASSOCF_VERIFY | ShlwApi.ASSOCF.ASSOCF_INIT_IGNOREUNKNOWN,
+            if (ShlwApi.AssocQueryString(ShlwApi.ASSOCF.ASSOCF_VERIFY,
                     ShlwApi.ASSOCSTR.ASSOCSTR_FRIENDLYAPPNAME, fileExt, null, null, ref cOut) != 1)
             {
                 return null;
             }
 
             StringBuilder pOut = new StringBuilder((int)cOut);
-            if (ShlwApi.AssocQueryString(ShlwApi.ASSOCF.ASSOCF_VERIFY | ShlwApi.ASSOCF.ASSOCF_INIT_IGNOREUNKNOWN,
+            if (ShlwApi.AssocQueryString(ShlwApi.ASSOCF.ASSOCF_VERIFY,
                     ShlwApi.ASSOCSTR.ASSOCSTR_FRIENDLYAPPNAME, fileExt, null, pOut, ref cOut) != 0)
             {
                 return null;
