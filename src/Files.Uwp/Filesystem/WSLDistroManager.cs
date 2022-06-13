@@ -1,6 +1,4 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Backend.Services.Settings;
-using Files.Uwp.DataModels.NavigationControlItems;
+﻿using Files.Uwp.DataModels.NavigationControlItems;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -12,8 +10,6 @@ namespace Files.Uwp.Filesystem
 {
     public class WSLDistroManager
     {
-        private readonly IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
-
         public EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
 
         private readonly List<WslDistroItem> distros = new();
@@ -28,13 +24,8 @@ namespace Files.Uwp.Filesystem
             }
         }
 
-        public async Task EnumerateDrivesAsync()
+        public async Task UpdateDrivesAsync()
         {
-            if (!userSettingsService.AppearanceSettingsService.ShowWslSection)
-            {
-                return;
-            }
-
             try
             {
                 var distroFolder = await StorageFolder.GetFolderFromPathAsync(@"\\wsl$\");

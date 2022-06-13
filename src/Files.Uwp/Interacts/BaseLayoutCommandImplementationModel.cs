@@ -110,9 +110,28 @@ namespace Files.Uwp.Interacts
             WallpaperHelpers.SetAsBackground(WallpaperType.LockScreen, SlimContentPage.SelectedItem.ItemPath, associatedInstance);
         }
 
-        public virtual void SetAsDesktopBackgroundItem(RoutedEventArgs e)
+        public virtual async void SetAsDesktopBackgroundItem(RoutedEventArgs e)
         {
-            WallpaperHelpers.SetAsBackground(WallpaperType.Desktop, SlimContentPage.SelectedItem.ItemPath, associatedInstance);
+            if (SlimContentPage.SelectedItems.Count > 1)
+            {
+                var images = (from o in SlimContentPage.SelectedItems select o.ItemPath).ToArray();
+
+                var connection = await AppServiceConnectionHelper.Instance;
+                if (connection != null)
+                {
+                    var value = new ValueSet
+                    {
+                        { "Arguments", "WallpaperOperation" },
+                        { "wallpaperop", "SetSlideshow" },
+                        { "filepaths", images }
+                    };
+                    await connection.SendMessageAsync(value);
+                }
+            }
+            else
+            {
+                WallpaperHelpers.SetAsBackground(WallpaperType.Desktop, SlimContentPage.SelectedItem.ItemPath, associatedInstance);
+            }
         }
 
         public virtual async void RunAsAdmin(RoutedEventArgs e)
@@ -805,15 +824,23 @@ namespace Files.Uwp.Interacts
 
         public async Task RotateImageLeft()
         {
-            await BitmapHelper.Rotate(PathNormalization.NormalizePath(SlimContentPage?.SelectedItems.First().ItemPath), BitmapRotation.Clockwise270Degrees);
-            SlimContentPage?.ItemManipulationModel.RefreshItemsThumbnail();
+            foreach (var image in SlimContentPage.SelectedItems)
+            {
+                await BitmapHelper.Rotate(PathNormalization.NormalizePath(image.ItemPath), BitmapRotation.Clockwise270Degrees);
+            }
+
+            SlimContentPage.ItemManipulationModel.RefreshItemsThumbnail();
             App.PreviewPaneViewModel.UpdateSelectedItemPreview();
         }
 
         public async Task RotateImageRight()
         {
-            await BitmapHelper.Rotate(PathNormalization.NormalizePath(SlimContentPage?.SelectedItems.First().ItemPath), BitmapRotation.Clockwise90Degrees);
-            SlimContentPage?.ItemManipulationModel.RefreshItemsThumbnail();
+            foreach (var image in SlimContentPage.SelectedItems)
+            {
+                await BitmapHelper.Rotate(PathNormalization.NormalizePath(image.ItemPath), BitmapRotation.Clockwise90Degrees);
+            }
+
+            SlimContentPage.ItemManipulationModel.RefreshItemsThumbnail();
             App.PreviewPaneViewModel.UpdateSelectedItemPreview();
         }
 

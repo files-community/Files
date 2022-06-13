@@ -91,6 +91,12 @@ namespace Files.Uwp.ViewModels
             set { if (value) InstanceViewModel.FolderSettings.DirectorySortDirection = SortDirection.Descending; }
         }
 
+        public bool AreDirectoriesSortedAlongsideFiles
+        {
+            get => InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFiles;
+            set { InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFiles = value; }
+        }
+
         // Sort by
 
         public bool IsSortedByName
@@ -215,6 +221,35 @@ namespace Files.Uwp.ViewModels
             set { if (value) InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.FolderPath; OnPropertyChanged(); }
         }
 
+        public bool IsLayoutDetailsView
+            => InstanceViewModel.FolderSettings.LayoutMode == FolderLayoutModes.DetailsView && !IsLayoutAdaptive;
+
+        public bool IsLayoutTilesView
+            => InstanceViewModel.FolderSettings.LayoutMode == FolderLayoutModes.TilesView && !IsLayoutAdaptive;
+
+        public bool IsLayoutGridViewSmall
+            => InstanceViewModel.FolderSettings.LayoutMode == FolderLayoutModes.GridView 
+            && InstanceViewModel.FolderSettings.GridViewSizeKind == GridViewSizeKind.Small && !IsLayoutAdaptive;
+
+        public bool IsLayoutGridViewMedium
+            => InstanceViewModel.FolderSettings.LayoutMode == FolderLayoutModes.GridView 
+            && InstanceViewModel.FolderSettings.GridViewSizeKind == GridViewSizeKind.Medium && !IsLayoutAdaptive;
+
+        public bool IsLayoutGridViewLarge
+            => InstanceViewModel.FolderSettings.LayoutMode == FolderLayoutModes.GridView 
+            && InstanceViewModel.FolderSettings.GridViewSizeKind == GridViewSizeKind.Large && !IsLayoutAdaptive;
+
+        public bool IsLayoutColumnsView
+            => InstanceViewModel.FolderSettings.LayoutMode == FolderLayoutModes.ColumnView && !IsLayoutAdaptive;
+
+        public bool IsLayoutAdaptive
+            => InstanceViewModel.FolderSettings.IsAdaptiveLayoutEnabled
+            && !InstanceViewModel.FolderSettings.IsLayoutModeFixed
+            && IsAdaptiveLayoutEnabled;
+
+        public bool IsAdaptiveLayoutEnabled
+            => UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder;
+
         private bool canCopyPathInPage;
 
         public bool CanCopyPathInPage
@@ -312,7 +347,9 @@ namespace Files.Uwp.ViewModels
                     {
                         InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
                         InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
+                        InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFilesPreferenceUpdated -= FolderSettings_SortDirectoriesAlongsideFilesPreferenceUpdated;
                         InstanceViewModel.FolderSettings.GroupOptionPreferenceUpdated -= FolderSettings_GroupOptionPreferenceUpdated;
+                        InstanceViewModel.FolderSettings.LayoutPreferencesUpdateRequired -= FolderSettings_LayoutPreferencesUpdateRequired;
                     }
 
                     SetProperty(ref instanceViewModel, value);
@@ -321,7 +358,9 @@ namespace Files.Uwp.ViewModels
                     {
                         InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated += FolderSettings_SortDirectionPreferenceUpdated;
                         InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated += FolderSettings_SortOptionPreferenceUpdated;
+                        InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFilesPreferenceUpdated += FolderSettings_SortDirectoriesAlongsideFilesPreferenceUpdated;
                         InstanceViewModel.FolderSettings.GroupOptionPreferenceUpdated += FolderSettings_GroupOptionPreferenceUpdated;
+                        InstanceViewModel.FolderSettings.LayoutPreferencesUpdateRequired += FolderSettings_LayoutPreferencesUpdateRequired;
                     }
                 }
             }
@@ -355,6 +394,9 @@ namespace Files.Uwp.ViewModels
                     RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
                     OnPropertyChanged(e.SettingName);
                     break;
+                case nameof(UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder):
+                    FolderSettings_LayoutPreferencesUpdateRequired(null, 0);
+                    break;
             }
         }
 
@@ -379,7 +421,9 @@ namespace Files.Uwp.ViewModels
         {
             FolderSettings_SortDirectionPreferenceUpdated(null, 0);
             FolderSettings_SortOptionPreferenceUpdated(null, 0);
+            FolderSettings_SortDirectoriesAlongsideFilesPreferenceUpdated(null, true);
             FolderSettings_GroupOptionPreferenceUpdated(null, 0);
+            FolderSettings_LayoutPreferencesUpdateRequired(null, 0);
         }
 
         private void FolderSettings_SortDirectionPreferenceUpdated(object sender, SortDirection e)
@@ -401,6 +445,11 @@ namespace Files.Uwp.ViewModels
             OnPropertyChanged(nameof(IsSortedByFileTag));
         }
 
+        private void FolderSettings_SortDirectoriesAlongsideFilesPreferenceUpdated(object sender, bool e)
+        {
+            OnPropertyChanged(nameof(AreDirectoriesSortedAlongsideFiles));
+        }
+
         private void FolderSettings_GroupOptionPreferenceUpdated(object sender, GroupOption e)
         {
             OnPropertyChanged(nameof(IsGroupedByNone));
@@ -414,6 +463,18 @@ namespace Files.Uwp.ViewModels
             OnPropertyChanged(nameof(IsGroupedByDateDeleted));
             OnPropertyChanged(nameof(IsGroupedByFileTag));
             OnPropertyChanged(nameof(IsGroupedByFolderPath));
+        }
+
+        private void FolderSettings_LayoutPreferencesUpdateRequired(object sender, object args)
+        {
+            OnPropertyChanged(nameof(IsLayoutColumnsView));
+            OnPropertyChanged(nameof(IsLayoutDetailsView));
+            OnPropertyChanged(nameof(IsLayoutGridViewLarge));
+            OnPropertyChanged(nameof(IsLayoutGridViewMedium));
+            OnPropertyChanged(nameof(IsLayoutGridViewSmall));
+            OnPropertyChanged(nameof(IsLayoutTilesView));
+            OnPropertyChanged(nameof(IsLayoutAdaptive));
+            OnPropertyChanged(nameof(IsAdaptiveLayoutEnabled));
         }
 
         public void PathBoxItem_DragLeave(object sender, DragEventArgs e)
@@ -901,6 +962,11 @@ namespace Files.Uwp.ViewModels
 
         public async Task CheckPathInput(string currentInput, string currentSelectedPath, IShellPage shellPage)
         {
+            if (currentInput.Contains("/") && !FtpHelpers.IsFtpPath(currentInput))
+            {
+                currentInput = currentInput.Replace("/", "\\", StringComparison.Ordinal);
+            }
+
             currentInput = currentInput.Replace("\\\\", "\\", StringComparison.Ordinal);
 
             if (currentInput.StartsWith('\\') && !currentInput.StartsWith("\\\\", StringComparison.Ordinal))
@@ -1162,10 +1228,23 @@ namespace Files.Uwp.ViewModels
                     OnPropertyChanged(nameof(IsImage));
                     OnPropertyChanged(nameof(IsFont));
                     OnPropertyChanged(nameof(HasAdditionalAction));
+                    OnPropertyChanged(nameof(SetAsText));
                 }
             }
         }
 
+        public string SetAsText
+        {
+            get
+            {
+                if (SelectedItems is not null && SelectedItems.Count > 1 && IsImage)
+                {
+                    return "SetAsSlideshow".GetLocalized();
+                }
+
+                return "SetAsBackground".GetLocalized();
+            }
+        }
         public bool HasAdditionalAction => InstanceViewModel.IsPageTypeRecycleBin || IsPowerShellScript || CanExtract || IsImage || IsFont || IsInfFile;
 
         public bool CanCopy => SelectedItems is not null && SelectedItems.Any();
@@ -1176,7 +1255,7 @@ namespace Files.Uwp.ViewModels
         public bool CanExtract => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsZipFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
         public string ExtractToText => SelectedItems is not null && SelectedItems.Count == 1 ? string.Format("ExtractToChildFolder".GetLocalized() + "\\", Path.GetFileNameWithoutExtension(selectedItems.First().ItemName)) : "ExtractToChildFolder".GetLocalized();
         public bool IsPowerShellScript => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsPowerShellFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
-        public bool IsImage => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsImageFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
+        public bool IsImage => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
         public bool IsInfFile => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsInfFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
         public bool IsFont => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
 
@@ -1195,7 +1274,9 @@ namespace Files.Uwp.ViewModels
 
             InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
             InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
+            InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFilesPreferenceUpdated -= FolderSettings_SortDirectoriesAlongsideFilesPreferenceUpdated;
             InstanceViewModel.FolderSettings.GroupOptionPreferenceUpdated -= FolderSettings_GroupOptionPreferenceUpdated;
+            InstanceViewModel.FolderSettings.LayoutPreferencesUpdateRequired -= FolderSettings_LayoutPreferencesUpdateRequired;
         }
     }
 }

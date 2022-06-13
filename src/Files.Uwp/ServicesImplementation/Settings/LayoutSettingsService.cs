@@ -65,6 +65,12 @@ namespace Files.Uwp.ServicesImplementation.Settings
             get => (SortOption)Get((long)SortOption.Name);
             set => Set((long)value);
         }
+        
+        public bool DefaultSortDirectoriesAlongsideFiles
+        {
+            get => Get(false);
+            set => Set(value);
+        }
 
         public GroupOption DefaultDirectoryGroupOption
         {

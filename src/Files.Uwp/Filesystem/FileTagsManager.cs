@@ -13,7 +13,6 @@ namespace Files.Uwp.Filesystem
     public class FileTagsManager
     {
         private readonly ILogger logger = Ioc.Default.GetService<ILogger>();
-        private readonly IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
         private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetService<IFileTagsSettingsService>();
 
         public EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
@@ -30,13 +29,8 @@ namespace Files.Uwp.Filesystem
             }
         }
 
-        public Task EnumerateFileTagsAsync()
+        public Task UpdateFileTagsAsync()
         {
-            if (!userSettingsService.AppearanceSettingsService.ShowFileTagsSection)
-            {
-                return Task.CompletedTask;
-            }
-
             try
             {
                 foreach (var tag in fileTagsSettingsService.FileTagList)

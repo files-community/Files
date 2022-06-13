@@ -1,4 +1,7 @@
-﻿using Files.Uwp.Extensions;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Extensions;
+using Files.Shared.Services.DateTimeFormatter;
+using Files.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -7,13 +10,15 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage.FileProperties;
 using Windows.UI.Core;
-using static Files.Uwp.Helpers.NativeFindStorageItemHelper;
+using static Files.Backend.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.Uwp.ViewModels.Properties
 {
     public abstract class BaseProperties
     {
+        protected static readonly IDateTimeFormatter dateTimeFormatter = Ioc.Default.GetService<IDateTimeFormatter>();
+
         public IShellPage AppInstance { get; set; } = null;
         public SelectedItemsPropertiesViewModel ViewModel { get; set; }
 
@@ -32,10 +37,8 @@ namespace Files.Uwp.ViewModels.Properties
             propertiesName.Add(dateAccessedProperty);
             IDictionary<string, object> extraProperties = await properties.RetrievePropertiesAsync(propertiesName);
 
-            string returnformat = DateTimeExtensions.GetDateFormat();
-
             // Cannot get date and owner in MTP devices
-            ViewModel.ItemAccessedTimestamp = ((DateTimeOffset)(extraProperties[dateAccessedProperty] ?? DateTimeOffset.Now)).GetFriendlyDateFromFormat(returnformat);
+            ViewModel.ItemAccessedTimestamp = dateTimeFormatter.ToShortLabel((DateTimeOffset)(extraProperties[dateAccessedProperty] ?? DateTimeOffset.Now));
         }
 
         public async Task<long> CalculateFolderSizeAsync(string path, CancellationToken token)

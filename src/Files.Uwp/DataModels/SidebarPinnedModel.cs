@@ -1,11 +1,10 @@
-﻿using Files.Shared.Extensions;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services.Settings;
 using Files.Uwp.Controllers;
 using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Helpers;
-using Files.Backend.Services.Settings;
 using Files.Uwp.ViewModels;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
@@ -18,7 +17,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Uwp.DataModels
 {
@@ -96,57 +94,16 @@ namespace Files.Uwp.DataModels
                     FavoriteItems.Add(item);
                     await AddItemToSidebarAsync(item);
                     Save();
+
+                    if (item == CommonPaths.RecycleBinPath)
+                    {
+                        UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar = true;
+                    }
                 }
             }
             finally
             {
                 addSyncSemaphore.Release();
-            }
-        }
-
-        public async Task ShowHideRecycleBinItemAsync(bool show)
-        {
-            if (show)
-            {
-                var recycleBinItem = new LocationItem
-                {
-                    Text = ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
-                    IsDefaultLocation = true,
-                    MenuOptions = new ContextMenuOptions
-                    {
-                        IsLocationItem = true,
-                        ShowUnpinItem = true,
-                        ShowShellItems = true,
-                        ShowEmptyRecycleBin = true
-                    },
-                    Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIHelpers.GetIconResource(Constants.ImageRes.RecycleBin)),
-                    Path = CommonPaths.RecycleBinPath
-                };
-                // Add recycle bin to sidebar, title is read from LocalSettings (provided by the fulltrust process)
-                // TODO: the very first time the app is launched localized name not available
-                lock (favoriteList)
-                {
-                    if (favoriteList.Any(x => x.Path == CommonPaths.RecycleBinPath))
-                    {
-                        return;
-                    }
-                    favoriteList.Add(recycleBinItem);
-                }
-                controller.DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, recycleBinItem));
-            }
-            else
-            {
-                foreach (INavigationControlItem item in Favorites)
-                {
-                    if (item is LocationItem && item.Path == CommonPaths.RecycleBinPath)
-                    {
-                        lock (favoriteList)
-                        {
-                            favoriteList.Remove(item);
-                        }
-                        controller.DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
-                    }
-                }
             }
         }
 
@@ -161,6 +118,11 @@ namespace Files.Uwp.DataModels
                 FavoriteItems.Remove(item);
                 RemoveStaleSidebarItems();
                 Save();
+
+                if (item == CommonPaths.RecycleBinPath)
+                {
+                    UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar = false;
+                }
             }
         }
 
@@ -173,41 +135,36 @@ namespace Files.Uwp.DataModels
         /// <returns>True if the move was successful</returns>
         public bool MoveItem(INavigationControlItem locationItem, int oldIndex, int newIndex)
         {
-            if (locationItem == null)
+            if (locationItem is null || newIndex > FavoriteItems.Count)
             {
                 return false;
             }
 
-            if (oldIndex >= 1 && newIndex >= 1 && newIndex <= FavoriteItems.Count)
+            // A backup of the items, because the swapping of items requires removing and inserting them in the correct position
+            var sidebarItemsBackup = new List<string>(FavoriteItems);
+
+            try
             {
-                // A backup of the items, because the swapping of items requires removing and inserting them in the correct position
-                var sidebarItemsBackup = new List<string>(FavoriteItems);
-
-                try
+                FavoriteItems.RemoveAt(oldIndex);
+                FavoriteItems.Insert(newIndex, locationItem.Path);
+                lock (favoriteList)
                 {
-                    FavoriteItems.RemoveAt(oldIndex - 1);
-                    FavoriteItems.Insert(newIndex - 1, locationItem.Path);
-                    lock (favoriteList)
-                    {
-                        favoriteList.RemoveAt(oldIndex);
-                        favoriteList.Insert(newIndex, locationItem);
-                    }
-                    controller.DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, locationItem, newIndex, oldIndex));
-                    Save();
+                    favoriteList.RemoveAt(oldIndex);
+                    favoriteList.Insert(newIndex, locationItem);
                 }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine($"An error occurred while moving pinned items in the Favorites sidebar section. {ex.Message}");
-                    FavoriteItems = sidebarItemsBackup;
-                    RemoveStaleSidebarItems();
-                    _ = AddAllItemsToSidebar();
-                    return false;
-                }
-
+                var e = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, locationItem, newIndex, oldIndex);
+                controller.DataChanged?.Invoke(SectionType.Favorites, e);
+                Save();
                 return true;
             }
-
-            return false;
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"An error occurred while moving pinned items in the Favorites sidebar section. {ex.Message}");
+                FavoriteItems = sidebarItemsBackup;
+                RemoveStaleSidebarItems();
+                _ = AddAllItemsToSidebar();
+                return false;
+            }
         }
 
         /// <summary>
@@ -253,6 +210,20 @@ namespace Files.Uwp.DataModels
             return collection.IndexOf(locationItem);
         }
 
+        public void ShowHideRecycleBinItem(bool show)
+        {
+            bool isPinned = favoriteList.Any(x => x.Path == CommonPaths.RecycleBinPath);
+
+            if (show && !isPinned)
+            {
+                AddItem(CommonPaths.RecycleBinPath);
+            }
+            else if (!show && isPinned)
+            {
+                RemoveItem(CommonPaths.RecycleBinPath);
+            }
+        }
+
         /// <summary>
         /// Saves the model
         /// </summary>
@@ -278,7 +249,7 @@ namespace Files.Uwp.DataModels
                     ShowProperties = true,
                     ShowUnpinItem = true,
                     ShowShellItems = true,
-                    IsItemMovable = true
+                    ShowEmptyRecycleBin = path == CommonPaths.RecycleBinPath,
                 },
                 IsDefaultLocation = false,
                 Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
@@ -329,8 +300,8 @@ namespace Files.Uwp.DataModels
                 {
                     return;
                 }
-                var lastItem = favoriteList.LastOrDefault(x => x.ItemType == NavigationControlItemType.Location && !x.Path.Equals(CommonPaths.RecycleBinPath));
-                insertIndex = lastItem != null ? favoriteList.IndexOf(lastItem) + 1 : 0;
+                var lastItem = favoriteList.LastOrDefault(x => x.ItemType is NavigationControlItemType.Location);
+                insertIndex = lastItem is not null ? favoriteList.IndexOf(lastItem) + 1 : 0;
                 favoriteList.Insert(insertIndex, locationItem);
             }
             controller.DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, locationItem, insertIndex));
@@ -341,33 +312,14 @@ namespace Files.Uwp.DataModels
         /// </summary>
         public async Task AddAllItemsToSidebar()
         {
-            if (!UserSettingsService.AppearanceSettingsService.ShowFavoritesSection)
+            if (UserSettingsService.AppearanceSettingsService.ShowFavoritesSection)
             {
-                return;
-            }
-
-            var homeSection = new LocationItem()
-            {
-                Text = "Home".GetLocalized(),
-                Section = SectionType.Home,
-                MenuOptions = new ContextMenuOptions
+                foreach (string path in FavoriteItems)
                 {
-                    IsLocationItem = true
-                },
-                Font = MainViewModel.FontName,
-                IsDefaultLocation = true,
-                Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png"))),
-                Path = "Home".GetLocalized()
-            };
-            AddLocationItemToSidebar(homeSection);
-
-            for (int i = 0; i < FavoriteItems.Count; i++)
-            {
-                string path = FavoriteItems[i];
-                await AddItemToSidebarAsync(path);
+                    await AddItemToSidebarAsync(path);
+                }
+                ShowHideRecycleBinItem(UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar);
             }
-
-            await ShowHideRecycleBinItemAsync(UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar);
         }
 
         /// <summary>

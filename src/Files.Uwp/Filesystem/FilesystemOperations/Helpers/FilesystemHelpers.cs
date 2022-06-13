@@ -83,9 +83,9 @@ namespace Files.Uwp.Filesystem
 
         public async Task<(ReturnResult, IStorageItem)> CreateAsync(IStorageItemWithPath source, bool registerHistory)
         {
-            var returnCode = FileSystemStatusCode.InProgress;
+            var returnStatus = ReturnResult.InProgress;
             var errorCode = new Progress<FileSystemStatusCode>();
-            errorCode.ProgressChanged += (s, e) => returnCode = e;
+            errorCode.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.ToStatus() : returnStatus;
 
             var result = await filesystemOperations.CreateAsync(source, errorCode, cancellationToken);
 
@@ -95,7 +95,7 @@ namespace Files.Uwp.Filesystem
             }
 
             await Task.Yield();
-            return (returnCode.ToStatus(), result.Item2);
+            return (returnStatus, result.Item2);
         }
 
         #endregion Create
@@ -152,7 +152,7 @@ namespace Files.Uwp.Filesystem
 
             // post the status banner
             var banner = PostBannerHelpers.PostBanner_Delete(source, returnStatus, permanently, false, 0);
-            banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
+            banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.ToStatus() : returnStatus;
 
             var token = banner.CancellationToken;
 
@@ -218,9 +218,9 @@ namespace Files.Uwp.Filesystem
             source = await source.ToListAsync();
             destination = await destination.ToListAsync();
 
-            var returnCode = FileSystemStatusCode.InProgress;
+            var returnStatus = ReturnResult.InProgress;
             var errorCode = new Progress<FileSystemStatusCode>();
-            errorCode.ProgressChanged += (s, e) => returnCode = e;
+            errorCode.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.ToStatus() : returnStatus;
 
             var sw = new Stopwatch();
             sw.Start();
@@ -236,7 +236,7 @@ namespace Files.Uwp.Filesystem
 
             sw.Stop();
 
-            return returnCode.ToStatus();
+            return returnStatus;
         }
 
         #endregion Restore
@@ -320,7 +320,7 @@ namespace Files.Uwp.Filesystem
             var returnStatus = ReturnResult.InProgress;
 
             var banner = PostBannerHelpers.PostBanner_Copy(source, destination, returnStatus, false, 0);
-            banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
+            banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.ToStatus() : returnStatus;
 
             var token = banner.CancellationToken;
 
@@ -475,7 +475,7 @@ namespace Files.Uwp.Filesystem
             var destinationDir = PathNormalization.GetParentDir(destination.FirstOrDefault());
 
             var banner = PostBannerHelpers.PostBanner_Move(source, destination, returnStatus, false, 0);
-            banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
+            banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.ToStatus() : returnStatus;
 
             var token = banner.CancellationToken;
 
@@ -583,9 +583,9 @@ namespace Files.Uwp.Filesystem
 
         public async Task<ReturnResult> RenameAsync(IStorageItemWithPath source, string newName, NameCollisionOption collision, bool registerHistory)
         {
-            var returnCode = FileSystemStatusCode.InProgress;
+            var returnStatus = ReturnResult.InProgress;
             var errorCode = new Progress<FileSystemStatusCode>();
-            errorCode.ProgressChanged += (s, e) => returnCode = e;
+            errorCode.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.ToStatus() : returnStatus;
 
             IStorageHistory history = null;
 
@@ -627,7 +627,7 @@ namespace Files.Uwp.Filesystem
             App.JumpList.RemoveFolder(source.Path); // Remove items from jump list
 
             await Task.Yield();
-            return returnCode.ToStatus();
+            return returnStatus;
         }
 
         #endregion Rename
@@ -649,9 +649,9 @@ namespace Files.Uwp.Filesystem
                 return ReturnResult.Failed;
             }
 
-            var returnCode = FileSystemStatusCode.InProgress;
+            var returnStatus = ReturnResult.InProgress;
             var errorCode = new Progress<FileSystemStatusCode>();
-            errorCode.ProgressChanged += (s, e) => returnCode = e;
+            errorCode.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.ToStatus() : returnStatus;
 
             source = source.Where(x => !string.IsNullOrEmpty(x.Path));
             var dest = source.Select(x => Path.Combine(destination,
@@ -668,7 +668,7 @@ namespace Files.Uwp.Filesystem
             }
 
             await Task.Yield();
-            return returnCode.ToStatus();
+            return returnStatus;
         }
 
         public async Task<ReturnResult> RecycleItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)

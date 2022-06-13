@@ -1,13 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using Files.Backend.Services.Settings;
+using Files.Shared.Extensions;
 using Files.Uwp.DataModels;
 using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
 using Files.Uwp.Helpers.ContextFlyouts;
-using Files.Shared.Extensions;
 using Files.Uwp.ViewModels;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
@@ -187,8 +186,12 @@ namespace Files.Uwp.UserControls
         {
             ContextMenuOptions options = item.MenuOptions;
 
-            bool showMoveItemUp = options.IsItemMovable ? App.SidebarPinnedController.Model.IndexOfItem(item) > 1 : false;
-            bool showMoveItemDown = options.IsItemMovable ? App.SidebarPinnedController.Model.IndexOfItem(item) < App.SidebarPinnedController.Model.FavoriteItems.Count : false;
+            var favoriteModel = App.SidebarPinnedController.Model;
+            int favoriteIndex = favoriteModel.IndexOfItem(item);
+            int favoriteCount = favoriteModel.FavoriteItems.Count;
+
+            bool showMoveItemUp = favoriteIndex > 0;
+            bool showMoveItemDown = favoriteIndex < favoriteCount - 1;
 
             return new List<ContextMenuFlyoutItemViewModel>()
             {
@@ -369,7 +372,7 @@ namespace Files.Uwp.UserControls
             if (rightClickedItem.MenuOptions.ShowEmptyRecycleBin)
             {
                 UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar = false;
-                _ = App.SidebarPinnedController.Model.ShowHideRecycleBinItemAsync(false);
+                App.SidebarPinnedController.Model.ShowHideRecycleBinItem(false);
             }
             else if (rightClickedItem.Section == SectionType.Favorites)
             {
@@ -389,7 +392,7 @@ namespace Files.Uwp.UserControls
                 }
 
                 int oldIndex = App.SidebarPinnedController.Model.IndexOfItem(rightClickedItem);
-                App.SidebarPinnedController.Model.MoveItem(rightClickedItem, oldIndex, 1);
+                App.SidebarPinnedController.Model.MoveItem(rightClickedItem, oldIndex, 0);
 
                 if (isSelectedSidebarItem)
                 {
@@ -452,7 +455,7 @@ namespace Files.Uwp.UserControls
                 }
 
                 int oldIndex = App.SidebarPinnedController.Model.IndexOfItem(rightClickedItem);
-                App.SidebarPinnedController.Model.MoveItem(rightClickedItem, oldIndex, App.SidebarPinnedController.Model.FavoriteItems.Count);
+                App.SidebarPinnedController.Model.MoveItem(rightClickedItem, oldIndex, App.SidebarPinnedController.Model.FavoriteItems.Count - 1);
 
                 if (isSelectedSidebarItem)
                 {

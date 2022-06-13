@@ -2627,4 +2627,16 @@ Usamos o App Center para rastrear quais configurações estão sendo usadas, enc
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Mostrar a seção de Etiquetas</value>
   </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>Sistema</value>
+  </data>
+  <data name="Universal" xml:space="preserve">
+    <value>Universal</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
+    <value>Mostrar miniaturas</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Tentar Novamente</value>
+  </data>
 </root>

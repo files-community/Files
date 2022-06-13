@@ -19,7 +19,7 @@
     <value>Abrir numa nova janela</value>
   </data>
   <data name="ModernNavigationToolbaNewBitmapImage.Text" xml:space="preserve">
-    <value>Imagem de Bitmap</value>
+    <value>Imagem de Mapa de Bits</value>
   </data>
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>Documento de Texto</value>
@@ -40,7 +40,7 @@
     <value>Nome do Item</value>
   </data>
   <data name="PropertiesItemPath.Text" xml:space="preserve">
-    <value>Localização:</value>
+    <value>Caminho:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Tamanho:</value>
@@ -73,7 +73,7 @@
     <value>Limpar todos os itens</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Insira uma localização</value>
+    <value>Insira um caminho</value>
   </data>
   <data name="NavigationToolbarSearchRegion.PlaceholderText" xml:space="preserve">
     <value>Pesquisar</value>
@@ -184,10 +184,10 @@
     <value>Conceder Permissão</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>Para começar, precisa conceder-nos permissão para exibir os seus ficheiros. Isto irá abrir uma página de definições onde poderá conceder-nos essa permissão. Necessitará de reabrir a aplicação depois de concluído este passo. </value>
+    <value>Para começar, terá de nos conceder permissão para exibir os seus ficheiros. Isto abrirá uma página de Definições onde nos poderá conceder esta permissão. Terá de reabrir a aplicação assim que tiver completado esta etapa. </value>
   </data>
   <data name="FileFolderListItem" xml:space="preserve">
-    <value>Pasta de ficheiro</value>
+    <value>Pasta de ficheiros</value>
   </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Ficheiro</value>
@@ -271,7 +271,7 @@
     <value>Unidade Desconectada</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
-    <value>O ficheiro que está a tentar ser acedido pode ter sido movido ou apagado.</value>
+    <value>O ficheiro que está a tentar aceder pode ter sido movido ou apagado.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
     <value>Ficheiro Não Encontrado</value>
@@ -499,7 +499,7 @@
     <value>Contribuidores</value>
   </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
-    <value>Notas de Atualização</value>
+    <value>Notas de lançamento</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>O item referenciado é inválido ou inacessível.{0}Mensagem de erro:{0}{1}</value>
@@ -592,7 +592,7 @@
     <value>Cria uma pasta vazia</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
-    <value>Modo de layout</value>
+    <value>Modo de esquema</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
     <value>Navegar para trás</value>
@@ -619,7 +619,7 @@
     <value>Ficheiro</value>
   </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
-    <value>Item da Reciclagem</value>
+    <value>Item da reciclagem</value>
   </data>
   <data name="ShortcutItemAutomation" xml:space="preserve">
     <value>Item de atalho</value>
@@ -826,13 +826,13 @@
     <value>Editora</value>
   </data>
   <data name="PropertyThumbnailLargePath" xml:space="preserve">
-    <value>Localização da Miniatura Grande</value>
+    <value>Caminho da Miniatura Grande</value>
   </data>
   <data name="PropertyThumbnailLargeUri" xml:space="preserve">
     <value>Uri da Miniatura Grande</value>
   </data>
   <data name="PropertyThumbnailSmallPath" xml:space="preserve">
-    <value>Localização da Miniatura Pequena</value>
+    <value>Caminho da Miniatura Pequena</value>
   </data>
   <data name="PropertyThumbnailSmallUri" xml:space="preserve">
     <value>Uri da Miniatura Pequena</value>
@@ -1009,10 +1009,10 @@
     <value>Novo Ficheiro</value>
   </data>
   <data name="originalPathColumn.Header" xml:space="preserve">
-    <value>Localização original</value>
+    <value>Caminho original</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
-    <value>Localização original</value>
+    <value>Caminho original</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>Adicionar</value>
@@ -1123,7 +1123,7 @@
     <value>Criar Pacote</value>
   </data>
   <data name="PropertyItemPathDisplay" xml:space="preserve">
-    <value>Localização do Item</value>
+    <value>Caminho do Item</value>
   </data>
   <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
     <value>Alternar o painel de pré-visualização (Ctrl+P)</value>
@@ -1681,13 +1681,13 @@
     <value>Selecionar</value>
   </data>
   <data name="NavToolbarLayoutOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Layout</value>
+    <value>Esquema</value>
   </data>
   <data name="NavToolbarLayoutOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Layout</value>
+    <value>Esquema</value>
   </data>
   <data name="NavToolbarLayoutOptionsButton.Label" xml:space="preserve">
-    <value>Layout</value>
+    <value>Esquema</value>
   </data>
   <data name="PreviewPaneToggle.Label" xml:space="preserve">
     <value>Pré-visualização</value>
@@ -1702,7 +1702,7 @@
     <value>Ordenar</value>
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
-    <value>Layout</value>
+    <value>Esquema</value>
   </data>
   <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
     <value>Falha ao eliminar {0} itens de {1}</value>
@@ -2358,7 +2358,7 @@ Utilizamos o App Center para localizar as definições que estão a ser utilizad
     <value>Abrir pastas com um clique único</value>
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
-    <value>Localização da pasta</value>
+    <value>Caminho da pasta</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
     <value>Exportar Definições</value>
@@ -2469,7 +2469,7 @@ Utilizamos o App Center para localizar as definições que estão a ser utilizad
     <value>Ficheiros e pastas</value>
   </data>
   <data name="OpenNewInstance" xml:space="preserve">
-    <value>Abrir nova instância ao abrir diretórios na jumplist da barra de tarefas</value>
+    <value>Abrir nova instância ao abrir diretórios na lista de atalhos da barra de tarefas</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Definições de inicialização</value>
@@ -2496,7 +2496,7 @@ Utilizamos o App Center para localizar as definições que estão a ser utilizad
     <value>Ícones Pequenos</value>
   </data>
   <data name="Tiles" xml:space="preserve">
-    <value>Títulos</value>
+    <value>Mosaicos</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Criar Biblioteca</value>
@@ -2505,7 +2505,7 @@ Utilizamos o App Center para localizar as definições que estão a ser utilizad
     <value>Insira o nome da Biblioteca</value>
   </data>
   <data name="ShowFolderSize" xml:space="preserve">
-    <value>Mostrar tamanho da paasta</value>
+    <value>Mostrar tamanho da pasta</value>
   </data>
   <data name="Skip" xml:space="preserve">
     <value>Ignorar</value>
@@ -2626,5 +2626,44 @@ Utilizamos o App Center para localizar as definições que estão a ser utilizad
   </data>
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Mostrar secção Tags</value>
+  </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>Sistema</value>
+  </data>
+  <data name="FileInUseByDialog.Text" xml:space="preserve">
+    <value>O ficheiro que está a tentar aceder está atualmente a ser utilizado por {0}</value>
+  </data>
+  <data name="FileInUseDialog.Text" xml:space="preserve">
+    <value>O ficheiro que está a tentar aceder está atualmente a ser utilizado por uma outra aplicação</value>
+  </data>
+  <data name="FileInUseDialog.Title" xml:space="preserve">
+    <value>Ficheiro está em uso</value>
+  </data>
+  <data name="UseCompactStyles" xml:space="preserve">
+    <value>Utilizar estilos compacto no esquema detalhes</value>
+  </data>
+  <data name="Universal" xml:space="preserve">
+    <value>Universal</value>
+  </data>
+  <data name="DateFormatSample" xml:space="preserve">
+    <value>ex: {0}, {1}</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
+    <value>Mostrar miniaturas</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Tentar novamente</value>
+  </data>
+  <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
+    <value>A operação mover não é suportada neste contexto. Quer antes copiar os itens?</value>
+  </data>
+  <data name="HiddenFilesAndFolders" xml:space="preserve">
+    <value>Ocultar ficheiros e pastas</value>
+  </data>
+  <data name="Custom" xml:space="preserve">
+    <value>Personalizado</value>
+  </data>
+  <data name="SizeAllColumnsToFit" xml:space="preserve">
+    <value>Dimensionar Todas as Colunas para Encaixar</value>
   </data>
 </root>

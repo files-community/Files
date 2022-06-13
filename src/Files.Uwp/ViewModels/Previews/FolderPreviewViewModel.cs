@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Settings;
-using Files.Uwp.Extensions;
+using Files.Shared.Services.DateTimeFormatter;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
@@ -15,35 +15,27 @@ namespace Files.Uwp.ViewModels.Previews
 {
     public class FolderPreviewViewModel
     {
-        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+        private static readonly IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+        private static readonly IDateTimeFormatter dateTimeFormatter = Ioc.Default.GetService<IDateTimeFormatter>();
 
         private BaseStorageFolder Folder { get; set; }
 
         public ListedItem Item { get; set; }
-
         public BitmapImage Thumbnail { get; set; } = new BitmapImage();
 
-        public FolderPreviewViewModel(ListedItem item)
-        {
-            Item = item;
-        }
+        public FolderPreviewViewModel(ListedItem item) => Item = item;
 
-        public async Task LoadAsync()
-        {
-            await LoadPreviewAndDetailsAsync();
-        }
+        public async Task LoadAsync() => await LoadPreviewAndDetailsAsync();
 
         private async Task LoadPreviewAndDetailsAsync()
         {
-            string returnformat = DateTimeExtensions.GetDateFormat();
-
             var rootItem = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(Item.ItemPath));
             Folder = await StorageFileExtensions.DangerousGetFolderFromPathAsync(Item.ItemPath, rootItem);
             var items = await Folder.GetItemsAsync();
 
             var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(Folder, 400, ThumbnailMode.SingleItem);
             iconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, 400);
-            if (iconData != null)
+            if (iconData is not null)
             {
                 Thumbnail = await iconData.ToBitmapAsync();
             }
@@ -59,12 +51,12 @@ namespace Files.Uwp.ViewModels.Previews
                 new FileProperty()
                 {
                     NameResource = "PropertyDateModified",
-                    Value = Extensions.DateTimeExtensions.GetFriendlyDateFromFormat(info.DateModified, returnformat, true)
+                    Value = dateTimeFormatter.ToLongLabel(info.DateModified)
                 },
                 new FileProperty()
                 {
                     NameResource = "PropertyDateCreated",
-                    Value = Extensions.DateTimeExtensions.GetFriendlyDateFromFormat(info.ItemDate, returnformat, true)
+                    Value = dateTimeFormatter.ToLongLabel(info.ItemDate)
                 },
                 new FileProperty()
                 {
@@ -73,7 +65,7 @@ namespace Files.Uwp.ViewModels.Previews
                 }
             };
 
-            if (UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled)
+            if (userSettingsService.PreferencesSettingsService.AreFileTagsEnabled)
             {
                 Item.FileDetails.Add(new FileProperty()
                 {

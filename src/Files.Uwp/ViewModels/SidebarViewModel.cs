@@ -1,24 +1,25 @@
-﻿using Files.Uwp.DataModels.NavigationControlItems;
-using Files.Uwp.Filesystem;
-using Files.Uwp.Helpers;
-using Files.Backend.Services.Settings;
-using Files.Uwp.UserControls;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
+using Files.Backend.Services.Settings;
+using Files.Shared.EventArguments;
+using Files.Shared.Extensions;
+using Files.Uwp.DataModels.NavigationControlItems;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Helpers;
+using Files.Uwp.UserControls;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
-using System.Windows.Input;
-using Windows.UI.Xaml;
-using Files.Shared.EventArguments;
-using Files.Shared.Extensions;
-using System.Collections.Specialized;
-using Windows.System;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Windows.System;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Uwp.ViewModels
 {
@@ -227,6 +228,7 @@ namespace Files.Uwp.ViewModels
             SideBarItems = new BulkConcurrentObservableCollection<INavigationControlItem>();
             EmptyRecycleBinCommand = new RelayCommand<RoutedEventArgs>(EmptyRecycleBin);
             UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
+            CreateItemHome();
 
             Manager_DataChanged(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
             Manager_DataChanged(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
@@ -243,6 +245,12 @@ namespace Files.Uwp.ViewModels
             App.NetworkDrivesManager.DataChanged += Manager_DataChanged;
             App.WSLDistroManager.DataChanged += Manager_DataChanged;
             App.FileTagsManager.DataChanged += Manager_DataChanged;
+        }
+
+        private async void CreateItemHome()
+        {
+            var home = await GetOrCreateSection(SectionType.Home);
+            SideBarItems.Add(home);
         }
 
         private async void Manager_DataChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -357,9 +365,24 @@ namespace Files.Uwp.ViewModels
 
         private async Task<LocationItem> GetOrCreateSection(SectionType sectionType)
         {
-            var sectionOrder = new[] { SectionType.Favorites, SectionType.Library, SectionType.Drives, SectionType.CloudDrives, SectionType.Network, SectionType.WSL, SectionType.FileTag };
+            var sectionOrder = new[] { SectionType.Home, SectionType.Favorites, SectionType.Library,
+                SectionType.Drives, SectionType.CloudDrives, SectionType.Network, SectionType.WSL, SectionType.FileTag };
             switch (sectionType)
             {
+                case SectionType.Home:
+                    return new LocationItem()
+                    {
+                        Text = "Home".GetLocalized(),
+                        Section = SectionType.Home,
+                        MenuOptions = new ContextMenuOptions
+                        {
+                            IsLocationItem = true
+                        },
+                        Font = App.MainViewModel.FontName,
+                        IsDefaultLocation = true,
+                        Icon = new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png")),
+                        Path = "Home".GetLocalized()
+                    };
                 case SectionType.Favorites:
                     {
                         var section = SideBarItems.FirstOrDefault(x => x.Text == "SidebarFavorites".GetLocalized()) as LocationItem;
@@ -379,7 +402,7 @@ namespace Files.Uwp.ViewModels
                             };
                             var index = sectionOrder.TakeWhile(x => x != sectionType).Select(x => SideBarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
                             SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
-                            section.Icon = await UIHelpers.GetIconResource(Constants.Shell32.QuickAccess); // After insert
+                            section.Icon = new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Favorites.png")); // After insert
                         }
                         return section;
                     }
@@ -445,7 +468,7 @@ namespace Files.Uwp.ViewModels
                                     ShowHideSection = true
                                 },
                                 SelectsOnInvoked = false,
-                                Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/CloudDrive.png")),
+                                Icon = new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/CloudDrive.png")),
                                 ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
                             };
                             var index = sectionOrder.TakeWhile(x => x != sectionType).Select(x => SideBarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
@@ -491,7 +514,7 @@ namespace Files.Uwp.ViewModels
                                     ShowHideSection = true
                                 },
                                 SelectsOnInvoked = false,
-                                Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/WSL/genericpng.png")),
+                                Icon = new BitmapImage(new Uri("ms-appx:///Assets/WSL/genericpng.png")),
                                 ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
                             };
                             var index = sectionOrder.TakeWhile(x => x != sectionType).Select(x => SideBarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
@@ -514,7 +537,7 @@ namespace Files.Uwp.ViewModels
                                     ShowHideSection = true
                                 },
                                 SelectsOnInvoked = false,
-                                Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/FileTags.png")),
+                                Icon = new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/FileTags.png")),
                                 ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
                             };
                             var index = sectionOrder.TakeWhile(x => x != sectionType).Select(x => SideBarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
@@ -531,14 +554,16 @@ namespace Files.Uwp.ViewModels
         {
             if (show)
             {
+                var appearanceSettingsService = UserSettingsService.AppearanceSettingsService;
+
                 Func<Task> action = sectionType switch
                 {
-                    SectionType.CloudDrives => App.CloudDrivesManager.EnumerateDrivesAsync,
-                    SectionType.Drives => App.DrivesManager.EnumerateDrivesAsync,
-                    SectionType.Network => App.NetworkDrivesManager.EnumerateDrivesAsync,
-                    SectionType.WSL => App.WSLDistroManager.EnumerateDrivesAsync,
-                    SectionType.FileTag => App.FileTagsManager.EnumerateFileTagsAsync,
-                    SectionType.Library => App.LibraryManager.EnumerateLibrariesAsync,
+                    SectionType.CloudDrives when appearanceSettingsService.ShowCloudDrivesSection => App.CloudDrivesManager.UpdateDrivesAsync,
+                    SectionType.Drives => App.DrivesManager.UpdateDrivesAsync,
+                    SectionType.Network when appearanceSettingsService.ShowNetworkDrivesSection => App.NetworkDrivesManager.UpdateDrivesAsync,
+                    SectionType.WSL when appearanceSettingsService.ShowWslSection => App.WSLDistroManager.UpdateDrivesAsync,
+                    SectionType.FileTag when appearanceSettingsService.ShowFileTagsSection => App.FileTagsManager.UpdateFileTagsAsync,
+                    SectionType.Library => App.LibraryManager.UpdateLibrariesAsync,
                     SectionType.Favorites => App.SidebarPinnedController.Model.AddAllItemsToSidebar,
                     _ => () => Task.CompletedTask
                 };

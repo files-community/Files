@@ -56,12 +56,6 @@ namespace Files.Uwp.ServicesImplementation.Settings
             set => Set(value);
         }
 
-        public bool ListAndSortDirectoriesAlongsideFiles
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
         public bool OpenFilesWithOneClick
         {
             get => Get(false);
@@ -81,12 +75,6 @@ namespace Files.Uwp.ServicesImplementation.Settings
         }
 
         public bool AreLayoutPreferencesPerFolder
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
-        public bool AdaptiveLayoutEnabled
         {
             get => Get(true);
             set => Set(value);
@@ -156,12 +144,10 @@ namespace Files.Uwp.ServicesImplementation.Settings
                 case nameof(AreHiddenItemsVisible):
                 case nameof(AreSystemItemsHidden):
                 case nameof(ShowDotFiles):
-                case nameof(ListAndSortDirectoriesAlongsideFiles):
                 case nameof(OpenFilesWithOneClick):
                 case nameof(OpenFoldersWithOneClick):
                 case nameof(SearchUnindexedItems):
                 case nameof(AreLayoutPreferencesPerFolder):
-                case nameof(AdaptiveLayoutEnabled):
                 case nameof(AreFileTagsEnabled):
                 case nameof(ShowFolderSize):
                 case nameof(OpenSpecificPageOnStartup):
@@ -183,12 +169,10 @@ namespace Files.Uwp.ServicesImplementation.Settings
             Analytics.TrackEvent($"{nameof(AreHiddenItemsVisible)}, {AreHiddenItemsVisible}");
             Analytics.TrackEvent($"{nameof(AreSystemItemsHidden)}, {AreSystemItemsHidden}");
             Analytics.TrackEvent($"{nameof(ShowDotFiles)}, {ShowDotFiles}");
-            Analytics.TrackEvent($"{nameof(ListAndSortDirectoriesAlongsideFiles)}, {ListAndSortDirectoriesAlongsideFiles}");
             Analytics.TrackEvent($"{nameof(OpenFilesWithOneClick)}, {OpenFilesWithOneClick}");
             Analytics.TrackEvent($"{nameof(OpenFoldersWithOneClick)}, {OpenFoldersWithOneClick}");
             Analytics.TrackEvent($"{nameof(SearchUnindexedItems)}, {SearchUnindexedItems}");
             Analytics.TrackEvent($"{nameof(AreLayoutPreferencesPerFolder)}, {AreLayoutPreferencesPerFolder}");
-            Analytics.TrackEvent($"{nameof(AdaptiveLayoutEnabled)}, {AdaptiveLayoutEnabled}");
             Analytics.TrackEvent($"{nameof(AreFileTagsEnabled)}, {AreFileTagsEnabled}");
             Analytics.TrackEvent($"{nameof(ShowFolderSize)}, {ShowFolderSize}");
             Analytics.TrackEvent($"{nameof(OpenSpecificPageOnStartup)}, {OpenSpecificPageOnStartup}");

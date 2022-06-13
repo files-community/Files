@@ -2611,4 +2611,55 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="PrepareInProgress" xml:space="preserve">
     <value>Preparing items</value>
   </data>
+  <data name="StatusCopyFailed" xml:space="preserve">
+    <value>Copy failed</value>
+  </data>
+  <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
+    <value>Failed to copy {0} items from {1} to {2}</value>
+  </data>
+  <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
+    <value>Failed to copy {0} item from {1} to {2}</value>
+  </data>
+  <data name="StatusMoveFailed" xml:space="preserve">
+    <value>Move failed</value>
+  </data>
+  <data name="FileTags" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="SettingsShowFileTagsSection.Title" xml:space="preserve">
+    <value>Show Tags section</value>
+  </data>
+  <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Show Tags section</value>
+  </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>System</value>
+  </data>
+  <data name="FileInUseByDialog.Text" xml:space="preserve">
+    <value>The file you are attempting to access is currently being used by {0}</value>
+  </data>
+  <data name="FileInUseDialog.Text" xml:space="preserve">
+    <value>The file you are attempting to access is currently being used by an another application</value>
+  </data>
+  <data name="FileInUseDialog.Title" xml:space="preserve">
+    <value>File is in use</value>
+  </data>
+  <data name="UseCompactStyles" xml:space="preserve">
+    <value>Use compact styles in the details layout</value>
+  </data>
+  <data name="Universal" xml:space="preserve">
+    <value>Universal</value>
+  </data>
+  <data name="DateFormatSample" xml:space="preserve">
+    <value>ex: {0}, {1}</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
+    <value>Show thumbnails</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Try Again</value>
+  </data>
+  <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
+    <value>Move operation is not supported in this context. Do you want to copy the items instead?</value>
+  </data>
 </root>

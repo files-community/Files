@@ -1147,7 +1147,7 @@
     <value>Vienuma nosaukums</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
-    <value>Tīkla diski</value>
+    <value>Tīkla Diski</value>
   </data>
   <data name="Network" xml:space="preserve">
     <value>Tīkls</value>
@@ -2135,11 +2135,6 @@
   </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
-*Personīgas informācijas glabāšana* 
-Files nevāc, nesaglabā, nekoplieto un nepublicē jebkādu personīgu informāciju.
-
-*Nepersonīgas informācijas glabāšana*
-
 Mēs lietojam App Center, lai sekotu līdzi programmas lietojumam, atrastu un novērstu kļūdas. Visa informācija, kas sūtīta App Center, ir anonīma un nesatur personīgus datus.
   </value>
   </data>
@@ -2171,13 +2166,13 @@ Mēs lietojam App Center, lai sekotu līdzi programmas lietojumam, atrastu un no
     <value>Nezināms</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
-    <value>Faila birka</value>
+    <value>Birka</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
-    <value>Rediģēt failu birkas</value>
+    <value>Rediģēt birkas</value>
   </data>
   <data name="SettingsEnableFileTags.Title" xml:space="preserve">
-    <value>Iespējot failu birkas</value>
+    <value>Iespējot birkas</value>
   </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
     <value>Atvērt disku</value>
@@ -2435,7 +2430,7 @@ Mēs lietojam App Center, lai sekotu līdzi programmas lietojumam, atrastu un no
     <value>Trešo pušu licenses</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>Šis iestatījums modificē sistēmas failus un var radīt nevēlamus blakusefektus. Lietotnes izstrādātāji neuzņemas atbildību par iespējamām kļūdām. Iespējojot šo opciju, Jūs apstiprinat, ka zināt iespējamos riskus. Ņemiet vērā, ka atinstalējot Files šīs izmaiņas netiks atgrieztas uz sākotnējām, un tas var neļaut Jums atvērt failu pārlūku, kamēr neesat izslēguši šo opciju lietotnē Files pirms tās atinstalēšanas.</value>
+    <value>Šis iestatījums modificē sistēmas reģistru un var ierīcei radīt nevēlamus blakusefektus. Turpinot, uzņemieties atbildību par riskiem!</value>
   </data>
   <data name="ClearAll" xml:space="preserve">
     <value>Notīrīt visu</value>
@@ -2493,5 +2488,122 @@ Mēs lietojam App Center, lai sekotu līdzi programmas lietojumam, atrastu un no
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Baiti</value>
+  </data>
+  <data name="Extract" xml:space="preserve">
+    <value>Izvērst</value>
+  </data>
+  <data name="ExtractFiles" xml:space="preserve">
+    <value>Izvērst failus</value>
+  </data>
+  <data name="ExtractHere" xml:space="preserve">
+    <value>Izvērst šeit</value>
+  </data>
+  <data name="ExtractToChildFolder" xml:space="preserve">
+    <value>Izvērst uz {0}</value>
+  </data>
+  <data name="RunScript" xml:space="preserve">
+    <value>Palaist skriptu</value>
+  </data>
+  <data name="RunWithPowerShell" xml:space="preserve">
+    <value>Palaist ar PowerShell</value>
+  </data>
+  <data name="SetAsBackground" xml:space="preserve">
+    <value>Iestatīt kā darbvirsmas fonu</value>
+  </data>
+  <data name="ShowFolderSizesWarning" xml:space="preserve">
+    <value>Mapju izmēru aprēķināšana ir resursintensīva un var palielināt procesora lietojumu.</value>
+  </data>
+  <data name="OpenIn" xml:space="preserve">
+    <value>Atvērt</value>
+  </data>
+  <data name="RotateLeft" xml:space="preserve">
+    <value>Pagriezt pa kreisi</value>
+  </data>
+  <data name="RotateRight" xml:space="preserve">
+    <value>Pagriezt pa labi</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Instalēt</value>
+  </data>
+  <data name="CloseTabsToTheLeft" xml:space="preserve">
+    <value>Aizvērt cilnes pa kreisi</value>
+  </data>
+  <data name="CloseTabsToTheRight" xml:space="preserve">
+    <value>Aizvērt cilnes pa labi</value>
+  </data>
+  <data name="ShowDotFiles" xml:space="preserve">
+    <value>Rādīt punktu failus</value>
+  </data>
+  <data name="CloseOtherTabs" xml:space="preserve">
+    <value>Aizvērt pārējās cilnes</value>
+  </data>
+  <data name="Music" xml:space="preserve">
+    <value>Mūzika</value>
+  </data>
+  <data name="Pictures" xml:space="preserve">
+    <value>Attēli</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>Video</value>
+  </data>
+  <data name="UpdateFiles" xml:space="preserve">
+    <value>Atjaunināt Files</value>
+  </data>
+  <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
+    <value>Sagatavo {0} vienumus</value>
+  </data>
+  <data name="PrepareInProgress" xml:space="preserve">
+    <value>Sagatavo vienumus</value>
+  </data>
+  <data name="StatusCopyFailed" xml:space="preserve">
+    <value>Kopēšana neizdevās</value>
+  </data>
+  <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
+    <value>Neizdevās kopēt {0} vienumus no {1} uz {2}</value>
+  </data>
+  <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
+    <value>Neizdevās kopēt {0} vienumu no {1} uz {2}</value>
+  </data>
+  <data name="StatusMoveFailed" xml:space="preserve">
+    <value>Pārvietošana neizdevās</value>
+  </data>
+  <data name="FileTags" xml:space="preserve">
+    <value>Birkas</value>
+  </data>
+  <data name="SettingsShowFileTagsSection.Title" xml:space="preserve">
+    <value>Rādīt Birku sadaļu</value>
+  </data>
+  <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Rādīt Birku sadaļu</value>
+  </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>Sistēma</value>
+  </data>
+  <data name="FileInUseByDialog.Text" xml:space="preserve">
+    <value>Failu, kuram vēlaties piekļūt, pašlaik izmanto {0}</value>
+  </data>
+  <data name="FileInUseDialog.Text" xml:space="preserve">
+    <value>Failu, kuram vēlaties piekļūt, jau izmanto cita lietotne</value>
+  </data>
+  <data name="FileInUseDialog.Title" xml:space="preserve">
+    <value>Fails jau tiek lietots</value>
+  </data>
+  <data name="UseCompactStyles" xml:space="preserve">
+    <value>Detaļu izkārtojumā izmantot kompaktos stilus</value>
+  </data>
+  <data name="Universal" xml:space="preserve">
+    <value>Universāls</value>
+  </data>
+  <data name="DateFormatSample" xml:space="preserve">
+    <value>piem: {0}, {1}</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
+    <value>Rādīt sīktēlus</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Mēģināt vēlreiz</value>
+  </data>
+  <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
+    <value>Šajā kontekstā pārvietošana netiek atbalstīta. Vai tā vietā vēlaties vienumus kopēt?</value>
   </data>
 </root>

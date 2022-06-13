@@ -3120,11 +3120,11 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="SideBarFavoritesMoveToBottom" translate="yes" xml:space="preserve">
           <source>Move to bottom</source>
-          <target state="new">Move to bottom</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">გადაადგილება ბოლოში</target>
         </trans-unit>
         <trans-unit id="SideBarFavoritesMoveToTop" translate="yes" xml:space="preserve">
           <source>Move to top</source>
-          <target state="new">Move to top</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">გადაადგილება დასაწყისში</target>
         </trans-unit>
         <trans-unit id="DetailsViewHeaderFlyout_ShowDateCreated.Text" translate="yes" xml:space="preserve">
           <source>Date created column</source>
@@ -3140,7 +3140,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="Tag" translate="yes" xml:space="preserve">
           <source>Tag</source>
-          <target state="new">Tag</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ტეგი</target>
         </trans-unit>
         <trans-unit id="SettingsOpenFoldersWithOneClick" translate="yes" xml:space="preserve">
           <source>Open folders with a single click</source>
@@ -3148,7 +3148,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="NavToolbarArrangementOptionFolderPath.Text" translate="yes" xml:space="preserve">
           <source>Folder path</source>
-          <target state="new">Folder path</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">საქაღალდის მდებარეობა</target>
         </trans-unit>
         <trans-unit id="ExportSettings" translate="yes" xml:space="preserve">
           <source>Export Settings</source>
@@ -3160,7 +3160,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="ManageSettings" translate="yes" xml:space="preserve">
           <source>Manage Settings</source>
-          <target state="new">Manage Settings</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">პარამეტრების მართვა</target>
         </trans-unit>
         <trans-unit id="SettingsImportErrorDescription" translate="yes" xml:space="preserve">
           <source>Couldn't import settings. The settings file is corrupted.</source>
@@ -3176,7 +3176,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="Customization" translate="yes" xml:space="preserve">
           <source>Customization</source>
-          <target state="new">Customization</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">მორგება</target>
         </trans-unit>
         <trans-unit id="RestoreDefault" translate="yes" xml:space="preserve">
           <source>Restore default</source>
@@ -3184,11 +3184,11 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="Compatibility" translate="yes" xml:space="preserve">
           <source>Compatibility</source>
-          <target state="new">Compatibility</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">თავსებადობა</target>
         </trans-unit>
         <trans-unit id="None" translate="yes" xml:space="preserve">
           <source>None</source>
-          <target state="new">None</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">არცერთი</target>
         </trans-unit>
         <trans-unit id="HighDpiOption_UseDPIOnLogin" translate="yes" xml:space="preserve">
           <source>On Windows login</source>
@@ -3200,7 +3200,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="HighDpiOverride_System" translate="yes" xml:space="preserve">
           <source>System</source>
-          <target state="new">System</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">სისტემა</target>
         </trans-unit>
         <trans-unit id="HighDpiOverride_SystemAdvanced" translate="yes" xml:space="preserve">
           <source>System (advanced)</source>
@@ -3208,11 +3208,11 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="Windows7" translate="yes" xml:space="preserve">
           <source>Windows 7</source>
-          <target state="new">Windows 7</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Windows 7</target>
         </trans-unit>
         <trans-unit id="Windows8" translate="yes" xml:space="preserve">
           <source>Windows 8</source>
-          <target state="new">Windows 8</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Windows 8</target>
         </trans-unit>
         <trans-unit id="OSCompatibility_WindowsVista" translate="yes" xml:space="preserve">
           <source>Windows Vista</source>
@@ -3248,7 +3248,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="Options" translate="yes" xml:space="preserve">
           <source>Options</source>
-          <target state="new">Options</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ვარიანტები</target>
         </trans-unit>
         <trans-unit id="OverrideDPIScalingBehaviour" translate="yes" xml:space="preserve">
           <source>Override high DPI scaling behaviour</source>
@@ -3264,7 +3264,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="RunAsAdministrator" translate="yes" xml:space="preserve">
           <source>Run as administrator</source>
-          <target state="new">Run as administrator</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ადმინისტრატორის სახელით გაშვება</target>
         </trans-unit>
         <trans-unit id="RunCompatibilityTroubleShooter" translate="yes" xml:space="preserve">
           <source>Run compatibility troubleshooter</source>
@@ -3284,15 +3284,15 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="EmptyRecycleBin" translate="yes" xml:space="preserve">
           <source>Empty Recycle Bin</source>
-          <target state="new">Empty Recycle Bin</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">სანაგვე ურნის გასუფთავება</target>
         </trans-unit>
         <trans-unit id="Sidebar" translate="yes" xml:space="preserve">
           <source>Sidebar</source>
-          <target state="new">Sidebar</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">გვერდითი ზოლი</target>
         </trans-unit>
         <trans-unit id="FilesAndFolders" translate="yes" xml:space="preserve">
           <source>Files and folders</source>
-          <target state="new">Files and folders</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ფაილები და საქაღალდეები</target>
         </trans-unit>
         <trans-unit id="OpenNewInstance" translate="yes" xml:space="preserve">
           <source>Open new instance when opening directories from the taskbar jumplist</source>
@@ -3312,15 +3312,15 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="ClearAll" translate="yes" xml:space="preserve">
           <source>Clear all</source>
-          <target state="new">Clear all</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ყველას გასუფთავება</target>
         </trans-unit>
         <trans-unit id="Columns" translate="yes" xml:space="preserve">
           <source>Columns</source>
-          <target state="new">Columns</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">სვეტები</target>
         </trans-unit>
         <trans-unit id="LargeIcons" translate="yes" xml:space="preserve">
           <source>Large Icons</source>
-          <target state="new">Large Icons</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">დიდი ხატულები</target>
         </trans-unit>
         <trans-unit id="MediumIcons" translate="yes" xml:space="preserve">
           <source>Medium Icons</source>
@@ -3328,11 +3328,11 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="SmallIcons" translate="yes" xml:space="preserve">
           <source>Small Icons</source>
-          <target state="new">Small Icons</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">პატარა ხატულები</target>
         </trans-unit>
         <trans-unit id="Tiles" translate="yes" xml:space="preserve">
           <source>Tiles</source>
-          <target state="new">Tiles</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">მოზაიკა</target>
         </trans-unit>
         <trans-unit id="FolderWidgetCreateNewLibraryDialogTitleText" translate="yes" xml:space="preserve">
           <source>Create Library</source>
@@ -3348,7 +3348,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="Skip" translate="yes" xml:space="preserve">
           <source>Skip</source>
-          <target state="new">Skip</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">გამოტოვება</target>
         </trans-unit>
         <trans-unit id="SettingsOpenInLogin" translate="yes" xml:space="preserve">
           <source>Open Files on Windows Startup</source>
@@ -3356,19 +3356,19 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="Attributes" translate="yes" xml:space="preserve">
           <source>Attributes</source>
-          <target state="new">Attributes</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ატრიბუტები:</target>
         </trans-unit>
         <trans-unit id="Hidden" translate="yes" xml:space="preserve">
           <source>Hidden</source>
-          <target state="new">Hidden</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">დამალული</target>
         </trans-unit>
         <trans-unit id="MoreDetails" translate="yes" xml:space="preserve">
           <source>More details</source>
-          <target state="new">More details</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">დამატებითი დეტალები</target>
         </trans-unit>
         <trans-unit id="ReadOnly" translate="yes" xml:space="preserve">
           <source>Read only</source>
-          <target state="new">Read only</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">მხოლოდ წაკითხვადი</target>
         </trans-unit>
         <trans-unit id="CleanupDrive" translate="yes" xml:space="preserve">
           <source>Cleanup your drive contents</source>
@@ -3380,15 +3380,15 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="Type" translate="yes" xml:space="preserve">
           <source>Type:</source>
-          <target state="new">Type:</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ტიპი</target>
         </trans-unit>
         <trans-unit id="Bytes" translate="yes" xml:space="preserve">
           <source>Bytes</source>
-          <target state="new">Bytes</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ბაიტი:</target>
         </trans-unit>
         <trans-unit id="Extract" translate="yes" xml:space="preserve">
           <source>Extract</source>
-          <target state="new">Extract</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ამოღება...</target>
         </trans-unit>
         <trans-unit id="ExtractFiles" translate="yes" xml:space="preserve">
           <source>Extract files</source>
@@ -3400,7 +3400,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="ExtractKeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+E</source>
-          <target state="new">Ctrl+E</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Ctrl+E</target>
         </trans-unit>
         <trans-unit id="ExtractToChildFolder" translate="yes" xml:space="preserve">
           <source>Extract to {0}</source>
@@ -3416,7 +3416,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="SetAsBackground" translate="yes" xml:space="preserve">
           <source>Set as desktop background</source>
-          <target state="new">Set as desktop background</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">სამუშაო დაფის ფონად დაყენება</target>
         </trans-unit>
         <trans-unit id="ShowFolderSizesWarning" translate="yes" xml:space="preserve">
           <source>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</source>
@@ -3424,19 +3424,19 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="OpenIn" translate="yes" xml:space="preserve">
           <source>Open in</source>
-          <target state="new">Open in</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">&amp;გახსნა</target>
         </trans-unit>
         <trans-unit id="RotateLeft" translate="yes" xml:space="preserve">
           <source>Rotate left</source>
-          <target state="new">Rotate left</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">შეტრიალება მარცხნივ</target>
         </trans-unit>
         <trans-unit id="RotateRight" translate="yes" xml:space="preserve">
           <source>Rotate right</source>
-          <target state="new">Rotate right</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">შეტრიალება მარჯვნივ</target>
         </trans-unit>
         <trans-unit id="Install" translate="yes" xml:space="preserve">
           <source>Install</source>
-          <target state="new">Install</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">დაინსტალირება</target>
         </trans-unit>
         <trans-unit id="CloseTabsToTheLeft" translate="yes" xml:space="preserve">
           <source>Close tabs to the left</source>
@@ -3444,7 +3444,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="CloseTabsToTheRight" translate="yes" xml:space="preserve">
           <source>Close tabs to the right</source>
-          <target state="new">Close tabs to the right</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">მარჯვენა გრაფების დახურვა</target>
         </trans-unit>
         <trans-unit id="ShowDotFiles" translate="yes" xml:space="preserve">
           <source>Show dot files</source>
@@ -3452,19 +3452,19 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="CloseOtherTabs" translate="yes" xml:space="preserve">
           <source>Close other tabs</source>
-          <target state="new">Close other tabs</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">სხვა ჩანართების დახურვა</target>
         </trans-unit>
         <trans-unit id="Music" translate="yes" xml:space="preserve">
           <source>Music</source>
-          <target state="new">Music</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">მუსიკა</target>
         </trans-unit>
         <trans-unit id="Pictures" translate="yes" xml:space="preserve">
           <source>Pictures</source>
-          <target state="new">Pictures</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">სურათები</target>
         </trans-unit>
         <trans-unit id="Videos" translate="yes" xml:space="preserve">
           <source>Videos</source>
-          <target state="new">Videos</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ვიდეოები</target>
         </trans-unit>
         <trans-unit id="UpdateFiles" translate="yes" xml:space="preserve">
           <source>Update Files</source>
@@ -3480,7 +3480,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="StatusCopyFailed" translate="yes" xml:space="preserve">
           <source>Copy failed</source>
-          <target state="new">Copy failed</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ვერ დაკოპირდა</target>
         </trans-unit>
         <trans-unit id="StatusCopyFailedDetails_Plural" translate="yes" xml:space="preserve">
           <source>Failed to copy {0} items from {1} to {2}</source>
@@ -3496,7 +3496,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="FileTags" translate="yes" xml:space="preserve">
           <source>Tags</source>
-          <target state="new">Tags</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ტეგები</target>
         </trans-unit>
         <trans-unit id="SettingsShowFileTagsSection.Title" translate="yes" xml:space="preserve">
           <source>Show Tags section</source>
@@ -3508,7 +3508,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="SystemTimeStyle" translate="yes" xml:space="preserve">
           <source>System</source>
-          <target state="new">System</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">სისტემა</target>
         </trans-unit>
         <trans-unit id="FileInUseByDialog.Text" translate="yes" xml:space="preserve">
           <source>The file you are attempting to access is currently being used by {0}</source>
@@ -3528,7 +3528,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="Universal" translate="yes" xml:space="preserve">
           <source>Universal</source>
-          <target state="new">Universal</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">უნივერსალური</target>
         </trans-unit>
         <trans-unit id="DateFormatSample" translate="yes" xml:space="preserve">
           <source>ex: {0}, {1}</source>
@@ -3540,11 +3540,27 @@ We use App Center to track which settings are being used, find bugs, and fix cra
         </trans-unit>
         <trans-unit id="Retry" translate="yes" xml:space="preserve">
           <source>Retry</source>
-          <target state="new">Retry</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ხელახლა ცდა</target>
         </trans-unit>
         <trans-unit id="ErrorDialogUnsupportedMoveOperation" translate="yes" xml:space="preserve">
           <source>Move operation is not supported in this context. Do you want to copy the items instead?</source>
           <target state="new">Move operation is not supported in this context. Do you want to copy the items instead?</target>
+        </trans-unit>
+        <trans-unit id="HiddenFilesAndFolders" translate="yes" xml:space="preserve">
+          <source>Hidden files and folders</source>
+          <target state="new">Hidden files and folders</target>
+        </trans-unit>
+        <trans-unit id="Custom" translate="yes" xml:space="preserve">
+          <source>Custom</source>
+          <target state="new">Custom</target>
+        </trans-unit>
+        <trans-unit id="SizeAllColumnsToFit" translate="yes" xml:space="preserve">
+          <source>Size All Columns to Fit</source>
+          <target state="new">Size All Columns to Fit</target>
+        </trans-unit>
+        <trans-unit id="Contributors" translate="yes" xml:space="preserve">
+          <source>Contributors</source>
+          <target state="new">Contributors</target>
         </trans-unit>
       </group>
     </body>

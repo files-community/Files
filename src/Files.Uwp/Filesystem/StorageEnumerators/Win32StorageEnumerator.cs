@@ -1,10 +1,12 @@
-﻿using Files.Shared;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Extensions;
+using Files.Backend.Services.Settings;
+using Files.Backend.Services.SizeProvider;
+using Files.Shared;
 using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
 using Files.Uwp.Helpers.FileListCache;
-using Files.Backend.Services.Settings;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
@@ -17,21 +19,20 @@ using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
-using static Files.Uwp.Helpers.NativeFindStorageItemHelper;
+using static Files.Backend.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.Uwp.Filesystem.StorageEnumerators
 {
     public static class Win32StorageEnumerator
     {
-        private static readonly IFolderSizeProvider folderSizeProvider = Ioc.Default.GetService<IFolderSizeProvider>();
+        private static readonly ISizeProvider folderSizeProvider = Ioc.Default.GetService<ISizeProvider>();
 
         private static readonly string folderTypeTextLocalized = "FileFolderListItem".GetLocalized();
         private static readonly IFileListCache fileListCache = FileListCacheController.GetInstance();
 
         public static async Task<List<ListedItem>> ListEntries(
             string path,
-            string returnformat,
             IntPtr hFile,
             WIN32_FIND_DATA findData,
             NamedPipeAsAppServiceConnection connection,
@@ -61,7 +62,7 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
                 {
                     if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
                     {
-                        var file = await GetFile(findData, path, returnformat, connection, cancellationToken);
+                        var file = await GetFile(findData, path, connection, cancellationToken);
                         if (file != null)
                         {
                             if (defaultIconPairs != null)
@@ -83,7 +84,7 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
                     {
                         if (findData.cFileName != "." && findData.cFileName != "..")
                         {
-                            var folder = await GetFolder(findData, path, returnformat, cancellationToken);
+                            var folder = await GetFolder(findData, path, cancellationToken);
                             if (folder != null)
                             {
                                 if (defaultIconPairs?.ContainsKey(string.Empty) ?? false)
@@ -96,12 +97,12 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
 
                                 if (showFolderSize)
                                 {
-                                    if (folderSizeProvider.GetCachedSize(folder.ItemPath, out var size))
+                                    if (folderSizeProvider.TryGetSize(folder.ItemPath, out var size))
                                     {
-                                        folder.FileSizeBytes = size;
+                                        folder.FileSizeBytes = (long)size;
                                         folder.FileSize = size.ToSizeString();
                                     }
-                                    _ = folderSizeProvider.UpdateFolderAsync(folder.ItemPath, cancellationToken);
+                                    _ = folderSizeProvider.UpdateAsync(folder.ItemPath, cancellationToken);
                                 }
                             }
                         }
@@ -128,7 +129,6 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
         public static async Task<ListedItem> GetFolder(
             WIN32_FIND_DATA findData,
             string pathRoot,
-            string dateReturnFormat,
             CancellationToken cancellationToken
         )
         {
@@ -166,7 +166,7 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
                 opacity = Constants.UI.DimItemOpacity;
             }
 
-            return new ListedItem(null, dateReturnFormat)
+            return new ListedItem(null)
             {
                 PrimaryItemAttribute = StorageItemTypes.Folder,
                 ItemNameRaw = itemName,
@@ -186,7 +186,6 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
         public static async Task<ListedItem> GetFile(
             WIN32_FIND_DATA findData,
             string pathRoot,
-            string dateReturnFormat,
             NamedPipeAsAppServiceConnection connection,
             CancellationToken cancellationToken
         )
@@ -241,7 +240,7 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
             if (isSymlink)
             {
                 var targetPath = NativeFileOperationsHelper.ParseSymLink(itemPath);
-                return new ShortcutItem(null, dateReturnFormat)
+                return new ShortcutItem(null)
                 {
                     PrimaryItemAttribute = StorageItemTypes.File,
                     FileExtension = itemFileExtension,
@@ -285,7 +284,7 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
                         {
                             return null;
                         }
-                        return new ShortcutItem(null, dateReturnFormat)
+                        return new ShortcutItem(null)
                         {
                             PrimaryItemAttribute = shInfo.IsFolder ? StorageItemTypes.Folder : StorageItemTypes.File,
                             FileExtension = itemFileExtension,
@@ -323,7 +322,7 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
             {
                 if (".zip".Equals(itemFileExtension, StringComparison.OrdinalIgnoreCase) && await ZipStorageFolder.CheckDefaultZipApp(itemPath))
                 {
-                    return new ZipItem(null, dateReturnFormat)
+                    return new ZipItem(null)
                     {
                         PrimaryItemAttribute = StorageItemTypes.Folder, // Treat zip files as folders
                         FileExtension = itemFileExtension,
@@ -343,7 +342,7 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
                 }
                 else
                 {
-                    return new ListedItem(null, dateReturnFormat)
+                    return new ListedItem(null)
                     {
                         PrimaryItemAttribute = StorageItemTypes.File,
                         FileExtension = itemFileExtension,
