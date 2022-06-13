@@ -8,5 +8,6 @@
         ExplorerShellCommand,
         OutputPath,
         SelectItem,
+        TagFiles
     }
 }

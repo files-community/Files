@@ -14,6 +14,8 @@ namespace Files.Backend.Services.Settings
 
         IEnumerable<FileTagViewModel> GetTagsByName(string tagName);
 
+        IEnumerable<FileTagViewModel> SearchTagsByName(string tagName);
+
         object ExportSettings();
 
         bool ImportSettings(object import);
