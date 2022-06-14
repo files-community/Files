@@ -211,6 +211,7 @@
     <Compile Include="Filesystem\StorageItems\BaseQueryResults.cs" />
     <Compile Include="Filesystem\StorageItems\FtpStorageFile.cs" />
     <Compile Include="Filesystem\StorageItems\FtpStorageFolder.cs" />
+    <Compile Include="Filesystem\StorageItems\NativeStorageFile.cs" />
     <Compile Include="Filesystem\StorageItems\ShellStorageFile.cs" />
     <Compile Include="Filesystem\StorageItems\ShellStorageFolder.cs" />
     <Compile Include="Filesystem\StorageItems\StreamWithContentType.cs" />
