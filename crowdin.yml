@@ -1,3 +1,5 @@
+commit_message: 'fix: new translations in %original_file_name% (%original_file_name%) from Crowdin'
+append_commit_message: false
 files:
   - source: /src/Files.Uwp/Strings/en-US/*.resw
     translation: /src/Files.Uwp/Strings/%locale%/%original_file_name%
