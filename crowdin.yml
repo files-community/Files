@@ -3,7 +3,7 @@ append_commit_message: false
 files:
   - source: /src/Files.Uwp/Strings/en-US/*.resw
     translation: /src/Files.Uwp/Strings/%locale%/%original_file_name%
-    languages_mapping: null
+    languages_mapping:
     locale:
       af: af
       ar: ar
