@@ -1,3 +1,3 @@
 files:
   - source: /src/Files.Uwp/Strings/en-US/*.resw
-    translation: /src/Files.Uwp//Strings/%locale%/%original_file_name%
+    translation: /src/Files.Uwp/Strings/%locale%/%original_file_name%
