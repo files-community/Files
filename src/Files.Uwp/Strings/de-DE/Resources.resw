@@ -2483,7 +2483,7 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
     <value>Lizenzen von Drittanbietern</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>Diese Einstellung modifiziert Systemdateien und kann zu unerwarteten Problemen führen. Die Entwickler übernehmen keine Verantwortung, falls ein Problem auftritt. Mit Aktivierung dieser Einstellungen bestätigen Sie, dass Ihnen dieses Risiko bewusst ist. Setzen Sie diese Einstellung unbedingt zurück, bevor Sie Files deinstallieren!</value>
+    <value>Diese Einstellung modifiziert Systemdateien und kann zu unerwarteten Problemen führen. Die Entwickler übernehmen keine Verantwortung, falls ein Problem auftritt. Mit Aktivierung dieser Einstellungen bestätigen Sie, dass Ihnen dieses Risiko bewusst ist.</value>
   </data>
   <data name="ClearAll" xml:space="preserve">
     <value>Alles löschen</value>

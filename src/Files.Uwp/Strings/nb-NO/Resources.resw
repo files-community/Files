@@ -2483,7 +2483,7 @@ Vi bruker App Center for å spore app-bruk og for å finne/reparere feil. All in
     <value>Tredjepartslisenser</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>Denne innstillingen gjør endringer på systemfiler og kan ha uventede sideeffekter på din enhet. Utviklerne tar ikke ansvar dersom det resulterer i problemer. Ved å fortsette med denne innstillingen anerkjenner du risikoen involvert ved å gjøre det. Vær oppmerksom på at avinstallering av Files ikke vil tilbakestille disse endringene, og kan forhindre deg fra å åpne filutforskeren, med mindre du skrur av denne innstillingen før du fjerner Files fra din enhet.</value>
+    <value>Denne innstillingen gjør endringer på systemfiler og kan ha uventede sideeffekter på din enhet. Utviklerne tar ikke ansvar dersom det resulterer i problemer. Ved å fortsette med denne innstillingen anerkjenner du risikoen involvert ved å gjøre det.</value>
   </data>
   <data name="ClearAll" xml:space="preserve">
     <value>Fjern alle</value>

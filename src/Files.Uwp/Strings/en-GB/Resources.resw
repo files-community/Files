@@ -2483,7 +2483,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
     <value>Third party licences</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>This setting modifies system files and can have unexpected side effects on your device. The developers take no responsibility in the event an issue occurs as a result. Continuing with this option is an acknowledgment of the risks involved with this action. Please note, uninstalling Files will not undo these changes and may prevent you from opening file explorer unless you turn off this setting before removing Files from your device.</value>
+    <value>This setting modifies system files and can have unexpected side effects on your device. The developers take no responsibility in the event an issue occurs as a result. Continuing with this option is an acknowledgment of the risks involved with this action.</value>
   </data>
   <data name="ClearAll" xml:space="preserve">
     <value>Clear all</value>

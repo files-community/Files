@@ -2483,7 +2483,7 @@ We gebruiken App Center om app-gebruik bij te houden, bugs te vinden en crashes 
     <value>Licenties van derden</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>Deze instelling wijzigt systeembestanden en kan onverwachte bijwerkingen op uw apparaat hebben. De ontwikkelaars nemen geen verantwoordelijkheid in het geval er zich een probleem voordoet. Doorgaan met deze optie is een erkenning van de risico's die aan deze actie zijn verbonden. Houd er rekening mee dat het verwijderen van Files deze wijzigingen niet ongedaan maakt en kan voorkomen dat u de verkenner kunt openen, tenzij u deze instelling uitschakelt voordat u Files van uw apparaat verwijdert.</value>
+    <value>Deze instelling wijzigt systeembestanden en kan onverwachte bijwerkingen op uw apparaat hebben. De ontwikkelaars nemen geen verantwoordelijkheid in het geval er zich een probleem voordoet. Doorgaan met deze optie is een erkenning van de risico's die aan deze actie zijn verbonden.</value>
   </data>
   <data name="ClearAll" xml:space="preserve">
     <value>Wis alles</value>
