@@ -118,337 +118,337 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="SideBarOpenInNewTab.Text" xml:space="preserve">
-    <value>Відкрити в новій вкладці</value>
+    <value>Open in new tab</value>
   </data>
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
-    <value>Відкрити в новому вікні</value>
+    <value>Open in new window</value>
   </data>
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
-    <value>Створити вікно</value>
+    <value>New window</value>
   </data>
   <data name="ModernNavigationToolbaNewBitmapImage.Text" xml:space="preserve">
-    <value>Зображення</value>
+    <value>Bitmap Image</value>
   </data>
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
-    <value>Текстовий документ</value>
+    <value>Text Document</value>
   </data>
   <data name="CopyLocation" xml:space="preserve">
-    <value>Копіювати розташування</value>
+    <value>Copy location</value>
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
-    <value>Вставити</value>
+    <value>Paste</value>
   </data>
   <data name="Browse" xml:space="preserve">
-    <value>Вибрати</value>
+    <value>Browse</value>
   </data>
   <data name="nameColumn.Header" xml:space="preserve">
-    <value>Ім’я</value>
+    <value>Name</value>
   </data>
   <data name="typeColumn.Header" xml:space="preserve">
-    <value>Тип</value>
+    <value>Type</value>
   </data>
   <data name="Size" xml:space="preserve">
-    <value>Розмір</value>
+    <value>Size</value>
   </data>
   <data name="OpenIn" xml:space="preserve">
-    <value>Відкрити в</value>
+    <value>Open in</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
-    <value>Створено:</value>
+    <value>Created:</value>
   </data>
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
-    <value>Ім’я</value>
+    <value>Item Name</value>
   </data>
   <data name="PropertiesItemPath.Text" xml:space="preserve">
-    <value>Шлях:</value>
+    <value>Path:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
-    <value>Розмір:</value>
+    <value>Size:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
-    <value>Ця дія не може бути завершена</value>
+    <value>This action cannot be done</value>
   </data>
   <data name="ErrorDialogTheDestinationFolder" xml:space="preserve">
-    <value>Цільова папка</value>
+    <value>The destination folder</value>
   </data>
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
-    <value>є підпапкою вихідної папки</value>
+    <value>is a subfolder of the source folder</value>
   </data>
   <data name="Skip" xml:space="preserve">
-    <value>Пропустити</value>
+    <value>Skip</value>
   </data>
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
-    <value>Виділити все</value>
+    <value>Select All</value>
   </data>
   <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
-    <value>Інвертувати виділення</value>
+    <value>Invert Selection</value>
   </data>
   <data name="NavToolbarClearSelection.Text" xml:space="preserve">
-    <value>Очистити виділення</value>
+    <value>Clear Selection</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
-    <value>Змінено</value>
+    <value>Modified:</value>
   </data>
   <data name="Accessed" xml:space="preserve">
-    <value>Відкрито:</value>
+    <value>Accessed:</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
-    <value>Очистити все</value>
+    <value>Clear all items</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Введіть шлях</value>
+    <value>Enter a path</value>
   </data>
   <data name="NavigationToolbarSearchRegion.PlaceholderText" xml:space="preserve">
-    <value>Пошук</value>
+    <value>Search</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
-    <value>Тут відображатимуться файли, до яких ви раніше отримували доступ</value>
+    <value>Files you've previously accessed will show up here</value>
   </data>
   <data name="RecentItemOpenFileLocation.Text" xml:space="preserve">
-    <value>Відкрити розташування файлу</value>
+    <value>Open file location</value>
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
-    <value>Видалити цей елемент</value>
+    <value>Remove this item</value>
   </data>
   <data name="SettingsUsefulLinks.Title" xml:space="preserve">
     <value>Useful links</value>
   </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
-    <value>Надіслати відгук</value>
+    <value>Submit feedback</value>
   </data>
   <data name="About" xml:space="preserve">
-    <value>Про програму</value>
+    <value>About</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
-    <value>Формат дати</value>
+    <value>Date format</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Вибір кольору</value>
+    <value>Choose your color</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Show extensions for known file types</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
-    <value>Відображати приховані файли та папки</value>
+    <value>Show hidden files and folders</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
     <value>Show dot files</value>
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
-    <value>Експериментально</value>
+    <value>Experimental</value>
   </data>
   <data name="Appearance" xml:space="preserve">
-    <value>Оформлення</value>
+    <value>Appearance</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
-    <value>Експериментально</value>
+    <value>Experimental</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
-    <value>Налаштування</value>
+    <value>Preferences</value>
   </data>
   <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
-    <value>УВАГА: ЕКСПЕРИМЕНТАЛЬНІ ФУНКЦІЇ!</value>
+    <value>WARNING: EXPERIMENTAL FEATURES AHEAD!</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
-    <value>Продовжити, де ви зупинилися</value>
+    <value>Continue where you left off</value>
   </data>
   <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
-    <value>Відкрити нову вкладку</value>
+    <value>Open a new tab</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
-    <value>Відкрити певну сторінку або сторінки</value>
+    <value>Open a specific page or pages</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
-    <value>Налаштування</value>
+    <value>Preferences</value>
   </data>
   <data name="Desktop" xml:space="preserve">
-    <value>Робочий стіл</value>
+    <value>Desktop</value>
   </data>
   <data name="Documents" xml:space="preserve">
-    <value>Документи</value>
+    <value>Documents</value>
   </data>
   <data name="Downloads" xml:space="preserve">
-    <value>Завантаження</value>
+    <value>Downloads</value>
   </data>
   <data name="SideBarUnpinFromFavorites.Text" xml:space="preserve">
     <value>Unpin from Favorites</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
-    <value>Сортування</value>
+    <value>Sort by</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value>Ім’я</value>
+    <value>Name</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
-    <value>Тип</value>
+    <value>Type</value>
   </data>
   <data name="Ascending" xml:space="preserve">
-    <value>За зростанням</value>
+    <value>Ascending</value>
   </data>
   <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
-    <value>Оновити</value>
+    <value>Refresh</value>
   </data>
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
-    <value>Вставити</value>
+    <value>Paste</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
-    <value>Нові</value>
+    <value>New</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
-    <value>Файл</value>
+    <value>File</value>
   </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
-    <value>Властивості</value>
+    <value>Properties</value>
   </data>
   <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
-    <value>Властивості</value>
+    <value>Properties</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
-    <value>Вилучити</value>
+    <value>Extract</value>
   </data>
   <data name="Open" xml:space="preserve">
-    <value>Відкрити</value>
+    <value>Open</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
-    <value>Відкрити в новій вкладці</value>
+    <value>Open in new tab</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" xml:space="preserve">
-    <value>Відкрити в новому вікні</value>
+    <value>Open in new window</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" xml:space="preserve">
-    <value>Установити як тло робочого стола</value>
+    <value>Set as desktop background</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
-    <value>Поділитися</value>
+    <value>Share</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
-    <value>Вирізати</value>
+    <value>Cut</value>
   </data>
   <data name="Delete" xml:space="preserve">
-    <value>Видалити</value>
+    <value>Delete</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
-    <value>Перейменувати</value>
+    <value>Rename</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
-    <value>Закріпити в меню уподобань</value>
+    <value>Pin to Favorites</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
-    <value>Властивості</value>
+    <value>Properties</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
-    <value>Ласкаво просимо до Files!</value>
+    <value>Welcome to Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Надати дозвіл</value>
+    <value>Grant Permission</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>Для початку вам потрібно надати нам дозвіл на показ ваших файлів. Це відкриє сторінку налаштувань, де ви можете надати нам цей дозвіл. Вам потрібно буде знову відкрити додаток після завершення.</value>
+    <value>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once you've completed this step. </value>
   </data>
   <data name="FileFolderListItem" xml:space="preserve">
-    <value>Папка з файлами</value>
+    <value>File folder</value>
   </data>
   <data name="ItemTypeFile" xml:space="preserve">
-    <value>Файл</value>
+    <value>File</value>
   </data>
   <data name="RenameDialog.Title" xml:space="preserve">
-    <value>Введіть назву</value>
+    <value>Enter an item name</value>
   </data>
   <data name="RenameDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Введіть назву елемента</value>
+    <value>Enter an item name</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Зберегти</value>
+    <value>Set Name</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
-    <value>Світла</value>
+    <value>Light</value>
   </data>
   <data name="DarkTheme" xml:space="preserve">
-    <value>Темна</value>
+    <value>Dark</value>
   </data>
   <data name="Application" xml:space="preserve">
-    <value>За замовчуванням</value>
+    <value>Application</value>
   </data>
   <data name="SystemTimeStyle" xml:space="preserve">
-    <value>Система</value>
+    <value>System</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
-    <value>Нова папка</value>
+    <value>New Folder</value>
   </data>
   <data name="NewFile" xml:space="preserve">
-    <value>Новий файл</value>
+    <value>New File</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
-    <value>Ця папка порожня.</value>
+    <value>This folder is empty.</value>
   </data>
   <data name="NavBackButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Назад (Alt + Стрілка вліво)</value>
+    <value>Back (Alt+Left Arrow)</value>
   </data>
   <data name="NavForwardButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Вперед (Alt + Стрілка вправо)</value>
+    <value>Forward (Alt+Right Arrow)</value>
   </data>
   <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Вгору (Alt + Стрілка вгору)</value>
+    <value>Up (Alt+Up Arrow)</value>
   </data>
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Оновити (F5)</value>
+    <value>Refresh (F5)</value>
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Пошук</value>
+    <value>Search (Ctrl+F)</value>
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
-    <value>Властивості</value>
+    <value>Properties</value>
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
-    <value>Властивості</value>
+    <value>Properties</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
-    <value>Елемент з цим іменем вже існує в цій папці.</value>
+    <value>An item with this name already exists in this directory.</value>
   </data>
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Замінити існуючий елемент</value>
+    <value>Replace existing item</value>
   </data>
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
-    <value>Елемент вже існує</value>
+    <value>Item already exists</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
-    <value>Установити як тло екрану блокування</value>
+    <value>Set as lockscreen background</value>
   </data>
   <data name="BaseLayoutContextFlyoutLargeIcons.Text" xml:space="preserve">
-    <value>Величезні піктограми</value>
+    <value>Large Icons</value>
   </data>
   <data name="BaseLayoutContextFlyoutMediumIcons.Text" xml:space="preserve">
-    <value>Великі піктограми</value>
+    <value>Medium Icons</value>
   </data>
   <data name="BaseLayoutContextFlyoutSmallIcons.Text" xml:space="preserve">
-    <value>Середні піктограми</value>
+    <value>Small Icons</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
-    <value>ОК</value>
+    <value>OK</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
-    <value>Не вдалося видалити цей елемент</value>
+    <value>We weren't able to delete this item</value>
   </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
-    <value>Підключить необхідний диск для доступу до цього елемента.</value>
+    <value>Please insert the necessary drive to access this item.</value>
   </data>
   <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
-    <value>Диск відключено</value>
+    <value>Drive Unplugged</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
-    <value>Файл, до якого ви намагаєтеся отримати доступ, можливо було переміщено або видалено.</value>
+    <value>The file you are attempting to access may have been moved or deleted.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
-    <value>Файл не знайдено</value>
+    <value>File Not Found</value>
   </data>
   <data name="FileNotFoundPreviewDialog.Text" xml:space="preserve">
-    <value>Файл, який ви намагаєтеся переглянути, можливо був переміщений або видалений.</value>
+    <value>The file you are attempting to preview may have been moved or deleted.</value>
   </data>
   <data name="FolderNotFoundDialog.Text" xml:space="preserve">
-    <value>Папку, до якої ви намагаєтеся отримати доступ, можливо було переміщено або видалено.</value>
+    <value>The folder you are attempting to access may have been moved or deleted.</value>
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
-    <value>Ви видалили цю папку?</value>
+    <value>Did you delete this folder?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
     <value>The file you are attempting to access is currently being used by {0}</value>
@@ -460,355 +460,355 @@
     <value>File is in use</value>
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
-    <value>Макет</value>
+    <value>Layout</value>
   </data>
   <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Виділення</value>
+    <value>Selection options</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
-    <value>Лише для читання</value>
+    <value>Read-only</value>
   </data>
   <data name="PropertiesDialogHidden.Text" xml:space="preserve">
-    <value>Прихований</value>
+    <value>Hidden</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
-    <value>Очистити кошик</value>
+    <value>Empty recycle bin</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
-    <value>Відновити</value>
+    <value>Restore</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
-    <value>{0} днів тому</value>
+    <value>{0} days ago</value>
   </data>
   <data name="DayAgo" xml:space="preserve">
-    <value>{0} день тому</value>
+    <value>{0} day ago</value>
   </data>
   <data name="HoursAgo" xml:space="preserve">
-    <value>{0} годин тому</value>
+    <value>{0} hours ago</value>
   </data>
   <data name="HourAgo" xml:space="preserve">
-    <value>{0} годину тому</value>
+    <value>{0} hour ago</value>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
-    <value>{0} хвилин тому</value>
+    <value>{0} minutes ago</value>
   </data>
   <data name="MinuteAgo" xml:space="preserve">
-    <value>{0} хвилину тому</value>
+    <value>{0} minute ago</value>
   </data>
   <data name="SecondsAgo" xml:space="preserve">
-    <value>{0} секунд тому</value>
+    <value>{0} seconds ago</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
-    <value>Нова вкладка</value>
+    <value>New Tab</value>
   </data>
   <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
-    <value>Дана операція не підтримується</value>
+    <value>The requested operation is not supported</value>
   </data>
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
-    <value>{0} вільно з {1}</value>
+    <value>{0} free of {1}</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
-    <value>Відкрити за допомогою</value>
+    <value>Open With</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
-    <value>Ім'я елемента не повинно містити таких знаків: \ / : * ? " &lt; &gt; |</value>
+    <value>The item name must not contain the following characters: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
     <value>OK</value>
   </data>
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
-    <value>Ім'я елемента не повинно містити таких знаків: \ / : * ? " &lt; &gt; |</value>
+    <value>The item name must not contain the following characters: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
-    <value>елемент вибрано</value>
+    <value>item selected</value>
   </data>
   <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>елементів вибрано</value>
+    <value>items selected</value>
   </data>
   <data name="ItemCount.Text" xml:space="preserve">
-    <value>елемент</value>
+    <value>item</value>
   </data>
   <data name="ItemsCount.Text" xml:space="preserve">
-    <value>елементів</value>
+    <value>items</value>
   </data>
   <data name="DeleteInProgress.Title" xml:space="preserve">
-    <value>Видалення файлів</value>
+    <value>Deleting files</value>
   </data>
   <data name="PasteInProgress.Title" xml:space="preserve">
-    <value>Вставка файлів</value>
+    <value>Pasting files</value>
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
-    <value>Переміщення файлів до Кошика</value>
+    <value>Moving files to the Recycle Bin</value>
   </data>
   <data name="Yes" xml:space="preserve">
-    <value>Так</value>
+    <value>Yes</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
-    <value>Ви впевнені, що хочете назавжди видалити всі ці елементи?</value>
+    <value>Are you sure you want to permanently delete all these items?</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
-    <value>Очистити кошик</value>
+    <value>Empty recycle bin</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
-    <value>байт</value>
+    <value>bytes</value>
   </data>
   <data name="KiloByteSymbol" xml:space="preserve">
-    <value>КБ</value>
+    <value>KB</value>
   </data>
   <data name="MegaByteSymbol" xml:space="preserve">
-    <value>МБ</value>
+    <value>MB</value>
   </data>
   <data name="GigaByteSymbol" xml:space="preserve">
-    <value>ГБ</value>
+    <value>GB</value>
   </data>
   <data name="TeraByteSymbol" xml:space="preserve">
-    <value>ТБ</value>
+    <value>TB</value>
   </data>
   <data name="PetaByteSymbol" xml:space="preserve">
-    <value>ПБ</value>
+    <value>PB</value>
   </data>
   <data name="ByteSymbol" xml:space="preserve">
-    <value>Б</value>
+    <value>B</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
-    <value>Запуск від імені адміністратора</value>
+    <value>Run as administrator</value>
   </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
-    <value>Містить:</value>
+    <value>Contains:</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
-    <value>{0:#,##0} Файлів, {1:#,##0} Папок</value>
+    <value>{0:#,##0} files, {1:#,##0} folders</value>
   </data>
   <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
     <value>{0:#,##0} files, {1:#,##0} folders from {2:#,##0} locations</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
-    <value>Запуск від імені іншого користувача</value>
+    <value>Run as another user</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
-    <value>Всі типу {0}</value>
+    <value>All type of {0}</value>
   </data>
   <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
-    <value>Різні типи</value>
+    <value>Different types</value>
   </data>
   <data name="PropertiesCombinedItemPath" xml:space="preserve">
-    <value>Всі в папці {0}</value>
+    <value>All in {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
-    <value>Зайнято:</value>
+    <value>Used space:</value>
   </data>
   <data name="PropertiesDriveFreeSpace.Text" xml:space="preserve">
-    <value>Доступно:</value>
+    <value>Free space:</value>
   </data>
   <data name="PropertiesDriveCapacity.Text" xml:space="preserve">
-    <value>Ємність:</value>
+    <value>Capacity:</value>
   </data>
   <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
-    <value>Файлова система:</value>
+    <value>File system:</value>
   </data>
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
-    <value>Недавні</value>
+    <value>Recent</value>
   </data>
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
-    <value>Перемістити вкладку</value>
+    <value>Move tab here</value>
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
-    <value>Статус</value>
+    <value>Status</value>
   </data>
   <data name="SettingsOnStartupOpenAddPageButton.Content" xml:space="preserve">
-    <value>Додати нову сторінку</value>
+    <value>Add a new page</value>
   </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
-    <value>Сторінки:</value>
+    <value>Pages:</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
-    <value>Стандартна</value>
+    <value>Windows default</value>
   </data>
   <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
-    <value>Немає результатів</value>
+    <value>No results</value>
   </data>
   <data name="SubDirectoryAccessDenied" xml:space="preserve">
-    <value>Немає доступу</value>
+    <value>Can't access any items to display</value>
   </data>
   <data name="MoveToFolderCaptionText" xml:space="preserve">
-    <value>Перемістити в {0}</value>
+    <value>Move to {0}</value>
   </data>
   <data name="ErrorDialogSameSourceDestinationFile" xml:space="preserve">
-    <value>Вихідний і кінцевий файл мають однакові імена.</value>
+    <value>The source and destination file names are the same.</value>
   </data>
   <data name="ErrorDialogSameSourceDestinationFolder" xml:space="preserve">
-    <value>Папка призначення співпадає з вихідною папкою.</value>
+    <value>The destination folder is the same as the source folder.</value>
   </data>
   <data name="CopyToFolderCaptionText" xml:space="preserve">
-    <value>Копіювати до {0}</value>
+    <value>Copy to {0}</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
-    <value>Створити ярлик</value>
+    <value>Create shortcut</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
-    <value>Відкрити розташування файлу</value>
+    <value>Open file location</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
-    <value>Аргументи:</value>
+    <value>Arguments:</value>
   </data>
   <data name="PropertiesShortcutItemPath.Text" xml:space="preserve">
-    <value>Об'єкт:</value>
+    <value>Destination:</value>
   </data>
   <data name="PropertiesShortcutItemType.Text" xml:space="preserve">
-    <value>Тип ярлика:</value>
+    <value>Shortcut type:</value>
   </data>
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
-    <value>Робоча папка:</value>
+    <value>Working directory:</value>
   </data>
   <data name="PropertiesShortcutTypeFile" xml:space="preserve">
-    <value>Файл</value>
+    <value>File</value>
   </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
-    <value>Веб-посилання</value>
+    <value>Web link</value>
   </data>
   <data name="General" xml:space="preserve">
-    <value>Основні</value>
+    <value>General</value>
   </data>
   <data name="Shortcut" xml:space="preserve">
-    <value>Ярлик</value>
+    <value>Shortcut</value>
   </data>
   <data name="ShortcutFileType" xml:space="preserve">
-    <value>Ярлик</value>
+    <value>Shortcut</value>
   </data>
   <data name="ShortcutWebLinkFileType" xml:space="preserve">
-    <value>Інтернет-ярлик</value>
+    <value>Internet shortcut</value>
   </data>
   <data name="ShortcutCreateNewSuffix" xml:space="preserve">
-    <value>{0} - ярлик</value>
+    <value>{0} - shortcut</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
-    <value>Відкрити розташування файлу</value>
+    <value>Open file location</value>
   </data>
   <data name="DriveCapacityUnknown" xml:space="preserve">
-    <value>Невідомо</value>
+    <value>Unknown</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
-    <value>Files зіткнулися з проблемою, до якої розробники були не готові.</value>
+    <value>Files ran into a problem that the developers didn't prepare for yet.</value>
   </data>
   <data name="ExceptionNotificationHeader" xml:space="preserve">
-    <value>Сталася помилка!</value>
+    <value>Something went wrong!</value>
   </data>
   <data name="ExceptionNotificationReportButton" xml:space="preserve">
-    <value>Повідомте про цю проблему</value>
+    <value>Report this issue</value>
   </data>
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
-    <value>Автори</value>
+    <value>Contributors</value>
   </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
-    <value>Інформація про випуск</value>
+    <value>Release notes</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
-    <value>Елемент є недійсним або недоступним.{0}Повідомлення про помилку:{0}{1}</value>
+    <value>The item referenced is either invalid or inaccessible.{0}Error message:{0}{1}</value>
   </data>
   <data name="InvalidItemDialogTitle" xml:space="preserve">
-    <value>Невірний елемент</value>
+    <value>Invalid item</value>
   </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
-    <value>Версія:</value>
+    <value>Version:</value>
   </data>
   <data name="ShareDialogFailMessage" xml:space="preserve">
-    <value>Наразі нема до чого надавати спільний доступ...</value>
+    <value>There's nothing to share right now...</value>
   </data>
   <data name="ShareDialogMultipleItemsDescription" xml:space="preserve">
-    <value>Вибраним елементам буде надано загальний доступ</value>
+    <value>The items you've selected will be shared</value>
   </data>
   <data name="ShareDialogSingleItemDescription" xml:space="preserve">
-    <value>Вибраному елементу буде надано загальний доступ</value>
+    <value>The selected item will be shared</value>
   </data>
   <data name="ShareDialogTitle" xml:space="preserve">
-    <value>Надається спільний доступ до ресурсу "{0}"</value>
+    <value>Sharing {0}</value>
   </data>
   <data name="ShareDialogTitleMultipleItems" xml:space="preserve">
-    <value>Спільний доступ до {0} {1}</value>
+    <value>Sharing {0} {1}</value>
   </data>
   <data name="RenameError.ItemDeleted.Text" xml:space="preserve">
-    <value>Елемент, який ви намагаєтесь перейменувати, більше не існує. Будь ласка, перевірте правильність розташування предмета, який потрібно перейменувати.</value>
+    <value>The item you're attempting to rename no longer exists. Please verify the correct location of the item you need to rename.</value>
   </data>
   <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
-    <value>Елемент більше не існує</value>
+    <value>Item no longer exists</value>
   </data>
   <data name="RenameError.NameInvalid.Text" xml:space="preserve">
-    <value>Вказане невірне ім’я. Перевірте бажану назву товару та повторіть спробу.</value>
+    <value>The name specified was invalid. Please check the desired item name and try again.</value>
   </data>
   <data name="RenameError.NameInvalid.Title" xml:space="preserve">
-    <value>Невірне ім’я елемента</value>
+    <value>Invalid item name</value>
   </data>
   <data name="RenameError.TooLong.Text" xml:space="preserve">
-    <value>Довжина вказаної назви товару перевищує максимальну межу. Перевірте бажане ім’я та повторіть спробу.</value>
+    <value>The length of the item name specified exceeds the maximum limit. Please check the desired name and try again.</value>
   </data>
   <data name="RenameError.TooLong.Title" xml:space="preserve">
-    <value>Назва елемента занадто велика</value>
+    <value>Item name was too long</value>
   </data>
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
-    <value>Більше</value>
+    <value>More</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
-    <value>Додаток потрібно перезапустити, щоб застосувати налаштування мови. Чи хочете ви перезапустити програму?</value>
+    <value>The application needs to be restarted in order to apply these settings, would you like to restart the app?</value>
   </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
-    <value>Підтримайте нас</value>
+    <value>Support us</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
-    <value>Елемент не може бути створений</value>
+    <value>We weren't able to create this item</value>
   </data>
   <data name="AccessDenied" xml:space="preserve">
-    <value>Немає доступу</value>
+    <value>Access Denied</value>
   </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
-    <value>Створити вкладку</value>
+    <value>Add tab</value>
   </data>
   <data name="VerticalTabViewHeader.Text" xml:space="preserve">
-    <value>Відкриті вкладки</value>
+    <value>Open tabs</value>
   </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
-    <value>Багатозадачність</value>
+    <value>Multitasking</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
-    <value>Багатозадачність</value>
+    <value>Multitasking</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
-    <value>Установити як</value>
+    <value>Set as</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Скасувати</value>
+    <value>Cancel</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
-    <value>Створити новий елемент</value>
+    <value>Create a New Item</value>
   </data>
   <data name="AddDialogDescription.Text" xml:space="preserve">
-    <value>Виберіть тип для цього нового елемента нижче</value>
+    <value>Choose a type for this new item below</value>
   </data>
   <data name="File" xml:space="preserve">
-    <value>Файл</value>
+    <value>File</value>
   </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
-    <value>Створює порожній файл</value>
+    <value>Creates an empty file</value>
   </data>
   <data name="Folder" xml:space="preserve">
-    <value>Папка</value>
+    <value>Folder</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
-    <value>Створює порожню папку</value>
+    <value>Creates an empty folder</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
-    <value>Вид піктограм</value>
+    <value>Layout mode</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Навігація назад</value>
+    <value>Navigate backwards</value>
   </data>
   <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Перехід уперед</value>
+    <value>Navigate forward</value>
   </data>
   <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Оновлення каталогу</value>
+    <value>Refresh the directory</value>
   </data>
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Піднятися вгору на один каталог</value>
+    <value>Go up one directory</value>
   </data>
   <data name="VerticalTabFlyout.AutomationProperties.Name" xml:space="preserve">
     <value>Vertical tab flyout</value>
@@ -817,7 +817,7 @@
     <value>Vertical tab flyout</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
-    <value>Мови</value>
+    <value>Language</value>
   </data>
   <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
     <value>Terminal applications</value>
@@ -835,64 +835,64 @@
     <value>Show a confirmation dialog when deleting files or folders</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
-    <value>Не вдалося зберегти деякі властивості.</value>
+    <value>There was an issue saving some properties.</value>
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
-    <value>Помилка</value>
+    <value>Error</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Закрити</value>
+    <value>Close anyway</value>
   </data>
   <data name="PropertyRatingText" xml:space="preserve">
-    <value>Рейтинг</value>
+    <value>Rating</value>
   </data>
   <data name="PropertyItemPathDisplay" xml:space="preserve">
-    <value>Шлях елемента</value>
+    <value>Item Path</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
-    <value>Тип файлу</value>
+    <value>Item Type</value>
   </data>
   <data name="PropertyTitle" xml:space="preserve">
-    <value>Заголовок</value>
+    <value>Title</value>
   </data>
   <data name="PropertySubject" xml:space="preserve">
-    <value>Об’єкт</value>
+    <value>Subject</value>
   </data>
   <data name="PropertyComment" xml:space="preserve">
-    <value>Коментар</value>
+    <value>Comment</value>
   </data>
   <data name="PropertyCopyright" xml:space="preserve">
-    <value>Авторське право</value>
+    <value>Copyright</value>
   </data>
   <data name="PropertyDateModified" xml:space="preserve">
-    <value>Дата змінення</value>
+    <value>Date Modified</value>
   </data>
   <data name="PropertyBitDepth" xml:space="preserve">
-    <value>Глибина кольору</value>
+    <value>Bit Depth</value>
   </data>
   <data name="PropertyDimensions" xml:space="preserve">
-    <value>Розміри</value>
+    <value>Dimensions</value>
   </data>
   <data name="PropertyHorizontalSize" xml:space="preserve">
-    <value>Розмір по горизонталі</value>
+    <value>Horizontal Size</value>
   </data>
   <data name="PropertyVerticalSize" xml:space="preserve">
-    <value>Розмір по вертикалі</value>
+    <value>Vertical Size</value>
   </data>
   <data name="PropertyHorizontalResolution" xml:space="preserve">
-    <value>Роздільна здатність по горизонталі</value>
+    <value>Horizontal Resolution</value>
   </data>
   <data name="PropertyVerticalResolution" xml:space="preserve">
-    <value>Роздільна здатність по вертикалі</value>
+    <value>Vertical Resolution</value>
   </data>
   <data name="PropertyColorSpace" xml:space="preserve">
-    <value>Кольоровий простір</value>
+    <value>Color Space</value>
   </data>
   <data name="PropertyColorSpace_Value0" xml:space="preserve">
     <value>sRGB</value>
   </data>
   <data name="PropertyColorSpace_Value65535" xml:space="preserve">
-    <value>Не вказано</value>
+    <value>Unspecified</value>
   </data>
   <data name="PropertyLongitudeDecimal" xml:space="preserve">
     <value>Longitude Decimal</value>
@@ -901,10 +901,10 @@
     <value>Latitude Decimal</value>
   </data>
   <data name="PropertyLatitude" xml:space="preserve">
-    <value>Широта</value>
+    <value>Latitude</value>
   </data>
   <data name="PropertyLongitude" xml:space="preserve">
-    <value>Довгота</value>
+    <value>Longitude</value>
   </data>
   <data name="PropertyLatitudeRef" xml:space="preserve">
     <value>Latitude Ref</value>
@@ -913,73 +913,73 @@
     <value>Longitude Ref</value>
   </data>
   <data name="PropertyAltitude" xml:space="preserve">
-    <value>Висота</value>
+    <value>Altitude</value>
   </data>
   <data name="PropertyDateTaken" xml:space="preserve">
-    <value>Дата зйомки</value>
+    <value>Date Taken</value>
   </data>
   <data name="PropertyCameraManufacturer" xml:space="preserve">
-    <value>Виробник камери</value>
+    <value>Camera Manufacturer</value>
   </data>
   <data name="PropertyCameraModel" xml:space="preserve">
-    <value>Модель камери</value>
+    <value>Camera Model</value>
   </data>
   <data name="PropertyExposureTime" xml:space="preserve">
-    <value>Час витримки</value>
+    <value>Exposure Time</value>
   </data>
   <data name="PropertyFocalLength" xml:space="preserve">
-    <value>Фокусна відстань</value>
+    <value>Focal Length</value>
   </data>
   <data name="PropertyAperture" xml:space="preserve">
-    <value>Апертура</value>
+    <value>Aperture</value>
   </data>
   <data name="PropertyPeopleNames" xml:space="preserve">
-    <value>Імена людей</value>
+    <value>People Names</value>
   </data>
   <data name="PropertyChannelCount" xml:space="preserve">
-    <value>Кількість каналів</value>
+    <value>Channel Count</value>
   </data>
   <data name="PropertyFormat" xml:space="preserve">
-    <value>Формат</value>
+    <value>Format</value>
   </data>
   <data name="PropertySampleRate" xml:space="preserve">
-    <value>Частота дискретизації:</value>
+    <value>Sample Rate</value>
   </data>
   <data name="PropertyAlbumArtist" xml:space="preserve">
-    <value>Виконавець альбому</value>
+    <value>Album Artist</value>
   </data>
   <data name="PropertyAlbumTitle" xml:space="preserve">
-    <value>Назва альбому</value>
+    <value>Album Title</value>
   </data>
   <data name="Artist" xml:space="preserve">
-    <value>Виконавець</value>
+    <value>Artist</value>
   </data>
   <data name="PropertyBeatsPerMinute" xml:space="preserve">
-    <value>Кількість ударів на хвилину</value>
+    <value>Beats Per Minute</value>
   </data>
   <data name="PropertyComposer" xml:space="preserve">
-    <value>Композитор</value>
+    <value>Composer</value>
   </data>
   <data name="Conductor" xml:space="preserve">
-    <value>Диригент</value>
+    <value>Conductor</value>
   </data>
   <data name="PropertyDiscNumber" xml:space="preserve">
-    <value>№ диску</value>
+    <value>Disc Number</value>
   </data>
   <data name="PropertyGenre" xml:space="preserve">
-    <value>Жанр</value>
+    <value>Genre</value>
   </data>
   <data name="PropertyTrackNumber" xml:space="preserve">
-    <value>Номер запису</value>
+    <value>Track Number</value>
   </data>
   <data name="PropertyDuration" xml:space="preserve">
-    <value>Тривалість</value>
+    <value>Duration</value>
   </data>
   <data name="PropertyFrameCount" xml:space="preserve">
     <value>Frame Count</value>
   </data>
   <data name="PropertyProtectionType" xml:space="preserve">
-    <value>Тип захисту</value>
+    <value>Protection Type</value>
   </data>
   <data name="PropertyAuthorUrl" xml:space="preserve">
     <value>Author Url</value>
@@ -988,19 +988,19 @@
     <value>Content Distributor</value>
   </data>
   <data name="PropertyDateReleased" xml:space="preserve">
-    <value>Дата випуску</value>
+    <value>Date Released</value>
   </data>
   <data name="PropertySeriesName" xml:space="preserve">
-    <value>Ім’я ряду</value>
+    <value>Series Name</value>
   </data>
   <data name="PropertySeasonNumber" xml:space="preserve">
-    <value>Номер сезону</value>
+    <value>Season Number</value>
   </data>
   <data name="PropertyEpisodeNumber" xml:space="preserve">
-    <value>Номер епізоду</value>
+    <value>Episode Number</value>
   </data>
   <data name="PropertyProducer" xml:space="preserve">
-    <value>Продюсер</value>
+    <value>Producer</value>
   </data>
   <data name="PropertyPromotionUrl" xml:space="preserve">
     <value>Promotion Url</value>
@@ -1009,7 +1009,7 @@
     <value>Provider Style</value>
   </data>
   <data name="PropertyPublisher" xml:space="preserve">
-    <value>Видавець</value>
+    <value>Publisher</value>
   </data>
   <data name="PropertyThumbnailLargePath" xml:space="preserve">
     <value>Thumbnail Large Path</value>
@@ -1027,214 +1027,214 @@
     <value>User Web Url</value>
   </data>
   <data name="PropertyWriter" xml:space="preserve">
-    <value>Автор</value>
+    <value>Writer</value>
   </data>
   <data name="PropertyYear" xml:space="preserve">
-    <value>Рік</value>
+    <value>Year</value>
   </data>
   <data name="PropertyContributor" xml:space="preserve">
-    <value>Співавтор</value>
+    <value>Contributor</value>
   </data>
   <data name="PropertyLastAuthor" xml:space="preserve">
-    <value>Автор змін</value>
+    <value>Last Author</value>
   </data>
   <data name="PropertyRevisionNumber" xml:space="preserve">
-    <value>Редакція</value>
+    <value>Revision Number</value>
   </data>
   <data name="PropertyVersion" xml:space="preserve">
-    <value>Версія</value>
+    <value>Version</value>
   </data>
   <data name="PropertyDateCreated" xml:space="preserve">
-    <value>Дата створення</value>
+    <value>Date Created</value>
   </data>
   <data name="PropertyDateSaved" xml:space="preserve">
-    <value>Дата збереження</value>
+    <value>Date Saved</value>
   </data>
   <data name="PropertyDatePrinted" xml:space="preserve">
     <value>Date Printed</value>
   </data>
   <data name="PropertyTotalEditingTime" xml:space="preserve">
-    <value>Загальний час редагування</value>
+    <value>Total Editing Time</value>
   </data>
   <data name="PropertyTemplate" xml:space="preserve">
-    <value>Шаблон</value>
+    <value>Template</value>
   </data>
   <data name="PropertyWordCount" xml:space="preserve">
-    <value>Кількість слів</value>
+    <value>Word Count</value>
   </data>
   <data name="PropertyCharacterCount" xml:space="preserve">
-    <value>Кількість знаків</value>
+    <value>Character Count</value>
   </data>
   <data name="PropertyLineCount" xml:space="preserve">
-    <value>Кількість рядків</value>
+    <value>Line Count</value>
   </data>
   <data name="PropertyParagraphCount" xml:space="preserve">
-    <value>Кількість параграфів</value>
+    <value>Paragraph Count</value>
   </data>
   <data name="PropertyPageCount" xml:space="preserve">
-    <value>Кількість сторінок</value>
+    <value>Page Count</value>
   </data>
   <data name="PropertySlideCount" xml:space="preserve">
-    <value>Кількість слайдів</value>
+    <value>Slide Count</value>
   </data>
   <data name="PropertyFrameRate" xml:space="preserve">
-    <value>Частота кадрів</value>
+    <value>Frame Rate</value>
   </data>
   <data name="PropertyEncodingBitrate" xml:space="preserve">
-    <value>Швидкість потоку</value>
+    <value>Encoding Bitrate</value>
   </data>
   <data name="Compression" xml:space="preserve">
-    <value>Стискання</value>
+    <value>Compression</value>
   </data>
   <data name="PropertyFrameWidth" xml:space="preserve">
-    <value>Ширина кадру</value>
+    <value>Frame Width</value>
   </data>
   <data name="PropertyFrameHeight" xml:space="preserve">
-    <value>Висота кадру</value>
+    <value>Frame Height</value>
   </data>
   <data name="PropertyOrientation" xml:space="preserve">
-    <value>Орієнтація</value>
+    <value>Orientation</value>
   </data>
   <data name="PropertySectionCore" xml:space="preserve">
-    <value>Головне</value>
+    <value>Core</value>
   </data>
   <data name="PropertySectionImage" xml:space="preserve">
-    <value>Зображення</value>
+    <value>Image</value>
   </data>
   <data name="PropertySectionPhoto" xml:space="preserve">
-    <value>Фото</value>
+    <value>Photo</value>
   </data>
   <data name="PropertySectionGPS" xml:space="preserve">
     <value>GPS</value>
   </data>
   <data name="PropertySectionMedia" xml:space="preserve">
-    <value>Медіа</value>
+    <value>Media</value>
   </data>
   <data name="PropertySectionAudio" xml:space="preserve">
-    <value>Аудіо</value>
+    <value>Audio</value>
   </data>
   <data name="PropertySectionMusic" xml:space="preserve">
-    <value>Музика</value>
+    <value>Music</value>
   </data>
   <data name="PropertySectionVideo" xml:space="preserve">
-    <value>Відео</value>
+    <value>Video</value>
   </data>
   <data name="Document" xml:space="preserve">
-    <value>Документ</value>
+    <value>Document</value>
   </data>
   <data name="Address" xml:space="preserve">
-    <value>Адреса</value>
+    <value>Address</value>
   </data>
   <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
-    <value>Виділення</value>
+    <value>Selection options</value>
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
-    <value>Виділити</value>
+    <value>Select</value>
   </data>
   <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
     <value>Open files with a single click</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
-    <value>Файл</value>
+    <value>File</value>
   </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
-    <value>Кошик</value>
+    <value>Recycle bin item</value>
   </data>
   <data name="ShortcutItemAutomation" xml:space="preserve">
-    <value>Ярлик</value>
+    <value>Shortcut item</value>
   </data>
   <data name="Drives" xml:space="preserve">
-    <value>Диски</value>
+    <value>Drives</value>
   </data>
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
-    <value>Перемістити</value>
+    <value>Move here</value>
   </data>
   <data name="EjectNotificationHeader" xml:space="preserve">
-    <value>Пристрій безпечно вилучено</value>
+    <value>Safe to remove hardware</value>
   </data>
   <data name="EjectNotificationBody" xml:space="preserve">
-    <value>Тепер пристрій може бути безпечно вилучено з комп'ютера.</value>
+    <value>The device can now be safely removed from the computer.</value>
   </data>
   <data name="EjectNotificationErrorDialogHeader" xml:space="preserve">
-    <value>Проблема з вийманням пристрою</value>
+    <value>Problem Ejecting Device</value>
   </data>
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
-    <value>Пристрій в даний момент використовується. Закрийте всі програми, вікна або вкладки, які можуть використовувати пристрій, а потім спробуйте ще раз.</value>
+    <value>This device is currently in use. Close any programs, windows or tabs that might be using the device, and then try again.</value>
   </data>
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
-    <value>Вилучити</value>
+    <value>Eject</value>
   </data>
   <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
-    <value>Створити копію вкладки</value>
+    <value>Duplicate tab</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
-    <value>Перемістити вкладку у нове вікно</value>
+    <value>Move tab to new window</value>
   </data>
   <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
-    <value>Нова вкладка</value>
+    <value>New tab</value>
   </data>
   <data name="HorizontalMultitaskingControlAddButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Створити вкладку	Ctrl+T</value>
+    <value>New tab (Ctrl+T)</value>
   </data>
   <data name="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Створити вкладку	Ctrl+T</value>
+    <value>New tab (Ctrl+T)</value>
   </data>
   <data name="HorizontalMultitaskingControlCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Закрити вкладку	Ctrl+W</value>
+    <value>Close tab (Ctrl+W)</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
-    <value>Деякі об’єкти можуть містити особисту інформацію.</value>
+    <value>Some properties may contain personal information.</value>
   </data>
   <data name="ClearPropertiesFlyoutConfirmation.Content" xml:space="preserve">
-    <value>Очистити</value>
+    <value>Clear</value>
   </data>
   <data name="ClearPropertiesButton.Content" xml:space="preserve">
-    <value>Очистити всі властивості</value>
+    <value>Clear All Properties</value>
   </data>
   <data name="OngoingTasksTeachingTip.Subtitle" xml:space="preserve">
-    <value>Перевірте стан файлових операцій тут</value>
+    <value>Check the status of file operations here</value>
   </data>
   <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
-    <value>Центр операцій</value>
+    <value>Status Center</value>
   </data>
   <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Пошук</value>
+    <value>Search</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
-    <value>Результати пошуку в</value>
+    <value>Search results in {1} for {0}</value>
   </data>
   <data name="SearchTabHeaderText" xml:space="preserve">
-    <value>Результати пошуку</value>
+    <value>Search results</value>
   </data>
   <data name="SettingsAboutContributorsListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Дізнайтеся, хто долучився до розробки Files</value>
+    <value>See who contributed to Files</value>
   </data>
   <data name="SettingsAboutReleaseNotesListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Дізнайтеся, що нового у Files</value>
+    <value>Find out what's new in Files</value>
   </data>
   <data name="SettingsAboutSubmitFeedbackListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Надішліть розробникам звіт про проблему з детальною інформацією</value>
+    <value>Send the developers an issue report with more information</value>
   </data>
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Підтримайте нас на PayPal</value>
+    <value>Support us on GitHub</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
     <value>List and sort directories alongside files</value>
   </data>
   <data name="Details" xml:space="preserve">
-    <value>Детально</value>
+    <value>Details</value>
   </data>
   <data name="No" xml:space="preserve">
-    <value>Ні</value>
+    <value>No</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
-    <value>Завантажити та встановити останню версію Files?</value>
+    <value>Do you want to download and install the latest version of Files?</value>
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
-    <value>Доступні оновлення</value>
+    <value>Updates Available</value>
   </data>
   <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
-    <value>Приховувати захищені системні файли (рекомендовано)</value>
+    <value>Hide protected operating system files (Recommended)</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
     <value>Show unindexed items when searching for files and folders</value>
@@ -1243,22 +1243,22 @@
     <value>Enable individual preferences for individual directories</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
-    <value>Налаштування контекстного меню</value>
+    <value>Customize the right click context menu</value>
   </data>
   <data name="originalPathColumn.Header" xml:space="preserve">
-    <value>Оригінальний шлях</value>
+    <value>Original path</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
-    <value>Оригінальний шлях</value>
+    <value>Original path</value>
   </data>
   <data name="Add" xml:space="preserve">
-    <value>Додати</value>
+    <value>Add</value>
   </data>
   <data name="Edit" xml:space="preserve">
-    <value>Редагувати</value>
+    <value>Edit</value>
   </data>
   <data name="Remove" xml:space="preserve">
-    <value>Вилучити</value>
+    <value>Remove</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
     <value>Always open new tabs in dual pane mode</value>
@@ -1267,253 +1267,253 @@
     <value>Enable dual pane view</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
-    <value>Відкрити на вторинній панелі</value>
+    <value>Open in secondary pane</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>New pane</value>
   </data>
   <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
-    <value>Відкрити на вторинній панелі</value>
+    <value>Open in secondary pane</value>
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
-    <value>Подвійна панель</value>
+    <value>Dual pane</value>
   </data>
   <data name="Folders" xml:space="preserve">
-    <value>Папки</value>
+    <value>Folders</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Список</value>
+    <value>Details (Ctrl+Shift+1)</value>
   </data>
   <data name="NavToolbarLayoutOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Макет</value>
+    <value>Layout</value>
   </data>
   <data name="NavToolbarLayoutOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Макет</value>
+    <value>Layout</value>
   </data>
   <data name="NavToolbarLayoutOptionsButton.Label" xml:space="preserve">
-    <value>Макет</value>
+    <value>Layout</value>
   </data>
   <data name="PreviewPaneToggle.Label" xml:space="preserve">
-    <value>Попередній перегляд</value>
+    <value>Preview</value>
   </data>
   <data name="NavToolbarLargeIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>Величезні піктограми</value>
+    <value>Large Icons</value>
   </data>
   <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Величезні піктограми</value>
+    <value>Large Icons (Ctrl+Shift+5)</value>
   </data>
   <data name="NavToolbarMediumIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>Великі піктограми</value>
+    <value>Medium Icons</value>
   </data>
   <data name="NavToolbarMediumIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Великі піктограми</value>
+    <value>Medium Icons (Ctrl+Shift+4)</value>
   </data>
   <data name="NavToolbarSmallIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>Середні піктограми</value>
+    <value>Small Icons</value>
   </data>
   <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Середні піктограми</value>
+    <value>Small Icons (Ctrl+Shift+3)</value>
   </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Плитка</value>
+    <value>Tiles (Ctrl+Shift+2)</value>
   </data>
   <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
-    <value>Відображати розширення файлів</value>
+    <value>Show file extensions</value>
   </data>
   <data name="NavToolbarShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
     <value>Show hidden items</value>
   </data>
   <data name="DateDeleted" xml:space="preserve">
-    <value>Дата видалення</value>
+    <value>Date deleted</value>
   </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
-    <value>Хмарні диски</value>
+    <value>Cloud Drives</value>
   </data>
   <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Опції...</value>
+    <value>More options...</value>
   </data>
   <data name="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" xml:space="preserve">
-    <value>Експортувати Колекцію</value>
+    <value>Export Bundles</value>
   </data>
   <data name="BundlesWidgetOptionsFlyoutImportBundlesMenuItem.Text" xml:space="preserve">
-    <value>Імпортувати Колекцію</value>
+    <value>Import Bundles</value>
   </data>
   <data name="BundlesWidgetAddBundleErrorAlreadyExists" xml:space="preserve">
-    <value>Колекція папок з таким іменем уже існує!</value>
+    <value>Bundle with the same name already exists!</value>
   </data>
   <data name="BundlesWidgetAddBundleErrorInputEmpty" xml:space="preserve">
-    <value>Поле вводу не повинно бути пустим!</value>
+    <value>Input field cannot be empty!</value>
   </data>
   <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
-    <value>Відкрити в новій вкладці</value>
+    <value>Open in new tab</value>
   </data>
   <data name="BundleItemFlyouOpenItemLocationMenuItem.Text" xml:space="preserve">
-    <value>Відкрити розташування елемента</value>
+    <value>Open item location</value>
   </data>
   <data name="BundleItemFlyouRemoveFromBundleMenuItem.Text" xml:space="preserve">
-    <value>Видалити із Колекції</value>
+    <value>Remove from bundle</value>
   </data>
   <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
-    <value>Видалити Колекцію</value>
+    <value>Remove Bundle</value>
   </data>
   <data name="Bundles" xml:space="preserve">
-    <value>Колекції папок</value>
+    <value>Bundles</value>
   </data>
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
-    <value>Перетягніть сюди будь-який файл або папку, щоб швидко отримати до них доступ</value>
+    <value>Drag and drop any file or folder here to quickly access it</value>
   </data>
   <data name="EnterBundleName" xml:space="preserve">
-    <value>Введіть ім'я Колекції папок</value>
+    <value>Enter Bundle name</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
-    <value>Введіть нове ім'я</value>
+    <value>Enter new name</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
-    <value>Змінити "{0}"</value>
+    <value>Rename "{0}"</value>
   </data>
   <data name="CreateBundle" xml:space="preserve">
-    <value>Створити Колекцію</value>
+    <value>Create Bundle</value>
   </data>
   <data name="Confirm" xml:space="preserve">
-    <value>Створити</value>
+    <value>Confirm</value>
   </data>
   <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
-    <value>Додати Колекцію папок</value>
+    <value>Add Bundle</value>
   </data>
   <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
-    <value>Змінити назву Колекції</value>
+    <value>Rename Bundle</value>
   </data>
   <data name="DesiredName" xml:space="preserve">
-    <value>Бажане ім'я</value>
+    <value>Desired name</value>
   </data>
   <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Переключити панель попереднього перегляду (Ctrl + P)</value>
+    <value>Toggle the preview pane (Ctrl+P)</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
-    <value>Попередній перегляд недоступний</value>
+    <value>No preview available</value>
   </data>
   <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
-    <value>Немає відомостей.</value>
+    <value>No details available</value>
   </data>
   <data name="PropertyItemName" xml:space="preserve">
-    <value>Ім'я елемента</value>
+    <value>Item Name</value>
   </data>
   <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
     <value>Unpin from Favorites</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
-    <value>Мережні диски</value>
+    <value>Network Drives</value>
   </data>
   <data name="Network" xml:space="preserve">
-    <value>Мережа</value>
+    <value>Network</value>
   </data>
   <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
-    <value>Відомості про файл</value>
+    <value>File details</value>
   </data>
   <data name="PreviewPaneFilePreview.AutomationProperties.Name" xml:space="preserve">
-    <value>Попередній перегляд файлу</value>
+    <value>File preview</value>
   </data>
   <data name="SelectedFilePreviewPane.AutomationProperties.Name" xml:space="preserve">
-    <value>Панель попереднього перегляду файлу</value>
+    <value>Selected file preview pane</value>
   </data>
   <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
-    <value>Документація</value>
+    <value>Documentation</value>
   </data>
   <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Відвідайте веб-сайт документації щодо файлів</value>
+    <value>Visit the Files documentation website</value>
   </data>
   <data name="OngoingTasksFlyout.AutomationProperties.Name" xml:space="preserve">
-    <value>Спливаюче меню поточних завдань</value>
+    <value>Ongoing tasks flyout</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
-    <value>Доступно за наявності підключення до мережі</value>
+    <value>Available when online</value>
   </data>
   <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
-    <value>Доступно в автономному режимі</value>
+    <value>Available offline</value>
   </data>
   <data name="CloudDriveSyncStatus_PartialOffline" xml:space="preserve">
-    <value>Частково доступний офлайн</value>
+    <value>Partially available offline</value>
   </data>
   <data name="CloudDriveSyncStatus_Sync" xml:space="preserve">
-    <value>Синхронізація…</value>
+    <value>Syncing</value>
   </data>
   <data name="CloudDriveSyncStatus_Excluded" xml:space="preserve">
-    <value>Виключено з синхронізації</value>
+    <value>Excluded from sync</value>
   </data>
   <data name="ItemSizeNotCalculated" xml:space="preserve">
-    <value>Не розраховано</value>
+    <value>Not calculated</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
-    <value>Невідомо</value>
+    <value>Unknown</value>
   </data>
   <data name="NavToolbarMultiselect.Text" xml:space="preserve">
-    <value>Множинний вибір</value>
+    <value>Multiselect</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
-    <value>Якщо ви зміните розширення файлу, файл може стати непридатним для використання. Ви впевнені, що хочете його змінити?</value>
+    <value>If you change a file extension, the file might become unusable. Are you sure you want to change it?</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
-    <value>CD-привід</value>
+    <value>CD ROM Drive</value>
   </data>
   <data name="DriveTypeCloudDrive" xml:space="preserve">
-    <value>Хмарний привід</value>
+    <value>Cloud Drive</value>
   </data>
   <data name="DriveTypeFixed" xml:space="preserve">
-    <value>Привід із фіксованим диском</value>
+    <value>Fixed Disk Drive</value>
   </data>
   <data name="DriveTypeFloppyDisk" xml:space="preserve">
-    <value>Дисковод гнучких дисків</value>
+    <value>Floppy Disk Drive</value>
   </data>
   <data name="DriveTypeNetwork" xml:space="preserve">
-    <value>Мережевий диск</value>
+    <value>Network Drive</value>
   </data>
   <data name="DriveTypeNoRootDirectory" xml:space="preserve">
-    <value>Немонтований диск</value>
+    <value>Unmounted Drive</value>
   </data>
   <data name="DriveTypeRam" xml:space="preserve">
-    <value>RAM диск</value>
+    <value>RAM Disk Drive</value>
   </data>
   <data name="DriveTypeRemovable" xml:space="preserve">
-    <value>Знімний пристрій зберігання</value>
+    <value>Removable Storage Device</value>
   </data>
   <data name="DriveTypeUnknown" xml:space="preserve">
-    <value>Невідомо</value>
+    <value>Unknown</value>
   </data>
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
-    <value>Віртуальний диск</value>
+    <value>Virtual Drive</value>
   </data>
   <data name="DateCreated" xml:space="preserve">
-    <value>Дата створення</value>
+    <value>Date created</value>
   </data>
   <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Опції...</value>
+    <value>More options...</value>
   </data>
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
-    <value>Підключити диск</value>
+    <value>Map network drive</value>
   </data>
   <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
-    <value>Відключити</value>
+    <value>Disconnect</value>
   </data>
   <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Опції Колекцій</value>
+    <value>More bundles options</value>
   </data>
   <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Опції дисків</value>
+    <value>More drives options</value>
   </data>
   <data name="SidebarFavorites" xml:space="preserve">
-    <value>Вибране</value>
+    <value>Favorites</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
-    <value>Бібліотеки</value>
+    <value>Libraries</value>
   </data>
   <data name="NoItemSelected" xml:space="preserve">
-    <value>Елементи не вибрані</value>
+    <value>No item selected</value>
   </data>
   <data name="PropertyItemTarget" xml:space="preserve">
-    <value>Ціль</value>
+    <value>Target</value>
   </data>
   <data name="Arguments" xml:space="preserve">
-    <value>Аргументи</value>
+    <value>Arguments</value>
   </data>
   <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
     <value>Open in new Pane</value>
@@ -1522,19 +1522,19 @@
     <value>Show library section</value>
   </data>
   <data name="Default" xml:space="preserve">
-    <value>За замовчуванням</value>
+    <value>Default</value>
   </data>
   <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
-    <value>Користувацькі теми</value>
+    <value>Custom themes</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
-    <value>Кількість елементів</value>
+    <value>Item count</value>
   </data>
   <data name="StatusDeletionFailed" xml:space="preserve">
     <value>Deletion Failed</value>
   </data>
   <data name="StatusUnknownError" xml:space="preserve">
-    <value>Сталася невідома помилка.</value>
+    <value>An unknown error has occurred.</value>
   </data>
   <data name="StatusDeletionComplete" xml:space="preserve">
     <value>Deletion complete</value>
@@ -1564,7 +1564,7 @@
     <value>Files is running as administrator</value>
   </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
-    <value>Адміністратор</value>
+    <value>Administrator</value>
   </data>
   <data name="ColumnsShortcutTooltip" xml:space="preserve">
     <value>Columns (Ctrl+Shift+6)</value>
@@ -1576,22 +1576,22 @@
     <value>Unpin from the Start Menu</value>
   </data>
   <data name="ItemTypeLibrary" xml:space="preserve">
-    <value>Бібліотека</value>
+    <value>Library</value>
   </data>
   <data name="LibraryItemAutomation" xml:space="preserve">
-    <value>Бібліотека</value>
+    <value>Library</value>
   </data>
   <data name="Library" xml:space="preserve">
-    <value>Бібліотека</value>
+    <value>Library</value>
   </data>
   <data name="LibraryLocations.Text" xml:space="preserve">
-    <value>Розташування</value>
+    <value>Locations:</value>
   </data>
   <data name="SetAsDefaultSavePath" xml:space="preserve">
     <value>Set as default save path</value>
   </data>
   <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
-    <value>Вилучення</value>
+    <value>Remove</value>
   </data>
   <data name="LibraryNoLocations.Text" xml:space="preserve">
     <value>No locations</value>
@@ -1612,7 +1612,7 @@
     <value>Delete Library</value>
   </data>
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
-    <value>Створити</value>
+    <value>Create</value>
   </data>
   <data name="DrivesWidgetOpenStorageSenseButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Open Storage Sense</value>
@@ -1621,7 +1621,7 @@
     <value>Open Storage Sense</value>
   </data>
   <data name="Copy" xml:space="preserve">
-    <value>Копіювати</value>
+    <value>Copy</value>
   </data>
   <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} items will be copied</value>
@@ -1633,7 +1633,7 @@
     <value>Delete item(s)</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
-    <value>Перемістити</value>
+    <value>Move</value>
   </data>
   <data name="MoveItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} items will be moved</value>
@@ -1642,10 +1642,10 @@
     <value>Move item(s)</value>
   </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>Буде видалено елементів: {0}.</value>
+    <value>{0} items will be deleted</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
-    <value>Продовжити</value>
+    <value>Continue</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
     <value>There are {0} conflicting file names, and {1} outgoing item(s).</value>
@@ -1666,10 +1666,10 @@
     <value>One item will be moved</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
-    <value>Остаточно видалити</value>
+    <value>Permanently delete</value>
   </data>
   <data name="PropertyISO" xml:space="preserve">
-    <value>Швидкість ISO</value>
+    <value>ISO speed</value>
   </data>
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
     <value>Open folders in new tab</value>
@@ -1693,7 +1693,7 @@
     <value>Manage widgets</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
-    <value>Не знайшли те, що шукаєте?</value>
+    <value>Didn't find what you're looking for?</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
     <value>Search unindexed items.</value>
@@ -1705,19 +1705,19 @@
     <value>Open themes folder</value>
   </data>
   <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
-    <value>Замінити наявний |?</value>
+    <value>Replace existing</value>
   </data>
   <data name="ConflictingItemsDialogOptionReplaceExisting.Text" xml:space="preserve">
-    <value>Замінити наявний |?</value>
+    <value>Replace existing</value>
   </data>
   <data name="ConflictingItemsDialogTakenActionReplaceExisting" xml:space="preserve">
-    <value>Замінити наявний |?</value>
+    <value>Replace existing</value>
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>Generate new name</value>
   </data>
   <data name="ConflictingItemsDialogUndoOption.Text" xml:space="preserve">
-    <value>Скасувати</value>
+    <value>Undo</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts" xml:space="preserve">
     <value>There are {0} conflicting file names.</value>
@@ -1729,16 +1729,16 @@
     <value>Create folder with selection</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
-    <value>Ім’я</value>
+    <value>Name:</value>
   </data>
   <data name="ToolTipDescriptionType" xml:space="preserve">
-    <value>Тип</value>
+    <value>Type:</value>
   </data>
   <data name="ToolTipDescriptionDate" xml:space="preserve">
-    <value>Дата змінення</value>
+    <value>Date modified:</value>
   </data>
   <data name="OpenItemsWithCaptionText" xml:space="preserve">
-    <value>Відкрити за допомогою</value>
+    <value>Open with</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
     <value>File icon</value>
@@ -1759,100 +1759,100 @@
     <value>Sidebar resizer</value>
   </data>
   <data name="NavToolbarSortOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Сортування</value>
+    <value>Sort</value>
   </data>
   <data name="NavToolbarSortOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Сортування</value>
+    <value>Sort</value>
   </data>
   <data name="NavToolbarSortOptionsButton.Label" xml:space="preserve">
-    <value>Сортування</value>
+    <value>Sort</value>
   </data>
   <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
-    <value>Групувати за</value>
+    <value>Group By</value>
   </data>
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
-    <value>Ім’я</value>
+    <value>Name</value>
   </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
-    <value>Дата змінення</value>
+    <value>Date modified</value>
   </data>
   <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
     <value>Original folder</value>
   </data>
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
-    <value>Тип</value>
+    <value>Type</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
-    <value>Сортувати за</value>
+    <value>Sort By</value>
   </data>
   <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">
-    <value>&amp;Напрямок сортування</value>
+    <value>Sort direction</value>
   </data>
   <data name="Descending" xml:space="preserve">
-    <value>За спаданням</value>
+    <value>Descending</value>
   </data>
   <data name="ItemSizeText_Huge" xml:space="preserve">
-    <value>Величезний</value>
+    <value>Huge</value>
   </data>
   <data name="ItemSizeText_VeryLarge" xml:space="preserve">
     <value>Very large</value>
   </data>
   <data name="ItemSizeText_Large" xml:space="preserve">
-    <value>Великий</value>
+    <value>Large</value>
   </data>
   <data name="ItemSizeText_Medium" xml:space="preserve">
-    <value>Середній</value>
+    <value>Medium</value>
   </data>
   <data name="ItemSizeText_Small" xml:space="preserve">
-    <value>Малий</value>
+    <value>Small</value>
   </data>
   <data name="ItemSizeText_Tiny" xml:space="preserve">
-    <value>Крихітна</value>
+    <value>Tiny</value>
   </data>
   <data name="Today" xml:space="preserve">
-    <value>Сьогодні</value>
+    <value>Today</value>
   </data>
   <data name="ItemTimeText_Yesterday" xml:space="preserve">
-    <value>Учора</value>
+    <value>Yesterday</value>
   </data>
   <data name="ItemTimeText_ThisWeek" xml:space="preserve">
-    <value>Раніше цього тижня</value>
+    <value>Earlier this week</value>
   </data>
   <data name="ItemTimeText_LastWeek" xml:space="preserve">
-    <value>Минулого тижня</value>
+    <value>Last week</value>
   </data>
   <data name="ItemTimeText_ThisMonth" xml:space="preserve">
-    <value>ЦЬОГО МІСЯЦЯ</value>
+    <value>This month</value>
   </data>
   <data name="ItemTimeText_LastMonth" xml:space="preserve">
-    <value>Минулого місяця</value>
+    <value>Last month</value>
   </data>
   <data name="ItemTimeText_ThisYear" xml:space="preserve">
-    <value>Цього року</value>
+    <value>This year</value>
   </data>
   <data name="ItemTimeText_Older" xml:space="preserve">
-    <value>СТАРІШІ</value>
+    <value>Older</value>
   </data>
   <data name="ItemTimeText_Before" xml:space="preserve">
-    <value>До |0</value>
+    <value>Before {0}</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
-    <value>{0} елемент</value>
+    <value>{0} item</value>
   </data>
   <data name="GroupItemsCount_Plural" xml:space="preserve">
-    <value>Елементів: {0}</value>
+    <value>{0} items</value>
   </data>
   <data name="HorizontalMultitaskingControlReopenClosedTab.Text" xml:space="preserve">
-    <value>Відкрити закриту вкладку</value>
+    <value>Reopen closed tab</value>
   </data>
   <data name="SettingsAboutPrivacyPolicy.Text" xml:space="preserve">
-    <value>Політика конфіденційності</value>
+    <value>Privacy policy</value>
   </data>
   <data name="SettingsAboutPrivacyPolicyListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>View Files privacy policy</value>
   </data>
   <data name="RenameFileDialogTitle" xml:space="preserve">
-    <value>Перейменувати</value>
+    <value>Rename</value>
   </data>
   <data name="StatusMoveCanceled" xml:space="preserve">
     <value>Move canceled</value>
@@ -1897,10 +1897,10 @@
     <value>Copying {0} items to {1} was canceled after copying {2} item</value>
   </data>
   <data name="StatusCopyingItemsDetails_Singular" xml:space="preserve">
-    <value>Триває копіювання елемента ({0}) до папки "{1}"</value>
+    <value>Copying {0} item to {1}</value>
   </data>
   <data name="StatusCopyingItemsDetails_Plural" xml:space="preserve">
-    <value>Копіювання елементів ({0}) до папки {1}</value>
+    <value>Copying {0} items to {1}</value>
   </data>
   <data name="StatusCopiedItemsDetails_Singular" xml:space="preserve">
     <value>Successfully copied {0} item to {1}</value>
@@ -1918,10 +1918,10 @@
     <value>Deleting {0} items from {1} was canceled after deleting {3} item</value>
   </data>
   <data name="StatusDeletingItemsDetails_Singular" xml:space="preserve">
-    <value>Триває видалення елементів ({0}) з папки "{1}"</value>
+    <value>Deleting {0} item from {1}</value>
   </data>
   <data name="StatusDeletingItemsDetails_Plural" xml:space="preserve">
-    <value>Видалення елементів ({0}) з папки {1}</value>
+    <value>Deleting {0} items from {1}</value>
   </data>
   <data name="StatusDeletedItemsDetails_Singular" xml:space="preserve">
     <value>Successfully deleted {0} item from {1}</value>
@@ -1939,10 +1939,10 @@
     <value>the Recycle Bin</value>
   </data>
   <data name="MoveInProgress" xml:space="preserve">
-    <value>Переміщення елементів</value>
+    <value>Moving items</value>
   </data>
   <data name="CopyInProgress.Title" xml:space="preserve">
-    <value>Копіювання елементів</value>
+    <value>Copying items</value>
   </data>
   <data name="StatusRecycleFailed" xml:space="preserve">
     <value>Recycle failed</value>
@@ -1951,64 +1951,64 @@
     <value>Recycle cancelled</value>
   </data>
   <data name="canceling" xml:space="preserve">
-    <value>скасування</value>
+    <value>canceling</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Відхилити</value>
+    <value>Dismiss</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Відхилити</value>
+    <value>Dismiss</value>
   </data>
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>Widgets</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
-    <value>Стан синхронізації</value>
+    <value>Sync status</value>
   </data>
   <data name="Security" xml:space="preserve">
-    <value>Безпека</value>
+    <value>Security</value>
   </data>
   <data name="AdvancedPermissions" xml:space="preserve">
-    <value>Додаткові дозволи:</value>
+    <value>Advanced permissions</value>
   </data>
   <data name="Allow" xml:space="preserve">
-    <value>Дозволити</value>
+    <value>Allow</value>
   </data>
   <data name="SecurityDenyLabel.Text" xml:space="preserve">
-    <value>Відмовити</value>
+    <value>Deny</value>
   </data>
   <data name="SecurityFullControlLabel.Text" xml:space="preserve">
-    <value>Повний доступ</value>
+    <value>Full control</value>
   </data>
   <data name="SecurityListDirectoryLabel.Text" xml:space="preserve">
     <value>List directory contents</value>
   </data>
   <data name="SecurityModifyLabel.Text" xml:space="preserve">
-    <value>Змінити</value>
+    <value>Modify</value>
   </data>
   <data name="SecurityPermissionsLabel.Text" xml:space="preserve">
-    <value>Дозволи для</value>
+    <value>Permissions for</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
     <value>Read and execute</value>
   </data>
   <data name="SecurityReadLabel.Text" xml:space="preserve">
-    <value>Прочитане</value>
+    <value>Read</value>
   </data>
   <data name="SecurityUsersGroupLabel.Text" xml:space="preserve">
-    <value>Групи або користувачі:</value>
+    <value>Group or user names</value>
   </data>
   <data name="Write" xml:space="preserve">
-    <value>Записування</value>
+    <value>Write</value>
   </data>
   <data name="SecurityUnknownAccount" xml:space="preserve">
-    <value>Невідомий обл. запис</value>
+    <value>Unknown account</value>
   </data>
   <data name="SecurityCannotReadProperties.Text" xml:space="preserve">
     <value>You do not have permissions to view the security properties of this object. Click "Advanced permissions" to proceed.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
-    <value>Власник</value>
+    <value>Owner</value>
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Unknown owner</value>
@@ -2026,7 +2026,7 @@
     <value>Custom themes provide a great way for you to personalize Files.</value>
   </data>
   <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
-    <value>Переглянути документацію</value>
+    <value>View documentation.</value>
   </data>
   <data name="DecompressArchiveDialog.Title" xml:space="preserve">
     <value>Select a destination and extract files</value>
@@ -2041,19 +2041,19 @@
     <value>Extract here</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractionOptions" xml:space="preserve">
-    <value>Вилучити</value>
+    <value>Extract...</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
     <value>Extract to {0}\</value>
   </data>
   <data name="SideBarCreateNewLibrary.Text" xml:space="preserve">
-    <value>Створити бібліотеку.</value>
+    <value>Create new library</value>
   </data>
   <data name="SideBarRestoreLibraries.Text" xml:space="preserve">
-    <value>Відновити бібліотеки за замовчуванням</value>
+    <value>Restore default libraries</value>
   </data>
   <data name="DialogRestoreLibrariesButtonText" xml:space="preserve">
-    <value>Відновити</value>
+    <value>Restore</value>
   </data>
   <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
     <value>Are you sure you want to restore the default libraries? All your files will remain on your storage.</value>
@@ -2062,52 +2062,52 @@
     <value>Restore Libraries</value>
   </data>
   <data name="PropertyFileOwner" xml:space="preserve">
-    <value>Власник</value>
+    <value>Owner</value>
   </data>
   <data name="SecurityAdvancedPermissionsTitle" xml:space="preserve">
     <value>Advanced permissions for {0}</value>
   </data>
   <data name="SecuritySpecialLabel.Text" xml:space="preserve">
-    <value>Особливі</value>
+    <value>Special</value>
   </data>
   <data name="Access" xml:space="preserve">
-    <value>Доступ</value>
+    <value>Access</value>
   </data>
   <data name="SecurityAdvancedAppliesToLabel.Text" xml:space="preserve">
-    <value>Застосовно до</value>
+    <value>Applies to</value>
   </data>
   <data name="SecurityAdvancedEntityLabel.Text" xml:space="preserve">
-    <value>Об'єкт</value>
+    <value>Entity</value>
   </data>
   <data name="SecurityAdvancedFlagsFilesLabel" xml:space="preserve">
-    <value>файли</value>
+    <value>files</value>
   </data>
   <data name="SecurityAdvancedFlagsFolderLabel" xml:space="preserve">
     <value>this folder</value>
   </data>
   <data name="SecurityAdvancedFlagsSubfoldersLabel" xml:space="preserve">
-    <value>вкладені папки</value>
+    <value>subfolders</value>
   </data>
   <data name="SecurityAdvancedInheritedLabel.Text" xml:space="preserve">
-    <value>Успадковано</value>
+    <value>Inherited</value>
   </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
-    <value>Дозволи</value>
+    <value>Permissions</value>
   </data>
   <data name="SecurityAdvancedTypeLabel.Text" xml:space="preserve">
-    <value>Тип</value>
+    <value>Type</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
     <value>You do not have permissions to view the security properties of this object. You can try to take ownership of this object.</value>
   </data>
   <data name="SecurityAdvancedSpecialLabel.Text" xml:space="preserve">
-    <value>Особливі</value>
+    <value>Special</value>
   </data>
   <data name="SecurityAdvancedFolderFiles.Text" xml:space="preserve">
-    <value>Для цієї папки та її файлів</value>
+    <value>This folder and files</value>
   </data>
   <data name="SecurityAdvancedFolderSubfoldersFiles.Text" xml:space="preserve">
-    <value>Для цієї папки, її підпапок і файлів</value>
+    <value>This folder, subfolders and files</value>
   </data>
   <data name="SecurityAdvancedOnlyFiles.Text" xml:space="preserve">
     <value>Only files</value>
@@ -2122,7 +2122,7 @@
     <value>Only this folder</value>
   </data>
   <data name="SecurityAdvancedFolderSubfolders.Text" xml:space="preserve">
-    <value>Для цієї папки та її підпапок</value>
+    <value>This folder and subfolders</value>
   </data>
   <data name="SecurityAppendDataLabel.Text" xml:space="preserve">
     <value>Append data</value>
@@ -2143,37 +2143,37 @@
     <value>Execute files</value>
   </data>
   <data name="SecurityReadAttributesLabel.Text" xml:space="preserve">
-    <value>Читання атрибутів</value>
+    <value>Read attributes</value>
   </data>
   <data name="SecurityReadDataLabel.Text" xml:space="preserve">
     <value>Read data</value>
   </data>
   <data name="SecurityReadExtendedAttributesLabel.Text" xml:space="preserve">
-    <value>Читання додаткових атрибутів</value>
+    <value>Read extended attributes</value>
   </data>
   <data name="SecurityReadPermissionsLabel.Text" xml:space="preserve">
-    <value>Дозволи на читання</value>
+    <value>Read permissions</value>
   </data>
   <data name="SecurityTakeOwnershipLabel.Text" xml:space="preserve">
-    <value>Стати власником</value>
+    <value>Take ownership</value>
   </data>
   <data name="SecurityTraverseLabel.Text" xml:space="preserve">
     <value>Visit folder</value>
   </data>
   <data name="SecurityWriteAttributesLabel.Text" xml:space="preserve">
-    <value>Записування атрибутів</value>
+    <value>Write attributes</value>
   </data>
   <data name="SecurityWriteDataLabel.Text" xml:space="preserve">
     <value>Write data</value>
   </data>
   <data name="SecurityWriteExtendedAttributesLabel.Text" xml:space="preserve">
-    <value>Запис додаткових атрибутів</value>
+    <value>Write extended attributes</value>
   </data>
   <data name="SecurityAdvancedInheritedConvert.Text" xml:space="preserve">
     <value>Convert inherited permissions into explicit permissions</value>
   </data>
   <data name="SecurityAdvancedInheritedEnable.Text" xml:space="preserve">
-    <value>Увімкнути успадкування</value>
+    <value>Enable inheritance</value>
   </data>
   <data name="SecurityAdvancedInheritedRemove.Text" xml:space="preserve">
     <value>Remove all inherited permissions</value>
@@ -2185,7 +2185,7 @@
     <value>Replace all child object permissions entries with inheritable permission entries from this object</value>
   </data>
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
-    <value>Закрити область</value>
+    <value>Close pane</value>
   </data>
   <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
     <value>Enter compact overlay</value>
@@ -2194,19 +2194,19 @@
     <value>Exit compact overlay</value>
   </data>
   <data name="PropertyFileDescription" xml:space="preserve">
-    <value>Опис файлу</value>
+    <value>File description</value>
   </data>
   <data name="PropertyCompany" xml:space="preserve">
-    <value>Компанія</value>
+    <value>Company</value>
   </data>
   <data name="PropertyLanguage" xml:space="preserve">
-    <value>Мови</value>
+    <value>Language</value>
   </data>
   <data name="PropertyTrademarks" xml:space="preserve">
-    <value>Торговельні марки</value>
+    <value>Trademarks</value>
   </data>
   <data name="PropertyFileVersion" xml:space="preserve">
-    <value>Версія файлу:</value>
+    <value>File version</value>
   </data>
   <data name="PreviewPaneLoadCloudItemButton.Text" xml:space="preserve">
     <value>Load full preview</value>
@@ -2239,46 +2239,46 @@
     <value>Hide {0} section</value>
   </data>
   <data name="NavSettingsButton" xml:space="preserve">
-    <value>Настройки</value>
+    <value>Settings</value>
   </data>
   <data name="AddFile" xml:space="preserve">
-    <value>Додати файл</value>
+    <value>Add file</value>
   </data>
   <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">
-    <value>Додати папку</value>
+    <value>Add folder</value>
   </data>
   <data name="BundleOptionsFlyoutAddItemMenuItem.Text" xml:space="preserve">
-    <value>Додати елемент</value>
+    <value>Add item...</value>
   </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
-    <value>Доступні оновлення</value>
+    <value>Updates available</value>
   </data>
   <data name="ConsentDialogContent" xml:space="preserve">
-    <value>Оновлення готові до інсталяції</value>
+    <value>Updates are ready to install</value>
   </data>
   <data name="Close" xml:space="preserve">
-    <value>Закрити</value>
+    <value>Close</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>Оновити</value>
+    <value>Update</value>
   </data>
   <data name="Home" xml:space="preserve">
-    <value>Основне</value>
+    <value>Home</value>
   </data>
   <data name="TabViewVerticalNewTab.Text" xml:space="preserve">
-    <value>Нова вкладка</value>
+    <value>New tab</value>
   </data>
   <data name="NavToolbarSelectAll.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl + A</value>
+    <value>Ctrl+A</value>
   </data>
   <data name="NavigationToolbarNewPane.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Alt+Shift</value>
+    <value>Alt+Shift++</value>
   </data>
   <data name="NavigationToolbarClosePane.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+W</value>
   </data>
   <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Т</value>
+    <value>Ctrl+N</value>
   </data>
   <data name="NavigationToolbarEnterCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Alt+Up</value>
@@ -2305,10 +2305,10 @@
     <value>Ctrl+Shift+6</value>
   </data>
   <data name="HorizontalMultitaskingControlNewTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl + T</value>
+    <value>Ctrl+T</value>
   </data>
   <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+Е</value>
+    <value>Ctrl+Shift+T</value>
   </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
     <value>The archive extraction completed successfully.</value>
@@ -2323,7 +2323,7 @@
     <value>Ctrl+Shift+N</value>
   </data>
   <data name="SettingsPrivacy.Title" xml:space="preserve">
-    <value>Політика конфіденційності</value>
+    <value>Privacy policy</value>
   </data>
   <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
     <value>Fluent UI System Icons</value>
@@ -2340,25 +2340,25 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Open parent folder</value>
   </data>
   <data name="FileTagUnknown" xml:space="preserve">
-    <value>Невідомо</value>
+    <value>Unknown</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
-    <value>Тег</value>
+    <value>Tag</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
-    <value>Редагувати позначки</value>
+    <value>Edit tags</value>
   </data>
   <data name="SettingsEnableFileTags.Title" xml:space="preserve">
-    <value>Увімкніть мітки</value>
+    <value>Enable tags</value>
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Show favorites section</value>
   </data>
   <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
-    <value>Застосувати до всіх</value>
+    <value>Apply to all</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
-    <value>Фрагмент</value>
+    <value>Part of set</value>
   </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
     <value>Open Drive</value>
@@ -2367,25 +2367,25 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Please insert a disc into drive {0}</value>
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
-    <value>Вставте диск</value>
+    <value>Insert a disc</value>
   </data>
   <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
-    <value>ОК</value>
+    <value>OK</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
-    <value>Необхідні облікові дані</value>
+    <value>Credential Required</value>
   </data>
   <data name="CredentialDialogAnonymous.Content" xml:space="preserve">
-    <value>Анонімний</value>
+    <value>Anonymous</value>
   </data>
   <data name="CredentialDialogDescription.Text" xml:space="preserve">
     <value>Provide your credential:</value>
   </data>
   <data name="CredentialDialogPassword.PlaceholderText" xml:space="preserve">
-    <value>Пароль:</value>
+    <value>Password</value>
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
-    <value>Ім’я користувача</value>
+    <value>UserName</value>
   </data>
   <data name="BundlesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>Bundles Widget</value>
@@ -2400,7 +2400,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Recent Files Widget</value>
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
-    <value>Немає елементів</value>
+    <value>No items found</value>
   </data>
   <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
     <value>Show preview only</value>
@@ -2412,22 +2412,22 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Create link in {0}</value>
   </data>
   <data name="Columns" xml:space="preserve">
-    <value>Стовпці</value>
+    <value>Columns</value>
   </data>
   <data name="LargeIcons" xml:space="preserve">
-    <value>Великі піктограми</value>
+    <value>Large Icons</value>
   </data>
   <data name="MediumIcons" xml:space="preserve">
-    <value>Середні піктограми</value>
+    <value>Medium Icons</value>
   </data>
   <data name="SmallIcons" xml:space="preserve">
-    <value>Дрібні піктограми</value>
+    <value>Small Icons</value>
   </data>
   <data name="Tiles" xml:space="preserve">
-    <value>Плитки</value>
+    <value>Tiles</value>
   </data>
   <data name="NavToolbarShowFileExtensions.AutomationProperties.Name" xml:space="preserve">
-    <value>Відображати розширення файлів</value>
+    <value>Show file extensions</value>
   </data>
   <data name="NavToolbarShowHiddenItemsHeader.Text" xml:space="preserve">
     <value>Show hidden items</value>
@@ -2442,7 +2442,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Pin Recycle Bin to favorites</value>
   </data>
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Мови</value>
+    <value>Language</value>
   </data>
   <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Show cloud drives section</value>
@@ -2475,10 +2475,10 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Move one up</value>
   </data>
   <data name="SideBarFavoritesMoveToBottom" xml:space="preserve">
-    <value>До кінця</value>
+    <value>Move to bottom</value>
   </data>
   <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
-    <value>До початку</value>
+    <value>Move to top</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
     <value>Date created column</value>
@@ -2496,22 +2496,22 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Use Files as Open File Dialog</value>
   </data>
   <data name="Tag" xml:space="preserve">
-    <value>Тег</value>
+    <value>Tag</value>
   </data>
   <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
     <value>Open folders with a single click</value>
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
-    <value>Шлях до папки:</value>
+    <value>Folder path</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
-    <value>Настройки експорту</value>
+    <value>Export Settings</value>
   </data>
   <data name="ImportSettings" xml:space="preserve">
-    <value>Настройки імпорту</value>
+    <value>Import Settings</value>
   </data>
   <data name="ManageSettings" xml:space="preserve">
-    <value>Керування параметрами</value>
+    <value>Manage Settings</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
     <value>Couldn't import settings. The settings file is corrupted.</value>
@@ -2520,22 +2520,22 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Error importing settings</value>
   </data>
   <data name="EmptyRecycleBin" xml:space="preserve">
-    <value>Очистити кошик</value>
+    <value>Empty Recycle Bin</value>
   </data>
   <data name="Sidebar" xml:space="preserve">
-    <value>Бічна панель</value>
+    <value>Sidebar</value>
   </data>
   <data name="ChooseCustomIcon" xml:space="preserve">
     <value>Choose a custom folder icon</value>
   </data>
   <data name="Customization" xml:space="preserve">
-    <value>Настроювання</value>
+    <value>Customization</value>
   </data>
   <data name="RestoreDefault" xml:space="preserve">
-    <value>Відновити значення за замовчуванням</value>
+    <value>Restore default</value>
   </data>
   <data name="FilesAndFolders" xml:space="preserve">
-    <value>Файли та папки</value>
+    <value>Files and folders</value>
   </data>
   <data name="OpenNewInstance" xml:space="preserve">
     <value>Open new instance when opening directories from the taskbar jumplist</value>
@@ -2544,10 +2544,10 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Startup settings</value>
   </data>
   <data name="Compatibility" xml:space="preserve">
-    <value>Сумісність</value>
+    <value>Compatibility</value>
   </data>
   <data name="None" xml:space="preserve">
-    <value>Немає</value>
+    <value>None</value>
   </data>
   <data name="HighDpiOption_UseDPIOnLogin" xml:space="preserve">
     <value>On Windows login</value>
@@ -2556,7 +2556,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>On program start</value>
   </data>
   <data name="HighDpiOverride_System" xml:space="preserve">
-    <value>Система</value>
+    <value>System</value>
   </data>
   <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
     <value>System (advanced)</value>
@@ -2583,31 +2583,31 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>8 Bit Colors (256)</value>
   </data>
   <data name="CompatibilityMode" xml:space="preserve">
-    <value>Режим сумісності</value>
+    <value>Compatibility mode</value>
   </data>
   <data name="DisableFullscreenOptimizations" xml:space="preserve">
-    <value>Вимкнути оптимізацію повноекранного режиму</value>
+    <value>Disable fullscreen optimizations</value>
   </data>
   <data name="ExecuteAt640X480" xml:space="preserve">
     <value>Run at 640 x 480 screen resolution</value>
   </data>
   <data name="Options" xml:space="preserve">
-    <value>Параметри</value>
+    <value>Options</value>
   </data>
   <data name="OverrideDPIScalingBehaviour" xml:space="preserve">
     <value>Override high DPI scaling behaviour</value>
   </data>
   <data name="ReducedColorMode" xml:space="preserve">
-    <value>Режим обмеження кольорів</value>
+    <value>Reduced color mode</value>
   </data>
   <data name="RegisterForRestart" xml:space="preserve">
     <value>Register for restart</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
-    <value>У режимі адміністратора</value>
+    <value>Run as administrator</value>
   </data>
   <data name="RunCompatibilityTroubleShooter" xml:space="preserve">
-    <value>Запустити засіб усунення неполадок, пов'язаних із сумісністю</value>
+    <value>Run compatibility troubleshooter</value>
   </data>
   <data name="UseMainMonitorDPISettings" xml:space="preserve">
     <value>Use DPI settings of the main monitor</value>
@@ -2619,10 +2619,10 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>This option modifies the system registry and can have unexpected side effects on your device. Continue at your own risk.</value>
   </data>
   <data name="ClearAll" xml:space="preserve">
-    <value>Очистити все</value>
+    <value>Clear all</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
-    <value>Створити бібліотеку</value>
+    <value>Create Library</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>Enter Library name</value>
@@ -2631,22 +2631,22 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Show folder size</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
-    <value>Останні файли</value>
+    <value>Recent Files</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
     <value>Open Files on Windows Startup</value>
   </data>
   <data name="Attributes" xml:space="preserve">
-    <value>Атрибути:</value>
+    <value>Attributes</value>
   </data>
   <data name="Hidden" xml:space="preserve">
-    <value>Прихований</value>
+    <value>Hidden</value>
   </data>
   <data name="MoreDetails" xml:space="preserve">
-    <value>Докладно</value>
+    <value>More details</value>
   </data>
   <data name="ReadOnly" xml:space="preserve">
-    <value>Лише читання</value>
+    <value>Read only</value>
   </data>
   <data name="CleanupDrive" xml:space="preserve">
     <value>Cleanup your drive contents</value>
@@ -2655,13 +2655,13 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Disk cleanup</value>
   </data>
   <data name="Type" xml:space="preserve">
-    <value>Тип</value>
+    <value>Type:</value>
   </data>
   <data name="Bytes" xml:space="preserve">
-    <value>байт</value>
+    <value>Bytes</value>
   </data>
   <data name="Extract" xml:space="preserve">
-    <value>Вилучити</value>
+    <value>Extract</value>
   </data>
   <data name="ExtractFiles" xml:space="preserve">
     <value>Extract files</value>
@@ -2676,43 +2676,43 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Extract to {0}</value>
   </data>
   <data name="RunScript" xml:space="preserve">
-    <value>Виконати сценарій</value>
+    <value>Run script</value>
   </data>
   <data name="RunWithPowerShell" xml:space="preserve">
     <value>Run with PowerShell</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
-    <value>Установити як тло робочого стола</value>
+    <value>Set as desktop background</value>
   </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</value>
   </data>
   <data name="RotateLeft" xml:space="preserve">
-    <value>Повернути ліворуч</value>
+    <value>Rotate left</value>
   </data>
   <data name="RotateRight" xml:space="preserve">
-    <value>Повернути праворуч</value>
+    <value>Rotate right</value>
   </data>
   <data name="Install" xml:space="preserve">
-    <value>Інсталювати</value>
+    <value>Install</value>
   </data>
   <data name="CloseTabsToTheLeft" xml:space="preserve">
     <value>Close tabs to the left</value>
   </data>
   <data name="CloseTabsToTheRight" xml:space="preserve">
-    <value>Закрити вкладки праворуч</value>
+    <value>Close tabs to the right</value>
   </data>
   <data name="CloseOtherTabs" xml:space="preserve">
-    <value>Закрити інші вкладки</value>
+    <value>Close other tabs</value>
   </data>
   <data name="Music" xml:space="preserve">
-    <value>Музика</value>
+    <value>Music</value>
   </data>
   <data name="Pictures" xml:space="preserve">
-    <value>Зображення</value>
+    <value>Pictures</value>
   </data>
   <data name="Videos" xml:space="preserve">
-    <value>Відео</value>
+    <value>Videos</value>
   </data>
   <data name="UpdateFiles" xml:space="preserve">
     <value>Update Files</value>
@@ -2724,7 +2724,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Preparing items</value>
   </data>
   <data name="StatusCopyFailed" xml:space="preserve">
-    <value>Не вдалося скопіювати</value>
+    <value>Copy failed</value>
   </data>
   <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
     <value>Failed to copy {0} items from {1} to {2}</value>
@@ -2733,10 +2733,10 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Failed to copy {0} item from {1} to {2}</value>
   </data>
   <data name="StatusMoveFailed" xml:space="preserve">
-    <value>Не вдалося перемістити.</value>
+    <value>Move failed</value>
   </data>
   <data name="FileTags" xml:space="preserve">
-    <value>теги</value>
+    <value>Tags</value>
   </data>
   <data name="SettingsShowFileTagsSection.Title" xml:space="preserve">
     <value>Show Tags section</value>
@@ -2748,16 +2748,16 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Use compact styles in the details layout</value>
   </data>
   <data name="Universal" xml:space="preserve">
-    <value>Універсальний</value>
+    <value>Universal</value>
   </data>
   <data name="DateFormatSample" xml:space="preserve">
     <value>ex: {0}, {1}</value>
   </data>
   <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
-    <value>Відображати ескізи</value>
+    <value>Show thumbnails</value>
   </data>
   <data name="Retry" xml:space="preserve">
-    <value>Повторити</value>
+    <value>Retry</value>
   </data>
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
     <value>Move operation is not supported in this context. Do you want to copy the items instead?</value>
