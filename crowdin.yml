@@ -1,0 +1,3 @@
+files:
+  - source: /src/Files.Uwp/MultilingualResources/Files.en-GB.xlf
+    translation: /src/Files.Uwp/MultilingualResources/Files.%locale%.xlf
