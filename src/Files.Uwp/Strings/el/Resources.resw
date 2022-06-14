@@ -1,5 +1,110 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
@@ -45,6 +150,9 @@
   <data name="Size" xml:space="preserve">
     <value>Μέγεθος</value>
   </data>
+  <data name="OpenIn" xml:space="preserve">
+    <value>Άνοιγμα σε</value>
+  </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>Δημιουργήθηκε:</value>
   </data>
@@ -65,6 +173,9 @@
   </data>
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>είναι ένας υποφάκελος του αρχικού φακέλου</value>
+  </data>
+  <data name="Skip" xml:space="preserve">
+    <value>Παράλειψη</value>
   </data>
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>Επιλογή όλων</value>
@@ -99,9 +210,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Αφαιρέστε αυτό το στοιχείο</value>
   </data>
-  <data name="RecentFiles" xml:space="preserve">
-    <value>Πρόσφατα αρχεία</value>
-  </data>
   <data name="SettingsUsefulLinks.Title" xml:space="preserve">
     <value>Χρήσιμοι σύνδεσμοι</value>
   </data>
@@ -111,11 +219,11 @@
   <data name="About" xml:space="preserve">
     <value>Σχετικά</value>
   </data>
+  <data name="DateFormat" xml:space="preserve">
+    <value>Μορφή ημερομηνίας</value>
+  </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>Επιλέξτε το χρώμα σας</value>
-  </data>
-  <data name="Appearance" xml:space="preserve">
-    <value>Εμφάνιση</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Εμφάνιση επεκτάσεων για γνωστούς τύπους αρχείων</value>
@@ -123,8 +231,14 @@
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>Εμφάνιση κρυφών αρχείων και φακέλων</value>
   </data>
+  <data name="ShowDotFiles" xml:space="preserve">
+    <value>Εμφάνιση dot files</value>
+  </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Πειραματικό</value>
+  </data>
+  <data name="Appearance" xml:space="preserve">
+    <value>Εμφάνιση</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Πειραματικό</value>
@@ -210,6 +324,9 @@
   <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
     <value>Αποκοπή</value>
   </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Διαγραφή</value>
+  </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Μετονομασία</value>
   </data>
@@ -251,6 +368,9 @@
   </data>
   <data name="Application" xml:space="preserve">
     <value>Εφαρμογή</value>
+  </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>Σύστημα</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Νέος φάκελος</value>
@@ -329,6 +449,15 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Διαγράψατε αυτόν τον φάκελο;</value>
+  </data>
+  <data name="FileInUseByDialog.Text" xml:space="preserve">
+    <value>The file you are attempting to access is currently being used by {0}</value>
+  </data>
+  <data name="FileInUseDialog.Text" xml:space="preserve">
+    <value>The file you are attempting to access is currently being used by an another application</value>
+  </data>
+  <data name="FileInUseDialog.Title" xml:space="preserve">
+    <value>File is in use</value>
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>Διάταξη</value>
@@ -690,11 +819,20 @@
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Γλώσσα</value>
   </data>
+  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
+    <value>Εφαρμογές τερματικού</value>
+  </data>
+  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
+    <value>Επεξεργασία εφαρμογών τερματικού</value>
+  </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Μετακίνηση στοιχείων υπερχείλισης σε υπομενού</value>
   </data>
   <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
     <value>Καρφίτσωμα κάδου ανακύκλωσης στα αγαπημένα</value>
+  </data>
+  <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
+    <value>Εμφάνιση διαλόγου επιβεβαίωσης κατά τη διαγραφή αρχείων ή φακέλων</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>Υπήρξε ένα πρόβλημα με την αποθήκευση ορισμένων ιδιοτήτων.</value>
@@ -1179,6 +1317,12 @@
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Πλακίδια (Ctrl+Shift+2)</value>
   </data>
+  <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
+    <value>Εμφάνιση επεκτάσεων αρχείων</value>
+  </data>
+  <data name="NavToolbarShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
+    <value>Εμφάνιση κρυφών στοιχείων</value>
+  </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>Ημερομηνία διαγραφής</value>
   </data>
@@ -1527,6 +1671,9 @@
   <data name="PropertyISO" xml:space="preserve">
     <value>Ταχύτητα ISO</value>
   </data>
+  <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
+    <value>Άνοιγμα φακέλων σε νέα καρτέλα</value>
+  </data>
   <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
     <value>Εμφάνιση widget δεσμών</value>
   </data>
@@ -1623,11 +1770,26 @@
   <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
     <value>Ομαδοποίηση κατά</value>
   </data>
+  <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
+    <value>Όνομα</value>
+  </data>
+  <data name="DateModifiedLowerCase" xml:space="preserve">
+    <value>Ημερομηνία τροποποίησης</value>
+  </data>
+  <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
+    <value>Αρχικός φάκελος</value>
+  </data>
+  <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
+    <value>Τύπος</value>
+  </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Ταξινόμηση κατά</value>
   </data>
   <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">
     <value>Κατεύθυνση ταξινόμησης</value>
+  </data>
+  <data name="Descending" xml:space="preserve">
+    <value>Φθίνουσα σειρά</value>
   </data>
   <data name="ItemSizeText_Huge" xml:space="preserve">
     <value>Τεράστιο</value>
@@ -1800,6 +1962,9 @@
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>Widgets</value>
   </data>
+  <data name="SyncStatus" xml:space="preserve">
+    <value>Κατάσταση συγχρονισμού</value>
+  </data>
   <data name="Security" xml:space="preserve">
     <value>Ασφάλεια</value>
   </data>
@@ -1971,9 +2136,6 @@
   <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
     <value>Δημιουργία αρχείων</value>
   </data>
-  <data name="Delete" xml:space="preserve">
-    <value>Διαγραφή</value>
-  </data>
   <data name="SecurityDeleteSubdirectoriesAndFilesLabel.Text" xml:space="preserve">
     <value>Διαγραφή υποκαταλόγων και αρχείων</value>
   </data>
@@ -2045,6 +2207,9 @@
   </data>
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>Έκδοση αρχείου</value>
+  </data>
+  <data name="PreviewPaneLoadCloudItemButton.Text" xml:space="preserve">
+    <value>Φόρτωση πλήρους προεπισκόπησης</value>
   </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Λήψη του στοιχείου από το cloud και φόρτωση της προεπισκόπησης</value>
@@ -2145,9 +2310,6 @@
   <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+T</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>Εφαρμογές τερματικού</value>
-  </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
     <value>Η εξαγωγή του αρχείου ολοκληρώθηκε με επιτυχία.</value>
   </data>
@@ -2159,18 +2321,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+N</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>Επεξεργασία εφαρμογών τερματικού</value>
-  </data>
-  <data name="DateFormat" xml:space="preserve">
-    <value>Μορφή ημερομηνίας</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>Εμφάνιση διαλόγου επιβεβαίωσης κατά τη διαγραφή αρχείων ή φακέλων</value>
-  </data>
-  <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
-    <value>Άνοιγμα φακέλων σε νέα καρτέλα</value>
   </data>
   <data name="SettingsPrivacy.Title" xml:space="preserve">
     <value>Πολιτική απορρήτου</value>
@@ -2185,27 +2335,6 @@
     <value>
 Χρησιμοποιούμε το Κέντρο Εφαρμογών για να παρακολουθούμε τη χρήση της εφαρμογής, να βρίσκουμε σφάλματα και να διορθώνουμε συντριβές. Όλες οι πληροφορίες που αποστέλλονται στο Κέντρο Εφαρμογών είναι ανώνυμες και δεν περιέχουν δεδομένα χρήστη ή συμφραζόμενα.
   </value>
-  </data>
-  <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
-    <value>Όνομα</value>
-  </data>
-  <data name="DateModifiedLowerCase" xml:space="preserve">
-    <value>Ημερομηνία τροποποίησης</value>
-  </data>
-  <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
-    <value>Αρχικός φάκελος</value>
-  </data>
-  <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
-    <value>Τύπος</value>
-  </data>
-  <data name="Descending" xml:space="preserve">
-    <value>Φθίνουσα σειρά</value>
-  </data>
-  <data name="SyncStatus" xml:space="preserve">
-    <value>Κατάσταση συγχρονισμού</value>
-  </data>
-  <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
-    <value>Εμφάνιση τμήματος αγαπημένων</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Άνοιγμα γονικού φακέλου</value>
@@ -2222,6 +2351,15 @@
   <data name="SettingsEnableFileTags.Title" xml:space="preserve">
     <value>Ενεργοποίηση ετικετών αρχείων</value>
   </data>
+  <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
+    <value>Εμφάνιση τμήματος αγαπημένων</value>
+  </data>
+  <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
+    <value>Ισχύει για όλους</value>
+  </data>
+  <data name="PropertyPartOfSet" xml:space="preserve">
+    <value>Μέρος του σετ</value>
+  </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
     <value>Άνοιγμα δίσκου</value>
   </data>
@@ -2230,12 +2368,6 @@
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>Τοποθετήστε ένα δίσκο</value>
-  </data>
-  <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
-    <value>Ισχύει για όλους</value>
-  </data>
-  <data name="PropertyPartOfSet" xml:space="preserve">
-    <value>Μέρος του σετ</value>
   </data>
   <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
     <value>Εντάξει</value>
@@ -2255,9 +2387,6 @@
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Όνομα χρήστη</value>
   </data>
-  <data name="NoSearchResultsFound" xml:space="preserve">
-    <value>Δεν βρέθηκαν στοιχεία</value>
-  </data>
   <data name="BundlesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>Widget δέσμες</value>
   </data>
@@ -2270,17 +2399,32 @@
   <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>Widget πρόσφατων αρχείων</value>
   </data>
+  <data name="NoSearchResultsFound" xml:space="preserve">
+    <value>Δεν βρέθηκαν στοιχεία</value>
+  </data>
+  <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
+    <value>Προβολή προεπισκόπησης μόνο</value>
+  </data>
   <data name="OpenLogLocation" xml:space="preserve">
     <value>Άνοιγμα τοποθεσίας καταγραφών</value>
   </data>
   <data name="LinkToFolderCaptionText" xml:space="preserve">
     <value>Δημιουργία συνδέσμου στο {0}</value>
   </data>
-  <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
-    <value>Εμφάνιση επεκτάσεων αρχείων</value>
+  <data name="Columns" xml:space="preserve">
+    <value>Στήλες</value>
   </data>
-  <data name="NavToolbarShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Εμφάνιση κρυφών στοιχείων</value>
+  <data name="LargeIcons" xml:space="preserve">
+    <value>Μεγάλα εικονίδια</value>
+  </data>
+  <data name="MediumIcons" xml:space="preserve">
+    <value>Μεσαία εικονίδια</value>
+  </data>
+  <data name="SmallIcons" xml:space="preserve">
+    <value>Μικρά εικονίδια</value>
+  </data>
+  <data name="Tiles" xml:space="preserve">
+    <value>Πλακίδια</value>
   </data>
   <data name="NavToolbarShowFileExtensions.AutomationProperties.Name" xml:space="preserve">
     <value>Εμφάνιση επεκτάσεων αρχείων</value>
@@ -2291,11 +2435,20 @@
   <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Εμφάνιση τμήματος αγαπημένων</value>
   </data>
+  <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Άνοιγμα φακέλων σε νέα καρτέλα</value>
+  </data>
   <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Καρφίτσωμα κάδου ανακύκλωσης στα αγαπημένα</value>
   </data>
+  <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>Γλώσσα</value>
+  </data>
   <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Εμφάνιση της ενότητας δίσκων cloud</value>
+  </data>
+  <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Εμφάνιση διαλόγου επιβεβαίωσης κατά τη διαγραφή αρχείων ή φακέλων</value>
   </data>
   <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Εμφάνιση της ενότητας δίσκων</value>
@@ -2309,26 +2462,11 @@
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Εμφάνιση της ενότητας WSL</value>
   </data>
-  <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Άνοιγμα φακέλων σε νέα καρτέλα</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Γλώσσα</value>
-  </data>
-  <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Εμφάνιση διαλόγου επιβεβαίωσης κατά τη διαγραφή αρχείων ή φακέλων</value>
-  </data>
   <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Εφαρμογές τερματικού</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Συνεχιζόμενα καθήκοντα</value>
-  </data>
-  <data name="PreviewPaneLoadCloudItemButton.Text" xml:space="preserve">
-    <value>Φόρτωση πλήρους προεπισκόπησης</value>
-  </data>
-  <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
-    <value>Προβολή προεπισκόπησης μόνο</value>
   </data>
   <data name="SideBarFavoritesMoveOneDown" xml:space="preserve">
     <value>Μετακίνηση προς τα κάτω</value>
@@ -2347,6 +2485,12 @@
   </data>
   <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
     <value>Στήλη μεγέθους στοιχείου</value>
+  </data>
+  <data name="SettingsDefaultFilesManager" xml:space="preserve">
+    <value>Προεπιλεγμένο πρόγραμμα διαχείρησης αρχείων</value>
+  </data>
+  <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
+    <value>Ορισμός του Files ως το προεπιλεγμένο πρόγραμμα διαχείρησης αρχείων</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
     <value>Χρήση Files ως παράθυρο διαλόγου για άνοιγμα αρχείων</value>
@@ -2375,6 +2519,12 @@
   <data name="SettingsImportErrorTitle" xml:space="preserve">
     <value>Σφάλμα κατά την εισαγωγή ρυθμίσεων</value>
   </data>
+  <data name="EmptyRecycleBin" xml:space="preserve">
+    <value>Άδειασμα κάδου ανακύκλωσης</value>
+  </data>
+  <data name="Sidebar" xml:space="preserve">
+    <value>Πλαϊνή μπάρα</value>
+  </data>
   <data name="ChooseCustomIcon" xml:space="preserve">
     <value>Επιλέξτε ένα προσαρμοσμένο εικονίδιο φακέλου</value>
   </data>
@@ -2383,6 +2533,15 @@
   </data>
   <data name="RestoreDefault" xml:space="preserve">
     <value>Επαναφορά προεπιλογών</value>
+  </data>
+  <data name="FilesAndFolders" xml:space="preserve">
+    <value>Αρχεία και φάκελοι</value>
+  </data>
+  <data name="OpenNewInstance" xml:space="preserve">
+    <value>Άνοιγμα νέου παραθύρου κατά το άνοιγμα καταλόγων από τη λίστα συντομεύσεων της γραμμής εργασιών</value>
+  </data>
+  <data name="StartupSettings" xml:space="preserve">
+    <value>Ρυθμίσεις εκκίνησης</value>
   </data>
   <data name="Compatibility" xml:space="preserve">
     <value>Συμβατότητα</value>
@@ -2453,27 +2612,6 @@
   <data name="UseMainMonitorDPISettings" xml:space="preserve">
     <value>Χρησιμοποίηση ρυθμίσεων DPI της κύριας οθόνης</value>
   </data>
-  <data name="SettingsDefaultFilesManager" xml:space="preserve">
-    <value>Προεπιλεγμένο πρόγραμμα διαχείρησης αρχείων</value>
-  </data>
-  <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
-    <value>Ορισμός του Files ως το προεπιλεγμένο πρόγραμμα διαχείρησης αρχείων</value>
-  </data>
-  <data name="EmptyRecycleBin" xml:space="preserve">
-    <value>Άδειασμα κάδου ανακύκλωσης</value>
-  </data>
-  <data name="Sidebar" xml:space="preserve">
-    <value>Πλαϊνή μπάρα</value>
-  </data>
-  <data name="FilesAndFolders" xml:space="preserve">
-    <value>Αρχεία και φάκελοι</value>
-  </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>Άνοιγμα νέου παραθύρου κατά το άνοιγμα καταλόγων από τη λίστα συντομεύσεων της γραμμής εργασιών</value>
-  </data>
-  <data name="StartupSettings" xml:space="preserve">
-    <value>Ρυθμίσεις εκκίνησης</value>
-  </data>
   <data name="ThirdPartyLicenses" xml:space="preserve">
     <value>Άδειες τρίτων</value>
   </data>
@@ -2482,21 +2620,6 @@
   </data>
   <data name="ClearAll" xml:space="preserve">
     <value>Εκκαθάριση όλων</value>
-  </data>
-  <data name="Columns" xml:space="preserve">
-    <value>Στήλες</value>
-  </data>
-  <data name="LargeIcons" xml:space="preserve">
-    <value>Μεγάλα εικονίδια</value>
-  </data>
-  <data name="MediumIcons" xml:space="preserve">
-    <value>Μεσαία εικονίδια</value>
-  </data>
-  <data name="SmallIcons" xml:space="preserve">
-    <value>Μικρά εικονίδια</value>
-  </data>
-  <data name="Tiles" xml:space="preserve">
-    <value>Πλακίδια</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Δημιουργία βιβλιοθήκης</value>
@@ -2507,8 +2630,8 @@
   <data name="ShowFolderSize" xml:space="preserve">
     <value>Εμφάνιση μεγέθους φακέλων</value>
   </data>
-  <data name="Skip" xml:space="preserve">
-    <value>Παράλειψη</value>
+  <data name="RecentFiles" xml:space="preserve">
+    <value>Πρόσφατα αρχεία</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
     <value>Άνοιγμα του Files κατά την εκκίνηση των Windows</value>
@@ -2534,6 +2657,9 @@
   <data name="Type" xml:space="preserve">
     <value>Τύπος:</value>
   </data>
+  <data name="Bytes" xml:space="preserve">
+    <value>Bytes</value>
+  </data>
   <data name="Extract" xml:space="preserve">
     <value>Εξαγωγή</value>
   </data>
@@ -2542,6 +2668,9 @@
   </data>
   <data name="ExtractHere" xml:space="preserve">
     <value>Εξαγωγή εδώ</value>
+  </data>
+  <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+E</value>
   </data>
   <data name="ExtractToChildFolder" xml:space="preserve">
     <value>Αποσυμπίεση στο {0}</value>
@@ -2558,9 +2687,6 @@
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>Ο υπολογισμός μεγέθους των φακέλων είναι υπολογιστικά απαιτητικός και μπορεί να προκαλέσει αύξηση της χρήσης του επεξεργαστή.</value>
   </data>
-  <data name="OpenIn" xml:space="preserve">
-    <value>Άνοιγμα σε</value>
-  </data>
   <data name="RotateLeft" xml:space="preserve">
     <value>Περιστροφή αριστερά</value>
   </data>
@@ -2575,9 +2701,6 @@
   </data>
   <data name="CloseTabsToTheRight" xml:space="preserve">
     <value>Κλείσιμο καρτέλων δεξιά</value>
-  </data>
-  <data name="ShowDotFiles" xml:space="preserve">
-    <value>Εμφάνιση dot files</value>
   </data>
   <data name="CloseOtherTabs" xml:space="preserve">
     <value>Κλείσιμο των άλλων καρτέλων</value>
@@ -2603,22 +2726,64 @@
   <data name="StatusCopyFailed" xml:space="preserve">
     <value>Η αντιγραφή απέτυχε.</value>
   </data>
+  <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
+    <value>Failed to copy {0} items from {1} to {2}</value>
+  </data>
+  <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
+    <value>Failed to copy {0} item from {1} to {2}</value>
+  </data>
   <data name="StatusMoveFailed" xml:space="preserve">
     <value>Η μετακίνηση απέτυχε.</value>
   </data>
   <data name="FileTags" xml:space="preserve">
     <value>Ετικέτες</value>
   </data>
-  <data name="SystemTimeStyle" xml:space="preserve">
-    <value>Σύστημα</value>
+  <data name="SettingsShowFileTagsSection.Title" xml:space="preserve">
+    <value>Show Tags section</value>
+  </data>
+  <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Show Tags section</value>
+  </data>
+  <data name="UseCompactStyles" xml:space="preserve">
+    <value>Use compact styles in the details layout</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Διεθνής</value>
+  </data>
+  <data name="DateFormatSample" xml:space="preserve">
+    <value>ex: {0}, {1}</value>
   </data>
   <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
     <value>Εμφάνιση μικρογραφιών</value>
   </data>
   <data name="Retry" xml:space="preserve">
     <value>Επανάληψη</value>
+  </data>
+  <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
+    <value>Move operation is not supported in this context. Do you want to copy the items instead?</value>
+  </data>
+  <data name="HiddenFilesAndFolders" xml:space="preserve">
+    <value>Hidden files and folders</value>
+  </data>
+  <data name="Custom" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="SetAsSlideshow" xml:space="preserve">
+    <value>Set as desktop slideshow</value>
+  </data>
+  <data name="SizeAllColumnsToFit" xml:space="preserve">
+    <value>Size All Columns to Fit</value>
+  </data>
+  <data name="Contributors" xml:space="preserve">
+    <value>Contributors</value>
+  </data>
+  <data name="Adaptive" xml:space="preserve">
+    <value>Adaptive</value>
+  </data>
+  <data name="AdaptiveShortcutTooltip" xml:space="preserve">
+    <value>Adaptive (Ctrl+Shift+7)</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+Shift+7</value>
   </data>
 </root>
