@@ -2483,7 +2483,7 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
     <value>Giấy phép bên thứ ba</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>Thiết lập này sửa đổi các tệp hệ thống và có thể có các tác dụng không mong muốn trên thiết bị của bạn. Các nhà phát triển không chịu trách nhiệm trong trường hợp có sự cố xảy ra. Tiếp tục với tùy chọn này là sự thừa nhận rủi ro liên quan đến hành động này. Xin lưu ý rằng việc gỡ cài đặt Files sẽ không hoàn tác những thay đổi này và có thể ngăn bạn mở file explorer trừ khi bạn tắt cài đặt này trước khi xóa Files khỏi thiết bị của mình.</value>
+    <value>Thiết lập này sửa đổi các tệp hệ thống và có thể có các tác dụng không mong muốn trên thiết bị của bạn. Các nhà phát triển không chịu trách nhiệm trong trường hợp có sự cố xảy ra. Tiếp tục với tùy chọn này là sự thừa nhận rủi ro liên quan đến hành động này.</value>
   </data>
   <data name="ClearAll" xml:space="preserve">
     <value>Dọn dẹp toàn bộ</value>

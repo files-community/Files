@@ -2484,7 +2484,7 @@ Centrum aplikácií používame na sledovanie používania aplikácií, vyhľad�
     <value>Licencie tretích strán</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>Toto nastavenie upravuje systémové súbory a môže mať neočakávané vedľajšie účinky na vaše zariadenie. Vývojári nenesú žiadnu zodpovednosť v prípade, že sa v dôsledku toho vyskytne problém. Pokračovanie v tejto možnosti znamená uznanie rizík spojených s touto akciou. Upozorňujeme, že odinštalovaním aplikácie Files sa tieto zmeny nevrátia späť a môže vám brániť v otvorení prieskumníka súborov, pokiaľ toto nastavenie nevypnete pred odstránením aplikácie Files zo zariadenia.</value>
+    <value>Toto nastavenie upravuje systémové súbory a môže mať neočakávané vedľajšie účinky na vaše zariadenie. Vývojári nenesú žiadnu zodpovednosť v prípade, že sa v dôsledku toho vyskytne problém. Pokračovanie v tejto možnosti znamená uznanie rizík spojených s touto akciou.</value>
   </data>
   <data name="ClearAll" xml:space="preserve">
     <value>Zmazať všetko</value>

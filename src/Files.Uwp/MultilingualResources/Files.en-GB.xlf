@@ -3559,6 +3559,22 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <source>Contributors</source>
           <target state="new">Contributors</target>
         </trans-unit>
+        <trans-unit id="SetAsSlideshow" translate="yes" xml:space="preserve">
+          <source>Set as desktop slideshow</source>
+          <target state="new">Set as desktop slideshow</target>
+        </trans-unit>
+        <trans-unit id="Adaptive" translate="yes" xml:space="preserve">
+          <source>Adaptive</source>
+          <target state="new">Adaptive</target>
+        </trans-unit>
+        <trans-unit id="AdaptiveShortcutTooltip" translate="yes" xml:space="preserve">
+          <source>Adaptive (Ctrl+Shift+7)</source>
+          <target state="new">Adaptive (Ctrl+Shift+7)</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
+          <source>Ctrl+Shift+7</source>
+          <target state="new">Ctrl+Shift+7</target>
+        </trans-unit>
       </group>
     </body>
   </file>
