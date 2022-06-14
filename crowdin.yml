@@ -4,15 +4,15 @@ files:
   - source: /src/Files.Uwp/Strings/en-US/*.resw
     translation: /src/Files.Uwp/Strings/%locale%/%original_file_name%
     languages_mapping:
-    locale:
-      af: af
-      ar: ar
-      bg: bg
-      ca: ca
-      da: da
-      el: el
-      ka: ka
-      zh-CN: zh-Hans
-      zh-TW: zh-Hant
-      vi: vi
-      ta: ta
+      locale:
+        af: af
+        ar: ar
+        bg: bg
+        ca: ca
+        da: da
+        el: el
+        ka: ka
+        zh-CN: zh-Hans
+        zh-TW: zh-Hant
+        vi: vi
+        ta: ta
