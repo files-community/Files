@@ -895,10 +895,10 @@
     <value>Não especificado</value>
   </data>
   <data name="PropertyLongitudeDecimal" xml:space="preserve">
-    <value>Longitude Decimal</value>
+    <value>Decimal da Longitude</value>
   </data>
   <data name="PropertyLatitudeDecimal" xml:space="preserve">
-    <value>Latitude Decimal</value>
+    <value>Decimal da Latitude</value>
   </data>
   <data name="PropertyLatitude" xml:space="preserve">
     <value>Latitude</value>
