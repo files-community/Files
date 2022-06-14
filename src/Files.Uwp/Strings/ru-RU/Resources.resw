@@ -451,13 +451,13 @@
     <value>Вы удалили эту папку?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by {0}</value>
+    <value>Файл, к которому вы пытаетесь получить доступ, в настоящее время используется {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by an another application</value>
+    <value>Вы не можете использовать этот файл в настоящее время, потому что он используется другим приложением</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
-    <value>File is in use</value>
+    <value>Файл используется</value>
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>Разметка</value>
@@ -514,7 +514,7 @@
     <value>Имя элемента не должно содержать следующих знаков: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
-    <value>OK</value>
+    <value>Ок</value>
   </data>
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>Имя элемента не должно содержать следующих знаков: \ / : * ? " &lt; &gt; |</value>
@@ -2765,19 +2765,19 @@
     <value>Hidden files and folders</value>
   </data>
   <data name="Custom" xml:space="preserve">
-    <value>Custom</value>
+    <value>Пользовательский</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
-    <value>Set as desktop slideshow</value>
+    <value>Установить как слад-шоу рабочего стола</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
     <value>Size All Columns to Fit</value>
   </data>
   <data name="Contributors" xml:space="preserve">
-    <value>Contributors</value>
+    <value>Разработчики</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Adaptive</value>
+    <value>Адаптивный</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
     <value>Adaptive (Ctrl+Shift+7)</value>
