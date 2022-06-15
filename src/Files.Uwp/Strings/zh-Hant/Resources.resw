@@ -2188,7 +2188,7 @@
     <value>關閉畫面</value>
   </data>
   <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
-    <value>Enter compact overlay</value>
+    <value>進入懸浮視窗</value>
   </data>
   <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
     <value>返回完整檢視</value>
@@ -2769,10 +2769,10 @@
     <value>自訂</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
-    <value>Set as desktop slideshow</value>
+    <value>設為桌布幻燈片</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
-    <value>Size All Columns to Fit</value>
+    <value>調整欄位至合適寬度</value>
   </data>
   <data name="Contributors" xml:space="preserve">
     <value>貢獻者</value>
