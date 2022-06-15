@@ -451,7 +451,7 @@
     <value>このフォルダーを削除しましたか?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by {0}</value>
+    <value>アクセスしようとしているファイルは {0} によって現在使用されています</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
     <value>The file you are attempting to access is currently being used by an another application</value>
@@ -2727,7 +2727,7 @@
     <value>コピーに失敗しました</value>
   </data>
   <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
-    <value>Failed to copy {0} items from {1} to {2}</value>
+    <value>{0} ファイルの {1} から {2} へ移動に失敗しました</value>
   </data>
   <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
     <value>Failed to copy {0} item from {1} to {2}</value>
