@@ -232,7 +232,7 @@
     <value>Відображати приховані файли та папки</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Показувати файли які починаються з крапки</value>
+    <value>Показувати файли, які починаються з крапки</value>
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Експериментально</value>
@@ -820,7 +820,7 @@
     <value>Мови</value>
   </data>
   <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>Terminal applications</value>
+    <value>Програма термінала</value>
   </data>
   <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
     <value>Edit terminal applications</value>
@@ -1627,10 +1627,10 @@
     <value>{0} items will be copied</value>
   </data>
   <data name="CopyItemsDialogTitle" xml:space="preserve">
-    <value>Copy item(s)</value>
+    <value>Копіювати елемент(и)</value>
   </data>
   <data name="DeleteItemsDialogTitle" xml:space="preserve">
-    <value>Delete item(s)</value>
+    <value>Видалити елемент(и)</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Перемістити</value>
@@ -1639,7 +1639,7 @@
     <value>{0} items will be moved</value>
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
-    <value>Move item(s)</value>
+    <value>Перемістити елемент(и)</value>
   </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>Буде видалено елементів: {0}.</value>
@@ -1657,7 +1657,7 @@
     <value>There is one conflicting file name, and {0} outgoing item(s).</value>
   </data>
   <data name="CopyItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>One item will be copied</value>
+    <value>Один елемент буде переміщений</value>
   </data>
   <data name="DeleteItemsDialogSubtitleSingle" xml:space="preserve">
     <value>Один елемент буде видалено</value>
@@ -2577,10 +2577,10 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Windows Vista SP2</value>
   </data>
   <data name="ReducedColorMode_Color16Bit" xml:space="preserve">
-    <value>16 Bit Colors (65536)</value>
+    <value>16 Біт кольори (65536)</value>
   </data>
   <data name="ReducedColorMode_Color8Bit" xml:space="preserve">
-    <value>8 Bit Colors (256)</value>
+    <value>8 Біт кольори (256)</value>
   </data>
   <data name="CompatibilityMode" xml:space="preserve">
     <value>Режим сумісності</value>
@@ -2589,19 +2589,19 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Вимкнути оптимізацію повноекранного режиму</value>
   </data>
   <data name="ExecuteAt640X480" xml:space="preserve">
-    <value>Run at 640 x 480 screen resolution</value>
+    <value>Запуск при 640 х 480 роздільності екрану</value>
   </data>
   <data name="Options" xml:space="preserve">
     <value>Параметри</value>
   </data>
   <data name="OverrideDPIScalingBehaviour" xml:space="preserve">
-    <value>Override high DPI scaling behaviour</value>
+    <value>Перевизначити поведінку масштабування з високим розширенням DPI</value>
   </data>
   <data name="ReducedColorMode" xml:space="preserve">
     <value>Режим обмеження кольорів</value>
   </data>
   <data name="RegisterForRestart" xml:space="preserve">
-    <value>Register for restart</value>
+    <value>Зареєструватися для перезавантаження</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
     <value>У режимі адміністратора</value>
@@ -2610,13 +2610,13 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Запустити засіб усунення неполадок, пов'язаних із сумісністю</value>
   </data>
   <data name="UseMainMonitorDPISettings" xml:space="preserve">
-    <value>Use DPI settings of the main monitor</value>
+    <value>Використовувати DPI налаштування головного монітора</value>
   </data>
   <data name="ThirdPartyLicenses" xml:space="preserve">
-    <value>Third party licenses</value>
+    <value>Сторонні ліцензії</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>This option modifies the system registry and can have unexpected side effects on your device. Continue at your own risk.</value>
+    <value>Ця опція змінює системний реєстр і може мати несподівані побічні ефекти на вашому пристрої. Продовжуйте на свій страх і ризик.</value>
   </data>
   <data name="ClearAll" xml:space="preserve">
     <value>Очистити все</value>
@@ -2625,16 +2625,16 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Створити бібліотеку</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
-    <value>Enter Library name</value>
+    <value>Введіть назву Бібліотеки</value>
   </data>
   <data name="ShowFolderSize" xml:space="preserve">
-    <value>Show folder size</value>
+    <value>Відображати розмір папки</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
     <value>Останні файли</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
-    <value>Open Files on Windows Startup</value>
+    <value>Відкривати Files при запуску Windows</value>
   </data>
   <data name="Attributes" xml:space="preserve">
     <value>Атрибути:</value>
@@ -2649,10 +2649,10 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Лише читання</value>
   </data>
   <data name="CleanupDrive" xml:space="preserve">
-    <value>Cleanup your drive contents</value>
+    <value>Очистити вміст диску</value>
   </data>
   <data name="DiskCleanup" xml:space="preserve">
-    <value>Disk cleanup</value>
+    <value>Очищення диску</value>
   </data>
   <data name="Type" xml:space="preserve">
     <value>Тип</value>
@@ -2664,28 +2664,28 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Вилучити</value>
   </data>
   <data name="ExtractFiles" xml:space="preserve">
-    <value>Extract files</value>
+    <value>Видобути файли</value>
   </data>
   <data name="ExtractHere" xml:space="preserve">
-    <value>Extract here</value>
+    <value>Видобути тут</value>
   </data>
   <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+E</value>
   </data>
   <data name="ExtractToChildFolder" xml:space="preserve">
-    <value>Extract to {0}</value>
+    <value>Видобути до {0}</value>
   </data>
   <data name="RunScript" xml:space="preserve">
     <value>Виконати сценарій</value>
   </data>
   <data name="RunWithPowerShell" xml:space="preserve">
-    <value>Run with PowerShell</value>
+    <value>Запуск з PowerShell</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>Установити як тло робочого стола</value>
   </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
-    <value>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</value>
+    <value>Обчислення розмірів папки потребує багато ресурсу і може збільшити використання вашого процесора.</value>
   </data>
   <data name="RotateLeft" xml:space="preserve">
     <value>Повернути ліворуч</value>
@@ -2697,7 +2697,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Інсталювати</value>
   </data>
   <data name="CloseTabsToTheLeft" xml:space="preserve">
-    <value>Close tabs to the left</value>
+    <value>Закрити вкладки ліворуч</value>
   </data>
   <data name="CloseTabsToTheRight" xml:space="preserve">
     <value>Закрити вкладки праворуч</value>
@@ -2715,13 +2715,13 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Відео</value>
   </data>
   <data name="UpdateFiles" xml:space="preserve">
-    <value>Update Files</value>
+    <value>Оновити Файли</value>
   </data>
   <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
-    <value>Preparing {0} items</value>
+    <value>Підготовка {0} елементів</value>
   </data>
   <data name="PrepareInProgress" xml:space="preserve">
-    <value>Preparing items</value>
+    <value>Підготовка елементів</value>
   </data>
   <data name="StatusCopyFailed" xml:space="preserve">
     <value>Не вдалося скопіювати</value>
@@ -2778,10 +2778,10 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Contributors</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Adaptive</value>
+    <value>Адаптивний</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>Adaptive (Ctrl+Shift+7)</value>
+    <value>Адаптивний (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
