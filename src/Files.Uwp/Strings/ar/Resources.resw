@@ -226,13 +226,13 @@
     <value>اختر اللون الخاص بك</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
-    <value>إظهار الامتدادات لأنواع الملفات المعروفة</value>
+    <value>Show extensions for known file types</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>إظهار الملفات والمجلدات المخفية</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>إظهار ملفات النقاط</value>
+    <value>Show dot files</value>
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>تجريبي</value>
