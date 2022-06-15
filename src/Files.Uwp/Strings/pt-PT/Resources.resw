@@ -2343,7 +2343,7 @@ Utilizamos o App Center para localizar as definições que estão a ser utilizad
     <value>Desconhecido</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
-    <value>Tag</value>
+    <value>Etiqueta</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Editar tags</value>
@@ -2496,7 +2496,7 @@ Utilizamos o App Center para localizar as definições que estão a ser utilizad
     <value>Utilizar Files como diálogo para Abrir Ficheiros</value>
   </data>
   <data name="Tag" xml:space="preserve">
-    <value>Tag</value>
+    <value>Etiqueta</value>
   </data>
   <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
     <value>Abrir pastas com um clique único</value>
@@ -2577,10 +2577,10 @@ Utilizamos o App Center para localizar as definições que estão a ser utilizad
     <value>Windows Vista SP2</value>
   </data>
   <data name="ReducedColorMode_Color16Bit" xml:space="preserve">
-    <value>16 Bit Colors (65536)</value>
+    <value>Cores de 16 Bits (65536)</value>
   </data>
   <data name="ReducedColorMode_Color8Bit" xml:space="preserve">
-    <value>8 Bit Colors (256)</value>
+    <value>Cor de 8 Bits (256)</value>
   </data>
   <data name="CompatibilityMode" xml:space="preserve">
     <value>Modo de compatibilidade</value>
@@ -2736,7 +2736,7 @@ Utilizamos o App Center para localizar as definições que estão a ser utilizad
     <value>Mover falhou</value>
   </data>
   <data name="FileTags" xml:space="preserve">
-    <value>Tags</value>
+    <value>Etiquetas</value>
   </data>
   <data name="SettingsShowFileTagsSection.Title" xml:space="preserve">
     <value>Mostrar secção Tags</value>
@@ -2769,19 +2769,19 @@ Utilizamos o App Center para localizar as definições que estão a ser utilizad
     <value>Personalizado</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
-    <value>Set as desktop slideshow</value>
+    <value>Definir como apresentação de diapositivos do ambiente de trabalho</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
     <value>Dimensionar Todas as Colunas para Encaixar</value>
   </data>
   <data name="Contributors" xml:space="preserve">
-    <value>Contributors</value>
+    <value>Contribuidores</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Adaptive</value>
+    <value>Adaptável</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>Adaptive (Ctrl+Shift+7)</value>
+    <value>Adaptável (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
