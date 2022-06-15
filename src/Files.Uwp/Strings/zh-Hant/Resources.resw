@@ -1357,7 +1357,7 @@
     <value>移除 Bundle</value>
   </data>
   <data name="Bundles" xml:space="preserve">
-    <value>Bundles</value>
+    <value>合輯</value>
   </data>
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
     <value>將檔案或資料夾拖曳至此處以方便您進行存取</value>
@@ -2188,7 +2188,7 @@
     <value>關閉畫面</value>
   </data>
   <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
-    <value>Enter compact overlay</value>
+    <value>進入懸浮視窗</value>
   </data>
   <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
     <value>返回完整檢視</value>
@@ -2745,7 +2745,7 @@
     <value>顯示標籤區塊</value>
   </data>
   <data name="UseCompactStyles" xml:space="preserve">
-    <value>Use compact styles in the details layout</value>
+    <value>在詳細檢視中使用緊湊模式</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>通用</value>
@@ -2763,25 +2763,25 @@
     <value>此情境不支援移動。要改為複製此項目嗎？</value>
   </data>
   <data name="HiddenFilesAndFolders" xml:space="preserve">
-    <value>Hidden files and folders</value>
+    <value>隱藏的檔案與資料匣</value>
   </data>
   <data name="Custom" xml:space="preserve">
-    <value>Custom</value>
+    <value>自訂</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
-    <value>Set as desktop slideshow</value>
+    <value>設為桌布幻燈片</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
-    <value>Size All Columns to Fit</value>
+    <value>調整欄位至合適寬度</value>
   </data>
   <data name="Contributors" xml:space="preserve">
-    <value>Contributors</value>
+    <value>貢獻者</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Adaptive</value>
+    <value>自動調整</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>Adaptive (Ctrl+Shift+7)</value>
+    <value>自動調整 (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>

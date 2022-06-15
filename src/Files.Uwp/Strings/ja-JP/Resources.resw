@@ -454,10 +454,10 @@
     <value>アクセスしようとしているファイルは {0} によって現在使用されています</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by an another application</value>
+    <value>アクセスしようとしているファイルは別のアプリケーションによって現在使用されています</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
-    <value>File is in use</value>
+    <value>ファイルは使用中です</value>
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>レイアウト</value>
@@ -2727,10 +2727,10 @@
     <value>コピーに失敗しました</value>
   </data>
   <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
-    <value>{0} ファイルの {1} から {2} へ移動に失敗しました</value>
+    <value>{0} ファイルの {1} から {2} へコピーに失敗しました</value>
   </data>
   <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
-    <value>Failed to copy {0} item from {1} to {2}</value>
+    <value>{0} ファイルの {1} から {2} へコピーに失敗しました</value>
   </data>
   <data name="StatusMoveFailed" xml:space="preserve">
     <value>移動に失敗しました</value>
@@ -2739,19 +2739,19 @@
     <value>タグ</value>
   </data>
   <data name="SettingsShowFileTagsSection.Title" xml:space="preserve">
-    <value>Show Tags section</value>
+    <value>タグ セクションを表示</value>
   </data>
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Show Tags section</value>
+    <value>タグ セクションを表示</value>
   </data>
   <data name="UseCompactStyles" xml:space="preserve">
-    <value>Use compact styles in the details layout</value>
+    <value>詳細レイアウトでコンパクトスタイルを使う</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>ユニバーサル</value>
   </data>
   <data name="DateFormatSample" xml:space="preserve">
-    <value>ex: {0}, {1}</value>
+    <value>例: {0}, {1}</value>
   </data>
   <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
     <value>縮小版を表示する</value>
@@ -2760,28 +2760,28 @@
     <value>再試行</value>
   </data>
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
-    <value>Move operation is not supported in this context. Do you want to copy the items instead?</value>
+    <value>ここでは移動の操作がサポートされていません。代わりにファイルをコピーしますか？</value>
   </data>
   <data name="HiddenFilesAndFolders" xml:space="preserve">
-    <value>Hidden files and folders</value>
+    <value>隠しファイルとフォルダ</value>
   </data>
   <data name="Custom" xml:space="preserve">
-    <value>Custom</value>
+    <value>カスタム</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
-    <value>Set as desktop slideshow</value>
+    <value>デスクトップのスライドショーとして設定</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
-    <value>Size All Columns to Fit</value>
+    <value>すべてのカラムをフィットさせる</value>
   </data>
   <data name="Contributors" xml:space="preserve">
-    <value>Contributors</value>
+    <value>開発者</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Adaptive</value>
+    <value>自動</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>Adaptive (Ctrl+Shift+7)</value>
+    <value>自動 (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>

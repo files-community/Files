@@ -232,7 +232,7 @@
     <value>Rejtett fájlok és mappák megjelenítése</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Show dot files</value>
+    <value>Ponttal kezdődő nevű fájlok megjelenítése</value>
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Kísérleti beállítások</value>
@@ -451,10 +451,10 @@
     <value>Ön törölte ezt a mappát?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by {0}</value>
+    <value>A fájl meg van nyitva a(z) {0} alkalmazásban, ezért jelenleg nem lehet hozzáférni</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by an another application</value>
+    <value>A fájl meg van nyitva egy másik alkalmazásban, ezért jelenleg nem lehet hozzáférni</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
     <value>A fájl használatban van</value>
@@ -895,22 +895,22 @@
     <value>Nem meghatározott</value>
   </data>
   <data name="PropertyLongitudeDecimal" xml:space="preserve">
-    <value>GPS szélesség (egész)</value>
+    <value>GPS hosszúság</value>
   </data>
   <data name="PropertyLatitudeDecimal" xml:space="preserve">
-    <value>GPS magasság (egész)</value>
+    <value>GPS szélesség</value>
   </data>
   <data name="PropertyLatitude" xml:space="preserve">
     <value>GPS szélesség</value>
   </data>
   <data name="PropertyLongitude" xml:space="preserve">
-    <value>GPS magasság</value>
+    <value>GPS hosszúság</value>
   </data>
   <data name="PropertyLatitudeRef" xml:space="preserve">
-    <value>GPS szélesség ref</value>
+    <value>GPS szélesség referencia</value>
   </data>
   <data name="PropertyLongitudeRef" xml:space="preserve">
-    <value>GPS magasság ref</value>
+    <value>GPS hosszúság referencia</value>
   </data>
   <data name="PropertyAltitude" xml:space="preserve">
     <value>GPS magasság</value>
@@ -1861,31 +1861,31 @@
     <value>Másolás megszakítva</value>
   </data>
   <data name="StatusMoveCanceledDetails_Singular" xml:space="preserve">
-    <value>{0} elem áthelyezése {1} (innen), {2} (ide) megszakítva</value>
+    <value>{0} elem áthelyezése megszakítva innen: {1}, ide: {2}</value>
   </data>
   <data name="StatusMoveCanceledDetails_Plural" xml:space="preserve">
-    <value>{0} elem áthelyezése {1} (innen), {2} (ide) megszakítva {3} elem áthelyezése után</value>
+    <value>{0} elem áthelyezése megszakítva {3} áthelyezése után innen: {1}, ide: {2}</value>
   </data>
   <data name="StatusMoveCanceledDetails_Plural2" xml:space="preserve">
-    <value>{0} elem áthelyezése {1} (innen), {2} (ide) megszakítva {3} elem áthelyezése után</value>
+    <value>{0} elem áthelyezése megszakítva {3} áthelyezése után innen: {1}, ide: {2}</value>
   </data>
   <data name="StatusMovingItemsDetails_Singular" xml:space="preserve">
-    <value>{0} elem áthelyezése {1} (innen), {2} (ide)</value>
+    <value>{0} elem áthelyezése innen: {1}, ide: {2}</value>
   </data>
   <data name="StatusMovingItemsDetails_Plural" xml:space="preserve">
-    <value>{0} elem áthelyezése {1} (innen), {2} (ide)</value>
+    <value>{0} elem áthelyezése innen: {1}, ide: {2}</value>
   </data>
   <data name="StatusMovedItemsDetails_Singular" xml:space="preserve">
-    <value>{0} elem sikeresen áthelyezve {1} (innen), {2} (ide)</value>
+    <value>{0} elem sikeresen áthelyezve innen: {1}, ide: {2}</value>
   </data>
   <data name="StatusMovedItemsDetails_Plural" xml:space="preserve">
-    <value>{0} elem sikeresen áthelyezve {1} (innen), {2} (ide)</value>
+    <value>{0} elem sikeresen áthelyezve innen: {1}, ide: {2}</value>
   </data>
   <data name="StatusMoveFailedDetails_Singular" xml:space="preserve">
-    <value>{0} elem áthelyezése {1} (innen), {2} (ide) sikertelen</value>
+    <value>{0} elem áthelyezése sikertelen innen: {1}, ide: {2}</value>
   </data>
   <data name="StatusMoveFailedDetails_Plural" xml:space="preserve">
-    <value>{0} elem áthelyezése {1} (innen), {2} (ide) sikertelen</value>
+    <value>{0} elem áthelyezése sikertelen innen: {1}, ide: {2}</value>
   </data>
   <data name="StatusCopyCanceledDetails_Singular" xml:space="preserve">
     <value>{0} másolása ide {1} megszakítva</value>
@@ -1930,10 +1930,10 @@
     <value>{0} elem sikeresen törölve innen {1}</value>
   </data>
   <data name="StatusDeletionFailedDetails_Singular" xml:space="preserve">
-    <value>{0} elem törlése innen {1} sikertelen</value>
+    <value>{0} elem törlése sikertelen innen: {1}</value>
   </data>
   <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
-    <value>{0} elem törlése innen {1} sikertelen</value>
+    <value>{0} elem törlése sikertelen innen: {1}</value>
   </data>
   <data name="TheRecycleBin" xml:space="preserve">
     <value>a Lomtár</value>
@@ -2733,10 +2733,10 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
     <value>A másolás sikertelen</value>
   </data>
   <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
-    <value>Failed to copy {0} items from {1} to {2}</value>
+    <value>{0} elem másolása sikertelen innen: {1}, ide: {2}</value>
   </data>
   <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
-    <value>Failed to copy {0} item from {1} to {2}</value>
+    <value>{0} elem másolása sikertelen innen: {1}, ide: {2}</value>
   </data>
   <data name="StatusMoveFailed" xml:space="preserve">
     <value>Áthelyezés sikertelen.</value>
@@ -2745,19 +2745,19 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
     <value>Címkék</value>
   </data>
   <data name="SettingsShowFileTagsSection.Title" xml:space="preserve">
-    <value>Show Tags section</value>
+    <value>Címkék megjelenítése</value>
   </data>
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Show Tags section</value>
+    <value>Címkék megjelenítése</value>
   </data>
   <data name="UseCompactStyles" xml:space="preserve">
-    <value>Use compact styles in the details layout</value>
+    <value>Kompakt stílus használata részletek nézetben</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Univerzális</value>
   </data>
   <data name="DateFormatSample" xml:space="preserve">
-    <value>ex: {0}, {1}</value>
+    <value>pl: {0}, {1}</value>
   </data>
   <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
     <value>Miniatűrök megjelenítése</value>
@@ -2766,28 +2766,28 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
     <value>Újra</value>
   </data>
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
-    <value>Move operation is not supported in this context. Do you want to copy the items instead?</value>
+    <value>Itt nem támogatott az áthelyezés művelet. Szeretné inkább másolni az elemeket?</value>
   </data>
   <data name="HiddenFilesAndFolders" xml:space="preserve">
     <value>Rejtett fájlok és mappák</value>
   </data>
   <data name="Custom" xml:space="preserve">
-    <value>Custom</value>
+    <value>Egyéni</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
-    <value>Set as desktop slideshow</value>
+    <value>Beállítás asztali háttérképként</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
-    <value>Size All Columns to Fit</value>
+    <value>Oszlopok átméretezése a tartalomhoz</value>
   </data>
   <data name="Contributors" xml:space="preserve">
-    <value>Contributors</value>
+    <value>Közreműködők</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Adaptive</value>
+    <value>Adaptív</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>Adaptive (Ctrl+Shift+7)</value>
+    <value>Adaptív (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>

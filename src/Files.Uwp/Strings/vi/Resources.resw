@@ -232,7 +232,7 @@
     <value>Hiển thị tệp và thư mục đang giấu</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Show dot files</value>
+    <value>Hiện tệp chấm</value>
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Thực nghiệm</value>
@@ -277,7 +277,7 @@
     <value>Sắp xếp theo</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value>Name</value>
+    <value>Tên</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>Loại</value>
@@ -451,13 +451,13 @@
     <value>Bạn có xóa bỏ thư mục này không?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by {0}</value>
+    <value>Tệp bạn đang cố gắng truy cập hiện đang được sử dụng bởi {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by an another application</value>
+    <value>Tệp bạn đang cố gắng truy cập hiện đang được sử dụng bởi một ứng dụng khác</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
-    <value>File is in use</value>
+    <value>Tệp đang được sử dụng</value>
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>Bố trí</value>
@@ -568,7 +568,7 @@
     <value>PB</value>
   </data>
   <data name="ByteSymbol" xml:space="preserve">
-    <value>B</value>
+    <value>C</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Chạy với quyền người quản trị</value>
@@ -985,7 +985,7 @@
     <value>Url tác giả</value>
   </data>
   <data name="PropertyContentDistributor" xml:space="preserve">
-    <value>Content Distributor</value>
+    <value>Người phân phối nội dung</value>
   </data>
   <data name="PropertyDateReleased" xml:space="preserve">
     <value>Ngày ra</value>
@@ -2702,7 +2702,7 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
     <value>Cài đặt</value>
   </data>
   <data name="CloseTabsToTheLeft" xml:space="preserve">
-    <value>Close tabs to the left</value>
+    <value>Đóng các thẻ bên trái</value>
   </data>
   <data name="CloseTabsToTheRight" xml:space="preserve">
     <value>Đóng các tab bên phải</value>
@@ -2720,22 +2720,22 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
     <value>Video</value>
   </data>
   <data name="UpdateFiles" xml:space="preserve">
-    <value>Update Files</value>
+    <value>Cập nhật Files</value>
   </data>
   <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
-    <value>Preparing {0} items</value>
+    <value>Đang chuẩn bị {0} mục</value>
   </data>
   <data name="PrepareInProgress" xml:space="preserve">
-    <value>Preparing items</value>
+    <value>Đang chuẩn bị mục</value>
   </data>
   <data name="StatusCopyFailed" xml:space="preserve">
     <value>Không sao chép được</value>
   </data>
   <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
-    <value>Failed to copy {0} items from {1} to {2}</value>
+    <value>Hoạt động sao chép {0} mục từ {1} đến {2} bị thất bại</value>
   </data>
   <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
-    <value>Failed to copy {0} item from {1} to {2}</value>
+    <value>Hoạt động sao chép {0} mục từ {1} đến {2} bị thất bại</value>
   </data>
   <data name="StatusMoveFailed" xml:space="preserve">
     <value>Di chuyển không thành công.</value>
@@ -2744,19 +2744,19 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
     <value>Thẻ</value>
   </data>
   <data name="SettingsShowFileTagsSection.Title" xml:space="preserve">
-    <value>Show Tags section</value>
+    <value>Hiển thị phần thẻ tệp</value>
   </data>
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Show Tags section</value>
   </data>
   <data name="UseCompactStyles" xml:space="preserve">
-    <value>Use compact styles in the details layout</value>
+    <value>Dùng thiết kế nhỏ gọn gọn ở dạng xem chi tiết</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Toàn diện</value>
   </data>
   <data name="DateFormatSample" xml:space="preserve">
-    <value>ex: {0}, {1}</value>
+    <value>vd: {0}, {1}</value>
   </data>
   <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
     <value>Hiển thị Hình ảnh thu nhỏ</value>
@@ -2765,28 +2765,28 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
     <value>Thử lại</value>
   </data>
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
-    <value>Move operation is not supported in this context. Do you want to copy the items instead?</value>
+    <value>Không hỗ trợ hành động di chuyển trong ngữ cảnh này. Bạn có muốn sao chép các mục thay vào đó không?</value>
   </data>
   <data name="HiddenFilesAndFolders" xml:space="preserve">
-    <value>Hidden files and folders</value>
+    <value>Tệp và thư mục ẩn</value>
   </data>
   <data name="Custom" xml:space="preserve">
-    <value>Custom</value>
+    <value>Tuỳ chỉnh</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
-    <value>Set as desktop slideshow</value>
+    <value>Đặt làm trình chiếu màn hình nền</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
-    <value>Size All Columns to Fit</value>
+    <value>Đặt khớp chiều rộng mọi cột</value>
   </data>
   <data name="Contributors" xml:space="preserve">
-    <value>Contributors</value>
+    <value>Những người đóng góp</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Adaptive</value>
+    <value>Thích ứng</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>Adaptive (Ctrl+Shift+7)</value>
+    <value>Thích ứng (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
