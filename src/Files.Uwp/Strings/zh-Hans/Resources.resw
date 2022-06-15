@@ -118,439 +118,439 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="SideBarOpenInNewTab.Text" xml:space="preserve">
-    <value>在新标签页中打开</value>
+    <value>Open in new tab</value>
   </data>
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
-    <value>在新窗口中打开</value>
+    <value>Open in new window</value>
   </data>
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
-    <value>打开新窗口</value>
+    <value>New window</value>
   </data>
   <data name="ModernNavigationToolbaNewBitmapImage.Text" xml:space="preserve">
-    <value>位图图像</value>
+    <value>Bitmap Image</value>
   </data>
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
-    <value>文本文档</value>
+    <value>Text Document</value>
   </data>
   <data name="CopyLocation" xml:space="preserve">
-    <value>复制地址</value>
+    <value>Copy location</value>
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
-    <value>粘贴</value>
+    <value>Paste</value>
   </data>
   <data name="Browse" xml:space="preserve">
-    <value>浏览</value>
+    <value>Browse</value>
   </data>
   <data name="nameColumn.Header" xml:space="preserve">
-    <value>名称</value>
+    <value>Name</value>
   </data>
   <data name="typeColumn.Header" xml:space="preserve">
-    <value>类型</value>
+    <value>Type</value>
   </data>
   <data name="Size" xml:space="preserve">
-    <value>大小</value>
+    <value>Size</value>
   </data>
   <data name="OpenIn" xml:space="preserve">
-    <value>打开于</value>
+    <value>Open in</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
-    <value>新建:</value>
+    <value>Created:</value>
   </data>
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
-    <value>项目名称</value>
+    <value>Item Name</value>
   </data>
   <data name="PropertiesItemPath.Text" xml:space="preserve">
-    <value>路径:</value>
+    <value>Path:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
-    <value>大小:</value>
+    <value>Size:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
-    <value>操作无法完成</value>
+    <value>This action cannot be done</value>
   </data>
   <data name="ErrorDialogTheDestinationFolder" xml:space="preserve">
-    <value>目标文件夹</value>
+    <value>The destination folder</value>
   </data>
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
-    <value>是源文件夹的子文件夹</value>
+    <value>is a subfolder of the source folder</value>
   </data>
   <data name="Skip" xml:space="preserve">
-    <value>跳过</value>
+    <value>Skip</value>
   </data>
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
-    <value>全选</value>
+    <value>Select All</value>
   </data>
   <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
-    <value>反选</value>
+    <value>Invert Selection</value>
   </data>
   <data name="NavToolbarClearSelection.Text" xml:space="preserve">
-    <value>清除选择</value>
+    <value>Clear Selection</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
-    <value>修改日期:</value>
+    <value>Modified:</value>
   </data>
   <data name="Accessed" xml:space="preserve">
-    <value>访问日期:</value>
+    <value>Accessed:</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
-    <value>清空所有项目</value>
+    <value>Clear all items</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>输入路径</value>
+    <value>Enter a path</value>
   </data>
   <data name="NavigationToolbarSearchRegion.PlaceholderText" xml:space="preserve">
-    <value>搜索</value>
+    <value>Search</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
-    <value>以前访问过的文件和文件夹将显示在此处</value>
+    <value>Files you've previously accessed will show up here</value>
   </data>
   <data name="RecentItemOpenFileLocation.Text" xml:space="preserve">
-    <value>打开文件位置</value>
+    <value>Open file location</value>
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
-    <value>移除此项</value>
+    <value>Remove this item</value>
   </data>
   <data name="SettingsUsefulLinks.Title" xml:space="preserve">
-    <value>实用链接</value>
+    <value>Useful links</value>
   </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
-    <value>提交反馈</value>
+    <value>Submit feedback</value>
   </data>
   <data name="About" xml:space="preserve">
-    <value>关于</value>
+    <value>About</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
-    <value>日期格式</value>
+    <value>Date format</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>选择颜色</value>
+    <value>Choose your color</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
-    <value>显示已知文件类型的扩展名</value>
+    <value>Show extensions for known file types</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
-    <value>显示隐藏的文件和文件夹</value>
+    <value>Show hidden files and folders</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>显示以英文句点 (.) 开头的项</value>
+    <value>Show dot files</value>
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
-    <value>实验性功能</value>
+    <value>Experimental</value>
   </data>
   <data name="Appearance" xml:space="preserve">
-    <value>外观</value>
+    <value>Appearance</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
-    <value>实验性功能</value>
+    <value>Experimental</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
-    <value>偏好</value>
+    <value>Preferences</value>
   </data>
   <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
-    <value>注意: 这些是实验性功能。</value>
+    <value>WARNING: EXPERIMENTAL FEATURES AHEAD!</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
-    <value>从离开的位置继续</value>
+    <value>Continue where you left off</value>
   </data>
   <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
-    <value>打开新的选项卡</value>
+    <value>Open a new tab</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
-    <value>打开指定页面</value>
+    <value>Open a specific page or pages</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
-    <value>偏好</value>
+    <value>Preferences</value>
   </data>
   <data name="Desktop" xml:space="preserve">
-    <value>桌面</value>
+    <value>Desktop</value>
   </data>
   <data name="Documents" xml:space="preserve">
-    <value>文档</value>
+    <value>Documents</value>
   </data>
   <data name="Downloads" xml:space="preserve">
-    <value>下载</value>
+    <value>Downloads</value>
   </data>
   <data name="SideBarUnpinFromFavorites.Text" xml:space="preserve">
-    <value>从收藏夹取消固定</value>
+    <value>Unpin from Favorites</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
-    <value>排序方式</value>
+    <value>Sort by</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value>名称</value>
+    <value>Name</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
-    <value>类型</value>
+    <value>Type</value>
   </data>
   <data name="Ascending" xml:space="preserve">
-    <value>递增</value>
+    <value>Ascending</value>
   </data>
   <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
-    <value>刷新</value>
+    <value>Refresh</value>
   </data>
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
-    <value>粘贴</value>
+    <value>Paste</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
-    <value>新建</value>
+    <value>New</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
-    <value>文件</value>
+    <value>File</value>
   </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
-    <value>属性</value>
+    <value>Properties</value>
   </data>
   <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
-    <value>属性</value>
+    <value>Properties</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
-    <value>解压缩</value>
+    <value>Extract</value>
   </data>
   <data name="Open" xml:space="preserve">
-    <value>打开</value>
+    <value>Open</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
-    <value>在新标签页中打开</value>
+    <value>Open in new tab</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" xml:space="preserve">
-    <value>在新窗口中打开</value>
+    <value>Open in new window</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" xml:space="preserve">
-    <value>设置为桌面背景</value>
+    <value>Set as desktop background</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
-    <value>共享</value>
+    <value>Share</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
-    <value>剪切</value>
+    <value>Cut</value>
   </data>
   <data name="Delete" xml:space="preserve">
-    <value>删除</value>
+    <value>Delete</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
-    <value>重命名</value>
+    <value>Rename</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
-    <value>固定至收藏夹</value>
+    <value>Pin to Favorites</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
-    <value>属性</value>
+    <value>Properties</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
-    <value>欢迎使用 Files!</value>
+    <value>Welcome to Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
-    <value>授予权限</value>
+    <value>Grant Permission</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>要开始使用，请授予我们访问文件系统的权限。你可以在稍后打开的设置窗口中授权。完成设置后，需要重新打开应用程序。 </value>
+    <value>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once you've completed this step. </value>
   </data>
   <data name="FileFolderListItem" xml:space="preserve">
-    <value>文件夹</value>
+    <value>File folder</value>
   </data>
   <data name="ItemTypeFile" xml:space="preserve">
-    <value>文件</value>
+    <value>File</value>
   </data>
   <data name="RenameDialog.Title" xml:space="preserve">
-    <value>键入名称</value>
+    <value>Enter an item name</value>
   </data>
   <data name="RenameDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>键入名称</value>
+    <value>Enter an item name</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>设置名称</value>
+    <value>Set Name</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
-    <value>浅色</value>
+    <value>Light</value>
   </data>
   <data name="DarkTheme" xml:space="preserve">
-    <value>深色</value>
+    <value>Dark</value>
   </data>
   <data name="Application" xml:space="preserve">
-    <value>应用</value>
+    <value>Application</value>
   </data>
   <data name="SystemTimeStyle" xml:space="preserve">
-    <value>系统</value>
+    <value>System</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
-    <value>新建文件夹</value>
+    <value>New Folder</value>
   </data>
   <data name="NewFile" xml:space="preserve">
-    <value>新建文件</value>
+    <value>New File</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
-    <value>该文件夹为空。</value>
+    <value>This folder is empty.</value>
   </data>
   <data name="NavBackButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>后退 (Alt+左方向键)</value>
+    <value>Back (Alt+Left Arrow)</value>
   </data>
   <data name="NavForwardButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>前进 (Alt+右方向键)</value>
+    <value>Forward (Alt+Right Arrow)</value>
   </data>
   <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>上移 (Alt+上方向键)</value>
+    <value>Up (Alt+Up Arrow)</value>
   </data>
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>刷新 (F5)</value>
+    <value>Refresh (F5)</value>
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>搜索 (Ctrl+F)</value>
+    <value>Search (Ctrl+F)</value>
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
-    <value>属性</value>
+    <value>Properties</value>
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
-    <value>属性</value>
+    <value>Properties</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
-    <value>此文件夹中已有同名项目。</value>
+    <value>An item with this name already exists in this directory.</value>
   </data>
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
-    <value>替换已有的项目</value>
+    <value>Replace existing item</value>
   </data>
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
-    <value>项目已存在</value>
+    <value>Item already exists</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
-    <value>设为锁屏背景</value>
+    <value>Set as lockscreen background</value>
   </data>
   <data name="BaseLayoutContextFlyoutLargeIcons.Text" xml:space="preserve">
-    <value>大图标</value>
+    <value>Large Icons</value>
   </data>
   <data name="BaseLayoutContextFlyoutMediumIcons.Text" xml:space="preserve">
-    <value>中图标</value>
+    <value>Medium Icons</value>
   </data>
   <data name="BaseLayoutContextFlyoutSmallIcons.Text" xml:space="preserve">
-    <value>小图标</value>
+    <value>Small Icons</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
-    <value>确定</value>
+    <value>OK</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
-    <value>该项目无法删除</value>
+    <value>We weren't able to delete this item</value>
   </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
-    <value>要打开此项，请插入驱动器。</value>
+    <value>Please insert the necessary drive to access this item.</value>
   </data>
   <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
-    <value>驱动器已弹出</value>
+    <value>Drive Unplugged</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
-    <value>要访问的文件可能已被移动或删除。</value>
+    <value>The file you are attempting to access may have been moved or deleted.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
-    <value>无法找到该文件</value>
+    <value>File Not Found</value>
   </data>
   <data name="FileNotFoundPreviewDialog.Text" xml:space="preserve">
-    <value>要预览的文件可能已被移动或删除。</value>
+    <value>The file you are attempting to preview may have been moved or deleted.</value>
   </data>
   <data name="FolderNotFoundDialog.Text" xml:space="preserve">
-    <value>要访问的文件夹可能已被移动或删除。</value>
+    <value>The folder you are attempting to access may have been moved or deleted.</value>
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
-    <value>此文件夹是否已被删除？</value>
+    <value>Did you delete this folder?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>此文件正被 {0} 使用</value>
+    <value>The file you are attempting to access is currently being used by {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>此文件正被另一程序使用</value>
+    <value>The file you are attempting to access is currently being used by an another application</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
-    <value>文件正在使用中</value>
+    <value>File is in use</value>
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
-    <value>布局</value>
+    <value>Layout</value>
   </data>
   <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
-    <value>选项</value>
+    <value>Selection options</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
-    <value>只读</value>
+    <value>Read-only</value>
   </data>
   <data name="PropertiesDialogHidden.Text" xml:space="preserve">
-    <value>隐藏</value>
+    <value>Hidden</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
-    <value>清空回收站</value>
+    <value>Empty recycle bin</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
-    <value>还原</value>
+    <value>Restore</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
-    <value>{0} 天前</value>
+    <value>{0} days ago</value>
   </data>
   <data name="DayAgo" xml:space="preserve">
-    <value>{0} 天前</value>
+    <value>{0} day ago</value>
   </data>
   <data name="HoursAgo" xml:space="preserve">
-    <value>{0} 小时前</value>
+    <value>{0} hours ago</value>
   </data>
   <data name="HourAgo" xml:space="preserve">
-    <value>{0} 小时前</value>
+    <value>{0} hour ago</value>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
-    <value>{0} 分钟前</value>
+    <value>{0} minutes ago</value>
   </data>
   <data name="MinuteAgo" xml:space="preserve">
-    <value>{0} 分钟前</value>
+    <value>{0} minute ago</value>
   </data>
   <data name="SecondsAgo" xml:space="preserve">
-    <value>{0} 秒前</value>
+    <value>{0} seconds ago</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
-    <value>新选项卡</value>
+    <value>New Tab</value>
   </data>
   <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
-    <value>不支持请求的操作</value>
+    <value>The requested operation is not supported</value>
   </data>
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
-    <value>{0} 可用，共 {1}</value>
+    <value>{0} free of {1}</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
-    <value>打开方式</value>
+    <value>Open With</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
-    <value>文件名不能包含下列任何字符：\ / : * ? " &lt; &gt; |</value>
+    <value>The item name must not contain the following characters: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
-    <value>确定</value>
+    <value>OK</value>
   </data>
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
-    <value>文件名不能包含下列任何字符：\ / : * ? " &lt; &gt; |</value>
+    <value>The item name must not contain the following characters: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
-    <value>个项目已选择</value>
+    <value>item selected</value>
   </data>
   <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>个项目已选择</value>
+    <value>items selected</value>
   </data>
   <data name="ItemCount.Text" xml:space="preserve">
-    <value>个项目</value>
+    <value>item</value>
   </data>
   <data name="ItemsCount.Text" xml:space="preserve">
-    <value>个项目</value>
+    <value>items</value>
   </data>
   <data name="DeleteInProgress.Title" xml:space="preserve">
-    <value>正在删除</value>
+    <value>Deleting files</value>
   </data>
   <data name="PasteInProgress.Title" xml:space="preserve">
-    <value>正在粘贴</value>
+    <value>Pasting files</value>
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
-    <value>正在移动到回收站</value>
+    <value>Moving files to the Recycle Bin</value>
   </data>
   <data name="Yes" xml:space="preserve">
-    <value>是</value>
+    <value>Yes</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
-    <value>确定要永久删除所有项目吗？</value>
+    <value>Are you sure you want to permanently delete all these items?</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
-    <value>清空回收站</value>
+    <value>Empty recycle bin</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
-    <value>字节</value>
+    <value>bytes</value>
   </data>
   <data name="KiloByteSymbol" xml:space="preserve">
     <value>KB</value>
@@ -571,1708 +571,1708 @@
     <value>B</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
-    <value>以管理员身份运行</value>
+    <value>Run as administrator</value>
   </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
-    <value>包含:</value>
+    <value>Contains:</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
-    <value>{0:#,##0} 个文件, {1:#,##0} 个文件夹</value>
+    <value>{0:#,##0} files, {1:#,##0} folders</value>
   </data>
   <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
-    <value>{0:#,##0} 个文件，{1:#,##0} 个文件夹，来自 {2:#,##0} 个位置 </value>
+    <value>{0:#,##0} files, {1:#,##0} folders from {2:#,##0} locations</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
-    <value>以其他用户身份运行</value>
+    <value>Run as another user</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
-    <value>{0} 中的全部类型</value>
+    <value>All type of {0}</value>
   </data>
   <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
-    <value>不同类型</value>
+    <value>Different types</value>
   </data>
   <data name="PropertiesCombinedItemPath" xml:space="preserve">
-    <value>{0} 中全部</value>
+    <value>All in {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
-    <value>已用空间:</value>
+    <value>Used space:</value>
   </data>
   <data name="PropertiesDriveFreeSpace.Text" xml:space="preserve">
-    <value>可用空间:</value>
+    <value>Free space:</value>
   </data>
   <data name="PropertiesDriveCapacity.Text" xml:space="preserve">
-    <value>容量:</value>
+    <value>Capacity:</value>
   </data>
   <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
-    <value>文件系统:</value>
+    <value>File system:</value>
   </data>
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
-    <value>最近</value>
+    <value>Recent</value>
   </data>
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
-    <value>移动标签页到此处</value>
+    <value>Move tab here</value>
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
-    <value>状态</value>
+    <value>Status</value>
   </data>
   <data name="SettingsOnStartupOpenAddPageButton.Content" xml:space="preserve">
-    <value>添加新页面</value>
+    <value>Add a new page</value>
   </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
-    <value>页数:</value>
+    <value>Pages:</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
-    <value>Windows 默认</value>
+    <value>Windows default</value>
   </data>
   <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
-    <value>无结果</value>
+    <value>No results</value>
   </data>
   <data name="SubDirectoryAccessDenied" xml:space="preserve">
-    <value>无法访问任何要显示的项</value>
+    <value>Can't access any items to display</value>
   </data>
   <data name="MoveToFolderCaptionText" xml:space="preserve">
-    <value>移动到 {0}</value>
+    <value>Move to {0}</value>
   </data>
   <data name="ErrorDialogSameSourceDestinationFile" xml:space="preserve">
-    <value>源文件名和目标文件名相同。</value>
+    <value>The source and destination file names are the same.</value>
   </data>
   <data name="ErrorDialogSameSourceDestinationFolder" xml:space="preserve">
-    <value>目标文件夹与源文件夹相同。</value>
+    <value>The destination folder is the same as the source folder.</value>
   </data>
   <data name="CopyToFolderCaptionText" xml:space="preserve">
-    <value>复制到 {0}</value>
+    <value>Copy to {0}</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
-    <value>创建快捷方式</value>
+    <value>Create shortcut</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
-    <value>打开文件位置</value>
+    <value>Open file location</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
-    <value>参数:</value>
+    <value>Arguments:</value>
   </data>
   <data name="PropertiesShortcutItemPath.Text" xml:space="preserve">
-    <value>目标位置:</value>
+    <value>Destination:</value>
   </data>
   <data name="PropertiesShortcutItemType.Text" xml:space="preserve">
-    <value>快捷方式类型:</value>
+    <value>Shortcut type:</value>
   </data>
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
-    <value>工作目录:</value>
+    <value>Working directory:</value>
   </data>
   <data name="PropertiesShortcutTypeFile" xml:space="preserve">
-    <value>文件</value>
+    <value>File</value>
   </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
-    <value>Web 链接</value>
+    <value>Web link</value>
   </data>
   <data name="General" xml:space="preserve">
-    <value>常规</value>
+    <value>General</value>
   </data>
   <data name="Shortcut" xml:space="preserve">
-    <value>快捷方式</value>
+    <value>Shortcut</value>
   </data>
   <data name="ShortcutFileType" xml:space="preserve">
-    <value>快捷方式</value>
+    <value>Shortcut</value>
   </data>
   <data name="ShortcutWebLinkFileType" xml:space="preserve">
-    <value>Internet 快捷方式</value>
+    <value>Internet shortcut</value>
   </data>
   <data name="ShortcutCreateNewSuffix" xml:space="preserve">
-    <value>{0} - 快捷方式</value>
+    <value>{0} - shortcut</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
-    <value>打开文件位置</value>
+    <value>Open file location</value>
   </data>
   <data name="DriveCapacityUnknown" xml:space="preserve">
-    <value>未知</value>
+    <value>Unknown</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
-    <value>Files 发生未知错误。</value>
+    <value>Files ran into a problem that the developers didn't prepare for yet.</value>
   </data>
   <data name="ExceptionNotificationHeader" xml:space="preserve">
-    <value>发生错误！</value>
+    <value>Something went wrong!</value>
   </data>
   <data name="ExceptionNotificationReportButton" xml:space="preserve">
-    <value>报告此问题</value>
+    <value>Report this issue</value>
   </data>
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
-    <value>参与者</value>
+    <value>Contributors</value>
   </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
-    <value>发行说明</value>
+    <value>Release notes</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
-    <value>引用的项目无效或无法访问。{0}代码:{0}{1}</value>
+    <value>The item referenced is either invalid or inaccessible.{0}Error message:{0}{1}</value>
   </data>
   <data name="InvalidItemDialogTitle" xml:space="preserve">
-    <value>无效项</value>
+    <value>Invalid item</value>
   </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
-    <value>版本:</value>
+    <value>Version:</value>
   </data>
   <data name="ShareDialogFailMessage" xml:space="preserve">
-    <value>目前没有可共享的内容。</value>
+    <value>There's nothing to share right now...</value>
   </data>
   <data name="ShareDialogMultipleItemsDescription" xml:space="preserve">
-    <value>将共享你选择的项目</value>
+    <value>The items you've selected will be shared</value>
   </data>
   <data name="ShareDialogSingleItemDescription" xml:space="preserve">
-    <value>将共享已选项目</value>
+    <value>The selected item will be shared</value>
   </data>
   <data name="ShareDialogTitle" xml:space="preserve">
-    <value>正在共享 {0}</value>
+    <value>Sharing {0}</value>
   </data>
   <data name="ShareDialogTitleMultipleItems" xml:space="preserve">
-    <value>正在共享 {0} {1}</value>
+    <value>Sharing {0} {1}</value>
   </data>
   <data name="RenameError.ItemDeleted.Text" xml:space="preserve">
-    <value>要重命名的项不存在。请确认需重命名的项目位置是否正确。</value>
+    <value>The item you're attempting to rename no longer exists. Please verify the correct location of the item you need to rename.</value>
   </data>
   <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
-    <value>该项不存在</value>
+    <value>Item no longer exists</value>
   </data>
   <data name="RenameError.NameInvalid.Text" xml:space="preserve">
-    <value>指定的名称无效。请检查目标项目名称并重试。</value>
+    <value>The name specified was invalid. Please check the desired item name and try again.</value>
   </data>
   <data name="RenameError.NameInvalid.Title" xml:space="preserve">
-    <value>项目名称错误</value>
+    <value>Invalid item name</value>
   </data>
   <data name="RenameError.TooLong.Text" xml:space="preserve">
-    <value>指定的名称长度超出最大限制。请检查名称并重试。</value>
+    <value>The length of the item name specified exceeds the maximum limit. Please check the desired name and try again.</value>
   </data>
   <data name="RenameError.TooLong.Title" xml:space="preserve">
-    <value>项目名称过长</value>
+    <value>Item name was too long</value>
   </data>
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
-    <value>更多</value>
+    <value>More</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
-    <value>要应用这些设置，需要重新启动应用程序。要重启应用吗？</value>
+    <value>The application needs to be restarted in order to apply these settings, would you like to restart the app?</value>
   </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
-    <value>支持我们</value>
+    <value>Support us</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
-    <value>无法创建此项</value>
+    <value>We weren't able to create this item</value>
   </data>
   <data name="AccessDenied" xml:space="preserve">
-    <value>拒绝访问</value>
+    <value>Access Denied</value>
   </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
-    <value>添加标签页</value>
+    <value>Add tab</value>
   </data>
   <data name="VerticalTabViewHeader.Text" xml:space="preserve">
-    <value>打开标签页</value>
+    <value>Open tabs</value>
   </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
-    <value>多任务</value>
+    <value>Multitasking</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
-    <value>多任务</value>
+    <value>Multitasking</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
-    <value>设为</value>
+    <value>Set as</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>取消</value>
+    <value>Cancel</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
-    <value>创建新项目</value>
+    <value>Create a New Item</value>
   </data>
   <data name="AddDialogDescription.Text" xml:space="preserve">
-    <value>从下面选择新项目的类型</value>
+    <value>Choose a type for this new item below</value>
   </data>
   <data name="File" xml:space="preserve">
-    <value>文件</value>
+    <value>File</value>
   </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
-    <value>创建空文件</value>
+    <value>Creates an empty file</value>
   </data>
   <data name="Folder" xml:space="preserve">
-    <value>文件夹</value>
+    <value>Folder</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
-    <value>创建空文件夹</value>
+    <value>Creates an empty folder</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
-    <value>布局模式</value>
+    <value>Layout mode</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
-    <value>向后导航</value>
+    <value>Navigate backwards</value>
   </data>
   <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
-    <value>向前导航</value>
+    <value>Navigate forward</value>
   </data>
   <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
-    <value>刷新目录</value>
+    <value>Refresh the directory</value>
   </data>
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
-    <value>跳转到上级目录</value>
+    <value>Go up one directory</value>
   </data>
   <data name="VerticalTabFlyout.AutomationProperties.Name" xml:space="preserve">
-    <value>垂直选项卡弹出</value>
+    <value>Vertical tab flyout</value>
   </data>
   <data name="VerticalTabFlyout.ToolTipService.ToolTip" xml:space="preserve">
-    <value>垂直选项卡弹出</value>
+    <value>Vertical tab flyout</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
-    <value>语言</value>
+    <value>Language</value>
   </data>
   <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>终端应用程序</value>
+    <value>Terminal applications</value>
   </data>
   <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>编辑终端应用程序</value>
+    <value>Edit terminal applications</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>将溢出项移动到子菜单内</value>
+    <value>Move overflow items into a sub menu</value>
   </data>
   <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
-    <value>将回收站固定到收藏夹</value>
+    <value>Pin Recycle Bin to favorites</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>删除文件或文件夹时显示确认对话框</value>
+    <value>Show a confirmation dialog when deleting files or folders</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
-    <value>保存某些属性时出现错误。</value>
+    <value>There was an issue saving some properties.</value>
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
-    <value>错误</value>
+    <value>Error</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
-    <value>仍要关闭</value>
+    <value>Close anyway</value>
   </data>
   <data name="PropertyRatingText" xml:space="preserve">
-    <value>分级</value>
+    <value>Rating</value>
   </data>
   <data name="PropertyItemPathDisplay" xml:space="preserve">
-    <value>项目路径</value>
+    <value>Item Path</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
-    <value>项目类型</value>
+    <value>Item Type</value>
   </data>
   <data name="PropertyTitle" xml:space="preserve">
-    <value>标题</value>
+    <value>Title</value>
   </data>
   <data name="PropertySubject" xml:space="preserve">
-    <value>主题</value>
+    <value>Subject</value>
   </data>
   <data name="PropertyComment" xml:space="preserve">
-    <value>备注</value>
+    <value>Comment</value>
   </data>
   <data name="PropertyCopyright" xml:space="preserve">
-    <value>版权</value>
+    <value>Copyright</value>
   </data>
   <data name="PropertyDateModified" xml:space="preserve">
-    <value>修改日期</value>
+    <value>Date Modified</value>
   </data>
   <data name="PropertyBitDepth" xml:space="preserve">
-    <value>位深度</value>
+    <value>Bit Depth</value>
   </data>
   <data name="PropertyDimensions" xml:space="preserve">
-    <value>分辨率</value>
+    <value>Dimensions</value>
   </data>
   <data name="PropertyHorizontalSize" xml:space="preserve">
-    <value>水平大小</value>
+    <value>Horizontal Size</value>
   </data>
   <data name="PropertyVerticalSize" xml:space="preserve">
-    <value>垂直大小</value>
+    <value>Vertical Size</value>
   </data>
   <data name="PropertyHorizontalResolution" xml:space="preserve">
-    <value>水平分辨率</value>
+    <value>Horizontal Resolution</value>
   </data>
   <data name="PropertyVerticalResolution" xml:space="preserve">
-    <value>垂直分辨率</value>
+    <value>Vertical Resolution</value>
   </data>
   <data name="PropertyColorSpace" xml:space="preserve">
-    <value>颜色空间</value>
+    <value>Color Space</value>
   </data>
   <data name="PropertyColorSpace_Value0" xml:space="preserve">
     <value>sRGB</value>
   </data>
   <data name="PropertyColorSpace_Value65535" xml:space="preserve">
-    <value>未指定</value>
+    <value>Unspecified</value>
   </data>
   <data name="PropertyLongitudeDecimal" xml:space="preserve">
-    <value>经度（十进制）</value>
+    <value>Longitude Decimal</value>
   </data>
   <data name="PropertyLatitudeDecimal" xml:space="preserve">
-    <value>纬度（十进制）</value>
+    <value>Latitude Decimal</value>
   </data>
   <data name="PropertyLatitude" xml:space="preserve">
-    <value>纬度</value>
+    <value>Latitude</value>
   </data>
   <data name="PropertyLongitude" xml:space="preserve">
-    <value>经度</value>
+    <value>Longitude</value>
   </data>
   <data name="PropertyLatitudeRef" xml:space="preserve">
-    <value>纬度参考值</value>
+    <value>Latitude Ref</value>
   </data>
   <data name="PropertyLongitudeRef" xml:space="preserve">
-    <value>经度参考值</value>
+    <value>Longitude Ref</value>
   </data>
   <data name="PropertyAltitude" xml:space="preserve">
-    <value>海拔高度</value>
+    <value>Altitude</value>
   </data>
   <data name="PropertyDateTaken" xml:space="preserve">
-    <value>拍摄日期</value>
+    <value>Date Taken</value>
   </data>
   <data name="PropertyCameraManufacturer" xml:space="preserve">
-    <value>相机制造商</value>
+    <value>Camera Manufacturer</value>
   </data>
   <data name="PropertyCameraModel" xml:space="preserve">
-    <value>相机型号</value>
+    <value>Camera Model</value>
   </data>
   <data name="PropertyExposureTime" xml:space="preserve">
-    <value>曝光时间</value>
+    <value>Exposure Time</value>
   </data>
   <data name="PropertyFocalLength" xml:space="preserve">
-    <value>焦距</value>
+    <value>Focal Length</value>
   </data>
   <data name="PropertyAperture" xml:space="preserve">
-    <value>光圈</value>
+    <value>Aperture</value>
   </data>
   <data name="PropertyPeopleNames" xml:space="preserve">
-    <value>人员姓名</value>
+    <value>People Names</value>
   </data>
   <data name="PropertyChannelCount" xml:space="preserve">
-    <value>频道计数</value>
+    <value>Channel Count</value>
   </data>
   <data name="PropertyFormat" xml:space="preserve">
-    <value>格式</value>
+    <value>Format</value>
   </data>
   <data name="PropertySampleRate" xml:space="preserve">
-    <value>采样率</value>
+    <value>Sample Rate</value>
   </data>
   <data name="PropertyAlbumArtist" xml:space="preserve">
-    <value>唱片集艺术家</value>
+    <value>Album Artist</value>
   </data>
   <data name="PropertyAlbumTitle" xml:space="preserve">
-    <value>唱片集标题</value>
+    <value>Album Title</value>
   </data>
   <data name="Artist" xml:space="preserve">
-    <value>艺术家</value>
+    <value>Artist</value>
   </data>
   <data name="PropertyBeatsPerMinute" xml:space="preserve">
-    <value>每分钟节拍数</value>
+    <value>Beats Per Minute</value>
   </data>
   <data name="PropertyComposer" xml:space="preserve">
-    <value>作曲者</value>
+    <value>Composer</value>
   </data>
   <data name="Conductor" xml:space="preserve">
-    <value>指挥者</value>
+    <value>Conductor</value>
   </data>
   <data name="PropertyDiscNumber" xml:space="preserve">
-    <value>光盘编号</value>
+    <value>Disc Number</value>
   </data>
   <data name="PropertyGenre" xml:space="preserve">
-    <value>流派</value>
+    <value>Genre</value>
   </data>
   <data name="PropertyTrackNumber" xml:space="preserve">
-    <value>曲目编号</value>
+    <value>Track Number</value>
   </data>
   <data name="PropertyDuration" xml:space="preserve">
-    <value>持续时间</value>
+    <value>Duration</value>
   </data>
   <data name="PropertyFrameCount" xml:space="preserve">
-    <value>帧数</value>
+    <value>Frame Count</value>
   </data>
   <data name="PropertyProtectionType" xml:space="preserve">
-    <value>保护类型</value>
+    <value>Protection Type</value>
   </data>
   <data name="PropertyAuthorUrl" xml:space="preserve">
-    <value>作者 URL</value>
+    <value>Author Url</value>
   </data>
   <data name="PropertyContentDistributor" xml:space="preserve">
-    <value>内容分发商</value>
+    <value>Content Distributor</value>
   </data>
   <data name="PropertyDateReleased" xml:space="preserve">
-    <value>发布日期</value>
+    <value>Date Released</value>
   </data>
   <data name="PropertySeriesName" xml:space="preserve">
-    <value>系列名称</value>
+    <value>Series Name</value>
   </data>
   <data name="PropertySeasonNumber" xml:space="preserve">
-    <value>季号</value>
+    <value>Season Number</value>
   </data>
   <data name="PropertyEpisodeNumber" xml:space="preserve">
-    <value>集数</value>
+    <value>Episode Number</value>
   </data>
   <data name="PropertyProducer" xml:space="preserve">
-    <value>制作人</value>
+    <value>Producer</value>
   </data>
   <data name="PropertyPromotionUrl" xml:space="preserve">
-    <value>推广 URL</value>
+    <value>Promotion Url</value>
   </data>
   <data name="PropertyProviderStyle" xml:space="preserve">
-    <value>供应商风格</value>
+    <value>Provider Style</value>
   </data>
   <data name="PropertyPublisher" xml:space="preserve">
-    <value>发布者</value>
+    <value>Publisher</value>
   </data>
   <data name="PropertyThumbnailLargePath" xml:space="preserve">
-    <value>大缩略图路径</value>
+    <value>Thumbnail Large Path</value>
   </data>
   <data name="PropertyThumbnailLargeUri" xml:space="preserve">
-    <value>大缩略图 URI</value>
+    <value>Thumbnail Large Uri</value>
   </data>
   <data name="PropertyThumbnailSmallPath" xml:space="preserve">
-    <value>小缩略图路径</value>
+    <value>Thumbnail Small Path</value>
   </data>
   <data name="PropertyThumbnailSmallUri" xml:space="preserve">
-    <value>小缩略图 URI</value>
+    <value>Thumbnail Small Uri</value>
   </data>
   <data name="PropertyUserWebUrl" xml:space="preserve">
-    <value>用户 URL</value>
+    <value>User Web Url</value>
   </data>
   <data name="PropertyWriter" xml:space="preserve">
-    <value>作者</value>
+    <value>Writer</value>
   </data>
   <data name="PropertyYear" xml:space="preserve">
-    <value>年</value>
+    <value>Year</value>
   </data>
   <data name="PropertyContributor" xml:space="preserve">
-    <value>参与者</value>
+    <value>Contributor</value>
   </data>
   <data name="PropertyLastAuthor" xml:space="preserve">
-    <value>上一作者</value>
+    <value>Last Author</value>
   </data>
   <data name="PropertyRevisionNumber" xml:space="preserve">
-    <value>修订号</value>
+    <value>Revision Number</value>
   </data>
   <data name="PropertyVersion" xml:space="preserve">
-    <value>版本</value>
+    <value>Version</value>
   </data>
   <data name="PropertyDateCreated" xml:space="preserve">
-    <value>创建日期</value>
+    <value>Date Created</value>
   </data>
   <data name="PropertyDateSaved" xml:space="preserve">
-    <value>保存日期</value>
+    <value>Date Saved</value>
   </data>
   <data name="PropertyDatePrinted" xml:space="preserve">
-    <value>打印日期</value>
+    <value>Date Printed</value>
   </data>
   <data name="PropertyTotalEditingTime" xml:space="preserve">
-    <value>总编辑时间</value>
+    <value>Total Editing Time</value>
   </data>
   <data name="PropertyTemplate" xml:space="preserve">
-    <value>模板</value>
+    <value>Template</value>
   </data>
   <data name="PropertyWordCount" xml:space="preserve">
-    <value>字数</value>
+    <value>Word Count</value>
   </data>
   <data name="PropertyCharacterCount" xml:space="preserve">
-    <value>字符数</value>
+    <value>Character Count</value>
   </data>
   <data name="PropertyLineCount" xml:space="preserve">
-    <value>行数</value>
+    <value>Line Count</value>
   </data>
   <data name="PropertyParagraphCount" xml:space="preserve">
-    <value>段落数</value>
+    <value>Paragraph Count</value>
   </data>
   <data name="PropertyPageCount" xml:space="preserve">
-    <value>页数</value>
+    <value>Page Count</value>
   </data>
   <data name="PropertySlideCount" xml:space="preserve">
-    <value>幻灯片数</value>
+    <value>Slide Count</value>
   </data>
   <data name="PropertyFrameRate" xml:space="preserve">
-    <value>帧速率</value>
+    <value>Frame Rate</value>
   </data>
   <data name="PropertyEncodingBitrate" xml:space="preserve">
-    <value>编码速率</value>
+    <value>Encoding Bitrate</value>
   </data>
   <data name="Compression" xml:space="preserve">
-    <value>压缩</value>
+    <value>Compression</value>
   </data>
   <data name="PropertyFrameWidth" xml:space="preserve">
-    <value>帧宽度</value>
+    <value>Frame Width</value>
   </data>
   <data name="PropertyFrameHeight" xml:space="preserve">
-    <value>帧高度</value>
+    <value>Frame Height</value>
   </data>
   <data name="PropertyOrientation" xml:space="preserve">
-    <value>方向</value>
+    <value>Orientation</value>
   </data>
   <data name="PropertySectionCore" xml:space="preserve">
-    <value>核心</value>
+    <value>Core</value>
   </data>
   <data name="PropertySectionImage" xml:space="preserve">
-    <value>图像</value>
+    <value>Image</value>
   </data>
   <data name="PropertySectionPhoto" xml:space="preserve">
-    <value>照片</value>
+    <value>Photo</value>
   </data>
   <data name="PropertySectionGPS" xml:space="preserve">
     <value>GPS</value>
   </data>
   <data name="PropertySectionMedia" xml:space="preserve">
-    <value>媒体</value>
+    <value>Media</value>
   </data>
   <data name="PropertySectionAudio" xml:space="preserve">
-    <value>音频</value>
+    <value>Audio</value>
   </data>
   <data name="PropertySectionMusic" xml:space="preserve">
-    <value>音乐</value>
+    <value>Music</value>
   </data>
   <data name="PropertySectionVideo" xml:space="preserve">
-    <value>视频</value>
+    <value>Video</value>
   </data>
   <data name="Document" xml:space="preserve">
-    <value>文档</value>
+    <value>Document</value>
   </data>
   <data name="Address" xml:space="preserve">
-    <value>地址</value>
+    <value>Address</value>
   </data>
   <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
-    <value>项目选择选项</value>
+    <value>Selection options</value>
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
-    <value>选择</value>
+    <value>Select</value>
   </data>
   <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
-    <value>用单击来打开文件</value>
+    <value>Open files with a single click</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
-    <value>文件</value>
+    <value>File</value>
   </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
-    <value>回收站项</value>
+    <value>Recycle bin item</value>
   </data>
   <data name="ShortcutItemAutomation" xml:space="preserve">
-    <value>快捷方式项</value>
+    <value>Shortcut item</value>
   </data>
   <data name="Drives" xml:space="preserve">
-    <value>驱动器</value>
+    <value>Drives</value>
   </data>
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
-    <value>移到此处</value>
+    <value>Move here</value>
   </data>
   <data name="EjectNotificationHeader" xml:space="preserve">
-    <value>安全地移除硬件</value>
+    <value>Safe to remove hardware</value>
   </data>
   <data name="EjectNotificationBody" xml:space="preserve">
-    <value>该设备现在可安全地从计算机移除。</value>
+    <value>The device can now be safely removed from the computer.</value>
   </data>
   <data name="EjectNotificationErrorDialogHeader" xml:space="preserve">
-    <value>弹出设备时出现问题</value>
+    <value>Problem Ejecting Device</value>
   </data>
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
-    <value>该设备正在使用中。请关闭所有正在使用该设备的程序、窗口和标签页，然后重试。</value>
+    <value>This device is currently in use. Close any programs, windows or tabs that might be using the device, and then try again.</value>
   </data>
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
-    <value>弹出</value>
+    <value>Eject</value>
   </data>
   <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
-    <value>复制标签页</value>
+    <value>Duplicate tab</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
-    <value>将标签页移动到新窗口</value>
+    <value>Move tab to new window</value>
   </data>
   <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
-    <value>新建标签页</value>
+    <value>New tab</value>
   </data>
   <data name="HorizontalMultitaskingControlAddButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>新建标签页 (Ctrl+T)</value>
+    <value>New tab (Ctrl+T)</value>
   </data>
   <data name="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" xml:space="preserve">
-    <value>新建标签页 (Ctrl+T)</value>
+    <value>New tab (Ctrl+T)</value>
   </data>
   <data name="HorizontalMultitaskingControlCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>关闭选项卡 (Ctrl+W)</value>
+    <value>Close tab (Ctrl+W)</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
-    <value>某些属性可能包含个人信息。</value>
+    <value>Some properties may contain personal information.</value>
   </data>
   <data name="ClearPropertiesFlyoutConfirmation.Content" xml:space="preserve">
-    <value>清除</value>
+    <value>Clear</value>
   </data>
   <data name="ClearPropertiesButton.Content" xml:space="preserve">
-    <value>清除所有属性</value>
+    <value>Clear All Properties</value>
   </data>
   <data name="OngoingTasksTeachingTip.Subtitle" xml:space="preserve">
-    <value>在此处检查文件操作状态</value>
+    <value>Check the status of file operations here</value>
   </data>
   <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
-    <value>状态中心</value>
+    <value>Status Center</value>
   </data>
   <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
-    <value>搜索</value>
+    <value>Search</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
-    <value>在“{1}”中搜索“{0}”的结果</value>
+    <value>Search results in {1} for {0}</value>
   </data>
   <data name="SearchTabHeaderText" xml:space="preserve">
-    <value>搜索结果</value>
+    <value>Search results</value>
   </data>
   <data name="SettingsAboutContributorsListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>查看 Files 项目的贡献者</value>
+    <value>See who contributed to Files</value>
   </data>
   <data name="SettingsAboutReleaseNotesListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>发现 Files 中的新增功能</value>
+    <value>Find out what's new in Files</value>
   </data>
   <data name="SettingsAboutSubmitFeedbackListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>向开发者发送含有更多信息的问题报告</value>
+    <value>Send the developers an issue report with more information</value>
   </data>
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>在 GitHub 上支持我们</value>
+    <value>Support us on GitHub</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>将文件夹与文件一同分类和排序</value>
+    <value>List and sort directories alongside files</value>
   </data>
   <data name="Details" xml:space="preserve">
-    <value>详细信息</value>
+    <value>Details</value>
   </data>
   <data name="No" xml:space="preserve">
-    <value>否</value>
+    <value>No</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
-    <value>要下载并安装最新版本吗？</value>
+    <value>Do you want to download and install the latest version of Files?</value>
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
-    <value>有更新可用</value>
+    <value>Updates Available</value>
   </data>
   <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
-    <value>隐藏受保护的操作系统文件 (推荐)</value>
+    <value>Hide protected operating system files (Recommended)</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>搜索文件和文件夹时，显示未建立索引的项</value>
+    <value>Show unindexed items when searching for files and folders</value>
   </data>
   <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
-    <value>为各文件夹启用自定义设置</value>
+    <value>Enable individual preferences for individual directories</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
-    <value>自定义右键菜单</value>
+    <value>Customize the right click context menu</value>
   </data>
   <data name="originalPathColumn.Header" xml:space="preserve">
-    <value>原路径</value>
+    <value>Original path</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
-    <value>原路径</value>
+    <value>Original path</value>
   </data>
   <data name="Add" xml:space="preserve">
-    <value>添加</value>
+    <value>Add</value>
   </data>
   <data name="Edit" xml:space="preserve">
-    <value>编辑</value>
+    <value>Edit</value>
   </data>
   <data name="Remove" xml:space="preserve">
-    <value>移除</value>
+    <value>Remove</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
-    <value>始终以双面板模式打开新标签页</value>
+    <value>Always open new tabs in dual pane mode</value>
   </data>
   <data name="SettingsMultitaskingEnableDualPane" xml:space="preserve">
-    <value>启用双面板视图</value>
+    <value>Enable dual pane view</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
-    <value>在第二面板打开</value>
+    <value>Open in secondary pane</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
-    <value>新面板</value>
+    <value>New pane</value>
   </data>
   <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
-    <value>在第二面板打开</value>
+    <value>Open in secondary pane</value>
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
-    <value>双面板</value>
+    <value>Dual pane</value>
   </data>
   <data name="Folders" xml:space="preserve">
-    <value>文件夹</value>
+    <value>Folders</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
-    <value>详细信息 (Ctrl+Shift+1)</value>
+    <value>Details (Ctrl+Shift+1)</value>
   </data>
   <data name="NavToolbarLayoutOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>布局</value>
+    <value>Layout</value>
   </data>
   <data name="NavToolbarLayoutOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>布局</value>
+    <value>Layout</value>
   </data>
   <data name="NavToolbarLayoutOptionsButton.Label" xml:space="preserve">
-    <value>布局</value>
+    <value>Layout</value>
   </data>
   <data name="PreviewPaneToggle.Label" xml:space="preserve">
-    <value>预览</value>
+    <value>Preview</value>
   </data>
   <data name="NavToolbarLargeIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>大图标</value>
+    <value>Large Icons</value>
   </data>
   <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>大图标 (Ctrl+Shift+5)</value>
+    <value>Large Icons (Ctrl+Shift+5)</value>
   </data>
   <data name="NavToolbarMediumIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>中图标</value>
+    <value>Medium Icons</value>
   </data>
   <data name="NavToolbarMediumIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>中图标 (Ctrl+Shift+4)</value>
+    <value>Medium Icons (Ctrl+Shift+4)</value>
   </data>
   <data name="NavToolbarSmallIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>小图标</value>
+    <value>Small Icons</value>
   </data>
   <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>小图标 (Ctrl+Shift+3)</value>
+    <value>Small Icons (Ctrl+Shift+3)</value>
   </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>平铺 (Ctrl+Shift+2)</value>
+    <value>Tiles (Ctrl+Shift+2)</value>
   </data>
   <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
-    <value>显示文件扩展名</value>
+    <value>Show file extensions</value>
   </data>
   <data name="NavToolbarShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>显示隐藏的项目</value>
+    <value>Show hidden items</value>
   </data>
   <data name="DateDeleted" xml:space="preserve">
-    <value>删除日期</value>
+    <value>Date deleted</value>
   </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
-    <value>云盘</value>
+    <value>Cloud Drives</value>
   </data>
   <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>更多选项...</value>
+    <value>More options...</value>
   </data>
   <data name="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" xml:space="preserve">
-    <value>导出包</value>
+    <value>Export Bundles</value>
   </data>
   <data name="BundlesWidgetOptionsFlyoutImportBundlesMenuItem.Text" xml:space="preserve">
-    <value>导入包</value>
+    <value>Import Bundles</value>
   </data>
   <data name="BundlesWidgetAddBundleErrorAlreadyExists" xml:space="preserve">
-    <value>存在同名包！</value>
+    <value>Bundle with the same name already exists!</value>
   </data>
   <data name="BundlesWidgetAddBundleErrorInputEmpty" xml:space="preserve">
-    <value>输入框不能为空。</value>
+    <value>Input field cannot be empty!</value>
   </data>
   <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
-    <value>在新选项卡中打开</value>
+    <value>Open in new tab</value>
   </data>
   <data name="BundleItemFlyouOpenItemLocationMenuItem.Text" xml:space="preserve">
-    <value>打开项目位置</value>
+    <value>Open item location</value>
   </data>
   <data name="BundleItemFlyouRemoveFromBundleMenuItem.Text" xml:space="preserve">
-    <value>从包中移除</value>
+    <value>Remove from bundle</value>
   </data>
   <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
-    <value>移除包</value>
+    <value>Remove Bundle</value>
   </data>
   <data name="Bundles" xml:space="preserve">
-    <value>包</value>
+    <value>Bundles</value>
   </data>
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
-    <value>拖拽任何文件或文件夹到此以快速访问</value>
+    <value>Drag and drop any file or folder here to quickly access it</value>
   </data>
   <data name="EnterBundleName" xml:space="preserve">
-    <value>输入包名</value>
+    <value>Enter Bundle name</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
-    <value>输入新名称</value>
+    <value>Enter new name</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
-    <value>重命名“{0}”</value>
+    <value>Rename "{0}"</value>
   </data>
   <data name="CreateBundle" xml:space="preserve">
-    <value>新建包</value>
+    <value>Create Bundle</value>
   </data>
   <data name="Confirm" xml:space="preserve">
-    <value>确认</value>
+    <value>Confirm</value>
   </data>
   <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
-    <value>添加包</value>
+    <value>Add Bundle</value>
   </data>
   <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
-    <value>重命名包</value>
+    <value>Rename Bundle</value>
   </data>
   <data name="DesiredName" xml:space="preserve">
-    <value>期望名称</value>
+    <value>Desired name</value>
   </data>
   <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
-    <value>切换预览面板 (Ctrl + P)</value>
+    <value>Toggle the preview pane (Ctrl+P)</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
-    <value>没有预览</value>
+    <value>No preview available</value>
   </data>
   <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
-    <value>没有详细信息</value>
+    <value>No details available</value>
   </data>
   <data name="PropertyItemName" xml:space="preserve">
-    <value>项目名称</value>
+    <value>Item Name</value>
   </data>
   <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
-    <value>从收藏夹取消固定</value>
+    <value>Unpin from Favorites</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
-    <value>网络驱动器</value>
+    <value>Network Drives</value>
   </data>
   <data name="Network" xml:space="preserve">
-    <value>网络</value>
+    <value>Network</value>
   </data>
   <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
-    <value>文件详细信息</value>
+    <value>File details</value>
   </data>
   <data name="PreviewPaneFilePreview.AutomationProperties.Name" xml:space="preserve">
-    <value>文件预览</value>
+    <value>File preview</value>
   </data>
   <data name="SelectedFilePreviewPane.AutomationProperties.Name" xml:space="preserve">
-    <value>已选文件的预览面板</value>
+    <value>Selected file preview pane</value>
   </data>
   <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
-    <value>文档</value>
+    <value>Documentation</value>
   </data>
   <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>访问 Files 文档网站</value>
+    <value>Visit the Files documentation website</value>
   </data>
   <data name="OngoingTasksFlyout.AutomationProperties.Name" xml:space="preserve">
-    <value>进行中的任务弹窗</value>
+    <value>Ongoing tasks flyout</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
-    <value>联机时可用</value>
+    <value>Available when online</value>
   </data>
   <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
-    <value>脱机可用</value>
+    <value>Available offline</value>
   </data>
   <data name="CloudDriveSyncStatus_PartialOffline" xml:space="preserve">
-    <value>部分脱机可用</value>
+    <value>Partially available offline</value>
   </data>
   <data name="CloudDriveSyncStatus_Sync" xml:space="preserve">
-    <value>正在同步</value>
+    <value>Syncing</value>
   </data>
   <data name="CloudDriveSyncStatus_Excluded" xml:space="preserve">
-    <value>已从同步排除</value>
+    <value>Excluded from sync</value>
   </data>
   <data name="ItemSizeNotCalculated" xml:space="preserve">
-    <value>未计算</value>
+    <value>Not calculated</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
-    <value>未知</value>
+    <value>Unknown</value>
   </data>
   <data name="NavToolbarMultiselect.Text" xml:space="preserve">
-    <value>多选</value>
+    <value>Multiselect</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
-    <value>如果改变文件扩展名，可能会导致文件不可用。确实要更改吗？</value>
+    <value>If you change a file extension, the file might become unusable. Are you sure you want to change it?</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
-    <value>CD-ROM 驱动器</value>
+    <value>CD ROM Drive</value>
   </data>
   <data name="DriveTypeCloudDrive" xml:space="preserve">
-    <value>云端驱动器</value>
+    <value>Cloud Drive</value>
   </data>
   <data name="DriveTypeFixed" xml:space="preserve">
-    <value>硬盘驱动器</value>
+    <value>Fixed Disk Drive</value>
   </data>
   <data name="DriveTypeFloppyDisk" xml:space="preserve">
-    <value>软盘驱动器</value>
+    <value>Floppy Disk Drive</value>
   </data>
   <data name="DriveTypeNetwork" xml:space="preserve">
-    <value>网络驱动器</value>
+    <value>Network Drive</value>
   </data>
   <data name="DriveTypeNoRootDirectory" xml:space="preserve">
-    <value>未挂载驱动器</value>
+    <value>Unmounted Drive</value>
   </data>
   <data name="DriveTypeRam" xml:space="preserve">
-    <value>内存驱动器</value>
+    <value>RAM Disk Drive</value>
   </data>
   <data name="DriveTypeRemovable" xml:space="preserve">
-    <value>可移动存储设备</value>
+    <value>Removable Storage Device</value>
   </data>
   <data name="DriveTypeUnknown" xml:space="preserve">
-    <value>未知</value>
+    <value>Unknown</value>
   </data>
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
-    <value>虚拟驱动器</value>
+    <value>Virtual Drive</value>
   </data>
   <data name="DateCreated" xml:space="preserve">
-    <value>创建日期</value>
+    <value>Date created</value>
   </data>
   <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>更多选项...</value>
+    <value>More options...</value>
   </data>
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
-    <value>映射网络驱动器</value>
+    <value>Map network drive</value>
   </data>
   <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
-    <value>断开连接</value>
+    <value>Disconnect</value>
   </data>
   <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>更多包选项</value>
+    <value>More bundles options</value>
   </data>
   <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>更多驱动器选项</value>
+    <value>More drives options</value>
   </data>
   <data name="SidebarFavorites" xml:space="preserve">
-    <value>收藏夹</value>
+    <value>Favorites</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
-    <value>库</value>
+    <value>Libraries</value>
   </data>
   <data name="NoItemSelected" xml:space="preserve">
-    <value>未选择任何项</value>
+    <value>No item selected</value>
   </data>
   <data name="PropertyItemTarget" xml:space="preserve">
-    <value>目标</value>
+    <value>Target</value>
   </data>
   <data name="Arguments" xml:space="preserve">
-    <value>参数</value>
+    <value>Arguments</value>
   </data>
   <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
-    <value>在新面板中打开</value>
+    <value>Open in new Pane</value>
   </data>
   <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
-    <value>显示库</value>
+    <value>Show library section</value>
   </data>
   <data name="Default" xml:space="preserve">
-    <value>默认</value>
+    <value>Default</value>
   </data>
   <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
-    <value>自定义主题</value>
+    <value>Custom themes</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
-    <value>项数</value>
+    <value>Item count</value>
   </data>
   <data name="StatusDeletionFailed" xml:space="preserve">
-    <value>删除失败</value>
+    <value>Deletion Failed</value>
   </data>
   <data name="StatusUnknownError" xml:space="preserve">
-    <value>出现了未知错误。</value>
+    <value>An unknown error has occurred.</value>
   </data>
   <data name="StatusDeletionComplete" xml:space="preserve">
-    <value>删除完成</value>
+    <value>Deletion complete</value>
   </data>
   <data name="StatusDeletionCancelled" xml:space="preserve">
-    <value>删除已取消</value>
+    <value>Deletion cancelled</value>
   </data>
   <data name="StatusOperationCompleted" xml:space="preserve">
-    <value>操作已完成。</value>
+    <value>The operation has completed.</value>
   </data>
   <data name="StatusRecycleComplete" xml:space="preserve">
-    <value>回收完成</value>
+    <value>Recycle complete</value>
   </data>
   <data name="StatusMoveComplete" xml:space="preserve">
-    <value>移动完成</value>
+    <value>Move complete</value>
   </data>
   <data name="StatusCopyComplete" xml:space="preserve">
-    <value>复制完成</value>
+    <value>Copy complete</value>
   </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
-    <value>此操作需要管理员权限</value>
+    <value>This action requires administrator rights</value>
   </data>
   <data name="ElevateConfirmDialog.Content" xml:space="preserve">
-    <value>要以管理员身份继续吗？</value>
+    <value>Would you like to continue as administrator?</value>
   </data>
   <data name="FullTrustStatusTeachingTip.Subtitle" xml:space="preserve">
-    <value>Files 正在以管理员身份运行</value>
+    <value>Files is running as administrator</value>
   </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
-    <value>管理员</value>
+    <value>Administrator</value>
   </data>
   <data name="ColumnsShortcutTooltip" xml:space="preserve">
-    <value>列视图 (Ctrl+Shift+6)</value>
+    <value>Columns (Ctrl+Shift+6)</value>
   </data>
   <data name="PinItemToStart.Text" xml:space="preserve">
-    <value>固定到开始菜单</value>
+    <value>Pin to the Start Menu</value>
   </data>
   <data name="UnpinItemFromStart.Text" xml:space="preserve">
-    <value>从开始菜单取消固定</value>
+    <value>Unpin from the Start Menu</value>
   </data>
   <data name="ItemTypeLibrary" xml:space="preserve">
-    <value>库</value>
+    <value>Library</value>
   </data>
   <data name="LibraryItemAutomation" xml:space="preserve">
-    <value>库</value>
+    <value>Library</value>
   </data>
   <data name="Library" xml:space="preserve">
-    <value>库</value>
+    <value>Library</value>
   </data>
   <data name="LibraryLocations.Text" xml:space="preserve">
-    <value>位置:</value>
+    <value>Locations:</value>
   </data>
   <data name="SetAsDefaultSavePath" xml:space="preserve">
-    <value>设置为默认保存路径</value>
+    <value>Set as default save path</value>
   </data>
   <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
-    <value>移除</value>
+    <value>Remove</value>
   </data>
   <data name="LibraryNoLocations.Text" xml:space="preserve">
-    <value>没有位置</value>
+    <value>No locations</value>
   </data>
   <data name="ErrorInputEmpty" xml:space="preserve">
-    <value>输入框不能为空。</value>
+    <value>Input field cannot be empty!</value>
   </data>
   <data name="ErrorNameInputRestrictedCharacters" xml:space="preserve">
-    <value>文件名不能包含下列任何字符：\ / : * ? " &lt; &gt; |</value>
+    <value>The name must not contain the following characters: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="ErrorNameInputRestricted" xml:space="preserve">
-    <value>不允许使用此名称。</value>
+    <value>Using this name is not allowed!</value>
   </data>
   <data name="CreateLibraryErrorAlreadyExists" xml:space="preserve">
-    <value>同名称的库已存在。</value>
+    <value>Library with the same name already exists!</value>
   </data>
   <data name="BaseLayoutContextFlyoutDeleteLibrary.Text" xml:space="preserve">
-    <value>删除库</value>
+    <value>Delete Library</value>
   </data>
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
-    <value>创建</value>
+    <value>Create</value>
   </data>
   <data name="DrivesWidgetOpenStorageSenseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>打开存储感知</value>
+    <value>Open Storage Sense</value>
   </data>
   <data name="DrivesWidgetOpenStorageSenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>打开存储感知</value>
+    <value>Open Storage Sense</value>
   </data>
   <data name="Copy" xml:space="preserve">
-    <value>复制</value>
+    <value>Copy</value>
   </data>
   <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>{0} 项将被复制</value>
+    <value>{0} items will be copied</value>
   </data>
   <data name="CopyItemsDialogTitle" xml:space="preserve">
-    <value>复制项</value>
+    <value>Copy item(s)</value>
   </data>
   <data name="DeleteItemsDialogTitle" xml:space="preserve">
-    <value>删除项</value>
+    <value>Delete item(s)</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
-    <value>移动</value>
+    <value>Move</value>
   </data>
   <data name="MoveItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>将移动 {0} 个项目</value>
+    <value>{0} items will be moved</value>
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
-    <value>移动项</value>
+    <value>Move item(s)</value>
   </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>将删除 {0} 个项目</value>
+    <value>{0} items will be deleted</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
-    <value>继续</value>
+    <value>Continue</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
-    <value>有 {0} 个冲突的文件名，已完成 {1} 项。</value>
+    <value>There are {0} conflicting file names, and {1} outgoing item(s).</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
-    <value>文件名有冲突</value>
+    <value>Conflicting file name(s)</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
-    <value>有一个冲突的文件名，已完成 {0} 项。</value>
+    <value>There is one conflicting file name, and {0} outgoing item(s).</value>
   </data>
   <data name="CopyItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>将复制一项</value>
+    <value>One item will be copied</value>
   </data>
   <data name="DeleteItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>将删除一项</value>
+    <value>One item will be deleted</value>
   </data>
   <data name="MoveItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>将移动一项</value>
+    <value>One item will be moved</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
-    <value>永久删除</value>
+    <value>Permanently delete</value>
   </data>
   <data name="PropertyISO" xml:space="preserve">
-    <value>ISO 感光度</value>
+    <value>ISO speed</value>
   </data>
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
-    <value>在新标签页中打开文件夹</value>
+    <value>Open folders in new tab</value>
   </data>
   <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
-    <value>显示 包 小组件</value>
+    <value>Show Bundles widget</value>
   </data>
   <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
-    <value>显示 驱动器 小组件</value>
+    <value>Show Drives widget</value>
   </data>
   <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
-    <value>显示 文件夹 小组件</value>
+    <value>Show Folders widget</value>
   </data>
   <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
-    <value>显示 最近使用的文件 小组件</value>
+    <value>Show Recent Files widget</value>
   </data>
   <data name="NavToolbarWidgets.ToolTipService.ToolTip" xml:space="preserve">
-    <value>管理小组件</value>
+    <value>Manage Widgets</value>
   </data>
   <data name="NavToolbarWidgetsManager.AutomationProperties.Name" xml:space="preserve">
-    <value>管理小组件</value>
+    <value>Manage widgets</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
-    <value>没有找到你想要的内容?</value>
+    <value>Didn't find what you're looking for?</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>搜索未编入索引的项。</value>
+    <value>Search unindexed items.</value>
   </data>
   <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
-    <value>管理小组件</value>
+    <value>Manage Widgets</value>
   </data>
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
-    <value>打开主题文件夹</value>
+    <value>Open themes folder</value>
   </data>
   <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
-    <value>替换已有项</value>
+    <value>Replace existing</value>
   </data>
   <data name="ConflictingItemsDialogOptionReplaceExisting.Text" xml:space="preserve">
-    <value>替换已有项</value>
+    <value>Replace existing</value>
   </data>
   <data name="ConflictingItemsDialogTakenActionReplaceExisting" xml:space="preserve">
-    <value>替换已有项</value>
+    <value>Replace existing</value>
   </data>
   <data name="GenerateNewName" xml:space="preserve">
-    <value>生成新名称</value>
+    <value>Generate new name</value>
   </data>
   <data name="ConflictingItemsDialogUndoOption.Text" xml:space="preserve">
-    <value>撤消</value>
+    <value>Undo</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts" xml:space="preserve">
-    <value>有 {0} 个冲突的文件名。</value>
+    <value>There are {0} conflicting file names.</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
-    <value>有一个冲突的文件名。</value>
+    <value>There is one conflicting file name.</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" xml:space="preserve">
-    <value>选择创建文件夹</value>
+    <value>Create folder with selection</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
-    <value>名称:</value>
+    <value>Name:</value>
   </data>
   <data name="ToolTipDescriptionType" xml:space="preserve">
-    <value>类型:</value>
+    <value>Type:</value>
   </data>
   <data name="ToolTipDescriptionDate" xml:space="preserve">
-    <value>修改日期：</value>
+    <value>Date modified:</value>
   </data>
   <data name="OpenItemsWithCaptionText" xml:space="preserve">
-    <value>打开方式</value>
+    <value>Open with</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
-    <value>文件图标</value>
+    <value>File icon</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowOriginalPath.Text" xml:space="preserve">
-    <value>原始路径列</value>
+    <value>Original path column</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowItemType.Text" xml:space="preserve">
-    <value>类型</value>
+    <value>Item type column</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateModified.Text" xml:space="preserve">
-    <value>修改日期</value>
+    <value>Date modified column</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateDeleted.Text" xml:space="preserve">
-    <value>删除日期列</value>
+    <value>Date deleted column</value>
   </data>
   <data name="ResizeElementKeyboardControl.AutomationProperties.Name" xml:space="preserve">
-    <value>侧边栏调整器</value>
+    <value>Sidebar resizer</value>
   </data>
   <data name="NavToolbarSortOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>排序</value>
+    <value>Sort</value>
   </data>
   <data name="NavToolbarSortOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>排序</value>
+    <value>Sort</value>
   </data>
   <data name="NavToolbarSortOptionsButton.Label" xml:space="preserve">
-    <value>排序</value>
+    <value>Sort</value>
   </data>
   <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
-    <value>分组依据</value>
+    <value>Group By</value>
   </data>
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
-    <value>名称</value>
+    <value>Name</value>
   </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
-    <value>修改日期</value>
+    <value>Date modified</value>
   </data>
   <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
-    <value>原始文件夹</value>
+    <value>Original folder</value>
   </data>
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
-    <value>类型</value>
+    <value>Type</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
-    <value>排序方式</value>
+    <value>Sort By</value>
   </data>
   <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">
-    <value>排序方向</value>
+    <value>Sort direction</value>
   </data>
   <data name="Descending" xml:space="preserve">
-    <value>递减</value>
+    <value>Descending</value>
   </data>
   <data name="ItemSizeText_Huge" xml:space="preserve">
-    <value>特大</value>
+    <value>Huge</value>
   </data>
   <data name="ItemSizeText_VeryLarge" xml:space="preserve">
-    <value>超大</value>
+    <value>Very large</value>
   </data>
   <data name="ItemSizeText_Large" xml:space="preserve">
-    <value>大</value>
+    <value>Large</value>
   </data>
   <data name="ItemSizeText_Medium" xml:space="preserve">
-    <value>中</value>
+    <value>Medium</value>
   </data>
   <data name="ItemSizeText_Small" xml:space="preserve">
-    <value>小</value>
+    <value>Small</value>
   </data>
   <data name="ItemSizeText_Tiny" xml:space="preserve">
-    <value>微小</value>
+    <value>Tiny</value>
   </data>
   <data name="Today" xml:space="preserve">
-    <value>今天</value>
+    <value>Today</value>
   </data>
   <data name="ItemTimeText_Yesterday" xml:space="preserve">
-    <value>昨天</value>
+    <value>Yesterday</value>
   </data>
   <data name="ItemTimeText_ThisWeek" xml:space="preserve">
-    <value>本周早些时候</value>
+    <value>Earlier this week</value>
   </data>
   <data name="ItemTimeText_LastWeek" xml:space="preserve">
-    <value>上周</value>
+    <value>Last week</value>
   </data>
   <data name="ItemTimeText_ThisMonth" xml:space="preserve">
-    <value>本月</value>
+    <value>This month</value>
   </data>
   <data name="ItemTimeText_LastMonth" xml:space="preserve">
-    <value>上月</value>
+    <value>Last month</value>
   </data>
   <data name="ItemTimeText_ThisYear" xml:space="preserve">
-    <value>今年</value>
+    <value>This year</value>
   </data>
   <data name="ItemTimeText_Older" xml:space="preserve">
-    <value>更早</value>
+    <value>Older</value>
   </data>
   <data name="ItemTimeText_Before" xml:space="preserve">
-    <value>{0} 之前</value>
+    <value>Before {0}</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
-    <value>{0} 个项目</value>
+    <value>{0} item</value>
   </data>
   <data name="GroupItemsCount_Plural" xml:space="preserve">
-    <value>{0} 个项目</value>
+    <value>{0} items</value>
   </data>
   <data name="HorizontalMultitaskingControlReopenClosedTab.Text" xml:space="preserve">
-    <value>重新打开关闭的标签页</value>
+    <value>Reopen closed tab</value>
   </data>
   <data name="SettingsAboutPrivacyPolicy.Text" xml:space="preserve">
-    <value>隐私政策</value>
+    <value>Privacy policy</value>
   </data>
   <data name="SettingsAboutPrivacyPolicyListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>查看隐私政策</value>
+    <value>View Files privacy policy</value>
   </data>
   <data name="RenameFileDialogTitle" xml:space="preserve">
-    <value>重命名</value>
+    <value>Rename</value>
   </data>
   <data name="StatusMoveCanceled" xml:space="preserve">
-    <value>已取消移动</value>
+    <value>Move canceled</value>
   </data>
   <data name="StatusCopyCanceled" xml:space="preserve">
-    <value>已取消复制</value>
+    <value>Copy canceled</value>
   </data>
   <data name="StatusMoveCanceledDetails_Singular" xml:space="preserve">
-    <value>已取消将 {0} 项从 {1} 移至 {2}</value>
+    <value>Moving {0} item from {1} to {2} was canceled</value>
   </data>
   <data name="StatusMoveCanceledDetails_Plural" xml:space="preserve">
-    <value>移动 {3} 项后，已取消将 {0} 项从 {1} 移至 {2}</value>
+    <value>Moving {0} items from {1} to {2} was canceled after moving {3} items</value>
   </data>
   <data name="StatusMoveCanceledDetails_Plural2" xml:space="preserve">
-    <value>移动 {3} 项后，已取消将 {0} 项从 {1} 移至 {2}</value>
+    <value>Moving {0} items from {1} to {2} was canceled after moving {3} item</value>
   </data>
   <data name="StatusMovingItemsDetails_Singular" xml:space="preserve">
-    <value>将 {0} 项从 {1} 移至 {2}</value>
+    <value>Moving {0} item from {1} to {2}</value>
   </data>
   <data name="StatusMovingItemsDetails_Plural" xml:space="preserve">
-    <value>将 {0} 项从 {1} 移至 {2}</value>
+    <value>Moving {0} items from {1} to {2}</value>
   </data>
   <data name="StatusMovedItemsDetails_Singular" xml:space="preserve">
-    <value>成功将 {0} 项从 {1} 移至 {2}</value>
+    <value>Successfully moved {0} item from {1} to {2}</value>
   </data>
   <data name="StatusMovedItemsDetails_Plural" xml:space="preserve">
-    <value>成功将 {0} 项从 {1} 移至 {2}</value>
+    <value>Successfully moved {0} items from {1} to {2}</value>
   </data>
   <data name="StatusMoveFailedDetails_Singular" xml:space="preserve">
-    <value>无法将 {0} 项从 {1} 移至 {2}</value>
+    <value>Failed to move {0} item from {1} to {2}</value>
   </data>
   <data name="StatusMoveFailedDetails_Plural" xml:space="preserve">
-    <value>无法将 {0} 项从 {1} 移至 {2}</value>
+    <value>Failed to move {0} items from {1} to {2}</value>
   </data>
   <data name="StatusCopyCanceledDetails_Singular" xml:space="preserve">
-    <value>已取消将 {0} 项复制到 {1}</value>
+    <value>Copying {0} item to {1} was canceled</value>
   </data>
   <data name="StatusCopyCanceledDetails_Plural" xml:space="preserve">
-    <value>复制 {2} 项后，已取消将 {0} 项复制到 {1}</value>
+    <value>Copying {0} items to {1} was canceled after copying {2} items</value>
   </data>
   <data name="StatusCopyCanceledDetails_Plural2" xml:space="preserve">
-    <value>复制 {2} 项后，已取消将 {0} 项复制到 {1}</value>
+    <value>Copying {0} items to {1} was canceled after copying {2} item</value>
   </data>
   <data name="StatusCopyingItemsDetails_Singular" xml:space="preserve">
-    <value>正在将 {0} 项复制到 {1}</value>
+    <value>Copying {0} item to {1}</value>
   </data>
   <data name="StatusCopyingItemsDetails_Plural" xml:space="preserve">
-    <value>正在将 {0} 项复制到 {1}</value>
+    <value>Copying {0} items to {1}</value>
   </data>
   <data name="StatusCopiedItemsDetails_Singular" xml:space="preserve">
-    <value>已成功将 {0} 个项复制到 {1}</value>
+    <value>Successfully copied {0} item to {1}</value>
   </data>
   <data name="StatusCopiedItemsDetails_Plural" xml:space="preserve">
-    <value>已成功将 {0} 个项复制到 {1}</value>
+    <value>Successfully copied {0} items to {1}</value>
   </data>
   <data name="StatusDeleteCanceledDetails_Singular" xml:space="preserve">
-    <value>已取消从 {1} 中删除 {0} 项</value>
+    <value>Deleting {0} item from {1} was canceled</value>
   </data>
   <data name="StatusDeleteCanceledDetails_Plural" xml:space="preserve">
-    <value>删除 {3} 项后，已取消从 {1} 中删除 {0} 项</value>
+    <value>Deleting {0} items from {1} was canceled after deleting {3} items</value>
   </data>
   <data name="StatusDeleteCanceledDetails_Plural2" xml:space="preserve">
-    <value>删除 {3} 项后，已取消从 {1} 中删除 {0} 项</value>
+    <value>Deleting {0} items from {1} was canceled after deleting {3} item</value>
   </data>
   <data name="StatusDeletingItemsDetails_Singular" xml:space="preserve">
-    <value>正在从 {1} 中删除 {0} 个项</value>
+    <value>Deleting {0} item from {1}</value>
   </data>
   <data name="StatusDeletingItemsDetails_Plural" xml:space="preserve">
-    <value>正在从 {1} 中删除 {0} 个项</value>
+    <value>Deleting {0} items from {1}</value>
   </data>
   <data name="StatusDeletedItemsDetails_Singular" xml:space="preserve">
-    <value>已成功从 {1} 删除 {0} 项</value>
+    <value>Successfully deleted {0} item from {1}</value>
   </data>
   <data name="StatusDeletedItemsDetails_Plural" xml:space="preserve">
-    <value>已成功从 {1} 删除 {0} 项</value>
+    <value>Successfully deleted {0} items from {1}</value>
   </data>
   <data name="StatusDeletionFailedDetails_Singular" xml:space="preserve">
-    <value>无法从 {1} 中删除 {0} 项</value>
+    <value>Failed to delete {0} item from {1}</value>
   </data>
   <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
-    <value>无法从 {1} 中删除 {0} 项</value>
+    <value>Failed to delete {0} items from {1}</value>
   </data>
   <data name="TheRecycleBin" xml:space="preserve">
-    <value>回收站</value>
+    <value>the Recycle Bin</value>
   </data>
   <data name="MoveInProgress" xml:space="preserve">
-    <value>正在移动项</value>
+    <value>Moving items</value>
   </data>
   <data name="CopyInProgress.Title" xml:space="preserve">
-    <value>正在复制项</value>
+    <value>Copying items</value>
   </data>
   <data name="StatusRecycleFailed" xml:space="preserve">
-    <value>回收失败</value>
+    <value>Recycle failed</value>
   </data>
   <data name="StatusRecycleCancelled" xml:space="preserve">
-    <value>回收已取消</value>
+    <value>Recycle cancelled</value>
   </data>
   <data name="canceling" xml:space="preserve">
-    <value>正在取消</value>
+    <value>canceling</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
-    <value>消除</value>
+    <value>Dismiss</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>消除</value>
+    <value>Dismiss</value>
   </data>
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
-    <value>小组件</value>
+    <value>Widgets</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
-    <value>同步状态</value>
+    <value>Sync status</value>
   </data>
   <data name="Security" xml:space="preserve">
-    <value>安全</value>
+    <value>Security</value>
   </data>
   <data name="AdvancedPermissions" xml:space="preserve">
-    <value>高级权限</value>
+    <value>Advanced permissions</value>
   </data>
   <data name="Allow" xml:space="preserve">
-    <value>允许</value>
+    <value>Allow</value>
   </data>
   <data name="SecurityDenyLabel.Text" xml:space="preserve">
-    <value>拒绝</value>
+    <value>Deny</value>
   </data>
   <data name="SecurityFullControlLabel.Text" xml:space="preserve">
-    <value>完全控制</value>
+    <value>Full control</value>
   </data>
   <data name="SecurityListDirectoryLabel.Text" xml:space="preserve">
-    <value>列出目录内容</value>
+    <value>List directory contents</value>
   </data>
   <data name="SecurityModifyLabel.Text" xml:space="preserve">
-    <value>修改</value>
+    <value>Modify</value>
   </data>
   <data name="SecurityPermissionsLabel.Text" xml:space="preserve">
-    <value>权限</value>
+    <value>Permissions for</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
-    <value>读取和执行</value>
+    <value>Read and execute</value>
   </data>
   <data name="SecurityReadLabel.Text" xml:space="preserve">
-    <value>读取</value>
+    <value>Read</value>
   </data>
   <data name="SecurityUsersGroupLabel.Text" xml:space="preserve">
-    <value>组或用户名</value>
+    <value>Group or user names</value>
   </data>
   <data name="Write" xml:space="preserve">
-    <value>写入</value>
+    <value>Write</value>
   </data>
   <data name="SecurityUnknownAccount" xml:space="preserve">
-    <value>未知帐户</value>
+    <value>Unknown account</value>
   </data>
   <data name="SecurityCannotReadProperties.Text" xml:space="preserve">
-    <value>你无权查看此对象的安全属性。 单击“高级权限”继续。</value>
+    <value>You do not have permissions to view the security properties of this object. Click "Advanced permissions" to proceed.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
-    <value>所有者</value>
+    <value>Owner</value>
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
-    <value>未知所有者</value>
+    <value>Unknown owner</value>
   </data>
   <data name="SettingsVerticalTabFlyout" xml:space="preserve">
-    <value>在标题栏上显示垂直标签页按钮</value>
+    <value>Display the vertical tab flyout on the title bar</value>
   </data>
   <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>了解有关自定义主题的更多信息</value>
+    <value>Learn more about custom themes</value>
   </data>
   <data name="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>了解有关自定义主题的更多信息</value>
+    <value>Learn more about custom themes</value>
   </data>
   <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
-    <value>自定义主题提供个性化 Files 的途径。</value>
+    <value>Custom themes provide a great way for you to personalize Files.</value>
   </data>
   <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
-    <value>查看文档。</value>
+    <value>View documentation.</value>
   </data>
   <data name="DecompressArchiveDialog.Title" xml:space="preserve">
-    <value>选择目标位置并提取文件</value>
+    <value>Select a destination and extract files</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
-    <value>完成后打开目标文件夹</value>
+    <value>Open destination folder when complete</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractFilesOption" xml:space="preserve">
-    <value>解压缩文件</value>
+    <value>Extract files</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractHereOption" xml:space="preserve">
-    <value>解压缩到此处</value>
+    <value>Extract here</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractionOptions" xml:space="preserve">
-    <value>解压缩...</value>
+    <value>Extract...</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
-    <value>解压缩到 {0}\</value>
+    <value>Extract to {0}\</value>
   </data>
   <data name="SideBarCreateNewLibrary.Text" xml:space="preserve">
-    <value>新建库</value>
+    <value>Create new library</value>
   </data>
   <data name="SideBarRestoreLibraries.Text" xml:space="preserve">
-    <value>恢复为默认库</value>
+    <value>Restore default libraries</value>
   </data>
   <data name="DialogRestoreLibrariesButtonText" xml:space="preserve">
-    <value>还原</value>
+    <value>Restore</value>
   </data>
   <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
-    <value>确定要恢复为默认库吗？ 所有文件都将保留在存储空间中。</value>
+    <value>Are you sure you want to restore the default libraries? All your files will remain on your storage.</value>
   </data>
   <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
-    <value>恢复库</value>
+    <value>Restore Libraries</value>
   </data>
   <data name="PropertyFileOwner" xml:space="preserve">
-    <value>所有者</value>
+    <value>Owner</value>
   </data>
   <data name="SecurityAdvancedPermissionsTitle" xml:space="preserve">
-    <value>{0} 的高级权限</value>
+    <value>Advanced permissions for {0}</value>
   </data>
   <data name="SecuritySpecialLabel.Text" xml:space="preserve">
-    <value>特殊</value>
+    <value>Special</value>
   </data>
   <data name="Access" xml:space="preserve">
-    <value>访问</value>
+    <value>Access</value>
   </data>
   <data name="SecurityAdvancedAppliesToLabel.Text" xml:space="preserve">
-    <value>应用于</value>
+    <value>Applies to</value>
   </data>
   <data name="SecurityAdvancedEntityLabel.Text" xml:space="preserve">
-    <value>实体</value>
+    <value>Entity</value>
   </data>
   <data name="SecurityAdvancedFlagsFilesLabel" xml:space="preserve">
-    <value>文件</value>
+    <value>files</value>
   </data>
   <data name="SecurityAdvancedFlagsFolderLabel" xml:space="preserve">
-    <value>此文件夹</value>
+    <value>this folder</value>
   </data>
   <data name="SecurityAdvancedFlagsSubfoldersLabel" xml:space="preserve">
-    <value>子文件夹</value>
+    <value>subfolders</value>
   </data>
   <data name="SecurityAdvancedInheritedLabel.Text" xml:space="preserve">
-    <value>继承</value>
+    <value>Inherited</value>
   </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
-    <value>权限</value>
+    <value>Permissions</value>
   </data>
   <data name="SecurityAdvancedTypeLabel.Text" xml:space="preserve">
-    <value>类型</value>
+    <value>Type</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
-    <value>你无权查看此对象的安全属性。 你可以尝试获取此对象的所有权。</value>
+    <value>You do not have permissions to view the security properties of this object. You can try to take ownership of this object.</value>
   </data>
   <data name="SecurityAdvancedSpecialLabel.Text" xml:space="preserve">
-    <value>特殊</value>
+    <value>Special</value>
   </data>
   <data name="SecurityAdvancedFolderFiles.Text" xml:space="preserve">
-    <value>此文件夹和文件</value>
+    <value>This folder and files</value>
   </data>
   <data name="SecurityAdvancedFolderSubfoldersFiles.Text" xml:space="preserve">
-    <value>此文件夹、子文件夹和文件</value>
+    <value>This folder, subfolders and files</value>
   </data>
   <data name="SecurityAdvancedOnlyFiles.Text" xml:space="preserve">
-    <value>仅文件</value>
+    <value>Only files</value>
   </data>
   <data name="SecurityAdvancedOnlySubfolders.Text" xml:space="preserve">
-    <value>仅子文件夹</value>
+    <value>Only subfolders</value>
   </data>
   <data name="SecurityAdvancedOnlySubfoldersFiles.Text" xml:space="preserve">
-    <value>仅子文件夹和文件</value>
+    <value>Only subfolders and files</value>
   </data>
   <data name="SecurityAdvancedOnlyThisFolder.Text" xml:space="preserve">
-    <value>仅此文件夹</value>
+    <value>Only this folder</value>
   </data>
   <data name="SecurityAdvancedFolderSubfolders.Text" xml:space="preserve">
-    <value>此文件夹和子文件夹</value>
+    <value>This folder and subfolders</value>
   </data>
   <data name="SecurityAppendDataLabel.Text" xml:space="preserve">
-    <value>追加数据</value>
+    <value>Append data</value>
   </data>
   <data name="SecurityChangePermissionsLabel.Text" xml:space="preserve">
-    <value>更改权限</value>
+    <value>Change permission</value>
   </data>
   <data name="SecurityCreateDirectoriesLabel.Text" xml:space="preserve">
-    <value>创建文件夹</value>
+    <value>Create folders</value>
   </data>
   <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
-    <value>创建文件</value>
+    <value>Create files</value>
   </data>
   <data name="SecurityDeleteSubdirectoriesAndFilesLabel.Text" xml:space="preserve">
-    <value>删除子目录和文件</value>
+    <value>Delete subdirectories and files</value>
   </data>
   <data name="SecurityExecuteFileLabel.Text" xml:space="preserve">
-    <value>执行文件</value>
+    <value>Execute files</value>
   </data>
   <data name="SecurityReadAttributesLabel.Text" xml:space="preserve">
-    <value>读取属性</value>
+    <value>Read attributes</value>
   </data>
   <data name="SecurityReadDataLabel.Text" xml:space="preserve">
-    <value>读取数据</value>
+    <value>Read data</value>
   </data>
   <data name="SecurityReadExtendedAttributesLabel.Text" xml:space="preserve">
-    <value>读取扩展属性</value>
+    <value>Read extended attributes</value>
   </data>
   <data name="SecurityReadPermissionsLabel.Text" xml:space="preserve">
-    <value>读取权限</value>
+    <value>Read permissions</value>
   </data>
   <data name="SecurityTakeOwnershipLabel.Text" xml:space="preserve">
-    <value>取得所有权</value>
+    <value>Take ownership</value>
   </data>
   <data name="SecurityTraverseLabel.Text" xml:space="preserve">
-    <value>访问文件夹</value>
+    <value>Visit folder</value>
   </data>
   <data name="SecurityWriteAttributesLabel.Text" xml:space="preserve">
-    <value>写入属性</value>
+    <value>Write attributes</value>
   </data>
   <data name="SecurityWriteDataLabel.Text" xml:space="preserve">
-    <value>写入数据</value>
+    <value>Write data</value>
   </data>
   <data name="SecurityWriteExtendedAttributesLabel.Text" xml:space="preserve">
-    <value>写入扩展属性</value>
+    <value>Write extended attributes</value>
   </data>
   <data name="SecurityAdvancedInheritedConvert.Text" xml:space="preserve">
-    <value>将继承的权限转换为显式权限</value>
+    <value>Convert inherited permissions into explicit permissions</value>
   </data>
   <data name="SecurityAdvancedInheritedEnable.Text" xml:space="preserve">
-    <value>启用继承</value>
+    <value>Enable inheritance</value>
   </data>
   <data name="SecurityAdvancedInheritedRemove.Text" xml:space="preserve">
-    <value>删除所有继承的权限</value>
+    <value>Remove all inherited permissions</value>
   </data>
   <data name="SecurityAdvancedReplaceChildPermissions.Text" xml:space="preserve">
-    <value>重置子权限</value>
+    <value>Reset child permissions</value>
   </data>
   <data name="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" xml:space="preserve">
-    <value>用来自该对象的可继承权限条目替换所有子对象权限条目</value>
+    <value>Replace all child object permissions entries with inheritable permission entries from this object</value>
   </data>
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
-    <value>关闭面板</value>
+    <value>Close pane</value>
   </data>
   <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
-    <value>进入精简模式</value>
+    <value>Enter compact overlay</value>
   </data>
   <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
-    <value>退出精简模式</value>
+    <value>Exit compact overlay</value>
   </data>
   <data name="PropertyFileDescription" xml:space="preserve">
-    <value>文件描述</value>
+    <value>File description</value>
   </data>
   <data name="PropertyCompany" xml:space="preserve">
-    <value>公司</value>
+    <value>Company</value>
   </data>
   <data name="PropertyLanguage" xml:space="preserve">
-    <value>语言</value>
+    <value>Language</value>
   </data>
   <data name="PropertyTrademarks" xml:space="preserve">
-    <value>商标</value>
+    <value>Trademarks</value>
   </data>
   <data name="PropertyFileVersion" xml:space="preserve">
-    <value>文件版本</value>
+    <value>File version</value>
   </data>
   <data name="PreviewPaneLoadCloudItemButton.Text" xml:space="preserve">
-    <value>加载完整预览</value>
+    <value>Load full preview</value>
   </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>从云端下载该项并加载预览</value>
+    <value>Downloads the item from the cloud and loads the preview</value>
   </data>
   <data name="DetailsArchiveItemCount" xml:space="preserve">
-    <value>{0} 个项（{1} 个文件，{2} 个文件夹）</value>
+    <value>{0} items ({1} files, {2} folders)</value>
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
-    <value>解压缩大小</value>
+    <value>Uncompressed size</value>
   </data>
   <data name="SettingsShowCloudDrivesSection.Title" xml:space="preserve">
-    <value>显示云盘</value>
+    <value>Show cloud drives section</value>
   </data>
   <data name="SettingsShowDrivesSection.Title" xml:space="preserve">
-    <value>显示驱动器</value>
+    <value>Show drives section</value>
   </data>
   <data name="SettingsShowWslSection.Title" xml:space="preserve">
-    <value>显示 WSL</value>
+    <value>Show WSL section</value>
   </data>
   <data name="SettingsShowNetworkDrivesSection.Title" xml:space="preserve">
-    <value>显示网络驱动器</value>
+    <value>Show network section</value>
   </data>
   <data name="WSL" xml:space="preserve">
     <value>WSL</value>
   </data>
   <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
-    <value>隐藏 {0} 部分</value>
+    <value>Hide {0} section</value>
   </data>
   <data name="NavSettingsButton" xml:space="preserve">
-    <value>设置</value>
+    <value>Settings</value>
   </data>
   <data name="AddFile" xml:space="preserve">
-    <value>添加文件</value>
+    <value>Add file</value>
   </data>
   <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">
-    <value>添加文件夹</value>
+    <value>Add folder</value>
   </data>
   <data name="BundleOptionsFlyoutAddItemMenuItem.Text" xml:space="preserve">
-    <value>添加项...</value>
+    <value>Add item...</value>
   </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
-    <value>可用更新</value>
+    <value>Updates available</value>
   </data>
   <data name="ConsentDialogContent" xml:space="preserve">
-    <value>更新已准备好安装</value>
+    <value>Updates are ready to install</value>
   </data>
   <data name="Close" xml:space="preserve">
-    <value>关闭</value>
+    <value>Close</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>更新</value>
+    <value>Update</value>
   </data>
   <data name="Home" xml:space="preserve">
-    <value>主页</value>
+    <value>Home</value>
   </data>
   <data name="TabViewVerticalNewTab.Text" xml:space="preserve">
-    <value>新选项卡</value>
+    <value>New tab</value>
   </data>
   <data name="NavToolbarSelectAll.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+A</value>
   </data>
   <data name="NavigationToolbarNewPane.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Alt+Shift+加号 (+)</value>
+    <value>Alt+Shift++</value>
   </data>
   <data name="NavigationToolbarClosePane.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+W</value>
@@ -2281,10 +2281,10 @@
     <value>Ctrl+N</value>
   </data>
   <data name="NavigationToolbarEnterCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+上方向键</value>
+    <value>Ctrl+Alt+Up</value>
   </data>
   <data name="NavigationToolbarExitCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+下方向键</value>
+    <value>Ctrl+Alt+Down</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+1</value>
@@ -2311,253 +2311,255 @@
     <value>Ctrl+Shift+T</value>
   </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
-    <value>压缩文件解压完成。</value>
+    <value>The archive extraction completed successfully.</value>
   </data>
   <data name="ExtractingArchiveText" xml:space="preserve">
-    <value>正在解压压缩文件</value>
+    <value>Extracting archive</value>
   </data>
   <data name="ExtractingCompleteText" xml:space="preserve">
-    <value>解压完成。</value>
+    <value>Extracting complete!</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+N</value>
   </data>
   <data name="SettingsPrivacy.Title" xml:space="preserve">
-    <value>隐私政策</value>
+    <value>Privacy policy</value>
   </data>
   <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
-    <value>Fluent UI 系统图标</value>
+    <value>Fluent UI System Icons</value>
   </data>
   <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Fluent UI 系统图标</value>
+    <value>Fluent UI System Icons</value>
   </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
-    <value>我们使用 App Center 来跟踪正在使用的设置、查找漏洞和修复崩溃。 发送到 App Center 的信息是匿名的，不涉及任何用户数据或上下文数据。</value>
+    <value>
+We use App Center to track which settings are being used, find bugs, and fix crashes. Information sent to App Center is anonymous and free of any user or contextual data.
+  </value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
-    <value>打开上级目录</value>
+    <value>Open parent folder</value>
   </data>
   <data name="FileTagUnknown" xml:space="preserve">
-    <value>未知</value>
+    <value>Unknown</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
-    <value>文件标签</value>
+    <value>Tag</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
-    <value>编辑文件标签</value>
+    <value>Edit tags</value>
   </data>
   <data name="SettingsEnableFileTags.Title" xml:space="preserve">
-    <value>启用文件标签</value>
+    <value>Enable tags</value>
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
-    <value>显示收藏夹栏</value>
+    <value>Show favorites section</value>
   </data>
   <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
-    <value>全部应用</value>
+    <value>Apply to all</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
-    <value>部分集合</value>
+    <value>Part of set</value>
   </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
-    <value>打开驱动器</value>
+    <value>Open Drive</value>
   </data>
   <data name="InsertDiscDialog.Text" xml:space="preserve">
-    <value>请将盘片插入驱动器 {0}</value>
+    <value>Please insert a disc into drive {0}</value>
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
-    <value>插入盘片</value>
+    <value>Insert a disc</value>
   </data>
   <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
-    <value>确认</value>
+    <value>OK</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
-    <value>需要访问凭据</value>
+    <value>Credential Required</value>
   </data>
   <data name="CredentialDialogAnonymous.Content" xml:space="preserve">
-    <value>匿名</value>
+    <value>Anonymous</value>
   </data>
   <data name="CredentialDialogDescription.Text" xml:space="preserve">
-    <value>请提供你的访问凭据</value>
+    <value>Provide your credential:</value>
   </data>
   <data name="CredentialDialogPassword.PlaceholderText" xml:space="preserve">
-    <value>密码</value>
+    <value>Password</value>
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
-    <value>用户名</value>
+    <value>UserName</value>
   </data>
   <data name="BundlesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>包 小组件</value>
+    <value>Bundles Widget</value>
   </data>
   <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>驱动器</value>
+    <value>Drives Widget</value>
   </data>
   <data name="FolderWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>库 小组件</value>
+    <value>Libraries Widget</value>
   </data>
   <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>最近使用的文件 小组件</value>
+    <value>Recent Files Widget</value>
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
-    <value>没有与搜索条件匹配的项</value>
+    <value>No items found</value>
   </data>
   <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
-    <value>只显示预览</value>
+    <value>Show preview only</value>
   </data>
   <data name="OpenLogLocation" xml:space="preserve">
-    <value>打开日志文件夹</value>
+    <value>Open log location</value>
   </data>
   <data name="LinkToFolderCaptionText" xml:space="preserve">
-    <value>在 {0} 处创建链接</value>
+    <value>Create link in {0}</value>
   </data>
   <data name="Columns" xml:space="preserve">
-    <value>列视图</value>
+    <value>Columns</value>
   </data>
   <data name="LargeIcons" xml:space="preserve">
-    <value>大图标</value>
+    <value>Large Icons</value>
   </data>
   <data name="MediumIcons" xml:space="preserve">
-    <value>中图标</value>
+    <value>Medium Icons</value>
   </data>
   <data name="SmallIcons" xml:space="preserve">
-    <value>小图标</value>
+    <value>Small Icons</value>
   </data>
   <data name="Tiles" xml:space="preserve">
-    <value>平铺</value>
+    <value>Tiles</value>
   </data>
   <data name="NavToolbarShowFileExtensions.AutomationProperties.Name" xml:space="preserve">
-    <value>显示文件扩展名</value>
+    <value>Show file extensions</value>
   </data>
   <data name="NavToolbarShowHiddenItemsHeader.Text" xml:space="preserve">
-    <value>显示隐藏的项目</value>
+    <value>Show hidden items</value>
   </data>
   <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>显示收藏夹部分</value>
+    <value>Show favorites section</value>
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>在新标签页打开文件夹</value>
+    <value>Open folders in new tab</value>
   </data>
   <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>将回收站固定到收藏夹</value>
+    <value>Pin Recycle Bin to favorites</value>
   </data>
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>语言</value>
+    <value>Language</value>
   </data>
   <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>显示云盘部分</value>
+    <value>Show cloud drives section</value>
   </data>
   <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>在删除文件或文件夹时显示确认对话框</value>
+    <value>Show a confirmation dialog when deleting files or folders</value>
   </data>
   <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>显示驱动器部分</value>
+    <value>Show drives section</value>
   </data>
   <data name="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>显示库部分</value>
+    <value>Show library section</value>
   </data>
   <data name="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>显示网络驱动器部分</value>
+    <value>Show network section</value>
   </data>
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>显示 WSL 部分</value>
+    <value>Show WSL section</value>
   </data>
   <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>终端应用</value>
+    <value>Terminal application</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
-    <value>进行中的任务</value>
+    <value>Ongoing Tasks</value>
   </data>
   <data name="SideBarFavoritesMoveOneDown" xml:space="preserve">
-    <value>下移</value>
+    <value>Move one down</value>
   </data>
   <data name="SideBarFavoritesMoveOneUp" xml:space="preserve">
-    <value>上移</value>
+    <value>Move one up</value>
   </data>
   <data name="SideBarFavoritesMoveToBottom" xml:space="preserve">
-    <value>置于底部</value>
+    <value>Move to bottom</value>
   </data>
   <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
-    <value>置于顶部</value>
+    <value>Move to top</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
-    <value>创建日期列</value>
+    <value>Date created column</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
-    <value>大小列</value>
+    <value>Item size column</value>
   </data>
   <data name="SettingsDefaultFilesManager" xml:space="preserve">
-    <value>默认文件管理器</value>
+    <value>Default file manager</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
-    <value>将 Files 设为默认文件管理器</value>
+    <value>Set Files as the default file manager</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
-    <value>使用 Files 作为打开文件对话框</value>
+    <value>Use Files as Open File Dialog</value>
   </data>
   <data name="Tag" xml:space="preserve">
-    <value>标签</value>
+    <value>Tag</value>
   </data>
   <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
-    <value>单击打开文件夹</value>
+    <value>Open folders with a single click</value>
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
-    <value>文件夹路径</value>
+    <value>Folder path</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
-    <value>导出设置</value>
+    <value>Export Settings</value>
   </data>
   <data name="ImportSettings" xml:space="preserve">
-    <value>导入设置</value>
+    <value>Import Settings</value>
   </data>
   <data name="ManageSettings" xml:space="preserve">
-    <value>管理设置</value>
+    <value>Manage Settings</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
-    <value>无法导入设置。此设置文件已损坏。</value>
+    <value>Couldn't import settings. The settings file is corrupted.</value>
   </data>
   <data name="SettingsImportErrorTitle" xml:space="preserve">
-    <value>导入设置错误</value>
+    <value>Error importing settings</value>
   </data>
   <data name="EmptyRecycleBin" xml:space="preserve">
-    <value>清空回收站</value>
+    <value>Empty Recycle Bin</value>
   </data>
   <data name="Sidebar" xml:space="preserve">
-    <value>侧边栏</value>
+    <value>Sidebar</value>
   </data>
   <data name="ChooseCustomIcon" xml:space="preserve">
-    <value>选择自定义文件夹图标</value>
+    <value>Choose a custom folder icon</value>
   </data>
   <data name="Customization" xml:space="preserve">
-    <value>自定义</value>
+    <value>Customization</value>
   </data>
   <data name="RestoreDefault" xml:space="preserve">
-    <value>恢复默认</value>
+    <value>Restore default</value>
   </data>
   <data name="FilesAndFolders" xml:space="preserve">
-    <value>文件和文件夹</value>
+    <value>Files and folders</value>
   </data>
   <data name="OpenNewInstance" xml:space="preserve">
-    <value>从任务栏跳转列表打开文件夹时，启动新的实例</value>
+    <value>Open new instance when opening directories from the taskbar jumplist</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
-    <value>启动设置</value>
+    <value>Startup settings</value>
   </data>
   <data name="Compatibility" xml:space="preserve">
-    <value>兼容性</value>
+    <value>Compatibility</value>
   </data>
   <data name="None" xml:space="preserve">
-    <value>无</value>
+    <value>None</value>
   </data>
   <data name="HighDpiOption_UseDPIOnLogin" xml:space="preserve">
-    <value>登录到 Windows 时</value>
+    <value>On Windows login</value>
   </data>
   <data name="HighDpiOption_UseDPIOnProgramStart" xml:space="preserve">
-    <value>打开此程序时</value>
+    <value>On program start</value>
   </data>
   <data name="HighDpiOverride_System" xml:space="preserve">
-    <value>系统</value>
+    <value>System</value>
   </data>
   <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
-    <value>系统 (增强)</value>
+    <value>System (advanced)</value>
   </data>
   <data name="Windows7" xml:space="preserve">
     <value>Windows 7</value>
@@ -2575,190 +2577,190 @@
     <value>Windows Vista SP2</value>
   </data>
   <data name="ReducedColorMode_Color16Bit" xml:space="preserve">
-    <value>16 位 (65536) 色</value>
+    <value>16 Bit Colors (65536)</value>
   </data>
   <data name="ReducedColorMode_Color8Bit" xml:space="preserve">
-    <value>8 位 (256) 色</value>
+    <value>8 Bit Colors (256)</value>
   </data>
   <data name="CompatibilityMode" xml:space="preserve">
-    <value>兼容模式</value>
+    <value>Compatibility mode</value>
   </data>
   <data name="DisableFullscreenOptimizations" xml:space="preserve">
-    <value>禁用全屏优化</value>
+    <value>Disable fullscreen optimizations</value>
   </data>
   <data name="ExecuteAt640X480" xml:space="preserve">
-    <value>用 640 x 480 屏幕分辨率运行</value>
+    <value>Run at 640 x 480 screen resolution</value>
   </data>
   <data name="Options" xml:space="preserve">
-    <value>设置</value>
+    <value>Options</value>
   </data>
   <data name="OverrideDPIScalingBehaviour" xml:space="preserve">
-    <value>替代高 DPI 缩放行为</value>
+    <value>Override high DPI scaling behaviour</value>
   </data>
   <data name="ReducedColorMode" xml:space="preserve">
-    <value>简化的颜色模式</value>
+    <value>Reduced color mode</value>
   </data>
   <data name="RegisterForRestart" xml:space="preserve">
-    <value>注册此程序以便重新启动它</value>
+    <value>Register for restart</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
-    <value>以管理员身份运行此程序</value>
+    <value>Run as administrator</value>
   </data>
   <data name="RunCompatibilityTroubleShooter" xml:space="preserve">
-    <value>运行兼容性疑难解答</value>
+    <value>Run compatibility troubleshooter</value>
   </data>
   <data name="UseMainMonitorDPISettings" xml:space="preserve">
-    <value>使用主显示器的 DPI 设置</value>
+    <value>Use DPI settings of the main monitor</value>
   </data>
   <data name="ThirdPartyLicenses" xml:space="preserve">
-    <value>第三方许可</value>
+    <value>Third party licenses</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>此选项会修改系统注册表，并可能对你的设备产生意想不到的副作用。 继续即代表您自行承担风险。</value>
+    <value>This option modifies the system registry and can have unexpected side effects on your device. Continue at your own risk.</value>
   </data>
   <data name="ClearAll" xml:space="preserve">
-    <value>清空</value>
+    <value>Clear all</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
-    <value>创建库</value>
+    <value>Create Library</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
-    <value>输入库名</value>
+    <value>Enter Library name</value>
   </data>
   <data name="ShowFolderSize" xml:space="preserve">
-    <value>显示文件夹大小</value>
+    <value>Show folder size</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
-    <value>最近使用的文件</value>
+    <value>Recent Files</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
-    <value>在 Windows 启动时打开 Files</value>
+    <value>Open Files on Windows Startup</value>
   </data>
   <data name="Attributes" xml:space="preserve">
-    <value>属性</value>
+    <value>Attributes</value>
   </data>
   <data name="Hidden" xml:space="preserve">
-    <value>隐藏</value>
+    <value>Hidden</value>
   </data>
   <data name="MoreDetails" xml:space="preserve">
-    <value>更多详细信息</value>
+    <value>More details</value>
   </data>
   <data name="ReadOnly" xml:space="preserve">
-    <value>只读</value>
+    <value>Read only</value>
   </data>
   <data name="CleanupDrive" xml:space="preserve">
-    <value>清理驱动器内容</value>
+    <value>Cleanup your drive contents</value>
   </data>
   <data name="DiskCleanup" xml:space="preserve">
-    <value>磁盘清理</value>
+    <value>Disk cleanup</value>
   </data>
   <data name="Type" xml:space="preserve">
-    <value>类型:</value>
+    <value>Type:</value>
   </data>
   <data name="Bytes" xml:space="preserve">
-    <value>字节</value>
+    <value>Bytes</value>
   </data>
   <data name="Extract" xml:space="preserve">
-    <value>解压缩</value>
+    <value>Extract</value>
   </data>
   <data name="ExtractFiles" xml:space="preserve">
-    <value>解压缩文件</value>
+    <value>Extract files</value>
   </data>
   <data name="ExtractHere" xml:space="preserve">
-    <value>解压缩到此处</value>
+    <value>Extract here</value>
   </data>
   <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+E</value>
   </data>
   <data name="ExtractToChildFolder" xml:space="preserve">
-    <value>解压缩到 {0}</value>
+    <value>Extract to {0}</value>
   </data>
   <data name="RunScript" xml:space="preserve">
-    <value>运行脚本</value>
+    <value>Run script</value>
   </data>
   <data name="RunWithPowerShell" xml:space="preserve">
-    <value>使用 PowerShell 运行</value>
+    <value>Run with PowerShell</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
-    <value>设置为桌面背景</value>
+    <value>Set as desktop background</value>
   </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
-    <value>计算文件夹大小会占用大量资源，可能会增加 CPU 使用量。</value>
+    <value>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</value>
   </data>
   <data name="RotateLeft" xml:space="preserve">
-    <value>向左旋转</value>
+    <value>Rotate left</value>
   </data>
   <data name="RotateRight" xml:space="preserve">
-    <value>向右旋转</value>
+    <value>Rotate right</value>
   </data>
   <data name="Install" xml:space="preserve">
-    <value>安装</value>
+    <value>Install</value>
   </data>
   <data name="CloseTabsToTheLeft" xml:space="preserve">
-    <value>关闭左侧选项卡</value>
+    <value>Close tabs to the left</value>
   </data>
   <data name="CloseTabsToTheRight" xml:space="preserve">
-    <value>关闭右侧选项卡</value>
+    <value>Close tabs to the right</value>
   </data>
   <data name="CloseOtherTabs" xml:space="preserve">
-    <value>关闭其他选项卡</value>
+    <value>Close other tabs</value>
   </data>
   <data name="Music" xml:space="preserve">
-    <value>音乐</value>
+    <value>Music</value>
   </data>
   <data name="Pictures" xml:space="preserve">
-    <value>图片</value>
+    <value>Pictures</value>
   </data>
   <data name="Videos" xml:space="preserve">
-    <value>视频</value>
+    <value>Videos</value>
   </data>
   <data name="UpdateFiles" xml:space="preserve">
-    <value>更新 Files</value>
+    <value>Update Files</value>
   </data>
   <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
-    <value>正在准备 {0} 个项目</value>
+    <value>Preparing {0} items</value>
   </data>
   <data name="PrepareInProgress" xml:space="preserve">
-    <value>准备项目</value>
+    <value>Preparing items</value>
   </data>
   <data name="StatusCopyFailed" xml:space="preserve">
-    <value>复制失败</value>
+    <value>Copy failed</value>
   </data>
   <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
-    <value>从 {1} 到 {2} 复制文件 {0} 失败</value>
+    <value>Failed to copy {0} items from {1} to {2}</value>
   </data>
   <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
-    <value>从 {1} 到 {2} 复制文件 {0} 失败</value>
+    <value>Failed to copy {0} item from {1} to {2}</value>
   </data>
   <data name="StatusMoveFailed" xml:space="preserve">
-    <value>移动失败</value>
+    <value>Move failed</value>
   </data>
   <data name="FileTags" xml:space="preserve">
-    <value>标签</value>
+    <value>Tags</value>
   </data>
   <data name="SettingsShowFileTagsSection.Title" xml:space="preserve">
-    <value>显示标签</value>
+    <value>Show Tags section</value>
   </data>
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>显示标签</value>
+    <value>Show Tags section</value>
   </data>
   <data name="UseCompactStyles" xml:space="preserve">
-    <value>在详细信息布局中使用精简样式</value>
+    <value>Use compact styles in the details layout</value>
   </data>
   <data name="Universal" xml:space="preserve">
-    <value>通用</value>
+    <value>Universal</value>
   </data>
   <data name="DateFormatSample" xml:space="preserve">
-    <value>例如： {0}, {1}</value>
+    <value>ex: {0}, {1}</value>
   </data>
   <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
-    <value>显示缩略图</value>
+    <value>Show thumbnails</value>
   </data>
   <data name="Retry" xml:space="preserve">
-    <value>重试</value>
+    <value>Retry</value>
   </data>
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
-    <value>当前无法执行移动操作。要复制此项目吗？</value>
+    <value>Move operation is not supported in this context. Do you want to copy the items instead?</value>
   </data>
   <data name="HiddenFilesAndFolders" xml:space="preserve">
     <value>Hidden files and folders</value>
