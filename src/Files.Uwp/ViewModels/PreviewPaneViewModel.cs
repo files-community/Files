@@ -1,11 +1,12 @@
-﻿using Files.Shared.Enums;
-using Files.Uwp.Filesystem;
-using Files.Backend.Services.Settings;
-using Files.Uwp.UserControls.FilePreviews;
-using Files.Uwp.ViewModels.Previews;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
+using Files.Backend.Services.Settings;
+using Files.Shared.Cloud;
+using Files.Shared.EventArguments;
+using Files.Uwp.Filesystem;
+using Files.Uwp.UserControls.FilePreviews;
+using Files.Uwp.ViewModels.Previews;
 using System;
 using System.Diagnostics;
 using System.Threading;
@@ -14,7 +15,6 @@ using System.Windows.Input;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Files.Shared.EventArguments;
 
 namespace Files.Uwp.ViewModels
 {
@@ -153,7 +153,7 @@ namespace Files.Uwp.ViewModels
                 return null;
             }
 
-            if (item.SyncStatusUI.SyncStatus == CloudDriveSyncStatus.FileOnline && !downloadItem)
+            if (item.SyncStatusUI.SyncStatus is CloudDriveSyncStatus.FileOnline && !downloadItem)
             {
                 ShowCloudItemButton = true;
                 return null;

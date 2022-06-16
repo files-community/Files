@@ -5,6 +5,7 @@ using Files.Backend.Services.Settings;
 using Files.Backend.Services.SizeProvider;
 using Files.Backend.ViewModels.Dialogs;
 using Files.Shared;
+using Files.Shared.Cloud;
 using Files.Shared.Enums;
 using Files.Shared.EventArguments;
 using Files.Shared.Extensions;
@@ -1173,7 +1174,7 @@ namespace Files.Uwp.ViewModels
                                 var fileTag = FileTagsHelper.ReadFileTag(item.ItemPath);
                                 await dispatcherQueue.EnqueueAsync(() =>
                                 {
-                                    item.SyncStatusUI = new CloudDriveSyncStatusUI() { LoadSyncStatus = false }; // Reset cloud sync status icon
+                                    item.SyncStatusUI = new CloudDriveSyncStatusUI(); // Reset cloud sync status icon
                                     item.FileTag = fileTag;
                                 }, DispatcherQueuePriority.Low);
                                 FileTagsHelper.DbInstance.SetTag(item.ItemPath, item.FileFRN, item.FileTag);
