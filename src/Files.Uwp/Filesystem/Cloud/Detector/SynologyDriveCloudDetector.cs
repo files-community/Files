@@ -59,10 +59,11 @@ namespace Files.Uwp.Filesystem.Cloud
                     }
 
                     var folder = await StorageFolder.GetFolderFromPathAsync(path);
+
                     yield return new CloudProvider(CloudProviders.SynologyDrive)
                     {
                         SyncFolder = path,
-                        Name = $"Synology Drive - {connections[reader["conn_id"]?.ToString()].HostName} ({folder.Name})"
+                        Name = $"Synology Drive - {connections[reader["conn_id"]?.ToString()].HostName} ({folder.Name})",
                     };
                 }
             }

@@ -9,9 +9,9 @@ namespace Files.Uwp.Filesystem.Cloud
     {
         public async Task<IEnumerable<ICloudProvider>> DetectCloudProvidersAsync()
         {
+            var providers = new List<ICloudProvider>();
             try
             {
-                var providers = new List<ICloudProvider>();
                 await foreach (var provider in GetProviders())
                 {
                     providers.Add(provider);
@@ -20,7 +20,7 @@ namespace Files.Uwp.Filesystem.Cloud
             }
             catch
             {
-                return Enumerable.Empty<ICloudProvider>();
+                return providers;
             }
         }
 

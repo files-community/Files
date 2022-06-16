@@ -11,13 +11,14 @@ namespace Files.Uwp.Filesystem.Cloud
     {
         protected override async IAsyncEnumerable<ICloudProvider> GetProviders()
         {
-            var jsonPath = Path.Combine(UserDataPaths.GetDefault().LocalAppData, @"Dropbox\info.json");
+            string jsonPath = Path.Combine(UserDataPaths.GetDefault().LocalAppData, @"Dropbox\info.json");
             var configFile = await StorageFile.GetFileFromPathAsync(jsonPath);
             var jsonObj = JObject.Parse(await FileIO.ReadTextAsync(configFile));
 
             if (jsonObj.ContainsKey("personal"))
             {
-                var dropboxPath = (string)jsonObj["personal"]["path"];
+                string dropboxPath = (string)jsonObj["personal"]["path"];
+
                 yield return new CloudProvider(CloudProviders.DropBox)
                 {
                     Name = "Dropbox",
@@ -27,7 +28,8 @@ namespace Files.Uwp.Filesystem.Cloud
 
             if (jsonObj.ContainsKey("business"))
             {
-                var dropboxPath = (string)jsonObj["business"]["path"];
+                string dropboxPath = (string)jsonObj["business"]["path"];
+
                 yield return new CloudProvider(CloudProviders.DropBox)
                 {
                     Name = "Dropbox Business",
