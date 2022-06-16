@@ -145,7 +145,7 @@
     <value>Nom</value>
   </data>
   <data name="typeColumn.Header" xml:space="preserve">
-    <value>Type</value>
+    <value>Type :</value>
   </data>
   <data name="Size" xml:space="preserve">
     <value>Taille</value>
@@ -1096,7 +1096,7 @@
     <value>Orientation</value>
   </data>
   <data name="PropertySectionCore" xml:space="preserve">
-    <value>Core</value>
+    <value>Cœur</value>
   </data>
   <data name="PropertySectionImage" xml:space="preserve">
     <value>Image</value>
@@ -1357,7 +1357,7 @@
     <value>Supprimer le bundle</value>
   </data>
   <data name="Bundles" xml:space="preserve">
-    <value>Bundles</value>
+    <value>Paquets</value>
   </data>
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
     <value>Glissez et déposez n'importe quel fichier ou dossier ici pour y accéder rapidement</value>
