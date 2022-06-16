@@ -17,10 +17,10 @@ namespace Files.FullTrust.Helpers
         {
             var tasks = new Task<IEnumerable<ICloudProvider>>[]
             {
-                SafetyExtensions.IgnoreExceptions(DetectOneDriveAsync, Program.Logger),
-                SafetyExtensions.IgnoreExceptions(DetectSharepointAsync, Program.Logger),
-                SafetyExtensions.IgnoreExceptions(DetectGenericCloudDriveAsync, Program.Logger),
-                SafetyExtensions.IgnoreExceptions(DetectYandexDiskAsync, Program.Logger),
+                SafetyExtensions.IgnoreExceptions(DetectOneDrive, Program.Logger),
+                SafetyExtensions.IgnoreExceptions(DetectSharepoint, Program.Logger),
+                SafetyExtensions.IgnoreExceptions(DetectGenericCloudDrive, Program.Logger),
+                SafetyExtensions.IgnoreExceptions(DetectYandexDisk, Program.Logger),
             };
 
             await Task.WhenAll(tasks);
@@ -33,7 +33,7 @@ namespace Files.FullTrust.Helpers
                 .Distinct();
         }
 
-        private static Task<IEnumerable<ICloudProvider>> DetectYandexDiskAsync()
+        private static Task<IEnumerable<ICloudProvider>> DetectYandexDisk()
         {
             var results = new List<ICloudProvider>();
             using var yandexKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Yandex\Yandex.Disk.2");
@@ -51,7 +51,7 @@ namespace Files.FullTrust.Helpers
             return Task.FromResult<IEnumerable<ICloudProvider>>(results);
         }
 
-        private static Task<IEnumerable<ICloudProvider>> DetectGenericCloudDriveAsync()
+        private static Task<IEnumerable<ICloudProvider>> DetectGenericCloudDrive()
         {
             var results = new List<ICloudProvider>();
             using var clsidKey = Registry.ClassesRoot.OpenSubKey(@"CLSID");
@@ -97,18 +97,15 @@ namespace Files.FullTrust.Helpers
                         continue;
                     }
 
+                    string nextCloudValue = (string)namespaceSubKey?.GetValue(string.Empty);
                     results.Add(new CloudProvider(driveID.Value)
                     {
                         Name = driveID switch
                         {
-                            CloudProviders.Mega
-                                => $"MEGA ({Path.GetFileName(syncedFolder.TrimEnd('\\'))})",
-                            CloudProviders.AmazonDrive
-                                => $"Amazon Drive",
-                            CloudProviders.Nextcloud
-                                => $"{ (!string.IsNullOrEmpty((string)namespaceSubKey?.GetValue("")) ? (string)namespaceSubKey?.GetValue(""):"Nextcloud")}",
-                            CloudProviders.Jottacloud
-                                => $"Jottacloud",
+                            CloudProviders.Mega => $"MEGA ({Path.GetFileName(syncedFolder.TrimEnd('\\'))})",
+                            CloudProviders.AmazonDrive => $"Amazon Drive",
+                            CloudProviders.Nextcloud => !string.IsNullOrEmpty(nextCloudValue) ? nextCloudValue : "Nextcloud",
+                            CloudProviders.Jottacloud => $"Jottacloud",
                             _ => null
                         },
                         SyncFolder = syncedFolder,
@@ -119,7 +116,7 @@ namespace Files.FullTrust.Helpers
             return Task.FromResult<IEnumerable<ICloudProvider>>(results);
         }
 
-        private static Task<IEnumerable<ICloudProvider>> DetectOneDriveAsync()
+        private static Task<IEnumerable<ICloudProvider>> DetectOneDrive()
         {
             using var oneDriveAccountsKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\OneDrive\Accounts");
             if (oneDriveAccountsKey is null)
@@ -148,7 +145,7 @@ namespace Files.FullTrust.Helpers
             return Task.FromResult<IEnumerable<ICloudProvider>>(oneDriveAccounts);
         }
 
-        private static Task<IEnumerable<ICloudProvider>> DetectSharepointAsync()
+        private static Task<IEnumerable<ICloudProvider>> DetectSharepoint()
         {
             using var oneDriveAccountsKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\OneDrive\Accounts");
             if (oneDriveAccountsKey is null)
