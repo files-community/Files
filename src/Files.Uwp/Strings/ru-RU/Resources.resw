@@ -1,5 +1,110 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
@@ -12,6 +117,42 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="SideBarOpenInNewTab.Text" xml:space="preserve">
+    <value>Открыть в новой вкладке</value>
+  </data>
+  <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
+    <value>Открыть в новом окне</value>
+  </data>
+  <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
+    <value>Новое окно</value>
+  </data>
+  <data name="ModernNavigationToolbaNewBitmapImage.Text" xml:space="preserve">
+    <value>Изображение</value>
+  </data>
+  <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
+    <value>Текстовый документ</value>
+  </data>
+  <data name="CopyLocation" xml:space="preserve">
+    <value>Копировать местоположение</value>
+  </data>
+  <data name="NavigationToolbarPaste.Label" xml:space="preserve">
+    <value>Вставить</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>Обзор</value>
+  </data>
+  <data name="nameColumn.Header" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="typeColumn.Header" xml:space="preserve">
+    <value>Тип</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>Размер</value>
+  </data>
+  <data name="OpenIn" xml:space="preserve">
+    <value>Открыть в</value>
+  </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>Создано:</value>
   </data>
@@ -24,11 +165,41 @@
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Размер:</value>
   </data>
+  <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
+    <value>Это действие не может быть завершено</value>
+  </data>
+  <data name="ErrorDialogTheDestinationFolder" xml:space="preserve">
+    <value>Папка назначения</value>
+  </data>
+  <data name="ErrorDialogIsASubfolder" xml:space="preserve">
+    <value>это подпапка исходной папки</value>
+  </data>
+  <data name="Skip" xml:space="preserve">
+    <value>Пропустить</value>
+  </data>
+  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
+    <value>Выделить все</value>
+  </data>
+  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
+    <value>Инвертировать выделение</value>
+  </data>
+  <data name="NavToolbarClearSelection.Text" xml:space="preserve">
+    <value>Очистить выделение</value>
+  </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Изменено:</value>
   </data>
+  <data name="Accessed" xml:space="preserve">
+    <value>Открыт:</value>
+  </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
     <value>Очистить все</value>
+  </data>
+  <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
+    <value>Введите путь</value>
+  </data>
+  <data name="NavigationToolbarSearchRegion.PlaceholderText" xml:space="preserve">
+    <value>Поиск</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Файлы, с которыми Вы ранее взаимодействовали, будут отображаться здесь</value>
@@ -39,17 +210,44 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Убрать из списка</value>
   </data>
+  <data name="SettingsUsefulLinks.Title" xml:space="preserve">
+    <value>Полезные ссылки</value>
+  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Отправить отзыв</value>
   </data>
   <data name="About" xml:space="preserve">
     <value>О приложении</value>
   </data>
+  <data name="DateFormat" xml:space="preserve">
+    <value>Формат даты</value>
+  </data>
+  <data name="SettingsAppearanceTheme" xml:space="preserve">
+    <value>Выберите тему</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
+    <value>Показывать расширения для известных типов файлов</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
+    <value>Показывать скрытые файлы и папки</value>
+  </data>
+  <data name="ShowDotFiles" xml:space="preserve">
+    <value>Показать расширения имен файлов</value>
+  </data>
+  <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
+    <value>Эксперименты</value>
+  </data>
   <data name="Appearance" xml:space="preserve">
     <value>Внешний вид</value>
   </data>
+  <data name="SettingsNavExperimental.Content" xml:space="preserve">
+    <value>Эксперименты</value>
+  </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Предпочтения</value>
+  </data>
+  <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
+    <value>ВНИМАНИЕ: ЭКСПЕРИМЕНТАЛЬНЫЕ ФУНКЦИИ!</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Продолжить, где Вы остановились</value>
@@ -72,11 +270,8 @@
   <data name="Downloads" xml:space="preserve">
     <value>Загрузки</value>
   </data>
-  <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Введите путь</value>
-  </data>
-  <data name="NavigationToolbarSearchRegion.PlaceholderText" xml:space="preserve">
-    <value>Поиск</value>
+  <data name="SideBarUnpinFromFavorites.Text" xml:space="preserve">
+    <value>Убрать из Избранного</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Сортировка</value>
@@ -96,11 +291,23 @@
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>Вставить</value>
   </data>
+  <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
+    <value>Создать</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
+    <value>Файл</value>
+  </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
+    <value>Свойства</value>
+  </data>
+  <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
     <value>Свойства</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>Извлечь</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Открыть</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
     <value>Открыть в новой вкладке</value>
@@ -117,32 +324,17 @@
   <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
     <value>Вырезать</value>
   </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Удаление</value>
+  </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Переименовать</value>
   </data>
+  <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
+    <value>Добавить в Избранное</value>
+  </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>Свойства</value>
-  </data>
-  <data name="ModernNavigationToolbaNewBitmapImage.Text" xml:space="preserve">
-    <value>Изображение</value>
-  </data>
-  <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
-    <value>Текстовый документ</value>
-  </data>
-  <data name="nameColumn.Header" xml:space="preserve">
-    <value>Имя</value>
-  </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>Тип</value>
-  </data>
-  <data name="Size" xml:space="preserve">
-    <value>Размер</value>
-  </data>
-  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
-    <value>Выделить все</value>
-  </data>
-  <data name="NavToolbarClearSelection.Text" xml:space="preserve">
-    <value>Очистить выделение</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Добро пожаловать в Files!</value>
@@ -155,6 +347,9 @@
   </data>
   <data name="FileFolderListItem" xml:space="preserve">
     <value>Папка с файлами</value>
+  </data>
+  <data name="ItemTypeFile" xml:space="preserve">
+    <value>Файл</value>
   </data>
   <data name="RenameDialog.Title" xml:space="preserve">
     <value>Введите название</value>
@@ -174,8 +369,14 @@
   <data name="Application" xml:space="preserve">
     <value>По умолчанию</value>
   </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>система</value>
+  </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Новая папка</value>
+  </data>
+  <data name="NewFile" xml:space="preserve">
+    <value>Новый файл</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>Эта папка пуста.</value>
@@ -195,53 +396,20 @@
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Поиск (Ctrl+F)</value>
   </data>
-  <data name="ItemTypeFile" xml:space="preserve">
-    <value>Файл</value>
-  </data>
-  <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
-    <value>Это действие не может быть завершено</value>
-  </data>
-  <data name="ErrorDialogTheDestinationFolder" xml:space="preserve">
-    <value>Папка назначения</value>
-  </data>
-  <data name="ErrorDialogIsASubfolder" xml:space="preserve">
-    <value>это подпапка исходной папки</value>
-  </data>
-  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
-    <value>Инвертировать выделение</value>
-  </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>Свойства</value>
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Свойства</value>
   </data>
-  <data name="Open" xml:space="preserve">
-    <value>Открыть</value>
-  </data>
-  <data name="SideBarOpenInNewTab.Text" xml:space="preserve">
-    <value>Открыть в новой вкладке</value>
-  </data>
-  <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
-    <value>Открыть в новом окне</value>
-  </data>
-  <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
-    <value>Эксперименты</value>
-  </data>
-  <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
-    <value>ВНИМАНИЕ: ЭКСПЕРИМЕНТАЛЬНЫЕ ФУНКЦИИ!</value>
-  </data>
-  <data name="SettingsNavExperimental.Content" xml:space="preserve">
-    <value>Эксперименты</value>
-  </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Элемент с таким именем уже существует в этой папке.</value>
   </data>
-  <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
-    <value>Элемент уже существует</value>
-  </data>
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
     <value>Заменить существующий элемент</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
+    <value>Элемент уже существует</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
     <value>Применить как фон экрана блокировки</value>
@@ -282,6 +450,27 @@
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Вы удалили эту папку?</value>
   </data>
+  <data name="FileInUseByDialog.Text" xml:space="preserve">
+    <value>Файл, к которому вы пытаетесь получить доступ, в настоящее время используется {0}</value>
+  </data>
+  <data name="FileInUseDialog.Text" xml:space="preserve">
+    <value>Вы не можете использовать этот файл в настоящее время, потому что он используется другим приложением</value>
+  </data>
+  <data name="FileInUseDialog.Title" xml:space="preserve">
+    <value>Файл используется</value>
+  </data>
+  <data name="NavToolbarLayout.Text" xml:space="preserve">
+    <value>Разметка</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Выделение</value>
+  </data>
+  <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
+    <value>Только чтение</value>
+  </data>
+  <data name="PropertiesDialogHidden.Text" xml:space="preserve">
+    <value>Скрытая</value>
+  </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>Очистить корзину</value>
   </data>
@@ -291,11 +480,11 @@
   <data name="DaysAgo" xml:space="preserve">
     <value>{0} дней назад</value>
   </data>
-  <data name="HoursAgo" xml:space="preserve">
-    <value>{0} часов назад</value>
-  </data>
   <data name="DayAgo" xml:space="preserve">
     <value>{0} день назад</value>
+  </data>
+  <data name="HoursAgo" xml:space="preserve">
+    <value>{0} часов назад</value>
   </data>
   <data name="HourAgo" xml:space="preserve">
     <value>{0} час назад</value>
@@ -309,14 +498,14 @@
   <data name="SecondsAgo" xml:space="preserve">
     <value>{0} секунд назад</value>
   </data>
-  <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
-    <value>{0} свободно из {1}</value>
-  </data>
   <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
     <value>Новая вкладка</value>
   </data>
   <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
     <value>Запрошенная операция не поддерживается</value>
+  </data>
+  <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
+    <value>{0} свободно из {1}</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
     <value>Открыть с помощью</value>
@@ -325,7 +514,7 @@
     <value>Имя элемента не должно содержать следующих знаков: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
-    <value>OK</value>
+    <value>Ок</value>
   </data>
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>Имя элемента не должно содержать следующих знаков: \ / : * ? " &lt; &gt; |</value>
@@ -342,17 +531,23 @@
   <data name="ItemsCount.Text" xml:space="preserve">
     <value>элементов</value>
   </data>
-  <data name="Accessed" xml:space="preserve">
-    <value>Открыт:</value>
+  <data name="DeleteInProgress.Title" xml:space="preserve">
+    <value>Удаление файлов</value>
+  </data>
+  <data name="PasteInProgress.Title" xml:space="preserve">
+    <value>Вставка файлов</value>
+  </data>
+  <data name="RecycleInProgress.Title" xml:space="preserve">
+    <value>Перемещение файлов в Корзину</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Да</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
     <value>Вы уверены, что хотите безвозвратно удалить все элементы?</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
     <value>Очистить корзину</value>
-  </data>
-  <data name="Yes" xml:space="preserve">
-    <value>Да</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
     <value>байт</value>
@@ -375,14 +570,17 @@
   <data name="ByteSymbol" xml:space="preserve">
     <value>Б</value>
   </data>
+  <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
+    <value>Запуск от имени администратора</value>
+  </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
     <value>Содержит:</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
     <value>{0:#,##0} Файлов, {1:#,##0} Папок</value>
   </data>
-  <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
-    <value>Запуск от имени администратора</value>
+  <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
+    <value>{0:#,##0} файлов, {1:#,##0} папок из {2:#,##0} локаций</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Запуск от имени другого пользователя</value>
@@ -408,17 +606,11 @@
   <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
     <value>Файловая система:</value>
   </data>
-  <data name="DeleteInProgress.Title" xml:space="preserve">
-    <value>Удаление файлов</value>
-  </data>
-  <data name="PasteInProgress.Title" xml:space="preserve">
-    <value>Вставка файлов</value>
-  </data>
-  <data name="RecycleInProgress.Title" xml:space="preserve">
-    <value>Перемещение файлов в Корзину</value>
-  </data>
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
     <value>Недавние</value>
+  </data>
+  <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
+    <value>Переместить вкладку</value>
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Статус</value>
@@ -431,9 +623,6 @@
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Стандартный</value>
-  </data>
-  <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
-    <value>Переместить вкладку</value>
   </data>
   <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
     <value>Нет результатов</value>
@@ -495,18 +684,6 @@
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>Открыть расположение файла</value>
   </data>
-  <data name="SettingsAboutContributors.Text" xml:space="preserve">
-    <value>Авторы</value>
-  </data>
-  <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
-    <value>Заметки о выпуске</value>
-  </data>
-  <data name="InvalidItemDialogContent" xml:space="preserve">
-    <value>Указанный элемент недействителен или недоступен.{0}Сообщение об ошибке:{0}{1}</value>
-  </data>
-  <data name="InvalidItemDialogTitle" xml:space="preserve">
-    <value>Неверный элемент</value>
-  </data>
   <data name="DriveCapacityUnknown" xml:space="preserve">
     <value>Неизвестно</value>
   </data>
@@ -518,6 +695,18 @@
   </data>
   <data name="ExceptionNotificationReportButton" xml:space="preserve">
     <value>Сообщить о проблеме</value>
+  </data>
+  <data name="SettingsAboutContributors.Text" xml:space="preserve">
+    <value>Авторы</value>
+  </data>
+  <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
+    <value>Заметки о выпуске</value>
+  </data>
+  <data name="InvalidItemDialogContent" xml:space="preserve">
+    <value>Указанный элемент недействителен или недоступен.{0}Сообщение об ошибке:{0}{1}</value>
+  </data>
+  <data name="InvalidItemDialogTitle" xml:space="preserve">
+    <value>Неверный элемент</value>
   </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
     <value>Версия:</value>
@@ -558,6 +747,24 @@
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>Еще</value>
   </data>
+  <data name="RestartNotificationText.Text" xml:space="preserve">
+    <value>Чтобы применить новые настройки, необходимо перезапустить приложение. Вы хотите перезапустить приложение?</value>
+  </data>
+  <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
+    <value>Поддержать нас</value>
+  </data>
+  <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
+    <value>Элемент не может быть создан</value>
+  </data>
+  <data name="AccessDenied" xml:space="preserve">
+    <value>Отказано в доступе</value>
+  </data>
+  <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
+    <value>Создать вкладку</value>
+  </data>
+  <data name="VerticalTabViewHeader.Text" xml:space="preserve">
+    <value>Открытые вкладки</value>
+  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>Многозадачность</value>
   </data>
@@ -567,14 +774,8 @@
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>Установить как</value>
   </data>
-  <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
-    <value>Создать вкладку</value>
-  </data>
-  <data name="VerticalTabViewHeader.Text" xml:space="preserve">
-    <value>Открытые вкладки</value>
-  </data>
-  <data name="RestartNotificationText.Text" xml:space="preserve">
-    <value>Чтобы применить новые настройки, необходимо перезапустить приложение. Вы хотите перезапустить приложение?</value>
+  <data name="Cancel" xml:space="preserve">
+    <value>Отмена</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
     <value>Создать новый элемент</value>
@@ -582,8 +783,11 @@
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>Выберите тип этого нового элемента ниже</value>
   </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>Отмена</value>
+  <data name="File" xml:space="preserve">
+    <value>Файл</value>
+  </data>
+  <data name="AddDialogListFileSubHeader" xml:space="preserve">
+    <value>Создает пустой файл</value>
   </data>
   <data name="Folder" xml:space="preserve">
     <value>Папка</value>
@@ -606,65 +810,44 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Перейти на один каталог вверх</value>
   </data>
-  <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
-    <value>Поддержать нас</value>
+  <data name="VerticalTabFlyout.AutomationProperties.Name" xml:space="preserve">
+    <value>Вкладки</value>
   </data>
-  <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
-    <value>Элемент не может быть создан</value>
+  <data name="VerticalTabFlyout.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Вкладки</value>
   </data>
-  <data name="AccessDenied" xml:space="preserve">
-    <value>Отказано в доступе</value>
+  <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
+    <value>Язык</value>
   </data>
-  <data name="FileItemAutomation" xml:space="preserve">
-    <value>Файл</value>
+  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
+    <value>Приложения терминала</value>
   </data>
-  <data name="RecycleBinItemAutomation" xml:space="preserve">
-    <value>Корзина</value>
+  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
+    <value>Редактировать приложения терминала</value>
   </data>
-  <data name="ShortcutItemAutomation" xml:space="preserve">
-    <value>Ярлык</value>
+  <data name="SettingsContextMenuOverflow" xml:space="preserve">
+    <value>Переносить не помещающиеся пункты в подменю</value>
   </data>
-  <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
-    <value>Переместить</value>
+  <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
+    <value>Закрепить Корзину в секции Избранное</value>
   </data>
-  <data name="Drives" xml:space="preserve">
-    <value>Диски</value>
+  <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
+    <value>Показывать диалоговое окно подтверждения при удалении файлов или папок</value>
   </data>
-  <data name="EjectNotificationHeader" xml:space="preserve">
-    <value>Оборудование может быть извлечено</value>
+  <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
+    <value>При сохранении некоторых свойств возникла проблема.</value>
   </data>
-  <data name="EjectNotificationBody" xml:space="preserve">
-    <value>Теперь устройство может быть безопасно извлечено из компьютера.</value>
+  <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
+    <value>Ошибка</value>
   </data>
-  <data name="EjectNotificationErrorDialogHeader" xml:space="preserve">
-    <value>Проблема с извлечением устройства</value>
-  </data>
-  <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
-    <value>Устройство в данный момент используется. Закройте все программы, окна или вкладки, которые могут использовать устройство, а затем повторите попытку.</value>
-  </data>
-  <data name="SideBarEjectDevice.Text" xml:space="preserve">
-    <value>Извлечь</value>
-  </data>
-  <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
-    <value>Создать копию вкладки</value>
-  </data>
-  <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
-    <value>Переместить вкладку в новое окно</value>
-  </data>
-  <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
-    <value>Новая вкладка</value>
-  </data>
-  <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Поиск</value>
-  </data>
-  <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
-    <value>Только чтение</value>
-  </data>
-  <data name="PropertiesDialogHidden.Text" xml:space="preserve">
-    <value>Скрытая</value>
+  <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Закрыть</value>
   </data>
   <data name="PropertyRatingText" xml:space="preserve">
     <value>Рейтинг</value>
+  </data>
+  <data name="PropertyItemPathDisplay" xml:space="preserve">
+    <value>Путь элемента</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
     <value>Тип файла</value>
@@ -681,9 +864,6 @@
   <data name="PropertyCopyright" xml:space="preserve">
     <value>Авторские права</value>
   </data>
-  <data name="PropertyDateCreated" xml:space="preserve">
-    <value>Дата создания</value>
-  </data>
   <data name="PropertyDateModified" xml:space="preserve">
     <value>Дата изменения</value>
   </data>
@@ -693,38 +873,50 @@
   <data name="PropertyDimensions" xml:space="preserve">
     <value>Размеры</value>
   </data>
-  <data name="PropertyHorizontalResolution" xml:space="preserve">
-    <value>Разрешение по горизонтали</value>
-  </data>
-  <data name="PropertyVerticalResolution" xml:space="preserve">
-    <value>Разрешение по вертикали</value>
-  </data>
   <data name="PropertyHorizontalSize" xml:space="preserve">
     <value>Размер по горизонтали</value>
   </data>
   <data name="PropertyVerticalSize" xml:space="preserve">
     <value>Размер по вертикали</value>
   </data>
-  <data name="PropertyLatitude" xml:space="preserve">
-    <value>Широта</value>
+  <data name="PropertyHorizontalResolution" xml:space="preserve">
+    <value>Разрешение по горизонтали</value>
+  </data>
+  <data name="PropertyVerticalResolution" xml:space="preserve">
+    <value>Разрешение по вертикали</value>
+  </data>
+  <data name="PropertyColorSpace" xml:space="preserve">
+    <value>Цветовое пространство</value>
+  </data>
+  <data name="PropertyColorSpace_Value0" xml:space="preserve">
+    <value>sRGB</value>
+  </data>
+  <data name="PropertyColorSpace_Value65535" xml:space="preserve">
+    <value>Не указано</value>
+  </data>
+  <data name="PropertyLongitudeDecimal" xml:space="preserve">
+    <value>Десятичная долгота</value>
   </data>
   <data name="PropertyLatitudeDecimal" xml:space="preserve">
     <value>Десятичная широта</value>
   </data>
-  <data name="PropertyLatitudeRef" xml:space="preserve">
-    <value>Ссылка на широту</value>
+  <data name="PropertyLatitude" xml:space="preserve">
+    <value>Широта</value>
   </data>
   <data name="PropertyLongitude" xml:space="preserve">
     <value>Долгота</value>
   </data>
-  <data name="PropertyLongitudeDecimal" xml:space="preserve">
-    <value>Десятичная долгота</value>
+  <data name="PropertyLatitudeRef" xml:space="preserve">
+    <value>Ссылка на широту</value>
   </data>
   <data name="PropertyLongitudeRef" xml:space="preserve">
     <value>Ссылка на долготу</value>
   </data>
   <data name="PropertyAltitude" xml:space="preserve">
     <value>Высота</value>
+  </data>
+  <data name="PropertyDateTaken" xml:space="preserve">
+    <value>Дата съемки</value>
   </data>
   <data name="PropertyCameraManufacturer" xml:space="preserve">
     <value>Производитель камеры</value>
@@ -741,17 +933,11 @@
   <data name="PropertyAperture" xml:space="preserve">
     <value>Диафрагма</value>
   </data>
-  <data name="PropertyDateTaken" xml:space="preserve">
-    <value>Дата съемки</value>
+  <data name="PropertyPeopleNames" xml:space="preserve">
+    <value>Имена людей</value>
   </data>
   <data name="PropertyChannelCount" xml:space="preserve">
     <value>Число каналов</value>
-  </data>
-  <data name="PropertyEncodingBitrate" xml:space="preserve">
-    <value>Скорость потока</value>
-  </data>
-  <data name="Compression" xml:space="preserve">
-    <value>Сжатие</value>
   </data>
   <data name="PropertyFormat" xml:space="preserve">
     <value>Формат</value>
@@ -846,36 +1032,6 @@
   <data name="PropertyYear" xml:space="preserve">
     <value>Год</value>
   </data>
-  <data name="PropertySectionCore" xml:space="preserve">
-    <value>Главное</value>
-  </data>
-  <data name="PropertySectionImage" xml:space="preserve">
-    <value>Изображения</value>
-  </data>
-  <data name="PropertySectionPhoto" xml:space="preserve">
-    <value>Фото</value>
-  </data>
-  <data name="PropertySectionGPS" xml:space="preserve">
-    <value>GPS</value>
-  </data>
-  <data name="PropertySectionMedia" xml:space="preserve">
-    <value>Медиа</value>
-  </data>
-  <data name="PropertySectionAudio" xml:space="preserve">
-    <value>Аудио</value>
-  </data>
-  <data name="PropertySectionMusic" xml:space="preserve">
-    <value>Музыка</value>
-  </data>
-  <data name="Address" xml:space="preserve">
-    <value>Адрес</value>
-  </data>
-  <data name="PropertyColorSpace" xml:space="preserve">
-    <value>Цветовое пространство</value>
-  </data>
-  <data name="PropertyPeopleNames" xml:space="preserve">
-    <value>Имена людей</value>
-  </data>
   <data name="PropertyContributor" xml:space="preserve">
     <value>Соавтор</value>
   </data>
@@ -888,8 +1044,8 @@
   <data name="PropertyVersion" xml:space="preserve">
     <value>Версия</value>
   </data>
-  <data name="PropertySectionVideo" xml:space="preserve">
-    <value>Видео</value>
+  <data name="PropertyDateCreated" xml:space="preserve">
+    <value>Дата создания</value>
   </data>
   <data name="PropertyDateSaved" xml:space="preserve">
     <value>Дата сохранения</value>
@@ -924,6 +1080,12 @@
   <data name="PropertyFrameRate" xml:space="preserve">
     <value>Частота кадров</value>
   </data>
+  <data name="PropertyEncodingBitrate" xml:space="preserve">
+    <value>Скорость потока</value>
+  </data>
+  <data name="Compression" xml:space="preserve">
+    <value>Сжатие</value>
+  </data>
   <data name="PropertyFrameWidth" xml:space="preserve">
     <value>Ширина кадра</value>
   </data>
@@ -933,17 +1095,92 @@
   <data name="PropertyOrientation" xml:space="preserve">
     <value>Ориентация</value>
   </data>
+  <data name="PropertySectionCore" xml:space="preserve">
+    <value>Главное</value>
+  </data>
+  <data name="PropertySectionImage" xml:space="preserve">
+    <value>Изображения</value>
+  </data>
+  <data name="PropertySectionPhoto" xml:space="preserve">
+    <value>Фото</value>
+  </data>
+  <data name="PropertySectionGPS" xml:space="preserve">
+    <value>GPS</value>
+  </data>
+  <data name="PropertySectionMedia" xml:space="preserve">
+    <value>Медиа</value>
+  </data>
+  <data name="PropertySectionAudio" xml:space="preserve">
+    <value>Аудио</value>
+  </data>
+  <data name="PropertySectionMusic" xml:space="preserve">
+    <value>Музыка</value>
+  </data>
+  <data name="PropertySectionVideo" xml:space="preserve">
+    <value>Видео</value>
+  </data>
   <data name="Document" xml:space="preserve">
     <value>Документ</value>
   </data>
-  <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
-    <value>Ошибка</value>
+  <data name="Address" xml:space="preserve">
+    <value>Адрес</value>
   </data>
-  <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Закрыть</value>
+  <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+    <value>Выделение</value>
   </data>
-  <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
-    <value>При сохранении некоторых свойств возникла проблема.</value>
+  <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
+    <value>Выделение</value>
+  </data>
+  <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
+    <value>Открывать файлы одним щелчком</value>
+  </data>
+  <data name="FileItemAutomation" xml:space="preserve">
+    <value>Файл</value>
+  </data>
+  <data name="RecycleBinItemAutomation" xml:space="preserve">
+    <value>Корзина</value>
+  </data>
+  <data name="ShortcutItemAutomation" xml:space="preserve">
+    <value>Ярлык</value>
+  </data>
+  <data name="Drives" xml:space="preserve">
+    <value>Диски</value>
+  </data>
+  <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
+    <value>Переместить</value>
+  </data>
+  <data name="EjectNotificationHeader" xml:space="preserve">
+    <value>Оборудование может быть извлечено</value>
+  </data>
+  <data name="EjectNotificationBody" xml:space="preserve">
+    <value>Теперь устройство может быть безопасно извлечено из компьютера.</value>
+  </data>
+  <data name="EjectNotificationErrorDialogHeader" xml:space="preserve">
+    <value>Проблема с извлечением устройства</value>
+  </data>
+  <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
+    <value>Устройство в данный момент используется. Закройте все программы, окна или вкладки, которые могут использовать устройство, а затем повторите попытку.</value>
+  </data>
+  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+    <value>Извлечь</value>
+  </data>
+  <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
+    <value>Создать копию вкладки</value>
+  </data>
+  <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
+    <value>Переместить вкладку в новое окно</value>
+  </data>
+  <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
+    <value>Новая вкладка</value>
+  </data>
+  <data name="HorizontalMultitaskingControlAddButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Новая вкладка (Ctrl+T)</value>
+  </data>
+  <data name="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Новая вкладка (Ctrl+T)</value>
+  </data>
+  <data name="HorizontalMultitaskingControlCloseButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Закрыть вкладку (Ctrl+W)</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>Некоторые свойства могут содержать личную информацию.</value>
@@ -954,17 +1191,14 @@
   <data name="ClearPropertiesButton.Content" xml:space="preserve">
     <value>Очистить все свойства</value>
   </data>
-  <data name="PropertyColorSpace_Value0" xml:space="preserve">
-    <value>sRGB</value>
-  </data>
-  <data name="PropertyColorSpace_Value65535" xml:space="preserve">
-    <value>Не указано</value>
-  </data>
   <data name="OngoingTasksTeachingTip.Subtitle" xml:space="preserve">
     <value>Проверить статус файловых операций здесь</value>
   </data>
   <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
     <value>Центр операций</value>
+  </data>
+  <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Поиск</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Результаты поиска в {1} для {0}</value>
@@ -984,6 +1218,9 @@
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Поддержите нас в GitHub</value>
   </data>
+  <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
+    <value>Сортировать файлы и папки вместе</value>
+  </data>
   <data name="Details" xml:space="preserve">
     <value>Подробно</value>
   </data>
@@ -996,17 +1233,17 @@
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Доступны обновления</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
-    <value>Файл</value>
+  <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
+    <value>Скрывать защищенные системные файлы (рекомендуется)</value>
   </data>
-  <data name="File" xml:space="preserve">
-    <value>Файл</value>
+  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
+    <value>Показывать неиндексированные элементы при поиске файлов и папок </value>
   </data>
-  <data name="AddDialogListFileSubHeader" xml:space="preserve">
-    <value>Создает пустой файл</value>
+  <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
+    <value>Включить индивидуальные настройки отображения для отдельных каталогов</value>
   </data>
-  <data name="NewFile" xml:space="preserve">
-    <value>Новый файл</value>
+  <data name="SettingsContextMenu.Text" xml:space="preserve">
+    <value>Настройки контекстного меню</value>
   </data>
   <data name="originalPathColumn.Header" xml:space="preserve">
     <value>Исходный путь</value>
@@ -1023,8 +1260,17 @@
   <data name="Remove" xml:space="preserve">
     <value>Убрать</value>
   </data>
+  <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
+    <value>Всегда открывать новые вкладки в режиме двойной панели</value>
+  </data>
+  <data name="SettingsMultitaskingEnableDualPane" xml:space="preserve">
+    <value>Включить режим двойной панели</value>
+  </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>Открыть на дополнительной панели</value>
+  </data>
+  <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
+    <value>Новая панель</value>
   </data>
   <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
     <value>Открыть на дополнительной панели</value>
@@ -1032,20 +1278,38 @@
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Двойная панель</value>
   </data>
-  <data name="SettingsContextMenu.Text" xml:space="preserve">
-    <value>Настройки контекстного меню</value>
-  </data>
   <data name="Folders" xml:space="preserve">
     <value>Папки</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Таблица (Ctrl+Shift+1)</value>
   </data>
+  <data name="NavToolbarLayoutOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Разметка</value>
+  </data>
+  <data name="NavToolbarLayoutOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Разметка</value>
+  </data>
+  <data name="NavToolbarLayoutOptionsButton.Label" xml:space="preserve">
+    <value>Разметка</value>
+  </data>
+  <data name="PreviewPaneToggle.Label" xml:space="preserve">
+    <value>Предпросмотр</value>
+  </data>
+  <data name="NavToolbarLargeIcons.AutomationProperties.Name" xml:space="preserve">
+    <value>Огромные значки</value>
+  </data>
   <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>Огромные значки (Ctrl+Shift+5)</value>
   </data>
+  <data name="NavToolbarMediumIcons.AutomationProperties.Name" xml:space="preserve">
+    <value>Крупные значки</value>
+  </data>
   <data name="NavToolbarMediumIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>Крупные значки (Ctrl+Shift+4)</value>
+  </data>
+  <data name="NavToolbarSmallIcons.AutomationProperties.Name" xml:space="preserve">
+    <value>Обычные значки</value>
   </data>
   <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>Обычные значки (Ctrl+Shift+3)</value>
@@ -1053,44 +1317,32 @@
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Плитка (Ctrl+Shift+2)</value>
   </data>
-  <data name="NavToolbarLargeIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>Огромные значки</value>
+  <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
+    <value>Показать расширения файлов</value>
   </data>
-  <data name="NavToolbarMediumIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>Крупные значки</value>
-  </data>
-  <data name="NavToolbarSmallIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>Обычные значки</value>
+  <data name="NavToolbarShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
+    <value>Показать скрытые элементы</value>
   </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>Дата удаления</value>
   </data>
-  <data name="BundlesWidgetAddBundleErrorAlreadyExists" xml:space="preserve">
-    <value>Коллекция папок с таким именем уже существует</value>
+  <data name="SidebarCloudDrives" xml:space="preserve">
+    <value>Облачные хранилища</value>
   </data>
-  <data name="BundlesWidgetAddBundleErrorInputEmpty" xml:space="preserve">
-    <value>Поле ввода не может быть пустым!</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
-    <value>Введите новое имя</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
-    <value>Изменить "{0}"</value>
-  </data>
-  <data name="DesiredName" xml:space="preserve">
-    <value>Имя Коллекции</value>
-  </data>
-  <data name="Confirm" xml:space="preserve">
-    <value>Создать</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
-    <value>Добавить Коллекцию папок</value>
+  <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Опции...</value>
   </data>
   <data name="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" xml:space="preserve">
     <value>Экспортировать Коллекцию папок</value>
   </data>
   <data name="BundlesWidgetOptionsFlyoutImportBundlesMenuItem.Text" xml:space="preserve">
     <value>Импортировать Коллекцию папок</value>
+  </data>
+  <data name="BundlesWidgetAddBundleErrorAlreadyExists" xml:space="preserve">
+    <value>Коллекция папок с таким именем уже существует</value>
+  </data>
+  <data name="BundlesWidgetAddBundleErrorInputEmpty" xml:space="preserve">
+    <value>Поле ввода не может быть пустым!</value>
   </data>
   <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
     <value>Открыть в новой вкладке</value>
@@ -1113,26 +1365,41 @@
   <data name="EnterBundleName" xml:space="preserve">
     <value>Введите название Коллекции папок</value>
   </data>
-  <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
-    <value>Переименовать Коллекцию</value>
+  <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
+    <value>Введите новое имя</value>
   </data>
-  <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Опции...</value>
+  <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
+    <value>Изменить "{0}"</value>
   </data>
   <data name="CreateBundle" xml:space="preserve">
     <value>Создать Коллекцию</value>
   </data>
-  <data name="PropertyItemPathDisplay" xml:space="preserve">
-    <value>Путь элемента</value>
+  <data name="Confirm" xml:space="preserve">
+    <value>Создать</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
+    <value>Добавить Коллекцию папок</value>
+  </data>
+  <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
+    <value>Переименовать Коллекцию</value>
+  </data>
+  <data name="DesiredName" xml:space="preserve">
+    <value>Имя Коллекции</value>
   </data>
   <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
     <value>Переключить панель предварительного просмотра (Ctrl+P)</value>
   </data>
+  <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
+    <value>Предпросмотр недоступен</value>
+  </data>
+  <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
+    <value>Подробные сведения отсутствуют</value>
+  </data>
   <data name="PropertyItemName" xml:space="preserve">
     <value>Имя</value>
   </data>
-  <data name="SidebarCloudDrives" xml:space="preserve">
-    <value>Облачные хранилища</value>
+  <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
+    <value>Убрать из Избранного</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Сетевые диски</value>
@@ -1154,9 +1421,6 @@
   </data>
   <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Посетите веб-сайт документации по файлам</value>
-  </data>
-  <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
-    <value>Свойства</value>
   </data>
   <data name="OngoingTasksFlyout.AutomationProperties.Name" xml:space="preserve">
     <value>Всплывающее меню текущих задач</value>
@@ -1239,14 +1503,8 @@
   <data name="SidebarFavorites" xml:space="preserve">
     <value>Избранное</value>
   </data>
-  <data name="Browse" xml:space="preserve">
-    <value>Обзор</value>
-  </data>
-  <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
-    <value>Предпросмотр недоступен</value>
-  </data>
-  <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
-    <value>Подробные сведения отсутствуют</value>
+  <data name="SidebarLibraries" xml:space="preserve">
+    <value>Библиотеки</value>
   </data>
   <data name="NoItemSelected" xml:space="preserve">
     <value>Элементы не выбраны</value>
@@ -1257,8 +1515,17 @@
   <data name="Arguments" xml:space="preserve">
     <value>Аргументы</value>
   </data>
-  <data name="SidebarLibraries" xml:space="preserve">
-    <value>Библиотеки</value>
+  <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
+    <value>Открыть на новой панели</value>
+  </data>
+  <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
+    <value>Показать секцию Библиотеки</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>По умолчанию</value>
+  </data>
+  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
+    <value>Пользовательские темы</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Число элементов</value>
@@ -1271,6 +1538,9 @@
   </data>
   <data name="StatusDeletionComplete" xml:space="preserve">
     <value>Удаление завершено</value>
+  </data>
+  <data name="StatusDeletionCancelled" xml:space="preserve">
+    <value>Удаление отменено</value>
   </data>
   <data name="StatusOperationCompleted" xml:space="preserve">
     <value>Операция завершена.</value>
@@ -1290,23 +1560,20 @@
   <data name="ElevateConfirmDialog.Content" xml:space="preserve">
     <value>Хотели бы Вы продолжить работу в качестве администратора?</value>
   </data>
+  <data name="FullTrustStatusTeachingTip.Subtitle" xml:space="preserve">
+    <value>Files запущены от имени администратора</value>
+  </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>Администратор</value>
   </data>
-  <data name="FullTrustStatusTeachingTip.Subtitle" xml:space="preserve">
-    <value>Files запущены от имени администратора</value>
+  <data name="ColumnsShortcutTooltip" xml:space="preserve">
+    <value>Столбцы (Ctrl+Shift+6)</value>
   </data>
   <data name="PinItemToStart.Text" xml:space="preserve">
     <value>Закрепить на начальном экране</value>
   </data>
   <data name="UnpinItemFromStart.Text" xml:space="preserve">
     <value>Открепить от начального экрана</value>
-  </data>
-  <data name="ColumnsShortcutTooltip" xml:space="preserve">
-    <value>Столбцы (Ctrl+Shift+6)</value>
-  </data>
-  <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
-    <value>{0:#,##0} файлов, {1:#,##0} папок из {2:#,##0} локаций</value>
   </data>
   <data name="ItemTypeLibrary" xml:space="preserve">
     <value>Библиотека</value>
@@ -1353,9 +1620,6 @@
   <data name="DrivesWidgetOpenStorageSenseButton.AutomationProperties.Name" xml:space="preserve">
     <value>Открыть системные настройки Хранилища</value>
   </data>
-  <data name="PropertyISO" xml:space="preserve">
-    <value>скорость ISO</value>
-  </data>
   <data name="Copy" xml:space="preserve">
     <value>Копировать</value>
   </data>
@@ -1383,8 +1647,14 @@
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Продолжить</value>
   </data>
+  <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
+    <value>Конфликтующих имен файлов: {0}, не конфликтующих: {1}.</value>
+  </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
     <value>Конфликтующие имена файла(ов)</value>
+  </data>
+  <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
+    <value>Имеется одно конфликтующее имя файла и не конфликтующих: {0}.</value>
   </data>
   <data name="CopyItemsDialogSubtitleSingle" xml:space="preserve">
     <value>Один элемент будет скопирован</value>
@@ -1398,17 +1668,11 @@
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Удалить безвозвратно</value>
   </data>
-  <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
-    <value>Не нашли то, что искали?</value>
+  <data name="PropertyISO" xml:space="preserve">
+    <value>скорость ISO</value>
   </data>
-  <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>Искать неиндексированные элементы.</value>
-  </data>
-  <data name="NavToolbarWidgets.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Управление виджетами</value>
-  </data>
-  <data name="NavToolbarWidgetsManager.AutomationProperties.Name" xml:space="preserve">
-    <value>Управление виджетами</value>
+  <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
+    <value>Открывать папки в новой вкладке</value>
   </data>
   <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
     <value>Показывать виджет Коллекции папок</value>
@@ -1416,20 +1680,29 @@
   <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
     <value>Показывать виджет Диски</value>
   </data>
+  <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
+    <value>Показывать виджет Папки</value>
+  </data>
   <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
     <value>Показывать виджет Последние файлы</value>
+  </data>
+  <data name="NavToolbarWidgets.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Управление виджетами</value>
+  </data>
+  <data name="NavToolbarWidgetsManager.AutomationProperties.Name" xml:space="preserve">
+    <value>Управление виджетами</value>
+  </data>
+  <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
+    <value>Не нашли то, что искали?</value>
+  </data>
+  <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
+    <value>Искать неиндексированные элементы.</value>
   </data>
   <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
     <value>Управление виджетами</value>
   </data>
-  <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
-    <value>Показывать виджет Папки</value>
-  </data>
-  <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
-    <value>Конфликтующих имен файлов: {0}, не конфликтующих: {1}.</value>
-  </data>
-  <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
-    <value>Имеется одно конфликтующее имя файла и не конфликтующих: {0}.</value>
+  <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
+    <value>Перейти к расположению тем</value>
   </data>
   <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
     <value>Заменить существующий</value>
@@ -1464,11 +1737,8 @@
   <data name="ToolTipDescriptionDate" xml:space="preserve">
     <value>Дата изменения:</value>
   </data>
-  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Выделение</value>
-  </data>
-  <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
-    <value>Выделение</value>
+  <data name="OpenItemsWithCaptionText" xml:space="preserve">
+    <value>Открыть с помощью</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
     <value>Значок файла</value>
@@ -1488,23 +1758,38 @@
   <data name="ResizeElementKeyboardControl.AutomationProperties.Name" xml:space="preserve">
     <value>Изменение размера боковой панели</value>
   </data>
-  <data name="HorizontalMultitaskingControlAddButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Новая вкладка (Ctrl+T)</value>
+  <data name="NavToolbarSortOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Сортировка</value>
   </data>
-  <data name="HorizontalMultitaskingControlCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Закрыть вкладку (Ctrl+W)</value>
+  <data name="NavToolbarSortOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Сортировка</value>
   </data>
-  <data name="OpenItemsWithCaptionText" xml:space="preserve">
-    <value>Открыть с помощью</value>
+  <data name="NavToolbarSortOptionsButton.Label" xml:space="preserve">
+    <value>Сортировка</value>
   </data>
   <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
     <value>Группировка</value>
+  </data>
+  <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
+    <value>Название</value>
+  </data>
+  <data name="DateModifiedLowerCase" xml:space="preserve">
+    <value>Дата изменения</value>
+  </data>
+  <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
+    <value>Исходная папка</value>
+  </data>
+  <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
+    <value>Тип</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Сортировка</value>
   </data>
   <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">
     <value>Направление сортировки</value>
+  </data>
+  <data name="Descending" xml:space="preserve">
+    <value>По убыванию</value>
   </data>
   <data name="ItemSizeText_Huge" xml:space="preserve">
     <value>Огромный</value>
@@ -1568,9 +1853,6 @@
   </data>
   <data name="RenameFileDialogTitle" xml:space="preserve">
     <value>Переименовать</value>
-  </data>
-  <data name="StatusDeletionCancelled" xml:space="preserve">
-    <value>Удаление отменено</value>
   </data>
   <data name="StatusMoveCanceled" xml:space="preserve">
     <value>Перемещение отменено</value>
@@ -1650,6 +1932,9 @@
   <data name="StatusDeletionFailedDetails_Singular" xml:space="preserve">
     <value>Не удалось удалить {0} элемент из {1}</value>
   </data>
+  <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
+    <value>Не удалось удалить {0} элементов из {1}</value>
+  </data>
   <data name="TheRecycleBin" xml:space="preserve">
     <value>Корзину</value>
   </data>
@@ -1677,50 +1962,8 @@
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>Виджеты</value>
   </data>
-  <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
-    <value>Выделение</value>
-  </data>
-  <data name="NavToolbarLayoutOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Разметка</value>
-  </data>
-  <data name="NavToolbarLayoutOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Разметка</value>
-  </data>
-  <data name="NavToolbarLayoutOptionsButton.Label" xml:space="preserve">
-    <value>Разметка</value>
-  </data>
-  <data name="PreviewPaneToggle.Label" xml:space="preserve">
-    <value>Предпросмотр</value>
-  </data>
-  <data name="NavToolbarSortOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Сортировка</value>
-  </data>
-  <data name="NavToolbarSortOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Сортировка</value>
-  </data>
-  <data name="NavToolbarSortOptionsButton.Label" xml:space="preserve">
-    <value>Сортировка</value>
-  </data>
-  <data name="NavToolbarLayout.Text" xml:space="preserve">
-    <value>Разметка</value>
-  </data>
-  <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
-    <value>Не удалось удалить {0} элементов из {1}</value>
-  </data>
-  <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
-    <value>Новое окно</value>
-  </data>
-  <data name="CopyLocation" xml:space="preserve">
-    <value>Копировать местоположение</value>
-  </data>
-  <data name="NavigationToolbarPaste.Label" xml:space="preserve">
-    <value>Вставить</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
-    <value>Создать</value>
-  </data>
-  <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
-    <value>Новая панель</value>
+  <data name="SyncStatus" xml:space="preserve">
+    <value>Состояние синхронизации</value>
   </data>
   <data name="Security" xml:space="preserve">
     <value>Безопасность</value>
@@ -1770,11 +2013,8 @@
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Неизвестный владелец</value>
   </data>
-  <data name="Default" xml:space="preserve">
-    <value>По умолчанию</value>
-  </data>
-  <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
-    <value>Перейти к расположению тем</value>
+  <data name="SettingsVerticalTabFlyout" xml:space="preserve">
+    <value>Отображать всплывающее окно с вертикальными вкладками в строке заголовка</value>
   </data>
   <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>Узнать больше о пользовательских темах</value>
@@ -1788,14 +2028,23 @@
   <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>Посмотреть документацию.</value>
   </data>
-  <data name="VerticalTabFlyout.AutomationProperties.Name" xml:space="preserve">
-    <value>Вкладки</value>
+  <data name="DecompressArchiveDialog.Title" xml:space="preserve">
+    <value>Выберите место назначения и извлеките файлы</value>
   </data>
-  <data name="VerticalTabFlyout.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Вкладки</value>
+  <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
+    <value>По завершении открыть папку назначения</value>
   </data>
-  <data name="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Новая вкладка (Ctrl+T)</value>
+  <data name="BaseLayoutItemContextFlyoutExtractFilesOption" xml:space="preserve">
+    <value>Извлечь файлы</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutExtractHereOption" xml:space="preserve">
+    <value>Извлечь сюда</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutExtractionOptions" xml:space="preserve">
+    <value>Извлечь...</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
+    <value>Извлечь в {0}\</value>
   </data>
   <data name="SideBarCreateNewLibrary.Text" xml:space="preserve">
     <value>Создать библиотеку</value>
@@ -1811,12 +2060,6 @@
   </data>
   <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
     <value>Восстановить библиотеки</value>
-  </data>
-  <data name="RecentFiles" xml:space="preserve">
-    <value>Последние файлы</value>
-  </data>
-  <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
-    <value>Открыть на новой панели</value>
   </data>
   <data name="PropertyFileOwner" xml:space="preserve">
     <value>Владелец</value>
@@ -1893,9 +2136,6 @@
   <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
     <value>Создание файлов</value>
   </data>
-  <data name="Delete" xml:space="preserve">
-    <value>Удаление</value>
-  </data>
   <data name="SecurityDeleteSubdirectoriesAndFilesLabel.Text" xml:space="preserve">
     <value>Удаление подпапок и файлов</value>
   </data>
@@ -1947,6 +2187,12 @@
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
     <value>Закрыть панель</value>
   </data>
+  <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
+    <value>Войти в компактный режим</value>
+  </data>
+  <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
+    <value>Выйти из компактного режима</value>
+  </data>
   <data name="PropertyFileDescription" xml:space="preserve">
     <value>Описание файла</value>
   </data>
@@ -1962,53 +2208,17 @@
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>Версия файла</value>
   </data>
+  <data name="PreviewPaneLoadCloudItemButton.Text" xml:space="preserve">
+    <value>Загрузить предпросмотр полностью</value>
+  </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Загружает объект из облака и загружает предварительный просмотр</value>
-  </data>
-  <data name="DecompressArchiveDialog.Title" xml:space="preserve">
-    <value>Выберите место назначения и извлеките файлы</value>
-  </data>
-  <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
-    <value>По завершении открыть папку назначения</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutExtractFilesOption" xml:space="preserve">
-    <value>Извлечь файлы</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutExtractHereOption" xml:space="preserve">
-    <value>Извлечь сюда</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutExtractionOptions" xml:space="preserve">
-    <value>Извлечь...</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
-    <value>Извлечь в {0}\</value>
   </data>
   <data name="DetailsArchiveItemCount" xml:space="preserve">
     <value>{0} элементов ({1} файлов, {2} папок)</value>
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
     <value>Несжатый размер</value>
-  </data>
-  <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
-    <value>Войти в компактный режим</value>
-  </data>
-  <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
-    <value>Выйти из компактного режима</value>
-  </data>
-  <data name="WSL" xml:space="preserve">
-    <value>WSL</value>
-  </data>
-  <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
-    <value>Скрыть секцию {0}</value>
-  </data>
-  <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
-    <value>Всегда открывать новые вкладки в режиме двойной панели</value>
-  </data>
-  <data name="SettingsMultitaskingEnableDualPane" xml:space="preserve">
-    <value>Включить режим двойной панели</value>
-  </data>
-  <data name="SettingsVerticalTabFlyout" xml:space="preserve">
-    <value>Отображать всплывающее окно с вертикальными вкладками в строке заголовка</value>
   </data>
   <data name="SettingsShowCloudDrivesSection.Title" xml:space="preserve">
     <value>Показать секцию Облачные хранилища</value>
@@ -2022,59 +2232,23 @@
   <data name="SettingsShowNetworkDrivesSection.Title" xml:space="preserve">
     <value>Показать секцию Сетевые диски</value>
   </data>
-  <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
-    <value>Закрепить Корзину в секции Избранное</value>
+  <data name="WSL" xml:space="preserve">
+    <value>WSL</value>
   </data>
-  <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
-    <value>Показать секцию Библиотеки</value>
-  </data>
-  <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Выберите тему</value>
-  </data>
-  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
-    <value>Пользовательские темы</value>
-  </data>
-  <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>Переносить не помещающиеся пункты в подменю</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
-    <value>Язык</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
-    <value>Показывать расширения для известных типов файлов</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
-    <value>Показывать скрытые файлы и папки</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
-    <value>Скрывать защищенные системные файлы (рекомендуется)</value>
-  </data>
-  <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
-    <value>Открывать файлы одним щелчком</value>
-  </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>Сортировать файлы и папки вместе</value>
-  </data>
-  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Показывать неиндексированные элементы при поиске файлов и папок </value>
-  </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
-    <value>Включить индивидуальные настройки отображения для отдельных каталогов</value>
-  </data>
-  <data name="SettingsUsefulLinks.Title" xml:space="preserve">
-    <value>Полезные ссылки</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
-    <value>Добавить в Избранное</value>
-  </data>
-  <data name="SideBarUnpinFromFavorites.Text" xml:space="preserve">
-    <value>Убрать из Избранного</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
-    <value>Убрать из Избранного</value>
+  <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
+    <value>Скрыть секцию {0}</value>
   </data>
   <data name="NavSettingsButton" xml:space="preserve">
     <value>Параметры</value>
+  </data>
+  <data name="AddFile" xml:space="preserve">
+    <value>Добавить файл</value>
+  </data>
+  <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">
+    <value>Добавить папку</value>
+  </data>
+  <data name="BundleOptionsFlyoutAddItemMenuItem.Text" xml:space="preserve">
+    <value>Добавить элемент</value>
   </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
     <value>Доступны обновления</value>
@@ -2087,15 +2261,6 @@
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
     <value>Обновить</value>
-  </data>
-  <data name="AddFile" xml:space="preserve">
-    <value>Добавить файл</value>
-  </data>
-  <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">
-    <value>Добавить папку</value>
-  </data>
-  <data name="BundleOptionsFlyoutAddItemMenuItem.Text" xml:space="preserve">
-    <value>Добавить элемент</value>
   </data>
   <data name="Home" xml:space="preserve">
     <value>Главная</value>
@@ -2145,9 +2310,6 @@
   <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+T</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>Приложения терминала</value>
-  </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
     <value>Распаковка архива успешно завершена.</value>
   </data>
@@ -2159,18 +2321,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+N</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>Редактировать приложения терминала</value>
-  </data>
-  <data name="DateFormat" xml:space="preserve">
-    <value>Формат даты</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>Показывать диалоговое окно подтверждения при удалении файлов или папок</value>
-  </data>
-  <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
-    <value>Открывать папки в новой вкладке</value>
   </data>
   <data name="SettingsPrivacy.Title" xml:space="preserve">
     <value>Политика конфиденциальности</value>
@@ -2184,30 +2334,6 @@
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>Мы используем App Center для того, чтобы отслеживать и исправлять ошибки. Вся информация, отправляемая в App Center является анонимной и не привязанной к какому-либо пользователю либо контекстуальным данным.
   </value>
-  </data>
-  <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
-    <value>Название</value>
-  </data>
-  <data name="DateModifiedLowerCase" xml:space="preserve">
-    <value>Дата изменения</value>
-  </data>
-  <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
-    <value>Исходная папка</value>
-  </data>
-  <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
-    <value>Тип</value>
-  </data>
-  <data name="Descending" xml:space="preserve">
-    <value>По убыванию</value>
-  </data>
-  <data name="SyncStatus" xml:space="preserve">
-    <value>Состояние синхронизации</value>
-  </data>
-  <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
-    <value>Показать секцию Избранное</value>
-  </data>
-  <data name="Tag" xml:space="preserve">
-    <value>Метка</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Открыть родительскую папку</value>
@@ -2224,6 +2350,15 @@
   <data name="SettingsEnableFileTags.Title" xml:space="preserve">
     <value>Включить функцию меток файлов</value>
   </data>
+  <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
+    <value>Показать секцию Избранное</value>
+  </data>
+  <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
+    <value>Применить ко всем</value>
+  </data>
+  <data name="PropertyPartOfSet" xml:space="preserve">
+    <value>Часть набора</value>
+  </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
     <value>Открыть диск</value>
   </data>
@@ -2232,12 +2367,6 @@
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>Вставьте диск</value>
-  </data>
-  <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
-    <value>Применить ко всем</value>
-  </data>
-  <data name="PropertyPartOfSet" xml:space="preserve">
-    <value>Часть набора</value>
   </data>
   <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
     <value>OK</value>
@@ -2257,9 +2386,6 @@
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Имя пользователя</value>
   </data>
-  <data name="NoSearchResultsFound" xml:space="preserve">
-    <value>Не найдено</value>
-  </data>
   <data name="BundlesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>Виджет Коллекции папок</value>
   </data>
@@ -2272,17 +2398,32 @@
   <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>Виджет Недавние файлы</value>
   </data>
+  <data name="NoSearchResultsFound" xml:space="preserve">
+    <value>Не найдено</value>
+  </data>
+  <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
+    <value>Показать только предпросмотр</value>
+  </data>
   <data name="OpenLogLocation" xml:space="preserve">
     <value>Перейти к расположению журнала отладки</value>
   </data>
   <data name="LinkToFolderCaptionText" xml:space="preserve">
     <value>Создать ссылку в {0}</value>
   </data>
-  <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
-    <value>Показать расширения файлов</value>
+  <data name="Columns" xml:space="preserve">
+    <value>Столбцы</value>
   </data>
-  <data name="NavToolbarShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Показать скрытые элементы</value>
+  <data name="LargeIcons" xml:space="preserve">
+    <value>Большие Иконки</value>
+  </data>
+  <data name="MediumIcons" xml:space="preserve">
+    <value>Средние Иконки</value>
+  </data>
+  <data name="SmallIcons" xml:space="preserve">
+    <value>Маленькие Иконки</value>
+  </data>
+  <data name="Tiles" xml:space="preserve">
+    <value>Плитки</value>
   </data>
   <data name="NavToolbarShowFileExtensions.AutomationProperties.Name" xml:space="preserve">
     <value>Показать расширения файлов</value>
@@ -2293,11 +2434,20 @@
   <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Показать секцию Избранное</value>
   </data>
+  <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Открыть в новой вкладке</value>
+  </data>
   <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Закрепить Корзину в секции Избранное</value>
   </data>
+  <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>Язык</value>
+  </data>
   <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Показать секцию Облачные хранилища</value>
+  </data>
+  <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Показывать диалоговое окно подтверждения при удалении файлов или папок</value>
   </data>
   <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Показать секцию Диски</value>
@@ -2311,26 +2461,11 @@
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Показать секцию WSL</value>
   </data>
-  <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Открыть в новой вкладке</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Язык</value>
-  </data>
-  <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Показывать диалоговое окно подтверждения при удалении файлов или папок</value>
-  </data>
   <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Приложение терминала</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Текущие задачи</value>
-  </data>
-  <data name="PreviewPaneLoadCloudItemButton.Text" xml:space="preserve">
-    <value>Загрузить предпросмотр полностью</value>
-  </data>
-  <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
-    <value>Показать только предпросмотр</value>
   </data>
   <data name="SideBarFavoritesMoveOneDown" xml:space="preserve">
     <value>Переместить на один элемент ниже</value>
@@ -2350,8 +2485,17 @@
   <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
     <value>Размер</value>
   </data>
+  <data name="SettingsDefaultFilesManager" xml:space="preserve">
+    <value>Менеджер файлов по умолчанию</value>
+  </data>
+  <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
+    <value>Установить Files как файловый менеджер по умолчанию</value>
+  </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
     <value>Иcпользовать Files как диалог для открытия файлов</value>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>Метка</value>
   </data>
   <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
     <value>Открывать папки одним кликом</value>
@@ -2374,6 +2518,12 @@
   <data name="SettingsImportErrorTitle" xml:space="preserve">
     <value>Ошибка при импорте настроек</value>
   </data>
+  <data name="EmptyRecycleBin" xml:space="preserve">
+    <value>Очистить Корзину</value>
+  </data>
+  <data name="Sidebar" xml:space="preserve">
+    <value>Боковая панель</value>
+  </data>
   <data name="ChooseCustomIcon" xml:space="preserve">
     <value>Выбрать иконку для папки</value>
   </data>
@@ -2382,6 +2532,15 @@
   </data>
   <data name="RestoreDefault" xml:space="preserve">
     <value>Сбросить до заводских</value>
+  </data>
+  <data name="FilesAndFolders" xml:space="preserve">
+    <value>Файлы и папки</value>
+  </data>
+  <data name="OpenNewInstance" xml:space="preserve">
+    <value>Открывать новый экземпляр при открытии папок из выскакивающего меню в панели задач</value>
+  </data>
+  <data name="StartupSettings" xml:space="preserve">
+    <value>Настройки запуска</value>
   </data>
   <data name="Compatibility" xml:space="preserve">
     <value>Совместимость</value>
@@ -2452,27 +2611,6 @@
   <data name="UseMainMonitorDPISettings" xml:space="preserve">
     <value>Использовать настройки DPI главного монитора</value>
   </data>
-  <data name="SettingsDefaultFilesManager" xml:space="preserve">
-    <value>Менеджер файлов по умолчанию</value>
-  </data>
-  <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
-    <value>Установить Files как файловый менеджер по умолчанию</value>
-  </data>
-  <data name="EmptyRecycleBin" xml:space="preserve">
-    <value>Очистить Корзину</value>
-  </data>
-  <data name="Sidebar" xml:space="preserve">
-    <value>Боковая панель</value>
-  </data>
-  <data name="FilesAndFolders" xml:space="preserve">
-    <value>Файлы и папки</value>
-  </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>Открывать новый экземпляр при открытии папок из выскакивающего меню в панели задач</value>
-  </data>
-  <data name="StartupSettings" xml:space="preserve">
-    <value>Настройки запуска</value>
-  </data>
   <data name="ThirdPartyLicenses" xml:space="preserve">
     <value>Лицензии третьих лиц</value>
   </data>
@@ -2481,21 +2619,6 @@
   </data>
   <data name="ClearAll" xml:space="preserve">
     <value>Очистить все</value>
-  </data>
-  <data name="Columns" xml:space="preserve">
-    <value>Столбцы</value>
-  </data>
-  <data name="LargeIcons" xml:space="preserve">
-    <value>Большие Иконки</value>
-  </data>
-  <data name="MediumIcons" xml:space="preserve">
-    <value>Средние Иконки</value>
-  </data>
-  <data name="SmallIcons" xml:space="preserve">
-    <value>Маленькие Иконки</value>
-  </data>
-  <data name="Tiles" xml:space="preserve">
-    <value>Плитки</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Создать Библиотеку</value>
@@ -2506,8 +2629,8 @@
   <data name="ShowFolderSize" xml:space="preserve">
     <value>Показать размер папки</value>
   </data>
-  <data name="Skip" xml:space="preserve">
-    <value>Пропустить</value>
+  <data name="RecentFiles" xml:space="preserve">
+    <value>Последние файлы</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
     <value>Добавить Files в автозагрузку Windows</value>
@@ -2563,9 +2686,6 @@
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>Вычисление размеров папок требует ресурсы ЦП и может увеличить нагрузку.</value>
   </data>
-  <data name="OpenIn" xml:space="preserve">
-    <value>Открыть в</value>
-  </data>
   <data name="RotateLeft" xml:space="preserve">
     <value>Повернуть влево</value>
   </data>
@@ -2580,9 +2700,6 @@
   </data>
   <data name="CloseTabsToTheRight" xml:space="preserve">
     <value>Закрыть вкладки справа</value>
-  </data>
-  <data name="ShowDotFiles" xml:space="preserve">
-    <value>Показать расширения имен файлов</value>
   </data>
   <data name="CloseOtherTabs" xml:space="preserve">
     <value>Закрыть другие вкладки</value>
@@ -2626,16 +2743,46 @@
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Показывать Секцию Меток</value>
   </data>
-  <data name="SystemTimeStyle" xml:space="preserve">
-    <value>система</value>
+  <data name="UseCompactStyles" xml:space="preserve">
+    <value>Use compact styles in the details layout</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Универсальная</value>
+  </data>
+  <data name="DateFormatSample" xml:space="preserve">
+    <value>ex: {0}, {1}</value>
   </data>
   <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
     <value>Показать эскизы</value>
   </data>
   <data name="Retry" xml:space="preserve">
     <value>Повторить</value>
+  </data>
+  <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
+    <value>Move operation is not supported in this context. Do you want to copy the items instead?</value>
+  </data>
+  <data name="HiddenFilesAndFolders" xml:space="preserve">
+    <value>Hidden files and folders</value>
+  </data>
+  <data name="Custom" xml:space="preserve">
+    <value>Пользовательский</value>
+  </data>
+  <data name="SetAsSlideshow" xml:space="preserve">
+    <value>Установить как слад-шоу рабочего стола</value>
+  </data>
+  <data name="SizeAllColumnsToFit" xml:space="preserve">
+    <value>Size All Columns to Fit</value>
+  </data>
+  <data name="Contributors" xml:space="preserve">
+    <value>Разработчики</value>
+  </data>
+  <data name="Adaptive" xml:space="preserve">
+    <value>Адаптивный</value>
+  </data>
+  <data name="AdaptiveShortcutTooltip" xml:space="preserve">
+    <value>Adaptive (Ctrl+Shift+7)</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+Shift+7</value>
   </data>
 </root>

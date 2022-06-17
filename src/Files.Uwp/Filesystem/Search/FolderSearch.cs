@@ -192,7 +192,7 @@ namespace Files.Uwp.Filesystem.Search
         {
             //var sampler = new IntervalSampler(500);
             var tagName = AQSQuery.Substring("tag:".Length);
-            var tags = FileTagsSettingsService.GetTagsByName(tagName);
+            var tags = FileTagsSettingsService.SearchTagsByName(tagName);
             if (!tags.Any())
             {
                 return;
