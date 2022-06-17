@@ -597,10 +597,10 @@ namespace Files.Uwp.Filesystem
             get
             {
                 var nameWithoutExtension = Path.GetFileNameWithoutExtension(ItemNameRaw);
-                var mainStramNameWithoutExtension = Path.GetFileNameWithoutExtension(MainStreamName);
+                var mainStreamNameWithoutExtension = Path.GetFileNameWithoutExtension(MainStreamName);
                 if (!UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
                 {
-                    return $"{(string.IsNullOrEmpty(mainStramNameWithoutExtension) ? MainStreamName : mainStramNameWithoutExtension)}:{(string.IsNullOrEmpty(nameWithoutExtension) ? ItemNameRaw : nameWithoutExtension)}";
+                    return $"{(string.IsNullOrEmpty(mainStreamNameWithoutExtension) ? MainStreamName : mainStreamNameWithoutExtension)}:{(string.IsNullOrEmpty(nameWithoutExtension) ? ItemNameRaw : nameWithoutExtension)}";
                 }
                 return $"{MainStreamName}:{ItemNameRaw}";
             }
