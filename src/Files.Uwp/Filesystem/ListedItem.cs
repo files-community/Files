@@ -12,6 +12,7 @@ using Files.Uwp.ViewModels.Properties;
 using FluentFTP;
 using Microsoft.Toolkit.Uwp;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -114,6 +115,26 @@ namespace Files.Uwp.Filesystem
 
         public ulong? FileFRN { get; set; }
 
+        private string[] fileTags = Array.Empty<string>();
+
+        public string[] FileTags
+        {
+            get => fileTags;
+            set
+            {
+                if (SetProperty(ref fileTags, value))
+                {
+                    FileTagsHelper.DbInstance.SetTags(ItemPath, FileFRN, value);
+                    FileTagsHelper.WriteFileTag(ItemPath, string.Join(",", value));
+                    OnPropertyChanged(nameof(FileTagsUI));
+                }
+            }
+        }
+
+        public IList<FileTagViewModel> FileTagsUI =>
+            UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled ? 
+                FileTagsSettingsService.GetTagsByUids(FileTags) : null;
+
         private string fileTag;
         public string FileTag
         {
@@ -128,10 +149,11 @@ namespace Files.Uwp.Filesystem
                 }
             }
         }
-
+        
         public FileTagViewModel FileTagUI
         {
-            get => UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled ? FileTagsSettingsService.GetTagById(FileTag) : null;
+            get => UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled ? 
+                FileTagsSettingsService.GetTagById(FileTag) : null;
         }
 
         private Uri customIconSource;

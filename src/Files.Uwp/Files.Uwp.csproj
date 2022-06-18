@@ -319,6 +319,9 @@
     <Compile Include="UserControls\InnerNavigationToolbar.xaml.cs">
       <DependentUpon>InnerNavigationToolbar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Menus\FileTagsContextMenu.xaml.cs">
+      <DependentUpon>FileTagsContextMenu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Pane\Pane.cs" />
     <Compile Include="UserControls\Pane\PaneControl.xaml.cs">
       <DependentUpon>PaneControl.xaml</DependentUpon>
@@ -496,9 +499,6 @@
     <Compile Include="IAddressToolbar.cs" />
     <Compile Include="UserControls\FileIcon.xaml.cs">
       <DependentUpon>FileIcon.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\MenuFlyoutItemFileTag.xaml.cs">
-      <DependentUpon>MenuFlyoutItemFileTag.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\MenuFlyoutItemWithImage.xaml.cs">
       <DependentUpon>MenuFlyoutItemWithImage.xaml</DependentUpon>
@@ -1271,6 +1271,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\Menus\FileTagsContextMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\Pane\PaneControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1334,10 +1338,6 @@
     <Page Include="UserControls\FilePreviews\TextPreview.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UserControls\MenuFlyoutItemFileTag.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\MenuFlyoutItemWithImage.xaml">
       <SubType>Designer</SubType>

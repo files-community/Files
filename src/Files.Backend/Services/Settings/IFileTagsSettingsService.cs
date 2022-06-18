@@ -12,6 +12,8 @@ namespace Files.Backend.Services.Settings
 
         FileTagViewModel GetTagById(string uid);
 
+        IList<FileTagViewModel> GetTagsByUids(string[] uids);
+
         IEnumerable<FileTagViewModel> GetTagsByName(string tagName);
 
         IEnumerable<FileTagViewModel> SearchTagsByName(string tagName);

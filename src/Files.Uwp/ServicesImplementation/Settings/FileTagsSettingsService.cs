@@ -17,11 +17,11 @@ namespace Files.Uwp.ServicesImplementation.Settings
 
         private static readonly List<FileTagViewModel> DefaultFileTags = new List<FileTagViewModel>()
         {
-            new FileTagViewModel("Blue", "#0072BD"),
-            new FileTagViewModel("Orange", "#D95319"),
-            new FileTagViewModel("Yellow", "#EDB120"),
-            new FileTagViewModel("Green", "#77AC30"),
-            new FileTagViewModel("Azure", "#4DBEEE")
+            new("Blue", "#0072BD"),
+            new("Orange", "#D95319"),
+            new("Yellow", "#EDB120"),
+            new("Green", "#77AC30"),
+            new("Azure", "#4DBEEE")
         };
 
         public FileTagsSettingsService()
@@ -30,7 +30,8 @@ namespace Files.Uwp.ServicesImplementation.Settings
             JsonSettingsSerializer = new DefaultJsonSettingsSerializer();
             JsonSettingsDatabase = new CachingJsonSettingsDatabase(SettingsSerializer, JsonSettingsSerializer);
 
-            Initialize(Path.Combine(ApplicationData.Current.LocalFolder.Path, Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.FileTagSettingsFileName));
+            Initialize(Path.Combine(ApplicationData.Current.LocalFolder.Path,
+                Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.FileTagSettingsFileName));
         }
 
         public IList<FileTagViewModel> FileTagList
@@ -46,14 +47,42 @@ namespace Files.Uwp.ServicesImplementation.Settings
                 App.Logger.Warn("Tags file is invalid, regenerate");
                 FileTagList = DefaultFileTags;
             }
+
             var tag = FileTagList.SingleOrDefault(x => x.Uid == uid);
             if (!string.IsNullOrEmpty(uid) && tag == null)
             {
                 tag = new FileTagViewModel("FileTagUnknown".GetLocalized(), "#9ea3a1", uid);
                 FileTagList = FileTagList.Append(tag).ToList();
             }
+
             return tag;
         }
+
+        public IList<FileTagViewModel> GetTagsByUids(string[] uids)
+        {
+            if (FileTagList.Any(x => x.Uid == null))
+            {
+                App.Logger.Warn("Tags file is invalid, regenerate");
+                FileTagList = DefaultFileTags;
+            }
+
+            var fileTagsList = new List<FileTagViewModel>();
+            foreach (var uid in uids)
+            {
+                var fileTagViewModel = FileTagList.SingleOrDefault(f => f.Uid == uid);
+                if (fileTagViewModel == null)
+                {
+                    FileTagList = FileTagList
+                        .Append(new FileTagViewModel("FileTagUnknown".GetLocalized(), "#9ea3a1", uid)).ToList();
+                }
+                else
+                {
+                    fileTagsList.Add(fileTagViewModel);
+                }
+            }
+            return fileTagsList;
+        }
+
 
         public IEnumerable<FileTagViewModel> GetTagsByName(string tagName)
         {
