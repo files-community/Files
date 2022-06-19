@@ -109,7 +109,7 @@ namespace Files.Uwp.Filesystem
                 result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
                     && response.Get("Success", false));
                 var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", ""));
-                copyResult.Items.AddRange(shellOpResult?.Items ?? Enumerable.Empty<ShellOperationItemResult>());
+                copyResult.Items.AddRange(shellOpResult?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
             }
             if (sourceReplace.Any())
             {
@@ -126,7 +126,7 @@ namespace Files.Uwp.Filesystem
                 result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
                     && response.Get("Success", false));
                 var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", ""));
-                copyResult.Items.AddRange(shellOpResult?.Items ?? Enumerable.Empty<ShellOperationItemResult>());
+                copyResult.Items.AddRange(shellOpResult?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
             }
 
             if (connection != null)
@@ -260,7 +260,7 @@ namespace Files.Uwp.Filesystem
             var result = (FilesystemResult)(status == AppServiceResponseStatus.Success
                 && response.Get("Success", false));
             var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", ""));
-            createResult.Items.AddRange(shellOpResult?.Items ?? Enumerable.Empty<ShellOperationItemResult>());
+            createResult.Items.AddRange(shellOpResult?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
 
             result &= (FilesystemResult)createResult.Items.All(x => x.Succeeded);
 
@@ -271,7 +271,7 @@ namespace Files.Uwp.Filesystem
                 if (createdSources.Any())
                 {
                     var item = StorageHelpers.FromPathAndType(createdSources.Single().Destination, source.ItemType);
-                    var storageItem = await item.ToStorageItem(associatedInstance);
+                    var storageItem = await item.ToStorageItem();
                     return (new StorageHistory(FileOperationType.CreateNew, item.CreateList(), null), storageItem);
                 }
                 return (null, null);
@@ -396,7 +396,7 @@ namespace Files.Uwp.Filesystem
             var result = (FilesystemResult)(status == AppServiceResponseStatus.Success
                 && response.Get("Success", false));
             var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", ""));
-            deleteResult.Items.AddRange(shellOpResult?.Items ?? Enumerable.Empty<ShellOperationItemResult>());
+            deleteResult.Items.AddRange(shellOpResult?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
 
             if (connection != null)
             {
@@ -522,7 +522,7 @@ namespace Files.Uwp.Filesystem
                 result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
                     && response.Get("Success", false));
                 var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", ""));
-                moveResult.Items.AddRange(shellOpResult?.Items ?? Enumerable.Empty<ShellOperationItemResult>());
+                moveResult.Items.AddRange(shellOpResult?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
             }
             if (sourceReplace.Any())
             {
@@ -539,7 +539,7 @@ namespace Files.Uwp.Filesystem
                 result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
                     && response.Get("Success", false));
                 var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", ""));
-                moveResult.Items.AddRange(shellOpResult?.Items ?? Enumerable.Empty<ShellOperationItemResult>());
+                moveResult.Items.AddRange(shellOpResult?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
             }
 
             if (connection != null)
@@ -647,7 +647,7 @@ namespace Files.Uwp.Filesystem
             var result = (FilesystemResult)(status == AppServiceResponseStatus.Success
                 && response.Get("Success", false));
             var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", ""));
-            renameResult.Items.AddRange(shellOpResult?.Items ?? Enumerable.Empty<ShellOperationItemResult>());
+            renameResult.Items.AddRange(shellOpResult?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
 
             result &= (FilesystemResult)renameResult.Items.All(x => x.Succeeded);
 
@@ -745,7 +745,7 @@ namespace Files.Uwp.Filesystem
             var result = (FilesystemResult)(status == AppServiceResponseStatus.Success
                 && response.Get("Success", false));
             var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", ""));
-            moveResult.Items.AddRange(shellOpResult?.Items ?? Enumerable.Empty<ShellOperationItemResult>());
+            moveResult.Items.AddRange(shellOpResult?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
 
             if (connection != null)
             {

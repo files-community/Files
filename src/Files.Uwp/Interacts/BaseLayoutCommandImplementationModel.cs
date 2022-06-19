@@ -107,7 +107,7 @@ namespace Files.Uwp.Interacts
 
         public virtual void SetAsLockscreenBackgroundItem(RoutedEventArgs e)
         {
-            WallpaperHelpers.SetAsBackground(WallpaperType.LockScreen, SlimContentPage.SelectedItem.ItemPath, associatedInstance);
+            WallpaperHelpers.SetAsBackground(WallpaperType.LockScreen, SlimContentPage.SelectedItem.ItemPath);
         }
 
         public virtual async void SetAsDesktopBackgroundItem(RoutedEventArgs e)
@@ -130,7 +130,7 @@ namespace Files.Uwp.Interacts
             }
             else
             {
-                WallpaperHelpers.SetAsBackground(WallpaperType.Desktop, SlimContentPage.SelectedItem.ItemPath, associatedInstance);
+                WallpaperHelpers.SetAsBackground(WallpaperType.Desktop, SlimContentPage.SelectedItem.ItemPath);
             }
         }
 
@@ -396,14 +396,14 @@ namespace Files.Uwp.Interacts
                     }
                     else if (item.PrimaryItemAttribute == StorageItemTypes.Folder && !item.IsZipItem)
                     {
-                        if (await StorageHelpers.ToStorageItem<BaseStorageFolder>(item.ItemPath, associatedInstance) is BaseStorageFolder folder)
+                        if (await StorageHelpers.ToStorageItem<BaseStorageFolder>(item.ItemPath) is BaseStorageFolder folder)
                         {
                             items.Add(folder);
                         }
                     }
                     else
                     {
-                        if (await StorageHelpers.ToStorageItem<BaseStorageFile>(item.ItemPath, associatedInstance) is BaseStorageFile file)
+                        if (await StorageHelpers.ToStorageItem<BaseStorageFile>(item.ItemPath) is BaseStorageFile file)
                         {
                             items.Add(file);
                         }
