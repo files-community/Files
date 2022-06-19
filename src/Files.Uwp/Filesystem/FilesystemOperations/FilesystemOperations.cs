@@ -18,6 +18,7 @@ using Windows.UI.Xaml.Controls;
 using FileAttributes = System.IO.FileAttributes;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services;
+using System.Text.RegularExpressions;
 
 namespace Files.Uwp.Filesystem
 {
@@ -247,42 +248,34 @@ namespace Files.Uwp.Filesystem
                     if (fsResult)
                     {
                         var file = (BaseStorageFile)sourceResult;
-
-                        // If collision is GenerateUniqueName we will manually check for existing file and generate a new name
-                        // HACK: If file is dragged from zip file in windows explorer for example. The file path is empty and
-                        // GenerateUniqueName isn't working correctly. Below is a possible solution.
-                        var desiredNewName = Path.GetFileName(file.Name);
-                        if (collision == NameCollisionOption.GenerateUniqueName && string.IsNullOrEmpty(file.Path))
+                        var fsResultCopy = new FilesystemResult<BaseStorageFile>(null, FileSystemStatusCode.Generic);
+                        if (string.IsNullOrEmpty(file.Path) && collision == NameCollisionOption.GenerateUniqueName)
                         {
-                            var targetDirectory = destinationResult.Result.Path;
-                            var sourceFileName = file.Name;
-                            var sourceFileNameWithoutExt = Path.GetFileNameWithoutExtension(sourceFileName);
-                            var sourceExtension = Path.GetExtension(sourceFileName);
-
-                            var storageFolder = await StorageFolder.GetFolderFromPathAsync(targetDirectory);
-                            var result = await storageFolder.TryGetItemAsync(sourceFileName);
-
-                            if (result != null) // file exits so we need to generate new name.
+                            // If collision is GenerateUniqueName we will manually check for existing file and generate a new name
+                            // HACK: If file is dragged from zip file in windows explorer for example. The file path is empty and
+                            // GenerateUniqueName isn't working correctly. Below is a possible solution.
+                            var desiredNewName = Path.GetFileName(file.Name);
+                            string nameWithoutExt = Path.GetFileNameWithoutExtension(desiredNewName);
+                            string extension = Path.GetExtension(desiredNewName);
+                            var countMatch = Regex.Match(nameWithoutExt, @"\(\d+\)", RegexOptions.RightToLeft);
+                            ushort attempt = 1;
+                            do
                             {
-                                const int maxAttempts = 1024;
-
-                                for (int i = 2; i < maxAttempts; i++)
+                                fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(destinationResult.Result, desiredNewName, NameCollisionOption.FailIfExists).AsTask());
+                                if (countMatch.Success)
                                 {
-                                    var newFileName = $"{sourceFileNameWithoutExt} ({i}){sourceExtension}";
-                                    result = await storageFolder.TryGetItemAsync(newFileName);
-
-                                    if (result != null)
-                                    {
-                                        continue;
-                                    }
-
-                                    desiredNewName = newFileName;
-                                    break;
+                                    desiredNewName = $"{nameWithoutExt.Substring(0, countMatch.Index)}({attempt}){extension}";
                                 }
-                            }
+                                else
+                                {
+                                    desiredNewName = $"{nameWithoutExt} ({attempt}){extension}";
+                                }
+                            } while (fsResultCopy.ErrorCode == FileSystemStatusCode.AlreadyExists && ++attempt < 1024);
                         }
-
-                        var fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(destinationResult.Result, desiredNewName, collision).AsTask(cancellationToken));
+                        else
+                        {
+                            fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(destinationResult.Result, Path.GetFileName(file.Name), collision).AsTask());
+                        }
 
                         if (fsResultCopy == FileSystemStatusCode.AlreadyExists)
                         {
