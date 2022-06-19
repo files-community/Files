@@ -195,7 +195,7 @@ namespace Files.Uwp.Filesystem
                 else
                 {
                     // CopyFileFromApp only works on file not directories
-                    var fsSourceFolder = await source.ToStorageItemResult(associatedInstance);
+                    var fsSourceFolder = await source.ToStorageItemResult();
                     var fsDestinationFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination));
                     var fsResult = (FilesystemResult)(fsSourceFolder.ErrorCode | fsDestinationFolder.ErrorCode);
 
@@ -241,7 +241,7 @@ namespace Files.Uwp.Filesystem
                     Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
 
                     FilesystemResult<BaseStorageFolder> destinationResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination));
-                    var sourceResult = await source.ToStorageItemResult(associatedInstance);
+                    var sourceResult = await source.ToStorageItemResult();
                     fsResult = sourceResult.ErrorCode | destinationResult.ErrorCode;
 
                     if (fsResult)
@@ -386,7 +386,7 @@ namespace Files.Uwp.Filesystem
                     {
                         Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
 
-                        var fsSourceFolder = await source.ToStorageItemResult(associatedInstance);
+                        var fsSourceFolder = await source.ToStorageItemResult();
                         var fsDestinationFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination));
                         fsResult = fsSourceFolder.ErrorCode | fsDestinationFolder.ErrorCode;
 
@@ -435,7 +435,7 @@ namespace Files.Uwp.Filesystem
                     Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
 
                     FilesystemResult<BaseStorageFolder> destinationResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination));
-                    var sourceResult = await source.ToStorageItemResult(associatedInstance);
+                    var sourceResult = await source.ToStorageItemResult();
                     fsResult = sourceResult.ErrorCode | destinationResult.ErrorCode;
 
                     if (fsResult)
@@ -601,7 +601,7 @@ namespace Files.Uwp.Filesystem
                 && !FilesystemHelpers.ContainsRestrictedCharacters(newName)
                 && !FilesystemHelpers.ContainsRestrictedFileName(newName))
             {
-                var renamed = await source.ToStorageItemResult(associatedInstance)
+                var renamed = await source.ToStorageItemResult()
                     .OnSuccess(async (t) =>
                     {
                         if (t.Name.Equals(newName, StringComparison.CurrentCultureIgnoreCase))
