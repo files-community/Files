@@ -280,48 +280,21 @@ namespace Files.Uwp.Helpers
         {
             public uint NextEntryOffset;
             public uint FileIndex;
-            public LargeInteger CreationTime;
-            public LargeInteger LastAccessTime;
-            public LargeInteger LastWriteTime;
-            public LargeInteger ChangeTime;
-            public LargeInteger EndOfFile;
-            public LargeInteger AllocationSize;
+            public long CreationTime;
+            public long LastAccessTime;
+            public long LastWriteTime;
+            public long ChangeTime;
+            public long EndOfFile;
+            public long AllocationSize;
             public uint FileAttributes;
             public uint FileNameLength;
             public uint EaSize;
             public char ShortNameLength;
             [MarshalAsAttribute(UnmanagedType.ByValTStr, SizeConst = 12)]
             public string ShortName;
-            public LargeInteger FileId;
+            public long FileId;
             [MarshalAsAttribute(UnmanagedType.ByValTStr, SizeConst = 1)]
             public string FileName;
-        }
-
-        [StructLayout(LayoutKind.Explicit)]
-        private struct LargeInteger
-        {
-            [FieldOffset(0)]
-            public int Low;
-            [FieldOffset(4)]
-            public int High;
-            [FieldOffset(0)]
-            public long QuadPart;
-
-            // use only when QuadPart canot be passed
-            public long ToInt64()
-            {
-                return ((long)this.High << 32) | (uint)this.Low;
-            }
-
-            // just for demonstration
-            public static LargeInteger FromInt64(long value)
-            {
-                return new LargeInteger
-                {
-                    Low = (int)(value),
-                    High = (int)((value >> 32))
-                };
-            }
         }
 
         [DllImport("api-ms-win-core-file-l2-1-1.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
@@ -468,7 +441,7 @@ namespace Files.Uwp.Helpers
                 var fileStruct = new FILE_ID_BOTH_DIR_INFO();
                 if (GetFileInformationByHandleEx(handle.DangerousGetHandle(), FILE_INFO_BY_HANDLE_CLASS.FileIdBothDirectoryInfo, out fileStruct, (uint)Marshal.SizeOf(fileStruct)))
                 {
-                    return (ulong)fileStruct.FileId.QuadPart;
+                    return (ulong)fileStruct.FileId;
                 }
             }
             return null;
