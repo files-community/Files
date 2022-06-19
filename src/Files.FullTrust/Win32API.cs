@@ -505,7 +505,7 @@ namespace Files.FullTrust
 
                 for (ushort count = 1; File.Exists(uniquePath); count++)
                 {
-                    if (countMatch != null)
+                    if (countMatch.Success)
                     {
                         uniquePath = Path.Combine(directory, $"{nameWithoutExt[..countMatch.Index]}({count}){extension}");
                     }
@@ -523,7 +523,7 @@ namespace Files.FullTrust
 
                 for (ushort Count = 1; Directory.Exists(uniquePath); Count++)
                 {
-                    if (countMatch != null)
+                    if (countMatch.Success)
                     {
                         uniquePath = Path.Combine(directory, $"{Name[..countMatch.Index]}({Count})");
                     }
