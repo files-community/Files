@@ -451,10 +451,10 @@
     <value>Ви видалили цю папку?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by {0}</value>
+    <value>Файл, до якого ви намагаєтеся отримати доступ, в даний час використовується {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by an another application</value>
+    <value>Файл, який ви намагаєтеся отримати доступ, в даний час використовується іншою програмою</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
     <value>Файл вже використовується</value>
@@ -580,7 +580,7 @@
     <value>{0:#,##0} Файлів, {1:#,##0} Папок</value>
   </data>
   <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
-    <value>{0:#,##0} files, {1:#,##0} folders from {2:#,##0} locations</value>
+    <value>{0:#,##0} файлів, {1:#,##0} папок з {2:#,##0} місць</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Запуск від імені іншого користувача</value>
@@ -811,10 +811,10 @@
     <value>Піднятися вгору на один каталог</value>
   </data>
   <data name="VerticalTabFlyout.AutomationProperties.Name" xml:space="preserve">
-    <value>Vertical tab flyout</value>
+    <value>Вертикальна вкладка</value>
   </data>
   <data name="VerticalTabFlyout.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Vertical tab flyout</value>
+    <value>Вертикальна вкладка</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Мови</value>
@@ -823,16 +823,16 @@
     <value>Програма термінала</value>
   </data>
   <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>Edit terminal applications</value>
+    <value>Редагування програм терміналу</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>Move overflow items into a sub menu</value>
+    <value>Переміщення додаткових елементів у підменю</value>
   </data>
   <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
-    <value>Pin Recycle Bin to favorites</value>
+    <value>Додати Кошик до вибраного</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>Show a confirmation dialog when deleting files or folders</value>
+    <value>Показувати вікно підтвердження при видаленні файлів або папок</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>Не вдалося зберегти деякі властивості.</value>
@@ -895,10 +895,10 @@
     <value>Не вказано</value>
   </data>
   <data name="PropertyLongitudeDecimal" xml:space="preserve">
-    <value>Longitude Decimal</value>
+    <value>Десяткова довгота</value>
   </data>
   <data name="PropertyLatitudeDecimal" xml:space="preserve">
-    <value>Latitude Decimal</value>
+    <value>Десяткова широта</value>
   </data>
   <data name="PropertyLatitude" xml:space="preserve">
     <value>Широта</value>
@@ -907,10 +907,10 @@
     <value>Довгота</value>
   </data>
   <data name="PropertyLatitudeRef" xml:space="preserve">
-    <value>Latitude Ref</value>
+    <value>Посилання на широту</value>
   </data>
   <data name="PropertyLongitudeRef" xml:space="preserve">
-    <value>Longitude Ref</value>
+    <value>Посилання на довготу</value>
   </data>
   <data name="PropertyAltitude" xml:space="preserve">
     <value>Висота</value>
@@ -976,16 +976,16 @@
     <value>Тривалість</value>
   </data>
   <data name="PropertyFrameCount" xml:space="preserve">
-    <value>Frame Count</value>
+    <value>Кількість кадрів</value>
   </data>
   <data name="PropertyProtectionType" xml:space="preserve">
     <value>Тип захисту</value>
   </data>
   <data name="PropertyAuthorUrl" xml:space="preserve">
-    <value>Author Url</value>
+    <value>Url автора</value>
   </data>
   <data name="PropertyContentDistributor" xml:space="preserve">
-    <value>Content Distributor</value>
+    <value>Дистриб'ютор контенту</value>
   </data>
   <data name="PropertyDateReleased" xml:space="preserve">
     <value>Дата випуску</value>
@@ -1003,10 +1003,10 @@
     <value>Продюсер</value>
   </data>
   <data name="PropertyPromotionUrl" xml:space="preserve">
-    <value>Promotion Url</value>
+    <value>Url-адреса реклами</value>
   </data>
   <data name="PropertyProviderStyle" xml:space="preserve">
-    <value>Provider Style</value>
+    <value>Стиль постачальника</value>
   </data>
   <data name="PropertyPublisher" xml:space="preserve">
     <value>Видавець</value>
@@ -1219,7 +1219,7 @@
     <value>Підтримайте нас на PayPal</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>List and sort directories alongside files</value>
+    <value>Виводити і сортувати файли та папки разом</value>
   </data>
   <data name="Details" xml:space="preserve">
     <value>Детально</value>
@@ -1624,7 +1624,7 @@
     <value>Копіювати</value>
   </data>
   <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>{0} items will be copied</value>
+    <value>Буде скопійовано елементів: {0}</value>
   </data>
   <data name="CopyItemsDialogTitle" xml:space="preserve">
     <value>Копіювати елемент(и)</value>
@@ -1636,7 +1636,7 @@
     <value>Перемістити</value>
   </data>
   <data name="MoveItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>{0} items will be moved</value>
+    <value>Буде переміщено елементів: {0}</value>
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
     <value>Перемістити елемент(и)</value>
@@ -1651,7 +1651,7 @@
     <value>There are {0} conflicting file names, and {1} outgoing item(s).</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
-    <value>Conflicting file name(s)</value>
+    <value>Конфлікт назви файлу(ів)</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
     <value>There is one conflicting file name, and {0} outgoing item(s).</value>
