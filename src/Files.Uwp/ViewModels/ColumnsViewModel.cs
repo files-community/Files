@@ -227,7 +227,7 @@ namespace Files.Uwp.ViewModels
             get => IsHidden || UserCollapsed ? new GridLength(0) : UserLength;
         }
 
-        private const int gridSplitterWidth = 1;
+        private const int gridSplitterWidth = 8;
 
         public GridLength LengthIncludingGridSplitter
         {

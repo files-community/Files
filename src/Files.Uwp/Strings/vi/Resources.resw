@@ -1,5 +1,110 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
@@ -45,6 +150,9 @@
   <data name="Size" xml:space="preserve">
     <value>Kích cỡ</value>
   </data>
+  <data name="OpenIn" xml:space="preserve">
+    <value>Mở trong</value>
+  </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>Đã tạo:</value>
   </data>
@@ -65,6 +173,9 @@
   </data>
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>là một thư mục con của thư mục nguồn</value>
+  </data>
+  <data name="Skip" xml:space="preserve">
+    <value>Bỏ qua</value>
   </data>
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>Chọn Tất cả</value>
@@ -99,9 +210,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Loại bỏ mục này</value>
   </data>
-  <data name="RecentFiles" xml:space="preserve">
-    <value>Tệp Gần đây</value>
-  </data>
   <data name="SettingsUsefulLinks.Title" xml:space="preserve">
     <value>Liên kết có ích</value>
   </data>
@@ -111,11 +219,11 @@
   <data name="About" xml:space="preserve">
     <value>Giới thiệu</value>
   </data>
+  <data name="DateFormat" xml:space="preserve">
+    <value>Định dạng ngày tháng</value>
+  </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>Chọn màu của bạn</value>
-  </data>
-  <data name="Appearance" xml:space="preserve">
-    <value>Giao diện</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Hiển thị phần mở rộng cho các loại tệp đã biết</value>
@@ -123,8 +231,14 @@
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>Hiển thị tệp và thư mục đang giấu</value>
   </data>
+  <data name="ShowDotFiles" xml:space="preserve">
+    <value>Hiện tệp chấm</value>
+  </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Thực nghiệm</value>
+  </data>
+  <data name="Appearance" xml:space="preserve">
+    <value>Giao diện</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Thực nghiệm</value>
@@ -163,7 +277,7 @@
     <value>Sắp xếp theo</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value>Name</value>
+    <value>Tên</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
     <value>Loại</value>
@@ -210,6 +324,9 @@
   <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
     <value>Cắt</value>
   </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Xóa bỏ</value>
+  </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Đổi tên</value>
   </data>
@@ -251,6 +368,9 @@
   </data>
   <data name="Application" xml:space="preserve">
     <value>Ứng dụng</value>
+  </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>Hệ thống</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Thư mục Mới</value>
@@ -329,6 +449,15 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Bạn có xóa bỏ thư mục này không?</value>
+  </data>
+  <data name="FileInUseByDialog.Text" xml:space="preserve">
+    <value>Tệp bạn đang cố gắng truy cập hiện đang được sử dụng bởi {0}</value>
+  </data>
+  <data name="FileInUseDialog.Text" xml:space="preserve">
+    <value>Tệp bạn đang cố gắng truy cập hiện đang được sử dụng bởi một ứng dụng khác</value>
+  </data>
+  <data name="FileInUseDialog.Title" xml:space="preserve">
+    <value>Tệp đang được sử dụng</value>
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>Bố trí</value>
@@ -439,7 +568,7 @@
     <value>PB</value>
   </data>
   <data name="ByteSymbol" xml:space="preserve">
-    <value>B</value>
+    <value>C</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Chạy với quyền người quản trị</value>
@@ -690,11 +819,20 @@
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Ngôn ngữ</value>
   </data>
+  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
+    <value>Ứng dụng Terminal</value>
+  </data>
+  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
+    <value>Chỉnh sửa ứng dụng terminal</value>
+  </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Di chuyển những mục chảy ra vào một thực đơn con</value>
   </data>
   <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
     <value>Gắn Thùng rác vào Ưa thích</value>
+  </data>
+  <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
+    <value>Hiển thị hộp thoại xác nhận khi xoá tệp hoặc thư mục</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>Đã có một vấn đề lưu mấy thuộc tính.</value>
@@ -847,7 +985,7 @@
     <value>Url tác giả</value>
   </data>
   <data name="PropertyContentDistributor" xml:space="preserve">
-    <value>Content Distributor</value>
+    <value>Người phân phối nội dung</value>
   </data>
   <data name="PropertyDateReleased" xml:space="preserve">
     <value>Ngày ra</value>
@@ -1178,6 +1316,12 @@
   </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Gạch (Ctrl+Shift+2)</value>
+  </data>
+  <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
+    <value>Hiển thị phần mở rộng tệp</value>
+  </data>
+  <data name="NavToolbarShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
+    <value>Hiển thị các mục bị ẩn</value>
   </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>Ngày xóa</value>
@@ -1527,6 +1671,9 @@
   <data name="PropertyISO" xml:space="preserve">
     <value>Tốc độ ISO</value>
   </data>
+  <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
+    <value>Mở thư mục trong tab mới</value>
+  </data>
   <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
     <value>Hiển thị phụ tùng bó</value>
   </data>
@@ -1620,8 +1767,29 @@
   <data name="NavToolbarSortOptionsButton.Label" xml:space="preserve">
     <value>Sắp xếp</value>
   </data>
+  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
+    <value>Nhóm bởi</value>
+  </data>
+  <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
+    <value>Tên</value>
+  </data>
+  <data name="DateModifiedLowerCase" xml:space="preserve">
+    <value>Ngày thay đổi</value>
+  </data>
+  <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
+    <value>Thư mục gốc</value>
+  </data>
+  <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
+    <value>Loại</value>
+  </data>
+  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
+    <value>Sắp xếp theo</value>
+  </data>
   <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">
     <value>Hướng sắp xếp</value>
+  </data>
+  <data name="Descending" xml:space="preserve">
+    <value>Giảm dần</value>
   </data>
   <data name="ItemSizeText_Huge" xml:space="preserve">
     <value>Rất lớn</value>
@@ -1794,6 +1962,9 @@
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>Phụ tùng</value>
   </data>
+  <data name="SyncStatus" xml:space="preserve">
+    <value>Trạng thái đồng bộ</value>
+  </data>
   <data name="Security" xml:space="preserve">
     <value>Bảo mật</value>
   </data>
@@ -1965,9 +2136,6 @@
   <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
     <value>Tạo tệp tin</value>
   </data>
-  <data name="Delete" xml:space="preserve">
-    <value>Xóa bỏ</value>
-  </data>
   <data name="SecurityDeleteSubdirectoriesAndFilesLabel.Text" xml:space="preserve">
     <value>Xóa bỏ danh mục con và tệp tin</value>
   </data>
@@ -2039,6 +2207,9 @@
   </data>
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>Phiên bản tệp</value>
+  </data>
+  <data name="PreviewPaneLoadCloudItemButton.Text" xml:space="preserve">
+    <value>Tải bản xem trước đầy đủ</value>
   </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Tải mục từ đám mây và tải xem trước</value>
@@ -2139,45 +2310,6 @@
   <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+T</value>
   </data>
-  <data name="DateFormat" xml:space="preserve">
-    <value>Định dạng ngày tháng</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>Ứng dụng Terminal</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>Chỉnh sửa ứng dụng terminal</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>Hiển thị hộp thoại xác nhận khi xoá tệp hoặc thư mục</value>
-  </data>
-  <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
-    <value>Mở thư mục trong tab mới</value>
-  </data>
-  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
-    <value>Nhóm bởi</value>
-  </data>
-  <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
-    <value>Tên</value>
-  </data>
-  <data name="DateModifiedLowerCase" xml:space="preserve">
-    <value>Ngày thay đổi</value>
-  </data>
-  <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
-    <value>Thư mục gốc</value>
-  </data>
-  <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
-    <value>Loại</value>
-  </data>
-  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
-    <value>Sắp xếp theo</value>
-  </data>
-  <data name="Descending" xml:space="preserve">
-    <value>Giảm dần</value>
-  </data>
-  <data name="SyncStatus" xml:space="preserve">
-    <value>Trạng thái đồng bộ</value>
-  </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
     <value>Quá trình giải nén kho lưu trữ đã hoàn tất.</value>
   </data>
@@ -2275,17 +2407,29 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Không tìm thấy mục nào</value>
   </data>
+  <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
+    <value>Chỉ hiển thị bản xem trước</value>
+  </data>
   <data name="OpenLogLocation" xml:space="preserve">
     <value>Mở vị trí nhật ký</value>
   </data>
   <data name="LinkToFolderCaptionText" xml:space="preserve">
     <value>Tạo liên kết trong {0}</value>
   </data>
-  <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
-    <value>Hiển thị phần mở rộng tệp</value>
+  <data name="Columns" xml:space="preserve">
+    <value>Cột</value>
   </data>
-  <data name="NavToolbarShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Hiển thị các mục bị ẩn</value>
+  <data name="LargeIcons" xml:space="preserve">
+    <value>Biểu tượng lớn</value>
+  </data>
+  <data name="MediumIcons" xml:space="preserve">
+    <value>Biểu tượng trung bình</value>
+  </data>
+  <data name="SmallIcons" xml:space="preserve">
+    <value>Biểu tượng nhỏ</value>
+  </data>
+  <data name="Tiles" xml:space="preserve">
+    <value>Gạch</value>
   </data>
   <data name="NavToolbarShowFileExtensions.AutomationProperties.Name" xml:space="preserve">
     <value>Hiển thị phần mở rộng tệp</value>
@@ -2296,11 +2440,20 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
   <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Hiển thị phần danh sách yêu thích</value>
   </data>
+  <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Mở thư mục trong tab mới</value>
+  </data>
   <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Ghim Thùng rác vào danh sách yêu thích</value>
   </data>
+  <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>Ngôn ngữ</value>
+  </data>
   <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Hiển thị phần Ổ đĩa lưu trữ đám mây</value>
+  </data>
+  <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Hiển thị hộp thoại xác nhận khi xoá tệp hoặc thư mục</value>
   </data>
   <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Hiển thị phần ổ đĩa</value>
@@ -2314,26 +2467,11 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Hiển thị phần WSL</value>
   </data>
-  <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mở thư mục trong tab mới</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Ngôn ngữ</value>
-  </data>
-  <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Hiển thị hộp thoại xác nhận khi xoá tệp hoặc thư mục</value>
-  </data>
   <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Ứng dụng Terminal</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Công việc đang thực hiện</value>
-  </data>
-  <data name="PreviewPaneLoadCloudItemButton.Text" xml:space="preserve">
-    <value>Tải bản xem trước đầy đủ</value>
-  </data>
-  <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
-    <value>Chỉ hiển thị bản xem trước</value>
   </data>
   <data name="SideBarFavoritesMoveOneDown" xml:space="preserve">
     <value>Chuyển xuống xuống</value>
@@ -2352,6 +2490,12 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
   </data>
   <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
     <value>Cột kích thước mục</value>
+  </data>
+  <data name="SettingsDefaultFilesManager" xml:space="preserve">
+    <value>Trình quản lý tệp mặc định</value>
+  </data>
+  <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
+    <value>Đặt Files làm trình quản lý tệp mặc định</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
     <value>Sử dụng Files làm Hộp thoại Mở Tệp</value>
@@ -2380,6 +2524,12 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
   <data name="SettingsImportErrorTitle" xml:space="preserve">
     <value>Lỗi chèn các thiết lập</value>
   </data>
+  <data name="EmptyRecycleBin" xml:space="preserve">
+    <value>Thùng rác trống</value>
+  </data>
+  <data name="Sidebar" xml:space="preserve">
+    <value>Thanh bên</value>
+  </data>
   <data name="ChooseCustomIcon" xml:space="preserve">
     <value>Chọn biểu tượng thư mục tuỳ chỉnh</value>
   </data>
@@ -2388,6 +2538,15 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
   </data>
   <data name="RestoreDefault" xml:space="preserve">
     <value>Khôi phục mặc định</value>
+  </data>
+  <data name="FilesAndFolders" xml:space="preserve">
+    <value>Tệp và thư mục</value>
+  </data>
+  <data name="OpenNewInstance" xml:space="preserve">
+    <value>Mở phiên bản mới khi mở thư mục từ danh sách nhảy trên thanh tác vụ</value>
+  </data>
+  <data name="StartupSettings" xml:space="preserve">
+    <value>Thiết lập Khởi động</value>
   </data>
   <data name="Compatibility" xml:space="preserve">
     <value>Tương thích</value>
@@ -2458,50 +2617,14 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
   <data name="UseMainMonitorDPISettings" xml:space="preserve">
     <value>Sử dụng cài đặt DPI của điều khiển chính</value>
   </data>
-  <data name="SettingsDefaultFilesManager" xml:space="preserve">
-    <value>Trình quản lý tệp mặc định</value>
-  </data>
-  <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
-    <value>Đặt Files làm trình quản lý tệp mặc định</value>
-  </data>
-  <data name="EmptyRecycleBin" xml:space="preserve">
-    <value>Thùng rác trống</value>
-  </data>
-  <data name="Sidebar" xml:space="preserve">
-    <value>Thanh bên</value>
-  </data>
-  <data name="FilesAndFolders" xml:space="preserve">
-    <value>Tệp và thư mục</value>
-  </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>Mở phiên bản mới khi mở thư mục từ danh sách nhảy trên thanh tác vụ</value>
-  </data>
-  <data name="StartupSettings" xml:space="preserve">
-    <value>Thiết lập Khởi động</value>
-  </data>
   <data name="ThirdPartyLicenses" xml:space="preserve">
     <value>Giấy phép bên thứ ba</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>Thiết lập này sửa đổi các tệp hệ thống và có thể có các tác dụng không mong muốn trên thiết bị của bạn. Các nhà phát triển không chịu trách nhiệm trong trường hợp có sự cố xảy ra. Tiếp tục với tùy chọn này là sự thừa nhận rủi ro liên quan đến hành động này. Xin lưu ý rằng việc gỡ cài đặt Files sẽ không hoàn tác những thay đổi này và có thể ngăn bạn mở file explorer trừ khi bạn tắt cài đặt này trước khi xóa Files khỏi thiết bị của mình.</value>
+    <value>Thiết lập này sửa đổi các tệp hệ thống và có thể có các tác dụng không mong muốn trên thiết bị của bạn. Các nhà phát triển không chịu trách nhiệm trong trường hợp có sự cố xảy ra. Tiếp tục với tùy chọn này là sự thừa nhận rủi ro liên quan đến hành động này.</value>
   </data>
   <data name="ClearAll" xml:space="preserve">
     <value>Dọn dẹp toàn bộ</value>
-  </data>
-  <data name="Columns" xml:space="preserve">
-    <value>Cột</value>
-  </data>
-  <data name="LargeIcons" xml:space="preserve">
-    <value>Biểu tượng lớn</value>
-  </data>
-  <data name="MediumIcons" xml:space="preserve">
-    <value>Biểu tượng trung bình</value>
-  </data>
-  <data name="SmallIcons" xml:space="preserve">
-    <value>Biểu tượng nhỏ</value>
-  </data>
-  <data name="Tiles" xml:space="preserve">
-    <value>Gạch</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Tạo thư mục</value>
@@ -2512,8 +2635,8 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
   <data name="ShowFolderSize" xml:space="preserve">
     <value>Hiển thị kích thước tệp</value>
   </data>
-  <data name="Skip" xml:space="preserve">
-    <value>Bỏ qua</value>
+  <data name="RecentFiles" xml:space="preserve">
+    <value>Tệp Gần đây</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
     <value>Mở tệp trong Windows Startup</value>
@@ -2569,9 +2692,6 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>Việc tính toán kích thước thư mục tốn nhiều tài nguyên và có thể khiến mức sử dụng CPU của bạn tăng lên.</value>
   </data>
-  <data name="OpenIn" xml:space="preserve">
-    <value>Mở trong</value>
-  </data>
   <data name="RotateLeft" xml:space="preserve">
     <value>Xoay trái</value>
   </data>
@@ -2580,6 +2700,9 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
   </data>
   <data name="Install" xml:space="preserve">
     <value>Cài đặt</value>
+  </data>
+  <data name="CloseTabsToTheLeft" xml:space="preserve">
+    <value>Đóng các thẻ bên trái</value>
   </data>
   <data name="CloseTabsToTheRight" xml:space="preserve">
     <value>Đóng các tab bên phải</value>
@@ -2596,8 +2719,23 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
   <data name="Videos" xml:space="preserve">
     <value>Video</value>
   </data>
+  <data name="UpdateFiles" xml:space="preserve">
+    <value>Cập nhật Files</value>
+  </data>
+  <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
+    <value>Đang chuẩn bị {0} mục</value>
+  </data>
+  <data name="PrepareInProgress" xml:space="preserve">
+    <value>Đang chuẩn bị mục</value>
+  </data>
   <data name="StatusCopyFailed" xml:space="preserve">
     <value>Không sao chép được</value>
+  </data>
+  <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
+    <value>Hoạt động sao chép {0} mục từ {1} đến {2} bị thất bại</value>
+  </data>
+  <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
+    <value>Hoạt động sao chép {0} mục từ {1} đến {2} bị thất bại</value>
   </data>
   <data name="StatusMoveFailed" xml:space="preserve">
     <value>Di chuyển không thành công.</value>
@@ -2605,16 +2743,52 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
   <data name="FileTags" xml:space="preserve">
     <value>Thẻ</value>
   </data>
-  <data name="SystemTimeStyle" xml:space="preserve">
-    <value>Hệ thống</value>
+  <data name="SettingsShowFileTagsSection.Title" xml:space="preserve">
+    <value>Hiển thị phần thẻ tệp</value>
+  </data>
+  <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Show Tags section</value>
+  </data>
+  <data name="UseCompactStyles" xml:space="preserve">
+    <value>Dùng thiết kế nhỏ gọn gọn ở dạng xem chi tiết</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Toàn diện</value>
+  </data>
+  <data name="DateFormatSample" xml:space="preserve">
+    <value>vd: {0}, {1}</value>
   </data>
   <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
     <value>Hiển thị Hình ảnh thu nhỏ</value>
   </data>
   <data name="Retry" xml:space="preserve">
     <value>Thử lại</value>
+  </data>
+  <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
+    <value>Không hỗ trợ hành động di chuyển trong ngữ cảnh này. Bạn có muốn sao chép các mục thay vào đó không?</value>
+  </data>
+  <data name="HiddenFilesAndFolders" xml:space="preserve">
+    <value>Tệp và thư mục ẩn</value>
+  </data>
+  <data name="Custom" xml:space="preserve">
+    <value>Tuỳ chỉnh</value>
+  </data>
+  <data name="SetAsSlideshow" xml:space="preserve">
+    <value>Đặt làm trình chiếu màn hình nền</value>
+  </data>
+  <data name="SizeAllColumnsToFit" xml:space="preserve">
+    <value>Đặt khớp chiều rộng mọi cột</value>
+  </data>
+  <data name="Contributors" xml:space="preserve">
+    <value>Những người đóng góp</value>
+  </data>
+  <data name="Adaptive" xml:space="preserve">
+    <value>Thích ứng</value>
+  </data>
+  <data name="AdaptiveShortcutTooltip" xml:space="preserve">
+    <value>Thích ứng (Ctrl+Shift+7)</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+Shift+7</value>
   </data>
 </root>

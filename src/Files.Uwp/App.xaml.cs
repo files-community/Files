@@ -411,7 +411,7 @@ namespace Files.Uwp
                                 var ppm = CommandLineParser.ParseUntrustedCommands(unescapedValue);
                                 if (ppm.IsEmpty())
                                 {
-                                    ppm = new ParsedCommands() { new ParsedCommand() { Type = ParsedCommandType.Unknown, Payload = "." } };
+                                    ppm = new ParsedCommands() { new ParsedCommand() { Type = ParsedCommandType.Unknown, Args = new() { "." } } };
                                 }
                                 await InitializeFromCmdLineArgs(rootFrame, ppm);
                                 break;
@@ -511,6 +511,21 @@ namespace Files.Uwp
                         if (Path.IsPathRooted(command.Payload))
                         {
                             await PerformNavigation(Path.GetDirectoryName(command.Payload), Path.GetFileName(command.Payload));
+                        }
+                        break;
+
+                    case ParsedCommandType.TagFiles:
+                        var tagService = Ioc.Default.GetService<IFileTagsSettingsService>();
+                        var tag = tagService.GetTagsByName(command.Payload).FirstOrDefault();
+                        foreach (var file in command.Args.Skip(1))
+                        {
+                            var fileFRN = await FilesystemTasks.Wrap(() => StorageHelpers.ToStorageItem<IStorageItem>(file))
+                                .OnSuccess(item => FileTagsHelper.GetFileFRN(item));
+                            if (fileFRN is not null)
+                            {
+                                FileTagsHelper.DbInstance.SetTag(file, fileFRN, tag?.Uid);
+                                FileTagsHelper.WriteFileTag(file, tag?.Uid);
+                            }
                         }
                         break;
 

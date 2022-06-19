@@ -57,6 +57,11 @@ namespace Files.Uwp.ServicesImplementation.Settings
 
         public IEnumerable<FileTagViewModel> GetTagsByName(string tagName)
         {
+            return FileTagList.Where(x => x.TagName.Equals(tagName, StringComparison.OrdinalIgnoreCase));
+        }
+
+        public IEnumerable<FileTagViewModel> SearchTagsByName(string tagName)
+        {
             return FileTagList.Where(x => x.TagName.StartsWith(tagName, StringComparison.OrdinalIgnoreCase));
         }
 
