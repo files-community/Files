@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Files.Shared
 {
@@ -11,6 +12,9 @@ namespace Files.Shared
 
         public List<ShellOperationItemResult> Items { get; set; }
         public bool Succeeded { get; set; }
+
+        public List<ShellOperationItemResult> Final =>
+            Items.GroupBy(x => new { Src = x.Source, Dst = x.Destination }).Select(x => x.Last()).ToList();
     }
 
     public class ShellOperationItemResult
