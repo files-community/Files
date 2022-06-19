@@ -248,10 +248,20 @@ namespace Files.Uwp.Filesystem
                     {
                         var file = (BaseStorageFile)sourceResult;
                         var fsResultCopy = new FilesystemResult<BaseStorageFile>(null, FileSystemStatusCode.Generic);
-                        if (string.IsNullOrEmpty(file.Path) && collision != NameCollisionOption.ReplaceExisting)
+                        if (string.IsNullOrEmpty(file.Path) && collision == NameCollisionOption.GenerateUniqueName)
                         {
-                            // Microsoft bug! When dragging files from .zip, "GenerateUniqueName" option is not respected and the file gets overwritten
-                            fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(destinationResult.Result, Path.GetFileName(file.Name), NameCollisionOption.FailIfExists).AsTask());
+                            // If collision is GenerateUniqueName we will manually check for existing file and generate a new name
+                            // HACK: If file is dragged from zip file in windows explorer for example. The file path is empty and
+                            // GenerateUniqueName isn't working correctly. Below is a possible solution.
+                            var desiredNewName = Path.GetFileName(file.Name);
+                            string nameWithoutExt = Path.GetFileNameWithoutExtension(desiredNewName);
+                            string extension = Path.GetExtension(desiredNewName);
+                            ushort attempt = 1;
+                            do
+                            {
+                                fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(destinationResult.Result, desiredNewName, NameCollisionOption.FailIfExists).AsTask());
+                                desiredNewName = $"{nameWithoutExt} ({attempt}){extension}";
+                            } while (fsResultCopy.ErrorCode == FileSystemStatusCode.AlreadyExists && ++attempt < 1024);
                         }
                         else
                         {
