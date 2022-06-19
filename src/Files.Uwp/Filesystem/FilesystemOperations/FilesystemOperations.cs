@@ -18,7 +18,6 @@ using Windows.UI.Xaml.Controls;
 using FileAttributes = System.IO.FileAttributes;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services;
-using System.Text.RegularExpressions;
 
 namespace Files.Uwp.Filesystem
 {
@@ -257,19 +256,11 @@ namespace Files.Uwp.Filesystem
                             var desiredNewName = Path.GetFileName(file.Name);
                             string nameWithoutExt = Path.GetFileNameWithoutExtension(desiredNewName);
                             string extension = Path.GetExtension(desiredNewName);
-                            var countMatch = Regex.Match(nameWithoutExt, @"\(\d+\)", RegexOptions.RightToLeft);
                             ushort attempt = 1;
                             do
                             {
                                 fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(destinationResult.Result, desiredNewName, NameCollisionOption.FailIfExists).AsTask());
-                                if (countMatch.Success)
-                                {
-                                    desiredNewName = $"{nameWithoutExt.Substring(0, countMatch.Index)}({attempt}){extension}";
-                                }
-                                else
-                                {
-                                    desiredNewName = $"{nameWithoutExt} ({attempt}){extension}";
-                                }
+                                desiredNewName = $"{nameWithoutExt} ({attempt}){extension}";
                             } while (fsResultCopy.ErrorCode == FileSystemStatusCode.AlreadyExists && ++attempt < 1024);
                         }
                         else
