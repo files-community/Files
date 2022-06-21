@@ -180,9 +180,13 @@ namespace Files.FullTrust.MessageHandlers
                             var isAlternateStream = Regex.IsMatch(application, @"\w:\w");
                             if (isAlternateStream)
                             {
-                                var tempPath = Path.Combine(Environment.GetEnvironmentVariable("TEMP"), new string(Path.GetFileName(application).SkipWhile(x => x != ':').Skip(1).ToArray()));
+                                var basePath = Path.Combine(Environment.GetEnvironmentVariable("TEMP"), Guid.NewGuid().ToString("n"));
+                                Kernel32.CreateDirectory(basePath);
+
+                                var tempPath = Path.Combine(basePath, new string(Path.GetFileName(application).SkipWhile(x => x != ':').Skip(1).ToArray()));
                                 using var hFileSrc = Kernel32.CreateFile(application, Kernel32.FileAccess.GENERIC_READ, FileShare.ReadWrite, null, FileMode.Open, FileFlagsAndAttributes.FILE_ATTRIBUTE_NORMAL);
-                                using var hFileDst = Kernel32.CreateFile(tempPath, Kernel32.FileAccess.GENERIC_WRITE, 0, null, FileMode.Create, FileFlagsAndAttributes.FILE_ATTRIBUTE_NORMAL);
+                                using var hFileDst = Kernel32.CreateFile(tempPath, Kernel32.FileAccess.GENERIC_WRITE, 0, null, FileMode.Create, FileFlagsAndAttributes.FILE_ATTRIBUTE_NORMAL | FileFlagsAndAttributes.FILE_ATTRIBUTE_READONLY);
+
                                 if (!hFileSrc.IsInvalid && !hFileDst.IsInvalid)
                                 {
                                     // Copy ADS to temp folder and open
