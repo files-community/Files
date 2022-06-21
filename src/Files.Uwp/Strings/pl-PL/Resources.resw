@@ -424,7 +424,7 @@
     <value>Widok siatki (Mały)</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
-    <value>OK</value>
+    <value>Ok</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Nie mogliśmy usunąć tego elementu</value>
@@ -451,13 +451,13 @@
     <value>Czy usunąłeś ten folder?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by {0}</value>
+    <value>Plik, do którego próbujesz uzyskać dostęp, jest obecnie używany przez {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by an another application</value>
+    <value>Plik, do którego próbujesz uzyskać dostęp, jest obecnie używany przez inną aplikację</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
-    <value>File is in use</value>
+    <value>Plik jest w użyciu</value>
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>Układ</value>
@@ -514,7 +514,7 @@
     <value>Nazwa elementu nie może zawierać tych znaków: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
-    <value>OK</value>
+    <value>Ok</value>
   </data>
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>Nazwa elementu nie może zawierać tych znaków: \ / : * ? " &lt; &gt; |</value>
@@ -1213,7 +1213,7 @@
     <value>Dowiedz się, co nowego w aplikacji Files</value>
   </data>
   <data name="SettingsAboutSubmitFeedbackListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Send the developers an issue report with more information</value>
+    <value>Wyślij raport o problemie z dodatkowymi informacjami</value>
   </data>
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Wspieraj nas poprzez GitHub</value>
@@ -2370,7 +2370,7 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
     <value>Włóż dysk</value>
   </data>
   <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
-    <value>OK</value>
+    <value>Ok</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
     <value>Wymagane poświadczenie</value>
@@ -2496,7 +2496,7 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
     <value>Użyj aplikacji Files jako okno dialogowe otwierania plików</value>
   </data>
   <data name="Tag" xml:space="preserve">
-    <value>Tag</value>
+    <value>Etykieta</value>
   </data>
   <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
     <value>Otwieraj foldery pojedynczym kliknięciem</value>
@@ -2556,7 +2556,7 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
     <value>Przy uruchomieniu programu</value>
   </data>
   <data name="HighDpiOverride_System" xml:space="preserve">
-    <value>System</value>
+    <value>Systemowy</value>
   </data>
   <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
     <value>System (ulepszony)</value>
@@ -2727,10 +2727,10 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
     <value>Kopiowanie nie powiodło się.</value>
   </data>
   <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
-    <value>Failed to copy {0} items from {1} to {2}</value>
+    <value>Nie udało się skopiować {0} elementów z {1} do {2}</value>
   </data>
   <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
-    <value>Failed to copy {0} item from {1} to {2}</value>
+    <value>Nie udało się skopiować {0} elementu z {1} do {2}</value>
   </data>
   <data name="StatusMoveFailed" xml:space="preserve">
     <value>Przenoszenie nie powiodło się.</value>
@@ -2739,19 +2739,19 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
     <value>Tagi</value>
   </data>
   <data name="SettingsShowFileTagsSection.Title" xml:space="preserve">
-    <value>Show Tags section</value>
+    <value>Pokaż sekcję Etykiet</value>
   </data>
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Show Tags section</value>
+    <value>Pokaż sekcję Etykiet</value>
   </data>
   <data name="UseCompactStyles" xml:space="preserve">
-    <value>Use compact styles in the details layout</value>
+    <value>Użyj kompaktowych stylów w układzie szczegółów</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Uniwersalny</value>
   </data>
   <data name="DateFormatSample" xml:space="preserve">
-    <value>ex: {0}, {1}</value>
+    <value>np.: {0}, {1}</value>
   </data>
   <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
     <value>Pokaż miniatury</value>
@@ -2760,28 +2760,28 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
     <value>Spróbuj ponownie</value>
   </data>
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
-    <value>Move operation is not supported in this context. Do you want to copy the items instead?</value>
+    <value>Operacja przenoszenia nie jest obsługiwana w tym kontekście. Czy chcesz zamiast tego skopiować elementy?</value>
   </data>
   <data name="HiddenFilesAndFolders" xml:space="preserve">
-    <value>Hidden files and folders</value>
+    <value>Ukryte pliki i foldery</value>
   </data>
   <data name="Custom" xml:space="preserve">
-    <value>Custom</value>
+    <value>Niestandardowy</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
-    <value>Set as desktop slideshow</value>
+    <value>Ustaw jako pokaz slajdów na pulpicie</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
-    <value>Size All Columns to Fit</value>
+    <value>Dopasuj wszystkie kolumny do rozmiaru</value>
   </data>
   <data name="Contributors" xml:space="preserve">
-    <value>Contributors</value>
+    <value>Współtwórcy</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Adaptive</value>
+    <value>Adaptacyjny</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>Adaptive (Ctrl+Shift+7)</value>
+    <value>Adaptacyjny (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
