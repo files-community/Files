@@ -464,6 +464,7 @@ namespace Files.Uwp.ViewModels
                 case nameof(UserSettingsService.PreferencesSettingsService.ShowThumbnails):
                 case nameof(UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible):
                 case nameof(UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden):
+                case nameof(UserSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible):
                 case nameof(UserSettingsService.PreferencesSettingsService.ShowDotFiles):
                 case nameof(UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled):
                 case nameof(UserSettingsService.PreferencesSettingsService.ShowFolderSize):
@@ -1889,7 +1890,6 @@ namespace Files.Uwp.ViewModels
             {
                 byte[] buff = new byte[4096];
                 var rand = Guid.NewGuid();
-                buff = new byte[4096];
                 int notifyFilters = FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_LAST_WRITE | FILE_NOTIFY_CHANGE_SIZE;
 
                 if (hasSyncStatus)
@@ -2088,7 +2088,6 @@ namespace Files.Uwp.ViewModels
                         await UpdateFilesOrFoldersAsync(itemsToUpdate, hasSyncStatus);
                     }
 
-
                     if (updateQueue.Count > 0)
                     {
                         var itemsToUpdate = new List<string>();
@@ -2145,6 +2144,16 @@ namespace Files.Uwp.ViewModels
             if (!filesAndFolders.Any(x => x.ItemPath.Equals(item.ItemPath, StringComparison.OrdinalIgnoreCase))) // Avoid adding duplicate items
             {
                 filesAndFolders.Add(item);
+
+                if (UserSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible)
+                {
+                    // New file added, enumerate ADS
+                    foreach (var ads in NativeFileOperationsHelper.GetAlternateStreams(item.ItemPath))
+                    {
+                        var adsItem = Win32StorageEnumerator.GetAlternateStream(ads, item);
+                        filesAndFolders.Add(adsItem);
+                    }
+                }
             }
 
             enumFolderSemaphore.Release();
@@ -2189,6 +2198,7 @@ namespace Files.Uwp.ViewModels
             }
 
             await AddFileOrFolderAsync(listedItem);
+
             return listedItem;
         }
 
@@ -2293,6 +2303,16 @@ namespace Files.Uwp.ViewModels
                 if (matchingItem != null)
                 {
                     filesAndFolders.Remove(matchingItem);
+
+                    if (UserSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible)
+                    {
+                        // Main file is removed, remove connected ADS
+                        foreach (var adsItem in filesAndFolders.Where(x => x is AlternateStreamItem ads && ads.MainStreamPath == matchingItem.ItemPath).ToList())
+                        {
+                            filesAndFolders.Remove(adsItem);
+                        }
+                    }
+
                     return matchingItem;
                 }
             }

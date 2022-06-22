@@ -36,6 +36,11 @@ namespace Files.Backend.Services.Settings
         bool AreSystemItemsHidden { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether or not alternate data streams should be visible.
+        /// </summary>
+        bool AreAlternateStreamsVisible { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether or not to display dot files.
         /// </summary>
         bool ShowDotFiles{ get; set; }

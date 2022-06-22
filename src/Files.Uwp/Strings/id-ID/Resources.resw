@@ -235,7 +235,7 @@
     <value>Tampilkan titik pada berkas</value>
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
-    <value>Experimental</value>
+    <value>Uji Coba</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Tampilan</value>
@@ -790,7 +790,7 @@
     <value>Buat berkas kosong</value>
   </data>
   <data name="Folder" xml:space="preserve">
-    <value>Folder</value>
+    <value>Berkas</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Buat folder kosong</value>
@@ -1111,7 +1111,7 @@
     <value>Media</value>
   </data>
   <data name="PropertySectionAudio" xml:space="preserve">
-    <value>Audio</value>
+    <value>Suara</value>
   </data>
   <data name="PropertySectionMusic" xml:space="preserve">
     <value>Lagu</value>
@@ -1255,7 +1255,7 @@
     <value>Tambahkan</value>
   </data>
   <data name="Edit" xml:space="preserve">
-    <value>Edit</value>
+    <value>Sunting</value>
   </data>
   <data name="Remove" xml:space="preserve">
     <value>Hapus</value>
@@ -1510,7 +1510,7 @@
     <value>Tidak ada benda yang dipilih</value>
   </data>
   <data name="PropertyItemTarget" xml:space="preserve">
-    <value>Target</value>
+    <value>Sasaran</value>
   </data>
   <data name="Arguments" xml:space="preserve">
     <value>Argumen</value>
@@ -2768,25 +2768,25 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
     <value>Operasi pemindahan tidak didukung dalam konteks ini. Apakah Anda ingin menyalin item ini?</value>
   </data>
   <data name="HiddenFilesAndFolders" xml:space="preserve">
-    <value>Hidden files and folders</value>
+    <value>File dan folder tersembunyi</value>
   </data>
   <data name="Custom" xml:space="preserve">
-    <value>Custom</value>
+    <value>Kustom</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
-    <value>Set as desktop slideshow</value>
+    <value>Atur sebagai slideshow desktop</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
-    <value>Size All Columns to Fit</value>
+    <value>Atur Semua Ukuran Kolom ke Sesuai</value>
   </data>
   <data name="Contributors" xml:space="preserve">
-    <value>Contributors</value>
+    <value>Kontributor</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Adaptive</value>
+    <value>Adaptif</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>Adaptive (Ctrl+Shift+7)</value>
+    <value>Adaptif (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>

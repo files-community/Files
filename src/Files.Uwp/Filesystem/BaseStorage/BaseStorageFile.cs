@@ -90,7 +90,7 @@ namespace Files.Uwp.Filesystem.StorageItems
 
         public static IAsyncOperation<BaseStorageFile> GetFileFromPathAsync(string path)
             => AsyncInfo.Run(async (cancellationToken)
-                => await ZipStorageFile.FromPathAsync(path) ?? await FtpStorageFile.FromPathAsync(path) ?? await ShellStorageFile.FromPathAsync(path) ?? await SystemStorageFile.FromPathAsync(path)
+                => await ZipStorageFile.FromPathAsync(path) ?? await FtpStorageFile.FromPathAsync(path) ?? await ShellStorageFile.FromPathAsync(path) ?? await NativeStorageFile.FromPathAsync(path) ?? await SystemStorageFile.FromPathAsync(path)
             );
 
         public async Task<string> ReadTextAsync(int maxLength = -1)
