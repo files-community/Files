@@ -314,7 +314,7 @@ namespace Files.Uwp.Helpers
         }
 
         [DllImport("api-ms-win-core-file-l2-1-1.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
-        public static extern bool GetFileInformationByHandleEx(IntPtr hFile, FILE_INFO_BY_HANDLE_CLASS infoClass, IntPtr dirInfo, uint dwBufferSize);
+        private static extern bool GetFileInformationByHandleEx(IntPtr hFile, FILE_INFO_BY_HANDLE_CLASS infoClass, IntPtr dirInfo, uint dwBufferSize);
 
         public static bool GetFileDateModified(string filePath, out FILETIME dateModified)
         {
