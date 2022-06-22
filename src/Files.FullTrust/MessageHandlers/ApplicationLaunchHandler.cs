@@ -175,6 +175,31 @@ namespace Files.FullTrust.MessageHandlers
                                 });
                             }
                         }
+                        if (!opened)
+                        {
+                            var isAlternateStream = Regex.IsMatch(application, @"\w:\w");
+                            if (isAlternateStream)
+                            {
+                                var basePath = Path.Combine(Environment.GetEnvironmentVariable("TEMP"), Guid.NewGuid().ToString("n"));
+                                Kernel32.CreateDirectory(basePath);
+
+                                var tempPath = Path.Combine(basePath, new string(Path.GetFileName(application).SkipWhile(x => x != ':').Skip(1).ToArray()));
+                                using var hFileSrc = Kernel32.CreateFile(application, Kernel32.FileAccess.GENERIC_READ, FileShare.ReadWrite, null, FileMode.Open, FileFlagsAndAttributes.FILE_ATTRIBUTE_NORMAL);
+                                using var hFileDst = Kernel32.CreateFile(tempPath, Kernel32.FileAccess.GENERIC_WRITE, 0, null, FileMode.Create, FileFlagsAndAttributes.FILE_ATTRIBUTE_NORMAL | FileFlagsAndAttributes.FILE_ATTRIBUTE_READONLY);
+
+                                if (!hFileSrc.IsInvalid && !hFileDst.IsInvalid)
+                                {
+                                    // Copy ADS to temp folder and open
+                                    using (var inStream = new FileStream(hFileSrc.DangerousGetHandle(), FileAccess.Read))
+                                    using (var outStream = new FileStream(hFileDst.DangerousGetHandle(), FileAccess.Write))
+                                    {
+                                        await inStream.CopyToAsync(outStream);
+                                        await outStream.FlushAsync();
+                                    }
+                                    opened = await HandleApplicationLaunch(tempPath, message);
+                                }
+                            }
+                        }
                         return opened;
                     }
                     catch (Win32Exception)
@@ -192,6 +217,12 @@ namespace Files.FullTrust.MessageHandlers
             catch (InvalidOperationException)
             {
                 // Invalid file path
+                return false;
+            }
+            catch (Exception ex)
+            {
+                // Generic error, log
+                Program.Logger.Warn(ex, $"Error launching: {application}");
                 return false;
             }
         }
