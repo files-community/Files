@@ -1705,25 +1705,25 @@
     <value>פתחו תיקיית ערכות נושא</value>
   </data>
   <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
-    <value>החלף קיים</value>
+    <value>החלף קבצים קיימים</value>
   </data>
   <data name="ConflictingItemsDialogOptionReplaceExisting.Text" xml:space="preserve">
-    <value>החלף קיים</value>
+    <value>החלף קבצים קיימים</value>
   </data>
   <data name="ConflictingItemsDialogTakenActionReplaceExisting" xml:space="preserve">
-    <value>החלף קיים</value>
+    <value>החלף קבצים קיימים</value>
   </data>
   <data name="GenerateNewName" xml:space="preserve">
-    <value>ייצר שם חדש</value>
+    <value>צור שם חדש</value>
   </data>
   <data name="ConflictingItemsDialogUndoOption.Text" xml:space="preserve">
     <value>בטל</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts" xml:space="preserve">
-    <value>יש {0} שמות קובץ חופפים.</value>
+    <value>יש {0} שמות קבצים זהים.</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
-    <value>יש שם קובץ חופף אחד.</value>
+    <value>יש שם קובץ זהה אחד.</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" xml:space="preserve">
     <value>Create folder with selection</value>
@@ -1795,7 +1795,7 @@
     <value>ענק</value>
   </data>
   <data name="ItemSizeText_VeryLarge" xml:space="preserve">
-    <value>Very large</value>
+    <value>גדול מאוד</value>
   </data>
   <data name="ItemSizeText_Large" xml:space="preserve">
     <value>גדול</value>
@@ -2035,16 +2035,16 @@
     <value>Open destination folder when complete</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractFilesOption" xml:space="preserve">
-    <value>Extract files</value>
+    <value>חלץ קבצים</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractHereOption" xml:space="preserve">
-    <value>Extract here</value>
+    <value>חלץ לכאן</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractionOptions" xml:space="preserve">
     <value>חלץ</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
-    <value>Extract to {0}\</value>
+    <value>חלץ אל {0}/</value>
   </data>
   <data name="SideBarCreateNewLibrary.Text" xml:space="preserve">
     <value>יצירת ספריה חדשה</value>
@@ -2110,16 +2110,16 @@
     <value>תיקיה זו, תיקיות משנה וקבצים</value>
   </data>
   <data name="SecurityAdvancedOnlyFiles.Text" xml:space="preserve">
-    <value>Only files</value>
+    <value>קבצים בלבד</value>
   </data>
   <data name="SecurityAdvancedOnlySubfolders.Text" xml:space="preserve">
-    <value>Only subfolders</value>
+    <value>תיקיות משנה בלבד</value>
   </data>
   <data name="SecurityAdvancedOnlySubfoldersFiles.Text" xml:space="preserve">
-    <value>Only subfolders and files</value>
+    <value>תיקיות משנה וקבצים בלבד</value>
   </data>
   <data name="SecurityAdvancedOnlyThisFolder.Text" xml:space="preserve">
-    <value>Only this folder</value>
+    <value>תיקייה זו בלבד</value>
   </data>
   <data name="SecurityAdvancedFolderSubfolders.Text" xml:space="preserve">
     <value>תיקיה זו ותיקיות משנה</value>
@@ -2131,10 +2131,10 @@
     <value>שנה הרשאה</value>
   </data>
   <data name="SecurityCreateDirectoriesLabel.Text" xml:space="preserve">
-    <value>Create folders</value>
+    <value>יצירת תיקיות</value>
   </data>
   <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
-    <value>Create files</value>
+    <value>יצירת קבצים</value>
   </data>
   <data name="SecurityDeleteSubdirectoriesAndFilesLabel.Text" xml:space="preserve">
     <value>Delete subdirectories and files</value>
@@ -2281,10 +2281,10 @@
     <value>Ctrl+N</value>
   </data>
   <data name="NavigationToolbarEnterCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+Up</value>
+    <value>Ctrl+Alt+למעלה</value>
   </data>
   <data name="NavigationToolbarExitCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+Down</value>
+    <value>Ctrl+Alt+למטה</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+1</value>
@@ -2311,13 +2311,13 @@
     <value>Ctrl+Shift+T</value>
   </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
-    <value>The archive extraction completed successfully.</value>
+    <value>החילוץ מהארכיון בוצע בהצלחה.</value>
   </data>
   <data name="ExtractingArchiveText" xml:space="preserve">
-    <value>Extracting archive</value>
+    <value>מתבצע חילוץ מהארכיון</value>
   </data>
   <data name="ExtractingCompleteText" xml:space="preserve">
-    <value>Extracting complete!</value>
+    <value>החילוץ הושלם!</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+N</value>
@@ -2326,10 +2326,10 @@
     <value>מדיניות פרטיות</value>
   </data>
   <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
-    <value>Fluent UI System Icons</value>
+    <value>סמלי מערכת של Fluent UI</value>
   </data>
   <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Fluent UI System Icons</value>
+    <value>סמלי מערכת של Fluent UI</value>
   </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
@@ -2337,7 +2337,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   </value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
-    <value>Open parent folder</value>
+    <value>פתח תיקיית אם</value>
   </data>
   <data name="FileTagUnknown" xml:space="preserve">
     <value>לא ידוע</value>
@@ -2487,7 +2487,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Item size column</value>
   </data>
   <data name="SettingsDefaultFilesManager" xml:space="preserve">
-    <value>Default file manager</value>
+    <value>מנהל קבצים ברירת מחדל</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
     <value>Set Files as the default file manager</value>
@@ -2577,10 +2577,10 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Windows Vista SP2</value>
   </data>
   <data name="ReducedColorMode_Color16Bit" xml:space="preserve">
-    <value>16 Bit Colors (65536)</value>
+    <value>צבעי 16 סיביות (65536)</value>
   </data>
   <data name="ReducedColorMode_Color8Bit" xml:space="preserve">
-    <value>8 Bit Colors (256)</value>
+    <value>צבעי 8 סיביות (256)</value>
   </data>
   <data name="CompatibilityMode" xml:space="preserve">
     <value>מצב תאימות</value>
@@ -2589,7 +2589,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>בטל מיטובי מסך מלא</value>
   </data>
   <data name="ExecuteAt640X480" xml:space="preserve">
-    <value>Run at 640 x 480 screen resolution</value>
+    <value>הפעלה ברזולוציית מסך של 640 x‏ 480</value>
   </data>
   <data name="Options" xml:space="preserve">
     <value>אפשרויות</value>
@@ -2613,7 +2613,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Use DPI settings of the main monitor</value>
   </data>
   <data name="ThirdPartyLicenses" xml:space="preserve">
-    <value>Third party licenses</value>
+    <value>רשיונות צד שלישי</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>This option modifies the system registry and can have unexpected side effects on your device. Continue at your own risk.</value>
@@ -2628,7 +2628,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Enter Library name</value>
   </data>
   <data name="ShowFolderSize" xml:space="preserve">
-    <value>Show folder size</value>
+    <value>הצגת גודל התיקייה</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
     <value>קבצים אחרונים</value>
@@ -2673,7 +2673,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Ctrl+E</value>
   </data>
   <data name="ExtractToChildFolder" xml:space="preserve">
-    <value>Extract to {0}</value>
+    <value>חלץ אל {0}</value>
   </data>
   <data name="RunScript" xml:space="preserve">
     <value>הפעל קובץ Script</value>
@@ -2715,7 +2715,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>סרטוני וידאו</value>
   </data>
   <data name="UpdateFiles" xml:space="preserve">
-    <value>Update Files</value>
+    <value>עדכן קבצים</value>
   </data>
   <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
     <value>Preparing {0} items</value>
