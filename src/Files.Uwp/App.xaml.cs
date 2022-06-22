@@ -4,6 +4,7 @@ using Files.Backend.Services.Settings;
 using Files.Backend.Services.SizeProvider;
 using Files.Shared;
 using Files.Shared.Extensions;
+using Files.Shared.Services;
 using Files.Shared.Services.DateTimeFormatter;
 using Files.Uwp.CommandLine;
 using Files.Uwp.Controllers;
@@ -123,6 +124,7 @@ namespace Files.Uwp
                 .AddSingleton<IImagingService, ImagingService>()
                 .AddSingleton<IThreadingService, ThreadingService>()
                 .AddSingleton<ILocalizationService, LocalizationService>()
+                .AddSingleton<IFullTrustAsker, FullTrustAsker>()
 #if SIDELOAD
                 .AddSingleton<IUpdateService, SideloadUpdateService>()
 #else

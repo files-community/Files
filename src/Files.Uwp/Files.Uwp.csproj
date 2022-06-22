@@ -285,6 +285,7 @@
     <Compile Include="ServicesImplementation\DateTimeFormatter\SystemDateTimeFormatter.cs" />
     <Compile Include="ServicesImplementation\DateTimeFormatter\UserDateTimeFormatter.cs" />
     <Compile Include="ServicesImplementation\DialogService.cs" />
+    <Compile Include="ServicesImplementation\FullTrustAsker.cs" />
     <Compile Include="ServicesImplementation\ImagingService.cs" />
     <Compile Include="ServicesImplementation\LocalizationService.cs" />
     <Compile Include="ServicesImplementation\Settings\AppearanceSettingsService.cs" />
