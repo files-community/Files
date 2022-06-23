@@ -15,12 +15,12 @@ namespace Files.Uwp.Helpers
     /// </summary>
     public static class StorageHelpers
     {
-        public static async Task<IStorageItem> ToStorageItem(this IStorageItemWithPath item, IShellPage associatedInstance = null)
+        public static async Task<IStorageItem> ToStorageItem(this IStorageItemWithPath item)
         {
-            return (await item.ToStorageItemResult(associatedInstance)).Result;
+            return (await item.ToStorageItemResult()).Result;
         }
 
-        public static async Task<TRequested> ToStorageItem<TRequested>(string path, IShellPage associatedInstance = null) where TRequested : IStorageItem
+        public static async Task<TRequested> ToStorageItem<TRequested>(string path) where TRequested : IStorageItem
         {
             FilesystemResult<BaseStorageFile> file = null;
             FilesystemResult<BaseStorageFolder> folder = null;
@@ -110,28 +110,14 @@ namespace Files.Uwp.Helpers
 
             async Task GetFile()
             {
-                if (associatedInstance == null || associatedInstance.FilesystemViewModel == null)
-                {
-                    var rootItem = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
-                    file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path, rootItem));
-                }
-                else
-                {
-                    file = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(path);
-                }
+                var rootItem = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
+                file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path, rootItem));
             }
 
             async Task GetFolder()
             {
-                if (associatedInstance == null)
-                {
-                    var rootItem = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
-                    folder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, rootItem));
-                }
-                else
-                {
-                    folder = await associatedInstance?.FilesystemViewModel?.GetFolderFromPathAsync(path);
-                }
+                var rootItem = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
+                folder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, rootItem));
             }
         }
 
@@ -141,18 +127,16 @@ namespace Files.Uwp.Helpers
             return (long)properties.Size;
         }
 
-        public static async Task<FilesystemResult<IStorageItem>> ToStorageItemResult(this IStorageItemWithPath item, IShellPage associatedInstance = null)
+        public static async Task<FilesystemResult<IStorageItem>> ToStorageItemResult(this IStorageItemWithPath item)
         {
             var returnedItem = new FilesystemResult<IStorageItem>(null, FileSystemStatusCode.Generic);
-            var rootItem = associatedInstance == null ? await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(item.Path)) : null;
+            var rootItem = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(item.Path));
             if (!string.IsNullOrEmpty(item.Path))
             {
                 returnedItem = (item.ItemType == FilesystemItemType.File) ?
-                    ToType<IStorageItem, BaseStorageFile>(associatedInstance != null ?
-                        await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(item.Path) :
+                    ToType<IStorageItem, BaseStorageFile>(
                         await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(item.Path, rootItem))) :
-                    ToType<IStorageItem, BaseStorageFolder>(associatedInstance != null ?
-                        await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(item.Path) :
+                    ToType<IStorageItem, BaseStorageFolder>(
                         await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(item.Path, rootItem)));
             }
             if (returnedItem.Result == null && item.Item != null)
@@ -169,9 +153,9 @@ namespace Files.Uwp.Helpers
                     (IStorageItemWithPath)new StorageFolderWithPath(null, customPath);
         }
 
-        public static async Task<FilesystemItemType> GetTypeFromPath(string path, IShellPage associatedInstance = null)
+        public static async Task<FilesystemItemType> GetTypeFromPath(string path)
         {
-            IStorageItem item = await ToStorageItem<IStorageItem>(path, associatedInstance);
+            IStorageItem item = await ToStorageItem<IStorageItem>(path);
 
             return item == null ? FilesystemItemType.File : (item.IsOfType(StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File);
         }

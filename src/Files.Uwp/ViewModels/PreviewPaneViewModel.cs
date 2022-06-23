@@ -160,56 +160,57 @@ namespace Files.Uwp.ViewModels
             }
 
             var ext = item.FileExtension.ToLowerInvariant();
-            if (MediaPreviewViewModel.Extensions.Contains(ext))
+
+            if (MediaPreviewViewModel.ContainsExtension(ext))
             {
                 var model = new MediaPreviewViewModel(item);
                 await model.LoadAsync();
                 return new MediaPreview(model);
             }
 
-            if (MarkdownPreviewViewModel.Extensions.Contains(ext))
+            if (MarkdownPreviewViewModel.ContainsExtension(ext))
             {
                 var model = new MarkdownPreviewViewModel(item);
                 await model.LoadAsync();
                 return new MarkdownPreview(model);
             }
 
-            if (ImagePreviewViewModel.Extensions.Contains(ext))
+            if (ImagePreviewViewModel.ContainsExtension(ext))
             {
                 var model = new ImagePreviewViewModel(item);
                 await model.LoadAsync();
                 return new ImagePreview(model);
             }
 
-            if (TextPreviewViewModel.Extensions.Contains(ext))
+            if (TextPreviewViewModel.ContainsExtension(ext))
             {
                 var model = new TextPreviewViewModel(item);
                 await model.LoadAsync();
                 return new TextPreview(model);
             }
 
-            if (PDFPreviewViewModel.Extensions.Contains(ext))
+            if (PDFPreviewViewModel.ContainsExtension(ext))
             {
                 var model = new PDFPreviewViewModel(item);
                 await model.LoadAsync();
                 return new PDFPreview(model);
             }
 
-            if (HtmlPreviewViewModel.Extensions.Contains(ext))
+            if (HtmlPreviewViewModel.ContainsExtension(ext))
             {
                 var model = new HtmlPreviewViewModel(item);
                 await model.LoadAsync();
                 return new HtmlPreview(model);
             }
 
-            if (RichTextPreviewViewModel.Extensions.Contains(ext))
+            if (RichTextPreviewViewModel.ContainsExtension(ext))
             {
                 var model = new RichTextPreviewViewModel(item);
                 await model.LoadAsync();
                 return new RichTextPreview(model);
             }
 
-            if (CodePreviewViewModel.Extensions.Contains(ext))
+            if (CodePreviewViewModel.ContainsExtension(ext))
             {
                 var model = new CodePreviewViewModel(item);
                 await model.LoadAsync();

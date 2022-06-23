@@ -77,59 +77,41 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
 
             PagesOnStartupList.CollectionChanged += PagesOnStartupList_CollectionChanged;
 
+            _ = InitStartupSettingsRecentFoldersFlyout();
+            _ = DetectOpenFilesAtStartup();
+        }
+
+        private async Task InitStartupSettingsRecentFoldersFlyout()
+        {
             var recentsItem = new MenuFlyoutSubItemViewModel("JumpListRecentGroupHeader".GetLocalized());
             recentsItem.Items.Add(new MenuFlyoutItemViewModel("Home".GetLocalized(), "Home".GetLocalized(), AddPageCommand));
-            PopulateRecentItems(recentsItem).ContinueWith(_ =>
+
+            await App.RecentItemsManager.UpdateRecentFoldersAsync();    // ensure recent folders aren't stale since we don't update them with a watcher
+            await PopulateRecentItems(recentsItem).ContinueWith(_ =>
             {
                 AddFlyoutItemsSource = new ReadOnlyCollection<IMenuFlyoutItem>(new IMenuFlyoutItem[] {
                     new MenuFlyoutItemViewModel("Browse".GetLocalized(), null, AddPageCommand),
                     recentsItem,
                 });
             }, TaskScheduler.FromCurrentSynchronizationContext());
-
-            _ = DetectOpenFilesAtStartup();
         }
 
-        private async Task PopulateRecentItems(MenuFlyoutSubItemViewModel menu)
+        private Task PopulateRecentItems(MenuFlyoutSubItemViewModel menu)
         {
-            bool hasRecents = false;
-            menu.Items.Add(new MenuFlyoutSeparatorViewModel());
-
             try
             {
-                var mostRecentlyUsed = StorageApplicationPermissions.MostRecentlyUsedList;
+                var recentFolders = App.RecentItemsManager.RecentFolders;
 
-                foreach (AccessListEntry entry in mostRecentlyUsed.Entries)
+                // add separator
+                if (recentFolders.Any())
                 {
-                    string mruToken = entry.Token;
-                    var added = await FilesystemTasks.Wrap(async () =>
-                    {
-                        IStorageItem item = await mostRecentlyUsed.GetItemAsync(mruToken, AccessCacheOptions.FastLocationsOnly | AccessCacheOptions.SuppressAccessTimeUpdate);
-                        if (item.IsOfType(StorageItemTypes.Folder))
-                        {
-                            menu.Items.Add(new MenuFlyoutItemViewModel(item.Name, string.IsNullOrEmpty(item.Path) ? entry.Metadata : item.Path, AddPageCommand));
-                            hasRecents = true;
-                        }
-                    });
-                    if (added == FileSystemStatusCode.Unauthorized)
-                    {
-                        // Skip item until consent is provided
-                    }
-                    // Exceptions include but are not limited to:
-                    // COMException, FileNotFoundException, ArgumentException, DirectoryNotFoundException
-                    // 0x8007016A -> The cloud file provider is not running
-                    // 0x8000000A -> The data necessary to complete this operation is not yet available
-                    // 0x80004005 -> Unspecified error
-                    // 0x80270301 -> ?
-                    else if (!added)
-                    {
-                        await FilesystemTasks.Wrap(() =>
-                        {
-                            mostRecentlyUsed.Remove(mruToken);
-                            return Task.CompletedTask;
-                        });
-                        System.Diagnostics.Debug.WriteLine(added.ErrorCode);
-                    }
+                    menu.Items.Add(new MenuFlyoutSeparatorViewModel());
+                }
+
+                foreach (var recentFolder in recentFolders)
+                {
+                    var menuItem = new MenuFlyoutItemViewModel(recentFolder.Name, recentFolder.RecentPath, AddPageCommand);
+                    menu.Items.Add(menuItem);
                 }
             }
             catch (Exception ex)
@@ -137,10 +119,7 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
                 App.Logger.Info(ex, "Could not fetch recent items");
             }
 
-            if (!hasRecents)
-            {
-                menu.Items.RemoveAt(menu.Items.Count - 1);
-            }
+            return Task.CompletedTask;
         }
 
         private void PagesOnStartupList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -540,6 +519,19 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
                 if (value != UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden)
                 {
                     UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool AreAlternateStreamsVisible
+        {
+            get => UserSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible;
+            set
+            {
+                if (value != UserSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible)
+                {
+                    UserSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible = value;
                     OnPropertyChanged();
                 }
             }

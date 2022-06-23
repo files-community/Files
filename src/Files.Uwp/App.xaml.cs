@@ -61,6 +61,7 @@ namespace Files.Uwp
         public static PaneViewModel PaneViewModel { get; private set; }
         public static PreviewPaneViewModel PreviewPaneViewModel { get; private set; }
         public static JumpListManager JumpList { get; private set; }
+        public static RecentItemsManager RecentItemsManager { get; private set; }
         public static SidebarPinnedController SidebarPinnedController { get; private set; }
         public static TerminalController TerminalController { get; private set; }
         public static CloudDrivesManager CloudDrivesManager { get; private set; }
@@ -155,6 +156,7 @@ namespace Files.Uwp
             new AppearanceViewModel().SetCompactStyles(updateTheme: false);
 
             JumpList ??= new JumpListManager();
+            RecentItemsManager ??= new RecentItemsManager();
             MainViewModel ??= new MainViewModel();
             PaneViewModel ??= new PaneViewModel();
             PreviewPaneViewModel ??= new PreviewPaneViewModel();

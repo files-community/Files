@@ -195,7 +195,7 @@ namespace Files.Uwp.Filesystem
                 else
                 {
                     // CopyFileFromApp only works on file not directories
-                    var fsSourceFolder = await source.ToStorageItemResult(associatedInstance);
+                    var fsSourceFolder = await source.ToStorageItemResult();
                     var fsDestinationFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination));
                     var fsResult = (FilesystemResult)(fsSourceFolder.ErrorCode | fsDestinationFolder.ErrorCode);
 
@@ -241,17 +241,27 @@ namespace Files.Uwp.Filesystem
                     Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
 
                     FilesystemResult<BaseStorageFolder> destinationResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination));
-                    var sourceResult = await source.ToStorageItemResult(associatedInstance);
+                    var sourceResult = await source.ToStorageItemResult();
                     fsResult = sourceResult.ErrorCode | destinationResult.ErrorCode;
 
                     if (fsResult)
                     {
                         var file = (BaseStorageFile)sourceResult;
                         var fsResultCopy = new FilesystemResult<BaseStorageFile>(null, FileSystemStatusCode.Generic);
-                        if (string.IsNullOrEmpty(file.Path) && collision != NameCollisionOption.ReplaceExisting)
+                        if (string.IsNullOrEmpty(file.Path) && collision == NameCollisionOption.GenerateUniqueName)
                         {
-                            // Microsoft bug! When dragging files from .zip, "GenerateUniqueName" option is not respected and the file gets overwritten
-                            fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(destinationResult.Result, Path.GetFileName(file.Name), NameCollisionOption.FailIfExists).AsTask());
+                            // If collision is GenerateUniqueName we will manually check for existing file and generate a new name
+                            // HACK: If file is dragged from zip file in windows explorer for example. The file path is empty and
+                            // GenerateUniqueName isn't working correctly. Below is a possible solution.
+                            var desiredNewName = Path.GetFileName(file.Name);
+                            string nameWithoutExt = Path.GetFileNameWithoutExtension(desiredNewName);
+                            string extension = Path.GetExtension(desiredNewName);
+                            ushort attempt = 1;
+                            do
+                            {
+                                fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(destinationResult.Result, desiredNewName, NameCollisionOption.FailIfExists).AsTask());
+                                desiredNewName = $"{nameWithoutExt} ({attempt}){extension}";
+                            } while (fsResultCopy.ErrorCode == FileSystemStatusCode.AlreadyExists && ++attempt < 1024);
                         }
                         else
                         {
@@ -386,7 +396,7 @@ namespace Files.Uwp.Filesystem
                     {
                         Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
 
-                        var fsSourceFolder = await source.ToStorageItemResult(associatedInstance);
+                        var fsSourceFolder = await source.ToStorageItemResult();
                         var fsDestinationFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination));
                         fsResult = fsSourceFolder.ErrorCode | fsDestinationFolder.ErrorCode;
 
@@ -435,7 +445,7 @@ namespace Files.Uwp.Filesystem
                     Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
 
                     FilesystemResult<BaseStorageFolder> destinationResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination));
-                    var sourceResult = await source.ToStorageItemResult(associatedInstance);
+                    var sourceResult = await source.ToStorageItemResult();
                     fsResult = sourceResult.ErrorCode | destinationResult.ErrorCode;
 
                     if (fsResult)
@@ -601,7 +611,7 @@ namespace Files.Uwp.Filesystem
                 && !FilesystemHelpers.ContainsRestrictedCharacters(newName)
                 && !FilesystemHelpers.ContainsRestrictedFileName(newName))
             {
-                var renamed = await source.ToStorageItemResult(associatedInstance)
+                var renamed = await source.ToStorageItemResult()
                     .OnSuccess(async (t) =>
                     {
                         if (t.Name.Equals(newName, StringComparison.CurrentCultureIgnoreCase))

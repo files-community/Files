@@ -54,7 +54,8 @@ namespace Files.FullTrust
                     new QuickLookHandler(),
                     new Win32MessageHandler(),
                     new InstallOperationsHandler(),
-                    new DesktopWallpaperHandler()
+                    new DesktopWallpaperHandler(),
+                    new RecentItemsHandler(),
                 };
 
                 // Connect to app service and wait until the connection gets closed

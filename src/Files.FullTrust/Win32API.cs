@@ -169,8 +169,8 @@ namespace Files.FullTrust
 
             if (!onlyGetOverlay)
             {
-                using var shellItem = ShellFolderExtensions.GetShellItemFromPathOrPidl(path);
-                if (shellItem.IShellItem is Shell32.IShellItemImageFactory fctry)
+                using var shellItem = SafetyExtensions.IgnoreExceptions(() => ShellFolderExtensions.GetShellItemFromPathOrPidl(path));
+                if (shellItem != null && shellItem.IShellItem is Shell32.IShellItemImageFactory fctry)
                 {
                     var flags = Shell32.SIIGBF.SIIGBF_BIGGERSIZEOK;
                     if (thumbnailSize < 80) flags |= Shell32.SIIGBF.SIIGBF_ICONONLY;
@@ -188,13 +188,15 @@ namespace Files.FullTrust
                 }
             }
 
-            if (getOverlay)
+            if (getOverlay || (!onlyGetOverlay && iconStr == null))
             {
                 var shfi = new Shell32.SHFILEINFO();
                 var flags = Shell32.SHGFI.SHGFI_OVERLAYINDEX | Shell32.SHGFI.SHGFI_ICON | Shell32.SHGFI.SHGFI_SYSICONINDEX | Shell32.SHGFI.SHGFI_ICONLOCATION;
+                var useFileAttibutes = !onlyGetOverlay && iconStr == null; // Cannot access file, use file attributes
                 var ret = ShellFolderExtensions.GetStringAsPidl(path, out var pidl) ? 
                     Shell32.SHGetFileInfo(pidl, 0, ref shfi, Shell32.SHFILEINFO.Size, Shell32.SHGFI.SHGFI_PIDL | flags) :
-                    Shell32.SHGetFileInfo(path, 0, ref shfi, Shell32.SHFILEINFO.Size, flags);
+                    // TODO: pass FileAttributes.Directory for folders (add "isFolder" parameter)
+                    Shell32.SHGetFileInfo(path, 0, ref shfi, Shell32.SHFILEINFO.Size, flags | (useFileAttibutes ? Shell32.SHGFI.SHGFI_USEFILEATTRIBUTES : 0));
                 if (ret == IntPtr.Zero)
                 {
                     return (iconStr, null);
@@ -204,13 +206,46 @@ namespace Files.FullTrust
 
                 lock (lockObject)
                 {
-                    if (!Shell32.SHGetImageList(Shell32.SHIL.SHIL_LARGE, typeof(ComCtl32.IImageList).GUID, out var imageList).Succeeded)
+                    var imageListSize = thumbnailSize switch
+                    {
+                        <= 16 => Shell32.SHIL.SHIL_SMALL,
+                        <= 32 => Shell32.SHIL.SHIL_LARGE,
+                        <= 48 => Shell32.SHIL.SHIL_EXTRALARGE,
+                        _ => Shell32.SHIL.SHIL_JUMBO,
+                    };
+                    if (!Shell32.SHGetImageList(imageListSize, typeof(ComCtl32.IImageList).GUID, out var imageList).Succeeded)
                     {
                         return (iconStr, null);
                     }
 
+                    if (!onlyGetOverlay && iconStr == null)
+                    {
+                        var iconIdx = shfi.iIcon & 0xFFFFFF;
+                        if (iconIdx != 0)
+                        {
+                            // Could not fetch thumbnail, load simple icon
+                            using var hIcon = imageList.GetIcon(iconIdx, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
+                            if (!hIcon.IsNull && !hIcon.IsInvalid)
+                            {
+                                using (var icon = hIcon.ToIcon())
+                                using (var image = icon.ToBitmap())
+                                {
+                                    byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
+                                    iconStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            // Could not icon, load generic icon
+                            var icons = ExtractSelectedIconsFromDLL(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "shell32.dll"), new[] { 1 }, thumbnailSize);
+                            var generic = icons.SingleOrDefault(x => x.Index == 1);
+                            iconStr = generic?.IconData;
+                        }
+                    }
+
                     var overlayIdx = shfi.iIcon >> 24;
-                    if (overlayIdx != 0)
+                    if (overlayIdx != 0 && getOverlay)
                     {
                         var overlayImage = imageList.GetOverlayImage(overlayIdx);
                         using var hOverlay = imageList.GetIcon(overlayImage, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
@@ -505,7 +540,7 @@ namespace Files.FullTrust
 
                 for (ushort count = 1; File.Exists(uniquePath); count++)
                 {
-                    if (countMatch != null)
+                    if (countMatch.Success)
                     {
                         uniquePath = Path.Combine(directory, $"{nameWithoutExt[..countMatch.Index]}({count}){extension}");
                     }
@@ -523,7 +558,7 @@ namespace Files.FullTrust
 
                 for (ushort Count = 1; Directory.Exists(uniquePath); Count++)
                 {
-                    if (countMatch != null)
+                    if (countMatch.Success)
                     {
                         uniquePath = Path.Combine(directory, $"{Name[..countMatch.Index]}({Count})");
                     }

@@ -11,51 +11,33 @@ namespace Files.Uwp.ViewModels.Previews
 {
     public class ArchivePreviewViewModel : BasePreviewModel
     {
-        public static List<string> Extensions => new List<string>()
-        {
-            ".zip",
-        };
+        public ArchivePreviewViewModel(ListedItem item) : base(item) {}
 
-        public ArchivePreviewViewModel(ListedItem item) : base(item)
-        {
-        }
-
-        public override async Task<List<FileProperty>> LoadPreviewAndDetails()
+        public override async Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
         {
             var details = new List<FileProperty>();
-            using ZipFile zipFile = new ZipFile(await Item.ItemFile.OpenStreamForReadAsync());
+            using ZipFile zipFile = new(await Item.ItemFile.OpenStreamForReadAsync());
             zipFile.IsStreamOwner = true;
 
-            var folderCount = 0;
-            var fileCount = 0;
+            long fileCount = 0;
+            long folderCount;
             long totalSize = 0;
 
             foreach (ZipEntry entry in zipFile)
             {
                 if (entry.IsFile)
                 {
-                    fileCount++;
+                    ++fileCount;
                     totalSize += entry.Size;
                 }
-                else
-                {
-                    folderCount++;
-                }
             }
+            folderCount = zipFile.Count - fileCount;
 
-            details.Add(new FileProperty()
-            {
-                NameResource = "PropertyItemCount",
-                Value = string.Format("DetailsArchiveItemCount".GetLocalized(), zipFile.Count, fileCount, folderCount),
-            });
+            string propertyItemCount = string.Format("DetailsArchiveItemCount".GetLocalized(), zipFile.Count, fileCount, folderCount);
+            details.Add(GetFileProperty("PropertyItemCount", propertyItemCount));
+            details.Add(GetFileProperty("PropertyUncompressedSize", totalSize.ToLongSizeString()));
 
-            details.Add(new FileProperty()
-            {
-                NameResource = "PropertyUncompressedSize",
-                Value = totalSize.ToLongSizeString(),
-            });
-
-            _ = await base.LoadPreviewAndDetails(); // Loads the thumbnail preview
+            _ = await base.LoadPreviewAndDetailsAsync(); // Loads the thumbnail preview
             return details;
         }
     }
