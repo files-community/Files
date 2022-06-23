@@ -2790,4 +2790,7 @@ Utilizamos App Center para hacer un seguimiento del uso de la aplicación, encon
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Mayús+7</value>
   </data>
+  <data name="ShowAlternateStreams" xml:space="preserve">
+    <value>Mostrar secuencias de datos alternativas</value>
+  </data>
 </root>
