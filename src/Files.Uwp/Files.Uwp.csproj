@@ -196,6 +196,8 @@
     <Compile Include="Filesystem\FileTagsHelper.cs" />
     <Compile Include="Filesystem\FileTagsManager.cs" />
     <Compile Include="Filesystem\FtpManager.cs" />
+    <Compile Include="Filesystem\RecentItem.cs" />
+    <Compile Include="Filesystem\RecentItemsManager.cs" />
     <Compile Include="Filesystem\Permissions\FilePermissionsManager.cs" />
     <Compile Include="Filesystem\Permissions\FileSystemAccessRule.cs" />
     <Compile Include="Filesystem\Permissions\FileSystemAccessRuleForUI.cs" />
