@@ -268,7 +268,7 @@
     <value>Documentos</value>
   </data>
   <data name="Downloads" xml:space="preserve">
-    <value>Downloads</value>
+    <value>Transferências</value>
   </data>
   <data name="SideBarUnpinFromFavorites.Text" xml:space="preserve">
     <value>Desafixar dos Favoritos</value>
@@ -451,16 +451,16 @@
     <value>Você excluiu esta pasta?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by {0}</value>
+    <value>O arquivo que você está tentando acessar está sendo usado por {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by an another application</value>
+    <value>O arquivo que você está tentando acessar está sendo usado por outro aplicativo</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
-    <value>File is in use</value>
+    <value>O arquivo está em uso</value>
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
-    <value>Layout</value>
+    <value>Disposição</value>
   </data>
   <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>Opções de seleção</value>
@@ -550,7 +550,7 @@
     <value>Esvaziar lixeira</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
-    <value>bytes</value>
+    <value>‘bytes’</value>
   </data>
   <data name="KiloByteSymbol" xml:space="preserve">
     <value>KB</value>
@@ -613,7 +613,7 @@
     <value>Mover a guia aqui</value>
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
-    <value>Status</value>
+    <value>Estado</value>
   </data>
   <data name="SettingsOnStartupOpenAddPageButton.Content" xml:space="preserve">
     <value>Adicionar uma nova página</value>
@@ -895,10 +895,10 @@
     <value>Não especificada</value>
   </data>
   <data name="PropertyLongitudeDecimal" xml:space="preserve">
-    <value>Longitude Decimal</value>
+    <value>Decimo da Longitude</value>
   </data>
   <data name="PropertyLatitudeDecimal" xml:space="preserve">
-    <value>Latitude Decimal</value>
+    <value>Decimo da Latitude</value>
   </data>
   <data name="PropertyLatitude" xml:space="preserve">
     <value>Latitude</value>
@@ -907,7 +907,7 @@
     <value>Longitude</value>
   </data>
   <data name="PropertyLatitudeRef" xml:space="preserve">
-    <value>Latitude Ref</value>
+    <value>Ref Latitude</value>
   </data>
   <data name="PropertyLongitudeRef" xml:space="preserve">
     <value>Longitude Ref</value>
@@ -1285,13 +1285,13 @@
     <value>Detalhado (Ctrl+Shift+1)</value>
   </data>
   <data name="NavToolbarLayoutOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Layout</value>
+    <value>Disposição</value>
   </data>
   <data name="NavToolbarLayoutOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Layout</value>
+    <value>Disposição</value>
   </data>
   <data name="NavToolbarLayoutOptionsButton.Label" xml:space="preserve">
-    <value>Layout</value>
+    <value>Disposição</value>
   </data>
   <data name="PreviewPaneToggle.Label" xml:space="preserve">
     <value>Visualização</value>
@@ -1960,7 +1960,7 @@
     <value>Dispensar</value>
   </data>
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
-    <value>Widgets</value>
+    <value>Componentes</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>Status de sincronização</value>
@@ -2272,7 +2272,7 @@
     <value>Ctrl+A</value>
   </data>
   <data name="NavigationToolbarNewPane.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Alt+Shift++</value>
+    <value>Alt+Shif++</value>
   </data>
   <data name="NavigationToolbarClosePane.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+W</value>
@@ -2281,10 +2281,10 @@
     <value>Ctrl+N</value>
   </data>
   <data name="NavigationToolbarEnterCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+Up</value>
+    <value>Ctrl+Alt+Cima</value>
   </data>
   <data name="NavigationToolbarExitCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+Down</value>
+    <value>Ctrl+Alt+Baixo</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+1</value>
@@ -2658,7 +2658,7 @@ Usamos o App Center para rastrear quais configurações estão sendo usadas, enc
     <value>Tipo:</value>
   </data>
   <data name="Bytes" xml:space="preserve">
-    <value>Bytes</value>
+    <value>‘Bytes’</value>
   </data>
   <data name="Extract" xml:space="preserve">
     <value>Extrair</value>
@@ -2745,7 +2745,7 @@ Usamos o App Center para rastrear quais configurações estão sendo usadas, enc
     <value>Mostrar a seção de Etiquetas</value>
   </data>
   <data name="UseCompactStyles" xml:space="preserve">
-    <value>Use compact styles in the details layout</value>
+    <value>Usa estilos compactos na disposição dos detalhes</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Universal</value>
@@ -2760,30 +2760,33 @@ Usamos o App Center para rastrear quais configurações estão sendo usadas, enc
     <value>Tentar Novamente</value>
   </data>
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
-    <value>Move operation is not supported in this context. Do you want to copy the items instead?</value>
+    <value>A operação de movimento não é suportada nesse contexto. Em vez disso deseja copar os itens?</value>
   </data>
   <data name="HiddenFilesAndFolders" xml:space="preserve">
-    <value>Hidden files and folders</value>
+    <value>Arquivos e pastas ocultas</value>
   </data>
   <data name="Custom" xml:space="preserve">
-    <value>Custom</value>
+    <value>Personalizado</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
-    <value>Set as desktop slideshow</value>
+    <value>Define como apresentação de ‘slides’ da área de trabalho</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
-    <value>Size All Columns to Fit</value>
+    <value>Dimensiona Todas as Colunas para Caber</value>
   </data>
   <data name="Contributors" xml:space="preserve">
-    <value>Contributors</value>
+    <value>Contribuidores</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Adaptive</value>
+    <value>Adaptativo</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>Adaptive (Ctrl+Shift+7)</value>
+    <value>Adaptativo (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
+  </data>
+  <data name="ShowAlternateStreams" xml:space="preserve">
+    <value>Mostra Fluxos de Dados Alternativos</value>
   </data>
 </root>
