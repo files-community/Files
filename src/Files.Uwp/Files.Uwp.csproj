@@ -191,7 +191,16 @@
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\ImageSourceExtensions.cs" />
     <Compile Include="Extensions\KeyboardAcceleratorExtensions.cs" />
-    <Compile Include="Filesystem\Cloud\Providers\SynologyDriveCloudProvider.cs" />
+    <Compile Include="Filesystem\Cloud\CloudDrivesManager.cs" />
+    <Compile Include="Filesystem\Cloud\CloudDriveSyncStatusUI.cs" />
+    <Compile Include="Filesystem\Cloud\Detector\AbstractCloudDetector.cs" />
+    <Compile Include="Filesystem\Cloud\Detector\AppleCloudDetector.cs" />
+    <Compile Include="Filesystem\Cloud\Detector\BoxCloudDetector.cs" />
+    <Compile Include="Filesystem\Cloud\Detector\CloudDetector.cs" />
+    <Compile Include="Filesystem\Cloud\Detector\DropBoxCloudDetector.cs" />
+    <Compile Include="Filesystem\Cloud\Detector\GenericCloudDetector.cs" />
+    <Compile Include="Filesystem\Cloud\Detector\GoogleDriveCloudDetector.cs" />
+    <Compile Include="Filesystem\Cloud\Detector\SynologyDriveCloudDetector.cs" />
     <Compile Include="Filesystem\FilesystemOperations\ShellFilesystemOperations.cs" />
     <Compile Include="Filesystem\FileTagsHelper.cs" />
     <Compile Include="Filesystem\FileTagsManager.cs" />
@@ -244,7 +253,6 @@
     <Compile Include="Filesystem\StorageEnumerators\UniversalStorageEnumerator.cs" />
     <Compile Include="Filesystem\StorageEnumerators\Win32StorageEnumerator.cs" />
     <Compile Include="EventArguments\LayoutModeEventArgs.cs" />
-    <Compile Include="Filesystem\CloudDrivesManager.cs" />
     <Compile Include="Helpers\AdaptiveLayoutHelpers.cs" />
     <Compile Include="Filesystem\NetworkDrivesManager.cs" />
     <Compile Include="Helpers\AppServiceConnectionHelper.cs" />
@@ -449,14 +457,6 @@
     <Compile Include="UserControls\FilePreviews\ImagePreview.xaml.cs">
       <DependentUpon>ImagePreview.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Filesystem\Cloud\CloudDriveSyncStatusUI.cs" />
-    <Compile Include="Filesystem\Cloud\Providers\AppleCloudProvider.cs" />
-    <Compile Include="Filesystem\Cloud\Providers\BoxCloudProvider.cs" />
-    <Compile Include="Filesystem\Cloud\CloudProviderController.cs" />
-    <Compile Include="Filesystem\Cloud\Providers\DropBoxCloudProvider.cs" />
-    <Compile Include="Filesystem\Cloud\Providers\GoogleDriveCloudProvider.cs" />
-    <Compile Include="Filesystem\Cloud\ICloudProviderDetector.cs" />
-    <Compile Include="Filesystem\Cloud\Providers\GenericCloudProvider.cs" />
     <Compile Include="Filesystem\FilesystemOperations\FilesystemItemType.cs" />
     <Compile Include="Filesystem\FilesystemOperations\FilesystemOperations.cs" />
     <Compile Include="Filesystem\FilesystemOperations\Helpers\FilesystemHelpers.cs" />

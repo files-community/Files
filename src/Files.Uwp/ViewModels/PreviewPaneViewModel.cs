@@ -2,7 +2,7 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using Files.Backend.Services.Settings;
-using Files.Shared.Enums;
+using Files.Shared.Cloud;
 using Files.Shared.EventArguments;
 using Files.Uwp.Filesystem;
 using Files.Uwp.UserControls.FilePreviews;
@@ -153,7 +153,7 @@ namespace Files.Uwp.ViewModels
                 return null;
             }
 
-            if (item.SyncStatusUI.SyncStatus == CloudDriveSyncStatus.FileOnline && !downloadItem)
+            if (item.SyncStatusUI.SyncStatus is CloudDriveSyncStatus.FileOnline && !downloadItem)
             {
                 ShowCloudItemButton = true;
                 return null;
