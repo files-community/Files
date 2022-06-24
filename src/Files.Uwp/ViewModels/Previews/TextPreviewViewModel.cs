@@ -1,4 +1,5 @@
-﻿using Files.Uwp.Filesystem;
+﻿using Files.Shared.Extensions;
+using Files.Uwp.Filesystem;
 using Files.Uwp.UserControls.FilePreviews;
 using Files.Uwp.ViewModels.Properties;
 using System;
@@ -11,32 +12,41 @@ namespace Files.Uwp.ViewModels.Previews
     public class TextPreviewViewModel : BasePreviewModel
     {
         private string textValue;
-
-        public TextPreviewViewModel(ListedItem item) : base(item)
-        {
-        }
-
         public string TextValue
         {
             get => textValue;
-            set => SetProperty(ref textValue, value);
+            private set => SetProperty(ref textValue, value);
         }
 
-        public static List<string> Extensions => new List<string>() {
-            ".txt"
-        };
+        public TextPreviewViewModel(ListedItem item) : base(item) { }
 
-        /// <summary>
-        /// A list of extensions that will be ignored when using TryLoadAsTextAsync
-        /// </summary>
-        public static List<string> ExcludedExtensions => new List<string>()
+        public static bool ContainsExtension(string extension) => extension is ".txt";
+
+        public async override Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
         {
-            ".iso"
-        };
+            var details = new List<FileProperty>();
+
+            try
+            {
+                var text = TextValue ?? await ReadFileAsTextAsync(Item.ItemFile);
+
+                details.Add(GetFileProperty("PropertyLineCount", text.Split('\n').Length));
+                details.Add(GetFileProperty("PropertyWordCount", text.Split(new[]{' ', '\n'}, StringSplitOptions.RemoveEmptyEntries).Length));
+
+                TextValue = text.Left(Constants.PreviewPane.TextCharacterLimit);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+            }
+
+            return details;
+        }
 
         public static async Task<TextPreview> TryLoadAsTextAsync(ListedItem item)
         {
-            if (ExcludedExtensions.Contains(item.FileExtension?.ToLowerInvariant()) || item.FileSizeBytes > Constants.PreviewPane.TryLoadAsTextSizeLimit || item.FileSizeBytes == 0)
+            string extension = item.FileExtension?.ToLowerInvariant();
+            if (ExcludedExtensions(extension) || item.FileSizeBytes is 0 or > Constants.PreviewPane.TryLoadAsTextSizeLimit)
             {
                 return null;
             }
@@ -44,19 +54,15 @@ namespace Files.Uwp.ViewModels.Previews
             try
             {
                 item.ItemFile = await StorageFileExtensions.DangerousGetFileFromPathAsync(item.ItemPath);
-                var text = await ReadFileAsText(item.ItemFile); // await FileIO.ReadTextAsync(item.ItemFile);
 
-                // Check if file is binary
-                if (text.Contains("\0\0\0\0", StringComparison.Ordinal))
+                var text = await ReadFileAsTextAsync(item.ItemFile);
+                bool isBinaryFile = text.Contains("\0\0\0\0", StringComparison.Ordinal);
+                if (isBinaryFile)
                 {
                     return null;
                 }
 
-                var model = new TextPreviewViewModel(item)
-                {
-                    TextValue = text,
-                };
-
+                var model = new TextPreviewViewModel(item){ TextValue = text };
                 await model.LoadAsync();
 
                 return new TextPreview(model);
@@ -67,36 +73,6 @@ namespace Files.Uwp.ViewModels.Previews
             }
         }
 
-        public async override Task<List<FileProperty>> LoadPreviewAndDetails()
-        {
-            var details = new List<FileProperty>();
-
-            try
-            {
-                //var text = TextValue ?? await FileIO.ReadTextAsync(Item.ItemFile);
-                var text = TextValue ?? await ReadFileAsText(Item.ItemFile);
-
-                details.Add(new FileProperty()
-                {
-                    NameResource = "PropertyLineCount",
-                    Value = text.Split("\n").Length,
-                });
-
-                details.Add(new FileProperty()
-                {
-                    NameResource = "PropertyWordCount",
-                    Value = text.Split(new[] { " ", "\n" }, StringSplitOptions.RemoveEmptyEntries).Length,
-                });
-
-                var displayText = text.Length < Constants.PreviewPane.TextCharacterLimit ? text : text.Remove(Constants.PreviewPane.TextCharacterLimit);
-                TextValue = displayText;
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e);
-            }
-
-            return details;
-        }
+        private static bool ExcludedExtensions(string extension) => extension is ".iso";
     }
 }

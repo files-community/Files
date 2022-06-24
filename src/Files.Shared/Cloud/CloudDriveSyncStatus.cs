@@ -1,4 +1,4 @@
-﻿namespace Files.Shared.Enums
+﻿namespace Files.Shared.Cloud
 {
     public enum CloudDriveSyncStatus
     {
