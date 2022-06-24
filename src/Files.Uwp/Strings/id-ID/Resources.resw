@@ -1,5 +1,110 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
@@ -18,11 +123,20 @@
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
     <value>Buka di jendela baru</value>
   </data>
+  <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
+    <value>Jendela baru</value>
+  </data>
   <data name="ModernNavigationToolbaNewBitmapImage.Text" xml:space="preserve">
     <value>Gambar Bitmap</value>
   </data>
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>Dokumen Teks</value>
+  </data>
+  <data name="CopyLocation" xml:space="preserve">
+    <value>Salin lokasi</value>
+  </data>
+  <data name="NavigationToolbarPaste.Label" xml:space="preserve">
+    <value>Tempel</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Jelajahi</value>
@@ -35,6 +149,9 @@
   </data>
   <data name="Size" xml:space="preserve">
     <value>Ukuran</value>
+  </data>
+  <data name="OpenIn" xml:space="preserve">
+    <value>Buka di</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>Dibuat:</value>
@@ -56,6 +173,9 @@
   </data>
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>ini adalah subfolder dari sumber folder</value>
+  </data>
+  <data name="Skip" xml:space="preserve">
+    <value>Lewati</value>
   </data>
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>Pilih Semua</value>
@@ -90,17 +210,35 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Hapus item ini</value>
   </data>
+  <data name="SettingsUsefulLinks.Title" xml:space="preserve">
+    <value>Tautan yang berguna</value>
+  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Kirim tanggapan</value>
   </data>
   <data name="About" xml:space="preserve">
     <value>Tentang</value>
   </data>
-  <data name="Appearance" xml:space="preserve">
-    <value>Tampilan</value>
+  <data name="DateFormat" xml:space="preserve">
+    <value>Format tanggal</value>
+  </data>
+  <data name="SettingsAppearanceTheme" xml:space="preserve">
+    <value>Pilih warna Anda</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
+    <value>Tampilkan ekstensi pada berkas yang sudah diketahui</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
+    <value>Tampilkan berkas dan folder tersembunyi</value>
+  </data>
+  <data name="ShowDotFiles" xml:space="preserve">
+    <value>Tampilkan titik pada berkas</value>
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
-    <value>Experimental</value>
+    <value>Uji Coba</value>
+  </data>
+  <data name="Appearance" xml:space="preserve">
+    <value>Tampilan</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Experimen</value>
@@ -132,6 +270,9 @@
   <data name="Downloads" xml:space="preserve">
     <value>Unduhan</value>
   </data>
+  <data name="SideBarUnpinFromFavorites.Text" xml:space="preserve">
+    <value>Hapus semat dari Kesukaan</value>
+  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Urutkan menurut</value>
   </data>
@@ -149,6 +290,9 @@
   </data>
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>Tempel</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
+    <value>Baru</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>Berkas</value>
@@ -180,8 +324,14 @@
   <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
     <value>Potong</value>
   </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Hapus</value>
+  </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Ubah nama</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
+    <value>Sematkan ke Kesukaan</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>Properti</value>
@@ -218,6 +368,9 @@
   </data>
   <data name="Application" xml:space="preserve">
     <value>Aplikasi</value>
+  </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>Sistem</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Folder Baru</value>
@@ -296,6 +449,15 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Apakah Anda menghapus folder ini?</value>
+  </data>
+  <data name="FileInUseByDialog.Text" xml:space="preserve">
+    <value>Berkas yang Anda coba akses sedang digunakan oleh {0}</value>
+  </data>
+  <data name="FileInUseDialog.Text" xml:space="preserve">
+    <value>Berkas yang Anda coba buka sedang digunakan oleh aplikasi lain</value>
+  </data>
+  <data name="FileInUseDialog.Title" xml:space="preserve">
+    <value>Berkas sedang di gunakan</value>
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>Tata letak</value>
@@ -628,7 +790,7 @@
     <value>Buat berkas kosong</value>
   </data>
   <data name="Folder" xml:space="preserve">
-    <value>Folder</value>
+    <value>Berkas</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Buat folder kosong</value>
@@ -647,6 +809,30 @@
   </data>
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Naik satu tingkat dari katalog</value>
+  </data>
+  <data name="VerticalTabFlyout.AutomationProperties.Name" xml:space="preserve">
+    <value>Halaman mengambang vertikal</value>
+  </data>
+  <data name="VerticalTabFlyout.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Halaman mengambang vertikal</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
+    <value>Bahasa</value>
+  </data>
+  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
+    <value>Aplikasi terminal</value>
+  </data>
+  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
+    <value>Ubah aplikasi terminal</value>
+  </data>
+  <data name="SettingsContextMenuOverflow" xml:space="preserve">
+    <value>Pindahkan item berlebihan ke submenu</value>
+  </data>
+  <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
+    <value>Sematkan Keranjang Sampah ke Kesukaan</value>
+  </data>
+  <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
+    <value>Tampilkan dialog konfirmasi saat akan menghapus berkas atau folder</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>Terjadi masalah saat menyimpan beberapa properti.</value>
@@ -925,7 +1111,7 @@
     <value>Media</value>
   </data>
   <data name="PropertySectionAudio" xml:space="preserve">
-    <value>Audio</value>
+    <value>Suara</value>
   </data>
   <data name="PropertySectionMusic" xml:space="preserve">
     <value>Lagu</value>
@@ -944,6 +1130,9 @@
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Pilih</value>
+  </data>
+  <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
+    <value>Buka menu dengan sekali klik</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>Berkas</value>
@@ -987,6 +1176,9 @@
   <data name="HorizontalMultitaskingControlAddButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Halaman baru	(Ctrl+T)</value>
   </data>
+  <data name="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Halaman baru	(Ctrl+T)</value>
+  </data>
   <data name="HorizontalMultitaskingControlCloseButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Tutup halaman (Ctrl+W)</value>
   </data>
@@ -1026,6 +1218,9 @@
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Dukung kami melalui PayPal</value>
   </data>
+  <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
+    <value>Daftar dan urutkan katalog berdampingan dengan berkas</value>
+  </data>
   <data name="Details" xml:space="preserve">
     <value>Rincian</value>
   </data>
@@ -1037,6 +1232,15 @@
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Pembaruan Tersedia</value>
+  </data>
+  <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
+    <value>Sembunyikan berkas sistem operasi yang dilindungi (Disarankan)</value>
+  </data>
+  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
+    <value>Tampilkan item yang tidak terindeks ketika mencari berkas dan katalog (pencarian mungkin lebih lama)</value>
+  </data>
+  <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
+    <value>Aktifkan preferensi individu untuk setiap katalog individu</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Kustomisasi menu konteks klik kanan</value>
@@ -1051,13 +1255,22 @@
     <value>Tambahkan</value>
   </data>
   <data name="Edit" xml:space="preserve">
-    <value>Edit</value>
+    <value>Sunting</value>
   </data>
   <data name="Remove" xml:space="preserve">
     <value>Hapus</value>
   </data>
+  <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
+    <value>Selalu buka halaman baru di mode panel ganda</value>
+  </data>
+  <data name="SettingsMultitaskingEnableDualPane" xml:space="preserve">
+    <value>Aktifkan tampilan panel ganda</value>
+  </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>Buka di panel sekunder</value>
+  </data>
+  <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
+    <value>Panel baru</value>
   </data>
   <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
     <value>Buka di panel sekunder</value>
@@ -1103,6 +1316,12 @@
   </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Ubin (Ctrl+Shift+2)</value>
+  </data>
+  <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
+    <value>Tampilkan ekstensi berkas</value>
+  </data>
+  <data name="NavToolbarShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
+    <value>Tampilkan item tersembunyi</value>
   </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>Tanggal dihapus</value>
@@ -1178,6 +1397,9 @@
   </data>
   <data name="PropertyItemName" xml:space="preserve">
     <value>Nama Item</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
+    <value>Hapus semat dari Kesukaan</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Penyimpanan jaringan</value>
@@ -1288,10 +1510,22 @@
     <value>Tidak ada benda yang dipilih</value>
   </data>
   <data name="PropertyItemTarget" xml:space="preserve">
-    <value>Target</value>
+    <value>Sasaran</value>
   </data>
   <data name="Arguments" xml:space="preserve">
     <value>Argumen</value>
+  </data>
+  <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
+    <value>Buka di Panel baru</value>
+  </data>
+  <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
+    <value>Tampilkan bagian pustaka</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Bawaan</value>
+  </data>
+  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
+    <value>Tema kustom</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Jumlah item</value>
@@ -1437,6 +1671,9 @@
   <data name="PropertyISO" xml:space="preserve">
     <value>Kecepatan ISO</value>
   </data>
+  <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
+    <value>Buka folder di halaman baru</value>
+  </data>
   <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
     <value>Tampilkan widget Bundel</value>
   </data>
@@ -1463,6 +1700,9 @@
   </data>
   <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
     <value>Kelola Widget</value>
+  </data>
+  <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
+    <value>Buka folder tema</value>
   </data>
   <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
     <value>Ganti yang ada</value>
@@ -1530,11 +1770,26 @@
   <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
     <value>Pengelompokan Menurut</value>
   </data>
+  <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
+    <value>Nama</value>
+  </data>
+  <data name="DateModifiedLowerCase" xml:space="preserve">
+    <value>Tanggal diubah</value>
+  </data>
+  <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
+    <value>Folder asli</value>
+  </data>
+  <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
+    <value>Tipe</value>
+  </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Urutkan Menurut</value>
   </data>
   <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">
     <value>Arah pengurutan</value>
+  </data>
+  <data name="Descending" xml:space="preserve">
+    <value>Turun</value>
   </data>
   <data name="ItemSizeText_Huge" xml:space="preserve">
     <value>Super besar</value>
@@ -1677,6 +1932,9 @@
   <data name="StatusDeletionFailedDetails_Singular" xml:space="preserve">
     <value>Gagal menghapus {0} item dari {1}</value>
   </data>
+  <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
+    <value>Gagal menghapus {0} dari {1} item</value>
+  </data>
   <data name="TheRecycleBin" xml:space="preserve">
     <value>Keranjang Sampah</value>
   </data>
@@ -1704,23 +1962,8 @@
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>Widget</value>
   </data>
-  <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
-    <value>Gagal menghapus {0} dari {1} item</value>
-  </data>
-  <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
-    <value>Jendela baru</value>
-  </data>
-  <data name="CopyLocation" xml:space="preserve">
-    <value>Salin lokasi</value>
-  </data>
-  <data name="NavigationToolbarPaste.Label" xml:space="preserve">
-    <value>Tempel</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
-    <value>Baru</value>
-  </data>
-  <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
-    <value>Panel baru</value>
+  <data name="SyncStatus" xml:space="preserve">
+    <value>Status sinkronisasi</value>
   </data>
   <data name="Security" xml:space="preserve">
     <value>Keamanan</value>
@@ -1770,11 +2013,8 @@
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Pemilik tidak diketahui</value>
   </data>
-  <data name="Default" xml:space="preserve">
-    <value>Bawaan</value>
-  </data>
-  <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
-    <value>Buka folder tema</value>
+  <data name="SettingsVerticalTabFlyout" xml:space="preserve">
+    <value>Tampilkan halaman mengambang tegak pada bilah judul</value>
   </data>
   <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>Pelajari lebih lanjut tentang tema kustom</value>
@@ -1788,14 +2028,23 @@
   <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>Lihat dokumentasi.</value>
   </data>
-  <data name="VerticalTabFlyout.AutomationProperties.Name" xml:space="preserve">
-    <value>Halaman mengambang vertikal</value>
+  <data name="DecompressArchiveDialog.Title" xml:space="preserve">
+    <value>Pilih tujuan lalu ekstrak berkas</value>
   </data>
-  <data name="VerticalTabFlyout.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Halaman mengambang vertikal</value>
+  <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
+    <value>Buka folder tujuan setelah selesai</value>
   </data>
-  <data name="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Halaman baru	(Ctrl+T)</value>
+  <data name="BaseLayoutItemContextFlyoutExtractFilesOption" xml:space="preserve">
+    <value>Ekstrak berkas</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutExtractHereOption" xml:space="preserve">
+    <value>Ekstrak di sini</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutExtractionOptions" xml:space="preserve">
+    <value>Ekstrak...</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
+    <value>Ekstrak ke {0}\</value>
   </data>
   <data name="SideBarCreateNewLibrary.Text" xml:space="preserve">
     <value>Buat pustaka baru</value>
@@ -1811,12 +2060,6 @@
   </data>
   <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
     <value>Kembalikan Pustaka</value>
-  </data>
-  <data name="RecentFiles" xml:space="preserve">
-    <value>Berkas Terbaru</value>
-  </data>
-  <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
-    <value>Buka di Panel baru</value>
   </data>
   <data name="PropertyFileOwner" xml:space="preserve">
     <value>Pemilik</value>
@@ -1893,9 +2136,6 @@
   <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
     <value>Buat berkas</value>
   </data>
-  <data name="Delete" xml:space="preserve">
-    <value>Hapus</value>
-  </data>
   <data name="SecurityDeleteSubdirectoriesAndFilesLabel.Text" xml:space="preserve">
     <value>Hapus subkatalog dan berkas</value>
   </data>
@@ -1947,6 +2187,12 @@
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
     <value>Tutup panel</value>
   </data>
+  <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
+    <value>Masuk ke tampilan fleksibel</value>
+  </data>
+  <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
+    <value>Keluar dari tampilan fleksibel</value>
+  </data>
   <data name="PropertyFileDescription" xml:space="preserve">
     <value>Keterangan berkas</value>
   </data>
@@ -1962,53 +2208,17 @@
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>Versi file</value>
   </data>
+  <data name="PreviewPaneLoadCloudItemButton.Text" xml:space="preserve">
+    <value>Buka pratinjau penuh</value>
+  </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Unduh item dari cloud lalu buka pratinjau</value>
-  </data>
-  <data name="DecompressArchiveDialog.Title" xml:space="preserve">
-    <value>Pilih tujuan lalu ekstrak berkas</value>
-  </data>
-  <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
-    <value>Buka folder tujuan setelah selesai</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutExtractFilesOption" xml:space="preserve">
-    <value>Ekstrak berkas</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutExtractHereOption" xml:space="preserve">
-    <value>Ekstrak di sini</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutExtractionOptions" xml:space="preserve">
-    <value>Ekstrak...</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
-    <value>Ekstrak ke {0}\</value>
   </data>
   <data name="DetailsArchiveItemCount" xml:space="preserve">
     <value>{0} benda ({1} berkas, {2} folder)</value>
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
     <value>Ukuran tidak terkompresi</value>
-  </data>
-  <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
-    <value>Masuk ke tampilan fleksibel</value>
-  </data>
-  <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
-    <value>Keluar dari tampilan fleksibel</value>
-  </data>
-  <data name="WSL" xml:space="preserve">
-    <value>WSL</value>
-  </data>
-  <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
-    <value>Sembunyikan bagian {0}</value>
-  </data>
-  <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
-    <value>Selalu buka halaman baru di mode panel ganda</value>
-  </data>
-  <data name="SettingsMultitaskingEnableDualPane" xml:space="preserve">
-    <value>Aktifkan tampilan panel ganda</value>
-  </data>
-  <data name="SettingsVerticalTabFlyout" xml:space="preserve">
-    <value>Tampilkan halaman mengambang tegak pada bilah judul</value>
   </data>
   <data name="SettingsShowCloudDrivesSection.Title" xml:space="preserve">
     <value>Tampilkan bagian penyimpanan awan</value>
@@ -2022,59 +2232,23 @@
   <data name="SettingsShowNetworkDrivesSection.Title" xml:space="preserve">
     <value>Tampilkan bagian jaringan</value>
   </data>
-  <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
-    <value>Sematkan Keranjang Sampah ke Kesukaan</value>
+  <data name="WSL" xml:space="preserve">
+    <value>WSL</value>
   </data>
-  <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
-    <value>Tampilkan bagian pustaka</value>
-  </data>
-  <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Pilih warna Anda</value>
-  </data>
-  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
-    <value>Tema kustom</value>
-  </data>
-  <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>Pindahkan item berlebihan ke submenu</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
-    <value>Bahasa</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
-    <value>Tampilkan ekstensi pada berkas yang sudah diketahui</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
-    <value>Tampilkan berkas dan folder tersembunyi</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
-    <value>Sembunyikan berkas sistem operasi yang dilindungi (Disarankan)</value>
-  </data>
-  <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
-    <value>Buka menu dengan sekali klik</value>
-  </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>Daftar dan urutkan katalog berdampingan dengan berkas</value>
-  </data>
-  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Tampilkan item yang tidak terindeks ketika mencari berkas dan katalog (pencarian mungkin lebih lama)</value>
-  </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
-    <value>Aktifkan preferensi individu untuk setiap katalog individu</value>
-  </data>
-  <data name="SettingsUsefulLinks.Title" xml:space="preserve">
-    <value>Tautan yang berguna</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
-    <value>Sematkan ke Kesukaan</value>
-  </data>
-  <data name="SideBarUnpinFromFavorites.Text" xml:space="preserve">
-    <value>Hapus semat dari Kesukaan</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
-    <value>Hapus semat dari Kesukaan</value>
+  <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
+    <value>Sembunyikan bagian {0}</value>
   </data>
   <data name="NavSettingsButton" xml:space="preserve">
     <value>Pengaturan</value>
+  </data>
+  <data name="AddFile" xml:space="preserve">
+    <value>Tambahkan berkas</value>
+  </data>
+  <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">
+    <value>Tambahkan folder</value>
+  </data>
+  <data name="BundleOptionsFlyoutAddItemMenuItem.Text" xml:space="preserve">
+    <value>Tambahkan item...</value>
   </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
     <value>Pembaruan tersedia</value>
@@ -2087,15 +2261,6 @@
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
     <value>Perbarui</value>
-  </data>
-  <data name="AddFile" xml:space="preserve">
-    <value>Tambahkan berkas</value>
-  </data>
-  <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">
-    <value>Tambahkan folder</value>
-  </data>
-  <data name="BundleOptionsFlyoutAddItemMenuItem.Text" xml:space="preserve">
-    <value>Tambahkan item...</value>
   </data>
   <data name="Home" xml:space="preserve">
     <value>Beranda</value>
@@ -2145,9 +2310,6 @@
   <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+T</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>Aplikasi terminal</value>
-  </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
     <value>Sukses mengekstrak arsip.</value>
   </data>
@@ -2159,18 +2321,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+N</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>Ubah aplikasi terminal</value>
-  </data>
-  <data name="DateFormat" xml:space="preserve">
-    <value>Format tanggal</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>Tampilkan dialog konfirmasi saat akan menghapus berkas atau folder</value>
-  </data>
-  <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
-    <value>Buka folder di halaman baru</value>
   </data>
   <data name="SettingsPrivacy.Title" xml:space="preserve">
     <value>Kebijakan privasi</value>
@@ -2191,27 +2341,6 @@ Files tidak mengumpulkan, menyimpan, membagikan, atau mempublikasikan informasi 
 Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan memperbaiki kerusakan. Semua informasi yang dikirim ke Pusat App bersifat anonim dan bebas dari pengguna atau data kontekstual apa pun.
   </value>
   </data>
-  <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
-    <value>Nama</value>
-  </data>
-  <data name="DateModifiedLowerCase" xml:space="preserve">
-    <value>Tanggal diubah</value>
-  </data>
-  <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
-    <value>Folder asli</value>
-  </data>
-  <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
-    <value>Tipe</value>
-  </data>
-  <data name="Descending" xml:space="preserve">
-    <value>Turun</value>
-  </data>
-  <data name="SyncStatus" xml:space="preserve">
-    <value>Status sinkronisasi</value>
-  </data>
-  <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
-    <value>Tampilkan bagian favorit</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Buka folder diatasnya</value>
   </data>
@@ -2227,6 +2356,15 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
   <data name="SettingsEnableFileTags.Title" xml:space="preserve">
     <value>Aktifkan tanda berkas</value>
   </data>
+  <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
+    <value>Tampilkan bagian favorit</value>
+  </data>
+  <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
+    <value>Terapkan ke semua</value>
+  </data>
+  <data name="PropertyPartOfSet" xml:space="preserve">
+    <value>Bagian dari set</value>
+  </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
     <value>Buka Drive</value>
   </data>
@@ -2235,12 +2373,6 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>Masukkan cakram</value>
-  </data>
-  <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
-    <value>Terapkan ke semua</value>
-  </data>
-  <data name="PropertyPartOfSet" xml:space="preserve">
-    <value>Bagian dari set</value>
   </data>
   <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
     <value>Iya</value>
@@ -2260,9 +2392,6 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Nama Pengguna</value>
   </data>
-  <data name="NoSearchResultsFound" xml:space="preserve">
-    <value>Tidak ada item ditemukan</value>
-  </data>
   <data name="BundlesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>Widget Bundel</value>
   </data>
@@ -2275,17 +2404,32 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
   <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>Widget Berkas Terakhir</value>
   </data>
+  <data name="NoSearchResultsFound" xml:space="preserve">
+    <value>Tidak ada item ditemukan</value>
+  </data>
+  <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
+    <value>Hanya tampilkan pratinjau</value>
+  </data>
   <data name="OpenLogLocation" xml:space="preserve">
     <value>Buka lokasi log</value>
   </data>
   <data name="LinkToFolderCaptionText" xml:space="preserve">
     <value>Buat tautan di {0}</value>
   </data>
-  <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
-    <value>Tampilkan ekstensi berkas</value>
+  <data name="Columns" xml:space="preserve">
+    <value>Kolom</value>
   </data>
-  <data name="NavToolbarShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Tampilkan item tersembunyi</value>
+  <data name="LargeIcons" xml:space="preserve">
+    <value>Ikon Besar</value>
+  </data>
+  <data name="MediumIcons" xml:space="preserve">
+    <value>Ikon Sedang</value>
+  </data>
+  <data name="SmallIcons" xml:space="preserve">
+    <value>Ikon kecil</value>
+  </data>
+  <data name="Tiles" xml:space="preserve">
+    <value>Ubin</value>
   </data>
   <data name="NavToolbarShowFileExtensions.AutomationProperties.Name" xml:space="preserve">
     <value>Tampilkan ekstensi berkas</value>
@@ -2296,11 +2440,20 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
   <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Tampilkan bagian favorit</value>
   </data>
+  <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Buka folder di halaman baru</value>
+  </data>
   <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Sematkan Keranjang Sampah ke favorit</value>
   </data>
+  <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>Bahasa</value>
+  </data>
   <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Tampilkan bagian penyimpanan awan</value>
+  </data>
+  <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Tampilkan dialog konfirmasi ketika akan menghapus berkas atau folder</value>
   </data>
   <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Tampilkan bagian penyimpanan</value>
@@ -2314,26 +2467,11 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Tampilkan bagian WSL</value>
   </data>
-  <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Buka folder di halaman baru</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Bahasa</value>
-  </data>
-  <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Tampilkan dialog konfirmasi ketika akan menghapus berkas atau folder</value>
-  </data>
   <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Aplikasi terminal</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Tugas Berlangsung</value>
-  </data>
-  <data name="PreviewPaneLoadCloudItemButton.Text" xml:space="preserve">
-    <value>Buka pratinjau penuh</value>
-  </data>
-  <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
-    <value>Hanya tampilkan pratinjau</value>
   </data>
   <data name="SideBarFavoritesMoveOneDown" xml:space="preserve">
     <value>Pindah satu ke bawah</value>
@@ -2352,6 +2490,12 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
   </data>
   <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
     <value>Kolom ukuran item</value>
+  </data>
+  <data name="SettingsDefaultFilesManager" xml:space="preserve">
+    <value>Pengelola berkas bawaan</value>
+  </data>
+  <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
+    <value>Setel Files sebagai pengelola berkas bawaan</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
     <value>Gunakan Files sebagai dialog Buka berkas</value>
@@ -2380,6 +2524,12 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
   <data name="SettingsImportErrorTitle" xml:space="preserve">
     <value>Eror saat mengimpor pengaturan</value>
   </data>
+  <data name="EmptyRecycleBin" xml:space="preserve">
+    <value>Tempat sampah Kosong</value>
+  </data>
+  <data name="Sidebar" xml:space="preserve">
+    <value>Panel Samping</value>
+  </data>
   <data name="ChooseCustomIcon" xml:space="preserve">
     <value>Pilih ikon folder khusus</value>
   </data>
@@ -2388,6 +2538,15 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
   </data>
   <data name="RestoreDefault" xml:space="preserve">
     <value>Kembalikan ke semula</value>
+  </data>
+  <data name="FilesAndFolders" xml:space="preserve">
+    <value>Berkas dan folder</value>
+  </data>
+  <data name="OpenNewInstance" xml:space="preserve">
+    <value>Buka instance baru saat membuka katalog dari jumplist taskbar</value>
+  </data>
+  <data name="StartupSettings" xml:space="preserve">
+    <value>Pengaturan startup</value>
   </data>
   <data name="Compatibility" xml:space="preserve">
     <value>Kompabilitas</value>
@@ -2458,27 +2617,6 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
   <data name="UseMainMonitorDPISettings" xml:space="preserve">
     <value>Gunakan pengaturan DPI monitor utama</value>
   </data>
-  <data name="SettingsDefaultFilesManager" xml:space="preserve">
-    <value>Pengelola berkas bawaan</value>
-  </data>
-  <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
-    <value>Setel Files sebagai pengelola berkas bawaan</value>
-  </data>
-  <data name="EmptyRecycleBin" xml:space="preserve">
-    <value>Tempat sampah Kosong</value>
-  </data>
-  <data name="Sidebar" xml:space="preserve">
-    <value>Panel Samping</value>
-  </data>
-  <data name="FilesAndFolders" xml:space="preserve">
-    <value>Berkas dan folder</value>
-  </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>Buka instance baru saat membuka katalog dari jumplist taskbar</value>
-  </data>
-  <data name="StartupSettings" xml:space="preserve">
-    <value>Pengaturan startup</value>
-  </data>
   <data name="ThirdPartyLicenses" xml:space="preserve">
     <value>Lisensi Pihak ke tiga</value>
   </data>
@@ -2487,21 +2625,6 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
   </data>
   <data name="ClearAll" xml:space="preserve">
     <value>Hapus semua</value>
-  </data>
-  <data name="Columns" xml:space="preserve">
-    <value>Kolom</value>
-  </data>
-  <data name="LargeIcons" xml:space="preserve">
-    <value>Ikon Besar</value>
-  </data>
-  <data name="MediumIcons" xml:space="preserve">
-    <value>Ikon Sedang</value>
-  </data>
-  <data name="SmallIcons" xml:space="preserve">
-    <value>Ikon kecil</value>
-  </data>
-  <data name="Tiles" xml:space="preserve">
-    <value>Ubin</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Buat Perpustakaan</value>
@@ -2512,8 +2635,8 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
   <data name="ShowFolderSize" xml:space="preserve">
     <value>Tampilkan ukuran folder</value>
   </data>
-  <data name="Skip" xml:space="preserve">
-    <value>Lewati</value>
+  <data name="RecentFiles" xml:space="preserve">
+    <value>Berkas Terbaru</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
     <value>Buka Files saat Windows aktif</value>
@@ -2569,9 +2692,6 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>Menghitung ukuran folder membutuhkan banyak sumber daya dan dapat menyebabkan penggunaan CPU Anda meningkat.</value>
   </data>
-  <data name="OpenIn" xml:space="preserve">
-    <value>Buka di</value>
-  </data>
   <data name="RotateLeft" xml:space="preserve">
     <value>Miringkan ke kiri</value>
   </data>
@@ -2586,9 +2706,6 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
   </data>
   <data name="CloseTabsToTheRight" xml:space="preserve">
     <value>Tutup halaman di sebelah kanan</value>
-  </data>
-  <data name="ShowDotFiles" xml:space="preserve">
-    <value>Tampilkan titik pada berkas</value>
   </data>
   <data name="CloseOtherTabs" xml:space="preserve">
     <value>Tutup halaman lainnya</value>
@@ -2632,18 +2749,6 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Tampilkan bagian penanda</value>
   </data>
-  <data name="SystemTimeStyle" xml:space="preserve">
-    <value>Sistem</value>
-  </data>
-  <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>Berkas yang Anda coba akses sedang digunakan oleh {0}</value>
-  </data>
-  <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>Berkas yang Anda coba buka sedang digunakan oleh aplikasi lain</value>
-  </data>
-  <data name="FileInUseDialog.Title" xml:space="preserve">
-    <value>Berkas sedang di gunakan</value>
-  </data>
   <data name="UseCompactStyles" xml:space="preserve">
     <value>Gunakan gaya fleksibel di dalam penataan detail</value>
   </data>
@@ -2661,5 +2766,29 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
   </data>
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
     <value>Operasi pemindahan tidak didukung dalam konteks ini. Apakah Anda ingin menyalin item ini?</value>
+  </data>
+  <data name="HiddenFilesAndFolders" xml:space="preserve">
+    <value>File dan folder tersembunyi</value>
+  </data>
+  <data name="Custom" xml:space="preserve">
+    <value>Kustom</value>
+  </data>
+  <data name="SetAsSlideshow" xml:space="preserve">
+    <value>Atur sebagai slideshow desktop</value>
+  </data>
+  <data name="SizeAllColumnsToFit" xml:space="preserve">
+    <value>Atur Semua Ukuran Kolom ke Sesuai</value>
+  </data>
+  <data name="Contributors" xml:space="preserve">
+    <value>Kontributor</value>
+  </data>
+  <data name="Adaptive" xml:space="preserve">
+    <value>Adaptif</value>
+  </data>
+  <data name="AdaptiveShortcutTooltip" xml:space="preserve">
+    <value>Adaptif (Ctrl+Shift+7)</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+Shift+7</value>
   </data>
 </root>

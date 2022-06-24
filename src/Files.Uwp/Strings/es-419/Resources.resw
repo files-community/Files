@@ -1,5 +1,110 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
@@ -45,6 +150,9 @@
   <data name="Size" xml:space="preserve">
     <value>Tamaño</value>
   </data>
+  <data name="OpenIn" xml:space="preserve">
+    <value>Open in</value>
+  </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>Creado:</value>
   </data>
@@ -65,6 +173,9 @@
   </data>
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>es la misma que la carpeta de origen</value>
+  </data>
+  <data name="Skip" xml:space="preserve">
+    <value>Omitir</value>
   </data>
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>Seleccionar Todo</value>
@@ -99,17 +210,35 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Quitar</value>
   </data>
+  <data name="SettingsUsefulLinks.Title" xml:space="preserve">
+    <value>Vínculos útiles</value>
+  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Enviar comentarios</value>
   </data>
   <data name="About" xml:space="preserve">
     <value>Acerca de Files</value>
   </data>
-  <data name="Appearance" xml:space="preserve">
-    <value>Apariencia</value>
+  <data name="DateFormat" xml:space="preserve">
+    <value>Formato de fecha</value>
+  </data>
+  <data name="SettingsAppearanceTheme" xml:space="preserve">
+    <value>Elige tu color</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
+    <value>Mostrar las extensiones de archivo para tipos de archivo conocidos</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
+    <value>Mostrar todos los archivos y carpetas ocultos</value>
+  </data>
+  <data name="ShowDotFiles" xml:space="preserve">
+    <value>Show dot files</value>
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Experimental</value>
+  </data>
+  <data name="Appearance" xml:space="preserve">
+    <value>Apariencia</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Experimental</value>
@@ -140,6 +269,9 @@
   </data>
   <data name="Downloads" xml:space="preserve">
     <value>Descargas</value>
+  </data>
+  <data name="SideBarUnpinFromFavorites.Text" xml:space="preserve">
+    <value>Desanclar de Favoritos</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Ordenar por</value>
@@ -192,8 +324,14 @@
   <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
     <value>Cortar</value>
   </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Eliminar</value>
+  </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Renombrar</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
+    <value>Anclar a Favoritos</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>Propiedades</value>
@@ -230,6 +368,9 @@
   </data>
   <data name="Application" xml:space="preserve">
     <value>Aplicación</value>
+  </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>Sistema</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Nueva Carpeta</value>
@@ -308,6 +449,18 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>¿Ha eliminado esta carpeta?</value>
+  </data>
+  <data name="FileInUseByDialog.Text" xml:space="preserve">
+    <value>The file you are attempting to access is currently being used by {0}</value>
+  </data>
+  <data name="FileInUseDialog.Text" xml:space="preserve">
+    <value>The file you are attempting to access is currently being used by an another application</value>
+  </data>
+  <data name="FileInUseDialog.Title" xml:space="preserve">
+    <value>File is in use</value>
+  </data>
+  <data name="NavToolbarLayout.Text" xml:space="preserve">
+    <value>Diseño</value>
   </data>
   <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>Opciones de selección</value>
@@ -657,6 +810,30 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Subir un directorio</value>
   </data>
+  <data name="VerticalTabFlyout.AutomationProperties.Name" xml:space="preserve">
+    <value>Botón de lista de pestañas</value>
+  </data>
+  <data name="VerticalTabFlyout.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Lista de pestañas</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
+    <value>Idioma</value>
+  </data>
+  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
+    <value>Aplicaciones de terminal</value>
+  </data>
+  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
+    <value>Editar las aplicaciones de terminal</value>
+  </data>
+  <data name="SettingsContextMenuOverflow" xml:space="preserve">
+    <value>Mover elementos de desbordamiento a un submenú</value>
+  </data>
+  <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
+    <value>Mostrar la Papelera de reciclaje en Favoritos</value>
+  </data>
+  <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
+    <value>Mostrar cuadro de diálogo para confirmar eliminación de archivos o carpetas</value>
+  </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>Hubo un problema al guardar algunas propiedades.</value>
   </data>
@@ -834,6 +1011,18 @@
   <data name="PropertyPublisher" xml:space="preserve">
     <value>Editora</value>
   </data>
+  <data name="PropertyThumbnailLargePath" xml:space="preserve">
+    <value>Thumbnail Large Path</value>
+  </data>
+  <data name="PropertyThumbnailLargeUri" xml:space="preserve">
+    <value>Thumbnail Large Uri</value>
+  </data>
+  <data name="PropertyThumbnailSmallPath" xml:space="preserve">
+    <value>Thumbnail Small Path</value>
+  </data>
+  <data name="PropertyThumbnailSmallUri" xml:space="preserve">
+    <value>Thumbnail Small Uri</value>
+  </data>
   <data name="PropertyUserWebUrl" xml:space="preserve">
     <value>Dirección URL</value>
   </data>
@@ -942,6 +1131,9 @@
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Selección</value>
   </data>
+  <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
+    <value>Abrir archivos con un solo clic</value>
+  </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>Archivo</value>
   </data>
@@ -984,6 +1176,9 @@
   <data name="HorizontalMultitaskingControlAddButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Nueva pestaña (Ctrl+T)</value>
   </data>
+  <data name="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Nueva pestaña (Ctrl+T)</value>
+  </data>
   <data name="HorizontalMultitaskingControlCloseButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Cerrar pestaña (Ctrl+W)</value>
   </data>
@@ -1023,6 +1218,9 @@
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Apóyenos en GitHub</value>
   </data>
+  <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
+    <value>Mostrar y ordenar directorios junto con archivos</value>
+  </data>
   <data name="Details" xml:space="preserve">
     <value>Detalles</value>
   </data>
@@ -1034,6 +1232,15 @@
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Actualizaciones disponibles</value>
+  </data>
+  <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
+    <value>Ocultar archivos protegidos del sistema operativo (recomendado)</value>
+  </data>
+  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
+    <value>Mostrar elementos no indexados al buscar archivos y carpetas</value>
+  </data>
+  <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
+    <value>Habilitar preferencias individuales para directorios individuales</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Personalizar el menú contextual</value>
@@ -1052,6 +1259,12 @@
   </data>
   <data name="Remove" xml:space="preserve">
     <value>Quitar</value>
+  </data>
+  <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
+    <value>Abrir las nuevas pestañas siempre en modo panel doble</value>
+  </data>
+  <data name="SettingsMultitaskingEnableDualPane" xml:space="preserve">
+    <value>Habilitar la vista de panel doble</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>Abrir en panel secundario</value>
@@ -1103,6 +1316,12 @@
   </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Mosaicos (Ctrl+Mayús+2)</value>
+  </data>
+  <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
+    <value>Mostrar extensiones de archivo</value>
+  </data>
+  <data name="NavToolbarShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostrar elementos ocultos</value>
   </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>Fecha de eliminación</value>
@@ -1178,6 +1397,9 @@
   </data>
   <data name="PropertyItemName" xml:space="preserve">
     <value>Nombre</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
+    <value>Desanclar de Favoritos</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Unidades de red</value>
@@ -1292,6 +1514,18 @@
   </data>
   <data name="Arguments" xml:space="preserve">
     <value>Argumentos</value>
+  </data>
+  <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
+    <value>Abrir en panel nuevo</value>
+  </data>
+  <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
+    <value>Mostrar Bibliotecas</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Predeterminado</value>
+  </data>
+  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
+    <value>Temas personalizados</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Elementos</value>
@@ -1437,6 +1671,9 @@
   <data name="PropertyISO" xml:space="preserve">
     <value>Velocidad ISO</value>
   </data>
+  <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
+    <value>Abrir carpetas en una nueva pestaña</value>
+  </data>
   <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
     <value>Mostrar contenedores</value>
   </data>
@@ -1463,6 +1700,9 @@
   </data>
   <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
     <value>Ajustes de widgets</value>
+  </data>
+  <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
+    <value>Abrir carpeta de temas</value>
   </data>
   <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
     <value>Remplazar el existente</value>
@@ -1530,11 +1770,26 @@
   <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
     <value>Agrupar por</value>
   </data>
+  <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="DateModifiedLowerCase" xml:space="preserve">
+    <value>Fecha de modificación</value>
+  </data>
+  <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
+    <value>Carpeta original</value>
+  </data>
+  <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
+    <value>Tipo</value>
+  </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Ordenar por</value>
   </data>
   <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">
     <value>Dirección de ordenación</value>
+  </data>
+  <data name="Descending" xml:space="preserve">
+    <value>Descendente</value>
   </data>
   <data name="ItemSizeText_Huge" xml:space="preserve">
     <value>Enorme</value>
@@ -1707,8 +1962,8 @@
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>Widgets</value>
   </data>
-  <data name="NavToolbarLayout.Text" xml:space="preserve">
-    <value>Diseño</value>
+  <data name="SyncStatus" xml:space="preserve">
+    <value>Estado de sincronización</value>
   </data>
   <data name="Security" xml:space="preserve">
     <value>Seguridad</value>
@@ -1758,11 +2013,8 @@
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Propietario desconocido</value>
   </data>
-  <data name="Default" xml:space="preserve">
-    <value>Predeterminado</value>
-  </data>
-  <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
-    <value>Abrir carpeta de temas</value>
+  <data name="SettingsVerticalTabFlyout" xml:space="preserve">
+    <value>Mostrar botón de pestañas en la barra de título</value>
   </data>
   <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>Más información sobre temas personalizados</value>
@@ -1776,14 +2028,23 @@
   <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>Ver documentación.</value>
   </data>
-  <data name="VerticalTabFlyout.AutomationProperties.Name" xml:space="preserve">
-    <value>Botón de lista de pestañas</value>
+  <data name="DecompressArchiveDialog.Title" xml:space="preserve">
+    <value>Seleccionar un destino y extraer archivos</value>
   </data>
-  <data name="VerticalTabFlyout.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Lista de pestañas</value>
+  <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
+    <value>Mostrar los archivos extraídos al completar</value>
   </data>
-  <data name="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Nueva pestaña (Ctrl+T)</value>
+  <data name="BaseLayoutItemContextFlyoutExtractFilesOption" xml:space="preserve">
+    <value>Extraer archivos</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutExtractHereOption" xml:space="preserve">
+    <value>Extraer aquí</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutExtractionOptions" xml:space="preserve">
+    <value>Extraer...</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
+    <value>Extraer en {0}\</value>
   </data>
   <data name="SideBarCreateNewLibrary.Text" xml:space="preserve">
     <value>Crear nueva biblioteca</value>
@@ -1799,12 +2060,6 @@
   </data>
   <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
     <value>Restaurar bibliotecas</value>
-  </data>
-  <data name="RecentFiles" xml:space="preserve">
-    <value>Archivos recientes</value>
-  </data>
-  <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
-    <value>Abrir en panel nuevo</value>
   </data>
   <data name="PropertyFileOwner" xml:space="preserve">
     <value>Propietario</value>
@@ -1881,9 +2136,6 @@
   <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
     <value>Crear archivos</value>
   </data>
-  <data name="Delete" xml:space="preserve">
-    <value>Eliminar</value>
-  </data>
   <data name="SecurityDeleteSubdirectoriesAndFilesLabel.Text" xml:space="preserve">
     <value>Eliminar subdirectorios y archivos</value>
   </data>
@@ -1935,6 +2187,12 @@
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
     <value>Cerrar panel</value>
   </data>
+  <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
+    <value>Cambiar a modo superposición compacta</value>
+  </data>
+  <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
+    <value>Salir del modo superposición compacta</value>
+  </data>
   <data name="PropertyFileDescription" xml:space="preserve">
     <value>Descripción del archivo</value>
   </data>
@@ -1950,53 +2208,17 @@
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>Versión del archivo</value>
   </data>
+  <data name="PreviewPaneLoadCloudItemButton.Text" xml:space="preserve">
+    <value>Cargar vista previa completa</value>
+  </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Descarga el elemento de la nube y carga la vista previa.</value>
-  </data>
-  <data name="DecompressArchiveDialog.Title" xml:space="preserve">
-    <value>Seleccionar un destino y extraer archivos</value>
-  </data>
-  <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
-    <value>Mostrar los archivos extraídos al completar</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutExtractFilesOption" xml:space="preserve">
-    <value>Extraer archivos</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutExtractHereOption" xml:space="preserve">
-    <value>Extraer aquí</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutExtractionOptions" xml:space="preserve">
-    <value>Extraer...</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
-    <value>Extraer en {0}\</value>
   </data>
   <data name="DetailsArchiveItemCount" xml:space="preserve">
     <value>{0} elementos ({1} archivos, {2} carpetas)</value>
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
     <value>Tamaño sin comprimir</value>
-  </data>
-  <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
-    <value>Cambiar a modo superposición compacta</value>
-  </data>
-  <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
-    <value>Salir del modo superposición compacta</value>
-  </data>
-  <data name="WSL" xml:space="preserve">
-    <value>WSL</value>
-  </data>
-  <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
-    <value>Ocultar sección {0}</value>
-  </data>
-  <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
-    <value>Abrir las nuevas pestañas siempre en modo panel doble</value>
-  </data>
-  <data name="SettingsMultitaskingEnableDualPane" xml:space="preserve">
-    <value>Habilitar la vista de panel doble</value>
-  </data>
-  <data name="SettingsVerticalTabFlyout" xml:space="preserve">
-    <value>Mostrar botón de pestañas en la barra de título</value>
   </data>
   <data name="SettingsShowCloudDrivesSection.Title" xml:space="preserve">
     <value>Mostrar unidades de la nube</value>
@@ -2010,59 +2232,23 @@
   <data name="SettingsShowNetworkDrivesSection.Title" xml:space="preserve">
     <value>Mostrar unidades de red</value>
   </data>
-  <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
-    <value>Mostrar la Papelera de reciclaje en Favoritos</value>
+  <data name="WSL" xml:space="preserve">
+    <value>WSL</value>
   </data>
-  <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
-    <value>Mostrar Bibliotecas</value>
-  </data>
-  <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Elige tu color</value>
-  </data>
-  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
-    <value>Temas personalizados</value>
-  </data>
-  <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>Mover elementos de desbordamiento a un submenú</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
-    <value>Idioma</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
-    <value>Mostrar las extensiones de archivo para tipos de archivo conocidos</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
-    <value>Mostrar todos los archivos y carpetas ocultos</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
-    <value>Ocultar archivos protegidos del sistema operativo (recomendado)</value>
-  </data>
-  <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
-    <value>Abrir archivos con un solo clic</value>
-  </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>Mostrar y ordenar directorios junto con archivos</value>
-  </data>
-  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Mostrar elementos no indexados al buscar archivos y carpetas</value>
-  </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
-    <value>Habilitar preferencias individuales para directorios individuales</value>
-  </data>
-  <data name="SettingsUsefulLinks.Title" xml:space="preserve">
-    <value>Vínculos útiles</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
-    <value>Anclar a Favoritos</value>
-  </data>
-  <data name="SideBarUnpinFromFavorites.Text" xml:space="preserve">
-    <value>Desanclar de Favoritos</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
-    <value>Desanclar de Favoritos</value>
+  <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
+    <value>Ocultar sección {0}</value>
   </data>
   <data name="NavSettingsButton" xml:space="preserve">
     <value>Ajustes</value>
+  </data>
+  <data name="AddFile" xml:space="preserve">
+    <value>Añadir archivo</value>
+  </data>
+  <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">
+    <value>Añadir carpeta</value>
+  </data>
+  <data name="BundleOptionsFlyoutAddItemMenuItem.Text" xml:space="preserve">
+    <value>Añadir elemento...</value>
   </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
     <value>Actualizaciones disponibles</value>
@@ -2075,15 +2261,6 @@
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
     <value>Actualizar</value>
-  </data>
-  <data name="AddFile" xml:space="preserve">
-    <value>Añadir archivo</value>
-  </data>
-  <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">
-    <value>Añadir carpeta</value>
-  </data>
-  <data name="BundleOptionsFlyoutAddItemMenuItem.Text" xml:space="preserve">
-    <value>Añadir elemento...</value>
   </data>
   <data name="Home" xml:space="preserve">
     <value>Inicio</value>
@@ -2133,9 +2310,6 @@
   <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Mayús+T</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>Aplicaciones de terminal</value>
-  </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
     <value>La extracción del archivo se completó exitósamente.</value>
   </data>
@@ -2147,18 +2321,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Mayús+N</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>Editar las aplicaciones de terminal</value>
-  </data>
-  <data name="DateFormat" xml:space="preserve">
-    <value>Formato de fecha</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>Mostrar cuadro de diálogo para confirmar eliminación de archivos o carpetas</value>
-  </data>
-  <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
-    <value>Abrir carpetas en una nueva pestaña</value>
   </data>
   <data name="SettingsPrivacy.Title" xml:space="preserve">
     <value>Política de privacidad</value>
@@ -2178,27 +2340,6 @@ Files no recopila, almacena, comparte ni publica ninguna información personal.
 
 Usamos App Center para realizar un seguimiento del uso de la aplicación, encontrar errores y corregir fallas. Toda la información enviada a App Center es anónima y libre de cualquier usuario o datos contextuales.</value>
   </data>
-  <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
-    <value>Nombre</value>
-  </data>
-  <data name="DateModifiedLowerCase" xml:space="preserve">
-    <value>Fecha de modificación</value>
-  </data>
-  <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
-    <value>Carpeta original</value>
-  </data>
-  <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
-    <value>Tipo</value>
-  </data>
-  <data name="Descending" xml:space="preserve">
-    <value>Descendente</value>
-  </data>
-  <data name="SyncStatus" xml:space="preserve">
-    <value>Estado de sincronización</value>
-  </data>
-  <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
-    <value>Mostrar Favoritos</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Abrir carpeta principal</value>
   </data>
@@ -2214,6 +2355,15 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
   <data name="SettingsEnableFileTags.Title" xml:space="preserve">
     <value>Habilitar etiquetas de archivo</value>
   </data>
+  <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
+    <value>Mostrar Favoritos</value>
+  </data>
+  <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
+    <value>Aplicar a todos</value>
+  </data>
+  <data name="PropertyPartOfSet" xml:space="preserve">
+    <value>Parte del conjunto</value>
+  </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
     <value>Abrir unidad</value>
   </data>
@@ -2222,12 +2372,6 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>Inserte un disco</value>
-  </data>
-  <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
-    <value>Aplicar a todos</value>
-  </data>
-  <data name="PropertyPartOfSet" xml:space="preserve">
-    <value>Parte del conjunto</value>
   </data>
   <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
     <value>Aceptar</value>
@@ -2247,9 +2391,6 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Nombre de usuario</value>
   </data>
-  <data name="NoSearchResultsFound" xml:space="preserve">
-    <value>No se encontraron elementos</value>
-  </data>
   <data name="BundlesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>Widget de Contenedores</value>
   </data>
@@ -2262,17 +2403,32 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
   <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>Widget de Archivos recientes</value>
   </data>
+  <data name="NoSearchResultsFound" xml:space="preserve">
+    <value>No se encontraron elementos</value>
+  </data>
+  <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
+    <value>Mostrar solo vista previa</value>
+  </data>
   <data name="OpenLogLocation" xml:space="preserve">
     <value>Abrir ubicación de registro (Log)</value>
   </data>
   <data name="LinkToFolderCaptionText" xml:space="preserve">
     <value>Crear vínculo en {0}</value>
   </data>
-  <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
-    <value>Mostrar extensiones de archivo</value>
+  <data name="Columns" xml:space="preserve">
+    <value>Columnas</value>
   </data>
-  <data name="NavToolbarShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar elementos ocultos</value>
+  <data name="LargeIcons" xml:space="preserve">
+    <value>Iconos grandes</value>
+  </data>
+  <data name="MediumIcons" xml:space="preserve">
+    <value>Iconos medianos</value>
+  </data>
+  <data name="SmallIcons" xml:space="preserve">
+    <value>Iconos pequeños</value>
+  </data>
+  <data name="Tiles" xml:space="preserve">
+    <value>Mosaicos</value>
   </data>
   <data name="NavToolbarShowFileExtensions.AutomationProperties.Name" xml:space="preserve">
     <value>Mostrar extensiones de archivo</value>
@@ -2283,11 +2439,20 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
   <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Mostrar Favoritos</value>
   </data>
+  <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Abrir carpetas en una nueva pestaña</value>
+  </data>
   <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Mostrar la Papelera de reciclaje en Favoritos</value>
   </data>
+  <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>Idioma</value>
+  </data>
   <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Mostrar unidades de la nube</value>
+  </data>
+  <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostrar un cuadro de diálogo para confirmar eliminación de archivos o carpetas</value>
   </data>
   <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Mostrar unidades</value>
@@ -2301,26 +2466,11 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Mostrar WSL</value>
   </data>
-  <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Abrir carpetas en una nueva pestaña</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Idioma</value>
-  </data>
-  <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar un cuadro de diálogo para confirmar eliminación de archivos o carpetas</value>
-  </data>
   <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Aplicación de terminal</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Tareas en curso</value>
-  </data>
-  <data name="PreviewPaneLoadCloudItemButton.Text" xml:space="preserve">
-    <value>Cargar vista previa completa</value>
-  </data>
-  <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
-    <value>Mostrar solo vista previa</value>
   </data>
   <data name="SideBarFavoritesMoveOneDown" xml:space="preserve">
     <value>Bajar una posición</value>
@@ -2339,6 +2489,12 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
   </data>
   <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
     <value>Tamaño de elemento</value>
+  </data>
+  <data name="SettingsDefaultFilesManager" xml:space="preserve">
+    <value>Gestor de archivos predeterminado</value>
+  </data>
+  <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
+    <value>Establecer Files como gestor de archivos predeterminado</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
     <value>Usar Files como diálogo de apertura de archivos</value>
@@ -2367,6 +2523,12 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
   <data name="SettingsImportErrorTitle" xml:space="preserve">
     <value>Error al importar los ajustes</value>
   </data>
+  <data name="EmptyRecycleBin" xml:space="preserve">
+    <value>Vaciar la papelera de reciclaje</value>
+  </data>
+  <data name="Sidebar" xml:space="preserve">
+    <value>Barra lateral</value>
+  </data>
   <data name="ChooseCustomIcon" xml:space="preserve">
     <value>Escoger icono de carpeta personalizado</value>
   </data>
@@ -2375,6 +2537,15 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
   </data>
   <data name="RestoreDefault" xml:space="preserve">
     <value>Restaurar predeterminado</value>
+  </data>
+  <data name="FilesAndFolders" xml:space="preserve">
+    <value>Archivos y carpetas</value>
+  </data>
+  <data name="OpenNewInstance" xml:space="preserve">
+    <value>Abrir una nueva instancia al abrir directorios desde la lista de accesos directos de la barra de tareas</value>
+  </data>
+  <data name="StartupSettings" xml:space="preserve">
+    <value>Ajustes de inicio</value>
   </data>
   <data name="Compatibility" xml:space="preserve">
     <value>Compatibilidad</value>
@@ -2445,50 +2616,14 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
   <data name="UseMainMonitorDPISettings" xml:space="preserve">
     <value>Utilizar los ajustes de PPP de la pantalla principal</value>
   </data>
-  <data name="SettingsDefaultFilesManager" xml:space="preserve">
-    <value>Gestor de archivos predeterminado</value>
-  </data>
-  <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
-    <value>Establecer Files como gestor de archivos predeterminado</value>
-  </data>
-  <data name="EmptyRecycleBin" xml:space="preserve">
-    <value>Vaciar la papelera de reciclaje</value>
-  </data>
-  <data name="Sidebar" xml:space="preserve">
-    <value>Barra lateral</value>
-  </data>
-  <data name="FilesAndFolders" xml:space="preserve">
-    <value>Archivos y carpetas</value>
-  </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>Abrir una nueva instancia al abrir directorios desde la lista de accesos directos de la barra de tareas</value>
-  </data>
-  <data name="StartupSettings" xml:space="preserve">
-    <value>Ajustes de inicio</value>
-  </data>
   <data name="ThirdPartyLicenses" xml:space="preserve">
     <value>Licencias de terceros</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>Esta configuración modifica los archivos del sistema y puede tener efectos secundarios inesperados en su dispositivo. Los desarrolladores no asumen ninguna responsabilidad en caso de que se produzca un problema como resultado. Continuar con esta opción es un reconocimiento de los riesgos que implica esta acción. Tenga en cuenta que si desinstala Files, estos cambios seguirán presentes y puede impedirle abrir el explorador de archivos a menos que desactive esta configuración antes de desinstalar Files de su dispositivo.</value>
+    <value>Esta configuración modifica los archivos del sistema y puede tener efectos secundarios inesperados en su dispositivo. Los desarrolladores no asumen ninguna responsabilidad en caso de que se produzca un problema como resultado. Continuar con esta opción es un reconocimiento de los riesgos que implica esta acción.</value>
   </data>
   <data name="ClearAll" xml:space="preserve">
     <value>Limpiar todo</value>
-  </data>
-  <data name="Columns" xml:space="preserve">
-    <value>Columnas</value>
-  </data>
-  <data name="LargeIcons" xml:space="preserve">
-    <value>Iconos grandes</value>
-  </data>
-  <data name="MediumIcons" xml:space="preserve">
-    <value>Iconos medianos</value>
-  </data>
-  <data name="SmallIcons" xml:space="preserve">
-    <value>Iconos pequeños</value>
-  </data>
-  <data name="Tiles" xml:space="preserve">
-    <value>Mosaicos</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Crear biblioteca</value>
@@ -2499,8 +2634,8 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
   <data name="ShowFolderSize" xml:space="preserve">
     <value>Mostrar el tamaño de la carpeta</value>
   </data>
-  <data name="Skip" xml:space="preserve">
-    <value>Omitir</value>
+  <data name="RecentFiles" xml:space="preserve">
+    <value>Archivos recientes</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
     <value>Abrir Files al iniciar Windows</value>
@@ -2529,10 +2664,130 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
   <data name="Bytes" xml:space="preserve">
     <value>Bytes</value>
   </data>
-  <data name="SystemTimeStyle" xml:space="preserve">
-    <value>Sistema</value>
+  <data name="Extract" xml:space="preserve">
+    <value>Extract</value>
+  </data>
+  <data name="ExtractFiles" xml:space="preserve">
+    <value>Extract files</value>
+  </data>
+  <data name="ExtractHere" xml:space="preserve">
+    <value>Extract here</value>
+  </data>
+  <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+E</value>
+  </data>
+  <data name="ExtractToChildFolder" xml:space="preserve">
+    <value>Extract to {0}</value>
+  </data>
+  <data name="RunScript" xml:space="preserve">
+    <value>Run script</value>
+  </data>
+  <data name="RunWithPowerShell" xml:space="preserve">
+    <value>Run with PowerShell</value>
+  </data>
+  <data name="SetAsBackground" xml:space="preserve">
+    <value>Set as desktop background</value>
+  </data>
+  <data name="ShowFolderSizesWarning" xml:space="preserve">
+    <value>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</value>
+  </data>
+  <data name="RotateLeft" xml:space="preserve">
+    <value>Rotate left</value>
+  </data>
+  <data name="RotateRight" xml:space="preserve">
+    <value>Rotate right</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Install</value>
+  </data>
+  <data name="CloseTabsToTheLeft" xml:space="preserve">
+    <value>Close tabs to the left</value>
+  </data>
+  <data name="CloseTabsToTheRight" xml:space="preserve">
+    <value>Close tabs to the right</value>
+  </data>
+  <data name="CloseOtherTabs" xml:space="preserve">
+    <value>Close other tabs</value>
+  </data>
+  <data name="Music" xml:space="preserve">
+    <value>Music</value>
+  </data>
+  <data name="Pictures" xml:space="preserve">
+    <value>Pictures</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>Videos</value>
+  </data>
+  <data name="UpdateFiles" xml:space="preserve">
+    <value>Update Files</value>
+  </data>
+  <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
+    <value>Preparing {0} items</value>
+  </data>
+  <data name="PrepareInProgress" xml:space="preserve">
+    <value>Preparing items</value>
+  </data>
+  <data name="StatusCopyFailed" xml:space="preserve">
+    <value>Copy failed</value>
+  </data>
+  <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
+    <value>Failed to copy {0} items from {1} to {2}</value>
+  </data>
+  <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
+    <value>Failed to copy {0} item from {1} to {2}</value>
+  </data>
+  <data name="StatusMoveFailed" xml:space="preserve">
+    <value>Move failed</value>
+  </data>
+  <data name="FileTags" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="SettingsShowFileTagsSection.Title" xml:space="preserve">
+    <value>Show Tags section</value>
+  </data>
+  <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Show Tags section</value>
+  </data>
+  <data name="UseCompactStyles" xml:space="preserve">
+    <value>Use compact styles in the details layout</value>
+  </data>
+  <data name="Universal" xml:space="preserve">
+    <value>Universal</value>
+  </data>
+  <data name="DateFormatSample" xml:space="preserve">
+    <value>ex: {0}, {1}</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
+    <value>Show thumbnails</value>
   </data>
   <data name="Retry" xml:space="preserve">
     <value>Reintentar</value>
+  </data>
+  <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
+    <value>Move operation is not supported in this context. Do you want to copy the items instead?</value>
+  </data>
+  <data name="HiddenFilesAndFolders" xml:space="preserve">
+    <value>Hidden files and folders</value>
+  </data>
+  <data name="Custom" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="SetAsSlideshow" xml:space="preserve">
+    <value>Set as desktop slideshow</value>
+  </data>
+  <data name="SizeAllColumnsToFit" xml:space="preserve">
+    <value>Size All Columns to Fit</value>
+  </data>
+  <data name="Contributors" xml:space="preserve">
+    <value>Contributors</value>
+  </data>
+  <data name="Adaptive" xml:space="preserve">
+    <value>Adaptive</value>
+  </data>
+  <data name="AdaptiveShortcutTooltip" xml:space="preserve">
+    <value>Adaptive (Ctrl+Shift+7)</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+Shift+7</value>
   </data>
 </root>

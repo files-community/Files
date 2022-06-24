@@ -1,5 +1,110 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
@@ -45,6 +150,9 @@
   <data name="Size" xml:space="preserve">
     <value>Grootte</value>
   </data>
+  <data name="OpenIn" xml:space="preserve">
+    <value>Maak oop in</value>
+  </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>Geskep:</value>
   </data>
@@ -65,6 +173,9 @@
   </data>
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>is 'n subgids van die brongids</value>
+  </data>
+  <data name="Skip" xml:space="preserve">
+    <value>Slaan oor</value>
   </data>
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>Selekteer Alles</value>
@@ -99,9 +210,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Verwyder hierdie item</value>
   </data>
-  <data name="RecentFiles" xml:space="preserve">
-    <value>Onlangse lêers</value>
-  </data>
   <data name="SettingsUsefulLinks.Title" xml:space="preserve">
     <value>Nuttige skakels</value>
   </data>
@@ -122,6 +230,9 @@
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>Wys versteekte lêers en omslae</value>
+  </data>
+  <data name="ShowDotFiles" xml:space="preserve">
+    <value>Show dot files</value>
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Eksperimentele</value>
@@ -258,6 +369,9 @@
   <data name="Application" xml:space="preserve">
     <value>Toepassing</value>
   </data>
+  <data name="SystemTimeStyle" xml:space="preserve">
+    <value>Stelsel</value>
+  </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Nuwe Omslag</value>
   </data>
@@ -335,6 +449,15 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Het jy hierdie omslag geskrap?</value>
+  </data>
+  <data name="FileInUseByDialog.Text" xml:space="preserve">
+    <value>The file you are attempting to access is currently being used by {0}</value>
+  </data>
+  <data name="FileInUseDialog.Text" xml:space="preserve">
+    <value>The file you are attempting to access is currently being used by an another application</value>
+  </data>
+  <data name="FileInUseDialog.Title" xml:space="preserve">
+    <value>File is in use</value>
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>Uitleg</value>
@@ -1318,6 +1441,9 @@
   <data name="CloudDriveSyncStatus_Excluded" xml:space="preserve">
     <value>Uitgesluit van sinchro</value>
   </data>
+  <data name="ItemSizeNotCalculated" xml:space="preserve">
+    <value>Not calculated</value>
+  </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Onbekende</value>
   </data>
@@ -2289,6 +2415,21 @@ Ons gebruik App Center om tred te hou met programgebruik, foute te vind en ongel
   <data name="LinkToFolderCaptionText" xml:space="preserve">
     <value>Skep skakel in {0}</value>
   </data>
+  <data name="Columns" xml:space="preserve">
+    <value>Kolomme</value>
+  </data>
+  <data name="LargeIcons" xml:space="preserve">
+    <value>Groot ikone</value>
+  </data>
+  <data name="MediumIcons" xml:space="preserve">
+    <value>Medium Icons</value>
+  </data>
+  <data name="SmallIcons" xml:space="preserve">
+    <value>Klein ikone</value>
+  </data>
+  <data name="Tiles" xml:space="preserve">
+    <value>Teëls</value>
+  </data>
   <data name="NavToolbarShowFileExtensions.AutomationProperties.Name" xml:space="preserve">
     <value>Wys lêeruitbreidings</value>
   </data>
@@ -2479,25 +2620,25 @@ Ons gebruik App Center om tred te hou met programgebruik, foute te vind en ongel
     <value>Derde party lisensies</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>Hierdie instelling verander stelsellêers en kan onverwagte newe-effekte op jou toestel hê. Die ontwikkelaars neem geen verantwoordelikheid in die geval dat 'n probleem as gevolg daarvan plaasvind nie. Om voort te gaan met hierdie opsie is 'n erkenning van die risiko's wat by hierdie aksie betrokke is. Let asseblief daarop dat die deïnstalleer van Files nie hierdie veranderinge sal ongedaan maak nie en kan verhoed dat jy File Explorer oopmaak, tensy jy hierdie instelling afskakel voordat jy Files van jou toestel verwyder.</value>
-  </data>
-  <data name="Columns" xml:space="preserve">
-    <value>Kolomme</value>
-  </data>
-  <data name="LargeIcons" xml:space="preserve">
-    <value>Groot ikone</value>
-  </data>
-  <data name="SmallIcons" xml:space="preserve">
-    <value>Klein ikone</value>
-  </data>
-  <data name="Tiles" xml:space="preserve">
-    <value>Teëls</value>
+    <value>Hierdie instelling verander stelsellêers en kan onverwagte newe-effekte op jou toestel hê. Die ontwikkelaars neem geen verantwoordelikheid in die geval dat 'n probleem as gevolg daarvan plaasvind nie. Om voort te gaan met hierdie opsie is 'n erkenning van die risiko's wat by hierdie aksie betrokke is.</value>
   </data>
   <data name="ClearAll" xml:space="preserve">
     <value>Maak alles skoon</value>
   </data>
-  <data name="Skip" xml:space="preserve">
-    <value>Slaan oor</value>
+  <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
+    <value>Create Library</value>
+  </data>
+  <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
+    <value>Enter Library name</value>
+  </data>
+  <data name="ShowFolderSize" xml:space="preserve">
+    <value>Show folder size</value>
+  </data>
+  <data name="RecentFiles" xml:space="preserve">
+    <value>Onlangse lêers</value>
+  </data>
+  <data name="SettingsOpenInLogin" xml:space="preserve">
+    <value>Open Files on Windows Startup</value>
   </data>
   <data name="Attributes" xml:space="preserve">
     <value>Kenmerke:</value>
@@ -2511,6 +2652,12 @@ Ons gebruik App Center om tred te hou met programgebruik, foute te vind en ongel
   <data name="ReadOnly" xml:space="preserve">
     <value>Leesalleen</value>
   </data>
+  <data name="CleanupDrive" xml:space="preserve">
+    <value>Cleanup your drive contents</value>
+  </data>
+  <data name="DiskCleanup" xml:space="preserve">
+    <value>Disk cleanup</value>
+  </data>
   <data name="Type" xml:space="preserve">
     <value>Tipe:</value>
   </data>
@@ -2520,14 +2667,29 @@ Ons gebruik App Center om tred te hou met programgebruik, foute te vind en ongel
   <data name="Extract" xml:space="preserve">
     <value>Ekstraheer</value>
   </data>
+  <data name="ExtractFiles" xml:space="preserve">
+    <value>Extract files</value>
+  </data>
+  <data name="ExtractHere" xml:space="preserve">
+    <value>Extract here</value>
+  </data>
   <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+E</value>
+  </data>
+  <data name="ExtractToChildFolder" xml:space="preserve">
+    <value>Extract to {0}</value>
+  </data>
+  <data name="RunScript" xml:space="preserve">
+    <value>Run script</value>
+  </data>
+  <data name="RunWithPowerShell" xml:space="preserve">
+    <value>Run with PowerShell</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>Stel as werkskermagtergrond</value>
   </data>
-  <data name="OpenIn" xml:space="preserve">
-    <value>Maak oop in</value>
+  <data name="ShowFolderSizesWarning" xml:space="preserve">
+    <value>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</value>
   </data>
   <data name="RotateLeft" xml:space="preserve">
     <value>Roteer linksom</value>
@@ -2537,6 +2699,9 @@ Ons gebruik App Center om tred te hou met programgebruik, foute te vind en ongel
   </data>
   <data name="Install" xml:space="preserve">
     <value>Installeer:</value>
+  </data>
+  <data name="CloseTabsToTheLeft" xml:space="preserve">
+    <value>Close tabs to the left</value>
   </data>
   <data name="CloseTabsToTheRight" xml:space="preserve">
     <value>Sluit duimgidse na regs</value>
@@ -2553,19 +2718,76 @@ Ons gebruik App Center om tred te hou met programgebruik, foute te vind en ongel
   <data name="Videos" xml:space="preserve">
     <value>Video's</value>
   </data>
+  <data name="UpdateFiles" xml:space="preserve">
+    <value>Update Files</value>
+  </data>
+  <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
+    <value>Preparing {0} items</value>
+  </data>
+  <data name="PrepareInProgress" xml:space="preserve">
+    <value>Preparing items</value>
+  </data>
   <data name="StatusCopyFailed" xml:space="preserve">
     <value>Kopiëring het misluk</value>
+  </data>
+  <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
+    <value>Failed to copy {0} items from {1} to {2}</value>
+  </data>
+  <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
+    <value>Failed to copy {0} item from {1} to {2}</value>
+  </data>
+  <data name="StatusMoveFailed" xml:space="preserve">
+    <value>Move failed</value>
   </data>
   <data name="FileTags" xml:space="preserve">
     <value>Merkers</value>
   </data>
-  <data name="SystemTimeStyle" xml:space="preserve">
-    <value>Stelsel</value>
+  <data name="SettingsShowFileTagsSection.Title" xml:space="preserve">
+    <value>Show Tags section</value>
+  </data>
+  <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Show Tags section</value>
+  </data>
+  <data name="UseCompactStyles" xml:space="preserve">
+    <value>Use compact styles in the details layout</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Universeel</value>
   </data>
+  <data name="DateFormatSample" xml:space="preserve">
+    <value>ex: {0}, {1}</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
+    <value>Show thumbnails</value>
+  </data>
   <data name="Retry" xml:space="preserve">
     <value>Herprobeer</value>
+  </data>
+  <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
+    <value>Move operation is not supported in this context. Do you want to copy the items instead?</value>
+  </data>
+  <data name="HiddenFilesAndFolders" xml:space="preserve">
+    <value>Hidden files and folders</value>
+  </data>
+  <data name="Custom" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="SetAsSlideshow" xml:space="preserve">
+    <value>Set as desktop slideshow</value>
+  </data>
+  <data name="SizeAllColumnsToFit" xml:space="preserve">
+    <value>Size All Columns to Fit</value>
+  </data>
+  <data name="Contributors" xml:space="preserve">
+    <value>Contributors</value>
+  </data>
+  <data name="Adaptive" xml:space="preserve">
+    <value>Adaptive</value>
+  </data>
+  <data name="AdaptiveShortcutTooltip" xml:space="preserve">
+    <value>Adaptive (Ctrl+Shift+7)</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+Shift+7</value>
   </data>
 </root>

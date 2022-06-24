@@ -143,12 +143,6 @@
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-  <PropertyGroup Label="MultilingualAppToolkit">
-    <MultilingualAppToolkitVersion>4.0</MultilingualAppToolkitVersion>
-    <MultilingualFallbackLanguage>en-US</MultilingualFallbackLanguage>
-    <TranslationReport Condition="'$(Configuration)' == 'Release'">true</TranslationReport>
-    <SuppressPseudoWarning Condition="'$(Configuration)' == 'Debug'">true</SuppressPseudoWarning>
-  </PropertyGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -197,11 +191,22 @@
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\ImageSourceExtensions.cs" />
     <Compile Include="Extensions\KeyboardAcceleratorExtensions.cs" />
-    <Compile Include="Filesystem\Cloud\Providers\SynologyDriveCloudProvider.cs" />
+    <Compile Include="Filesystem\Cloud\CloudDrivesManager.cs" />
+    <Compile Include="Filesystem\Cloud\CloudDriveSyncStatusUI.cs" />
+    <Compile Include="Filesystem\Cloud\Detector\AbstractCloudDetector.cs" />
+    <Compile Include="Filesystem\Cloud\Detector\AppleCloudDetector.cs" />
+    <Compile Include="Filesystem\Cloud\Detector\BoxCloudDetector.cs" />
+    <Compile Include="Filesystem\Cloud\Detector\CloudDetector.cs" />
+    <Compile Include="Filesystem\Cloud\Detector\DropBoxCloudDetector.cs" />
+    <Compile Include="Filesystem\Cloud\Detector\GenericCloudDetector.cs" />
+    <Compile Include="Filesystem\Cloud\Detector\GoogleDriveCloudDetector.cs" />
+    <Compile Include="Filesystem\Cloud\Detector\SynologyDriveCloudDetector.cs" />
     <Compile Include="Filesystem\FilesystemOperations\ShellFilesystemOperations.cs" />
     <Compile Include="Filesystem\FileTagsHelper.cs" />
     <Compile Include="Filesystem\FileTagsManager.cs" />
     <Compile Include="Filesystem\FtpManager.cs" />
+    <Compile Include="Filesystem\RecentItem.cs" />
+    <Compile Include="Filesystem\RecentItemsManager.cs" />
     <Compile Include="Filesystem\Permissions\FilePermissionsManager.cs" />
     <Compile Include="Filesystem\Permissions\FileSystemAccessRule.cs" />
     <Compile Include="Filesystem\Permissions\FileSystemAccessRuleForUI.cs" />
@@ -211,6 +216,7 @@
     <Compile Include="Filesystem\StorageItems\BaseQueryResults.cs" />
     <Compile Include="Filesystem\StorageItems\FtpStorageFile.cs" />
     <Compile Include="Filesystem\StorageItems\FtpStorageFolder.cs" />
+    <Compile Include="Filesystem\StorageItems\NativeStorageFile.cs" />
     <Compile Include="Filesystem\StorageItems\ShellStorageFile.cs" />
     <Compile Include="Filesystem\StorageItems\ShellStorageFolder.cs" />
     <Compile Include="Filesystem\StorageItems\StreamWithContentType.cs" />
@@ -247,7 +253,6 @@
     <Compile Include="Filesystem\StorageEnumerators\UniversalStorageEnumerator.cs" />
     <Compile Include="Filesystem\StorageEnumerators\Win32StorageEnumerator.cs" />
     <Compile Include="EventArguments\LayoutModeEventArgs.cs" />
-    <Compile Include="Filesystem\CloudDrivesManager.cs" />
     <Compile Include="Helpers\AdaptiveLayoutHelpers.cs" />
     <Compile Include="Filesystem\NetworkDrivesManager.cs" />
     <Compile Include="Helpers\AppServiceConnectionHelper.cs" />
@@ -452,14 +457,6 @@
     <Compile Include="UserControls\FilePreviews\ImagePreview.xaml.cs">
       <DependentUpon>ImagePreview.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Filesystem\Cloud\CloudDriveSyncStatusUI.cs" />
-    <Compile Include="Filesystem\Cloud\Providers\AppleCloudProvider.cs" />
-    <Compile Include="Filesystem\Cloud\Providers\BoxCloudProvider.cs" />
-    <Compile Include="Filesystem\Cloud\CloudProviderController.cs" />
-    <Compile Include="Filesystem\Cloud\Providers\DropBoxCloudProvider.cs" />
-    <Compile Include="Filesystem\Cloud\Providers\GoogleDriveCloudProvider.cs" />
-    <Compile Include="Filesystem\Cloud\ICloudProviderDetector.cs" />
-    <Compile Include="Filesystem\Cloud\Providers\GenericCloudProvider.cs" />
     <Compile Include="Filesystem\FilesystemOperations\FilesystemItemType.cs" />
     <Compile Include="Filesystem\FilesystemOperations\FilesystemOperations.cs" />
     <Compile Include="Filesystem\FilesystemOperations\Helpers\FilesystemHelpers.cs" />
@@ -1084,8 +1081,6 @@
     <Content Include="Assets\WSL\ubuntu.svg" />
     <Content Include="Assets\WSL\ubuntupng.png" />
     <Content Include="Properties\Default.rd.xml" />
-    <XliffResource Include="MultilingualResources\Files.nb-NO.xlf" />
-    <XliffResource Include="MultilingualResources\Files.sk-SK.xlf" />
     <None Include="Resources\PreviewPanePropertiesInformation.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -1559,13 +1554,13 @@
       <Version>4.5.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Data.Sqlite.Core">
-      <Version>6.0.5</Version>
+      <Version>6.0.6</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection">
       <Version>6.0.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.13</Version>
+      <Version>6.2.14</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp">
       <Version>7.1.2</Version>
@@ -1608,43 +1603,6 @@
     <AppxManifest Include="..\Files.Package\Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-  </ItemGroup>
-  <ItemGroup>
-    <XliffResource Include="MultilingualResources\Files.af.xlf" />
-    <XliffResource Include="MultilingualResources\Files.ca.xlf" />
-    <XliffResource Include="MultilingualResources\Files.el.xlf" />
-    <XliffResource Include="MultilingualResources\Files.en-GB.xlf" />
-    <XliffResource Include="MultilingualResources\Files.hr-HR.xlf" />
-    <XliffResource Include="MultilingualResources\Files.id-ID.xlf" />
-    <XliffResource Include="MultilingualResources\Files.es-419.xlf" />
-    <XliffResource Include="MultilingualResources\Files.ka.xlf" />
-    <XliffResource Include="MultilingualResources\Files.pt-PT.xlf" />
-    <XliffResource Include="MultilingualResources\Files.ar.xlf" />
-    <XliffResource Include="MultilingualResources\Files.bg.xlf" />
-    <XliffResource Include="MultilingualResources\Files.da-DK.xlf" />
-    <XliffResource Include="MultilingualResources\Files.da.xlf" />
-    <XliffResource Include="MultilingualResources\Files.de-DE.xlf" />
-    <XliffResource Include="MultilingualResources\Files.es-ES.xlf" />
-    <XliffResource Include="MultilingualResources\Files.fr-FR.xlf" />
-    <XliffResource Include="MultilingualResources\Files.he-IL.xlf" />
-    <XliffResource Include="MultilingualResources\Files.hi-IN.xlf" />
-    <XliffResource Include="MultilingualResources\Files.hu-HU.xlf" />
-    <XliffResource Include="MultilingualResources\Files.it-IT.xlf" />
-    <XliffResource Include="MultilingualResources\Files.ja-JP.xlf" />
-    <XliffResource Include="MultilingualResources\Files.ko-KR.xlf" />
-    <XliffResource Include="MultilingualResources\Files.lv-LV.xlf" />
-    <XliffResource Include="MultilingualResources\Files.nl-NL.xlf" />
-    <XliffResource Include="MultilingualResources\Files.or-IN.xlf" />
-    <XliffResource Include="MultilingualResources\Files.pl-PL.xlf" />
-    <XliffResource Include="MultilingualResources\Files.pt-BR.xlf" />
-    <XliffResource Include="MultilingualResources\Files.ru-RU.xlf" />
-    <XliffResource Include="MultilingualResources\Files.sv-SE.xlf" />
-    <XliffResource Include="MultilingualResources\Files.ta.xlf" />
-    <XliffResource Include="MultilingualResources\Files.tr-TR.xlf" />
-    <XliffResource Include="MultilingualResources\Files.uk-UA.xlf" />
-    <XliffResource Include="MultilingualResources\Files.vi.xlf" />
-    <XliffResource Include="MultilingualResources\Files.zh-Hans.xlf" />
-    <XliffResource Include="MultilingualResources\Files.zh-Hant.xlf" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BackgroundTasks\BackgroundTasks.csproj">
@@ -1728,10 +1686,6 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.PriResources.targets" Label="MultilingualAppToolkit" Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\v$(MultilingualAppToolkitVersion)\Microsoft.Multilingual.PriResources.targets')" />
-  <Target Name="MATPrerequisite" BeforeTargets="PrepareForBuild" Condition="!Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.PriResources.targets')" Label="MultilingualAppToolkit">
-    <Warning Text="$(MSBuildProjectFile) is Multilingual build enabled, but the Multilingual App Toolkit is unavailable during the build. If building with Visual Studio, please check to ensure that toolkit is properly installed." />
-  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
