@@ -24,7 +24,7 @@ namespace Files.Uwp.Helpers
                 GroupOption.DateModified => x => dateTimeFormatter.ToTimeSpanLabel(x.ItemDateModifiedReal).Text,
                 GroupOption.FileType => x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsShortcutItem ? x.ItemType : x.FileExtension?.ToLowerInvariant() ?? " ",
                 GroupOption.SyncStatus => x => x.SyncStatusString,
-                GroupOption.FileTag => x => x.FileTag,
+                GroupOption.FileTag => x => x.FileTags?.FirstOrDefault(),
                 GroupOption.OriginalFolder => x => (x as RecycleBinItem)?.ItemOriginalFolder,
                 GroupOption.DateDeleted => x => dateTimeFormatter.ToTimeSpanLabel((x as RecycleBinItem)?.ItemDateDeletedReal ?? DateTimeOffset.Now).Text,
                 GroupOption.FolderPath => x => PathNormalization.GetParentDir(x.ItemPath.TrimPath()),
@@ -97,8 +97,8 @@ namespace Files.Uwp.Helpers
                 {
                     ListedItem first = x.First();
                     x.Model.ShowCountTextBelow = true;
-                    x.Model.Text = first.FileTagUI?.TagName ?? "None".GetLocalized();
-                    //x.Model.Icon = first?.FileTagUI?.Color;
+                    x.Model.Text = first.FileTagsUI?.FirstOrDefault()?.TagName ?? "None".GetLocalized();
+                    //x.Model.Icon = first.FileTagsUI?.FirstOrDefault()?.Color;
                 }, null),
 
                 GroupOption.DateDeleted => (x =>

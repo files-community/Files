@@ -58,31 +58,10 @@ namespace Files.Uwp.ServicesImplementation.Settings
             return tag;
         }
 
-        public IList<FileTagViewModel> GetTagsByUids(string[] uids)
+        public IList<FileTagViewModel> GetTagsByIds(string[] uids)
         {
-            if (FileTagList.Any(x => x.Uid == null))
-            {
-                App.Logger.Warn("Tags file is invalid, regenerate");
-                FileTagList = DefaultFileTags;
-            }
-
-            var fileTagsList = new List<FileTagViewModel>();
-            foreach (var uid in uids)
-            {
-                var fileTagViewModel = FileTagList.SingleOrDefault(f => f.Uid == uid);
-                if (fileTagViewModel == null)
-                {
-                    FileTagList = FileTagList
-                        .Append(new FileTagViewModel("FileTagUnknown".GetLocalized(), "#9ea3a1", uid)).ToList();
-                }
-                else
-                {
-                    fileTagsList.Add(fileTagViewModel);
-                }
-            }
-            return fileTagsList;
+            return uids?.Select(x => GetTagById(x)).ToList();
         }
-
 
         public IEnumerable<FileTagViewModel> GetTagsByName(string tagName)
         {

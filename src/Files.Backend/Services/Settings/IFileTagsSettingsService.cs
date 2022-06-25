@@ -12,7 +12,7 @@ namespace Files.Backend.Services.Settings
 
         FileTagViewModel GetTagById(string uid);
 
-        IList<FileTagViewModel> GetTagsByUids(string[] uids);
+        IList<FileTagViewModel> GetTagsByIds(string[] uids);
 
         IEnumerable<FileTagViewModel> GetTagsByName(string tagName);
 

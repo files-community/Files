@@ -8,6 +8,7 @@ namespace Common
     public class FileTagsDb : IDisposable
     {
         private readonly LiteDatabase db;
+
         private const string TaggedFiles = "taggedfiles";
 
         public FileTagsDb(string connection, bool shared = false)
@@ -16,40 +17,10 @@ namespace Common
             {
                 Mode = shared ? FileMode.Shared : FileMode.Exclusive
             });
+            UpdateDb();
         }
 
-        public void SetTags(string filePath, ulong? frn, string[] tags)
-        {
-            var taggedFilesCollection = db.GetCollection<TaggedFile>(TaggedFiles);
-            var taggedFile = _FindTag(filePath, frn);
-            if (taggedFile == null && tags != null)
-            {
-                // Insert new tagged file (Id will be auto-incremented)
-                var newTag = new TaggedFile
-                {
-                    FilePath = filePath,
-                    Frn = frn,
-                    Tags = tags
-                };
-                taggedFilesCollection.Insert(newTag);
-            }
-            else
-            {
-                if (tags != null)
-                {
-                    // Update file tag
-                    taggedFile.Tags = tags;
-                    taggedFilesCollection.Update(taggedFile);
-                }
-                else
-                {
-                    // Remove file tag
-                    taggedFilesCollection.Delete(taggedFile.Id);
-                }
-            }
-        }
-
-        public void SetTag(string filePath, ulong? frn, string tag)
+        public void SetTags(string filePath, ulong? frn, string[]? tags)
         {
             // Get a collection (or create, if doesn't exist)
             var col = db.GetCollection<TaggedFile>(TaggedFiles);
@@ -57,24 +28,24 @@ namespace Common
             var tmp = _FindTag(filePath, frn);
             if (tmp == null)
             {
-                if (tag != null)
+                if (tags != null)
                 {
                     // Insert new tagged file (Id will be auto-incremented)
                     var newTag = new TaggedFile
                     {
                         FilePath = filePath,
                         Frn = frn,
-                        Tag = tag
+                        Tags = tags
                     };
                     col.Insert(newTag);
                 }
             }
             else
             {
-                if (tag != null)
+                if (tags != null)
                 {
                     // Update file tag
-                    tmp.Tag = tag;
+                    tmp.Tags = tags;
                     col.Update(tmp);
                 }
                 else
@@ -85,7 +56,7 @@ namespace Common
             }
         }
 
-        private TaggedFile _FindTag(string filePath = null, ulong? frn = null)
+        private TaggedFile? _FindTag(string? filePath = null, ulong? frn = null)
         {
             // Get a collection (or create, if doesn't exist)
             var col = db.GetCollection<TaggedFile>(TaggedFiles);
@@ -124,7 +95,7 @@ namespace Common
             return null;
         }
 
-        public void UpdateTag(string oldFilePath, ulong? frn = null, string newFilePath = null)
+        public void UpdateTag(string oldFilePath, ulong? frn = null, string? newFilePath = null)
         {
             // Get a collection (or create, if doesn't exist)
             var col = db.GetCollection<TaggedFile>(TaggedFiles);
@@ -145,7 +116,7 @@ namespace Common
             }
         }
 
-        public void UpdateTag(ulong oldFrn, ulong? frn = null, string newFilePath = null)
+        public void UpdateTag(ulong oldFrn, ulong? frn = null, string? newFilePath = null)
         {
             // Get a collection (or create, if doesn't exist)
             var col = db.GetCollection<TaggedFile>(TaggedFiles);
@@ -166,9 +137,9 @@ namespace Common
             }
         }
 
-        public string GetTag(string filePath = null, ulong? frn = null)
+        public string[] GetTags(string? filePath = null, ulong? frn = null)
         {
-            return _FindTag(filePath, frn)?.Tag;
+            return _FindTag(filePath, frn)?.Tags ?? Array.Empty<string>();
         }
 
         public IEnumerable<TaggedFile> GetAll()
@@ -200,13 +171,26 @@ namespace Common
             return JsonSerializer.Serialize(new BsonArray(db.Engine.FindAll(TaggedFiles)));
         }
 
+        private void UpdateDb()
+        {
+            if (db.Engine.UserVersion == 0)
+            {
+                foreach (var doc in db.Engine.FindAll(TaggedFiles))
+                {
+                    doc["Tags"] = new BsonValue(new[] { doc["Tag"].AsString });
+                    doc.Remove("Tags");
+                    db.Engine.Update(TaggedFiles, doc);
+                }
+                db.Engine.UserVersion = 1;
+            }
+        }
+
         public class TaggedFile
         {
             [BsonId] public int Id { get; set; }
             public ulong? Frn { get; set; }
-            public string FilePath { get; set; }
-            public string Tag { get; set; }
-            public string[] Tags { get; set; }
+            public string FilePath { get; set; } = null!;
+            public string[] Tags { get; set; } = null!;
         }
     }
 }

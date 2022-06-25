@@ -115,7 +115,7 @@ namespace Files.Uwp.Filesystem
 
         public ulong? FileFRN { get; set; }
 
-        private string[] fileTags = Array.Empty<string>();
+        private string[] fileTags;
 
         public string[] FileTags
         {
@@ -125,35 +125,16 @@ namespace Files.Uwp.Filesystem
                 if (SetProperty(ref fileTags, value))
                 {
                     FileTagsHelper.DbInstance.SetTags(ItemPath, FileFRN, value);
-                    FileTagsHelper.WriteFileTag(ItemPath, string.Join(",", value));
+                    FileTagsHelper.WriteFileTag(ItemPath, value);
                     OnPropertyChanged(nameof(FileTagsUI));
                 }
             }
         }
 
-        public IList<FileTagViewModel> FileTagsUI =>
-            UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled ? 
-                FileTagsSettingsService.GetTagsByUids(FileTags) : null;
-
-        private string fileTag;
-        public string FileTag
+        public IList<FileTagViewModel> FileTagsUI
         {
-            get => fileTag;
-            set
-            {
-                if (SetProperty(ref fileTag, value))
-                {
-                    FileTagsHelper.DbInstance.SetTag(ItemPath, FileFRN, value);
-                    FileTagsHelper.WriteFileTag(ItemPath, value);
-                    OnPropertyChanged(nameof(FileTagUI));
-                }
-            }
-        }
-        
-        public FileTagViewModel FileTagUI
-        {
-            get => UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled ? 
-                FileTagsSettingsService.GetTagById(FileTag) : null;
+            get => UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled ?
+                FileTagsSettingsService.GetTagsByIds(FileTags) : null;
         }
 
         private Uri customIconSource;
