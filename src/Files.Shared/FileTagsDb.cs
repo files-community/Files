@@ -17,7 +17,7 @@ namespace Common
             });
         }
 
-        public void SetTag(string filePath, ulong? frn, string tag)
+        public void SetTag(string filePath, ulong? frn, string? tag)
         {
             // Get a collection (or create, if doesn't exist)
             var col = db.GetCollection<TaggedFile>("taggedfiles");
