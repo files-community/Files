@@ -59,6 +59,9 @@ namespace Files.Uwp.Helpers.LayoutPreferences
         {
             // Get a collection (or create, if doesn't exist)
             var col = db.GetCollection<LayoutDbPrefs>("layoutprefs");
+            col.EnsureIndex(x => x.Frn);
+            col.EnsureIndex(x => x.FilePath);
+
             if (filePath != null)
             {
                 var tmp = col.FindOne(x => x.FilePath == filePath);

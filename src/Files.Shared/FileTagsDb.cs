@@ -28,12 +28,7 @@ namespace Common
                 if (tag != null)
                 {
                     // Insert new tagged file (Id will be auto-incremented)
-                    var newTag = new TaggedFile
-                    {
-                        FilePath = filePath,
-                        Frn = frn,
-                        Tag = tag
-                    };
+                    var newTag = new TaggedFile(filePath, frn, tag);
                     col.Insert(newTag);
                 }
             }
@@ -53,10 +48,13 @@ namespace Common
             }
         }
 
-        private TaggedFile _FindTag(string filePath = null, ulong? frn = null)
+        private TaggedFile? _FindTag(string? filePath = null, ulong? frn = null)
         {
             // Get a collection (or create, if doesn't exist)
             var col = db.GetCollection<TaggedFile>("taggedfiles");
+            col.EnsureIndex(x => x.Frn);
+            col.EnsureIndex(x => x.FilePath);
+
             if (filePath != null)
             {
                 var tmp = col.FindOne(x => x.FilePath == filePath);
@@ -88,7 +86,7 @@ namespace Common
             return null;
         }
 
-        public void UpdateTag(string oldFilePath, ulong? frn = null, string newFilePath = null)
+        public void UpdateTag(string oldFilePath, ulong? frn = null, string? newFilePath = null)
         {
             // Get a collection (or create, if doesn't exist)
             var col = db.GetCollection<TaggedFile>("taggedfiles");
@@ -108,7 +106,7 @@ namespace Common
             }
         }
 
-        public void UpdateTag(ulong oldFrn, ulong? frn = null, string newFilePath = null)
+        public void UpdateTag(ulong oldFrn, ulong? frn = null, string? newFilePath = null)
         {
             // Get a collection (or create, if doesn't exist)
             var col = db.GetCollection<TaggedFile>("taggedfiles");
@@ -128,7 +126,7 @@ namespace Common
             }
         }
 
-        public string GetTag(string filePath = null, ulong? frn = null)
+        public string? GetTag(string? filePath = null, ulong? frn = null)
         {
             return _FindTag(filePath, frn)?.Tag;
         }
@@ -169,6 +167,9 @@ namespace Common
             public ulong? Frn { get; set; }
             public string FilePath { get; set; }
             public string Tag { get; set; }
+
+            public TaggedFile(string filePath, ulong? frn, string tag)
+                => (FilePath, Frn, Tag) = (filePath, frn, tag);
         }
     }
 }
