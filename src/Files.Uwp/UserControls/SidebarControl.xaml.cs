@@ -109,6 +109,8 @@ namespace Files.Uwp.UserControls
 
         private ICommand HideSectionCommand { get; }
 
+        private ICommand PinItemCommand { get; }
+
         private ICommand UnpinItemCommand { get; }
 
         private ICommand MoveItemToTopCommand { get; }
@@ -143,6 +145,7 @@ namespace Files.Uwp.UserControls
 
             HideSectionCommand = new RelayCommand(HideSection);
             UnpinItemCommand = new RelayCommand(UnpinItem);
+            PinItemCommand = new RelayCommand(PinItem);
             MoveItemToTopCommand = new RelayCommand(MoveItemToTop);
             MoveItemUpCommand = new RelayCommand(MoveItemUp);
             MoveItemDownCommand = new RelayCommand(MoveItemDown);
@@ -192,6 +195,9 @@ namespace Files.Uwp.UserControls
 
             bool showMoveItemUp = favoriteIndex > 0;
             bool showMoveItemDown = favoriteIndex < favoriteCount - 1;
+
+            bool isDriveItem = item is DriveItem;
+            bool isDriveItemPinned = isDriveItem && (item as DriveItem).IsPinned;
 
             return new List<ContextMenuFlyoutItemViewModel>()
             {
@@ -273,10 +279,17 @@ namespace Files.Uwp.UserControls
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
+                    Text = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalized(),
+                    Glyph = "\uE840",
+                    Command = PinItemCommand,
+                    ShowItem = isDriveItem && !isDriveItemPinned
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
                     Text = "SideBarUnpinFromFavorites/Text".GetLocalized(),
                     Glyph = "\uE77A",
                     Command = UnpinItemCommand,
-                    ShowItem = options.ShowUnpinItem
+                    ShowItem = options.ShowUnpinItem || isDriveItemPinned
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -367,6 +380,14 @@ namespace Files.Uwp.UserControls
             await NavigationHelpers.OpenPathInNewWindowAsync(rightClickedItem.Path);
         }
 
+        private void PinItem()
+        {
+            if(rightClickedItem is DriveItem)
+            {
+                App.SidebarPinnedController.Model.AddItem(rightClickedItem.Path);
+            }
+        }
+
         private void UnpinItem()
         {
             if (rightClickedItem.MenuOptions.ShowEmptyRecycleBin)
@@ -374,7 +395,7 @@ namespace Files.Uwp.UserControls
                 UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar = false;
                 App.SidebarPinnedController.Model.ShowHideRecycleBinItem(false);
             }
-            else if (rightClickedItem.Section == SectionType.Favorites)
+            else if (rightClickedItem.Section == SectionType.Favorites || rightClickedItem is DriveItem)
             {
                 App.SidebarPinnedController.Model.RemoveItem(rightClickedItem.Path);
             }

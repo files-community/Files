@@ -167,6 +167,26 @@ namespace Files.Uwp.UserControls.Widgets
             await NavigationHelpers.OpenPathInNewWindowAsync(item.Path);
         }
 
+        private async void PinToFavorites_Click(object sender, RoutedEventArgs e)
+        {
+            var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
+            if (await CheckEmptyDrive(item.Path))
+            {
+                return;
+            }
+            App.SidebarPinnedController.Model.AddItem(item.Path);
+        }
+
+        private async void UnpinFromFavorites_Click(object sender, RoutedEventArgs e)
+        {
+            var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
+            if (await CheckEmptyDrive(item.Path))
+            {
+                return;
+            }
+            App.SidebarPinnedController.Model.RemoveItem(item.Path);
+        }
+
         private async void OpenDriveProperties_Click(object sender, RoutedEventArgs e)
         {
             var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
@@ -236,6 +256,12 @@ namespace Files.Uwp.UserControls.Widgets
         {
             var newPaneMenuItem = (sender as MenuFlyout).Items.Single(x => x.Name == "OpenInNewPane");
             newPaneMenuItem.Visibility = ShowMultiPaneControls ? Visibility.Visible : Visibility.Collapsed;
+
+            var pinToFavoritesItem = (sender as MenuFlyout).Items.Single(x => x.Name == "PinToFavorites");
+            pinToFavoritesItem.Visibility = (pinToFavoritesItem.DataContext as DriveItem).IsPinned ? Visibility.Collapsed : Visibility.Visible;
+
+            var unpinFromFavoritesItem = (sender as MenuFlyout).Items.Single(x => x.Name == "UnpinFromFavorites");
+            unpinFromFavoritesItem.Visibility = (unpinFromFavoritesItem.DataContext as DriveItem).IsPinned ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private async void MapNetworkDrive_Click(object sender, RoutedEventArgs e)

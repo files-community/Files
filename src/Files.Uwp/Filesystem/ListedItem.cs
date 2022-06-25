@@ -387,7 +387,7 @@ namespace Files.Uwp.Filesystem
         public ListedItem(string folderRelativeId) => FolderRelativeId = folderRelativeId;
 
         // Parameterless constructor for JsonConvert
-        public ListedItem() {}
+        public ListedItem() { }
 
         private ObservableCollection<FileProperty> fileDetails;
         public ObservableCollection<FileProperty> FileDetails
@@ -425,6 +425,7 @@ namespace Files.Uwp.Filesystem
         public bool IsLinkItem => IsShortcutItem && ((ShortcutItem)this).IsUrl;
         public bool IsFtpItem => this is FtpItem;
         public bool IsZipItem => this is ZipItem;
+        public bool IsAlternateStreamItem => this is AlternateStreamItem;
         public virtual bool IsExecutable => new[] { ".exe", ".bat", ".cmd" }.Contains(Path.GetExtension(ItemPath), StringComparer.OrdinalIgnoreCase);
         public bool IsPinned => App.SidebarPinnedController.Model.FavoriteItems.Contains(itemPath);
 
@@ -606,5 +607,25 @@ namespace Files.Uwp.Filesystem
         public override string ItemName => ItemNameRaw;
 
         public ReadOnlyCollection<string> Folders { get; }
+    }
+
+    public class AlternateStreamItem : ListedItem
+    {
+        public string MainStreamPath => ItemPath.Substring(0, ItemPath.LastIndexOf(":"));
+        public string MainStreamName => Path.GetFileName(MainStreamPath);
+
+        public override string ItemName
+        {
+            get
+            {
+                var nameWithoutExtension = Path.GetFileNameWithoutExtension(ItemNameRaw);
+                var mainStreamNameWithoutExtension = Path.GetFileNameWithoutExtension(MainStreamName);
+                if (!UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
+                {
+                    return $"{(string.IsNullOrEmpty(mainStreamNameWithoutExtension) ? MainStreamName : mainStreamNameWithoutExtension)}:{(string.IsNullOrEmpty(nameWithoutExtension) ? ItemNameRaw : nameWithoutExtension)}";
+                }
+                return $"{MainStreamName}:{ItemNameRaw}";
+            }
+        }
     }
 }

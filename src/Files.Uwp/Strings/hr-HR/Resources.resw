@@ -232,7 +232,7 @@
     <value>Prikaz skrivenih datoteka i mapa</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Show dot files</value>
+    <value>Prikaz skrivenih datoteka</value>
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Eksperimentalno</value>
@@ -457,7 +457,7 @@
     <value>The file you are attempting to access is currently being used by an another application</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
-    <value>File is in use</value>
+    <value>Datoteka je u upotrebi</value>
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>Raspored</value>
@@ -940,7 +940,7 @@
     <value>Broj kanala</value>
   </data>
   <data name="PropertyFormat" xml:space="preserve">
-    <value>Format</value>
+    <value>Oblik</value>
   </data>
   <data name="PropertySampleRate" xml:space="preserve">
     <value>Frekvencija uzorkovanja</value>
@@ -2281,10 +2281,10 @@
     <value>Ctrl+N</value>
   </data>
   <data name="NavigationToolbarEnterCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+Up</value>
+    <value>Ctrl+Alt+Strelica gore</value>
   </data>
   <data name="NavigationToolbarExitCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+Down</value>
+    <value>Ctrl+Alt+Strelica dolje</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+1</value>
@@ -2491,10 +2491,10 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
     <value>Stupac veličine stavke</value>
   </data>
   <data name="SettingsDefaultFilesManager" xml:space="preserve">
-    <value>Default file manager</value>
+    <value>Zadani upravitelj datotekama</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
-    <value>Set Files as the default file manager</value>
+    <value>Postavi Files kao zadani upravitelj datotekama</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
     <value>Koristi Files aplikciju kao dijalog za otvarenje datoteka</value>
@@ -2617,10 +2617,10 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
     <value>Koristi DPI postavke glavnog monitora</value>
   </data>
   <data name="ThirdPartyLicenses" xml:space="preserve">
-    <value>Third party licenses</value>
+    <value>Licence trećih strana</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>This option modifies the system registry and can have unexpected side effects on your device. Continue at your own risk.</value>
+    <value>Ova opcija izmjenjuje registry i može imati nepredviđene posljedice na vašem uređaju. Nastavite na vlastitu odgovornost.</value>
   </data>
   <data name="ClearAll" xml:space="preserve">
     <value>Očisti sve</value>
@@ -2632,13 +2632,13 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
     <value>Enter Library name</value>
   </data>
   <data name="ShowFolderSize" xml:space="preserve">
-    <value>Show folder size</value>
+    <value>Prikaži veličinu mape</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
     <value>Nedavne datoteke</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
-    <value>Open Files on Windows Startup</value>
+    <value>Otvori Files na pokretanju Windowsa</value>
   </data>
   <data name="Attributes" xml:space="preserve">
     <value>Atributi:</value>
@@ -2668,16 +2668,16 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
     <value>Izdvajanje</value>
   </data>
   <data name="ExtractFiles" xml:space="preserve">
-    <value>Extract files</value>
+    <value>Raspakiraj datoteke</value>
   </data>
   <data name="ExtractHere" xml:space="preserve">
-    <value>Extract here</value>
+    <value>Raspakiraj ovdje</value>
   </data>
   <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+E</value>
   </data>
   <data name="ExtractToChildFolder" xml:space="preserve">
-    <value>Extract to {0}</value>
+    <value>Raspakiraj u {0}</value>
   </data>
   <data name="RunScript" xml:space="preserve">
     <value>Pokreni skriptu</value>
