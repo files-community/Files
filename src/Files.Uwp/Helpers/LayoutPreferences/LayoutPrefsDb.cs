@@ -19,7 +19,7 @@ namespace Files.Uwp.Helpers.LayoutPreferences
             }, new BsonMapper() { IncludeFields = true });
         }
 
-        public void SetPreferences(string filePath, ulong? frn, LayoutPreferences prefs)
+        public void SetPreferences(string filePath, ulong? frn, LayoutPreferences? prefs)
         {
             // Get a collection (or create, if doesn't exist)
             var col = db.GetCollection<LayoutDbPrefs>("layoutprefs");
