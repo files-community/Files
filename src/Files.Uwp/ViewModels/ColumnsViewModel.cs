@@ -157,7 +157,16 @@ namespace Files.Uwp.ViewModels
 
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            var hashCode = DateCreatedColumn.GetHashCode();
+            hashCode = (hashCode * 397) ^ DateDeletedColumn.GetHashCode();
+            hashCode = (hashCode * 397) ^ DateModifiedColumn.GetHashCode();
+            hashCode = (hashCode * 397) ^ ItemTypeColumn.GetHashCode();
+            hashCode = (hashCode * 397) ^ NameColumn.GetHashCode();
+            hashCode = (hashCode * 397) ^ OriginalPathColumn.GetHashCode();
+            hashCode = (hashCode * 397) ^ SizeColumn.GetHashCode();
+            hashCode = (hashCode * 397) ^ StatusColumn.GetHashCode();
+            hashCode = (hashCode * 397) ^ TagColumn.GetHashCode();
+            return hashCode;
         }
     }
 
@@ -323,7 +332,11 @@ namespace Files.Uwp.ViewModels
 
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            var hashCode = UserCollapsed.GetHashCode();
+            hashCode = (hashCode * 397) ^ Length.Value.GetHashCode();
+            hashCode = (hashCode * 397) ^ LengthIncludingGridSplitter.Value.GetHashCode();
+            hashCode = (hashCode * 397) ^ UserLength.Value.GetHashCode();
+            return hashCode;
         }
     }
 }

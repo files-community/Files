@@ -66,7 +66,14 @@ namespace Files.Uwp.Helpers.LayoutPreferences
 
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            var hashCode = LayoutMode.GetHashCode();
+            hashCode = (hashCode * 397) ^ GridViewSize.GetHashCode();
+            hashCode = (hashCode * 397) ^ DirectorySortOption.GetHashCode();
+            hashCode = (hashCode * 397) ^ DirectorySortDirection.GetHashCode();
+            hashCode = (hashCode * 397) ^ SortDirectoriesAlongsideFiles.GetHashCode();
+            hashCode = (hashCode * 397) ^ IsAdaptiveLayoutOverridden.GetHashCode();
+            hashCode = (hashCode * 397) ^ ColumnsViewModel.GetHashCode();
+            return hashCode;
         }
     }
 }
