@@ -3,6 +3,8 @@ using System;
 using System.Linq;
 using Files.Shared.Extensions;
 
+#nullable enable
+
 namespace Files.Uwp.Helpers.LayoutPreferences
 {
     public class LayoutPrefsDb : IDisposable
@@ -28,12 +30,7 @@ namespace Files.Uwp.Helpers.LayoutPreferences
                 if (prefs != null)
                 {
                     // Insert new tagged file (Id will be auto-incremented)
-                    var newPref = new LayoutDbPrefs
-                    {
-                        FilePath = filePath,
-                        Frn = frn,
-                        Prefs = prefs
-                    };
+                    var newPref = new LayoutDbPrefs(filePath, frn, prefs);
                     col.Insert(newPref);
                 }
             }
@@ -53,12 +50,12 @@ namespace Files.Uwp.Helpers.LayoutPreferences
             }
         }
 
-        public LayoutPreferences GetPreferences(string filePath = null, ulong? frn = null)
+        public LayoutPreferences? GetPreferences(string? filePath = null, ulong? frn = null)
         {
             return _FindPreferences(filePath, frn)?.Prefs;
         }
 
-        private LayoutDbPrefs _FindPreferences(string filePath = null, ulong? frn = null)
+        private LayoutDbPrefs? _FindPreferences(string? filePath = null, ulong? frn = null)
         {
             // Get a collection (or create, if doesn't exist)
             var col = db.GetCollection<LayoutDbPrefs>("layoutprefs");
@@ -93,7 +90,7 @@ namespace Files.Uwp.Helpers.LayoutPreferences
             return null;
         }
 
-        public void ResetAll(Func<LayoutDbPrefs, bool> predicate = null)
+        public void ResetAll(Func<LayoutDbPrefs, bool>? predicate = null)
         {
             var col = db.GetCollection<LayoutDbPrefs>("layoutprefs");
             if (predicate is null)
@@ -106,7 +103,7 @@ namespace Files.Uwp.Helpers.LayoutPreferences
             }
         }
 
-        public void ApplyToAll(Action<LayoutDbPrefs> updateAction, Func<LayoutDbPrefs, bool> predicate = null)
+        public void ApplyToAll(Action<LayoutDbPrefs> updateAction, Func<LayoutDbPrefs, bool>? predicate = null)
         {
             var col = db.GetCollection<LayoutDbPrefs>("layoutprefs");
             var allDocs = predicate is null ? col.FindAll() : col.Find(x => predicate(x));
@@ -138,6 +135,9 @@ namespace Files.Uwp.Helpers.LayoutPreferences
             public ulong? Frn { get; set; }
             public string FilePath { get; set; }
             public LayoutPreferences Prefs { get; set; }
+
+            public LayoutDbPrefs(string filePath, ulong? frn, LayoutPreferences prefs)
+                => (FilePath, Frn, Prefs) = (filePath, frn, prefs);
         }
     }
 }
