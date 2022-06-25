@@ -28,7 +28,12 @@ namespace Common
                 if (tag != null)
                 {
                     // Insert new tagged file (Id will be auto-incremented)
-                    var newTag = new TaggedFile(filePath, frn, tag);
+                    var newTag = new TaggedFile()
+                    {
+                        FilePath = filePath,
+                        Frn = frn,
+                        Tag = tag
+                    };
                     col.Insert(newTag);
                 }
             }
@@ -165,11 +170,8 @@ namespace Common
             [BsonId]
             public int Id { get; set; }
             public ulong? Frn { get; set; }
-            public string FilePath { get; set; }
-            public string Tag { get; set; }
-
-            public TaggedFile(string filePath, ulong? frn, string tag)
-                => (FilePath, Frn, Tag) = (filePath, frn, tag);
+            public string FilePath { get; set; } = null!;
+            public string Tag { get; set; } = null!;
         }
     }
 }

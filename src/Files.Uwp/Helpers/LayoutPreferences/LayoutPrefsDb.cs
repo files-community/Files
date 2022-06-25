@@ -30,7 +30,12 @@ namespace Files.Uwp.Helpers.LayoutPreferences
                 if (prefs != null)
                 {
                     // Insert new tagged file (Id will be auto-incremented)
-                    var newPref = new LayoutDbPrefs(filePath, frn, prefs);
+                    var newPref = new LayoutDbPrefs()
+                    {
+                        FilePath = filePath,
+                        Frn = frn,
+                        Prefs = prefs
+                    };
                     col.Insert(newPref);
                 }
             }
@@ -136,11 +141,8 @@ namespace Files.Uwp.Helpers.LayoutPreferences
             [BsonId]
             public int Id { get; set; }
             public ulong? Frn { get; set; }
-            public string FilePath { get; set; }
-            public LayoutPreferences Prefs { get; set; }
-
-            public LayoutDbPrefs(string filePath, ulong? frn, LayoutPreferences prefs)
-                => (FilePath, Frn, Prefs) = (filePath, frn, prefs);
+            public string FilePath { get; set; } = null!;
+            public LayoutPreferences Prefs { get; set; } = null!;
         }
     }
 }
