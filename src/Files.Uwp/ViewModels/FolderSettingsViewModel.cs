@@ -10,9 +10,6 @@ using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Windows.Input;
 using Windows.Storage;
-using System.Threading.Tasks;
-using Files.Uwp.Filesystem.StorageItems;
-using Files.Uwp.Filesystem;
 using Files.Shared.Extensions;
 using Newtonsoft.Json;
 using IO = System.IO;
@@ -23,7 +20,7 @@ namespace Files.Uwp.ViewModels
     {
         public static string LayoutSettingsDbPath => IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, "user_settings.db");
 
-        private static readonly Lazy<LayoutPrefsDb> dbInstance = new(() => new LayoutPrefsDb(LayoutSettingsDbPath, true));
+        private static readonly Lazy<LayoutPrefsDb> dbInstance = new(() => new LayoutPrefsDb(LayoutSettingsDbPath));
         public static LayoutPrefsDb DbInstance => dbInstance.Value;
 
         public event EventHandler<LayoutPreferenceEventArgs> LayoutPreferencesUpdateRequired;
