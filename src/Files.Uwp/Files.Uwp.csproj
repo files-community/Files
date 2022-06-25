@@ -235,8 +235,8 @@
     <Compile Include="Helpers\StorageSenseHelper.cs" />
     <Compile Include="Helpers\WindowDecorationsHelper.cs" />
     <Compile Include="Helpers\UniversalLogWriter.cs" />
-	<Compile Include="Helpers\LayoutPreferences\LayoutPreferences.cs" />
-	<Compile Include="Helpers\LayoutPreferences\LayoutPrefsDb.cs" />
+    <Compile Include="Helpers\LayoutPreferences\LayoutPreferences.cs" />
+    <Compile Include="Helpers\LayoutPreferences\LayoutPrefsDb.cs" />
     <Compile Include="Filesystem\FolderHelpers.cs" />
     <Compile Include="Filesystem\LibraryLocationItem.cs" />
     <Compile Include="Filesystem\LibraryManager.cs" />
