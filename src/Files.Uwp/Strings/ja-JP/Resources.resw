@@ -2787,6 +2787,6 @@
     <value>Ctrl+Shift+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>Show Alternate Data Streams</value>
+    <value>代替データストリームを表示</value>
   </data>
 </root>
