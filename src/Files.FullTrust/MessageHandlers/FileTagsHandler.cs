@@ -37,7 +37,7 @@ namespace Files.FullTrust.MessageHandlers
         {
             var dateOk = GetFileDateModified(filePath, out var dateModified); // Backup date modified
             bool result = false;
-            if (tag == null)
+            if (tag is null || !tag.Any())
             {
                 result = Kernel32.DeleteFile($"{filePath}:files");
             }
@@ -88,7 +88,7 @@ namespace Files.FullTrust.MessageHandlers
                 {
                     // Frn is valid, update file path
                     var tag = ReadFileTag(pathFromFrn.Replace(@"\\?\", "", StringComparison.Ordinal));
-                    if (tag != null)
+                    if (tag is not null && tag.Any())
                     {
                         dbInstance.UpdateTag(file.Frn ?? 0, null, pathFromFrn.Replace(@"\\?\", "", StringComparison.Ordinal));
                         dbInstance.SetTags(pathFromFrn.Replace(@"\\?\", "", StringComparison.Ordinal), file.Frn, tag);
@@ -101,7 +101,7 @@ namespace Files.FullTrust.MessageHandlers
                 else
                 {
                     var tag = ReadFileTag(file.FilePath);
-                    if (tag != null)
+                    if (tag is not null && tag.Any())
                     {
                         if (!SafetyExtensions.IgnoreExceptions(() =>
                         {

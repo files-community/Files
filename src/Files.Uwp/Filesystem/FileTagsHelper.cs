@@ -31,7 +31,7 @@ namespace Files.Uwp.Filesystem
             {
                 NativeFileOperationsHelper.UnsetFileAttribute(filePath, IO.FileAttributes.ReadOnly);
             }
-            if (tag is null)
+            if (tag is null || !tag.Any())
             {
                 NativeFileOperationsHelper.DeleteFileFromApp($"{filePath}:files");
             }

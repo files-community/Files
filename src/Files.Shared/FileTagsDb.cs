@@ -28,7 +28,7 @@ namespace Common
             var tmp = _FindTag(filePath, frn);
             if (tmp == null)
             {
-                if (tags != null)
+                if (tags != null && tags.Any())
                 {
                     // Insert new tagged file (Id will be auto-incremented)
                     var newTag = new TaggedFile
@@ -42,7 +42,7 @@ namespace Common
             }
             else
             {
-                if (tags != null)
+                if (tags != null && tags.Any())
                 {
                     // Update file tag
                     tmp.Tags = tags;
@@ -137,9 +137,9 @@ namespace Common
             }
         }
 
-        public string[] GetTags(string? filePath = null, ulong? frn = null)
+        public string[]? GetTags(string? filePath = null, ulong? frn = null)
         {
-            return _FindTag(filePath, frn)?.Tags ?? Array.Empty<string>();
+            return _FindTag(filePath, frn)?.Tags;
         }
 
         public IEnumerable<TaggedFile> GetAll()
