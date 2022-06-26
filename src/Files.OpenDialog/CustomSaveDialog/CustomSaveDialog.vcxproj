@@ -22,31 +22,31 @@
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{EBFA367F-CBDB-4CD0-B838-D6B95F61D1F6}</ProjectGuid>
     <Keyword>AtlProj</Keyword>
-    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -124,7 +124,7 @@
       <OutputFile>$(OutDir)CustomSaveDialog$(PlatformArchitecture)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.dll" "$(ProjectDir)..\..\..\src\Files.Launcher\Assets\FilesOpenDialog"</Command>
+      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.dll" "$(ProjectDir)..\..\..\src\Files.FullTrust\Assets\FilesOpenDialog"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -161,7 +161,7 @@
       <OutputFile>$(OutDir)CustomSaveDialog$(PlatformArchitecture)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.dll" "$(ProjectDir)..\..\..\src\Files.Launcher\Assets\FilesOpenDialog"</Command>
+      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.dll" "$(ProjectDir)..\..\..\src\Files.FullTrust\Assets\FilesOpenDialog"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -200,7 +200,7 @@
       <OutputFile>$(OutDir)CustomSaveDialog$(PlatformArchitecture)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.dll" "$(ProjectDir)..\..\..\src\Files.Launcher\Assets\FilesOpenDialog"</Command>
+      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.dll" "$(ProjectDir)..\..\..\src\Files.FullTrust\Assets\FilesOpenDialog"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -238,7 +238,7 @@
       <OutputFile>$(OutDir)CustomSaveDialog$(PlatformArchitecture)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.dll" "$(ProjectDir)..\..\..\src\Files.Launcher\Assets\FilesOpenDialog"</Command>
+      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.dll" "$(ProjectDir)..\..\..\src\Files.FullTrust\Assets\FilesOpenDialog"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
