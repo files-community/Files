@@ -31,13 +31,15 @@ namespace Common
                 if (tags != null && tags.Any())
                 {
                     // Insert new tagged file (Id will be auto-incremented)
-                    var newTag = new TaggedFile
+                    var newTag = new TaggedFile()
                     {
                         FilePath = filePath,
                         Frn = frn,
                         Tags = tags
                     };
                     col.Insert(newTag);
+                    col.EnsureIndex(x => x.Frn);
+                    col.EnsureIndex(x => x.FilePath);
                 }
             }
             else
@@ -60,6 +62,7 @@ namespace Common
         {
             // Get a collection (or create, if doesn't exist)
             var col = db.GetCollection<TaggedFile>(TaggedFiles);
+
             if (filePath != null)
             {
                 var tmp = col.FindOne(x => x.FilePath == filePath);
@@ -189,8 +192,8 @@ namespace Common
         {
             [BsonId] public int Id { get; set; }
             public ulong? Frn { get; set; }
-            public string FilePath { get; set; } = null!;
-            public string[] Tags { get; set; } = null!;
+            public string FilePath { get; set; } = string.Empty;
+            public string[] Tags { get; set; } = Array.Empty<string>();
         }
     }
 }
