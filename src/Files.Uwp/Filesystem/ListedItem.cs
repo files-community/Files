@@ -115,7 +115,7 @@ namespace Files.Uwp.Filesystem
 
         public ulong? FileFRN { get; set; }
 
-        private string[] fileTags;
+        private string[] fileTags; // TODO: initialize to empty array after UI is done
 
         public string[] FileTags
         {

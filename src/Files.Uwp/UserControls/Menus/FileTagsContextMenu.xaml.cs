@@ -7,8 +7,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Settings;
 using Files.Backend.ViewModels.FileTags;
 using Files.Uwp.Filesystem;
-
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
+using System;
 
 namespace Files.Uwp.UserControls.Menus
 {
@@ -55,11 +54,10 @@ namespace Files.Uwp.UserControls.Menus
         {
             foreach (var selectedItem in selectedListedItems)
             {
-                var existingTags = selectedItem.FileTags.ToList();
+                var existingTags = selectedItem.FileTags ?? Array.Empty<string>();
                 if (existingTags.Contains(removed.Uid))
                 {
-                    existingTags.Remove(removed.Uid);
-                    selectedItem.FileTags = existingTags.ToArray();
+                    selectedItem.FileTags = existingTags.Except(new[] { removed.Uid }).ToArray();
                 }
             }
         }
@@ -68,30 +66,28 @@ namespace Files.Uwp.UserControls.Menus
         {
             foreach (var selectedItem in selectedListedItems)
             {
-                var existingTags = selectedItem.FileTags.ToList();
+                var existingTags = selectedItem.FileTags ?? Array.Empty<string>();
                 if (!existingTags.Contains(added.Uid))
                 {
-                    existingTags.Add(added.Uid);
-                    selectedItem.FileTags = existingTags.ToArray();
+                    selectedItem.FileTags = existingTags.Append(added.Uid).ToArray();
                 }
             }
         }
 
         private void TagsList_OnLoaded(object sender, RoutedEventArgs e)
         {
-            //go through each tag and find the common one for all files
-            var commonFileTags = (from fileTagViewModel in ItemsSource
-                let tagFileCount =
-                    SelectedListedItems.Count(selectedListedItem =>
-                        selectedListedItem.FileTags.Contains(fileTagViewModel.Uid))
-                where tagFileCount == SelectedListedItems.Count
-                select fileTagViewModel).ToList();
+            // go through each tag and find the common one for all files
+            var commonFileTags = SelectedListedItems
+                .Select(x => x.FileTags ?? Enumerable.Empty<string>())
+                .Aggregate((x, y) => x.Intersect(y))
+                .Select(x => ItemsSource.FirstOrDefault(y => x == y.Uid));
 
-            var listView = sender as ListView;
-            
-            foreach (var commonTag in commonFileTags.Where(_ => listView?.Items != null))
+            if (sender is ListView listView && listView.Items != null)
             {
-                listView?.SelectRange(new ItemIndexRange(listView.Items.IndexOf(commonTag), 1));
+                foreach (var commonTag in commonFileTags.Where(t => t != null))
+                {
+                    listView.SelectRange(new ItemIndexRange(listView.Items.IndexOf(commonTag), 1));
+                }
             }
         }
     }

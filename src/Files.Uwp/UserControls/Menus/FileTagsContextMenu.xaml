@@ -15,45 +15,41 @@
         <vc:ColorModelToColorConverter x:Key="ColorModelToColorConverter" />
     </UserControl.Resources>
 
-    <Grid x:Name="LayoutRoot" MaxWidth="250">
-        <StackPanel>
-            <TextBlock
-                Text="Tags"
-                Margin="12,0,0,5">
-            </TextBlock>
-            <ListView
-                x:Name="TagsList"
-                Padding="12,0,12,0"
-                ItemsSource="{x:Bind ItemsSource, Mode=OneWay}"
-                SelectionChanged="TagsList_OnSelectionChanged"
-                SelectionMode="Multiple"
-                IsMultiSelectCheckBoxEnabled="False"
-                Loaded="TagsList_OnLoaded">
+    <Grid x:Name="LayoutRoot" Height="34" MaxWidth="250">
+        <ListView
+            x:Name="TagsList"
+            Padding="12,0,12,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            ItemsSource="{x:Bind ItemsSource, Mode=OneWay}"
+            SelectionChanged="TagsList_OnSelectionChanged"
+            SelectionMode="Multiple"
+            IsMultiSelectCheckBoxEnabled="False"
+            Loaded="TagsList_OnLoaded">
 
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <Setter Property="Padding" Value="8" />
-                        <Setter Property="MinWidth" Value="0" />
-                        <Setter Property="MinHeight" Value="0" />
-                    </Style>
-                </ListView.ItemContainerStyle>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Padding" Value="8" />
+                    <Setter Property="MinWidth" Value="0" />
+                    <Setter Property="MinHeight" Value="0" />
+                </Style>
+            </ListView.ItemContainerStyle>
 
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="vm:FileTagViewModel">
-                        <Ellipse
-                            Width="14"
-                            Height="14"
-                            Fill="{x:Bind ColorModel, Mode=OneWay, Converter={StaticResource ColorModelToColorConverter}}"
-                            ToolTipService.ToolTip="{x:Bind TagName, Mode=OneWay}" />
-                    </DataTemplate>
-                </ListView.ItemTemplate>
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="vm:FileTagViewModel">
+                    <Ellipse
+                        Width="14"
+                        Height="14"
+                        Fill="{x:Bind ColorModel, Mode=OneWay, Converter={StaticResource ColorModelToColorConverter}}"
+                        ToolTipService.ToolTip="{x:Bind TagName, Mode=OneWay}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
 
-                <ListView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <ItemsStackPanel Orientation="Horizontal" />
-                    </ItemsPanelTemplate>
-                </ListView.ItemsPanel>
-            </ListView>
-        </StackPanel>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsStackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+        </ListView>
     </Grid>
 </UserControl>
