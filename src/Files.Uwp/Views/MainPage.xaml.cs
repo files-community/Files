@@ -11,19 +11,23 @@ using Files.Uwp.UserControls;
 using Files.Uwp.UserControls.MultitaskingControl;
 using Files.Uwp.ViewModels;
 using Microsoft.Toolkit.Uwp;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources.Core;
+using Windows.Services.Store;
 using Windows.Storage;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using Files.Backend.Extensions;
 
 namespace Files.Uwp.Views
 {
@@ -75,7 +79,36 @@ namespace Files.Uwp.Views
             ToggleCompactOverlayCommand = new RelayCommand(ToggleCompactOverlay);
             SetCompactOverlayCommand = new RelayCommand<bool>(SetCompactOverlay);
 
+            if (SystemInformation.Instance.TotalLaunchCount >= 10 & Package.Current.Id.Name == "49306atecsolution.FilesUWP" && !UserSettingsService.ApplicationSettingsService.WasPromptedToReview)
+            {
+                PromptForReview();
+                UserSettingsService.ApplicationSettingsService.WasPromptedToReview = true;
+            }
+
             UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
+        }
+
+        private async void PromptForReview()
+        {
+            var AskForReviewDialog = new ContentDialog
+            {
+                Title = "ReviewFiles".ToLocalized(),
+                Content = "ReviewFilesContent".ToLocalized(),
+                PrimaryButtonText = "Yes".ToLocalized(),
+                SecondaryButtonText = "No".ToLocalized()
+        };
+
+            var result = await AskForReviewDialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+                try
+                {
+                    var storeContext = StoreContext.GetDefault();
+                    await storeContext.RequestRateAndReviewAppAsync();
+                }
+                catch (Exception) { }
+            }
         }
 
         private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
