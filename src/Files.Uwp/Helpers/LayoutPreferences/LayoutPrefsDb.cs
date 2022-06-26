@@ -37,6 +37,8 @@ namespace Files.Uwp.Helpers.LayoutPreferences
                         Prefs = prefs
                     };
                     col.Insert(newPref);
+                    col.EnsureIndex(x => x.Frn);
+                    col.EnsureIndex(x => x.FilePath);
                 }
             }
             else
@@ -64,8 +66,6 @@ namespace Files.Uwp.Helpers.LayoutPreferences
         {
             // Get a collection (or create, if doesn't exist)
             var col = db.GetCollection<LayoutDbPrefs>("layoutprefs");
-            col.EnsureIndex(x => x.Frn);
-            col.EnsureIndex(x => x.FilePath);
 
             if (filePath != null)
             {

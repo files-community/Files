@@ -35,6 +35,8 @@ namespace Common
                         Tag = tag
                     };
                     col.Insert(newTag);
+                    col.EnsureIndex(x => x.Frn);
+                    col.EnsureIndex(x => x.FilePath);
                 }
             }
             else
@@ -57,8 +59,6 @@ namespace Common
         {
             // Get a collection (or create, if doesn't exist)
             var col = db.GetCollection<TaggedFile>("taggedfiles");
-            col.EnsureIndex(x => x.Frn);
-            col.EnsureIndex(x => x.FilePath);
 
             if (filePath != null)
             {
