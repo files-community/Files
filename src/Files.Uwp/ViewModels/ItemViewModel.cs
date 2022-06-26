@@ -1096,9 +1096,9 @@ namespace Files.Uwp.ViewModels
                                         item.ItemType = matchingStorageFile.DisplayType;
                                         item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
                                         item.FileFRN = fileFRN;
-                                        item.FileTag = fileTag;
+                                        item.FileTags = fileTag;
                                     }, DispatcherQueuePriority.Low);
-                                    FileTagsHelper.DbInstance.SetTag(item.ItemPath, item.FileFRN, item.FileTag);
+                                    FileTagsHelper.DbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
                                     wasSyncStatusLoaded = true;
                                 }
                             }
@@ -1143,9 +1143,9 @@ namespace Files.Uwp.ViewModels
                                         item.ItemType = matchingStorageFolder.DisplayType;
                                         item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
                                         item.FileFRN = fileFRN;
-                                        item.FileTag = fileTag;
+                                        item.FileTags = fileTag;
                                     }, DispatcherQueuePriority.Low);
-                                    FileTagsHelper.DbInstance.SetTag(item.ItemPath, item.FileFRN, item.FileTag);
+                                    FileTagsHelper.DbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
                                     wasSyncStatusLoaded = true;
                                 }
                             }
@@ -1176,9 +1176,9 @@ namespace Files.Uwp.ViewModels
                                 await dispatcherQueue.EnqueueAsync(() =>
                                 {
                                     item.SyncStatusUI = new CloudDriveSyncStatusUI(); // Reset cloud sync status icon
-                                    item.FileTag = fileTag;
+                                    item.FileTags = fileTag;
                                 }, DispatcherQueuePriority.Low);
-                                FileTagsHelper.DbInstance.SetTag(item.ItemPath, item.FileFRN, item.FileTag);
+                                FileTagsHelper.DbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
                             });
                         }
 

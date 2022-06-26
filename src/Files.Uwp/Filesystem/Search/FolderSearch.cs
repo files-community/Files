@@ -197,7 +197,7 @@ namespace Files.Uwp.Filesystem.Search
             {
                 return;
             }
-            var matches = FileTagsHelper.DbInstance.GetAllUnderPath(folder).Where(x => tags.Any(t => x.Tag == t.Uid));
+            var matches = FileTagsHelper.DbInstance.GetAllUnderPath(folder).Where(x => tags.Select(t => t.Uid).Intersect(x.Tags).Any());
             foreach (var match in matches)
             {
                 (IntPtr hFile, WIN32_FIND_DATA findData) = await Task.Run(() =>

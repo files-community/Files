@@ -868,7 +868,7 @@ namespace Files.FullTrust.MessageHandlers
                 };
                 if (destination == null)
                 {
-                    dbInstance.SetTag(sourcePath, null, null); // remove tag from deleted files
+                    dbInstance.SetTags(sourcePath, null, null); // remove tag from deleted files
                 }
                 else
                 {
@@ -876,8 +876,8 @@ namespace Files.FullTrust.MessageHandlers
                     {
                         if (operationType == "copy")
                         {
-                            var tag = dbInstance.GetTag(sourcePath);
-                            dbInstance.SetTag(destination, FileTagsHandler.GetFileFRN(destination), tag); // copy tag to new files
+                            var tag = dbInstance.GetTags(sourcePath);
+                            dbInstance.SetTags(destination, FileTagsHandler.GetFileFRN(destination), tag); // copy tag to new files
                             using var si = new ShellItem(destination);
                             if (si.IsFolder) // File tag is not copied automatically for folders
                             {
@@ -895,7 +895,7 @@ namespace Files.FullTrust.MessageHandlers
                     var tags = dbInstance.GetAllUnderPath(sourcePath).ToList();
                     if (destination == null) // remove tag for items contained in the folder
                     {
-                        tags.ForEach(t => dbInstance.SetTag(t.FilePath, null, null));
+                        tags.ForEach(t => dbInstance.SetTags(t.FilePath, null, null));
                     }
                     else
                     {
@@ -906,7 +906,7 @@ namespace Files.FullTrust.MessageHandlers
                                 SafetyExtensions.IgnoreExceptions(() =>
                                 {
                                     var subPath = t.FilePath.Replace(sourcePath, destination, StringComparison.Ordinal);
-                                    dbInstance.SetTag(subPath, FileTagsHandler.GetFileFRN(subPath), t.Tag);
+                                    dbInstance.SetTags(subPath, FileTagsHandler.GetFileFRN(subPath), t.Tags);
                                 }, Program.Logger);
                             });
                         }

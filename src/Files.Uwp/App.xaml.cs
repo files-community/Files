@@ -528,8 +528,9 @@ namespace Files.Uwp
                                 .OnSuccess(item => FileTagsHelper.GetFileFRN(item));
                             if (fileFRN is not null)
                             {
-                                FileTagsHelper.DbInstance.SetTag(file, fileFRN, tag?.Uid);
-                                FileTagsHelper.WriteFileTag(file, tag?.Uid);
+                                var tagUid = tag is not null ? new[] { tag.Uid } : null;
+                                FileTagsHelper.DbInstance.SetTags(file, fileFRN, tagUid);
+                                FileTagsHelper.WriteFileTag(file, tagUid);
                             }
                         }
                         break;

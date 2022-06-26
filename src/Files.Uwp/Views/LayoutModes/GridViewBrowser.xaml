@@ -172,9 +172,9 @@
                         Height="12"
                         Margin="0,0,4,0"
                         x:Phase="2"
-                        Fill="{x:Bind FileTagUI.ColorModel, Mode=OneWay, Converter={StaticResource ColorModelToColorConverter}}"
-                        ToolTipService.ToolTip="{x:Bind FileTagUI.TagName, Mode=OneWay}"
-                        Visibility="{x:Bind FileTagUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
+                        Fill="{x:Bind FileTagsUI[0].ColorModel, Mode=OneWay, Converter={StaticResource ColorModelToColorConverter}}"
+                        ToolTipService.ToolTip="{x:Bind FileTagsUI[0].TagName, Mode=OneWay}"
+                        Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
                     <TextBlock
                         x:Name="ItemName"
                         Grid.Column="2"
@@ -232,9 +232,9 @@
                         Height="12"
                         Margin="0,4,0,4"
                         x:Phase="2"
-                        Fill="{x:Bind FileTagUI.ColorModel, Mode=OneWay, Converter={StaticResource ColorModelToColorConverter}}"
-                        ToolTipService.ToolTip="{x:Bind FileTagUI.TagName, Mode=OneWay}"
-                        Visibility="{x:Bind FileTagUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
+                        Fill="{x:Bind FileTagsUI[0].ColorModel, Mode=OneWay, Converter={StaticResource ColorModelToColorConverter}}"
+                        ToolTipService.ToolTip="{x:Bind FileTagsUI[0].TagName, Mode=OneWay}"
+                        Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
                     <FontIcon
                         x:Name="CloudDriveSyncStatusGlyph"
                         x:Phase="2"

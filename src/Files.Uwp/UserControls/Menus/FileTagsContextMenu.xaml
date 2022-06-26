@@ -1,43 +1,40 @@
 ﻿<UserControl
-    x:Class="Files.Uwp.UserControls.MenuFlyoutItemFileTag"
+    x:Class="Files.Uwp.UserControls.Menus.FileTagsContextMenu"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Files.Uwp.UserControls.Menus"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="using:Files.Uwp.UserControls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vc="using:Files.Uwp.ValueConverters"
     xmlns:vm="using:Files.Backend.ViewModels.FileTags"
+    mc:Ignorable="d"
     d:DesignHeight="300"
-    d:DesignWidth="400"
-    mc:Ignorable="d">
+    d:DesignWidth="400">
 
     <UserControl.Resources>
         <vc:ColorModelToColorConverter x:Key="ColorModelToColorConverter" />
     </UserControl.Resources>
 
-    <Grid x:Name="LayoutRoot" Height="34">
+    <Grid x:Name="LayoutRoot" Height="34" MaxWidth="250">
         <ListView
-            x:Name="TagList"
+            x:Name="TagsList"
             Padding="12,0,12,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
-            Background="Transparent"
-            IsItemClickEnabled="True"
-            ItemClick="TagList_ItemClick"
             ItemsSource="{x:Bind ItemsSource, Mode=OneWay}"
-            ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-            ScrollViewer.HorizontalScrollMode="Auto"
-            ScrollViewer.VerticalScrollBarVisibility="Disabled"
-            ScrollViewer.VerticalScrollMode="Disabled"
-            SelectedItem="{x:Bind SelectedItem, Mode=TwoWay}"
-            SelectionMode="Single">
+            SelectionChanged="TagsList_OnSelectionChanged"
+            SelectionMode="Multiple"
+            IsMultiSelectCheckBoxEnabled="False"
+            Loaded="TagsList_OnLoaded">
+
             <ListView.ItemContainerStyle>
-                <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                <Style TargetType="ListViewItem">
                     <Setter Property="Padding" Value="8" />
                     <Setter Property="MinWidth" Value="0" />
                     <Setter Property="MinHeight" Value="0" />
                 </Style>
             </ListView.ItemContainerStyle>
+
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="vm:FileTagViewModel">
                     <Ellipse
@@ -47,6 +44,7 @@
                         ToolTipService.ToolTip="{x:Bind TagName, Mode=OneWay}" />
                 </DataTemplate>
             </ListView.ItemTemplate>
+
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <ItemsStackPanel Orientation="Horizontal" />
