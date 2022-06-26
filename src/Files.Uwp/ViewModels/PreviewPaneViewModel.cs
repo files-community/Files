@@ -1,11 +1,12 @@
-﻿using Files.Shared.Enums;
-using Files.Uwp.Filesystem;
-using Files.Backend.Services.Settings;
-using Files.Uwp.UserControls.FilePreviews;
-using Files.Uwp.ViewModels.Previews;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
+using Files.Backend.Services.Settings;
+using Files.Shared.Cloud;
+using Files.Shared.EventArguments;
+using Files.Uwp.Filesystem;
+using Files.Uwp.UserControls.FilePreviews;
+using Files.Uwp.ViewModels.Previews;
 using System;
 using System.Diagnostics;
 using System.Threading;
@@ -14,7 +15,6 @@ using System.Windows.Input;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Files.Shared.EventArguments;
 
 namespace Files.Uwp.ViewModels
 {
@@ -153,63 +153,64 @@ namespace Files.Uwp.ViewModels
                 return null;
             }
 
-            if (item.SyncStatusUI.SyncStatus == CloudDriveSyncStatus.FileOnline && !downloadItem)
+            if (item.SyncStatusUI.SyncStatus is CloudDriveSyncStatus.FileOnline && !downloadItem)
             {
                 ShowCloudItemButton = true;
                 return null;
             }
 
             var ext = item.FileExtension.ToLowerInvariant();
-            if (MediaPreviewViewModel.Extensions.Contains(ext))
+
+            if (MediaPreviewViewModel.ContainsExtension(ext))
             {
                 var model = new MediaPreviewViewModel(item);
                 await model.LoadAsync();
                 return new MediaPreview(model);
             }
 
-            if (MarkdownPreviewViewModel.Extensions.Contains(ext))
+            if (MarkdownPreviewViewModel.ContainsExtension(ext))
             {
                 var model = new MarkdownPreviewViewModel(item);
                 await model.LoadAsync();
                 return new MarkdownPreview(model);
             }
 
-            if (ImagePreviewViewModel.Extensions.Contains(ext))
+            if (ImagePreviewViewModel.ContainsExtension(ext))
             {
                 var model = new ImagePreviewViewModel(item);
                 await model.LoadAsync();
                 return new ImagePreview(model);
             }
 
-            if (TextPreviewViewModel.Extensions.Contains(ext))
+            if (TextPreviewViewModel.ContainsExtension(ext))
             {
                 var model = new TextPreviewViewModel(item);
                 await model.LoadAsync();
                 return new TextPreview(model);
             }
 
-            if (PDFPreviewViewModel.Extensions.Contains(ext))
+            if (PDFPreviewViewModel.ContainsExtension(ext))
             {
                 var model = new PDFPreviewViewModel(item);
                 await model.LoadAsync();
                 return new PDFPreview(model);
             }
 
-            if (HtmlPreviewViewModel.Extensions.Contains(ext))
+            if (HtmlPreviewViewModel.ContainsExtension(ext))
             {
                 var model = new HtmlPreviewViewModel(item);
                 await model.LoadAsync();
                 return new HtmlPreview(model);
             }
 
-            if (RichTextPreviewViewModel.Extensions.Contains(ext))
+            if (RichTextPreviewViewModel.ContainsExtension(ext))
             {
                 var model = new RichTextPreviewViewModel(item);
                 await model.LoadAsync();
                 return new RichTextPreview(model);
             }
 
-            if (CodePreviewViewModel.Extensions.Contains(ext))
+            if (CodePreviewViewModel.ContainsExtension(ext))
             {
                 var model = new CodePreviewViewModel(item);
                 await model.LoadAsync();

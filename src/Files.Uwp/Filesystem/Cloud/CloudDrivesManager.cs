@@ -1,7 +1,7 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Shared;
+using Files.Shared.Cloud;
 using Files.Uwp.DataModels.NavigationControlItems;
-using Files.Uwp.Filesystem.Cloud;
 using Files.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -11,11 +11,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 
-namespace Files.Uwp.Filesystem
+namespace Files.Uwp.Filesystem.Cloud
 {
     public class CloudDrivesManager
     {
         private readonly ILogger logger = Ioc.Default.GetService<ILogger>();
+        private readonly ICloudDetector detector = Ioc.Default.GetService<ICloudDetector>();
 
         public EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
 
@@ -33,12 +34,15 @@ namespace Files.Uwp.Filesystem
 
         public async Task UpdateDrivesAsync()
         {
-            var cloudProviderController = new CloudProviderController();
-            var cloudProviders = await cloudProviderController.DetectInstalledCloudProvidersAsync();
-
-            foreach (var provider in cloudProviders)
+            var providers = await detector?.DetectCloudProvidersAsync();
+            if (providers is null)
             {
-                logger.Info($"Adding cloud provider \"{provider.Name}\" mapped to {provider.SyncFolder}");
+                return;
+            }
+
+            foreach (var provider in providers)
+            {
+                logger?.Info($"Adding cloud provider \"{provider.Name}\" mapped to {provider.SyncFolder}");
                 var cloudProviderItem = new DriveItem
                 {
                     Text = provider.Name,
@@ -69,7 +73,8 @@ namespace Files.Uwp.Filesystem
                     drives.Add(cloudProviderItem);
                 }
 
-                DataChanged?.Invoke(SectionType.CloudDrives, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, cloudProviderItem));
+                DataChanged?.Invoke(SectionType.CloudDrives,
+                    new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, cloudProviderItem));
             }
         }
     }

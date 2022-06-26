@@ -1003,7 +1003,7 @@ namespace Files.Uwp.UserControls
             {
                 var listedItem = new ListedItem(null) { ItemPath = item.Path };
                 listedItem.FileFRN = await FileTagsHelper.GetFileFRN(item.Item);
-                listedItem.FileTag = fileTagItem.FileTag.Uid;
+                listedItem.FileTags = new[] { fileTagItem.FileTag.Uid };
             }
 
             deferral.Complete();

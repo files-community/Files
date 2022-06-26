@@ -1,7 +1,7 @@
-﻿using Files.Backend.Services.Settings;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services.Settings;
 using Files.Uwp.ViewModels;
 using Files.Uwp.ViewModels.Previews;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using System;
 using System.Linq;
 using Windows.Storage;
@@ -84,11 +84,11 @@ namespace Files.Uwp.Helpers
 
                 mediaCount = filesAndFolders.Where((item) =>
                 {
-                    return !string.IsNullOrEmpty(item.FileExtension) && MediaPreviewViewModel.Extensions.Any((ext) => item.FileExtension.Equals(ext, StringComparison.OrdinalIgnoreCase));
+                    return !string.IsNullOrEmpty(item.FileExtension) && MediaPreviewViewModel.ContainsExtension(item.FileExtension.ToLowerInvariant());
                 }).Count();
                 imagesCount = filesAndFolders.Where((item) =>
                 {
-                    return !string.IsNullOrEmpty(item.FileExtension) && ImagePreviewViewModel.Extensions.Any((ext) => item.FileExtension.Equals(ext, StringComparison.OrdinalIgnoreCase));
+                    return !string.IsNullOrEmpty(item.FileExtension) && ImagePreviewViewModel.ContainsExtension(item.FileExtension.ToLowerInvariant());
                 }).Count();
                 foldersCount = filesAndFolders.Where((item) => item.PrimaryItemAttribute == StorageItemTypes.Folder).Count();
                 miscFilesCount = allItemsCount - (mediaCount + imagesCount + foldersCount);

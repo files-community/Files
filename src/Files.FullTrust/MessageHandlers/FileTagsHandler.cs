@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Pipes;
+using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
 using System.Runtime.Versioning;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace Files.FullTrust.MessageHandlers
     [SupportedOSPlatform("Windows10.0.10240")]
     public class FileTagsHandler : Disposable, IMessageHandler
     {
-        public static string ReadFileTag(string filePath)
+        public static string[] ReadFileTag(string filePath)
         {
             using var hStream = Kernel32.CreateFile($"{filePath}:files",
                 Kernel32.FileAccess.GENERIC_READ, 0, null, FileMode.Open, FileFlagsAndAttributes.FILE_FLAG_BACKUP_SEMANTICS, IntPtr.Zero);
@@ -28,14 +29,15 @@ namespace Files.FullTrust.MessageHandlers
             {
                 return null;
             }
-            return System.Text.Encoding.UTF8.GetString(bytes, 0, (int)read);
+            var tagString = System.Text.Encoding.UTF8.GetString(bytes, 0, (int)read);
+            return tagString.Split(',');
         }
 
-        public static bool WriteFileTag(string filePath, string tag)
+        public static bool WriteFileTag(string filePath, string[] tag)
         {
             var dateOk = GetFileDateModified(filePath, out var dateModified); // Backup date modified
             bool result = false;
-            if (tag == null)
+            if (tag is null || !tag.Any())
             {
                 result = Kernel32.DeleteFile($"{filePath}:files");
             }
@@ -47,7 +49,7 @@ namespace Files.FullTrust.MessageHandlers
                 {
                     return false;
                 }
-                byte[] buff = System.Text.Encoding.UTF8.GetBytes(tag);
+                byte[] buff = System.Text.Encoding.UTF8.GetBytes(string.Join(',', tag));
                 result = Kernel32.WriteFile(hStream, buff, (uint)buff.Length, out var written, IntPtr.Zero);
             }
             if (dateOk)
@@ -86,34 +88,34 @@ namespace Files.FullTrust.MessageHandlers
                 {
                     // Frn is valid, update file path
                     var tag = ReadFileTag(pathFromFrn.Replace(@"\\?\", "", StringComparison.Ordinal));
-                    if (tag != null)
+                    if (tag is not null && tag.Any())
                     {
                         dbInstance.UpdateTag(file.Frn ?? 0, null, pathFromFrn.Replace(@"\\?\", "", StringComparison.Ordinal));
-                        dbInstance.SetTag(pathFromFrn.Replace(@"\\?\", "", StringComparison.Ordinal), file.Frn, tag);
+                        dbInstance.SetTags(pathFromFrn.Replace(@"\\?\", "", StringComparison.Ordinal), file.Frn, tag);
                     }
                     else
                     {
-                        dbInstance.SetTag(null, file.Frn, null);
+                        dbInstance.SetTags(null, file.Frn, null);
                     }
                 }
                 else
                 {
                     var tag = ReadFileTag(file.FilePath);
-                    if (tag != null)
+                    if (tag is not null && tag.Any())
                     {
                         if (!SafetyExtensions.IgnoreExceptions(() =>
                         {
                             var frn = GetFileFRN(file.FilePath);
                             dbInstance.UpdateTag(file.FilePath, frn, null);
-                            dbInstance.SetTag(file.FilePath, (ulong?)frn, tag);
+                            dbInstance.SetTags(file.FilePath, (ulong?)frn, tag);
                         }, Program.Logger))
                         {
-                            dbInstance.SetTag(file.FilePath, null, null);
+                            dbInstance.SetTags(file.FilePath, null, null);
                         }
                     }
                     else
                     {
-                        dbInstance.SetTag(file.FilePath, null, null);
+                        dbInstance.SetTags(file.FilePath, null, null);
                     }
                 }
             }

@@ -6,7 +6,7 @@ using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
 using Files.Uwp.ViewModels.Properties;
 using System;
-using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage.FileProperties;
 using Windows.UI.Xaml.Media.Imaging;
@@ -15,13 +15,14 @@ namespace Files.Uwp.ViewModels.Previews
 {
     public class FolderPreviewViewModel
     {
-        private static readonly IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+        private readonly IPreferencesSettingsService preferencesSettingsService = Ioc.Default.GetService<IPreferencesSettingsService>();
         private static readonly IDateTimeFormatter dateTimeFormatter = Ioc.Default.GetService<IDateTimeFormatter>();
 
-        private BaseStorageFolder Folder { get; set; }
+        public ListedItem Item { get; }
 
-        public ListedItem Item { get; set; }
         public BitmapImage Thumbnail { get; set; } = new BitmapImage();
+
+        private BaseStorageFolder Folder { get; set; }
 
         public FolderPreviewViewModel(ListedItem item) => Item = item;
 
@@ -41,38 +42,22 @@ namespace Files.Uwp.ViewModels.Previews
             }
 
             var info = await Folder.GetBasicPropertiesAsync();
-            Item.FileDetails = new ObservableCollection<FileProperty>()
+            Item.FileDetails = new()
             {
-                new FileProperty()
-                {
-                    NameResource = "PropertyItemCount",
-                    Value = items.Count,
-                },
-                new FileProperty()
-                {
-                    NameResource = "PropertyDateModified",
-                    Value = dateTimeFormatter.ToLongLabel(info.DateModified)
-                },
-                new FileProperty()
-                {
-                    NameResource = "PropertyDateCreated",
-                    Value = dateTimeFormatter.ToLongLabel(info.ItemDate)
-                },
-                new FileProperty()
-                {
-                    NameResource = "PropertyItemPathDisplay",
-                    Value = Folder.Path,
-                }
+                GetFileProperty("PropertyItemCount", items.Count),
+                GetFileProperty("PropertyDateModified", dateTimeFormatter.ToLongLabel(info.DateModified)),
+                GetFileProperty("PropertyDateCreated", dateTimeFormatter.ToLongLabel(info.ItemDate)),
+                GetFileProperty("PropertyItemPathDisplay", Folder.Path),
             };
 
-            if (userSettingsService.PreferencesSettingsService.AreFileTagsEnabled)
+            if (preferencesSettingsService.AreFileTagsEnabled)
             {
-                Item.FileDetails.Add(new FileProperty()
-                {
-                    NameResource = "FileTags",
-                    Value = Item.FileTagUI?.TagName
-                });
+                Item.FileDetails.Add(GetFileProperty("FileTags",
+                    Item.FileTagsUI is not null ? string.Join(',', Item.FileTagsUI.Select(x => x.TagName)) : null));
             }
         }
+
+        private static FileProperty GetFileProperty(string nameResource, object value)
+            => new() { NameResource = nameResource, Value = value };
     }
 }
