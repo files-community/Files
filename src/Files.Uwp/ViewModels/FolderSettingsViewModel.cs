@@ -307,7 +307,7 @@ namespace Files.Uwp.ViewModels
             }
         }
 
-        private LayoutPreferences GetLayoutPreferencesForPath(string folderPath)
+        private static LayoutPreferences GetLayoutPreferencesForPath(string folderPath)
         {
             IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
             if (userSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder)
