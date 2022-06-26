@@ -1861,79 +1861,79 @@
     <value>ยกเลิกคัดลอกไฟล์แล้ว</value>
   </data>
   <data name="StatusMoveCanceledDetails_Singular" xml:space="preserve">
-    <value>Moving {0} item from {1} to {2} was canceled</value>
+    <value>ยกเลิกการย้ายไฟล์ทั้ง {0} ไฟล์ จาก {1} ไปยัง {2} แล้ว</value>
   </data>
   <data name="StatusMoveCanceledDetails_Plural" xml:space="preserve">
-    <value>Moving {0} items from {1} to {2} was canceled after moving {3} items</value>
+    <value>ยกเลิกการย้ายไฟล์ทั้ง {0} ไฟล์ จาก {1} ไปยัง {2} แล้ว ไฟล์ {3} ไฟล์ได้ถูกย้ายก่อนยกเลิก</value>
   </data>
   <data name="StatusMoveCanceledDetails_Plural2" xml:space="preserve">
-    <value>Moving {0} items from {1} to {2} was canceled after moving {3} item</value>
+    <value>ยกเลิกการย้ายไฟล์ทั้ง {0} ไฟล์ จาก {1} ไปยัง {2} แล้ว ไฟล์ {3} ไฟล์ได้ถูกย้ายก่อนยกเลิก</value>
   </data>
   <data name="StatusMovingItemsDetails_Singular" xml:space="preserve">
-    <value>Moving {0} item from {1} to {2}</value>
+    <value>กำลังย้ายไฟล์ {0} ไฟล์ จาก {1} ไปยัง {2}</value>
   </data>
   <data name="StatusMovingItemsDetails_Plural" xml:space="preserve">
-    <value>Moving {0} items from {1} to {2}</value>
+    <value>กำลังย้ายไฟล์ {0} ไฟล์ จาก {1} ไปยัง {2}</value>
   </data>
   <data name="StatusMovedItemsDetails_Singular" xml:space="preserve">
-    <value>Successfully moved {0} item from {1} to {2}</value>
+    <value>ย้ายไฟล์ทั้งหมด {0} ไฟล์ จาก {1} ไปยัง {2} สำเร็จแล้ว</value>
   </data>
   <data name="StatusMovedItemsDetails_Plural" xml:space="preserve">
-    <value>Successfully moved {0} items from {1} to {2}</value>
+    <value>ย้ายไฟล์ทั้งหมด {0} ไฟล์ จาก {1} ไปยัง {2} สำเร็จแล้ว</value>
   </data>
   <data name="StatusMoveFailedDetails_Singular" xml:space="preserve">
-    <value>Failed to move {0} item from {1} to {2}</value>
+    <value>ย้ายไฟล์ {0} ไฟล์ จาก {1} ไปยัง {2} ล้มเหลว</value>
   </data>
   <data name="StatusMoveFailedDetails_Plural" xml:space="preserve">
-    <value>Failed to move {0} items from {1} to {2}</value>
+    <value>ย้ายไฟล์ {0} ไฟล์ จาก {1} ไปยัง {2} ล้มเหลว</value>
   </data>
   <data name="StatusCopyCanceledDetails_Singular" xml:space="preserve">
-    <value>Copying {0} item to {1} was canceled</value>
+    <value>ยกเลิกการคัดลอกไฟล์ทั้ง {0} ไฟล์ ไปยัง {1} แล้ว</value>
   </data>
   <data name="StatusCopyCanceledDetails_Plural" xml:space="preserve">
-    <value>Copying {0} items to {1} was canceled after copying {2} items</value>
+    <value>ยกเลิกการคัดลอกไฟล์ทั้ง {0} ไฟล์ ไปยัง {1}, {2} ไฟล์ได้ถูกคัดลอกก่อนยกเลิก</value>
   </data>
   <data name="StatusCopyCanceledDetails_Plural2" xml:space="preserve">
-    <value>Copying {0} items to {1} was canceled after copying {2} item</value>
+    <value>ยกเลิกการคัดลอกไฟล์ทั้ง {0} ไฟล์ ไปยัง {1}, {2} ไฟล์ได้ถูกคัดลอกก่อนยกเลิก</value>
   </data>
   <data name="StatusCopyingItemsDetails_Singular" xml:space="preserve">
-    <value>Copying {0} item to {1}</value>
+    <value>กำลังคัดลอกไฟล์ {0} ไฟล์ ไปยัง {1}</value>
   </data>
   <data name="StatusCopyingItemsDetails_Plural" xml:space="preserve">
-    <value>Copying {0} items to {1}</value>
+    <value>กำลังคัดลอกไฟล์ {0} ไฟล์ ไปยัง {1}</value>
   </data>
   <data name="StatusCopiedItemsDetails_Singular" xml:space="preserve">
-    <value>Successfully copied {0} item to {1}</value>
+    <value>คัดลอกไฟล์ {0} ไฟล์ ไปยัง {1} สำเร็จแล้ว</value>
   </data>
   <data name="StatusCopiedItemsDetails_Plural" xml:space="preserve">
-    <value>Successfully copied {0} items to {1}</value>
+    <value>คัดลอกไฟล์ {0} ไฟล์ ไปยัง {1} สำเร็จแล้ว</value>
   </data>
   <data name="StatusDeleteCanceledDetails_Singular" xml:space="preserve">
-    <value>Deleting {0} item from {1} was canceled</value>
+    <value>ยกเลิกการลบไฟล์ทั้ง {0} ไฟล์ ใน {1} แล้ว</value>
   </data>
   <data name="StatusDeleteCanceledDetails_Plural" xml:space="preserve">
-    <value>Deleting {0} items from {1} was canceled after deleting {3} items</value>
+    <value>ยกเลิกการลบไฟล์ทั้ง {0} ไฟล์ ใน {1} แล้ว, {3} ไฟล์ได้ถูกลบก่อนยกเลิก</value>
   </data>
   <data name="StatusDeleteCanceledDetails_Plural2" xml:space="preserve">
-    <value>Deleting {0} items from {1} was canceled after deleting {3} item</value>
+    <value>ยกเลิกการลบไฟล์ทั้ง {0} ไฟล์ ใน {1} แล้ว, {3} ไฟล์ได้ถูกลบก่อนยกเลิก</value>
   </data>
   <data name="StatusDeletingItemsDetails_Singular" xml:space="preserve">
-    <value>Deleting {0} item from {1}</value>
+    <value>ลบไฟล์ {0} ไฟล์ จาก {1} แล้ว</value>
   </data>
   <data name="StatusDeletingItemsDetails_Plural" xml:space="preserve">
-    <value>Deleting {0} items from {1}</value>
+    <value>ลบไฟล์ {0} ไฟล์ จาก {1} แล้ว</value>
   </data>
   <data name="StatusDeletedItemsDetails_Singular" xml:space="preserve">
-    <value>Successfully deleted {0} item from {1}</value>
+    <value>ลบไฟล์ {0} ไฟล์จาก {1} สำเร็จแล้ว</value>
   </data>
   <data name="StatusDeletedItemsDetails_Plural" xml:space="preserve">
-    <value>Successfully deleted {0} items from {1}</value>
+    <value>ลบไฟล์ {0} ไฟล์จาก {1} สำเร็จแล้ว</value>
   </data>
   <data name="StatusDeletionFailedDetails_Singular" xml:space="preserve">
-    <value>Failed to delete {0} item from {1}</value>
+    <value>การลบไฟล์ {0} ไฟล์ ใน {1} ล้มเหลว</value>
   </data>
   <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
-    <value>Failed to delete {0} items from {1}</value>
+    <value>การลบไฟล์ {0} ไฟล์ ใน {1} ล้มเหลว</value>
   </data>
   <data name="TheRecycleBin" xml:space="preserve">
     <value>the Recycle Bin</value>
