@@ -1,11 +1,12 @@
 ﻿<UserControl
-    x:Class="Files.UserControls.Widgets.RecentFilesWidget"
+    x:Class="Files.Uwp.UserControls.Widgets.RecentFilesWidget"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:helpers="using:Files.Helpers"
-    xmlns:local="using:Files.UserControls.Widgets"
+    xmlns:fs="using:Files.Uwp.Filesystem"
+    xmlns:helpers="using:Files.Uwp.Helpers"
+    xmlns:local="using:Files.Uwp.UserControls.Widgets"
     Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
     mc:Ignorable="d">
 
@@ -39,7 +40,7 @@
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
-                <DataTemplate x:DataType="local:RecentItem">
+                <DataTemplate x:DataType="fs:RecentItem">
                     <Grid
                         Padding="2.5"
                         HorizontalAlignment="Stretch"
@@ -108,7 +109,7 @@
                             VerticalAlignment="Center"
                             x:Load="{x:Bind FileIconVis}"
                             x:Phase="1"
-                            Source="{x:Bind FileImg}"
+                            Source="{x:Bind FileImg, Mode=OneWay}"
                             Stretch="UniformToFill" />
 
                         <TextBlock

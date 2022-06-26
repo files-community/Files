@@ -1,7 +1,7 @@
 ﻿using Files.Shared.Enums;
 using Windows.Storage;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public static class EnumConversionHelpers
     {

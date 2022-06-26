@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 
-namespace Files.ViewModels.Widgets
+namespace Files.Uwp.ViewModels.Widgets
 {
     public class WidgetsListControlItemViewModel : ObservableObject, IDisposable
     {

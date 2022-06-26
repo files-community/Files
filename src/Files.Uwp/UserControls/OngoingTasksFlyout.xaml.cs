@@ -1,4 +1,4 @@
-﻿using Files.ViewModels;
+﻿using Files.Uwp.ViewModels;
 using System;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
@@ -6,7 +6,7 @@ using Windows.UI.Xaml.Controls;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace Files.UserControls
+namespace Files.Uwp.UserControls
 {
     public sealed partial class OngoingTasksFlyout : UserControl
     {

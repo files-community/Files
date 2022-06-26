@@ -1,14 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using Files.Backend.Services.Settings;
-using Files.DataModels;
-using Files.DataModels.NavigationControlItems;
-using Files.Filesystem;
-using Files.Filesystem.StorageItems;
-using Files.Helpers;
-using Files.Helpers.ContextFlyouts;
 using Files.Shared.Extensions;
-using Files.ViewModels;
+using Files.Uwp.DataModels;
+using Files.Uwp.DataModels.NavigationControlItems;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Helpers;
+using Files.Uwp.Helpers.ContextFlyouts;
+using Files.Uwp.ViewModels;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
@@ -28,15 +27,11 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 
-namespace Files.UserControls
+namespace Files.Uwp.UserControls
 {
     public sealed partial class SidebarControl : Microsoft.UI.Xaml.Controls.NavigationView, INotifyPropertyChanged
     {
         public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
-
-        public static SemaphoreSlim SideBarItemsSemaphore = new SemaphoreSlim(1, 1);
-
-        public static BulkConcurrentObservableCollection<INavigationControlItem> SideBarItems { get; private set; } = new BulkConcurrentObservableCollection<INavigationControlItem>();
 
         public delegate void SidebarItemInvokedEventHandler(object sender, SidebarItemInvokedEventArgs e);
 
@@ -114,6 +109,8 @@ namespace Files.UserControls
 
         private ICommand HideSectionCommand { get; }
 
+        private ICommand PinItemCommand { get; }
+
         private ICommand UnpinItemCommand { get; }
 
         private ICommand MoveItemToTopCommand { get; }
@@ -148,16 +145,17 @@ namespace Files.UserControls
 
             HideSectionCommand = new RelayCommand(HideSection);
             UnpinItemCommand = new RelayCommand(UnpinItem);
+            PinItemCommand = new RelayCommand(PinItem);
             MoveItemToTopCommand = new RelayCommand(MoveItemToTop);
             MoveItemUpCommand = new RelayCommand(MoveItemUp);
             MoveItemDownCommand = new RelayCommand(MoveItemDown);
             MoveItemToBottomCommand = new RelayCommand(MoveItemToBottom);
-            OpenInNewTabCommand  = new RelayCommand(OpenInNewTab);
-            OpenInNewWindowCommand  = new RelayCommand(OpenInNewWindow);
-            OpenInNewPaneCommand  = new RelayCommand(OpenInNewPane);
-            EjectDeviceCommand  = new RelayCommand(EjectDevice);
-            OpenPropertiesCommand  = new RelayCommand(OpenProperties);
-    }
+            OpenInNewTabCommand = new RelayCommand(OpenInNewTab);
+            OpenInNewWindowCommand = new RelayCommand(OpenInNewWindow);
+            OpenInNewPaneCommand = new RelayCommand(OpenInNewPane);
+            EjectDeviceCommand = new RelayCommand(EjectDevice);
+            OpenPropertiesCommand = new RelayCommand(OpenProperties);
+        }
 
         public SidebarViewModel ViewModel
         {
@@ -191,8 +189,15 @@ namespace Files.UserControls
         {
             ContextMenuOptions options = item.MenuOptions;
 
-            bool showMoveItemUp = options.IsItemMovable? App.SidebarPinnedController.Model.IndexOfItem(item) > 1:false;
-            bool showMoveItemDown = options.IsItemMovable? App.SidebarPinnedController.Model.IndexOfItem(item) < App.SidebarPinnedController.Model.FavoriteItems.Count:false;
+            var favoriteModel = App.SidebarPinnedController.Model;
+            int favoriteIndex = favoriteModel.IndexOfItem(item);
+            int favoriteCount = favoriteModel.FavoriteItems.Count;
+
+            bool showMoveItemUp = favoriteIndex > 0;
+            bool showMoveItemDown = favoriteIndex < favoriteCount - 1;
+
+            bool isDriveItem = item is DriveItem;
+            bool isDriveItemPinned = isDriveItem && (item as DriveItem).IsPinned;
 
             return new List<ContextMenuFlyoutItemViewModel>()
             {
@@ -274,10 +279,17 @@ namespace Files.UserControls
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
+                    Text = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalized(),
+                    Glyph = "\uE840",
+                    Command = PinItemCommand,
+                    ShowItem = isDriveItem && !isDriveItemPinned
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
                     Text = "SideBarUnpinFromFavorites/Text".GetLocalized(),
                     Glyph = "\uE77A",
                     Command = UnpinItemCommand,
-                    ShowItem = options.ShowUnpinItem
+                    ShowItem = options.ShowUnpinItem || isDriveItemPinned
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -319,31 +331,24 @@ namespace Files.UserControls
             {
                 case SectionType.Favorites:
                     UserSettingsService.AppearanceSettingsService.ShowFavoritesSection = false;
-                    App.SidebarPinnedController.Model.UpdateFavoritesSectionVisibility();
                     break;
                 case SectionType.Library:
                     UserSettingsService.AppearanceSettingsService.ShowLibrarySection = false;
-                    App.LibraryManager.UpdateLibrariesSectionVisibility();
                     break;
                 case SectionType.CloudDrives:
                     UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection = false;
-                    App.CloudDrivesManager.UpdateCloudDrivesSectionVisibility();
                     break;
                 case SectionType.Drives:
                     UserSettingsService.AppearanceSettingsService.ShowDrivesSection = false;
-                    App.DrivesManager.UpdateDrivesSectionVisibility();
                     break;
                 case SectionType.Network:
                     UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection = false;
-                    App.NetworkDrivesManager.UpdateNetworkDrivesSectionVisibility();
                     break;
                 case SectionType.WSL:
                     UserSettingsService.AppearanceSettingsService.ShowWslSection = false;
-                    App.WSLDistroManager.UpdateWslSectionVisibility();
                     break;
                 case SectionType.FileTag:
                     UserSettingsService.AppearanceSettingsService.ShowFileTagsSection = false;
-                    App.FileTagsManager.UpdateFileTagsSectionVisibility();
                     break;
             }
         }
@@ -375,14 +380,22 @@ namespace Files.UserControls
             await NavigationHelpers.OpenPathInNewWindowAsync(rightClickedItem.Path);
         }
 
+        private void PinItem()
+        {
+            if(rightClickedItem is DriveItem)
+            {
+                App.SidebarPinnedController.Model.AddItem(rightClickedItem.Path);
+            }
+        }
+
         private void UnpinItem()
         {
             if (rightClickedItem.MenuOptions.ShowEmptyRecycleBin)
             {
                 UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar = false;
-                _ = App.SidebarPinnedController.Model.ShowHideRecycleBinItemAsync(false);
+                App.SidebarPinnedController.Model.ShowHideRecycleBinItem(false);
             }
-            else if (rightClickedItem.Section == SectionType.Favorites)
+            else if (rightClickedItem.Section == SectionType.Favorites || rightClickedItem is DriveItem)
             {
                 App.SidebarPinnedController.Model.RemoveItem(rightClickedItem.Path);
             }
@@ -400,7 +413,7 @@ namespace Files.UserControls
                 }
 
                 int oldIndex = App.SidebarPinnedController.Model.IndexOfItem(rightClickedItem);
-                App.SidebarPinnedController.Model.MoveItem(rightClickedItem, oldIndex, 1);
+                App.SidebarPinnedController.Model.MoveItem(rightClickedItem, oldIndex, 0);
 
                 if (isSelectedSidebarItem)
                 {
@@ -463,7 +476,7 @@ namespace Files.UserControls
                 }
 
                 int oldIndex = App.SidebarPinnedController.Model.IndexOfItem(rightClickedItem);
-                App.SidebarPinnedController.Model.MoveItem(rightClickedItem, oldIndex, App.SidebarPinnedController.Model.FavoriteItems.Count);
+                App.SidebarPinnedController.Model.MoveItem(rightClickedItem, oldIndex, App.SidebarPinnedController.Model.FavoriteItems.Count - 1);
 
                 if (isSelectedSidebarItem)
                 {
@@ -990,7 +1003,7 @@ namespace Files.UserControls
             {
                 var listedItem = new ListedItem(null) { ItemPath = item.Path };
                 listedItem.FileFRN = await FileTagsHelper.GetFileFRN(item.Item);
-                listedItem.FileTag = fileTagItem.FileTag.Uid;
+                listedItem.FileTags = new[] { fileTagItem.FileTag.Uid };
             }
 
             deferral.Complete();
@@ -1001,8 +1014,6 @@ namespace Files.UserControls
         private void SidebarNavView_Loaded(object sender, RoutedEventArgs e)
         {
             (this.FindDescendant("TabContentBorder") as Border).Child = TabContent;
-
-            DisplayModeChanged += SidebarControl_DisplayModeChanged;
         }
 
         private void SidebarControl_DisplayModeChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewDisplayModeChangedEventArgs args)
@@ -1206,6 +1217,52 @@ namespace Files.UserControls
             }
             return new GridLength(200);
         }
+
+        #region Sidebar sections expanded state management
+
+        private async void NavigationView_Expanding(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemExpandingEventArgs args)
+        {
+            if (args.ExpandingItem is LocationItem loc && loc.ChildItems != null)
+            {
+                await Task.Delay(50); // Wait a little so IsPaneOpen tells the truth when in minimal mode
+                if (sender.IsPaneOpen) // Don't store expanded state if sidebar pane is closed
+                {
+                    App.AppSettings.Set(true, $"section:{loc.Text.Replace('\\', '_')}");
+                }
+            }
+        }
+
+        private async void NavigationView_Collapsed(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemCollapsedEventArgs args)
+        {
+            if (args.CollapsedItem is LocationItem loc && loc.ChildItems != null)
+            {
+                await Task.Delay(50); // Wait a little so IsPaneOpen tells the truth when in minimal mode
+                if (sender.IsPaneOpen) // Don't store expanded state if sidebar pane is closed
+                {
+                    App.AppSettings.Set(false, $"section:{loc.Text.Replace('\\', '_')}");
+                }
+            }
+        }
+
+        private void NavigationView_PaneOpened(Microsoft.UI.Xaml.Controls.NavigationView sender, object args)
+        {
+            // Restore expanded state when pane is opened
+            foreach (var loc in ViewModel.SideBarItems.OfType<LocationItem>().Where(x => x.ChildItems != null))
+            {
+                loc.IsExpanded = App.AppSettings.Get(loc.Text == "SidebarFavorites".GetLocalized(), $"section:{loc.Text.Replace('\\', '_')}");
+            }
+        }
+
+        private void NavigationView_PaneClosed(Microsoft.UI.Xaml.Controls.NavigationView sender, object args)
+        {
+            // Collapse all sections but do not store the state when pane is closed
+            foreach (var loc in ViewModel.SideBarItems.OfType<LocationItem>().Where(x => x.ChildItems != null))
+            {
+                loc.IsExpanded = false;
+            }
+        }
+
+        #endregion
     }
 
     public class SidebarItemDroppedEventArgs : EventArgs
@@ -1275,9 +1332,6 @@ namespace Files.UserControls
 
                     case NavigationControlItemType.FileTag:
                         return FileTagNavItemTemplate;
-
-                    case NavigationControlItemType.Header:
-                        return HeaderNavItemTemplate;
                 }
             }
             return null;

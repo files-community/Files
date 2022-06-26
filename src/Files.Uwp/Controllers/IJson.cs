@@ -1,4 +1,4 @@
-﻿namespace Files.Controllers
+﻿namespace Files.Uwp.Controllers
 {
     internal interface IJson
     {

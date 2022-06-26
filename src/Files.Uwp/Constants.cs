@@ -1,4 +1,4 @@
-﻿namespace Files
+﻿namespace Files.Uwp
 {
     public static class Constants
     {
@@ -22,6 +22,11 @@
             public const string NetworkFolderPath = @"Shell:NetworkPlacesFolder";
 
             public const string MyComputerPath = @"Shell:MyComputerFolder";
+        }
+
+        public static class KnownImageFormats
+        {
+            public const string BITMAP_IMAGE_FORMAT = "bitmapimage";
         }
 
         public static class ImageRes
@@ -95,6 +100,8 @@
             public static class ColumnViewBrowser
             {
                 public const int ColumnViewSize = 32;
+
+                public const int ColumnViewSizeSmall = 24;
             }
         }
 

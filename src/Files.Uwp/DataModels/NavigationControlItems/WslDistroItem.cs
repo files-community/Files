@@ -1,7 +1,7 @@
-﻿using Files.Filesystem;
+﻿using Files.Uwp.Filesystem;
 using System;
 
-namespace Files.DataModels.NavigationControlItems
+namespace Files.Uwp.DataModels.NavigationControlItems
 {
     public class WslDistroItem : INavigationControlItem
     {
@@ -25,7 +25,7 @@ namespace Files.DataModels.NavigationControlItems
 
         public Uri Logo { get; set; }
 
-        public SectionType Section { get; private set; }
+        public SectionType Section { get; set; }
 
         public ContextMenuOptions MenuOptions { get; set; }
 

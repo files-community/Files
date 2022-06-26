@@ -1,18 +1,28 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services;
 using Files.Backend.Services.Settings;
-using Files.CommandLine;
-using Files.Controllers;
-using Files.Filesystem;
-using Files.Filesystem.FilesystemHistory;
-using Files.Helpers;
+using Files.Backend.Services.SizeProvider;
+using Files.Shared;
+using Files.Shared.Cloud;
+using Files.Shared.Extensions;
+using Files.Shared.Services.DateTimeFormatter;
+using Files.Uwp.CommandLine;
+using Files.Uwp.Controllers;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.Cloud;
+using Files.Uwp.Filesystem.FilesystemHistory;
+using Files.Uwp.Helpers;
+using Files.Uwp.ServicesImplementation;
+using Files.Uwp.ServicesImplementation.DateTimeFormatter;
 using Files.Uwp.ServicesImplementation.Settings;
-using Files.UserControls.MultitaskingControl;
-using Files.ViewModels;
-using Files.Views;
+using Files.Uwp.UserControls.MultitaskingControl;
+using Files.Uwp.ViewModels;
+using Files.Uwp.ViewModels.SettingsViewModels;
+using Files.Uwp.Views;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.Extensions.DependencyInjection;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.Notifications;
@@ -36,13 +46,8 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
-using Files.Shared;
-using Files.Shared.Extensions;
-using Files.Backend.Services;
-using Files.Uwp.ServicesImplementation;
-using Files.ViewModels.SettingsViewModels;
 
-namespace Files
+namespace Files.Uwp
 {
     sealed partial class App : Application
     {
@@ -56,9 +61,9 @@ namespace Files
         public static PaneViewModel PaneViewModel { get; private set; }
         public static PreviewPaneViewModel PreviewPaneViewModel { get; private set; }
         public static JumpListManager JumpList { get; private set; }
+        public static RecentItemsManager RecentItemsManager { get; private set; }
         public static SidebarPinnedController SidebarPinnedController { get; private set; }
         public static TerminalController TerminalController { get; private set; }
-        public static AppearanceViewModel AppearanceViewModel { get; private set; }
         public static CloudDrivesManager CloudDrivesManager { get; private set; }
         public static NetworkDrivesManager NetworkDrivesManager { get; private set; }
         public static DrivesManager DrivesManager { get; private set; }
@@ -116,15 +121,25 @@ namespace Files
                 .AddSingleton<IBundlesSettingsService, BundlesSettingsService>()
 
                 // Other services
+                .AddSingleton(Logger)
                 .AddSingleton<IDialogService, DialogService>()
                 .AddSingleton<IImagingService, ImagingService>()
+                .AddSingleton<IThreadingService, ThreadingService>()
                 .AddSingleton<ILocalizationService, LocalizationService>()
+                .AddSingleton<ICloudDetector, CloudDetector>()
+#if SIDELOAD
+                .AddSingleton<IUpdateService, SideloadUpdateService>()
+#else
                 .AddSingleton<IUpdateService, UpdateService>()
+#endif
+                .AddSingleton<IDateTimeFormatterFactory, DateTimeFormatterFactory>()
+                .AddSingleton<IDateTimeFormatter, UserDateTimeFormatter>()
+                .AddSingleton<IVolumeInfoFactory, VolumeInfoFactory>()
 
                 // TODO(i): FileSystem operations:
                 // (IFilesystemHelpersService, IFilesystemOperationsService)
                 // (IStorageEnumerator, IFallbackStorageEnumerator)
-                .AddSingleton<IFolderSizeProvider, FolderSizeProvider>()
+                .AddSingleton<ISizeProvider, UserSizeProvider>()
 
                 ; // End of service configuration
 
@@ -138,8 +153,10 @@ namespace Files
 
             ExternalResourcesHelper ??= new ExternalResourcesHelper();
             await ExternalResourcesHelper.LoadSelectedTheme();
+            new AppearanceViewModel().SetCompactStyles(updateTheme: false);
 
             JumpList ??= new JumpListManager();
+            RecentItemsManager ??= new RecentItemsManager();
             MainViewModel ??= new MainViewModel();
             PaneViewModel ??= new PaneViewModel();
             PreviewPaneViewModel ??= new PreviewPaneViewModel();
@@ -151,7 +168,6 @@ namespace Files
             FileTagsManager ??= new FileTagsManager();
             SidebarPinnedController ??= new SidebarPinnedController();
             TerminalController ??= new TerminalController();
-            AppearanceViewModel ??= new AppearanceViewModel();
         }
 
         private static async Task StartAppCenter()
@@ -175,18 +191,19 @@ namespace Files
         private static async Task InitializeAppComponentsAsync()
         {
             var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+            var appearanceSettingsService = userSettingsService.AppearanceSettingsService;
 
             // Start off a list of tasks we need to run before we can continue startup
             await Task.Run(async () =>
             {
                 await Task.WhenAll(
                     StartAppCenter(),
-                    DrivesManager.EnumerateDrivesAsync(),
-                    CloudDrivesManager.EnumerateDrivesAsync(),
-                    LibraryManager.EnumerateLibrariesAsync(),
-                    NetworkDrivesManager.EnumerateDrivesAsync(),
-                    WSLDistroManager.EnumerateDrivesAsync(),
-                    FileTagsManager.EnumerateFileTagsAsync(),
+                    DrivesManager.UpdateDrivesAsync(),
+                    OptionalTask(CloudDrivesManager.UpdateDrivesAsync(), appearanceSettingsService.ShowCloudDrivesSection),
+                    LibraryManager.UpdateLibrariesAsync(),
+                    OptionalTask(NetworkDrivesManager.UpdateDrivesAsync(), appearanceSettingsService.ShowNetworkDrivesSection),
+                    OptionalTask(WSLDistroManager.UpdateDrivesAsync(), appearanceSettingsService.ShowWslSection),
+                    OptionalTask(FileTagsManager.UpdateFileTagsAsync(), appearanceSettingsService.ShowFileTagsSection),
                     SidebarPinnedController.InitializeAsync()
                 );
                 await Task.WhenAll(
@@ -204,6 +221,14 @@ namespace Files
             var updateService = Ioc.Default.GetRequiredService<IUpdateService>();
             await updateService.CheckForUpdates();
             await updateService.DownloadMandatoryUpdates();
+
+            static async Task OptionalTask(Task task, bool condition)
+            {
+                if (condition)
+                {
+                    await task;
+                }
+            }
         }
 
         private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
@@ -386,13 +411,26 @@ namespace Files
                             case "folder":
                                 rootFrame.Navigate(typeof(MainPage), unescapedValue, new SuppressNavigationTransitionInfo());
                                 break;
+
+                            case "cmd":
+                                var ppm = CommandLineParser.ParseUntrustedCommands(unescapedValue);
+                                if (ppm.IsEmpty())
+                                {
+                                    ppm = new ParsedCommands() { new ParsedCommand() { Type = ParsedCommandType.Unknown, Args = new() { "." } } };
+                                }
+                                await InitializeFromCmdLineArgs(rootFrame, ppm);
+                                break;
                         }
                     }
 
-                    // Ensure the current window is active.
-                    Window.Current.Activate();
-                    Window.Current.CoreWindow.Activated += CoreWindow_Activated;
-                    return;
+                    if (rootFrame.Content != null)
+                    {
+                        // Ensure the current window is active.
+                        Window.Current.Activate();
+                        Window.Current.CoreWindow.Activated += CoreWindow_Activated;
+                        return;
+                    }
+                    break;
 
                 case ActivationKind.CommandLineLaunch:
                     var cmdLineArgs = args as CommandLineActivatedEventArgs;
@@ -401,76 +439,9 @@ namespace Files
                     var activationPath = operation.CurrentDirectoryPath;
 
                     var parsedCommands = CommandLineParser.ParseUntrustedCommands(cmdLineString);
-
                     if (parsedCommands != null && parsedCommands.Count > 0)
                     {
-                        async Task PerformNavigation(string payload, string selectItem = null)
-                        {
-                            if (!string.IsNullOrEmpty(payload))
-                            {
-                                payload = CommonPaths.ShellPlaces.Get(payload.ToUpperInvariant(), payload);
-                                var folder = (StorageFolder)await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(payload).AsTask());
-                                if (folder != null && !string.IsNullOrEmpty(folder.Path))
-                                {
-                                    payload = folder.Path; // Convert short name to long name (#6190)
-                                }
-                            }
-                            var paneNavigationArgs = new PaneNavigationArguments
-                            {
-                                LeftPaneNavPathParam = payload,
-                                LeftPaneSelectItemParam = selectItem,
-                            };
-                            if (rootFrame.Content != null)
-                            {
-                                await MainPageViewModel.AddNewTabByParam(typeof(PaneHolderPage), paneNavigationArgs);
-                            }
-                            else
-                            {
-                                rootFrame.Navigate(typeof(MainPage), paneNavigationArgs, new SuppressNavigationTransitionInfo());
-                            }
-                        }
-                        foreach (var command in parsedCommands)
-                        {
-                            switch (command.Type)
-                            {
-                                case ParsedCommandType.OpenDirectory:
-                                case ParsedCommandType.OpenPath:
-                                case ParsedCommandType.ExplorerShellCommand:
-                                    var selectItemCommand = parsedCommands.FirstOrDefault(x => x.Type == ParsedCommandType.SelectItem);
-                                    await PerformNavigation(command.Payload, selectItemCommand?.Payload);
-                                    break;
-
-                                case ParsedCommandType.SelectItem:
-                                    if (Path.IsPathRooted(command.Payload))
-                                    {
-                                        await PerformNavigation(Path.GetDirectoryName(command.Payload), Path.GetFileName(command.Payload));
-                                    }
-                                    break;
-
-                                case ParsedCommandType.Unknown:
-                                    if (command.Payload.Equals("."))
-                                    {
-                                        await PerformNavigation(activationPath);
-                                    }
-                                    else
-                                    {
-                                        var target = Path.GetFullPath(Path.Combine(activationPath, command.Payload));
-                                        if (!string.IsNullOrEmpty(command.Payload))
-                                        {
-                                            await PerformNavigation(target);
-                                        }
-                                        else
-                                        {
-                                            await PerformNavigation(null);
-                                        }
-                                    }
-                                    break;
-
-                                case ParsedCommandType.OutputPath:
-                                    OutputPath = command.Payload;
-                                    break;
-                            }
-                        }
+                        await InitializeFromCmdLineArgs(rootFrame, parsedCommands, activationPath);
 
                         if (rootFrame.Content != null)
                         {
@@ -501,6 +472,93 @@ namespace Files
             Window.Current.CoreWindow.Activated += CoreWindow_Activated;
 
             WindowDecorationsHelper.RequestWindowDecorationsAccess();
+        }
+
+        private async Task InitializeFromCmdLineArgs(Frame rootFrame, ParsedCommands parsedCommands, string activationPath = "")
+        {
+            async Task PerformNavigation(string payload, string selectItem = null)
+            {
+                if (!string.IsNullOrEmpty(payload))
+                {
+                    payload = CommonPaths.ShellPlaces.Get(payload.ToUpperInvariant(), payload);
+                    var folder = (StorageFolder)await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(payload).AsTask());
+                    if (folder != null && !string.IsNullOrEmpty(folder.Path))
+                    {
+                        payload = folder.Path; // Convert short name to long name (#6190)
+                    }
+                }
+                var paneNavigationArgs = new PaneNavigationArguments
+                {
+                    LeftPaneNavPathParam = payload,
+                    LeftPaneSelectItemParam = selectItem,
+                };
+                if (rootFrame.Content != null)
+                {
+                    await MainPageViewModel.AddNewTabByParam(typeof(PaneHolderPage), paneNavigationArgs);
+                }
+                else
+                {
+                    rootFrame.Navigate(typeof(MainPage), paneNavigationArgs, new SuppressNavigationTransitionInfo());
+                }
+            }
+            foreach (var command in parsedCommands)
+            {
+                switch (command.Type)
+                {
+                    case ParsedCommandType.OpenDirectory:
+                    case ParsedCommandType.OpenPath:
+                    case ParsedCommandType.ExplorerShellCommand:
+                        var selectItemCommand = parsedCommands.FirstOrDefault(x => x.Type == ParsedCommandType.SelectItem);
+                        await PerformNavigation(command.Payload, selectItemCommand?.Payload);
+                        break;
+
+                    case ParsedCommandType.SelectItem:
+                        if (Path.IsPathRooted(command.Payload))
+                        {
+                            await PerformNavigation(Path.GetDirectoryName(command.Payload), Path.GetFileName(command.Payload));
+                        }
+                        break;
+
+                    case ParsedCommandType.TagFiles:
+                        var tagService = Ioc.Default.GetService<IFileTagsSettingsService>();
+                        var tag = tagService.GetTagsByName(command.Payload).FirstOrDefault();
+                        foreach (var file in command.Args.Skip(1))
+                        {
+                            var fileFRN = await FilesystemTasks.Wrap(() => StorageHelpers.ToStorageItem<IStorageItem>(file))
+                                .OnSuccess(item => FileTagsHelper.GetFileFRN(item));
+                            if (fileFRN is not null)
+                            {
+                                var tagUid = tag is not null ? new[] { tag.Uid } : null;
+                                FileTagsHelper.DbInstance.SetTags(file, fileFRN, tagUid);
+                                FileTagsHelper.WriteFileTag(file, tagUid);
+                            }
+                        }
+                        break;
+
+                    case ParsedCommandType.Unknown:
+                        if (command.Payload.Equals("."))
+                        {
+                            await PerformNavigation(activationPath);
+                        }
+                        else
+                        {
+                            var target = Path.GetFullPath(Path.Combine(activationPath, command.Payload));
+                            if (!string.IsNullOrEmpty(command.Payload))
+                            {
+                                await PerformNavigation(target);
+                            }
+                            else
+                            {
+                                await PerformNavigation(null);
+                            }
+                        }
+                        break;
+
+                    case ParsedCommandType.OutputPath:
+                        OutputPath = command.Payload;
+                        break;
+                }
+            }
         }
 
         private void TryEnablePrelaunch()

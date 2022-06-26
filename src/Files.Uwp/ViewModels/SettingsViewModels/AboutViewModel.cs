@@ -1,7 +1,7 @@
 ﻿using Files.Backend.Services.Settings;
-using Files.Filesystem;
-using Files.Filesystem.StorageItems;
-using Files.Helpers;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Helpers;
 using Files.Shared.Extensions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
@@ -19,7 +19,7 @@ using Windows.Storage.Pickers;
 using Windows.System;
 using Windows.UI.Xaml.Controls;
 
-namespace Files.ViewModels.SettingsViewModels
+namespace Files.Uwp.ViewModels.SettingsViewModels
 {
     public class AboutViewModel : ObservableObject
     {
@@ -29,6 +29,7 @@ namespace Files.ViewModels.SettingsViewModels
 
         public ICommand OpenLogLocationCommand { get; }
         public ICommand CopyVersionInfoCommand { get; }
+        public ICommand SupportUsCommand { get; }
 
         public ICommand ExportSettingsCommand { get; }
         public ICommand ImportSettingsCommand { get; }
@@ -39,6 +40,7 @@ namespace Files.ViewModels.SettingsViewModels
         {
             OpenLogLocationCommand = new AsyncRelayCommand(OpenLogLocation);
             CopyVersionInfoCommand = new RelayCommand(CopyVersionInfo);
+            SupportUsCommand = new RelayCommand(SupportUs);
 
             ExportSettingsCommand = new AsyncRelayCommand(ExportSettings);
             ImportSettingsCommand = new AsyncRelayCommand(ImportSettings);
@@ -151,6 +153,11 @@ namespace Files.ViewModels.SettingsViewModels
                 Clipboard.SetContent(dataPackage);
             });
         }
+        
+        public async void SupportUs()
+        {
+            await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.SupportUsUrl));
+        }
 
         public static async Task OpenLogLocation() => await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
 
@@ -175,7 +182,6 @@ namespace Files.ViewModels.SettingsViewModels
                 "Feedback" => Constants.GitHub.FeedbackUrl,
                 "PrivacyPolicy" => Constants.GitHub.PrivacyPolicyUrl,
                 "ReleaseNotes" => Constants.GitHub.ReleaseNotesUrl,
-                "SupportUs" => Constants.GitHub.SupportUsUrl,
                 _ => null,
             };
             if (uri is not null)

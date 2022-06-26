@@ -1,6 +1,8 @@
-﻿using Files.Extensions;
-using Files.Filesystem.StorageItems;
-using Files.Helpers;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services.Settings;
+using Files.Uwp.Extensions;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,14 +13,13 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace Files.Filesystem.StorageEnumerators
+namespace Files.Uwp.Filesystem.StorageEnumerators
 {
     public static class UniversalStorageEnumerator
     {
         public static async Task<List<ListedItem>> ListEntries(
             BaseStorageFolder rootFolder,
             StorageFolderWithPath currentStorageFolder,
-            string returnformat,
             Type sourcePageType,
             CancellationToken cancellationToken,
             int countLimit,
@@ -30,6 +31,9 @@ namespace Files.Filesystem.StorageEnumerators
             var tempList = new List<ListedItem>();
             uint count = 0;
             var firstRound = true;
+
+            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+
             while (true)
             {
                 IReadOnlyList<IStorageItem> items;
@@ -67,35 +71,39 @@ namespace Files.Filesystem.StorageEnumerators
                 }
                 foreach (var item in items)
                 {
-                    if (item.IsOfType(StorageItemTypes.Folder))
+                    var startWithDot = item.Name.StartsWith(".");
+                    if (!startWithDot || userSettingsService.PreferencesSettingsService.ShowDotFiles)
                     {
-                        var folder = await AddFolderAsync(item.AsBaseStorageFolder(), currentStorageFolder, returnformat, cancellationToken);
-                        if (folder != null)
+                        if (item.IsOfType(StorageItemTypes.Folder))
                         {
-                            if (defaultIconPairs?.ContainsKey(string.Empty) ?? false)
+                            var folder = await AddFolderAsync(item.AsBaseStorageFolder(), currentStorageFolder, cancellationToken);
+                            if (folder != null)
                             {
-                                folder.SetDefaultIcon(defaultIconPairs[string.Empty]);
-                            }
-                            tempList.Add(folder);
-                        }
-                    }
-                    else
-                    {
-                        var fileEntry = await AddFileAsync(item.AsBaseStorageFile(), currentStorageFolder, returnformat, cancellationToken);
-                        if (fileEntry != null)
-                        {
-                            if (defaultIconPairs != null)
-                            {
-                                if (!string.IsNullOrEmpty(fileEntry.FileExtension))
+                                if (defaultIconPairs?.ContainsKey(string.Empty) ?? false)
                                 {
-                                    var lowercaseExtension = fileEntry.FileExtension.ToLowerInvariant();
-                                    if (defaultIconPairs.ContainsKey(lowercaseExtension))
+                                    folder.SetDefaultIcon(defaultIconPairs[string.Empty]);
+                                }
+                                tempList.Add(folder);
+                            }
+                        }
+                        else
+                        {
+                            var fileEntry = await AddFileAsync(item.AsBaseStorageFile(), currentStorageFolder, cancellationToken);
+                            if (fileEntry != null)
+                            {
+                                if (defaultIconPairs != null)
+                                {
+                                    if (!string.IsNullOrEmpty(fileEntry.FileExtension))
                                     {
-                                        fileEntry.SetDefaultIcon(defaultIconPairs[lowercaseExtension]);
+                                        var lowercaseExtension = fileEntry.FileExtension.ToLowerInvariant();
+                                        if (defaultIconPairs.ContainsKey(lowercaseExtension))
+                                        {
+                                            fileEntry.SetDefaultIcon(defaultIconPairs[lowercaseExtension]);
+                                        }
                                     }
                                 }
+                                tempList.Add(fileEntry);
                             }
-                            tempList.Add(fileEntry);
                         }
                     }
                     if (cancellationToken.IsCancellationRequested)
@@ -151,34 +159,78 @@ namespace Files.Filesystem.StorageEnumerators
             return tempList;
         }
 
-        private static async Task<ListedItem> AddFolderAsync(BaseStorageFolder folder, StorageFolderWithPath currentStorageFolder, string dateReturnFormat, CancellationToken cancellationToken)
+        public static async Task<ListedItem> AddFolderAsync(BaseStorageFolder folder, StorageFolderWithPath currentStorageFolder, CancellationToken cancellationToken)
         {
             var basicProperties = await folder.GetBasicPropertiesAsync();
             if (!cancellationToken.IsCancellationRequested)
             {
-                return new ListedItem(folder.FolderRelativeId, dateReturnFormat)
+                if (folder is ShortcutStorageFolder linkFolder)
                 {
-                    PrimaryItemAttribute = StorageItemTypes.Folder,
-                    ItemNameRaw = folder.DisplayName,
-                    ItemDateModifiedReal = basicProperties.DateModified,
-                    ItemDateCreatedReal = folder.DateCreated,
-                    ItemType = folder.DisplayType,
-                    IsHiddenItem = false,
-                    Opacity = 1,
-                    FileImage = null,
-                    LoadFileIcon = false,
-                    ItemPath = string.IsNullOrEmpty(folder.Path) ? PathNormalization.Combine(currentStorageFolder.Path, folder.Name) : folder.Path,
-                    FileSize = null,
-                    FileSizeBytes = 0
-                };
+                    return new ShortcutItem(folder.FolderRelativeId)
+                    {
+                        PrimaryItemAttribute = StorageItemTypes.Folder,
+                        IsHiddenItem = false,
+                        Opacity = 1,
+                        FileImage = null,
+                        LoadFileIcon = false,
+                        ItemNameRaw = folder.DisplayName,
+                        ItemDateModifiedReal = basicProperties.DateModified,
+                        ItemDateCreatedReal = folder.DateCreated,
+                        ItemType = folder.DisplayType,
+                        ItemPath = folder.Path,
+                        FileSize = null,
+                        FileSizeBytes = 0,
+                        TargetPath = linkFolder.TargetPath,
+                        Arguments = linkFolder.Arguments,
+                        WorkingDirectory = linkFolder.WorkingDirectory,
+                        RunAsAdmin = linkFolder.RunAsAdmin
+                    };
+                }
+                else if (folder is BinStorageFolder binFolder)
+                {
+                    return new RecycleBinItem(folder.FolderRelativeId)
+                    {
+                        PrimaryItemAttribute = StorageItemTypes.Folder,
+                        ItemNameRaw = folder.DisplayName,
+                        ItemDateModifiedReal = basicProperties.DateModified,
+                        ItemDateCreatedReal = folder.DateCreated,
+                        ItemType = folder.DisplayType,
+                        IsHiddenItem = false,
+                        Opacity = 1,
+                        FileImage = null,
+                        LoadFileIcon = false,
+                        ItemPath = string.IsNullOrEmpty(folder.Path) ? PathNormalization.Combine(currentStorageFolder.Path, folder.Name) : folder.Path,
+                        FileSize = null,
+                        FileSizeBytes = 0,
+                        ItemDateDeletedReal = binFolder.DateDeleted,
+                        ItemOriginalPath = binFolder.OriginalPath,
+                    };
+                }
+                else
+                {
+                    return new ListedItem(folder.FolderRelativeId)
+                    {
+                        PrimaryItemAttribute = StorageItemTypes.Folder,
+                        ItemNameRaw = folder.DisplayName,
+                        ItemDateModifiedReal = basicProperties.DateModified,
+                        ItemDateCreatedReal = folder.DateCreated,
+                        ItemType = folder.DisplayType,
+                        IsHiddenItem = false,
+                        Opacity = 1,
+                        FileImage = null,
+                        LoadFileIcon = false,
+                        ItemPath = string.IsNullOrEmpty(folder.Path) ? PathNormalization.Combine(currentStorageFolder.Path, folder.Name) : folder.Path,
+                        FileSize = null,
+                        FileSizeBytes = 0
+                    };
+                }
             }
             return null;
         }
 
-        private static async Task<ListedItem> AddFileAsync(
+        public static async Task<ListedItem> AddFileAsync(
             BaseStorageFile file,
             StorageFolderWithPath currentStorageFolder,
-            string dateReturnFormat,
             CancellationToken cancellationToken
         )
         {
@@ -199,13 +251,8 @@ namespace Files.Filesystem.StorageEnumerators
                 return null;
             }
 
-            if (file.Name.EndsWith(".lnk", StringComparison.Ordinal) || file.Name.EndsWith(".url", StringComparison.Ordinal))
-            {
-                // This shouldn't happen, StorageFile api does not support shortcuts
-                Debug.WriteLine("Something strange: StorageFile api returned a shortcut");
-            }
             // TODO: is this needed to be handled here?
-            else if (App.LibraryManager.TryGetLibrary(file.Path, out LibraryLocationItem library))
+            if (App.LibraryManager.TryGetLibrary(file.Path, out LibraryLocationItem library))
             {
                 return new LibraryItem(library)
                 {
@@ -215,22 +262,72 @@ namespace Files.Filesystem.StorageEnumerators
             }
             else
             {
-                return new ListedItem(file.FolderRelativeId, dateReturnFormat)
+                if (file is ShortcutStorageFile linkFile)
                 {
-                    PrimaryItemAttribute = StorageItemTypes.File,
-                    FileExtension = itemFileExtension,
-                    IsHiddenItem = false,
-                    Opacity = 1,
-                    FileImage = null,
-                    LoadFileIcon = itemThumbnailImgVis,
-                    ItemNameRaw = itemName,
-                    ItemDateModifiedReal = itemModifiedDate,
-                    ItemDateCreatedReal = itemCreatedDate,
-                    ItemType = itemType,
-                    ItemPath = itemPath,
-                    FileSize = itemSize,
-                    FileSizeBytes = (long)itemSizeBytes,
-                };
+                    var isUrl = linkFile.Name.EndsWith(".url", StringComparison.OrdinalIgnoreCase);
+                    return new ShortcutItem(file.FolderRelativeId)
+                    {
+                        PrimaryItemAttribute = StorageItemTypes.File,
+                        FileExtension = itemFileExtension,
+                        IsHiddenItem = false,
+                        Opacity = 1,
+                        FileImage = null,
+                        LoadFileIcon = itemThumbnailImgVis,
+                        LoadWebShortcutGlyph = isUrl,
+                        ItemNameRaw = itemName,
+                        ItemDateModifiedReal = itemModifiedDate,
+                        ItemDateCreatedReal = itemCreatedDate,
+                        ItemType = itemType,
+                        ItemPath = itemPath,
+                        FileSize = itemSize,
+                        FileSizeBytes = (long)itemSizeBytes,
+                        TargetPath = linkFile.TargetPath,
+                        Arguments = linkFile.Arguments,
+                        WorkingDirectory = linkFile.WorkingDirectory,
+                        RunAsAdmin = linkFile.RunAsAdmin,
+                        IsUrl = isUrl,
+                    };
+                }
+                else if (file is BinStorageFile binFile)
+                {
+                    return new RecycleBinItem(file.FolderRelativeId)
+                    {
+                        PrimaryItemAttribute = StorageItemTypes.File,
+                        FileExtension = itemFileExtension,
+                        IsHiddenItem = false,
+                        Opacity = 1,
+                        FileImage = null,
+                        LoadFileIcon = itemThumbnailImgVis,
+                        ItemNameRaw = itemName,
+                        ItemDateModifiedReal = itemModifiedDate,
+                        ItemDateCreatedReal = itemCreatedDate,
+                        ItemType = itemType,
+                        ItemPath = itemPath,
+                        FileSize = itemSize,
+                        FileSizeBytes = (long)itemSizeBytes,
+                        ItemDateDeletedReal = binFile.DateDeleted,
+                        ItemOriginalPath = binFile.OriginalPath
+                    };
+                }
+                else
+                {
+                    return new ListedItem(file.FolderRelativeId)
+                    {
+                        PrimaryItemAttribute = StorageItemTypes.File,
+                        FileExtension = itemFileExtension,
+                        IsHiddenItem = false,
+                        Opacity = 1,
+                        FileImage = null,
+                        LoadFileIcon = itemThumbnailImgVis,
+                        ItemNameRaw = itemName,
+                        ItemDateModifiedReal = itemModifiedDate,
+                        ItemDateCreatedReal = itemCreatedDate,
+                        ItemType = itemType,
+                        ItemPath = itemPath,
+                        FileSize = itemSize,
+                        FileSizeBytes = (long)itemSizeBytes,
+                    };
+                }
             }
             return null;
         }

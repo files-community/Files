@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Files.Filesystem.Permissions
+namespace Files.Uwp.Filesystem.Permissions
 {
     public class FilePermissions
     {

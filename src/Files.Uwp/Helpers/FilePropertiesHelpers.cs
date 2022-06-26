@@ -1,5 +1,5 @@
-﻿using Files.Dialogs;
-using Files.Views;
+﻿using Files.Uwp.Dialogs;
+using Files.Uwp.Views;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Linq;
@@ -15,9 +15,9 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media.Animation;
-using static Files.Views.Properties;
+using static Files.Uwp.Views.Properties;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public static class FilePropertiesHelpers
     {
@@ -82,6 +82,11 @@ namespace Files.Helpers
                     {
                         // Set window size again here as sometimes it's not resized in the page Loaded event
                         appWindow.RequestSize(new Size(460, 550));
+
+                        DisplayRegion displayRegion = ApplicationView.GetForCurrentView().GetDisplayRegions()[0];
+                        Point pointerPosition = CoreWindow.GetForCurrentThread().PointerPosition;
+                        appWindow.RequestMoveRelativeToDisplayRegion(displayRegion,
+                            new Point(pointerPosition.X - displayRegion.WorkAreaOffset.X, pointerPosition.Y - displayRegion.WorkAreaOffset.Y));
                     }
                 }
                 else

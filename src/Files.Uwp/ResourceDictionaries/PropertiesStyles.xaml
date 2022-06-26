@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:converters="using:Files.Converters">
+    xmlns:converters="using:Files.Uwp.Converters">
 
     <Style x:Key="PropertiesTab" TargetType="StackPanel">
         <Setter Property="Padding" Value="14,0,14,14" />

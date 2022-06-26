@@ -1,6 +1,6 @@
 using Files.Shared;
-using Files.Filesystem;
-using Files.ViewModels;
+using Files.Uwp.Filesystem;
+using Files.Uwp.ViewModels;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
@@ -13,7 +13,7 @@ using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public static class ShellContextmenuHelper
     {

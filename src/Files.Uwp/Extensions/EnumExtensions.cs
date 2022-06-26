@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Files.Extensions
+namespace Files.Uwp.Extensions
 {
     public static class EnumExtensions
     {

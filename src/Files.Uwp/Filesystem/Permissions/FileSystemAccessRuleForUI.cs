@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 
-namespace Files.Filesystem.Permissions
+namespace Files.Uwp.Filesystem.Permissions
 {
     public class FileSystemAccessRuleForUI : ObservableObject
     {

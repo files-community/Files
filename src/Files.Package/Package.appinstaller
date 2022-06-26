@@ -9,7 +9,6 @@
               Uri="{MainPackageUri}"/>
 
   <UpdateSettings>
-	<OnLaunch HoursBetweenUpdateChecks="0"/>
 	<AutomaticBackgroundTask/>
   </UpdateSettings>
 

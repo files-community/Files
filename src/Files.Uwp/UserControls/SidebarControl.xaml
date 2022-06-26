@@ -1,23 +1,28 @@
 ﻿<muxc:NavigationView
-    x:Class="Files.UserControls.SidebarControl"
+    x:Class="Files.Uwp.UserControls.SidebarControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helpers="using:Files.Helpers"
-    xmlns:local="using:Files.UserControls"
+    xmlns:helpers="using:Files.Uwp.Helpers"
+    xmlns:local="using:Files.Uwp.UserControls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mconv="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:navigationcontrolitems="using:Files.DataModels.NavigationControlItems"
+    xmlns:navigationcontrolitems="using:Files.Uwp.DataModels.NavigationControlItems"
     xmlns:vc="using:Files.Uwp.ValueConverters"
     HorizontalAlignment="Stretch"
     d:DesignHeight="768"
     d:DesignWidth="200"
     IsBackButtonVisible="Collapsed"
+    PaneOpened="NavigationView_PaneOpened"
+    PaneClosed="NavigationView_PaneClosed"
     IsSettingsVisible="False"
+    Expanding="NavigationView_Expanding"
+    Collapsed="NavigationView_Collapsed"
+    DisplayModeChanged="SidebarControl_DisplayModeChanged"
     IsTitleBarAutoPaddingEnabled="False"
     ItemInvoked="Sidebar_ItemInvoked"
-    MenuItemsSource="{x:Bind local:SidebarControl.SideBarItems, Mode=OneWay}"
+    MenuItemsSource="{x:Bind ViewModel.SideBarItems, Mode=OneWay}"
     OpenPaneLength="{x:Bind UserSettingsService.AppearanceSettingsService.SidebarWidth, Mode=OneTime}"
     SelectedItem="{x:Bind SelectedSidebarItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
     mc:Ignorable="d">
@@ -44,6 +49,7 @@
             <DataTemplate x:Key="LocationNavItem" x:DataType="navigationcontrolitems:LocationItem">
                 <muxc:NavigationViewItem
                     AllowDrop="True"
+                    AutomationProperties.AutomationId="{x:Bind Text}"
                     CanDrag="False"
                     Content="{x:Bind Text}"
                     DataContext="{x:Bind}"
@@ -64,7 +70,7 @@
                         <muxc:ImageIcon Source="{x:Bind Icon, Mode=OneWay}" />
                     </muxc:NavigationViewItem.Icon>
                     <muxc:NavigationViewItem.InfoBadge>
-                        <muxc:InfoBadge Style="{ThemeResource CautionIconInfoBadgeStyle}" Visibility="{x:Bind IsInvalid, Mode=OneWay}"/>
+                        <muxc:InfoBadge Style="{ThemeResource CautionIconInfoBadgeStyle}" Visibility="{x:Bind IsInvalid, Mode=OneWay}" />
                     </muxc:NavigationViewItem.InfoBadge>
                 </muxc:NavigationViewItem>
             </DataTemplate>
@@ -73,6 +79,7 @@
                 <muxc:NavigationViewItem
                     Padding="0"
                     AllowDrop="True"
+                    AutomationProperties.AutomationId="{x:Bind Text}"
                     Content="{x:Bind Text, Mode=OneWay}"
                     DataContext="{x:Bind}"
                     DragEnter="NavigationViewItem_DragEnter"
@@ -86,7 +93,7 @@
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText, Mode=OneWay}"
                     Visibility="{x:Bind ItemVisibility}">
                     <muxc:NavigationViewItem.Icon>
-                        <muxc:ImageIcon Source="{x:Bind Icon}" />
+                        <muxc:ImageIcon Source="{x:Bind Icon, Mode=OneWay}" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </DataTemplate>
@@ -94,6 +101,7 @@
             <DataTemplate x:Key="LinuxNavItem" x:DataType="navigationcontrolitems:WslDistroItem">
                 <muxc:NavigationViewItem
                     Padding="0"
+                    AutomationProperties.AutomationId="{x:Bind Text}"
                     Content="{x:Bind Text}"
                     DataContext="{x:Bind}"
                     DragEnter="NavigationViewItem_DragEnter"

@@ -1,10 +1,10 @@
 ﻿<UserControl
-    x:Class="Files.UserControls.StatusBarControl"
+    x:Class="Files.Uwp.UserControls.StatusBarControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:helpers="using:Files.Helpers"
+    xmlns:helpers="using:Files.Uwp.Helpers"
     xmlns:converters1="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     d:DesignHeight="40"
@@ -24,8 +24,7 @@
         Height="32"
         Padding="8,0"
         HorizontalAlignment="Stretch"
-        VerticalAlignment="Stretch"
-        ColumnSpacing="12">
+        VerticalAlignment="Stretch">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
@@ -38,12 +37,14 @@
             x:Name="DirectoryItemCount"
             Grid.Column="0"
             VerticalAlignment="Center"
+            Margin="0,0,12,0"
             x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
             Text="{x:Bind DirectoryPropertiesViewModel.DirectoryItemCount, Mode=OneWay}" />
         <TextBlock
             x:Name="SelectedItemsCountString"
             Grid.Column="1"
             VerticalAlignment="Center"
+            Margin="0,0,12,0"
             x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
             Text="{x:Bind SelectedItemsPropertiesViewModel.SelectedItemsCountString, Mode=OneWay}"
             Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}" />
@@ -51,6 +52,7 @@
             x:Name="ItemSize"
             Grid.Column="2"
             VerticalAlignment="Center"
+            Margin="0,0,12,0"
             x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
             Text="{x:Bind SelectedItemsPropertiesViewModel.ItemSize, Mode=OneWay}"
             Visibility="{x:Bind SelectedItemsPropertiesViewModel.ItemSizeVisibility, Mode=OneWay}" />

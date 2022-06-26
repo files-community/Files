@@ -1,18 +1,18 @@
 ﻿<Page
-    x:Class="Files.SettingsPages.Preferences"
+    x:Class="Files.Uwp.SettingsPages.Preferences"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:UserControls="using:Files.Uwp.UserControls"
     xmlns:contract13NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,13)"
     xmlns:contract13Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,13)"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:datamodels="using:Files.DataModels"
-    xmlns:helpers="using:Files.Helpers"
-    xmlns:UserControls="using:Files.UserControls"
-    xmlns:local="using:Files.UserControls.Settings"
-    xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
-    xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:datamodels="using:Files.Uwp.DataModels"
+    xmlns:helpers="using:Files.Uwp.Helpers"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:local="using:Files.Uwp.UserControls.Settings"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:settingsviewmodels="using:Files.Uwp.ViewModels.SettingsViewModels"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
@@ -32,9 +32,9 @@
                 </TransitionCollection>
             </StackPanel.ChildrenTransitions>
 
-            <local:SettingsBlockControl
-                Title="{helpers:ResourceString Name=SettingsPreferencesAppLanguage/Title}"
-                HorizontalAlignment="Stretch">
+
+            <!--  Language settings  -->
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsPreferencesAppLanguage/Title}" HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xF2B7;" />
                 </local:SettingsBlockControl.Icon>
@@ -51,20 +51,44 @@
                 </ComboBox>
             </local:SettingsBlockControl>
 
-            <local:SettingsBlockControl Title="{helpers:ResourceString Name=DateFormat}" HorizontalAlignment="Stretch">
+
+            <!--  Date settings  -->
+            <local:SettingsBlockControl
+                Title="{helpers:ResourceString Name=DateFormat}"
+                HorizontalAlignment="Stretch"
+                Description="{Binding DateFormatSample}">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xEC92;" />
                 </local:SettingsBlockControl.Icon>
                 <ComboBox
                     x:Name="DateFormatChooser"
+                    Grid.Column="1"
                     AutomationProperties.Name="{helpers:ResourceString Name=DateFormat}"
                     ItemsSource="{Binding DateFormats}"
-                    SelectedIndex="{Binding SelectedDateFormatIndex, Mode=TwoWay}" />
+                    SelectedIndex="{Binding SelectedDateFormatIndex, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="settingsviewmodels:DateFormatItem">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{x:Bind Label}" />
+                                <TextBlock
+                                    FontSize="12"
+                                    FontWeight="Light"
+                                    Text="{x:Bind Sample1}"
+                                    Visibility="{Binding IsDropDownOpen, ElementName=DateFormatChooser}" />
+                                <TextBlock
+                                    FontSize="12"
+                                    FontWeight="Light"
+                                    Text="{x:Bind Sample2}"
+                                    Visibility="{Binding IsDropDownOpen, ElementName=DateFormatChooser}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
             </local:SettingsBlockControl>
 
-            <local:SettingsBlockControl
-                Title="{helpers:ResourceString Name=SettingsPreferencesTerminalApplications/Title}"
-                HorizontalAlignment="Stretch">
+
+            <!--  Terminal settings  -->
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsPreferencesTerminalApplications/Title}" HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xE756;" />
                 </local:SettingsBlockControl.Icon>
@@ -101,15 +125,15 @@
                 </local:SettingsBlockControl.ExpandableContent>
             </local:SettingsBlockControl>
 
+
+            <!--  File and folder settings  -->
             <local:SettingsBlockControl Title="{helpers:ResourceString Name=FilesAndFolders}" HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xF12B;" />
                 </local:SettingsBlockControl.Icon>
                 <local:SettingsBlockControl.ExpandableContent>
                     <StackPanel>
-                        <local:SettingsBlockControl
-                            Title="{helpers:ResourceString Name=SettingsPreferencesShowConfirmDeleteDialog/Title}"
-                            HorizontalAlignment="Stretch">
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsPreferencesShowConfirmDeleteDialog/Title}" HorizontalAlignment="Stretch">
                             <local:SettingsBlockControl.Icon>
                                 <FontIcon Glyph="&#xE107;" />
                             </local:SettingsBlockControl.Icon>
@@ -120,9 +144,7 @@
                                 Style="{StaticResource RightAlignedToggleSwitchStyle}" />
                         </local:SettingsBlockControl>
 
-                        <local:SettingsBlockControl
-                            Title="{helpers:ResourceString Name=SettingsPreferencesOpenFoldersNewTab/Title}"
-                            HorizontalAlignment="Stretch">
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsPreferencesOpenFoldersNewTab/Title}" HorizontalAlignment="Stretch">
                             <local:SettingsBlockControl.Icon>
                                 <FontIcon Glyph="&#xF12B;" />
                             </local:SettingsBlockControl.Icon>
@@ -133,36 +155,6 @@
                                 Style="{StaticResource RightAlignedToggleSwitchStyle}" />
                         </local:SettingsBlockControl>
 
-                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsFilesAndFoldersShowHiddenItems}" HorizontalAlignment="Stretch">
-                            <local:SettingsBlockControl.Icon>
-                                <FontIcon Glyph="&#xE7B3;" />
-                            </local:SettingsBlockControl.Icon>
-                            <ToggleSwitch
-                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersShowHiddenItems}"
-                                IsOn="{Binding AreHiddenItemsVisible, Mode=TwoWay}"
-                                Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-                        </local:SettingsBlockControl>
-
-                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowDotFiles}" HorizontalAlignment="Stretch">
-                            <local:SettingsBlockControl.Icon>
-                                <FontIcon Glyph="&#xE7B3;" />
-                            </local:SettingsBlockControl.Icon>
-                            <ToggleSwitch
-                                AutomationProperties.Name="{helpers:ResourceString Name=ShowDotFiles}"
-                                IsOn="{Binding ShowDotFiles, Mode=TwoWay}"
-                                Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-                        </local:SettingsBlockControl>
-
-                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsFilesAndFoldersHideSystemItems}" HorizontalAlignment="Stretch">
-                            <local:SettingsBlockControl.Icon>
-                                <FontIcon contract13NotPresent:Glyph="&#xE72E;" contract13Present:Glyph="&#xED1A;" />
-                            </local:SettingsBlockControl.Icon>
-                            <ToggleSwitch
-                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersHideSystemItems}"
-                                IsOn="{Binding AreSystemItemsHidden, Mode=TwoWay}"
-                                Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-                        </local:SettingsBlockControl>
-
                         <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsFilesAndFoldersShowFileExtensions}" HorizontalAlignment="Stretch">
                             <local:SettingsBlockControl.Icon>
                                 <FontIcon Glyph="&#xE160;" />
@@ -170,6 +162,16 @@
                             <ToggleSwitch
                                 AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersShowFileExtensions}"
                                 IsOn="{Binding ShowFileExtensions, Mode=TwoWay}"
+                                Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                        </local:SettingsBlockControl>
+
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsFilesAndFoldersShowThumbnails}" HorizontalAlignment="Stretch">
+                            <local:SettingsBlockControl.Icon>
+                                <FontIcon Glyph="&#xE91B;" />
+                            </local:SettingsBlockControl.Icon>
+                            <ToggleSwitch
+                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersShowThumbnails}"
+                                IsOn="{Binding ShowThumbnails, Mode=TwoWay}"
                                 Style="{StaticResource RightAlignedToggleSwitchStyle}" />
                         </local:SettingsBlockControl>
 
@@ -203,16 +205,6 @@
                                 Style="{StaticResource RightAlignedToggleSwitchStyle}" />
                         </local:SettingsBlockControl>
 
-                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsSearchUnindexedItems}" HorizontalAlignment="Stretch">
-                            <local:SettingsBlockControl.Icon>
-                                <FontIcon Glyph="&#xE721;" />
-                            </local:SettingsBlockControl.Icon>
-                            <ToggleSwitch
-                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsSearchUnindexedItems}"
-                                IsOn="{Binding SearchUnindexedItems, Mode=TwoWay}"
-                                Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-                        </local:SettingsBlockControl>
-
                         <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsEnableLayoutPreferencesPerFolder}" HorizontalAlignment="Stretch">
                             <local:SettingsBlockControl.Icon>
                                 <FontIcon Glyph="&#xE8B7;" />
@@ -226,18 +218,79 @@
                 </local:SettingsBlockControl.ExpandableContent>
             </local:SettingsBlockControl>
 
+
+            <!--  Hidden file and folder settings  -->
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=HiddenFilesAndFolders}" HorizontalAlignment="Stretch">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon Glyph="&#xF12B;" />
+                </local:SettingsBlockControl.Icon>
+                <local:SettingsBlockControl.ExpandableContent>
+                    <StackPanel>
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsFilesAndFoldersShowHiddenItems}" HorizontalAlignment="Stretch">
+                            <local:SettingsBlockControl.Icon>
+                                <FontIcon Glyph="&#xE7B3;" />
+                            </local:SettingsBlockControl.Icon>
+                            <ToggleSwitch
+                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersShowHiddenItems}"
+                                IsOn="{Binding AreHiddenItemsVisible, Mode=TwoWay}"
+                                Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                        </local:SettingsBlockControl>
+
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowDotFiles}" HorizontalAlignment="Stretch">
+                            <local:SettingsBlockControl.Icon>
+                                <FontIcon Glyph="&#xE7B3;" />
+                            </local:SettingsBlockControl.Icon>
+                            <ToggleSwitch
+                                AutomationProperties.Name="{helpers:ResourceString Name=ShowDotFiles}"
+                                IsOn="{Binding ShowDotFiles, Mode=TwoWay}"
+                                Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                        </local:SettingsBlockControl>
+
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsFilesAndFoldersHideSystemItems}" HorizontalAlignment="Stretch">
+                            <local:SettingsBlockControl.Icon>
+                                <FontIcon contract13NotPresent:Glyph="&#xE72E;" contract13Present:Glyph="&#xED1A;" />
+                            </local:SettingsBlockControl.Icon>
+                            <ToggleSwitch
+                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersHideSystemItems}"
+                                IsOn="{Binding AreSystemItemsHidden, Mode=TwoWay}"
+                                Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                        </local:SettingsBlockControl>
+
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowAlternateStreams}" HorizontalAlignment="Stretch">
+                            <local:SettingsBlockControl.Icon>
+                                <FontIcon Glyph="&#xE16F;" />
+                            </local:SettingsBlockControl.Icon>
+                            <ToggleSwitch
+                                AutomationProperties.Name="{helpers:ResourceString Name=ShowAlternateStreams}"
+                                IsOn="{Binding AreAlternateStreamsVisible, Mode=TwoWay}"
+                                Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                        </local:SettingsBlockControl>
+                    </StackPanel>
+                </local:SettingsBlockControl.ExpandableContent>
+            </local:SettingsBlockControl>
+
+
+            <!--  Search settings  -->
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsSearchUnindexedItems}" HorizontalAlignment="Stretch">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon Glyph="&#xE721;" />
+                </local:SettingsBlockControl.Icon>
+                <ToggleSwitch
+                    AutomationProperties.Name="{helpers:ResourceString Name=SettingsSearchUnindexedItems}"
+                    IsOn="{Binding SearchUnindexedItems, Mode=TwoWay}"
+                    Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+            </local:SettingsBlockControl>
+
+
+            <!--  Startup settings  -->
             <local:SettingsBlockControl Title="{helpers:ResourceString Name=StartupSettings}" HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xE7E8;" />
                 </local:SettingsBlockControl.Icon>
                 <ComboBox SelectedIndex="{Binding SelectedStartupSettingIndex, Mode=OneWay}">
-                    <ComboBoxItem
-                        Content="{helpers:ResourceString Name=SettingsOnStartupOpenANewTab/Content}"
-                        IsSelected="{Binding OpenNewTabPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <ComboBoxItem Content="{helpers:ResourceString Name=SettingsOnStartupOpenANewTab/Content}" IsSelected="{Binding OpenNewTabPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-                    <ComboBoxItem
-                        Content="{helpers:ResourceString Name=SettingsOnStartupContinueWhereYouLeftOff/Content}"
-                        IsSelected="{Binding ContinueLastSessionOnStartUp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <ComboBoxItem Content="{helpers:ResourceString Name=SettingsOnStartupContinueWhereYouLeftOff/Content}" IsSelected="{Binding ContinueLastSessionOnStartUp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                     <ComboBoxItem
                         x:Name="OpenSpecificPage"

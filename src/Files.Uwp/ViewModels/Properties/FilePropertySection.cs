@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Windows.UI.Xaml;
 
-namespace Files.ViewModels.Properties
+namespace Files.Uwp.ViewModels.Properties
 {
     /// <summary>
     /// This class is used for grouping file properties into sections so that it can be used as a grouped ListView data source

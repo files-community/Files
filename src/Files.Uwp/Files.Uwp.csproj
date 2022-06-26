@@ -57,6 +57,18 @@
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sideload|x86'">
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;DISABLE_XAML_GENERATED_MAIN;SIDELOAD</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|arm64'">
     <DebugSymbols>true</DebugSymbols>
     <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWS_UWP;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
@@ -72,6 +84,18 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|arm64'">
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>arm64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sideload|arm64'">
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;DISABLE_XAML_GENERATED_MAIN;SIDELOAD</DefineConstants>
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -107,11 +131,17 @@
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-  <PropertyGroup Label="MultilingualAppToolkit">
-    <MultilingualAppToolkitVersion>4.0</MultilingualAppToolkitVersion>
-    <MultilingualFallbackLanguage>en-US</MultilingualFallbackLanguage>
-    <TranslationReport Condition="'$(Configuration)' == 'Release'">true</TranslationReport>
-    <SuppressPseudoWarning Condition="'$(Configuration)' == 'Debug'">true</SuppressPseudoWarning>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sideload|x64'">
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;DISABLE_XAML_GENERATED_MAIN;SIDELOAD</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -141,8 +171,6 @@
     <Compile Include="Converters\WidthToRightMargin.cs" />
     <Compile Include="Converters\UInt32ToString.cs" />
     <Compile Include="Converters\VisibilityInvertConverter.cs" />
-    <Compile Include="Converters\LayoutModeToBoolConverter.cs" />
-    <Compile Include="DataModels\FilesystemItemsOperationDataModel.cs" />
     <Compile Include="DataModels\NavigationControlItems\FileTagItem.cs" />
     <Compile Include="DataModels\NavigationControlItems\WslDistroItem.cs" />
     <Compile Include="Extensions\ShellNewEntryExtensions.cs" />
@@ -160,33 +188,55 @@
     </Compile>
     <Compile Include="EventArguments\Bundles\BundlesOpenPathEventArgs.cs" />
     <Compile Include="EventArguments\LayoutPreferenceEventArgs.cs" />
-    <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\ImageSourceExtensions.cs" />
     <Compile Include="Extensions\KeyboardAcceleratorExtensions.cs" />
+    <Compile Include="Filesystem\Cloud\CloudDrivesManager.cs" />
+    <Compile Include="Filesystem\Cloud\CloudDriveSyncStatusUI.cs" />
+    <Compile Include="Filesystem\Cloud\Detector\AbstractCloudDetector.cs" />
+    <Compile Include="Filesystem\Cloud\Detector\AppleCloudDetector.cs" />
+    <Compile Include="Filesystem\Cloud\Detector\BoxCloudDetector.cs" />
+    <Compile Include="Filesystem\Cloud\Detector\CloudDetector.cs" />
+    <Compile Include="Filesystem\Cloud\Detector\DropBoxCloudDetector.cs" />
+    <Compile Include="Filesystem\Cloud\Detector\GenericCloudDetector.cs" />
+    <Compile Include="Filesystem\Cloud\Detector\GoogleDriveCloudDetector.cs" />
+    <Compile Include="Filesystem\Cloud\Detector\SynologyDriveCloudDetector.cs" />
     <Compile Include="Filesystem\FilesystemOperations\ShellFilesystemOperations.cs" />
     <Compile Include="Filesystem\FileTagsHelper.cs" />
     <Compile Include="Filesystem\FileTagsManager.cs" />
-    <Compile Include="Filesystem\FolderSizeProvider.cs" />
     <Compile Include="Filesystem\FtpManager.cs" />
+    <Compile Include="Filesystem\RecentItem.cs" />
+    <Compile Include="Filesystem\RecentItemsManager.cs" />
     <Compile Include="Filesystem\Permissions\FilePermissionsManager.cs" />
     <Compile Include="Filesystem\Permissions\FileSystemAccessRule.cs" />
     <Compile Include="Filesystem\Permissions\FileSystemAccessRuleForUI.cs" />
     <Compile Include="Filesystem\Permissions\RulesForUser.cs" />
     <Compile Include="Filesystem\Permissions\UserGroup.cs" />
+    <Compile Include="Filesystem\StorageFileHelpers\FilesystemTasks.cs" />
     <Compile Include="Filesystem\StorageItems\BaseQueryResults.cs" />
-    <Compile Include="Filesystem\StorageItems\BaseStorageItem.cs" />
     <Compile Include="Filesystem\StorageItems\FtpStorageFile.cs" />
     <Compile Include="Filesystem\StorageItems\FtpStorageFolder.cs" />
+    <Compile Include="Filesystem\StorageItems\NativeStorageFile.cs" />
+    <Compile Include="Filesystem\StorageItems\ShellStorageFile.cs" />
+    <Compile Include="Filesystem\StorageItems\ShellStorageFolder.cs" />
     <Compile Include="Filesystem\StorageItems\StreamWithContentType.cs" />
     <Compile Include="Filesystem\StorageItems\SystemStorageFile.cs" />
     <Compile Include="Filesystem\StorageItems\SystemStorageFolder.cs" />
+    <Compile Include="Filesystem\StorageItems\VirtualStorageItem.cs" />
     <Compile Include="Filesystem\StorageItems\ZipStorageFile.cs" />
     <Compile Include="Filesystem\StorageItems\ZipStorageFolder.cs" />
+    <Compile Include="Filesystem\BaseStorage\BaseBasicProperties.cs" />
+    <Compile Include="Filesystem\BaseStorage\BaseBasicStorageItemExtraProperties.cs" />
+    <Compile Include="Filesystem\BaseStorage\BaseStorageFile.cs" />
+    <Compile Include="Filesystem\BaseStorage\BaseStorageFolder.cs" />
+    <Compile Include="Filesystem\BaseStorage\BaseStorageItemExtraProperties.cs" />
+    <Compile Include="Filesystem\BaseStorage\IBaseStorageFile.cs" />
+    <Compile Include="Filesystem\BaseStorage\IBaseStorageFolder.cs" />
     <Compile Include="Helpers\ColorHelpers.cs" />
     <Compile Include="Helpers\CommonPaths.cs" />
     <Compile Include="Helpers\FileExtensionHelpers.cs" />
     <Compile Include="Helpers\ItemListDisplayHelpers\BlockingListEnumerator.cs" />
+    <Compile Include="Helpers\KnownTypesBinder.cs" />
     <Compile Include="Helpers\LocalizedEnumHelper.cs" />
     <Compile Include="Helpers\ResourceHelpers.cs" />
     <Compile Include="Helpers\FtpHelpers.cs" />
@@ -203,7 +253,6 @@
     <Compile Include="Filesystem\StorageEnumerators\UniversalStorageEnumerator.cs" />
     <Compile Include="Filesystem\StorageEnumerators\Win32StorageEnumerator.cs" />
     <Compile Include="EventArguments\LayoutModeEventArgs.cs" />
-    <Compile Include="Filesystem\CloudDrivesManager.cs" />
     <Compile Include="Helpers\AdaptiveLayoutHelpers.cs" />
     <Compile Include="Filesystem\NetworkDrivesManager.cs" />
     <Compile Include="Helpers\AppServiceConnectionHelper.cs" />
@@ -225,6 +274,7 @@
     <Compile Include="Helpers\WidgetsHelpers.cs" />
     <Compile Include="Helpers\Win32Helpers.cs" />
     <Compile Include="Helpers\ZipHelpers.cs" />
+    <Compile Include="Imaging\BitmapImageModel.cs" />
     <Compile Include="Interacts\ItemManipulationModel.cs" />
     <Compile Include="ISearchBox.cs" />
     <Compile Include="IsExternalInit.cs" />
@@ -238,6 +288,12 @@
     <Compile Include="Serialization\Implementation\DefaultSettingsSerializer.cs" />
     <Compile Include="Serialization\ISettingsSerializer.cs" />
     <Compile Include="Serialization\ISettingsSharingContext.cs" />
+    <Compile Include="ServicesImplementation\DateTimeFormatter\AbstractDateTimeFormatter.cs" />
+    <Compile Include="ServicesImplementation\DateTimeFormatter\ApplicationDateTimeFormatter.cs" />
+    <Compile Include="ServicesImplementation\DateTimeFormatter\DateTimeFormatterFactory.cs" />
+    <Compile Include="ServicesImplementation\DateTimeFormatter\UniversalDateTimeFormatter.cs" />
+    <Compile Include="ServicesImplementation\DateTimeFormatter\SystemDateTimeFormatter.cs" />
+    <Compile Include="ServicesImplementation\DateTimeFormatter\UserDateTimeFormatter.cs" />
     <Compile Include="ServicesImplementation\DialogService.cs" />
     <Compile Include="ServicesImplementation\ImagingService.cs" />
     <Compile Include="ServicesImplementation\LocalizationService.cs" />
@@ -250,7 +306,13 @@
     <Compile Include="ServicesImplementation\Settings\PaneSettingsService.cs" />
     <Compile Include="ServicesImplementation\Settings\UserSettingsService.cs" />
     <Compile Include="ServicesImplementation\Settings\WidgetsSettingsService.cs" />
+    <Compile Include="ServicesImplementation\SideloadUpdateService.cs" />
+    <Compile Include="ServicesImplementation\ThreadingService.cs" />
     <Compile Include="ServicesImplementation\UpdateService.cs" />
+    <Compile Include="ServicesImplementation\UserSizeProvider.cs" />
+    <Compile Include="ServicesImplementation\VolumeInfoFactory.cs" />
+    <Compile Include="TemplateSelectors\BaseTemplateSelector.cs" />
+    <Compile Include="TemplateSelectors\FileSystemDialogItemSelector.cs" />
     <Compile Include="UserControls\ColoredIcon.xaml.cs">
       <DependentUpon>ColoredIcon.xaml</DependentUpon>
     </Compile>
@@ -266,6 +328,9 @@
     <Compile Include="UserControls\ImageFromBytes.cs" />
     <Compile Include="UserControls\InnerNavigationToolbar.xaml.cs">
       <DependentUpon>InnerNavigationToolbar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Menus\FileTagsContextMenu.xaml.cs">
+      <DependentUpon>FileTagsContextMenu.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Pane\Pane.cs" />
     <Compile Include="UserControls\Pane\PaneControl.xaml.cs">
@@ -349,13 +414,16 @@
     <Compile Include="UserControls\Widgets\BundlesWidget.xaml.cs">
       <DependentUpon>BundlesWidget.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Widgets\IWidgetCardItem.cs" />
     <Compile Include="UserControls\Widgets\WidgetsListControl.xaml.cs">
       <DependentUpon>WidgetsListControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ValueConverters\ColorModelToColorConverter.cs" />
+    <Compile Include="ValueConverters\EnumConverters\ConflictResolveOptionToIndexConverter.cs" />
+    <Compile Include="ValueConverters\GenericEnumConverter.cs" />
     <Compile Include="ValueConverters\ImageModelToImageConverter.cs" />
     <Compile Include="ViewModels\Dialogs\DecompressArchiveDialogViewModel.cs" />
-    <Compile Include="ViewModels\NavToolbarViewModel.cs" />
+    <Compile Include="ViewModels\ToolbarViewModel.cs" />
     <Compile Include="ViewModels\PaneViewModel.cs" />
     <Compile Include="ViewModels\Previews\ArchivePreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\CodePreviewViewModel.cs" />
@@ -370,9 +438,6 @@
     <Compile Include="ViewModels\Widgets\Bundles\BundleItemViewModel.cs" />
     <Compile Include="ViewModels\Widgets\Bundles\BundlesViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\DynamicDialogViewModel.cs" />
-    <Compile Include="ViewModels\Dialogs\FilesystemOperationDialogViewModel.cs" />
-    <Compile Include="ViewModels\Dialogs\FilesystemOperationItemViewModel.cs" />
-    <Compile Include="ViewModels\Dialogs\IFilesystemOperationItemModel.cs" />
     <Compile Include="ViewModels\FolderSettingsViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\ContextMenuFlyoutItemViewModel.cs" />
@@ -395,15 +460,6 @@
     <Compile Include="UserControls\FilePreviews\ImagePreview.xaml.cs">
       <DependentUpon>ImagePreview.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Extensions\EnumerableExtensions.cs" />
-    <Compile Include="Filesystem\Cloud\CloudDriveSyncStatusUI.cs" />
-    <Compile Include="Filesystem\Cloud\Providers\AppleCloudProvider.cs" />
-    <Compile Include="Filesystem\Cloud\Providers\BoxCloudProvider.cs" />
-    <Compile Include="Filesystem\Cloud\CloudProviderController.cs" />
-    <Compile Include="Filesystem\Cloud\Providers\DropBoxCloudProvider.cs" />
-    <Compile Include="Filesystem\Cloud\Providers\GoogleDriveCloudProvider.cs" />
-    <Compile Include="Filesystem\Cloud\ICloudProviderDetector.cs" />
-    <Compile Include="Filesystem\Cloud\Providers\GenericCloudProvider.cs" />
     <Compile Include="Filesystem\FilesystemOperations\FilesystemItemType.cs" />
     <Compile Include="Filesystem\FilesystemOperations\FilesystemOperations.cs" />
     <Compile Include="Filesystem\FilesystemOperations\Helpers\FilesystemHelpers.cs" />
@@ -430,7 +486,6 @@
     <Compile Include="Helpers\JumpListManager.cs" />
     <Compile Include="Helpers\NativeDirectoryChangesHelper.cs" />
     <Compile Include="Helpers\NativeFileOperationsHelper.cs" />
-    <Compile Include="Helpers\NativeFindStorageItemHelper.cs" />
     <Compile Include="Helpers\NativeIoDeviceControlHelper.cs" />
     <Compile Include="Helpers\NativeWinApiHelper.cs" />
     <Compile Include="Helpers\NaturalStringComparer.cs" />
@@ -441,21 +496,17 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Helpers\ItemListDisplayHelpers\BulkConcurrentObservableCollection.cs" />
     <Compile Include="Helpers\ThemeHelper.cs" />
-    <Compile Include="Extensions\Win32FindDataExtensions.cs" />
     <Compile Include="Interacts\RemovableDevice.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="INavigationToolbar.cs" />
+    <Compile Include="IAddressToolbar.cs" />
     <Compile Include="UserControls\FileIcon.xaml.cs">
       <DependentUpon>FileIcon.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\MenuFlyoutItemFileTag.xaml.cs">
-      <DependentUpon>MenuFlyoutItemFileTag.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\MenuFlyoutItemWithImage.xaml.cs">
       <DependentUpon>MenuFlyoutItemWithImage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\NavigationToolbar.xaml.cs">
-      <DependentUpon>NavigationToolbar.xaml</DependentUpon>
+    <Compile Include="UserControls\AddressToolbar.xaml.cs">
+      <DependentUpon>AddressToolbar.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\MultitaskingControl\BaseMultitaskingControl.cs" />
     <Compile Include="UserControls\MultitaskingControl\HorizontalMultitaskingControl.xaml.cs">
@@ -991,6 +1042,7 @@
     <Content Include="Assets\AppTilesDev\Wide310x150Logo.scale-400.png" />
     <Content Include="Assets\error.png" />
     <Content Include="Assets\FluentIcons\CloudDrive.png" />
+    <Content Include="Assets\FluentIcons\Favorites.png" />
     <Content Include="Assets\FluentIcons\FileTags.png" />
     <Content Include="Assets\FluentIcons\Home.png" />
     <Content Include="Assets\FolderIcon2.svg" />
@@ -1029,8 +1081,6 @@
     <Content Include="Assets\WSL\ubuntu.svg" />
     <Content Include="Assets\WSL\ubuntupng.png" />
     <Content Include="Properties\Default.rd.xml" />
-    <XliffResource Include="MultilingualResources\Files.nb-NO.xlf" />
-    <XliffResource Include="MultilingualResources\Files.sk-SK.xlf" />
     <None Include="Resources\PreviewPanePropertiesInformation.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -1147,6 +1197,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Themes\Nightshade.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Themes\Red Wave.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1219,6 +1273,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\Menus\FileTagsContextMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\Pane\PaneControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1283,10 +1341,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UserControls\MenuFlyoutItemFileTag.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="UserControls\MenuFlyoutItemWithImage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1299,7 +1353,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\NavigationToolbar.xaml">
+    <Page Include="UserControls\AddressToolbar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1485,7 +1539,7 @@
       <Version>2.1.1</Version>
     </PackageReference>
     <PackageReference Include="CommunityToolkit.Mvvm">
-      <Version>8.0.0-preview2</Version>
+      <Version>8.0.0-preview4</Version>
     </PackageReference>
     <PackageReference Include="FluentFTP">
       <Version>36.1.0</Version>
@@ -1494,19 +1548,19 @@
       <Version>2.5.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Analytics">
-      <Version>4.5.0</Version>
+      <Version>4.5.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Crashes">
-      <Version>4.5.0</Version>
+      <Version>4.5.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Data.Sqlite.Core">
-      <Version>6.0.3</Version>
+      <Version>6.0.6</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection">
       <Version>6.0.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.13</Version>
+      <Version>6.2.14</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp">
       <Version>7.1.2</Version>
@@ -1527,7 +1581,7 @@
       <Version>7.1.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.8.0-prerelease.220118001</Version>
+      <Version>2.8.0-prerelease.220601001</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed">
       <Version>2.0.1</Version>
@@ -1539,7 +1593,7 @@
       <Version>1.3.4</Version>
     </PackageReference>
     <PackageReference Include="SQLitePCLRaw.bundle_green">
-      <Version>2.0.7</Version>
+      <Version>2.1.0</Version>
     </PackageReference>
     <PackageReference Include="Ude.NetStandard">
       <Version>1.2.0</Version>
@@ -1549,43 +1603,6 @@
     <AppxManifest Include="..\Files.Package\Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-  </ItemGroup>
-  <ItemGroup>
-    <XliffResource Include="MultilingualResources\Files.af.xlf" />
-    <XliffResource Include="MultilingualResources\Files.ca.xlf" />
-    <XliffResource Include="MultilingualResources\Files.el.xlf" />
-    <XliffResource Include="MultilingualResources\Files.en-GB.xlf" />
-    <XliffResource Include="MultilingualResources\Files.hr-HR.xlf" />
-    <XliffResource Include="MultilingualResources\Files.id-ID.xlf" />
-    <XliffResource Include="MultilingualResources\Files.es-419.xlf" />
-    <XliffResource Include="MultilingualResources\Files.ka.xlf" />
-    <XliffResource Include="MultilingualResources\Files.pt-PT.xlf" />
-    <XliffResource Include="MultilingualResources\Files.ar.xlf" />
-    <XliffResource Include="MultilingualResources\Files.bg.xlf" />
-    <XliffResource Include="MultilingualResources\Files.da-DK.xlf" />
-    <XliffResource Include="MultilingualResources\Files.da.xlf" />
-    <XliffResource Include="MultilingualResources\Files.de-DE.xlf" />
-    <XliffResource Include="MultilingualResources\Files.es-ES.xlf" />
-    <XliffResource Include="MultilingualResources\Files.fr-FR.xlf" />
-    <XliffResource Include="MultilingualResources\Files.he-IL.xlf" />
-    <XliffResource Include="MultilingualResources\Files.hi-IN.xlf" />
-    <XliffResource Include="MultilingualResources\Files.hu-HU.xlf" />
-    <XliffResource Include="MultilingualResources\Files.it-IT.xlf" />
-    <XliffResource Include="MultilingualResources\Files.ja-JP.xlf" />
-    <XliffResource Include="MultilingualResources\Files.ko-KR.xlf" />
-    <XliffResource Include="MultilingualResources\Files.lv-LV.xlf" />
-    <XliffResource Include="MultilingualResources\Files.nl-NL.xlf" />
-    <XliffResource Include="MultilingualResources\Files.or-IN.xlf" />
-    <XliffResource Include="MultilingualResources\Files.pl-PL.xlf" />
-    <XliffResource Include="MultilingualResources\Files.pt-BR.xlf" />
-    <XliffResource Include="MultilingualResources\Files.ru-RU.xlf" />
-    <XliffResource Include="MultilingualResources\Files.sv-SE.xlf" />
-    <XliffResource Include="MultilingualResources\Files.ta.xlf" />
-    <XliffResource Include="MultilingualResources\Files.tr-TR.xlf" />
-    <XliffResource Include="MultilingualResources\Files.uk-UA.xlf" />
-    <XliffResource Include="MultilingualResources\Files.vi.xlf" />
-    <XliffResource Include="MultilingualResources\Files.zh-Hans.xlf" />
-    <XliffResource Include="MultilingualResources\Files.zh-Hant.xlf" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BackgroundTasks\BackgroundTasks.csproj">
@@ -1610,11 +1627,65 @@
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '17.0' ">
     <VisualStudioVersion>17.0</VisualStudioVersion>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sideload|x86'">
+    <OutputPath>bin\x86\Sideload\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;DISABLE_XAML_GENERATED_MAIN;SIDELOAD;CODE_ANALYSIS</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <LangVersion>9.0</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sideload|arm64'">
+    <OutputPath>bin\arm64\Sideload\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;DISABLE_XAML_GENERATED_MAIN;SIDELOAD;CODE_ANALYSIS</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>arm64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <LangVersion>9.0</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sideload|x64'">
+    <OutputPath>bin\x64\Sideload\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;DISABLE_XAML_GENERATED_MAIN;SIDELOAD;CODE_ANALYSIS</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <LangVersion>9.0</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sideload|Win32'">
+    <OutputPath>bin\Win32\Sideload\</OutputPath>
+    <DefineConstants>;CODE_ANALYSIS</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <LangVersion>9.0</LangVersion>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sideload|AnyCPU'">
+    <OutputPath>bin\Sideload\</OutputPath>
+    <DefineConstants>;CODE_ANALYSIS</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <LangVersion>9.0</LangVersion>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.PriResources.targets" Label="MultilingualAppToolkit" Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\v$(MultilingualAppToolkitVersion)\Microsoft.Multilingual.PriResources.targets')" />
-  <Target Name="MATPrerequisite" BeforeTargets="PrepareForBuild" Condition="!Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.PriResources.targets')" Label="MultilingualAppToolkit">
-    <Warning Text="$(MSBuildProjectFile) is Multilingual build enabled, but the Multilingual App Toolkit is unavailable during the build. If building with Visual Studio, please check to ensure that toolkit is properly installed." />
-  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

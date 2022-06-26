@@ -1,10 +1,10 @@
-﻿using Files.UserControls;
+﻿using Files.Uwp.UserControls;
 using System.Collections.Generic;
 using System.Windows.Input;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace Files.ViewModels
+namespace Files.Uwp.ViewModels
 {
     public class ContextMenuFlyoutItemViewModel
     {

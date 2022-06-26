@@ -1,20 +1,20 @@
 ﻿using Files.Shared.Enums;
-using Files.Filesystem;
-using Files.Filesystem.StorageItems;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.StorageItems;
 using System;
 using Windows.Storage;
 using Windows.System.UserProfile;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public static class WallpaperHelpers
     {
-        public static async void SetAsBackground(WallpaperType type, string filePath, IShellPage associatedInstance)
+        public static async void SetAsBackground(WallpaperType type, string filePath)
         {
             if (UserProfilePersonalizationSettings.IsSupported())
             {
                 // Get the path of the selected file
-                BaseStorageFile sourceFile = await StorageHelpers.ToStorageItem<BaseStorageFile>(filePath, associatedInstance);
+                BaseStorageFile sourceFile = await StorageHelpers.ToStorageItem<BaseStorageFile>(filePath);
                 if (sourceFile == null)
                 {
                     return;

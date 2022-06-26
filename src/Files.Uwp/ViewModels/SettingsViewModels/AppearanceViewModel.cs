@@ -1,7 +1,7 @@
-﻿using Files.Helpers;
-using Files.Backend.Services.Settings;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services.Settings;
+using Files.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Xaml;
 
-namespace Files.ViewModels.SettingsViewModels
+namespace Files.Uwp.ViewModels.SettingsViewModels
 {
     public class AppearanceViewModel : ObservableObject
     {
@@ -26,14 +26,12 @@ namespace Files.ViewModels.SettingsViewModels
                 "LightTheme".GetLocalized(),
                 "DarkTheme".GetLocalized()
             };
-
-            SetCompactStyles();
         }
 
         /// <summary>
         /// Forces the application to use the correct styles if compact mode is turned on
         /// </summary>
-        private void SetCompactStyles()
+        public void SetCompactStyles(bool updateTheme)
         {
             if (UseCompactStyles)
             {
@@ -46,7 +44,10 @@ namespace Files.ViewModels.SettingsViewModels
                 Application.Current.Resources["NavigationViewItemOnLeftMinHeight"] = 32;
             }
 
-            UpdateTheme();
+            if (updateTheme)
+            {
+                UpdateTheme();
+            }
         }
 
         public List<string> Themes { get; set; }
@@ -96,12 +97,12 @@ namespace Files.ViewModels.SettingsViewModels
                     if (selectedTheme != null)
                     {
                         // Remove the old resource file and load the new file
-                        App.ExternalResourcesHelper.UpdateTheme(App.AppSettings.SelectedTheme, selectedTheme);
-
-                        App.AppSettings.SelectedTheme = selectedTheme;
-
-                        // Force the application to use the correct resource file
-                        UpdateTheme();
+                        App.ExternalResourcesHelper.UpdateTheme(App.AppSettings.SelectedTheme, selectedTheme)
+                            .ContinueWith(t =>
+                            {
+                                App.AppSettings.SelectedTheme = selectedTheme;
+                                UpdateTheme(); // Force the application to use the correct resource file
+                            }, TaskScheduler.FromCurrentSynchronizationContext());
                     }
                 }
             }
@@ -110,11 +111,8 @@ namespace Files.ViewModels.SettingsViewModels
         /// <summary>
         /// Forces the application to use the correct resource styles
         /// </summary>
-        private async void UpdateTheme()
+        private void UpdateTheme()
         {
-            // Allow time to remove the old theme
-            await Task.Delay(250);
-
             // Get the index of the current theme
             var selTheme = SelectedThemeIndex;
 
@@ -135,7 +133,6 @@ namespace Files.ViewModels.SettingsViewModels
                 if (value != UserSettingsService.AppearanceSettingsService.ShowFavoritesSection)
                 {
                     UserSettingsService.AppearanceSettingsService.ShowFavoritesSection = value;
-                    App.SidebarPinnedController.Model.UpdateFavoritesSectionVisibility();
                     OnPropertyChanged();
                 }
             }
@@ -149,7 +146,7 @@ namespace Files.ViewModels.SettingsViewModels
                 if (value != UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar)
                 {
                     UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar = value;
-                    _ = App.SidebarPinnedController.Model.ShowHideRecycleBinItemAsync(value);
+                    App.SidebarPinnedController.Model.ShowHideRecycleBinItem(value);
                     OnPropertyChanged();
                 }
             }
@@ -163,9 +160,9 @@ namespace Files.ViewModels.SettingsViewModels
                 if (value != UserSettingsService.AppearanceSettingsService.UseCompactStyles)
                 {
                     UserSettingsService.AppearanceSettingsService.UseCompactStyles = value;
-                    
-                    //Apply the correct styles
-                    SetCompactStyles();
+
+                    // Apply the correct styles
+                    SetCompactStyles(updateTheme: true);
 
                     OnPropertyChanged();
                 }
@@ -180,7 +177,6 @@ namespace Files.ViewModels.SettingsViewModels
                 if (value != UserSettingsService.AppearanceSettingsService.ShowLibrarySection)
                 {
                     UserSettingsService.AppearanceSettingsService.ShowLibrarySection = value;
-                    App.LibraryManager.UpdateLibrariesSectionVisibility();
                     OnPropertyChanged();
                 }
             }
@@ -194,7 +190,6 @@ namespace Files.ViewModels.SettingsViewModels
                 if (value != UserSettingsService.AppearanceSettingsService.ShowDrivesSection)
                 {
                     UserSettingsService.AppearanceSettingsService.ShowDrivesSection = value;
-                    App.DrivesManager.UpdateDrivesSectionVisibility();
                     OnPropertyChanged();
                 }
             }
@@ -208,7 +203,6 @@ namespace Files.ViewModels.SettingsViewModels
                 if (value != UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection)
                 {
                     UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection = value;
-                    App.CloudDrivesManager.UpdateCloudDrivesSectionVisibility();
                     OnPropertyChanged();
                 }
             }
@@ -222,7 +216,6 @@ namespace Files.ViewModels.SettingsViewModels
                 if (value != UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection)
                 {
                     UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection = value;
-                    App.NetworkDrivesManager.UpdateNetworkDrivesSectionVisibility();
                     OnPropertyChanged();
                 }
             }
@@ -236,7 +229,6 @@ namespace Files.ViewModels.SettingsViewModels
                 if (value != UserSettingsService.AppearanceSettingsService.ShowWslSection)
                 {
                     UserSettingsService.AppearanceSettingsService.ShowWslSection = value;
-                    App.WSLDistroManager.UpdateWslSectionVisibility();
                     OnPropertyChanged();
                 }
             }
@@ -252,7 +244,6 @@ namespace Files.ViewModels.SettingsViewModels
                 if (value != UserSettingsService.AppearanceSettingsService.ShowFileTagsSection)
                 {
                     UserSettingsService.AppearanceSettingsService.ShowFileTagsSection = value;
-                    App.FileTagsManager.UpdateFileTagsSectionVisibility();
                     OnPropertyChanged();
                 }
             }

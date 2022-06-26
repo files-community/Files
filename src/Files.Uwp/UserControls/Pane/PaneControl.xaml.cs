@@ -4,7 +4,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using System.ComponentModel;
 using Windows.UI.Xaml.Controls;
 
-namespace Files.UserControls
+namespace Files.Uwp.UserControls
 {
     public sealed partial class PaneControl : UserControl, IPane
     {

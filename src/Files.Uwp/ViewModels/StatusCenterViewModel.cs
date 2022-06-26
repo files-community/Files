@@ -1,6 +1,6 @@
 ﻿using Files.Shared.Enums;
-using Files.Helpers;
-using Files.Interacts;
+using Files.Uwp.Helpers;
+using Files.Uwp.Interacts;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
@@ -15,7 +15,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
-namespace Files.ViewModels
+namespace Files.Uwp.ViewModels
 {
     public class OngoingTasksViewModel : ObservableObject, IOngoingTasksActions
     {

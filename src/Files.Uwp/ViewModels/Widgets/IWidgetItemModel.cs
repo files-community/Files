@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Threading.Tasks;
 
-namespace Files.ViewModels.Widgets
+namespace Files.Uwp.ViewModels.Widgets
 {
     public interface IWidgetItemModel : IDisposable
     {
@@ -11,5 +12,7 @@ namespace Files.ViewModels.Widgets
         string AutomationProperties { get; }
 
         bool IsWidgetSettingEnabled { get; }
+
+        Task RefreshWidget();
     }
 }

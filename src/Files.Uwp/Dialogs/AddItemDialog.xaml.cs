@@ -1,7 +1,7 @@
 using Files.Backend.ViewModels.Dialogs.AddItemDialog;
 using Files.Backend.ViewModels.Dialogs;
 using Files.Shared;
-using Files.Extensions;
+using Files.Uwp.Extensions;
 using System;
 using Windows.UI.Xaml.Controls;
 using System.Threading.Tasks;
@@ -10,7 +10,7 @@ using Windows.UI.Xaml;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace Files.Dialogs
+namespace Files.Uwp.Dialogs
 {
     public sealed partial class AddItemDialog : ContentDialog, IDialog<AddItemDialogViewModel>
     {

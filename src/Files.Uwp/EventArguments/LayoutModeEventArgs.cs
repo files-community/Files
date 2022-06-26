@@ -1,6 +1,6 @@
 ﻿using Files.Shared.Enums;
 
-namespace Files.EventArguments
+namespace Files.Uwp.EventArguments
 {
     public class LayoutModeEventArgs
     {

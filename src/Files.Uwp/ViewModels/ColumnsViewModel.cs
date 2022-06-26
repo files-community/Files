@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using Windows.UI.Xaml;
 
-namespace Files.ViewModels
+namespace Files.Uwp.ViewModels
 {
     public class ColumnsViewModel : ObservableObject
     {
@@ -197,7 +197,7 @@ namespace Files.ViewModels
             get => IsHidden || UserCollapsed ? new GridLength(0) : UserLength;
         }
 
-        private const int gridSplitterWidth = 1;
+        private const int gridSplitterWidth = 8;
 
         public GridLength LengthIncludingGridSplitter
         {

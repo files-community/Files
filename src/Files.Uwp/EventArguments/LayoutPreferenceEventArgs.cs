@@ -1,17 +1,17 @@
-﻿using static Files.ViewModels.FolderSettingsViewModel;
+﻿using static Files.Uwp.ViewModels.FolderSettingsViewModel;
 
-namespace Files.EventArguments
+namespace Files.Uwp.EventArguments
 {
     public class LayoutPreferenceEventArgs
     {
-        public readonly LayoutPreferences LayoutPreference;
-
         public readonly bool IsAdaptiveLayoutUpdateRequired;
 
-        internal LayoutPreferenceEventArgs(LayoutPreferences layoutPref, bool isAdaptiveLayoutUpdateRequired = false)
-        {
-            LayoutPreference = layoutPref;
-            IsAdaptiveLayoutUpdateRequired = isAdaptiveLayoutUpdateRequired;
-        }
+        public readonly LayoutPreferences LayoutPreference;
+
+        internal LayoutPreferenceEventArgs(LayoutPreferences layoutPref)
+            => LayoutPreference = layoutPref;
+
+        internal LayoutPreferenceEventArgs(LayoutPreferences layoutPref, bool isAdaptiveLayoutUpdateRequired)
+            => (LayoutPreference, IsAdaptiveLayoutUpdateRequired) = (layoutPref, isAdaptiveLayoutUpdateRequired);
     }
 }

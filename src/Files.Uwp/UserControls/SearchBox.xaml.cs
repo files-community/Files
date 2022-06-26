@@ -1,9 +1,9 @@
-﻿using Files.ViewModels;
+﻿using Files.Uwp.ViewModels;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
-namespace Files.UserControls
+namespace Files.Uwp.UserControls
 {
     public sealed partial class SearchBox : UserControl
     {

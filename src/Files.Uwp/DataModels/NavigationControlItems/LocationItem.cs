@@ -1,14 +1,13 @@
 ﻿using Files.Shared;
-using Files.Filesystem;
+using Files.Uwp.Filesystem;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using System;
-using System.Collections.ObjectModel;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
-using Files.Helpers;
+using Files.Uwp.Helpers;
 
-namespace Files.DataModels.NavigationControlItems
+namespace Files.Uwp.DataModels.NavigationControlItems
 {
     public class LocationItem : ObservableObject, INavigationControlItem
     {
@@ -20,7 +19,7 @@ namespace Files.DataModels.NavigationControlItems
             set => SetProperty(ref icon, value);
         }
 
-        public Uri IconSource { get; set; }
+        //public Uri IconSource { get; set; }
         public byte[] IconData { get; set; }
 
         public string Text { get; set; }
@@ -45,14 +44,11 @@ namespace Files.DataModels.NavigationControlItems
 
         public bool SelectsOnInvoked { get; set; } = true;
 
+        private bool isExpanded;
         public bool IsExpanded
         {
-            get => App.AppSettings.Get(Text == "SidebarFavorites".GetLocalized(), $"section:{Text.Replace('\\', '_')}");
-            set
-            {
-                App.AppSettings.Set(value, $"section:{Text.Replace('\\', '_')}");
-                OnPropertyChanged(nameof(IsExpanded));
-            }
+            get => isExpanded;
+            set => SetProperty(ref isExpanded, value);
         }
 
         public bool IsInvalid { get; set; } = false;

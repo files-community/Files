@@ -1,33 +1,37 @@
-﻿using Files.Shared.Enums;
-using Files.Shared.Extensions;
-using Files.Extensions;
-using Files.Filesystem.Cloud;
-using Files.Filesystem.StorageItems;
-using Files.Helpers;
-using Files.Backend.Services.Settings;
-using Files.ViewModels.Properties;
-using FluentFTP;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services.Settings;
+using Files.Backend.ViewModels.FileTags;
+using Files.Shared.Extensions;
+using Files.Shared.Services.DateTimeFormatter;
+using Files.Uwp.Extensions;
+using Files.Uwp.Filesystem.Cloud;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Helpers;
+using Files.Uwp.ViewModels.Properties;
+using FluentFTP;
 using Microsoft.Toolkit.Uwp;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
-using Files.Backend.ViewModels.FileTags;
 
 #pragma warning disable CS0618 // Type or member is obsolete
 
-namespace Files.Filesystem
+namespace Files.Uwp.Filesystem
 {
     public class ListedItem : ObservableObject, IGroupableItem
     {
         protected static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
         protected static IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>();
+
+        protected static IDateTimeFormatter DateTimeFormatter { get; } = Ioc.Default.GetService<IDateTimeFormatter>();
 
         public bool IsHiddenItem { get; set; } = false;
 
@@ -111,24 +115,26 @@ namespace Files.Filesystem
 
         public ulong? FileFRN { get; set; }
 
-        private string fileTag;
-        public string FileTag
+        private string[] fileTags; // TODO: initialize to empty array after UI is done
+
+        public string[] FileTags
         {
-            get => fileTag;
+            get => fileTags;
             set
             {
-                if (SetProperty(ref fileTag, value))
+                if (SetProperty(ref fileTags, value))
                 {
-                    FileTagsHelper.DbInstance.SetTag(ItemPath, FileFRN, value);
+                    FileTagsHelper.DbInstance.SetTags(ItemPath, FileFRN, value);
                     FileTagsHelper.WriteFileTag(ItemPath, value);
-                    OnPropertyChanged(nameof(FileTagUI));
+                    OnPropertyChanged(nameof(FileTagsUI));
                 }
             }
         }
 
-        public FileTagViewModel FileTagUI
+        public IList<FileTagViewModel> FileTagsUI
         {
-            get => UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled ? FileTagsSettingsService.GetTagById(FileTag) : null;
+            get => UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled ?
+                FileTagsSettingsService.GetTagsByIds(FileTags) : null;
         }
 
         private Uri customIconSource;
@@ -318,7 +324,7 @@ namespace Files.Filesystem
             get => itemDateModifiedReal;
             set
             {
-                ItemDateModified = value.GetFriendlyDateFromFormat(DateReturnFormat);
+                ItemDateModified = DateTimeFormatter.ToShortLabel(value);
                 itemDateModifiedReal = value;
                 OnPropertyChanged(nameof(ItemDateModified));
             }
@@ -330,7 +336,7 @@ namespace Files.Filesystem
             get => itemDateCreatedReal;
             set
             {
-                ItemDateCreated = value.GetFriendlyDateFromFormat(DateReturnFormat);
+                ItemDateCreated = DateTimeFormatter.ToShortLabel(value);
                 itemDateCreatedReal = value;
                 OnPropertyChanged(nameof(ItemDateCreated));
             }
@@ -342,7 +348,7 @@ namespace Files.Filesystem
             get => itemDateAccessedReal;
             set
             {
-                ItemDateAccessed = value.GetFriendlyDateFromFormat(DateReturnFormat);
+                ItemDateAccessed = DateTimeFormatter.ToShortLabel(value);
                 itemDateAccessedReal = value;
                 OnPropertyChanged(nameof(ItemDateAccessed));
             }
@@ -356,29 +362,13 @@ namespace Files.Filesystem
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ListedItem" /> class, optionally with an explicitly-specified dateReturnFormat.
+        /// Initializes a new instance of the <see cref="ListedItem" /> class.
         /// </summary>
         /// <param name="folderRelativeId"></param>
-        /// <param name="dateReturnFormat">Specify a date return format to reduce redundant checks of this setting.</param>
-        public ListedItem(string folderRelativeId, string dateReturnFormat = null)
-        {
-            FolderRelativeId = folderRelativeId;
-            if (dateReturnFormat != null)
-            {
-                DateReturnFormat = dateReturnFormat;
-            }
-            else
-            {
-                ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-                string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
-                DateReturnFormat = returnformat;
-            }
-        }
+        public ListedItem(string folderRelativeId) => FolderRelativeId = folderRelativeId;
 
         // Parameterless constructor for JsonConvert
         public ListedItem() { }
-
-        protected string DateReturnFormat { get; }
 
         private ObservableCollection<FileProperty> fileDetails;
         public ObservableCollection<FileProperty> FileDetails
@@ -416,6 +406,7 @@ namespace Files.Filesystem
         public bool IsLinkItem => IsShortcutItem && ((ShortcutItem)this).IsUrl;
         public bool IsFtpItem => this is FtpItem;
         public bool IsZipItem => this is ZipItem;
+        public bool IsAlternateStreamItem => this is AlternateStreamItem;
         public virtual bool IsExecutable => new[] { ".exe", ".bat", ".cmd" }.Contains(Path.GetExtension(ItemPath), StringComparer.OrdinalIgnoreCase);
         public bool IsPinned => App.SidebarPinnedController.Model.FavoriteItems.Contains(itemPath);
 
@@ -450,7 +441,7 @@ namespace Files.Filesystem
 
     public class RecycleBinItem : ListedItem
     {
-        public RecycleBinItem(string folderRelativeId, string returnFormat) : base(folderRelativeId, returnFormat)
+        public RecycleBinItem(string folderRelativeId) : base(folderRelativeId)
         {
         }
 
@@ -461,7 +452,7 @@ namespace Files.Filesystem
             get => itemDateDeletedReal;
             set
             {
-                ItemDateDeleted = value.GetFriendlyDateFromFormat(DateReturnFormat);
+                ItemDateDeleted = DateTimeFormatter.ToShortLabel(value);
                 itemDateDeletedReal = value;
             }
         }
@@ -479,7 +470,7 @@ namespace Files.Filesystem
 
     public class FtpItem : ListedItem
     {
-        public FtpItem(FtpListItem item, string folder, string dateReturnFormat = null) : base(null, dateReturnFormat)
+        public FtpItem(FtpListItem item, string folder) : base(null)
         {
             var isFile = item.Type == FtpFileSystemObjectType.File;
             ItemDateCreatedReal = item.RawCreated < DateTime.FromFileTimeUtc(0) ? DateTimeOffset.MinValue : item.RawCreated;
@@ -504,11 +495,18 @@ namespace Files.Filesystem
             Opacity = 1;
             IsHiddenItem = false;
         }
+
+        public async Task<IStorageItem> ToStorageItem() => PrimaryItemAttribute switch
+        {
+            StorageItemTypes.File => await new FtpStorageFile(ItemPath, ItemNameRaw, ItemDateCreatedReal).ToStorageFileAsync(),
+            StorageItemTypes.Folder => new FtpStorageFolder(ItemPath, ItemNameRaw, ItemDateCreatedReal),
+            _ => throw new InvalidDataException(),
+        };
     }
 
     public class ShortcutItem : ListedItem
     {
-        public ShortcutItem(string folderRelativeId, string returnFormat) : base(folderRelativeId, returnFormat)
+        public ShortcutItem(string folderRelativeId) : base(folderRelativeId)
         {
         }
 
@@ -543,7 +541,7 @@ namespace Files.Filesystem
 
     public class ZipItem : ListedItem
     {
-        public ZipItem(string folderRelativeId, string returnFormat) : base(folderRelativeId, returnFormat)
+        public ZipItem(string folderRelativeId) : base(folderRelativeId)
         {
         }
 
@@ -567,7 +565,7 @@ namespace Files.Filesystem
 
     public class LibraryItem : ListedItem
     {
-        public LibraryItem(LibraryLocationItem lib, string returnFormat = null) : base(null, returnFormat)
+        public LibraryItem(LibraryLocationItem lib) : base(null)
         {
             ItemPath = lib.Path;
             ItemNameRaw = lib.Text;
@@ -590,5 +588,25 @@ namespace Files.Filesystem
         public override string ItemName => ItemNameRaw;
 
         public ReadOnlyCollection<string> Folders { get; }
+    }
+
+    public class AlternateStreamItem : ListedItem
+    {
+        public string MainStreamPath => ItemPath.Substring(0, ItemPath.LastIndexOf(":"));
+        public string MainStreamName => Path.GetFileName(MainStreamPath);
+
+        public override string ItemName
+        {
+            get
+            {
+                var nameWithoutExtension = Path.GetFileNameWithoutExtension(ItemNameRaw);
+                var mainStreamNameWithoutExtension = Path.GetFileNameWithoutExtension(MainStreamName);
+                if (!UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
+                {
+                    return $"{(string.IsNullOrEmpty(mainStreamNameWithoutExtension) ? MainStreamName : mainStreamNameWithoutExtension)}:{(string.IsNullOrEmpty(nameWithoutExtension) ? ItemNameRaw : nameWithoutExtension)}";
+                }
+                return $"{MainStreamName}:{ItemNameRaw}";
+            }
+        }
     }
 }

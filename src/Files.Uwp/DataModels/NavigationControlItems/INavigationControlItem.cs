@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Files.Filesystem
+namespace Files.Uwp.Filesystem
 {
     public interface INavigationControlItem : IComparable<INavigationControlItem>
     {
@@ -19,7 +19,6 @@ namespace Files.Filesystem
 
     public enum NavigationControlItemType
     {
-        Header,
         Drive,
         LinuxDistro,
         Location,
@@ -48,8 +47,6 @@ namespace Files.Filesystem
         public bool IsLocationItem { get; set; }
 
         public bool ShowUnpinItem { get; set; }
-
-        public bool IsItemMovable { get; set; }
 
         public bool ShowProperties { get; set; }
 

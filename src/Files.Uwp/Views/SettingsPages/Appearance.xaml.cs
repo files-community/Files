@@ -1,11 +1,11 @@
-﻿using Files.Dialogs;
-using Files.Helpers.XamlHelpers;
-using Files.UserControls.Settings;
+﻿using Files.Uwp.Dialogs;
+using Files.Uwp.Helpers.XamlHelpers;
+using Files.Uwp.UserControls.Settings;
 using Microsoft.Toolkit.Uwp.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace Files.SettingsPages
+namespace Files.Uwp.SettingsPages
 {
     public sealed partial class Appearance : Page
     {
@@ -31,11 +31,11 @@ namespace Files.SettingsPages
             ThemesTeachingTip.IsOpen = true;
         }
 
-        private void OpenThemesFolderButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void OpenThemesFolderButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             ThemesTeachingTip.IsOpen = false;
             this.FindAscendant<SettingsDialog>()?.Hide();
-            ViewModel.OpenThemesFolder();
+            await ViewModel.OpenThemesFolder();
         }
 
         private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

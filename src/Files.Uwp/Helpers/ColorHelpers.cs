@@ -1,7 +1,7 @@
 ﻿using System;
 using Windows.UI;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     internal static class ColorHelpers
     {

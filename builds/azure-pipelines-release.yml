@@ -4,6 +4,29 @@ pr: none
 pool:
   vmImage: 'windows-latest'
 
+parameters:
+  - name: releaseBranch
+    displayName: Release Branch
+    type: string
+    default: 'preview'
+    values:
+    - 'preview'
+    - 'stable'
+  - name: packageIdentityName
+    displayName: Package Identity Name
+    type: string
+    default: 'FilesPreview'
+    values:
+    - 'FilesPreview'
+    - 'Files'
+  - name: packageDisplayName
+    displayName: Package Display Name
+    type: string
+    default: 'Files (Preview)'
+    values:
+    - 'Files (Preview)'
+    - 'Files'
+
 variables:
 - group: BuildPipelineVariables
 - name: solution
@@ -12,6 +35,8 @@ variables:
   value: 'x86|x64|arm64'
 - name: buildConfiguration
   value: 'Release'
+- name: sideloadBuildConfiguration
+  value: 'Sideload'
 - name: appxPackageDir
   value: '$(build.artifactStagingDirectory)\AppxPackages\\'
 
@@ -25,15 +50,16 @@ jobs:
       targetType: 'inline'
       script: |
         [xml]$xmlDoc = Get-Content $(Build.SourcesDirectory)\src\Files.Package\Package.appxmanifest
-        $xmlDoc.Package.Identity.Name="Files"
+        $xmlDoc.Package.Identity.Name="${{parameters.packageIdentityName}}"
         $xmlDoc.Package.Identity.Publisher="Files"
-        $xmlDoc.Package.Properties.DisplayName="Files"
-        $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files"
+        $xmlDoc.Package.Properties.DisplayName="${{parameters.packageDisplayName}}"
+        $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="${{parameters.packageDisplayName}}"
         $xmlDoc.Save('$(Build.SourcesDirectory)\src\Files.Package\Package.appxmanifest')
       failOnStderr: true
 
+ # This replaces references to the dev icon with the regular release icon 
   - task: PowerShell@2
-    displayName: 'Use Release Logo'
+    displayName: 'Use Correct Logo'
     inputs:
       targetType: 'inline'
       script: |
@@ -48,6 +74,7 @@ jobs:
     inputs:
       secureFile: 'BingMapsKey.txt'
 
+# Adds the Bing maps token to the project
   - task: CopyFiles@2
     inputs:
       SourceFolder: '$(Agent.TempDirectory)'
@@ -61,6 +88,7 @@ jobs:
     inputs:
       secureFile: 'AppCenterKey.txt'
 
+# Adds the AppCenter token to the project
   - task: CopyFiles@2
     inputs:
       SourceFolder: '$(Agent.TempDirectory)'
@@ -91,15 +119,15 @@ jobs:
     inputs:
       solution: '**/*.wapproj'
       platform: 'x86'
-      configuration: '$(buildConfiguration)'
-      msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxLogTelemetryFromSideloadingScript=False /p:GenerateAppInstallerFile=True /p:AppInstallerUri=https://cdn.files.community/files/preview/ /p:AppInstallerCheckForUpdateFrequency=OnApplicationRun /p:AppInstallerUpdateFrequency=1 /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=Sideload /p:AppxPackageSigningEnabled=true /p:PackageCertificateKeyFile="$(caCertificate.secureFilePath)" /p:PackageCertificatePassword="$(signingCert.password)" /p:PackageCertificateThumbprint=""'
+      configuration: '$(sideloadBuildConfiguration)'
+      msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxLogTelemetryFromSideloadingScript=False /p:GenerateAppInstallerFile=True /p:AppInstallerUri=https://cdn.files.community/files/${{parameters.releaseBranch}}/ /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=Sideload /p:AppxPackageSigningEnabled=true /p:PackageCertificateKeyFile="$(caCertificate.secureFilePath)" /p:PackageCertificatePassword="$(signingCert.password)" /p:PackageCertificateThumbprint=""'
       maximumCpuCount: true
 
   - task: CopyFiles@2
     displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
     inputs:
       SourceFolder: '$(system.defaultworkingdirectory)'
-      Contents: '**\bin\$(BuildConfiguration)\**'
+      Contents: '**\bin\$(sideloadBuildConfiguration)\**'
       TargetFolder: '$(build.artifactstagingdirectory)'
 
   - task: PublishBuildArtifacts@1
@@ -116,7 +144,7 @@ jobs:
       Destination: 'AzureBlob'
       storage: 'filescommunity'
       ContainerName: 'files'
-      BlobPrefix: 'preview'
+      BlobPrefix: '${{parameters.releaseBranch}}'
 
 ### Store release ###
 - job: StoreRelease
@@ -132,9 +160,18 @@ jobs:
         $xmlDoc.Package.Identity.Publisher="CN=53EC4384-7F5B-4CF6-8C23-513FFE9D1AB7"
         $xmlDoc.Package.Properties.DisplayName="Files"
         $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files"
+
+        # Removes packageManagement from Store release
+        $nsmgr = New-Object System.Xml.XmlNamespaceManager($xmlDoc.NameTable)
+        $nsmgr.AddNamespace("pkg", "http://schemas.microsoft.com/appx/manifest/foundation/windows10")
+        $nsmgr.AddNamespace("rescap", "http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities")
+        $pm = $xmlDoc.SelectSingleNode("/pkg:Package/pkg:Capabilities/rescap:Capability[@Name='packageManagement']", $nsmgr)
+        $xmlDoc.Package.Capabilities.RemoveChild($pm)
+
         $xmlDoc.Save('$(Build.SourcesDirectory)\src\Files.Package\Package.appxmanifest')
       failOnStderr: true
 
+ # This replaces references to the dev icon with the regular release icon 
   - task: PowerShell@2
     displayName: 'Use Release Logo'
     inputs:
@@ -145,6 +182,7 @@ jobs:
         }
       failOnStderr: true
 
+# Adds the Bing maps token to the project
   - task: DownloadSecureFile@1
     name: mapsDevKey
     displayName: 'Download Bing Maps Dev Key'
@@ -158,6 +196,7 @@ jobs:
       TargetFolder: '$(Build.SourcesDirectory)\src\Files.Uwp\Resources'
       overWrite: true
 
+# Adds the AppCenter token to the project
   - task: DownloadSecureFile@1
     name: appCenterDevKey
     displayName: 'Download AppCenter Dev Key'

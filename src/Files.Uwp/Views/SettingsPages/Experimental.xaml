@@ -1,15 +1,15 @@
 ﻿<Page
-    x:Class="Files.SettingsPages.Experimental"
+    x:Class="Files.Uwp.SettingsPages.Experimental"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helpers="using:Files.Helpers"
+    xmlns:helpers="using:Files.Uwp.Helpers"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:local="using:Files.UserControls.Settings"
+    xmlns:local="using:Files.Uwp.UserControls.Settings"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
+    xmlns:settingsviewmodels="using:Files.Uwp.ViewModels.SettingsViewModels"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />

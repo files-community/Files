@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Windows.UI.StartScreen;
 using TileSize = Windows.UI.StartScreen.TileSize;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public class SecondaryTileHelper
     {
