@@ -141,8 +141,8 @@ namespace Files.Uwp.Helpers.LayoutPreferences
             [BsonId]
             public int Id { get; set; }
             public ulong? Frn { get; set; }
-            public string FilePath { get; set; } = null!;
-            public LayoutPreferences Prefs { get; set; } = null!;
+            public string FilePath { get; set; } = string.Empty;
+            public LayoutPreferences Prefs { get; set; } = LayoutPreferences.DefaultLayoutPreferences;
         }
     }
 }

@@ -170,8 +170,8 @@ namespace Common
             [BsonId]
             public int Id { get; set; }
             public ulong? Frn { get; set; }
-            public string FilePath { get; set; } = null!;
-            public string Tag { get; set; } = null!;
+            public string FilePath { get; set; } = string.Empty;
+            public string Tag { get; set; } = string.Empty;
         }
     }
 }
