@@ -2768,7 +2768,7 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
     <value>Move operation is not supported in this context. Do you want to copy the items instead?</value>
   </data>
   <data name="HiddenFilesAndFolders" xml:space="preserve">
-    <value>Hidden files and folders</value>
+    <value>Versteckte Dateien und Ordner</value>
   </data>
   <data name="Custom" xml:space="preserve">
     <value>Custom</value>
@@ -2789,9 +2789,9 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
     <value>Adaptive (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+7</value>
+    <value>Strg+Umschalt+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>Show Alternate Data Streams</value>
+    <value>Zeige alternative Daten Streams an</value>
   </data>
 </root>
