@@ -48,8 +48,6 @@ namespace Files.Uwp.Filesystem
 
         public bool ShowUnpinItem { get; set; }
 
-        public bool IsItemMovable { get; set; }
-
         public bool ShowProperties { get; set; }
 
         public bool ShowEmptyRecycleBin { get; set; }

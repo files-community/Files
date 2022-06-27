@@ -1,7 +1,6 @@
 ﻿using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
-using Files.Uwp.ViewModels;
 using Files.Uwp.ViewModels.Widgets;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
@@ -20,7 +19,6 @@ using Windows.UI.Xaml.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.ApplicationModel.Core;
-using Files.Uwp.UserControls.Widgets;
 using System.Collections.Specialized;
 
 namespace Files.Uwp.UserControls.Widgets
@@ -47,11 +45,18 @@ namespace Files.Uwp.UserControls.Widgets
         {
             if (thumbnailData == null || thumbnailData.Length == 0)
             {
+                // Try load thumbnail using ListView mode
                 thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.Path, Convert.ToUInt32(overrideThumbnailSize), Windows.Storage.FileProperties.ThumbnailMode.ListView);
-                if (thumbnailData != null && thumbnailData.Length > 0)
-                {
-                    Thumbnail = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(overrideThumbnailSize));
-                }
+            }
+            if (thumbnailData == null || thumbnailData.Length == 0)
+            {
+                // Thumbnail is still null, use DriveItem icon (loaded using SingleItem mode)
+                thumbnailData = Item.IconData;
+            }
+            if (thumbnailData != null && thumbnailData.Length > 0)
+            {
+                // Thumbnail data is valid, set the item icon
+                Thumbnail = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(overrideThumbnailSize));
             }
         }
     }
@@ -162,6 +167,26 @@ namespace Files.Uwp.UserControls.Widgets
             await NavigationHelpers.OpenPathInNewWindowAsync(item.Path);
         }
 
+        private async void PinToFavorites_Click(object sender, RoutedEventArgs e)
+        {
+            var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
+            if (await CheckEmptyDrive(item.Path))
+            {
+                return;
+            }
+            App.SidebarPinnedController.Model.AddItem(item.Path);
+        }
+
+        private async void UnpinFromFavorites_Click(object sender, RoutedEventArgs e)
+        {
+            var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
+            if (await CheckEmptyDrive(item.Path))
+            {
+                return;
+            }
+            App.SidebarPinnedController.Model.RemoveItem(item.Path);
+        }
+
         private async void OpenDriveProperties_Click(object sender, RoutedEventArgs e)
         {
             var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
@@ -231,6 +256,12 @@ namespace Files.Uwp.UserControls.Widgets
         {
             var newPaneMenuItem = (sender as MenuFlyout).Items.Single(x => x.Name == "OpenInNewPane");
             newPaneMenuItem.Visibility = ShowMultiPaneControls ? Visibility.Visible : Visibility.Collapsed;
+
+            var pinToFavoritesItem = (sender as MenuFlyout).Items.Single(x => x.Name == "PinToFavorites");
+            pinToFavoritesItem.Visibility = (pinToFavoritesItem.DataContext as DriveItem).IsPinned ? Visibility.Collapsed : Visibility.Visible;
+
+            var unpinFromFavoritesItem = (sender as MenuFlyout).Items.Single(x => x.Name == "UnpinFromFavorites");
+            unpinFromFavoritesItem.Visibility = (unpinFromFavoritesItem.DataContext as DriveItem).IsPinned ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private async void MapNetworkDrive_Click(object sender, RoutedEventArgs e)
@@ -284,6 +315,14 @@ namespace Files.Uwp.UserControls.Widgets
                 }
             }
             return false;
+        }
+
+        public async Task RefreshWidget()
+        {
+            foreach (var item in ItemsAdded)
+            {
+                await item.Item.UpdatePropertiesAsync();
+            }
         }
 
         public void Dispose()

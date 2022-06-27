@@ -5,7 +5,6 @@ namespace Files.Shared.Enums
     /// <summary>
     /// Contains all kinds of return status
     /// </summary>
-    [Flags]
     public enum ReturnResult : byte
     {
         /// <summary>

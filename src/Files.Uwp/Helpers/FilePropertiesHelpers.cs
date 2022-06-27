@@ -82,6 +82,11 @@ namespace Files.Uwp.Helpers
                     {
                         // Set window size again here as sometimes it's not resized in the page Loaded event
                         appWindow.RequestSize(new Size(460, 550));
+
+                        DisplayRegion displayRegion = ApplicationView.GetForCurrentView().GetDisplayRegions()[0];
+                        Point pointerPosition = CoreWindow.GetForCurrentThread().PointerPosition;
+                        appWindow.RequestMoveRelativeToDisplayRegion(displayRegion,
+                            new Point(pointerPosition.X - displayRegion.WorkAreaOffset.X, pointerPosition.Y - displayRegion.WorkAreaOffset.Y));
                     }
                 }
                 else

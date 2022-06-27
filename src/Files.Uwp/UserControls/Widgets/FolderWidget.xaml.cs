@@ -21,7 +21,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 using Files.Uwp.DataModels.NavigationControlItems;
-using Files.Uwp.UserControls.Widgets;
 
 namespace Files.Uwp.UserControls.Widgets
 {
@@ -183,7 +182,10 @@ namespace Files.Uwp.UserControls.Widgets
                 SelectCommand = LibraryCardCommand
             });
 
-            await WidgetsHelpers.WidgetCards.LoadCardIcons<FolderCardItem, LocationItem>(ItemsAdded);
+            foreach (var cardItem in ItemsAdded.ToList()) // ToList() is necessary
+            {
+                await cardItem.LoadCardThumbnailAsync();
+            }
 
             ItemsAdded.EndBulkOperation();
         }
@@ -264,6 +266,11 @@ namespace Files.Uwp.UserControls.Widgets
             }
 
             LibraryCardInvoked?.Invoke(this, new LibraryCardInvokedEventArgs { Path = item.Path });
+        }
+
+        public Task RefreshWidget()
+        {
+            return Task.CompletedTask;
         }
 
         public void Dispose()

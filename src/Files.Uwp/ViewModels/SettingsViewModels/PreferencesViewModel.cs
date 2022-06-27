@@ -2,13 +2,13 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using Files.Backend.Services.Settings;
-using Files.Uwp.Controllers;
-using Files.Uwp.DataModels;
-using Files.Uwp.Extensions;
-using Files.Uwp.Filesystem;
-using Files.Uwp.Helpers;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
+using Files.Shared.Services.DateTimeFormatter;
+using Files.Uwp.Controllers;
+using Files.Uwp.DataModels;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -57,24 +57,8 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
 
             DateTimeOffset sampleDate1 = DateTime.Now;
             DateTimeOffset sampleDate2 = new DateTime(sampleDate1.Year - 5, 12, 31, 14, 30, 0);
-            DateFormats = new List<DateFormatItem>
-            {
-                new DateFormatItem{
-                    Label = "Application".GetLocalized(),
-                    Sample1 = sampleDate1.GetFriendlyDateFromFormat(TimeStyle.Application.GetDateFormat()),
-                    Sample2 = sampleDate2.GetFriendlyDateFromFormat(TimeStyle.Application.GetDateFormat()),
-                },
-                new DateFormatItem{
-                    Label = "SystemTimeStyle".GetLocalized(),
-                    Sample1 = sampleDate1.GetFriendlyDateFromFormat(TimeStyle.System.GetDateFormat()),
-                    Sample2 = sampleDate2.GetFriendlyDateFromFormat(TimeStyle.System.GetDateFormat()),
-                },
-                new DateFormatItem{
-                    Label = "Universal".GetLocalized(),
-                    Sample1 = sampleDate1.GetFriendlyDateFromFormat(TimeStyle.Universal.GetDateFormat()),
-                    Sample2 = sampleDate2.GetFriendlyDateFromFormat(TimeStyle.Universal.GetDateFormat()),
-                },
-            };
+            var styles = new TimeStyle[] { TimeStyle.Application, TimeStyle.System, TimeStyle.Universal };
+            DateFormats = styles.Select(style => new DateFormatItem(style, sampleDate1, sampleDate2)).ToList();
 
             dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
@@ -93,59 +77,41 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
 
             PagesOnStartupList.CollectionChanged += PagesOnStartupList_CollectionChanged;
 
+            _ = InitStartupSettingsRecentFoldersFlyout();
+            _ = DetectOpenFilesAtStartup();
+        }
+
+        private async Task InitStartupSettingsRecentFoldersFlyout()
+        {
             var recentsItem = new MenuFlyoutSubItemViewModel("JumpListRecentGroupHeader".GetLocalized());
             recentsItem.Items.Add(new MenuFlyoutItemViewModel("Home".GetLocalized(), "Home".GetLocalized(), AddPageCommand));
-            PopulateRecentItems(recentsItem).ContinueWith(_ =>
+
+            await App.RecentItemsManager.UpdateRecentFoldersAsync();    // ensure recent folders aren't stale since we don't update them with a watcher
+            await PopulateRecentItems(recentsItem).ContinueWith(_ =>
             {
                 AddFlyoutItemsSource = new ReadOnlyCollection<IMenuFlyoutItem>(new IMenuFlyoutItem[] {
                     new MenuFlyoutItemViewModel("Browse".GetLocalized(), null, AddPageCommand),
                     recentsItem,
                 });
             }, TaskScheduler.FromCurrentSynchronizationContext());
-
-            _ = DetectOpenFilesAtStartup();
         }
 
-        private async Task PopulateRecentItems(MenuFlyoutSubItemViewModel menu)
+        private Task PopulateRecentItems(MenuFlyoutSubItemViewModel menu)
         {
-            bool hasRecents = false;
-            menu.Items.Add(new MenuFlyoutSeparatorViewModel());
-
             try
             {
-                var mostRecentlyUsed = StorageApplicationPermissions.MostRecentlyUsedList;
+                var recentFolders = App.RecentItemsManager.RecentFolders;
 
-                foreach (AccessListEntry entry in mostRecentlyUsed.Entries)
+                // add separator
+                if (recentFolders.Any())
                 {
-                    string mruToken = entry.Token;
-                    var added = await FilesystemTasks.Wrap(async () =>
-                    {
-                        IStorageItem item = await mostRecentlyUsed.GetItemAsync(mruToken, AccessCacheOptions.FastLocationsOnly);
-                        if (item.IsOfType(StorageItemTypes.Folder))
-                        {
-                            menu.Items.Add(new MenuFlyoutItemViewModel(item.Name, string.IsNullOrEmpty(item.Path) ? entry.Metadata : item.Path, AddPageCommand));
-                            hasRecents = true;
-                        }
-                    });
-                    if (added == FileSystemStatusCode.Unauthorized)
-                    {
-                        // Skip item until consent is provided
-                    }
-                    // Exceptions include but are not limited to:
-                    // COMException, FileNotFoundException, ArgumentException, DirectoryNotFoundException
-                    // 0x8007016A -> The cloud file provider is not running
-                    // 0x8000000A -> The data necessary to complete this operation is not yet available
-                    // 0x80004005 -> Unspecified error
-                    // 0x80270301 -> ?
-                    else if (!added)
-                    {
-                        await FilesystemTasks.Wrap(() =>
-                        {
-                            mostRecentlyUsed.Remove(mruToken);
-                            return Task.CompletedTask;
-                        });
-                        System.Diagnostics.Debug.WriteLine(added.ErrorCode);
-                    }
+                    menu.Items.Add(new MenuFlyoutSeparatorViewModel());
+                }
+
+                foreach (var recentFolder in recentFolders)
+                {
+                    var menuItem = new MenuFlyoutItemViewModel(recentFolder.Name, recentFolder.RecentPath, AddPageCommand);
+                    menu.Items.Add(menuItem);
                 }
             }
             catch (Exception ex)
@@ -153,10 +119,7 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
                 App.Logger.Info(ex, "Could not fetch recent items");
             }
 
-            if (!hasRecents)
-            {
-                menu.Items.RemoveAt(menu.Items.Count - 1);
-            }
+            return Task.CompletedTask;
         }
 
         private void PagesOnStartupList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -561,6 +524,19 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
             }
         }
 
+        public bool AreAlternateStreamsVisible
+        {
+            get => UserSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible;
+            set
+            {
+                if (value != UserSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible)
+                {
+                    UserSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public bool ShowDotFiles
         {
             get => UserSettingsService.PreferencesSettingsService.ShowDotFiles;
@@ -628,12 +604,12 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
 
         public bool ListAndSortDirectoriesAlongsideFiles
         {
-            get => UserSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles;
+            get => UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles;
             set
             {
-                if (value != UserSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles)
+                if (value != UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles)
                 {
-                    UserSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles = value;
+                    UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles = value;
                     OnPropertyChanged();
                 }
             }
@@ -683,8 +659,18 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
 
     public class DateFormatItem
     {
-        public string Label { get; set; }
-        public string Sample1 { get; set; }
-        public string Sample2 { get; set; }
+        public string Label { get; }
+        public string Sample1 { get; }
+        public string Sample2 { get; }
+
+        public DateFormatItem(TimeStyle style, DateTimeOffset sampleDate1, DateTimeOffset sampleDate2)
+        {
+            var factory = Ioc.Default.GetService<IDateTimeFormatterFactory>();
+            var formatter = factory.GetDateTimeFormatter(style);
+
+            Label = formatter.Name;
+            Sample1 = formatter.ToShortLabel(sampleDate1);
+            Sample2 = formatter.ToShortLabel(sampleDate2);
+        }
     }
 }

@@ -9,12 +9,12 @@ namespace Files.Uwp.Helpers
 {
     public static class WallpaperHelpers
     {
-        public static async void SetAsBackground(WallpaperType type, string filePath, IShellPage associatedInstance)
+        public static async void SetAsBackground(WallpaperType type, string filePath)
         {
             if (UserProfilePersonalizationSettings.IsSupported())
             {
                 // Get the path of the selected file
-                BaseStorageFile sourceFile = await StorageHelpers.ToStorageItem<BaseStorageFile>(filePath, associatedInstance);
+                BaseStorageFile sourceFile = await StorageHelpers.ToStorageItem<BaseStorageFile>(filePath);
                 if (sourceFile == null)
                 {
                     return;

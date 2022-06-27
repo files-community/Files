@@ -109,6 +109,26 @@
                                         </MenuFlyoutItem.Icon>
                                     </MenuFlyoutItem>
                                     <MenuFlyoutItem
+                                        x:Name="PinToFavorites"
+                                        Click="PinToFavorites_Click"
+                                        DataContext="{x:Bind Item}"
+                                        Text="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutPinToFavorites/Text}"
+                                        Visibility="Collapsed">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Glyph="&#xE840;" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutItem
+                                        x:Name="UnpinFromFavorites"
+                                        Click="UnpinFromFavorites_Click"
+                                        DataContext="{x:Bind Item}"
+                                        Text="{helpers:ResourceString Name=BaseLayoutContextFlyoutUnpinFromFavorites/Text}"
+                                        Visibility="Collapsed">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Glyph="&#xE77A;" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutItem
                                         x:Name="PropertiesItem"
                                         Click="OpenDriveProperties_Click"
                                         DataContext="{x:Bind Item}"
