@@ -1936,7 +1936,7 @@
     <value>การลบไฟล์ {0} ไฟล์ ใน {1} ล้มเหลว</value>
   </data>
   <data name="TheRecycleBin" xml:space="preserve">
-    <value>the Recycle Bin</value>
+    <value>รีไซเคิล</value>
   </data>
   <data name="MoveInProgress" xml:space="preserve">
     <value>Moving items</value>
@@ -2200,7 +2200,7 @@
     <value>Company</value>
   </data>
   <data name="PropertyLanguage" xml:space="preserve">
-    <value>Language</value>
+    <value>ภาษา</value>
   </data>
   <data name="PropertyTrademarks" xml:space="preserve">
     <value>Trademarks</value>
