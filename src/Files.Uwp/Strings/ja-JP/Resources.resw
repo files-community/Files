@@ -2786,4 +2786,7 @@
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
   </data>
+  <data name="ShowAlternateStreams" xml:space="preserve">
+    <value>代替データストリームを表示</value>
+  </data>
 </root>

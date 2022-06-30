@@ -2792,4 +2792,7 @@ Centrum aplikácií používame na sledovanie používania aplikácií, vyhľad�
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
   </data>
+  <data name="ShowAlternateStreams" xml:space="preserve">
+    <value>Show Alternate Data Streams</value>
+  </data>
 </root>

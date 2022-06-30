@@ -211,7 +211,7 @@
     <value>இந்த உருப்படியை அகற்று</value>
   </data>
   <data name="SettingsUsefulLinks.Title" xml:space="preserve">
-    <value>Useful links</value>
+    <value>பயனுள்ள இணைப்புகள்</value>
   </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>பின்னூட்டத்தைச் சமர்ப்பி</value>
@@ -1409,7 +1409,7 @@
     <value>பிணையம்</value>
   </data>
   <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
-    <value>File details</value>
+    <value>கோப்பு விவரங்கள்</value>
   </data>
   <data name="PreviewPaneFilePreview.AutomationProperties.Name" xml:space="preserve">
     <value>File preview</value>
@@ -1670,7 +1670,7 @@
     <value>நிரந்தரமாக நீக்கு</value>
   </data>
   <data name="PropertyISO" xml:space="preserve">
-    <value>ISO speed</value>
+    <value>ISO வேகம்</value>
   </data>
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
     <value>Open folders in new tab</value>
@@ -2767,7 +2767,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Hidden files and folders</value>
   </data>
   <data name="Custom" xml:space="preserve">
-    <value>Custom</value>
+    <value>தனிப்பயன்</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
     <value>Set as desktop slideshow</value>
@@ -2786,5 +2786,8 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
+  </data>
+  <data name="ShowAlternateStreams" xml:space="preserve">
+    <value>Show Alternate Data Streams</value>
   </data>
 </root>

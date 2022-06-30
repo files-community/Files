@@ -2792,4 +2792,7 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
   </data>
+  <data name="ShowAlternateStreams" xml:space="preserve">
+    <value>Alternatív adatfolyamok megjelenítése</value>
+  </data>
 </root>

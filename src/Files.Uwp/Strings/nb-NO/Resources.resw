@@ -2791,4 +2791,7 @@ Vi bruker App Center for å spore app-bruk og for å finne/reparere feil. All in
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
   </data>
+  <data name="ShowAlternateStreams" xml:space="preserve">
+    <value>Show Alternate Data Streams</value>
+  </data>
 </root>
