@@ -21,11 +21,11 @@
       An Assembly element with Name="*Application*" applies to all assemblies in
       the application package. The asterisks are not wildcards.
     -->
-    <Namespace Name="SQLitePCL" Dynamic="Required Public" />
-    <Namespace Name="Microsoft.Toolkit.Uwp.Notifications" Dynamic="Required Public" />
-    <Namespace Name="Microsoft.Xaml.Interactivity" Dynamic="Required Public" />
-    <Namespace Name="Microsoft.Xaml.Interactions.Core" Dynamic="Required Public" />
-    <Namespace Name="Microsoft.Toolkit.Uwp.UI.Behaviors" Dynamic="Required Public" />
+    <Assembly Name="SQLitePCL" Dynamic="Required Public" />
+    <Assembly Name="Microsoft.Toolkit.Uwp.Notifications" Dynamic="Required Public" />
+    <Assembly Name="Microsoft.Xaml.Interactivity" Dynamic="Required Public" />
+    <Assembly Name="Microsoft.Xaml.Interactions.Core" Dynamic="Required Public" />
+    <Assembly Name="Microsoft.Toolkit.Uwp.UI.Behaviors" Dynamic="Required Public" />
 
     <Type Name="Files.Uwp.Views.PaneNavigationArguments" Dynamic="Required All" />
 	<Type Name="Files.Uwp.UserControls.MultitaskingControl.TabItemArguments" Dynamic="Required All" />
