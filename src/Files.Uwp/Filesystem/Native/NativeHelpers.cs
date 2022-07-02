@@ -378,6 +378,19 @@ namespace Files.Uwp.Filesystem.Native
             return null;
         }
 
+        [DllImport("api-ms-win-core-string-l1-1-0.dll", CharSet = CharSet.Unicode)]
+        public static extern Int32 CompareStringEx(
+            String localeName,
+            Int32 flags,
+            String str1,
+            Int32 count1,
+            String str2,
+            Int32 count2,
+            IntPtr versionInformation,
+            IntPtr reserved,
+            Int32 param
+        );
+
         private static bool IsArmProcessor()
         {
             var handle = Process.GetCurrentProcess().Handle;

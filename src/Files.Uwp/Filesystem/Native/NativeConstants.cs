@@ -1,4 +1,6 @@
-﻿namespace Files.Uwp.Filesystem.Native
+﻿using System;
+
+namespace Files.Uwp.Filesystem.Native
 {
     public static class NativeConstants
     {
@@ -43,6 +45,21 @@
 
         public const int FIND_FIRST_EX_CASE_SENSITIVE = 1;
         public const int FIND_FIRST_EX_LARGE_FETCH = 2;
+
+        public static readonly Int32 NORM_IGNORECASE = 0x00000001;
+        public static readonly Int32 NORM_IGNORENONSPACE = 0x00000002;
+        public static readonly Int32 NORM_IGNORESYMBOLS = 0x00000004;
+        public static readonly Int32 LINGUISTIC_IGNORECASE = 0x00000010;
+        public static readonly Int32 LINGUISTIC_IGNOREDIACRITIC = 0x00000020;
+        public static readonly Int32 NORM_IGNOREKANATYPE = 0x00010000;
+        public static readonly Int32 NORM_IGNOREWIDTH = 0x00020000;
+        public static readonly Int32 NORM_LINGUISTIC_CASING = 0x08000000;
+        public static readonly Int32 SORT_STRINGSORT = 0x00001000;
+        public static readonly Int32 SORT_DIGITSASNUMBERS = 0x00000008;
+
+        public static readonly String LOCALE_NAME_USER_DEFAULT = null;
+        public static readonly String LOCALE_NAME_INVARIANT = String.Empty;
+        public static readonly String LOCALE_NAME_SYSTEM_DEFAULT = "!sys-default-locale";
 
         internal const int MAXIMUM_REPARSE_DATA_BUFFER_SIZE = 16 * 1024;
     }
