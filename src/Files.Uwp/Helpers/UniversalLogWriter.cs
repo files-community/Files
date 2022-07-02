@@ -1,11 +1,13 @@
 ﻿using Files.Shared;
+using Files.Uwp.Filesystem.Native;
 using System;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using static Files.Uwp.Helpers.NativeFileOperationsHelper;
+using static Files.Uwp.Filesystem.Native.NativeApi;
+using static Files.Uwp.Filesystem.Native.NativeConstants;
 
 namespace Files.Uwp.Helpers
 {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using static Files.Uwp.Filesystem.Native.NativeHelpers;
 
 namespace Files.Uwp.Helpers
 {
@@ -39,7 +40,7 @@ namespace Files.Uwp.Helpers
     {
         public static IComparer<object> GetForProcessor()
         {
-            return NativeWinApiHelper.IsRunningOnArm ?
+            return IsRunningOnArm ?
                 (IComparer<object>)new StringComparerArm64() :
                 (IComparer<object>)new StringComparerDefault();
         }

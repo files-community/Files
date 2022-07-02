@@ -1,12 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Settings;
+using Files.Uwp.Filesystem;
 using Files.Uwp.ViewModels;
 using Files.Uwp.ViewModels.Previews;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Windows.Storage;
-using System.Collections.Generic;
-using Files.Uwp.Filesystem;
+using static Files.Uwp.Filesystem.Native.NativeHelpers;
 
 namespace Files.Uwp.Helpers
 {
@@ -32,7 +33,7 @@ namespace Files.Uwp.Helpers
                 }
 
                 var iniPath = System.IO.Path.Combine(path, "desktop.ini");
-                var iniContents = NativeFileOperationsHelper.ReadStringFromFile(iniPath)?.Trim();
+                var iniContents = ReadStringFromFile(iniPath)?.Trim();
                 if (!string.IsNullOrEmpty(iniContents))
                 {
                     var parser = new IniParser.Parser.IniDataParser();

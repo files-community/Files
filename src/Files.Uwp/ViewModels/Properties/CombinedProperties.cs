@@ -1,6 +1,5 @@
 ﻿using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem;
-using Files.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -10,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Core;
+using static Files.Uwp.Filesystem.Native.NativeHelpers;
 
 namespace Files.Uwp.ViewModels.Properties
 {
@@ -55,9 +55,9 @@ namespace Files.Uwp.ViewModels.Properties
         {
             if (List.All(x => x.PrimaryItemAttribute == StorageItemTypes.File))
             {
-                ViewModel.IsReadOnly = List.All(x => NativeFileOperationsHelper.HasFileAttribute(x.ItemPath, System.IO.FileAttributes.ReadOnly));
+                ViewModel.IsReadOnly = List.All(x => HasFileAttribute(x.ItemPath, System.IO.FileAttributes.ReadOnly));
             }
-            ViewModel.IsHidden = List.All(x => NativeFileOperationsHelper.HasFileAttribute(x.ItemPath, System.IO.FileAttributes.Hidden));
+            ViewModel.IsHidden = List.All(x => HasFileAttribute(x.ItemPath, System.IO.FileAttributes.Hidden));
 
             ViewModel.LastSeparatorVisibility = false;
             ViewModel.ItemSizeVisibility = true;
@@ -103,26 +103,22 @@ namespace Files.Uwp.ViewModels.Properties
                 case "IsReadOnly":
                     if (ViewModel.IsReadOnly)
                     {
-                        List.ForEach(x => NativeFileOperationsHelper.SetFileAttribute(
-                            x.ItemPath, System.IO.FileAttributes.ReadOnly));
+                        List.ForEach(x => SetFileAttribute(x.ItemPath, System.IO.FileAttributes.ReadOnly));
                     }
                     else
                     {
-                        List.ForEach(x => NativeFileOperationsHelper.UnsetFileAttribute(
-                            x.ItemPath, System.IO.FileAttributes.ReadOnly));
+                        List.ForEach(x => UnsetFileAttribute(x.ItemPath, System.IO.FileAttributes.ReadOnly));
                     }
                     break;
 
                 case "IsHidden":
                     if (ViewModel.IsHidden)
                     {
-                        List.ForEach(x => NativeFileOperationsHelper.SetFileAttribute(
-                            x.ItemPath, System.IO.FileAttributes.Hidden));
+                        List.ForEach(x => SetFileAttribute(x.ItemPath, System.IO.FileAttributes.Hidden));
                     }
                     else
                     {
-                        List.ForEach(x => NativeFileOperationsHelper.UnsetFileAttribute(
-                            x.ItemPath, System.IO.FileAttributes.Hidden));
+                        List.ForEach(x => UnsetFileAttribute(x.ItemPath, System.IO.FileAttributes.Hidden));
                     }
                     break;
             }

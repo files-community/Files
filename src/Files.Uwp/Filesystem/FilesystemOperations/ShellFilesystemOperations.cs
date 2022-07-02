@@ -1,8 +1,15 @@
-﻿using Files.Shared.Extensions;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services;
+using Files.Backend.ViewModels.Dialogs;
+using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
+using Files.Shared;
 using Files.Shared.Enums;
+using Files.Shared.Extensions;
 using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem.FilesystemHistory;
+using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -13,13 +20,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Windows.Storage;
-using Files.Shared;
-using Files.Backend.ViewModels.Dialogs;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Backend.Services;
-using Microsoft.Toolkit.Uwp;
-using Files.Uwp.Filesystem.StorageItems;
-using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
+using static Files.Uwp.Filesystem.Native.NativeHelpers;
 
 namespace Files.Uwp.Filesystem
 {
@@ -104,7 +105,7 @@ namespace Files.Uwp.Filesystem
                     { "filepath", string.Join('|', sourceRename.Select(s => s.Path)) },
                     { "destpath", string.Join('|', destinationRename) },
                     { "overwrite", false },
-                    { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
+                    { "HWND", CoreWindowHandle.ToInt64() }
                 });
                 result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
                     && response.Get("Success", false));
@@ -121,7 +122,7 @@ namespace Files.Uwp.Filesystem
                     { "filepath", string.Join('|', sourceReplace.Select(s => s.Path)) },
                     { "destpath", string.Join('|', destinationReplace) },
                     { "overwrite", true },
-                    { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
+                    { "HWND", CoreWindowHandle.ToInt64() }
                 });
                 result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
                     && response.Get("Success", false));
@@ -402,7 +403,7 @@ namespace Files.Uwp.Filesystem
                 { "operationID", operationID },
                 { "filepath", string.Join('|', deleleFilePaths) },
                 { "permanently", permanently },
-                { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
+                { "HWND", CoreWindowHandle.ToInt64() }
             });
             var result = (FilesystemResult)(status == AppServiceResponseStatus.Success
                 && response.Get("Success", false));
@@ -532,7 +533,7 @@ namespace Files.Uwp.Filesystem
                     { "filepath", string.Join('|', sourceRename.Select(s => s.Path)) },
                     { "destpath", string.Join('|', destinationRename) },
                     { "overwrite", false },
-                    { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
+                    { "HWND", CoreWindowHandle.ToInt64() }
                 });
                 result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
                     && response.Get("Success", false));
@@ -549,7 +550,7 @@ namespace Files.Uwp.Filesystem
                     { "filepath", string.Join('|', sourceReplace.Select(s => s.Path)) },
                     { "destpath", string.Join('|', destinationReplace) },
                     { "overwrite", true },
-                    { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
+                    { "HWND", CoreWindowHandle.ToInt64() }
                 });
                 result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
                     && response.Get("Success", false));
@@ -771,7 +772,7 @@ namespace Files.Uwp.Filesystem
                 { "filepath", string.Join('|', source.Select(s => s.Path)) },
                 { "destpath", string.Join('|', destination) },
                 { "overwrite", false },
-                { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
+                { "HWND", CoreWindowHandle.ToInt64() }
             });
             var result = (FilesystemResult)(status == AppServiceResponseStatus.Success
                 && response.Get("Success", false));

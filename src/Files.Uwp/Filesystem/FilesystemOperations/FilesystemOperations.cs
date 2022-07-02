@@ -1,4 +1,6 @@
-﻿using Files.Shared;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services;
+using Files.Shared;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
 using Files.Uwp.Extensions;
@@ -15,9 +17,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;
+using static Files.Uwp.Filesystem.Native.NativeApi;
+using static Files.Uwp.Filesystem.Native.NativeHelpers;
 using FileAttributes = System.IO.FileAttributes;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Backend.Services;
 
 namespace Files.Uwp.Filesystem
 {
@@ -212,10 +214,10 @@ namespace Files.Uwp.Filesystem
 
                         if (fsCopyResult)
                         {
-                            if (NativeFileOperationsHelper.HasFileAttribute(source.Path, FileAttributes.Hidden))
+                            if (HasFileAttribute(source.Path, FileAttributes.Hidden))
                             {
                                 // The source folder was hidden, apply hidden attribute to destination
-                                NativeFileOperationsHelper.SetFileAttribute(fsCopyResult.Result.Path, FileAttributes.Hidden);
+                                SetFileAttribute(fsCopyResult.Result.Path, FileAttributes.Hidden);
                             }
                             copiedItem = (BaseStorageFolder)fsCopyResult;
                         }
@@ -234,7 +236,7 @@ namespace Files.Uwp.Filesystem
             }
             else if (source.ItemType == FilesystemItemType.File)
             {
-                var fsResult = (FilesystemResult)await Task.Run(() => NativeFileOperationsHelper.CopyFileFromApp(source.Path, destination, true));
+                var fsResult = (FilesystemResult)await Task.Run(() => CopyFileFromApp(source.Path, destination, true));
 
                 if (!fsResult)
                 {
@@ -390,7 +392,7 @@ namespace Files.Uwp.Filesystem
                 }
                 else
                 {
-                    var fsResult = (FilesystemResult)await Task.Run(() => NativeFileOperationsHelper.MoveFileFromApp(source.Path, destination));
+                    var fsResult = (FilesystemResult)await Task.Run(() => MoveFileFromApp(source.Path, destination));
 
                     if (!fsResult)
                     {
@@ -419,10 +421,10 @@ namespace Files.Uwp.Filesystem
 
                             if (fsResultMove)
                             {
-                                if (NativeFileOperationsHelper.HasFileAttribute(source.Path, FileAttributes.Hidden))
+                                if (HasFileAttribute(source.Path, FileAttributes.Hidden))
                                 {
                                     // The source folder was hidden, apply hidden attribute to destination
-                                    NativeFileOperationsHelper.SetFileAttribute(fsResultMove.Result.Path, FileAttributes.Hidden);
+                                    SetFileAttribute(fsResultMove.Result.Path, FileAttributes.Hidden);
                                 }
                                 movedItem = (BaseStorageFolder)fsResultMove;
                             }
@@ -438,7 +440,7 @@ namespace Files.Uwp.Filesystem
             }
             else if (source.ItemType == FilesystemItemType.File)
             {
-                var fsResult = (FilesystemResult)await Task.Run(() => NativeFileOperationsHelper.MoveFileFromApp(source.Path, destination));
+                var fsResult = (FilesystemResult)await Task.Run(() => MoveFileFromApp(source.Path, destination));
 
                 if (!fsResult)
                 {
@@ -514,7 +516,7 @@ namespace Files.Uwp.Filesystem
 
             if (permanently)
             {
-                fsResult = (FilesystemResult)NativeFileOperationsHelper.DeleteFileFromApp(source.Path);
+                fsResult = (FilesystemResult)DeleteFileFromApp(source.Path);
             }
             if (!fsResult)
             {
@@ -634,7 +636,7 @@ namespace Files.Uwp.Filesystem
                 {
                     // Try again with MoveFileFromApp
                     var destination = Path.Combine(Path.GetDirectoryName(source.Path), newName);
-                    if (NativeFileOperationsHelper.MoveFileFromApp(source.Path, destination))
+                    if (MoveFileFromApp(source.Path, destination))
                     {
                         errorCode?.Report(FileSystemStatusCode.Success);
                         return new StorageHistory(FileOperationType.Rename, source, StorageHelpers.FromPathAndType(destination, source.ItemType));
@@ -751,7 +753,7 @@ namespace Files.Uwp.Filesystem
             FilesystemResult fsResult = FileSystemStatusCode.InProgress;
             errorCode?.Report(fsResult);
 
-            fsResult = (FilesystemResult)await Task.Run(() => NativeFileOperationsHelper.MoveFileFromApp(source.Path, destination));
+            fsResult = (FilesystemResult)await Task.Run(() => MoveFileFromApp(source.Path, destination));
 
             if (!fsResult)
             {

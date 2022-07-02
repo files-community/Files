@@ -1,4 +1,5 @@
-﻿using Files.Uwp.Helpers;
+﻿using Files.Uwp.Filesystem.Native;
+using Files.Uwp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,8 +10,9 @@ using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
-using Storage = Windows.Storage;
+using static Files.Uwp.Filesystem.Native.NativeHelpers;
 using IO = System.IO;
+using Storage = Windows.Storage;
 
 namespace Files.Uwp.Filesystem.StorageItems
 {
@@ -83,7 +85,7 @@ namespace Files.Uwp.Filesystem.StorageItems
                     if (!string.IsNullOrEmpty(destFolder.Path))
                     {
                         var destination = IO.Path.Combine(destFolder.Path, desiredNewName);
-                        var hFile = NativeFileOperationsHelper.CreateFileForWrite(destination, 
+                        var hFile = CreateFileForWrite(destination, 
                             option == NameCollisionOption.ReplaceExisting);
                         if (!hFile.IsInvalid)
                         {

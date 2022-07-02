@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Core;
+using static Files.Uwp.Filesystem.Native.NativeHelpers;
 
 namespace Files.Uwp.ViewModels.Properties
 {
@@ -54,8 +55,8 @@ namespace Files.Uwp.ViewModels.Properties
 
         public async override void GetSpecialProperties()
         {
-            ViewModel.IsReadOnly = NativeFileOperationsHelper.HasFileAttribute(Library.ItemPath, System.IO.FileAttributes.ReadOnly);
-            ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(Library.ItemPath, System.IO.FileAttributes.Hidden);
+            ViewModel.IsReadOnly = HasFileAttribute(Library.ItemPath, System.IO.FileAttributes.ReadOnly);
+            ViewModel.IsHidden = HasFileAttribute(Library.ItemPath, System.IO.FileAttributes.Hidden);
 
             var fileIconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Library.ItemPath, 80);
             if (fileIconData != null)
@@ -139,22 +140,22 @@ namespace Files.Uwp.ViewModels.Properties
                 case "IsReadOnly":
                     if (ViewModel.IsReadOnly)
                     {
-                        NativeFileOperationsHelper.SetFileAttribute(Library.ItemPath, System.IO.FileAttributes.ReadOnly);
+                        SetFileAttribute(Library.ItemPath, System.IO.FileAttributes.ReadOnly);
                     }
                     else
                     {
-                        NativeFileOperationsHelper.UnsetFileAttribute(Library.ItemPath, System.IO.FileAttributes.ReadOnly);
+                        UnsetFileAttribute(Library.ItemPath, System.IO.FileAttributes.ReadOnly);
                     }
                     break;
 
                 case "IsHidden":
                     if (ViewModel.IsHidden)
                     {
-                        NativeFileOperationsHelper.SetFileAttribute(Library.ItemPath, System.IO.FileAttributes.Hidden);
+                        SetFileAttribute(Library.ItemPath, System.IO.FileAttributes.Hidden);
                     }
                     else
                     {
-                        NativeFileOperationsHelper.UnsetFileAttribute(Library.ItemPath, System.IO.FileAttributes.Hidden);
+                        UnsetFileAttribute(Library.ItemPath, System.IO.FileAttributes.Hidden);
                     }
                     break;
             }

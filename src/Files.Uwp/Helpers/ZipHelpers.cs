@@ -7,6 +7,8 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using static Files.Uwp.Filesystem.Native.NativeApi;
+using static Files.Uwp.Filesystem.Native.NativeHelpers;
 
 namespace Files.Uwp.Helpers
 {
@@ -60,13 +62,13 @@ namespace Files.Uwp.Helpers
 
                 foreach (var dir in directories.Distinct().OrderBy(x => x.Length))
                 {
-                    if (!NativeFileOperationsHelper.CreateDirectoryFromApp(dir, IntPtr.Zero))
+                    if (!CreateDirectoryFromApp(dir, IntPtr.Zero))
                     {
                         var dirName = destinationFolder.Path;
                         foreach (var component in dir.Substring(destinationFolder.Path.Length).Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries))
                         {
                             dirName = Path.Combine(dirName, component);
-                            NativeFileOperationsHelper.CreateDirectoryFromApp(dirName, IntPtr.Zero);
+                            CreateDirectoryFromApp(dirName, IntPtr.Zero);
                         }
                     }
 
@@ -101,7 +103,7 @@ namespace Files.Uwp.Helpers
 
                     string filePath = wnt.TransformFile(ZipStorageFolder.DecodeEntryName(entry, zipEncoding));
 
-                    var hFile = NativeFileOperationsHelper.CreateFileForWrite(filePath);
+                    var hFile = CreateFileForWrite(filePath);
                     if (hFile.IsInvalid)
                     {
                         return; // TODO: handle error

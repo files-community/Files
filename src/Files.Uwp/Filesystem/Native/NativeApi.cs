@@ -1,9 +1,9 @@
 ﻿using System;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading;
-using Windows.Storage;
 using static Files.Uwp.Filesystem.Native.NativeHelpers;
 
 namespace Files.Uwp.Filesystem.Native
@@ -150,8 +150,29 @@ namespace Files.Uwp.Filesystem.Native
             uint dwIoControlCode,
             IntPtr lpInBuffer,
             uint nInBufferSize,
-            //IntPtr lpOutBuffer,
             out REPARSE_DATA_BUFFER outBuffer,
+            uint nOutBufferSize,
+            out uint lpBytesReturned,
+            IntPtr lpOverlapped
+        );
+        [DllImport("api-ms-win-core-io-l1-1-0.dll", ExactSpelling = true, SetLastError = true, CharSet = CharSet.Auto)]
+        public static extern bool DeviceIoControl(
+            IntPtr hDevice,
+            uint dwIoControlCode,
+            IntPtr lpInBuffer,
+            uint nInBufferSize,
+            IntPtr lpOutBuffer,
+            uint nOutBufferSize,
+            out uint lpBytesReturned,
+            IntPtr lpOverlapped
+        );
+        [DllImport("api-ms-win-core-io-l1-1-0.dll", ExactSpelling = true, SetLastError = true, CharSet = CharSet.Auto)]
+        public static extern bool DeviceIoControl(
+            IntPtr hDevice,
+            uint dwIoControlCode,
+            byte[] lpInBuffer,
+            uint nInBufferSize,
+            IntPtr lpOutBuffer,
             uint nOutBufferSize,
             out uint lpBytesReturned,
             IntPtr lpOverlapped
@@ -224,7 +245,19 @@ namespace Files.Uwp.Filesystem.Native
         public static extern bool FindNextFile(IntPtr hFindFile, out WIN32_FIND_DATA lpFindFileData);
 
         [DllImport("api-ms-win-core-file-l2-1-1.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
-        public static extern bool GetFileInformationByHandleEx(IntPtr hFile, FILE_INFO_BY_HANDLE_CLASS infoClass, IntPtr dirInfo, uint dwBufferSize);
+        public static extern bool GetFileInformationByHandleEx(
+            IntPtr hFile,
+            FILE_INFO_BY_HANDLE_CLASS infoClass,
+            IntPtr dirInfo,
+            uint dwBufferSize
+        );
+        [DllImport("api-ms-win-core-file-l2-1-1.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
+        public static extern bool GetFileInformationByHandleEx(
+            IntPtr hFile,
+            FILE_INFO_BY_HANDLE_CLASS infoClass,
+            out FILE_ID_BOTH_DIR_INFO dirInfo,
+            uint dwBufferSize
+        );
 
         [DllImport("api-ms-win-core-file-l1-1-0.dll")]
         public static extern bool FindClose(IntPtr hFindFile);

@@ -132,15 +132,15 @@ namespace Files.Uwp.Filesystem.Native
             return null;
         }
 
-        public static bool HasFileAttribute(string lpFileName, Windows.Storage.FileAttributes dwAttrs)
+        public static bool HasFileAttribute(string lpFileName, FileAttributes dwAttrs)
             => GetFileAttributesExFromApp(lpFileName, GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out var lpFileInfo)
                 && (lpFileInfo.dwFileAttributes & dwAttrs) == dwAttrs;
 
-        public static bool SetFileAttribute(string lpFileName, Windows.Storage.FileAttributes dwAttrs)
+        public static bool SetFileAttribute(string lpFileName, FileAttributes dwAttrs)
             => GetFileAttributesExFromApp(lpFileName, GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out var lpFileInfo)
                 && SetFileAttributesFromApp(lpFileName, lpFileInfo.dwFileAttributes | dwAttrs);
 
-        public static bool UnsetFileAttribute(string lpFileName, Windows.Storage.FileAttributes dwAttrs)
+        public static bool UnsetFileAttribute(string lpFileName, FileAttributes dwAttrs)
             => GetFileAttributesExFromApp(lpFileName, GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out var lpFileInfo)
                 && SetFileAttributesFromApp(lpFileName, lpFileInfo.dwFileAttributes & ~dwAttrs);
 
@@ -344,6 +344,38 @@ namespace Files.Uwp.Filesystem.Native
                 return true;
             }
             return false;
+        }
+
+        public static long GetSize(this WIN32_FIND_DATA findData)
+        {
+            const long MAXDWORD = 4294967295;
+
+            long fDataFSize = findData.nFileSizeLow;
+
+            return fDataFSize
+                + (fDataFSize < 0 ? MAXDWORD + 1 : 0)
+                + (findData.nFileSizeHigh > 0 ? findData.nFileSizeHigh * (MAXDWORD + 1) : 0)
+            ;
+        }
+
+        // https://www.pinvoke.net/default.aspx/kernel32/GetFileInformationByHandleEx.html
+        public static ulong? GetFolderFRN(string folderPath)
+        {
+            using var handle = OpenFileForRead(folderPath);
+            if (!handle.IsInvalid)
+            {
+                var fileStruct = new FILE_ID_BOTH_DIR_INFO();
+                if (GetFileInformationByHandleEx(
+                    handle.DangerousGetHandle(),
+                    FILE_INFO_BY_HANDLE_CLASS.FileIdBothDirectoryInfo,
+                    out fileStruct,
+                    (uint)Marshal.SizeOf(fileStruct)
+                ))
+                {
+                    return (ulong)fileStruct.FileId;
+                }
+            }
+            return null;
         }
 
         private static bool IsArmProcessor()

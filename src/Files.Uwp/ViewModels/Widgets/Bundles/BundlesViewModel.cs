@@ -1,13 +1,13 @@
-﻿using Files.Uwp.Dialogs;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Input;
+using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
+using Files.Uwp.Dialogs;
 using Files.Uwp.EventArguments.Bundles;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Helpers;
-using Files.Backend.Services.Settings;
 using Files.Uwp.ViewModels.Dialogs;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -22,6 +22,7 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using static Files.Uwp.Filesystem.Native.NativeHelpers;
 
 namespace Files.Uwp.ViewModels.Widgets.Bundles
 {
@@ -233,7 +234,7 @@ namespace Files.Uwp.ViewModels.Widgets.Bundles
             {
                 try
                 {
-                    string data = NativeFileOperationsHelper.ReadStringFromFile(file.Path);
+                    string data = ReadStringFromFile(file.Path);
                     BundlesSettingsService.ImportSettings(data);
                 }
                 catch // Couldn't deserialize, data is corrupted
@@ -250,7 +251,7 @@ namespace Files.Uwp.ViewModels.Widgets.Bundles
             StorageFile file = await filePicker.PickSaveFileAsync();
             if (file != null)
             {
-                NativeFileOperationsHelper.WriteStringToFile(file.Path, (string)BundlesSettingsService.ExportSettings());
+                WriteStringToFile(file.Path, (string)BundlesSettingsService.ExportSettings());
             }
         }
 

@@ -1,8 +1,8 @@
-﻿using Files.Uwp.Extensions;
+﻿using CommunityToolkit.Mvvm.Input;
+using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
-using CommunityToolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json.Linq;
 using System;
@@ -22,6 +22,7 @@ using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
+using static Files.Uwp.Filesystem.Native.NativeHelpers;
 
 namespace Files.Uwp.ViewModels.Properties
 {
@@ -100,9 +101,9 @@ namespace Files.Uwp.ViewModels.Properties
 
         public override async void GetSpecialProperties()
         {
-            ViewModel.IsReadOnly = NativeFileOperationsHelper.HasFileAttribute(
+            ViewModel.IsReadOnly = HasFileAttribute(
                 Item.ItemPath, System.IO.FileAttributes.ReadOnly);
-            ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(
+            ViewModel.IsHidden = HasFileAttribute(
                 Item.ItemPath, System.IO.FileAttributes.Hidden);
 
             ViewModel.ItemSizeVisibility = true;
@@ -304,26 +305,22 @@ namespace Files.Uwp.ViewModels.Properties
                 case "IsReadOnly":
                     if (ViewModel.IsReadOnly)
                     {
-                        NativeFileOperationsHelper.SetFileAttribute(
-                            Item.ItemPath, System.IO.FileAttributes.ReadOnly);
+                        SetFileAttribute(Item.ItemPath, System.IO.FileAttributes.ReadOnly);
                     }
                     else
                     {
-                        NativeFileOperationsHelper.UnsetFileAttribute(
-                            Item.ItemPath, System.IO.FileAttributes.ReadOnly);
+                        UnsetFileAttribute(Item.ItemPath, System.IO.FileAttributes.ReadOnly);
                     }
                     break;
 
                 case "IsHidden":
                     if (ViewModel.IsHidden)
                     {
-                        NativeFileOperationsHelper.SetFileAttribute(
-                            Item.ItemPath, System.IO.FileAttributes.Hidden);
+                        SetFileAttribute(Item.ItemPath, System.IO.FileAttributes.Hidden);
                     }
                     else
                     {
-                        NativeFileOperationsHelper.UnsetFileAttribute(
-                            Item.ItemPath, System.IO.FileAttributes.Hidden);
+                        UnsetFileAttribute(Item.ItemPath, System.IO.FileAttributes.Hidden);
                     }
                     break;
 

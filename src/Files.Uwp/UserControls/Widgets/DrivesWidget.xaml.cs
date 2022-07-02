@@ -1,25 +1,26 @@
-﻿using Files.Uwp.DataModels.NavigationControlItems;
-using Files.Uwp.Helpers;
-using Files.Backend.Services.Settings;
-using Files.Uwp.ViewModels.Widgets;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services.Settings;
+using Files.Uwp.DataModels.NavigationControlItems;
+using Files.Uwp.Helpers;
+using Files.Uwp.ViewModels.Widgets;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using CommunityToolkit.Mvvm.ComponentModel;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.ApplicationModel.Core;
-using System.Collections.Specialized;
+using static Files.Uwp.Filesystem.Native.NativeHelpers;
 
 namespace Files.Uwp.UserControls.Widgets
 {
@@ -273,7 +274,7 @@ namespace Files.Uwp.UserControls.Widgets
                 {
                     { "Arguments", "NetworkDriveOperation" },
                     { "netdriveop", "OpenMapNetworkDriveDialog" },
-                    { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
+                    { "HWND", CoreWindowHandle.ToInt64() }
                 });
             }
         }

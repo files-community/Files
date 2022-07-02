@@ -13,6 +13,10 @@ using Windows.Storage;
 using Files.Shared.Extensions;
 using Newtonsoft.Json;
 using IO = System.IO;
+using Files.Uwp.Filesystem.Native;
+using static Files.Uwp.Filesystem.Native.NativeApi;
+using static Files.Uwp.Filesystem.Native.NativeConstants;
+using static Files.Uwp.Filesystem.Native.NativeHelpers;
 
 namespace Files.Uwp.ViewModels
 {
@@ -313,7 +317,7 @@ namespace Files.Uwp.ViewModels
             if (userSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder)
             {
                 folderPath = folderPath.TrimPath();
-                var folderFRN = NativeFileOperationsHelper.GetFolderFRN(folderPath);
+                var folderFRN = GetFolderFRN(folderPath);
                 return ReadLayoutPreferencesFromDb(folderPath, folderFRN)
                     ?? ReadLayoutPreferencesFromAds(folderPath, folderFRN)
                     ?? GetDefaultLayoutPreferences(folderPath);
@@ -328,7 +332,7 @@ namespace Files.Uwp.ViewModels
 
             if (userSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder)
             {
-                var folderFRN = NativeFileOperationsHelper.GetFolderFRN(folderPath);
+                var folderFRN = GetFolderFRN(folderPath);
                 WriteLayoutPreferencesToDb(folderPath.TrimPath(), folderFRN, prefs);
             }
             else
@@ -361,11 +365,11 @@ namespace Files.Uwp.ViewModels
 
         private static LayoutPreferences ReadLayoutPreferencesFromAds(string folderPath, ulong? frn)
         {
-            var str = NativeFileOperationsHelper.ReadStringFromFile($"{folderPath}:files_layoutmode");
+            var str = ReadStringFromFile($"{folderPath}:files_layoutmode");
             var adsPrefs = SafetyExtensions.IgnoreExceptions(() =>
                 string.IsNullOrEmpty(str) ? null : JsonConvert.DeserializeObject<LayoutPreferences>(str));
             WriteLayoutPreferencesToDb(folderPath, frn, adsPrefs); // Port settings to DB, delete ADS
-            NativeFileOperationsHelper.DeleteFileFromApp($"{folderPath}:files_layoutmode");
+            DeleteFileFromApp($"{folderPath}:files_layoutmode");
             return adsPrefs;
         }
 

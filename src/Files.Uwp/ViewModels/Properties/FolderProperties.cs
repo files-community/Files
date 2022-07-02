@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
 using Windows.UI.Core;
+using static Files.Uwp.Filesystem.Native.NativeHelpers;
 
 namespace Files.Uwp.ViewModels.Properties
 {
@@ -72,8 +73,7 @@ namespace Files.Uwp.ViewModels.Properties
 
         public async override void GetSpecialProperties()
         {
-            ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(
-                Item.ItemPath, System.IO.FileAttributes.Hidden);
+            ViewModel.IsHidden = HasFileAttribute(Item.ItemPath, FileAttributes.Hidden);
 
             var fileIconData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.ItemPath, 80, Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
             if (fileIconData != null)
@@ -203,13 +203,11 @@ namespace Files.Uwp.ViewModels.Properties
                 case "IsHidden":
                     if (ViewModel.IsHidden)
                     {
-                        NativeFileOperationsHelper.SetFileAttribute(
-                            Item.ItemPath, System.IO.FileAttributes.Hidden);
+                        SetFileAttribute(Item.ItemPath, FileAttributes.Hidden);
                     }
                     else
                     {
-                        NativeFileOperationsHelper.UnsetFileAttribute(
-                            Item.ItemPath, System.IO.FileAttributes.Hidden);
+                        UnsetFileAttribute(Item.ItemPath, FileAttributes.Hidden);
                     }
                     break;
 

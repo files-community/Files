@@ -1,8 +1,10 @@
 ﻿using System;
 using System.IO;
 using Files.Shared.Extensions;
-
-using static Files.Uwp.Helpers.NativeFileOperationsHelper;
+using Files.Uwp.Filesystem.Native;
+using static Files.Uwp.Filesystem.Native.NativeApi;
+using static Files.Uwp.Filesystem.Native.NativeConstants;
+using static Files.Uwp.Filesystem.Native.NativeHelpers;
 
 #nullable enable
 

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using static Files.Uwp.Helpers.NativeIoDeviceControlHelper;
+using static Files.Uwp.Filesystem.Native.NativeApi;
+using static Files.Uwp.Filesystem.Native.NativeConstants;
 
 namespace Files.Uwp.Interacts
 {

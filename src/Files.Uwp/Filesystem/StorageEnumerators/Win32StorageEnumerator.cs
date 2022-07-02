@@ -4,6 +4,7 @@ using Files.Backend.Services.Settings;
 using Files.Backend.Services.SizeProvider;
 using Files.Shared;
 using Files.Uwp.Extensions;
+using Files.Uwp.Filesystem.Native;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
 using Files.Uwp.Helpers.FileListCache;
@@ -19,7 +20,9 @@ using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
-using static Files.Backend.Helpers.NativeFindStorageItemHelper;
+using static Files.Uwp.Filesystem.Native.NativeApi;
+using static Files.Uwp.Filesystem.Native.NativeConstants;
+using static Files.Uwp.Filesystem.Native.NativeHelpers;
 using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.Uwp.Filesystem.StorageEnumerators
@@ -138,7 +141,7 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
 
         private static IEnumerable<ListedItem> EnumAdsForPath(string itemPath, ListedItem main)
         {
-            foreach (var ads in NativeFileOperationsHelper.GetAlternateStreams(itemPath))
+            foreach (var ads in GetAlternateStreams(itemPath))
             {
                 yield return GetAlternateStream(ads, main);
             }
@@ -283,11 +286,11 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
 
             // https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/c8e77b37-3909-4fe6-a4ea-2b9d423b1ee4
             bool isReparsePoint = ((FileAttributes)findData.dwFileAttributes & FileAttributes.ReparsePoint) == FileAttributes.ReparsePoint;
-            bool isSymlink = isReparsePoint && findData.dwReserved0 == NativeFileOperationsHelper.IO_REPARSE_TAG_SYMLINK;
+            bool isSymlink = isReparsePoint && findData.dwReserved0 == IO_REPARSE_TAG_SYMLINK;
 
             if (isSymlink)
             {
-                var targetPath = NativeFileOperationsHelper.ParseSymLink(itemPath);
+                var targetPath = ParseSymLink(itemPath);
                 return new ShortcutItem(null)
                 {
                     PrimaryItemAttribute = StorageItemTypes.File,

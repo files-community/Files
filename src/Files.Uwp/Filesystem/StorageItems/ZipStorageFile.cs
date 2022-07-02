@@ -9,6 +9,7 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
+using static Files.Uwp.Filesystem.Native.NativeHelpers;
 using IO = System.IO;
 using Storage = Windows.Storage;
 
@@ -100,7 +101,7 @@ namespace Files.Uwp.Filesystem.StorageItems
                         return await backingFile.OpenAsync(accessMode);
                     }
 
-                    var file = NativeFileOperationsHelper.OpenFileForRead(containerPath, rw);
+                    var file = OpenFileForRead(containerPath, rw);
                     if (file.IsInvalid)
                     {
                         return null;
@@ -152,7 +153,7 @@ namespace Files.Uwp.Filesystem.StorageItems
                     return new NonSeekableRandomAccessStreamForWrite(stream);
                 }
 
-                var hFile = NativeFileOperationsHelper.OpenFileForRead(containerPath, true);
+                var hFile = OpenFileForRead(containerPath, true);
                 if (hFile.IsInvalid)
                 {
                     return null;
@@ -177,7 +178,7 @@ namespace Files.Uwp.Filesystem.StorageItems
                         return await backingFile.OpenReadAsync();
                     }
 
-                    var hFile = NativeFileOperationsHelper.OpenFileForRead(containerPath);
+                    var hFile = OpenFileForRead(containerPath);
                     if (hFile.IsInvalid)
                     {
                         return null;
@@ -219,7 +220,7 @@ namespace Files.Uwp.Filesystem.StorageItems
                         return await backingFile.OpenSequentialReadAsync();
                     }
 
-                    var hFile = NativeFileOperationsHelper.OpenFileForRead(containerPath);
+                    var hFile = OpenFileForRead(containerPath);
                     if (hFile.IsInvalid)
                     {
                         return null;
@@ -342,7 +343,7 @@ namespace Files.Uwp.Filesystem.StorageItems
         {
             try
             {
-                var hFile = NativeFileOperationsHelper.OpenFileForRead(path);
+                var hFile = OpenFileForRead(path);
                 if (hFile.IsInvalid)
                 {
                     return false;
@@ -386,9 +387,7 @@ namespace Files.Uwp.Filesystem.StorageItems
                     return new ZipFile((await backingFile.OpenAsync(accessMode)).AsStream());
                 }
 
-                var hFile = openProtected
-                    ? await NativeFileOperationsHelper.OpenProtectedFileForRead(containerPath)
-                    : NativeFileOperationsHelper.OpenFileForRead(containerPath, readWrite);
+                var hFile = openProtected ? await OpenProtectedFileForRead(containerPath) : OpenFileForRead(containerPath, readWrite);
                 if (hFile.IsInvalid)
                 {
                     return null;

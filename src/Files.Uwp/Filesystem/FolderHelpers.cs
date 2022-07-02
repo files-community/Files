@@ -1,9 +1,11 @@
-﻿using Files.Uwp.Filesystem.StorageItems;
+﻿using Files.Uwp.Filesystem.Native;
+using Files.Uwp.Filesystem.StorageItems;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using static Files.Backend.Helpers.NativeFindStorageItemHelper;
+using static Files.Uwp.Filesystem.Native.NativeApi;
+using static Files.Uwp.Filesystem.Native.NativeConstants;
 
 namespace Files.Uwp.Filesystem
 {

@@ -1,4 +1,4 @@
-﻿using Files.Uwp.Helpers;
+﻿using Files.Uwp.Filesystem.Native;
 using System;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
-using static Files.Backend.Helpers.NativeFindStorageItemHelper;
+using static Files.Uwp.Filesystem.Native.NativeApi;
+using static Files.Uwp.Filesystem.Native.NativeConstants;
 
 namespace Files.Uwp.Filesystem.StorageItems
 {
@@ -49,7 +50,7 @@ namespace Files.Uwp.Filesystem.StorageItems
             {
                 // https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/c8e77b37-3909-4fe6-a4ea-2b9d423b1ee4
                 bool isReparsePoint = ((System.IO.FileAttributes)findData.dwFileAttributes & System.IO.FileAttributes.ReparsePoint) == System.IO.FileAttributes.ReparsePoint;
-                bool isSymlink = isReparsePoint && findData.dwReserved0 == NativeFileOperationsHelper.IO_REPARSE_TAG_SYMLINK;
+                bool isSymlink = isReparsePoint && findData.dwReserved0 == IO_REPARSE_TAG_SYMLINK;
                 bool isHidden = ((System.IO.FileAttributes)findData.dwFileAttributes & System.IO.FileAttributes.Hidden) == System.IO.FileAttributes.Hidden;
                 bool isDirectory = ((System.IO.FileAttributes)findData.dwFileAttributes & System.IO.FileAttributes.Directory) == System.IO.FileAttributes.Directory;
 

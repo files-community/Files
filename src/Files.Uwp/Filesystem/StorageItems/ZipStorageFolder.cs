@@ -1,6 +1,5 @@
-﻿using Files.Uwp.Extensions;
-using Files.Uwp.Helpers;
-using Files.Shared.Extensions;
+﻿using Files.Shared.Extensions;
+using Files.Uwp.Extensions;
 using ICSharpCode.SharpZipLib.Zip;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -15,6 +14,7 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
+using static Files.Uwp.Filesystem.Native.NativeHelpers;
 using IO = System.IO;
 using Storage = Windows.Storage;
 
@@ -80,7 +80,7 @@ namespace Files.Uwp.Filesystem.StorageItems
         {
             async Task<bool> queryFileAssoc()
             {
-                var assoc = await NativeWinApiHelper.GetFileAssociationAsync(filePath);
+                var assoc = await GetFileAssociationAsync(filePath);
                 if (assoc is not null)
                 {
                     isDefaultZipApp = assoc == Package.Current.Id.FamilyName
@@ -449,7 +449,7 @@ namespace Files.Uwp.Filesystem.StorageItems
         {
             return SafetyExtensions.IgnoreExceptions(() =>
             {
-                var hFile = NativeFileOperationsHelper.OpenFileForRead(path);
+                var hFile = OpenFileForRead(path);
                 if (hFile.IsInvalid)
                 {
                     return false;
@@ -488,7 +488,7 @@ namespace Files.Uwp.Filesystem.StorageItems
                     return new ZipFile((await backingFile.OpenAsync(accessMode)).AsStream());
                 }
 
-                var hFile = NativeFileOperationsHelper.OpenFileForRead(containerPath, readWrite);
+                var hFile = OpenFileForRead(containerPath, readWrite);
                 if (hFile.IsInvalid)
                 {
                     return null;

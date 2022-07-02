@@ -1,10 +1,10 @@
-﻿using Files.Shared;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Files.Shared.Extensions;
 using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Filesystem.Permissions;
 using Files.Uwp.Helpers;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
-using Files.Shared.Extensions;
+using static Files.Uwp.Filesystem.Native.NativeHelpers;
 
 namespace Files.Uwp.ViewModels.Properties
 {
@@ -319,7 +319,7 @@ namespace Files.Uwp.ViewModels.Properties
                 {
                     { "Arguments", "FileOperation" },
                     { "fileop", "OpenObjectPicker" },
-                    { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
+                    { "HWND", CoreWindowHandle.ToInt64() }
                 };
                 var (status, response) = await connection.SendMessageForResponseAsync(value);
                 if (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)

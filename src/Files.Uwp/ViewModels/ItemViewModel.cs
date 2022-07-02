@@ -12,6 +12,7 @@ using Files.Shared.Extensions;
 using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Filesystem.Cloud;
+using Files.Uwp.Filesystem.Native;
 using Files.Uwp.Filesystem.Search;
 using Files.Uwp.Filesystem.StorageEnumerators;
 using Files.Uwp.Filesystem.StorageItems;
@@ -44,9 +45,11 @@ using Windows.System;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
-using static Files.Backend.Helpers.NativeFindStorageItemHelper;
-using static Files.Uwp.Helpers.NativeDirectoryChangesHelper;
+using static Files.Uwp.Filesystem.Native.NativeApi;
+using static Files.Uwp.Filesystem.Native.NativeConstants;
+using static Files.Uwp.Filesystem.Native.NativeHelpers;
 using FileAttributes = System.IO.FileAttributes;
+
 
 namespace Files.Uwp.ViewModels
 {
@@ -642,7 +645,7 @@ namespace Files.Uwp.ViewModels
                         UpdateEmptyTextType();
                         DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
                     }
-                    if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
+                    if (IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
                     {
                         ClearDisplay();
                     }
@@ -730,7 +733,7 @@ namespace Files.Uwp.ViewModels
                     DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
                 }
 
-                if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
+                if (IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
                 {
                     await Task.Run(ApplyChanges);
                     UpdateUI();
@@ -779,7 +782,7 @@ namespace Files.Uwp.ViewModels
                 filesAndFolders = SortingHelper.OrderFileList(filesAndFolders, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles).ToList();
             }
 
-            if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
+            if (IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
             {
                 return Task.Run(OrderEntries);
             }
@@ -932,7 +935,7 @@ namespace Files.Uwp.ViewModels
             var wasIconLoaded = false;
             if (item.IsLibraryItem || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsZipItem)
             {
-                if (UserSettingsService.PreferencesSettingsService.ShowThumbnails && 
+                if (UserSettingsService.PreferencesSettingsService.ShowThumbnails &&
                     !item.IsShortcutItem && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
                 {
                     var matchingStorageFile = matchingStorageItem.AsBaseStorageFile() ?? await GetFileFromPathAsync(item.ItemPath);
@@ -1873,8 +1876,8 @@ namespace Files.Uwp.ViewModels
         private void WatchForDirectoryChanges(string path, CloudDriveSyncStatus syncStatus)
         {
             Debug.WriteLine($"WatchForDirectoryChanges: {path}");
-            var hWatchDir = NativeFileOperationsHelper.CreateFileFromApp(path, 1, 1 | 2 | 4,
-                IntPtr.Zero, 3, (uint)NativeFileOperationsHelper.File_Attributes.BackupSemantics | (uint)NativeFileOperationsHelper.File_Attributes.Overlapped, IntPtr.Zero);
+            var hWatchDir = CreateFileFromApp(path, 1, 1 | 2 | 4,
+                IntPtr.Zero, 3, (uint)File_Attributes.BackupSemantics | (uint)File_Attributes.Overlapped, IntPtr.Zero);
             if (hWatchDir.ToInt64() == -1)
             {
                 return;
@@ -1911,7 +1914,7 @@ namespace Files.Uwp.ViewModels
                             ref var notifyInformation = ref Unsafe.As<byte, FILE_NOTIFY_INFORMATION>(ref buff[0]);
                             if (x.Status != AsyncStatus.Canceled)
                             {
-                                NativeDirectoryChangesHelper.ReadDirectoryChangesW(hWatchDir, pBuff,
+                                ReadDirectoryChangesW(hWatchDir, pBuff,
                                 4096, false,
                                 notifyFilters, null,
                                 ref overlapped, null);
@@ -2149,7 +2152,7 @@ namespace Files.Uwp.ViewModels
                 if (UserSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible)
                 {
                     // New file added, enumerate ADS
-                    foreach (var ads in NativeFileOperationsHelper.GetAlternateStreams(item.ItemPath))
+                    foreach (var ads in GetAlternateStreams(item.ItemPath))
                     {
                         var adsItem = Win32StorageEnumerator.GetAlternateStream(ads, item);
                         filesAndFolders.Add(adsItem);
