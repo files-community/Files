@@ -1,13 +1,14 @@
-﻿using Files.Shared.Extensions;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Input;
+using Files.Backend.Services.Settings;
+using Files.Filesystem.Helpers;
+using Files.Shared.Extensions;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
-using Files.Backend.Services.Settings;
 using Files.Uwp.UserControls.MultitaskingControl;
 using Files.Uwp.Views;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -294,21 +295,21 @@ namespace Files.Uwp.ViewModels
             }
             else
             {
-                var matchingCloudDrive = App.CloudDrivesManager.Drives.FirstOrDefault(x => PathNormalization.NormalizePath(currentPath).Equals(PathNormalization.NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
+                var matchingCloudDrive = App.CloudDrivesManager.Drives.FirstOrDefault(x => currentPath.NormalizePath().Equals(x.Path.NormalizePath(), StringComparison.OrdinalIgnoreCase));
                 if (matchingCloudDrive != null)
                 {
                     tabLocationHeader = matchingCloudDrive.Text;
                 }
-                else if (PathNormalization.NormalizePath(PathNormalization.GetPathRoot(currentPath)) == PathNormalization.NormalizePath(currentPath)) // If path is a drive's root
+                else if (currentPath.GetRootPath().NormalizePath() == currentPath.NormalizePath()) // If path is a drive's root
                 {
-                    var matchingNetDrive = App.NetworkDrivesManager.Drives.FirstOrDefault(x => PathNormalization.NormalizePath(currentPath).Contains(PathNormalization.NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
+                    var matchingNetDrive = App.NetworkDrivesManager.Drives.FirstOrDefault(x => currentPath.NormalizePath().Contains(x.Path.NormalizePath(), StringComparison.OrdinalIgnoreCase));
                     if (matchingNetDrive != null)
                     {
                         tabLocationHeader = matchingNetDrive.Text;
                     }
                     else
                     {
-                        tabLocationHeader = PathNormalization.NormalizePath(currentPath);
+                        tabLocationHeader = currentPath.NormalizePath();
                     }
                 }
                 else

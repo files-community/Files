@@ -1,4 +1,5 @@
-﻿using Files.Shared;
+﻿using Files.Filesystem.Helpers;
+using Files.Shared;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
@@ -10,7 +11,6 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Windows.Storage;
-using System.Linq;
 
 namespace Files.Uwp.Extensions
 {
@@ -58,7 +58,7 @@ namespace Files.Uwp.Extensions
 
         public static async Task<FilesystemResult<BaseStorageFile>> Create(this ShellNewEntry shellEntry, string filePath, IShellPage associatedInstance)
         {
-            var parentFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(filePath));
+            var parentFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(filePath.GetParentPath());
             if (parentFolder)
             {
                 return await Create(shellEntry, parentFolder, filePath);

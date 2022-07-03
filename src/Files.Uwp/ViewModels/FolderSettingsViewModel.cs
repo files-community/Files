@@ -1,17 +1,18 @@
-﻿using Files.Shared.Enums;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Input;
+using Files.Backend.Services.Settings;
+using Files.Filesystem.Helpers;
+using Files.Shared.Enums;
+using Files.Shared.Extensions;
 using Files.Uwp.EventArguments;
 using Files.Uwp.Helpers;
 using Files.Uwp.Helpers.LayoutPreferences;
-using Files.Backend.Services.Settings;
 using Files.Uwp.Views.LayoutModes;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
+using Newtonsoft.Json;
 using System;
 using System.Windows.Input;
 using Windows.Storage;
-using Files.Shared.Extensions;
-using Newtonsoft.Json;
 using IO = System.IO;
 
 namespace Files.Uwp.ViewModels

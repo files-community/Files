@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace Files.Backend.Filesystem.Storage
+namespace Files.Filesystem.Helpers
 {
     public static class FtpExtensions
     {

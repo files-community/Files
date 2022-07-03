@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Settings;
 using Files.Backend.ViewModels.FileTags;
+using Files.Filesystem.Helpers;
 using Files.Shared.Extensions;
 using Files.Shared.Services.DateTimeFormatter;
 using Files.Uwp.Extensions;
@@ -477,7 +478,7 @@ namespace Files.Uwp.Filesystem
             ItemDateModifiedReal = item.RawModified < DateTime.FromFileTimeUtc(0) ? DateTimeOffset.MinValue : item.RawModified;
             ItemNameRaw = item.Name;
             FileExtension = Path.GetExtension(item.Name);
-            ItemPath = PathNormalization.Combine(folder, item.Name);
+            ItemPath = folder.CombinePath(item.Name);
             PrimaryItemAttribute = isFile ? StorageItemTypes.File : StorageItemTypes.Folder;
             ItemPropertiesInitialized = false;
 

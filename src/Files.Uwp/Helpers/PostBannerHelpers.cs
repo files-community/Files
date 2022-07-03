@@ -1,4 +1,5 @@
-﻿using Files.Shared.Enums;
+﻿using Files.Filesystem.Helpers;
+using Files.Shared.Enums;
 using Files.Uwp.Filesystem;
 using Files.Uwp.ViewModels;
 using Microsoft.Toolkit.Uwp;
@@ -14,7 +15,7 @@ namespace Files.Uwp.Helpers
 
         public static PostedStatusBanner PostBanner_Delete(IEnumerable<IStorageItemWithPath> source, ReturnResult returnStatus, bool permanently, bool canceled, int itemsDeleted)
         {
-            var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault()?.Path);
+            var sourceDir = source.FirstOrDefault()?.Path.GetParentPath();
 
             if (canceled)
             {
@@ -110,8 +111,8 @@ namespace Files.Uwp.Helpers
 
         public static PostedStatusBanner PostBanner_Copy(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, ReturnResult returnStatus, bool canceled, int itemsCopied)
         {
-            var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault()?.Path);
-            var destinationDir = PathNormalization.GetParentDir(destination.FirstOrDefault());
+            var sourceDir = source.FirstOrDefault()?.Path.GetParentPath();
+            var destinationDir = destination.FirstOrDefault().GetParentPath();
 
             if (canceled)
             {
@@ -155,8 +156,8 @@ namespace Files.Uwp.Helpers
 
         public static PostedStatusBanner PostBanner_Move(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, ReturnResult returnStatus, bool canceled, int itemsMoved)
         {
-            var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault()?.Path);
-            var destinationDir = PathNormalization.GetParentDir(destination.FirstOrDefault());
+            var sourceDir = source.FirstOrDefault()?.Path.GetParentPath();
+            var destinationDir = destination.FirstOrDefault().GetParentPath();
 
             if (canceled)
             {

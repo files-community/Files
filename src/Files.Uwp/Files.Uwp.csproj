@@ -239,7 +239,6 @@
     <Compile Include="Helpers\KnownTypesBinder.cs" />
     <Compile Include="Helpers\LocalizedEnumHelper.cs" />
     <Compile Include="Helpers\ResourceHelpers.cs" />
-    <Compile Include="Helpers\FtpHelpers.cs" />
     <Compile Include="Helpers\ItemListDisplayHelpers\GroupedCollection.cs" />
     <Compile Include="Helpers\ItemListDisplayHelpers\GroupingHelper.cs" />
     <Compile Include="Helpers\StorageItemIconHelpers.cs" />
@@ -492,7 +491,6 @@
     <Compile Include="Helpers\NativeWinApiHelper.cs" />
     <Compile Include="Helpers\NaturalStringComparer.cs" />
     <Compile Include="Helpers\PackageHelper.cs" />
-    <Compile Include="Helpers\PathNormalization.cs" />
     <Compile Include="Helpers\PostBannerHelpers.cs" />
     <Compile Include="Helpers\RecycleBinHelpers.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
@@ -1610,6 +1608,10 @@
     <ProjectReference Include="..\BackgroundTasks\BackgroundTasks.csproj">
       <Project>{3d19293f-0e3a-4946-ade3-680a1e9123ec}</Project>
       <Name>BackgroundTasks</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Files.Filesystem\Files.Filesystem.csproj">
+      <Project>{96347ca1-3937-4b3b-9d75-fd23718546eb}</Project>
+      <Name>Files.Filesystem</Name>
     </ProjectReference>
     <ProjectReference Include="..\Files.Shared\Files.Shared.csproj">
       <Project>{0533133f-2559-4b53-a0fd-0970bc0e312e}</Project>

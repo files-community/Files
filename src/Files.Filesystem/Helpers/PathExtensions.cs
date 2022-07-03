@@ -1,12 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Backend.Filesystem.Storage;
 using Files.Shared;
 using Files.Shared.Extensions;
 using System;
 using System.IO;
 using System.Linq;
 
-namespace Files.Backend.Filesystem.Helpers
+namespace Files.Filesystem.Helpers
 {
     public static class PathExtensions
     {

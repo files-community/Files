@@ -1,11 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Settings;
+using Files.Filesystem.Helpers;
 using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -198,7 +198,7 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
                         Opacity = 1,
                         FileImage = null,
                         LoadFileIcon = false,
-                        ItemPath = string.IsNullOrEmpty(folder.Path) ? PathNormalization.Combine(currentStorageFolder.Path, folder.Name) : folder.Path,
+                        ItemPath = string.IsNullOrEmpty(folder.Path) ? currentStorageFolder.Path.CombinePath(folder.Name) : folder.Path,
                         FileSize = null,
                         FileSizeBytes = 0,
                         ItemDateDeletedReal = binFolder.DateDeleted,
@@ -218,7 +218,7 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
                         Opacity = 1,
                         FileImage = null,
                         LoadFileIcon = false,
-                        ItemPath = string.IsNullOrEmpty(folder.Path) ? PathNormalization.Combine(currentStorageFolder.Path, folder.Name) : folder.Path,
+                        ItemPath = string.IsNullOrEmpty(folder.Path) ? currentStorageFolder.Path.CombinePath(folder.Name) : folder.Path,
                         FileSize = null,
                         FileSizeBytes = 0
                     };
@@ -238,7 +238,7 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
             var itemName = file.Name;
             var itemModifiedDate = basicProperties.DateModified;
             var itemCreatedDate = file.DateCreated;
-            var itemPath = string.IsNullOrEmpty(file.Path) ? PathNormalization.Combine(currentStorageFolder.Path, file.Name) : file.Path;
+            var itemPath = string.IsNullOrEmpty(file.Path) ? currentStorageFolder.Path.CombinePath(file.Name) : file.Path;
             var itemSize = basicProperties.Size.ToSizeString();
             var itemSizeBytes = basicProperties.Size;
             var itemType = file.DisplayType;

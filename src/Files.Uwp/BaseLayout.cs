@@ -1,5 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Settings;
+using Files.Filesystem.Helpers;
+using Files.Shared.Enums;
+using Files.Shared.Extensions;
 using Files.Uwp.EventArguments;
 using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem;
@@ -7,9 +10,8 @@ using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
 using Files.Uwp.Helpers.ContextFlyouts;
 using Files.Uwp.Interacts;
-using Files.Shared.Enums;
-using Files.Shared.Extensions;
 using Files.Uwp.UserControls;
+using Files.Uwp.UserControls.Menus;
 using Files.Uwp.ViewModels;
 using Files.Uwp.Views;
 using Microsoft.Toolkit.Uwp;
@@ -35,8 +37,6 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
-using Files.Uwp.UserControls.Menus;
-using static Files.Uwp.Helpers.PathNormalization;
 
 namespace Files.Uwp
 {
@@ -432,7 +432,7 @@ namespace Files.Uwp
 
                 // pathRoot will be empty on recycle bin path
                 var workingDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory ?? string.Empty;
-                string pathRoot = GetPathRoot(workingDir);
+                string pathRoot = workingDir.GetRootPath();
                 if (string.IsNullOrEmpty(pathRoot) || workingDir.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal)) // Can't go up from recycle bin
                 {
                     ParentShellPageInstance.ToolbarViewModel.CanNavigateToParent = false;
@@ -444,7 +444,7 @@ namespace Files.Uwp
 
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal);
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\", StringComparison.Ordinal);
-                ParentShellPageInstance.InstanceViewModel.IsPageTypeFtp = FtpHelpers.IsFtpPath(workingDir);
+                ParentShellPageInstance.InstanceViewModel.IsPageTypeFtp = workingDir.IsFtpPath();
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeZipFolder = ZipStorageFolder.IsZipPath(workingDir);
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeLibrary = LibraryHelper.IsLibraryPath(workingDir);
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = false;
@@ -470,7 +470,7 @@ namespace Files.Uwp
                 var workingDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory ?? string.Empty;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal);
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\", StringComparison.Ordinal);
-                ParentShellPageInstance.InstanceViewModel.IsPageTypeFtp = FtpHelpers.IsFtpPath(workingDir);
+                ParentShellPageInstance.InstanceViewModel.IsPageTypeFtp = workingDir.IsFtpPath();
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeZipFolder = ZipStorageFolder.IsZipPath(workingDir);
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeLibrary = LibraryHelper.IsLibraryPath(workingDir);
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = true;

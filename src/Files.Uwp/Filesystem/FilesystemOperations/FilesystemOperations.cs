@@ -1,4 +1,7 @@
-﻿using Files.Shared;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services;
+using Files.Filesystem.Helpers;
+using Files.Shared;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
 using Files.Uwp.Extensions;
@@ -16,8 +19,6 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;
 using FileAttributes = System.IO.FileAttributes;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Backend.Services;
 
 namespace Files.Uwp.Filesystem
 {
@@ -60,7 +61,7 @@ namespace Files.Uwp.Filesystem
                             var newEntryInfo = await ShellNewEntryExtensions.GetNewContextMenuEntryForType(Path.GetExtension(source.Path));
                             if (newEntryInfo == null)
                             {
-                                var fsFolderResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(source.Path));
+                                var fsFolderResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(source.Path.GetParentPath());
                                 fsResult = fsFolderResult;
                                 if (fsResult)
                                 {
@@ -92,7 +93,7 @@ namespace Files.Uwp.Filesystem
 
                     case FilesystemItemType.Directory:
                         {
-                            var fsFolderResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(source.Path));
+                            var fsFolderResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(source.Path.GetParentPath());
                             fsResult = fsFolderResult;
                             if (fsResult)
                             {
@@ -166,7 +167,7 @@ namespace Files.Uwp.Filesystem
             if (source.ItemType == FilesystemItemType.Directory)
             {
                 if (!string.IsNullOrWhiteSpace(source.Path) &&
-                    PathNormalization.GetParentDir(destination).IsSubPathOf(source.Path)) // We check if user tried to copy anything above the source.ItemPath
+                    destination.GetParentPath().IsSubPathOf(source.Path)) // We check if user tried to copy anything above the source.ItemPath
                 {
                     var destinationName = destination.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last();
                     var sourceName = source.Path.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last();
@@ -196,7 +197,7 @@ namespace Files.Uwp.Filesystem
                 {
                     // CopyFileFromApp only works on file not directories
                     var fsSourceFolder = await source.ToStorageItemResult();
-                    var fsDestinationFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination));
+                    var fsDestinationFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(destination.GetParentPath());
                     var fsResult = (FilesystemResult)(fsSourceFolder.ErrorCode | fsDestinationFolder.ErrorCode);
 
                     if (fsResult)
@@ -240,7 +241,7 @@ namespace Files.Uwp.Filesystem
                 {
                     Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
 
-                    FilesystemResult<BaseStorageFolder> destinationResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination));
+                    FilesystemResult<BaseStorageFolder> destinationResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(destination.GetParentPath());
                     var sourceResult = await source.ToStorageItemResult();
                     fsResult = sourceResult.ErrorCode | destinationResult.ErrorCode;
 
@@ -362,7 +363,7 @@ namespace Files.Uwp.Filesystem
             if (source.ItemType == FilesystemItemType.Directory)
             {
                 if (!string.IsNullOrWhiteSpace(source.Path) &&
-                    PathNormalization.GetParentDir(destination).IsSubPathOf(source.Path)) // We check if user tried to move anything above the source.ItemPath
+                    destination.GetParentPath().IsSubPathOf(source.Path)) // We check if user tried to move anything above the source.ItemPath
                 {
                     var destinationName = destination.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last();
                     var sourceName = source.Path.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last();
@@ -397,7 +398,7 @@ namespace Files.Uwp.Filesystem
                         Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
 
                         var fsSourceFolder = await source.ToStorageItemResult();
-                        var fsDestinationFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination));
+                        var fsDestinationFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(destination.GetParentPath());
                         fsResult = fsSourceFolder.ErrorCode | fsDestinationFolder.ErrorCode;
 
                         if (fsResult)
@@ -444,7 +445,7 @@ namespace Files.Uwp.Filesystem
                 {
                     Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
 
-                    FilesystemResult<BaseStorageFolder> destinationResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination));
+                    FilesystemResult<BaseStorageFolder> destinationResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(destination.GetParentPath());
                     var sourceResult = await source.ToStorageItemResult();
                     fsResult = sourceResult.ErrorCode | destinationResult.ErrorCode;
 
@@ -758,7 +759,7 @@ namespace Files.Uwp.Filesystem
                 if (source.ItemType == FilesystemItemType.Directory)
                 {
                     FilesystemResult<BaseStorageFolder> sourceFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(source.Path);
-                    FilesystemResult<BaseStorageFolder> destinationFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination));
+                    FilesystemResult<BaseStorageFolder> destinationFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(destination.GetParentPath());
 
                     fsResult = sourceFolder.ErrorCode | destinationFolder.ErrorCode;
                     errorCode?.Report(fsResult);
@@ -778,7 +779,7 @@ namespace Files.Uwp.Filesystem
                 else
                 {
                     FilesystemResult<BaseStorageFile> sourceFile = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(source.Path);
-                    FilesystemResult<BaseStorageFolder> destinationFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination));
+                    FilesystemResult<BaseStorageFolder> destinationFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(destination.GetParentPath());
 
                     fsResult = sourceFile.ErrorCode | destinationFolder.ErrorCode;
                     errorCode?.Report(fsResult);

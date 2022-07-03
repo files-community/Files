@@ -4,6 +4,7 @@ using Files.Backend.Services;
 using Files.Backend.Services.Settings;
 using Files.Backend.Services.SizeProvider;
 using Files.Backend.ViewModels.Dialogs;
+using Files.Filesystem.Helpers;
 using Files.Shared;
 using Files.Shared.Cloud;
 using Files.Shared.Enums;
@@ -933,7 +934,7 @@ namespace Files.Uwp.ViewModels
             if (item.IsLibraryItem || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsZipItem)
             {
                 if (UserSettingsService.PreferencesSettingsService.ShowThumbnails && 
-                    !item.IsShortcutItem && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
+                    !item.IsShortcutItem && !item.IsHiddenItem && !item.ItemPath.IsFtpPath())
                 {
                     var matchingStorageFile = matchingStorageItem.AsBaseStorageFile() ?? await GetFileFromPathAsync(item.ItemPath);
                     if (matchingStorageFile != null)
@@ -998,7 +999,7 @@ namespace Files.Uwp.ViewModels
             }
             else
             {
-                if (!item.IsShortcutItem && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
+                if (!item.IsShortcutItem && !item.IsHiddenItem && !item.ItemPath.IsFtpPath())
                 {
                     var matchingStorageFolder = matchingStorageItem.AsBaseStorageFolder() ?? await GetFolderFromPathAsync(item.ItemPath);
                     if (matchingStorageFolder != null)
@@ -1090,7 +1091,7 @@ namespace Files.Uwp.ViewModels
 
                         if (item.IsLibraryItem || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsZipItem)
                         {
-                            if (!item.IsShortcutItem && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
+                            if (!item.IsShortcutItem && !item.IsHiddenItem && !item.ItemPath.IsFtpPath())
                             {
                                 cts.Token.ThrowIfCancellationRequested();
                                 matchingStorageFile = await GetFileFromPathAsync(item.ItemPath);
@@ -1123,7 +1124,7 @@ namespace Files.Uwp.ViewModels
                         }
                         else
                         {
-                            if (!item.IsShortcutItem && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
+                            if (!item.IsShortcutItem && !item.IsHiddenItem && !item.ItemPath.IsFtpPath())
                             {
                                 cts.Token.ThrowIfCancellationRequested();
                                 BaseStorageFolder matchingStorageFolder = await GetFolderFromPathAsync(item.ItemPath);
@@ -1230,7 +1231,7 @@ namespace Files.Uwp.ViewModels
                 {
                     groupImage = await dispatcherQueue.EnqueueAsync(() => headerIconInfo.ToBitmapAsync(), DispatcherQueuePriority.Low);
                 }
-                if (!item.IsShortcutItem && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
+                if (!item.IsShortcutItem && !item.IsHiddenItem && !item.ItemPath.IsFtpPath())
                 {
                     if (groupImage == null) // Loading icon from fulltrust process failed
                     {
@@ -1365,7 +1366,7 @@ namespace Files.Uwp.ViewModels
 
             await GetDefaultItemIcons(folderSettings.GetIconSize());
 
-            if (FtpHelpers.IsFtpPath(path))
+            if (path.IsFtpPath())
             {
                 // Recycle bin and network are enumerated by the fulltrust process
                 PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false });
@@ -1448,7 +1449,7 @@ namespace Files.Uwp.ViewModels
 
         public async Task EnumerateItemsFromSpecialFolderAsync(string path)
         {
-            bool isFtp = FtpHelpers.IsFtpPath(path);
+            bool isFtp = path.IsFtpPath();
 
             CurrentFolder = new ListedItem(null)
             {
@@ -1468,15 +1469,15 @@ namespace Files.Uwp.ViewModels
 
             if (isFtp)
             {
-                if (!FtpHelpers.VerifyFtpPath(path))
+                if (!path.VerifyFtpPath())
                 {
                     // TODO: show invalid path dialog
                     return;
                 }
 
                 using var client = new FtpClient();
-                client.Host = FtpHelpers.GetFtpHost(path);
-                client.Port = FtpHelpers.GetFtpPort(path);
+                client.Host = path.GetFtpHost();
+                client.Port = path.GetFtpPort();
                 client.Credentials = FtpManager.Credentials.Get(client.Host, FtpManager.Anonymous);
 
                 static async Task<FtpProfile> WrappedAutoConnectFtpAsync(FtpClient client)
@@ -1524,7 +1525,7 @@ namespace Files.Uwp.ViewModels
                         FtpManager.Credentials[client.Host] = client.Credentials;
 
                         var sampler = new IntervalSampler(500);
-                        var list = await client.GetListingAsync(FtpHelpers.GetFtpPath(path));
+                        var list = await client.GetListingAsync(path.GetFtpPath());
 
                         for (var i = 0; i < list.Length; i++)
                         {

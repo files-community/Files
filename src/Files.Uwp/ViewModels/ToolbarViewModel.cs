@@ -3,12 +3,13 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using Files.Backend.Services;
 using Files.Backend.Services.Settings;
-using Files.Uwp.Filesystem;
-using Files.Uwp.Filesystem.StorageItems;
-using Files.Uwp.Helpers;
+using Files.Filesystem.Helpers;
 using Files.Shared.Enums;
 using Files.Shared.EventArguments;
 using Files.Shared.Extensions;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Helpers;
 using Files.Uwp.UserControls;
 using Files.Uwp.Views;
 using Microsoft.Toolkit.Uwp;
@@ -962,7 +963,7 @@ namespace Files.Uwp.ViewModels
 
         public async Task CheckPathInput(string currentInput, string currentSelectedPath, IShellPage shellPage)
         {
-            if (currentInput.Contains("/") && !FtpHelpers.IsFtpPath(currentInput))
+            if (currentInput.Contains("/") && !currentInput.IsFtpPath())
             {
                 currentInput = currentInput.Replace("/", "\\", StringComparison.Ordinal);
             }
@@ -998,7 +999,7 @@ namespace Files.Uwp.ViewModels
                     var resFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(currentInput, item));
                     if (resFolder || FolderHelpers.CheckFolderAccessWithWin32(currentInput))
                     {
-                        var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => PathNormalization.NormalizePath(currentInput).StartsWith(PathNormalization.NormalizePath(x.Path), StringComparison.Ordinal));
+                        var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => currentInput.NormalizePath().StartsWith(x.Path.NormalizePath(), StringComparison.Ordinal));
                         if (matchingDrive != null && matchingDrive.Type == DataModels.NavigationControlItems.DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
                         {
                             bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalized(), string.Format("InsertDiscDialog/Text".GetLocalized(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalized(), "Close".GetLocalized());
@@ -1011,7 +1012,7 @@ namespace Files.Uwp.ViewModels
                         var pathToNavigate = resFolder.Result?.Path ?? currentInput;
                         shellPage.NavigateToPath(pathToNavigate);
                     }
-                    else if (FtpHelpers.IsFtpPath(currentInput))
+                    else if (currentInput.IsFtpPath())
                     {
                         shellPage.NavigateToPath(currentInput);
                     }
@@ -1115,7 +1116,7 @@ namespace Files.Uwp.ViewModels
                 {
                     IList<ListedItem> suggestions = null;
                     var expandedPath = StorageFileExtensions.GetPathWithoutEnvironmentVariable(sender.Text);
-                    var folderPath = PathNormalization.GetParentDir(expandedPath) ?? expandedPath;
+                    var folderPath = expandedPath.GetParentPath() ?? expandedPath;
                     StorageFolderWithPath folder = await shellpage.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
                     if (folder == null) return false;
                     var currPath = await folder.GetFoldersWithPathAsync(Path.GetFileName(expandedPath), (uint)maxSuggestions);
@@ -1138,7 +1139,7 @@ namespace Files.Uwp.ViewModels
                             subPath.Select(x => new ListedItem(null)
                             {
                                 ItemPath = x.Path,
-                                ItemNameRaw = PathNormalization.Combine(currPath.First().Item.DisplayName, x.Item.DisplayName)
+                                ItemNameRaw = currPath.First().Item.DisplayName.CombinePath(x.Item.DisplayName)
                             })).ToList();
                     }
                     else

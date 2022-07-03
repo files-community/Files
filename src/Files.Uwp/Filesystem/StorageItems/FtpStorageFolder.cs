@@ -1,5 +1,5 @@
-﻿using Files.Shared.Extensions;
-using Files.Uwp.Helpers;
+﻿using Files.Filesystem.Helpers;
+using Files.Shared.Extensions;
 using FluentFTP;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -33,25 +33,25 @@ namespace Files.Uwp.Filesystem.StorageItems
         {
             Path = path;
             Name = name;
-            FtpPath = FtpHelpers.GetFtpPath(path);
+            FtpPath = path.GetFtpPath();
             DateCreated = dateCreated;
         }
         public FtpStorageFolder(string folder, FtpListItem ftpItem)
         {
-            Path = PathNormalization.Combine(folder, ftpItem.Name);
+            Path = folder.CombinePath(ftpItem.Name);
             Name = ftpItem.Name;
-            FtpPath = FtpHelpers.GetFtpPath(Path);
+            FtpPath = Path.GetFtpPath();
             DateCreated = ftpItem.RawCreated < DateTime.FromFileTimeUtc(0) ? DateTimeOffset.MinValue : ftpItem.RawCreated;
         }
         public FtpStorageFolder(IStorageItemWithPath item)
         {
             Path = item.Path;
             Name = System.IO.Path.GetFileName(item.Path);
-            FtpPath = FtpHelpers.GetFtpPath(item.Path);
+            FtpPath = item.Path.GetFtpPath();
         }
 
         public static IAsyncOperation<BaseStorageFolder> FromPathAsync(string path)
-            => FtpHelpers.IsFtpPath(path) && FtpHelpers.VerifyFtpPath(path)
+            => path.IsFtpPath() && path.VerifyFtpPath()
                 ? Task.FromResult<BaseStorageFolder>(new FtpStorageFolder(new StorageFolderWithPath(null, path))).AsAsyncOperation()
                 : Task.FromResult<BaseStorageFolder>(null).AsAsyncOperation();
 
@@ -91,7 +91,7 @@ namespace Files.Uwp.Filesystem.StorageItems
                     return null;
                 }
 
-                var item = await ftpClient.GetObjectInfoAsync(FtpHelpers.GetFtpPath(PathNormalization.Combine(Path, name)));
+                var item = await ftpClient.GetObjectInfoAsync(Path.CombinePath(name).GetFtpPath());
                 if (item is not null)
                 {
                     if (item.Type is FtpFileSystemObjectType.File)
@@ -247,7 +247,7 @@ namespace Files.Uwp.Filesystem.StorageItems
                     return;
                 }
 
-                string destination = $"{PathNormalization.GetParentDir(FtpPath)}/{desiredName}";
+                string destination = $"{FtpPath.GetParentPath()}/{desiredName}";
                 var ftpOption = option is NameCollisionOption.ReplaceExisting ? FtpRemoteExists.Overwrite : FtpRemoteExists.Skip;
                 bool isSuccessful = await ftpClient.MoveDirectoryAsync(FtpPath, destination, ftpOption, cancellationToken);
                 if (!isSuccessful && option is NameCollisionOption.GenerateUniqueName)
@@ -294,8 +294,8 @@ namespace Files.Uwp.Filesystem.StorageItems
 
         private FtpClient GetFtpClient()
         {
-            string host = FtpHelpers.GetFtpHost(Path);
-            ushort port = FtpHelpers.GetFtpPort(Path);
+            string host = Path.GetFtpHost();
+            ushort port = Path.GetFtpPort();
             var credentials = FtpManager.Credentials.Get(host, FtpManager.Anonymous);
 
             return new(host, port, credentials);

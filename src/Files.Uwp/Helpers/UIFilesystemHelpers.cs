@@ -1,7 +1,9 @@
-﻿using Files.Shared;
-using Files.Uwp.Dialogs;
+﻿using Files.Backend.Enums;
+using Files.Filesystem.Helpers;
+using Files.Shared;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
+using Files.Uwp.Dialogs;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Interacts;
@@ -17,7 +19,6 @@ using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.Storage;
-using Files.Backend.Enums;
 using Windows.System;
 
 namespace Files.Uwp.Helpers
@@ -339,14 +340,14 @@ namespace Files.Uwp.Helpers
                 case AddItemDialogItemType.Folder:
                     userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : "NewFolder".GetLocalized();
                     created = await associatedInstance.FilesystemHelpers.CreateAsync(
-                        StorageHelpers.FromPathAndType(PathNormalization.Combine(currentPath, userInput), FilesystemItemType.Directory),
+                        StorageHelpers.FromPathAndType(currentPath.CombinePath(userInput), FilesystemItemType.Directory),
                         true);
                     break;
 
                 case AddItemDialogItemType.File:
                     userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : itemInfo?.Name ?? "NewFile".GetLocalized();
                     created = await associatedInstance.FilesystemHelpers.CreateAsync(
-                        StorageHelpers.FromPathAndType(PathNormalization.Combine(currentPath, userInput + itemInfo?.Extension), FilesystemItemType.File),
+                        StorageHelpers.FromPathAndType(currentPath.CombinePath(userInput + itemInfo?.Extension), FilesystemItemType.File),
                         true);
                     break;
             }
@@ -371,7 +372,7 @@ namespace Files.Uwp.Helpers
                 {
                     return;
                 }
-                await associatedInstance.FilesystemHelpers.MoveItemsAsync(items, items.Select(x => PathNormalization.Combine(folder.Path, x.Name)), false, true);
+                await associatedInstance.FilesystemHelpers.MoveItemsAsync(items, items.Select(x => folder.Path.CombinePath(x.Name)), false, true);
             }
             catch (Exception ex)
             {

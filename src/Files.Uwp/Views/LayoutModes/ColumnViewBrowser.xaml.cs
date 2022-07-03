@@ -1,8 +1,7 @@
-﻿using Files.Uwp.Extensions;
-using Files.Uwp.Filesystem;
-using Files.Uwp.Helpers;
-using Files.Uwp.Interacts;
+﻿using Files.Filesystem.Helpers;
 using Files.Shared.Extensions;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Interacts;
 using Files.Uwp.UserControls;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
@@ -275,16 +274,14 @@ namespace Files.Uwp.Views.LayoutModes
                 foreach (var item in ColumnHost.ActiveBlades)
                 {
                     if ((item.Content as Frame)?.Content is ColumnShellPage s &&
-                        PathNormalization.NormalizePath(s.FilesystemViewModel.WorkingDirectory) ==
-                        PathNormalization.NormalizePath(e.ItemPath))
+                        s.FilesystemViewModel.WorkingDirectory.NormalizePath() == e.ItemPath.NormalizePath())
                     {
                         DismissOtherBlades(item);
                         return;
                     }
                 }
             }
-            if (PathNormalization.NormalizePath(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory) !=
-                PathNormalization.NormalizePath(e.ItemPath))
+            if (ParentShellPageInstance.FilesystemViewModel.WorkingDirectory.NormalizePath() != e.ItemPath.NormalizePath())
             {
                 ParentShellPageInstance.NavigateToPath(e.ItemPath);
             }

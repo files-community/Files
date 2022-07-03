@@ -1,18 +1,22 @@
-﻿using Files.Shared;
-using Files.Uwp.Dialogs;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Input;
+using Files.Backend.Enums;
+using Files.Backend.Services;
+using Files.Backend.Services.Settings;
+using Files.Backend.ViewModels.Dialogs.AddItemDialog;
+using Files.Filesystem.Helpers;
+using Files.Shared;
 using Files.Shared.Enums;
+using Files.Uwp.Dialogs;
 using Files.Uwp.EventArguments;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Filesystem.FilesystemHistory;
 using Files.Uwp.Filesystem.Search;
 using Files.Uwp.Helpers;
-using Files.Backend.Services.Settings;
 using Files.Uwp.UserControls;
 using Files.Uwp.UserControls.MultitaskingControl;
 using Files.Uwp.ViewModels;
 using Files.Uwp.Views.LayoutModes;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -33,9 +37,6 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using SortDirection = Files.Shared.Enums.SortDirection;
-using Files.Backend.Enums;
-using Files.Backend.Services;
-using Files.Backend.ViewModels.Dialogs.AddItemDialog;
 
 namespace Files.Uwp.Views
 {
@@ -251,7 +252,7 @@ namespace Files.Uwp.Views
             ToolbarViewModel.DeleteCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DeleteItemCommand.Execute(null));
             ToolbarViewModel.CutCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.CutItemCommand.Execute(null));
             ToolbarViewModel.EmptyRecycleBinCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.EmptyRecycleBinCommand.Execute(null));
-            ToolbarViewModel.RunWithPowerShellCommand = new RelayCommand(async () => await Win32Helpers.InvokeWin32ComponentAsync("powershell", this, PathNormalization.NormalizePath(SlimContentPage?.SelectedItem.ItemPath)));
+            ToolbarViewModel.RunWithPowerShellCommand = new RelayCommand(async () => await Win32Helpers.InvokeWin32ComponentAsync("powershell", this, SlimContentPage?.SelectedItem.ItemPath.NormalizePath()));
             ToolbarViewModel.PropertiesCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.ShowPropertiesCommand.Execute(null));
             ToolbarViewModel.SetAsBackgroundCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.SetAsDesktopBackgroundItemCommand.Execute(null));
             ToolbarViewModel.ExtractCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DecompressArchiveCommand.Execute(null));
@@ -938,7 +939,7 @@ namespace Files.Uwp.Views
                 return;
             }
 
-            bool isPathRooted = string.Equals(FilesystemViewModel.WorkingDirectory, PathNormalization.GetPathRoot(FilesystemViewModel.WorkingDirectory), StringComparison.OrdinalIgnoreCase);
+            bool isPathRooted = string.Equals(FilesystemViewModel.WorkingDirectory, FilesystemViewModel.WorkingDirectory.GetRootPath(), StringComparison.OrdinalIgnoreCase);
 
             if (isPathRooted)
             {

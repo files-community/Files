@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Filesystem.Helpers;
 using Files.Shared.Enums;
 using Files.Shared.Services.DateTimeFormatter;
 using Files.Uwp.Extensions;
@@ -27,7 +28,7 @@ namespace Files.Uwp.Helpers
                 GroupOption.FileTag => x => x.FileTags?.FirstOrDefault(),
                 GroupOption.OriginalFolder => x => (x as RecycleBinItem)?.ItemOriginalFolder,
                 GroupOption.DateDeleted => x => dateTimeFormatter.ToTimeSpanLabel((x as RecycleBinItem)?.ItemDateDeletedReal ?? DateTimeOffset.Now).Text,
-                GroupOption.FolderPath => x => PathNormalization.GetParentDir(x.ItemPath.TrimPath()),
+                GroupOption.FolderPath => x => x.ItemPath.TrimPath().GetParentPath(),
                 _ => null,
             };
         }
@@ -124,7 +125,7 @@ namespace Files.Uwp.Helpers
                     ListedItem first = x.First();
                     var model = x.Model;
                     model.ShowCountTextBelow = true;
-                    var parentPath = PathNormalization.GetParentDir(first.ItemPath.TrimPath());
+                    var parentPath = first.ItemPath.TrimPath().GetParentPath();
                     model.Text = System.IO.Path.GetFileName(parentPath);
                     model.Subtext = parentPath;
                 }, null),

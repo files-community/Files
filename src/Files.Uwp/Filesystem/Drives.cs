@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.SizeProvider;
+using Files.Filesystem.Helpers;
 using Files.Shared;
 using Files.Shared.Enums;
 using Files.Uwp.DataModels.NavigationControlItems;
@@ -63,13 +64,12 @@ namespace Files.Uwp.Filesystem
             if (devicePath.StartsWith(@"\\?\", StringComparison.Ordinal)) // USB device
             {
                 // Check among already discovered drives
-                StorageFolder matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x =>
-                    Helpers.PathNormalization.NormalizePath(x.Path) == Helpers.PathNormalization.NormalizePath(rootPath))?.Root;
+                StorageFolder matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => x.Path.NormalizePath() == rootPath.NormalizePath())?.Root;
                 if (matchingDrive is null)
                 {
                     // Check on all removable drives
                     var remDevices = await DeviceInformation.FindAllAsync(StorageDevice.GetDeviceSelector());
-                    string normalizedRootPath = Helpers.PathNormalization.NormalizePath(rootPath).Replace(@"\\?\", string.Empty, StringComparison.Ordinal);
+                    string normalizedRootPath = rootPath.NormalizePath().Replace(@"\\?\", string.Empty, StringComparison.Ordinal);
                     foreach (var item in remDevices)
                     {
                         try
@@ -343,7 +343,7 @@ namespace Files.Uwp.Filesystem
         {
             if (drive.DriveType is IO.DriveType.Unknown)
             {
-                string path = Helpers.PathNormalization.NormalizePath(drive.Name);
+                string path = drive.Name.NormalizePath();
                 if (path is "A:" or "B:")
                 {
                     return DriveType.FloppyDisk;

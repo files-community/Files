@@ -1,7 +1,8 @@
-﻿using Files.Shared;
-using Files.Uwp.Dialogs;
+﻿using Files.Backend.Enums;
+using Files.Filesystem.Helpers;
+using Files.Shared;
 using Files.Shared.Enums;
-using Files.Uwp.Extensions;
+using Files.Uwp.Dialogs;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
@@ -27,7 +28,6 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Files.Backend.Enums;
 
 namespace Files.Uwp.Interacts
 {
@@ -342,7 +342,7 @@ namespace Files.Uwp.Interacts
                 if (SlimContentPage != null)
                 {
                     var path = SlimContentPage.SelectedItem != null ? SlimContentPage.SelectedItem.ItemPath : associatedInstance.FilesystemViewModel.WorkingDirectory;
-                    if (FtpHelpers.IsFtpPath(path))
+                    if (path.IsFtpPath())
                     {
                         path = path.Replace("\\", "/", StringComparison.Ordinal);
                     }
@@ -826,7 +826,7 @@ namespace Files.Uwp.Interacts
         {
             foreach (var image in SlimContentPage.SelectedItems)
             {
-                await BitmapHelper.Rotate(PathNormalization.NormalizePath(image.ItemPath), BitmapRotation.Clockwise270Degrees);
+                await BitmapHelper.Rotate(image.ItemPath.NormalizePath(), BitmapRotation.Clockwise270Degrees);
             }
 
             SlimContentPage.ItemManipulationModel.RefreshItemsThumbnail();
@@ -837,7 +837,7 @@ namespace Files.Uwp.Interacts
         {
             foreach (var image in SlimContentPage.SelectedItems)
             {
-                await BitmapHelper.Rotate(PathNormalization.NormalizePath(image.ItemPath), BitmapRotation.Clockwise90Degrees);
+                await BitmapHelper.Rotate(image.ItemPath.NormalizePath(), BitmapRotation.Clockwise90Degrees);
             }
 
             SlimContentPage.ItemManipulationModel.RefreshItemsThumbnail();
