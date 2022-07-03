@@ -8,9 +8,9 @@ namespace Files.Uwp.UserControls
 {
     public sealed partial class PaneControl : UserControl, IPane
     {
-        private readonly IPaneSettingsService paneService = Ioc.Default.GetService<IPaneSettingsService>();
-
         private PaneContents content;
+
+        private IPaneSettingsService PaneSettingsService { get; } = Ioc.Default.GetService<IPaneSettingsService>();
 
         public PanePositions Position => Panel.Content is IPane pane ? pane.Position : PanePositions.Right;
 
@@ -18,7 +18,7 @@ namespace Files.Uwp.UserControls
         {
             InitializeComponent();
 
-            paneService.PropertyChanged += PaneService_PropertyChanged;
+            PaneSettingsService.PropertyChanged += PaneService_PropertyChanged;
             Update();
         }
 
@@ -47,7 +47,7 @@ namespace Files.Uwp.UserControls
 
         private void Update()
         {
-            var newContent = paneService.Content;
+            var newContent = PaneSettingsService.Content;
             if (content != newContent)
             {
                 content = newContent;
