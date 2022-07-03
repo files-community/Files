@@ -1,4 +1,5 @@
-﻿using Files.Shared;
+﻿using Files.Filesystem.Helpers;
+using Files.Shared;
 using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp;

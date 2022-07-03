@@ -1,4 +1,5 @@
-﻿using Files.Uwp.Helpers;
+﻿using Files.Filesystem.Helpers;
+using Files.Uwp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,8 +10,8 @@ using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
-using Storage = Windows.Storage;
 using IO = System.IO;
+using Storage = Windows.Storage;
 
 namespace Files.Uwp.Filesystem.StorageItems
 {

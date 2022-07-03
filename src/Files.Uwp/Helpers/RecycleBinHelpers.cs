@@ -1,4 +1,5 @@
-﻿using Files.Shared;
+﻿using Files.Filesystem.Helpers;
+using Files.Shared;
 using Files.Shared.Extensions;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;

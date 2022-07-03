@@ -1,7 +1,6 @@
-﻿using Files.Uwp.CommandLine;
-using Files.Shared;
-using Files.Uwp.Helpers;
+﻿using Files.Filesystem.Helpers;
 using Files.Shared.Extensions;
+using Files.Uwp.CommandLine;
 using System;
 using System.Linq;
 using System.Threading.Tasks;

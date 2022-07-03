@@ -15,15 +15,6 @@
             public const float ExtraSmallThreshold = 15.0f;
         }
 
-        public static class CommonPaths
-        {
-            public const string RecycleBinPath = @"Shell:RecycleBinFolder";
-
-            public const string NetworkFolderPath = @"Shell:NetworkPlacesFolder";
-
-            public const string MyComputerPath = @"Shell:MyComputerFolder";
-        }
-
         public static class KnownImageFormats
         {
             public const string BITMAP_IMAGE_FORMAT = "bitmapimage";
@@ -181,13 +172,6 @@
             /// The path to the json file containing a list of file properties to be loaded in the preview pane.
             /// </summary>
             public const string PreviewPaneDetailsPropertiesJsonPath = @"ms-appx:///Resources/PreviewPanePropertiesInformation.json";
-        }
-
-        public static class Filesystem
-        {
-            public const int ExtendedAsciiCodePage = 437;
-
-            public const string CachedEmptyItemName = "fileicon_cache";
         }
 
         public static class GitHub

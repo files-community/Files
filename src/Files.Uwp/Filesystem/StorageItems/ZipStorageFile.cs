@@ -1,4 +1,5 @@
-﻿using Files.Uwp.Helpers;
+﻿using Files.Filesystem.Helpers;
+using Files.Uwp.Helpers;
 using ICSharpCode.SharpZipLib.Zip;
 using Microsoft.Toolkit.Uwp;
 using System;

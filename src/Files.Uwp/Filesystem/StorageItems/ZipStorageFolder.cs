@@ -1,6 +1,5 @@
-﻿using Files.Uwp.Extensions;
+﻿using Files.Shared.Extensions;
 using Files.Uwp.Helpers;
-using Files.Shared.Extensions;
 using ICSharpCode.SharpZipLib.Zip;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -15,6 +14,7 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
+using static Files.Filesystem.Helpers.Constants;
 using IO = System.IO;
 using Storage = Windows.Storage;
 
@@ -42,7 +42,7 @@ namespace Files.Uwp.Filesystem.StorageItems
             // Register all supported codepages (default is UTF-X only)
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             // Use extended ascii so you can convert the string back to bytes
-            ZipStrings.CodePage = Constants.Filesystem.ExtendedAsciiCodePage;
+            ZipStrings.CodePage = ExtendedAsciiCodePage;
         }
 
         public ZipStorageFolder(string path, string containerPath)
@@ -120,7 +120,7 @@ namespace Files.Uwp.Filesystem.StorageItems
             }
             var decoded = SafetyExtensions.IgnoreExceptions(() =>
             {
-                var rawBytes = Encoding.GetEncoding(Constants.Filesystem.ExtendedAsciiCodePage).GetBytes(entry.Name);
+                var rawBytes = Encoding.GetEncoding(ExtendedAsciiCodePage).GetBytes(entry.Name);
                 return encoding.GetString(rawBytes);
             });
             return decoded ?? entry.Name;
@@ -139,7 +139,7 @@ namespace Files.Uwp.Filesystem.StorageItems
                 }
                 var guessedEncoding = SafetyExtensions.IgnoreExceptions(() =>
                 {
-                    var rawBytes = Encoding.GetEncoding(Constants.Filesystem.ExtendedAsciiCodePage).GetBytes(entry.Name);
+                    var rawBytes = Encoding.GetEncoding(ExtendedAsciiCodePage).GetBytes(entry.Name);
                     cdet.Feed(rawBytes, 0, rawBytes.Length);
                     cdet.DataEnd();
                     if (cdet.Charset != null && cdet.Confidence >= 0.9 && (readEntries >= Math.Min(zipFile.Count, 50)))

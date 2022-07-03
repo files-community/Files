@@ -1,6 +1,6 @@
-using Files.Shared;
-using Files.Uwp.Filesystem;
+using Files.Filesystem.Helpers;
 using Files.Shared.Extensions;
+using Files.Uwp.Filesystem;
 using System;
 using System.Collections.Generic;
 using System.IO;
