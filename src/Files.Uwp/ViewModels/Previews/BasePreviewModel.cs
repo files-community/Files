@@ -133,7 +133,8 @@ namespace Files.Uwp.ViewModels.Previews
             // adds the value for the file tag
             if (userSettingsService.PreferencesSettingsService.AreFileTagsEnabled)
             {
-                list.FirstOrDefault(x => x.ID is "filetag").Value = Item.FileTagUI?.TagName;
+                list.FirstOrDefault(x => x.ID is "filetag").Value = 
+                    Item.FileTagsUI is not null ? string.Join(',', Item.FileTagsUI.Select(x => x.TagName)) : null;
             }
             else
             {

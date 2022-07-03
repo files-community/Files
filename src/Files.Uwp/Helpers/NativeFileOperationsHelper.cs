@@ -251,7 +251,7 @@ namespace Files.Uwp.Helpers
         [DllImport("api-ms-win-core-file-l1-2-1.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern bool SetFileTime([In] IntPtr hFile, in FILETIME lpCreationTime, in FILETIME lpLastAccessTime, in FILETIME lpLastWriteTime);
 
-        public enum FILE_INFO_BY_HANDLE_CLASS
+        private enum FILE_INFO_BY_HANDLE_CLASS
         {
             FileBasicInfo = 0,
             FileStandardInfo = 1,
@@ -277,8 +277,33 @@ namespace Files.Uwp.Helpers
             MaximumFileInfoByHandlesClass
         }
 
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        private struct FILE_ID_BOTH_DIR_INFO
+        {
+            public uint NextEntryOffset;
+            public uint FileIndex;
+            public long CreationTime;
+            public long LastAccessTime;
+            public long LastWriteTime;
+            public long ChangeTime;
+            public long EndOfFile;
+            public long AllocationSize;
+            public uint FileAttributes;
+            public uint FileNameLength;
+            public uint EaSize;
+            public char ShortNameLength;
+            [MarshalAsAttribute(UnmanagedType.ByValTStr, SizeConst = 12)]
+            public string ShortName;
+            public long FileId;
+            [MarshalAsAttribute(UnmanagedType.ByValTStr, SizeConst = 1)]
+            public string FileName;
+        }
+
+        [DllImport("api-ms-win-core-file-l2-1-1.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
+        private static extern bool GetFileInformationByHandleEx(IntPtr hFile, FILE_INFO_BY_HANDLE_CLASS infoClass, out FILE_ID_BOTH_DIR_INFO dirInfo, uint dwBufferSize);
+
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode, Pack = 8)]
-        public struct FILE_STREAM_INFO
+        private struct FILE_STREAM_INFO
         {
             public uint NextEntryOffset;
             public uint StreamNameLength;
@@ -289,7 +314,7 @@ namespace Files.Uwp.Helpers
         }
 
         [DllImport("api-ms-win-core-file-l2-1-1.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
-        public static extern bool GetFileInformationByHandleEx(IntPtr hFile, FILE_INFO_BY_HANDLE_CLASS infoClass, IntPtr dirInfo, uint dwBufferSize);
+        private static extern bool GetFileInformationByHandleEx(IntPtr hFile, FILE_INFO_BY_HANDLE_CLASS infoClass, IntPtr dirInfo, uint dwBufferSize);
 
         public static bool GetFileDateModified(string filePath, out FILETIME dateModified)
         {
@@ -421,6 +446,21 @@ namespace Files.Uwp.Helpers
             }
 
             return result;
+        }
+
+        // https://www.pinvoke.net/default.aspx/kernel32/GetFileInformationByHandleEx.html
+        public static ulong? GetFolderFRN(string folderPath)
+        {
+            using var handle = OpenFileForRead(folderPath);
+            if (!handle.IsInvalid)
+            {
+                var fileStruct = new FILE_ID_BOTH_DIR_INFO();
+                if (GetFileInformationByHandleEx(handle.DangerousGetHandle(), FILE_INFO_BY_HANDLE_CLASS.FileIdBothDirectoryInfo, out fileStruct, (uint)Marshal.SizeOf(fileStruct)))
+                {
+                    return (ulong)fileStruct.FileId;
+                }
+            }
+            return null;
         }
 
         public static async Task<SafeFileHandle> OpenProtectedFileForRead(string filePath, bool readWrite = false)
