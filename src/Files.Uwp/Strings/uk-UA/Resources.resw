@@ -1261,7 +1261,7 @@
     <value>Вилучити</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
-    <value>Always open new tabs in dual pane mode</value>
+    <value>Завжди відкривати нові вкладки в режимі подвійної панелі</value>
   </data>
   <data name="SettingsMultitaskingEnableDualPane" xml:space="preserve">
     <value>Увімкнути режим подвійної панелі</value>
@@ -1552,16 +1552,16 @@
     <value>Переміщення завершено</value>
   </data>
   <data name="StatusCopyComplete" xml:space="preserve">
-    <value>Copy complete</value>
+    <value>Копіювання завершено</value>
   </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
-    <value>This action requires administrator rights</value>
+    <value>Для цієї дії необхідні права адміністратора</value>
   </data>
   <data name="ElevateConfirmDialog.Content" xml:space="preserve">
-    <value>Would you like to continue as administrator?</value>
+    <value>Бажаєте продовжити як адміністратор?</value>
   </data>
   <data name="FullTrustStatusTeachingTip.Subtitle" xml:space="preserve">
-    <value>Files is running as administrator</value>
+    <value>Files запущений від імені адміністратора</value>
   </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>Адміністратор</value>
