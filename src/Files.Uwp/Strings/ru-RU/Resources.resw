@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -826,7 +826,7 @@
     <value>Редактировать приложения терминала</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>Переносить не помещающиеся пункты в подменю</value>
+    <value>Переносить непомещающиеся пункты в подменю</value>
   </data>
   <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
     <value>Закрепить Корзину в секции Избранное</value>
@@ -2744,7 +2744,7 @@
     <value>Показывать Секцию Меток</value>
   </data>
   <data name="UseCompactStyles" xml:space="preserve">
-    <value>Use compact styles in the details layout</value>
+    <value>Использовать компактный стиль макета боковой панели</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Универсальная</value>
