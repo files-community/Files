@@ -2759,7 +2759,7 @@
     <value>Повторить</value>
   </data>
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
-    <value>Move operation is not supported in this context. Do you want to copy the items instead?</value>
+    <value>В данном случае операция перемещения не поддерживается. Хотите вместо этого скопировать элементы?</value>
   </data>
   <data name="HiddenFilesAndFolders" xml:space="preserve">
     <value>Скрытые файлы и папки</value>
@@ -2771,7 +2771,7 @@
     <value>Установить как слад-шоу рабочего стола</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
-    <value>Size All Columns to Fit</value>
+    <value>Столбцы по размеру содержимого</value>
   </data>
   <data name="Contributors" xml:space="preserve">
     <value>Разработчики</value>
