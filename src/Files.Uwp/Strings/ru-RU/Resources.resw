@@ -2326,7 +2326,7 @@
     <value>Политика конфиденциальности</value>
   </data>
   <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
-    <value>Fluent UI System Icons</value>
+    <value>Fluent-иконки</value>
   </data>
   <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
     <value>Fluent UI System Icons</value>
@@ -2369,7 +2369,7 @@
     <value>Вставьте диск</value>
   </data>
   <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
-    <value>OK</value>
+    <value>Ок</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
     <value>Требуются учетные данные</value>
@@ -2744,7 +2744,7 @@
     <value>Показывать Секцию Меток</value>
   </data>
   <data name="UseCompactStyles" xml:space="preserve">
-    <value>Use compact styles in the details layout</value>
+    <value>Использовать компактный стиль макета боковой панели</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Универсальная</value>
@@ -2759,10 +2759,10 @@
     <value>Повторить</value>
   </data>
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
-    <value>Move operation is not supported in this context. Do you want to copy the items instead?</value>
+    <value>В данном случае операция перемещения не поддерживается. Хотите вместо этого скопировать элементы?</value>
   </data>
   <data name="HiddenFilesAndFolders" xml:space="preserve">
-    <value>Hidden files and folders</value>
+    <value>Скрытые файлы и папки</value>
   </data>
   <data name="Custom" xml:space="preserve">
     <value>Пользовательский</value>
@@ -2771,7 +2771,7 @@
     <value>Установить как слад-шоу рабочего стола</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
-    <value>Size All Columns to Fit</value>
+    <value>Столбцы по размеру содержимого</value>
   </data>
   <data name="Contributors" xml:space="preserve">
     <value>Разработчики</value>
@@ -2786,6 +2786,6 @@
     <value>Ctrl+Shift+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>Show Alternate Data Streams</value>
+    <value>Показывать альтернативные потоки данных</value>
   </data>
 </root>
