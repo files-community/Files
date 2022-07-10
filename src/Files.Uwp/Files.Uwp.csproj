@@ -302,6 +302,7 @@
     <Compile Include="ServicesImplementation\Settings\AppearanceSettingsService.cs" />
     <Compile Include="ServicesImplementation\Settings\BundlesSettingsService.cs" />
     <Compile Include="ServicesImplementation\Settings\FileTagsSettingsService.cs" />
+    <Compile Include="ServicesImplementation\Settings\ApplicationSettingsService.cs" />
     <Compile Include="ServicesImplementation\Settings\LayoutSettingsService.cs" />
     <Compile Include="ServicesImplementation\Settings\MultitaskingSettingsService.cs" />
     <Compile Include="ServicesImplementation\Settings\PreferencesSettingsService.cs" />
