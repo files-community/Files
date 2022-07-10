@@ -2761,7 +2761,7 @@
     <value>当前无法执行移动操作。要复制此项目吗？</value>
   </data>
   <data name="HiddenFilesAndFolders" xml:space="preserve">
-    <value>Hidden files and folders</value>
+    <value>隐藏文件和文件夹</value>
   </data>
   <data name="Custom" xml:space="preserve">
     <value>Custom</value>
@@ -2773,7 +2773,7 @@
     <value>Size All Columns to Fit</value>
   </data>
   <data name="Contributors" xml:space="preserve">
-    <value>Contributors</value>
+    <value>贡献者</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
     <value>Adaptive</value>
