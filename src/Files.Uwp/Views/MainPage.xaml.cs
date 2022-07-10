@@ -79,7 +79,7 @@ namespace Files.Uwp.Views
             ToggleCompactOverlayCommand = new RelayCommand(ToggleCompactOverlay);
             SetCompactOverlayCommand = new RelayCommand<bool>(SetCompactOverlay);
 
-            if (SystemInformation.Instance.TotalLaunchCount >= 10 & Package.Current.Id.Name == "49306atecsolution.FilesUWP" && !UserSettingsService.ApplicationSettingsService.WasPromptedToReview)
+            if (SystemInformation.Instance.TotalLaunchCount >= 15 & Package.Current.Id.Name == "49306atecsolution.FilesUWP" && !UserSettingsService.ApplicationSettingsService.WasPromptedToReview)
             {
                 PromptForReview();
                 UserSettingsService.ApplicationSettingsService.WasPromptedToReview = true;
