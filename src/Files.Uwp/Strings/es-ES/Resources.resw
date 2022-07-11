@@ -2793,4 +2793,10 @@ Utilizamos App Center para hacer un seguimiento del uso de la aplicación, encon
   <data name="ShowAlternateStreams" xml:space="preserve">
     <value>Mostrar flujos de datos alternativos</value>
   </data>
+  <data name="ReviewFiles" xml:space="preserve">
+    <value>Review Files</value>
+  </data>
+  <data name="ReviewFilesContent" xml:space="preserve">
+    <value>Would you like to review Files?</value>
+  </data>
 </root>
