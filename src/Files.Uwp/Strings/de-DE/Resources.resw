@@ -451,10 +451,10 @@
     <value>Haben Sie diesen Ordner gelöscht?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by {0}</value>
+    <value>Die Datei, auf die Sie zugreifen möchten, wird derzeit von {0} verwendet</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by an another application</value>
+    <value>Die Datei, auf die Sie zugreifen möchten, wird derzeit von einer anderen Anwendung verwendet</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
     <value>Datei wird bereits verwendet.</value>
@@ -907,10 +907,10 @@
     <value>Längengrad</value>
   </data>
   <data name="PropertyLatitudeRef" xml:space="preserve">
-    <value>Latitude Ref</value>
+    <value>Breitengrad</value>
   </data>
   <data name="PropertyLongitudeRef" xml:space="preserve">
-    <value>Longitude Ref</value>
+    <value>Längengrad</value>
   </data>
   <data name="PropertyAltitude" xml:space="preserve">
     <value>Flughöhe</value>
@@ -1195,7 +1195,7 @@
     <value>Status von Dateioperationen hier überprüfen</value>
   </data>
   <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
-    <value>Status Center</value>
+    <value>Status-Center</value>
   </data>
   <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
     <value>Suchen</value>
@@ -1918,7 +1918,7 @@
     <value>Das Löschen von {0} Objekten aus {1} wurde nach dem Löschen von {3} abgebrochen</value>
   </data>
   <data name="StatusDeletingItemsDetails_Singular" xml:space="preserve">
-    <value>Deleting {0} item from {1}</value>
+    <value>Lösche {0} Element aus {1}</value>
   </data>
   <data name="StatusDeletingItemsDetails_Plural" xml:space="preserve">
     <value>Lösche {0} Objekte aus {1}</value>
@@ -2260,7 +2260,7 @@
     <value>Schließen</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>Update</value>
+    <value>Aktualisieren</value>
   </data>
   <data name="Home" xml:space="preserve">
     <value>Startseite</value>
@@ -2348,7 +2348,7 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
     <value>Unbekannt</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
-    <value>Tag</value>
+    <value>Schlagwort</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Markierung ändern</value>
@@ -2501,7 +2501,7 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
     <value>Files als Standard-Dateidialog verwenden</value>
   </data>
   <data name="Tag" xml:space="preserve">
-    <value>Tag</value>
+    <value>Schlagwort</value>
   </data>
   <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
     <value>Ordner mit einfachem Klick öffnen</value>
@@ -2768,7 +2768,7 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
     <value>Move operation is not supported in this context. Do you want to copy the items instead?</value>
   </data>
   <data name="HiddenFilesAndFolders" xml:space="preserve">
-    <value>Hidden files and folders</value>
+    <value>Versteckte Dateien und Ordner</value>
   </data>
   <data name="Custom" xml:space="preserve">
     <value>Custom</value>
@@ -2789,6 +2789,9 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
     <value>Adaptive (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+7</value>
+    <value>Strg+Umschalt+7</value>
+  </data>
+  <data name="ShowAlternateStreams" xml:space="preserve">
+    <value>Zeige alternative Daten Streams an</value>
   </data>
 </root>

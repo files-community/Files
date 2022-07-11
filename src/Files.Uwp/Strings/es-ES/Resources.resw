@@ -457,7 +457,7 @@
     <value>El archivo al que está intentando acceder está siendo utilizado actualmente por otra aplicación</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
-    <value>Archivo está en uso</value>
+    <value>El archivo se está utilizando</value>
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>Diseño</value>
@@ -862,7 +862,7 @@
     <value>Comentarios</value>
   </data>
   <data name="PropertyCopyright" xml:space="preserve">
-    <value>Copyright</value>
+    <value>Derechos de autor</value>
   </data>
   <data name="PropertyDateModified" xml:space="preserve">
     <value>Fecha de modificación</value>
@@ -1111,7 +1111,7 @@
     <value>Multimedia</value>
   </data>
   <data name="PropertySectionAudio" xml:space="preserve">
-    <value>Audio</value>
+    <value>Sonido</value>
   </data>
   <data name="PropertySectionMusic" xml:space="preserve">
     <value>Música</value>
@@ -2731,10 +2731,10 @@ Utilizamos App Center para hacer un seguimiento del uso de la aplicación, encon
     <value>Error al copiar</value>
   </data>
   <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
-    <value>Error al copiar {0} elementos de {1} a {2}</value>
+    <value>No se pudo copiar {0} elementos de {1} a {2}</value>
   </data>
   <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
-    <value>Error al copiar {0} elemento de {1} a {2}</value>
+    <value>No se pudo copiar {0} elementos de {1} a {2}</value>
   </data>
   <data name="StatusMoveFailed" xml:space="preserve">
     <value>Error al mover</value>
@@ -2749,13 +2749,13 @@ Utilizamos App Center para hacer un seguimiento del uso de la aplicación, encon
     <value>Mostrar sección Etiquetas</value>
   </data>
   <data name="UseCompactStyles" xml:space="preserve">
-    <value>Use compact styles in the details layout</value>
+    <value>Usar estilos compactos en el diseño de detalles</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Universal</value>
   </data>
   <data name="DateFormatSample" xml:space="preserve">
-    <value>ex: {0}, {1}</value>
+    <value>p. ej.: {0}, {1}</value>
   </data>
   <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
     <value>Mostrar miniaturas</value>
@@ -2764,7 +2764,7 @@ Utilizamos App Center para hacer un seguimiento del uso de la aplicación, encon
     <value>Reintentar</value>
   </data>
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
-    <value>Move operation is not supported in this context. Do you want to copy the items instead?</value>
+    <value>La operación Mover no se admite en este contexto. ¿Desea copiar los elementos en su lugar?</value>
   </data>
   <data name="HiddenFilesAndFolders" xml:space="preserve">
     <value>Archivos y carpetas ocultos</value>
@@ -2773,21 +2773,24 @@ Utilizamos App Center para hacer un seguimiento del uso de la aplicación, encon
     <value>Personalizado</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
-    <value>Set as desktop slideshow</value>
+    <value>Establecer como presentación de diapositivas de escritorio</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
-    <value>Size All Columns to Fit</value>
+    <value>Ajustar el tamaño de todas las columnas</value>
   </data>
   <data name="Contributors" xml:space="preserve">
     <value>Colaboradores</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Adaptive</value>
+    <value>Adaptativo</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>Adaptive (Ctrl+Shift+7)</value>
+    <value>Adaptivo (Ctrl+Mayús+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Mayús+7</value>
+  </data>
+  <data name="ShowAlternateStreams" xml:space="preserve">
+    <value>Mostrar flujos de datos alternativos</value>
   </data>
 </root>

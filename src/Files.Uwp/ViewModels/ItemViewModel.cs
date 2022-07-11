@@ -70,8 +70,6 @@ namespace Files.Uwp.ViewModels
         public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
         private string folderTypeTextLocalized = "FileFolderListItem".GetLocalized();
         private FolderSettingsViewModel folderSettings = null;
-        private bool shouldDisplayFileExtensions = false;
-        private bool shouldDisplayThumbnails = false;
         private DispatcherQueue dispatcherQueue;
 
         public ListedItem CurrentFolder { get; private set; }
@@ -222,6 +220,22 @@ namespace Files.Uwp.ViewModels
             OnPropertyChanged(nameof(AreDirectoriesSortedAlongsideFiles));
             await OrderFilesAndFoldersAsync();
             await ApplyFilesAndFoldersChangesAsync();
+        }
+
+        private void UpdateSortAndGroupOptions()
+        {
+            OnPropertyChanged(nameof(IsSortedByName));
+            OnPropertyChanged(nameof(IsSortedByDate));
+            OnPropertyChanged(nameof(IsSortedByType));
+            OnPropertyChanged(nameof(IsSortedBySize));
+            OnPropertyChanged(nameof(IsSortedByOriginalPath));
+            OnPropertyChanged(nameof(IsSortedByDateDeleted));
+            OnPropertyChanged(nameof(IsSortedByDateCreated));
+            OnPropertyChanged(nameof(IsSortedBySyncStatus));
+            OnPropertyChanged(nameof(IsSortedByFileTag));
+            OnPropertyChanged(nameof(IsSortedAscending));
+            OnPropertyChanged(nameof(IsSortedDescending));
+            OnPropertyChanged(nameof(AreDirectoriesSortedAlongsideFiles));
         }
 
         public bool IsSortedByName
@@ -386,8 +400,6 @@ namespace Files.Uwp.ViewModels
             watcherCTS = new CancellationTokenSource();
             operationEvent = new AsyncManualResetEvent();
             enumFolderSemaphore = new SemaphoreSlim(1, 1);
-            shouldDisplayFileExtensions = UserSettingsService.PreferencesSettingsService.ShowFileExtensions;
-            shouldDisplayThumbnails = UserSettingsService.PreferencesSettingsService.ShowThumbnails;
             dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
             UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
@@ -459,7 +471,6 @@ namespace Files.Uwp.ViewModels
                 case nameof(UserSettingsService.PreferencesSettingsService.ShowFolderSize):
                     await dispatcherQueue.EnqueueAsync(() =>
                     {
-                        shouldDisplayThumbnails = UserSettingsService.PreferencesSettingsService.ShowThumbnails;
                         if (WorkingDirectory != "Home".GetLocalized())
                         {
                             RefreshItems(null);
@@ -471,8 +482,10 @@ namespace Files.Uwp.ViewModels
                     await dispatcherQueue.EnqueueAsync(() =>
                     {
                         folderSettings.OnDefaultPreferencesChanged(WorkingDirectory, e.SettingName);
-                        UpdateSortDirectoriesAlongsideFiles();
+                        UpdateSortAndGroupOptions();
                     });
+                    await OrderFilesAndFoldersAsync();
+                    await ApplyFilesAndFoldersChangesAsync();
                     break;
             }
         }
@@ -919,7 +932,8 @@ namespace Files.Uwp.ViewModels
             var wasIconLoaded = false;
             if (item.IsLibraryItem || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsZipItem)
             {
-                if (shouldDisplayThumbnails && !item.IsShortcutItem && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
+                if (UserSettingsService.PreferencesSettingsService.ShowThumbnails && 
+                    !item.IsShortcutItem && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
                 {
                     var matchingStorageFile = matchingStorageItem.AsBaseStorageFile() ?? await GetFileFromPathAsync(item.ItemPath);
                     if (matchingStorageFile != null)
@@ -1096,9 +1110,9 @@ namespace Files.Uwp.ViewModels
                                         item.ItemType = matchingStorageFile.DisplayType;
                                         item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
                                         item.FileFRN = fileFRN;
-                                        item.FileTag = fileTag;
+                                        item.FileTags = fileTag;
                                     }, DispatcherQueuePriority.Low);
-                                    FileTagsHelper.DbInstance.SetTag(item.ItemPath, item.FileFRN, item.FileTag);
+                                    FileTagsHelper.DbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
                                     wasSyncStatusLoaded = true;
                                 }
                             }
@@ -1143,9 +1157,9 @@ namespace Files.Uwp.ViewModels
                                         item.ItemType = matchingStorageFolder.DisplayType;
                                         item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
                                         item.FileFRN = fileFRN;
-                                        item.FileTag = fileTag;
+                                        item.FileTags = fileTag;
                                     }, DispatcherQueuePriority.Low);
-                                    FileTagsHelper.DbInstance.SetTag(item.ItemPath, item.FileFRN, item.FileTag);
+                                    FileTagsHelper.DbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
                                     wasSyncStatusLoaded = true;
                                 }
                             }
@@ -1176,9 +1190,9 @@ namespace Files.Uwp.ViewModels
                                 await dispatcherQueue.EnqueueAsync(() =>
                                 {
                                     item.SyncStatusUI = new CloudDriveSyncStatusUI(); // Reset cloud sync status icon
-                                    item.FileTag = fileTag;
+                                    item.FileTags = fileTag;
                                 }, DispatcherQueuePriority.Low);
-                                FileTagsHelper.DbInstance.SetTag(item.ItemPath, item.FileFRN, item.FileTag);
+                                FileTagsHelper.DbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
                             });
                         }
 
@@ -1315,7 +1329,7 @@ namespace Files.Uwp.ViewModels
                 ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete, PreviousDirectory = previousDir, Path = path });
                 IsLoadingItems = false;
 
-                AdaptiveLayoutHelpers.PredictLayoutMode(folderSettings, this);
+                AdaptiveLayoutHelpers.PredictLayoutMode(folderSettings, WorkingDirectory, filesAndFolders);
 
                 if (App.PaneViewModel.IsPreviewSelected)
                 {
@@ -1360,7 +1374,7 @@ namespace Files.Uwp.ViewModels
             else
             {
                 var isRecycleBin = path.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal);
-                var enumerated = await EnumerateItemsFromStandardFolderAsync(path, folderSettings.GetLayoutType(path, false), addFilesCTS.Token, library);
+                var enumerated = await EnumerateItemsFromStandardFolderAsync(path, addFilesCTS.Token, library);
                 IsLoadingItems = false; // Hide progressbar after enumeration
                 switch (enumerated)
                 {
@@ -1532,7 +1546,7 @@ namespace Files.Uwp.ViewModels
             }
         }
 
-        public async Task<int> EnumerateItemsFromStandardFolderAsync(string path, Type sourcePageType, CancellationToken cancellationToken, LibraryItem library = null)
+        public async Task<int> EnumerateItemsFromStandardFolderAsync(string path, CancellationToken cancellationToken, LibraryItem library = null)
         {
             // Flag to use FindFirstFileExFromApp or StorageFolder enumeration
             var isBoxFolder = App.CloudDrivesManager.Drives.FirstOrDefault(x => x.Text == "Box")?.Path?.TrimEnd('\\') is string boxFolder ?
@@ -1626,7 +1640,7 @@ namespace Files.Uwp.ViewModels
                     currentFolder.ItemDateCreatedReal = rootFolder.DateCreated;
                 }
                 CurrentFolder = currentFolder;
-                await EnumFromStorageFolderAsync(path, currentFolder, rootFolder, currentStorageFolder, sourcePageType, cancellationToken);
+                await EnumFromStorageFolderAsync(path, currentFolder, rootFolder, currentStorageFolder, cancellationToken);
                 return isBoxFolder || isNetworkFolder ? 2 : 1; // Workaround for #7428
             }
             else
@@ -1685,7 +1699,7 @@ namespace Files.Uwp.ViewModels
                 }
                 else if (hFile.ToInt64() == -1)
                 {
-                    await EnumFromStorageFolderAsync(path, currentFolder, rootFolder, currentStorageFolder, sourcePageType, cancellationToken);
+                    await EnumFromStorageFolderAsync(path, currentFolder, rootFolder, currentStorageFolder, cancellationToken);
                     return 1;
                 }
                 else
@@ -1709,7 +1723,7 @@ namespace Files.Uwp.ViewModels
             }
         }
 
-        private async Task EnumFromStorageFolderAsync(string path, ListedItem currentFolder, BaseStorageFolder rootFolder, StorageFolderWithPath currentStorageFolder, Type sourcePageType, CancellationToken cancellationToken)
+        private async Task EnumFromStorageFolderAsync(string path, ListedItem currentFolder, BaseStorageFolder rootFolder, StorageFolderWithPath currentStorageFolder, CancellationToken cancellationToken)
         {
             if (rootFolder == null)
             {
@@ -1724,7 +1738,6 @@ namespace Files.Uwp.ViewModels
                 List<ListedItem> finalList = await UniversalStorageEnumerator.ListEntries(
                     rootFolder,
                     currentStorageFolder,
-                    sourcePageType,
                     cancellationToken,
                     -1,
                     async (intermediateList) =>

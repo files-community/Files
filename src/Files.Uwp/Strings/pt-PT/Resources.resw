@@ -2786,4 +2786,7 @@ Utilizamos o App Center para localizar as definições que estão a ser utilizad
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
   </data>
+  <data name="ShowAlternateStreams" xml:space="preserve">
+    <value>Show Alternate Data Streams</value>
+  </data>
 </root>

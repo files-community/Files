@@ -6,6 +6,7 @@ using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
 using Files.Uwp.ViewModels.Properties;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage.FileProperties;
 using Windows.UI.Xaml.Media.Imaging;
@@ -51,7 +52,8 @@ namespace Files.Uwp.ViewModels.Previews
 
             if (preferencesSettingsService.AreFileTagsEnabled)
             {
-                Item.FileDetails.Add(GetFileProperty("FileTags", Item.FileTagUI?.TagName));
+                Item.FileDetails.Add(GetFileProperty("FileTags",
+                    Item.FileTagsUI is not null ? string.Join(',', Item.FileTagsUI.Select(x => x.TagName)) : null));
             }
         }
 

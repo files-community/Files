@@ -1,4 +1,4 @@
-﻿using static Files.Uwp.ViewModels.FolderSettingsViewModel;
+﻿using Files.Uwp.Helpers.LayoutPreferences;
 
 namespace Files.Uwp.EventArguments
 {

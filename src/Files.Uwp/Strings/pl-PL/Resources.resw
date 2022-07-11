@@ -424,7 +424,7 @@
     <value>Widok siatki (Mały)</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
-    <value>Ok</value>
+    <value>OK</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Nie mogliśmy usunąć tego elementu</value>
@@ -514,7 +514,7 @@
     <value>Nazwa elementu nie może zawierać tych znaków: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
-    <value>Ok</value>
+    <value>OK</value>
   </data>
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>Nazwa elementu nie może zawierać tych znaków: \ / : * ? " &lt; &gt; |</value>
@@ -2370,7 +2370,7 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
     <value>Włóż dysk</value>
   </data>
   <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Ok</value>
+    <value>OK</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
     <value>Wymagane poświadczenie</value>
@@ -2727,10 +2727,10 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
     <value>Kopiowanie nie powiodło się.</value>
   </data>
   <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
-    <value>Nie udało się skopiować {0} elementów z {1} do {2}</value>
+    <value>Błąd kopiowania {0} elementów z {1} do {2}</value>
   </data>
   <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
-    <value>Nie udało się skopiować {0} elementu z {1} do {2}</value>
+    <value>Błąd kopiowania {0} elementu z {1} do {2}</value>
   </data>
   <data name="StatusMoveFailed" xml:space="preserve">
     <value>Przenoszenie nie powiodło się.</value>
@@ -2739,10 +2739,10 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
     <value>Tagi</value>
   </data>
   <data name="SettingsShowFileTagsSection.Title" xml:space="preserve">
-    <value>Pokaż sekcję Etykiet</value>
+    <value>Pokaż sekcję Etykiety</value>
   </data>
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Pokaż sekcję Etykiet</value>
+    <value>Pokaż sekcję Etykiety</value>
   </data>
   <data name="UseCompactStyles" xml:space="preserve">
     <value>Użyj kompaktowych stylów w układzie szczegółów</value>
@@ -2772,7 +2772,7 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
     <value>Ustaw jako pokaz slajdów na pulpicie</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
-    <value>Dopasuj wszystkie kolumny do rozmiaru</value>
+    <value>Dopasuj rozmiar wszystkich kolumn</value>
   </data>
   <data name="Contributors" xml:space="preserve">
     <value>Współtwórcy</value>
@@ -2785,5 +2785,8 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
+  </data>
+  <data name="ShowAlternateStreams" xml:space="preserve">
+    <value>Show Alternate Data Streams</value>
   </data>
 </root>

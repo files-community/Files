@@ -2188,7 +2188,7 @@
     <value>關閉畫面</value>
   </data>
   <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
-    <value>進入懸浮視窗</value>
+    <value>進入畫中畫模式</value>
   </data>
   <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
     <value>返回完整檢視</value>
@@ -2763,7 +2763,7 @@
     <value>此情境不支援移動。要改為複製此項目嗎？</value>
   </data>
   <data name="HiddenFilesAndFolders" xml:space="preserve">
-    <value>隱藏的檔案與資料匣</value>
+    <value>隱藏的檔案和資料夾</value>
   </data>
   <data name="Custom" xml:space="preserve">
     <value>自訂</value>
@@ -2785,5 +2785,8 @@
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
+  </data>
+  <data name="ShowAlternateStreams" xml:space="preserve">
+    <value>顯示NTFS交換資料流程</value>
   </data>
 </root>

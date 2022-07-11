@@ -5,12 +5,14 @@ using Files.Uwp.ViewModels.Previews;
 using System;
 using System.Linq;
 using Windows.Storage;
+using System.Collections.Generic;
+using Files.Uwp.Filesystem;
 
 namespace Files.Uwp.Helpers
 {
     public static class AdaptiveLayoutHelpers
     {
-        public static bool PredictLayoutMode(FolderSettingsViewModel folderSettings, ItemViewModel filesystemViewModel)
+        public static bool PredictLayoutMode(FolderSettingsViewModel folderSettings, string path, IList<ListedItem> filesAndFolders)
         {
             IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
 
@@ -23,8 +25,6 @@ namespace Files.Uwp.Helpers
                 Action layoutGridView = () => folderSettings.ToggleLayoutModeGridView(folderSettings.GridViewSize);
 
                 bool desktopIniFound = false;
-
-                string path = filesystemViewModel?.WorkingDirectory;
 
                 if (string.IsNullOrWhiteSpace(path))
                 {
@@ -46,39 +46,15 @@ namespace Files.Uwp.Helpers
                             var folderTypeKey = viewModeSection.Keys.FirstOrDefault(s => "FolderType".Equals(s.KeyName, StringComparison.OrdinalIgnoreCase));
                             if (folderTypeKey != null)
                             {
-                                switch (folderTypeKey.Value)
+                                var setLayout = (folderTypeKey.Value) switch
                                 {
-                                    case "Documents":
-                                        {
-                                            layoutDetails();
-                                            break;
-                                        }
-
-                                    case "Pictures":
-                                        {
-                                            layoutGridView();
-                                            break;
-                                        }
-
-                                    case "Music":
-                                        {
-                                            layoutDetails();
-                                            break;
-                                        }
-
-                                    case "Videos":
-                                        {
-                                            layoutGridView();
-                                            break;
-                                        }
-
-                                    default:
-                                        {
-                                            layoutDetails();
-                                            break;
-                                        }
-                                }
-
+                                    "Documents" => layoutDetails,
+                                    "Pictures" => layoutGridView,
+                                    "Music" => layoutDetails,
+                                    "Videos" => layoutGridView,
+                                    _ => layoutDetails
+                                };
+                                setLayout();
                                 desktopIniFound = true;
                             }
                         }
@@ -89,12 +65,12 @@ namespace Files.Uwp.Helpers
                 {
                     return true;
                 }
-                if (filesystemViewModel.FilesAndFolders.Count == 0)
+                if (filesAndFolders.Count == 0)
                 {
                     return false;
                 }
 
-                int allItemsCount = filesystemViewModel.FilesAndFolders.Count;
+                int allItemsCount = filesAndFolders.Count;
 
                 int mediaCount;
                 int imagesCount;
@@ -106,15 +82,15 @@ namespace Files.Uwp.Helpers
                 float foldersPercentage;
                 float miscFilesPercentage;
 
-                mediaCount = filesystemViewModel.FilesAndFolders.Where((item) =>
+                mediaCount = filesAndFolders.Where((item) =>
                 {
                     return !string.IsNullOrEmpty(item.FileExtension) && MediaPreviewViewModel.ContainsExtension(item.FileExtension.ToLowerInvariant());
                 }).Count();
-                imagesCount = filesystemViewModel.FilesAndFolders.Where((item) =>
+                imagesCount = filesAndFolders.Where((item) =>
                 {
                     return !string.IsNullOrEmpty(item.FileExtension) && ImagePreviewViewModel.ContainsExtension(item.FileExtension.ToLowerInvariant());
                 }).Count();
-                foldersCount = filesystemViewModel.FilesAndFolders.Where((item) => item.PrimaryItemAttribute == StorageItemTypes.Folder).Count();
+                foldersCount = filesAndFolders.Where((item) => item.PrimaryItemAttribute == StorageItemTypes.Folder).Count();
                 miscFilesCount = allItemsCount - (mediaCount + imagesCount + foldersCount);
 
                 mediaPercentage = (float)((float)mediaCount / (float)allItemsCount) * 100.0f;

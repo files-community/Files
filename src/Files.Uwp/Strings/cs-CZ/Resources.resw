@@ -118,439 +118,439 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="SideBarOpenInNewTab.Text" xml:space="preserve">
-    <value>Open in new tab</value>
+    <value>Otevřít na nové kartě</value>
   </data>
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
-    <value>Open in new window</value>
+    <value>Otevřít v novém okně</value>
   </data>
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
-    <value>New window</value>
+    <value>Nové okno</value>
   </data>
   <data name="ModernNavigationToolbaNewBitmapImage.Text" xml:space="preserve">
-    <value>Bitmap Image</value>
+    <value>Obrázek bitmapy</value>
   </data>
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
-    <value>Text Document</value>
+    <value>Textový dokument</value>
   </data>
   <data name="CopyLocation" xml:space="preserve">
-    <value>Copy location</value>
+    <value>Kopírovat umístění</value>
   </data>
   <data name="NavigationToolbarPaste.Label" xml:space="preserve">
-    <value>Paste</value>
+    <value>Vložit</value>
   </data>
   <data name="Browse" xml:space="preserve">
-    <value>Browse</value>
+    <value>Prohlížet</value>
   </data>
   <data name="nameColumn.Header" xml:space="preserve">
-    <value>Name</value>
+    <value>Název</value>
   </data>
   <data name="typeColumn.Header" xml:space="preserve">
-    <value>Type</value>
+    <value>Typ</value>
   </data>
   <data name="Size" xml:space="preserve">
-    <value>Size</value>
+    <value>Velikost</value>
   </data>
   <data name="OpenIn" xml:space="preserve">
-    <value>Open in</value>
+    <value>Otevřít v</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
-    <value>Created:</value>
+    <value>Vytvořeno:</value>
   </data>
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
-    <value>Item Name</value>
+    <value>Název položky</value>
   </data>
   <data name="PropertiesItemPath.Text" xml:space="preserve">
-    <value>Path:</value>
+    <value>Cesta:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
-    <value>Size:</value>
+    <value>Velikost:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
-    <value>This action cannot be done</value>
+    <value>Tato akce nemůže být provedena</value>
   </data>
   <data name="ErrorDialogTheDestinationFolder" xml:space="preserve">
-    <value>The destination folder</value>
+    <value>Cílová složka</value>
   </data>
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
-    <value>is a subfolder of the source folder</value>
+    <value>je podsložka zdrojové složky</value>
   </data>
   <data name="Skip" xml:space="preserve">
-    <value>Skip</value>
+    <value>Přeskočit</value>
   </data>
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
-    <value>Select All</value>
+    <value>Vybrat vše</value>
   </data>
   <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
-    <value>Invert Selection</value>
+    <value>Obrátit výběr</value>
   </data>
   <data name="NavToolbarClearSelection.Text" xml:space="preserve">
-    <value>Clear Selection</value>
+    <value>Vymazat výběr</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
-    <value>Modified:</value>
+    <value>Upraveno:</value>
   </data>
   <data name="Accessed" xml:space="preserve">
-    <value>Accessed:</value>
+    <value>Naposled otevřeno:</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
-    <value>Clear all items</value>
+    <value>Smazat všechny položky</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Enter a path</value>
+    <value>Zadejte cestu</value>
   </data>
   <data name="NavigationToolbarSearchRegion.PlaceholderText" xml:space="preserve">
-    <value>Search</value>
+    <value>Hledat</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
-    <value>Files you've previously accessed will show up here</value>
+    <value>Soubory které jste dříve otevřeli se zobrazí zde</value>
   </data>
   <data name="RecentItemOpenFileLocation.Text" xml:space="preserve">
-    <value>Open file location</value>
+    <value>Otevřít umístění souboru</value>
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
-    <value>Remove this item</value>
+    <value>Odstranit tuto položku</value>
   </data>
   <data name="SettingsUsefulLinks.Title" xml:space="preserve">
-    <value>Useful links</value>
+    <value>Užitečné odkazy</value>
   </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
-    <value>Submit feedback</value>
+    <value>Odeslat zpětnou vazbu</value>
   </data>
   <data name="About" xml:space="preserve">
-    <value>About</value>
+    <value>O programu</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
-    <value>Date format</value>
+    <value>Časový formát</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Choose your color</value>
+    <value>Zvolte svou barvu</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
-    <value>Show extensions for known file types</value>
+    <value>Zobrazit přípony známých typů souborů</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
-    <value>Show hidden files and folders</value>
+    <value>Zobrazit skryté soubory a složky</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Show dot files</value>
+    <value>Zobrazit soubory začínající tečkou</value>
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
-    <value>Experimental</value>
+    <value>Experimentální</value>
   </data>
   <data name="Appearance" xml:space="preserve">
-    <value>Appearance</value>
+    <value>Vzhled</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
-    <value>Experimental</value>
+    <value>Experimentální</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
-    <value>Preferences</value>
+    <value>Vlastnosti</value>
   </data>
   <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
-    <value>WARNING: EXPERIMENTAL FEATURES AHEAD!</value>
+    <value>UPOZORNĚNÍ: EXPERIMENTÁLNÍ FUNKCE!</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
-    <value>Continue where you left off</value>
+    <value>Pokračovat kde jste přestali</value>
   </data>
   <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
-    <value>Open a new tab</value>
+    <value>Otevřít nový panel</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
-    <value>Open a specific page or pages</value>
+    <value>Otevřít konkrétní stránku nebo stránky</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
-    <value>Preferences</value>
+    <value>Vlastnosti</value>
   </data>
   <data name="Desktop" xml:space="preserve">
-    <value>Desktop</value>
+    <value>Plocha</value>
   </data>
   <data name="Documents" xml:space="preserve">
-    <value>Documents</value>
+    <value>Dokumenty</value>
   </data>
   <data name="Downloads" xml:space="preserve">
-    <value>Downloads</value>
+    <value>Stažené soubory</value>
   </data>
   <data name="SideBarUnpinFromFavorites.Text" xml:space="preserve">
-    <value>Unpin from Favorites</value>
+    <value>Odepnou z Oblíbených</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
-    <value>Sort by</value>
+    <value>Seřadit dle</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value>Name</value>
+    <value>Název</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
-    <value>Type</value>
+    <value>Typ</value>
   </data>
   <data name="Ascending" xml:space="preserve">
-    <value>Ascending</value>
+    <value>Sestupně</value>
   </data>
   <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
-    <value>Refresh</value>
+    <value>Obnovit</value>
   </data>
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
-    <value>Paste</value>
+    <value>Vložit</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
-    <value>New</value>
+    <value>Nový</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
-    <value>File</value>
+    <value>Soubor</value>
   </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
-    <value>Properties</value>
+    <value>Vlastnosti</value>
   </data>
   <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
-    <value>Properties</value>
+    <value>Vlastnosti</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
-    <value>Extract</value>
+    <value>Rozbalit</value>
   </data>
   <data name="Open" xml:space="preserve">
-    <value>Open</value>
+    <value>Otevřít</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
-    <value>Open in new tab</value>
+    <value>Otevřít na nové kartě</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" xml:space="preserve">
-    <value>Open in new window</value>
+    <value>Otevřít v novém okně</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" xml:space="preserve">
-    <value>Set as desktop background</value>
+    <value>Nastavit jako pozadí plochy</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
-    <value>Share</value>
+    <value>Sdílet</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
-    <value>Cut</value>
+    <value>Vyjmout</value>
   </data>
   <data name="Delete" xml:space="preserve">
-    <value>Delete</value>
+    <value>Smazat</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
-    <value>Rename</value>
+    <value>Přejmenovat</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
-    <value>Pin to Favorites</value>
+    <value>Přpnout k oblíbeným</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
-    <value>Properties</value>
+    <value>Vlastnosti</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
-    <value>Welcome to Files!</value>
+    <value>Vítejte v Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Grant Permission</value>
+    <value>Udělit oprávnění</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once you've completed this step. </value>
+    <value>Chcete-li začít, musíte nám udělit oprávnění k zobrazení vašich souborů. Toto otevře stránku s nastavením, kde nám můžete toto oprávnění udělit. Po dokončení tohoto kroku budete muset aplikaci znovu otevřít. </value>
   </data>
   <data name="FileFolderListItem" xml:space="preserve">
-    <value>File folder</value>
+    <value>Složka souborů</value>
   </data>
   <data name="ItemTypeFile" xml:space="preserve">
-    <value>File</value>
+    <value>Soubor</value>
   </data>
   <data name="RenameDialog.Title" xml:space="preserve">
-    <value>Enter an item name</value>
+    <value>Zadejte název položky</value>
   </data>
   <data name="RenameDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Enter an item name</value>
+    <value>Zadejte název položky</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Set Name</value>
+    <value>Pojmenovat</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
-    <value>Light</value>
+    <value>Světlý</value>
   </data>
   <data name="DarkTheme" xml:space="preserve">
-    <value>Dark</value>
+    <value>Tmavý</value>
   </data>
   <data name="Application" xml:space="preserve">
-    <value>Application</value>
+    <value>Aplikace</value>
   </data>
   <data name="SystemTimeStyle" xml:space="preserve">
-    <value>System</value>
+    <value>Systém</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
-    <value>New Folder</value>
+    <value>Nová složka</value>
   </data>
   <data name="NewFile" xml:space="preserve">
-    <value>New File</value>
+    <value>Nový soubor</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
-    <value>This folder is empty.</value>
+    <value>Tato složka je prázdná.</value>
   </data>
   <data name="NavBackButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Back (Alt+Left Arrow)</value>
+    <value>Zpět(Alt+šipka vlevo)</value>
   </data>
   <data name="NavForwardButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Forward (Alt+Right Arrow)</value>
+    <value>Vpřed (Alt+šipka vpravo)</value>
   </data>
   <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Up (Alt+Up Arrow)</value>
+    <value>Nahoru( Alt+šipka nahoru)</value>
   </data>
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Refresh (F5)</value>
+    <value>Obnovit (F5)</value>
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Search (Ctrl+F)</value>
+    <value>Hledat (Ctrl+F)</value>
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
-    <value>Properties</value>
+    <value>Vlastnosti</value>
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
-    <value>Properties</value>
+    <value>Vlastnosti</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
-    <value>An item with this name already exists in this directory.</value>
+    <value>Položka s tímto názvem již existuje v této složce.</value>
   </data>
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Replace existing item</value>
+    <value>Nahradit existující položku</value>
   </data>
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
-    <value>Item already exists</value>
+    <value>Položka již existuje</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
-    <value>Set as lockscreen background</value>
+    <value>Nastavit jako pozadí zamykací obrazovky</value>
   </data>
   <data name="BaseLayoutContextFlyoutLargeIcons.Text" xml:space="preserve">
-    <value>Large Icons</value>
+    <value>Velké ikony</value>
   </data>
   <data name="BaseLayoutContextFlyoutMediumIcons.Text" xml:space="preserve">
-    <value>Medium Icons</value>
+    <value>Střední ikony</value>
   </data>
   <data name="BaseLayoutContextFlyoutSmallIcons.Text" xml:space="preserve">
-    <value>Small Icons</value>
+    <value>Malé ikony</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
     <value>OK</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
-    <value>We weren't able to delete this item</value>
+    <value>Nepodařilo se nám odstranit tuto položku</value>
   </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
-    <value>Please insert the necessary drive to access this item.</value>
+    <value>Prosím vložte potřebný disk pro přístup k této položce.</value>
   </data>
   <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
-    <value>Drive Unplugged</value>
+    <value>Disk odpojen</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access may have been moved or deleted.</value>
+    <value>Soubor ke kterému se snažíte přistoupit byl přesunut nebo smazán.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
-    <value>File Not Found</value>
+    <value>Soubor nenalezen</value>
   </data>
   <data name="FileNotFoundPreviewDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to preview may have been moved or deleted.</value>
+    <value>Soubor, ke kterému se pokoušíte zobrazit náhled, mohl být přesunut nebo odstraněn.</value>
   </data>
   <data name="FolderNotFoundDialog.Text" xml:space="preserve">
-    <value>The folder you are attempting to access may have been moved or deleted.</value>
+    <value>Složka ke které se snažíte přistoupit mohla být přesunuta nebo smazána.</value>
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
-    <value>Did you delete this folder?</value>
+    <value>Smazali jste tuto složku?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by {0}</value>
+    <value>Soubor, ke kterému se snažíte přistoupit je využíván {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by an another application</value>
+    <value>Soubor, ke kterému se snažíte přistoupit je právě využíván jinou aplikací</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
-    <value>File is in use</value>
+    <value>Soubor je používán</value>
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
-    <value>Layout</value>
+    <value>Rozložení</value>
   </data>
   <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Selection options</value>
+    <value>Možnosti výběru</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
-    <value>Read-only</value>
+    <value>Pouze pro čtení</value>
   </data>
   <data name="PropertiesDialogHidden.Text" xml:space="preserve">
-    <value>Hidden</value>
+    <value>Skrytý</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
-    <value>Empty recycle bin</value>
+    <value>Vyprázdnit koš</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
-    <value>Restore</value>
+    <value>Obnovit</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
-    <value>{0} days ago</value>
+    <value>před {0} dny</value>
   </data>
   <data name="DayAgo" xml:space="preserve">
-    <value>{0} day ago</value>
+    <value>před {0} dnem</value>
   </data>
   <data name="HoursAgo" xml:space="preserve">
-    <value>{0} hours ago</value>
+    <value>před {0} hodinami</value>
   </data>
   <data name="HourAgo" xml:space="preserve">
-    <value>{0} hour ago</value>
+    <value>před {0} hodinou</value>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
-    <value>{0} minutes ago</value>
+    <value>před {0} minutami</value>
   </data>
   <data name="MinuteAgo" xml:space="preserve">
-    <value>{0} minute ago</value>
+    <value>před {0} minutou</value>
   </data>
   <data name="SecondsAgo" xml:space="preserve">
-    <value>{0} seconds ago</value>
+    <value>před {0} sekundami</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
-    <value>New Tab</value>
+    <value>Nový panel</value>
   </data>
   <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
-    <value>The requested operation is not supported</value>
+    <value>Požadovaná operace není podporována</value>
   </data>
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
-    <value>{0} free of {1}</value>
+    <value>{0} volných z {1}</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
-    <value>Open With</value>
+    <value>Otevřít v aplikaci</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
-    <value>The item name must not contain the following characters: \ / : * ? " &lt; &gt; |</value>
+    <value>Název položky nesmí obsahovat následující znaky: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
     <value>OK</value>
   </data>
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
-    <value>The item name must not contain the following characters: \ / : * ? " &lt; &gt; |</value>
+    <value>Název položky nesmí obsahovat následující znaky: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
-    <value>item selected</value>
+    <value>položka vybrána</value>
   </data>
   <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>items selected</value>
+    <value>položky vybrány</value>
   </data>
   <data name="ItemCount.Text" xml:space="preserve">
-    <value>item</value>
+    <value>položka</value>
   </data>
   <data name="ItemsCount.Text" xml:space="preserve">
-    <value>items</value>
+    <value>položky</value>
   </data>
   <data name="DeleteInProgress.Title" xml:space="preserve">
-    <value>Deleting files</value>
+    <value>Mazání souborů</value>
   </data>
   <data name="PasteInProgress.Title" xml:space="preserve">
-    <value>Pasting files</value>
+    <value>Vkládání souborů</value>
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
-    <value>Moving files to the Recycle Bin</value>
+    <value>Přesouvání souborů do koše</value>
   </data>
   <data name="Yes" xml:space="preserve">
-    <value>Yes</value>
+    <value>Ano</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
-    <value>Are you sure you want to permanently delete all these items?</value>
+    <value>Opravdu chcte trvale odstrantit všechny tyto položky?</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
-    <value>Empty recycle bin</value>
+    <value>Vyprázdnit koš</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
-    <value>bytes</value>
+    <value>byty</value>
   </data>
   <data name="KiloByteSymbol" xml:space="preserve">
     <value>KB</value>
@@ -571,199 +571,199 @@
     <value>B</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
-    <value>Run as administrator</value>
+    <value>Spustit jako správce</value>
   </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
-    <value>Contains:</value>
+    <value>Obsahuje:</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
-    <value>{0:#,##0} files, {1:#,##0} folders</value>
+    <value>{0:#,##0} souborů, {1:#,##0} složek</value>
   </data>
   <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
-    <value>{0:#,##0} files, {1:#,##0} folders from {2:#,##0} locations</value>
+    <value>{0:#,##0} souborů, {1:#,##0} složek z {2:#,##0} lokací</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
-    <value>Run as another user</value>
+    <value>Spustit jako jiný uživatel</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
-    <value>All type of {0}</value>
+    <value>Všechny typy {0}</value>
   </data>
   <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
-    <value>Different types</value>
+    <value>Rozdílné typy</value>
   </data>
   <data name="PropertiesCombinedItemPath" xml:space="preserve">
-    <value>All in {0}</value>
+    <value>Vše v {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
-    <value>Used space:</value>
+    <value>Použité místo:</value>
   </data>
   <data name="PropertiesDriveFreeSpace.Text" xml:space="preserve">
-    <value>Free space:</value>
+    <value>Volné místo:</value>
   </data>
   <data name="PropertiesDriveCapacity.Text" xml:space="preserve">
-    <value>Capacity:</value>
+    <value>Kapacita:</value>
   </data>
   <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
-    <value>File system:</value>
+    <value>Souborový systém:</value>
   </data>
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
-    <value>Recent</value>
+    <value>Nedávné</value>
   </data>
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
-    <value>Move tab here</value>
+    <value>Přesunout kartu sem</value>
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
-    <value>Status</value>
+    <value>Stav</value>
   </data>
   <data name="SettingsOnStartupOpenAddPageButton.Content" xml:space="preserve">
-    <value>Add a new page</value>
+    <value>Přídat novou stránku</value>
   </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
-    <value>Pages:</value>
+    <value>Strany:</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
-    <value>Windows default</value>
+    <value>Výchozí Windows</value>
   </data>
   <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
-    <value>No results</value>
+    <value>Žádné výsledky</value>
   </data>
   <data name="SubDirectoryAccessDenied" xml:space="preserve">
-    <value>Can't access any items to display</value>
+    <value>Nelze získat přístup k žádným položkám k zobrazení</value>
   </data>
   <data name="MoveToFolderCaptionText" xml:space="preserve">
-    <value>Move to {0}</value>
+    <value>Přesunout do {0}</value>
   </data>
   <data name="ErrorDialogSameSourceDestinationFile" xml:space="preserve">
-    <value>The source and destination file names are the same.</value>
+    <value>Názvy zdrojového a cílového souboru jsou stejné.</value>
   </data>
   <data name="ErrorDialogSameSourceDestinationFolder" xml:space="preserve">
-    <value>The destination folder is the same as the source folder.</value>
+    <value>Cílová složka je stejná jako zdrojová složka.</value>
   </data>
   <data name="CopyToFolderCaptionText" xml:space="preserve">
-    <value>Copy to {0}</value>
+    <value>Kopírovat do {0}</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
-    <value>Create shortcut</value>
+    <value>Vytvořit zástupce</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
-    <value>Open file location</value>
+    <value>Otevřít umístění souboru</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
-    <value>Arguments:</value>
+    <value>Argumenty:</value>
   </data>
   <data name="PropertiesShortcutItemPath.Text" xml:space="preserve">
-    <value>Destination:</value>
+    <value>Cíl:</value>
   </data>
   <data name="PropertiesShortcutItemType.Text" xml:space="preserve">
-    <value>Shortcut type:</value>
+    <value>Typ zástupce:</value>
   </data>
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
-    <value>Working directory:</value>
+    <value>Pracovní složa:</value>
   </data>
   <data name="PropertiesShortcutTypeFile" xml:space="preserve">
-    <value>File</value>
+    <value>Soubor</value>
   </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
-    <value>Web link</value>
+    <value>Webový odkaz</value>
   </data>
   <data name="General" xml:space="preserve">
-    <value>General</value>
+    <value>Obecné</value>
   </data>
   <data name="Shortcut" xml:space="preserve">
-    <value>Shortcut</value>
+    <value>Zástupce</value>
   </data>
   <data name="ShortcutFileType" xml:space="preserve">
-    <value>Shortcut</value>
+    <value>Zástupce</value>
   </data>
   <data name="ShortcutWebLinkFileType" xml:space="preserve">
-    <value>Internet shortcut</value>
+    <value>Internetový zástupce</value>
   </data>
   <data name="ShortcutCreateNewSuffix" xml:space="preserve">
-    <value>{0} - shortcut</value>
+    <value>{0} - zástupce</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
-    <value>Open file location</value>
+    <value>Otevřít umístění souboru</value>
   </data>
   <data name="DriveCapacityUnknown" xml:space="preserve">
-    <value>Unknown</value>
+    <value>Neznámý</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
-    <value>Files ran into a problem that the developers didn't prepare for yet.</value>
+    <value>Soubory narazily na problém, na který se vývojáři ještě nepřipravili.</value>
   </data>
   <data name="ExceptionNotificationHeader" xml:space="preserve">
-    <value>Something went wrong!</value>
+    <value>Něco se pokazilo!</value>
   </data>
   <data name="ExceptionNotificationReportButton" xml:space="preserve">
-    <value>Report this issue</value>
+    <value>Nahlásit tento problém</value>
   </data>
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
-    <value>Contributors</value>
+    <value>Přispěvatelé</value>
   </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
-    <value>Release notes</value>
+    <value>Poznámky k vydání</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
-    <value>The item referenced is either invalid or inaccessible.{0}Error message:{0}{1}</value>
+    <value>Odkaz na položku je buď neplatný nebo nedostupný.{0}Chybová zpráva:{0}{1}</value>
   </data>
   <data name="InvalidItemDialogTitle" xml:space="preserve">
-    <value>Invalid item</value>
+    <value>Neplatná položka</value>
   </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
-    <value>Version:</value>
+    <value>Verze:</value>
   </data>
   <data name="ShareDialogFailMessage" xml:space="preserve">
-    <value>There's nothing to share right now...</value>
+    <value>Momentálně zde není co sdílet...</value>
   </data>
   <data name="ShareDialogMultipleItemsDescription" xml:space="preserve">
-    <value>The items you've selected will be shared</value>
+    <value>Vybrané položky budou sdíleny</value>
   </data>
   <data name="ShareDialogSingleItemDescription" xml:space="preserve">
-    <value>The selected item will be shared</value>
+    <value>Vybraná položka bude sdílena</value>
   </data>
   <data name="ShareDialogTitle" xml:space="preserve">
-    <value>Sharing {0}</value>
+    <value>Sdílet {0}</value>
   </data>
   <data name="ShareDialogTitleMultipleItems" xml:space="preserve">
-    <value>Sharing {0} {1}</value>
+    <value>Sdílet {0}{1}</value>
   </data>
   <data name="RenameError.ItemDeleted.Text" xml:space="preserve">
-    <value>The item you're attempting to rename no longer exists. Please verify the correct location of the item you need to rename.</value>
+    <value>Položka kterou se pokoušíte přejmenovat již neexistuje. Ověřte prosím správné umístění položky, kterou potřebujete přejmenovat.</value>
   </data>
   <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
-    <value>Item no longer exists</value>
+    <value>Položka již neexistuje</value>
   </data>
   <data name="RenameError.NameInvalid.Text" xml:space="preserve">
-    <value>The name specified was invalid. Please check the desired item name and try again.</value>
+    <value>Zadaný název byl neplatný. Zkontrolujte prosím jméno požadované položky a zkuste to znovu.</value>
   </data>
   <data name="RenameError.NameInvalid.Title" xml:space="preserve">
-    <value>Invalid item name</value>
+    <value>Neplatný název položky</value>
   </data>
   <data name="RenameError.TooLong.Text" xml:space="preserve">
-    <value>The length of the item name specified exceeds the maximum limit. Please check the desired name and try again.</value>
+    <value>Délka názvu položky překaračuje maximální limit. Zkontrolujte prosím požadované jméno a zkuste to znovu.</value>
   </data>
   <data name="RenameError.TooLong.Title" xml:space="preserve">
-    <value>Item name was too long</value>
+    <value>Název položky byl příliš dlouhý</value>
   </data>
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
-    <value>More</value>
+    <value>Více</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
-    <value>The application needs to be restarted in order to apply these settings, would you like to restart the app?</value>
+    <value>Aplikace musí být restartována, aby se uplatnila tato nastavení, chcete aplikaci restartovat?</value>
   </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
-    <value>Support us</value>
+    <value>Podpořte nás</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
-    <value>We weren't able to create this item</value>
+    <value>Nepodařilo se nám vytvořit tuto položku</value>
   </data>
   <data name="AccessDenied" xml:space="preserve">
-    <value>Access Denied</value>
+    <value>Přístup odepřen</value>
   </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
-    <value>Add tab</value>
+    <value>Přidat záložku</value>
   </data>
   <data name="VerticalTabViewHeader.Text" xml:space="preserve">
-    <value>Open tabs</value>
+    <value>Otevřené karty</value>
   </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>Multitasking</value>
@@ -772,1501 +772,1501 @@
     <value>Multitasking</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
-    <value>Set as</value>
+    <value>Nastavit jako</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Zrušit</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
-    <value>Create a New Item</value>
+    <value>Vytvořit novou položku</value>
   </data>
   <data name="AddDialogDescription.Text" xml:space="preserve">
-    <value>Choose a type for this new item below</value>
+    <value>Vyberte typ pro tuto novou položku níže</value>
   </data>
   <data name="File" xml:space="preserve">
-    <value>File</value>
+    <value>Soubor</value>
   </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
-    <value>Creates an empty file</value>
+    <value>Vytvořit prázdný soubor</value>
   </data>
   <data name="Folder" xml:space="preserve">
-    <value>Folder</value>
+    <value>Složka</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
-    <value>Creates an empty folder</value>
+    <value>Vytvořit prázdnou složku</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
-    <value>Layout mode</value>
+    <value>Režim rozvržení</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Navigate backwards</value>
+    <value>Navigovat zpět</value>
   </data>
   <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Navigate forward</value>
+    <value>Navigovat vpřed</value>
   </data>
   <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Refresh the directory</value>
+    <value>Obnovit složku</value>
   </data>
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Go up one directory</value>
+    <value>Přejít o adresář výše</value>
   </data>
   <data name="VerticalTabFlyout.AutomationProperties.Name" xml:space="preserve">
-    <value>Vertical tab flyout</value>
+    <value>Svislá karta</value>
   </data>
   <data name="VerticalTabFlyout.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Vertical tab flyout</value>
+    <value>Svislá karta</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
-    <value>Language</value>
+    <value>Jazyk</value>
   </data>
   <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>Terminal applications</value>
+    <value>Terminálová aplikace</value>
   </data>
   <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>Edit terminal applications</value>
+    <value>Upravit terminálové aplikace</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>Move overflow items into a sub menu</value>
+    <value>Přesunout přetečené položky do podmenu</value>
   </data>
   <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
-    <value>Pin Recycle Bin to favorites</value>
+    <value>Připnout koš do oblíbených</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>Show a confirmation dialog when deleting files or folders</value>
+    <value>Zobrazit potvrzovací dialog při mazání souborů nebo složek</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
-    <value>There was an issue saving some properties.</value>
+    <value>Při ukládání některých vlastností došlo k chybě.</value>
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
-    <value>Error</value>
+    <value>Chyba</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Close anyway</value>
+    <value>Přesto zavřít</value>
   </data>
   <data name="PropertyRatingText" xml:space="preserve">
-    <value>Rating</value>
+    <value>Hodnocení</value>
   </data>
   <data name="PropertyItemPathDisplay" xml:space="preserve">
-    <value>Item Path</value>
+    <value>Cesta k položce</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
-    <value>Item Type</value>
+    <value>Typ položky</value>
   </data>
   <data name="PropertyTitle" xml:space="preserve">
-    <value>Title</value>
+    <value>Název</value>
   </data>
   <data name="PropertySubject" xml:space="preserve">
-    <value>Subject</value>
+    <value>Předmět</value>
   </data>
   <data name="PropertyComment" xml:space="preserve">
-    <value>Comment</value>
+    <value>Komentář</value>
   </data>
   <data name="PropertyCopyright" xml:space="preserve">
-    <value>Copyright</value>
+    <value>Autorská práva</value>
   </data>
   <data name="PropertyDateModified" xml:space="preserve">
-    <value>Date Modified</value>
+    <value>Datum změny</value>
   </data>
   <data name="PropertyBitDepth" xml:space="preserve">
-    <value>Bit Depth</value>
+    <value>Bitová hloubka</value>
   </data>
   <data name="PropertyDimensions" xml:space="preserve">
-    <value>Dimensions</value>
+    <value>Rozměry</value>
   </data>
   <data name="PropertyHorizontalSize" xml:space="preserve">
-    <value>Horizontal Size</value>
+    <value>Horizontální velikost</value>
   </data>
   <data name="PropertyVerticalSize" xml:space="preserve">
-    <value>Vertical Size</value>
+    <value>Vertikální velikost</value>
   </data>
   <data name="PropertyHorizontalResolution" xml:space="preserve">
-    <value>Horizontal Resolution</value>
+    <value>Horizontální rozlišení</value>
   </data>
   <data name="PropertyVerticalResolution" xml:space="preserve">
-    <value>Vertical Resolution</value>
+    <value>Vertikální rozlišení</value>
   </data>
   <data name="PropertyColorSpace" xml:space="preserve">
-    <value>Color Space</value>
+    <value>Barevný prostor</value>
   </data>
   <data name="PropertyColorSpace_Value0" xml:space="preserve">
     <value>sRGB</value>
   </data>
   <data name="PropertyColorSpace_Value65535" xml:space="preserve">
-    <value>Unspecified</value>
+    <value>Nespecifikováno</value>
   </data>
   <data name="PropertyLongitudeDecimal" xml:space="preserve">
-    <value>Longitude Decimal</value>
+    <value>Desetinná délka</value>
   </data>
   <data name="PropertyLatitudeDecimal" xml:space="preserve">
-    <value>Latitude Decimal</value>
+    <value>Desetinná šířka</value>
   </data>
   <data name="PropertyLatitude" xml:space="preserve">
-    <value>Latitude</value>
+    <value>Šířka</value>
   </data>
   <data name="PropertyLongitude" xml:space="preserve">
-    <value>Longitude</value>
+    <value>Délka</value>
   </data>
   <data name="PropertyLatitudeRef" xml:space="preserve">
-    <value>Latitude Ref</value>
+    <value>Odkaz na šířku</value>
   </data>
   <data name="PropertyLongitudeRef" xml:space="preserve">
-    <value>Longitude Ref</value>
+    <value>Odkaz na délku</value>
   </data>
   <data name="PropertyAltitude" xml:space="preserve">
-    <value>Altitude</value>
+    <value>Výška</value>
   </data>
   <data name="PropertyDateTaken" xml:space="preserve">
-    <value>Date Taken</value>
+    <value>Datum pořízení</value>
   </data>
   <data name="PropertyCameraManufacturer" xml:space="preserve">
-    <value>Camera Manufacturer</value>
+    <value>Výrobce fotoaparátu</value>
   </data>
   <data name="PropertyCameraModel" xml:space="preserve">
-    <value>Camera Model</value>
+    <value>Model fotoaparátu</value>
   </data>
   <data name="PropertyExposureTime" xml:space="preserve">
-    <value>Exposure Time</value>
+    <value>Čas vystavení</value>
   </data>
   <data name="PropertyFocalLength" xml:space="preserve">
-    <value>Focal Length</value>
+    <value>Ohnisková vzdálenost</value>
   </data>
   <data name="PropertyAperture" xml:space="preserve">
-    <value>Aperture</value>
+    <value>Clona</value>
   </data>
   <data name="PropertyPeopleNames" xml:space="preserve">
-    <value>People Names</value>
+    <value>Jména lidí</value>
   </data>
   <data name="PropertyChannelCount" xml:space="preserve">
-    <value>Channel Count</value>
+    <value>Počet kanálů</value>
   </data>
   <data name="PropertyFormat" xml:space="preserve">
-    <value>Format</value>
+    <value>Formát</value>
   </data>
   <data name="PropertySampleRate" xml:space="preserve">
-    <value>Sample Rate</value>
+    <value>Vzorkovací frekvence</value>
   </data>
   <data name="PropertyAlbumArtist" xml:space="preserve">
-    <value>Album Artist</value>
+    <value>Interpret</value>
   </data>
   <data name="PropertyAlbumTitle" xml:space="preserve">
-    <value>Album Title</value>
+    <value>Název alba</value>
   </data>
   <data name="Artist" xml:space="preserve">
-    <value>Artist</value>
+    <value>Interpret</value>
   </data>
   <data name="PropertyBeatsPerMinute" xml:space="preserve">
-    <value>Beats Per Minute</value>
+    <value>Údery za minutu</value>
   </data>
   <data name="PropertyComposer" xml:space="preserve">
-    <value>Composer</value>
+    <value>Skladatel</value>
   </data>
   <data name="Conductor" xml:space="preserve">
-    <value>Conductor</value>
+    <value>Další umělci</value>
   </data>
   <data name="PropertyDiscNumber" xml:space="preserve">
-    <value>Disc Number</value>
+    <value>Číslo disku</value>
   </data>
   <data name="PropertyGenre" xml:space="preserve">
-    <value>Genre</value>
+    <value>Žánr</value>
   </data>
   <data name="PropertyTrackNumber" xml:space="preserve">
-    <value>Track Number</value>
+    <value>Číslo skladby</value>
   </data>
   <data name="PropertyDuration" xml:space="preserve">
-    <value>Duration</value>
+    <value>Doba trvání</value>
   </data>
   <data name="PropertyFrameCount" xml:space="preserve">
-    <value>Frame Count</value>
+    <value>Počet snímků</value>
   </data>
   <data name="PropertyProtectionType" xml:space="preserve">
-    <value>Protection Type</value>
+    <value>Typ ochrany</value>
   </data>
   <data name="PropertyAuthorUrl" xml:space="preserve">
-    <value>Author Url</value>
+    <value>URL autora</value>
   </data>
   <data name="PropertyContentDistributor" xml:space="preserve">
-    <value>Content Distributor</value>
+    <value>Distibutor obsahu</value>
   </data>
   <data name="PropertyDateReleased" xml:space="preserve">
-    <value>Date Released</value>
+    <value>Datum vydání</value>
   </data>
   <data name="PropertySeriesName" xml:space="preserve">
-    <value>Series Name</value>
+    <value>Název série</value>
   </data>
   <data name="PropertySeasonNumber" xml:space="preserve">
-    <value>Season Number</value>
+    <value>Číslo série</value>
   </data>
   <data name="PropertyEpisodeNumber" xml:space="preserve">
-    <value>Episode Number</value>
+    <value>Číslo epizody</value>
   </data>
   <data name="PropertyProducer" xml:space="preserve">
-    <value>Producer</value>
+    <value>Producent</value>
   </data>
   <data name="PropertyPromotionUrl" xml:space="preserve">
-    <value>Promotion Url</value>
+    <value>Adresa URL propagace</value>
   </data>
   <data name="PropertyProviderStyle" xml:space="preserve">
-    <value>Provider Style</value>
+    <value>Styl poskytovatele</value>
   </data>
   <data name="PropertyPublisher" xml:space="preserve">
-    <value>Publisher</value>
+    <value>Vydavatel</value>
   </data>
   <data name="PropertyThumbnailLargePath" xml:space="preserve">
-    <value>Thumbnail Large Path</value>
+    <value>Cesta k velké miniatuře</value>
   </data>
   <data name="PropertyThumbnailLargeUri" xml:space="preserve">
-    <value>Thumbnail Large Uri</value>
+    <value>Uri velké miniatury</value>
   </data>
   <data name="PropertyThumbnailSmallPath" xml:space="preserve">
-    <value>Thumbnail Small Path</value>
+    <value>Cesta k malé miniatuře</value>
   </data>
   <data name="PropertyThumbnailSmallUri" xml:space="preserve">
-    <value>Thumbnail Small Uri</value>
+    <value>Uri k malé miniatuře</value>
   </data>
   <data name="PropertyUserWebUrl" xml:space="preserve">
-    <value>User Web Url</value>
+    <value>Url adresa uživatele</value>
   </data>
   <data name="PropertyWriter" xml:space="preserve">
-    <value>Writer</value>
+    <value>Spisovatel</value>
   </data>
   <data name="PropertyYear" xml:space="preserve">
-    <value>Year</value>
+    <value>Rok</value>
   </data>
   <data name="PropertyContributor" xml:space="preserve">
-    <value>Contributor</value>
+    <value>Přispěvatel</value>
   </data>
   <data name="PropertyLastAuthor" xml:space="preserve">
-    <value>Last Author</value>
+    <value>Naposledy upravil</value>
   </data>
   <data name="PropertyRevisionNumber" xml:space="preserve">
-    <value>Revision Number</value>
+    <value>Číslo revize</value>
   </data>
   <data name="PropertyVersion" xml:space="preserve">
-    <value>Version</value>
+    <value>Verze</value>
   </data>
   <data name="PropertyDateCreated" xml:space="preserve">
-    <value>Date Created</value>
+    <value>Datum vytvoření</value>
   </data>
   <data name="PropertyDateSaved" xml:space="preserve">
-    <value>Date Saved</value>
+    <value>Datum uložení</value>
   </data>
   <data name="PropertyDatePrinted" xml:space="preserve">
-    <value>Date Printed</value>
+    <value>Datum tisku</value>
   </data>
   <data name="PropertyTotalEditingTime" xml:space="preserve">
-    <value>Total Editing Time</value>
+    <value>Celkový čas upravování</value>
   </data>
   <data name="PropertyTemplate" xml:space="preserve">
-    <value>Template</value>
+    <value>Šablona</value>
   </data>
   <data name="PropertyWordCount" xml:space="preserve">
-    <value>Word Count</value>
+    <value>Počet slov</value>
   </data>
   <data name="PropertyCharacterCount" xml:space="preserve">
-    <value>Character Count</value>
+    <value>Počet znaků</value>
   </data>
   <data name="PropertyLineCount" xml:space="preserve">
-    <value>Line Count</value>
+    <value>Počet řádků</value>
   </data>
   <data name="PropertyParagraphCount" xml:space="preserve">
-    <value>Paragraph Count</value>
+    <value>Počet odstavců</value>
   </data>
   <data name="PropertyPageCount" xml:space="preserve">
-    <value>Page Count</value>
+    <value>Počet stránek</value>
   </data>
   <data name="PropertySlideCount" xml:space="preserve">
-    <value>Slide Count</value>
+    <value>Počet slidů</value>
   </data>
   <data name="PropertyFrameRate" xml:space="preserve">
-    <value>Frame Rate</value>
+    <value>Snímkovací frekvence</value>
   </data>
   <data name="PropertyEncodingBitrate" xml:space="preserve">
-    <value>Encoding Bitrate</value>
+    <value>Bitová rychlost kódování</value>
   </data>
   <data name="Compression" xml:space="preserve">
-    <value>Compression</value>
+    <value>Komprese</value>
   </data>
   <data name="PropertyFrameWidth" xml:space="preserve">
-    <value>Frame Width</value>
+    <value>Šířka snímku</value>
   </data>
   <data name="PropertyFrameHeight" xml:space="preserve">
-    <value>Frame Height</value>
+    <value>Výška snímku</value>
   </data>
   <data name="PropertyOrientation" xml:space="preserve">
-    <value>Orientation</value>
+    <value>Orientace</value>
   </data>
   <data name="PropertySectionCore" xml:space="preserve">
-    <value>Core</value>
+    <value>Jádro</value>
   </data>
   <data name="PropertySectionImage" xml:space="preserve">
-    <value>Image</value>
+    <value>Obrázek</value>
   </data>
   <data name="PropertySectionPhoto" xml:space="preserve">
-    <value>Photo</value>
+    <value>Fotografie</value>
   </data>
   <data name="PropertySectionGPS" xml:space="preserve">
     <value>GPS</value>
   </data>
   <data name="PropertySectionMedia" xml:space="preserve">
-    <value>Media</value>
+    <value>Média</value>
   </data>
   <data name="PropertySectionAudio" xml:space="preserve">
-    <value>Audio</value>
+    <value>Zvuk</value>
   </data>
   <data name="PropertySectionMusic" xml:space="preserve">
-    <value>Music</value>
+    <value>Hudba</value>
   </data>
   <data name="PropertySectionVideo" xml:space="preserve">
     <value>Video</value>
   </data>
   <data name="Document" xml:space="preserve">
-    <value>Document</value>
+    <value>Dokument</value>
   </data>
   <data name="Address" xml:space="preserve">
-    <value>Address</value>
+    <value>Adresa</value>
   </data>
   <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
-    <value>Selection options</value>
+    <value>Možnosti výběru</value>
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
-    <value>Select</value>
+    <value>Vybrat</value>
   </data>
   <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
-    <value>Open files with a single click</value>
+    <value>Otevřít soubory jedním kliknutím</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
-    <value>File</value>
+    <value>Soubor</value>
   </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
-    <value>Recycle bin item</value>
+    <value>Položka koše</value>
   </data>
   <data name="ShortcutItemAutomation" xml:space="preserve">
-    <value>Shortcut item</value>
+    <value>Položka zástupce</value>
   </data>
   <data name="Drives" xml:space="preserve">
-    <value>Drives</value>
+    <value>Disky</value>
   </data>
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
-    <value>Move here</value>
+    <value>Přesunout sem</value>
   </data>
   <data name="EjectNotificationHeader" xml:space="preserve">
-    <value>Safe to remove hardware</value>
+    <value>Bezpečně odebrat hardware</value>
   </data>
   <data name="EjectNotificationBody" xml:space="preserve">
-    <value>The device can now be safely removed from the computer.</value>
+    <value>Zařízení může být nyní bezpečně odebráno z počítače.</value>
   </data>
   <data name="EjectNotificationErrorDialogHeader" xml:space="preserve">
-    <value>Problem Ejecting Device</value>
+    <value>Problém s odpojením zařízení</value>
   </data>
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
-    <value>This device is currently in use. Close any programs, windows or tabs that might be using the device, and then try again.</value>
+    <value>Zařízení se momentálně používá. Zavřete jakékoliv programy, okna nebo panely které mohou používat zařízení, poté to zkuste znovu.</value>
   </data>
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
-    <value>Eject</value>
+    <value>Odpojit</value>
   </data>
   <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
-    <value>Duplicate tab</value>
+    <value>Duplikovat kartu</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
-    <value>Move tab to new window</value>
+    <value>Přesunout kartu do nového okna</value>
   </data>
   <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
-    <value>New tab</value>
+    <value>Nový panel</value>
   </data>
   <data name="HorizontalMultitaskingControlAddButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>New tab (Ctrl+T)</value>
+    <value>Nový panel (Ctrl+T)</value>
   </data>
   <data name="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" xml:space="preserve">
-    <value>New tab (Ctrl+T)</value>
+    <value>Nový panel (Ctrl+T)</value>
   </data>
   <data name="HorizontalMultitaskingControlCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Close tab (Ctrl+W)</value>
+    <value>Zavřít panel (Ctrl+W)</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
-    <value>Some properties may contain personal information.</value>
+    <value>Některé vlastnosti mohou obsahovat osobní informace.</value>
   </data>
   <data name="ClearPropertiesFlyoutConfirmation.Content" xml:space="preserve">
-    <value>Clear</value>
+    <value>Vyčistit</value>
   </data>
   <data name="ClearPropertiesButton.Content" xml:space="preserve">
-    <value>Clear All Properties</value>
+    <value>Vyčistit všechny vlastnosti</value>
   </data>
   <data name="OngoingTasksTeachingTip.Subtitle" xml:space="preserve">
-    <value>Check the status of file operations here</value>
+    <value>Zkontrolovat stav souborových operací</value>
   </data>
   <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
-    <value>Status Center</value>
+    <value>Centrum stavu</value>
   </data>
   <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Search</value>
+    <value>Hledat</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
-    <value>Search results in {1} for {0}</value>
+    <value>Výsledy vyhledávání v {1} pro {0}</value>
   </data>
   <data name="SearchTabHeaderText" xml:space="preserve">
-    <value>Search results</value>
+    <value>Výsledky vyhledávání</value>
   </data>
   <data name="SettingsAboutContributorsListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>See who contributed to Files</value>
+    <value>Podívejte se, kdo přispěl do Files</value>
   </data>
   <data name="SettingsAboutReleaseNotesListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Find out what's new in Files</value>
+    <value>Zjistěte, co je nového ve Files</value>
   </data>
   <data name="SettingsAboutSubmitFeedbackListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Send the developers an issue report with more information</value>
+    <value>Pošlete vývojářům zprávu o problému s více informacemi</value>
   </data>
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Support us on GitHub</value>
+    <value>Podpořte nás na GitHubu</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>List and sort directories alongside files</value>
+    <value>Seznam a řazení adresářů vedle souborů</value>
   </data>
   <data name="Details" xml:space="preserve">
-    <value>Details</value>
+    <value>Podrobnosti</value>
   </data>
   <data name="No" xml:space="preserve">
-    <value>No</value>
+    <value>Ne</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
-    <value>Do you want to download and install the latest version of Files?</value>
+    <value>Chcete stáhnout a nainstalovat poslední verzi Files?</value>
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
-    <value>Updates Available</value>
+    <value>Jsou k dispozici aktualizace</value>
   </data>
   <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
-    <value>Hide protected operating system files (Recommended)</value>
+    <value>Skrýt chráněné soubory operačního systému (doporučeno)</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Show unindexed items when searching for files and folders</value>
+    <value>Zobrazit neindexované položky při hledání souborů a složek</value>
   </data>
   <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
-    <value>Enable individual preferences for individual directories</value>
+    <value>Povolit individuální nastavení pro jednotlivé adresáře</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
-    <value>Customize the right click context menu</value>
+    <value>Přizpůsobit kontextovou nabídku pravého tlačítka</value>
   </data>
   <data name="originalPathColumn.Header" xml:space="preserve">
-    <value>Original path</value>
+    <value>Původní cesta</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
-    <value>Original path</value>
+    <value>Původní cesta</value>
   </data>
   <data name="Add" xml:space="preserve">
-    <value>Add</value>
+    <value>Přidat</value>
   </data>
   <data name="Edit" xml:space="preserve">
-    <value>Edit</value>
+    <value>Upravit</value>
   </data>
   <data name="Remove" xml:space="preserve">
-    <value>Remove</value>
+    <value>Odstranit</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
-    <value>Always open new tabs in dual pane mode</value>
+    <value>Vždy otevřít nové panely v režimu dvojitého panelu</value>
   </data>
   <data name="SettingsMultitaskingEnableDualPane" xml:space="preserve">
-    <value>Enable dual pane view</value>
+    <value>Povolit zobrazení dvojitého panelu</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
-    <value>Open in secondary pane</value>
+    <value>Otevřít v sekundárním panelu</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
-    <value>New pane</value>
+    <value>Nový panel</value>
   </data>
   <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
-    <value>Open in secondary pane</value>
+    <value>Otevřít v sekundárním panelu</value>
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
-    <value>Dual pane</value>
+    <value>Dvojitý panel</value>
   </data>
   <data name="Folders" xml:space="preserve">
-    <value>Folders</value>
+    <value>Složky</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Details (Ctrl+Shift+1)</value>
+    <value>Podrobnosti (Ctrl+Shift+1)</value>
   </data>
   <data name="NavToolbarLayoutOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Layout</value>
+    <value>Rozložení</value>
   </data>
   <data name="NavToolbarLayoutOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Layout</value>
+    <value>Rozložení</value>
   </data>
   <data name="NavToolbarLayoutOptionsButton.Label" xml:space="preserve">
-    <value>Layout</value>
+    <value>Rozložení</value>
   </data>
   <data name="PreviewPaneToggle.Label" xml:space="preserve">
-    <value>Preview</value>
+    <value>Náhled</value>
   </data>
   <data name="NavToolbarLargeIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>Large Icons</value>
+    <value>Velké ikony</value>
   </data>
   <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Large Icons (Ctrl+Shift+5)</value>
+    <value>Velké ikony (Ctrl+Shift+5)</value>
   </data>
   <data name="NavToolbarMediumIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>Medium Icons</value>
+    <value>Střední ikony</value>
   </data>
   <data name="NavToolbarMediumIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Medium Icons (Ctrl+Shift+4)</value>
+    <value>Střední ikony (Ctrl+Shift+4)</value>
   </data>
   <data name="NavToolbarSmallIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>Small Icons</value>
+    <value>Malé ikony</value>
   </data>
   <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Small Icons (Ctrl+Shift+3)</value>
+    <value>Malé ikony (Ctrl+Shift+3)</value>
   </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Tiles (Ctrl+Shift+2)</value>
+    <value>Dlaždice (Ctrl+Shift+2)</value>
   </data>
   <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
-    <value>Show file extensions</value>
+    <value>Zobrazit přípony souborů</value>
   </data>
   <data name="NavToolbarShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Show hidden items</value>
+    <value>Zobrazit skryté položky</value>
   </data>
   <data name="DateDeleted" xml:space="preserve">
-    <value>Date deleted</value>
+    <value>Datum smazání</value>
   </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
-    <value>Cloud Drives</value>
+    <value>Cloudové disky</value>
   </data>
   <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>More options...</value>
+    <value>Více možností...</value>
   </data>
   <data name="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" xml:space="preserve">
-    <value>Export Bundles</value>
+    <value>Exportovat balíčky</value>
   </data>
   <data name="BundlesWidgetOptionsFlyoutImportBundlesMenuItem.Text" xml:space="preserve">
-    <value>Import Bundles</value>
+    <value>Importovat balíčky</value>
   </data>
   <data name="BundlesWidgetAddBundleErrorAlreadyExists" xml:space="preserve">
-    <value>Bundle with the same name already exists!</value>
+    <value>Balíček se stejným názvem již existuje!</value>
   </data>
   <data name="BundlesWidgetAddBundleErrorInputEmpty" xml:space="preserve">
-    <value>Input field cannot be empty!</value>
+    <value>Pole nemůže být prázdné!</value>
   </data>
   <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
-    <value>Open in new tab</value>
+    <value>Otevřít na nové kartě</value>
   </data>
   <data name="BundleItemFlyouOpenItemLocationMenuItem.Text" xml:space="preserve">
-    <value>Open item location</value>
+    <value>Otevřít umístění položky</value>
   </data>
   <data name="BundleItemFlyouRemoveFromBundleMenuItem.Text" xml:space="preserve">
-    <value>Remove from bundle</value>
+    <value>Odstranit z balíčku</value>
   </data>
   <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
-    <value>Remove Bundle</value>
+    <value>Odstranit balíček</value>
   </data>
   <data name="Bundles" xml:space="preserve">
-    <value>Bundles</value>
+    <value>Balíčky</value>
   </data>
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
-    <value>Drag and drop any file or folder here to quickly access it</value>
+    <value>Přetáhněta a pusťte sem soubor nebo složku pro rychlý přístup</value>
   </data>
   <data name="EnterBundleName" xml:space="preserve">
-    <value>Enter Bundle name</value>
+    <value>Zadejte název balíčku</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
-    <value>Enter new name</value>
+    <value>Zadejte nový název</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
-    <value>Rename "{0}"</value>
+    <value>Přejmenovat "{0}"</value>
   </data>
   <data name="CreateBundle" xml:space="preserve">
-    <value>Create Bundle</value>
+    <value>Vytvořit balíček</value>
   </data>
   <data name="Confirm" xml:space="preserve">
-    <value>Confirm</value>
+    <value>Potvrdit</value>
   </data>
   <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
-    <value>Add Bundle</value>
+    <value>Přidat balíček</value>
   </data>
   <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
-    <value>Rename Bundle</value>
+    <value>Přejmenovat balíček</value>
   </data>
   <data name="DesiredName" xml:space="preserve">
-    <value>Desired name</value>
+    <value>Požadovaný název</value>
   </data>
   <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Toggle the preview pane (Ctrl+P)</value>
+    <value>Přepnout panel náhledu (Ctrl+P)</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
-    <value>No preview available</value>
+    <value>Náhled není dostupný</value>
   </data>
   <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
-    <value>No details available</value>
+    <value>Nejsou k dispozici žádné podrobnosti</value>
   </data>
   <data name="PropertyItemName" xml:space="preserve">
-    <value>Item Name</value>
+    <value>Název položky</value>
   </data>
   <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
-    <value>Unpin from Favorites</value>
+    <value>Odepnout z Oblíbených</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
-    <value>Network Drives</value>
+    <value>Síťové disky</value>
   </data>
   <data name="Network" xml:space="preserve">
-    <value>Network</value>
+    <value>Síť</value>
   </data>
   <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
-    <value>File details</value>
+    <value>Podrobnosti</value>
   </data>
   <data name="PreviewPaneFilePreview.AutomationProperties.Name" xml:space="preserve">
-    <value>File preview</value>
+    <value>Náhled souboru</value>
   </data>
   <data name="SelectedFilePreviewPane.AutomationProperties.Name" xml:space="preserve">
-    <value>Selected file preview pane</value>
+    <value>Náhled vybraného souboru</value>
   </data>
   <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
-    <value>Documentation</value>
+    <value>Dokumentace</value>
   </data>
   <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Visit the Files documentation website</value>
+    <value>Navštivte stránku dokumentace Files</value>
   </data>
   <data name="OngoingTasksFlyout.AutomationProperties.Name" xml:space="preserve">
-    <value>Ongoing tasks flyout</value>
+    <value>Probíhající úkoly flyoutu</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
-    <value>Available when online</value>
+    <value>K dispozici, když jste online</value>
   </data>
   <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
-    <value>Available offline</value>
+    <value>K dispozici offline</value>
   </data>
   <data name="CloudDriveSyncStatus_PartialOffline" xml:space="preserve">
-    <value>Partially available offline</value>
+    <value>Částečně dostupné offline</value>
   </data>
   <data name="CloudDriveSyncStatus_Sync" xml:space="preserve">
-    <value>Syncing</value>
+    <value>Synchronizace</value>
   </data>
   <data name="CloudDriveSyncStatus_Excluded" xml:space="preserve">
-    <value>Excluded from sync</value>
+    <value>Vyjmuto ze synchronizace</value>
   </data>
   <data name="ItemSizeNotCalculated" xml:space="preserve">
-    <value>Not calculated</value>
+    <value>Není vypočteno</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
-    <value>Unknown</value>
+    <value>Neznámý</value>
   </data>
   <data name="NavToolbarMultiselect.Text" xml:space="preserve">
-    <value>Multiselect</value>
+    <value>Vícenásobný výběr</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
-    <value>If you change a file extension, the file might become unusable. Are you sure you want to change it?</value>
+    <value>Pokud změníte příponu souboru, soubor se může stát nepoužitelným. Jste si jisti že jí chcete změnit?</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
-    <value>CD ROM Drive</value>
+    <value>Jednotka CD-ROM</value>
   </data>
   <data name="DriveTypeCloudDrive" xml:space="preserve">
-    <value>Cloud Drive</value>
+    <value>Disk Cloudu</value>
   </data>
   <data name="DriveTypeFixed" xml:space="preserve">
-    <value>Fixed Disk Drive</value>
+    <value>Jednotka pevného disku</value>
   </data>
   <data name="DriveTypeFloppyDisk" xml:space="preserve">
-    <value>Floppy Disk Drive</value>
+    <value>Disketový disk</value>
   </data>
   <data name="DriveTypeNetwork" xml:space="preserve">
-    <value>Network Drive</value>
+    <value>Síťový disk</value>
   </data>
   <data name="DriveTypeNoRootDirectory" xml:space="preserve">
-    <value>Unmounted Drive</value>
+    <value>Odpojený disk</value>
   </data>
   <data name="DriveTypeRam" xml:space="preserve">
-    <value>RAM Disk Drive</value>
+    <value>RAM disk</value>
   </data>
   <data name="DriveTypeRemovable" xml:space="preserve">
-    <value>Removable Storage Device</value>
+    <value>Odstranitelné úložiště</value>
   </data>
   <data name="DriveTypeUnknown" xml:space="preserve">
-    <value>Unknown</value>
+    <value>Neznámý</value>
   </data>
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
-    <value>Virtual Drive</value>
+    <value>Virtuální disk</value>
   </data>
   <data name="DateCreated" xml:space="preserve">
-    <value>Date created</value>
+    <value>Vytvořeno</value>
   </data>
   <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>More options...</value>
+    <value>Více možností...</value>
   </data>
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
-    <value>Map network drive</value>
+    <value>Mapovat síťový disk</value>
   </data>
   <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
-    <value>Disconnect</value>
+    <value>Odpojit</value>
   </data>
   <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>More bundles options</value>
+    <value>Více možností balíčků</value>
   </data>
   <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>More drives options</value>
+    <value>Více možností disku</value>
   </data>
   <data name="SidebarFavorites" xml:space="preserve">
-    <value>Favorites</value>
+    <value>Oblíbené</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
-    <value>Libraries</value>
+    <value>Knihovny</value>
   </data>
   <data name="NoItemSelected" xml:space="preserve">
-    <value>No item selected</value>
+    <value>Není vybrána žádná položka</value>
   </data>
   <data name="PropertyItemTarget" xml:space="preserve">
-    <value>Target</value>
+    <value>Cíl</value>
   </data>
   <data name="Arguments" xml:space="preserve">
-    <value>Arguments</value>
+    <value>Argumenty</value>
   </data>
   <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
-    <value>Open in new Pane</value>
+    <value>Otevřít v novém panelu</value>
   </data>
   <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
-    <value>Show library section</value>
+    <value>Zobrazit výběr knihoven</value>
   </data>
   <data name="Default" xml:space="preserve">
-    <value>Default</value>
+    <value>Výchozí</value>
   </data>
   <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
-    <value>Custom themes</value>
+    <value>Vlastní motivy</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
-    <value>Item count</value>
+    <value>Počet položek</value>
   </data>
   <data name="StatusDeletionFailed" xml:space="preserve">
-    <value>Deletion Failed</value>
+    <value>Odstranění selhalo</value>
   </data>
   <data name="StatusUnknownError" xml:space="preserve">
-    <value>An unknown error has occurred.</value>
+    <value>Nastala neznámá chyba.</value>
   </data>
   <data name="StatusDeletionComplete" xml:space="preserve">
-    <value>Deletion complete</value>
+    <value>Smazáno</value>
   </data>
   <data name="StatusDeletionCancelled" xml:space="preserve">
-    <value>Deletion cancelled</value>
+    <value>Odstranění zrušeno</value>
   </data>
   <data name="StatusOperationCompleted" xml:space="preserve">
-    <value>The operation has completed.</value>
+    <value>Operace byla dokončena.</value>
   </data>
   <data name="StatusRecycleComplete" xml:space="preserve">
-    <value>Recycle complete</value>
+    <value>Recyklace dokončena</value>
   </data>
   <data name="StatusMoveComplete" xml:space="preserve">
-    <value>Move complete</value>
+    <value>Přesunutí bylo dokončeno</value>
   </data>
   <data name="StatusCopyComplete" xml:space="preserve">
-    <value>Copy complete</value>
+    <value>Kopírování dokončeno</value>
   </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
-    <value>This action requires administrator rights</value>
+    <value>Tato akce vyžaduje práva administrátora</value>
   </data>
   <data name="ElevateConfirmDialog.Content" xml:space="preserve">
-    <value>Would you like to continue as administrator?</value>
+    <value>Chcete pokračovat jako administrátor?</value>
   </data>
   <data name="FullTrustStatusTeachingTip.Subtitle" xml:space="preserve">
-    <value>Files is running as administrator</value>
+    <value>Files běží jako administrátor</value>
   </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
-    <value>Administrator</value>
+    <value>Administrátor</value>
   </data>
   <data name="ColumnsShortcutTooltip" xml:space="preserve">
-    <value>Columns (Ctrl+Shift+6)</value>
+    <value>Sloupce (Ctrl+Shift+6)</value>
   </data>
   <data name="PinItemToStart.Text" xml:space="preserve">
-    <value>Pin to the Start Menu</value>
+    <value>Připnout do Menu Start</value>
   </data>
   <data name="UnpinItemFromStart.Text" xml:space="preserve">
-    <value>Unpin from the Start Menu</value>
+    <value>Odepnout z Menu Start</value>
   </data>
   <data name="ItemTypeLibrary" xml:space="preserve">
-    <value>Library</value>
+    <value>Knihovna</value>
   </data>
   <data name="LibraryItemAutomation" xml:space="preserve">
-    <value>Library</value>
+    <value>Knihovna</value>
   </data>
   <data name="Library" xml:space="preserve">
-    <value>Library</value>
+    <value>Knihovna</value>
   </data>
   <data name="LibraryLocations.Text" xml:space="preserve">
-    <value>Locations:</value>
+    <value>Lokace:</value>
   </data>
   <data name="SetAsDefaultSavePath" xml:space="preserve">
-    <value>Set as default save path</value>
+    <value>Nastavit jako výchozí cestu pro uložení</value>
   </data>
   <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
-    <value>Remove</value>
+    <value>Odstranit</value>
   </data>
   <data name="LibraryNoLocations.Text" xml:space="preserve">
-    <value>No locations</value>
+    <value>Žádná lokace</value>
   </data>
   <data name="ErrorInputEmpty" xml:space="preserve">
-    <value>Input field cannot be empty!</value>
+    <value>Pole nemůže být prázdné!</value>
   </data>
   <data name="ErrorNameInputRestrictedCharacters" xml:space="preserve">
-    <value>The name must not contain the following characters: \ / : * ? " &lt; &gt; |</value>
+    <value>Název nesmí obsahovat následující znaky: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="ErrorNameInputRestricted" xml:space="preserve">
-    <value>Using this name is not allowed!</value>
+    <value>Použití tohoto názvu není povoleno!</value>
   </data>
   <data name="CreateLibraryErrorAlreadyExists" xml:space="preserve">
-    <value>Library with the same name already exists!</value>
+    <value>Knihovna se stejným názvem již existuje!</value>
   </data>
   <data name="BaseLayoutContextFlyoutDeleteLibrary.Text" xml:space="preserve">
-    <value>Delete Library</value>
+    <value>Odstranit knihovnu</value>
   </data>
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
-    <value>Create</value>
+    <value>Vytvořit</value>
   </data>
   <data name="DrivesWidgetOpenStorageSenseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Open Storage Sense</value>
+    <value>Otevřít úložiště</value>
   </data>
   <data name="DrivesWidgetOpenStorageSenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Open Storage Sense</value>
+    <value>Otevřít úložiště</value>
   </data>
   <data name="Copy" xml:space="preserve">
-    <value>Copy</value>
+    <value>Kopírovat</value>
   </data>
   <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>{0} items will be copied</value>
+    <value>{0} položek bude zkopírováno</value>
   </data>
   <data name="CopyItemsDialogTitle" xml:space="preserve">
-    <value>Copy item(s)</value>
+    <value>Kopírovat položku (položky)</value>
   </data>
   <data name="DeleteItemsDialogTitle" xml:space="preserve">
-    <value>Delete item(s)</value>
+    <value>Smazat položku(y)</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
-    <value>Move</value>
+    <value>Přesunout</value>
   </data>
   <data name="MoveItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>{0} items will be moved</value>
+    <value>{0} položek bude přesunuto</value>
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
-    <value>Move item(s)</value>
+    <value>Přesunout položku(y)</value>
   </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>{0} items will be deleted</value>
+    <value>{0} položek bude odstraněno</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
-    <value>Continue</value>
+    <value>Pokračovat</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
-    <value>There are {0} conflicting file names, and {1} outgoing item(s).</value>
+    <value>Je zde {0} konfliktních názvů souborů, a {1} odchozí položka(y).</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
-    <value>Conflicting file name(s)</value>
+    <value>Konfiltní názvy souborů</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
-    <value>There is one conflicting file name, and {0} outgoing item(s).</value>
+    <value>Je zde jeden konfliktní název souboru a {0} odchozí položka(y).</value>
   </data>
   <data name="CopyItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>One item will be copied</value>
+    <value>Jedna položka bude zkopírována</value>
   </data>
   <data name="DeleteItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>One item will be deleted</value>
+    <value>Jedna položka bude odstraněna</value>
   </data>
   <data name="MoveItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>One item will be moved</value>
+    <value>Jedna položka bude přesunuta</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
-    <value>Permanently delete</value>
+    <value>Trvale odstranit</value>
   </data>
   <data name="PropertyISO" xml:space="preserve">
-    <value>ISO speed</value>
+    <value>ISO rychlost</value>
   </data>
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
-    <value>Open folders in new tab</value>
+    <value>Otevřít složky v nové kartě</value>
   </data>
   <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
-    <value>Show Bundles widget</value>
+    <value>Zobrazit widget balíčků</value>
   </data>
   <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
-    <value>Show Drives widget</value>
+    <value>Zobrazit widget disků</value>
   </data>
   <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
-    <value>Show Folders widget</value>
+    <value>Zobrazit widget složek</value>
   </data>
   <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
-    <value>Show Recent Files widget</value>
+    <value>Zobrazit widget nedávných souborů</value>
   </data>
   <data name="NavToolbarWidgets.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Manage Widgets</value>
+    <value>Spravovat widgety</value>
   </data>
   <data name="NavToolbarWidgetsManager.AutomationProperties.Name" xml:space="preserve">
-    <value>Manage widgets</value>
+    <value>Spravovat widgety</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
-    <value>Didn't find what you're looking for?</value>
+    <value>Nenašli jste, co hledáte?</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>Search unindexed items.</value>
+    <value>Hledat neindexované položky.</value>
   </data>
   <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
-    <value>Manage Widgets</value>
+    <value>Spravovat widgety</value>
   </data>
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
-    <value>Open themes folder</value>
+    <value>Otevřít složku vzhledů</value>
   </data>
   <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
-    <value>Replace existing</value>
+    <value>Nahradit stávající</value>
   </data>
   <data name="ConflictingItemsDialogOptionReplaceExisting.Text" xml:space="preserve">
-    <value>Replace existing</value>
+    <value>Nahradit stávající</value>
   </data>
   <data name="ConflictingItemsDialogTakenActionReplaceExisting" xml:space="preserve">
-    <value>Replace existing</value>
+    <value>Nahradit stávající</value>
   </data>
   <data name="GenerateNewName" xml:space="preserve">
-    <value>Generate new name</value>
+    <value>Generovat nové jméno</value>
   </data>
   <data name="ConflictingItemsDialogUndoOption.Text" xml:space="preserve">
-    <value>Undo</value>
+    <value>Zpět</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts" xml:space="preserve">
-    <value>There are {0} conflicting file names.</value>
+    <value>Je tu {0} konfliktních názvů souborů.</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
-    <value>There is one conflicting file name.</value>
+    <value>Je tu jeden konfliktní název souboru.</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" xml:space="preserve">
-    <value>Create folder with selection</value>
+    <value>Vytvořit složku s výběrem</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
-    <value>Name:</value>
+    <value>Název:</value>
   </data>
   <data name="ToolTipDescriptionType" xml:space="preserve">
-    <value>Type:</value>
+    <value>Typ:</value>
   </data>
   <data name="ToolTipDescriptionDate" xml:space="preserve">
-    <value>Date modified:</value>
+    <value>Datum změny:</value>
   </data>
   <data name="OpenItemsWithCaptionText" xml:space="preserve">
-    <value>Open with</value>
+    <value>Otevřít v</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
-    <value>File icon</value>
+    <value>Ikona souboru</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowOriginalPath.Text" xml:space="preserve">
-    <value>Original path column</value>
+    <value>Původní sloupce cesty</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowItemType.Text" xml:space="preserve">
-    <value>Item type column</value>
+    <value>Sloupec typu položky</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateModified.Text" xml:space="preserve">
-    <value>Date modified column</value>
+    <value>Sloupec data úpravy</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateDeleted.Text" xml:space="preserve">
-    <value>Date deleted column</value>
+    <value>Sloupec data smazání</value>
   </data>
   <data name="ResizeElementKeyboardControl.AutomationProperties.Name" xml:space="preserve">
-    <value>Sidebar resizer</value>
+    <value>Změna velikosti postranního panelu</value>
   </data>
   <data name="NavToolbarSortOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Sort</value>
+    <value>Seřadit</value>
   </data>
   <data name="NavToolbarSortOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Sort</value>
+    <value>Seřadit</value>
   </data>
   <data name="NavToolbarSortOptionsButton.Label" xml:space="preserve">
-    <value>Sort</value>
+    <value>Seřadit</value>
   </data>
   <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
-    <value>Group By</value>
+    <value>Seskupit podle</value>
   </data>
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
-    <value>Name</value>
+    <value>Název</value>
   </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
-    <value>Date modified</value>
+    <value>Datum změny</value>
   </data>
   <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
-    <value>Original folder</value>
+    <value>Původní složka</value>
   </data>
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
-    <value>Type</value>
+    <value>Typ</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
-    <value>Sort By</value>
+    <value>Seřadit podle</value>
   </data>
   <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">
-    <value>Sort direction</value>
+    <value>Směr řazení</value>
   </data>
   <data name="Descending" xml:space="preserve">
-    <value>Descending</value>
+    <value>Sestupně</value>
   </data>
   <data name="ItemSizeText_Huge" xml:space="preserve">
-    <value>Huge</value>
+    <value>Obrovský</value>
   </data>
   <data name="ItemSizeText_VeryLarge" xml:space="preserve">
-    <value>Very large</value>
+    <value>Velmi Velký</value>
   </data>
   <data name="ItemSizeText_Large" xml:space="preserve">
-    <value>Large</value>
+    <value>Velký</value>
   </data>
   <data name="ItemSizeText_Medium" xml:space="preserve">
-    <value>Medium</value>
+    <value>Střední</value>
   </data>
   <data name="ItemSizeText_Small" xml:space="preserve">
-    <value>Small</value>
+    <value>Malý</value>
   </data>
   <data name="ItemSizeText_Tiny" xml:space="preserve">
-    <value>Tiny</value>
+    <value>Drobný</value>
   </data>
   <data name="Today" xml:space="preserve">
-    <value>Today</value>
+    <value>Dnes</value>
   </data>
   <data name="ItemTimeText_Yesterday" xml:space="preserve">
-    <value>Yesterday</value>
+    <value>Včera</value>
   </data>
   <data name="ItemTimeText_ThisWeek" xml:space="preserve">
-    <value>Earlier this week</value>
+    <value>Dříve tento týden</value>
   </data>
   <data name="ItemTimeText_LastWeek" xml:space="preserve">
-    <value>Last week</value>
+    <value>Minulý týden</value>
   </data>
   <data name="ItemTimeText_ThisMonth" xml:space="preserve">
-    <value>This month</value>
+    <value>Tento měsíc</value>
   </data>
   <data name="ItemTimeText_LastMonth" xml:space="preserve">
-    <value>Last month</value>
+    <value>Minulý měsíc</value>
   </data>
   <data name="ItemTimeText_ThisYear" xml:space="preserve">
-    <value>This year</value>
+    <value>Tento rok</value>
   </data>
   <data name="ItemTimeText_Older" xml:space="preserve">
-    <value>Older</value>
+    <value>Starší</value>
   </data>
   <data name="ItemTimeText_Before" xml:space="preserve">
-    <value>Before {0}</value>
+    <value>Před {0}</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
-    <value>{0} item</value>
+    <value>{0} položka</value>
   </data>
   <data name="GroupItemsCount_Plural" xml:space="preserve">
-    <value>{0} items</value>
+    <value>{0} položky</value>
   </data>
   <data name="HorizontalMultitaskingControlReopenClosedTab.Text" xml:space="preserve">
-    <value>Reopen closed tab</value>
+    <value>Znovu otevřít zavřené karty</value>
   </data>
   <data name="SettingsAboutPrivacyPolicy.Text" xml:space="preserve">
-    <value>Privacy policy</value>
+    <value>Soukromí</value>
   </data>
   <data name="SettingsAboutPrivacyPolicyListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>View Files privacy policy</value>
+    <value>Zobrazit zásady ochrany osobních údajů souborů</value>
   </data>
   <data name="RenameFileDialogTitle" xml:space="preserve">
-    <value>Rename</value>
+    <value>Přejmenovat</value>
   </data>
   <data name="StatusMoveCanceled" xml:space="preserve">
-    <value>Move canceled</value>
+    <value>Přesun zrušen</value>
   </data>
   <data name="StatusCopyCanceled" xml:space="preserve">
-    <value>Copy canceled</value>
+    <value>Kopírování zrušeno</value>
   </data>
   <data name="StatusMoveCanceledDetails_Singular" xml:space="preserve">
-    <value>Moving {0} item from {1} to {2} was canceled</value>
+    <value>Přesun {0} položky z {1} do {2} byl zrušen</value>
   </data>
   <data name="StatusMoveCanceledDetails_Plural" xml:space="preserve">
-    <value>Moving {0} items from {1} to {2} was canceled after moving {3} items</value>
+    <value>Přesun {0} položek z {1} do {2} byl zrušen po přesunutí {3} položek</value>
   </data>
   <data name="StatusMoveCanceledDetails_Plural2" xml:space="preserve">
-    <value>Moving {0} items from {1} to {2} was canceled after moving {3} item</value>
+    <value>Přesun {0} položek z {1} do {2} byl zrušen po přesunutí {3} položky</value>
   </data>
   <data name="StatusMovingItemsDetails_Singular" xml:space="preserve">
-    <value>Moving {0} item from {1} to {2}</value>
+    <value>Přesouvání {0} položku z {1} do {2}</value>
   </data>
   <data name="StatusMovingItemsDetails_Plural" xml:space="preserve">
-    <value>Moving {0} items from {1} to {2}</value>
+    <value>Přesouvání {0} položek z {1} do {2}</value>
   </data>
   <data name="StatusMovedItemsDetails_Singular" xml:space="preserve">
-    <value>Successfully moved {0} item from {1} to {2}</value>
+    <value>Úspěšně přesunuta {0} položka z {1} do {2}</value>
   </data>
   <data name="StatusMovedItemsDetails_Plural" xml:space="preserve">
-    <value>Successfully moved {0} items from {1} to {2}</value>
+    <value>Úspěšně přesunuto {0} položek z {1} do {2}</value>
   </data>
   <data name="StatusMoveFailedDetails_Singular" xml:space="preserve">
-    <value>Failed to move {0} item from {1} to {2}</value>
+    <value>Nepodařilo se přesunout položku {0} z {1} do {2}</value>
   </data>
   <data name="StatusMoveFailedDetails_Plural" xml:space="preserve">
-    <value>Failed to move {0} items from {1} to {2}</value>
+    <value>Nepodařilo se přesunout {0} položek z {1} do {2}</value>
   </data>
   <data name="StatusCopyCanceledDetails_Singular" xml:space="preserve">
-    <value>Copying {0} item to {1} was canceled</value>
+    <value>Kopírování položky {0} do {1} bylo zrušeno</value>
   </data>
   <data name="StatusCopyCanceledDetails_Plural" xml:space="preserve">
-    <value>Copying {0} items to {1} was canceled after copying {2} items</value>
+    <value>Kopírování {0} položek do {1} bylo zrušeno po kopírování {2} položek</value>
   </data>
   <data name="StatusCopyCanceledDetails_Plural2" xml:space="preserve">
-    <value>Copying {0} items to {1} was canceled after copying {2} item</value>
+    <value>Kopírování {0} položek do {1} bylo zrušeno po kopírování položky {2}</value>
   </data>
   <data name="StatusCopyingItemsDetails_Singular" xml:space="preserve">
-    <value>Copying {0} item to {1}</value>
+    <value>Kopírování {0} položek do {1}</value>
   </data>
   <data name="StatusCopyingItemsDetails_Plural" xml:space="preserve">
-    <value>Copying {0} items to {1}</value>
+    <value>Kopírování {0} položek do {1}</value>
   </data>
   <data name="StatusCopiedItemsDetails_Singular" xml:space="preserve">
-    <value>Successfully copied {0} item to {1}</value>
+    <value>Úspěšně zkopírována {0} položka do {1}</value>
   </data>
   <data name="StatusCopiedItemsDetails_Plural" xml:space="preserve">
-    <value>Successfully copied {0} items to {1}</value>
+    <value>Úspěšně zkopírováno {0} položek do {1}</value>
   </data>
   <data name="StatusDeleteCanceledDetails_Singular" xml:space="preserve">
-    <value>Deleting {0} item from {1} was canceled</value>
+    <value>Mazání {0} položky z {1} bylo zrušeno</value>
   </data>
   <data name="StatusDeleteCanceledDetails_Plural" xml:space="preserve">
-    <value>Deleting {0} items from {1} was canceled after deleting {3} items</value>
+    <value>Mazání {0} položek z {1} bylo zrušeno po smazání {3} položek</value>
   </data>
   <data name="StatusDeleteCanceledDetails_Plural2" xml:space="preserve">
-    <value>Deleting {0} items from {1} was canceled after deleting {3} item</value>
+    <value>Mazání {0} položek z {1} bylo zrušeno po smazání {3} položky</value>
   </data>
   <data name="StatusDeletingItemsDetails_Singular" xml:space="preserve">
-    <value>Deleting {0} item from {1}</value>
+    <value>Mazání {0} položky z {1}</value>
   </data>
   <data name="StatusDeletingItemsDetails_Plural" xml:space="preserve">
-    <value>Deleting {0} items from {1}</value>
+    <value>Mazání {0} položek z {1}</value>
   </data>
   <data name="StatusDeletedItemsDetails_Singular" xml:space="preserve">
-    <value>Successfully deleted {0} item from {1}</value>
+    <value>Úspěšně smazána {0} položka z {1}</value>
   </data>
   <data name="StatusDeletedItemsDetails_Plural" xml:space="preserve">
-    <value>Successfully deleted {0} items from {1}</value>
+    <value>Úspěšně smazáno {0} položek z {1}</value>
   </data>
   <data name="StatusDeletionFailedDetails_Singular" xml:space="preserve">
-    <value>Failed to delete {0} item from {1}</value>
+    <value>Nepodařilo se odstranit {0} položku z {1}</value>
   </data>
   <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
-    <value>Failed to delete {0} items from {1}</value>
+    <value>Nepodařilo se smazat {0} položek z {1}</value>
   </data>
   <data name="TheRecycleBin" xml:space="preserve">
-    <value>the Recycle Bin</value>
+    <value>Koš</value>
   </data>
   <data name="MoveInProgress" xml:space="preserve">
-    <value>Moving items</value>
+    <value>Přesouvání položek</value>
   </data>
   <data name="CopyInProgress.Title" xml:space="preserve">
-    <value>Copying items</value>
+    <value>Kopírování položek</value>
   </data>
   <data name="StatusRecycleFailed" xml:space="preserve">
-    <value>Recycle failed</value>
+    <value>Recyklace selhala</value>
   </data>
   <data name="StatusRecycleCancelled" xml:space="preserve">
-    <value>Recycle cancelled</value>
+    <value>Recyklace zrušena</value>
   </data>
   <data name="canceling" xml:space="preserve">
-    <value>canceling</value>
+    <value>rušení</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Dismiss</value>
+    <value>Zrušit</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Dismiss</value>
+    <value>Zrušit</value>
   </data>
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
-    <value>Widgets</value>
+    <value>Widgety</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
-    <value>Sync status</value>
+    <value>Stav synchronizace</value>
   </data>
   <data name="Security" xml:space="preserve">
-    <value>Security</value>
+    <value>Bezpečnost</value>
   </data>
   <data name="AdvancedPermissions" xml:space="preserve">
-    <value>Advanced permissions</value>
+    <value>Pokročilá oprávnění</value>
   </data>
   <data name="Allow" xml:space="preserve">
-    <value>Allow</value>
+    <value>Povolit</value>
   </data>
   <data name="SecurityDenyLabel.Text" xml:space="preserve">
-    <value>Deny</value>
+    <value>Zakázat</value>
   </data>
   <data name="SecurityFullControlLabel.Text" xml:space="preserve">
-    <value>Full control</value>
+    <value>Plná kontrola</value>
   </data>
   <data name="SecurityListDirectoryLabel.Text" xml:space="preserve">
-    <value>List directory contents</value>
+    <value>Vypsat obsah složky</value>
   </data>
   <data name="SecurityModifyLabel.Text" xml:space="preserve">
-    <value>Modify</value>
+    <value>Upravit</value>
   </data>
   <data name="SecurityPermissionsLabel.Text" xml:space="preserve">
-    <value>Permissions for</value>
+    <value>Oprávnění pro</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
-    <value>Read and execute</value>
+    <value>Číst a spouštět</value>
   </data>
   <data name="SecurityReadLabel.Text" xml:space="preserve">
-    <value>Read</value>
+    <value>Číst</value>
   </data>
   <data name="SecurityUsersGroupLabel.Text" xml:space="preserve">
-    <value>Group or user names</value>
+    <value>Skupina nebo uživatelská jména</value>
   </data>
   <data name="Write" xml:space="preserve">
-    <value>Write</value>
+    <value>Zapisovat</value>
   </data>
   <data name="SecurityUnknownAccount" xml:space="preserve">
-    <value>Unknown account</value>
+    <value>Neznámý účet</value>
   </data>
   <data name="SecurityCannotReadProperties.Text" xml:space="preserve">
-    <value>You do not have permissions to view the security properties of this object. Click "Advanced permissions" to proceed.</value>
+    <value>Nemáte oprávnění k zobrazení vlastností zabezpečení tohoto objektu. Klikněta na "Pokročilá oprávnění" a pokračujte.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
-    <value>Owner</value>
+    <value>Vlastník</value>
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
-    <value>Unknown owner</value>
+    <value>Neznámý vlastník</value>
   </data>
   <data name="SettingsVerticalTabFlyout" xml:space="preserve">
-    <value>Display the vertical tab flyout on the title bar</value>
+    <value>Zobrazit vertikální rozložení záložek v záhlaví</value>
   </data>
   <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Learn more about custom themes</value>
+    <value>Více informací o vlastních motivech</value>
   </data>
   <data name="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Learn more about custom themes</value>
+    <value>Více informací o vlastních motivech</value>
   </data>
   <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
-    <value>Custom themes provide a great way for you to personalize Files.</value>
+    <value>Vlastní motivy poskytují skvělý způsob, jak přizpůsobit Files.</value>
   </data>
   <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
-    <value>View documentation.</value>
+    <value>Zobrazit dokumentaci.</value>
   </data>
   <data name="DecompressArchiveDialog.Title" xml:space="preserve">
-    <value>Select a destination and extract files</value>
+    <value>Vyberte cíl a rozbalte soubory</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
-    <value>Open destination folder when complete</value>
+    <value>Otevřít cílovou složku po dokončení</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractFilesOption" xml:space="preserve">
-    <value>Extract files</value>
+    <value>Rozbalit soubory</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractHereOption" xml:space="preserve">
-    <value>Extract here</value>
+    <value>Rozbalit zde</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractionOptions" xml:space="preserve">
-    <value>Extract...</value>
+    <value>Rozbalit...</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
-    <value>Extract to {0}\</value>
+    <value>Rozbalit do {0}\</value>
   </data>
   <data name="SideBarCreateNewLibrary.Text" xml:space="preserve">
-    <value>Create new library</value>
+    <value>Vytvořit novou knihovnu</value>
   </data>
   <data name="SideBarRestoreLibraries.Text" xml:space="preserve">
-    <value>Restore default libraries</value>
+    <value>Obnovit výchozí knihovny</value>
   </data>
   <data name="DialogRestoreLibrariesButtonText" xml:space="preserve">
-    <value>Restore</value>
+    <value>Obnovit</value>
   </data>
   <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
-    <value>Are you sure you want to restore the default libraries? All your files will remain on your storage.</value>
+    <value>Opravdu chcete obnovit výchozí knihovny? Všechny vaše soubory zůstanou v úložišti.</value>
   </data>
   <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
-    <value>Restore Libraries</value>
+    <value>Obnovit knihovny</value>
   </data>
   <data name="PropertyFileOwner" xml:space="preserve">
-    <value>Owner</value>
+    <value>Vlastník</value>
   </data>
   <data name="SecurityAdvancedPermissionsTitle" xml:space="preserve">
-    <value>Advanced permissions for {0}</value>
+    <value>Pokročilá oprávnění pro {0}</value>
   </data>
   <data name="SecuritySpecialLabel.Text" xml:space="preserve">
-    <value>Special</value>
+    <value>Speciální</value>
   </data>
   <data name="Access" xml:space="preserve">
-    <value>Access</value>
+    <value>Přístup</value>
   </data>
   <data name="SecurityAdvancedAppliesToLabel.Text" xml:space="preserve">
-    <value>Applies to</value>
+    <value>Aplikované pro</value>
   </data>
   <data name="SecurityAdvancedEntityLabel.Text" xml:space="preserve">
-    <value>Entity</value>
+    <value>Subjekt</value>
   </data>
   <data name="SecurityAdvancedFlagsFilesLabel" xml:space="preserve">
-    <value>files</value>
+    <value>soubory</value>
   </data>
   <data name="SecurityAdvancedFlagsFolderLabel" xml:space="preserve">
-    <value>this folder</value>
+    <value>tato složka</value>
   </data>
   <data name="SecurityAdvancedFlagsSubfoldersLabel" xml:space="preserve">
-    <value>subfolders</value>
+    <value>podsložky</value>
   </data>
   <data name="SecurityAdvancedInheritedLabel.Text" xml:space="preserve">
-    <value>Inherited</value>
+    <value>Zděděný</value>
   </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
-    <value>Permissions</value>
+    <value>Oprávnění</value>
   </data>
   <data name="SecurityAdvancedTypeLabel.Text" xml:space="preserve">
-    <value>Type</value>
+    <value>Typ</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
-    <value>You do not have permissions to view the security properties of this object. You can try to take ownership of this object.</value>
+    <value>Nemáte oprávnění k zobrazení vlastností zabezpečení tohoto objektu. Můžete se pokusit převzít vlastnictví tohoto objektu.</value>
   </data>
   <data name="SecurityAdvancedSpecialLabel.Text" xml:space="preserve">
-    <value>Special</value>
+    <value>Speciální</value>
   </data>
   <data name="SecurityAdvancedFolderFiles.Text" xml:space="preserve">
-    <value>This folder and files</value>
+    <value>Tato složka a soubory</value>
   </data>
   <data name="SecurityAdvancedFolderSubfoldersFiles.Text" xml:space="preserve">
-    <value>This folder, subfolders and files</value>
+    <value>Tato složka, podsložky a soubory</value>
   </data>
   <data name="SecurityAdvancedOnlyFiles.Text" xml:space="preserve">
-    <value>Only files</value>
+    <value>Pouze soubory</value>
   </data>
   <data name="SecurityAdvancedOnlySubfolders.Text" xml:space="preserve">
-    <value>Only subfolders</value>
+    <value>Pouze podsložky</value>
   </data>
   <data name="SecurityAdvancedOnlySubfoldersFiles.Text" xml:space="preserve">
-    <value>Only subfolders and files</value>
+    <value>Pouze podsložky a soubory</value>
   </data>
   <data name="SecurityAdvancedOnlyThisFolder.Text" xml:space="preserve">
-    <value>Only this folder</value>
+    <value>Pouze tato složka</value>
   </data>
   <data name="SecurityAdvancedFolderSubfolders.Text" xml:space="preserve">
-    <value>This folder and subfolders</value>
+    <value>Tato složka a podsložky</value>
   </data>
   <data name="SecurityAppendDataLabel.Text" xml:space="preserve">
-    <value>Append data</value>
+    <value>Připojit data</value>
   </data>
   <data name="SecurityChangePermissionsLabel.Text" xml:space="preserve">
-    <value>Change permission</value>
+    <value>Změnit oprávnění</value>
   </data>
   <data name="SecurityCreateDirectoriesLabel.Text" xml:space="preserve">
-    <value>Create folders</value>
+    <value>Tvořit složky</value>
   </data>
   <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
-    <value>Create files</value>
+    <value>Tvořit soubory</value>
   </data>
   <data name="SecurityDeleteSubdirectoriesAndFilesLabel.Text" xml:space="preserve">
-    <value>Delete subdirectories and files</value>
+    <value>Odstranit podsložky a soubory</value>
   </data>
   <data name="SecurityExecuteFileLabel.Text" xml:space="preserve">
-    <value>Execute files</value>
+    <value>Spustit soubory</value>
   </data>
   <data name="SecurityReadAttributesLabel.Text" xml:space="preserve">
-    <value>Read attributes</value>
+    <value>Číst atributy</value>
   </data>
   <data name="SecurityReadDataLabel.Text" xml:space="preserve">
-    <value>Read data</value>
+    <value>Číst data</value>
   </data>
   <data name="SecurityReadExtendedAttributesLabel.Text" xml:space="preserve">
-    <value>Read extended attributes</value>
+    <value>Číst rozšířené atributy</value>
   </data>
   <data name="SecurityReadPermissionsLabel.Text" xml:space="preserve">
-    <value>Read permissions</value>
+    <value>Oprávnění k čtení souboru</value>
   </data>
   <data name="SecurityTakeOwnershipLabel.Text" xml:space="preserve">
-    <value>Take ownership</value>
+    <value>Převzít vlastnictví</value>
   </data>
   <data name="SecurityTraverseLabel.Text" xml:space="preserve">
-    <value>Visit folder</value>
+    <value>Přejít do složky</value>
   </data>
   <data name="SecurityWriteAttributesLabel.Text" xml:space="preserve">
-    <value>Write attributes</value>
+    <value>Zapisovací atributy</value>
   </data>
   <data name="SecurityWriteDataLabel.Text" xml:space="preserve">
-    <value>Write data</value>
+    <value>Zapsat data</value>
   </data>
   <data name="SecurityWriteExtendedAttributesLabel.Text" xml:space="preserve">
-    <value>Write extended attributes</value>
+    <value>Zapsat rozšířené atributy</value>
   </data>
   <data name="SecurityAdvancedInheritedConvert.Text" xml:space="preserve">
-    <value>Convert inherited permissions into explicit permissions</value>
+    <value>Převést zděděná oprávnění na výslovná oprávnění</value>
   </data>
   <data name="SecurityAdvancedInheritedEnable.Text" xml:space="preserve">
-    <value>Enable inheritance</value>
+    <value>Povolit dědičnost</value>
   </data>
   <data name="SecurityAdvancedInheritedRemove.Text" xml:space="preserve">
-    <value>Remove all inherited permissions</value>
+    <value>Odstranit všechna zděděná oprávnění</value>
   </data>
   <data name="SecurityAdvancedReplaceChildPermissions.Text" xml:space="preserve">
-    <value>Reset child permissions</value>
+    <value>Obnovit podřízená oprávnění</value>
   </data>
   <data name="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Replace all child object permissions entries with inheritable permission entries from this object</value>
+    <value>Nahradit všechny položky oprávnění podřízeného objektu dědičnými záznamy oprávnění z tohoto objektu</value>
   </data>
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
-    <value>Close pane</value>
+    <value>Zavřít panel</value>
   </data>
   <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
-    <value>Enter compact overlay</value>
+    <value>Vstupte do kompaktního překrytí</value>
   </data>
   <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
-    <value>Exit compact overlay</value>
+    <value>Opustit kompaktní překrytí</value>
   </data>
   <data name="PropertyFileDescription" xml:space="preserve">
-    <value>File description</value>
+    <value>Popis souboru</value>
   </data>
   <data name="PropertyCompany" xml:space="preserve">
-    <value>Company</value>
+    <value>Společnost</value>
   </data>
   <data name="PropertyLanguage" xml:space="preserve">
-    <value>Language</value>
+    <value>Jazyk</value>
   </data>
   <data name="PropertyTrademarks" xml:space="preserve">
-    <value>Trademarks</value>
+    <value>Ochranné známky</value>
   </data>
   <data name="PropertyFileVersion" xml:space="preserve">
-    <value>File version</value>
+    <value>Verze souboru</value>
   </data>
   <data name="PreviewPaneLoadCloudItemButton.Text" xml:space="preserve">
-    <value>Load full preview</value>
+    <value>Načíst plný náhled</value>
   </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Downloads the item from the cloud and loads the preview</value>
+    <value>Stáhne položku z cloudu a načte náhled</value>
   </data>
   <data name="DetailsArchiveItemCount" xml:space="preserve">
-    <value>{0} items ({1} files, {2} folders)</value>
+    <value>{0} položek ({1} souborů, {2} složek)</value>
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
-    <value>Uncompressed size</value>
+    <value>Nekomprimovaná velikost</value>
   </data>
   <data name="SettingsShowCloudDrivesSection.Title" xml:space="preserve">
-    <value>Show cloud drives section</value>
+    <value>Zobrazit sekci cloudových disků</value>
   </data>
   <data name="SettingsShowDrivesSection.Title" xml:space="preserve">
-    <value>Show drives section</value>
+    <value>Zobrazit sekci disků</value>
   </data>
   <data name="SettingsShowWslSection.Title" xml:space="preserve">
-    <value>Show WSL section</value>
+    <value>Zobrazit sekci WSL</value>
   </data>
   <data name="SettingsShowNetworkDrivesSection.Title" xml:space="preserve">
-    <value>Show network section</value>
+    <value>Zobrazit sekci sítě</value>
   </data>
   <data name="WSL" xml:space="preserve">
     <value>WSL</value>
   </data>
   <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
-    <value>Hide {0} section</value>
+    <value>Skrýt {0} sekci</value>
   </data>
   <data name="NavSettingsButton" xml:space="preserve">
-    <value>Settings</value>
+    <value>Nastavení</value>
   </data>
   <data name="AddFile" xml:space="preserve">
-    <value>Add file</value>
+    <value>Přidat soubor</value>
   </data>
   <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">
-    <value>Add folder</value>
+    <value>Přidat složku</value>
   </data>
   <data name="BundleOptionsFlyoutAddItemMenuItem.Text" xml:space="preserve">
-    <value>Add item...</value>
+    <value>Přidat položku...</value>
   </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
-    <value>Updates available</value>
+    <value>Jsou dostupné aktualizace</value>
   </data>
   <data name="ConsentDialogContent" xml:space="preserve">
-    <value>Updates are ready to install</value>
+    <value>Aktualizace jsou připraveny k instalaci</value>
   </data>
   <data name="Close" xml:space="preserve">
-    <value>Close</value>
+    <value>Zavřít</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>Update</value>
+    <value>Aktualizovat</value>
   </data>
   <data name="Home" xml:space="preserve">
-    <value>Home</value>
+    <value>Domů</value>
   </data>
   <data name="TabViewVerticalNewTab.Text" xml:space="preserve">
-    <value>New tab</value>
+    <value>Nový panel</value>
   </data>
   <data name="NavToolbarSelectAll.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+A</value>
@@ -2284,7 +2284,7 @@
     <value>Ctrl+Alt+Up</value>
   </data>
   <data name="NavigationToolbarExitCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+Down</value>
+    <value>Ctrl+Alt+Dolů</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+1</value>
@@ -2311,255 +2311,254 @@
     <value>Ctrl+Shift+T</value>
   </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
-    <value>The archive extraction completed successfully.</value>
+    <value>Rozbalování archivu bylo úspěšně dokončeno.</value>
   </data>
   <data name="ExtractingArchiveText" xml:space="preserve">
-    <value>Extracting archive</value>
+    <value>Extrahuji archiv</value>
   </data>
   <data name="ExtractingCompleteText" xml:space="preserve">
-    <value>Extracting complete!</value>
+    <value>Extrahování dokončeno!</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+N</value>
   </data>
   <data name="SettingsPrivacy.Title" xml:space="preserve">
-    <value>Privacy policy</value>
+    <value>Soukromí</value>
   </data>
   <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
-    <value>Fluent UI System Icons</value>
+    <value>Systémové ikony Fluent UI</value>
   </data>
   <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Fluent UI System Icons</value>
+    <value>Systémové ikony Fluent UI</value>
   </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
-We use App Center to track which settings are being used, find bugs, and fix crashes. Information sent to App Center is anonymous and free of any user or contextual data.
-  </value>
+Používáme centrum aplikací k sledování nastavení, které jsou používány, hledání chyb a opravování pádů. Informace poslány to centra aplikací jsou anonymní a bez jakýchkoliv uživatelských nebo kontexních dat.  </value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
-    <value>Open parent folder</value>
+    <value>Otevřít nadřazenou složku</value>
   </data>
   <data name="FileTagUnknown" xml:space="preserve">
-    <value>Unknown</value>
+    <value>Neznámý</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
-    <value>Tag</value>
+    <value>Štítek</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
-    <value>Edit tags</value>
+    <value>Upravit štítky</value>
   </data>
   <data name="SettingsEnableFileTags.Title" xml:space="preserve">
-    <value>Enable tags</value>
+    <value>Povolit štítky</value>
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
-    <value>Show favorites section</value>
+    <value>Zobrazit sekci oblíbené</value>
   </data>
   <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
-    <value>Apply to all</value>
+    <value>Použít na vše</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
-    <value>Part of set</value>
+    <value>Součást setu</value>
   </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
-    <value>Open Drive</value>
+    <value>Otevřít disk</value>
   </data>
   <data name="InsertDiscDialog.Text" xml:space="preserve">
-    <value>Please insert a disc into drive {0}</value>
+    <value>Prosím vložte disk do jednotky {0}</value>
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
-    <value>Insert a disc</value>
+    <value>Vložte disk</value>
   </data>
   <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
     <value>OK</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
-    <value>Credential Required</value>
+    <value>Vyžadovány údaje</value>
   </data>
   <data name="CredentialDialogAnonymous.Content" xml:space="preserve">
-    <value>Anonymous</value>
+    <value>Anonymní</value>
   </data>
   <data name="CredentialDialogDescription.Text" xml:space="preserve">
-    <value>Provide your credential:</value>
+    <value>Poskytněte vaše údaje:</value>
   </data>
   <data name="CredentialDialogPassword.PlaceholderText" xml:space="preserve">
-    <value>Password</value>
+    <value>Heslo</value>
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
-    <value>UserName</value>
+    <value>Uživatelské jméno</value>
   </data>
   <data name="BundlesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Bundles Widget</value>
+    <value>Widget balíčku</value>
   </data>
   <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Drives Widget</value>
+    <value>Widget disků</value>
   </data>
   <data name="FolderWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Libraries Widget</value>
+    <value>Widget knihoven</value>
   </data>
   <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Recent Files Widget</value>
+    <value>Widget nedávných souborů</value>
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
-    <value>No items found</value>
+    <value>Nenalezeny žádné položky</value>
   </data>
   <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
-    <value>Show preview only</value>
+    <value>Zobrazit jen náhled</value>
   </data>
   <data name="OpenLogLocation" xml:space="preserve">
-    <value>Open log location</value>
+    <value>Otevřít umístění logu</value>
   </data>
   <data name="LinkToFolderCaptionText" xml:space="preserve">
-    <value>Create link in {0}</value>
+    <value>Vytvořit odkaz v {0}</value>
   </data>
   <data name="Columns" xml:space="preserve">
-    <value>Columns</value>
+    <value>Sloupce</value>
   </data>
   <data name="LargeIcons" xml:space="preserve">
-    <value>Large Icons</value>
+    <value>Velké ikony</value>
   </data>
   <data name="MediumIcons" xml:space="preserve">
-    <value>Medium Icons</value>
+    <value>Střední ikony</value>
   </data>
   <data name="SmallIcons" xml:space="preserve">
-    <value>Small Icons</value>
+    <value>Malé ikony</value>
   </data>
   <data name="Tiles" xml:space="preserve">
-    <value>Tiles</value>
+    <value>Dlaždice</value>
   </data>
   <data name="NavToolbarShowFileExtensions.AutomationProperties.Name" xml:space="preserve">
-    <value>Show file extensions</value>
+    <value>Zobrazit přípony souboru</value>
   </data>
   <data name="NavToolbarShowHiddenItemsHeader.Text" xml:space="preserve">
-    <value>Show hidden items</value>
+    <value>Zobrazit skryté položky</value>
   </data>
   <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Show favorites section</value>
+    <value>Zobrazit sekci oblíbené</value>
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Open folders in new tab</value>
+    <value>Otevřít složky v nové kartě</value>
   </data>
   <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Pin Recycle Bin to favorites</value>
+    <value>Připnout koš do oblíbených</value>
   </data>
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Language</value>
+    <value>Jazyk</value>
   </data>
   <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Show cloud drives section</value>
+    <value>Zobrazit sekci cloudových disků</value>
   </data>
   <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Show a confirmation dialog when deleting files or folders</value>
+    <value>Zobrazit potvrzovací dialog při mazání souborů nebo složek</value>
   </data>
   <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Show drives section</value>
+    <value>Zobrazit sekci disků</value>
   </data>
   <data name="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Show library section</value>
+    <value>Zobrazit sekci knihoven</value>
   </data>
   <data name="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Show network section</value>
+    <value>Zobrazit sekci sítě</value>
   </data>
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Show WSL section</value>
+    <value>Zobrazit sekci WSL</value>
   </data>
   <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Terminal application</value>
+    <value>Terminálová aplikace</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
-    <value>Ongoing Tasks</value>
+    <value>Probíhající úlohy</value>
   </data>
   <data name="SideBarFavoritesMoveOneDown" xml:space="preserve">
-    <value>Move one down</value>
+    <value>Přesunout o jedno dolů</value>
   </data>
   <data name="SideBarFavoritesMoveOneUp" xml:space="preserve">
-    <value>Move one up</value>
+    <value>Přesunout o jeden nahoru</value>
   </data>
   <data name="SideBarFavoritesMoveToBottom" xml:space="preserve">
-    <value>Move to bottom</value>
+    <value>Přesunout na konec</value>
   </data>
   <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
-    <value>Move to top</value>
+    <value>Přesunout na začátek</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
-    <value>Date created column</value>
+    <value>Sloupec data vytvoření</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
-    <value>Item size column</value>
+    <value>Slopuec velikosti položky</value>
   </data>
   <data name="SettingsDefaultFilesManager" xml:space="preserve">
-    <value>Default file manager</value>
+    <value>Výchozí správce souborů</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
-    <value>Set Files as the default file manager</value>
+    <value>Nastavit Files jako výchozí správce souborů</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
-    <value>Use Files as Open File Dialog</value>
+    <value>Použít Files v dialogu otevření souboru</value>
   </data>
   <data name="Tag" xml:space="preserve">
-    <value>Tag</value>
+    <value>Štítek</value>
   </data>
   <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
-    <value>Open folders with a single click</value>
+    <value>Otevřít složky jedním kliknutím</value>
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
-    <value>Folder path</value>
+    <value>Cesta k složce</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
-    <value>Export Settings</value>
+    <value>Exportovat nastavení</value>
   </data>
   <data name="ImportSettings" xml:space="preserve">
-    <value>Import Settings</value>
+    <value>Import nastavení</value>
   </data>
   <data name="ManageSettings" xml:space="preserve">
-    <value>Manage Settings</value>
+    <value>Spravovat nastavení</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
-    <value>Couldn't import settings. The settings file is corrupted.</value>
+    <value>Nastavení nelze importovat. Soubor s nastavením je poškozen.</value>
   </data>
   <data name="SettingsImportErrorTitle" xml:space="preserve">
-    <value>Error importing settings</value>
+    <value>Chyba při importu nastavení</value>
   </data>
   <data name="EmptyRecycleBin" xml:space="preserve">
-    <value>Empty Recycle Bin</value>
+    <value>Vysypat Koš</value>
   </data>
   <data name="Sidebar" xml:space="preserve">
-    <value>Sidebar</value>
+    <value>Postranní panel</value>
   </data>
   <data name="ChooseCustomIcon" xml:space="preserve">
-    <value>Choose a custom folder icon</value>
+    <value>Zvolte vlastní ikonu složky</value>
   </data>
   <data name="Customization" xml:space="preserve">
-    <value>Customization</value>
+    <value>Přizpůsobení</value>
   </data>
   <data name="RestoreDefault" xml:space="preserve">
-    <value>Restore default</value>
+    <value>Obnovit výchozí</value>
   </data>
   <data name="FilesAndFolders" xml:space="preserve">
-    <value>Files and folders</value>
+    <value>Soubory a složky</value>
   </data>
   <data name="OpenNewInstance" xml:space="preserve">
-    <value>Open new instance when opening directories from the taskbar jumplist</value>
+    <value>Otevřít novou instanci při otevírání adresářů ze seznamu úloh</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
-    <value>Startup settings</value>
+    <value>Nastavení spouštění</value>
   </data>
   <data name="Compatibility" xml:space="preserve">
-    <value>Compatibility</value>
+    <value>Kompatibilita</value>
   </data>
   <data name="None" xml:space="preserve">
-    <value>None</value>
+    <value>Žádná</value>
   </data>
   <data name="HighDpiOption_UseDPIOnLogin" xml:space="preserve">
-    <value>On Windows login</value>
+    <value>Při přihlášení do Windows</value>
   </data>
   <data name="HighDpiOption_UseDPIOnProgramStart" xml:space="preserve">
-    <value>On program start</value>
+    <value>Při spuštění programu</value>
   </data>
   <data name="HighDpiOverride_System" xml:space="preserve">
-    <value>System</value>
+    <value>Systém</value>
   </data>
   <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
-    <value>System (advanced)</value>
+    <value>Systém (pokročilý)</value>
   </data>
   <data name="Windows7" xml:space="preserve">
     <value>Windows 7</value>
@@ -2577,213 +2576,216 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Windows Vista SP2</value>
   </data>
   <data name="ReducedColorMode_Color16Bit" xml:space="preserve">
-    <value>16 Bit Colors (65536)</value>
+    <value>16 Bitové barvy (65536)</value>
   </data>
   <data name="ReducedColorMode_Color8Bit" xml:space="preserve">
-    <value>8 Bit Colors (256)</value>
+    <value>8 Bitové barvy (256)</value>
   </data>
   <data name="CompatibilityMode" xml:space="preserve">
-    <value>Compatibility mode</value>
+    <value>Režim kompatibility</value>
   </data>
   <data name="DisableFullscreenOptimizations" xml:space="preserve">
-    <value>Disable fullscreen optimizations</value>
+    <value>Vypnout optimalizaci plné obrazovky</value>
   </data>
   <data name="ExecuteAt640X480" xml:space="preserve">
-    <value>Run at 640 x 480 screen resolution</value>
+    <value>Spustit s rozlišením 640 x 480</value>
   </data>
   <data name="Options" xml:space="preserve">
-    <value>Options</value>
+    <value>Nastavení</value>
   </data>
   <data name="OverrideDPIScalingBehaviour" xml:space="preserve">
-    <value>Override high DPI scaling behaviour</value>
+    <value>Přepsat vhování při vysokém DPI</value>
   </data>
   <data name="ReducedColorMode" xml:space="preserve">
-    <value>Reduced color mode</value>
+    <value>Režim snížených barev</value>
   </data>
   <data name="RegisterForRestart" xml:space="preserve">
-    <value>Register for restart</value>
+    <value>Registrovat se pro restart</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
-    <value>Run as administrator</value>
+    <value>Spustit jako administrátor</value>
   </data>
   <data name="RunCompatibilityTroubleShooter" xml:space="preserve">
-    <value>Run compatibility troubleshooter</value>
+    <value>Spustit řešení problémů</value>
   </data>
   <data name="UseMainMonitorDPISettings" xml:space="preserve">
-    <value>Use DPI settings of the main monitor</value>
+    <value>Použít nastavení DPI hlavního monitoru</value>
   </data>
   <data name="ThirdPartyLicenses" xml:space="preserve">
-    <value>Third party licenses</value>
+    <value>Licence třetích stran</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>This option modifies the system registry and can have unexpected side effects on your device. Continue at your own risk.</value>
+    <value>Tato možnost upravuje systémový registr and může mít neočekávané vedlejší efekty na vaše zařízení. Pokračujte na vlastní nebezpečí.</value>
   </data>
   <data name="ClearAll" xml:space="preserve">
-    <value>Clear all</value>
+    <value>Vyčistit vše</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
-    <value>Create Library</value>
+    <value>Vytvořit Knihovnu</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
-    <value>Enter Library name</value>
+    <value>Zadejte název knihovny</value>
   </data>
   <data name="ShowFolderSize" xml:space="preserve">
-    <value>Show folder size</value>
+    <value>Zobrazit velikost složky</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
-    <value>Recent Files</value>
+    <value>Nedávné soubory</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
-    <value>Open Files on Windows Startup</value>
+    <value>Otevřít soubory při spuštění systému Windows</value>
   </data>
   <data name="Attributes" xml:space="preserve">
-    <value>Attributes</value>
+    <value>Atributy</value>
   </data>
   <data name="Hidden" xml:space="preserve">
-    <value>Hidden</value>
+    <value>Skrytý</value>
   </data>
   <data name="MoreDetails" xml:space="preserve">
-    <value>More details</value>
+    <value>Více informací</value>
   </data>
   <data name="ReadOnly" xml:space="preserve">
-    <value>Read only</value>
+    <value>Jen pro čtení</value>
   </data>
   <data name="CleanupDrive" xml:space="preserve">
-    <value>Cleanup your drive contents</value>
+    <value>Vyčistit obsah disku</value>
   </data>
   <data name="DiskCleanup" xml:space="preserve">
-    <value>Disk cleanup</value>
+    <value>Vyčištění disku</value>
   </data>
   <data name="Type" xml:space="preserve">
-    <value>Type:</value>
+    <value>Typ:</value>
   </data>
   <data name="Bytes" xml:space="preserve">
-    <value>Bytes</value>
+    <value>Byty</value>
   </data>
   <data name="Extract" xml:space="preserve">
-    <value>Extract</value>
+    <value>Rozbalit</value>
   </data>
   <data name="ExtractFiles" xml:space="preserve">
-    <value>Extract files</value>
+    <value>Rozbalit soubory</value>
   </data>
   <data name="ExtractHere" xml:space="preserve">
-    <value>Extract here</value>
+    <value>Rozbalit zde</value>
   </data>
   <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+E</value>
   </data>
   <data name="ExtractToChildFolder" xml:space="preserve">
-    <value>Extract to {0}</value>
+    <value>Rozbalit do {0}</value>
   </data>
   <data name="RunScript" xml:space="preserve">
-    <value>Run script</value>
+    <value>Spustit skript</value>
   </data>
   <data name="RunWithPowerShell" xml:space="preserve">
-    <value>Run with PowerShell</value>
+    <value>Spustit v PowerShellu</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
-    <value>Set as desktop background</value>
+    <value>Nastavit jako pozadí plochy</value>
   </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
-    <value>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</value>
+    <value>Výpočet velikosti složky je náročný na zdroje a může způsobit, že se vaše využití procesoru zvýší.</value>
   </data>
   <data name="RotateLeft" xml:space="preserve">
-    <value>Rotate left</value>
+    <value>Otočit doleva</value>
   </data>
   <data name="RotateRight" xml:space="preserve">
-    <value>Rotate right</value>
+    <value>Otočit doprava</value>
   </data>
   <data name="Install" xml:space="preserve">
-    <value>Install</value>
+    <value>Instalovat</value>
   </data>
   <data name="CloseTabsToTheLeft" xml:space="preserve">
-    <value>Close tabs to the left</value>
+    <value>Zavřít karty vlevo</value>
   </data>
   <data name="CloseTabsToTheRight" xml:space="preserve">
-    <value>Close tabs to the right</value>
+    <value>Zavřít karty vpravo</value>
   </data>
   <data name="CloseOtherTabs" xml:space="preserve">
-    <value>Close other tabs</value>
+    <value>Zavřít ostatní karty</value>
   </data>
   <data name="Music" xml:space="preserve">
-    <value>Music</value>
+    <value>Hudba</value>
   </data>
   <data name="Pictures" xml:space="preserve">
-    <value>Pictures</value>
+    <value>Obrázky</value>
   </data>
   <data name="Videos" xml:space="preserve">
-    <value>Videos</value>
+    <value>Videa</value>
   </data>
   <data name="UpdateFiles" xml:space="preserve">
-    <value>Update Files</value>
+    <value>Aktualizovat soubory</value>
   </data>
   <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
-    <value>Preparing {0} items</value>
+    <value>Připravuji {0} položek</value>
   </data>
   <data name="PrepareInProgress" xml:space="preserve">
-    <value>Preparing items</value>
+    <value>Připravuji položky</value>
   </data>
   <data name="StatusCopyFailed" xml:space="preserve">
-    <value>Copy failed</value>
+    <value>Kopírování selhalo</value>
   </data>
   <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
-    <value>Failed to copy {0} items from {1} to {2}</value>
+    <value>Nepodařilo se zkopírovat {0} položek z {1} do {2}</value>
   </data>
   <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
-    <value>Failed to copy {0} item from {1} to {2}</value>
+    <value>Nepodařilo se zkopírovat {0} položku z {1} do {2}</value>
   </data>
   <data name="StatusMoveFailed" xml:space="preserve">
-    <value>Move failed</value>
+    <value>Přesunutí selhalo</value>
   </data>
   <data name="FileTags" xml:space="preserve">
-    <value>Tags</value>
+    <value>Štítky</value>
   </data>
   <data name="SettingsShowFileTagsSection.Title" xml:space="preserve">
-    <value>Show Tags section</value>
+    <value>Zobrazit sekci štítků</value>
   </data>
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Show Tags section</value>
+    <value>Zobrazit sekci štítků</value>
   </data>
   <data name="UseCompactStyles" xml:space="preserve">
-    <value>Use compact styles in the details layout</value>
+    <value>Použít kompaktní styly v rozvržení detailů</value>
   </data>
   <data name="Universal" xml:space="preserve">
-    <value>Universal</value>
+    <value>Univerzální</value>
   </data>
   <data name="DateFormatSample" xml:space="preserve">
     <value>ex: {0}, {1}</value>
   </data>
   <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
-    <value>Show thumbnails</value>
+    <value>Zobrazit náhledy</value>
   </data>
   <data name="Retry" xml:space="preserve">
-    <value>Retry</value>
+    <value>Opakovat</value>
   </data>
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
-    <value>Move operation is not supported in this context. Do you want to copy the items instead?</value>
+    <value>Přesun není v tomto kontextu podporován. Chcete místo toho položky zkopírovat?</value>
   </data>
   <data name="HiddenFilesAndFolders" xml:space="preserve">
-    <value>Hidden files and folders</value>
+    <value>Skryté soubory a složky</value>
   </data>
   <data name="Custom" xml:space="preserve">
-    <value>Custom</value>
+    <value>Vlastní</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
-    <value>Set as desktop slideshow</value>
+    <value>Nastavit jako prezentaci plochy</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
-    <value>Size All Columns to Fit</value>
+    <value>Uprav všechny sloupce</value>
   </data>
   <data name="Contributors" xml:space="preserve">
-    <value>Contributors</value>
+    <value>Přispěvatelé</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Adaptive</value>
+    <value>Adaptivní</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>Adaptive (Ctrl+Shift+7)</value>
+    <value>Adaptivní (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
+  </data>
+  <data name="ShowAlternateStreams" xml:space="preserve">
+    <value>Zobrazit alternativní datové streamy</value>
   </data>
 </root>

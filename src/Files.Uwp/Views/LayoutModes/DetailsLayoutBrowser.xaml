@@ -645,8 +645,8 @@
                                             Margin="4,0,0,0"
                                             VerticalAlignment="Center"
                                             x:Phase="2"
-                                            Fill="{x:Bind FileTagUI.ColorModel, Mode=OneWay, Converter={StaticResource ColorModelToColorConverter}}"
-                                            Visibility="{x:Bind FileTagUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
+                                            Fill="{x:Bind FileTagsUI[0].ColorModel, Mode=OneWay, Converter={StaticResource ColorModelToColorConverter}}"
+                                            Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
                                     </Grid>
 
                                     <Grid
@@ -659,9 +659,9 @@
                                         Visibility="{Binding ColumnsViewModel.TagColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
                                         <TextBlock
                                             Style="{StaticResource ColumnContentTextBlock}"
-                                            Text="{x:Bind FileTagUI.TagName, Mode=OneWay}"
+                                            Text="{x:Bind FileTagsUI[0].TagName, Mode=OneWay}"
                                             TextTrimming="CharacterEllipsis"
-                                            Visibility="{x:Bind FileTagUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
+                                            Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
                                     </Grid>
 
                                     <TextBlock
