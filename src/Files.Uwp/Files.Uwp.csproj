@@ -30,6 +30,7 @@
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <Win32Resource>Resources\MiddleClickScrolling-CursorType.res</Win32Resource>
     <LangVersion>9.0</LangVersion>
+    <Nullable>Enable</Nullable>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
