@@ -187,7 +187,7 @@
                                 <Grid
                                     Height="30"
                                     Margin="0"
-                                    Padding="8,0"
+                                    Padding="8,0,0,0"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"
                                     Background="Transparent"
@@ -200,6 +200,7 @@
                                         <ColumnDefinition Width="24" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="20" />
                                     </Grid.ColumnDefinitions>
                                     <animations:Explicit.Animations>
                                         <animations:AnimationSet x:Name="FadeAnimation">
@@ -332,6 +333,13 @@
                                                 Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
                                         </StackPanel>
                                     </Grid>
+                                    <FontIcon
+                                        Grid.Column="3"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        FontSize="12"
+                                        Glyph="&#xE76C;"
+                                        Visibility="{x:Bind IsFolder}" />
                                 </Grid>
                             </DataTemplate>
                         </ListView.ItemTemplate>
