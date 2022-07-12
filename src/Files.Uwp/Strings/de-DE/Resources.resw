@@ -2795,9 +2795,9 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
     <value>Zeige alternative Daten Streams an</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
-    <value>Review Files</value>
+    <value>File bewerten</value>
   </data>
   <data name="ReviewFilesContent" xml:space="preserve">
-    <value>Would you like to review Files?</value>
+    <value>Möchten Sie Files bewerten?</value>
   </data>
 </root>
