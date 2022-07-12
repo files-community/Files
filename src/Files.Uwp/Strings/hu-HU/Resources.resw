@@ -2254,7 +2254,7 @@
     <value>Frissítések elérhetőek</value>
   </data>
   <data name="ConsentDialogContent" xml:space="preserve">
-    <value>Frissítések érhetők el telepítésre</value>
+    <value>A frissítés készen áll a telepítésre</value>
   </data>
   <data name="Close" xml:space="preserve">
     <value>Bezárás</value>
@@ -2721,7 +2721,7 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
     <value>Videók</value>
   </data>
   <data name="UpdateFiles" xml:space="preserve">
-    <value>Frissítésfájlok</value>
+    <value>Frissítés érhető el</value>
   </data>
   <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
     <value>{0} elem előkészítése</value>
@@ -2796,9 +2796,9 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
     <value>Alternatív adatfolyamok megjelenítése</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
-    <value>Review Files</value>
+    <value>Értékelés</value>
   </data>
   <data name="ReviewFilesContent" xml:space="preserve">
-    <value>Would you like to review Files?</value>
+    <value>Szeretné értékelni az alkalmazást?</value>
   </data>
 </root>
