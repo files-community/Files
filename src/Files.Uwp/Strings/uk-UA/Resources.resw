@@ -1648,13 +1648,13 @@
     <value>Продовжити</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
-    <value>There are {0} conflicting file names, and {1} outgoing item(s).</value>
+    <value>Існує {0} конфліктних імен файлів і {1} вихідних елемента(-ів).</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
     <value>Конфлікт назви файлу(ів)</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
-    <value>There is one conflicting file name, and {0} outgoing item(s).</value>
+    <value>Існує одне конфліктне ім’я файлу та {0} вихідних елемента(-ів).</value>
   </data>
   <data name="CopyItemsDialogSubtitleSingle" xml:space="preserve">
     <value>Один елемент буде переміщений</value>
@@ -1675,13 +1675,13 @@
     <value>Відкривати папки у новій вкладці</value>
   </data>
   <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
-    <value>Show Bundles widget</value>
+    <value>Показати віджет наборів</value>
   </data>
   <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
-    <value>Show Drives widget</value>
+    <value>Показати віджет дисків</value>
   </data>
   <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
-    <value>Show Folders widget</value>
+    <value>Показати віджет папок</value>
   </data>
   <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
     <value>Show Recent Files widget</value>
@@ -2436,7 +2436,7 @@
     <value>Показати розділ Улюблені</value>
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Відкрити файли в новій вкладці</value>
+    <value>Відкрити папки в новій вкладці</value>
   </data>
   <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Закріпити Кошик у розділ Улюблені</value>
