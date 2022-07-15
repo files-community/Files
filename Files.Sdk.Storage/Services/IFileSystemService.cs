@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Files.Sdk.Storage
+namespace Files.Sdk.Storage.Services
 {
 public interface IFileSystemService
     {

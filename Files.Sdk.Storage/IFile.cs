@@ -11,6 +11,6 @@ namespace Files.Sdk.Storage
 
         Task<Stream?> OpenStreamAsync(FileAccess access, FileShare share);
 
-        Task<Stream> GetThumbnailStreamAsync(uint requestedSize); // TODO: Return IImage nullable
+        Task<Stream?> GetThumbnailStreamAsync(uint requestedSize); // TODO: Return IImage nullable
     }
 }

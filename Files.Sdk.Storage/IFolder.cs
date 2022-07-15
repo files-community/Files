@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Files.Sdk.Storage.Enums;
 
 namespace Files.Sdk.Storage
 {

@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Files.Sdk.Storage.Enums;
 using Files.Sdk.Storage.StorageProperties;
 
 namespace Files.Sdk.Storage

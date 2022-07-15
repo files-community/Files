@@ -6,5 +6,6 @@
     <OutputPath>$(BaseOutputPath)\$(MSBuildProjectName)\</OutputPath>
     <IntermediateOutputPath>..\..\artifacts\intermediates\$(Platform)\$(MSBuildProjectName)\</IntermediateOutputPath>
     <GeneratedFilesDir>..\..\artifacts\intermediates\$(Platform)\$(MSBuildProjectName)\Generated Files\</GeneratedFilesDir>
+	<Nullable>enable</Nullable>
   </PropertyGroup>
 </Project>
