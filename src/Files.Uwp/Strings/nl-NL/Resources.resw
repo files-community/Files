@@ -2794,4 +2794,10 @@ We gebruiken App Center om app-gebruik bij te houden, bugs te vinden en crashes 
   <data name="ShowAlternateStreams" xml:space="preserve">
     <value>Show Alternate Data Streams</value>
   </data>
+  <data name="ReviewFiles" xml:space="preserve">
+    <value>Review Files</value>
+  </data>
+  <data name="ReviewFilesContent" xml:space="preserve">
+    <value>Would you like to review Files?</value>
+  </data>
 </root>

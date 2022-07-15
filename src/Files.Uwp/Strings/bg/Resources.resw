@@ -2775,10 +2775,10 @@
     <value>Size All Columns to Fit</value>
   </data>
   <data name="Contributors" xml:space="preserve">
-    <value>Contributors</value>
+    <value>Сътрудници</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Adaptive</value>
+    <value>Адаптивно</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
     <value>Adaptive (Ctrl+Shift+7)</value>
@@ -2788,5 +2788,11 @@
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
     <value>Show Alternate Data Streams</value>
+  </data>
+  <data name="ReviewFiles" xml:space="preserve">
+    <value>Review Files</value>
+  </data>
+  <data name="ReviewFilesContent" xml:space="preserve">
+    <value>Would you like to review Files?</value>
   </data>
 </root>
