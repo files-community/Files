@@ -244,22 +244,6 @@ namespace Files.FullTrust
                         }
                     }
 
-                    var iconIdx = shfi.iIcon & 0xFFFFFF;
-                    if (iconIdx != 0 && !onlyGetOverlay && iconStr == null)
-                    {
-                        // Could not fetch thumbnail, load simple icon
-                        using var hIcon = imageList.GetIcon(iconIdx, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
-                        if (!hIcon.IsNull && !hIcon.IsInvalid)
-                        {
-                            using (var icon = hIcon.ToIcon())
-                            using (var image = icon.ToBitmap())
-                            {
-                                byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
-                                iconStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
-                            }
-                        }
-                    }
-
                     var overlayIdx = shfi.iIcon >> 24;
                     if (overlayIdx != 0 && getOverlay)
                     {

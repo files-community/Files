@@ -1,4 +1,4 @@
-﻿using Files.Helpers;
+﻿using Files.Uwp.Helpers;
 using System;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
