@@ -1,12 +1,12 @@
-﻿using Files.Shared;
-using Files.Shared.Enums;
-using Files.Extensions;
-using Files.Filesystem;
-using Files.Interacts;
-using Files.Backend.Services.Settings;
-using Files.ViewModels;
-using CommunityToolkit.Mvvm.DependencyInjection;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
+using Files.Backend.Services.Settings;
+using Files.Shared;
+using Files.Shared.Enums;
+using Files.Uwp.Extensions;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Interacts;
+using Files.Uwp.ViewModels;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ using Windows.System;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public static class ContextFlyoutItemHelper
     {
@@ -193,6 +193,19 @@ namespace Files.Helpers
                             CommandParameter = true,
                             KeyboardAcceleratorTextOverride = "BaseLayoutContextFlyoutColumn/KeyboardAcceleratorTextOverride".GetLocalized(),
                             KeyboardAccelerator = new KeyboardAccelerator{Key = VirtualKey.Number6, Modifiers = VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift, IsEnabled = false}
+                        },
+                        // Column view
+                        new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = "Adaptive".GetLocalized(),
+                            Glyph = "\uF576",
+                            ShowInRecycleBin = true,
+                            ShowInSearchPage = true,
+                            ShowInFtpPage = true,
+                            ShowInZipPage = true,
+                            Command = currentInstanceViewModel.FolderSettings.ToggleLayoutModeAdaptiveCommand,
+                            KeyboardAcceleratorTextOverride = "BaseLayoutContextFlyoutAdaptive/KeyboardAcceleratorTextOverride".GetLocalized(),
+                            KeyboardAccelerator = new KeyboardAccelerator{Key = VirtualKey.Number7, Modifiers = VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift, IsEnabled = false}
                         },
                     }
                 },
@@ -484,6 +497,7 @@ namespace Files.Helpers
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutContextFlyoutPaste/Text".GetLocalized(),
+                    IsPrimary = true,
                     // Glyph = "\uF16D",
                     ShowInFtpPage = true,
                     ShowInZipPage = true,
@@ -538,6 +552,7 @@ namespace Files.Helpers
                     Command = commandsViewModel.PinDirectoryToFavoritesCommand,
                     ShowItem = !itemViewModel.CurrentFolder.IsPinned & userSettingsService.AppearanceSettingsService.ShowFavoritesSection,
                     ShowInFtpPage = true,
+                    ShowInRecycleBin = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -546,6 +561,7 @@ namespace Files.Helpers
                     Command = commandsViewModel.UnpinDirectoryFromFavoritesCommand,
                     ShowItem = itemViewModel.CurrentFolder.IsPinned & userSettingsService.AppearanceSettingsService.ShowFavoritesSection,
                     ShowInFtpPage = true,
+                    ShowInRecycleBin = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -568,6 +584,7 @@ namespace Files.Helpers
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutContextFlyoutPropertiesFolder/Text".GetLocalized(),
+                    IsPrimary = true,
                     ColoredIcon = new ColoredIconModel()
                     {
                         BaseLayerGlyph = "\uF031",
@@ -727,7 +744,7 @@ namespace Files.Helpers
                     Glyph = "\uE7EF",
                     Command = commandsViewModel.RunAsAdminCommand,
                     ShowInSearchPage = true,
-                    ShowItem = new string[]{".bat", ".exe", "cmd" }.Contains(selectedItems.FirstOrDefault().FileExtension, StringComparer.OrdinalIgnoreCase)
+                    ShowItem = new string[]{".bat", ".exe", ".cmd" }.Contains(selectedItems.FirstOrDefault().FileExtension, StringComparer.OrdinalIgnoreCase)
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -735,7 +752,7 @@ namespace Files.Helpers
                     Glyph = "\uE7EE",
                     Command = commandsViewModel.RunAsAnotherUserCommand,
                     ShowInSearchPage = true,
-                    ShowItem = new string[]{".bat", ".exe", "cmd" }.Contains(selectedItems.FirstOrDefault().FileExtension, StringComparer.OrdinalIgnoreCase)
+                    ShowItem = new string[]{".bat", ".exe", ".cmd" }.Contains(selectedItems.FirstOrDefault().FileExtension, StringComparer.OrdinalIgnoreCase)
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -984,7 +1001,7 @@ namespace Files.Helpers
                     Glyph = "\uE840",
                     Command = commandsViewModel.PinItemToStartCommand,
                     ShowOnShift = true,
-                    ShowItem = selectedItems.All(x => !x.IsShortcutItem && x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsZipItem && !x.IsItemPinnedToStart),
+                    ShowItem = selectedItems.All(x => !x.IsShortcutItem && (x.PrimaryItemAttribute == StorageItemTypes.Folder || x.IsExecutable) && !x.IsZipItem && !x.IsItemPinnedToStart),
                     ShowInSearchPage = true,
                     ShowInFtpPage = true,
                     SingleItemOnly = true,
@@ -995,7 +1012,7 @@ namespace Files.Helpers
                     Glyph = "\uE77A",
                     Command = commandsViewModel.UnpinItemFromStartCommand,
                     ShowOnShift = true,
-                    ShowItem = selectedItems.All(x => !x.IsShortcutItem && x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsZipItem && x.IsItemPinnedToStart),
+                    ShowItem = selectedItems.All(x => !x.IsShortcutItem && (x.PrimaryItemAttribute == StorageItemTypes.Folder || x.IsExecutable) && !x.IsZipItem && x.IsItemPinnedToStart),
                     ShowInSearchPage = true,
                     ShowInFtpPage = true,
                     SingleItemOnly = true,
@@ -1004,6 +1021,7 @@ namespace Files.Helpers
                 {
                     ItemType = ItemType.Separator,
                     Tag = "OverflowSeparator",
+                    ShowInSearchPage = true,
                     IsHidden = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
@@ -1013,6 +1031,7 @@ namespace Files.Helpers
                     Items = new List<ContextMenuFlyoutItemViewModel>(),
                     ID = "ItemOverflow",
                     Tag = "ItemOverflow",
+                    ShowInSearchPage = true,
                     IsHidden = true,
                 },
             };

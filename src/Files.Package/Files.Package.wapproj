@@ -28,6 +28,18 @@
       <Configuration>Release</Configuration>
       <Platform>arm64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Sideload|arm64">
+      <Configuration>Sideload</Configuration>
+      <Platform>arm64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Sideload|x64">
+      <Configuration>Sideload</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Sideload|x86">
+      <Configuration>Sideload</Configuration>
+      <Platform>x86</Platform>
+    </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup>
     <WapProjPath Condition="'$(WapProjPath)'==''">$(MSBuildExtensionsPath)\Microsoft\DesktopBridge\</WapProjPath>
@@ -47,7 +59,6 @@
     <DisableXbfLineInfo>False</DisableXbfLineInfo>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundleAutoResourcePackageQualifiers>Scale|DXFeatureLevel</AppxBundleAutoResourcePackageQualifiers>
-    <AppxDefaultResourceQualifiers>Language=en-US;af;ar;bg;ca;da;da-DK;de-DE;el;en-GB;es-ES;es-419;fr-FR;he-IL;hi-IN;hr-HR;hu-HU;id-ID;it-IT;ja-JP;ka;ko-KR;lv-LV;nb-NO;nl-NL;or-IN;pl-PL;pt-BR;pt-PT;ru-RU;sk-SK;sv-SE;ta;tr-TR;uk-UA;vi;zh-Hans;zh-Hant</AppxDefaultResourceQualifiers>
     <UapAppxPackageBuildMode>StoreUpload</UapAppxPackageBuildMode>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <EntryPointProjectUniqueName>..\Files.Uwp\Files.Uwp.csproj</EntryPointProjectUniqueName>
@@ -61,13 +72,22 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <AppxBundle>Always</AppxBundle>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Sideload|x64'">
+    <AppxBundle>Always</AppxBundle>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|arm64'">
+    <AppxBundle>Always</AppxBundle>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Sideload|arm64'">
     <AppxBundle>Always</AppxBundle>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|arm64'">
     <AppxBundle>Always</AppxBundle>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <AppxBundle>Always</AppxBundle>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Sideload|x86'">
     <AppxBundle>Always</AppxBundle>
   </PropertyGroup>
   <ItemGroup>
@@ -77,7 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Files.Uwp\Files.Uwp.csproj" />
-    <ProjectReference Include="..\Files.Launcher\Files.Launcher.csproj" />
+    <ProjectReference Include="..\Files.FullTrust\Files.FullTrust.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\AppTilesDev\BadgeLogo.scale-100.png" />

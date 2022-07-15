@@ -1,9 +1,9 @@
-﻿using Files.Shared.Extensions;
-using Files.Extensions;
-using Files.Filesystem.StorageItems;
-using Files.Helpers;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Settings;
-using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Shared.Extensions;
+using Files.Uwp.Extensions;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -16,10 +16,10 @@ using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
-using static Files.Helpers.NativeFindStorageItemHelper;
+using static Files.Backend.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
 
-namespace Files.Filesystem.Search
+namespace Files.Uwp.Filesystem.Search
 {
     public class FolderSearch
     {
@@ -156,7 +156,12 @@ namespace Files.Filesystem.Search
 
                     try
                     {
-                        results.Add(await GetListedItemAsync(item));
+                        var startWithDot = item.Name.StartsWith(".");
+                        bool shouldBeListed = !startWithDot || UserSettingsService.PreferencesSettingsService.ShowDotFiles;
+                        if (shouldBeListed)
+                        {
+                            results.Add(await GetListedItemAsync(item));
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -187,12 +192,12 @@ namespace Files.Filesystem.Search
         {
             //var sampler = new IntervalSampler(500);
             var tagName = AQSQuery.Substring("tag:".Length);
-            var tags = FileTagsSettingsService.GetTagsByName(tagName);
+            var tags = FileTagsSettingsService.SearchTagsByName(tagName);
             if (!tags.Any())
             {
                 return;
             }
-            var matches = FileTagsHelper.DbInstance.GetAllUnderPath(folder).Where(x => tags.Any(t => x.Tag == t.Uid));
+            var matches = FileTagsHelper.DbInstance.GetAllUnderPath(folder).Where(x => tags.Select(t => t.Uid).Intersect(x.Tags).Any());
             foreach (var match in matches)
             {
                 (IntPtr hFile, WIN32_FIND_DATA findData) = await Task.Run(() =>
@@ -231,7 +236,12 @@ namespace Files.Filesystem.Search
                     {
                         IStorageItem item = (BaseStorageFile)await GetStorageFileAsync(match.FilePath);
                         item ??= (BaseStorageFolder)await GetStorageFolderAsync(match.FilePath);
-                        results.Add(await GetListedItemAsync(item));
+                        var startWithDot = item.Name.StartsWith(".");
+                        bool shouldBeListed = !startWithDot || UserSettingsService.PreferencesSettingsService.ShowDotFiles;
+                        if (shouldBeListed)
+                        {
+                            results.Add(await GetListedItemAsync(item));
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -400,16 +410,34 @@ namespace Files.Filesystem.Search
             {
                 var folder = item.AsBaseStorageFolder();
                 var props = await folder.GetBasicPropertiesAsync();
-                listedItem = new ListedItem(null)
+                if (folder is BinStorageFolder binFolder)
                 {
-                    PrimaryItemAttribute = StorageItemTypes.Folder,
-                    ItemNameRaw = folder.DisplayName,
-                    ItemPath = folder.Path,
-                    ItemDateModifiedReal = props.DateModified,
-                    ItemDateCreatedReal = folder.DateCreated,
-                    NeedsPlaceholderGlyph = false,
-                    Opacity = 1
-                };
+                    listedItem = new RecycleBinItem(null)
+                    {
+                        PrimaryItemAttribute = StorageItemTypes.Folder,
+                        ItemNameRaw = folder.DisplayName,
+                        ItemPath = folder.Path,
+                        ItemDateModifiedReal = props.DateModified,
+                        ItemDateCreatedReal = folder.DateCreated,
+                        NeedsPlaceholderGlyph = false,
+                        Opacity = 1,
+                        ItemDateDeletedReal = binFolder.DateDeleted,
+                        ItemOriginalPath = binFolder.OriginalPath
+                    };
+                }
+                else
+                {
+                    listedItem = new ListedItem(null)
+                    {
+                        PrimaryItemAttribute = StorageItemTypes.Folder,
+                        ItemNameRaw = folder.DisplayName,
+                        ItemPath = folder.Path,
+                        ItemDateModifiedReal = props.DateModified,
+                        ItemDateCreatedReal = folder.DateCreated,
+                        NeedsPlaceholderGlyph = false,
+                        Opacity = 1
+                    };
+                }
             }
             else if (item.IsOfType(StorageItemTypes.File))
             {
@@ -425,21 +453,44 @@ namespace Files.Filesystem.Search
 
                 var itemSize = props.Size.ToSizeString();
 
-                listedItem = new ListedItem(null)
+                if (file is BinStorageFile binFile)
                 {
-                    PrimaryItemAttribute = StorageItemTypes.File,
-                    ItemNameRaw = file.Name,
-                    ItemPath = file.Path,
-                    LoadFileIcon = false,
-                    FileExtension = itemFileExtension,
-                    FileSizeBytes = (long)props.Size,
-                    FileSize = itemSize,
-                    ItemDateModifiedReal = props.DateModified,
-                    ItemDateCreatedReal = file.DateCreated,
-                    ItemType = itemType,
-                    NeedsPlaceholderGlyph = false,
-                    Opacity = 1
-                };
+                    listedItem = new RecycleBinItem(null)
+                    {
+                        PrimaryItemAttribute = StorageItemTypes.File,
+                        ItemNameRaw = file.Name,
+                        ItemPath = file.Path,
+                        LoadFileIcon = false,
+                        FileExtension = itemFileExtension,
+                        FileSizeBytes = (long)props.Size,
+                        FileSize = itemSize,
+                        ItemDateModifiedReal = props.DateModified,
+                        ItemDateCreatedReal = file.DateCreated,
+                        ItemType = itemType,
+                        NeedsPlaceholderGlyph = false,
+                        Opacity = 1,
+                        ItemDateDeletedReal = binFile.DateDeleted,
+                        ItemOriginalPath = binFile.OriginalPath
+                    };
+                }
+                else
+                {
+                    listedItem = new ListedItem(null)
+                    {
+                        PrimaryItemAttribute = StorageItemTypes.File,
+                        ItemNameRaw = file.Name,
+                        ItemPath = file.Path,
+                        LoadFileIcon = false,
+                        FileExtension = itemFileExtension,
+                        FileSizeBytes = (long)props.Size,
+                        FileSize = itemSize,
+                        ItemDateModifiedReal = props.DateModified,
+                        ItemDateCreatedReal = file.DateCreated,
+                        ItemType = itemType,
+                        NeedsPlaceholderGlyph = false,
+                        Opacity = 1
+                    };
+                }
             }
             if (listedItem != null && MaxItemCount > 0) // Only load icon for searchbox suggestions
             {

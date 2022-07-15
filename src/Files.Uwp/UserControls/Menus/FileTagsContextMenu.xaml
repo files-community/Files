@@ -1,0 +1,55 @@
+﻿<UserControl
+    x:Class="Files.Uwp.UserControls.Menus.FileTagsContextMenu"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Files.Uwp.UserControls.Menus"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vc="using:Files.Uwp.ValueConverters"
+    xmlns:vm="using:Files.Backend.ViewModels.FileTags"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <UserControl.Resources>
+        <vc:ColorModelToColorConverter x:Key="ColorModelToColorConverter" />
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot" Height="34" MaxWidth="250">
+        <ListView
+            x:Name="TagsList"
+            Padding="12,0,12,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            ItemsSource="{x:Bind ItemsSource, Mode=OneWay}"
+            SelectionChanged="TagsList_OnSelectionChanged"
+            SelectionMode="Multiple"
+            IsMultiSelectCheckBoxEnabled="False"
+            Loaded="TagsList_OnLoaded">
+
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Padding" Value="8" />
+                    <Setter Property="MinWidth" Value="0" />
+                    <Setter Property="MinHeight" Value="0" />
+                </Style>
+            </ListView.ItemContainerStyle>
+
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="vm:FileTagViewModel">
+                    <Ellipse
+                        Width="14"
+                        Height="14"
+                        Fill="{x:Bind ColorModel, Mode=OneWay, Converter={StaticResource ColorModelToColorConverter}}"
+                        ToolTipService.ToolTip="{x:Bind TagName, Mode=OneWay}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsStackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+        </ListView>
+    </Grid>
+</UserControl>

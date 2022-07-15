@@ -8,7 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {Count}")]
@@ -283,7 +283,7 @@ namespace Files.Helpers
 
                 if (index == -1)
                 {
-                    return true;
+                    return false;
                 }
 
                 collection.RemoveAt(index);

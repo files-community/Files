@@ -183,9 +183,6 @@
   <data name="Application" xml:space="preserve">
     <value>Application</value>
   </data>
-  <data name="SystemTimeStye" xml:space="preserve">
-    <value>Système</value>
-  </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Nouveau dossier</value>
   </data>
@@ -284,18 +281,6 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Avez-vous supprimé ce dossier ?</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
-    <value>Le fichier que vous essayez de supprimer est actuellement utilisé par une autre application.</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
-    <value>Le fichier en cours d'utilisation</value>
-  </data>
-  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Réessayer</value>
-  </data>
-  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
-    <value>OK</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>Vider la Corbeille</value>
@@ -950,9 +935,6 @@
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
     <value>Erreur</value>
-  </data>
-  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Réessayer</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Fermer quand même</value>

@@ -1,4 +1,4 @@
-﻿using Files.Filesystem;
+﻿using Files.Uwp.Filesystem;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using Windows.Foundation;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
-namespace Files.ViewModels
+namespace Files.Uwp.ViewModels
 {
     public class SearchBoxViewModel : ObservableObject, ISearchBox
     {

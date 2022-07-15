@@ -1,11 +1,11 @@
-﻿using Files.DataModels.NavigationControlItems;
-using Files.Dialogs;
-using Files.Filesystem;
-using Files.Helpers;
+﻿using Files.Uwp.DataModels.NavigationControlItems;
+using Files.Uwp.Dialogs;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
-using Files.UserControls.Widgets;
-using Files.ViewModels;
-using Files.ViewModels.Pages;
+using Files.Uwp.UserControls.Widgets;
+using Files.Uwp.ViewModels;
+using Files.Uwp.ViewModels.Pages;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -14,8 +14,9 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using System.Threading.Tasks;
 
-namespace Files.Views
+namespace Files.Uwp.Views
 {
     public sealed partial class WidgetsPage : Page, IDisposable
     {
@@ -220,16 +221,19 @@ namespace Files.Views
             AppInstance.InstanceViewModel.IsPageTypeFtp = false;
             AppInstance.InstanceViewModel.IsPageTypeZipFolder = false;
             AppInstance.InstanceViewModel.IsPageTypeLibrary = false;
-            AppInstance.NavToolbarViewModel.CanRefresh = false;
-            AppInstance.NavToolbarViewModel.CanGoBack = AppInstance.CanNavigateBackward;
-            AppInstance.NavToolbarViewModel.CanGoForward = AppInstance.CanNavigateForward;
-            AppInstance.NavToolbarViewModel.CanNavigateToParent = false;
+            AppInstance.ToolbarViewModel.CanRefresh = true;
+            AppInstance.ToolbarViewModel.CanGoBack = AppInstance.CanNavigateBackward;
+            AppInstance.ToolbarViewModel.CanGoForward = AppInstance.CanNavigateForward;
+            AppInstance.ToolbarViewModel.CanNavigateToParent = false;
+
+            AppInstance.ToolbarViewModel.RefreshRequested -= ToolbarViewModel_RefreshRequested;
+            AppInstance.ToolbarViewModel.RefreshRequested += ToolbarViewModel_RefreshRequested;
 
             // Set path of working directory empty
             await AppInstance.FilesystemViewModel.SetWorkingDirectoryAsync("Home".GetLocalized());
 
             // Clear the path UI and replace with Favorites
-            AppInstance.NavToolbarViewModel.PathComponents.Clear();
+            AppInstance.ToolbarViewModel.PathComponents.Clear();
             string componentLabel = parameters.NavPathParam;
             string tag = parameters.NavPathParam;
             PathBoxItem item = new PathBoxItem()
@@ -237,7 +241,20 @@ namespace Files.Views
                 Title = componentLabel,
                 Path = tag,
             };
-            AppInstance.NavToolbarViewModel.PathComponents.Add(item);
+            AppInstance.ToolbarViewModel.PathComponents.Add(item);
+        }
+
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            base.OnNavigatingFrom(e);
+            AppInstance.ToolbarViewModel.RefreshRequested -= ToolbarViewModel_RefreshRequested;
+        }
+
+        private async void ToolbarViewModel_RefreshRequested(object sender, EventArgs e)
+        {
+            AppInstance.ToolbarViewModel.CanRefresh = false;
+            await Task.WhenAll(Widgets.ViewModel.Widgets.Select(w => w.WidgetItemModel.RefreshWidget()));
+            AppInstance.ToolbarViewModel.CanRefresh = true;
         }
 
         #region IDisposable
@@ -246,6 +263,7 @@ namespace Files.Views
         {
             ViewModel.YourHomeLoadedInvoked -= ViewModel_YourHomeLoadedInvoked;
             Widgets.ViewModel.WidgetListRefreshRequestedInvoked -= ViewModel_WidgetListRefreshRequestedInvoked;
+            AppInstance.ToolbarViewModel.RefreshRequested -= ToolbarViewModel_RefreshRequested;
             ViewModel?.Dispose();
         }
 

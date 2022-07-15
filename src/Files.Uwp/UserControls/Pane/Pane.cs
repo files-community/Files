@@ -1,4 +1,4 @@
-﻿namespace Files.UserControls
+﻿namespace Files.Uwp.UserControls
 {
     public interface IPane
     {

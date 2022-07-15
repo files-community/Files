@@ -264,9 +264,6 @@
   <data name="Application" xml:space="preserve">
     <value>应用</value>
   </data>
-  <data name="SystemTimeStye" xml:space="preserve">
-    <value>系统</value>
-  </data>
   <data name="NewFolder" xml:space="preserve">
     <value>新建文件夹</value>
   </data>
@@ -344,18 +341,6 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>确实要删除此文件夹吗？</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
-    <value>删除目标文件正被其他应用程序使用。</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
-    <value>文件正在使用</value>
-  </data>
-  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
-    <value>重试</value>
-  </data>
-  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
-    <value>确定</value>
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>布局</value>
@@ -737,9 +722,6 @@
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
     <value>错误</value>
-  </data>
-  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
-    <value>重试</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>仍然关闭</value>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Windows.Services.Store;
 using Windows.UI.Xaml.Controls;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     internal class AppUpdater
     {

@@ -1,7 +1,7 @@
-﻿using Files.Extensions;
-using Files.Filesystem;
-using Files.Filesystem.StorageItems;
-using Files.Helpers;
+﻿using Files.Uwp.Extensions;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Helpers;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json.Linq;
@@ -23,7 +23,7 @@ using Windows.Storage.Streams;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 
-namespace Files.ViewModels.Properties
+namespace Files.Uwp.ViewModels.Properties
 {
     public class FileProperties : BaseProperties
     {
@@ -356,7 +356,7 @@ namespace Files.ViewModels.Properties
         private async Task<string> GetHashForFileAsync(ListedItem fileItem, string nameOfAlg, CancellationToken token, IProgress<float> progress, IShellPage associatedInstance)
         {
             HashAlgorithmProvider algorithmProvider = HashAlgorithmProvider.OpenAlgorithm(nameOfAlg);
-            BaseStorageFile file = await StorageHelpers.ToStorageItem<BaseStorageFile>((fileItem as ShortcutItem)?.TargetPath ?? fileItem.ItemPath, associatedInstance);
+            BaseStorageFile file = await StorageHelpers.ToStorageItem<BaseStorageFile>((fileItem as ShortcutItem)?.TargetPath ?? fileItem.ItemPath);
             if (file == null)
             {
                 return "";

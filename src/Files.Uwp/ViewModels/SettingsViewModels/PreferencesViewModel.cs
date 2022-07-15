@@ -1,13 +1,14 @@
-﻿using Files.Shared.Extensions;
-using Files.Controllers;
-using Files.DataModels;
-using Files.Shared.Enums;
-using Files.Filesystem;
-using Files.Helpers;
-using Files.Backend.Services.Settings;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
+using Files.Backend.Services.Settings;
+using Files.Shared.Enums;
+using Files.Shared.Extensions;
+using Files.Shared.Services.DateTimeFormatter;
+using Files.Uwp.Controllers;
+using Files.Uwp.DataModels;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -22,9 +23,9 @@ using Windows.Storage;
 using Windows.Storage.AccessCache;
 using Windows.Storage.Pickers;
 using Windows.System;
-using static Files.Helpers.MenuFlyoutHelper;
+using static Files.Uwp.Helpers.MenuFlyoutHelper;
 
-namespace Files.ViewModels.SettingsViewModels
+namespace Files.Uwp.ViewModels.SettingsViewModels
 {
     public class PreferencesViewModel : ObservableObject, IDisposable
     {
@@ -53,11 +54,13 @@ namespace Files.ViewModels.SettingsViewModels
 
             DefaultLanguages = App.AppSettings.DefaultLanguages;
             Terminals = App.TerminalController.Model.Terminals;
-            DateFormats = new List<string>
-            {
-                "Application".GetLocalized(),
-                "SystemTimeStye".GetLocalized()
-            };
+
+            DateTimeOffset sampleDate1 = DateTime.Now;
+            DateTimeOffset sampleDate2 = new DateTime(sampleDate1.Year - 5, 12, 31, 14, 30, 0);
+            var styles = new TimeStyle[] { TimeStyle.Application, TimeStyle.System, TimeStyle.Universal };
+            DateFormats = styles.Select(style => new DateFormatItem(style, sampleDate1, sampleDate2)).ToList();
+
+            dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
             EditTerminalApplicationsCommand = new AsyncRelayCommand(LaunchTerminalsConfigFile);
             OpenFilesAtStartupCommand = new AsyncRelayCommand(OpenFilesAtStartup);
@@ -74,59 +77,41 @@ namespace Files.ViewModels.SettingsViewModels
 
             PagesOnStartupList.CollectionChanged += PagesOnStartupList_CollectionChanged;
 
+            _ = InitStartupSettingsRecentFoldersFlyout();
+            _ = DetectOpenFilesAtStartup();
+        }
+
+        private async Task InitStartupSettingsRecentFoldersFlyout()
+        {
             var recentsItem = new MenuFlyoutSubItemViewModel("JumpListRecentGroupHeader".GetLocalized());
             recentsItem.Items.Add(new MenuFlyoutItemViewModel("Home".GetLocalized(), "Home".GetLocalized(), AddPageCommand));
-            PopulateRecentItems(recentsItem).ContinueWith(_ =>
+
+            await App.RecentItemsManager.UpdateRecentFoldersAsync();    // ensure recent folders aren't stale since we don't update them with a watcher
+            await PopulateRecentItems(recentsItem).ContinueWith(_ =>
             {
                 AddFlyoutItemsSource = new ReadOnlyCollection<IMenuFlyoutItem>(new IMenuFlyoutItem[] {
                     new MenuFlyoutItemViewModel("Browse".GetLocalized(), null, AddPageCommand),
                     recentsItem,
                 });
             }, TaskScheduler.FromCurrentSynchronizationContext());
-
-            _ = DetectOpenFilesAtStartup();
         }
 
-        private async Task PopulateRecentItems(MenuFlyoutSubItemViewModel menu)
+        private Task PopulateRecentItems(MenuFlyoutSubItemViewModel menu)
         {
-            bool hasRecents = false;
-            menu.Items.Add(new MenuFlyoutSeparatorViewModel());
-
             try
             {
-                var mostRecentlyUsed = StorageApplicationPermissions.MostRecentlyUsedList;
+                var recentFolders = App.RecentItemsManager.RecentFolders;
 
-                foreach (AccessListEntry entry in mostRecentlyUsed.Entries)
+                // add separator
+                if (recentFolders.Any())
                 {
-                    string mruToken = entry.Token;
-                    var added = await FilesystemTasks.Wrap(async () =>
-                    {
-                        IStorageItem item = await mostRecentlyUsed.GetItemAsync(mruToken, AccessCacheOptions.FastLocationsOnly);
-                        if (item.IsOfType(StorageItemTypes.Folder))
-                        {
-                            menu.Items.Add(new MenuFlyoutItemViewModel(item.Name, string.IsNullOrEmpty(item.Path) ? entry.Metadata : item.Path, AddPageCommand));
-                            hasRecents = true;
-                        }
-                    });
-                    if (added == FileSystemStatusCode.Unauthorized)
-                    {
-                        // Skip item until consent is provided
-                    }
-                    // Exceptions include but are not limited to:
-                    // COMException, FileNotFoundException, ArgumentException, DirectoryNotFoundException
-                    // 0x8007016A -> The cloud file provider is not running
-                    // 0x8000000A -> The data necessary to complete this operation is not yet available
-                    // 0x80004005 -> Unspecified error
-                    // 0x80270301 -> ?
-                    else if (!added)
-                    {
-                        await FilesystemTasks.Wrap(() =>
-                        {
-                            mostRecentlyUsed.Remove(mruToken);
-                            return Task.CompletedTask;
-                        });
-                        System.Diagnostics.Debug.WriteLine(added.ErrorCode);
-                    }
+                    menu.Items.Add(new MenuFlyoutSeparatorViewModel());
+                }
+
+                foreach (var recentFolder in recentFolders)
+                {
+                    var menuItem = new MenuFlyoutItemViewModel(recentFolder.Name, recentFolder.RecentPath, AddPageCommand);
+                    menu.Items.Add(menuItem);
                 }
             }
             catch (Exception ex)
@@ -134,10 +119,7 @@ namespace Files.ViewModels.SettingsViewModels
                 App.Logger.Info(ex, "Could not fetch recent items");
             }
 
-            if (!hasRecents)
-            {
-                menu.Items.RemoveAt(menu.Items.Count - 1);
-            }
+            return Task.CompletedTask;
         }
 
         private void PagesOnStartupList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -314,11 +296,19 @@ namespace Files.ViewModels.SettingsViewModels
 
         private void ReloadTerminals(TerminalController controller)
         {
-            Terminals = controller.Model.Terminals;
-            SelectedTerminal = controller.Model.GetDefaultTerminal();
+            dispatcherQueue.EnqueueAsync(() =>
+            {
+                Terminals = controller.Model.Terminals;
+                SelectedTerminal = controller.Model.GetDefaultTerminal();
+            });
         }
 
-        public List<string> DateFormats { get; set; }
+        public string DateFormatSample
+            => string.Format("DateFormatSample".GetLocalized(), DateFormats[SelectedDateFormatIndex].Sample1, DateFormats[SelectedDateFormatIndex].Sample2);
+
+        public List<DateFormatItem> DateFormats { get; set; }
+
+        private DispatcherQueue dispatcherQueue;
 
         public int SelectedDateFormatIndex
         {
@@ -330,6 +320,7 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 if (SetProperty(ref selectedDateFormatIndex, value))
                 {
+                    OnPropertyChanged(nameof(DateFormatSample));
                     App.AppSettings.DisplayedTimeStyle = (TimeStyle)value;
                 }
             }
@@ -532,7 +523,20 @@ namespace Files.ViewModels.SettingsViewModels
                 }
             }
         }
-        
+
+        public bool AreAlternateStreamsVisible
+        {
+            get => UserSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible;
+            set
+            {
+                if (value != UserSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible)
+                {
+                    UserSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public bool ShowDotFiles
         {
             get => UserSettingsService.PreferencesSettingsService.ShowDotFiles;
@@ -554,6 +558,19 @@ namespace Files.ViewModels.SettingsViewModels
                 if (value != UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
                 {
                     UserSettingsService.PreferencesSettingsService.ShowFileExtensions = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool ShowThumbnails
+        {
+            get => UserSettingsService.PreferencesSettingsService.ShowThumbnails;
+            set
+            {
+                if (value != UserSettingsService.PreferencesSettingsService.ShowThumbnails)
+                {
+                    UserSettingsService.PreferencesSettingsService.ShowThumbnails = value;
                     OnPropertyChanged();
                 }
             }
@@ -587,12 +604,12 @@ namespace Files.ViewModels.SettingsViewModels
 
         public bool ListAndSortDirectoriesAlongsideFiles
         {
-            get => UserSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles;
+            get => UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles;
             set
             {
-                if (value != UserSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles)
+                if (value != UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles)
                 {
-                    UserSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles = value;
+                    UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles = value;
                     OnPropertyChanged();
                 }
             }
@@ -637,6 +654,23 @@ namespace Files.ViewModels.SettingsViewModels
         ~PreferencesViewModel()
         {
             Dispose();
+        }
+    }
+
+    public class DateFormatItem
+    {
+        public string Label { get; }
+        public string Sample1 { get; }
+        public string Sample2 { get; }
+
+        public DateFormatItem(TimeStyle style, DateTimeOffset sampleDate1, DateTimeOffset sampleDate2)
+        {
+            var factory = Ioc.Default.GetService<IDateTimeFormatterFactory>();
+            var formatter = factory.GetDateTimeFormatter(style);
+
+            Label = formatter.Name;
+            Sample1 = formatter.ToShortLabel(sampleDate1);
+            Sample2 = formatter.ToShortLabel(sampleDate2);
         }
     }
 }

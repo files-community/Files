@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Settings;
-using Files.Helpers;
-using Files.ViewModels;
+using Files.Uwp.Helpers;
+using Files.Uwp.ViewModels;
 using System;
 using System.IO;
 using System.Linq;
@@ -14,7 +14,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace Files.UserControls
+namespace Files.Uwp.UserControls
 {
     public sealed partial class InnerNavigationToolbar : UserControl
     {
@@ -28,15 +28,15 @@ namespace Files.UserControls
 
         public MainViewModel MainViewModel => App.MainViewModel;
 
-        public NavToolbarViewModel ViewModel
+        public ToolbarViewModel ViewModel
         {
-            get => (NavToolbarViewModel)GetValue(ViewModelProperty);
+            get => (ToolbarViewModel)GetValue(ViewModelProperty);
             set => SetValue(ViewModelProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register(nameof(ViewModel), typeof(NavToolbarViewModel), typeof(InnerNavigationToolbar), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(ViewModel), typeof(ToolbarViewModel), typeof(InnerNavigationToolbar), new PropertyMetadata(null));
 
         private async void NavToolbarEnterCompactOverlay_Click(object sender, RoutedEventArgs e)
         {
@@ -90,7 +90,7 @@ namespace Files.UserControls
 
         // Using a DependencyProperty as the backing store for ShowPreviewPaneButton.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ShowPreviewPaneButtonProperty =
-            DependencyProperty.Register("ShowPreviewPaneButton", typeof(bool), typeof(NavigationToolbar), new PropertyMetadata(null));
+            DependencyProperty.Register("ShowPreviewPaneButton", typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
 
         public bool ShowMultiPaneControls
         {
@@ -100,7 +100,7 @@ namespace Files.UserControls
 
         // Using a DependencyProperty as the backing store for ShowMultiPaneControls.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ShowMultiPaneControlsProperty =
-            DependencyProperty.Register(nameof(ShowMultiPaneControls), typeof(bool), typeof(NavigationToolbar), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(ShowMultiPaneControls), typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
 
         public bool IsMultiPaneActive
         {
@@ -110,7 +110,7 @@ namespace Files.UserControls
 
         // Using a DependencyProperty as the backing store for IsMultiPaneActive.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsMultiPaneActiveProperty =
-            DependencyProperty.Register("IsMultiPaneActive", typeof(bool), typeof(NavigationToolbar), new PropertyMetadata(false));
+            DependencyProperty.Register("IsMultiPaneActive", typeof(bool), typeof(AddressToolbar), new PropertyMetadata(false));
 
         public bool IsCompactOverlay
         {
@@ -120,7 +120,7 @@ namespace Files.UserControls
 
         // Using a DependencyProperty as the backing store for IsCompactOverlay.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsCompactOverlayProperty =
-            DependencyProperty.Register("IsCompactOverlay", typeof(bool), typeof(NavigationToolbar), new PropertyMetadata(null));
+            DependencyProperty.Register("IsCompactOverlay", typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
 
         public ICommand SetCompactOverlayCommand
         {
@@ -130,7 +130,7 @@ namespace Files.UserControls
 
         // Using a DependencyProperty as the backing store for ToggleCompactOverlayCommand.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SetCompactOverlayCommandProperty =
-            DependencyProperty.Register("ToggleCompactOverlayCommand", typeof(ICommand), typeof(NavigationToolbar), new PropertyMetadata(null));
+            DependencyProperty.Register("ToggleCompactOverlayCommand", typeof(ICommand), typeof(AddressToolbar), new PropertyMetadata(null));
 
         private void NewEmptySpace_Opening(object sender, object e)
         {
@@ -195,5 +195,7 @@ namespace Files.UserControls
             => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge(true);
         private void NavToolbarColumnsHeader_Tapped(object sender, TappedRoutedEventArgs e)
             => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView(true);
+        private void NavToolbarAdaptiveHeader_Tapped(object sender, TappedRoutedEventArgs e)
+            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeAdaptive();
     }
 }

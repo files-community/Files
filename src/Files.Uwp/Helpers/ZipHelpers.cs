@@ -1,4 +1,4 @@
-﻿using Files.Filesystem.StorageItems;
+﻿using Files.Uwp.Filesystem.StorageItems;
 using SevenZip;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public static class ZipHelpers
     {

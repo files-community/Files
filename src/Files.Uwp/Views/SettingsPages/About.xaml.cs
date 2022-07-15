@@ -1,7 +1,7 @@
-﻿using Files.ViewModels.SettingsViewModels;
+﻿using Files.Uwp.ViewModels.SettingsViewModels;
 using Windows.UI.Xaml.Controls;
 
-namespace Files.SettingsPages
+namespace Files.Uwp.SettingsPages
 {
     public sealed partial class About : Page
     {

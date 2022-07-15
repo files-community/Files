@@ -1,11 +1,11 @@
 ﻿using Files.Shared;
-using Files.Dialogs;
+using Files.Uwp.Dialogs;
 using Files.Shared.Enums;
-using Files.Extensions;
-using Files.Filesystem;
-using Files.Filesystem.StorageItems;
-using Files.Interacts;
-using Files.ViewModels;
+using Files.Shared.Extensions;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Interacts;
+using Files.Uwp.ViewModels;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Concurrent;
@@ -14,13 +14,13 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
-using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Files.Backend.Enums;
+using Windows.System;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public static class UIFilesystemHelpers
     {
@@ -47,7 +47,8 @@ namespace Files.Helpers
 
                 try
                 {
-                    await associatedInstance.SlimContentPage.SelectedItems.ToList().ParallelForEach(async listedItem =>
+                    var dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+                    await associatedInstance.SlimContentPage.SelectedItems.ToList().ParallelForEachAsync(async listedItem =>
                     {
                         if (banner != null)
                         {
@@ -57,21 +58,17 @@ namespace Files.Helpers
                         // FTP don't support cut, fallback to copy
                         if (listedItem is not FtpItem)
                         {
-                            _ = CoreApplication.MainView.DispatcherQueue.TryEnqueue(Windows.System.DispatcherQueuePriority.Low, () =>
-                           {
+                            _ = dispatcherQueue.TryEnqueue(DispatcherQueuePriority.Low, () =>
+                            {
                                 // Dim opacities accordingly
                                 listedItem.Opacity = Constants.UI.DimItemOpacity;
-                           });
+                            });
                         }
                         if (listedItem is FtpItem ftpItem)
                         {
-                            if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
+                            if (ftpItem.PrimaryItemAttribute is StorageItemTypes.File or StorageItemTypes.Folder)
                             {
-                                items.Add(await new FtpStorageFile(ftpItem).ToStorageFileAsync());
-                            }
-                            else if (listedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
-                            {
-                                items.Add(new FtpStorageFolder(ftpItem));
+                                items.Add(await ftpItem.ToStorageItem());
                             }
                         }
                         else if (listedItem.PrimaryItemAttribute == StorageItemTypes.File || listedItem is ZipItem)
@@ -166,7 +163,7 @@ namespace Files.Helpers
 
                 try
                 {
-                    await associatedInstance.SlimContentPage.SelectedItems.ToList().ParallelForEach(async listedItem =>
+                    await associatedInstance.SlimContentPage.SelectedItems.ToList().ParallelForEachAsync(async listedItem =>
                     {
                         if (banner != null)
                         {
@@ -175,13 +172,9 @@ namespace Files.Helpers
 
                         if (listedItem is FtpItem ftpItem)
                         {
-                            if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
+                            if (ftpItem.PrimaryItemAttribute is StorageItemTypes.File or StorageItemTypes.Folder)
                             {
-                                items.Add(await new FtpStorageFile(ftpItem).ToStorageFileAsync());
-                            }
-                            else if (listedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
-                            {
-                                items.Add(new FtpStorageFolder(ftpItem));
+                                items.Add(await ftpItem.ToStorageItem());
                             }
                         }
                         else if (listedItem.PrimaryItemAttribute == StorageItemTypes.File || listedItem is ZipItem)
@@ -267,7 +260,18 @@ namespace Files.Helpers
 
         public static async Task<bool> RenameFileItemAsync(ListedItem item, string newName, IShellPage associatedInstance)
         {
-            newName = item.ItemNameRaw.Replace(item.ItemName, newName, StringComparison.Ordinal);
+            if (item is AlternateStreamItem ads) // For alternate streams ItemName is not a substring ItemNameRaw
+            {
+                newName = item.ItemNameRaw.Replace(
+                    item.ItemName.Substring(item.ItemName.LastIndexOf(":") + 1),
+                    newName.Substring(newName.LastIndexOf(":") + 1),
+                    StringComparison.Ordinal);
+                newName = $"{ads.MainStreamName}:{newName}";
+            }
+            else
+            {
+                newName = item.ItemNameRaw.Replace(item.ItemName, newName, StringComparison.Ordinal);
+            }
             if (item.ItemNameRaw == newName || string.IsNullOrEmpty(newName))
             {
                 return true;
@@ -287,7 +291,7 @@ namespace Files.Helpers
 
             if (renamed == ReturnResult.Success)
             {
-                associatedInstance.NavToolbarViewModel.CanGoForward = false;
+                associatedInstance.ToolbarViewModel.CanGoForward = false;
                 return true;
             }
             return false;
@@ -329,53 +333,45 @@ namespace Files.Helpers
             }
 
             // Create file based on dialog result
-            var folderRes = await associatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(currentPath);
-            var created = new FilesystemResult<(ReturnResult, IStorageItem)>((ReturnResult.Failed, null), FileSystemStatusCode.Generic);
-            if (folderRes)
+            (ReturnResult Status, IStorageItem Item) created = (ReturnResult.Failed, null);
+            switch (itemType)
             {
-                switch (itemType)
-                {
-                    case AddItemDialogItemType.Folder:
-                        userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : "NewFolder".GetLocalized();
-                        created = await FilesystemTasks.Wrap(async () =>
-                        {
-                            return await associatedInstance.FilesystemHelpers.CreateAsync(
-                                StorageHelpers.FromPathAndType(PathNormalization.Combine(folderRes.Result.Path, userInput), FilesystemItemType.Directory),
-                                true);
-                        });
-                        break;
+                case AddItemDialogItemType.Folder:
+                    userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : "NewFolder".GetLocalized();
+                    created = await associatedInstance.FilesystemHelpers.CreateAsync(
+                        StorageHelpers.FromPathAndType(PathNormalization.Combine(currentPath, userInput), FilesystemItemType.Directory),
+                        true);
+                    break;
 
-                    case AddItemDialogItemType.File:
-                        userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : itemInfo?.Name ?? "NewFile".GetLocalized();
-                        created = await FilesystemTasks.Wrap(async () =>
-                        {
-                            return await associatedInstance.FilesystemHelpers.CreateAsync(
-                                StorageHelpers.FromPathAndType(PathNormalization.Combine(folderRes.Result.Path, userInput + itemInfo?.Extension), FilesystemItemType.File),
-                                true);
-                        });
-                        break;
-                }
+                case AddItemDialogItemType.File:
+                    userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : itemInfo?.Name ?? "NewFile".GetLocalized();
+                    created = await associatedInstance.FilesystemHelpers.CreateAsync(
+                        StorageHelpers.FromPathAndType(PathNormalization.Combine(currentPath, userInput + itemInfo?.Extension), FilesystemItemType.File),
+                        true);
+                    break;
             }
 
-            if (created == FileSystemStatusCode.Unauthorized)
+            if (created.Status == ReturnResult.AccessUnauthorized)
             {
                 await DialogDisplayHelper.ShowDialogAsync("AccessDenied".GetLocalized(), "AccessDeniedCreateDialog/Text".GetLocalized());
             }
 
-            return created.Result.Item2;
+            return created.Item;
         }
 
         public static async Task CreateFolderWithSelectionAsync(IShellPage associatedInstance)
         {
             try
             {
-                await CopyItem(associatedInstance);
+                var items = associatedInstance.SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
+                    item.ItemPath,
+                    item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
                 var folder = await CreateFileFromDialogResultTypeForResult(AddItemDialogItemType.Folder, null, associatedInstance);
                 if (folder == null)
                 {
                     return;
                 }
-                await associatedInstance.FilesystemHelpers.MoveItemsFromClipboard(Clipboard.GetContent(), folder.Path, false, true);
+                await associatedInstance.FilesystemHelpers.MoveItemsAsync(items, items.Select(x => PathNormalization.Combine(folder.Path, x.Name)), false, true);
             }
             catch (Exception ex)
             {

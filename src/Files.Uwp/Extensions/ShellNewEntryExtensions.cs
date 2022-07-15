@@ -1,7 +1,7 @@
 ﻿using Files.Shared;
-using Files.Filesystem;
-using Files.Filesystem.StorageItems;
-using Files.Helpers;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Helpers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using System.Linq;
 
-namespace Files.Extensions
+namespace Files.Uwp.Extensions
 {
     public static class ShellNewEntryExtensions
     {
@@ -70,30 +70,7 @@ namespace Files.Extensions
         {
             FilesystemResult<BaseStorageFile> createdFile = null;
             var fileName = Path.GetFileName(filePath);
-            if (!fileName.EndsWith(shellEntry.Extension, StringComparison.Ordinal))
-            {
-                fileName += shellEntry.Extension;
-            }
-            if (shellEntry.Command != null)
-            {
-                var args = CommandLine.CommandLineParser.SplitArguments(shellEntry.Command);
-                if (args.Any())
-                {
-                    var connection = await AppServiceConnectionHelper.Instance;
-                    if (connection != null)
-                    {
-                        _ = await connection.SendMessageForResponseAsync(new ValueSet()
-                        {
-                            { "Arguments", "LaunchApp" },
-                            { "WorkingDirectory", PathNormalization.GetParentDir(filePath) },
-                            { "Application", args[0].Replace("\"", "", StringComparison.Ordinal) },
-                            { "Parameters", string.Join(" ", args.Skip(1)).Replace("%1", filePath) }
-                        });
-                    }
-                }
-                createdFile = new FilesystemResult<BaseStorageFile>(null, Shared.Enums.FileSystemStatusCode.Success);
-            }
-            else if (shellEntry.Template == null)
+            if (shellEntry.Template == null)
             {
                 createdFile = await FilesystemTasks.Wrap(() => parentFolder.CreateFileAsync(fileName, CreationCollisionOption.GenerateUniqueName).AsTask());
             }

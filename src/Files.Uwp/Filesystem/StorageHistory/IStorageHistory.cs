@@ -1,10 +1,9 @@
 ﻿using Files.Shared.Enums;
-using System;
 using System.Collections.Generic;
 
-namespace Files.Filesystem.FilesystemHistory
+namespace Files.Uwp.Filesystem.FilesystemHistory
 {
-    public interface IStorageHistory : IDisposable
+    public interface IStorageHistory
     {
         /// <summary>
         /// Type of operation that took place
@@ -31,14 +30,8 @@ namespace Files.Filesystem.FilesystemHistory
         /// </summary>
         IList<IStorageItemWithPath> Destination { get; }
 
-        #region Modify
-
         void Modify(IStorageHistory newHistory);
-
-        void Modify(FileOperationType operationType, IList<IStorageItemWithPath> source, IList<IStorageItemWithPath> destination);
-
         void Modify(FileOperationType operationType, IStorageItemWithPath source, IStorageItemWithPath destination);
-
-        #endregion Modify
+        void Modify(FileOperationType operationType, IList<IStorageItemWithPath> source, IList<IStorageItemWithPath> destination);
     }
 }

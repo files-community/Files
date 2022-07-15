@@ -6,5 +6,6 @@
         TilesView = 2,
         ColumnView = 3,
         GridView = 4,
+        Adaptive = 5
     }
 }

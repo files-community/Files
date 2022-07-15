@@ -1,14 +1,15 @@
 ﻿using Files.Backend.Services.Settings;
-using Files.ViewModels.Widgets;
-using Files.ViewModels.Widgets.Bundles;
+using Files.Uwp.ViewModels.Widgets;
+using Files.Uwp.ViewModels.Widgets.Bundles;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using Windows.UI.Xaml.Controls;
+using System.Threading.Tasks;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace Files.UserControls.Widgets
+namespace Files.Uwp.UserControls.Widgets
 {
     public sealed partial class BundlesWidget : UserControl, IWidgetItemModel, IDisposable
     {
@@ -33,6 +34,11 @@ namespace Files.UserControls.Widgets
             this.InitializeComponent();
 
             this.ViewModel = new BundlesViewModel();
+        }
+
+        public Task RefreshWidget()
+        {
+            return Task.CompletedTask;
         }
 
         #region IDisposable

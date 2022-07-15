@@ -1,10 +1,10 @@
 ﻿using Files.Shared.Enums;
-using Files.EventArguments;
-using Files.Filesystem;
-using Files.Helpers;
-using Files.Helpers.XamlHelpers;
-using Files.Interacts;
-using Files.UserControls.Selection;
+using Files.Uwp.EventArguments;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Helpers;
+using Files.Uwp.Helpers.XamlHelpers;
+using Files.Uwp.Interacts;
+using Files.Uwp.UserControls.Selection;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
@@ -19,10 +19,15 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-namespace Files.Views.LayoutModes
+namespace Files.Uwp.Views.LayoutModes
 {
     public sealed partial class GridViewBrowser : BaseLayout
     {
+        private uint currentIconSize;
+
+        protected override uint IconSize => currentIconSize;
+        protected override ItemsControl ItemsControl => FileList;
+
         /// <summary>
         /// The minimum item width for items. Used in the StretchedGridViewItems behavior.
         /// </summary>
@@ -50,8 +55,14 @@ namespace Files.Views.LayoutModes
             ItemManipulationModel.FocusSelectedItemsInvoked += ItemManipulationModel_FocusSelectedItemsInvoked;
             ItemManipulationModel.StartRenameItemInvoked += ItemManipulationModel_StartRenameItemInvoked;
             ItemManipulationModel.ScrollIntoViewInvoked += ItemManipulationModel_ScrollIntoViewInvoked;
-            ItemManipulationModel.RefreshItemsThumbnailInvoked += ItemManipulationModel_RefreshItemThumbnail;
+            ItemManipulationModel.RefreshItemThumbnailInvoked += ItemManipulationModel_RefreshItemThumbnail;
+            ItemManipulationModel.RefreshItemsThumbnailInvoked += ItemManipulationModel_RefreshItemsThumbnail;
 
+        }
+
+        private void ItemManipulationModel_RefreshItemsThumbnail(object sender, EventArgs e)
+        {
+            ReloadSelectedItemsIcon();
         }
 
         private void ItemManipulationModel_RefreshItemThumbnail(object sender, EventArgs args)
@@ -141,6 +152,8 @@ namespace Files.Views.LayoutModes
                 ItemManipulationModel.FocusSelectedItemsInvoked -= ItemManipulationModel_FocusSelectedItemsInvoked;
                 ItemManipulationModel.StartRenameItemInvoked -= ItemManipulationModel_StartRenameItemInvoked;
                 ItemManipulationModel.ScrollIntoViewInvoked -= ItemManipulationModel_ScrollIntoViewInvoked;
+                ItemManipulationModel.RefreshItemThumbnailInvoked -= ItemManipulationModel_RefreshItemThumbnail;
+                ItemManipulationModel.RefreshItemsThumbnailInvoked -= ItemManipulationModel_RefreshItemsThumbnail;
             }
         }
 
@@ -290,11 +303,14 @@ namespace Files.Views.LayoutModes
 
         private void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
         {
-            ValidateItemNameInputText(textBox, args, (showError) =>
+            if (IsRenamingItem)
             {
-                FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
-                FileNameTeachingTip.IsOpen = showError;
-            });
+                ValidateItemNameInputText(textBox, args, (showError) =>
+                {
+                    FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
+                    FileNameTeachingTip.IsOpen = showError;
+                });
+            }
         }
 
         private void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
@@ -385,7 +401,7 @@ namespace Files.Views.LayoutModes
             }
             else if (e.Key == VirtualKey.Space)
             {
-                if (!IsRenamingItem && !isFooterFocused && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
+                if (!IsRenamingItem && !isFooterFocused && !ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
                 {
                     e.Handled = true;
                     await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
@@ -434,36 +450,8 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        protected override ListedItem GetItemFromElement(object element)
-        {
-            if (element is GridViewItem item)
-            {
-                return (item.DataContext as ListedItem) ?? (item.Content as ListedItem) ?? (FileList.ItemFromContainer(item) as ListedItem);
-            }
-            return null;
-        }
-
-        private void FileListGridItem_PointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            if (e.KeyModifiers == VirtualKeyModifiers.Control)
-            {
-                if ((sender as SelectorItem).IsSelected)
-                {
-                    (sender as SelectorItem).IsSelected = false;
-                    // Prevent issues arising caused by the default handlers attempting to select the item that has just been deselected by ctrl + click
-                    e.Handled = true;
-                }
-            }
-            else if (e.GetCurrentPoint(sender as UIElement).Properties.IsLeftButtonPressed)
-            {
-                if (!(sender as SelectorItem).IsSelected)
-                {
-                    (sender as SelectorItem).IsSelected = true;
-                }
-            }
-        }
-
-        private uint currentIconSize;
+        protected override bool CanGetItemFromElement(object element)
+            => element is GridViewItem;
 
         private void FolderSettings_GridViewSizeChangeRequested(object sender, EventArgs e)
         {
@@ -496,6 +484,17 @@ namespace Files.Views.LayoutModes
             ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
             ParentShellPageInstance.SlimContentPage.SelectedItem.ItemPropertiesInitialized = false;
             await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(ParentShellPageInstance.SlimContentPage.SelectedItem, currentIconSize);
+        }
+
+        private async void ReloadSelectedItemsIcon()
+        {
+            ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
+
+            foreach (var selectedItem in ParentShellPageInstance.SlimContentPage.SelectedItems)
+            {
+                selectedItem.ItemPropertiesInitialized = false;
+                await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(selectedItem, currentIconSize);
+            }
         }
 
         private void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
@@ -556,6 +555,10 @@ namespace Files.Views.LayoutModes
             {
                 NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
             }
+            else
+            {
+                ParentShellPageInstance.Up_Click();
+            }
             ResetRenameDoubleClick();
         }
 
@@ -579,33 +582,6 @@ namespace Files.Views.LayoutModes
                 item = VisualTreeHelper.GetParent(item);
             var itemContainer = item as GridViewItem;
             itemContainer.ContextFlyout = ItemContextMenuFlyout;
-        }
-
-        private void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
-        {
-            if (!args.InRecycleQueue)
-            {
-                InitializeDrag(args.ItemContainer);
-                args.ItemContainer.PointerPressed -= FileListGridItem_PointerPressed;
-                args.ItemContainer.PointerPressed += FileListGridItem_PointerPressed;
-
-                if (args.Item is ListedItem item && !item.ItemPropertiesInitialized)
-                {
-                    args.RegisterUpdateCallback(3, async (s, c) =>
-                    {
-                        await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, currentIconSize);
-                    });
-                }
-            }
-            else
-            {
-                UninitializeDrag(args.ItemContainer);
-                args.ItemContainer.PointerPressed -= FileListGridItem_PointerPressed;
-                if (args.Item is ListedItem item)
-                {
-                    ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoadingForItem(item);
-                }
-            }
         }
 
         private void RefreshContainer_RefreshRequested(RefreshContainer sender, RefreshRequestedEventArgs args)

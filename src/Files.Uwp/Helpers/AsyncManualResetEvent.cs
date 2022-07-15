@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public class AsyncManualResetEvent
     {
@@ -46,11 +46,12 @@ namespace Files.Helpers
 
         public void Reset()
         {
+            var newTcs = new TaskCompletionSource<bool>();
             while (true)
             {
                 var tcs = m_tcs;
                 if (!tcs.Task.IsCompleted ||
-                    Interlocked.CompareExchange(ref m_tcs, new TaskCompletionSource<bool>(), tcs) == tcs)
+                    Interlocked.CompareExchange(ref m_tcs, newTcs, tcs) == tcs)
                     return;
             }
         }

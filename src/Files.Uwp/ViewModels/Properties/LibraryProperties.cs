@@ -1,20 +1,22 @@
-﻿using Files.Shared.Enums;
-using Files.Extensions;
-using Files.Filesystem;
-using Files.Filesystem.StorageItems;
-using Files.Helpers;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Shared.Services.DateTimeFormatter;
+using Files.Uwp.Extensions;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.Storage;
 using Windows.UI.Core;
 
-namespace Files.ViewModels.Properties
+namespace Files.Uwp.ViewModels.Properties
 {
     internal class LibraryProperties : BaseProperties
     {
+        private static readonly IDateTimeFormatter dateTimeFormatter = Ioc.Default.GetService<IDateTimeFormatter>();
+
         public LibraryItem Library { get; private set; }
 
         public LibraryProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, LibraryItem item, IShellPage instance)
@@ -66,9 +68,7 @@ namespace Files.ViewModels.Properties
             BaseStorageFile libraryFile = await AppInstance.FilesystemViewModel.GetFileFromPathAsync(Library.ItemPath);
             if (libraryFile != null)
             {
-                ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-                string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
-                ViewModel.ItemCreatedTimestamp = libraryFile.DateCreated.GetFriendlyDateFromFormat(returnformat);
+                ViewModel.ItemCreatedTimestamp = dateTimeFormatter.ToShortLabel(libraryFile.DateCreated);
                 if (libraryFile.Properties != null)
                 {
                     GetOtherProperties(libraryFile.Properties);

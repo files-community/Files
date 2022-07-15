@@ -1,6 +1,6 @@
 ﻿using Files.Shared.Enums;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public static class ErrorCodeConverter
     {
@@ -12,7 +12,7 @@ namespace Files.Helpers
                     return ReturnResult.Success;
 
                 case FileSystemStatusCode.Generic:
-                    return ReturnResult.InProgress | ReturnResult.Cancelled;
+                    return ReturnResult.Failed;
 
                 case FileSystemStatusCode.Unauthorized:
                     return ReturnResult.AccessUnauthorized;
@@ -27,13 +27,13 @@ namespace Files.Helpers
                     return ReturnResult.UnknownException;
 
                 case FileSystemStatusCode.AlreadyExists:
-                    return ReturnResult.Failed | ReturnResult.UnknownException;
+                    return ReturnResult.Failed;
 
                 case FileSystemStatusCode.NotAFolder:
-                    return ReturnResult.BadArgumentException | ReturnResult.IntegrityCheckFailed;
+                    return ReturnResult.BadArgumentException;
 
                 case FileSystemStatusCode.NotAFile:
-                    return ReturnResult.BadArgumentException | ReturnResult.IntegrityCheckFailed;
+                    return ReturnResult.BadArgumentException;
 
                 case FileSystemStatusCode.InProgress:
                     return ReturnResult.InProgress;

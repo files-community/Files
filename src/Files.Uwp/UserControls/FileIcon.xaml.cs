@@ -1,4 +1,4 @@
-﻿using Files.ViewModels;
+﻿using Files.Uwp.ViewModels;
 using System;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Storage.Streams;
@@ -6,7 +6,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace Files.UserControls
+namespace Files.Uwp.UserControls
 {
     public sealed partial class FileIcon : UserControl
     {

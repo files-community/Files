@@ -1,8 +1,8 @@
-﻿using Files.Filesystem;
+﻿using Files.Uwp.Filesystem;
 using System;
 using System.Collections.Generic;
 
-namespace Files.Interacts
+namespace Files.Uwp.Interacts
 {
     public class ItemManipulationModel
     {
@@ -27,6 +27,8 @@ namespace Files.Interacts
         public event EventHandler SetDragModeForItemsInvoked;
 
         public event EventHandler RefreshItemsOpacityInvoked;
+
+        public event EventHandler RefreshItemThumbnailInvoked;
 
         public event EventHandler RefreshItemsThumbnailInvoked;
 
@@ -111,6 +113,11 @@ namespace Files.Interacts
         public void RefreshItemsOpacity()
         {
             RefreshItemsOpacityInvoked?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void RefreshItemThumbnail()
+        {
+            RefreshItemThumbnailInvoked?.Invoke(this, EventArgs.Empty);
         }
 
         public void RefreshItemsThumbnail()

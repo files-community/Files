@@ -1,6 +1,6 @@
-﻿using Files.CommandLine;
+﻿using Files.Uwp.CommandLine;
 using Files.Shared;
-using Files.Helpers;
+using Files.Uwp.Helpers;
 using Files.Shared.Extensions;
 using System;
 using System.Linq;
@@ -10,7 +10,7 @@ using Windows.ApplicationModel.Activation;
 using Windows.Storage;
 using Windows.UI.Xaml;
 
-namespace Files
+namespace Files.Uwp
 {
     internal class Program
     {
@@ -19,11 +19,11 @@ namespace Files
         private static async Task Main()
         {
             var proc = System.Diagnostics.Process.GetCurrentProcess();
+            var alwaysOpenNewInstance = ApplicationData.Current.LocalSettings.Values.Get("AlwaysOpenANewInstance", false);
+            IActivatedEventArgs activatedArgs = AppInstance.GetActivatedEventArgs();
 
-            if (!ApplicationData.Current.LocalSettings.Values.Get("AlwaysOpenANewInstance", false))
+            if (!alwaysOpenNewInstance)
             {
-                IActivatedEventArgs activatedArgs = AppInstance.GetActivatedEventArgs();
-
                 if (AppInstance.RecommendedInstance != null)
                 {
                     AppInstance.RecommendedInstance.RedirectActivationTo();
@@ -65,33 +65,10 @@ namespace Files
                         }
                     }
                 }
-                else if (activatedArgs is CommandLineActivatedEventArgs cmdLineArgs)
+                else if (activatedArgs is ProtocolActivatedEventArgs protocolArgs)
                 {
-                    var operation = cmdLineArgs.Operation;
-                    var cmdLineString = operation.Arguments;
-                    var parsedCommands = CommandLineParser.ParseUntrustedCommands(cmdLineString);
-
-                    if (parsedCommands != null)
-                    {
-                        foreach (var command in parsedCommands)
-                        {
-                            switch (command.Type)
-                            {
-                                case ParsedCommandType.ExplorerShellCommand:
-                                    if (!CommonPaths.ShellPlaces.ContainsKey(command.Payload.ToUpperInvariant()))
-                                    {
-                                        await OpenShellCommandInExplorerAsync(command.Payload, proc.Id);
-                                        return; // Exit
-                                    }
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                    }
-
-                    // Always open a new instance for OpenDialog
-                    if (parsedCommands == null || !parsedCommands.Any(x => x.Type == ParsedCommandType.OutputPath))
+                    var parsedArgs = protocolArgs.Uri.Query.TrimStart('?').Split('=');
+                    if (parsedArgs.Length == 2 && parsedArgs[0] == "cmd") // Treat as command line launch
                     {
                         var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
                         var instance = AppInstance.FindOrRegisterInstanceForKey(activePid.ToString());
@@ -104,6 +81,46 @@ namespace Files
                     }
                 }
                 else if (activatedArgs is FileActivatedEventArgs)
+                {
+                    var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
+                    var instance = AppInstance.FindOrRegisterInstanceForKey(activePid.ToString());
+                    if (!instance.IsCurrentInstance)
+                    {
+                        instance.RedirectActivationTo();
+                        await TerminateUwpAppInstance(proc.Id);
+                        return;
+                    }
+                }
+            }
+
+            if (activatedArgs is CommandLineActivatedEventArgs cmdLineArgs)
+            {
+                var operation = cmdLineArgs.Operation;
+                var cmdLineString = operation.Arguments;
+                var parsedCommands = CommandLineParser.ParseUntrustedCommands(cmdLineString);
+
+                if (parsedCommands != null)
+                {
+                    foreach (var command in parsedCommands)
+                    {
+                        switch (command.Type)
+                        {
+                            case ParsedCommandType.ExplorerShellCommand:
+                                if (!CommonPaths.ShellPlaces.ContainsKey(command.Payload.ToUpperInvariant()))
+                                {
+                                    await OpenShellCommandInExplorerAsync(command.Payload, proc.Id);
+                                    return; // Exit
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+
+                // Always open a new instance for OpenDialog, never open new instance for "-Tag" command
+                if (parsedCommands == null || !parsedCommands.Any(x => x.Type == ParsedCommandType.OutputPath)
+                    && (!alwaysOpenNewInstance || parsedCommands.Any(x => x.Type == ParsedCommandType.TagFiles)))
                 {
                     var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
                     var instance = AppInstance.FindOrRegisterInstanceForKey(activePid.ToString());

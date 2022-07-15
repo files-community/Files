@@ -1,6 +1,6 @@
-﻿using Files.Dialogs;
-using Files.Helpers;
-using Files.Views;
+﻿using Files.Uwp.Dialogs;
+using Files.Uwp.Helpers;
+using Files.Uwp.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
@@ -14,7 +14,7 @@ using Files.Backend.Services;
 using Files.Backend.ViewModels.Dialogs;
 using Files.Backend.Extensions;
 
-namespace Files.ViewModels
+namespace Files.Uwp.ViewModels
 {
     public class MainViewModel : ObservableObject
     {

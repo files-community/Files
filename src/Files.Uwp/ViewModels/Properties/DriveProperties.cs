@@ -1,12 +1,12 @@
-﻿using Files.DataModels.NavigationControlItems;
-using Files.Filesystem;
-using Files.Filesystem.StorageItems;
-using Files.Helpers;
+﻿using Files.Uwp.DataModels.NavigationControlItems;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp;
 using System;
 using Windows.Storage.FileProperties;
 
-namespace Files.ViewModels.Properties
+namespace Files.Uwp.ViewModels.Properties
 {
     internal class DriveProperties : BaseProperties
     {
@@ -24,9 +24,9 @@ namespace Files.ViewModels.Properties
         {
             if (Drive != null)
             {
-                ViewModel.CustomIconSource = Drive.IconSource;
+                ViewModel.CustomIconSource = null; //Drive.IconSource;
                 ViewModel.IconData = Drive.IconData;
-                ViewModel.LoadCustomIcon = Drive.IconSource != null && Drive.IconData == null;
+                ViewModel.LoadCustomIcon = false; //Drive.IconSource != null && Drive.IconData == null;
                 ViewModel.LoadFileIcon = Drive.IconData != null;
                 ViewModel.ItemName = Drive.Text;
                 ViewModel.OriginalItemName = Drive.Text;

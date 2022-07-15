@@ -1,8 +1,8 @@
-﻿using Files.Extensions;
-using Files.Filesystem;
-using Files.Helpers;
+﻿using Files.Shared.Extensions;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
-using Files.Views;
+using Files.Uwp.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
@@ -14,7 +14,7 @@ using Windows.Storage.FileProperties;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace Files.ViewModels.Widgets.Bundles
+namespace Files.Uwp.ViewModels.Widgets.Bundles
 {
     public class BundleItemViewModel : ObservableObject, IDisposable
     {
@@ -45,7 +45,23 @@ namespace Files.ViewModels.Widgets.Bundles
         {
             get
             {
-                string fileName = System.IO.Path.GetFileName(this.Path);
+                string fileName;
+
+                // Network Share path
+                if (System.IO.Path.GetPathRoot(this.Path) == this.Path && this.Path.StartsWith(@"\\")) 
+                {
+                    fileName = this.Path.Substring(this.Path.LastIndexOf(@"\") + 1);
+                }
+                // Drive path
+                else if (System.IO.Path.GetPathRoot(this.Path) == this.Path)
+                {
+                    fileName = this.Path;
+                }
+                else
+                {
+                    fileName = System.IO.Path.GetFileName(this.Path);
+                }
+
 
                 if (fileName.EndsWith(".lnk", StringComparison.Ordinal) || fileName.EndsWith(".url", StringComparison.Ordinal))
                 {

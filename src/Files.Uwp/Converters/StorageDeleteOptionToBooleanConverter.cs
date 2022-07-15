@@ -2,7 +2,7 @@
 using Windows.Storage;
 using Windows.UI.Xaml.Data;
 
-namespace Files.Converters
+namespace Files.Uwp.Converters
 {
     internal class StorageDeleteOptionToBooleanConverter : IValueConverter
     {

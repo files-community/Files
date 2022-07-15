@@ -15,7 +15,7 @@ using Windows.Foundation.Collections;
 using Windows.Security.Authentication.Web;
 using Windows.Storage;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public static class AppServiceConnectionHelper
     {

@@ -1,26 +1,27 @@
-﻿using Files.DataModels;
+﻿using Files.Uwp.DataModels;
 using Files.Shared.Enums;
-using Files.Filesystem;
-using Microsoft.Toolkit.Uwp;
+using Files.Uwp.Filesystem;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.Storage.Search;
 using Files.Shared.Extensions;
+using System.Collections.Specialized;
 
-namespace Files.Controllers
+namespace Files.Uwp.Controllers
 {
     public class SidebarPinnedController : IJson
     {
         public SidebarPinnedModel Model { get; set; }
 
+        public EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
+
         private StorageFileQueryResult query;
 
-        private bool suppressChangeEvent;
+        private string configContent;
 
         public string JsonFileName { get; } = "PinnedItems.json";
 
@@ -89,7 +90,8 @@ namespace Files.Controllers
 
             try
             {
-                Model = JsonConvert.DeserializeObject<SidebarPinnedModel>(await FileIO.ReadTextAsync(JsonFile.Result));
+                configContent = await FileIO.ReadTextAsync(JsonFile.Result);
+                Model = JsonConvert.DeserializeObject<SidebarPinnedModel>(configContent);
                 if (Model == null)
                 {
                     throw new ArgumentException($"{JsonFileName} is empty, regenerating...");
@@ -120,22 +122,31 @@ namespace Files.Controllers
 
         private async void Query_ContentsChanged(IStorageQueryResultBase sender, object args)
         {
-            if (suppressChangeEvent)
+            try
             {
-                suppressChangeEvent = false;
-                return;
-            }
+                var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/PinnedItems.json"));
+                var content = await FileIO.ReadTextAsync(configFile);
 
-            // watched file changed externally, reload the sidebar items
-            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
-            {
+                if (configContent != content)
+                {
+                    configContent = content;
+                }
+                else
+                {
+                    return;
+                }
+
+                // Watched file changed externally, reload the sidebar items
                 await ReloadAsync();
-            });
+            }
+            catch
+            {
+                // ignored
+            }
         }
 
         public void SaveModel()
         {
-            suppressChangeEvent = true;
             try
             {
                 using (var file = File.CreateText(Path.Combine(folderPath, JsonFileName)))
@@ -143,10 +154,14 @@ namespace Files.Controllers
                     JsonSerializer serializer = new JsonSerializer();
                     serializer.Formatting = Formatting.Indented;
                     serializer.Serialize(file, Model);
+
+                    // update local configContent to avoid unnecessary refreshes
+                    configContent = JsonConvert.SerializeObject(Model, Formatting.Indented);
                 }
             }
             catch
             {
+                // ignored
             }
         }
 

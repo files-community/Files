@@ -1,7 +1,7 @@
 ﻿using Files.Backend.Services.Settings;
-using Files.Filesystem;
-using Files.Filesystem.StorageItems;
-using Files.Helpers;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Helpers;
 using Files.Shared.Extensions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
@@ -19,7 +19,7 @@ using Windows.Storage.Pickers;
 using Windows.System;
 using Windows.UI.Xaml.Controls;
 
-namespace Files.ViewModels.SettingsViewModels
+namespace Files.Uwp.ViewModels.SettingsViewModels
 {
     public class AboutViewModel : ObservableObject
     {
@@ -29,6 +29,7 @@ namespace Files.ViewModels.SettingsViewModels
 
         public ICommand OpenLogLocationCommand { get; }
         public ICommand CopyVersionInfoCommand { get; }
+        public ICommand SupportUsCommand { get; }
 
         public ICommand ExportSettingsCommand { get; }
         public ICommand ImportSettingsCommand { get; }
@@ -39,6 +40,7 @@ namespace Files.ViewModels.SettingsViewModels
         {
             OpenLogLocationCommand = new AsyncRelayCommand(OpenLogLocation);
             CopyVersionInfoCommand = new RelayCommand(CopyVersionInfo);
+            SupportUsCommand = new RelayCommand(SupportUs);
 
             ExportSettingsCommand = new AsyncRelayCommand(ExportSettings);
             ImportSettingsCommand = new AsyncRelayCommand(ImportSettings);
@@ -84,6 +86,10 @@ namespace Files.ViewModels.SettingsViewModels
                     var fileTagsDB = await zipFolder.CreateFileAsync(Path.GetFileName(FileTagsHelper.FileTagsDbPath), CreationCollisionOption.ReplaceExisting);
                     string exportTagsDB = FileTagsHelper.DbInstance.Export();
                     await fileTagsDB.WriteTextAsync(exportTagsDB);
+                    // Export layout preferences DB
+                    var layoutPrefsDB = await zipFolder.CreateFileAsync(Path.GetFileName(FolderSettingsViewModel.LayoutSettingsDbPath), CreationCollisionOption.ReplaceExisting);
+                    string exportPrefsDB = FolderSettingsViewModel.DbInstance.Export();
+                    await layoutPrefsDB.WriteTextAsync(exportPrefsDB);
                 }
                 catch (Exception ex)
                 {
@@ -131,6 +137,10 @@ namespace Files.ViewModels.SettingsViewModels
                     var fileTagsDB = await zipFolder.GetFileAsync(Path.GetFileName(FileTagsHelper.FileTagsDbPath));
                     string importTagsDB = await fileTagsDB.ReadTextAsync();
                     FileTagsHelper.DbInstance.Import(importTagsDB);
+                    // Import layout preferences and DB
+                    var layoutPrefsDB = await zipFolder.GetFileAsync(Path.GetFileName(FolderSettingsViewModel.LayoutSettingsDbPath));
+                    string importPrefsDB = await layoutPrefsDB.ReadTextAsync();
+                    FolderSettingsViewModel.DbInstance.Import(importPrefsDB);
                 }
                 catch (Exception ex)
                 {
@@ -150,6 +160,11 @@ namespace Files.ViewModels.SettingsViewModels
                 dataPackage.SetText(Version + "\nOS Version: " + SystemInformation.Instance.OperatingSystemVersion);
                 Clipboard.SetContent(dataPackage);
             });
+        }
+        
+        public async void SupportUs()
+        {
+            await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.SupportUsUrl));
         }
 
         public static async Task OpenLogLocation() => await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
@@ -175,7 +190,6 @@ namespace Files.ViewModels.SettingsViewModels
                 "Feedback" => Constants.GitHub.FeedbackUrl,
                 "PrivacyPolicy" => Constants.GitHub.PrivacyPolicyUrl,
                 "ReleaseNotes" => Constants.GitHub.ReleaseNotesUrl,
-                "SupportUs" => Constants.GitHub.SupportUsUrl,
                 _ => null,
             };
             if (uri is not null)

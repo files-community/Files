@@ -5,7 +5,7 @@ using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Markup;
 
-namespace Files.UserControls.Settings
+namespace Files.Uwp.UserControls.Settings
 {
     [ContentProperty(Name = nameof(SettingsActionableElement))]
     public sealed partial class SettingsBlockControl : UserControl

@@ -1,31 +1,35 @@
-﻿using Files.DataModels.NavigationControlItems;
-using Files.Shared.Enums;
-using Files.EventArguments;
-using Files.Extensions;
-using Files.Filesystem;
-using Files.Helpers;
-using Files.Backend.Services.Settings;
-using Files.UserControls;
-using Files.UserControls.MultitaskingControl;
-using Files.ViewModels;
-using CommunityToolkit.Mvvm.DependencyInjection;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
+using Files.Backend.Services.Settings;
+using Files.Shared.Enums;
+using Files.Shared.EventArguments;
+using Files.Uwp.DataModels.NavigationControlItems;
+using Files.Uwp.Extensions;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Helpers;
+using Files.Uwp.UserControls;
+using Files.Uwp.UserControls.MultitaskingControl;
+using Files.Uwp.ViewModels;
 using Microsoft.Toolkit.Uwp;
+using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources.Core;
+using Windows.Services.Store;
 using Windows.Storage;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
-using Files.Shared.EventArguments;
+using Files.Backend.Extensions;
 
-namespace Files.Views
+namespace Files.Uwp.Views
 {
     /// <summary>
     /// The root page of Files
@@ -75,7 +79,36 @@ namespace Files.Views
             ToggleCompactOverlayCommand = new RelayCommand(ToggleCompactOverlay);
             SetCompactOverlayCommand = new RelayCommand<bool>(SetCompactOverlay);
 
+            if (SystemInformation.Instance.TotalLaunchCount >= 15 & Package.Current.Id.Name == "49306atecsolution.FilesUWP" && !UserSettingsService.ApplicationSettingsService.WasPromptedToReview)
+            {
+                PromptForReview();
+                UserSettingsService.ApplicationSettingsService.WasPromptedToReview = true;
+            }
+
             UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
+        }
+
+        private async void PromptForReview()
+        {
+            var AskForReviewDialog = new ContentDialog
+            {
+                Title = "ReviewFiles".ToLocalized(),
+                Content = "ReviewFilesContent".ToLocalized(),
+                PrimaryButtonText = "Yes".ToLocalized(),
+                SecondaryButtonText = "No".ToLocalized()
+        };
+
+            var result = await AskForReviewDialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+                try
+                {
+                    var storeContext = StoreContext.GetDefault();
+                    await storeContext.RequestRateAndReviewAppAsync();
+                }
+                catch (Exception) { }
+            }
         }
 
         private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
@@ -192,12 +225,12 @@ namespace Files.Views
         {
             if (NavToolbar != null)
             {
-                NavToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.NavToolbarViewModel;
+                NavToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.ToolbarViewModel;
             }
 
             if (InnerNavigationToolbar != null)
             {
-                InnerNavigationToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.NavToolbarViewModel;
+                InnerNavigationToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.ToolbarViewModel;
                 InnerNavigationToolbar.ShowMultiPaneControls = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneEnabled ?? false;
                 InnerNavigationToolbar.IsMultiPaneActive = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
             }
@@ -412,6 +445,7 @@ namespace Files.Views
                         PaneSplitter.SetValue(Grid.ColumnProperty, 1);
                         PaneSplitter.Width = 2;
                         PaneSplitter.Height = RootGrid.ActualHeight;
+                        PaneSplitter.GripperCursor = GridSplitter.GripperCursorType.SizeWestEast;
                         PaneColumn.MinWidth = Pane.MinWidth;
                         PaneColumn.MaxWidth = Pane.MaxWidth;
                         PaneColumn.Width = new GridLength(UserSettingsService.PaneSettingsService.VerticalSizePx, GridUnitType.Pixel);
@@ -426,6 +460,7 @@ namespace Files.Views
                         PaneSplitter.SetValue(Grid.ColumnProperty, 0);
                         PaneSplitter.Height = 2;
                         PaneSplitter.Width = RootGrid.ActualWidth;
+                        PaneSplitter.GripperCursor = GridSplitter.GripperCursorType.SizeNorthSouth;
                         PaneColumn.MinWidth = 0;
                         PaneColumn.MaxWidth = double.MaxValue;
                         PaneColumn.Width = new GridLength(0);

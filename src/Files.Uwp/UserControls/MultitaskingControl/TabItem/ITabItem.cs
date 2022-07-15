@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 
-namespace Files.UserControls.MultitaskingControl
+namespace Files.Uwp.UserControls.MultitaskingControl
 {
     public interface ITabItemContainer
     {

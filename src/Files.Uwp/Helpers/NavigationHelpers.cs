@@ -1,11 +1,12 @@
-﻿using Files.Shared;
-using Files.Shared.Enums;
-using Files.Filesystem;
-using Files.Filesystem.StorageItems;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Helpers;
 using Files.Backend.Services.Settings;
-using Files.ViewModels;
-using Files.Views;
-using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Shared;
+using Files.Shared.Enums;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.ViewModels;
+using Files.Uwp.Views;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
@@ -13,14 +14,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
-using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.System;
-using Windows.UI.Core;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public static class NavigationHelpers
     {
@@ -225,12 +224,8 @@ namespace Files.Helpers
             if (opened.ErrorCode == FileSystemStatusCode.NotFound && !openSilent)
             {
                 await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
-                associatedInstance.NavToolbarViewModel.CanRefresh = false;
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    var ContentOwnedViewModelInstance = associatedInstance.FilesystemViewModel;
-                    ContentOwnedViewModelInstance?.RefreshItems(previousDir);
-                });
+                associatedInstance.ToolbarViewModel.CanRefresh = false;
+                associatedInstance.FilesystemViewModel?.RefreshItems(previousDir);
             }
 
             return opened;
@@ -250,7 +245,7 @@ namespace Files.Helpers
                 }
                 else
                 {
-                    associatedInstance.NavToolbarViewModel.PathControlDisplayText = path;
+                    associatedInstance.ToolbarViewModel.PathControlDisplayText = path;
                     associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
                     {
                         NavPathParam = path,
@@ -270,7 +265,7 @@ namespace Files.Helpers
                     }
                     else
                     {
-                        associatedInstance.NavToolbarViewModel.PathControlDisplayText = library.Text;
+                        associatedInstance.ToolbarViewModel.PathControlDisplayText = library.Text;
                         associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
                         {
                             NavPathParam = path,
@@ -306,7 +301,7 @@ namespace Files.Helpers
                     }
                     else
                     {
-                        associatedInstance.NavToolbarViewModel.PathControlDisplayText = shortcutInfo.TargetPath;
+                        associatedInstance.ToolbarViewModel.PathControlDisplayText = shortcutInfo.TargetPath;
                         associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(shortcutInfo.TargetPath), new NavigationArguments()
                         {
                             NavPathParam = shortcutInfo.TargetPath,
@@ -326,7 +321,7 @@ namespace Files.Helpers
                 }
                 else
                 {
-                    associatedInstance.NavToolbarViewModel.PathControlDisplayText = path;
+                    associatedInstance.ToolbarViewModel.PathControlDisplayText = path;
                     associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
                     {
                         NavPathParam = path,
@@ -341,11 +336,10 @@ namespace Files.Helpers
                 opened = await associatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(path)
                     .OnSuccess(async (childFolder) =>
                     {
-                        // Add location to MRU List
-                        if (childFolder.Folder is SystemStorageFolder)
+                        // Add location to Recent Items List
+                        if (childFolder.Item is SystemStorageFolder)
                         {
-                            var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
-                            mostRecentlyUsed.Add(await childFolder.Folder.ToStorageFolderAsync(), childFolder.Path);
+                            await App.RecentItemsManager.AddToRecentItems(childFolder.Path);
                         }
                     });
                 if (!opened)
@@ -360,7 +354,7 @@ namespace Files.Helpers
                     }
                     else
                     {
-                        associatedInstance.NavToolbarViewModel.PathControlDisplayText = path;
+                        associatedInstance.ToolbarViewModel.PathControlDisplayText = path;
                         associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
                         {
                             NavPathParam = path,
@@ -368,6 +362,10 @@ namespace Files.Helpers
                             SelectItems = selectItems
                         });
                     }
+                }
+                else
+                {
+                    await Win32Helpers.InvokeWin32ComponentAsync(path, associatedInstance);
                 }
             }
             return opened;
@@ -391,11 +389,10 @@ namespace Files.Helpers
                         StorageFileWithPath childFile = await associatedInstance.FilesystemViewModel.GetFileWithPathFromPathAsync(shortcutInfo.TargetPath);
                         if (childFile != null)
                         {
-                            // Add location to MRU List
-                            if (childFile.File is SystemStorageFile)
+                            // Add location to Recent Items List
+                            if (childFile.Item is SystemStorageFile)
                             {
-                                var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
-                                mostRecentlyUsed.Add(await childFile.File.ToStorageFileAsync(), childFile.Path);
+                                await App.RecentItemsManager.AddToRecentItems(childFile.Path);
                             }
                         }
                     }
@@ -412,11 +409,10 @@ namespace Files.Helpers
                 opened = await associatedInstance.FilesystemViewModel.GetFileWithPathFromPathAsync(path)
                     .OnSuccess(async childFile =>
                     {
-                        // Add location to MRU List
-                        if (childFile.File is SystemStorageFile)
+                        // Add location to Recent Items List
+                        if (childFile.Item is SystemStorageFile)
                         {
-                            var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
-                            mostRecentlyUsed.Add(await childFile.File.ToStorageFileAsync(), childFile.Path);
+                            await App.RecentItemsManager.AddToRecentItems(childFile.Path);
                         }
 
                         if (openViaApplicationPicker)
@@ -425,7 +421,7 @@ namespace Files.Helpers
                             {
                                 DisplayApplicationPicker = true
                             };
-                            if (!await Launcher.LaunchFileAsync(childFile.File, options))
+                            if (!await Launcher.LaunchFileAsync(childFile.Item, options))
                             {
                                 var connection = await AppServiceConnectionHelper.Instance;
                                 if (connection != null)
@@ -512,7 +508,11 @@ namespace Files.Helpers
                                 }
 
                                 // Now launch file with options.
-                                launchSuccess = await Launcher.LaunchFileAsync(await childFile.File.ToStorageFileAsync(), options);
+                                var storageItem = (StorageFile)await FilesystemTasks.Wrap(() => childFile.Item.ToStorageFileAsync().AsTask());
+                                if (storageItem != null)
+                                {
+                                    launchSuccess = await Launcher.LaunchFileAsync(storageItem, options);
+                                }
                             }
 
                             if (!launchSuccess)

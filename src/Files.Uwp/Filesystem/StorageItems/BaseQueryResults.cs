@@ -7,7 +7,7 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.Search;
 
-namespace Files.Filesystem.StorageItems
+namespace Files.Uwp.Filesystem.StorageItems
 {
     public class BaseStorageItemQueryResult
     {

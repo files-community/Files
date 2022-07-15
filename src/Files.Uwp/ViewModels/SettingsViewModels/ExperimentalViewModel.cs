@@ -1,5 +1,5 @@
 ﻿using Files.Shared.Extensions;
-using Files.Helpers;
+using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
@@ -12,7 +12,7 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
 
-namespace Files.ViewModels.SettingsViewModels
+namespace Files.Uwp.ViewModels.SettingsViewModels
 {
     public class ExperimentalViewModel : ObservableObject
     {

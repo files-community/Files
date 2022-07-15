@@ -1,12 +1,12 @@
 using Files.Shared.Enums;
-using Files.EventArguments;
-using Files.Filesystem;
-using Files.Helpers;
-using Files.Helpers.XamlHelpers;
-using Files.Interacts;
-using Files.UserControls;
-using Files.UserControls.Selection;
-using Files.ViewModels;
+using Files.Uwp.EventArguments;
+using Files.Uwp.Filesystem;
+using Files.Uwp.Helpers;
+using Files.Uwp.Helpers.XamlHelpers;
+using Files.Uwp.Interacts;
+using Files.Uwp.UserControls;
+using Files.Uwp.UserControls.Selection;
+using Files.Uwp.ViewModels;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
@@ -25,10 +25,16 @@ using Windows.UI.Xaml.Navigation;
 
 using SortDirection = Files.Shared.Enums.SortDirection;
 
-namespace Files.Views.LayoutModes
+namespace Files.Uwp.Views.LayoutModes
 {
     public sealed partial class DetailsLayoutBrowser : BaseLayout
     {
+        private uint currentIconSize;
+
+        protected override uint IconSize => currentIconSize;
+
+        protected override ItemsControl ItemsControl => FileList;
+
         private ColumnsViewModel columnsViewModel = new ColumnsViewModel();
 
         public ColumnsViewModel ColumnsViewModel
@@ -366,11 +372,14 @@ namespace Files.Views.LayoutModes
 
         private void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
         {
-            ValidateItemNameInputText(textBox, args, (showError) =>
+            if (IsRenamingItem)
             {
-                FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
-                FileNameTeachingTip.IsOpen = showError;
-            });
+                ValidateItemNameInputText(textBox, args, (showError) =>
+                {
+                    FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
+                    FileNameTeachingTip.IsOpen = showError;
+                });
+            }
         }
 
         private void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
@@ -461,7 +470,7 @@ namespace Files.Views.LayoutModes
             }
             else if (e.Key == VirtualKey.Space)
             {
-                if (!IsRenamingItem && !isHeaderFocused && !isFooterFocused && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
+                if (!IsRenamingItem && !isHeaderFocused && !isFooterFocused && !ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
                 {
                     e.Handled = true;
                     await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
@@ -479,7 +488,7 @@ namespace Files.Views.LayoutModes
             }
             else if (e.Key == VirtualKey.Down)
             {
-                if (!IsRenamingItem && isHeaderFocused && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
+                if (!IsRenamingItem && isHeaderFocused && !ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
                 {
                     var selectIndex = FileList.SelectedIndex < 0 ? 0 : FileList.SelectedIndex;
                     if (FileList.ContainerFromIndex(selectIndex) is ListViewItem item)
@@ -519,36 +528,8 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        protected override ListedItem GetItemFromElement(object element)
-        {
-            if (element is ListViewItem item)
-            {
-                return (item.DataContext as ListedItem) ?? (item.Content as ListedItem) ?? (FileList.ItemFromContainer(item) as ListedItem);
-            }
-            return null;
-        }
-
-        private void FileListGridItem_PointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            if (e.KeyModifiers == VirtualKeyModifiers.Control)
-            {
-                if ((sender as SelectorItem).IsSelected)
-                {
-                    (sender as SelectorItem).IsSelected = false;
-                    // Prevent issues arising caused by the default handlers attempting to select the item that has just been deselected by ctrl + click
-                    e.Handled = true;
-                }
-            }
-            else if (e.GetCurrentPoint(sender as UIElement).Properties.IsLeftButtonPressed)
-            {
-                if (!(sender as SelectorItem).IsSelected)
-                {
-                    (sender as SelectorItem).IsSelected = true;
-                }
-            }
-        }
-
-        private uint currentIconSize;
+        protected override bool CanGetItemFromElement(object element)
+            => element is ListViewItem;
 
         private void FolderSettings_GridViewSizeChangeRequested(object sender, EventArgs e)
         {
@@ -625,6 +606,10 @@ namespace Files.Views.LayoutModes
             {
                 NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
             }
+            else
+            {
+                ParentShellPageInstance.Up_Click();
+            }
             ResetRenameDoubleClick();
         }
 
@@ -700,38 +685,26 @@ namespace Files.Views.LayoutModes
             ParentShellPageInstance.InstanceViewModel.FolderSettings.ColumnsViewModel = ColumnsViewModel;
         }
 
-        private void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
-        {
-            if (!args.InRecycleQueue)
-            {
-                InitializeDrag(args.ItemContainer);
-                args.ItemContainer.PointerPressed -= FileListGridItem_PointerPressed;
-                args.ItemContainer.PointerPressed += FileListGridItem_PointerPressed;
-
-                if (args.Item is ListedItem item && !item.ItemPropertiesInitialized)
-                {
-                    args.RegisterUpdateCallback(3, async (s, c) =>
-                    {
-                        await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, currentIconSize);
-                    });
-                }
-            }
-            else
-            {
-                UninitializeDrag(args.ItemContainer);
-                args.ItemContainer.PointerPressed -= FileListGridItem_PointerPressed;
-                if (args.Item is ListedItem item)
-                {
-                    ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoadingForItem(item);
-                }
-            }
-        }
-
         private void GridSplitter_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             var columnToResize = (Grid.GetColumn(sender as Microsoft.Toolkit.Uwp.UI.Controls.GridSplitter) - 1) / 2;
             ResizeColumnToFit(columnToResize);
             e.Handled = true;
+        }
+
+        private void SizeAllColumnsToFit_Click(object sender, RoutedEventArgs e)
+        {
+            if (!FileList.Items.Any())
+            {
+                return;
+            }
+
+            // for scalability, just count the # of public `ColumnViewModel` properties in ColumnsViewModel
+            int totalColumnCount = ColumnsViewModel.GetType().GetProperties().Count(prop => prop.PropertyType == typeof(ColumnViewModel));
+            for (int columnIndex = 1; columnIndex <= totalColumnCount; columnIndex++)
+            {
+                ResizeColumnToFit(columnIndex);
+            }
         }
 
         private void ResizeColumnToFit(int columnToResize)
@@ -744,17 +717,25 @@ namespace Files.Views.LayoutModes
             var maxItemLength = columnToResize switch
             {
                 1 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemName?.Length ?? 0).Max(), // file name column
-                2 => FileList.Items.Cast<ListedItem>().Select(x => x.FileTagUI?.TagName?.Length ?? 0).Max(), // file tag column
-                3 => FileList.Items.Cast<RecycleBinItem>().Select(x => x.ItemOriginalPath?.Length ?? 0).Max(), // original path column
-                4 => FileList.Items.Cast<RecycleBinItem>().Select(x => x.ItemDateDeleted?.Length ?? 0).Max(), // date deleted column
+                2 => FileList.Items.Cast<ListedItem>().Select(x => x.FileTagsUI?.FirstOrDefault()?.TagName?.Length ?? 0).Max(), // file tag column
+                3 => FileList.Items.Cast<ListedItem>().Select(x => (x as RecycleBinItem)?.ItemOriginalPath?.Length ?? 0).Max(), // original path column
+                4 => FileList.Items.Cast<ListedItem>().Select(x => (x as RecycleBinItem)?.ItemDateDeleted?.Length ?? 0).Max(), // date deleted column
                 5 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateModified?.Length ?? 0).Max(), // date modified column
                 6 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateCreated?.Length ?? 0).Max(), // date created column
                 7 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemType?.Length ?? 0).Max(), // item type column
                 8 => FileList.Items.Cast<ListedItem>().Select(x => x.FileSize?.Length ?? 0).Max(), // item size column
                 _ => 20 // cloud status column
             };
-            var colunmSizeToFit = new[] { 9 }.Contains(columnToResize) ? maxItemLength : MeasureTextColumn(columnToResize, 5, maxItemLength);
-            if (colunmSizeToFit > 0)
+
+            // if called programmatically, the column could be hidden
+            // in this case, resizing doesn't need to be done at all
+            if (maxItemLength == 0)
+            {
+                return;
+            }
+
+            var columnSizeToFit = new[] { 9 }.Contains(columnToResize) ? maxItemLength : MeasureTextColumnEstimate(columnToResize, 5, maxItemLength);
+            if (columnSizeToFit > 0)
             {
                 var column = columnToResize switch
                 {
@@ -768,29 +749,57 @@ namespace Files.Views.LayoutModes
                     8 => ColumnsViewModel.SizeColumn,
                     _ => ColumnsViewModel.StatusColumn
                 };
-                if (columnToResize == 1)
+
+                if (columnToResize == 1) // file name column
                 {
-                    colunmSizeToFit += UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled ? 20 : 0;
+                    columnSizeToFit += UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled ? 20 : 0;
                 }
-                column.UserLength = new GridLength(Math.Min(colunmSizeToFit + 30, column.NormalMaxLength), GridUnitType.Pixel);
+
+                var minFitLength = Math.Max(columnSizeToFit, column.NormalMinLength);
+                var maxFitLength = Math.Min(minFitLength + 36, column.NormalMaxLength); // 36 to account for SortIcon & padding
+
+                column.UserLength = new GridLength(maxFitLength, GridUnitType.Pixel);
             }
 
             ParentShellPageInstance.InstanceViewModel.FolderSettings.ColumnsViewModel = ColumnsViewModel;
         }
 
-        private double MeasureTextColumn(int columnIndex, int measureItems, int maxItemLength)
+        private double MeasureTextColumnEstimate(int columnIndex, int measureItemsCount, int maxItemLength)
         {
-            var tbs = DependencyObjectHelpers.FindChildren<TextBlock>(FileList.ItemsPanelRoot).Where(x => x.Parent is Grid && Grid.GetColumn((Grid)x.Parent) == columnIndex);
-            var widthPerLetter = tbs.Where(tb => !string.IsNullOrEmpty(tb.Text)).Take(measureItems).Select(tb =>
+            var tbs = DependencyObjectHelpers.FindChildren<TextBlock>(FileList.ItemsPanelRoot).Where(tb =>
             {
-                tb.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
-                return tb.DesiredSize.Width / Math.Max(1, tb.Text.Length);
+                // isolated <TextBlock Grid.Column=...>
+                if (tb.ReadLocalValue(Grid.ColumnProperty) != DependencyProperty.UnsetValue)
+                {
+                    return Grid.GetColumn(tb) == columnIndex;
+                }
+                // <TextBlock> nested in <Grid Grid.Column=...>
+                else if (tb.Parent is Grid parentGrid)
+                {
+                    return Grid.GetColumn(parentGrid) == columnIndex;
+                }
+
+                return false;
             });
+
+            // heuristic: usually, text with more letters are wider than shorter text with wider letters
+            // with this, we can calculate avg width using longest text(s) to avoid overshooting the width
+            var widthPerLetter = tbs.OrderByDescending(x => x.Text.Length).Where(tb => !string.IsNullOrEmpty(tb.Text)).Take(measureItemsCount).Select(tb =>
+            {
+                var sampleTb = new TextBlock { Text = tb.Text, FontSize = tb.FontSize, FontFamily = tb.FontFamily };
+                sampleTb.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+
+                return sampleTb.DesiredSize.Width / Math.Max(1, tb.Text.Length);
+            });
+
             if (!widthPerLetter.Any())
             {
                 return 0;
             }
-            return widthPerLetter.Average() * maxItemLength;
+
+            // take weighted avg between mean and max since width is an estimate
+            var weightedAvg = (widthPerLetter.Average() + widthPerLetter.Max()) / 2;
+            return weightedAvg * maxItemLength;
         }
 
         private void FileList_Loaded(object sender, RoutedEventArgs e)

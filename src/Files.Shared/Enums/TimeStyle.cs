@@ -3,6 +3,7 @@
     public enum TimeStyle
     {
         Application = 0,
-        System = 1
+        System = 1,
+        Universal = 2,
     }
 }

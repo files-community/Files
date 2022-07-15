@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.System;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public static class PackageHelper
     {

@@ -2,7 +2,7 @@
 using System;
 using Windows.UI.Xaml.Data;
 
-namespace Files.Converters
+namespace Files.Uwp.Converters
 {
     public class IntToSortOption : IValueConverter
     {

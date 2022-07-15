@@ -2,7 +2,7 @@
 using Windows.ApplicationModel;
 using Windows.Foundation.Metadata;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public static class WindowDecorationsHelper
     {

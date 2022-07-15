@@ -1,9 +1,9 @@
 ﻿using Files.Shared.Enums;
-using Files.ViewModels;
+using Files.Uwp.ViewModels;
 using System;
 using System.Threading;
 
-namespace Files.Interacts
+namespace Files.Uwp.Interacts
 {
     public interface IOngoingTasksActions
     {

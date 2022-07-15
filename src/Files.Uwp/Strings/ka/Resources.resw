@@ -249,9 +249,6 @@
   <data name="Application" xml:space="preserve">
     <value>აპლიკაცია</value>
   </data>
-  <data name="SystemTimeStye" xml:space="preserve">
-    <value>სისტემა</value>
-  </data>
   <data name="NewFolder" xml:space="preserve">
     <value>ახალი საქაღალდე</value>
   </data>
@@ -329,18 +326,6 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>თქვენ წაშალეთ ეს საქაღალდე?</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
-    <value>ფაილი, რომლის წაშლასაც თქვენ ცდილობთ, ამჟამად სხვა პროგრამა იყენებს.</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
-    <value>ფაილი გამოიყენება</value>
-  </data>
-  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
-    <value>სცადეთ ხელახლა</value>
-  </data>
-  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
-    <value>კარგი</value>
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>განლაგება</value>
@@ -713,9 +698,6 @@
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
     <value>შეცდომა</value>
-  </data>
-  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
-    <value>სცადეთ ხელახლა</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>მაინც დახურვა</value>

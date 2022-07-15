@@ -3,7 +3,7 @@ using Windows.Foundation.Collections;
 using Windows.Foundation.Metadata;
 using Windows.System;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     internal class StorageSenseHelper
     {

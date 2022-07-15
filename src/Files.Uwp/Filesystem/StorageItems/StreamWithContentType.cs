@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage.Streams;
 
-namespace Files.Filesystem.StorageItems
+namespace Files.Uwp.Filesystem.StorageItems
 {
     public class InputStreamWithDisposeCallback : IInputStream
     {

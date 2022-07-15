@@ -1,9 +1,9 @@
 ﻿using Files.Backend.Services.Settings;
-using Files.UserControls.Widgets;
-using Files.ViewModels.Widgets;
+using Files.Uwp.UserControls.Widgets;
+using Files.Uwp.ViewModels.Widgets;
 using System.Collections.Generic;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public static class WidgetsHelpers
     {

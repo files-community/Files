@@ -8,7 +8,7 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Markup;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public class ExternalResourcesHelper
     {
@@ -54,12 +54,15 @@ namespace Files.Helpers
         {
             foreach (var file in (await folder.GetFilesAsync()).Where(x => x.FileType == ".xaml"))
             {
-                Themes.Add(new AppTheme()
+                if(!Themes.Exists(t => t.AbsolutePath == file.Path))
                 {
-                    Name = file.Name.Replace(".xaml", "", StringComparison.Ordinal),
-                    Path = file.Name,
-                    AbsolutePath = file.Path,
-                });
+                    Themes.Add(new AppTheme()
+                    {
+                        Name = file.Name.Replace(".xaml", "", StringComparison.Ordinal),
+                        Path = file.Name,
+                        AbsolutePath = file.Path,
+                    });
+                }
             }
         }
 
@@ -107,7 +110,7 @@ namespace Files.Helpers
             return xaml;
         }
 
-        public async void UpdateTheme(AppTheme OldTheme, AppTheme NewTheme)
+        public async Task UpdateTheme(AppTheme OldTheme, AppTheme NewTheme)
         {
             if (OldTheme.Path != null)
             {

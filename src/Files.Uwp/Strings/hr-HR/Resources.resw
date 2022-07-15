@@ -255,9 +255,6 @@
   <data name="Application" xml:space="preserve">
     <value>Aplikacija</value>
   </data>
-  <data name="SystemTimeStye" xml:space="preserve">
-    <value>Sustav</value>
-  </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Nova mapa</value>
   </data>
@@ -335,18 +332,6 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Jeste li izbrisali ovu mapu?</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
-    <value>Datoteku koju pokušavate izbrisati trenutno koristi druga aplikacija.</value>
-  </data>
-  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
-    <value>Datoteka je u upotrebi</value>
-  </data>
-  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Pokušaj ponovno</value>
-  </data>
-  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
-    <value>U redu</value>
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>Raspored</value>
@@ -728,9 +713,6 @@
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
     <value>Greška</value>
-  </data>
-  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Pokušaj ponovno</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Ipak zatvori</value>

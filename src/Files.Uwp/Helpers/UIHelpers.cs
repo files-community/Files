@@ -11,7 +11,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace Files.Helpers
+namespace Files.Uwp.Helpers
 {
     public static class UIHelpers
     {
@@ -104,27 +104,7 @@ namespace Files.Helpers
                     Constants.ImageRes.Folder
                 }, 32);
 
-            const string shell32 = @"C:\Windows\System32\shell32.dll";
-            var shell32List = await UIHelpers.LoadSelectedIconsAsync(shell32, new List<int>() {
-                    Constants.Shell32.QuickAccess
-                }, 32);
-
-            if (shell32List != null && imageResList != null)
-            {
-                return imageResList.Concat(shell32List);
-            }
-            else if (shell32List != null && imageResList == null)
-            {
-                return shell32List;
-            }
-            else if (shell32List == null && imageResList != null)
-            {
-                return imageResList;
-            }
-            else
-            {
-                return null;
-            }
+            return imageResList;
         }
     }
 }
