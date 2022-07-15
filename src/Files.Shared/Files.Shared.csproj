@@ -6,10 +6,12 @@
     <RuntimeIdentifiers>win-arm64;win-x86;win-x64</RuntimeIdentifiers>
     <LangVersion>9</LangVersion>
     <Nullable>enable</Nullable>
+    <Configurations>Debug;Release;Sideload</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="LiteDB" Version="4.1.4" />
+    <PackageReference Include="System.Threading.Tasks.Dataflow" Version="6.0.0" />
   </ItemGroup>
 
 </Project>

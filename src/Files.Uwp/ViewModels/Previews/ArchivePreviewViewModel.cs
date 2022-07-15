@@ -11,11 +11,6 @@ namespace Files.Uwp.ViewModels.Previews
 {
     public class ArchivePreviewViewModel : BasePreviewModel
     {
-        public static List<string> Extensions => new List<string>()
-        {
-            ".zip", ".7z", ".rar"
-        };
-
         public ArchivePreviewViewModel(ListedItem item) : base(item) {}
 
         public override async Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
@@ -24,7 +19,7 @@ namespace Files.Uwp.ViewModels.Previews
             using SevenZipExtractor zipFile = await FilesystemTasks.Wrap(async () => new SevenZipExtractor(await Item.ItemFile.OpenStreamForReadAsync()));
             if (zipFile == null || zipFile.ArchiveFileData == null)
             {
-                _ = await base.LoadPreviewAndDetails(); // Loads the thumbnail preview
+                _ = await base.LoadPreviewAndDetailsAsync(); // Loads the thumbnail preview
                 return details;
             }
             //zipFile.IsStreamOwner = true;
@@ -45,10 +40,10 @@ namespace Files.Uwp.ViewModels.Previews
             details.Add(new FileProperty()
             {
                 NameResource = "PropertyItemCount",
-                Value = string.Format("DetailsArchiveItemCount".GetLocalized(), zipFile.Count, fileCount, folderCount),
+                Value = string.Format("DetailsArchiveItemCount".GetLocalized(), zipFile.FilesCount, fileCount, folderCount),
             });
 
-            string propertyItemCount = string.Format("DetailsArchiveItemCount".GetLocalized(), zipFile.Count, fileCount, folderCount);
+            string propertyItemCount = string.Format("DetailsArchiveItemCount".GetLocalized(), zipFile.FilesCount, fileCount, folderCount);
             details.Add(GetFileProperty("PropertyItemCount", propertyItemCount));
             details.Add(GetFileProperty("PropertyUncompressedSize", totalSize.ToLongSizeString()));
 
