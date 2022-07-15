@@ -18,17 +18,13 @@ using IO = System.IO;
 using Storage = Windows.Storage;
 using System.Text.RegularExpressions;
 using ICSharpCode.SharpZipLib.Zip;
+using Files.Backend.Services.Settings;
+using CommunityToolkit.Mvvm.DependencyInjection;
 
 namespace Files.Uwp.Filesystem.StorageItems
 {
     public sealed class ZipStorageFolder : BaseStorageFolder
     {
-        public static List<string> Extensions => new List<string>()
-        {
-            ".zip", ".7z", ".rar"
-        };
-
-        private static bool? isDefaultZipApp;
         private readonly string containerPath;
         private BaseStorageFile backingFile;
         private int index; // Index in zip file
@@ -68,8 +64,7 @@ namespace Files.Uwp.Filesystem.StorageItems
 
         public static bool IsZipPath(string path, bool includeRoot = true)
         {
-            var ext = ZipStorageFolder.Extensions.FirstOrDefault(x => path.Contains(x, StringComparison.OrdinalIgnoreCase));
-            if (string.IsNullOrEmpty(ext))
+            if (!FileExtensionHelpers.IsBrowsableZipFile(path, out var ext))
             {
                 return false;
             }
@@ -82,30 +77,36 @@ namespace Files.Uwp.Filesystem.StorageItems
             return (marker == path.Length && includeRoot) || (marker < path.Length && path[marker] is '\\');
         }
 
+        private static Dictionary<string, bool> defaultAppDict = new Dictionary<string, bool>();
         public static async Task<bool> CheckDefaultZipApp(string filePath)
         {
-            async Task<bool> queryFileAssoc()
+            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+            Func<Task<bool>> queryFileAssoc = async () =>
             {
                 var assoc = await NativeWinApiHelper.GetFileAssociationAsync(filePath);
-                if (assoc is not null)
+                if (assoc != null)
                 {
-                    isDefaultZipApp = assoc == Package.Current.Id.FamilyName
-                        || assoc.Equals(IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "explorer.exe")
-                            , StringComparison.OrdinalIgnoreCase);
+                    return assoc == Package.Current.Id.FamilyName
+                        || assoc.Equals(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "explorer.exe"), StringComparison.OrdinalIgnoreCase);
                 }
                 return true;
-            }
-            return isDefaultZipApp ?? await queryFileAssoc();
+            };
+            var ext = System.IO.Path.GetExtension(filePath)?.ToLowerInvariant();
+            return userSettingsService.PreferencesSettingsService.OpenArchivesInFiles || await defaultAppDict.Get(ext, queryFileAssoc());
         }
 
         public static IAsyncOperation<BaseStorageFolder> FromPathAsync(string path)
         {
             return AsyncInfo.Run<BaseStorageFolder>(async (cancellationToken) =>
             {
-                var marker = path.IndexOf(".zip", StringComparison.OrdinalIgnoreCase);
+                if (!FileExtensionHelpers.IsBrowsableZipFile(path, out var ext))
+                {
+                    return null;
+                }
+                var marker = path.IndexOf(ext, StringComparison.OrdinalIgnoreCase);
                 if (marker is not -1)
                 {
-                    var containerPath = path.Substring(0, marker + ".zip".Length);
+                    var containerPath = path.Substring(0, marker + ext.Length);
                     if (await CheckDefaultZipApp(path) && CheckAccess(containerPath))
                     {
                         return new ZipStorageFolder(path, containerPath);

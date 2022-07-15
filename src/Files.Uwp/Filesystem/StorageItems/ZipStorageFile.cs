@@ -71,10 +71,14 @@ namespace Files.Uwp.Filesystem.StorageItems
         {
             return AsyncInfo.Run(cancellationToken =>
             {
-                var marker = path.IndexOf(".zip", StringComparison.OrdinalIgnoreCase);
+                if (!FileExtensionHelpers.IsBrowsableZipFile(path, out var ext))
+                {
+                    return Task.FromResult<BaseStorageFile>(null);
+                }
+                var marker = path.IndexOf(ext, StringComparison.OrdinalIgnoreCase);
                 if (marker is not -1)
                 {
-                    var containerPath = path.Substring(0, marker + ".zip".Length);
+                    var containerPath = path.Substring(0, marker + ext.Length);
                     if (path == containerPath)
                     {
                         return Task.FromResult<BaseStorageFile>(null); // Root
