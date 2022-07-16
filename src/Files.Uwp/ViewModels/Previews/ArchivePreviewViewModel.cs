@@ -36,12 +36,7 @@ namespace Files.Uwp.ViewModels.Previews
                     totalSize += entry.Size;
                 }
             }
-
-            details.Add(new FileProperty()
-            {
-                NameResource = "PropertyItemCount",
-                Value = string.Format("DetailsArchiveItemCount".GetLocalized(), zipFile.FilesCount, fileCount, folderCount),
-            });
+            folderCount = (int)zipFile.FilesCount - fileCount;
 
             string propertyItemCount = string.Format("DetailsArchiveItemCount".GetLocalized(), zipFile.FilesCount, fileCount, folderCount);
             details.Add(GetFileProperty("PropertyItemCount", propertyItemCount));
