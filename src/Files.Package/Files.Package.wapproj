@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="Current" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup Condition="'$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '17.0'">
-    <VisualStudioVersion>17.0</VisualStudioVersion>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="'$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '15.0'">
+    <VisualStudioVersion>15.0</VisualStudioVersion>
   </PropertyGroup>
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x86">
@@ -47,7 +47,7 @@
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.props" />
   <PropertyGroup>
     <ProjectGuid>3b15596c-3db9-4b58-b4c8-442d06a8c130</ProjectGuid>
-    <TargetPlatformVersion>10.0.22000.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
@@ -100,6 +100,12 @@
     <ProjectReference Include="..\Files.FullTrust\Files.FullTrust.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="7z.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="7z64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\AppTilesDev\BadgeLogo.scale-100.png" />
     <Content Include="Assets\AppTilesDev\BadgeLogo.scale-125.png" />
     <Content Include="Assets\AppTilesDev\BadgeLogo.scale-150.png" />
@@ -482,6 +488,7 @@
     <Content Include="Assets\AppTilesDev\Wide310x150Logo.scale-150.png" />
     <Content Include="Assets\AppTilesDev\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\AppTilesDev\Wide310x150Logo.scale-400.png" />
+    <None Include="nupkgs\SevenZipSharp.1.0.0.nupkg" />
     <Content Include="Package.appinstaller" />
   </ItemGroup>
   <ItemGroup>
