@@ -75,7 +75,7 @@ namespace Files.Uwp.ViewModels.Properties
             ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(
                 Item.ItemPath, System.IO.FileAttributes.Hidden);
 
-            var fileIconData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.ItemPath, 80, Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
+            var fileIconData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.ItemPath, 80, true, Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
             if (fileIconData != null)
             {
                 ViewModel.IconData = fileIconData;

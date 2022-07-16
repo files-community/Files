@@ -18,7 +18,7 @@ namespace Files.Uwp.ServicesImplementation
         {
             ImageModel? imageModel = null;
 
-            if (await FileThumbnailHelper.LoadIconFromPathAsync(filePath, thumbnailSize, ThumbnailMode.ListView) is byte[] imageBuffer)
+            if (await FileThumbnailHelper.LoadIconFromPathAsync(filePath, thumbnailSize, false, ThumbnailMode.ListView) is byte[] imageBuffer)
             {
                 imageModel = await GetImageModelFromDataAsync(imageBuffer);
             }

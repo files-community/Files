@@ -13,7 +13,7 @@ namespace Files.Uwp.Helpers
 {
     public static class FileThumbnailHelper
     {
-        public static async Task<(byte[] IconData, byte[] OverlayData)> LoadIconAndOverlayAsync(string filePath, uint thumbnailSize)
+        public static async Task<(byte[] IconData, byte[] OverlayData)> LoadIconAndOverlayAsync(string filePath, uint thumbnailSize, bool isFolder)
         {
             var connection = await AppServiceConnectionHelper.Instance;
             if (connection != null)
@@ -23,6 +23,7 @@ namespace Files.Uwp.Helpers
                     { "Arguments", "GetIconOverlay" },
                     { "filePath", filePath },
                     { "thumbnailSize", (int)thumbnailSize },
+                    { "isFolder", isFolder },
                     { "isOverlayOnly", false }
                 };
                 var (status, response) = await connection.SendMessageForResponseAsync(value);
@@ -40,7 +41,7 @@ namespace Files.Uwp.Helpers
             return (null, null);
         }
 
-        public static async Task<byte[]> LoadOverlayAsync(string filePath, uint thumbnailSize)
+        public static async Task<byte[]> LoadOverlayAsync(string filePath, uint thumbnailSize, bool isFolder)
         {
             var connection = await AppServiceConnectionHelper.Instance;
             if (connection != null)
@@ -50,6 +51,7 @@ namespace Files.Uwp.Helpers
                     { "Arguments", "GetIconOverlay" },
                     { "filePath", filePath },
                     { "thumbnailSize", thumbnailSize },
+                    { "isFolder", isFolder },
                     { "isOverlayOnly", true }
                 };
                 var (status, response) = await connection.SendMessageForResponseAsync(value);
@@ -65,7 +67,7 @@ namespace Files.Uwp.Helpers
             return null;
         }
 
-        public static async Task<byte[]> LoadIconWithoutOverlayAsync(string filePath, uint thumbnailSize)
+        public static async Task<byte[]> LoadIconWithoutOverlayAsync(string filePath, uint thumbnailSize, bool isFolder)
         {
             var Connection = await AppServiceConnectionHelper.Instance;
             if (Connection != null)
@@ -74,6 +76,7 @@ namespace Files.Uwp.Helpers
                 value.Add("Arguments", "GetIconWithoutOverlay");
                 value.Add("filePath", filePath);
                 value.Add("thumbnailSize", (int)thumbnailSize);
+                value.Add("isFolder", isFolder);
                 var (status, response) = await Connection.SendMessageForResponseAsync(value);
                 if (status == AppServiceResponseStatus.Success)
                 {
@@ -110,7 +113,7 @@ namespace Files.Uwp.Helpers
             return null;
         }
 
-        public static async Task<byte[]> LoadIconFromPathAsync(string filePath, uint thumbnailSize, ThumbnailMode thumbnailMode)
+        public static async Task<byte[]> LoadIconFromPathAsync(string filePath, uint thumbnailSize, bool isFolder, ThumbnailMode thumbnailMode)
         {
             if (!filePath.EndsWith(".lnk", StringComparison.Ordinal) && !filePath.EndsWith(".url", StringComparison.Ordinal))
             {
@@ -124,7 +127,7 @@ namespace Files.Uwp.Helpers
                     }
                 }
             }
-            return await LoadIconWithoutOverlayAsync(filePath, thumbnailSize);
+            return await LoadIconWithoutOverlayAsync(filePath, thumbnailSize, isFolder);
         }
     }
 }

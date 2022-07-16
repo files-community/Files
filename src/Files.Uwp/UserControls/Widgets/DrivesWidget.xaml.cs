@@ -46,7 +46,7 @@ namespace Files.Uwp.UserControls.Widgets
             if (thumbnailData == null || thumbnailData.Length == 0)
             {
                 // Try load thumbnail using ListView mode
-                thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.Path, Convert.ToUInt32(overrideThumbnailSize), Windows.Storage.FileProperties.ThumbnailMode.ListView);
+                thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.Path, Convert.ToUInt32(overrideThumbnailSize), false, Windows.Storage.FileProperties.ThumbnailMode.ListView);
             }
             if (thumbnailData == null || thumbnailData.Length == 0)
             {

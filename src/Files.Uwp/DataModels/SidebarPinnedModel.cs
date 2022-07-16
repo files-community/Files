@@ -270,7 +270,7 @@ namespace Files.Uwp.DataModels
                 }
                 if (locationItem.IconData == null)
                 {
-                    locationItem.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(path, 24u);
+                    locationItem.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(path, 24u, true);
                     if (locationItem.IconData != null)
                     {
                         locationItem.Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => locationItem.IconData.ToBitmapAsync());

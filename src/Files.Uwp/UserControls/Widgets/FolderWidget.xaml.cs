@@ -72,7 +72,7 @@ namespace Files.Uwp.UserControls.Widgets
         {
             if (thumbnailData == null || thumbnailData.Length == 0)
             {
-                thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Path, Convert.ToUInt32(overrideThumbnailSize), Windows.Storage.FileProperties.ThumbnailMode.ListView);
+                thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Path, Convert.ToUInt32(overrideThumbnailSize), true, Windows.Storage.FileProperties.ThumbnailMode.ListView);
                 if (thumbnailData != null && thumbnailData.Length > 0)
                 {
                     Thumbnail = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(overrideThumbnailSize));

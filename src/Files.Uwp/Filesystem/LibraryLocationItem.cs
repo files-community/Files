@@ -50,7 +50,7 @@ namespace Files.Uwp.Filesystem
 
         public async Task LoadLibraryIcon()
         {
-            IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Path, 24u);
+            IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Path, 24u, true);
             if (IconData != null)
             {
                 Icon = await IconData.ToBitmapAsync();

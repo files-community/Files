@@ -329,7 +329,7 @@ namespace Files.Uwp.ViewModels
 
             if (iconSource.ImageSource == null)
             {
-                var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(currentPath, 24u, Windows.Storage.FileProperties.ThumbnailMode.ListView);
+                var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(currentPath, 24u, true, Windows.Storage.FileProperties.ThumbnailMode.ListView);
                 if (iconData != null)
                 {
                     iconSource.ImageSource = await iconData.ToBitmapAsync();

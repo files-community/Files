@@ -92,7 +92,7 @@ namespace Files.Uwp.ViewModels.Previews
         public async virtual Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
         {
             var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(Item.ItemFile, 400, ThumbnailMode.DocumentsView);
-            iconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, 400);
+            iconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, 400, false);
             if (iconData is not null)
             {
                 await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () => FileImage = await iconData.ToBitmapAsync());
