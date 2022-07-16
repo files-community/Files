@@ -1,6 +1,5 @@
 ﻿using Files.Shared.Enums;
 using Files.Uwp.Filesystem;
-using Files.Backend.Services.Settings;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -23,14 +22,14 @@ namespace Files.Uwp.Helpers
                 SortOption.FileType => item => item.ItemType,
                 SortOption.Size => item => item.FileSizeBytes,
                 SortOption.SyncStatus => item => item.SyncStatusString,
-                SortOption.FileTag => item => item.FileTag,
+                SortOption.FileTag => item => item.FileTags?.FirstOrDefault(),
                 SortOption.OriginalFolder => item => (item as RecycleBinItem)?.ItemOriginalFolder,
                 SortOption.DateDeleted => item => (item as RecycleBinItem)?.ItemDateDeletedReal,
                 _ => null,
             };
         }
 
-        public static IEnumerable<ListedItem> OrderFileList(List<ListedItem> filesAndFolders, SortOption directorySortOption, SortDirection directorySortDirection)
+        public static IEnumerable<ListedItem> OrderFileList(List<ListedItem> filesAndFolders, SortOption directorySortOption, SortDirection directorySortDirection, bool sortDirectoriesAlongsideFiles)
         {
             var orderFunc = GetSortFunc(directorySortOption);
             var naturalStringComparer = NaturalStringComparer.GetForProcessor();
@@ -40,13 +39,11 @@ namespace Files.Uwp.Helpers
             static bool folderThenFileAsync(ListedItem listedItem) => (listedItem.PrimaryItemAttribute == StorageItemTypes.File || listedItem.IsShortcutItem || listedItem.IsZipItem);
             IOrderedEnumerable<ListedItem> ordered;
 
-            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
-
             if (directorySortDirection == SortDirection.Ascending)
             {
                 if (directorySortOption == SortOption.Name)
                 {
-                    if (userSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles)
+                    if (sortDirectoriesAlongsideFiles)
                     {
                         ordered = filesAndFolders.OrderBy(orderFunc, naturalStringComparer);
                     }
@@ -57,7 +54,7 @@ namespace Files.Uwp.Helpers
                 }
                 else if (directorySortOption == SortOption.FileTag)
                 {
-                    if (userSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles)
+                    if (sortDirectoriesAlongsideFiles)
                     {
                         ordered = filesAndFolders.OrderBy(x => string.IsNullOrEmpty(orderFunc(x) as string)).ThenBy(orderFunc);
                     }
@@ -68,7 +65,7 @@ namespace Files.Uwp.Helpers
                 }
                 else
                 {
-                    if (userSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles)
+                    if (sortDirectoriesAlongsideFiles)
                     {
                         ordered = filesAndFolders.OrderBy(orderFunc);
                     }
@@ -82,7 +79,7 @@ namespace Files.Uwp.Helpers
             {
                 if (directorySortOption == SortOption.Name)
                 {
-                    if (userSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles)
+                    if (sortDirectoriesAlongsideFiles)
                     {
                         ordered = filesAndFolders.OrderByDescending(orderFunc, naturalStringComparer);
                     }
@@ -93,7 +90,7 @@ namespace Files.Uwp.Helpers
                 }
                 else if (directorySortOption == SortOption.FileTag)
                 {
-                    if (userSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles)
+                    if (sortDirectoriesAlongsideFiles)
                     {
                         ordered = filesAndFolders.OrderBy(x => string.IsNullOrEmpty(orderFunc(x) as string)).ThenByDescending(orderFunc);
                     }
@@ -104,7 +101,7 @@ namespace Files.Uwp.Helpers
                 }
                 else
                 {
-                    if (userSettingsService.PreferencesSettingsService.ListAndSortDirectoriesAlongsideFiles)
+                    if (sortDirectoriesAlongsideFiles)
                     {
                         ordered = filesAndFolders.OrderByDescending(orderFunc);
                     }

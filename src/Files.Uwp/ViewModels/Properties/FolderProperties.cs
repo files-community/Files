@@ -111,8 +111,7 @@ namespace Files.Uwp.ViewModels.Properties
 
             if (storageFolder != null)
             {
-                string returnformat = DateTimeExtensions.GetDateFormat();
-                ViewModel.ItemCreatedTimestamp = storageFolder.DateCreated.GetFriendlyDateFromFormat(returnformat);
+                ViewModel.ItemCreatedTimestamp = dateTimeFormatter.ToShortLabel(storageFolder.DateCreated);
                 if (storageFolder.Properties != null)
                 {
                     GetOtherProperties(storageFolder.Properties);

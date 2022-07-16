@@ -52,10 +52,18 @@ namespace Files.Uwp.ServicesImplementation
             return dialog;
         }
 
-        public Task<DialogResult> ShowDialogAsync<TViewModel>(TViewModel viewModel)
+        public async Task<DialogResult> ShowDialogAsync<TViewModel>(TViewModel viewModel)
             where TViewModel : class, INotifyPropertyChanged
         {
-            return GetDialog<TViewModel>(viewModel).ShowAsync();
+            try
+            {
+                return await GetDialog(viewModel).ShowAsync();
+            }
+            catch (Exception)
+            {
+            }
+
+            return DialogResult.None;
         }
     }
 }

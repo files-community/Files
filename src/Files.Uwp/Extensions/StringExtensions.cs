@@ -1,4 +1,5 @@
 ﻿using ByteSizeLib;
+using Files.Shared.Extensions;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -51,24 +52,6 @@ namespace Files.Uwp.Extensions
             }
 
             return result;
-        }
-
-        /// <summary>Gets the rightmost <paramref name="length" /> characters from a string.</summary>
-        /// <param name="value">The string to retrieve the substring from.</param>
-        /// <param name="length">The number of characters to retrieve.</param>
-        /// <returns>The substring.</returns>
-        public static string Right(this string value, int length)
-        {
-            if (value == null)
-            {
-                throw new ArgumentNullException("value");
-            }
-            if (length < 0)
-            {
-                throw new ArgumentOutOfRangeException("length", length, "Length is less than zero");
-            }
-
-            return (length < value.Length) ? value.Substring(value.Length - length) : value;
         }
 
         private static readonly Dictionary<string, string> abbreviations = new Dictionary<string, string>()

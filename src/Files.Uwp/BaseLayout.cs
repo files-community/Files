@@ -35,6 +35,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using Files.Uwp.UserControls.Menus;
 using static Files.Uwp.Helpers.PathNormalization;
 
 namespace Files.Uwp
@@ -67,7 +68,10 @@ namespace Files.Uwp
         {
             AlwaysExpanded = true,
         };
-        public Microsoft.UI.Xaml.Controls.CommandBarFlyout BaseContextMenuFlyout { get; set; } = new Microsoft.UI.Xaml.Controls.CommandBarFlyout();
+        public Microsoft.UI.Xaml.Controls.CommandBarFlyout BaseContextMenuFlyout { get; set; } = new Microsoft.UI.Xaml.Controls.CommandBarFlyout()
+        {
+            AlwaysExpanded = true,
+        };
 
         public BaseLayoutCommandsViewModel CommandsViewModel { get; protected set; }
 
@@ -376,11 +380,10 @@ namespace Files.Uwp
         {
             if (ParentShellPageInstance.SlimContentPage != null)
             {
-                var layoutType = FolderSettings.GetLayoutType(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, false);
+                var layoutType = FolderSettings.GetLayoutType(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory);
 
                 if (layoutType != ParentShellPageInstance.CurrentPageType)
                 {
-                    FolderSettings.IsLayoutModeChanging = true;
                     ParentShellPageInstance.NavigateWithArguments(layoutType, new NavigationArguments()
                     {
                         NavPathParam = navigationArguments.NavPathParam,
@@ -419,7 +422,6 @@ namespace Files.Uwp
             FolderSettings.LayoutModeChangeRequested += BaseFolderSettings_LayoutModeChangeRequested;
             FolderSettings.GroupOptionPreferenceUpdated += FolderSettings_GroupOptionPreferenceUpdated;
             ParentShellPageInstance.FilesystemViewModel.EmptyTextType = EmptyTextType.None;
-            FolderSettings.SetLayoutInformation();
             ParentShellPageInstance.ToolbarViewModel.UpdateSortAndGroupOptions();
 
             if (!navigationArguments.IsSearchResultPage)
@@ -662,7 +664,7 @@ namespace Files.Uwp
 
             if (UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled && InstanceViewModel.CanTagFilesInPage)
             {
-                AddFileTagsItemToMenu(ItemContextMenuFlyout);
+                AddNewFileTagsToMenu(ItemContextMenuFlyout);
             }
 
             if (!InstanceViewModel.IsPageTypeZipFolder)
@@ -676,12 +678,11 @@ namespace Files.Uwp
             }
         }
 
-        private void AddFileTagsItemToMenu(Microsoft.UI.Xaml.Controls.CommandBarFlyout contextMenu)
+        private void AddNewFileTagsToMenu(Microsoft.UI.Xaml.Controls.CommandBarFlyout contextMenu)
         {
-            var fileTagMenuFlyout = new MenuFlyoutItemFileTag()
+            var fileTagsContextMenu = new FileTagsContextMenu()
             {
-                ItemsSource = FileTagsSettingsService.FileTagList,
-                SelectedItems = SelectedItems
+                SelectedListedItems = SelectedItems
             };
             var overflowSeparator = contextMenu.SecondaryCommands.FirstOrDefault(x => x is FrameworkElement fe && fe.Tag as string == "OverflowSeparator") as AppBarSeparator;
             var index = contextMenu.SecondaryCommands.IndexOf(overflowSeparator);
@@ -689,7 +690,7 @@ namespace Files.Uwp
             contextMenu.SecondaryCommands.Insert(index, new AppBarSeparator());
             contextMenu.SecondaryCommands.Insert(index + 1, new AppBarElementContainer()
             {
-                Content = fileTagMenuFlyout
+                Content = fileTagsContextMenu
             });
         }
 
@@ -1016,6 +1017,8 @@ namespace Files.Uwp
             }
         }
 
+        private readonly RecycleBinHelpers recycleBinHelpers = new();
+
         protected void InitializeDrag(UIElement containter, ListedItem item)
         {
             if (item is null)
@@ -1024,7 +1027,7 @@ namespace Files.Uwp
             }
 
             UninitializeDrag(containter);
-            if (item.PrimaryItemAttribute == StorageItemTypes.Folder || item.IsExecutable)
+            if ((item.PrimaryItemAttribute == StorageItemTypes.Folder && !recycleBinHelpers.IsPathUnderRecycleBin(item.ItemPath)) || item.IsExecutable)
             {
                 containter.AllowDrop = true;
                 containter.DragOver += Item_DragOver;

@@ -1,9 +1,9 @@
-﻿using Files.Shared.Extensions;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services.Settings;
+using Files.Shared.Extensions;
 using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
-using Files.Backend.Services.Settings;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -16,7 +16,7 @@ using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
-using static Files.Uwp.Helpers.NativeFindStorageItemHelper;
+using static Files.Backend.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.Uwp.Filesystem.Search
@@ -192,12 +192,12 @@ namespace Files.Uwp.Filesystem.Search
         {
             //var sampler = new IntervalSampler(500);
             var tagName = AQSQuery.Substring("tag:".Length);
-            var tags = FileTagsSettingsService.GetTagsByName(tagName);
+            var tags = FileTagsSettingsService.SearchTagsByName(tagName);
             if (!tags.Any())
             {
                 return;
             }
-            var matches = FileTagsHelper.DbInstance.GetAllUnderPath(folder).Where(x => tags.Any(t => x.Tag == t.Uid));
+            var matches = FileTagsHelper.DbInstance.GetAllUnderPath(folder).Where(x => tags.Select(t => t.Uid).Intersect(x.Tags).Any());
             foreach (var match in matches)
             {
                 (IntPtr hFile, WIN32_FIND_DATA findData) = await Task.Run(() =>

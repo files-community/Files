@@ -11,18 +11,23 @@ using Files.Uwp.UserControls;
 using Files.Uwp.UserControls.MultitaskingControl;
 using Files.Uwp.ViewModels;
 using Microsoft.Toolkit.Uwp;
+using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources.Core;
+using Windows.Services.Store;
 using Windows.Storage;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using Files.Shared.EventArguments;
 
 namespace Files.Uwp.Views
 {
@@ -74,7 +79,36 @@ namespace Files.Uwp.Views
             ToggleCompactOverlayCommand = new RelayCommand(ToggleCompactOverlay);
             SetCompactOverlayCommand = new RelayCommand<bool>(SetCompactOverlay);
 
+            if (SystemInformation.Instance.TotalLaunchCount >= 15 & Package.Current.Id.Name == "49306atecsolution.FilesUWP" && !UserSettingsService.ApplicationSettingsService.WasPromptedToReview)
+            {
+                PromptForReview();
+                UserSettingsService.ApplicationSettingsService.WasPromptedToReview = true;
+            }
+
             UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
+        }
+
+        private async void PromptForReview()
+        {
+            var AskForReviewDialog = new ContentDialog
+            {
+                Title = "ReviewFiles".ToLocalized(),
+                Content = "ReviewFilesContent".ToLocalized(),
+                PrimaryButtonText = "Yes".ToLocalized(),
+                SecondaryButtonText = "No".ToLocalized()
+        };
+
+            var result = await AskForReviewDialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+                try
+                {
+                    var storeContext = StoreContext.GetDefault();
+                    await storeContext.RequestRateAndReviewAppAsync();
+                }
+                catch (Exception) { }
+            }
         }
 
         private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
@@ -426,6 +460,7 @@ namespace Files.Uwp.Views
                         PaneSplitter.SetValue(Grid.ColumnProperty, 1);
                         PaneSplitter.Width = 2;
                         PaneSplitter.Height = RootGrid.ActualHeight;
+                        PaneSplitter.GripperCursor = GridSplitter.GripperCursorType.SizeWestEast;
                         PaneColumn.MinWidth = Pane.MinWidth;
                         PaneColumn.MaxWidth = Pane.MaxWidth;
                         PaneColumn.Width = new GridLength(UserSettingsService.PaneSettingsService.VerticalSizePx, GridUnitType.Pixel);
@@ -440,6 +475,7 @@ namespace Files.Uwp.Views
                         PaneSplitter.SetValue(Grid.ColumnProperty, 0);
                         PaneSplitter.Height = 2;
                         PaneSplitter.Width = RootGrid.ActualWidth;
+                        PaneSplitter.GripperCursor = GridSplitter.GripperCursorType.SizeNorthSouth;
                         PaneColumn.MinWidth = 0;
                         PaneColumn.MaxWidth = double.MaxValue;
                         PaneColumn.Width = new GridLength(0);

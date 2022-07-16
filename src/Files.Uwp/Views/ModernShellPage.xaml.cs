@@ -184,6 +184,7 @@ namespace Files.Uwp.Views
 
             InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated += AppSettings_SortDirectionPreferenceUpdated;
             InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated += AppSettings_SortOptionPreferenceUpdated;
+            InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFilesPreferenceUpdated += AppSettings_SortDirectoriesAlongsideFilesPreferenceUpdated;
 
             Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
             SystemNavigationManager.GetForCurrentView().BackRequested += ModernShellPage_BackRequested;
@@ -205,8 +206,9 @@ namespace Files.Uwp.Views
             var tabInstance = CurrentPageType == typeof(DetailsLayoutBrowser) ||
                               CurrentPageType == typeof(GridViewBrowser);
 
-            switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.Key) {
-                case (true, false, false, true, (VirtualKey) 192): // ctrl + ` (accent key), open terminal
+            switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.Key)
+            {
+                case (true, false, false, true, (VirtualKey)192): // ctrl + ` (accent key), open terminal
                     // Check if there is a folder selected, if not use the current directory.
                     string path = FilesystemViewModel.WorkingDirectory;
                     if (SlimContentPage?.SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder)
@@ -274,10 +276,10 @@ namespace Files.Uwp.Views
         {
             if (FilesystemViewModel != null)
             {
-                (sender as FolderSettingsViewModel).UpdateLayoutPreferencesForPath(FilesystemViewModel.WorkingDirectory, e.LayoutPreference);
+                FolderSettingsViewModel.SetLayoutPreferencesForPath(FilesystemViewModel.WorkingDirectory, e.LayoutPreference);
                 if (e.IsAdaptiveLayoutUpdateRequired)
                 {
-                    AdaptiveLayoutHelpers.PredictLayoutMode(InstanceViewModel.FolderSettings, FilesystemViewModel);
+                    AdaptiveLayoutHelpers.PredictLayoutMode(InstanceViewModel.FolderSettings, FilesystemViewModel.WorkingDirectory, FilesystemViewModel.FilesAndFolders);
                 }
             }
         }
@@ -402,6 +404,11 @@ namespace Files.Uwp.Views
         private void AppSettings_SortOptionPreferenceUpdated(object sender, SortOption e)
         {
             FilesystemViewModel?.UpdateSortOptionStatus();
+        }
+
+        private void AppSettings_SortDirectoriesAlongsideFilesPreferenceUpdated(object sender, bool e)
+        {
+            FilesystemViewModel?.UpdateSortDirectoriesAlongsideFiles();
         }
 
         private void CoreWindow_PointerPressed(CoreWindow sender, PointerEventArgs args)
@@ -675,7 +682,7 @@ namespace Files.Uwp.Views
             var ctrl = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Control);
             var shift = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
             var alt = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Menu);
-            var tabInstance = CurrentPageType == typeof(DetailsLayoutBrowser) || 
+            var tabInstance = CurrentPageType == typeof(DetailsLayoutBrowser) ||
                               CurrentPageType == typeof(GridViewBrowser);
 
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
@@ -837,6 +844,10 @@ namespace Files.Uwp.Views
                 case (true, true, false, _, VirtualKey.Number6): // ctrl+shift+6, column view
                     InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView(true);
                     break;
+
+                case (true, true, false, _, VirtualKey.Number7): // ctrl+shift+7, adaptive
+                    InstanceViewModel.FolderSettings.ToggleLayoutModeAdaptive();
+                    break;
             }
 
             switch (args.KeyboardAccelerator.Key)
@@ -856,10 +867,9 @@ namespace Files.Uwp.Views
 
         public async void Refresh_Click()
         {
-            ToolbarViewModel.CanRefresh = false;
-
             if (InstanceViewModel.IsPageTypeSearchResults)
             {
+                ToolbarViewModel.CanRefresh = false;
                 var searchInstance = new FolderSearch
                 {
                     Query = InstanceViewModel.CurrentSearchQuery,
@@ -869,10 +879,10 @@ namespace Files.Uwp.Views
                 };
                 await FilesystemViewModel.SearchAsync(searchInstance);
             }
-            else
+            else if (CurrentPageType != typeof(WidgetsPage))
             {
-                var ContentOwnedViewModelInstance = FilesystemViewModel;
-                ContentOwnedViewModelInstance?.RefreshItems(null);
+                ToolbarViewModel.CanRefresh = false;
+                FilesystemViewModel?.RefreshItems(null);
             }
         }
 
@@ -953,6 +963,10 @@ namespace Files.Uwp.Views
                 {
                     parentDirectoryOfPath = FilesystemViewModel.WorkingDirectory.Remove(lastSlashIndex);
                 }
+                if (parentDirectoryOfPath.EndsWith(":"))
+                {
+                    parentDirectoryOfPath += '\\';
+                }
 
                 SelectSidebarItemFromPath();
                 ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(parentDirectoryOfPath),
@@ -997,6 +1011,7 @@ namespace Files.Uwp.Views
             InstanceViewModel.FolderSettings.LayoutPreferencesUpdateRequired -= FolderSettings_LayoutPreferencesUpdateRequired;
             InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated -= AppSettings_SortDirectionPreferenceUpdated;
             InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated -= AppSettings_SortOptionPreferenceUpdated;
+            InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFilesPreferenceUpdated -= AppSettings_SortDirectoriesAlongsideFilesPreferenceUpdated;
 
             if (FilesystemViewModel != null) // Prevent weird case of this being null when many tabs are opened/closed quickly
             {

@@ -287,6 +287,7 @@ namespace Files.Uwp.Views
         {
             IsRightPaneVisible = true;
             NavParamsRight = new NavigationParams { NavPath = path };
+            ActivePane = PaneRight;
         }
 
         private void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)

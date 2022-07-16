@@ -356,7 +356,7 @@ namespace Files.Uwp.ViewModels.Properties
         private async Task<string> GetHashForFileAsync(ListedItem fileItem, string nameOfAlg, CancellationToken token, IProgress<float> progress, IShellPage associatedInstance)
         {
             HashAlgorithmProvider algorithmProvider = HashAlgorithmProvider.OpenAlgorithm(nameOfAlg);
-            BaseStorageFile file = await StorageHelpers.ToStorageItem<BaseStorageFile>((fileItem as ShortcutItem)?.TargetPath ?? fileItem.ItemPath, associatedInstance);
+            BaseStorageFile file = await StorageHelpers.ToStorageItem<BaseStorageFile>((fileItem as ShortcutItem)?.TargetPath ?? fileItem.ItemPath);
             if (file == null)
             {
                 return "";

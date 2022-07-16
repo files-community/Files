@@ -7,6 +7,7 @@ using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Files.Uwp.Helpers;
 
 namespace Files.Uwp.UserControls.MultitaskingControl
 {
@@ -80,7 +81,7 @@ namespace Files.Uwp.UserControls.MultitaskingControl
     {
         private static KnownTypesBinder TypesBinder = new KnownTypesBinder
         {
-            KnownTypes = new List<Type> { typeof(PaneNavigationArguments) }
+            KnownTypes = { typeof(PaneNavigationArguments) }
         };
 
         public Type InitialPageType { get; set; }
@@ -97,28 +98,5 @@ namespace Files.Uwp.UserControls.MultitaskingControl
             TypeNameHandling = TypeNameHandling.Auto,
             SerializationBinder = TypesBinder
         });
-    }
-
-    public class KnownTypesBinder : ISerializationBinder
-    {
-        public IList<Type> KnownTypes { get; set; }
-
-        public Type BindToType(string assemblyName, string typeName)
-        {
-            if (!KnownTypes.Any(x => x.Name == typeName))
-            {
-                throw new ArgumentException();
-            }
-            else
-            {
-                return KnownTypes.SingleOrDefault(t => t.Name == typeName);
-            }
-        }
-
-        public void BindToName(Type serializedType, out string assemblyName, out string typeName)
-        {
-            assemblyName = null;
-            typeName = serializedType.Name;
-        }
     }
 }

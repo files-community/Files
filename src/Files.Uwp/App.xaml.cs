@@ -1,14 +1,19 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services;
 using Files.Backend.Services.Settings;
+using Files.Backend.Services.SizeProvider;
 using Files.Shared;
+using Files.Shared.Cloud;
 using Files.Shared.Extensions;
+using Files.Shared.Services.DateTimeFormatter;
 using Files.Uwp.CommandLine;
 using Files.Uwp.Controllers;
 using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem.Cloud;
 using Files.Uwp.Filesystem.FilesystemHistory;
 using Files.Uwp.Helpers;
 using Files.Uwp.ServicesImplementation;
+using Files.Uwp.ServicesImplementation.DateTimeFormatter;
 using Files.Uwp.ServicesImplementation.Settings;
 using Files.Uwp.UserControls.MultitaskingControl;
 using Files.Uwp.ViewModels;
@@ -56,6 +61,7 @@ namespace Files.Uwp
         public static PaneViewModel PaneViewModel { get; private set; }
         public static PreviewPaneViewModel PreviewPaneViewModel { get; private set; }
         public static JumpListManager JumpList { get; private set; }
+        public static RecentItemsManager RecentItemsManager { get; private set; }
         public static SidebarPinnedController SidebarPinnedController { get; private set; }
         public static TerminalController TerminalController { get; private set; }
         public static CloudDrivesManager CloudDrivesManager { get; private set; }
@@ -108,6 +114,7 @@ namespace Files.Uwp
                 .AddSingleton<IWidgetsSettingsService, WidgetsSettingsService>((sp) => new WidgetsSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
                 .AddSingleton<IAppearanceSettingsService, AppearanceSettingsService>((sp) => new AppearanceSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
                 .AddSingleton<IPreferencesSettingsService, PreferencesSettingsService>((sp) => new PreferencesSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
+                .AddSingleton<IApplicationSettingsService, ApplicationSettingsService>((sp) => new ApplicationSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
                 .AddSingleton<IPaneSettingsService, PaneSettingsService>((sp) => new PaneSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
                 .AddSingleton<ILayoutSettingsService, LayoutSettingsService>((sp) => new LayoutSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
                 // Settings not related to IUserSettingsService:
@@ -120,12 +127,20 @@ namespace Files.Uwp
                 .AddSingleton<IImagingService, ImagingService>()
                 .AddSingleton<IThreadingService, ThreadingService>()
                 .AddSingleton<ILocalizationService, LocalizationService>()
+                .AddSingleton<ICloudDetector, CloudDetector>()
+#if SIDELOAD
+                .AddSingleton<IUpdateService, SideloadUpdateService>()
+#else
                 .AddSingleton<IUpdateService, UpdateService>()
+#endif
+                .AddSingleton<IDateTimeFormatterFactory, DateTimeFormatterFactory>()
+                .AddSingleton<IDateTimeFormatter, UserDateTimeFormatter>()
+                .AddSingleton<IVolumeInfoFactory, VolumeInfoFactory>()
 
                 // TODO(i): FileSystem operations:
                 // (IFilesystemHelpersService, IFilesystemOperationsService)
                 // (IStorageEnumerator, IFallbackStorageEnumerator)
-                .AddSingleton<IFolderSizeProvider, FolderSizeProvider>()
+                .AddSingleton<ISizeProvider, UserSizeProvider>()
 
                 ; // End of service configuration
 
@@ -142,6 +157,7 @@ namespace Files.Uwp
             new AppearanceViewModel().SetCompactStyles(updateTheme: false);
 
             JumpList ??= new JumpListManager();
+            RecentItemsManager ??= new RecentItemsManager();
             MainViewModel ??= new MainViewModel();
             PaneViewModel ??= new PaneViewModel();
             PreviewPaneViewModel ??= new PreviewPaneViewModel();
@@ -176,18 +192,19 @@ namespace Files.Uwp
         private static async Task InitializeAppComponentsAsync()
         {
             var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+            var appearanceSettingsService = userSettingsService.AppearanceSettingsService;
 
             // Start off a list of tasks we need to run before we can continue startup
             await Task.Run(async () =>
             {
                 await Task.WhenAll(
                     StartAppCenter(),
-                    DrivesManager.EnumerateDrivesAsync(),
-                    CloudDrivesManager.EnumerateDrivesAsync(),
-                    LibraryManager.EnumerateLibrariesAsync(),
-                    NetworkDrivesManager.EnumerateDrivesAsync(),
-                    WSLDistroManager.EnumerateDrivesAsync(),
-                    FileTagsManager.EnumerateFileTagsAsync(),
+                    DrivesManager.UpdateDrivesAsync(),
+                    OptionalTask(CloudDrivesManager.UpdateDrivesAsync(), appearanceSettingsService.ShowCloudDrivesSection),
+                    LibraryManager.UpdateLibrariesAsync(),
+                    OptionalTask(NetworkDrivesManager.UpdateDrivesAsync(), appearanceSettingsService.ShowNetworkDrivesSection),
+                    OptionalTask(WSLDistroManager.UpdateDrivesAsync(), appearanceSettingsService.ShowWslSection),
+                    OptionalTask(FileTagsManager.UpdateFileTagsAsync(), appearanceSettingsService.ShowFileTagsSection),
                     SidebarPinnedController.InitializeAsync()
                 );
                 await Task.WhenAll(
@@ -205,6 +222,14 @@ namespace Files.Uwp
             var updateService = Ioc.Default.GetRequiredService<IUpdateService>();
             await updateService.CheckForUpdates();
             await updateService.DownloadMandatoryUpdates();
+
+            static async Task OptionalTask(Task task, bool condition)
+            {
+                if (condition)
+                {
+                    await task;
+                }
+            }
         }
 
         private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
@@ -392,7 +417,7 @@ namespace Files.Uwp
                                 var ppm = CommandLineParser.ParseUntrustedCommands(unescapedValue);
                                 if (ppm.IsEmpty())
                                 {
-                                    ppm = new ParsedCommands() { new ParsedCommand() { Type = ParsedCommandType.Unknown, Payload = "." } };
+                                    ppm = new ParsedCommands() { new ParsedCommand() { Type = ParsedCommandType.Unknown, Args = new() { "." } } };
                                 }
                                 await InitializeFromCmdLineArgs(rootFrame, ppm);
                                 break;
@@ -492,6 +517,22 @@ namespace Files.Uwp
                         if (Path.IsPathRooted(command.Payload))
                         {
                             await PerformNavigation(Path.GetDirectoryName(command.Payload), Path.GetFileName(command.Payload));
+                        }
+                        break;
+
+                    case ParsedCommandType.TagFiles:
+                        var tagService = Ioc.Default.GetService<IFileTagsSettingsService>();
+                        var tag = tagService.GetTagsByName(command.Payload).FirstOrDefault();
+                        foreach (var file in command.Args.Skip(1))
+                        {
+                            var fileFRN = await FilesystemTasks.Wrap(() => StorageHelpers.ToStorageItem<IStorageItem>(file))
+                                .OnSuccess(item => FileTagsHelper.GetFileFRN(item));
+                            if (fileFRN is not null)
+                            {
+                                var tagUid = tag is not null ? new[] { tag.Uid } : null;
+                                FileTagsHelper.DbInstance.SetTags(file, fileFRN, tagUid);
+                                FileTagsHelper.WriteFileTag(file, tagUid);
+                            }
                         }
                         break;
 
