@@ -3,7 +3,7 @@ namespace SevenZip
     using System;
     using System.Runtime.InteropServices;
 
-#if TRUE
+#if UNMANAGED
     internal static class NativeMethods
     {
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]

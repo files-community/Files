@@ -20,11 +20,11 @@ namespace SevenZip
     /// }
     /// </example>
     public sealed partial class SevenZipExtractor
-#if TRUE
+#if UNMANAGED
         : SevenZipBase, IDisposable
 #endif
     {
-#if TRUE
+#if UNMANAGED
         private List<ArchiveFileInfo> _archiveFileData;
         private IInArchive _archive;
         private IInStream _archiveStream;
@@ -356,7 +356,7 @@ namespace SevenZip
         /// </summary>
         public bool PreserveDirectoryStructure { get; set; }
         
-        #endregion                
+        #endregion
 
         /// <summary>
         /// Checked whether the class was disposed.
@@ -499,7 +499,7 @@ namespace SevenZip
                         
                         try
                         {
-                            #region Getting archive items data
+        #region Getting archive items data
 
                             for (uint i = 0; i < _filesCount; i++)
                             {
@@ -540,9 +540,9 @@ namespace SevenZip
                                 }
                             }
 
-                            #endregion
+        #endregion
 
-                            #region Getting archive properties
+        #region Getting archive properties
 
                             var numProps = _archive.GetNumberOfArchiveProperties();
                             var archProps = new List<ArchiveProperty>((int)numProps);
@@ -584,7 +584,7 @@ namespace SevenZip
                                 _isSolid = true;
                             }
 
-                            #endregion
+        #endregion
                         }
                         catch (Exception)
                         {
@@ -705,7 +705,7 @@ namespace SevenZip
             callback.FileExists -= FileExistsEventProxy;
         }
 
-        #endregion        
+        #endregion
 #endif
 
         /// <summary>
@@ -730,7 +730,7 @@ namespace SevenZip
             }
         }
 
-#if TRUE
+#if UNMANAGED
 
         #region IDisposable Members
 

@@ -334,103 +334,10 @@ namespace Files.Uwp.Filesystem.StorageItems
         }
 
         public override IAsyncAction RenameAsync(string desiredName) => RenameAsync(desiredName, NameCollisionOption.FailIfExists);
-        public override IAsyncAction RenameAsync(string desiredName, NameCollisionOption option)
-        {
-            return AsyncInfo.Run(async (cancellationToken) =>
-            {
-                if (Path == containerPath)
-                {
-                    if (backingFile != null)
-                    {
-                        await backingFile.RenameAsync(desiredName, option);
-                    }
-                    else
-                    {
-                        var parent = await GetParentAsync();
-                        var item = await parent.GetItemAsync(Name);
-                        await item.RenameAsync(desiredName, option);
-                    }
-                }
-                else
-                {
-                    if (index < 0)
-                    {
-                        index = await FetchZipIndex();
-                        if (index < 0)
-                        {
-                            return;
-                        }
-                    }
-                    using (var ms = new MemoryStream())
-                    {
-                        using (var archiveStream = await OpenZipFileAsync(FileAccessMode.Read))
-                        {
-                            SevenZipCompressor compressor = new SevenZipCompressor(archiveStream)
-                            {
-                                CompressionMode = CompressionMode.Append
-                            };
-                            var fileName = Regex.Replace(Path, $"{Regex.Escape(Name)}(?!.*{Regex.Escape(Name)})", desiredName);
-                            await compressor.ModifyArchiveAsync(ms, new Dictionary<int, string>() { { index, fileName } });
-                        }
-                        using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
-                        {
-                            ms.Position = 0;
-                            await ms.CopyToAsync(archiveStream);
-                            await ms.FlushAsync();
-                        }
-                    }
-                }
-            });
-        }
+        public override IAsyncAction RenameAsync(string desiredName, NameCollisionOption option) => throw new NotSupportedException();
 
         public override IAsyncAction DeleteAsync() => DeleteAsync(StorageDeleteOption.Default);
-        public override IAsyncAction DeleteAsync(StorageDeleteOption option)
-        {
-            return AsyncInfo.Run(async (cancellationToken) =>
-            {
-                if (Path == containerPath)
-                {
-                    if (backingFile != null)
-                    {
-                        await backingFile.DeleteAsync();
-                    }
-                    else
-                    {
-                        var parent = await GetParentAsync();
-                        var item = await parent.GetItemAsync(Name);
-                        await item.DeleteAsync(option);
-                    }
-                }
-                else
-                {
-                    if (index < 0)
-                    {
-                        index = await FetchZipIndex();
-                        if (index < 0)
-                        {
-                            return;
-                        }
-                    }
-                    using (var ms = new MemoryStream())
-                    {
-                        using (var archiveStream = await OpenZipFileAsync(FileAccessMode.Read))
-                        {
-                            SevenZipCompressor compressor = new SevenZipCompressor(archiveStream)
-                            {
-                                CompressionMode = CompressionMode.Append
-                            };
-                            await compressor.ModifyArchiveAsync(ms, new Dictionary<int, string>() { { index, null } });
-                        }
-                        using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
-                        {
-                            ms.Position = 0;
-                            await ms.CopyToAsync(archiveStream);
-                            await ms.FlushAsync();
-                        }
-                    }
-                }
-            });
-        }
+        public override IAsyncAction DeleteAsync(StorageDeleteOption option) => throw new NotSupportedException();
 
         public override bool AreQueryOptionsSupported(QueryOptions queryOptions) => false;
         public override bool IsCommonFileQuerySupported(CommonFileQuery query) => false;

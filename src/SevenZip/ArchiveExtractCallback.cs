@@ -5,7 +5,7 @@ namespace SevenZip
     using System.Globalization;
     using System.IO;
 
-#if TRUE
+#if UNMANAGED
     /// <summary>
     /// Archive extraction callback to handle the process of unpacking files
     /// </summary>

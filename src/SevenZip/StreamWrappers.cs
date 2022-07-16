@@ -6,7 +6,7 @@ namespace SevenZip
     using System.IO;
     using System.Runtime.InteropServices;
 
-#if TRUE
+#if UNMANAGED
 
     /// <summary>
     /// A class that has DisposeStream property.
