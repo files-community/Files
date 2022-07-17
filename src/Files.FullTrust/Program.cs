@@ -269,7 +269,7 @@ namespace Files.FullTrust
 #if DEBUG
             // In debug mode this kills this process too??
 #else
-            Process.GetProcessById(processId).Kill();
+            SafetyExtensions.IgnoreExceptions(() => Process.GetProcessById(processId).Kill(), Program.Logger);
 #endif
         }
     }
