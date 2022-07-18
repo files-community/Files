@@ -2188,7 +2188,7 @@
     <value>關閉畫面</value>
   </data>
   <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
-    <value>進入畫中畫模式</value>
+    <value>進入完整檢視</value>
   </data>
   <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
     <value>返回完整檢視</value>
