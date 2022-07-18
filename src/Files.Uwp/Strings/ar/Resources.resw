@@ -1399,7 +1399,7 @@
     <value>اسم العنصر</value>
   </data>
   <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
-    <value>Unpin from Favorites</value>
+    <value>إزالة من المفضلة</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>محركات الشبكة</value>
@@ -2661,7 +2661,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>بايت</value>
   </data>
   <data name="Extract" xml:space="preserve">
-    <value>Extract</value>
+    <value>استخراج</value>
   </data>
   <data name="ExtractFiles" xml:space="preserve">
     <value>Extract files</value>
@@ -2775,7 +2775,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Size All Columns to Fit</value>
   </data>
   <data name="Contributors" xml:space="preserve">
-    <value>Contributors</value>
+    <value>‏‏المساهمون</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
     <value>Adaptive</value>
