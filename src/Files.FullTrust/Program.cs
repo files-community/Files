@@ -242,18 +242,14 @@ namespace Files.FullTrust
                     process.StartInfo.Arguments = folder;
                     process.Start();
 
-                    TerminateProcess((int)localSettings.Values["pid"]);
                     return true;
                 }
                 else if (arguments == "TerminateUwp")
                 {
-                    TerminateProcess((int)localSettings.Values["pid"]);
                     return true;
                 }
                 else if (arguments == "ShellCommand")
                 {
-                    TerminateProcess((int)localSettings.Values["pid"]);
-
                     Win32API.OpenFolderInExistingShellWindow((string)localSettings.Values["ShellCommand"]);
 
                     return true;
@@ -261,16 +257,6 @@ namespace Files.FullTrust
             }
 
             return false;
-        }
-
-        private static void TerminateProcess(int processId)
-        {
-            // Kill the process. This is a BRUTAL WAY to kill a process.
-#if DEBUG
-            // In debug mode this kills this process too??
-#else
-            SafetyExtensions.IgnoreExceptions(() => Process.GetProcessById(processId).Kill(), Program.Logger);
-#endif
         }
     }
 }
