@@ -1597,7 +1597,7 @@
     <value>No locations</value>
   </data>
   <data name="ErrorInputEmpty" xml:space="preserve">
-    <value>Input field cannot be empty!</value>
+    <value>Input-feltet kan ikke være tomt!</value>
   </data>
   <data name="ErrorNameInputRestrictedCharacters" xml:space="preserve">
     <value>The name must not contain the following characters: \ / : * ? " &lt; &gt; |</value>
@@ -2775,7 +2775,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Size All Columns to Fit</value>
   </data>
   <data name="Contributors" xml:space="preserve">
-    <value>Contributors</value>
+    <value>Bidragydere</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
     <value>Adaptive</value>
