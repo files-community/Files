@@ -233,15 +233,15 @@ namespace Files.FullTrust
 
                 if (arguments == "TerminateUwp")
                 {
+                    // Return false and don't exit if PID process is not running
+                    // Argument may refer to unrelated session (#9580)
                     return TerminateProcess((int)localSettings.Values["pid"]);
                 }
                 else if (arguments == "ShellCommand")
                 {
-                    var res = TerminateProcess((int)localSettings.Values["pid"]);
-
                     Win32API.OpenFolderInExistingShellWindow((string)localSettings.Values["ShellCommand"]);
 
-                    return res;
+                    return TerminateProcess((int)localSettings.Values["pid"]);
                 }
             }
 
@@ -251,12 +251,7 @@ namespace Files.FullTrust
         private static bool TerminateProcess(int processId)
         {
             // Kill the process. This is a BRUTAL WAY to kill a process.
-#if DEBUG
-            // In debug mode this kills this process too??
-            return true;
-#else
-            return SafetyExtensions.IgnoreExceptions(() => Process.GetProcessById(processId).Kill(), Program.Logger);
-#endif
+            return SafetyExtensions.IgnoreExceptions(() => Process.GetProcessById(processId).Kill());
         }
     }
 }
