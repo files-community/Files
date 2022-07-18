@@ -2787,12 +2787,12 @@ Utilizamos o App Center para localizar as definições que estão a ser utilizad
     <value>Ctrl+Shift+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>Show Alternate Data Streams</value>
+    <value>Mostrar Fluxos de Dados Alternativos</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
-    <value>Review Files</value>
+    <value>Avaliar Files</value>
   </data>
   <data name="ReviewFilesContent" xml:space="preserve">
-    <value>Would you like to review Files?</value>
+    <value>Deseja avaliar Files?</value>
   </data>
 </root>
