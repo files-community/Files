@@ -2501,7 +2501,7 @@ We gebruiken App Center om app-gebruik bij te houden, bugs te vinden en crashes 
     <value>Gebruik Files als Open Bestand Dialoog</value>
   </data>
   <data name="Tag" xml:space="preserve">
-    <value>Tag</value>
+    <value>Bestandslabel</value>
   </data>
   <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
     <value>Open mappen met één klik</value>
@@ -2669,10 +2669,10 @@ We gebruiken App Center om app-gebruik bij te houden, bugs te vinden en crashes 
     <value>Uitpakken</value>
   </data>
   <data name="ExtractFiles" xml:space="preserve">
-    <value>Extract files</value>
+    <value>Bestanden uitpakken</value>
   </data>
   <data name="ExtractHere" xml:space="preserve">
-    <value>Extract here</value>
+    <value>Hier uitpakken</value>
   </data>
   <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+E</value>
@@ -2780,7 +2780,7 @@ We gebruiken App Center om app-gebruik bij te houden, bugs te vinden en crashes 
     <value>Size All Columns to Fit</value>
   </data>
   <data name="Contributors" xml:space="preserve">
-    <value>Contributors</value>
+    <value>Bijdragers</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
     <value>Adaptive</value>
