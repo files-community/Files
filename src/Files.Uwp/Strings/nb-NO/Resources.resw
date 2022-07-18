@@ -2561,7 +2561,7 @@ Vi bruker App Center for å spore app-bruk og for å finne/reparere feil. All in
     <value>Ved programstart</value>
   </data>
   <data name="HighDpiOverride_System" xml:space="preserve">
-    <value>System</value>
+    <value>systemet</value>
   </data>
   <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
     <value>System (avansert)</value>
@@ -2669,10 +2669,10 @@ Vi bruker App Center for å spore app-bruk og for å finne/reparere feil. All in
     <value>Pakk ut</value>
   </data>
   <data name="ExtractFiles" xml:space="preserve">
-    <value>Extract files</value>
+    <value>Pakk ut filer</value>
   </data>
   <data name="ExtractHere" xml:space="preserve">
-    <value>Extract here</value>
+    <value>Pakk ut her</value>
   </data>
   <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+E</value>
@@ -2780,7 +2780,7 @@ Vi bruker App Center for å spore app-bruk og for å finne/reparere feil. All in
     <value>Size All Columns to Fit</value>
   </data>
   <data name="Contributors" xml:space="preserve">
-    <value>Contributors</value>
+    <value>Bidragsytere</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
     <value>Adaptive</value>
