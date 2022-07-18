@@ -2422,7 +2422,7 @@ Ons gebruik App Center om tred te hou met programgebruik, foute te vind en ongel
     <value>Groot ikone</value>
   </data>
   <data name="MediumIcons" xml:space="preserve">
-    <value>Medium Icons</value>
+    <value>Medium Ikone</value>
   </data>
   <data name="SmallIcons" xml:space="preserve">
     <value>Klein ikone</value>
@@ -2668,10 +2668,10 @@ Ons gebruik App Center om tred te hou met programgebruik, foute te vind en ongel
     <value>Ekstraheer</value>
   </data>
   <data name="ExtractFiles" xml:space="preserve">
-    <value>Extract files</value>
+    <value>Onttrek lêers</value>
   </data>
   <data name="ExtractHere" xml:space="preserve">
-    <value>Extract here</value>
+    <value>Onttrek hier</value>
   </data>
   <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+E</value>
@@ -2779,7 +2779,7 @@ Ons gebruik App Center om tred te hou met programgebruik, foute te vind en ongel
     <value>Size All Columns to Fit</value>
   </data>
   <data name="Contributors" xml:space="preserve">
-    <value>Contributors</value>
+    <value>Medewerkers</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
     <value>Adaptive</value>
