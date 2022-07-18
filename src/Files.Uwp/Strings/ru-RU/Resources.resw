@@ -2329,7 +2329,7 @@
     <value>Fluent-иконки</value>
   </data>
   <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Fluent UI System Icons</value>
+    <value>Fluent-иконки</value>
   </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>Мы используем App Center для того, чтобы отслеживать и исправлять ошибки. Вся информация, отправляемая в App Center является анонимной и не привязанной к какому-либо пользователю либо контекстуальным данным.
