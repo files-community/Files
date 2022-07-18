@@ -2776,7 +2776,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Size All Columns to Fit</value>
   </data>
   <data name="Contributors" xml:space="preserve">
-    <value>Contributors</value>
+    <value>பங்களிப்பாளர்கள்</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
     <value>Adaptive</value>
