@@ -231,32 +231,32 @@ namespace Files.FullTrust
             {
                 localSettings.Values.Remove("Arguments");
 
-                if (arguments == "StartUwp")
+                if (arguments == "TerminateUwp")
                 {
-                    var folder = localSettings.Values.Get("Folder", "");
-                    localSettings.Values.Remove("Folder");
-
-                    using Process process = new Process();
-                    process.StartInfo.UseShellExecute = true;
-                    process.StartInfo.FileName = "files.exe";
-                    process.StartInfo.Arguments = folder;
-                    process.Start();
-
-                    return true;
-                }
-                else if (arguments == "TerminateUwp")
-                {
-                    return true;
+                    return TerminateProcess((int)localSettings.Values["pid"]);
                 }
                 else if (arguments == "ShellCommand")
                 {
+                    var res = TerminateProcess((int)localSettings.Values["pid"]);
+
                     Win32API.OpenFolderInExistingShellWindow((string)localSettings.Values["ShellCommand"]);
 
-                    return true;
+                    return res;
                 }
             }
 
             return false;
+        }
+
+        private static bool TerminateProcess(int processId)
+        {
+            // Kill the process. This is a BRUTAL WAY to kill a process.
+#if DEBUG
+            // In debug mode this kills this process too??
+            return true;
+#else
+            return SafetyExtensions.IgnoreExceptions(() => Process.GetProcessById(processId).Kill(), Program.Logger);
+#endif
         }
     }
 }
