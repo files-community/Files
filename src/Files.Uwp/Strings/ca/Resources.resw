@@ -1303,7 +1303,7 @@
     <value>Large Icons (Ctrl+Shift+5)</value>
   </data>
   <data name="NavToolbarMediumIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>Medium Icons</value>
+    <value>Vista en quadrícula (Mitjana)</value>
   </data>
   <data name="NavToolbarMediumIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>Medium Icons (Ctrl+Shift+4)</value>
@@ -1399,7 +1399,7 @@
     <value>Nom d'element</value>
   </data>
   <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
-    <value>Unpin from Favorites</value>
+    <value>Desancora de favorits</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Network Drives</value>
@@ -2418,7 +2418,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Icones grans</value>
   </data>
   <data name="MediumIcons" xml:space="preserve">
-    <value>Medium Icons</value>
+    <value>Vista en quadrícula (Mitjana)</value>
   </data>
   <data name="SmallIcons" xml:space="preserve">
     <value>Icones petites</value>
@@ -2439,7 +2439,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Open folders in new tab</value>
   </data>
   <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Pin Recycle Bin to favorites</value>
+    <value>Ancora la papelera a favorits</value>
   </data>
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Idioma</value>
@@ -2775,7 +2775,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Size All Columns to Fit</value>
   </data>
   <data name="Contributors" xml:space="preserve">
-    <value>Contributors</value>
+    <value>Col·laboradores i col·laboradors</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
     <value>Adaptive</value>
