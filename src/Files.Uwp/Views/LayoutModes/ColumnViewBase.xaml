@@ -339,7 +339,7 @@
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Center"
                                         FontSize="12"
-                                        Foreground="{ThemeResource TextFillColorTertiary}"
+                                        Foreground="{ThemeResource TextFillColorSecondary}"
                                         Glyph="&#xE76C;"
                                         x:Load="{x:Bind IsFolder}" />
                                 </Grid>
