@@ -6,9 +6,9 @@
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="using:Files.Uwp.Helpers"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-	xmlns:shared="using:Files.Shared"
-	Background="Transparent"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:shared="using:Files.Shared"
+    Background="Transparent"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -45,7 +45,9 @@
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
                 Padding="4"
-                Text="{helpers:ResourceString Name=ChooseCustomIcon}" />
+                MaxLines="2"
+                Text="{helpers:ResourceString Name=ChooseCustomIcon}"
+                TextWrapping="WrapWholeWords" />
             <Button
                 x:Name="RestoreDefaultButton"
                 Grid.Row="0"
