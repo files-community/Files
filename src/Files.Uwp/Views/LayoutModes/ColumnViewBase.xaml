@@ -340,7 +340,7 @@
                                         FontSize="12"
                                         Foreground="{ThemeResource TextFillColorTertiary}"
                                         Glyph="&#xE76C;"
-                                        Visibility="{x:Bind IsFolder}" />
+                                        x:Load="{x:Bind IsFolder}" />
                                 </Grid>
                             </DataTemplate>
                         </ListView.ItemTemplate>
