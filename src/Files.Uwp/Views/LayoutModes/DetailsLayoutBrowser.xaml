@@ -653,7 +653,7 @@
                                             Background="{x:Bind FileTagsUI[0].ColorModel, Mode=OneWay, Converter={StaticResource ColorModelToColorConverter}}"
                                             BorderBrush="{x:Bind FileTagsUI[0].ColorModel, Mode=OneWay, Converter={StaticResource ColorModelToColorConverter}}"
                                             BorderThickness="1"
-                                            CornerRadius="12"
+                                            CornerRadius="8"
                                             ToolTipService.ToolTip="{x:Bind FileTagsUI[0].TagName, Mode=OneWay}"
                                             Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}">
                                             <TextBlock
