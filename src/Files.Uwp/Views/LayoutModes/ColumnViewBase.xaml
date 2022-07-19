@@ -334,6 +334,7 @@
                                         </StackPanel>
                                     </Grid>
                                     <FontIcon
+										x:Name="OpenFolderChevron"
                                         Grid.Column="3"
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Center"
