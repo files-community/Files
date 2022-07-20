@@ -451,16 +451,16 @@
     <value>Har du slettet denne mappen?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by {0}</value>
+    <value>Filen du forsøker å få åpne er for øyeblikket i bruk av {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by an another application</value>
+    <value>Filen du forsøker å åpne er for øyeblikket i bruk av et annet program</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
-    <value>File is in use</value>
+    <value>Filen er i bruk</value>
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
-    <value>Layout</value>
+    <value>Utforming</value>
   </data>
   <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>Valgmuligheter</value>
@@ -1108,7 +1108,7 @@
     <value>GPS</value>
   </data>
   <data name="PropertySectionMedia" xml:space="preserve">
-    <value>Media</value>
+    <value>Medier</value>
   </data>
   <data name="PropertySectionAudio" xml:space="preserve">
     <value>Lyd</value>
@@ -1285,13 +1285,13 @@
     <value>Detaljer (Ctrl+Skift+1)</value>
   </data>
   <data name="NavToolbarLayoutOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Layout</value>
+    <value>Utforming</value>
   </data>
   <data name="NavToolbarLayoutOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Layout</value>
+    <value>Utforming</value>
   </data>
   <data name="NavToolbarLayoutOptionsButton.Label" xml:space="preserve">
-    <value>Layout</value>
+    <value>Utforming</value>
   </data>
   <data name="PreviewPaneToggle.Label" xml:space="preserve">
     <value>Forhåndsvisning</value>
@@ -1801,7 +1801,7 @@
     <value>Stor</value>
   </data>
   <data name="ItemSizeText_Medium" xml:space="preserve">
-    <value>Medium</value>
+    <value>Middels</value>
   </data>
   <data name="ItemSizeText_Small" xml:space="preserve">
     <value>Liten</value>
@@ -1960,7 +1960,7 @@
     <value>Avvis</value>
   </data>
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
-    <value>Widgets</value>
+    <value>Widgeter</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>Synkroniseringsstatus</value>
@@ -2678,19 +2678,19 @@ Vi bruker App Center for å spore app-bruk og for å finne/reparere feil. All in
     <value>Ctrl+E</value>
   </data>
   <data name="ExtractToChildFolder" xml:space="preserve">
-    <value>Extract to {0}</value>
+    <value>Pakk ut til {0}</value>
   </data>
   <data name="RunScript" xml:space="preserve">
     <value>Kjør skript</value>
   </data>
   <data name="RunWithPowerShell" xml:space="preserve">
-    <value>Run with PowerShell</value>
+    <value>Kjør med PowerShell</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>Bruk som skrivebordsbakgrunn</value>
   </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
-    <value>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</value>
+    <value>Beregning av mappestørrelser er ressurskrevende og kan føre til at prosessorbruken øker.</value>
   </data>
   <data name="RotateLeft" xml:space="preserve">
     <value>Roter mot venstre</value>
