@@ -145,7 +145,7 @@
     <value>Naam</value>
   </data>
   <data name="typeColumn.Header" xml:space="preserve">
-    <value>Type</value>
+    <value>Soort</value>
   </data>
   <data name="Size" xml:space="preserve">
     <value>Grootte</value>
@@ -232,7 +232,7 @@
     <value>Verborgen bestanden en mappen weergeven</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Show dot files</value>
+    <value>Toon punt bestanden</value>
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Experimenteel</value>
@@ -280,7 +280,7 @@
     <value>Naam</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
-    <value>Type</value>
+    <value>Soort</value>
   </data>
   <data name="Ascending" xml:space="preserve">
     <value>Oplopend</value>
@@ -424,7 +424,7 @@
     <value>Rasterweergave (klein)</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
-    <value>OK</value>
+    <value>Oké</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Dit item kan niet worden verwijderd</value>
@@ -451,13 +451,13 @@
     <value>Is deze map verwijderd?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by {0}</value>
+    <value>Het bestand wat je probeert te openen, wordt op dit moment gebruikt door {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by an another application</value>
+    <value>Het bestand wat je probeert te openen, wordt op dit moment gebruikt door een andere applicatie</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
-    <value>File is in use</value>
+    <value>Bestand is in gebruik</value>
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>Indeling</value>
@@ -514,7 +514,7 @@
     <value>De itemnaam mag geen van de volgende tekens bevatten: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
-    <value>OK</value>
+    <value>Oké</value>
   </data>
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>De itemnaam mag geen van de volgende tekens bevatten: \ / : * ? " &lt; &gt; |</value>
@@ -766,10 +766,10 @@
     <value>Tabbladen openen</value>
   </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
-    <value>Multitasking</value>
+    <value>Multitasken</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
-    <value>Multitasking</value>
+    <value>Multitasken</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>Instellen als</value>
@@ -1732,7 +1732,7 @@
     <value>Naam:</value>
   </data>
   <data name="ToolTipDescriptionType" xml:space="preserve">
-    <value>Type:</value>
+    <value>Soort:</value>
   </data>
   <data name="ToolTipDescriptionDate" xml:space="preserve">
     <value>Gewijzigd op:</value>
@@ -1780,7 +1780,7 @@
     <value>Originele map</value>
   </data>
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
-    <value>Type</value>
+    <value>Soort</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Sorteren op</value>
@@ -2095,7 +2095,7 @@
     <value>Machtigingen</value>
   </data>
   <data name="SecurityAdvancedTypeLabel.Text" xml:space="preserve">
-    <value>Type</value>
+    <value>Soort</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
     <value>U hebt geen toestemming om de beveiligingseigenschappen van dit item te bekijken. U kunt proberen eigenaar van dit object te worden.</value>
@@ -2173,7 +2173,7 @@
     <value>Converteer geërfde machtigingen naar expliciete machtigingen</value>
   </data>
   <data name="SecurityAdvancedInheritedEnable.Text" xml:space="preserve">
-    <value>Enable inheritance</value>
+    <value>Overname inschakelen</value>
   </data>
   <data name="SecurityAdvancedInheritedRemove.Text" xml:space="preserve">
     <value>Verwijder alle geërfde machtigingen</value>
@@ -2281,10 +2281,10 @@
     <value>Ctrl+N</value>
   </data>
   <data name="NavigationToolbarEnterCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+Up</value>
+    <value>Ctrl+Alt+Omhoog</value>
   </data>
   <data name="NavigationToolbarExitCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+Down</value>
+    <value>Ctrl+Alt+Omlaag</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+1</value>
@@ -2660,7 +2660,7 @@ We gebruiken App Center om app-gebruik bij te houden, bugs te vinden en crashes 
     <value>Schijf opschoning</value>
   </data>
   <data name="Type" xml:space="preserve">
-    <value>Type:</value>
+    <value>Soort:</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Bytes</value>
