@@ -6,9 +6,9 @@
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="using:Files.Uwp.Helpers"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-	xmlns:shared="using:Files.Shared"
-	Background="Transparent"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:shared="using:Files.Shared"
+    Background="Transparent"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -43,14 +43,14 @@
             <TextBlock
                 Grid.Row="0"
                 Grid.Column="0"
-                Grid.ColumnSpan="2"
                 Padding="4"
-                Text="{helpers:ResourceString Name=ChooseCustomIcon}" />
+                MaxLines="2"
+                Text="{helpers:ResourceString Name=ChooseCustomIcon}"
+                TextWrapping="WrapWholeWords" />
             <Button
                 x:Name="RestoreDefaultButton"
                 Grid.Row="0"
-                Grid.Column="0"
-                Grid.ColumnSpan="2"
+                Grid.Column="1"
                 HorizontalAlignment="Right"
                 x:Load="{x:Bind IsShortcutItem, Converter={StaticResource BoolNegationConverter}}"
                 Command="{x:Bind RestoreDefaultIconCommand}"
@@ -63,24 +63,35 @@
                 Margin="-12,0"
                 Background="{ThemeResource CardStrokeColorDefaultBrush}" />
 
-            <TextBox
-                x:Name="ItemDisplayedPath"
+            <Grid
                 Grid.Row="2"
                 Grid.Column="0"
-                IsReadOnly="True" />
-            <Button
-                x:Name="PickDllButton"
-                Grid.Row="2"
-                Grid.Column="1"
-                Click="PickDllButton_Click"
-                Content="{helpers:ResourceString Name=Browse}" />
+                Grid.ColumnSpan="2"
+                ColumnSpacing="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBox
+                    x:Name="ItemDisplayedPath"
+                    Grid.Column="0"
+                    IsReadOnly="True" />
+
+                <Button
+                    x:Name="PickDllButton"
+                    Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    Click="PickDllButton_Click"
+                    Content="{helpers:ResourceString Name=Browse}" />
+            </Grid>
 
             <GridView
                 x:Name="IconSelectionGrid"
                 Grid.Row="3"
                 Grid.Column="0"
                 Grid.ColumnSpan="3"
-                MaxHeight="240"
+                MaxHeight="252"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
