@@ -1051,31 +1051,31 @@
     <value>Petsa ng Pag-save</value>
   </data>
   <data name="PropertyDatePrinted" xml:space="preserve">
-    <value>Date Printed</value>
+    <value>Petsa ng pagka-print</value>
   </data>
   <data name="PropertyTotalEditingTime" xml:space="preserve">
-    <value>Total Editing Time</value>
+    <value>Kabuuang oras ng pag-edit</value>
   </data>
   <data name="PropertyTemplate" xml:space="preserve">
     <value>Template</value>
   </data>
   <data name="PropertyWordCount" xml:space="preserve">
-    <value>Word Count</value>
+    <value>Bilang ng Salita</value>
   </data>
   <data name="PropertyCharacterCount" xml:space="preserve">
-    <value>Character Count</value>
+    <value>Bilang ng mga Letra</value>
   </data>
   <data name="PropertyLineCount" xml:space="preserve">
-    <value>Line Count</value>
+    <value>Bilang ng linya</value>
   </data>
   <data name="PropertyParagraphCount" xml:space="preserve">
-    <value>Paragraph Count</value>
+    <value>Bilang ng Talata</value>
   </data>
   <data name="PropertyPageCount" xml:space="preserve">
-    <value>Page Count</value>
+    <value>Bilang ng Pahina</value>
   </data>
   <data name="PropertySlideCount" xml:space="preserve">
-    <value>Slide Count</value>
+    <value>Bilang ng Slide</value>
   </data>
   <data name="PropertyFrameRate" xml:space="preserve">
     <value>Frame Rate</value>
@@ -1087,40 +1087,40 @@
     <value>Compression</value>
   </data>
   <data name="PropertyFrameWidth" xml:space="preserve">
-    <value>Frame Width</value>
+    <value>Lapad ng Frame</value>
   </data>
   <data name="PropertyFrameHeight" xml:space="preserve">
-    <value>Frame Height</value>
+    <value>Taas ng Frame</value>
   </data>
   <data name="PropertyOrientation" xml:space="preserve">
-    <value>Orientation</value>
+    <value>Oryentasyon</value>
   </data>
   <data name="PropertySectionCore" xml:space="preserve">
     <value>Core</value>
   </data>
   <data name="PropertySectionImage" xml:space="preserve">
-    <value>Image</value>
+    <value>Imahe</value>
   </data>
   <data name="PropertySectionPhoto" xml:space="preserve">
-    <value>Photo</value>
+    <value>Larawan</value>
   </data>
   <data name="PropertySectionGPS" xml:space="preserve">
     <value>GPS</value>
   </data>
   <data name="PropertySectionMedia" xml:space="preserve">
-    <value>Media</value>
+    <value>Medya</value>
   </data>
   <data name="PropertySectionAudio" xml:space="preserve">
-    <value>Audio</value>
+    <value>Tunog</value>
   </data>
   <data name="PropertySectionMusic" xml:space="preserve">
-    <value>Music</value>
+    <value>Musika</value>
   </data>
   <data name="PropertySectionVideo" xml:space="preserve">
-    <value>Video</value>
+    <value>Bidyo</value>
   </data>
   <data name="Document" xml:space="preserve">
-    <value>Document</value>
+    <value>Dokumento</value>
   </data>
   <data name="Address" xml:space="preserve">
     <value>Address</value>
@@ -1129,10 +1129,10 @@
     <value>Pilian ng mga seleksyon</value>
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
-    <value>Select</value>
+    <value>Pumili</value>
   </data>
   <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
-    <value>Open files with a single click</value>
+    <value>Buksan ang mga file sa isang pag-click</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>File</value>
@@ -1144,67 +1144,67 @@
     <value>Shortcut item</value>
   </data>
   <data name="Drives" xml:space="preserve">
-    <value>Drives</value>
+    <value>Mga Drive</value>
   </data>
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
-    <value>Move here</value>
+    <value>Ilipat dito</value>
   </data>
   <data name="EjectNotificationHeader" xml:space="preserve">
-    <value>Safe to remove hardware</value>
+    <value>Ligtas na tanggalin ang hardware</value>
   </data>
   <data name="EjectNotificationBody" xml:space="preserve">
-    <value>The device can now be safely removed from the computer.</value>
+    <value>Maaari nang maalis ang device mula sa computer.</value>
   </data>
   <data name="EjectNotificationErrorDialogHeader" xml:space="preserve">
-    <value>Problem Ejecting Device</value>
+    <value>May Problema sa Pag-eject ng Device</value>
   </data>
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
-    <value>This device is currently in use. Close any programs, windows or tabs that might be using the device, and then try again.</value>
+    <value>Kasalukuyang ginagamit ang device. Isara ang anumang mga program, window o tab na maaaring gumagamit ng device, at pagkatapos ay subukang muli.</value>
   </data>
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
-    <value>Eject</value>
+    <value>I-eject</value>
   </data>
   <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
-    <value>Duplicate tab</value>
+    <value>Doblehin ang tab</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
-    <value>Move tab to new window</value>
+    <value>Ilipat ang tab sa bagong window</value>
   </data>
   <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
-    <value>New tab</value>
+    <value>Bagong tab</value>
   </data>
   <data name="HorizontalMultitaskingControlAddButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>New tab (Ctrl+T)</value>
+    <value>Bagong tab (Ctrl+T)</value>
   </data>
   <data name="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" xml:space="preserve">
-    <value>New tab (Ctrl+T)</value>
+    <value>Bagong tab (Ctrl+T)</value>
   </data>
   <data name="HorizontalMultitaskingControlCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Close tab (Ctrl+W)</value>
+    <value>Isara ang tab (Ctrl+W)</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
-    <value>Some properties may contain personal information.</value>
+    <value>Ang ilang mga propertarya ay maaaring maglaman ng personal na impormasyon.</value>
   </data>
   <data name="ClearPropertiesFlyoutConfirmation.Content" xml:space="preserve">
-    <value>Clear</value>
+    <value>Linisin</value>
   </data>
   <data name="ClearPropertiesButton.Content" xml:space="preserve">
-    <value>Clear All Properties</value>
+    <value>Linisin Lahat ng Propertarya</value>
   </data>
   <data name="OngoingTasksTeachingTip.Subtitle" xml:space="preserve">
-    <value>Check the status of file operations here</value>
+    <value>Suriin ang katayuan ng mga pagpapatakbo ng file dito</value>
   </data>
   <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
-    <value>Status Center</value>
+    <value>Sentro ng Katayuan</value>
   </data>
   <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
     <value>Maghanap</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
-    <value>Search results in {1} for {0}</value>
+    <value>Mga resulta ng paghahanap sa {1} para sa {0}</value>
   </data>
   <data name="SearchTabHeaderText" xml:space="preserve">
-    <value>Search results</value>
+    <value>Resulta ng paghahanap</value>
   </data>
   <data name="SettingsAboutContributorsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Tingnan kung sino ang nag-ambag sa Files</value>
@@ -1552,7 +1552,7 @@
     <value>Natapos na ang paglipat</value>
   </data>
   <data name="StatusCopyComplete" xml:space="preserve">
-    <value>Copy complete</value>
+    <value>Kumpleto na ang kinopya</value>
   </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
     <value>Kinakailangan ang karapatan ng tagapangasiwa</value>
@@ -1993,34 +1993,34 @@
     <value>Read and execute</value>
   </data>
   <data name="SecurityReadLabel.Text" xml:space="preserve">
-    <value>Read</value>
+    <value>Bumasa</value>
   </data>
   <data name="SecurityUsersGroupLabel.Text" xml:space="preserve">
-    <value>Group or user names</value>
+    <value>Grupo o mga pangalan ng user</value>
   </data>
   <data name="Write" xml:space="preserve">
-    <value>Write</value>
+    <value>Magsulat</value>
   </data>
   <data name="SecurityUnknownAccount" xml:space="preserve">
-    <value>Unknown account</value>
+    <value>Hindi matukoy na account</value>
   </data>
   <data name="SecurityCannotReadProperties.Text" xml:space="preserve">
-    <value>You do not have permissions to view the security properties of this object. Click "Advanced permissions" to proceed.</value>
+    <value>Wala kang mga pahintulot na tingnan ang mga katangian ng seguridad ng bagay na ito. I-click ang "Mga advanced na pahintulot" upang magpatuloy.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
-    <value>Owner</value>
+    <value>May-ari</value>
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
-    <value>Unknown owner</value>
+    <value>Hindi kilalang may-ari</value>
   </data>
   <data name="SettingsVerticalTabFlyout" xml:space="preserve">
-    <value>Display the vertical tab flyout on the title bar</value>
+    <value>Ipakita ang patayong tab na flyout sa title bar</value>
   </data>
   <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Learn more about custom themes</value>
+    <value>Matuto pa tungkol sa mga custom na tema</value>
   </data>
   <data name="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Learn more about custom themes</value>
+    <value>Matuto pa tungkol sa mga custom na tema</value>
   </data>
   <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
     <value>Ang mga custom na tema ay nagbibigay ng magandang paraan para i-personalize mo ang Files.</value>
@@ -2266,7 +2266,7 @@
     <value>Home</value>
   </data>
   <data name="TabViewVerticalNewTab.Text" xml:space="preserve">
-    <value>New tab</value>
+    <value>Bagong tab</value>
   </data>
   <data name="NavToolbarSelectAll.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+A</value>
@@ -2706,7 +2706,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Close other tabs</value>
   </data>
   <data name="Music" xml:space="preserve">
-    <value>Music</value>
+    <value>Musika</value>
   </data>
   <data name="Pictures" xml:space="preserve">
     <value>Pictures</value>
