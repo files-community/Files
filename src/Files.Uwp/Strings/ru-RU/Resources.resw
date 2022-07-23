@@ -2780,7 +2780,7 @@
     <value>Адаптивный</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>Adaptive (Ctrl+Shift+7)</value>
+    <value>Адаптивный (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
@@ -2789,9 +2789,9 @@
     <value>Показывать альтернативные потоки данных</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
-    <value>Review Files</value>
+    <value>Просмотреть файлы</value>
   </data>
   <data name="ReviewFilesContent" xml:space="preserve">
-    <value>Would you like to review Files?</value>
+    <value>Хотели бы вы просмотреть файлы?</value>
   </data>
 </root>
