@@ -451,13 +451,13 @@
     <value>폴더를 삭제하셨나요?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by {0}</value>
+    <value>접근하려는 파일은 {0}이(가) 현재 사용 중입니다</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by an another application</value>
+    <value>접근하려는 파일은 다른 어플리케이션이 현재 사용 중입니다</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
-    <value>File is in use</value>
+    <value>사용 중인 파일</value>
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>레이아웃</value>
