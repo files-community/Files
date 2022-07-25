@@ -2622,16 +2622,16 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Clear all</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
-    <value>Create Library</value>
+    <value>Gumawa ng Aklatan</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
-    <value>Enter Library name</value>
+    <value>Ilagay ang pangalan ng Aklatan</value>
   </data>
   <data name="ShowFolderSize" xml:space="preserve">
-    <value>Show folder size</value>
+    <value>Ipakita ang laki ng folder</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
-    <value>Recent Files</value>
+    <value>Kamakailang mga file</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
     <value>Open Files on Windows Startup</value>
@@ -2643,10 +2643,10 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Nakatago</value>
   </data>
   <data name="MoreDetails" xml:space="preserve">
-    <value>More details</value>
+    <value>Karagdagang mga Detalye</value>
   </data>
   <data name="ReadOnly" xml:space="preserve">
-    <value>Read only</value>
+    <value>Pagbasa-lamang</value>
   </data>
   <data name="CleanupDrive" xml:space="preserve">
     <value>Cleanup your drive contents</value>
