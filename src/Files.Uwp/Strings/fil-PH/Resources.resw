@@ -2634,10 +2634,10 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Kamakailang mga file</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
-    <value>Open Files on Windows Startup</value>
+    <value>Buksan ang Files sa pag-start ng Windows</value>
   </data>
   <data name="Attributes" xml:space="preserve">
-    <value>Attributes</value>
+    <value>Mga Katangian</value>
   </data>
   <data name="Hidden" xml:space="preserve">
     <value>Nakatago</value>
@@ -2649,10 +2649,10 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Pagbasa-lamang</value>
   </data>
   <data name="CleanupDrive" xml:space="preserve">
-    <value>Cleanup your drive contents</value>
+    <value>Linisin ang mga laman ng drive</value>
   </data>
   <data name="DiskCleanup" xml:space="preserve">
-    <value>Disk cleanup</value>
+    <value>Linisin ang Disk</value>
   </data>
   <data name="Type" xml:space="preserve">
     <value>Uri:</value>
