@@ -399,6 +399,9 @@
   <data name="PropertiesTitle" xml:space="preserve">
     <value>Properties</value>
   </data>
+  <data name="OrganizeRawFilesTitle" xml:space="preserve">
+    <value>Organize Raw Files</value>
+  </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Properties</value>
   </data>

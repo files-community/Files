@@ -879,6 +879,8 @@ namespace Files.Uwp.ViewModels
 
         public ICommand PropertiesCommand { get; set; }
 
+        public ICommand OrganizeRawFilesCommand { get; set; }
+
         public ICommand ExtractCommand { get; set; }
 
         public ICommand ExtractHereCommand { get; set; }
@@ -1251,6 +1253,7 @@ namespace Files.Uwp.ViewModels
         public bool CanShare => SelectedItems is not null && SelectedItems.Any() && DataTransferManager.IsSupported() && !SelectedItems.Any(x => (x.IsShortcutItem && !x.IsLinkItem) || x.IsHiddenItem || (x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsZipItem));
         public bool CanRename => SelectedItems is not null && SelectedItems.Count == 1;
         public bool CanViewProperties => SelectedItems is not null && SelectedItems.Any();
+        public bool CanOrganizeRawFiles => true;
         public bool CanEmptyRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem;
         public bool CanExtract => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsZipFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
         public string ExtractToText => SelectedItems is not null && SelectedItems.Count == 1 ? string.Format("ExtractToChildFolder".GetLocalized() + "\\", Path.GetFileNameWithoutExtension(selectedItems.First().ItemName)) : "ExtractToChildFolder".GetLocalized();

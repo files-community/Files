@@ -45,6 +45,7 @@ namespace Files.Uwp.Interacts
             DeleteItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.DeleteItem);
             ShowFolderPropertiesCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.ShowFolderProperties);
             ShowPropertiesCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.ShowProperties);
+            OrganizeRawFilesCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OrganizeRawFiles);
             OpenFileLocationCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenFileLocation);
             OpenParentFolderCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenParentFolder);
             OpenItemWithApplicationPickerCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenItemWithApplicationPicker);
@@ -117,6 +118,7 @@ namespace Files.Uwp.Interacts
         public ICommand ShowFolderPropertiesCommand { get; private set; }
 
         public ICommand ShowPropertiesCommand { get; private set; }
+        public ICommand OrganizeRawFilesCommand { get; private set; }
 
         public ICommand OpenFileLocationCommand { get; private set; }
 

@@ -44,6 +44,8 @@ namespace Files.Uwp.Interacts
 
         void ShowProperties(RoutedEventArgs e);
 
+        void OrganizeRawFiles(RoutedEventArgs e);
+
         void OpenFileLocation(RoutedEventArgs e);
 
         void OpenParentFolder(RoutedEventArgs e);

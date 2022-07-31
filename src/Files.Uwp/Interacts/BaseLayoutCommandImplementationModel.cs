@@ -863,6 +863,28 @@ namespace Files.Uwp.Interacts
             }
         }
 
+        public async void OrganizeRawFiles(RoutedEventArgs e)
+        {
+            var rawExtensions = new List<string>() {
+                ".RW2", ".RAF", ".CR2", ".NRW", ".ERF", ".NEF", ".ARW", ".RWZ", ".EIP",
+                ".DNG", ".BAY", ".DCR", ".RAW", ".CRW", ".3FR", ".K25", ".KC2", ".MEF",
+                ".DNG", ".CS1", ".ORF", ".ARI", ".MOS", ".SR2", ".SRF", ".CR3", ".SRW",
+                ".GPR", ".MFW", ".FFF", ".KDC", ".MRW", ".J6I", ".RWL", ".X3F", ".PEF",
+                ".IIQ", ".CXI", ".NKSC", ".MDC" };
+            var compressedExtensions = new string[] { ".JPG", ".JPEG", ".PNG" };
+            var rawFiles = this.associatedInstance.FilesystemViewModel.FilesAndFolders.Where(x => rawExtensions.Contains(x.FileExtension.ToUpper())).ToList();
+            var compressedFiles = this.associatedInstance.FilesystemViewModel.FilesAndFolders.Where(x => compressedExtensions.Contains(x.FileExtension.ToUpper())).ToList();
+            var fileKeys = compressedFiles.Select(x => x.ItemName.Replace(x.FileExtension, "")).ToHashSet();
+
+            var rawFilesWithoutCompressed = rawFiles.Where(x => !fileKeys.Contains(x.ItemName.Replace(x.FileExtension, "")));
+            var itemsToDelete = rawFilesWithoutCompressed.Select(x => StorageHelpers.FromPathAndType(
+                x.ItemPath,
+                x.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
+
+            await FilesystemHelpers.DeleteItemsAsync(itemsToDelete, true, true, true);
+            this.associatedInstance.Refresh_Click();
+        }
+
         #endregion Command Implementation
     }
 }

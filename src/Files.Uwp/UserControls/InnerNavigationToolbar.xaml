@@ -192,6 +192,21 @@
                         <local:ColoredIcon BaseLayerGlyph="&#xF031;" OverlayLayerGlyph="&#xF032;" />
                     </AppBarButton.Content>
                 </AppBarButton>
+                <AppBarButton
+                    x:Name="OrganizeRawFilesButton"
+                    Width="Auto"
+                    MinWidth="40"
+                    AccessKey="O"
+                    AutomationProperties.Name="{helpers:ResourceString Name=OrganizeRawFilesTitle}"
+                    Command="{x:Bind ViewModel.OrganizeRawFilesCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanOrganizeRawFiles, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay, FallbackValue=False}"
+                    Label="{helpers:ResourceString Name=OrganizeRawFilesTitle}"
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=OrganizeRawFilesTitle}">
+                    <AppBarButton.Content>
+                        Meejeong
+                        <!--<local:ColoredIcon BaseLayerGlyph="&#xF031;" OverlayLayerGlyph="&#xF032;" />-->
+                    </AppBarButton.Content>
+                </AppBarButton>
                 <AppBarSeparator x:Name="AdditionalActionSeparator" x:Load="{x:Bind ViewModel.HasAdditionalAction, Mode=OneWay}" />
                 <AppBarButton
                     x:Name="EmptyRecycleBinButton"
