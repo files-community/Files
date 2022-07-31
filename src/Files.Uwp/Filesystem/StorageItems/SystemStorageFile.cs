@@ -69,14 +69,22 @@ namespace Files.Uwp.Filesystem.StorageItems
                         // File created by CreateFileAsync will get immediately deleted on MTP?! (#7206)
                         return await File.CopyAsync(sysFolder.Folder, desiredNewName, option);
                     }
-                    var destFile = await destFolder.CreateFileAsync(desiredNewName, option.Convert());
-                    using (var inStream = await this.OpenStreamForReadAsync())
-                    using (var outStream = await destFile.OpenStreamForWriteAsync())
+                    else if (destFolder is ICreateFileWithStream cwsf)
                     {
-                        await inStream.CopyToAsync(outStream);
-                        await outStream.FlushAsync();
+                        using var inStream = await this.OpenStreamForReadAsync();
+                        return await cwsf.CreateFileAsync(inStream, desiredNewName, option.Convert());
                     }
-                    return destFile;
+                    else
+                    {
+                        var destFile = await destFolder.CreateFileAsync(desiredNewName, option.Convert());
+                        using (var inStream = await this.OpenStreamForReadAsync())
+                        using (var outStream = await destFile.OpenStreamForWriteAsync())
+                        {
+                            await inStream.CopyToAsync(outStream);
+                            await outStream.FlushAsync();
+                        }
+                        return destFile;
+                    }
                 }
                 catch (UnauthorizedAccessException ex) // shortcuts & .url
                 {

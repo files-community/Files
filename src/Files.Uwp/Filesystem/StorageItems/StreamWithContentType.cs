@@ -23,18 +23,7 @@ namespace Files.Uwp.Filesystem.StorageItems
 
         public IAsyncOperationWithProgress<IBuffer, uint> ReadAsync(IBuffer buffer, uint count, InputStreamOptions options)
         {
-            Func<CancellationToken, IProgress<uint>, Task<IBuffer>> taskProvider =
-                async (token, progress) =>
-                {
-                    if (stream.Position >= stream.Length)
-                    {
-                        buffer.Length = 0;
-                        return buffer;
-                    }
-                    return await iStream.ReadAsync(buffer, (uint)Math.Min(count, stream.Length - stream.Position), options);
-                };
-
-            return AsyncInfo.Run(taskProvider);
+            return iStream.ReadAsync(buffer, count, options);
         }
 
         public void Dispose()

@@ -1,5 +1,4 @@
 ﻿using Files.Uwp.Helpers;
-using ICSharpCode.SharpZipLib.Zip;
 using Microsoft.Toolkit.Uwp;
 using SevenZip;
 using System;
@@ -143,36 +142,7 @@ namespace Files.Uwp.Filesystem.StorageItems
                     return null;
                 }
 
-                var znt = new ZipNameTransform(containerPath);
-                var zipDesiredName = znt.TransformFile(Path);
-
-                using (ZipFile zipFile = new ZipFile(await OpenZipFileAsync(accessMode)))
-                {
-                    var entry = zipFile.GetEntry(zipDesiredName);
-                    if (entry is not null)
-                    {
-                        zipFile.BeginUpdate(new MemoryArchiveStorage(FileUpdateMode.Direct));
-                        zipFile.Delete(entry);
-                        zipFile.CommitUpdate();
-                    }
-                }
-
-                if (backingFile is not null)
-                {
-                    var stream = new ZipOutputStream((await backingFile.OpenAsync(FileAccessMode.ReadWrite)).AsStream(), true);
-                    await stream.PutNextEntryAsync(new ZipEntry(zipDesiredName));
-                    return new NonSeekableRandomAccessStreamForWrite(stream);
-                }
-
-                var hFile = NativeFileOperationsHelper.OpenFileForRead(containerPath, true);
-                if (hFile.IsInvalid)
-                {
-                    return null;
-                }
-
-                var zos = new ZipOutputStream(new FileStream(hFile, FileAccess.ReadWrite), true);
-                await zos.PutNextEntryAsync(new ZipEntry(zipDesiredName));
-                return new NonSeekableRandomAccessStreamForWrite(zos);
+                throw new NotSupportedException("Can't open zip file as RW");
             });
         }
         public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode, StorageOpenOptions options)
@@ -257,7 +227,7 @@ namespace Files.Uwp.Filesystem.StorageItems
                 var ms = new MemoryStream();
                 await zipFile.ExtractFileAsync(entry.FileName, ms);
                 ms.Position = 0;
-                return new InputStreamWithDisposeCallback(ms)
+                return new NonSeekableRandomAccessStreamForRead(ms, (ulong)entry.Size)
                 {
                     DisposeCallback = () => zipFile.Dispose()
                 };
@@ -291,13 +261,22 @@ namespace Files.Uwp.Filesystem.StorageItems
                 }
 
                 var destFolder = destinationFolder.AsBaseStorageFolder();
-                var destFile = await destFolder.CreateFileAsync(desiredNewName, option.Convert());
 
-                using (var outStream = await destFile.OpenStreamForWriteAsync())
+                if (destFolder is ICreateFileWithStream cwsf)
                 {
-                    await zipFile.ExtractFileAsync(entry.FileName, outStream);
+                    var ms = new MemoryStream();
+                    await zipFile.ExtractFileAsync(entry.FileName, ms);
+                    ms.Position = 0;
+                    using var inStream = new NonSeekableRandomAccessStreamForRead(ms, (ulong)entry.Size);
+                    return await cwsf.CreateFileAsync(inStream.AsStreamForRead(), desiredNewName, option.Convert());
                 }
-                return destFile;
+                else
+                {
+                    var destFile = await destFolder.CreateFileAsync(desiredNewName, option.Convert());
+                    using var outStream = await destFile.OpenStreamForWriteAsync();
+                    await zipFile.ExtractFileAsync(entry.FileName, outStream);
+                    return destFile;
+                }
             });
         }
         public override IAsyncAction CopyAndReplaceAsync(IStorageFile fileToReplace)
@@ -334,10 +313,103 @@ namespace Files.Uwp.Filesystem.StorageItems
             => throw new NotSupportedException();
 
         public override IAsyncAction RenameAsync(string desiredName) => RenameAsync(desiredName, NameCollisionOption.FailIfExists);
-        public override IAsyncAction RenameAsync(string desiredName, NameCollisionOption option) => throw new NotSupportedException();
+        public override IAsyncAction RenameAsync(string desiredName, NameCollisionOption option)
+        {
+            return AsyncInfo.Run(async (cancellationToken) =>
+            {
+                if (Path == containerPath)
+                {
+                    if (backingFile != null)
+                    {
+                        await backingFile.RenameAsync(desiredName, option);
+                    }
+                    else
+                    {
+                        var fileName = Regex.Replace(Path, $"{Regex.Escape(Name)}(?!.*{Regex.Escape(Name)})", desiredName);
+                        NativeFileOperationsHelper.MoveFileFromApp(Path, fileName);
+                    }
+                }
+                else
+                {
+                    if (index < 0)
+                    {
+                        index = await FetchZipIndex();
+                        if (index < 0)
+                        {
+                            return;
+                        }
+                    }
+                    using (var ms = new MemoryStream())
+                    {
+                        using (var archiveStream = await OpenZipFileAsync(FileAccessMode.Read))
+                        {
+                            SevenZipCompressor compressor = new SevenZipCompressor() { CompressionMode = CompressionMode.Append };
+                            compressor.SetFormatFromExistingArchive(archiveStream);
+                            var fileName = IO.Path.GetRelativePath(containerPath, Path);
+                            fileName = Regex.Replace(fileName, $"{Regex.Escape(Name)}(?!.*{Regex.Escape(Name)})", desiredName);
+                            await compressor.ModifyArchiveAsync(archiveStream, new Dictionary<int, string>() { { index, fileName } }, "", ms);
+                        }
+                        using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
+                        {
+                            ms.Position = 0;
+                            await ms.CopyToAsync(archiveStream);
+                            await ms.FlushAsync();
+                            archiveStream.SetLength(archiveStream.Position);
+                        }
+                    }
+                }
+            });
+        }
 
         public override IAsyncAction DeleteAsync() => DeleteAsync(StorageDeleteOption.Default);
-        public override IAsyncAction DeleteAsync(StorageDeleteOption option) => throw new NotSupportedException();
+        public override IAsyncAction DeleteAsync(StorageDeleteOption option)
+        {
+            return AsyncInfo.Run(async (cancellationToken) =>
+            {
+                if (Path == containerPath)
+                {
+                    if (backingFile != null)
+                    {
+                        await backingFile.DeleteAsync();
+                    }
+                    else if (option == StorageDeleteOption.PermanentDelete)
+                    {
+                        NativeFileOperationsHelper.DeleteFileFromApp(Path);
+                    }
+                    else
+                    {
+                        throw new NotSupportedException("Moving to recycle bin is not supported.");
+                    }
+                }
+                else
+                {
+                    if (index < 0)
+                    {
+                        index = await FetchZipIndex();
+                        if (index < 0)
+                        {
+                            return;
+                        }
+                    }
+                    using (var ms = new MemoryStream())
+                    {
+                        using (var archiveStream = await OpenZipFileAsync(FileAccessMode.Read))
+                        {
+                            SevenZipCompressor compressor = new SevenZipCompressor() { CompressionMode = CompressionMode.Append };
+                            compressor.SetFormatFromExistingArchive(archiveStream);
+                            await compressor.ModifyArchiveAsync(archiveStream, new Dictionary<int, string>() { { index, null } }, "", ms);
+                        }
+                        using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
+                        {
+                            ms.Position = 0;
+                            await ms.CopyToAsync(archiveStream);
+                            await ms.FlushAsync();
+                            archiveStream.SetLength(archiveStream.Position);
+                        }
+                    }
+                }
+            });
+        }
 
         public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode)
             => Task.FromResult<StorageItemThumbnail>(null).AsAsyncOperation();

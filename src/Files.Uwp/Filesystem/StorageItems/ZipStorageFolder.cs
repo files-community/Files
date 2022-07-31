@@ -17,13 +17,12 @@ using Windows.Storage.Search;
 using IO = System.IO;
 using Storage = Windows.Storage;
 using System.Text.RegularExpressions;
-using ICSharpCode.SharpZipLib.Zip;
 using Files.Backend.Services.Settings;
 using CommunityToolkit.Mvvm.DependencyInjection;
 
 namespace Files.Uwp.Filesystem.StorageItems
 {
-    public sealed class ZipStorageFolder : BaseStorageFolder
+    public sealed class ZipStorageFolder : BaseStorageFolder, ICreateFileWithStream
     {
         private readonly string containerPath;
         private BaseStorageFile backingFile;
@@ -46,6 +45,8 @@ namespace Files.Uwp.Filesystem.StorageItems
             this.containerPath = containerPath;
             this.index = -2;
         }
+        public ZipStorageFolder(string path, string containerPath, BaseStorageFile backingFile) : this(path, containerPath)
+            => this.backingFile = backingFile;
         public ZipStorageFolder(string path, string containerPath, ArchiveFileInfo entry) : this(path, containerPath)
             => DateCreated = entry.CreationTime == DateTime.MinValue ? DateTimeOffset.MinValue : entry.CreationTime;
         public ZipStorageFolder(BaseStorageFile backingFile)
@@ -263,36 +264,7 @@ namespace Files.Uwp.Filesystem.StorageItems
         public override IAsyncOperation<BaseStorageFile> CreateFileAsync(string desiredName)
             => CreateFileAsync(desiredName, CreationCollisionOption.FailIfExists);
         public override IAsyncOperation<BaseStorageFile> CreateFileAsync(string desiredName, CreationCollisionOption options)
-        {
-            return AsyncInfo.Run<BaseStorageFile>(async (cancellationToken) =>
-            {
-                using ZipFile zipFile = new ZipFile(await OpenZipFileAsync(FileAccessMode.ReadWrite));
-                if (zipFile is null)
-                {
-                    return null;
-                }
-
-                zipFile.IsStreamOwner = true;
-                var znt = new ZipNameTransform(containerPath);
-                var zipDesiredName = znt.TransformFile(IO.Path.Combine(Path, desiredName));
-                var entry = zipFile.GetEntry(zipDesiredName);
-                zipFile.BeginUpdate(new MemoryArchiveStorage(FileUpdateMode.Direct));
-                if (entry is not null)
-                {
-                    if (options is not CreationCollisionOption.ReplaceExisting)
-                    {
-                        zipFile.AbortUpdate();
-                        return null;
-                    }
-                    zipFile.Delete(entry);
-                }
-                zipFile.Add(new FileDataSource(), zipDesiredName);
-                zipFile.CommitUpdate();
-
-                var wnt = new WindowsNameTransform(containerPath);
-                return new ZipStorageFile(wnt.TransformFile(zipDesiredName), containerPath, backingFile);
-            });
-        }
+            => CreateFileAsync(new MemoryStream(), desiredName, options);
 
         public override IAsyncOperation<BaseStorageFolder> CreateFolderAsync(string desiredName)
             => CreateFolderAsync(desiredName, CreationCollisionOption.FailIfExists);
@@ -300,44 +272,136 @@ namespace Files.Uwp.Filesystem.StorageItems
         {
             return AsyncInfo.Run<BaseStorageFolder>(async (cancellationToken) =>
             {
-                using ZipFile zipFile = new ZipFile(await OpenZipFileAsync(FileAccessMode.ReadWrite));
-                if (zipFile is null)
+                var zipDesiredName = System.IO.Path.Combine(Path, desiredName);
+                var item = await GetItemAsync(desiredName);
+                if (item != null)
                 {
-                    return null;
-                }
-
-                zipFile.IsStreamOwner = true;
-                var znt = new ZipNameTransform(containerPath);
-                var zipDesiredName = znt.TransformDirectory(IO.Path.Combine(Path, desiredName));
-                var entry = zipFile.GetEntry(zipDesiredName);
-                zipFile.BeginUpdate(new MemoryArchiveStorage(FileUpdateMode.Direct));
-
-                if (entry is not null)
-                {
-                    if (options is not CreationCollisionOption.ReplaceExisting)
+                    if (options != CreationCollisionOption.ReplaceExisting)
                     {
-                        zipFile.AbortUpdate();
                         return null;
                     }
-                    zipFile.Delete(entry);
+                    await item.DeleteAsync();
                 }
 
-                zipFile.AddDirectory(zipDesiredName);
-                zipFile.CommitUpdate();
-
-                var wnt = new WindowsNameTransform(containerPath);
-                return new ZipStorageFolder(wnt.TransformFile(zipDesiredName), containerPath)
+                using (var ms = new MemoryStream())
                 {
-                    backingFile = backingFile
-                };
+                    using (var archiveStream = await OpenZipFileAsync(FileAccessMode.Read))
+                    {
+                        SevenZipCompressor compressor = new SevenZipCompressor() { CompressionMode = CompressionMode.Append };
+                        compressor.SetFormatFromExistingArchive(archiveStream);
+                        var fileName = IO.Path.GetRelativePath(containerPath, zipDesiredName);
+                        await compressor.CompressStreamDictionaryAsync(archiveStream, new Dictionary<string, Stream>() { { fileName, null } }, "", ms);
+                    }
+                    using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
+                    {
+                        ms.Position = 0;
+                        await ms.CopyToAsync(archiveStream);
+                        await ms.FlushAsync();
+                        archiveStream.SetLength(archiveStream.Position);
+                    }
+                }
+
+                return new ZipStorageFolder(zipDesiredName, containerPath, backingFile);
             });
         }
 
         public override IAsyncAction RenameAsync(string desiredName) => RenameAsync(desiredName, NameCollisionOption.FailIfExists);
-        public override IAsyncAction RenameAsync(string desiredName, NameCollisionOption option) => throw new NotSupportedException();
+        public override IAsyncAction RenameAsync(string desiredName, NameCollisionOption option)
+        {
+            return AsyncInfo.Run(async (cancellationToken) =>
+            {
+                if (Path == containerPath)
+                {
+                    if (backingFile != null)
+                    {
+                        await backingFile.RenameAsync(desiredName, option);
+                    }
+                    else
+                    {
+                        var fileName = Regex.Replace(Path, $"{Regex.Escape(Name)}(?!.*{Regex.Escape(Name)})", desiredName);
+                        NativeFileOperationsHelper.MoveFileFromApp(Path, fileName);
+                    }
+                }
+                else
+                {
+                    if (index < 0)
+                    {
+                        index = await FetchZipIndex();
+                        if (index < 0)
+                        {
+                            return;
+                        }
+                    }
+                    using (var ms = new MemoryStream())
+                    {
+                        using (var archiveStream = await OpenZipFileAsync(FileAccessMode.Read))
+                        {
+                            SevenZipCompressor compressor = new SevenZipCompressor() { CompressionMode = CompressionMode.Append };
+                            compressor.SetFormatFromExistingArchive(archiveStream);
+                            var fileName = Regex.Replace(Path, $"{Regex.Escape(Name)}(?!.*{Regex.Escape(Name)})", desiredName);
+                            await compressor.ModifyArchiveAsync(archiveStream, new Dictionary<int, string>() { { index, fileName } }, "", ms);
+                        }
+                        using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
+                        {
+                            ms.Position = 0;
+                            await ms.CopyToAsync(archiveStream);
+                            await ms.FlushAsync();
+                            archiveStream.SetLength(archiveStream.Position);
+                        }
+                    }
+                }
+            });
+        }
 
         public override IAsyncAction DeleteAsync() => DeleteAsync(StorageDeleteOption.Default);
-        public override IAsyncAction DeleteAsync(StorageDeleteOption option) => throw new NotSupportedException();
+        public override IAsyncAction DeleteAsync(StorageDeleteOption option)
+        {
+            return AsyncInfo.Run(async (cancellationToken) =>
+            {
+                if (Path == containerPath)
+                {
+                    if (backingFile != null)
+                    {
+                        await backingFile.DeleteAsync();
+                    }
+                    else if (option == StorageDeleteOption.PermanentDelete)
+                    {
+                        NativeFileOperationsHelper.DeleteFileFromApp(Path);
+                    }
+                    else
+                    {
+                        throw new NotSupportedException("Moving to recycle bin is not supported.");
+                    }
+                }
+                else
+                {
+                    if (index < 0)
+                    {
+                        index = await FetchZipIndex();
+                        if (index < 0)
+                        {
+                            return;
+                        }
+                    }
+                    using (var ms = new MemoryStream())
+                    {
+                        using (var archiveStream = await OpenZipFileAsync(FileAccessMode.Read))
+                        {
+                            SevenZipCompressor compressor = new SevenZipCompressor() { CompressionMode = CompressionMode.Append };
+                            compressor.SetFormatFromExistingArchive(archiveStream);
+                            await compressor.ModifyArchiveAsync(archiveStream, new Dictionary<int, string>() { { index, null } }, "", ms);
+                        }
+                        using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
+                        {
+                            ms.Position = 0;
+                            await ms.CopyToAsync(archiveStream);
+                            await ms.FlushAsync();
+                            archiveStream.SetLength(archiveStream.Position);
+                        }
+                    }
+                }
+            });
+        }
 
         public override bool AreQueryOptionsSupported(QueryOptions queryOptions) => false;
         public override bool IsCommonFileQuerySupported(CommonFileQuery query) => false;
@@ -453,13 +517,6 @@ namespace Files.Uwp.Filesystem.StorageItems
             });
         }
 
-        private class FileDataSource : IStaticDataSource
-        {
-            private readonly Stream stream = new MemoryStream();
-
-            public Stream GetSource() => stream;
-        }
-
         private async Task<int> FetchZipIndex()
         {
             using (SevenZipExtractor zipFile = await OpenZipFileAsync())
@@ -478,6 +535,45 @@ namespace Files.Uwp.Filesystem.StorageItems
             }
         }
 
+        public IAsyncOperation<BaseStorageFile> CreateFileAsync(Stream contents, string desiredName)
+            => CreateFileAsync(new MemoryStream(), desiredName, CreationCollisionOption.FailIfExists);
+
+        public IAsyncOperation<BaseStorageFile> CreateFileAsync(Stream contents, string desiredName, CreationCollisionOption options)
+        {
+            return AsyncInfo.Run<BaseStorageFile>(async (cancellationToken) =>
+            {
+                var zipDesiredName = System.IO.Path.Combine(Path, desiredName);
+                var item = await GetItemAsync(desiredName);
+                if (item != null)
+                {
+                    if (options != CreationCollisionOption.ReplaceExisting)
+                    {
+                        return null;
+                    }
+                    await item.DeleteAsync();
+                }
+
+                using (var ms = new MemoryStream())
+                {
+                    using (var archiveStream = await OpenZipFileAsync(FileAccessMode.Read))
+                    {
+                        SevenZipCompressor compressor = new SevenZipCompressor() { CompressionMode = CompressionMode.Append };
+                        compressor.SetFormatFromExistingArchive(archiveStream);
+                        var fileName = IO.Path.GetRelativePath(containerPath, zipDesiredName);
+                        await compressor.CompressStreamDictionaryAsync(archiveStream, new Dictionary<string, Stream>() { { fileName, contents } }, "", ms);
+                    }
+                    using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
+                    {
+                        ms.Position = 0;
+                        await ms.CopyToAsync(archiveStream);
+                        await ms.FlushAsync();
+                        archiveStream.SetLength(archiveStream.Position);
+                    }
+                }
+
+                return new ZipStorageFile(zipDesiredName, containerPath, backingFile);
+            });
+        }
 
         private class ZipFolderBasicProperties : BaseBasicProperties
         {
