@@ -333,8 +333,10 @@ namespace Files.Uwp.Filesystem.StorageItems
                         {
                             SevenZipCompressor compressor = new SevenZipCompressor() { CompressionMode = CompressionMode.Append };
                             compressor.SetFormatFromExistingArchive(archiveStream);
+                            var folderKey = IO.Path.GetRelativePath(containerPath, Path);
+                            var folderDes = IO.Path.Combine(IO.Path.GetDirectoryName(folderKey), desiredName);
                             var entriesMap = new Dictionary<int, string>(index.Select(x => new KeyValuePair<int, string>(x.Index,
-                                IO.Path.Combine(IO.Path.GetDirectoryName(x.Key), desiredName))));
+                                IO.Path.Combine(folderDes, IO.Path.GetRelativePath(folderKey, x.Key)))));
                             await compressor.ModifyArchiveAsync(archiveStream, entriesMap, "", ms);
                         }
                         using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
