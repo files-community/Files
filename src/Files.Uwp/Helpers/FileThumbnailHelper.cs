@@ -13,7 +13,7 @@ namespace Files.Uwp.Helpers
 {
     public static class FileThumbnailHelper
     {
-        public static async Task<(byte[] IconData, byte[] OverlayData)> LoadIconAndOverlayAsync(string filePath, uint thumbnailSize, bool isFolder)
+        public static async Task<(byte[] IconData, byte[] OverlayData)> LoadIconAndOverlayAsync(string filePath, uint thumbnailSize, bool isFolder = false)
         {
             var connection = await AppServiceConnectionHelper.Instance;
             if (connection != null)
@@ -41,7 +41,7 @@ namespace Files.Uwp.Helpers
             return (null, null);
         }
 
-        public static async Task<byte[]> LoadOverlayAsync(string filePath, uint thumbnailSize, bool isFolder)
+        public static async Task<byte[]> LoadOverlayAsync(string filePath, uint thumbnailSize)
         {
             var connection = await AppServiceConnectionHelper.Instance;
             if (connection != null)
@@ -51,7 +51,7 @@ namespace Files.Uwp.Helpers
                     { "Arguments", "GetIconOverlay" },
                     { "filePath", filePath },
                     { "thumbnailSize", thumbnailSize },
-                    { "isFolder", isFolder },
+                    { "isFolder", false },
                     { "isOverlayOnly", true }
                 };
                 var (status, response) = await connection.SendMessageForResponseAsync(value);
@@ -67,7 +67,7 @@ namespace Files.Uwp.Helpers
             return null;
         }
 
-        public static async Task<byte[]> LoadIconWithoutOverlayAsync(string filePath, uint thumbnailSize, bool isFolder)
+        public static async Task<byte[]> LoadIconWithoutOverlayAsync(string filePath, uint thumbnailSize, bool isFolder = false)
         {
             var Connection = await AppServiceConnectionHelper.Instance;
             if (Connection != null)
@@ -113,7 +113,7 @@ namespace Files.Uwp.Helpers
             return null;
         }
 
-        public static async Task<byte[]> LoadIconFromPathAsync(string filePath, uint thumbnailSize, bool isFolder, ThumbnailMode thumbnailMode)
+        public static async Task<byte[]> LoadIconFromPathAsync(string filePath, uint thumbnailSize, ThumbnailMode thumbnailMode, bool isFolder = false)
         {
             if (!filePath.EndsWith(".lnk", StringComparison.Ordinal) && !filePath.EndsWith(".url", StringComparison.Ordinal))
             {
