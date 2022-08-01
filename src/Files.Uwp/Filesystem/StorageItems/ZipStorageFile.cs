@@ -21,7 +21,6 @@ namespace Files.Uwp.Filesystem.StorageItems
     {
         private readonly string containerPath;
         private readonly BaseStorageFile backingFile;
-        private int index; // Index in zip file
 
         public override string Path { get; }
         public override string Name { get; }
@@ -54,12 +53,11 @@ namespace Files.Uwp.Filesystem.StorageItems
             Name = IO.Path.GetFileName(path.TrimEnd('\\', '/'));
             Path = path;
             this.containerPath = containerPath;
-            this.index = -2;
         }
         public ZipStorageFile(string path, string containerPath, BaseStorageFile backingFile) : this(path, containerPath)
             => this.backingFile = backingFile;
         public ZipStorageFile(string path, string containerPath, ArchiveFileInfo entry) : this(path, containerPath)
-            => (DateCreated, index) = (entry.CreationTime == DateTime.MinValue ? DateTimeOffset.MinValue : entry.CreationTime, entry.Index);
+            => DateCreated = entry.CreationTime == DateTime.MinValue ? DateTimeOffset.MinValue : entry.CreationTime;
         public ZipStorageFile(string path, string containerPath, ArchiveFileInfo entry, BaseStorageFile backingFile) : this(path, containerPath, entry)
             => this.backingFile = backingFile;
 
@@ -325,19 +323,16 @@ namespace Files.Uwp.Filesystem.StorageItems
                     }
                     else
                     {
-                        var fileName = Regex.Replace(Path, $"{Regex.Escape(Name)}(?!.*{Regex.Escape(Name)})", desiredName);
+                        var fileName = IO.Path.Combine(IO.Path.GetDirectoryName(Path), desiredName);
                         NativeFileOperationsHelper.MoveFileFromApp(Path, fileName);
                     }
                 }
                 else
                 {
+                    var index = await FetchZipIndex();
                     if (index < 0)
                     {
-                        index = await FetchZipIndex();
-                        if (index < 0)
-                        {
-                            return;
-                        }
+                        return;
                     }
                     using (var ms = new MemoryStream())
                     {
@@ -345,8 +340,7 @@ namespace Files.Uwp.Filesystem.StorageItems
                         {
                             SevenZipCompressor compressor = new SevenZipCompressor() { CompressionMode = CompressionMode.Append };
                             compressor.SetFormatFromExistingArchive(archiveStream);
-                            var fileName = IO.Path.GetRelativePath(containerPath, Path);
-                            fileName = Regex.Replace(fileName, $"{Regex.Escape(Name)}(?!.*{Regex.Escape(Name)})", desiredName);
+                            var fileName = IO.Path.GetRelativePath(containerPath, IO.Path.Combine(IO.Path.GetDirectoryName(Path), desiredName));
                             await compressor.ModifyArchiveAsync(archiveStream, new Dictionary<int, string>() { { index, fileName } }, "", ms);
                         }
                         using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
@@ -383,13 +377,10 @@ namespace Files.Uwp.Filesystem.StorageItems
                 }
                 else
                 {
+                    var index = await FetchZipIndex();
                     if (index < 0)
                     {
-                        index = await FetchZipIndex();
-                        if (index < 0)
-                        {
-                            return;
-                        }
+                        return;
                     }
                     using (var ms = new MemoryStream())
                     {
@@ -445,7 +436,7 @@ namespace Files.Uwp.Filesystem.StorageItems
             {
                 if (zipFile == null || zipFile.ArchiveFileData == null)
                 {
-                    return -2;
+                    return -1;
                 }
                 //zipFile.IsStreamOwner = true;
                 var entry = zipFile.ArchiveFileData.FirstOrDefault(x => System.IO.Path.Combine(containerPath, x.FileName) == Path);
@@ -453,7 +444,7 @@ namespace Files.Uwp.Filesystem.StorageItems
                 {
                     return entry.Index;
                 }
-                return -2;
+                return -1;
             }
         }
 

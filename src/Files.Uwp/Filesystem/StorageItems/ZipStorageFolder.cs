@@ -26,7 +26,6 @@ namespace Files.Uwp.Filesystem.StorageItems
     {
         private readonly string containerPath;
         private BaseStorageFile backingFile;
-        private int index; // Index in zip file
 
         public override string Path { get; }
         public override string Name { get; }
@@ -43,7 +42,6 @@ namespace Files.Uwp.Filesystem.StorageItems
             Name = IO.Path.GetFileName(path.TrimEnd('\\', '/'));
             Path = path;
             this.containerPath = containerPath;
-            this.index = -2;
         }
         public ZipStorageFolder(string path, string containerPath, BaseStorageFile backingFile) : this(path, containerPath)
             => this.backingFile = backingFile;
@@ -318,19 +316,16 @@ namespace Files.Uwp.Filesystem.StorageItems
                     }
                     else
                     {
-                        var fileName = Regex.Replace(Path, $"{Regex.Escape(Name)}(?!.*{Regex.Escape(Name)})", desiredName);
+                        var fileName = IO.Path.Combine(IO.Path.GetDirectoryName(Path), desiredName);
                         NativeFileOperationsHelper.MoveFileFromApp(Path, fileName);
                     }
                 }
                 else
                 {
-                    if (index < 0)
+                    var index = await FetchZipIndex();
+                    if (index.IsEmpty())
                     {
-                        index = await FetchZipIndex();
-                        if (index < 0)
-                        {
-                            return;
-                        }
+                        return;
                     }
                     using (var ms = new MemoryStream())
                     {
@@ -338,8 +333,9 @@ namespace Files.Uwp.Filesystem.StorageItems
                         {
                             SevenZipCompressor compressor = new SevenZipCompressor() { CompressionMode = CompressionMode.Append };
                             compressor.SetFormatFromExistingArchive(archiveStream);
-                            var fileName = Regex.Replace(Path, $"{Regex.Escape(Name)}(?!.*{Regex.Escape(Name)})", desiredName);
-                            await compressor.ModifyArchiveAsync(archiveStream, new Dictionary<int, string>() { { index, fileName } }, "", ms);
+                            var entriesMap = new Dictionary<int, string>(index.Select(x => new KeyValuePair<int, string>(x.Index,
+                                IO.Path.Combine(IO.Path.GetDirectoryName(x.Key), desiredName))));
+                            await compressor.ModifyArchiveAsync(archiveStream, entriesMap, "", ms);
                         }
                         using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
                         {
@@ -375,13 +371,10 @@ namespace Files.Uwp.Filesystem.StorageItems
                 }
                 else
                 {
-                    if (index < 0)
+                    var index = await FetchZipIndex();
+                    if (index.IsEmpty())
                     {
-                        index = await FetchZipIndex();
-                        if (index < 0)
-                        {
-                            return;
-                        }
+                        return;
                     }
                     using (var ms = new MemoryStream())
                     {
@@ -389,7 +382,8 @@ namespace Files.Uwp.Filesystem.StorageItems
                         {
                             SevenZipCompressor compressor = new SevenZipCompressor() { CompressionMode = CompressionMode.Append };
                             compressor.SetFormatFromExistingArchive(archiveStream);
-                            await compressor.ModifyArchiveAsync(archiveStream, new Dictionary<int, string>() { { index, null } }, "", ms);
+                            var entriesMap = new Dictionary<int, string>(index.Select(x => new KeyValuePair<int, string>(x.Index, null)));
+                            await compressor.ModifyArchiveAsync(archiveStream, entriesMap, "", ms);
                         }
                         using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
                         {
@@ -517,21 +511,16 @@ namespace Files.Uwp.Filesystem.StorageItems
             });
         }
 
-        private async Task<int> FetchZipIndex()
+        private async Task<IEnumerable<(int Index, string Key)>> FetchZipIndex()
         {
             using (SevenZipExtractor zipFile = await OpenZipFileAsync())
             {
                 if (zipFile == null || zipFile.ArchiveFileData == null)
                 {
-                    return -2;
+                    return null;
                 }
                 //zipFile.IsStreamOwner = true;
-                var entry = zipFile.ArchiveFileData.FirstOrDefault(x => System.IO.Path.Combine(containerPath, x.FileName) == Path);
-                if (entry.FileName != null)
-                {
-                    return entry.Index;
-                }
-                return -2;
+                return zipFile.ArchiveFileData.Where(x => System.IO.Path.Combine(containerPath, x.FileName).IsSubPathOf(Path)).Select(e => (e.Index, e.FileName));
             }
         }
 
