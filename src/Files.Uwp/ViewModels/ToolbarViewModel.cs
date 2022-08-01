@@ -889,6 +889,8 @@ namespace Files.Uwp.ViewModels
 
         public ICommand SetAsBackgroundCommand { get; set; }
 
+        public ICommand SetAsLockScreenCommand { get; set; }
+
         public ICommand InstallInfCommand { get; set; }
 
         public ICommand RotateImageLeftCommand { get; set; }
@@ -1226,6 +1228,7 @@ namespace Files.Uwp.ViewModels
                     OnPropertyChanged(nameof(IsInfFile));
                     OnPropertyChanged(nameof(IsPowerShellScript));
                     OnPropertyChanged(nameof(IsImage));
+                    OnPropertyChanged(nameof(IsMultipleImages));
                     OnPropertyChanged(nameof(IsFont));
                     OnPropertyChanged(nameof(HasAdditionalAction));
                     OnPropertyChanged(nameof(SetAsText));
@@ -1256,6 +1259,7 @@ namespace Files.Uwp.ViewModels
         public string ExtractToText => SelectedItems is not null && SelectedItems.Count == 1 ? string.Format("ExtractToChildFolder".GetLocalized() + "\\", Path.GetFileNameWithoutExtension(selectedItems.First().ItemName)) : "ExtractToChildFolder".GetLocalized();
         public bool IsPowerShellScript => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsPowerShellFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
         public bool IsImage => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
+        public bool IsMultipleImages => SelectedItems is not null && SelectedItems.Count > 1 && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
         public bool IsInfFile => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsInfFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
         public bool IsFont => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
 
