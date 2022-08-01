@@ -389,7 +389,7 @@ namespace Files.Uwp.Filesystem.Search
             }
             if (listedItem != null && MaxItemCount > 0) // Only load icon for searchbox suggestions
             {
-                _ = FileThumbnailHelper.LoadIconFromPathAsync(listedItem.ItemPath, ThumbnailSize, isFolder, ThumbnailMode.ListView)
+                _ = FileThumbnailHelper.LoadIconFromPathAsync(listedItem.ItemPath, ThumbnailSize, ThumbnailMode.ListView, isFolder)
                     .ContinueWith((t) =>
                     {
                         if (t.IsCompletedSuccessfully && t.Result != null)
