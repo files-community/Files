@@ -48,13 +48,13 @@ namespace Files.Uwp.Helpers
         /// otherwise <c>false</c>.</returns>
         public static bool IsZipFile(string fileExtensionToCheck)
         {
-            return new[] { ".zip", ".msix", ".msixbundle", ".7z", ".rar" }
+            return new[] { ".zip", ".msix", ".msixbundle", ".7z", ".rar", ".tar" }
                 .Contains(fileExtensionToCheck, StringComparer.OrdinalIgnoreCase);
         }
 
         public static bool IsBrowsableZipFile(string filePath, out string ext)
         {
-            ext = new[] { ".zip", ".7z", ".rar" } // Only ext we want to browse
+            ext = new[] { ".zip", ".7z", ".rar", ".tar" } // Only ext we want to browse
                 .FirstOrDefault(x => filePath.Contains(x, StringComparison.OrdinalIgnoreCase));
             return ext is not null;
         }
