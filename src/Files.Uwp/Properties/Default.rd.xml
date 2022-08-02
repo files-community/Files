@@ -27,9 +27,9 @@
     <Assembly Name="Microsoft.Xaml.Interactions.Core" Dynamic="Required Public" />
     <Assembly Name="Microsoft.Toolkit.Uwp.UI.Behaviors" Dynamic="Required Public" />
 
-    <Type Name="Files.Uwp.Views.PaneNavigationArguments" Dynamic="Required All" />
-	<Type Name="Files.Uwp.UserControls.MultitaskingControl.TabItemArguments" Dynamic="Required All" />
-	<Type Name="Files.Backend.ViewModels.FileTags.FileTagViewModel" Dynamic="Required All" />
+    <Type Name="Files.Uwp.Views.PaneNavigationArguments" Dynamic="Required Public" />
+    <Type Name="Files.Uwp.UserControls.MultitaskingControl.TabItemArguments" Dynamic="Required Public" />
+    <Type Name="Files.Backend.ViewModels.FileTags.FileTagViewModel" Dynamic="Required Public" />
 
     <!-- Add your application specific runtime directives here. -->
   </Application>
