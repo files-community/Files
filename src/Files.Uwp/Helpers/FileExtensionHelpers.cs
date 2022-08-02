@@ -48,7 +48,7 @@ namespace Files.Uwp.Helpers
         /// otherwise <c>false</c>.</returns>
         public static bool IsZipFile(string fileExtensionToCheck)
         {
-            return new[] { ".zip", ".msix", ".msixbundle", ".7z", ".rar", ".tar" }
+            return new[] { ".zip", ".msix", ".appx", ".msixbundle", ".7z", ".rar", ".tar" }
                 .Contains(fileExtensionToCheck, StringComparer.OrdinalIgnoreCase);
         }
 
