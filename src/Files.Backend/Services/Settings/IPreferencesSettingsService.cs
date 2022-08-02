@@ -109,10 +109,5 @@ namespace Files.Backend.Services.Settings
         /// A list containing all paths to tabs closed on last session.
         /// </summary>
         List<string> LastSessionTabList { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not to open archives in Files.
-        /// </summary>
-        bool OpenArchivesInFiles { get; set; }
     }
 }

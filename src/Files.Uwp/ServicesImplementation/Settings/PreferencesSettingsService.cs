@@ -140,12 +140,6 @@ namespace Files.Uwp.ServicesImplementation.Settings
             set => Set(value);
         }
 
-        public bool OpenArchivesInFiles
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
         protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
         {
             switch (e.SettingName)
@@ -167,7 +161,6 @@ namespace Files.Uwp.ServicesImplementation.Settings
                 case nameof(ContinueLastSessionOnStartUp):
                 case nameof(OpenNewTabOnStartup):
                 case nameof(AlwaysOpenNewInstance):
-                case nameof(OpenArchivesInFiles):
                     Analytics.TrackEvent($"{e.SettingName} {e.NewValue}");
                     break;
             }
@@ -194,7 +187,6 @@ namespace Files.Uwp.ServicesImplementation.Settings
             Analytics.TrackEvent($"{nameof(ContinueLastSessionOnStartUp)}, {ContinueLastSessionOnStartUp}");
             Analytics.TrackEvent($"{nameof(OpenNewTabOnStartup)}, {OpenNewTabOnStartup}");
             Analytics.TrackEvent($"{nameof(AlwaysOpenNewInstance)}, {AlwaysOpenNewInstance}");
-            Analytics.TrackEvent($"{nameof(OpenArchivesInFiles)}, {OpenArchivesInFiles}");
         }
     }
 }

@@ -79,7 +79,6 @@ namespace Files.Uwp.Filesystem.StorageItems
         private static Dictionary<string, bool> defaultAppDict = new Dictionary<string, bool>();
         public static async Task<bool> CheckDefaultZipApp(string filePath)
         {
-            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
             Func<Task<bool>> queryFileAssoc = async () =>
             {
                 var assoc = await NativeWinApiHelper.GetFileAssociationAsync(filePath);
@@ -91,7 +90,7 @@ namespace Files.Uwp.Filesystem.StorageItems
                 return true;
             };
             var ext = System.IO.Path.GetExtension(filePath)?.ToLowerInvariant();
-            return userSettingsService.PreferencesSettingsService.OpenArchivesInFiles || await defaultAppDict.Get(ext, queryFileAssoc());
+            return await defaultAppDict.GetAsync(ext, queryFileAssoc);
         }
 
         public static IAsyncOperation<BaseStorageFolder> FromPathAsync(string path)
@@ -106,7 +105,7 @@ namespace Files.Uwp.Filesystem.StorageItems
                 if (marker is not -1)
                 {
                     var containerPath = path.Substring(0, marker + ext.Length);
-                    if (await CheckDefaultZipApp(path) && CheckAccess(containerPath))
+                    if (CheckAccess(containerPath))
                     {
                         return new ZipStorageFolder(path, containerPath);
                     }
