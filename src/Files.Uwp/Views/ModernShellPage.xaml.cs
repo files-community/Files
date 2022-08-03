@@ -848,6 +848,11 @@ namespace Files.Uwp.Views
                 case (true, true, false, _, VirtualKey.Number7): // ctrl+shift+7, adaptive
                     InstanceViewModel.FolderSettings.ToggleLayoutModeAdaptive();
                     break;
+
+                case (true, false, false, true, VirtualKey.H): // ctrl + h, toggle hidden folder visibility
+                    var hiddenItemCurrentVisibitily = UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible;
+                    UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible = !hiddenItemCurrentVisibitily;
+                    break;
             }
 
             switch (args.KeyboardAccelerator.Key)
