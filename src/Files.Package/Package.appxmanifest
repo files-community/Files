@@ -69,9 +69,12 @@
               </uap5:Extension>
               <Extension Category="windows.updateTask" EntryPoint="BackgroundTasks.UpdateTask" />
               <uap:Extension Category="windows.fileTypeAssociation">
-                <uap:FileTypeAssociation Name="zip">
+                <uap:FileTypeAssociation Name="archives">
                   <uap:SupportedFileTypes>
                     <uap:FileType>.zip</uap:FileType>
+                    <uap:FileType>.7z</uap:FileType>
+                    <uap:FileType>.rar</uap:FileType>
+                    <uap:FileType>.tar</uap:FileType>
                   </uap:SupportedFileTypes>
                 </uap:FileTypeAssociation>
               </uap:Extension>

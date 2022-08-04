@@ -100,6 +100,12 @@
     <ProjectReference Include="..\Files.FullTrust\Files.FullTrust.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="7z.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="7z64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\AppTilesDev\BadgeLogo.scale-100.png" />
     <Content Include="Assets\AppTilesDev\BadgeLogo.scale-125.png" />
     <Content Include="Assets\AppTilesDev\BadgeLogo.scale-150.png" />
@@ -482,11 +488,11 @@
     <Content Include="Assets\AppTilesDev\Wide310x150Logo.scale-150.png" />
     <Content Include="Assets\AppTilesDev\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\AppTilesDev\Wide310x150Logo.scale-400.png" />
+    <None Include="nupkgs\SevenZipSharp.1.0.0.nupkg" />
     <Content Include="Package.appinstaller" />
   </ItemGroup>
   <ItemGroup>
     <None Include="nupkgs\microsoft.management.infrastructure.runtime.win.2.0.1.nupkg" />
-    <None Include="nupkgs\SharpZipLib.1.3.4.nupkg" />
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
 </Project>

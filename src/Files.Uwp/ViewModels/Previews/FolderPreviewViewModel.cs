@@ -35,7 +35,7 @@ namespace Files.Uwp.ViewModels.Previews
             var items = await Folder.GetItemsAsync();
 
             var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(Folder, 400, ThumbnailMode.SingleItem);
-            iconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, 400);
+            iconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, 400, true);
             if (iconData is not null)
             {
                 Thumbnail = await iconData.ToBitmapAsync();
