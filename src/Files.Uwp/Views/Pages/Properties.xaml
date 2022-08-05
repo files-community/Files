@@ -99,7 +99,6 @@
                     AccessKey="G"
                     Content="{helpers:ResourceString Name=General}"
                     CornerRadius="0"
-                    d:IsSelected="True"
                     Tag="General">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE7C3;" />
