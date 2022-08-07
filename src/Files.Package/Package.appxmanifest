@@ -9,7 +9,7 @@
          xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4"
          xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
          IgnorableNamespaces="uap uap5 mp rescap desktop4 desktop">
-    <Identity Name="FilesDev" Publisher="CN=Files" Version="2.3.1.0" />
+    <Identity Name="FilesDev" Publisher="CN=Files" Version="2.3.5.0" />
     <Properties>
         <DisplayName>Files - Dev</DisplayName>
         <PublisherDisplayName>Yair A</PublisherDisplayName>
@@ -69,9 +69,12 @@
               </uap5:Extension>
               <Extension Category="windows.updateTask" EntryPoint="BackgroundTasks.UpdateTask" />
               <uap:Extension Category="windows.fileTypeAssociation">
-                <uap:FileTypeAssociation Name="zip">
+                <uap:FileTypeAssociation Name="archives">
                   <uap:SupportedFileTypes>
                     <uap:FileType>.zip</uap:FileType>
+                    <uap:FileType>.7z</uap:FileType>
+                    <uap:FileType>.rar</uap:FileType>
+                    <uap:FileType>.tar</uap:FileType>
                   </uap:SupportedFileTypes>
                 </uap:FileTypeAssociation>
               </uap:Extension>
