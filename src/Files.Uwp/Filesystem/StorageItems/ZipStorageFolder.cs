@@ -76,7 +76,7 @@ namespace Files.Uwp.Filesystem.StorageItems
             return (marker == path.Length && includeRoot) || (marker < path.Length && path[marker] is '\\');
         }
 
-        private static Dictionary<string, bool> defaultAppDict = new Dictionary<string, bool>();
+        private static Dictionary<string, Task<bool>> defaultAppDict = new Dictionary<string, Task<bool>>();
         public static async Task<bool> CheckDefaultZipApp(string filePath)
         {
             Func<Task<bool>> queryFileAssoc = async () =>
