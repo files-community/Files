@@ -11,7 +11,6 @@ using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
 using IO = System.IO;
-using Storage = Windows.Storage;
 
 namespace Files.Uwp.Filesystem.StorageItems
 {
@@ -45,7 +44,7 @@ namespace Files.Uwp.Filesystem.StorageItems
         }
 
         public override DateTimeOffset DateCreated { get; }
-        public override Storage.FileAttributes Attributes { get; } = Storage.FileAttributes.Normal;
+        public override Windows.Storage.FileAttributes Attributes { get; } = Windows.Storage.FileAttributes.Normal;
         public override IStorageItemExtraProperties Properties => new BaseBasicStorageItemExtraProperties(this);
 
         public NativeStorageFile(string path, string name, DateTimeOffset dateCreated)

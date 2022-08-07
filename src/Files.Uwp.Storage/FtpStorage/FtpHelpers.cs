@@ -18,7 +18,7 @@ namespace Files.Uwp.Storage.FtpStorage
             return hostIndex == -1 ? "/" : path.Substring(hostIndex);
         }
 
-        public static async Task<bool> EnsureConnectedAsync(this FtpClient ftpClient, CancellationToken cancellationToken = default)
+        public static async Task<bool> TryEnsureConnectedAsync(this FtpClient ftpClient, CancellationToken cancellationToken = default)
         {
             if (ftpClient.IsConnected)
                 return true;
@@ -28,10 +28,18 @@ namespace Files.Uwp.Storage.FtpStorage
                 await ftpClient.ConnectAsync(cancellationToken);
                 return true;
             }
-            catch
+            catch (Exception)
             {
                 return false;
             }
+        }
+
+        public static async Task EnsureConnectedAsync(this FtpClient ftpClient, CancellationToken cancellationToken = default)
+        {
+            if (ftpClient.IsConnected)
+                return;
+
+            await ftpClient.ConnectAsync(cancellationToken);
         }
 
         public static string GetFtpHost(string path)

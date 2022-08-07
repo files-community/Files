@@ -28,7 +28,7 @@ namespace Files.Uwp.Storage.FtpStorage
         public async Task<IFolder?> GetFolderFromPathAsync(string path)
         {
             using var ftpClient = FtpHelpers.GetFtpClient(path);
-            if (!await ftpClient.EnsureConnectedAsync())
+            if (!await ftpClient.TryEnsureConnectedAsync())
                 return null;
 
             var ftpPath = FtpHelpers.GetFtpPath(path);
@@ -45,7 +45,7 @@ namespace Files.Uwp.Storage.FtpStorage
         public async Task<IFile?> GetFileFromPathAsync(string path)
         {
             using var ftpClient = FtpHelpers.GetFtpClient(path);
-            if (!await ftpClient.EnsureConnectedAsync())
+            if (!await ftpClient.TryEnsureConnectedAsync())
                 return null;
 
             var ftpPath = FtpHelpers.GetFtpPath(path);
@@ -59,7 +59,7 @@ namespace Files.Uwp.Storage.FtpStorage
             return new FtpStorageFile(ftpPath, item.Name);
         }
 
-        public Task<IDisposable?> ObtainLockAsync(IBaseStorage storage)
+        public Task<IDisposable?> ObtainLockAsync(IStorable storage)
         {
             return Task.FromResult<IDisposable?>(null);
         }

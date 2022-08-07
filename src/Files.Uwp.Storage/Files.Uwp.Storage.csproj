@@ -122,7 +122,7 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="FtpStorage\FtpBaseStorage.cs" />
+    <Compile Include="FtpStorage\FtpStorable.cs" />
     <Compile Include="FtpStorage\FtpDrive.cs" />
     <Compile Include="FtpStorage\FtpFileSystemService.cs" />
     <Compile Include="FtpStorage\FtpHelpers.cs" />
@@ -131,6 +131,9 @@
     <Compile Include="FtpStorage\FtpStorageFolder.cs" />
     <Compile Include="IsExternalInit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WindowsStorage\WindowsStorable.cs" />
+    <Compile Include="WindowsStorage\WindowsStorageFile.cs" />
+    <Compile Include="WindowsStorage\WindowsStorageFolder.cs" />
     <EmbeddedResource Include="Properties\Files.Uwp.Storage.rd.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -146,11 +149,12 @@
       <Project>{93b7a21c-a6ca-4a21-a69c-b5bd26bddb79}</Project>
       <Name>Files.Sdk.Storage</Name>
     </ProjectReference>
-    <ProjectReference Include="..\src\Files.Shared\Files.Shared.csproj">
+    <ProjectReference Include="..\Files.Shared\Files.Shared.csproj">
       <Project>{0533133F-2559-4B53-A0FD-0970BC0E312E}</Project>
       <Name>Files.Shared</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

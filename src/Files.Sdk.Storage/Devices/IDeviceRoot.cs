@@ -8,7 +8,7 @@ namespace Files.Sdk.Storage.Devices
     {
         Task<IFolder?> GetFolderRootAsync();
 
-        Task<IEnumerable<IBaseStorage>?> GetStorageRootAsync();
+        Task<IEnumerable<IStorable>?> GetStorageRootAsync();
 
         Task<IFileSystemService?> GetFileSystemServiceAsync();
     }

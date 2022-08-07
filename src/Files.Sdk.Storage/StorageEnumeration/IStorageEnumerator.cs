@@ -12,6 +12,6 @@ namespace Files.Sdk.Storage.StorageEnumeration
 
         IAsyncEnumerable<IFolder> EnumerateFoldersAsync(CancellationToken cancellationToken = default);
 
-        IAsyncEnumerable<IBaseStorage> EnumerateStorageAsync(CancellationToken cancellationToken = default);
+        IAsyncEnumerable<IStorable> EnumerateStorageAsync(CancellationToken cancellationToken = default);
     }
 }

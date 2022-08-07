@@ -34,9 +34,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FilesLauncher", "src\Files.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sdk", "Sdk", "{9F36C2AD-005D-4EA5-A1F1-6BC42773FC85}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Files.Sdk.Storage", "Files.Sdk.Storage\Files.Sdk.Storage.csproj", "{93B7A21C-A6CA-4A21-A69C-B5BD26BDDB79}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Files.Sdk.Storage", "src\Files.Sdk.Storage\Files.Sdk.Storage.csproj", "{93B7A21C-A6CA-4A21-A69C-B5BD26BDDB79}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Files.Uwp.Storage", "Files.Uwp.Storage\Files.Uwp.Storage.csproj", "{DEDFB63C-7A8D-4E1F-A143-7B61CAC1F2A7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Files.Uwp.Storage", "src\Files.Uwp.Storage\Files.Uwp.Storage.csproj", "{DEDFB63C-7A8D-4E1F-A143-7B61CAC1F2A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

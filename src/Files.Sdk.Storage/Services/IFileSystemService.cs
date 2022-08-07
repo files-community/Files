@@ -15,6 +15,6 @@ public interface IFileSystemService
 
         Task<IFile?> GetFileFromPathAsync(string path);
 
-        Task<IDisposable?> ObtainLockAsync(IBaseStorage storage);
+        Task<IDisposable?> ObtainLockAsync(IStorable storage);
     }
 }
