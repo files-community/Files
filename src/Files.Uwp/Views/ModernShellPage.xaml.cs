@@ -817,6 +817,10 @@ namespace Files.Uwp.Views
                     await NavigationHelpers.OpenPathInNewTab(this.FilesystemViewModel.WorkingDirectory);
                     break;
 
+                case (true, false, false, true, VirtualKey.H): // ctrl + h, toggle hidden folder visibility
+                    UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible ^= true; // flip bool
+                    break;
+
                 case (false, false, false, _, VirtualKey.F1): // F1, open Files wiki
                     await Launcher.LaunchUriAsync(new Uri(@"https://files.community/docs"));
                     break;
@@ -847,11 +851,6 @@ namespace Files.Uwp.Views
 
                 case (true, true, false, _, VirtualKey.Number7): // ctrl+shift+7, adaptive
                     InstanceViewModel.FolderSettings.ToggleLayoutModeAdaptive();
-                    break;
-
-                case (true, false, false, true, VirtualKey.H): // ctrl + h, toggle hidden folder visibility
-                    var hiddenItemCurrentVisibitily = UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible;
-                    UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible = !hiddenItemCurrentVisibitily;
                     break;
             }
 
