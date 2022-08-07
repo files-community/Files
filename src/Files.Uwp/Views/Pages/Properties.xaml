@@ -85,6 +85,11 @@
             SelectedItem="{x:Bind TabGeneral}"
             SelectionChanged="NavigationView_SelectionChanged"
             SelectionFollowsFocus="Disabled">
+			<muxc:NavigationView.Resources>
+				<Style TargetType="muxc:NavigationViewItem">
+					<Setter Target="SelectionIndicator" Property="Margin" Value="0,-8,0,0" />
+				</Style>
+			</muxc:NavigationView.Resources>
             <!--  SelectionFollowsFocus disabled to fix #5387  -->
 
             <!--  Tabs  -->
@@ -105,7 +110,7 @@
                     CornerRadius="0"
                     Tag="Security">
                     <muxc:NavigationViewItem.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE730;" />
+                        <FontIcon Glyph="&#xE730;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem

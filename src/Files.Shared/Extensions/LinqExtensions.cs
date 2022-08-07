@@ -42,6 +42,24 @@ namespace Files.Shared.Extensions
             return defaultValue;
         }
 
+        public static Task<TValue?> GetAsync<TKey, TValue>(this IDictionary<TKey, Task<TValue?>> dictionary, TKey key, Func<Task<TValue?>> defaultValueFunc)
+        {
+            if (dictionary is null || key is null)
+            {
+                return defaultValueFunc();
+            }
+            if (!dictionary.ContainsKey(key))
+            {
+                var defaultValue = defaultValueFunc();
+                if (defaultValue is Task<TValue?> value)
+                {
+                    dictionary.Add(key, value);
+                }
+                return defaultValue;
+            }
+            return dictionary[key];
+        }
+
         public static async Task<IEnumerable<T>> WhereAsync<T>(this IEnumerable<T> source, Func<T, Task<bool>> predicate)
         {
             var results = await Task.WhenAll(source.Select(async x => (x, await predicate(x))));

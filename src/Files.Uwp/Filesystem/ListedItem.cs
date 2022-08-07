@@ -400,6 +400,7 @@ namespace Files.Uwp.Filesystem
             return $"{ItemName}, {suffix}";
         }
 
+        public bool IsFolder => PrimaryItemAttribute is StorageItemTypes.Folder;
         public bool IsRecycleBinItem => this is RecycleBinItem;
         public bool IsShortcutItem => this is ShortcutItem;
         public bool IsLibraryItem => this is LibraryItem;

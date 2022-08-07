@@ -2794,4 +2794,10 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
   <data name="ShowAlternateStreams" xml:space="preserve">
     <value>Hiện dòng dữ liệu xen kẽ</value>
   </data>
+  <data name="ReviewFiles" xml:space="preserve">
+    <value>Review Files</value>
+  </data>
+  <data name="ReviewFilesContent" xml:space="preserve">
+    <value>Would you like to review Files?</value>
+  </data>
 </root>
