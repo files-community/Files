@@ -1,5 +1,6 @@
 ﻿using Files.Shared.Enums;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Files.Uwp.Filesystem.FilesystemHistory
@@ -8,6 +9,8 @@ namespace Files.Uwp.Filesystem.FilesystemHistory
     {
         private IStorageHistoryOperations operations;
 
+        private static SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
+
         public StorageHistoryHelpers(IStorageHistoryOperations storageHistoryOperations)
             => operations = storageHistoryOperations;
 
@@ -15,7 +18,7 @@ namespace Files.Uwp.Filesystem.FilesystemHistory
         {
             if (App.HistoryWrapper.CanUndo())
             {
-                if (!await App.SemaphoreSlim.WaitAsync(0))
+                if (!await semaphore.WaitAsync(0))
                 {
                     return ReturnResult.InProgress;
                 }
@@ -26,7 +29,7 @@ namespace Files.Uwp.Filesystem.FilesystemHistory
                 finally
                 {
                     App.HistoryWrapper.DecreaseIndex();
-                    App.SemaphoreSlim.Release();
+                    semaphore.Release();
                 }
             }
 
@@ -37,7 +40,7 @@ namespace Files.Uwp.Filesystem.FilesystemHistory
         {
             if (App.HistoryWrapper.CanRedo())
             {
-                if (!await App.SemaphoreSlim.WaitAsync(0))
+                if (!await semaphore.WaitAsync(0))
                 {
                     return ReturnResult.InProgress;
                 }
@@ -48,7 +51,7 @@ namespace Files.Uwp.Filesystem.FilesystemHistory
                 }
                 finally
                 {
-                    App.SemaphoreSlim.Release();
+                    semaphore.Release();
                 }
             }
 
