@@ -42,16 +42,16 @@ namespace Files.Shared.Extensions
             return defaultValue;
         }
 
-        public static async Task<TValue?> GetAsync<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<Task<TValue?>> defaultValueFunc)
+        public static Task<TValue?> GetAsync<TKey, TValue>(this IDictionary<TKey, Task<TValue?>> dictionary, TKey key, Func<Task<TValue?>> defaultValueFunc)
         {
             if (dictionary is null || key is null)
             {
-                return await defaultValueFunc();
+                return defaultValueFunc();
             }
             if (!dictionary.ContainsKey(key))
             {
-                var defaultValue = await defaultValueFunc();
-                if (defaultValue is TValue value)
+                var defaultValue = defaultValueFunc();
+                if (defaultValue is Task<TValue?> value)
                 {
                     dictionary.Add(key, value);
                 }

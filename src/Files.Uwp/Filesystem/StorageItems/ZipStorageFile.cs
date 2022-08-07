@@ -468,7 +468,8 @@ namespace Files.Uwp.Filesystem.StorageItems
         {
             return AsyncInfo.Run<SevenZipExtractor>(async (cancellationToken) =>
             {
-                return new SevenZipExtractor(await OpenZipFileAsync(FileAccessMode.Read, openProtected));
+                var zipFile = await OpenZipFileAsync(FileAccessMode.Read, openProtected);
+                return zipFile is not null ? new SevenZipExtractor(zipFile) : null;
             });
         }
 
