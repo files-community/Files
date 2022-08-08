@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Files.Sdk.Storage.LocatableStorage;
 
@@ -38,15 +37,15 @@ namespace Files.Sdk.Storage.Services
         /// </summary>
         /// <param name="path">The path to the folder.</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/> that cancels this action.</param>
-        /// <returns>A <see cref="Task"/> that represents the asynchronous operation. If folder is found and access is granted, returns <see cref="ILocatableFolder"/> otherwise null.</returns>
-        Task<ILocatableFolder?> GetFolderFromPathAsync(string path, CancellationToken cancellationToken = default);
+        /// <returns>A <see cref="Task"/> that represents the asynchronous operation. Value is <see cref="ILocatableFolder"/>, otherwise an exception is thrown.</returns>
+        Task<ILocatableFolder> GetFolderFromPathAsync(string path, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Gets the file at the specified <paramref name="path"/>.
         /// </summary>
         /// <param name="path">The path to the file.</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/> that cancels this action.</param>
-        /// <returns>A <see cref="Task"/> that represents the asynchronous operation. If file is found and access is granted, returns <see cref="ILocatableFile"/> otherwise null.</returns>
-        Task<ILocatableFile?> GetFileFromPathAsync(string path, CancellationToken cancellationToken = default);
+        /// <returns>A <see cref="Task"/> that represents the asynchronous operation. Value is <see cref="ILocatableFile"/>, otherwise an exception is thrown.</returns>
+        Task<ILocatableFile> GetFileFromPathAsync(string path, CancellationToken cancellationToken = default);
     }
 }
