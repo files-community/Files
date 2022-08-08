@@ -2,13 +2,14 @@
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Files.Sdk.Storage;
+using Files.Sdk.Storage.LocatableStorage;
+using Files.Sdk.Storage.ModifiableStorage;
 
 #nullable enable
 
 namespace Files.Uwp.Storage.FtpStorage
 {
-    public sealed class FtpStorageFile : FtpStorable, IFile
+    public sealed class FtpStorageFile : FtpStorable, IModifiableFile, ILocatableFile
     {
         public FtpStorageFile(string path, string name)
             : base(path, name)
