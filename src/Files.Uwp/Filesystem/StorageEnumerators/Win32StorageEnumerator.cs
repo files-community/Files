@@ -368,7 +368,7 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
             }
             else
             {
-                if (".zip".Equals(itemFileExtension, StringComparison.OrdinalIgnoreCase) && await ZipStorageFolder.CheckDefaultZipApp(itemPath))
+                if (ZipStorageFolder.IsZipPath(itemPath) && await ZipStorageFolder.CheckDefaultZipApp(itemPath))
                 {
                     return new ZipItem(null)
                     {

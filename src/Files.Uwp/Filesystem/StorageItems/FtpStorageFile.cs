@@ -166,10 +166,18 @@ namespace Files.Uwp.Filesystem.StorageItems
                 }
 
                 BaseStorageFolder destFolder = destinationFolder.AsBaseStorageFolder();
-                BaseStorageFile file = await destFolder.CreateFileAsync(desiredNewName, option.Convert());
 
-                var stream = await file.OpenStreamForWriteAsync();
-                return await ftpClient.DownloadAsync(stream, FtpPath, token: cancellationToken) ? file : null;
+                if (destFolder is ICreateFileWithStream cwsf)
+                {
+                    using var inStream = await ftpClient.OpenReadAsync(FtpPath, cancellationToken);
+                    return await cwsf.CreateFileAsync(inStream, desiredNewName, option.Convert());
+                }
+                else
+                {
+                    BaseStorageFile file = await destFolder.CreateFileAsync(desiredNewName, option.Convert());
+                    using var stream = await file.OpenStreamForWriteAsync();
+                    return await ftpClient.DownloadAsync(stream, FtpPath, token: cancellationToken) ? file : null;
+                }
             });
         }
 

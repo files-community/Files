@@ -2780,7 +2780,7 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
     <value>Size All Columns to Fit</value>
   </data>
   <data name="Contributors" xml:space="preserve">
-    <value>Contributors</value>
+    <value>Mitwirkende</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
     <value>Adaptive</value>
@@ -2793,5 +2793,11 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
     <value>Zeige alternative Daten Streams an</value>
+  </data>
+  <data name="ReviewFiles" xml:space="preserve">
+    <value>File bewerten</value>
+  </data>
+  <data name="ReviewFilesContent" xml:space="preserve">
+    <value>Möchten Sie Files bewerten?</value>
   </data>
 </root>

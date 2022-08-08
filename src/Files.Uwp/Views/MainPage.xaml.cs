@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
+using Files.Backend.Extensions;
 using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
 using Files.Shared.EventArguments;
@@ -11,13 +12,16 @@ using Files.Uwp.UserControls;
 using Files.Uwp.UserControls.MultitaskingControl;
 using Files.Uwp.ViewModels;
 using Microsoft.Toolkit.Uwp;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources.Core;
+using Windows.Services.Store;
 using Windows.Storage;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -75,7 +79,36 @@ namespace Files.Uwp.Views
             ToggleCompactOverlayCommand = new RelayCommand(ToggleCompactOverlay);
             SetCompactOverlayCommand = new RelayCommand<bool>(SetCompactOverlay);
 
+            if (SystemInformation.Instance.TotalLaunchCount >= 15 & Package.Current.Id.Name == "49306atecsolution.FilesUWP" && !UserSettingsService.ApplicationSettingsService.WasPromptedToReview)
+            {
+                PromptForReview();
+                UserSettingsService.ApplicationSettingsService.WasPromptedToReview = true;
+            }
+
             UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
+        }
+
+        private async void PromptForReview()
+        {
+            var AskForReviewDialog = new ContentDialog
+            {
+                Title = "ReviewFiles".ToLocalized(),
+                Content = "ReviewFilesContent".ToLocalized(),
+                PrimaryButtonText = "Yes".ToLocalized(),
+                SecondaryButtonText = "No".ToLocalized()
+        };
+
+            var result = await AskForReviewDialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+                try
+                {
+                    var storeContext = StoreContext.GetDefault();
+                    await storeContext.RequestRateAndReviewAppAsync();
+                }
+                catch (Exception) { }
+            }
         }
 
         private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
@@ -350,6 +383,21 @@ namespace Files.Uwp.Views
             }
         }
 
+        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            switch (Pane?.Position)
+            {
+                case PanePositions.Right when ContentColumn.ActualWidth == ContentColumn.MinWidth:
+                    UserSettingsService.PaneSettingsService.VerticalSizePx += e.NewSize.Width - e.PreviousSize.Width;
+                    UpdatePositioning();
+                    break;
+                case PanePositions.Bottom when ContentRow.ActualHeight == ContentRow.MinHeight:
+                    UserSettingsService.PaneSettingsService.HorizontalSizePx += e.NewSize.Height - e.PreviousSize.Height;
+                    UpdatePositioning();
+                    break;
+            }
+        }
+
         private void ToggleFullScreenAccelerator(KeyboardAcceleratorInvokedEventArgs e)
         {
             ApplicationView view = ApplicationView.GetForCurrentView();
@@ -441,17 +489,14 @@ namespace Files.Uwp.Views
 
         private void PaneSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
-            if (Pane is IPane p)
+            switch (Pane?.Position)
             {
-                switch (p.Position)
-                {
-                    case PanePositions.Right:
-                        UserSettingsService.PaneSettingsService.VerticalSizePx = Pane.ActualWidth;
-                        break;
-                    case PanePositions.Bottom:
-                        UserSettingsService.PaneSettingsService.HorizontalSizePx = Pane.ActualHeight;
-                        break;
-                }
+                case PanePositions.Right:
+                    UserSettingsService.PaneSettingsService.VerticalSizePx = Pane.ActualWidth;
+                    break;
+                case PanePositions.Bottom:
+                    UserSettingsService.PaneSettingsService.HorizontalSizePx = Pane.ActualHeight;
+                    break;
             }
         }
 

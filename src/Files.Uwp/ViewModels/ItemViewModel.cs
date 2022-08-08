@@ -960,7 +960,7 @@ namespace Files.Uwp.ViewModels
                             wasIconLoaded = true;
                         }
 
-                        var overlayInfo = await FileThumbnailHelper.LoadOverlayAsync(item.ItemPath);
+                        var overlayInfo = await FileThumbnailHelper.LoadOverlayAsync(item.ItemPath, thumbnailSize);
                         if (overlayInfo != null)
                         {
                             await dispatcherQueue.EnqueueAsync(async () =>
@@ -973,7 +973,7 @@ namespace Files.Uwp.ViewModels
 
                 if (!wasIconLoaded)
                 {
-                    var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize);
+                    var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, false);
                     if (iconInfo.IconData != null)
                     {
                         await dispatcherQueue.EnqueueAsync(async () =>
@@ -1019,7 +1019,7 @@ namespace Files.Uwp.ViewModels
                             wasIconLoaded = true;
                         }
 
-                        var overlayInfo = await FileThumbnailHelper.LoadOverlayAsync(item.ItemPath);
+                        var overlayInfo = await FileThumbnailHelper.LoadOverlayAsync(item.ItemPath, thumbnailSize);
                         if (overlayInfo != null)
                         {
                             await dispatcherQueue.EnqueueAsync(async () =>
@@ -1032,7 +1032,7 @@ namespace Files.Uwp.ViewModels
 
                 if (!wasIconLoaded)
                 {
-                    var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize);
+                    var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, true);
                     if (iconInfo.IconData != null)
                     {
                         await dispatcherQueue.EnqueueAsync(async () =>
@@ -1225,7 +1225,7 @@ namespace Files.Uwp.ViewModels
             ImageSource groupImage = null;
             if (item.PrimaryItemAttribute != StorageItemTypes.Folder || item.IsZipItem)
             {
-                var headerIconInfo = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(item.ItemPath, 64u);
+                var headerIconInfo = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(item.ItemPath, 64u, false);
 
                 if (headerIconInfo != null && !item.IsShortcutItem)
                 {

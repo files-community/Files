@@ -163,7 +163,7 @@ namespace Files.FullTrust
 
         private static readonly object lockObject = new object();
 
-        public static (string icon, string overlay) GetFileIconAndOverlay(string path, int thumbnailSize, bool getOverlay = true, bool onlyGetOverlay = false)
+        public static (string icon, string overlay) GetFileIconAndOverlay(string path, int thumbnailSize, bool isFolder, bool getOverlay = true, bool onlyGetOverlay = false)
         {
             string iconStr = null, overlayStr = null;
 
@@ -195,8 +195,7 @@ namespace Files.FullTrust
                 var useFileAttibutes = !onlyGetOverlay && iconStr == null; // Cannot access file, use file attributes
                 var ret = ShellFolderExtensions.GetStringAsPidl(path, out var pidl) ? 
                     Shell32.SHGetFileInfo(pidl, 0, ref shfi, Shell32.SHFILEINFO.Size, Shell32.SHGFI.SHGFI_PIDL | flags) :
-                    // TODO: pass FileAttributes.Directory for folders (add "isFolder" parameter)
-                    Shell32.SHGetFileInfo(path, 0, ref shfi, Shell32.SHFILEINFO.Size, flags | (useFileAttibutes ? Shell32.SHGFI.SHGFI_USEFILEATTRIBUTES : 0));
+                    Shell32.SHGetFileInfo(path, isFolder ? FileAttributes.Directory : 0, ref shfi, Shell32.SHFILEINFO.Size, flags | (useFileAttibutes ? Shell32.SHGFI.SHGFI_USEFILEATTRIBUTES : 0));
                 if (ret == IntPtr.Zero)
                 {
                     return (iconStr, null);
@@ -234,6 +233,13 @@ namespace Files.FullTrust
                                     iconStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
                                 }
                             }
+                        }
+                        else if (isFolder)
+                        {
+                            // Could not icon, load generic icon
+                            var icons = ExtractSelectedIconsFromDLL(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "imageres.dll"), new[] { 2 }, thumbnailSize);
+                            var generic = icons.SingleOrDefault(x => x.Index == 2);
+                            iconStr = generic?.IconData;
                         }
                         else
                         {
