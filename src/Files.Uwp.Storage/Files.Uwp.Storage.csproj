@@ -114,7 +114,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="FtpStorage\FtpStorable.cs" />
-    <Compile Include="FtpStorage\FtpDrive.cs" />
     <Compile Include="FtpStorage\FtpFileSystemService.cs" />
     <Compile Include="FtpStorage\FtpHelpers.cs" />
     <Compile Include="FtpStorage\FtpManager.cs" />
