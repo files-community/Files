@@ -1560,7 +1560,7 @@
       <Version>4.5.3</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Data.Sqlite.Core">
-      <Version>6.0.7</Version>
+      <Version>6.0.8</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection">
       <Version>6.0.0</Version>
