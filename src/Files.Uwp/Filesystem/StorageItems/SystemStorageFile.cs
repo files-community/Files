@@ -9,7 +9,6 @@ using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
-using Storage = Windows.Storage;
 using IO = System.IO;
 
 namespace Files.Uwp.Filesystem.StorageItems
@@ -27,7 +26,7 @@ namespace Files.Uwp.Filesystem.StorageItems
         public override string FolderRelativeId => File?.FolderRelativeId;
 
         public override DateTimeOffset DateCreated => File.DateCreated;
-        public override Storage.FileAttributes Attributes => File.Attributes;
+        public override Windows.Storage.FileAttributes Attributes => File.Attributes;
         public override IStorageItemExtraProperties Properties => File?.Properties;
 
         public SystemStorageFile(StorageFile file) => File = file;

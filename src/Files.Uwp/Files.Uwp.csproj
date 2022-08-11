@@ -30,6 +30,7 @@
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <Win32Resource>Resources\MiddleClickScrolling-CursorType.res</Win32Resource>
     <LangVersion>9.0</LangVersion>
+    <Nullable>Enable</Nullable>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
@@ -297,6 +298,7 @@
     <Compile Include="ServicesImplementation\DateTimeFormatter\SystemDateTimeFormatter.cs" />
     <Compile Include="ServicesImplementation\DateTimeFormatter\UserDateTimeFormatter.cs" />
     <Compile Include="ServicesImplementation\DialogService.cs" />
+    <Compile Include="ServicesImplementation\FileExplorerService.cs" />
     <Compile Include="ServicesImplementation\ImagingService.cs" />
     <Compile Include="ServicesImplementation\LocalizationService.cs" />
     <Compile Include="ServicesImplementation\Settings\AppearanceSettingsService.cs" />
@@ -1608,6 +1610,14 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Files.Sdk.Storage\Files.Sdk.Storage.csproj">
+      <Project>{93b7a21c-a6ca-4a21-a69c-b5bd26bddb79}</Project>
+      <Name>Files.Sdk.Storage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Files.Uwp.Storage\Files.Uwp.Storage.csproj">
+      <Project>{dedfb63c-7a8d-4e1f-a143-7b61cac1f2a7}</Project>
+      <Name>Files.Uwp.Storage</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BackgroundTasks\BackgroundTasks.csproj">
       <Project>{3d19293f-0e3a-4946-ade3-680a1e9123ec}</Project>
       <Name>BackgroundTasks</Name>

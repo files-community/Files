@@ -12,7 +12,6 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
-using Storage = Windows.Storage;
 
 namespace Files.Uwp.Filesystem.StorageItems
 {
@@ -26,7 +25,7 @@ namespace Files.Uwp.Filesystem.StorageItems
         public override string FolderRelativeId => $"0\\{Name}";
 
         public override DateTimeOffset DateCreated { get; }
-        public override Storage.FileAttributes Attributes { get; } = Storage.FileAttributes.Directory;
+        public override Windows.Storage.FileAttributes Attributes { get; } = Windows.Storage.FileAttributes.Directory;
         public override IStorageItemExtraProperties Properties => new BaseBasicStorageItemExtraProperties(this);
 
         public FtpStorageFolder(string path, string name, DateTimeOffset dateCreated)
