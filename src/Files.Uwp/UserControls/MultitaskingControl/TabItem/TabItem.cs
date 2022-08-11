@@ -31,6 +31,9 @@ namespace Files.Uwp.UserControls.MultitaskingControl
 
         private string hoverDisplayText;
 
+        /// <summary>
+        /// The text that should be displayed in the tooltip when hovering the tab item.
+        /// </summary>
         public string HoverDisplayText
         {
             get => hoverDisplayText;
