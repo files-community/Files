@@ -1,16 +1,15 @@
-﻿using System;
+﻿using Files.Uwp.Helpers.HoverDisplay;
+using System;
 
 namespace Files.Uwp.Filesystem
 {
-    public interface INavigationControlItem : IComparable<INavigationControlItem>
+    public interface INavigationControlItem : IHoverableDisplay, IComparable<INavigationControlItem>
     {
         public string Text { get; }
 
         public string Path { get; }
 
         public SectionType Section { get; }
-
-        public string HoverDisplayText { get; }
 
         public NavigationControlItemType ItemType { get; }
 

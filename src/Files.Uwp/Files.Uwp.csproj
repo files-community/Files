@@ -276,6 +276,7 @@
     <Compile Include="Helpers\WidgetsHelpers.cs" />
     <Compile Include="Helpers\Win32Helpers.cs" />
     <Compile Include="Helpers\ZipHelpers.cs" />
+    <Compile Include="Helpers\HoverDisplay\IHoverableDisplay.cs" />
     <Compile Include="Imaging\BitmapImageModel.cs" />
     <Compile Include="Interacts\ItemManipulationModel.cs" />
     <Compile Include="ISearchBox.cs" />
