@@ -590,7 +590,7 @@
                         Header="{x:Bind Header, Mode=OneWay}"
                         IconSource="{x:Bind IconSource, Mode=OneWay}"
                         Style="{StaticResource Local.TabViewItem}"
-                        ToolTipService.ToolTip="{x:Null}" />
+                        ToolTipService.ToolTip="{Binding HoverDisplayText}" />
                 </DataTemplate>
             </muxc:TabView.TabItemTemplate>
             <muxc:TabView.TabStripFooter>

@@ -29,6 +29,14 @@ namespace Files.Uwp.UserControls.MultitaskingControl
             set => SetProperty(ref description, value);
         }
 
+        private string hoverDisplayText;
+
+        public string HoverDisplayText
+        {
+            get => hoverDisplayText;
+            set => SetProperty(ref hoverDisplayText, value);
+        }
+
         private IconSource iconSource;
 
         public IconSource IconSource
