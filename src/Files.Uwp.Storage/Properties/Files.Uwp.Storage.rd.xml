@@ -25,7 +25,7 @@
     https://go.microsoft.com/fwlink/?LinkID=391919
 -->
 <Directives xmlns="http://schemas.microsoft.com/netfx/2013/01/metadata">
-  <Library Name="Files.Uwp.Storage">
+  <Library Name="Files.Uwp.Storage" Dynamic="Required Public">
 
   	<!-- add directives for your library here -->
 
