@@ -420,7 +420,7 @@ namespace Files.Uwp.Views.LayoutModes
             else if (e.Key == VirtualKey.Up || e.Key == VirtualKey.Down)
             {
                 // If list has only one item, select it on arrow down/up (#5681)
-                if (!IsItemSelected)
+                if (!IsAnyItemSelected)
                 {
                     FileList.SelectedIndex = 0;
                     e.Handled = true;

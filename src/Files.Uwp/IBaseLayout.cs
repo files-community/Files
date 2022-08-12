@@ -10,7 +10,7 @@ namespace Files.Uwp
     {
         bool IsRenamingItem { get; }
 
-        bool IsItemSelected { get; }
+        bool IsAnyItemSelected { get; }
 
         bool IsMiddleClickToScrollEnabled { get; set; }
 
@@ -23,7 +23,9 @@ namespace Files.Uwp
         IPaneViewModel PaneViewModel { get; }
 
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
+
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
+        
         public BaseLayoutCommandsViewModel CommandsViewModel { get; }
     }
 }

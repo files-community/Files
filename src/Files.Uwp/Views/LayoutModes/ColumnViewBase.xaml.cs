@@ -322,7 +322,7 @@ namespace Files.Uwp.Views.LayoutModes
                 }
             }
             // Check if RightTapped row is currently selected
-            if (IsItemSelected)
+            if (IsAnyItemSelected)
             {
                 if (SelectedItems.Contains(objectPressed))
                 {
@@ -340,7 +340,7 @@ namespace Files.Uwp.Views.LayoutModes
         {
             // Open selected directory
             tapDebounceTimer.Stop();
-            if (IsItemSelected && SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
+            if (IsAnyItemSelected && SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
             {
                 var currItem = SelectedItem;
                 tapDebounceTimer.Debounce(() =>
@@ -363,7 +363,7 @@ namespace Files.Uwp.Views.LayoutModes
             {
                 if (!IsRenamingItem)
                 {
-                    if (IsItemSelected && SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
+                    if (IsAnyItemSelected && SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
                     {
                         ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
                     }
@@ -400,7 +400,7 @@ namespace Files.Uwp.Views.LayoutModes
             else if (e.Key == VirtualKey.Up || e.Key == VirtualKey.Down)
             {
                 // If list has only one item, select it on arrow down/up (#5681)
-                if (!IsItemSelected)
+                if (!IsAnyItemSelected)
                 {
                     FileList.SelectedIndex = 0;
                     e.Handled = true;
@@ -479,7 +479,7 @@ namespace Files.Uwp.Views.LayoutModes
                 }
             }
             // Check if RightTapped row is currently selected
-            if (IsItemSelected)
+            if (IsAnyItemSelected)
             {
                 if (SelectedItems.Contains(objectPressed))
                 {

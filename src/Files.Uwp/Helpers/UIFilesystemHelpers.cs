@@ -32,7 +32,7 @@ namespace Files.Uwp.Helpers
             };
             ConcurrentBag<IStorageItem> items = new ConcurrentBag<IStorageItem>();
 
-            if (associatedInstance.SlimContentPage.IsItemSelected)
+            if (associatedInstance.SlimContentPage.IsAnyItemSelected)
             {
                 // First, reset DataGrid Rows that may be in "cut" command mode
                 associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
@@ -151,7 +151,7 @@ namespace Files.Uwp.Helpers
             };
             ConcurrentBag<IStorageItem> items = new ConcurrentBag<IStorageItem>();
 
-            if (associatedInstance.SlimContentPage.IsItemSelected)
+            if (associatedInstance.SlimContentPage.IsAnyItemSelected)
             {
                 var itemsCount = associatedInstance.SlimContentPage.SelectedItems.Count;
                 PostedStatusBanner banner = itemsCount > 50 ? App.OngoingTasksViewModel.PostOperationBanner(
