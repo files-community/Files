@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.ObjectModel;
 using Windows.UI.Xaml;
+using System.Collections.Generic;
 
 namespace Files.Uwp.ViewModels
 {
@@ -539,20 +540,15 @@ namespace Files.Uwp.ViewModels
 
         public void CheckFileExtension(string itemExtension)
         {
-            // Set properties to false
-            IsSelectedItemImage = false;
-            IsSelectedItemShortcut = false;
+            this.CheckAllFileExtensions(new List<string>() { itemExtension });
+        }
 
-            if (IsImageExtension(itemExtension))
-            {
-                // Since item is an image, set the IsSelectedItemImage property to true
-                IsSelectedItemImage = true;
-            }
-            else if (IsShortcutExtension(itemExtension) && SelectedItemsCount == 1)
-            {
-                // The selected item is a shortcut, so set the IsSelectedItemShortcut property to true
-                IsSelectedItemShortcut = true;
-            }
+        public void CheckAllFileExtensions(List<string> itemExtensions)
+        {
+            // Checks if all the item extensions are image extensions of some kind.
+            IsSelectedItemImage = itemExtensions.TrueForAll(itemExtension => this.IsImageExtension(itemExtension));
+            // Checks if there is only one selected item and if it's a
+            IsSelectedItemShortcut = (itemExtensions.Count == 1) && (itemExtensions.TrueForAll(itemExtension => this.IsShortcutExtension(itemExtension)));
         }
 
         private bool IsShortcutExtension(string itemExtension)
