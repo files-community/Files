@@ -741,7 +741,7 @@ namespace Files.Uwp.Helpers
                         new ContextMenuFlyoutItemViewModel()
                         {
                             Text = "SetAsSlideshow".GetLocalized(),
-                            Glyph = "\uF114",
+                            Glyph = "\uE91B",
                             GlyphFontFamilyName = "CustomGlyph",
                             Command = commandsViewModel.SetAsDesktopBackgroundItemCommand,
                             ShowInSearchPage = true,
