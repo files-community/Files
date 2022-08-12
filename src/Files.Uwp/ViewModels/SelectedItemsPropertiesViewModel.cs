@@ -538,16 +538,11 @@ namespace Files.Uwp.ViewModels
             set => SetProperty(ref isSelectedItemShortcut, value);
         }
 
-        public void CheckFileExtension(string itemExtension)
-        {
-            this.CheckAllFileExtensions(new List<string>() { itemExtension });
-        }
-
         public void CheckAllFileExtensions(List<string> itemExtensions)
         {
             // Checks if all the item extensions are image extensions of some kind.
             IsSelectedItemImage = itemExtensions.TrueForAll(itemExtension => this.IsImageExtension(itemExtension));
-            // Checks if there is only one selected item and if it's a
+            // Checks if there is only one selected item and if it's a shortcut.
             IsSelectedItemShortcut = (itemExtensions.Count == 1) && (itemExtensions.TrueForAll(itemExtension => this.IsShortcutExtension(itemExtension)));
         }
 
