@@ -8,11 +8,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Files.Uwp.Helpers;
-using Files.Uwp.Helpers.HoverDisplay;
 
 namespace Files.Uwp.UserControls.MultitaskingControl
 {
-    public class TabItem : ObservableObject, ITabItem, ITabItemControl, IHoverableDisplay, IDisposable
+    public class TabItem : ObservableObject, ITabItem, ITabItemControl, IDisposable
     {
         private string header;
 
