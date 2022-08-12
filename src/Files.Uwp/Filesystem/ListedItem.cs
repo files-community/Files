@@ -133,8 +133,7 @@ namespace Files.Uwp.Filesystem
 
         public IList<FileTagViewModel> FileTagsUI
         {
-            get => UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled ?
-                FileTagsSettingsService.GetTagsByIds(FileTags) : null;
+            get => FileTagsSettingsService.GetTagsByIds(FileTags);
         }
 
         private Uri customIconSource;

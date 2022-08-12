@@ -662,7 +662,7 @@ namespace Files.Uwp
             secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width
             secondaryElements.ForEach(i => ItemContextMenuFlyout.SecondaryCommands.Add(i));
 
-            if (UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled && InstanceViewModel.CanTagFilesInPage)
+            if (InstanceViewModel.CanTagFilesInPage)
             {
                 AddNewFileTagsToMenu(ItemContextMenuFlyout);
             }

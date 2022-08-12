@@ -291,7 +291,7 @@ namespace Files.Uwp.Helpers
                             Text = "FileTags".GetLocalized(),
                             IsChecked = itemViewModel.IsSortedByFileTag,
                             Command = new RelayCommand(() => itemViewModel.IsSortedByFileTag = true),
-                            ShowItem = userSettingsService.PreferencesSettingsService.AreFileTagsEnabled,
+                            ShowItem = true,
                             ShowInRecycleBin = true,
                             ShowInSearchPage = true,
                             ItemType = ItemType.Toggle
@@ -441,7 +441,7 @@ namespace Files.Uwp.Helpers
                         {
                             Text = "FileTags".GetLocalized(),
                             IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.FileTag,
-                            ShowItem = userSettingsService.PreferencesSettingsService.AreFileTagsEnabled,
+                            ShowItem = true,
                             ShowInRecycleBin = true,
                             ShowInSearchPage = true,
                             Command = currentInstanceViewModel.FolderSettings.ChangeGroupOptionCommand,
