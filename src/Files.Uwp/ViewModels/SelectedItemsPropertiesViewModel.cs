@@ -546,20 +546,30 @@ namespace Files.Uwp.ViewModels
             //check if the selected item is an image file
             if (!string.IsNullOrEmpty(itemExtension) && SelectedItemsCount == 1)
             {
-                if (itemExtension.Equals(".png", StringComparison.OrdinalIgnoreCase)
-                || itemExtension.Equals(".jpg", StringComparison.OrdinalIgnoreCase)
-                || itemExtension.Equals(".bmp", StringComparison.OrdinalIgnoreCase)
-                || itemExtension.Equals(".jpeg", StringComparison.OrdinalIgnoreCase))
+                if (this.IsImageExtension(itemExtension))
                 {
                     // Since item is an image, set the IsSelectedItemImage property to true
                     IsSelectedItemImage = true;
                 }
-                else if (itemExtension.Equals(".lnk", StringComparison.OrdinalIgnoreCase))
+                else if (this.IsShortcutExtension(itemExtension))
                 {
                     // The selected item is a shortcut, so set the IsSelectedItemShortcut property to true
                     IsSelectedItemShortcut = true;
                 }
             }
+        }
+
+        private bool IsShortcutExtension(string itemExtension)
+        {
+            return itemExtension.Equals(".lnk", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private bool IsImageExtension(string itemExtension)
+        {
+            return itemExtension.Equals(".png", StringComparison.OrdinalIgnoreCase)
+                            || itemExtension.Equals(".jpg", StringComparison.OrdinalIgnoreCase)
+                            || itemExtension.Equals(".bmp", StringComparison.OrdinalIgnoreCase)
+                            || itemExtension.Equals(".jpeg", StringComparison.OrdinalIgnoreCase);
         }
 
         private string shortcutItemType;
