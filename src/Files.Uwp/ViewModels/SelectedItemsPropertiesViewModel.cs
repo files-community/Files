@@ -543,19 +543,15 @@ namespace Files.Uwp.ViewModels
             IsSelectedItemImage = false;
             IsSelectedItemShortcut = false;
 
-            //check if the selected item is an image file
-            if (!string.IsNullOrEmpty(itemExtension) && SelectedItemsCount == 1)
+            if (IsImageExtension(itemExtension))
             {
-                if (this.IsImageExtension(itemExtension))
-                {
-                    // Since item is an image, set the IsSelectedItemImage property to true
-                    IsSelectedItemImage = true;
-                }
-                else if (this.IsShortcutExtension(itemExtension))
-                {
-                    // The selected item is a shortcut, so set the IsSelectedItemShortcut property to true
-                    IsSelectedItemShortcut = true;
-                }
+                // Since item is an image, set the IsSelectedItemImage property to true
+                IsSelectedItemImage = true;
+            }
+            else if (IsShortcutExtension(itemExtension) && SelectedItemsCount == 1)
+            {
+                // The selected item is a shortcut, so set the IsSelectedItemShortcut property to true
+                IsSelectedItemShortcut = true;
             }
         }
 
