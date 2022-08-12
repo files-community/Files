@@ -9,7 +9,7 @@ namespace Files.Uwp.Helpers
     {
         public static async Task ToggleQuickLook(IShellPage associatedInstance, bool switchPreview = false)
         {
-            if (!App.MainViewModel.IsQuickLookEnabled || !associatedInstance.SlimContentPage.IsAnyItemSelected || associatedInstance.SlimContentPage.IsRenamingItem)
+            if (!App.MainViewModel.IsQuickLookEnabled || !associatedInstance.SlimContentPage.IsItemSelected || associatedInstance.SlimContentPage.IsRenamingItem)
             {
                 return;
             }

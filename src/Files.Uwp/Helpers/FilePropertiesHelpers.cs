@@ -23,7 +23,7 @@ namespace Files.Uwp.Helpers
     {
         public static async void ShowProperties(IShellPage associatedInstance)
         {
-            if (associatedInstance.SlimContentPage.IsAnyItemSelected)
+            if (associatedInstance.SlimContentPage.IsItemSelected)
             {
                 if (associatedInstance.SlimContentPage.SelectedItems.Count > 1)
                 {

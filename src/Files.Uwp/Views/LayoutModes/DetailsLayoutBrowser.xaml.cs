@@ -495,7 +495,7 @@ namespace Files.Uwp.Views.LayoutModes
                     {
                         // Focus selected list item or first item
                         item.Focus(FocusState.Programmatic);
-                        if (!IsAnyItemSelected)
+                        if (!IsItemSelected)
                         {
                             FileList.SelectedIndex = 0;
                         }

@@ -740,7 +740,7 @@ namespace Files.Uwp.Views
                     break;
 
                 case (false, true, false, true, VirtualKey.Delete): // shift + delete, PermanentDelete
-                    if (ContentPage.IsAnyItemSelected && !ToolbarViewModel.IsEditModeEnabled && !InstanceViewModel.IsPageTypeSearchResults)
+                    if (ContentPage.IsItemSelected && !ToolbarViewModel.IsEditModeEnabled && !InstanceViewModel.IsPageTypeSearchResults)
                     {
                         var items = SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
                             item.ItemPath,
@@ -784,7 +784,7 @@ namespace Files.Uwp.Views
 
                 case (true, false, false, true, VirtualKey.D): // ctrl + d, delete item
                 case (false, false, false, true, VirtualKey.Delete): // delete, delete item
-                    if (ContentPage.IsAnyItemSelected && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults)
+                    if (ContentPage.IsItemSelected && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults)
                     {
                         var items = SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
                             item.ItemPath,
@@ -860,7 +860,7 @@ namespace Files.Uwp.Views
                     if (CurrentPageType == typeof(DetailsLayoutBrowser)
                         || CurrentPageType == typeof(GridViewBrowser))
                     {
-                        if (ContentPage.IsAnyItemSelected)
+                        if (ContentPage.IsItemSelected)
                         {
                             ContentPage.ItemManipulationModel.StartRenameItem();
                         }

@@ -130,7 +130,7 @@ namespace Files.Uwp
 
         private bool isItemSelected = false;
 
-        public bool IsAnyItemSelected
+        public bool IsItemSelected
         {
             get
             {
@@ -141,7 +141,7 @@ namespace Files.Uwp
                 if (value != isItemSelected)
                 {
                     isItemSelected = value;
-                    NotifyPropertyChanged(nameof(IsAnyItemSelected));
+                    NotifyPropertyChanged(nameof(IsItemSelected));
                 }
             }
         }
@@ -164,7 +164,7 @@ namespace Files.Uwp
                     ListedItem jumpedToItem = null;
                     ListedItem previouslySelectedItem = null;
 
-                    if (IsAnyItemSelected)
+                    if (IsItemSelected)
                     {
                         previouslySelectedItem = SelectedItem;
                     }
@@ -243,7 +243,7 @@ namespace Files.Uwp
                     selectedItems = value;
                     if (selectedItems.Count == 0 || selectedItems[0] == null)
                     {
-                        IsAnyItemSelected = false;
+                        IsItemSelected = false;
                         SelectedItem = null;
                         SelectedItemsPropertiesViewModel.IsItemSelected = false;
                         ResetRenameDoubleClick();
@@ -251,7 +251,7 @@ namespace Files.Uwp
                     }
                     else
                     {
-                        IsAnyItemSelected = true;
+                        IsItemSelected = true;
                         SelectedItem = selectedItems.First();
                         SelectedItemsPropertiesViewModel.IsItemSelected = true;
                         UpdateSelectionSize();
@@ -418,7 +418,7 @@ namespace Files.Uwp
             ParentShellPageInstance = navigationArguments.AssociatedTabInstance;
             InitializeCommandsViewModel();
 
-            IsAnyItemSelected = false;
+            IsItemSelected = false;
             FolderSettings.LayoutModeChangeRequested += BaseFolderSettings_LayoutModeChangeRequested;
             FolderSettings.GroupOptionPreferenceUpdated += FolderSettings_GroupOptionPreferenceUpdated;
             ParentShellPageInstance.FilesystemViewModel.EmptyTextType = EmptyTextType.None;
@@ -560,14 +560,14 @@ namespace Files.Uwp
         {
             try
             {
-                if (!IsAnyItemSelected) // Workaround for item sometimes not getting selected
+                if (!IsItemSelected) // Workaround for item sometimes not getting selected
                 {
                     if (((sender as Microsoft.UI.Xaml.Controls.CommandBarFlyout)?.Target as ListViewItem)?.Content is ListedItem li)
                     {
                         ItemManipulationModel.SetSelectedItem(li);
                     }
                 }
-                if (IsAnyItemSelected)
+                if (IsItemSelected)
                 {
                     await LoadMenuItemsAsync();
                 }
