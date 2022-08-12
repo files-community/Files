@@ -738,6 +738,15 @@ namespace Files.Uwp.Helpers
                             ShowInSearchPage = true,
                             ShowItem = (selectedItemsPropertiesViewModel.SelectedItemsCount == 1)
                         },
+                        new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = "SetAsSlideshow".GetLocalized(),
+                            Glyph = "\uF114",
+                            GlyphFontFamilyName = "CustomGlyph",
+                            Command = commandsViewModel.SetAsDesktopBackgroundItemCommand,
+                            ShowInSearchPage = true,
+                            ShowItem = (selectedItemsPropertiesViewModel.SelectedItemsCount > 1)
+                        },
                     }
                 },
                 new ContextMenuFlyoutItemViewModel()
