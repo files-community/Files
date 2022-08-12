@@ -286,14 +286,7 @@ namespace Files.Uwp.Views.LayoutModes
                 ColumnsViewModel.StatusColumn.Show();
             }
 
-            if (!UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled)
-            {
-                ColumnsViewModel.TagColumn.Hide();
-            }
-            else
-            {
-                ColumnsViewModel.TagColumn.Show();
-            }
+            ColumnsViewModel.TagColumn.Show();
 
             UpdateSortIndicator();
         }
@@ -752,7 +745,7 @@ namespace Files.Uwp.Views.LayoutModes
 
                 if (columnToResize == 1) // file name column
                 {
-                    columnSizeToFit += UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled ? 20 : 0;
+                    columnSizeToFit += 20;
                 }
 
                 var minFitLength = Math.Max(columnSizeToFit, column.NormalMinLength);
