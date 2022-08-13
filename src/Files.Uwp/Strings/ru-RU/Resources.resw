@@ -451,7 +451,7 @@
     <value>Вы удалили эту папку?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>Файл, к которому вы пытаетесь получить доступ, в настоящее время используется {0}</value>
+    <value>The file you are attempting to access is currently being used by{0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
     <value>Вы не можете использовать этот файл в настоящее время, потому что он используется другим приложением</value>
@@ -2329,7 +2329,7 @@
     <value>Fluent-иконки</value>
   </data>
   <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Fluent UI System Icons</value>
+    <value>Fluent-иконки</value>
   </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>Мы используем App Center для того, чтобы отслеживать и исправлять ошибки. Вся информация, отправляемая в App Center является анонимной и не привязанной к какому-либо пользователю либо контекстуальным данным.
@@ -2780,7 +2780,7 @@
     <value>Адаптивный</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>Adaptive (Ctrl+Shift+7)</value>
+    <value>Адаптивный (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
@@ -2789,9 +2789,9 @@
     <value>Показывать альтернативные потоки данных</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
-    <value>Review Files</value>
+    <value>Просмотреть файлы</value>
   </data>
   <data name="ReviewFilesContent" xml:space="preserve">
-    <value>Would you like to review Files?</value>
+    <value>Хотели бы вы просмотреть файлы?</value>
   </data>
 </root>

@@ -11,7 +11,6 @@ using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
 using IO = System.IO;
-using Storage = Windows.Storage;
 
 namespace Files.Uwp.Filesystem.StorageItems
 {
@@ -39,7 +38,7 @@ namespace Files.Uwp.Filesystem.StorageItems
         }
 
         public override DateTimeOffset DateCreated { get; }
-        public override Storage.FileAttributes Attributes { get; } = Storage.FileAttributes.Normal;
+        public override Windows.Storage.FileAttributes Attributes { get; } = Windows.Storage.FileAttributes.Normal;
         public override IStorageItemExtraProperties Properties => new BaseBasicStorageItemExtraProperties(this);
 
         public FtpStorageFile(string path, string name, DateTimeOffset dateCreated)
@@ -165,10 +164,18 @@ namespace Files.Uwp.Filesystem.StorageItems
                 }
 
                 BaseStorageFolder destFolder = destinationFolder.AsBaseStorageFolder();
-                BaseStorageFile file = await destFolder.CreateFileAsync(desiredNewName, option.Convert());
 
-                var stream = await file.OpenStreamForWriteAsync();
-                return await ftpClient.DownloadAsync(stream, FtpPath, token: cancellationToken) ? file : null;
+                if (destFolder is ICreateFileWithStream cwsf)
+                {
+                    using var inStream = await ftpClient.OpenReadAsync(FtpPath, cancellationToken);
+                    return await cwsf.CreateFileAsync(inStream, desiredNewName, option.Convert());
+                }
+                else
+                {
+                    BaseStorageFile file = await destFolder.CreateFileAsync(desiredNewName, option.Convert());
+                    using var stream = await file.OpenStreamForWriteAsync();
+                    return await ftpClient.DownloadAsync(stream, FtpPath, token: cancellationToken) ? file : null;
+                }
             });
         }
 

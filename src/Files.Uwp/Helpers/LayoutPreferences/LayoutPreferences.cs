@@ -55,6 +55,7 @@ namespace Files.Uwp.Helpers.LayoutPreferences
                 return (
                     prefs.LayoutMode == this.LayoutMode &&
                     prefs.GridViewSize == this.GridViewSize &&
+                    prefs.DirectoryGroupOption == this.DirectoryGroupOption &&
                     prefs.DirectorySortOption == this.DirectorySortOption &&
                     prefs.DirectorySortDirection == this.DirectorySortDirection &&
                     prefs.SortDirectoriesAlongsideFiles == this.SortDirectoriesAlongsideFiles &&
@@ -68,6 +69,7 @@ namespace Files.Uwp.Helpers.LayoutPreferences
         {
             var hashCode = LayoutMode.GetHashCode();
             hashCode = (hashCode * 397) ^ GridViewSize.GetHashCode();
+            hashCode = (hashCode * 397) ^ DirectoryGroupOption.GetHashCode();
             hashCode = (hashCode * 397) ^ DirectorySortOption.GetHashCode();
             hashCode = (hashCode * 397) ^ DirectorySortDirection.GetHashCode();
             hashCode = (hashCode * 397) ^ SortDirectoriesAlongsideFiles.GetHashCode();

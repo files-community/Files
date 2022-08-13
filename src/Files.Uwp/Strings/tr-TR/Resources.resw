@@ -2794,9 +2794,9 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
     <value>Alternatif Veri Akışlarını Göster</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
-    <value>Review Files</value>
+    <value>Files'ı Değerlendir</value>
   </data>
   <data name="ReviewFilesContent" xml:space="preserve">
-    <value>Would you like to review Files?</value>
+    <value>Files'ı değerlendirmek ister misiniz?</value>
   </data>
 </root>

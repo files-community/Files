@@ -278,6 +278,11 @@
 							AutomationProperties.Name="QuickLook"
 							Content="QuickLook"
 							NavigateUri="https://github.com/QL-Win/QuickLook/blob/master/LICENSE-GPL.txt" />
+						
+						<HyperlinkButton
+							AutomationProperties.Name="7-Zip (GNU LGPL)"
+							Content="7-Zip (GNU LGPL)"
+							NavigateUri="https://7-zip.org" />
 
 						<HyperlinkButton
 							AutomationProperties.Name="{helpers:ResourceString Name=SettingsFluentUISystemIconsLicenseButton/AutomationProperties/Name}"

@@ -2422,7 +2422,7 @@
     <value>დიდი ხატულები</value>
   </data>
   <data name="MediumIcons" xml:space="preserve">
-    <value>Medium Icons</value>
+    <value>საშუალო ხატულები</value>
   </data>
   <data name="SmallIcons" xml:space="preserve">
     <value>პატარა ხატულები</value>
@@ -2668,10 +2668,10 @@
     <value>ამოღება...</value>
   </data>
   <data name="ExtractFiles" xml:space="preserve">
-    <value>Extract files</value>
+    <value>ფაილების ამოღება</value>
   </data>
   <data name="ExtractHere" xml:space="preserve">
-    <value>Extract here</value>
+    <value>ამოღება აქ</value>
   </data>
   <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+E</value>
@@ -2779,7 +2779,7 @@
     <value>Size All Columns to Fit</value>
   </data>
   <data name="Contributors" xml:space="preserve">
-    <value>Contributors</value>
+    <value>კონტრიბუტორები</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
     <value>Adaptive</value>

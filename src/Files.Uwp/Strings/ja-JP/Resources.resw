@@ -2790,9 +2790,9 @@
     <value>代替データストリームを表示</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
-    <value>Review Files</value>
+    <value>Files を評価</value>
   </data>
   <data name="ReviewFilesContent" xml:space="preserve">
-    <value>Would you like to review Files?</value>
+    <value>Files を評価していただけますか？</value>
   </data>
 </root>

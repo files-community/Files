@@ -25,7 +25,10 @@ namespace Files.Uwp.Serialization.Implementation
             }
             else
             {
-                base.SetValue(key, defaultValue);
+                if (base.SetValue(key, defaultValue))
+                {
+                    _settingsCache.Add(key, defaultValue);
+                }
                 return defaultValue;
             }
         }

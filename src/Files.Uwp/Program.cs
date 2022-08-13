@@ -27,7 +27,6 @@ namespace Files.Uwp
                 if (AppInstance.RecommendedInstance != null)
                 {
                     AppInstance.RecommendedInstance.RedirectActivationTo();
-                    await TerminateUwpAppInstance(proc.Id);
                     return;
                 }
                 else if (activatedArgs is LaunchActivatedEventArgs)
@@ -49,7 +48,6 @@ namespace Files.Uwp
                             var plInstance = AppInstance.GetInstances().First(x => x.Key.Equals(PrelaunchInstanceKey));
                             ApplicationData.Current.LocalSettings.Values["WAS_PRELAUNCH_INSTANCE_ACTIVATED"] = true;
                             plInstance.RedirectActivationTo();
-                            await TerminateUwpAppInstance(proc.Id);
                             return;
                         }
                         else
@@ -59,7 +57,6 @@ namespace Files.Uwp
                             if (!instance.IsCurrentInstance && !string.IsNullOrWhiteSpace(launchArgs.Arguments))
                             {
                                 instance.RedirectActivationTo();
-                                await TerminateUwpAppInstance(proc.Id);
                                 return;
                             }
                         }
@@ -75,7 +72,6 @@ namespace Files.Uwp
                         if (!instance.IsCurrentInstance)
                         {
                             instance.RedirectActivationTo();
-                            await TerminateUwpAppInstance(proc.Id);
                             return;
                         }
                     }
@@ -87,7 +83,6 @@ namespace Files.Uwp
                     if (!instance.IsCurrentInstance)
                     {
                         instance.RedirectActivationTo();
-                        await TerminateUwpAppInstance(proc.Id);
                         return;
                     }
                 }
@@ -127,6 +122,8 @@ namespace Files.Uwp
                     if (!instance.IsCurrentInstance)
                     {
                         instance.RedirectActivationTo();
+                        // Terminate "zombie" Files process which remains in suspended state
+                        // after redirection when launched by command line
                         await TerminateUwpAppInstance(proc.Id);
                         return;
                     }
@@ -142,26 +139,6 @@ namespace Files.Uwp
         {
             ApplicationData.Current.LocalSettings.Values["ShellCommand"] = shellCommand;
             ApplicationData.Current.LocalSettings.Values["Arguments"] = "ShellCommand";
-            ApplicationData.Current.LocalSettings.Values["pid"] = pid;
-            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
-        }
-
-        public static async Task SpawnUnelevatedUwpAppInstance(int pid)
-        {
-            IActivatedEventArgs activatedArgs = AppInstance.GetActivatedEventArgs();
-            if (activatedArgs is CommandLineActivatedEventArgs cmdLineArgs)
-            {
-                var parsedCommands = CommandLineParser.ParseUntrustedCommands(cmdLineArgs.Operation.Arguments);
-                switch (parsedCommands.FirstOrDefault()?.Type)
-                {
-                    case ParsedCommandType.ExplorerShellCommand:
-                    case ParsedCommandType.OpenDirectory:
-                    case ParsedCommandType.OpenPath:
-                        ApplicationData.Current.LocalSettings.Values["Folder"] = parsedCommands[0].Payload;
-                        break;
-                }
-            }
-            ApplicationData.Current.LocalSettings.Values["Arguments"] = "StartUwp";
             ApplicationData.Current.LocalSettings.Values["pid"] = pid;
             await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
         }

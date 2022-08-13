@@ -2787,12 +2787,12 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
     <value>Ctrl+Shift+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>Show Alternate Data Streams</value>
+    <value>Pokaż alternatywne strumienie danych</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
-    <value>Review Files</value>
+    <value>Oceń Files</value>
   </data>
   <data name="ReviewFilesContent" xml:space="preserve">
-    <value>Would you like to review Files?</value>
+    <value>Czy chcesz ocenić Files?</value>
   </data>
 </root>
