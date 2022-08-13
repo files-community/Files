@@ -457,7 +457,7 @@
     <value>The file you are attempting to access is currently being used by an another application</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
-    <value>File is in use</value>
+    <value>கோப்புப் பயன்பாட்டில் உள்ளது</value>
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>தளவமைப்பு</value>
@@ -1247,10 +1247,10 @@
     <value>Customize the right click context menu</value>
   </data>
   <data name="originalPathColumn.Header" xml:space="preserve">
-    <value>Original path</value>
+    <value>அசல் பாதை</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
-    <value>Original path</value>
+    <value>அசல் பாதை</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>சேர்</value>
@@ -2012,7 +2012,7 @@
     <value>உரிமையாளர்</value>
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
-    <value>Unknown owner</value>
+    <value>அறியாத உரிமையாளர்</value>
   </data>
   <data name="SettingsVerticalTabFlyout" xml:space="preserve">
     <value>Display the vertical tab flyout on the title bar</value>
