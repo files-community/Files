@@ -6,6 +6,7 @@ using System;
 using System.Collections.ObjectModel;
 using Windows.UI.Xaml;
 using System.Collections.Generic;
+using Files.Uwp.Helpers;
 
 namespace Files.Uwp.ViewModels
 {
@@ -541,22 +542,9 @@ namespace Files.Uwp.ViewModels
         public void CheckAllFileExtensions(List<string> itemExtensions)
         {
             // Checks if all the item extensions are image extensions of some kind.
-            IsSelectedItemImage = itemExtensions.TrueForAll(itemExtension => this.IsImageExtension(itemExtension));
+            IsSelectedItemImage = itemExtensions.TrueForAll(itemExtension => FileExtensionHelpers.IsImageFile(itemExtension));
             // Checks if there is only one selected item and if it's a shortcut.
-            IsSelectedItemShortcut = (itemExtensions.Count == 1) && (itemExtensions.TrueForAll(itemExtension => this.IsShortcutExtension(itemExtension)));
-        }
-
-        private bool IsShortcutExtension(string itemExtension)
-        {
-            return itemExtension.Equals(".lnk", StringComparison.OrdinalIgnoreCase);
-        }
-
-        private bool IsImageExtension(string itemExtension)
-        {
-            return itemExtension.Equals(".png", StringComparison.OrdinalIgnoreCase)
-                            || itemExtension.Equals(".jpg", StringComparison.OrdinalIgnoreCase)
-                            || itemExtension.Equals(".bmp", StringComparison.OrdinalIgnoreCase)
-                            || itemExtension.Equals(".jpeg", StringComparison.OrdinalIgnoreCase);
+            IsSelectedItemShortcut = (itemExtensions.Count == 1) && (itemExtensions.TrueForAll(itemExtension => FileExtensionHelpers.IsShortcutFile(itemExtension)));
         }
 
         private string shortcutItemType;
