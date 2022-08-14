@@ -69,6 +69,7 @@ namespace Files.Uwp.Views.LayoutModes
 
         public ScrollViewer ContentScroller { get; private set; }
 
+
         public DetailsLayoutBrowser() : base()
         {
             InitializeComponent();
@@ -76,6 +77,12 @@ namespace Files.Uwp.Views.LayoutModes
 
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
+        }
+
+        public void UpdateTagsColumn()
+        {
+            SetTagsColumVisibility();
+            SizeAllColumnsToFit_Click(null, new RoutedEventArgs());
         }
 
         protected override void HookEvents()
@@ -286,7 +293,7 @@ namespace Files.Uwp.Views.LayoutModes
                 ColumnsViewModel.StatusColumn.Show();
             }
 
-            ColumnsViewModel.TagColumn.Show();
+            SetTagsColumVisibility();
 
             UpdateSortIndicator();
         }
@@ -648,6 +655,18 @@ namespace Files.Uwp.Views.LayoutModes
             }
         }
 
+        private void SetTagsColumVisibility()
+        {
+            if (!UserSettingsService.PreferencesSettingsService.ShowTagsColumn)
+            {
+                ColumnsViewModel.TagColumn.Hide();
+            }
+            else
+            {
+                ColumnsViewModel.TagColumn.Show();
+            }
+        }
+
         private void UpdateColumnLayout()
         {
             ColumnsViewModel.IconColumn.UserLength = new GridLength(Column1.ActualWidth, GridUnitType.Pixel);
@@ -745,7 +764,7 @@ namespace Files.Uwp.Views.LayoutModes
 
                 if (columnToResize == 1) // file name column
                 {
-                    columnSizeToFit += 20;
+                    columnSizeToFit += UserSettingsService.PreferencesSettingsService.ShowTagsColumn ? 20 : 0;
                 }
 
                 var minFitLength = Math.Max(columnSizeToFit, column.NormalMinLength);
