@@ -111,7 +111,7 @@ namespace Files.Uwp.Helpers
                     {
                         try
                         {
-                            await zipFile.ExtractFileAsync(entry.FileName, destinationStream);
+                            await zipFile.ExtractFileAsync(entry.Index, destinationStream);
                         }
                         catch (Exception ex)
                         {
