@@ -51,11 +51,13 @@ namespace Files.Uwp.ServicesImplementation
 
             return new WindowsStorageFile(file);
         }
-                        private FileOpenPicker InitializeWithWindow(FileOpenPicker obj)
-                        {
-                            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
-                            return obj;
-                        }
+
+        // WINUI3
+        private FileOpenPicker InitializeWithWindow(FileOpenPicker obj)
+        {
+            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+            return obj;
+        }
 
         /// <inheritdoc/>
         public async Task<ILocatableFolder?> PickSingleFolderAsync(CancellationToken cancellationToken = default)
@@ -72,10 +74,12 @@ namespace Files.Uwp.ServicesImplementation
 
             return new WindowsStorageFolder(folder);
         }
-                        private FolderPicker InitializeWithWindow(FolderPicker obj)
-                        {
-                            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
-                            return obj;
-                        }
+
+        // WINUI3
+        private FolderPicker InitializeWithWindow(FolderPicker obj)
+        {
+            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+            return obj;
+        }
     }
 }

@@ -112,11 +112,13 @@ namespace Files.Uwp.Views
                 }
             }
         }
-                        private FolderPicker InitializeWithWindow(FolderPicker obj)
-                        {
-                            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
-                            return obj;
-                        }
+
+        // WINUI3
+        private FolderPicker InitializeWithWindow(FolderPicker obj)
+        {
+            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+            return obj;
+        }
 
         private void SetDefaultLocation()
         {

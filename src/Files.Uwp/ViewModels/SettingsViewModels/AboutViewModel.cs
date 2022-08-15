@@ -97,11 +97,13 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
                 }
             }
         }
-                        private FileSavePicker InitializeWithWindow(FileSavePicker obj)
-                        {
-                            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
-                            return obj;
-                        }
+
+        // WINUI3
+        private FileSavePicker InitializeWithWindow(FileSavePicker obj)
+        {
+            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+            return obj;
+        }
 
         private async Task ImportSettings()
         {
@@ -155,11 +157,13 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
                 }
             }
         }
-                        private FileOpenPicker InitializeWithWindow(FileOpenPicker obj)
-                        {
-                            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
-                            return obj;
-                        }
+
+        // WINUI3
+        private FileOpenPicker InitializeWithWindow(FileOpenPicker obj)
+        {
+            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+            return obj;
+        }
 
         public void CopyVersionInfo()
         {
@@ -171,7 +175,7 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
                 Clipboard.SetContent(dataPackage);
             });
         }
-        
+
         public async void SupportUs()
         {
             await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.SupportUsUrl));

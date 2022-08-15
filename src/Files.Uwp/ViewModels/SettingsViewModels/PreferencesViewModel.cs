@@ -234,11 +234,13 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
                 }
             }
         }
-                        private FolderPicker InitializeWithWindow(FolderPicker obj)
-                        {
-                            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
-                            return obj;
-                        }
+
+        // WINUI3
+        private FolderPicker InitializeWithWindow(FolderPicker obj)
+        {
+            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+            return obj;
+        }
 
         private void RemovePage()
         {

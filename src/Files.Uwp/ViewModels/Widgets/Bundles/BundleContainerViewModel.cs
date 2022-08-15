@@ -146,11 +146,13 @@ namespace Files.Uwp.ViewModels.Widgets.Bundles
                 SaveBundle();
             }
         }
-                        private FolderPicker InitializeWithWindow(FolderPicker obj)
-                        {
-                            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
-                            return obj;
-                        }
+
+        // WINUI3
+        private FolderPicker InitializeWithWindow(FolderPicker obj)
+        {
+            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+            return obj;
+        }
 
         private async Task AddFile()
         {
@@ -165,11 +167,13 @@ namespace Files.Uwp.ViewModels.Widgets.Bundles
                 SaveBundle();
             }
         }
-                        private FileOpenPicker InitializeWithWindow(FileOpenPicker obj)
-                        {
-                            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
-                            return obj;
-                        }
+
+        // WINUI3
+        private FileOpenPicker InitializeWithWindow(FileOpenPicker obj)
+        {
+            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+            return obj;
+        }
 
         private void RemoveBundle()
         {
