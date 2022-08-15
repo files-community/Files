@@ -8,9 +8,9 @@
     xmlns:converters="using:Files.Uwp.Converters"
     xmlns:helpers="using:Files.Uwp.Helpers"
     xmlns:uc="using:Files.Uwp.UserControls"
-    xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI"
-    xmlns:converters1="using:Microsoft.Toolkit.Uwp.UI.Converters"
-    xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
+    xmlns:extensions="using:CommunityToolkit.WinUI.UI"
+    xmlns:converters1="using:CommunityToolkit.WinUI.UI.Converters"
+    xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
     x:Name="NavToolbar"
@@ -560,11 +560,12 @@
                             </Flyout>
                         </Button.Flyout>
                     </Button>
-                    <muxc:InfoBadge
+                    <!-- WINUI3 -->
+                    <!--<muxc:InfoBadge
                         x:Name="StatusInfoBadge"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top"
-                        Value="{x:Bind OngoingTasksViewModel.InfoBadgeValue, Mode=OneWay}" />
+                        Value="{x:Bind OngoingTasksViewModel.InfoBadgeValue, Mode=OneWay}" />-->
                 </Grid>
 
                 <Button

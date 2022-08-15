@@ -6,7 +6,7 @@
     xmlns:helpers="using:Files.Uwp.Helpers"
     xmlns:local="using:Files.Uwp.UserControls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:mconv="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:mconv="using:CommunityToolkit.WinUI.UI.Converters"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:navigationcontrolitems="using:Files.Uwp.DataModels.NavigationControlItems"
     xmlns:vc="using:Files.Uwp.ValueConverters"

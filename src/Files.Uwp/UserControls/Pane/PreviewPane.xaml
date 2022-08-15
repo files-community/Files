@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:helpers="using:Files.Uwp.Helpers"
     xmlns:properties="using:Files.Uwp.ViewModels.Properties"
-    xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
+    xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Loading="Root_Loading" Unloaded="Root_Unloaded" SizeChanged="Root_SizeChanged"
     MinWidth="90" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"

@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.Uwp.UserControls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
+    xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
     d:DesignHeight="300"
     d:DesignWidth="400"
     Loading="UserControl_Loading"

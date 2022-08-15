@@ -8,7 +8,7 @@ using Files.Uwp.UserControls;
 using Files.Uwp.UserControls.Selection;
 using Files.Uwp.ViewModels;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp.UI;
+using CommunityToolkit.WinUI.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -687,7 +687,7 @@ namespace Files.Uwp.Views.LayoutModes
 
         private void GridSplitter_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
-            var columnToResize = (Grid.GetColumn(sender as Microsoft.Toolkit.Uwp.UI.Controls.GridSplitter) - 1) / 2;
+            var columnToResize = (Grid.GetColumn(sender as CommunityToolkit.WinUI.UI.Controls.GridSplitter) - 1) / 2;
             ResizeColumnToFit(columnToResize);
             e.Handled = true;
         }

@@ -9,7 +9,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:ts="using:Files.Uwp.TemplateSelectors"
-    xmlns:tvc="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:tvc="using:CommunityToolkit.WinUI.UI.Converters"
     xmlns:vc="using:Files.Uwp.ValueConverters"
     xmlns:vc2="using:Files.Uwp.ValueConverters.EnumConverters"
     xmlns:vc3="using:Files.Uwp.Converters"

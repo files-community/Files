@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:contract8Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,8)"
     xmlns:converters="using:Files.Uwp.Converters"
-    xmlns:converters1="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:converters1="using:CommunityToolkit.WinUI.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="using:Files.Uwp.Helpers"
     xmlns:local="using:Files.Uwp.UserControls"

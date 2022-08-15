@@ -7,7 +7,7 @@
     xmlns:helpers="using:Files.Uwp.Helpers"
     xmlns:usercontrols="using:Files.Uwp.UserControls"
     xmlns:local="using:Files.Uwp.ViewModels.Properties"
-    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Loaded="Properties_Loaded"
     mc:Ignorable="d">

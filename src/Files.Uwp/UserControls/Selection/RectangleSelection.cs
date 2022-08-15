@@ -1,9 +1,9 @@
 using System;
 using Windows.Foundation;
-using Windows.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Shapes;
+using Microsoft.UI.Input;
 
 namespace Files.Uwp.UserControls.Selection
 {

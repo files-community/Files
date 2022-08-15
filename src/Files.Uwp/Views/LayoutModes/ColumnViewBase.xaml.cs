@@ -5,7 +5,7 @@ using Files.Uwp.Helpers.XamlHelpers;
 using Files.Uwp.Interacts;
 using Files.Shared.Enums;
 using Files.Uwp.UserControls.Selection;
-using Microsoft.Toolkit.Uwp.UI;
+using CommunityToolkit.WinUI.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +18,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using static Files.Uwp.Constants;
+using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 
 namespace Files.Uwp.Views.LayoutModes
 {
@@ -32,7 +33,7 @@ namespace Files.Uwp.Views.LayoutModes
             this.InitializeComponent();
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
-            tapDebounceTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
+            tapDebounceTimer = DispatcherQueue.CreateTimer();
         }
 
         protected override void HookEvents()

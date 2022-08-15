@@ -5,7 +5,7 @@ using Files.Uwp.Helpers;
 using Files.Uwp.Helpers.XamlHelpers;
 using Files.Uwp.Interacts;
 using Files.Uwp.UserControls.Selection;
-using Microsoft.Toolkit.Uwp.UI;
+using CommunityToolkit.WinUI.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;

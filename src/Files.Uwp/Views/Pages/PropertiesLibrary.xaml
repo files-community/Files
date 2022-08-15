@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:helpers="using:Files.Uwp.Helpers"
     xmlns:local="using:Files.Uwp.ViewModels.Properties"
-    xmlns:mconv="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:mconv="using:CommunityToolkit.WinUI.UI.Converters"
     Name="Page"
     d:DesignHeight="3000"
     Loaded="Properties_Loaded"

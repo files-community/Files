@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:helpers="using:Files.Uwp.Helpers"
     xmlns:models="using:Files.Uwp.ViewModels"
-    xmlns:converters1="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:converters1="using:CommunityToolkit.WinUI.UI.Converters"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     d:DesignHeight="300"
     d:DesignWidth="300"
