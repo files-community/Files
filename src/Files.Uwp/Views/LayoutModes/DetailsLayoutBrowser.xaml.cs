@@ -505,7 +505,7 @@ namespace Files.Uwp.Views.LayoutModes
             }
         }
 
-        protected override void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
+        protected override void Page_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
         {
             if (ParentShellPageInstance != null)
             {
@@ -514,7 +514,7 @@ namespace Files.Uwp.Views.LayoutModes
                     // Don't block the various uses of enter key (key 13)
                     var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;
                     var isHeaderFocused = DependencyObjectHelpers.FindParent<DataGridHeader>(focusedElement) != null;
-                    if (args.KeyCode == 13
+                    if (Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Enter) == CoreVirtualKeyStates.Down
                         || (focusedElement is Button && !isHeaderFocused) // Allow jumpstring when header is focused
                         || focusedElement is TextBox
                         || focusedElement is PasswordBox

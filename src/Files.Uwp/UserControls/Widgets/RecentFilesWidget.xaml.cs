@@ -68,9 +68,7 @@ namespace Files.Uwp.UserControls.Widgets
 
         private async void Manager_RecentFilesChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            await /*
-                TODO UA306_A2: UWP CoreDispatcher : Windows.UI.Core.CoreDispatcher is no longer supported. Use DispatcherQueue instead. Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/threading
-            */Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            await DispatcherQueue.EnqueueAsync(async () =>
             {
                 // e.Action can only be Reset right now; naively refresh everything for simplicity
                 await UpdateRecentsList(e);

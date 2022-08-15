@@ -19,21 +19,23 @@ namespace Files.Uwp.Helpers
         {
             try
             {
-                return await this.SetContentDialogRoot(dialog).ShowAsync();
+                return await SetContentDialogRoot(dialog).ShowAsync();
             }
             catch // A content dialog is already open
             {
                 return ContentDialogResult.None;
             }
         }
-                    private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
-                    {
-                        if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-                        {
-                            contentDialog.XamlRoot = this.Content.XamlRoot;
-                        }
-                        return contentDialog;
-                    }
+
+        // WINUI3
+        private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
+        {
+            if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+            {
+                contentDialog.XamlRoot = App.Window.Content.XamlRoot;
+            }
+            return contentDialog;
+        }
 
         public static void CloseAllDialogs()
         {

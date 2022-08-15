@@ -306,14 +306,16 @@ namespace Files.Uwp.Filesystem
 
             return new StorageHistory(FileOperationType.Copy, source, pathWithType);
         }
-                    private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
-                    {
-                        if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-                        {
-                            contentDialog.XamlRoot = this.Content.XamlRoot;
-                        }
-                        return contentDialog;
-                    }
+
+        // WINUI3
+        private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
+        {
+            if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+            {
+                contentDialog.XamlRoot = App.Window.Content.XamlRoot;
+            }
+            return contentDialog;
+        }
 
         public async Task<IStorageHistory> MoveAsync(IStorageItem source,
                                                      string destination,

@@ -5,12 +5,10 @@ using CommunityToolkit.WinUI.UI;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Files.Uwp.Helpers.XamlHelpers;
-using Windows.UI.Core;
 using Files.Uwp.Filesystem;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238

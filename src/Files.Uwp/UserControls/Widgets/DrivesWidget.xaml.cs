@@ -111,9 +111,7 @@ namespace Files.Uwp.UserControls.Widgets
 
         private async void Manager_DataChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            await /*
-                TODO UA306_A2: UWP CoreDispatcher : Windows.UI.Core.CoreDispatcher is no longer supported. Use DispatcherQueue instead. Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/threading
-            */Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            await DispatcherQueue.EnqueueAsync(async () =>
             {
                 foreach (DriveItem drive in App.DrivesManager.Drives)
                 {

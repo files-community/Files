@@ -50,7 +50,7 @@ namespace Files.Uwp.ViewModels
             }
         }
 
-        private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
+        private void Current_SizeChanged(object sender, Microsoft.UI.Xaml.WindowSizeChangedEventArgs e)
         {
             IsWindowCompactSize = IsWindowResizedToCompactWidth();
         }

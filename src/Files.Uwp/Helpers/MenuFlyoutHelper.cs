@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using CommunityToolkit.WinUI;
 
 namespace Files.Uwp.Helpers
 {
@@ -95,9 +96,7 @@ namespace Files.Uwp.Helpers
                 return;
             }
 
-            await /*
-                TODO UA306_A2: UWP CoreDispatcher : Windows.UI.Core.CoreDispatcher is no longer supported. Use DispatcherQueue instead. Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/threading
-            */menu.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            await menu.DispatcherQueue.EnqueueAsync(() =>
             {
                 menu.Items.Clear();
                 AddItems(menu.Items, itemSource);

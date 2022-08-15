@@ -17,6 +17,7 @@ using System.Runtime.InteropServices;
 using Microsoft.Graphics.Canvas.Effects;
 
 using GuidAttribute = System.Runtime.InteropServices.GuidAttribute;
+using Microsoft.UI;
 
 namespace Files.Uwp.Views.Brushes
 {

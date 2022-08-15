@@ -63,9 +63,7 @@ namespace Files.Uwp.Helpers
                 if (FilesystemHelpers.ContainsRestrictedCharacters(args.NewText))
                 {
                     args.Cancel = true;
-                    await /*
-                TODO UA306_A2: UWP CoreDispatcher : Windows.UI.Core.CoreDispatcher is no longer supported. Use DispatcherQueue instead. Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/threading
-            */inputText.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                    await inputText.DispatcherQueue.EnqueueAsync(() =>
                     {
                         var oldSelection = textBox.SelectionStart + textBox.SelectionLength;
                         var oldText = textBox.Text;
@@ -94,8 +92,7 @@ namespace Files.Uwp.Helpers
             inputText.Loaded += (s, e) =>
             {
                 // dispatching to the ui thread fixes an issue where the primary dialog button would steal focus
-                _ = inputText.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, 
-                    () => inputText.Focus(Microsoft.UI.Xaml.FocusState.Programmatic));
+                _ = inputText.DispatcherQueue.EnqueueAsync(() => inputText.Focus(Microsoft.UI.Xaml.FocusState.Programmatic));
             };
 
             dialog = new DynamicDialog(new DynamicDialogViewModel()

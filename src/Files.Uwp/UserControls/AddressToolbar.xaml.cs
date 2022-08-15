@@ -66,9 +66,9 @@ namespace Files.Uwp.UserControls
 
         private void ManualPathEntryItem_Click(object sender, PointerRoutedEventArgs e)
         {
-            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
+            if (e.Pointer.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Mouse)
             {
-                Windows.UI.Input.PointerPoint ptrPt = e.GetCurrentPoint(NavToolbar);
+                var ptrPt = e.GetCurrentPoint(NavToolbar);
                 if (ptrPt.Properties.IsMiddleButtonPressed)
                 {
                     return;

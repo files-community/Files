@@ -251,9 +251,7 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
 
         public async Task OpenThemesFolder()
         {
-            await /*
-                TODO UA306_A2: UWP CoreDispatcher : Windows.UI.Core.CoreDispatcher is no longer supported. Use DispatcherQueue instead. Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/threading
-            */CoreApplication.MainView.Dispatcher.YieldAsync();
+            //await CoreApplication.MainView.Dispatcher.YieldAsync(); // WINUI3
             await NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.ImportedThemesFolder.Path);
         }
     }

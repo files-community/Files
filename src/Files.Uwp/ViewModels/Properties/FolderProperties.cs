@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
 using Windows.UI.Core;
+using Microsoft.UI.Dispatching;
 
 namespace Files.Uwp.ViewModels.Properties
 {
@@ -19,9 +20,8 @@ namespace Files.Uwp.ViewModels.Properties
     {
         public ListedItem Item { get; }
 
-        public FolderProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, /*
-                TODO UA306_A1: UWP CoreDispatcher : Windows.UI.Core.CoreDispatcher is no longer supported. Use DispatcherQueue instead. Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/threading
-            */CoreDispatcher coreDispatcher, ListedItem item, IShellPage instance)
+        public FolderProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource,
+            DispatcherQueue coreDispatcher, ListedItem item, IShellPage instance)
         {
             ViewModel = viewModel;
             TokenSource = tokenSource;

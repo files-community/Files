@@ -4,6 +4,8 @@ using Windows.Storage;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Microsoft.UI.Xaml;
+using CommunityToolkit.WinUI;
+using Microsoft.UI;
 
 namespace Files.Uwp.Helpers
 {
@@ -71,9 +73,7 @@ namespace Files.Uwp.Helpers
             if (currentApplicationWindow != null)
             {
                 // Dispatch on UI thread so that we have a current appbar to access and change
-                await /*
-                TODO UA306_A2: UWP CoreDispatcher : Windows.UI.Core.CoreDispatcher is no longer supported. Use DispatcherQueue instead. Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/threading
-            */currentApplicationWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                await currentApplicationWindow.DispatcherQueue.EnqueueAsync(() =>
                 {
                     ApplyTheme();
                 });

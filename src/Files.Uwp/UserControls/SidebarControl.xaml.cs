@@ -26,6 +26,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
+using CommunityToolkit.WinUI.UI;
 
 namespace Files.Uwp.UserControls
 {

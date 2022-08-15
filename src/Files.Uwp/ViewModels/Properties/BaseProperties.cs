@@ -12,6 +12,7 @@ using Windows.Storage.FileProperties;
 using Windows.UI.Core;
 using static Files.Backend.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
+using Microsoft.UI.Dispatching;
 
 namespace Files.Uwp.ViewModels.Properties
 {
@@ -24,9 +25,7 @@ namespace Files.Uwp.ViewModels.Properties
 
         public CancellationTokenSource TokenSource { get; set; }
 
-        public /*
-                TODO UA306_A1: UWP CoreDispatcher : Windows.UI.Core.CoreDispatcher is no longer supported. Use DispatcherQueue instead. Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/threading
-            */CoreDispatcher Dispatcher { get; set; }
+        public DispatcherQueue Dispatcher { get; set; }
 
         public abstract void GetBaseProperties();
 
@@ -84,12 +83,12 @@ namespace Files.Uwp.ViewModels.Properties
 
                     if (size > ViewModel.ItemSizeBytes)
                     {
-                        await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                        await Dispatcher.EnqueueAsync(() =>
                         {
                             ViewModel.ItemSizeBytes = size;
                             ViewModel.ItemSize = size.ToSizeString();
                             SetItemsCountString();
-                        });
+                        }, DispatcherQueuePriority.Low);
                     }
 
                     if (token.IsCancellationRequested)

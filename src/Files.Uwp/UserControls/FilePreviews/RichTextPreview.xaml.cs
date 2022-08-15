@@ -17,7 +17,7 @@ namespace Files.Uwp.UserControls.FilePreviews
 
         private void TextPreviewControl_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
-            TextPreviewControl.Document.LoadFromStream(Windows.UI.Text.TextSetOptions.FormatRtf, ViewModel.Stream);
+            TextPreviewControl.Document.LoadFromStream(Microsoft.UI.Text.TextSetOptions.FormatRtf, ViewModel.Stream);
         }
     }
 }

@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Core;
+using Microsoft.UI.Dispatching;
 
 namespace Files.Uwp.ViewModels.Properties
 {
@@ -19,9 +20,8 @@ namespace Files.Uwp.ViewModels.Properties
 
         public LibraryItem Library { get; private set; }
 
-        public LibraryProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, /*
-                TODO UA306_A1: UWP CoreDispatcher : Windows.UI.Core.CoreDispatcher is no longer supported. Use DispatcherQueue instead. Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/threading
-            */CoreDispatcher coreDispatcher, LibraryItem item, IShellPage instance)
+        public LibraryProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource,
+            DispatcherQueue coreDispatcher, LibraryItem item, IShellPage instance)
         {
             ViewModel = viewModel;
             TokenSource = tokenSource;

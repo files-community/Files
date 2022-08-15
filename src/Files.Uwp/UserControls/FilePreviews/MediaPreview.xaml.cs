@@ -19,15 +19,15 @@ namespace Files.Uwp.UserControls.FilePreviews
         {
             ViewModel = model;
             InitializeComponent();
-            PlayerContext.Loaded += PlayerContext_Loaded;
+            //PlayerContext.Loaded += PlayerContext_Loaded; // WINUI3
         }
 
         public MediaPreviewViewModel ViewModel { get; set; }
 
         private void PlayerContext_Loaded(object sender, RoutedEventArgs e)
         {
-            PlayerContext.MediaPlayer.Volume = UserSettingsService.PaneSettingsService.MediaVolume;
-            PlayerContext.MediaPlayer.VolumeChanged += MediaPlayer_VolumeChanged;
+            //PlayerContext.MediaPlayer.Volume = UserSettingsService.PaneSettingsService.MediaVolume; // WINUI3
+            //PlayerContext.MediaPlayer.VolumeChanged += MediaPlayer_VolumeChanged; // WINUI3
             ViewModel.TogglePlaybackRequested += TogglePlaybackRequestInvoked;
         }
 
@@ -41,14 +41,15 @@ namespace Files.Uwp.UserControls.FilePreviews
 
         private void TogglePlaybackRequestInvoked(object sender, EventArgs e)
         {
-            if (PlayerContext.MediaPlayer.PlaybackSession.PlaybackState is not MediaPlaybackState.Playing)
+            // WINUI3
+            /*if (PlayerContext.MediaPlayer.PlaybackSession.PlaybackState is not MediaPlaybackState.Playing)
             {
                 PlayerContext.MediaPlayer.Play();
             }
             else
             {
                 PlayerContext.MediaPlayer.Pause();
-            }
+            }*/
         }
 
         private void TogglePlaybackAcceleratorInvoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)

@@ -63,11 +63,11 @@ namespace Files.Uwp.Views
         {
             InitializeComponent();
 
-                /*
-                   TODO UA315_A Use Microsoft.UI.Windowing.AppWindow for window Management instead of ApplicationView/CoreWindow or Microsoft.UI.Windowing.AppWindow APIs
-                   Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
-                */
-                ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.Auto;
+            /*
+               TODO UA315_A Use Microsoft.UI.Windowing.AppWindow for window Management instead of ApplicationView/CoreWindow or Microsoft.UI.Windowing.AppWindow APIs
+               Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
+            */
+            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.Auto;
             var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             CoreTitleBar.ExtendViewIntoTitleBar = true;
             CoreTitleBar.LayoutMetricsChanged += TitleBar_LayoutMetricsChanged;
@@ -105,7 +105,7 @@ namespace Files.Uwp.Views
                 Content = "ReviewFilesContent".ToLocalized(),
                 PrimaryButtonText = "Yes".ToLocalized(),
                 SecondaryButtonText = "No".ToLocalized()
-        };
+            };
 
             var result = await this.SetContentDialogRoot(AskForReviewDialog).ShowAsync();
 
@@ -119,14 +119,16 @@ namespace Files.Uwp.Views
                 catch (Exception) { }
             }
         }
-                    private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
-                    {
-                        if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-                        {
-                            contentDialog.XamlRoot = this.Content.XamlRoot;
-                        }
-                        return contentDialog;
-                    }
+
+        // WINUI3
+        private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
+        {
+            if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+            {
+                contentDialog.XamlRoot = App.Window.Content.XamlRoot;
+            }
+            return contentDialog;
+        }
 
         private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
         {
@@ -418,16 +420,16 @@ namespace Files.Uwp.Views
         private void ToggleFullScreenAccelerator(KeyboardAcceleratorInvokedEventArgs e)
         {
 
-                /*
-                   TODO UA315_A Use Microsoft.UI.Windowing.AppWindow for window Management instead of ApplicationView/CoreWindow or Microsoft.UI.Windowing.AppWindow APIs
-                   Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
-                */
-                ApplicationView view = 
-                /*
-                   TODO UA315_A Use Microsoft.UI.Windowing.AppWindow for window Management instead of ApplicationView/CoreWindow or Microsoft.UI.Windowing.AppWindow APIs
-                   Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
-                */
-                ApplicationView.GetForCurrentView();
+            /*
+               TODO UA315_A Use Microsoft.UI.Windowing.AppWindow for window Management instead of ApplicationView/CoreWindow or Microsoft.UI.Windowing.AppWindow APIs
+               Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
+            */
+            ApplicationView view =
+            /*
+               TODO UA315_A Use Microsoft.UI.Windowing.AppWindow for window Management instead of ApplicationView/CoreWindow or Microsoft.UI.Windowing.AppWindow APIs
+               Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
+            */
+            ApplicationView.GetForCurrentView();
             if (view.IsFullScreenMode)
             {
                 view.ExitFullScreenMode();
@@ -444,7 +446,7 @@ namespace Files.Uwp.Views
         {
             SidebarAdaptiveViewModel.IsSidebarOpen = !SidebarAdaptiveViewModel.IsSidebarOpen;
 
-            e.Handled=true;
+            e.Handled = true;
         }
 
         private void SidebarControl_Loaded(object sender, RoutedEventArgs e)
@@ -568,7 +570,7 @@ namespace Files.Uwp.Views
 
         private async void SetCompactOverlay(bool isCompact)
         {
-            var view = 
+            var view =
                 /*
                    TODO UA315_A Use Microsoft.UI.Windowing.AppWindow for window Management instead of ApplicationView/CoreWindow or Microsoft.UI.Windowing.AppWindow APIs
                    Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing

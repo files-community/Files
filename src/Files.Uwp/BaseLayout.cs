@@ -27,7 +27,6 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
-using Windows.UI.Core;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -414,7 +413,7 @@ namespace Files.Uwp
         {
             base.OnNavigatedTo(eventArgs);
             // Add item jumping handler
-            App.Window.CoreWindow.CharacterReceived += Page_CharacterReceived;
+            this.CharacterReceived += Page_CharacterReceived;
             navigationArguments = (NavigationArguments)eventArgs.Parameter;
             ParentShellPageInstance = navigationArguments.AssociatedTabInstance;
             InitializeCommandsViewModel();
@@ -544,7 +543,7 @@ namespace Files.Uwp
         {
             base.OnNavigatingFrom(e);
             // Remove item jumping handler
-            App.Window.CoreWindow.CharacterReceived -= Page_CharacterReceived;
+            this.CharacterReceived -= Page_CharacterReceived;
             FolderSettings.LayoutModeChangeRequested -= BaseFolderSettings_LayoutModeChangeRequested;
             FolderSettings.GroupOptionPreferenceUpdated -= FolderSettings_GroupOptionPreferenceUpdated;
             ItemContextMenuFlyout.Opening -= ItemContextFlyout_Opening;
@@ -591,7 +590,7 @@ namespace Files.Uwp
                 }
                 shellContextMenuItemCancellationToken?.Cancel();
                 shellContextMenuItemCancellationToken = new CancellationTokenSource();
-                var shiftPressed = App.Window.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+                var shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
                 var items = ContextFlyoutItemHelper.GetBaseContextCommandsWithoutShellItems(connection: await Connection, currentInstanceViewModel: InstanceViewModel, itemViewModel: ParentShellPageInstance.FilesystemViewModel, commandsViewModel: CommandsViewModel, shiftPressed: shiftPressed, false);
                 BaseContextMenuFlyout.PrimaryCommands.Clear();
                 BaseContextMenuFlyout.SecondaryCommands.Clear();
@@ -650,7 +649,7 @@ namespace Files.Uwp
             shellContextMenuItemCancellationToken?.Cancel();
             shellContextMenuItemCancellationToken = new CancellationTokenSource();
             SelectedItemsPropertiesViewModel.CheckFileExtension(SelectedItem?.FileExtension);
-            var shiftPressed = App.Window.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+            var shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
             var items = ContextFlyoutItemHelper.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel, shiftPressed: shiftPressed, showOpenMenu: false);
             ItemContextMenuFlyout.PrimaryCommands.Clear();
             ItemContextMenuFlyout.SecondaryCommands.Clear();
@@ -803,11 +802,11 @@ namespace Files.Uwp
             }
         }
 
-        protected virtual void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
+        protected virtual void Page_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
         {
             if (ParentShellPageInstance.IsCurrentInstance)
             {
-                char letter = Convert.ToChar(args.KeyCode);
+                char letter = args.Character;
                 JumpString += letter.ToString().ToLowerInvariant();
             }
         }
@@ -1185,9 +1184,7 @@ namespace Files.Uwp
             if (FilesystemHelpers.ContainsRestrictedCharacters(args.NewText))
             {
                 args.Cancel = true;
-                await /*
-                TODO UA306_A2: UWP CoreDispatcher : Windows.UI.Core.CoreDispatcher is no longer supported. Use DispatcherQueue instead. Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/threading
-            */Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                await DispatcherQueue.EnqueueAsync(() =>
                 {
                     var oldSelection = textBox.SelectionStart + textBox.SelectionLength;
                     var oldText = textBox.Text;

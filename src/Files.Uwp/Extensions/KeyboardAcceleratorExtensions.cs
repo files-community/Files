@@ -9,10 +9,10 @@ namespace Files.Uwp.Extensions
     {
         public static bool CheckIsPressed(this KeyboardAccelerator keyboardAccelerator)
         {
-            return App.Window.CoreWindow.GetKeyState(keyboardAccelerator.Key).HasFlag(CoreVirtualKeyStates.Down) && // check if the main key is pressed
-                (!keyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Menu) || App.Window.CoreWindow.GetKeyState(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down)) && // check if menu (alt) key is a modifier, and if so check if it's pressed
-                (!keyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift) || App.Window.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down)) && // check if shift key is a modifier, and if so check if it's pressed
-                (!keyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Control) || App.Window.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down)); // check if ctrl key is a modifier, and if so check if it's pressed
+            return Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(keyboardAccelerator.Key).HasFlag(CoreVirtualKeyStates.Down) && // check if the main key is pressed
+                (!keyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Menu) || Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down)) && // check if menu (alt) key is a modifier, and if so check if it's pressed
+                (!keyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift) || Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down)) && // check if shift key is a modifier, and if so check if it's pressed
+                (!keyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Control) || Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down)); // check if ctrl key is a modifier, and if so check if it's pressed
         }
     }
 }
