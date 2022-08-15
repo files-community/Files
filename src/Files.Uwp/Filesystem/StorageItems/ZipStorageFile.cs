@@ -128,7 +128,7 @@ namespace Files.Uwp.Filesystem.StorageItems
                     if (entry.FileName is not null)
                     {
                         var ms = new MemoryStream();
-                        await zipFile.ExtractFileAsync(entry.FileName, ms);
+                        await zipFile.ExtractFileAsync(entry.Index, ms);
                         ms.Position = 0;
                         return new NonSeekableRandomAccessStreamForRead(ms, (ulong)entry.Size)
                         {
@@ -178,7 +178,7 @@ namespace Files.Uwp.Filesystem.StorageItems
                 }
 
                 var ms = new MemoryStream();
-                await zipFile.ExtractFileAsync(entry.FileName, ms);
+                await zipFile.ExtractFileAsync(entry.Index, ms);
                 ms.Position = 0;
                 var nsStream = new NonSeekableRandomAccessStreamForRead(ms, (ulong)entry.Size)
                 {
@@ -221,7 +221,7 @@ namespace Files.Uwp.Filesystem.StorageItems
                 }
 
                 var ms = new MemoryStream();
-                await zipFile.ExtractFileAsync(entry.FileName, ms);
+                await zipFile.ExtractFileAsync(entry.Index, ms);
                 ms.Position = 0;
                 return new NonSeekableRandomAccessStreamForRead(ms, (ulong)entry.Size)
                 {
@@ -261,7 +261,7 @@ namespace Files.Uwp.Filesystem.StorageItems
                 if (destFolder is ICreateFileWithStream cwsf)
                 {
                     var ms = new MemoryStream();
-                    await zipFile.ExtractFileAsync(entry.FileName, ms);
+                    await zipFile.ExtractFileAsync(entry.Index, ms);
                     ms.Position = 0;
                     using var inStream = new NonSeekableRandomAccessStreamForRead(ms, (ulong)entry.Size);
                     return await cwsf.CreateFileAsync(inStream.AsStreamForRead(), desiredNewName, option.Convert());
@@ -270,7 +270,7 @@ namespace Files.Uwp.Filesystem.StorageItems
                 {
                     var destFile = await destFolder.CreateFileAsync(desiredNewName, option.Convert());
                     using var outStream = await destFile.OpenStreamForWriteAsync();
-                    await zipFile.ExtractFileAsync(entry.FileName, outStream);
+                    await zipFile.ExtractFileAsync(entry.Index, outStream);
                     return destFile;
                 }
             });
@@ -294,7 +294,7 @@ namespace Files.Uwp.Filesystem.StorageItems
                 using var hDestFile = fileToReplace.CreateSafeFileHandle(FileAccess.ReadWrite);
                 using (var outStream = new FileStream(hDestFile, FileAccess.Write))
                 {
-                    await zipFile.ExtractFileAsync(entry.FileName, outStream);
+                    await zipFile.ExtractFileAsync(entry.Index, outStream);
                 }
             });
         }
@@ -518,7 +518,7 @@ namespace Files.Uwp.Filesystem.StorageItems
                     {
                         using (var outStream = request.AsStreamForWrite())
                         {
-                            await zipFile.ExtractFileAsync(entry.FileName, outStream);
+                            await zipFile.ExtractFileAsync(entry.Index, outStream);
                         }
                         request.Dispose();
                     }
