@@ -69,9 +69,10 @@
                     <muxc:NavigationViewItem.Icon>
                         <muxc:ImageIcon Source="{x:Bind Icon, Mode=OneWay}" />
                     </muxc:NavigationViewItem.Icon>
-                    <muxc:NavigationViewItem.InfoBadge>
+                    <!-- WINUI3 -->
+                    <!--<muxc:NavigationViewItem.InfoBadge>
                         <muxc:InfoBadge Style="{ThemeResource CautionIconInfoBadgeStyle}" Visibility="{x:Bind IsInvalid, Mode=OneWay}" />
-                    </muxc:NavigationViewItem.InfoBadge>
+                    </muxc:NavigationViewItem.InfoBadge>-->
                 </muxc:NavigationViewItem>
             </DataTemplate>
 

@@ -16,7 +16,8 @@
             Modifiers="Control" />
     </UserControl.KeyboardAccelerators>
     <Grid CornerRadius="{StaticResource ControlCornerRadius}">
-        <MediaPlayerElement
+        <!-- WINUI3 -->
+        <!--<MediaPlayerElement
             x:Name="PlayerContext"
             AreTransportControlsEnabled="True"
             Background="Transparent"
@@ -28,6 +29,6 @@
                     IsPlaybackRateButtonVisible="False"
                     IsZoomButtonVisible="False" />
             </MediaPlayerElement.TransportControls>
-        </MediaPlayerElement>
+        </MediaPlayerElement>-->
     </Grid>
 </UserControl>

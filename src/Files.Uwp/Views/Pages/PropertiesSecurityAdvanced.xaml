@@ -35,14 +35,6 @@
                 x:Key="BoolToWidthConverter"
                 FalseValue="0"
                 TrueValue="*" />
-
-            <AcrylicBrush
-                x:Key="AcrylicInAppFillColorDefaultBrush"
-                BackgroundSource="Backdrop"
-                FallbackColor="{ThemeResource ControlFillColorDefault}"
-                TintColor="{ThemeResource ControlFillColorDefault}"
-                TintLuminosityOpacity="0.1"
-                TintOpacity="0.5" />
         </ResourceDictionary>
     </Page.Resources>
 

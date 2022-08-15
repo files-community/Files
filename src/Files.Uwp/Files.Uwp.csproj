@@ -152,7 +152,6 @@
     <PRIResource Include="Strings\en-US\Resources.resw">
       <SubType>Designer</SubType>
     </PRIResource>
-    <None Include="App.xaml.old.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ByteSize">
@@ -205,11 +204,6 @@
     <ProjectReference Include="..\Files.Shared\Files.Shared.csproj" />
     <ProjectReference Include="..\Files.Backend\Files.Backend.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <SDKReference Include="WindowsDesktop, Version=10.0.19041.0">
-      <Name>Windows Desktop Extensions for the UWP</Name>
-    </SDKReference>
-  </ItemGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sideload|x86'">
     <OutputPath>bin\x86\Sideload\</OutputPath>
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;DISABLE_XAML_GENERATED_MAIN;SIDELOAD;CODE_ANALYSIS</DefineConstants>
@@ -250,7 +244,4 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <LangVersion>9.0</LangVersion>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="App.xaml.old.cs" />
-  </ItemGroup>
 </Project>
