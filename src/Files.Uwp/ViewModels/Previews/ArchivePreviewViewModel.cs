@@ -11,13 +11,17 @@ namespace Files.Uwp.ViewModels.Previews
 {
     public class ArchivePreviewViewModel : BasePreviewModel
     {
-        public ArchivePreviewViewModel(ListedItem item) : base(item) {}
+        public ArchivePreviewViewModel(ListedItem item) : base(item) { }
 
         public override async Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
         {
             var details = new List<FileProperty>();
-            using SevenZipExtractor zipFile = await FilesystemTasks.Wrap(async () => new SevenZipExtractor(await Item.ItemFile.OpenStreamForReadAsync()));
-            if (zipFile == null || zipFile.ArchiveFileData == null)
+            using SevenZipExtractor zipFile = await FilesystemTasks.Wrap(async () =>
+            {
+                var arch = new SevenZipExtractor(await Item.ItemFile.OpenStreamForReadAsync());
+                return arch?.ArchiveFileData is null ? null : arch; // Force load archive (1665013614u)
+            });
+            if (zipFile == null)
             {
                 _ = await base.LoadPreviewAndDetailsAsync(); // Loads the thumbnail preview
                 return details;
