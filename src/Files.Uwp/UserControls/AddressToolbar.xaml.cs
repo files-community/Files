@@ -2,10 +2,10 @@ using Files.Uwp.Helpers.XamlHelpers;
 using Files.Uwp.ViewModels;
 using System.Windows.Input;
 using Windows.System;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Input;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Input;
 
 namespace Files.Uwp.UserControls
 {
@@ -152,12 +152,12 @@ namespace Files.Uwp.UserControls
             if (AppSettings.ShowOngoingTasksTeachingTip)
             {
                 OngoingTasksTeachingTip.IsOpen = true;
-                OngoingTasksTeachingTip.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                OngoingTasksTeachingTip.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
                 AppSettings.ShowOngoingTasksTeachingTip = false;
             }
             else
             {
-                OngoingTasksTeachingTip.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                OngoingTasksTeachingTip.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
                 OngoingTasksTeachingTip.IsOpen = false;
             }
         }

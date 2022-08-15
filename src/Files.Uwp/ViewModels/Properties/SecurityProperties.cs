@@ -1,4 +1,4 @@
-﻿using Files.Shared;
+using Files.Shared;
 using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Filesystem.Permissions;

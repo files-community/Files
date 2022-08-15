@@ -1,4 +1,4 @@
-﻿using Files.Shared.Extensions;
+using Files.Shared.Extensions;
 using Files.Uwp.Helpers;
 using FluentFTP;
 using Microsoft.Toolkit.Uwp;

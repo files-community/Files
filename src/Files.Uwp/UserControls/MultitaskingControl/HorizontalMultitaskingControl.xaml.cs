@@ -1,4 +1,4 @@
-﻿using Files.Uwp.Helpers;
+using Files.Uwp.Helpers;
 using Files.Uwp.ViewModels;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.UI.Xaml.Controls;
@@ -6,7 +6,7 @@ using System;
 using System.Linq;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
-using Windows.UI.Xaml;
+using Microsoft.UI.Xaml;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 

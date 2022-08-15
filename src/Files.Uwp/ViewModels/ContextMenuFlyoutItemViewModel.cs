@@ -1,8 +1,8 @@
-﻿using Files.Uwp.UserControls;
+using Files.Uwp.UserControls;
 using System.Collections.Generic;
 using System.Windows.Input;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media.Imaging;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace Files.Uwp.ViewModels
 {

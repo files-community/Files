@@ -1,4 +1,4 @@
-﻿using Files.Uwp.Extensions;
+using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem;
 using Files.Uwp.ViewModels.Properties;
 using SevenZip;

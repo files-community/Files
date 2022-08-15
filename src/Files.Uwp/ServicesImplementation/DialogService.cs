@@ -1,11 +1,11 @@
-﻿using Files.Backend.ViewModels.Dialogs;
+using Files.Backend.ViewModels.Dialogs;
 using Files.Backend.Services;
 using Files.Shared.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls;
 using Files.Uwp.ViewModels.Dialogs;
 using Files.Uwp.Dialogs;
 using Files.Backend.ViewModels.Dialogs.AddItemDialog;

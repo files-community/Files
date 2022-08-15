@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.IO;
@@ -44,7 +44,7 @@ namespace Files.Uwp.ViewModels.Dialogs
 
         private async Task SelectDestination()
         {
-            FolderPicker folderPicker = new FolderPicker();
+            FolderPicker folderPicker = this.InitializeWithWindow(new FolderPicker());
             folderPicker.FileTypeFilter.Add("*");
 
             DestinationFolder = await folderPicker.PickSingleFolderAsync();
@@ -58,6 +58,11 @@ namespace Files.Uwp.ViewModels.Dialogs
                 DestinationFolderPath = DefaultDestinationFolderPath();
             }
         }
+                        private FolderPicker InitializeWithWindow(FolderPicker obj)
+                        {
+                            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+                            return obj;
+                        }
 
         private string DefaultDestinationFolderPath()
         {

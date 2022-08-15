@@ -1,4 +1,4 @@
-﻿using Files.Shared;
+using Files.Shared;
 using Files.Uwp.Dialogs;
 using Files.Shared.Enums;
 using Files.Uwp.Extensions;
@@ -24,9 +24,9 @@ using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using Files.Backend.Enums;
 
 namespace Files.Uwp.Interacts
@@ -286,7 +286,15 @@ namespace Files.Uwp.Interacts
         {
             foreach (ListedItem listedItem in SlimContentPage.SelectedItems)
             {
-                await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Low, async () =>
+                await /*
+                TODO UA306_A2: UWP CoreDispatcher : Windows.UI.Core.CoreDispatcher is no longer supported. Use DispatcherQueue instead. Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/threading
+            */
+                    /* 
+                        TODO UA315_B
+                        Use Microsoft.UI.Windowing.AppWindow.Create instead of GetForCurrentThread.
+                        Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
+                    */
+                    CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Low, async () =>
                 {
                     await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
                 });
@@ -367,10 +375,9 @@ namespace Files.Uwp.Interacts
         {
             DataTransferManager manager = DataTransferManager.GetForCurrentView();
             manager.DataRequested += new TypedEventHandler<DataTransferManager, DataRequestedEventArgs>(Manager_DataRequested);
-            DataTransferManager.ShowShareUI(new ShareUIOptions
-            {
-                Theme = Enum.IsDefined(typeof(ShareUITheme), ThemeHelper.RootTheme.ToString()) ? (ShareUITheme)ThemeHelper.RootTheme : ShareUITheme.Default
-            });
+
+                Windows.ApplicationModel.DataTransfer.DataTransferManager.As<UWPToWinAppSDKUpgradeHelpers.IDataTransferManagerInterop>().ShowShareUIForWindow(App.WindowHandle)
+;
 
             async void Manager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
             {

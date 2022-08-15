@@ -1,8 +1,8 @@
-﻿using Files.Uwp.Imaging;
+using Files.Uwp.Imaging;
 using System;
 using System.Linq;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Media.Imaging;
+using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Media.Imaging;
 
 #nullable enable
 

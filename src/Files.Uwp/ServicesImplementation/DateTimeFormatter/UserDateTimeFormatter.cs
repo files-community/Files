@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Shared.Services.DateTimeFormatter;
 using Files.Uwp.ViewModels;
 using System;

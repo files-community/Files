@@ -1,4 +1,4 @@
-﻿using Files.Shared;
+using Files.Shared;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -6,10 +6,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace Files.Uwp.Helpers
 {
@@ -19,17 +19,25 @@ namespace Files.Uwp.Helpers
         {
             try
             {
-                return await dialog.ShowAsync();
+                return await this.SetContentDialogRoot(dialog).ShowAsync();
             }
             catch // A content dialog is already open
             {
                 return ContentDialogResult.None;
             }
         }
+                    private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
+                    {
+                        if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+                        {
+                            contentDialog.XamlRoot = this.Content.XamlRoot;
+                        }
+                        return contentDialog;
+                    }
 
         public static void CloseAllDialogs()
         {
-            var openedDialogs = VisualTreeHelper.GetOpenPopups(Window.Current);
+            var openedDialogs = VisualTreeHelper.GetOpenPopups(App.Window);
 
             foreach (var item in openedDialogs)
             {

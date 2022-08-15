@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using Files.Backend.Services.Settings;
@@ -221,7 +221,7 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
 
         private async Task ChangePage()
         {
-            var folderPicker = new FolderPicker();
+            var folderPicker = this.InitializeWithWindow(new FolderPicker());
             folderPicker.FileTypeFilter.Add("*");
             StorageFolder folder = await folderPicker.PickSingleFolderAsync();
 
@@ -233,6 +233,11 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
                 }
             }
         }
+                        private FolderPicker InitializeWithWindow(FolderPicker obj)
+                        {
+                            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+                            return obj;
+                        }
 
         private void RemovePage()
         {
@@ -255,7 +260,7 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
         {
             if (string.IsNullOrWhiteSpace(path))
             {
-                var folderPicker = new FolderPicker();
+                var folderPicker = this.InitializeWithWindow(new FolderPicker());
                 folderPicker.FileTypeFilter.Add("*");
 
                 var folder = await folderPicker.PickSingleFolderAsync();

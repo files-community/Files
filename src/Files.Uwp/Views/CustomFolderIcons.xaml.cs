@@ -1,4 +1,4 @@
-﻿using Files.Shared;
+using Files.Shared;
 using Files.Uwp.Helpers;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
@@ -11,9 +11,9 @@ using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
 using Windows.UI.Core;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Navigation;
 using static Files.Uwp.Views.PropertiesCustomization;
 using Files.Shared.Extensions;
 
@@ -124,7 +124,9 @@ namespace Files.Uwp.Views
                 {
                     appInstance?.FilesystemViewModel?.RefreshItems(null, async () =>
                     {
-                        await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => RestoreDefaultButton.IsEnabled = true);
+                        await /*
+                TODO UA306_A2: UWP CoreDispatcher : Windows.UI.Core.CoreDispatcher is no longer supported. Use DispatcherQueue instead. Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/threading
+            */Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => RestoreDefaultButton.IsEnabled = true);
                     });
                 });
             }

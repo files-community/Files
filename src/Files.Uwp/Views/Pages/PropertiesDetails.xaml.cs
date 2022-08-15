@@ -1,11 +1,11 @@
-﻿using Files.Uwp.Dialogs;
+using Files.Uwp.Dialogs;
 using Files.Shared.Enums;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Helpers;
 using Files.Uwp.ViewModels.Properties;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Windows.UI.Xaml;
+using Microsoft.UI.Xaml;
 
 namespace Files.Uwp.Views
 {

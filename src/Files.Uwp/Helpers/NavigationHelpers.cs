@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Helpers;
 using Files.Backend.Services.Settings;
 using Files.Shared;
@@ -417,10 +417,10 @@ namespace Files.Uwp.Helpers
 
                         if (openViaApplicationPicker)
                         {
-                            LauncherOptions options = new LauncherOptions
+                            LauncherOptions options = this.InitializeWithWindow(new LauncherOptions
                             {
                                 DisplayApplicationPicker = true
-                            };
+                            });
                             if (!await Launcher.LaunchFileAsync(childFile.Item, options))
                             {
                                 var connection = await AppServiceConnectionHelper.Instance;
@@ -500,7 +500,7 @@ namespace Files.Uwp.Helpers
                                         break;
                                 }
 
-                                var options = new LauncherOptions();
+                                var options = this.InitializeWithWindow(new LauncherOptions());
                                 if (currentFolder.AreQueryOptionsSupported(queryOptions))
                                 {
                                     fileQueryResult = currentFolder.CreateFileQueryWithOptions(queryOptions);
@@ -524,5 +524,10 @@ namespace Files.Uwp.Helpers
             }
             return opened;
         }
+                        private LauncherOptions InitializeWithWindow(LauncherOptions obj)
+                        {
+                            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+                            return obj;
+                        }
     }
 }

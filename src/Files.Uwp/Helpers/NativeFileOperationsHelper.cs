@@ -1,4 +1,4 @@
-﻿using Files.Shared.Extensions;
+using Files.Shared.Extensions;
 using Microsoft.Win32.SafeHandles;
 using System;
 using System.Collections.Generic;

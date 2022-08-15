@@ -1,4 +1,4 @@
-﻿using Files.Shared.Enums;
+using Files.Shared.Enums;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Helpers;
 using Files.Uwp.ViewModels.Properties;
@@ -11,7 +11,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage.Pickers;
-using Windows.UI.Xaml;
+using Microsoft.UI.Xaml;
 
 namespace Files.Uwp.Views
 {
@@ -98,7 +98,7 @@ namespace Files.Uwp.Views
 
         private async Task AddLocation()
         {
-            var folderPicker = new FolderPicker();
+            var folderPicker = this.InitializeWithWindow(new FolderPicker());
             folderPicker.FileTypeFilter.Add("*");
 
             var folder = await folderPicker.PickSingleFolderAsync();
@@ -112,6 +112,11 @@ namespace Files.Uwp.Views
                 }
             }
         }
+                        private FolderPicker InitializeWithWindow(FolderPicker obj)
+                        {
+                            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+                            return obj;
+                        }
 
         private void SetDefaultLocation()
         {

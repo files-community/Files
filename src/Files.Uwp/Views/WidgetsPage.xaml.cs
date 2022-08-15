@@ -1,4 +1,4 @@
-﻿using Files.Uwp.DataModels.NavigationControlItems;
+using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Uwp.Dialogs;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Helpers;
@@ -12,8 +12,8 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Navigation;
 using System.Threading.Tasks;
 
 namespace Files.Uwp.Views
@@ -107,7 +107,7 @@ namespace Files.Uwp.Views
             }
         }
 
-        private void ViewModel_YourHomeLoadedInvoked(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void ViewModel_YourHomeLoadedInvoked(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             // We must change the associatedInstance because only now it has loaded and not null
             ViewModel.ChangeAppInstance(AppInstance);

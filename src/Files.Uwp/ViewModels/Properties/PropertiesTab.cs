@@ -1,12 +1,12 @@
-﻿using Files.Uwp.DataModels.NavigationControlItems;
+using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Uwp.Filesystem;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Navigation;
 
 namespace Files.Uwp.ViewModels.Properties
 {

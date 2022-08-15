@@ -1,4 +1,4 @@
-﻿using Files.Uwp.EventArguments.Bundles;
+using Files.Uwp.EventArguments.Bundles;
 using Files.Uwp.Helpers;
 using Files.Uwp.ViewModels.Widgets;
 using Files.Uwp.ViewModels.Widgets.Bundles;
@@ -6,7 +6,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Windows.Input;
-using Windows.UI.Xaml;
+using Microsoft.UI.Xaml;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Newtonsoft.Json;

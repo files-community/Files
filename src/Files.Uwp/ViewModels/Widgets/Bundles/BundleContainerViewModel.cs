@@ -1,4 +1,4 @@
-﻿using Files.Uwp.Dialogs;
+using Files.Uwp.Dialogs;
 using Files.Shared.Enums;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Helpers;
@@ -19,8 +19,8 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Files.Uwp.ViewModels.Widgets.Bundles
 {
@@ -135,7 +135,7 @@ namespace Files.Uwp.ViewModels.Widgets.Bundles
 
         private async Task AddFolder()
         {
-            FolderPicker folderPicker = new FolderPicker();
+            FolderPicker folderPicker = this.InitializeWithWindow(new FolderPicker());
             folderPicker.FileTypeFilter.Add("*");
 
             StorageFolder folder = await folderPicker.PickSingleFolderAsync();
@@ -146,10 +146,15 @@ namespace Files.Uwp.ViewModels.Widgets.Bundles
                 SaveBundle();
             }
         }
+                        private FolderPicker InitializeWithWindow(FolderPicker obj)
+                        {
+                            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+                            return obj;
+                        }
 
         private async Task AddFile()
         {
-            FileOpenPicker filePicker = new FileOpenPicker();
+            FileOpenPicker filePicker = this.InitializeWithWindow(new FileOpenPicker());
             filePicker.FileTypeFilter.Add("*");
 
             StorageFile file = await filePicker.PickSingleFileAsync();
@@ -160,6 +165,11 @@ namespace Files.Uwp.ViewModels.Widgets.Bundles
                 SaveBundle();
             }
         }
+                        private FileOpenPicker InitializeWithWindow(FileOpenPicker obj)
+                        {
+                            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+                            return obj;
+                        }
 
         private void RemoveBundle()
         {

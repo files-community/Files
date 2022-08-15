@@ -1,4 +1,4 @@
-﻿using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem;
 using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
 using Files.Uwp.ViewModels.Widgets;
@@ -16,10 +16,10 @@ using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media.Imaging;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Files.Uwp.DataModels.NavigationControlItems;
 
 namespace Files.Uwp.UserControls.Widgets
@@ -258,7 +258,7 @@ namespace Files.Uwp.UserControls.Widgets
                 return;
             }
 
-            var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            var ctrlPressed = App.Window.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             if (ctrlPressed)
             {
                 await NavigationHelpers.OpenPathInNewTab(item.Path);

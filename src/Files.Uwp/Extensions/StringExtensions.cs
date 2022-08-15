@@ -1,4 +1,4 @@
-﻿using ByteSizeLib;
+using ByteSizeLib;
 using Files.Shared.Extensions;
 using Microsoft.Toolkit.Uwp;
 using System;

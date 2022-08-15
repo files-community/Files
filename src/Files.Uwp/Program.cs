@@ -1,4 +1,4 @@
-﻿using Files.Uwp.CommandLine;
+using Files.Uwp.CommandLine;
 using Files.Shared;
 using Files.Uwp.Helpers;
 using Files.Shared.Extensions;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
-using Windows.UI.Xaml;
+using Microsoft.UI.Xaml;
 
 namespace Files.Uwp
 {

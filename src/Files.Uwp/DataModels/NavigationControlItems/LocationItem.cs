@@ -1,10 +1,10 @@
-﻿using Files.Shared;
+using Files.Shared;
 using Files.Uwp.Filesystem;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using System;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Files.Uwp.Helpers;
 
 namespace Files.Uwp.DataModels.NavigationControlItems

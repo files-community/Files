@@ -1,4 +1,4 @@
-﻿using Files.Shared.Extensions;
+using Files.Shared.Extensions;
 using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem.StorageItems;

@@ -1,4 +1,4 @@
-﻿using Files.Uwp.Extensions;
+using Files.Uwp.Extensions;
 using Files.Uwp.Helpers;
 using Files.Shared.Extensions;
 using Microsoft.Toolkit.Uwp;

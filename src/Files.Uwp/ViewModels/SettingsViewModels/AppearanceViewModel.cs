@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Settings;
 using Files.Uwp.Helpers;
@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
-using Windows.UI.Xaml;
+using Microsoft.UI.Xaml;
 
 namespace Files.Uwp.ViewModels.SettingsViewModels
 {
@@ -251,7 +251,9 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
 
         public async Task OpenThemesFolder()
         {
-            await CoreApplication.MainView.Dispatcher.YieldAsync();
+            await /*
+                TODO UA306_A2: UWP CoreDispatcher : Windows.UI.Core.CoreDispatcher is no longer supported. Use DispatcherQueue instead. Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/threading
+            */CoreApplication.MainView.Dispatcher.YieldAsync();
             await NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.ImportedThemesFolder.Path);
         }
     }

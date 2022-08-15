@@ -1,4 +1,4 @@
-﻿using Files.Shared;
+using Files.Shared;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
 using Files.Uwp.Extensions;
@@ -14,7 +14,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls;
 using FileAttributes = System.IO.FileAttributes;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services;
@@ -178,7 +178,7 @@ namespace Files.Uwp.Filesystem
                         CloseButtonText = "Cancel".GetLocalized()
                     };
 
-                    ContentDialogResult result = await dialog.ShowAsync();
+                    ContentDialogResult result = await this.SetContentDialogRoot(dialog).ShowAsync();
 
                     if (result == ContentDialogResult.Primary)
                     {
@@ -306,6 +306,14 @@ namespace Files.Uwp.Filesystem
 
             return new StorageHistory(FileOperationType.Copy, source, pathWithType);
         }
+                    private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
+                    {
+                        if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+                        {
+                            contentDialog.XamlRoot = this.Content.XamlRoot;
+                        }
+                        return contentDialog;
+                    }
 
         public async Task<IStorageHistory> MoveAsync(IStorageItem source,
                                                      string destination,
@@ -374,7 +382,7 @@ namespace Files.Uwp.Filesystem
                         CloseButtonText = "Cancel".GetLocalized()
                     };
 
-                    ContentDialogResult result = await dialog.ShowAsync();
+                    ContentDialogResult result = await this.SetContentDialogRoot(dialog).ShowAsync();
 
                     if (result == ContentDialogResult.Primary)
                     {

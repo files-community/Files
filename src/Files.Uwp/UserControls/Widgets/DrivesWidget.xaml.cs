@@ -1,4 +1,4 @@
-﻿using Files.Uwp.DataModels.NavigationControlItems;
+using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
 using Files.Uwp.ViewModels.Widgets;
@@ -13,11 +13,11 @@ using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Windows.System;
 using Windows.UI.Core;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
-using Windows.UI.Xaml.Media.Imaging;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.ApplicationModel.Core;
 using System.Collections.Specialized;
 
@@ -111,7 +111,9 @@ namespace Files.Uwp.UserControls.Widgets
 
         private async void Manager_DataChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            await /*
+                TODO UA306_A2: UWP CoreDispatcher : Windows.UI.Core.CoreDispatcher is no longer supported. Use DispatcherQueue instead. Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/threading
+            */Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
                 foreach (DriveItem drive in App.DrivesManager.Drives)
                 {
@@ -203,7 +205,7 @@ namespace Files.Uwp.UserControls.Widgets
                 return;
             }
 
-            var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            var ctrlPressed = App.Window.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             if (ctrlPressed)
             {
                 await NavigationHelpers.OpenPathInNewTab(NavigationPath);

@@ -1,4 +1,4 @@
-﻿using Files.Uwp.Converters;
+using Files.Uwp.Converters;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -10,8 +10,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Data;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Data;
 
 namespace Files.Uwp.ViewModels.Properties
 {

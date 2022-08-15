@@ -1,4 +1,4 @@
-﻿using Files.Shared.Enums;
+using Files.Shared.Enums;
 using Files.Backend.Services.Settings;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;

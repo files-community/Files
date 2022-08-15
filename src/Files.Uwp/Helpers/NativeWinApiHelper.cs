@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -259,7 +259,13 @@ namespace Files.Uwp.Helpers
             bool MessageHandled { get; }
         }
 
-        public static IntPtr CoreWindowHandle => ((ICoreWindowInterop)(object)Windows.UI.Core.CoreWindow.GetForCurrentThread()).WindowHandle;
+        public static IntPtr CoreWindowHandle => ((ICoreWindowInterop)(object)
+                    /* 
+                        TODO UA315_B
+                        Use Microsoft.UI.Windowing.AppWindow.Create instead of GetForCurrentThread.
+                        Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
+                    */
+                    Windows.UI.Core.CoreWindow.GetForCurrentThread()).WindowHandle;
 
         public static async Task<string> GetFileAssociationAsync(string filePath)
         {

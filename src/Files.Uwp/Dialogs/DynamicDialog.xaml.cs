@@ -1,7 +1,7 @@
-﻿using Files.Shared.Enums;
+using Files.Shared.Enums;
 using Files.Uwp.ViewModels.Dialogs;
 using System;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -53,7 +53,7 @@ namespace Files.Uwp.Dialogs
             ViewModel.CloseButtonCommand.Execute(args);
         }
 
-        private void ContentDialog_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        private void ContentDialog_KeyDown(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
             ViewModel.KeyDownCommand.Execute(e);
         }

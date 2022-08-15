@@ -1,4 +1,4 @@
-﻿using Microsoft.Toolkit.Uwp;
+using Microsoft.Toolkit.Uwp;
 using System.Globalization;
 
 namespace Files.Uwp.DataModels

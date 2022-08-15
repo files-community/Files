@@ -1,4 +1,4 @@
-﻿using Files.Uwp.Helpers;
+using Files.Uwp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;

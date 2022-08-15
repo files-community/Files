@@ -1,4 +1,4 @@
-﻿using Files.Shared;
+using Files.Shared;
 using Files.Uwp.Dialogs;
 using Files.Shared.Enums;
 using Files.Uwp.EventArguments;
@@ -22,16 +22,16 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Resources.Core;
+using Microsoft.Windows.ApplicationModel.Resources;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Xaml.Navigation;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Animation;
+using Microsoft.UI.Xaml.Navigation;
 using SortDirection = Files.Shared.Enums.SortDirection;
 using Files.Backend.Enums;
 using Files.Backend.Services;
@@ -159,7 +159,12 @@ namespace Files.Uwp.Views
 
             DisplayFilesystemConsentDialog();
 
-            var flowDirectionSetting = ResourceContext.GetForCurrentView().QualifierValues["LayoutDirection"];
+            var flowDirectionSetting = /*
+                TODO ResourceContext.GetForCurrentView and ResourceContext.GetForViewIndependentUse do not exist in Windows App SDK
+                Use your ResourceManager instance to create a ResourceContext as below. If you already have a ResourceManager instance,
+                replace the new instance created below with correct instance.
+                Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/mrtcore
+            */new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
 
             if (flowDirectionSetting == "RTL")
             {
@@ -173,7 +178,14 @@ namespace Files.Uwp.Views
             ToolbarViewModel.ToolbarPathItemLoaded += ModernShellPage_ToolbarPathItemLoaded;
             ToolbarViewModel.AddressBarTextEntered += ModernShellPage_AddressBarTextEntered;
             ToolbarViewModel.PathBoxItemDropped += ModernShellPage_PathBoxItemDropped;
-            ToolbarViewModel.BackRequested += ModernShellPage_BackNavRequested;
+
+            /*
+              
+            TODO UA307 Default back button in the title bar does not exist in WinUI3 apps.
+            The tool has generated a custom back button in the MainWindow.xaml.cs file.
+            Feel free to edit its position, behavior and use the custom back button instead.
+            Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/case-study-1#restoring-back-button-functionality
+            */ToolbarViewModel.BackRequested += ModernShellPage_BackNavRequested;
             ToolbarViewModel.UpRequested += ModernShellPage_UpNavRequested;
             ToolbarViewModel.RefreshRequested += ModernShellPage_RefreshRequested;
             ToolbarViewModel.ForwardRequested += ModernShellPage_ForwardNavRequested;
@@ -186,8 +198,15 @@ namespace Files.Uwp.Views
             InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated += AppSettings_SortOptionPreferenceUpdated;
             InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFilesPreferenceUpdated += AppSettings_SortDirectoriesAlongsideFilesPreferenceUpdated;
 
-            Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
-            SystemNavigationManager.GetForCurrentView().BackRequested += ModernShellPage_BackRequested;
+            App.Window.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
+
+            /*
+              
+            TODO UA307 Default back button in the title bar does not exist in WinUI3 apps.
+            The tool has generated a custom back button in the MainWindow.xaml.cs file.
+            Feel free to edit its position, behavior and use the custom back button instead.
+            Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/case-study-1#restoring-back-button-functionality
+            */SystemNavigationManager.GetForCurrentView().BackRequested += ModernShellPage_BackRequested;
 
             App.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
 
@@ -200,9 +219,9 @@ namespace Files.Uwp.Views
          */
         private async void ModernShellPage_PreviewKeyDown(object sender, KeyRoutedEventArgs args)
         {
-            var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-            var shift = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-            var alt = Window.Current.CoreWindow.GetKeyState(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down);
+            var ctrl = App.Window.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            var shift = App.Window.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+            var alt = App.Window.CoreWindow.GetKeyState(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down);
             var tabInstance = CurrentPageType == typeof(DetailsLayoutBrowser) ||
                               CurrentPageType == typeof(GridViewBrowser);
 
@@ -497,7 +516,9 @@ namespace Files.Uwp.Views
         private async Task<BaseLayout> GetContentOrNullAsync()
         {
             BaseLayout FrameContent = null;
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+            await /*
+                TODO UA306_A2: UWP CoreDispatcher : Windows.UI.Core.CoreDispatcher is no longer supported. Use DispatcherQueue instead. Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/threading
+            */Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
             () =>
             {
                 FrameContent = ItemDisplayFrame.Content as BaseLayout;
@@ -994,7 +1015,7 @@ namespace Files.Uwp.Views
         public void Dispose()
         {
             PreviewKeyDown -= ModernShellPage_PreviewKeyDown;
-            Window.Current.CoreWindow.PointerPressed -= CoreWindow_PointerPressed;
+            App.Window.CoreWindow.PointerPressed -= CoreWindow_PointerPressed;
             SystemNavigationManager.GetForCurrentView().BackRequested -= ModernShellPage_BackRequested;
             App.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;
 
@@ -1095,7 +1116,7 @@ namespace Files.Uwp.Views
 
         private void SetLoadingIndicatorForTabs(bool isLoading)
         {
-            var multitaskingControls = ((Window.Current.Content as Frame).Content as MainPage).ViewModel.MultitaskingControls;
+            var multitaskingControls = ((App.Window.Content as Frame).Content as MainPage).ViewModel.MultitaskingControls;
 
             foreach (var x in multitaskingControls)
             {

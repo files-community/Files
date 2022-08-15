@@ -1,4 +1,4 @@
-﻿using Files.Uwp.ViewModels;
+using Files.Uwp.ViewModels;
 using Files.Uwp.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;

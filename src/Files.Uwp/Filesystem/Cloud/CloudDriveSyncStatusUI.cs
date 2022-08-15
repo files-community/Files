@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Files.Shared.Cloud;
 using Microsoft.Toolkit.Uwp;
 

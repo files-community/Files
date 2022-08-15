@@ -1,4 +1,4 @@
-﻿using Files.Uwp.UserControls.MultitaskingControl;
+using Files.Uwp.UserControls.MultitaskingControl;
 using Files.Uwp.ViewModels;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.UI.Xaml.Controls;

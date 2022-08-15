@@ -1,4 +1,4 @@
-﻿using Files.Uwp.Dialogs;
+using Files.Uwp.Dialogs;
 using Files.Shared.Enums;
 using Files.Uwp.EventArguments.Bundles;
 using Files.Uwp.Filesystem;
@@ -19,9 +19,9 @@ using System.Windows.Input;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 
 namespace Files.Uwp.ViewModels.Widgets.Bundles
 {
@@ -225,7 +225,7 @@ namespace Files.Uwp.ViewModels.Widgets.Bundles
 
         private async Task ImportBundles()
         {
-            FileOpenPicker filePicker = new FileOpenPicker();
+            FileOpenPicker filePicker = this.InitializeWithWindow(new FileOpenPicker());
             filePicker.FileTypeFilter.Add(System.IO.Path.GetExtension(Constants.LocalSettings.BundlesSettingsFileName));
 
             StorageFile file = await filePicker.PickSingleFileAsync();
@@ -241,10 +241,15 @@ namespace Files.Uwp.ViewModels.Widgets.Bundles
                 }
             }
         }
+                        private FileOpenPicker InitializeWithWindow(FileOpenPicker obj)
+                        {
+                            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+                            return obj;
+                        }
 
         private async Task ExportBundles()
         {
-            FileSavePicker filePicker = new FileSavePicker();
+            FileSavePicker filePicker = this.InitializeWithWindow(new FileSavePicker());
             filePicker.FileTypeChoices.Add("Json File", new List<string>() { System.IO.Path.GetExtension(Constants.LocalSettings.BundlesSettingsFileName) });
 
             StorageFile file = await filePicker.PickSaveFileAsync();
@@ -253,6 +258,11 @@ namespace Files.Uwp.ViewModels.Widgets.Bundles
                 NativeFileOperationsHelper.WriteStringToFile(file.Path, (string)BundlesSettingsService.ExportSettings());
             }
         }
+                        private FileSavePicker InitializeWithWindow(FileSavePicker obj)
+                        {
+                            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+                            return obj;
+                        }
 
         #endregion Command Implementation
 

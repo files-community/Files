@@ -1,17 +1,17 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Windows.ApplicationModel;
 using Windows.System;
 using Windows.System.Power;
 using Windows.UI;
-using Windows.UI.Composition;
+using Microsoft.UI.Composition;
 using Windows.UI.Input;
 using Windows.UI.Input.Preview;
 using Windows.UI.ViewManagement;
 using Windows.UI.WindowManagement;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Hosting;
-using Windows.UI.Xaml.Media;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Hosting;
+using Microsoft.UI.Xaml.Media;
 using Windows.Foundation.Metadata;
 using System.Runtime.InteropServices;
 using Microsoft.Graphics.Canvas.Effects;
@@ -28,7 +28,7 @@ namespace Files.Uwp.Views.Brushes
 
             FallbackColor = Colors.Transparent;
 
-            _wallpaperBrushSupported = checkForCompositionSupport ? ApiInformation.IsMethodPresent("Windows.UI.Composition.Compositor", "TryCreateBlurredWallpaperBackdropBrush") : true;
+            _wallpaperBrushSupported = checkForCompositionSupport ? ApiInformation.IsMethodPresent("Microsoft.UI.Composition.Compositor", "TryCreateBlurredWallpaperBackdropBrush") : true;
         }
 
         [ComImport]
@@ -39,7 +39,12 @@ namespace Files.Uwp.Views.Brushes
             CompositionBackdropBrush TryCreateBlurredWallpaperBackdropBrush();
         }
 
-        public void SetAppWindow(AppWindow window)
+        public void SetAppWindow(
+                /*
+                   TODO UA315_A Use Microsoft.UI.Windowing.AppWindow for window Management instead of ApplicationView/CoreWindow or Microsoft.UI.Windowing.AppWindow APIs
+                   Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
+                */
+                Microsoft.UI.Windowing.AppWindow window)
         {
             if (_window != null)
             {
@@ -145,7 +150,7 @@ namespace Files.Uwp.Views.Brushes
             bool useSolidColorFallback = !_settings.AdvancedEffectsEnabled || !_wallpaperBrushSupported || !_windowActivated || _fastEffects == false || _energySaver == true;
 
 
-            Compositor compositor = Window.Current.Compositor;
+            Compositor compositor = App.Window.Compositor;
 
             ElementTheme currentTheme = root.ActualTheme;
             Color tintColor = currentTheme == ElementTheme.Light ? Color.FromArgb(255, 243, 243, 243) : Color.FromArgb(255, 32, 32, 32);
@@ -201,7 +206,12 @@ namespace Files.Uwp.Views.Brushes
             }
         }
 
-        private void AppWindow_Changed(AppWindow sender, AppWindowChangedEventArgs args)
+        private void AppWindow_Changed(
+                /*
+                   TODO UA315_A Use Microsoft.UI.Windowing.AppWindow for window Management instead of ApplicationView/CoreWindow or Microsoft.UI.Windowing.AppWindow APIs
+                   Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
+                */
+                Microsoft.UI.Windowing.AppWindow sender, AppWindowChangedEventArgs args)
         {
             // InputActivationListener.CreateForApplicationWindow throws an exception if called too early
             // Delay it until the window visibility has changed
@@ -333,7 +343,12 @@ namespace Files.Uwp.Views.Brushes
         private UISettings _settings;
         private AccessibilitySettings _accessibilitySettings;
         private bool _windowActivated;
-        private AppWindow _window;
+        private 
+                /*
+                   TODO UA315_A Use Microsoft.UI.Windowing.AppWindow for window Management instead of ApplicationView/CoreWindow or Microsoft.UI.Windowing.AppWindow APIs
+                   Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
+                */
+                Microsoft.UI.Windowing.AppWindow _window;
         private InputActivationListener _appWindowActivationListener;
         private FrameworkElement _root;
     }

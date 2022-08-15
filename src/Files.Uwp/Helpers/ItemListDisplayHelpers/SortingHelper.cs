@@ -1,4 +1,4 @@
-﻿using Files.Shared.Enums;
+using Files.Shared.Enums;
 using Files.Uwp.Filesystem;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using System;

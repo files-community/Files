@@ -1,4 +1,4 @@
-﻿using Files.Uwp.Helpers;
+using Files.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp;
 using SevenZip;
 using System;

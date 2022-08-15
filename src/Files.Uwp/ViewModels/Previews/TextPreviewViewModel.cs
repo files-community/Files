@@ -1,4 +1,4 @@
-﻿using Files.Shared.Extensions;
+using Files.Shared.Extensions;
 using Files.Uwp.Filesystem;
 using Files.Uwp.UserControls.FilePreviews;
 using Files.Uwp.ViewModels.Properties;

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Windows.Foundation.Collections;
 using Windows.Foundation.Metadata;
 using Windows.System;

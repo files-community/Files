@@ -1,9 +1,9 @@
-﻿using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem;
 using Files.Uwp.ViewModels.Properties;
 using System.Threading.Tasks;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media.Animation;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Animation;
 
 namespace Files.Uwp.Views
 {

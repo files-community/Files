@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -39,12 +39,12 @@ namespace Files.Uwp.Helpers
                 Uri Path150x150 = new Uri("ms-appx:///Assets/tile-0-300x300.png");
                 Uri Path71x71 = new Uri("ms-appx:///Assets/tile-0-250x250.png");
 
-                SecondaryTile tile = new SecondaryTile(
+                SecondaryTile tile = this.InitializeWithWindow(new SecondaryTile(
                     GetTileID(path),
                     name,
                     path,
                     Path150x150,
-                    TileSize.Square150x150);
+                    TileSize.Square150x150));
 
                 tile.VisualElements.Square71x71Logo = Path71x71;
                 tile.VisualElements.ShowNameOnSquare150x150Logo = true;
@@ -58,6 +58,11 @@ namespace Files.Uwp.Helpers
 
             return result;
         }
+                        private SecondaryTile InitializeWithWindow(SecondaryTile obj)
+                        {
+                            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+                            return obj;
+                        }
 
         public async Task<bool> UnpinFromStartAsync(string path)
         {

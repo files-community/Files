@@ -1,9 +1,9 @@
-﻿using Files.Uwp.Extensions;
+using Files.Uwp.Extensions;
 using System;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.ViewManagement;
-using Windows.UI.Xaml;
+using Microsoft.UI.Xaml;
 
 namespace Files.Uwp.Helpers
 {
@@ -47,10 +47,15 @@ namespace Files.Uwp.Helpers
         public static void Initialize()
         {
             // Save reference as this might be null when the user is in another app
-            currentApplicationWindow = Window.Current;
+            currentApplicationWindow = App.Window;
 
             // Set TitleBar background color
-            titleBar = ApplicationView.GetForCurrentView().TitleBar;
+            titleBar = 
+                /*
+                   TODO UA315_A Use Microsoft.UI.Windowing.AppWindow for window Management instead of ApplicationView/CoreWindow or Microsoft.UI.Windowing.AppWindow APIs
+                   Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
+                */
+                ApplicationView.GetForCurrentView().TitleBar;
 
             // Apply the desired theme based on what is set in the application settings
             ApplyTheme();
@@ -66,7 +71,9 @@ namespace Files.Uwp.Helpers
             if (currentApplicationWindow != null)
             {
                 // Dispatch on UI thread so that we have a current appbar to access and change
-                await currentApplicationWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                await /*
+                TODO UA306_A2: UWP CoreDispatcher : Windows.UI.Core.CoreDispatcher is no longer supported. Use DispatcherQueue instead. Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/threading
+            */currentApplicationWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                 {
                     ApplyTheme();
                 });
@@ -77,7 +84,7 @@ namespace Files.Uwp.Helpers
         {
             var rootTheme = RootTheme;
 
-            if (Window.Current.Content is FrameworkElement rootElement)
+            if (App.Window.Content is FrameworkElement rootElement)
             {
                 rootElement.RequestedTheme = rootTheme;
             }

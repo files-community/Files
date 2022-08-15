@@ -1,5 +1,5 @@
-﻿using System;
-using Windows.UI.Xaml.Controls;
+using System;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Files.Uwp.UserControls.MultitaskingControl
 {
@@ -45,7 +45,7 @@ namespace Files.Uwp.UserControls.MultitaskingControl
             this.InitializeComponent();
         }
 
-        private void ContentFrame_Navigated(object sender, Windows.UI.Xaml.Navigation.NavigationEventArgs e)
+        private void ContentFrame_Navigated(object sender, Microsoft.UI.Xaml.Navigation.NavigationEventArgs e)
         {
             if (TabItemContent != null)
             {

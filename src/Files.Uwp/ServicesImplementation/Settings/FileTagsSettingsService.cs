@@ -1,4 +1,4 @@
-﻿using Files.Backend.Services.Settings;
+using Files.Backend.Services.Settings;
 using Files.Backend.ViewModels.FileTags;
 using Files.Uwp.Serialization;
 using Files.Uwp.Serialization.Implementation;

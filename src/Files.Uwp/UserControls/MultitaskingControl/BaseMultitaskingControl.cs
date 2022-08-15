@@ -1,4 +1,4 @@
-﻿using Files.Uwp.Helpers;
+using Files.Uwp.Helpers;
 using Files.Uwp.ViewModels;
 using Microsoft.UI.Xaml.Controls;
 using System;
@@ -7,8 +7,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Files.Uwp.UserControls.MultitaskingControl
 {

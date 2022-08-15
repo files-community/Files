@@ -1,4 +1,4 @@
-﻿using Files.Shared.Services.DateTimeFormatter;
+using Files.Shared.Services.DateTimeFormatter;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Globalization;

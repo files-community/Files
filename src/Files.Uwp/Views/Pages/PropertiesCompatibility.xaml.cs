@@ -1,8 +1,8 @@
-﻿using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem;
 using Files.Uwp.ViewModels.Properties;
 using System.Threading.Tasks;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Navigation;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Navigation;
 
 namespace Files.Uwp.Views
 {

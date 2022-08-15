@@ -1,4 +1,4 @@
-﻿using Files.Backend.Services.Settings;
+using Files.Backend.Services.Settings;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
@@ -17,7 +17,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Files.Uwp.ViewModels.SettingsViewModels
 {
@@ -50,7 +50,7 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
 
         private async Task ExportSettings()
         {
-            FileSavePicker filePicker = new FileSavePicker();
+            FileSavePicker filePicker = this.InitializeWithWindow(new FileSavePicker());
             filePicker.FileTypeChoices.Add("Zip File", new[] { ".zip" });
             filePicker.SuggestedFileName = $"Files_{App.AppVersion}";
 
@@ -97,10 +97,15 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
                 }
             }
         }
+                        private FileSavePicker InitializeWithWindow(FileSavePicker obj)
+                        {
+                            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+                            return obj;
+                        }
 
         private async Task ImportSettings()
         {
-            FileOpenPicker filePicker = new FileOpenPicker();
+            FileOpenPicker filePicker = this.InitializeWithWindow(new FileOpenPicker());
             filePicker.FileTypeFilter.Add(".zip");
 
             StorageFile file = await filePicker.PickSingleFileAsync();
@@ -150,6 +155,11 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
                 }
             }
         }
+                        private FileOpenPicker InitializeWithWindow(FileOpenPicker obj)
+                        {
+                            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+                            return obj;
+                        }
 
         public void CopyVersionInfo()
         {

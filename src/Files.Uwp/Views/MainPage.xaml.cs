@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using Files.Backend.Extensions;
 using Files.Backend.Services.Settings;
@@ -20,14 +20,14 @@ using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
-using Windows.ApplicationModel.Resources.Core;
+using Microsoft.Windows.ApplicationModel.Resources;
 using Windows.Services.Store;
 using Windows.Storage;
 using Windows.UI.ViewManagement;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Navigation;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Navigation;
 
 namespace Files.Uwp.Views
 {
@@ -63,11 +63,20 @@ namespace Files.Uwp.Views
         {
             InitializeComponent();
 
-            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.Auto;
+                /*
+                   TODO UA315_A Use Microsoft.UI.Windowing.AppWindow for window Management instead of ApplicationView/CoreWindow or Microsoft.UI.Windowing.AppWindow APIs
+                   Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
+                */
+                ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.Auto;
             var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             CoreTitleBar.ExtendViewIntoTitleBar = true;
             CoreTitleBar.LayoutMetricsChanged += TitleBar_LayoutMetricsChanged;
-            var flowDirectionSetting = ResourceContext.GetForCurrentView().QualifierValues["LayoutDirection"];
+            var flowDirectionSetting = /*
+                TODO ResourceContext.GetForCurrentView and ResourceContext.GetForViewIndependentUse do not exist in Windows App SDK
+                Use your ResourceManager instance to create a ResourceContext as below. If you already have a ResourceManager instance,
+                replace the new instance created below with correct instance.
+                Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/mrtcore
+            */new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
 
             if (flowDirectionSetting == "RTL")
             {
@@ -98,7 +107,7 @@ namespace Files.Uwp.Views
                 SecondaryButtonText = "No".ToLocalized()
         };
 
-            var result = await AskForReviewDialog.ShowAsync();
+            var result = await this.SetContentDialogRoot(AskForReviewDialog).ShowAsync();
 
             if (result == ContentDialogResult.Primary)
             {
@@ -110,6 +119,14 @@ namespace Files.Uwp.Views
                 catch (Exception) { }
             }
         }
+                    private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
+                    {
+                        if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+                        {
+                            contentDialog.XamlRoot = this.Content.XamlRoot;
+                        }
+                        return contentDialog;
+                    }
 
         private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
         {
@@ -150,7 +167,7 @@ namespace Files.Uwp.Views
 
         private void DragArea_Loaded(object sender, RoutedEventArgs e)
         {
-            Window.Current.SetTitleBar(sender as Grid);
+            App.Window.SetTitleBar(sender as Grid);
         }
 
         private void TitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
@@ -367,17 +384,17 @@ namespace Files.Uwp.Views
             FindName(nameof(NavToolbar));
 
             // the adaptive triggers do not evaluate on app startup, manually checking and calling GoToState here fixes https://github.com/files-community/Files/issues/5801
-            if (Window.Current.Bounds.Width < CollapseSearchBoxAdaptiveTrigger.MinWindowWidth)
+            if (App.Window.Bounds.Width < CollapseSearchBoxAdaptiveTrigger.MinWindowWidth)
             {
                 _ = VisualStateManager.GoToState(this, nameof(CollapseSearchBoxState), true);
             }
 
-            if (Window.Current.Bounds.Width < MinimalSidebarAdaptiveTrigger.MinWindowWidth)
+            if (App.Window.Bounds.Width < MinimalSidebarAdaptiveTrigger.MinWindowWidth)
             {
                 _ = VisualStateManager.GoToState(this, nameof(MinimalSidebarState), true);
             }
 
-            if (Window.Current.Bounds.Width < CollapseHorizontalTabViewTrigger.MinWindowWidth)
+            if (App.Window.Bounds.Width < CollapseHorizontalTabViewTrigger.MinWindowWidth)
             {
                 _ = VisualStateManager.GoToState(this, nameof(HorizontalTabViewCollapsed), true);
             }
@@ -400,7 +417,17 @@ namespace Files.Uwp.Views
 
         private void ToggleFullScreenAccelerator(KeyboardAcceleratorInvokedEventArgs e)
         {
-            ApplicationView view = ApplicationView.GetForCurrentView();
+
+                /*
+                   TODO UA315_A Use Microsoft.UI.Windowing.AppWindow for window Management instead of ApplicationView/CoreWindow or Microsoft.UI.Windowing.AppWindow APIs
+                   Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
+                */
+                ApplicationView view = 
+                /*
+                   TODO UA315_A Use Microsoft.UI.Windowing.AppWindow for window Management instead of ApplicationView/CoreWindow or Microsoft.UI.Windowing.AppWindow APIs
+                   Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
+                */
+                ApplicationView.GetForCurrentView();
             if (view.IsFullScreenMode)
             {
                 view.ExitFullScreenMode();
@@ -512,7 +539,7 @@ namespace Files.Uwp.Views
             {
                 bool isHomePage = !(SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false);
                 bool isMultiPane = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
-                bool isBigEnough = Window.Current.Bounds.Width > 450 && Window.Current.Bounds.Height > 400;
+                bool isBigEnough = App.Window.Bounds.Width > 450 && App.Window.Bounds.Height > 400;
 
                 return (!isHomePage || isMultiPane) && isBigEnough;
             }
@@ -532,11 +559,21 @@ namespace Files.Uwp.Views
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void ToggleCompactOverlay() => SetCompactOverlay(ApplicationView.GetForCurrentView().ViewMode != ApplicationViewMode.CompactOverlay);
+        private void ToggleCompactOverlay() => SetCompactOverlay(
+                /*
+                   TODO UA315_A Use Microsoft.UI.Windowing.AppWindow for window Management instead of ApplicationView/CoreWindow or Microsoft.UI.Windowing.AppWindow APIs
+                   Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
+                */
+                ApplicationView.GetForCurrentView().ViewMode != ApplicationViewMode.CompactOverlay);
 
         private async void SetCompactOverlay(bool isCompact)
         {
-            var view = ApplicationView.GetForCurrentView();
+            var view = 
+                /*
+                   TODO UA315_A Use Microsoft.UI.Windowing.AppWindow for window Management instead of ApplicationView/CoreWindow or Microsoft.UI.Windowing.AppWindow APIs
+                   Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
+                */
+                ApplicationView.GetForCurrentView();
 
             if (!isCompact)
             {

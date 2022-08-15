@@ -1,9 +1,9 @@
-﻿using Files.Uwp.Helpers;
+using Files.Uwp.Helpers;
 using Files.Uwp.Views;
 using System;
 using System.Collections.ObjectModel;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Files.Uwp.UserControls
 {

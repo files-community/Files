@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using Files.Backend.Services;
@@ -25,10 +25,10 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Text;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Input;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Input;
 using static Files.Uwp.UserControls.IAddressToolbar;
 using SearchBox = Files.Uwp.UserControls.SearchBox;
 using SortDirection = Files.Shared.Enums.SortDirection;
@@ -716,7 +716,15 @@ namespace Files.Uwp.ViewModels
 
             if (pointerRoutedEventArgs != null)
             {
-                await Windows.UI.Core.CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, async () =>
+                await /*
+                TODO UA306_A2: UWP CoreDispatcher : Windows.UI.Core.CoreDispatcher is no longer supported. Use DispatcherQueue instead. Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/threading
+            */
+                    /* 
+                        TODO UA315_B
+                        Use Microsoft.UI.Windowing.AppWindow.Create instead of GetForCurrentThread.
+                        Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
+                    */
+                    Windows.UI.Core.CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, async () =>
                 {
                     await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), itemTappedPath);
                 });
@@ -756,7 +764,7 @@ namespace Files.Uwp.ViewModels
             OnPropertyChanged(nameof(CanEmptyRecycleBin));
         }
 
-        private AddressToolbar AddressToolbar => (Window.Current.Content as Frame).FindDescendant<AddressToolbar>();
+        private AddressToolbar AddressToolbar => (App.Window.Content as Frame).FindDescendant<AddressToolbar>();
 
         #region WidgetsPage Widgets
 

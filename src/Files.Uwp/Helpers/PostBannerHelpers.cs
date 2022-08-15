@@ -1,4 +1,4 @@
-﻿using Files.Shared.Enums;
+using Files.Shared.Enums;
 using Files.Uwp.Filesystem;
 using Files.Uwp.ViewModels;
 using Microsoft.Toolkit.Uwp;

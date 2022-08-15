@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Services.Store;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Files.Backend.Services;
 using Microsoft.Toolkit.Uwp;
@@ -139,10 +139,18 @@ namespace Files.Uwp.ServicesImplementation
                 CloseButtonText   = "Close".GetLocalized(),
                 PrimaryButtonText = "ConsentDialogPrimaryButtonText".GetLocalized()
             };
-            ContentDialogResult result = await dialog.ShowAsync();
+            ContentDialogResult result = await this.SetContentDialogRoot(dialog).ShowAsync();
 
             return result == ContentDialogResult.Primary;
         }
+                    private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
+                    {
+                        if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+                        {
+                            contentDialog.XamlRoot = this.Content.XamlRoot;
+                        }
+                        return contentDialog;
+                    }
 
         private bool HasUpdates()
         {

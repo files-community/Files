@@ -1,4 +1,4 @@
-﻿using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem;
 using Files.Uwp.UserControls.MultitaskingControl;
 using Files.Uwp.ViewModels;
 using Files.Uwp.Views;

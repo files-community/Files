@@ -1,7 +1,7 @@
-﻿using ColorCode;
+using ColorCode;
 using Files.Uwp.ViewModels.Previews;
 using System;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -30,12 +30,12 @@ namespace Files.Uwp.UserControls.FilePreviews
             }
         }
 
-        private void UserControl_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void UserControl_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             RenderDocument();
         }
 
-        private void UserControl_ActualThemeChanged(Windows.UI.Xaml.FrameworkElement sender, object args)
+        private void UserControl_ActualThemeChanged(Microsoft.UI.Xaml.FrameworkElement sender, object args)
         {
             try
             {

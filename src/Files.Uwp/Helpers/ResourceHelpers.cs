@@ -1,5 +1,5 @@
-﻿using Windows.ApplicationModel.Resources;
-using Windows.UI.Xaml.Markup;
+using Windows.ApplicationModel.Resources;
+using Microsoft.UI.Xaml.Markup;
 
 namespace Files.Uwp.Helpers
 {

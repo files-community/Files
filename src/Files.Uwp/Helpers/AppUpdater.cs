@@ -1,10 +1,10 @@
-﻿using Microsoft.Toolkit.Uwp;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Services.Store;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Files.Uwp.Helpers
 {
@@ -62,7 +62,7 @@ namespace Files.Uwp.Helpers
                 CloseButtonText = "Close".GetLocalized(),
                 PrimaryButtonText = "ConsentDialogPrimaryButtonText".GetLocalized()
             };
-            ContentDialogResult result = await dialog.ShowAsync();
+            ContentDialogResult result = await this.SetContentDialogRoot(dialog).ShowAsync();
 
             if (result == ContentDialogResult.Primary)
             {
@@ -70,6 +70,14 @@ namespace Files.Uwp.Helpers
             }
             return false;
         }
+                    private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
+                    {
+                        if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+                        {
+                            contentDialog.XamlRoot = this.Content.XamlRoot;
+                        }
+                        return contentDialog;
+                    }
 
         private async Task<StorePackageUpdateResult> DownloadUpdates(IReadOnlyList<StorePackageUpdate> updateList)
         {

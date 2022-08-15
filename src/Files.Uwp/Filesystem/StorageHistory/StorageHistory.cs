@@ -1,4 +1,4 @@
-﻿using Files.Shared.Enums;
+using Files.Shared.Enums;
 using Files.Shared.Extensions;
 using System.Collections.Generic;
 

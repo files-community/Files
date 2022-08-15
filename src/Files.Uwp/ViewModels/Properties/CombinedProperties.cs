@@ -1,4 +1,4 @@
-﻿using Files.Uwp.Extensions;
+using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp;
@@ -18,7 +18,9 @@ namespace Files.Uwp.ViewModels.Properties
         public List<ListedItem> List { get; }
 
         public CombinedProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource,
-            CoreDispatcher coreDispatcher, List<ListedItem> listedItems, IShellPage instance)
+/*
+                TODO UA306_A1: UWP CoreDispatcher : Windows.UI.Core.CoreDispatcher is no longer supported. Use DispatcherQueue instead. Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/threading
+            */CoreDispatcher coreDispatcher, List<ListedItem> listedItems, IShellPage instance)
         {
             ViewModel = viewModel;
             TokenSource = tokenSource;

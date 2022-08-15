@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Extensions;
 using Files.Shared.Services.DateTimeFormatter;
 using Files.Uwp.Extensions;
@@ -24,7 +24,9 @@ namespace Files.Uwp.ViewModels.Properties
 
         public CancellationTokenSource TokenSource { get; set; }
 
-        public CoreDispatcher Dispatcher { get; set; }
+        public /*
+                TODO UA306_A1: UWP CoreDispatcher : Windows.UI.Core.CoreDispatcher is no longer supported. Use DispatcherQueue instead. Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/threading
+            */CoreDispatcher Dispatcher { get; set; }
 
         public abstract void GetBaseProperties();
 

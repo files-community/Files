@@ -1,4 +1,4 @@
-﻿using Files.Shared.Enums;
+using Files.Shared.Enums;
 using Files.Uwp.Helpers;
 using Files.Uwp.Interacts;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -11,9 +11,9 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Input;
 using Windows.UI;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 
 namespace Files.Uwp.ViewModels
 {

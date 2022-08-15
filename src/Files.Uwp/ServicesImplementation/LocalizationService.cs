@@ -1,4 +1,4 @@
-﻿using Files.Backend.Services;
+using Files.Backend.Services;
 using Microsoft.Toolkit.Uwp;
 
 namespace Files.Uwp.ServicesImplementation

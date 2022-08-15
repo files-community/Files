@@ -1,4 +1,4 @@
-﻿using Files.Shared;
+using Files.Shared;
 using System;
 using System.Diagnostics;
 using System.Text;

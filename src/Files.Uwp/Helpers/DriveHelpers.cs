@@ -1,4 +1,4 @@
-﻿using Files.Uwp.Interacts;
+using Files.Uwp.Interacts;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System.Diagnostics;

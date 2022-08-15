@@ -1,8 +1,8 @@
-﻿using Files.Uwp.ViewModels;
+using Files.Uwp.ViewModels;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Files.Uwp.UserControls
 {
@@ -44,7 +44,7 @@ namespace Files.Uwp.UserControls
             this.InitializeComponent();
         }
 
-        private void FullTrustStatus_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void FullTrustStatus_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             FullTrustStatusTeachingTip.IsOpen = true;
         }

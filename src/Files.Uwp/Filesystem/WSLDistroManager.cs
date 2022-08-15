@@ -1,4 +1,4 @@
-﻿using Files.Uwp.DataModels.NavigationControlItems;
+using Files.Uwp.DataModels.NavigationControlItems;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;

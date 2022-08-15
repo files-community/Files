@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using Windows.UI.Xaml.Media.Imaging;
+using System.Threading.Tasks;
+using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace Files.Uwp.UserControls.Widgets
 {

@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Settings;
 using Files.Uwp.EventArguments;
 using Files.Uwp.Extensions;
@@ -29,12 +29,12 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Navigation;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Navigation;
 using Files.Uwp.UserControls.Menus;
 using static Files.Uwp.Helpers.PathNormalization;
 
@@ -97,7 +97,7 @@ namespace Files.Uwp
             }
         }
 
-        protected AddressToolbar NavToolbar => (Window.Current.Content as Frame).FindDescendant<AddressToolbar>();
+        protected AddressToolbar NavToolbar => (App.Window.Content as Frame).FindDescendant<AddressToolbar>();
 
         private CollectionViewSource collectionViewSource = new CollectionViewSource()
         {
@@ -232,7 +232,7 @@ namespace Files.Uwp
                         // check if the preview pane is open before updating the model
                         if (PaneViewModel.IsPreviewSelected)
                         {
-                            bool isPaneEnabled = ((Window.Current.Content as Frame)?.Content as MainPage)?.IsPaneEnabled ?? false;
+                            bool isPaneEnabled = ((App.Window.Content as Frame)?.Content as MainPage)?.IsPaneEnabled ?? false;
                             if (isPaneEnabled)
                             {
                                 App.PreviewPaneViewModel.UpdateSelectedItemPreview();
@@ -413,7 +413,7 @@ namespace Files.Uwp
         {
             base.OnNavigatedTo(eventArgs);
             // Add item jumping handler
-            Window.Current.CoreWindow.CharacterReceived += Page_CharacterReceived;
+            App.Window.CoreWindow.CharacterReceived += Page_CharacterReceived;
             navigationArguments = (NavigationArguments)eventArgs.Parameter;
             ParentShellPageInstance = navigationArguments.AssociatedTabInstance;
             InitializeCommandsViewModel();
@@ -543,7 +543,7 @@ namespace Files.Uwp
         {
             base.OnNavigatingFrom(e);
             // Remove item jumping handler
-            Window.Current.CoreWindow.CharacterReceived -= Page_CharacterReceived;
+            App.Window.CoreWindow.CharacterReceived -= Page_CharacterReceived;
             FolderSettings.LayoutModeChangeRequested -= BaseFolderSettings_LayoutModeChangeRequested;
             FolderSettings.GroupOptionPreferenceUpdated -= FolderSettings_GroupOptionPreferenceUpdated;
             ItemContextMenuFlyout.Opening -= ItemContextFlyout_Opening;
@@ -590,7 +590,7 @@ namespace Files.Uwp
                 }
                 shellContextMenuItemCancellationToken?.Cancel();
                 shellContextMenuItemCancellationToken = new CancellationTokenSource();
-                var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+                var shiftPressed = App.Window.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
                 var items = ContextFlyoutItemHelper.GetBaseContextCommandsWithoutShellItems(connection: await Connection, currentInstanceViewModel: InstanceViewModel, itemViewModel: ParentShellPageInstance.FilesystemViewModel, commandsViewModel: CommandsViewModel, shiftPressed: shiftPressed, false);
                 BaseContextMenuFlyout.PrimaryCommands.Clear();
                 BaseContextMenuFlyout.SecondaryCommands.Clear();
@@ -649,7 +649,7 @@ namespace Files.Uwp
             shellContextMenuItemCancellationToken?.Cancel();
             shellContextMenuItemCancellationToken = new CancellationTokenSource();
             SelectedItemsPropertiesViewModel.CheckFileExtension(SelectedItem?.FileExtension);
-            var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+            var shiftPressed = App.Window.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
             var items = ContextFlyoutItemHelper.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel, shiftPressed: shiftPressed, showOpenMenu: false);
             ItemContextMenuFlyout.PrimaryCommands.Clear();
             ItemContextMenuFlyout.SecondaryCommands.Clear();
@@ -703,17 +703,17 @@ namespace Files.Uwp
             var overflowItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(overflowShellMenuItems);
             var mainItems = ItemModelListToContextFlyoutHelper.GetAppBarButtonsFromModelIgnorePrimary(mainShellMenuItems);
 
-            var openedPopups = Windows.UI.Xaml.Media.VisualTreeHelper.GetOpenPopups(Window.Current);
+            var openedPopups = Microsoft.UI.Xaml.Media.VisualTreeHelper.GetOpenPopups(App.Window);
             var secondaryMenu = openedPopups.FirstOrDefault(popup => popup.Name == "OverflowPopup");
             var itemsControl = secondaryMenu?.Child.FindDescendant<ItemsControl>();
             if (itemsControl is not null)
             {
                 contextMenuFlyout.SetValue(ContextMenuExtensions.ItemsControlProperty, itemsControl);
 
-                var ttv = secondaryMenu.TransformToVisual(Window.Current.Content);
+                var ttv = secondaryMenu.TransformToVisual(App.Window.Content);
                 var cMenuPos = ttv.TransformPoint(new Point(0, 0));
                 var requiredHeight = contextMenuFlyout.SecondaryCommands.Concat(mainItems).Where(x => x is not AppBarSeparator).Count() * Constants.UI.ContextMenuSecondaryItemsHeight;
-                var availableHeight = Window.Current.Bounds.Height - cMenuPos.Y - Constants.UI.ContextMenuPrimaryItemsHeight;
+                var availableHeight = App.Window.Bounds.Height - cMenuPos.Y - Constants.UI.ContextMenuPrimaryItemsHeight;
                 if (requiredHeight > availableHeight)
                 {
                     itemsControl.MaxHeight = Math.Min(Constants.UI.ContextMenuMaxHeight, Math.Max(itemsControl.ActualHeight, Math.Min(availableHeight, requiredHeight))); // Set menu max height to current height (avoids menu repositioning)
@@ -1184,7 +1184,9 @@ namespace Files.Uwp
             if (FilesystemHelpers.ContainsRestrictedCharacters(args.NewText))
             {
                 args.Cancel = true;
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                await /*
+                TODO UA306_A2: UWP CoreDispatcher : Windows.UI.Core.CoreDispatcher is no longer supported. Use DispatcherQueue instead. Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/threading
+            */Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     var oldSelection = textBox.SelectionStart + textBox.SelectionLength;
                     var oldText = textBox.Text;

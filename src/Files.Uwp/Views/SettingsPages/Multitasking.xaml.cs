@@ -1,5 +1,5 @@
-﻿using Files.Uwp.ViewModels.SettingsViewModels;
-using Windows.UI.Xaml.Controls;
+using Files.Uwp.ViewModels.SettingsViewModels;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Files.Uwp.SettingsPages
 {

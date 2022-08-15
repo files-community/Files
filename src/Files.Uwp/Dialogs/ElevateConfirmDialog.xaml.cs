@@ -1,8 +1,8 @@
-﻿using Files.Backend.ViewModels.Dialogs;
+using Files.Backend.ViewModels.Dialogs;
 using Files.Shared.Enums;
 using System;
 using System.Threading.Tasks;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -21,6 +21,14 @@ namespace Files.Uwp.Dialogs
             this.InitializeComponent();
         }
 
-        public new async Task<DialogResult> ShowAsync() => (DialogResult)await base.ShowAsync();
+        public new async Task<DialogResult> ShowAsync() => (DialogResult)await this.SetContentDialogRoot(base).ShowAsync();
+                    private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
+                    {
+                        if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+                        {
+                            contentDialog.XamlRoot = this.Content.XamlRoot;
+                        }
+                        return contentDialog;
+                    }
     }
 }

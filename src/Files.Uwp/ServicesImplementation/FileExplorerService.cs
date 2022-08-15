@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -32,7 +32,7 @@ namespace Files.Uwp.ServicesImplementation
         /// <inheritdoc/>
         public async Task<ILocatableFile?> PickSingleFileAsync(IEnumerable<string>? filter, CancellationToken cancellationToken = default)
         {
-            var filePicker = new FileOpenPicker();
+            var filePicker = this.InitializeWithWindow(new FileOpenPicker());
 
             if (filter is not null)
             {
@@ -51,11 +51,16 @@ namespace Files.Uwp.ServicesImplementation
 
             return new WindowsStorageFile(file);
         }
+                        private FileOpenPicker InitializeWithWindow(FileOpenPicker obj)
+                        {
+                            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+                            return obj;
+                        }
 
         /// <inheritdoc/>
         public async Task<ILocatableFolder?> PickSingleFolderAsync(CancellationToken cancellationToken = default)
         {
-            var folderPicker = new FolderPicker();
+            var folderPicker = this.InitializeWithWindow(new FolderPicker());
 
             folderPicker.FileTypeFilter.Add("*");
 
@@ -67,5 +72,10 @@ namespace Files.Uwp.ServicesImplementation
 
             return new WindowsStorageFolder(folder);
         }
+                        private FolderPicker InitializeWithWindow(FolderPicker obj)
+                        {
+                            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+                            return obj;
+                        }
     }
 }

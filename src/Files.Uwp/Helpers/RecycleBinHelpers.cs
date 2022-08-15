@@ -1,4 +1,4 @@
-﻿using Files.Shared;
+using Files.Shared;
 using Files.Shared.Extensions;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Windows.Storage;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Files.Uwp.Helpers
 {
@@ -85,7 +85,7 @@ namespace Files.Uwp.Helpers
                 DefaultButton = ContentDialogButton.Primary
             };
 
-            ContentDialogResult result = await ConfirmEmptyBinDialog.ShowAsync();
+            ContentDialogResult result = await this.SetContentDialogRoot(ConfirmEmptyBinDialog).ShowAsync();
 
             if (result == ContentDialogResult.Primary)
             {
@@ -103,6 +103,14 @@ namespace Files.Uwp.Helpers
                 }
             }
         }
+                    private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
+                    {
+                        if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+                        {
+                            contentDialog.XamlRoot = this.Content.XamlRoot;
+                        }
+                        return contentDialog;
+                    }
 
         public async Task<bool> HasRecycleBin(string path)
         {

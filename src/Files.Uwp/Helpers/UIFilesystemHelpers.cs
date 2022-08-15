@@ -1,4 +1,4 @@
-﻿using Files.Shared;
+using Files.Shared;
 using Files.Uwp.Dialogs;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;

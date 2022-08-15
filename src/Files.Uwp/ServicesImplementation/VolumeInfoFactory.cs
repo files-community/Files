@@ -1,4 +1,4 @@
-﻿using Files.Backend.Models;
+using Files.Backend.Models;
 using Files.Backend.Services;
 using Files.Shared.Extensions;
 using Files.Uwp.Helpers;

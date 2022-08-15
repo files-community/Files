@@ -1,4 +1,4 @@
-﻿using Files.Uwp.DataModels.NavigationControlItems;
+using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Helpers;
 using Files.Uwp.Helpers.XamlHelpers;
@@ -8,20 +8,20 @@ using Microsoft.Toolkit.Uwp;
 using System;
 using System.Threading;
 using Windows.ApplicationModel.Core;
-using Windows.ApplicationModel.Resources.Core;
+using Microsoft.Windows.ApplicationModel.Resources;
 using Windows.Foundation.Metadata;
 using Windows.System;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.WindowManagement;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Markup;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Xaml.Navigation;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Markup;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Animation;
+using Microsoft.UI.Xaml.Navigation;
 
 namespace Files.Uwp.Views
 {
@@ -47,13 +47,23 @@ namespace Files.Uwp.Views
 
         public SettingsViewModel AppSettings => App.AppSettings;
 
-        public AppWindow appWindow;
+        public 
+                /*
+                   TODO UA315_A Use Microsoft.UI.Windowing.AppWindow for window Management instead of ApplicationView/CoreWindow or Microsoft.UI.Windowing.AppWindow APIs
+                   Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
+                */
+                Microsoft.UI.Windowing.AppWindow appWindow;
 
         public Properties()
         {
             InitializeComponent();
 
-            var flowDirectionSetting = ResourceContext.GetForCurrentView().QualifierValues["LayoutDirection"];
+            var flowDirectionSetting = /*
+                TODO ResourceContext.GetForCurrentView and ResourceContext.GetForViewIndependentUse do not exist in Windows App SDK
+                Use your ResourceManager instance to create a ResourceContext as below. If you already have a ResourceManager instance,
+                replace the new instance created below with correct instance.
+                Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/mrtcore
+            */new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
 
             if (flowDirectionSetting == "RTL")
             {
@@ -100,7 +110,7 @@ namespace Files.Uwp.Views
                         _ => new SolidColorBrush((Color)Application.Current.Resources["SystemBaseHighColor"])
                     };
 
-                    var micaIsSupported = ApiInformation.IsMethodPresent("Windows.UI.Composition.Compositor", "TryCreateBlurredWallpaperBackdropBrush");
+                    var micaIsSupported = ApiInformation.IsMethodPresent("Microsoft.UI.Composition.Compositor", "TryCreateBlurredWallpaperBackdropBrush");
                     if (micaIsSupported)
                     {
                         micaBrush = new Brushes.MicaBrush(false);
@@ -158,10 +168,15 @@ namespace Files.Uwp.Views
                 {
                     Microsoft.UI.Xaml.Controls.BackdropMaterial.SetApplyToRootOrPageBackground(sender as Control, true);
 
-                    TitleBar = ApplicationView.GetForCurrentView().TitleBar;
+                    TitleBar = 
+                /*
+                   TODO UA315_A Use Microsoft.UI.Windowing.AppWindow for window Management instead of ApplicationView/CoreWindow or Microsoft.UI.Windowing.AppWindow APIs
+                   Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
+                */
+                ApplicationView.GetForCurrentView().TitleBar;
                     TitleBar.ButtonBackgroundColor = Colors.Transparent;
                     TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-                    Window.Current.SetTitleBar(TitleBarDragArea);
+                    App.Window.SetTitleBar(TitleBarDragArea);
                 }
                 await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => AppSettings.UpdateThemeElements.Execute(null));
             }
@@ -193,7 +208,9 @@ namespace Files.Uwp.Views
         private async void AppSettings_ThemeModeChanged(object sender, EventArgs e)
         {
             var selectedTheme = ThemeHelper.RootTheme;
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await /*
+                TODO UA306_A2: UWP CoreDispatcher : Windows.UI.Core.CoreDispatcher is no longer supported. Use DispatcherQueue instead. Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/threading
+            */Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 RequestedTheme = selectedTheme;
                 if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
@@ -268,7 +285,12 @@ namespace Files.Uwp.Views
                 }
                 else
                 {
-                    await ApplicationView.GetForCurrentView().TryConsolidateAsync();
+                    await 
+                /*
+                   TODO UA315_A Use Microsoft.UI.Windowing.AppWindow for window Management instead of ApplicationView/CoreWindow or Microsoft.UI.Windowing.AppWindow APIs
+                   Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
+                */
+                ApplicationView.GetForCurrentView().TryConsolidateAsync();
                 }
             }
             else
@@ -287,7 +309,12 @@ namespace Files.Uwp.Views
                 }
                 else
                 {
-                    await ApplicationView.GetForCurrentView().TryConsolidateAsync();
+                    await 
+                /*
+                   TODO UA315_A Use Microsoft.UI.Windowing.AppWindow for window Management instead of ApplicationView/CoreWindow or Microsoft.UI.Windowing.AppWindow APIs
+                   Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
+                */
+                ApplicationView.GetForCurrentView().TryConsolidateAsync();
                 }
             }
             else
@@ -308,7 +335,12 @@ namespace Files.Uwp.Views
                     }
                     else
                     {
-                        await ApplicationView.GetForCurrentView().TryConsolidateAsync();
+                        await 
+                /*
+                   TODO UA315_A Use Microsoft.UI.Windowing.AppWindow for window Management instead of ApplicationView/CoreWindow or Microsoft.UI.Windowing.AppWindow APIs
+                   Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
+                */
+                ApplicationView.GetForCurrentView().TryConsolidateAsync();
                     }
                 }
                 else

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.CompilerServices;
 using Windows.UI.Core;
 
@@ -13,7 +13,9 @@ namespace Files.Uwp.Helpers
       /// </summary>
         public struct DispatcherPriorityAwaitable
         {
-            private readonly CoreDispatcher dispatcher;
+            private readonly /*
+                TODO UA306_A1: UWP CoreDispatcher : Windows.UI.Core.CoreDispatcher is no longer supported. Use DispatcherQueue instead. Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/threading
+            */CoreDispatcher dispatcher;
             private readonly CoreDispatcherPriority priority;
 
             internal DispatcherPriorityAwaitable(CoreDispatcher dispatcher, CoreDispatcherPriority priority)

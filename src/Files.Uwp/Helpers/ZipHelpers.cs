@@ -1,4 +1,4 @@
-﻿using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Filesystem.StorageItems;
 using SevenZip;
 using System;
 using System.Collections.Generic;

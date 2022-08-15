@@ -1,4 +1,4 @@
-﻿using Files.Shared.Extensions;
+using Files.Shared.Extensions;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
@@ -18,9 +18,9 @@ using System.Windows.Input;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.ViewManagement;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Navigation;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Navigation;
 
 namespace Files.Uwp.ViewModels
 {
@@ -233,6 +233,11 @@ namespace Files.Uwp.ViewModels
             }
             if (navigationArg == SelectedTabItem?.TabItemArguments?.NavigationArg)
             {
+
+                /*
+                   TODO UA315_A Use Microsoft.UI.Windowing.AppWindow for window Management instead of ApplicationView/CoreWindow or Microsoft.UI.Windowing.AppWindow APIs
+                   Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
+                */
                 ApplicationView.GetForCurrentView().Title = windowTitle;
             }
         }
@@ -269,7 +274,7 @@ namespace Files.Uwp.ViewModels
             if (string.IsNullOrEmpty(currentPath) || currentPath == "Home".GetLocalized())
             {
                 tabLocationHeader = "Home".GetLocalized();
-                iconSource.ImageSource = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png"));
+                iconSource.ImageSource = new Microsoft.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png"));
             }
             else if (currentPath.Equals(CommonPaths.DesktopPath, StringComparison.OrdinalIgnoreCase))
             {

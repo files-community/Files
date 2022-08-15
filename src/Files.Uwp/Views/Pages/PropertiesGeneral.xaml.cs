@@ -106,7 +106,7 @@ namespace Files.Uwp.Views
         {
         }
 
-        private void DiskCleanupButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void DiskCleanupButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             if (BaseProperties is DriveProperties driveProps)
             {

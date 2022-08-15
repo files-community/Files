@@ -1,4 +1,4 @@
-﻿using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem;
 
 namespace Files.Uwp.ViewModels.Previews
 {

@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 using Windows.Storage;
-using Windows.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Data;
 
 namespace Files.Uwp.Converters
 {

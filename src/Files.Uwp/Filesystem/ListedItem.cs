@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Settings;
 using Files.Backend.ViewModels.FileTags;
@@ -19,7 +19,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Windows.UI.Xaml.Media.Imaging;
+using Microsoft.UI.Xaml.Media.Imaging;
 
 #pragma warning disable CS0618 // Type or member is obsolete
 
@@ -203,7 +203,7 @@ namespace Files.Uwp.Filesystem
             }
         }
 
-        private void Img_ImageOpened(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void Img_ImageOpened(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             if (sender is BitmapImage image)
             {

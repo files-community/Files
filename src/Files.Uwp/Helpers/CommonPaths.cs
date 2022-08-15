@@ -1,4 +1,4 @@
-﻿using Files.Shared;
+using Files.Shared;
 using Files.Shared.Extensions;
 using Microsoft.Toolkit.Uwp;
 using System;

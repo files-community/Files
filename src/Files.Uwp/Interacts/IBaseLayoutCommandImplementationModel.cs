@@ -1,8 +1,8 @@
-﻿using Files.Shared;
+using Files.Shared;
 using System;
 using System.Threading.Tasks;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Input;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Input;
 
 namespace Files.Uwp.Interacts
 {

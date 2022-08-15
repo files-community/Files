@@ -1,11 +1,11 @@
-﻿using Files.Uwp.Helpers;
+using Files.Uwp.Helpers;
 using Files.Uwp.ViewModels;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
-using Windows.UI.Xaml;
+using Microsoft.UI.Xaml;
 
 namespace Files.Uwp.UserControls.MultitaskingControl
 {

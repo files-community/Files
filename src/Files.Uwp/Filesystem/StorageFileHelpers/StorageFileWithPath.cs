@@ -1,4 +1,4 @@
-﻿using Files.Uwp.Filesystem.StorageItems;
+using Files.Uwp.Filesystem.StorageItems;
 using Windows.Storage;
 using IO = System.IO;
 
