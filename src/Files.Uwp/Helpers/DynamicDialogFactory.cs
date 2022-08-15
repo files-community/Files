@@ -3,7 +3,7 @@ using Files.Shared.Enums;
 using Files.Shared.Extensions;
 using Files.Uwp.Filesystem;
 using Files.Uwp.ViewModels.Dialogs;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System;
 using Windows.System;
 using Microsoft.UI.Xaml.Controls;

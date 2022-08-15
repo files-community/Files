@@ -3,7 +3,7 @@ using Files.Uwp.Filesystem;
 using Files.Uwp.Helpers;
 using Files.Shared.Enums;
 using Files.Uwp.ViewModels.Properties;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;

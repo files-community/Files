@@ -4,7 +4,7 @@ using Files.Uwp.DataModels;
 using Files.Uwp.Helpers;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;

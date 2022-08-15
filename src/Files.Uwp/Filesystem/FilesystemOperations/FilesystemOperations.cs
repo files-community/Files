@@ -5,7 +5,7 @@ using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem.FilesystemHistory;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

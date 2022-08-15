@@ -1,9 +1,9 @@
 using Files.Uwp.Interacts;
-using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.Notifications;
+using CommunityToolkit.WinUI;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.UI.Notifications;
+using CommunityToolkit.WinUI.Notifications;
 
 namespace Files.Uwp.Helpers
 {

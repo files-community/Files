@@ -1,7 +1,7 @@
 using Files.Shared.Extensions;
 using Files.Uwp.Helpers;
 using FluentFTP;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -102,13 +102,13 @@ namespace Files.Uwp.Filesystem.StorageItems
 
                 if (accessMode is FileAccessMode.Read)
                 {
-                    var inStream = await ftpClient.OpenReadAsync(FtpPath, cancellationToken);
+                    var inStream = await ftpClient.OpenReadAsync(FtpPath, token: cancellationToken);
                     return new NonSeekableRandomAccessStreamForRead(inStream, (ulong)inStream.Length)
                     {
                         DisposeCallback = ftpClient.Dispose
                     };
                 }
-                return new NonSeekableRandomAccessStreamForWrite(await ftpClient.OpenWriteAsync(FtpPath, cancellationToken))
+                return new NonSeekableRandomAccessStreamForWrite(await ftpClient.OpenWriteAsync(FtpPath, token: cancellationToken))
                 {
                     DisposeCallback = ftpClient.Dispose
                 };
@@ -126,7 +126,7 @@ namespace Files.Uwp.Filesystem.StorageItems
                     return null;
                 }
 
-                var inStream = await ftpClient.OpenReadAsync(FtpPath, cancellationToken);
+                var inStream = await ftpClient.OpenReadAsync(FtpPath, token: cancellationToken);
                 var nsStream = new NonSeekableRandomAccessStreamForRead(inStream, (ulong)inStream.Length) { DisposeCallback = ftpClient.Dispose };
                 return new StreamWithContentType(nsStream);
             });
@@ -141,7 +141,7 @@ namespace Files.Uwp.Filesystem.StorageItems
                     return null;
                 }
 
-                var inStream = await ftpClient.OpenReadAsync(FtpPath, cancellationToken);
+                var inStream = await ftpClient.OpenReadAsync(FtpPath, token: cancellationToken);
                 return new InputStreamWithDisposeCallback(inStream) { DisposeCallback = () => ftpClient.Dispose() };
             });
         }
@@ -167,7 +167,7 @@ namespace Files.Uwp.Filesystem.StorageItems
 
                 if (destFolder is ICreateFileWithStream cwsf)
                 {
-                    using var inStream = await ftpClient.OpenReadAsync(FtpPath, cancellationToken);
+                    using var inStream = await ftpClient.OpenReadAsync(FtpPath, token: cancellationToken);
                     return await cwsf.CreateFileAsync(inStream, desiredNewName, option.Convert());
                 }
                 else

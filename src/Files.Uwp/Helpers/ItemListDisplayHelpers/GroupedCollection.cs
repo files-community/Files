@@ -1,5 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

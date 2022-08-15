@@ -9,7 +9,7 @@ using Files.Uwp.Controllers;
 using Files.Uwp.DataModels;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -23,6 +23,7 @@ using Windows.Storage;
 using Windows.Storage.AccessCache;
 using Windows.Storage.Pickers;
 using Windows.System;
+using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 using static Files.Uwp.Helpers.MenuFlyoutHelper;
 
 namespace Files.Uwp.ViewModels.SettingsViewModels

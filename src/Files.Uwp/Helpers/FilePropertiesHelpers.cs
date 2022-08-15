@@ -1,6 +1,6 @@
 using Files.Uwp.Dialogs;
 using Files.Uwp.Views;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System;
 using System.Linq;
 using System.Threading.Tasks;

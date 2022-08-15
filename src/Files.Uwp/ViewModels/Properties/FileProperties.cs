@@ -3,7 +3,7 @@ using Files.Uwp.Filesystem;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;

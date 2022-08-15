@@ -7,7 +7,7 @@ using Files.Uwp.UserControls.Widgets;
 using Files.Uwp.ViewModels;
 using Files.Uwp.ViewModels.Pages;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System;
 using System.IO;
 using System.Linq;

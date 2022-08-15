@@ -10,7 +10,7 @@ using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
 using Files.Uwp.ViewModels.Properties;
 using FluentFTP;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

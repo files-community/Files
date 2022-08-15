@@ -13,8 +13,7 @@ using Files.Uwp.ViewModels;
 using Files.Uwp.Views.LayoutModes;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.UI;
+using CommunityToolkit.WinUI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -37,6 +36,7 @@ using SortDirection = Files.Shared.Enums.SortDirection;
 using Files.Backend.Enums;
 using Files.Backend.Services;
 using Files.Backend.ViewModels.Dialogs.AddItemDialog;
+using CommunityToolkit.WinUI.UI;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 

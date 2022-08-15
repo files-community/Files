@@ -11,9 +11,8 @@ using Files.Uwp.Helpers;
 using Files.Uwp.UserControls;
 using Files.Uwp.UserControls.MultitaskingControl;
 using Files.Uwp.ViewModels;
-using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp.UI.Controls;
+using CommunityToolkit.WinUI;
+using CommunityToolkit.WinUI.UI.Controls;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -28,6 +27,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
+using CommunityToolkit.WinUI.Helpers;
 
 namespace Files.Uwp.Views
 {

@@ -13,7 +13,7 @@ using Files.Uwp.ViewModels;
 using Files.Uwp.Views.LayoutModes;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

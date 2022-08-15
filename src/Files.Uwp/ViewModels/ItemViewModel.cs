@@ -20,7 +20,7 @@ using Files.Uwp.Helpers.FileListCache;
 using Files.Uwp.UserControls;
 using Files.Uwp.ViewModels.Previews;
 using FluentFTP;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
@@ -47,6 +47,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using static Files.Backend.Helpers.NativeFindStorageItemHelper;
 using static Files.Uwp.Helpers.NativeDirectoryChangesHelper;
 using FileAttributes = System.IO.FileAttributes;
+using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 
 namespace Files.Uwp.ViewModels
 {
@@ -437,7 +438,7 @@ namespace Files.Uwp.ViewModels
                             matchingItem.FileSize = e.NewSize.ToSizeString();
                         }
                         DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
-                    }, DispatcherQueuePriority.Low);
+                    }, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
                 }
             }
             finally
@@ -879,7 +880,7 @@ namespace Files.Uwp.ViewModels
                         await dispatcherQueue.EnqueueAsync(() =>
                         {
                             gp.Model.ImageSource = img;
-                        }, DispatcherQueuePriority.Low);
+                        }, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
                     }
                 });
             }
@@ -955,7 +956,7 @@ namespace Files.Uwp.ViewModels
                                 {
                                     DefaultIcons.AddIfNotPresent(item.FileExtension.ToLowerInvariant(), item.FileImage);
                                 }
-                            }, DispatcherQueuePriority.Normal);
+                            }, Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
                             wasIconLoaded = true;
                         }
 
@@ -965,7 +966,7 @@ namespace Files.Uwp.ViewModels
                             await dispatcherQueue.EnqueueAsync(async () =>
                             {
                                 item.IconOverlay = await overlayInfo.ToBitmapAsync();
-                            }, DispatcherQueuePriority.Low);
+                            }, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
                         }
                     }
                 }
@@ -984,7 +985,7 @@ namespace Files.Uwp.ViewModels
                             {
                                 DefaultIcons.AddIfNotPresent(item.FileExtension.ToLowerInvariant(), item.FileImage);
                             }
-                        }, DispatcherQueuePriority.Low);
+                        }, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
                     }
 
                     if (iconInfo.OverlayData != null)
@@ -992,7 +993,7 @@ namespace Files.Uwp.ViewModels
                         await dispatcherQueue.EnqueueAsync(async () =>
                         {
                             item.IconOverlay = await iconInfo.OverlayData.ToBitmapAsync();
-                        }, DispatcherQueuePriority.Low);
+                        }, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
                     }
                 }
             }
@@ -1014,7 +1015,7 @@ namespace Files.Uwp.ViewModels
                                 item.FileImage.DecodePixelType = DecodePixelType.Logical;
                                 item.FileImage.DecodePixelWidth = (int)thumbnailSize;
                                 await item.FileImage.SetSourceAsync(Thumbnail);
-                            }, DispatcherQueuePriority.Normal);
+                            }, Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
                             wasIconLoaded = true;
                         }
 
@@ -1024,7 +1025,7 @@ namespace Files.Uwp.ViewModels
                             await dispatcherQueue.EnqueueAsync(async () =>
                             {
                                 item.IconOverlay = await overlayInfo.ToBitmapAsync();
-                            }, DispatcherQueuePriority.Low);
+                            }, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
                         }
                     }
                 }
@@ -1037,7 +1038,7 @@ namespace Files.Uwp.ViewModels
                         await dispatcherQueue.EnqueueAsync(async () =>
                         {
                             item.FileImage = await iconInfo.IconData.ToBitmapAsync();
-                        }, DispatcherQueuePriority.Low);
+                        }, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
                     }
 
                     if (iconInfo.OverlayData != null)
@@ -1045,7 +1046,7 @@ namespace Files.Uwp.ViewModels
                         await dispatcherQueue.EnqueueAsync(async () =>
                         {
                             item.IconOverlay = await iconInfo.OverlayData.ToBitmapAsync();
-                        }, DispatcherQueuePriority.Low);
+                        }, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
                     }
                 }
             }
@@ -1111,7 +1112,7 @@ namespace Files.Uwp.ViewModels
                                         item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
                                         item.FileFRN = fileFRN;
                                         item.FileTags = fileTag;
-                                    }, DispatcherQueuePriority.Low);
+                                    }, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
                                     FileTagsHelper.DbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
                                     wasSyncStatusLoaded = true;
                                 }
@@ -1158,7 +1159,7 @@ namespace Files.Uwp.ViewModels
                                         item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
                                         item.FileFRN = fileFRN;
                                         item.FileTags = fileTag;
-                                    }, DispatcherQueuePriority.Low);
+                                    }, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
                                     FileTagsHelper.DbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
                                     wasSyncStatusLoaded = true;
                                 }
@@ -1191,7 +1192,7 @@ namespace Files.Uwp.ViewModels
                                 {
                                     item.SyncStatusUI = new CloudDriveSyncStatusUI(); // Reset cloud sync status icon
                                     item.FileTags = fileTag;
-                                }, DispatcherQueuePriority.Low);
+                                }, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
                                 FileTagsHelper.DbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
                             });
                         }
@@ -1228,7 +1229,7 @@ namespace Files.Uwp.ViewModels
 
                 if (headerIconInfo != null && !item.IsShortcutItem)
                 {
-                    groupImage = await dispatcherQueue.EnqueueAsync(() => headerIconInfo.ToBitmapAsync(), DispatcherQueuePriority.Low);
+                    groupImage = await dispatcherQueue.EnqueueAsync(() => headerIconInfo.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
                 }
                 if (!item.IsShortcutItem && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
                 {
@@ -1259,7 +1260,7 @@ namespace Files.Uwp.ViewModels
                 {
                     RasterizePixelHeight = 128,
                     RasterizePixelWidth = 128,
-                }, DispatcherQueuePriority.Low);
+                }, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
             }
 
             return groupImage;
@@ -2278,7 +2279,7 @@ namespace Files.Uwp.ViewModels
                             }
                         }
                     }
-                }, DispatcherQueuePriority.Low);
+                }, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
             }
             finally
             {

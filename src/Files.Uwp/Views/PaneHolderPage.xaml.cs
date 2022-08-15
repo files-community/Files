@@ -3,7 +3,7 @@ using Files.Backend.Services.Settings;
 using Files.Uwp.UserControls.MultitaskingControl;
 using Files.Uwp.Views.LayoutModes;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;

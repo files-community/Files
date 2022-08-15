@@ -7,7 +7,7 @@ using Windows.Services.Store;
 using Microsoft.UI.Xaml.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Files.Backend.Services;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 
 namespace Files.Uwp.ServicesImplementation
 {
@@ -50,7 +50,7 @@ namespace Files.Uwp.ServicesImplementation
             _updatePackages = new List<StorePackageUpdate>();
         }
 
-        public void ReportToAppCenter() {}
+        public void ReportToAppCenter() { }
 
         public async Task DownloadUpdates()
         {
@@ -134,23 +134,25 @@ namespace Files.Uwp.ServicesImplementation
             //TODO: Use IDialogService in future.
             ContentDialog dialog = new()
             {
-                Title             = "ConsentDialogTitle".GetLocalized(),
-                Content           = "ConsentDialogContent".GetLocalized(),
-                CloseButtonText   = "Close".GetLocalized(),
+                Title = "ConsentDialogTitle".GetLocalized(),
+                Content = "ConsentDialogContent".GetLocalized(),
+                CloseButtonText = "Close".GetLocalized(),
                 PrimaryButtonText = "ConsentDialogPrimaryButtonText".GetLocalized()
             };
-            ContentDialogResult result = await this.SetContentDialogRoot(dialog).ShowAsync();
+            ContentDialogResult result = await SetContentDialogRoot(dialog).ShowAsync();
 
             return result == ContentDialogResult.Primary;
         }
-                    private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
-                    {
-                        if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-                        {
-                            contentDialog.XamlRoot = this.Content.XamlRoot;
-                        }
-                        return contentDialog;
-                    }
+
+        // WINUI3
+        private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
+        {
+            if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+            {
+                contentDialog.XamlRoot = App.Window.Content.XamlRoot;
+            }
+            return contentDialog;
+        }
 
         private bool HasUpdates()
         {

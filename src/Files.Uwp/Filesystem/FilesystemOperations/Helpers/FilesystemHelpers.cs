@@ -8,7 +8,7 @@ using Files.Shared.Extensions;
 using Files.Uwp.Filesystem.FilesystemHistory;
 using Files.Uwp.Helpers;
 using Files.Uwp.Interacts;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

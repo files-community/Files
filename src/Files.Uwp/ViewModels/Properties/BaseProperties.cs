@@ -2,7 +2,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Extensions;
 using Files.Shared.Services.DateTimeFormatter;
 using Files.Uwp.Extensions;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System;
 using System.Collections.Generic;
 using System.IO;

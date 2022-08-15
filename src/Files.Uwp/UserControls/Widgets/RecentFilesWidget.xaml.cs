@@ -5,7 +5,7 @@ using Files.Backend.Services.Settings;
 using Files.Uwp.ViewModels;
 using Files.Uwp.ViewModels.Widgets;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;

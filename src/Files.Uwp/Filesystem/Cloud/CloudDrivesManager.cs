@@ -3,7 +3,7 @@ using Files.Shared;
 using Files.Shared.Cloud;
 using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;

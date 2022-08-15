@@ -4,7 +4,7 @@ using Files.Uwp.Helpers;
 using Files.Uwp.Helpers.XamlHelpers;
 using Files.Uwp.ViewModels;
 using Files.Uwp.ViewModels.Properties;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System;
 using System.Threading;
 using Windows.ApplicationModel.Core;

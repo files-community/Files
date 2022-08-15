@@ -5,7 +5,7 @@ using Files.Uwp.ViewModels.Widgets;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System;
 using System.ComponentModel;
 using System.Linq;

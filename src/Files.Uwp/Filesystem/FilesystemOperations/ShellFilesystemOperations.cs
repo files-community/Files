@@ -17,7 +17,7 @@ using Files.Shared;
 using Files.Backend.ViewModels.Dialogs;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
 

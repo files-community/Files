@@ -2,7 +2,7 @@ using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem;
 using Files.Uwp.ViewModels.Properties;
 using SevenZip;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;

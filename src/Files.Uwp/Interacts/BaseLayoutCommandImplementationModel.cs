@@ -8,7 +8,7 @@ using Files.Uwp.Helpers;
 using Files.Uwp.ViewModels;
 using Files.Uwp.ViewModels.Dialogs;
 using Files.Uwp.Views;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

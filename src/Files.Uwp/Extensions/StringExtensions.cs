@@ -1,9 +1,9 @@
 using ByteSizeLib;
 using Files.Shared.Extensions;
-using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using CommunityToolkit.WinUI;
 
 namespace Files.Uwp.Extensions
 {

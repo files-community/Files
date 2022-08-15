@@ -7,7 +7,7 @@ using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Interacts;
 using Files.Uwp.ViewModels;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System;
 using System.Collections.Generic;
 using System.IO;

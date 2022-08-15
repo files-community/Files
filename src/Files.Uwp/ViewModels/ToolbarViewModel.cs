@@ -11,8 +11,8 @@ using Files.Shared.EventArguments;
 using Files.Shared.Extensions;
 using Files.Uwp.UserControls;
 using Files.Uwp.Views;
-using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.UI;
+using CommunityToolkit.WinUI;
+using CommunityToolkit.WinUI.UI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -23,7 +23,6 @@ using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.Storage;
-using Windows.System;
 using Windows.UI.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -32,6 +31,7 @@ using Microsoft.UI.Xaml.Input;
 using static Files.Uwp.UserControls.IAddressToolbar;
 using SearchBox = Files.Uwp.UserControls.SearchBox;
 using SortDirection = Files.Shared.Enums.SortDirection;
+using Microsoft.UI.Dispatching;
 
 namespace Files.Uwp.ViewModels
 {
@@ -696,9 +696,9 @@ namespace Files.Uwp.ViewModels
 
         public void PathBoxItem_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
+            if (e.Pointer.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Mouse)
             {
-                Windows.UI.Input.PointerPoint ptrPt = e.GetCurrentPoint(AddressToolbar);
+                var ptrPt = e.GetCurrentPoint(AddressToolbar);
                 if (ptrPt.Properties.IsMiddleButtonPressed)
                 {
                     pointerRoutedEventArgs = e;
@@ -1067,7 +1067,7 @@ namespace Files.Uwp.ViewModels
 
                             try
                             {
-                                if (!await Launcher.LaunchUriAsync(new Uri(currentInput)))
+                                if (!await Windows.System.Launcher.LaunchUriAsync(new Uri(currentInput)))
                                 {
                                     await DialogDisplayHelper.ShowDialogAsync("InvalidItemDialogTitle".GetLocalized(),
                                         string.Format("InvalidItemDialogContent".GetLocalized(), Environment.NewLine, resFolder.ErrorCode.ToString()));

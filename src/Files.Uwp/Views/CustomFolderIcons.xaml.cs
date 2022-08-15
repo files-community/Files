@@ -1,7 +1,7 @@
 using Files.Shared;
 using Files.Uwp.Helpers;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

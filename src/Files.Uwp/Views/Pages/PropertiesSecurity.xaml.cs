@@ -2,7 +2,7 @@ using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Uwp.Filesystem;
 using Files.Uwp.ViewModels.Properties;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;

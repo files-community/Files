@@ -12,8 +12,7 @@ using Files.Shared.Extensions;
 using Files.Uwp.UserControls;
 using Files.Uwp.ViewModels;
 using Files.Uwp.Views;
-using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.UI;
+using CommunityToolkit.WinUI.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -37,6 +36,8 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using Files.Uwp.UserControls.Menus;
 using static Files.Uwp.Helpers.PathNormalization;
+using CommunityToolkit.WinUI;
+using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 
 namespace Files.Uwp
 {
@@ -45,7 +46,7 @@ namespace Files.Uwp
     /// </summary>
     public abstract class BaseLayout : Page, IBaseLayout, INotifyPropertyChanged
     {
-        private readonly DispatcherTimer jumpTimer;
+        private readonly DispatcherQueueTimer jumpTimer;
 
         protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
@@ -264,7 +265,7 @@ namespace Files.Uwp
                         if (SelectedItems.Count == 1)
                         {
                             SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{SelectedItems.Count} {"ItemSelected/Text".GetLocalized()}";
-                            DispatcherQueue.GetForCurrentThread().EnqueueAsync(async () =>
+                            DispatcherQueue.EnqueueAsync(async () =>
                             {
                                 await Task.Delay(50); // Tapped event must be executed first
                                 preRenamingItem = SelectedItem;
@@ -300,15 +301,15 @@ namespace Files.Uwp
             HookBaseEvents();
             HookEvents();
 
-            jumpTimer = new DispatcherTimer();
+            jumpTimer = DispatcherQueue.CreateTimer();
             jumpTimer.Interval = TimeSpan.FromSeconds(0.8);
             jumpTimer.Tick += JumpTimer_Tick;
 
             SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesViewModel();
             DirectoryPropertiesViewModel = new DirectoryPropertiesViewModel();
 
-            dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
-            tapDebounceTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
+            dragOverTimer = DispatcherQueue.CreateTimer();
+            tapDebounceTimer = DispatcherQueue.CreateTimer();
         }
 
         protected abstract void HookEvents();

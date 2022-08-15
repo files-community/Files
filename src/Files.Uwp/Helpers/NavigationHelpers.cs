@@ -7,7 +7,7 @@ using Files.Uwp.Filesystem;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.ViewModels;
 using Files.Uwp.Views;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -417,7 +417,7 @@ namespace Files.Uwp.Helpers
 
                         if (openViaApplicationPicker)
                         {
-                            LauncherOptions options = this.InitializeWithWindow(new LauncherOptions
+                            LauncherOptions options = InitializeWithWindow(new LauncherOptions
                             {
                                 DisplayApplicationPicker = true
                             });
@@ -500,7 +500,7 @@ namespace Files.Uwp.Helpers
                                         break;
                                 }
 
-                                var options = this.InitializeWithWindow(new LauncherOptions());
+                                var options = InitializeWithWindow(new LauncherOptions());
                                 if (currentFolder.AreQueryOptionsSupported(queryOptions))
                                 {
                                     fileQueryResult = currentFolder.CreateFileQueryWithOptions(queryOptions);
@@ -524,10 +524,12 @@ namespace Files.Uwp.Helpers
             }
             return opened;
         }
-                        private LauncherOptions InitializeWithWindow(LauncherOptions obj)
-                        {
-                            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
-                            return obj;
-                        }
+
+        // WINUI3
+        private static LauncherOptions InitializeWithWindow(LauncherOptions obj)
+        {
+            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+            return obj;
+        }
     }
 }

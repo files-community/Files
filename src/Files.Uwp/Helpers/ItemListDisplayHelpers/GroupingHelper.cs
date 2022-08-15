@@ -3,7 +3,7 @@ using Files.Shared.Enums;
 using Files.Shared.Services.DateTimeFormatter;
 using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System;
 using System.Linq;
 using Windows.Storage;

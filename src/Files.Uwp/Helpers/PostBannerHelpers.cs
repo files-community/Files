@@ -1,7 +1,7 @@
 using Files.Shared.Enums;
 using Files.Uwp.Filesystem;
 using Files.Uwp.ViewModels;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;

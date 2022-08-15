@@ -1,4 +1,4 @@
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -70,14 +70,16 @@ namespace Files.Uwp.Helpers
             }
             return false;
         }
-                    private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
-                    {
-                        if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-                        {
-                            contentDialog.XamlRoot = this.Content.XamlRoot;
-                        }
-                        return contentDialog;
-                    }
+
+        // WINUI3
+        private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
+        {
+            if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+            {
+                contentDialog.XamlRoot = App.Window.Content.XamlRoot;
+            }
+            return contentDialog;
+        }
 
         private async Task<StorePackageUpdateResult> DownloadUpdates(IReadOnlyList<StorePackageUpdate> updateList)
         {

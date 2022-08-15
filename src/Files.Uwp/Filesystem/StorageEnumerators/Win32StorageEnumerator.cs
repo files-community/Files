@@ -7,7 +7,7 @@ using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
 using Files.Uwp.Helpers.FileListCache;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

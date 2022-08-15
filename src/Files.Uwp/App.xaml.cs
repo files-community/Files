@@ -1,21 +1,14 @@
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using Microsoft.UI.Xaml.Shapes;
 using Microsoft.Windows.AppLifecycle;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
-using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using Files.Uwp.Filesystem.FilesystemHistory;
+using Files.Uwp.ViewModels;
+using Files.Uwp.Helpers;
+using Files.Uwp.Controllers;
+using Files.Uwp.Filesystem;
+using Files.Shared;
+using Files.Uwp.Filesystem.Cloud;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -27,6 +20,36 @@ namespace Files.Uwp
     /// </summary>
     public partial class App : Application
     {
+        private static bool ShowErrorNotification = false;
+        private static string OutputPath = null;
+
+        public static StorageHistoryWrapper HistoryWrapper = new StorageHistoryWrapper();
+        public static SettingsViewModel AppSettings { get; private set; }
+        public static MainViewModel MainViewModel { get; private set; }
+        public static PaneViewModel PaneViewModel { get; private set; }
+        public static PreviewPaneViewModel PreviewPaneViewModel { get; private set; }
+        public static JumpListManager JumpList { get; private set; }
+        public static RecentItemsManager RecentItemsManager { get; private set; }
+        public static SidebarPinnedController SidebarPinnedController { get; private set; }
+        public static TerminalController TerminalController { get; private set; }
+        public static CloudDrivesManager CloudDrivesManager { get; private set; }
+        public static NetworkDrivesManager NetworkDrivesManager { get; private set; }
+        public static DrivesManager DrivesManager { get; private set; }
+        public static WSLDistroManager WSLDistroManager { get; private set; }
+        public static LibraryManager LibraryManager { get; private set; }
+        public static FileTagsManager FileTagsManager { get; private set; }
+        public static ExternalResourcesHelper ExternalResourcesHelper { get; private set; }
+
+        public static ILogger Logger { get; private set; }
+        private static readonly UniversalLogWriter logWriter = new UniversalLogWriter();
+
+        public static OngoingTasksViewModel OngoingTasksViewModel { get; } = new OngoingTasksViewModel();
+        public static SecondaryTileHelper SecondaryTileHelper { get; private set; } = new SecondaryTileHelper();
+
+        public static string AppVersion = $"{Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}.{Package.Current.Id.Version.Revision}";
+
+        public IServiceProvider Services { get; private set; }
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().

@@ -3,7 +3,7 @@ using Files.Shared.Enums;
 using Files.Uwp.Dialogs;
 using Files.Uwp.Filesystem;
 using Files.Uwp.ViewModels.Dialogs;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

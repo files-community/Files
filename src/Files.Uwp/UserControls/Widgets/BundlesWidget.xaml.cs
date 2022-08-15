@@ -2,7 +2,7 @@ using Files.Backend.Services.Settings;
 using Files.Uwp.ViewModels.Widgets;
 using Files.Uwp.ViewModels.Widgets.Bundles;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System;
 using Microsoft.UI.Xaml.Controls;
 using System.Threading.Tasks;

@@ -2,7 +2,7 @@ using Files.Backend.Services.Settings;
 using Files.Backend.ViewModels.FileTags;
 using Files.Uwp.Serialization;
 using Files.Uwp.Serialization.Implementation;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System;
 using System.Collections.Generic;
 using System.IO;

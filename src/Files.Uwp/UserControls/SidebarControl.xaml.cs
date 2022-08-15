@@ -9,8 +9,7 @@ using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
 using Files.Uwp.Helpers.ContextFlyouts;
 using Files.Uwp.ViewModels;
-using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.UI;
+using CommunityToolkit.WinUI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,6 +25,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
+using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 
 namespace Files.Uwp.UserControls
 {
@@ -140,8 +140,8 @@ namespace Files.Uwp.UserControls
             this.InitializeComponent();
             this.Loaded += SidebarNavView_Loaded;
 
-            dragOverSectionTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
-            dragOverItemTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
+            dragOverSectionTimer = DispatcherQueue.CreateTimer();
+            dragOverItemTimer = DispatcherQueue.CreateTimer();
 
             HideSectionCommand = new RelayCommand(HideSection);
             UnpinItemCommand = new RelayCommand(UnpinItem);

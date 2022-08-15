@@ -3,7 +3,7 @@ using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Helpers;
 using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
