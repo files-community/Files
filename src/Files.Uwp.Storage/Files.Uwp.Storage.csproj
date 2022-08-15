@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0-windows10.0.22000.0</TargetFramework>
+    <TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <OutputType>Library</OutputType>
     <DefaultLanguage>en-US</DefaultLanguage>
@@ -8,7 +8,6 @@
     <LangVersion>9</LangVersion>
     <Nullable>enable</Nullable>
     <UseWinUI>true</UseWinUI>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
     <EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
     <Platforms>x86;x64;arm64</Platforms>
     <PublishProfile>win10-$(Platform).pubxml</PublishProfile>
@@ -91,11 +90,5 @@
   <ItemGroup>
     <ProjectReference Include="..\Files.Sdk.Storage\Files.Sdk.Storage.csproj" />
     <ProjectReference Include="..\Files.Shared\Files.Shared.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="App.xaml.old.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.xaml.old.cs" />
   </ItemGroup>
 </Project>
