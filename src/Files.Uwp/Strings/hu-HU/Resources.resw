@@ -151,7 +151,7 @@
     <value>Méret</value>
   </data>
   <data name="OpenIn" xml:space="preserve">
-    <value>Megnyitás a következővel:</value>
+    <value>Megnyitás itt:</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>Létrehozva:</value>
@@ -2622,7 +2622,7 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
     <value>Harmadik fél licencei</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>Ez az opció beállításjegyzék értékeket módosít és nem várt következményei is lehetnek az eszközén. A fejlesztők nem vállalnak felelősséget az emiatt esetlegesen bekövetkező problémákért. Az opció engedélyezésével elfogadja az ezzel járó kockázatot.</value>
+    <value>Ez az opció beállításjegyzék értékeket módosít és nem várt következményei is lehetnek az eszközén. Csak saját felelősségre engedélyezze.</value>
   </data>
   <data name="ClearAll" xml:space="preserve">
     <value>Összes törlése</value>
@@ -2664,10 +2664,10 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
     <value>Típus:</value>
   </data>
   <data name="Bytes" xml:space="preserve">
-    <value>Bájt</value>
+    <value>Méret bájtokban</value>
   </data>
   <data name="Extract" xml:space="preserve">
-    <value>Kicsomagolás...</value>
+    <value>Kicsomagolás</value>
   </data>
   <data name="ExtractFiles" xml:space="preserve">
     <value>Fájlok kicsomagolása</value>
@@ -2694,19 +2694,19 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
     <value>A mappa méretek meghatározása erőforrás-igényes és a processzorhasználat növekedésével járhat.</value>
   </data>
   <data name="RotateLeft" xml:space="preserve">
-    <value>Elforgatás balra</value>
+    <value>Balra forgatás</value>
   </data>
   <data name="RotateRight" xml:space="preserve">
-    <value>Elforgatás jobbra</value>
+    <value>Jobbra forgatás</value>
   </data>
   <data name="Install" xml:space="preserve">
     <value>Telepítés</value>
   </data>
   <data name="CloseTabsToTheLeft" xml:space="preserve">
-    <value>Lapok bezárása balra</value>
+    <value>Balra lévő lapok bezárása</value>
   </data>
   <data name="CloseTabsToTheRight" xml:space="preserve">
-    <value>Lapok bezárása jobbra</value>
+    <value>Jobbra lévő lapok bezárása</value>
   </data>
   <data name="CloseOtherTabs" xml:space="preserve">
     <value>Többi lap bezárása</value>
