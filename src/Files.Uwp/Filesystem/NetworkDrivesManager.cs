@@ -9,6 +9,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
 
 namespace Files.Uwp.Filesystem
@@ -47,11 +48,24 @@ namespace Files.Uwp.Filesystem
                 ShowProperties = true
             };
 
+            SetIconAsync(networkItem);
+
             lock (drives)
             {
                 drives.Add(networkItem);
             }
             DataChanged?.Invoke(SectionType.Network, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, networkItem));
+        }
+
+        private static async void SetIconAsync(DriveItem networkItem)
+        {
+            var iconData = await UIHelpers.GetIconResourceInfo(Constants.ImageRes.Folder);
+            if (iconData is not null)
+            {
+                networkItem.IconData = iconData.IconDataBytes;
+                await CoreApplication.MainView.CoreWindow.DispatcherQueue
+                    .EnqueueAsync(async () => networkItem.Icon = await iconData.IconDataBytes.ToBitmapAsync());
+            }
         }
 
         public async Task UpdateDrivesAsync()
