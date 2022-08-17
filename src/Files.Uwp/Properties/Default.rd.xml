@@ -23,10 +23,10 @@
     -->
     <Type Name="SQLitePCL.Batteries_V2" Dynamic="Required Public" />
     
-    <Assembly Name="Microsoft.Toolkit.Uwp.Notifications" Dynamic="Required Public" />
+    <Assembly Name="CommunityToolkit.WinUI.Notifications" Dynamic="Required Public" />
     <Assembly Name="Microsoft.Xaml.Interactivity" Dynamic="Required Public" />
     <Assembly Name="Microsoft.Xaml.Interactions.Core" Dynamic="Required Public" />
-    <Assembly Name="Microsoft.Toolkit.Uwp.UI.Behaviors" Dynamic="Required Public" />
+    <Assembly Name="CommunityToolkit.WinUI.UI.Behaviors" Dynamic="Required Public" />
 
     <Type Name="Files.Uwp.Views.PaneNavigationArguments" Dynamic="Required Public" />
     <Type Name="Files.Uwp.UserControls.MultitaskingControl.TabItemArguments" Dynamic="Required Public" />
