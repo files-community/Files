@@ -899,6 +899,8 @@ namespace Files.Uwp.ViewModels
 
         public ICommand UpdateCommand { get; set; }
 
+        public ICommand HideTags { get; set; }
+
         public async Task SetPathBoxDropDownFlyoutAsync(MenuFlyout flyout, PathBoxItem pathItem, IShellPage shellPage)
         {
             var nextPathItemTitle = PathComponents[PathComponents.IndexOf(pathItem) + 1].Title;
