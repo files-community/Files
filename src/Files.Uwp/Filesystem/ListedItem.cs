@@ -473,7 +473,7 @@ namespace Files.Uwp.Filesystem
     {
         public FtpItem(FtpListItem item, string folder) : base(null)
         {
-            var isFile = item.Type == FtpFileSystemObjectType.File;
+            var isFile = item.Type == FtpObjectType.File;
             ItemDateCreatedReal = item.RawCreated < DateTime.FromFileTimeUtc(0) ? DateTimeOffset.MinValue : item.RawCreated;
             ItemDateModifiedReal = item.RawModified < DateTime.FromFileTimeUtc(0) ? DateTimeOffset.MinValue : item.RawModified;
             ItemNameRaw = item.Name;
