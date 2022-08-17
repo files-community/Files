@@ -422,19 +422,6 @@
                 <local:ColoredIcon BaseLayerGlyph="&#xF02B;" OverlayLayerGlyph="&#xF02C;" />
             </AppBarButton>
             <AppBarButton
-                x:Name="HideTagsButton"
-                Command="{x:Bind ViewModel.HideTags, Mode=OneWay}"
-                Width="Auto"
-                MinWidth="40"
-                AccessKey="T"
-                Label="{helpers:ResourceString Name=FileTags}"
-                LabelPosition="Collapsed"
-                ToolTipService.ToolTip="{helpers:ResourceString Name=FileTags}">
-                <AppBarButton.Icon>
-                    <BitmapIcon UriSource="ms-appx:///Assets/FluentIcons/FileTags.png"/>
-                </AppBarButton.Icon>
-            </AppBarButton>
-            <AppBarButton
                 x:Name="ArrangementOptions"
                 Width="Auto"
                 MinWidth="40"

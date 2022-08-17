@@ -282,20 +282,6 @@
             </local:SettingsBlockControl>
 
 
-            <!--  Edit File Tags  -->
-            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsEditFileTagsExpander/Title}" HorizontalAlignment="Stretch"
-                ButtonCommand="{Binding EditFileTagsCommand}"
-                IsClickable="True">
-
-                <local:SettingsBlockControl.Icon>
-                    <FontIcon
-                            FontSize="14"
-                            Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                            Glyph="&#xE104;" />
-                </local:SettingsBlockControl.Icon>
-            </local:SettingsBlockControl>
-            
-            
             <!--  Startup settings  -->
             <local:SettingsBlockControl Title="{helpers:ResourceString Name=StartupSettings}" HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>

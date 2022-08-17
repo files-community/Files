@@ -240,14 +240,14 @@ namespace Files.Uwp.UserControls
                     Glyph = "\uF113",
                     GlyphFontFamilyName = "CustomGlyph",
                     Command = OpenInNewTabCommand,
-                    ShowItem = options.IsLocationItem && item.ItemType != NavigationControlItemType.FileTag
+                    ShowItem = options.IsLocationItem
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "SideBarOpenInNewWindow/Text".GetLocalized(),
                     Glyph = "\uE737",
                     Command = OpenInNewWindowCommand,
-                    ShowItem = options.IsLocationItem && item.ItemType != NavigationControlItemType.FileTag
+                    ShowItem = options.IsLocationItem 
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -261,21 +261,21 @@ namespace Files.Uwp.UserControls
                     Text = "SideBarFavoritesMoveOneUp".GetLocalized(),
                     Glyph = "\uE70E",
                     Command = MoveItemUpCommand,
-                    ShowItem = showMoveItemUp && item.ItemType != NavigationControlItemType.FileTag
+                    ShowItem = showMoveItemUp 
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "SideBarFavoritesMoveOneDown".GetLocalized(),
                     Glyph = "\uE70D",
                     Command = MoveItemDownCommand,
-                    ShowItem = showMoveItemDown && item.ItemType != NavigationControlItemType.FileTag
+                    ShowItem = showMoveItemDown 
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "SideBarFavoritesMoveToBottom".GetLocalized(),
                     Glyph = "\uE118",
                     Command = MoveItemToBottomCommand,
-                    ShowItem = showMoveItemDown && item.ItemType != NavigationControlItemType.FileTag
+                    ShowItem = showMoveItemDown 
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {

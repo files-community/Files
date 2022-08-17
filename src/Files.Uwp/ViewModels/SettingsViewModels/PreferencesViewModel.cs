@@ -46,8 +46,6 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
 
         public ICommand OpenFilesAtStartupCommand { get; }
 
-        public ICommand EditFileTagsCommand { get; }
-
         public PreferencesViewModel()
         {
             ChangePageCommand = new AsyncRelayCommand(ChangePage);
@@ -66,7 +64,6 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
 
             EditTerminalApplicationsCommand = new AsyncRelayCommand(LaunchTerminalsConfigFile);
             OpenFilesAtStartupCommand = new AsyncRelayCommand(OpenFilesAtStartup);
-            EditFileTagsCommand = new AsyncRelayCommand(LaunchFileTagsConfigFile);
             App.TerminalController.ModelChanged += ReloadTerminals;
 
             if (UserSettingsService.PreferencesSettingsService.TabsOnStartupList != null)
@@ -271,24 +268,6 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
             if (path != null && PagesOnStartupList != null)
             {
                 PagesOnStartupList.Add(new PageOnStartupViewModel(path));
-            }
-        }
-
-        private async Task LaunchFileTagsConfigFile()
-        {
-            var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/filetags.json"));
-            if (!await Launcher.LaunchFileAsync(configFile))
-            {
-                var connection = await AppServiceConnectionHelper.Instance;
-                if (connection != null)
-                {
-                    await connection.SendMessageAsync(new ValueSet()
-                    {
-                        { "Arguments", "InvokeVerb" },
-                        { "FilePath", configFile.Path },
-                        { "Verb", "open" }
-                    });
-                }
             }
         }
 

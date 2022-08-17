@@ -18,6 +18,8 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
     {
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
+        public ICommand EditFileTagsCommand { get; }
+
         public ICommand SetAsDefaultExplorerCommand { get; }
 
         public ICommand SetAsOpenFileDialogCommand { get; }
@@ -27,6 +29,7 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
             IsSetAsDefaultFileManager = DetectIsSetAsDefaultFileManager();
             IsSetAsOpenFileDialog = DetectIsSetAsOpenFileDialog();
 
+            EditFileTagsCommand = new AsyncRelayCommand(LaunchFileTagsConfigFile);
             SetAsDefaultExplorerCommand = new AsyncRelayCommand(SetAsDefaultExplorer);
             SetAsOpenFileDialogCommand = new AsyncRelayCommand(SetAsOpenFileDialog);
         }
@@ -40,6 +43,24 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
                 {
                     UserSettingsService.PreferencesSettingsService.ShowFolderSize = value;
                     OnPropertyChanged();
+                }
+            }
+        }
+
+        private async Task LaunchFileTagsConfigFile()
+        {
+            var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/filetags.json"));
+            if (!await Launcher.LaunchFileAsync(configFile))
+            {
+                var connection = await AppServiceConnectionHelper.Instance;
+                if (connection != null)
+                {
+                    await connection.SendMessageAsync(new ValueSet()
+                    {
+                        { "Arguments", "InvokeVerb" },
+                        { "FilePath", configFile.Path },
+                        { "Verb", "open" }
+                    });
                 }
             }
         }
