@@ -95,8 +95,7 @@ namespace Files.Uwp.Helpers
 
         private static async Task<IEnumerable<IconFileInfo>> LoadSidebarIconResources()
         {
-            string systemRoot = Environment.GetEnvironmentVariable("Systemroot");
-            string imageres = Path.Combine(systemRoot, "System32", "imageres.dll");
+            string imageres = Path.Combine(CommonPaths.SystemRootPath, "System32", "imageres.dll");
             var imageResList = await UIHelpers.LoadSelectedIconsAsync(imageres, new List<int>() {
                     Constants.ImageRes.RecycleBin,
                     Constants.ImageRes.NetworkDrives,

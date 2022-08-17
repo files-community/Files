@@ -1,4 +1,5 @@
 ﻿using Files.Uwp.Filesystem;
+using Files.Uwp.Helpers;
 using Files.Uwp.ViewModels.Properties;
 using System;
 using System.IO;
@@ -18,8 +19,7 @@ namespace Files.Uwp.Views
 
         private void CustomIconsSelectorFrame_Loaded(object sender, RoutedEventArgs e)
         {
-            string systemRoot = Environment.GetEnvironmentVariable("Systemroot");
-            string initialPath = Path.Combine(systemRoot, "System32", "SHELL32.dll");
+            string initialPath = Path.Combine(CommonPaths.SystemRootPath, "System32", "SHELL32.dll");
             var item = (BaseProperties as FileProperties)?.Item ?? (BaseProperties as FolderProperties)?.Item;
             (sender as Frame).Navigate(typeof(CustomFolderIcons), new IconSelectorInfo
             {
