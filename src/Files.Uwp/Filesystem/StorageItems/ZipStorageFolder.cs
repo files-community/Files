@@ -5,6 +5,7 @@ using Microsoft.Toolkit.Uwp;
 using SevenZip;
 using System;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -72,7 +73,7 @@ namespace Files.Uwp.Filesystem.StorageItems
             return (marker == path.Length && includeRoot) || (marker < path.Length && path[marker] is '\\');
         }
 
-        private static Dictionary<string, Task<bool>> defaultAppDict = new Dictionary<string, Task<bool>>();
+        private static ConcurrentDictionary<string, Task<bool>> defaultAppDict = new();
         public static async Task<bool> CheckDefaultZipApp(string filePath)
         {
             Func<Task<bool>> queryFileAssoc = async () =>
@@ -81,11 +82,11 @@ namespace Files.Uwp.Filesystem.StorageItems
                 if (assoc != null)
                 {
                     return assoc == Package.Current.Id.FamilyName
-                        || assoc.Equals(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "explorer.exe"), StringComparison.OrdinalIgnoreCase);
+                        || assoc.Equals(IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "explorer.exe"), StringComparison.OrdinalIgnoreCase);
                 }
                 return true;
             };
-            var ext = System.IO.Path.GetExtension(filePath)?.ToLowerInvariant();
+            var ext = IO.Path.GetExtension(filePath)?.ToLowerInvariant();
             return await defaultAppDict.GetAsync(ext, queryFileAssoc);
         }
 
