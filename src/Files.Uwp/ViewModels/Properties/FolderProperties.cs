@@ -9,7 +9,6 @@ using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
 using Windows.UI.Core;
 using Microsoft.UI.Dispatching;
@@ -62,7 +61,7 @@ namespace Files.Uwp.ViewModels.Properties
                     ViewModel.ShortcutItemArgumentsVisibility = false;
                     ViewModel.ShortcutItemOpenLinkCommand = new RelayCommand(async () =>
                     {
-                        await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(
+                        await App.WindowDispatcherQueue.EnqueueAsync(
                             () => NavigationHelpers.OpenPathInNewTab(Path.GetDirectoryName(ViewModel.ShortcutItemPath)));
                     }, () =>
                     {

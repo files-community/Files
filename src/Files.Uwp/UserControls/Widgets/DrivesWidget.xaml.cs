@@ -18,7 +18,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Windows.ApplicationModel.Core;
 using System.Collections.Specialized;
 
 namespace Files.Uwp.UserControls.Widgets
@@ -56,7 +55,7 @@ namespace Files.Uwp.UserControls.Widgets
             if (thumbnailData != null && thumbnailData.Length > 0)
             {
                 // Thumbnail data is valid, set the item icon
-                Thumbnail = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(overrideThumbnailSize));
+                Thumbnail = await App.Window.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(overrideThumbnailSize));
             }
         }
     }

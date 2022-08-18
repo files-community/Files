@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 
 namespace Files.Uwp.Filesystem.Cloud
 {
@@ -60,7 +59,7 @@ namespace Files.Uwp.Filesystem.Cloud
                 if (iconData is not null)
                 {
                     cloudProviderItem.IconData = iconData;
-                    await CoreApplication.MainView.CoreWindow.DispatcherQueue
+                    await App.Window.DispatcherQueue
                         .EnqueueAsync(async () => cloudProviderItem.Icon = await iconData.ToBitmapAsync());
                 }
 

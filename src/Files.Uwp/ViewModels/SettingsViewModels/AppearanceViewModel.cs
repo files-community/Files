@@ -6,7 +6,6 @@ using CommunityToolkit.WinUI;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 using Microsoft.UI.Xaml;
 
 namespace Files.Uwp.ViewModels.SettingsViewModels

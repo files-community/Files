@@ -268,11 +268,6 @@ namespace Files.Uwp
 
         }
 
-        public void OnActivated(AppActivationArguments activatedEventArgs)
-        {
-
-        }
-
         private void EnsureWindowIsInitialized()
         {
             Window = new MainWindow();
@@ -305,7 +300,10 @@ namespace Files.Uwp
             }
         }
 
-        // WINUI3: OnActivated
+        public void OnActivated(AppActivationArguments activatedEventArgs)
+        {
+
+        }
 
         // WINUI3: OnSuspending
 
@@ -446,8 +444,6 @@ namespace Files.Uwp
         }
 
         public static MainWindow Window { get; set; }
-
-        public static DispatcherQueue WindowDispatcherQueue { get; set; }
 
         public static IntPtr WindowHandle { get; private set; }
     }

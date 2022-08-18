@@ -4,7 +4,6 @@ using CommunityToolkit.WinUI;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Microsoft.UI.Xaml.Media;
@@ -29,7 +28,7 @@ namespace Files.Uwp.ViewModels.Previews
         public override async Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
         {
             using IRandomAccessStream stream = await Item.ItemFile.OpenAsync(FileAccessMode.Read);
-            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+            await App.WindowDispatcherQueue.EnqueueAsync(async () =>
             {
                 BitmapImage bitmap = new();
                 await bitmap.SetSourceAsync(stream);

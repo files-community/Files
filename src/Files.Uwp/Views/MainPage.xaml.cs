@@ -18,7 +18,6 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Windows.ApplicationModel;
-using Windows.ApplicationModel.Core;
 using Microsoft.Windows.ApplicationModel.Resources;
 using Windows.Services.Store;
 using Windows.Storage;

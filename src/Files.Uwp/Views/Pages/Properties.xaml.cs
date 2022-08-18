@@ -7,7 +7,6 @@ using Files.Uwp.ViewModels.Properties;
 using CommunityToolkit.WinUI;
 using System;
 using System.Threading;
-using Windows.ApplicationModel.Core;
 using Microsoft.Windows.ApplicationModel.Resources;
 using Windows.Foundation.Metadata;
 using Windows.System;
@@ -179,7 +178,7 @@ namespace Files.Uwp.Views
                     TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
                     App.Window.SetTitleBar(TitleBarDragArea);
                 }
-                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => AppSettings.UpdateThemeElements.Execute(null));
+                await App.Window.DispatcherQueue.EnqueueAsync(() => AppSettings.UpdateThemeElements.Execute(null));
             }
             else
             {

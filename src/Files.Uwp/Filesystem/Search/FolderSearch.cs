@@ -12,7 +12,6 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
@@ -394,10 +393,10 @@ namespace Files.Uwp.Filesystem.Search
                     {
                         if (t.IsCompletedSuccessfully && t.Result != null)
                         {
-                            _ = FilesystemTasks.Wrap(() => CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                            _ = FilesystemTasks.Wrap(() => App.Window.DispatcherQueue.EnqueueAsync(async () =>
                             {
                                 listedItem.FileImage = await t.Result.ToBitmapAsync();
-                            }, Windows.System.DispatcherQueuePriority.Low));
+                            }, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low));
                         }
                     });
             }

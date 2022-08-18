@@ -6,7 +6,6 @@ using Files.Uwp.ViewModels.Properties;
 using CommunityToolkit.WinUI;
 using System;
 using System.Linq;
-using Windows.ApplicationModel.Core;
 using Microsoft.Windows.ApplicationModel.Resources;
 using Windows.Foundation.Metadata;
 using Windows.System;
@@ -87,7 +86,7 @@ namespace Files.Uwp.Views
                 ApplicationView.GetForCurrentView().TitleBar;
                 TitleBar.ButtonBackgroundColor = Colors.Transparent;
                 TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => App.AppSettings.UpdateThemeElements.Execute(null));
+                await App.Window.DispatcherQueue.EnqueueAsync(() => App.AppSettings.UpdateThemeElements.Execute(null));
             }
             else
             {

@@ -12,7 +12,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 using Windows.Devices.Enumeration;
 using Windows.Devices.Portable;
 using Windows.Storage;
@@ -185,7 +184,7 @@ namespace Files.Uwp.Filesystem
                     DriveItem matchingDriveEjected = Drives.FirstOrDefault(x => x.DeviceID == deviceId);
                     if (rootModified && matchingDriveEjected is not null)
                     {
-                        _ = CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
+                        _ = App.WindowDispatcherQueue.EnqueueAsync(() =>
                         {
                             matchingDriveEjected.Root = rootModified.Result;
                             matchingDriveEjected.Text = rootModified.Result.DisplayName;

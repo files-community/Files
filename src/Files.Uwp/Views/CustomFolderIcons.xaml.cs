@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.AppService;
-using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
 using Windows.UI.Core;
 using Microsoft.UI.Xaml;
@@ -104,7 +103,7 @@ namespace Files.Uwp.Views
                 SetCustomFolderIcon(selectedItemPath, iconResourceItemPath, selectedIconInfo.Index);
             if (await setIconTask)
             {
-                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
+                await App.Window.DispatcherQueue.EnqueueAsync(() =>
                 {
                     appInstance?.FilesystemViewModel?.RefreshItems(null);
                 });
@@ -120,7 +119,7 @@ namespace Files.Uwp.Views
                 SetCustomFolderIcon(selectedItemPath, null);
             if (await setIconTask)
             {
-                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
+                await App.Window.DispatcherQueue.EnqueueAsync(() =>
                 {
                     appInstance?.FilesystemViewModel?.RefreshItems(null, async () =>
                     {

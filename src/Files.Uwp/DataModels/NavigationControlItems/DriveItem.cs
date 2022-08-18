@@ -6,7 +6,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.WinUI;
 using System;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Microsoft.UI.Xaml;
@@ -167,7 +166,7 @@ namespace Files.Uwp.DataModels.NavigationControlItems
             item.DeviceID = deviceId;
             item.Root = root;
 
-            _ = CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => item.UpdatePropertiesAsync());
+            _ = App.Window.DispatcherQueue.EnqueueAsync(() => item.UpdatePropertiesAsync());
 
             return item;
         }

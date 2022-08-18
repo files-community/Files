@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 using Windows.Storage.FileProperties;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -95,11 +94,11 @@ namespace Files.Uwp.ViewModels.Previews
             iconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, 400);
             if (iconData is not null)
             {
-                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () => FileImage = await iconData.ToBitmapAsync());
+                await App.WindowDispatcherQueue.EnqueueAsync(async () => FileImage = await iconData.ToBitmapAsync());
             }
             else
             {
-                FileImage ??= await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => new BitmapImage());
+                FileImage ??= await App.WindowDispatcherQueue.EnqueueAsync(() => new BitmapImage());
             }
 
             return new List<FileProperty>();

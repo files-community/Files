@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 using Windows.Data.Pdf;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
@@ -90,7 +89,7 @@ namespace Files.Uwp.ViewModels.Previews
                 BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
                 using SoftwareBitmap sw = await decoder.GetSoftwareBitmapAsync();
 
-                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                await App.WindowDispatcherQueue.EnqueueAsync(async () =>
                 {
                     BitmapImage src = new();
                     PageViewModel pageData = new()
