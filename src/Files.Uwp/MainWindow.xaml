@@ -14,7 +14,7 @@
                Stretch="Uniform">
             <Image.Source>
                 <BitmapImage
-					UriSource="ms-appx:///Assets/AppTilesDev/SplashScreen.scale-200.png" />
+					UriSource="ms-appx:///Assets/AppTilesDev/SplashScreen.scale-100.png" />
             </Image.Source>
         </Image>
     </Grid>

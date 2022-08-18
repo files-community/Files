@@ -206,7 +206,7 @@ namespace Files.Uwp.Views
             Feel free to edit its position, behavior and use the custom back button instead.
             Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/case-study-1#restoring-back-button-functionality
             */
-            SystemNavigationManager.GetForCurrentView().BackRequested += ModernShellPage_BackRequested;
+            //SystemNavigationManager.GetForCurrentView().BackRequested += ModernShellPage_BackRequested;
 
             App.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
 
@@ -1016,7 +1016,7 @@ namespace Files.Uwp.Views
         {
             PreviewKeyDown -= ModernShellPage_PreviewKeyDown;
             this.PointerPressed -= CoreWindow_PointerPressed;
-            SystemNavigationManager.GetForCurrentView().BackRequested -= ModernShellPage_BackRequested;
+            //SystemNavigationManager.GetForCurrentView().BackRequested -= ModernShellPage_BackRequested; //WINUI3
             App.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;
 
             ToolbarViewModel.ToolbarPathItemInvoked -= ModernShellPage_NavigationRequested;

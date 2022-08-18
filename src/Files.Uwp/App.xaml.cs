@@ -240,7 +240,7 @@ namespace Files.Uwp
             var activatedEventArgs = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
 
             await logWriter.InitializeAsync("debug.log");
-            Logger.Info($"App launched.");
+            Logger.Info($"App launched. Launch args type: {activatedEventArgs.Data.GetType().Name}");
 
             //start tracking app usage
             if (activatedEventArgs.Data is Windows.ApplicationModel.Activation.IActivatedEventArgs iaea)
@@ -293,6 +293,8 @@ namespace Files.Uwp
 
         public async void OnActivated(AppActivationArguments activatedEventArgs)
         {
+            Logger.Info($"App activated. Activated args type: {activatedEventArgs.Data.GetType().Name}");
+
             await Window.InitializeApplication(activatedEventArgs);
         }
 
