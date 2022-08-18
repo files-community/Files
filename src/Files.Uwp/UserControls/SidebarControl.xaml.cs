@@ -511,7 +511,7 @@ namespace Files.Uwp.UserControls
                 return;
             }
 
-            var ctrlPressed = App.Window.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            var ctrlPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             if (ctrlPressed && navigationPath is not null)
             {
                 await NavigationHelpers.OpenPathInNewTab(navigationPath);
@@ -1025,7 +1025,7 @@ namespace Files.Uwp.UserControls
         private void Border_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             var step = 1;
-            var ctrl = App.Window.CoreWindow.GetKeyState(VirtualKey.Control);
+            var ctrl = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control);
             originalSize = IsPaneOpen ? UserSettingsService.AppearanceSettingsService.SidebarWidth : CompactPaneLength;
 
             if (ctrl.HasFlag(CoreVirtualKeyStates.Down))
@@ -1073,7 +1073,7 @@ namespace Files.Uwp.UserControls
         {
             if (!dragging) // keep showing pressed event if currently resizing the sidebar
             {
-                App.Window.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Arrow, 0);
+                //App.Window.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Arrow, 0); //WINUI3
                 VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerNormal", true);
             }
         }
@@ -1082,7 +1082,7 @@ namespace Files.Uwp.UserControls
         {
             if (DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded)
             {
-                App.Window.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.SizeWestEast, 0);
+                //App.Window.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.SizeWestEast, 0); //WINUI3
                 VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerPointerOver", true);
             }
         }
@@ -1117,7 +1117,7 @@ namespace Files.Uwp.UserControls
 
         private void ResizeElementBorder_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
-            App.Window.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Arrow, 0);
+            //App.Window.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Arrow, 0); //WINUI3
             VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerNormal", true);
             UserSettingsService.AppearanceSettingsService.SidebarWidth = OpenPaneLength;
             dragging = false;
@@ -1133,7 +1133,7 @@ namespace Files.Uwp.UserControls
             if (DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded)
             {
                 originalSize = IsPaneOpen ? UserSettingsService.AppearanceSettingsService.SidebarWidth : CompactPaneLength;
-                App.Window.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.SizeWestEast, 0);
+                //App.Window.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.SizeWestEast, 0); //WINUI3
                 VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerPressed", true);
                 dragging = true;
             }
@@ -1172,7 +1172,7 @@ namespace Files.Uwp.UserControls
                 }
                 if (options.IsLocationItem)
                 {
-                    var shiftPressed = App.Window.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+                    var shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
                     var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(connection: await AppServiceConnectionHelper.Instance, currentInstanceViewModel: null, workingDir: null,
                         new List<ListedItem>() { new ListedItem(null) { ItemPath = rightClickedItem.Path } }, shiftPressed: shiftPressed, showOpenMenu: false);
                     if (!UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu)

@@ -717,18 +717,10 @@ namespace Files.Uwp.ViewModels
 
             if (pointerRoutedEventArgs != null)
             {
-                await /*
-                TODO UA306_A2: UWP CoreDispatcher : Windows.UI.Core.CoreDispatcher is no longer supported. Use DispatcherQueue instead. Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/threading
-            */
-                    /* 
-                        TODO UA315_B
-                        Use Microsoft.UI.Windowing.AppWindow.Create instead of GetForCurrentThread.
-                        Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
-                    */
-                    Windows.UI.Core.CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, async () =>
+                await App.Window.DispatcherQueue.EnqueueAsync(async () =>
                 {
                     await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), itemTappedPath);
-                });
+                }, DispatcherQueuePriority.Low);
                 e.Handled = true;
                 pointerRoutedEventArgs = null;
                 return;

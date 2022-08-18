@@ -197,7 +197,7 @@ namespace Files.Uwp.Views
             InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated += AppSettings_SortOptionPreferenceUpdated;
             InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFilesPreferenceUpdated += AppSettings_SortDirectoriesAlongsideFilesPreferenceUpdated;
 
-            App.Window.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
+            this.PointerPressed += CoreWindow_PointerPressed;
 
             /*
               
@@ -205,7 +205,8 @@ namespace Files.Uwp.Views
             The tool has generated a custom back button in the MainWindow.xaml.cs file.
             Feel free to edit its position, behavior and use the custom back button instead.
             Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/case-study-1#restoring-back-button-functionality
-            */SystemNavigationManager.GetForCurrentView().BackRequested += ModernShellPage_BackRequested;
+            */
+            SystemNavigationManager.GetForCurrentView().BackRequested += ModernShellPage_BackRequested;
 
             App.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
 
@@ -218,9 +219,9 @@ namespace Files.Uwp.Views
          */
         private async void ModernShellPage_PreviewKeyDown(object sender, KeyRoutedEventArgs args)
         {
-            var ctrl = App.Window.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-            var shift = App.Window.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-            var alt = App.Window.CoreWindow.GetKeyState(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down);
+            var ctrl = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            var shift = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+            var alt = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down);
             var tabInstance = CurrentPageType == typeof(DetailsLayoutBrowser) ||
                               CurrentPageType == typeof(GridViewBrowser);
 
@@ -429,15 +430,15 @@ namespace Files.Uwp.Views
             FilesystemViewModel?.UpdateSortDirectoriesAlongsideFiles();
         }
 
-        private void CoreWindow_PointerPressed(CoreWindow sender, PointerEventArgs args)
+        private void CoreWindow_PointerPressed(object sender, PointerRoutedEventArgs args)
         {
             if (IsCurrentInstance)
             {
-                if (args.CurrentPoint.Properties.IsXButton1Pressed)
+                if (args.GetCurrentPoint(this).Properties.IsXButton1Pressed)
                 {
                     Back_Click();
                 }
-                else if (args.CurrentPoint.Properties.IsXButton2Pressed)
+                else if (args.GetCurrentPoint(this).Properties.IsXButton2Pressed)
                 {
                     Forward_Click();
                 }
@@ -1014,7 +1015,7 @@ namespace Files.Uwp.Views
         public void Dispose()
         {
             PreviewKeyDown -= ModernShellPage_PreviewKeyDown;
-            App.Window.CoreWindow.PointerPressed -= CoreWindow_PointerPressed;
+            this.PointerPressed -= CoreWindow_PointerPressed;
             SystemNavigationManager.GetForCurrentView().BackRequested -= ModernShellPage_BackRequested;
             App.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;
 

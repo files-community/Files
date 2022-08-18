@@ -357,8 +357,8 @@ namespace Files.Uwp.Views.LayoutModes
 
         private async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
-            var ctrlPressed = App.Window.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-            var shiftPressed = App.Window.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+            var ctrlPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            var shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 
             if (e.Key == VirtualKey.Enter && !e.KeyStatus.IsMenuKeyDown)
             {
@@ -494,8 +494,8 @@ namespace Files.Uwp.Views.LayoutModes
 
         private void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
         {
-            var ctrlPressed = App.Window.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-            var shiftPressed = App.Window.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+            var ctrlPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            var shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
             var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
 
             if (ctrlPressed || shiftPressed) // Allow for Ctrl+Shift selection

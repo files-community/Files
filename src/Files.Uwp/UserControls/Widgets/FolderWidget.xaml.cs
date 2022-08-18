@@ -258,7 +258,7 @@ namespace Files.Uwp.UserControls.Widgets
                 return;
             }
 
-            var ctrlPressed = App.Window.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            var ctrlPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             if (ctrlPressed)
             {
                 await NavigationHelpers.OpenPathInNewTab(item.Path);

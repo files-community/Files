@@ -286,18 +286,10 @@ namespace Files.Uwp.Interacts
         {
             foreach (ListedItem listedItem in SlimContentPage.SelectedItems)
             {
-                await /*
-                TODO UA306_A2: UWP CoreDispatcher : Windows.UI.Core.CoreDispatcher is no longer supported. Use DispatcherQueue instead. Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/threading
-            */
-                    /* 
-                        TODO UA315_B
-                        Use Microsoft.UI.Windowing.AppWindow.Create instead of GetForCurrentThread.
-                        Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
-                    */
-                    CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Low, async () =>
+                await App.Window.DispatcherQueue.EnqueueAsync(async () =>
                 {
                     await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
-                });
+                }, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
             }
         }
 

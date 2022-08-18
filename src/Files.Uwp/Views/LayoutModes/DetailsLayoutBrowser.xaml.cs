@@ -442,8 +442,8 @@ namespace Files.Uwp.Views.LayoutModes
 
         private async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
-            var ctrlPressed = App.Window.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-            var shiftPressed = App.Window.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+            var ctrlPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            var shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
             var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;
             var isHeaderFocused = DependencyObjectHelpers.FindParent<DataGridHeader>(focusedElement) != null;
             var isFooterFocused = focusedElement is HyperlinkButton;
@@ -551,8 +551,8 @@ namespace Files.Uwp.Views.LayoutModes
 
         private void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
         {
-            var ctrlPressed = App.Window.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-            var shiftPressed = App.Window.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+            var ctrlPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            var shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
             var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
             if (item == null)
             {
