@@ -50,7 +50,6 @@
                     Glyph="&#xE2B4;" />
             </local:SettingsBlockControl>
             
-            
             <local:SettingsBlockControl
                 Title="{helpers:ResourceString Name=ShowFolderSize}"
                 HorizontalAlignment="Stretch"
