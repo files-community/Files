@@ -131,22 +131,15 @@ namespace Files.Uwp.ViewModels.Previews
             );
 
             // adds the value for the file tag
-            if (userSettingsService.PreferencesSettingsService.AreFileTagsEnabled)
-            {
-                list.FirstOrDefault(x => x.ID is "filetag").Value = 
-                    Item.FileTagsUI is not null ? string.Join(',', Item.FileTagsUI.Select(x => x.TagName)) : null;
-            }
-            else
-            {
-                _ = list.Remove(list.FirstOrDefault(x => x.ID is "filetag"));
-            }
+            list.FirstOrDefault(x => x.ID is "filetag").Value =
+                Item.FileTagsUI is not null ? string.Join(',', Item.FileTagsUI.Select(x => x.TagName)) : null;
 
             return list.Where(i => i.ValueText is not null).ToList();
         }
 
         private class DetailsOnlyPreviewModel : BasePreviewModel
         {
-            public DetailsOnlyPreviewModel(ListedItem item) : base(item) {}
+            public DetailsOnlyPreviewModel(ListedItem item) : base(item) { }
 
             public override Task<List<FileProperty>> LoadPreviewAndDetailsAsync() => Task.FromResult(DetailsFromPreview);
         }
