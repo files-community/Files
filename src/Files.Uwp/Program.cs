@@ -97,7 +97,7 @@ namespace Files.Uwp
                             case ParsedCommandType.ExplorerShellCommand:
                                 if (!CommonPaths.ShellPlaces.ContainsKey(command.Payload.ToUpperInvariant()))
                                 {
-                                    OpenShellCommandInExplorerAsync(command.Payload, proc.Id);
+                                    await OpenShellCommandInExplorerAsync(command.Payload, proc.Id);
                                     return; // Exit
                                 }
                                 break;
@@ -118,7 +118,7 @@ namespace Files.Uwp
                         await instance.RedirectActivationToAsync(activatedArgs);
                         // Terminate "zombie" Files process which remains in suspended state
                         // after redirection when launched by command line
-                        //TerminateUwpAppInstance(proc.Id); // WINUI3: check if needed
+                        await TerminateUwpAppInstance(proc.Id);
                         return;
                     }
                 }
@@ -148,21 +148,19 @@ namespace Files.Uwp
             }
         }
 
-        public static void OpenShellCommandInExplorerAsync(string shellCommand, int pid)
+        public static async Task OpenShellCommandInExplorerAsync(string shellCommand, int pid)
         {
             ApplicationData.Current.LocalSettings.Values["ShellCommand"] = shellCommand;
             ApplicationData.Current.LocalSettings.Values["Arguments"] = "ShellCommand";
             ApplicationData.Current.LocalSettings.Values["pid"] = pid;
-            var ftpPath = System.IO.Path.Combine(Windows.ApplicationModel.Package.Current.InstalledLocation.Path, "Files.FullTrust", "FilesFullTrust.exe");
-            System.Diagnostics.Process.Start(ftpPath);
+            await Windows.ApplicationModel.FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
         }
 
-        public static void TerminateUwpAppInstance(int pid)
+        public static async Task TerminateUwpAppInstance(int pid)
         {
             ApplicationData.Current.LocalSettings.Values["Arguments"] = "TerminateUwp";
             ApplicationData.Current.LocalSettings.Values["pid"] = pid;
-            var ftpPath = System.IO.Path.Combine(Windows.ApplicationModel.Package.Current.InstalledLocation.Path, "Files.FullTrust", "FilesFullTrust.exe");
-            System.Diagnostics.Process.Start(ftpPath);
+            await Windows.ApplicationModel.FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
         }
     }
 }

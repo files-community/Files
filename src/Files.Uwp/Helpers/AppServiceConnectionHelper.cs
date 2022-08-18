@@ -76,10 +76,11 @@ namespace Files.Uwp.Helpers
                 if (launchFullTrust)
                 {
                     // Launch fulltrust process
-                    // WINUI3: TODO UA306_G: UWP WebAuthenticationBroker : Windows.Security.Authentication.Web.WebAuthenticationBroker is not yet supported in WindowsAppSDK. Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/what-is-supported
-                    //ApplicationData.Current.LocalSettings.Values["PackageSid"] = WebAuthenticationBroker.GetCurrentApplicationCallbackUri().Host.ToUpperInvariant();
-                    var ftpPath = Path.Combine(Package.Current.InstalledLocation.Path, "Files.FullTrust", "FilesFullTrust.exe");
-                    System.Diagnostics.Process.Start(ftpPath);
+                    ApplicationData.Current.LocalSettings.Values["PackageSid"] =
+/*
+                TODO UA306_G: UWP WebAuthenticationBroker : Windows.Security.Authentication.Web.WebAuthenticationBroker is not yet supported in WindowsAppSDK. Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/what-is-supported
+            */WebAuthenticationBroker.GetCurrentApplicationCallbackUri().Host.ToUpperInvariant();
+                    await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
                 }
 
                 var connection = new NamedPipeAsAppServiceConnection();

@@ -115,7 +115,7 @@ namespace Files.FullTrust.MessageHandlers
                             
                             foreach (var linkFilePath in linkFilePaths)
                             {
-                                using var link = new ShellLink(linkFilePath, LinkResolution.NoUIWithMsgPump, HWND.NULL, TimeSpan.FromMilliseconds(100));
+                                using var link = new ShellLink(linkFilePath, LinkResolution.NoUIWithMsgPump, null, TimeSpan.FromMilliseconds(100));
 
                                 try
                                 {

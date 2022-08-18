@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
+    <TargetFramework>net6.0-windows10.0.22000.0</TargetFramework>
     <OutputType>WinExe</OutputType>
     <RootNamespace>FilesFullTrust</RootNamespace>
     <AssemblyName>FilesFullTrust</AssemblyName>
@@ -28,8 +28,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Tulpep.ActiveDirectoryObjectPicker" Version="3.0.11" />
     <PackageReference Include="Vanara.PInvoke.Mpr" Version="3.4.6" />
-    <PackageReference Include="Vanara.PInvoke.UserEnv" Version="3.4.6" />
-    <PackageReference Include="Vanara.Windows.Shell" Version="3.4.6" />
+    <PackageReference Include="Vanara.Windows.Shell" Version="3.3.15" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Files.Shared\Files.Shared.csproj" />
