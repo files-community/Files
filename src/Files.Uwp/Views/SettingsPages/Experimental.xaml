@@ -39,7 +39,6 @@
             <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsEditFileTagsExpander/Title}" HorizontalAlignment="Stretch"
                 ButtonCommand="{Binding EditFileTagsCommand}"
                 IsClickable="True">
-
                 <local:SettingsBlockControl.Icon>
                     <FontIcon
                             FontSize="14"
