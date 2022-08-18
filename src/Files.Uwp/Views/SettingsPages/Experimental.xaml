@@ -46,6 +46,10 @@
                             Foreground="{ThemeResource TextFillColorPrimaryBrush}"
                             Glyph="&#xE104;" />
                 </local:SettingsBlockControl.Icon>
+                <FontIcon
+                    FontSize="14"
+                    Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                    Glyph="&#xE2B4;" />
             </local:SettingsBlockControl>
             
             
