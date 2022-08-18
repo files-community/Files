@@ -2,7 +2,7 @@ using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
-using CommunityToolkit.WinUI;
+using Files.Uwp.Extensions;
 using System;
 using Windows.Storage.FileProperties;
 
@@ -31,7 +31,7 @@ namespace Files.Uwp.ViewModels.Properties
                 ViewModel.ItemName = Drive.Text;
                 ViewModel.OriginalItemName = Drive.Text;
                 // Note: if DriveType enum changes, the corresponding resource keys should change too
-                ViewModel.ItemType = string.Format("DriveType{0}", Drive.Type).GetLocalized();
+                ViewModel.ItemType = string.Format("DriveType{0}", Drive.Type).GetLocalizedResource();
             }
         }
 

@@ -3,7 +3,7 @@ using Files.Shared.Enums;
 using Files.Uwp.Dialogs;
 using Files.Uwp.Filesystem;
 using Files.Uwp.ViewModels.Dialogs;
-using CommunityToolkit.WinUI;
+using Files.Uwp.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -150,10 +150,10 @@ namespace Files.Uwp.Helpers
         {
             var dialog = new DynamicDialog(new DynamicDialogViewModel
             {
-                TitleText = "DialogRestoreLibrariesTitleText".GetLocalized(),
-                SubtitleText = "DialogRestoreLibrariesSubtitleText".GetLocalized(),
-                PrimaryButtonText = "DialogRestoreLibrariesButtonText".GetLocalized(),
-                CloseButtonText = "Cancel".GetLocalized(),
+                TitleText = "DialogRestoreLibrariesTitleText".GetLocalizedResource(),
+                SubtitleText = "DialogRestoreLibrariesSubtitleText".GetLocalizedResource(),
+                PrimaryButtonText = "DialogRestoreLibrariesButtonText".GetLocalizedResource(),
+                CloseButtonText = "Cancel".GetLocalizedResource(),
                 PrimaryButtonAction = async (vm, e) =>
                 {
                     var connection = await AppServiceConnectionHelper.Instance;
@@ -185,7 +185,7 @@ namespace Files.Uwp.Helpers
         {
             var inputText = new TextBox
             {
-                PlaceholderText = "FolderWidgetCreateNewLibraryInputPlaceholderText".GetLocalized()
+                PlaceholderText = "FolderWidgetCreateNewLibraryInputPlaceholderText".GetLocalizedResource()
             };
             var tipText = new TextBlock
             {
@@ -210,10 +210,10 @@ namespace Files.Uwp.Helpers
                         }
                     }
                 },
-                TitleText = "FolderWidgetCreateNewLibraryDialogTitleText".GetLocalized(),
-                SubtitleText = "SideBarCreateNewLibrary/Text".GetLocalized(),
-                PrimaryButtonText = "DialogCreateLibraryButtonText".GetLocalized(),
-                CloseButtonText = "Cancel".GetLocalized(),
+                TitleText = "FolderWidgetCreateNewLibraryDialogTitleText".GetLocalizedResource(),
+                SubtitleText = "SideBarCreateNewLibrary/Text".GetLocalizedResource(),
+                PrimaryButtonText = "DialogCreateLibraryButtonText".GetLocalizedResource(),
+                CloseButtonText = "Cancel".GetLocalizedResource(),
                 PrimaryButtonAction = async (vm, e) =>
                 {
                     var (result, reason) = App.LibraryManager.CanCreateLibrary(inputText.Text);

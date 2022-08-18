@@ -9,7 +9,7 @@ using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
 using Files.Uwp.Helpers.ContextFlyouts;
 using Files.Uwp.ViewModels;
-using CommunityToolkit.WinUI;
+using Files.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -204,21 +204,21 @@ namespace Files.Uwp.UserControls
             {
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "SideBarCreateNewLibrary/Text".GetLocalized(),
+                    Text = "SideBarCreateNewLibrary/Text".GetLocalizedResource(),
                     Glyph = "\uE710",
                     Command = CreateLibraryCommand,
                     ShowItem = options.IsLibrariesHeader
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "SideBarRestoreLibraries/Text".GetLocalized(),
+                    Text = "SideBarRestoreLibraries/Text".GetLocalizedResource(),
                     Glyph = "\uE10E",
                     Command = RestoreLibrariesCommand,
                     ShowItem = options.IsLibrariesHeader
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutContextFlyoutEmptyRecycleBin/Text".GetLocalized(),
+                    Text = "BaseLayoutContextFlyoutEmptyRecycleBin/Text".GetLocalizedResource(),
                     Glyph = "\uEF88",
                     GlyphFontFamilyName = "RecycleBinIcons",
                     Command = EmptyRecycleBinCommand,
@@ -229,7 +229,7 @@ namespace Files.Uwp.UserControls
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "SideBarOpenInNewPane/Text".GetLocalized(),
+                    Text = "SideBarOpenInNewPane/Text".GetLocalizedResource(),
                     Glyph = "\uF117",
                     GlyphFontFamilyName = "CustomGlyph",
                     Command = OpenInNewPaneCommand,
@@ -237,7 +237,7 @@ namespace Files.Uwp.UserControls
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "SideBarOpenInNewTab/Text".GetLocalized(),
+                    Text = "SideBarOpenInNewTab/Text".GetLocalizedResource(),
                     Glyph = "\uF113",
                     GlyphFontFamilyName = "CustomGlyph",
                     Command = OpenInNewTabCommand,
@@ -245,63 +245,63 @@ namespace Files.Uwp.UserControls
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "SideBarOpenInNewWindow/Text".GetLocalized(),
+                    Text = "SideBarOpenInNewWindow/Text".GetLocalizedResource(),
                     Glyph = "\uE737",
                     Command = OpenInNewWindowCommand,
                     ShowItem = options.IsLocationItem
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "SideBarFavoritesMoveToTop".GetLocalized(),
+                    Text = "SideBarFavoritesMoveToTop".GetLocalizedResource(),
                     Glyph = "\uE11C",
                     Command = MoveItemToTopCommand,
                     ShowItem = showMoveItemUp
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "SideBarFavoritesMoveOneUp".GetLocalized(),
+                    Text = "SideBarFavoritesMoveOneUp".GetLocalizedResource(),
                     Glyph = "\uE70E",
                     Command = MoveItemUpCommand,
                     ShowItem = showMoveItemUp
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "SideBarFavoritesMoveOneDown".GetLocalized(),
+                    Text = "SideBarFavoritesMoveOneDown".GetLocalizedResource(),
                     Glyph = "\uE70D",
                     Command = MoveItemDownCommand,
                     ShowItem = showMoveItemDown
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "SideBarFavoritesMoveToBottom".GetLocalized(),
+                    Text = "SideBarFavoritesMoveToBottom".GetLocalizedResource(),
                     Glyph = "\uE118",
                     Command = MoveItemToBottomCommand,
                     ShowItem = showMoveItemDown
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalized(),
+                    Text = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalizedResource(),
                     Glyph = "\uE840",
                     Command = PinItemCommand,
                     ShowItem = isDriveItem && !isDriveItemPinned
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "SideBarUnpinFromFavorites/Text".GetLocalized(),
+                    Text = "SideBarUnpinFromFavorites/Text".GetLocalizedResource(),
                     Glyph = "\uE77A",
                     Command = UnpinItemCommand,
                     ShowItem = options.ShowUnpinItem || isDriveItemPinned
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = string.Format("SideBarHideSectionFromSideBar/Text".GetLocalized(), rightClickedItem.Text),
+                    Text = string.Format("SideBarHideSectionFromSideBar/Text".GetLocalizedResource(), rightClickedItem.Text),
                     Glyph = "\uE77A",
                     Command = HideSectionCommand,
                     ShowItem = options.ShowHideSection
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "SideBarEjectDevice/Text".GetLocalized(),
+                    Text = "SideBarEjectDevice/Text".GetLocalizedResource(),
                     Glyph = "\uF10B",
                     GlyphFontFamilyName = "CustomGlyph",
                     Command = EjectDeviceCommand,
@@ -309,14 +309,14 @@ namespace Files.Uwp.UserControls
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutContextFlyoutPropertiesFolder/Text".GetLocalized(),
+                    Text = "BaseLayoutContextFlyoutPropertiesFolder/Text".GetLocalizedResource(),
                     Glyph = "\uE946",
                     Command = OpenPropertiesCommand,
                     ShowItem = options.ShowProperties
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "ContextMenuMoreItemsLabel".GetLocalized(),
+                    Text = "ContextMenuMoreItemsLabel".GetLocalizedResource(),
                     Glyph = "\xE712",
                     Items = new List<ContextMenuFlyoutItemViewModel>(),
                     ID = "ItemOverflow",
@@ -682,13 +682,13 @@ namespace Files.Uwp.UserControls
                     else
                     {
                         e.DragUIOverride.IsCaptionVisible = true;
-                        e.DragUIOverride.Caption = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalized();
+                        e.DragUIOverride.Caption = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalizedResource();
                         e.AcceptedOperation = DataPackageOperation.Move;
                     }
                 }
                 else if (string.IsNullOrEmpty(locationItem.Path) ||
                     (storageItems.Any() && storageItems.AreItemsAlreadyInFolder(locationItem.Path))
-                    || locationItem.Path.StartsWith("Home".GetLocalized(), StringComparison.OrdinalIgnoreCase))
+                    || locationItem.Path.StartsWith("Home".GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
                 }
@@ -701,7 +701,7 @@ namespace Files.Uwp.UserControls
                     else
                     {
                         e.DragUIOverride.IsCaptionVisible = true;
-                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), locationItem.Text);
+                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
                         e.AcceptedOperation = DataPackageOperation.Copy;
                     }
                 }
@@ -714,39 +714,39 @@ namespace Files.Uwp.UserControls
                     e.DragUIOverride.IsCaptionVisible = true;
                     if (locationItem.Path.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
                     {
-                        e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), locationItem.Text);
+                        e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
                         e.AcceptedOperation = DataPackageOperation.Move;
                     }
                     else if (e.Modifiers.HasFlag(DragDropModifiers.Alt) || e.Modifiers.HasFlag(DragDropModifiers.Control | DragDropModifiers.Shift))
                     {
-                        e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalized(), locationItem.Text);
+                        e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
                         e.AcceptedOperation = DataPackageOperation.Link;
                     }
                     else if (e.Modifiers.HasFlag(DragDropModifiers.Control))
                     {
-                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), locationItem.Text);
+                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
                         e.AcceptedOperation = DataPackageOperation.Copy;
                     }
                     else if (e.Modifiers.HasFlag(DragDropModifiers.Shift))
                     {
-                        e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), locationItem.Text);
+                        e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
                         e.AcceptedOperation = DataPackageOperation.Move;
                     }
                     else if (storageItems.Any(x => x.Item is ZipStorageFile || x.Item is ZipStorageFolder)
                         || ZipStorageFolder.IsZipPath(locationItem.Path))
                     {
-                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), locationItem.Text);
+                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
                         e.AcceptedOperation = DataPackageOperation.Copy;
                     }
                     else if (storageItems.AreItemsInSameDrive(locationItem.Path) || locationItem.IsDefaultLocation)
                     {
                         e.AcceptedOperation = DataPackageOperation.Move;
-                        e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), locationItem.Text);
+                        e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
                     }
                     else
                     {
                         e.AcceptedOperation = DataPackageOperation.Copy;
-                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), locationItem.Text);
+                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
                     }
                 }
             }
@@ -777,7 +777,7 @@ namespace Files.Uwp.UserControls
             {
                 e.AcceptedOperation = DataPackageOperation.Move;
                 e.DragUIOverride.IsCaptionVisible = true;
-                e.DragUIOverride.Caption = "PinToSidebarByDraggingCaptionText".GetLocalized();
+                e.DragUIOverride.Caption = "PinToSidebarByDraggingCaptionText".GetLocalizedResource();
             }
         }
 
@@ -857,7 +857,7 @@ namespace Files.Uwp.UserControls
             var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
             var storageItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
-            if ("DriveCapacityUnknown".GetLocalized().Equals(driveItem.SpaceText, StringComparison.OrdinalIgnoreCase) ||
+            if ("DriveCapacityUnknown".GetLocalizedResource().Equals(driveItem.SpaceText, StringComparison.OrdinalIgnoreCase) ||
                 (storageItems.Any() && storageItems.AreItemsAlreadyInFolder(driveItem.Path)))
             {
                 e.AcceptedOperation = DataPackageOperation.None;
@@ -865,7 +865,7 @@ namespace Files.Uwp.UserControls
             else if (handledByFtp)
             {
                 e.DragUIOverride.IsCaptionVisible = true;
-                e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), driveItem.Text);
+                e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
                 e.AcceptedOperation = DataPackageOperation.Copy;
             }
             else if (!storageItems.Any())
@@ -877,28 +877,28 @@ namespace Files.Uwp.UserControls
                 e.DragUIOverride.IsCaptionVisible = true;
                 if (e.Modifiers.HasFlag(DragDropModifiers.Alt) || e.Modifiers.HasFlag(DragDropModifiers.Control | DragDropModifiers.Shift))
                 {
-                    e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalized(), driveItem.Text);
+                    e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
                     e.AcceptedOperation = DataPackageOperation.Link;
                 }
                 else if (e.Modifiers.HasFlag(DragDropModifiers.Control))
                 {
-                    e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), driveItem.Text);
+                    e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
                     e.AcceptedOperation = DataPackageOperation.Copy;
                 }
                 else if (e.Modifiers.HasFlag(DragDropModifiers.Shift))
                 {
-                    e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), driveItem.Text);
+                    e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
                     e.AcceptedOperation = DataPackageOperation.Move;
                 }
                 else if (storageItems.AreItemsInSameDrive(driveItem.Path))
                 {
                     e.AcceptedOperation = DataPackageOperation.Move;
-                    e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), driveItem.Text);
+                    e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
                 }
                 else
                 {
                     e.AcceptedOperation = DataPackageOperation.Copy;
-                    e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), driveItem.Text);
+                    e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
                 }
             }
 
@@ -965,7 +965,7 @@ namespace Files.Uwp.UserControls
             else
             {
                 e.DragUIOverride.IsCaptionVisible = true;
-                e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalized(), fileTagItem.Text);
+                e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalizedResource(), fileTagItem.Text);
                 e.AcceptedOperation = DataPackageOperation.Link;
             }
 
@@ -1146,7 +1146,7 @@ namespace Files.Uwp.UserControls
                 var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => drivePath.StartsWith(x.Path, StringComparison.Ordinal));
                 if (matchingDrive != null && matchingDrive.Type == DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
                 {
-                    bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalized(), string.Format("InsertDiscDialog/Text".GetLocalized(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalized(), "Close".GetLocalized());
+                    bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalizedResource(), string.Format("InsertDiscDialog/Text".GetLocalizedResource(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalizedResource(), "Close".GetLocalizedResource());
                     if (ejectButton)
                     {
                         await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
@@ -1250,7 +1250,7 @@ namespace Files.Uwp.UserControls
             // Restore expanded state when pane is opened
             foreach (var loc in ViewModel.SideBarItems.OfType<LocationItem>().Where(x => x.ChildItems != null))
             {
-                loc.IsExpanded = App.AppSettings.Get(loc.Text == "SidebarFavorites".GetLocalized(), $"section:{loc.Text.Replace('\\', '_')}");
+                loc.IsExpanded = App.AppSettings.Get(loc.Text == "SidebarFavorites".GetLocalizedResource(), $"section:{loc.Text.Replace('\\', '_')}");
             }
         }
 

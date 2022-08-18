@@ -8,7 +8,7 @@ using Files.Shared.Extensions;
 using Files.Uwp.Filesystem.FilesystemHistory;
 using Files.Uwp.Helpers;
 using Files.Uwp.Interacts;
-using CommunityToolkit.WinUI;
+using Files.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -613,7 +613,7 @@ namespace Files.Uwp.Filesystem
                        not when file name has changed */
                     if (Path.GetExtension(source.Path) != Path.GetExtension(newName))
                     {
-                        var yesSelected = await DialogDisplayHelper.ShowDialogAsync("RenameFileDialogTitle".GetLocalized(), "RenameFileDialog/Text".GetLocalized(), "Yes".GetLocalized(), "No".GetLocalized());
+                        var yesSelected = await DialogDisplayHelper.ShowDialogAsync("RenameFileDialogTitle".GetLocalizedResource(), "RenameFileDialog/Text".GetLocalizedResource(), "Yes".GetLocalizedResource(), "No".GetLocalizedResource());
                         if (yesSelected)
                         {
                             history = await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
@@ -667,7 +667,7 @@ namespace Files.Uwp.Filesystem
 
             source = source.Where(x => !string.IsNullOrEmpty(x.Path));
             var dest = source.Select(x => Path.Combine(destination,
-                string.Format("ShortcutCreateNewSuffix".GetLocalized(), x.Name) + ".lnk"));
+                string.Format("ShortcutCreateNewSuffix".GetLocalizedResource(), x.Name) + ".lnk"));
 
             source = await source.ToListAsync();
             dest = await dest.ToListAsync();

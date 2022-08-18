@@ -1,4 +1,4 @@
-using CommunityToolkit.WinUI;
+using Files.Uwp.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
@@ -18,7 +18,7 @@ namespace Files.Uwp.UserControls
         public static readonly DependencyProperty EmptyTextTypeProperty =
             DependencyProperty.Register("EmptyTextType", typeof(EmptyTextType), typeof(FolderEmptyIndicator), new PropertyMetadata(null));
 
-        private string GetTranslated(string resourceName) => resourceName.GetLocalized();
+        private string GetTranslated(string resourceName) => resourceName.GetLocalizedResource();
 
         public FolderEmptyIndicator()
         {

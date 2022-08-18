@@ -11,6 +11,7 @@ using Files.Shared.EventArguments;
 using Files.Shared.Extensions;
 using Files.Uwp.UserControls;
 using Files.Uwp.Views;
+using Files.Uwp.Extensions;
 using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.UI;
 using System;
@@ -480,7 +481,7 @@ namespace Files.Uwp.ViewModels
         public void PathBoxItem_DragLeave(object sender, DragEventArgs e)
         {
             if (!((sender as StackPanel).DataContext is PathBoxItem pathBoxItem) ||
-                pathBoxItem.Path == "Home".GetLocalized())
+                pathBoxItem.Path == "Home".GetLocalizedResource())
             {
                 return;
             }
@@ -505,7 +506,7 @@ namespace Files.Uwp.ViewModels
             dragOverPath = null; // Reset dragged over pathbox item
 
             if (!((sender as StackPanel).DataContext is PathBoxItem pathBoxItem) ||
-                pathBoxItem.Path == "Home".GetLocalized())
+                pathBoxItem.Path == "Home".GetLocalizedResource())
             {
                 return;
             }
@@ -530,7 +531,7 @@ namespace Files.Uwp.ViewModels
         public async void PathBoxItem_DragOver(object sender, DragEventArgs e)
         {
             if (IsSingleItemOverride || !((sender as StackPanel).DataContext is PathBoxItem pathBoxItem) ||
-                pathBoxItem.Path == "Home".GetLocalized())
+                pathBoxItem.Path == "Home".GetLocalizedResource())
             {
                 return;
             }
@@ -592,13 +593,13 @@ namespace Files.Uwp.ViewModels
             else if (storageItems.Any(x => x.Item is ZipStorageFile || x.Item is ZipStorageFolder)
                 || ZipStorageFolder.IsZipPath(pathBoxItem.Path))
             {
-                e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), pathBoxItem.Title);
+                e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), pathBoxItem.Title);
                 e.AcceptedOperation = DataPackageOperation.Copy;
             }
             else
             {
                 e.DragUIOverride.IsCaptionVisible = true;
-                e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), pathBoxItem.Title);
+                e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), pathBoxItem.Title);
                 e.AcceptedOperation = DataPackageOperation.Move;
             }
 
@@ -924,7 +925,7 @@ namespace Files.Uwp.ViewModels
                 var flyoutItem = new MenuFlyoutItem
                 {
                     Icon = new FontIcon { Glyph = "\uE7BA" },
-                    Text = "SubDirectoryAccessDenied".GetLocalized(),
+                    Text = "SubDirectoryAccessDenied".GetLocalizedResource(),
                     //Foreground = (SolidColorBrush)Application.Current.Resources["SystemControlErrorTextForegroundBrush"],
                     FontSize = 12
                 };
@@ -989,7 +990,7 @@ namespace Files.Uwp.ViewModels
 
             if (currentInput != shellPage.FilesystemViewModel.WorkingDirectory || shellPage.CurrentPageType == typeof(WidgetsPage))
             {
-                if (currentInput.Equals("Home".GetLocalized(), StringComparison.OrdinalIgnoreCase))
+                if (currentInput.Equals("Home".GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
                 {
                     shellPage.NavigateHome();
                 }
@@ -1009,7 +1010,7 @@ namespace Files.Uwp.ViewModels
                         var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => PathNormalization.NormalizePath(currentInput).StartsWith(PathNormalization.NormalizePath(x.Path), StringComparison.Ordinal));
                         if (matchingDrive != null && matchingDrive.Type == DataModels.NavigationControlItems.DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
                         {
-                            bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalized(), string.Format("InsertDiscDialog/Text".GetLocalized(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalized(), "Close".GetLocalized());
+                            bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalizedResource(), string.Format("InsertDiscDialog/Text".GetLocalizedResource(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalizedResource(), "Close".GetLocalizedResource());
                             if (ejectButton)
                             {
                                 await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
@@ -1069,14 +1070,14 @@ namespace Files.Uwp.ViewModels
                             {
                                 if (!await Windows.System.Launcher.LaunchUriAsync(new Uri(currentInput)))
                                 {
-                                    await DialogDisplayHelper.ShowDialogAsync("InvalidItemDialogTitle".GetLocalized(),
-                                        string.Format("InvalidItemDialogContent".GetLocalized(), Environment.NewLine, resFolder.ErrorCode.ToString()));
+                                    await DialogDisplayHelper.ShowDialogAsync("InvalidItemDialogTitle".GetLocalizedResource(),
+                                        string.Format("InvalidItemDialogContent".GetLocalizedResource(), Environment.NewLine, resFolder.ErrorCode.ToString()));
                                 }
                             }
                             catch (Exception ex) when (ex is UriFormatException || ex is ArgumentException)
                             {
-                                await DialogDisplayHelper.ShowDialogAsync("InvalidItemDialogTitle".GetLocalized(),
-                                    string.Format("InvalidItemDialogContent".GetLocalized(), Environment.NewLine, resFolder.ErrorCode.ToString()));
+                                await DialogDisplayHelper.ShowDialogAsync("InvalidItemDialogTitle".GetLocalizedResource(),
+                                    string.Format("InvalidItemDialogContent".GetLocalizedResource(), Environment.NewLine, resFolder.ErrorCode.ToString()));
                             }
                         }
                     }
@@ -1153,7 +1154,7 @@ namespace Files.Uwp.ViewModels
                     {
                         suggestions = new List<ListedItem>() { new ListedItem(null) {
                         ItemPath = shellpage.FilesystemViewModel.WorkingDirectory,
-                        ItemNameRaw = "NavigationToolbarVisiblePathNoResults".GetLocalized() } };
+                        ItemNameRaw = "NavigationToolbarVisiblePathNoResults".GetLocalizedResource() } };
                     }
 
                     // NavigationBarSuggestions becoming empty causes flickering of the suggestion box
@@ -1197,7 +1198,7 @@ namespace Files.Uwp.ViewModels
                     NavigationBarSuggestions.Add(new ListedItem(null)
                     {
                         ItemPath = shellpage.FilesystemViewModel.WorkingDirectory,
-                        ItemNameRaw = "NavigationToolbarVisiblePathNoResults".GetLocalized()
+                        ItemNameRaw = "NavigationToolbarVisiblePathNoResults".GetLocalizedResource()
                     });
                 }
             }
@@ -1247,10 +1248,10 @@ namespace Files.Uwp.ViewModels
             {
                 if (SelectedItems is not null && SelectedItems.Count > 1 && IsImage)
                 {
-                    return "SetAsSlideshow".GetLocalized();
+                    return "SetAsSlideshow".GetLocalizedResource();
                 }
 
-                return "SetAsBackground".GetLocalized();
+                return "SetAsBackground".GetLocalizedResource();
             }
         }
         public bool HasAdditionalAction => InstanceViewModel.IsPageTypeRecycleBin || IsPowerShellScript || CanExtract || IsImage || IsFont || IsInfFile;
@@ -1261,13 +1262,13 @@ namespace Files.Uwp.ViewModels
         public bool CanViewProperties => SelectedItems is not null && SelectedItems.Any();
         public bool CanEmptyRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem;
         public bool CanExtract => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsZipFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
-        public string ExtractToText => SelectedItems is not null && SelectedItems.Count == 1 ? string.Format("ExtractToChildFolder".GetLocalized() + "\\", Path.GetFileNameWithoutExtension(selectedItems.First().ItemName)) : "ExtractToChildFolder".GetLocalized();
+        public string ExtractToText => SelectedItems is not null && SelectedItems.Count == 1 ? string.Format("ExtractToChildFolder".GetLocalizedResource() + "\\", Path.GetFileNameWithoutExtension(selectedItems.First().ItemName)) : "ExtractToChildFolder".GetLocalizedResource();
         public bool IsPowerShellScript => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsPowerShellFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
         public bool IsImage => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
         public bool IsInfFile => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsInfFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
         public bool IsFont => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
 
-        public string OpenInTerminal => $"{"OpenIn".GetLocalized()} {App.TerminalController.Model.GetDefaultTerminal()?.Name}";
+        public string OpenInTerminal => $"{"OpenIn".GetLocalizedResource()} {App.TerminalController.Model.GetDefaultTerminal()?.Name}";
 
         private void OnTerminalsChanged(object _)
         {

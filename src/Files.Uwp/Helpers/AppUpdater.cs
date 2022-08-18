@@ -1,4 +1,4 @@
-using CommunityToolkit.WinUI;
+using Files.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,10 +57,10 @@ namespace Files.Uwp.Helpers
         {
             ContentDialog dialog = new()
             {
-                Title = "ConsentDialogTitle".GetLocalized(),
-                Content = "ConsentDialogContent".GetLocalized(),
-                CloseButtonText = "Close".GetLocalized(),
-                PrimaryButtonText = "ConsentDialogPrimaryButtonText".GetLocalized()
+                Title = "ConsentDialogTitle".GetLocalizedResource(),
+                Content = "ConsentDialogContent".GetLocalizedResource(),
+                CloseButtonText = "Close".GetLocalizedResource(),
+                PrimaryButtonText = "ConsentDialogPrimaryButtonText".GetLocalizedResource()
             };
             ContentDialogResult result = await this.SetContentDialogRoot(dialog).ShowAsync();
 

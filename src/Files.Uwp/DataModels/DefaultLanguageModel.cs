@@ -1,4 +1,4 @@
-using CommunityToolkit.WinUI;
+using Files.Uwp.Extensions;
 using System.Globalization;
 
 namespace Files.Uwp.DataModels
@@ -20,7 +20,7 @@ namespace Files.Uwp.DataModels
             else
             {
                 ID = string.Empty;
-                var systemDefaultLanguageOptionStr = "SettingsPreferencesSystemDefaultLanguageOption".GetLocalized();
+                var systemDefaultLanguageOptionStr = "SettingsPreferencesSystemDefaultLanguageOption".GetLocalizedResource();
                 Name = string.IsNullOrEmpty(systemDefaultLanguageOptionStr) ? "System Default" : systemDefaultLanguageOptionStr;
             }
         }

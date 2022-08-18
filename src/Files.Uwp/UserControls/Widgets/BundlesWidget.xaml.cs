@@ -2,7 +2,7 @@ using Files.Backend.Services.Settings;
 using Files.Uwp.ViewModels.Widgets;
 using Files.Uwp.ViewModels.Widgets.Bundles;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.WinUI;
+using Files.Uwp.Extensions;
 using System;
 using Microsoft.UI.Xaml.Controls;
 using System.Threading.Tasks;
@@ -23,9 +23,9 @@ namespace Files.Uwp.UserControls.Widgets
 
         public string WidgetName => nameof(BundlesWidget);
 
-        public string AutomationProperties => "BundlesWidgetAutomationProperties/Name".GetLocalized();
+        public string AutomationProperties => "BundlesWidgetAutomationProperties/Name".GetLocalizedResource();
 
-        public string WidgetHeader => "Bundles".GetLocalized();
+        public string WidgetHeader => "Bundles".GetLocalizedResource();
 
         public bool IsWidgetSettingEnabled => UserSettingsService.WidgetsSettingsService.ShowBundlesWidget;
 

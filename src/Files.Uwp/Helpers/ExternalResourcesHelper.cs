@@ -1,4 +1,4 @@
-using CommunityToolkit.WinUI;
+using Files.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -16,7 +16,7 @@ namespace Files.Uwp.Helpers
         {
             new AppTheme
             {
-                Name = "Default".GetLocalized(),
+                Name = "Default".GetLocalizedResource(),
             },
         };
 

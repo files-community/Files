@@ -13,7 +13,7 @@ using Files.Uwp.ViewModels;
 using Files.Uwp.Views.LayoutModes;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.WinUI;
+using Files.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,7 +22,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Windows.ApplicationModel.Resources;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
@@ -171,7 +170,7 @@ namespace Files.Uwp.Views
                 FlowDirection = FlowDirection.RightToLeft;
             }
 
-            ToolbarViewModel.PathControlDisplayText = "Home".GetLocalized();
+            ToolbarViewModel.PathControlDisplayText = "Home".GetLocalizedResource();
 
             ToolbarViewModel.ToolbarPathItemInvoked += ModernShellPage_NavigationRequested;
             ToolbarViewModel.ToolbarFlyoutOpened += ModernShellPage_ToolbarFlyoutOpened;
@@ -259,7 +258,7 @@ namespace Files.Uwp.Views
             ToolbarViewModel.ClearContentPageSelectionCommand = new RelayCommand(() => SlimContentPage?.ItemManipulationModel.ClearSelection());
             ToolbarViewModel.PasteItemsFromClipboardCommand = new RelayCommand(async () => await UIFilesystemHelpers.PasteItemAsync(FilesystemViewModel.WorkingDirectory, this));
             ToolbarViewModel.OpenNewWindowCommand = new RelayCommand(NavigationHelpers.LaunchNewWindow);
-            ToolbarViewModel.OpenNewPaneCommand = new RelayCommand(() => PaneHolder?.OpenPathInNewPane("Home".GetLocalized()));
+            ToolbarViewModel.OpenNewPaneCommand = new RelayCommand(() => PaneHolder?.OpenPathInNewPane("Home".GetLocalizedResource()));
             ToolbarViewModel.ClosePaneCommand = new RelayCommand(() => PaneHolder?.CloseActivePane());
             ToolbarViewModel.OpenDirectoryInDefaultTerminalCommand = new RelayCommand(async () => await NavigationHelpers.OpenDirectoryInTerminal(this.FilesystemViewModel.WorkingDirectory));
             ToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.File, x, this));
@@ -559,7 +558,7 @@ namespace Files.Uwp.Views
 
         private void OnNavigationParamsChanged()
         {
-            if (string.IsNullOrEmpty(NavParams?.NavPath) || NavParams.NavPath == "Home".GetLocalized())
+            if (string.IsNullOrEmpty(NavParams?.NavPath) || NavParams.NavPath == "Home".GetLocalizedResource())
             {
                 ItemDisplayFrame.Navigate(typeof(WidgetsPage),
                     new NavigationArguments()
@@ -652,11 +651,11 @@ namespace Files.Uwp.Views
             {
                 if (FilesystemViewModel.FilesAndFolders.Count == 1)
                 {
-                    ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {"ItemCount/Text".GetLocalized()}";
+                    ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {"ItemCount/Text".GetLocalizedResource()}";
                 }
                 else
                 {
-                    ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {"ItemsCount/Text".GetLocalized()}";
+                    ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {"ItemsCount/Text".GetLocalizedResource()}";
                 }
                 ContentPage.UpdateSelectionSize();
             }
@@ -970,7 +969,7 @@ namespace Files.Uwp.Views
                 ItemDisplayFrame.Navigate(typeof(WidgetsPage),
                                           new NavigationArguments()
                                           {
-                                              NavPathParam = "Home".GetLocalized(),
+                                              NavPathParam = "Home".GetLocalizedResource(),
                                               AssociatedTabInstance = this
                                           },
                                           new SuppressNavigationTransitionInfo());
@@ -1008,7 +1007,7 @@ namespace Files.Uwp.Views
         {
             if (incomingSourcePageType == typeof(WidgetsPage) && incomingSourcePageType != null)
             {
-                ToolbarViewModel.PathControlDisplayText = "Home".GetLocalized();
+                ToolbarViewModel.PathControlDisplayText = "Home".GetLocalizedResource();
             }
         }
 
@@ -1133,7 +1132,7 @@ namespace Files.Uwp.Views
             ItemDisplayFrame.Navigate(typeof(WidgetsPage),
                 new NavigationArguments()
                 {
-                    NavPathParam = "Home".GetLocalized(),
+                    NavPathParam = "Home".GetLocalizedResource(),
                     AssociatedTabInstance = this
                 },
                 new EntranceNavigationTransitionInfo());

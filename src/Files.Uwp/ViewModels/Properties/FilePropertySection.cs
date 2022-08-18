@@ -1,4 +1,4 @@
-using CommunityToolkit.WinUI;
+using Files.Uwp.Extensions;
 using System.Collections.Generic;
 using Microsoft.UI.Xaml;
 
@@ -17,7 +17,7 @@ namespace Files.Uwp.ViewModels.Properties
 
         public string Key { get; set; }
 
-        public string Title => Key.GetLocalized();
+        public string Title => Key.GetLocalizedResource();
 
         public int Priority => sectionPriority.ContainsKey(Key) ? sectionPriority[Key] : 0;
 

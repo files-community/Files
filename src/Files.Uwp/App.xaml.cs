@@ -30,7 +30,7 @@ using Microsoft.UI.Windowing;
 using CommunityToolkit.WinUI.Helpers;
 using System.Diagnostics;
 using CommunityToolkit.WinUI.Notifications;
-using CommunityToolkit.WinUI;
+using Files.Uwp.Extensions;
 using Windows.UI.Notifications;
 using System.Linq;
 using Files.Uwp.UserControls.MultitaskingControl;
@@ -326,7 +326,7 @@ namespace Files.Uwp
                     }
                     else
                     {
-                        var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home".GetLocalized() };
+                        var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home".GetLocalizedResource() };
                         return defaultArg.Serialize();
                     }
                 }).ToList();
@@ -394,11 +394,11 @@ namespace Files.Uwp
                             {
                                 new AdaptiveText()
                                 {
-                                    Text = "ExceptionNotificationHeader".GetLocalized()
+                                    Text = "ExceptionNotificationHeader".GetLocalizedResource()
                                 },
                                 new AdaptiveText()
                                 {
-                                    Text = "ExceptionNotificationBody".GetLocalized()
+                                    Text = "ExceptionNotificationBody".GetLocalizedResource()
                                 }
                             },
                             AppLogoOverride = new ToastGenericAppLogo()
@@ -411,7 +411,7 @@ namespace Files.Uwp
                     {
                         Buttons =
                         {
-                            new ToastButton("ExceptionNotificationReportButton".GetLocalized(), "report")
+                            new ToastButton("ExceptionNotificationReportButton".GetLocalizedResource(), "report")
                             {
                                 ActivationType = ToastActivationType.Foreground
                             }

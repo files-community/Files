@@ -9,6 +9,7 @@ using Files.Uwp.Controllers;
 using Files.Uwp.DataModels;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Helpers;
+using Files.Uwp.Extensions;
 using CommunityToolkit.WinUI;
 using System;
 using System.Collections.Generic;
@@ -84,14 +85,14 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
 
         private async Task InitStartupSettingsRecentFoldersFlyout()
         {
-            var recentsItem = new MenuFlyoutSubItemViewModel("JumpListRecentGroupHeader".GetLocalized());
-            recentsItem.Items.Add(new MenuFlyoutItemViewModel("Home".GetLocalized(), "Home".GetLocalized(), AddPageCommand));
+            var recentsItem = new MenuFlyoutSubItemViewModel("JumpListRecentGroupHeader".GetLocalizedResource());
+            recentsItem.Items.Add(new MenuFlyoutItemViewModel("Home".GetLocalizedResource(), "Home".GetLocalizedResource(), AddPageCommand));
 
             await App.RecentItemsManager.UpdateRecentFoldersAsync();    // ensure recent folders aren't stale since we don't update them with a watcher
             await PopulateRecentItems(recentsItem).ContinueWith(_ =>
             {
                 AddFlyoutItemsSource = new ReadOnlyCollection<IMenuFlyoutItem>(new IMenuFlyoutItem[] {
-                    new MenuFlyoutItemViewModel("Browse".GetLocalized(), null, AddPageCommand),
+                    new MenuFlyoutItemViewModel("Browse".GetLocalizedResource(), null, AddPageCommand),
                     recentsItem,
                 });
             }, TaskScheduler.FromCurrentSynchronizationContext());
@@ -285,9 +286,9 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
             {
                 get
                 {
-                    if (Path == "Home".GetLocalized())
+                    if (Path == "Home".GetLocalizedResource())
                     {
-                        return "Home".GetLocalized();
+                        return "Home".GetLocalizedResource();
                     }
                     if (Path == CommonPaths.RecycleBinPath)
                     {
@@ -312,7 +313,7 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
         }
 
         public string DateFormatSample
-            => string.Format("DateFormatSample".GetLocalized(), DateFormats[SelectedDateFormatIndex].Sample1, DateFormats[SelectedDateFormatIndex].Sample2);
+            => string.Format("DateFormatSample".GetLocalizedResource(), DateFormats[SelectedDateFormatIndex].Sample1, DateFormats[SelectedDateFormatIndex].Sample2);
 
         public List<DateFormatItem> DateFormats { get; set; }
 

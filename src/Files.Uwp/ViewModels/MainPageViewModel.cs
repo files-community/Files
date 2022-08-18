@@ -8,7 +8,7 @@ using Files.Uwp.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.WinUI;
+using Files.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -179,7 +179,7 @@ namespace Files.Uwp.ViewModels
         {
             if (string.IsNullOrEmpty(path))
             {
-                path = "Home".GetLocalized();
+                path = "Home".GetLocalizedResource();
             }
 
             // Support drives launched through jump list by stripping away the question mark at the end.
@@ -271,18 +271,18 @@ namespace Files.Uwp.ViewModels
             var iconSource = new Microsoft.UI.Xaml.Controls.ImageIconSource();
             string hoverDisplayText = currentPath;
 
-            if (string.IsNullOrEmpty(currentPath) || currentPath == "Home".GetLocalized())
+            if (string.IsNullOrEmpty(currentPath) || currentPath == "Home".GetLocalizedResource())
             {
-                tabLocationHeader = "Home".GetLocalized();
+                tabLocationHeader = "Home".GetLocalizedResource();
                 iconSource.ImageSource = new Microsoft.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png"));
             }
             else if (currentPath.Equals(CommonPaths.DesktopPath, StringComparison.OrdinalIgnoreCase))
             {
-                tabLocationHeader = "Desktop".GetLocalized();
+                tabLocationHeader = "Desktop".GetLocalizedResource();
             }
             else if (currentPath.Equals(CommonPaths.DownloadsPath, StringComparison.OrdinalIgnoreCase))
             {
-                tabLocationHeader = "Downloads".GetLocalized();
+                tabLocationHeader = "Downloads".GetLocalizedResource();
             }
             else if (currentPath.Equals(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
             {
@@ -291,11 +291,11 @@ namespace Files.Uwp.ViewModels
             }
             else if (currentPath.Equals(CommonPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
             {
-                tabLocationHeader = "SidebarNetworkDrives".GetLocalized();
+                tabLocationHeader = "SidebarNetworkDrives".GetLocalizedResource();
             }
             else if (App.LibraryManager.TryGetLibrary(currentPath, out LibraryLocationItem library))
             {
-                var libName = System.IO.Path.GetFileNameWithoutExtension(library.Path).GetLocalized();
+                var libName = System.IO.Path.GetFileNameWithoutExtension(library.Path).GetLocalizedResource();
                 // If localized string is empty use the library name.
                 tabLocationHeader = string.IsNullOrEmpty(libName) ? library.Text : libName;
             }
@@ -408,7 +408,7 @@ namespace Files.Uwp.ViewModels
                                     var tabArgs = TabItemArguments.Deserialize(tabArgsString);
                                     await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
                                 }
-                                var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home".GetLocalized() };
+                                var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home".GetLocalizedResource() };
                                 UserSettingsService.PreferencesSettingsService.LastSessionTabList = new List<string> { defaultArg.Serialize() };
                             }
                             else
@@ -446,7 +446,7 @@ namespace Files.Uwp.ViewModels
 
         public static async Task AddNewTabAsync()
         {
-            await AddNewTabByPathAsync(typeof(PaneHolderPage), "Home".GetLocalized());
+            await AddNewTabByPathAsync(typeof(PaneHolderPage), "Home".GetLocalizedResource());
         }
 
         public async void AddNewTab()
@@ -471,7 +471,7 @@ namespace Files.Uwp.ViewModels
             }
             else
             {
-                await AddNewTabByPathAsync(typeof(PaneHolderPage), "Home".GetLocalized());
+                await AddNewTabByPathAsync(typeof(PaneHolderPage), "Home".GetLocalizedResource());
             }
         }
 

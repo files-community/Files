@@ -1,14 +1,12 @@
 using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Uwp.Filesystem;
 using Files.Uwp.ViewModels.Properties;
+using Files.Uwp.Extensions;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using System;
 using System.Threading.Tasks;
-using Windows.Foundation;
 using Windows.Foundation.Metadata;
-using Windows.UI.Core;
-using Windows.UI.ViewManagement;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
@@ -101,7 +99,7 @@ namespace Files.Uwp.Views
                         (frame.Content as PropertiesSecurityAdvanced).appWindow = appWindow;
 
                         appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
-                        appWindow.Title = string.Format("SecurityAdvancedPermissionsTitle".GetLocalized(), SecurityProperties.Item.ItemName);
+                        appWindow.Title = string.Format("SecurityAdvancedPermissionsTitle".GetLocalizedResource(), SecurityProperties.Item.ItemName);
                         appWindow.Resize(new SizeInt32(850, 550));
                         appWindow.Closing += AppWindow_Closing;
                         appWindow.Show();

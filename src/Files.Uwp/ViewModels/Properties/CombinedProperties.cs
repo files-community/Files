@@ -37,17 +37,17 @@ namespace Files.Uwp.ViewModels.Properties
                 ViewModel.LoadCombinedItemsGlyph = true;
                 if (List.All(x => x.ItemType.Equals(List.First().ItemType)))
                 {
-                    ViewModel.ItemType = string.Format("PropertiesDriveItemTypesEquals".GetLocalized(), List.First().ItemType);
+                    ViewModel.ItemType = string.Format("PropertiesDriveItemTypesEquals".GetLocalizedResource(), List.First().ItemType);
                 }
                 else
                 {
-                    ViewModel.ItemType = "PropertiesDriveItemTypeDifferent".GetLocalized();
+                    ViewModel.ItemType = "PropertiesDriveItemTypeDifferent".GetLocalizedResource();
                 }
                 var itemsPath = List.Select(Item => (Item as RecycleBinItem)?.ItemOriginalFolder ??
                     (Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath));
                 if (itemsPath.Distinct().Count() == 1)
                 {
-                    ViewModel.ItemPath = string.Format("PropertiesCombinedItemPath".GetLocalized(), itemsPath.First());
+                    ViewModel.ItemPath = string.Format("PropertiesCombinedItemPath".GetLocalizedResource(), itemsPath.First());
                 }
             }
         }

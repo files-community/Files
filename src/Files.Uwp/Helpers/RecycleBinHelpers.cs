@@ -1,6 +1,6 @@
 using Files.Shared;
 using Files.Shared.Extensions;
-using CommunityToolkit.WinUI;
+using Files.Uwp.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -78,10 +78,10 @@ namespace Files.Uwp.Helpers
         {
             var ConfirmEmptyBinDialog = new ContentDialog()
             {
-                Title = "ConfirmEmptyBinDialogTitle".GetLocalized(),
-                Content = "ConfirmEmptyBinDialogContent".GetLocalized(),
-                PrimaryButtonText = "Yes".GetLocalized(),
-                SecondaryButtonText = "Cancel".GetLocalized(),
+                Title = "ConfirmEmptyBinDialogTitle".GetLocalizedResource(),
+                Content = "ConfirmEmptyBinDialogContent".GetLocalizedResource(),
+                PrimaryButtonText = "Yes".GetLocalizedResource(),
+                SecondaryButtonText = "Cancel".GetLocalizedResource(),
                 DefaultButton = ContentDialogButton.Primary
             };
 

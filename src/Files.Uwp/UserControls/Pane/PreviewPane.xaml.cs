@@ -2,7 +2,7 @@ using Files.Backend.Services.Settings;
 using Files.Uwp.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.WinUI;
+using Files.Uwp.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -35,7 +35,7 @@ namespace Files.Uwp.UserControls
             }
         }
 
-        private string GetLocalized(string resName) => resName.GetLocalized();
+        private string GetLocalizedResource(string resName) => resName.GetLocalizedResource();
 
         private void Root_Loading(FrameworkElement sender, object args)
             => ViewModel.UpdateSelectedItemPreview();

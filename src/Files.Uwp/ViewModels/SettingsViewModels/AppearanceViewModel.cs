@@ -2,7 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Settings;
 using Files.Uwp.Helpers;
-using CommunityToolkit.WinUI;
+using Files.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -21,9 +21,9 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
         {
             Themes = new List<string>()
             {
-                "Default".GetLocalized(),
-                "LightTheme".GetLocalized(),
-                "DarkTheme".GetLocalized()
+                "Default".GetLocalizedResource(),
+                "LightTheme".GetLocalizedResource(),
+                "DarkTheme".GetLocalizedResource()
             };
         }
 

@@ -4,7 +4,7 @@ using Files.Uwp.DataModels;
 using Files.Uwp.Helpers;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
-using CommunityToolkit.WinUI;
+using Files.Uwp.Extensions;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -142,7 +142,7 @@ namespace Files.Uwp.ViewModels
         {
             get => Newtonsoft.Json.JsonConvert.DeserializeObject<AppTheme>(Get(System.Text.Json.JsonSerializer.Serialize(new AppTheme()
             {
-                Name = "Default".GetLocalized()
+                Name = "Default".GetLocalizedResource()
             })));
             set => Set(Newtonsoft.Json.JsonConvert.SerializeObject(value));
         }

@@ -1,5 +1,5 @@
 using Files.Uwp.Helpers;
-using CommunityToolkit.WinUI;
+using Files.Uwp.Extensions;
 using SevenZip;
 using System;
 using System.Collections.Generic;
@@ -31,7 +31,7 @@ namespace Files.Uwp.Filesystem.StorageItems
         {
             get
             {
-                var itemType = "ItemTypeFile".GetLocalized();
+                var itemType = "ItemTypeFile".GetLocalizedResource();
                 if (Name.Contains(".", StringComparison.Ordinal))
                 {
                     itemType = FileType.Trim('.') + " " + itemType;

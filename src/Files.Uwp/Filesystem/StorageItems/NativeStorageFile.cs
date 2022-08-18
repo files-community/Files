@@ -1,5 +1,5 @@
 using Files.Uwp.Helpers;
-using CommunityToolkit.WinUI;
+using Files.Uwp.Extensions;
 using System;
 using System.ComponentModel;
 using System.IO;
@@ -34,7 +34,7 @@ namespace Files.Uwp.Filesystem.StorageItems
         {
             get
             {
-                var itemType = "ItemTypeFile".GetLocalized();
+                var itemType = "ItemTypeFile".GetLocalizedResource();
                 if (Name.Contains(".", StringComparison.Ordinal))
                 {
                     itemType = IO.Path.GetExtension(Name).Trim('.') + " " + itemType;

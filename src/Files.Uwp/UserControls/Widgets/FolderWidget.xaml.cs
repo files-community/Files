@@ -2,6 +2,7 @@ using Files.Uwp.Filesystem;
 using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
 using Files.Uwp.ViewModels.Widgets;
+using Files.Uwp.Extensions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
@@ -141,41 +142,41 @@ namespace Files.Uwp.UserControls.Widgets
 
         public string WidgetName => nameof(FolderWidget);
 
-        public string AutomationProperties => "FolderWidgetAutomationProperties/Name".GetLocalized();
+        public string AutomationProperties => "FolderWidgetAutomationProperties/Name".GetLocalizedResource();
 
-        public string WidgetHeader => "Folders".GetLocalized();
+        public string WidgetHeader => "Folders".GetLocalizedResource();
 
         private async void FolderWidget_Loaded(object sender, RoutedEventArgs e)
         {
             Loaded -= FolderWidget_Loaded;
 
             ItemsAdded.BeginBulkOperation();
-            ItemsAdded.Add(new FolderCardItem("Desktop".GetLocalized())
+            ItemsAdded.Add(new FolderCardItem("Desktop".GetLocalizedResource())
             {
                 Path = UserDataPaths.GetDefault().Desktop,
                 SelectCommand = LibraryCardCommand
             });
-            ItemsAdded.Add(new FolderCardItem("Documents".GetLocalized())
+            ItemsAdded.Add(new FolderCardItem("Documents".GetLocalizedResource())
             {
                 Path = UserDataPaths.GetDefault().Documents,
                 SelectCommand = LibraryCardCommand
             });
-            ItemsAdded.Add(new FolderCardItem("Downloads".GetLocalized())
+            ItemsAdded.Add(new FolderCardItem("Downloads".GetLocalizedResource())
             {
                 Path = UserDataPaths.GetDefault().Downloads,
                 SelectCommand = LibraryCardCommand
             });
-            ItemsAdded.Add(new FolderCardItem("Music".GetLocalized())
+            ItemsAdded.Add(new FolderCardItem("Music".GetLocalizedResource())
             {
                 Path = UserDataPaths.GetDefault().Music,
                 SelectCommand = LibraryCardCommand
             });
-            ItemsAdded.Add(new FolderCardItem("Pictures".GetLocalized())
+            ItemsAdded.Add(new FolderCardItem("Pictures".GetLocalizedResource())
             {
                 Path = UserDataPaths.GetDefault().Pictures,
                 SelectCommand = LibraryCardCommand
             });
-            ItemsAdded.Add(new FolderCardItem("Videos".GetLocalized())
+            ItemsAdded.Add(new FolderCardItem("Videos".GetLocalizedResource())
             {
                 Path = UserDataPaths.GetDefault().Videos,
                 SelectCommand = LibraryCardCommand

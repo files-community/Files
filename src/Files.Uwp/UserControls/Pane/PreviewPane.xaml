@@ -51,7 +51,7 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <TextBlock x:Name="PreviewErrorText" HorizontalAlignment="Center" VerticalAlignment="Center"
-                TextWrapping="WrapWholeWords" Text="{x:Bind GetLocalized('NoItemSelected')}" />
+                TextWrapping="WrapWholeWords" Text="{x:Bind GetLocalizedResource('NoItemSelected')}" />
             <ContentPresenter x:Name="PreviewControlPresenter"
                 HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
                 Content="{x:Bind ViewModel.PreviewPaneContent, Mode=OneWay}" Visibility="Collapsed" />
@@ -60,7 +60,7 @@
 
         <Grid x:Name="RootPropertiesGrid" Grid.Row="2">
             <TextBlock x:Name="DetailsErrorText"
-                TextWrapping="WrapWholeWords" Text="{x:Bind GetLocalized('NoItemSelected')}"
+                TextWrapping="WrapWholeWords" Text="{x:Bind GetLocalizedResource('NoItemSelected')}"
                 HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Visible" />
             <ScrollViewer x:Name="FileDetailsScrollViewer" Visibility="Visible"
                 AutomationProperties.Name="{helpers:ResourceString Name=PreviewPaneFileDetails/AutomationProperties/Name}">
@@ -136,7 +136,7 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="PreviewErrorText.Visibility" Value="Visible" />
-                        <Setter Target="PreviewErrorText.Text" Value="{x:Bind GetLocalized('DetailsPanePreviewNotAvaliableText')}" />
+                        <Setter Target="PreviewErrorText.Text" Value="{x:Bind GetLocalizedResource('DetailsPanePreviewNotAvaliableText')}" />
                         <Setter Target="DetailsErrorText.Visibility" Value="Collapsed" />
                         <Setter Target="FileDetailsRepeater.Visibility" Value="Visible" />
                         <Setter Target="DetailsListHeader.Visibility" Value="Visible" />
@@ -149,9 +149,9 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="PreviewErrorText.Visibility" Value="Visible" />
-                        <Setter Target="PreviewErrorText.Text" Value="{x:Bind GetLocalized('DetailsPanePreviewNotAvaliableText')}" />
+                        <Setter Target="PreviewErrorText.Text" Value="{x:Bind GetLocalizedResource('DetailsPanePreviewNotAvaliableText')}" />
                         <Setter Target="DetailsErrorText.Visibility" Value="Visible" />
-                        <Setter Target="DetailsErrorText.Text" Value="{x:Bind GetLocalized('PreviewPaneDetailsNotAvailableText')}" />
+                        <Setter Target="DetailsErrorText.Text" Value="{x:Bind GetLocalizedResource('PreviewPaneDetailsNotAvailableText')}" />
                         <Setter Target="FileDetailsRepeater.Visibility" Value="Collapsed" />
                         <Setter Target="PreviewControlPresenter.Visibility" Value="Collapsed" />
                     </VisualState.Setters>

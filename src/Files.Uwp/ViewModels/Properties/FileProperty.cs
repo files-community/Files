@@ -2,7 +2,7 @@ using Files.Uwp.Converters;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.WinUI;
+using Files.Uwp.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -23,7 +23,7 @@ namespace Files.Uwp.ViewModels.Properties
         /// <summary>
         /// The name to display
         /// </summary>
-        public string Name => LocalizedName ?? NameResource.GetLocalized();
+        public string Name => LocalizedName ?? NameResource.GetLocalizedResource();
 
         /// <summary>
         /// The name of the string resource for the property name
@@ -35,7 +35,7 @@ namespace Files.Uwp.ViewModels.Properties
         /// <summary>
         /// The name of the section to display
         /// </summary>
-        public string Section => SectionResource?.GetLocalized();
+        public string Section => SectionResource?.GetLocalizedResource();
 
         /// <summary>
         /// The name of the string resource for the section name
@@ -209,7 +209,7 @@ namespace Files.Uwp.ViewModels.Properties
             if (EnumeratedList != null)
             {
                 var value = "";
-                return EnumeratedList.TryGetValue(Convert.ToInt32(Value), out value) ? value.GetLocalized() : null;
+                return EnumeratedList.TryGetValue(Convert.ToInt32(Value), out value) ? value.GetLocalizedResource() : null;
             }
 
             if (DisplayFunction != null)

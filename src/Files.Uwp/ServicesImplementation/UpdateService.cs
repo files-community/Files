@@ -7,7 +7,7 @@ using Windows.Services.Store;
 using Microsoft.UI.Xaml.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Files.Backend.Services;
-using CommunityToolkit.WinUI;
+using Files.Uwp.Extensions;
 
 namespace Files.Uwp.ServicesImplementation
 {
@@ -134,10 +134,10 @@ namespace Files.Uwp.ServicesImplementation
             //TODO: Use IDialogService in future.
             ContentDialog dialog = new()
             {
-                Title = "ConsentDialogTitle".GetLocalized(),
-                Content = "ConsentDialogContent".GetLocalized(),
-                CloseButtonText = "Close".GetLocalized(),
-                PrimaryButtonText = "ConsentDialogPrimaryButtonText".GetLocalized()
+                Title = "ConsentDialogTitle".GetLocalizedResource(),
+                Content = "ConsentDialogContent".GetLocalizedResource(),
+                CloseButtonText = "Close".GetLocalizedResource(),
+                PrimaryButtonText = "ConsentDialogPrimaryButtonText".GetLocalizedResource()
             };
             ContentDialogResult result = await SetContentDialogRoot(dialog).ShowAsync();
 

@@ -287,7 +287,7 @@ namespace Files.Uwp.Views
                     ItemPath = locationItem.Path,
                     ItemNameRaw = locationItem.Text,
                     PrimaryItemAttribute = StorageItemTypes.Folder,
-                    ItemType = "FileFolderListItem".GetLocalized(),
+                    ItemType = "FileFolderListItem".GetLocalizedResource(),
                 };
                 await FilePropertiesHelpers.OpenPropertiesWindowAsync(listedItem, SidebarAdaptiveViewModel.PaneHolder.ActivePane);
             }
@@ -318,14 +318,14 @@ namespace Files.Uwp.Views
                         {
                             navigationPath = invokedItemContainer.Tag?.ToString();
                         }
-                        else if (ItemPath.Equals("Home".GetLocalized(), StringComparison.OrdinalIgnoreCase)) // Home item
+                        else if (ItemPath.Equals("Home".GetLocalizedResource(), StringComparison.OrdinalIgnoreCase)) // Home item
                         {
                             if (ItemPath.Equals(SidebarAdaptiveViewModel.SidebarSelectedItem?.Path, StringComparison.OrdinalIgnoreCase))
                             {
                                 return; // return if already selected
                             }
 
-                            navigationPath = "Home".GetLocalized();
+                            navigationPath = "Home".GetLocalizedResource();
                             sourcePageType = typeof(WidgetsPage);
                         }
                         else // Any other item
@@ -343,7 +343,7 @@ namespace Files.Uwp.Views
                         shp.NavigateToPath(tagPath, new NavigationArguments()
                         {
                             IsSearchResultPage = true,
-                            SearchPathParam = "Home".GetLocalized(),
+                            SearchPathParam = "Home".GetLocalizedResource(),
                             SearchQuery = tagPath,
                             AssociatedTabInstance = shp
                         });

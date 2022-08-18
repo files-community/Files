@@ -1,11 +1,11 @@
-using CommunityToolkit.WinUI;
+using Files.Uwp.Extensions;
 using System;
 
 namespace Files.Uwp.ServicesImplementation.DateTimeFormatter
 {
     internal class SystemDateTimeFormatter : AbstractDateTimeFormatter
     {
-        public override string Name => "SystemTimeStyle".GetLocalized();
+        public override string Name => "SystemTimeStyle".GetLocalizedResource();
 
         public override string ToShortLabel(DateTimeOffset offset)
         {

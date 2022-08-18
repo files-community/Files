@@ -1,5 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.WinUI;
+using Files.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -46,7 +46,7 @@ namespace Files.Uwp.Helpers
         {
             if (e.PropertyName == nameof(Count))
             {
-                Model.CountText = string.Format(Count > 1 ? "GroupItemsCount_Plural".GetLocalized() : "GroupItemsCount_Singular".GetLocalized(), Count);
+                Model.CountText = string.Format(Count > 1 ? "GroupItemsCount_Plural".GetLocalizedResource() : "GroupItemsCount_Singular".GetLocalizedResource(), Count);
             }
         }
 

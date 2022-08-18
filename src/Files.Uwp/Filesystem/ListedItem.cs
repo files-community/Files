@@ -48,9 +48,9 @@ namespace Files.Uwp.Filesystem
         {
             get
             {
-                return $"{"ToolTipDescriptionName".GetLocalized()} {ItemName}{Environment.NewLine}" +
-                    $"{"ToolTipDescriptionType".GetLocalized()} {itemType}{Environment.NewLine}" +
-                    $"{"ToolTipDescriptionDate".GetLocalized()} {ItemDateModified}";
+                return $"{"ToolTipDescriptionName".GetLocalizedResource()} {ItemName}{Environment.NewLine}" +
+                    $"{"ToolTipDescriptionType".GetLocalizedResource()} {itemType}{Environment.NewLine}" +
+                    $"{"ToolTipDescriptionDate".GetLocalizedResource()} {ItemDateModified}";
             }
         }
 
@@ -172,7 +172,7 @@ namespace Files.Uwp.Filesystem
         // This is used to avoid passing a null value to AutomationProperties.Name, which causes a crash
         public string SyncStatusString
         {
-            get => string.IsNullOrEmpty(SyncStatusUI?.SyncStatusString) ? "CloudDriveSyncStatus_Unknown".GetLocalized() : SyncStatusUI.SyncStatusString;
+            get => string.IsNullOrEmpty(SyncStatusUI?.SyncStatusString) ? "CloudDriveSyncStatus_Unknown".GetLocalizedResource() : SyncStatusUI.SyncStatusString;
         }
 
         private BitmapImage fileImage;
@@ -308,7 +308,7 @@ namespace Files.Uwp.Filesystem
             }
         }
 
-        public string FileSizeDisplay => string.IsNullOrEmpty(FileSize) ? "ItemSizeNotCalculated".GetLocalized() : FileSize;
+        public string FileSizeDisplay => string.IsNullOrEmpty(FileSize) ? "ItemSizeNotCalculated".GetLocalizedResource() : FileSize;
 
         public long FileSizeBytes { get; set; }
 
@@ -382,19 +382,19 @@ namespace Files.Uwp.Filesystem
             string suffix;
             if (IsRecycleBinItem)
             {
-                suffix = "RecycleBinItemAutomation".GetLocalized();
+                suffix = "RecycleBinItemAutomation".GetLocalizedResource();
             }
             else if (IsShortcutItem)
             {
-                suffix = "ShortcutItemAutomation".GetLocalized();
+                suffix = "ShortcutItemAutomation".GetLocalizedResource();
             }
             else if (IsLibraryItem)
             {
-                suffix = "LibraryItemAutomation".GetLocalized();
+                suffix = "LibraryItemAutomation".GetLocalizedResource();
             }
             else
             {
-                suffix = PrimaryItemAttribute == StorageItemTypes.File ? "Folder".GetLocalized() : "FolderItemAutomation".GetLocalized();
+                suffix = PrimaryItemAttribute == StorageItemTypes.File ? "Folder".GetLocalizedResource() : "FolderItemAutomation".GetLocalizedResource();
             }
 
             return $"{ItemName}, {suffix}";
@@ -482,7 +482,7 @@ namespace Files.Uwp.Filesystem
             PrimaryItemAttribute = isFile ? StorageItemTypes.File : StorageItemTypes.Folder;
             ItemPropertiesInitialized = false;
 
-            var itemType = isFile ? "ItemTypeFile".GetLocalized() : "FileFolderListItem".GetLocalized();
+            var itemType = isFile ? "ItemTypeFile".GetLocalizedResource() : "FileFolderListItem".GetLocalizedResource();
             if (isFile && ItemName.Contains(".", StringComparison.Ordinal))
             {
                 itemType = FileExtension.Trim('.') + " " + itemType;
@@ -571,7 +571,7 @@ namespace Files.Uwp.Filesystem
             ItemPath = lib.Path;
             ItemNameRaw = lib.Text;
             PrimaryItemAttribute = StorageItemTypes.Folder;
-            ItemType = "ItemTypeLibrary".GetLocalized();
+            ItemType = "ItemTypeLibrary".GetLocalizedResource();
             LoadCustomIcon = true;
             CustomIcon = lib.Icon;
             //CustomIconSource = lib.IconSource;

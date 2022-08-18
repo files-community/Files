@@ -2,6 +2,7 @@ using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
 using Files.Uwp.ViewModels.Widgets;
+using Files.Uwp.Extensions;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
 using System;
@@ -93,9 +94,9 @@ namespace Files.Uwp.UserControls.Widgets
 
         public string WidgetName => nameof(DrivesWidget);
 
-        public string AutomationProperties => "DrivesWidgetAutomationProperties/Name".GetLocalized();
+        public string AutomationProperties => "DrivesWidgetAutomationProperties/Name".GetLocalizedResource();
 
-        public string WidgetHeader => "Drives".GetLocalized();
+        public string WidgetHeader => "Drives".GetLocalizedResource();
 
         public bool IsWidgetSettingEnabled => UserSettingsService.WidgetsSettingsService.ShowDrivesWidget;
 
@@ -305,7 +306,7 @@ namespace Files.Uwp.UserControls.Widgets
                 var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => drivePath.StartsWith(x.Path, StringComparison.Ordinal));
                 if (matchingDrive != null && matchingDrive.Type == DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
                 {
-                    bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalized(), string.Format("InsertDiscDialog/Text".GetLocalized(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalized(), "Close".GetLocalized());
+                    bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalizedResource(), string.Format("InsertDiscDialog/Text".GetLocalizedResource(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalizedResource(), "Close".GetLocalizedResource());
                     if (ejectButton)
                     {
                         await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);

@@ -1,6 +1,6 @@
 using Files.Uwp.Dialogs;
 using Files.Uwp.Views;
-using CommunityToolkit.WinUI;
+using Files.Uwp.Extensions;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -68,7 +68,7 @@ namespace Files.Uwp.Helpers
                     (frame.Content as Properties).appWindow = appWindow;
 
                     appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
-                    appWindow.Title = "PropertiesTitle".GetLocalized();
+                    appWindow.Title = "PropertiesTitle".GetLocalizedResource();
                     appWindow.Resize(new SizeInt32(460, 550));
                     appWindow.Show();
                     if (true) // WINUI3: move window to cursor position

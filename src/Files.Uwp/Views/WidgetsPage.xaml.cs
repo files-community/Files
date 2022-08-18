@@ -7,7 +7,7 @@ using Files.Uwp.UserControls.Widgets;
 using Files.Uwp.ViewModels;
 using Files.Uwp.ViewModels.Pages;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.WinUI;
+using Files.Uwp.Extensions;
 using System;
 using System.IO;
 using System.Linq;
@@ -160,8 +160,8 @@ namespace Files.Uwp.Views
             catch (COMException)
             {
                 await DialogDisplayHelper.ShowDialogAsync(
-                    "DriveUnpluggedDialog/Title".GetLocalized(),
-                    "DriveUnpluggedDialog/Text".GetLocalized());
+                    "DriveUnpluggedDialog/Title".GetLocalizedResource(),
+                    "DriveUnpluggedDialog/Text".GetLocalizedResource());
             }
         }
 
@@ -230,7 +230,7 @@ namespace Files.Uwp.Views
             AppInstance.ToolbarViewModel.RefreshRequested += ToolbarViewModel_RefreshRequested;
 
             // Set path of working directory empty
-            await AppInstance.FilesystemViewModel.SetWorkingDirectoryAsync("Home".GetLocalized());
+            await AppInstance.FilesystemViewModel.SetWorkingDirectoryAsync("Home".GetLocalizedResource());
 
             // Clear the path UI and replace with Favorites
             AppInstance.ToolbarViewModel.PathComponents.Clear();

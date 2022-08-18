@@ -3,13 +3,13 @@ using Files.Uwp.Filesystem;
 using Files.Uwp.Filesystem.Permissions;
 using Files.Uwp.Helpers;
 using Files.Uwp.ViewModels.Properties;
+using Files.Uwp.Extensions;
 using CommunityToolkit.WinUI;
 using System;
 using System.Linq;
 using Microsoft.Windows.ApplicationModel.Resources;
 using Windows.Foundation.Metadata;
 using Windows.System;
-using Windows.UI;
 using Windows.UI.Core;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -32,7 +32,7 @@ namespace Files.Uwp.Views
 
         private object navParameterItem;
 
-        public string DialogTitle => string.Format("SecurityAdvancedPermissionsTitle".GetLocalized(), ViewModel.Item.ItemName);
+        public string DialogTitle => string.Format("SecurityAdvancedPermissionsTitle".GetLocalizedResource(), ViewModel.Item.ItemName);
 
         public SecurityProperties ViewModel { get; set; }
 

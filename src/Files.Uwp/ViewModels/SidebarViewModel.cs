@@ -8,6 +8,7 @@ using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Helpers;
 using Files.Uwp.UserControls;
+using Files.Uwp.Extensions;
 using CommunityToolkit.WinUI;
 using Microsoft.UI.Xaml.Controls;
 using System;
@@ -80,7 +81,7 @@ namespace Files.Uwp.ViewModels
 
             if (string.IsNullOrEmpty(value))
             {
-                //SidebarSelectedItem = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home".GetLocalized()));
+                //SidebarSelectedItem = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home".GetLocalizedResource()));
                 return;
             }
 
@@ -99,9 +100,9 @@ namespace Files.Uwp.ViewModels
             }
             if (item == null)
             {
-                if (value == "Home".GetLocalized())
+                if (value == "Home".GetLocalizedResource())
                 {
-                    item = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home".GetLocalized()));
+                    item = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home".GetLocalizedResource()));
                 }
             }
 
@@ -359,7 +360,7 @@ namespace Files.Uwp.ViewModels
             if (IsSidebarOpen)
             {
                 // Restore expanded state when section has items
-                section.IsExpanded = App.AppSettings.Get(section.Text == "SidebarFavorites".GetLocalized(), $"section:{section.Text.Replace('\\', '_')}");
+                section.IsExpanded = App.AppSettings.Get(section.Text == "SidebarFavorites".GetLocalizedResource(), $"section:{section.Text.Replace('\\', '_')}");
             }
         }
 
@@ -372,7 +373,7 @@ namespace Files.Uwp.ViewModels
                 case SectionType.Home:
                     return new LocationItem()
                     {
-                        Text = "Home".GetLocalized(),
+                        Text = "Home".GetLocalizedResource(),
                         Section = SectionType.Home,
                         MenuOptions = new ContextMenuOptions
                         {
@@ -381,16 +382,16 @@ namespace Files.Uwp.ViewModels
                         Font = App.MainViewModel.FontName,
                         IsDefaultLocation = true,
                         Icon = new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png")),
-                        Path = "Home".GetLocalized()
+                        Path = "Home".GetLocalizedResource()
                     };
                 case SectionType.Favorites:
                     {
-                        var section = SideBarItems.FirstOrDefault(x => x.Text == "SidebarFavorites".GetLocalized()) as LocationItem;
+                        var section = SideBarItems.FirstOrDefault(x => x.Text == "SidebarFavorites".GetLocalizedResource()) as LocationItem;
                         if (UserSettingsService.AppearanceSettingsService.ShowFavoritesSection && section == null)
                         {
                             section = new LocationItem()
                             {
-                                Text = "SidebarFavorites".GetLocalized(),
+                                Text = "SidebarFavorites".GetLocalizedResource(),
                                 Section = SectionType.Favorites,
                                 MenuOptions = new ContextMenuOptions
                                 {
@@ -409,12 +410,12 @@ namespace Files.Uwp.ViewModels
 
                 case SectionType.Library:
                     {
-                        var section = SideBarItems.FirstOrDefault(x => x.Text == "SidebarLibraries".GetLocalized()) as LocationItem;
+                        var section = SideBarItems.FirstOrDefault(x => x.Text == "SidebarLibraries".GetLocalizedResource()) as LocationItem;
                         if (UserSettingsService.AppearanceSettingsService.ShowLibrarySection && section == null)
                         {
                             section = new LocationItem
                             {
-                                Text = "SidebarLibraries".GetLocalized(),
+                                Text = "SidebarLibraries".GetLocalizedResource(),
                                 Section = SectionType.Library,
                                 MenuOptions = new ContextMenuOptions
                                 {
@@ -433,12 +434,12 @@ namespace Files.Uwp.ViewModels
 
                 case SectionType.Drives:
                     {
-                        var section = SideBarItems.FirstOrDefault(x => x.Text == "Drives".GetLocalized()) as LocationItem;
+                        var section = SideBarItems.FirstOrDefault(x => x.Text == "Drives".GetLocalizedResource()) as LocationItem;
                         if (UserSettingsService.AppearanceSettingsService.ShowDrivesSection && section == null)
                         {
                             section = new LocationItem()
                             {
-                                Text = "Drives".GetLocalized(),
+                                Text = "Drives".GetLocalizedResource(),
                                 Section = SectionType.Drives,
                                 MenuOptions = new ContextMenuOptions
                                 {
@@ -456,12 +457,12 @@ namespace Files.Uwp.ViewModels
 
                 case SectionType.CloudDrives:
                     {
-                        var section = SideBarItems.FirstOrDefault(x => x.Text == "SidebarCloudDrives".GetLocalized()) as LocationItem;
+                        var section = SideBarItems.FirstOrDefault(x => x.Text == "SidebarCloudDrives".GetLocalizedResource()) as LocationItem;
                         if (UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection && section == null && App.CloudDrivesManager.Drives.Any())
                         {
                             section = new LocationItem()
                             {
-                                Text = "SidebarCloudDrives".GetLocalized(),
+                                Text = "SidebarCloudDrives".GetLocalizedResource(),
                                 Section = SectionType.CloudDrives,
                                 MenuOptions = new ContextMenuOptions
                                 {
@@ -479,12 +480,12 @@ namespace Files.Uwp.ViewModels
 
                 case SectionType.Network:
                     {
-                        var section = SideBarItems.FirstOrDefault(x => x.Text == "SidebarNetworkDrives".GetLocalized()) as LocationItem;
+                        var section = SideBarItems.FirstOrDefault(x => x.Text == "SidebarNetworkDrives".GetLocalizedResource()) as LocationItem;
                         if (UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection && section == null)
                         {
                             section = new LocationItem()
                             {
-                                Text = "SidebarNetworkDrives".GetLocalized(),
+                                Text = "SidebarNetworkDrives".GetLocalizedResource(),
                                 Section = SectionType.Network,
                                 MenuOptions = new ContextMenuOptions
                                 {
@@ -502,12 +503,12 @@ namespace Files.Uwp.ViewModels
 
                 case SectionType.WSL:
                     {
-                        var section = SideBarItems.FirstOrDefault(x => x.Text == "WSL".GetLocalized()) as LocationItem;
+                        var section = SideBarItems.FirstOrDefault(x => x.Text == "WSL".GetLocalizedResource()) as LocationItem;
                         if (UserSettingsService.AppearanceSettingsService.ShowWslSection && section == null && App.WSLDistroManager.Distros.Any())
                         {
                             section = new LocationItem()
                             {
-                                Text = "WSL".GetLocalized(),
+                                Text = "WSL".GetLocalizedResource(),
                                 Section = SectionType.WSL,
                                 MenuOptions = new ContextMenuOptions
                                 {
@@ -525,12 +526,12 @@ namespace Files.Uwp.ViewModels
 
                 case SectionType.FileTag:
                     {
-                        var section = SideBarItems.FirstOrDefault(x => x.Text == "FileTags".GetLocalized()) as LocationItem;
+                        var section = SideBarItems.FirstOrDefault(x => x.Text == "FileTags".GetLocalizedResource()) as LocationItem;
                         if (UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled && UserSettingsService.AppearanceSettingsService.ShowFileTagsSection && section == null)
                         {
                             section = new LocationItem()
                             {
-                                Text = "FileTags".GetLocalized(),
+                                Text = "FileTags".GetLocalizedResource(),
                                 Section = SectionType.FileTag,
                                 MenuOptions = new ContextMenuOptions
                                 {

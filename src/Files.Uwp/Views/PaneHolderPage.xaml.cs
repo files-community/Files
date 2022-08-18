@@ -3,7 +3,7 @@ using Files.Backend.Services.Settings;
 using Files.Uwp.UserControls.MultitaskingControl;
 using Files.Uwp.Views.LayoutModes;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.WinUI;
+using Files.Uwp.Extensions;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -227,7 +227,7 @@ namespace Files.Uwp.Views
             if (eventArgs.Parameter is string navPath)
             {
                 NavParamsLeft = new NavigationParams { NavPath = navPath };
-                NavParamsRight = new NavigationParams { NavPath = "Home".GetLocalized() };
+                NavParamsRight = new NavigationParams { NavPath = "Home".GetLocalizedResource() };
             }
             if (eventArgs.Parameter is PaneNavigationArguments paneArgs)
             {
@@ -310,7 +310,7 @@ namespace Files.Uwp.Views
                     {
                         if (string.IsNullOrEmpty(NavParamsRight?.NavPath))
                         {
-                            NavParamsRight = new NavigationParams { NavPath = "Home".GetLocalized() };
+                            NavParamsRight = new NavigationParams { NavPath = "Home".GetLocalizedResource() };
                         }
                         IsRightPaneVisible = true;
                         ActivePane = PaneRight;
@@ -326,7 +326,7 @@ namespace Files.Uwp.Views
                     {
                         if (string.IsNullOrEmpty(NavParamsRight?.NavPath))
                         {
-                            NavParamsRight = new NavigationParams { NavPath = "Home".GetLocalized() };
+                            NavParamsRight = new NavigationParams { NavPath = "Home".GetLocalizedResource() };
                         }
                         IsRightPaneVisible = true;
                     }

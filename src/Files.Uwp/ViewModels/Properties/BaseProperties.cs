@@ -109,11 +109,11 @@ namespace Files.Uwp.ViewModels.Properties
         {
             if (ViewModel.LocationsCount > 0)
             {
-                ViewModel.FilesAndFoldersCountString = string.Format("PropertiesFilesFoldersAndLocationsCountString".GetLocalized(), ViewModel.FilesCount, ViewModel.FoldersCount, ViewModel.LocationsCount);
+                ViewModel.FilesAndFoldersCountString = string.Format("PropertiesFilesFoldersAndLocationsCountString".GetLocalizedResource(), ViewModel.FilesCount, ViewModel.FoldersCount, ViewModel.LocationsCount);
             }
             else
             {
-                ViewModel.FilesAndFoldersCountString = string.Format("PropertiesFilesAndFoldersCountString".GetLocalized(), ViewModel.FilesCount, ViewModel.FoldersCount);
+                ViewModel.FilesAndFoldersCountString = string.Format("PropertiesFilesAndFoldersCountString".GetLocalizedResource(), ViewModel.FilesCount, ViewModel.FoldersCount);
             }
         }
     }

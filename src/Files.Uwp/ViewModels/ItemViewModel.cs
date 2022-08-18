@@ -69,7 +69,7 @@ namespace Files.Uwp.ViewModels
 
         // only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
         public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
-        private string folderTypeTextLocalized = "FileFolderListItem".GetLocalized();
+        private string folderTypeTextLocalized = "FileFolderListItem".GetLocalizedResource();
         private FolderSettingsViewModel folderSettings = null;
         private DispatcherQueue dispatcherQueue;
 
@@ -152,7 +152,7 @@ namespace Files.Uwp.ViewModels
                 workingRoot = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(value));
             }
 
-            if (value == "Home".GetLocalized())
+            if (value == "Home".GetLocalizedResource())
             {
                 currentStorageFolder = null;
             }
@@ -430,7 +430,7 @@ namespace Files.Uwp.ViewModels
                         if (e.ValueState is SizeChangedValueState.None)
                         {
                             matchingItem.FileSizeBytes = 0;
-                            matchingItem.FileSize = "ItemSizeNotCalculated".GetLocalized();
+                            matchingItem.FileSize = "ItemSizeNotCalculated".GetLocalizedResource();
                         }
                         else if (e.ValueState is SizeChangedValueState.Final || (long)e.NewSize > matchingItem.FileSizeBytes)
                         {
@@ -451,7 +451,7 @@ namespace Files.Uwp.ViewModels
         {
             await dispatcherQueue.EnqueueAsync(() =>
             {
-                if (WorkingDirectory != "Home".GetLocalized())
+                if (WorkingDirectory != "Home".GetLocalizedResource())
                 {
                     RefreshItems(null);
                 }
@@ -472,7 +472,7 @@ namespace Files.Uwp.ViewModels
                 case nameof(UserSettingsService.PreferencesSettingsService.ShowFolderSize):
                     await dispatcherQueue.EnqueueAsync(() =>
                     {
-                        if (WorkingDirectory != "Home".GetLocalized())
+                        if (WorkingDirectory != "Home".GetLocalizedResource())
                         {
                             RefreshItems(null);
                         }
@@ -1456,10 +1456,10 @@ namespace Files.Uwp.ViewModels
                 PrimaryItemAttribute = StorageItemTypes.Folder,
                 ItemPropertiesInitialized = true,
                 ItemNameRaw = path.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal) ? ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin") :
-                           path.StartsWith(CommonPaths.NetworkFolderPath, StringComparison.Ordinal) ? "Network".GetLocalized() : isFtp ? "FTP" : "Unknown",
+                           path.StartsWith(CommonPaths.NetworkFolderPath, StringComparison.Ordinal) ? "Network".GetLocalizedResource() : isFtp ? "FTP" : "Unknown",
                 ItemDateModifiedReal = DateTimeOffset.Now, // Fake for now
                 ItemDateCreatedReal = DateTimeOffset.Now, // Fake for now
-                ItemType = "FileFolderListItem".GetLocalized(),
+                ItemType = "FileFolderListItem".GetLocalizedResource(),
                 FileImage = null,
                 LoadFileIcon = false,
                 ItemPath = path,
@@ -1586,20 +1586,20 @@ namespace Files.Uwp.ViewModels
                 {
                     //TODO: proper dialog
                     await DialogDisplayHelper.ShowDialogAsync(
-                        "AccessDenied".GetLocalized(),
-                        "SubDirectoryAccessDenied".GetLocalized());
+                        "AccessDenied".GetLocalizedResource(),
+                        "SubDirectoryAccessDenied".GetLocalizedResource());
                     return -1;
                 }
                 else if (res == FileSystemStatusCode.NotFound)
                 {
                     await DialogDisplayHelper.ShowDialogAsync(
-                        "FolderNotFoundDialog/Title".GetLocalized(),
-                        "FolderNotFoundDialog/Text".GetLocalized());
+                        "FolderNotFoundDialog/Title".GetLocalizedResource(),
+                        "FolderNotFoundDialog/Text".GetLocalizedResource());
                     return -1;
                 }
                 else
                 {
-                    await DialogDisplayHelper.ShowDialogAsync("DriveUnpluggedDialog/Title".GetLocalized(), res.ErrorCode.ToString());
+                    await DialogDisplayHelper.ShowDialogAsync("DriveUnpluggedDialog/Title".GetLocalizedResource(), res.ErrorCode.ToString());
                     return -1;
                 }
             }
@@ -1695,7 +1695,7 @@ namespace Files.Uwp.ViewModels
 
                 if (hFile == IntPtr.Zero)
                 {
-                    await DialogDisplayHelper.ShowDialogAsync("DriveUnpluggedDialog/Title".GetLocalized(), "");
+                    await DialogDisplayHelper.ShowDialogAsync("DriveUnpluggedDialog/Title".GetLocalizedResource(), "");
                     return -1;
                 }
                 else if (hFile.ToInt64() == -1)

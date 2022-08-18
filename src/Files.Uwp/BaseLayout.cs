@@ -263,7 +263,7 @@ namespace Files.Uwp
 
                         if (SelectedItems.Count == 1)
                         {
-                            SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{SelectedItems.Count} {"ItemSelected/Text".GetLocalized()}";
+                            SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{SelectedItems.Count} {"ItemSelected/Text".GetLocalizedResource()}";
                             DispatcherQueue.EnqueueAsync(async () =>
                             {
                                 await Task.Delay(50); // Tapped event must be executed first
@@ -272,7 +272,7 @@ namespace Files.Uwp
                         }
                         else
                         {
-                            SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{SelectedItems.Count} {"ItemsSelected/Text".GetLocalized()}";
+                            SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{SelectedItems.Count} {"ItemsSelected/Text".GetLocalizedResource()}";
                             ResetRenameDoubleClick();
                         }
                     }
@@ -478,7 +478,7 @@ namespace Files.Uwp
                 if (!navigationArguments.IsLayoutSwitch)
                 {
                     var displayName = App.LibraryManager.TryGetLibrary(navigationArguments.SearchPathParam, out var lib) ? lib.Text : navigationArguments.SearchPathParam;
-                    ParentShellPageInstance.UpdatePathUIToWorkingDirectory(null, string.Format("SearchPagePathBoxOverrideText".GetLocalized(), navigationArguments.SearchQuery, displayName));
+                    ParentShellPageInstance.UpdatePathUIToWorkingDirectory(null, string.Format("SearchPagePathBoxOverrideText".GetLocalizedResource(), navigationArguments.SearchQuery, displayName));
                     var searchInstance = new Filesystem.Search.FolderSearch
                     {
                         Query = navigationArguments.SearchQuery,
@@ -883,7 +883,7 @@ namespace Files.Uwp
                     else if (handledByFtp)
                     {
                         e.DragUIOverride.IsCaptionVisible = true;
-                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), item.ItemName);
+                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), item.ItemName);
                         e.AcceptedOperation = DataPackageOperation.Copy;
                     }
                     else if (!draggedItems.Any())
@@ -895,38 +895,38 @@ namespace Files.Uwp
                         e.DragUIOverride.IsCaptionVisible = true;
                         if (item.IsExecutable)
                         {
-                            e.DragUIOverride.Caption = $"{"OpenItemsWithCaptionText".GetLocalized()} {item.ItemName}";
+                            e.DragUIOverride.Caption = $"{"OpenItemsWithCaptionText".GetLocalizedResource()} {item.ItemName}";
                             e.AcceptedOperation = DataPackageOperation.Link;
                         } // Items from the same drive as this folder are dragged into this folder, so we move the items instead of copy
                         else if (e.Modifiers.HasFlag(DragDropModifiers.Alt) || e.Modifiers.HasFlag(DragDropModifiers.Control | DragDropModifiers.Shift))
                         {
-                            e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalized(), item.ItemName);
+                            e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalizedResource(), item.ItemName);
                             e.AcceptedOperation = DataPackageOperation.Link;
                         }
                         else if (e.Modifiers.HasFlag(DragDropModifiers.Control))
                         {
-                            e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), item.ItemName);
+                            e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), item.ItemName);
                             e.AcceptedOperation = DataPackageOperation.Copy;
                         }
                         else if (e.Modifiers.HasFlag(DragDropModifiers.Shift))
                         {
-                            e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), item.ItemName);
+                            e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), item.ItemName);
                             e.AcceptedOperation = DataPackageOperation.Move;
                         }
                         else if (draggedItems.Any(x => x.Item is ZipStorageFile || x.Item is ZipStorageFolder)
                             || ZipStorageFolder.IsZipPath(item.ItemPath))
                         {
-                            e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), item.ItemName);
+                            e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), item.ItemName);
                             e.AcceptedOperation = DataPackageOperation.Copy;
                         }
                         else if (draggedItems.AreItemsInSameDrive(item.ItemPath))
                         {
-                            e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), item.ItemName);
+                            e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), item.ItemName);
                             e.AcceptedOperation = DataPackageOperation.Move;
                         }
                         else
                         {
-                            e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), item.ItemName);
+                            e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), item.ItemName);
                             e.AcceptedOperation = DataPackageOperation.Copy;
                         }
                     }

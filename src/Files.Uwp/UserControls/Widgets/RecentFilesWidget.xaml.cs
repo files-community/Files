@@ -4,6 +4,7 @@ using Files.Uwp.Filesystem.StorageItems;
 using Files.Backend.Services.Settings;
 using Files.Uwp.ViewModels;
 using Files.Uwp.ViewModels.Widgets;
+using Files.Uwp.Extensions;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
 using System;
@@ -47,9 +48,9 @@ namespace Files.Uwp.UserControls.Widgets
 
         public string WidgetName => nameof(RecentFilesWidget);
 
-        public string AutomationProperties => "RecentFilesWidgetAutomationProperties/Name".GetLocalized();
+        public string AutomationProperties => "RecentFilesWidgetAutomationProperties/Name".GetLocalizedResource();
 
-        public string WidgetHeader => "RecentFiles".GetLocalized();
+        public string WidgetHeader => "RecentFiles".GetLocalizedResource();
 
         public bool IsWidgetSettingEnabled => UserSettingsService.WidgetsSettingsService.ShowRecentFilesWidget;
 

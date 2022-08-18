@@ -198,7 +198,7 @@ namespace Files.Uwp.DataModels.NavigationControlItems
                     SpaceUsed = MaxSpace - FreeSpace;
 
                     SpaceText = string.Format(
-                        "DriveFreeSpaceAndCapacity".GetLocalized(),
+                        "DriveFreeSpaceAndCapacity".GetLocalizedResource(),
                         FreeSpace.ToSizeString(),
                         MaxSpace.ToSizeString());
 
@@ -209,13 +209,13 @@ namespace Files.Uwp.DataModels.NavigationControlItems
                 }
                 else
                 {
-                    SpaceText = "DriveCapacityUnknown".GetLocalized();
+                    SpaceText = "DriveCapacityUnknown".GetLocalizedResource();
                     MaxSpace = SpaceUsed = FreeSpace = ByteSize.FromBytes(0);
                 }
             }
             catch (Exception)
             {
-                SpaceText = "DriveCapacityUnknown".GetLocalized();
+                SpaceText = "DriveCapacityUnknown".GetLocalizedResource();
                 MaxSpace = SpaceUsed = FreeSpace = ByteSize.FromBytes(0);
             }
         }

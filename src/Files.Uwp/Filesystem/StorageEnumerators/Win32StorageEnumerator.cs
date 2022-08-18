@@ -28,7 +28,7 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
     {
         private static readonly ISizeProvider folderSizeProvider = Ioc.Default.GetService<ISizeProvider>();
 
-        private static readonly string folderTypeTextLocalized = "FileFolderListItem".GetLocalized();
+        private static readonly string folderTypeTextLocalized = "FileFolderListItem".GetLocalizedResource();
         private static readonly IFileListCache fileListCache = FileListCacheController.GetInstance();
 
         public static async Task<List<ListedItem>> ListEntries(
@@ -146,7 +146,7 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
 
         public static ListedItem GetAlternateStream((string Name, long Size) ads, ListedItem main)
         {
-            string itemType = "ItemTypeFile".GetLocalized();
+            string itemType = "ItemTypeFile".GetLocalizedResource();
             string itemFileExtension = null;
             if (ads.Name.Contains('.'))
             {
@@ -261,7 +261,7 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
 
             long itemSizeBytes = findData.GetSize();
             var itemSize = itemSizeBytes.ToSizeString();
-            string itemType = "ItemTypeFile".GetLocalized();
+            string itemType = "ItemTypeFile".GetLocalizedResource();
             string itemFileExtension = null;
 
             if (findData.cFileName.Contains('.'))
@@ -301,7 +301,7 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
                     ItemDateModifiedReal = itemModifiedDate,
                     ItemDateAccessedReal = itemLastAccessDate,
                     ItemDateCreatedReal = itemCreatedDate,
-                    ItemType = "ShortcutFileType".GetLocalized(),
+                    ItemType = "ShortcutFileType".GetLocalizedResource(),
                     ItemPath = itemPath,
                     FileSize = itemSize,
                     FileSizeBytes = itemSizeBytes,
@@ -345,7 +345,7 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
                             ItemDateModifiedReal = itemModifiedDate,
                             ItemDateAccessedReal = itemLastAccessDate,
                             ItemDateCreatedReal = itemCreatedDate,
-                            ItemType = isUrl ? "ShortcutWebLinkFileType".GetLocalized() : "ShortcutFileType".GetLocalized(),
+                            ItemType = isUrl ? "ShortcutWebLinkFileType".GetLocalizedResource() : "ShortcutFileType".GetLocalizedResource(),
                             ItemPath = itemPath,
                             FileSize = itemSize,
                             FileSizeBytes = itemSizeBytes,

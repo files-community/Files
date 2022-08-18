@@ -1,6 +1,6 @@
 using Files.Uwp.Helpers;
 using Files.Uwp.ViewModels;
-using CommunityToolkit.WinUI;
+using Files.Uwp.Extensions;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using Windows.ApplicationModel.DataTransfer;
@@ -90,7 +90,7 @@ namespace Files.Uwp.UserControls.MultitaskingControl
             {
                 VerticalTabView.CanReorderTabs = true;
                 e.AcceptedOperation = DataPackageOperation.Move;
-                e.DragUIOverride.Caption = "TabStripDragAndDropUIOverrideCaption".GetLocalized();
+                e.DragUIOverride.Caption = "TabStripDragAndDropUIOverrideCaption".GetLocalizedResource();
                 e.DragUIOverride.IsCaptionVisible = true;
                 e.DragUIOverride.IsGlyphVisible = false;
             }

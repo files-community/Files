@@ -1,7 +1,7 @@
 using Files.Shared.Extensions;
 using Files.Uwp.Helpers;
 using FluentFTP;
-using CommunityToolkit.WinUI;
+using Files.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,7 +20,7 @@ namespace Files.Uwp.Filesystem.StorageItems
         public override string Path { get; }
         public override string Name { get; }
         public override string DisplayName => Name;
-        public override string DisplayType => "FileFolderListItem".GetLocalized();
+        public override string DisplayType => "FileFolderListItem".GetLocalizedResource();
         public string FtpPath { get; }
         public override string FolderRelativeId => $"0\\{Name}";
 

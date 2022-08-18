@@ -7,7 +7,7 @@ using Files.Uwp.Filesystem;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.ViewModels;
 using Files.Uwp.Views;
-using CommunityToolkit.WinUI;
+using Files.Uwp.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -223,7 +223,7 @@ namespace Files.Uwp.Helpers
 
             if (opened.ErrorCode == FileSystemStatusCode.NotFound && !openSilent)
             {
-                await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
+                await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalizedResource(), "FileNotFoundDialog/Text".GetLocalizedResource());
                 associatedInstance.ToolbarViewModel.CanRefresh = false;
                 associatedInstance.FilesystemViewModel?.RefreshItems(previousDir);
             }

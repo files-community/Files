@@ -1,7 +1,7 @@
 using Files.Shared;
 using Files.Uwp.Filesystem;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.WinUI;
+using Files.Uwp.Extensions;
 using System;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -32,7 +32,7 @@ namespace Files.Uwp.DataModels.NavigationControlItems
             set
             {
                 path = value;
-                HoverDisplayText = string.IsNullOrEmpty(Path) || Path.Contains("?", StringComparison.Ordinal) || Path.StartsWith("shell:", StringComparison.OrdinalIgnoreCase) || Path.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase) || Path == "Home".GetLocalized() ? Text : Path;
+                HoverDisplayText = string.IsNullOrEmpty(Path) || Path.Contains("?", StringComparison.Ordinal) || Path.StartsWith("shell:", StringComparison.OrdinalIgnoreCase) || Path.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase) || Path == "Home".GetLocalizedResource() ? Text : Path;
             }
         }
 

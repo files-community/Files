@@ -1,7 +1,7 @@
 using Files.Shared.Extensions;
 using Files.Uwp.Helpers;
 using FluentFTP;
-using CommunityToolkit.WinUI;
+using Files.Uwp.Extensions;
 using System;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -28,7 +28,7 @@ namespace Files.Uwp.Filesystem.StorageItems
         {
             get
             {
-                var itemType = "ItemTypeFile".GetLocalized();
+                var itemType = "ItemTypeFile".GetLocalizedResource();
                 if (Name.Contains(".", StringComparison.Ordinal))
                 {
                     itemType = IO.Path.GetExtension(Name).Trim('.') + " " + itemType;

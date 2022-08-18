@@ -52,7 +52,7 @@ namespace Files.Uwp.ViewModels.Properties
                 if (Item.IsShortcutItem)
                 {
                     var shortcutItem = (ShortcutItem)Item;
-                    ViewModel.ShortcutItemType = "Folder".GetLocalized();
+                    ViewModel.ShortcutItemType = "Folder".GetLocalizedResource();
                     ViewModel.ShortcutItemPath = shortcutItem.TargetPath;
                     ViewModel.IsShortcutItemPathReadOnly = false;
                     ViewModel.ShortcutItemWorkingDir = shortcutItem.WorkingDirectory;

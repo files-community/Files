@@ -2,11 +2,11 @@ using Files.Backend.Services.Settings;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
+using Files.Uwp.Extensions;
 using Files.Shared.Extensions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.Helpers;
 using System;
 using System.IO;
@@ -153,7 +153,7 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
                 {
                     App.Logger.Warn(ex, "Error importing settings");
                     UIHelpers.CloseAllDialogs();
-                    await DialogDisplayHelper.ShowDialogAsync("SettingsImportErrorTitle".GetLocalized(), "SettingsImportErrorDescription".GetLocalized());
+                    await DialogDisplayHelper.ShowDialogAsync("SettingsImportErrorTitle".GetLocalizedResource(), "SettingsImportErrorDescription".GetLocalizedResource());
                 }
             }
         }
@@ -188,7 +188,7 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
             get
             {
                 var version = Package.Current.Id.Version;
-                return string.Format($"{"SettingsAboutVersionTitle".GetLocalized()} {version.Major}.{version.Minor}.{version.Build}.{version.Revision}");
+                return string.Format($"{"SettingsAboutVersionTitle".GetLocalizedResource()} {version.Major}.{version.Minor}.{version.Build}.{version.Revision}");
             }
         }
 

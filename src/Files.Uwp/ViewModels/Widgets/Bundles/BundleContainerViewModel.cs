@@ -7,7 +7,7 @@ using Files.Uwp.ViewModels.Dialogs;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.WinUI;
+using Files.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -190,7 +190,7 @@ namespace Files.Uwp.ViewModels.Widgets.Bundles
         {
             TextBox inputText = new TextBox()
             {
-                PlaceholderText = "DesiredName".GetLocalized()
+                PlaceholderText = "DesiredName".GetLocalizedResource()
             };
 
             TextBlock tipText = new TextBlock()
@@ -216,10 +216,10 @@ namespace Files.Uwp.ViewModels.Widgets.Bundles
                         }
                     }
                 },
-                TitleText = string.Format("BundlesWidgetRenameBundleDialogTitleText".GetLocalized(), BundleName),
-                SubtitleText = "BundlesWidgetRenameBundleDialogSubtitleText".GetLocalized(),
-                PrimaryButtonText = "Confirm".GetLocalized(),
-                CloseButtonText = "BundlesWidgetRenameBundleDialogCloseButtonText".GetLocalized(),
+                TitleText = string.Format("BundlesWidgetRenameBundleDialogTitleText".GetLocalizedResource(), BundleName),
+                SubtitleText = "BundlesWidgetRenameBundleDialogSubtitleText".GetLocalizedResource(),
+                PrimaryButtonText = "Confirm".GetLocalizedResource(),
+                CloseButtonText = "BundlesWidgetRenameBundleDialogCloseButtonText".GetLocalizedResource(),
                 PrimaryButtonAction = (vm, e) =>
                 {
                     if (!CanAddBundleSetErrorMessage())
@@ -542,7 +542,7 @@ namespace Files.Uwp.ViewModels.Widgets.Bundles
         {
             if (string.IsNullOrWhiteSpace(name))
             {
-                return (false, "BundlesWidgetAddBundleErrorInputEmpty".GetLocalized());
+                return (false, "BundlesWidgetAddBundleErrorInputEmpty".GetLocalizedResource());
             }
 
             if (!BundlesSettingsService.SavedBundles.Any((item) => item.Key == name))
@@ -551,7 +551,7 @@ namespace Files.Uwp.ViewModels.Widgets.Bundles
             }
             else
             {
-                return (false, "BundlesWidgetAddBundleErrorAlreadyExists".GetLocalized());
+                return (false, "BundlesWidgetAddBundleErrorAlreadyExists".GetLocalizedResource());
             }
         }
 
