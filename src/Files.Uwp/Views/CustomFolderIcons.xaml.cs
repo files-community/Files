@@ -123,9 +123,7 @@ namespace Files.Uwp.Views
                 {
                     appInstance?.FilesystemViewModel?.RefreshItems(null, async () =>
                     {
-                        await /*
-                TODO UA306_A2: UWP CoreDispatcher : Windows.UI.Core.CoreDispatcher is no longer supported. Use DispatcherQueue instead. Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/threading
-            */Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => RestoreDefaultButton.IsEnabled = true);
+                        await DispatcherQueue.EnqueueAsync(() => RestoreDefaultButton.IsEnabled = true);
                     });
                 });
             }

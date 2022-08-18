@@ -192,9 +192,7 @@ namespace Files.Uwp.Views
         private async void AppSettings_ThemeModeChanged(object sender, EventArgs e)
         {
             var selectedTheme = ThemeHelper.RootTheme;
-            await /*
-                TODO UA306_A2: UWP CoreDispatcher : Windows.UI.Core.CoreDispatcher is no longer supported. Use DispatcherQueue instead. Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/threading
-            */Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await DispatcherQueue.EnqueueAsync(() =>
             {
                 RequestedTheme = selectedTheme;
                 if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))

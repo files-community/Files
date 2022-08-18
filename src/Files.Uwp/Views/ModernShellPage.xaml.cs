@@ -35,6 +35,7 @@ using SortDirection = Files.Shared.Enums.SortDirection;
 using Files.Backend.Enums;
 using Files.Backend.Services;
 using Files.Backend.ViewModels.Dialogs.AddItemDialog;
+using CommunityToolkit.WinUI;
 
 namespace Files.Uwp.Views
 {
@@ -516,10 +517,7 @@ namespace Files.Uwp.Views
         private async Task<BaseLayout> GetContentOrNullAsync()
         {
             BaseLayout FrameContent = null;
-            await /*
-                TODO UA306_A2: UWP CoreDispatcher : Windows.UI.Core.CoreDispatcher is no longer supported. Use DispatcherQueue instead. Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/threading
-            */Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            () =>
+            await DispatcherQueue.EnqueueAsync(() =>
             {
                 FrameContent = ItemDisplayFrame.Content as BaseLayout;
             });
@@ -531,7 +529,7 @@ namespace Files.Uwp.Views
             if (App.DrivesManager?.ShowUserConsentOnInit ?? false)
             {
                 App.DrivesManager.ShowUserConsentOnInit = false;
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                await DispatcherQueue.EnqueueAsync(async () =>
                 {
                     DynamicDialog dialog = DynamicDialogFactory.GetFor_ConsentDialog();
                     await dialog.ShowAsync(ContentDialogPlacement.Popup);
