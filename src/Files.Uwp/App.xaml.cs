@@ -248,6 +248,9 @@ namespace Files.Uwp
                 SystemInformation.Instance.TrackAppUse(iaea);
             }
 
+            // Initialize MainWindow here
+            EnsureWindowIsInitialized();
+
             await EnsureSettingsAndConfigurationAreBootstrapped();
             _ = InitializeAppComponentsAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
 
@@ -256,9 +259,6 @@ namespace Files.Uwp
             {
                 OnFileActivated(activatedEventArgs);
             }
-
-            // Initialize MainWindow here
-            EnsureWindowIsInitialized();
 
             //WindowDecorationsHelper.RequestWindowDecorationsAccess();
         }
