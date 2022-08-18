@@ -440,7 +440,6 @@ namespace Files.Uwp.Helpers
                         {
                             Text = "FileTags".GetLocalized(),
                             IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.FileTag,
-                            ShowItem = true,
                             ShowInRecycleBin = true,
                             ShowInSearchPage = true,
                             Command = currentInstanceViewModel.FolderSettings.ChangeGroupOptionCommand,

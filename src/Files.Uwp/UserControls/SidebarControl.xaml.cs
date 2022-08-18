@@ -247,7 +247,7 @@ namespace Files.Uwp.UserControls
                     Text = "SideBarOpenInNewWindow/Text".GetLocalized(),
                     Glyph = "\uE737",
                     Command = OpenInNewWindowCommand,
-                    ShowItem = options.IsLocationItem 
+                    ShowItem = options.IsLocationItem
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -261,14 +261,14 @@ namespace Files.Uwp.UserControls
                     Text = "SideBarFavoritesMoveOneUp".GetLocalized(),
                     Glyph = "\uE70E",
                     Command = MoveItemUpCommand,
-                    ShowItem = showMoveItemUp 
+                    ShowItem = showMoveItemUp
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "SideBarFavoritesMoveOneDown".GetLocalized(),
                     Glyph = "\uE70D",
                     Command = MoveItemDownCommand,
-                    ShowItem = showMoveItemDown 
+                    ShowItem = showMoveItemDown
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
