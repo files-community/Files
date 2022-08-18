@@ -291,7 +291,6 @@ namespace Files.Uwp.Helpers
                             Text = "FileTags".GetLocalized(),
                             IsChecked = itemViewModel.IsSortedByFileTag,
                             Command = new RelayCommand(() => itemViewModel.IsSortedByFileTag = true),
-                            ShowItem = true,
                             ShowInRecycleBin = true,
                             ShowInSearchPage = true,
                             ItemType = ItemType.Toggle

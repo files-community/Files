@@ -275,7 +275,7 @@ namespace Files.Uwp.UserControls
                     Text = "SideBarFavoritesMoveToBottom".GetLocalized(),
                     Glyph = "\uE118",
                     Command = MoveItemToBottomCommand,
-                    ShowItem = showMoveItemDown 
+                    ShowItem = showMoveItemDown
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
