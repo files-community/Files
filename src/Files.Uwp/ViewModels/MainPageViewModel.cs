@@ -234,11 +234,7 @@ namespace Files.Uwp.ViewModels
             if (navigationArg == SelectedTabItem?.TabItemArguments?.NavigationArg)
             {
 
-                /*
-                   TODO UA315_A Use Microsoft.UI.Windowing.AppWindow for window Management instead of ApplicationView/CoreWindow or Microsoft.UI.Windowing.AppWindow APIs
-                   Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
-                */
-                ApplicationView.GetForCurrentView().Title = windowTitle;
+                App.GetAppWindow(App.Window).Title = windowTitle;
             }
         }
 

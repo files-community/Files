@@ -6,7 +6,7 @@ namespace Files.Uwp.Helpers
     [MarkupExtensionReturnType(ReturnType = typeof(string))]
     public sealed class ResourceString : MarkupExtension
     {
-        private static ResourceLoader resourceLoader = ResourceLoader.GetForCurrentView();
+        private static ResourceLoader resourceLoader = new ResourceLoader();
 
         public string Name
         {

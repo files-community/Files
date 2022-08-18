@@ -28,6 +28,8 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using CommunityToolkit.WinUI.Helpers;
 using Windows.ApplicationModel.Core;
+using Microsoft.UI.Windowing;
+using Windows.Graphics;
 
 namespace Files.Uwp.Views
 {
@@ -63,14 +65,7 @@ namespace Files.Uwp.Views
         {
             InitializeComponent();
 
-            /*
-               TODO UA315_A Use Microsoft.UI.Windowing.AppWindow for window Management instead of ApplicationView/CoreWindow or Microsoft.UI.Windowing.AppWindow APIs
-               Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
-            */
-            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.Auto;
-            var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
-            CoreTitleBar.ExtendViewIntoTitleBar = true;
-            CoreTitleBar.LayoutMetricsChanged += TitleBar_LayoutMetricsChanged;
+            TitleBar_LayoutMetricsChanged(null, null); //WINUI3, event does not exist. Is this ok?
             var flowDirectionSetting = /*
                 TODO ResourceContext.GetForCurrentView and ResourceContext.GetForViewIndependentUse do not exist in Windows App SDK
                 Use your ResourceManager instance to create a ResourceContext as below. If you already have a ResourceManager instance,
@@ -174,7 +169,10 @@ namespace Files.Uwp.Views
 
         private void TitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
         {
-            RightPaddingColumn.Width = new GridLength(sender.SystemOverlayRightInset);
+            if (AppWindowTitleBar.IsCustomizationSupported())
+            {
+                RightPaddingColumn.Width = new GridLength(App.GetAppWindow(App.Window).TitleBar.RightInset);
+            }
         }
 
         private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
@@ -419,24 +417,15 @@ namespace Files.Uwp.Views
 
         private void ToggleFullScreenAccelerator(KeyboardAcceleratorInvokedEventArgs e)
         {
+            var view = App.GetAppWindow(App.Window);
 
-            /*
-               TODO UA315_A Use Microsoft.UI.Windowing.AppWindow for window Management instead of ApplicationView/CoreWindow or Microsoft.UI.Windowing.AppWindow APIs
-               Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
-            */
-            ApplicationView view =
-            /*
-               TODO UA315_A Use Microsoft.UI.Windowing.AppWindow for window Management instead of ApplicationView/CoreWindow or Microsoft.UI.Windowing.AppWindow APIs
-               Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
-            */
-            ApplicationView.GetForCurrentView();
-            if (view.IsFullScreenMode)
+            if (view.Presenter.Kind == AppWindowPresenterKind.FullScreen)
             {
-                view.ExitFullScreenMode();
+                view.SetPresenter(AppWindowPresenterKind.Overlapped);
             }
             else
             {
-                view.TryEnterFullScreenMode();
+                view.SetPresenter(AppWindowPresenterKind.FullScreen);
             }
 
             e.Handled = true;
@@ -561,30 +550,22 @@ namespace Files.Uwp.Views
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void ToggleCompactOverlay() => SetCompactOverlay(
-                /*
-                   TODO UA315_A Use Microsoft.UI.Windowing.AppWindow for window Management instead of ApplicationView/CoreWindow or Microsoft.UI.Windowing.AppWindow APIs
-                   Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
-                */
-                ApplicationView.GetForCurrentView().ViewMode != ApplicationViewMode.CompactOverlay);
+        private void ToggleCompactOverlay() => SetCompactOverlay(App.GetAppWindow(App.Window).Presenter.Kind != AppWindowPresenterKind.CompactOverlay);
 
-        private async void SetCompactOverlay(bool isCompact)
+        private void SetCompactOverlay(bool isCompact)
         {
-            var view =
-                /*
-                   TODO UA315_A Use Microsoft.UI.Windowing.AppWindow for window Management instead of ApplicationView/CoreWindow or Microsoft.UI.Windowing.AppWindow APIs
-                   Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
-                */
-                ApplicationView.GetForCurrentView();
+            var view = App.GetAppWindow(App.Window);
 
             if (!isCompact)
             {
-                IsCompactOverlay = !await view.TryEnterViewModeAsync(ApplicationViewMode.Default);
+                IsCompactOverlay = true;
+                view.SetPresenter(AppWindowPresenterKind.Overlapped);
             }
             else
             {
-                IsCompactOverlay = await view.TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
-                view.TryResizeView(new Windows.Foundation.Size(400, 350));
+                IsCompactOverlay = false;
+                view.SetPresenter(AppWindowPresenterKind.CompactOverlay);
+                view.Resize(new SizeInt32(400, 350));
             }
         }
 

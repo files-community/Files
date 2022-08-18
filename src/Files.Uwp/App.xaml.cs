@@ -254,18 +254,9 @@ namespace Files.Uwp
             await EnsureSettingsAndConfigurationAreBootstrapped();
             _ = InitializeAppComponentsAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
 
-            // WINUI3: port activation args from App.xaml.cs.old/OnActivated()
-            if (activatedEventArgs.Kind == ExtendedActivationKind.File)
-            {
-                OnFileActivated(activatedEventArgs);
-            }
+            await Window.InitializeApplication(activatedEventArgs);
 
             //WindowDecorationsHelper.RequestWindowDecorationsAccess();
-        }
-
-        public void OnFileActivated(AppActivationArguments activatedEventArgs)
-        {
-
         }
 
         private void EnsureWindowIsInitialized()
@@ -300,9 +291,9 @@ namespace Files.Uwp
             }
         }
 
-        public void OnActivated(AppActivationArguments activatedEventArgs)
+        public async void OnActivated(AppActivationArguments activatedEventArgs)
         {
-
+            await Window.InitializeApplication(activatedEventArgs);
         }
 
         // WINUI3: OnSuspending

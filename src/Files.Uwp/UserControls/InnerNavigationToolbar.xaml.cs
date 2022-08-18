@@ -38,23 +38,18 @@ namespace Files.Uwp.UserControls
         public static readonly DependencyProperty ViewModelProperty =
             DependencyProperty.Register(nameof(ViewModel), typeof(ToolbarViewModel), typeof(InnerNavigationToolbar), new PropertyMetadata(null));
 
-        private async void NavToolbarEnterCompactOverlay_Click(object sender, RoutedEventArgs e)
+        private void NavToolbarEnterCompactOverlay_Click(object sender, RoutedEventArgs e)
         {
-            var view = 
-                /*
-                   TODO UA315_A Use Microsoft.UI.Windowing.AppWindow for window Management instead of ApplicationView/CoreWindow or Microsoft.UI.Windowing.AppWindow APIs
-                   Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
-                */
-                ApplicationView.GetForCurrentView();
-            if (view.ViewMode == ApplicationViewMode.CompactOverlay)
+            var appWindow = App.GetAppWindow(App.Window);
+            if (appWindow.Presenter.Kind == Microsoft.UI.Windowing.AppWindowPresenterKind.CompactOverlay)
             {
-                await view.TryEnterViewModeAsync(ApplicationViewMode.Default);
+                appWindow.SetPresenter(Microsoft.UI.Windowing.AppWindowPresenterKind.Overlapped);
                 NavToolbarExitCompactOverlay.Visibility = Visibility.Collapsed;
                 NavToolbarEnterCompactOverlay.Visibility = Visibility.Visible;
             }
             else
             {
-                await view.TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
+                appWindow.SetPresenter(Microsoft.UI.Windowing.AppWindowPresenterKind.CompactOverlay);
                 NavToolbarExitCompactOverlay.Visibility = Visibility.Visible;
                 NavToolbarEnterCompactOverlay.Visibility = Visibility.Collapsed;
             }
