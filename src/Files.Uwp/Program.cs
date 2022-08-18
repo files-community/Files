@@ -1,94 +1,88 @@
 using Files.Uwp.CommandLine;
-using Files.Shared;
 using Files.Uwp.Helpers;
 using Files.Shared.Extensions;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
 using Microsoft.UI.Xaml;
+using Microsoft.Windows.AppLifecycle;
+using System.Threading;
+using Microsoft.UI.Dispatching;
 
 namespace Files.Uwp
 {
     internal class Program
     {
-        const string PrelaunchInstanceKey = "PrelaunchInstance";
-
+        // Note: We can't declare Main to be async because in a WinUI app
+        // this prevents Narrator from reading XAML elements.
+        //WINUI3: verify if still true
+        // https://github.com/microsoft/WindowsAppSDK-Samples/blob/main/Samples/AppLifecycle/Instancing/cs-winui-packaged/CsWinUiDesktopInstancing/CsWinUiDesktopInstancing/Program.cs
+        [STAThread]
         private static async Task Main()
         {
+            WinRT.ComWrappersSupport.InitializeComWrappers();
+
             var proc = System.Diagnostics.Process.GetCurrentProcess();
             var alwaysOpenNewInstance = ApplicationData.Current.LocalSettings.Values.Get("AlwaysOpenANewInstance", false);
-            IActivatedEventArgs activatedArgs = AppInstance.GetActivatedEventArgs();
+            var activatedArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
 
             if (!alwaysOpenNewInstance)
             {
-                if (AppInstance.RecommendedInstance != null)
+                if (activatedArgs.Kind is ExtendedActivationKind.Launch)
                 {
-                    AppInstance.RecommendedInstance.RedirectActivationTo();
-                    return;
-                }
-                else if (activatedArgs is LaunchActivatedEventArgs)
-                {
-                    var launchArgs = activatedArgs as LaunchActivatedEventArgs;
+                    var launchArgs = activatedArgs.Data as ILaunchActivatedEventArgs;
 
-                    if (launchArgs.PrelaunchActivated && AppInstance.GetInstances().Count == 0)
+                    if (false)
                     {
-                        AppInstance.FindOrRegisterInstanceForKey(PrelaunchInstanceKey);
-                        ApplicationData.Current.LocalSettings.Values["WAS_PRELAUNCH_INSTANCE_ACTIVATED"] = false;
-                        Application.Start(_ => new App());
-                        return;
+                        // WINUI3: remove
                     }
                     else
                     {
-                        bool wasPrelaunchInstanceActivated = ApplicationData.Current.LocalSettings.Values.Get("WAS_PRELAUNCH_INSTANCE_ACTIVATED", true);
-                        if (AppInstance.GetInstances().Any(x => x.Key.Equals(PrelaunchInstanceKey)) && !wasPrelaunchInstanceActivated)
+                        if (false)
                         {
-                            var plInstance = AppInstance.GetInstances().First(x => x.Key.Equals(PrelaunchInstanceKey));
-                            ApplicationData.Current.LocalSettings.Values["WAS_PRELAUNCH_INSTANCE_ACTIVATED"] = true;
-                            plInstance.RedirectActivationTo();
-                            return;
+                            // WINUI3: remove
                         }
                         else
                         {
                             var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
-                            var instance = AppInstance.FindOrRegisterInstanceForKey(activePid.ToString());
-                            if (!instance.IsCurrentInstance && !string.IsNullOrWhiteSpace(launchArgs.Arguments))
+                            var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
+                            if (!instance.IsCurrent && !string.IsNullOrWhiteSpace(launchArgs.Arguments))
                             {
-                                instance.RedirectActivationTo();
+                                await instance.RedirectActivationToAsync(activatedArgs);
                                 return;
                             }
                         }
                     }
                 }
-                else if (activatedArgs is ProtocolActivatedEventArgs protocolArgs)
+                else if (activatedArgs.Data is IProtocolActivatedEventArgs protocolArgs)
                 {
                     var parsedArgs = protocolArgs.Uri.Query.TrimStart('?').Split('=');
                     if (parsedArgs.Length == 2 && parsedArgs[0] == "cmd") // Treat as command line launch
                     {
                         var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
-                        var instance = AppInstance.FindOrRegisterInstanceForKey(activePid.ToString());
-                        if (!instance.IsCurrentInstance)
+                        var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
+                        if (!instance.IsCurrent)
                         {
-                            instance.RedirectActivationTo();
+                            await instance.RedirectActivationToAsync(activatedArgs);
                             return;
                         }
                     }
                 }
-                else if (activatedArgs is FileActivatedEventArgs)
+                else if (activatedArgs.Data is IFileActivatedEventArgs)
                 {
                     var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
-                    var instance = AppInstance.FindOrRegisterInstanceForKey(activePid.ToString());
-                    if (!instance.IsCurrentInstance)
+                    var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
+                    if (!instance.IsCurrent)
                     {
-                        instance.RedirectActivationTo();
+                        await instance.RedirectActivationToAsync(activatedArgs);
                         return;
                     }
                 }
             }
 
-            if (activatedArgs is CommandLineActivatedEventArgs cmdLineArgs)
+            if (activatedArgs.Data is ICommandLineActivatedEventArgs cmdLineArgs)
             {
                 var operation = cmdLineArgs.Operation;
                 var cmdLineString = operation.Arguments;
@@ -118,10 +112,10 @@ namespace Files.Uwp
                     && (!alwaysOpenNewInstance || parsedCommands.Any(x => x.Type == ParsedCommandType.TagFiles)))
                 {
                     var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
-                    var instance = AppInstance.FindOrRegisterInstanceForKey(activePid.ToString());
-                    if (!instance.IsCurrentInstance)
+                    var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
+                    if (!instance.IsCurrent)
                     {
-                        instance.RedirectActivationTo();
+                        await instance.RedirectActivationToAsync(activatedArgs);
                         // Terminate "zombie" Files process which remains in suspended state
                         // after redirection when launched by command line
                         await TerminateUwpAppInstance(proc.Id);
@@ -130,9 +124,28 @@ namespace Files.Uwp
                 }
             }
 
-            AppInstance.FindOrRegisterInstanceForKey(proc.Id.ToString());
+            var currentInstance = AppInstance.FindOrRegisterForKey(proc.Id.ToString());
+            if (currentInstance.IsCurrent)
+            {
+                currentInstance.Activated += OnActivated;
+            }
             ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = proc.Id;
-            Application.Start(_ => new App());
+            Application.Start((p) =>
+            {
+                var context = new DispatcherQueueSynchronizationContext(
+                    DispatcherQueue.GetForCurrentThread());
+                SynchronizationContext.SetSynchronizationContext(context);
+                new App();
+            });
+        }
+
+        private static void OnActivated(object? sender, AppActivationArguments args)
+        {
+            if (App.Current is App thisApp)
+            {
+                // WINUI3: verify if needed or OnLaunched is called
+                thisApp.OnActivated(args);
+            }
         }
 
         public static async Task OpenShellCommandInExplorerAsync(string shellCommand, int pid)
@@ -140,14 +153,14 @@ namespace Files.Uwp
             ApplicationData.Current.LocalSettings.Values["ShellCommand"] = shellCommand;
             ApplicationData.Current.LocalSettings.Values["Arguments"] = "ShellCommand";
             ApplicationData.Current.LocalSettings.Values["pid"] = pid;
-            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+            await Windows.ApplicationModel.FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
         }
 
         public static async Task TerminateUwpAppInstance(int pid)
         {
             ApplicationData.Current.LocalSettings.Values["Arguments"] = "TerminateUwp";
             ApplicationData.Current.LocalSettings.Values["pid"] = pid;
-            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+            await Windows.ApplicationModel.FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
         }
     }
 }

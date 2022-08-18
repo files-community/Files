@@ -25,8 +25,8 @@ namespace Files.Uwp.Helpers
 
         public static void Register()
         {
-            App.Current.Suspending += OnSuspending;
-            App.Current.LeavingBackground += OnLeavingBackground;
+            //App.Current.Suspending += OnSuspending; // WINUI3
+            //App.Current.LeavingBackground += OnLeavingBackground; // WINUI3
         }
 
         private static async void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
