@@ -25,33 +25,7 @@ namespace Files.Uwp.Helpers
 
         public static void Register()
         {
-            //App.Current.Suspending += OnSuspending; // WINUI3
-            //App.Current.LeavingBackground += OnLeavingBackground; // WINUI3
-        }
-
-        private static async void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
-        {
-            if (await Instance == null)
-            {
-                // Need to reinitialize AppService when app is resuming
-                Instance = BuildConnection(true);
-                ConnectionChanged?.Invoke(null, Instance);
-                if (App.MainViewModel != null)
-                {
-                    App.MainViewModel.IsFullTrustElevated = false;
-                }
-            }
-        }
-
-        private async static void OnSuspending(object sender, SuspendingEventArgs e)
-        {
-            var deferral = e.SuspendingOperation.GetDeferral();
-            var nullConn = Task.FromResult<NamedPipeAsAppServiceConnection>(null);
-            ConnectionChanged?.Invoke(null, nullConn);
-            (await Instance)?.SendMessageAsync(new ValueSet() { { "Arguments", "Terminate" } });
-            (await Instance)?.Dispose();
-            Instance = nullConn;
-            deferral.Complete();
+            // WINUI3: app does not get suspended
         }
 
         public static async Task<bool> Elevate(this NamedPipeAsAppServiceConnection connection)
