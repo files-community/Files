@@ -17,7 +17,8 @@
     <DisableXbfLineInfo>False</DisableXbfLineInfo>
     <AppxBundlePlatforms>x86|x64|arm64</AppxBundlePlatforms>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-    <Win32Resource>Resources\MiddleClickScrolling-CursorType.res</Win32Resource>
+    <!-- WINUI3 -->
+    <!--<Win32Resource>Resources\MiddleClickScrolling-CursorType.res</Win32Resource>-->
     <LangVersion>9.0</LangVersion>
     <Nullable>Enable</Nullable>
     <UseWinUI>true</UseWinUI>
