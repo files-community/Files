@@ -209,7 +209,7 @@ namespace Files.Uwp
                     AppSettings.DetectQuickLook(),
                     TerminalController.InitializeAsync(),
                     JumpList.InitializeAsync(),
-                    ExternalResourcesHelper.LoadOtherThemesAsync(),
+                    //ExternalResourcesHelper.LoadOtherThemesAsync(), //WINUI3
                     ContextFlyoutItemHelper.CachedNewContextMenuEntries
                 );
 
