@@ -292,7 +292,7 @@ namespace Files.FullTrust.MessageHandlers
                             op.Options = ShellFileOperations.OperationFlags.Silent
                                         | ShellFileOperations.OperationFlags.NoConfirmation
                                         | ShellFileOperations.OperationFlags.NoErrorUI;
-                            op.OwnerWindow = Win32API.Win32Window.FromLong(ownerHwnd);
+                            op.OwnerWindow = new HWND(new IntPtr(ownerHwnd));
                             if (!permanently)
                             {
                                 op.Options |= ShellFileOperations.OperationFlags.RecycleOnDelete
@@ -451,7 +451,7 @@ namespace Files.FullTrust.MessageHandlers
                             op.Options = ShellFileOperations.OperationFlags.NoConfirmMkDir
                                         | ShellFileOperations.OperationFlags.Silent
                                         | ShellFileOperations.OperationFlags.NoErrorUI;
-                            op.OwnerWindow = Win32API.Win32Window.FromLong(ownerHwnd);
+                            op.OwnerWindow = new HWND(new IntPtr(ownerHwnd));
                             op.Options |= !overwriteOnMove ? ShellFileOperations.OperationFlags.PreserveFileExtensions | ShellFileOperations.OperationFlags.RenameOnCollision
                                 : ShellFileOperations.OperationFlags.NoConfirmation;
 
@@ -535,7 +535,7 @@ namespace Files.FullTrust.MessageHandlers
                             op.Options = ShellFileOperations.OperationFlags.NoConfirmMkDir
                                         | ShellFileOperations.OperationFlags.Silent
                                         | ShellFileOperations.OperationFlags.NoErrorUI;
-                            op.OwnerWindow = Win32API.Win32Window.FromLong(ownerHwnd);
+                            op.OwnerWindow = new HWND(new IntPtr(ownerHwnd));
                             op.Options |= !overwriteOnCopy ? ShellFileOperations.OperationFlags.PreserveFileExtensions | ShellFileOperations.OperationFlags.RenameOnCollision
                                 : ShellFileOperations.OperationFlags.NoConfirmation;
 
@@ -642,7 +642,7 @@ namespace Files.FullTrust.MessageHandlers
                         var linkPath = (string)message["filepath"];
                         if (linkPath.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase))
                         {
-                            using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, null, TimeSpan.FromMilliseconds(100));
+                            using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, HWND.NULL, TimeSpan.FromMilliseconds(100));
                             await Win32API.SendMessageAsync(connection, new ValueSet()
                             {
                                 { "ShortcutInfo", JsonConvert.SerializeObject(ShellFolderExtensions.GetShellLinkItem(link)) }
@@ -716,7 +716,7 @@ namespace Files.FullTrust.MessageHandlers
                     try
                     {
                         var linkPath = (string)message["filepath"];
-                        using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, null, TimeSpan.FromMilliseconds(100));
+                        using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, HWND.NULL, TimeSpan.FromMilliseconds(100));
                         link.IconLocation = new IconLocation((string)message["iconFile"], (int)message.Get("iconIndex", 0L));
                         link.SaveAs(linkPath); // Overwrite if exists
                         await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", true } }, message.Get("RequestID", (string)null));
@@ -949,7 +949,7 @@ namespace Files.FullTrust.MessageHandlers
             private readonly Shell32.ITaskbarList4 taskbar;
             private readonly ConcurrentDictionary<string, OperationWithProgress> operations;
 
-            public System.Windows.Forms.IWin32Window OwnerWindow { get; set; }
+            public HWND OwnerWindow { get; set; }
 
             public ProgressHandler(PipeStream conn)
             {
@@ -1024,11 +1024,11 @@ namespace Files.FullTrust.MessageHandlers
                 }
                 if (operations.Any())
                 {
-                    taskbar.SetProgressValue(OwnerWindow.Handle, (ulong)Progress, 100);
+                    taskbar.SetProgressValue(OwnerWindow.DangerousGetHandle(), (ulong)Progress, 100);
                 }
                 else
                 {
-                    taskbar.SetProgressState(OwnerWindow.Handle, Shell32.TBPFLAG.TBPF_NOPROGRESS);
+                    taskbar.SetProgressState(OwnerWindow.DangerousGetHandle(), Shell32.TBPFLAG.TBPF_NOPROGRESS);
                 }
             }
 

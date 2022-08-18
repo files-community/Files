@@ -16,6 +16,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Windows.Storage;
+using Windows.ApplicationModel;
 
 namespace Files.FullTrust
 {
@@ -101,7 +102,10 @@ namespace Files.FullTrust
 
         private static async void InitializeAppServiceConnection()
         {
-            var packageSid = ApplicationData.Current.LocalSettings.Values["PackageSid"];
+            Vanara.PInvoke.UserEnv.DeriveAppContainerSidFromAppContainerName(Package.Current.Id.FamilyName, out var ppsid);
+            var packageSid = new StringBuilder(2048);
+            Vanara.PInvoke.Kernel32.GetAppContainerNamedObjectPath(Vanara.PInvoke.HTOKEN.NULL, ppsid, (uint)packageSid.Capacity, packageSid, out _);
+            ppsid.Dispose();
             connection = new NamedPipeClientStream(".",
                 $"Sessions\\{Process.GetCurrentProcess().SessionId}\\AppContainerNamedObjects\\{packageSid}\\FilesInteropService_ServerPipe",
                 PipeDirection.InOut, PipeOptions.Asynchronous);

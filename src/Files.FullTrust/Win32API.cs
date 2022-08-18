@@ -212,7 +212,8 @@ namespace Files.FullTrust
                         <= 48 => Shell32.SHIL.SHIL_EXTRALARGE,
                         _ => Shell32.SHIL.SHIL_JUMBO,
                     };
-                    if (!Shell32.SHGetImageList(imageListSize, typeof(ComCtl32.IImageList).GUID, out var imageList).Succeeded)
+                    if (!Shell32.SHGetImageList(imageListSize, typeof(ComCtl32.IImageList).GUID, out var imlObj).Succeeded 
+                        || imlObj is not ComCtl32.IImageList imageList)
                     {
                         return (iconStr, null);
                     }
@@ -226,8 +227,7 @@ namespace Files.FullTrust
                             using var hIcon = imageList.GetIcon(iconIdx, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
                             if (!hIcon.IsNull && !hIcon.IsInvalid)
                             {
-                                using (var icon = hIcon.ToIcon())
-                                using (var image = icon.ToBitmap())
+                                using (var image = hIcon.ToHBITMAP())
                                 {
                                     byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
                                     iconStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
@@ -257,9 +257,7 @@ namespace Files.FullTrust
                         using var hOverlay = imageList.GetIcon(overlayImage, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
                         if (!hOverlay.IsNull && !hOverlay.IsInvalid)
                         {
-                            using var icon = hOverlay.ToIcon();
-                            using var image = icon.ToBitmap();
-
+                            using var image = hOverlay.ToHBITMAP();
                             byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
                             overlayStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
                         }
@@ -313,7 +311,7 @@ namespace Files.FullTrust
                 // This is merely to pass into the function and is unneeded otherwise
                 if (Shell32.SHDefExtractIcon(file, -1 * index, 0, out User32.SafeHICON icon, out User32.SafeHICON hIcon2, Convert.ToUInt32(iconSize)) == HRESULT.S_OK)
                 {
-                    using var image = icon.ToBitmap();
+                    using var image = icon.ToHBITMAP();
                     byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
                     var icoStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
                     iconsList.Add(new IconFileInfo(icoStr, index));
@@ -338,7 +336,7 @@ namespace Files.FullTrust
             if (maxIndex == 0)
             {
                 using var icon = Shell32.ExtractIcon(currentProc.Handle, file, 0);
-                using var image = icon.ToBitmap();
+                using var image = icon.ToHBITMAP();
 
                 byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
                 var icoStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
@@ -349,7 +347,7 @@ namespace Files.FullTrust
                 for (int i = 0; i <= maxIndex; i++)
                 {
                     using var icon = Shell32.ExtractIcon(currentProc.Handle, file, i);
-                    using var image = icon.ToBitmap();
+                    using var image = icon.ToHBITMAP();
 
                     byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
                     var icoStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);

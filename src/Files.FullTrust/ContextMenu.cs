@@ -121,7 +121,7 @@ namespace Files.FullTrust
             }
 
             using var sf = shellItems[0].Parent; // HP: the items are all in the same folder
-            Shell32.IContextMenu menu = sf.GetChildrenUIObjects<Shell32.IContextMenu>(null, shellItems);
+            Shell32.IContextMenu menu = sf.GetChildrenUIObjects<Shell32.IContextMenu>(HWND.NULL, shellItems);
             var hMenu = User32.CreatePopupMenu();
             menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, flags);
             var contextMenu = new ContextMenu(menu, hMenu, shellItems.Select(x => x.ParsingName));
@@ -155,7 +155,7 @@ namespace Files.FullTrust
                 return null;
             }
 
-            var sv = shellFolder.GetViewObject<Shell32.IShellView>(null);
+            var sv = shellFolder.GetViewObject<Shell32.IShellView>(HWND.NULL);
             Shell32.IContextMenu menu = sv.GetItemObject<Shell32.IContextMenu>(Shell32.SVGIO.SVGIO_BACKGROUND);
             var hMenu = User32.CreatePopupMenu();
             menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, flags);
