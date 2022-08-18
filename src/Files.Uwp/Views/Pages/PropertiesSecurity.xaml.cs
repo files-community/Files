@@ -14,6 +14,9 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using static Files.Uwp.Views.PropertiesSecurityAdvanced;
+using Files.Uwp.Helpers;
+using Windows.Graphics;
+using Microsoft.UI.Windowing;
 
 namespace Files.Uwp.Views
 {
@@ -23,12 +26,7 @@ namespace Files.Uwp.Views
 
         public SecurityProperties SecurityProperties { get; set; }
 
-        private 
-                /*
-                   TODO UA315_A Use Microsoft.UI.Windowing.AppWindow for window Management instead of ApplicationView/CoreWindow or Microsoft.UI.Windowing.AppWindow APIs
-                   Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
-                */
-                ApplicationView propsView;
+        private AppWindow? propsView;
 
         public PropertiesSecurity()
         {
@@ -74,10 +72,7 @@ namespace Files.Uwp.Views
 
         public override void Dispose()
         {
-            if (propsView != null)
-            {
-                propsView.Consolidated -= PropsView_Consolidated;
-            }
+
         }
 
         private async void OpenAdvancedProperties()
@@ -89,41 +84,39 @@ namespace Files.Uwp.Views
 
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
-                if (propsView == null)
+                if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
                 {
-                    var newWindow = CoreApplication.CreateNewView();
-
-                    await newWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                    if (propsView == null)
                     {
                         Frame frame = new Frame();
+                        frame.RequestedTheme = ThemeHelper.RootTheme;
                         frame.Navigate(typeof(PropertiesSecurityAdvanced), new PropertiesPageNavigationArguments()
                         {
                             Item = SecurityProperties.Item
                         }, new SuppressNavigationTransitionInfo());
-                        App.Window.Content = frame;
-                        App.Window.Activate();
 
-                        propsView = 
-                /*
-                   TODO UA315_A Use Microsoft.UI.Windowing.AppWindow for window Management instead of ApplicationView/CoreWindow or Microsoft.UI.Windowing.AppWindow APIs
-                   Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
-                */
-                ApplicationView.GetForCurrentView();
-                        newWindow.TitleBar.ExtendViewIntoTitleBar = true;
-                        propsView.Title = string.Format("SecurityAdvancedPermissionsTitle".GetLocalized(), SecurityProperties.Item.ItemName);
-                        propsView.PersistedStateId = "PropertiesSecurity";
-                        propsView.SetPreferredMinSize(new Size(400, 500));
-                        propsView.Consolidated += PropsView_Consolidated;
+                        Window w = new Window();
+                        w.Content = frame;
+                        var appWindow = App.GetAppWindow(w);
+                        (frame.Content as PropertiesSecurityAdvanced).appWindow = appWindow;
 
-                        bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(propsView.Id);
-                        if (viewShown && propsView != null)
-                        {
-                            // Set window size again here as sometimes it's not resized in the page Loaded event
-                            propsView.TryResizeView(new Size(850, 550));
-                        }
-                    });
+                        appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+                        appWindow.Title = string.Format("SecurityAdvancedPermissionsTitle".GetLocalized(), SecurityProperties.Item.ItemName);
+                        appWindow.Resize(new SizeInt32(850, 550));
+                        appWindow.Closing += AppWindow_Closing;
+                        appWindow.Show();
+
+                        propsView = appWindow;
+                    }
+                    else
+                    {
+                        propsView.Show(true);
+                    }
                 }
-                await ApplicationViewSwitcher.SwitchAsync(propsView.Id);
+                else
+                {
+                    //WINUI3
+                }
             }
             else
             {
@@ -131,21 +124,14 @@ namespace Files.Uwp.Views
             }
         }
 
-        private async void PropsView_Consolidated(
-                /*
-                   TODO UA315_A Use Microsoft.UI.Windowing.AppWindow for window Management instead of ApplicationView/CoreWindow or Microsoft.UI.Windowing.AppWindow APIs
-                   Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
-                */
-                ApplicationView sender, ApplicationViewConsolidatedEventArgs args)
+        private async void AppWindow_Closing(AppWindow sender, AppWindowClosingEventArgs args)
         {
-            propsView.Consolidated -= PropsView_Consolidated;
+            sender.Closing -= AppWindow_Closing;
             propsView = null;
 
             if (SecurityProperties != null)
             {
-                await /*
-                TODO UA306_A2: UWP CoreDispatcher : Windows.UI.Core.CoreDispatcher is no longer supported. Use DispatcherQueue instead. Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/threading
-            */Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => SecurityProperties.GetFilePermissions()); // Reload permissions
+                await DispatcherQueue.EnqueueAsync(() => SecurityProperties.GetFilePermissions()); // Reload permissions
             }
         }
     }

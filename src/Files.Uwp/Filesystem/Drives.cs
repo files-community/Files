@@ -184,7 +184,7 @@ namespace Files.Uwp.Filesystem
                     DriveItem matchingDriveEjected = Drives.FirstOrDefault(x => x.DeviceID == deviceId);
                     if (rootModified && matchingDriveEjected is not null)
                     {
-                        _ = App.WindowDispatcherQueue.EnqueueAsync(() =>
+                        _ = App.Window.DispatcherQueue.EnqueueAsync(() =>
                         {
                             matchingDriveEjected.Root = rootModified.Result;
                             matchingDriveEjected.Text = rootModified.Result.DisplayName;

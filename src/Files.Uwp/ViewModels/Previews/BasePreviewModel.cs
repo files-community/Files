@@ -94,11 +94,11 @@ namespace Files.Uwp.ViewModels.Previews
             iconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, 400);
             if (iconData is not null)
             {
-                await App.WindowDispatcherQueue.EnqueueAsync(async () => FileImage = await iconData.ToBitmapAsync());
+                await App.Window.DispatcherQueue.EnqueueAsync(async () => FileImage = await iconData.ToBitmapAsync());
             }
             else
             {
-                FileImage ??= await App.WindowDispatcherQueue.EnqueueAsync(() => new BitmapImage());
+                FileImage ??= await App.Window.DispatcherQueue.EnqueueAsync(() => new BitmapImage());
             }
 
             return new List<FileProperty>();

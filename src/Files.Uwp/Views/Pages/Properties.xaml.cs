@@ -7,13 +7,10 @@ using Files.Uwp.ViewModels.Properties;
 using CommunityToolkit.WinUI;
 using System;
 using System.Threading;
-using Microsoft.Windows.ApplicationModel.Resources;
 using Windows.Foundation.Metadata;
 using Windows.System;
 using Windows.UI;
 using Windows.UI.Core;
-using Windows.UI.ViewManagement;
-using Windows.UI.WindowManagement;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -22,12 +19,13 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI;
+using Microsoft.UI.Windowing;
 
 namespace Files.Uwp.Views
 {
     public sealed partial class Properties : Page
     {
-        private static ApplicationViewTitleBar TitleBar;
+        //private static AppWindowTitleBar TitleBar; //WINUI3
 
         private CancellationTokenSource tokenSource = new CancellationTokenSource();
         private ContentDialog propertiesDialog;
@@ -43,16 +41,11 @@ namespace Files.Uwp.Views
         private Storyboard CrossHoverAnim;
         private Storyboard CrossUnHoverAnim;
 
-        private XamlCompositionBrushBase micaBrush;
+        //private XamlCompositionBrushBase micaBrush; //WINUI3
 
         public SettingsViewModel AppSettings => App.AppSettings;
 
-        public 
-                /*
-                   TODO UA315_A Use Microsoft.UI.Windowing.AppWindow for window Management instead of ApplicationView/CoreWindow or Microsoft.UI.Windowing.AppWindow APIs
-                   Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
-                */
-                Microsoft.UI.Windowing.AppWindow appWindow;
+        public AppWindow appWindow;
 
         public Properties()
         {
@@ -99,8 +92,8 @@ namespace Files.Uwp.Views
                 // Set window size in the loaded event to prevent flickering
                 if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
                 {
-                    appWindow.TitleBar.SetPreferredVisibility(AppWindowTitleBarVisibility.AlwaysHidden);
-                    appWindow.Frame.DragRegionVisuals.Add(TitleBarDragArea);
+                    //appWindow.TitleBar.SetPreferredVisibility(AppWindowTitleBarVisibility.AlwaysHidden);
+                    //appWindow.Frame.DragRegionVisuals.Add(TitleBarDragArea); //WINUI3, SetDragRectangles?
 
                     crossIcon.Foreground = ThemeHelper.RootTheme switch
                     {
@@ -110,17 +103,18 @@ namespace Files.Uwp.Views
                         _ => new SolidColorBrush((Color)Application.Current.Resources["SystemBaseHighColor"])
                     };
 
-                    var micaIsSupported = ApiInformation.IsMethodPresent("Microsoft.UI.Composition.Compositor", "TryCreateBlurredWallpaperBackdropBrush");
-                    if (micaIsSupported)
-                    {
-                        micaBrush = new Brushes.MicaBrush(false);
-                        (micaBrush as Brushes.MicaBrush).SetAppWindow(appWindow);
-                        Frame.Background = micaBrush;
-                    }
-                    else
-                    {
-                        Microsoft.UI.Xaml.Controls.BackdropMaterial.SetApplyToRootOrPageBackground(sender as Control, true);
-                    }
+                    // WINUI3: restore Mica background
+                    //var micaIsSupported = ApiInformation.IsMethodPresent("Microsoft.UI.Composition.Compositor", "TryCreateBlurredWallpaperBackdropBrush");
+                    //if (micaIsSupported)
+                    //{
+                    //micaBrush = new Brushes.MicaBrush(false);
+                    //(micaBrush as Brushes.MicaBrush).SetAppWindow(appWindow);
+                    //Frame.Background = micaBrush;
+                    //}
+                    //else
+                    //{
+                    //Microsoft.UI.Xaml.Controls.BackdropMaterial.SetApplyToRootOrPageBackground(sender as Control, true);
+                    //}
 
                     var duration = new Duration(TimeSpan.FromMilliseconds(280));
 
@@ -166,23 +160,13 @@ namespace Files.Uwp.Views
                 }
                 else
                 {
-                    Microsoft.UI.Xaml.Controls.BackdropMaterial.SetApplyToRootOrPageBackground(sender as Control, true);
-
-                    TitleBar = 
-                /*
-                   TODO UA315_A Use Microsoft.UI.Windowing.AppWindow for window Management instead of ApplicationView/CoreWindow or Microsoft.UI.Windowing.AppWindow APIs
-                   Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
-                */
-                ApplicationView.GetForCurrentView().TitleBar;
-                    TitleBar.ButtonBackgroundColor = Colors.Transparent;
-                    TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-                    App.Window.SetTitleBar(TitleBarDragArea);
+                    //WINUI3
                 }
                 await App.Window.DispatcherQueue.EnqueueAsync(() => AppSettings.UpdateThemeElements.Execute(null));
             }
             else
             {
-                Microsoft.UI.Xaml.Controls.BackdropMaterial.SetApplyToRootOrPageBackground(sender as Control, true);
+                //Microsoft.UI.Xaml.Controls.BackdropMaterial.SetApplyToRootOrPageBackground(sender as Control, true); //WINUI3
                 propertiesDialog = DependencyObjectHelpers.FindParent<ContentDialog>(this);
                 propertiesDialog.Closed += PropertiesDialog_Closed;
             }
@@ -226,8 +210,9 @@ namespace Files.Uwp.Views
                             }
                             else
                             {
-                                TitleBar.ButtonHoverBackgroundColor = (Color)Application.Current.Resources["SystemBaseLowColor"];
-                                TitleBar.ButtonForegroundColor = (Color)Application.Current.Resources["SystemBaseHighColor"];
+                                //WINUI3
+                                //TitleBar.ButtonHoverBackgroundColor = (Color)Application.Current.Resources["SystemBaseLowColor"];
+                                //TitleBar.ButtonForegroundColor = (Color)Application.Current.Resources["SystemBaseHighColor"];
                             }
                             break;
 
@@ -240,8 +225,9 @@ namespace Files.Uwp.Views
                             }
                             else
                             {
-                                TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 0, 0, 0);
-                                TitleBar.ButtonForegroundColor = Colors.Black;
+                                //WINUI3
+                                //TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 0, 0, 0);
+                                //TitleBar.ButtonForegroundColor = Colors.Black;
                             }
                             break;
 
@@ -254,8 +240,9 @@ namespace Files.Uwp.Views
                             }
                             else
                             {
-                                TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 255, 255, 255);
-                                TitleBar.ButtonForegroundColor = Colors.White;
+                                //WINUI3
+                                //TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 255, 255, 255);
+                                //TitleBar.ButtonForegroundColor = Colors.White;
                             }
                             break;
                     }
@@ -281,16 +268,11 @@ namespace Files.Uwp.Views
             {
                 if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
                 {
-                    await appWindow.CloseAsync();
+                    appWindow.Destroy();
                 }
                 else
                 {
-                    await 
-                /*
-                   TODO UA315_A Use Microsoft.UI.Windowing.AppWindow for window Management instead of ApplicationView/CoreWindow or Microsoft.UI.Windowing.AppWindow APIs
-                   Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
-                */
-                ApplicationView.GetForCurrentView().TryConsolidateAsync();
+                    //WINUI3
                 }
             }
             else
@@ -305,16 +287,11 @@ namespace Files.Uwp.Views
             {
                 if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
                 {
-                    await appWindow.CloseAsync();
+                    appWindow.Destroy();
                 }
                 else
                 {
-                    await 
-                /*
-                   TODO UA315_A Use Microsoft.UI.Windowing.AppWindow for window Management instead of ApplicationView/CoreWindow or Microsoft.UI.Windowing.AppWindow APIs
-                   Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
-                */
-                ApplicationView.GetForCurrentView().TryConsolidateAsync();
+                    //WINUI3
                 }
             }
             else
@@ -331,16 +308,11 @@ namespace Files.Uwp.Views
                 {
                     if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
                     {
-                        await appWindow.CloseAsync();
+                        appWindow.Destroy();
                     }
                     else
                     {
-                        await 
-                /*
-                   TODO UA315_A Use Microsoft.UI.Windowing.AppWindow for window Management instead of ApplicationView/CoreWindow or Microsoft.UI.Windowing.AppWindow APIs
-                   Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/windowing
-                */
-                ApplicationView.GetForCurrentView().TryConsolidateAsync();
+                        //WINUI3
                     }
                 }
                 else
@@ -425,7 +397,7 @@ namespace Files.Uwp.Views
             CrossHoverAnim.Stop();
             RectHoverAnim.Stop();
 
-            await appWindow.CloseAsync();
+            appWindow.Destroy();
         }
 
         private void CloseRect_PointerEntered(object sender, PointerRoutedEventArgs e)

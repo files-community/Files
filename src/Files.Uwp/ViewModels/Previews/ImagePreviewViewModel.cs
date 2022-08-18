@@ -28,7 +28,7 @@ namespace Files.Uwp.ViewModels.Previews
         public override async Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
         {
             using IRandomAccessStream stream = await Item.ItemFile.OpenAsync(FileAccessMode.Read);
-            await App.WindowDispatcherQueue.EnqueueAsync(async () =>
+            await App.Window.DispatcherQueue.EnqueueAsync(async () =>
             {
                 BitmapImage bitmap = new();
                 await bitmap.SetSourceAsync(stream);
