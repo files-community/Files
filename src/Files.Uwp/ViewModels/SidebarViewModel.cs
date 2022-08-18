@@ -209,11 +209,6 @@ namespace Files.Uwp.ViewModels
             }
         }
 
-        public bool AreFileTagsEnabled
-        {
-            get => UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled;
-        }
-
         private INavigationControlItem selectedSidebarItem;
 
         public INavigationControlItem SidebarSelectedItem
@@ -527,7 +522,7 @@ namespace Files.Uwp.ViewModels
                 case SectionType.FileTag:
                     {
                         var section = SideBarItems.FirstOrDefault(x => x.Text == "FileTags".GetLocalizedResource()) as LocationItem;
-                        if (UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled && UserSettingsService.AppearanceSettingsService.ShowFileTagsSection && section == null)
+                        if (UserSettingsService.AppearanceSettingsService.ShowFileTagsSection && section == null)
                         {
                             section = new LocationItem()
                             {
@@ -619,9 +614,6 @@ namespace Files.Uwp.ViewModels
                 case nameof(UserSettingsService.AppearanceSettingsService.ShowFileTagsSection):
                     UpdateSectionVisibility(SectionType.FileTag, ShowFileTagsSection);
                     OnPropertyChanged(nameof(ShowFileTagsSection));
-                    break;
-                case nameof(UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled):
-                    OnPropertyChanged(nameof(AreFileTagsEnabled));
                     break;
                 case nameof(UserSettingsService.AppearanceSettingsService.UseCompactStyles):
                     new SettingsViewModels.AppearanceViewModel().SetCompactStyles(true);
