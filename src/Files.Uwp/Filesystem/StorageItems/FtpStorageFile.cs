@@ -174,7 +174,7 @@ namespace Files.Uwp.Filesystem.StorageItems
                 {
                     BaseStorageFile file = await destFolder.CreateFileAsync(desiredNewName, option.Convert());
                     using var stream = await file.OpenStreamForWriteAsync();
-                    return await ftpClient.DownloadAsync(stream, FtpPath, token: cancellationToken) ? file : null;
+                    return await ftpClient.DownloadStreamAsync(stream, FtpPath, token: cancellationToken) ? file : null;
                 }
             });
         }
@@ -250,7 +250,7 @@ namespace Files.Uwp.Filesystem.StorageItems
 
                 using (var outStream = request.AsStreamForWrite())
                 {
-                    await ftpClient.DownloadAsync(outStream, FtpPath);
+                    await ftpClient.DownloadStreamAsync(outStream, FtpPath);
                     await outStream.FlushAsync();
                 }
                 request.Dispose();

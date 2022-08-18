@@ -32,7 +32,7 @@ namespace Files.Uwp.Storage.FtpStorage
             var path = FtpHelpers.GetFtpPath(PathHelpers.Combine(Path, fileName));
             var item = await ftpClient.GetObjectInfoAsync(path, token: cancellationToken);
 
-            if (item is null || item.Type != FtpFileSystemObjectType.File)
+            if (item is null || item.Type != FtpObjectType.File)
                 throw new FileNotFoundException();
             
             return new FtpStorageFile(path, item.Name);
@@ -48,7 +48,7 @@ namespace Files.Uwp.Storage.FtpStorage
             var item = await ftpClient.GetObjectInfoAsync(path, token: cancellationToken);
 
 
-            if (item is null || item.Type != FtpFileSystemObjectType.Directory)
+            if (item is null || item.Type != FtpObjectType.Directory)
                 throw new DirectoryNotFoundException();
 
             return new FtpStorageFolder(path, item.Name);
@@ -64,7 +64,7 @@ namespace Files.Uwp.Storage.FtpStorage
             {
                 foreach (var item in await ftpClient.GetListingAsync(Path, cancellationToken))
                 {
-                    if (item.Type == FtpFileSystemObjectType.File)
+                    if (item.Type == FtpObjectType.File)
                         yield return new FtpStorageFile(item.FullName, item.Name);
                 }
             }
@@ -72,7 +72,7 @@ namespace Files.Uwp.Storage.FtpStorage
             {
                 foreach (var item in await ftpClient.GetListingAsync(Path, cancellationToken))
                 {
-                    if (item.Type == FtpFileSystemObjectType.Directory)
+                    if (item.Type == FtpObjectType.Directory)
                         yield return new FtpStorageFolder(item.FullName, item.Name);
                 }
             }
@@ -80,10 +80,10 @@ namespace Files.Uwp.Storage.FtpStorage
             {
                 foreach (var item in await ftpClient.GetListingAsync(Path, cancellationToken))
                 {
-                    if (item.Type == FtpFileSystemObjectType.File)
+                    if (item.Type == FtpObjectType.File)
                         yield return new FtpStorageFile(item.FullName, item.Name);
 
-                    if (item.Type == FtpFileSystemObjectType.Directory)
+                    if (item.Type == FtpObjectType.Directory)
                         yield return new FtpStorageFolder(item.FullName, item.Name);
                 }
             }
@@ -156,7 +156,7 @@ namespace Files.Uwp.Storage.FtpStorage
 
             using var stream = new MemoryStream();
             var replaceExisting = collisionOption == CreationCollisionOption.ReplaceExisting;
-            var result = await ftpClient.UploadAsync(stream, newPath, replaceExisting ? FtpRemoteExists.Overwrite : FtpRemoteExists.Skip, token: cancellationToken);
+            var result = await ftpClient.UploadStreamAsync(stream, newPath, replaceExisting ? FtpRemoteExists.Overwrite : FtpRemoteExists.Skip, token: cancellationToken);
 
             if (result == FtpStatus.Success)
             {

@@ -727,6 +727,7 @@ namespace Files.Uwp.Helpers
                             Glyph = "\uE91B",
                             Command = commandsViewModel.SetAsDesktopBackgroundItemCommand,
                             ShowInSearchPage = true,
+                            ShowItem = (selectedItemsPropertiesViewModel.SelectedItemsCount == 1)
                         },
                         new ContextMenuFlyoutItemViewModel()
                         {
@@ -735,6 +736,16 @@ namespace Files.Uwp.Helpers
                             GlyphFontFamilyName = "CustomGlyph",
                             Command = commandsViewModel.SetAsLockscreenBackgroundItemCommand,
                             ShowInSearchPage = true,
+                            ShowItem = (selectedItemsPropertiesViewModel.SelectedItemsCount == 1)
+                        },
+                        new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = "SetAsSlideshow".GetLocalized(),
+                            Glyph = "\uE91B",
+                            GlyphFontFamilyName = "CustomGlyph",
+                            Command = commandsViewModel.SetAsDesktopBackgroundItemCommand,
+                            ShowInSearchPage = true,
+                            ShowItem = (selectedItemsPropertiesViewModel.SelectedItemsCount > 1)
                         },
                     }
                 },

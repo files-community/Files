@@ -88,5 +88,22 @@ namespace Files.Uwp.Helpers
                      fileExtensionToCheck.Equals(".ttc", StringComparison.OrdinalIgnoreCase) ||
                      fileExtensionToCheck.Equals(".ttf", StringComparison.OrdinalIgnoreCase);
         }
+
+        /// <summary>
+        /// Check if the file extension is a shortcut file.
+        /// </summary>
+        /// <param name="fileExtensionToCheck">The file extension to check.</param>
+        /// <returns><c>true</c> if the fileExtensionToCheck is a shortcute file;
+        /// otherwise <c>false</c>.</returns>
+        /// <remarks>Font file type is .lnkf</remarks>
+        public static bool IsShortcutFile(string fileExtensionToCheck)
+        {
+            if (string.IsNullOrEmpty(fileExtensionToCheck))
+            {
+                return false;
+            }
+
+            return fileExtensionToCheck.Equals(".lnk", StringComparison.OrdinalIgnoreCase);
+        }
     }
 }
