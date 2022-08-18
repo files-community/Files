@@ -596,18 +596,18 @@ namespace Files.Uwp.Helpers
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                Text = "BaseLayoutContextFlyoutEmptyRecycleBin/Text".GetLocalized(),
-                Glyph = "\uEF88",
-                GlyphFontFamilyName = "RecycleBinIcons",
-                Command = commandsViewModel.EmptyRecycleBinCommand,
-                ShowItem = currentInstanceViewModel.IsPageTypeRecycleBin,
-                ShowInRecycleBin = true,
+                    Text = "BaseLayoutContextFlyoutEmptyRecycleBin/Text".GetLocalized(),
+                    Glyph = "\uEF88",
+                    GlyphFontFamilyName = "RecycleBinIcons",
+                    Command = commandsViewModel.EmptyRecycleBinCommand,
+                    ShowItem = currentInstanceViewModel.IsPageTypeRecycleBin,
+                    ShowInRecycleBin = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutItemContextFlyoutRestore/Text".GetLocalized(),
                     Glyph = "\uE8E5",
-                    Command = commandsViewModel.RestoreItemCommand,
+                    Command = commandsViewModel.RestoreRecycleBinCommand,
                     ShowItem = currentInstanceViewModel.IsPageTypeRecycleBin,
                     ShowInRecycleBin = true,
                 },
