@@ -34,7 +34,6 @@
                 FontStyle="Italic"
                 Text="{helpers:ResourceString Name=SettingsExperimentalDescription/Text}" />
 
-            
             <!--  Edit File Tags  -->
             <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsEditFileTagsExpander/Title}" HorizontalAlignment="Stretch"
                 ButtonCommand="{Binding EditFileTagsCommand}"
