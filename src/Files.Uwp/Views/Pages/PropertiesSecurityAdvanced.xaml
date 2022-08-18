@@ -13,13 +13,14 @@
     d:Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     d:Height="550"
     d:Width="850"
-    muxc:BackdropMaterial.ApplyToRootOrPageBackground="False"
     Background="{ThemeResource RootBackgroundBrush}"
     KeyDown="Page_KeyDown"
     Loaded="Properties_Loaded"
     Loading="Page_Loading"
     Unloaded="Properties_Unloaded"
     mc:Ignorable="d">
+    <!-- WINUI3 -->
+    <!--muxc:BackdropMaterial.ApplyToRootOrPageBackground="False"-->
 
     <Page.Resources>
         <ResourceDictionary>

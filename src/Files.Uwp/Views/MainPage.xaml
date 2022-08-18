@@ -15,13 +15,15 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:usercontrols="using:Files.Uwp.UserControls.MultitaskingControl"
     xmlns:viewmodels="using:Files.Uwp.ViewModels"
-    muxc:BackdropMaterial.ApplyToRootOrPageBackground="False"
     Background="Transparent"
     KeyboardAcceleratorPlacementMode="Hidden"
     Loaded="Page_Loaded"
     SizeChanged="Page_SizeChanged"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
+    <!-- WINUI3 -->
+    <!--muxc:BackdropMaterial.ApplyToRootOrPageBackground="False"-->
+    
     <Page.DataContext>
         <viewmodels:MainPageViewModel />
     </Page.DataContext>

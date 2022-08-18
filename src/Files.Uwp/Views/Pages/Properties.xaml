@@ -8,13 +8,15 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     d:DesignHeight="700"
     d:DesignWidth="400"
-    muxc:BackdropMaterial.ApplyToRootOrPageBackground="False"
     Background="{ThemeResource RootBackgroundBrush}"
     KeyDown="Page_KeyDown"
     Loaded="Properties_Loaded"
     Loading="Page_Loading"
     Unloaded="Properties_Unloaded"
     mc:Ignorable="d">
+    <!-- WINUI3 -->
+    <!--muxc:BackdropMaterial.ApplyToRootOrPageBackground="False"-->
+    
     <Grid VerticalAlignment="Stretch">
         <Grid.Resources>
             <ResourceDictionary>
