@@ -38,6 +38,7 @@ namespace Files.Uwp.Interacts
             UnpinDirectoryFromFavoritesCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.UnpinDirectoryFromFavorites);
             OpenItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenItem);
             EmptyRecycleBinCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.EmptyRecycleBin);
+            RestoreRecycleBinCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RestoreRecycleBin);
             QuickLookCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.QuickLook);
             CopyItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.CopyItem);
             CutItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.CutItem);
@@ -103,6 +104,8 @@ namespace Files.Uwp.Interacts
         public ICommand UnpinDirectoryFromFavoritesCommand { get; private set; }
 
         public ICommand EmptyRecycleBinCommand { get; private set; }
+
+        public ICommand RestoreRecycleBinCommand { get; private set; }
 
         public ICommand QuickLookCommand { get; private set; }
 
