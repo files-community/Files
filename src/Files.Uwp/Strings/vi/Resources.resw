@@ -2353,9 +2353,6 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Chỉnh sửa các thẻ tệp</value>
   </data>
-  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
-    <value>Bật các thẻ tệp</value>
-  </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Hiển thị phần danh sách yêu thích</value>
   </data>
@@ -2795,9 +2792,9 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
     <value>Hiện dòng dữ liệu xen kẽ</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
-    <value>Review Files</value>
+    <value>Đánh giá Files</value>
   </data>
   <data name="ReviewFilesContent" xml:space="preserve">
-    <value>Would you like to review Files?</value>
+    <value>Bạn có muốn đánh giá Files không?</value>
   </data>
 </root>
