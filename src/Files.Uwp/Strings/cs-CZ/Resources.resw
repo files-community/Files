@@ -2347,9 +2347,6 @@ Používáme centrum aplikací k sledování nastavení, které jsou používán
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Upravit štítky</value>
   </data>
-  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
-    <value>Povolit štítky</value>
-  </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Zobrazit sekci oblíbené</value>
   </data>
