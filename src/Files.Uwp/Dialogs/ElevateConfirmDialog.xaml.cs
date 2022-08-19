@@ -21,16 +21,6 @@ namespace Files.Uwp.Dialogs
             this.InitializeComponent();
         }
 
-        public new async Task<DialogResult> ShowAsync() => (DialogResult)await this.SetContentDialogRoot(this).ShowAsync();
-
-        // WINUI3
-        private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
-        {
-            if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-            {
-                contentDialog.XamlRoot = App.Window.Content.XamlRoot;
-            }
-            return contentDialog;
-        }
+        public new async Task<DialogResult> ShowAsync() => (DialogResult)await base.ShowAsync();
     }
 }
