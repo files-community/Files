@@ -1,7 +1,7 @@
 ﻿using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem;
 using Files.Uwp.ViewModels.Properties;
-using ICSharpCode.SharpZipLib.Zip;
+using SevenZip;
 using Microsoft.Toolkit.Uwp;
 using System.Collections.Generic;
 using System.IO;
@@ -11,29 +11,38 @@ namespace Files.Uwp.ViewModels.Previews
 {
     public class ArchivePreviewViewModel : BasePreviewModel
     {
-        public ArchivePreviewViewModel(ListedItem item) : base(item) {}
+        public ArchivePreviewViewModel(ListedItem item) : base(item) { }
 
         public override async Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
         {
             var details = new List<FileProperty>();
-            using ZipFile zipFile = new(await Item.ItemFile.OpenStreamForReadAsync());
-            zipFile.IsStreamOwner = true;
-
-            long fileCount = 0;
-            long folderCount;
-            long totalSize = 0;
-
-            foreach (ZipEntry entry in zipFile)
+            using SevenZipExtractor zipFile = await FilesystemTasks.Wrap(async () =>
             {
-                if (entry.IsFile)
+                var arch = new SevenZipExtractor(await Item.ItemFile.OpenStreamForReadAsync());
+                return arch?.ArchiveFileData is null ? null : arch; // Force load archive (1665013614u)
+            });
+            if (zipFile == null)
+            {
+                _ = await base.LoadPreviewAndDetailsAsync(); // Loads the thumbnail preview
+                return details;
+            }
+            //zipFile.IsStreamOwner = true;
+
+            var folderCount = 0;
+            var fileCount = 0;
+            ulong totalSize = 0;
+
+            foreach (ArchiveFileInfo entry in zipFile.ArchiveFileData)
+            {
+                if (!entry.IsDirectory)
                 {
                     ++fileCount;
                     totalSize += entry.Size;
                 }
             }
-            folderCount = zipFile.Count - fileCount;
+            folderCount = (int)zipFile.FilesCount - fileCount;
 
-            string propertyItemCount = string.Format("DetailsArchiveItemCount".GetLocalized(), zipFile.Count, fileCount, folderCount);
+            string propertyItemCount = string.Format("DetailsArchiveItemCount".GetLocalized(), zipFile.FilesCount, fileCount, folderCount);
             details.Add(GetFileProperty("PropertyItemCount", propertyItemCount));
             details.Add(GetFileProperty("PropertyUncompressedSize", totalSize.ToLongSizeString()));
 

@@ -2787,6 +2787,12 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
     <value>Ctrl+Maiusc+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>Show Alternate Data Streams</value>
+    <value>Mostra Flussi Di Dati Alternativi</value>
+  </data>
+  <data name="ReviewFiles" xml:space="preserve">
+    <value>Recensisci Files</value>
+  </data>
+  <data name="ReviewFilesContent" xml:space="preserve">
+    <value>Vuoi lasciare una recensione su Files?</value>
   </data>
 </root>

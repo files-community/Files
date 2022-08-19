@@ -291,7 +291,6 @@ namespace Files.Uwp.Helpers
                             Text = "FileTags".GetLocalized(),
                             IsChecked = itemViewModel.IsSortedByFileTag,
                             Command = new RelayCommand(() => itemViewModel.IsSortedByFileTag = true),
-                            ShowItem = userSettingsService.PreferencesSettingsService.AreFileTagsEnabled,
                             ShowInRecycleBin = true,
                             ShowInSearchPage = true,
                             ItemType = ItemType.Toggle
@@ -441,7 +440,6 @@ namespace Files.Uwp.Helpers
                         {
                             Text = "FileTags".GetLocalized(),
                             IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.FileTag,
-                            ShowItem = userSettingsService.PreferencesSettingsService.AreFileTagsEnabled,
                             ShowInRecycleBin = true,
                             ShowInSearchPage = true,
                             Command = currentInstanceViewModel.FolderSettings.ChangeGroupOptionCommand,
@@ -727,6 +725,7 @@ namespace Files.Uwp.Helpers
                             Glyph = "\uE91B",
                             Command = commandsViewModel.SetAsDesktopBackgroundItemCommand,
                             ShowInSearchPage = true,
+                            ShowItem = (selectedItemsPropertiesViewModel.SelectedItemsCount == 1)
                         },
                         new ContextMenuFlyoutItemViewModel()
                         {
@@ -735,6 +734,16 @@ namespace Files.Uwp.Helpers
                             GlyphFontFamilyName = "CustomGlyph",
                             Command = commandsViewModel.SetAsLockscreenBackgroundItemCommand,
                             ShowInSearchPage = true,
+                            ShowItem = (selectedItemsPropertiesViewModel.SelectedItemsCount == 1)
+                        },
+                        new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = "SetAsSlideshow".GetLocalized(),
+                            Glyph = "\uE91B",
+                            GlyphFontFamilyName = "CustomGlyph",
+                            Command = commandsViewModel.SetAsDesktopBackgroundItemCommand,
+                            ShowInSearchPage = true,
+                            ShowItem = (selectedItemsPropertiesViewModel.SelectedItemsCount > 1)
                         },
                     }
                 },
@@ -937,7 +946,7 @@ namespace Files.Uwp.Helpers
                 {
                     Text = "BaseLayoutItemContextFlyoutExtractionOptions".GetLocalized(),
                     Glyph = "\xF11A",
-                    ShowItem = selectedItems.Count == 1 && (selectedItems.First().IsZipItem || (selectedItems.First().PrimaryItemAttribute == StorageItemTypes.File && new [] { ".zip", ".msix", ".msixbundle" }.Contains(selectedItems.First().FileExtension, StringComparer.OrdinalIgnoreCase))),
+                    ShowItem = selectedItems.Count == 1 && (selectedItems.First().IsZipItem || (selectedItems.First().PrimaryItemAttribute == StorageItemTypes.File && FileExtensionHelpers.IsZipFile(selectedItems.First().FileExtension))),
                     ShowInSearchPage = true,
                     GlyphFontFamilyName = "CustomGlyph",
                     Items = new List<ContextMenuFlyoutItemViewModel>()

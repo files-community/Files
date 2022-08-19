@@ -1,4 +1,5 @@
 ﻿using Files.Shared.Cloud;
+using Files.Shared.Extensions;
 using Files.Uwp.Extensions;
 using Microsoft.Data.Sqlite;
 using System;
@@ -14,8 +15,11 @@ namespace Files.Uwp.Filesystem.Cloud
         {
             // Google Drive's sync database can be in a couple different locations. Go find it.
             string appDataPath = UserDataPaths.GetDefault().LocalAppData;
-            var configFile = await StorageFile.GetFileFromPathAsync(Path.Combine(appDataPath, @"Google\DriveFS\root_preference_sqlite.db"));
-            await configFile.CopyAsync(ApplicationData.Current.TemporaryFolder, "google_drive.db", NameCollisionOption.ReplaceExisting);
+            await StorageFile.GetFileFromPathAsync(Path.Combine(appDataPath, @"Google\DriveFS\root_preference_sqlite.db")).AsTask()
+                .AndThen(c => c.CopyAsync(ApplicationData.Current.TemporaryFolder, "google_drive.db", NameCollisionOption.ReplaceExisting).AsTask());
+            // The wal file may not exist but that's ok
+            await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(Path.Combine(appDataPath, @"Google\DriveFS\root_preference_sqlite.db-wal")).AsTask()
+                .AndThen(c => c.CopyAsync(ApplicationData.Current.TemporaryFolder, "google_drive.db-wal", NameCollisionOption.ReplaceExisting).AsTask()));
             var syncDbPath = Path.Combine(ApplicationData.Current.TemporaryFolder.Path, "google_drive.db");
 
             // Build the connection and sql command

@@ -192,7 +192,8 @@ namespace Files.Uwp.ViewModels
             {
                 Header = null,
                 IconSource = null,
-                Description = null
+                Description = null,
+                HoverDisplayText = null
             };
             tabItem.Control.NavigationArguments = new TabItemArguments()
             {
@@ -219,12 +220,12 @@ namespace Files.Uwp.ViewModels
                 }
                 else
                 {
-                    (windowTitle, _) = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
+                    (windowTitle, _, _) = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
                 }
             }
             else if (navigationArg is string pathArgs)
             {
-                (windowTitle, _) = await GetSelectedTabInfoAsync(pathArgs);
+                (windowTitle, _, _) = await GetSelectedTabInfoAsync(pathArgs);
             }
             if (AppInstances.Count > 1)
             {
@@ -250,19 +251,20 @@ namespace Files.Uwp.ViewModels
                 }
                 else
                 {
-                    (tabItem.Header, tabItem.IconSource) = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
+                    (tabItem.Header, tabItem.IconSource, tabItem.HoverDisplayText) = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
                 }
             }
             else if (navigationArg is string pathArgs)
             {
-                (tabItem.Header, tabItem.IconSource) = await GetSelectedTabInfoAsync(pathArgs);
+                (tabItem.Header, tabItem.IconSource, tabItem.HoverDisplayText) = await GetSelectedTabInfoAsync(pathArgs);
             }
         }
 
-        public static async Task<(string tabLocationHeader, Microsoft.UI.Xaml.Controls.IconSource tabIcon)> GetSelectedTabInfoAsync(string currentPath)
+        public static async Task<(string tabLocationHeader, Microsoft.UI.Xaml.Controls.IconSource tabIcon, string hoverDisplayText)> GetSelectedTabInfoAsync(string currentPath)
         {
             string tabLocationHeader;
             var iconSource = new Microsoft.UI.Xaml.Controls.ImageIconSource();
+            string hoverDisplayText = currentPath;
 
             if (string.IsNullOrEmpty(currentPath) || currentPath == "Home".GetLocalized())
             {
@@ -329,14 +331,14 @@ namespace Files.Uwp.ViewModels
 
             if (iconSource.ImageSource == null)
             {
-                var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(currentPath, 24u, Windows.Storage.FileProperties.ThumbnailMode.ListView);
+                var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(currentPath, 24u, Windows.Storage.FileProperties.ThumbnailMode.ListView, true);
                 if (iconData != null)
                 {
                     iconSource.ImageSource = await iconData.ToBitmapAsync();
                 }
             }
 
-            return (tabLocationHeader, iconSource);
+            return (tabLocationHeader, iconSource, hoverDisplayText);
         }
 
         public async void OnNavigatedTo(NavigationEventArgs e)
@@ -477,7 +479,8 @@ namespace Files.Uwp.ViewModels
             {
                 Header = null,
                 IconSource = null,
-                Description = null
+                Description = null,
+                HoverDisplayText = null
             };
             tabItem.Control.NavigationArguments = new TabItemArguments()
             {

@@ -1,6 +1,8 @@
 ﻿using FluentFTP;
 using System;
 using System.Threading.Tasks;
+using Files.Shared.Extensions;
+using Files.Uwp.Filesystem;
 
 namespace Files.Uwp.Helpers
 {

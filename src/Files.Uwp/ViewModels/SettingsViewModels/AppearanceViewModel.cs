@@ -234,8 +234,6 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
             }
         }
 
-        public bool AreFileTagsEnabled => UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled;
-
         public bool ShowFileTagsSection
         {
             get => UserSettingsService.AppearanceSettingsService.ShowFileTagsSection;

@@ -156,6 +156,11 @@
             Invoked="KeyboardAccelerator_Invoked"
             IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
             Modifiers="Control,Shift" />
+        <KeyboardAccelerator
+            Key="H"
+            Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
+            Modifiers="Control" />
     </Page.KeyboardAccelerators>
 
     <Frame
