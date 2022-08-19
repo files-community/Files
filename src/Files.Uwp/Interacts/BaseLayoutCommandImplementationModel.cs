@@ -187,6 +187,33 @@ namespace Files.Uwp.Interacts
             await RecycleBinHelpers.S_EmptyRecycleBin();
         }
 
+        public virtual async void RestoreRecycleBin(RoutedEventArgs e)
+        {
+            var ConfirmEmptyBinDialog = new ContentDialog()
+            {
+                Title = "Temporary awesome title",
+                Content = "Restore the files, go on! :D", // QMK - Create the needed localization.
+                PrimaryButtonText = "Yes".GetLocalized(),
+                SecondaryButtonText = "Cancel".GetLocalized(),
+                DefaultButton = ContentDialogButton.Primary
+            };
+
+            ContentDialogResult result = await ConfirmEmptyBinDialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+                SlimContentPage.ItemManipulationModel.SelectAllItems();
+                var items = SlimContentPage.SelectedItems.ToList().Where(x => x is RecycleBinItem).Select((item) => new
+                {
+                    Source = StorageHelpers.FromPathAndType(
+                        item.ItemPath,
+                        item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory),
+                    Dest = (item as RecycleBinItem).ItemOriginalPath
+                });
+                await FilesystemHelpers.RestoreItemsFromTrashAsync(items.Select(x => x.Source), items.Select(x => x.Dest), true);
+            }
+        }
+
         public virtual async void QuickLook(RoutedEventArgs e)
         {
             await QuickLookHelpers.ToggleQuickLook(associatedInstance);

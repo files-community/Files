@@ -30,6 +30,8 @@ namespace Files.Uwp.Interacts
 
         void EmptyRecycleBin(RoutedEventArgs e);
 
+        void RestoreRecycleBin(RoutedEventArgs e);
+
         void QuickLook(RoutedEventArgs e);
 
         void CopyItem(RoutedEventArgs e);
