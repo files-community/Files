@@ -256,7 +256,7 @@ namespace Files.Uwp
 
             await Window.InitializeApplication(activatedEventArgs);
 
-            //WindowDecorationsHelper.RequestWindowDecorationsAccess();
+            WindowDecorationsHelper.RequestWindowDecorationsAccess();
         }
 
         private void EnsureWindowIsInitialized()

@@ -10,6 +10,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Windows.Graphics;
 using static Files.Uwp.Views.Properties;
+using Microsoft.UI.Windowing;
 
 namespace Files.Uwp.Helpers
 {
@@ -62,12 +63,24 @@ namespace Files.Uwp.Helpers
                         AppInstanceArgument = associatedInstance
                     }, new SuppressNavigationTransitionInfo());
 
-                    Window w = new Window();
+                    var w = new WinUIEx.WindowEx();
                     w.Content = frame;
                     var appWindow = App.GetAppWindow(w);
                     (frame.Content as Properties).appWindow = appWindow;
 
-                    appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+                    w.MinWidth = 460;
+                    w.MinHeight = 550;
+                    w.Backdrop = new WinUIEx.MicaSystemBackdrop() { DarkTintOpacity = 0.8 };
+
+                    if (AppWindowTitleBar.IsCustomizationSupported())
+                    {
+                        appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+                    }
+                    else
+                    {
+                        w.ExtendsContentIntoTitleBar = true;
+                    }
+
                     appWindow.Title = "PropertiesTitle".GetLocalizedResource();
                     appWindow.Resize(new SizeInt32(460, 550));
                     appWindow.Show();

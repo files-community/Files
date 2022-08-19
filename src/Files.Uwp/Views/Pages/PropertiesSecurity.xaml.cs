@@ -93,12 +93,24 @@ namespace Files.Uwp.Views
                             Item = SecurityProperties.Item
                         }, new SuppressNavigationTransitionInfo());
 
-                        Window w = new Window();
+                        var w = new WinUIEx.WindowEx();
                         w.Content = frame;
                         var appWindow = App.GetAppWindow(w);
                         (frame.Content as PropertiesSecurityAdvanced).appWindow = appWindow;
 
-                        appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+                        w.MinWidth = 850;
+                        w.MinHeight = 550;
+                        w.Backdrop = new WinUIEx.MicaSystemBackdrop() { DarkTintOpacity = 0.8 };
+
+                        if (AppWindowTitleBar.IsCustomizationSupported())
+                        {
+                            appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+                        }
+                        else
+                        {
+                            w.ExtendsContentIntoTitleBar = true;
+                        }
+
                         appWindow.Title = string.Format("SecurityAdvancedPermissionsTitle".GetLocalizedResource(), SecurityProperties.Item.ItemName);
                         appWindow.Resize(new SizeInt32(850, 550));
                         appWindow.Closing += AppWindow_Closing;
