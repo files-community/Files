@@ -2348,9 +2348,6 @@ Usamos o App Center para rastrear quais configurações estão sendo usadas, enc
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Editar etiquetas</value>
   </data>
-  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
-    <value>Habilitar etiquetas</value>
-  </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Mostrar a seção de favoritos</value>
   </data>
