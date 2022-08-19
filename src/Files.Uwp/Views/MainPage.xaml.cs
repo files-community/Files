@@ -376,8 +376,6 @@ namespace Files.Uwp.Views
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            //Microsoft.UI.Xaml.Controls.BackdropMaterial.SetApplyToRootOrPageBackground(sender as Control, true); //WINUI3
-
             // Defers the status bar loading until after the page has loaded to improve startup perf
             FindName(nameof(StatusBarControl));
             FindName(nameof(InnerNavigationToolbar));
@@ -529,11 +527,12 @@ namespace Files.Uwp.Views
         {
             get
             {
-                bool isHomePage = !(SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false);
-                bool isMultiPane = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
-                bool isBigEnough = App.Window.Bounds.Width > 450 && App.Window.Bounds.Height > 400;
+                var isHomePage = !(SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false);
+                var isMultiPane = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
+                var isBigEnough = App.Window.Bounds.Width > 450 && App.Window.Bounds.Height > 400;
+                var isEnabled = (!isHomePage || isMultiPane) && isBigEnough;
 
-                return (!isHomePage || isMultiPane) && isBigEnough;
+                return isEnabled;
             }
         }
 

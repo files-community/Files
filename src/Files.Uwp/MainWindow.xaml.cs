@@ -48,7 +48,8 @@ namespace Files.Uwp
             }
 
             // Set min size
-            // TODO: Set min size // WINUI3
+            base.MinHeight = 328;
+            base.MinWidth = 516;
         }
 
         public async Task InitializeApplication(AppActivationArguments activatedEventArgs)
