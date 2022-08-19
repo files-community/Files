@@ -264,16 +264,6 @@ namespace Files.Uwp
             Window = new MainWindow();
             Window.Activated += Window_Activated;
             Window.Activate();
-            var appWindow = GetAppWindow(Window);
-            if (AppWindowTitleBar.IsCustomizationSupported())
-            {
-                appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
-                appWindow.TitleBar.IconShowOptions = IconShowOptions.HideIconAndSystemMenu;
-            }
-            else
-            {
-                Window.ExtendsContentIntoTitleBar = true;
-            }
             WindowHandle = WinRT.Interop.WindowNative.GetWindowHandle(Window);
         }
 
