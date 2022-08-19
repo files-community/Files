@@ -2348,9 +2348,6 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Edytuj tagi plików</value>
   </data>
-  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
-    <value>Włącz tagi plików</value>
-  </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Pokaż sekcję ulubione</value>
   </data>
