@@ -2348,9 +2348,6 @@
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Επεξεργασία ετικετών αρχείων</value>
   </data>
-  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
-    <value>Ενεργοποίηση ετικετών αρχείων</value>
-  </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Εμφάνιση τμήματος αγαπημένων</value>
   </data>
