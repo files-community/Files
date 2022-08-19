@@ -2352,9 +2352,6 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Uredi oznake datoteke</value>
   </data>
-  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
-    <value>Omogući oznake datoteka</value>
-  </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Prikaži odjeljak favorita</value>
   </data>
