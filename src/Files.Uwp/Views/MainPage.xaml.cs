@@ -383,7 +383,7 @@ namespace Files.Uwp.Views
             FindName(nameof(StatusBarControl));
             FindName(nameof(InnerNavigationToolbar));
             FindName(nameof(horizontalMultitaskingControl));
-            //FindName(nameof(NavToolbar));
+            FindName(nameof(NavToolbar));
 
             // the adaptive triggers do not evaluate on app startup, manually checking and calling GoToState here fixes https://github.com/files-community/Files/issues/5801
             if (App.Window.Bounds.Width < CollapseSearchBoxAdaptiveTrigger.MinWindowWidth)
