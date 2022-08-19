@@ -107,6 +107,9 @@
     <Content Include="7z64.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+	  <Content Include="7zArm64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\AppTilesDev\BadgeLogo.scale-100.png" />
     <Content Include="Assets\AppTilesDev\BadgeLogo.scale-125.png" />
     <Content Include="Assets\AppTilesDev\BadgeLogo.scale-150.png" />
