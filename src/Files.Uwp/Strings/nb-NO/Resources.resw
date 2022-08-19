@@ -2353,9 +2353,6 @@ Vi bruker App Center for å spore app-bruk og for å finne/reparere feil. All in
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Rediger fil-merkelapper</value>
   </data>
-  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
-    <value>Tillat fil-merkelapper</value>
-  </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Vis seksjon for favoritter</value>
   </data>
