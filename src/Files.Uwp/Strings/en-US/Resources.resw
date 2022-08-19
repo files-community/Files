@@ -2798,7 +2798,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   <data name="SetAsLockscreen" xml:space="preserve">
     <value>Set as lockscreen background</value>
   </data>
-  <data name="SetAsText" xml:space="preserve">
-    <value>Set as desktop background</value>
+  <data name="SetAsWallpaper" xml:space="preserve">
+    <value>Set as desktop wallpaper</value>
   </data>
 </root>
