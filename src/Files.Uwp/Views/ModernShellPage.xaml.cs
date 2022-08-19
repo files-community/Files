@@ -672,7 +672,7 @@ namespace Files.Uwp.Views
             TabItemArguments = new TabItemArguments()
             {
                 InitialPageType = typeof(ModernShellPage),
-                NavigationArg = parameters.IsSearchResultPage ? parameters.SearchPathParam : parameters.NavPathParam
+                NavigationArg = parameters.IsSearchResultPage && !(parameters.NavPathParam.StartsWith("tag:")) ? parameters.SearchPathParam : parameters.NavPathParam
             };
         }
 

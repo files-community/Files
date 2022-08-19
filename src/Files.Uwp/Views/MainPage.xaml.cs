@@ -177,10 +177,6 @@ namespace Files.Uwp.Views
             if (SidebarAdaptiveViewModel.PaneHolder != null)
             {
                 var paneArgs = e.NavigationArg as PaneNavigationArguments;
-                if (SidebarAdaptiveViewModel.SidebarSelectedItem is FileTagItem tag)
-                {
-                    paneArgs.LeftPaneNavPathParam = tag.Path;
-                }
                 SidebarAdaptiveViewModel.UpdateSidebarSelectedItemFromArgs(SidebarAdaptiveViewModel.PaneHolder.IsLeftPaneActive ?
                     paneArgs.LeftPaneNavPathParam : paneArgs.RightPaneNavPathParam);
                 UpdateStatusBarProperties();
@@ -330,7 +326,8 @@ namespace Files.Uwp.Views
                             IsSearchResultPage = true,
                             SearchPathParam = "Home".GetLocalized(),
                             SearchQuery = tagPath,
-                            AssociatedTabInstance = shp
+                            AssociatedTabInstance = shp,
+                            NavPathParam = tagPath
                         });
                     }
                     return;
