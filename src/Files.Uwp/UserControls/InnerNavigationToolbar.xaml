@@ -206,6 +206,18 @@
                     </AppBarButton.Icon>
                 </AppBarButton>
                 <AppBarButton
+                    x:Name="RestoreRecycleBinButton"
+                    x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
+                    AccessKey="B"
+                    Command="{x:Bind ViewModel.RestoreRecycleBinCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind ViewModel.CanRestoreRecycleBin, Mode=OneWay}"
+                    Label="{helpers:ResourceString Name=RestoreRecycleBin}"
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=RestoreRecycleBin}">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE8E5;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarButton
                     x:Name="ExtractButton"
                     Width="Auto"
                     MinWidth="40"

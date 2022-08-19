@@ -754,6 +754,7 @@ namespace Files.Uwp.ViewModels
         {
             OnPropertyChanged(nameof(HasAdditionalAction));
             OnPropertyChanged(nameof(CanEmptyRecycleBin));
+            OnPropertyChanged(nameof(CanRestoreRecycleBin));
         }
 
         private AddressToolbar AddressToolbar => (Window.Current.Content as Frame).FindDescendant<AddressToolbar>();
@@ -876,6 +877,8 @@ namespace Files.Uwp.ViewModels
         public ICommand CutCommand { get; set; }
 
         public ICommand EmptyRecycleBinCommand { get; set; }
+
+        public ICommand RestoreRecycleBinCommand { get; set; }
 
         public ICommand PropertiesCommand { get; set; }
 
@@ -1204,6 +1207,7 @@ namespace Files.Uwp.ViewModels
                 if (SetProperty(ref hasItem, value))
                 {
                     OnPropertyChanged(nameof(CanEmptyRecycleBin));
+                    OnPropertyChanged(nameof(CanRestoreRecycleBin));
                 }
             }
         }
@@ -1252,6 +1256,7 @@ namespace Files.Uwp.ViewModels
         public bool CanRename => SelectedItems is not null && SelectedItems.Count == 1;
         public bool CanViewProperties => SelectedItems is not null && SelectedItems.Any();
         public bool CanEmptyRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem;
+        public bool CanRestoreRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem;
         public bool CanExtract => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsZipFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
         public string ExtractToText => SelectedItems is not null && SelectedItems.Count == 1 ? string.Format("ExtractToChildFolder".GetLocalized() + "\\", Path.GetFileNameWithoutExtension(selectedItems.First().ItemName)) : "ExtractToChildFolder".GetLocalized();
         public bool IsPowerShellScript => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsPowerShellFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
