@@ -165,7 +165,6 @@ namespace Files.Uwp.Views
 
         private void DragArea_Loaded(object sender, RoutedEventArgs e)
         {
-            MainWindow.Instance.ExtendsContentIntoTitleBar = true;
             MainWindow.Instance.SetTitleBar(sender as Grid);
         }
 

@@ -47,6 +47,10 @@ namespace Files.Uwp
                 AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
                 AppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
             }
+            else
+            {
+                ExtendsContentIntoTitleBar = true;
+            }
 
             // Set min size
             // TODO: Set min size // WINUI3
