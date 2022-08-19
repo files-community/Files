@@ -104,42 +104,6 @@ namespace Files.Uwp.Helpers
             }
         }
 
-
-        public static Task S_RestoreRecycleBin()
-        {
-            await new RecycleBinHelpers().RestoreRecycleBin();
-        }
-
-        public async Task EmptyRecycleBin()
-        {
-            var ConfirmEmptyBinDialog = new ContentDialog()
-            {
-                Title = "ConfirmRestoreBinDialogTitle".GetLocalized(),
-                Content = "ConfirmRestoreBinDialogContent".GetLocalized(),
-                PrimaryButtonText = "Yes".GetLocalized(),
-                SecondaryButtonText = "Cancel".GetLocalized(),
-                DefaultButton = ContentDialogButton.Primary
-            };
-
-            ContentDialogResult result = await ConfirmEmptyBinDialog.ShowAsync();
-
-            if (result == ContentDialogResult.Primary)
-            {
-                var connection = await ServiceConnection;
-                if (connection != null)
-                {
-                    var value = new ValueSet()
-                    {
-                        { "Arguments", "RecycleBin" },
-                        { "action", "Empty" }
-                    };
-
-                    // Send request to fulltrust process to empty Recycle Bin
-                    await connection.SendMessageAsync(value);
-                }
-            }
-        }
-
         public async Task<bool> HasRecycleBin(string path)
         {
             if (string.IsNullOrEmpty(path) || path.StartsWith(@"\\?\", StringComparison.Ordinal))
