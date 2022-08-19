@@ -2352,9 +2352,6 @@ Ons gebruik App Center om tred te hou met programgebruik, foute te vind en ongel
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Redigeer lêermerkers</value>
   </data>
-  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
-    <value>Aktiveer lêermerkers</value>
-  </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Wys gunstelinge-afdeling</value>
   </data>
