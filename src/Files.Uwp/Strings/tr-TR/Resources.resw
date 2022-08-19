@@ -2352,9 +2352,6 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Dosya etiketlerini düzenle</value>
   </data>
-  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
-    <value>Dosya etiketlerini etkinleştir</value>
-  </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Kenar çubuğunda Favoriler bölümünü göster</value>
   </data>
