@@ -15,7 +15,6 @@
     xmlns:local2="using:Files.Uwp.Filesystem"
     xmlns:local3="using:Files.Uwp.Filesystem.Cloud"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:tui="using:CommunityToolkit.WinUI.UI"
     xmlns:uc="using:Files.Uwp.UserControls"
     xmlns:vc="using:Files.Uwp.ValueConverters"
@@ -140,7 +139,7 @@
                 Canvas.ZIndex="0"
                 EmptyTextType="{x:Bind ParentShellPageInstance.FilesystemViewModel.EmptyTextType, Mode=OneWay}" />
 
-            <muxc:TeachingTip
+            <TeachingTip
                 x:Name="FileNameTeachingTip"
                 Grid.RowSpan="2"
                 CloseButtonContent="{helpers:ResourceString Name=FileNameTeachingTip/CloseButtonContent}"
@@ -334,14 +333,14 @@
                                         </StackPanel>
                                     </Grid>
                                     <FontIcon
-										x:Name="OpenFolderChevron"
+                                        x:Name="OpenFolderChevron"
                                         Grid.Column="3"
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Center"
+                                        x:Load="{x:Bind IsFolder}"
                                         FontSize="12"
                                         Foreground="{ThemeResource TextFillColorSecondary}"
-                                        Glyph="&#xE76C;"
-                                        x:Load="{x:Bind IsFolder}" />
+                                        Glyph="&#xE76C;" />
                                 </Grid>
                             </DataTemplate>
                         </ListView.ItemTemplate>

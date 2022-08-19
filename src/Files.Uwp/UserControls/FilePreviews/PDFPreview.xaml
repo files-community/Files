@@ -5,7 +5,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.Uwp.UserControls.FilePreviews"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:vms="using:Files.Uwp.ViewModels.Previews"
     d:DesignHeight="300"
     d:DesignWidth="400"
@@ -39,7 +38,7 @@
             Background="Transparent"
             ItemTemplate="{StaticResource PageTemplate}"
             ItemsSource="{x:Bind ViewModel.Pages, Mode=OneWay}" />
-        <muxc:PipsPager
+        <PipsPager
             x:Name="FlipViewPipsPager"
             Grid.Row="1"
             HorizontalAlignment="Center"

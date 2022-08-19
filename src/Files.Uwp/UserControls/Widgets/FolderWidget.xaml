@@ -6,17 +6,16 @@
     xmlns:helpers="using:Files.Uwp.Helpers"
     xmlns:local="using:Files.Uwp.UserControls.Widgets"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
     mc:Ignorable="d">
     <Grid>
-        <muxc:ItemsRepeater
+        <ItemsRepeater
             x:Name="CardsList"
             Grid.Row="0"
             HorizontalAlignment="Stretch"
             ItemsSource="{x:Bind ItemsAdded, Mode=OneWay}">
-            <muxc:ItemsRepeater.Layout>
-                <muxc:UniformGridLayout
+            <ItemsRepeater.Layout>
+                <UniformGridLayout
                     ItemsStretch="Fill"
                     MaximumRowsOrColumns="6"
                     MinColumnSpacing="8"
@@ -24,8 +23,8 @@
                     MinItemWidth="100"
                     MinRowSpacing="8"
                     Orientation="Horizontal" />
-            </muxc:ItemsRepeater.Layout>
-            <muxc:ItemsRepeater.ItemTemplate>
+            </ItemsRepeater.Layout>
+            <ItemsRepeater.ItemTemplate>
                 <DataTemplate x:DataType="local:FolderCardItem">
                     <Button
                         Padding="8"
@@ -116,7 +115,7 @@
                         </Grid>
                     </Button>
                 </DataTemplate>
-            </muxc:ItemsRepeater.ItemTemplate>
-        </muxc:ItemsRepeater>
+            </ItemsRepeater.ItemTemplate>
+        </ItemsRepeater>
     </Grid>
 </UserControl>

@@ -6,7 +6,6 @@
     xmlns:local="using:Files.Uwp.UserControls.Settings"
     xmlns:local1="using:Files.Uwp.Converters"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     d:DesignHeight="300"
     d:DesignWidth="400"
     mc:Ignorable="d">
@@ -54,14 +53,14 @@
         <!--  Expander  -->
         <Grid x:Name="ExpanderPreGrid" x:Load="{x:Bind ExpandableContent, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}">
             <Grid x:Name="ExpanderGrid" x:Load="{x:Bind IsClickable, Mode=OneWay, Converter={StaticResource InverseBooleanConverter}}">
-                <muxc:Expander
+                <Expander
                     x:Name="ExpanderControl"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
                     Collapsed="Expander_Collapsed"
                     Expanding="Expander_Expanding"
                     IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}">
-                    <muxc:Expander.Header>
+                    <Expander.Header>
                         <local:SettingsDisplayControl
                             Title="{x:Bind Title, Mode=OneWay}"
                             Margin="0,16"
@@ -69,13 +68,13 @@
                             Description="{x:Bind Description, Mode=OneWay}"
                             Icon="{x:Bind Icon, Mode=OneWay}"
                             SettingsActionableElement="{x:Bind SettingsActionableElement, Mode=OneWay}" />
-                    </muxc:Expander.Header>
+                    </Expander.Header>
 
                     <ContentPresenter
                         Margin="-16"
                         HorizontalAlignment="Stretch"
                         Content="{x:Bind ExpandableContent, Mode=OneWay}" />
-                </muxc:Expander>
+                </Expander>
             </Grid>
         </Grid>
         <!--  Button  -->

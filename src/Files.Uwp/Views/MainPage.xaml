@@ -5,25 +5,24 @@
     xmlns:contract8Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,8)"
     xmlns:controls="using:Files.Uwp.UserControls"
     xmlns:converters="using:Files.Uwp.Converters"
-    xmlns:helpers="using:Files.Uwp.Helpers"
     xmlns:converters1="using:CommunityToolkit.WinUI.UI.Converters"
     xmlns:custom="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Files.Uwp.Helpers"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:usercontrols="using:Files.Uwp.UserControls.MultitaskingControl"
     xmlns:viewmodels="using:Files.Uwp.ViewModels"
     Background="Transparent"
     KeyboardAcceleratorPlacementMode="Hidden"
     Loaded="Page_Loaded"
-    SizeChanged="Page_SizeChanged"
     NavigationCacheMode="Required"
+    SizeChanged="Page_SizeChanged"
     mc:Ignorable="d">
-    <!-- WINUI3 -->
-    <!--muxc:BackdropMaterial.ApplyToRootOrPageBackground="False"-->
-    
+    <!--  WINUI3  -->
+    <!--  BackdropMaterial.ApplyToRootOrPageBackground="False"  -->
+
     <Page.DataContext>
         <viewmodels:MainPageViewModel />
     </Page.DataContext>
@@ -374,13 +373,19 @@
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
-                    <RowDefinition x:Name="ContentRow" Height="*" MinHeight="100" />
+                    <RowDefinition
+                        x:Name="ContentRow"
+                        Height="*"
+                        MinHeight="100" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition x:Name="PaneRow" Height="Auto" />
                     <RowDefinition Height="32" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition x:Name="ContentColumn" Width="*" MinWidth="100" />
+                    <ColumnDefinition
+                        x:Name="ContentColumn"
+                        Width="*"
+                        MinWidth="100" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition x:Name="PaneColumn" Width="Auto" />
                 </Grid.ColumnDefinitions>

@@ -5,7 +5,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="using:Files.Uwp.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Closing="ContentDialog_Closing"
     RequestedTheme="{x:Bind RootAppElement.RequestedTheme, Mode=OneWay}"
     Style="{StaticResource DefaultContentDialogStyle}"
@@ -45,9 +44,9 @@
                     CornerRadius="4,0,0,4"
                     IsSelected="True"
                     Tag="0">
-                    <muxc:NavigationViewItem.Icon>
+                    <NavigationViewItem.Icon>
                         <FontIcon HorizontalAlignment="Left" Glyph="&#xE790;" />
-                    </muxc:NavigationViewItem.Icon>
+                    </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem
                     AccessKey="P"
@@ -55,9 +54,9 @@
                     Content="{helpers:ResourceString Name=SettingsNavPreferences/Content}"
                     CornerRadius="0"
                     Tag="1">
-                    <muxc:NavigationViewItem.Icon>
+                    <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF116;" />
-                    </muxc:NavigationViewItem.Icon>
+                    </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem
                     AccessKey="M"
@@ -65,9 +64,9 @@
                     Content="{helpers:ResourceString Name=SettingsNavMultitasking/Content}"
                     CornerRadius="0"
                     Tag="2">
-                    <muxc:NavigationViewItem.Icon>
+                    <NavigationViewItem.Icon>
                         <FontIcon FontSize="16" Glyph="&#xEE40;" />
-                    </muxc:NavigationViewItem.Icon>
+                    </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem
                     AccessKey="E"
@@ -75,9 +74,9 @@
                     Content="{helpers:ResourceString Name=SettingsNavExperimental/Content}"
                     CornerRadius="0"
                     Tag="3">
-                    <muxc:NavigationViewItem.Icon>
+                    <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xF1AD;" />
-                    </muxc:NavigationViewItem.Icon>
+                    </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem
                     AccessKey="B"
