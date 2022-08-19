@@ -121,6 +121,16 @@ namespace Files.Uwp.Views
             FolderWidget.ShowMultiPaneControls = AppInstance.PaneHolder?.IsMultiPaneEnabled ?? false;
         }
 
+        // WINUI3
+        private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
+        {
+            if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+            {
+                contentDialog.XamlRoot = App.Window.Content.XamlRoot;
+            }
+            return contentDialog;
+        }
+
         private async void RecentFilesWidget_RecentFileInvoked(object sender, UserControls.PathNavigationEventArgs e)
         {
             try
@@ -131,7 +141,7 @@ namespace Files.Uwp.Views
             catch (UnauthorizedAccessException)
             {
                 DynamicDialog dialog = DynamicDialogFactory.GetFor_ConsentDialog();
-                await dialog.ShowAsync();
+                await SetContentDialogRoot(dialog).ShowAsync();
             }
             catch (ArgumentException)
             {
@@ -210,7 +220,6 @@ namespace Files.Uwp.Views
 
         protected override async void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
-            base.OnNavigatedTo(eventArgs);
             var parameters = eventArgs.Parameter as NavigationArguments;
             AppInstance = parameters.AssociatedTabInstance;
             AppInstance.InstanceViewModel.IsPageTypeNotHome = false;
@@ -242,6 +251,7 @@ namespace Files.Uwp.Views
                 Path = tag,
             };
             AppInstance.ToolbarViewModel.PathComponents.Add(item);
+            base.OnNavigatedTo(eventArgs);
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)

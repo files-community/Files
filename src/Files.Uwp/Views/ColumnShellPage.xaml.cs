@@ -491,6 +491,16 @@ namespace Files.Uwp.Views
             return FrameContent;
         }
 
+        // WINUI3
+        private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
+        {
+            if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+            {
+                contentDialog.XamlRoot = App.Window.Content.XamlRoot;
+            }
+            return contentDialog;
+        }
+
         private async void DisplayFilesystemConsentDialog()
         {
             if (App.DrivesManager?.ShowUserConsentOnInit ?? false)
@@ -499,7 +509,7 @@ namespace Files.Uwp.Views
                 await DispatcherQueue.EnqueueAsync(async () =>
                 {
                     DynamicDialog dialog = DynamicDialogFactory.GetFor_ConsentDialog();
-                    await dialog.ShowAsync(ContentDialogPlacement.Popup);
+                    await SetContentDialogRoot(dialog).ShowAsync(ContentDialogPlacement.Popup);
                 });
             }
         }

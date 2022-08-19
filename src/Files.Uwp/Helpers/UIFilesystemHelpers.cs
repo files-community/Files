@@ -19,6 +19,7 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using Files.Backend.Enums;
 using Windows.System;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Files.Uwp.Helpers
 {
@@ -302,6 +303,16 @@ namespace Files.Uwp.Helpers
             _ = await CreateFileFromDialogResultTypeForResult(itemType, itemInfo, associatedInstance);
         }
 
+        // WINUI3
+        private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
+        {
+            if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+            {
+                contentDialog.XamlRoot = App.Window.Content.XamlRoot;
+            }
+            return contentDialog;
+        }
+
         public static async Task<IStorageItem> CreateFileFromDialogResultTypeForResult(AddItemDialogItemType itemType, ShellNewEntry itemInfo, IShellPage associatedInstance)
         {
             string currentPath = null;
@@ -322,7 +333,7 @@ namespace Files.Uwp.Helpers
             if (itemType != AddItemDialogItemType.File || itemInfo?.Command == null)
             {
                 DynamicDialog dialog = DynamicDialogFactory.GetFor_RenameDialog();
-                await dialog.ShowAsync(); // Show rename dialog
+                await SetContentDialogRoot(dialog).ShowAsync(); // Show rename dialog
 
                 if (dialog.DynamicResult != DynamicDialogResult.Primary)
                 {

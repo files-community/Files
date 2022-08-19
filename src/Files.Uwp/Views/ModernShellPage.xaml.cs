@@ -514,6 +514,16 @@ namespace Files.Uwp.Views
             }
         }
 
+        // WINUI3
+        private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
+        {
+            if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+            {
+                contentDialog.XamlRoot = App.Window.Content.XamlRoot;
+            }
+            return contentDialog;
+        }
+
         private async Task<BaseLayout> GetContentOrNullAsync()
         {
             // WINUI3: make sure not to run this synchronously, do not use EnqueueAsync
@@ -533,7 +543,7 @@ namespace Files.Uwp.Views
                 await DispatcherQueue.EnqueueAsync(async () =>
                 {
                     DynamicDialog dialog = DynamicDialogFactory.GetFor_ConsentDialog();
-                    await dialog.ShowAsync(ContentDialogPlacement.Popup);
+                    await SetContentDialogRoot(dialog).ShowAsync(ContentDialogPlacement.Popup);
                 });
             }
         }

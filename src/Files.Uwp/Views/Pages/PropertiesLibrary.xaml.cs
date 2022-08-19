@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage.Pickers;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Files.Uwp.Views
 {
@@ -180,6 +181,16 @@ namespace Files.Uwp.Views
             return isChanged;
         }
 
+        // WINUI3
+        private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
+        {
+            if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+            {
+                contentDialog.XamlRoot = App.Window.Content.XamlRoot;
+            }
+            return contentDialog;
+        }
+
         public override async Task<bool> SaveChangesAsync(ListedItem item)
         {
             if (BaseProperties is LibraryProperties props)
@@ -210,7 +221,7 @@ namespace Files.Uwp.Views
                     }
                     catch
                     {
-                        await dialog.TryShowAsync();
+                        await SetContentDialogRoot(dialog).TryShowAsync();
                         switch (dialog.DynamicResult)
                         {
                             case DynamicDialogResult.Primary:
