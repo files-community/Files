@@ -7,6 +7,8 @@ using Microsoft.Windows.AppLifecycle;
 using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
+using Microsoft.UI;
+using Microsoft.UI.Windowing;
 using WinUIEx;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -19,9 +21,35 @@ namespace Files.Uwp
     /// </summary>
     public sealed partial class MainWindow : WindowEx
     {
+        #nullable disable
+        public static MainWindow Instance { get; private set; }
+        #nullable restore
+
         public MainWindow()
         {
-            this.InitializeComponent();
+            Instance = this;
+            InitializeComponent();
+
+            EnsureEarlyWindow();
+        }
+
+        private void EnsureEarlyWindow()
+        {
+            // Set title
+            AppWindow.Title = "Files";
+
+            if (AppWindowTitleBar.IsCustomizationSupported())
+            {
+                // Extend title bar
+                AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+
+                // Set window buttons background to transparent
+                AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+                AppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+            }
+
+            // Set min size
+            // TODO: Set min size // WINUI3
         }
 
         public async Task InitializeApplication(AppActivationArguments activatedEventArgs)
