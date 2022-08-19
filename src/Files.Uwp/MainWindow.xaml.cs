@@ -21,13 +21,8 @@ namespace Files.Uwp
     /// </summary>
     public sealed partial class MainWindow : WindowEx
     {
-        #nullable disable
-        public static MainWindow Instance { get; private set; }
-        #nullable restore
-
         public MainWindow()
         {
-            Instance = this;
             InitializeComponent();
 
             EnsureEarlyWindow();
@@ -46,6 +41,10 @@ namespace Files.Uwp
                 // Set window buttons background to transparent
                 AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
                 AppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+            }
+            else
+            {
+                this.ExtendsContentIntoTitleBar = true;
             }
 
             // Set min size
