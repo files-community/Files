@@ -55,7 +55,7 @@ namespace Files.Uwp.Helpers
         public static bool IsBrowsableZipFile(string filePath, out string ext)
         {
             ext = new[] { ".zip", ".7z", ".rar", ".tar" } // Only ext we want to browse
-                .FirstOrDefault(x => filePath.Contains(x, StringComparison.OrdinalIgnoreCase));
+                .FirstOrDefault(x => filePath?.Contains(x, StringComparison.OrdinalIgnoreCase) ?? false);
             return ext is not null;
         }
 
