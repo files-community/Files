@@ -165,7 +165,7 @@ namespace Files.Uwp.Views
 
         private void DragArea_Loaded(object sender, RoutedEventArgs e)
         {
-            MainWindow.Instance.SetTitleBar(sender as Grid);
+            App.Window.SetTitleBar(sender as Grid);
         }
 
         private void TitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)

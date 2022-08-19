@@ -21,13 +21,8 @@ namespace Files.Uwp
     /// </summary>
     public sealed partial class MainWindow : WindowEx
     {
-        #nullable disable
-        public static MainWindow Instance { get; private set; }
-        #nullable restore
-
         public MainWindow()
         {
-            Instance = this;
             InitializeComponent();
 
             EnsureEarlyWindow();
@@ -49,7 +44,7 @@ namespace Files.Uwp
             }
             else
             {
-                ExtendsContentIntoTitleBar = true;
+                this.ExtendsContentIntoTitleBar = true;
             }
 
             // Set min size
