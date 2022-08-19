@@ -2346,9 +2346,6 @@
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Éditer les étiquettes</value>
   </data>
-  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
-    <value>Activer les étiquettes</value>
-  </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Afficher la section Favoris</value>
   </data>
