@@ -67,8 +67,7 @@ namespace Files.Uwp.Helpers
             {
                 Header = null,
                 IconSource = fontIconSource,
-                Description = null,
-                HoverDisplayText = null
+                Description = null
             };
             tabItem.Control.NavigationArguments = new TabItemArguments()
             {

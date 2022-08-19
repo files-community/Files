@@ -66,6 +66,11 @@ namespace Files.Backend.Services.Settings
         bool AreLayoutPreferencesPerFolder { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether or not to enable file tags feature.
+        /// </summary>
+        bool AreFileTagsEnabled { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether or not to show folder size.
         /// </summary>
         bool ShowFolderSize { get; set; }

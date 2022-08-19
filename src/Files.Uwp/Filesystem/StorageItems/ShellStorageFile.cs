@@ -12,6 +12,7 @@ using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
 using IO = System.IO;
+using Storage = Windows.Storage;
 
 namespace Files.Uwp.Filesystem.StorageItems
 {
@@ -56,7 +57,7 @@ namespace Files.Uwp.Filesystem.StorageItems
 
         public override DateTimeOffset DateCreated { get; }
 
-        public override Windows.Storage.FileAttributes Attributes => Windows.Storage.FileAttributes.Normal | Windows.Storage.FileAttributes.ReadOnly;
+        public override Storage.FileAttributes Attributes => Storage.FileAttributes.Normal | Storage.FileAttributes.ReadOnly;
 
         private IStorageItemExtraProperties properties;
         public override IStorageItemExtraProperties Properties => properties ??= new BaseBasicStorageItemExtraProperties(this);

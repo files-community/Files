@@ -34,6 +34,19 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
             SetAsOpenFileDialogCommand = new AsyncRelayCommand(SetAsOpenFileDialog);
         }
 
+        public bool AreFileTagsEnabled
+        {
+            get => UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled;
+            set
+            {
+                if (value != UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled)
+                {
+                    UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public bool ShowFolderSize
         {
             get => UserSettingsService.PreferencesSettingsService.ShowFolderSize;

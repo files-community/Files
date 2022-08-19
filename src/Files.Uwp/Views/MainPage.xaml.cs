@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
-using Files.Backend.Extensions;
 using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
 using Files.Shared.EventArguments;
@@ -28,6 +27,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using Files.Backend.Extensions;
 
 namespace Files.Uwp.Views
 {
@@ -383,21 +383,6 @@ namespace Files.Uwp.Views
             }
         }
 
-        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            switch (Pane?.Position)
-            {
-                case PanePositions.Right when ContentColumn.ActualWidth == ContentColumn.MinWidth:
-                    UserSettingsService.PaneSettingsService.VerticalSizePx += e.NewSize.Width - e.PreviousSize.Width;
-                    UpdatePositioning();
-                    break;
-                case PanePositions.Bottom when ContentRow.ActualHeight == ContentRow.MinHeight:
-                    UserSettingsService.PaneSettingsService.HorizontalSizePx += e.NewSize.Height - e.PreviousSize.Height;
-                    UpdatePositioning();
-                    break;
-            }
-        }
-
         private void ToggleFullScreenAccelerator(KeyboardAcceleratorInvokedEventArgs e)
         {
             ApplicationView view = ApplicationView.GetForCurrentView();
@@ -489,14 +474,17 @@ namespace Files.Uwp.Views
 
         private void PaneSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
-            switch (Pane?.Position)
+            if (Pane is IPane p)
             {
-                case PanePositions.Right:
-                    UserSettingsService.PaneSettingsService.VerticalSizePx = Pane.ActualWidth;
-                    break;
-                case PanePositions.Bottom:
-                    UserSettingsService.PaneSettingsService.HorizontalSizePx = Pane.ActualHeight;
-                    break;
+                switch (p.Position)
+                {
+                    case PanePositions.Right:
+                        UserSettingsService.PaneSettingsService.VerticalSizePx = Pane.ActualWidth;
+                        break;
+                    case PanePositions.Bottom:
+                        UserSettingsService.PaneSettingsService.HorizontalSizePx = Pane.ActualHeight;
+                        break;
+                }
             }
         }
 

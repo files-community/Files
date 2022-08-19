@@ -237,7 +237,7 @@ namespace Files.Uwp.DataModels.NavigationControlItems
             {
                 if (!string.IsNullOrEmpty(DeviceID))
                 {
-                    IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, 24, true);
+                    IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, 24);
                 }
                 if (IconData == null)
                 {

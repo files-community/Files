@@ -231,27 +231,46 @@ namespace Files.FullTrust
             {
                 localSettings.Values.Remove("Arguments");
 
-                if (arguments == "TerminateUwp")
+                if (arguments == "StartUwp")
                 {
-                    // Return false and don't exit if PID process is not running
-                    // Argument may refer to unrelated session (#9580)
-                    return TerminateProcess((int)localSettings.Values["pid"]);
+                    var folder = localSettings.Values.Get("Folder", "");
+                    localSettings.Values.Remove("Folder");
+
+                    using Process process = new Process();
+                    process.StartInfo.UseShellExecute = true;
+                    process.StartInfo.FileName = "files.exe";
+                    process.StartInfo.Arguments = folder;
+                    process.Start();
+
+                    TerminateProcess((int)localSettings.Values["pid"]);
+                    return true;
+                }
+                else if (arguments == "TerminateUwp")
+                {
+                    TerminateProcess((int)localSettings.Values["pid"]);
+                    return true;
                 }
                 else if (arguments == "ShellCommand")
                 {
+                    TerminateProcess((int)localSettings.Values["pid"]);
+
                     Win32API.OpenFolderInExistingShellWindow((string)localSettings.Values["ShellCommand"]);
 
-                    return TerminateProcess((int)localSettings.Values["pid"]);
+                    return true;
                 }
             }
 
             return false;
         }
 
-        private static bool TerminateProcess(int processId)
+        private static void TerminateProcess(int processId)
         {
             // Kill the process. This is a BRUTAL WAY to kill a process.
-            return SafetyExtensions.IgnoreExceptions(() => Process.GetProcessById(processId).Kill());
+#if DEBUG
+            // In debug mode this kills this process too??
+#else
+            Process.GetProcessById(processId).Kill();
+#endif
         }
     }
 }

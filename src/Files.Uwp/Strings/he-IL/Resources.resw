@@ -2430,16 +2430,16 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>הצג סיומות קבצים</value>
   </data>
   <data name="NavToolbarShowHiddenItemsHeader.Text" xml:space="preserve">
-    <value>הצגת פריטים מוסתרים</value>
+    <value>Show hidden items</value>
   </data>
   <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Show favorites section</value>
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>פתחו תיקיות בכרטיסיה חדשה</value>
+    <value>Open folders in new tab</value>
   </data>
   <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>הצמידו את פח האשפה לאהובים</value>
+    <value>Pin Recycle Bin to favorites</value>
   </data>
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>שפה</value>
@@ -2448,13 +2448,13 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Show cloud drives section</value>
   </data>
   <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>הצג דיאלוג אישור לפני מחיקת קבצים או תיקיות</value>
+    <value>Show a confirmation dialog when deleting files or folders</value>
   </data>
   <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Show drives section</value>
   </data>
   <data name="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>הצגת חלק הספריה</value>
+    <value>Show library section</value>
   </data>
   <data name="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Show network section</value>
@@ -2664,10 +2664,10 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>חלץ</value>
   </data>
   <data name="ExtractFiles" xml:space="preserve">
-    <value>חלץ קבצים</value>
+    <value>Extract files</value>
   </data>
   <data name="ExtractHere" xml:space="preserve">
-    <value>חלץ לכאן</value>
+    <value>Extract here</value>
   </data>
   <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+E</value>
@@ -2775,7 +2775,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Size All Columns to Fit</value>
   </data>
   <data name="Contributors" xml:space="preserve">
-    <value>תורמים</value>
+    <value>Contributors</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
     <value>Adaptive</value>
@@ -2788,11 +2788,5 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
     <value>Show Alternate Data Streams</value>
-  </data>
-  <data name="ReviewFiles" xml:space="preserve">
-    <value>Review Files</value>
-  </data>
-  <data name="ReviewFilesContent" xml:space="preserve">
-    <value>Would you like to review Files?</value>
   </data>
 </root>

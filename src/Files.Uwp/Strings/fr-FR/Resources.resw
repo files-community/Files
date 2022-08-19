@@ -2767,7 +2767,7 @@
     <value>Personnalisé</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
-    <value>Définir comme fond d'écran en diaporama</value>
+    <value>Set as desktop slideshow</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
     <value>Adapter la largeur des colonnes</value>
@@ -2776,21 +2776,15 @@
     <value>Contributeurs</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Adaptatif</value>
+    <value>Adaptive</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>Adaptatif (Ctrl+Shift+7)</value>
+    <value>Adaptive (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>Afficher les flux de données alternatifs</value>
-  </data>
-  <data name="ReviewFiles" xml:space="preserve">
-    <value>Évaluer Files</value>
-  </data>
-  <data name="ReviewFilesContent" xml:space="preserve">
-    <value>Souhaitez-vous laisser une évaluation de Files ?</value>
+    <value>Show Alternate Data Streams</value>
   </data>
 </root>

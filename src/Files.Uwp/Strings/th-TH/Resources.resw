@@ -2266,7 +2266,7 @@
     <value>Home</value>
   </data>
   <data name="TabViewVerticalNewTab.Text" xml:space="preserve">
-    <value>แท็บใหม่</value>
+    <value>New tab</value>
   </data>
   <data name="NavToolbarSelectAll.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+A</value>
@@ -2323,7 +2323,7 @@
     <value>Ctrl+Shift+N</value>
   </data>
   <data name="SettingsPrivacy.Title" xml:space="preserve">
-    <value>นโยบายความเป็นส่วนตัว</value>
+    <value>Privacy policy</value>
   </data>
   <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
     <value>Fluent UI System Icons</value>
@@ -2340,7 +2340,7 @@
     <value>Open parent folder</value>
   </data>
   <data name="FileTagUnknown" xml:space="preserve">
-    <value>ไม่ทราบ</value>
+    <value>Unknown</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
     <value>Tag</value>
@@ -2370,7 +2370,7 @@
     <value>Insert a disc</value>
   </data>
   <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
-    <value>ตกลง</value>
+    <value>OK</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
     <value>Credential Required</value>
@@ -2415,46 +2415,46 @@
     <value>Columns</value>
   </data>
   <data name="LargeIcons" xml:space="preserve">
-    <value>ไอคอนขนาดใหญ่</value>
+    <value>Large Icons</value>
   </data>
   <data name="MediumIcons" xml:space="preserve">
-    <value>ไอคอนขนาดกลาง</value>
+    <value>Medium Icons</value>
   </data>
   <data name="SmallIcons" xml:space="preserve">
-    <value>ไอคอนขนาดเล็ก</value>
+    <value>Small Icons</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Tiles</value>
   </data>
   <data name="NavToolbarShowFileExtensions.AutomationProperties.Name" xml:space="preserve">
-    <value>แสดงนามสกุลไฟล์</value>
+    <value>Show file extensions</value>
   </data>
   <data name="NavToolbarShowHiddenItemsHeader.Text" xml:space="preserve">
-    <value>แสดงรายการที่ซ่อน</value>
+    <value>Show hidden items</value>
   </data>
   <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Show favorites section</value>
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>เปิดโฟลเดอร์เหล่านี้ในแท็บใหม่</value>
+    <value>Open folders in new tab</value>
   </data>
   <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>ปักหมุดถังรีไซเคิลไว้ในรายการโปรด</value>
+    <value>Pin Recycle Bin to favorites</value>
   </data>
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>ภาษา</value>
+    <value>Language</value>
   </data>
   <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Show cloud drives section</value>
   </data>
   <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>แสดงกล่องโต้ตอบการยืนยันลบเมื่อลบไฟล์หรือโฟล์เดอร์</value>
+    <value>Show a confirmation dialog when deleting files or folders</value>
   </data>
   <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Show drives section</value>
   </data>
   <data name="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>แสดงรายการคลัง</value>
+    <value>Show library section</value>
   </data>
   <data name="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Show network section</value>
@@ -2556,7 +2556,7 @@
     <value>On program start</value>
   </data>
   <data name="HighDpiOverride_System" xml:space="preserve">
-    <value>ตามระบบ</value>
+    <value>System</value>
   </data>
   <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
     <value>System (advanced)</value>
@@ -2604,7 +2604,7 @@
     <value>Register for restart</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
-    <value>เรียกใช้ในฐานะผู้ดูแล</value>
+    <value>Run as administrator</value>
   </data>
   <data name="RunCompatibilityTroubleShooter" xml:space="preserve">
     <value>Run compatibility troubleshooter</value>
@@ -2640,7 +2640,7 @@
     <value>Attributes</value>
   </data>
   <data name="Hidden" xml:space="preserve">
-    <value>ซ่อน</value>
+    <value>Hidden</value>
   </data>
   <data name="MoreDetails" xml:space="preserve">
     <value>More details</value>
@@ -2655,19 +2655,19 @@
     <value>Disk cleanup</value>
   </data>
   <data name="Type" xml:space="preserve">
-    <value>ชนิดไฟล์:</value>
+    <value>Type:</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Bytes</value>
   </data>
   <data name="Extract" xml:space="preserve">
-    <value>แยกไฟล์</value>
+    <value>Extract</value>
   </data>
   <data name="ExtractFiles" xml:space="preserve">
-    <value>แตกไฟล์ออกมา</value>
+    <value>Extract files</value>
   </data>
   <data name="ExtractHere" xml:space="preserve">
-    <value>แตกไฟล์ลงที่นี่</value>
+    <value>Extract here</value>
   </data>
   <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+E</value>
@@ -2682,7 +2682,7 @@
     <value>Run with PowerShell</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
-    <value>ตั้งเป็นพื้นหลังของเดสก์ท็อป</value>
+    <value>Set as desktop background</value>
   </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</value>
@@ -2706,7 +2706,7 @@
     <value>Close other tabs</value>
   </data>
   <data name="Music" xml:space="preserve">
-    <value>เพลง</value>
+    <value>Music</value>
   </data>
   <data name="Pictures" xml:space="preserve">
     <value>Pictures</value>
@@ -2775,7 +2775,7 @@
     <value>Size All Columns to Fit</value>
   </data>
   <data name="Contributors" xml:space="preserve">
-    <value>ผู้ร่วมสร้าง</value>
+    <value>Contributors</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
     <value>Adaptive</value>
@@ -2788,11 +2788,5 @@
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
     <value>Show Alternate Data Streams</value>
-  </data>
-  <data name="ReviewFiles" xml:space="preserve">
-    <value>Review Files</value>
-  </data>
-  <data name="ReviewFilesContent" xml:space="preserve">
-    <value>Would you like to review Files?</value>
   </data>
 </root>

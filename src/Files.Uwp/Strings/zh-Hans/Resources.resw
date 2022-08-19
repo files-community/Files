@@ -2761,36 +2761,30 @@
     <value>当前无法执行移动操作。要复制此项目吗？</value>
   </data>
   <data name="HiddenFilesAndFolders" xml:space="preserve">
-    <value>隐藏文件和文件夹</value>
+    <value>Hidden files and folders</value>
   </data>
   <data name="Custom" xml:space="preserve">
-    <value>自定义</value>
+    <value>Custom</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
-    <value>设置为桌面幻灯片</value>
+    <value>Set as desktop slideshow</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
-    <value>自动调整所有列宽</value>
+    <value>Size All Columns to Fit</value>
   </data>
   <data name="Contributors" xml:space="preserve">
-    <value>贡献者</value>
+    <value>Contributors</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>自适应</value>
+    <value>Adaptive</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>自适应 (Ctrl+Shift+7)</value>
+    <value>Adaptive (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>显示交换数据流</value>
-  </data>
-  <data name="ReviewFiles" xml:space="preserve">
-    <value>评论 Files</value>
-  </data>
-  <data name="ReviewFilesContent" xml:space="preserve">
-    <value>您想要评价 Files 吗？</value>
+    <value>Show Alternate Data Streams</value>
   </data>
 </root>

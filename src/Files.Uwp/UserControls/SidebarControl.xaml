@@ -36,6 +36,7 @@
             <ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.ShowWslSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=WSL}" />
             <ToggleMenuFlyoutItem
                 x:Name="SidebarContextMenuFileTagsSection"
+                x:Load="{x:Bind ViewModel.AreFileTagsEnabled, Mode=OneWay}"
                 IsChecked="{x:Bind ViewModel.ShowFileTagsSection, Mode=TwoWay}"
                 Text="{helpers:ResourceString Name=FileTags}" />
         </MenuFlyout>

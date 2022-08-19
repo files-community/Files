@@ -467,7 +467,8 @@
                                 Text="{helpers:ResourceString Name=SyncStatus}" />
                             <ToggleMenuFlyoutItem
                                 IsChecked="{x:Bind ViewModel.IsSortedByFileTag, Mode=TwoWay}"
-                                Text="{helpers:ResourceString Name=FileTags}" />
+                                Text="{helpers:ResourceString Name=FileTags}"
+                                Visibility="{x:Bind UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled, Mode=OneWay}" />
                             <ToggleMenuFlyoutItem
                                 IsChecked="{x:Bind ViewModel.IsSortedByOriginalFolder, Mode=TwoWay}"
                                 IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}"
@@ -490,7 +491,8 @@
                                 Text="{helpers:ResourceString Name=SyncStatus}" />
                             <ToggleMenuFlyoutItem
                                 IsChecked="{x:Bind ViewModel.IsGroupedByFileTag, Mode=TwoWay}"
-                                Text="{helpers:ResourceString Name=FileTags}" />
+                                Text="{helpers:ResourceString Name=FileTags}"
+                                Visibility="{x:Bind UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled, Mode=OneWay}" />
                             <ToggleMenuFlyoutItem
                                 IsChecked="{x:Bind ViewModel.IsGroupedByOriginalFolder, Mode=TwoWay}"
                                 IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}"

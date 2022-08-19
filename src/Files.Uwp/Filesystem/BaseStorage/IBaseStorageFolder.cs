@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
@@ -38,12 +37,5 @@ namespace Files.Uwp.Filesystem.StorageItems
         new BaseStorageItemQueryResult CreateItemQueryWithOptions(QueryOptions queryOptions);
         new BaseStorageFileQueryResult CreateFileQueryWithOptions(QueryOptions queryOptions);
         new BaseStorageFolderQueryResult CreateFolderQueryWithOptions(QueryOptions queryOptions);
-    }
-
-    public interface ICreateFileWithStream
-    {
-        IAsyncOperation<BaseStorageFile> CreateFileAsync(Stream contents, string desiredName);
-
-        IAsyncOperation<BaseStorageFile> CreateFileAsync(Stream contents, string desiredName, CreationCollisionOption options);
     }
 }

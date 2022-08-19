@@ -34,23 +34,33 @@
                 FontStyle="Italic"
                 Text="{helpers:ResourceString Name=SettingsExperimentalDescription/Text}" />
 
-            <!--  Edit File Tags  -->
-            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsEditFileTagsExpander/Title}" HorizontalAlignment="Stretch"
-                ButtonCommand="{Binding EditFileTagsCommand}"
-                IsClickable="True">
+            <local:SettingsBlockControl
+                Title="{helpers:ResourceString Name=SettingsEnableFileTags/Title}"
+                HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
-                    <FontIcon
+                    <FontIcon Glyph="&#xE1CB;" />
+                </local:SettingsBlockControl.Icon>
+                <ToggleSwitch IsOn="{Binding AreFileTagsEnabled, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                <local:SettingsBlockControl.ExpandableContent>
+                    <local:SettingsBlockControl
+                        Title="{helpers:ResourceString Name=SettingsEditFileTagsExpander/Title}"
+                        ButtonCommand="{Binding EditFileTagsCommand}"
+                        IsClickable="True">
+                        <local:SettingsBlockControl.Icon>
+                            <FontIcon
+                                FontSize="14"
+                                Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                                Glyph="&#xE104;" />
+                        </local:SettingsBlockControl.Icon>
+
+                        <FontIcon
                             FontSize="14"
                             Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                            Glyph="&#xE104;" />
-                </local:SettingsBlockControl.Icon>
-
-                <FontIcon
-                    FontSize="14"
-                    Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                    Glyph="&#xE2B4;" />
+                            Glyph="&#xE2B4;" />
+                    </local:SettingsBlockControl>
+                </local:SettingsBlockControl.ExpandableContent>
             </local:SettingsBlockControl>
-            
+
             <local:SettingsBlockControl
                 Title="{helpers:ResourceString Name=ShowFolderSize}"
                 HorizontalAlignment="Stretch"

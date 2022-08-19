@@ -349,8 +349,7 @@ namespace Files.Uwp.Filesystem.Search
         {
             ListedItem listedItem = null;
             var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-            var isFolder = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory;
-            if (!isFolder)
+            if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
             {
                 string itemFileExtension = null;
                 string itemType = null;
@@ -372,7 +371,7 @@ namespace Files.Uwp.Filesystem.Search
                     Opacity = isHidden ? Constants.UI.DimItemOpacity : 1
                 };
             }
-            else
+            else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
             {
                 if (findData.cFileName != "." && findData.cFileName != "..")
                 {
@@ -389,7 +388,7 @@ namespace Files.Uwp.Filesystem.Search
             }
             if (listedItem != null && MaxItemCount > 0) // Only load icon for searchbox suggestions
             {
-                _ = FileThumbnailHelper.LoadIconFromPathAsync(listedItem.ItemPath, ThumbnailSize, ThumbnailMode.ListView, isFolder)
+                _ = FileThumbnailHelper.LoadIconFromPathAsync(listedItem.ItemPath, ThumbnailSize, ThumbnailMode.ListView)
                     .ContinueWith((t) =>
                     {
                         if (t.IsCompletedSuccessfully && t.Result != null)

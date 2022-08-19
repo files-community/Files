@@ -1,5 +1,6 @@
 ﻿using Files.Uwp.Filesystem.StorageItems;
-using SevenZip;
+using ICSharpCode.SharpZipLib.Core;
+using ICSharpCode.SharpZipLib.Zip;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,22 +14,19 @@ namespace Files.Uwp.Helpers
     {
         public static async Task ExtractArchive(BaseStorageFile archive, BaseStorageFolder destinationFolder, IProgress<float> progressDelegate, CancellationToken cancellationToken)
         {
-            using (SevenZipExtractor zipFile = await Filesystem.FilesystemTasks.Wrap(async () =>
+            ZipFile zipFile = await Filesystem.FilesystemTasks.Wrap(async () => new ZipFile(await archive.OpenStreamForReadAsync()));
+            if (zipFile == null)
             {
-                var arch = new SevenZipExtractor(await archive.OpenStreamForReadAsync());
-                return arch?.ArchiveFileData is null ? null : arch; // Force load archive (1665013614u)
-            }))
+                return;
+            }
+            using (zipFile)
             {
-                if (zipFile == null)
+                zipFile.IsStreamOwner = true;
+                List<ZipEntry> directoryEntries = new List<ZipEntry>();
+                List<ZipEntry> fileEntries = new List<ZipEntry>();
+                foreach (ZipEntry entry in zipFile)
                 {
-                    return;
-                }
-                //zipFile.IsStreamOwner = true;
-                List<ArchiveFileInfo> directoryEntries = new List<ArchiveFileInfo>();
-                List<ArchiveFileInfo> fileEntries = new List<ArchiveFileInfo>();
-                foreach (ArchiveFileInfo entry in zipFile.ArchiveFileData)
-                {
-                    if (!entry.IsDirectory)
+                    if (entry.IsFile)
                     {
                         fileEntries.Add(entry);
                     }
@@ -43,17 +41,20 @@ namespace Files.Uwp.Helpers
                     return;
                 }
 
+                var wnt = new WindowsNameTransform(destinationFolder.Path);
+                var zipEncoding = ZipStorageFolder.DetectFileEncoding(zipFile);
+
                 var directories = new List<string>();
                 try
                 {
-                    directories.AddRange(directoryEntries.Select((entry) => entry.FileName));
-                    directories.AddRange(fileEntries.Select((entry) => Path.GetDirectoryName(entry.FileName)));
+                    directories.AddRange(directoryEntries.Select((entry) => wnt.TransformDirectory(ZipStorageFolder.DecodeEntryName(entry, zipEncoding))));
+                    directories.AddRange(fileEntries.Select((entry) => Path.GetDirectoryName(wnt.TransformFile(ZipStorageFolder.DecodeEntryName(entry, zipEncoding)))));
                 }
-                catch (Exception ex)
+                catch (InvalidNameException ex)
                 {
                     App.Logger.Warn(ex, $"Error transforming zip names into: {destinationFolder.Path}\n" +
-                        $"Directories: {string.Join(", ", directoryEntries.Select(x => x.FileName))}\n" +
-                        $"Files: {string.Join(", ", fileEntries.Select(x => x.FileName))}");
+                        $"Directories: {string.Join(", ", directoryEntries.Select(x => x.Name))}\n" +
+                        $"Files: {string.Join(", ", fileEntries.Select(x => x.Name))}");
                     return;
                 }
 
@@ -62,7 +63,7 @@ namespace Files.Uwp.Helpers
                     if (!NativeFileOperationsHelper.CreateDirectoryFromApp(dir, IntPtr.Zero))
                     {
                         var dirName = destinationFolder.Path;
-                        foreach (var component in dir.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries))
+                        foreach (var component in dir.Substring(destinationFolder.Path.Length).Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries))
                         {
                             dirName = Path.Combine(dirName, component);
                             NativeFileOperationsHelper.CreateDirectoryFromApp(dirName, IntPtr.Zero);
@@ -92,13 +93,13 @@ namespace Files.Uwp.Helpers
                     {
                         return;
                     }
-                    if (entry.Encrypted)
+                    if (entry.IsCrypted)
                     {
-                        App.Logger.Info($"Skipped encrypted zip entry: {entry.FileName}");
+                        App.Logger.Info($"Skipped encrypted zip entry: {entry.Name}");
                         continue; // TODO: support password protected archives
                     }
 
-                    string filePath = Path.Combine(destinationFolder.Path, entry.FileName);
+                    string filePath = wnt.TransformFile(ZipStorageFolder.DecodeEntryName(entry, zipEncoding));
 
                     var hFile = NativeFileOperationsHelper.CreateFileForWrite(filePath);
                     if (hFile.IsInvalid)
@@ -109,9 +110,22 @@ namespace Files.Uwp.Helpers
                     // We don't close hFile because FileStream.Dispose() already does that
                     using (FileStream destinationStream = new FileStream(hFile, FileAccess.Write))
                     {
+                        int currentBlockSize = 0;
+
                         try
                         {
-                            await zipFile.ExtractFileAsync(entry.Index, destinationStream);
+                            using (Stream entryStream = zipFile.GetInputStream(entry))
+                            {
+                                while ((currentBlockSize = await entryStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+                                {
+                                    await destinationStream.WriteAsync(buffer, 0, currentBlockSize);
+
+                                    if (cancellationToken.IsCancellationRequested) // Check if cancelled
+                                    {
+                                        return;
+                                    }
+                                }
+                            }
                         }
                         catch (Exception ex)
                         {

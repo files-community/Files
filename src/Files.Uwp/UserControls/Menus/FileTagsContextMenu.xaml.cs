@@ -57,8 +57,7 @@ namespace Files.Uwp.UserControls.Menus
                 var existingTags = selectedItem.FileTags ?? Array.Empty<string>();
                 if (existingTags.Contains(removed.Uid))
                 {
-                    var tagList = existingTags.Except(new[] { removed.Uid }).ToArray();
-                    selectedItem.FileTags = tagList.Any() ? tagList : null;
+                    selectedItem.FileTags = existingTags.Except(new[] { removed.Uid }).ToArray();
                 }
             }
         }

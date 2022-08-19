@@ -19,7 +19,6 @@
     Background="Transparent"
     KeyboardAcceleratorPlacementMode="Hidden"
     Loaded="Page_Loaded"
-    SizeChanged="Page_SizeChanged"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
     <Page.DataContext>
@@ -372,13 +371,13 @@
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
-                    <RowDefinition x:Name="ContentRow" Height="*" MinHeight="100" />
+                    <RowDefinition Height="*" MinHeight="100" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition x:Name="PaneRow" Height="Auto" />
                     <RowDefinition Height="32" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition x:Name="ContentColumn" Width="*" MinWidth="100" />
+                    <ColumnDefinition Width="3*" MinWidth="100" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition x:Name="PaneColumn" Width="Auto" />
                 </Grid.ColumnDefinitions>

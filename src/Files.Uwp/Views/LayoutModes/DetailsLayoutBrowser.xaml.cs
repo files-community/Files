@@ -286,7 +286,14 @@ namespace Files.Uwp.Views.LayoutModes
                 ColumnsViewModel.StatusColumn.Show();
             }
 
-            ColumnsViewModel.TagColumn.Show();
+            if (!UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled)
+            {
+                ColumnsViewModel.TagColumn.Hide();
+            }
+            else
+            {
+                ColumnsViewModel.TagColumn.Show();
+            }
 
             UpdateSortIndicator();
         }
@@ -745,7 +752,7 @@ namespace Files.Uwp.Views.LayoutModes
 
                 if (columnToResize == 1) // file name column
                 {
-                    columnSizeToFit += 20;
+                    columnSizeToFit += UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled ? 20 : 0;
                 }
 
                 var minFitLength = Math.Max(columnSizeToFit, column.NormalMinLength);

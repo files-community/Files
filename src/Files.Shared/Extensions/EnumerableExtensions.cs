@@ -30,16 +30,6 @@ namespace Files.Shared.Extensions
             return list;
         }
 
-        public static ICollection<T> EnumeratedAdd<T>(this ICollection<T> collection, IEnumerable<T> source)
-        {
-            foreach (var item in source)
-            {
-                collection.Add(item);
-            }
-
-            return collection;
-        }
-
         public static IDictionary<TKey, TValue> AddIfNotPresent<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue value)
         {
             if (!dictionary.ContainsKey(key))

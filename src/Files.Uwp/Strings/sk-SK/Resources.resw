@@ -232,7 +232,7 @@
     <value>Zobraziť skryté súbory a priečinky</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Zobraziť dot súbory</value>
+    <value>Show dot files</value>
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Experimentálne funkcie</value>
@@ -451,13 +451,13 @@
     <value>Odstránili ste tento priečinok?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>Súbor, ku ktorému sa pokúšate získať prístup, momentálne používa {0}</value>
+    <value>The file you are attempting to access is currently being used by {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>Súbor, ku ktorému sa pokúšate získať prístup, momentálne používa iná aplikácia</value>
+    <value>The file you are attempting to access is currently being used by an another application</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
-    <value>Súbor sa používa</value>
+    <value>File is in use</value>
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>Rozloženie</value>
@@ -2670,28 +2670,28 @@ Centrum aplikácií používame na sledovanie používania aplikácií, vyhľad�
     <value>Extrakcia</value>
   </data>
   <data name="ExtractFiles" xml:space="preserve">
-    <value>Extrahovať súbory</value>
+    <value>Extract files</value>
   </data>
   <data name="ExtractHere" xml:space="preserve">
-    <value>Extrahovať tu</value>
+    <value>Extract here</value>
   </data>
   <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+E</value>
   </data>
   <data name="ExtractToChildFolder" xml:space="preserve">
-    <value>Extrahovať do {0}</value>
+    <value>Extract to {0}</value>
   </data>
   <data name="RunScript" xml:space="preserve">
     <value>Spustiť skript</value>
   </data>
   <data name="RunWithPowerShell" xml:space="preserve">
-    <value>Spustiť s PowerShell</value>
+    <value>Run with PowerShell</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>Nastaviť ako pozadie pracovnej plochy</value>
   </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
-    <value>Výpočet veľkostí priečinkov je náročný na zdroje a môže spôsobiť zvýšenie využitia procesora.</value>
+    <value>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</value>
   </data>
   <data name="RotateLeft" xml:space="preserve">
     <value>Otočiť doľava</value>
@@ -2703,7 +2703,7 @@ Centrum aplikácií používame na sledovanie používania aplikácií, vyhľad�
     <value>Inštalovať</value>
   </data>
   <data name="CloseTabsToTheLeft" xml:space="preserve">
-    <value>Zavrieť karty vľavo</value>
+    <value>Close tabs to the left</value>
   </data>
   <data name="CloseTabsToTheRight" xml:space="preserve">
     <value>Zavrieť karty napravo</value>
@@ -2721,22 +2721,22 @@ Centrum aplikácií používame na sledovanie používania aplikácií, vyhľad�
     <value>Videá</value>
   </data>
   <data name="UpdateFiles" xml:space="preserve">
-    <value>Aktualizovať súbory</value>
+    <value>Update Files</value>
   </data>
   <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
-    <value>Pripravuje sa {0} položiek</value>
+    <value>Preparing {0} items</value>
   </data>
   <data name="PrepareInProgress" xml:space="preserve">
-    <value>Príprava položiek</value>
+    <value>Preparing items</value>
   </data>
   <data name="StatusCopyFailed" xml:space="preserve">
     <value>Kopírovanie zlyhalo</value>
   </data>
   <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
-    <value>Nepodarilo sa skopírovať položky {0} z {1} do {2}</value>
+    <value>Failed to copy {0} items from {1} to {2}</value>
   </data>
   <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
-    <value>Nepodarilo sa skopírovať položku {0} z {1} do {2}</value>
+    <value>Failed to copy {0} item from {1} to {2}</value>
   </data>
   <data name="StatusMoveFailed" xml:space="preserve">
     <value>Premiestnenie zlyhalo.</value>
@@ -2745,19 +2745,19 @@ Centrum aplikácií používame na sledovanie používania aplikácií, vyhľad�
     <value>Značky</value>
   </data>
   <data name="SettingsShowFileTagsSection.Title" xml:space="preserve">
-    <value>Zobraziť sekciu Tagy</value>
+    <value>Show Tags section</value>
   </data>
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Zobraziť sekciu Tagy</value>
+    <value>Show Tags section</value>
   </data>
   <data name="UseCompactStyles" xml:space="preserve">
-    <value>V rozložení detailov použite kompaktné štýly</value>
+    <value>Use compact styles in the details layout</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Univerzálne</value>
   </data>
   <data name="DateFormatSample" xml:space="preserve">
-    <value>napr.: {0}, {1}</value>
+    <value>ex: {0}, {1}</value>
   </data>
   <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
     <value>Zobraziť miniatúry</value>
@@ -2766,39 +2766,33 @@ Centrum aplikácií používame na sledovanie používania aplikácií, vyhľad�
     <value>Znova</value>
   </data>
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
-    <value>Operácia presunu nie je v tomto kontexte podporovaná. Chcete namiesto toho skopírovať položky?</value>
+    <value>Move operation is not supported in this context. Do you want to copy the items instead?</value>
   </data>
   <data name="HiddenFilesAndFolders" xml:space="preserve">
-    <value>Skryté súbory a priečinky</value>
+    <value>Hidden files and folders</value>
   </data>
   <data name="Custom" xml:space="preserve">
-    <value>Vlastné</value>
+    <value>Custom</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
-    <value>Nastaviť ako prezentáciu na pracovnej ploche</value>
+    <value>Set as desktop slideshow</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
-    <value>Veľkosť všetkých stĺpcov podľa veľkosti</value>
+    <value>Size All Columns to Fit</value>
   </data>
   <data name="Contributors" xml:space="preserve">
-    <value>Prispievatelia</value>
+    <value>Contributors</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Adaptívny</value>
+    <value>Adaptive</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>Adaptívny (Ctrl+Shift+7)</value>
+    <value>Adaptive (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>Zobraziť alternatívne dátové toky</value>
-  </data>
-  <data name="ReviewFiles" xml:space="preserve">
-    <value>Review Files</value>
-  </data>
-  <data name="ReviewFilesContent" xml:space="preserve">
-    <value>Would you like to review Files?</value>
+    <value>Show Alternate Data Streams</value>
   </data>
 </root>

@@ -35,7 +35,7 @@ namespace Files.Uwp.ViewModels.Previews
             var items = await Folder.GetItemsAsync();
 
             var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(Folder, 400, ThumbnailMode.SingleItem);
-            iconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, 400, true);
+            iconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, 400);
             if (iconData is not null)
             {
                 Thumbnail = await iconData.ToBitmapAsync();
@@ -50,8 +50,11 @@ namespace Files.Uwp.ViewModels.Previews
                 GetFileProperty("PropertyItemPathDisplay", Folder.Path),
             };
 
-            Item.FileDetails.Add(GetFileProperty("FileTags",
-                Item.FileTagsUI is not null ? string.Join(',', Item.FileTagsUI.Select(x => x.TagName)) : null));
+            if (preferencesSettingsService.AreFileTagsEnabled)
+            {
+                Item.FileDetails.Add(GetFileProperty("FileTags",
+                    Item.FileTagsUI is not null ? string.Join(',', Item.FileTagsUI.Select(x => x.TagName)) : null));
+            }
         }
 
         private static FileProperty GetFileProperty(string nameResource, object value)

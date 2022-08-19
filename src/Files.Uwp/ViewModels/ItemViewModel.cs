@@ -467,6 +467,7 @@ namespace Files.Uwp.ViewModels
                 case nameof(UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden):
                 case nameof(UserSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible):
                 case nameof(UserSettingsService.PreferencesSettingsService.ShowDotFiles):
+                case nameof(UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled):
                 case nameof(UserSettingsService.PreferencesSettingsService.ShowFolderSize):
                     await dispatcherQueue.EnqueueAsync(() =>
                     {
@@ -958,7 +959,7 @@ namespace Files.Uwp.ViewModels
                             wasIconLoaded = true;
                         }
 
-                        var overlayInfo = await FileThumbnailHelper.LoadOverlayAsync(item.ItemPath, thumbnailSize);
+                        var overlayInfo = await FileThumbnailHelper.LoadOverlayAsync(item.ItemPath);
                         if (overlayInfo != null)
                         {
                             await dispatcherQueue.EnqueueAsync(async () =>
@@ -971,7 +972,7 @@ namespace Files.Uwp.ViewModels
 
                 if (!wasIconLoaded)
                 {
-                    var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, false);
+                    var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize);
                     if (iconInfo.IconData != null)
                     {
                         await dispatcherQueue.EnqueueAsync(async () =>
@@ -1017,7 +1018,7 @@ namespace Files.Uwp.ViewModels
                             wasIconLoaded = true;
                         }
 
-                        var overlayInfo = await FileThumbnailHelper.LoadOverlayAsync(item.ItemPath, thumbnailSize);
+                        var overlayInfo = await FileThumbnailHelper.LoadOverlayAsync(item.ItemPath);
                         if (overlayInfo != null)
                         {
                             await dispatcherQueue.EnqueueAsync(async () =>
@@ -1030,7 +1031,7 @@ namespace Files.Uwp.ViewModels
 
                 if (!wasIconLoaded)
                 {
-                    var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, true);
+                    var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize);
                     if (iconInfo.IconData != null)
                     {
                         await dispatcherQueue.EnqueueAsync(async () =>
@@ -1223,7 +1224,7 @@ namespace Files.Uwp.ViewModels
             ImageSource groupImage = null;
             if (item.PrimaryItemAttribute != StorageItemTypes.Folder || item.IsZipItem)
             {
-                var headerIconInfo = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(item.ItemPath, 64u, false);
+                var headerIconInfo = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(item.ItemPath, 64u);
 
                 if (headerIconInfo != null && !item.IsShortcutItem)
                 {

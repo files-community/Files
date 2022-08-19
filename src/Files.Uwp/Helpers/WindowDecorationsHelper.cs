@@ -20,7 +20,6 @@ namespace Files.Uwp.Helpers
                 {
                     "Files" => "xnYLj99c3vN9jFCZiDC6Rg==",
                     "FilesDev" => "Yoz9y1X66micskUKhFrJ5A==",
-                    "FilesPreview" => "jz4pZSdYrC05IyNfTaNwZQ==",
                     "49306atecsolution.FilesUWP" => "+cyyj4JZUyZrBQ2eqDQGeA==",
                     _ => String.Empty,
                 };

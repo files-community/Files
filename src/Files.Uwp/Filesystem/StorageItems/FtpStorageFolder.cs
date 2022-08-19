@@ -12,6 +12,7 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
+using Storage = Windows.Storage;
 
 namespace Files.Uwp.Filesystem.StorageItems
 {
@@ -25,7 +26,7 @@ namespace Files.Uwp.Filesystem.StorageItems
         public override string FolderRelativeId => $"0\\{Name}";
 
         public override DateTimeOffset DateCreated { get; }
-        public override Windows.Storage.FileAttributes Attributes { get; } = Windows.Storage.FileAttributes.Directory;
+        public override Storage.FileAttributes Attributes { get; } = Storage.FileAttributes.Directory;
         public override IStorageItemExtraProperties Properties => new BaseBasicStorageItemExtraProperties(this);
 
         public FtpStorageFolder(string path, string name, DateTimeOffset dateCreated)
@@ -93,11 +94,11 @@ namespace Files.Uwp.Filesystem.StorageItems
                 var item = await ftpClient.GetObjectInfoAsync(FtpHelpers.GetFtpPath(PathNormalization.Combine(Path, name)));
                 if (item is not null)
                 {
-                    if (item.Type is FtpObjectType.File)
+                    if (item.Type is FtpFileSystemObjectType.File)
                     {
                         return new FtpStorageFile(Path, item);
                     }
-                    if (item.Type is FtpObjectType.Directory)
+                    if (item.Type is FtpFileSystemObjectType.Directory)
                     {
                         return new FtpStorageFolder(Path, item);
                     }
@@ -133,11 +134,11 @@ namespace Files.Uwp.Filesystem.StorageItems
                 var list = await ftpClient.GetListingAsync(FtpPath);
                 foreach (var item in list)
                 {
-                    if (item.Type is FtpObjectType.File)
+                    if (item.Type is FtpFileSystemObjectType.File)
                     {
                         items.Add(new FtpStorageFile(Path, item));
                     }
-                    else if (item.Type is FtpObjectType.Directory)
+                    else if (item.Type is FtpFileSystemObjectType.Directory)
                     {
                         items.Add(new FtpStorageFolder(Path, item));
                     }
@@ -186,7 +187,7 @@ namespace Files.Uwp.Filesystem.StorageItems
                 string remotePath = $"{FtpPath}/{desiredName}";
                 var ftpRemoteExists = options is CreationCollisionOption.ReplaceExisting ? FtpRemoteExists.Overwrite : FtpRemoteExists.Skip;
 
-                var result = await ftpClient.UploadStreamAsync(stream, remotePath, ftpRemoteExists);
+                var result = await ftpClient.UploadAsync(stream, remotePath, ftpRemoteExists);
                 if (result is FtpStatus.Success)
                 {
                     return new FtpStorageFile(new StorageFileWithPath(null, $"{Path}/{desiredName}"));

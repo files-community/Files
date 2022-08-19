@@ -2188,7 +2188,7 @@
     <value>關閉畫面</value>
   </data>
   <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
-    <value>進入完整檢視</value>
+    <value>進入畫中畫模式</value>
   </data>
   <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
     <value>返回完整檢視</value>
@@ -2788,11 +2788,5 @@
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
     <value>顯示NTFS交換資料流程</value>
-  </data>
-  <data name="ReviewFiles" xml:space="preserve">
-    <value>Review Files</value>
-  </data>
-  <data name="ReviewFilesContent" xml:space="preserve">
-    <value>Would you like to review Files?</value>
   </data>
 </root>

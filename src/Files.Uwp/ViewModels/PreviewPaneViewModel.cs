@@ -5,7 +5,6 @@ using Files.Backend.Services.Settings;
 using Files.Shared.Cloud;
 using Files.Shared.EventArguments;
 using Files.Uwp.Filesystem;
-using Files.Uwp.Helpers;
 using Files.Uwp.UserControls.FilePreviews;
 using Files.Uwp.ViewModels.Previews;
 using System;
@@ -135,7 +134,7 @@ namespace Files.Uwp.ViewModels
                 return new BasicPreview(model);
             }
 
-            if (FileExtensionHelpers.IsBrowsableZipFile(item.FileExtension, out _))
+            if (item.IsZipItem)
             {
                 var model = new ArchivePreviewViewModel(item);
                 await model.LoadAsync();

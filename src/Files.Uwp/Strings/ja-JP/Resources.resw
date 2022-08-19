@@ -2789,10 +2789,4 @@
   <data name="ShowAlternateStreams" xml:space="preserve">
     <value>代替データストリームを表示</value>
   </data>
-  <data name="ReviewFiles" xml:space="preserve">
-    <value>Files を評価</value>
-  </data>
-  <data name="ReviewFilesContent" xml:space="preserve">
-    <value>Files を評価していただけますか？</value>
-  </data>
 </root>

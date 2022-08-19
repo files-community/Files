@@ -9,6 +9,7 @@ using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
+using Storage = Windows.Storage;
 using IO = System.IO;
 
 namespace Files.Uwp.Filesystem.StorageItems
@@ -26,7 +27,7 @@ namespace Files.Uwp.Filesystem.StorageItems
         public override string FolderRelativeId => File?.FolderRelativeId;
 
         public override DateTimeOffset DateCreated => File.DateCreated;
-        public override Windows.Storage.FileAttributes Attributes => File.Attributes;
+        public override Storage.FileAttributes Attributes => File.Attributes;
         public override IStorageItemExtraProperties Properties => File?.Properties;
 
         public SystemStorageFile(StorageFile file) => File = file;
@@ -68,22 +69,14 @@ namespace Files.Uwp.Filesystem.StorageItems
                         // File created by CreateFileAsync will get immediately deleted on MTP?! (#7206)
                         return await File.CopyAsync(sysFolder.Folder, desiredNewName, option);
                     }
-                    else if (destFolder is ICreateFileWithStream cwsf)
+                    var destFile = await destFolder.CreateFileAsync(desiredNewName, option.Convert());
+                    using (var inStream = await this.OpenStreamForReadAsync())
+                    using (var outStream = await destFile.OpenStreamForWriteAsync())
                     {
-                        using var inStream = await this.OpenStreamForReadAsync();
-                        return await cwsf.CreateFileAsync(inStream, desiredNewName, option.Convert());
+                        await inStream.CopyToAsync(outStream);
+                        await outStream.FlushAsync();
                     }
-                    else
-                    {
-                        var destFile = await destFolder.CreateFileAsync(desiredNewName, option.Convert());
-                        using (var inStream = await this.OpenStreamForReadAsync())
-                        using (var outStream = await destFile.OpenStreamForWriteAsync())
-                        {
-                            await inStream.CopyToAsync(outStream);
-                            await outStream.FlushAsync();
-                        }
-                        return destFile;
-                    }
+                    return destFile;
                 }
                 catch (UnauthorizedAccessException ex) // shortcuts & .url
                 {

@@ -133,7 +133,8 @@ namespace Files.Uwp.Filesystem
 
         public IList<FileTagViewModel> FileTagsUI
         {
-            get => FileTagsSettingsService.GetTagsByIds(FileTags);
+            get => UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled ?
+                FileTagsSettingsService.GetTagsByIds(FileTags) : null;
         }
 
         private Uri customIconSource;
@@ -399,7 +400,6 @@ namespace Files.Uwp.Filesystem
             return $"{ItemName}, {suffix}";
         }
 
-        public bool IsFolder => PrimaryItemAttribute is StorageItemTypes.Folder;
         public bool IsRecycleBinItem => this is RecycleBinItem;
         public bool IsShortcutItem => this is ShortcutItem;
         public bool IsLibraryItem => this is LibraryItem;
@@ -472,7 +472,7 @@ namespace Files.Uwp.Filesystem
     {
         public FtpItem(FtpListItem item, string folder) : base(null)
         {
-            var isFile = item.Type == FtpObjectType.File;
+            var isFile = item.Type == FtpFileSystemObjectType.File;
             ItemDateCreatedReal = item.RawCreated < DateTime.FromFileTimeUtc(0) ? DateTimeOffset.MinValue : item.RawCreated;
             ItemDateModifiedReal = item.RawModified < DateTime.FromFileTimeUtc(0) ? DateTimeOffset.MinValue : item.RawModified;
             ItemNameRaw = item.Name;
