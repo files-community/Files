@@ -149,8 +149,7 @@
             </DataTemplate>
 
 
-            <!-- WINUI3 -->
-            <!--<Style TargetType="SplitView">
+            <Style TargetType="SplitView">
                 <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundTransparentBrush}" />
                 <Setter Property="BorderThickness" Value="{ThemeResource SplitViewLeftBorderThemeThickness}" />
                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -173,7 +172,7 @@
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
 
-                                //  I exist to make a nice looking background for both the tab strip without interfering with the drag area grid  //
+                                <!--  I exist to make a nice looking background for both the tab strip without interfering with the drag area grid  -->
                                 <Border
                                     x:Name="TitlebarBackgroundBorder"
                                     Grid.Column="0"
@@ -192,7 +191,7 @@
                                     Background="{ThemeResource SidebarContentBackgroundBrush}"
                                     IsHitTestVisible="False" />
 
-                                //  Pane Content Area  //
+                                <!--  Pane Content Area  -->
                                 <Grid
                                     x:Name="PaneRoot"
                                     Grid.Row="0"
@@ -234,7 +233,7 @@
                                         Visibility="Collapsed" />
                                 </Grid>
 
-                                //  This allows the user to resize the pane  //
+                                <!--  This allows the user to resize the pane  -->
                                 <Grid
                                     x:Name="ResizeElementBorder"
                                     Grid.Row="0"
@@ -263,7 +262,7 @@
                                         UseSystemFocusVisuals="True" />
                                 </Grid>
 
-                                //  This is a special spot just for tabs so that the title bar DragArea can function properly  //
+                                <!--  This is a special spot just for tabs so that the title bar DragArea can function properly  -->
                                 <Border
                                     x:Name="TabContentBorder"
                                     Grid.Column="0"
@@ -271,7 +270,7 @@
                                     VerticalAlignment="Top"
                                     Canvas.ZIndex="2" />
 
-                                //  Content Area  //
+                                <!--  Content Area  -->
                                 <Grid
                                     x:Name="ContentRoot"
                                     Grid.Row="2"
@@ -1037,7 +1036,7 @@
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
-            </Style>-->
+            </Style>
         </ResourceDictionary>
     </muxc:NavigationView.Resources>
 
