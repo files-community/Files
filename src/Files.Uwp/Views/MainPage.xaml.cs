@@ -30,6 +30,7 @@ using CommunityToolkit.WinUI.Helpers;
 using Windows.ApplicationModel.Core;
 using Microsoft.UI.Windowing;
 using Windows.Graphics;
+using Microsoft.UI;
 
 namespace Files.Uwp.Views
 {
@@ -164,7 +165,25 @@ namespace Files.Uwp.Views
 
         private void DragArea_Loaded(object sender, RoutedEventArgs e)
         {
-            App.Window.SetTitleBar(sender as Grid);
+            var mainWindow = App.Window;
+
+            // Set title
+            mainWindow.AppWindow.Title = "Files";
+
+            if (AppWindowTitleBar.IsCustomizationSupported())
+            {
+                // Extend title bar
+                mainWindow.AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+
+                // Set window buttons background to transparent
+                mainWindow.AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+                mainWindow.AppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+            }
+            else
+            {
+                mainWindow.ExtendsContentIntoTitleBar = true;
+                mainWindow.SetTitleBar(sender as Grid);
+            }
         }
 
         private void TitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
