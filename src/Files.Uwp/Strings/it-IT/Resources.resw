@@ -2348,9 +2348,6 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Gestisci le etichette</value>
   </data>
-  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
-    <value>Abilita le etichette</value>
-  </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Mostra sezione Preferiti</value>
   </data>
