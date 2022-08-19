@@ -516,12 +516,13 @@ namespace Files.Uwp.Views
 
         private async Task<BaseLayout> GetContentOrNullAsync()
         {
-            BaseLayout FrameContent = null;
-            await DispatcherQueue.EnqueueAsync(() =>
+            // WINUI3: make sure not to run this synchronously, do not use EnqueueAsync
+            var tcs = new TaskCompletionSource<object?>();
+            DispatcherQueue.TryEnqueue(() =>
             {
-                FrameContent = ItemDisplayFrame.Content as BaseLayout;
+                tcs.SetResult(ItemDisplayFrame.Content);
             });
-            return FrameContent;
+            return await tcs.Task as BaseLayout;
         }
 
         private async void DisplayFilesystemConsentDialog()
