@@ -203,14 +203,7 @@ namespace Files.Uwp.Interacts
             if (result == ContentDialogResult.Primary)
             {
                 SlimContentPage.ItemManipulationModel.SelectAllItems();
-                var items = SlimContentPage.SelectedItems.ToList().Where(x => x is RecycleBinItem).Select((item) => new
-                {
-                    Source = StorageHelpers.FromPathAndType(
-                        item.ItemPath,
-                        item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory),
-                    Dest = (item as RecycleBinItem).ItemOriginalPath
-                });
-                await FilesystemHelpers.RestoreItemsFromTrashAsync(items.Select(x => x.Source), items.Select(x => x.Dest), true);
+                this.RestoreItem(e);
             }
         }
 
