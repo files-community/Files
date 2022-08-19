@@ -2349,9 +2349,6 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>குறிக்குழுக்களைத் திருத்து</value>
   </data>
-  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
-    <value>குறிச்சொற்களைச் செயல்படுத்து</value>
-  </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Show favorites section</value>
   </data>
