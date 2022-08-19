@@ -1014,7 +1014,7 @@ namespace Files.Uwp.UserControls
 
         private void SidebarNavView_Loaded(object sender, RoutedEventArgs e)
         {
-            (this.FindDescendant("TabContentBorder") as Border).Child = TabContent;
+            //(this.FindDescendant("TabContentBorder") as Border).Child = TabContent; //WINUI3
         }
 
         private void SidebarControl_DisplayModeChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewDisplayModeChangedEventArgs args)
