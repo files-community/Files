@@ -177,6 +177,10 @@ namespace Files.Uwp.Views
             if (SidebarAdaptiveViewModel.PaneHolder != null)
             {
                 var paneArgs = e.NavigationArg as PaneNavigationArguments;
+                if (SidebarAdaptiveViewModel.SidebarSelectedItem is FileTagItem tag)
+                {
+                    paneArgs.LeftPaneNavPathParam = tag.Path;
+                }
                 SidebarAdaptiveViewModel.UpdateSidebarSelectedItemFromArgs(SidebarAdaptiveViewModel.PaneHolder.IsLeftPaneActive ?
                     paneArgs.LeftPaneNavPathParam : paneArgs.RightPaneNavPathParam);
                 UpdateStatusBarProperties();
