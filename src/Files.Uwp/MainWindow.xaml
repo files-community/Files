@@ -11,16 +11,5 @@
         <winuiex:MicaSystemBackdrop DarkTintOpacity="0.8" />
     </winuiex:WindowEx.Backdrop>
 
-    <Grid>
-        <Image
-            MaxWidth="620"
-            MaxHeight="300"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Stretch="Uniform">
-            <Image.Source>
-                <BitmapImage UriSource="ms-appx:///Assets/AppTilesDev/SplashScreen.scale-100.png" />
-            </Image.Source>
-        </Image>
-    </Grid>
+    <Grid />
 </winuiex:WindowEx>
