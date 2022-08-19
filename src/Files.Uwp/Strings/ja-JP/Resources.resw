@@ -2348,9 +2348,6 @@
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>ファイル タグを編集</value>
   </data>
-  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
-    <value>ファイル タグを有効化</value>
-  </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>お気に入りセクションを表示</value>
   </data>
