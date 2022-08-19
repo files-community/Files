@@ -263,7 +263,6 @@ namespace Files.Uwp
         {
             Window = new MainWindow();
             Window.Activated += Window_Activated;
-            Window.Activate();
             WindowHandle = WinRT.Interop.WindowNative.GetWindowHandle(Window);
         }
 
