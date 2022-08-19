@@ -2348,9 +2348,6 @@ Mēs lietojam App Center, lai sekotu līdzi programmas lietojumam, atrastu un no
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Rediģēt birkas</value>
   </data>
-  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
-    <value>Iespējot birkas</value>
-  </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Rādīt favorītu sadaļu</value>
   </data>
