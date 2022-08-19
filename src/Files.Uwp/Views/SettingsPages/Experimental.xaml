@@ -8,7 +8,6 @@
     xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
     xmlns:local="using:Files.Uwp.UserControls.Settings"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:settingsviewmodels="using:Files.Uwp.ViewModels.SettingsViewModels"
     mc:Ignorable="d">
     <Page.Resources>
@@ -35,14 +34,16 @@
                 Text="{helpers:ResourceString Name=SettingsExperimentalDescription/Text}" />
 
             <!--  Edit File Tags  -->
-            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsEditFileTagsExpander/Title}" HorizontalAlignment="Stretch"
+            <local:SettingsBlockControl
+                Title="{helpers:ResourceString Name=SettingsEditFileTagsExpander/Title}"
+                HorizontalAlignment="Stretch"
                 ButtonCommand="{Binding EditFileTagsCommand}"
                 IsClickable="True">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon
-                            FontSize="14"
-                            Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                            Glyph="&#xE104;" />
+                        FontSize="14"
+                        Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                        Glyph="&#xE104;" />
                 </local:SettingsBlockControl.Icon>
 
                 <FontIcon
@@ -50,7 +51,7 @@
                     Foreground="{ThemeResource TextFillColorPrimaryBrush}"
                     Glyph="&#xE2B4;" />
             </local:SettingsBlockControl>
-            
+
             <local:SettingsBlockControl
                 Title="{helpers:ResourceString Name=ShowFolderSize}"
                 HorizontalAlignment="Stretch"
@@ -63,7 +64,7 @@
                     IsOn="{Binding ShowFolderSize, Mode=TwoWay}"
                     Style="{StaticResource RightAlignedToggleSwitchStyle}" />
                 <local:SettingsBlockControl.ExpandableContent>
-                    <muxc:InfoBar
+                    <InfoBar
                         CornerRadius="0,0,2,2"
                         IsClosable="False"
                         IsIconVisible="True"

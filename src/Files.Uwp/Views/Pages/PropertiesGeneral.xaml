@@ -1,14 +1,13 @@
 ﻿<local:PropertiesTab
     x:Class="Files.Uwp.Views.PropertiesGeneral"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:helpers="using:Files.Uwp.Helpers"
-    xmlns:usercontrols="using:Files.Uwp.UserControls"
-    xmlns:local="using:Files.Uwp.ViewModels.Properties"
     xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Files.Uwp.Helpers"
+    xmlns:local="using:Files.Uwp.ViewModels.Properties"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:usercontrols="using:Files.Uwp.UserControls"
     Loaded="Properties_Loaded"
     mc:Ignorable="d">
 
@@ -81,8 +80,8 @@
                 <TextBox
                     x:Name="ItemFileName"
                     x:Load="{x:Bind ViewModel.ItemNameVisibility, Mode=OneWay}"
-                    Text="{x:Bind ViewModel.ItemName, Mode=TwoWay}"
-                    PlaceholderText="{helpers:ResourceString Name=PropertiesItemFileName/PlaceholderText}" />
+                    PlaceholderText="{helpers:ResourceString Name=PropertiesItemFileName/PlaceholderText}"
+                    Text="{x:Bind ViewModel.ItemName, Mode=TwoWay}" />
                 <TextBlock
                     x:Name="itemFilesAndFoldersCountValueTop"
                     x:Load="{x:Bind ViewModel.FilesAndFoldersCountVisibility, Mode=OneWay}"
@@ -125,14 +124,14 @@
         </Grid>
 
         <!--  Item details  -->
-        <muxc:Expander
+        <Expander
             x:Name="ItemDetails"
             HorizontalAlignment="Stretch"
             HorizontalContentAlignment="Stretch"
             x:Load="{x:Bind ViewModel.ItemPathVisibility, Mode=OneWay}"
             Header="{helpers:ResourceString Name=MoreDetails}"
             IsExpanded="True">
-            <muxc:Expander.Content>
+            <Expander.Content>
                 <Grid
                     HorizontalAlignment="Stretch"
                     ColumnSpacing="8"
@@ -191,7 +190,7 @@
                             Grid.Column="0"
                             IsTextSelectionEnabled="True"
                             Text="{x:Bind ViewModel.ItemSize, Mode=OneWay}" />
-                        <muxc:ProgressBar
+                        <ProgressBar
                             x:Name="ItemSizeProgress"
                             Grid.Column="1"
                             HorizontalAlignment="Left"
@@ -251,8 +250,8 @@
                         Text="{x:Bind ViewModel.ItemAccessedTimestamp, Mode=OneWay}"
                         Visibility="{x:Bind ViewModel.ItemAccessedTimestampVisibility, Mode=OneWay}" />
                 </Grid>
-            </muxc:Expander.Content>
-        </muxc:Expander>
+            </Expander.Content>
+        </Expander>
 
         <!--  Disk details  -->
         <Grid
@@ -283,7 +282,7 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <!--  Space used progress  -->
-            <muxc:ProgressRing
+            <ProgressRing
                 x:Name="SpaceUserProgressRing"
                 Grid.Row="0"
                 Grid.RowSpan="3"
@@ -295,8 +294,8 @@
                 IsIndeterminate="False"
                 Value="{x:Bind ViewModel.DrivePercentageValue, Mode=OneWay}">
 
-                <muxc:ProgressRing.Template>
-                    <ControlTemplate TargetType="muxc:ProgressRing">
+                <ProgressRing.Template>
+                    <ControlTemplate TargetType="ProgressRing">
                         <Grid x:Name="LayoutRoot" Background="Transparent">
                             <Grid.Resources>
                                 <converters:StringFormatConverter x:Key="StringFormatConverter" />
@@ -310,7 +309,7 @@
                             </StackPanel>
 
                             <!--  AnimatedVisualPlayer for Lottie  -->
-                            <muxc:AnimatedVisualPlayer
+                            <AnimatedVisualPlayer
                                 x:Name="LottiePlayer"
                                 AutoPlay="false"
                                 Opacity="1"
@@ -329,8 +328,8 @@
                             </VisualStateManager.VisualStateGroups>
                         </Grid>
                     </ControlTemplate>
-                </muxc:ProgressRing.Template>
-            </muxc:ProgressRing>
+                </ProgressRing.Template>
+            </ProgressRing>
 
             <!--  Disk used space  -->
             <StackPanel
@@ -476,14 +475,14 @@
         </Grid>
 
         <!--  Item attributes  -->
-        <muxc:Expander
+        <Expander
             x:Name="ItemAttributes"
             HorizontalAlignment="Stretch"
             HorizontalContentAlignment="Stretch"
             x:Load="{x:Bind ViewModel.ItemAttributesVisibility, Mode=OneWay}"
             Header="{helpers:ResourceString Name=Attributes}"
             IsExpanded="False">
-            <muxc:Expander.Content>
+            <Expander.Content>
                 <Grid
                     HorizontalAlignment="Stretch"
                     ColumnSpacing="8"
@@ -537,7 +536,7 @@
                         AutomationProperties.Name="{helpers:ResourceString Name=Hidden}"
                         IsChecked="{x:Bind ViewModel.IsHidden, Mode=TwoWay}" />
                 </Grid>
-            </muxc:Expander.Content>
-        </muxc:Expander>
+            </Expander.Content>
+        </Expander>
     </StackPanel>
 </local:PropertiesTab>

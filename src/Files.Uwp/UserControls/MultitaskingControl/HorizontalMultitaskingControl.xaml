@@ -7,7 +7,6 @@
     xmlns:local="using:Files.Uwp.UserControls.MultitaskingControl"
     xmlns:local1="using:Files.Uwp"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:vm="using:Files.Uwp.ViewModels"
     d:DesignHeight="300"
     d:DesignWidth="400"
@@ -136,7 +135,7 @@
                         </Setter>
                     </Style>
 
-                    <Style x:Key="Local.TabViewItem" TargetType="muxc:TabViewItem">
+                    <Style x:Key="Local.TabViewItem" TargetType="TabViewItem">
                         <Setter Property="Background" Value="{ThemeResource TabViewItemHeaderBackground}" />
                         <Setter Property="HorizontalContentAlignment" Value="Left" />
                         <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
@@ -146,7 +145,7 @@
                         <Setter Property="BorderBrush" Value="{ThemeResource TabViewItemBorderBrush}" />
                         <Setter Property="Template">
                             <Setter.Value>
-                                <ControlTemplate TargetType="muxc:TabViewItem">
+                                <ControlTemplate TargetType="TabViewItem">
                                     <Grid
                                         x:Name="LayoutRoot"
                                         Padding="{TemplateBinding Padding}"
@@ -557,11 +556,11 @@
     </UserControl.Resources>
 
     <Grid HorizontalAlignment="Stretch" Background="{x:Null}">
-        <muxc:TabView
+        <TabView
             x:Name="HorizontalTabView"
-            VerticalAlignment="Stretch"
-            Padding="0"
             Margin="0,10,0,0"
+            Padding="0"
+            VerticalAlignment="Stretch"
             AddTabButtonClick="TabView_AddTabButtonClick"
             AllowDropTabs="True"
             Background="{x:Null}"
@@ -579,9 +578,9 @@
             TabStripDragOver="TabStrip_TabStripDragOver"
             TabStripDrop="TabStrip_TabStripDrop"
             Visibility="{x:Bind TabStripVisibility, Mode=OneWay}">
-            <muxc:TabView.TabItemTemplate>
+            <TabView.TabItemTemplate>
                 <DataTemplate x:DataType="local:TabItem">
-                    <muxc:TabViewItem
+                    <TabViewItem
                         AllowDrop="{x:Bind AllowStorageItemDrop, Mode=OneWay}"
                         ContextFlyout="{StaticResource TabFlyout}"
                         DragEnter="TabViewItem_DragEnter"
@@ -592,10 +591,10 @@
                         Style="{StaticResource Local.TabViewItem}"
                         ToolTipService.ToolTip="{x:Bind HoverDisplayText, Mode=OneWay}" />
                 </DataTemplate>
-            </muxc:TabView.TabItemTemplate>
-            <muxc:TabView.TabStripFooter>
+            </TabView.TabItemTemplate>
+            <TabView.TabStripFooter>
                 <Border HorizontalAlignment="Left" Child="{x:Bind ActionsControl, Mode=OneWay}" />
-            </muxc:TabView.TabStripFooter>
-        </muxc:TabView>
+            </TabView.TabStripFooter>
+        </TabView>
     </Grid>
 </local:BaseMultitaskingControl>

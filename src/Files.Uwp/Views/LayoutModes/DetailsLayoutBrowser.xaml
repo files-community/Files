@@ -15,7 +15,6 @@
     xmlns:local="using:Files.Uwp"
     xmlns:local2="using:Files.Uwp.Filesystem"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
     xmlns:tui="using:CommunityToolkit.WinUI.UI"
     xmlns:uc="using:Files.Uwp.UserControls"
@@ -200,7 +199,7 @@
                 Canvas.ZIndex="0"
                 EmptyTextType="{x:Bind ParentShellPageInstance.FilesystemViewModel.EmptyTextType, Mode=OneWay}" />
 
-            <muxc:TeachingTip
+            <TeachingTip
                 x:Name="FileNameTeachingTip"
                 CloseButtonContent="{helpers:ResourceString Name=FileNameTeachingTip/CloseButtonContent}"
                 PreferredPlacement="Auto"
