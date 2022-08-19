@@ -2348,9 +2348,6 @@ Utilizamos o App Center para localizar as definições que estão a ser utilizad
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Editar tags</value>
   </data>
-  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
-    <value>Ativar tags</value>
-  </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Mostrar secção favoritos</value>
   </data>
