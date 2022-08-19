@@ -2353,9 +2353,6 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Markierung ändern</value>
   </data>
-  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
-    <value>Markierungen anschalten</value>
-  </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Favoriten anzeigen</value>
   </data>
