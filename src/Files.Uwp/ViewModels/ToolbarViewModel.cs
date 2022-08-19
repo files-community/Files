@@ -889,7 +889,7 @@ namespace Files.Uwp.ViewModels
 
         public ICommand SetAsBackgroundCommand { get; set; }
 
-        public ICommand SetAsLockScreenCommand { get; set; }
+        public ICommand SetAsLockScreenBackgroundCommand { get; set; }
 
         public ICommand InstallInfCommand { get; set; }
 

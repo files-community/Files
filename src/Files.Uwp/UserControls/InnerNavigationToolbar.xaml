@@ -268,10 +268,6 @@
                         <FontIcon Glyph="&#xE756;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
-
-                <!--  Command="{x:Bind ViewModel.SetAsBackgroundCommand, Mode=OneWay}"  -->
-                <!--  helpers:MenuFlyoutHelper.IsVisible="{x:Bind ViewModel.IsMultipleImages, Mode=OneWay, FallbackValue=False}"  -->
-
                 <AppBarButton
                     x:Name="SetAsBackgroundButton"
                     Width="Auto"
@@ -290,7 +286,7 @@
                                     <FontIcon Glyph="&#xE91B;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
-                            <MenuFlyoutItem Command="{x:Bind ViewModel.SetAsLockScreenCommand, Mode=OneWay}" Text="{helpers:ResourceString Name=SetAsLockscreen}">
+                            <MenuFlyoutItem Command="{x:Bind ViewModel.SetAsLockScreenBackgroundCommand, Mode=OneWay}" Text="{helpers:ResourceString Name=SetAsLockscreen}">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xEE3F;" />
                                 </MenuFlyoutItem.Icon>
@@ -298,7 +294,6 @@
                         </MenuFlyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
-
                 <AppBarButton
                     x:Name="InstallInfButton"
                     x:Load="{x:Bind ViewModel.IsInfFile, Mode=OneWay, FallbackValue=False}"
