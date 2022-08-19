@@ -2353,9 +2353,6 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Ubah tanda berkas</value>
   </data>
-  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
-    <value>Aktifkan tanda berkas</value>
-  </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Tampilkan bagian favorit</value>
   </data>
