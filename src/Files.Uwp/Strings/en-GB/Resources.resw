@@ -549,6 +549,12 @@
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
     <value>Empty recycle bin</value>
   </data>
+  <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
+    <value>Are you sure you want to restore all these items?</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
+    <value>Restore recycle bin</value>
+  </data>
   <data name="ItemSizeBytes" xml:space="preserve">
     <value>bytes</value>
   </data>
@@ -2526,6 +2532,9 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   </data>
   <data name="EmptyRecycleBin" xml:space="preserve">
     <value>Empty Recycle Bin</value>
+  </data>
+  <data name="RestoreRecycleBin" xml:space="preserve">
+    <value>Restore Recycle Bin</value>
   </data>
   <data name="Sidebar" xml:space="preserve">
     <value>Sidebar</value>

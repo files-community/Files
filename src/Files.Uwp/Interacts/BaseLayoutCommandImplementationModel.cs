@@ -191,8 +191,8 @@ namespace Files.Uwp.Interacts
         {
             var ConfirmEmptyBinDialog = new ContentDialog()
             {
-                Title = "Temporary awesome title",
-                Content = "Restore the files, go on! :D", // QMK - Create the needed localization.
+                Title = "ConfirmRestoreBinDialogTitle".GetLocalized(),
+                Content = "ConfirmRestoreBinDialogContent".GetLocalized(),
                 PrimaryButtonText = "Yes".GetLocalized(),
                 SecondaryButtonText = "Cancel".GetLocalized(),
                 DefaultButton = ContentDialogButton.Primary
