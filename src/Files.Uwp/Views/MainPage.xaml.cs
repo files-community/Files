@@ -163,11 +163,6 @@ namespace Files.Uwp.Views
             }
         }
 
-        private void DragArea_Loaded(object sender, RoutedEventArgs e)
-        {
-            App.Window.SetTitleBar(sender as Grid);
-        }
-
         private void TitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
         {
             if (AppWindowTitleBar.IsCustomizationSupported())
@@ -178,6 +173,8 @@ namespace Files.Uwp.Views
 
         private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
         {
+            App.Window.SetTitleBar(horizontalMultitaskingControl.DragArea);
+
             if (!(ViewModel.MultitaskingControl is HorizontalMultitaskingControl))
             {
                 ViewModel.MultitaskingControl = horizontalMultitaskingControl;

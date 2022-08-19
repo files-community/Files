@@ -583,7 +583,20 @@
                 </DataTemplate>
             </TabView.TabItemTemplate>
             <TabView.TabStripFooter>
-                <Border HorizontalAlignment="Left" Child="{x:Bind ActionsControl, Mode=OneWay}" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <ContentPresenter Content="{x:Bind ActionsControl, Mode=OneWay}" />
+
+                    <!--  This defines the drag area for the title bar  -->
+                    <Grid
+                        x:Name="DragAreaGrid"
+                        Grid.Column="1"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch" />
+                </Grid>
             </TabView.TabStripFooter>
         </TabView>
     </Grid>
