@@ -2348,9 +2348,6 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Redigera taggar</value>
   </data>
-  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
-    <value>Aktivera taggar</value>
-  </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Show favorites section</value>
   </data>
