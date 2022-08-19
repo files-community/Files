@@ -2348,9 +2348,6 @@
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>編輯檔案標籤</value>
   </data>
-  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
-    <value>開啟檔案標籤功能</value>
-  </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>快速存取專區</value>
   </data>
