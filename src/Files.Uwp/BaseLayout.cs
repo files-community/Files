@@ -680,17 +680,15 @@ namespace Files.Uwp
 
         private void AddNewFileTagsToMenu(Microsoft.UI.Xaml.Controls.CommandBarFlyout contextMenu)
         {
-            var fileTagsContextMenu = new FileTagsContextMenu()
-            {
-                SelectedListedItems = SelectedItems
-            };
+            var fileTagsContextMenu = new FileTagsContextMenu(SelectedItems);
             var overflowSeparator = contextMenu.SecondaryCommands.FirstOrDefault(x => x is FrameworkElement fe && fe.Tag as string == "OverflowSeparator") as AppBarSeparator;
             var index = contextMenu.SecondaryCommands.IndexOf(overflowSeparator);
             index = index >= 0 ? index : contextMenu.SecondaryCommands.Count;
             contextMenu.SecondaryCommands.Insert(index, new AppBarSeparator());
-            contextMenu.SecondaryCommands.Insert(index + 1, new AppBarElementContainer()
+            contextMenu.SecondaryCommands.Insert(index + 1, new AppBarButton()
             {
-                Content = fileTagsContextMenu
+                Label = "SettingsEditFileTagsExpander/Title".GetLocalized(),
+                Flyout = fileTagsContextMenu.Get()
             });
         }
 
