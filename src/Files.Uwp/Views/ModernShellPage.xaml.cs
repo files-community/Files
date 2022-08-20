@@ -83,8 +83,6 @@ namespace Files.Uwp.Views
 
         public bool IsColumnView => SlimContentPage is ColumnViewBrowser;
 
-        public bool IsDetailView => SlimContentPage is DetailsLayoutBrowser;
-
         public ItemViewModel FilesystemViewModel { get; private set; } = null;
         public CurrentInstanceViewModel InstanceViewModel { get; }
         private BaseLayout contentPage = null;
@@ -264,7 +262,6 @@ namespace Files.Uwp.Views
             ToolbarViewModel.RotateImageRightCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RotateImageRightCommand.Execute(null), () => SlimContentPage?.CommandsViewModel.RotateImageRightCommand.CanExecute(null) == true);
             ToolbarViewModel.InstallFontCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.InstallFontCommand.Execute(null));
             ToolbarViewModel.UpdateCommand = new AsyncRelayCommand(async () => await UpdateSettingsService.DownloadUpdates());
-            ToolbarViewModel.HideTags = new RelayCommand(ChangeTagsVisibility);
         }
 
         private void ModernShellPage_RefreshWidgetsRequested(object sender, EventArgs e)
@@ -869,16 +866,6 @@ namespace Files.Uwp.Views
                         }
                     }
                     break;
-            }
-        }
-
-        private void ChangeTagsVisibility()
-        {
-            UserSettingsService.PreferencesSettingsService.ShowTagsColumn = !UserSettingsService.PreferencesSettingsService.ShowTagsColumn;
-            if (IsDetailView)
-            {
-                var detail = SlimContentPage as DetailsLayoutBrowser;
-                detail.UpdateTagsColumn();
             }
         }
 

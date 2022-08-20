@@ -78,12 +78,6 @@ namespace Files.Uwp.Views.LayoutModes
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
         }
 
-        public void UpdateTagsColumn()
-        {
-            SetTagsColumVisibility();
-            SizeAllColumnsToFit_Click(null, new RoutedEventArgs());
-        }
-
         protected override void HookEvents()
         {
             UnhookEvents();
@@ -292,14 +286,7 @@ namespace Files.Uwp.Views.LayoutModes
                 ColumnsViewModel.StatusColumn.Show();
             }
 
-            SetTagsColumVisibility();
-
-            UpdateSortIndicator();
-        }
-
-        private void SetTagsColumVisibility()
-        {
-            if (!UserSettingsService.PreferencesSettingsService.ShowTagsColumn)
+            if (!UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled)
             {
                 ColumnsViewModel.TagColumn.Hide();
             }
@@ -307,6 +294,8 @@ namespace Files.Uwp.Views.LayoutModes
             {
                 ColumnsViewModel.TagColumn.Show();
             }
+
+            UpdateSortIndicator();
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
