@@ -35,6 +35,7 @@ using Windows.UI.Notifications;
 using System.Linq;
 using Files.Uwp.UserControls.MultitaskingControl;
 using Files.Uwp.Views;
+using CommunityToolkit.WinUI;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -272,7 +273,7 @@ namespace Files.Uwp
                 args.WindowActivationState == WindowActivationState.PointerActivated)
             {
                 ShowErrorNotification = true;
-                ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = Process.GetCurrentProcess().Id;
+                ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = -Process.GetCurrentProcess().Id;
                 if (MainViewModel != null)
                 {
                     MainViewModel.Clipboard_ContentChanged(null, null);
@@ -284,7 +285,7 @@ namespace Files.Uwp
         {
             Logger.Info($"App activated. Activated args type: {activatedEventArgs.Data.GetType().Name}");
 
-            await Window.InitializeApplication(activatedEventArgs);
+            await Window.DispatcherQueue.EnqueueAsync(() => Window.InitializeApplication(activatedEventArgs));
         }
 
         // WINUI3: OnSuspending

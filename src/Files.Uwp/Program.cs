@@ -124,12 +124,12 @@ namespace Files.Uwp
                 }
             }
 
-            var currentInstance = AppInstance.FindOrRegisterForKey(proc.Id.ToString());
+            var currentInstance = AppInstance.FindOrRegisterForKey((-proc.Id).ToString());
             if (currentInstance.IsCurrent)
             {
                 currentInstance.Activated += OnActivated;
             }
-            ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = proc.Id;
+            ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = -proc.Id;
             Application.Start((p) =>
             {
                 var context = new DispatcherQueueSynchronizationContext(
