@@ -13,9 +13,13 @@ namespace Files.Uwp.Helpers
     {
         public static async Task ExtractArchive(BaseStorageFile archive, BaseStorageFolder destinationFolder, IProgress<float> progressDelegate, CancellationToken cancellationToken)
         {
-            using (SevenZipExtractor zipFile = await Filesystem.FilesystemTasks.Wrap(async () => new SevenZipExtractor(await archive.OpenStreamForReadAsync())))
+            using (SevenZipExtractor zipFile = await Filesystem.FilesystemTasks.Wrap(async () =>
             {
-                if (zipFile == null || zipFile.ArchiveFileData == null)
+                var arch = new SevenZipExtractor(await archive.OpenStreamForReadAsync());
+                return arch?.ArchiveFileData is null ? null : arch; // Force load archive (1665013614u)
+            }))
+            {
+                if (zipFile == null)
                 {
                     return;
                 }
@@ -107,7 +111,7 @@ namespace Files.Uwp.Helpers
                     {
                         try
                         {
-                            await zipFile.ExtractFileAsync(entry.FileName, destinationStream);
+                            await zipFile.ExtractFileAsync(entry.Index, destinationStream);
                         }
                         catch (Exception ex)
                         {

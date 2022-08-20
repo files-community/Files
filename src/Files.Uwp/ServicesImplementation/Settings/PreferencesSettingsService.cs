@@ -86,12 +86,6 @@ namespace Files.Uwp.ServicesImplementation.Settings
             set => Set(value);
         }
 
-        public bool AreFileTagsEnabled
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
         public bool ShowFolderSize
         {
             get => Get(false);
@@ -155,7 +149,6 @@ namespace Files.Uwp.ServicesImplementation.Settings
                 case nameof(OpenFoldersWithOneClick):
                 case nameof(SearchUnindexedItems):
                 case nameof(AreLayoutPreferencesPerFolder):
-                case nameof(AreFileTagsEnabled):
                 case nameof(ShowFolderSize):
                 case nameof(OpenSpecificPageOnStartup):
                 case nameof(ContinueLastSessionOnStartUp):
@@ -181,7 +174,6 @@ namespace Files.Uwp.ServicesImplementation.Settings
             Analytics.TrackEvent($"{nameof(OpenFoldersWithOneClick)}, {OpenFoldersWithOneClick}");
             Analytics.TrackEvent($"{nameof(SearchUnindexedItems)}, {SearchUnindexedItems}");
             Analytics.TrackEvent($"{nameof(AreLayoutPreferencesPerFolder)}, {AreLayoutPreferencesPerFolder}");
-            Analytics.TrackEvent($"{nameof(AreFileTagsEnabled)}, {AreFileTagsEnabled}");
             Analytics.TrackEvent($"{nameof(ShowFolderSize)}, {ShowFolderSize}");
             Analytics.TrackEvent($"{nameof(OpenSpecificPageOnStartup)}, {OpenSpecificPageOnStartup}");
             Analytics.TrackEvent($"{nameof(ContinueLastSessionOnStartUp)}, {ContinueLastSessionOnStartUp}");

@@ -93,11 +93,11 @@ namespace Files.Uwp.Filesystem.StorageItems
                 var item = await ftpClient.GetObjectInfoAsync(FtpHelpers.GetFtpPath(PathNormalization.Combine(Path, name)));
                 if (item is not null)
                 {
-                    if (item.Type is FtpFileSystemObjectType.File)
+                    if (item.Type is FtpObjectType.File)
                     {
                         return new FtpStorageFile(Path, item);
                     }
-                    if (item.Type is FtpFileSystemObjectType.Directory)
+                    if (item.Type is FtpObjectType.Directory)
                     {
                         return new FtpStorageFolder(Path, item);
                     }
@@ -133,11 +133,11 @@ namespace Files.Uwp.Filesystem.StorageItems
                 var list = await ftpClient.GetListingAsync(FtpPath);
                 foreach (var item in list)
                 {
-                    if (item.Type is FtpFileSystemObjectType.File)
+                    if (item.Type is FtpObjectType.File)
                     {
                         items.Add(new FtpStorageFile(Path, item));
                     }
-                    else if (item.Type is FtpFileSystemObjectType.Directory)
+                    else if (item.Type is FtpObjectType.Directory)
                     {
                         items.Add(new FtpStorageFolder(Path, item));
                     }
@@ -186,7 +186,7 @@ namespace Files.Uwp.Filesystem.StorageItems
                 string remotePath = $"{FtpPath}/{desiredName}";
                 var ftpRemoteExists = options is CreationCollisionOption.ReplaceExisting ? FtpRemoteExists.Overwrite : FtpRemoteExists.Skip;
 
-                var result = await ftpClient.UploadAsync(stream, remotePath, ftpRemoteExists);
+                var result = await ftpClient.UploadStreamAsync(stream, remotePath, ftpRemoteExists);
                 if (result is FtpStatus.Success)
                 {
                     return new FtpStorageFile(new StorageFileWithPath(null, $"{Path}/{desiredName}"));

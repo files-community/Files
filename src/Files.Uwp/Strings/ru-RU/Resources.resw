@@ -451,7 +451,7 @@
     <value>Вы удалили эту папку?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>Файл, к которому вы пытаетесь получить доступ, в настоящее время используется {0}</value>
+    <value>The file you are attempting to access is currently being used by{0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
     <value>Вы не можете использовать этот файл в настоящее время, потому что он используется другим приложением</value>

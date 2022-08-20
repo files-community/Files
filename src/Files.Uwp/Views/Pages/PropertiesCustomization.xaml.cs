@@ -1,5 +1,8 @@
 ﻿using Files.Uwp.Filesystem;
+using Files.Uwp.Helpers;
 using Files.Uwp.ViewModels.Properties;
+using System;
+using System.IO;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -16,7 +19,7 @@ namespace Files.Uwp.Views
 
         private void CustomIconsSelectorFrame_Loaded(object sender, RoutedEventArgs e)
         {
-            string initialPath = @"C:\Windows\System32\SHELL32.dll";
+            string initialPath = Path.Combine(CommonPaths.SystemRootPath, "System32", "SHELL32.dll");
             var item = (BaseProperties as FileProperties)?.Item ?? (BaseProperties as FolderProperties)?.Item;
             (sender as Frame).Navigate(typeof(CustomFolderIcons), new IconSelectorInfo
             {

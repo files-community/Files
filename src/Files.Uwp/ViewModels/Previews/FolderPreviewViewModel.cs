@@ -50,11 +50,8 @@ namespace Files.Uwp.ViewModels.Previews
                 GetFileProperty("PropertyItemPathDisplay", Folder.Path),
             };
 
-            if (preferencesSettingsService.AreFileTagsEnabled)
-            {
-                Item.FileDetails.Add(GetFileProperty("FileTags",
-                    Item.FileTagsUI is not null ? string.Join(',', Item.FileTagsUI.Select(x => x.TagName)) : null));
-            }
+            Item.FileDetails.Add(GetFileProperty("FileTags",
+                Item.FileTagsUI is not null ? string.Join(',', Item.FileTagsUI.Select(x => x.TagName)) : null));
         }
 
         private static FileProperty GetFileProperty(string nameResource, object value)

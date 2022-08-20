@@ -177,7 +177,6 @@
                             </local:SettingsBlockControl.Icon>
                             <ToggleSwitch
                                 AutomationProperties.Name="{helpers:ResourceString Name=SettingsShowFileTagsSectionSwitch/AutomationProperties/Name}"
-                                IsEnabled="{Binding AreFileTagsEnabled}"
                                 IsOn="{Binding ShowFileTagsSection, Mode=TwoWay}"
                                 Style="{StaticResource RightAlignedToggleSwitchStyle}" />
                         </local:SettingsBlockControl>
