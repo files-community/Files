@@ -9,6 +9,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Windows.Graphics;
+using Microsoft.UI;
 using static Files.Uwp.Views.Properties;
 using Microsoft.UI.Windowing;
 
@@ -55,7 +56,7 @@ namespace Files.Uwp.Helpers
             {
                 if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
                 {
-                    Frame frame = new Frame();
+                    var frame = new Frame();
                     frame.RequestedTheme = ThemeHelper.RootTheme;
                     frame.Navigate(typeof(Properties), new PropertiesPageNavigationArguments()
                     {
@@ -63,27 +64,39 @@ namespace Files.Uwp.Helpers
                         AppInstanceArgument = associatedInstance
                     }, new SuppressNavigationTransitionInfo());
 
-                    var w = new WinUIEx.WindowEx();
-                    w.Content = frame;
-                    var appWindow = App.GetAppWindow(w);
-                    (frame.Content as Properties).appWindow = appWindow;
+                    // Initialize window
+                    var propertiesWindow = new WinUIEx.WindowEx();
+                    var appWindow = propertiesWindow.AppWindow;
 
-                    w.MinWidth = 460;
-                    w.MinHeight = 550;
-                    w.Backdrop = new WinUIEx.MicaSystemBackdrop() { DarkTintOpacity = 0.8 };
+                    // Set content
+                    propertiesWindow.Content = frame;
+                    if (frame.Content is Properties properties)
+                        properties.appWindow = appWindow;
+
+                    // Set min size
+                    propertiesWindow.MinWidth = 460;
+                    propertiesWindow.MinHeight = 550;
+
+                    // Set backdrop
+                    propertiesWindow.Backdrop = new WinUIEx.MicaSystemBackdrop() { DarkTintOpacity = 0.8 };
 
                     if (AppWindowTitleBar.IsCustomizationSupported())
                     {
                         appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+
+                        // Set window buttons background to transparent
+                        appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+                        appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
                     }
                     else
                     {
-                        w.ExtendsContentIntoTitleBar = true;
+                        propertiesWindow.ExtendsContentIntoTitleBar = true;
                     }
 
                     appWindow.Title = "PropertiesTitle".GetLocalizedResource();
                     appWindow.Resize(new SizeInt32(460, 550));
                     appWindow.Show();
+
                     if (true) // WINUI3: move window to cursor position
                     {
                         /*
