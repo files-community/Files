@@ -241,11 +241,11 @@ namespace Files.Uwp.ViewModels.Widgets.Bundles
                 }
             }
         }
-                        private FileOpenPicker InitializeWithWindow(FileOpenPicker obj)
-                        {
-                            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
-                            return obj;
-                        }
+        private FileOpenPicker InitializeWithWindow(FileOpenPicker obj)
+        {
+            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+            return obj;
+        }
 
         private async Task ExportBundles()
         {
@@ -258,11 +258,11 @@ namespace Files.Uwp.ViewModels.Widgets.Bundles
                 NativeFileOperationsHelper.WriteStringToFile(file.Path, (string)BundlesSettingsService.ExportSettings());
             }
         }
-                        private FileSavePicker InitializeWithWindow(FileSavePicker obj)
-                        {
-                            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
-                            return obj;
-                        }
+        private FileSavePicker InitializeWithWindow(FileSavePicker obj)
+        {
+            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+            return obj;
+        }
 
         #endregion Command Implementation
 
