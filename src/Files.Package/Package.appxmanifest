@@ -81,6 +81,17 @@
             </Extensions>
         </Application>
     </Applications>
+  
+    <!-- To host the BgTaskComponent, you must add this activatable class entry -->
+    <Extensions>
+      <Extension Category="windows.activatableClass.inProcessServer">
+        <InProcessServer>
+          <Path>Files.Uwp\WinRT.Host.dll</Path>
+          <ActivatableClass ActivatableClassId="BackgroundTasks.UpdateTask" ThreadingModel="both" />
+        </InProcessServer>
+      </Extension>
+    </Extensions>
+  
     <Capabilities>
         <!--<rescap:Capability Name="packageQuery"/>-->
         <rescap:Capability Name="runFullTrust" />

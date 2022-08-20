@@ -198,6 +198,7 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BackgroundTasks\BackgroundTasks.csproj" />
     <ProjectReference Include="..\Files.Sdk.Storage\Files.Sdk.Storage.csproj" />
     <ProjectReference Include="..\Files.Uwp.Storage\Files.Uwp.Storage.csproj" />
     <!--<ProjectReference Include="..\BackgroundTasks\BackgroundTasks.csproj" />-->
