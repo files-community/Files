@@ -15,6 +15,7 @@ using static Files.Uwp.Views.PropertiesSecurityAdvanced;
 using Files.Uwp.Helpers;
 using Windows.Graphics;
 using Microsoft.UI.Windowing;
+using Microsoft.UI;
 
 namespace Files.Uwp.Views
 {
@@ -86,29 +87,40 @@ namespace Files.Uwp.Views
                 {
                     if (propsView == null)
                     {
-                        Frame frame = new Frame();
+                        var frame = new Frame();
                         frame.RequestedTheme = ThemeHelper.RootTheme;
                         frame.Navigate(typeof(PropertiesSecurityAdvanced), new PropertiesPageNavigationArguments()
                         {
                             Item = SecurityProperties.Item
                         }, new SuppressNavigationTransitionInfo());
 
-                        var w = new WinUIEx.WindowEx();
-                        w.Content = frame;
-                        var appWindow = App.GetAppWindow(w);
-                        (frame.Content as PropertiesSecurityAdvanced).appWindow = appWindow;
+                        // Initialize window
+                        var propertiesWindow = new WinUIEx.WindowEx();
+                        var appWindow = propertiesWindow.AppWindow;
 
-                        w.MinWidth = 850;
-                        w.MinHeight = 550;
-                        w.Backdrop = new WinUIEx.MicaSystemBackdrop() { DarkTintOpacity = 0.8 };
+                        // Set content
+                        propertiesWindow.Content = frame;
+                        if (frame.Content is PropertiesSecurityAdvanced properties)
+                            properties.appWindow = appWindow;
+
+                        // Set min size
+                        propertiesWindow.MinWidth = 850;
+                        propertiesWindow.MinHeight = 550;
+
+                        // Set backdrop
+                        propertiesWindow.Backdrop = new WinUIEx.MicaSystemBackdrop() { DarkTintOpacity = 0.8 };
 
                         if (AppWindowTitleBar.IsCustomizationSupported())
                         {
                             appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+
+                            // Set window buttons background to transparent
+                            appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+                            appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
                         }
                         else
                         {
-                            w.ExtendsContentIntoTitleBar = true;
+                            propertiesWindow.ExtendsContentIntoTitleBar = true;
                         }
 
                         appWindow.Title = string.Format("SecurityAdvancedPermissionsTitle".GetLocalizedResource(), SecurityProperties.Item.ItemName);
