@@ -36,6 +36,8 @@ using System.Linq;
 using Files.Uwp.UserControls.MultitaskingControl;
 using Files.Uwp.Views;
 using CommunityToolkit.WinUI;
+using Files.Shared.Extensions;
+using Windows.ApplicationModel.DataTransfer;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -48,8 +50,8 @@ namespace Files.Uwp
     public partial class App : Application
     {
         private static bool ShowErrorNotification = false;
-        private static string OutputPath = null;
 
+        public static string OutputPath { get; set; }
         public static StorageHistoryWrapper HistoryWrapper = new StorageHistoryWrapper();
         public static SettingsViewModel AppSettings { get; private set; }
         public static MainViewModel MainViewModel { get; private set; }
@@ -89,8 +91,6 @@ namespace Files.Uwp
             UnhandledException += OnUnhandledException;
             TaskScheduler.UnobservedTaskException += OnUnobservedException;
             InitializeComponent();
-            //Suspending += OnSuspending; //WINUI3
-            //LeavingBackground += OnLeavingBackground; //WINUI3
 
             AppServiceConnectionHelper.Register();
 
@@ -264,6 +264,7 @@ namespace Files.Uwp
         {
             Window = new MainWindow();
             Window.Activated += Window_Activated;
+            Window.Closed += Window_Closed;
             WindowHandle = WinRT.Interop.WindowNative.GetWindowHandle(Window);
         }
 
@@ -288,7 +289,52 @@ namespace Files.Uwp
             await Window.DispatcherQueue.EnqueueAsync(() => Window.InitializeApplication(activatedEventArgs));
         }
 
-        // WINUI3: OnSuspending
+        /// <summary>
+        /// Invoked when application execution is being closed. Save application state.
+        /// </summary>
+        /// <param name="sender">The source of the suspend request.</param>
+        /// <param name="args">Details about the suspend request.</param>
+        private async void Window_Closed(object sender, WindowEventArgs args)
+        {
+            // Save application state and stop any background activity
+
+            SaveSessionTabs();
+
+            if (OutputPath != null)
+            {
+                await SafetyExtensions.IgnoreExceptions(async () =>
+                {
+                    var instance = MainPageViewModel.AppInstances.FirstOrDefault(x => x.Control.TabItemContent.IsCurrentInstance);
+                    if (instance == null)
+                    {
+                        return;
+                    }
+                    var items = (instance.Control.TabItemContent as PaneHolderPage)?.ActivePane?.SlimContentPage?.SelectedItems;
+                    if (items == null)
+                    {
+                        return;
+                    }
+                    await FileIO.WriteLinesAsync(await StorageFile.GetFileFromPathAsync(OutputPath), items.Select(x => x.ItemPath));
+                }, Logger);
+            }
+
+            DrivesManager?.Dispose();
+            PaneViewModel?.Dispose();
+            PreviewPaneViewModel?.Dispose();
+
+            // Try to maintain clipboard data after app close
+            SafetyExtensions.IgnoreExceptions(() =>
+            {
+                var dataPackage = Clipboard.GetContent();
+                if (dataPackage.Properties.PackageFamilyName == Package.Current.Id.FamilyName)
+                {
+                    if (dataPackage.Contains(StandardDataFormats.StorageItems))
+                    {
+                        Clipboard.Flush();
+                    }
+                }
+            }, Logger);
+        }
 
         public static void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages
         {

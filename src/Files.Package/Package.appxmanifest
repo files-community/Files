@@ -52,7 +52,7 @@
               </uap:Extension>
               <uap5:Extension
                 Category="windows.appExecutionAlias"
-                Executable="files.exe"
+                Executable="Files.Uwp\files.exe"
                 EntryPoint="files.App">
                   <uap5:AppExecutionAlias>
                       <uap5:ExecutionAlias Alias="files.exe"/>
