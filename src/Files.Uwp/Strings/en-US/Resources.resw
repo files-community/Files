@@ -810,12 +810,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Go up one directory</value>
   </data>
-  <data name="VerticalTabFlyout.AutomationProperties.Name" xml:space="preserve">
-    <value>Vertical tab flyout</value>
-  </data>
-  <data name="VerticalTabFlyout.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Vertical tab flyout</value>
-  </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Language</value>
   </data>
@@ -2012,9 +2006,6 @@
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Unknown owner</value>
-  </data>
-  <data name="SettingsVerticalTabFlyout" xml:space="preserve">
-    <value>Display the vertical tab flyout on the title bar</value>
   </data>
   <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>Learn more about custom themes</value>
