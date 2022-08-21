@@ -2792,4 +2792,7 @@
   <data name="ReviewFilesContent" xml:space="preserve">
     <value>Ви бажаєте переглянути файли?</value>
   </data>
+  <data name="SetAsDefault" xml:space="preserve">
+    <value>Set as default</value>
+  </data>
 </root>
