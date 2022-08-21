@@ -310,7 +310,7 @@ namespace Files.Uwp.ViewModels
         private static LayoutPreferences GetLayoutPreferencesForPath(string folderPath)
         {
             IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
-            if (userSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder)
+            if (!userSettingsService.PreferencesSettingsService.ForceLayoutPreferencesOnAllDirectories)
             {
                 folderPath = folderPath.TrimPath();
                 var folderFRN = NativeFileOperationsHelper.GetFolderFRN(folderPath);
@@ -326,7 +326,7 @@ namespace Files.Uwp.ViewModels
         {
             IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
 
-            if (userSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder)
+            if (!userSettingsService.PreferencesSettingsService.ForceLayoutPreferencesOnAllDirectories)
             {
                 var folderFRN = NativeFileOperationsHelper.GetFolderFRN(folderPath);
                 WriteLayoutPreferencesToDb(folderPath.TrimPath(), folderFRN, prefs);
@@ -529,7 +529,7 @@ namespace Files.Uwp.ViewModels
                 case nameof(UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles):
                     SortDirectoriesAlongsideFiles = prefs.SortDirectoriesAlongsideFiles;
                     break;
-                case nameof(UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder):
+                case nameof(UserSettingsService.PreferencesSettingsService.ForceLayoutPreferencesOnAllDirectories):
                     LayoutPreference = prefs;
                     // TODO: update layout
                     break;
