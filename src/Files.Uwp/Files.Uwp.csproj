@@ -334,7 +334,9 @@
     <Compile Include="UserControls\InnerNavigationToolbar.xaml.cs">
       <DependentUpon>InnerNavigationToolbar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Menus\FileTagsContextMenu.cs" />
+    <Compile Include="UserControls\Menus\FileTagsContextMenu.xaml.cs">
+      <DependentUpon>FileTagsContextMenu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Pane\Pane.cs" />
     <Compile Include="UserControls\Pane\PaneControl.xaml.cs">
       <DependentUpon>PaneControl.xaml</DependentUpon>
@@ -1276,6 +1278,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\InnerNavigationToolbar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Menus\FileTagsContextMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

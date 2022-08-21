@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -45,6 +46,16 @@ namespace Files.Uwp.Helpers
             }
         }
 
+        public class MenuFlyoutCustomItemViewModel : IMenuFlyoutItem
+        {
+            public string TemplateKey { get; }
+
+            public object DataContext { get; }
+
+            public MenuFlyoutCustomItemViewModel(object dataContext, string templateKey)
+                => (DataContext, TemplateKey) = (dataContext, templateKey);
+        }
+
         #endregion View Models
 
         #region ItemsSource
@@ -83,6 +94,33 @@ namespace Files.Uwp.Helpers
 
         #endregion IsVisible
 
+        #region ItemTemplates
+
+        public static IDictionary<string, DataTemplate> GetItemTemplates(DependencyObject obj)
+        {
+            if (obj.GetValue(ItemTemplatesProperty) is IDictionary<string, DataTemplate> value)
+            {
+                return value;
+            }
+
+            var defValue = new Dictionary<string, DataTemplate>();
+            obj.SetValue(ItemTemplatesProperty, defValue);
+
+            return defValue;
+        }
+
+        public static void SetItemTemplates(DependencyObject obj, IDictionary<string, DataTemplate> value)
+        {
+            obj.SetValue(ItemTemplatesProperty, value);
+        }
+
+        public static readonly DependencyProperty ItemTemplatesProperty =
+            DependencyProperty.RegisterAttached("ItemTemplates", typeof(IDictionary<string, DataTemplate>), typeof(MenuFlyoutHelper), new PropertyMetadata(null, ItemTemplatesChanged));
+
+        private static void ItemTemplatesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) => SetupItems(d as MenuFlyout);
+
+        #endregion
+
         private static async void SetupItems(MenuFlyout menu)
         {
             if (menu == null || Windows.ApplicationModel.DesignMode.DesignModeEnabled)
@@ -95,14 +133,20 @@ namespace Files.Uwp.Helpers
                 return;
             }
 
+            var itemTemplates = GetItemTemplates(menu);
+            if (itemTemplates == null && itemSource.Any(x => x is MenuFlyoutCustomItemViewModel))
+            {
+                return;
+            }
+
             await menu.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
                 menu.Items.Clear();
-                AddItems(menu.Items, itemSource);
+                AddItems(menu.Items, itemSource, itemTemplates);
             });
         }
 
-        private static void AddItems(IList<MenuFlyoutItemBase> menu, IEnumerable<IMenuFlyoutItem> items)
+        private static void AddItems(IList<MenuFlyoutItemBase> menu, IEnumerable<IMenuFlyoutItem> items, IDictionary<string, DataTemplate> itemTemplates)
         {
             foreach (var item in items)
             {
@@ -132,8 +176,15 @@ namespace Files.Uwp.Helpers
                         Text = svm.Text,
                         IsEnabled = svm.IsEnabled && svm.Items.Count > 0,
                     };
-                    AddItems(mfsi.Items, svm.Items);
+                    AddItems(mfsi.Items, svm.Items, itemTemplates);
                     menu.Add(mfsi);
+                }
+                else if (item is MenuFlyoutCustomItemViewModel cvm)
+                {
+                    // Throw error if key not found or not derived from MenuFlyoutItemBase
+                    var mfci = (MenuFlyoutItemBase)itemTemplates[cvm.TemplateKey].LoadContent();
+                    mfci.DataContext = cvm.DataContext;
+                    menu.Add(mfci);
                 }
             }
         }
