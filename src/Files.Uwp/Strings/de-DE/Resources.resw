@@ -2797,4 +2797,7 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
   <data name="ReviewFilesContent" xml:space="preserve">
     <value>Möchten Sie Files bewerten?</value>
   </data>
+  <data name="SetAsDefault" xml:space="preserve">
+    <value>Als Standard festlegen</value>
+  </data>
 </root>
