@@ -42,7 +42,7 @@ namespace Files.Uwp.ViewModels
 
             ChangeGroupOptionCommand = new RelayCommand<GroupOption>(ChangeGroupOption);
         }
-        public FolderSettingsViewModel(FolderLayoutModes modeOverride) : this() 
+        public FolderSettingsViewModel(FolderLayoutModes modeOverride) : this()
             => (rootLayoutMode, LayoutPreference.IsAdaptiveLayoutOverridden) = (modeOverride, true);
 
         private readonly FolderLayoutModes? rootLayoutMode;
@@ -391,30 +391,12 @@ namespace Files.Uwp.ViewModels
             if (folderPath == CommonPaths.DownloadsPath)
             {
                 // Default for downloads folder is to group by date created
-                return new LayoutPreferences
-                {
-                    LayoutMode = userSettingsService.LayoutSettingsService.DefaultLayoutMode,
-                    GridViewSize = userSettingsService.LayoutSettingsService.DefaultGridViewSize,
-                    DirectorySortOption = userSettingsService.LayoutSettingsService.DefaultDirectorySortOption,
-                    DirectorySortDirection = userSettingsService.LayoutSettingsService.DefaultDirectorySortDirection,
-                    SortDirectoriesAlongsideFiles = userSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles,
-                    ColumnsViewModel = new ColumnsViewModel(),
-                    DirectoryGroupOption = GroupOption.DateCreated,
-                };
+                return new LayoutPreferences() { DirectoryGroupOption = GroupOption.DateCreated };
             }
             else if (LibraryHelper.IsLibraryPath(folderPath))
             {
                 // Default for libraries is to group by folder path
-                return new LayoutPreferences
-                {
-                    LayoutMode = userSettingsService.LayoutSettingsService.DefaultLayoutMode,
-                    GridViewSize = userSettingsService.LayoutSettingsService.DefaultGridViewSize,
-                    DirectorySortOption = userSettingsService.LayoutSettingsService.DefaultDirectorySortOption,
-                    DirectorySortDirection = userSettingsService.LayoutSettingsService.DefaultDirectorySortDirection,
-                    SortDirectoriesAlongsideFiles = userSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles,
-                    ColumnsViewModel = new ColumnsViewModel(),
-                    DirectoryGroupOption = GroupOption.FolderPath,
-                };
+                return new LayoutPreferences() { DirectoryGroupOption = GroupOption.FolderPath };
             }
             else
             {
@@ -552,6 +534,17 @@ namespace Files.Uwp.ViewModels
                     // TODO: update layout
                     break;
             }
+        }
+
+        public void SetDefaultLayoutPreferences(ColumnsViewModel columns)
+        {
+            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+            userSettingsService.LayoutSettingsService.ShowDateColumn = !columns.DateModifiedColumn.UserCollapsed;
+            userSettingsService.LayoutSettingsService.ShowDateCreatedColumn = !columns.DateCreatedColumn.UserCollapsed;
+            userSettingsService.LayoutSettingsService.ShowTypeColumn = !columns.ItemTypeColumn.UserCollapsed;
+            userSettingsService.LayoutSettingsService.ShowSizeColumn = !columns.SizeColumn.UserCollapsed;
+            userSettingsService.LayoutSettingsService.ShowFileTagColumn = !columns.TagColumn.UserCollapsed;
+            //TODO: save column sizes
         }
     }
 }
