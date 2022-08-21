@@ -262,7 +262,7 @@
 			<!--  Default folder preferences  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=DefaultFolderPreferences}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="" />
+					<FontIcon Glyph="&#xE2AC;" />
 				</local:SettingsBlockControl.Icon>
 				<local:SettingsBlockControl.ExpandableContent>
 					<StackPanel>
