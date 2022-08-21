@@ -2796,4 +2796,7 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
   <data name="ReviewFilesContent" xml:space="preserve">
     <value>Files'ı değerlendirmek ister misiniz?</value>
   </data>
+  <data name="SetAsDefault" xml:space="preserve">
+    <value>Set as default</value>
+  </data>
 </root>
