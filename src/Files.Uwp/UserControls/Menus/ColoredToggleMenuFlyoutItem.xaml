@@ -26,29 +26,28 @@
                 <Grid x:Name="AnimationRoot">
 
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition Width="8" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <Grid Margin="0,0,8,0">
-                        <Ellipse
-                            Width="20"
-                            Height="20"
-                            Fill="{Binding ColorModel, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource ColorModelToColorConverter}}" />
-                        <FontIcon
-                            x:Name="CheckGlyph"
-                            Width="16"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                            FontSize="16"
-                            Foreground="{ThemeResource ToggleMenuFlyoutItemCheckGlyphForeground}"
-                            Glyph="&#xE001;"
-                            Opacity="0" />
-                    </Grid>
+                    <Ellipse
+                        Width="20"
+                        Height="20"
+                        Fill="{Binding ColorModel, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource ColorModelToColorConverter}}" />
+                    <FontIcon
+                        x:Name="CheckGlyph"
+                        Width="16"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                        FontSize="16"
+                        Foreground="{ThemeResource ToggleMenuFlyoutItemCheckGlyphForeground}"
+                        Glyph="&#xE001;"
+                        Opacity="0" />
                     <Viewbox
                         x:Name="IconRoot"
-                        Grid.Column="1"
+                        Grid.Column="2"
                         Width="16"
                         Height="16"
                         HorizontalAlignment="Left"
@@ -58,7 +57,7 @@
                     </Viewbox>
                     <TextBlock
                         x:Name="TextBlock"
-                        Grid.Column="1"
+                        Grid.Column="2"
                         HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                         VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                         Foreground="{TemplateBinding Foreground}"
@@ -66,7 +65,7 @@
                         TextTrimming="Clip" />
                     <TextBlock
                         x:Name="KeyboardAcceleratorTextBlock"
-                        Grid.Column="2"
+                        Grid.Column="3"
                         MinWidth="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.KeyboardAcceleratorTextMinWidth}"
                         Margin="24,0,0,0"
                         HorizontalAlignment="Right"
