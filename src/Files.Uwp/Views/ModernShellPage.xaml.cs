@@ -669,10 +669,11 @@ namespace Files.Uwp.Views
                 ContentPage.ResetItemOpacity();
             }
             var parameters = e.Parameter as NavigationArguments;
+            var isTagSearch = parameters.NavPathParam is not null && parameters.NavPathParam.StartsWith("tag:");
             TabItemArguments = new TabItemArguments()
             {
                 InitialPageType = typeof(ModernShellPage),
-                NavigationArg = parameters.IsSearchResultPage ? parameters.SearchPathParam : parameters.NavPathParam
+                NavigationArg = parameters.IsSearchResultPage && !isTagSearch ? parameters.SearchPathParam : parameters.NavPathParam
             };
         }
 

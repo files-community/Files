@@ -326,7 +326,8 @@ namespace Files.Uwp.Views
                             IsSearchResultPage = true,
                             SearchPathParam = "Home".GetLocalized(),
                             SearchQuery = tagPath,
-                            AssociatedTabInstance = shp
+                            AssociatedTabInstance = shp,
+                            NavPathParam = tagPath
                         });
                     }
                     return;
