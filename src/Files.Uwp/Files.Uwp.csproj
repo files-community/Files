@@ -542,9 +542,6 @@
       <DependentUpon>OngoingTasksFlyout.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\MultitaskingControl\TabItem\TabItem.cs" />
-    <Compile Include="UserControls\MultitaskingControl\VerticalTabViewControl.xaml.cs">
-      <DependentUpon>VerticalTabViewControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\Widgets\DrivesWidget.xaml.cs">
       <DependentUpon>DrivesWidget.xaml</DependentUpon>
     </Compile>
@@ -1241,14 +1238,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ResourceDictionaries\TabViewItem_shared.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ResourceDictionaries\TabView_vertical.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="ResourceDictionaries\RightAlignedToggleSwitchStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1394,10 +1383,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\SidebarControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\MultitaskingControl\VerticalTabViewControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
