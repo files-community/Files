@@ -168,6 +168,18 @@ namespace Files.Uwp.ViewModels
             set => SetProperty(ref itemSize, value);
         }
 
+        private string uncompresseditemSize;
+
+        public string UncompressedItemSize
+        {
+            get => uncompresseditemSize;
+            set
+            {
+                IsUncompressedItemSizeVisibile = true;
+                SetProperty(ref uncompresseditemSize, value);
+            }
+        }
+
         private bool itemSizeVisibility = false;
 
         public bool ItemSizeVisibility
@@ -176,12 +188,28 @@ namespace Files.Uwp.ViewModels
             set => SetProperty(ref itemSizeVisibility, value);
         }
 
+        private bool isUncompressedItemSizeVisibile = false;
+
+        public bool IsUncompressedItemSizeVisibile
+        {
+            get => isUncompressedItemSizeVisibile;
+            set => SetProperty(ref isUncompressedItemSizeVisibile, value);
+        }
+
         private long itemSizeBytes;
 
         public long ItemSizeBytes
         {
             get => itemSizeBytes;
             set => SetProperty(ref itemSizeBytes, value);
+        }
+
+        private long uncompresseditemSizeBytes;
+
+        public long UncompressedItemSizeBytes
+        {
+            get => uncompresseditemSizeBytes;
+            set => SetProperty(ref uncompresseditemSizeBytes, value);
         }
 
         private bool itemSizeProgressVisibility = false;
