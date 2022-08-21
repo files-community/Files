@@ -2792,4 +2792,7 @@ Utilizamos o App Center para localizar as definições que estão a ser utilizad
   <data name="ReviewFilesContent" xml:space="preserve">
     <value>Deseja avaliar Files?</value>
   </data>
+  <data name="SetAsDefault" xml:space="preserve">
+    <value>Set as default</value>
+  </data>
 </root>
