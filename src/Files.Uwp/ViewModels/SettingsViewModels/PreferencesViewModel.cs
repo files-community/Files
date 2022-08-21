@@ -23,7 +23,6 @@ using Windows.Storage;
 using Windows.Storage.AccessCache;
 using Windows.Storage.Pickers;
 using Windows.System;
-using static Files.Uwp.Helpers.MenuFlyoutHelper;
 
 namespace Files.Uwp.ViewModels.SettingsViewModels
 {
@@ -40,7 +39,7 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
         private bool disposed;
         private int selectedPageIndex = -1;
         private bool isPageListEditEnabled;
-        private ReadOnlyCollection<IMenuFlyoutItem> addFlyoutItemsSource;
+        private ReadOnlyCollection<IMenuFlyoutItemViewModel> addFlyoutItemsSource;
 
         public ICommand EditTerminalApplicationsCommand { get; }
 
@@ -83,16 +82,26 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
 
         private async Task InitStartupSettingsRecentFoldersFlyout()
         {
-            var recentsItem = new MenuFlyoutSubItemViewModel("JumpListRecentGroupHeader".GetLocalized());
-            recentsItem.Items.Add(new MenuFlyoutItemViewModel("Home".GetLocalized(), "Home".GetLocalized(), AddPageCommand));
+            var recentsItem = new MenuFlyoutSubItemViewModel() { Text = "JumpListRecentGroupHeader".GetLocalized() };
+            recentsItem.Items.Add(new MenuFlyoutItemPathViewModel()
+            {
+                Text = "Home".GetLocalized(),
+                Path = "Home".GetLocalized(),
+                OnSelect = AddPageCommand
+            });
 
             await App.RecentItemsManager.UpdateRecentFoldersAsync();    // ensure recent folders aren't stale since we don't update them with a watcher
             await PopulateRecentItems(recentsItem).ContinueWith(_ =>
             {
-                AddFlyoutItemsSource = new ReadOnlyCollection<IMenuFlyoutItem>(new IMenuFlyoutItem[] {
-                    new MenuFlyoutItemViewModel("Browse".GetLocalized(), null, AddPageCommand),
+                AddFlyoutItemsSource = new List<IMenuFlyoutItemViewModel> {
+                    new MenuFlyoutItemPathViewModel()
+                    {
+                        Text = "Browse".GetLocalized(),
+                        Path = null,
+                        OnSelect = AddPageCommand
+                    },
                     recentsItem,
-                });
+                }.AsReadOnly();
             }, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
@@ -110,7 +119,12 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
 
                 foreach (var recentFolder in recentFolders)
                 {
-                    var menuItem = new MenuFlyoutItemViewModel(recentFolder.Name, recentFolder.RecentPath, AddPageCommand);
+                    var menuItem = new MenuFlyoutItemPathViewModel()
+                    {
+                        Text = recentFolder.Name,
+                        Path = recentFolder.RecentPath,
+                        OnSelect = AddPageCommand
+                    };
                     menu.Items.Add(menuItem);
                 }
             }
@@ -195,7 +209,7 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
             set => SetProperty(ref isPageListEditEnabled, value);
         }
 
-        public ReadOnlyCollection<IMenuFlyoutItem> AddFlyoutItemsSource
+        public ReadOnlyCollection<IMenuFlyoutItemViewModel> AddFlyoutItemsSource
         {
             get => addFlyoutItemsSource;
             set => SetProperty(ref addFlyoutItemsSource, value);

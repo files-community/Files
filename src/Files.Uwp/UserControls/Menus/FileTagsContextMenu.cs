@@ -9,6 +9,7 @@ using System.Linq;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Files.Uwp.Helpers;
+using Files.Uwp.ViewModels;
 
 namespace Files.Uwp.UserControls.Menus
 {
@@ -22,17 +23,20 @@ namespace Files.Uwp.UserControls.Menus
         public FileTagsContextMenu(IEnumerable<ListedItem> selectedItems)
         {
             SetValue(MenuFlyoutHelper.ItemsSourceProperty, FileTagsSettingsService.FileTagList
-                .Select(tag => new MenuFlyoutHelper.MenuFlyoutCustomItemViewModel(() =>
+                .Select(tag => new MenuFlyoutFactoryItemViewModel()
                 {
-                    var tagItem = new ToggleMenuFlyoutItem()
+                    Factory = () =>
                     {
-                        Text = tag.TagName,
-                        Tag = tag
-                    };
-                    tagItem.Foreground = new SolidColorBrush(ColorHelpers.FromHex(tag.ColorString));
-                    tagItem.Click += TagItem_Click;
-                    return tagItem;
-                })));
+                        var tagItem = new ToggleMenuFlyoutItem()
+                        {
+                            Text = tag.TagName,
+                            Tag = tag
+                        };
+                        tagItem.Foreground = new SolidColorBrush(ColorHelpers.FromHex(tag.ColorString));
+                        tagItem.Click += TagItem_Click;
+                        return tagItem;
+                    }
+                }));
 
             SelectedItems = selectedItems;
 

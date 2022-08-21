@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using Files.Shared.Extensions;
+using Files.Uwp.ViewModels;
 using System;
 using System.Collections.Generic;
 using Windows.UI.Xaml;
@@ -9,97 +10,13 @@ namespace Files.Uwp.Helpers
 {
     public class MenuFlyoutHelper : DependencyObject
     {
-        #region View Models
-
-        public interface IMenuFlyoutItem
-        {
-            public MenuFlyoutItemBase Build();
-        }
-
-        public class MenuFlyoutSeparatorViewModel : IMenuFlyoutItem
-        {
-            public MenuFlyoutItemBase Build() => new MenuFlyoutSeparator();
-        }
-
-        public abstract class MenuFlyoutItemBaseViewModel : IMenuFlyoutItem
-        {
-            public string Text { get; }
-
-            public bool IsEnabled { get; set; } = true;
-
-            public MenuFlyoutItemBaseViewModel(string text) => Text = text;
-
-            public abstract MenuFlyoutItemBase Build();
-        }
-
-        public class MenuFlyoutItemViewModel : MenuFlyoutItemBaseViewModel
-        {
-            public string Path { get; }
-
-            public RelayCommand<string> OnSelect { get; }
-
-            public MenuFlyoutItemViewModel(string text, string path, RelayCommand<string> onSelect) : base(text)
-            {
-                Path = path;
-                OnSelect = onSelect;
-            }
-
-            public override MenuFlyoutItemBase Build()
-            {
-                var mfi = new MenuFlyoutItem
-                {
-                    Text = this.Text,
-                    Command = this.OnSelect,
-                    CommandParameter = this.Path,
-                    IsEnabled = this.IsEnabled,
-                };
-                if (!string.IsNullOrEmpty(this.Path))
-                {
-                    ToolTipService.SetToolTip(mfi, this.Path);
-                }
-                return mfi;
-            }
-        }
-
-        public class MenuFlyoutSubItemViewModel : MenuFlyoutItemBaseViewModel
-        {
-            public IList<IMenuFlyoutItem> Items { get; } = new List<IMenuFlyoutItem>();
-
-            public MenuFlyoutSubItemViewModel(string text) : base(text)
-            {
-            }
-
-            public override MenuFlyoutItemBase Build()
-            {
-                var mfsi = new MenuFlyoutSubItem
-                {
-                    Text = this.Text,
-                    IsEnabled = this.IsEnabled && this.Items.Count > 0,
-                };
-                this.Items.ForEach(item => mfsi.Items.Add(item.Build()));
-                return mfsi;
-            }
-        }
-
-        public class MenuFlyoutCustomItemViewModel : IMenuFlyoutItem
-        {
-            public Func<MenuFlyoutItemBase> Factory { get; }
-
-            public MenuFlyoutCustomItemViewModel(Func<MenuFlyoutItemBase> factory)
-                => Factory = factory;
-
-            public MenuFlyoutItemBase Build() => Factory();
-        }
-
-        #endregion View Models
-
         #region ItemsSource
 
-        public static IEnumerable<IMenuFlyoutItem> GetItemsSource(DependencyObject obj) => obj.GetValue(ItemsSourceProperty) as IEnumerable<IMenuFlyoutItem>;
+        public static IEnumerable<IMenuFlyoutItemViewModel> GetItemsSource(DependencyObject obj) => obj.GetValue(ItemsSourceProperty) as IEnumerable<IMenuFlyoutItemViewModel>;
 
-        public static void SetItemsSource(DependencyObject obj, IEnumerable<IMenuFlyoutItem> value) => obj.SetValue(ItemsSourceProperty, value);
+        public static void SetItemsSource(DependencyObject obj, IEnumerable<IMenuFlyoutItemViewModel> value) => obj.SetValue(ItemsSourceProperty, value);
 
-        public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.RegisterAttached("ItemsSource", typeof(IEnumerable<IMenuFlyoutItem>), typeof(MenuFlyoutHelper), new PropertyMetadata(null, ItemsSourceChanged));
+        public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.RegisterAttached("ItemsSource", typeof(IEnumerable<IMenuFlyoutItemViewModel>), typeof(MenuFlyoutHelper), new PropertyMetadata(null, ItemsSourceChanged));
 
         private static void ItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) => SetupItems(d as MenuFlyout);
 
