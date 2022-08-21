@@ -2796,4 +2796,7 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
   <data name="ReviewFilesContent" xml:space="preserve">
     <value>¿Desea escribir una reseña sobre Files?</value>
   </data>
+  <data name="SetAsDefault" xml:space="preserve">
+    <value>Establecer como predeterminado</value>
+  </data>
 </root>
