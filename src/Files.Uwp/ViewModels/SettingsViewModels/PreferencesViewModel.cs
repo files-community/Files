@@ -628,14 +628,79 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
             }
         }
 
-        public bool AreLayoutPreferencesPerFolder
+        public bool ForceLayoutPreferencesOnAllDirectories
         {
-            get => UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder;
+            get => UserSettingsService.PreferencesSettingsService.ForceLayoutPreferencesOnAllDirectories;
             set
             {
-                if (value != UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder)
+                if (value != UserSettingsService.PreferencesSettingsService.ForceLayoutPreferencesOnAllDirectories)
                 {
-                    UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder = value;
+                    UserSettingsService.PreferencesSettingsService.ForceLayoutPreferencesOnAllDirectories = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        
+        public bool ShowFileTagColumn
+        {
+            get => UserSettingsService.LayoutSettingsService.ShowFileTagColumn;
+            set
+            {
+                if (value != UserSettingsService.LayoutSettingsService.ShowFileTagColumn)
+                {
+                    UserSettingsService.LayoutSettingsService.ShowFileTagColumn = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        
+        public bool ShowSizeColumn
+        {
+            get => UserSettingsService.LayoutSettingsService.ShowSizeColumn;
+            set
+            {
+                if (value != UserSettingsService.LayoutSettingsService.ShowSizeColumn)
+                {
+                    UserSettingsService.LayoutSettingsService.ShowSizeColumn = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool ShowTypeColumn
+        {
+            get => UserSettingsService.LayoutSettingsService.ShowTypeColumn;
+            set
+            {
+                if (value != UserSettingsService.LayoutSettingsService.ShowTypeColumn)
+                {
+                    UserSettingsService.LayoutSettingsService.ShowTypeColumn = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool ShowDateCreatedColumn
+        {
+            get => UserSettingsService.LayoutSettingsService.ShowDateCreatedColumn;
+            set
+            {
+                if (value != UserSettingsService.LayoutSettingsService.ShowDateCreatedColumn)
+                {
+                    UserSettingsService.LayoutSettingsService.ShowDateCreatedColumn = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool ShowDateColumn
+        {
+            get => UserSettingsService.LayoutSettingsService.ShowDateColumn;
+            set
+            {
+                if (value != UserSettingsService.LayoutSettingsService.ShowDateColumn)
+                {
+                    UserSettingsService.LayoutSettingsService.ShowDateColumn = value;
                     OnPropertyChanged();
                 }
             }
