@@ -248,7 +248,7 @@ namespace Files.Uwp.ViewModels
             && IsAdaptiveLayoutEnabled;
 
         public bool IsAdaptiveLayoutEnabled
-            => UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder;
+            => !UserSettingsService.PreferencesSettingsService.ForceLayoutPreferencesOnAllDirectories;
 
         private bool canCopyPathInPage;
 
@@ -394,7 +394,7 @@ namespace Files.Uwp.ViewModels
                     RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
                     OnPropertyChanged(e.SettingName);
                     break;
-                case nameof(UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder):
+                case nameof(UserSettingsService.PreferencesSettingsService.ForceLayoutPreferencesOnAllDirectories):
                     FolderSettings_LayoutPreferencesUpdateRequired(null, 0);
                     break;
             }

@@ -16,23 +16,13 @@
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             Spacing="4">
-            <StackPanel.ChildrenTransitions>
-                <TransitionCollection>
-                    <EntranceThemeTransition />
-                </TransitionCollection>
-            </StackPanel.ChildrenTransitions>
+			<StackPanel.ChildrenTransitions>
+				<TransitionCollection>
+					<EntranceThemeTransition />
+				</TransitionCollection>
+			</StackPanel.ChildrenTransitions>
 
-            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsVerticalTabFlyout}" HorizontalAlignment="Stretch">
-                <local:SettingsBlockControl.Icon>
-                    <FontIcon Glyph="&#xF5ED;" />
-                </local:SettingsBlockControl.Icon>
-                <ToggleSwitch
-                    AutomationProperties.Name="{helpers:ResourceString Name=SettingsVerticalTabFlyout}"
-                    IsOn="{x:Bind ViewModel.IsVerticalTabFlyoutEnabled, Mode=TwoWay}"
-                    Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-            </local:SettingsBlockControl>
-
-            <TextBlock
+			<TextBlock
                 Padding="0,12,0,4"
                 FontSize="14"
                 FontWeight="Medium"
