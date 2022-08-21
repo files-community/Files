@@ -151,6 +151,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <!--  Item path  -->
                     <TextBlock
@@ -230,7 +231,7 @@
                     </Grid>
 
                     <MenuFlyoutSeparator
-                        Grid.Row="2"
+                        Grid.Row="3"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
                         Margin="-12,0"
@@ -238,14 +239,14 @@
 
                     <!--  Date created  -->
                     <TextBlock
-                        Grid.Row="3"
+                        Grid.Row="4"
                         Grid.Column="0"
                         Style="{StaticResource PropertyName}"
                         Text="{helpers:ResourceString Name=PropertiesCreated/Text}"
                         Visibility="{x:Bind ViewModel.ItemCreatedTimestampVisibiity, Mode=OneWay}" />
                     <TextBlock
                         x:Name="itemCreatedTimestampValue"
-                        Grid.Row="3"
+                        Grid.Row="4"
                         Grid.Column="1"
                         Style="{StaticResource PropertyValueTextBlock}"
                         Text="{x:Bind ViewModel.ItemCreatedTimestamp, Mode=OneWay}"
@@ -253,14 +254,14 @@
 
                     <!--  Date modified  -->
                     <TextBlock
-                        Grid.Row="4"
+                        Grid.Row="5"
                         Grid.Column="0"
                         Style="{StaticResource PropertyName}"
                         Text="{helpers:ResourceString Name=PropertiesModified/Text}"
                         Visibility="{x:Bind ViewModel.ItemModifiedTimestampVisibility, Mode=OneWay}" />
                     <TextBlock
                         x:Name="itemModifiedTimestampValue"
-                        Grid.Row="4"
+                        Grid.Row="5"
                         Grid.Column="1"
                         Style="{StaticResource PropertyValueTextBlock}"
                         Text="{x:Bind ViewModel.ItemModifiedTimestamp, Mode=OneWay}"
@@ -268,14 +269,14 @@
 
                     <!--  Date accessed  -->
                     <TextBlock
-                        Grid.Row="5"
+                        Grid.Row="6"
                         Grid.Column="0"
                         Style="{StaticResource PropertyName}"
                         Text="{helpers:ResourceString Name=Accessed}"
                         Visibility="{x:Bind ViewModel.ItemAccessedTimestampVisibility, Mode=OneWay}" />
                     <TextBlock
                         x:Name="itemAccessedTimestampValue"
-                        Grid.Row="5"
+                        Grid.Row="6"
                         Grid.Column="1"
                         Style="{StaticResource PropertyValueTextBlock}"
                         Text="{x:Bind ViewModel.ItemAccessedTimestamp, Mode=OneWay}"
