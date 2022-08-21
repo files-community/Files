@@ -25,12 +25,12 @@ namespace Files.Uwp.UserControls.Menus
             SetValue(MenuFlyoutHelper.ItemsSourceProperty, FileTagsSettingsService.FileTagList
                 .Select(tag => new MenuFlyoutFactoryItemViewModel(() =>
                 {
-                    var tagItem = new ToggleMenuFlyoutItem()
+                    var tagItem = new ColoredToggleMenuFlyoutItem()
                     {
                         Text = tag.TagName,
+                        ColorModel = tag.ColorModel,
                         Tag = tag
                     };
-                    tagItem.Foreground = new SolidColorBrush(ColorHelpers.FromHex(tag.ColorString));
                     tagItem.Click += TagItem_Click;
                     return tagItem;
                 })));

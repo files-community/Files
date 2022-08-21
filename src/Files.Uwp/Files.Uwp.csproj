@@ -334,6 +334,9 @@
     <Compile Include="UserControls\InnerNavigationToolbar.xaml.cs">
       <DependentUpon>InnerNavigationToolbar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Menus\ColoredToggleMenuFlyoutItem.xaml.cs">
+      <DependentUpon>ColoredToggleMenuFlyoutItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Menus\FileTagsContextMenu.cs" />
     <Compile Include="UserControls\Pane\Pane.cs" />
     <Compile Include="UserControls\Pane\PaneControl.xaml.cs">
@@ -1342,6 +1345,10 @@
     <Page Include="UserControls\FilePreviews\TextPreview.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Menus\ColoredToggleMenuFlyoutItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\Menus\MenuFlyoutItemWithImage.xaml">
       <SubType>Designer</SubType>
