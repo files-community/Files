@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -11,9 +11,15 @@ namespace Files.Uwp.Helpers
     {
         #region View Models
 
-        public interface IMenuFlyoutItem { }
+        public interface IMenuFlyoutItem
+        {
+            public MenuFlyoutItemBase Build();
+        }
 
-        public class MenuFlyoutSeparatorViewModel : IMenuFlyoutItem { }
+        public class MenuFlyoutSeparatorViewModel : IMenuFlyoutItem
+        {
+            public MenuFlyoutItemBase Build() => new MenuFlyoutSeparator();
+        }
 
         public abstract class MenuFlyoutItemBaseViewModel : IMenuFlyoutItem
         {
@@ -21,7 +27,9 @@ namespace Files.Uwp.Helpers
 
             public bool IsEnabled { get; set; } = true;
 
-            internal MenuFlyoutItemBaseViewModel(string text) => Text = text;
+            public MenuFlyoutItemBaseViewModel(string text) => Text = text;
+
+            public abstract MenuFlyoutItemBase Build();
         }
 
         public class MenuFlyoutItemViewModel : MenuFlyoutItemBaseViewModel
@@ -30,10 +38,26 @@ namespace Files.Uwp.Helpers
 
             public RelayCommand<string> OnSelect { get; }
 
-            internal MenuFlyoutItemViewModel(string text, string path, RelayCommand<string> onSelect) : base(text)
+            public MenuFlyoutItemViewModel(string text, string path, RelayCommand<string> onSelect) : base(text)
             {
                 Path = path;
                 OnSelect = onSelect;
+            }
+
+            public override MenuFlyoutItemBase Build()
+            {
+                var mfi = new MenuFlyoutItem
+                {
+                    Text = this.Text,
+                    Command = this.OnSelect,
+                    CommandParameter = this.Path,
+                    IsEnabled = this.IsEnabled,
+                };
+                if (!string.IsNullOrEmpty(this.Path))
+                {
+                    ToolTipService.SetToolTip(mfi, this.Path);
+                }
+                return mfi;
             }
         }
 
@@ -41,19 +65,30 @@ namespace Files.Uwp.Helpers
         {
             public IList<IMenuFlyoutItem> Items { get; } = new List<IMenuFlyoutItem>();
 
-            internal MenuFlyoutSubItemViewModel(string text) : base(text)
+            public MenuFlyoutSubItemViewModel(string text) : base(text)
             {
+            }
+
+            public override MenuFlyoutItemBase Build()
+            {
+                var mfsi = new MenuFlyoutSubItem
+                {
+                    Text = this.Text,
+                    IsEnabled = this.IsEnabled && this.Items.Count > 0,
+                };
+                this.Items.ForEach(item => mfsi.Items.Add(item.Build()));
+                return mfsi;
             }
         }
 
         public class MenuFlyoutCustomItemViewModel : IMenuFlyoutItem
         {
-            public string TemplateKey { get; }
+            public Func<MenuFlyoutItemBase> Factory { get; }
 
-            public object DataContext { get; }
+            public MenuFlyoutCustomItemViewModel(Func<MenuFlyoutItemBase> factory)
+                => Factory = factory;
 
-            public MenuFlyoutCustomItemViewModel(object dataContext, string templateKey)
-                => (DataContext, TemplateKey) = (dataContext, templateKey);
+            public MenuFlyoutItemBase Build() => Factory();
         }
 
         #endregion View Models
@@ -94,33 +129,6 @@ namespace Files.Uwp.Helpers
 
         #endregion IsVisible
 
-        #region ItemTemplates
-
-        public static IDictionary<string, DataTemplate> GetItemTemplates(DependencyObject obj)
-        {
-            if (obj.GetValue(ItemTemplatesProperty) is IDictionary<string, DataTemplate> value)
-            {
-                return value;
-            }
-
-            var defValue = new Dictionary<string, DataTemplate>();
-            obj.SetValue(ItemTemplatesProperty, defValue);
-
-            return defValue;
-        }
-
-        public static void SetItemTemplates(DependencyObject obj, IDictionary<string, DataTemplate> value)
-        {
-            obj.SetValue(ItemTemplatesProperty, value);
-        }
-
-        public static readonly DependencyProperty ItemTemplatesProperty =
-            DependencyProperty.RegisterAttached("ItemTemplates", typeof(IDictionary<string, DataTemplate>), typeof(MenuFlyoutHelper), new PropertyMetadata(null, ItemTemplatesChanged));
-
-        private static void ItemTemplatesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) => SetupItems(d as MenuFlyout);
-
-        #endregion
-
         private static async void SetupItems(MenuFlyout menu)
         {
             if (menu == null || Windows.ApplicationModel.DesignMode.DesignModeEnabled)
@@ -133,60 +141,11 @@ namespace Files.Uwp.Helpers
                 return;
             }
 
-            var itemTemplates = GetItemTemplates(menu);
-            if (itemTemplates == null && itemSource.Any(x => x is MenuFlyoutCustomItemViewModel))
-            {
-                return;
-            }
-
             await menu.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
                 menu.Items.Clear();
-                AddItems(menu.Items, itemSource, itemTemplates);
+                itemSource.ForEach(item => menu.Items.Add(item.Build()));
             });
-        }
-
-        private static void AddItems(IList<MenuFlyoutItemBase> menu, IEnumerable<IMenuFlyoutItem> items, IDictionary<string, DataTemplate> itemTemplates)
-        {
-            foreach (var item in items)
-            {
-                if (item is MenuFlyoutSeparatorViewModel)
-                {
-                    menu.Add(new MenuFlyoutSeparator());
-                }
-                else if (item is MenuFlyoutItemViewModel vm)
-                {
-                    var mfi = new MenuFlyoutItem
-                    {
-                        Text = vm.Text,
-                        Command = vm.OnSelect,
-                        CommandParameter = vm.Path,
-                        IsEnabled = vm.IsEnabled,
-                    };
-                    if (!string.IsNullOrEmpty(vm.Path))
-                    {
-                        ToolTipService.SetToolTip(mfi, vm.Path);
-                    }
-                    menu.Add(mfi);
-                }
-                else if (item is MenuFlyoutSubItemViewModel svm)
-                {
-                    var mfsi = new MenuFlyoutSubItem
-                    {
-                        Text = svm.Text,
-                        IsEnabled = svm.IsEnabled && svm.Items.Count > 0,
-                    };
-                    AddItems(mfsi.Items, svm.Items, itemTemplates);
-                    menu.Add(mfsi);
-                }
-                else if (item is MenuFlyoutCustomItemViewModel cvm)
-                {
-                    // Throw error if key not found or not derived from MenuFlyoutItemBase
-                    var mfci = (MenuFlyoutItemBase)itemTemplates[cvm.TemplateKey].LoadContent();
-                    mfci.DataContext = cvm.DataContext;
-                    menu.Add(mfci);
-                }
-            }
         }
     }
 }
