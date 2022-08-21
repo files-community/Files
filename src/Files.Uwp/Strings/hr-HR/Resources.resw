@@ -2796,4 +2796,7 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
   <data name="ReviewFilesContent" xml:space="preserve">
     <value>Would you like to review Files?</value>
   </data>
+  <data name="SetAsDefault" xml:space="preserve">
+    <value>Set as default</value>
+  </data>
 </root>
