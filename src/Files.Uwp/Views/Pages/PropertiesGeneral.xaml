@@ -199,6 +199,36 @@
                             Visibility="{x:Bind ViewModel.ItemSizeProgressVisibility, Mode=OneWay}" />
                     </Grid>
 
+                    <!--  Uncompressed Item size  -->
+                    <TextBlock
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource PropertyName}"
+                        Text="{helpers:ResourceString Name=PropertiesUncompressedItemSize/Text}"
+                        Visibility="{x:Bind ViewModel.UncompressedItemSizeVisibility, Mode=OneWay}" />
+                    <Grid
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Style="{StaticResource PropertyValueGrid}"
+                        Visibility="{x:Bind ViewModel.UncompressedItemSizeVisibility, Mode=OneWay}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" MinWidth="100" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            x:Name="UncompresseditemSizeValue"
+                            Grid.Column="0"
+                            IsTextSelectionEnabled="True"
+                            Text="{x:Bind ViewModel.UncompressedItemSize, Mode=OneWay}" />
+                        <muxc:ProgressBar
+                            x:Name="UncompressedItemSizeProgress"
+                            Grid.Column="1"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Visibility="{x:Bind ViewModel.UncompressedItemSizeProgressVisibility, Mode=OneWay}" />
+                    </Grid>
+
                     <MenuFlyoutSeparator
                         Grid.Row="2"
                         Grid.Column="0"

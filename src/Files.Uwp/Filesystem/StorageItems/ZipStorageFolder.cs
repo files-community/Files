@@ -73,6 +73,23 @@ namespace Files.Uwp.Filesystem.StorageItems
             return (marker == path.Length && includeRoot) || (marker < path.Length && path[marker] is '\\');
         }
 
+        public static async Task<long> GetUncompressedSize(string path)
+        {
+            long uncompressedSize = 0;
+            using (SevenZipExtractor zipFile = await Filesystem.FilesystemTasks.Wrap(async () =>
+            {
+                var arch = new SevenZipExtractor(await OpenZipFileAsync(path, false));
+                return arch?.ArchiveFileData is null ? null : arch; // Force load archive (1665013614u)
+            }))
+                           
+            foreach (ArchiveFileInfo info in zipFile.ArchiveFileData)
+            {
+                uncompressedSize += (long)info.Size;
+            }
+
+            return uncompressedSize;
+        }
+
         private static ConcurrentDictionary<string, Task<bool>> defaultAppDict = new();
         public static async Task<bool> CheckDefaultZipApp(string filePath)
         {
@@ -327,7 +344,7 @@ namespace Files.Uwp.Filesystem.StorageItems
                     {
                         using (var archiveStream = await OpenZipFileAsync(FileAccessMode.Read))
                         {
-                            SevenZipCompressor compressor = new SevenZipCompressor() { CompressionMode = CompressionMode.Append };
+                            SevenZipCompressor compressor = new SevenZipCompressor() { CompressionMode = SevenZip.CompressionMode.Append };
                             compressor.SetFormatFromExistingArchive(archiveStream);
                             var folderKey = IO.Path.GetRelativePath(containerPath, Path);
                             var folderDes = IO.Path.Combine(IO.Path.GetDirectoryName(folderKey), desiredName);
@@ -507,6 +524,21 @@ namespace Files.Uwp.Filesystem.StorageItems
                     }
                     return (Stream)new FileStream(hFile, readWrite ? FileAccess.ReadWrite : FileAccess.Read);
                 }
+            });
+        }
+
+        private static IAsyncOperation<Stream> OpenZipFileAsync(string path, bool readWrite)
+        {
+            return AsyncInfo.Run((cancellationToken) =>
+            {
+
+                var hFile = NativeFileOperationsHelper.OpenFileForRead(path, readWrite);
+                if (hFile.IsInvalid)
+                {
+                    return null;
+                }
+                return Task.FromResult((Stream)new FileStream(hFile, readWrite ? FileAccess.ReadWrite : FileAccess.Read));
+
             });
         }
 

@@ -168,12 +168,29 @@ namespace Files.Uwp.ViewModels
             set => SetProperty(ref itemSize, value);
         }
 
+        private string uncompresseditemSize;
+
+        public string UncompressedItemSize
+        {
+            get => uncompresseditemSize;
+            set => SetProperty(ref uncompresseditemSize, value);
+        }
+
+
         private bool itemSizeVisibility = false;
 
         public bool ItemSizeVisibility
         {
             get => itemSizeVisibility;
             set => SetProperty(ref itemSizeVisibility, value);
+        }
+
+        private bool uncompresseditemSizeVisibility = false;
+
+        public bool UncompressedItemSizeVisibility
+        {
+            get => uncompresseditemSizeVisibility;
+            set => SetProperty(ref uncompresseditemSizeVisibility, value);
         }
 
         private long itemSizeBytes;
@@ -184,12 +201,28 @@ namespace Files.Uwp.ViewModels
             set => SetProperty(ref itemSizeBytes, value);
         }
 
+        private long uncompresseditemSizeBytes;
+
+        public long UncompressedItemSizeBytes
+        {
+            get => uncompresseditemSizeBytes;
+            set => SetProperty(ref uncompresseditemSizeBytes, value);
+        }
+
         private bool itemSizeProgressVisibility = false;
 
         public bool ItemSizeProgressVisibility
         {
             get => itemSizeProgressVisibility;
             set => SetProperty(ref itemSizeProgressVisibility, value);
+        }
+
+        private bool uncompresseditemSizeProgressVisibility = false;
+
+        public bool UncompressedItemSizeProgressVisibility
+        {
+            get => uncompresseditemSizeProgressVisibility;
+            set => SetProperty(ref uncompresseditemSizeProgressVisibility, value);
         }
 
         public string itemMD5Hash;
