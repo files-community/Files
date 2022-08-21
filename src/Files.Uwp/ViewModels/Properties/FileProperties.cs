@@ -112,6 +112,7 @@ namespace Files.Uwp.ViewModels.Properties
             {
                 ViewModel.UncompressedItemSizeVisibility = true;
                 ViewModel.UncompressedItemSize = ((ZipItem)Item).UncompressedFileSizeBytes.ToLongSizeString();
+                ViewModel.UncompressedItemSizeBytes = ((ZipItem)Item).UncompressedFileSizeBytes;
             }
 
             var fileIconData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.ItemPath, 80, Windows.Storage.FileProperties.ThumbnailMode.DocumentsView, false);
