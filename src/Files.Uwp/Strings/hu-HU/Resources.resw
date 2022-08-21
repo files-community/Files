@@ -2798,4 +2798,7 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
   <data name="ReviewFilesContent" xml:space="preserve">
     <value>Szeretné értékelni az alkalmazást?</value>
   </data>
+  <data name="SetAsDefault" xml:space="preserve">
+    <value>Beállítás alapértelmezettként</value>
+  </data>
 </root>
