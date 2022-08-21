@@ -454,7 +454,7 @@
     <value>접근하려는 파일은 {0}이(가) 현재 사용 중입니다</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>접근하려는 파일은 다른 어플리케이션이 현재 사용 중입니다</value>
+    <value>접근하려는 파일은 다른 애플리케이션이 현재 사용 중입니다</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
     <value>사용 중인 파일</value>
@@ -2791,5 +2791,8 @@
   </data>
   <data name="ReviewFilesContent" xml:space="preserve">
     <value>Would you like to review Files?</value>
+  </data>
+  <data name="SetAsDefault" xml:space="preserve">
+    <value>Set as default</value>
   </data>
 </root>
