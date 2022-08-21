@@ -1,8 +1,6 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using Files.Shared.Extensions;
-using Files.Uwp.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -10,6 +8,50 @@ namespace Files.Uwp.Helpers
 {
     public class MenuFlyoutHelper : DependencyObject
     {
+        #region View Models
+
+        public interface IMenuFlyoutItemViewModel { }
+
+        public class MenuFlyoutSeparatorViewModel : IMenuFlyoutItemViewModel { }
+
+        public class MenuFlyoutItemViewModel : IMenuFlyoutItemViewModel
+        {
+            public string Text { get; init; }
+
+            public ICommand Command { get; init; }
+
+            public object CommandParameter { get; init; }
+
+            public string Tooltip { get; init; }
+
+            public bool IsEnabled { get; set; } = true;
+
+            public MenuFlyoutItemViewModel(string text)
+                => Text = text;
+        }
+
+        public class MenuFlyoutSubItemViewModel : IMenuFlyoutItemViewModel
+        {
+            public string Text { get; }
+
+            public bool IsEnabled { get; set; } = true;
+
+            public IList<IMenuFlyoutItemViewModel> Items { get; } = new List<IMenuFlyoutItemViewModel>();
+
+            public MenuFlyoutSubItemViewModel(string text)
+                => Text = text;
+        }
+
+        public class MenuFlyoutFactoryItemViewModel : IMenuFlyoutItemViewModel
+        {
+            public Func<MenuFlyoutItemBase> Build { get; }
+
+            public MenuFlyoutFactoryItemViewModel(Func<MenuFlyoutItemBase> factoryFunc)
+                => Build = factoryFunc;
+        }
+
+        #endregion View Models
+
         #region ItemsSource
 
         public static IEnumerable<IMenuFlyoutItemViewModel> GetItemsSource(DependencyObject obj) => obj.GetValue(ItemsSourceProperty) as IEnumerable<IMenuFlyoutItemViewModel>;
@@ -61,8 +103,48 @@ namespace Files.Uwp.Helpers
             await menu.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
                 menu.Items.Clear();
-                itemSource.ForEach(item => menu.Items.Add(item.Build()));
+                AddItems(menu.Items, itemSource);
             });
+        }
+
+        private static void AddItems(IList<MenuFlyoutItemBase> menu, IEnumerable<IMenuFlyoutItemViewModel> items)
+        {
+            foreach (var item in items)
+            {
+                if (item is MenuFlyoutSeparatorViewModel)
+                {
+                    menu.Add(new MenuFlyoutSeparator());
+                }
+                else if (item is MenuFlyoutItemViewModel vm)
+                {
+                    var mfi = new MenuFlyoutItem
+                    {
+                        Text = vm.Text,
+                        Command = vm.Command,
+                        CommandParameter = vm.CommandParameter,
+                        IsEnabled = vm.IsEnabled,
+                    };
+                    if (!string.IsNullOrEmpty(vm.Tooltip))
+                    {
+                        ToolTipService.SetToolTip(mfi, vm.Tooltip);
+                    }
+                    menu.Add(mfi);
+                }
+                else if (item is MenuFlyoutSubItemViewModel svm)
+                {
+                    var mfsi = new MenuFlyoutSubItem
+                    {
+                        Text = svm.Text,
+                        IsEnabled = svm.IsEnabled && svm.Items.Count > 0,
+                    };
+                    AddItems(mfsi.Items, svm.Items);
+                    menu.Add(mfsi);
+                }
+                else if (item is MenuFlyoutFactoryItemViewModel fvm)
+                {
+                    menu.Add(fvm.Build());
+                }
+            }
         }
     }
 }

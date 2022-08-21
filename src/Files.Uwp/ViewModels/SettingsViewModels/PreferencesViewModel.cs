@@ -23,6 +23,7 @@ using Windows.Storage;
 using Windows.Storage.AccessCache;
 using Windows.Storage.Pickers;
 using Windows.System;
+using static Files.Uwp.Helpers.MenuFlyoutHelper;
 
 namespace Files.Uwp.ViewModels.SettingsViewModels
 {
@@ -82,24 +83,19 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
 
         private async Task InitStartupSettingsRecentFoldersFlyout()
         {
-            var recentsItem = new MenuFlyoutSubItemViewModel() { Text = "JumpListRecentGroupHeader".GetLocalized() };
-            recentsItem.Items.Add(new MenuFlyoutItemPathViewModel()
+            var recentsItem = new MenuFlyoutSubItemViewModel("JumpListRecentGroupHeader".GetLocalized());
+            recentsItem.Items.Add(new MenuFlyoutItemViewModel("Home".GetLocalized())
             {
-                Text = "Home".GetLocalized(),
-                Path = "Home".GetLocalized(),
-                OnSelect = AddPageCommand
+                Command = AddPageCommand,
+                CommandParameter = "Home".GetLocalized(),
+                Tooltip = "Home".GetLocalized()
             });
 
             await App.RecentItemsManager.UpdateRecentFoldersAsync();    // ensure recent folders aren't stale since we don't update them with a watcher
             await PopulateRecentItems(recentsItem).ContinueWith(_ =>
             {
-                AddFlyoutItemsSource = new List<IMenuFlyoutItemViewModel> {
-                    new MenuFlyoutItemPathViewModel()
-                    {
-                        Text = "Browse".GetLocalized(),
-                        Path = null,
-                        OnSelect = AddPageCommand
-                    },
+                AddFlyoutItemsSource = new List<IMenuFlyoutItemViewModel>() {
+                    new MenuFlyoutItemViewModel("Browse".GetLocalized()) { Command = AddPageCommand },
                     recentsItem,
                 }.AsReadOnly();
             }, TaskScheduler.FromCurrentSynchronizationContext());
@@ -119,11 +115,11 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
 
                 foreach (var recentFolder in recentFolders)
                 {
-                    var menuItem = new MenuFlyoutItemPathViewModel()
+                    var menuItem = new MenuFlyoutItemViewModel(recentFolder.Name)
                     {
-                        Text = recentFolder.Name,
-                        Path = recentFolder.RecentPath,
-                        OnSelect = AddPageCommand
+                        Command = AddPageCommand,
+                        CommandParameter = recentFolder.RecentPath,
+                        Tooltip = recentFolder.RecentPath
                     };
                     menu.Items.Add(menuItem);
                 }
