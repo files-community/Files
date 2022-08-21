@@ -669,7 +669,7 @@ namespace Files.Uwp.Views
                 ContentPage.ResetItemOpacity();
             }
             var parameters = e.Parameter as NavigationArguments;
-            var isTagSearch = parameters.NavPathParam is not null && parameters.NavPathParam.StartsWith("tag:"); // #9760
+            var isTagSearch = parameters.NavPathParam is not null && parameters.NavPathParam.StartsWith("tag:");
             TabItemArguments = new TabItemArguments()
             {
                 InitialPageType = typeof(ModernShellPage),
