@@ -2792,4 +2792,7 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
   <data name="ReviewFilesContent" xml:space="preserve">
     <value>Czy chcesz ocenić Files?</value>
   </data>
+  <data name="SetAsDefault" xml:space="preserve">
+    <value>Set as default</value>
+  </data>
 </root>
