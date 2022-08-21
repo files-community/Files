@@ -73,18 +73,21 @@ namespace Files.Uwp.Filesystem.StorageItems
             return (marker == path.Length && includeRoot) || (marker < path.Length && path[marker] is '\\');
         }
 
-        public static async Task<long> GetUncompressedSize(string path)
+        public async Task<long> GetUncompressedSize()
         {
             long uncompressedSize = 0;
-            using (SevenZipExtractor zipFile = await Filesystem.FilesystemTasks.Wrap(async () =>
+            using (SevenZipExtractor zipFile = await FilesystemTasks.Wrap(async () =>
             {
-                var arch = new SevenZipExtractor(await OpenZipFileAsync(path, false));
+                var arch = await OpenZipFileAsync();
                 return arch?.ArchiveFileData is null ? null : arch; // Force load archive (1665013614u)
             }))
-                           
-            foreach (ArchiveFileInfo info in zipFile.ArchiveFileData)
+
+            if (zipFile != null)
             {
-                uncompressedSize += (long)info.Size;
+                foreach (var info in zipFile.ArchiveFileData.Where(x => !x.IsDirectory))
+                {
+                    uncompressedSize += (long)info.Size;
+                }
             }
 
             return uncompressedSize;
@@ -344,7 +347,7 @@ namespace Files.Uwp.Filesystem.StorageItems
                     {
                         using (var archiveStream = await OpenZipFileAsync(FileAccessMode.Read))
                         {
-                            SevenZipCompressor compressor = new SevenZipCompressor() { CompressionMode = SevenZip.CompressionMode.Append };
+                            SevenZipCompressor compressor = new SevenZipCompressor() { CompressionMode = CompressionMode.Append };
                             compressor.SetFormatFromExistingArchive(archiveStream);
                             var folderKey = IO.Path.GetRelativePath(containerPath, Path);
                             var folderDes = IO.Path.Combine(IO.Path.GetDirectoryName(folderKey), desiredName);
@@ -524,21 +527,6 @@ namespace Files.Uwp.Filesystem.StorageItems
                     }
                     return (Stream)new FileStream(hFile, readWrite ? FileAccess.ReadWrite : FileAccess.Read);
                 }
-            });
-        }
-
-        private static IAsyncOperation<Stream> OpenZipFileAsync(string path, bool readWrite)
-        {
-            return AsyncInfo.Run((cancellationToken) =>
-            {
-
-                var hFile = NativeFileOperationsHelper.OpenFileForRead(path, readWrite);
-                if (hFile.IsInvalid)
-                {
-                    return null;
-                }
-                return Task.FromResult((Stream)new FileStream(hFile, readWrite ? FileAccess.ReadWrite : FileAccess.Read));
-
             });
         }
 

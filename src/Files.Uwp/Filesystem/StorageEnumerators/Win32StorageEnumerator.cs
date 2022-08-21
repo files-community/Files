@@ -370,7 +370,6 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
             {
                 if (ZipStorageFolder.IsZipPath(itemPath) && await ZipStorageFolder.CheckDefaultZipApp(itemPath))
                 {
-                    long uncompressedSizeBytes = await ZipStorageFolder.GetUncompressedSize(itemPath);
                     return new ZipItem(null)
                     {
                         PrimaryItemAttribute = StorageItemTypes.Folder, // Treat zip files as folders
@@ -386,9 +385,7 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
                         ItemType = itemType,
                         ItemPath = itemPath,
                         FileSize = itemSize,
-                        FileSizeBytes = itemSizeBytes,
-                        UncompressedFileSizeBytes = uncompressedSizeBytes,
-                        UncompressedFileSize = uncompressedSizeBytes.ToSizeString()
+                        FileSizeBytes = itemSizeBytes
                     };
                 }
                 else

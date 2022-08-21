@@ -165,7 +165,7 @@
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Size:</value>
   </data>
-  <data name="PropertiesUncompressedItemSize.Text" xml:space="preserve">
+  <data name="UncompressedSize" xml:space="preserve">
     <value>Uncompressed Size:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">

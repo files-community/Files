@@ -1,14 +1,14 @@
 ﻿<local:PropertiesTab
     x:Class="Files.Uwp.Views.PropertiesGeneral"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:helpers="using:Files.Uwp.Helpers"
-    xmlns:usercontrols="using:Files.Uwp.UserControls"
-    xmlns:local="using:Files.Uwp.ViewModels.Properties"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Files.Uwp.Helpers"
+    xmlns:local="using:Files.Uwp.ViewModels.Properties"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:usercontrols="using:Files.Uwp.UserControls"
     Loaded="Properties_Loaded"
     mc:Ignorable="d">
 
@@ -81,8 +81,8 @@
                 <TextBox
                     x:Name="ItemFileName"
                     x:Load="{x:Bind ViewModel.ItemNameVisibility, Mode=OneWay}"
-                    Text="{x:Bind ViewModel.ItemName, Mode=TwoWay}"
-                    PlaceholderText="{helpers:ResourceString Name=PropertiesItemFileName/PlaceholderText}" />
+                    PlaceholderText="{helpers:ResourceString Name=PropertiesItemFileName/PlaceholderText}"
+                    Text="{x:Bind ViewModel.ItemName, Mode=TwoWay}" />
                 <TextBlock
                     x:Name="itemFilesAndFoldersCountValueTop"
                     x:Load="{x:Bind ViewModel.FilesAndFoldersCountVisibility, Mode=OneWay}"
@@ -206,29 +206,16 @@
                         Grid.Column="0"
                         HorizontalAlignment="Left"
                         Style="{StaticResource PropertyName}"
-                        Text="{helpers:ResourceString Name=PropertiesUncompressedItemSize/Text}"
-                        Visibility="{x:Bind ViewModel.UncompressedItemSizeVisibility, Mode=OneWay}" />
-                    <Grid
+                        Text="{helpers:ResourceString Name=UncompressedSize}"
+                        Visibility="{x:Bind ViewModel.IsUncompressedItemSizeVisibile, Mode=OneWay}" />
+                    <TextBlock
+                        x:Name="UncompresseditemSizeValue"
                         Grid.Row="2"
                         Grid.Column="1"
-                        Style="{StaticResource PropertyValueGrid}"
-                        Visibility="{x:Bind ViewModel.UncompressedItemSizeVisibility, Mode=OneWay}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" MinWidth="100" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock
-                            x:Name="UncompresseditemSizeValue"
-                            Grid.Column="0"
-                            IsTextSelectionEnabled="True"
-                            Text="{x:Bind ViewModel.UncompressedItemSize, Mode=OneWay}" />
-                        <muxc:ProgressBar
-                            x:Name="UncompressedItemSizeProgress"
-                            Grid.Column="1"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            Visibility="{x:Bind ViewModel.UncompressedItemSizeProgressVisibility, Mode=OneWay}" />
-                    </Grid>
+                        IsTextSelectionEnabled="True"
+                        Style="{StaticResource PropertyValueTextBlock}"
+                        Text="{x:Bind ViewModel.UncompressedItemSize, Mode=OneWay}"
+                        Visibility="{x:Bind ViewModel.IsUncompressedItemSizeVisibile, Mode=OneWay}" />
 
                     <MenuFlyoutSeparator
                         Grid.Row="3"

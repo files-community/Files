@@ -558,22 +558,6 @@ namespace Files.Uwp.Filesystem
             }
         }
 
-        private string uncompressedFileSize;
-
-        public string UncompressedFileSize
-        {
-            get => uncompressedFileSize;
-            set
-            {
-                SetProperty(ref uncompressedFileSize, value);
-                OnPropertyChanged(nameof(UncompressedFileSizeDisplay));
-            }
-        }
-
-        public string UncompressedFileSizeDisplay => string.IsNullOrEmpty(UncompressedFileSize) ? "ItemSizeNotCalculated".GetLocalized() : UncompressedFileSize;
-
-        public long UncompressedFileSizeBytes { get; set; }
-
         // Parameterless constructor for JsonConvert
         public ZipItem() : base()
         { }
