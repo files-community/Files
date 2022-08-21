@@ -2797,4 +2797,7 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
   <data name="ReviewFilesContent" xml:space="preserve">
     <value>Bạn có muốn đánh giá Files không?</value>
   </data>
+  <data name="SetAsDefault" xml:space="preserve">
+    <value>Set as default</value>
+  </data>
 </root>
