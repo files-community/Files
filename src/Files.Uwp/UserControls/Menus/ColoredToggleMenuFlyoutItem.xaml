@@ -30,20 +30,22 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <Border
-                        Margin="0,0,8,0"
-                        Padding="2"
-                        Background="{Binding ColorModel, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource ColorModelToColorConverter}}"
-                        CornerRadius="10">
+                    <Grid Margin="0,0,8,0">
+                        <Ellipse
+                            Width="20"
+                            Height="20"
+                            Fill="{Binding ColorModel, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource ColorModelToColorConverter}}" />
                         <FontIcon
                             x:Name="CheckGlyph"
                             Width="16"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
                             FontFamily="{ThemeResource SymbolThemeFontFamily}"
                             FontSize="16"
                             Foreground="{ThemeResource ToggleMenuFlyoutItemCheckGlyphForeground}"
                             Glyph="&#xE001;"
                             Opacity="0" />
-                    </Border>
+                    </Grid>
                     <Viewbox
                         x:Name="IconRoot"
                         Grid.Column="1"
