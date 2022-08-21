@@ -34,7 +34,7 @@
                         Margin="0,0,8,0"
                         Padding="2"
                         Background="{Binding ColorModel, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource ColorModelToColorConverter}}"
-                        CornerRadius="4">
+                        CornerRadius="10">
                         <FontIcon
                             x:Name="CheckGlyph"
                             Width="16"
