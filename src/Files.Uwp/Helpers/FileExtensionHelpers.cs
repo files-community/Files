@@ -61,6 +61,7 @@ namespace Files.Uwp.Helpers
         {
             if (string.IsNullOrEmpty(filePath))
             {
+                ext = null;
                 return false;
             }
 
