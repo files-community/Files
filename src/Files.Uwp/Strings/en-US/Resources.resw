@@ -2811,6 +2811,6 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Reset</value>
   </data>
   <data name="ResetLayoutPreferences" xml:space="preserve">
-    <value>You are about to reset all folder layout preferences</value>
+    <value>This action will reset all directories back to your default preferences.</value>
   </data>
 </root>
