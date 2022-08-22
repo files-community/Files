@@ -2789,8 +2789,8 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   <data name="SetAsDefault" xml:space="preserve">
     <value>Set as default</value>
   </data>
-  <data name="DefaultFolderPreferences" xml:space="preserve">
-    <value>Default Folder preferences</value>
+  <data name="FolderPreferences" xml:space="preserve">
+    <value>Folder preferences</value>
   </data>
   <data name="DisplayDateColumn" xml:space="preserve">
     <value>Display Date column</value>
@@ -2807,10 +2807,10 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   <data name="DisplayTypeColumn" xml:space="preserve">
     <value>Display Type column</value>
   </data>
-  <data name="ResetLayoutPreferences" xml:space="preserve">
+  <data name="Reset" xml:space="preserve">
     <value>Reset</value>
   </data>
-  <data name="ResetLayoutPreferencesForAllFolders" xml:space="preserve">
-    <value>Reset layout preferences for all folders</value>
+  <data name="ResetLayoutPreferences" xml:space="preserve">
+    <value>You are about to reset all folder layout preferences</value>
   </data>
 </root>
