@@ -531,7 +531,7 @@ namespace Files.Uwp.Filesystem.StorageItems
                     CompressionMode = CompressionMode.Create,
                     ArchiveFormat = format
                 };
-                await compressor.CompressStreamAsync(new MemoryStream(), stream);
+                await compressor.CompressStreamDictionaryAsync(stream, new Dictionary<string, Stream>());
                 await stream.FlushAsync();
                 return true;
             }
