@@ -179,7 +179,10 @@ namespace Files.Uwp.Filesystem.StorageItems
                     return null;
                 }
                 //zipFile.IsStreamOwner = true;
-                var entry = zipFile.ArchiveFileData.FirstOrDefault(x => System.IO.Path.Combine(containerPath, x.FileName) == System.IO.Path.Combine(Path, name));
+
+                var filePath = System.IO.Path.Combine(Path, name);
+
+                var entry = zipFile.ArchiveFileData.FirstOrDefault(x => System.IO.Path.Combine(containerPath, x.FileName) == filePath);
                 if (entry.FileName is null)
                 {
                     return null;
@@ -187,10 +190,10 @@ namespace Files.Uwp.Filesystem.StorageItems
 
                 if (entry.IsDirectory)
                 {
-                    return new ZipStorageFolder(entry.FileName, containerPath, entry, backingFile);
+                    return new ZipStorageFolder(filePath, containerPath, entry, backingFile);
                 }
 
-                return new ZipStorageFile(entry.FileName, containerPath, entry, backingFile);
+                return new ZipStorageFile(filePath, containerPath, entry, backingFile);
             });
         }
         public override IAsyncOperation<IStorageItem> TryGetItemAsync(string name)
