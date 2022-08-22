@@ -170,7 +170,6 @@ namespace Files.Uwp.Filesystem
                     DataChanged?.Invoke(SectionType.Drives, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, driveItem));
                     Watcher_EnumerationCompleted();
                     break;
-                case DeviceEvent.Ejected:
                 case DeviceEvent.Removed:
                     lock (drives)
                     {
@@ -181,6 +180,7 @@ namespace Files.Uwp.Filesystem
                     Watcher_EnumerationCompleted();
                     break;
                 case DeviceEvent.Inserted:
+                case DeviceEvent.Ejected:
                     var rootModified = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(deviceId).AsTask());
                     DriveItem matchingDriveEjected = Drives.FirstOrDefault(x => x.DeviceID == deviceId);
                     if (rootModified && matchingDriveEjected is not null)
