@@ -99,11 +99,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="Resources\MiddleClickScrolling-CursorType.res" />
-    <Content Include="Assets\Custom Glyphs\Colored-Icons.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <None Include="Assets\terminal\terminal.json">
+    <None Update="Assets\terminal\terminal.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Resources\PreviewPanePropertiesInformation.json">
@@ -152,6 +148,9 @@
     <PRIResource Include="Strings\de-DE\Resources.resw" />
     <PRIResource Include="Strings\es-ES\Resources.resw" />
     <PRIResource Include="Strings\fr-FR\Resources.resw" />
+    <PRIResource Include="Strings\en-US\Resources.resw">
+      <SubType>Designer</SubType>
+    </PRIResource>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ByteSize">
