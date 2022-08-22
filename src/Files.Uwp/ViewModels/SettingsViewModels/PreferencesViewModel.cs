@@ -23,6 +23,7 @@ using Windows.Storage;
 using Windows.Storage.AccessCache;
 using Windows.Storage.Pickers;
 using Windows.System;
+using Windows.UI.Xaml.Controls;
 using static Files.Uwp.Helpers.MenuFlyoutHelper;
 
 namespace Files.Uwp.ViewModels.SettingsViewModels
@@ -46,11 +47,16 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
 
         public ICommand OpenFilesAtStartupCommand { get; }
 
+        public ICommand ResetLayoutPreferencesCommand { get; }
+        public ICommand ShowResetLayoutPreferencesTipCommand { get; }
+        
         public PreferencesViewModel()
         {
             ChangePageCommand = new AsyncRelayCommand(ChangePage);
             RemovePageCommand = new RelayCommand(RemovePage);
             AddPageCommand = new RelayCommand<string>(async (path) => await AddPage(path));
+            ResetLayoutPreferencesCommand = new RelayCommand(ResetLayoutPreferences);
+            ShowResetLayoutPreferencesTipCommand = new RelayCommand(() => IsResetLayoutPreferencesTipOpen = true);
 
             DefaultLanguages = App.AppSettings.DefaultLanguages;
             Terminals = App.TerminalController.Model.Terminals;
@@ -714,6 +720,27 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
                     OnPropertyChanged();
                 }
             }
+        }
+
+        private bool isLayoutResetCheckmarkVisible;
+        public bool IsLayoutResetCheckmarkVisible
+        {
+            get => isLayoutResetCheckmarkVisible;
+            set => SetProperty(ref isLayoutResetCheckmarkVisible, value);
+        }
+
+        private bool isResetLayoutPreferencesTipOpen;
+        public bool IsResetLayoutPreferencesTipOpen
+        {
+            get => isResetLayoutPreferencesTipOpen;
+            set => SetProperty(ref isResetLayoutPreferencesTipOpen, value);
+        }
+
+        public void ResetLayoutPreferences()
+        {
+            FolderSettingsViewModel.DbInstance.ResetAll();
+            IsResetLayoutPreferencesTipOpen = false;
+            IsLayoutResetCheckmarkVisible = true;
         }
 
         public void Dispose()
