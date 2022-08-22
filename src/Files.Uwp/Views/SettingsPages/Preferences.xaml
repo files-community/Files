@@ -282,7 +282,7 @@
                         Command="{Binding ShowResetLayoutPreferencesTipCommand}"
                         Content="{helpers:ResourceString Name=Reset}" />
                     <muxc:TeachingTip
-                        Title="{helpers:ResourceString Name=Reset}"
+                        Title="{helpers:ResourceString Name=AreYouSure}"
                         ActionButtonCommand="{Binding ResetLayoutPreferencesCommand}"
                         ActionButtonContent="{helpers:ResourceString Name=Confirm}"
                         IsLightDismissEnabled="True"

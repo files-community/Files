@@ -2813,4 +2813,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   <data name="ResetLayoutPreferences" xml:space="preserve">
     <value>You are about to reset all folder layout preferences</value>
   </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>Are you sure?</value>
+  </data>
 </root>
