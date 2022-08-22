@@ -129,7 +129,9 @@ namespace Files.Uwp.ViewModels.Properties
                 }
             }
 
-            BaseStorageFile file = await AppInstance.FilesystemViewModel.GetFileFromPathAsync((Item as ShortcutItem)?.TargetPath ?? Item.ItemPath);
+            string filePath = (Item as ShortcutItem)?.TargetPath ?? Item.ItemPath;
+            BaseStorageFile file = await AppInstance.FilesystemViewModel.GetFileFromPathAsync(filePath);
+
             if (file == null)
             {
                 // Could not access file, can't show any other property
@@ -140,6 +142,16 @@ namespace Files.Uwp.ViewModels.Properties
             {
                 // Can't show any other property
                 return;
+            }
+
+            if (FileExtensionHelpers.IsBrowsableZipFile(Item.FileExtension, out _))
+            {
+                if (await ZipStorageFolder.FromPathAsync(Item.ItemPath) is ZipStorageFolder zipFolder)
+                {
+                    var uncompressedSize = await zipFolder.GetUncompressedSize();
+                    ViewModel.UncompressedItemSize = uncompressedSize.ToLongSizeString();
+                    ViewModel.UncompressedItemSizeBytes = uncompressedSize;
+                }
             }
 
             if (file.Properties != null)

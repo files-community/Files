@@ -31,6 +31,7 @@ namespace Files.Uwp.Interacts
             CreateShortcutCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.CreateShortcut);
             SetAsLockscreenBackgroundItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.SetAsLockscreenBackgroundItem);
             SetAsDesktopBackgroundItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.SetAsDesktopBackgroundItem);
+            SetAsSlideshowItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.SetAsSlideshowItem);
             RunAsAdminCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RunAsAdmin);
             RunAsAnotherUserCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RunAsAnotherUser);
             SidebarPinItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.SidebarPinItem);
@@ -89,6 +90,8 @@ namespace Files.Uwp.Interacts
         public ICommand SetAsLockscreenBackgroundItemCommand { get; private set; }
 
         public ICommand SetAsDesktopBackgroundItemCommand { get; private set; }
+
+        public ICommand SetAsSlideshowItemCommand { get; private set; }
 
         public ICommand RunAsAdminCommand { get; private set; }
 

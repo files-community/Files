@@ -73,6 +73,26 @@ namespace Files.Uwp.Filesystem.StorageItems
             return (marker == path.Length && includeRoot) || (marker < path.Length && path[marker] is '\\');
         }
 
+        public async Task<long> GetUncompressedSize()
+        {
+            long uncompressedSize = 0;
+            using (SevenZipExtractor zipFile = await FilesystemTasks.Wrap(async () =>
+            {
+                var arch = await OpenZipFileAsync();
+                return arch?.ArchiveFileData is null ? null : arch; // Force load archive (1665013614u)
+            }))
+
+            if (zipFile != null)
+            {
+                foreach (var info in zipFile.ArchiveFileData.Where(x => !x.IsDirectory))
+                {
+                    uncompressedSize += (long)info.Size;
+                }
+            }
+
+            return uncompressedSize;
+        }
+
         private static ConcurrentDictionary<string, Task<bool>> defaultAppDict = new();
         public static async Task<bool> CheckDefaultZipApp(string filePath)
         {

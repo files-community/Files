@@ -42,7 +42,7 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
         private bool disposed;
         private int selectedPageIndex = -1;
         private bool isPageListEditEnabled;
-        private ReadOnlyCollection<IMenuFlyoutItem> addFlyoutItemsSource;
+        private ReadOnlyCollection<IMenuFlyoutItemViewModel> addFlyoutItemsSource;
 
         public ICommand EditTerminalApplicationsCommand { get; }
 
@@ -86,15 +86,20 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
         private async Task InitStartupSettingsRecentFoldersFlyout()
         {
             var recentsItem = new MenuFlyoutSubItemViewModel("JumpListRecentGroupHeader".GetLocalizedResource());
-            recentsItem.Items.Add(new MenuFlyoutItemViewModel("Home".GetLocalizedResource(), "Home".GetLocalizedResource(), AddPageCommand));
+            recentsItem.Items.Add(new MenuFlyoutItemViewModel("Home".GetLocalizedResource())
+            {
+                Command = AddPageCommand,
+                CommandParameter = "Home".GetLocalizedResource(),
+                Tooltip = "Home".GetLocalizedResource()
+            });
 
             await App.RecentItemsManager.UpdateRecentFoldersAsync();    // ensure recent folders aren't stale since we don't update them with a watcher
             await PopulateRecentItems(recentsItem).ContinueWith(_ =>
             {
-                AddFlyoutItemsSource = new ReadOnlyCollection<IMenuFlyoutItem>(new IMenuFlyoutItem[] {
-                    new MenuFlyoutItemViewModel("Browse".GetLocalizedResource(), null, AddPageCommand),
+                AddFlyoutItemsSource = new List<IMenuFlyoutItemViewModel>() {
+                    new MenuFlyoutItemViewModel("Browse".GetLocalizedResource()) { Command = AddPageCommand },
                     recentsItem,
-                });
+                }.AsReadOnly();
             }, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
@@ -112,7 +117,12 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
 
                 foreach (var recentFolder in recentFolders)
                 {
-                    var menuItem = new MenuFlyoutItemViewModel(recentFolder.Name, recentFolder.RecentPath, AddPageCommand);
+                    var menuItem = new MenuFlyoutItemViewModel(recentFolder.Name)
+                    {
+                        Command = AddPageCommand,
+                        CommandParameter = recentFolder.RecentPath,
+                        Tooltip = recentFolder.RecentPath
+                    };
                     menu.Items.Add(menuItem);
                 }
             }
@@ -197,7 +207,7 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
             set => SetProperty(ref isPageListEditEnabled, value);
         }
 
-        public ReadOnlyCollection<IMenuFlyoutItem> AddFlyoutItemsSource
+        public ReadOnlyCollection<IMenuFlyoutItemViewModel> AddFlyoutItemsSource
         {
             get => addFlyoutItemsSource;
             set => SetProperty(ref addFlyoutItemsSource, value);
@@ -637,14 +647,79 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
             }
         }
 
-        public bool AreLayoutPreferencesPerFolder
+        public bool ForceLayoutPreferencesOnAllDirectories
         {
-            get => UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder;
+            get => UserSettingsService.PreferencesSettingsService.ForceLayoutPreferencesOnAllDirectories;
             set
             {
-                if (value != UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder)
+                if (value != UserSettingsService.PreferencesSettingsService.ForceLayoutPreferencesOnAllDirectories)
                 {
-                    UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder = value;
+                    UserSettingsService.PreferencesSettingsService.ForceLayoutPreferencesOnAllDirectories = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        
+        public bool ShowFileTagColumn
+        {
+            get => UserSettingsService.LayoutSettingsService.ShowFileTagColumn;
+            set
+            {
+                if (value != UserSettingsService.LayoutSettingsService.ShowFileTagColumn)
+                {
+                    UserSettingsService.LayoutSettingsService.ShowFileTagColumn = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        
+        public bool ShowSizeColumn
+        {
+            get => UserSettingsService.LayoutSettingsService.ShowSizeColumn;
+            set
+            {
+                if (value != UserSettingsService.LayoutSettingsService.ShowSizeColumn)
+                {
+                    UserSettingsService.LayoutSettingsService.ShowSizeColumn = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool ShowTypeColumn
+        {
+            get => UserSettingsService.LayoutSettingsService.ShowTypeColumn;
+            set
+            {
+                if (value != UserSettingsService.LayoutSettingsService.ShowTypeColumn)
+                {
+                    UserSettingsService.LayoutSettingsService.ShowTypeColumn = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool ShowDateCreatedColumn
+        {
+            get => UserSettingsService.LayoutSettingsService.ShowDateCreatedColumn;
+            set
+            {
+                if (value != UserSettingsService.LayoutSettingsService.ShowDateCreatedColumn)
+                {
+                    UserSettingsService.LayoutSettingsService.ShowDateCreatedColumn = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool ShowDateColumn
+        {
+            get => UserSettingsService.LayoutSettingsService.ShowDateColumn;
+            set
+            {
+                if (value != UserSettingsService.LayoutSettingsService.ShowDateColumn)
+                {
+                    UserSettingsService.LayoutSettingsService.ShowDateColumn = value;
                     OnPropertyChanged();
                 }
             }

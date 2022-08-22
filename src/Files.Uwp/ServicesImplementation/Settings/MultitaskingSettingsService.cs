@@ -13,12 +13,6 @@ namespace Files.Uwp.ServicesImplementation.Settings
             RegisterSettingsContext(settingsSharingContext);
         }
 
-        public bool IsVerticalTabFlyoutEnabled
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
         public bool IsDualPaneEnabled
         {
             get => Get(false);
@@ -35,7 +29,6 @@ namespace Files.Uwp.ServicesImplementation.Settings
         {
             switch (e.SettingName)
             {
-                case nameof(IsVerticalTabFlyoutEnabled):
                 case nameof(IsDualPaneEnabled):
                 case nameof(AlwaysOpenDualPaneInNewTab):
                     Analytics.TrackEvent($"{e.SettingName} {e.NewValue}");
@@ -47,7 +40,6 @@ namespace Files.Uwp.ServicesImplementation.Settings
 
         public void ReportToAppCenter()
         {
-            Analytics.TrackEvent($"{nameof(IsVerticalTabFlyoutEnabled)}, {IsVerticalTabFlyoutEnabled}");
             Analytics.TrackEvent($"{nameof(IsDualPaneEnabled)}, {IsDualPaneEnabled}");
             Analytics.TrackEvent($"{nameof(AlwaysOpenDualPaneInNewTab)}, {AlwaysOpenDualPaneInNewTab}");
         }

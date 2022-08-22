@@ -60,8 +60,6 @@ namespace Files.Uwp.Views
 
         private ICommand ToggleSidebarCollapsedStateCommand => new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(x => ToggleSidebarCollapsedState(x));
 
-        public bool IsVerticalTabFlyoutEnabled => UserSettingsService.MultitaskingSettingsService.IsVerticalTabFlyoutEnabled;
-
         public MainPage()
         {
             InitializeComponent();
@@ -133,33 +131,6 @@ namespace Files.Uwp.Views
                 case nameof(IPaneSettingsService.Content):
                     LoadPaneChanged();
                     break;
-                case nameof(IMultitaskingSettingsService.IsVerticalTabFlyoutEnabled):
-                    OnPropertyChanged(nameof(IsVerticalTabFlyoutEnabled));
-                    break;
-            }
-        }
-
-        public UserControl MultitaskingControl => VerticalTabs;
-
-        private void VerticalTabStrip_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            e.Handled = true;
-            (sender as Button).Flyout.ShowAt(sender as Button);
-        }
-
-        private void VerticalTabStripInvokeButton_DragEnter(object sender, DragEventArgs e)
-        {
-            e.Handled = true;
-            (sender as Button).Flyout.ShowAt(sender as Button);
-        }
-
-        private void VerticalTabStripInvokeButton_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (!(ViewModel.MultitaskingControl is VerticalTabViewControl))
-            {
-                ViewModel.MultitaskingControl = VerticalTabs;
-                ViewModel.MultitaskingControls.Add(VerticalTabs);
-                ViewModel.MultitaskingControl.CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
             }
         }
 
@@ -180,10 +151,6 @@ namespace Files.Uwp.Views
                 ViewModel.MultitaskingControl = horizontalMultitaskingControl;
                 ViewModel.MultitaskingControls.Add(horizontalMultitaskingControl);
                 ViewModel.MultitaskingControl.CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
-            }
-            if (UserSettingsService.MultitaskingSettingsService.IsVerticalTabFlyoutEnabled)
-            {
-                FindName(nameof(VerticalTabStripInvokeButton));
             }
         }
 
@@ -341,7 +308,8 @@ namespace Files.Uwp.Views
                             IsSearchResultPage = true,
                             SearchPathParam = "Home".GetLocalizedResource(),
                             SearchQuery = tagPath,
-                            AssociatedTabInstance = shp
+                            AssociatedTabInstance = shp,
+                            NavPathParam = tagPath
                         });
                     }
                     return;

@@ -193,7 +193,7 @@ namespace Files.Uwp.Views.LayoutModes
 
             if (ParentShellPageInstance.InstanceViewModel?.FolderSettings.ColumnsViewModel != null)
             {
-                ColumnsViewModel = ParentShellPageInstance.InstanceViewModel.FolderSettings.ColumnsViewModel;
+                ColumnsViewModel = FolderSettings.ColumnsViewModel;
             }
 
             currentIconSize = FolderSettings.GetIconSize();
@@ -285,8 +285,6 @@ namespace Files.Uwp.Views.LayoutModes
             {
                 ColumnsViewModel.StatusColumn.Show();
             }
-
-            ColumnsViewModel.TagColumn.Show();
 
             UpdateSortIndicator();
         }
@@ -644,7 +642,7 @@ namespace Files.Uwp.Views.LayoutModes
             if (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right)
             {
                 UpdateColumnLayout();
-                ParentShellPageInstance.InstanceViewModel.FolderSettings.ColumnsViewModel = ColumnsViewModel;
+                FolderSettings.ColumnsViewModel = ColumnsViewModel;
             }
         }
 
@@ -670,12 +668,12 @@ namespace Files.Uwp.Views.LayoutModes
 
         private void GridSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
-            ParentShellPageInstance.InstanceViewModel.FolderSettings.ColumnsViewModel = ColumnsViewModel;
+            FolderSettings.ColumnsViewModel = ColumnsViewModel;
         }
 
         private void ToggleMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
-            ParentShellPageInstance.InstanceViewModel.FolderSettings.ColumnsViewModel = ColumnsViewModel;
+            FolderSettings.ColumnsViewModel = ColumnsViewModel;
         }
 
         private void GridSplitter_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
@@ -754,7 +752,7 @@ namespace Files.Uwp.Views.LayoutModes
                 column.UserLength = new GridLength(maxFitLength, GridUnitType.Pixel);
             }
 
-            ParentShellPageInstance.InstanceViewModel.FolderSettings.ColumnsViewModel = ColumnsViewModel;
+            FolderSettings.ColumnsViewModel = ColumnsViewModel;
         }
 
         private double MeasureTextColumnEstimate(int columnIndex, int measureItemsCount, int maxItemLength)
@@ -803,6 +801,11 @@ namespace Files.Uwp.Views.LayoutModes
         private void RefreshContainer_RefreshRequested(RefreshContainer sender, RefreshRequestedEventArgs args)
         {
             ParentShellPageInstance.FilesystemViewModel.RefreshItems(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, SetSelectedItemsOnNavigation);
+        }
+
+        private void SetDetailsColumnsAsDefault_Click(object sender, RoutedEventArgs e)
+        {
+            FolderSettings.SetDefaultLayoutPreferences(ColumnsViewModel);
         }
     }
 }

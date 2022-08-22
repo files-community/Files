@@ -16,6 +16,8 @@ namespace Files.Uwp.Interacts
 
         void SetAsDesktopBackgroundItem(RoutedEventArgs e);
 
+        void SetAsSlideshowItem(RoutedEventArgs e);
+
         void RunAsAdmin(RoutedEventArgs e);
 
         void RunAsAnotherUser(RoutedEventArgs e);

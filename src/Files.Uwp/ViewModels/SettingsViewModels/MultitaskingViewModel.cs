@@ -8,19 +8,6 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
     {
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
-        public bool IsVerticalTabFlyoutEnabled
-        {
-            get => UserSettingsService.MultitaskingSettingsService.IsVerticalTabFlyoutEnabled;
-            set
-            {
-                if (value != UserSettingsService.MultitaskingSettingsService.IsVerticalTabFlyoutEnabled)
-                {
-                    UserSettingsService.MultitaskingSettingsService.IsVerticalTabFlyoutEnabled = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
         public bool IsDualPaneEnabled
         {
             get => UserSettingsService.MultitaskingSettingsService.IsDualPaneEnabled;

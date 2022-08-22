@@ -478,7 +478,7 @@ namespace Files.Uwp.ViewModels
                     });
                     break;
                 case nameof(UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles):
-                case nameof(UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder):
+                case nameof(UserSettingsService.PreferencesSettingsService.ForceLayoutPreferencesOnAllDirectories):
                     await dispatcherQueue.EnqueueAsync(() =>
                     {
                         folderSettings.OnDefaultPreferencesChanged(WorkingDirectory, e.SettingName);

@@ -16,7 +16,7 @@ namespace Files.Uwp.Helpers
         {
             IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
 
-            if (userSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder
+            if (!userSettingsService.PreferencesSettingsService.ForceLayoutPreferencesOnAllDirectories
                 && folderSettings.IsAdaptiveLayoutEnabled
                 && !folderSettings.IsLayoutModeFixed)
             {

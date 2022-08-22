@@ -112,25 +112,23 @@ namespace Files.Uwp.Interacts
 
         public virtual async void SetAsDesktopBackgroundItem(RoutedEventArgs e)
         {
-            if (SlimContentPage.SelectedItems.Count > 1)
-            {
-                var images = (from o in SlimContentPage.SelectedItems select o.ItemPath).ToArray();
+            WallpaperHelpers.SetAsBackground(WallpaperType.Desktop, SlimContentPage.SelectedItem.ItemPath);
+        }
 
-                var connection = await AppServiceConnectionHelper.Instance;
-                if (connection != null)
-                {
-                    var value = new ValueSet
-                    {
-                        { "Arguments", "WallpaperOperation" },
-                        { "wallpaperop", "SetSlideshow" },
-                        { "filepaths", images }
-                    };
-                    await connection.SendMessageAsync(value);
-                }
-            }
-            else
+        public virtual async void SetAsSlideshowItem(RoutedEventArgs e)
+        {
+            var images = (from o in SlimContentPage.SelectedItems select o.ItemPath).ToArray();
+
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection != null)
             {
-                WallpaperHelpers.SetAsBackground(WallpaperType.Desktop, SlimContentPage.SelectedItem.ItemPath);
+                var value = new ValueSet
+                {
+                    { "Arguments", "WallpaperOperation" },
+                    { "wallpaperop", "SetSlideshow" },
+                    { "filepaths", images }
+                };
+                await connection.SendMessageAsync(value);
             }
         }
 

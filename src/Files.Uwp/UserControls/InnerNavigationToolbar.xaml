@@ -28,6 +28,7 @@
             <x:Boolean x:Key="True">True</x:Boolean>
             <x:Boolean x:Key="False">False</x:Boolean>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/ResourceDictionaries/ToolbarButtonStyle.xaml" />
                 <ResourceDictionary Source="/ResourceDictionaries/PathIcons.xaml" />
                 <ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
@@ -56,7 +57,8 @@
                     AccessKey="W"
                     IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsCreateButtonEnabledInPage, Mode=OneWay, FallbackValue=False}"
                     KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=BaseLayoutContextFlyoutNew/KeyboardAcceleratorTextOverride}"
-                    Label="{helpers:ResourceString Name=BaseLayoutContextFlyoutNew/Label}">
+                    Label="{helpers:ResourceString Name=BaseLayoutContextFlyoutNew/Label}"
+                    Style="{StaticResource ToolBarAppBarButtonFlyoutStyle}">
                     <AppBarButton.KeyboardAccelerators>
                         <KeyboardAccelerator
                             Key="N"
@@ -271,11 +273,44 @@
                     x:Name="SetAsBackgroundButton"
                     Width="Auto"
                     MinWidth="40"
-                    x:Load="{x:Bind ViewModel.IsImage, Mode=OneWay, FallbackValue=False}"
-                    Command="{x:Bind ViewModel.SetAsBackgroundCommand, Mode=OneWay}"
-                    Label="{x:Bind ViewModel.SetAsText, Mode=OneWay}"
+                    x:Load="{x:Bind converters:MultiBooleanConverter.AndNotConvert(ViewModel.IsImage, ViewModel.IsMultipleImageSelected), Mode=OneWay}"
+                    Label="{helpers:ResourceString Name=SetAsBackgroundFlyout}"
                     LabelPosition="Default"
-                    ToolTipService.ToolTip="{helpers:ResourceString Name=SetAsBackground}">
+                    Style="{StaticResource ToolBarAppBarButtonFlyoutStyle}"
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=SetAsBackgroundFlyout}">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE91B;" />
+                    </AppBarButton.Icon>
+                    <AppBarButton.Flyout>
+                        <MenuFlyout Placement="Bottom">
+                            <MenuFlyoutItem
+                                x:Name="SetAsBackgroundFlyoutItem"
+                                Command="{x:Bind ViewModel.SetAsBackgroundCommand, Mode=OneWay}"
+                                Text="{helpers:ResourceString Name=Desktop}">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE91B;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem
+                                x:Name="SetAsLockscreenFlyoutItem"
+                                Command="{x:Bind ViewModel.SetAsLockscreenBackgroundCommand, Mode=OneWay}"
+                                Text="{helpers:ResourceString Name=Lockscreen}">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xEE3F;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                        </MenuFlyout>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
+                <AppBarButton
+                    x:Name="SetAsSlideshowButton"
+                    Width="Auto"
+                    MinWidth="40"
+                    x:Load="{x:Bind ViewModel.IsMultipleImageSelected, Mode=OneWay, FallbackValue=False}"
+                    Command="{x:Bind ViewModel.SetAsSlideshowCommand, Mode=OneWay}"
+                    Label="{helpers:ResourceString Name=SetAsSlideshow}"
+                    LabelPosition="Default"
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=SetAsSlideshow}">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE91B;" />
                     </AppBarButton.Icon>
@@ -348,6 +383,7 @@
                 AutomationProperties.Name="Manage widgets"
                 Label="{helpers:ResourceString Name=NavToolbarWidgets/Label}"
                 LabelPosition="Collapsed"
+                Style="{StaticResource ToolBarAppBarButtonFlyoutStyle}"
                 ToolTipService.ToolTip="{helpers:ResourceString Name=NavToolbarWidgets/ToolTipService/ToolTip}">
                 <AppBarButton.Icon>
                     <FontIcon FontSize="10" Glyph="&#xF246;" />
@@ -375,6 +411,7 @@
                 AutomationProperties.Name="{helpers:ResourceString Name=NavToolbarSelectionOptions/AutomationProperties/Name}"
                 Label="{helpers:ResourceString Name=NavToolbarSelectionOptions/Label}"
                 LabelPosition="Collapsed"
+                Style="{StaticResource ToolBarAppBarButtonFlyoutStyle}"
                 ToolTipService.ToolTip="{helpers:ResourceString Name=NavToolbarSelectionOptions/ToolTipService/ToolTip}">
                 <AppBarButton.Flyout>
                     <MenuFlyout Placement="Bottom">
@@ -430,6 +467,7 @@
                 AutomationProperties.Name="{helpers:ResourceString Name=NavToolbarSortOptionsButton/AutomationProperties/Name}"
                 Label="{helpers:ResourceString Name=NavToolbarSortOptionsButton/Label}"
                 LabelPosition="Collapsed"
+                Style="{StaticResource ToolBarAppBarButtonFlyoutStyle}"
                 ToolTipService.ToolTip="{helpers:ResourceString Name=NavToolbarSortOptionsButton/ToolTipService/ToolTip}">
                 <AppBarButton.Content>
                     <local:ColoredIcon BaseLayerGlyph="&#xF029;" OverlayLayerGlyph="&#xF02A;" />
@@ -498,6 +536,7 @@
                 AutomationProperties.Name="{helpers:ResourceString Name=NavToolbarLayoutOptionsButton/AutomationProperties/Name}"
                 Label="{helpers:ResourceString Name=NavToolbarLayoutOptionsButton/Label}"
                 LabelPosition="Collapsed"
+                Style="{StaticResource ToolBarAppBarButtonFlyoutStyle}"
                 ToolTipService.ToolTip="{helpers:ResourceString Name=NavToolbarLayoutOptionsButton/ToolTipService/ToolTip}">
                 <AppBarButton.Icon>
                     <FontIcon FontSize="10" Glyph="&#xE152;" />
