@@ -41,7 +41,7 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
         private bool disposed;
         private int selectedPageIndex = -1;
         private bool isPageListEditEnabled;
-        private ReadOnlyCollection<IMenuFlyoutItem> addFlyoutItemsSource;
+        private ReadOnlyCollection<IMenuFlyoutItemViewModel> addFlyoutItemsSource;
 
         public ICommand EditTerminalApplicationsCommand { get; }
 
@@ -90,15 +90,20 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
         private async Task InitStartupSettingsRecentFoldersFlyout()
         {
             var recentsItem = new MenuFlyoutSubItemViewModel("JumpListRecentGroupHeader".GetLocalized());
-            recentsItem.Items.Add(new MenuFlyoutItemViewModel("Home".GetLocalized(), "Home".GetLocalized(), AddPageCommand));
+            recentsItem.Items.Add(new MenuFlyoutItemViewModel("Home".GetLocalized())
+            {
+                Command = AddPageCommand,
+                CommandParameter = "Home".GetLocalized(),
+                Tooltip = "Home".GetLocalized()
+            });
 
             await App.RecentItemsManager.UpdateRecentFoldersAsync();    // ensure recent folders aren't stale since we don't update them with a watcher
             await PopulateRecentItems(recentsItem).ContinueWith(_ =>
             {
-                AddFlyoutItemsSource = new ReadOnlyCollection<IMenuFlyoutItem>(new IMenuFlyoutItem[] {
-                    new MenuFlyoutItemViewModel("Browse".GetLocalized(), null, AddPageCommand),
+                AddFlyoutItemsSource = new List<IMenuFlyoutItemViewModel>() {
+                    new MenuFlyoutItemViewModel("Browse".GetLocalized()) { Command = AddPageCommand },
                     recentsItem,
-                });
+                }.AsReadOnly();
             }, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
@@ -116,7 +121,12 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
 
                 foreach (var recentFolder in recentFolders)
                 {
-                    var menuItem = new MenuFlyoutItemViewModel(recentFolder.Name, recentFolder.RecentPath, AddPageCommand);
+                    var menuItem = new MenuFlyoutItemViewModel(recentFolder.Name)
+                    {
+                        Command = AddPageCommand,
+                        CommandParameter = recentFolder.RecentPath,
+                        Tooltip = recentFolder.RecentPath
+                    };
                     menu.Items.Add(menuItem);
                 }
             }
@@ -201,7 +211,7 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
             set => SetProperty(ref isPageListEditEnabled, value);
         }
 
-        public ReadOnlyCollection<IMenuFlyoutItem> AddFlyoutItemsSource
+        public ReadOnlyCollection<IMenuFlyoutItemViewModel> AddFlyoutItemsSource
         {
             get => addFlyoutItemsSource;
             set => SetProperty(ref addFlyoutItemsSource, value);
