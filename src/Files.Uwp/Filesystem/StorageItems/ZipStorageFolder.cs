@@ -76,19 +76,19 @@ namespace Files.Uwp.Filesystem.StorageItems
         public async Task<long> GetUncompressedSize()
         {
             long uncompressedSize = 0;
-            using (SevenZipExtractor zipFile = await FilesystemTasks.Wrap(async () =>
+            using SevenZipExtractor zipFile = await FilesystemTasks.Wrap(async () =>
             {
                 var arch = await OpenZipFileAsync();
                 return arch?.ArchiveFileData is null ? null : arch; // Force load archive (1665013614u)
-            }))
+            });
 
-                if (zipFile != null)
+            if (zipFile != null)
+            {
+                foreach (var info in zipFile.ArchiveFileData.Where(x => !x.IsDirectory))
                 {
-                    foreach (var info in zipFile.ArchiveFileData.Where(x => !x.IsDirectory))
-                    {
-                        uncompressedSize += (long)info.Size;
-                    }
+                    uncompressedSize += (long)info.Size;
                 }
+            }
 
             return uncompressedSize;
         }
