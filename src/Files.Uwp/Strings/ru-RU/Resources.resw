@@ -165,6 +165,9 @@
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Размер:</value>
   </data>
+  <data name="UncompressedSize" xml:space="preserve">
+    <value>Размер в несжатом виде:</value>
+  </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Это действие не может быть завершено</value>
   </data>
@@ -810,12 +813,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Перейти на один каталог вверх</value>
   </data>
-  <data name="VerticalTabFlyout.AutomationProperties.Name" xml:space="preserve">
-    <value>Вкладки</value>
-  </data>
-  <data name="VerticalTabFlyout.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Вкладки</value>
-  </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Язык</value>
   </data>
@@ -1239,8 +1236,8 @@
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
     <value>Показывать неиндексированные элементы при поиске файлов и папок </value>
   </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
-    <value>Включить индивидуальные настройки отображения для отдельных каталогов</value>
+  <data name="ForceThesePreferencesOnAllDirectories" xml:space="preserve">
+    <value>Принудительно использовать эти установки для всех каталогов</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Настройки контекстного меню</value>
@@ -2013,9 +2010,6 @@
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Неизвестный владелец</value>
   </data>
-  <data name="SettingsVerticalTabFlyout" xml:space="preserve">
-    <value>Отображать всплывающее окно с вертикальными вкладками в строке заголовка</value>
-  </data>
   <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>Узнать больше о пользовательских темах</value>
   </data>
@@ -2677,9 +2671,6 @@
   <data name="RunWithPowerShell" xml:space="preserve">
     <value>Запустить в PowerShell</value>
   </data>
-  <data name="SetAsBackground" xml:space="preserve">
-    <value>Установить как фон</value>
-  </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>Вычисление размеров папок требует ресурсы ЦП и может увеличить нагрузку.</value>
   </data>
@@ -2791,7 +2782,37 @@
   <data name="ReviewFilesContent" xml:space="preserve">
     <value>Хотели бы вы оценить Files?</value>
   </data>
+  <data name="SetAsBackgroundFlyout" xml:space="preserve">
+    <value>Set as background</value>
+  </data>
+  <data name="SetAsLockscreen" xml:space="preserve">
+    <value>Set as lockscreen</value>
+  </data>
+  <data name="SetAsBackground" xml:space="preserve">
+    <value>Установить как фон</value>
+  </data>
   <data name="SetAsDefault" xml:space="preserve">
-    <value>Set as default</value>
+    <value>Установить по умолчанию</value>
+  </data>
+  <data name="DefaultFolderPreferences" xml:space="preserve">
+    <value>Настройки папки по умолчанию</value>
+  </data>
+  <data name="DisplayDateColumn" xml:space="preserve">
+    <value>Отображать столбец даты</value>
+  </data>
+  <data name="DisplayDateCreatedColumn" xml:space="preserve">
+    <value>Отображать столбец даты создания</value>
+  </data>
+  <data name="DisplaySizeColumn" xml:space="preserve">
+    <value>Отображать столбец размера</value>
+  </data>
+  <data name="DisplayTagColumn" xml:space="preserve">
+    <value>Отображать столбец тэга</value>
+  </data>
+  <data name="DisplayTypeColumn" xml:space="preserve">
+    <value>Отображать столбец типа</value>
+  </data>
+  <data name="Lockscreen" xml:space="preserve">
+    <value>Lockscreen</value>
   </data>
 </root>
