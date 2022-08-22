@@ -687,7 +687,7 @@ namespace Files.Uwp
             contextMenu.SecondaryCommands.Insert(index, new AppBarSeparator());
             contextMenu.SecondaryCommands.Insert(index + 1, new AppBarButton()
             {
-                Label = "SettingsEditFileTagsExpander/Title".GetLocalized(),
+                Label = "SettingsEditFileTagsExpander/Title".GetLocalizedResource(),
                 Icon = new FontIcon() { Glyph = "\uE1CB" },
                 Flyout = fileTagsContextMenu
             });
