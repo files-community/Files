@@ -165,6 +165,9 @@
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Méret:</value>
   </data>
+  <data name="UncompressedSize" xml:space="preserve">
+    <value>Tömörítetlen méret:</value>
+  </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Ez a művelet nem hajtható végre</value>
   </data>
@@ -810,12 +813,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Egy szinttel feljebb</value>
   </data>
-  <data name="VerticalTabFlyout.AutomationProperties.Name" xml:space="preserve">
-    <value>Függőleges lap menü</value>
-  </data>
-  <data name="VerticalTabFlyout.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Függőleges lap menü</value>
-  </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Nyelv</value>
   </data>
@@ -1239,8 +1236,8 @@
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
     <value>Nem indexelt elemek megjelenítése a fájlok és mappák keresésekor</value>
   </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
-    <value>Beállítások megjegyzése mappánként</value>
+  <data name="ForceThesePreferencesOnAllDirectories" xml:space="preserve">
+    <value>Beállítás az összes mappához</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Helyi menü testreszabása</value>
@@ -2013,9 +2010,6 @@
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Ismeretlen tulajdonos</value>
   </data>
-  <data name="SettingsVerticalTabFlyout" xml:space="preserve">
-    <value>Függőleges lap menü megjelenítése a címsoron</value>
-  </data>
   <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>Tudjon meg többet az egyedi témákról</value>
   </data>
@@ -2684,9 +2678,6 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
   <data name="RunWithPowerShell" xml:space="preserve">
     <value>Futtatás PowerShell használatával</value>
   </data>
-  <data name="SetAsBackground" xml:space="preserve">
-    <value>Beállítás asztali háttérképként</value>
-  </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>A mappa méretek meghatározása erőforrás-igényes és a processzorhasználat növekedésével járhat.</value>
   </data>
@@ -2798,7 +2789,37 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
   <data name="ReviewFilesContent" xml:space="preserve">
     <value>Szeretné értékelni az alkalmazást?</value>
   </data>
+  <data name="SetAsBackgroundFlyout" xml:space="preserve">
+    <value>Beállítás háttérképként</value>
+  </data>
+  <data name="SetAsLockscreen" xml:space="preserve">
+    <value>Beállítás zárolási képernyő háttérként</value>
+  </data>
+  <data name="SetAsBackground" xml:space="preserve">
+    <value>Beállítás asztali háttérképként</value>
+  </data>
   <data name="SetAsDefault" xml:space="preserve">
     <value>Beállítás alapértelmezettként</value>
+  </data>
+  <data name="DefaultFolderPreferences" xml:space="preserve">
+    <value>Alapértelmezett mappabeállítások</value>
+  </data>
+  <data name="DisplayDateColumn" xml:space="preserve">
+    <value>Display Date column</value>
+  </data>
+  <data name="DisplayDateCreatedColumn" xml:space="preserve">
+    <value>Létrehozás dátuma oszlop megjelenítése</value>
+  </data>
+  <data name="DisplaySizeColumn" xml:space="preserve">
+    <value>Méret oszlop megjelenítése</value>
+  </data>
+  <data name="DisplayTagColumn" xml:space="preserve">
+    <value>Címkék oszlop megjelenítése</value>
+  </data>
+  <data name="DisplayTypeColumn" xml:space="preserve">
+    <value>Típus oszlop megjelenítése</value>
+  </data>
+  <data name="Lockscreen" xml:space="preserve">
+    <value>Zárolási képernyő</value>
   </data>
 </root>
