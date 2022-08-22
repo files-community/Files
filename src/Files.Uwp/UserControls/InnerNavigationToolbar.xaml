@@ -273,7 +273,7 @@
                     x:Name="SetAsBackgroundButton"
                     Width="Auto"
                     MinWidth="40"
-                    x:Load="{x:Bind ViewModel.IsImage, Mode=OneWay, FallbackValue=False}"
+                    x:Load="{x:Bind converters:MultiBooleanConverter.AndNotConvert(ViewModel.IsImage, ViewModel.IsMultipleImageSelected), Mode=OneWay}"
                     Label="{helpers:ResourceString Name=SetAsBackgroundFlyout}"
                     LabelPosition="Default"
                     Style="{StaticResource ToolBarAppBarButtonFlyoutStyle}"
