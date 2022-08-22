@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using CommunityToolkit.WinUI;
+using System.Windows.Input;
 
 namespace Files.Uwp.Helpers
 {
