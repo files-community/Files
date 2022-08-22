@@ -2787,10 +2787,10 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Set as background</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Lockscreen</value>
+    <value>Set as lockscreen</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
-    <value>Desktop</value>
+    <value>Set as desktop background</value>
   </data>
   <data name="SetAsDefault" xml:space="preserve">
     <value>Set as default</value>
@@ -2812,5 +2812,8 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   </data>
   <data name="DisplayTypeColumn" xml:space="preserve">
     <value>Display Type column</value>
+  </data>
+  <data name="Lockscreen" xml:space="preserve">
+    <value>Lockscreen</value>
   </data>
 </root>

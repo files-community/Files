@@ -286,16 +286,7 @@
                             <MenuFlyoutItem
                                 x:Name="SetAsBackgroundFlyoutItem"
                                 Command="{x:Bind ViewModel.SetAsBackgroundCommand, Mode=OneWay}"
-                                Text="{helpers:ResourceString Name=SetAsBackground}">
-                                <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE91B;" />
-                                </MenuFlyoutItem.Icon>
-                            </MenuFlyoutItem>
-                            <MenuFlyoutItem
-                                x:Name="SetAsSlideshowFlyoutItem"
-                                x:Load="{x:Bind ViewModel.IsMultipleImageSelected, Mode=OneWay, FallbackValue=False}"
-                                Command="{x:Bind ViewModel.SetAsSlideshowCommand, Mode=OneWay}"
-                                Text="{helpers:ResourceString Name=SetAsSlideshow}">
+                                Text="{helpers:ResourceString Name=Desktop}">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xE91B;" />
                                 </MenuFlyoutItem.Icon>
@@ -303,13 +294,26 @@
                             <MenuFlyoutItem
                                 x:Name="SetAsLockscreenFlyoutItem"
                                 Command="{x:Bind ViewModel.SetAsLockscreenBackgroundCommand, Mode=OneWay}"
-                                Text="{helpers:ResourceString Name=SetAsLockscreen}">
+                                Text="{helpers:ResourceString Name=Lockscreen}">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xEE3F;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                         </MenuFlyout>
                     </AppBarButton.Flyout>
+                </AppBarButton>
+                <AppBarButton
+                    x:Name="SetAsSlideshowButton"
+                    Width="Auto"
+                    MinWidth="40"
+                    x:Load="{x:Bind ViewModel.IsMultipleImageSelected, Mode=OneWay, FallbackValue=False}"
+                    Command="{x:Bind ViewModel.SetAsSlideshowCommand, Mode=OneWay}"
+                    Label="{helpers:ResourceString Name=SetAsSlideshow}"
+                    LabelPosition="Default"
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=SetAsSlideshow}">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE91B;" />
+                    </AppBarButton.Icon>
                 </AppBarButton>
                 <AppBarButton
                     x:Name="InstallInfButton"
