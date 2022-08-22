@@ -82,13 +82,13 @@ namespace Files.Uwp.Filesystem.StorageItems
                 return arch?.ArchiveFileData is null ? null : arch; // Force load archive (1665013614u)
             }))
 
-            if (zipFile != null)
-            {
-                foreach (var info in zipFile.ArchiveFileData.Where(x => !x.IsDirectory))
+                if (zipFile != null)
                 {
-                    uncompressedSize += (long)info.Size;
+                    foreach (var info in zipFile.ArchiveFileData.Where(x => !x.IsDirectory))
+                    {
+                        uncompressedSize += (long)info.Size;
+                    }
                 }
-            }
 
             return uncompressedSize;
         }
@@ -498,6 +498,44 @@ namespace Files.Uwp.Filesystem.StorageItems
                 using var stream = await file.OpenReadAsync();
                 return CheckAccess(stream.AsStream());
             });
+        }
+
+        public static Task<bool> InitArchive(string path, OutArchiveFormat format)
+        {
+            return SafetyExtensions.IgnoreExceptions(() =>
+            {
+                var hFile = NativeFileOperationsHelper.OpenFileForRead(path, true);
+                if (hFile.IsInvalid)
+                {
+                    return Task.FromResult(false);
+                }
+                using var stream = new FileStream(hFile, FileAccess.ReadWrite);
+                return InitArchive(stream, format);
+            });
+        }
+        public static Task<bool> InitArchive(IStorageFile file, OutArchiveFormat format)
+        {
+            return SafetyExtensions.IgnoreExceptions(async () =>
+            {
+                using var fileStream = await file.OpenAsync(FileAccessMode.ReadWrite);
+                using var stream = fileStream.AsStream();
+                return await InitArchive(stream, format);
+            });
+        }
+        private static async Task<bool> InitArchive(Stream stream, OutArchiveFormat format)
+        {
+            if (stream.Length == 0) // File is empty
+            {
+                var compressor = new SevenZipCompressor()
+                {
+                    CompressionMode = CompressionMode.Create,
+                    ArchiveFormat = format
+                };
+                await compressor.CompressStreamAsync(new MemoryStream(), stream);
+                await stream.FlushAsync();
+                return true;
+            }
+            return false;
         }
 
         private IAsyncOperation<SevenZipExtractor> OpenZipFileAsync()
