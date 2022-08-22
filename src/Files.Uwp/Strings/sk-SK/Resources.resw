@@ -165,6 +165,9 @@
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Veľkosť:</value>
   </data>
+  <data name="UncompressedSize" xml:space="preserve">
+    <value>Uncompressed Size:</value>
+  </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Táto akcia nemohla byť dokončená.</value>
   </data>
@@ -810,12 +813,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>O položku vyššie</value>
   </data>
-  <data name="VerticalTabFlyout.AutomationProperties.Name" xml:space="preserve">
-    <value>Vertikálny rozbaľovací panel kariet</value>
-  </data>
-  <data name="VerticalTabFlyout.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Vertikálny rozbaľovací panel kariet</value>
-  </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Jazyk</value>
   </data>
@@ -1241,8 +1238,8 @@
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
     <value>Pri vyhľadávaní súborov a priečinkov zobraziť neindexované položky</value>
   </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
-    <value>Povoliť individuálne predvoľby pre jednotlivé adresáre</value>
+  <data name="ForceThesePreferencesOnAllDirectories" xml:space="preserve">
+    <value>Force these preferences on all directories</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Prizpôsobiť kontextové menu</value>
@@ -2016,9 +2013,6 @@
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Neznámý vlastník</value>
   </data>
-  <data name="SettingsVerticalTabFlyout" xml:space="preserve">
-    <value>Zobrazte zvislú ponuku kariet v záhlaví</value>
-  </data>
   <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>Získajte viac informácií o vlastných témach</value>
   </data>
@@ -2684,9 +2678,6 @@ Centrum aplikácií používame na sledovanie používania aplikácií, vyhľad�
   <data name="RunWithPowerShell" xml:space="preserve">
     <value>Spustiť s PowerShell</value>
   </data>
-  <data name="SetAsBackground" xml:space="preserve">
-    <value>Nastaviť ako pozadie pracovnej plochy</value>
-  </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>Výpočet veľkostí priečinkov je náročný na zdroje a môže spôsobiť zvýšenie využitia procesora.</value>
   </data>
@@ -2798,7 +2789,37 @@ Centrum aplikácií používame na sledovanie používania aplikácií, vyhľad�
   <data name="ReviewFilesContent" xml:space="preserve">
     <value>Would you like to review Files?</value>
   </data>
+  <data name="SetAsBackgroundFlyout" xml:space="preserve">
+    <value>Set as background</value>
+  </data>
+  <data name="SetAsLockscreen" xml:space="preserve">
+    <value>Set as lockscreen</value>
+  </data>
+  <data name="SetAsBackground" xml:space="preserve">
+    <value>Nastaviť ako pozadie pracovnej plochy</value>
+  </data>
   <data name="SetAsDefault" xml:space="preserve">
     <value>Set as default</value>
+  </data>
+  <data name="DefaultFolderPreferences" xml:space="preserve">
+    <value>Default Folder preferences</value>
+  </data>
+  <data name="DisplayDateColumn" xml:space="preserve">
+    <value>Display Date column</value>
+  </data>
+  <data name="DisplayDateCreatedColumn" xml:space="preserve">
+    <value>Display Date Created column</value>
+  </data>
+  <data name="DisplaySizeColumn" xml:space="preserve">
+    <value>Display Size column</value>
+  </data>
+  <data name="DisplayTagColumn" xml:space="preserve">
+    <value>Display Tag column</value>
+  </data>
+  <data name="DisplayTypeColumn" xml:space="preserve">
+    <value>Display Type column</value>
+  </data>
+  <data name="Lockscreen" xml:space="preserve">
+    <value>Lockscreen</value>
   </data>
 </root>
