@@ -165,6 +165,9 @@
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Ukuran:</value>
   </data>
+  <data name="UncompressedSize" xml:space="preserve">
+    <value>Uncompressed Size:</value>
+  </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Tindakan ini tidak dapat dilakukan </value>
   </data>
@@ -810,12 +813,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Naik satu tingkat dari katalog</value>
   </data>
-  <data name="VerticalTabFlyout.AutomationProperties.Name" xml:space="preserve">
-    <value>Halaman mengambang vertikal</value>
-  </data>
-  <data name="VerticalTabFlyout.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Halaman mengambang vertikal</value>
-  </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Bahasa</value>
   </data>
@@ -1239,8 +1236,8 @@
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
     <value>Tampilkan item yang tidak terindeks ketika mencari berkas dan katalog (pencarian mungkin lebih lama)</value>
   </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
-    <value>Aktifkan preferensi individu untuk setiap katalog individu</value>
+  <data name="ForceThesePreferencesOnAllDirectories" xml:space="preserve">
+    <value>Force these preferences on all directories</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Kustomisasi menu konteks klik kanan</value>
@@ -2013,9 +2010,6 @@
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Pemilik tidak diketahui</value>
   </data>
-  <data name="SettingsVerticalTabFlyout" xml:space="preserve">
-    <value>Tampilkan halaman mengambang tegak pada bilah judul</value>
-  </data>
   <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>Pelajari lebih lanjut tentang tema kustom</value>
   </data>
@@ -2683,9 +2677,6 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
   <data name="RunWithPowerShell" xml:space="preserve">
     <value>Jalankan dengan PowerShell</value>
   </data>
-  <data name="SetAsBackground" xml:space="preserve">
-    <value>Tetapkan sebagai latar belakang desktop</value>
-  </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>Menghitung ukuran folder membutuhkan banyak sumber daya dan dapat menyebabkan penggunaan CPU Anda meningkat.</value>
   </data>
@@ -2797,7 +2788,37 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
   <data name="ReviewFilesContent" xml:space="preserve">
     <value>Would you like to review Files?</value>
   </data>
+  <data name="SetAsBackgroundFlyout" xml:space="preserve">
+    <value>Set as background</value>
+  </data>
+  <data name="SetAsLockscreen" xml:space="preserve">
+    <value>Set as lockscreen</value>
+  </data>
+  <data name="SetAsBackground" xml:space="preserve">
+    <value>Tetapkan sebagai latar belakang desktop</value>
+  </data>
   <data name="SetAsDefault" xml:space="preserve">
     <value>Set as default</value>
+  </data>
+  <data name="DefaultFolderPreferences" xml:space="preserve">
+    <value>Default Folder preferences</value>
+  </data>
+  <data name="DisplayDateColumn" xml:space="preserve">
+    <value>Display Date column</value>
+  </data>
+  <data name="DisplayDateCreatedColumn" xml:space="preserve">
+    <value>Display Date Created column</value>
+  </data>
+  <data name="DisplaySizeColumn" xml:space="preserve">
+    <value>Display Size column</value>
+  </data>
+  <data name="DisplayTagColumn" xml:space="preserve">
+    <value>Display Tag column</value>
+  </data>
+  <data name="DisplayTypeColumn" xml:space="preserve">
+    <value>Display Type column</value>
+  </data>
+  <data name="Lockscreen" xml:space="preserve">
+    <value>Lockscreen</value>
   </data>
 </root>
