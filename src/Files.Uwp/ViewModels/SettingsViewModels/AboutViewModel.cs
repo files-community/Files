@@ -86,6 +86,10 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
                     var fileTagsDB = await zipFolder.CreateFileAsync(Path.GetFileName(FileTagsHelper.FileTagsDbPath), CreationCollisionOption.ReplaceExisting);
                     string exportTagsDB = FileTagsHelper.DbInstance.Export();
                     await fileTagsDB.WriteTextAsync(exportTagsDB);
+                    // Export layout preferences DB
+                    var layoutPrefsDB = await zipFolder.CreateFileAsync(Path.GetFileName(FolderSettingsViewModel.LayoutSettingsDbPath), CreationCollisionOption.ReplaceExisting);
+                    string exportPrefsDB = FolderSettingsViewModel.DbInstance.Export();
+                    await layoutPrefsDB.WriteTextAsync(exportPrefsDB);
                 }
                 catch (Exception ex)
                 {
@@ -133,6 +137,10 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
                     var fileTagsDB = await zipFolder.GetFileAsync(Path.GetFileName(FileTagsHelper.FileTagsDbPath));
                     string importTagsDB = await fileTagsDB.ReadTextAsync();
                     FileTagsHelper.DbInstance.Import(importTagsDB);
+                    // Import layout preferences and DB
+                    var layoutPrefsDB = await zipFolder.GetFileAsync(Path.GetFileName(FolderSettingsViewModel.LayoutSettingsDbPath));
+                    string importPrefsDB = await layoutPrefsDB.ReadTextAsync();
+                    FolderSettingsViewModel.DbInstance.Import(importPrefsDB);
                 }
                 catch (Exception ex)
                 {

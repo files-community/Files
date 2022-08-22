@@ -15,22 +15,18 @@ namespace Files.Uwp.ViewModels.Previews
     public class ImagePreviewViewModel : BasePreviewModel
     {
         private ImageSource imageSource;
-
-        public ImagePreviewViewModel(ListedItem item) : base(item)
-        {
-        }
-
-        public static List<string> Extensions => new List<string>() {
-            ".png", ".jpg", ".jpeg", ".bmp", ".gif", ".tiff", ".ico", ".webp"
-        };
-
         public ImageSource ImageSource
         {
             get => imageSource;
-            set => SetProperty(ref imageSource, value);
+            private set => SetProperty(ref imageSource, value);
         }
 
-        public override async Task<List<FileProperty>> LoadPreviewAndDetails()
+        public ImagePreviewViewModel(ListedItem item) : base(item) {}
+
+        public static bool ContainsExtension(string extension)
+            => extension is ".png" or ".jpg" or ".jpeg" or ".bmp" or ".gif" or ".tiff" or ".ico" or ".webp";
+
+        public override async Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
         {
             using IRandomAccessStream stream = await Item.ItemFile.OpenAsync(FileAccessMode.Read);
             await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>

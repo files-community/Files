@@ -17,11 +17,11 @@ namespace Files.Uwp.ServicesImplementation.Settings
 
         private static readonly List<FileTagViewModel> DefaultFileTags = new List<FileTagViewModel>()
         {
-            new FileTagViewModel("Blue", "#0072BD"),
-            new FileTagViewModel("Orange", "#D95319"),
-            new FileTagViewModel("Yellow", "#EDB120"),
-            new FileTagViewModel("Green", "#77AC30"),
-            new FileTagViewModel("Azure", "#4DBEEE")
+            new("Blue", "#0072BD"),
+            new("Orange", "#D95319"),
+            new("Yellow", "#EDB120"),
+            new("Green", "#77AC30"),
+            new("Azure", "#4DBEEE")
         };
 
         public FileTagsSettingsService()
@@ -30,7 +30,8 @@ namespace Files.Uwp.ServicesImplementation.Settings
             JsonSettingsSerializer = new DefaultJsonSettingsSerializer();
             JsonSettingsDatabase = new CachingJsonSettingsDatabase(SettingsSerializer, JsonSettingsSerializer);
 
-            Initialize(Path.Combine(ApplicationData.Current.LocalFolder.Path, Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.FileTagSettingsFileName));
+            Initialize(Path.Combine(ApplicationData.Current.LocalFolder.Path,
+                Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.FileTagSettingsFileName));
         }
 
         public IList<FileTagViewModel> FileTagList
@@ -46,16 +47,28 @@ namespace Files.Uwp.ServicesImplementation.Settings
                 App.Logger.Warn("Tags file is invalid, regenerate");
                 FileTagList = DefaultFileTags;
             }
+
             var tag = FileTagList.SingleOrDefault(x => x.Uid == uid);
             if (!string.IsNullOrEmpty(uid) && tag == null)
             {
                 tag = new FileTagViewModel("FileTagUnknown".GetLocalized(), "#9ea3a1", uid);
                 FileTagList = FileTagList.Append(tag).ToList();
             }
+
             return tag;
         }
 
+        public IList<FileTagViewModel> GetTagsByIds(string[] uids)
+        {
+            return uids?.Select(x => GetTagById(x)).ToList();
+        }
+
         public IEnumerable<FileTagViewModel> GetTagsByName(string tagName)
+        {
+            return FileTagList.Where(x => x.TagName.Equals(tagName, StringComparison.OrdinalIgnoreCase));
+        }
+
+        public IEnumerable<FileTagViewModel> SearchTagsByName(string tagName)
         {
             return FileTagList.Where(x => x.TagName.StartsWith(tagName, StringComparison.OrdinalIgnoreCase));
         }

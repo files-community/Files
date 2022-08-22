@@ -90,12 +90,12 @@ namespace Files.Uwp.Filesystem.StorageItems
 
         public static IAsyncOperation<BaseStorageFile> GetFileFromPathAsync(string path)
             => AsyncInfo.Run(async (cancellationToken)
-                => await ZipStorageFile.FromPathAsync(path) ?? await FtpStorageFile.FromPathAsync(path) ?? await ShellStorageFile.FromPathAsync(path) ?? await SystemStorageFile.FromPathAsync(path)
+                => await ZipStorageFile.FromPathAsync(path) ?? await FtpStorageFile.FromPathAsync(path) ?? await ShellStorageFile.FromPathAsync(path) ?? await NativeStorageFile.FromPathAsync(path) ?? await SystemStorageFile.FromPathAsync(path)
             );
 
         public async Task<string> ReadTextAsync(int maxLength = -1)
         {
-            using var inputStream = await OpenSequentialReadAsync();
+            using var inputStream = await OpenReadAsync();
             using var dataReader = new DataReader(inputStream);
             StringBuilder builder = new();
             uint bytesRead, bytesToRead;
@@ -104,7 +104,7 @@ namespace Files.Uwp.Filesystem.StorageItems
                 bytesToRead = maxLength < 0 ? 4096 : (uint)Math.Min(maxLength, 4096);
                 bytesRead = await dataReader.LoadAsync(bytesToRead);
                 builder.Append(dataReader.ReadString(bytesRead));
-            } while (bytesRead > 0);
+            } while (bytesRead > 0 && inputStream.Position < inputStream.Size);
             return builder.ToString();
         }
 

@@ -18,40 +18,10 @@ namespace Files.Uwp.ViewModels.Previews
     public class PDFPreviewViewModel : BasePreviewModel
     {
         private Visibility loadingBarVisibility;
-
-        public PDFPreviewViewModel(ListedItem item) : base(item)
-        {
-        }
-
-        public static List<string> Extensions = new List<string>()
-        {
-            ".pdf",
-        };
-
         public Visibility LoadingBarVisibility
         {
             get => loadingBarVisibility;
-            set => SetProperty(ref loadingBarVisibility, value);
-        }
-
-        public ObservableCollection<PageViewModel> Pages { get; set; } = new ObservableCollection<PageViewModel>();
-
-        public async override Task<List<FileProperty>> LoadPreviewAndDetails()
-        {
-            var fileStream = await Item.ItemFile.OpenReadAsync();
-            var pdf = await PdfDocument.LoadFromStreamAsync(fileStream);
-            TryLoadPagesAsync(pdf, fileStream);
-            var details = new List<FileProperty>
-            {
-                // Add the number of pages to the details
-                new FileProperty()
-                {
-                    NameResource = "PropertyPageCount",
-                    Value = pdf.PageCount,
-                }
-            };
-
-            return details;
+            private set => SetProperty(ref loadingBarVisibility, value);
         }
 
         // the pips pager will crash when binding directly to Pages.Count, so count the pages here
@@ -60,6 +30,26 @@ namespace Files.Uwp.ViewModels.Previews
         {
             get => pageCount;
             set => SetProperty(ref pageCount, value);
+        }
+
+        public ObservableCollection<PageViewModel> Pages { get; } = new();
+
+        public PDFPreviewViewModel(ListedItem item) : base(item) {}
+
+        public static bool ContainsExtension(string extension) => extension is ".pdf";
+
+        public async override Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
+        {
+            var fileStream = await Item.ItemFile.OpenReadAsync();
+            var pdf = await PdfDocument.LoadFromStreamAsync(fileStream);
+            TryLoadPagesAsync(pdf, fileStream);
+            var details = new List<FileProperty>
+            {
+                // Add the number of pages to the details
+                GetFileProperty("PropertyPageCount", pdf.PageCount)
+            };
+
+            return details;
         }
 
         public async void TryLoadPagesAsync(PdfDocument pdf, IRandomAccessStream fileStream)
@@ -112,7 +102,7 @@ namespace Files.Uwp.ViewModels.Previews
 
                     await src.SetSourceAsync(stream);
                     Pages.Add(pageData);
-                    PageCount++;
+                    ++PageCount;
                 });
             }
             LoadingBarVisibility = Visibility.Collapsed;

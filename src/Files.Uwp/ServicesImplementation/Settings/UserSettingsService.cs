@@ -48,6 +48,12 @@ namespace Files.Uwp.ServicesImplementation.Settings
             get => GetSettingsService(ref _LayoutSettingsService);
         }
 
+        private IApplicationSettingsService _ApplicationSettingsService;
+        public IApplicationSettingsService ApplicationSettingsService
+        {
+            get => GetSettingsService(ref _ApplicationSettingsService);
+        }
+
         public UserSettingsService()
         {
             SettingsSerializer = new DefaultSettingsSerializer();

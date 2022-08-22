@@ -19,15 +19,14 @@ namespace Files.Uwp
         private static async Task Main()
         {
             var proc = System.Diagnostics.Process.GetCurrentProcess();
+            var alwaysOpenNewInstance = ApplicationData.Current.LocalSettings.Values.Get("AlwaysOpenANewInstance", false);
+            IActivatedEventArgs activatedArgs = AppInstance.GetActivatedEventArgs();
 
-            if (!ApplicationData.Current.LocalSettings.Values.Get("AlwaysOpenANewInstance", false))
+            if (!alwaysOpenNewInstance)
             {
-                IActivatedEventArgs activatedArgs = AppInstance.GetActivatedEventArgs();
-
                 if (AppInstance.RecommendedInstance != null)
                 {
                     AppInstance.RecommendedInstance.RedirectActivationTo();
-                    await TerminateUwpAppInstance(proc.Id);
                     return;
                 }
                 else if (activatedArgs is LaunchActivatedEventArgs)
@@ -49,7 +48,6 @@ namespace Files.Uwp
                             var plInstance = AppInstance.GetInstances().First(x => x.Key.Equals(PrelaunchInstanceKey));
                             ApplicationData.Current.LocalSettings.Values["WAS_PRELAUNCH_INSTANCE_ACTIVATED"] = true;
                             plInstance.RedirectActivationTo();
-                            await TerminateUwpAppInstance(proc.Id);
                             return;
                         }
                         else
@@ -59,47 +57,8 @@ namespace Files.Uwp
                             if (!instance.IsCurrentInstance && !string.IsNullOrWhiteSpace(launchArgs.Arguments))
                             {
                                 instance.RedirectActivationTo();
-                                await TerminateUwpAppInstance(proc.Id);
                                 return;
                             }
-                        }
-                    }
-                }
-                else if (activatedArgs is CommandLineActivatedEventArgs cmdLineArgs)
-                {
-                    var operation = cmdLineArgs.Operation;
-                    var cmdLineString = operation.Arguments;
-                    var parsedCommands = CommandLineParser.ParseUntrustedCommands(cmdLineString);
-
-                    if (parsedCommands != null)
-                    {
-                        foreach (var command in parsedCommands)
-                        {
-                            switch (command.Type)
-                            {
-                                case ParsedCommandType.ExplorerShellCommand:
-                                    if (!CommonPaths.ShellPlaces.ContainsKey(command.Payload.ToUpperInvariant()))
-                                    {
-                                        await OpenShellCommandInExplorerAsync(command.Payload, proc.Id);
-                                        return; // Exit
-                                    }
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                    }
-
-                    // Always open a new instance for OpenDialog
-                    if (parsedCommands == null || !parsedCommands.Any(x => x.Type == ParsedCommandType.OutputPath))
-                    {
-                        var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
-                        var instance = AppInstance.FindOrRegisterInstanceForKey(activePid.ToString());
-                        if (!instance.IsCurrentInstance)
-                        {
-                            instance.RedirectActivationTo();
-                            await TerminateUwpAppInstance(proc.Id);
-                            return;
                         }
                     }
                 }
@@ -113,7 +72,6 @@ namespace Files.Uwp
                         if (!instance.IsCurrentInstance)
                         {
                             instance.RedirectActivationTo();
-                            await TerminateUwpAppInstance(proc.Id);
                             return;
                         }
                     }
@@ -125,6 +83,47 @@ namespace Files.Uwp
                     if (!instance.IsCurrentInstance)
                     {
                         instance.RedirectActivationTo();
+                        return;
+                    }
+                }
+            }
+
+            if (activatedArgs is CommandLineActivatedEventArgs cmdLineArgs)
+            {
+                var operation = cmdLineArgs.Operation;
+                var cmdLineString = operation.Arguments;
+                var parsedCommands = CommandLineParser.ParseUntrustedCommands(cmdLineString);
+
+                if (parsedCommands != null)
+                {
+                    foreach (var command in parsedCommands)
+                    {
+                        switch (command.Type)
+                        {
+                            case ParsedCommandType.ExplorerShellCommand:
+                                if (!CommonPaths.ShellPlaces.ContainsKey(command.Payload.ToUpperInvariant()))
+                                {
+                                    await OpenShellCommandInExplorerAsync(command.Payload, proc.Id);
+                                    return; // Exit
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+
+                // Always open a new instance for OpenDialog, never open new instance for "-Tag" command
+                if (parsedCommands == null || !parsedCommands.Any(x => x.Type == ParsedCommandType.OutputPath)
+                    && (!alwaysOpenNewInstance || parsedCommands.Any(x => x.Type == ParsedCommandType.TagFiles)))
+                {
+                    var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
+                    var instance = AppInstance.FindOrRegisterInstanceForKey(activePid.ToString());
+                    if (!instance.IsCurrentInstance)
+                    {
+                        instance.RedirectActivationTo();
+                        // Terminate "zombie" Files process which remains in suspended state
+                        // after redirection when launched by command line
                         await TerminateUwpAppInstance(proc.Id);
                         return;
                     }
@@ -140,26 +139,6 @@ namespace Files.Uwp
         {
             ApplicationData.Current.LocalSettings.Values["ShellCommand"] = shellCommand;
             ApplicationData.Current.LocalSettings.Values["Arguments"] = "ShellCommand";
-            ApplicationData.Current.LocalSettings.Values["pid"] = pid;
-            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
-        }
-
-        public static async Task SpawnUnelevatedUwpAppInstance(int pid)
-        {
-            IActivatedEventArgs activatedArgs = AppInstance.GetActivatedEventArgs();
-            if (activatedArgs is CommandLineActivatedEventArgs cmdLineArgs)
-            {
-                var parsedCommands = CommandLineParser.ParseUntrustedCommands(cmdLineArgs.Operation.Arguments);
-                switch (parsedCommands.FirstOrDefault()?.Type)
-                {
-                    case ParsedCommandType.ExplorerShellCommand:
-                    case ParsedCommandType.OpenDirectory:
-                    case ParsedCommandType.OpenPath:
-                        ApplicationData.Current.LocalSettings.Values["Folder"] = parsedCommands[0].Payload;
-                        break;
-                }
-            }
-            ApplicationData.Current.LocalSettings.Values["Arguments"] = "StartUwp";
             ApplicationData.Current.LocalSettings.Values["pid"] = pid;
             await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Files.Uwp.Helpers
 {
@@ -47,14 +48,15 @@ namespace Files.Uwp.Helpers
         /// otherwise <c>false</c>.</returns>
         public static bool IsZipFile(string fileExtensionToCheck)
         {
-            if (string.IsNullOrEmpty(fileExtensionToCheck))
-            {
-                return false;
-            }
+            return new[] { ".zip", ".msix", ".appx", ".msixbundle", ".7z", ".rar", ".tar" }
+                .Contains(fileExtensionToCheck, StringComparer.OrdinalIgnoreCase);
+        }
 
-            return fileExtensionToCheck.Equals(".zip", StringComparison.OrdinalIgnoreCase) ||
-                   fileExtensionToCheck.Equals(".msix", StringComparison.OrdinalIgnoreCase) ||
-                   fileExtensionToCheck.Equals(".msixbundle", StringComparison.OrdinalIgnoreCase);
+        public static bool IsBrowsableZipFile(string filePath, out string ext)
+        {
+            ext = new[] { ".zip", ".7z", ".rar", ".tar" } // Only ext we want to browse
+                .FirstOrDefault(x => filePath.Contains(x, StringComparison.OrdinalIgnoreCase));
+            return ext is not null;
         }
 
         public static bool IsInfFile(string fileExtensionToCheck)
@@ -85,6 +87,23 @@ namespace Files.Uwp.Helpers
                      fileExtensionToCheck.Equals(".otf", StringComparison.OrdinalIgnoreCase) ||
                      fileExtensionToCheck.Equals(".ttc", StringComparison.OrdinalIgnoreCase) ||
                      fileExtensionToCheck.Equals(".ttf", StringComparison.OrdinalIgnoreCase);
+        }
+
+        /// <summary>
+        /// Check if the file extension is a shortcut file.
+        /// </summary>
+        /// <param name="fileExtensionToCheck">The file extension to check.</param>
+        /// <returns><c>true</c> if the fileExtensionToCheck is a shortcute file;
+        /// otherwise <c>false</c>.</returns>
+        /// <remarks>Font file type is .lnkf</remarks>
+        public static bool IsShortcutFile(string fileExtensionToCheck)
+        {
+            if (string.IsNullOrEmpty(fileExtensionToCheck))
+            {
+                return false;
+            }
+
+            return fileExtensionToCheck.Equals(".lnk", StringComparison.OrdinalIgnoreCase);
         }
     }
 }

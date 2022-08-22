@@ -336,11 +336,10 @@ namespace Files.Uwp.Helpers
                 opened = await associatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(path)
                     .OnSuccess(async (childFolder) =>
                     {
-                        // Add location to MRU List
+                        // Add location to Recent Items List
                         if (childFolder.Item is SystemStorageFolder)
                         {
-                            var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
-                            mostRecentlyUsed.Add(await childFolder.Item.ToStorageFolderAsync(), childFolder.Path);
+                            await App.RecentItemsManager.AddToRecentItems(childFolder.Path);
                         }
                     });
                 if (!opened)
@@ -390,11 +389,10 @@ namespace Files.Uwp.Helpers
                         StorageFileWithPath childFile = await associatedInstance.FilesystemViewModel.GetFileWithPathFromPathAsync(shortcutInfo.TargetPath);
                         if (childFile != null)
                         {
-                            // Add location to MRU List
+                            // Add location to Recent Items List
                             if (childFile.Item is SystemStorageFile)
                             {
-                                var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
-                                mostRecentlyUsed.Add(await childFile.Item.ToStorageFileAsync(), childFile.Path);
+                                await App.RecentItemsManager.AddToRecentItems(childFile.Path);
                             }
                         }
                     }
@@ -411,11 +409,10 @@ namespace Files.Uwp.Helpers
                 opened = await associatedInstance.FilesystemViewModel.GetFileWithPathFromPathAsync(path)
                     .OnSuccess(async childFile =>
                     {
-                        // Add location to MRU List
+                        // Add location to Recent Items List
                         if (childFile.Item is SystemStorageFile)
                         {
-                            var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
-                            mostRecentlyUsed.Add(await childFile.Item.ToStorageFileAsync(), childFile.Path);
+                            await App.RecentItemsManager.AddToRecentItems(childFile.Path);
                         }
 
                         if (openViaApplicationPicker)

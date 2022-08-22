@@ -55,8 +55,14 @@ namespace Files.Uwp.Views.LayoutModes
             ItemManipulationModel.FocusSelectedItemsInvoked += ItemManipulationModel_FocusSelectedItemsInvoked;
             ItemManipulationModel.StartRenameItemInvoked += ItemManipulationModel_StartRenameItemInvoked;
             ItemManipulationModel.ScrollIntoViewInvoked += ItemManipulationModel_ScrollIntoViewInvoked;
-            ItemManipulationModel.RefreshItemsThumbnailInvoked += ItemManipulationModel_RefreshItemThumbnail;
+            ItemManipulationModel.RefreshItemThumbnailInvoked += ItemManipulationModel_RefreshItemThumbnail;
+            ItemManipulationModel.RefreshItemsThumbnailInvoked += ItemManipulationModel_RefreshItemsThumbnail;
 
+        }
+
+        private void ItemManipulationModel_RefreshItemsThumbnail(object sender, EventArgs e)
+        {
+            ReloadSelectedItemsIcon();
         }
 
         private void ItemManipulationModel_RefreshItemThumbnail(object sender, EventArgs args)
@@ -146,6 +152,8 @@ namespace Files.Uwp.Views.LayoutModes
                 ItemManipulationModel.FocusSelectedItemsInvoked -= ItemManipulationModel_FocusSelectedItemsInvoked;
                 ItemManipulationModel.StartRenameItemInvoked -= ItemManipulationModel_StartRenameItemInvoked;
                 ItemManipulationModel.ScrollIntoViewInvoked -= ItemManipulationModel_ScrollIntoViewInvoked;
+                ItemManipulationModel.RefreshItemThumbnailInvoked -= ItemManipulationModel_RefreshItemThumbnail;
+                ItemManipulationModel.RefreshItemsThumbnailInvoked -= ItemManipulationModel_RefreshItemsThumbnail;
             }
         }
 
@@ -476,6 +484,17 @@ namespace Files.Uwp.Views.LayoutModes
             ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
             ParentShellPageInstance.SlimContentPage.SelectedItem.ItemPropertiesInitialized = false;
             await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(ParentShellPageInstance.SlimContentPage.SelectedItem, currentIconSize);
+        }
+
+        private async void ReloadSelectedItemsIcon()
+        {
+            ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
+
+            foreach (var selectedItem in ParentShellPageInstance.SlimContentPage.SelectedItems)
+            {
+                selectedItem.ItemPropertiesInitialized = false;
+                await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(selectedItem, currentIconSize);
+            }
         }
 
         private void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)

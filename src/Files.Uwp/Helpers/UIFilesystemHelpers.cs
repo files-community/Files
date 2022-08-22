@@ -260,7 +260,18 @@ namespace Files.Uwp.Helpers
 
         public static async Task<bool> RenameFileItemAsync(ListedItem item, string newName, IShellPage associatedInstance)
         {
-            newName = item.ItemNameRaw.Replace(item.ItemName, newName, StringComparison.Ordinal);
+            if (item is AlternateStreamItem ads) // For alternate streams ItemName is not a substring ItemNameRaw
+            {
+                newName = item.ItemNameRaw.Replace(
+                    item.ItemName.Substring(item.ItemName.LastIndexOf(":") + 1),
+                    newName.Substring(newName.LastIndexOf(":") + 1),
+                    StringComparison.Ordinal);
+                newName = $"{ads.MainStreamName}:{newName}";
+            }
+            else
+            {
+                newName = item.ItemNameRaw.Replace(item.ItemName, newName, StringComparison.Ordinal);
+            }
             if (item.ItemNameRaw == newName || string.IsNullOrEmpty(newName))
             {
                 return true;

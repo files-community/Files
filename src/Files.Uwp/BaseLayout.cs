@@ -35,6 +35,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using Files.Uwp.UserControls.Menus;
 using static Files.Uwp.Helpers.PathNormalization;
 
 namespace Files.Uwp
@@ -379,11 +380,10 @@ namespace Files.Uwp
         {
             if (ParentShellPageInstance.SlimContentPage != null)
             {
-                var layoutType = FolderSettings.GetLayoutType(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, false);
+                var layoutType = FolderSettings.GetLayoutType(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory);
 
                 if (layoutType != ParentShellPageInstance.CurrentPageType)
                 {
-                    FolderSettings.IsLayoutModeChanging = true;
                     ParentShellPageInstance.NavigateWithArguments(layoutType, new NavigationArguments()
                     {
                         NavPathParam = navigationArguments.NavPathParam,
@@ -648,7 +648,7 @@ namespace Files.Uwp
             }
             shellContextMenuItemCancellationToken?.Cancel();
             shellContextMenuItemCancellationToken = new CancellationTokenSource();
-            SelectedItemsPropertiesViewModel.CheckFileExtension(SelectedItem?.FileExtension);
+            SelectedItemsPropertiesViewModel.CheckAllFileExtensions(this.SelectedItems.Select(selectedItem => selectedItem?.FileExtension).ToList());
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
             var items = ContextFlyoutItemHelper.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel, shiftPressed: shiftPressed, showOpenMenu: false);
             ItemContextMenuFlyout.PrimaryCommands.Clear();
@@ -662,9 +662,9 @@ namespace Files.Uwp
             secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width
             secondaryElements.ForEach(i => ItemContextMenuFlyout.SecondaryCommands.Add(i));
 
-            if (UserSettingsService.PreferencesSettingsService.AreFileTagsEnabled && InstanceViewModel.CanTagFilesInPage)
+            if (InstanceViewModel.CanTagFilesInPage)
             {
-                AddFileTagsItemToMenu(ItemContextMenuFlyout);
+                AddNewFileTagsToMenu(ItemContextMenuFlyout);
             }
 
             if (!InstanceViewModel.IsPageTypeZipFolder)
@@ -678,20 +678,18 @@ namespace Files.Uwp
             }
         }
 
-        private void AddFileTagsItemToMenu(Microsoft.UI.Xaml.Controls.CommandBarFlyout contextMenu)
+        private void AddNewFileTagsToMenu(Microsoft.UI.Xaml.Controls.CommandBarFlyout contextMenu)
         {
-            var fileTagMenuFlyout = new MenuFlyoutItemFileTag()
-            {
-                ItemsSource = FileTagsSettingsService.FileTagList,
-                SelectedItems = SelectedItems
-            };
+            var fileTagsContextMenu = new FileTagsContextMenu(SelectedItems);
             var overflowSeparator = contextMenu.SecondaryCommands.FirstOrDefault(x => x is FrameworkElement fe && fe.Tag as string == "OverflowSeparator") as AppBarSeparator;
             var index = contextMenu.SecondaryCommands.IndexOf(overflowSeparator);
             index = index >= 0 ? index : contextMenu.SecondaryCommands.Count;
             contextMenu.SecondaryCommands.Insert(index, new AppBarSeparator());
-            contextMenu.SecondaryCommands.Insert(index + 1, new AppBarElementContainer()
+            contextMenu.SecondaryCommands.Insert(index + 1, new AppBarButton()
             {
-                Content = fileTagMenuFlyout
+                Label = "SettingsEditFileTagsExpander/Title".GetLocalized(),
+                Icon = new FontIcon() { Glyph = "\uE1CB" },
+                Flyout = fileTagsContextMenu
             });
         }
 

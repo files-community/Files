@@ -6,6 +6,8 @@ using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
+using System.Collections.Generic;
+using Files.Uwp.Helpers;
 
 namespace Files.Uwp.ViewModels
 {
@@ -167,6 +169,18 @@ namespace Files.Uwp.ViewModels
             set => SetProperty(ref itemSize, value);
         }
 
+        private string uncompresseditemSize;
+
+        public string UncompressedItemSize
+        {
+            get => uncompresseditemSize;
+            set
+            {
+                IsUncompressedItemSizeVisibile = true;
+                SetProperty(ref uncompresseditemSize, value);
+            }
+        }
+
         private bool itemSizeVisibility = false;
 
         public bool ItemSizeVisibility
@@ -175,12 +189,28 @@ namespace Files.Uwp.ViewModels
             set => SetProperty(ref itemSizeVisibility, value);
         }
 
+        private bool isUncompressedItemSizeVisibile = false;
+
+        public bool IsUncompressedItemSizeVisibile
+        {
+            get => isUncompressedItemSizeVisibile;
+            set => SetProperty(ref isUncompressedItemSizeVisibile, value);
+        }
+
         private long itemSizeBytes;
 
         public long ItemSizeBytes
         {
             get => itemSizeBytes;
             set => SetProperty(ref itemSizeBytes, value);
+        }
+
+        private long uncompresseditemSizeBytes;
+
+        public long UncompressedItemSizeBytes
+        {
+            get => uncompresseditemSizeBytes;
+            set => SetProperty(ref uncompresseditemSizeBytes, value);
         }
 
         private bool itemSizeProgressVisibility = false;
@@ -535,29 +565,12 @@ namespace Files.Uwp.ViewModels
             set => SetProperty(ref isSelectedItemShortcut, value);
         }
 
-        public void CheckFileExtension(string itemExtension)
+        public void CheckAllFileExtensions(List<string> itemExtensions)
         {
-            // Set properties to false
-            IsSelectedItemImage = false;
-            IsSelectedItemShortcut = false;
-
-            //check if the selected item is an image file
-            if (!string.IsNullOrEmpty(itemExtension) && SelectedItemsCount == 1)
-            {
-                if (itemExtension.Equals(".png", StringComparison.OrdinalIgnoreCase)
-                || itemExtension.Equals(".jpg", StringComparison.OrdinalIgnoreCase)
-                || itemExtension.Equals(".bmp", StringComparison.OrdinalIgnoreCase)
-                || itemExtension.Equals(".jpeg", StringComparison.OrdinalIgnoreCase))
-                {
-                    // Since item is an image, set the IsSelectedItemImage property to true
-                    IsSelectedItemImage = true;
-                }
-                else if (itemExtension.Equals(".lnk", StringComparison.OrdinalIgnoreCase))
-                {
-                    // The selected item is a shortcut, so set the IsSelectedItemShortcut property to true
-                    IsSelectedItemShortcut = true;
-                }
-            }
+            // Checks if all the item extensions are image extensions of some kind.
+            IsSelectedItemImage = itemExtensions.TrueForAll(itemExtension => FileExtensionHelpers.IsImageFile(itemExtension));
+            // Checks if there is only one selected item and if it's a shortcut.
+            IsSelectedItemShortcut = (itemExtensions.Count == 1) && (itemExtensions.TrueForAll(itemExtension => FileExtensionHelpers.IsShortcutFile(itemExtension)));
         }
 
         private string shortcutItemType;

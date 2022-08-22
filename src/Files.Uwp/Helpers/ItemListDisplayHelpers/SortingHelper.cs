@@ -22,7 +22,7 @@ namespace Files.Uwp.Helpers
                 SortOption.FileType => item => item.ItemType,
                 SortOption.Size => item => item.FileSizeBytes,
                 SortOption.SyncStatus => item => item.SyncStatusString,
-                SortOption.FileTag => item => item.FileTag,
+                SortOption.FileTag => item => item.FileTags?.FirstOrDefault(),
                 SortOption.OriginalFolder => item => (item as RecycleBinItem)?.ItemOriginalFolder,
                 SortOption.DateDeleted => item => (item as RecycleBinItem)?.ItemDateDeletedReal,
                 _ => null,

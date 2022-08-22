@@ -1,0 +1,19 @@
+commit_message: 'fix: new translations in %original_file_name% (%original_file_name%) from Crowdin'
+append_commit_message: false
+files:
+  - source: /src/Files.Uwp/Strings/en-US/*.resw
+    translation: /src/Files.Uwp/Strings/%locale%/%original_file_name%
+    languages_mapping:
+      locale:
+        af: af
+        ar: ar
+        bg: bg
+        ca: ca
+        da: da
+        el: el
+        ka: ka
+        no: nb-NO
+        zh-CN: zh-Hans
+        zh-TW: zh-Hant
+        vi: vi
+        ta: ta

@@ -42,7 +42,19 @@ namespace Files.Uwp.Filesystem
 
         #region Helpers Members
 
-        private static readonly char[] RestrictedCharacters = new[] { '\\', '/', ':', '*', '?', '"', '<', '>', '|' };
+        private static char[] RestrictedCharacters
+        {
+            get
+            {
+                var userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+                if (userSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible)
+                {
+                    // Allow ":" char
+                    return new[] { '\\', '/', '*', '?', '"', '<', '>', '|' };
+                }
+                return new[] { '\\', '/', ':', '*', '?', '"', '<', '>', '|' };
+            }
+        }
 
         private static readonly string[] RestrictedFileNames = new string[]
         {
@@ -782,7 +794,7 @@ namespace Files.Uwp.Filesystem
 
         public static bool HasDraggedStorageItems(DataPackageView packageView)
         {
-            return packageView != null && (packageView.Contains(StandardDataFormats.StorageItems) || (packageView.Properties.TryGetValue("FileDrop", out var data)));
+            return packageView != null && (packageView.Contains(StandardDataFormats.StorageItems) || (packageView.Properties.TryGetValue("FileDrop", out _)));
         }
 
         public static async Task<bool> CheckDragNeedsFulltrust(DataPackageView packageView)

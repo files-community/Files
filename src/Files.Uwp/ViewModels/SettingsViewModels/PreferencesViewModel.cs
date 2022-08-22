@@ -40,7 +40,7 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
         private bool disposed;
         private int selectedPageIndex = -1;
         private bool isPageListEditEnabled;
-        private ReadOnlyCollection<IMenuFlyoutItem> addFlyoutItemsSource;
+        private ReadOnlyCollection<IMenuFlyoutItemViewModel> addFlyoutItemsSource;
 
         public ICommand EditTerminalApplicationsCommand { get; }
 
@@ -77,59 +77,51 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
 
             PagesOnStartupList.CollectionChanged += PagesOnStartupList_CollectionChanged;
 
-            var recentsItem = new MenuFlyoutSubItemViewModel("JumpListRecentGroupHeader".GetLocalized());
-            recentsItem.Items.Add(new MenuFlyoutItemViewModel("Home".GetLocalized(), "Home".GetLocalized(), AddPageCommand));
-            PopulateRecentItems(recentsItem).ContinueWith(_ =>
-            {
-                AddFlyoutItemsSource = new ReadOnlyCollection<IMenuFlyoutItem>(new IMenuFlyoutItem[] {
-                    new MenuFlyoutItemViewModel("Browse".GetLocalized(), null, AddPageCommand),
-                    recentsItem,
-                });
-            }, TaskScheduler.FromCurrentSynchronizationContext());
-
+            _ = InitStartupSettingsRecentFoldersFlyout();
             _ = DetectOpenFilesAtStartup();
         }
 
-        private async Task PopulateRecentItems(MenuFlyoutSubItemViewModel menu)
+        private async Task InitStartupSettingsRecentFoldersFlyout()
         {
-            bool hasRecents = false;
-            menu.Items.Add(new MenuFlyoutSeparatorViewModel());
+            var recentsItem = new MenuFlyoutSubItemViewModel("JumpListRecentGroupHeader".GetLocalized());
+            recentsItem.Items.Add(new MenuFlyoutItemViewModel("Home".GetLocalized())
+            {
+                Command = AddPageCommand,
+                CommandParameter = "Home".GetLocalized(),
+                Tooltip = "Home".GetLocalized()
+            });
 
+            await App.RecentItemsManager.UpdateRecentFoldersAsync();    // ensure recent folders aren't stale since we don't update them with a watcher
+            await PopulateRecentItems(recentsItem).ContinueWith(_ =>
+            {
+                AddFlyoutItemsSource = new List<IMenuFlyoutItemViewModel>() {
+                    new MenuFlyoutItemViewModel("Browse".GetLocalized()) { Command = AddPageCommand },
+                    recentsItem,
+                }.AsReadOnly();
+            }, TaskScheduler.FromCurrentSynchronizationContext());
+        }
+
+        private Task PopulateRecentItems(MenuFlyoutSubItemViewModel menu)
+        {
             try
             {
-                var mostRecentlyUsed = StorageApplicationPermissions.MostRecentlyUsedList;
+                var recentFolders = App.RecentItemsManager.RecentFolders;
 
-                foreach (AccessListEntry entry in mostRecentlyUsed.Entries)
+                // add separator
+                if (recentFolders.Any())
                 {
-                    string mruToken = entry.Token;
-                    var added = await FilesystemTasks.Wrap(async () =>
+                    menu.Items.Add(new MenuFlyoutSeparatorViewModel());
+                }
+
+                foreach (var recentFolder in recentFolders)
+                {
+                    var menuItem = new MenuFlyoutItemViewModel(recentFolder.Name)
                     {
-                        IStorageItem item = await mostRecentlyUsed.GetItemAsync(mruToken, AccessCacheOptions.FastLocationsOnly | AccessCacheOptions.SuppressAccessTimeUpdate);
-                        if (item.IsOfType(StorageItemTypes.Folder))
-                        {
-                            menu.Items.Add(new MenuFlyoutItemViewModel(item.Name, string.IsNullOrEmpty(item.Path) ? entry.Metadata : item.Path, AddPageCommand));
-                            hasRecents = true;
-                        }
-                    });
-                    if (added == FileSystemStatusCode.Unauthorized)
-                    {
-                        // Skip item until consent is provided
-                    }
-                    // Exceptions include but are not limited to:
-                    // COMException, FileNotFoundException, ArgumentException, DirectoryNotFoundException
-                    // 0x8007016A -> The cloud file provider is not running
-                    // 0x8000000A -> The data necessary to complete this operation is not yet available
-                    // 0x80004005 -> Unspecified error
-                    // 0x80270301 -> ?
-                    else if (!added)
-                    {
-                        await FilesystemTasks.Wrap(() =>
-                        {
-                            mostRecentlyUsed.Remove(mruToken);
-                            return Task.CompletedTask;
-                        });
-                        System.Diagnostics.Debug.WriteLine(added.ErrorCode);
-                    }
+                        Command = AddPageCommand,
+                        CommandParameter = recentFolder.RecentPath,
+                        Tooltip = recentFolder.RecentPath
+                    };
+                    menu.Items.Add(menuItem);
                 }
             }
             catch (Exception ex)
@@ -137,10 +129,7 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
                 App.Logger.Info(ex, "Could not fetch recent items");
             }
 
-            if (!hasRecents)
-            {
-                menu.Items.RemoveAt(menu.Items.Count - 1);
-            }
+            return Task.CompletedTask;
         }
 
         private void PagesOnStartupList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -216,7 +205,7 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
             set => SetProperty(ref isPageListEditEnabled, value);
         }
 
-        public ReadOnlyCollection<IMenuFlyoutItem> AddFlyoutItemsSource
+        public ReadOnlyCollection<IMenuFlyoutItemViewModel> AddFlyoutItemsSource
         {
             get => addFlyoutItemsSource;
             set => SetProperty(ref addFlyoutItemsSource, value);
@@ -545,6 +534,19 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
             }
         }
 
+        public bool AreAlternateStreamsVisible
+        {
+            get => UserSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible;
+            set
+            {
+                if (value != UserSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible)
+                {
+                    UserSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public bool ShowDotFiles
         {
             get => UserSettingsService.PreferencesSettingsService.ShowDotFiles;
@@ -636,14 +638,79 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
             }
         }
 
-        public bool AreLayoutPreferencesPerFolder
+        public bool ForceLayoutPreferencesOnAllDirectories
         {
-            get => UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder;
+            get => UserSettingsService.PreferencesSettingsService.ForceLayoutPreferencesOnAllDirectories;
             set
             {
-                if (value != UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder)
+                if (value != UserSettingsService.PreferencesSettingsService.ForceLayoutPreferencesOnAllDirectories)
                 {
-                    UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder = value;
+                    UserSettingsService.PreferencesSettingsService.ForceLayoutPreferencesOnAllDirectories = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        
+        public bool ShowFileTagColumn
+        {
+            get => UserSettingsService.LayoutSettingsService.ShowFileTagColumn;
+            set
+            {
+                if (value != UserSettingsService.LayoutSettingsService.ShowFileTagColumn)
+                {
+                    UserSettingsService.LayoutSettingsService.ShowFileTagColumn = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        
+        public bool ShowSizeColumn
+        {
+            get => UserSettingsService.LayoutSettingsService.ShowSizeColumn;
+            set
+            {
+                if (value != UserSettingsService.LayoutSettingsService.ShowSizeColumn)
+                {
+                    UserSettingsService.LayoutSettingsService.ShowSizeColumn = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool ShowTypeColumn
+        {
+            get => UserSettingsService.LayoutSettingsService.ShowTypeColumn;
+            set
+            {
+                if (value != UserSettingsService.LayoutSettingsService.ShowTypeColumn)
+                {
+                    UserSettingsService.LayoutSettingsService.ShowTypeColumn = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool ShowDateCreatedColumn
+        {
+            get => UserSettingsService.LayoutSettingsService.ShowDateCreatedColumn;
+            set
+            {
+                if (value != UserSettingsService.LayoutSettingsService.ShowDateCreatedColumn)
+                {
+                    UserSettingsService.LayoutSettingsService.ShowDateCreatedColumn = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool ShowDateColumn
+        {
+            get => UserSettingsService.LayoutSettingsService.ShowDateColumn;
+            set
+            {
+                if (value != UserSettingsService.LayoutSettingsService.ShowDateColumn)
+                {
+                    UserSettingsService.LayoutSettingsService.ShowDateColumn = value;
                     OnPropertyChanged();
                 }
             }

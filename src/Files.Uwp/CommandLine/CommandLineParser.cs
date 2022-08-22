@@ -20,7 +20,7 @@ namespace Files.Uwp.CommandLine
             return ParseSplitArguments(parsedArgs);
         }
 
-        private static ParsedCommands ParseSplitArguments(List<KeyValuePair<string, string>> parsedArgs)
+        private static ParsedCommands ParseSplitArguments(List<KeyValuePair<string, string[]>> parsedArgs)
         {
             var commands = new ParsedCommands();
 
@@ -32,27 +32,31 @@ namespace Files.Uwp.CommandLine
 
                 switch (kvp.Key)
                 {
-                    case string s when "-Directory".Equals(s, StringComparison.OrdinalIgnoreCase):
+                    case string s when "Directory".Equals(s, StringComparison.OrdinalIgnoreCase):
                         command.Type = ParsedCommandType.OpenDirectory;
                         break;
 
-                    case string s when "-OutputPath".Equals(s, StringComparison.OrdinalIgnoreCase):
+                    case string s when "OutputPath".Equals(s, StringComparison.OrdinalIgnoreCase):
                         command.Type = ParsedCommandType.OutputPath;
                         break;
 
-                    case string s when "-Select".Equals(s, StringComparison.OrdinalIgnoreCase):
+                    case string s when "Select".Equals(s, StringComparison.OrdinalIgnoreCase):
                         command.Type = ParsedCommandType.SelectItem;
                         break;
 
+                    case string s when "Tag".Equals(s, StringComparison.OrdinalIgnoreCase):
+                        command.Type = ParsedCommandType.TagFiles;
+                        break;
+
                     default:
-                        //case "-Cmdless":
+                        //case "Cmdless":
                         try
                         {
-                            if (kvp.Value.StartsWith("::{", StringComparison.Ordinal) || kvp.Value.StartsWith("shell:", StringComparison.OrdinalIgnoreCase))
+                            if (kvp.Value[0].StartsWith("::{", StringComparison.Ordinal) || kvp.Value[0].StartsWith("shell:", StringComparison.OrdinalIgnoreCase))
                             {
                                 command.Type = ParsedCommandType.ExplorerShellCommand;
                             }
-                            else if (Path.IsPathRooted(kvp.Value))
+                            else if (Path.IsPathRooted(kvp.Value[0]))
                             {
                                 command.Type = ParsedCommandType.OpenPath;
                             }
@@ -69,7 +73,7 @@ namespace Files.Uwp.CommandLine
                         break;
                 }
 
-                command.Payload = kvp.Value;
+                command.Args.AddRange(kvp.Value);
                 commands.Add(command);
             }
 
@@ -104,9 +108,9 @@ namespace Files.Uwp.CommandLine
             }
         }
 
-        public static List<KeyValuePair<string, string>> Parse(string[] args = null)
+        public static List<KeyValuePair<string, string[]>> Parse(string[] args = null)
         {
-            var parsedArgs = new List<KeyValuePair<string, string>>();
+            var parsedArgs = new List<KeyValuePair<string, string[]>>();
             //Environment.GetCommandLineArgs() IS better but... I haven't tested this enough.
 
             if (args != null)
@@ -140,16 +144,16 @@ namespace Files.Uwp.CommandLine
 
             if (parsedArgs.Count == 0 && args.Length >= 2)
             {
-                parsedArgs.Add(new KeyValuePair<string, string>("-Cmdless", string.Join(" ", args.Skip(1)).TrimStart()));
+                parsedArgs.Add(new KeyValuePair<string, string[]>("Cmdless", new[] { string.Join(" ", args.Skip(1)).TrimStart() }));
             }
 
             return parsedArgs;
         }
 
-        private static KeyValuePair<string, string> ParseData(string[] args, int index)
+        private static KeyValuePair<string, string[]> ParseData(string[] args, int index)
         {
             string key = null;
-            string val = null;
+            var val = new List<string>();
             if (args[index].StartsWith('-') || args[index].StartsWith('/'))
             {
                 if (args[index].Contains(":", StringComparison.Ordinal))
@@ -158,25 +162,22 @@ namespace Files.Uwp.CommandLine
                     int endIndex = argument.IndexOf(':');
                     key = argument.Substring(1, endIndex - 1);   // trim the '/' and the ':'.
                     int valueStart = endIndex + 1;
-                    val = valueStart < argument.Length ? argument.Substring(
-                        valueStart, argument.Length - valueStart) : null;
+                    val.Add(valueStart < argument.Length ? argument.Substring(
+                        valueStart, argument.Length - valueStart) : null);
                 }
                 else
                 {
-                    key = args[index];
-                    int argIndex = 1 + index;
-                    if (argIndex < args.Length && !(args[argIndex].StartsWith('-') || args[argIndex].StartsWith('/')))
-                    {
-                        val = args[argIndex];
-                    }
-                    else
-                    {
-                        val = null;
-                    }
+                    key = args[index].Substring(1);
+                }
+
+                int argIndex = 1 + index;
+                while (argIndex < args.Length && !(args[argIndex].StartsWith('-') || args[argIndex].StartsWith('/')))
+                {
+                    val.Add(args[argIndex++]);
                 }
             }
 
-            return key != null ? new KeyValuePair<string, string>(key, val) : default;
+            return key != null ? new KeyValuePair<string, string[]>(key, val.ToArray()) : default;
         }
     }
 }

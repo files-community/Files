@@ -1,4 +1,4 @@
-using Files.Shared;
+using Files.Shared.Cloud;
 using Files.Shared.Extensions;
 using Microsoft.Win32;
 using System;
@@ -13,9 +13,9 @@ namespace Files.FullTrust.Helpers
     [SupportedOSPlatform("Windows10.0.10240")]
     public class CloudDrivesDetector
     {
-        public static async Task<List<CloudProvider>> DetectCloudDrives()
+        public static async Task<IEnumerable<ICloudProvider>> DetectCloudDrives()
         {
-            var tasks = new Task<List<CloudProvider>>[]
+            var tasks = new Task<IEnumerable<ICloudProvider>>[]
             {
                 SafetyExtensions.IgnoreExceptions(DetectOneDrive, Program.Logger),
                 SafetyExtensions.IgnoreExceptions(DetectSharepoint, Program.Logger),
@@ -25,39 +25,46 @@ namespace Files.FullTrust.Helpers
 
             await Task.WhenAll(tasks);
 
-            return tasks.Where(o => o.Result != null).SelectMany(o => o.Result).OrderBy(o => o.ID.ToString()).ThenBy(o => o.Name).Distinct().ToList();
+            return tasks
+                .Where(o => o.Result is not null)
+                .SelectMany(o => o.Result)
+                .OrderBy(o => o.ID.ToString())
+                .ThenBy(o => o.Name)
+                .Distinct();
         }
 
-        private static Task<List<CloudProvider>> DetectYandexDisk()
+        private static Task<IEnumerable<ICloudProvider>> DetectYandexDisk()
         {
-            var results = new List<CloudProvider>();
+            var results = new List<ICloudProvider>();
             using var yandexKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Yandex\Yandex.Disk.2");
+
             var syncedFolder = (string)yandexKey?.GetValue("RootFolder");
-            if (syncedFolder != null)
+            if (syncedFolder is not null)
             {
-                results.Add(new CloudProvider()
+                results.Add(new CloudProvider(CloudProviders.Yandex)
                 {
-                    ID = CloudProviders.Yandex,
                     Name = $"Yandex Disk",
-                    SyncFolder = syncedFolder
+                    SyncFolder = syncedFolder,
                 });
             }
-            return Task.FromResult(results);
+
+            return Task.FromResult<IEnumerable<ICloudProvider>>(results);
         }
 
-        private static Task<List<CloudProvider>> DetectGenericCloudDrive()
+        private static Task<IEnumerable<ICloudProvider>> DetectGenericCloudDrive()
         {
-            var results = new List<CloudProvider>();
+            var results = new List<ICloudProvider>();
             using var clsidKey = Registry.ClassesRoot.OpenSubKey(@"CLSID");
             using var namespaceKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace");
+
             foreach (var subKeyName in namespaceKey.GetSubKeyNames())
             {
                 using var clsidSubKey = SafetyExtensions.IgnoreExceptions(() => clsidKey.OpenSubKey(subKeyName));
-                if (clsidSubKey != null && (int?)clsidSubKey.GetValue("System.IsPinnedToNameSpaceTree") == 1)
+                if (clsidSubKey is not null && (int?)clsidSubKey.GetValue("System.IsPinnedToNameSpaceTree") is 1)
                 {
                     using var namespaceSubKey = namespaceKey.OpenSubKey(subKeyName);
-                    var driveType = (string)namespaceSubKey?.GetValue("");
-                    if (driveType == null)
+                    var driveType = (string)namespaceSubKey?.GetValue(string.Empty);
+                    if (driveType is null)
                     {
                         continue;
                     }
@@ -71,7 +78,7 @@ namespace Files.FullTrust.Helpers
 
                     using var bagKey = clsidSubKey.OpenSubKey(@"Instance\InitPropertyBag");
                     var syncedFolder = (string)bagKey?.GetValue("TargetFolderPath");
-                    if (syncedFolder == null)
+                    if (syncedFolder is null)
                     {
                         continue;
                     }
@@ -83,71 +90,70 @@ namespace Files.FullTrust.Helpers
                         "Amazon Drive" => CloudProviders.AmazonDrive,
                         "Nextcloud" => CloudProviders.Nextcloud,
                         "Jottacloud" => CloudProviders.Jottacloud,
-                        _ => null
+                        _ => null,
                     };
-                    if (driveID == null)
+                    if (driveID is null)
                     {
                         continue;
                     }
 
-                    results.Add(new CloudProvider()
+                    string nextCloudValue = (string)namespaceSubKey?.GetValue(string.Empty);
+                    results.Add(new CloudProvider(driveID.Value)
                     {
-                        ID = driveID.Value,
                         Name = driveID switch
                         {
                             CloudProviders.Mega => $"MEGA ({Path.GetFileName(syncedFolder.TrimEnd('\\'))})",
                             CloudProviders.AmazonDrive => $"Amazon Drive",
-                            CloudProviders.Nextcloud => $"{ (!string.IsNullOrEmpty((string)namespaceSubKey?.GetValue("")) ? (string)namespaceSubKey?.GetValue(""):"Nextcloud")}",
+                            CloudProviders.Nextcloud => !string.IsNullOrEmpty(nextCloudValue) ? nextCloudValue : "Nextcloud",
                             CloudProviders.Jottacloud => $"Jottacloud",
                             _ => null
                         },
-                        SyncFolder = syncedFolder
+                        SyncFolder = syncedFolder,
                     });
                 }
             }
-            return Task.FromResult(results);
+
+            return Task.FromResult<IEnumerable<ICloudProvider>>(results);
         }
 
-        private static Task<List<CloudProvider>> DetectOneDrive()
+        private static Task<IEnumerable<ICloudProvider>> DetectOneDrive()
         {
             using var oneDriveAccountsKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\OneDrive\Accounts");
-
-            if (oneDriveAccountsKey == null)
+            if (oneDriveAccountsKey is null)
             {
-                return Task.FromResult<List<CloudProvider>>(null);
+                return Task.FromResult<IEnumerable<ICloudProvider>>(null);
             }
 
-            var oneDriveAccounts = new List<CloudProvider>();
+            var oneDriveAccounts = new List<ICloudProvider>();
             foreach (var account in oneDriveAccountsKey.GetSubKeyNames())
             {
                 var accountKeyName = @$"{oneDriveAccountsKey.Name}\{account}";
                 var displayName = (string)Registry.GetValue(accountKeyName, "DisplayName", null);
                 var userFolder = (string)Registry.GetValue(accountKeyName, "UserFolder", null);
                 var accountName = string.IsNullOrWhiteSpace(displayName) ? "OneDrive" : $"OneDrive - {displayName}";
+
                 if (!string.IsNullOrWhiteSpace(userFolder) && !oneDriveAccounts.Any(x => x.Name == accountName))
                 {
-                    oneDriveAccounts.Add(new CloudProvider()
+                    oneDriveAccounts.Add(new CloudProvider(CloudProviders.OneDrive)
                     {
-                        ID = CloudProviders.OneDrive,
                         Name = accountName,
-                        SyncFolder = userFolder
+                        SyncFolder = userFolder,
                     });
                 }
             }
-            return Task.FromResult(oneDriveAccounts);
+
+            return Task.FromResult<IEnumerable<ICloudProvider>>(oneDriveAccounts);
         }
 
-        private static Task<List<CloudProvider>> DetectSharepoint()
+        private static Task<IEnumerable<ICloudProvider>> DetectSharepoint()
         {
             using var oneDriveAccountsKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\OneDrive\Accounts");
-
-            if (oneDriveAccountsKey == null)
+            if (oneDriveAccountsKey is null)
             {
-                return Task.FromResult<List<CloudProvider>>(null);
+                return Task.FromResult<IEnumerable<ICloudProvider>>(null);
             }
 
-            var sharepointAccounts = new List<CloudProvider>();
-
+            var sharepointAccounts = new List<ICloudProvider>();
             foreach (var account in oneDriveAccountsKey.GetSubKeyNames())
             {
                 var accountKeyName = @$"{oneDriveAccountsKey.Name}\{account}";
@@ -159,7 +165,7 @@ namespace Files.FullTrust.Helpers
                 var mountPointKeyName = @$"SOFTWARE\Microsoft\OneDrive\Accounts\{account}\ScopeIdToMountPointPathCache";
                 using (var mountPointsKey = Registry.CurrentUser.OpenSubKey(mountPointKeyName))
                 {
-                    if (mountPointsKey == null)
+                    if (mountPointsKey is null)
                     {
                         continue;
                     }
@@ -179,19 +185,19 @@ namespace Files.FullTrust.Helpers
                 foreach (var sharePointSyncFolder in sharePointSyncFolders)
                 {
                     var parentFolder = Directory.GetParent(sharePointSyncFolder)?.FullName ?? string.Empty;
-                    if (!sharepointAccounts.Any(acc => string.Equals(acc.Name, accountName, StringComparison.OrdinalIgnoreCase)) && !string.IsNullOrWhiteSpace(parentFolder))
+                    if (!sharepointAccounts.Any(acc =>
+                        string.Equals(acc.Name, accountName, StringComparison.OrdinalIgnoreCase)) && !string.IsNullOrWhiteSpace(parentFolder))
                     {
-                        sharepointAccounts.Add(new CloudProvider()
+                        sharepointAccounts.Add(new CloudProvider(CloudProviders.OneDriveCommercial)
                         {
-                            ID = CloudProviders.OneDriveCommercial,
                             Name = accountName,
-                            SyncFolder = parentFolder
+                            SyncFolder = parentFolder,
                         });
                     }
                 }
             }
 
-            return Task.FromResult(sharepointAccounts);
+            return Task.FromResult<IEnumerable<ICloudProvider>>(sharepointAccounts);
         }
     }
 }

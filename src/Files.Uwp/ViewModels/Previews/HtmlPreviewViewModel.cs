@@ -7,27 +7,21 @@ namespace Files.Uwp.ViewModels.Previews
 {
     public class HtmlPreviewViewModel : BasePreviewModel
     {
-        private string textValue;
-
-        // TODO: Move to WebView2 on WinUI 3.0 release
-
-        public HtmlPreviewViewModel(ListedItem item) : base(item)
-        {
-        }
-
-        public static List<string> Extensions => new List<string>() {
-            ".html", ".htm", ".svg",
-        };
-
+        private string textValue = string.Empty;
         public string TextValue
         {
             get => textValue;
-            set => SetProperty(ref textValue, value);
+            private set => SetProperty(ref textValue, value);
         }
 
-        public async override Task<List<FileProperty>> LoadPreviewAndDetails()
+        public HtmlPreviewViewModel(ListedItem item) : base(item) {}
+
+        public static bool ContainsExtension(string extension)
+            => extension is ".htm" or ".html" or ".svg";
+
+        public async override Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
         {
-            TextValue = await ReadFileAsText(Item.ItemFile); // await FileIO.ReadTextAsync(Item.ItemFile);
+            TextValue = await ReadFileAsTextAsync(Item.ItemFile);
             return new List<FileProperty>();
         }
     }

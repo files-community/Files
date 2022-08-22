@@ -10,6 +10,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -17,6 +18,10 @@ using Windows.Storage.AccessCache;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
+using System.Collections.Specialized;
+using Windows.UI.Core;
+using System.Threading;
+using System.Collections.Generic;
 
 namespace Files.Uwp.UserControls.Widgets
 {
@@ -33,6 +38,11 @@ namespace Files.Uwp.UserControls.Widgets
         public event RecentFileInvokedEventHandler RecentFileInvoked;
 
         private ObservableCollection<RecentItem> recentItemsCollection = new ObservableCollection<RecentItem>();
+
+        private SemaphoreSlim refreshRecentsSemaphore;
+
+        private CancellationTokenSource refreshRecentsCTS;
+
         private EmptyRecentsText Empty { get; set; } = new EmptyRecentsText();
 
         public string WidgetName => nameof(RecentFilesWidget);
@@ -47,9 +57,22 @@ namespace Files.Uwp.UserControls.Widgets
         {
             InitializeComponent();
 
-            recentItemsCollection.Clear();
+            refreshRecentsSemaphore = new SemaphoreSlim(1, 1);
+            refreshRecentsCTS = new CancellationTokenSource();
 
-            _ = PopulateRecentsList();
+            // recent files could have changed while widget wasn't loaded
+            _ = App.RecentItemsManager.UpdateRecentFilesAsync();
+
+            App.RecentItemsManager.RecentFilesChanged += Manager_RecentFilesChanged;
+        }
+
+        private async void Manager_RecentFilesChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                // e.Action can only be Reset right now; naively refresh everything for simplicity
+                await UpdateRecentsList(e);
+            });
         }
 
         private void OpenFileLocation_Click(object sender, RoutedEventArgs e)
@@ -58,116 +81,71 @@ namespace Files.Uwp.UserControls.Widgets
             var clickedOnItem = flyoutItem.DataContext as RecentItem;
             if (clickedOnItem.IsFile)
             {
-                var filePath = clickedOnItem.RecentPath;
-                var folderPath = filePath.Substring(0, filePath.Length - clickedOnItem.Name.Length);
+                var targetPath = clickedOnItem.RecentPath;
                 RecentFilesOpenLocationInvoked?.Invoke(this, new PathNavigationEventArgs()
                 {
-                    ItemPath = folderPath,
-                    ItemName = clickedOnItem.Name
+                    ItemPath = Directory.GetParent(targetPath).FullName,    // parent directory
+                    ItemName = Path.GetFileName(targetPath),                // file name w extension
                 });
             }
         }
 
-        private async Task PopulateRecentsList()
+        private async Task UpdateRecentsList(NotifyCollectionChangedEventArgs args)
         {
-            Empty.Visibility = Visibility.Collapsed;
+            try
+            {
+                await refreshRecentsSemaphore.WaitAsync(refreshRecentsCTS.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                return;
+            }
 
             try
             {
-                var mostRecentlyUsed = StorageApplicationPermissions.MostRecentlyUsedList;
+                // drop other waiting instances
+                refreshRecentsCTS.Cancel();
+                refreshRecentsCTS = new CancellationTokenSource();
 
-                foreach (AccessListEntry entry in mostRecentlyUsed.Entries)
+                Empty.Visibility = Visibility.Collapsed;
+
+                switch (args.Action)
                 {
-                    string mruToken = entry.Token;
-                    var added = await FilesystemTasks.Wrap(async () =>
-                    {
-                        IStorageItem item = await mostRecentlyUsed.GetItemAsync(mruToken, AccessCacheOptions.FastLocationsOnly | AccessCacheOptions.SuppressAccessTimeUpdate);
-                        await AddItemToRecentListAsync(item, entry);
-                    });
-                    if (added == FileSystemStatusCode.Unauthorized)
-                    {
-                        // Skip item until consent is provided
-                    }
-                    // Exceptions include but are not limited to:
-                    // COMException, FileNotFoundException, ArgumentException, DirectoryNotFoundException
-                    // 0x8007016A -> The cloud file provider is not running
-                    // 0x8000000A -> The data necessary to complete this operation is not yet available
-                    // 0x80004005 -> Unspecified error
-                    // 0x80270301 -> ?
-                    else if (!added)
-                    {
-                        await FilesystemTasks.Wrap(() =>
+                    // currently everything falls under Reset
+                    default:
+                        recentItemsCollection.Clear();
+                        var recentFiles = App.RecentItemsManager.RecentFiles; // already sorted, add all in order
+                        foreach (var recentFile in recentFiles)
                         {
-                            mostRecentlyUsed.Remove(mruToken);
-                            return Task.CompletedTask;
-                        });
-                        System.Diagnostics.Debug.WriteLine(added.ErrorCode);
-                    }
+                            await AddItemToRecentListAsync(recentFile);
+                        }
+                        break;
+                }
+
+                // update chevron if there aren't any items
+                if (recentItemsCollection.Count == 0)
+                {
+                    Empty.Visibility = Visibility.Visible;
                 }
             }
             catch (Exception ex)
             {
-                App.Logger.Info(ex, "Could not fetch recent items");
+                App.Logger.Info(ex, "Could not populate recent files");
             }
-
-            if (recentItemsCollection.Count == 0)
+            finally
             {
-                Empty.Visibility = Visibility.Visible;
+                refreshRecentsSemaphore.Release();
             }
         }
 
-        private async Task AddItemToRecentListAsync(IStorageItem item, AccessListEntry entry)
+        /// <summary>
+        /// Add the RecentItem to the ObservableCollection for the UI to render.
+        /// </summary>
+        /// <param name="recentItem">The recent item to be added</param>
+        private async Task AddItemToRecentListAsync(RecentItem recentItem, bool sortInsert = false) 
         {
-            BitmapImage ItemImage;
-            string ItemPath;
-            string ItemName;
-            StorageItemTypes ItemType;
-            bool ItemFolderImgVis;
-            bool ItemEmptyImgVis;
-            bool ItemFileIconVis;
-            if (item.IsOfType(StorageItemTypes.File))
-            {
-                // Try to read the file to check if still exists
-                // This is only needed to remove files opened from a disconnected android/MTP phone
-                if (string.IsNullOrEmpty(item.Path)) // This indicates that the file was open from an MTP device
-                {
-                    using (var inputStream = await item.AsBaseStorageFile().OpenReadAsync())
-                    using (var classicStream = inputStream.AsStreamForRead())
-                    using (var streamReader = new StreamReader(classicStream))
-                    {
-                        // NB: this might trigger the download of the file from OneDrive
-                        streamReader.Peek();
-                    }
-                }
-
-                ItemName = item.Name;
-                ItemPath = string.IsNullOrEmpty(item.Path) ? entry.Metadata : item.Path;
-                ItemType = StorageItemTypes.File;
-                ItemImage = new BitmapImage();
-                BaseStorageFile file = item.AsBaseStorageFile();
-                using var thumbnail = await file.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 24, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale);
-                if (thumbnail == null)
-                {
-                    ItemEmptyImgVis = true;
-                }
-                else
-                {
-                    await ItemImage.SetSourceAsync(thumbnail);
-                    ItemEmptyImgVis = false;
-                }
-                ItemFolderImgVis = false;
-                ItemFileIconVis = true;
-                recentItemsCollection.Add(new RecentItem()
-                {
-                    RecentPath = ItemPath,
-                    Name = ItemName,
-                    Type = ItemType,
-                    FolderImg = ItemFolderImgVis,
-                    EmptyImgVis = ItemEmptyImgVis,
-                    FileImg = ItemImage,
-                    FileIconVis = ItemFileIconVis
-                });
-            }
+            await recentItem.LoadRecentItemIcon();
+            recentItemsCollection.Add(recentItem);   
         }
 
         private void RecentsView_ItemClick(object sender, ItemClickEventArgs e)
@@ -181,68 +159,53 @@ namespace Files.Uwp.UserControls.Widgets
 
         private async void RemoveRecentItem_Click(object sender, RoutedEventArgs e)
         {
-            // Get the sender frameworkelement
+            await refreshRecentsSemaphore.WaitAsync();
 
-            if (sender is MenuFlyoutItem fe)
+            try
             {
-                // Grab it's datacontext ViewModel and remove it from the list.
-
-                if (fe.DataContext is RecentItem vm)
+                // Get the sender FrameworkElement and grab its DataContext ViewModel
+                if (sender is MenuFlyoutItem fe && fe.DataContext is RecentItem vm)
                 {
-                    // Remove it from the visible collection
-                    recentItemsCollection.Remove(vm);
-
-                    // Now clear it from the recent list cache permanently.
-                    // No token stored in the viewmodel, so need to find it the old fashioned way.
-                    var mru = StorageApplicationPermissions.MostRecentlyUsedList;
-
-                    foreach (var element in mru.Entries)
-                    {
-                        var f = await mru.GetItemAsync(element.Token);
-                        if (f.Path == vm.RecentPath || element.Metadata == vm.RecentPath)
-                        {
-                            mru.Remove(element.Token);
-                            if (recentItemsCollection.Count == 0)
-                            {
-                                Empty.Visibility = Visibility.Visible;
-                            }
-                            break;
-                        }
-                    }
+                    // evict it from the recent items shortcut list
+                    // this operation invokes RecentFilesChanged which we handle to update the visible collection
+                    await App.RecentItemsManager.UnpinFromRecentFiles(vm.LinkPath);
                 }
+            }
+            finally
+            {
+                refreshRecentsSemaphore.Release();
             }
         }
 
-        private void ClearRecentItems_Click(object sender, RoutedEventArgs e)
+        private async void ClearRecentItems_Click(object sender, RoutedEventArgs e)
         {
-            recentItemsCollection.Clear();
-            RecentsView.ItemsSource = null;
-            var mru = StorageApplicationPermissions.MostRecentlyUsedList;
-            mru.Clear();
-            Empty.Visibility = Visibility.Visible;
+            await refreshRecentsSemaphore.WaitAsync();
+            try
+            {
+                recentItemsCollection.Clear();
+                bool success = await App.RecentItemsManager.ClearRecentItems();
+
+                if (success)
+                {
+                    Empty.Visibility = Visibility.Visible;
+                }
+            }
+            finally
+            {
+                refreshRecentsSemaphore.Release();
+            }
         }
 
         public async Task RefreshWidget()
         {
-            recentItemsCollection.Clear();
-            await PopulateRecentsList();
+            // if files changed, event is fired to update widget
+            await App.RecentItemsManager.UpdateRecentFilesAsync();
         }
 
-        public void Dispose()
+        public void Dispose() 
         {
+            App.RecentItemsManager.RecentFilesChanged -= Manager_RecentFilesChanged;
         }
-    }
-
-    public class RecentItem
-    {
-        public BitmapImage FileImg { get; set; }
-        public string RecentPath { get; set; }
-        public string Name { get; set; }
-        public bool IsFile { get => Type == StorageItemTypes.File; }
-        public StorageItemTypes Type { get; set; }
-        public bool FolderImg { get; set; }
-        public bool EmptyImgVis { get; set; }
-        public bool FileIconVis { get; set; }
     }
 
     public class EmptyRecentsText : INotifyPropertyChanged

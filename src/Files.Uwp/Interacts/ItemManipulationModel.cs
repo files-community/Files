@@ -28,6 +28,8 @@ namespace Files.Uwp.Interacts
 
         public event EventHandler RefreshItemsOpacityInvoked;
 
+        public event EventHandler RefreshItemThumbnailInvoked;
+
         public event EventHandler RefreshItemsThumbnailInvoked;
 
         public void FocusFileList()
@@ -111,6 +113,11 @@ namespace Files.Uwp.Interacts
         public void RefreshItemsOpacity()
         {
             RefreshItemsOpacityInvoked?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void RefreshItemThumbnail()
+        {
+            RefreshItemThumbnailInvoked?.Invoke(this, EventArgs.Empty);
         }
 
         public void RefreshItemsThumbnail()

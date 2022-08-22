@@ -110,8 +110,7 @@ namespace Files.Uwp.ViewModels.Properties
             ViewModel.ItemSize = Item.FileSizeBytes.ToLongSizeString();
 
             ViewModel.AssociatedApplication = await NativeWinApiHelper.GetFileAssociationName(Item.ItemPath);
-
-            var fileIconData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.ItemPath, 80, Windows.Storage.FileProperties.ThumbnailMode.DocumentsView);
+            var fileIconData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.ItemPath, 80, Windows.Storage.FileProperties.ThumbnailMode.DocumentsView, false);
             if (fileIconData != null)
             {
                 ViewModel.IconData = fileIconData;
@@ -131,7 +130,9 @@ namespace Files.Uwp.ViewModels.Properties
                 }
             }
 
-            BaseStorageFile file = await AppInstance.FilesystemViewModel.GetFileFromPathAsync((Item as ShortcutItem)?.TargetPath ?? Item.ItemPath);
+            string filePath = (Item as ShortcutItem)?.TargetPath ?? Item.ItemPath;
+            BaseStorageFile file = await AppInstance.FilesystemViewModel.GetFileFromPathAsync(filePath);
+
             if (file == null)
             {
                 // Could not access file, can't show any other property
@@ -142,6 +143,16 @@ namespace Files.Uwp.ViewModels.Properties
             {
                 // Can't show any other property
                 return;
+            }
+
+            if (FileExtensionHelpers.IsBrowsableZipFile(Item.FileExtension, out _))
+            {
+                if (await ZipStorageFolder.FromPathAsync(Item.ItemPath) is ZipStorageFolder zipFolder)
+                {
+                    var uncompressedSize = await zipFolder.GetUncompressedSize();
+                    ViewModel.UncompressedItemSize = uncompressedSize.ToLongSizeString();
+                    ViewModel.UncompressedItemSizeBytes = uncompressedSize;
+                }
             }
 
             if (file.Properties != null)
@@ -359,7 +370,7 @@ namespace Files.Uwp.ViewModels.Properties
         private async Task<string> GetHashForFileAsync(ListedItem fileItem, string nameOfAlg, CancellationToken token, IProgress<float> progress, IShellPage associatedInstance)
         {
             HashAlgorithmProvider algorithmProvider = HashAlgorithmProvider.OpenAlgorithm(nameOfAlg);
-            BaseStorageFile file = await StorageHelpers.ToStorageItem<BaseStorageFile>((fileItem as ShortcutItem)?.TargetPath ?? fileItem.ItemPath, associatedInstance);
+            BaseStorageFile file = await StorageHelpers.ToStorageItem<BaseStorageFile>((fileItem as ShortcutItem)?.TargetPath ?? fileItem.ItemPath);
             if (file == null)
             {
                 return "";

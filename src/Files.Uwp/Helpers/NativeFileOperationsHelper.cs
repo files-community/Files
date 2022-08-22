@@ -1,7 +1,9 @@
 ﻿using Files.Shared.Extensions;
 using Microsoft.Win32.SafeHandles;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
@@ -85,7 +87,7 @@ namespace Files.Uwp.Helpers
         public static SafeFileHandle OpenFileForRead(string filePath, bool readWrite = false, uint flags = 0)
         {
             return new SafeFileHandle(CreateFileFromApp(filePath,
-                GENERIC_READ | (readWrite ? GENERIC_WRITE : 0), FILE_SHARE_READ | (readWrite ? 0 :FILE_SHARE_WRITE), IntPtr.Zero, OPEN_EXISTING, (uint)File_Attributes.BackupSemantics | flags, IntPtr.Zero), true);
+                GENERIC_READ | (readWrite ? GENERIC_WRITE : 0), FILE_SHARE_READ | (readWrite ? 0 : FILE_SHARE_WRITE), IntPtr.Zero, OPEN_EXISTING, (uint)File_Attributes.BackupSemantics | flags, IntPtr.Zero), true);
         }
 
         private const int MAXIMUM_REPARSE_DATA_BUFFER_SIZE = 16 * 1024;
@@ -249,6 +251,71 @@ namespace Files.Uwp.Helpers
         [DllImport("api-ms-win-core-file-l1-2-1.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern bool SetFileTime([In] IntPtr hFile, in FILETIME lpCreationTime, in FILETIME lpLastAccessTime, in FILETIME lpLastWriteTime);
 
+        private enum FILE_INFO_BY_HANDLE_CLASS
+        {
+            FileBasicInfo = 0,
+            FileStandardInfo = 1,
+            FileNameInfo = 2,
+            FileRenameInfo = 3,
+            FileDispositionInfo = 4,
+            FileAllocationInfo = 5,
+            FileEndOfFileInfo = 6,
+            FileStreamInfo = 7,
+            FileCompressionInfo = 8,
+            FileAttributeTagInfo = 9,
+            FileIdBothDirectoryInfo = 10,// 0x0A
+            FileIdBothDirectoryRestartInfo = 11, // 0xB
+            FileIoPriorityHintInfo = 12, // 0xC
+            FileRemoteProtocolInfo = 13, // 0xD
+            FileFullDirectoryInfo = 14, // 0xE
+            FileFullDirectoryRestartInfo = 15, // 0xF
+            FileStorageInfo = 16, // 0x10
+            FileAlignmentInfo = 17, // 0x11
+            FileIdInfo = 18, // 0x12
+            FileIdExtdDirectoryInfo = 19, // 0x13
+            FileIdExtdDirectoryRestartInfo = 20, // 0x14
+            MaximumFileInfoByHandlesClass
+        }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        private struct FILE_ID_BOTH_DIR_INFO
+        {
+            public uint NextEntryOffset;
+            public uint FileIndex;
+            public long CreationTime;
+            public long LastAccessTime;
+            public long LastWriteTime;
+            public long ChangeTime;
+            public long EndOfFile;
+            public long AllocationSize;
+            public uint FileAttributes;
+            public uint FileNameLength;
+            public uint EaSize;
+            public char ShortNameLength;
+            [MarshalAsAttribute(UnmanagedType.ByValTStr, SizeConst = 12)]
+            public string ShortName;
+            public long FileId;
+            [MarshalAsAttribute(UnmanagedType.ByValTStr, SizeConst = 1)]
+            public string FileName;
+        }
+
+        [DllImport("api-ms-win-core-file-l2-1-1.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
+        private static extern bool GetFileInformationByHandleEx(IntPtr hFile, FILE_INFO_BY_HANDLE_CLASS infoClass, out FILE_ID_BOTH_DIR_INFO dirInfo, uint dwBufferSize);
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode, Pack = 8)]
+        private struct FILE_STREAM_INFO
+        {
+            public uint NextEntryOffset;
+            public uint StreamNameLength;
+            public long StreamSize;
+            public long StreamAllocationSize;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 1024)]
+            public string StreamName;
+        }
+
+        [DllImport("api-ms-win-core-file-l2-1-1.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
+        private static extern bool GetFileInformationByHandleEx(IntPtr hFile, FILE_INFO_BY_HANDLE_CLASS infoClass, IntPtr dirInfo, uint dwBufferSize);
+
         public static bool GetFileDateModified(string filePath, out FILETIME dateModified)
         {
             using var hFile = new SafeFileHandle(CreateFileFromApp(filePath, GENERIC_READ, FILE_SHARE_READ, IntPtr.Zero, OPEN_EXISTING, (uint)File_Attributes.BackupSemantics, IntPtr.Zero), true);
@@ -381,6 +448,21 @@ namespace Files.Uwp.Helpers
             return result;
         }
 
+        // https://www.pinvoke.net/default.aspx/kernel32/GetFileInformationByHandleEx.html
+        public static ulong? GetFolderFRN(string folderPath)
+        {
+            using var handle = OpenFileForRead(folderPath);
+            if (!handle.IsInvalid)
+            {
+                var fileStruct = new FILE_ID_BOTH_DIR_INFO();
+                if (GetFileInformationByHandleEx(handle.DangerousGetHandle(), FILE_INFO_BY_HANDLE_CLASS.FileIdBothDirectoryInfo, out fileStruct, (uint)Marshal.SizeOf(fileStruct)))
+                {
+                    return (ulong)fileStruct.FileId;
+                }
+            }
+            return null;
+        }
+
         public static async Task<SafeFileHandle> OpenProtectedFileForRead(string filePath, bool readWrite = false)
         {
             var connection = await AppServiceConnectionHelper.Instance;
@@ -434,6 +516,32 @@ namespace Files.Uwp.Helpers
                 }
             }
             return null;
+        }
+
+        public static IEnumerable<(string Name, long Size)> GetAlternateStreams(string path)
+        {
+            using var handle = OpenFileForRead(path);
+            if (!handle.IsInvalid)
+            {
+                var bufferSize = Marshal.SizeOf(typeof(FILE_STREAM_INFO)) * 10;
+                var mem = Marshal.AllocHGlobal(bufferSize);
+                if (GetFileInformationByHandleEx(handle.DangerousGetHandle(), FILE_INFO_BY_HANDLE_CLASS.FileStreamInfo, mem, (uint)bufferSize))
+                {
+                    uint offset = 0;
+                    FILE_STREAM_INFO fileStruct;
+                    do
+                    {
+                        fileStruct = Marshal.PtrToStructure<FILE_STREAM_INFO>(new IntPtr(mem.ToInt64() + offset));
+                        var name = fileStruct.StreamName.Substring(0, (int)fileStruct.StreamNameLength / 2);
+                        if (name.EndsWith(":$DATA") && name != "::$DATA")
+                        {
+                            yield return (name, fileStruct.StreamSize);
+                        }
+                        offset += fileStruct.NextEntryOffset;
+                    } while (fileStruct.NextEntryOffset != 0);
+                }
+                Marshal.FreeHGlobal(mem);
+            }
         }
     }
 }

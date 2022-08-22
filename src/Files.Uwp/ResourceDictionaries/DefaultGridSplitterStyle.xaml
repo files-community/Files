@@ -20,12 +20,19 @@
                     <Grid
                         x:Name="RootGrid"
                         Background="Transparent"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="1,0,0,0">
+                        BorderBrush="{TemplateBinding BorderBrush}">
+
+                        <Border 
+                            Width="1"
+                            Background="{ThemeResource SplitterBorderBrush}"
+                            HorizontalAlignment="Center" />
+
                         <ContentPresenter
-                            HorizontalContentAlignment="Stretch"
-                            VerticalContentAlignment="Stretch"
-                            Content="{TemplateBinding Element}" />
+                            HorizontalContentAlignment="Left"
+                            VerticalContentAlignment="Top"
+                            Content="{TemplateBinding Element}"
+                            Visibility="Collapsed" />
+
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="GridSplitterStates">
                                 <VisualState x:Name="Normal" />

@@ -8,7 +8,7 @@ using Windows.Foundation.Collections;
 
 namespace Files.FullTrust.MessageHandlers
 {
-    [SupportedOSPlatform("Windows10.10240")]
+    [SupportedOSPlatform("Windows10.0.10240")]
     public class DriveHandler : Disposable, IMessageHandler
     {
         public void Initialize(PipeStream connection) {}

@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
@@ -94,7 +95,7 @@ namespace Files.Uwp.Helpers
 
         private static async Task<IEnumerable<IconFileInfo>> LoadSidebarIconResources()
         {
-            const string imageres = @"C:\Windows\System32\imageres.dll";
+            string imageres = Path.Combine(CommonPaths.SystemRootPath, "System32", "imageres.dll");
             var imageResList = await UIHelpers.LoadSelectedIconsAsync(imageres, new List<int>() {
                     Constants.ImageRes.RecycleBin,
                     Constants.ImageRes.NetworkDrives,

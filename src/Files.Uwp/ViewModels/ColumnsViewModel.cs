@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Newtonsoft.Json;
 using Windows.UI.Xaml;
 
 namespace Files.Uwp.ViewModels
@@ -12,7 +11,7 @@ namespace Files.Uwp.ViewModels
             IsResizeable = false,
         };
 
-        [JsonIgnore]
+        [LiteDB.BsonIgnore]
         public ColumnViewModel IconColumn
         {
             get => iconColumn;
@@ -129,20 +128,60 @@ namespace Files.Uwp.ViewModels
             SizeColumn.TryMultiplySize(factor);
             StatusColumn.TryMultiplySize(factor);
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            if (obj == this)
+            {
+                return true;
+            }
+            if (obj is ColumnsViewModel model)
+            {
+                return (
+                    model.DateCreatedColumn.Equals(this.DateCreatedColumn) &&
+                    model.DateDeletedColumn.Equals(this.DateDeletedColumn) &&
+                    model.DateModifiedColumn.Equals(this.DateModifiedColumn) &&
+                    model.ItemTypeColumn.Equals(this.ItemTypeColumn) &&
+                    model.NameColumn.Equals(this.NameColumn) &&
+                    model.OriginalPathColumn.Equals(this.OriginalPathColumn) &&
+                    model.SizeColumn.Equals(this.SizeColumn) &&
+                    model.StatusColumn.Equals(this.StatusColumn) &&
+                    model.TagColumn.Equals(this.TagColumn));
+            }
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = DateCreatedColumn.GetHashCode();
+            hashCode = (hashCode * 397) ^ DateDeletedColumn.GetHashCode();
+            hashCode = (hashCode * 397) ^ DateModifiedColumn.GetHashCode();
+            hashCode = (hashCode * 397) ^ ItemTypeColumn.GetHashCode();
+            hashCode = (hashCode * 397) ^ NameColumn.GetHashCode();
+            hashCode = (hashCode * 397) ^ OriginalPathColumn.GetHashCode();
+            hashCode = (hashCode * 397) ^ SizeColumn.GetHashCode();
+            hashCode = (hashCode * 397) ^ StatusColumn.GetHashCode();
+            hashCode = (hashCode * 397) ^ TagColumn.GetHashCode();
+            return hashCode;
+        }
     }
 
     public class ColumnViewModel : ObservableObject
     {
         private bool isHidden;
 
-        [JsonIgnore]
+        [LiteDB.BsonIgnore]
         public bool IsHidden
         {
             get => isHidden;
             set => SetProperty(ref isHidden, value);
         }
 
-        [JsonIgnore]
+        [LiteDB.BsonIgnore]
         public double MaxLength
         {
             get => IsHidden || UserCollapsed ? 0 : NormalMaxLength;
@@ -150,7 +189,7 @@ namespace Files.Uwp.ViewModels
 
         private double normalMaxLength = 800;
 
-        [JsonIgnore]
+        [LiteDB.BsonIgnore]
         public double NormalMaxLength
         {
             get => normalMaxLength;
@@ -159,7 +198,7 @@ namespace Files.Uwp.ViewModels
 
         private double normalMinLength = 50;
 
-        [JsonIgnore]
+        [LiteDB.BsonIgnore]
         public double NormalMinLength
         {
             get => normalMinLength;
@@ -172,10 +211,10 @@ namespace Files.Uwp.ViewModels
             }
         }
 
-        [JsonIgnore]
+        [LiteDB.BsonIgnore]
         public double MinLength => IsHidden || UserCollapsed ? 0 : NormalMinLength;
 
-        [JsonIgnore]
+        [LiteDB.BsonIgnore]
         public Visibility Visibility => IsHidden || UserCollapsed ? Visibility.Collapsed : Visibility.Visible;
 
         private bool userCollapsed;
@@ -197,14 +236,14 @@ namespace Files.Uwp.ViewModels
             get => IsHidden || UserCollapsed ? new GridLength(0) : UserLength;
         }
 
-        private const int gridSplitterWidth = 1;
+        private const int gridSplitterWidth = 8;
 
         public GridLength LengthIncludingGridSplitter
         {
             get => IsHidden || UserCollapsed ? new GridLength(0) : new GridLength(UserLength.Value + (IsResizeable ? gridSplitterWidth : 0));
         }
 
-        [JsonIgnore]
+        [LiteDB.BsonIgnore]
         public bool IsResizeable { get; set; } = true;
 
         private GridLength userLength = new GridLength(200, GridUnitType.Pixel);
@@ -268,6 +307,36 @@ namespace Files.Uwp.ViewModels
             }
 
             UserLength = new GridLength(setLength);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            if (obj == this)
+            {
+                return true;
+            }
+            if (obj is ColumnViewModel model)
+            {
+                return (
+                    model.UserCollapsed == this.UserCollapsed &&
+                    model.Length.Value == this.Length.Value &&
+                    model.LengthIncludingGridSplitter.Value == this.LengthIncludingGridSplitter.Value &&
+                    model.UserLength.Value == this.UserLength.Value);
+            }
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = UserCollapsed.GetHashCode();
+            hashCode = (hashCode * 397) ^ Length.Value.GetHashCode();
+            hashCode = (hashCode * 397) ^ LengthIncludingGridSplitter.Value.GetHashCode();
+            hashCode = (hashCode * 397) ^ UserLength.Value.GetHashCode();
+            return hashCode;
         }
     }
 }
