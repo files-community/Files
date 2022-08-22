@@ -214,7 +214,7 @@
                     Label="{helpers:ResourceString Name=RestoreRecycleBin}"
                     ToolTipService.ToolTip="{helpers:ResourceString Name=RestoreRecycleBin}">
                     <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE8E5;" />
+                        <FontIcon Glyph="&#xE10D;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
                 <AppBarButton

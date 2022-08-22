@@ -606,7 +606,7 @@ namespace Files.Uwp.Helpers
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "RestoreRecycleBin".GetLocalized(),
-                    Glyph = "\uE8E5", // QMK -- Making a better looking glyph ?
+                    Glyph = "\xE10D",
                     Command = commandsViewModel.RestoreRecycleBinCommand,
                     ShowItem = currentInstanceViewModel.IsPageTypeRecycleBin,
                     ShowInRecycleBin = true,
