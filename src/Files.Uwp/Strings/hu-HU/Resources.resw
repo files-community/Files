@@ -2801,11 +2801,11 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
   <data name="SetAsDefault" xml:space="preserve">
     <value>Beállítás alapértelmezettként</value>
   </data>
-  <data name="DefaultFolderPreferences" xml:space="preserve">
-    <value>Alapértelmezett mappabeállítások</value>
+  <data name="FolderPreferences" xml:space="preserve">
+    <value>Mappabeállítások</value>
   </data>
   <data name="DisplayDateColumn" xml:space="preserve">
-    <value>Display Date column</value>
+    <value>Módosítás dátuma oszlop megjelenítése</value>
   </data>
   <data name="DisplayDateCreatedColumn" xml:space="preserve">
     <value>Létrehozás dátuma oszlop megjelenítése</value>
@@ -2818,6 +2818,15 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
   </data>
   <data name="DisplayTypeColumn" xml:space="preserve">
     <value>Típus oszlop megjelenítése</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Visszaállítás</value>
+  </data>
+  <data name="ResetLayoutPreferences" xml:space="preserve">
+    <value>Ez a művelet visszaállítja az összes mappa beállításait az alapértelmezettre.</value>
+  </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>Biztos benne?</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Zárolási képernyő</value>
