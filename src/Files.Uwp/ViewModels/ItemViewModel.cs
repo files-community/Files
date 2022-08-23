@@ -405,6 +405,8 @@ namespace Files.Uwp.ViewModels
             UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
             FileTagsSettingsService.OnSettingImportedEvent += FileTagsSettingsService_OnSettingImportedEvent;
             FolderSizeProvider.SizeChanged += FolderSizeProvider_SizeChanged;
+
+            _ = InitializeConnectionAsync(); // fire and forget
             AppServiceConnectionHelper.ConnectionChanged += AppServiceConnectionHelper_ConnectionChanged;
         }
 
@@ -487,6 +489,11 @@ namespace Files.Uwp.ViewModels
                     await ApplyFilesAndFoldersChangesAsync();
                     break;
             }
+        }
+
+        private async Task InitializeConnectionAsync()
+        {
+            Connection ??= await AppServiceConnectionHelper.Instance;
         }
 
         private async void AppServiceConnectionHelper_ConnectionChanged(object sender, Task<NamedPipeAsAppServiceConnection> e)
@@ -1307,7 +1314,7 @@ namespace Files.Uwp.ViewModels
 
                 ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress });
 
-                Connection ??= await AppServiceConnectionHelper.Instance;
+                await InitializeConnectionAsync();
 
                 if (path.ToLowerInvariant().EndsWith(ShellLibraryItem.EXTENSION, StringComparison.Ordinal))
                 {
