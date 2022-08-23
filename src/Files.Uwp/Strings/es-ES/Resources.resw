@@ -165,6 +165,9 @@
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Tamaño:</value>
   </data>
+  <data name="UncompressedSize" xml:space="preserve">
+    <value>Tamaño sin comprimir:</value>
+  </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Esta acción no se puede completar</value>
   </data>
@@ -810,12 +813,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Subir un directorio</value>
   </data>
-  <data name="VerticalTabFlyout.AutomationProperties.Name" xml:space="preserve">
-    <value>Menú desplegable de pestaña</value>
-  </data>
-  <data name="VerticalTabFlyout.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Menú desplegable de pestaña</value>
-  </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Idioma</value>
   </data>
@@ -1239,8 +1236,8 @@
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
     <value>Mostrar elementos no indexados al buscar archivos y carpetas (las búsquedas pueden tardar más)</value>
   </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
-    <value>Habilitar preferencias individuales para directorios individuales</value>
+  <data name="ForceThesePreferencesOnAllDirectories" xml:space="preserve">
+    <value>Forzar estas preferencias en todos los directorios</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Personaliza el menú contextual</value>
@@ -2013,9 +2010,6 @@
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Propietario desconocido</value>
   </data>
-  <data name="SettingsVerticalTabFlyout" xml:space="preserve">
-    <value>Mostrar el menú desplegable de pestaña en la barra de título</value>
-  </data>
   <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>Más información acerca de los temas personalizados</value>
   </data>
@@ -2352,9 +2346,6 @@ Utilizamos App Center para hacer un seguimiento del uso de la aplicación, encon
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Editar etiquetas de archivo</value>
   </data>
-  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
-    <value>Habilitar etiquetas de archivo</value>
-  </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Mostrar Favoritos</value>
   </data>
@@ -2685,9 +2676,6 @@ Utilizamos App Center para hacer un seguimiento del uso de la aplicación, encon
   <data name="RunWithPowerShell" xml:space="preserve">
     <value>Ejecutar con PowerShell</value>
   </data>
-  <data name="SetAsBackground" xml:space="preserve">
-    <value>Establecer como fondo de Escritorio</value>
-  </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>Calcular el tamaño de las carpetas consume muchos recursos y podría provocar que aumente el uso de la CPU. </value>
   </data>
@@ -2798,5 +2786,47 @@ Utilizamos App Center para hacer un seguimiento del uso de la aplicación, encon
   </data>
   <data name="ReviewFilesContent" xml:space="preserve">
     <value>¿Desea escribir una reseña sobre Files?</value>
+  </data>
+  <data name="SetAsBackgroundFlyout" xml:space="preserve">
+    <value>Establecer como fondo de pantalla</value>
+  </data>
+  <data name="SetAsLockscreen" xml:space="preserve">
+    <value>Establecer como pantalla de bloqueo</value>
+  </data>
+  <data name="SetAsBackground" xml:space="preserve">
+    <value>Establecer como fondo de Escritorio</value>
+  </data>
+  <data name="SetAsDefault" xml:space="preserve">
+    <value>Establecer como predeterminado</value>
+  </data>
+  <data name="FolderPreferences" xml:space="preserve">
+    <value>Preferencias de carpeta</value>
+  </data>
+  <data name="DisplayDateColumn" xml:space="preserve">
+    <value>Mostrar la columna de fecha</value>
+  </data>
+  <data name="DisplayDateCreatedColumn" xml:space="preserve">
+    <value>Mostrar la columna de fecha de creación</value>
+  </data>
+  <data name="DisplaySizeColumn" xml:space="preserve">
+    <value>Mostrar la columna de tamaño</value>
+  </data>
+  <data name="DisplayTagColumn" xml:space="preserve">
+    <value>Mostrar la columna de etiqueta</value>
+  </data>
+  <data name="DisplayTypeColumn" xml:space="preserve">
+    <value>Mostrar la columna de tipo</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Restablecer</value>
+  </data>
+  <data name="ResetLayoutPreferences" xml:space="preserve">
+    <value>Esta acción restablecerá todos los directorios a sus preferencias predeterminadas.</value>
+  </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>¿Está seguro?</value>
+  </data>
+  <data name="Lockscreen" xml:space="preserve">
+    <value>Pantalla de bloqueo</value>
   </data>
 </root>

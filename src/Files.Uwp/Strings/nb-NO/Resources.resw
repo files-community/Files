@@ -165,6 +165,9 @@
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Størrelse:</value>
   </data>
+  <data name="UncompressedSize" xml:space="preserve">
+    <value>Ukomprimert størrelse:</value>
+  </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Denne handlingen kan ikke utføres</value>
   </data>
@@ -232,7 +235,7 @@
     <value>Vis skjulte filer og mapper</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Show dot files</value>
+    <value>Vis punktum-filer</value>
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Eksperimentelt</value>
@@ -810,12 +813,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Gå en mappe opp</value>
   </data>
-  <data name="VerticalTabFlyout.AutomationProperties.Name" xml:space="preserve">
-    <value>Vertikal flyout med faner </value>
-  </data>
-  <data name="VerticalTabFlyout.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Vertikal flyout med faner </value>
-  </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Språk</value>
   </data>
@@ -1239,8 +1236,8 @@
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
     <value>Vis uindekserte elementer ved søk etter filer og mapper</value>
   </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
-    <value>Tillat individuelle preferanser for individuelle mapper</value>
+  <data name="ForceThesePreferencesOnAllDirectories" xml:space="preserve">
+    <value>Tving disse innstillingene i alle mapper</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Tilpass høyreklikk-kontekstmenyen</value>
@@ -2013,9 +2010,6 @@
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Ukjent eier</value>
   </data>
-  <data name="SettingsVerticalTabFlyout" xml:space="preserve">
-    <value>Vis vertikal flyout med faner på tittellinjen</value>
-  </data>
   <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>Lær mer om egendefinerte temaer</value>
   </data>
@@ -2353,9 +2347,6 @@ Vi bruker App Center for å spore app-bruk og for å finne/reparere feil. All in
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Rediger fil-merkelapper</value>
   </data>
-  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
-    <value>Tillat fil-merkelapper</value>
-  </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Vis seksjon for favoritter</value>
   </data>
@@ -2686,11 +2677,8 @@ Vi bruker App Center for å spore app-bruk og for å finne/reparere feil. All in
   <data name="RunWithPowerShell" xml:space="preserve">
     <value>Kjør med PowerShell</value>
   </data>
-  <data name="SetAsBackground" xml:space="preserve">
-    <value>Bruk som skrivebordsbakgrunn</value>
-  </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
-    <value>Beregning av mappestørrelser er ressurskrevende og kan føre til at prosessorbruken øker.</value>
+    <value>Beregning av mappestørrelser er ressurskrevende og kan føre til at prosessorbruken vil øke.</value>
   </data>
   <data name="RotateLeft" xml:space="preserve">
     <value>Roter mot venstre</value>
@@ -2702,7 +2690,7 @@ Vi bruker App Center for å spore app-bruk og for å finne/reparere feil. All in
     <value>Installer</value>
   </data>
   <data name="CloseTabsToTheLeft" xml:space="preserve">
-    <value>Close tabs to the left</value>
+    <value>Lukk faner til venstre</value>
   </data>
   <data name="CloseTabsToTheRight" xml:space="preserve">
     <value>Lukk faner til høyre</value>
@@ -2723,19 +2711,19 @@ Vi bruker App Center for å spore app-bruk og for å finne/reparere feil. All in
     <value>Oppdater filer</value>
   </data>
   <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
-    <value>Preparing {0} items</value>
+    <value>Forbereder {0} elementer</value>
   </data>
   <data name="PrepareInProgress" xml:space="preserve">
-    <value>Preparing items</value>
+    <value>Forbereder elementer</value>
   </data>
   <data name="StatusCopyFailed" xml:space="preserve">
     <value>Kopiering mislyktes</value>
   </data>
   <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
-    <value>Failed to copy {0} items from {1} to {2}</value>
+    <value>Kopiering av {0} elementer fra {1} til {2} mislyktes</value>
   </data>
   <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
-    <value>Failed to copy {0} item from {1} to {2}</value>
+    <value>Kopiering av {0} element fra {1} til {2} mislyktes</value>
   </data>
   <data name="StatusMoveFailed" xml:space="preserve">
     <value>Flytting mislyktes.</value>
@@ -2744,19 +2732,19 @@ Vi bruker App Center for å spore app-bruk og for å finne/reparere feil. All in
     <value>Merker</value>
   </data>
   <data name="SettingsShowFileTagsSection.Title" xml:space="preserve">
-    <value>Show Tags section</value>
+    <value>Vis tagg-seksjon</value>
   </data>
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Show Tags section</value>
+    <value>Vis tagg-seksjon</value>
   </data>
   <data name="UseCompactStyles" xml:space="preserve">
-    <value>Use compact styles in the details layout</value>
+    <value>Bruk kompakte stiler i detaljer-oppsettet</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Universell</value>
   </data>
   <data name="DateFormatSample" xml:space="preserve">
-    <value>ex: {0}, {1}</value>
+    <value>eks: {0}, {1}</value>
   </data>
   <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
     <value>Vis miniatyrbilder</value>
@@ -2765,39 +2753,81 @@ Vi bruker App Center for å spore app-bruk og for å finne/reparere feil. All in
     <value>Prøv på nytt</value>
   </data>
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
-    <value>Move operation is not supported in this context. Do you want to copy the items instead?</value>
+    <value>Flytting er ikke mulig i dette tilfellet. Vil du kopiere filene i stedet?</value>
   </data>
   <data name="HiddenFilesAndFolders" xml:space="preserve">
-    <value>Hidden files and folders</value>
+    <value>Skjulte filer og mapper</value>
   </data>
   <data name="Custom" xml:space="preserve">
-    <value>Custom</value>
+    <value>Tilpasset</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
-    <value>Set as desktop slideshow</value>
+    <value>Bruk som lysbildeserie på skrivebordet</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
-    <value>Size All Columns to Fit</value>
+    <value>Tilpass alle kolonner så de passer</value>
   </data>
   <data name="Contributors" xml:space="preserve">
     <value>Bidragsytere</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Adaptive</value>
+    <value>Tilpassende</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>Adaptive (Ctrl+Shift+7)</value>
+    <value>Tilpassende (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>Show Alternate Data Streams</value>
+    <value>Vis alternative datastrømmer</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
-    <value>Review Files</value>
+    <value>Anmeld Files</value>
   </data>
   <data name="ReviewFilesContent" xml:space="preserve">
-    <value>Would you like to review Files?</value>
+    <value>Har du lyst å gi Files en anmeldelse?</value>
+  </data>
+  <data name="SetAsBackgroundFlyout" xml:space="preserve">
+    <value>Bruk som bakgrunn</value>
+  </data>
+  <data name="SetAsLockscreen" xml:space="preserve">
+    <value>Bruk som låseskjerm</value>
+  </data>
+  <data name="SetAsBackground" xml:space="preserve">
+    <value>Bruk som skrivebordsbakgrunn</value>
+  </data>
+  <data name="SetAsDefault" xml:space="preserve">
+    <value>Angi som standard</value>
+  </data>
+  <data name="FolderPreferences" xml:space="preserve">
+    <value>Mappeinnstillinger</value>
+  </data>
+  <data name="DisplayDateColumn" xml:space="preserve">
+    <value>Vis datokolonne</value>
+  </data>
+  <data name="DisplayDateCreatedColumn" xml:space="preserve">
+    <value>Vis oppretningsdato-kolonne</value>
+  </data>
+  <data name="DisplaySizeColumn" xml:space="preserve">
+    <value>Vis størrelse-kolonne</value>
+  </data>
+  <data name="DisplayTagColumn" xml:space="preserve">
+    <value>Vis taggkolonne</value>
+  </data>
+  <data name="DisplayTypeColumn" xml:space="preserve">
+    <value>Vis type-kolonne</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Tilbakestill</value>
+  </data>
+  <data name="ResetLayoutPreferences" xml:space="preserve">
+    <value>Denne handlingen vil tilbakestille alle mapper tilbake til standardinnstillingene dine.</value>
+  </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>Er du sikker?</value>
+  </data>
+  <data name="Lockscreen" xml:space="preserve">
+    <value>Låseskjerm</value>
   </data>
 </root>

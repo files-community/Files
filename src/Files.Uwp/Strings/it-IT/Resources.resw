@@ -165,6 +165,9 @@
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Dimensioni:</value>
   </data>
+  <data name="UncompressedSize" xml:space="preserve">
+    <value>Dimensione non compressa:</value>
+  </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Impossibile eseguire questa azione</value>
   </data>
@@ -810,12 +813,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Sali alla cartella superiore</value>
   </data>
-  <data name="VerticalTabFlyout.AutomationProperties.Name" xml:space="preserve">
-    <value>Menu schede verticale</value>
-  </data>
-  <data name="VerticalTabFlyout.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Menu schede verticale</value>
-  </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Lingua</value>
   </data>
@@ -1239,8 +1236,8 @@
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
     <value>Mostra elementi non indicizzati durante la ricerca</value>
   </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
-    <value>Abilita impostazioni personalizzate per ogni cartella</value>
+  <data name="ForceThesePreferencesOnAllDirectories" xml:space="preserve">
+    <value>Forza queste preferenze su tutte le cartelle</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Personalizza il menu contestuale</value>
@@ -2013,9 +2010,6 @@
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Sconosciuto</value>
   </data>
-  <data name="SettingsVerticalTabFlyout" xml:space="preserve">
-    <value>Mostra il pulsante barra delle schede verticale nella barra del titolo</value>
-  </data>
   <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>Scopri di più sui temi personalizzati</value>
   </data>
@@ -2348,9 +2342,6 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Gestisci le etichette</value>
   </data>
-  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
-    <value>Abilita le etichette</value>
-  </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Mostra sezione Preferiti</value>
   </data>
@@ -2681,9 +2672,6 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
   <data name="RunWithPowerShell" xml:space="preserve">
     <value>Esegui con PowerShell</value>
   </data>
-  <data name="SetAsBackground" xml:space="preserve">
-    <value>Imposta come sfondo desktop</value>
-  </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>Calcolare la dimensione delle cartelle richiede molte risorse e potrebbe aumentare l'uso della CPU.</value>
   </data>
@@ -2794,5 +2782,47 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
   </data>
   <data name="ReviewFilesContent" xml:space="preserve">
     <value>Vuoi lasciare una recensione su Files?</value>
+  </data>
+  <data name="SetAsBackgroundFlyout" xml:space="preserve">
+    <value>Imposta come sfondo</value>
+  </data>
+  <data name="SetAsLockscreen" xml:space="preserve">
+    <value>Imposta come schermata di blocco</value>
+  </data>
+  <data name="SetAsBackground" xml:space="preserve">
+    <value>Imposta come sfondo desktop</value>
+  </data>
+  <data name="SetAsDefault" xml:space="preserve">
+    <value>Imposta come predefinito</value>
+  </data>
+  <data name="FolderPreferences" xml:space="preserve">
+    <value>Preferenze cartelle</value>
+  </data>
+  <data name="DisplayDateColumn" xml:space="preserve">
+    <value>Visualizza colonna Data</value>
+  </data>
+  <data name="DisplayDateCreatedColumn" xml:space="preserve">
+    <value>Visualizza colonna Data di creazione</value>
+  </data>
+  <data name="DisplaySizeColumn" xml:space="preserve">
+    <value>Visualizza colonna Dimensione</value>
+  </data>
+  <data name="DisplayTagColumn" xml:space="preserve">
+    <value>Visualizza colonna Etichetta</value>
+  </data>
+  <data name="DisplayTypeColumn" xml:space="preserve">
+    <value>Visualizza colonna Tipo</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Reimposta</value>
+  </data>
+  <data name="ResetLayoutPreferences" xml:space="preserve">
+    <value>Questa azione reimposterà tutte le cartelle alle tue preferenze predefinite.</value>
+  </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>Sei sicuro/a?</value>
+  </data>
+  <data name="Lockscreen" xml:space="preserve">
+    <value>Schermata di blocco</value>
   </data>
 </root>
