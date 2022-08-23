@@ -2800,8 +2800,8 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
   <data name="SetAsDefault" xml:space="preserve">
     <value>Als Standard festlegen</value>
   </data>
-  <data name="DefaultFolderPreferences" xml:space="preserve">
-    <value>Standard-Ordnereinstellungen</value>
+  <data name="FolderPreferences" xml:space="preserve">
+    <value>Ordnereinstellungen</value>
   </data>
   <data name="DisplayDateColumn" xml:space="preserve">
     <value>Datumspalte anzeigen</value>
@@ -2817,6 +2817,15 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
   </data>
   <data name="DisplayTypeColumn" xml:space="preserve">
     <value>Typspalte anzeigen</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Zurücksetzen</value>
+  </data>
+  <data name="ResetLayoutPreferences" xml:space="preserve">
+    <value>Diese Aktion wird alle Verzeichnisse auf Ihre Standardeinstellungen zurücksetzen.</value>
+  </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>Sind Sie sicher?</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Sperrbildschirm</value>
