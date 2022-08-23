@@ -18,6 +18,8 @@ using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;
 using Microsoft.UI.Xaml.Controls;
+using System.Text;
+using SevenZip;
 
 namespace Files.Uwp.ViewModels.SettingsViewModels
 {
@@ -59,20 +61,19 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
             {
                 try
                 {
-                    var zipFolder = await ZipStorageFolder.FromStorageFileAsync(file);
+                    await ZipStorageFolder.InitArchive(file, OutArchiveFormat.Zip);
+                    var zipFolder = (ZipStorageFolder)await ZipStorageFolder.FromStorageFileAsync(file);
                     if (zipFolder == null)
                     {
                         return;
                     }
                     var localFolderPath = ApplicationData.Current.LocalFolder.Path;
                     // Export user settings
-                    var userSettings = await zipFolder.CreateFileAsync(Constants.LocalSettings.UserSettingsFileName, CreationCollisionOption.ReplaceExisting);
-                    string exportSettings = (string)UserSettingsService.ExportSettings();
-                    await userSettings.WriteTextAsync(exportSettings);
+                    var exportSettings = UTF8Encoding.UTF8.GetBytes((string)UserSettingsService.ExportSettings());
+                    await zipFolder.CreateFileAsync(new MemoryStream(exportSettings), Constants.LocalSettings.UserSettingsFileName, CreationCollisionOption.ReplaceExisting);
                     // Export bundles
-                    var bundles = await zipFolder.CreateFileAsync(Constants.LocalSettings.BundlesSettingsFileName, CreationCollisionOption.ReplaceExisting);
-                    string exportBundles = (string)BundlesSettingsService.ExportSettings();
-                    await bundles.WriteTextAsync(exportBundles);
+                    var exportBundles = UTF8Encoding.UTF8.GetBytes((string)BundlesSettingsService.ExportSettings());
+                    await zipFolder.CreateFileAsync(new MemoryStream(exportBundles), Constants.LocalSettings.BundlesSettingsFileName, CreationCollisionOption.ReplaceExisting);
                     // Export pinned items
                     var pinnedItems = await BaseStorageFile.GetFileFromPathAsync(Path.Combine(localFolderPath, Constants.LocalSettings.SettingsFolderName, App.SidebarPinnedController.JsonFileName));
                     await pinnedItems.CopyAsync(zipFolder, pinnedItems.Name, NameCollisionOption.ReplaceExisting);
@@ -80,16 +81,13 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
                     var terminals = await BaseStorageFile.GetFileFromPathAsync(Path.Combine(localFolderPath, Constants.LocalSettings.SettingsFolderName, App.TerminalController.JsonFileName));
                     await terminals.CopyAsync(zipFolder, terminals.Name, NameCollisionOption.ReplaceExisting);
                     // Export file tags list and DB
-                    var fileTagsList = await zipFolder.CreateFileAsync(Constants.LocalSettings.FileTagSettingsFileName, CreationCollisionOption.ReplaceExisting);
-                    string exportTags = (string)FileTagsSettingsService.ExportSettings();
-                    await fileTagsList.WriteTextAsync(exportTags);
-                    var fileTagsDB = await zipFolder.CreateFileAsync(Path.GetFileName(FileTagsHelper.FileTagsDbPath), CreationCollisionOption.ReplaceExisting);
-                    string exportTagsDB = FileTagsHelper.DbInstance.Export();
-                    await fileTagsDB.WriteTextAsync(exportTagsDB);
+                    var exportTags = UTF8Encoding.UTF8.GetBytes((string)FileTagsSettingsService.ExportSettings());
+                    await zipFolder.CreateFileAsync(new MemoryStream(exportTags), Constants.LocalSettings.FileTagSettingsFileName, CreationCollisionOption.ReplaceExisting);
+                    var exportTagsDB = UTF8Encoding.UTF8.GetBytes(FileTagsHelper.DbInstance.Export());
+                    await zipFolder.CreateFileAsync(new MemoryStream(exportTagsDB), Path.GetFileName(FileTagsHelper.FileTagsDbPath), CreationCollisionOption.ReplaceExisting);
                     // Export layout preferences DB
-                    var layoutPrefsDB = await zipFolder.CreateFileAsync(Path.GetFileName(FolderSettingsViewModel.LayoutSettingsDbPath), CreationCollisionOption.ReplaceExisting);
-                    string exportPrefsDB = FolderSettingsViewModel.DbInstance.Export();
-                    await layoutPrefsDB.WriteTextAsync(exportPrefsDB);
+                    var exportPrefsDB = UTF8Encoding.UTF8.GetBytes(FolderSettingsViewModel.DbInstance.Export());
+                    await zipFolder.CreateFileAsync(new MemoryStream(exportPrefsDB), Path.GetFileName(FolderSettingsViewModel.LayoutSettingsDbPath), CreationCollisionOption.ReplaceExisting);
                 }
                 catch (Exception ex)
                 {
