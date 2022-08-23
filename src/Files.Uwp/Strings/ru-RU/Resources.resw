@@ -2794,8 +2794,8 @@
   <data name="SetAsDefault" xml:space="preserve">
     <value>Установить по умолчанию</value>
   </data>
-  <data name="DefaultFolderPreferences" xml:space="preserve">
-    <value>Настройки папки по умолчанию</value>
+  <data name="FolderPreferences" xml:space="preserve">
+    <value>Folder preferences</value>
   </data>
   <data name="DisplayDateColumn" xml:space="preserve">
     <value>Отображать столбец даты</value>
@@ -2811,6 +2811,15 @@
   </data>
   <data name="DisplayTypeColumn" xml:space="preserve">
     <value>Отображать столбец типа</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="ResetLayoutPreferences" xml:space="preserve">
+    <value>This action will reset all directories back to your default preferences.</value>
+  </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>Are you sure?</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Lockscreen</value>
