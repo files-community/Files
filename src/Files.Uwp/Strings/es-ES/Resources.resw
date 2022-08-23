@@ -2799,8 +2799,8 @@ Utilizamos App Center para hacer un seguimiento del uso de la aplicación, encon
   <data name="SetAsDefault" xml:space="preserve">
     <value>Establecer como predeterminado</value>
   </data>
-  <data name="DefaultFolderPreferences" xml:space="preserve">
-    <value>Preferencias de carpeta predeterminadas</value>
+  <data name="FolderPreferences" xml:space="preserve">
+    <value>Preferencias de carpeta</value>
   </data>
   <data name="DisplayDateColumn" xml:space="preserve">
     <value>Mostrar la columna de fecha</value>
@@ -2816,6 +2816,15 @@ Utilizamos App Center para hacer un seguimiento del uso de la aplicación, encon
   </data>
   <data name="DisplayTypeColumn" xml:space="preserve">
     <value>Mostrar la columna de tipo</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Restablecer</value>
+  </data>
+  <data name="ResetLayoutPreferences" xml:space="preserve">
+    <value>Esta acción restablecerá todos los directorios a sus preferencias predeterminadas.</value>
+  </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>¿Está seguro?</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Pantalla de bloqueo</value>
