@@ -166,7 +166,7 @@
     <value>ขนาด:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed Size:</value>
+    <value>ขนาดที่ไม่บีบอัด:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>ไม่สามารถปฏิบัติตามที่สั่งไว้ได้</value>
@@ -1237,7 +1237,7 @@
     <value>ค้นไฟล์และโฟลเดอร์ที่อยู่นอกเหนือรายการดัชนี</value>
   </data>
   <data name="ForceThesePreferencesOnAllDirectories" xml:space="preserve">
-    <value>Force these preferences on all directories</value>
+    <value>บังคับใช้การตั้งค่านี้ทุกโฟลเดอร์</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>ปรับแต่งรายการคลิกขวา</value>
@@ -1936,34 +1936,34 @@
     <value>รีไซเคิล</value>
   </data>
   <data name="MoveInProgress" xml:space="preserve">
-    <value>Moving items</value>
+    <value>กำลังย้ายไฟล์</value>
   </data>
   <data name="CopyInProgress.Title" xml:space="preserve">
-    <value>Copying items</value>
+    <value>กำลังคัดลอกไฟล์</value>
   </data>
   <data name="StatusRecycleFailed" xml:space="preserve">
-    <value>Recycle failed</value>
+    <value>ย้ายไปถังรีไซเคิลล้มเหลว</value>
   </data>
   <data name="StatusRecycleCancelled" xml:space="preserve">
-    <value>Recycle cancelled</value>
+    <value>ยกเลิกย้ายไปถังรีไซเคิลแล้ว</value>
   </data>
   <data name="canceling" xml:space="preserve">
-    <value>canceling</value>
+    <value>กำลังยกเลิก</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Dismiss</value>
+    <value>หยุด</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Dismiss</value>
+    <value>หยุด</value>
   </data>
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
-    <value>Widgets</value>
+    <value>วิตเจท</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
-    <value>Sync status</value>
+    <value>สถานะการซิงค์</value>
   </data>
   <data name="Security" xml:space="preserve">
-    <value>Security</value>
+    <value>ความปลอดภัย</value>
   </data>
   <data name="AdvancedPermissions" xml:space="preserve">
     <value>สิทธิ์ขั้นสูง</value>
@@ -1972,43 +1972,43 @@
     <value>อนุญาต</value>
   </data>
   <data name="SecurityDenyLabel.Text" xml:space="preserve">
-    <value>Deny</value>
+    <value>ปฏิเสธ</value>
   </data>
   <data name="SecurityFullControlLabel.Text" xml:space="preserve">
-    <value>Full control</value>
+    <value>ควบคุมทั้งหมด</value>
   </data>
   <data name="SecurityListDirectoryLabel.Text" xml:space="preserve">
-    <value>List directory contents</value>
+    <value>แสดงรายการเนื้อหาโฟลเดอร์</value>
   </data>
   <data name="SecurityModifyLabel.Text" xml:space="preserve">
-    <value>Modify</value>
+    <value>ปรับเปลี่ยน</value>
   </data>
   <data name="SecurityPermissionsLabel.Text" xml:space="preserve">
-    <value>Permissions for</value>
+    <value>สิทธิ์สำหรับ</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
-    <value>Read and execute</value>
+    <value>อ่านและดำเนินการ</value>
   </data>
   <data name="SecurityReadLabel.Text" xml:space="preserve">
-    <value>Read</value>
+    <value>อ่าน</value>
   </data>
   <data name="SecurityUsersGroupLabel.Text" xml:space="preserve">
-    <value>Group or user names</value>
+    <value>ชื่อกลุ่มหรือชื่อผู้ใช้</value>
   </data>
   <data name="Write" xml:space="preserve">
-    <value>Write</value>
+    <value>เขียน</value>
   </data>
   <data name="SecurityUnknownAccount" xml:space="preserve">
-    <value>Unknown account</value>
+    <value>นิรนาม</value>
   </data>
   <data name="SecurityCannotReadProperties.Text" xml:space="preserve">
-    <value>You do not have permissions to view the security properties of this object. Click "Advanced permissions" to proceed.</value>
+    <value>คุณต้องมีสิทธิ์ในการอ่านเพื่อดูคุณสมบัติของไฟล์นี้ คลิก "ขั้นสูง" เพื่อดำเนินการต่อ</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
-    <value>Owner</value>
+    <value>เจ้าของ</value>
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
-    <value>Unknown owner</value>
+    <value>เจ้าของไม่ทราบชื่อ</value>
   </data>
   <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>ศึกษาเพิ่มเติมเกี่ยวกับธีมปรับแต่ง</value>
@@ -2110,13 +2110,13 @@
     <value>โฟลเดอร์ย่อยเท่านั้น</value>
   </data>
   <data name="SecurityAdvancedOnlySubfoldersFiles.Text" xml:space="preserve">
-    <value>Only subfolders and files</value>
+    <value>แค่โฟลเดอร์และไฟล์ข้างใน</value>
   </data>
   <data name="SecurityAdvancedOnlyThisFolder.Text" xml:space="preserve">
-    <value>Only this folder</value>
+    <value>แค่โฟลเดอร์เท่านั้น</value>
   </data>
   <data name="SecurityAdvancedFolderSubfolders.Text" xml:space="preserve">
-    <value>This folder and subfolders</value>
+    <value>โฟลเดอร์นี้และไฟล์ข้างใน</value>
   </data>
   <data name="SecurityAppendDataLabel.Text" xml:space="preserve">
     <value>Append data</value>
@@ -2795,8 +2795,8 @@
   <data name="SetAsDefault" xml:space="preserve">
     <value>Set as default</value>
   </data>
-  <data name="DefaultFolderPreferences" xml:space="preserve">
-    <value>Default Folder preferences</value>
+  <data name="FolderPreferences" xml:space="preserve">
+    <value>Folder preferences</value>
   </data>
   <data name="DisplayDateColumn" xml:space="preserve">
     <value>Display Date column</value>
@@ -2812,6 +2812,15 @@
   </data>
   <data name="DisplayTypeColumn" xml:space="preserve">
     <value>Display Type column</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="ResetLayoutPreferences" xml:space="preserve">
+    <value>This action will reset all directories back to your default preferences.</value>
+  </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>Are you sure?</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Lockscreen</value>
