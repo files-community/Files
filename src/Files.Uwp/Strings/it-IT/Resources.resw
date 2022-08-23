@@ -166,7 +166,7 @@
     <value>Dimensioni:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed Size:</value>
+    <value>Dimensione non compressa:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Impossibile eseguire questa azione</value>
@@ -1237,7 +1237,7 @@
     <value>Mostra elementi non indicizzati durante la ricerca</value>
   </data>
   <data name="ForceThesePreferencesOnAllDirectories" xml:space="preserve">
-    <value>Force these preferences on all directories</value>
+    <value>Forza queste preferenze su tutte le cartelle</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Personalizza il menu contestuale</value>
@@ -2784,36 +2784,45 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
     <value>Vuoi lasciare una recensione su Files?</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
-    <value>Set as background</value>
+    <value>Imposta come sfondo</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Set as lockscreen</value>
+    <value>Imposta come schermata di blocco</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>Imposta come sfondo desktop</value>
   </data>
   <data name="SetAsDefault" xml:space="preserve">
-    <value>Set as default</value>
+    <value>Imposta come predefinito</value>
   </data>
-  <data name="DefaultFolderPreferences" xml:space="preserve">
-    <value>Default Folder preferences</value>
+  <data name="FolderPreferences" xml:space="preserve">
+    <value>Preferenze cartelle</value>
   </data>
   <data name="DisplayDateColumn" xml:space="preserve">
-    <value>Display Date column</value>
+    <value>Visualizza colonna Data</value>
   </data>
   <data name="DisplayDateCreatedColumn" xml:space="preserve">
-    <value>Display Date Created column</value>
+    <value>Visualizza colonna Data di creazione</value>
   </data>
   <data name="DisplaySizeColumn" xml:space="preserve">
-    <value>Display Size column</value>
+    <value>Visualizza colonna Dimensione</value>
   </data>
   <data name="DisplayTagColumn" xml:space="preserve">
-    <value>Display Tag column</value>
+    <value>Visualizza colonna Etichetta</value>
   </data>
   <data name="DisplayTypeColumn" xml:space="preserve">
-    <value>Display Type column</value>
+    <value>Visualizza colonna Tipo</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Reimposta</value>
+  </data>
+  <data name="ResetLayoutPreferences" xml:space="preserve">
+    <value>Questa azione reimposterà tutte le cartelle alle tue preferenze predefinite.</value>
+  </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>Sei sicuro/a?</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
-    <value>Lockscreen</value>
+    <value>Schermata di blocco</value>
   </data>
 </root>
