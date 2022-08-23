@@ -166,7 +166,7 @@
     <value>Velikost:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed Size:</value>
+    <value>Nekomprimovaná velikost:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Tato akce nemůže být provedena</value>
@@ -1237,7 +1237,7 @@
     <value>Zobrazit neindexované položky při hledání souborů a složek</value>
   </data>
   <data name="ForceThesePreferencesOnAllDirectories" xml:space="preserve">
-    <value>Force these preferences on all directories</value>
+    <value>Vynutit nastavení pro všechny adresáře</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Přizpůsobit kontextovou nabídku pravého tlačítka</value>
@@ -2777,42 +2777,51 @@ Používáme centrum aplikací k sledování nastavení, které jsou používán
     <value>Zobrazit alternativní datové streamy</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
-    <value>Review Files</value>
+    <value>Napsat recenzi na Files</value>
   </data>
   <data name="ReviewFilesContent" xml:space="preserve">
-    <value>Would you like to review Files?</value>
+    <value>Chcete napsat recenzi na Files?</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
-    <value>Set as background</value>
+    <value>Nastavit jako pozadí</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Set as lockscreen</value>
+    <value>Nastavit jako obrazovku uzamčení</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>Nastavit jako pozadí plochy</value>
   </data>
   <data name="SetAsDefault" xml:space="preserve">
-    <value>Set as default</value>
+    <value>Nastavit jako výchozí</value>
   </data>
-  <data name="DefaultFolderPreferences" xml:space="preserve">
-    <value>Default Folder preferences</value>
+  <data name="FolderPreferences" xml:space="preserve">
+    <value>Nastavení složky</value>
   </data>
   <data name="DisplayDateColumn" xml:space="preserve">
-    <value>Display Date column</value>
+    <value>Zobrazit sloupec data</value>
   </data>
   <data name="DisplayDateCreatedColumn" xml:space="preserve">
-    <value>Display Date Created column</value>
+    <value>Zobrazit sloupec data vytvoření</value>
   </data>
   <data name="DisplaySizeColumn" xml:space="preserve">
-    <value>Display Size column</value>
+    <value>Zobrazit sloupec velikosti</value>
   </data>
   <data name="DisplayTagColumn" xml:space="preserve">
-    <value>Display Tag column</value>
+    <value>Zobrazit sloupec tagu</value>
   </data>
   <data name="DisplayTypeColumn" xml:space="preserve">
-    <value>Display Type column</value>
+    <value>Zobrazit sloupec typu</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Resetovat</value>
+  </data>
+  <data name="ResetLayoutPreferences" xml:space="preserve">
+    <value>Tato akce obnoví všechny adresáře zpět do výchozích nastavení.</value>
+  </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>Jste si jistý?</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
-    <value>Lockscreen</value>
+    <value>Zamykací obrazovka</value>
   </data>
 </root>
