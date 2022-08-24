@@ -165,6 +165,9 @@
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Kích thước:</value>
   </data>
+  <data name="UncompressedSize" xml:space="preserve">
+    <value>Uncompressed Size:</value>
+  </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Không thể làm hoạt động này</value>
   </data>
@@ -810,12 +813,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Tiến lên một danh mục </value>
   </data>
-  <data name="VerticalTabFlyout.AutomationProperties.Name" xml:space="preserve">
-    <value>Tab chuyển ra dọc</value>
-  </data>
-  <data name="VerticalTabFlyout.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Tab chuyển ra dọc</value>
-  </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Ngôn ngữ</value>
   </data>
@@ -1239,8 +1236,8 @@
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
     <value>Hiển thị mục không lục khi tìm kiếm cho tệp tin và thư mục (Có thể lâu hơn để tìm kiếm)</value>
   </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
-    <value>Bật tùy chọn cá nhân cho danh mục cá nhân</value>
+  <data name="ForceThesePreferencesOnAllDirectories" xml:space="preserve">
+    <value>Force these preferences on all directories</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Tùy chỉnh danh mục truy cập bằng cú nhấp phía phải</value>
@@ -2013,9 +2010,6 @@
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Chủ sở hữu không xác định</value>
   </data>
-  <data name="SettingsVerticalTabFlyout" xml:space="preserve">
-    <value>Hiển thị thực đơn bay ra dọc trên thanh tiểu đề.</value>
-  </data>
   <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>Tìm hiểu thêm về chủ đề tùy chỉnh</value>
   </data>
@@ -2353,9 +2347,6 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Chỉnh sửa các thẻ tệp</value>
   </data>
-  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
-    <value>Bật các thẻ tệp</value>
-  </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Hiển thị phần danh sách yêu thích</value>
   </data>
@@ -2686,9 +2677,6 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
   <data name="RunWithPowerShell" xml:space="preserve">
     <value>Chạy bằng PowerShell</value>
   </data>
-  <data name="SetAsBackground" xml:space="preserve">
-    <value>Cài làm ảnh nền desktop</value>
-  </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>Việc tính toán kích thước thư mục tốn nhiều tài nguyên và có thể khiến mức sử dụng CPU của bạn tăng lên.</value>
   </data>
@@ -2795,9 +2783,51 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
     <value>Hiện dòng dữ liệu xen kẽ</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
-    <value>Review Files</value>
+    <value>Đánh giá Files</value>
   </data>
   <data name="ReviewFilesContent" xml:space="preserve">
-    <value>Would you like to review Files?</value>
+    <value>Bạn có muốn đánh giá Files không?</value>
+  </data>
+  <data name="SetAsBackgroundFlyout" xml:space="preserve">
+    <value>Set as background</value>
+  </data>
+  <data name="SetAsLockscreen" xml:space="preserve">
+    <value>Set as lockscreen</value>
+  </data>
+  <data name="SetAsBackground" xml:space="preserve">
+    <value>Cài làm ảnh nền desktop</value>
+  </data>
+  <data name="SetAsDefault" xml:space="preserve">
+    <value>Set as default</value>
+  </data>
+  <data name="FolderPreferences" xml:space="preserve">
+    <value>Folder preferences</value>
+  </data>
+  <data name="DisplayDateColumn" xml:space="preserve">
+    <value>Display Date column</value>
+  </data>
+  <data name="DisplayDateCreatedColumn" xml:space="preserve">
+    <value>Display Date Created column</value>
+  </data>
+  <data name="DisplaySizeColumn" xml:space="preserve">
+    <value>Display Size column</value>
+  </data>
+  <data name="DisplayTagColumn" xml:space="preserve">
+    <value>Display Tag column</value>
+  </data>
+  <data name="DisplayTypeColumn" xml:space="preserve">
+    <value>Display Type column</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="ResetLayoutPreferences" xml:space="preserve">
+    <value>This action will reset all directories back to your default preferences.</value>
+  </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>Are you sure?</value>
+  </data>
+  <data name="Lockscreen" xml:space="preserve">
+    <value>Lockscreen</value>
   </data>
 </root>

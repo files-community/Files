@@ -165,6 +165,9 @@
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Velikost:</value>
   </data>
+  <data name="UncompressedSize" xml:space="preserve">
+    <value>Nekomprimovaná velikost:</value>
+  </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Tato akce nemůže být provedena</value>
   </data>
@@ -810,12 +813,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Přejít o adresář výše</value>
   </data>
-  <data name="VerticalTabFlyout.AutomationProperties.Name" xml:space="preserve">
-    <value>Svislá karta</value>
-  </data>
-  <data name="VerticalTabFlyout.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Svislá karta</value>
-  </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Jazyk</value>
   </data>
@@ -1239,8 +1236,8 @@
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
     <value>Zobrazit neindexované položky při hledání souborů a složek</value>
   </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
-    <value>Povolit individuální nastavení pro jednotlivé adresáře</value>
+  <data name="ForceThesePreferencesOnAllDirectories" xml:space="preserve">
+    <value>Vynutit nastavení pro všechny adresáře</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Přizpůsobit kontextovou nabídku pravého tlačítka</value>
@@ -2013,9 +2010,6 @@
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Neznámý vlastník</value>
   </data>
-  <data name="SettingsVerticalTabFlyout" xml:space="preserve">
-    <value>Zobrazit vertikální rozložení záložek v záhlaví</value>
-  </data>
   <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>Více informací o vlastních motivech</value>
   </data>
@@ -2347,9 +2341,6 @@ Používáme centrum aplikací k sledování nastavení, které jsou používán
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Upravit štítky</value>
   </data>
-  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
-    <value>Povolit štítky</value>
-  </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Zobrazit sekci oblíbené</value>
   </data>
@@ -2680,9 +2671,6 @@ Používáme centrum aplikací k sledování nastavení, které jsou používán
   <data name="RunWithPowerShell" xml:space="preserve">
     <value>Spustit v PowerShellu</value>
   </data>
-  <data name="SetAsBackground" xml:space="preserve">
-    <value>Nastavit jako pozadí plochy</value>
-  </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>Výpočet velikosti složky je náročný na zdroje a může způsobit, že se vaše využití procesoru zvýší.</value>
   </data>
@@ -2789,9 +2777,51 @@ Používáme centrum aplikací k sledování nastavení, které jsou používán
     <value>Zobrazit alternativní datové streamy</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
-    <value>Review Files</value>
+    <value>Napsat recenzi na Files</value>
   </data>
   <data name="ReviewFilesContent" xml:space="preserve">
-    <value>Would you like to review Files?</value>
+    <value>Chcete napsat recenzi na Files?</value>
+  </data>
+  <data name="SetAsBackgroundFlyout" xml:space="preserve">
+    <value>Nastavit jako pozadí</value>
+  </data>
+  <data name="SetAsLockscreen" xml:space="preserve">
+    <value>Nastavit jako obrazovku uzamčení</value>
+  </data>
+  <data name="SetAsBackground" xml:space="preserve">
+    <value>Nastavit jako pozadí plochy</value>
+  </data>
+  <data name="SetAsDefault" xml:space="preserve">
+    <value>Nastavit jako výchozí</value>
+  </data>
+  <data name="FolderPreferences" xml:space="preserve">
+    <value>Nastavení složky</value>
+  </data>
+  <data name="DisplayDateColumn" xml:space="preserve">
+    <value>Zobrazit sloupec data</value>
+  </data>
+  <data name="DisplayDateCreatedColumn" xml:space="preserve">
+    <value>Zobrazit sloupec data vytvoření</value>
+  </data>
+  <data name="DisplaySizeColumn" xml:space="preserve">
+    <value>Zobrazit sloupec velikosti</value>
+  </data>
+  <data name="DisplayTagColumn" xml:space="preserve">
+    <value>Zobrazit sloupec tagu</value>
+  </data>
+  <data name="DisplayTypeColumn" xml:space="preserve">
+    <value>Zobrazit sloupec typu</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Resetovat</value>
+  </data>
+  <data name="ResetLayoutPreferences" xml:space="preserve">
+    <value>Tato akce obnoví všechny adresáře zpět do výchozích nastavení.</value>
+  </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>Jste si jistý?</value>
+  </data>
+  <data name="Lockscreen" xml:space="preserve">
+    <value>Zamykací obrazovka</value>
   </data>
 </root>

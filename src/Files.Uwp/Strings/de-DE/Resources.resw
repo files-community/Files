@@ -165,6 +165,9 @@
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Größe:</value>
   </data>
+  <data name="UncompressedSize" xml:space="preserve">
+    <value>Unkomprimierte Größe:</value>
+  </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Diese Aktion kann nicht ausgeführt werden</value>
   </data>
@@ -810,12 +813,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Einen Ordner nach oben gehen</value>
   </data>
-  <data name="VerticalTabFlyout.AutomationProperties.Name" xml:space="preserve">
-    <value>Flyout für vertikale Tabs</value>
-  </data>
-  <data name="VerticalTabFlyout.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Flyout für vertikale Tabs</value>
-  </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Sprache</value>
   </data>
@@ -1239,8 +1236,8 @@
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
     <value>Nicht indizierte Dateien und Ordner in der Suche anzeigen</value>
   </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
-    <value>Individuelle Einstellungen für einzelne Ordner aktivieren</value>
+  <data name="ForceThesePreferencesOnAllDirectories" xml:space="preserve">
+    <value>Diese Einstellungen für alle Verzeichnisse erzwingen</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Kontextmenü anpassen</value>
@@ -2013,9 +2010,6 @@
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Unbekannter Besitzer</value>
   </data>
-  <data name="SettingsVerticalTabFlyout" xml:space="preserve">
-    <value>Das Flyout für vertikale Tabs in der Titleleiste anzeigen</value>
-  </data>
   <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>Mehr über benutzerdefinierte Themes erfahren</value>
   </data>
@@ -2353,9 +2347,6 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Markierung ändern</value>
   </data>
-  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
-    <value>Markierungen anschalten</value>
-  </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Favoriten anzeigen</value>
   </data>
@@ -2686,9 +2677,6 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
   <data name="RunWithPowerShell" xml:space="preserve">
     <value>Mit PowerShell ausführen</value>
   </data>
-  <data name="SetAsBackground" xml:space="preserve">
-    <value>Als Desktophintergrund festlegen</value>
-  </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>Da das Berechnen der Ordnergrößen rechenintensiv ist kann die CPU-Auslastung erhöht werden.</value>
   </data>
@@ -2799,5 +2787,47 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
   </data>
   <data name="ReviewFilesContent" xml:space="preserve">
     <value>Möchten Sie Files bewerten?</value>
+  </data>
+  <data name="SetAsBackgroundFlyout" xml:space="preserve">
+    <value>Als Hintergrund festlegen</value>
+  </data>
+  <data name="SetAsLockscreen" xml:space="preserve">
+    <value>Als Sperrbildschirm festlegen</value>
+  </data>
+  <data name="SetAsBackground" xml:space="preserve">
+    <value>Als Desktophintergrund festlegen</value>
+  </data>
+  <data name="SetAsDefault" xml:space="preserve">
+    <value>Als Standard festlegen</value>
+  </data>
+  <data name="FolderPreferences" xml:space="preserve">
+    <value>Ordnereinstellungen</value>
+  </data>
+  <data name="DisplayDateColumn" xml:space="preserve">
+    <value>Datumspalte anzeigen</value>
+  </data>
+  <data name="DisplayDateCreatedColumn" xml:space="preserve">
+    <value>Erstelldatumspalte anzeigen</value>
+  </data>
+  <data name="DisplaySizeColumn" xml:space="preserve">
+    <value>Größenspalte anzeigen</value>
+  </data>
+  <data name="DisplayTagColumn" xml:space="preserve">
+    <value>Tag-Spalte anzeigen</value>
+  </data>
+  <data name="DisplayTypeColumn" xml:space="preserve">
+    <value>Typspalte anzeigen</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Zurücksetzen</value>
+  </data>
+  <data name="ResetLayoutPreferences" xml:space="preserve">
+    <value>Diese Aktion wird alle Verzeichnisse auf Ihre Standardeinstellungen zurücksetzen.</value>
+  </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>Sind Sie sicher?</value>
+  </data>
+  <data name="Lockscreen" xml:space="preserve">
+    <value>Sperrbildschirm</value>
   </data>
 </root>

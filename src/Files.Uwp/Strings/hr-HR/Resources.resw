@@ -165,6 +165,9 @@
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Veličina:</value>
   </data>
+  <data name="UncompressedSize" xml:space="preserve">
+    <value>Uncompressed Size:</value>
+  </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Ova akcija se ne može napraviti</value>
   </data>
@@ -810,12 +813,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Idi jednu mapu gore</value>
   </data>
-  <data name="VerticalTabFlyout.AutomationProperties.Name" xml:space="preserve">
-    <value>Vertikalni prozoričić kartica</value>
-  </data>
-  <data name="VerticalTabFlyout.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Vertikalni prozorčić kartica</value>
-  </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Jezik</value>
   </data>
@@ -1239,8 +1236,8 @@
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
     <value>Prikaži neindeksirane stavke pri traženju datoteka i mapa (pretraživanja mogu potrajati dulje)</value>
   </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
-    <value>Omogući pojedinačne postavke za pojedinačne mape</value>
+  <data name="ForceThesePreferencesOnAllDirectories" xml:space="preserve">
+    <value>Force these preferences on all directories</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Prilagodi kontekstni izbornik desnog klika</value>
@@ -2013,9 +2010,6 @@
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Nepoznati vlasnik</value>
   </data>
-  <data name="SettingsVerticalTabFlyout" xml:space="preserve">
-    <value>Prikaži prozorčić vertikalnih kartica na naslovnoj traci</value>
-  </data>
   <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>Saznajte više o prilagođenim temama</value>
   </data>
@@ -2352,9 +2346,6 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Uredi oznake datoteke</value>
   </data>
-  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
-    <value>Omogući oznake datoteka</value>
-  </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Prikaži odjeljak favorita</value>
   </data>
@@ -2685,9 +2676,6 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
   <data name="RunWithPowerShell" xml:space="preserve">
     <value>Run with PowerShell</value>
   </data>
-  <data name="SetAsBackground" xml:space="preserve">
-    <value>Postavi kao pozadinu radne površine</value>
-  </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</value>
   </data>
@@ -2798,5 +2786,47 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
   </data>
   <data name="ReviewFilesContent" xml:space="preserve">
     <value>Would you like to review Files?</value>
+  </data>
+  <data name="SetAsBackgroundFlyout" xml:space="preserve">
+    <value>Set as background</value>
+  </data>
+  <data name="SetAsLockscreen" xml:space="preserve">
+    <value>Set as lockscreen</value>
+  </data>
+  <data name="SetAsBackground" xml:space="preserve">
+    <value>Postavi kao pozadinu radne površine</value>
+  </data>
+  <data name="SetAsDefault" xml:space="preserve">
+    <value>Set as default</value>
+  </data>
+  <data name="FolderPreferences" xml:space="preserve">
+    <value>Folder preferences</value>
+  </data>
+  <data name="DisplayDateColumn" xml:space="preserve">
+    <value>Display Date column</value>
+  </data>
+  <data name="DisplayDateCreatedColumn" xml:space="preserve">
+    <value>Display Date Created column</value>
+  </data>
+  <data name="DisplaySizeColumn" xml:space="preserve">
+    <value>Display Size column</value>
+  </data>
+  <data name="DisplayTagColumn" xml:space="preserve">
+    <value>Display Tag column</value>
+  </data>
+  <data name="DisplayTypeColumn" xml:space="preserve">
+    <value>Display Type column</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="ResetLayoutPreferences" xml:space="preserve">
+    <value>This action will reset all directories back to your default preferences.</value>
+  </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>Are you sure?</value>
+  </data>
+  <data name="Lockscreen" xml:space="preserve">
+    <value>Lockscreen</value>
   </data>
 </root>
