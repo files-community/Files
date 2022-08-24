@@ -166,7 +166,7 @@
     <value>大小:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed Size:</value>
+    <value>原始（压缩前）大小</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>操作无法完成</value>
@@ -571,7 +571,7 @@
     <value>PB</value>
   </data>
   <data name="ByteSymbol" xml:space="preserve">
-    <value>字节</value>
+    <value>B</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>以管理员身份运行</value>
@@ -1237,7 +1237,7 @@
     <value>搜索文件和文件夹时，显示未建立索引的项</value>
   </data>
   <data name="ForceThesePreferencesOnAllDirectories" xml:space="preserve">
-    <value>Force these preferences on all directories</value>
+    <value>强制对所有目录应用这些首选项</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>自定义右键菜单</value>
@@ -2773,7 +2773,7 @@
     <value>Ctrl+Shift+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>显示交换数据流</value>
+    <value>显示交换数据流 (ADS)</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
     <value>评价 Files</value>
@@ -2782,45 +2782,45 @@
     <value>您想要评价 Files 吗？</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
-    <value>Set as background</value>
+    <value>设为桌面背景</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Set as lockscreen</value>
+    <value>设为锁屏界面</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>设置为桌面背景</value>
   </data>
   <data name="SetAsDefault" xml:space="preserve">
-    <value>Set as default</value>
+    <value>设为默认</value>
   </data>
   <data name="FolderPreferences" xml:space="preserve">
-    <value>Folder preferences</value>
+    <value>文件夹首选项</value>
   </data>
   <data name="DisplayDateColumn" xml:space="preserve">
-    <value>Display Date column</value>
+    <value>显示“日期”列</value>
   </data>
   <data name="DisplayDateCreatedColumn" xml:space="preserve">
-    <value>Display Date Created column</value>
+    <value>显示“创建日期”列</value>
   </data>
   <data name="DisplaySizeColumn" xml:space="preserve">
-    <value>Display Size column</value>
+    <value>显示“大小”列</value>
   </data>
   <data name="DisplayTagColumn" xml:space="preserve">
-    <value>Display Tag column</value>
+    <value>显示“标签”列</value>
   </data>
   <data name="DisplayTypeColumn" xml:space="preserve">
-    <value>Display Type column</value>
+    <value>显示“类型”列</value>
   </data>
   <data name="Reset" xml:space="preserve">
-    <value>Reset</value>
+    <value>重置首选项</value>
   </data>
   <data name="ResetLayoutPreferences" xml:space="preserve">
-    <value>This action will reset all directories back to your default preferences.</value>
+    <value>此操作将重置所有目录为默认首选项。</value>
   </data>
   <data name="AreYouSure" xml:space="preserve">
-    <value>Are you sure?</value>
+    <value>确定吗？</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
-    <value>Lockscreen</value>
+    <value>锁屏界面</value>
   </data>
 </root>
