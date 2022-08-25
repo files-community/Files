@@ -17,12 +17,11 @@
     <DisableXbfLineInfo>False</DisableXbfLineInfo>
     <AppxBundlePlatforms>x86|x64|arm64</AppxBundlePlatforms>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-    <!-- WINUI3 -->
-    <!--<Win32Resource>Resources\MiddleClickScrolling-CursorType.res</Win32Resource>-->
+    <Win32Resource>Resources\MiddleClickScrolling-CursorType.res</Win32Resource>
     <LangVersion>9.0</LangVersion>
     <Nullable>Enable</Nullable>
     <UseWinUI>true</UseWinUI>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <NoWin32Manifest>True</NoWin32Manifest>
     <Platforms>x86;x64;arm64</Platforms>
     <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
   </PropertyGroup>
@@ -99,6 +98,9 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
+    <None Update="Files.exe.manifest">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\terminal\terminal.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
