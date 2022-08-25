@@ -10,6 +10,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
 using System.Threading;
 using Microsoft.UI.Dispatching;
+using System.Runtime.InteropServices;
 
 namespace Files.Uwp
 {
@@ -17,10 +18,9 @@ namespace Files.Uwp
     {
         // Note: We can't declare Main to be async because in a WinUI app
         // this prevents Narrator from reading XAML elements.
-        //WINUI3: verify if still true
         // https://github.com/microsoft/WindowsAppSDK-Samples/blob/main/Samples/AppLifecycle/Instancing/cs-winui-packaged/CsWinUiDesktopInstancing/CsWinUiDesktopInstancing/Program.cs
-        [STAThread]
-        private static async Task Main()
+        [STAThread] // STAThread has no effect if main is async, needed for Clipboard
+        private static void Main()
         {
             WinRT.ComWrappersSupport.InitializeComWrappers();
 
@@ -50,7 +50,7 @@ namespace Files.Uwp
                             var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
                             if (!instance.IsCurrent && !string.IsNullOrWhiteSpace(launchArgs.Arguments))
                             {
-                                await instance.RedirectActivationToAsync(activatedArgs);
+                                RedirectActivationTo(instance, activatedArgs);
                                 return;
                             }
                         }
@@ -65,7 +65,7 @@ namespace Files.Uwp
                         var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
                         if (!instance.IsCurrent)
                         {
-                            await instance.RedirectActivationToAsync(activatedArgs);
+                            RedirectActivationTo(instance, activatedArgs);
                             return;
                         }
                     }
@@ -76,7 +76,7 @@ namespace Files.Uwp
                     var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
                     if (!instance.IsCurrent)
                     {
-                        await instance.RedirectActivationToAsync(activatedArgs);
+                        RedirectActivationTo(instance, activatedArgs);
                         return;
                     }
                 }
@@ -115,7 +115,7 @@ namespace Files.Uwp
                     var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
                     if (!instance.IsCurrent)
                     {
-                        await instance.RedirectActivationToAsync(activatedArgs);
+                        RedirectActivationTo(instance, activatedArgs);
                         // Terminate "zombie" Files process which remains in suspended state
                         // after redirection when launched by command line
                         //TerminateUwpAppInstance(proc.Id); // WINUI3: check if needed
@@ -163,6 +163,39 @@ namespace Files.Uwp
             ApplicationData.Current.LocalSettings.Values["pid"] = pid;
             var ftpPath = System.IO.Path.Combine(Windows.ApplicationModel.Package.Current.InstalledLocation.Path, "Files.FullTrust", "FilesFullTrust.exe");
             System.Diagnostics.Process.Start(ftpPath);
+        }
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
+        private static extern IntPtr CreateEvent(
+            IntPtr lpEventAttributes, bool bManualReset,
+            bool bInitialState, string lpName);
+
+        [DllImport("kernel32.dll")]
+        private static extern bool SetEvent(IntPtr hEvent);
+
+        [DllImport("ole32.dll")]
+        private static extern uint CoWaitForMultipleObjects(
+            uint dwFlags, uint dwMilliseconds, ulong nHandles,
+            IntPtr[] pHandles, out uint dwIndex);
+
+        private static IntPtr redirectEventHandle = IntPtr.Zero;
+
+        // Do the redirection on another thread, and use a non-blocking
+        // wait method to wait for the redirection to complete.
+        public static void RedirectActivationTo(
+            AppInstance keyInstance, AppActivationArguments args)
+        {
+            redirectEventHandle = CreateEvent(IntPtr.Zero, true, false, null);
+            Task.Run(() =>
+            {
+                keyInstance.RedirectActivationToAsync(args).AsTask().Wait();
+                SetEvent(redirectEventHandle);
+            });
+            uint CWMO_DEFAULT = 0;
+            uint INFINITE = 0xFFFFFFFF;
+            _ = CoWaitForMultipleObjects(
+               CWMO_DEFAULT, INFINITE, 1,
+               new IntPtr[] { redirectEventHandle }, out uint handleIndex);
         }
     }
 }
