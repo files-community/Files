@@ -211,10 +211,11 @@
                     AccessKey="B"
                     Command="{x:Bind ViewModel.RestoreRecycleBinCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind ViewModel.CanRestoreRecycleBin, Mode=OneWay}"
-                    Label="{helpers:ResourceString Name=RestoreRecycleBin}"
+                    Visibility="{x:Bind ViewModel.CanRestoreRecycleBin, Mode=OneWay}"
+                    Label="{helpers:ResourceString Name=RestoreRecycleBinAllItems}"
                     ToolTipService.ToolTip="{helpers:ResourceString Name=RestoreRecycleBin}">
                     <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE10D;" />
+                        <FontIcon Glyph="&#xE845;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
                 <AppBarButton
