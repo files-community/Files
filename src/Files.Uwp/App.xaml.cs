@@ -152,7 +152,7 @@ namespace Files.Uwp
             AppSettings ??= new SettingsViewModel();
 
             ExternalResourcesHelper ??= new ExternalResourcesHelper();
-            //await ExternalResourcesHelper.LoadSelectedTheme(); //WINUI3
+            await ExternalResourcesHelper.LoadSelectedTheme();
             new AppearanceViewModel().SetCompactStyles(updateTheme: false);
 
             JumpList ??= new JumpListManager();
@@ -210,7 +210,7 @@ namespace Files.Uwp
                     AppSettings.DetectQuickLook(),
                     TerminalController.InitializeAsync(),
                     JumpList.InitializeAsync(),
-                    //ExternalResourcesHelper.LoadOtherThemesAsync(), //WINUI3
+                    ExternalResourcesHelper.LoadOtherThemesAsync(),
                     ContextFlyoutItemHelper.CachedNewContextMenuEntries
                 );
 
@@ -219,7 +219,7 @@ namespace Files.Uwp
 
             // Check for required updates
             var updateService = Ioc.Default.GetRequiredService<IUpdateService>();
-            await updateService.CheckForUpdates(); // WINUI3
+            await updateService.CheckForUpdates();
             await updateService.DownloadMandatoryUpdates();
 
             static async Task OptionalTask(Task task, bool condition)

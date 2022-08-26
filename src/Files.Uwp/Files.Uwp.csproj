@@ -13,7 +13,6 @@
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <GenerateTestArtifacts>False</GenerateTestArtifacts>
     <AppxBundle>Always</AppxBundle>
-    <EnableDefaultPriItems>false</EnableDefaultPriItems>
     <DisableXbfLineInfo>False</DisableXbfLineInfo>
     <AppxBundlePlatforms>x86|x64|arm64</AppxBundlePlatforms>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
@@ -110,49 +109,10 @@
     <None Update="Resources\PropertiesInformation.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <PRIResource Include="Strings\fil-PH\Resources.resw" />
-    <PRIResource Include="Strings\th-TH\Resources.resw" />
-    <PRIResource Include="Strings\cs-CZ\Resources.resw" />
-    <PRIResource Include="Strings\sk-SK\Resources.resw" />
-    <PRIResource Include="Strings\bg\Resources.resw" />
-    <PRIResource Include="Strings\nb-NO\Resources.resw" />
-    <PRIResource Include="Strings\af\Resources.resw" />
-    <PRIResource Include="Strings\hr-HR\Resources.resw" />
-    <PRIResource Include="Strings\vi\Resources.resw" />
-    <PRIResource Include="Strings\ca\Resources.resw" />
-    <PRIResource Include="Strings\en-GB\Resources.resw" />
-    <PRIResource Include="Strings\el\Resources.resw" />
-    <PRIResource Include="Strings\ka\Resources.resw" />
-    <PRIResource Include="Strings\id-ID\Resources.resw" />
-    <PRIResource Include="Strings\es-419\Resources.resw" />
-    <PRIResource Include="Strings\pt-PT\Resources.resw" />
-    <PRIResource Include="Strings\lv-LV\Resources.resw" />
-    <PRIResource Include="Strings\sv-SE\Resources.resw" />
-    <PRIResource Include="Strings\ko-KR\Resources.resw" />
-    <PRIResource Include="Strings\ar\Resources.resw" />
-    <PRIResource Include="Strings\da-DK\Resources.resw" />
-    <PRIResource Include="Strings\da\Resources.resw" />
-    <PRIResource Include="Strings\hu-HU\Resources.resw" />
-    <PRIResource Include="Strings\or-IN\Resources.resw" />
-    <PRIResource Include="Strings\hi-IN\Resources.resw" />
-    <PRIResource Include="Strings\pt-BR\Resources.resw" />
-    <PRIResource Include="Strings\he-IL\Resources.resw" />
-    <PRIResource Include="Strings\ja-JP\Resources.resw" />
-    <PRIResource Include="Strings\ta\Resources.resw" />
-    <PRIResource Include="Strings\it-IT\Resources.resw" />
-    <PRIResource Include="Strings\uk-UA\Resources.resw" />
-    <PRIResource Include="Strings\tr-TR\Resources.resw" />
-    <PRIResource Include="Strings\ru-RU\Resources.resw" />
-    <PRIResource Include="Strings\pl-PL\Resources.resw" />
-    <PRIResource Include="Strings\nl-NL\Resources.resw" />
-    <PRIResource Include="Strings\zh-Hans\Resources.resw" />
-    <PRIResource Include="Strings\zh-Hant\Resources.resw" />
-    <PRIResource Include="Strings\de-DE\Resources.resw" />
-    <PRIResource Include="Strings\es-ES\Resources.resw" />
-    <PRIResource Include="Strings\fr-FR\Resources.resw" />
-    <PRIResource Include="Strings\en-US\Resources.resw">
+    <Content Include="Themes\*.xaml">
+      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </PRIResource>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ByteSize">
