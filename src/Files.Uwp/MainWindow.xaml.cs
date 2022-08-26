@@ -168,7 +168,7 @@ namespace Files.Uwp
             }
 
             ((MainPage)rootFrame.Content).Loaded += 
-                (s, e) => DispatcherQueue.TryEnqueue(DispatcherQueuePriority.Low, () => Activate());
+                (s, e) => DispatcherQueue.TryEnqueue(() => Activate());
         }
 
         private Frame EnsureWindowIsInitialized()
