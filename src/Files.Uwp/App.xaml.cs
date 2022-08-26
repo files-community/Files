@@ -218,9 +218,9 @@ namespace Files.Uwp
             });
 
             // Check for required updates
-            //var updateService = Ioc.Default.GetRequiredService<IUpdateService>();
-            //await updateService.CheckForUpdates(); // WINUI3
-            //await updateService.DownloadMandatoryUpdates();
+            var updateService = Ioc.Default.GetRequiredService<IUpdateService>();
+            await updateService.CheckForUpdates(); // WINUI3
+            await updateService.DownloadMandatoryUpdates();
 
             static async Task OptionalTask(Task task, bool condition)
             {
