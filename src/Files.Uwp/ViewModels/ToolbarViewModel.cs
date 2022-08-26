@@ -992,6 +992,7 @@ namespace Files.Uwp.ViewModels
                 else
                 {
                     currentInput = StorageFileExtensions.GetPathWithoutEnvironmentVariable(currentInput);
+                    currentInput = StorageFileExtensions.GetResolvedPath(currentInput);
                     if (currentSelectedPath == currentInput)
                     {
                         return;

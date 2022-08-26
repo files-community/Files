@@ -172,6 +172,11 @@ namespace Files.Uwp.Filesystem
             return Environment.ExpandEnvironmentVariables(path);
         }
 
+        public static string GetResolvedPath(string path)
+        {            
+            return Path.GetFullPath(path);
+        }
+
         public async static Task<BaseStorageFile> DangerousGetFileFromPathAsync
             (string value, StorageFolderWithPath rootFolder = null, StorageFolderWithPath parentFolder = null)
                 => (await DangerousGetFileWithPathFromPathAsync(value, rootFolder, parentFolder)).Item;
