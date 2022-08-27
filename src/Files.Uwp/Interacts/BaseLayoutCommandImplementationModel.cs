@@ -366,8 +366,7 @@ namespace Files.Uwp.Interacts
             DataTransferManager manager = DataTransferManager.GetForCurrentView();
             manager.DataRequested += new TypedEventHandler<DataTransferManager, DataRequestedEventArgs>(Manager_DataRequested);
 
-                Windows.ApplicationModel.DataTransfer.DataTransferManager.As<UWPToWinAppSDKUpgradeHelpers.IDataTransferManagerInterop>().ShowShareUIForWindow(App.WindowHandle)
-;
+            DataTransferManager.As<UWPToWinAppSDKUpgradeHelpers.IDataTransferManagerInterop>().ShowShareUIForWindow(App.WindowHandle);
 
             async void Manager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
             {

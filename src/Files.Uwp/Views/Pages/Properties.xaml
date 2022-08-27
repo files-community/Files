@@ -36,7 +36,8 @@
             VerticalAlignment="Top"
             Background="Transparent" />
 
-        <Grid
+        <!--  WINUI3  -->
+        <!--<Grid
             x:Name="AppWindowTitleBarCaptionButtonsGrid"
             Grid.Row="0"
             Height="32"
@@ -66,7 +67,7 @@
                     Foreground="Black"
                     IsHitTestVisible="False" />
             </Viewbox>
-        </Grid>
+        </Grid>-->
 
         <NavigationView
             x:Name="NavigationView"

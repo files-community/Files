@@ -11,6 +11,7 @@ using Microsoft.Windows.AppLifecycle;
 using System.Threading;
 using Microsoft.UI.Dispatching;
 using System.Runtime.InteropServices;
+using static UWPToWinAppSDKUpgradeHelpers.InteropHelpers;
 
 namespace Files.Uwp
 {
@@ -164,19 +165,6 @@ namespace Files.Uwp
             var ftpPath = System.IO.Path.Combine(Windows.ApplicationModel.Package.Current.InstalledLocation.Path, "Files.FullTrust", "FilesFullTrust.exe");
             System.Diagnostics.Process.Start(ftpPath);
         }
-
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
-        private static extern IntPtr CreateEvent(
-            IntPtr lpEventAttributes, bool bManualReset,
-            bool bInitialState, string lpName);
-
-        [DllImport("kernel32.dll")]
-        private static extern bool SetEvent(IntPtr hEvent);
-
-        [DllImport("ole32.dll")]
-        private static extern uint CoWaitForMultipleObjects(
-            uint dwFlags, uint dwMilliseconds, ulong nHandles,
-            IntPtr[] pHandles, out uint dwIndex);
 
         private static IntPtr redirectEventHandle = IntPtr.Zero;
 
