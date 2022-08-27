@@ -2783,10 +2783,10 @@
     <value>Хотели бы вы оценить Files?</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
-    <value>Set as background</value>
+    <value>Сделать фоном рабочего стола</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Set as lockscreen</value>
+    <value>Сделать фоном экрана блокировки</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>Установить как фон</value>
@@ -2795,7 +2795,7 @@
     <value>Установить по умолчанию</value>
   </data>
   <data name="FolderPreferences" xml:space="preserve">
-    <value>Folder preferences</value>
+    <value>Настройки папки</value>
   </data>
   <data name="DisplayDateColumn" xml:space="preserve">
     <value>Отображать столбец даты</value>
@@ -2813,15 +2813,15 @@
     <value>Отображать столбец типа</value>
   </data>
   <data name="Reset" xml:space="preserve">
-    <value>Reset</value>
+    <value>Сбросить</value>
   </data>
   <data name="ResetLayoutPreferences" xml:space="preserve">
-    <value>This action will reset all directories back to your default preferences.</value>
+    <value>Это действие вернет все папки к настройкам по умолчанию.</value>
   </data>
   <data name="AreYouSure" xml:space="preserve">
-    <value>Are you sure?</value>
+    <value>Вы уверены?</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
-    <value>Lockscreen</value>
+    <value>Экран блокировки</value>
   </data>
 </root>
