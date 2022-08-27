@@ -36,6 +36,8 @@ namespace Files.Uwp
         {
             InitializeComponent();
 
+            PersistenceId = "FilesMainWindow";
+
             EnsureEarlyWindow();
         }
 
