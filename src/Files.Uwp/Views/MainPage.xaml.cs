@@ -164,6 +164,17 @@ namespace Files.Uwp.Views
             if (!AppWindowTitleBar.IsCustomizationSupported())
                 return;
 
+            const bool WORKAROUND = true;
+            if (WORKAROUND)
+            {
+                App.Window.AppWindow.TitleBar.ResetToDefault();
+                App.Window.AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+
+                // Set window buttons background to transparent
+                App.Window.AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+                App.Window.AppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+            }
+
             const uint MDT_Effective_DPI = 0;
 
             var displayArea = DisplayArea.GetFromWindowId(App.Window.AppWindow.Id, DisplayAreaFallback.Primary);
