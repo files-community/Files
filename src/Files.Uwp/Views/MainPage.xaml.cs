@@ -179,7 +179,7 @@ namespace Files.Uwp.Views
             var x = (int)((horizontalMultitaskingControl.ActualWidth - dragArea.ActualWidth) * scaleAdjustment);
             var y = 0;
             var width = (int)(dragArea.ActualWidth * scaleAdjustment);
-            var height = (int)(dragArea.ActualHeight * scaleAdjustment);
+            var height = (int)(horizontalMultitaskingControl.TitlebarArea.ActualHeight * scaleAdjustment);
 
             var dragRect = new RectInt32(x, y, width, height);
             App.Window.AppWindow.TitleBar.SetDragRectangles(new[] { dragRect });
