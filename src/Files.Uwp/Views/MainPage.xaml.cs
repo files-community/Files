@@ -172,15 +172,16 @@ namespace Files.Uwp.Views
             if (hr != 0)
                 return;
             
-            var scaleAdjustment = ((uint)(((long)dpiX * 100 + (96 >> 1)) / 96)) / 100d; // wtf
+            var scalePercent = (uint)(((long)dpiX * 100 + (96 >> 1)) / 96); // wtf
+            var scaleAdjustment = scalePercent / 100.0;
             var dragArea = horizontalMultitaskingControl.DragArea;
 
-            RectInt32 dragRect;
-            dragRect.X = (int)((horizontalMultitaskingControl.ActualWidth - dragArea.ActualWidth) * scaleAdjustment);
-            dragRect.Y = 0;
-            dragRect.Height = (int)(dragArea.ActualHeight * scaleAdjustment);
-            dragRect.Width = (int)(dragArea.ActualWidth * scaleAdjustment);
-            
+            var x = (int)((horizontalMultitaskingControl.ActualWidth - dragArea.ActualWidth) * scaleAdjustment);
+            var y = 0;
+            var width = (int)(dragArea.ActualWidth * scaleAdjustment);
+            var height = (int)(dragArea.ActualHeight * scaleAdjustment);
+
+            var dragRect = new RectInt32(x, y, width, height);
             App.Window.AppWindow.TitleBar.SetDragRectangles(new[] { dragRect });
         }
 

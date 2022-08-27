@@ -606,7 +606,7 @@
                         Grid.Column="1"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        Background="Red" />
+                        Background="Transparent" />
                 </Grid>
             </TabView.TabStripFooter>
         </TabView>
