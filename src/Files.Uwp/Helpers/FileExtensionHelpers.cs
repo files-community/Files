@@ -66,7 +66,7 @@ namespace Files.Uwp.Helpers
             }
 
             ext = new[] { ".zip", ".7z", ".rar", ".tar" } // Only ext we want to browse
-                .FirstOrDefault(x => filePath?.Contains(x, StringComparison.OrdinalIgnoreCase) ?? false);
+                .FirstOrDefault(x => filePath.Contains(x, StringComparison.OrdinalIgnoreCase));
             return ext is not null;
         }
 
