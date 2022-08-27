@@ -605,7 +605,8 @@
                         x:Name="DragAreaGrid"
                         Grid.Column="1"
                         HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch" />
+                        VerticalAlignment="Stretch"
+                        Background="Red" />
                 </Grid>
             </TabView.TabStripFooter>
         </TabView>
