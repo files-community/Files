@@ -95,13 +95,14 @@ namespace Files.Uwp.Views
                     //appWindow.TitleBar.SetPreferredVisibility(AppWindowTitleBarVisibility.AlwaysHidden);
                     //appWindow.Frame.DragRegionVisuals.Add(TitleBarDragArea); //WINUI3, SetDragRectangles?
 
-                    crossIcon.Foreground = ThemeHelper.RootTheme switch
+                    //WINUI3
+                    /*crossIcon.Foreground = ThemeHelper.RootTheme switch
                     {
                         ElementTheme.Default => new SolidColorBrush((Color)Application.Current.Resources["SystemBaseHighColor"]),
                         ElementTheme.Light => new SolidColorBrush(Colors.Black),
                         ElementTheme.Dark => new SolidColorBrush(Colors.White),
                         _ => new SolidColorBrush((Color)Application.Current.Resources["SystemBaseHighColor"])
-                    };
+                    };*/
 
                     // WINUI3: restore Mica background
                     //var micaIsSupported = ApiInformation.IsMethodPresent("Microsoft.UI.Composition.Compositor", "TryCreateBlurredWallpaperBackdropBrush");
@@ -116,7 +117,7 @@ namespace Files.Uwp.Views
                     //Microsoft.UI.Xaml.Controls.BackdropMaterial.SetApplyToRootOrPageBackground(sender as Control, true);
                     //}
 
-                    var duration = new Duration(TimeSpan.FromMilliseconds(280));
+                    /*var duration = new Duration(TimeSpan.FromMilliseconds(280));
 
                     RectHoverAnim = new Storyboard();
                     var RectHoverColorAnim = new ColorAnimation();
@@ -156,11 +157,15 @@ namespace Files.Uwp.Views
                     CrossUnHoverColorAnim.EasingFunction = new SineEase();
                     Storyboard.SetTarget(CrossUnHoverColorAnim, crossIcon);
                     Storyboard.SetTargetProperty(CrossUnHoverColorAnim, "(PathIcon.Foreground).(SolidColorBrush.Color)");
-                    CrossUnHoverAnim.Children.Add(CrossUnHoverColorAnim);
+                    CrossUnHoverAnim.Children.Add(CrossUnHoverColorAnim);*/
                 }
                 else
                 {
                     //WINUI3
+                    //TitleBar = ApplicationView.GetForCurrentView().TitleBar;
+                    //TitleBar.ButtonBackgroundColor = Colors.Transparent;
+                    //TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+                    //Window.Current.SetTitleBar(TitleBarDragArea);
                 }
                 await App.Window.DispatcherQueue.EnqueueAsync(() => AppSettings.UpdateThemeElements.Execute(null));
             }
@@ -202,9 +207,10 @@ namespace Files.Uwp.Views
                         case ElementTheme.Default:
                             if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
                             {
-                                crossIcon.Foreground = new SolidColorBrush((Color)Application.Current.Resources["SystemBaseHighColor"]);
-                                ((ColorAnimation)CrossHoverAnim.Children[0]).From = (Color)Application.Current.Resources["SystemBaseHighColor"];
-                                ((ColorAnimation)CrossUnHoverAnim.Children[0]).To = (Color)Application.Current.Resources["SystemBaseHighColor"];
+                                //WINUI3
+                                //crossIcon.Foreground = new SolidColorBrush((Color)Application.Current.Resources["SystemBaseHighColor"]);
+                                //((ColorAnimation)CrossHoverAnim.Children[0]).From = (Color)Application.Current.Resources["SystemBaseHighColor"];
+                                //((ColorAnimation)CrossUnHoverAnim.Children[0]).To = (Color)Application.Current.Resources["SystemBaseHighColor"];
                             }
                             else
                             {
@@ -217,9 +223,10 @@ namespace Files.Uwp.Views
                         case ElementTheme.Light:
                             if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
                             {
-                                crossIcon.Foreground = new SolidColorBrush(Colors.Black);
-                                ((ColorAnimation)CrossHoverAnim.Children[0]).From = Colors.Black;
-                                ((ColorAnimation)CrossUnHoverAnim.Children[0]).To = Colors.Black;
+                                //WINUI3
+                                //crossIcon.Foreground = new SolidColorBrush(Colors.Black);
+                                //((ColorAnimation)CrossHoverAnim.Children[0]).From = Colors.Black;
+                                //((ColorAnimation)CrossUnHoverAnim.Children[0]).To = Colors.Black;
                             }
                             else
                             {
@@ -232,9 +239,10 @@ namespace Files.Uwp.Views
                         case ElementTheme.Dark:
                             if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
                             {
-                                crossIcon.Foreground = new SolidColorBrush(Colors.White);
-                                ((ColorAnimation)CrossHoverAnim.Children[0]).From = Colors.White;
-                                ((ColorAnimation)CrossUnHoverAnim.Children[0]).To = Colors.White;
+                                //WINUI3
+                                //crossIcon.Foreground = new SolidColorBrush(Colors.White);
+                                //((ColorAnimation)CrossHoverAnim.Children[0]).From = Colors.White;
+                                //((ColorAnimation)CrossUnHoverAnim.Children[0]).To = Colors.White;
                             }
                             else
                             {

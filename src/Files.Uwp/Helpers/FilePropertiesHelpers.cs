@@ -97,22 +97,15 @@ namespace Files.Uwp.Helpers
                     appWindow.Resize(new SizeInt32(460, 550));
                     appWindow.Show();
 
-                    if (true) // WINUI3: move window to cursor position
+                    if (true) // WINUI3: move window to cursor position, todo better
                     {
-                        /*
-                        // Set window size again here as sometimes it's not resized in the page Loaded event
-                        appWindow.Resize(new SizeInt32(460, 550));
-
-                        DisplayRegion displayRegion = ApplicationView.GetForCurrentView().GetDisplayRegions()[0];
-                        Point pointerPosition = CoreWindow.GetForCurrentThread().PointerPosition;
-                        appWindow.RequestMoveRelativeToDisplayRegion(displayRegion,
-                            new Point(pointerPosition.X - displayRegion.WorkAreaOffset.X, pointerPosition.Y - displayRegion.WorkAreaOffset.Y));
-                        */
+                        UWPToWinAppSDKUpgradeHelpers.InteropHelpers.GetCursorPos(out var pointerPosition);
+                        appWindow.Move(new PointInt32(pointerPosition.X, pointerPosition.Y));
                     }
                 }
                 else
                 {
-                    //WINUI3
+                    //WINUI3: no CoreApplicationView
                 }
             }
             else
