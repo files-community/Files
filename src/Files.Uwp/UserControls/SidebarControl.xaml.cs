@@ -27,10 +27,12 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using CommunityToolkit.WinUI.UI;
+using Microsoft.UI.Input;
+using UWPToWinAppSDKUpgradeHelpers;
 
 namespace Files.Uwp.UserControls
 {
-    public sealed partial class SidebarControl : Microsoft.UI.Xaml.Controls.NavigationView, INotifyPropertyChanged
+    public sealed partial class SidebarControl : NavigationView, INotifyPropertyChanged
     {
         public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
@@ -496,7 +498,7 @@ namespace Files.Uwp.UserControls
             await DriveHelpers.EjectDeviceAsync(rightClickedItem.Path);
         }
 
-        private async void Sidebar_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
+        private async void Sidebar_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
             if (IsInPointerPressed || args.InvokedItem == null || args.InvokedItemContainer == null)
             {
@@ -524,7 +526,7 @@ namespace Files.Uwp.UserControls
         private async void Sidebar_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             var properties = e.GetCurrentPoint(null).Properties;
-            var context = (sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext;
+            var context = (sender as NavigationViewItem).DataContext;
             if (properties.IsMiddleButtonPressed && context is INavigationControlItem item && item.Path != null)
             {
                 if (await CheckEmptyDrive(item.Path))
@@ -547,8 +549,8 @@ namespace Files.Uwp.UserControls
 
         private void NavigationViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            var itemContextMenuFlyout = new Microsoft.UI.Xaml.Controls.CommandBarFlyout();
-            var sidebarItem = sender as Microsoft.UI.Xaml.Controls.NavigationViewItem;
+            var itemContextMenuFlyout = new CommandBarFlyout();
+            var sidebarItem = sender as NavigationViewItem;
             var item = sidebarItem.DataContext as INavigationControlItem;
 
             rightClickedItem = item;
@@ -574,21 +576,21 @@ namespace Files.Uwp.UserControls
 
         private void NavigationViewItem_DragStarting(UIElement sender, DragStartingEventArgs args)
         {
-            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem locationItem))
+            if (!((sender as NavigationViewItem).DataContext is LocationItem locationItem))
             {
                 return;
             }
 
             // Adding the original Location item dragged to the DragEvents data view
-            var navItem = (sender as Microsoft.UI.Xaml.Controls.NavigationViewItem);
+            var navItem = (sender as NavigationViewItem);
             args.Data.Properties.Add("sourceLocationItem", navItem);
         }
 
         private void NavigationViewItem_DragEnter(object sender, DragEventArgs e)
         {
-            VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "DragEnter", false);
+            VisualStateManager.GoToState(sender as NavigationViewItem, "DragEnter", false);
 
-            if ((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is INavigationControlItem iNavItem)
+            if ((sender as NavigationViewItem).DataContext is INavigationControlItem iNavItem)
             {
                 if (string.IsNullOrEmpty(iNavItem.Path))
                 {
@@ -599,7 +601,7 @@ namespace Files.Uwp.UserControls
                         if (dragOverSection != null)
                         {
                             dragOverSectionTimer.Stop();
-                            if ((dragOverSection as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem section)
+                            if ((dragOverSection as NavigationViewItem).DataContext is LocationItem section)
                             {
                                 section.IsExpanded = true;
                             }
@@ -616,7 +618,7 @@ namespace Files.Uwp.UserControls
                         if (dragOverItem != null)
                         {
                             dragOverItemTimer.Stop();
-                            SidebarItemInvoked?.Invoke(this, new SidebarItemInvokedEventArgs(dragOverItem as Microsoft.UI.Xaml.Controls.NavigationViewItemBase));
+                            SidebarItemInvoked?.Invoke(this, new SidebarItemInvokedEventArgs(dragOverItem as NavigationViewItemBase));
                             dragOverItem = null;
                         }
                     }, TimeSpan.FromMilliseconds(1000), false);
@@ -626,11 +628,11 @@ namespace Files.Uwp.UserControls
 
         private void NavigationViewItem_DragLeave(object sender, DragEventArgs e)
         {
-            VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "DragLeave", false);
+            VisualStateManager.GoToState(sender as NavigationViewItem, "DragLeave", false);
 
             isDropOnProcess = false;
 
-            if ((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is INavigationControlItem)
+            if ((sender as NavigationViewItem).DataContext is INavigationControlItem)
             {
                 if (sender == dragOverItem)
                 {
@@ -647,7 +649,7 @@ namespace Files.Uwp.UserControls
 
         private async void NavigationViewLocationItem_DragOver(object sender, DragEventArgs e)
         {
-            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem)?.DataContext is LocationItem locationItem))
+            if (!((sender as NavigationViewItem)?.DataContext is LocationItem locationItem))
             {
                 return;
             }
@@ -750,7 +752,7 @@ namespace Files.Uwp.UserControls
                     }
                 }
             }
-            else if ((e.DataView.Properties["sourceLocationItem"] as Microsoft.UI.Xaml.Controls.NavigationViewItem)?.DataContext is LocationItem sourceLocationItem)
+            else if ((e.DataView.Properties["sourceLocationItem"] as NavigationViewItem)?.DataContext is LocationItem sourceLocationItem)
             {
                 // else if the drag over event is called over a location item
                 NavigationViewLocationItem_DragOver_SetCaptions(locationItem, sourceLocationItem, e);
@@ -792,7 +794,7 @@ namespace Files.Uwp.UserControls
             dragOverItem = null; // Reset dragged over item
             dragOverSection = null; // Reset dragged over section
 
-            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem locationItem))
+            if (!((sender as NavigationViewItem).DataContext is LocationItem locationItem))
             {
                 return;
             }
@@ -800,7 +802,7 @@ namespace Files.Uwp.UserControls
             // If the dropped item is a folder or file from a file system
             if (FilesystemHelpers.HasDraggedStorageItems(e.DataView))
             {
-                VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "Drop", false);
+                VisualStateManager.GoToState(sender as NavigationViewItem, "Drop", false);
 
                 var deferral = e.GetDeferral();
 
@@ -831,7 +833,7 @@ namespace Files.Uwp.UserControls
                 isDropOnProcess = false;
                 deferral.Complete();
             }
-            else if ((e.DataView.Properties["sourceLocationItem"] as Microsoft.UI.Xaml.Controls.NavigationViewItem)?.DataContext is LocationItem sourceLocationItem)
+            else if ((e.DataView.Properties["sourceLocationItem"] as NavigationViewItem)?.DataContext is LocationItem sourceLocationItem)
             {
                 // Else if the dropped item is a location item
 
@@ -845,7 +847,7 @@ namespace Files.Uwp.UserControls
 
         private async void NavigationViewDriveItem_DragOver(object sender, DragEventArgs e)
         {
-            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is DriveItem driveItem) ||
+            if (!((sender as NavigationViewItem).DataContext is DriveItem driveItem) ||
                 !Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
             {
                 return;
@@ -916,12 +918,12 @@ namespace Files.Uwp.UserControls
             dragOverItem = null; // Reset dragged over item
             dragOverSection = null; // Reset dragged over section
 
-            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is DriveItem driveItem))
+            if (!((sender as NavigationViewItem).DataContext is DriveItem driveItem))
             {
                 return;
             }
 
-            VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "Drop", false);
+            VisualStateManager.GoToState(sender as NavigationViewItem, "Drop", false);
 
             var deferral = e.GetDeferral();
 
@@ -942,7 +944,7 @@ namespace Files.Uwp.UserControls
 
         private async void NavigationViewFileTagItem_DragOver(object sender, DragEventArgs e)
         {
-            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is FileTagItem fileTagItem) ||
+            if (!((sender as NavigationViewItem).DataContext is FileTagItem fileTagItem) ||
                 !Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
             {
                 return;
@@ -983,12 +985,12 @@ namespace Files.Uwp.UserControls
             dragOverItem = null; // Reset dragged over item
             dragOverSection = null; // Reset dragged over section
 
-            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is FileTagItem fileTagItem))
+            if (!((sender as NavigationViewItem).DataContext is FileTagItem fileTagItem))
             {
                 return;
             }
 
-            VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "Drop", false);
+            VisualStateManager.GoToState(sender as NavigationViewItem, "Drop", false);
 
             var deferral = e.GetDeferral();
 
@@ -1017,9 +1019,9 @@ namespace Files.Uwp.UserControls
             (this.FindDescendant("TabContentBorder") as Border).Child = TabContent;
         }
 
-        private void SidebarControl_DisplayModeChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewDisplayModeChangedEventArgs args)
+        private void SidebarControl_DisplayModeChanged(NavigationView sender, NavigationViewDisplayModeChangedEventArgs args)
         {
-            IsPaneToggleButtonVisible = args.DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Minimal;
+            IsPaneToggleButtonVisible = args.DisplayMode == NavigationViewDisplayMode.Minimal;
         }
 
         private void Border_KeyDown(object sender, KeyRoutedEventArgs e)
@@ -1063,7 +1065,7 @@ namespace Files.Uwp.UserControls
 
         private void Border_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
-            if (DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded)
+            if (DisplayMode == NavigationViewDisplayMode.Expanded)
             {
                 SetSize(e.Cumulative.Translation.X);
             }
@@ -1073,16 +1075,16 @@ namespace Files.Uwp.UserControls
         {
             if (!dragging) // keep showing pressed event if currently resizing the sidebar
             {
-                //App.Window.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Arrow, 0); //WINUI3
+                (sender as Grid).ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
                 VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerNormal", true);
             }
         }
 
         private void Border_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            if (DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded)
+            if (DisplayMode == NavigationViewDisplayMode.Expanded)
             {
-                //App.Window.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.SizeWestEast, 0); //WINUI3
+                (sender as Grid).ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
                 VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerPointerOver", true);
             }
         }
@@ -1117,7 +1119,7 @@ namespace Files.Uwp.UserControls
 
         private void ResizeElementBorder_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
-            //App.Window.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Arrow, 0); //WINUI3
+            (sender as Grid).ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
             VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerNormal", true);
             UserSettingsService.AppearanceSettingsService.SidebarWidth = OpenPaneLength;
             dragging = false;
@@ -1130,10 +1132,10 @@ namespace Files.Uwp.UserControls
 
         private void ResizeElementBorder_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
         {
-            if (DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded)
+            if (DisplayMode == NavigationViewDisplayMode.Expanded)
             {
                 originalSize = IsPaneOpen ? UserSettingsService.AppearanceSettingsService.SidebarWidth : CompactPaneLength;
-                //App.Window.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.SizeWestEast, 0); //WINUI3
+                (sender as Grid).ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
                 VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerPressed", true);
                 dragging = true;
             }
@@ -1157,7 +1159,7 @@ namespace Files.Uwp.UserControls
             return false;
         }
 
-        private async void LoadShellMenuItems(Microsoft.UI.Xaml.Controls.CommandBarFlyout itemContextMenuFlyout, ContextMenuOptions options)
+        private async void LoadShellMenuItems(CommandBarFlyout itemContextMenuFlyout, ContextMenuOptions options)
         {
             try
             {
@@ -1221,7 +1223,7 @@ namespace Files.Uwp.UserControls
 
         #region Sidebar sections expanded state management
 
-        private async void NavigationView_Expanding(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemExpandingEventArgs args)
+        private async void NavigationView_Expanding(NavigationView sender, NavigationViewItemExpandingEventArgs args)
         {
             if (args.ExpandingItem is LocationItem loc && loc.ChildItems != null)
             {
@@ -1233,7 +1235,7 @@ namespace Files.Uwp.UserControls
             }
         }
 
-        private async void NavigationView_Collapsed(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemCollapsedEventArgs args)
+        private async void NavigationView_Collapsed(NavigationView sender, NavigationViewItemCollapsedEventArgs args)
         {
             if (args.CollapsedItem is LocationItem loc && loc.ChildItems != null)
             {
@@ -1245,7 +1247,7 @@ namespace Files.Uwp.UserControls
             }
         }
 
-        private void NavigationView_PaneOpened(Microsoft.UI.Xaml.Controls.NavigationView sender, object args)
+        private void NavigationView_PaneOpened(NavigationView sender, object args)
         {
             // Restore expanded state when pane is opened
             foreach (var loc in ViewModel.SideBarItems.OfType<LocationItem>().Where(x => x.ChildItems != null))
@@ -1254,7 +1256,7 @@ namespace Files.Uwp.UserControls
             }
         }
 
-        private void NavigationView_PaneClosed(Microsoft.UI.Xaml.Controls.NavigationView sender, object args)
+        private void NavigationView_PaneClosed(NavigationView sender, object args)
         {
             // Collapse all sections but do not store the state when pane is closed
             foreach (var loc in ViewModel.SideBarItems.OfType<LocationItem>().Where(x => x.ChildItems != null))
@@ -1276,9 +1278,9 @@ namespace Files.Uwp.UserControls
 
     public class SidebarItemInvokedEventArgs : EventArgs
     {
-        public Microsoft.UI.Xaml.Controls.NavigationViewItemBase InvokedItemContainer { get; set; }
+        public NavigationViewItemBase InvokedItemContainer { get; set; }
 
-        public SidebarItemInvokedEventArgs(Microsoft.UI.Xaml.Controls.NavigationViewItemBase ItemContainer)
+        public SidebarItemInvokedEventArgs(NavigationViewItemBase ItemContainer)
         {
             InvokedItemContainer = ItemContainer;
         }

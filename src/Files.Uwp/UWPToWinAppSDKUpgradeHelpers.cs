@@ -1,6 +1,9 @@
+using Microsoft.UI.Input;
+using Microsoft.UI.Xaml;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +21,7 @@ namespace UWPToWinAppSDKUpgradeHelpers
         void ShowShareUIForWindow(IntPtr appWindow);
     }
 
-    public class InteropHelpers
+    public static class InteropHelpers
     {
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -45,6 +48,12 @@ namespace UWPToWinAppSDKUpgradeHelpers
 
             public POINT(int x, int y)
                 => (X, Y) = (x, y);
+        }
+
+        public static void ChangeCursor(this UIElement uiElement, InputCursor cursor)
+        {
+            Type type = typeof(UIElement);
+            type.InvokeMember("ProtectedCursor", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.SetProperty | BindingFlags.Instance, null, uiElement, new object[] { cursor });
         }
     }
 }
