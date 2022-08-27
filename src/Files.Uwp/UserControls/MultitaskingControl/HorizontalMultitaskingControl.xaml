@@ -555,7 +555,11 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid HorizontalAlignment="Stretch" Background="{x:Null}">
+    <Grid
+        x:Name="TitlebarArea"
+        HorizontalAlignment="Stretch"
+        x:FieldModifier="public"
+        Background="Transparent">
         <TabView
             x:Name="HorizontalTabView"
             Margin="0,10,0,0"
@@ -563,7 +567,6 @@
             VerticalAlignment="Stretch"
             AddTabButtonClick="TabView_AddTabButtonClick"
             AllowDropTabs="True"
-            Background="{x:Null}"
             CanDragTabs="True"
             DragLeave="TabStrip_DragLeave"
             IsAddTabButtonVisible="False"
@@ -605,7 +608,8 @@
                         x:Name="DragAreaGrid"
                         Grid.Column="1"
                         HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch" />
+                        VerticalAlignment="Stretch"
+                        Background="Transparent" />
                 </Grid>
             </TabView.TabStripFooter>
         </TabView>

@@ -229,6 +229,6 @@ namespace Files.Uwp.UserControls.MultitaskingControl
         public static readonly DependencyProperty TabStripVisibilityProperty =
             DependencyProperty.Register("TabStripVisibility", typeof(Visibility), typeof(HorizontalMultitaskingControl), new PropertyMetadata(Visibility.Visible));
 
-        public UIElement DragArea => DragAreaGrid;
+        public Grid DragArea => DragAreaGrid;
     }
 }

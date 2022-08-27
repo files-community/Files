@@ -1,5 +1,7 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.WinUI.Helpers;
+using CommunityToolkit.WinUI.UI.Controls;
 using Files.Backend.Extensions;
 using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
@@ -11,26 +13,21 @@ using Files.Uwp.Helpers;
 using Files.Uwp.UserControls;
 using Files.Uwp.UserControls.MultitaskingControl;
 using Files.Uwp.ViewModels;
-using CommunityToolkit.WinUI;
-using CommunityToolkit.WinUI.UI.Controls;
+using Microsoft.UI;
+using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Windows.ApplicationModel;
-using Microsoft.Windows.ApplicationModel.Resources;
+using Windows.ApplicationModel.Core;
+using Windows.Graphics;
 using Windows.Services.Store;
 using Windows.Storage;
-using Windows.UI.ViewManagement;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Navigation;
-using CommunityToolkit.WinUI.Helpers;
-using Windows.ApplicationModel.Core;
-using Microsoft.UI.Windowing;
-using Windows.Graphics;
-using Microsoft.UI;
 
 namespace Files.Uwp.Views
 {
@@ -144,7 +141,15 @@ namespace Files.Uwp.Views
 
         private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
         {
-            App.Window.SetTitleBar(horizontalMultitaskingControl.DragArea);
+            if (AppWindowTitleBar.IsCustomizationSupported())
+            {
+                horizontalMultitaskingControl.DragArea.SizeChanged += (_, _) => SetRectDragRegion();
+                SetRectDragRegion();
+            }
+            else
+            {
+                App.Window.SetTitleBar(horizontalMultitaskingControl.DragArea);
+            }
 
             if (!(ViewModel.MultitaskingControl is HorizontalMultitaskingControl))
             {
@@ -152,6 +157,43 @@ namespace Files.Uwp.Views
                 ViewModel.MultitaskingControls.Add(horizontalMultitaskingControl);
                 ViewModel.MultitaskingControl.CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
             }
+        }
+
+        private void SetRectDragRegion()
+        {
+            if (!AppWindowTitleBar.IsCustomizationSupported())
+                return;
+
+            const bool WORKAROUND = true;
+            if (WORKAROUND)
+            {
+                App.Window.AppWindow.TitleBar.ResetToDefault();
+                App.Window.AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+
+                // Set window buttons background to transparent
+                App.Window.AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+                App.Window.AppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+            }
+
+            const uint MDT_Effective_DPI = 0;
+
+            var displayArea = DisplayArea.GetFromWindowId(App.Window.AppWindow.Id, DisplayAreaFallback.Primary);
+            var hMonitor = Win32Interop.GetMonitorFromDisplayId(displayArea.DisplayId);
+            var hr = NativeWinApiHelper.GetDpiForMonitor(hMonitor, MDT_Effective_DPI, out var dpiX, out _);
+            if (hr != 0)
+                return;
+            
+            var scalePercent = (uint)(((long)dpiX * 100 + (96 >> 1)) / 96); // wtf
+            var scaleAdjustment = scalePercent / 100.0;
+            var dragArea = horizontalMultitaskingControl.DragArea;
+
+            var x = (int)((horizontalMultitaskingControl.ActualWidth - dragArea.ActualWidth) * scaleAdjustment);
+            var y = 0;
+            var width = (int)(dragArea.ActualWidth * scaleAdjustment);
+            var height = (int)(horizontalMultitaskingControl.TitlebarArea.ActualHeight * scaleAdjustment);
+
+            var dragRect = new RectInt32(x, y, width, height);
+            App.Window.AppWindow.TitleBar.SetDragRectangles(new[] { dragRect });
         }
 
         public void TabItemContent_ContentChanged(object sender, TabItemArguments e)
