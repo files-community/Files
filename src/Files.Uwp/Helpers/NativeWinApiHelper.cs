@@ -8,8 +8,11 @@ namespace Files.Uwp.Helpers
 {
     public class NativeWinApiHelper
     {
+        [DllImport("user32.dll")]
+        public static extern short GetKeyState(short code);
+
         [DllImport("Shcore.dll", SetLastError = true)]
-        internal static extern int GetDpiForMonitor(IntPtr hmonitor, uint dpiType, out uint dpiX, out uint dpiY);
+        public static extern int GetDpiForMonitor(IntPtr hmonitor, uint dpiType, out uint dpiX, out uint dpiY);
 
         [DllImport("api-ms-win-core-processthreads-l1-1-0.dll", SetLastError = true, ExactSpelling = true)]
         [return: MarshalAs(UnmanagedType.Bool)]

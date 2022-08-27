@@ -22,6 +22,7 @@ using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Windows.Input;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
@@ -167,6 +168,11 @@ namespace Files.Uwp.Views
             const bool WORKAROUND = true;
             if (WORKAROUND)
             {
+                const short LeftButton = 0x01;
+
+                if ((NativeWinApiHelper.GetKeyState(LeftButton) & 0xFF00) == 0xFF00)
+                    return;                    
+
                 App.Window.AppWindow.TitleBar.ResetToDefault();
                 App.Window.AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
 
