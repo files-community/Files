@@ -12,7 +12,7 @@
   <PropertyGroup>
     <CsWinRTComponent>true</CsWinRTComponent>
     <CsWinRTWindowsMetadata>10.0.22000.0</CsWinRTWindowsMetadata>
-    <CsWinRTGeneratedFilesDir>$(ProjectDir)\bin\$(PlatformTarget)\$(Configuration)</CsWinRTGeneratedFilesDir>
+    <CsWinRTGeneratedFilesDir>$(MSBuildProjectDirectory)\bin\$(Platform)\$(Configuration)</CsWinRTGeneratedFilesDir>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Windows.CsWinRT">
