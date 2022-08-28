@@ -110,6 +110,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Content Include="Themes\*.xaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Content>
