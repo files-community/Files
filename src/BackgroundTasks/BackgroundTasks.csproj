@@ -15,7 +15,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Windows.CsWinRT">
-      <Version>2.0.0</Version>
+      <Version>1.4.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
