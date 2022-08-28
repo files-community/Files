@@ -1233,6 +1233,8 @@ namespace Files.Uwp.ViewModels
                     OnPropertyChanged(nameof(IsFont));
                     OnPropertyChanged(nameof(HasAdditionalAction));
                     OnPropertyChanged(nameof(SetAsText));
+                    OnPropertyChanged(nameof(CanEmptyRecycleBin));
+                    OnPropertyChanged(nameof(CanRestoreRecycleBin));
                 }
             }
         }
@@ -1256,7 +1258,7 @@ namespace Files.Uwp.ViewModels
         public bool CanRename => SelectedItems is not null && SelectedItems.Count == 1;
         public bool CanViewProperties => SelectedItems is not null && SelectedItems.Any();
         public bool CanEmptyRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem;
-        public bool CanRestoreRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem;
+        public bool CanRestoreRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem && (SelectedItems is null || SelectedItems is not null && SelectedItems.Count == 0);
         public bool CanExtract => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsZipFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
         public string ExtractToText => SelectedItems is not null && SelectedItems.Count == 1 ? string.Format("ExtractToChildFolder".GetLocalized() + "\\", Path.GetFileNameWithoutExtension(selectedItems.First().ItemName)) : "ExtractToChildFolder".GetLocalized();
         public bool IsPowerShellScript => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsPowerShellFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
