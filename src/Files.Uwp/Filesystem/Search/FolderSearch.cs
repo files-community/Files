@@ -1,10 +1,10 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Settings;
 using Files.Shared.Extensions;
 using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,7 +12,6 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
@@ -85,7 +84,7 @@ namespace Files.Uwp.Filesystem.Search
                 {
                     await AddItemsAsyncForLibrary(library, results, token);
                 }
-                else if (Folder == "Home".GetLocalized())
+                else if (Folder == "Home".GetLocalizedResource())
                 {
                     await AddItemsAsyncForHome(results, token);
                 }
@@ -118,7 +117,7 @@ namespace Files.Uwp.Filesystem.Search
                 {
                     await AddItemsAsyncForLibrary(library, results, token);
                 }
-                else if (Folder == "Home".GetLocalized())
+                else if (Folder == "Home".GetLocalizedResource())
                 {
                     await AddItemsAsyncForHome(results, token);
                 }
@@ -397,10 +396,10 @@ namespace Files.Uwp.Filesystem.Search
                     {
                         if (t.IsCompletedSuccessfully && t.Result != null)
                         {
-                            _ = FilesystemTasks.Wrap(() => CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                            _ = FilesystemTasks.Wrap(() => App.Window.DispatcherQueue.EnqueueAsync(async () =>
                             {
                                 listedItem.FileImage = await t.Result.ToBitmapAsync();
-                            }, Windows.System.DispatcherQueuePriority.Low));
+                            }, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low));
                         }
                     });
             }

@@ -1,4 +1,4 @@
-﻿using Files.Shared.Enums;
+using Files.Shared.Enums;
 
 namespace Files.Uwp.Helpers
 {

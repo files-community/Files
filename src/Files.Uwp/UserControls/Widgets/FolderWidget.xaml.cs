@@ -1,25 +1,25 @@
-﻿using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem;
 using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
 using Files.Uwp.ViewModels.Widgets;
+using Files.Uwp.Extensions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media.Imaging;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Files.Uwp.DataModels.NavigationControlItems;
 
 namespace Files.Uwp.UserControls.Widgets
@@ -75,7 +75,7 @@ namespace Files.Uwp.UserControls.Widgets
                 thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Path, Convert.ToUInt32(overrideThumbnailSize), Windows.Storage.FileProperties.ThumbnailMode.ListView);
                 if (thumbnailData != null && thumbnailData.Length > 0)
                 {
-                    Thumbnail = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(overrideThumbnailSize));
+                    Thumbnail = await App.Window.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(overrideThumbnailSize));
                 }
             }
         }
@@ -142,41 +142,41 @@ namespace Files.Uwp.UserControls.Widgets
 
         public string WidgetName => nameof(FolderWidget);
 
-        public string AutomationProperties => "FolderWidgetAutomationProperties/Name".GetLocalized();
+        public string AutomationProperties => "FolderWidgetAutomationProperties/Name".GetLocalizedResource();
 
-        public string WidgetHeader => "Folders".GetLocalized();
+        public string WidgetHeader => "Folders".GetLocalizedResource();
 
         private async void FolderWidget_Loaded(object sender, RoutedEventArgs e)
         {
             Loaded -= FolderWidget_Loaded;
 
             ItemsAdded.BeginBulkOperation();
-            ItemsAdded.Add(new FolderCardItem("Desktop".GetLocalized())
+            ItemsAdded.Add(new FolderCardItem("Desktop".GetLocalizedResource())
             {
                 Path = UserDataPaths.GetDefault().Desktop,
                 SelectCommand = LibraryCardCommand
             });
-            ItemsAdded.Add(new FolderCardItem("Documents".GetLocalized())
+            ItemsAdded.Add(new FolderCardItem("Documents".GetLocalizedResource())
             {
                 Path = UserDataPaths.GetDefault().Documents,
                 SelectCommand = LibraryCardCommand
             });
-            ItemsAdded.Add(new FolderCardItem("Downloads".GetLocalized())
+            ItemsAdded.Add(new FolderCardItem("Downloads".GetLocalizedResource())
             {
                 Path = UserDataPaths.GetDefault().Downloads,
                 SelectCommand = LibraryCardCommand
             });
-            ItemsAdded.Add(new FolderCardItem("Music".GetLocalized())
+            ItemsAdded.Add(new FolderCardItem("Music".GetLocalizedResource())
             {
                 Path = UserDataPaths.GetDefault().Music,
                 SelectCommand = LibraryCardCommand
             });
-            ItemsAdded.Add(new FolderCardItem("Pictures".GetLocalized())
+            ItemsAdded.Add(new FolderCardItem("Pictures".GetLocalizedResource())
             {
                 Path = UserDataPaths.GetDefault().Pictures,
                 SelectCommand = LibraryCardCommand
             });
-            ItemsAdded.Add(new FolderCardItem("Videos".GetLocalized())
+            ItemsAdded.Add(new FolderCardItem("Videos".GetLocalizedResource())
             {
                 Path = UserDataPaths.GetDefault().Videos,
                 SelectCommand = LibraryCardCommand
@@ -258,7 +258,7 @@ namespace Files.Uwp.UserControls.Widgets
                 return;
             }
 
-            var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            var ctrlPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             if (ctrlPressed)
             {
                 await NavigationHelpers.OpenPathInNewTab(item.Path);

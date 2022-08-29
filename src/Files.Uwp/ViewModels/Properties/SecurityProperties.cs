@@ -1,11 +1,11 @@
-﻿using Files.Shared;
+using Files.Shared;
 using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Filesystem.Permissions;
 using Files.Uwp.Helpers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp;
+using Files.Uwp.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -134,15 +134,15 @@ namespace Files.Uwp.ViewModels.Properties
             {
                 if (!isProtected)
                 {
-                    return "SecurityAdvancedInheritedEnable/Text".GetLocalized();
+                    return "SecurityAdvancedInheritedEnable/Text".GetLocalizedResource();
                 }
                 else if (preserveInheritance)
                 {
-                    return "SecurityAdvancedInheritedConvert/Text".GetLocalized();
+                    return "SecurityAdvancedInheritedConvert/Text".GetLocalizedResource();
                 }
                 else
                 {
-                    return "SecurityAdvancedInheritedRemove/Text".GetLocalized();
+                    return "SecurityAdvancedInheritedRemove/Text".GetLocalizedResource();
                 }
             }
         }

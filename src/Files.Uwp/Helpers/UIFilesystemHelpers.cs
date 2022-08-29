@@ -1,4 +1,4 @@
-﻿using Files.Shared;
+using Files.Shared;
 using Files.Uwp.Dialogs;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
@@ -6,7 +6,7 @@ using Files.Uwp.Filesystem;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Interacts;
 using Files.Uwp.ViewModels;
-using Microsoft.Toolkit.Uwp;
+using Files.Uwp.Extensions;
 using System;
 using System.Collections.Concurrent;
 using System.IO;
@@ -19,6 +19,7 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using Files.Backend.Enums;
 using Windows.System;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Files.Uwp.Helpers
 {
@@ -40,7 +41,7 @@ namespace Files.Uwp.Helpers
                 var itemsCount = associatedInstance.SlimContentPage.SelectedItems.Count;
                 PostedStatusBanner banner = itemsCount > 50 ? App.OngoingTasksViewModel.PostOperationBanner(
                     string.Empty,
-                    string.Format("StatusPreparingItemsDetails_Plural".GetLocalized(), itemsCount),
+                    string.Format("StatusPreparingItemsDetails_Plural".GetLocalizedResource(), itemsCount),
                     0,
                     ReturnResult.InProgress,
                     FileOperationType.Prepare, new CancellationTokenSource()) : null;
@@ -156,7 +157,7 @@ namespace Files.Uwp.Helpers
                 var itemsCount = associatedInstance.SlimContentPage.SelectedItems.Count;
                 PostedStatusBanner banner = itemsCount > 50 ? App.OngoingTasksViewModel.PostOperationBanner(
                     string.Empty,
-                    string.Format("StatusPreparingItemsDetails_Plural".GetLocalized(), itemsCount),
+                    string.Format("StatusPreparingItemsDetails_Plural".GetLocalizedResource(), itemsCount),
                     0,
                     ReturnResult.InProgress,
                     FileOperationType.Prepare, new CancellationTokenSource()) : null;
@@ -302,6 +303,16 @@ namespace Files.Uwp.Helpers
             _ = await CreateFileFromDialogResultTypeForResult(itemType, itemInfo, associatedInstance);
         }
 
+        // WINUI3
+        private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
+        {
+            if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+            {
+                contentDialog.XamlRoot = App.Window.Content.XamlRoot;
+            }
+            return contentDialog;
+        }
+
         public static async Task<IStorageItem> CreateFileFromDialogResultTypeForResult(AddItemDialogItemType itemType, ShellNewEntry itemInfo, IShellPage associatedInstance)
         {
             string currentPath = null;
@@ -322,7 +333,7 @@ namespace Files.Uwp.Helpers
             if (itemType != AddItemDialogItemType.File || itemInfo?.Command == null)
             {
                 DynamicDialog dialog = DynamicDialogFactory.GetFor_RenameDialog();
-                await dialog.ShowAsync(); // Show rename dialog
+                await SetContentDialogRoot(dialog).ShowAsync(); // Show rename dialog
 
                 if (dialog.DynamicResult != DynamicDialogResult.Primary)
                 {
@@ -337,14 +348,14 @@ namespace Files.Uwp.Helpers
             switch (itemType)
             {
                 case AddItemDialogItemType.Folder:
-                    userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : "NewFolder".GetLocalized();
+                    userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : "NewFolder".GetLocalizedResource();
                     created = await associatedInstance.FilesystemHelpers.CreateAsync(
                         StorageHelpers.FromPathAndType(PathNormalization.Combine(currentPath, userInput), FilesystemItemType.Directory),
                         true);
                     break;
 
                 case AddItemDialogItemType.File:
-                    userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : itemInfo?.Name ?? "NewFile".GetLocalized();
+                    userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : itemInfo?.Name ?? "NewFile".GetLocalizedResource();
                     created = await associatedInstance.FilesystemHelpers.CreateAsync(
                         StorageHelpers.FromPathAndType(PathNormalization.Combine(currentPath, userInput + itemInfo?.Extension), FilesystemItemType.File),
                         true);
@@ -353,7 +364,7 @@ namespace Files.Uwp.Helpers
 
             if (created.Status == ReturnResult.AccessUnauthorized)
             {
-                await DialogDisplayHelper.ShowDialogAsync("AccessDenied".GetLocalized(), "AccessDeniedCreateDialog/Text".GetLocalized());
+                await DialogDisplayHelper.ShowDialogAsync("AccessDenied".GetLocalizedResource(), "AccessDeniedCreateDialog/Text".GetLocalizedResource());
             }
 
             return created.Item;

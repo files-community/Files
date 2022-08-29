@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using Files.Backend.Services.Settings;
 using Files.Shared.Extensions;
@@ -9,8 +9,7 @@ using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
 using Files.Uwp.Helpers.ContextFlyouts;
 using Files.Uwp.ViewModels;
-using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.UI;
+using Files.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,14 +21,18 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.System;
 using Windows.UI.Core;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Input;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Input;
+using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
+using CommunityToolkit.WinUI.UI;
+using Microsoft.UI.Input;
+using UWPToWinAppSDKUpgradeHelpers;
 
 namespace Files.Uwp.UserControls
 {
-    public sealed partial class SidebarControl : Microsoft.UI.Xaml.Controls.NavigationView, INotifyPropertyChanged
+    public sealed partial class SidebarControl : NavigationView, INotifyPropertyChanged
     {
         public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
@@ -140,8 +143,8 @@ namespace Files.Uwp.UserControls
             this.InitializeComponent();
             this.Loaded += SidebarNavView_Loaded;
 
-            dragOverSectionTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
-            dragOverItemTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
+            dragOverSectionTimer = DispatcherQueue.CreateTimer();
+            dragOverItemTimer = DispatcherQueue.CreateTimer();
 
             HideSectionCommand = new RelayCommand(HideSection);
             UnpinItemCommand = new RelayCommand(UnpinItem);
@@ -203,21 +206,21 @@ namespace Files.Uwp.UserControls
             {
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "SideBarCreateNewLibrary/Text".GetLocalized(),
+                    Text = "SideBarCreateNewLibrary/Text".GetLocalizedResource(),
                     Glyph = "\uE710",
                     Command = CreateLibraryCommand,
                     ShowItem = options.IsLibrariesHeader
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "SideBarRestoreLibraries/Text".GetLocalized(),
+                    Text = "SideBarRestoreLibraries/Text".GetLocalizedResource(),
                     Glyph = "\uE10E",
                     Command = RestoreLibrariesCommand,
                     ShowItem = options.IsLibrariesHeader
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutContextFlyoutEmptyRecycleBin/Text".GetLocalized(),
+                    Text = "BaseLayoutContextFlyoutEmptyRecycleBin/Text".GetLocalizedResource(),
                     Glyph = "\uEF88",
                     GlyphFontFamilyName = "RecycleBinIcons",
                     Command = EmptyRecycleBinCommand,
@@ -228,7 +231,7 @@ namespace Files.Uwp.UserControls
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "SideBarOpenInNewPane/Text".GetLocalized(),
+                    Text = "SideBarOpenInNewPane/Text".GetLocalizedResource(),
                     Glyph = "\uF117",
                     GlyphFontFamilyName = "CustomGlyph",
                     Command = OpenInNewPaneCommand,
@@ -236,7 +239,7 @@ namespace Files.Uwp.UserControls
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "SideBarOpenInNewTab/Text".GetLocalized(),
+                    Text = "SideBarOpenInNewTab/Text".GetLocalizedResource(),
                     Glyph = "\uF113",
                     GlyphFontFamilyName = "CustomGlyph",
                     Command = OpenInNewTabCommand,
@@ -244,63 +247,63 @@ namespace Files.Uwp.UserControls
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "SideBarOpenInNewWindow/Text".GetLocalized(),
+                    Text = "SideBarOpenInNewWindow/Text".GetLocalizedResource(),
                     Glyph = "\uE737",
                     Command = OpenInNewWindowCommand,
                     ShowItem = options.IsLocationItem
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "SideBarFavoritesMoveToTop".GetLocalized(),
+                    Text = "SideBarFavoritesMoveToTop".GetLocalizedResource(),
                     Glyph = "\uE11C",
                     Command = MoveItemToTopCommand,
                     ShowItem = showMoveItemUp
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "SideBarFavoritesMoveOneUp".GetLocalized(),
+                    Text = "SideBarFavoritesMoveOneUp".GetLocalizedResource(),
                     Glyph = "\uE70E",
                     Command = MoveItemUpCommand,
                     ShowItem = showMoveItemUp
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "SideBarFavoritesMoveOneDown".GetLocalized(),
+                    Text = "SideBarFavoritesMoveOneDown".GetLocalizedResource(),
                     Glyph = "\uE70D",
                     Command = MoveItemDownCommand,
                     ShowItem = showMoveItemDown
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "SideBarFavoritesMoveToBottom".GetLocalized(),
+                    Text = "SideBarFavoritesMoveToBottom".GetLocalizedResource(),
                     Glyph = "\uE118",
                     Command = MoveItemToBottomCommand,
                     ShowItem = showMoveItemDown
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalized(),
+                    Text = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalizedResource(),
                     Glyph = "\uE840",
                     Command = PinItemCommand,
                     ShowItem = isDriveItem && !isDriveItemPinned
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "SideBarUnpinFromFavorites/Text".GetLocalized(),
+                    Text = "SideBarUnpinFromFavorites/Text".GetLocalizedResource(),
                     Glyph = "\uE77A",
                     Command = UnpinItemCommand,
                     ShowItem = options.ShowUnpinItem || isDriveItemPinned
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = string.Format("SideBarHideSectionFromSideBar/Text".GetLocalized(), rightClickedItem.Text),
+                    Text = string.Format("SideBarHideSectionFromSideBar/Text".GetLocalizedResource(), rightClickedItem.Text),
                     Glyph = "\uE77A",
                     Command = HideSectionCommand,
                     ShowItem = options.ShowHideSection
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "SideBarEjectDevice/Text".GetLocalized(),
+                    Text = "SideBarEjectDevice/Text".GetLocalizedResource(),
                     Glyph = "\uF10B",
                     GlyphFontFamilyName = "CustomGlyph",
                     Command = EjectDeviceCommand,
@@ -308,14 +311,14 @@ namespace Files.Uwp.UserControls
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutContextFlyoutPropertiesFolder/Text".GetLocalized(),
+                    Text = "BaseLayoutContextFlyoutPropertiesFolder/Text".GetLocalizedResource(),
                     Glyph = "\uE946",
                     Command = OpenPropertiesCommand,
                     ShowItem = options.ShowProperties
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "ContextMenuMoreItemsLabel".GetLocalized(),
+                    Text = "ContextMenuMoreItemsLabel".GetLocalizedResource(),
                     Glyph = "\xE712",
                     Items = new List<ContextMenuFlyoutItemViewModel>(),
                     ID = "ItemOverflow",
@@ -495,7 +498,7 @@ namespace Files.Uwp.UserControls
             await DriveHelpers.EjectDeviceAsync(rightClickedItem.Path);
         }
 
-        private async void Sidebar_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
+        private async void Sidebar_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
             if (IsInPointerPressed || args.InvokedItem == null || args.InvokedItemContainer == null)
             {
@@ -510,7 +513,7 @@ namespace Files.Uwp.UserControls
                 return;
             }
 
-            var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            var ctrlPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             if (ctrlPressed && navigationPath is not null)
             {
                 await NavigationHelpers.OpenPathInNewTab(navigationPath);
@@ -523,7 +526,7 @@ namespace Files.Uwp.UserControls
         private async void Sidebar_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             var properties = e.GetCurrentPoint(null).Properties;
-            var context = (sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext;
+            var context = (sender as NavigationViewItem).DataContext;
             if (properties.IsMiddleButtonPressed && context is INavigationControlItem item && item.Path != null)
             {
                 if (await CheckEmptyDrive(item.Path))
@@ -546,8 +549,8 @@ namespace Files.Uwp.UserControls
 
         private void NavigationViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            var itemContextMenuFlyout = new Microsoft.UI.Xaml.Controls.CommandBarFlyout();
-            var sidebarItem = sender as Microsoft.UI.Xaml.Controls.NavigationViewItem;
+            var itemContextMenuFlyout = new CommandBarFlyout();
+            var sidebarItem = sender as NavigationViewItem;
             var item = sidebarItem.DataContext as INavigationControlItem;
 
             rightClickedItem = item;
@@ -573,21 +576,21 @@ namespace Files.Uwp.UserControls
 
         private void NavigationViewItem_DragStarting(UIElement sender, DragStartingEventArgs args)
         {
-            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem locationItem))
+            if (!((sender as NavigationViewItem).DataContext is LocationItem locationItem))
             {
                 return;
             }
 
             // Adding the original Location item dragged to the DragEvents data view
-            var navItem = (sender as Microsoft.UI.Xaml.Controls.NavigationViewItem);
+            var navItem = (sender as NavigationViewItem);
             args.Data.Properties.Add("sourceLocationItem", navItem);
         }
 
         private void NavigationViewItem_DragEnter(object sender, DragEventArgs e)
         {
-            VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "DragEnter", false);
+            VisualStateManager.GoToState(sender as NavigationViewItem, "DragEnter", false);
 
-            if ((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is INavigationControlItem iNavItem)
+            if ((sender as NavigationViewItem).DataContext is INavigationControlItem iNavItem)
             {
                 if (string.IsNullOrEmpty(iNavItem.Path))
                 {
@@ -598,7 +601,7 @@ namespace Files.Uwp.UserControls
                         if (dragOverSection != null)
                         {
                             dragOverSectionTimer.Stop();
-                            if ((dragOverSection as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem section)
+                            if ((dragOverSection as NavigationViewItem).DataContext is LocationItem section)
                             {
                                 section.IsExpanded = true;
                             }
@@ -615,7 +618,7 @@ namespace Files.Uwp.UserControls
                         if (dragOverItem != null)
                         {
                             dragOverItemTimer.Stop();
-                            SidebarItemInvoked?.Invoke(this, new SidebarItemInvokedEventArgs(dragOverItem as Microsoft.UI.Xaml.Controls.NavigationViewItemBase));
+                            SidebarItemInvoked?.Invoke(this, new SidebarItemInvokedEventArgs(dragOverItem as NavigationViewItemBase));
                             dragOverItem = null;
                         }
                     }, TimeSpan.FromMilliseconds(1000), false);
@@ -625,11 +628,11 @@ namespace Files.Uwp.UserControls
 
         private void NavigationViewItem_DragLeave(object sender, DragEventArgs e)
         {
-            VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "DragLeave", false);
+            VisualStateManager.GoToState(sender as NavigationViewItem, "DragLeave", false);
 
             isDropOnProcess = false;
 
-            if ((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is INavigationControlItem)
+            if ((sender as NavigationViewItem).DataContext is INavigationControlItem)
             {
                 if (sender == dragOverItem)
                 {
@@ -646,7 +649,7 @@ namespace Files.Uwp.UserControls
 
         private async void NavigationViewLocationItem_DragOver(object sender, DragEventArgs e)
         {
-            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem)?.DataContext is LocationItem locationItem))
+            if (!((sender as NavigationViewItem)?.DataContext is LocationItem locationItem))
             {
                 return;
             }
@@ -681,13 +684,13 @@ namespace Files.Uwp.UserControls
                     else
                     {
                         e.DragUIOverride.IsCaptionVisible = true;
-                        e.DragUIOverride.Caption = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalized();
+                        e.DragUIOverride.Caption = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalizedResource();
                         e.AcceptedOperation = DataPackageOperation.Move;
                     }
                 }
                 else if (string.IsNullOrEmpty(locationItem.Path) ||
                     (storageItems.Any() && storageItems.AreItemsAlreadyInFolder(locationItem.Path))
-                    || locationItem.Path.StartsWith("Home".GetLocalized(), StringComparison.OrdinalIgnoreCase))
+                    || locationItem.Path.StartsWith("Home".GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
                 }
@@ -700,7 +703,7 @@ namespace Files.Uwp.UserControls
                     else
                     {
                         e.DragUIOverride.IsCaptionVisible = true;
-                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), locationItem.Text);
+                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
                         e.AcceptedOperation = DataPackageOperation.Copy;
                     }
                 }
@@ -713,43 +716,43 @@ namespace Files.Uwp.UserControls
                     e.DragUIOverride.IsCaptionVisible = true;
                     if (locationItem.Path.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
                     {
-                        e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), locationItem.Text);
+                        e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
                         e.AcceptedOperation = DataPackageOperation.Move;
                     }
                     else if (e.Modifiers.HasFlag(DragDropModifiers.Alt) || e.Modifiers.HasFlag(DragDropModifiers.Control | DragDropModifiers.Shift))
                     {
-                        e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalized(), locationItem.Text);
+                        e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
                         e.AcceptedOperation = DataPackageOperation.Link;
                     }
                     else if (e.Modifiers.HasFlag(DragDropModifiers.Control))
                     {
-                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), locationItem.Text);
+                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
                         e.AcceptedOperation = DataPackageOperation.Copy;
                     }
                     else if (e.Modifiers.HasFlag(DragDropModifiers.Shift))
                     {
-                        e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), locationItem.Text);
+                        e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
                         e.AcceptedOperation = DataPackageOperation.Move;
                     }
                     else if (storageItems.Any(x => x.Item is ZipStorageFile || x.Item is ZipStorageFolder)
                         || ZipStorageFolder.IsZipPath(locationItem.Path))
                     {
-                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), locationItem.Text);
+                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
                         e.AcceptedOperation = DataPackageOperation.Copy;
                     }
                     else if (storageItems.AreItemsInSameDrive(locationItem.Path) || locationItem.IsDefaultLocation)
                     {
                         e.AcceptedOperation = DataPackageOperation.Move;
-                        e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), locationItem.Text);
+                        e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
                     }
                     else
                     {
                         e.AcceptedOperation = DataPackageOperation.Copy;
-                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), locationItem.Text);
+                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
                     }
                 }
             }
-            else if ((e.DataView.Properties["sourceLocationItem"] as Microsoft.UI.Xaml.Controls.NavigationViewItem)?.DataContext is LocationItem sourceLocationItem)
+            else if ((e.DataView.Properties["sourceLocationItem"] as NavigationViewItem)?.DataContext is LocationItem sourceLocationItem)
             {
                 // else if the drag over event is called over a location item
                 NavigationViewLocationItem_DragOver_SetCaptions(locationItem, sourceLocationItem, e);
@@ -776,7 +779,7 @@ namespace Files.Uwp.UserControls
             {
                 e.AcceptedOperation = DataPackageOperation.Move;
                 e.DragUIOverride.IsCaptionVisible = true;
-                e.DragUIOverride.Caption = "PinToSidebarByDraggingCaptionText".GetLocalized();
+                e.DragUIOverride.Caption = "PinToSidebarByDraggingCaptionText".GetLocalizedResource();
             }
         }
 
@@ -791,7 +794,7 @@ namespace Files.Uwp.UserControls
             dragOverItem = null; // Reset dragged over item
             dragOverSection = null; // Reset dragged over section
 
-            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem locationItem))
+            if (!((sender as NavigationViewItem).DataContext is LocationItem locationItem))
             {
                 return;
             }
@@ -799,7 +802,7 @@ namespace Files.Uwp.UserControls
             // If the dropped item is a folder or file from a file system
             if (FilesystemHelpers.HasDraggedStorageItems(e.DataView))
             {
-                VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "Drop", false);
+                VisualStateManager.GoToState(sender as NavigationViewItem, "Drop", false);
 
                 var deferral = e.GetDeferral();
 
@@ -830,7 +833,7 @@ namespace Files.Uwp.UserControls
                 isDropOnProcess = false;
                 deferral.Complete();
             }
-            else if ((e.DataView.Properties["sourceLocationItem"] as Microsoft.UI.Xaml.Controls.NavigationViewItem)?.DataContext is LocationItem sourceLocationItem)
+            else if ((e.DataView.Properties["sourceLocationItem"] as NavigationViewItem)?.DataContext is LocationItem sourceLocationItem)
             {
                 // Else if the dropped item is a location item
 
@@ -844,7 +847,7 @@ namespace Files.Uwp.UserControls
 
         private async void NavigationViewDriveItem_DragOver(object sender, DragEventArgs e)
         {
-            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is DriveItem driveItem) ||
+            if (!((sender as NavigationViewItem).DataContext is DriveItem driveItem) ||
                 !Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
             {
                 return;
@@ -856,7 +859,7 @@ namespace Files.Uwp.UserControls
             var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
             var storageItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
-            if ("DriveCapacityUnknown".GetLocalized().Equals(driveItem.SpaceText, StringComparison.OrdinalIgnoreCase) ||
+            if ("DriveCapacityUnknown".GetLocalizedResource().Equals(driveItem.SpaceText, StringComparison.OrdinalIgnoreCase) ||
                 (storageItems.Any() && storageItems.AreItemsAlreadyInFolder(driveItem.Path)))
             {
                 e.AcceptedOperation = DataPackageOperation.None;
@@ -864,7 +867,7 @@ namespace Files.Uwp.UserControls
             else if (handledByFtp)
             {
                 e.DragUIOverride.IsCaptionVisible = true;
-                e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), driveItem.Text);
+                e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
                 e.AcceptedOperation = DataPackageOperation.Copy;
             }
             else if (!storageItems.Any())
@@ -876,28 +879,28 @@ namespace Files.Uwp.UserControls
                 e.DragUIOverride.IsCaptionVisible = true;
                 if (e.Modifiers.HasFlag(DragDropModifiers.Alt) || e.Modifiers.HasFlag(DragDropModifiers.Control | DragDropModifiers.Shift))
                 {
-                    e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalized(), driveItem.Text);
+                    e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
                     e.AcceptedOperation = DataPackageOperation.Link;
                 }
                 else if (e.Modifiers.HasFlag(DragDropModifiers.Control))
                 {
-                    e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), driveItem.Text);
+                    e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
                     e.AcceptedOperation = DataPackageOperation.Copy;
                 }
                 else if (e.Modifiers.HasFlag(DragDropModifiers.Shift))
                 {
-                    e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), driveItem.Text);
+                    e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
                     e.AcceptedOperation = DataPackageOperation.Move;
                 }
                 else if (storageItems.AreItemsInSameDrive(driveItem.Path))
                 {
                     e.AcceptedOperation = DataPackageOperation.Move;
-                    e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), driveItem.Text);
+                    e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
                 }
                 else
                 {
                     e.AcceptedOperation = DataPackageOperation.Copy;
-                    e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), driveItem.Text);
+                    e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
                 }
             }
 
@@ -915,12 +918,12 @@ namespace Files.Uwp.UserControls
             dragOverItem = null; // Reset dragged over item
             dragOverSection = null; // Reset dragged over section
 
-            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is DriveItem driveItem))
+            if (!((sender as NavigationViewItem).DataContext is DriveItem driveItem))
             {
                 return;
             }
 
-            VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "Drop", false);
+            VisualStateManager.GoToState(sender as NavigationViewItem, "Drop", false);
 
             var deferral = e.GetDeferral();
 
@@ -941,7 +944,7 @@ namespace Files.Uwp.UserControls
 
         private async void NavigationViewFileTagItem_DragOver(object sender, DragEventArgs e)
         {
-            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is FileTagItem fileTagItem) ||
+            if (!((sender as NavigationViewItem).DataContext is FileTagItem fileTagItem) ||
                 !Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
             {
                 return;
@@ -964,7 +967,7 @@ namespace Files.Uwp.UserControls
             else
             {
                 e.DragUIOverride.IsCaptionVisible = true;
-                e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalized(), fileTagItem.Text);
+                e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalizedResource(), fileTagItem.Text);
                 e.AcceptedOperation = DataPackageOperation.Link;
             }
 
@@ -982,12 +985,12 @@ namespace Files.Uwp.UserControls
             dragOverItem = null; // Reset dragged over item
             dragOverSection = null; // Reset dragged over section
 
-            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is FileTagItem fileTagItem))
+            if (!((sender as NavigationViewItem).DataContext is FileTagItem fileTagItem))
             {
                 return;
             }
 
-            VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "Drop", false);
+            VisualStateManager.GoToState(sender as NavigationViewItem, "Drop", false);
 
             var deferral = e.GetDeferral();
 
@@ -1016,15 +1019,15 @@ namespace Files.Uwp.UserControls
             (this.FindDescendant("TabContentBorder") as Border).Child = TabContent;
         }
 
-        private void SidebarControl_DisplayModeChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewDisplayModeChangedEventArgs args)
+        private void SidebarControl_DisplayModeChanged(NavigationView sender, NavigationViewDisplayModeChangedEventArgs args)
         {
-            IsPaneToggleButtonVisible = args.DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Minimal;
+            IsPaneToggleButtonVisible = args.DisplayMode == NavigationViewDisplayMode.Minimal;
         }
 
         private void Border_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             var step = 1;
-            var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
+            var ctrl = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control);
             originalSize = IsPaneOpen ? UserSettingsService.AppearanceSettingsService.SidebarWidth : CompactPaneLength;
 
             if (ctrl.HasFlag(CoreVirtualKeyStates.Down))
@@ -1062,7 +1065,7 @@ namespace Files.Uwp.UserControls
 
         private void Border_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
-            if (DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded)
+            if (DisplayMode == NavigationViewDisplayMode.Expanded)
             {
                 SetSize(e.Cumulative.Translation.X);
             }
@@ -1072,16 +1075,16 @@ namespace Files.Uwp.UserControls
         {
             if (!dragging) // keep showing pressed event if currently resizing the sidebar
             {
-                Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Arrow, 0);
+                (sender as Grid).ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
                 VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerNormal", true);
             }
         }
 
         private void Border_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            if (DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded)
+            if (DisplayMode == NavigationViewDisplayMode.Expanded)
             {
-                Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.SizeWestEast, 0);
+                (sender as Grid).ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
                 VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerPointerOver", true);
             }
         }
@@ -1116,7 +1119,7 @@ namespace Files.Uwp.UserControls
 
         private void ResizeElementBorder_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
-            Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Arrow, 0);
+            (sender as Grid).ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
             VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerNormal", true);
             UserSettingsService.AppearanceSettingsService.SidebarWidth = OpenPaneLength;
             dragging = false;
@@ -1129,10 +1132,10 @@ namespace Files.Uwp.UserControls
 
         private void ResizeElementBorder_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
         {
-            if (DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded)
+            if (DisplayMode == NavigationViewDisplayMode.Expanded)
             {
                 originalSize = IsPaneOpen ? UserSettingsService.AppearanceSettingsService.SidebarWidth : CompactPaneLength;
-                Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.SizeWestEast, 0);
+                (sender as Grid).ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
                 VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerPressed", true);
                 dragging = true;
             }
@@ -1145,7 +1148,7 @@ namespace Files.Uwp.UserControls
                 var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => drivePath.StartsWith(x.Path, StringComparison.Ordinal));
                 if (matchingDrive != null && matchingDrive.Type == DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
                 {
-                    bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalized(), string.Format("InsertDiscDialog/Text".GetLocalized(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalized(), "Close".GetLocalized());
+                    bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalizedResource(), string.Format("InsertDiscDialog/Text".GetLocalizedResource(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalizedResource(), "Close".GetLocalizedResource());
                     if (ejectButton)
                     {
                         await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
@@ -1156,7 +1159,7 @@ namespace Files.Uwp.UserControls
             return false;
         }
 
-        private async void LoadShellMenuItems(Microsoft.UI.Xaml.Controls.CommandBarFlyout itemContextMenuFlyout, ContextMenuOptions options)
+        private async void LoadShellMenuItems(CommandBarFlyout itemContextMenuFlyout, ContextMenuOptions options)
         {
             try
             {
@@ -1171,7 +1174,7 @@ namespace Files.Uwp.UserControls
                 }
                 if (options.IsLocationItem)
                 {
-                    var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+                    var shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
                     var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(connection: await AppServiceConnectionHelper.Instance, currentInstanceViewModel: null, workingDir: null,
                         new List<ListedItem>() { new ListedItem(null) { ItemPath = rightClickedItem.Path } }, shiftPressed: shiftPressed, showOpenMenu: false);
                     if (!UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu)
@@ -1179,7 +1182,7 @@ namespace Files.Uwp.UserControls
                         var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(shellMenuItems);
                         if (secondaryElements.Any())
                         {
-                            var openedPopups = Windows.UI.Xaml.Media.VisualTreeHelper.GetOpenPopups(Window.Current);
+                            var openedPopups = Microsoft.UI.Xaml.Media.VisualTreeHelper.GetOpenPopups(App.Window);
                             var secondaryMenu = openedPopups.FirstOrDefault(popup => popup.Name == "OverflowPopup");
                             var itemsControl = secondaryMenu?.Child.FindDescendant<ItemsControl>();
                             if (itemsControl is not null)
@@ -1220,7 +1223,7 @@ namespace Files.Uwp.UserControls
 
         #region Sidebar sections expanded state management
 
-        private async void NavigationView_Expanding(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemExpandingEventArgs args)
+        private async void NavigationView_Expanding(NavigationView sender, NavigationViewItemExpandingEventArgs args)
         {
             if (args.ExpandingItem is LocationItem loc && loc.ChildItems != null)
             {
@@ -1232,7 +1235,7 @@ namespace Files.Uwp.UserControls
             }
         }
 
-        private async void NavigationView_Collapsed(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemCollapsedEventArgs args)
+        private async void NavigationView_Collapsed(NavigationView sender, NavigationViewItemCollapsedEventArgs args)
         {
             if (args.CollapsedItem is LocationItem loc && loc.ChildItems != null)
             {
@@ -1244,16 +1247,16 @@ namespace Files.Uwp.UserControls
             }
         }
 
-        private void NavigationView_PaneOpened(Microsoft.UI.Xaml.Controls.NavigationView sender, object args)
+        private void NavigationView_PaneOpened(NavigationView sender, object args)
         {
             // Restore expanded state when pane is opened
             foreach (var loc in ViewModel.SideBarItems.OfType<LocationItem>().Where(x => x.ChildItems != null))
             {
-                loc.IsExpanded = App.AppSettings.Get(loc.Text == "SidebarFavorites".GetLocalized(), $"section:{loc.Text.Replace('\\', '_')}");
+                loc.IsExpanded = App.AppSettings.Get(loc.Text == "SidebarFavorites".GetLocalizedResource(), $"section:{loc.Text.Replace('\\', '_')}");
             }
         }
 
-        private void NavigationView_PaneClosed(Microsoft.UI.Xaml.Controls.NavigationView sender, object args)
+        private void NavigationView_PaneClosed(NavigationView sender, object args)
         {
             // Collapse all sections but do not store the state when pane is closed
             foreach (var loc in ViewModel.SideBarItems.OfType<LocationItem>().Where(x => x.ChildItems != null))
@@ -1275,9 +1278,9 @@ namespace Files.Uwp.UserControls
 
     public class SidebarItemInvokedEventArgs : EventArgs
     {
-        public Microsoft.UI.Xaml.Controls.NavigationViewItemBase InvokedItemContainer { get; set; }
+        public NavigationViewItemBase InvokedItemContainer { get; set; }
 
-        public SidebarItemInvokedEventArgs(Microsoft.UI.Xaml.Controls.NavigationViewItemBase ItemContainer)
+        public SidebarItemInvokedEventArgs(NavigationViewItemBase ItemContainer)
         {
             InvokedItemContainer = ItemContainer;
         }

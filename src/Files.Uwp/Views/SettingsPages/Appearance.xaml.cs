@@ -1,9 +1,9 @@
-﻿using Files.Uwp.Dialogs;
+using Files.Uwp.Dialogs;
 using Files.Uwp.Helpers.XamlHelpers;
 using Files.Uwp.UserControls.Settings;
-using Microsoft.Toolkit.Uwp.UI;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+using CommunityToolkit.WinUI.UI;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Files.Uwp.SettingsPages
 {
@@ -26,12 +26,12 @@ namespace Files.Uwp.SettingsPages
             }
         }
 
-        private void ThemesLearnMoreButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void ThemesLearnMoreButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             ThemesTeachingTip.IsOpen = true;
         }
 
-        private async void OpenThemesFolderButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void OpenThemesFolderButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             ThemesTeachingTip.IsOpen = false;
             this.FindAscendant<SettingsDialog>()?.Hide();

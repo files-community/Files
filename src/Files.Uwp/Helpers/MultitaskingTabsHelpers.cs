@@ -1,6 +1,6 @@
-﻿using Files.Uwp.UserControls.MultitaskingControl;
+using Files.Uwp.UserControls.MultitaskingControl;
 using Files.Uwp.ViewModels;
-using Microsoft.Toolkit.Uwp;
+using Files.Uwp.Extensions;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Linq;
@@ -54,7 +54,7 @@ namespace Files.Uwp.Helpers
             }
             else
             {
-                await NavigationHelpers.OpenPathInNewWindowAsync("Home".GetLocalized());
+                await NavigationHelpers.OpenPathInNewWindowAsync("Home".GetLocalizedResource());
             }
         }
 

@@ -14,7 +14,7 @@
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
         CornerRadius="{StaticResource ControlCornerRadius}">
-        <WebView
+        <WebView2
             x:Name="WebViewControl"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"

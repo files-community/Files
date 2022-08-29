@@ -1,9 +1,9 @@
-﻿using Files.Uwp.Interacts;
-using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.Notifications;
+using Files.Uwp.Interacts;
+using Files.Uwp.Extensions;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.UI.Notifications;
+using CommunityToolkit.WinUI.Notifications;
 
 namespace Files.Uwp.Helpers
 {
@@ -27,16 +27,16 @@ namespace Files.Uwp.Helpers
                             {
                                 new AdaptiveText()
                                 {
-                                    Text = "EjectNotificationHeader".GetLocalized()
+                                    Text = "EjectNotificationHeader".GetLocalizedResource()
                                 },
                                 new AdaptiveText()
                                 {
-                                    Text = "EjectNotificationBody".GetLocalized()
+                                    Text = "EjectNotificationBody".GetLocalizedResource()
                                 }
                             },
                             Attribution = new ToastGenericAttributionText()
                             {
-                                Text = "SettingsAboutAppName".GetLocalized()
+                                Text = "SettingsAboutAppName".GetLocalizedResource()
                             }
                         }
                     },
@@ -54,8 +54,8 @@ namespace Files.Uwp.Helpers
                 Debug.WriteLine("Can't eject device");
 
                 await DialogDisplayHelper.ShowDialogAsync(
-                    "EjectNotificationErrorDialogHeader".GetLocalized(),
-                    "EjectNotificationErrorDialogBody".GetLocalized());
+                    "EjectNotificationErrorDialogHeader".GetLocalizedResource(),
+                    "EjectNotificationErrorDialogBody".GetLocalizedResource());
             }
         }
     }

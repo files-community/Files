@@ -1,12 +1,13 @@
-﻿using Files.Uwp.Dialogs;
+using Files.Uwp.Dialogs;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
 using Files.Uwp.Filesystem;
 using Files.Uwp.ViewModels.Dialogs;
-using Microsoft.Toolkit.Uwp;
+using Files.Uwp.Extensions;
+using CommunityToolkit.WinUI;
 using System;
 using Windows.System;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,11 +19,11 @@ namespace Files.Uwp.Helpers
         {
             DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
             {
-                TitleText = "PropertySaveErrorDialog/Title".GetLocalized(),
-                SubtitleText = "PropertySaveErrorMessage/Text".GetLocalized(), // We can use subtitle here as our content
-                PrimaryButtonText = "Retry".GetLocalized(),
-                SecondaryButtonText = "PropertySaveErrorDialog/SecondaryButtonText".GetLocalized(),
-                CloseButtonText = "Cancel".GetLocalized(),
+                TitleText = "PropertySaveErrorDialog/Title".GetLocalizedResource(),
+                SubtitleText = "PropertySaveErrorMessage/Text".GetLocalizedResource(), // We can use subtitle here as our content
+                PrimaryButtonText = "Retry".GetLocalizedResource(),
+                SecondaryButtonText = "PropertySaveErrorDialog/SecondaryButtonText".GetLocalizedResource(),
+                CloseButtonText = "Cancel".GetLocalizedResource(),
                 DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary | DynamicDialogButtons.Cancel
             });
             return dialog;
@@ -32,9 +33,9 @@ namespace Files.Uwp.Helpers
         {
             DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
             {
-                TitleText = "WelcomeDialog/Title".GetLocalized(),
-                SubtitleText = "WelcomeDialogTextBlock/Text".GetLocalized(), // We can use subtitle here as our content
-                PrimaryButtonText = "WelcomeDialog/PrimaryButtonText".GetLocalized(),
+                TitleText = "WelcomeDialog/Title".GetLocalizedResource(),
+                SubtitleText = "WelcomeDialogTextBlock/Text".GetLocalizedResource(), // We can use subtitle here as our content
+                PrimaryButtonText = "WelcomeDialog/PrimaryButtonText".GetLocalizedResource(),
                 PrimaryButtonAction = async (vm, e) => await Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-broadfilesystemaccess")),
                 DynamicButtons = DynamicDialogButtons.Primary
             });
@@ -47,14 +48,14 @@ namespace Files.Uwp.Helpers
             TextBox inputText = new TextBox()
             {
                 Height = 35d,
-                PlaceholderText = "RenameDialogInputText/PlaceholderText".GetLocalized()
+                PlaceholderText = "RenameDialogInputText/PlaceholderText".GetLocalizedResource()
             };
 
             TextBlock tipText = new TextBlock()
             {
-                Text = "RenameDialogSymbolsTip/Text".GetLocalized(),
-                Margin = new Windows.UI.Xaml.Thickness(0, 0, 4, 0),
-                TextWrapping = Windows.UI.Xaml.TextWrapping.Wrap,
+                Text = "RenameDialogSymbolsTip/Text".GetLocalizedResource(),
+                Margin = new Microsoft.UI.Xaml.Thickness(0, 0, 4, 0),
+                TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap,
                 Opacity = 0.0d
             };
 
@@ -63,7 +64,7 @@ namespace Files.Uwp.Helpers
                 if (FilesystemHelpers.ContainsRestrictedCharacters(args.NewText))
                 {
                     args.Cancel = true;
-                    await inputText.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                    await inputText.DispatcherQueue.EnqueueAsync(() =>
                     {
                         var oldSelection = textBox.SelectionStart + textBox.SelectionLength;
                         var oldText = textBox.Text;
@@ -92,13 +93,12 @@ namespace Files.Uwp.Helpers
             inputText.Loaded += (s, e) =>
             {
                 // dispatching to the ui thread fixes an issue where the primary dialog button would steal focus
-                _ = inputText.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, 
-                    () => inputText.Focus(Windows.UI.Xaml.FocusState.Programmatic));
+                _ = inputText.DispatcherQueue.EnqueueAsync(() => inputText.Focus(Microsoft.UI.Xaml.FocusState.Programmatic));
             };
 
             dialog = new DynamicDialog(new DynamicDialogViewModel()
             {
-                TitleText = "RenameDialog/Title".GetLocalized(),
+                TitleText = "RenameDialog/Title".GetLocalizedResource(),
                 SubtitleText = null,
                 DisplayControl = new Grid()
                 {
@@ -120,8 +120,8 @@ namespace Files.Uwp.Helpers
                 {
                     vm.HideDialog(); // Rename successful
                 },
-                PrimaryButtonText = "RenameDialog/PrimaryButtonText".GetLocalized(),
-                CloseButtonText = "Cancel".GetLocalized(),
+                PrimaryButtonText = "RenameDialog/PrimaryButtonText".GetLocalizedResource(),
+                CloseButtonText = "Cancel".GetLocalizedResource(),
                 DynamicButtonsEnabled = DynamicDialogButtons.Cancel,
                 DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
             });
@@ -133,9 +133,9 @@ namespace Files.Uwp.Helpers
         {
             DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
             {
-                TitleText = "FileInUseDialog/Title".GetLocalized(),
-                SubtitleText = lockingProcess.IsEmpty() ? "FileInUseDialog/Text".GetLocalized() :
-                    string.Format("FileInUseByDialog/Text".GetLocalized(), string.Join(", ", lockingProcess.Select(x => $"{x.AppName ?? x.Name} (PID: {x.Pid})"))),
+                TitleText = "FileInUseDialog/Title".GetLocalizedResource(),
+                SubtitleText = lockingProcess.IsEmpty() ? "FileInUseDialog/Text".GetLocalizedResource() :
+                    string.Format("FileInUseByDialog/Text".GetLocalizedResource(), string.Join(", ", lockingProcess.Select(x => $"{x.AppName ?? x.Name} (PID: {x.Pid})"))),
                 PrimaryButtonText = "OK",
                 DynamicButtons = DynamicDialogButtons.Primary
             });

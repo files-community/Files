@@ -1,15 +1,16 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Shared.Services.DateTimeFormatter;
 using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Core;
+using Microsoft.UI.Dispatching;
 
 namespace Files.Uwp.ViewModels.Properties
 {
@@ -19,7 +20,8 @@ namespace Files.Uwp.ViewModels.Properties
 
         public LibraryItem Library { get; private set; }
 
-        public LibraryProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, LibraryItem item, IShellPage instance)
+        public LibraryProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource,
+            DispatcherQueue coreDispatcher, LibraryItem item, IShellPage instance)
         {
             ViewModel = viewModel;
             TokenSource = tokenSource;
@@ -103,7 +105,7 @@ namespace Files.Uwp.ViewModels.Properties
             }
             else
             {
-                ViewModel.FilesAndFoldersCountString = "LibraryNoLocations/Text".GetLocalized();
+                ViewModel.FilesAndFoldersCountString = "LibraryNoLocations/Text".GetLocalizedResource();
             }
         }
 

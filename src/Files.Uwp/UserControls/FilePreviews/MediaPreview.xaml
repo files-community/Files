@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.Uwp.UserControls.FilePreviews"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:winex="using:WinUIEx"
     d:DesignHeight="300"
     d:DesignWidth="400"
     Unloaded="{x:Bind ViewModel.PreviewControlBase_Unloaded}"
@@ -16,18 +17,18 @@
             Modifiers="Control" />
     </UserControl.KeyboardAccelerators>
     <Grid CornerRadius="{StaticResource ControlCornerRadius}">
-        <MediaPlayerElement
+        <winex:MediaPlayerElement
             x:Name="PlayerContext"
             AreTransportControlsEnabled="True"
             Background="Transparent"
             Foreground="Transparent"
             Source="{x:Bind ViewModel.Source, Mode=OneWay}">
-            <MediaPlayerElement.TransportControls>
-                <MediaTransportControls
+            <winex:MediaPlayerElement.TransportControls>
+                <winex:MediaTransportControls
                     IsFullWindowButtonVisible="False"
                     IsPlaybackRateButtonVisible="False"
                     IsZoomButtonVisible="False" />
-            </MediaPlayerElement.TransportControls>
-        </MediaPlayerElement>
+            </winex:MediaPlayerElement.TransportControls>
+        </winex:MediaPlayerElement>
     </Grid>
 </UserControl>

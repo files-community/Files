@@ -1,6 +1,6 @@
-﻿using Files.Shared;
+using Files.Shared;
 using Files.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp;
+using Files.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -126,20 +126,20 @@ namespace Files.Uwp.Filesystem
         {
             if (string.IsNullOrWhiteSpace(name))
             {
-                return (false, "ErrorInputEmpty".GetLocalized());
+                return (false, "ErrorInputEmpty".GetLocalizedResource());
             }
             if (FilesystemHelpers.ContainsRestrictedCharacters(name))
             {
-                return (false, "ErrorNameInputRestrictedCharacters".GetLocalized());
+                return (false, "ErrorNameInputRestrictedCharacters".GetLocalizedResource());
             }
             if (FilesystemHelpers.ContainsRestrictedFileName(name))
             {
-                return (false, "ErrorNameInputRestricted".GetLocalized());
+                return (false, "ErrorNameInputRestricted".GetLocalizedResource());
             }
             if (Libraries.Any((item) => string.Equals(name, item.Text, StringComparison.OrdinalIgnoreCase) ||
                 string.Equals(name, Path.GetFileNameWithoutExtension(item.Path), StringComparison.OrdinalIgnoreCase)))
             {
-                return (false, "CreateLibraryErrorAlreadyExists".GetLocalized());
+                return (false, "CreateLibraryErrorAlreadyExists".GetLocalizedResource());
             }
             return (true, string.Empty);
         }

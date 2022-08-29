@@ -1,7 +1,7 @@
-﻿using Files.Shared;
+using Files.Shared;
 using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp;
+using Files.Uwp.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -34,7 +34,7 @@ namespace Files.Uwp.Filesystem
             var networkItem = new DriveItem
             {
                 DeviceID = "network-folder",
-                Text = "Network".GetLocalized(),
+                Text = "Network".GetLocalizedResource(),
                 Path = CommonPaths.NetworkFolderPath,
                 Type = DriveType.Network,
                 ItemType = NavigationControlItemType.Drive,
@@ -96,7 +96,7 @@ namespace Files.Uwp.Filesystem
                     }
 
                     var orderedDrives = Drives
-                        .OrderByDescending(o => string.Equals(o.Text, "Network".GetLocalized(), StringComparison.OrdinalIgnoreCase))
+                        .OrderByDescending(o => string.Equals(o.Text, "Network".GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
                         .ThenBy(o => o.Text);
                     foreach (var drive in orderedDrives)
                     {

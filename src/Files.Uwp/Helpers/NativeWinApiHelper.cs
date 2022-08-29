@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +8,12 @@ namespace Files.Uwp.Helpers
 {
     public class NativeWinApiHelper
     {
+        [DllImport("user32.dll")]
+        public static extern short GetKeyState(short code);
+
+        [DllImport("Shcore.dll", SetLastError = true)]
+        public static extern int GetDpiForMonitor(IntPtr hmonitor, uint dpiType, out uint dpiX, out uint dpiY);
+
         [DllImport("api-ms-win-core-processthreads-l1-1-0.dll", SetLastError = true, ExactSpelling = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool OpenProcessToken([In] IntPtr ProcessHandle, TokenAccess DesiredAccess, out IntPtr TokenHandle);
@@ -259,7 +265,7 @@ namespace Files.Uwp.Helpers
             bool MessageHandled { get; }
         }
 
-        public static IntPtr CoreWindowHandle => ((ICoreWindowInterop)(object)Windows.UI.Core.CoreWindow.GetForCurrentThread()).WindowHandle;
+        public static IntPtr CoreWindowHandle => App.WindowHandle;
 
         public static async Task<string> GetFileAssociationAsync(string filePath)
         {

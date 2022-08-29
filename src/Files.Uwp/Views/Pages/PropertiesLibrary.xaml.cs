@@ -1,4 +1,4 @@
-﻿using Files.Shared.Enums;
+using Files.Shared.Enums;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Helpers;
 using Files.Uwp.ViewModels.Properties;
@@ -11,7 +11,8 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage.Pickers;
-using Windows.UI.Xaml;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Files.Uwp.Views
 {
@@ -98,7 +99,7 @@ namespace Files.Uwp.Views
 
         private async Task AddLocation()
         {
-            var folderPicker = new FolderPicker();
+            var folderPicker = this.InitializeWithWindow(new FolderPicker());
             folderPicker.FileTypeFilter.Add("*");
 
             var folder = await folderPicker.PickSingleFolderAsync();
@@ -111,6 +112,13 @@ namespace Files.Uwp.Views
                     NotifyPropertyChanged(nameof(IsLibraryEmpty));
                 }
             }
+        }
+
+        // WINUI3
+        private FolderPicker InitializeWithWindow(FolderPicker obj)
+        {
+            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+            return obj;
         }
 
         private void SetDefaultLocation()
@@ -173,6 +181,16 @@ namespace Files.Uwp.Views
             return isChanged;
         }
 
+        // WINUI3
+        private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
+        {
+            if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+            {
+                contentDialog.XamlRoot = App.Window.Content.XamlRoot;
+            }
+            return contentDialog;
+        }
+
         public override async Task<bool> SaveChangesAsync(ListedItem item)
         {
             if (BaseProperties is LibraryProperties props)
@@ -203,7 +221,7 @@ namespace Files.Uwp.Views
                     }
                     catch
                     {
-                        await dialog.TryShowAsync();
+                        await SetContentDialogRoot(dialog).TryShowAsync();
                         switch (dialog.DynamicResult)
                         {
                             case DynamicDialogResult.Primary:

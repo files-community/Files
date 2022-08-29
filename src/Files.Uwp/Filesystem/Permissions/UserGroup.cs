@@ -1,5 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.Mvvm.ComponentModel;
+using Files.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -22,7 +22,7 @@ namespace Files.Uwp.Filesystem.Permissions
         public List<string> Groups { get; set; }
         public SecurityType ItemType { get; set; }
 
-        public string DisplayName => string.IsNullOrEmpty(Name) ? "SecurityUnknownAccount".GetLocalized() : Name;
+        public string DisplayName => string.IsNullOrEmpty(Name) ? "SecurityUnknownAccount".GetLocalizedResource() : Name;
         public string FullNameOrSid => string.IsNullOrEmpty(Name) ? Sid : string.IsNullOrEmpty(Domain) ? Name : $"{Domain}\\{Name}";
 
         public UserGroup()

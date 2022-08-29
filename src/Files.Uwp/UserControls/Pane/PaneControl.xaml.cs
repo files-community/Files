@@ -1,8 +1,8 @@
-﻿using Files.Shared.Enums;
+using Files.Shared.Enums;
 using Files.Backend.Services.Settings;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using System.ComponentModel;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Files.Uwp.UserControls
 {

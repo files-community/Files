@@ -1,4 +1,4 @@
-﻿using ColorCode;
+using ColorCode;
 using Files.Shared.Extensions;
 using Files.Uwp.Filesystem;
 using Files.Uwp.ViewModels.Properties;

@@ -1,20 +1,19 @@
 ﻿<Page
     x:Class="Files.Uwp.Views.Properties"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="using:Files.Uwp.Helpers"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="700"
     d:DesignWidth="400"
-    muxc:BackdropMaterial.ApplyToRootOrPageBackground="False"
     Background="{ThemeResource RootBackgroundBrush}"
     KeyDown="Page_KeyDown"
     Loaded="Properties_Loaded"
     Loading="Page_Loading"
     Unloaded="Properties_Unloaded"
     mc:Ignorable="d">
+
     <Grid VerticalAlignment="Stretch">
         <Grid.Resources>
             <ResourceDictionary>
@@ -37,23 +36,24 @@
             VerticalAlignment="Top"
             Background="Transparent" />
 
-        <Grid
+        <!--  WINUI3  -->
+        <!--<Grid
             x:Name="AppWindowTitleBarCaptionButtonsGrid"
-            x:Load="{x:Bind helpers:WindowDecorationsHelper.IsWindowDecorationsAllowed}"
             Grid.Row="0"
             Height="32"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
+            x:Load="{x:Bind helpers:WindowDecorationsHelper.IsWindowDecorationsAllowed}"
             Background="Transparent">
             <Rectangle
                 x:Name="CloseRect"
                 Width="46"
                 VerticalAlignment="Stretch"
+                AutomationProperties.Name="{helpers:ResourceString Name=Close}"
                 Fill="Transparent"
                 PointerEntered="CloseRect_PointerEntered"
                 PointerExited="CloseRect_PointerExited"
                 PointerPressed="CloseRect_PointerPressed"
-                AutomationProperties.Name="{helpers:ResourceString Name=Close}"
                 ToolTipService.ToolTip="{helpers:ResourceString Name=Close}" />
             <Viewbox
                 Width="10"
@@ -67,9 +67,9 @@
                     Foreground="Black"
                     IsHitTestVisible="False" />
             </Viewbox>
-        </Grid>
+        </Grid>-->
 
-        <muxc:NavigationView
+        <NavigationView
             x:Name="NavigationView"
             Grid.Row="0"
             Margin="8,8,120,8"
@@ -85,89 +85,89 @@
             SelectedItem="{x:Bind TabGeneral}"
             SelectionChanged="NavigationView_SelectionChanged"
             SelectionFollowsFocus="Disabled">
-			<muxc:NavigationView.Resources>
-				<Style TargetType="muxc:NavigationViewItem">
-					<Setter Target="SelectionIndicator" Property="Margin" Value="0,-8,0,0" />
-				</Style>
-			</muxc:NavigationView.Resources>
+            <NavigationView.Resources>
+                <Style TargetType="NavigationViewItem">
+                    <Setter Target="SelectionIndicator" Property="Margin" Value="0,-8,0,0" />
+                </Style>
+            </NavigationView.Resources>
             <!--  SelectionFollowsFocus disabled to fix #5387  -->
 
             <!--  Tabs  -->
-            <muxc:NavigationView.MenuItems>
-                <muxc:NavigationViewItem
+            <NavigationView.MenuItems>
+                <NavigationViewItem
                     x:Name="TabGeneral"
                     AccessKey="G"
                     Content="{helpers:ResourceString Name=General}"
                     CornerRadius="0"
                     Tag="General">
-                    <muxc:NavigationViewItem.Icon>
+                    <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE7C3;" />
-                    </muxc:NavigationViewItem.Icon>
-                </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem
                     x:Name="TabSecurity"
                     Content="{helpers:ResourceString Name=Security}"
                     CornerRadius="0"
                     Tag="Security">
-                    <muxc:NavigationViewItem.Icon>
+                    <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE730;" />
-                    </muxc:NavigationViewItem.Icon>
-                </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem
                     x:Name="TabShorcut"
                     AccessKey="S"
                     Content="{helpers:ResourceString Name=Shortcut}"
                     CornerRadius="0"
                     Tag="Shortcut"
                     Visibility="Collapsed">
-                    <muxc:NavigationViewItem.Icon>
+                    <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF10A;" />
-                    </muxc:NavigationViewItem.Icon>
-                </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem
                     x:Name="TabLibrary"
                     AccessKey="L"
                     Content="{helpers:ResourceString Name=Library}"
                     CornerRadius="0"
                     Tag="Library"
                     Visibility="Collapsed">
-                    <muxc:NavigationViewItem.Icon>
+                    <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE1D3;" />
-                    </muxc:NavigationViewItem.Icon>
-                </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem
                     x:Name="TabDetails"
                     AccessKey="D"
                     Content="{helpers:ResourceString Name=Details}"
                     CornerRadius="0"
                     Tag="Details"
                     Visibility="Collapsed">
-                    <muxc:NavigationViewItem.Icon>
+                    <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE946;" />
-                    </muxc:NavigationViewItem.Icon>
-                </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem
                     x:Name="TabCustomization"
                     Content="{helpers:ResourceString Name=Customization}"
                     CornerRadius="0"
                     Tag="Customization"
                     Visibility="Collapsed">
-                    <muxc:NavigationViewItem.Icon>
+                    <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE771;" />
-                    </muxc:NavigationViewItem.Icon>
-                </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem
                     x:Name="TabCompatibility"
                     Content="{helpers:ResourceString Name=Compatibility}"
                     CornerRadius="0"
                     Tag="Compatibility"
                     Visibility="Collapsed">
-                    <muxc:NavigationViewItem.Icon>
+                    <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xECAA;" />
-                    </muxc:NavigationViewItem.Icon>
-                </muxc:NavigationViewItem>
-            </muxc:NavigationView.MenuItems>
-        </muxc:NavigationView>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+            </NavigationView.MenuItems>
+        </NavigationView>
 
         <ScrollViewer Grid.Row="1">
             <Frame x:Name="contentFrame" IsNavigationStackEnabled="False" />

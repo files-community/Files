@@ -1,4 +1,4 @@
-﻿using Files.Shared.Extensions;
+using Files.Shared.Extensions;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;

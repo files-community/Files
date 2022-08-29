@@ -1,4 +1,4 @@
-﻿using Files.Shared.Extensions;
+using Files.Shared.Extensions;
 using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
 using CommunityToolkit.Mvvm.ComponentModel;

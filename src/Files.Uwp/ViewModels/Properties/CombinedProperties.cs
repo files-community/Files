@@ -1,7 +1,7 @@
-﻿using Files.Uwp.Extensions;
+using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Core;
+using Microsoft.UI.Dispatching;
 
 namespace Files.Uwp.ViewModels.Properties
 {
@@ -18,7 +19,7 @@ namespace Files.Uwp.ViewModels.Properties
         public List<ListedItem> List { get; }
 
         public CombinedProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource,
-            CoreDispatcher coreDispatcher, List<ListedItem> listedItems, IShellPage instance)
+            DispatcherQueue coreDispatcher, List<ListedItem> listedItems, IShellPage instance)
         {
             ViewModel = viewModel;
             TokenSource = tokenSource;
@@ -36,17 +37,17 @@ namespace Files.Uwp.ViewModels.Properties
                 ViewModel.LoadCombinedItemsGlyph = true;
                 if (List.All(x => x.ItemType.Equals(List.First().ItemType)))
                 {
-                    ViewModel.ItemType = string.Format("PropertiesDriveItemTypesEquals".GetLocalized(), List.First().ItemType);
+                    ViewModel.ItemType = string.Format("PropertiesDriveItemTypesEquals".GetLocalizedResource(), List.First().ItemType);
                 }
                 else
                 {
-                    ViewModel.ItemType = "PropertiesDriveItemTypeDifferent".GetLocalized();
+                    ViewModel.ItemType = "PropertiesDriveItemTypeDifferent".GetLocalizedResource();
                 }
                 var itemsPath = List.Select(Item => (Item as RecycleBinItem)?.ItemOriginalFolder ??
                     (Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath));
                 if (itemsPath.Distinct().Count() == 1)
                 {
-                    ViewModel.ItemPath = string.Format("PropertiesCombinedItemPath".GetLocalized(), itemsPath.First());
+                    ViewModel.ItemPath = string.Format("PropertiesCombinedItemPath".GetLocalizedResource(), itemsPath.First());
                 }
             }
         }

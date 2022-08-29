@@ -1,4 +1,4 @@
-﻿using Files.Backend.Services.Settings;
+using Files.Backend.Services.Settings;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 

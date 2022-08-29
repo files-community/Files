@@ -1,8 +1,8 @@
-﻿using Files.Uwp.Extensions;
+using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem;
 using Files.Uwp.ViewModels.Properties;
 using SevenZip;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -42,7 +42,7 @@ namespace Files.Uwp.ViewModels.Previews
             }
             folderCount = (int)zipFile.FilesCount - fileCount;
 
-            string propertyItemCount = string.Format("DetailsArchiveItemCount".GetLocalized(), zipFile.FilesCount, fileCount, folderCount);
+            string propertyItemCount = string.Format("DetailsArchiveItemCount".GetLocalizedResource(), zipFile.FilesCount, fileCount, folderCount);
             details.Add(GetFileProperty("PropertyItemCount", propertyItemCount));
             details.Add(GetFileProperty("PropertyUncompressedSize", totalSize.ToLongSizeString()));
 

@@ -1,17 +1,17 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Extensions;
 using Files.Shared.Services.DateTimeFormatter;
 using Files.Uwp.Extensions;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage.FileProperties;
-using Windows.UI.Core;
 using static Files.Backend.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
+using Microsoft.UI.Dispatching;
 
 namespace Files.Uwp.ViewModels.Properties
 {
@@ -24,7 +24,7 @@ namespace Files.Uwp.ViewModels.Properties
 
         public CancellationTokenSource TokenSource { get; set; }
 
-        public CoreDispatcher Dispatcher { get; set; }
+        public DispatcherQueue Dispatcher { get; set; }
 
         public abstract void GetBaseProperties();
 
@@ -82,12 +82,12 @@ namespace Files.Uwp.ViewModels.Properties
 
                     if (size > ViewModel.ItemSizeBytes)
                     {
-                        await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                        await Dispatcher.EnqueueAsync(() =>
                         {
                             ViewModel.ItemSizeBytes = size;
                             ViewModel.ItemSize = size.ToSizeString();
                             SetItemsCountString();
-                        });
+                        }, DispatcherQueuePriority.Low);
                     }
 
                     if (token.IsCancellationRequested)
@@ -108,11 +108,11 @@ namespace Files.Uwp.ViewModels.Properties
         {
             if (ViewModel.LocationsCount > 0)
             {
-                ViewModel.FilesAndFoldersCountString = string.Format("PropertiesFilesFoldersAndLocationsCountString".GetLocalized(), ViewModel.FilesCount, ViewModel.FoldersCount, ViewModel.LocationsCount);
+                ViewModel.FilesAndFoldersCountString = string.Format("PropertiesFilesFoldersAndLocationsCountString".GetLocalizedResource(), ViewModel.FilesCount, ViewModel.FoldersCount, ViewModel.LocationsCount);
             }
             else
             {
-                ViewModel.FilesAndFoldersCountString = string.Format("PropertiesFilesAndFoldersCountString".GetLocalized(), ViewModel.FilesCount, ViewModel.FoldersCount);
+                ViewModel.FilesAndFoldersCountString = string.Format("PropertiesFilesAndFoldersCountString".GetLocalizedResource(), ViewModel.FilesCount, ViewModel.FoldersCount);
             }
         }
     }

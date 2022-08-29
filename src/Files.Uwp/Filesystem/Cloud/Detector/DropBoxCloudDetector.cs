@@ -1,4 +1,4 @@
-﻿using Files.Shared.Cloud;
+using Files.Shared.Cloud;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;

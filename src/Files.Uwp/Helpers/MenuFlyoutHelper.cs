@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using CommunityToolkit.WinUI;
 using System.Windows.Input;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 
 namespace Files.Uwp.Helpers
 {
@@ -100,7 +101,7 @@ namespace Files.Uwp.Helpers
                 return;
             }
 
-            await menu.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            await menu.DispatcherQueue.EnqueueAsync(() =>
             {
                 menu.Items.Clear();
                 AddItems(menu.Items, itemSource);

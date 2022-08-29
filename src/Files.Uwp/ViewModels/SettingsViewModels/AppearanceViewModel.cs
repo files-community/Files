@@ -1,13 +1,12 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Settings;
 using Files.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp;
+using Files.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
-using Windows.UI.Xaml;
+using Microsoft.UI.Xaml;
 
 namespace Files.Uwp.ViewModels.SettingsViewModels
 {
@@ -22,9 +21,9 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
         {
             Themes = new List<string>()
             {
-                "Default".GetLocalized(),
-                "LightTheme".GetLocalized(),
-                "DarkTheme".GetLocalized()
+                "Default".GetLocalizedResource(),
+                "LightTheme".GetLocalizedResource(),
+                "DarkTheme".GetLocalizedResource()
             };
         }
 
@@ -249,7 +248,7 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
 
         public async Task OpenThemesFolder()
         {
-            await CoreApplication.MainView.Dispatcher.YieldAsync();
+            //await CoreApplication.MainView.Dispatcher.YieldAsync(); // WINUI3
             await NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.ImportedThemesFolder.Path);
         }
     }

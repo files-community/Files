@@ -1,4 +1,4 @@
-﻿using Files.Shared.Enums;
+using Files.Shared.Enums;
 using System;
 using System.Threading.Tasks;
 using Windows.Storage;

@@ -1,4 +1,4 @@
-﻿using Files.Shared;
+using Files.Shared;
 using Files.Shared.Extensions;
 using Newtonsoft.Json;
 using System;
@@ -25,33 +25,7 @@ namespace Files.Uwp.Helpers
 
         public static void Register()
         {
-            App.Current.Suspending += OnSuspending;
-            App.Current.LeavingBackground += OnLeavingBackground;
-        }
-
-        private static async void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
-        {
-            if (await Instance == null)
-            {
-                // Need to reinitialize AppService when app is resuming
-                Instance = BuildConnection(true);
-                ConnectionChanged?.Invoke(null, Instance);
-                if (App.MainViewModel != null)
-                {
-                    App.MainViewModel.IsFullTrustElevated = false;
-                }
-            }
-        }
-
-        private async static void OnSuspending(object sender, SuspendingEventArgs e)
-        {
-            var deferral = e.SuspendingOperation.GetDeferral();
-            var nullConn = Task.FromResult<NamedPipeAsAppServiceConnection>(null);
-            ConnectionChanged?.Invoke(null, nullConn);
-            (await Instance)?.SendMessageAsync(new ValueSet() { { "Arguments", "Terminate" } });
-            (await Instance)?.Dispose();
-            Instance = nullConn;
-            deferral.Complete();
+            // WINUI3: app does not get suspended
         }
 
         public static async Task<bool> Elevate(this NamedPipeAsAppServiceConnection connection)
@@ -101,10 +75,8 @@ namespace Files.Uwp.Helpers
             {
                 if (launchFullTrust)
                 {
-                    // Launch fulltrust process
-                    ApplicationData.Current.LocalSettings.Values["PackageSid"] =
-                        WebAuthenticationBroker.GetCurrentApplicationCallbackUri().Host.ToUpperInvariant();
-                    await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+                    var ftpPath = Path.Combine(Package.Current.InstalledLocation.Path, "Files.FullTrust", "FilesFullTrust.exe");
+                    System.Diagnostics.Process.Start(ftpPath);
                 }
 
                 var connection = new NamedPipeAsAppServiceConnection();

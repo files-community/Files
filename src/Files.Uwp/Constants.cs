@@ -1,4 +1,4 @@
-﻿namespace Files.Uwp
+namespace Files.Uwp
 {
     public static class Constants
     {

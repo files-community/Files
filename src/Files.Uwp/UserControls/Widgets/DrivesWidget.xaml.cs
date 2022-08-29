@@ -1,9 +1,10 @@
-﻿using Files.Uwp.DataModels.NavigationControlItems;
+using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Uwp.Helpers;
 using Files.Backend.Services.Settings;
 using Files.Uwp.ViewModels.Widgets;
+using Files.Uwp.Extensions;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -13,12 +14,11 @@ using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Windows.System;
 using Windows.UI.Core;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
-using Windows.UI.Xaml.Media.Imaging;
-using Windows.ApplicationModel.Core;
+using Microsoft.UI.Xaml.Media.Imaging;
 using System.Collections.Specialized;
 
 namespace Files.Uwp.UserControls.Widgets
@@ -56,7 +56,7 @@ namespace Files.Uwp.UserControls.Widgets
             if (thumbnailData != null && thumbnailData.Length > 0)
             {
                 // Thumbnail data is valid, set the item icon
-                Thumbnail = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(overrideThumbnailSize));
+                Thumbnail = await App.Window.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(overrideThumbnailSize));
             }
         }
     }
@@ -94,9 +94,9 @@ namespace Files.Uwp.UserControls.Widgets
 
         public string WidgetName => nameof(DrivesWidget);
 
-        public string AutomationProperties => "DrivesWidgetAutomationProperties/Name".GetLocalized();
+        public string AutomationProperties => "DrivesWidgetAutomationProperties/Name".GetLocalizedResource();
 
-        public string WidgetHeader => "Drives".GetLocalized();
+        public string WidgetHeader => "Drives".GetLocalizedResource();
 
         public bool IsWidgetSettingEnabled => UserSettingsService.WidgetsSettingsService.ShowDrivesWidget;
 
@@ -111,7 +111,7 @@ namespace Files.Uwp.UserControls.Widgets
 
         private async void Manager_DataChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            await DispatcherQueue.EnqueueAsync(async () =>
             {
                 foreach (DriveItem drive in App.DrivesManager.Drives)
                 {
@@ -203,7 +203,7 @@ namespace Files.Uwp.UserControls.Widgets
                 return;
             }
 
-            var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            var ctrlPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             if (ctrlPressed)
             {
                 await NavigationHelpers.OpenPathInNewTab(NavigationPath);
@@ -306,7 +306,7 @@ namespace Files.Uwp.UserControls.Widgets
                 var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => drivePath.StartsWith(x.Path, StringComparison.Ordinal));
                 if (matchingDrive != null && matchingDrive.Type == DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
                 {
-                    bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalized(), string.Format("InsertDiscDialog/Text".GetLocalized(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalized(), "Close".GetLocalized());
+                    bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalizedResource(), string.Format("InsertDiscDialog/Text".GetLocalizedResource(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalizedResource(), "Close".GetLocalizedResource());
                     if (ejectButton)
                     {
                         await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);

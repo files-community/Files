@@ -3,13 +3,12 @@ using Files.Shared;
 using Files.Shared.Cloud;
 using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 
 namespace Files.Uwp.Filesystem.Cloud
 {
@@ -60,7 +59,7 @@ namespace Files.Uwp.Filesystem.Cloud
                 if (iconData is not null)
                 {
                     cloudProviderItem.IconData = iconData;
-                    await CoreApplication.MainView.CoreWindow.DispatcherQueue
+                    await App.Window.DispatcherQueue
                         .EnqueueAsync(async () => cloudProviderItem.Icon = await iconData.ToBitmapAsync());
                 }
 

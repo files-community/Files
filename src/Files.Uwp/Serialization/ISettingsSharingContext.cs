@@ -1,4 +1,4 @@
-﻿namespace Files.Uwp.Serialization
+namespace Files.Uwp.Serialization
 {
     public interface ISettingsSharingContext
     {

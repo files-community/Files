@@ -1,20 +1,21 @@
-﻿using Files.Uwp.DataModels.NavigationControlItems;
+using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Uwp.Filesystem;
 using Files.Uwp.ViewModels.Properties;
+using Files.Uwp.Extensions;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
-using Windows.Foundation;
 using Windows.Foundation.Metadata;
-using Windows.UI.Core;
-using Windows.UI.ViewManagement;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Xaml.Navigation;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Animation;
+using Microsoft.UI.Xaml.Navigation;
 using static Files.Uwp.Views.PropertiesSecurityAdvanced;
+using Files.Uwp.Helpers;
+using Windows.Graphics;
+using Microsoft.UI.Windowing;
+using Microsoft.UI;
 
 namespace Files.Uwp.Views
 {
@@ -24,7 +25,7 @@ namespace Files.Uwp.Views
 
         public SecurityProperties SecurityProperties { get; set; }
 
-        private ApplicationView propsView;
+        private AppWindow? propsView;
 
         public PropertiesSecurity()
         {
@@ -70,10 +71,7 @@ namespace Files.Uwp.Views
 
         public override void Dispose()
         {
-            if (propsView != null)
-            {
-                propsView.Consolidated -= PropsView_Consolidated;
-            }
+
         }
 
         private async void OpenAdvancedProperties()
@@ -85,36 +83,62 @@ namespace Files.Uwp.Views
 
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
-                if (propsView == null)
+                if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
                 {
-                    var newWindow = CoreApplication.CreateNewView();
-
-                    await newWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                    if (propsView == null)
                     {
-                        Frame frame = new Frame();
+                        var frame = new Frame();
+                        frame.RequestedTheme = ThemeHelper.RootTheme;
                         frame.Navigate(typeof(PropertiesSecurityAdvanced), new PropertiesPageNavigationArguments()
                         {
                             Item = SecurityProperties.Item
                         }, new SuppressNavigationTransitionInfo());
-                        Window.Current.Content = frame;
-                        Window.Current.Activate();
 
-                        propsView = ApplicationView.GetForCurrentView();
-                        newWindow.TitleBar.ExtendViewIntoTitleBar = true;
-                        propsView.Title = string.Format("SecurityAdvancedPermissionsTitle".GetLocalized(), SecurityProperties.Item.ItemName);
-                        propsView.PersistedStateId = "PropertiesSecurity";
-                        propsView.SetPreferredMinSize(new Size(400, 500));
-                        propsView.Consolidated += PropsView_Consolidated;
+                        // Initialize window
+                        var propertiesWindow = new WinUIEx.WindowEx();
+                        var appWindow = propertiesWindow.AppWindow;
 
-                        bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(propsView.Id);
-                        if (viewShown && propsView != null)
+                        // Set content
+                        propertiesWindow.Content = frame;
+                        if (frame.Content is PropertiesSecurityAdvanced properties)
+                            properties.appWindow = appWindow;
+
+                        // Set min size
+                        propertiesWindow.MinWidth = 850;
+                        propertiesWindow.MinHeight = 550;
+
+                        // Set backdrop
+                        propertiesWindow.Backdrop = new WinUIEx.MicaSystemBackdrop() { DarkTintOpacity = 0.8 };
+
+                        if (AppWindowTitleBar.IsCustomizationSupported())
                         {
-                            // Set window size again here as sometimes it's not resized in the page Loaded event
-                            propsView.TryResizeView(new Size(850, 550));
+                            appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+
+                            // Set window buttons background to transparent
+                            appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+                            appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
                         }
-                    });
+                        else
+                        {
+                            propertiesWindow.ExtendsContentIntoTitleBar = true;
+                        }
+
+                        appWindow.Title = string.Format("SecurityAdvancedPermissionsTitle".GetLocalizedResource(), SecurityProperties.Item.ItemName);
+                        appWindow.Resize(new SizeInt32(850, 550));
+                        appWindow.Closing += AppWindow_Closing;
+                        appWindow.Show();
+
+                        propsView = appWindow;
+                    }
+                    else
+                    {
+                        propsView.Show(true);
+                    }
                 }
-                await ApplicationViewSwitcher.SwitchAsync(propsView.Id);
+                else
+                {
+                    //WINUI3
+                }
             }
             else
             {
@@ -122,14 +146,14 @@ namespace Files.Uwp.Views
             }
         }
 
-        private async void PropsView_Consolidated(ApplicationView sender, ApplicationViewConsolidatedEventArgs args)
+        private async void AppWindow_Closing(AppWindow sender, AppWindowClosingEventArgs args)
         {
-            propsView.Consolidated -= PropsView_Consolidated;
+            sender.Closing -= AppWindow_Closing;
             propsView = null;
 
             if (SecurityProperties != null)
             {
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => SecurityProperties.GetFilePermissions()); // Reload permissions
+                await DispatcherQueue.EnqueueAsync(() => SecurityProperties.GetFilePermissions()); // Reload permissions
             }
         }
     }

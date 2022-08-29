@@ -101,9 +101,8 @@ namespace Files.FullTrust
 
         private static async void InitializeAppServiceConnection()
         {
-            var packageSid = ApplicationData.Current.LocalSettings.Values["PackageSid"];
             connection = new NamedPipeClientStream(".",
-                $"Sessions\\{Process.GetCurrentProcess().SessionId}\\AppContainerNamedObjects\\{packageSid}\\FilesInteropService_ServerPipe",
+                $"LOCAL\\FilesInteropService_ServerPipe",
                 PipeDirection.InOut, PipeOptions.Asynchronous);
 
             try

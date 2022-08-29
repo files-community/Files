@@ -1,6 +1,6 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Files.Shared.Cloud;
-using Microsoft.Toolkit.Uwp;
+using Files.Uwp.Extensions;
 
 namespace Files.Uwp.Filesystem.Cloud
 {
@@ -10,7 +10,7 @@ namespace Files.Uwp.Filesystem.Cloud
 
         public CloudDriveSyncStatus SyncStatus { get; }
         public bool LoadSyncStatus { get; }
-        public string SyncStatusString { get; } = "CloudDriveSyncStatus_Unknown".GetLocalized();
+        public string SyncStatusString { get; } = "CloudDriveSyncStatus_Unknown".GetLocalizedResource();
 
         public CloudDriveSyncStatusUI() {}
         private CloudDriveSyncStatusUI(CloudDriveSyncStatus syncStatus) => SyncStatus = syncStatus;
@@ -19,7 +19,7 @@ namespace Files.Uwp.Filesystem.Cloud
             SyncStatus = syncStatus;
             Glyph = glyph;
             LoadSyncStatus = true;
-            SyncStatusString = SyncStatusStringKey.GetLocalized();
+            SyncStatusString = SyncStatusStringKey.GetLocalizedResource();
         }
 
         public static CloudDriveSyncStatusUI FromCloudDriveSyncStatus(CloudDriveSyncStatus syncStatus) => syncStatus switch

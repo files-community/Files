@@ -1,4 +1,4 @@
-﻿using Files.Shared;
+using Files.Shared;
 using Files.Shared.Extensions;
 using Files.Uwp.Helpers;
 using Newtonsoft.Json;

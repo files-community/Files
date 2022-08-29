@@ -1,18 +1,23 @@
 ﻿<UserControl
-    x:Name="Root"
     x:Class="Files.Uwp.UserControls.PreviewPane"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="using:Files.Uwp.Helpers"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:properties="using:Files.Uwp.ViewModels.Properties"
-    xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    Loading="Root_Loading" Unloaded="Root_Unloaded" SizeChanged="Root_SizeChanged"
-    MinWidth="90" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+    xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
+    x:Name="Root"
+    MinWidth="90"
+    HorizontalAlignment="Stretch"
+    VerticalAlignment="Stretch"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
     AutomationProperties.Name="{helpers:ResourceString Name=SelectedFilePreviewPane/AutomationProperties/Name}"
-    d:DesignWidth="400" d:DesignHeight="300" mc:Ignorable="d">
+    Loading="Root_Loading"
+    SizeChanged="Root_SizeChanged"
+    Unloaded="Root_Unloaded"
+    mc:Ignorable="d">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -22,57 +27,108 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid HorizontalAlignment="Stretch" BorderThickness="0,0,0,1" BorderBrush="{ThemeResource ControlStrokeColorDefault}">
-
+    <Grid
+        HorizontalAlignment="Stretch"
+        BorderBrush="{ThemeResource ControlStrokeColorDefault}"
+        BorderThickness="0,0,0,1">
         <Grid.RowDefinitions>
             <RowDefinition Height="2*" MinHeight="100" />
-            <RowDefinition x:Name="PropertiesRow" Height="3*" MinHeight="100" />
+            <RowDefinition
+                x:Name="PropertiesRow"
+                Height="3*"
+                MinHeight="100" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*" MinWidth="120" />
-            <ColumnDefinition x:Name="PropertiesColumn" Width="3*" MinWidth="120" />
+            <ColumnDefinition
+                x:Name="PropertiesColumn"
+                Width="3*"
+                MinWidth="120" />
         </Grid.ColumnDefinitions>
 
-        <Grid x:Name="RootPreviewGrid" Margin="5,5,5,5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+        <Grid
+            x:Name="RootPreviewGrid"
+            Margin="5,5,5,5"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
             AutomationProperties.Name="{helpers:ResourceString Name=PreviewPaneFilePreview/AutomationProperties/Name}">
             <Grid.ContextFlyout>
                 <MenuFlyout>
-                    <ToggleMenuFlyoutItem Text="{helpers:ResourceString Name=PreviewPaneShowPreviewOnly/Text}"
+                    <ToggleMenuFlyoutItem
+                        Command="{x:Bind ViewModel.ShowPreviewOnlyInvoked, Mode=OneWay}"
                         IsChecked="{x:Bind PaneSettingsService.ShowPreviewOnly, Mode=TwoWay}"
-                        Command="{x:Bind ViewModel.ShowPreviewOnlyInvoked, Mode=OneWay}" />
-                    <MenuFlyoutItem HorizontalAlignment="Stretch" Tapped="MenuFlyoutItem_Tapped"
+                        Text="{helpers:ResourceString Name=PreviewPaneShowPreviewOnly/Text}" />
+                    <MenuFlyoutItem
+                        HorizontalAlignment="Stretch"
+                        Tapped="MenuFlyoutItem_Tapped"
                         Text="{helpers:ResourceString Name=PreviewPaneLoadCloudItemButton/Text}"
-                        Visibility="{x:Bind ViewModel.ShowCloudItemButton, Mode=OneWay}"
-                        ToolTipService.ToolTip="{helpers:ResourceString Name=PreviewPaneLoadCloudItemButton/ToolTipService/ToolTip}" />
+                        ToolTipService.ToolTip="{helpers:ResourceString Name=PreviewPaneLoadCloudItemButton/ToolTipService/ToolTip}"
+                        Visibility="{x:Bind ViewModel.ShowCloudItemButton, Mode=OneWay}" />
                 </MenuFlyout>
             </Grid.ContextFlyout>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <TextBlock x:Name="PreviewErrorText" HorizontalAlignment="Center" VerticalAlignment="Center"
-                TextWrapping="WrapWholeWords" Text="{x:Bind GetLocalized('NoItemSelected')}" />
-            <ContentPresenter x:Name="PreviewControlPresenter"
-                HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
-                Content="{x:Bind ViewModel.PreviewPaneContent, Mode=OneWay}" Visibility="Collapsed" />
-            <muxc:ProgressRing x:Name="PreviewLoadingIndicator" IsIndeterminate="True" Visibility="Collapsed" />
+            <TextBlock
+                x:Name="PreviewErrorText"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Text="{x:Bind GetLocalizedResource('NoItemSelected')}"
+                TextWrapping="WrapWholeWords" />
+            <ContentPresenter
+                x:Name="PreviewControlPresenter"
+                HorizontalContentAlignment="Stretch"
+                VerticalContentAlignment="Stretch"
+                Content="{x:Bind ViewModel.PreviewPaneContent, Mode=OneWay}"
+                Visibility="Collapsed" />
+            <ProgressRing
+                x:Name="PreviewLoadingIndicator"
+                IsIndeterminate="True"
+                Visibility="Collapsed" />
         </Grid>
 
         <Grid x:Name="RootPropertiesGrid" Grid.Row="2">
-            <TextBlock x:Name="DetailsErrorText"
-                TextWrapping="WrapWholeWords" Text="{x:Bind GetLocalized('NoItemSelected')}"
-                HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Visible" />
-            <ScrollViewer x:Name="FileDetailsScrollViewer" Visibility="Visible"
-                AutomationProperties.Name="{helpers:ResourceString Name=PreviewPaneFileDetails/AutomationProperties/Name}">
+            <TextBlock
+                x:Name="DetailsErrorText"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Text="{x:Bind GetLocalizedResource('NoItemSelected')}"
+                TextWrapping="WrapWholeWords"
+                Visibility="Visible" />
+            <ScrollViewer
+                x:Name="FileDetailsScrollViewer"
+                AutomationProperties.Name="{helpers:ResourceString Name=PreviewPaneFileDetails/AutomationProperties/Name}"
+                Visibility="Visible">
                 <StackPanel Orientation="Vertical">
-                    <StackPanel x:Name="DetailsListHeader" Orientation="Vertical" Margin="8,8,8,0" Spacing="5" Visibility="Collapsed">
-                        <TextBlock FontSize="20" FontWeight="Bold" HorizontalTextAlignment="Center" IsTextSelectionEnabled="True"
-                            TextWrapping="Wrap" TextAlignment="Center" Text="{x:Bind ViewModel.SelectedItem.ItemName, Mode=OneWay}" />
-                        <TextBlock HorizontalAlignment="Stretch" FontSize="18" HorizontalTextAlignment="Center" IsTextSelectionEnabled="True"
-                            TextWrapping="Wrap" TextAlignment="Center" Text="{x:Bind ViewModel.SelectedItem.ItemType, Mode=OneWay}" />
+                    <StackPanel
+                        x:Name="DetailsListHeader"
+                        Margin="8,8,8,0"
+                        Orientation="Vertical"
+                        Spacing="5"
+                        Visibility="Collapsed">
+                        <TextBlock
+                            FontSize="20"
+                            FontWeight="Bold"
+                            HorizontalTextAlignment="Center"
+                            IsTextSelectionEnabled="True"
+                            Text="{x:Bind ViewModel.SelectedItem.ItemName, Mode=OneWay}"
+                            TextAlignment="Center"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+                            HorizontalAlignment="Stretch"
+                            FontSize="18"
+                            HorizontalTextAlignment="Center"
+                            IsTextSelectionEnabled="True"
+                            Text="{x:Bind ViewModel.SelectedItem.ItemType, Mode=OneWay}"
+                            TextAlignment="Center"
+                            TextWrapping="Wrap" />
                     </StackPanel>
-                    <ItemsControl x:Name="FileDetailsRepeater" Margin="8" Visibility="Collapsed"
-                        ItemsSource="{x:Bind ViewModel.SelectedItem.FileDetails, Mode=OneWay}">
+                    <ItemsControl
+                        x:Name="FileDetailsRepeater"
+                        Margin="8"
+                        ItemsSource="{x:Bind ViewModel.SelectedItem.FileDetails, Mode=OneWay}"
+                        Visibility="Collapsed">
                         <ItemsControl.ItemContainerTransitions>
                             <TransitionCollection>
                                 <EntranceThemeTransition IsStaggeringEnabled="False" />
@@ -80,15 +136,26 @@
                         </ItemsControl.ItemContainerTransitions>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate x:DataType="properties:FileProperty">
-                                <Grid Padding="0,0,0,8" HorizontalAlignment="Stretch" AutomationProperties.Name="{x:Bind Name, Mode=OneWay}">
+                                <Grid
+                                    Padding="0,0,0,8"
+                                    HorizontalAlignment="Stretch"
+                                    AutomationProperties.Name="{x:Bind Name, Mode=OneWay}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition />
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
-                                    <TextBlock HorizontalAlignment="Stretch" Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind Name, Mode=OneWay}" />
-                                    <TextBlock x:Name="PropertyValueTemplateTextBox" Grid.Row="1"
-                                        HorizontalAlignment="Stretch" Style="{StaticResource CaptionTextBlockStyle}"
-                                        TextWrapping="Wrap" IsTextSelectionEnabled="True" Text="{x:Bind ValueText, Mode=TwoWay}" />
+                                    <TextBlock
+                                        HorizontalAlignment="Stretch"
+                                        Style="{StaticResource BodyTextBlockStyle}"
+                                        Text="{x:Bind Name, Mode=OneWay}" />
+                                    <TextBlock
+                                        x:Name="PropertyValueTemplateTextBox"
+                                        Grid.Row="1"
+                                        HorizontalAlignment="Stretch"
+                                        IsTextSelectionEnabled="True"
+                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                        Text="{x:Bind ValueText, Mode=TwoWay}"
+                                        TextWrapping="Wrap" />
                                 </Grid>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
@@ -136,7 +203,7 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="PreviewErrorText.Visibility" Value="Visible" />
-                        <Setter Target="PreviewErrorText.Text" Value="{x:Bind GetLocalized('DetailsPanePreviewNotAvaliableText')}" />
+                        <Setter Target="PreviewErrorText.Text" Value="{x:Bind GetLocalizedResource('DetailsPanePreviewNotAvaliableText')}" />
                         <Setter Target="DetailsErrorText.Visibility" Value="Collapsed" />
                         <Setter Target="FileDetailsRepeater.Visibility" Value="Visible" />
                         <Setter Target="DetailsListHeader.Visibility" Value="Visible" />
@@ -149,9 +216,9 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="PreviewErrorText.Visibility" Value="Visible" />
-                        <Setter Target="PreviewErrorText.Text" Value="{x:Bind GetLocalized('DetailsPanePreviewNotAvaliableText')}" />
+                        <Setter Target="PreviewErrorText.Text" Value="{x:Bind GetLocalizedResource('DetailsPanePreviewNotAvaliableText')}" />
                         <Setter Target="DetailsErrorText.Visibility" Value="Visible" />
-                        <Setter Target="DetailsErrorText.Text" Value="{x:Bind GetLocalized('PreviewPaneDetailsNotAvailableText')}" />
+                        <Setter Target="DetailsErrorText.Text" Value="{x:Bind GetLocalizedResource('PreviewPaneDetailsNotAvailableText')}" />
                         <Setter Target="FileDetailsRepeater.Visibility" Value="Collapsed" />
                         <Setter Target="PreviewControlPresenter.Visibility" Value="Collapsed" />
                     </VisualState.Setters>

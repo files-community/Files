@@ -1,4 +1,4 @@
-﻿using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem;
 using Files.Uwp.Interacts;
 using Files.Uwp.ViewModels;
 using System;

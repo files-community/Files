@@ -1,8 +1,8 @@
-﻿using Files.Backend.Services.Settings;
+using Files.Backend.Services.Settings;
 using Files.Backend.ViewModels.FileTags;
 using Files.Uwp.Serialization;
 using Files.Uwp.Serialization.Implementation;
-using Microsoft.Toolkit.Uwp;
+using Files.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -51,7 +51,7 @@ namespace Files.Uwp.ServicesImplementation.Settings
             var tag = FileTagList.SingleOrDefault(x => x.Uid == uid);
             if (!string.IsNullOrEmpty(uid) && tag == null)
             {
-                tag = new FileTagViewModel("FileTagUnknown".GetLocalized(), "#9ea3a1", uid);
+                tag = new FileTagViewModel("FileTagUnknown".GetLocalizedResource(), "#9ea3a1", uid);
                 FileTagList = FileTagList.Append(tag).ToList();
             }
 

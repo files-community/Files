@@ -1,10 +1,10 @@
-﻿using Files.Uwp.Dialogs;
+using Files.Uwp.Dialogs;
 using Files.Shared.Enums;
 using Files.Uwp.ViewModels.Dialogs;
 using System;
 using System.Threading.Tasks;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Files.Uwp.Helpers
 {
@@ -47,7 +47,7 @@ namespace Files.Uwp.Helpers
         {
             try
             {
-                if (Window.Current.Content is Frame rootFrame)
+                if (App.Window.Content is Frame rootFrame)
                 {
                     await dialog.ShowAsync();
                     return dialog.DynamicResult;

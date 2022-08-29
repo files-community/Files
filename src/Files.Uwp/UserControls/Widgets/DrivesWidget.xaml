@@ -6,7 +6,6 @@
     xmlns:helpers="using:Files.Uwp.Helpers"
     xmlns:local="using:Files.Uwp.UserControls.Widgets"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
     mc:Ignorable="d">
     <Grid>
@@ -49,21 +48,21 @@
             </Button>
         </Grid>
 
-        <muxc:ItemsRepeater
+        <ItemsRepeater
             x:Name="CardsList"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Top"
             ItemsSource="{x:Bind local:DrivesWidget.ItemsAdded, Mode=OneWay}">
-            <muxc:ItemsRepeater.Layout>
-                <muxc:UniformGridLayout
+            <ItemsRepeater.Layout>
+                <UniformGridLayout
                     ItemsStretch="None"
                     MinColumnSpacing="8"
                     MinItemHeight="72"
                     MinItemWidth="240"
                     MinRowSpacing="8"
                     Orientation="Horizontal" />
-            </muxc:ItemsRepeater.Layout>
-            <muxc:ItemsRepeater.ItemTemplate>
+            </ItemsRepeater.Layout>
+            <ItemsRepeater.ItemTemplate>
                 <DataTemplate x:DataType="local:DriveCardItem">
                     <Button
                         Padding="0"
@@ -196,7 +195,7 @@
                                 TextTrimming="CharacterEllipsis"
                                 TextWrapping="NoWrap" />
 
-                            <muxc:ProgressBar
+                            <ProgressBar
                                 Grid.Row="1"
                                 Grid.Column="1"
                                 VerticalAlignment="Stretch"
@@ -245,7 +244,7 @@
                         </Grid>
                     </Button>
                 </DataTemplate>
-            </muxc:ItemsRepeater.ItemTemplate>
-        </muxc:ItemsRepeater>
+            </ItemsRepeater.ItemTemplate>
+        </ItemsRepeater>
     </Grid>
 </UserControl>

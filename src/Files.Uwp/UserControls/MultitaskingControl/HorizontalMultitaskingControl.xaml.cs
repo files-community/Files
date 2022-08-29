@@ -1,12 +1,12 @@
-﻿using Files.Uwp.Helpers;
+using Files.Uwp.Helpers;
 using Files.Uwp.ViewModels;
-using Microsoft.Toolkit.Uwp;
+using Files.Uwp.Extensions;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Linq;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
-using Windows.UI.Xaml;
+using Microsoft.UI.Xaml;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -97,7 +97,7 @@ namespace Files.Uwp.UserControls.MultitaskingControl
             {
                 HorizontalTabView.CanReorderTabs = true;
                 e.AcceptedOperation = DataPackageOperation.Move;
-                e.DragUIOverride.Caption = "TabStripDragAndDropUIOverrideCaption".GetLocalized();
+                e.DragUIOverride.Caption = "TabStripDragAndDropUIOverrideCaption".GetLocalizedResource();
                 e.DragUIOverride.IsCaptionVisible = true;
                 e.DragUIOverride.IsGlyphVisible = false;
             }
@@ -228,5 +228,7 @@ namespace Files.Uwp.UserControls.MultitaskingControl
         // Using a DependencyProperty as the backing store for TabStripVisibility.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TabStripVisibilityProperty =
             DependencyProperty.Register("TabStripVisibility", typeof(Visibility), typeof(HorizontalMultitaskingControl), new PropertyMetadata(Visibility.Visible));
+
+        public Grid DragArea => DragAreaGrid;
     }
 }

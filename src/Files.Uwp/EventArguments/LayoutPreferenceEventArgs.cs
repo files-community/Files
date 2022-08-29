@@ -1,4 +1,4 @@
-﻿using Files.Uwp.Helpers.LayoutPreferences;
+using Files.Uwp.Helpers.LayoutPreferences;
 
 namespace Files.Uwp.EventArguments
 {

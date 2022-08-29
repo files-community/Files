@@ -1,11 +1,12 @@
-﻿using Files.Shared.Enums;
+using Files.Shared.Enums;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Backend.Services.Settings;
 using Files.Uwp.ViewModels;
 using Files.Uwp.ViewModels.Widgets;
+using Files.Uwp.Extensions;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -15,9 +16,9 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.AccessCache;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media.Imaging;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Imaging;
 using System.Collections.Specialized;
 using Windows.UI.Core;
 using System.Threading;
@@ -47,9 +48,9 @@ namespace Files.Uwp.UserControls.Widgets
 
         public string WidgetName => nameof(RecentFilesWidget);
 
-        public string AutomationProperties => "RecentFilesWidgetAutomationProperties/Name".GetLocalized();
+        public string AutomationProperties => "RecentFilesWidgetAutomationProperties/Name".GetLocalizedResource();
 
-        public string WidgetHeader => "RecentFiles".GetLocalized();
+        public string WidgetHeader => "RecentFiles".GetLocalizedResource();
 
         public bool IsWidgetSettingEnabled => UserSettingsService.WidgetsSettingsService.ShowRecentFilesWidget;
 
@@ -68,7 +69,7 @@ namespace Files.Uwp.UserControls.Widgets
 
         private async void Manager_RecentFilesChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            await DispatcherQueue.EnqueueAsync(async () =>
             {
                 // e.Action can only be Reset right now; naively refresh everything for simplicity
                 await UpdateRecentsList(e);

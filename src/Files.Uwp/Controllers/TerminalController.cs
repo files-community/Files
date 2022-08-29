@@ -1,4 +1,4 @@
-﻿using Files.Uwp.DataModels;
+using Files.Uwp.DataModels;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Helpers;
 using Files.Shared.Enums;

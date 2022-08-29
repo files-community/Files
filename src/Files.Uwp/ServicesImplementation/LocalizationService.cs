@@ -1,5 +1,5 @@
-﻿using Files.Backend.Services;
-using Microsoft.Toolkit.Uwp;
+using Files.Backend.Services;
+using Files.Uwp.Extensions;
 
 namespace Files.Uwp.ServicesImplementation
 {
@@ -7,7 +7,7 @@ namespace Files.Uwp.ServicesImplementation
     {
         public string LocalizeFromResourceKey(string resourceKey)
         {
-            return resourceKey.GetLocalized();
+            return resourceKey.GetLocalizedResource();
         }
     }
 }

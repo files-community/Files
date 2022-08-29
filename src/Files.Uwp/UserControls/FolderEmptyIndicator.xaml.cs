@@ -1,6 +1,6 @@
-﻿using Microsoft.Toolkit.Uwp;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+using Files.Uwp.Extensions;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -18,7 +18,7 @@ namespace Files.Uwp.UserControls
         public static readonly DependencyProperty EmptyTextTypeProperty =
             DependencyProperty.Register("EmptyTextType", typeof(EmptyTextType), typeof(FolderEmptyIndicator), new PropertyMetadata(null));
 
-        private string GetTranslated(string resourceName) => resourceName.GetLocalized();
+        private string GetTranslated(string resourceName) => resourceName.GetLocalizedResource();
 
         public FolderEmptyIndicator()
         {

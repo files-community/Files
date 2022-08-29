@@ -1,4 +1,4 @@
-﻿using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem;
 using System.Collections.Generic;
 
 namespace Files.Uwp.EventArguments.Bundles

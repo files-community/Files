@@ -1,58 +1,57 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Backend.Services;
-using Files.Backend.Services.Settings;
-using Files.Backend.Services.SizeProvider;
-using Files.Shared;
-using Files.Shared.Cloud;
-using Files.Shared.Extensions;
-using Files.Shared.Services.DateTimeFormatter;
-using Files.Uwp.CommandLine;
+using Microsoft.UI.Xaml;
+using Microsoft.Windows.AppLifecycle;
+using System;
+using Windows.ApplicationModel;
+using Files.Uwp.Filesystem.FilesystemHistory;
+using Files.Uwp.ViewModels;
+using Files.Uwp.Helpers;
 using Files.Uwp.Controllers;
 using Files.Uwp.Filesystem;
+using Files.Shared;
 using Files.Uwp.Filesystem.Cloud;
-using Files.Uwp.Filesystem.FilesystemHistory;
-using Files.Uwp.Helpers;
+using Microsoft.UI.Dispatching;
+using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
+using Files.Backend.Services.Settings;
+using Files.Uwp.ServicesImplementation.Settings;
+using Files.Backend.Services;
 using Files.Uwp.ServicesImplementation;
 using Files.Uwp.ServicesImplementation.DateTimeFormatter;
-using Files.Uwp.ServicesImplementation.Settings;
-using Files.Uwp.UserControls.MultitaskingControl;
-using Files.Uwp.ViewModels;
+using Files.Shared.Services.DateTimeFormatter;
+using Files.Shared.Cloud;
+using Files.Backend.Services.SizeProvider;
 using Files.Uwp.ViewModels.SettingsViewModels;
-using Files.Uwp.Views;
 using Microsoft.AppCenter;
+using Windows.Storage;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp.Notifications;
-using System;
+using Microsoft.UI.Windowing;
+using CommunityToolkit.WinUI.Helpers;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Windows.ApplicationModel;
-using Windows.ApplicationModel.Activation;
-using Windows.ApplicationModel.Core;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.Foundation.Metadata;
-using Windows.Storage;
-using Windows.System;
-using Windows.UI.Core;
+using CommunityToolkit.WinUI.Notifications;
+using Files.Uwp.Extensions;
 using Windows.UI.Notifications;
-using Windows.UI.ViewManagement;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Xaml.Navigation;
+using System.Linq;
+using Files.Uwp.UserControls.MultitaskingControl;
+using Files.Uwp.Views;
+using CommunityToolkit.WinUI;
+using Files.Shared.Extensions;
+using Windows.ApplicationModel.DataTransfer;
+
+// To learn more about WinUI, the WinUI project structure,
+// and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace Files.Uwp
 {
-    sealed partial class App : Application
+    /// <summary>
+    /// Provides application-specific behavior to supplement the default Application class.
+    /// </summary>
+    public partial class App : Application
     {
         private static bool ShowErrorNotification = false;
-        private static string OutputPath = null;
 
+        public static string OutputPath { get; set; }
         public static StorageHistoryWrapper HistoryWrapper = new StorageHistoryWrapper();
         public static SettingsViewModel AppSettings { get; private set; }
         public static MainViewModel MainViewModel { get; private set; }
@@ -80,6 +79,10 @@ namespace Files.Uwp
 
         public IServiceProvider Services { get; private set; }
 
+        /// <summary>
+        /// Initializes the singleton application object.  This is the first line of authored code
+        /// executed, and as such is the logical equivalent of main() or WinMain().
+        /// </summary>
         public App()
         {
             // Initialize logger
@@ -88,8 +91,6 @@ namespace Files.Uwp
             UnhandledException += OnUnhandledException;
             TaskScheduler.UnobservedTaskException += OnUnobservedException;
             InitializeComponent();
-            Suspending += OnSuspending;
-            LeavingBackground += OnLeavingBackground;
 
             AppServiceConnectionHelper.Register();
 
@@ -230,142 +231,50 @@ namespace Files.Uwp
             }
         }
 
-        private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
-        {
-            DrivesManager?.ResumeDeviceWatcher();
-        }
-
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
-        /// <param name="e">Details about the launch request and process.</param>
+        /// <param name="args">Details about the launch request and process.</param>
         protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
+            var activatedEventArgs = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
+
             await logWriter.InitializeAsync("debug.log");
-            Logger.Info($"App launched. Prelaunch: {e.PrelaunchActivated}");
+            Logger.Info($"App launched. Launch args type: {activatedEventArgs.Data.GetType().Name}");
 
             //start tracking app usage
-            SystemInformation.Instance.TrackAppUse(e);
+            if (activatedEventArgs.Data is Windows.ApplicationModel.Activation.IActivatedEventArgs iaea)
+            {
+                SystemInformation.Instance.TrackAppUse(iaea);
+            }
 
-            bool canEnablePrelaunch = ApiInformation.IsMethodPresent("Windows.ApplicationModel.Core.CoreApplication", "EnablePrelaunch");
+            // Initialize MainWindow here
+            EnsureWindowIsInitialized();
 
             await EnsureSettingsAndConfigurationAreBootstrapped();
             _ = InitializeAppComponentsAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
 
-            var rootFrame = EnsureWindowIsInitialized();
-
-            if (e.PrelaunchActivated == false)
-            {
-                if (canEnablePrelaunch)
-                {
-                    TryEnablePrelaunch();
-                }
-
-                if (rootFrame.Content == null)
-                {
-                    // When the navigation stack isn't restored navigate to the first page,
-                    // configuring the new page by passing required information as a navigation
-                    // parameter
-                    rootFrame.Navigate(typeof(MainPage), e.Arguments, new SuppressNavigationTransitionInfo());
-                }
-                else
-                {
-                    if (!(string.IsNullOrEmpty(e.Arguments) && MainPageViewModel.AppInstances.Count > 0))
-                    {
-                        await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), e.Arguments);
-                    }
-                }
-
-                // Ensure the current window is active
-                Window.Current.Activate();
-                Window.Current.CoreWindow.Activated += CoreWindow_Activated;
-            }
-            else
-            {
-                if (rootFrame.Content == null)
-                {
-                    // When the navigation stack isn't restored navigate to the first page,
-                    // configuring the new page by passing required information as a navigation
-                    // parameter
-                    rootFrame.Navigate(typeof(MainPage), e.Arguments, new SuppressNavigationTransitionInfo());
-                }
-                else
-                {
-                    if (!(string.IsNullOrEmpty(e.Arguments) && MainPageViewModel.AppInstances.Count > 0))
-                    {
-                        await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), e.Arguments);
-                    }
-                }
-            }
+            await Window.InitializeApplication(activatedEventArgs);
 
             WindowDecorationsHelper.RequestWindowDecorationsAccess();
         }
 
-        protected override async void OnFileActivated(FileActivatedEventArgs e)
+        private void EnsureWindowIsInitialized()
         {
-            await logWriter.InitializeAsync("debug.log");
-            Logger.Info("App activated by file");
-
-            //start tracking app usage
-            SystemInformation.Instance.TrackAppUse(e);
-
-            await EnsureSettingsAndConfigurationAreBootstrapped();
-            _ = InitializeAppComponentsAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
-
-            var rootFrame = EnsureWindowIsInitialized();
-
-            var index = 0;
-            if (rootFrame.Content == null)
-            {
-                // When the navigation stack isn't restored navigate to the first page,
-                // configuring the new page by passing required information as a navigation
-                // parameter
-                rootFrame.Navigate(typeof(MainPage), e.Files.First().Path, new SuppressNavigationTransitionInfo());
-                index = 1;
-            }
-            for (; index < e.Files.Count; index++)
-            {
-                await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), e.Files[index].Path);
-            }
-
-            // Ensure the current window is active
-            Window.Current.Activate();
-            Window.Current.CoreWindow.Activated += CoreWindow_Activated;
-
-            WindowDecorationsHelper.RequestWindowDecorationsAccess();
+            Window = new MainWindow();
+            Window.Activated += Window_Activated;
+            Window.Closed += Window_Closed;
+            WindowHandle = WinRT.Interop.WindowNative.GetWindowHandle(Window);
         }
 
-        private Frame EnsureWindowIsInitialized()
+        private void Window_Activated(object sender, WindowActivatedEventArgs args)
         {
-            // Do not repeat app initialization when the Window already has content,
-            // just ensure that the window is active
-            if (!(Window.Current.Content is Frame rootFrame))
-            {
-                // Create a Frame to act as the navigation context and navigate to the first page
-                rootFrame = new Frame();
-                rootFrame.CacheSize = 1;
-                rootFrame.NavigationFailed += OnNavigationFailed;
-
-                //if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
-                //{
-                //    //TODO: Load state from previously suspended application
-                //}
-
-                // Place the frame in the current Window
-                Window.Current.Content = rootFrame;
-            }
-
-            return rootFrame;
-        }
-
-        private void CoreWindow_Activated(CoreWindow sender, WindowActivatedEventArgs args)
-        {
-            if (args.WindowActivationState == CoreWindowActivationState.CodeActivated ||
-                args.WindowActivationState == CoreWindowActivationState.PointerActivated)
+            if (args.WindowActivationState == WindowActivationState.CodeActivated ||
+                args.WindowActivationState == WindowActivationState.PointerActivated)
             {
                 ShowErrorNotification = true;
-                ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = Process.GetCurrentProcess().Id;
+                ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = -Process.GetCurrentProcess().Id;
                 if (MainViewModel != null)
                 {
                     MainViewModel.Clipboard_ContentChanged(null, null);
@@ -373,219 +282,21 @@ namespace Files.Uwp
             }
         }
 
-        protected override async void OnActivated(IActivatedEventArgs args)
+        public async void OnActivated(AppActivationArguments activatedEventArgs)
         {
-            await logWriter.InitializeAsync("debug.log");
-            Logger.Info($"App activated by {args.Kind.ToString()}");
+            Logger.Info($"App activated. Activated args type: {activatedEventArgs.Data.GetType().Name}");
 
-            await EnsureSettingsAndConfigurationAreBootstrapped();
-            _ = InitializeAppComponentsAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
-
-            var rootFrame = EnsureWindowIsInitialized();
-
-            switch (args.Kind)
-            {
-                case ActivationKind.Protocol:
-                    var eventArgs = args as ProtocolActivatedEventArgs;
-
-                    if (eventArgs.Uri.AbsoluteUri == "files-uwp:")
-                    {
-                        rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
-                    }
-                    else
-                    {
-                        var parsedArgs = eventArgs.Uri.Query.TrimStart('?').Split('=');
-                        var unescapedValue = Uri.UnescapeDataString(parsedArgs[1]);
-                        var folder = (StorageFolder)await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(unescapedValue).AsTask());
-                        if (folder != null && !string.IsNullOrEmpty(folder.Path))
-                        {
-                            unescapedValue = folder.Path; // Convert short name to long name (#6190)
-                        }
-                        switch (parsedArgs[0])
-                        {
-                            case "tab":
-                                rootFrame.Navigate(typeof(MainPage), TabItemArguments.Deserialize(unescapedValue), new SuppressNavigationTransitionInfo());
-                                break;
-
-                            case "folder":
-                                rootFrame.Navigate(typeof(MainPage), unescapedValue, new SuppressNavigationTransitionInfo());
-                                break;
-
-                            case "cmd":
-                                var ppm = CommandLineParser.ParseUntrustedCommands(unescapedValue);
-                                if (ppm.IsEmpty())
-                                {
-                                    ppm = new ParsedCommands() { new ParsedCommand() { Type = ParsedCommandType.Unknown, Args = new() { "." } } };
-                                }
-                                await InitializeFromCmdLineArgs(rootFrame, ppm);
-                                break;
-                        }
-                    }
-
-                    if (rootFrame.Content != null)
-                    {
-                        // Ensure the current window is active.
-                        Window.Current.Activate();
-                        Window.Current.CoreWindow.Activated += CoreWindow_Activated;
-                        return;
-                    }
-                    break;
-
-                case ActivationKind.CommandLineLaunch:
-                    var cmdLineArgs = args as CommandLineActivatedEventArgs;
-                    var operation = cmdLineArgs.Operation;
-                    var cmdLineString = operation.Arguments;
-                    var activationPath = operation.CurrentDirectoryPath;
-
-                    var parsedCommands = CommandLineParser.ParseUntrustedCommands(cmdLineString);
-                    if (parsedCommands != null && parsedCommands.Count > 0)
-                    {
-                        await InitializeFromCmdLineArgs(rootFrame, parsedCommands, activationPath);
-
-                        if (rootFrame.Content != null)
-                        {
-                            // Ensure the current window is active.
-                            Window.Current.Activate();
-                            Window.Current.CoreWindow.Activated += CoreWindow_Activated;
-                            return;
-                        }
-                    }
-                    break;
-
-                case ActivationKind.ToastNotification:
-                    var eventArgsForNotification = args as ToastNotificationActivatedEventArgs;
-                    if (eventArgsForNotification.Argument == "report")
-                    {
-                        await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.FeedbackUrl));
-                    }
-                    break;
-
-                case ActivationKind.StartupTask:
-                    break;
-            }
-
-            rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
-
-            // Ensure the current window is active.
-            Window.Current.Activate();
-            Window.Current.CoreWindow.Activated += CoreWindow_Activated;
-
-            WindowDecorationsHelper.RequestWindowDecorationsAccess();
-        }
-
-        private async Task InitializeFromCmdLineArgs(Frame rootFrame, ParsedCommands parsedCommands, string activationPath = "")
-        {
-            async Task PerformNavigation(string payload, string selectItem = null)
-            {
-                if (!string.IsNullOrEmpty(payload))
-                {
-                    payload = CommonPaths.ShellPlaces.Get(payload.ToUpperInvariant(), payload);
-                    var folder = (StorageFolder)await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(payload).AsTask());
-                    if (folder != null && !string.IsNullOrEmpty(folder.Path))
-                    {
-                        payload = folder.Path; // Convert short name to long name (#6190)
-                    }
-                }
-                var paneNavigationArgs = new PaneNavigationArguments
-                {
-                    LeftPaneNavPathParam = payload,
-                    LeftPaneSelectItemParam = selectItem,
-                };
-                if (rootFrame.Content != null)
-                {
-                    await MainPageViewModel.AddNewTabByParam(typeof(PaneHolderPage), paneNavigationArgs);
-                }
-                else
-                {
-                    rootFrame.Navigate(typeof(MainPage), paneNavigationArgs, new SuppressNavigationTransitionInfo());
-                }
-            }
-            foreach (var command in parsedCommands)
-            {
-                switch (command.Type)
-                {
-                    case ParsedCommandType.OpenDirectory:
-                    case ParsedCommandType.OpenPath:
-                    case ParsedCommandType.ExplorerShellCommand:
-                        var selectItemCommand = parsedCommands.FirstOrDefault(x => x.Type == ParsedCommandType.SelectItem);
-                        await PerformNavigation(command.Payload, selectItemCommand?.Payload);
-                        break;
-
-                    case ParsedCommandType.SelectItem:
-                        if (Path.IsPathRooted(command.Payload))
-                        {
-                            await PerformNavigation(Path.GetDirectoryName(command.Payload), Path.GetFileName(command.Payload));
-                        }
-                        break;
-
-                    case ParsedCommandType.TagFiles:
-                        var tagService = Ioc.Default.GetService<IFileTagsSettingsService>();
-                        var tag = tagService.GetTagsByName(command.Payload).FirstOrDefault();
-                        foreach (var file in command.Args.Skip(1))
-                        {
-                            var fileFRN = await FilesystemTasks.Wrap(() => StorageHelpers.ToStorageItem<IStorageItem>(file))
-                                .OnSuccess(item => FileTagsHelper.GetFileFRN(item));
-                            if (fileFRN is not null)
-                            {
-                                var tagUid = tag is not null ? new[] { tag.Uid } : null;
-                                FileTagsHelper.DbInstance.SetTags(file, fileFRN, tagUid);
-                                FileTagsHelper.WriteFileTag(file, tagUid);
-                            }
-                        }
-                        break;
-
-                    case ParsedCommandType.Unknown:
-                        if (command.Payload.Equals("."))
-                        {
-                            await PerformNavigation(activationPath);
-                        }
-                        else
-                        {
-                            var target = Path.GetFullPath(Path.Combine(activationPath, command.Payload));
-                            if (!string.IsNullOrEmpty(command.Payload))
-                            {
-                                await PerformNavigation(target);
-                            }
-                            else
-                            {
-                                await PerformNavigation(null);
-                            }
-                        }
-                        break;
-
-                    case ParsedCommandType.OutputPath:
-                        OutputPath = command.Payload;
-                        break;
-                }
-            }
-        }
-
-        private void TryEnablePrelaunch()
-        {
-            CoreApplication.EnablePrelaunch(true);
+            await Window.DispatcherQueue.EnqueueAsync(() => Window.InitializeApplication(activatedEventArgs));
         }
 
         /// <summary>
-        /// Invoked when Navigation to a certain page fails
-        /// </summary>
-        /// <param name="sender">The Frame which failed navigation</param>
-        /// <param name="e">Details about the navigation failure</param>
-        private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
-        {
-            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
-        }
-
-        /// <summary>
-        /// Invoked when application execution is being suspended.  Application state is saved
-        /// without knowing whether the application will be terminated or resumed with the contents
-        /// of memory still intact.
+        /// Invoked when application execution is being closed. Save application state.
         /// </summary>
         /// <param name="sender">The source of the suspend request.</param>
-        /// <param name="e">Details about the suspend request.</param>
-        private async void OnSuspending(object sender, SuspendingEventArgs e)
+        /// <param name="args">Details about the suspend request.</param>
+        private async void Window_Closed(object sender, WindowEventArgs args)
         {
             // Save application state and stop any background activity
-            var deferral = e.SuspendingOperation.GetDeferral();
 
             SaveSessionTabs();
 
@@ -623,8 +334,6 @@ namespace Files.Uwp
                     }
                 }
             }, Logger);
-
-            deferral.Complete();
         }
 
         public static void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages
@@ -646,7 +355,7 @@ namespace Files.Uwp
                     }
                     else
                     {
-                        var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home".GetLocalized() };
+                        var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home".GetLocalizedResource() };
                         return defaultArg.Serialize();
                     }
                 }).ToList();
@@ -654,7 +363,7 @@ namespace Files.Uwp
         }
 
         // Occurs when an exception is not handled on the UI thread.
-        private static void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e) => AppUnhandledException(e.Exception);
+        private static void OnUnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e) => AppUnhandledException(e.Exception);
 
         // Occurs when an exception is not handled on a background thread.
         // ie. A task is fired and forgotten Task.Run(() => {...})
@@ -714,11 +423,11 @@ namespace Files.Uwp
                             {
                                 new AdaptiveText()
                                 {
-                                    Text = "ExceptionNotificationHeader".GetLocalized()
+                                    Text = "ExceptionNotificationHeader".GetLocalizedResource()
                                 },
                                 new AdaptiveText()
                                 {
-                                    Text = "ExceptionNotificationBody".GetLocalized()
+                                    Text = "ExceptionNotificationBody".GetLocalizedResource()
                                 }
                             },
                             AppLogoOverride = new ToastGenericAppLogo()
@@ -731,7 +440,7 @@ namespace Files.Uwp
                     {
                         Buttons =
                         {
-                            new ToastButton("ExceptionNotificationReportButton".GetLocalized(), "report")
+                            new ToastButton("ExceptionNotificationReportButton".GetLocalizedResource(), "report")
                             {
                                 ActivationType = ToastActivationType.Foreground
                             }
@@ -747,12 +456,24 @@ namespace Files.Uwp
             }
         }
 
-        public static async void CloseApp()
+        public static void CloseApp()
         {
-            if (!await ApplicationView.GetForCurrentView().TryConsolidateAsync())
-            {
-                Application.Current.Exit();
-            }
+            Window.Close();
         }
+
+        public static AppWindow GetAppWindow(Window w)
+        {
+            var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(w);
+
+            Microsoft.UI.WindowId windowId =
+                Microsoft.UI.Win32Interop.GetWindowIdFromWindow(hWnd);
+
+            return
+                AppWindow.GetFromWindowId(windowId);
+        }
+
+        public static MainWindow Window { get; set; }
+
+        public static IntPtr WindowHandle { get; private set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Files.Uwp.Dialogs;
+using Files.Uwp.Dialogs;
 using Files.Uwp.Helpers;
 using Files.Uwp.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -6,9 +6,9 @@ using CommunityToolkit.Mvvm.Input;
 using System;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.System.Profile;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services;
 using Files.Backend.ViewModels.Dialogs;
@@ -22,7 +22,7 @@ namespace Files.Uwp.ViewModels
 
         public MainViewModel()
         {
-            Window.Current.SizeChanged += Current_SizeChanged;
+            App.Window.SizeChanged += Current_SizeChanged;
             Clipboard.ContentChanged += Clipboard_ContentChanged;
 
             DetectFontName();
@@ -50,7 +50,7 @@ namespace Files.Uwp.ViewModels
             }
         }
 
-        private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
+        private void Current_SizeChanged(object sender, Microsoft.UI.Xaml.WindowSizeChangedEventArgs e)
         {
             IsWindowCompactSize = IsWindowResizedToCompactWidth();
         }
@@ -71,7 +71,7 @@ namespace Files.Uwp.ViewModels
 
                     if (value < MainPageViewModel.AppInstances.Count)
                     {
-                        Frame rootFrame = Window.Current.Content as Frame;
+                        Frame rootFrame = App.Window.Content as Frame;
                         var mainView = rootFrame.Content as MainPage;
                         mainView.ViewModel.SelectedTabItem = MainPageViewModel.AppInstances[value];
                     }
@@ -99,7 +99,7 @@ namespace Files.Uwp.ViewModels
 
         public static bool IsWindowResizedToCompactWidth()
         {
-            return Window.Current.Bounds.Width <= 750;
+            return App.Window.Bounds.Width <= 750;
         }
 
         public bool IsWindowCompactSize

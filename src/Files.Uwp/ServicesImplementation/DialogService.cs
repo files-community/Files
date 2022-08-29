@@ -1,25 +1,27 @@
-﻿using Files.Backend.ViewModels.Dialogs;
+using Files.Backend.ViewModels.Dialogs;
 using Files.Backend.Services;
 using Files.Shared.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls;
 using Files.Uwp.ViewModels.Dialogs;
 using Files.Uwp.Dialogs;
 using Files.Backend.ViewModels.Dialogs.AddItemDialog;
 using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
+using Windows.Foundation.Metadata;
 
 namespace Files.Uwp.ServicesImplementation
 {
+    /// <inheritdoc cref="IDialogService"/>
     internal sealed class DialogService : IDialogService
     {
-        private readonly Dictionary<Type, Func<ContentDialog>> _dialogs;
+        private readonly IReadOnlyDictionary<Type, Func<ContentDialog>> _dialogs;
 
         public DialogService()
         {
-            this._dialogs = new()
+            _dialogs = new Dictionary<Type, Func<ContentDialog>>()
             {
                 { typeof(AddItemDialogViewModel), () => new AddItemDialog() },
                 { typeof(CredentialDialogViewModel), () => new CredentialDialog() },
@@ -30,28 +32,26 @@ namespace Files.Uwp.ServicesImplementation
             };
         }
 
+        /// <inheritdoc/>
         public IDialog<TViewModel> GetDialog<TViewModel>(TViewModel viewModel)
             where TViewModel : class, INotifyPropertyChanged
         {
-            _ = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
-
             if (!_dialogs.TryGetValue(typeof(TViewModel), out var initializer))
-            {
-                throw new ArgumentException($"{typeof(TViewModel)} does not have a dialog associated with it.");
-            }
+                throw new ArgumentException($"{typeof(TViewModel)} does not have an appropriate dialog associated with it.");
 
             var contentDialog = initializer();
-
             if (contentDialog is not IDialog<TViewModel> dialog)
-            {
                 throw new NotSupportedException($"The dialog does not implement {typeof(IDialog<TViewModel>)}.");
-            }
 
             dialog.ViewModel = viewModel;
+
+            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+                contentDialog.XamlRoot = App.Window.Content.XamlRoot;
 
             return dialog;
         }
 
+        /// <inheritdoc/>
         public async Task<DialogResult> ShowDialogAsync<TViewModel>(TViewModel viewModel)
             where TViewModel : class, INotifyPropertyChanged
         {
@@ -59,8 +59,9 @@ namespace Files.Uwp.ServicesImplementation
             {
                 return await GetDialog(viewModel).ShowAsync();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _ = ex;
             }
 
             return DialogResult.None;

@@ -3,10 +3,9 @@ using Files.Uwp.Filesystem;
 using Files.Uwp.Helpers;
 using Files.Shared.Enums;
 using Files.Uwp.ViewModels.Properties;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System.IO;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
 
 namespace Files.Uwp.Views
@@ -37,7 +36,7 @@ namespace Files.Uwp.Views
                             { "drivename", drive.Path },
                             { "newlabel", ViewModel.ItemName }
                         });
-                        _ = CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                        _ = App.Window.DispatcherQueue.EnqueueAsync(async () =>
                         {
                             await drive.UpdateLabelAsync();
                             await AppInstance.FilesystemViewModel?.SetWorkingDirectoryAsync(drive.Path);
@@ -60,7 +59,7 @@ namespace Files.Uwp.Views
                         if (renamed == ReturnResult.Success)
                         {
                             var newPath = Path.Combine(Path.GetDirectoryName(libraryPath), $"{newName}{ShellLibraryItem.EXTENSION}");
-                            _ = CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                            _ = App.Window.DispatcherQueue.EnqueueAsync(async () =>
                             {
                                 await AppInstance.FilesystemViewModel?.SetWorkingDirectoryAsync(newPath);
                             });
@@ -76,7 +75,7 @@ namespace Files.Uwp.Views
                 {
                     foreach (var fileOrFolder in combinedProps.List)
                     {
-                        await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIFilesystemHelpers.SetHiddenAttributeItem(fileOrFolder, ViewModel.IsHidden, AppInstance.SlimContentPage.ItemManipulationModel));
+                        await App.Window.DispatcherQueue.EnqueueAsync(() => UIFilesystemHelpers.SetHiddenAttributeItem(fileOrFolder, ViewModel.IsHidden, AppInstance.SlimContentPage.ItemManipulationModel));
                     }
                 }
                 return true;
@@ -86,13 +85,13 @@ namespace Files.Uwp.Views
                 // Handle the visibility attribute for a single file
                 if (AppInstance?.SlimContentPage?.ItemManipulationModel != null) // null on homepage
                 {
-                    await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIFilesystemHelpers.SetHiddenAttributeItem(item, ViewModel.IsHidden, AppInstance.SlimContentPage.ItemManipulationModel));
+                    await App.Window.DispatcherQueue.EnqueueAsync(() => UIFilesystemHelpers.SetHiddenAttributeItem(item, ViewModel.IsHidden, AppInstance.SlimContentPage.ItemManipulationModel));
                 }
 
                 ViewModel.ItemName = ItemFileName.Text; // Make sure ItemName is updated
                 if (!string.IsNullOrWhiteSpace(ViewModel.ItemName) && ViewModel.OriginalItemName != ViewModel.ItemName)
                 {
-                    return await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIFilesystemHelpers.RenameFileItemAsync(item,
+                    return await App.Window.DispatcherQueue.EnqueueAsync(() => UIFilesystemHelpers.RenameFileItemAsync(item,
                           ViewModel.ItemName,
                           AppInstance));
                 }
@@ -106,7 +105,7 @@ namespace Files.Uwp.Views
         {
         }
 
-        private void DiskCleanupButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void DiskCleanupButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             if (BaseProperties is DriveProperties driveProps)
             {

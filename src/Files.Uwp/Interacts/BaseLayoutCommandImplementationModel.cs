@@ -1,4 +1,4 @@
-﻿using Files.Shared;
+using Files.Shared;
 using Files.Uwp.Dialogs;
 using Files.Shared.Enums;
 using Files.Uwp.Extensions;
@@ -8,7 +8,7 @@ using Files.Uwp.Helpers;
 using Files.Uwp.ViewModels;
 using Files.Uwp.ViewModels.Dialogs;
 using Files.Uwp.Views;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -24,9 +24,9 @@ using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using Files.Backend.Enums;
 
 namespace Files.Uwp.Interacts
@@ -97,7 +97,7 @@ namespace Files.Uwp.Interacts
                         {
                             "filepath",
                             Path.Combine(associatedInstance.FilesystemViewModel.WorkingDirectory,
-                                string.Format("ShortcutCreateNewSuffix".GetLocalized(), selectedItem.ItemName) + ".lnk")
+                                string.Format("ShortcutCreateNewSuffix".GetLocalizedResource(), selectedItem.ItemName) + ".lnk")
                         }
                     };
                     await connection.SendMessageAsync(value);
@@ -254,12 +254,12 @@ namespace Files.Uwp.Interacts
             }
             else if (destFolder == FileSystemStatusCode.NotFound)
             {
-                await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
+                await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalizedResource(), "FileNotFoundDialog/Text".GetLocalizedResource());
             }
             else
             {
-                await DialogDisplayHelper.ShowDialogAsync("InvalidItemDialogTitle".GetLocalized(),
-                    string.Format("InvalidItemDialogContent".GetLocalized(), Environment.NewLine, destFolder.ErrorCode.ToString()));
+                await DialogDisplayHelper.ShowDialogAsync("InvalidItemDialogTitle".GetLocalizedResource(),
+                    string.Format("InvalidItemDialogContent".GetLocalizedResource(), Environment.NewLine, destFolder.ErrorCode.ToString()));
             }
         }
 
@@ -284,10 +284,10 @@ namespace Files.Uwp.Interacts
         {
             foreach (ListedItem listedItem in SlimContentPage.SelectedItems)
             {
-                await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Low, async () =>
+                await App.Window.DispatcherQueue.EnqueueAsync(async () =>
                 {
                     await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
-                });
+                }, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
             }
         }
 
@@ -365,10 +365,8 @@ namespace Files.Uwp.Interacts
         {
             DataTransferManager manager = DataTransferManager.GetForCurrentView();
             manager.DataRequested += new TypedEventHandler<DataTransferManager, DataRequestedEventArgs>(Manager_DataRequested);
-            DataTransferManager.ShowShareUI(new ShareUIOptions
-            {
-                Theme = Enum.IsDefined(typeof(ShareUITheme), ThemeHelper.RootTheme.ToString()) ? (ShareUITheme)ThemeHelper.RootTheme : ShareUITheme.Default
-            });
+
+            DataTransferManager.As<UWPToWinAppSDKUpgradeHelpers.IDataTransferManagerInterop>().ShowShareUIForWindow(App.WindowHandle);
 
             async void Manager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
             {
@@ -385,8 +383,8 @@ namespace Files.Uwp.Interacts
                     {
                         if (shItem.IsLinkItem && !string.IsNullOrEmpty(shItem.TargetPath))
                         {
-                            dataRequest.Data.Properties.Title = string.Format("ShareDialogTitle".GetLocalized(), item.ItemName);
-                            dataRequest.Data.Properties.Description = "ShareDialogSingleItemDescription".GetLocalized();
+                            dataRequest.Data.Properties.Title = string.Format("ShareDialogTitle".GetLocalizedResource(), item.ItemName);
+                            dataRequest.Data.Properties.Description = "ShareDialogSingleItemDescription".GetLocalizedResource();
                             dataRequest.Data.SetWebLink(new Uri(shItem.TargetPath));
                             dataRequestDeferral.Complete();
                             return;
@@ -410,20 +408,20 @@ namespace Files.Uwp.Interacts
 
                 if (items.Count == 1)
                 {
-                    dataRequest.Data.Properties.Title = string.Format("ShareDialogTitle".GetLocalized(), items.First().Name);
-                    dataRequest.Data.Properties.Description = "ShareDialogSingleItemDescription".GetLocalized();
+                    dataRequest.Data.Properties.Title = string.Format("ShareDialogTitle".GetLocalizedResource(), items.First().Name);
+                    dataRequest.Data.Properties.Description = "ShareDialogSingleItemDescription".GetLocalizedResource();
                 }
                 else if (items.Count == 0)
                 {
-                    dataRequest.FailWithDisplayText("ShareDialogFailMessage".GetLocalized());
+                    dataRequest.FailWithDisplayText("ShareDialogFailMessage".GetLocalizedResource());
                     dataRequestDeferral.Complete();
                     return;
                 }
                 else
                 {
-                    dataRequest.Data.Properties.Title = string.Format("ShareDialogTitleMultipleItems".GetLocalized(), items.Count,
-                        "ItemsCount.Text".GetLocalized());
-                    dataRequest.Data.Properties.Description = "ShareDialogMultipleItemsDescription".GetLocalized();
+                    dataRequest.Data.Properties.Title = string.Format("ShareDialogTitleMultipleItems".GetLocalizedResource(), items.Count,
+                        "ItemsCount.Text".GetLocalizedResource());
+                    dataRequest.Data.Properties.Description = "ShareDialogMultipleItemsDescription".GetLocalizedResource();
                 }
 
                 dataRequest.Data.SetStorageItems(items, false);
@@ -568,7 +566,7 @@ namespace Files.Uwp.Interacts
                     else
                     {
                         e.DragUIOverride.IsCaptionVisible = true;
-                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), folderName);
+                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), folderName);
                         e.AcceptedOperation = DataPackageOperation.Copy;
                     }
                 }
@@ -581,38 +579,38 @@ namespace Files.Uwp.Interacts
                     e.DragUIOverride.IsCaptionVisible = true;
                     if (pwd.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
                     {
-                        e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), folderName);
+                        e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), folderName);
                         e.AcceptedOperation = DataPackageOperation.Move;
                     }
                     else if (e.Modifiers.HasFlag(DragDropModifiers.Alt) || e.Modifiers.HasFlag(DragDropModifiers.Control | DragDropModifiers.Shift))
                     {
-                        e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalized(), folderName);
+                        e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalizedResource(), folderName);
                         e.AcceptedOperation = DataPackageOperation.Link;
                     }
                     else if (e.Modifiers.HasFlag(DragDropModifiers.Control))
                     {
-                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), folderName);
+                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), folderName);
                         e.AcceptedOperation = DataPackageOperation.Copy;
                     }
                     else if (e.Modifiers.HasFlag(DragDropModifiers.Shift))
                     {
-                        e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), folderName);
+                        e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), folderName);
                         e.AcceptedOperation = DataPackageOperation.Move;
                     }
                     else if (draggedItems.Any(x => x.Item is ZipStorageFile || x.Item is ZipStorageFolder)
                         || ZipStorageFolder.IsZipPath(pwd))
                     {
-                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), folderName);
+                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), folderName);
                         e.AcceptedOperation = DataPackageOperation.Copy;
                     }
                     else if (draggedItems.AreItemsInSameDrive(associatedInstance.FilesystemViewModel.WorkingDirectory))
                     {
-                        e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), folderName);
+                        e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), folderName);
                         e.AcceptedOperation = DataPackageOperation.Move;
                     }
                     else
                     {
-                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), folderName);
+                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), folderName);
                         e.AcceptedOperation = DataPackageOperation.Copy;
                     }
                 }
@@ -672,7 +670,7 @@ namespace Files.Uwp.Interacts
                     CancellationTokenSource extractCancellation = new();
                     PostedStatusBanner banner = App.OngoingTasksViewModel.PostOperationBanner(
                         archive.Name.Length >= 30 ? archive.Name + "\n" : archive.Name,
-                        "ExtractingArchiveText".GetLocalized(),
+                        "ExtractingArchiveText".GetLocalizedResource(),
                         0,
                         ReturnResult.InProgress,
                         FileOperationType.Extract,
@@ -702,8 +700,8 @@ namespace Files.Uwp.Interacts
                     if (sw.Elapsed.TotalSeconds >= 6)
                     {
                         App.OngoingTasksViewModel.PostBanner(
-                            "ExtractingCompleteText".GetLocalized(),
-                            "ArchiveExtractionCompletedSuccessfullyText".GetLocalized(),
+                            "ExtractingCompleteText".GetLocalizedResource(),
+                            "ArchiveExtractionCompletedSuccessfullyText".GetLocalizedResource(),
                             0,
                             ReturnResult.Success,
                             FileOperationType.Extract);
@@ -727,7 +725,7 @@ namespace Files.Uwp.Interacts
                 CancellationTokenSource extractCancellation = new();
                 PostedStatusBanner banner = App.OngoingTasksViewModel.PostOperationBanner(
                     archive.Name.Length >= 30 ? archive.Name + "\n" : archive.Name,
-                    "ExtractingArchiveText".GetLocalized(),
+                    "ExtractingArchiveText".GetLocalizedResource(),
                     0,
                     ReturnResult.InProgress,
                     FileOperationType.Extract,
@@ -744,8 +742,8 @@ namespace Files.Uwp.Interacts
                 if (sw.Elapsed.TotalSeconds >= 6)
                 {
                     App.OngoingTasksViewModel.PostBanner(
-                        "ExtractingCompleteText".GetLocalized(),
-                        "ArchiveExtractionCompletedSuccessfullyText".GetLocalized(),
+                        "ExtractingCompleteText".GetLocalizedResource(),
+                        "ArchiveExtractionCompletedSuccessfullyText".GetLocalizedResource(),
                         0,
                         ReturnResult.Success,
                         FileOperationType.Extract);
@@ -775,7 +773,7 @@ namespace Files.Uwp.Interacts
                 CancellationTokenSource extractCancellation = new();
                 PostedStatusBanner banner = App.OngoingTasksViewModel.PostOperationBanner(
                     archive.Name.Length >= 30 ? archive.Name + "\n" : archive.Name,
-                    "ExtractingArchiveText".GetLocalized(),
+                    "ExtractingArchiveText".GetLocalizedResource(),
                     0,
                     ReturnResult.InProgress,
                     FileOperationType.Extract,
@@ -792,8 +790,8 @@ namespace Files.Uwp.Interacts
                 if (sw.Elapsed.TotalSeconds >= 6)
                 {
                     App.OngoingTasksViewModel.PostBanner(
-                        "ExtractingCompleteText".GetLocalized(),
-                        "ArchiveExtractionCompletedSuccessfullyText".GetLocalized(),
+                        "ExtractingCompleteText".GetLocalizedResource(),
+                        "ArchiveExtractionCompletedSuccessfullyText".GetLocalizedResource(),
                         0,
                         ReturnResult.Success,
                         FileOperationType.Extract);

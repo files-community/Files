@@ -1,13 +1,13 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Services.Store;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Files.Backend.Services;
-using Microsoft.Toolkit.Uwp;
+using Files.Uwp.Extensions;
 
 namespace Files.Uwp.ServicesImplementation
 {
@@ -50,7 +50,7 @@ namespace Files.Uwp.ServicesImplementation
             _updatePackages = new List<StorePackageUpdate>();
         }
 
-        public void ReportToAppCenter() {}
+        public void ReportToAppCenter() { }
 
         public async Task DownloadUpdates()
         {
@@ -134,14 +134,24 @@ namespace Files.Uwp.ServicesImplementation
             //TODO: Use IDialogService in future.
             ContentDialog dialog = new()
             {
-                Title             = "ConsentDialogTitle".GetLocalized(),
-                Content           = "ConsentDialogContent".GetLocalized(),
-                CloseButtonText   = "Close".GetLocalized(),
-                PrimaryButtonText = "ConsentDialogPrimaryButtonText".GetLocalized()
+                Title = "ConsentDialogTitle".GetLocalizedResource(),
+                Content = "ConsentDialogContent".GetLocalizedResource(),
+                CloseButtonText = "Close".GetLocalizedResource(),
+                PrimaryButtonText = "ConsentDialogPrimaryButtonText".GetLocalizedResource()
             };
-            ContentDialogResult result = await dialog.ShowAsync();
+            ContentDialogResult result = await SetContentDialogRoot(dialog).ShowAsync();
 
             return result == ContentDialogResult.Primary;
+        }
+
+        // WINUI3
+        private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
+        {
+            if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+            {
+                contentDialog.XamlRoot = App.Window.Content.XamlRoot;
+            }
+            return contentDialog;
         }
 
         private bool HasUpdates()

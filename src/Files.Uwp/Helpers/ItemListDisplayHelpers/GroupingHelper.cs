@@ -1,9 +1,9 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Shared.Enums;
 using Files.Shared.Services.DateTimeFormatter;
 using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System;
 using System.Linq;
 using Windows.Storage;
@@ -97,7 +97,7 @@ namespace Files.Uwp.Helpers
                 {
                     ListedItem first = x.First();
                     x.Model.ShowCountTextBelow = true;
-                    x.Model.Text = first.FileTagsUI?.FirstOrDefault()?.TagName ?? "None".GetLocalized();
+                    x.Model.Text = first.FileTagsUI?.FirstOrDefault()?.TagName ?? "None".GetLocalizedResource();
                     //x.Model.Icon = first.FileTagsUI?.FirstOrDefault()?.Color;
                 }, null),
 
@@ -146,7 +146,7 @@ namespace Files.Uwp.Helpers
                 lastSizeStr = sizeGp.sizeText;
             }
 
-            return ("0", "ItemSizeText_Tiny".GetLocalized(), $"{"0 B".ConvertSizeAbbreviation()} - {lastSizeStr}", sizeGroups.Length + 1);
+            return ("0", "ItemSizeText_Tiny".GetLocalizedResource(), $"{"0 B".ConvertSizeAbbreviation()} - {lastSizeStr}", sizeGroups.Length + 1);
         }
 
         public static string GetGroupSizeKey(long size)
@@ -164,11 +164,11 @@ namespace Files.Uwp.Helpers
 
         private static readonly (long size, string text, string sizeText)[] sizeGroups = new (long, string, string)[]
         {
-            (5000000000, "ItemSizeText_Huge".GetLocalized(), "5 GiB".ConvertSizeAbbreviation()),
-            (1000000000, "ItemSizeText_VeryLarge".GetLocalized(), "1 GiB".ConvertSizeAbbreviation()),
-            (128000000, "ItemSizeText_Large".GetLocalized(), "128 MiB".ConvertSizeAbbreviation()),
-            (1000000, "ItemSizeText_Medium".GetLocalized(), "1 MiB".ConvertSizeAbbreviation()),
-            (16000, "ItemSizeText_Small".GetLocalized(), "16 KiB".ConvertSizeAbbreviation()),
+            (5000000000, "ItemSizeText_Huge".GetLocalizedResource(), "5 GiB".ConvertSizeAbbreviation()),
+            (1000000000, "ItemSizeText_VeryLarge".GetLocalizedResource(), "1 GiB".ConvertSizeAbbreviation()),
+            (128000000, "ItemSizeText_Large".GetLocalizedResource(), "128 MiB".ConvertSizeAbbreviation()),
+            (1000000, "ItemSizeText_Medium".GetLocalizedResource(), "1 MiB".ConvertSizeAbbreviation()),
+            (16000, "ItemSizeText_Small".GetLocalizedResource(), "16 KiB".ConvertSizeAbbreviation()),
         };
     }
 

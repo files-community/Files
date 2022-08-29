@@ -5,46 +5,40 @@
     xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)">
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Default">
+            <!--  WINUI3: removed BackgroundSource  -->
             <!--  Acrylic Resources  -->
             <AcrylicBrush
                 x:Key="RootBackgroundBrush"
-                BackgroundSource="HostBackdrop"
                 FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
                 TintColor="{ThemeResource SolidBackgroundFillColorBase}"
                 TintOpacity="0.75" />
             <AcrylicBrush
                 x:Key="SolidBackgroundFillColorBaseBrush"
-                BackgroundSource="HostBackdrop"
                 FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
                 TintColor="{ThemeResource SolidBackgroundFillColorBase}"
                 TintOpacity="0.75" />
             <AcrylicBrush
                 x:Key="SolidBackgroundFillColorSecondaryBrush"
-                BackgroundSource="HostBackdrop"
                 FallbackColor="{ThemeResource SolidBackgroundFillColorSecondary}"
                 TintColor="{ThemeResource SolidBackgroundFillColorSecondary}"
                 TintOpacity="0.75" />
             <AcrylicBrush
                 x:Key="SolidBackgroundFillColorTertiaryBrush"
-                BackgroundSource="HostBackdrop"
                 FallbackColor="{ThemeResource SolidBackgroundFillColorTertiary}"
                 TintColor="{ThemeResource SolidBackgroundFillColorTertiary}"
                 TintOpacity="0.75" />
             <AcrylicBrush
                 x:Key="SolidBackgroundFillColorQuarternaryBrush"
-                BackgroundSource="HostBackdrop"
                 FallbackColor="{ThemeResource SolidBackgroundFillColorSecondary}"
                 TintColor="{ThemeResource SolidBackgroundFillColorSecondary}"
                 TintOpacity="0.75" />
             <AcrylicBrush
                 x:Key="TabContainerFillColorPrimary"
-                BackgroundSource="HostBackdrop"
                 FallbackColor="{ThemeResource SolidBackgroundFillColorSecondary}"
                 TintColor="{ThemeResource SolidBackgroundFillColorSecondary}"
                 TintOpacity="0.75" />
             <AcrylicBrush
                 x:Key="TabContainerFillColorSecondary"
-                BackgroundSource="HostBackdrop"
                 FallbackColor="{ThemeResource SolidBackgroundFillColorSecondary}"
                 TintColor="{ThemeResource SolidBackgroundFillColorSecondary}"
                 TintOpacity="0.75" />
@@ -62,43 +56,36 @@
             <!--  Acrylic Resources  -->
             <AcrylicBrush
                 x:Key="RootBackgroundBrush"
-                BackgroundSource="HostBackdrop"
                 FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
                 TintColor="{ThemeResource SolidBackgroundFillColorBase}"
                 TintOpacity="0.75" />
             <AcrylicBrush
                 x:Key="SolidBackgroundFillColorBaseBrush"
-                BackgroundSource="HostBackdrop"
                 FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
                 TintColor="{ThemeResource SolidBackgroundFillColorBase}"
                 TintOpacity="0.75" />
             <AcrylicBrush
                 x:Key="SolidBackgroundFillColorSecondaryBrush"
-                BackgroundSource="HostBackdrop"
                 FallbackColor="{ThemeResource SolidBackgroundFillColorSecondary}"
                 TintColor="{ThemeResource SolidBackgroundFillColorSecondary}"
                 TintOpacity="0.75" />
             <AcrylicBrush
                 x:Key="SolidBackgroundFillColorTertiaryBrush"
-                BackgroundSource="HostBackdrop"
                 FallbackColor="{ThemeResource SolidBackgroundFillColorTertiary}"
                 TintColor="{ThemeResource SolidBackgroundFillColorTertiary}"
                 TintOpacity="0.75" />
             <AcrylicBrush
                 x:Key="SolidBackgroundFillColorQuarternaryBrush"
-                BackgroundSource="HostBackdrop"
                 FallbackColor="{ThemeResource SolidBackgroundFillColorSecondary}"
                 TintColor="{ThemeResource SolidBackgroundFillColorSecondary}"
                 TintOpacity="0.75" />
             <AcrylicBrush
                 x:Key="TabContainerFillColorPrimary"
-                BackgroundSource="HostBackdrop"
                 FallbackColor="{ThemeResource SolidBackgroundFillColorSecondary}"
                 TintColor="{ThemeResource SolidBackgroundFillColorSecondary}"
                 TintOpacity="0.75" />
             <AcrylicBrush
                 x:Key="TabContainerFillColorSecondary"
-                BackgroundSource="HostBackdrop"
                 FallbackColor="{ThemeResource SolidBackgroundFillColorSecondary}"
                 TintColor="{ThemeResource SolidBackgroundFillColorSecondary}"
                 TintOpacity="0.75" />

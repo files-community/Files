@@ -1,4 +1,4 @@
-﻿using Files.Uwp.DataModels;
+using Files.Uwp.DataModels;
 using Files.Shared.Enums;
 using Files.Uwp.Filesystem;
 using Newtonsoft.Json;

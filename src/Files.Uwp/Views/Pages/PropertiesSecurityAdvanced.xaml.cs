@@ -1,23 +1,23 @@
-﻿using Files.Uwp.DataModels.NavigationControlItems;
+using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Filesystem.Permissions;
 using Files.Uwp.Helpers;
 using Files.Uwp.ViewModels.Properties;
-using Microsoft.Toolkit.Uwp;
+using Files.Uwp.Extensions;
+using CommunityToolkit.WinUI;
 using System;
 using System.Linq;
-using Windows.ApplicationModel.Core;
-using Windows.ApplicationModel.Resources.Core;
+using Microsoft.Windows.ApplicationModel.Resources;
 using Windows.Foundation.Metadata;
 using Windows.System;
-using Windows.UI;
 using Windows.UI.Core;
-using Windows.UI.ViewManagement;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Markup;
-using Windows.UI.Xaml.Navigation;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Markup;
+using Microsoft.UI.Xaml.Navigation;
+using Microsoft.UI;
+using Microsoft.UI.Windowing;
 
 // Il modello di elemento Pagina vuota è documentato all'indirizzo https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -28,19 +28,26 @@ namespace Files.Uwp.Views
     /// </summary>
     public sealed partial class PropertiesSecurityAdvanced : Page
     {
-        private static ApplicationViewTitleBar TitleBar;
+        //private static AppWindowTitleBar TitleBar; //WINUI3
 
         private object navParameterItem;
 
-        public string DialogTitle => string.Format("SecurityAdvancedPermissionsTitle".GetLocalized(), ViewModel.Item.ItemName);
+        public string DialogTitle => string.Format("SecurityAdvancedPermissionsTitle".GetLocalizedResource(), ViewModel.Item.ItemName);
 
         public SecurityProperties ViewModel { get; set; }
+
+        public AppWindow appWindow;
 
         public PropertiesSecurityAdvanced()
         {
             this.InitializeComponent();
 
-            var flowDirectionSetting = ResourceContext.GetForCurrentView().QualifierValues["LayoutDirection"];
+            var flowDirectionSetting = /*
+                TODO ResourceContext.GetForCurrentView and ResourceContext.GetForViewIndependentUse do not exist in Windows App SDK
+                Use your ResourceManager instance to create a ResourceContext as below. If you already have a ResourceManager instance,
+                replace the new instance created below with correct instance.
+                Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/mrtcore
+            */new ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
 
             if (flowDirectionSetting == "RTL")
             {
@@ -67,16 +74,13 @@ namespace Files.Uwp.Views
 
         private async void Properties_Loaded(object sender, RoutedEventArgs e)
         {
-            Microsoft.UI.Xaml.Controls.BackdropMaterial.SetApplyToRootOrPageBackground(sender as Control, true);
+            //Microsoft.UI.Xaml.Controls.BackdropMaterial.SetApplyToRootOrPageBackground(sender as Control, true); //WINUI3
 
             App.AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
-                // Set window size in the loaded event to prevent flickering
-                TitleBar = ApplicationView.GetForCurrentView().TitleBar;
-                TitleBar.ButtonBackgroundColor = Colors.Transparent;
-                TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => App.AppSettings.UpdateThemeElements.Execute(null));
+                //WINUI3
+                await App.Window.DispatcherQueue.EnqueueAsync(() => App.AppSettings.UpdateThemeElements.Execute(null));
             }
             else
             {
@@ -93,7 +97,7 @@ namespace Files.Uwp.Views
         private async void AppSettings_ThemeModeChanged(object sender, EventArgs e)
         {
             var selectedTheme = ThemeHelper.RootTheme;
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await DispatcherQueue.EnqueueAsync(() =>
             {
                 RequestedTheme = selectedTheme;
                 if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
@@ -101,18 +105,21 @@ namespace Files.Uwp.Views
                     switch (RequestedTheme)
                     {
                         case ElementTheme.Default:
-                            TitleBar.ButtonHoverBackgroundColor = (Color)Application.Current.Resources["SystemBaseLowColor"];
-                            TitleBar.ButtonForegroundColor = (Color)Application.Current.Resources["SystemBaseHighColor"];
+                            //WINUI3
+                            //TitleBar.ButtonHoverBackgroundColor = (Color)Application.Current.Resources["SystemBaseLowColor"];
+                            //TitleBar.ButtonForegroundColor = (Color)Application.Current.Resources["SystemBaseHighColor"];
                             break;
 
                         case ElementTheme.Light:
-                            TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 0, 0, 0);
-                            TitleBar.ButtonForegroundColor = Colors.Black;
+                            //WINUI3
+                            //TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 0, 0, 0);
+                            //TitleBar.ButtonForegroundColor = Colors.Black;
                             break;
 
                         case ElementTheme.Dark:
-                            TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 255, 255, 255);
-                            TitleBar.ButtonForegroundColor = Colors.White;
+                            //WINUI3
+                            //TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 255, 255, 255);
+                            //TitleBar.ButtonForegroundColor = Colors.White;
                             break;
                     }
                 }
@@ -125,7 +132,7 @@ namespace Files.Uwp.Views
             {
                 if (await ViewModel.SetFilePermissions())
                 {
-                    await ApplicationView.GetForCurrentView().TryConsolidateAsync();
+                    appWindow.Destroy();
                 }
             }
             else
@@ -137,7 +144,7 @@ namespace Files.Uwp.Views
         {
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
-                await ApplicationView.GetForCurrentView().TryConsolidateAsync();
+                appWindow.Destroy();
             }
             else
             {
@@ -150,7 +157,7 @@ namespace Files.Uwp.Views
             {
                 if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
                 {
-                    await ApplicationView.GetForCurrentView().TryConsolidateAsync();
+                    appWindow.Destroy();
                 }
                 else
                 {

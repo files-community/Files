@@ -1,19 +1,18 @@
-﻿using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem;
 using Files.Backend.Services.Settings;
 using Files.Uwp.UserControls.MultitaskingControl;
 using Files.Uwp.Views.LayoutModes;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Microsoft.Toolkit.Uwp;
+using Files.Uwp.Extensions;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.System;
-using Windows.UI.Core;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Navigation;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Navigation;
 using Files.Shared.EventArguments;
 
 namespace Files.Uwp.Views
@@ -46,7 +45,7 @@ namespace Files.Uwp.Views
             }
         }
 
-        private bool _windowIsCompact = Window.Current.Bounds.Width <= 750;
+        private bool _windowIsCompact = App.Window.Bounds.Width <= 750;
 
         private bool windowIsCompact
         {
@@ -80,7 +79,7 @@ namespace Files.Uwp.Views
 
         public bool IsMultiPaneEnabled
         {
-            get => UserSettingsService.MultitaskingSettingsService.IsDualPaneEnabled && !(Window.Current.Bounds.Width <= 750);
+            get => UserSettingsService.MultitaskingSettingsService.IsDualPaneEnabled && !(App.Window.Bounds.Width <= 750);
         }
 
         private NavigationParams navParamsLeft;
@@ -198,7 +197,7 @@ namespace Files.Uwp.Views
         public PaneHolderPage()
         {
             this.InitializeComponent();
-            Window.Current.SizeChanged += Current_SizeChanged;
+            App.Window.SizeChanged += Current_SizeChanged;
             this.ActivePane = PaneLeft;
             this.IsRightPaneVisible = IsMultiPaneEnabled && UserSettingsService.MultitaskingSettingsService.AlwaysOpenDualPaneInNewTab;
             UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
@@ -218,7 +217,7 @@ namespace Files.Uwp.Views
 
         private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
         {
-            windowIsCompact = Window.Current.Bounds.Width <= 750;
+            windowIsCompact = App.Window.Bounds.Width <= 750;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -228,7 +227,7 @@ namespace Files.Uwp.Views
             if (eventArgs.Parameter is string navPath)
             {
                 NavParamsLeft = new NavigationParams { NavPath = navPath };
-                NavParamsRight = new NavigationParams { NavPath = "Home".GetLocalized() };
+                NavParamsRight = new NavigationParams { NavPath = "Home".GetLocalizedResource() };
             }
             if (eventArgs.Parameter is PaneNavigationArguments paneArgs)
             {
@@ -311,7 +310,7 @@ namespace Files.Uwp.Views
                     {
                         if (string.IsNullOrEmpty(NavParamsRight?.NavPath))
                         {
-                            NavParamsRight = new NavigationParams { NavPath = "Home".GetLocalized() };
+                            NavParamsRight = new NavigationParams { NavPath = "Home".GetLocalizedResource() };
                         }
                         IsRightPaneVisible = true;
                         ActivePane = PaneRight;
@@ -327,7 +326,7 @@ namespace Files.Uwp.Views
                     {
                         if (string.IsNullOrEmpty(NavParamsRight?.NavPath))
                         {
-                            NavParamsRight = new NavigationParams { NavPath = "Home".GetLocalized() };
+                            NavParamsRight = new NavigationParams { NavPath = "Home".GetLocalizedResource() };
                         }
                         IsRightPaneVisible = true;
                     }
@@ -364,7 +363,7 @@ namespace Files.Uwp.Views
         public void Dispose()
         {
             UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
-            Window.Current.SizeChanged -= Current_SizeChanged;
+            App.Window.SizeChanged -= Current_SizeChanged;
             PaneLeft?.Dispose();
             PaneRight?.Dispose();
             PaneResizer.DoubleTapped -= PaneResizer_OnDoubleTapped;

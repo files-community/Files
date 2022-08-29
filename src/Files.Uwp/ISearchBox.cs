@@ -1,8 +1,8 @@
-﻿using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem;
 using System;
 using System.Collections.Generic;
 using Windows.Foundation;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Files.Uwp
 {

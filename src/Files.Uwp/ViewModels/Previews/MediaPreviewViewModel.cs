@@ -1,10 +1,10 @@
-﻿using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem;
 using Files.Uwp.ViewModels.Properties;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.Media.Core;
-using Windows.UI.Xaml;
+using Microsoft.UI.Xaml;
 
 namespace Files.Uwp.ViewModels.Previews
 {

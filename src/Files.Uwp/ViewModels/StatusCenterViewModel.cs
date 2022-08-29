@@ -1,19 +1,19 @@
-﻿using Files.Shared.Enums;
+using Files.Shared.Enums;
 using Files.Uwp.Helpers;
 using Files.Uwp.Interacts;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp;
+using Files.Uwp.Extensions;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Windows.Input;
-using Windows.UI;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI;
 
 namespace Files.Uwp.ViewModels
 {
@@ -355,7 +355,7 @@ namespace Files.Uwp.ViewModels
                         switch (Operation)
                         {
                             case FileOperationType.Extract:
-                                Title = "ExtractInProgress/Title".GetLocalized();
+                                Title = "ExtractInProgress/Title".GetLocalizedResource();
                                 GlyphSource = new FontIconSource()
                                 {
                                     FontFamily = Application.Current.Resources["CustomGlyph"] as FontFamily,
@@ -364,7 +364,7 @@ namespace Files.Uwp.ViewModels
                                 break;
 
                             case FileOperationType.Copy:
-                                Title = "CopyInProgress/Title".GetLocalized();
+                                Title = "CopyInProgress/Title".GetLocalizedResource();
                                 GlyphSource = new FontIconSource()
                                 {
                                     Glyph = "\xE8C8"    // Copy glyph
@@ -372,7 +372,7 @@ namespace Files.Uwp.ViewModels
                                 break;
 
                             case FileOperationType.Move:
-                                Title = "MoveInProgress".GetLocalized();
+                                Title = "MoveInProgress".GetLocalizedResource();
                                 GlyphSource = new FontIconSource()
                                 {
                                     Glyph = "\xE77F"    // Move glyph
@@ -380,7 +380,7 @@ namespace Files.Uwp.ViewModels
                                 break;
 
                             case FileOperationType.Delete:
-                                Title = "DeleteInProgress/Title".GetLocalized();
+                                Title = "DeleteInProgress/Title".GetLocalizedResource();
                                 GlyphSource = new FontIconSource()
                                 {
                                     Glyph = "\xE74D"    // Delete glyph
@@ -388,7 +388,7 @@ namespace Files.Uwp.ViewModels
                                 break;
 
                             case FileOperationType.Recycle:
-                                Title = "RecycleInProgress/Title".GetLocalized();
+                                Title = "RecycleInProgress/Title".GetLocalizedResource();
                                 GlyphSource = new FontIconSource()
                                 {
                                     FontFamily = Application.Current.Resources["RecycleBinIcons"] as FontFamily,
@@ -397,7 +397,7 @@ namespace Files.Uwp.ViewModels
                                 break;
 
                             case FileOperationType.Prepare:
-                                Title = "PrepareInProgress".GetLocalized();
+                                Title = "PrepareInProgress".GetLocalizedResource();
                                 GlyphSource = new FontIconSource()
                                 {
                                     Glyph = "\xE89A"
@@ -491,7 +491,7 @@ namespace Files.Uwp.ViewModels
             {
                 CancellationTokenSource.Cancel();
                 IsCancelled = true;
-                FullTitle = $"{Title} ({"canceling".GetLocalized()})";
+                FullTitle = $"{Title} ({"canceling".GetLocalizedResource()})";
             }
         }
     }

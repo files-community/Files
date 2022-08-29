@@ -1,11 +1,11 @@
-﻿using Files.Shared;
+using Files.Shared;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
 using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem.FilesystemHistory;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,7 +14,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls;
 using FileAttributes = System.IO.FileAttributes;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services;
@@ -155,8 +155,8 @@ namespace Files.Uwp.Filesystem
 
                 // Do not paste files and folders inside the recycle bin
                 await DialogDisplayHelper.ShowDialogAsync(
-                    "ErrorDialogThisActionCannotBeDone".GetLocalized(),
-                    "ErrorDialogUnsupportedOperation".GetLocalized());
+                    "ErrorDialogThisActionCannotBeDone".GetLocalizedResource(),
+                    "ErrorDialogUnsupportedOperation".GetLocalizedResource());
                 return null;
             }
 
@@ -172,13 +172,13 @@ namespace Files.Uwp.Filesystem
                     var sourceName = source.Path.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last();
                     ContentDialog dialog = new ContentDialog()
                     {
-                        Title = "ErrorDialogThisActionCannotBeDone".GetLocalized(),
-                        Content = $"{"ErrorDialogTheDestinationFolder".GetLocalized()} ({destinationName}) {"ErrorDialogIsASubfolder".GetLocalized()} ({sourceName})",
-                        //PrimaryButtonText = "Skip".GetLocalized(),
-                        CloseButtonText = "Cancel".GetLocalized()
+                        Title = "ErrorDialogThisActionCannotBeDone".GetLocalizedResource(),
+                        Content = $"{"ErrorDialogTheDestinationFolder".GetLocalizedResource()} ({destinationName}) {"ErrorDialogIsASubfolder".GetLocalizedResource()} ({sourceName})",
+                        //PrimaryButtonText = "Skip".GetLocalizedResource(),
+                        CloseButtonText = "Cancel".GetLocalizedResource()
                     };
 
-                    ContentDialogResult result = await dialog.ShowAsync();
+                    ContentDialogResult result = await this.SetContentDialogRoot(dialog).ShowAsync();
 
                     if (result == ContentDialogResult.Primary)
                     {
@@ -307,6 +307,16 @@ namespace Files.Uwp.Filesystem
             return new StorageHistory(FileOperationType.Copy, source, pathWithType);
         }
 
+        // WINUI3
+        private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
+        {
+            if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+            {
+                contentDialog.XamlRoot = App.Window.Content.XamlRoot;
+            }
+            return contentDialog;
+        }
+
         public async Task<IStorageHistory> MoveAsync(IStorageItem source,
                                                      string destination,
                                                      NameCollisionOption collision,
@@ -351,8 +361,8 @@ namespace Files.Uwp.Filesystem
 
                 // Do not paste files and folders inside the recycle bin
                 await DialogDisplayHelper.ShowDialogAsync(
-                    "ErrorDialogThisActionCannotBeDone".GetLocalized(),
-                    "ErrorDialogUnsupportedOperation".GetLocalized());
+                    "ErrorDialogThisActionCannotBeDone".GetLocalizedResource(),
+                    "ErrorDialogUnsupportedOperation".GetLocalizedResource());
                 return null;
             }
 
@@ -368,13 +378,13 @@ namespace Files.Uwp.Filesystem
                     var sourceName = source.Path.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last();
                     ContentDialog dialog = new ContentDialog()
                     {
-                        Title = "ErrorDialogThisActionCannotBeDone".GetLocalized(),
-                        Content = $"{"ErrorDialogTheDestinationFolder".GetLocalized()} ({destinationName}) {"ErrorDialogIsASubfolder".GetLocalized()} ({sourceName})",
-                        //PrimaryButtonText = "Skip".GetLocalized(),
-                        CloseButtonText = "Cancel".GetLocalized()
+                        Title = "ErrorDialogThisActionCannotBeDone".GetLocalizedResource(),
+                        Content = $"{"ErrorDialogTheDestinationFolder".GetLocalizedResource()} ({destinationName}) {"ErrorDialogIsASubfolder".GetLocalizedResource()} ({sourceName})",
+                        //PrimaryButtonText = "Skip".GetLocalizedResource(),
+                        CloseButtonText = "Cancel".GetLocalizedResource()
                     };
 
-                    ContentDialogResult result = await dialog.ShowAsync();
+                    ContentDialogResult result = await this.SetContentDialogRoot(dialog).ShowAsync();
 
                     if (result == ContentDialogResult.Primary)
                     {
@@ -405,7 +415,7 @@ namespace Files.Uwp.Filesystem
                             // Moving folders using Storage API can result in data loss, copy instead
                             //var fsResultMove = await FilesystemTasks.Wrap(() => MoveDirectoryAsync((BaseStorageFolder)fsSourceFolder, (BaseStorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, collision.Convert(), true));
                             var fsResultMove = new FilesystemResult<BaseStorageFolder>(null, FileSystemStatusCode.Generic);
-                            if (await DialogDisplayHelper.ShowDialogAsync("ErrorDialogThisActionCannotBeDone".GetLocalized(), "ErrorDialogUnsupportedMoveOperation".GetLocalized(), "OK", "Cancel".GetLocalized()))
+                            if (await DialogDisplayHelper.ShowDialogAsync("ErrorDialogThisActionCannotBeDone".GetLocalizedResource(), "ErrorDialogUnsupportedMoveOperation".GetLocalizedResource(), "OK", "Cancel".GetLocalizedResource()))
                             {
                                 fsResultMove = await FilesystemTasks.Wrap(() => CloneDirectoryAsync((BaseStorageFolder)fsSourceFolder, (BaseStorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, collision.Convert()));
                             }
@@ -646,11 +656,11 @@ namespace Files.Uwp.Filesystem
                 }
                 else if (renamed == FileSystemStatusCode.NotAFile || renamed == FileSystemStatusCode.NotAFolder)
                 {
-                    await DialogDisplayHelper.ShowDialogAsync("RenameError/NameInvalid/Title".GetLocalized(), "RenameError/NameInvalid/Text".GetLocalized());
+                    await DialogDisplayHelper.ShowDialogAsync("RenameError/NameInvalid/Title".GetLocalizedResource(), "RenameError/NameInvalid/Text".GetLocalizedResource());
                 }
                 else if (renamed == FileSystemStatusCode.NameTooLong)
                 {
-                    await DialogDisplayHelper.ShowDialogAsync("RenameError/TooLong/Title".GetLocalized(), "RenameError/TooLong/Text".GetLocalized());
+                    await DialogDisplayHelper.ShowDialogAsync("RenameError/TooLong/Title".GetLocalizedResource(), "RenameError/TooLong/Text".GetLocalizedResource());
                 }
                 else if (renamed == FileSystemStatusCode.InUse)
                 {
@@ -659,17 +669,17 @@ namespace Files.Uwp.Filesystem
                 }
                 else if (renamed == FileSystemStatusCode.NotFound)
                 {
-                    await DialogDisplayHelper.ShowDialogAsync("RenameError/ItemDeleted/Title".GetLocalized(), "RenameError/ItemDeleted/Text".GetLocalized());
+                    await DialogDisplayHelper.ShowDialogAsync("RenameError/ItemDeleted/Title".GetLocalizedResource(), "RenameError/ItemDeleted/Text".GetLocalizedResource());
                 }
                 else if (renamed == FileSystemStatusCode.AlreadyExists)
                 {
                     var ItemAlreadyExistsDialog = new ContentDialog()
                     {
-                        Title = "ItemAlreadyExistsDialogTitle".GetLocalized(),
-                        Content = "ItemAlreadyExistsDialogContent".GetLocalized(),
-                        PrimaryButtonText = "GenerateNewName".GetLocalized(),
-                        SecondaryButtonText = "ItemAlreadyExistsDialogSecondaryButtonText".GetLocalized(),
-                        CloseButtonText = "Cancel".GetLocalized()
+                        Title = "ItemAlreadyExistsDialogTitle".GetLocalizedResource(),
+                        Content = "ItemAlreadyExistsDialogContent".GetLocalizedResource(),
+                        PrimaryButtonText = "GenerateNewName".GetLocalizedResource(),
+                        SecondaryButtonText = "ItemAlreadyExistsDialogSecondaryButtonText".GetLocalizedResource(),
+                        CloseButtonText = "Cancel".GetLocalizedResource()
                     };
 
                     ContentDialogResult result = await ItemAlreadyExistsDialog.TryShowAsync();
@@ -767,7 +777,7 @@ namespace Files.Uwp.Filesystem
                     {
                         // Moving folders using Storage API can result in data loss, copy instead
                         //fsResult = await FilesystemTasks.Wrap(() => MoveDirectoryAsync(sourceFolder.Result, destinationFolder.Result, Path.GetFileName(destination), CreationCollisionOption.FailIfExists, true));
-                        if (await DialogDisplayHelper.ShowDialogAsync("ErrorDialogThisActionCannotBeDone".GetLocalized(), "ErrorDialogUnsupportedMoveOperation".GetLocalized(), "OK", "Cancel".GetLocalized()))
+                        if (await DialogDisplayHelper.ShowDialogAsync("ErrorDialogThisActionCannotBeDone".GetLocalizedResource(), "ErrorDialogUnsupportedMoveOperation".GetLocalizedResource(), "OK", "Cancel".GetLocalizedResource()))
                         {
                             fsResult = await FilesystemTasks.Wrap(() => CloneDirectoryAsync(sourceFolder.Result, destinationFolder.Result, Path.GetFileName(destination), CreationCollisionOption.FailIfExists));
                         }
@@ -808,15 +818,15 @@ namespace Files.Uwp.Filesystem
             {
                 if (((FileSystemStatusCode)fsResult).HasFlag(FileSystemStatusCode.Unauthorized))
                 {
-                    await DialogDisplayHelper.ShowDialogAsync("AccessDenied".GetLocalized(), "AccessDeniedDeleteDialog/Text".GetLocalized());
+                    await DialogDisplayHelper.ShowDialogAsync("AccessDenied".GetLocalizedResource(), "AccessDeniedDeleteDialog/Text".GetLocalizedResource());
                 }
                 else if (((FileSystemStatusCode)fsResult).HasFlag(FileSystemStatusCode.NotFound))
                 {
-                    await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
+                    await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalizedResource(), "FileNotFoundDialog/Text".GetLocalizedResource());
                 }
                 else if (((FileSystemStatusCode)fsResult).HasFlag(FileSystemStatusCode.AlreadyExists))
                 {
-                    await DialogDisplayHelper.ShowDialogAsync("ItemAlreadyExistsDialogTitle".GetLocalized(), "ItemAlreadyExistsDialogContent".GetLocalized());
+                    await DialogDisplayHelper.ShowDialogAsync("ItemAlreadyExistsDialogTitle".GetLocalizedResource(), "ItemAlreadyExistsDialogContent".GetLocalizedResource());
                 }
             }
 

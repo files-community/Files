@@ -1,6 +1,6 @@
-﻿using ByteSizeLib;
+using ByteSizeLib;
 using Files.Shared.Extensions;
-using Microsoft.Toolkit.Uwp;
+using Microsoft.Windows.ApplicationModel.Resources;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -56,13 +56,13 @@ namespace Files.Uwp.Extensions
 
         private static readonly Dictionary<string, string> abbreviations = new Dictionary<string, string>()
         {
-            { "KiB", "KiloByteSymbol".GetLocalized() },
-            { "MiB", "MegaByteSymbol".GetLocalized() },
-            { "GiB", "GigaByteSymbol".GetLocalized() },
-            { "TiB", "TeraByteSymbol".GetLocalized() },
-            { "PiB", "PetaByteSymbol".GetLocalized() },
-            { "B", "ByteSymbol".GetLocalized() },
-            { "b", "ByteSymbol".GetLocalized() }
+            { "KiB", "KiloByteSymbol".GetLocalizedResource() },
+            { "MiB", "MegaByteSymbol".GetLocalizedResource() },
+            { "GiB", "GigaByteSymbol".GetLocalizedResource() },
+            { "TiB", "TeraByteSymbol".GetLocalizedResource() },
+            { "PiB", "PetaByteSymbol".GetLocalizedResource() },
+            { "B", "ByteSymbol".GetLocalizedResource() },
+            { "b", "ByteSymbol".GetLocalizedResource() }
         };
 
         public static string ConvertSizeAbbreviation(this string value)
@@ -80,6 +80,16 @@ namespace Files.Uwp.Extensions
 
         public static string ToLongSizeString(this long size) => ByteSize.FromBytes(size).ToLongSizeString();
         public static string ToLongSizeString(this ulong size) => ByteSize.FromBytes(size).ToLongSizeString();
-        public static string ToLongSizeString(this ByteSize size) => $"{size.ToSizeString()} ({size.Bytes:#,##0} {"ItemSizeBytes".GetLocalized()})";
+        public static string ToLongSizeString(this ByteSize size) => $"{size.ToSizeString()} ({size.Bytes:#,##0} {"ItemSizeBytes".GetLocalizedResource()})";
+
+        private static ResourceLoader resourceLoader;
+
+        //public static string GetLocalizedResource(this string s) => s.GetLocalizedResource("Resources");
+
+        public static string GetLocalizedResource(this string s)
+        {
+            resourceLoader ??= new ResourceLoader();
+            return resourceLoader.GetString(s);
+        }
     }
 }

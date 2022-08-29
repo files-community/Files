@@ -1,4 +1,4 @@
-﻿namespace Files.Uwp.ViewModels.Widgets
+namespace Files.Uwp.ViewModels.Widgets
 {
     /// <summary>
     /// This interface is used to mark widgets that are not standard to Files i.e. custom widgets

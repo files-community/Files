@@ -1,5 +1,5 @@
-﻿using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
-using Windows.UI.Xaml;
+using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
+using Microsoft.UI.Xaml;
 
 namespace Files.Uwp.TemplateSelectors
 {

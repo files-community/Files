@@ -1,6 +1,6 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp;
+using Files.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -109,7 +109,7 @@ namespace Files.Uwp.Filesystem.Permissions
             _ => "\xF140"
         };
 
-        public string IsInheritedForUI => IsInherited ? "Yes".GetLocalized() : "No".GetLocalized();
+        public string IsInheritedForUI => IsInherited ? "Yes".GetLocalizedResource() : "No".GetLocalizedResource();
 
         public string FileSystemRightsForUI => string.Join(", ", GetPermissionStrings());
 
@@ -165,7 +165,7 @@ namespace Files.Uwp.Filesystem.Permissions
                 gpl.Add(new GrantedPermission(this)
                 {
                     Permission = FileSystemRights.FullControl,
-                    Name = "SecurityFullControlLabel/Text".GetLocalized(),
+                    Name = "SecurityFullControlLabel/Text".GetLocalizedResource(),
                     IsEditable = !IsInherited
                 });
                 if (IsFolder)
@@ -173,7 +173,7 @@ namespace Files.Uwp.Filesystem.Permissions
                     gpl.Add(new GrantedPermission(this)
                     {
                         Permission = FileSystemRights.Traverse,
-                        Name = "SecurityTraverseLabel/Text".GetLocalized(),
+                        Name = "SecurityTraverseLabel/Text".GetLocalizedResource(),
                         IsEditable = !IsInherited
                     });
                 }
@@ -182,7 +182,7 @@ namespace Files.Uwp.Filesystem.Permissions
                     gpl.Add(new GrantedPermission(this)
                     {
                         Permission = FileSystemRights.ExecuteFile,
-                        Name = "SecurityExecuteFileLabel/Text".GetLocalized(),
+                        Name = "SecurityExecuteFileLabel/Text".GetLocalizedResource(),
                         IsEditable = !IsInherited
                     });
                 }
@@ -191,7 +191,7 @@ namespace Files.Uwp.Filesystem.Permissions
                     gpl.Add(new GrantedPermission(this)
                     {
                         Permission = FileSystemRights.ListDirectory,
-                        Name = "SecurityListDirectoryLabel/Text".GetLocalized(),
+                        Name = "SecurityListDirectoryLabel/Text".GetLocalizedResource(),
                         IsEditable = !IsInherited
                     });
                 }
@@ -200,20 +200,20 @@ namespace Files.Uwp.Filesystem.Permissions
                     gpl.Add(new GrantedPermission(this)
                     {
                         Permission = FileSystemRights.ReadData,
-                        Name = "SecurityReadDataLabel/Text".GetLocalized(),
+                        Name = "SecurityReadDataLabel/Text".GetLocalizedResource(),
                         IsEditable = !IsInherited
                     });
                 }
                 gpl.Add(new GrantedPermission(this)
                 {
                     Permission = FileSystemRights.ReadAttributes,
-                    Name = "SecurityReadAttributesLabel/Text".GetLocalized(),
+                    Name = "SecurityReadAttributesLabel/Text".GetLocalizedResource(),
                     IsEditable = !IsInherited
                 });
                 gpl.Add(new GrantedPermission(this)
                 {
                     Permission = FileSystemRights.ReadExtendedAttributes,
-                    Name = "SecurityReadExtendedAttributesLabel/Text".GetLocalized(),
+                    Name = "SecurityReadExtendedAttributesLabel/Text".GetLocalizedResource(),
                     IsEditable = !IsInherited
                 });
                 if (IsFolder)
@@ -221,13 +221,13 @@ namespace Files.Uwp.Filesystem.Permissions
                     gpl.Add(new GrantedPermission(this)
                     {
                         Permission = FileSystemRights.CreateFiles,
-                        Name = "SecurityCreateFilesLabel/Text".GetLocalized(),
+                        Name = "SecurityCreateFilesLabel/Text".GetLocalizedResource(),
                         IsEditable = !IsInherited
                     });
                     gpl.Add(new GrantedPermission(this)
                     {
                         Permission = FileSystemRights.CreateDirectories,
-                        Name = "SecurityCreateDirectoriesLabel/Text".GetLocalized(),
+                        Name = "SecurityCreateDirectoriesLabel/Text".GetLocalizedResource(),
                         IsEditable = !IsInherited
                     });
                 }
@@ -236,26 +236,26 @@ namespace Files.Uwp.Filesystem.Permissions
                     gpl.Add(new GrantedPermission(this)
                     {
                         Permission = FileSystemRights.WriteData,
-                        Name = "SecurityWriteDataLabel/Text".GetLocalized(),
+                        Name = "SecurityWriteDataLabel/Text".GetLocalizedResource(),
                         IsEditable = !IsInherited
                     });
                     gpl.Add(new GrantedPermission(this)
                     {
                         Permission = FileSystemRights.AppendData,
-                        Name = "SecurityAppendDataLabel/Text".GetLocalized(),
+                        Name = "SecurityAppendDataLabel/Text".GetLocalizedResource(),
                         IsEditable = !IsInherited
                     });
                 }
                 gpl.Add(new GrantedPermission(this)
                 {
                     Permission = FileSystemRights.WriteAttributes,
-                    Name = "SecurityWriteAttributesLabel/Text".GetLocalized(),
+                    Name = "SecurityWriteAttributesLabel/Text".GetLocalizedResource(),
                     IsEditable = !IsInherited
                 });
                 gpl.Add(new GrantedPermission(this)
                 {
                     Permission = FileSystemRights.WriteExtendedAttributes,
-                    Name = "SecurityWriteExtendedAttributesLabel/Text".GetLocalized(),
+                    Name = "SecurityWriteExtendedAttributesLabel/Text".GetLocalizedResource(),
                     IsEditable = !IsInherited
                 });
                 if (IsFolder)
@@ -263,32 +263,32 @@ namespace Files.Uwp.Filesystem.Permissions
                     gpl.Add(new GrantedPermission(this)
                     {
                         Permission = FileSystemRights.DeleteSubdirectoriesAndFiles,
-                        Name = "SecurityDeleteSubdirectoriesAndFilesLabel/Text".GetLocalized(),
+                        Name = "SecurityDeleteSubdirectoriesAndFilesLabel/Text".GetLocalizedResource(),
                         IsEditable = !IsInherited
                     });
                 }
                 gpl.Add(new GrantedPermission(this)
                 {
                     Permission = FileSystemRights.Delete,
-                    Name = "Delete".GetLocalized(),
+                    Name = "Delete".GetLocalizedResource(),
                     IsEditable = !IsInherited
                 });
                 gpl.Add(new GrantedPermission(this)
                 {
                     Permission = FileSystemRights.ReadPermissions,
-                    Name = "SecurityReadPermissionsLabel/Text".GetLocalized(),
+                    Name = "SecurityReadPermissionsLabel/Text".GetLocalizedResource(),
                     IsEditable = !IsInherited
                 });
                 gpl.Add(new GrantedPermission(this)
                 {
                     Permission = FileSystemRights.ChangePermissions,
-                    Name = "SecurityChangePermissionsLabel/Text".GetLocalized(),
+                    Name = "SecurityChangePermissionsLabel/Text".GetLocalizedResource(),
                     IsEditable = !IsInherited
                 });
                 gpl.Add(new GrantedPermission(this)
                 {
                     Permission = FileSystemRights.TakeOwnership,
-                    Name = "SecurityTakeOwnershipLabel/Text".GetLocalized(),
+                    Name = "SecurityTakeOwnershipLabel/Text".GetLocalizedResource(),
                     IsEditable = !IsInherited
                 });
                 return gpl;
@@ -299,19 +299,19 @@ namespace Files.Uwp.Filesystem.Permissions
                 gpl.Add(new GrantedPermission(this)
                 {
                     Permission = FileSystemRights.FullControl,
-                    Name = "SecurityFullControlLabel/Text".GetLocalized(),
+                    Name = "SecurityFullControlLabel/Text".GetLocalizedResource(),
                     IsEditable = !IsInherited
                 });
                 gpl.Add(new GrantedPermission(this)
                 {
                     Permission = FileSystemRights.Modify,
-                    Name = "SecurityModifyLabel/Text".GetLocalized(),
+                    Name = "SecurityModifyLabel/Text".GetLocalizedResource(),
                     IsEditable = !IsInherited
                 });
                 gpl.Add(new GrantedPermission(this)
                 {
                     Permission = FileSystemRights.ReadAndExecute,
-                    Name = "SecurityReadAndExecuteLabel/Text".GetLocalized(),
+                    Name = "SecurityReadAndExecuteLabel/Text".GetLocalizedResource(),
                     IsEditable = !IsInherited
                 });
                 if (IsFolder)
@@ -319,25 +319,25 @@ namespace Files.Uwp.Filesystem.Permissions
                     gpl.Add(new GrantedPermission(this)
                     {
                         Permission = FileSystemRights.ListDirectory,
-                        Name = "SecurityListDirectoryLabel/Text".GetLocalized(),
+                        Name = "SecurityListDirectoryLabel/Text".GetLocalizedResource(),
                         IsEditable = !IsInherited
                     });
                 }
                 gpl.Add(new GrantedPermission(this)
                 {
                     Permission = FileSystemRights.Read,
-                    Name = "SecurityReadLabel/Text".GetLocalized(),
+                    Name = "SecurityReadLabel/Text".GetLocalizedResource(),
                     IsEditable = !IsInherited
                 });
                 gpl.Add(new GrantedPermission(this)
                 {
                     Permission = FileSystemRights.Write,
-                    Name = "Write".GetLocalized(),
+                    Name = "Write".GetLocalizedResource(),
                     IsEditable = !IsInherited
                 });
                 gpl.Add(new SpecialPermission(this)
                 {
-                    Name = "SecuritySpecialLabel/Text".GetLocalized()
+                    Name = "SecuritySpecialLabel/Text".GetLocalizedResource()
                 });
                 return gpl;
             }
@@ -370,15 +370,15 @@ namespace Files.Uwp.Filesystem.Permissions
             var ret = new List<string>();
             if (PropagationFlags == PropagationFlags.None || PropagationFlags == PropagationFlags.NoPropagateInherit)
             {
-                ret.Add("SecurityAdvancedFlagsFolderLabel".GetLocalized());
+                ret.Add("SecurityAdvancedFlagsFolderLabel".GetLocalizedResource());
             }
             if (InheritanceFlags.HasFlag(InheritanceFlags.ContainerInherit))
             {
-                ret.Add("SecurityAdvancedFlagsSubfoldersLabel".GetLocalized());
+                ret.Add("SecurityAdvancedFlagsSubfoldersLabel".GetLocalizedResource());
             }
             if (InheritanceFlags.HasFlag(InheritanceFlags.ObjectInherit))
             {
-                ret.Add("SecurityAdvancedFlagsFilesLabel".GetLocalized());
+                ret.Add("SecurityAdvancedFlagsFilesLabel".GetLocalizedResource());
             }
             if (ret.Any())
             {
@@ -392,31 +392,31 @@ namespace Files.Uwp.Filesystem.Permissions
             var ret = new List<string>();
             if (FileSystemRights == 0)
             {
-                ret.Add("None".GetLocalized());
+                ret.Add("None".GetLocalizedResource());
             }
             if (GrantsFullControl)
             {
-                ret.Add("SecurityFullControlLabel/Text".GetLocalized());
+                ret.Add("SecurityFullControlLabel/Text".GetLocalizedResource());
             }
             else if (GrantsModify)
             {
-                ret.Add("SecurityModifyLabel/Text".GetLocalized());
+                ret.Add("SecurityModifyLabel/Text".GetLocalizedResource());
             }
             else if (GrantsReadAndExecute)
             {
-                ret.Add("SecurityReadAndExecuteLabel/Text".GetLocalized());
+                ret.Add("SecurityReadAndExecuteLabel/Text".GetLocalizedResource());
             }
             else if (GrantsRead)
             {
-                ret.Add("SecurityReadLabel/Text".GetLocalized());
+                ret.Add("SecurityReadLabel/Text".GetLocalizedResource());
             }
             if (!GrantsFullControl && !GrantsModify && GrantsWrite)
             {
-                ret.Add("Write".GetLocalized());
+                ret.Add("Write".GetLocalizedResource());
             }
             if (GrantsSpecial)
             {
-                ret.Add("SecuritySpecialLabel/Text".GetLocalized());
+                ret.Add("SecuritySpecialLabel/Text".GetLocalizedResource());
             }
 
             return ret;

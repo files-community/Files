@@ -1,4 +1,4 @@
-﻿using Windows.Foundation;
+using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 

@@ -1,12 +1,13 @@
-﻿using Microsoft.Toolkit.Uwp;
+using Files.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Markup;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Markup;
 
 namespace Files.Uwp.Helpers
 {
@@ -16,7 +17,7 @@ namespace Files.Uwp.Helpers
         {
             new AppTheme
             {
-                Name = "Default".GetLocalized(),
+                Name = "Default".GetLocalizedResource(),
             },
         };
 
@@ -27,8 +28,8 @@ namespace Files.Uwp.Helpers
 
         public async Task LoadSelectedTheme()
         {
-            StorageFolder appInstalledFolder = Windows.ApplicationModel.Package.Current.InstalledLocation;
-            ThemeFolder = await appInstalledFolder.GetFolderAsync("Themes");
+            string bundledThemesPath = Path.Combine(Windows.ApplicationModel.Package.Current.InstalledLocation.Path, "Files.Uwp", "Themes");
+            ThemeFolder = await StorageFolder.GetFolderFromPathAsync(bundledThemesPath);
             ImportedThemesFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Themes", CreationCollisionOption.OpenIfExists);
 
             if (App.AppSettings.SelectedTheme.Path != null)

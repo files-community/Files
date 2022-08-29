@@ -1,19 +1,19 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Toolkit.Uwp.UI;
-using Microsoft.Toolkit.Uwp.UI.Animations.Expressions;
-using Microsoft.Toolkit.Uwp.UI.Behaviors;
+using CommunityToolkit.WinUI.UI;
+using CommunityToolkit.WinUI.UI.Animations.Expressions;
+using CommunityToolkit.WinUI.UI.Behaviors;
 using System.Linq;
 using Windows.Foundation;
 using Windows.Foundation.Metadata;
-using Windows.UI.Composition;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Hosting;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
+using Microsoft.UI.Composition;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Hosting;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
 
 namespace Files.Uwp.Behaviors
 {
@@ -21,11 +21,11 @@ namespace Files.Uwp.Behaviors
     /// Performs an animation on a ListView or GridView Header to make it sticky using composition.
     /// </summary>
     /// <seealso>
-    ///     <cref>Microsoft.Xaml.Interactivity.Behavior{Windows.UI.Xaml.UIElement}</cref>
+    ///     <cref>Microsoft.Xaml.Interactivity.Behavior{Microsoft.UI.Xaml.UIElement}</cref>
     /// </seealso>
     public class StickyHeaderBehavior : BehaviorBase<FrameworkElement>
     {
-        public static bool IsXamlRootAvailable { get; } = ApiInformation.IsPropertyPresent("Windows.UI.Xaml.UIElement", "XamlRoot");
+        public static bool IsXamlRootAvailable { get; } = ApiInformation.IsPropertyPresent("Microsoft.UI.Xaml.UIElement", "XamlRoot");
 
         /// <summary>
         /// Attaches the behavior to the associated object.

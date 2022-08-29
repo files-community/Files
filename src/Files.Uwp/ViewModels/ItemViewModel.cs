@@ -20,7 +20,7 @@ using Files.Uwp.Helpers.FileListCache;
 using Files.Uwp.UserControls;
 using Files.Uwp.ViewModels.Previews;
 using FluentFTP;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
@@ -41,12 +41,13 @@ using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
 using Windows.System;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
+using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Imaging;
 using static Files.Backend.Helpers.NativeFindStorageItemHelper;
 using static Files.Uwp.Helpers.NativeDirectoryChangesHelper;
 using FileAttributes = System.IO.FileAttributes;
+using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 
 namespace Files.Uwp.ViewModels
 {
@@ -68,7 +69,7 @@ namespace Files.Uwp.ViewModels
 
         // only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
         public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
-        private string folderTypeTextLocalized = "FileFolderListItem".GetLocalized();
+        private string folderTypeTextLocalized = "FileFolderListItem".GetLocalizedResource();
         private FolderSettingsViewModel folderSettings = null;
         private DispatcherQueue dispatcherQueue;
 
@@ -151,7 +152,7 @@ namespace Files.Uwp.ViewModels
                 workingRoot = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(value));
             }
 
-            if (value == "Home".GetLocalized())
+            if (value == "Home".GetLocalizedResource())
             {
                 currentStorageFolder = null;
             }
@@ -429,7 +430,7 @@ namespace Files.Uwp.ViewModels
                         if (e.ValueState is SizeChangedValueState.None)
                         {
                             matchingItem.FileSizeBytes = 0;
-                            matchingItem.FileSize = "ItemSizeNotCalculated".GetLocalized();
+                            matchingItem.FileSize = "ItemSizeNotCalculated".GetLocalizedResource();
                         }
                         else if (e.ValueState is SizeChangedValueState.Final || (long)e.NewSize > matchingItem.FileSizeBytes)
                         {
@@ -437,7 +438,7 @@ namespace Files.Uwp.ViewModels
                             matchingItem.FileSize = e.NewSize.ToSizeString();
                         }
                         DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
-                    }, DispatcherQueuePriority.Low);
+                    }, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
                 }
             }
             finally
@@ -450,7 +451,7 @@ namespace Files.Uwp.ViewModels
         {
             await dispatcherQueue.EnqueueAsync(() =>
             {
-                if (WorkingDirectory != "Home".GetLocalized())
+                if (WorkingDirectory != "Home".GetLocalizedResource())
                 {
                     RefreshItems(null);
                 }
@@ -470,7 +471,7 @@ namespace Files.Uwp.ViewModels
                 case nameof(UserSettingsService.PreferencesSettingsService.ShowFolderSize):
                     await dispatcherQueue.EnqueueAsync(() =>
                     {
-                        if (WorkingDirectory != "Home".GetLocalized())
+                        if (WorkingDirectory != "Home".GetLocalizedResource())
                         {
                             RefreshItems(null);
                         }
@@ -878,7 +879,7 @@ namespace Files.Uwp.ViewModels
                         await dispatcherQueue.EnqueueAsync(() =>
                         {
                             gp.Model.ImageSource = img;
-                        }, DispatcherQueuePriority.Low);
+                        }, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
                     }
                 });
             }
@@ -954,7 +955,7 @@ namespace Files.Uwp.ViewModels
                                 {
                                     DefaultIcons.AddIfNotPresent(item.FileExtension.ToLowerInvariant(), item.FileImage);
                                 }
-                            }, DispatcherQueuePriority.Normal);
+                            }, Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
                             wasIconLoaded = true;
                         }
 
@@ -964,7 +965,7 @@ namespace Files.Uwp.ViewModels
                             await dispatcherQueue.EnqueueAsync(async () =>
                             {
                                 item.IconOverlay = await overlayInfo.ToBitmapAsync();
-                            }, DispatcherQueuePriority.Low);
+                            }, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
                         }
                     }
                 }
@@ -983,7 +984,7 @@ namespace Files.Uwp.ViewModels
                             {
                                 DefaultIcons.AddIfNotPresent(item.FileExtension.ToLowerInvariant(), item.FileImage);
                             }
-                        }, DispatcherQueuePriority.Low);
+                        }, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
                     }
 
                     if (iconInfo.OverlayData != null)
@@ -991,7 +992,7 @@ namespace Files.Uwp.ViewModels
                         await dispatcherQueue.EnqueueAsync(async () =>
                         {
                             item.IconOverlay = await iconInfo.OverlayData.ToBitmapAsync();
-                        }, DispatcherQueuePriority.Low);
+                        }, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
                     }
                 }
             }
@@ -1013,7 +1014,7 @@ namespace Files.Uwp.ViewModels
                                 item.FileImage.DecodePixelType = DecodePixelType.Logical;
                                 item.FileImage.DecodePixelWidth = (int)thumbnailSize;
                                 await item.FileImage.SetSourceAsync(Thumbnail);
-                            }, DispatcherQueuePriority.Normal);
+                            }, Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
                             wasIconLoaded = true;
                         }
 
@@ -1023,7 +1024,7 @@ namespace Files.Uwp.ViewModels
                             await dispatcherQueue.EnqueueAsync(async () =>
                             {
                                 item.IconOverlay = await overlayInfo.ToBitmapAsync();
-                            }, DispatcherQueuePriority.Low);
+                            }, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
                         }
                     }
                 }
@@ -1036,7 +1037,7 @@ namespace Files.Uwp.ViewModels
                         await dispatcherQueue.EnqueueAsync(async () =>
                         {
                             item.FileImage = await iconInfo.IconData.ToBitmapAsync();
-                        }, DispatcherQueuePriority.Low);
+                        }, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
                     }
 
                     if (iconInfo.OverlayData != null)
@@ -1044,7 +1045,7 @@ namespace Files.Uwp.ViewModels
                         await dispatcherQueue.EnqueueAsync(async () =>
                         {
                             item.IconOverlay = await iconInfo.OverlayData.ToBitmapAsync();
-                        }, DispatcherQueuePriority.Low);
+                        }, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
                     }
                 }
             }
@@ -1110,7 +1111,7 @@ namespace Files.Uwp.ViewModels
                                         item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
                                         item.FileFRN = fileFRN;
                                         item.FileTags = fileTag;
-                                    }, DispatcherQueuePriority.Low);
+                                    }, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
                                     FileTagsHelper.DbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
                                     wasSyncStatusLoaded = true;
                                 }
@@ -1157,7 +1158,7 @@ namespace Files.Uwp.ViewModels
                                         item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
                                         item.FileFRN = fileFRN;
                                         item.FileTags = fileTag;
-                                    }, DispatcherQueuePriority.Low);
+                                    }, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
                                     FileTagsHelper.DbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
                                     wasSyncStatusLoaded = true;
                                 }
@@ -1190,7 +1191,7 @@ namespace Files.Uwp.ViewModels
                                 {
                                     item.SyncStatusUI = new CloudDriveSyncStatusUI(); // Reset cloud sync status icon
                                     item.FileTags = fileTag;
-                                }, DispatcherQueuePriority.Low);
+                                }, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
                                 FileTagsHelper.DbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
                             });
                         }
@@ -1227,7 +1228,7 @@ namespace Files.Uwp.ViewModels
 
                 if (headerIconInfo != null && !item.IsShortcutItem)
                 {
-                    groupImage = await dispatcherQueue.EnqueueAsync(() => headerIconInfo.ToBitmapAsync(), DispatcherQueuePriority.Low);
+                    groupImage = await dispatcherQueue.EnqueueAsync(() => headerIconInfo.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
                 }
                 if (!item.IsShortcutItem && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
                 {
@@ -1258,7 +1259,7 @@ namespace Files.Uwp.ViewModels
                 {
                     RasterizePixelHeight = 128,
                     RasterizePixelWidth = 128,
-                }, DispatcherQueuePriority.Low);
+                }, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
             }
 
             return groupImage;
@@ -1454,10 +1455,10 @@ namespace Files.Uwp.ViewModels
                 PrimaryItemAttribute = StorageItemTypes.Folder,
                 ItemPropertiesInitialized = true,
                 ItemNameRaw = path.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal) ? ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin") :
-                           path.StartsWith(CommonPaths.NetworkFolderPath, StringComparison.Ordinal) ? "Network".GetLocalized() : isFtp ? "FTP" : "Unknown",
+                           path.StartsWith(CommonPaths.NetworkFolderPath, StringComparison.Ordinal) ? "Network".GetLocalizedResource() : isFtp ? "FTP" : "Unknown",
                 ItemDateModifiedReal = DateTimeOffset.Now, // Fake for now
                 ItemDateCreatedReal = DateTimeOffset.Now, // Fake for now
-                ItemType = "FileFolderListItem".GetLocalized(),
+                ItemType = "FileFolderListItem".GetLocalizedResource(),
                 FileImage = null,
                 LoadFileIcon = false,
                 ItemPath = path,
@@ -1584,20 +1585,20 @@ namespace Files.Uwp.ViewModels
                 {
                     //TODO: proper dialog
                     await DialogDisplayHelper.ShowDialogAsync(
-                        "AccessDenied".GetLocalized(),
-                        "SubDirectoryAccessDenied".GetLocalized());
+                        "AccessDenied".GetLocalizedResource(),
+                        "SubDirectoryAccessDenied".GetLocalizedResource());
                     return -1;
                 }
                 else if (res == FileSystemStatusCode.NotFound)
                 {
                     await DialogDisplayHelper.ShowDialogAsync(
-                        "FolderNotFoundDialog/Title".GetLocalized(),
-                        "FolderNotFoundDialog/Text".GetLocalized());
+                        "FolderNotFoundDialog/Title".GetLocalizedResource(),
+                        "FolderNotFoundDialog/Text".GetLocalizedResource());
                     return -1;
                 }
                 else
                 {
-                    await DialogDisplayHelper.ShowDialogAsync("DriveUnpluggedDialog/Title".GetLocalized(), res.ErrorCode.ToString());
+                    await DialogDisplayHelper.ShowDialogAsync("DriveUnpluggedDialog/Title".GetLocalizedResource(), res.ErrorCode.ToString());
                     return -1;
                 }
             }
@@ -1693,7 +1694,7 @@ namespace Files.Uwp.ViewModels
 
                 if (hFile == IntPtr.Zero)
                 {
-                    await DialogDisplayHelper.ShowDialogAsync("DriveUnpluggedDialog/Title".GetLocalized(), "");
+                    await DialogDisplayHelper.ShowDialogAsync("DriveUnpluggedDialog/Title".GetLocalizedResource(), "");
                     return -1;
                 }
                 else if (hFile.ToInt64() == -1)
@@ -2277,7 +2278,7 @@ namespace Files.Uwp.ViewModels
                             }
                         }
                     }
-                }, DispatcherQueuePriority.Low);
+                }, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
             }
             finally
             {

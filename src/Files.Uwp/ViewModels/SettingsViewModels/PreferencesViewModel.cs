@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using Files.Backend.Services.Settings;
@@ -9,7 +9,8 @@ using Files.Uwp.Controllers;
 using Files.Uwp.DataModels;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp;
+using Files.Uwp.Extensions;
+using CommunityToolkit.WinUI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -23,7 +24,8 @@ using Windows.Storage;
 using Windows.Storage.AccessCache;
 using Windows.Storage.Pickers;
 using Windows.System;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls;
+using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 using static Files.Uwp.Helpers.MenuFlyoutHelper;
 
 namespace Files.Uwp.ViewModels.SettingsViewModels
@@ -89,19 +91,19 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
 
         private async Task InitStartupSettingsRecentFoldersFlyout()
         {
-            var recentsItem = new MenuFlyoutSubItemViewModel("JumpListRecentGroupHeader".GetLocalized());
-            recentsItem.Items.Add(new MenuFlyoutItemViewModel("Home".GetLocalized())
+            var recentsItem = new MenuFlyoutSubItemViewModel("JumpListRecentGroupHeader".GetLocalizedResource());
+            recentsItem.Items.Add(new MenuFlyoutItemViewModel("Home".GetLocalizedResource())
             {
                 Command = AddPageCommand,
-                CommandParameter = "Home".GetLocalized(),
-                Tooltip = "Home".GetLocalized()
+                CommandParameter = "Home".GetLocalizedResource(),
+                Tooltip = "Home".GetLocalizedResource()
             });
 
             await App.RecentItemsManager.UpdateRecentFoldersAsync();    // ensure recent folders aren't stale since we don't update them with a watcher
             await PopulateRecentItems(recentsItem).ContinueWith(_ =>
             {
                 AddFlyoutItemsSource = new List<IMenuFlyoutItemViewModel>() {
-                    new MenuFlyoutItemViewModel("Browse".GetLocalized()) { Command = AddPageCommand },
+                    new MenuFlyoutItemViewModel("Browse".GetLocalizedResource()) { Command = AddPageCommand },
                     recentsItem,
                 }.AsReadOnly();
             }, TaskScheduler.FromCurrentSynchronizationContext());
@@ -237,7 +239,7 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
 
         private async Task ChangePage()
         {
-            var folderPicker = new FolderPicker();
+            var folderPicker = this.InitializeWithWindow(new FolderPicker());
             folderPicker.FileTypeFilter.Add("*");
             StorageFolder folder = await folderPicker.PickSingleFolderAsync();
 
@@ -248,6 +250,13 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
                     PagesOnStartupList[SelectedPageIndex] = new PageOnStartupViewModel(folder.Path);
                 }
             }
+        }
+
+        // WINUI3
+        private FolderPicker InitializeWithWindow(FolderPicker obj)
+        {
+            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+            return obj;
         }
 
         private void RemovePage()
@@ -271,7 +280,7 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
         {
             if (string.IsNullOrWhiteSpace(path))
             {
-                var folderPicker = new FolderPicker();
+                var folderPicker = this.InitializeWithWindow(new FolderPicker());
                 folderPicker.FileTypeFilter.Add("*");
 
                 var folder = await folderPicker.PickSingleFolderAsync();
@@ -293,9 +302,9 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
             {
                 get
                 {
-                    if (Path == "Home".GetLocalized())
+                    if (Path == "Home".GetLocalizedResource())
                     {
-                        return "Home".GetLocalized();
+                        return "Home".GetLocalizedResource();
                     }
                     if (Path == CommonPaths.RecycleBinPath)
                     {
@@ -320,7 +329,7 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
         }
 
         public string DateFormatSample
-            => string.Format("DateFormatSample".GetLocalized(), DateFormats[SelectedDateFormatIndex].Sample1, DateFormats[SelectedDateFormatIndex].Sample2);
+            => string.Format("DateFormatSample".GetLocalizedResource(), DateFormats[SelectedDateFormatIndex].Sample1, DateFormats[SelectedDateFormatIndex].Sample2);
 
         public List<DateFormatItem> DateFormats { get; set; }
 

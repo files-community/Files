@@ -2,10 +2,10 @@ using Files.Uwp.Helpers.XamlHelpers;
 using Files.Uwp.ViewModels;
 using System.Windows.Input;
 using Windows.System;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Input;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Input;
 
 namespace Files.Uwp.UserControls
 {
@@ -66,9 +66,9 @@ namespace Files.Uwp.UserControls
 
         private void ManualPathEntryItem_Click(object sender, PointerRoutedEventArgs e)
         {
-            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
+            if (e.Pointer.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Mouse)
             {
-                Windows.UI.Input.PointerPoint ptrPt = e.GetCurrentPoint(NavToolbar);
+                var ptrPt = e.GetCurrentPoint(NavToolbar);
                 if (ptrPt.Properties.IsMiddleButtonPressed)
                 {
                     return;
@@ -152,12 +152,12 @@ namespace Files.Uwp.UserControls
             if (AppSettings.ShowOngoingTasksTeachingTip)
             {
                 OngoingTasksTeachingTip.IsOpen = true;
-                OngoingTasksTeachingTip.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                OngoingTasksTeachingTip.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
                 AppSettings.ShowOngoingTasksTeachingTip = false;
             }
             else
             {
-                OngoingTasksTeachingTip.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                OngoingTasksTeachingTip.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
                 OngoingTasksTeachingTip.IsOpen = false;
             }
         }

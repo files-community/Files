@@ -1,4 +1,4 @@
-﻿using Files.Uwp.DataModels.NavigationControlItems;
+using Files.Uwp.DataModels.NavigationControlItems;
 using Files.Uwp.Dialogs;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Helpers;
@@ -7,13 +7,13 @@ using Files.Uwp.UserControls.Widgets;
 using Files.Uwp.ViewModels;
 using Files.Uwp.ViewModels.Pages;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Microsoft.Toolkit.Uwp;
+using Files.Uwp.Extensions;
 using System;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Navigation;
 using System.Threading.Tasks;
 
 namespace Files.Uwp.Views
@@ -107,7 +107,7 @@ namespace Files.Uwp.Views
             }
         }
 
-        private void ViewModel_YourHomeLoadedInvoked(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void ViewModel_YourHomeLoadedInvoked(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             // We must change the associatedInstance because only now it has loaded and not null
             ViewModel.ChangeAppInstance(AppInstance);
@@ -121,6 +121,16 @@ namespace Files.Uwp.Views
             FolderWidget.ShowMultiPaneControls = AppInstance.PaneHolder?.IsMultiPaneEnabled ?? false;
         }
 
+        // WINUI3
+        private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
+        {
+            if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+            {
+                contentDialog.XamlRoot = App.Window.Content.XamlRoot;
+            }
+            return contentDialog;
+        }
+
         private async void RecentFilesWidget_RecentFileInvoked(object sender, UserControls.PathNavigationEventArgs e)
         {
             try
@@ -131,7 +141,7 @@ namespace Files.Uwp.Views
             catch (UnauthorizedAccessException)
             {
                 DynamicDialog dialog = DynamicDialogFactory.GetFor_ConsentDialog();
-                await dialog.ShowAsync();
+                await SetContentDialogRoot(dialog).ShowAsync();
             }
             catch (ArgumentException)
             {
@@ -160,8 +170,8 @@ namespace Files.Uwp.Views
             catch (COMException)
             {
                 await DialogDisplayHelper.ShowDialogAsync(
-                    "DriveUnpluggedDialog/Title".GetLocalized(),
-                    "DriveUnpluggedDialog/Text".GetLocalized());
+                    "DriveUnpluggedDialog/Title".GetLocalizedResource(),
+                    "DriveUnpluggedDialog/Text".GetLocalizedResource());
             }
         }
 
@@ -210,7 +220,6 @@ namespace Files.Uwp.Views
 
         protected override async void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
-            base.OnNavigatedTo(eventArgs);
             var parameters = eventArgs.Parameter as NavigationArguments;
             AppInstance = parameters.AssociatedTabInstance;
             AppInstance.InstanceViewModel.IsPageTypeNotHome = false;
@@ -230,7 +239,7 @@ namespace Files.Uwp.Views
             AppInstance.ToolbarViewModel.RefreshRequested += ToolbarViewModel_RefreshRequested;
 
             // Set path of working directory empty
-            await AppInstance.FilesystemViewModel.SetWorkingDirectoryAsync("Home".GetLocalized());
+            await AppInstance.FilesystemViewModel.SetWorkingDirectoryAsync("Home".GetLocalizedResource());
 
             // Clear the path UI and replace with Favorites
             AppInstance.ToolbarViewModel.PathComponents.Clear();
@@ -242,6 +251,7 @@ namespace Files.Uwp.Views
                 Path = tag,
             };
             AppInstance.ToolbarViewModel.PathComponents.Add(item);
+            base.OnNavigatedTo(eventArgs);
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)

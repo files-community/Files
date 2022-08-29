@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Extensions;
 using Files.Backend.Services.Settings;
 using Files.Backend.Services.SizeProvider;
@@ -7,7 +7,7 @@ using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
 using Files.Uwp.Helpers.FileListCache;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Windows.Storage;
-using Windows.UI.Xaml.Media.Imaging;
+using Microsoft.UI.Xaml.Media.Imaging;
 using static Files.Backend.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
 
@@ -28,7 +28,7 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
     {
         private static readonly ISizeProvider folderSizeProvider = Ioc.Default.GetService<ISizeProvider>();
 
-        private static readonly string folderTypeTextLocalized = "FileFolderListItem".GetLocalized();
+        private static readonly string folderTypeTextLocalized = "FileFolderListItem".GetLocalizedResource();
         private static readonly IFileListCache fileListCache = FileListCacheController.GetInstance();
 
         public static async Task<List<ListedItem>> ListEntries(
@@ -146,7 +146,7 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
 
         public static ListedItem GetAlternateStream((string Name, long Size) ads, ListedItem main)
         {
-            string itemType = "ItemTypeFile".GetLocalized();
+            string itemType = "ItemTypeFile".GetLocalizedResource();
             string itemFileExtension = null;
             if (ads.Name.Contains('.'))
             {
@@ -261,7 +261,7 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
 
             long itemSizeBytes = findData.GetSize();
             var itemSize = itemSizeBytes.ToSizeString();
-            string itemType = "ItemTypeFile".GetLocalized();
+            string itemType = "ItemTypeFile".GetLocalizedResource();
             string itemFileExtension = null;
 
             if (findData.cFileName.Contains('.'))
@@ -301,7 +301,7 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
                     ItemDateModifiedReal = itemModifiedDate,
                     ItemDateAccessedReal = itemLastAccessDate,
                     ItemDateCreatedReal = itemCreatedDate,
-                    ItemType = "ShortcutFileType".GetLocalized(),
+                    ItemType = "ShortcutFileType".GetLocalizedResource(),
                     ItemPath = itemPath,
                     FileSize = itemSize,
                     FileSizeBytes = itemSizeBytes,
@@ -345,7 +345,7 @@ namespace Files.Uwp.Filesystem.StorageEnumerators
                             ItemDateModifiedReal = itemModifiedDate,
                             ItemDateAccessedReal = itemLastAccessDate,
                             ItemDateCreatedReal = itemCreatedDate,
-                            ItemType = isUrl ? "ShortcutWebLinkFileType".GetLocalized() : "ShortcutFileType".GetLocalized(),
+                            ItemType = isUrl ? "ShortcutWebLinkFileType".GetLocalizedResource() : "ShortcutFileType".GetLocalizedResource(),
                             ItemPath = itemPath,
                             FileSize = itemSize,
                             FileSizeBytes = itemSizeBytes,

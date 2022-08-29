@@ -1,16 +1,15 @@
-﻿using ByteSizeLib;
+using ByteSizeLib;
 using Files.Uwp.Extensions;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Helpers;
 using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media.Imaging;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Files.Shared.Extensions;
 
 namespace Files.Uwp.DataModels.NavigationControlItems
@@ -167,7 +166,7 @@ namespace Files.Uwp.DataModels.NavigationControlItems
             item.DeviceID = deviceId;
             item.Root = root;
 
-            _ = CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => item.UpdatePropertiesAsync());
+            _ = App.Window.DispatcherQueue.EnqueueAsync(() => item.UpdatePropertiesAsync());
 
             return item;
         }
@@ -199,7 +198,7 @@ namespace Files.Uwp.DataModels.NavigationControlItems
                     SpaceUsed = MaxSpace - FreeSpace;
 
                     SpaceText = string.Format(
-                        "DriveFreeSpaceAndCapacity".GetLocalized(),
+                        "DriveFreeSpaceAndCapacity".GetLocalizedResource(),
                         FreeSpace.ToSizeString(),
                         MaxSpace.ToSizeString());
 
@@ -210,13 +209,13 @@ namespace Files.Uwp.DataModels.NavigationControlItems
                 }
                 else
                 {
-                    SpaceText = "DriveCapacityUnknown".GetLocalized();
+                    SpaceText = "DriveCapacityUnknown".GetLocalizedResource();
                     MaxSpace = SpaceUsed = FreeSpace = ByteSize.FromBytes(0);
                 }
             }
             catch (Exception)
             {
-                SpaceText = "DriveCapacityUnknown".GetLocalized();
+                SpaceText = "DriveCapacityUnknown".GetLocalizedResource();
                 MaxSpace = SpaceUsed = FreeSpace = ByteSize.FromBytes(0);
             }
         }

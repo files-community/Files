@@ -1,4 +1,4 @@
-﻿using Files.Shared.Cloud;
+using Files.Shared.Cloud;
 using Files.Shared.Extensions;
 using Files.Uwp.Extensions;
 using Microsoft.Data.Sqlite;

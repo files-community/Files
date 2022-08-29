@@ -1,16 +1,14 @@
-﻿using Files.Backend.ViewModels.Dialogs;
+using Files.Backend.ViewModels.Dialogs;
 using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
 using Files.Shared.Enums;
-using Microsoft.Toolkit.Uwp.UI;
+using CommunityToolkit.WinUI.UI;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.UI;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using Files.Uwp.Helpers.XamlHelpers;
-using Windows.UI.Core;
 using Files.Uwp.Filesystem;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -37,10 +35,20 @@ namespace Files.Uwp.Dialogs
         {
             this.InitializeComponent();
 
-            Window.Current.SizeChanged += Current_SizeChanged;
+            App.Window.SizeChanged += Current_SizeChanged;
         }
 
-        public new async Task<DialogResult> ShowAsync() => (DialogResult)await base.ShowAsync();
+        public new async Task<DialogResult> ShowAsync() => (DialogResult)await this.SetContentDialogRoot(this).ShowAsync();
+
+        // WINUI3
+        private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
+        {
+            if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+            {
+                contentDialog.XamlRoot = App.Window.Content.XamlRoot;
+            }
+            return contentDialog;
+        }
 
         private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
         {
@@ -51,9 +59,9 @@ namespace Files.Uwp.Dialogs
         {
             if (ViewModel.FileSystemDialogMode.ConflictsExist)
             {
-                if (Window.Current.Bounds.Width <= 700)
+                if (App.Window.Bounds.Width <= 700)
                 {
-                    ContainerGrid.Width = Window.Current.Bounds.Width - 50;
+                    ContainerGrid.Width = App.Window.Bounds.Width - 50;
                 }
                 else
                 {
@@ -134,11 +142,11 @@ namespace Files.Uwp.Dialogs
 
         private void RootDialog_Closing(ContentDialog sender, ContentDialogClosingEventArgs args)
         {
-            Window.Current.SizeChanged -= Current_SizeChanged;
+            App.Window.SizeChanged -= Current_SizeChanged;
             ViewModel.CancelCts();
         }
 
-        private void NameStackPanel_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        private void NameStackPanel_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             if (sender is FrameworkElement element
                 && element.DataContext is FileSystemDialogConflictItemViewModel conflictItem

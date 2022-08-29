@@ -1,6 +1,6 @@
-﻿using Files.Backend.Models.Imaging;
+using Files.Backend.Models.Imaging;
 using System.Collections.Generic;
-using Windows.UI.Xaml.Media.Imaging;
+using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace Files.Uwp.Imaging
 {

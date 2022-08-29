@@ -1,10 +1,10 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.Mvvm.ComponentModel;
+using Files.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Windows.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media;
 
 namespace Files.Uwp.Helpers
 {
@@ -46,7 +46,7 @@ namespace Files.Uwp.Helpers
         {
             if (e.PropertyName == nameof(Count))
             {
-                Model.CountText = string.Format(Count > 1 ? "GroupItemsCount_Plural".GetLocalized() : "GroupItemsCount_Singular".GetLocalized(), Count);
+                Model.CountText = string.Format(Count > 1 ? "GroupItemsCount_Plural".GetLocalizedResource() : "GroupItemsCount_Singular".GetLocalizedResource(), Count);
             }
         }
 

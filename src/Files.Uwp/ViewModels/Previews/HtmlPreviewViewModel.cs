@@ -1,4 +1,4 @@
-﻿using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem;
 using Files.Uwp.ViewModels.Properties;
 using System.Collections.Generic;
 using System.Threading.Tasks;

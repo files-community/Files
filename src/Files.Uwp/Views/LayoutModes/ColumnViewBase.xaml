@@ -2,10 +2,10 @@
     x:Class="Files.Uwp.Views.LayoutModes.ColumnViewBase"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
-    xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:animations="using:CommunityToolkit.WinUI.UI.Animations"
+    xmlns:behaviors="using:CommunityToolkit.WinUI.UI.Behaviors"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
     xmlns:converters1="using:Files.Uwp.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="using:Files.Uwp.Helpers"
@@ -15,8 +15,7 @@
     xmlns:local2="using:Files.Uwp.Filesystem"
     xmlns:local3="using:Files.Uwp.Filesystem.Cloud"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:tui="using:Microsoft.Toolkit.Uwp.UI"
+    xmlns:tui="using:CommunityToolkit.WinUI.UI"
     xmlns:uc="using:Files.Uwp.UserControls"
     xmlns:vc="using:Files.Uwp.ValueConverters"
     x:Name="PageRoot"
@@ -140,7 +139,7 @@
                 Canvas.ZIndex="0"
                 EmptyTextType="{x:Bind ParentShellPageInstance.FilesystemViewModel.EmptyTextType, Mode=OneWay}" />
 
-            <muxc:TeachingTip
+            <TeachingTip
                 x:Name="FileNameTeachingTip"
                 Grid.RowSpan="2"
                 CloseButtonContent="{helpers:ResourceString Name=FileNameTeachingTip/CloseButtonContent}"
@@ -334,14 +333,14 @@
                                         </StackPanel>
                                     </Grid>
                                     <FontIcon
-										x:Name="OpenFolderChevron"
+                                        x:Name="OpenFolderChevron"
                                         Grid.Column="3"
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Center"
+                                        x:Load="{x:Bind IsFolder}"
                                         FontSize="12"
                                         Foreground="{ThemeResource TextFillColorSecondary}"
-                                        Glyph="&#xE76C;"
-                                        x:Load="{x:Bind IsFolder}" />
+                                        Glyph="&#xE76C;" />
                                 </Grid>
                             </DataTemplate>
                         </ListView.ItemTemplate>

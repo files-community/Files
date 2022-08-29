@@ -1,4 +1,4 @@
-﻿using Common;
+using Common;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
 using System;

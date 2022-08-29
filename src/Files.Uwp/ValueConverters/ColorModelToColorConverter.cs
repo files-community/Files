@@ -1,8 +1,8 @@
-﻿using Files.Backend.Models.Coloring;
+using Files.Backend.Models.Coloring;
 using Files.Uwp.Helpers;
 using System;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Media;
 
 namespace Files.Uwp.ValueConverters
 {

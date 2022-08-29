@@ -1,21 +1,17 @@
-﻿using Files.Uwp.Dialogs;
+using Files.Uwp.Dialogs;
 using Files.Uwp.Views;
-using Microsoft.Toolkit.Uwp;
+using Files.Uwp.Extensions;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
-using Windows.Foundation;
 using Windows.Foundation.Metadata;
-using Windows.UI.Core;
-using Windows.UI.ViewManagement;
-using Windows.UI.WindowManagement;
-using Windows.UI.WindowManagement.Preview;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Hosting;
-using Windows.UI.Xaml.Media.Animation;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Animation;
+using Windows.Graphics;
+using Microsoft.UI;
 using static Files.Uwp.Views.Properties;
+using Microsoft.UI.Windowing;
 
 namespace Files.Uwp.Helpers
 {
@@ -60,65 +56,56 @@ namespace Files.Uwp.Helpers
             {
                 if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
                 {
-                    AppWindow appWindow = await AppWindow.TryCreateAsync();
-
-                    Frame frame = new Frame();
+                    var frame = new Frame();
                     frame.RequestedTheme = ThemeHelper.RootTheme;
                     frame.Navigate(typeof(Properties), new PropertiesPageNavigationArguments()
                     {
                         Item = item,
                         AppInstanceArgument = associatedInstance
                     }, new SuppressNavigationTransitionInfo());
-                    ElementCompositionPreview.SetAppWindowContent(appWindow, frame);
-                    (frame.Content as Properties).appWindow = appWindow;
 
-                    appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
-                    appWindow.Title = "PropertiesTitle".GetLocalized();
-                    appWindow.PersistedStateId = "Properties";
-                    WindowManagementPreview.SetPreferredMinSize(appWindow, new Size(460, 550));
+                    // Initialize window
+                    var propertiesWindow = new WinUIEx.WindowEx();
+                    var appWindow = propertiesWindow.AppWindow;
 
-                    bool windowShown = await appWindow.TryShowAsync();
-                    if (windowShown)
+                    // Set content
+                    propertiesWindow.Content = frame;
+                    if (frame.Content is Properties properties)
+                        properties.appWindow = appWindow;
+
+                    // Set min size
+                    propertiesWindow.MinWidth = 460;
+                    propertiesWindow.MinHeight = 550;
+
+                    // Set backdrop
+                    propertiesWindow.Backdrop = new WinUIEx.MicaSystemBackdrop() { DarkTintOpacity = 0.8 };
+
+                    if (AppWindowTitleBar.IsCustomizationSupported())
                     {
-                        // Set window size again here as sometimes it's not resized in the page Loaded event
-                        appWindow.RequestSize(new Size(460, 550));
+                        appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
 
-                        DisplayRegion displayRegion = ApplicationView.GetForCurrentView().GetDisplayRegions()[0];
-                        Point pointerPosition = CoreWindow.GetForCurrentThread().PointerPosition;
-                        appWindow.RequestMoveRelativeToDisplayRegion(displayRegion,
-                            new Point(pointerPosition.X - displayRegion.WorkAreaOffset.X, pointerPosition.Y - displayRegion.WorkAreaOffset.Y));
+                        // Set window buttons background to transparent
+                        appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+                        appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+                    }
+                    else
+                    {
+                        propertiesWindow.ExtendsContentIntoTitleBar = true;
+                    }
+
+                    appWindow.Title = "PropertiesTitle".GetLocalizedResource();
+                    appWindow.Resize(new SizeInt32(460, 550));
+                    appWindow.Show();
+
+                    if (true) // WINUI3: move window to cursor position, todo better
+                    {
+                        UWPToWinAppSDKUpgradeHelpers.InteropHelpers.GetCursorPos(out var pointerPosition);
+                        appWindow.Move(new PointInt32(pointerPosition.X, pointerPosition.Y));
                     }
                 }
                 else
                 {
-                    CoreApplicationView newWindow = CoreApplication.CreateNewView();
-                    ApplicationView newView = null;
-
-                    await newWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-                    {
-                        Frame frame = new Frame();
-                        frame.RequestedTheme = ThemeHelper.RootTheme;
-                        frame.Navigate(typeof(Properties), new PropertiesPageNavigationArguments()
-                        {
-                            Item = item,
-                            AppInstanceArgument = associatedInstance
-                        }, new SuppressNavigationTransitionInfo());
-                        Window.Current.Content = frame;
-                        Window.Current.Activate();
-
-                        newView = ApplicationView.GetForCurrentView();
-                        newWindow.TitleBar.ExtendViewIntoTitleBar = true;
-                        newView.Title = "PropertiesTitle".GetLocalized();
-                        newView.PersistedStateId = "Properties";
-                        newView.SetPreferredMinSize(new Size(460, 550));
-
-                        bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newView.Id);
-                        if (viewShown && newView != null)
-                        {
-                            // Set window size again here as sometimes it's not resized in the page Loaded event
-                            newView.TryResizeView(new Size(460, 550));
-                        }
-                    });
+                    //WINUI3: no CoreApplicationView
                 }
             }
             else

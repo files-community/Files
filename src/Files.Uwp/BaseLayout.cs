@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Settings;
 using Files.Uwp.EventArguments;
 using Files.Uwp.Extensions;
@@ -12,8 +12,7 @@ using Files.Shared.Extensions;
 using Files.Uwp.UserControls;
 using Files.Uwp.ViewModels;
 using Files.Uwp.Views;
-using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.UI;
+using CommunityToolkit.WinUI.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -28,15 +27,16 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
-using Windows.UI.Core;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Navigation;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Navigation;
 using Files.Uwp.UserControls.Menus;
 using static Files.Uwp.Helpers.PathNormalization;
+using CommunityToolkit.WinUI;
+using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 
 namespace Files.Uwp
 {
@@ -45,7 +45,7 @@ namespace Files.Uwp
     /// </summary>
     public abstract class BaseLayout : Page, IBaseLayout, INotifyPropertyChanged
     {
-        private readonly DispatcherTimer jumpTimer;
+        private readonly DispatcherQueueTimer jumpTimer;
 
         protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
@@ -97,7 +97,7 @@ namespace Files.Uwp
             }
         }
 
-        protected AddressToolbar NavToolbar => (Window.Current.Content as Frame).FindDescendant<AddressToolbar>();
+        protected AddressToolbar NavToolbar => (App.Window.Content as Frame).FindDescendant<AddressToolbar>();
 
         private CollectionViewSource collectionViewSource = new CollectionViewSource()
         {
@@ -232,7 +232,7 @@ namespace Files.Uwp
                         // check if the preview pane is open before updating the model
                         if (PaneViewModel.IsPreviewSelected)
                         {
-                            bool isPaneEnabled = ((Window.Current.Content as Frame)?.Content as MainPage)?.IsPaneEnabled ?? false;
+                            bool isPaneEnabled = ((App.Window.Content as Frame)?.Content as MainPage)?.IsPaneEnabled ?? false;
                             if (isPaneEnabled)
                             {
                                 App.PreviewPaneViewModel.UpdateSelectedItemPreview();
@@ -263,8 +263,8 @@ namespace Files.Uwp
 
                         if (SelectedItems.Count == 1)
                         {
-                            SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{SelectedItems.Count} {"ItemSelected/Text".GetLocalized()}";
-                            DispatcherQueue.GetForCurrentThread().EnqueueAsync(async () =>
+                            SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{SelectedItems.Count} {"ItemSelected/Text".GetLocalizedResource()}";
+                            DispatcherQueue.EnqueueAsync(async () =>
                             {
                                 await Task.Delay(50); // Tapped event must be executed first
                                 preRenamingItem = SelectedItem;
@@ -272,7 +272,7 @@ namespace Files.Uwp
                         }
                         else
                         {
-                            SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{SelectedItems.Count} {"ItemsSelected/Text".GetLocalized()}";
+                            SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{SelectedItems.Count} {"ItemsSelected/Text".GetLocalizedResource()}";
                             ResetRenameDoubleClick();
                         }
                     }
@@ -300,15 +300,15 @@ namespace Files.Uwp
             HookBaseEvents();
             HookEvents();
 
-            jumpTimer = new DispatcherTimer();
+            jumpTimer = DispatcherQueue.CreateTimer();
             jumpTimer.Interval = TimeSpan.FromSeconds(0.8);
             jumpTimer.Tick += JumpTimer_Tick;
 
             SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesViewModel();
             DirectoryPropertiesViewModel = new DirectoryPropertiesViewModel();
 
-            dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
-            tapDebounceTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
+            dragOverTimer = DispatcherQueue.CreateTimer();
+            tapDebounceTimer = DispatcherQueue.CreateTimer();
         }
 
         protected abstract void HookEvents();
@@ -413,7 +413,7 @@ namespace Files.Uwp
         {
             base.OnNavigatedTo(eventArgs);
             // Add item jumping handler
-            Window.Current.CoreWindow.CharacterReceived += Page_CharacterReceived;
+            this.CharacterReceived += Page_CharacterReceived;
             navigationArguments = (NavigationArguments)eventArgs.Parameter;
             ParentShellPageInstance = navigationArguments.AssociatedTabInstance;
             InitializeCommandsViewModel();
@@ -478,7 +478,7 @@ namespace Files.Uwp
                 if (!navigationArguments.IsLayoutSwitch)
                 {
                     var displayName = App.LibraryManager.TryGetLibrary(navigationArguments.SearchPathParam, out var lib) ? lib.Text : navigationArguments.SearchPathParam;
-                    ParentShellPageInstance.UpdatePathUIToWorkingDirectory(null, string.Format("SearchPagePathBoxOverrideText".GetLocalized(), navigationArguments.SearchQuery, displayName));
+                    ParentShellPageInstance.UpdatePathUIToWorkingDirectory(null, string.Format("SearchPagePathBoxOverrideText".GetLocalizedResource(), navigationArguments.SearchQuery, displayName));
                     var searchInstance = new Filesystem.Search.FolderSearch
                     {
                         Query = navigationArguments.SearchQuery,
@@ -543,7 +543,7 @@ namespace Files.Uwp
         {
             base.OnNavigatingFrom(e);
             // Remove item jumping handler
-            Window.Current.CoreWindow.CharacterReceived -= Page_CharacterReceived;
+            this.CharacterReceived -= Page_CharacterReceived;
             FolderSettings.LayoutModeChangeRequested -= BaseFolderSettings_LayoutModeChangeRequested;
             FolderSettings.GroupOptionPreferenceUpdated -= FolderSettings_GroupOptionPreferenceUpdated;
             ItemContextMenuFlyout.Opening -= ItemContextFlyout_Opening;
@@ -590,7 +590,7 @@ namespace Files.Uwp
                 }
                 shellContextMenuItemCancellationToken?.Cancel();
                 shellContextMenuItemCancellationToken = new CancellationTokenSource();
-                var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+                var shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
                 var items = ContextFlyoutItemHelper.GetBaseContextCommandsWithoutShellItems(connection: await Connection, currentInstanceViewModel: InstanceViewModel, itemViewModel: ParentShellPageInstance.FilesystemViewModel, commandsViewModel: CommandsViewModel, shiftPressed: shiftPressed, false);
                 BaseContextMenuFlyout.PrimaryCommands.Clear();
                 BaseContextMenuFlyout.SecondaryCommands.Clear();
@@ -649,7 +649,7 @@ namespace Files.Uwp
             shellContextMenuItemCancellationToken?.Cancel();
             shellContextMenuItemCancellationToken = new CancellationTokenSource();
             SelectedItemsPropertiesViewModel.CheckAllFileExtensions(this.SelectedItems.Select(selectedItem => selectedItem?.FileExtension).ToList());
-            var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+            var shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
             var items = ContextFlyoutItemHelper.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel, shiftPressed: shiftPressed, showOpenMenu: false);
             ItemContextMenuFlyout.PrimaryCommands.Clear();
             ItemContextMenuFlyout.SecondaryCommands.Clear();
@@ -687,7 +687,7 @@ namespace Files.Uwp
             contextMenu.SecondaryCommands.Insert(index, new AppBarSeparator());
             contextMenu.SecondaryCommands.Insert(index + 1, new AppBarButton()
             {
-                Label = "SettingsEditFileTagsExpander/Title".GetLocalized(),
+                Label = "SettingsEditFileTagsExpander/Title".GetLocalizedResource(),
                 Icon = new FontIcon() { Glyph = "\uE1CB" },
                 Flyout = fileTagsContextMenu
             });
@@ -702,17 +702,17 @@ namespace Files.Uwp
             var overflowItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(overflowShellMenuItems);
             var mainItems = ItemModelListToContextFlyoutHelper.GetAppBarButtonsFromModelIgnorePrimary(mainShellMenuItems);
 
-            var openedPopups = Windows.UI.Xaml.Media.VisualTreeHelper.GetOpenPopups(Window.Current);
+            var openedPopups = Microsoft.UI.Xaml.Media.VisualTreeHelper.GetOpenPopups(App.Window);
             var secondaryMenu = openedPopups.FirstOrDefault(popup => popup.Name == "OverflowPopup");
             var itemsControl = secondaryMenu?.Child.FindDescendant<ItemsControl>();
             if (itemsControl is not null)
             {
                 contextMenuFlyout.SetValue(ContextMenuExtensions.ItemsControlProperty, itemsControl);
 
-                var ttv = secondaryMenu.TransformToVisual(Window.Current.Content);
+                var ttv = secondaryMenu.TransformToVisual(App.Window.Content);
                 var cMenuPos = ttv.TransformPoint(new Point(0, 0));
                 var requiredHeight = contextMenuFlyout.SecondaryCommands.Concat(mainItems).Where(x => x is not AppBarSeparator).Count() * Constants.UI.ContextMenuSecondaryItemsHeight;
-                var availableHeight = Window.Current.Bounds.Height - cMenuPos.Y - Constants.UI.ContextMenuPrimaryItemsHeight;
+                var availableHeight = App.Window.Bounds.Height - cMenuPos.Y - Constants.UI.ContextMenuPrimaryItemsHeight;
                 if (requiredHeight > availableHeight)
                 {
                     itemsControl.MaxHeight = Math.Min(Constants.UI.ContextMenuMaxHeight, Math.Max(itemsControl.ActualHeight, Math.Min(availableHeight, requiredHeight))); // Set menu max height to current height (avoids menu repositioning)
@@ -801,11 +801,11 @@ namespace Files.Uwp
             }
         }
 
-        protected virtual void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
+        protected virtual void Page_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
         {
             if (ParentShellPageInstance.IsCurrentInstance)
             {
-                char letter = Convert.ToChar(args.KeyCode);
+                char letter = args.Character;
                 JumpString += letter.ToString().ToLowerInvariant();
             }
         }
@@ -882,7 +882,7 @@ namespace Files.Uwp
                     else if (handledByFtp)
                     {
                         e.DragUIOverride.IsCaptionVisible = true;
-                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), item.ItemName);
+                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), item.ItemName);
                         e.AcceptedOperation = DataPackageOperation.Copy;
                     }
                     else if (!draggedItems.Any())
@@ -894,38 +894,38 @@ namespace Files.Uwp
                         e.DragUIOverride.IsCaptionVisible = true;
                         if (item.IsExecutable)
                         {
-                            e.DragUIOverride.Caption = $"{"OpenItemsWithCaptionText".GetLocalized()} {item.ItemName}";
+                            e.DragUIOverride.Caption = $"{"OpenItemsWithCaptionText".GetLocalizedResource()} {item.ItemName}";
                             e.AcceptedOperation = DataPackageOperation.Link;
                         } // Items from the same drive as this folder are dragged into this folder, so we move the items instead of copy
                         else if (e.Modifiers.HasFlag(DragDropModifiers.Alt) || e.Modifiers.HasFlag(DragDropModifiers.Control | DragDropModifiers.Shift))
                         {
-                            e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalized(), item.ItemName);
+                            e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalizedResource(), item.ItemName);
                             e.AcceptedOperation = DataPackageOperation.Link;
                         }
                         else if (e.Modifiers.HasFlag(DragDropModifiers.Control))
                         {
-                            e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), item.ItemName);
+                            e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), item.ItemName);
                             e.AcceptedOperation = DataPackageOperation.Copy;
                         }
                         else if (e.Modifiers.HasFlag(DragDropModifiers.Shift))
                         {
-                            e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), item.ItemName);
+                            e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), item.ItemName);
                             e.AcceptedOperation = DataPackageOperation.Move;
                         }
                         else if (draggedItems.Any(x => x.Item is ZipStorageFile || x.Item is ZipStorageFolder)
                             || ZipStorageFolder.IsZipPath(item.ItemPath))
                         {
-                            e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), item.ItemName);
+                            e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), item.ItemName);
                             e.AcceptedOperation = DataPackageOperation.Copy;
                         }
                         else if (draggedItems.AreItemsInSameDrive(item.ItemPath))
                         {
-                            e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), item.ItemName);
+                            e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), item.ItemName);
                             e.AcceptedOperation = DataPackageOperation.Move;
                         }
                         else
                         {
-                            e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), item.ItemName);
+                            e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), item.ItemName);
                             e.AcceptedOperation = DataPackageOperation.Copy;
                         }
                     }
@@ -1183,7 +1183,7 @@ namespace Files.Uwp
             if (FilesystemHelpers.ContainsRestrictedCharacters(args.NewText))
             {
                 args.Cancel = true;
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                await DispatcherQueue.EnqueueAsync(() =>
                 {
                     var oldSelection = textBox.SelectionStart + textBox.SelectionLength;
                     var oldText = textBox.Text;

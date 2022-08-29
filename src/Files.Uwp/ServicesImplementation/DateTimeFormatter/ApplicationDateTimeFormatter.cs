@@ -1,11 +1,11 @@
-﻿using Microsoft.Toolkit.Uwp;
+using Files.Uwp.Extensions;
 using System;
 
 namespace Files.Uwp.ServicesImplementation.DateTimeFormatter
 {
     internal class ApplicationDateTimeFormatter : AbstractDateTimeFormatter
     {
-        public override string Name => "Application".GetLocalized();
+        public override string Name => "Application".GetLocalizedResource();
 
         public override string ToShortLabel(DateTimeOffset offset)
         {
@@ -19,13 +19,13 @@ namespace Files.Uwp.ServicesImplementation.DateTimeFormatter
             return elapsed switch
             {
                 { TotalDays: >= 7 } => offset.ToLocalTime().ToString("D"),
-                { TotalDays: >= 2 } => string.Format("DaysAgo".GetLocalized(), elapsed.Days),
-                { TotalDays: >= 1 } => string.Format("DayAgo".GetLocalized(), elapsed.Days),
-                { TotalHours: >= 2 } => string.Format("HoursAgo".GetLocalized(), elapsed.Hours),
-                { TotalHours: >= 1 } => string.Format("HourAgo".GetLocalized(), elapsed.Hours),
-                { TotalMinutes: >= 2 } => string.Format("MinutesAgo".GetLocalized(), elapsed.Minutes),
-                { TotalMinutes: >= 1 } => string.Format("MinuteAgo".GetLocalized(), elapsed.Minutes),
-                _ => string.Format("SecondsAgo".GetLocalized(), elapsed.Seconds),
+                { TotalDays: >= 2 } => string.Format("DaysAgo".GetLocalizedResource(), elapsed.Days),
+                { TotalDays: >= 1 } => string.Format("DayAgo".GetLocalizedResource(), elapsed.Days),
+                { TotalHours: >= 2 } => string.Format("HoursAgo".GetLocalizedResource(), elapsed.Hours),
+                { TotalHours: >= 1 } => string.Format("HourAgo".GetLocalizedResource(), elapsed.Hours),
+                { TotalMinutes: >= 2 } => string.Format("MinutesAgo".GetLocalizedResource(), elapsed.Minutes),
+                { TotalMinutes: >= 1 } => string.Format("MinuteAgo".GetLocalizedResource(), elapsed.Minutes),
+                _ => string.Format("SecondsAgo".GetLocalizedResource(), elapsed.Seconds),
             };
         }
 

@@ -1,4 +1,4 @@
-﻿using Files.Shared;
+using Files.Shared;
 using Files.Uwp.Dialogs;
 using Files.Shared.Enums;
 using Files.Uwp.EventArguments;
@@ -13,7 +13,7 @@ using Files.Uwp.ViewModels;
 using Files.Uwp.Views.LayoutModes;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp;
+using Files.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,20 +22,20 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Resources.Core;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Xaml.Navigation;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Animation;
+using Microsoft.UI.Xaml.Navigation;
 using SortDirection = Files.Shared.Enums.SortDirection;
 using Files.Backend.Enums;
 using Files.Backend.Services;
 using Files.Backend.ViewModels.Dialogs.AddItemDialog;
+using CommunityToolkit.WinUI;
 
 namespace Files.Uwp.Views
 {
@@ -159,21 +159,33 @@ namespace Files.Uwp.Views
 
             DisplayFilesystemConsentDialog();
 
-            var flowDirectionSetting = ResourceContext.GetForCurrentView().QualifierValues["LayoutDirection"];
+            var flowDirectionSetting = /*
+                TODO ResourceContext.GetForCurrentView and ResourceContext.GetForViewIndependentUse do not exist in Windows App SDK
+                Use your ResourceManager instance to create a ResourceContext as below. If you already have a ResourceManager instance,
+                replace the new instance created below with correct instance.
+                Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/mrtcore
+            */new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
 
             if (flowDirectionSetting == "RTL")
             {
                 FlowDirection = FlowDirection.RightToLeft;
             }
 
-            ToolbarViewModel.PathControlDisplayText = "Home".GetLocalized();
+            ToolbarViewModel.PathControlDisplayText = "Home".GetLocalizedResource();
 
             ToolbarViewModel.ToolbarPathItemInvoked += ModernShellPage_NavigationRequested;
             ToolbarViewModel.ToolbarFlyoutOpened += ModernShellPage_ToolbarFlyoutOpened;
             ToolbarViewModel.ToolbarPathItemLoaded += ModernShellPage_ToolbarPathItemLoaded;
             ToolbarViewModel.AddressBarTextEntered += ModernShellPage_AddressBarTextEntered;
             ToolbarViewModel.PathBoxItemDropped += ModernShellPage_PathBoxItemDropped;
-            ToolbarViewModel.BackRequested += ModernShellPage_BackNavRequested;
+
+            /*
+              
+            TODO UA307 Default back button in the title bar does not exist in WinUI3 apps.
+            The tool has generated a custom back button in the MainWindow.xaml.cs file.
+            Feel free to edit its position, behavior and use the custom back button instead.
+            Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/case-study-1#restoring-back-button-functionality
+            */ToolbarViewModel.BackRequested += ModernShellPage_BackNavRequested;
             ToolbarViewModel.UpRequested += ModernShellPage_UpNavRequested;
             ToolbarViewModel.RefreshRequested += ModernShellPage_RefreshRequested;
             ToolbarViewModel.ForwardRequested += ModernShellPage_ForwardNavRequested;
@@ -186,8 +198,16 @@ namespace Files.Uwp.Views
             InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated += AppSettings_SortOptionPreferenceUpdated;
             InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFilesPreferenceUpdated += AppSettings_SortDirectoriesAlongsideFilesPreferenceUpdated;
 
-            Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
-            SystemNavigationManager.GetForCurrentView().BackRequested += ModernShellPage_BackRequested;
+            this.PointerPressed += CoreWindow_PointerPressed;
+
+            /*
+              
+            TODO UA307 Default back button in the title bar does not exist in WinUI3 apps.
+            The tool has generated a custom back button in the MainWindow.xaml.cs file.
+            Feel free to edit its position, behavior and use the custom back button instead.
+            Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/case-study-1#restoring-back-button-functionality
+            */
+            //SystemNavigationManager.GetForCurrentView().BackRequested += ModernShellPage_BackRequested;
 
             App.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
 
@@ -200,9 +220,9 @@ namespace Files.Uwp.Views
          */
         private async void ModernShellPage_PreviewKeyDown(object sender, KeyRoutedEventArgs args)
         {
-            var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-            var shift = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-            var alt = Window.Current.CoreWindow.GetKeyState(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down);
+            var ctrl = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            var shift = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+            var alt = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down);
             var tabInstance = CurrentPageType == typeof(DetailsLayoutBrowser) ||
                               CurrentPageType == typeof(GridViewBrowser);
 
@@ -240,7 +260,7 @@ namespace Files.Uwp.Views
             ToolbarViewModel.ClearContentPageSelectionCommand = new RelayCommand(() => SlimContentPage?.ItemManipulationModel.ClearSelection());
             ToolbarViewModel.PasteItemsFromClipboardCommand = new RelayCommand(async () => await UIFilesystemHelpers.PasteItemAsync(FilesystemViewModel.WorkingDirectory, this));
             ToolbarViewModel.OpenNewWindowCommand = new RelayCommand(NavigationHelpers.LaunchNewWindow);
-            ToolbarViewModel.OpenNewPaneCommand = new RelayCommand(() => PaneHolder?.OpenPathInNewPane("Home".GetLocalized()));
+            ToolbarViewModel.OpenNewPaneCommand = new RelayCommand(() => PaneHolder?.OpenPathInNewPane("Home".GetLocalizedResource()));
             ToolbarViewModel.ClosePaneCommand = new RelayCommand(() => PaneHolder?.CloseActivePane());
             ToolbarViewModel.OpenDirectoryInDefaultTerminalCommand = new RelayCommand(async () => await NavigationHelpers.OpenDirectoryInTerminal(this.FilesystemViewModel.WorkingDirectory));
             ToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.File, x, this));
@@ -413,15 +433,15 @@ namespace Files.Uwp.Views
             FilesystemViewModel?.UpdateSortDirectoriesAlongsideFiles();
         }
 
-        private void CoreWindow_PointerPressed(CoreWindow sender, PointerEventArgs args)
+        private void CoreWindow_PointerPressed(object sender, PointerRoutedEventArgs args)
         {
             if (IsCurrentInstance)
             {
-                if (args.CurrentPoint.Properties.IsXButton1Pressed)
+                if (args.GetCurrentPoint(this).Properties.IsXButton1Pressed)
                 {
                     Back_Click();
                 }
-                else if (args.CurrentPoint.Properties.IsXButton2Pressed)
+                else if (args.GetCurrentPoint(this).Properties.IsXButton2Pressed)
                 {
                     Forward_Click();
                 }
@@ -496,15 +516,25 @@ namespace Files.Uwp.Views
             }
         }
 
+        // WINUI3
+        private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
+        {
+            if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+            {
+                contentDialog.XamlRoot = App.Window.Content.XamlRoot;
+            }
+            return contentDialog;
+        }
+
         private async Task<BaseLayout> GetContentOrNullAsync()
         {
-            BaseLayout FrameContent = null;
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            () =>
+            // WINUI3: make sure not to run this synchronously, do not use EnqueueAsync
+            var tcs = new TaskCompletionSource<object?>();
+            DispatcherQueue.TryEnqueue(() =>
             {
-                FrameContent = ItemDisplayFrame.Content as BaseLayout;
+                tcs.SetResult(ItemDisplayFrame.Content);
             });
-            return FrameContent;
+            return await tcs.Task as BaseLayout;
         }
 
         private async void DisplayFilesystemConsentDialog()
@@ -512,10 +542,10 @@ namespace Files.Uwp.Views
             if (App.DrivesManager?.ShowUserConsentOnInit ?? false)
             {
                 App.DrivesManager.ShowUserConsentOnInit = false;
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                await DispatcherQueue.EnqueueAsync(async () =>
                 {
                     DynamicDialog dialog = DynamicDialogFactory.GetFor_ConsentDialog();
-                    await dialog.ShowAsync(ContentDialogPlacement.Popup);
+                    await SetContentDialogRoot(dialog).ShowAsync(ContentDialogPlacement.Popup);
                 });
             }
         }
@@ -540,7 +570,7 @@ namespace Files.Uwp.Views
 
         private void OnNavigationParamsChanged()
         {
-            if (string.IsNullOrEmpty(NavParams?.NavPath) || NavParams.NavPath == "Home".GetLocalized())
+            if (string.IsNullOrEmpty(NavParams?.NavPath) || NavParams.NavPath == "Home".GetLocalizedResource())
             {
                 ItemDisplayFrame.Navigate(typeof(WidgetsPage),
                     new NavigationArguments()
@@ -633,11 +663,11 @@ namespace Files.Uwp.Views
             {
                 if (FilesystemViewModel.FilesAndFolders.Count == 1)
                 {
-                    ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {"ItemCount/Text".GetLocalized()}";
+                    ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {"ItemCount/Text".GetLocalizedResource()}";
                 }
                 else
                 {
-                    ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {"ItemsCount/Text".GetLocalized()}";
+                    ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {"ItemsCount/Text".GetLocalizedResource()}";
                 }
                 ContentPage.UpdateSelectionSize();
             }
@@ -952,7 +982,7 @@ namespace Files.Uwp.Views
                 ItemDisplayFrame.Navigate(typeof(WidgetsPage),
                                           new NavigationArguments()
                                           {
-                                              NavPathParam = "Home".GetLocalized(),
+                                              NavPathParam = "Home".GetLocalizedResource(),
                                               AssociatedTabInstance = this
                                           },
                                           new SuppressNavigationTransitionInfo());
@@ -990,15 +1020,15 @@ namespace Files.Uwp.Views
         {
             if (incomingSourcePageType == typeof(WidgetsPage) && incomingSourcePageType != null)
             {
-                ToolbarViewModel.PathControlDisplayText = "Home".GetLocalized();
+                ToolbarViewModel.PathControlDisplayText = "Home".GetLocalizedResource();
             }
         }
 
         public void Dispose()
         {
             PreviewKeyDown -= ModernShellPage_PreviewKeyDown;
-            Window.Current.CoreWindow.PointerPressed -= CoreWindow_PointerPressed;
-            SystemNavigationManager.GetForCurrentView().BackRequested -= ModernShellPage_BackRequested;
+            this.PointerPressed -= CoreWindow_PointerPressed;
+            //SystemNavigationManager.GetForCurrentView().BackRequested -= ModernShellPage_BackRequested; //WINUI3
             App.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;
 
             ToolbarViewModel.ToolbarPathItemInvoked -= ModernShellPage_NavigationRequested;
@@ -1098,7 +1128,7 @@ namespace Files.Uwp.Views
 
         private void SetLoadingIndicatorForTabs(bool isLoading)
         {
-            var multitaskingControls = ((Window.Current.Content as Frame).Content as MainPage).ViewModel.MultitaskingControls;
+            var multitaskingControls = ((App.Window.Content as Frame).Content as MainPage).ViewModel.MultitaskingControls;
 
             foreach (var x in multitaskingControls)
             {
@@ -1115,7 +1145,7 @@ namespace Files.Uwp.Views
             ItemDisplayFrame.Navigate(typeof(WidgetsPage),
                 new NavigationArguments()
                 {
-                    NavPathParam = "Home".GetLocalized(),
+                    NavPathParam = "Home".GetLocalizedResource(),
                     AssociatedTabInstance = this
                 },
                 new EntranceNavigationTransitionInfo());

@@ -1,10 +1,10 @@
-﻿using Microsoft.Toolkit.Uwp;
+using Files.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Services.Store;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Files.Uwp.Helpers
 {
@@ -57,18 +57,28 @@ namespace Files.Uwp.Helpers
         {
             ContentDialog dialog = new()
             {
-                Title = "ConsentDialogTitle".GetLocalized(),
-                Content = "ConsentDialogContent".GetLocalized(),
-                CloseButtonText = "Close".GetLocalized(),
-                PrimaryButtonText = "ConsentDialogPrimaryButtonText".GetLocalized()
+                Title = "ConsentDialogTitle".GetLocalizedResource(),
+                Content = "ConsentDialogContent".GetLocalizedResource(),
+                CloseButtonText = "Close".GetLocalizedResource(),
+                PrimaryButtonText = "ConsentDialogPrimaryButtonText".GetLocalizedResource()
             };
-            ContentDialogResult result = await dialog.ShowAsync();
+            ContentDialogResult result = await this.SetContentDialogRoot(dialog).ShowAsync();
 
             if (result == ContentDialogResult.Primary)
             {
                 return true;
             }
             return false;
+        }
+
+        // WINUI3
+        private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
+        {
+            if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+            {
+                contentDialog.XamlRoot = App.Window.Content.XamlRoot;
+            }
+            return contentDialog;
         }
 
         private async Task<StorePackageUpdateResult> DownloadUpdates(IReadOnlyList<StorePackageUpdate> updateList)

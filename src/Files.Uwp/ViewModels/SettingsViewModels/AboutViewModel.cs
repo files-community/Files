@@ -1,13 +1,13 @@
-﻿using Files.Backend.Services.Settings;
+using Files.Backend.Services.Settings;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Filesystem.StorageItems;
 using Files.Uwp.Helpers;
+using Files.Uwp.Extensions;
 using Files.Shared.Extensions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.Helpers;
+using CommunityToolkit.WinUI.Helpers;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -17,7 +17,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls;
 using System.Text;
 using SevenZip;
 
@@ -52,7 +52,7 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
 
         private async Task ExportSettings()
         {
-            FileSavePicker filePicker = new FileSavePicker();
+            FileSavePicker filePicker = this.InitializeWithWindow(new FileSavePicker());
             filePicker.FileTypeChoices.Add("Zip File", new[] { ".zip" });
             filePicker.SuggestedFileName = $"Files_{App.AppVersion}";
 
@@ -96,9 +96,16 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
             }
         }
 
+        // WINUI3
+        private FileSavePicker InitializeWithWindow(FileSavePicker obj)
+        {
+            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+            return obj;
+        }
+
         private async Task ImportSettings()
         {
-            FileOpenPicker filePicker = new FileOpenPicker();
+            FileOpenPicker filePicker = this.InitializeWithWindow(new FileOpenPicker());
             filePicker.FileTypeFilter.Add(".zip");
 
             StorageFile file = await filePicker.PickSingleFileAsync();
@@ -144,9 +151,16 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
                 {
                     App.Logger.Warn(ex, "Error importing settings");
                     UIHelpers.CloseAllDialogs();
-                    await DialogDisplayHelper.ShowDialogAsync("SettingsImportErrorTitle".GetLocalized(), "SettingsImportErrorDescription".GetLocalized());
+                    await DialogDisplayHelper.ShowDialogAsync("SettingsImportErrorTitle".GetLocalizedResource(), "SettingsImportErrorDescription".GetLocalizedResource());
                 }
             }
+        }
+
+        // WINUI3
+        private FileOpenPicker InitializeWithWindow(FileOpenPicker obj)
+        {
+            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+            return obj;
         }
 
         public void CopyVersionInfo()
@@ -159,7 +173,7 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
                 Clipboard.SetContent(dataPackage);
             });
         }
-        
+
         public async void SupportUs()
         {
             await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.SupportUsUrl));
@@ -172,7 +186,7 @@ namespace Files.Uwp.ViewModels.SettingsViewModels
             get
             {
                 var version = Package.Current.Id.Version;
-                return string.Format($"{"SettingsAboutVersionTitle".GetLocalized()} {version.Major}.{version.Minor}.{version.Build}.{version.Revision}");
+                return string.Format($"{"SettingsAboutVersionTitle".GetLocalizedResource()} {version.Major}.{version.Minor}.{version.Build}.{version.Revision}");
             }
         }
 

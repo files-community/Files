@@ -1,5 +1,5 @@
-﻿using Files.Shared.Services.DateTimeFormatter;
-using Microsoft.Toolkit.Uwp;
+using Files.Shared.Services.DateTimeFormatter;
+using Files.Uwp.Extensions;
 using System;
 using System.Globalization;
 
@@ -49,7 +49,7 @@ namespace Files.Uwp.ServicesImplementation.DateTimeFormatter
             public int Index { get; }
 
             public Label(string textKey, string glyph, int index)
-                => (Text, Glyph, Index) = (textKey.GetLocalized(), glyph, index);
+                => (Text, Glyph, Index) = (textKey.GetLocalizedResource(), glyph, index);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Files.Uwp.Dialogs;
+using Files.Uwp.Dialogs;
 using Files.Shared.Enums;
 using Files.Uwp.EventArguments.Bundles;
 using Files.Uwp.Filesystem;
@@ -8,7 +8,7 @@ using Files.Uwp.ViewModels.Dialogs;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp;
+using Files.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,9 +19,9 @@ using System.Windows.Input;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 
 namespace Files.Uwp.ViewModels.Widgets.Bundles
 {
@@ -124,7 +124,7 @@ namespace Files.Uwp.ViewModels.Widgets.Bundles
         {
             TextBox inputText = new TextBox()
             {
-                PlaceholderText = "DesiredName".GetLocalized()
+                PlaceholderText = "DesiredName".GetLocalizedResource()
             };
 
             TextBlock tipText = new TextBlock()
@@ -150,10 +150,10 @@ namespace Files.Uwp.ViewModels.Widgets.Bundles
                         }
                     }
                 },
-                TitleText = "CreateBundle".GetLocalized(),
-                SubtitleText = "BundlesWidgetCreateBundleDialogSubtitleText".GetLocalized(),
-                PrimaryButtonText = "Confirm".GetLocalized(),
-                CloseButtonText = "Cancel".GetLocalized(),
+                TitleText = "CreateBundle".GetLocalizedResource(),
+                SubtitleText = "BundlesWidgetCreateBundleDialogSubtitleText".GetLocalizedResource(),
+                PrimaryButtonText = "Confirm".GetLocalizedResource(),
+                CloseButtonText = "Cancel".GetLocalizedResource(),
                 PrimaryButtonAction = (vm, e) =>
                 {
                     var (result, reason) = CanAddBundle(inputText.Text);
@@ -225,7 +225,7 @@ namespace Files.Uwp.ViewModels.Widgets.Bundles
 
         private async Task ImportBundles()
         {
-            FileOpenPicker filePicker = new FileOpenPicker();
+            FileOpenPicker filePicker = this.InitializeWithWindow(new FileOpenPicker());
             filePicker.FileTypeFilter.Add(System.IO.Path.GetExtension(Constants.LocalSettings.BundlesSettingsFileName));
 
             StorageFile file = await filePicker.PickSingleFileAsync();
@@ -241,10 +241,15 @@ namespace Files.Uwp.ViewModels.Widgets.Bundles
                 }
             }
         }
+        private FileOpenPicker InitializeWithWindow(FileOpenPicker obj)
+        {
+            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+            return obj;
+        }
 
         private async Task ExportBundles()
         {
-            FileSavePicker filePicker = new FileSavePicker();
+            FileSavePicker filePicker = this.InitializeWithWindow(new FileSavePicker());
             filePicker.FileTypeChoices.Add("Json File", new List<string>() { System.IO.Path.GetExtension(Constants.LocalSettings.BundlesSettingsFileName) });
 
             StorageFile file = await filePicker.PickSaveFileAsync();
@@ -252,6 +257,11 @@ namespace Files.Uwp.ViewModels.Widgets.Bundles
             {
                 NativeFileOperationsHelper.WriteStringToFile(file.Path, (string)BundlesSettingsService.ExportSettings());
             }
+        }
+        private FileSavePicker InitializeWithWindow(FileSavePicker obj)
+        {
+            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+            return obj;
         }
 
         #endregion Command Implementation
@@ -428,8 +438,8 @@ namespace Files.Uwp.ViewModels.Widgets.Bundles
         {
             if (string.IsNullOrWhiteSpace(name))
             {
-                AddBundleErrorText = "BundlesWidgetAddBundleErrorInputEmpty".GetLocalized();
-                return (false, "BundlesWidgetAddBundleErrorInputEmpty".GetLocalized());
+                AddBundleErrorText = "BundlesWidgetAddBundleErrorInputEmpty".GetLocalizedResource();
+                return (false, "BundlesWidgetAddBundleErrorInputEmpty".GetLocalizedResource());
             }
 
             if (!Items.Any((item) => item.BundleName == name))
@@ -439,8 +449,8 @@ namespace Files.Uwp.ViewModels.Widgets.Bundles
             }
             else
             {
-                AddBundleErrorText = "BundlesWidgetAddBundleErrorAlreadyExists".GetLocalized();
-                return (false, "BundlesWidgetAddBundleErrorAlreadyExists".GetLocalized());
+                AddBundleErrorText = "BundlesWidgetAddBundleErrorAlreadyExists".GetLocalizedResource();
+                return (false, "BundlesWidgetAddBundleErrorAlreadyExists".GetLocalizedResource());
             }
         }
 

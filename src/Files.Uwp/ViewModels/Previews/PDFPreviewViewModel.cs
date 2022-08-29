@@ -1,17 +1,16 @@
-﻿using Files.Uwp.Filesystem;
+using Files.Uwp.Filesystem;
 using Files.Uwp.ViewModels.Properties;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 using Windows.Data.Pdf;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media.Imaging;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace Files.Uwp.ViewModels.Previews
 {
@@ -90,7 +89,7 @@ namespace Files.Uwp.ViewModels.Previews
                 BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
                 using SoftwareBitmap sw = await decoder.GetSoftwareBitmapAsync();
 
-                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                await App.Window.DispatcherQueue.EnqueueAsync(async () =>
                 {
                     BitmapImage src = new();
                     PageViewModel pageData = new()

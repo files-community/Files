@@ -1,19 +1,18 @@
-﻿using Files.Shared;
+using Files.Shared;
 using Files.Uwp.Helpers;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.AppService;
-using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
 using Windows.UI.Core;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Navigation;
 using static Files.Uwp.Views.PropertiesCustomization;
 using Files.Shared.Extensions;
 
@@ -104,7 +103,7 @@ namespace Files.Uwp.Views
                 SetCustomFolderIcon(selectedItemPath, iconResourceItemPath, selectedIconInfo.Index);
             if (await setIconTask)
             {
-                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
+                await App.Window.DispatcherQueue.EnqueueAsync(() =>
                 {
                     appInstance?.FilesystemViewModel?.RefreshItems(null);
                 });
@@ -120,11 +119,11 @@ namespace Files.Uwp.Views
                 SetCustomFolderIcon(selectedItemPath, null);
             if (await setIconTask)
             {
-                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
+                await App.Window.DispatcherQueue.EnqueueAsync(() =>
                 {
                     appInstance?.FilesystemViewModel?.RefreshItems(null, async () =>
                     {
-                        await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => RestoreDefaultButton.IsEnabled = true);
+                        await DispatcherQueue.EnqueueAsync(() => RestoreDefaultButton.IsEnabled = true);
                     });
                 });
             }

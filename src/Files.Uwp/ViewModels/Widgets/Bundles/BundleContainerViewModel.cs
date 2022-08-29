@@ -1,4 +1,4 @@
-﻿using Files.Uwp.Dialogs;
+using Files.Uwp.Dialogs;
 using Files.Shared.Enums;
 using Files.Uwp.Filesystem;
 using Files.Uwp.Helpers;
@@ -7,7 +7,7 @@ using Files.Uwp.ViewModels.Dialogs;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp;
+using Files.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,8 +19,8 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Files.Uwp.ViewModels.Widgets.Bundles
 {
@@ -135,7 +135,7 @@ namespace Files.Uwp.ViewModels.Widgets.Bundles
 
         private async Task AddFolder()
         {
-            FolderPicker folderPicker = new FolderPicker();
+            FolderPicker folderPicker = this.InitializeWithWindow(new FolderPicker());
             folderPicker.FileTypeFilter.Add("*");
 
             StorageFolder folder = await folderPicker.PickSingleFolderAsync();
@@ -147,9 +147,16 @@ namespace Files.Uwp.ViewModels.Widgets.Bundles
             }
         }
 
+        // WINUI3
+        private FolderPicker InitializeWithWindow(FolderPicker obj)
+        {
+            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+            return obj;
+        }
+
         private async Task AddFile()
         {
-            FileOpenPicker filePicker = new FileOpenPicker();
+            FileOpenPicker filePicker = this.InitializeWithWindow(new FileOpenPicker());
             filePicker.FileTypeFilter.Add("*");
 
             StorageFile file = await filePicker.PickSingleFileAsync();
@@ -159,6 +166,13 @@ namespace Files.Uwp.ViewModels.Widgets.Bundles
                 await AddItemFromPath(file.Path, FilesystemItemType.File);
                 SaveBundle();
             }
+        }
+
+        // WINUI3
+        private FileOpenPicker InitializeWithWindow(FileOpenPicker obj)
+        {
+            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+            return obj;
         }
 
         private void RemoveBundle()
@@ -176,7 +190,7 @@ namespace Files.Uwp.ViewModels.Widgets.Bundles
         {
             TextBox inputText = new TextBox()
             {
-                PlaceholderText = "DesiredName".GetLocalized()
+                PlaceholderText = "DesiredName".GetLocalizedResource()
             };
 
             TextBlock tipText = new TextBlock()
@@ -202,10 +216,10 @@ namespace Files.Uwp.ViewModels.Widgets.Bundles
                         }
                     }
                 },
-                TitleText = string.Format("BundlesWidgetRenameBundleDialogTitleText".GetLocalized(), BundleName),
-                SubtitleText = "BundlesWidgetRenameBundleDialogSubtitleText".GetLocalized(),
-                PrimaryButtonText = "Confirm".GetLocalized(),
-                CloseButtonText = "BundlesWidgetRenameBundleDialogCloseButtonText".GetLocalized(),
+                TitleText = string.Format("BundlesWidgetRenameBundleDialogTitleText".GetLocalizedResource(), BundleName),
+                SubtitleText = "BundlesWidgetRenameBundleDialogSubtitleText".GetLocalizedResource(),
+                PrimaryButtonText = "Confirm".GetLocalizedResource(),
+                CloseButtonText = "BundlesWidgetRenameBundleDialogCloseButtonText".GetLocalizedResource(),
                 PrimaryButtonAction = (vm, e) =>
                 {
                     if (!CanAddBundleSetErrorMessage())
@@ -528,7 +542,7 @@ namespace Files.Uwp.ViewModels.Widgets.Bundles
         {
             if (string.IsNullOrWhiteSpace(name))
             {
-                return (false, "BundlesWidgetAddBundleErrorInputEmpty".GetLocalized());
+                return (false, "BundlesWidgetAddBundleErrorInputEmpty".GetLocalizedResource());
             }
 
             if (!BundlesSettingsService.SavedBundles.Any((item) => item.Key == name))
@@ -537,7 +551,7 @@ namespace Files.Uwp.ViewModels.Widgets.Bundles
             }
             else
             {
-                return (false, "BundlesWidgetAddBundleErrorAlreadyExists".GetLocalized());
+                return (false, "BundlesWidgetAddBundleErrorAlreadyExists".GetLocalizedResource());
             }
         }
 

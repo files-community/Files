@@ -2,7 +2,7 @@ using Files.Shared;
 using Files.Uwp.Filesystem;
 using Files.Uwp.ViewModels;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp;
+using Files.Uwp.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
-using Windows.UI.Xaml.Media.Imaging;
+using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace Files.Uwp.Helpers
 {
@@ -66,7 +66,7 @@ namespace Files.Uwp.Helpers
                 {
                     var menuLayoutSubItem = new ContextMenuFlyoutItemViewModel()
                     {
-                        Text = "ContextMenuMoreItemsLabel".GetLocalized(),
+                        Text = "ContextMenuMoreItemsLabel".GetLocalizedResource(),
                         Tag = ((Win32ContextMenuItem)null, menuHandle),
                         Glyph = "\xE712",
                     };

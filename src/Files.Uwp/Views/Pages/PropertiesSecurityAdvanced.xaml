@@ -2,24 +2,24 @@
     x:Class="Files.Uwp.Views.PropertiesSecurityAdvanced"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors"
-    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:behaviors="using:CommunityToolkit.WinUI.UI.Behaviors"
+    xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="using:Files.Uwp.Helpers"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:perm="using:Files.Uwp.Filesystem.Permissions"
     d:Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     d:Height="550"
     d:Width="850"
-    muxc:BackdropMaterial.ApplyToRootOrPageBackground="False"
     Background="{ThemeResource RootBackgroundBrush}"
     KeyDown="Page_KeyDown"
     Loaded="Properties_Loaded"
     Loading="Page_Loading"
     Unloaded="Properties_Unloaded"
     mc:Ignorable="d">
+    <!-- WINUI3 -->
+    <!--BackdropMaterial.ApplyToRootOrPageBackground="False"-->
 
     <Page.Resources>
         <ResourceDictionary>
@@ -35,14 +35,6 @@
                 x:Key="BoolToWidthConverter"
                 FalseValue="0"
                 TrueValue="*" />
-
-            <AcrylicBrush
-                x:Key="AcrylicInAppFillColorDefaultBrush"
-                BackgroundSource="Backdrop"
-                FallbackColor="{ThemeResource ControlFillColorDefault}"
-                TintColor="{ThemeResource ControlFillColorDefault}"
-                TintLuminosityOpacity="0.1"
-                TintOpacity="0.5" />
         </ResourceDictionary>
     </Page.Resources>
 
@@ -263,16 +255,16 @@
                                         FontSize="16"
                                         Glyph="{x:Bind Glyph, Mode=OneWay}" />
 
-                                    <muxc:DropDownButton
+                                    <DropDownButton
                                         x:Name="TypeDropdown"
                                         Grid.Column="1"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         x:Load="{x:Bind IsEditEnabled, Mode=OneWay}">
-                                        <muxc:DropDownButton.Content>
+                                        <DropDownButton.Content>
                                             <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="{x:Bind Glyph, Mode=OneWay}" />
-                                        </muxc:DropDownButton.Content>
-                                        <muxc:DropDownButton.Flyout>
+                                        </DropDownButton.Content>
+                                        <DropDownButton.Flyout>
                                             <MenuFlyout Placement="Bottom">
                                                 <MenuFlyoutItem
                                                     Command="{x:Bind ChangeAccessControlTypeCommand}"
@@ -291,8 +283,8 @@
                                                     </MenuFlyoutItem.Icon>
                                                 </MenuFlyoutItem>
                                             </MenuFlyout>
-                                        </muxc:DropDownButton.Flyout>
-                                    </muxc:DropDownButton>
+                                        </DropDownButton.Flyout>
+                                    </DropDownButton>
 
                                     <TextBlock
                                         Grid.Column="2"
@@ -312,17 +304,17 @@
                                         Text="{x:Bind FileSystemRightsForUI, Mode=OneWay}"
                                         TextTrimming="CharacterEllipsis" />
 
-                                    <muxc:DropDownButton
+                                    <DropDownButton
                                         x:Name="RightsDropdown"
                                         Grid.Column="3"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Center"
                                         HorizontalContentAlignment="Left"
                                         x:Load="{x:Bind IsEditEnabled, Mode=OneWay}">
-                                        <muxc:DropDownButton.Content>
+                                        <DropDownButton.Content>
                                             <TextBlock Text="{x:Bind FileSystemRightsForUI, Mode=OneWay}" TextTrimming="CharacterEllipsis" />
-                                        </muxc:DropDownButton.Content>
-                                        <muxc:DropDownButton.Flyout>
+                                        </DropDownButton.Content>
+                                        <DropDownButton.Flyout>
                                             <Flyout Placement="Bottom">
                                                 <Grid Margin="-8" HorizontalAlignment="Center">
                                                     <Grid.RowDefinitions>
@@ -362,8 +354,8 @@
                                                         IsChecked="{x:Bind AreAdvancedPermissionsShown, Mode=TwoWay}" />
                                                 </Grid>
                                             </Flyout>
-                                        </muxc:DropDownButton.Flyout>
-                                    </muxc:DropDownButton>
+                                        </DropDownButton.Flyout>
+                                    </DropDownButton>
 
                                     <TextBlock
                                         Grid.Column="4"
@@ -379,7 +371,7 @@
                                         TextTrimming="CharacterEllipsis"
                                         Visibility="{x:Bind IsFolder, Mode=OneWay}" />
 
-                                    <muxc:DropDownButton
+                                    <DropDownButton
                                         x:Name="InheritDropdown"
                                         Grid.Column="5"
                                         HorizontalAlignment="Stretch"
@@ -387,10 +379,10 @@
                                         HorizontalContentAlignment="Left"
                                         x:Load="{x:Bind IsEditEnabled, Mode=OneWay}"
                                         Visibility="{x:Bind IsFolder, Mode=OneWay}">
-                                        <muxc:DropDownButton.Content>
+                                        <DropDownButton.Content>
                                             <TextBlock Text="{x:Bind InheritanceFlagsForUI, Mode=OneWay}" TextTrimming="CharacterEllipsis" />
-                                        </muxc:DropDownButton.Content>
-                                        <muxc:DropDownButton.Flyout>
+                                        </DropDownButton.Content>
+                                        <DropDownButton.Flyout>
                                             <MenuFlyout Placement="Bottom">
                                                 <MenuFlyoutItem
                                                     Command="{x:Bind ChangeInheritanceFlagsCommand}"
@@ -421,8 +413,8 @@
                                                     CommandParameter="2,InheritOnly"
                                                     Text="{helpers:ResourceString Name=SecurityAdvancedOnlyFiles/Text}" />
                                             </MenuFlyout>
-                                        </muxc:DropDownButton.Flyout>
-                                    </muxc:DropDownButton>
+                                        </DropDownButton.Flyout>
+                                    </DropDownButton>
                                 </Grid>
                             </DataTemplate>
                         </ListView.ItemTemplate>
@@ -445,12 +437,12 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <muxc:SplitButton
+                        <SplitButton
                             x:Name="SplitButton"
                             MaxWidth="200"
                             Command="{x:Bind ViewModel.DisableInheritanceCommand}">
                             <TextBlock Text="{x:Bind ViewModel.DisableInheritanceOption, Mode=OneWay}" TextTrimming="CharacterEllipsis" />
-                            <muxc:SplitButton.Flyout>
+                            <SplitButton.Flyout>
                                 <MenuFlyout Placement="Top">
                                     <MenuFlyoutItem
                                         Command="{x:Bind ViewModel.SetDisableInheritanceOptionCommand}"
@@ -468,8 +460,8 @@
                                         IsEnabled="{x:Bind ViewModel.FilePermissions.AreAccessRulesProtected, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
                                         Text="{helpers:ResourceString Name=SecurityAdvancedInheritedRemove/Text}" />
                                 </MenuFlyout>
-                            </muxc:SplitButton.Flyout>
-                        </muxc:SplitButton>
+                            </SplitButton.Flyout>
+                        </SplitButton>
                         <Button
                             x:Name="ReplaceChildPermissionsButton"
                             Grid.Column="1"

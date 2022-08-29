@@ -1,5 +1,5 @@
-﻿using Files.Uwp.ViewModels.Dialogs;
-using Windows.UI.Xaml.Controls;
+using Files.Uwp.ViewModels.Dialogs;
+using Microsoft.UI.Xaml.Controls;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 

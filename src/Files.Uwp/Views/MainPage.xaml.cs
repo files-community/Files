@@ -1,5 +1,7 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.WinUI.Helpers;
+using CommunityToolkit.WinUI.UI.Controls;
 using Files.Backend.Extensions;
 using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
@@ -11,23 +13,22 @@ using Files.Uwp.Helpers;
 using Files.Uwp.UserControls;
 using Files.Uwp.UserControls.MultitaskingControl;
 using Files.Uwp.ViewModels;
-using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.UI;
+using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Windows.Input;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
-using Windows.ApplicationModel.Resources.Core;
+using Windows.Graphics;
 using Windows.Services.Store;
 using Windows.Storage;
-using Windows.UI.ViewManagement;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Navigation;
 
 namespace Files.Uwp.Views
 {
@@ -61,11 +62,13 @@ namespace Files.Uwp.Views
         {
             InitializeComponent();
 
-            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.Auto;
-            var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
-            CoreTitleBar.ExtendViewIntoTitleBar = true;
-            CoreTitleBar.LayoutMetricsChanged += TitleBar_LayoutMetricsChanged;
-            var flowDirectionSetting = ResourceContext.GetForCurrentView().QualifierValues["LayoutDirection"];
+            TitleBar_LayoutMetricsChanged(null, null); //WINUI3, event does not exist. Is this ok?
+            var flowDirectionSetting = /*
+                TODO ResourceContext.GetForCurrentView and ResourceContext.GetForViewIndependentUse do not exist in Windows App SDK
+                Use your ResourceManager instance to create a ResourceContext as below. If you already have a ResourceManager instance,
+                replace the new instance created below with correct instance.
+                Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/mrtcore
+            */new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
 
             if (flowDirectionSetting == "RTL")
             {
@@ -94,9 +97,9 @@ namespace Files.Uwp.Views
                 Content = "ReviewFilesContent".ToLocalized(),
                 PrimaryButtonText = "Yes".ToLocalized(),
                 SecondaryButtonText = "No".ToLocalized()
-        };
+            };
 
-            var result = await AskForReviewDialog.ShowAsync();
+            var result = await this.SetContentDialogRoot(AskForReviewDialog).ShowAsync();
 
             if (result == ContentDialogResult.Primary)
             {
@@ -109,6 +112,16 @@ namespace Files.Uwp.Views
             }
         }
 
+        // WINUI3
+        private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
+        {
+            if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+            {
+                contentDialog.XamlRoot = App.Window.Content.XamlRoot;
+            }
+            return contentDialog;
+        }
+
         private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
         {
             switch (e.SettingName)
@@ -119,24 +132,74 @@ namespace Files.Uwp.Views
             }
         }
 
-        private void DragArea_Loaded(object sender, RoutedEventArgs e)
-        {
-            Window.Current.SetTitleBar(sender as Grid);
-        }
-
         private void TitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
         {
-            RightPaddingColumn.Width = new GridLength(sender.SystemOverlayRightInset);
+            if (AppWindowTitleBar.IsCustomizationSupported())
+            {
+                RightPaddingColumn.Width = new GridLength(App.GetAppWindow(App.Window).TitleBar.RightInset);
+            }
         }
 
         private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
         {
+            if (AppWindowTitleBar.IsCustomizationSupported())
+            {
+                horizontalMultitaskingControl.DragArea.SizeChanged += (_, _) => SetRectDragRegion();
+                SetRectDragRegion();
+            }
+            else
+            {
+                App.Window.SetTitleBar(horizontalMultitaskingControl.DragArea);
+            }
+
             if (!(ViewModel.MultitaskingControl is HorizontalMultitaskingControl))
             {
                 ViewModel.MultitaskingControl = horizontalMultitaskingControl;
                 ViewModel.MultitaskingControls.Add(horizontalMultitaskingControl);
                 ViewModel.MultitaskingControl.CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
             }
+        }
+
+        private void SetRectDragRegion()
+        {
+            if (!AppWindowTitleBar.IsCustomizationSupported())
+                return;
+
+            const bool WORKAROUND = true;
+            if (WORKAROUND)
+            {
+                const short LeftButton = 0x01;
+
+                if ((NativeWinApiHelper.GetKeyState(LeftButton) & 0xFF00) == 0xFF00)
+                    return;                    
+
+                App.Window.AppWindow.TitleBar.ResetToDefault();
+                App.Window.AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+
+                // Set window buttons background to transparent
+                App.Window.AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+                App.Window.AppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+            }
+
+            const uint MDT_Effective_DPI = 0;
+
+            var displayArea = DisplayArea.GetFromWindowId(App.Window.AppWindow.Id, DisplayAreaFallback.Primary);
+            var hMonitor = Win32Interop.GetMonitorFromDisplayId(displayArea.DisplayId);
+            var hr = NativeWinApiHelper.GetDpiForMonitor(hMonitor, MDT_Effective_DPI, out var dpiX, out _);
+            if (hr != 0)
+                return;
+            
+            var scalePercent = (uint)(((long)dpiX * 100 + (96 >> 1)) / 96); // wtf
+            var scaleAdjustment = scalePercent / 100.0;
+            var dragArea = horizontalMultitaskingControl.DragArea;
+
+            var x = (int)((horizontalMultitaskingControl.ActualWidth - dragArea.ActualWidth) * scaleAdjustment);
+            var y = 0;
+            var width = (int)(dragArea.ActualWidth * scaleAdjustment);
+            var height = (int)(horizontalMultitaskingControl.TitlebarArea.ActualHeight * scaleAdjustment);
+
+            var dragRect = new RectInt32(x, y, width, height);
+            App.Window.AppWindow.TitleBar.SetDragRectangles(new[] { dragRect });
         }
 
         public void TabItemContent_ContentChanged(object sender, TabItemArguments e)
@@ -235,7 +298,7 @@ namespace Files.Uwp.Views
                     ItemPath = locationItem.Path,
                     ItemNameRaw = locationItem.Text,
                     PrimaryItemAttribute = StorageItemTypes.Folder,
-                    ItemType = "FileFolderListItem".GetLocalized(),
+                    ItemType = "FileFolderListItem".GetLocalizedResource(),
                 };
                 await FilePropertiesHelpers.OpenPropertiesWindowAsync(listedItem, SidebarAdaptiveViewModel.PaneHolder.ActivePane);
             }
@@ -266,14 +329,14 @@ namespace Files.Uwp.Views
                         {
                             navigationPath = invokedItemContainer.Tag?.ToString();
                         }
-                        else if (ItemPath.Equals("Home".GetLocalized(), StringComparison.OrdinalIgnoreCase)) // Home item
+                        else if (ItemPath.Equals("Home".GetLocalizedResource(), StringComparison.OrdinalIgnoreCase)) // Home item
                         {
                             if (ItemPath.Equals(SidebarAdaptiveViewModel.SidebarSelectedItem?.Path, StringComparison.OrdinalIgnoreCase))
                             {
                                 return; // return if already selected
                             }
 
-                            navigationPath = "Home".GetLocalized();
+                            navigationPath = "Home".GetLocalizedResource();
                             sourcePageType = typeof(WidgetsPage);
                         }
                         else // Any other item
@@ -291,7 +354,7 @@ namespace Files.Uwp.Views
                         shp.NavigateToPath(tagPath, new NavigationArguments()
                         {
                             IsSearchResultPage = true,
-                            SearchPathParam = "Home".GetLocalized(),
+                            SearchPathParam = "Home".GetLocalizedResource(),
                             SearchQuery = tagPath,
                             AssociatedTabInstance = shp,
                             NavPathParam = tagPath
@@ -326,8 +389,6 @@ namespace Files.Uwp.Views
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            Microsoft.UI.Xaml.Controls.BackdropMaterial.SetApplyToRootOrPageBackground(sender as Control, true);
-
             // Defers the status bar loading until after the page has loaded to improve startup perf
             FindName(nameof(StatusBarControl));
             FindName(nameof(InnerNavigationToolbar));
@@ -335,17 +396,17 @@ namespace Files.Uwp.Views
             FindName(nameof(NavToolbar));
 
             // the adaptive triggers do not evaluate on app startup, manually checking and calling GoToState here fixes https://github.com/files-community/Files/issues/5801
-            if (Window.Current.Bounds.Width < CollapseSearchBoxAdaptiveTrigger.MinWindowWidth)
+            if (App.Window.Bounds.Width < CollapseSearchBoxAdaptiveTrigger.MinWindowWidth)
             {
                 _ = VisualStateManager.GoToState(this, nameof(CollapseSearchBoxState), true);
             }
 
-            if (Window.Current.Bounds.Width < MinimalSidebarAdaptiveTrigger.MinWindowWidth)
+            if (App.Window.Bounds.Width < MinimalSidebarAdaptiveTrigger.MinWindowWidth)
             {
                 _ = VisualStateManager.GoToState(this, nameof(MinimalSidebarState), true);
             }
 
-            if (Window.Current.Bounds.Width < CollapseHorizontalTabViewTrigger.MinWindowWidth)
+            if (App.Window.Bounds.Width < CollapseHorizontalTabViewTrigger.MinWindowWidth)
             {
                 _ = VisualStateManager.GoToState(this, nameof(HorizontalTabViewCollapsed), true);
             }
@@ -368,14 +429,15 @@ namespace Files.Uwp.Views
 
         private void ToggleFullScreenAccelerator(KeyboardAcceleratorInvokedEventArgs e)
         {
-            ApplicationView view = ApplicationView.GetForCurrentView();
-            if (view.IsFullScreenMode)
+            var view = App.GetAppWindow(App.Window);
+
+            if (view.Presenter.Kind == AppWindowPresenterKind.FullScreen)
             {
-                view.ExitFullScreenMode();
+                view.SetPresenter(AppWindowPresenterKind.Overlapped);
             }
             else
             {
-                view.TryEnterFullScreenMode();
+                view.SetPresenter(AppWindowPresenterKind.FullScreen);
             }
 
             e.Handled = true;
@@ -385,7 +447,7 @@ namespace Files.Uwp.Views
         {
             SidebarAdaptiveViewModel.IsSidebarOpen = !SidebarAdaptiveViewModel.IsSidebarOpen;
 
-            e.Handled=true;
+            e.Handled = true;
         }
 
         private void SidebarControl_Loaded(object sender, RoutedEventArgs e)
@@ -478,11 +540,12 @@ namespace Files.Uwp.Views
         {
             get
             {
-                bool isHomePage = !(SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false);
-                bool isMultiPane = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
-                bool isBigEnough = Window.Current.Bounds.Width > 450 && Window.Current.Bounds.Height > 400;
+                var isHomePage = !(SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false);
+                var isMultiPane = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
+                var isBigEnough = App.Window.Bounds.Width > 450 && App.Window.Bounds.Height > 400;
+                var isEnabled = (!isHomePage || isMultiPane) && isBigEnough;
 
-                return (!isHomePage || isMultiPane) && isBigEnough;
+                return isEnabled;
             }
         }
 
@@ -500,20 +563,22 @@ namespace Files.Uwp.Views
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void ToggleCompactOverlay() => SetCompactOverlay(ApplicationView.GetForCurrentView().ViewMode != ApplicationViewMode.CompactOverlay);
+        private void ToggleCompactOverlay() => SetCompactOverlay(App.GetAppWindow(App.Window).Presenter.Kind != AppWindowPresenterKind.CompactOverlay);
 
-        private async void SetCompactOverlay(bool isCompact)
+        private void SetCompactOverlay(bool isCompact)
         {
-            var view = ApplicationView.GetForCurrentView();
+            var view = App.GetAppWindow(App.Window);
 
             if (!isCompact)
             {
-                IsCompactOverlay = !await view.TryEnterViewModeAsync(ApplicationViewMode.Default);
+                IsCompactOverlay = true;
+                view.SetPresenter(AppWindowPresenterKind.Overlapped);
             }
             else
             {
-                IsCompactOverlay = await view.TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
-                view.TryResizeView(new Windows.Foundation.Size(400, 350));
+                IsCompactOverlay = false;
+                view.SetPresenter(AppWindowPresenterKind.CompactOverlay);
+                view.Resize(new SizeInt32(400, 350));
             }
         }
 

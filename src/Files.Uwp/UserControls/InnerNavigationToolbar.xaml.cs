@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Settings;
 using Files.Uwp.Helpers;
 using Files.Uwp.ViewModels;
@@ -7,10 +7,10 @@ using System.IO;
 using System.Linq;
 using System.Windows.Input;
 using Windows.UI.ViewManagement;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media.Imaging;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media.Imaging;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -38,18 +38,18 @@ namespace Files.Uwp.UserControls
         public static readonly DependencyProperty ViewModelProperty =
             DependencyProperty.Register(nameof(ViewModel), typeof(ToolbarViewModel), typeof(InnerNavigationToolbar), new PropertyMetadata(null));
 
-        private async void NavToolbarEnterCompactOverlay_Click(object sender, RoutedEventArgs e)
+        private void NavToolbarEnterCompactOverlay_Click(object sender, RoutedEventArgs e)
         {
-            var view = ApplicationView.GetForCurrentView();
-            if (view.ViewMode == ApplicationViewMode.CompactOverlay)
+            var appWindow = App.GetAppWindow(App.Window);
+            if (appWindow.Presenter.Kind == Microsoft.UI.Windowing.AppWindowPresenterKind.CompactOverlay)
             {
-                await view.TryEnterViewModeAsync(ApplicationViewMode.Default);
+                appWindow.SetPresenter(Microsoft.UI.Windowing.AppWindowPresenterKind.Overlapped);
                 NavToolbarExitCompactOverlay.Visibility = Visibility.Collapsed;
                 NavToolbarEnterCompactOverlay.Visibility = Visibility.Visible;
             }
             else
             {
-                await view.TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
+                appWindow.SetPresenter(Microsoft.UI.Windowing.AppWindowPresenterKind.CompactOverlay);
                 NavToolbarExitCompactOverlay.Visibility = Visibility.Visible;
                 NavToolbarEnterCompactOverlay.Visibility = Visibility.Collapsed;
             }

@@ -1,4 +1,4 @@
-﻿using Files.Shared.Enums;
+using Files.Shared.Enums;
 using Files.Uwp.EventArguments;
 using Files.Uwp.Helpers;
 using Files.Uwp.Helpers.LayoutPreferences;

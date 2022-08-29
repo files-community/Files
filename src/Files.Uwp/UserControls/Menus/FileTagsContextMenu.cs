@@ -6,8 +6,8 @@ using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using Files.Uwp.Helpers;
 using static Files.Uwp.Helpers.MenuFlyoutHelper;
 
@@ -44,7 +44,7 @@ namespace Files.Uwp.UserControls.Menus
             Opening += Item_Opening;
         }
 
-        private void TagItem_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void TagItem_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             var tagItem = (ToggleMenuFlyoutItem)sender;
             if (tagItem.IsChecked)

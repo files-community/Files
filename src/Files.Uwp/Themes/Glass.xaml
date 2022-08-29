@@ -18,16 +18,15 @@
 
             <SolidColorBrush x:Key="TextControlBorderBrush" Color="transparent" />
 
+            <!--  WINUI3: removed BackgroundSource  -->
             <!--  Widget Buttons  -->
             <AcrylicBrush
                 x:Key="ButtonBackground"
-                BackgroundSource="HostBackdrop"
                 FallbackColor="{ThemeResource SolidBackgroundFillColorSecondary}"
                 TintColor="{ThemeResource SolidBackgroundFillColorSecondary}"
                 TintOpacity="0.4" />
             <AcrylicBrush
                 x:Key="ButtonBackgroundPointerOver"
-                BackgroundSource="HostBackdrop"
                 FallbackColor="{ThemeResource SolidBackgroundFillColorSecondary}"
                 TintColor="{ThemeResource SolidBackgroundFillColorSecondary}"
                 TintOpacity="0.5" />
@@ -35,7 +34,6 @@
             <!--  Tabs Area Background  -->
             <AcrylicBrush
                 x:Key="RootBackgroundBrush"
-                BackgroundSource="HostBackdrop"
                 FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
                 TintColor="{ThemeResource SolidBackgroundFillColorBase}"
                 TintOpacity="0.5" />
@@ -43,19 +41,16 @@
             <!--  Tabs  -->
             <AcrylicBrush
                 x:Key="TabViewItemHeaderBackgroundSelected"
-                BackgroundSource="HostBackdrop"
                 FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
                 TintColor="{ThemeResource SolidBackgroundFillColorBase}"
                 TintOpacity="0.65" />
             <AcrylicBrush
                 x:Key="TabViewItemHeaderBackgroundPressed"
-                BackgroundSource="HostBackdrop"
                 FallbackColor="{ThemeResource SolidBackgroundFillColorTertiary}"
                 TintColor="{ThemeResource SolidBackgroundFillColorTertiary}"
                 TintOpacity="0.6" />
             <AcrylicBrush
                 x:Key="TabViewItemHeaderBackgroundPointerOver"
-                BackgroundSource="HostBackdrop"
                 FallbackColor="{ThemeResource SolidBackgroundFillColorTertiary}"
                 TintColor="{ThemeResource SolidBackgroundFillColorTertiary}"
                 TintOpacity="0.55" />
@@ -63,7 +58,6 @@
             <!--  Navigation Area Background  -->
             <AcrylicBrush
                 x:Key="NavigationToolbarBackgroundBrush"
-                BackgroundSource="HostBackdrop"
                 FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
                 TintColor="{ThemeResource SolidBackgroundFillColorBase}"
                 TintOpacity="0.65" />
@@ -71,7 +65,6 @@
             <!--  Search Inputs  -->
             <AcrylicBrush
                 x:Key="TextControlBackground"
-                BackgroundSource="HostBackdrop"
                 FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
                 TintColor="{ThemeResource SolidBackgroundFillColorBase}"
                 TintOpacity="0.65" />
@@ -79,7 +72,6 @@
             <!--  Sidebar  -->
             <AcrylicBrush
                 x:Key="SidebarContentBackgroundBrush"
-                BackgroundSource="HostBackdrop"
                 FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
                 TintColor="{ThemeResource SolidBackgroundFillColorBase}"
                 TintOpacity="0.5" />
@@ -101,13 +93,11 @@
             <!--  Widget Buttons  -->
             <AcrylicBrush
                 x:Key="ButtonBackground"
-                BackgroundSource="HostBackdrop"
                 FallbackColor="{ThemeResource SolidBackgroundFillColorTertiary}"
                 TintColor="{ThemeResource SolidBackgroundFillColorTertiary}"
                 TintOpacity="0.5" />
             <AcrylicBrush
                 x:Key="ButtonBackgroundPointerOver"
-                BackgroundSource="HostBackdrop"
                 FallbackColor="{ThemeResource SolidBackgroundFillColorTertiary}"
                 TintColor="{ThemeResource SolidBackgroundFillColorTertiary}"
                 TintOpacity="0.4" />
@@ -115,7 +105,6 @@
             <!--  Tabs Area Background  -->
             <AcrylicBrush
                 x:Key="RootBackgroundBrush"
-                BackgroundSource="HostBackdrop"
                 FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
                 TintColor="{ThemeResource SolidBackgroundFillColorBase}"
                 TintOpacity="0.4" />
@@ -124,19 +113,16 @@
             <SolidColorBrush x:Key="TabViewItemHeaderBackground" Color="transparent" />
             <AcrylicBrush
                 x:Key="TabViewItemHeaderBackgroundSelected"
-                BackgroundSource="HostBackdrop"
                 FallbackColor="{ThemeResource SolidBackgroundFillColorTertiary}"
                 TintColor="{ThemeResource SolidBackgroundFillColorTertiary}"
                 TintOpacity="0.5" />
             <AcrylicBrush
                 x:Key="TabViewItemHeaderBackgroundPressed"
-                BackgroundSource="HostBackdrop"
                 FallbackColor="{ThemeResource SolidBackgroundFillColorSecondary}"
                 TintColor="{ThemeResource SolidBackgroundFillColorSecondary}"
                 TintOpacity="0.5" />
             <AcrylicBrush
                 x:Key="TabViewItemHeaderBackgroundPointerOver"
-                BackgroundSource="HostBackdrop"
                 FallbackColor="{ThemeResource SolidBackgroundFillColorSecondary}"
                 TintColor="{ThemeResource SolidBackgroundFillColorSecondary}"
                 TintOpacity="0.5" />
@@ -144,7 +130,6 @@
             <!--  Navigation Area Background  -->
             <AcrylicBrush
                 x:Key="NavigationToolbarBackgroundBrush"
-                BackgroundSource="HostBackdrop"
                 FallbackColor="{ThemeResource SolidBackgroundFillColorTertiary}"
                 TintColor="{ThemeResource SolidBackgroundFillColorTertiary}"
                 TintOpacity="0.5" />
@@ -152,7 +137,6 @@
             <!--  Search Inputs  -->
             <AcrylicBrush
                 x:Key="TextControlBackground"
-                BackgroundSource="HostBackdrop"
                 FallbackColor="{ThemeResource SolidBackgroundFillColorTertiary}"
                 TintColor="{ThemeResource SolidBackgroundFillColorTertiary}"
                 TintOpacity="0.5" />
@@ -160,7 +144,6 @@
             <!--  Sidebar  -->
             <AcrylicBrush
                 x:Key="SidebarContentBackgroundBrush"
-                BackgroundSource="HostBackdrop"
                 FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
                 TintColor="{ThemeResource SolidBackgroundFillColorBase}"
                 TintOpacity="0.4" />

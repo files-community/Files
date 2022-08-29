@@ -1,4 +1,4 @@
-﻿using Files.Backend.Models.Imaging;
+using Files.Backend.Models.Imaging;
 using Files.Backend.Services;
 using Files.Uwp.Helpers;
 using Files.Uwp.Imaging;
