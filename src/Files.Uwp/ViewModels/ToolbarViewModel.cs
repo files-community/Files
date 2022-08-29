@@ -879,7 +879,9 @@ namespace Files.Uwp.ViewModels
 
         public ICommand EmptyRecycleBinCommand { get; set; }
 
-        public ICommand RestoreRecycleBinCommand { get; set; }
+        public ICommand RestoreAllItemsRecycleBinCommand { get; set; }
+
+        public ICommand RestoreSelectionRecycleBinCommand { get; set; }
 
         public ICommand PropertiesCommand { get; set; }
 

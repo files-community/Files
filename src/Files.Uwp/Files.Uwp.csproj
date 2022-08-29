@@ -1102,7 +1102,9 @@
     <PRIResource Include="Strings\hr-HR\Resources.resw" />
     <PRIResource Include="Strings\vi\Resources.resw" />
     <PRIResource Include="Strings\ca\Resources.resw" />
-    <PRIResource Include="Strings\en-GB\Resources.resw" />
+    <PRIResource Include="Strings\en-GB\Resources.resw">
+      <SubType>Designer</SubType>
+    </PRIResource>
     <PRIResource Include="Strings\el\Resources.resw" />
     <PRIResource Include="Strings\ka\Resources.resw" />
     <PRIResource Include="Strings\id-ID\Resources.resw" />
