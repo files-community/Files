@@ -108,6 +108,8 @@ namespace Files.Uwp.Interacts
 
         public ICommand EmptyRecycleBinCommand { get; private set; }
 
+        public ICommand EmptySelectionRecycleBinCommand { get; private set; }
+
         public ICommand RestoreRecycleBinCommand { get; private set; }
 
         public ICommand QuickLookCommand { get; private set; }

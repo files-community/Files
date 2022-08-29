@@ -2522,13 +2522,16 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
     <value>Error importing settings</value>
   </data>
   <data name="EmptyRecycleBin" xml:space="preserve">
-    <value>Empty Recycle Bin</value>
+    <value>Empty recycle bin</value>
+  </data>
+  <data name="EmptySelectionRecycleBin" xml:space="preserve">
+    <value>Empty selection</value>
   </data>
   <data name="RestoreAllItemsRecycleBin" xml:space="preserve">
-    <value>Restore All Items</value>
+    <value>Restore recycle bin</value>
   </data>
   <data name="RestoreSelectionRecycleBin" xml:space="preserve">
-    <value>Restore Selection</value>
+    <value>Restore selection</value>
   </data>
   <data name="Sidebar" xml:space="preserve">
     <value>Sidebar</value>

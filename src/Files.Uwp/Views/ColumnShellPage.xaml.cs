@@ -267,7 +267,8 @@ namespace Files.Uwp.Views
             ToolbarViewModel.Share = new RelayCommand(() => SlimContentPage?.CommandsViewModel.ShareItemCommand.Execute(null));
             ToolbarViewModel.DeleteCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DeleteItemCommand.Execute(null));
             ToolbarViewModel.CutCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.CutItemCommand.Execute(null));
-            ToolbarViewModel.EmptyRecycleBinCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.EmptyRecycleBinCommand.Execute(null));
+            ToolbarViewModel.EmptyAllFilesRecycleBinCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.EmptyRecycleBinCommand.Execute(null));
+            ToolbarViewModel.EmptySelectionRecycleBinCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.EmptySelectedItemsRecycleBin.Execute(null));
             ToolbarViewModel.RestoreAllItemsRecycleBinCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RestoreRecycleBinCommand.Execute(null));
             ToolbarViewModel.RestoreSelectionRecycleBinCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RestoreItemCommand.Execute(null));
             ToolbarViewModel.RunWithPowerShellCommand = new RelayCommand(async () => await Win32Helpers.InvokeWin32ComponentAsync("powershell", this, PathNormalization.NormalizePath(SlimContentPage?.SelectedItem.ItemPath)));

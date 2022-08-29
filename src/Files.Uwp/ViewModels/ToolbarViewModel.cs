@@ -753,7 +753,8 @@ namespace Files.Uwp.ViewModels
         public void UpdateAdditionalActions()
         {
             OnPropertyChanged(nameof(HasAdditionalAction));
-            OnPropertyChanged(nameof(CanEmptyRecycleBin));
+            OnPropertyChanged(nameof(CanEmptyAllItemsRecycleBin));
+            OnPropertyChanged(nameof(CanEmptySelectionRecycleBin));
             OnPropertyChanged(nameof(CanRestoreAllItemsRecycleBin));
             OnPropertyChanged(nameof(CanRestoreSelectionRecycleBin));
         }
@@ -877,7 +878,9 @@ namespace Files.Uwp.ViewModels
 
         public ICommand CutCommand { get; set; }
 
-        public ICommand EmptyRecycleBinCommand { get; set; }
+        public ICommand EmptyAllFilesRecycleBinCommand { get; set; }
+
+        public ICommand EmptySelectionRecycleBinCommand { get; set; }
 
         public ICommand RestoreAllItemsRecycleBinCommand { get; set; }
 
@@ -1213,7 +1216,8 @@ namespace Files.Uwp.ViewModels
             {
                 if (SetProperty(ref hasItem, value))
                 {
-                    OnPropertyChanged(nameof(CanEmptyRecycleBin));
+                    OnPropertyChanged(nameof(CanEmptyAllItemsRecycleBin));
+                    OnPropertyChanged(nameof(CanEmptySelectionRecycleBin));
                     OnPropertyChanged(nameof(CanRestoreAllItemsRecycleBin));
                     OnPropertyChanged(nameof(CanRestoreSelectionRecycleBin));
                 }
@@ -1241,7 +1245,8 @@ namespace Files.Uwp.ViewModels
                     OnPropertyChanged(nameof(IsMultipleImageSelected));
                     OnPropertyChanged(nameof(IsFont));
                     OnPropertyChanged(nameof(HasAdditionalAction));
-                    OnPropertyChanged(nameof(CanEmptyRecycleBin));
+                    OnPropertyChanged(nameof(CanEmptyAllItemsRecycleBin));
+                    OnPropertyChanged(nameof(CanEmptySelectionRecycleBin));
                     OnPropertyChanged(nameof(CanRestoreAllItemsRecycleBin));
                     OnPropertyChanged(nameof(CanRestoreSelectionRecycleBin));
                 }
@@ -1253,7 +1258,8 @@ namespace Files.Uwp.ViewModels
         public bool CanShare => SelectedItems is not null && SelectedItems.Any() && DataTransferManager.IsSupported() && !SelectedItems.Any(x => (x.IsShortcutItem && !x.IsLinkItem) || x.IsHiddenItem || (x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsZipItem));
         public bool CanRename => SelectedItems is not null && SelectedItems.Count == 1;
         public bool CanViewProperties => SelectedItems is not null && SelectedItems.Any();
-        public bool CanEmptyRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem;
+        public bool CanEmptyAllItemsRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem && (SelectedItems is null || SelectedItems is not null && SelectedItems.Count == 0);
+        public bool CanEmptySelectionRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem && SelectedItems is not null && SelectedItems is not null && SelectedItems.Count > 0;
         public bool CanRestoreAllItemsRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem && (SelectedItems is null || SelectedItems is not null && SelectedItems.Count == 0);
         public bool CanRestoreSelectionRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem && SelectedItems is not null && SelectedItems is not null && SelectedItems.Count > 0;
         public bool CanExtract => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsZipFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
