@@ -1241,7 +1241,6 @@ namespace Files.Uwp.ViewModels
                     OnPropertyChanged(nameof(IsMultipleImageSelected));
                     OnPropertyChanged(nameof(IsFont));
                     OnPropertyChanged(nameof(HasAdditionalAction));
-                    OnPropertyChanged(nameof(SetAsText));
                     OnPropertyChanged(nameof(CanEmptyRecycleBin));
                     OnPropertyChanged(nameof(CanRestoreAllItemsRecycleBin));
                     OnPropertyChanged(nameof(CanRestoreSelectionRecycleBin));
