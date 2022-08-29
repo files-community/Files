@@ -210,10 +210,23 @@
                     x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
                     AccessKey="B"
                     Command="{x:Bind ViewModel.RestoreRecycleBinCommand, Mode=OneWay}"
-                    IsEnabled="{x:Bind ViewModel.CanRestoreRecycleBin, Mode=OneWay}"
-                    Visibility="{x:Bind ViewModel.CanRestoreRecycleBin, Mode=OneWay}"
-                    Label="{helpers:ResourceString Name=RestoreRecycleBinAllItems}"
-                    ToolTipService.ToolTip="{helpers:ResourceString Name=RestoreRecycleBin}">
+                    IsEnabled="{x:Bind ViewModel.CanRestoreAllItemsRecycleBin, Mode=OneWay}"
+                    Visibility="{x:Bind ViewModel.CanRestoreAllItemsRecycleBin, Mode=OneWay}"
+                    Label="{helpers:ResourceString Name=RestoreAllItemsRecycleBin}"
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=RestoreAllItemsRecycleBin}">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE845;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarButton
+                    x:Name="RestoreSelectionRecycleBinButton"
+                    x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
+                    AccessKey="B"
+                    Command="{x:Bind ViewModel.RestoreRecycleBinCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind ViewModel.CanRestoreSelectionRecycleBin, Mode=OneWay}"
+                    Visibility="{x:Bind ViewModel.CanRestoreSelectionRecycleBin, Mode=OneWay}"
+                    Label="{helpers:ResourceString Name=RestoreSelectionRecycleBin}"
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=RestoreSelectionRecycleBin}">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE845;" />
                     </AppBarButton.Icon>
