@@ -248,7 +248,7 @@ namespace Files.Uwp.ViewModels
             && IsAdaptiveLayoutEnabled;
 
         public bool IsAdaptiveLayoutEnabled
-            => UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder;
+            => !UserSettingsService.PreferencesSettingsService.ForceLayoutPreferencesOnAllDirectories;
 
         private bool canCopyPathInPage;
 
@@ -394,7 +394,7 @@ namespace Files.Uwp.ViewModels
                     RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
                     OnPropertyChanged(e.SettingName);
                     break;
-                case nameof(UserSettingsService.PreferencesSettingsService.AreLayoutPreferencesPerFolder):
+                case nameof(UserSettingsService.PreferencesSettingsService.ForceLayoutPreferencesOnAllDirectories):
                     FolderSettings_LayoutPreferencesUpdateRequired(null, 0);
                     break;
             }
@@ -895,6 +895,10 @@ namespace Files.Uwp.ViewModels
 
         public ICommand SetAsBackgroundCommand { get; set; }
 
+        public ICommand SetAsLockscreenBackgroundCommand { get; set; }
+
+        public ICommand SetAsSlideshowCommand { get; set; }
+
         public ICommand InstallInfCommand { get; set; }
 
         public ICommand RotateImageLeftCommand { get; set; }
@@ -1234,6 +1238,7 @@ namespace Files.Uwp.ViewModels
                     OnPropertyChanged(nameof(IsInfFile));
                     OnPropertyChanged(nameof(IsPowerShellScript));
                     OnPropertyChanged(nameof(IsImage));
+                    OnPropertyChanged(nameof(IsMultipleImageSelected));
                     OnPropertyChanged(nameof(IsFont));
                     OnPropertyChanged(nameof(HasAdditionalAction));
                     OnPropertyChanged(nameof(SetAsText));
@@ -1244,20 +1249,7 @@ namespace Files.Uwp.ViewModels
             }
         }
 
-        public string SetAsText
-        {
-            get
-            {
-                if (SelectedItems is not null && SelectedItems.Count > 1 && IsImage)
-                {
-                    return "SetAsSlideshow".GetLocalized();
-                }
-
-                return "SetAsBackground".GetLocalized();
-            }
-        }
         public bool HasAdditionalAction => InstanceViewModel.IsPageTypeRecycleBin || IsPowerShellScript || CanExtract || IsImage || IsFont || IsInfFile;
-
         public bool CanCopy => SelectedItems is not null && SelectedItems.Any();
         public bool CanShare => SelectedItems is not null && SelectedItems.Any() && DataTransferManager.IsSupported() && !SelectedItems.Any(x => (x.IsShortcutItem && !x.IsLinkItem) || x.IsHiddenItem || (x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsZipItem));
         public bool CanRename => SelectedItems is not null && SelectedItems.Count == 1;
@@ -1269,6 +1261,7 @@ namespace Files.Uwp.ViewModels
         public string ExtractToText => SelectedItems is not null && SelectedItems.Count == 1 ? string.Format("ExtractToChildFolder".GetLocalized() + "\\", Path.GetFileNameWithoutExtension(selectedItems.First().ItemName)) : "ExtractToChildFolder".GetLocalized();
         public bool IsPowerShellScript => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsPowerShellFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
         public bool IsImage => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
+        public bool IsMultipleImageSelected => SelectedItems is not null && SelectedItems.Count > 1 && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
         public bool IsInfFile => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsInfFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
         public bool IsFont => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
 

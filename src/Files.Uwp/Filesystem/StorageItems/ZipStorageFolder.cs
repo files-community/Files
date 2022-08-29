@@ -5,6 +5,7 @@ using Microsoft.Toolkit.Uwp;
 using SevenZip;
 using System;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -72,7 +73,27 @@ namespace Files.Uwp.Filesystem.StorageItems
             return (marker == path.Length && includeRoot) || (marker < path.Length && path[marker] is '\\');
         }
 
-        private static Dictionary<string, Task<bool>> defaultAppDict = new Dictionary<string, Task<bool>>();
+        public async Task<long> GetUncompressedSize()
+        {
+            long uncompressedSize = 0;
+            using SevenZipExtractor zipFile = await FilesystemTasks.Wrap(async () =>
+            {
+                var arch = await OpenZipFileAsync();
+                return arch?.ArchiveFileData is null ? null : arch; // Force load archive (1665013614u)
+            });
+
+            if (zipFile != null)
+            {
+                foreach (var info in zipFile.ArchiveFileData.Where(x => !x.IsDirectory))
+                {
+                    uncompressedSize += (long)info.Size;
+                }
+            }
+
+            return uncompressedSize;
+        }
+
+        private static ConcurrentDictionary<string, Task<bool>> defaultAppDict = new();
         public static async Task<bool> CheckDefaultZipApp(string filePath)
         {
             Func<Task<bool>> queryFileAssoc = async () =>
@@ -81,11 +102,11 @@ namespace Files.Uwp.Filesystem.StorageItems
                 if (assoc != null)
                 {
                     return assoc == Package.Current.Id.FamilyName
-                        || assoc.Equals(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "explorer.exe"), StringComparison.OrdinalIgnoreCase);
+                        || assoc.Equals(IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "explorer.exe"), StringComparison.OrdinalIgnoreCase);
                 }
                 return true;
             };
-            var ext = System.IO.Path.GetExtension(filePath)?.ToLowerInvariant();
+            var ext = IO.Path.GetExtension(filePath)?.ToLowerInvariant();
             return await defaultAppDict.GetAsync(ext, queryFileAssoc);
         }
 
@@ -158,7 +179,10 @@ namespace Files.Uwp.Filesystem.StorageItems
                     return null;
                 }
                 //zipFile.IsStreamOwner = true;
-                var entry = zipFile.ArchiveFileData.FirstOrDefault(x => System.IO.Path.Combine(containerPath, x.FileName) == System.IO.Path.Combine(Path, name));
+
+                var filePath = System.IO.Path.Combine(Path, name);
+
+                var entry = zipFile.ArchiveFileData.FirstOrDefault(x => System.IO.Path.Combine(containerPath, x.FileName) == filePath);
                 if (entry.FileName is null)
                 {
                     return null;
@@ -166,10 +190,10 @@ namespace Files.Uwp.Filesystem.StorageItems
 
                 if (entry.IsDirectory)
                 {
-                    return new ZipStorageFolder(entry.FileName, containerPath, entry, backingFile);
+                    return new ZipStorageFolder(filePath, containerPath, entry, backingFile);
                 }
 
-                return new ZipStorageFile(entry.FileName, containerPath, entry, backingFile);
+                return new ZipStorageFile(filePath, containerPath, entry, backingFile);
             });
         }
         public override IAsyncOperation<IStorageItem> TryGetItemAsync(string name)
@@ -477,6 +501,44 @@ namespace Files.Uwp.Filesystem.StorageItems
                 using var stream = await file.OpenReadAsync();
                 return CheckAccess(stream.AsStream());
             });
+        }
+
+        public static Task<bool> InitArchive(string path, OutArchiveFormat format)
+        {
+            return SafetyExtensions.IgnoreExceptions(() =>
+            {
+                var hFile = NativeFileOperationsHelper.OpenFileForRead(path, true);
+                if (hFile.IsInvalid)
+                {
+                    return Task.FromResult(false);
+                }
+                using var stream = new FileStream(hFile, FileAccess.ReadWrite);
+                return InitArchive(stream, format);
+            });
+        }
+        public static Task<bool> InitArchive(IStorageFile file, OutArchiveFormat format)
+        {
+            return SafetyExtensions.IgnoreExceptions(async () =>
+            {
+                using var fileStream = await file.OpenAsync(FileAccessMode.ReadWrite);
+                using var stream = fileStream.AsStream();
+                return await InitArchive(stream, format);
+            });
+        }
+        private static async Task<bool> InitArchive(Stream stream, OutArchiveFormat format)
+        {
+            if (stream.Length == 0) // File is empty
+            {
+                var compressor = new SevenZipCompressor()
+                {
+                    CompressionMode = CompressionMode.Create,
+                    ArchiveFormat = format
+                };
+                await compressor.CompressStreamDictionaryAsync(stream, new Dictionary<string, Stream>());
+                await stream.FlushAsync();
+                return true;
+            }
+            return false;
         }
 
         private IAsyncOperation<SevenZipExtractor> OpenZipFileAsync()

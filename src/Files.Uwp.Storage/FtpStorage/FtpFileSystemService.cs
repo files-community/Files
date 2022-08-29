@@ -50,7 +50,7 @@ namespace Files.Uwp.Storage.FtpStorage
 
             var ftpPath = FtpHelpers.GetFtpPath(path);
             var item = await ftpClient.GetObjectInfoAsync(ftpPath, token: cancellationToken);
-            if (item is null || item.Type != FtpFileSystemObjectType.Directory)
+            if (item is null || item.Type != FtpObjectType.Directory)
                 throw new DirectoryNotFoundException("Directory was not found from path.");
 
             return new FtpStorageFolder(ftpPath, item.Name);
@@ -63,7 +63,7 @@ namespace Files.Uwp.Storage.FtpStorage
 
             var ftpPath = FtpHelpers.GetFtpPath(path);
             var item = await ftpClient.GetObjectInfoAsync(ftpPath, token: cancellationToken);
-            if (item is null || item.Type != FtpFileSystemObjectType.File)
+            if (item is null || item.Type != FtpObjectType.File)
                 throw new FileNotFoundException("File was not found from path.");
 
             return new FtpStorageFile(ftpPath, item.Name);
