@@ -191,13 +191,16 @@ namespace Files.Uwp.Filesystem.Search
         private async Task SearchTagsAsync(string folder, IList<ListedItem> results, CancellationToken token)
         {
             //var sampler = new IntervalSampler(500);
-            var tagName = AQSQuery.Substring("tag:".Length);
-            var tags = FileTagsSettingsService.SearchTagsByName(tagName);
-            if (!tags.Any())
+            var tags = AQSQuery.Substring("tag:".Length)?.Split(",").Where(t => !string.IsNullOrWhiteSpace(t))
+                .SelectMany(t => FileTagsSettingsService.GetTagsByName(t), (_, t) => t.Uid).ToHashSet();
+            if (tags?.Any() != true)
             {
                 return;
             }
-            var matches = FileTagsHelper.DbInstance.GetAllUnderPath(folder).Where(x => tags.Select(t => t.Uid).Intersect(x.Tags).Any());
+
+            var matches = FileTagsHelper.DbInstance.GetAllUnderPath(folder)
+                            .Where(x => tags.All(x.Tags.Contains));
+
             foreach (var match in matches)
             {
                 (IntPtr hFile, WIN32_FIND_DATA findData) = await Task.Run(() =>
