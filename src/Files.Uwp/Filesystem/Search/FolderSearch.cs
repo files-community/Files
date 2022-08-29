@@ -199,7 +199,7 @@ namespace Files.Uwp.Filesystem.Search
             }
 
             var matches = FileTagsHelper.DbInstance.GetAllUnderPath(folder)
-                            .Where(x => tags.All(t => x.Tags.Contains(t.Uid)));
+                            .Where(x => tags.All(x.Tags.Contains));
 
             foreach (var match in matches)
             {
