@@ -292,7 +292,7 @@
     <value>करेंताज़ा</value>
   </data>
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
-    <value>पेस्ट करें</value>
+    <value>चिपकाएँ</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>नया(N)</value>
@@ -352,13 +352,13 @@
     <value>फाइल फ़ोल्डर</value>
   </data>
   <data name="ItemTypeFile" xml:space="preserve">
-    <value>संचिका</value>
+    <value>फ़ाइल</value>
   </data>
   <data name="RenameDialog.Title" xml:space="preserve">
     <value>किसी आइटम का नाम दर्ज करें</value>
   </data>
   <data name="RenameDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>एक्सटेंशन के बिना किसी आइटम का नाम दर्ज करें</value>
+    <value>किसी आइटम का नाम दर्ज करें</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>नाम निर्धारित करें</value>
@@ -649,7 +649,7 @@
     <value>शॉर्टकट बनाएँ</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
-    <value>फ़ाइल स्थान खोलें</value>
+    <value>फाइल स्थान खोलें</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
     <value>तर्क</value>
@@ -685,7 +685,7 @@
     <value>{0} - shortcut</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
-    <value>फ़ाइल स्थान खोलें</value>
+    <value>फाइल स्थान खोलें</value>
   </data>
   <data name="DriveCapacityUnknown" xml:space="preserve">
     <value>अज्ञात</value>
@@ -1294,19 +1294,19 @@
     <value>पूर्वावलोकन</value>
   </data>
   <data name="NavToolbarLargeIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>बड़े चिह्न</value>
+    <value>ग्रिड व्यू (बड़े)</value>
   </data>
   <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>Large Icons (Ctrl+Shift+5)</value>
   </data>
   <data name="NavToolbarMediumIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>मध्यम चिह्न</value>
+    <value>ग्रिड व्यू (मध्यम)</value>
   </data>
   <data name="NavToolbarMediumIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>Medium Icons (Ctrl+Shift+4)</value>
   </data>
   <data name="NavToolbarSmallIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>छोटे चिह्न</value>
+    <value>ग्रिड व्यू (छोटा)</value>
   </data>
   <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>Small Icons (Ctrl+Shift+3)</value>
@@ -1393,7 +1393,7 @@
     <value>कोई विवरण उपलब्ध नहीं.</value>
   </data>
   <data name="PropertyItemName" xml:space="preserve">
-    <value>आइटम नाम</value>
+    <value>वस्तु का नाम</value>
   </data>
   <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
     <value>Unpin from Favorites</value>
@@ -1849,7 +1849,7 @@
     <value>View Files privacy policy</value>
   </data>
   <data name="RenameFileDialogTitle" xml:space="preserve">
-    <value>नाम बदलें</value>
+    <value>पुनर्नाम</value>
   </data>
   <data name="StatusMoveCanceled" xml:space="preserve">
     <value>Move canceled</value>
@@ -2047,7 +2047,7 @@
     <value>डिफ़ॉल्ट लायब्रेरीज़ पुनर्स्थापित करें</value>
   </data>
   <data name="DialogRestoreLibrariesButtonText" xml:space="preserve">
-    <value>पुनर्स्थापित करें</value>
+    <value>पुनर्स्थापित</value>
   </data>
   <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
     <value>Are you sure you want to restore the default libraries? All your files will remain on your storage.</value>
@@ -2361,7 +2361,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>कोई डिस्क डालें</value>
   </data>
   <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
-    <value>ठीक</value>
+    <value>ठीक है</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
     <value>क्रेडेंशियल आवश्यक</value>
@@ -2406,13 +2406,13 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>स्तंभ</value>
   </data>
   <data name="LargeIcons" xml:space="preserve">
-    <value>बड़े चिह्न</value>
+    <value>ग्रिड व्यू (बड़े)</value>
   </data>
   <data name="MediumIcons" xml:space="preserve">
-    <value>मध्यम चिह्न</value>
+    <value>ग्रिड व्यू (मध्यम)</value>
   </data>
   <data name="SmallIcons" xml:space="preserve">
-    <value>छोटे चिह्न</value>
+    <value>ग्रिड व्यू (छोटा)</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>टाइल्स</value>
@@ -2595,7 +2595,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Register for restart</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
-    <value>व्यवस्थापक के रूप में चलाएँ</value>
+    <value>प्रशासक के रूप में भागो</value>
   </data>
   <data name="RunCompatibilityTroubleShooter" xml:space="preserve">
     <value>Run compatibility troubleshooter</value>
@@ -2652,7 +2652,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>बाइट्स</value>
   </data>
   <data name="Extract" xml:space="preserve">
-    <value>उद्धृत करें</value>
+    <value>निकाल</value>
   </data>
   <data name="ExtractFiles" xml:space="preserve">
     <value>Extract files</value>
