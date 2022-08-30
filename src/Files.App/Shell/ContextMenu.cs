@@ -216,7 +216,7 @@ namespace Files.App.Shell
                         if (bitmap != null)
                         {
                             byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(bitmap, typeof(byte[]));
-                            menuItem.IconBase64 = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
+                            menuItem.Icon = bitmapData;
                         }
                     }
                     if (mii.hSubMenu != HMENU.NULL)

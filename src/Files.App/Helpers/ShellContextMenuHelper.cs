@@ -45,8 +45,8 @@ namespace Files.App.Helpers
                 return filterMenuItemsImpl;
             }
 
-            var contextMenu = ContextMenu.GetContextMenuForFiles(filePaths,
-                        (shiftPressed ? Shell32.CMF.CMF_EXTENDEDVERBS : Shell32.CMF.CMF_NORMAL) | Shell32.CMF.CMF_SYNCCASCADEMENU, FilterMenuItems(showOpenMenu));
+            var contextMenu = await Task.Run(() => ContextMenu.GetContextMenuForFiles(filePaths,
+                        (shiftPressed ? Shell32.CMF.CMF_EXTENDEDVERBS : Shell32.CMF.CMF_NORMAL) | Shell32.CMF.CMF_SYNCCASCADEMENU, FilterMenuItems(showOpenMenu)));
 
             if (contextMenu != null)
             {
@@ -98,11 +98,10 @@ namespace Files.App.Helpers
                 BitmapImage image = null;
                 if (showIcons)
                 {
-                    if (!string.IsNullOrEmpty(menuFlyoutItem.IconBase64))
+                    if (menuFlyoutItem.Icon is { Length: > 0 })
                     {
                         image = new BitmapImage();
-                        byte[] bitmapData = Convert.FromBase64String(menuFlyoutItem.IconBase64);
-                        using var ms = new MemoryStream(bitmapData);
+                        using var ms = new MemoryStream(menuFlyoutItem.Icon);
                         image.SetSourceAsync(ms.AsRandomAccessStream()).AsTask().Wait(10);
                     }
                 }
