@@ -606,11 +606,10 @@ namespace Files.App
                 if (!InstanceViewModel.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeZipFolder)
                 {
                     var shellMenuItems = await ContextFlyoutItemHelper.GetBaseContextShellCommandsAsync(currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
-                    if (shellContextMenuItemCancellationToken.IsCancellationRequested)
+                    if (shellMenuItems?.Any() ?? false)
                     {
-                        return;
+                        AddShellItemsToMenu(shellMenuItems, BaseContextMenuFlyout, shiftPressed);
                     }
-                    AddShellItemsToMenu(shellMenuItems, BaseContextMenuFlyout, shiftPressed);
                 }
             }
             catch (Exception error)
@@ -670,11 +669,10 @@ namespace Files.App
             if (!InstanceViewModel.IsPageTypeZipFolder)
             {
                 var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
-                if (shellContextMenuItemCancellationToken.IsCancellationRequested)
+                if (shellMenuItems?.Any() ?? false)
                 {
-                    return;
+                    AddShellItemsToMenu(shellMenuItems, ItemContextMenuFlyout, shiftPressed);
                 }
-                AddShellItemsToMenu(shellMenuItems, ItemContextMenuFlyout, shiftPressed);
             }
         }
 
