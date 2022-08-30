@@ -9,6 +9,8 @@ using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.ViewModels;
+using Files.App.Views;
+using Files.App.Views.LayoutModes;
 using Files.App.Extensions;
 using System;
 using System.Collections.Generic;
@@ -134,6 +136,8 @@ namespace Files.App.UserControls
 
         private ICommand OpenPropertiesCommand { get; }
 
+        private ICommand OpenFullPath { get; }
+
         private bool IsInPointerPressed = false;
 
         private DispatcherQueueTimer dragOverSectionTimer, dragOverItemTimer;
@@ -158,6 +162,7 @@ namespace Files.App.UserControls
             OpenInNewPaneCommand = new RelayCommand(OpenInNewPane);
             EjectDeviceCommand = new RelayCommand(EjectDevice);
             OpenPropertiesCommand = new RelayCommand(OpenProperties);
+            OpenFullPath = new RelayCommand(OpenPath);
         }
 
         public SidebarViewModel ViewModel
@@ -324,6 +329,12 @@ namespace Files.App.UserControls
                     ID = "ItemOverflow",
                     Tag = "ItemOverflow",
                     IsHidden = true,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "OpenCompletePath".GetLocalizedResource(),
+                    Command = OpenFullPath,
+                    ShowItem = item.Section == SectionType.Favorites
                 }
             }.Where(x => x.ShowItem).ToList();
         }
@@ -496,6 +507,19 @@ namespace Files.App.UserControls
         private async void EjectDevice()
         {
             await DriveHelpers.EjectDeviceAsync(rightClickedItem.Path);
+        }
+
+        private void OpenPath()
+        {
+            if (ViewModel.PaneHolder.ActivePane is ModernShellPage shp)
+            {
+                if (shp.FolderSettings.GetLayoutType(rightClickedItem.Path) == typeof(ColumnViewBrowser))
+                {
+                    shp.FolderSettings.OpenFullPathColumnView = true;
+                }
+                shp.NavigateToPath(rightClickedItem.Path, null);
+                shp.FolderSettings.OpenFullPathColumnView = false;
+            }
         }
 
         private async void Sidebar_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)

@@ -61,6 +61,8 @@ namespace Files.App.ViewModels
             }
         }
 
+        public bool OpenFullPathColumnView { get; set; } = false;
+
         public FolderLayoutModes LayoutMode
         {
             get => rootLayoutMode ?? LayoutPreference.LayoutMode;
