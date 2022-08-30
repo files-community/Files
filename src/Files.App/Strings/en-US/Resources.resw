@@ -2825,4 +2825,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   <data name="Lockscreen" xml:space="preserve">
     <value>Lockscreen</value>
   </data>
+  <data name="OpenCompletePath" xml:space="preserve">
+    <value>Open full path</value>
+  </data>
 </root>

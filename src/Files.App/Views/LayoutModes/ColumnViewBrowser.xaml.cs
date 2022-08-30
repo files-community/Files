@@ -7,7 +7,9 @@ using Files.App.UserControls;
 using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Controls;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
@@ -19,6 +21,12 @@ namespace Files.App.Views.LayoutModes
     {
         protected override uint IconSize => Browser.ColumnViewBrowser.ColumnViewSizeSmall;
         protected override ItemsControl ItemsControl => ColumnHost;
+
+        private readonly StringBuilder path = new StringBuilder();
+        private Queue<string> _pathFolders = new Queue<string>();
+        private string _destinationPath = string.Empty;
+        private int depth = 0;
+        private bool _openFullPath = false;
 
         public ColumnViewBrowser() : base()
         {
@@ -67,7 +75,58 @@ namespace Files.App.Views.LayoutModes
 
         private void ContentChanged(IShellPage p)
         {
-            (ParentShellPageInstance as ModernShellPage)?.RaiseContentChanged(p, p.TabItemArguments);
+            if (_openFullPath)
+            {
+                if (ColumnHost.ActiveBlades.Count > 0 &&
+                    ((ColumnHost.ActiveBlades.First().Content as Frame)?.Content as ColumnShellPage)?.SlimContentPage is ColumnViewBase columnLayout)
+                {
+                    columnLayout.Loaded += OpenPrecedent;
+                }
+            }
+            else
+            {
+                (ParentShellPageInstance as ModernShellPage)?.RaiseContentChanged(p, p.TabItemArguments);
+            }
+        }
+
+        private void OpenPrecedent(object sender, RoutedEventArgs e)
+        {
+            if (_pathFolders.Count > 1)
+            {
+                if (ColumnHost.ActiveBlades.Count > depth &&
+                    _pathFolders.TryDequeue(out string nextFolder))
+                {
+                    depth++;
+                    path.Remove(path.Length - nextFolder.Length, nextFolder.Length);
+                    if (path.ToString().EndsWith('\\') ||
+                        path.ToString().EndsWith('/'))
+                    {
+                        path.Remove(path.Length - 1, 1);
+                    }
+
+                    var frame = new Frame();
+                    frame.Navigated += Frame_Navigated;
+                    var newblade = new BladeItem()
+                    {
+                        Content = frame
+                    };
+                    ColumnHost.Items.Insert(0, newblade);
+
+                    frame.Navigate(typeof(ColumnShellPage), new ColumnParam
+                    {
+                        Column = depth,
+                        NavPathParam = path.ToString()
+                    });
+                }
+            }
+            else if (depth == ColumnHost.ActiveBlades.Count)
+            {
+                _openFullPath = false;
+            }
+            else
+            {
+                depth++;
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -75,6 +134,16 @@ namespace Files.App.Views.LayoutModes
             base.OnNavigatedTo(eventArgs);
 
             var navigationArguments = (NavigationArguments)eventArgs.Parameter;
+
+            _destinationPath = navigationArguments.NavPathParam;
+
+
+            _openFullPath = true;
+            depth = 0;
+            path.Clear();
+            path.Append(_destinationPath);
+            _pathFolders = new Queue<string>(_destinationPath.Split('/', '\\').Reverse());
+
             MainPageFrame.Navigated += Frame_Navigated;
             MainPageFrame.Navigate(typeof(ColumnShellPage), new ColumnParam
             {
