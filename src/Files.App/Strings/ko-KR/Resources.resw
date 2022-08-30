@@ -358,7 +358,7 @@
     <value>항목명 입력</value>
   </data>
   <data name="RenameDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>여기에 항목명을 입력하세요.</value>
+    <value>항목명 입력</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>이름 설정</value>
@@ -520,7 +520,7 @@
     <value>확인</value>
   </data>
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
-    <value>파일 이름에는 다음 문자를 사용할 수 없습니다. \ / : * ? " &lt; &gt; |</value>
+    <value>파일명에는 다음 문자들을 사용할 수 없습니다: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>항목 선택함</value>
@@ -649,7 +649,7 @@
     <value>바로 가기 생성</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
-    <value>파일 위치 열기</value>
+    <value>파일 경로 열기</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
     <value>명령 전달인자:</value>
@@ -685,7 +685,7 @@
     <value>{0} - 바로 가기</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
-    <value>파일 위치 열기</value>
+    <value>파일 경로 열기</value>
   </data>
   <data name="DriveCapacityUnknown" xml:space="preserve">
     <value>알 수 없음</value>
@@ -1588,13 +1588,13 @@
     <value>기본 저장 경로로 설정</value>
   </data>
   <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
-    <value>간격 없음</value>
+    <value>삭제</value>
   </data>
   <data name="LibraryNoLocations.Text" xml:space="preserve">
     <value>위치 없음</value>
   </data>
   <data name="ErrorInputEmpty" xml:space="preserve">
-    <value>값을 입력해야 합니다!</value>
+    <value>입력 필드는 비워 둘 수 없습니다!</value>
   </data>
   <data name="ErrorNameInputRestrictedCharacters" xml:space="preserve">
     <value>다음 기호가 포함될 수 없습니다: \ / : * ? " &lt; &gt; |</value>
@@ -1849,7 +1849,7 @@
     <value>Files 개인정보취급방침 보기</value>
   </data>
   <data name="RenameFileDialogTitle" xml:space="preserve">
-    <value>이름 바꾸기</value>
+    <value>이름 변경</value>
   </data>
   <data name="StatusMoveCanceled" xml:space="preserve">
     <value>이동 취소됨</value>
@@ -2487,7 +2487,7 @@
     <value>파일 열기 대화 창에서 Files 사용</value>
   </data>
   <data name="Tag" xml:space="preserve">
-    <value>태그</value>
+    <value>파일 태그</value>
   </data>
   <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
     <value>한 번 클릭하여 폴더 열기</value>
@@ -2655,10 +2655,10 @@
     <value>압축 해제</value>
   </data>
   <data name="ExtractFiles" xml:space="preserve">
-    <value>파일 압축 해제</value>
+    <value>파일 압축 풀기</value>
   </data>
   <data name="ExtractHere" xml:space="preserve">
-    <value>여기에 압축 해제</value>
+    <value>여기에 압축 풀기</value>
   </data>
   <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+E</value>
@@ -2790,7 +2790,7 @@
     <value>Set as lockscreen</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
-    <value>바탕화면 배경으로 설정</value>
+    <value>바탕 화면 배경으로 설정</value>
   </data>
   <data name="SetAsDefault" xml:space="preserve">
     <value>Set as default</value>
