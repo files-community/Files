@@ -304,7 +304,7 @@
     <value>பண்புகள்</value>
   </data>
   <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
-    <value>குணங்கள்</value>
+    <value>பண்புகள்</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>பிரித்தெடு</value>
@@ -550,7 +550,7 @@
     <value>இந்த உருப்படிகள் அனைத்தையும் நிரந்தரமாக நீக்க விரும்புகிறீர்களா?</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
-    <value>மறுசுழற்சிக் கூடையை வெறுமையாக்கு</value>
+    <value>மறுசுழற்சிக் கூடையைக் காலியாக்கு</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
     <value>பைட்கள்</value>
@@ -1295,19 +1295,19 @@
     <value>முன்னோட்டம்</value>
   </data>
   <data name="NavToolbarLargeIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>பெரிய படவுருக்கள்</value>
+    <value>பெரிய சின்னங்கள்</value>
   </data>
   <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>Large Icons (Ctrl+Shift+5)</value>
   </data>
   <data name="NavToolbarMediumIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>நடுத்தரக் குறும்படங்கள்</value>
+    <value>நடுத்தர சின்னங்கள்</value>
   </data>
   <data name="NavToolbarMediumIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>Medium Icons (Ctrl+Shift+4)</value>
   </data>
   <data name="NavToolbarSmallIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>சிறிய படவுருக்கள்</value>
+    <value>சிறிய சின்னங்கள்</value>
   </data>
   <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>Small Icons (Ctrl+Shift+3)</value>
@@ -1343,7 +1343,7 @@
     <value>Input field cannot be empty!</value>
   </data>
   <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
-    <value>புதிய தாவலில் திற</value>
+    <value>புதியத் தாவலில் திற</value>
   </data>
   <data name="BundleItemFlyouOpenItemLocationMenuItem.Text" xml:space="preserve">
     <value>Open item location</value>
@@ -1442,7 +1442,7 @@
     <value>Not calculated</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
-    <value>அறியாதது</value>
+    <value>தெரியாதவை</value>
   </data>
   <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>Multiselect</value>
@@ -1475,7 +1475,7 @@
     <value>Removable Storage Device</value>
   </data>
   <data name="DriveTypeUnknown" xml:space="preserve">
-    <value>அறியாதது</value>
+    <value>தெரியாதவை</value>
   </data>
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
     <value>Virtual Drive</value>
@@ -1769,7 +1769,7 @@
     <value>இதன்படி குழுவாக்கு</value>
   </data>
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
-    <value>பெயரிடு</value>
+    <value>பெயர்</value>
   </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>மாற்றப்பட்ட தேதி</value>
@@ -1778,7 +1778,7 @@
     <value>Original folder</value>
   </data>
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
-    <value>தட்டச்சுசெய்யவும்</value>
+    <value>வகை</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>இதன்படி வரிசைப்படுத்து</value>
@@ -2090,7 +2090,7 @@
     <value>அனுமதிகள்</value>
   </data>
   <data name="SecurityAdvancedTypeLabel.Text" xml:space="preserve">
-    <value>தட்டச்சுசெய்யவும்</value>
+    <value>வகை</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
     <value>You do not have permissions to view the security properties of this object. You can try to take ownership of this object.</value>
@@ -2335,7 +2335,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Open parent folder</value>
   </data>
   <data name="FileTagUnknown" xml:space="preserve">
-    <value>அறியாதது</value>
+    <value>தெரியாதவை</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
     <value>குறிக்குழு</value>
@@ -2407,13 +2407,13 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>நெடுவரிசைகள்</value>
   </data>
   <data name="LargeIcons" xml:space="preserve">
-    <value>பெரிய படவுருக்கள்</value>
+    <value>பெரிய சின்னங்கள்</value>
   </data>
   <data name="MediumIcons" xml:space="preserve">
-    <value>நடுத்தரக் குறும்படங்கள்</value>
+    <value>நடுத்தர சின்னங்கள்</value>
   </data>
   <data name="SmallIcons" xml:space="preserve">
-    <value>சிறிய படவுருக்கள்</value>
+    <value>சிறிய சின்னங்கள்</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>டைல்கள்</value>
