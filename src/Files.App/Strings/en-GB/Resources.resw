@@ -784,7 +784,7 @@
     <value>Create a New Item</value>
   </data>
   <data name="AddDialogDescription.Text" xml:space="preserve">
-    <value>Choose a type for this new item below</value>
+    <value>Choose a type for the new item below</value>
   </data>
   <data name="File" xml:space="preserve">
     <value>File</value>
@@ -847,7 +847,7 @@
     <value>Item Path</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
-    <value>Item Type</value>
+    <value>Item Path</value>
   </data>
   <data name="PropertyTitle" xml:space="preserve">
     <value>Title</value>
@@ -1348,7 +1348,7 @@
     <value>Open item location</value>
   </data>
   <data name="BundleItemFlyouRemoveFromBundleMenuItem.Text" xml:space="preserve">
-    <value>Remove from bundle</value>
+    <value>Remove from Bundle</value>
   </data>
   <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
     <value>Remove Bundle</value>
@@ -1417,13 +1417,13 @@
     <value>Documentation</value>
   </data>
   <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Visit the Files documentation website</value>
+    <value>Visit the Files documentation online</value>
   </data>
   <data name="OngoingTasksFlyout.AutomationProperties.Name" xml:space="preserve">
     <value>Ongoing tasks flyout</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
-    <value>Available when online</value>
+    <value>Available online</value>
   </data>
   <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
     <value>Available offline</value>
@@ -1447,7 +1447,7 @@
     <value>Multiselect</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
-    <value>If you change a file extension, the file might become unusable. Are you sure you want to change it?</value>
+    <value>If you change a file extension, the file may become unusable. Are you sure you want to change it?</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
     <value>CD ROM Drive</value>
@@ -1486,7 +1486,7 @@
     <value>More options...</value>
   </data>
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
-    <value>Map network drive</value>
+    <value>Connect to a network drive</value>
   </data>
   <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
     <value>Disconnect</value>
@@ -1495,7 +1495,7 @@
     <value>More bundles options</value>
   </data>
   <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>More drives options</value>
+    <value>More drive options</value>
   </data>
   <data name="SidebarFavorites" xml:space="preserve">
     <value>Favourites</value>
@@ -2092,7 +2092,7 @@
     <value>Type</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
-    <value>You do not have permissions to view the security properties of this object. You can try to take ownership of this object.</value>
+    <value>You do not have permission to view the security properties of this object. You can attempt to take ownership of this object.</value>
   </data>
   <data name="SecurityAdvancedSpecialLabel.Text" xml:space="preserve">
     <value>Special</value>
@@ -2266,7 +2266,7 @@
     <value>Ctrl+A</value>
   </data>
   <data name="NavigationToolbarNewPane.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Alt+Shift++</value>
+    <value>Alt+Shift+Plus</value>
   </data>
   <data name="NavigationToolbarClosePane.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+W</value>
@@ -2411,13 +2411,13 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
     <value>Columns</value>
   </data>
   <data name="LargeIcons" xml:space="preserve">
-    <value>Large icons</value>
+    <value>Grid View (Large)</value>
   </data>
   <data name="MediumIcons" xml:space="preserve">
-    <value>Large icons</value>
+    <value>Grid View (Medium)</value>
   </data>
   <data name="SmallIcons" xml:space="preserve">
-    <value>Large icons</value>
+    <value>Grid View (Small)</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Tiles</value>
@@ -2429,13 +2429,13 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
     <value>Show hidden items</value>
   </data>
   <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Show favourites section</value>
+    <value>Show Favourites section on the sidebar</value>
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Open folders in new tab</value>
   </data>
   <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Pin Recycle Bin to favourites</value>
+    <value>Pin Recycle Bin to Favourites</value>
   </data>
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Language</value>
@@ -2744,7 +2744,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
     <value>Universal</value>
   </data>
   <data name="DateFormatSample" xml:space="preserve">
-    <value>ex: {0}, {1}</value>
+    <value>eg: {0}, {1}</value>
   </data>
   <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
     <value>Show thumbnails</value>
