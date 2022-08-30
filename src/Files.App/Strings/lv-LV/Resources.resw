@@ -1588,13 +1588,13 @@
     <value>Iestatīt kā noklusējuma saglabāšanas ceļu</value>
   </data>
   <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
-    <value>Noņemt</value>
+    <value>Dzēst</value>
   </data>
   <data name="LibraryNoLocations.Text" xml:space="preserve">
     <value>Nav atrašanās vietu</value>
   </data>
   <data name="ErrorInputEmpty" xml:space="preserve">
-    <value>Ievades lauks nedrīkst būt tukšs!</value>
+    <value>Ievades lauks nevar būt tukšs!</value>
   </data>
   <data name="ErrorNameInputRestrictedCharacters" xml:space="preserve">
     <value>Nosaukums nevar saturēt sekojošos simbolus: \ / : * ? " &lt; &gt; |</value>
@@ -1705,7 +1705,7 @@
     <value>Aizvietot esošo</value>
   </data>
   <data name="ConflictingItemsDialogOptionReplaceExisting.Text" xml:space="preserve">
-    <value>Aizvietot esošos</value>
+    <value>Aizvietot esošo</value>
   </data>
   <data name="ConflictingItemsDialogTakenActionReplaceExisting" xml:space="preserve">
     <value>Aizvietot esošo</value>
@@ -1768,7 +1768,7 @@
     <value>Grupēt pēc</value>
   </data>
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
-    <value>Vārds</value>
+    <value>Nosaukums</value>
   </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Modificēšanas datums</value>
@@ -2323,7 +2323,7 @@
     <value>Fluent UI Sistēmas ikonas</value>
   </data>
   <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Fluent UI sistēmas ikonas</value>
+    <value>Fluent UI Sistēmas ikonas</value>
   </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
@@ -2406,13 +2406,13 @@ Mēs lietojam App Center, lai sekotu līdzi programmas lietojumam, atrastu un no
     <value>Kolonnas</value>
   </data>
   <data name="LargeIcons" xml:space="preserve">
-    <value>Liels režģis</value>
+    <value>Lielas ikonas</value>
   </data>
   <data name="MediumIcons" xml:space="preserve">
-    <value>Vidējs režģis</value>
+    <value>Vidēji lielas ikonas</value>
   </data>
   <data name="SmallIcons" xml:space="preserve">
-    <value>Mazs režģis</value>
+    <value>Mazas ikonas</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Mozaīka</value>
@@ -2439,7 +2439,7 @@ Mēs lietojam App Center, lai sekotu līdzi programmas lietojumam, atrastu un no
     <value>Rādīt tīkla disku sadaļu</value>
   </data>
   <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Rādīt apstiprinājuma dialogu, dzēšot failus vai mapes</value>
+    <value>Dzēšot failus vai mapes, rādīt apstiprinājuma vaicājumu</value>
   </data>
   <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Rādīt diskdziņu sadaļu</value>
@@ -2646,7 +2646,7 @@ Mēs lietojam App Center, lai sekotu līdzi programmas lietojumam, atrastu un no
     <value>Diska tīrīšana</value>
   </data>
   <data name="Type" xml:space="preserve">
-    <value>Veids:</value>
+    <value>Tips:</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Baiti</value>
@@ -2655,10 +2655,10 @@ Mēs lietojam App Center, lai sekotu līdzi programmas lietojumam, atrastu un no
     <value>Izvērst</value>
   </data>
   <data name="ExtractFiles" xml:space="preserve">
-    <value>Izvērst failus</value>
+    <value>Izvilkt failus</value>
   </data>
   <data name="ExtractHere" xml:space="preserve">
-    <value>Izvērst šeit</value>
+    <value>Izvilkt šeit</value>
   </data>
   <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+E</value>
