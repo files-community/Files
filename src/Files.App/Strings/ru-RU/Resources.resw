@@ -517,7 +517,7 @@
     <value>Имя элемента не должно содержать следующих знаков: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
-    <value>Ок</value>
+    <value>ОК</value>
   </data>
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>Имя элемента не должно содержать следующих знаков: \ / : * ? " &lt; &gt; |</value>
@@ -1588,7 +1588,7 @@
     <value>Установить как путь по умолчанию</value>
   </data>
   <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
-    <value>Удалить</value>
+    <value>Убрать</value>
   </data>
   <data name="LibraryNoLocations.Text" xml:space="preserve">
     <value>Расположения отсутствуют</value>
@@ -1768,7 +1768,7 @@
     <value>Группировка</value>
   </data>
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
-    <value>Название</value>
+    <value>Имя</value>
   </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Дата изменения</value>
@@ -2360,7 +2360,7 @@
     <value>Вставьте диск</value>
   </data>
   <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Ок</value>
+    <value>ОК</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
     <value>Требуются учетные данные</value>
@@ -2405,13 +2405,13 @@
     <value>Столбцы</value>
   </data>
   <data name="LargeIcons" xml:space="preserve">
-    <value>Большие Иконки</value>
+    <value>Огромные значки</value>
   </data>
   <data name="MediumIcons" xml:space="preserve">
-    <value>Средние Иконки</value>
+    <value>Крупные значки</value>
   </data>
   <data name="SmallIcons" xml:space="preserve">
-    <value>Маленькие Иконки</value>
+    <value>Обычные значки</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Плитки</value>
@@ -2426,7 +2426,7 @@
     <value>Показать секцию Избранное</value>
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Открыть в новой вкладке</value>
+    <value>Открывать папки в новой вкладке</value>
   </data>
   <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Закрепить Корзину в секции Избранное</value>
@@ -2546,7 +2546,7 @@
     <value>При запуске программы</value>
   </data>
   <data name="HighDpiOverride_System" xml:space="preserve">
-    <value>Система</value>
+    <value>система</value>
   </data>
   <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
     <value>Система (продвинутый)</value>
@@ -2594,7 +2594,7 @@
     <value>Зарегистрироваться для перезапуска</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
-    <value>Запустить от имени администратора</value>
+    <value>Запуск от имени администратора</value>
   </data>
   <data name="RunCompatibilityTroubleShooter" xml:space="preserve">
     <value>Запустить средство устранения неполадок совместимости</value>
@@ -2630,7 +2630,7 @@
     <value>Аттрибуты</value>
   </data>
   <data name="Hidden" xml:space="preserve">
-    <value>Скрыто</value>
+    <value>Скрытая</value>
   </data>
   <data name="MoreDetails" xml:space="preserve">
     <value>Больше информации</value>
@@ -2657,7 +2657,7 @@
     <value>Извлечь файлы</value>
   </data>
   <data name="ExtractHere" xml:space="preserve">
-    <value>Извлечь здесь</value>
+    <value>Извлечь сюда</value>
   </data>
   <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+E</value>
@@ -2729,7 +2729,7 @@
     <value>Показать Секцию Меток</value>
   </data>
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Показывать Секцию Меток</value>
+    <value>Показать Секцию Меток</value>
   </data>
   <data name="UseCompactStyles" xml:space="preserve">
     <value>Использовать компактный стиль макета боковой панели</value>
@@ -2762,7 +2762,7 @@
     <value>Столбцы по размеру содержимого</value>
   </data>
   <data name="Contributors" xml:space="preserve">
-    <value>Контрибьюторы</value>
+    <value>Авторы</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
     <value>Адаптивный</value>
@@ -2783,19 +2783,19 @@
     <value>Хотели бы вы оценить Files?</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
-    <value>Set as background</value>
+    <value>Сделать фоном рабочего стола</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Set as lockscreen</value>
+    <value>Сделать фоном экрана блокировки</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
-    <value>Установить как фон</value>
+    <value>Применить как фон рабочего стола</value>
   </data>
   <data name="SetAsDefault" xml:space="preserve">
     <value>Установить по умолчанию</value>
   </data>
   <data name="FolderPreferences" xml:space="preserve">
-    <value>Folder preferences</value>
+    <value>Настройки папки</value>
   </data>
   <data name="DisplayDateColumn" xml:space="preserve">
     <value>Отображать столбец даты</value>
@@ -2813,15 +2813,15 @@
     <value>Отображать столбец типа</value>
   </data>
   <data name="Reset" xml:space="preserve">
-    <value>Reset</value>
+    <value>Сбросить</value>
   </data>
   <data name="ResetLayoutPreferences" xml:space="preserve">
-    <value>This action will reset all directories back to your default preferences.</value>
+    <value>Это действие вернет все папки к настройкам по умолчанию.</value>
   </data>
   <data name="AreYouSure" xml:space="preserve">
-    <value>Are you sure?</value>
+    <value>Вы уверены?</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
-    <value>Lockscreen</value>
+    <value>Экран блокировки</value>
   </data>
 </root>
