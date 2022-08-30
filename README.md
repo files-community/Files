@@ -58,4 +58,4 @@ Want to contribute to this project? Feel free to open an [issue](https://github.
 
 ## Screenshots
 
-![Files](src/Files.Uwp/Assets/FilesHome.png)
+![Files](src/Files.App/Assets/FilesHome.png)
