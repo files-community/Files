@@ -244,7 +244,7 @@
     <value>Tampilan</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
-    <value>Experimen</value>
+    <value>Uji Coba</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Preferensi</value>
@@ -649,7 +649,7 @@
     <value>Buat Pintasan</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
-    <value>Buka lokasi berkas</value>
+    <value>Buka lokasi file</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
     <value>Argumen:</value>
@@ -685,7 +685,7 @@
     <value>{0} - pintasan</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
-    <value>Buka lokasi Berkas</value>
+    <value>Buka lokasi file</value>
   </data>
   <data name="DriveCapacityUnknown" xml:space="preserve">
     <value>Tidak diketahui</value>
@@ -1195,7 +1195,7 @@
     <value>Pusat Status</value>
   </data>
   <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Cari</value>
+    <value>Pencarian</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Hasil pencarian di {1} untuk {0}</value>
@@ -1393,7 +1393,7 @@
     <value>Rincian tidak tersedia</value>
   </data>
   <data name="PropertyItemName" xml:space="preserve">
-    <value>Nama Item</value>
+    <value>Nama Benda</value>
   </data>
   <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
     <value>Hapus semat dari Kesukaan</value>
@@ -1777,7 +1777,7 @@
     <value>Folder asli</value>
   </data>
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
-    <value>Tipe</value>
+    <value>Jenis</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Urutkan Menurut</value>
@@ -2089,7 +2089,7 @@
     <value>Izin</value>
   </data>
   <data name="SecurityAdvancedTypeLabel.Text" xml:space="preserve">
-    <value>Tipe</value>
+    <value>Jenis</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
     <value>Anda tidak memiliki izin untuk melihat properti keamanan pada objek ini. Anda bisa mencoba mengambil hak kepemilikan dari objek ini.</value>
@@ -2417,7 +2417,7 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
     <value>Ikon Sedang</value>
   </data>
   <data name="SmallIcons" xml:space="preserve">
-    <value>Ikon kecil</value>
+    <value>Ikon Kecil</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Ubin</value>
@@ -2435,7 +2435,7 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
     <value>Buka folder di halaman baru</value>
   </data>
   <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Sematkan Keranjang Sampah ke favorit</value>
+    <value>Sematkan Keranjang Sampah ke Kesukaan</value>
   </data>
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Bahasa</value>
@@ -2444,10 +2444,10 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
     <value>Tampilkan bagian penyimpanan awan</value>
   </data>
   <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Tampilkan dialog konfirmasi ketika akan menghapus berkas atau folder</value>
+    <value>Tampilkan dialog konfirmasi saat akan menghapus berkas atau folder</value>
   </data>
   <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Tampilkan bagian penyimpanan</value>
+    <value>Tampilkan bagian penyimanan</value>
   </data>
   <data name="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Tampilkan bagian pustaka</value>
@@ -2492,7 +2492,7 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
     <value>Gunakan Files sebagai dialog Buka berkas</value>
   </data>
   <data name="Tag" xml:space="preserve">
-    <value>Tagar</value>
+    <value>Tandai berkas</value>
   </data>
   <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
     <value>Buka folder dengan sekali klik</value>
@@ -2651,7 +2651,7 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
     <value>Pembersih Penyimpanan</value>
   </data>
   <data name="Type" xml:space="preserve">
-    <value>Sejenis:</value>
+    <value>Jenis:</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Bita</value>
@@ -2795,7 +2795,7 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
     <value>Set as lockscreen</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
-    <value>Tetapkan sebagai latar belakang desktop</value>
+    <value>Atur sebagai latar belakang desktop</value>
   </data>
   <data name="SetAsDefault" xml:space="preserve">
     <value>Set as default</value>
