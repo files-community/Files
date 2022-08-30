@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Files.App.Helpers;
+using Files.App.Shell;
 
 namespace Files.App.ViewModels.Properties
 {
@@ -198,16 +199,7 @@ namespace Files.App.ViewModels.Properties
 
         public async Task RunTroubleshooter()
         {
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
-            {
-                var value = new ValueSet()
-                {
-                    { "Arguments", "RunCompatibilityTroubleshooter" },
-                    { "filepath", ExePath }
-                };
-                await connection.SendMessageAsync(value);
-            }
+            await LaunchHelper.RunCompatibilityTroubleshooterAsync(ExePath);
         }
     }
 }

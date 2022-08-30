@@ -91,9 +91,6 @@ namespace Files.App
             UnhandledException += OnUnhandledException;
             TaskScheduler.UnobservedTaskException += OnUnobservedException;
             InitializeComponent();
-
-            AppServiceConnectionHelper.Register();
-
             this.Services = ConfigureServices();
             Ioc.Default.ConfigureServices(Services);
         }

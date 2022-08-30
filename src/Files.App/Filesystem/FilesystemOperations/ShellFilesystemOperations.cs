@@ -20,6 +20,7 @@ using Files.Backend.Services;
 using CommunityToolkit.WinUI;
 using Files.App.Filesystem.StorageItems;
 using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
+using Files.App.Shell;
 
 namespace Files.App.Filesystem
 {
@@ -234,13 +235,12 @@ namespace Files.App.Filesystem
                             var args = CommandLine.CommandLineParser.SplitArguments(newEntryInfo.Command);
                             if (args.Any())
                             {
-                                (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
+                                if (await LaunchHelper.LaunchAppAsync(args[0].Replace("\"", "", StringComparison.Ordinal),
+                                        string.Join(" ", args.Skip(1)).Replace("%1", source.Path),
+                                        PathNormalization.GetParentDir(source.Path)))
                                 {
-                                    { "Arguments", "LaunchApp" },
-                                    { "WorkingDirectory", PathNormalization.GetParentDir(source.Path) },
-                                    { "Application", args[0].Replace("\"", "", StringComparison.Ordinal) },
-                                    { "Parameters", string.Join(" ", args.Skip(1)).Replace("%1", source.Path) }
-                                });
+                                    status = AppServiceResponseStatus.Success;
+                                }
                             }
                         }
                         else

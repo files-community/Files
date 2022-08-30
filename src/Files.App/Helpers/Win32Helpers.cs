@@ -1,3 +1,4 @@
+using Files.App.Shell;
 using Files.Shared.Extensions;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -24,29 +25,20 @@ namespace Files.App.Helpers
                 workingDirectory = associatedInstance.FilesystemViewModel.WorkingDirectory;
             }
 
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
+            var application = applicationPaths.FirstOrDefault();
+            if (string.IsNullOrEmpty(workingDirectory))
             {
-                var value = new ValueSet()
-                {
-                    { "Arguments", "LaunchApp" },
-                    { "WorkingDirectory", string.IsNullOrEmpty(workingDirectory) ? associatedInstance?.FilesystemViewModel?.WorkingDirectory : workingDirectory },
-                    { "Application", applicationPaths.FirstOrDefault() }
-                };
-
-                if (runAsAdmin)
-                {
-                    value.Add("Parameters", "runas");
-                }
-                else
-                {
-                    value.Add("Parameters", arguments);
-                }
-
-                return await connection.SendMessageAsync(value) == AppServiceResponseStatus.Success;
+                workingDirectory = associatedInstance?.FilesystemViewModel?.WorkingDirectory;
             }
 
-            return false;
+            if (runAsAdmin)
+            {
+                return await LaunchHelper.LaunchAppAsync(application, "runas", workingDirectory);
+            }
+            else
+            {
+                return await LaunchHelper.LaunchAppAsync(application, arguments, workingDirectory);
+            }
         }
     }
 }

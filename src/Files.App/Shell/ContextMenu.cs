@@ -1,5 +1,4 @@
 ﻿using Files.Shared;
-using Files.FullTrust.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,7 +11,7 @@ using Vanara.InteropServices;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 
-namespace Files.FullTrust
+namespace Files.App.Shell
 {
     [SupportedOSPlatform("Windows10.0.10240")]
     public class ContextMenu : Win32ContextMenu, IDisposable
@@ -27,6 +26,12 @@ namespace Files.FullTrust
             this.hMenu = hMenu;
             this.ItemsPath = itemsPath.ToList();
             this.Items = new List<Win32ContextMenuItem>();
+        }
+
+        public static bool InvokeVerb(string verb, params string[] filePaths)
+        {
+            using var cMenu = GetContextMenuForFiles(filePaths, Shell32.CMF.CMF_DEFAULTONLY);
+            return cMenu?.InvokeVerb(verb) ?? false;
         }
 
         public bool InvokeVerb(string verb)
@@ -337,36 +342,6 @@ namespace Files.FullTrust
             HBMMENU_POPUP_MINIMIZE = 11,
             HBMMENU_POPUP_RESTORE = 9,
             HBMMENU_SYSTEM = 1
-        }
-    }
-
-    public class ContextMenuItem : Win32ContextMenuItem, IDisposable
-    {
-        public ContextMenuItem()
-        {
-            SubItems = new List<Win32ContextMenuItem>();
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (SubItems != null)
-                {
-                    foreach (var si in SubItems)
-                    {
-                        (si as IDisposable)?.Dispose();
-                    }
-
-                    SubItems = null;
-                }
-            }
         }
     }
 }
