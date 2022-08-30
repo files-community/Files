@@ -32,7 +32,7 @@ variables:
 - name: solution
   value: '**/*.sln'
 - name: buildPlatform
-  value: 'x64|x86'
+  value: 'x64'
 - name: buildConfiguration
   value: 'Release'
 - name: sideloadBuildConfiguration
@@ -99,7 +99,7 @@ jobs:
   - task: UseDotNet@2
     inputs:
       packageType: sdk
-      version: 6.0.100
+      version: 6.0.400
 
   - task: NuGetToolInstaller@1
 
@@ -213,7 +213,7 @@ jobs:
   - task: UseDotNet@2
     inputs:
       packageType: sdk
-      version: 6.0.100
+      version: 6.0.400
 
   - task: NuGetToolInstaller@1
 
