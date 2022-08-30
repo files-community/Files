@@ -11,12 +11,13 @@ using System.Threading.Tasks;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Files.App.Shell;
 using Vanara.PInvoke;
+using System.Threading;
 
 namespace Files.App.Helpers
 {
     public static class ShellContextmenuHelper
     {
-        public static async Task<List<ContextMenuFlyoutItemViewModel>> GetShellContextmenuAsync(bool showOpenMenu, bool shiftPressed, string workingDirectory, List<ListedItem> selectedItems)
+        public static async Task<List<ContextMenuFlyoutItemViewModel>> GetShellContextmenuAsync(bool showOpenMenu, bool shiftPressed, string workingDirectory, List<ListedItem> selectedItems, CancellationToken cancellationToken)
         {
             bool IsItemSelected = selectedItems?.Count > 0;
 
@@ -50,7 +51,12 @@ namespace Files.App.Helpers
 
             if (contextMenu != null)
             {
-                LoadMenuFlyoutItem(menuItemsList, contextMenu, contextMenu.Items, true);
+                LoadMenuFlyoutItem(menuItemsList, contextMenu, contextMenu.Items, cancellationToken, true);
+            }
+
+            if (cancellationToken.IsCancellationRequested)
+            {
+                menuItemsList.Clear();
             }
 
             return menuItemsList;
@@ -59,9 +65,15 @@ namespace Files.App.Helpers
         public static void LoadMenuFlyoutItem(IList<ContextMenuFlyoutItemViewModel> menuItemsListLocal,
                                 ContextMenu contextMenu,
                                 IEnumerable<Win32ContextMenuItem> menuFlyoutItems,
+                                CancellationToken cancellationToken,
                                 bool showIcons = true,
                                 int itemsBeforeOverflow = int.MaxValue)
         {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return;
+            }
+
             var itemsCount = 0; // Separators do not count for reaching the overflow threshold
             var menuItems = menuFlyoutItems.TakeWhile(x => x.Type == MenuItemType.MFT_SEPARATOR || ++itemsCount <= itemsBeforeOverflow).ToList();
             var overflowItems = menuFlyoutItems.Except(menuItems).ToList();
@@ -76,12 +88,12 @@ namespace Files.App.Helpers
                         Text = "ContextMenuMoreItemsLabel".GetLocalizedResource(),
                         Glyph = "\xE712",
                     };
-                    LoadMenuFlyoutItem(menuLayoutSubItem.Items, contextMenu, overflowItems, showIcons);
+                    LoadMenuFlyoutItem(menuLayoutSubItem.Items, contextMenu, overflowItems, cancellationToken, showIcons);
                     menuItemsListLocal.Insert(0, menuLayoutSubItem);
                 }
                 else
                 {
-                    LoadMenuFlyoutItem(moreItem.Items, contextMenu, overflowItems, showIcons);
+                    LoadMenuFlyoutItem(moreItem.Items, contextMenu, overflowItems, cancellationToken, showIcons);
                 }
             }
             foreach (var menuFlyoutItem in menuItems
@@ -89,6 +101,11 @@ namespace Files.App.Helpers
                 .Reverse()
                 .SkipWhile(x => x.Type == MenuItemType.MFT_SEPARATOR)) // Remove trailing separators
             {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    break;
+                }
+
                 if ((menuFlyoutItem.Type == MenuItemType.MFT_SEPARATOR) && (menuItemsListLocal.FirstOrDefault().ItemType == ItemType.Separator))
                 {
                     // Avoid duplicate separators
@@ -124,7 +141,7 @@ namespace Files.App.Helpers
                         Tag = menuFlyoutItem,
                         Items = new List<ContextMenuFlyoutItemViewModel>(),
                     };
-                    LoadMenuFlyoutItem(menuLayoutSubItem.Items, contextMenu, menuFlyoutItem.SubItems, showIcons);
+                    LoadMenuFlyoutItem(menuLayoutSubItem.Items, contextMenu, menuFlyoutItem.SubItems, cancellationToken, showIcons);
                     menuItemsListLocal.Insert(0, menuLayoutSubItem);
                 }
                 else if (!string.IsNullOrEmpty(menuFlyoutItem.Label))

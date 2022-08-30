@@ -605,7 +605,7 @@ namespace Files.App
 
                 if (!InstanceViewModel.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeZipFolder)
                 {
-                    var shellMenuItems = await ContextFlyoutItemHelper.GetBaseContextShellCommandsAsync(currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, shiftPressed: shiftPressed, showOpenMenu: false);
+                    var shellMenuItems = await ContextFlyoutItemHelper.GetBaseContextShellCommandsAsync(currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
                     if (shellContextMenuItemCancellationToken.IsCancellationRequested)
                     {
                         return;
@@ -669,7 +669,7 @@ namespace Files.App
 
             if (!InstanceViewModel.IsPageTypeZipFolder)
             {
-                var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, shiftPressed: shiftPressed, showOpenMenu: false);
+                var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
                 if (shellContextMenuItemCancellationToken.IsCancellationRequested)
                 {
                     return;
