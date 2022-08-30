@@ -1123,7 +1123,7 @@
     <value>Адрес</value>
   </data>
   <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
-    <value>Опции за маркиране</value>
+    <value>Опции за избор</value>
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Маркирай</value>
@@ -1270,7 +1270,7 @@
     <value>Нов панел</value>
   </data>
   <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
-    <value>Отвори във втори панел</value>
+    <value>Отвори във втория панел</value>
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Двоен панел</value>
@@ -1393,7 +1393,7 @@
     <value>Няма налични подробности</value>
   </data>
   <data name="PropertyItemName" xml:space="preserve">
-    <value>Име на Елемент</value>
+    <value>Име на елемента</value>
   </data>
   <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
     <value>Откачи от любими</value>
@@ -1954,7 +1954,7 @@
     <value>Отхвърли</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Отхвръли</value>
+    <value>Отхвърли</value>
   </data>
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>Притурки</value>
@@ -2334,7 +2334,7 @@
     <value>Отвори родителската папка</value>
   </data>
   <data name="FileTagUnknown" xml:space="preserve">
-    <value>Неизвестен</value>
+    <value>Неизвестно</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
     <value>Файлов етикет</value>
@@ -2424,13 +2424,13 @@
     <value>Показвай скрити елементи</value>
   </data>
   <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Показвай раздела с любими</value>
+    <value>Показвай секцията с любими</value>
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Отваряй папките в нов раздел</value>
   </data>
   <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Закачи кошчето към любими</value>
+    <value>Закачи кошче към любими</value>
   </data>
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Език</value>
@@ -2445,7 +2445,7 @@
     <value>Показвай раздела с дисковите устройства</value>
   </data>
   <data name="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Показвай раздела с библиотеката</value>
+    <value>Показвай раздела с библиотеките</value>
   </data>
   <data name="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Показвай раздела за мрежата</value>
@@ -2487,7 +2487,7 @@
     <value>Използвай Files като диалогов прозорец за отваряне на файл</value>
   </data>
   <data name="Tag" xml:space="preserve">
-    <value>Етикет</value>
+    <value>Файлов етикет</value>
   </data>
   <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
     <value>Отваряй папки с едно щракване</value>
