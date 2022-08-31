@@ -1168,7 +1168,7 @@ namespace Files.App.UserControls
                     var emptyRecycleBinItem = itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "EmptyRecycleBin") as AppBarButton;
                     if (emptyRecycleBinItem is not null)
                     {
-                        var binHasItems = await new RecycleBinHelpers().RecycleBinHasItems();
+                        var binHasItems = new RecycleBinHelpers().RecycleBinHasItems();
                         emptyRecycleBinItem.IsEnabled = binHasItems;
                     }
                 }

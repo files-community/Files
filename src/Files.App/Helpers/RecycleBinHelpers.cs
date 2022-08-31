@@ -12,6 +12,7 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using Microsoft.UI.Xaml.Controls;
 using Files.App.Shell;
+using Vanara.PInvoke;
 
 namespace Files.App.Helpers
 {
@@ -71,18 +72,7 @@ namespace Files.App.Helpers
 
             if (result == ContentDialogResult.Primary)
             {
-                var connection = await ServiceConnection;
-                if (connection != null)
-                {
-                    var value = new ValueSet()
-                    {
-                        { "Arguments", "RecycleBin" },
-                        { "action", "Empty" }
-                    };
-
-                    // Send request to fulltrust process to empty Recycle Bin
-                    await connection.SendMessageAsync(value);
-                }
+                Shell32.SHEmptyRecycleBin(IntPtr.Zero, null, Shell32.SHERB.SHERB_NOCONFIRMATION | Shell32.SHERB.SHERB_NOPROGRESSUI);
             }
         }
 
@@ -119,24 +109,9 @@ namespace Files.App.Helpers
             return false;
         }
 
-        public async Task<bool> RecycleBinHasItems()
+        public bool RecycleBinHasItems()
         {
-            var recycleBinHasItems = false;
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
-            {
-                var value = new ValueSet
-                {
-                    { "Arguments", "RecycleBin" },
-                    { "action", "Query" }
-                };
-                var (status, response) = await connection.SendMessageForResponseAsync(value);
-                if (status == AppServiceResponseStatus.Success && response.TryGetValue("NumItems", out var numItems))
-                {
-                    recycleBinHasItems = (long)numItems > 0;
-                }
-            }
-            return recycleBinHasItems;
+            return Win32Shell.QueryRecycleBin().NumItems > 0;
         }
     }
 }
