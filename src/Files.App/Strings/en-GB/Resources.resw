@@ -784,7 +784,7 @@
     <value>Create a New Item</value>
   </data>
   <data name="AddDialogDescription.Text" xml:space="preserve">
-    <value>Choose a type for the new item below</value>
+    <value>Choose a type for this new item below</value>
   </data>
   <data name="File" xml:space="preserve">
     <value>File</value>
@@ -847,7 +847,7 @@
     <value>Item Path</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
-    <value>Item Path</value>
+    <value>Item Type</value>
   </data>
   <data name="PropertyTitle" xml:space="preserve">
     <value>Title</value>
@@ -1417,13 +1417,13 @@
     <value>Documentation</value>
   </data>
   <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Visit the Files documentation online</value>
+    <value>Visit the Files documentation website</value>
   </data>
   <data name="OngoingTasksFlyout.AutomationProperties.Name" xml:space="preserve">
     <value>Ongoing tasks flyout</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
-    <value>Available online</value>
+    <value>Available when online</value>
   </data>
   <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
     <value>Available offline</value>
@@ -1447,7 +1447,7 @@
     <value>Multiselect</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
-    <value>If you change a file extension, the file may become unusable. Are you sure you want to change it?</value>
+    <value>If you change a file extension, the file might become unusable. Are you sure you want to change it?</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
     <value>CD ROM Drive</value>
@@ -1486,7 +1486,7 @@
     <value>More options...</value>
   </data>
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
-    <value>Connect to a network drive</value>
+    <value>Map network drive</value>
   </data>
   <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
     <value>Disconnect</value>
@@ -1495,7 +1495,7 @@
     <value>More bundles options</value>
   </data>
   <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>More drive options</value>
+    <value>More drives options</value>
   </data>
   <data name="SidebarFavorites" xml:space="preserve">
     <value>Favourites</value>
@@ -1540,7 +1540,7 @@
     <value>Deletion cancelled</value>
   </data>
   <data name="StatusOperationCompleted" xml:space="preserve">
-    <value>The operation has completed.</value>
+    <value>The operation is complete.</value>
   </data>
   <data name="StatusRecycleComplete" xml:space="preserve">
     <value>Recycle complete</value>
@@ -2092,7 +2092,7 @@
     <value>Type</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
-    <value>You do not have permission to view the security properties of this object. You can attempt to take ownership of this object.</value>
+    <value>You do not have permissions to view the security properties of this object. You can try to take ownership of this object.</value>
   </data>
   <data name="SecurityAdvancedSpecialLabel.Text" xml:space="preserve">
     <value>Special</value>
@@ -2266,7 +2266,7 @@
     <value>Ctrl+A</value>
   </data>
   <data name="NavigationToolbarNewPane.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Alt+Shift+Plus</value>
+    <value>Alt+Shift++</value>
   </data>
   <data name="NavigationToolbarClosePane.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+W</value>
