@@ -82,14 +82,19 @@ namespace Files.App.Extensions
         public static string ToLongSizeString(this ulong size) => ByteSize.FromBytes(size).ToLongSizeString();
         public static string ToLongSizeString(this ByteSize size) => $"{size.ToSizeString()} ({size.Bytes:#,##0} {"ItemSizeBytes".GetLocalizedResource()})";
 
-        private static ResourceLoader resourceLoader;
+        private static ResourceMap resourcesTree;
 
-        //public static string GetLocalizedResource(this string s) => s.GetLocalizedResource("Resources");
+        //public static string GetLocalizedResource(this string s) => s.GetLocalized("Resources");
 
-        public static string GetLocalizedResource(this string s)
+        public static string GetLocalizedResource(this string resourceKey)
         {
-            resourceLoader ??= new ResourceLoader();
-            return resourceLoader.GetString(s);
+            if (resourcesTree is null)
+            {
+                var resourceManager = new ResourceManager();
+                resourcesTree = resourceManager.MainResourceMap.TryGetSubtree("Resources");
+            }
+            var r = resourcesTree?.TryGetValue(resourceKey)?.ValueAsString;
+            return r ?? string.Empty;
         }
     }
 }
