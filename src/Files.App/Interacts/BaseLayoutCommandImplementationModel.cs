@@ -133,14 +133,14 @@ namespace Files.App.Interacts
             }
         }
 
-        public virtual  void RunAsAdmin(RoutedEventArgs e)
+        public virtual async void RunAsAdmin(RoutedEventArgs e)
         {
-            ContextMenu.InvokeVerb("runas", SlimContentPage.SelectedItem.ItemPath);
+            await ContextMenu.InvokeVerb("runas", SlimContentPage.SelectedItem.ItemPath);
         }
 
-        public virtual void RunAsAnotherUser(RoutedEventArgs e)
+        public virtual async void RunAsAnotherUser(RoutedEventArgs e)
         {
-            ContextMenu.InvokeVerb("runasuser", SlimContentPage.SelectedItem.ItemPath);
+            await ContextMenu.InvokeVerb("runasuser", SlimContentPage.SelectedItem.ItemPath);
         }
 
         public virtual void SidebarPinItem(RoutedEventArgs e)

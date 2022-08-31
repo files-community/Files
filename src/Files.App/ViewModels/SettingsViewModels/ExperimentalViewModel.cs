@@ -53,7 +53,7 @@ namespace Files.App.ViewModels.SettingsViewModels
             var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/filetags.json"));
             if (!await Launcher.LaunchFileAsync(configFile))
             {
-                ContextMenu.InvokeVerb("open", configFile.Path);
+                await ContextMenu.InvokeVerb("open", configFile.Path);
             }
         }
 

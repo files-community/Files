@@ -106,7 +106,7 @@ namespace Files.App.Shell
                 {
                     try
                     {
-                        var opened = await Win32API.StartSTATask(() =>
+                        var opened = await Win32API.StartSTATask(async () =>
                         {
                             var split = application.Split('|').Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => GetMtpPath(x));
                             if (split.Count() == 1)
@@ -127,8 +127,11 @@ namespace Files.App.Shell
                                     {
                                         continue;
                                     }
-                                    using var cMenu = ContextMenu.GetContextMenuForFiles(group.ToArray(), Shell32.CMF.CMF_DEFAULTONLY);
-                                    cMenu?.InvokeVerb(Shell32.CMDSTR_OPEN);
+                                    using var cMenu = await ContextMenu.GetContextMenuForFiles(group.ToArray(), Shell32.CMF.CMF_DEFAULTONLY);
+                                    if (cMenu is not null)
+                                    {
+                                        await cMenu.InvokeVerb(Shell32.CMDSTR_OPEN);
+                                    }
                                 }
                             }
                             return true;
@@ -137,11 +140,14 @@ namespace Files.App.Shell
                         {
                             if (application.StartsWith(@"\\SHELL\", StringComparison.Ordinal))
                             {
-                                opened = await Win32API.StartSTATask(() =>
+                                opened = await Win32API.StartSTATask(async () =>
                                 {
                                     using var si = ShellFolderExtensions.GetShellItemFromPathOrPidl(application);
-                                    using var cMenu = ContextMenu.GetContextMenuForFiles(new[] { si }, Shell32.CMF.CMF_DEFAULTONLY);
-                                    cMenu?.InvokeItem(cMenu?.Items.FirstOrDefault().ID ?? -1);
+                                    using var cMenu = await ContextMenu.GetContextMenuForFiles(new[] { si }, Shell32.CMF.CMF_DEFAULTONLY);
+                                    if (cMenu is not null)
+                                    {
+                                        await cMenu.InvokeItem(cMenu.Items.FirstOrDefault()?.ID ?? -1);
+                                    }
                                     return true;
                                 });
                             }

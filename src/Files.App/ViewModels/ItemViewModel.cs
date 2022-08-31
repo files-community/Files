@@ -1609,7 +1609,7 @@ namespace Files.App.ViewModels
                 rootFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
                 if (await FolderHelpers.CheckBitlockerStatusAsync(rootFolder, WorkingDirectory))
                 {
-                    ContextMenu.InvokeVerb("unlock-bde", Path.GetPathRoot(path));
+                    await ContextMenu.InvokeVerb("unlock-bde", Path.GetPathRoot(path));
                 }
             }
 

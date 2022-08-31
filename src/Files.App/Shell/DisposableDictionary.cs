@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 
-namespace Files.FullTrust.Helpers
+namespace Files.App.Shell
 {
     public class DisposableDictionary : Disposable
     {

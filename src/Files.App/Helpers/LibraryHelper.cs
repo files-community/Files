@@ -157,7 +157,7 @@ namespace Files.App.Helpers
                 CloseButtonText = "Cancel".GetLocalizedResource(),
                 PrimaryButtonAction = async (vm, e) =>
                 {
-                    ContextMenu.InvokeVerb("restorelibraries", ShellLibraryItem.LibrariesPath);
+                    await ContextMenu.InvokeVerb("restorelibraries", ShellLibraryItem.LibrariesPath);
                     await App.LibraryManager.UpdateLibrariesAsync();
                 },
                 CloseButtonAction = (vm, e) => vm.HideDialog(),
