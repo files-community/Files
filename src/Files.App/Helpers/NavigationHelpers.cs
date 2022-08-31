@@ -413,7 +413,7 @@ namespace Files.App.Helpers
                             });
                             if (!await Launcher.LaunchFileAsync(childFile.Item, options))
                             {
-                                ContextMenu.InvokeVerb("openas", path);
+                                await ContextMenu.InvokeVerb("openas", path);
                             }
                         }
                         else

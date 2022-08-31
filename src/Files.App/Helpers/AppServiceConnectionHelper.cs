@@ -23,11 +23,6 @@ namespace Files.App.Helpers
 
         public static event EventHandler<Task<NamedPipeAsAppServiceConnection>> ConnectionChanged;
 
-        public static void Register()
-        {
-            // WINUI3: app does not get suspended
-        }
-
         public static async Task<bool> Elevate(this NamedPipeAsAppServiceConnection connection)
         {
             if (connection == null)

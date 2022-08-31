@@ -432,7 +432,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 
             if (!await Launcher.LaunchFileAsync(configFile))
             {
-                ContextMenu.InvokeVerb("open", configFile.Path);
+                await ContextMenu.InvokeVerb("open", configFile.Path);
             }
         }
 

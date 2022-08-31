@@ -46,8 +46,8 @@ namespace Files.App.Helpers
                 return filterMenuItemsImpl;
             }
 
-            var contextMenu = await Task.Run(() => ContextMenu.GetContextMenuForFiles(filePaths,
-                        (shiftPressed ? Shell32.CMF.CMF_EXTENDEDVERBS : Shell32.CMF.CMF_NORMAL) | Shell32.CMF.CMF_SYNCCASCADEMENU, FilterMenuItems(showOpenMenu)));
+            var contextMenu = await ContextMenu.GetContextMenuForFiles(filePaths,
+                (shiftPressed ? Shell32.CMF.CMF_EXTENDEDVERBS : Shell32.CMF.CMF_NORMAL) | Shell32.CMF.CMF_SYNCCASCADEMENU, FilterMenuItems(showOpenMenu));
 
             if (contextMenu != null)
             {
@@ -158,7 +158,7 @@ namespace Files.App.Helpers
                 }
             }
 
-            void InvokeShellMenuItem(ContextMenu contextMenu, object? tag)
+            async void InvokeShellMenuItem(ContextMenu contextMenu, object? tag)
             {
                 if (tag is not Win32ContextMenuItem menuItem) return;
 
@@ -193,9 +193,11 @@ namespace Files.App.Helpers
                         break;
 
                     default:
-                        contextMenu.InvokeItem(menuId);
+                        await contextMenu.InvokeItem(menuId);
                         break;
                 }
+
+                //contextMenu.Dispose(); // Prevents some menu items from working (TBC)
             }
         }
 
