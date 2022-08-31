@@ -84,6 +84,7 @@ namespace Files.App.ViewModels.SettingsViewModels
                 if (!Win32API.RunPowershellCommand($"-command \"New-Item -Force -Path '{dataPath}' -ItemType Directory; Copy-Item -Filter *.* -Path '{destFolder}\\*' -Recurse -Force -Destination '{dataPath}'\"", false))
                 {
                     // Error copying files
+                    goto DetectResult;
                 }
             }
             else
@@ -124,7 +125,6 @@ namespace Files.App.ViewModels.SettingsViewModels
                 if (!SafetyExtensions.IgnoreExceptions(() => File.Copy(file, Path.Combine(destFolder, Path.GetFileName(file)), true), App.Logger))
                 {
                     // Error copying files
-                    DetectIsSetAsOpenFileDialog();
                     goto DetectResult;
                 }
             }
