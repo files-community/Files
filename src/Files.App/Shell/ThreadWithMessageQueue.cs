@@ -48,6 +48,7 @@ namespace Files.App.Shell
                 }
             }));
             thread.SetApartmentState(ApartmentState.STA);
+            thread.IsBackground = true; // Do not prevent app from closing
             thread.Start();
         }
 

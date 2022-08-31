@@ -197,7 +197,7 @@ namespace Files.App.Helpers
                         break;
                 }
 
-                contextMenu.Dispose();
+                //contextMenu.Dispose(); // Prevents some menu items from working (TBC)
             }
         }
 
