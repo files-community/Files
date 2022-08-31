@@ -18,6 +18,7 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.System;
+using Files.App.Shell;
 
 namespace Files.App.Helpers
 {
@@ -54,19 +55,8 @@ namespace Files.App.Helpers
                 return;
             }
 
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
-            {
-                var value = new ValueSet()
-                {
-                    { "Arguments", "LaunchApp" },
-                    { "WorkingDirectory", workingDir },
-                    { "Application", terminal.Path },
-                    { "Parameters", string.Format(terminal.Arguments,
-                       Helpers.PathNormalization.NormalizePath(workingDir)) }
-                };
-                await connection.SendMessageAsync(value);
-            }
+            await LaunchHelper.LaunchAppAsync(terminal.Path, string.Format(terminal.Arguments,
+                       Helpers.PathNormalization.NormalizePath(workingDir)), workingDir);
         }
 
         public static async void OpenSelectedItems(IShellPage associatedInstance, bool openViaApplicationPicker = false)
@@ -423,16 +413,7 @@ namespace Files.App.Helpers
                             });
                             if (!await Launcher.LaunchFileAsync(childFile.Item, options))
                             {
-                                var connection = await AppServiceConnectionHelper.Instance;
-                                if (connection != null)
-                                {
-                                    await connection.SendMessageAsync(new ValueSet()
-                                    {
-                                        { "Arguments", "InvokeVerb" },
-                                        { "FilePath", path },
-                                        { "Verb", "openas" }
-                                    });
-                                }
+                                ContextMenu.InvokeVerb("openas", path);
                             }
                         }
                         else

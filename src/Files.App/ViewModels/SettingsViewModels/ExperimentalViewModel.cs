@@ -11,6 +11,7 @@ using Windows.ApplicationModel;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
+using Files.App.Shell;
 
 namespace Files.App.ViewModels.SettingsViewModels
 {
@@ -52,16 +53,7 @@ namespace Files.App.ViewModels.SettingsViewModels
             var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/filetags.json"));
             if (!await Launcher.LaunchFileAsync(configFile))
             {
-                var connection = await AppServiceConnectionHelper.Instance;
-                if (connection != null)
-                {
-                    await connection.SendMessageAsync(new ValueSet()
-                    {
-                        { "Arguments", "InvokeVerb" },
-                        { "FilePath", configFile.Path },
-                        { "Verb", "open" }
-                    });
-                }
+                ContextMenu.InvokeVerb("open", configFile.Path);
             }
         }
 

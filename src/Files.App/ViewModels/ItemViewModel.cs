@@ -48,6 +48,7 @@ using static Files.Backend.Helpers.NativeFindStorageItemHelper;
 using static Files.App.Helpers.NativeDirectoryChangesHelper;
 using FileAttributes = System.IO.FileAttributes;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
+using Files.App.Shell;
 
 namespace Files.App.ViewModels
 {
@@ -1608,14 +1609,7 @@ namespace Files.App.ViewModels
                 rootFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
                 if (await FolderHelpers.CheckBitlockerStatusAsync(rootFolder, WorkingDirectory))
                 {
-                    if (Connection != null)
-                    {
-                        var value = new ValueSet();
-                        value.Add("Arguments", "InvokeVerb");
-                        value.Add("FilePath", Path.GetPathRoot(path));
-                        value.Add("Verb", "unlock-bde");
-                        _ = await Connection.SendMessageForResponseAsync(value);
-                    }
+                    ContextMenu.InvokeVerb("unlock-bde", Path.GetPathRoot(path));
                 }
             }
 
