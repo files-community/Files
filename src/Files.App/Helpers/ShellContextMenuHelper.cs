@@ -46,7 +46,7 @@ namespace Files.App.Helpers
                 return filterMenuItemsImpl;
             }
 
-            var contextMenu = await Task.Run(() => ContextMenu.GetContextMenuForFiles(filePaths,
+            var contextMenu = await Win32API.StartSTATask(() => ContextMenu.GetContextMenuForFiles(filePaths,
                         (shiftPressed ? Shell32.CMF.CMF_EXTENDEDVERBS : Shell32.CMF.CMF_NORMAL) | Shell32.CMF.CMF_SYNCCASCADEMENU, FilterMenuItems(showOpenMenu)));
 
             if (contextMenu != null)
