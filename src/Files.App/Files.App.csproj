@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net6.0-windows10.0.22000.0</TargetFramework>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
@@ -101,7 +101,9 @@
     </None>
     <None Update="Assets\terminal\terminal.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </None>    
+    <Content Include="Resources\AppCenterKey.txt" />
+    <Content Include="Resources\BingMapsKey.txt" />    
     <None Update="Resources\PreviewPanePropertiesInformation.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
