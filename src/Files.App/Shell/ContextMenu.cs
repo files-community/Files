@@ -327,7 +327,7 @@ namespace Files.App.Shell
                     cMenu = null;
                 }
 
-                //owningThread.Dispose();
+                owningThread.Dispose();
 
                 disposedValue = true;
             }
