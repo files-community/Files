@@ -11,6 +11,7 @@ using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Microsoft.UI.Xaml.Controls;
+using Files.App.Shell;
 
 namespace Files.App.Helpers
 {
@@ -26,26 +27,7 @@ namespace Files.App.Helpers
 
         public async Task<List<ShellFileItem>> EnumerateRecycleBin()
         {
-            var connection = await ServiceConnection;
-            if (connection != null)
-            {
-                ValueSet value = new ValueSet()
-                {
-                    { "Arguments", "ShellFolder" },
-                    { "action", "Enumerate" },
-                    { "folder", CommonPaths.RecycleBinPath }
-                };
-                var (status, response) = await connection.SendMessageForResponseAsync(value);
-
-                if (status == AppServiceResponseStatus.Success
-                    && response.ContainsKey("Enumerate"))
-                {
-                    List<ShellFileItem> items = JsonConvert.DeserializeObject<List<ShellFileItem>>((string)response["Enumerate"]);
-                    return items;
-                }
-            }
-
-            return new List<ShellFileItem>();
+            return (await Win32Shell.GetShellFolderAsync(CommonPaths.RecycleBinPath, "Enumerate", 0, int.MaxValue)).Enumerate;
         }
 
         public async Task<bool> IsRecycleBinItem(IStorageItem item)

@@ -24,13 +24,10 @@ namespace Files.FullTrust.MessageHandlers
     {
         private IList<FileSystemWatcher> dirWatchers;
         private PipeStream connection;
-        private ShellFolder controlPanel, controlPanelCategoryView;
 
         public Win32MessageHandler()
         {
             dirWatchers = new List<FileSystemWatcher>();
-            controlPanel = new ShellFolder(Shell32.KNOWNFOLDERID.FOLDERID_ControlPanelFolder);
-            controlPanelCategoryView = new ShellFolder("::{26EE0668-A00A-44D7-9371-BEB064C98683}");
         }
 
         public void Initialize(PipeStream connection)
@@ -59,144 +56,6 @@ namespace Files.FullTrust.MessageHandlers
         {
             switch (arguments)
             {
-                case "Bitlocker":
-                    var bitlockerAction = (string)message["action"];
-                    if (bitlockerAction == "Unlock")
-                    {
-                        var drive = (string)message["drive"];
-                        var password = (string)message["password"];
-                        Win32API.UnlockBitlockerDrive(drive, password);
-                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Bitlocker", "Unlock" } }, message.Get("RequestID", (string)null));
-                    }
-                    break;
-
-                case "SetVolumeLabel":
-                    var driveName = (string)message["drivename"];
-                    var newLabel = (string)message["newlabel"];
-                    Win32API.SetVolumeLabel(driveName, newLabel);
-                    await Win32API.SendMessageAsync(connection, new ValueSet() { { "SetVolumeLabel", driveName } }, message.Get("RequestID", (string)null));
-                    break;
-
-                case "GetIconOverlay":
-                    var fileIconPath = (string)message["filePath"];
-                    var thumbnailSize = (int)(long)message["thumbnailSize"];
-                    var isOverlayOnly = (bool)message["isOverlayOnly"];
-                    var isFolder = (bool)message["isFolder"];
-                    var (icon, overlay) = await Win32API.StartSTATask(() => Win32API.GetFileIconAndOverlay(fileIconPath, thumbnailSize, isFolder, true, isOverlayOnly));
-                    await Win32API.SendMessageAsync(connection, new ValueSet()
-                    {
-                        { "Icon", icon },
-                        { "Overlay", overlay }
-                    }, message.Get("RequestID", (string)null));
-                    break;
-
-                case "GetIconWithoutOverlay":
-                    var fileIconPath2 = (string)message["filePath"];
-                    var thumbnailSize2 = (int)(long)message["thumbnailSize"];
-                    var isFolder2 = (bool)message["isFolder"];
-                    var icon2 = await Win32API.StartSTATask(() => Win32API.GetFileIconAndOverlay(fileIconPath2, thumbnailSize2, isFolder2, false));
-                    await Win32API.SendMessageAsync(connection, new ValueSet()
-                    {
-                        { "Icon", icon2.icon },
-                    }, message.Get("RequestID", (string)null));
-                    break;
-
-                case "ShellItem":
-                    var itemPath = (string)message["item"];
-                    var siAction = (string)message["action"];
-                    var siResponseEnum = new ValueSet();
-                    var item = await Win32API.StartSTATask(() =>
-                    {
-                        using var shellItem = ShellFolderExtensions.GetShellItemFromPathOrPidl(itemPath);
-                        return ShellFolderExtensions.GetShellFileItem(shellItem);
-                    });
-                    siResponseEnum.Add("Item", JsonConvert.SerializeObject(item));
-                    await Win32API.SendMessageAsync(connection, siResponseEnum, message.Get("RequestID", (string)null));
-                    break;
-
-                case "ShellFolder":
-                    var folderPath = (string)message["folder"];
-                    if (folderPath.StartsWith("::{", StringComparison.Ordinal))
-                    {
-                        folderPath = $"shell:{folderPath}";
-                    }
-                    var sfAction = (string)message["action"];
-                    var fromIndex = (int)message.Get("from", 0L);
-                    var maxItems = (int)message.Get("count", (long)int.MaxValue);
-                    var sfResponseEnum = new ValueSet();
-                    var (folder, folderContentsList) = await Win32API.StartSTATask(() =>
-                    {
-                        var flc = new List<ShellFileItem>();
-                        var folder = (ShellFileItem)null;
-                        try
-                        {
-                            using var shellFolder = ShellFolderExtensions.GetShellItemFromPathOrPidl(folderPath) as ShellFolder;
-                            folder = ShellFolderExtensions.GetShellFileItem(shellFolder);
-                            if ((controlPanel.PIDL.IsParentOf(shellFolder.PIDL, false) || controlPanelCategoryView.PIDL.IsParentOf(shellFolder.PIDL, false)) 
-                                && !shellFolder.Any())
-                            {
-                                // Return null to force open unsupported items in explorer
-                                // Only if inside control panel and folder appears empty
-                                return (null, flc);
-                            }
-                            if (sfAction == "Enumerate")
-                            {
-                                foreach (var folderItem in shellFolder.Skip(fromIndex).Take(maxItems))
-                                {
-                                    try
-                                    {
-                                        var shellFileItem = folderItem is ShellLink link ?
-                                            ShellFolderExtensions.GetShellLinkItem(link) :
-                                            ShellFolderExtensions.GetShellFileItem(folderItem);
-                                        flc.Add(shellFileItem);
-                                    }
-                                    catch (FileNotFoundException)
-                                    {
-                                        // Happens if files are being deleted
-                                    }
-                                    finally
-                                    {
-                                        folderItem.Dispose();
-                                    }
-                                }
-                            }
-                        }
-                        catch
-                        {
-                        }
-                        return (folder, flc);
-                    });
-                    sfResponseEnum.Add("Folder", JsonConvert.SerializeObject(folder));
-                    sfResponseEnum.Add("Enumerate", JsonConvert.SerializeObject(folderContentsList, new JsonSerializerSettings
-                    {
-                        TypeNameHandling = TypeNameHandling.Objects
-                    }));
-                    await Win32API.SendMessageAsync(connection, sfResponseEnum, message.Get("RequestID", (string)null));
-                    break;
-
-                case "GetFolderIconsFromDLL":
-                    var iconInfos = Win32API.ExtractIconsFromDLL((string)message["iconFile"]);
-                    await Win32API.SendMessageAsync(connection, new ValueSet()
-                    {
-                        { "IconInfos", JsonConvert.SerializeObject(iconInfos) },
-                    }, message.Get("RequestID", (string)null));
-                    break;
-
-                case "SetCustomFolderIcon":
-                    await Win32API.SendMessageAsync(connection, new ValueSet()
-                    {
-                        { "Success", Win32API.SetCustomDirectoryIcon((string)message["folder"], (string)message["iconFile"], (int)message.Get("iconIndex", 0L)) },
-                    }, message.Get("RequestID", (string)null));
-                    break;
-
-                case "GetSelectedIconsFromDLL":
-                    var selectedIconInfos = Win32API.ExtractSelectedIconsFromDLL((string)message["iconFile"], JsonConvert.DeserializeObject<List<int>>((string)message["iconIndexes"]), Convert.ToInt32(message["requestedIconSize"]));
-                    await Win32API.SendMessageAsync(connection, new ValueSet()
-                    {
-                        { "IconInfos", JsonConvert.SerializeObject(selectedIconInfos) },
-                    }, message.Get("RequestID", (string)null));
-                    break;
-
                 case "SetAsDefaultExplorer":
                     {
                         var enable = (bool)message["Value"];
@@ -392,8 +251,6 @@ namespace Files.FullTrust.MessageHandlers
                 {
                     watcher.Dispose();
                 }
-                controlPanel.Dispose();
-                controlPanelCategoryView.Dispose();
             }
         }
     }

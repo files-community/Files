@@ -1,6 +1,5 @@
 ﻿using Files.Shared;
 using Files.Shared.Extensions;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,7 +7,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.IO.Pipes;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
@@ -18,7 +16,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Vanara.PInvoke;
-using Windows.Foundation.Collections;
 using Windows.System;
 
 namespace Files.App.Shell
@@ -162,9 +159,9 @@ namespace Files.App.Shell
 
         private static readonly object lockObject = new object();
 
-        public static (string icon, string overlay) GetFileIconAndOverlay(string path, int thumbnailSize, bool isFolder, bool getOverlay = true, bool onlyGetOverlay = false)
+        public static (byte[]? icon, byte[]? overlay) GetFileIconAndOverlay(string path, int thumbnailSize, bool isFolder, bool getOverlay = true, bool onlyGetOverlay = false)
         {
-            string iconStr = null, overlayStr = null;
+            byte[]? iconData = null, overlayData = null;
 
             if (!onlyGetOverlay)
             {
@@ -179,25 +176,24 @@ namespace Files.App.Shell
                         using var image = GetBitmapFromHBitmap(hbitmap);
                         if (image != null)
                         {
-                            byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
-                            iconStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
+                            iconData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
                         }
                     }
                     //Marshal.ReleaseComObject(fctry);
                 }
             }
 
-            if (getOverlay || (!onlyGetOverlay && iconStr == null))
+            if (getOverlay || (!onlyGetOverlay && iconData == null))
             {
                 var shfi = new Shell32.SHFILEINFO();
                 var flags = Shell32.SHGFI.SHGFI_OVERLAYINDEX | Shell32.SHGFI.SHGFI_ICON | Shell32.SHGFI.SHGFI_SYSICONINDEX | Shell32.SHGFI.SHGFI_ICONLOCATION;
-                var useFileAttibutes = !onlyGetOverlay && iconStr == null; // Cannot access file, use file attributes
+                var useFileAttibutes = !onlyGetOverlay && iconData == null; // Cannot access file, use file attributes
                 var ret = ShellFolderExtensions.GetStringAsPidl(path, out var pidl) ?
                     Shell32.SHGetFileInfo(pidl, 0, ref shfi, Shell32.SHFILEINFO.Size, Shell32.SHGFI.SHGFI_PIDL | flags) :
                     Shell32.SHGetFileInfo(path, isFolder ? FileAttributes.Directory : 0, ref shfi, Shell32.SHFILEINFO.Size, flags | (useFileAttibutes ? Shell32.SHGFI.SHGFI_USEFILEATTRIBUTES : 0));
                 if (ret == IntPtr.Zero)
                 {
-                    return (iconStr, null);
+                    return (iconData, null);
                 }
 
                 User32.DestroyIcon(shfi.hIcon);
@@ -213,10 +209,10 @@ namespace Files.App.Shell
                     };
                     if (!Shell32.SHGetImageList(imageListSize, typeof(ComCtl32.IImageList).GUID, out var imageList).Succeeded)
                     {
-                        return (iconStr, null);
+                        return (iconData, null);
                     }
 
-                    if (!onlyGetOverlay && iconStr == null)
+                    if (!onlyGetOverlay && iconData == null)
                     {
                         var iconIdx = shfi.iIcon & 0xFFFFFF;
                         if (iconIdx != 0)
@@ -228,8 +224,7 @@ namespace Files.App.Shell
                                 using (var icon = hIcon.ToIcon())
                                 using (var image = icon.ToBitmap())
                                 {
-                                    byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
-                                    iconStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
+                                    iconData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
                                 }
                             }
                         }
@@ -238,14 +233,14 @@ namespace Files.App.Shell
                             // Could not icon, load generic icon
                             var icons = ExtractSelectedIconsFromDLL(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "imageres.dll"), new[] { 2 }, thumbnailSize);
                             var generic = icons.SingleOrDefault(x => x.Index == 2);
-                            iconStr = generic?.IconData;
+                            iconData = generic?.IconData;
                         }
                         else
                         {
                             // Could not icon, load generic icon
                             var icons = ExtractSelectedIconsFromDLL(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "shell32.dll"), new[] { 1 }, thumbnailSize);
                             var generic = icons.SingleOrDefault(x => x.Index == 1);
-                            iconStr = generic?.IconData;
+                            iconData = generic?.IconData;
                         }
                     }
 
@@ -259,19 +254,18 @@ namespace Files.App.Shell
                             using var icon = hOverlay.ToIcon();
                             using var image = icon.ToBitmap();
 
-                            byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
-                            overlayStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
+                            overlayData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
                         }
                     }
 
                     Marshal.ReleaseComObject(imageList);
                 }
 
-                return (iconStr, overlayStr);
+                return (iconData, overlayData);
             }
             else
             {
-                return (iconStr, null);
+                return (iconData, null);
             }
         }
 
@@ -314,8 +308,7 @@ namespace Files.App.Shell
                 {
                     using var image = icon.ToBitmap();
                     byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
-                    var icoStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
-                    iconsList.Add(new IconFileInfo(icoStr, index));
+                    iconsList.Add(new IconFileInfo(bitmapData, index));
                     User32.DestroyIcon(icon);
                     User32.DestroyIcon(hIcon2);
                 }
@@ -340,8 +333,7 @@ namespace Files.App.Shell
                 using var image = icon.ToBitmap();
 
                 byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
-                var icoStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
-                iconsList.Add(new IconFileInfo(icoStr, 0));
+                iconsList.Add(new IconFileInfo(bitmapData, 0));
             }
             else if (maxIndex > 0)
             {
@@ -351,8 +343,7 @@ namespace Files.App.Shell
                     using var image = icon.ToBitmap();
 
                     byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
-                    var icoStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
-                    iconsList.Add(new IconFileInfo(icoStr, i));
+                    iconsList.Add(new IconFileInfo(bitmapData, i));
                 }
             }
             else
@@ -462,19 +453,6 @@ namespace Files.App.Shell
             }
 
             return false;
-        }
-
-        public static async Task SendMessageAsync(PipeStream pipe, ValueSet valueSet, string requestID = null)
-        {
-            await SafetyExtensions.IgnoreExceptions(async () =>
-            {
-                var message = new Dictionary<string, object>(valueSet)
-                {
-                    { "RequestID", requestID }
-                };
-                var serialized = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message));
-                await pipe.WriteAsync(serialized);
-            });
         }
 
         // There is usually no need to define Win32 COM interfaces/P-Invoke methods here.

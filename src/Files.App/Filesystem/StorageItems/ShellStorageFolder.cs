@@ -13,6 +13,7 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
+using Files.App.Shell;
 
 namespace Files.App.Filesystem.StorageItems
 {
@@ -120,30 +121,7 @@ namespace Files.App.Filesystem.StorageItems
 
         protected static async Task<(ShellFileItem Folder, List<ShellFileItem> Items)> GetFolderAndItems(string path, bool enumerate, int startIndex = 0, int maxItemsToRetrieve = int.MaxValue)
         {
-            if (await AppServiceConnectionHelper.Instance is NamedPipeAsAppServiceConnection connection)
-            {
-                ValueSet value = new ValueSet()
-                {
-                    { "Arguments", "ShellFolder" },
-                    { "action", enumerate ? "Enumerate" : "Query" },
-                    { "from", startIndex },
-                    { "count", maxItemsToRetrieve },
-                    { "folder", path }
-                };
-                var (status, response) = await connection.SendMessageForResponseAsync(value);
-
-                if (status == AppServiceResponseStatus.Success)
-                {
-                    var folder = JsonConvert.DeserializeObject<ShellFileItem>(response.Get("Folder", ""));
-                    var items = JsonConvert.DeserializeObject<List<ShellFileItem>>(response.Get("Enumerate", ""), new JsonSerializerSettings()
-                    {
-                        TypeNameHandling = TypeNameHandling.Objects,
-                        SerializationBinder = new KnownTypesBinder() { KnownTypes = { typeof(ShellFileItem), typeof(ShellLinkItem) } }
-                    });
-                    return (folder, items);
-                }
-            }
-            return (null, null);
+            return await Win32Shell.GetShellFolderAsync(path, enumerate ? "Enumerate" : "Query", startIndex, maxItemsToRetrieve);
         }
 
         public override IAsyncOperation<StorageFolder> ToStorageFolderAsync() => throw new NotSupportedException();
