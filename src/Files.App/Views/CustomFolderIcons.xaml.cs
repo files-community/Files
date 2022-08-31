@@ -15,6 +15,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using static Files.App.Views.PropertiesCustomization;
 using Files.Shared.Extensions;
+using Files.App.Shell;
 
 namespace Files.App.Views
 {
@@ -68,27 +69,8 @@ namespace Files.App.Views
 
         private async void LoadIconsForPath(string path)
         {
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
-            {
-                var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
-                {
-                    { "Arguments", "GetFolderIconsFromDLL" },
-                    { "iconFile", path }
-                });
-                if (status == AppServiceResponseStatus.Success && response.ContainsKey("IconInfos"))
-                {
-                    var icons = JsonConvert.DeserializeObject<IList<IconFileInfo>>(response["IconInfos"] as string);
-                    if (icons != null)
-                    {
-                        foreach (IconFileInfo iFInfo in icons)
-                        {
-                            iFInfo.IconDataBytes = Convert.FromBase64String(iFInfo.IconData);
-                        }
-                    }
-                    IconSelectionGrid.ItemsSource = icons;
-                }
-            }
+            var icons = Win32API.ExtractIconsFromDLL(path);
+            IconSelectionGrid.ItemsSource = icons;
         }
 
         private async void IconSelectionGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -98,10 +80,10 @@ namespace Files.App.Views
             {
                 return;
             }
-            var setIconTask = IsShortcutItem ?
-                SetCustomFileIcon(selectedItemPath, iconResourceItemPath, selectedIconInfo.Index) :
+            var setIconResult = IsShortcutItem ?
+                await SetCustomFileIcon(selectedItemPath, iconResourceItemPath, selectedIconInfo.Index) :
                 SetCustomFolderIcon(selectedItemPath, iconResourceItemPath, selectedIconInfo.Index);
-            if (await setIconTask)
+            if (setIconResult)
             {
                 await App.Window.DispatcherQueue.EnqueueAsync(() =>
                 {
@@ -114,10 +96,10 @@ namespace Files.App.Views
         {
             RestoreDefaultButton.IsEnabled = false;
 
-            var setIconTask = IsShortcutItem ?
-                SetCustomFileIcon(selectedItemPath, null) :
+            var setIconResult = IsShortcutItem ?
+                await SetCustomFileIcon(selectedItemPath, null) :
                 SetCustomFolderIcon(selectedItemPath, null);
-            if (await setIconTask)
+            if (setIconResult)
             {
                 await App.Window.DispatcherQueue.EnqueueAsync(() =>
                 {
@@ -129,21 +111,9 @@ namespace Files.App.Views
             }
         }
 
-        private async Task<bool> SetCustomFolderIcon(string folderPath, string iconFile, int iconIndex = 0)
+        private bool SetCustomFolderIcon(string folderPath, string iconFile, int iconIndex = 0)
         {
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
-            {
-                var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
-                {
-                    {"Arguments", "SetCustomFolderIcon" },
-                    {"iconIndex", iconIndex },
-                    {"folder", folderPath },
-                    {"iconFile", iconFile }
-                });
-                return status == AppServiceResponseStatus.Success && response.Get("Success", false);
-            }
-            return false;
+            return Win32API.SetCustomDirectoryIcon(folderPath, iconFile, iconIndex);
         }
 
         private async Task<bool> SetCustomFileIcon(string filePath, string iconFile, int iconIndex = 0)

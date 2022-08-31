@@ -12,6 +12,9 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
 using Files.App.Shell;
+using System.IO;
+using System.Diagnostics;
+using Microsoft.Win32;
 
 namespace Files.App.ViewModels.SettingsViewModels
 {
@@ -63,15 +66,43 @@ namespace Files.App.ViewModels.SettingsViewModels
             {
                 return;
             }
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
+
+            var destFolder = Path.Combine(ApplicationData.Current.LocalFolder.Path, "FilesOpenDialog");
+            Directory.CreateDirectory(destFolder);
+            foreach (var file in Directory.GetFiles(Path.Combine(Package.Current.InstalledLocation.Path, "Files.FullTrust", "Assets", "FilesOpenDialog")))
             {
-                var (_, _) = await connection.SendMessageForResponseAsync(new ValueSet()
+                if (!SafetyExtensions.IgnoreExceptions(() => File.Copy(file, Path.Combine(destFolder, Path.GetFileName(file)), true), App.Logger))
                 {
-                    { "Arguments", "SetAsDefaultExplorer" },
-                    { "Value", IsSetAsDefaultFileManager }
-                });
+                    // Error copying files
+                    goto DetectResult;
+                }
             }
+
+            var dataPath = Environment.ExpandEnvironmentVariables("%LocalAppData%\\Files");
+            if (IsSetAsDefaultFileManager)
+            {
+                if (!Win32API.RunPowershellCommand($"-command \"New-Item -Force -Path '{dataPath}' -ItemType Directory; Copy-Item -Filter *.* -Path '{destFolder}\\*' -Recurse -Force -Destination '{dataPath}'\"", false))
+                {
+                    // Error copying files
+                    goto DetectResult;
+                }
+            }
+            else
+            {
+                Win32API.RunPowershellCommand($"-command \"Remove-Item -Path '{dataPath}' -Recurse -Force\"", false);
+            }
+
+            try
+            {
+                using var regProcess = Process.Start(new ProcessStartInfo("regedit.exe", @$"/s ""{Path.Combine(destFolder, IsSetAsDefaultFileManager ? "SetFilesAsDefault.reg" : "UnsetFilesAsDefault.reg")}""") { UseShellExecute = true, Verb = "runas" });
+                await regProcess.WaitForExitAsync();
+            }
+            catch
+            {
+                // Canceled UAC
+            }
+
+        DetectResult:
             IsSetAsDefaultFileManager = DetectIsSetAsDefaultFileManager();
             if (!IsSetAsDefaultFileManager)
             {
@@ -86,26 +117,46 @@ namespace Files.App.ViewModels.SettingsViewModels
             {
                 return;
             }
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
+
+            var destFolder = Path.Combine(ApplicationData.Current.LocalFolder.Path, "FilesOpenDialog");
+            Directory.CreateDirectory(destFolder);
+            foreach (var file in Directory.GetFiles(Path.Combine(Package.Current.InstalledLocation.Path, "Files.FullTrust", "Assets", "FilesOpenDialog")))
             {
-                var (_, _) = await connection.SendMessageForResponseAsync(new ValueSet()
+                if (!SafetyExtensions.IgnoreExceptions(() => File.Copy(file, Path.Combine(destFolder, Path.GetFileName(file)), true), App.Logger))
                 {
-                    { "Arguments", "SetAsOpenFileDialog" },
-                    { "Value", IsSetAsOpenFileDialog }
-                });
+                    // Error copying files
+                    goto DetectResult;
+                }
             }
+
+            try
+            {
+                using var regProc32 = Process.Start("regsvr32.exe", @$"/s /n {(!IsSetAsOpenFileDialog ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "CustomOpenDialog32.dll")}""");
+                await regProc32.WaitForExitAsync();
+                using var regProc64 = Process.Start("regsvr32.exe", @$"/s /n {(!IsSetAsOpenFileDialog ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "CustomOpenDialog64.dll")}""");
+                await regProc64.WaitForExitAsync();
+                using var regProcARM64 = Process.Start("regsvr32.exe", @$"/s /n {(!IsSetAsOpenFileDialog ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "CustomOpenDialogARM64.dll")}""");
+                await regProcARM64.WaitForExitAsync();
+            }
+            catch
+            {
+            }
+
+        DetectResult:
             IsSetAsOpenFileDialog = DetectIsSetAsOpenFileDialog();
         }
 
         private bool DetectIsSetAsDefaultFileManager()
         {
-            return ApplicationData.Current.LocalSettings.Values.Get("IsSetAsDefaultFileManager", false);
+            using var subkey = Registry.ClassesRoot.OpenSubKey(@"Folder\shell\open\command");
+            var command = (string?)subkey?.GetValue(string.Empty);
+            return !string.IsNullOrEmpty(command) && command.Contains("FilesLauncher.exe");
         }
 
         private bool DetectIsSetAsOpenFileDialog()
         {
-            return ApplicationData.Current.LocalSettings.Values.Get("IsSetAsOpenFileDialog", false);
+            using var subkey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\CLSID\{DC1C5A9C-E88A-4DDE-A5A1-60F82A20AEF7}");
+            return subkey?.GetValue(string.Empty) as string == "FilesOpenDialog class";
         }
 
         private bool isSetAsDefaultFileManager;

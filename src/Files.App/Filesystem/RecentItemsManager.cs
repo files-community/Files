@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Files.App.Shell;
 
 namespace Files.App.Filesystem
 {
@@ -100,28 +101,9 @@ namespace Files.App.Filesystem
         /// </summary>
         public async Task<List<RecentItem>> ListRecentFilesAsync()
         {
-            var connection = await AppServiceConnectionHelper.Instance;
-
-            if (connection != null)
-            {
-                // enumerate the Quick Access shell virtual path directly (handled via Win32MessageHandler)
-                ValueSet value = new ValueSet()
-                {
-                    { "Arguments", "ShellFolder" },
-                    { "action", "Enumerate" },
-                    { "folder", QuickAccessGuid }
-                };
-                var (status, response) = await connection.SendMessageForResponseAsync(value);
-
-                if (status == AppServiceResponseStatus.Success && response.ContainsKey("Enumerate"))
-                {
-                    var items = JsonConvert.DeserializeObject<List<ShellFileItem>>((string)response["Enumerate"])
-                                           .Select(link => new RecentItem(link)).ToList();
-                    return items;
-                }
-            }
-
-            return new();
+            var items = (await Win32Shell.GetShellFolderAsync(QuickAccessGuid, "Enumerate", 0, int.MaxValue)).Enumerate
+                                   .Select(link => new RecentItem(link)).ToList();
+            return items;
         }
 
         /// <summary>
@@ -134,7 +116,7 @@ namespace Files.App.Filesystem
             var (status, response) = await SendRecentItemsActionForResponse("EnumerateFolders");
             if (status == AppServiceResponseStatus.Success && response.ContainsKey("EnumerateFolders"))
             {
-                linkItems = JsonConvert.DeserializeObject<List<ShellLinkItem>>((string) response["EnumerateFolders"])
+                linkItems = JsonConvert.DeserializeObject<List<ShellLinkItem>>((string)response["EnumerateFolders"])
                                        .Select(link => new RecentItem(link)).ToList();
             }
 
@@ -149,8 +131,8 @@ namespace Files.App.Filesystem
         /// <returns>Whether the action was successfully handled or not</returns>
         public async Task<bool> AddToRecentItems(string path)
         {
-            var (status, _) = await SendRecentItemsActionForResponse("Add", new ValueSet 
-            { 
+            var (status, _) = await SendRecentItemsActionForResponse("Add", new ValueSet
+            {
                 { "Path", path },
             });
             return status == AppServiceResponseStatus.Success;
@@ -206,7 +188,7 @@ namespace Files.App.Filesystem
 
             if (extras is not null)
             {
-                foreach(var entry in extras)
+                foreach (var entry in extras)
                 {
                     if (!valueSet.ContainsKey(entry.Key))
                     {
@@ -252,6 +234,6 @@ namespace Files.App.Filesystem
             return oldOrder.SequenceEqual(newOrder);
         }
 
-        public void Dispose() {}
+        public void Dispose() { }
     }
 }
