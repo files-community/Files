@@ -51,17 +51,19 @@ namespace Files.App.DataModels
 			get => tabStripSelectedIndex;
 			set
 			{
-				if (value == 0)
-					return;
-
-				if (tabStripSelectedIndex != value)
-					SetProperty(ref tabStripSelectedIndex, value);
-
-				if (value < MainPageViewModel.AppInstances.Count)
+				if (value >= 0)
 				{
-					Frame rootFrame = App.Window.Content as Frame;
-					var mainView = rootFrame.Content as MainPage;
-					mainView.ViewModel.SelectedTabItem = MainPageViewModel.AppInstances[value];
+					if (tabStripSelectedIndex != value)
+					{
+						SetProperty(ref tabStripSelectedIndex, value);
+					}
+
+					if (value < MainPageViewModel.AppInstances.Count)
+					{
+						Frame rootFrame = App.Window.Content as Frame;
+						var mainView = rootFrame.Content as MainPage;
+						mainView.ViewModel.SelectedTabItem = MainPageViewModel.AppInstances[value];
+					}
 				}
 			}
 		}
