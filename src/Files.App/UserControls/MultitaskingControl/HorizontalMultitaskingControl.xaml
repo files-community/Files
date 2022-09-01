@@ -555,7 +555,7 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
 
-	<Grid
+	<Border
 		x:Name="TitlebarArea"
 		HorizontalAlignment="Stretch"
 		x:FieldModifier="public"
@@ -613,5 +613,5 @@
 				</Grid>
 			</TabView.TabStripFooter>
 		</TabView>
-	</Grid>
+	</Border>
 </local:BaseMultitaskingControl>

@@ -16,7 +16,7 @@
 			Invoked="TogglePlaybackAcceleratorInvoked"
 			Modifiers="Control" />
 	</UserControl.KeyboardAccelerators>
-	<Grid CornerRadius="{StaticResource ControlCornerRadius}">
+	<Border CornerRadius="{StaticResource ControlCornerRadius}">
 		<winex:MediaPlayerElement
 			x:Name="PlayerContext"
 			AreTransportControlsEnabled="True"
@@ -30,5 +30,5 @@
 					IsZoomButtonVisible="False" />
 			</winex:MediaPlayerElement.TransportControls>
 		</winex:MediaPlayerElement>
-	</Grid>
+	</Border>
 </UserControl>

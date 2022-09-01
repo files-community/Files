@@ -10,7 +10,7 @@
 	ActualThemeChanged="UserControl_ActualThemeChanged"
 	Loaded="UserControl_Loaded"
 	mc:Ignorable="d">
-	<Grid>
+	<Border>
 		<ScrollViewer
 			Grid.Row="0"
 			HorizontalScrollBarVisibility="Auto"
@@ -20,5 +20,5 @@
 				Padding="10"
 				FontFamily="Consolas" />
 		</ScrollViewer>
-	</Grid>
+	</Border>
 </UserControl>

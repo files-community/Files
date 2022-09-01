@@ -10,7 +10,7 @@
 	d:DesignWidth="400"
 	mc:Ignorable="d">
 
-	<Grid>
+	<Border>
 		<TextBlock
 			x:Name="EmptyText"
 			Text="{helpers:ResourceString Name=EmptyFolder/Text}"
@@ -43,5 +43,5 @@
 				</VisualState>
 			</VisualStateGroup>
 		</VisualStateManager.VisualStateGroups>
-	</Grid>
+	</Border>
 </UserControl>

@@ -14,9 +14,9 @@
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</UserControl.Resources>
-	<Grid>
+	<Border>
 		<ScrollViewer>
 			<controls:MarkdownTextBlock Text="{x:Bind ViewModel.TextValue, Mode=OneWay}" />
 		</ScrollViewer>
-	</Grid>
+	</Border>
 </UserControl>

@@ -9,7 +9,7 @@
 	d:DesignWidth="400"
 	mc:Ignorable="d">
 
-	<Grid
+	<Border
 		x:Name="RootGrid"
 		HorizontalAlignment="Stretch"
 		VerticalAlignment="Stretch"
@@ -19,5 +19,5 @@
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
 			Loaded="WebViewControl_Loaded" />
-	</Grid>
+	</Border>
 </UserControl>
