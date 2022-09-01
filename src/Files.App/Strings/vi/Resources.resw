@@ -520,7 +520,7 @@
     <value>Đồng ý</value>
   </data>
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
-    <value>Tên mục không được có những ký tự trong danh sách sau: \ / : * ? " &lt; &gt; |</value>
+    <value>Tên mục không được có những ký tự trong danh sách sau: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>mục đã chọn</value>
@@ -1396,7 +1396,7 @@
     <value>Tên Mục</value>
   </data>
   <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
-    <value>Ngừng ghim vào Ưa thích</value>
+    <value>Huỷ ghim vào Ưa thích</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Ổ lưu trữ mạng</value>
@@ -1594,7 +1594,7 @@
     <value>Không có vị trí</value>
   </data>
   <data name="ErrorInputEmpty" xml:space="preserve">
-    <value>Hộp văn bản không trống được</value>
+    <value>Văn bản nhập chữ không được trống!</value>
   </data>
   <data name="ErrorNameInputRestrictedCharacters" xml:space="preserve">
     <value>Tên không được hữu những ký tự danh sau này: \ / : * ? " &lt; &gt; |</value>
@@ -1615,7 +1615,7 @@
     <value>Mở bộ nhớ lưu trữ</value>
   </data>
   <data name="DrivesWidgetOpenStorageSenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Mở Bộ nhớ lưu trữ</value>
+    <value>Mở bộ nhớ lưu trữ</value>
   </data>
   <data name="Copy" xml:space="preserve">
     <value>Sao chép</value>
@@ -2317,7 +2317,7 @@
     <value>Ctrl+Shift+N</value>
   </data>
   <data name="SettingsPrivacy.Title" xml:space="preserve">
-    <value>Chính sách bảo mật</value>
+    <value>Chính sách về quyền riêng tư</value>
   </data>
   <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
     <value>Biểu tượng hệ thống Fluent UI</value>
@@ -2366,7 +2366,7 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
     <value>Gắn đĩa</value>
   </data>
   <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
-    <value>OK</value>
+    <value>Đồng ý</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
     <value>Yêu cầu thông tin đăng nhập</value>
@@ -2411,13 +2411,13 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
     <value>Cột</value>
   </data>
   <data name="LargeIcons" xml:space="preserve">
-    <value>Biểu tượng lớn</value>
+    <value>Chế độ xem lưới (Lớn)</value>
   </data>
   <data name="MediumIcons" xml:space="preserve">
-    <value>Biểu tượng trung bình</value>
+    <value>Chế độ xem lưới (Vừa)</value>
   </data>
   <data name="SmallIcons" xml:space="preserve">
-    <value>Biểu tượng nhỏ</value>
+    <value>Chế độ xem lưới (Nhỏ)</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Gạch</value>
@@ -2435,28 +2435,28 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
     <value>Mở thư mục trong tab mới</value>
   </data>
   <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Ghim Thùng rác vào danh sách yêu thích</value>
+    <value>Gắn Thùng rác vào Ưa thích</value>
   </data>
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Ngôn ngữ</value>
   </data>
   <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Hiển thị phần Ổ đĩa lưu trữ đám mây</value>
+    <value>Hiển thị phần ổ lưu trữ đám mây trong thanh bên</value>
   </data>
   <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Hiển thị hộp thoại xác nhận khi xoá tệp hoặc thư mục</value>
   </data>
   <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Hiển thị phần ổ đĩa</value>
+    <value>Hiển thị phần ổ lưu trữ trong thanh bên</value>
   </data>
   <data name="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Hiển thị phần thư viện</value>
+    <value>Hiển thị phần thư viện trên thanh bên</value>
   </data>
   <data name="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Hiển thị phần mạng</value>
+    <value>Hiển thị phần ổ lưu trữ mạng trong thanh bên</value>
   </data>
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Hiển thị phần WSL</value>
+    <value>Hiển thị phần WSL trong thanh bên</value>
   </data>
   <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Ứng dụng Terminal</value>
@@ -2492,7 +2492,7 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
     <value>Sử dụng Files làm Hộp thoại Mở Tệp</value>
   </data>
   <data name="Tag" xml:space="preserve">
-    <value>Thẻ</value>
+    <value>Thẻ tệp</value>
   </data>
   <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
     <value>Mở thư mục với 1 nhấp</value>
@@ -2552,7 +2552,7 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
     <value>Khi bắt đầu chương trình</value>
   </data>
   <data name="HighDpiOverride_System" xml:space="preserve">
-    <value>Hệ thống</value>
+    <value>Hệ thống</value>
   </data>
   <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
     <value>Hệ thống (nâng cao)</value>
@@ -2600,7 +2600,7 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
     <value>Đăng ký để khởi động lại</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
-    <value>Chạy bằng quản trị viên</value>
+    <value>Chạy với quyền người quản trị</value>
   </data>
   <data name="RunCompatibilityTroubleShooter" xml:space="preserve">
     <value>Chạy trình khắc phục sự cố tương thích</value>
@@ -2636,7 +2636,7 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
     <value>Thuộc tính</value>
   </data>
   <data name="Hidden" xml:space="preserve">
-    <value>Bị ẩn</value>
+    <value>Ẩn</value>
   </data>
   <data name="MoreDetails" xml:space="preserve">
     <value>Xem chi tiết</value>
@@ -2651,19 +2651,19 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
     <value>Dọn dẹp ổ đĩa</value>
   </data>
   <data name="Type" xml:space="preserve">
-    <value>Loại:</value>
+    <value>Loại:</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Byte</value>
   </data>
   <data name="Extract" xml:space="preserve">
-    <value>Giải nén</value>
+    <value>Trích xuất</value>
   </data>
   <data name="ExtractFiles" xml:space="preserve">
-    <value>Giải nén tệp tin</value>
+    <value>Trích xuất những tệp tin</value>
   </data>
   <data name="ExtractHere" xml:space="preserve">
-    <value>Giải nén ở đây</value>
+    <value>Trích xuất ở đây</value>
   </data>
   <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+E</value>
@@ -2735,7 +2735,7 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
     <value>Hiển thị phần thẻ tệp</value>
   </data>
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Show Tags section</value>
+    <value>Hiển thị phần thẻ tệp</value>
   </data>
   <data name="UseCompactStyles" xml:space="preserve">
     <value>Dùng thiết kế nhỏ gọn gọn ở dạng xem chi tiết</value>
@@ -2768,7 +2768,7 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
     <value>Đặt khớp chiều rộng mọi cột</value>
   </data>
   <data name="Contributors" xml:space="preserve">
-    <value>Những người đóng góp</value>
+    <value>Người đóng góp</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
     <value>Thích ứng</value>
@@ -2795,7 +2795,7 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
     <value>Set as lockscreen</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
-    <value>Cài làm ảnh nền desktop</value>
+    <value>Đặt như nền bàn làm việc</value>
   </data>
   <data name="SetAsDefault" xml:space="preserve">
     <value>Set as default</value>

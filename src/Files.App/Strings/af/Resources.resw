@@ -283,7 +283,7 @@
     <value>Naam</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
-    <value>Soort</value>
+    <value>Soort:</value>
   </data>
   <data name="Ascending" xml:space="preserve">
     <value>Stygende</value>
@@ -313,10 +313,10 @@
     <value>Maak oop</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
-    <value>Maak oop in nuwe duimgids</value>
+    <value>Maak in nuwe duimgids oop</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" xml:space="preserve">
-    <value>Maak oop in nuwe venster</value>
+    <value>Maak in nuwe venster oop</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" xml:space="preserve">
     <value>Stel as werkskermagtergrond</value>
@@ -772,7 +772,7 @@
     <value>Multitasking</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
-    <value>Multi-taak</value>
+    <value>Multitasking</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>Stel as</value>
@@ -1343,7 +1343,7 @@
     <value>Insetveld kan nie leeg wees nie!</value>
   </data>
   <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
-    <value>Maak oop in nuwe duimgids</value>
+    <value>Maak in nuwe duimgids oop</value>
   </data>
   <data name="BundleItemFlyouOpenItemLocationMenuItem.Text" xml:space="preserve">
     <value>Maak itemligging oop</value>
@@ -1397,7 +1397,7 @@
     <value>Item Naam</value>
   </data>
   <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
-    <value>Onpen van Gunstelinge</value>
+    <value>Onpen van gunstelinge</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Netwerkaandrywers</value>
@@ -1778,7 +1778,7 @@
     <value>Oorspronklike omslag</value>
   </data>
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
-    <value>Soort</value>
+    <value>Soort:</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Sorteer Volgens</value>
@@ -2090,7 +2090,7 @@
     <value>Toestemmings</value>
   </data>
   <data name="SecurityAdvancedTypeLabel.Text" xml:space="preserve">
-    <value>Soort</value>
+    <value>Soort:</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
     <value>Jy het nie toestemmings om die sekuriteitseienskappe van hierdie voorwerp te bekyk nie. Jy kan probeer om eienaarskap van hierdie voorwerp te neem.</value>
@@ -2410,13 +2410,13 @@ Ons gebruik App Center om tred te hou met programgebruik, foute te vind en ongel
     <value>Kolomme</value>
   </data>
   <data name="LargeIcons" xml:space="preserve">
-    <value>Groot ikone</value>
+    <value>Groot Ikone</value>
   </data>
   <data name="MediumIcons" xml:space="preserve">
     <value>Medium Ikone</value>
   </data>
   <data name="SmallIcons" xml:space="preserve">
-    <value>Klein ikone</value>
+    <value>Klein Ikone</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Teëls</value>
@@ -2431,7 +2431,7 @@ Ons gebruik App Center om tred te hou met programgebruik, foute te vind en ongel
     <value>Wys gunstelinge-afdeling</value>
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Maak vouers in nuwe duimgids oop</value>
+    <value>Maak omslae in nuwe duimgids oop</value>
   </data>
   <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Pen Herwin Bin na gunstelinge</value>
@@ -2491,7 +2491,7 @@ Ons gebruik App Center om tred te hou met programgebruik, foute te vind en ongel
     <value>Gebruik Files as oop lêerdialoog</value>
   </data>
   <data name="Tag" xml:space="preserve">
-    <value>Merker</value>
+    <value>Lêermerker</value>
   </data>
   <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
     <value>Maak omslae oop met 'n enkele klik</value>
@@ -2635,7 +2635,7 @@ Ons gebruik App Center om tred te hou met programgebruik, foute te vind en ongel
     <value>Kenmerke:</value>
   </data>
   <data name="Hidden" xml:space="preserve">
-    <value>Versteek</value>
+    <value>Versteekte</value>
   </data>
   <data name="MoreDetails" xml:space="preserve">
     <value>Meer besonderhede</value>
@@ -2650,13 +2650,13 @@ Ons gebruik App Center om tred te hou met programgebruik, foute te vind en ongel
     <value>Disk cleanup</value>
   </data>
   <data name="Type" xml:space="preserve">
-    <value>Tipe:</value>
+    <value>Soort:</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Grepe</value>
   </data>
   <data name="Extract" xml:space="preserve">
-    <value>Ekstraheer</value>
+    <value>Uitreksel</value>
   </data>
   <data name="ExtractFiles" xml:space="preserve">
     <value>Onttrek lêers</value>

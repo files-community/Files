@@ -283,7 +283,7 @@
     <value>ชื่อ</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
-    <value>ชนิด</value>
+    <value>ประเภท</value>
   </data>
   <data name="Ascending" xml:space="preserve">
     <value>จากน้อยไปหามาก</value>
@@ -358,7 +358,7 @@
     <value>ระบุชื่อใหม่ของรายการ</value>
   </data>
   <data name="RenameDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>ระบุชื่อรายการ</value>
+    <value>ระบุชื่อใหม่ของรายการ</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>ตั้งขื่อนี้</value>
@@ -517,10 +517,10 @@
     <value>ชื่อไฟล์ไม่สามารถมีอักขระต่อไปนี้ได้: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
-    <value>รับทราบ</value>
+    <value>ตกลง</value>
   </data>
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
-    <value>ชื่อรายการไม่สามารถมีอักขระต่อไปนี้ได้: \ / : * ? " &lt; &gt; |</value>
+    <value>ชื่อไฟล์ไม่สามารถมีอักขระต่อไปนี้ได้: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>รายการที่เลือก</value>
@@ -1123,7 +1123,7 @@
     <value>ที่ตั้ง</value>
   </data>
   <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
-    <value>การเลือก</value>
+    <value>เลือก</value>
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>เลือก</value>
@@ -1270,7 +1270,7 @@
     <value>เพิ่มหน้าต่างแยก</value>
   </data>
   <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
-    <value>เปิดในบานหน้าต่างแยก</value>
+    <value>เปิดในบานหน้าต่างรอง</value>
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>หน้าต่างคู่</value>
@@ -1342,7 +1342,7 @@
     <value>ชื่อกลุ่มไม่สามารถเว้นว่างได้</value>
   </data>
   <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
-    <value>เปิดในหน้าใหม่</value>
+    <value>เปิดในแท็บใหม่</value>
   </data>
   <data name="BundleItemFlyouOpenItemLocationMenuItem.Text" xml:space="preserve">
     <value>เปิดที่ตั้งรายการนี้</value>
@@ -1393,7 +1393,7 @@
     <value>ไม่ทราบรายละเอียด</value>
   </data>
   <data name="PropertyItemName" xml:space="preserve">
-    <value>ชื่อรายการ</value>
+    <value>ชื่อไอเทม</value>
   </data>
   <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
     <value>ถอนออกจากรายการโปรด</value>
@@ -1576,7 +1576,7 @@
     <value>คลัง</value>
   </data>
   <data name="LibraryItemAutomation" xml:space="preserve">
-    <value>คลังข้อมูล</value>
+    <value>คลัง</value>
   </data>
   <data name="Library" xml:space="preserve">
     <value>คลัง</value>
@@ -1594,7 +1594,7 @@
     <value>ยังไม่ได้ระบุตำแหน่ง</value>
   </data>
   <data name="ErrorInputEmpty" xml:space="preserve">
-    <value>ไม่สามารถเว้นว่างได้!</value>
+    <value>ชื่อกลุ่มไม่สามารถเว้นว่างได้</value>
   </data>
   <data name="ErrorNameInputRestrictedCharacters" xml:space="preserve">
     <value>ไม่สามารถมีอักษรเหล่านี้ในชื่อได้: \ / : * ? " &lt; &gt; |</value>
@@ -1615,7 +1615,7 @@
     <value>เปิดที่เก็บข้อมูลอัจฉรียะ</value>
   </data>
   <data name="DrivesWidgetOpenStorageSenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>เปิดที่เก็บข้อมูลอัจฉริยะ</value>
+    <value>เปิดที่เก็บข้อมูลอัจฉรียะ</value>
   </data>
   <data name="Copy" xml:space="preserve">
     <value>คัดลอก</value>
@@ -1777,7 +1777,7 @@
     <value>แหล่งแฟ้ม</value>
   </data>
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
-    <value>ชนิด</value>
+    <value>ประเภท</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>เรียงโดย</value>
@@ -2047,7 +2047,7 @@
     <value>เรียกคืนคลังเริ่มต้น</value>
   </data>
   <data name="DialogRestoreLibrariesButtonText" xml:space="preserve">
-    <value>กู้คืน</value>
+    <value>เอาออกไปไว้ที่เดิม</value>
   </data>
   <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
     <value>คุณแน่แล้วใช่หรือไม่ที่จะเรียกคืนคลังเป็นค่าเริ่มต้นตามเดิม? ไฟล์ในคลังจะไม่หายไปไหน.</value>

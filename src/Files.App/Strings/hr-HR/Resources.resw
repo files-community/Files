@@ -1195,7 +1195,7 @@
     <value>Status centar</value>
   </data>
   <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Traži</value>
+    <value>Pretraga</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Traži rezultate u {1} za {0}</value>
@@ -2440,19 +2440,19 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
     <value>Jezik</value>
   </data>
   <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Prikaži odjeljak pogona u oblaku</value>
+    <value>Prikaži odjeljak pogoni u oblaku</value>
   </data>
   <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Prikaz dijaloga za potvrdu prilikom brisanja datoteka ili mapa</value>
   </data>
   <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Prikaži odjeljak s diskovima</value>
+    <value>Prikaži odjeljak za pogone</value>
   </data>
   <data name="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Prikaži odjeljak biblioteke</value>
+    <value>Prikaz biblioteke</value>
   </data>
   <data name="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Prikaži odjeljak mreža</value>
+    <value>Prikaži odjeljak za mreže</value>
   </data>
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Prikaži WSL odjeljak</value>
@@ -2491,7 +2491,7 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
     <value>Koristi Files aplikciju kao dijalog za otvarenje datoteka</value>
   </data>
   <data name="Tag" xml:space="preserve">
-    <value>Oznaka</value>
+    <value>Oznaka datoteke</value>
   </data>
   <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
     <value>Otvori mape jednim klikom</value>
@@ -2650,13 +2650,13 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
     <value>Disk cleanup</value>
   </data>
   <data name="Type" xml:space="preserve">
-    <value>Tip:</value>
+    <value>Vrsta:</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Bajtovi</value>
   </data>
   <data name="Extract" xml:space="preserve">
-    <value>Izdvajanje</value>
+    <value>Raspakiraj</value>
   </data>
   <data name="ExtractFiles" xml:space="preserve">
     <value>Raspakiraj datoteke</value>

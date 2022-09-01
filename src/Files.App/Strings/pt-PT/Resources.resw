@@ -166,7 +166,7 @@
     <value>Tamanho:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed Size:</value>
+    <value>Tamanho descomprimido:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Esta ação não pode ser executada</value>
@@ -892,10 +892,10 @@
     <value>Não especificado</value>
   </data>
   <data name="PropertyLongitudeDecimal" xml:space="preserve">
-    <value>Decimal da Longitude</value>
+    <value>Decimal de longitude</value>
   </data>
   <data name="PropertyLatitudeDecimal" xml:space="preserve">
-    <value>Decimal da Latitude</value>
+    <value>Decimal de latitude</value>
   </data>
   <data name="PropertyLatitude" xml:space="preserve">
     <value>Latitude</value>
@@ -1237,7 +1237,7 @@
     <value>Mostrar itens não indexados ao pesquisar ficheiros e pastas</value>
   </data>
   <data name="ForceThesePreferencesOnAllDirectories" xml:space="preserve">
-    <value>Force these preferences on all directories</value>
+    <value>Impor estas preferências para todos os diretórios</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Personalize o menu de contexto do botão direito</value>
@@ -1849,7 +1849,7 @@
     <value>Ver política de privacidade do Files</value>
   </data>
   <data name="RenameFileDialogTitle" xml:space="preserve">
-    <value>Mudar de nome</value>
+    <value>Mudar o nome</value>
   </data>
   <data name="StatusMoveCanceled" xml:space="preserve">
     <value>Mover cancelado</value>
@@ -2317,7 +2317,7 @@
     <value>Ctrl+Shift+N</value>
   </data>
   <data name="SettingsPrivacy.Title" xml:space="preserve">
-    <value>Politica de privacidade</value>
+    <value>Política de privacidade</value>
   </data>
   <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
     <value>Sistema de Ícones Fluent UI</value>
@@ -2430,13 +2430,13 @@ Utilizamos o App Center para localizar as definições que estão a ser utilizad
     <value>Abrir pastas num novo separador</value>
   </data>
   <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Afixar Reciclgem nos favoritos</value>
+    <value>Afixar Reciclagem nos favoritos</value>
   </data>
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Idioma</value>
   </data>
   <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar secção unidades de nuvem</value>
+    <value>Mostrar secção unidade de nuvem</value>
   </data>
   <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Mostrar um diálogo de confirmação ao eliminar ficheiros ou pastas</value>
@@ -2757,7 +2757,7 @@ Utilizamos o App Center para localizar as definições que estão a ser utilizad
     <value>Personalizado</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
-    <value>Definir como apresentação de diapositivos do ambiente de trabalho</value>
+    <value>Definir como apresentação do ambiente de trabalho</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
     <value>Dimensionar Todas as Colunas para Encaixar</value>
@@ -2775,7 +2775,7 @@ Utilizamos o App Center para localizar as definições que estão a ser utilizad
     <value>Ctrl+Shift+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>Mostrar Fluxos de Dados Alternativos</value>
+    <value>Mostrar fluxos de dados alternativos</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
     <value>Avaliar Files</value>
@@ -2784,45 +2784,45 @@ Utilizamos o App Center para localizar as definições que estão a ser utilizad
     <value>Deseja avaliar Files?</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
-    <value>Set as background</value>
+    <value>Definir como imagem de fundo</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Set as lockscreen</value>
+    <value>Definir como ecrã de bloqueio</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>Definir como fundo do ambiente de trabalho</value>
   </data>
   <data name="SetAsDefault" xml:space="preserve">
-    <value>Set as default</value>
+    <value>Utilizar por omissão</value>
   </data>
   <data name="FolderPreferences" xml:space="preserve">
-    <value>Folder preferences</value>
+    <value>Preferências de pastas</value>
   </data>
   <data name="DisplayDateColumn" xml:space="preserve">
-    <value>Display Date column</value>
+    <value>Mostrar coluna Data</value>
   </data>
   <data name="DisplayDateCreatedColumn" xml:space="preserve">
-    <value>Display Date Created column</value>
+    <value>Mostrar coluna Data de criação</value>
   </data>
   <data name="DisplaySizeColumn" xml:space="preserve">
-    <value>Display Size column</value>
+    <value>Mostrar coluna Tamanho</value>
   </data>
   <data name="DisplayTagColumn" xml:space="preserve">
-    <value>Display Tag column</value>
+    <value>Mostrar coluna Etiqueta</value>
   </data>
   <data name="DisplayTypeColumn" xml:space="preserve">
-    <value>Display Type column</value>
+    <value>Mostrar coluna Tipo</value>
   </data>
   <data name="Reset" xml:space="preserve">
-    <value>Reset</value>
+    <value>Repor</value>
   </data>
   <data name="ResetLayoutPreferences" xml:space="preserve">
-    <value>This action will reset all directories back to your default preferences.</value>
+    <value>Esta opção irá repor as preferências originais de todos os diretórios.</value>
   </data>
   <data name="AreYouSure" xml:space="preserve">
-    <value>Are you sure?</value>
+    <value>Tem a certeza?</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
-    <value>Lockscreen</value>
+    <value>Ecrã de bloqueio</value>
   </data>
 </root>

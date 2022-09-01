@@ -358,7 +358,7 @@
     <value>Dateinamen eingeben</value>
   </data>
   <data name="RenameDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Geben Sie den Dateinamen ein</value>
+    <value>Dateinamen eingeben</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Name festlegen</value>
@@ -649,7 +649,7 @@
     <value>Verknüpfung erstellen</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
-    <value>Dateipfad öffnen</value>
+    <value>Dateispeicherort öffnen</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
     <value>Argumente:</value>
@@ -1294,19 +1294,19 @@
     <value>Vorschau</value>
   </data>
   <data name="NavToolbarLargeIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>Rasteransicht (Groß)</value>
+    <value>Große Symbole</value>
   </data>
   <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>Rasteransicht (Groß) (Strg+Shift+5)</value>
   </data>
   <data name="NavToolbarMediumIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>Rasteransicht (Mittel)</value>
+    <value>Mittelgroße Symbole</value>
   </data>
   <data name="NavToolbarMediumIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>Rasteransicht (Mittel) (Strg+Shift+4)</value>
   </data>
   <data name="NavToolbarSmallIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>Rasteransicht (Klein)</value>
+    <value>Kleine Symbole</value>
   </data>
   <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>Rasteransicht (Klein) (Strg+Shift+3)</value>
@@ -1768,7 +1768,7 @@
     <value>Gruppieren nach</value>
   </data>
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
-    <value>Namen</value>
+    <value>Name</value>
   </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Änderungsdatum</value>
@@ -2260,7 +2260,7 @@
     <value>Startseite</value>
   </data>
   <data name="TabViewVerticalNewTab.Text" xml:space="preserve">
-    <value>Neue Registerkarte</value>
+    <value>Neuer Tab</value>
   </data>
   <data name="NavToolbarSelectAll.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Strg+A</value>
@@ -2317,7 +2317,7 @@
     <value>Str+Umschalt+N</value>
   </data>
   <data name="SettingsPrivacy.Title" xml:space="preserve">
-    <value>Datenschutzrichtlinie</value>
+    <value>Datenschutzerklärung</value>
   </data>
   <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
     <value>Fluent UI Systemicons</value>
@@ -2429,10 +2429,10 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
     <value>Versteckte Elemente anzeigen</value>
   </data>
   <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Favoritenbereich anzeigen</value>
+    <value>Favoriten anzeigen</value>
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Jeden Ordner in neuem Tab öffnen</value>
+    <value>Ordner in einem neuen Tab öffnen</value>
   </data>
   <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Papierkorb zu Favoriten hinzufügen</value>
@@ -2441,22 +2441,22 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
     <value>Sprache</value>
   </data>
   <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Cloud-Laufwerksbereich anzeigen</value>
+    <value>Cloud-Speicher anzeigen</value>
   </data>
   <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Bestätigungsdialog vor dem Löschen von Dateien und Ordnern anzeigen</value>
+    <value>Bestätigungsdialog vor dem Löschen anzeigen</value>
   </data>
   <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Laufwerksbereich anzeigen</value>
+    <value>Laufwerke anzeigen</value>
   </data>
   <data name="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Bibliotheksbereich anzeigen</value>
+    <value>Bibliotheken anzeigen</value>
   </data>
   <data name="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Netzwerkbereich anzeigen</value>
+    <value>Netzwerklaufwerke anzeigen</value>
   </data>
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>WSL-Bereich anzeigen</value>
+    <value>Windows Subsystem for Linux (WSL) anzeigen</value>
   </data>
   <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Terminal-Anwendung</value>
@@ -2552,7 +2552,7 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
     <value>Beim Programmstart</value>
   </data>
   <data name="HighDpiOverride_System" xml:space="preserve">
-    <value>System</value>
+    <value>Systemmenü</value>
   </data>
   <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
     <value>System (erweitert)</value>
