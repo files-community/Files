@@ -41,10 +41,18 @@ namespace Files.Uwp.Dialogs
 
         private void AddItemListViewItem_Loaded(object sender, RoutedEventArgs e)
         {
-            ListViewItem file = AddItemsListView.ContainerFromIndex(0) as ListViewItem;
-            if (file != null)
+            ListViewItem folder = null;
+            foreach(AddItemDialogListItemViewModel item in ViewModel.AddItemsList)
             {
-                file.Focus(FocusState.Keyboard);
+                if (item.Header.Equals("Folder"))
+                {
+                    folder = AddItemsListView.ContainerFromItem(item) as ListViewItem;
+                    break;
+                }
+            }
+            if (folder != null)
+            {
+                folder.Focus(FocusState.Keyboard);
             }
         }
     }
