@@ -570,7 +570,7 @@
             CanDragTabs="True"
             DragLeave="TabStrip_DragLeave"
             IsAddTabButtonVisible="False"
-            SelectedIndex="{x:Bind local1:App.MainViewModel.TabStripSelectedIndex, Mode=TwoWay}"
+            SelectedIndex="{x:Bind local1:App.AppModel.TabStripSelectedIndex, Mode=TwoWay}"
             SelectionChanged="TabStrip_SelectionChanged"
             TabCloseRequested="TabStrip_TabCloseRequested"
             TabDragCompleted="TabStrip_TabDragCompleted"

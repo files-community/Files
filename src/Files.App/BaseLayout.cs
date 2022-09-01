@@ -37,6 +37,7 @@ using Files.App.UserControls.Menus;
 using static Files.App.Helpers.PathNormalization;
 using CommunityToolkit.WinUI;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
+using Files.App.DataModels;
 
 namespace Files.App
 {
@@ -61,7 +62,7 @@ namespace Files.App
 
         public IPaneViewModel PaneViewModel => App.PaneViewModel;
 
-        public MainViewModel MainViewModel => App.MainViewModel;
+        public AppModel AppModel => App.AppModel;
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
 
         public Microsoft.UI.Xaml.Controls.CommandBarFlyout ItemContextMenuFlyout { get; set; } = new Microsoft.UI.Xaml.Controls.CommandBarFlyout()

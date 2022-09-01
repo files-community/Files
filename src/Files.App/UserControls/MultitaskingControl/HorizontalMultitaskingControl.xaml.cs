@@ -30,10 +30,10 @@ namespace Files.App.UserControls.MultitaskingControl
         {
             if (args.CollectionChange == Windows.Foundation.Collections.CollectionChange.ItemRemoved)
             {
-                App.MainViewModel.TabStripSelectedIndex = Items.IndexOf(HorizontalTabView.SelectedItem as TabItem);
+                App.AppModel.TabStripSelectedIndex = Items.IndexOf(HorizontalTabView.SelectedItem as TabItem);
             }
 
-            if (App.MainViewModel.TabStripSelectedIndex >= 0 && App.MainViewModel.TabStripSelectedIndex < Items.Count)
+            if (App.AppModel.TabStripSelectedIndex >= 0 && App.AppModel.TabStripSelectedIndex < Items.Count)
             {
                 CurrentSelectedAppInstance = GetCurrentSelectedTabInstance();
 
@@ -47,7 +47,7 @@ namespace Files.App.UserControls.MultitaskingControl
                 }
             }
 
-            HorizontalTabView.SelectedIndex = App.MainViewModel.TabStripSelectedIndex;
+            HorizontalTabView.SelectedIndex = App.AppModel.TabStripSelectedIndex;
         }
 
         private async void TabViewItem_Drop(object sender, DragEventArgs e)
@@ -80,7 +80,7 @@ namespace Files.App.UserControls.MultitaskingControl
             tabHoverTimer.Stop();
             if (hoveredTabViewItem != null)
             {
-                App.MainViewModel.TabStripSelectedIndex = Items.IndexOf(hoveredTabViewItem.DataContext as TabItem);
+                App.AppModel.TabStripSelectedIndex = Items.IndexOf(hoveredTabViewItem.DataContext as TabItem);
             }
         }
 

@@ -62,7 +62,7 @@
             Width="32"
             Height="32"
             VerticalAlignment="Center"
-            x:Load="{x:Bind MainViewModel.IsFullTrustElevated, Mode=OneWay}"
+            x:Load="{x:Bind AppModel.IsAppElevated, Mode=OneWay}"
             AccessKey="M"
             Background="Transparent"
             Click="FullTrustStatus_Click"

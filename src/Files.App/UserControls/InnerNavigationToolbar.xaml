@@ -126,7 +126,7 @@
                     MinWidth="40"
                     AccessKey="P"
                     Command="{x:Bind ViewModel.PasteItemsFromClipboardCommand, Mode=OneWay}"
-                    IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.InstanceViewModel.CanPasteInPage, local1:App.MainViewModel.IsPasteEnabled), Mode=OneWay, FallbackValue=False}"
+                    IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.InstanceViewModel.CanPasteInPage, local1:App.AppModel.IsPasteEnabled), Mode=OneWay, FallbackValue=False}"
                     Label="{helpers:ResourceString Name=NavigationToolbarPaste/Label}"
                     LabelPosition="Collapsed"
                     ToolTipService.ToolTip="{helpers:ResourceString Name=BaseLayoutContextFlyoutPaste/Text}">
@@ -417,7 +417,7 @@
                     <MenuFlyout Placement="Bottom">
                         <ToggleMenuFlyoutItem
                             x:Name="MultiselectMFI"
-                            IsChecked="{x:Bind MainViewModel.MultiselectEnabled, Mode=TwoWay}"
+                            IsChecked="{x:Bind AppModel.MultiselectEnabled, Mode=TwoWay}"
                             Text="{helpers:ResourceString Name=NavToolbarMultiselect/Text}">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE762;" />
@@ -815,7 +815,7 @@
                 MinWidth="40"
                 AccessKey="P"
                 AutomationProperties.Name="{helpers:ResourceString Name=PreviewPaneToggle/AutomationProperties/Name}"
-                IsChecked="{x:Bind MainViewModel.PaneViewModel.IsPreviewSelected, Mode=TwoWay}"
+                IsChecked="{x:Bind AppModel.PaneViewModel.IsPreviewSelected, Mode=TwoWay}"
                 IsEnabled="{x:Bind ShowPreviewPaneButton, Mode=OneWay}"
                 Label="{helpers:ResourceString Name=PreviewPaneToggle/Label}"
                 LabelPosition="Collapsed"

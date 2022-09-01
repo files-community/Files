@@ -330,7 +330,7 @@ namespace Files.App.ViewModels
                 {
                     if (!section.ChildItems.Any(x => x.Path == lib.Path))
                     {
-                        lib.Font = App.MainViewModel.FontName;
+                        lib.Font = App.AppModel.FontName;
                         section.ChildItems.AddSorted(elem);
                         await lib.LoadLibraryIcon();
                     }
@@ -374,7 +374,7 @@ namespace Files.App.ViewModels
                         {
                             IsLocationItem = true
                         },
-                        Font = App.MainViewModel.FontName,
+                        Font = App.AppModel.FontName,
                         IsDefaultLocation = true,
                         Icon = new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png")),
                         Path = "Home".GetLocalizedResource()
@@ -393,7 +393,7 @@ namespace Files.App.ViewModels
                                     ShowHideSection = true
                                 },
                                 SelectsOnInvoked = false,
-                                Font = App.MainViewModel.FontName,
+                                Font = App.AppModel.FontName,
                                 ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
                             };
                             var index = sectionOrder.TakeWhile(x => x != sectionType).Select(x => SideBarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
