@@ -27,7 +27,6 @@ namespace Files.App.DataModels.NavigationControlItems
 		public byte[] IconData { get; set; }
 
 		private string path;
-
 		public string Path
 		{
 			get => path;
@@ -50,21 +49,20 @@ namespace Files.App.DataModels.NavigationControlItems
 		public bool IsPinned => App.SidebarPinnedController.Model.FavoriteItems.Contains(path);
 
 		private ByteSize maxSpace;
-		private ByteSize freeSpace;
-		private ByteSize spaceUsed;
-
 		public ByteSize MaxSpace
 		{
 			get => maxSpace;
 			set => SetProperty(ref maxSpace, value);
 		}
 
+		private ByteSize freeSpace;
 		public ByteSize FreeSpace
 		{
 			get => freeSpace;
 			set => SetProperty(ref freeSpace, value);
 		}
 
+		private ByteSize spaceUsed;
 		public ByteSize SpaceUsed
 		{
 			get => spaceUsed;
@@ -77,7 +75,6 @@ namespace Files.App.DataModels.NavigationControlItems
 		}
 
 		private DriveType type;
-
 		public DriveType Type
 		{
 			get => type;
@@ -88,7 +85,6 @@ namespace Files.App.DataModels.NavigationControlItems
 		}
 
 		private string text;
-
 		public string Text
 		{
 			get => text;
@@ -96,7 +92,6 @@ namespace Files.App.DataModels.NavigationControlItems
 		}
 
 		private string spaceText;
-
 		public string SpaceText
 		{
 			get => spaceText;
@@ -108,7 +103,6 @@ namespace Files.App.DataModels.NavigationControlItems
 		public ContextMenuOptions MenuOptions { get; set; }
 
 		private float percentageUsed = 0.0f;
-
 		public float PercentageUsed
 		{
 			get => percentageUsed;
@@ -132,7 +126,6 @@ namespace Files.App.DataModels.NavigationControlItems
 		}
 
 		private bool showStorageSense = false;
-
 		public bool ShowStorageSense
 		{
 			get => showStorageSense;
