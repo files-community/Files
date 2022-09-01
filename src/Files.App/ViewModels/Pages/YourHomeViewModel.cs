@@ -1,137 +1,135 @@
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Files.App.EventArguments.Bundles;
 using Files.App.Helpers;
 using Files.App.ViewModels.Widgets;
 using Files.App.ViewModels.Widgets.Bundles;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using System;
-using System.Windows.Input;
-using Microsoft.UI.Xaml;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using Newtonsoft.Json;
-using Files.Shared;
 using Files.Shared.Extensions;
+using Microsoft.UI.Xaml;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Files.App.ViewModels.Pages
 {
-    public class YourHomeViewModel : ObservableObject, IDisposable
-    {
-        private BundlesViewModel bundlesViewModel;
+	public class YourHomeViewModel : ObservableObject, IDisposable
+	{
+		private BundlesViewModel bundlesViewModel;
 
-        private readonly WidgetsListControlViewModel widgetsViewModel;
+		private readonly WidgetsListControlViewModel widgetsViewModel;
 
-        private IShellPage associatedInstance;
+		private IShellPage associatedInstance;
 
-        public event EventHandler<RoutedEventArgs> YourHomeLoadedInvoked;
+		public event EventHandler<RoutedEventArgs> YourHomeLoadedInvoked;
 
-        public ICommand YourHomeLoadedCommand { get; private set; }
+		public ICommand YourHomeLoadedCommand { get; private set; }
 
-        public ICommand LoadBundlesCommand { get; private set; }
+		public ICommand LoadBundlesCommand { get; private set; }
 
-        private NamedPipeAsAppServiceConnection connection;
+		private NamedPipeAsAppServiceConnection connection;
 
-        private NamedPipeAsAppServiceConnection Connection
-        {
-            get => connection;
-            set
-            {
-                if (connection != null)
-                {
-                    connection.RequestReceived -= Connection_RequestReceived;
-                }
-                connection = value;
-                if (connection != null)
-                {
-                    connection.RequestReceived += Connection_RequestReceived;
-                }
-            }
-        }
+		private NamedPipeAsAppServiceConnection Connection
+		{
+			get => connection;
+			set
+			{
+				if (connection != null)
+				{
+					connection.RequestReceived -= Connection_RequestReceived;
+				}
+				connection = value;
+				if (connection != null)
+				{
+					connection.RequestReceived += Connection_RequestReceived;
+				}
+			}
+		}
 
-        public YourHomeViewModel(WidgetsListControlViewModel widgetsViewModel, IShellPage associatedInstance)
-        {
-            this.widgetsViewModel = widgetsViewModel;
-            this.associatedInstance = associatedInstance;
+		public YourHomeViewModel(WidgetsListControlViewModel widgetsViewModel, IShellPage associatedInstance)
+		{
+			this.widgetsViewModel = widgetsViewModel;
+			this.associatedInstance = associatedInstance;
 
-            // Create commands
-            YourHomeLoadedCommand = new RelayCommand<RoutedEventArgs>(YourHomeLoaded);
-            LoadBundlesCommand = new RelayCommand<BundlesViewModel>(LoadBundles);
+			// Create commands
+			YourHomeLoadedCommand = new RelayCommand<RoutedEventArgs>(YourHomeLoaded);
+			LoadBundlesCommand = new RelayCommand<BundlesViewModel>(LoadBundles);
 
-            _ = InitializeConnectionAsync(); // fire and forget
-            AppServiceConnectionHelper.ConnectionChanged += AppServiceConnectionHelper_ConnectionChanged;
-        }
+			_ = InitializeConnectionAsync(); // fire and forget
+			AppServiceConnectionHelper.ConnectionChanged += AppServiceConnectionHelper_ConnectionChanged;
+		}
 
-        private async Task InitializeConnectionAsync()
-        {
-            Connection ??= await AppServiceConnectionHelper.Instance;
-        }
+		private async Task InitializeConnectionAsync()
+		{
+			Connection ??= await AppServiceConnectionHelper.Instance;
+		}
 
-        public void ChangeAppInstance(IShellPage associatedInstance)
-        {
-            this.associatedInstance = associatedInstance;
-        }
+		public void ChangeAppInstance(IShellPage associatedInstance)
+		{
+			this.associatedInstance = associatedInstance;
+		}
 
-        private void YourHomeLoaded(RoutedEventArgs e)
-        {
-            YourHomeLoadedInvoked?.Invoke(this, e);
-        }
+		private void YourHomeLoaded(RoutedEventArgs e)
+		{
+			YourHomeLoadedInvoked?.Invoke(this, e);
+		}
 
-        private async void LoadBundles(BundlesViewModel viewModel)
-        {
-            bundlesViewModel = viewModel;
+		private async void LoadBundles(BundlesViewModel viewModel)
+		{
+			bundlesViewModel = viewModel;
 
-            bundlesViewModel.OpenPathEvent -= BundlesViewModel_OpenPathEvent;
-            bundlesViewModel.OpenPathInNewPaneEvent -= BundlesViewModel_OpenPathInNewPaneEvent;
-            bundlesViewModel.OpenPathEvent += BundlesViewModel_OpenPathEvent;
-            bundlesViewModel.OpenPathInNewPaneEvent += BundlesViewModel_OpenPathInNewPaneEvent;
+			bundlesViewModel.OpenPathEvent -= BundlesViewModel_OpenPathEvent;
+			bundlesViewModel.OpenPathInNewPaneEvent -= BundlesViewModel_OpenPathInNewPaneEvent;
+			bundlesViewModel.OpenPathEvent += BundlesViewModel_OpenPathEvent;
+			bundlesViewModel.OpenPathInNewPaneEvent += BundlesViewModel_OpenPathInNewPaneEvent;
 
-            await bundlesViewModel.Initialize();
-        }
+			await bundlesViewModel.Initialize();
+		}
 
-        private void BundlesViewModel_OpenPathInNewPaneEvent(object sender, string e)
-        {
-            associatedInstance.PaneHolder.OpenPathInNewPane(e);
-        }
+		private void BundlesViewModel_OpenPathInNewPaneEvent(object sender, string e)
+		{
+			associatedInstance.PaneHolder.OpenPathInNewPane(e);
+		}
 
-        private async void BundlesViewModel_OpenPathEvent(object sender, BundlesOpenPathEventArgs e)
-        {
-            await NavigationHelpers.OpenPath(e.path, associatedInstance, e.itemType, e.openSilent, e.openViaApplicationPicker, e.selectItems);
-        }
+		private async void BundlesViewModel_OpenPathEvent(object sender, BundlesOpenPathEventArgs e)
+		{
+			await NavigationHelpers.OpenPath(e.path, associatedInstance, e.itemType, e.openSilent, e.openViaApplicationPicker, e.selectItems);
+		}
 
-        private async void AppServiceConnectionHelper_ConnectionChanged(object sender, Task<NamedPipeAsAppServiceConnection> e)
-        {
-            Connection = await e;
-        }
+		private async void AppServiceConnectionHelper_ConnectionChanged(object sender, Task<NamedPipeAsAppServiceConnection> e)
+		{
+			Connection = await e;
+		}
 
-        private async void Connection_RequestReceived(object sender, Dictionary<string, object> message)
-        {
-            if (message.ContainsKey("RecentItems"))
-            {
-                var changeType = message.Get("ChangeType", "");
-                await App.RecentItemsManager.HandleWin32RecentItemsEvent(changeType);
-            }
-        }
+		private async void Connection_RequestReceived(object sender, Dictionary<string, object> message)
+		{
+			if (message.ContainsKey("RecentItems"))
+			{
+				var changeType = message.Get("ChangeType", "");
+				await App.RecentItemsManager.HandleWin32RecentItemsEvent(changeType);
+			}
+		}
 
-        #region IDisposable
+		#region IDisposable
 
-        public void Dispose()
-        {
-            if (bundlesViewModel != null)
-            {
-                bundlesViewModel.OpenPathEvent -= BundlesViewModel_OpenPathEvent;
-                bundlesViewModel.OpenPathInNewPaneEvent -= BundlesViewModel_OpenPathInNewPaneEvent;
-            }
+		public void Dispose()
+		{
+			if (bundlesViewModel != null)
+			{
+				bundlesViewModel.OpenPathEvent -= BundlesViewModel_OpenPathEvent;
+				bundlesViewModel.OpenPathInNewPaneEvent -= BundlesViewModel_OpenPathInNewPaneEvent;
+			}
 
-            widgetsViewModel?.Dispose();
+			widgetsViewModel?.Dispose();
 
-            if (connection != null)
-            {
-                connection.RequestReceived -= Connection_RequestReceived;
-            }
+			if (connection != null)
+			{
+				connection.RequestReceived -= Connection_RequestReceived;
+			}
 
-            AppServiceConnectionHelper.ConnectionChanged -= AppServiceConnectionHelper_ConnectionChanged;
-        }
+			AppServiceConnectionHelper.ConnectionChanged -= AppServiceConnectionHelper_ConnectionChanged;
+		}
 
-        #endregion IDisposable
-    }
+		#endregion IDisposable
+	}
 }

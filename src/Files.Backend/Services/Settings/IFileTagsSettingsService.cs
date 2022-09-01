@@ -4,22 +4,22 @@ using System.Collections.Generic;
 
 namespace Files.Backend.Services.Settings
 {
-    public interface IFileTagsSettingsService : IBaseSettingsService
-    {
-        event EventHandler OnSettingImportedEvent;
+	public interface IFileTagsSettingsService : IBaseSettingsService
+	{
+		event EventHandler OnSettingImportedEvent;
 
-        IList<FileTagViewModel> FileTagList { get; set; }
+		IList<FileTagViewModel> FileTagList { get; set; }
 
-        FileTagViewModel GetTagById(string uid);
+		FileTagViewModel GetTagById(string uid);
 
-        IList<FileTagViewModel> GetTagsByIds(string[] uids);
+		IList<FileTagViewModel> GetTagsByIds(string[] uids);
 
-        IEnumerable<FileTagViewModel> GetTagsByName(string tagName);
+		IEnumerable<FileTagViewModel> GetTagsByName(string tagName);
 
-        IEnumerable<FileTagViewModel> SearchTagsByName(string tagName);
+		IEnumerable<FileTagViewModel> SearchTagsByName(string tagName);
 
-        object ExportSettings();
+		object ExportSettings();
 
-        bool ImportSettings(object import);
-    }
+		bool ImportSettings(object import);
+	}
 }

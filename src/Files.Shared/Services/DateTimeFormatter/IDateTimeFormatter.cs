@@ -2,13 +2,13 @@
 
 namespace Files.Shared.Services.DateTimeFormatter
 {
-    public interface IDateTimeFormatter
-    {
-        string Name { get; }
+	public interface IDateTimeFormatter
+	{
+		string Name { get; }
 
-        string ToShortLabel(DateTimeOffset offset);
-        string ToLongLabel(DateTimeOffset offset);
+		string ToShortLabel(DateTimeOffset offset);
+		string ToLongLabel(DateTimeOffset offset);
 
-        ITimeSpanLabel ToTimeSpanLabel(DateTimeOffset offset);
-    }
+		ITimeSpanLabel ToTimeSpanLabel(DateTimeOffset offset);
+	}
 }
