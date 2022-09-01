@@ -447,7 +447,6 @@
         </Style>
     </local:BaseLayout.Resources>
 
-    <RefreshContainer RefreshRequested="RefreshContainer_RefreshRequested">
         <Grid
             x:Name="RootGrid"
             Padding="0,0,0,0"
@@ -719,5 +718,4 @@
                     StrokeThickness="1" />
             </Canvas>
         </Grid>
-    </RefreshContainer>
 </local:BaseLayout>
