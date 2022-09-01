@@ -25,7 +25,6 @@
 					<ResourceDictionary.ThemeDictionaries>
 						<ResourceDictionary x:Key="Light">
 							<Color x:Key="SolidBackgroundAcrylic">#FFFFFF</Color>
-							<CornerRadius x:Key="NavToolbarCornerRadius">0</CornerRadius>
 							<SolidColorBrush x:Key="TabViewItemHeaderBackground" Color="{StaticResource SubtleFillColorTransparent}" />
 							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="{StaticResource LayerFillColorDefault}" />
 							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="{StaticResource SubtleFillColorTertiary}" />
@@ -43,7 +42,6 @@
 						</ResourceDictionary>
 						<ResourceDictionary x:Key="Dark">
 							<Color x:Key="SolidBackgroundAcrylic">#2C2C2C</Color>
-							<CornerRadius x:Key="NavToolbarCornerRadius">0</CornerRadius>
 							<SolidColorBrush x:Key="TabViewItemHeaderBackground" Color="{StaticResource SubtleFillColorTransparent}" />
 							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="{StaticResource LayerFillColorDefault}" />
 							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="{StaticResource SubtleFillColorTertiary}" />
@@ -61,7 +59,6 @@
 						</ResourceDictionary>
 						<ResourceDictionary x:Key="HighContrast">
 							<Color x:Key="SolidBackgroundAcrylic">#2C2C2C</Color>
-							<CornerRadius x:Key="NavToolbarCornerRadius">0</CornerRadius>
 							<SolidColorBrush x:Key="TabViewItemHeaderBackground" Color="{StaticResource SystemColorWindowColor}" />
 							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="{StaticResource LayerFillColorDefault}" />
 							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="{StaticResource SystemColorHighlightColor}" />
