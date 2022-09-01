@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 namespace Files.Backend.Services
 {
-	public interface IVolumeInfoFactory
-	{
-		Task<VolumeInfo> BuildVolumeInfo(string driveName);
-	}
+    public interface IVolumeInfoFactory
+    {
+        Task<VolumeInfo> BuildVolumeInfo(string driveName);
+    }
 }

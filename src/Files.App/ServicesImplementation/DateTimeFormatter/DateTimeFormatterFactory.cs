@@ -4,14 +4,14 @@ using System;
 
 namespace Files.App.ServicesImplementation.DateTimeFormatter
 {
-	public class DateTimeFormatterFactory : IDateTimeFormatterFactory
-	{
-		public IDateTimeFormatter GetDateTimeFormatter(TimeStyle timeStyle) => timeStyle switch
-		{
-			TimeStyle.Application => new ApplicationDateTimeFormatter(),
-			TimeStyle.System => new SystemDateTimeFormatter(),
-			TimeStyle.Universal => new UniversalDateTimeFormatter(),
-			_ => throw new ArgumentException(nameof(timeStyle)),
-		};
-	}
+    public class DateTimeFormatterFactory : IDateTimeFormatterFactory
+    {
+        public IDateTimeFormatter GetDateTimeFormatter(TimeStyle timeStyle) => timeStyle switch
+        {
+            TimeStyle.Application => new ApplicationDateTimeFormatter(),
+            TimeStyle.System => new SystemDateTimeFormatter(),
+            TimeStyle.Universal => new UniversalDateTimeFormatter(),
+            _ => throw new ArgumentException(nameof(timeStyle)),
+        };
+    }
 }

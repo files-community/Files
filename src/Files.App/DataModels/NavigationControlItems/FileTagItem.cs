@@ -1,12 +1,13 @@
-using Files.App.Filesystem;
 using Files.Backend.ViewModels.FileTags;
+using Files.App.Filesystem;
 
 namespace Files.App.DataModels.NavigationControlItems
 {
-	public class FileTagItem : INavigationControlItem
-	{
-		public string Text { get; set; }
+    public class FileTagItem : INavigationControlItem
+    {
+        public string Text { get; set; }
 
+<<<<<<< HEAD
 		private string path;
 		public string Path
 		{
@@ -17,17 +18,30 @@ namespace Files.App.DataModels.NavigationControlItems
 				HoverDisplayText = Text;
 			}
 		}
+=======
+        private string path;
 
-		public string HoverDisplayText { get; private set; }
+        public string Path
+        {
+            get => path;
+            set
+            {
+                path = value;
+                HoverDisplayText = Text;
+            }
+        }
+>>>>>>> parent of 568a443d (Code cleanup)
 
-		public SectionType Section { get; set; }
+        public string HoverDisplayText { get; private set; }
 
-		public ContextMenuOptions MenuOptions { get; set; }
+        public SectionType Section { get; set; }
 
-		public NavigationControlItemType ItemType => NavigationControlItemType.FileTag;
+        public ContextMenuOptions MenuOptions { get; set; }
 
-		public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
+        public NavigationControlItemType ItemType => NavigationControlItemType.FileTag;
 
-		public FileTagViewModel FileTag { get; set; }
-	}
+        public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
+
+        public FileTagViewModel FileTag { get; set; }
+    }
 }

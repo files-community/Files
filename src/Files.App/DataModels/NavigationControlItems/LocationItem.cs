@@ -1,14 +1,15 @@
+using Files.Shared;
+using Files.App.Filesystem;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Helpers;
-using Files.Shared;
+using System;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
+using Files.App.Helpers;
 
 namespace Files.App.DataModels.NavigationControlItems
 {
+<<<<<<< HEAD
 	public class LocationItem : ObservableObject, INavigationControlItem
 	{
 		public BitmapImage icon;
@@ -17,12 +18,24 @@ namespace Files.App.DataModels.NavigationControlItems
 			get => icon;
 			set => SetProperty(ref icon, value);
 		}
+=======
+    public class LocationItem : ObservableObject, INavigationControlItem
+    {
+        public BitmapImage icon;
 
-		//public Uri IconSource { get; set; }
-		public byte[] IconData { get; set; }
+        public BitmapImage Icon
+        {
+            get => icon;
+            set => SetProperty(ref icon, value);
+        }
+>>>>>>> parent of 568a443d (Code cleanup)
 
-		public string Text { get; set; }
+        //public Uri IconSource { get; set; }
+        public byte[] IconData { get; set; }
 
+        public string Text { get; set; }
+
+<<<<<<< HEAD
 		private string path;
 		public string Path
 		{
@@ -33,28 +46,41 @@ namespace Files.App.DataModels.NavigationControlItems
 				HoverDisplayText = string.IsNullOrEmpty(Path) || Path.Contains("?", StringComparison.Ordinal) || Path.StartsWith("shell:", StringComparison.OrdinalIgnoreCase) || Path.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase) || Path == "Home".GetLocalizedResource() ? Text : Path;
 			}
 		}
+=======
+        private string path;
 
-		public string HoverDisplayText { get; private set; }
-		public FontFamily Font { get; set; }
-		public NavigationControlItemType ItemType => NavigationControlItemType.Location;
-		public bool IsDefaultLocation { get; set; }
-		public BulkConcurrentObservableCollection<INavigationControlItem> ChildItems { get; set; }
+        public string Path
+        {
+            get => path;
+            set
+            {
+                path = value;
+                HoverDisplayText = string.IsNullOrEmpty(Path) || Path.Contains("?", StringComparison.Ordinal) || Path.StartsWith("shell:", StringComparison.OrdinalIgnoreCase) || Path.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase) || Path == "Home".GetLocalizedResource() ? Text : Path;
+            }
+        }
+>>>>>>> parent of 568a443d (Code cleanup)
 
-		public bool SelectsOnInvoked { get; set; } = true;
+        public string HoverDisplayText { get; private set; }
+        public FontFamily Font { get; set; }
+        public NavigationControlItemType ItemType => NavigationControlItemType.Location;
+        public bool IsDefaultLocation { get; set; }
+        public BulkConcurrentObservableCollection<INavigationControlItem> ChildItems { get; set; }
 
-		private bool isExpanded;
-		public bool IsExpanded
-		{
-			get => isExpanded;
-			set => SetProperty(ref isExpanded, value);
-		}
+        public bool SelectsOnInvoked { get; set; } = true;
 
-		public bool IsInvalid { get; set; } = false;
+        private bool isExpanded;
+        public bool IsExpanded
+        {
+            get => isExpanded;
+            set => SetProperty(ref isExpanded, value);
+        }
 
-		public SectionType Section { get; set; }
+        public bool IsInvalid { get; set; } = false;
 
-		public ContextMenuOptions MenuOptions { get; set; }
+        public SectionType Section { get; set; }
 
-		public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
-	}
+        public ContextMenuOptions MenuOptions { get; set; }
+
+        public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
+    }
 }

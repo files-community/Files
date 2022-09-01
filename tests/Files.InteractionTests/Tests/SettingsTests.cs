@@ -1,6 +1,6 @@
-﻿using OpenQA.Selenium.Interactions;
-using System;
+﻿using System;
 using System.Threading;
+using OpenQA.Selenium.Interactions;
 
 namespace Files.InteractionTests.Tests
 {

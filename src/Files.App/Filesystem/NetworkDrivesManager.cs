@@ -1,7 +1,7 @@
-using Files.App.DataModels.NavigationControlItems;
-using Files.App.Extensions;
-using Files.App.Helpers;
 using Files.Shared;
+using Files.App.DataModels.NavigationControlItems;
+using Files.App.Helpers;
+using Files.App.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -13,97 +13,97 @@ using Windows.Foundation.Collections;
 
 namespace Files.App.Filesystem
 {
-	public class NetworkDrivesManager
-	{
-		public EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
+    public class NetworkDrivesManager
+    {
+        public EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
 
-		private readonly List<DriveItem> drives = new();
-		public IReadOnlyList<DriveItem> Drives
-		{
-			get
-			{
-				lock (drives)
-				{
-					return drives.ToList().AsReadOnly();
-				}
-			}
-		}
+        private readonly List<DriveItem> drives = new();
+        public IReadOnlyList<DriveItem> Drives
+        {
+            get
+            {
+                lock (drives)
+                {
+                    return drives.ToList().AsReadOnly();
+                }
+            }
+        }
 
-		public NetworkDrivesManager()
-		{
-			var networkItem = new DriveItem
-			{
-				DeviceID = "network-folder",
-				Text = "Network".GetLocalizedResource(),
-				Path = CommonPaths.NetworkFolderPath,
-				Type = DriveType.Network,
-				ItemType = NavigationControlItemType.Drive,
-			};
-			networkItem.MenuOptions = new ContextMenuOptions
-			{
-				IsLocationItem = true,
-				ShowShellItems = true,
-				ShowEjectDevice = networkItem.IsRemovable,
-				ShowProperties = true
-			};
+        public NetworkDrivesManager()
+        {
+            var networkItem = new DriveItem
+            {
+                DeviceID = "network-folder",
+                Text = "Network".GetLocalizedResource(),
+                Path = CommonPaths.NetworkFolderPath,
+                Type = DriveType.Network,
+                ItemType = NavigationControlItemType.Drive,
+            };
+            networkItem.MenuOptions = new ContextMenuOptions
+            {
+                IsLocationItem = true,
+                ShowShellItems = true,
+                ShowEjectDevice = networkItem.IsRemovable,
+                ShowProperties = true
+            };
 
-			lock (drives)
-			{
-				drives.Add(networkItem);
-			}
-			DataChanged?.Invoke(SectionType.Network, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, networkItem));
-		}
+            lock (drives)
+            {
+                drives.Add(networkItem);
+            }
+            DataChanged?.Invoke(SectionType.Network, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, networkItem));
+        }
 
-		public async Task UpdateDrivesAsync()
-		{
-			var connection = await AppServiceConnectionHelper.Instance;
-			if (connection is not null)
-			{
-				var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet
-				{
-					{ "Arguments", "NetworkDriveOperation" },
-					{ "netdriveop", "GetNetworkLocations" },
-				});
-				if (status is AppServiceResponseStatus.Success && response.ContainsKey("NetworkLocations"))
-				{
-					var items = JsonConvert.DeserializeObject<List<ShellLinkItem>>((string)response["NetworkLocations"]);
-					foreach (var item in items ?? new())
-					{
-						var networkItem = new DriveItem
-						{
-							Text = System.IO.Path.GetFileNameWithoutExtension(item.FileName),
-							Path = item.TargetPath,
-							DeviceID = item.FilePath,
-							Type = DriveType.Network,
-							ItemType = NavigationControlItemType.Drive,
-						};
-						networkItem.MenuOptions = new ContextMenuOptions
-						{
-							IsLocationItem = true,
-							ShowEjectDevice = networkItem.IsRemovable,
-							ShowShellItems = true,
-							ShowProperties = true,
-						};
+        public async Task UpdateDrivesAsync()
+        {
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection is not null)
+            {
+                var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet
+                {
+                    { "Arguments", "NetworkDriveOperation" },
+                    { "netdriveop", "GetNetworkLocations" },
+                });
+                if (status is AppServiceResponseStatus.Success && response.ContainsKey("NetworkLocations"))
+                {
+                    var items = JsonConvert.DeserializeObject<List<ShellLinkItem>>((string)response["NetworkLocations"]);
+                    foreach (var item in items ?? new())
+                    {
+                        var networkItem = new DriveItem
+                        {
+                            Text = System.IO.Path.GetFileNameWithoutExtension(item.FileName),
+                            Path = item.TargetPath,
+                            DeviceID = item.FilePath,
+                            Type = DriveType.Network,
+                            ItemType = NavigationControlItemType.Drive,
+                        };
+                        networkItem.MenuOptions = new ContextMenuOptions
+                        {
+                            IsLocationItem = true,
+                            ShowEjectDevice = networkItem.IsRemovable,
+                            ShowShellItems = true,
+                            ShowProperties = true,
+                        };
 
-						lock (drives)
-						{
-							if (drives.Any(x => x.Path == networkItem.Path))
-							{
-								continue;
-							}
-							drives.Add(networkItem);
-						}
-					}
+                        lock (drives)
+                        {
+                            if (drives.Any(x => x.Path == networkItem.Path))
+                            {
+                                continue;
+                            }
+                            drives.Add(networkItem);
+                        }
+                    }
 
-					var orderedDrives = Drives
-						.OrderByDescending(o => string.Equals(o.Text, "Network".GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
-						.ThenBy(o => o.Text);
-					foreach (var drive in orderedDrives)
-					{
-						DataChanged?.Invoke(SectionType.Network, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, drive));
-					}
-				}
-			}
-		}
-	}
+                    var orderedDrives = Drives
+                        .OrderByDescending(o => string.Equals(o.Text, "Network".GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
+                        .ThenBy(o => o.Text);
+                    foreach (var drive in orderedDrives)
+                    {
+                        DataChanged?.Invoke(SectionType.Network, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, drive));
+                    }
+                }
+            }
+        }
+    }
 }
