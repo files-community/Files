@@ -9,8 +9,6 @@ using System.Windows.Input;
 using Microsoft.UI.Xaml;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using Newtonsoft.Json;
-using Files.Shared;
 using Files.Shared.Extensions;
 
 namespace Files.App.ViewModels.Pages

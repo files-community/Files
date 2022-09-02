@@ -3,11 +3,11 @@ using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Search;
@@ -71,7 +71,7 @@ namespace Files.App.Controllers
             try
             {
                 configContent = await FileIO.ReadTextAsync(JsonFile.Result);
-                Model = JsonConvert.DeserializeObject<TerminalFileModel>(configContent);
+                Model = JsonSerializer.Deserialize<TerminalFileModel>(configContent);
                 if (Model == null)
                 {
                     throw new ArgumentException($"{JsonFileName} is empty, regenerating...");
@@ -131,7 +131,7 @@ namespace Files.App.Controllers
             {
                 StorageFile defaultFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri(defaultTerminalPath));
                 var defaultContent = await FileIO.ReadTextAsync(defaultFile);
-                var model = JsonConvert.DeserializeObject<TerminalFileModel>(defaultContent);
+                var model = JsonSerializer.Deserialize<TerminalFileModel>(defaultContent);
                 await GetInstalledTerminalsAsync(model);
                 model.ResetToDefaultTerminal();
                 return model;
@@ -197,12 +197,15 @@ namespace Files.App.Controllers
             {
                 using (var file = File.CreateText(Path.Combine(folderPath, JsonFileName)))
                 {
-                    JsonSerializer serializer = new JsonSerializer();
-                    serializer.Formatting = Formatting.Indented;
-                    serializer.Serialize(file, Model);
+                    var options = new JsonSerializerOptions
+                    {
+                        WriteIndented = true
+                    };
 
                     // update local configContent to avoid unnecessary refreshes
-                    configContent = JsonConvert.SerializeObject(Model, Formatting.Indented);
+                    configContent = JsonSerializer.Serialize(Model, options);
+
+                    file.Write(configContent);
                 }
             }
             catch

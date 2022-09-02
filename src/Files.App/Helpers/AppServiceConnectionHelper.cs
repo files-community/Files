@@ -1,19 +1,16 @@
-using Files.Shared;
 using Files.Shared.Extensions;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Pipes;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
-using Windows.Security.Authentication.Web;
-using Windows.Storage;
 
 namespace Files.App.Helpers
 {
@@ -118,12 +115,12 @@ namespace Files.App.Helpers
                     if (serverStream.IsMessageComplete)
                     {
                         var message = Encoding.UTF8.GetString(memoryStream.ToArray()).TrimEnd('\0');
-                        var msg = JsonConvert.DeserializeObject<Dictionary<string, object>>(message);
+                        var msg = JsonSerializer.Deserialize<Dictionary<string, object>>(message);
                         if (msg != null && msg.Get("RequestID", (string)null) == null)
                         {
                             RequestReceived?.Invoke(this, msg);
                         }
-                        else if (messageList.TryRemove((string)msg["RequestID"], out var tcs))
+                        else if (msg != null && messageList.TryRemove((string)msg["RequestID"], out var tcs))
                         {
                             tcs.TrySetResult(msg);
                         }
@@ -163,7 +160,7 @@ namespace Files.App.Helpers
                 valueSet.Add("RequestID", guid);
                 var tcs = new TaskCompletionSource<Dictionary<string, object>>();
                 messageList.TryAdd(guid, tcs);
-                var serialized = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Dictionary<string, object>(valueSet)));
+                var serialized = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(new Dictionary<string, object>(valueSet)));
                 await serverStream.WriteAsync(serialized, 0, serialized.Length);
                 var response = await tcs.Task;
 
@@ -194,7 +191,7 @@ namespace Files.App.Helpers
             {
                 var guid = Guid.NewGuid().ToString();
                 valueSet.Add("RequestID", guid);
-                var serialized = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Dictionary<string, object>(valueSet)));
+                var serialized = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(new Dictionary<string, object>(valueSet)));
                 await serverStream.WriteAsync(serialized, 0, serialized.Length);
                 return AppServiceResponseStatus.Success;
             }

@@ -3,11 +3,11 @@ using Files.Shared.Enums;
 using Files.App.Extensions;
 using Files.App.Filesystem.FilesystemHistory;
 using Files.App.Helpers;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
@@ -109,7 +109,7 @@ namespace Files.App.Filesystem
                 });
                 result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
                     && response.Get("Success", false));
-                var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", ""));
+                var shellOpResult = JsonSerializer.Deserialize<ShellOperationResult>(response.Get("Result", ""));
                 copyResult.Items.AddRange(shellOpResult?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
             }
             if (sourceReplace.Any())
@@ -126,7 +126,7 @@ namespace Files.App.Filesystem
                 });
                 result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
                     && response.Get("Success", false));
-                var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", ""));
+                var shellOpResult = JsonSerializer.Deserialize<ShellOperationResult>(response.Get("Result", ""));
                 copyResult.Items.AddRange(shellOpResult?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
             }
 
@@ -270,7 +270,7 @@ namespace Files.App.Filesystem
 
             var result = (FilesystemResult)(status == AppServiceResponseStatus.Success
                 && response.Get("Success", false));
-            var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", ""));
+            var shellOpResult = JsonSerializer.Deserialize<ShellOperationResult>(response.Get("Result", ""));
             createResult.Items.AddRange(shellOpResult?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
 
             result &= (FilesystemResult)createResult.Items.All(x => x.Succeeded);
@@ -406,7 +406,7 @@ namespace Files.App.Filesystem
             });
             var result = (FilesystemResult)(status == AppServiceResponseStatus.Success
                 && response.Get("Success", false));
-            var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", ""));
+            var shellOpResult = JsonSerializer.Deserialize<ShellOperationResult>(response.Get("Result", ""));
             deleteResult.Items.AddRange(shellOpResult?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
 
             if (connection != null)
@@ -536,7 +536,7 @@ namespace Files.App.Filesystem
                 });
                 result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
                     && response.Get("Success", false));
-                var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", ""));
+                var shellOpResult = JsonSerializer.Deserialize<ShellOperationResult>(response.Get("Result", ""));
                 moveResult.Items.AddRange(shellOpResult?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
             }
             if (sourceReplace.Any())
@@ -553,7 +553,7 @@ namespace Files.App.Filesystem
                 });
                 result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
                     && response.Get("Success", false));
-                var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", ""));
+                var shellOpResult = JsonSerializer.Deserialize<ShellOperationResult>(response.Get("Result", ""));
                 moveResult.Items.AddRange(shellOpResult?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
             }
 
@@ -672,7 +672,7 @@ namespace Files.App.Filesystem
             });
             var result = (FilesystemResult)(status == AppServiceResponseStatus.Success
                 && response.Get("Success", false));
-            var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", ""));
+            var shellOpResult = JsonSerializer.Deserialize<ShellOperationResult>(response.Get("Result", ""));
             renameResult.Items.AddRange(shellOpResult?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
 
             result &= (FilesystemResult)renameResult.Items.All(x => x.Succeeded);
@@ -775,7 +775,7 @@ namespace Files.App.Filesystem
             });
             var result = (FilesystemResult)(status == AppServiceResponseStatus.Success
                 && response.Get("Success", false));
-            var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", ""));
+            var shellOpResult = JsonSerializer.Deserialize<ShellOperationResult>(response.Get("Result", ""));
             moveResult.Items.AddRange(shellOpResult?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
 
             if (connection != null)
@@ -947,7 +947,7 @@ namespace Files.App.Filesystem
                 });
                 if (status == AppServiceResponseStatus.Success && response.ContainsKey("Processes"))
                 {
-                    return JsonConvert.DeserializeObject<List<Win32Process>>((string)response["Processes"]);
+                    return JsonSerializer.Deserialize<List<Win32Process>>((string)response["Processes"]);
                 }
             }
             return null;

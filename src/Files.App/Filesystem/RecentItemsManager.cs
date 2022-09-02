@@ -1,18 +1,14 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Shared;
-using Files.Shared.Enums;
 using Files.App.Helpers;
-using CommunityToolkit.WinUI;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
-using Microsoft.UI.Xaml.Media.Imaging;
 using Files.App.Shell;
 
 namespace Files.App.Filesystem
@@ -116,7 +112,7 @@ namespace Files.App.Filesystem
             var (status, response) = await SendRecentItemsActionForResponse("EnumerateFolders");
             if (status == AppServiceResponseStatus.Success && response.ContainsKey("EnumerateFolders"))
             {
-                linkItems = JsonConvert.DeserializeObject<List<ShellLinkItem>>((string)response["EnumerateFolders"])
+                linkItems = JsonSerializer.Deserialize<List<ShellLinkItem>>((string)response["EnumerateFolders"])
                                        .Select(link => new RecentItem(link)).ToList();
             }
 

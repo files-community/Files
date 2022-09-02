@@ -8,10 +8,10 @@ using Files.App.Filesystem.StorageItems;
 using Files.App.ViewModels;
 using Files.App.Views;
 using Files.App.Extensions;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
@@ -162,7 +162,7 @@ namespace Files.App.Helpers
 
                     if (status == AppServiceResponseStatus.Success && response.ContainsKey("ShortcutInfo"))
                     {
-                        var shInfo = JsonConvert.DeserializeObject<ShellLinkItem>((string)response["ShortcutInfo"]);
+                        var shInfo = JsonSerializer.Deserialize<ShellLinkItem>((string)response["ShortcutInfo"]);
                         if (shInfo != null)
                         {
                             shortcutInfo = shInfo;

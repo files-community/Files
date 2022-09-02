@@ -1,14 +1,13 @@
 ﻿using Files.FullTrust.Helpers;
 using Files.Shared;
-using Files.Shared.Enums;
 using Files.Shared.Extensions;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Pipes;
 using System.Linq;
 using System.Runtime.Versioning;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
@@ -132,7 +131,7 @@ namespace Files.FullTrust.MessageHandlers
                                 }
                             }
 
-                            response.Add("EnumerateFolders", JsonConvert.SerializeObject(shellLinkItems));
+                            response.Add("EnumerateFolders", JsonSerializer.Serialize(shellLinkItems));
                         }
                         catch (Exception e)
                         {

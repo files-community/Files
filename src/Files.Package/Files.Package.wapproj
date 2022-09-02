@@ -496,5 +496,8 @@
   <ItemGroup>
     <None Include="nupkgs\microsoft.management.infrastructure.runtime.win.2.0.1.nupkg" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="6.0.5" />
+  </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
 </Project>

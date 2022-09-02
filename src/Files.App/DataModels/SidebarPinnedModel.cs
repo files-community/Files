@@ -6,13 +6,13 @@ using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.ViewModels;
 using CommunityToolkit.WinUI;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -30,7 +30,7 @@ namespace Files.App.DataModels
         [JsonIgnore]
         public MainViewModel MainViewModel => App.MainViewModel;
 
-        [JsonProperty("items")]
+        [JsonPropertyName("items")]
         public List<string> FavoriteItems { get; set; } = new List<string>();
 
         private readonly List<INavigationControlItem> favoriteList = new List<INavigationControlItem>();

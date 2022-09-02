@@ -1,19 +1,16 @@
 ﻿using Files.Shared;
 using Files.Shared.Extensions;
 using Files.FullTrust.Helpers;
-using Microsoft.Win32;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
 using System.Linq;
 using System.Runtime.Versioning;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
-using Windows.ApplicationModel;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 
@@ -105,7 +102,7 @@ namespace Files.FullTrust.MessageHandlers
                 {
                     var shellFileItem = await GetShellFileItemAsync(e.FullPath);
                     if (shellFileItem == null) return;
-                    response["Item"] = JsonConvert.SerializeObject(shellFileItem);
+                    response["Item"] = JsonSerializer.Serialize(shellFileItem);
                 }
                 else if (e.ChangeType == WatcherChangeTypes.Renamed)
                 {

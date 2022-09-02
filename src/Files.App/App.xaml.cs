@@ -9,7 +9,6 @@ using Files.App.Controllers;
 using Files.App.Filesystem;
 using Files.Shared;
 using Files.App.Filesystem.Cloud;
-using Microsoft.UI.Dispatching;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
@@ -38,6 +37,7 @@ using Files.App.Views;
 using CommunityToolkit.WinUI;
 using Files.Shared.Extensions;
 using Windows.ApplicationModel.DataTransfer;
+using Vanara.Extensions.Reflection;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -175,8 +175,10 @@ namespace Files.App
                 {
                     var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/AppCenterKey.txt"));
                     var lines = await FileIO.ReadTextAsync(file);
-                    var obj = Newtonsoft.Json.Linq.JObject.Parse(lines);
-                    AppCenter.Start((string)obj.SelectToken("key"), typeof(Analytics), typeof(Crashes));
+                    var document = System.Text.Json.JsonDocument.Parse(lines);
+                    var obj = document.RootElement;
+                    AppCenter.Start(obj.GetPropertyValue<string>("key"), typeof(Analytics), typeof(Crashes));
+                    document.Dispose();
                 }
             }
             catch (Exception ex)

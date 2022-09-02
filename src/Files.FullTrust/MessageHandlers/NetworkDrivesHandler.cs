@@ -1,10 +1,10 @@
 ﻿using Files.Shared;
 using Files.Shared.Extensions;
 using Files.FullTrust.Helpers;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO.Pipes;
 using System.Runtime.Versioning;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
@@ -31,7 +31,7 @@ namespace Files.FullTrust.MessageHandlers
                     var cloudDrives = await CloudDrivesDetector.DetectCloudDrives();
                     await Win32API.SendMessageAsync(connection, new ValueSet()
                     {
-                        { "Drives", JsonConvert.SerializeObject(cloudDrives) }
+                        { "Drives", JsonSerializer.Serialize(cloudDrives) }
                     }, message.Get("RequestID", (string)null));
                     break;
             }
@@ -68,7 +68,7 @@ namespace Files.FullTrust.MessageHandlers
                     });
                     var response = new ValueSet
                     {
-                        { "NetworkLocations", JsonConvert.SerializeObject(networkLocations) }
+                        { "NetworkLocations", JsonSerializer.Serialize(networkLocations) }
                     };
                     await Win32API.SendMessageAsync(connection, response, message.Get("RequestID", (string)null));
                     break;

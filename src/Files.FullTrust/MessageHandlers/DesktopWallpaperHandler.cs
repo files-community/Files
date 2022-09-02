@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO.Pipes;
 using System.Linq;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using Files.Shared.Extensions;
-using Newtonsoft.Json.Linq;
 using Vanara.PInvoke;
 
 namespace Files.FullTrust.MessageHandlers
@@ -31,8 +31,8 @@ namespace Files.FullTrust.MessageHandlers
             {
                 case "SetSlideshow":
                 {
-                    JArray jMessage = (JArray)message["filepaths"];
-                    var filePaths = jMessage.ToObject<string[]>();
+                    JsonArray jMessage = (JsonArray)message["filepaths"];
+                    var filePaths = jMessage.Select(x => x.ToString()).ToArray();
 
                     if (filePaths == null)
                     {

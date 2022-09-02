@@ -1,13 +1,13 @@
 ﻿using Files.Shared;
 using Files.Shared.Extensions;
 using Files.FullTrust.Helpers;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Pipes;
 using System.Linq;
 using System.Runtime.Versioning;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
@@ -87,7 +87,7 @@ namespace Files.FullTrust.MessageHandlers
                         Program.Logger.Warn($"Failed to open library after {changeType}: {newPath}");
                         return;
                     }
-                    response["Item"] = JsonConvert.SerializeObject(ShellFolderExtensions.GetShellLibraryItem(library, newPath));
+                    response["Item"] = JsonSerializer.Serialize(ShellFolderExtensions.GetShellLibraryItem(library, newPath));
                     library.Dispose();
                 }
                 // Send message to UWP app to refresh items
@@ -117,7 +117,7 @@ namespace Files.FullTrust.MessageHandlers
                                     libraryItems.Add(ShellFolderExtensions.GetShellLibraryItem(library, libFile));
                                 }
                             }
-                            response.Add("Enumerate", JsonConvert.SerializeObject(libraryItems));
+                            response.Add("Enumerate", JsonSerializer.Serialize(libraryItems));
                         }
                         catch (Exception e)
                         {
@@ -139,7 +139,7 @@ namespace Files.FullTrust.MessageHandlers
                             library.Folders.Add(ShellItem.Open(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))); // Add default folder so it's not empty
                             library.Commit();
                             library.Reload();
-                            response.Add("Create", JsonConvert.SerializeObject(ShellFolderExtensions.GetShellLibraryItem(library, library.GetDisplayName(ShellItemDisplayString.DesktopAbsoluteParsing))));
+                            response.Add("Create", JsonSerializer.Serialize(ShellFolderExtensions.GetShellLibraryItem(library, library.GetDisplayName(ShellItemDisplayString.DesktopAbsoluteParsing))));
                         }
                         catch (Exception e)
                         {
@@ -157,7 +157,7 @@ namespace Files.FullTrust.MessageHandlers
                         var response = new ValueSet();
                         try
                         {
-                            var folders = message.ContainsKey("folders") ? JsonConvert.DeserializeObject<string[]>((string)message["folders"]) : null;
+                            var folders = message.ContainsKey("folders") ? JsonSerializer.Deserialize<string[]>((string)message["folders"]) : null;
                             var defaultSaveFolder = message.Get("defaultSaveFolder", (string)null);
                             var isPinned = message.Get("isPinned", (bool?)null);
 
@@ -202,7 +202,7 @@ namespace Files.FullTrust.MessageHandlers
                             {
                                 library.Commit();
                                 library.Reload(); // Reload folders list
-                                response.Add("Update", JsonConvert.SerializeObject(ShellFolderExtensions.GetShellLibraryItem(library, libPath)));
+                                response.Add("Update", JsonSerializer.Serialize(ShellFolderExtensions.GetShellLibraryItem(library, libPath)));
                             }
                         }
                         catch (Exception e)

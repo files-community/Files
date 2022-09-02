@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+using System.Text.Json;
 
 #nullable enable
 
@@ -8,12 +8,16 @@ namespace Files.App.Serialization.Implementation
     {
         public string? SerializeToJson(object? obj)
         {
-            return JsonConvert.SerializeObject(obj, Formatting.Indented);
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true
+            };
+            return JsonSerializer.Serialize(obj, options);
         }
 
         public T? DeserializeFromJson<T>(string json)
         {
-            return JsonConvert.DeserializeObject<T?>(json);
+            return JsonSerializer.Deserialize<T?>(json);
         }
     }
 }

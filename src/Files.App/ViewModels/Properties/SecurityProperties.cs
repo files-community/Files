@@ -6,10 +6,10 @@ using Files.App.Helpers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Files.App.Extensions;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Files.Shared.Extensions;
@@ -261,7 +261,7 @@ namespace Files.App.ViewModels.Properties
                 var (status, response) = await connection.SendMessageForResponseAsync(value);
                 if (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)
                 {
-                    var filePermissions = JsonConvert.DeserializeObject<FilePermissions>((string)response["FilePermissions"]);
+                    var filePermissions = JsonSerializer.Deserialize<FilePermissions>((string)response["FilePermissions"]);
                     FilePermissions = new FilePermissionsManager(filePermissions);
                 }
             }
@@ -281,7 +281,7 @@ namespace Files.App.ViewModels.Properties
                 {
                     { "Arguments", "FileOperation" },
                     { "fileop", "SetFilePermissions" },
-                    { "permissions", JsonConvert.SerializeObject(FilePermissions.ToFilePermissions()) }
+                    { "permissions", JsonSerializer.Serialize(FilePermissions.ToFilePermissions()) }
                 };
                 var (status, response) = await connection.SendMessageForResponseAsync(value);
                 return (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success

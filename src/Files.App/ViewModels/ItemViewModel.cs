@@ -21,7 +21,6 @@ using Files.App.UserControls;
 using Files.App.ViewModels.Previews;
 using FluentFTP;
 using CommunityToolkit.WinUI;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -32,6 +31,7 @@ using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
@@ -504,7 +504,7 @@ namespace Files.App.ViewModels
                 var folderPath = (string)message["FileSystem"];
                 var itemPath = (string)message["Path"];
                 var changeType = (string)message["Type"];
-                var newItem = JsonConvert.DeserializeObject<ShellFileItem>(message.Get("Item", ""));
+                var newItem = JsonSerializer.Deserialize<ShellFileItem>(message.Get("Item", ""));
                 Debug.WriteLine("{0}: {1}", folderPath, changeType);
                 // If we are currently displaying the reycle bin lets refresh the items
                 if (CurrentFolder?.ItemPath == folderPath)
@@ -570,7 +570,7 @@ namespace Files.App.ViewModels
             }
             else if (message.ContainsKey("Library"))
             {
-                await App.LibraryManager.HandleWin32LibraryEvent(JsonConvert.DeserializeObject<ShellLibraryItem>(message.Get("Item", "")), message.Get("OldPath", ""));
+                await App.LibraryManager.HandleWin32LibraryEvent(JsonSerializer.Deserialize<ShellLibraryItem>(message.Get("Item", "")), message.Get("OldPath", ""));
             }
         }
 

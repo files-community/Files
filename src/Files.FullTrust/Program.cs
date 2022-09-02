@@ -1,7 +1,6 @@
 using Files.Shared;
 using Files.Shared.Extensions;
 using Files.FullTrust.MessageHandlers;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,6 +11,7 @@ using System.Linq;
 using System.Runtime.Versioning;
 using System.Security.Principal;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
@@ -131,7 +131,7 @@ namespace Files.FullTrust
                     if (connection.IsMessageComplete)
                     {
                         var message = Encoding.UTF8.GetString(memoryStream.ToArray()).TrimEnd('\0');
-                        OnConnectionRequestReceived(JsonConvert.DeserializeObject<Dictionary<string, object>>(message));
+                        OnConnectionRequestReceived(JsonSerializer.Deserialize<Dictionary<string, object>>(message));
                         memoryStream.SetLength(0);
                     }
                 }
@@ -155,7 +155,7 @@ namespace Files.FullTrust
                 // This replaces launching the fulltrust process with arguments
                 // Instead a single instance of the process is running
                 // Requests from UWP app are sent via AppService connection
-                var arguments = (string)message["Arguments"];
+                var arguments = message["Arguments"] is JsonDocument json ? json.RootElement.ToString() : message["Arguments"].ToString();
                 Logger.Info($"Argument: {arguments}");
 
                 await SafetyExtensions.IgnoreExceptions(async () =>
