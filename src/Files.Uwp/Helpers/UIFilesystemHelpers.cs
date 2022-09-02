@@ -19,7 +19,6 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using Files.Backend.Enums;
 using Windows.System;
-using System.Collections.Specialized;
 
 namespace Files.Uwp.Helpers
 {
@@ -256,7 +255,6 @@ namespace Files.Uwp.Helpers
             {
                 await associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(packageView.Result.RequestedOperation, packageView, destinationPath, false, true);
                 associatedInstance?.SlimContentPage?.ItemManipulationModel?.RefreshItemsOpacity();
-                App.DrivesManager.DataChanged.Invoke(SectionType.Drives, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
             }
         }
 
@@ -302,7 +300,6 @@ namespace Files.Uwp.Helpers
         public static async void CreateFileFromDialogResultType(AddItemDialogItemType itemType, ShellNewEntry itemInfo, IShellPage associatedInstance)
         {
             _ = await CreateFileFromDialogResultTypeForResult(itemType, itemInfo, associatedInstance);
-            App.DrivesManager.DataChanged.Invoke(SectionType.Drives, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
 
         public static async Task<IStorageItem> CreateFileFromDialogResultTypeForResult(AddItemDialogItemType itemType, ShellNewEntry itemInfo, IShellPage associatedInstance)
@@ -375,7 +372,6 @@ namespace Files.Uwp.Helpers
                     return;
                 }
                 await associatedInstance.FilesystemHelpers.MoveItemsAsync(items, items.Select(x => PathNormalization.Combine(folder.Path, x.Name)), false, true);
-                App.DrivesManager.DataChanged.Invoke(SectionType.Drives, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
             }
             catch (Exception ex)
             {
