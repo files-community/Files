@@ -69,7 +69,11 @@ namespace Files.Uwp.DataModels.NavigationControlItems
         public ByteSize SpaceUsed
         {
             get => spaceUsed;
-            set => SetProperty(ref spaceUsed, value);
+            set
+            {
+                SetProperty(ref spaceUsed, value);
+                HoverDisplayText = (Path.Contains("?", StringComparison.Ordinal) ? Text : Path) + $"\n{"PropertiesDriveUsedSpace/Text".GetLocalized()} {spaceUsed.ToSizeString()}";
+            }
         }
 
         public Visibility ShowDriveDetails
