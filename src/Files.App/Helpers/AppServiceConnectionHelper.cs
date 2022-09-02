@@ -160,7 +160,7 @@ namespace Files.App.Helpers
                 valueSet.Add("RequestID", guid);
                 var tcs = new TaskCompletionSource<Dictionary<string, object>>();
                 messageList.TryAdd(guid, tcs);
-                var serialized = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(new Dictionary<string, object>(valueSet)));
+                var serialized = JsonSerializer.SerializeToUtf8Bytes(new Dictionary<string, object>(valueSet));
                 await serverStream.WriteAsync(serialized, 0, serialized.Length);
                 var response = await tcs.Task;
 
@@ -191,7 +191,7 @@ namespace Files.App.Helpers
             {
                 var guid = Guid.NewGuid().ToString();
                 valueSet.Add("RequestID", guid);
-                var serialized = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(new Dictionary<string, object>(valueSet)));
+                var serialized = JsonSerializer.SerializeToUtf8Bytes(new Dictionary<string, object>(valueSet));
                 await serverStream.WriteAsync(serialized, 0, serialized.Length);
                 return AppServiceResponseStatus.Success;
             }

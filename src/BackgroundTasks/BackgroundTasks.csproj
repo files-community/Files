@@ -18,7 +18,6 @@
     <PackageReference Include="Microsoft.Windows.CsWinRT">
       <Version>2.0.0</Version>
     </PackageReference>
-    <PackageReference Include="System.Text.Json" Version="6.0.5" />
   </ItemGroup>
   <ItemGroup>
     <None Update="WinRT.Host.runtimeconfig.json">

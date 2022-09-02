@@ -76,7 +76,6 @@
     <None Include="FilesOpenDialog.rgs">
       <Filter>File di risorse</Filter>
     </None>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="CustomOpenDialog.idl">

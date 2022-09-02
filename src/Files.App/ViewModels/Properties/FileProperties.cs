@@ -205,20 +205,17 @@ namespace Files.App.ViewModels.Properties
                 return null;
             }
 
-            JsonDocument obj;
             try
             {
                 StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/BingMapsKey.txt"));
                 var lines = await FileIO.ReadTextAsync(file);
-                obj = JsonDocument.Parse(lines);
+                using var obj = JsonDocument.Parse(lines);
+                MapService.ServiceToken = obj.RootElement.GetFieldValue<string>("key");
             }
             catch (Exception)
             {
                 return null;
             }
-
-            MapService.ServiceToken = obj.RootElement.GetFieldValue<string>("key");
-            obj.Dispose();
 
             BasicGeoposition location = new BasicGeoposition();
             location.Latitude = Lat.Value;

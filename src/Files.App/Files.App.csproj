@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net6.0-windows10.0.22000.0</TargetFramework>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
@@ -151,7 +151,6 @@
     <PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Behaviors" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
-    <PackageReference Include="System.Text.Json" Version="6.0.5" />
     <PackageReference Include="WinUIEx" Version="1.8.0" />
     <PackageReference Include="Vanara.PInvoke.Mpr" Version="3.4.6" />
     <PackageReference Include="Vanara.Windows.Shell" Version="3.3.15" />

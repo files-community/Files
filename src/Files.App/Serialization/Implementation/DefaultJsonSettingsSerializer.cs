@@ -6,12 +6,13 @@ namespace Files.App.Serialization.Implementation
 {
     internal sealed class DefaultJsonSettingsSerializer : IJsonSettingsSerializer
     {
+        private readonly JsonSerializerOptions options = new JsonSerializerOptions
+        {
+            WriteIndented = true
+        };
+
         public string? SerializeToJson(object? obj)
         {
-            var options = new JsonSerializerOptions
-            {
-                WriteIndented = true
-            };
             return JsonSerializer.Serialize(obj, options);
         }
 

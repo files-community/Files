@@ -21,6 +21,11 @@ namespace Files.App.Controllers
 
         private StorageFileQueryResult query;
 
+        private readonly JsonSerializerOptions jsonOptions = new JsonSerializerOptions
+        {
+            WriteIndented = true
+        };
+
         private string configContent;
 
         public string JsonFileName { get; } = "PinnedItems.json";
@@ -149,17 +154,12 @@ namespace Files.App.Controllers
         {
             try
             {
-                using (var file = File.CreateText(Path.Combine(folderPath, JsonFileName)))
+                using (var file = File.Create(Path.Combine(folderPath, JsonFileName)))
                 {
-                    var options = new JsonSerializerOptions
-                    {
-                        WriteIndented = true
-                    };
+                    JsonSerializer.SerializeAsync(file, Model, jsonOptions);
 
                     // update local configContent to avoid unnecessary refreshes
-                    configContent = JsonSerializer.Serialize(Model, options);
-                    
-                    file.Write(configContent);
+                    configContent = JsonSerializer.Serialize(Model, jsonOptions);
                 }
             }
             catch

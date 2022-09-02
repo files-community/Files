@@ -175,10 +175,9 @@ namespace Files.App
                 {
                     var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/AppCenterKey.txt"));
                     var lines = await FileIO.ReadTextAsync(file);
-                    var document = System.Text.Json.JsonDocument.Parse(lines);
+                    using var document = System.Text.Json.JsonDocument.Parse(lines);
                     var obj = document.RootElement;
                     AppCenter.Start(obj.GetPropertyValue<string>("key"), typeof(Analytics), typeof(Crashes));
-                    document.Dispose();
                 }
             }
             catch (Exception ex)

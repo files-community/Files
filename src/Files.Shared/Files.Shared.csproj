@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -11,7 +11,6 @@
 
   <ItemGroup>
     <PackageReference Include="LiteDB" Version="4.1.4" />
-    <PackageReference Include="System.Text.Json" Version="6.0.5" />
     <PackageReference Include="System.Threading.Tasks.Dataflow" Version="6.0.0" />
   </ItemGroup>
 

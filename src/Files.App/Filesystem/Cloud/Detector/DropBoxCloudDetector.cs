@@ -14,7 +14,7 @@ namespace Files.App.Filesystem.Cloud
         {
             string jsonPath = Path.Combine(UserDataPaths.GetDefault().LocalAppData, @"Dropbox\info.json");
             var configFile = await StorageFile.GetFileFromPathAsync(jsonPath);
-            var jsonDoc = JsonDocument.Parse(await FileIO.ReadTextAsync(configFile));
+            using var jsonDoc = JsonDocument.Parse(await FileIO.ReadTextAsync(configFile));
             var jsonElem = jsonDoc.RootElement;
 
             if (jsonElem.TryGetProperty("personal", out JsonElement inner))
@@ -38,8 +38,6 @@ namespace Files.App.Filesystem.Cloud
                     SyncFolder = dropboxPath,
                 };
             }
-
-            jsonDoc.Dispose();
         }
     }
 }
