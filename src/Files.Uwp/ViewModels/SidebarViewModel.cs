@@ -18,6 +18,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.System;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -344,8 +345,30 @@ namespace Files.Uwp.ViewModels
             {
                 if (!section.ChildItems.Any(x => x.Path == drive.Path))
                 {
-                    section.ChildItems.Insert(index < 0 ? section.ChildItems.Count : Math.Min(index, section.ChildItems.Count), drive);
-                    await drive.LoadDriveIcon();
+                    bool shouldDriveBeAdded = true;
+                    if (drive.Type == DataModels.NavigationControlItems.DriveType.CDRom ||
+                        drive.Type == DataModels.NavigationControlItems.DriveType.FloppyDisk)
+                    {
+                        try
+                        {
+                            var driveRoot = await StorageFolder.GetFolderFromPathAsync(drive.Path);
+                            shouldDriveBeAdded =
+                                (await driveRoot.GetFilesAsync()).Count != 0 ||
+                                (await driveRoot.GetFoldersAsync()).Count != 0;
+                        }
+                        catch (ArgumentException)
+                        {
+                        }
+                        catch (Exception) // If a device is ejected it causes a System.Exception
+                        {
+                        }
+                    }
+
+                    if (shouldDriveBeAdded)
+                    {
+                        section.ChildItems.Insert(index < 0 ? section.ChildItems.Count : Math.Min(index, section.ChildItems.Count), drive);
+                        await drive.LoadDriveIcon();
+                    }
                 }
             }
             else
