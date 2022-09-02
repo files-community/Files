@@ -93,7 +93,10 @@
                     <CornerRadius x:Key="DetailsLayoutThumbnailCornerRadius">2</CornerRadius>
                     <!--  Workaround for https://github.com/microsoft/microsoft-ui-xaml/issues/5441  -->
                     <x:Double x:Key="MediaTransportControlsMinWidth">50</x:Double>
-                </ResourceDictionary>
+					
+                    <!--  Workaround for an issue where the shadow was showing on the tab control  -->
+					<x:Double x:Key="TabViewShadowDepth">0</x:Double>
+				</ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
