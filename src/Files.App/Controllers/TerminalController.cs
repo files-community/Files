@@ -1,6 +1,7 @@
 using Files.App.DataModels;
 using Files.App.Filesystem;
 using Files.App.Helpers;
+using Files.App.Serialization.Implementation;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
 using System;
@@ -21,11 +22,6 @@ namespace Files.App.Controllers
         private string folderPath => Path.Combine(ApplicationData.Current.LocalFolder.Path, "settings");
 
         private StorageFileQueryResult query;
-
-        private readonly JsonSerializerOptions jsonOptions = new JsonSerializerOptions
-        {
-            WriteIndented = true
-        };
 
         private string configContent;
 
@@ -200,12 +196,11 @@ namespace Files.App.Controllers
         {
             try
             {
-                using (var file = File.Create(Path.Combine(folderPath, JsonFileName)))
+                using (var file = File.CreateText(Path.Combine(folderPath, JsonFileName)))
                 {
-                    JsonSerializer.SerializeAsync(file, Model, jsonOptions);
-
                     // update local configContent to avoid unnecessary refreshes
-                    configContent = JsonSerializer.Serialize(Model, jsonOptions);
+                    configContent = JsonSerializer.Serialize(Model, DefaultJsonSettingsSerializer.Options);
+                    file.Write(configContent);
                 }
             }
             catch

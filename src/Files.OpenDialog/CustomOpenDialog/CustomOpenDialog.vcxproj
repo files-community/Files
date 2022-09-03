@@ -627,10 +627,11 @@
     <None Include="CustomOpenDialog.def" />
     <None Include="CustomOpenDialog.rgs" />
     <None Include="FilesOpenDialog.rgs" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="CustomOpenDialog.idl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
 </Project>

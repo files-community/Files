@@ -10,6 +10,7 @@ using Windows.Storage;
 using Windows.Storage.Search;
 using Files.Shared.Extensions;
 using System.Collections.Specialized;
+using Files.App.Serialization.Implementation;
 
 namespace Files.App.Controllers
 {
@@ -20,11 +21,6 @@ namespace Files.App.Controllers
         public EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
 
         private StorageFileQueryResult query;
-
-        private readonly JsonSerializerOptions jsonOptions = new JsonSerializerOptions
-        {
-            WriteIndented = true
-        };
 
         private string configContent;
 
@@ -154,12 +150,11 @@ namespace Files.App.Controllers
         {
             try
             {
-                using (var file = File.Create(Path.Combine(folderPath, JsonFileName)))
+                using (var file = File.CreateText(Path.Combine(folderPath, JsonFileName)))
                 {
-                    JsonSerializer.SerializeAsync(file, Model, jsonOptions);
-
                     // update local configContent to avoid unnecessary refreshes
-                    configContent = JsonSerializer.Serialize(Model, jsonOptions);
+                    configContent = JsonSerializer.Serialize(Model, DefaultJsonSettingsSerializer.Options);
+                    file.Write(configContent);
                 }
             }
             catch
