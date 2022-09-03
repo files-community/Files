@@ -1783,7 +1783,7 @@ namespace Files.App.ViewModels
             {
                 return;
             }
-            await Task.Run(() =>
+            await Win32API.StartSTATask(() =>
             {
                 var options = new QueryOptions()
                 {
@@ -1878,7 +1878,7 @@ namespace Files.App.ViewModels
 
             if (aProcessQueueAction == null) // Only start one ProcessOperationQueue
             {
-                aProcessQueueAction = Task.Run(() => ProcessOperationQueue(watcherCTS.Token, hasSyncStatus));
+                aProcessQueueAction = Win32API.StartSTATask(() => ProcessOperationQueue(watcherCTS.Token, hasSyncStatus));
             }
 
             var aWatcherAction = Windows.System.Threading.ThreadPool.RunAsync((x) =>
