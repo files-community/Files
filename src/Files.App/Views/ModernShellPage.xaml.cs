@@ -353,7 +353,7 @@ namespace Files.App.Views
                 }
                 else
                 {
-                    sender.ClearSuggestions();
+                    sender.AddRecentQueries();
                 }
             }
         }
@@ -691,8 +691,11 @@ namespace Files.App.Views
         private async void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e)
         {
             ContentPage = await GetContentOrNullAsync();
-            ToolbarViewModel.SearchBox.Query = string.Empty;
-            ToolbarViewModel.IsSearchBoxVisible = false;
+            if (!ToolbarViewModel.SearchBox.WasQuerySubmitted)
+            {
+                ToolbarViewModel.SearchBox.Query = string.Empty;
+                ToolbarViewModel.IsSearchBoxVisible = false;
+            }
             ToolbarViewModel.UpdateAdditionalActions();
             if (ItemDisplayFrame.CurrentSourcePageType == (typeof(DetailsLayoutBrowser))
                 || ItemDisplayFrame.CurrentSourcePageType == typeof(GridViewBrowser))

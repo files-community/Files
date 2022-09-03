@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Windows.Foundation;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 
@@ -19,6 +20,8 @@ namespace Files.App.ViewModels
             set => SetProperty(ref query, value);
         }
 
+        public bool WasQuerySubmitted { get; set; } = false;
+
         public event TypedEventHandler<ISearchBox, SearchBoxTextChangedEventArgs> TextChanged;
         public event TypedEventHandler<ISearchBox, SearchBoxQuerySubmittedEventArgs> QuerySubmitted;
         public event EventHandler<ISearchBox> Escaped;
@@ -26,6 +29,7 @@ namespace Files.App.ViewModels
         private readonly SuggestionComparer suggestionComparer = new SuggestionComparer();
 
         public ObservableCollection<ListedItem> Suggestions { get; } = new ObservableCollection<ListedItem>();
+        private readonly List<ListedItem> oldQueries = new List<ListedItem>();
 
         public void ClearSuggestions()
         {
@@ -34,6 +38,8 @@ namespace Files.App.ViewModels
 
         public void SetSuggestions(IEnumerable<ListedItem> suggestions)
         {
+            ClearSuggestions();
+
             var items = suggestions.OrderBy(suggestion => suggestion, suggestionComparer).ToList();
 
             var oldSuggestions = Suggestions.Except(items, suggestionComparer).ToList();
@@ -65,12 +71,52 @@ namespace Files.App.ViewModels
 
         public void SearchRegion_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs e)
         {
-            QuerySubmitted?.Invoke(this, new SearchBoxQuerySubmittedEventArgs(e.ChosenSuggestion as ListedItem));
+            WasQuerySubmitted = true;
+            if (e.ChosenSuggestion is ListedItem chosen && chosen.ItemPath is null)
+            {
+                Query = chosen.ItemNameRaw;
+                QuerySubmitted?.Invoke(this, new SearchBoxQuerySubmittedEventArgs(null));
+            }
+            else
+            {
+                QuerySubmitted?.Invoke(this, new SearchBoxQuerySubmittedEventArgs(e.ChosenSuggestion as ListedItem));
+            }
+
+            if (!string.IsNullOrWhiteSpace(e.QueryText))
+            {
+                // If the element is already contained, update its position
+                oldQueries.Remove(oldQueries.FirstOrDefault(q => q.ItemNameRaw == e.QueryText));
+
+                oldQueries.Insert(0, new ListedItem
+                {
+                    ItemNameRaw = e.QueryText
+                });
+
+                // Limit to last 3 queries to improve performance
+                if (oldQueries.Count > 3)
+                {
+                    oldQueries.RemoveAt(3);
+                }
+            }
         }
 
         public void SearchRegion_Escaped(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs e)
         {
             Escaped?.Invoke(this, this);
+        }
+
+        public void SearchRegion_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                AddRecentQueries();
+            }
+        }
+
+        public void AddRecentQueries()
+        {
+            ClearSuggestions();
+            oldQueries.ForEach(q => Suggestions.Add(q));
         }
 
         public class SuggestionComparer : IEqualityComparer<ListedItem>, IComparer<ListedItem>

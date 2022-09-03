@@ -12,11 +12,15 @@ namespace Files.App
         event TypedEventHandler<ISearchBox, SearchBoxQuerySubmittedEventArgs> QuerySubmitted;
         event EventHandler<ISearchBox> Escaped;
 
+        bool WasQuerySubmitted { get; set; }
+
         string Query { get; set; }
 
         void ClearSuggestions();
 
         void SetSuggestions(IEnumerable<ListedItem> suggestions);
+
+        void AddRecentQueries();
     }
 
     public class SearchBoxTextChangedEventArgs

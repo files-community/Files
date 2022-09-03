@@ -73,7 +73,8 @@
         Text="{x:Bind SearchBoxViewModel.Query, Mode=TwoWay}"
         TextBoxStyle="{StaticResource TextBoxStyle}"
         TextChanged="SearchRegion_TextChanged"
-        UpdateTextOnSelect="False">
+        UpdateTextOnSelect="False"
+        GotFocus="SearchRegion_GotFocus">
         <AutoSuggestBox.QueryIcon>
             <AnimatedIcon x:Name="SearchAnimatedIcon" Height="16">
                 <AnimatedIcon.Source>

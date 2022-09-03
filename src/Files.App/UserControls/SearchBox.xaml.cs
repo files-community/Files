@@ -24,5 +24,7 @@ namespace Files.App.UserControls
             => SearchBoxViewModel.SearchRegion_QuerySubmitted(sender, e);
         private void SearchRegion_Escaped(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs e)
             => SearchBoxViewModel.SearchRegion_Escaped(sender, e);
+        private void SearchRegion_GotFocus(object sender, RoutedEventArgs e) 
+            => SearchBoxViewModel.SearchRegion_GotFocus(sender, e);
     }
 }

@@ -821,8 +821,15 @@ namespace Files.App.ViewModels
 
         public void CloseSearchBox()
         {
-            SearchBox.Query = string.Empty;
-            IsSearchBoxVisible = false;
+            if (searchBox.WasQuerySubmitted)
+            {
+                searchBox.WasQuerySubmitted = false;
+            }
+            else
+            {
+                SearchBox.Query = string.Empty;
+                IsSearchBoxVisible = false;
+            }
         }
 
         public bool SearchHasFocus { get; private set; }
