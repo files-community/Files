@@ -41,7 +41,7 @@ namespace Files.App.Helpers
             }
         }
 
-        public static async Task MoveTabToNewWindow(TabItem tab, IMultitaskingControl multitaskingControl)
+        public static Task MoveTabToNewWindow(TabItem tab, IMultitaskingControl multitaskingControl)
         {
             int index = MainPageViewModel.AppInstances.IndexOf(tab);
             TabItemArguments tabItemArguments = MainPageViewModel.AppInstances[index].TabItemArguments;
@@ -50,12 +50,10 @@ namespace Files.App.Helpers
 
             if (tabItemArguments != null)
             {
-                await NavigationHelpers.OpenTabInNewWindowAsync(tabItemArguments.Serialize());
+                return NavigationHelpers.OpenTabInNewWindowAsync(tabItemArguments.Serialize());
             }
-            else
-            {
-                await NavigationHelpers.OpenPathInNewWindowAsync("Home".GetLocalizedResource());
-            }
+
+            return NavigationHelpers.OpenPathInNewWindowAsync("Home".GetLocalizedResource());
         }
 
         public static async Task AddNewTab(Type type, object tabViewItemArgs, int atIndex = -1)

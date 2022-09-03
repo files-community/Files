@@ -95,7 +95,7 @@ namespace Files.App.Helpers
 
             App.SaveSessionTabs(); // save the tabs so they can be restored after the update completes
             var downloadOperation = context.RequestDownloadAndInstallStorePackageUpdatesAsync(updateList);
-            return await downloadOperation.AsTask();
+            return await downloadOperation;
         }
     }
 }

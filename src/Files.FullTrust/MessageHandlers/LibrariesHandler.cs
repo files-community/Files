@@ -46,15 +46,12 @@ namespace Files.FullTrust.MessageHandlers
             librariesWatcher.EnableRaisingEvents = true;
         }
 
-        public async Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments)
-        {
-            switch (arguments)
+        public Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments)
+            => arguments switch
             {
-                case "ShellLibrary":
-                    await HandleShellLibraryMessage(message);
-                    break;
-            }
-        }
+                "ShellLibrary" => HandleShellLibraryMessage(message),
+                _ => Task.CompletedTask,
+            };
 
         private async void OnLibraryChanged(WatcherChangeTypes changeType, string oldPath, string newPath)
         {

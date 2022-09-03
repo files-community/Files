@@ -440,15 +440,11 @@ namespace Files.App.ViewModels
             }
         }
 
-        public static async Task AddNewTabAsync()
-        {
-            await AddNewTabByPathAsync(typeof(PaneHolderPage), "Home".GetLocalizedResource());
-        }
+        public static Task AddNewTabAsync()
+            => AddNewTabByPathAsync(typeof(PaneHolderPage), "Home".GetLocalizedResource());
 
-        public async void AddNewTab()
-        {
-            await AddNewTabAsync();
-        }
+        public void AddNewTab()
+            => AddNewTabAsync();
 
         public static async void AddNewTabAtIndex(object sender, RoutedEventArgs e)
         {

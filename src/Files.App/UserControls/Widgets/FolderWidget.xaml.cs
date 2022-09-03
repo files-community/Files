@@ -246,26 +246,27 @@ namespace Files.App.UserControls.Widgets
             }
         }
 
-        private async Task OpenLibraryCard(FolderCardItem item)
+        private Task OpenLibraryCard(FolderCardItem item)
         {
             if (string.IsNullOrEmpty(item.Path))
             {
-                return;
+                return Task.CompletedTask;
             }
             if (item.Item is LibraryLocationItem lli && lli.IsEmpty)
             {
                 // TODO: show message?
-                return;
+                return Task.CompletedTask;
             }
 
             var ctrlPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             if (ctrlPressed)
             {
-                await NavigationHelpers.OpenPathInNewTab(item.Path);
-                return;
+                return NavigationHelpers.OpenPathInNewTab(item.Path);
             }
 
             LibraryCardInvoked?.Invoke(this, new LibraryCardInvokedEventArgs { Path = item.Path });
+
+            return Task.CompletedTask;
         }
 
         public Task RefreshWidget()

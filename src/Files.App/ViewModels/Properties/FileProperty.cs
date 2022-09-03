@@ -146,16 +146,16 @@ namespace Files.App.ViewModels.Properties
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
-        public async Task SaveValueToFile(BaseStorageFile file)
+        public Task SaveValueToFile(BaseStorageFile file)
         {
             if (!string.IsNullOrEmpty(Property) || file.Properties == null)
             {
-                return;
+                return Task.CompletedTask;
             }
 
             var propsToSave = new Dictionary<string, object>();
             propsToSave.Add(Property, Converter.ConvertBack(Value, null, null, null));
-            await file.Properties.SavePropertiesAsync(propsToSave);
+            return file.Properties.SavePropertiesAsync(propsToSave).AsTask();
         }
 
         /// <summary>

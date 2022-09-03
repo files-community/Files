@@ -246,10 +246,10 @@ namespace Files.App.ViewModels.SettingsViewModels
             }
         }
 
-        public async Task OpenThemesFolder()
+        public Task OpenThemesFolder()
         {
             //await CoreApplication.MainView.Dispatcher.YieldAsync(); // WINUI3
-            await NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.ImportedThemesFolder.Path);
+            return NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.ImportedThemesFolder.Path);
         }
     }
 }

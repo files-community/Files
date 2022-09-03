@@ -13,7 +13,7 @@ namespace Files.FullTrust.MessageHandlers
     {
         public void Initialize(PipeStream connection) {}
 
-        public async Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments)
+        public Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments)
         {
             if (arguments is "VolumeID")
             {
@@ -21,8 +21,10 @@ namespace Files.FullTrust.MessageHandlers
                 var volumeId = DriveHelpers.GetVolumeId(driveName);
 
                 var response = new ValueSet{ ["VolumeID"] = volumeId };
-                await Win32API.SendMessageAsync(connection, response, message.Get("RequestID", (string)null));
+                return Win32API.SendMessageAsync(connection, response, message.Get("RequestID", (string)null));
             }
+
+            return Task.CompletedTask;
         }
     }
 }

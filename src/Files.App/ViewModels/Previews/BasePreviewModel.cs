@@ -41,14 +41,14 @@ namespace Files.App.ViewModels.Previews
 
         public delegate void LoadedEventHandler(object sender, EventArgs e);
 
-        public static async Task LoadDetailsOnlyAsync(ListedItem item, List<FileProperty> details = null)
+        public static Task LoadDetailsOnlyAsync(ListedItem item, List<FileProperty> details = null)
         {
             var temp = new DetailsOnlyPreviewModel(item) { DetailsFromPreview = details };
-            await temp.LoadAsync();
+            return temp.LoadAsync();
         }
 
-        public static async Task<string> ReadFileAsTextAsync(BaseStorageFile file, int maxLength = 10 * 1024 * 1024)
-            => await file.ReadTextAsync(maxLength);
+        public static Task<string> ReadFileAsTextAsync(BaseStorageFile file, int maxLength = 10 * 1024 * 1024)
+            => file.ReadTextAsync(maxLength);
 
         /// <summary>
         /// Call this function when you are ready to load the preview and details.
