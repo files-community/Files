@@ -118,20 +118,7 @@ namespace Files.App.Views
 
         private async Task<bool> SetCustomFileIcon(string filePath, string iconFile, int iconIndex = 0)
         {
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
-            {
-                var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
-                {
-                    {"Arguments", "FileOperation" },
-                    {"fileop", "SetLinkIcon" },
-                    {"iconIndex", iconIndex },
-                    {"filepath", filePath },
-                    {"iconFile", iconFile }
-                });
-                return status == AppServiceResponseStatus.Success && response.Get("Success", false);
-            }
-            return false;
+            return await Win32API.SetCustomFileIconAsync(filePath, iconFile, iconIndex);
         }
     }
 }

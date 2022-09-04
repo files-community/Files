@@ -19,17 +19,17 @@ namespace Files.App.Helpers.FileListCache
 
         private readonly ConcurrentDictionary<string, string> fileNamesCache = new ConcurrentDictionary<string, string>();
 
-        public Task<string> ReadFileDisplayNameFromCache(string path, CancellationToken cancellationToken)
+        public ValueTask<string> ReadFileDisplayNameFromCache(string path, CancellationToken cancellationToken)
         {
             if (fileNamesCache.TryGetValue(path, out var displayName))
             {
-                return Task.FromResult(displayName);
+                return ValueTask.FromResult(displayName);
             }
 
-            return Task.FromResult<string>(null);
+            return ValueTask.FromResult<string>(null);
         }
 
-        public Task SaveFileDisplayNameToCache(string path, string displayName)
+        public ValueTask SaveFileDisplayNameToCache(string path, string displayName)
         {
             if (displayName == null)
             {
@@ -37,7 +37,7 @@ namespace Files.App.Helpers.FileListCache
             }
 
             fileNamesCache[path] = displayName;
-            return Task.CompletedTask;
+            return ValueTask.CompletedTask;
         }
     }
 }
