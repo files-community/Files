@@ -428,10 +428,12 @@ namespace Files.App.Shell
             var iconsList = new List<IconFileInfo>();
             using var currentProc = Process.GetCurrentProcess();
             using var icoCnt = Shell32.ExtractIcon(currentProc.Handle, file, -1);
-            if (icoCnt == null) return null;
+            if (icoCnt == null)
+                return null;
 
             int count = icoCnt.DangerousGetHandle().ToInt32();
-            if (count <= 0) return null;
+            if (count <= 0)
+                return null;
 
             for (int i = 0; i < count; i++)
             {
@@ -474,7 +476,8 @@ namespace Files.App.Shell
         public static async Task<bool> SetCustomFileIconAsync(string filePath, string iconFile, int iconIndex = 0)
         {
             var connection = await AppServiceConnectionHelper.Instance;
-            if (connection == null) return false;
+            if (connection == null)
+                return false;
             var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
                 {
                     {"Arguments", "FileOperation" },
@@ -688,11 +691,13 @@ namespace Files.App.Shell
         {
             string volumePath = Path.GetPathRoot(volumeHint);
             using var volumeHandle = Kernel32.CreateFile(volumePath, Kernel32.FileAccess.GENERIC_READ, FileShare.Read, null, FileMode.Open, FileFlagsAndAttributes.FILE_FLAG_BACKUP_SEMANTICS);
-            if (volumeHandle.IsInvalid) return null;
+            if (volumeHandle.IsInvalid)
+                return null;
             var fileId = new Kernel32.FILE_ID_DESCRIPTOR() { Type = 0, Id = new Kernel32.FILE_ID_DESCRIPTOR.DUMMYUNIONNAME() { FileId = (long)frn } };
             fileId.dwSize = (uint)Marshal.SizeOf(fileId);
             using var hFile = Kernel32.OpenFileById(volumeHandle, fileId, Kernel32.FileAccess.GENERIC_READ, FileShare.Read, null, FileFlagsAndAttributes.FILE_FLAG_BACKUP_SEMANTICS);
-            if (hFile.IsInvalid) return null;
+            if (hFile.IsInvalid)
+                return null;
             var sb = new StringBuilder(4096);
             var ret = Kernel32.GetFinalPathNameByHandle(hFile, sb, 4095, 0);
             return (ret != 0) ? sb.ToString() : null;
