@@ -30,18 +30,18 @@ namespace Files.App.Shell
     {
         public static Task StartSTATask(Func<Task> func)
         {
-            var tcs = new TaskCompletionSource();
+            var taskCompletionSource = new TaskCompletionSource();
             Thread thread = new Thread(async () =>
             {
                 Ole32.OleInitialize();
                 try
                 {
                     await func();
-                    tcs.SetResult();
+                    taskCompletionSource.SetResult();
                 }
                 catch (Exception ex)
                 {
-                    tcs.SetResult();
+                    taskCompletionSource.SetResult();
                     App.Logger.Warn(ex, ex.Message);
                 }
                 finally
@@ -55,23 +55,23 @@ namespace Files.App.Shell
             };
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
-            return tcs.Task;
+            return taskCompletionSource.Task;
         }
 
         public static Task StartSTATask(Action action)
         {
-            var tcs = new TaskCompletionSource();
+            var taskCompletionSource = new TaskCompletionSource();
             Thread thread = new Thread(() =>
             {
                 Ole32.OleInitialize();
                 try
                 {
                     action();
-                    tcs.SetResult();
+                    taskCompletionSource.SetResult();
                 }
                 catch (Exception ex)
                 {
-                    tcs.SetResult();
+                    taskCompletionSource.SetResult();
                     App.Logger.Warn(ex, ex.Message);
                 }
                 finally
@@ -85,22 +85,22 @@ namespace Files.App.Shell
             };
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
-            return tcs.Task;
+            return taskCompletionSource.Task;
         }
 
         public static Task<T> StartSTATask<T>(Func<T> func)
         {
-            var tcs = new TaskCompletionSource<T>();
+            var taskCompletionSource = new TaskCompletionSource<T>();
             Thread thread = new Thread(() =>
             {
                 Ole32.OleInitialize();
                 try
                 {
-                    tcs.SetResult(func());
+                    taskCompletionSource.SetResult(func());
                 }
                 catch (Exception ex)
                 {
-                    tcs.SetResult(default);
+                    taskCompletionSource.SetResult(default);
                     App.Logger.Warn(ex, ex.Message);
                     //tcs.SetException(e);
                 }
@@ -115,22 +115,22 @@ namespace Files.App.Shell
             };
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
-            return tcs.Task;
+            return taskCompletionSource.Task;
         }
 
         public static Task<T> StartSTATask<T>(Func<Task<T>> func)
         {
-            var tcs = new TaskCompletionSource<T>();
+            var taskCompletionSource = new TaskCompletionSource<T>();
             Thread thread = new Thread(async () =>
             {
                 Ole32.OleInitialize();
                 try
                 {
-                    tcs.SetResult(await func());
+                    taskCompletionSource.SetResult(await func());
                 }
                 catch (Exception ex)
                 {
-                    tcs.SetResult(default);
+                    taskCompletionSource.SetResult(default);
                     App.Logger.Info(ex, ex.Message);
                     //tcs.SetException(e);
                 }
@@ -145,7 +145,7 @@ namespace Files.App.Shell
             };
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
-            return tcs.Task;
+            return taskCompletionSource.Task;
         }
 
         public static async Task<string> GetFileAssociationAsync(string filename, bool checkDesktopFirst = false)
@@ -428,16 +428,10 @@ namespace Files.App.Shell
             var iconsList = new List<IconFileInfo>();
             using var currentProc = Process.GetCurrentProcess();
             using var icoCnt = Shell32.ExtractIcon(currentProc.Handle, file, -1);
-            if (icoCnt == null)
-            {
-                return null;
-            }
+            if (icoCnt == null) return null;
 
             int count = icoCnt.DangerousGetHandle().ToInt32();
-            if (count <= 0)
-            {
-                return null;
-            }
+            if (count <= 0) return null;
 
             for (int i = 0; i < count; i++)
             {
@@ -480,9 +474,8 @@ namespace Files.App.Shell
         public static async Task<bool> SetCustomFileIconAsync(string filePath, string iconFile, int iconIndex = 0)
         {
             var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
-            {
-                var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
+            if (connection == null) return false;
+            var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
                 {
                     {"Arguments", "FileOperation" },
                     {"fileop", "SetLinkIcon" },
@@ -490,13 +483,9 @@ namespace Files.App.Shell
                     {"filepath", filePath },
                     {"iconFile", iconFile }
                 });
-                var success = status == AppServiceResponseStatus.Success && response.Get("Success", false);
-                if (success)
-                {
-                    _iconAndOverlayCache[filePath] = new();
-                }
-            }
-            return false;
+            var success = status == AppServiceResponseStatus.Success && response.Get("Success", false);
+            if (success) _iconAndOverlayCache[filePath] = new();
+            return success;
         }
 
         public static void UnlockBitlockerDrive(string drive, string password)
