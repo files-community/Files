@@ -65,6 +65,13 @@ namespace Files.App.Filesystem
             set => SetProperty(ref needsPlaceholderGlyph, value);
         }
 
+        private string glyph = "\xE7C3";
+        public string Glyph
+        {
+            get => glyph;
+            set => SetProperty(ref glyph, value);
+        }
+
         private bool loadFileIcon;
         public bool LoadFileIcon
         {

@@ -56,7 +56,7 @@
                         <FontIcon
                             x:Name="EmptyIconGlyph"
                             x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
-                            Glyph="&#xE7C3;" />
+                            Glyph="{x:Bind Glyph, Mode=OneWay}" />
                     </Grid>
                     <TextBlock VerticalAlignment="Center" Text="{x:Bind ItemName}" />
                 </StackPanel>

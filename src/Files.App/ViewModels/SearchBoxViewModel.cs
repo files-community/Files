@@ -89,7 +89,8 @@ namespace Files.App.ViewModels
 
                 oldQueries.Insert(0, new ListedItem
                 {
-                    ItemNameRaw = e.QueryText
+                    ItemNameRaw = e.QueryText,
+                    Glyph = "\xE81C"
                 });
 
                 // Limit to last 5 queries to improve performance
