@@ -9,8 +9,6 @@ using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.ViewModels;
-using Files.App.Views;
-using Files.App.Views.LayoutModes;
 using Files.App.Extensions;
 using System;
 using System.Collections.Generic;
