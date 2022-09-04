@@ -167,8 +167,7 @@
 		</ResourceDictionary>
 	</local:BaseLayout.Resources>
 
-	<RefreshContainer RefreshRequested="RefreshContainer_RefreshRequested">
-		<Grid
+  <Grid
 			x:Name="RootGrid"
 			Padding="0,0,0,0"
 			VerticalAlignment="Stretch"
@@ -999,5 +998,4 @@
 				</VisualStateGroup>
 			</VisualStateManager.VisualStateGroups>
 		</Grid>
-	</RefreshContainer>
 </local:BaseLayout>

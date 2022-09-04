@@ -1,6 +1,8 @@
-﻿using Files.Shared;
+﻿using Files.App.Helpers;
+using Files.Shared;
 using Files.Shared.Extensions;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -8,6 +10,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using System.Text;
@@ -16,6 +19,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Vanara.PInvoke;
+using Windows.ApplicationModel.AppService;
+using Windows.Foundation.Collections;
 using Windows.System;
 
 namespace Files.App.Shell
@@ -23,19 +28,79 @@ namespace Files.App.Shell
     [SupportedOSPlatform("Windows10.0.10240")]
     internal class Win32API
     {
-        public static Task<T> StartSTATask<T>(Func<T> func)
+        public static Task StartSTATask(Func<Task> func)
         {
-            var tcs = new TaskCompletionSource<T>();
+            var taskCompletionSource = new TaskCompletionSource();
+            Thread thread = new Thread(async () =>
+            {
+                Ole32.OleInitialize();
+                try
+                {
+                    await func();
+                    taskCompletionSource.SetResult();
+                }
+                catch (Exception ex)
+                {
+                    taskCompletionSource.SetResult();
+                    App.Logger.Warn(ex, ex.Message);
+                }
+                finally
+                {
+                    Ole32.OleUninitialize();
+                }
+            })
+            {
+                IsBackground = true,
+                Priority = ThreadPriority.Normal
+            };
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
+            return taskCompletionSource.Task;
+        }
+
+        public static Task StartSTATask(Action action)
+        {
+            var taskCompletionSource = new TaskCompletionSource();
             Thread thread = new Thread(() =>
             {
                 Ole32.OleInitialize();
                 try
                 {
-                    tcs.SetResult(func());
+                    action();
+                    taskCompletionSource.SetResult();
                 }
                 catch (Exception ex)
                 {
-                    tcs.SetResult(default);
+                    taskCompletionSource.SetResult();
+                    App.Logger.Warn(ex, ex.Message);
+                }
+                finally
+                {
+                    Ole32.OleUninitialize();
+                }
+            })
+            {
+                IsBackground = true,
+                Priority = ThreadPriority.Normal
+            };
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
+            return taskCompletionSource.Task;
+        }
+
+        public static Task<T> StartSTATask<T>(Func<T> func)
+        {
+            var taskCompletionSource = new TaskCompletionSource<T>();
+            Thread thread = new Thread(() =>
+            {
+                Ole32.OleInitialize();
+                try
+                {
+                    taskCompletionSource.SetResult(func());
+                }
+                catch (Exception ex)
+                {
+                    taskCompletionSource.SetResult(default);
                     App.Logger.Warn(ex, ex.Message);
                     //tcs.SetException(e);
                 }
@@ -50,22 +115,22 @@ namespace Files.App.Shell
             };
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
-            return tcs.Task;
+            return taskCompletionSource.Task;
         }
 
         public static Task<T> StartSTATask<T>(Func<Task<T>> func)
         {
-            var tcs = new TaskCompletionSource<T>();
+            var taskCompletionSource = new TaskCompletionSource<T>();
             Thread thread = new Thread(async () =>
             {
                 Ole32.OleInitialize();
                 try
                 {
-                    tcs.SetResult(await func());
+                    taskCompletionSource.SetResult(await func());
                 }
                 catch (Exception ex)
                 {
-                    tcs.SetResult(default);
+                    taskCompletionSource.SetResult(default);
                     App.Logger.Info(ex, ex.Message);
                     //tcs.SetException(e);
                 }
@@ -80,7 +145,7 @@ namespace Files.App.Shell
             };
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
-            return tcs.Task;
+            return taskCompletionSource.Task;
         }
 
         public static async Task<string> GetFileAssociationAsync(string filename, bool checkDesktopFirst = false)
@@ -157,49 +222,69 @@ namespace Files.App.Shell
             }
         }
 
-        private static readonly object lockObject = new object();
+        private class IconAndOverlayCacheEntry
+        {
+            public byte[]? Icon { get; set; }
+            public byte[]? Overlay { get; set; }
+        }
+
+        private static readonly ConcurrentDictionary<string, ConcurrentDictionary<int, IconAndOverlayCacheEntry>> _iconAndOverlayCache = new();
 
         public static (byte[]? icon, byte[]? overlay) GetFileIconAndOverlay(string path, int thumbnailSize, bool isFolder, bool getOverlay = true, bool onlyGetOverlay = false)
         {
             byte[]? iconData = null, overlayData = null;
+            var entry = _iconAndOverlayCache.GetOrAdd(path, _ => new());
 
-            if (!onlyGetOverlay)
+            if (entry.TryGetValue(thumbnailSize, out var cacheEntry))
             {
-                using var shellItem = SafetyExtensions.IgnoreExceptions(() => ShellFolderExtensions.GetShellItemFromPathOrPidl(path));
-                if (shellItem != null && shellItem.IShellItem is Shell32.IShellItemImageFactory fctry)
+                iconData = cacheEntry.Icon;
+                overlayData = cacheEntry.Overlay;
+
+                if ((onlyGetOverlay && overlayData != null) ||
+                    (!getOverlay && iconData != null) ||
+                    (overlayData != null && iconData != null))
                 {
-                    var flags = Shell32.SIIGBF.SIIGBF_BIGGERSIZEOK;
-                    if (thumbnailSize < 80) flags |= Shell32.SIIGBF.SIIGBF_ICONONLY;
-                    var hres = fctry.GetImage(new SIZE(thumbnailSize, thumbnailSize), flags, out var hbitmap);
-                    if (hres == HRESULT.S_OK)
-                    {
-                        using var image = GetBitmapFromHBitmap(hbitmap);
-                        if (image != null)
-                        {
-                            iconData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
-                        }
-                    }
-                    //Marshal.ReleaseComObject(fctry);
+                    return (iconData, overlayData);
                 }
             }
 
-            if (getOverlay || (!onlyGetOverlay && iconData == null))
+            try
             {
-                var shfi = new Shell32.SHFILEINFO();
-                var flags = Shell32.SHGFI.SHGFI_OVERLAYINDEX | Shell32.SHGFI.SHGFI_ICON | Shell32.SHGFI.SHGFI_SYSICONINDEX | Shell32.SHGFI.SHGFI_ICONLOCATION;
-                var useFileAttibutes = !onlyGetOverlay && iconData == null; // Cannot access file, use file attributes
-                var ret = ShellFolderExtensions.GetStringAsPidl(path, out var pidl) ?
-                    Shell32.SHGetFileInfo(pidl, 0, ref shfi, Shell32.SHFILEINFO.Size, Shell32.SHGFI.SHGFI_PIDL | flags) :
-                    Shell32.SHGetFileInfo(path, isFolder ? FileAttributes.Directory : 0, ref shfi, Shell32.SHFILEINFO.Size, flags | (useFileAttibutes ? Shell32.SHGFI.SHGFI_USEFILEATTRIBUTES : 0));
-                if (ret == IntPtr.Zero)
+                if (!onlyGetOverlay)
                 {
-                    return (iconData, null);
+                    using var shellItem = SafetyExtensions.IgnoreExceptions(() => ShellFolderExtensions.GetShellItemFromPathOrPidl(path));
+                    if (shellItem != null && shellItem.IShellItem is Shell32.IShellItemImageFactory fctry)
+                    {
+                        var flags = Shell32.SIIGBF.SIIGBF_BIGGERSIZEOK;
+                        if (thumbnailSize < 80) flags |= Shell32.SIIGBF.SIIGBF_ICONONLY;
+                        var hres = fctry.GetImage(new SIZE(thumbnailSize, thumbnailSize), flags, out var hbitmap);
+                        if (hres == HRESULT.S_OK)
+                        {
+                            using var image = GetBitmapFromHBitmap(hbitmap);
+                            if (image != null)
+                            {
+                                iconData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
+                            }
+                        }
+                        //Marshal.ReleaseComObject(fctry);
+                    }
                 }
 
-                User32.DestroyIcon(shfi.hIcon);
-
-                lock (lockObject)
+                if (getOverlay || (!onlyGetOverlay && iconData == null))
                 {
+                    var shfi = new Shell32.SHFILEINFO();
+                    var flags = Shell32.SHGFI.SHGFI_OVERLAYINDEX | Shell32.SHGFI.SHGFI_ICON | Shell32.SHGFI.SHGFI_SYSICONINDEX | Shell32.SHGFI.SHGFI_ICONLOCATION;
+                    var useFileAttibutes = !onlyGetOverlay && iconData == null; // Cannot access file, use file attributes
+                    var ret = ShellFolderExtensions.GetStringAsPidl(path, out var pidl) ?
+                        Shell32.SHGetFileInfo(pidl, 0, ref shfi, Shell32.SHFILEINFO.Size, Shell32.SHGFI.SHGFI_PIDL | flags) :
+                        Shell32.SHGetFileInfo(path, isFolder ? FileAttributes.Directory : 0, ref shfi, Shell32.SHFILEINFO.Size, flags | (useFileAttibutes ? Shell32.SHGFI.SHGFI_USEFILEATTRIBUTES : 0));
+                    if (ret == IntPtr.Zero)
+                    {
+                        return (iconData, null);
+                    }
+
+                    User32.DestroyIcon(shfi.hIcon);
+
                     var imageListSize = thumbnailSize switch
                     {
                         <= 16 => Shell32.SHIL.SHIL_SMALL,
@@ -259,13 +344,25 @@ namespace Files.App.Shell
                     }
 
                     Marshal.ReleaseComObject(imageList);
+                    return (iconData, overlayData);
                 }
-
-                return (iconData, overlayData);
+                else
+                {
+                    return (iconData, null);
+                }
             }
-            else
+            finally
             {
-                return (iconData, null);
+                cacheEntry = new IconAndOverlayCacheEntry();
+                if (iconData != null)
+                {
+                    cacheEntry.Icon = iconData;
+                }
+                if (overlayData != null)
+                {
+                    cacheEntry.Overlay = overlayData;
+                }
+                entry[thumbnailSize] = cacheEntry;
             }
         }
 
@@ -297,20 +394,30 @@ namespace Files.App.Shell
             }
         }
 
+        private static readonly ConcurrentDictionary<(string File, int Index, int Size), IconFileInfo> _iconCache = new();
+
         public static IList<IconFileInfo> ExtractSelectedIconsFromDLL(string file, IList<int> indexes, int iconSize = 48)
         {
             var iconsList = new List<IconFileInfo>();
-
             foreach (int index in indexes)
             {
-                // This is merely to pass into the function and is unneeded otherwise
-                if (Shell32.SHDefExtractIcon(file, -1 * index, 0, out User32.SafeHICON icon, out User32.SafeHICON hIcon2, Convert.ToUInt32(iconSize)) == HRESULT.S_OK)
+                if (_iconCache.TryGetValue((file, index, iconSize), out var iconInfo))
                 {
-                    using var image = icon.ToBitmap();
-                    byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
-                    iconsList.Add(new IconFileInfo(bitmapData, index));
-                    User32.DestroyIcon(icon);
-                    User32.DestroyIcon(hIcon2);
+                    iconsList.Add(iconInfo);
+                }
+                else
+                {
+                    // This is merely to pass into the function and is unneeded otherwise
+                    if (Shell32.SHDefExtractIcon(file, -1 * index, 0, out User32.SafeHICON icon, out User32.SafeHICON hIcon2, Convert.ToUInt32(iconSize)) == HRESULT.S_OK)
+                    {
+                        using var image = icon.ToBitmap();
+                        byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
+                        iconInfo = new IconFileInfo(bitmapData, index);
+                        _iconCache[(file, index, iconSize)] = iconInfo;
+                        iconsList.Add(iconInfo);
+                        User32.DestroyIcon(icon);
+                        User32.DestroyIcon(hIcon2);
+                    }
                 }
             }
             return iconsList;
@@ -319,37 +426,33 @@ namespace Files.App.Shell
         public static IList<IconFileInfo> ExtractIconsFromDLL(string file)
         {
             var iconsList = new List<IconFileInfo>();
-            var currentProc = Process.GetCurrentProcess();
+            using var currentProc = Process.GetCurrentProcess();
             using var icoCnt = Shell32.ExtractIcon(currentProc.Handle, file, -1);
             if (icoCnt == null)
-            {
                 return null;
-            }
-            int count = icoCnt.DangerousGetHandle().ToInt32();
-            int maxIndex = count - 1;
-            if (maxIndex == 0)
-            {
-                using var icon = Shell32.ExtractIcon(currentProc.Handle, file, 0);
-                using var image = icon.ToBitmap();
 
-                byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
-                iconsList.Add(new IconFileInfo(bitmapData, 0));
-            }
-            else if (maxIndex > 0)
+            int count = icoCnt.DangerousGetHandle().ToInt32();
+            if (count <= 0)
+                return null;
+
+            for (int i = 0; i < count; i++)
             {
-                for (int i = 0; i <= maxIndex; i++)
+                if (_iconCache.TryGetValue((file, i, -1), out var iconInfo))
+                {
+                    iconsList.Add(iconInfo);
+                }
+                else
                 {
                     using var icon = Shell32.ExtractIcon(currentProc.Handle, file, i);
                     using var image = icon.ToBitmap();
 
                     byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
-                    iconsList.Add(new IconFileInfo(bitmapData, i));
+                    iconInfo = new IconFileInfo(bitmapData, i);
+                    _iconCache[(file, i, -1)] = iconInfo;
+                    iconsList.Add(iconInfo);
                 }
             }
-            else
-            {
-                return null;
-            }
+
             return iconsList;
         }
 
@@ -362,7 +465,30 @@ namespace Files.App.Shell
             fcs.cchIconFile = 0;
             fcs.iIconIndex = iconIndex;
 
-            return Shell32.SHGetSetFolderCustomSettings(ref fcs, folderPath, Shell32.FCS.FCS_FORCEWRITE).Succeeded;
+            var success = Shell32.SHGetSetFolderCustomSettings(ref fcs, folderPath, Shell32.FCS.FCS_FORCEWRITE).Succeeded;
+            if (success)
+            {
+                _iconAndOverlayCache[folderPath] = new();
+            }
+            return success;
+        }
+
+        public static async Task<bool> SetCustomFileIconAsync(string filePath, string iconFile, int iconIndex = 0)
+        {
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection == null)
+                return false;
+            var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
+                {
+                    {"Arguments", "FileOperation" },
+                    {"fileop", "SetLinkIcon" },
+                    {"iconIndex", iconIndex },
+                    {"filepath", filePath },
+                    {"iconFile", iconFile }
+                });
+            var success = status == AppServiceResponseStatus.Success && response.Get("Success", false);
+            if (success) _iconAndOverlayCache[filePath] = new();
+            return success;
         }
 
         public static void UnlockBitlockerDrive(string drive, string password)
@@ -565,11 +691,13 @@ namespace Files.App.Shell
         {
             string volumePath = Path.GetPathRoot(volumeHint);
             using var volumeHandle = Kernel32.CreateFile(volumePath, Kernel32.FileAccess.GENERIC_READ, FileShare.Read, null, FileMode.Open, FileFlagsAndAttributes.FILE_FLAG_BACKUP_SEMANTICS);
-            if (volumeHandle.IsInvalid) return null;
+            if (volumeHandle.IsInvalid)
+                return null;
             var fileId = new Kernel32.FILE_ID_DESCRIPTOR() { Type = 0, Id = new Kernel32.FILE_ID_DESCRIPTOR.DUMMYUNIONNAME() { FileId = (long)frn } };
             fileId.dwSize = (uint)Marshal.SizeOf(fileId);
             using var hFile = Kernel32.OpenFileById(volumeHandle, fileId, Kernel32.FileAccess.GENERIC_READ, FileShare.Read, null, FileFlagsAndAttributes.FILE_FLAG_BACKUP_SEMANTICS);
-            if (hFile.IsInvalid) return null;
+            if (hFile.IsInvalid)
+                return null;
             var sb = new StringBuilder(4096);
             var ret = Kernel32.GetFinalPathNameByHandle(hFile, sb, 4095, 0);
             return (ret != 0) ? sb.ToString() : null;

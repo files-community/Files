@@ -1783,7 +1783,7 @@ namespace Files.App.ViewModels
             {
                 return;
             }
-            await Task.Run(() =>
+            await Task.Factory.StartNew(() =>
             {
                 var options = new QueryOptions()
                 {
@@ -1803,7 +1803,7 @@ namespace Files.App.ViewModels
                         watchedItemsOperation?.Cancel();
                     });
                 }
-            });
+            }, TaskCreationOptions.LongRunning);
         }
 
         private async void WatchForWin32FolderChanges(string folderPath)
@@ -1878,7 +1878,7 @@ namespace Files.App.ViewModels
 
             if (aProcessQueueAction == null) // Only start one ProcessOperationQueue
             {
-                aProcessQueueAction = Task.Run(() => ProcessOperationQueue(watcherCTS.Token, hasSyncStatus));
+                aProcessQueueAction = Task.Factory.StartNew(() => ProcessOperationQueue(watcherCTS.Token, hasSyncStatus), TaskCreationOptions.LongRunning);
             }
 
             var aWatcherAction = Windows.System.Threading.ThreadPool.RunAsync((x) =>

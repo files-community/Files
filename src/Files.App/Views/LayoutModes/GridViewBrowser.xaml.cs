@@ -1,23 +1,23 @@
-using Files.Shared.Enums;
+using CommunityToolkit.WinUI.UI;
 using Files.App.EventArguments;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Helpers.XamlHelpers;
 using Files.App.Interacts;
 using Files.App.UserControls.Selection;
-using CommunityToolkit.WinUI.UI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Windows.Storage;
-using Windows.System;
-using Windows.UI.Core;
+using Files.Shared.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Windows.Storage;
+using Windows.System;
+using Windows.UI.Core;
 
 namespace Files.App.Views.LayoutModes
 {
@@ -582,11 +582,6 @@ namespace Files.App.Views.LayoutModes
                 item = VisualTreeHelper.GetParent(item);
             var itemContainer = item as GridViewItem;
             itemContainer.ContextFlyout = ItemContextMenuFlyout;
-        }
-
-        private void RefreshContainer_RefreshRequested(RefreshContainer sender, RefreshRequestedEventArgs args)
-        {
-            ParentShellPageInstance.FilesystemViewModel.RefreshItems(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, SetSelectedItemsOnNavigation);
         }
     }
 }
