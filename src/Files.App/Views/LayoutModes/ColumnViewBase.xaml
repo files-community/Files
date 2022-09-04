@@ -171,7 +171,7 @@
 					RightTapped="FileList_RightTapped"
 					ScrollViewer.IsScrollInertiaEnabled="True"
 					SelectionChanged="FileList_SelectionChanged"
-					SelectionMode="{x:Bind MainViewModel.MultiselectEnabled, Mode=OneWay, Converter={StaticResource BoolToSelectionModeConverter}}"
+					SelectionMode="{x:Bind AppModel.MultiselectEnabled, Mode=OneWay, Converter={StaticResource BoolToSelectionModeConverter}}"
 					Tapped="FileList_ItemTapped">
 
 					<ListView.ItemContainerTransitions>
