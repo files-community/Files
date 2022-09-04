@@ -85,17 +85,17 @@ namespace Files.App.ViewModels
             if (!string.IsNullOrWhiteSpace(e.QueryText))
             {
                 // If the element is already contained, update its position
-                oldQueries.Remove(oldQueries.FirstOrDefault(q => q.ItemNameRaw == e.QueryText));
+                oldQueries.Remove(oldQueries.FirstOrDefault(suggestion => suggestion.ItemNameRaw == e.QueryText));
 
                 oldQueries.Insert(0, new ListedItem
                 {
                     ItemNameRaw = e.QueryText
                 });
 
-                // Limit to last 3 queries to improve performance
-                if (oldQueries.Count > 3)
+                // Limit to last 5 queries to improve performance
+                if (oldQueries.Count > 5)
                 {
-                    oldQueries.RemoveAt(3);
+                    oldQueries.RemoveAt(5);
                 }
             }
         }
@@ -116,7 +116,7 @@ namespace Files.App.ViewModels
         public void AddRecentQueries()
         {
             ClearSuggestions();
-            oldQueries.ForEach(q => Suggestions.Add(q));
+            oldQueries.ForEach(query => Suggestions.Add(query));
         }
 
         public class SuggestionComparer : IEqualityComparer<ListedItem>, IComparer<ListedItem>
