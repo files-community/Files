@@ -292,7 +292,7 @@ namespace Files.App.Shell
                         <= 48 => Shell32.SHIL.SHIL_EXTRALARGE,
                         _ => Shell32.SHIL.SHIL_JUMBO,
                     };
-                    if (!Shell32.SHGetImageList(imageListSize, typeof(ComCtl32.IImageList).GUID, out var imageList).Succeeded)
+                    if (!Shell32.SHGetImageList(imageListSize, typeof(ComCtl32.CImageList).GUID, out var imageList).Succeeded)
                     {
                         return (iconData, null);
                     }
