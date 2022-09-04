@@ -2,6 +2,7 @@ using ByteSizeLib;
 using Files.Shared.Extensions;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 
@@ -54,6 +55,9 @@ namespace Files.App.Extensions
             return result;
         }
 
+        private static readonly ResourceMap resourcesTree = new ResourceManager().MainResourceMap.TryGetSubtree("Resources");
+        private static readonly ConcurrentDictionary<string, string> cachedResources = new ConcurrentDictionary<string, string>();
+
         private static readonly Dictionary<string, string> abbreviations = new Dictionary<string, string>()
         {
             { "KiB", "KiloByteSymbol".GetLocalizedResource() },
@@ -82,19 +86,16 @@ namespace Files.App.Extensions
         public static string ToLongSizeString(this ulong size) => ByteSize.FromBytes(size).ToLongSizeString();
         public static string ToLongSizeString(this ByteSize size) => $"{size.ToSizeString()} ({size.Bytes:#,##0} {"ItemSizeBytes".GetLocalizedResource()})";
 
-        private static ResourceMap resourcesTree;
-
         //public static string GetLocalizedResource(this string s) => s.GetLocalized("Resources");
 
         public static string GetLocalizedResource(this string resourceKey)
         {
-            if (resourcesTree is null)
+            if (cachedResources.TryGetValue(resourceKey, out var value))
             {
-                var resourceManager = new ResourceManager();
-                resourcesTree = resourceManager.MainResourceMap.TryGetSubtree("Resources");
+                return value;
             }
-            var r = resourcesTree?.TryGetValue(resourceKey)?.ValueAsString;
-            return r ?? string.Empty;
+            value = resourcesTree?.TryGetValue(resourceKey)?.ValueAsString;
+            return cachedResources[resourceKey] = value ?? string.Empty;
         }
     }
 }
