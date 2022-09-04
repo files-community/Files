@@ -882,7 +882,7 @@ namespace Files.App.Filesystem
 
         private async Task<bool> RequestAdminOperation()
         {
-            if (!App.MainViewModel.IsFullTrustElevated)
+            if (!App.AppModel.IsAppElevated)
             {
                 if (await DialogService.ShowDialogAsync(new ElevateConfirmDialogViewModel()) == DialogResult.Primary)
                 {
