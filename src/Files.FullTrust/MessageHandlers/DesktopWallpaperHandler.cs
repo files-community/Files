@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO.Pipes;
 using System.Linq;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using Files.Shared.Extensions;
@@ -10,11 +11,13 @@ namespace Files.FullTrust.MessageHandlers
 {
     public class DesktopWallpaperHandler : Disposable, IMessageHandler
     {
+        private static readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
+
         public void Initialize(PipeStream connection)
         {
         }
 
-        public Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments)
+        public Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, JsonElement> message, string arguments)
         {
             switch (arguments)
             {
@@ -25,13 +28,13 @@ namespace Files.FullTrust.MessageHandlers
             return Task.CompletedTask;
         }
 
-        private static void SetSlideshow(PipeStream connection, Dictionary<string, object> message)
+        private static void SetSlideshow(PipeStream connection, Dictionary<string, JsonElement> message)
         {
-            switch (message.Get("wallpaperop", ""))
+            switch (message.Get("wallpaperop", defaultJson).GetString())
             {
                 case "SetSlideshow":
                 {
-                    JsonArray jMessage = (JsonArray)message["filepaths"];
+                    JsonArray jMessage = JsonArray.Create(message["filepaths"]);
                     var filePaths = jMessage.Select(x => x.ToString()).ToArray();
 
                     if (filePaths == null)

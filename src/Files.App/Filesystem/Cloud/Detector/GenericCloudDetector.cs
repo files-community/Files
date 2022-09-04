@@ -21,7 +21,7 @@ namespace Files.App.Filesystem.Cloud
 
                 if (status is AppServiceResponseStatus.Success && response.ContainsKey("Drives"))
                 {
-                    var providers = JsonSerializer.Deserialize<List<CloudProvider>>((string)response["Drives"]);
+                    var providers = JsonSerializer.Deserialize<List<CloudProvider>>(response["Drives"].GetString());
                     if (providers is not null)
                     {
                         foreach (var provider in providers)

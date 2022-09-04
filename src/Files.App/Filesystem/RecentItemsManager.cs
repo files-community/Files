@@ -112,7 +112,7 @@ namespace Files.App.Filesystem
             var (status, response) = await SendRecentItemsActionForResponse("EnumerateFolders");
             if (status == AppServiceResponseStatus.Success && response.ContainsKey("EnumerateFolders"))
             {
-                linkItems = JsonSerializer.Deserialize<List<ShellLinkItem>>((string)response["EnumerateFolders"])
+                linkItems = JsonSerializer.Deserialize<List<ShellLinkItem>>(response["EnumerateFolders"].GetString())
                                        .Select(link => new RecentItem(link)).ToList();
             }
 
@@ -158,7 +158,7 @@ namespace Files.App.Filesystem
             });
             return status == AppServiceResponseStatus.Success &&
                    response.TryGetValue("Success", out var success) &&
-                   (bool)success;
+                   success.GetBoolean();
         }
 
         /// <summary>
@@ -167,7 +167,7 @@ namespace Files.App.Filesystem
         /// <param name="actionValue">The action to perform (e.g. "EnumerateFolders")</param>
         /// <param name="extras">Any extra payload data needed (e.g. sending a path to enumerate)</param>
         /// <returns>A tuple containing the response status and any additional payload data as key-value pairs</returns>
-        private async Task<(AppServiceResponseStatus Status, Dictionary<string, object> Data)> SendRecentItemsActionForResponse(string actionValue, ValueSet extras = null)
+        private async Task<(AppServiceResponseStatus Status, Dictionary<string, JsonElement> Data)> SendRecentItemsActionForResponse(string actionValue, ValueSet extras = null)
         {
             var connection = await AppServiceConnectionHelper.Instance;
 

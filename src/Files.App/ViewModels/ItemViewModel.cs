@@ -114,6 +114,8 @@ namespace Files.App.ViewModels
         private StorageFolderWithPath currentStorageFolder;
         private StorageFolderWithPath workingRoot;
 
+        private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
+
         public delegate void WorkingDirectoryModifiedEventHandler(object sender, WorkingDirectoryModifiedEventArgs e);
 
         public event WorkingDirectoryModifiedEventHandler WorkingDirectoryModified;
@@ -496,15 +498,15 @@ namespace Files.App.ViewModels
             Connection = await e;
         }
 
-        private async void Connection_RequestReceived(object sender, Dictionary<string, object> message)
+        private async void Connection_RequestReceived(object sender, Dictionary<string, JsonElement> message)
         {
             // The fulltrust process signaled that something in the recycle bin folder has changed
             if (message.ContainsKey("FileSystem"))
             {
-                var folderPath = (string)message["FileSystem"];
-                var itemPath = (string)message["Path"];
-                var changeType = (string)message["Type"];
-                var newItem = JsonSerializer.Deserialize<ShellFileItem>(message.Get("Item", ""));
+                var folderPath = message["FileSystem"].GetString();
+                var itemPath = message["Path"].GetString();
+                var changeType = message["Type"].GetString();
+                var newItem = JsonSerializer.Deserialize<ShellFileItem>(message.Get("Item", defaultJson).GetString());
                 Debug.WriteLine("{0}: {1}", folderPath, changeType);
                 // If we are currently displaying the reycle bin lets refresh the items
                 if (CurrentFolder?.ItemPath == folderPath)
@@ -522,13 +524,13 @@ namespace Files.App.ViewModels
                             break;
 
                         case "Renamed":
-                            var matchingItem = filesAndFolders.FirstOrDefault(x => x.ItemPath.Equals((string)message["OldPath"], StringComparison.OrdinalIgnoreCase));
+                            var matchingItem = filesAndFolders.FirstOrDefault(x => x.ItemPath.Equals(message["OldPath"].GetString(), StringComparison.OrdinalIgnoreCase));
                             if (matchingItem != null)
                             {
                                 await dispatcherQueue.EnqueueAsync(() =>
                                 {
                                     matchingItem.ItemPath = itemPath;
-                                    matchingItem.ItemNameRaw = (string)message["Name"];
+                                    matchingItem.ItemNameRaw = message["Name"].GetString();
                                 });
                                 await OrderFilesAndFoldersAsync();
                                 await ApplySingleFileChangeAsync(matchingItem);
@@ -564,13 +566,13 @@ namespace Files.App.ViewModels
             // The fulltrust process signaled that a drive has been connected/disconnected
             else if (message.ContainsKey("DeviceID"))
             {
-                var deviceId = (string)message["DeviceID"];
-                var eventType = (DeviceEvent)(long)message["EventType"];
+                var deviceId = message["DeviceID"].GetString();
+                var eventType = (DeviceEvent)message["EventType"].GetInt64();
                 await App.DrivesManager.HandleWin32DriveEvent(eventType, deviceId);
             }
             else if (message.ContainsKey("Library"))
             {
-                await App.LibraryManager.HandleWin32LibraryEvent(JsonSerializer.Deserialize<ShellLibraryItem>(message.Get("Item", "")), message.Get("OldPath", ""));
+                await App.LibraryManager.HandleWin32LibraryEvent(JsonSerializer.Deserialize<ShellLibraryItem>(message.Get("Item", defaultJson).GetString()), message.Get("OldPath", defaultJson).GetString());
             }
         }
 
@@ -1837,7 +1839,7 @@ namespace Files.App.ViewModels
                             {
                                 { "Arguments", "WatchDirectory" },
                                 { "action", "cancel" },
-                                { "watcherID", (long)response["watcherID"] }
+                                { "watcherID", response["watcherID"].GetInt64() }
                             });
                         }
                     });

@@ -7,6 +7,7 @@ using Files.App.Serialization.Implementation;
 using System.Collections.Generic;
 using System.IO;
 using Windows.Storage;
+using System.Text.Json;
 
 namespace Files.App.ServicesImplementation.Settings
 {

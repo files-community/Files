@@ -15,11 +15,13 @@ namespace Files.FullTrust.MessageHandlers
     [SupportedOSPlatform("Windows10.0.10240")]
     public class NetworkDrivesHandler : Disposable, IMessageHandler
     {
+        private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
+
         public void Initialize(PipeStream connection)
         {
         }
 
-        public async Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments)
+        public async Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, JsonElement> message, string arguments)
         {
             switch (arguments)
             {
@@ -32,14 +34,14 @@ namespace Files.FullTrust.MessageHandlers
                     await Win32API.SendMessageAsync(connection, new ValueSet()
                     {
                         { "Drives", JsonSerializer.Serialize(cloudDrives) }
-                    }, message.Get("RequestID", (string)null));
+                    }, message.Get("RequestID", defaultJson).GetString());
                     break;
             }
         }
 
-        private async Task ParseNetworkDriveOperationAsync(PipeStream connection, Dictionary<string, object> message)
+        private async Task ParseNetworkDriveOperationAsync(PipeStream connection, Dictionary<string, JsonElement> message)
         {
-            switch (message.Get("netdriveop", ""))
+            switch (message.Get("netdriveop", defaultJson).GetString())
             {
                 case "GetNetworkLocations":
                     var networkLocations = await Win32API.StartSTATask(() =>
@@ -70,16 +72,16 @@ namespace Files.FullTrust.MessageHandlers
                     {
                         { "NetworkLocations", JsonSerializer.Serialize(networkLocations) }
                     };
-                    await Win32API.SendMessageAsync(connection, response, message.Get("RequestID", (string)null));
+                    await Win32API.SendMessageAsync(connection, response, message.Get("RequestID", defaultJson).GetString());
                     break;
 
                 case "OpenMapNetworkDriveDialog":
-                    var hwnd = (long)message["HWND"];
+                    var hwnd = message["HWND"].GetInt64();
                     _ = NetworkDrivesAPI.OpenMapNetworkDriveDialog(hwnd);
                     break;
 
                 case "DisconnectNetworkDrive":
-                    var drivePath = (string)message["drive"];
+                    var drivePath = message["drive"].GetString();
                     _ = NetworkDrivesAPI.DisconnectNetworkDrive(drivePath);
                     break;
             }

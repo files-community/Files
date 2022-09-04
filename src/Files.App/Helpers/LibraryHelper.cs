@@ -65,7 +65,7 @@ namespace Files.App.Helpers
             });
             if (status == AppServiceResponseStatus.Success && response.ContainsKey("Enumerate"))
             {
-                libraries = JsonSerializer.Deserialize<List<ShellLibraryItem>>((string)response["Enumerate"]).Select(lib => new LibraryLocationItem(lib)).ToList();
+                libraries = JsonSerializer.Deserialize<List<ShellLibraryItem>>(response["Enumerate"].GetString())?.Select(lib => new LibraryLocationItem(lib)).ToList();
             }
             return libraries;
         }
@@ -95,7 +95,7 @@ namespace Files.App.Helpers
             LibraryLocationItem library = null;
             if (status == AppServiceResponseStatus.Success && response.ContainsKey("Create"))
             {
-                library = new LibraryLocationItem(JsonSerializer.Deserialize<ShellLibraryItem>((string)response["Create"]));
+                library = new LibraryLocationItem(JsonSerializer.Deserialize<ShellLibraryItem>(response["Create"].GetString()));
             }
             return library;
         }
@@ -142,7 +142,7 @@ namespace Files.App.Helpers
             LibraryLocationItem library = null;
             if (status == AppServiceResponseStatus.Success && response.ContainsKey("Update"))
             {
-                library = new LibraryLocationItem(JsonSerializer.Deserialize<ShellLibraryItem>((string)response["Update"]));
+                library = new LibraryLocationItem(JsonSerializer.Deserialize<ShellLibraryItem>(response["Update"].GetString()));
             }
             return library;
         }

@@ -6,17 +6,20 @@ using System.Threading.Tasks;
 using System.Linq;
 using Files.Shared.Extensions;
 using System.Runtime.Versioning;
+using System.Text.Json;
 
 namespace Files.FullTrust.MessageHandlers
 {
     [SupportedOSPlatform("Windows10.0.10240")]
     public class InstallOperationsHandler : Disposable, IMessageHandler
     {
+        private static readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
+
         public void Initialize(PipeStream connection)
         {
         }
 
-        public Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments)
+        public Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, JsonElement> message, string arguments)
         {
             switch (arguments)
             {
@@ -27,14 +30,14 @@ namespace Files.FullTrust.MessageHandlers
             return Task.CompletedTask;
         }
 
-        private static void ParseInstallOperation(PipeStream connection, Dictionary<string, object> message)
+        private static void ParseInstallOperation(PipeStream connection, Dictionary<string, JsonElement> message)
         {
-            switch (message.Get("installop", ""))
+            switch (message.Get("installop", defaultJson).GetString())
             {
                 case "InstallInf":
                 {
-                    var filePath = (string)message["filepath"];
-                    var fileExtension = (string)message["extension"];
+                    var filePath = message["filepath"].GetString();
+                    var fileExtension = message["extension"].GetString();
                     var isInf = new[] { ".inf" }.Contains(fileExtension, StringComparer.OrdinalIgnoreCase);
 
                     if (isInf)
@@ -45,8 +48,8 @@ namespace Files.FullTrust.MessageHandlers
                 }
                 case "InstallFont":
                 {
-                    var filePath = (string)message["filepath"];
-                    var fileExtension = (string)message["extension"];
+                    var filePath = message["filepath"].GetString();
+                    var fileExtension = message["extension"].GetString();
                     var isFont = new[] { ".fon", ".otf", ".ttc", ".ttf" }.Contains(fileExtension, StringComparer.OrdinalIgnoreCase);
 
                     if (isFont)

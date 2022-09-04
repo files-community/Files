@@ -162,7 +162,7 @@ namespace Files.App.Helpers
 
                     if (status == AppServiceResponseStatus.Success && response.ContainsKey("ShortcutInfo"))
                     {
-                        var shInfo = JsonSerializer.Deserialize<ShellLinkItem>((string)response["ShortcutInfo"]);
+                        var shInfo = JsonSerializer.Deserialize<ShellLinkItem>(response["ShortcutInfo"].GetString());
                         if (shInfo != null)
                         {
                             shortcutInfo = shInfo;

@@ -3,6 +3,7 @@ using Files.App.Helpers;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using System;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.AppService;
@@ -18,6 +19,8 @@ namespace Files.App.Views
 {
     public sealed partial class CustomFolderIcons : Page
     {
+        private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
+
         private string selectedItemPath;
         private string iconResourceItemPath;
         private IShellPage appInstance;
@@ -126,7 +129,7 @@ namespace Files.App.Views
                     {"filepath", filePath },
                     {"iconFile", iconFile }
                 });
-                return status == AppServiceResponseStatus.Success && response.Get("Success", false);
+                return status == AppServiceResponseStatus.Success && response.Get("Success", defaultJson).GetBoolean();
             }
             return false;
         }

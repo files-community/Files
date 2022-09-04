@@ -23,6 +23,8 @@ namespace Files.FullTrust.MessageHandlers
         private static string RecentItemsPath = Environment.GetFolderPath(Environment.SpecialFolder.Recent);
         private static string AutomaticDestinationsPath = Path.Combine(RecentItemsPath, "AutomaticDestinations");
 
+        private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
+
         private DateTime quickAccessLastReadTime = DateTime.MinValue;
         private FileSystemWatcher quickAccessJumpListWatcher;
         private PipeStream connection;
@@ -56,7 +58,7 @@ namespace Files.FullTrust.MessageHandlers
             quickAccessJumpListWatcher.EnableRaisingEvents = true;
         }
 
-        public async Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments)
+        public async Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, JsonElement> message, string arguments)
         {
             switch (arguments)
             {
@@ -94,9 +96,9 @@ namespace Files.FullTrust.MessageHandlers
             }
         }
 
-        private async Task HandleShellRecentItemsMessage(Dictionary<string, object> message)
+        private async Task HandleShellRecentItemsMessage(Dictionary<string, JsonElement> message)
         {
-            var action = (string)message["action"];
+            var action = message["action"].GetString();
             var response = new ValueSet();
 
             switch (action)
@@ -139,7 +141,7 @@ namespace Files.FullTrust.MessageHandlers
                         }
                         return response;
                     });
-                    await Win32API.SendMessageAsync(connection, enumerateFoldersResponse, message.Get("RequestID", (string)null));
+                    await Win32API.SendMessageAsync(connection, enumerateFoldersResponse, message.Get("RequestID", defaultJson).GetString());
                     break;
 
                 case "Add":
@@ -147,7 +149,7 @@ namespace Files.FullTrust.MessageHandlers
                     {
                         try
                         {
-                            var path = (string) message["Path"];
+                            var path = message["Path"].GetString();
                             Shell32.SHAddToRecentDocs(Shell32.SHARD.SHARD_PATHW, path);
                         }
                         catch (Exception e)
@@ -156,7 +158,7 @@ namespace Files.FullTrust.MessageHandlers
                         }
                         return response;
                     });
-                    await Win32API.SendMessageAsync(connection, addResponse, message.Get("RequestID", (string)null));
+                    await Win32API.SendMessageAsync(connection, addResponse, message.Get("RequestID", defaultJson).GetString());
                     break;
 
                 case "Clear":
@@ -172,7 +174,7 @@ namespace Files.FullTrust.MessageHandlers
                         }
                         return response;
                     });
-                    await Win32API.SendMessageAsync(connection, clearResponse, message.Get("RequestID", (string)null));
+                    await Win32API.SendMessageAsync(connection, clearResponse, message.Get("RequestID", defaultJson).GetString());
                     break;
 
                 // invoke 'remove' verb on the file to remove it from Quick Access
@@ -182,7 +184,7 @@ namespace Files.FullTrust.MessageHandlers
                     {
                         try
                         {
-                            var path = (string)message["Path"];
+                            var path = message["Path"].GetString();
                             var command = $"-command \"((New-Object -ComObject Shell.Application).Namespace('shell:{QuickAccessGuid}\').Items() " +
                                           $"| Where-Object {{ $_.Path -eq '{path}' }}).InvokeVerb('remove')\"";
                             bool success = Win32API.RunPowershellCommand(command, false);
@@ -196,7 +198,7 @@ namespace Files.FullTrust.MessageHandlers
                         }
                         return response;
                     });
-                    await Win32API.SendMessageAsync(connection, unpinFileResponse, message.Get("RequestID", (string)null));
+                    await Win32API.SendMessageAsync(connection, unpinFileResponse, message.Get("RequestID", defaultJson).GetString());
                     break;
             }
         }

@@ -325,7 +325,7 @@ namespace Files.App.Filesystem.StorageEnumerators
                     if (status == AppServiceResponseStatus.Success && response.ContainsKey("ShortcutInfo"))
                     {
                         var isUrl = findData.cFileName.EndsWith(".url", StringComparison.OrdinalIgnoreCase);
-                        var shInfo = JsonSerializer.Deserialize<ShellLinkItem>((string)response["ShortcutInfo"]);
+                        var shInfo = JsonSerializer.Deserialize<ShellLinkItem>(response["ShortcutInfo"].GetString());
                         if (shInfo == null)
                         {
                             return null;

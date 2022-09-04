@@ -22,6 +22,8 @@ namespace Files.FullTrust.MessageHandlers
 
         private FileSystemWatcher librariesWatcher;
 
+        private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
+
         public void Initialize(PipeStream connection)
         {
             this.connection = connection;
@@ -46,7 +48,7 @@ namespace Files.FullTrust.MessageHandlers
             librariesWatcher.EnableRaisingEvents = true;
         }
 
-        public async Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments)
+        public async Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, JsonElement> message, string arguments)
         {
             switch (arguments)
             {
@@ -95,9 +97,9 @@ namespace Files.FullTrust.MessageHandlers
             }
         }
 
-        private async Task HandleShellLibraryMessage(Dictionary<string, object> message)
+        private async Task HandleShellLibraryMessage(Dictionary<string, JsonElement> message)
         {
-            switch ((string)message["action"])
+            switch (message["action"].GetString())
             {
                 case "Enumerate":
                     // Read library information and send response to UWP
@@ -125,7 +127,7 @@ namespace Files.FullTrust.MessageHandlers
                         }
                         return response;
                     });
-                    await Win32API.SendMessageAsync(connection, enumerateResponse, message.Get("RequestID", (string)null));
+                    await Win32API.SendMessageAsync(connection, enumerateResponse, message.Get("RequestID", defaultJson).GetString());
                     break;
 
                 case "Create":
@@ -135,7 +137,7 @@ namespace Files.FullTrust.MessageHandlers
                         var response = new ValueSet();
                         try
                         {
-                            using var library = new ShellLibrary2((string)message["library"], Shell32.KNOWNFOLDERID.FOLDERID_Libraries, false);
+                            using var library = new ShellLibrary2(message["library"].GetString(), Shell32.KNOWNFOLDERID.FOLDERID_Libraries, false);
                             library.Folders.Add(ShellItem.Open(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))); // Add default folder so it's not empty
                             library.Commit();
                             library.Reload();
@@ -147,7 +149,7 @@ namespace Files.FullTrust.MessageHandlers
                         }
                         return response;
                     });
-                    await Win32API.SendMessageAsync(connection, createResponse, message.Get("RequestID", (string)null));
+                    await Win32API.SendMessageAsync(connection, createResponse, message.Get("RequestID", defaultJson).GetString());
                     break;
 
                 case "Update":
@@ -157,12 +159,12 @@ namespace Files.FullTrust.MessageHandlers
                         var response = new ValueSet();
                         try
                         {
-                            var folders = message.ContainsKey("folders") ? JsonSerializer.Deserialize<string[]>((string)message["folders"]) : null;
-                            var defaultSaveFolder = message.Get("defaultSaveFolder", (string)null);
-                            var isPinned = message.Get("isPinned", (bool?)null);
+                            var folders = message.ContainsKey("folders") ? JsonSerializer.Deserialize<string[]>(message["folders"].GetString()) : null;
+                            var defaultSaveFolder = message.Get("defaultSaveFolder", defaultJson).GetString();
+                            var isPinned = message.Get("isPinned", defaultJson).GetBoolean();
 
                             bool updated = false;
-                            var libPath = (string)message["library"];
+                            var libPath = message["library"].GetString();
                             using var library = new ShellLibrary2(Shell32.ShellUtil.GetShellItemForPath(libPath), false);
                             if (folders != null)
                             {
@@ -211,7 +213,7 @@ namespace Files.FullTrust.MessageHandlers
                         }
                         return response;
                     });
-                    await Win32API.SendMessageAsync(connection, updateResponse, message.Get("RequestID", (string)null));
+                    await Win32API.SendMessageAsync(connection, updateResponse, message.Get("RequestID", defaultJson).GetString());
                     break;
             }
         }

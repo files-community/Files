@@ -20,6 +20,8 @@ namespace Files.App.Helpers
     {
         #region Private Members
 
+        private static readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
+
         private static readonly Regex recycleBinPathRegex = new Regex(@"^[A-Z]:\\\$Recycle\.Bin\\", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
 
         private Task<NamedPipeAsAppServiceConnection> ServiceConnection => AppServiceConnectionHelper.Instance;
@@ -101,8 +103,8 @@ namespace Files.App.Helpers
                     { "fileop", "TestRecycle" },
                     { "filepath", path }
                 });
-                var result = status == AppServiceResponseStatus.Success && response.Get("Success", false);
-                var shellOpResult = JsonSerializer.Deserialize<ShellOperationResult>(response.Get("Result", ""));
+                var result = status == AppServiceResponseStatus.Success && response.Get("Success", defaultJson).GetBoolean();
+                var shellOpResult = JsonSerializer.Deserialize<ShellOperationResult>(response.Get("Result", defaultJson).GetString());
                 result &= shellOpResult != null && shellOpResult.Items.All(x => x.Succeeded);
                 return result;
             }
