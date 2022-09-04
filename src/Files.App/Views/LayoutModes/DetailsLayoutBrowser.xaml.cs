@@ -798,11 +798,6 @@ namespace Files.App.Views.LayoutModes
             ContentScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "ScrollViewer");
         }
 
-        private void RefreshContainer_RefreshRequested(RefreshContainer sender, RefreshRequestedEventArgs args)
-        {
-            ParentShellPageInstance.FilesystemViewModel.RefreshItems(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, SetSelectedItemsOnNavigation);
-        }
-
         private void SetDetailsColumnsAsDefault_Click(object sender, RoutedEventArgs e)
         {
             FolderSettings.SetDefaultLayoutPreferences(ColumnsViewModel);
