@@ -2119,7 +2119,7 @@
     <value>โฟลเดอร์นี้และไฟล์ข้างใน</value>
   </data>
   <data name="SecurityAppendDataLabel.Text" xml:space="preserve">
-    <value>Append data</value>
+    <value>เขียนข้อมูลต่อจากเดิม</value>
   </data>
   <data name="SecurityChangePermissionsLabel.Text" xml:space="preserve">
     <value>Change permission</value>
