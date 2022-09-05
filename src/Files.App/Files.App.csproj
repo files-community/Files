@@ -117,6 +117,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Content Remove="Assets\FilesHome.png" />
+    <Content Remove="Assets\FilesHome.png" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="ByteSize">
       <Version>2.1.1</Version>
     </PackageReference>

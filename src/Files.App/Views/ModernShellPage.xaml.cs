@@ -36,6 +36,7 @@ using Files.Backend.Enums;
 using Files.Backend.Services;
 using Files.Backend.ViewModels.Dialogs.AddItemDialog;
 using CommunityToolkit.WinUI;
+using Files.App.DataModels;
 
 namespace Files.App.Views
 {
@@ -48,7 +49,7 @@ namespace Files.App.Views
         public bool CanNavigateBackward => ItemDisplayFrame.CanGoBack;
         public bool CanNavigateForward => ItemDisplayFrame.CanGoForward;
         public FolderSettingsViewModel FolderSettings => InstanceViewModel?.FolderSettings;
-        public MainViewModel MainViewModel => App.MainViewModel;
+        public AppModel AppModel => App.AppModel;
 
         private IDialogService DialogService { get; } = Ioc.Default.GetRequiredService<IDialogService>();
 

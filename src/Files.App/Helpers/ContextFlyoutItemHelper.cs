@@ -506,7 +506,7 @@ namespace Files.App.Helpers
                         OverlayLayerGlyph = "\uF024",
                     },
                     Command = commandsViewModel.PasteItemsFromClipboardCommand,
-                    IsEnabled = currentInstanceViewModel.CanPasteInPage && App.MainViewModel.IsPasteEnabled,
+                    IsEnabled = currentInstanceViewModel.CanPasteInPage && App.AppModel.IsPasteEnabled,
                     KeyboardAccelerator = new KeyboardAccelerator
                     {
                         Key = Windows.System.VirtualKey.V,
@@ -844,7 +844,7 @@ namespace Files.App.Helpers
                     ShowInSearchPage = true,
                     ShowInFtpPage = true,
                     ShowInZipPage = true,
-                    IsEnabled = App.MainViewModel.IsPasteEnabled,
+                    IsEnabled = App.AppModel.IsPasteEnabled,
                     KeyboardAccelerator = new KeyboardAccelerator
                     {
                         Key = Windows.System.VirtualKey.V,

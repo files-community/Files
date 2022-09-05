@@ -42,7 +42,6 @@ namespace Files.App.Filesystem.StorageEnumerators
         {
             var sampler = new IntervalSampler(500);
             var tempList = new List<ListedItem>();
-            var hasNextFile = false;
             var count = 0;
 
             IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
@@ -121,14 +120,13 @@ namespace Files.App.Filesystem.StorageEnumerators
                     break;
                 }
 
-                hasNextFile = FindNextFile(hFile, out findData);
                 if (intermediateAction != null && (count == 32 || sampler.CheckNow()))
                 {
                     await intermediateAction(tempList);
                     // clear the temporary list every time we do an intermediate action
                     tempList.Clear();
                 }
-            } while (hasNextFile);
+            } while (FindNextFile(hFile, out findData));
 
             FindClose(hFile);
             return tempList;

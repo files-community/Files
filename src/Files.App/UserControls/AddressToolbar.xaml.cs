@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using FocusManager = Microsoft.UI.Xaml.Input.FocusManager;
+using Files.App.DataModels;
 
 namespace Files.App.UserControls
 {
@@ -24,7 +25,7 @@ namespace Files.App.UserControls
 
         public ISearchBox SearchBox => ViewModel.SearchBox;
 
-        public MainViewModel MainViewModel => App.MainViewModel;
+        public AppModel AppModel => App.AppModel;
 
         public static readonly DependencyProperty CanPasteInPageProperty = DependencyProperty.Register(
           "CanPasteInPage",

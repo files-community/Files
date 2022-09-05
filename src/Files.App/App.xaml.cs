@@ -37,7 +37,6 @@ using Files.App.Views;
 using CommunityToolkit.WinUI;
 using Files.Shared.Extensions;
 using Windows.ApplicationModel.DataTransfer;
-using Vanara.Extensions.Reflection;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -54,7 +53,7 @@ namespace Files.App
         public static string OutputPath { get; set; }
         public static StorageHistoryWrapper HistoryWrapper = new StorageHistoryWrapper();
         public static SettingsViewModel AppSettings { get; private set; }
-        public static MainViewModel MainViewModel { get; private set; }
+        public static AppModel AppModel { get; private set; }
         public static PaneViewModel PaneViewModel { get; private set; }
         public static PreviewPaneViewModel PreviewPaneViewModel { get; private set; }
         public static JumpListManager JumpList { get; private set; }
@@ -154,7 +153,7 @@ namespace Files.App
 
             JumpList ??= new JumpListManager();
             RecentItemsManager ??= new RecentItemsManager();
-            MainViewModel ??= new MainViewModel();
+            AppModel ??= new AppModel();
             PaneViewModel ??= new PaneViewModel();
             PreviewPaneViewModel ??= new PreviewPaneViewModel();
             LibraryManager ??= new LibraryManager();
@@ -177,7 +176,7 @@ namespace Files.App
                     var lines = await FileIO.ReadTextAsync(file);
                     using var document = System.Text.Json.JsonDocument.Parse(lines);
                     var obj = document.RootElement;
-                    AppCenter.Start(obj.GetPropertyValue<string>("key"), typeof(Analytics), typeof(Crashes));
+                    AppCenter.Start(obj.GetProperty("key").GetString(), typeof(Analytics), typeof(Crashes));
                 }
             }
             catch (Exception ex)
@@ -273,9 +272,9 @@ namespace Files.App
             {
                 ShowErrorNotification = true;
                 ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = -Process.GetCurrentProcess().Id;
-                if (MainViewModel != null)
+                if (AppModel != null)
                 {
-                    MainViewModel.Clipboard_ContentChanged(null, null);
+                    AppModel.Clipboard_ContentChanged(null, null);
                 }
             }
         }

@@ -26,7 +26,7 @@ namespace Files.App.Helpers
         {
             if (connection == null)
             {
-                App.MainViewModel.IsFullTrustElevated = false;
+                App.AppModel.IsAppElevated = false;
                 return false;
             }
 
@@ -58,7 +58,7 @@ namespace Files.App.Helpers
                 }
             }
 
-            App.MainViewModel.IsFullTrustElevated = wasElevated;
+            App.AppModel.IsAppElevated = wasElevated;
 
             return wasElevated;
         }

@@ -132,6 +132,8 @@ namespace Files.App.Views
                 return status == AppServiceResponseStatus.Success && response.Get("Success", defaultJson).GetBoolean();
             }
             return false;
+            // The commit I'm working on doesn't implement this method yet. The code of that method should be changed as above
+            // return await Win32API.SetCustomFileIconAsync(filePath, iconFile, iconIndex);
         }
     }
 }
