@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net6.0-windows10.0.22000.0</TargetFramework>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
@@ -17,7 +17,6 @@
     <AppxBundlePlatforms>x86|x64|arm64</AppxBundlePlatforms>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <Win32Resource>Resources\MiddleClickScrolling-CursorType.res</Win32Resource>
-    <LangVersion>9.0</LangVersion>
     <Nullable>Enable</Nullable>
     <UseWinUI>true</UseWinUI>
     <NoWin32Manifest>True</NoWin32Manifest>
@@ -102,7 +101,9 @@
     </None>
     <None Update="Assets\terminal\terminal.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </None>    
+    <Content Include="Resources\AppCenterKey.txt" />
+    <Content Include="Resources\BingMapsKey.txt" />    
     <None Update="Resources\PreviewPanePropertiesInformation.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -114,6 +115,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Assets\FilesHome.png" />
+    <Content Remove="Assets\FilesHome.png" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ByteSize">
@@ -154,6 +159,11 @@
     <PackageReference Include="CommunityToolkit.WinUI.UI.Behaviors" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
     <PackageReference Include="WinUIEx" Version="1.8.0" />
+    <PackageReference Include="Vanara.PInvoke.Mpr" Version="3.4.6" />
+    <PackageReference Include="Vanara.Windows.Shell" Version="3.3.15" />
+    <PackageReference Include="Microsoft.Management.Infrastructure" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Management.Infrastructure.Runtime.Win" Version="2.0.1" />
+    <FrameworkReference Include="Microsoft.WindowsDesktop.App" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="..\Files.Package\Package.appxmanifest">
@@ -175,7 +185,6 @@
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <LangVersion>9.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sideload|arm64'">
     <OutputPath>bin\arm64\Sideload\</OutputPath>
@@ -185,7 +194,6 @@
     <NoWarn>;2008</NoWarn>
     <PlatformTarget>arm64</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <LangVersion>9.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sideload|x64'">
     <OutputPath>bin\x64\Sideload\</OutputPath>
@@ -194,18 +202,15 @@
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <LangVersion>9.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sideload|Win32'">
     <OutputPath>bin\Win32\Sideload\</OutputPath>
     <DefineConstants>;CODE_ANALYSIS</DefineConstants>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <LangVersion>9.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sideload|AnyCPU'">
     <OutputPath>bin\Sideload\</OutputPath>
     <DefineConstants>;CODE_ANALYSIS</DefineConstants>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <LangVersion>9.0</LangVersion>
   </PropertyGroup>
 </Project>

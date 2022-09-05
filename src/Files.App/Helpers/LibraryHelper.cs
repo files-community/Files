@@ -15,6 +15,7 @@ using Windows.Foundation.Collections;
 using Windows.System;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Files.App.Shell;
 
 namespace Files.App.Helpers
 {
@@ -156,16 +157,7 @@ namespace Files.App.Helpers
                 CloseButtonText = "Cancel".GetLocalizedResource(),
                 PrimaryButtonAction = async (vm, e) =>
                 {
-                    var connection = await AppServiceConnectionHelper.Instance;
-                    if (connection != null)
-                    {
-                        await connection.SendMessageAsync(new ValueSet()
-                        {
-                            { "Arguments", "InvokeVerb" },
-                            { "FilePath", ShellLibraryItem.LibrariesPath },
-                            { "Verb", "restorelibraries" }
-                        });
-                    }
+                    await ContextMenu.InvokeVerb("restorelibraries", ShellLibraryItem.LibrariesPath);
                     await App.LibraryManager.UpdateLibrariesAsync();
                 },
                 CloseButtonAction = (vm, e) => vm.HideDialog(),

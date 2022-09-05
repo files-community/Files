@@ -7,6 +7,7 @@ using CommunityToolkit.WinUI;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
+using Files.App.Shell;
 
 namespace Files.App.Views
 {
@@ -27,15 +28,9 @@ namespace Files.App.Views
                 {
                     var remDrive = new System.Text.RegularExpressions.Regex(@"\s*\(\w:\)$");
                     ViewModel.ItemName = remDrive.Replace(ViewModel.ItemName, ""); // Remove "(C:)" from the new label
-                    var connection = await AppServiceConnectionHelper.Instance;
-                    if (connection != null && AppInstance.FilesystemViewModel != null)
+                    if (AppInstance.FilesystemViewModel != null)
                     {
-                        _ = await connection.SendMessageForResponseAsync(new ValueSet()
-                        {
-                            { "Arguments", "SetVolumeLabel" },
-                            { "drivename", drive.Path },
-                            { "newlabel", ViewModel.ItemName }
-                        });
+                        Win32API.SetVolumeLabel(drive.Path, ViewModel.ItemName);
                         _ = App.Window.DispatcherQueue.EnqueueAsync(async () =>
                         {
                             await drive.UpdateLabelAsync();

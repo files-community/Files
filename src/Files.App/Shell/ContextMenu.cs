@@ -1,5 +1,4 @@
 ﻿using Files.Shared;
-using Files.FullTrust.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,28 +7,41 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
+using System.Threading.Tasks;
 using Vanara.InteropServices;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 
-namespace Files.FullTrust
+namespace Files.App.Shell
 {
     [SupportedOSPlatform("Windows10.0.10240")]
     public class ContextMenu : Win32ContextMenu, IDisposable
     {
         private Shell32.IContextMenu cMenu;
         private User32.SafeHMENU hMenu;
+        private ThreadWithMessageQueue owningThread;
         public List<string> ItemsPath { get; }
 
-        public ContextMenu(Shell32.IContextMenu cMenu, User32.SafeHMENU hMenu, IEnumerable<string> itemsPath)
+        private ContextMenu(Shell32.IContextMenu cMenu, User32.SafeHMENU hMenu, IEnumerable<string> itemsPath, ThreadWithMessageQueue owningThread)
         {
             this.cMenu = cMenu;
             this.hMenu = hMenu;
             this.ItemsPath = itemsPath.ToList();
             this.Items = new List<Win32ContextMenuItem>();
+            this.owningThread = owningThread;
         }
 
-        public bool InvokeVerb(string verb)
+        public async static Task<bool> InvokeVerb(string verb, params string[] filePaths)
+        {
+            using var cMenu = await GetContextMenuForFiles(filePaths, Shell32.CMF.CMF_DEFAULTONLY);
+            if (cMenu is not null)
+            {
+                return await cMenu.InvokeVerb(verb);
+            }
+            return false;
+        }
+
+        public async Task<bool> InvokeVerb(string verb)
         {
             if (string.IsNullOrEmpty(verb))
             {
@@ -45,7 +57,7 @@ namespace Files.FullTrust
                     nShow = ShowWindowCommand.SW_SHOWNORMAL,
                 };
                 pici.cbSize = (uint)Marshal.SizeOf(pici);
-                cMenu.InvokeCommand(pici);
+                await owningThread.PostMethod(() => cMenu.InvokeCommand(pici));
                 Win32API.BringToForeground(currentWindows);
                 return true;
             }
@@ -58,7 +70,7 @@ namespace Files.FullTrust
             return false;
         }
 
-        public void InvokeItem(int itemID)
+        public async Task InvokeItem(int itemID)
         {
             if (itemID < 0)
             {
@@ -74,7 +86,7 @@ namespace Files.FullTrust
                     nShow = ShowWindowCommand.SW_SHOWNORMAL,
                 };
                 pici.cbSize = (uint)Marshal.SizeOf(pici);
-                cMenu.InvokeCommand(pici);
+                await owningThread.PostMethod(() => cMenu.InvokeCommand(pici));
                 Win32API.BringToForeground(currentWindows);
             }
             catch (Exception ex) when (
@@ -87,7 +99,7 @@ namespace Files.FullTrust
 
         #region FactoryMethods
 
-        public static ContextMenu GetContextMenuForFiles(string[] filePathList, Shell32.CMF flags, Func<string, bool> itemFilter = null)
+        public async static Task<ContextMenu> GetContextMenuForFiles(string[] filePathList, Shell32.CMF flags, Func<string, bool> itemFilter = null)
         {
             List<ShellItem> shellItems = new List<ShellItem>();
             try
@@ -97,7 +109,7 @@ namespace Files.FullTrust
                     shellItems.Add(ShellFolderExtensions.GetShellItemFromPathOrPidl(fp));
                 }
 
-                return GetContextMenuForFiles(shellItems.ToArray(), flags, itemFilter);
+                return await GetContextMenuForFiles(shellItems.ToArray(), flags, itemFilter);
             }
             catch (Exception ex) when (ex is ArgumentException || ex is FileNotFoundException)
             {
@@ -113,29 +125,33 @@ namespace Files.FullTrust
             }
         }
 
-        public static ContextMenu GetContextMenuForFiles(ShellItem[] shellItems, Shell32.CMF flags, Func<string, bool> itemFilter = null)
+        public async static Task<ContextMenu> GetContextMenuForFiles(ShellItem[] shellItems, Shell32.CMF flags, Func<string, bool> itemFilter = null)
         {
             if (shellItems == null || !shellItems.Any())
             {
                 return null;
             }
 
-            using var sf = shellItems[0].Parent; // HP: the items are all in the same folder
-            Shell32.IContextMenu menu = sf.GetChildrenUIObjects<Shell32.IContextMenu>(null, shellItems);
-            var hMenu = User32.CreatePopupMenu();
-            menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, flags);
-            var contextMenu = new ContextMenu(menu, hMenu, shellItems.Select(x => x.ParsingName));
-            ContextMenu.EnumMenuItems(menu, hMenu, contextMenu.Items, itemFilter);
-            return contextMenu;
+            var owningThread = new ThreadWithMessageQueue();
+            return await owningThread.PostMethod<ContextMenu>(() =>
+            {
+                using var sf = shellItems[0].Parent; // HP: the items are all in the same folder
+                Shell32.IContextMenu menu = sf.GetChildrenUIObjects<Shell32.IContextMenu>(null, shellItems);
+                var hMenu = User32.CreatePopupMenu();
+                menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, flags);
+                var contextMenu = new ContextMenu(menu, hMenu, shellItems.Select(x => x.ParsingName), owningThread);
+                ContextMenu.EnumMenuItems(menu, hMenu, contextMenu.Items, itemFilter);
+                return contextMenu;
+            });
         }
 
-        public static ContextMenu GetContextMenuForFolder(string folderPath, Shell32.CMF flags, Func<string, bool> itemFilter = null)
+        public async static Task<ContextMenu> GetContextMenuForFolder(string folderPath, Shell32.CMF flags, Func<string, bool> itemFilter = null)
         {
             ShellFolder fsi = null;
             try
             {
                 fsi = new ShellFolder(folderPath);
-                return GetContextMenuForFolder(fsi, flags, itemFilter);
+                return await GetContextMenuForFolder(fsi, flags, itemFilter);
             }
             catch (Exception ex) when (ex is ArgumentException || ex is FileNotFoundException)
             {
@@ -148,20 +164,24 @@ namespace Files.FullTrust
             }
         }
 
-        private static ContextMenu GetContextMenuForFolder(ShellFolder shellFolder, Shell32.CMF flags, Func<string, bool> itemFilter = null)
+        private async static Task<ContextMenu> GetContextMenuForFolder(ShellFolder shellFolder, Shell32.CMF flags, Func<string, bool> itemFilter = null)
         {
             if (shellFolder == null)
             {
                 return null;
             }
 
-            var sv = shellFolder.GetViewObject<Shell32.IShellView>(null);
-            Shell32.IContextMenu menu = sv.GetItemObject<Shell32.IContextMenu>(Shell32.SVGIO.SVGIO_BACKGROUND);
-            var hMenu = User32.CreatePopupMenu();
-            menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, flags);
-            var contextMenu = new ContextMenu(menu, hMenu, new[] { shellFolder.ParsingName });
-            ContextMenu.EnumMenuItems(menu, hMenu, contextMenu.Items, itemFilter);
-            return contextMenu;
+            var owningThread = new ThreadWithMessageQueue();
+            return await owningThread.PostMethod<ContextMenu>(() =>
+            {
+                var sv = shellFolder.GetViewObject<Shell32.IShellView>(null);
+                Shell32.IContextMenu menu = sv.GetItemObject<Shell32.IContextMenu>(Shell32.SVGIO.SVGIO_BACKGROUND);
+                var hMenu = User32.CreatePopupMenu();
+                menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, flags);
+                var contextMenu = new ContextMenu(menu, hMenu, new[] { shellFolder.ParsingName }, owningThread);
+                ContextMenu.EnumMenuItems(menu, hMenu, contextMenu.Items, itemFilter);
+                return contextMenu;
+            });
         }
 
         #endregion FactoryMethods
@@ -211,7 +231,7 @@ namespace Files.FullTrust
                         if (bitmap != null)
                         {
                             byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(bitmap, typeof(byte[]));
-                            menuItem.IconBase64 = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
+                            menuItem.Icon = bitmapData;
                         }
                     }
                     if (mii.hSubMenu != HMENU.NULL)
@@ -307,6 +327,8 @@ namespace Files.FullTrust
                     cMenu = null;
                 }
 
+                owningThread.Dispose();
+
                 disposedValue = true;
             }
         }
@@ -337,36 +359,6 @@ namespace Files.FullTrust
             HBMMENU_POPUP_MINIMIZE = 11,
             HBMMENU_POPUP_RESTORE = 9,
             HBMMENU_SYSTEM = 1
-        }
-    }
-
-    public class ContextMenuItem : Win32ContextMenuItem, IDisposable
-    {
-        public ContextMenuItem()
-        {
-            SubItems = new List<Win32ContextMenuItem>();
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (SubItems != null)
-                {
-                    foreach (var si in SubItems)
-                    {
-                        (si as IDisposable)?.Dispose();
-                    }
-
-                    SubItems = null;
-                }
-            }
         }
     }
 }

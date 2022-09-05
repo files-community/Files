@@ -29,6 +29,7 @@ using Windows.ApplicationModel.Core;
 using Windows.Graphics;
 using Windows.Services.Store;
 using Windows.Storage;
+using Files.App.DataModels;
 
 namespace Files.App.Views
 {
@@ -39,7 +40,7 @@ namespace Files.App.Views
     {
         public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
-        public MainViewModel MainViewModel => App.MainViewModel;
+        public AppModel AppModel => App.AppModel;
 
         public MainPageViewModel ViewModel
         {

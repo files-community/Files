@@ -1396,7 +1396,7 @@
     <value>Název položky</value>
   </data>
   <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
-    <value>Odepnout z Oblíbených</value>
+    <value>Odepnou z Oblíbených</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Síťové disky</value>
@@ -2417,7 +2417,7 @@ Používáme centrum aplikací k sledování nastavení, které jsou používán
     <value>Dlaždice</value>
   </data>
   <data name="NavToolbarShowFileExtensions.AutomationProperties.Name" xml:space="preserve">
-    <value>Zobrazit přípony souboru</value>
+    <value>Zobrazit přípony souborů</value>
   </data>
   <data name="NavToolbarShowHiddenItemsHeader.Text" xml:space="preserve">
     <value>Zobrazit skryté položky</value>
@@ -2444,7 +2444,7 @@ Používáme centrum aplikací k sledování nastavení, které jsou používán
     <value>Zobrazit sekci disků</value>
   </data>
   <data name="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Zobrazit sekci knihoven</value>
+    <value>Zobrazit výběr knihoven</value>
   </data>
   <data name="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Zobrazit sekci sítě</value>
@@ -2594,7 +2594,7 @@ Používáme centrum aplikací k sledování nastavení, které jsou používán
     <value>Registrovat se pro restart</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
-    <value>Spustit jako administrátor</value>
+    <value>Spustit jako správce</value>
   </data>
   <data name="RunCompatibilityTroubleShooter" xml:space="preserve">
     <value>Spustit řešení problémů</value>

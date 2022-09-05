@@ -2,11 +2,10 @@
 {
     public class IconFileInfo
     {
-        public byte[] IconDataBytes { get; set; }
-        public string IconData { get; }
+        public byte[] IconData { get; }
         public int Index { get; }
 
-        public IconFileInfo(string iconData, int index)
+        public IconFileInfo(byte[] iconData, int index)
         {
             IconData = iconData;
             Index = index;

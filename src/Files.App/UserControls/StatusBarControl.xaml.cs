@@ -3,12 +3,13 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Files.App.DataModels;
 
 namespace Files.App.UserControls
 {
     public sealed partial class StatusBarControl : UserControl, INotifyPropertyChanged
     {
-        public MainViewModel MainViewModel => App.MainViewModel;
+        public AppModel AppModel => App.AppModel;
 
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel
         {

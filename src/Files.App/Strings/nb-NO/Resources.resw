@@ -2492,7 +2492,7 @@ Vi bruker App Center for å spore app-bruk og for å finne/reparere feil. All in
     <value>Bruk Files som åpne-dialog for filer</value>
   </data>
   <data name="Tag" xml:space="preserve">
-    <value>Merkelapp</value>
+    <value>Fil-merkelapp</value>
   </data>
   <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
     <value>Åpne mapper med enkeltklikk</value>
@@ -2795,7 +2795,7 @@ Vi bruker App Center for å spore app-bruk og for å finne/reparere feil. All in
     <value>Bruk som låseskjerm</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
-    <value>Bruk som skrivebordsbakgrunn</value>
+    <value>Bruk som bakgrunn på skrivebord</value>
   </data>
   <data name="SetAsDefault" xml:space="preserve">
     <value>Angi som standard</value>

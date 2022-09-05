@@ -262,7 +262,7 @@
     <value>Obre una o vàries pàgines</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
-    <value>Preferències</value>
+    <value>Preferència</value>
   </data>
   <data name="Desktop" xml:space="preserve">
     <value>Escriptori</value>
@@ -313,7 +313,7 @@
     <value>Obre</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
-    <value>Obre a una pestanya nova</value>
+    <value>Obre a una nova pestanya</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" xml:space="preserve">
     <value>Obre a una finestra nova</value>
@@ -550,7 +550,7 @@
     <value>Estàs segur d'esborrar tots aquests elements permanentment?</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
-    <value>Buida la papelera de reciclatge</value>
+    <value>Buida la papelera</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
     <value>bytes</value>
@@ -649,7 +649,7 @@
     <value>Crea accés directe</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
-    <value>Obre ubicació de l'arxiu</value>
+    <value>Obre la ubicació de l'arxiu</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
     <value>Arguments:</value>
@@ -1132,7 +1132,7 @@
     <value>Open files with a single click</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
-    <value>Fitxer</value>
+    <value>Arxiu</value>
   </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
     <value>Recycle bin item</value>
@@ -1195,7 +1195,7 @@
     <value>Status Center</value>
   </data>
   <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Cerca</value>
+    <value>Busca</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Search results in {1} for {0}</value>
@@ -1282,19 +1282,19 @@
     <value>Details (Ctrl+Shift+1)</value>
   </data>
   <data name="NavToolbarLayoutOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Disposició</value>
+    <value>Diseny</value>
   </data>
   <data name="NavToolbarLayoutOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Disposició</value>
+    <value>Diseny</value>
   </data>
   <data name="NavToolbarLayoutOptionsButton.Label" xml:space="preserve">
-    <value>Disposició</value>
+    <value>Diseny</value>
   </data>
   <data name="PreviewPaneToggle.Label" xml:space="preserve">
     <value>Visualització prèvia</value>
   </data>
   <data name="NavToolbarLargeIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>Icones grans</value>
+    <value>Vista en quadrícula (Gran)</value>
   </data>
   <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>Large Icons (Ctrl+Shift+5)</value>
@@ -1306,7 +1306,7 @@
     <value>Medium Icons (Ctrl+Shift+4)</value>
   </data>
   <data name="NavToolbarSmallIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>Icones petites</value>
+    <value>Vista en quadrícula (Petita)</value>
   </data>
   <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>Small Icons (Ctrl+Shift+3)</value>
@@ -1342,7 +1342,7 @@
     <value>Input field cannot be empty!</value>
   </data>
   <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
-    <value>Obre en una pestanya nova</value>
+    <value>Obre a una nova pestanya</value>
   </data>
   <data name="BundleItemFlyouOpenItemLocationMenuItem.Text" xml:space="preserve">
     <value>Open item location</value>
@@ -1393,7 +1393,7 @@
     <value>No hi ha detalls disponibles.</value>
   </data>
   <data name="PropertyItemName" xml:space="preserve">
-    <value>Nom d'element</value>
+    <value>Nom de l'element</value>
   </data>
   <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
     <value>Desancora de favorits</value>
@@ -2406,13 +2406,13 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>COLUMNES</value>
   </data>
   <data name="LargeIcons" xml:space="preserve">
-    <value>Icones grans</value>
+    <value>Vista en quadrícula (Gran)</value>
   </data>
   <data name="MediumIcons" xml:space="preserve">
     <value>Vista en quadrícula (Mitjana)</value>
   </data>
   <data name="SmallIcons" xml:space="preserve">
-    <value>Icones petites</value>
+    <value>Vista en quadrícula (Petita)</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Peces</value>
@@ -2790,7 +2790,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Set as lockscreen</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
-    <value>Defineix com a fons d'escriptori</value>
+    <value>Estableix com a fons d'escriptori</value>
   </data>
   <data name="SetAsDefault" xml:space="preserve">
     <value>Set as default</value>

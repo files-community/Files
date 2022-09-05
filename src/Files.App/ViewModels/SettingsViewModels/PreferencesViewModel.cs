@@ -27,6 +27,7 @@ using Windows.System;
 using Microsoft.UI.Xaml.Controls;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 using static Files.App.Helpers.MenuFlyoutHelper;
+using Files.App.Shell;
 
 namespace Files.App.ViewModels.SettingsViewModels
 {
@@ -431,16 +432,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 
             if (!await Launcher.LaunchFileAsync(configFile))
             {
-                var connection = await AppServiceConnectionHelper.Instance;
-                if (connection != null)
-                {
-                    await connection.SendMessageAsync(new ValueSet()
-                    {
-                        { "Arguments", "InvokeVerb" },
-                        { "FilePath", configFile.Path },
-                        { "Verb", "open" }
-                    });
-                }
+                await ContextMenu.InvokeVerb("open", configFile.Path);
             }
         }
 

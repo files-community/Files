@@ -550,7 +550,7 @@
     <value>Biztosan véglegesen törölni szeretné ezeket az elemeket?</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
-    <value>Lomtár kiürítése</value>
+    <value>Lomtár ürítése</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
     <value>bájt</value>
@@ -1174,7 +1174,7 @@
     <value>Új lap (Ctrl+T)</value>
   </data>
   <data name="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Új lap (Ctrl + T)</value>
+    <value>Új lap (Ctrl+T)</value>
   </data>
   <data name="HorizontalMultitaskingControlCloseButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Lap bezárása (Ctrl+W)</value>
@@ -1588,7 +1588,7 @@
     <value>Beállítás alapértelmezett mentési útvonalként</value>
   </data>
   <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
-    <value>Eltávolítás</value>
+    <value>Törlés</value>
   </data>
   <data name="LibraryNoLocations.Text" xml:space="preserve">
     <value>Nincsenek helyek</value>
@@ -2317,7 +2317,7 @@
     <value>Ctrl+Shift+N</value>
   </data>
   <data name="SettingsPrivacy.Title" xml:space="preserve">
-    <value>Adatvédelmi szabályzat</value>
+    <value>Adatvédelmi irányelvek</value>
   </data>
   <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
     <value>Fluent UI System Icons</value>

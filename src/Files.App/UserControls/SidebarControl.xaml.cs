@@ -1168,15 +1168,15 @@ namespace Files.App.UserControls
                     var emptyRecycleBinItem = itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "EmptyRecycleBin") as AppBarButton;
                     if (emptyRecycleBinItem is not null)
                     {
-                        var binHasItems = await new RecycleBinHelpers().RecycleBinHasItems();
+                        var binHasItems = new RecycleBinHelpers().RecycleBinHasItems();
                         emptyRecycleBinItem.IsEnabled = binHasItems;
                     }
                 }
                 if (options.IsLocationItem)
                 {
                     var shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
-                    var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(connection: await AppServiceConnectionHelper.Instance, currentInstanceViewModel: null, workingDir: null,
-                        new List<ListedItem>() { new ListedItem(null) { ItemPath = rightClickedItem.Path } }, shiftPressed: shiftPressed, showOpenMenu: false);
+                    var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(currentInstanceViewModel: null, workingDir: null,
+                        new List<ListedItem>() { new ListedItem(null) { ItemPath = rightClickedItem.Path } }, shiftPressed: shiftPressed, showOpenMenu: false, default);
                     if (!UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu)
                     {
                         var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(shellMenuItems);

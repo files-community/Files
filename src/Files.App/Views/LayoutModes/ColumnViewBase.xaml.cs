@@ -577,10 +577,5 @@ namespace Files.App.Views.LayoutModes
                 }
             }
         }
-
-        private void RefreshContainer_RefreshRequested(RefreshContainer sender, RefreshRequestedEventArgs args)
-        {
-            ParentShellPageInstance.FilesystemViewModel.RefreshItems(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, SetSelectedItemsOnNavigation);
-        }
     }
 }

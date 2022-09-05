@@ -11,6 +11,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Files.App.DataModels;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -26,7 +27,7 @@ namespace Files.App.UserControls
         public IUserSettingsService UserSettingsService { get; } =
             Ioc.Default.GetService<IUserSettingsService>();
 
-        public MainViewModel MainViewModel => App.MainViewModel;
+        public AppModel AppModel => App.AppModel;
 
         public ToolbarViewModel ViewModel
         {

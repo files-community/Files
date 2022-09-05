@@ -649,7 +649,7 @@
     <value>Δημιουργία συντόμευσης</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
-    <value>Άνοιγμα θέσης αρχείου</value>
+    <value>Ανοίγμα θέσης αρχείου</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
     <value>Παράμετροι:</value>
@@ -685,7 +685,7 @@
     <value>{0} - συντόμευση</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
-    <value>Άνοιγμα θέσης αρχείου</value>
+    <value>Ανοίγμα θέσης αρχείου</value>
   </data>
   <data name="DriveCapacityUnknown" xml:space="preserve">
     <value>Άγνωστο</value>
@@ -1396,7 +1396,7 @@
     <value>Όνομα στοιχείου</value>
   </data>
   <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
-    <value>Ξεκαρφίτσωμα από τα αγαπημένα</value>
+    <value>Ξεκαρφίτσωμα από Αγαπημένα</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Δίσκοι δικτύου</value>
@@ -1441,7 +1441,7 @@
     <value>Δεν έχει υπολογιστεί</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
-    <value>Άγνωστος</value>
+    <value>Άγνωστο</value>
   </data>
   <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>Πολυεπιλογή</value>
@@ -1474,7 +1474,7 @@
     <value>Αφαιρούμενη συσκευή αποθήκευσης</value>
   </data>
   <data name="DriveTypeUnknown" xml:space="preserve">
-    <value>Άγνωστος</value>
+    <value>Άγνωστο</value>
   </data>
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
     <value>Εικονική μονάδα δίσκου</value>
@@ -2334,7 +2334,7 @@
     <value>Άνοιγμα γονικού φακέλου</value>
   </data>
   <data name="FileTagUnknown" xml:space="preserve">
-    <value>Άγνωστος</value>
+    <value>Άγνωστο</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
     <value>Ετικέτα αρχείου</value>
@@ -2487,7 +2487,7 @@
     <value>Χρήση Files ως παράθυρο διαλόγου για άνοιγμα αρχείων</value>
   </data>
   <data name="Tag" xml:space="preserve">
-    <value>Ετικέτα</value>
+    <value>Ετικέτα αρχείου</value>
   </data>
   <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
     <value>Άνοιγμα φακέλων με ένα κλικ</value>
@@ -2790,7 +2790,7 @@
     <value>Set as lockscreen</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
-    <value>Ορισμός ως φόντου επιφάνειας εργασίας</value>
+    <value>Ορισμός ως φόντο επιφάνειας εργασίας</value>
   </data>
   <data name="SetAsDefault" xml:space="preserve">
     <value>Set as default</value>
