@@ -1,4 +1,3 @@
-using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Interacts;
@@ -135,8 +134,15 @@ namespace Files.App.Views.LayoutModes
 
             var navigationArguments = (NavigationArguments)eventArgs.Parameter;
 
-            _destinationPath = navigationArguments.NavPathParam;
-
+            if (navigationArguments.NavPathParam.EndsWith('\\') ||
+                navigationArguments.NavPathParam.EndsWith('/'))
+            {
+                _destinationPath = navigationArguments.NavPathParam.Remove(navigationArguments.NavPathParam.Length - 1);
+            }
+            else
+            {
+                _destinationPath = navigationArguments.NavPathParam;
+            }
 
             _openFullPath = true;
             depth = 0;
