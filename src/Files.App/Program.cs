@@ -17,12 +17,16 @@ namespace Files.App
 {
     internal class Program
     {
+        [DllImport("Microsoft.ui.xaml.dll")]
+        private static extern void XamlCheckProcessRequirements();
+
         // Note: We can't declare Main to be async because in a WinUI app
         // this prevents Narrator from reading XAML elements.
         // https://github.com/microsoft/WindowsAppSDK-Samples/blob/main/Samples/AppLifecycle/Instancing/cs-winui-packaged/CsWinUiDesktopInstancing/CsWinUiDesktopInstancing/Program.cs
         [STAThread] // STAThread has no effect if main is async, needed for Clipboard
         private static void Main()
         {
+            XamlCheckProcessRequirements();
             WinRT.ComWrappersSupport.InitializeComWrappers();
 
             var proc = System.Diagnostics.Process.GetCurrentProcess();

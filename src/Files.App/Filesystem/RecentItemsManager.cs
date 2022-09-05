@@ -14,6 +14,8 @@ using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Files.App.Shell;
+using Vanara.PInvoke;
+using Vanara.Windows.Shell;
 
 namespace Files.App.Filesystem
 {
@@ -21,6 +23,7 @@ namespace Files.App.Filesystem
     {
         private readonly ILogger logger = Ioc.Default.GetService<ILogger>();
         private const string QuickAccessGuid = "::{679f85cb-0220-4080-b29b-5540cc05aab6}";
+        private static string RecentItemsPath = Environment.GetFolderPath(Environment.SpecialFolder.Recent);
 
         public EventHandler<NotifyCollectionChangedEventArgs> RecentFilesChanged;
         public EventHandler<NotifyCollectionChangedEventArgs> RecentFoldersChanged;
@@ -79,7 +82,7 @@ namespace Files.App.Filesystem
         public async Task UpdateRecentFoldersAsync()
         {
             // enumerate with fulltrust process
-            List<RecentItem> enumeratedFolders = await ListRecentFoldersAsync();
+            List<RecentItem> enumeratedFolders = ListRecentFolders();
             if (enumeratedFolders != null)
             {
                 lock (recentFolders)
@@ -109,18 +112,32 @@ namespace Files.App.Filesystem
         /// <summary>
         /// Enumerate recently accessed folders via `Windows\Recent`.
         /// </summary>
-        public async Task<List<RecentItem>> ListRecentFoldersAsync()
+        public List<RecentItem> ListRecentFolders()
         {
-            List<RecentItem> linkItems = null;
+            var recentItems = new List<RecentItem>();
+            var excludeMask = FileAttributes.Hidden;
+            var linkFilePaths = Directory.EnumerateFiles(RecentItemsPath).Where(f => (new FileInfo(f).Attributes & excludeMask) == 0);
 
-            var (status, response) = await SendRecentItemsActionForResponse("EnumerateFolders");
-            if (status == AppServiceResponseStatus.Success && response.ContainsKey("EnumerateFolders"))
+            foreach (var linkFilePath in linkFilePaths)
             {
-                linkItems = JsonConvert.DeserializeObject<List<ShellLinkItem>>((string)response["EnumerateFolders"])
-                                       .Select(link => new RecentItem(link)).ToList();
+                using var link = new ShellLink(linkFilePath, LinkResolution.NoUIWithMsgPump, null, TimeSpan.FromMilliseconds(100));
+
+                try
+                {
+                    if (!string.IsNullOrEmpty(link.TargetPath) && link.Target.IsFolder)
+                    {
+                        var shellLinkItem = ShellFolderExtensions.GetShellLinkItem(link);
+                        recentItems.Add(new RecentItem(shellLinkItem));
+                    }
+                }
+                catch (FileNotFoundException)
+                {
+                    // occurs when shortcut or shortcut target is deleted and accessed (link.Target)
+                    // consequently, we shouldn't include the item as a recent item
+                }
             }
 
-            return linkItems;
+            return recentItems;
         }
 
         /// <summary>
@@ -129,13 +146,17 @@ namespace Files.App.Filesystem
         /// </summary>
         /// <param name="path">Path to a file or folder</param>
         /// <returns>Whether the action was successfully handled or not</returns>
-        public async Task<bool> AddToRecentItems(string path)
+        public bool AddToRecentItems(string path)
         {
-            var (status, _) = await SendRecentItemsActionForResponse("Add", new ValueSet
+            try
             {
-                { "Path", path },
-            });
-            return status == AppServiceResponseStatus.Success;
+                Shell32.SHAddToRecentDocs(Shell32.SHARD.SHARD_PATHW, path);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -143,10 +164,17 @@ namespace Files.App.Filesystem
         /// This will also clear the Recent Files (and its jumplist) in File Explorer.
         /// </summary>
         /// <returns>Whether the action was successfully handled or not</returns>
-        public async Task<bool> ClearRecentItems()
+        public bool ClearRecentItems()
         {
-            var (status, _) = await SendRecentItemsActionForResponse("Clear");
-            return status == AppServiceResponseStatus.Success;
+            try
+            {
+                Shell32.SHAddToRecentDocs(Shell32.SHARD.SHARD_PIDL, (string)null);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -154,15 +182,18 @@ namespace Files.App.Filesystem
         /// This will also unpin the item from the Recent Files in File Explorer.
         /// </summary>
         /// <returns>Whether the action was successfully handled or not</returns>
-        public async Task<bool> UnpinFromRecentFiles(string path)
+        public bool UnpinFromRecentFiles(string path)
         {
-            var (status, response) = await SendRecentItemsActionForResponse("UnpinFile", new ValueSet
+            try
             {
-                { "Path", path },
-            });
-            return status == AppServiceResponseStatus.Success &&
-                   response.TryGetValue("Success", out var success) &&
-                   (bool)success;
+                var command = $"-command \"((New-Object -ComObject Shell.Application).Namespace('shell:{QuickAccessGuid}\').Items() " +
+                              $"| Where-Object {{ $_.Path -eq '{path}' }}).InvokeVerb('remove')\"";
+                return Win32API.RunPowershellCommand(command, false);
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         /// <summary>
