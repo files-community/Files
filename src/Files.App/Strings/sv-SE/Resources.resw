@@ -1483,7 +1483,7 @@
     <value>Skapad</value>
   </data>
   <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Fler alternativ</value>
+    <value>Fler alternativ...</value>
   </data>
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
     <value>Anslut nätverksenhet</value>
@@ -1588,7 +1588,7 @@
     <value>Set as default save path</value>
   </data>
   <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
-    <value>Radera</value>
+    <value>Ta bort</value>
   </data>
   <data name="LibraryNoLocations.Text" xml:space="preserve">
     <value>No locations</value>
@@ -1768,7 +1768,7 @@
     <value>Gruppera efter</value>
   </data>
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
-    <value>Namnge</value>
+    <value>Namn</value>
   </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Ändrad</value>
@@ -1777,7 +1777,7 @@
     <value>Original folder</value>
   </data>
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
-    <value>typ</value>
+    <value>Typ</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Sortera efter</value>
@@ -2089,7 +2089,7 @@
     <value>Behörigheter</value>
   </data>
   <data name="SecurityAdvancedTypeLabel.Text" xml:space="preserve">
-    <value>typ</value>
+    <value>Typ</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
     <value>You do not have permissions to view the security properties of this object. You can try to take ownership of this object.</value>
@@ -2361,7 +2361,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Sätt in en skiva</value>
   </data>
   <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
-    <value>OK-knappen</value>
+    <value>OK</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
     <value>Autentiseringsuppgifter krävs</value>
@@ -2406,13 +2406,13 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Kolumner</value>
   </data>
   <data name="LargeIcons" xml:space="preserve">
-    <value>Stora ikoner</value>
+    <value>Rutnätsvy (Stor)</value>
   </data>
   <data name="MediumIcons" xml:space="preserve">
-    <value>Medelstora ikoner</value>
+    <value>Rutnätsvy (Medel)</value>
   </data>
   <data name="SmallIcons" xml:space="preserve">
-    <value>Små ikoner</value>
+    <value>Rutnätsvy (Liten)</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Paneler</value>
@@ -2790,7 +2790,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Set as lockscreen</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
-    <value>Använd som bakgrund</value>
+    <value>Använd som skrivbordsbakgrund</value>
   </data>
   <data name="SetAsDefault" xml:space="preserve">
     <value>Set as default</value>

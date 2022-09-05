@@ -33,6 +33,8 @@ using static Files.App.UserControls.IAddressToolbar;
 using SearchBox = Files.App.UserControls.SearchBox;
 using SortDirection = Files.Shared.Enums.SortDirection;
 using Microsoft.UI.Dispatching;
+using FocusManager = Microsoft.UI.Xaml.Input.FocusManager;
+using Files.App.Shell;
 
 namespace Files.App.ViewModels
 {
@@ -1048,18 +1050,7 @@ namespace Files.App.ViewModels
                                 if (terminal.Path.Equals(currentInput, StringComparison.OrdinalIgnoreCase)
                                     || terminal.Path.Equals(currentInput + ".exe", StringComparison.OrdinalIgnoreCase) || terminal.Name.Equals(currentInput, StringComparison.OrdinalIgnoreCase))
                                 {
-                                    var connection = await AppServiceConnectionHelper.Instance;
-                                    if (connection != null)
-                                    {
-                                        var value = new ValueSet()
-                                        {
-                                            { "Arguments", "LaunchApp" },
-                                            { "WorkingDirectory", workingDir },
-                                            { "Application", terminal.Path },
-                                            { "Parameters", string.Format(terminal.Arguments, workingDir) }
-                                        };
-                                        await connection.SendMessageAsync(value);
-                                    }
+                                    await LaunchHelper.LaunchAppAsync(terminal.Path, string.Format(terminal.Arguments, workingDir), workingDir);
                                     return;
                                 }
                             }
@@ -1101,22 +1092,7 @@ namespace Files.App.ViewModels
                 fileName = trimmedInput.Substring(0, positionOfBlank);
                 arguments = currentInput.Substring(currentInput.IndexOf(' '));
             }
-
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
-            {
-                var value = new ValueSet()
-                {
-                    { "Arguments", "LaunchApp" },
-                    { "WorkingDirectory", workingDir },
-                    { "Application", fileName },
-                    { "Parameters", arguments }
-                };
-                var (status, response) = await connection.SendMessageForResponseAsync(value);
-                return status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success && response.Get("Success", false);
-            }
-
-            return false;
+            return await LaunchHelper.LaunchAppAsync(fileName, arguments, workingDir);
         }
 
         public async void SetAddressBarSuggestions(AutoSuggestBox sender, IShellPage shellpage, int maxSuggestions = 7)

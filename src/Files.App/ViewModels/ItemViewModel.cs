@@ -48,6 +48,7 @@ using static Files.Backend.Helpers.NativeFindStorageItemHelper;
 using static Files.App.Helpers.NativeDirectoryChangesHelper;
 using FileAttributes = System.IO.FileAttributes;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
+using Files.App.Shell;
 
 namespace Files.App.ViewModels
 {
@@ -1608,14 +1609,7 @@ namespace Files.App.ViewModels
                 rootFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
                 if (await FolderHelpers.CheckBitlockerStatusAsync(rootFolder, WorkingDirectory))
                 {
-                    if (Connection != null)
-                    {
-                        var value = new ValueSet();
-                        value.Add("Arguments", "InvokeVerb");
-                        value.Add("FilePath", Path.GetPathRoot(path));
-                        value.Add("Verb", "unlock-bde");
-                        _ = await Connection.SendMessageForResponseAsync(value);
-                    }
+                    await ContextMenu.InvokeVerb("unlock-bde", Path.GetPathRoot(path));
                 }
             }
 
@@ -1789,7 +1783,7 @@ namespace Files.App.ViewModels
             {
                 return;
             }
-            await Task.Run(() =>
+            await Task.Factory.StartNew(() =>
             {
                 var options = new QueryOptions()
                 {
@@ -1809,7 +1803,7 @@ namespace Files.App.ViewModels
                         watchedItemsOperation?.Cancel();
                     });
                 }
-            });
+            }, TaskCreationOptions.LongRunning);
         }
 
         private async void WatchForWin32FolderChanges(string folderPath)
@@ -1884,7 +1878,7 @@ namespace Files.App.ViewModels
 
             if (aProcessQueueAction == null) // Only start one ProcessOperationQueue
             {
-                aProcessQueueAction = Task.Run(() => ProcessOperationQueue(watcherCTS.Token, hasSyncStatus));
+                aProcessQueueAction = Task.Factory.StartNew(() => ProcessOperationQueue(watcherCTS.Token, hasSyncStatus), TaskCreationOptions.LongRunning);
             }
 
             var aWatcherAction = Windows.System.Threading.ThreadPool.RunAsync((x) =>

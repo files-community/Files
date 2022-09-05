@@ -1,70 +1,41 @@
-﻿using Files.Shared.Extensions;
-using Files.FullTrust.Helpers;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.IO.Pipes;
 using System.Linq;
-using System.Runtime.Versioning;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
-using Windows.Foundation.Collections;
 
-namespace Files.FullTrust.MessageHandlers
+namespace Files.App.Shell
 {
-    [SupportedOSPlatform("Windows10.0.10240")]
-    public class ApplicationLaunchHandler : Disposable, IMessageHandler
+    public static class LaunchHelper
     {
-        public void Initialize(PipeStream connection)
+        public static void LaunchSettings(string page)
         {
+            var appActiveManager = new Shell32.IApplicationActivationManager();
+            appActiveManager.ActivateApplication("windows.immersivecontrolpanel_cw5n1h2txyewy!microsoft.windows.immersivecontrolpanel",
+                page, Shell32.ACTIVATEOPTIONS.AO_NONE, out _);
         }
 
-        public async Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments)
+        public static async Task<bool> LaunchAppAsync(string application, string arguments, string workingDirectory)
         {
-            switch (arguments)
-            {
-                case "LaunchSettings":
-                    {
-                        var page = message.Get("page", (string)null);
-                        var appActiveManager = new Shell32.IApplicationActivationManager();
-                        appActiveManager.ActivateApplication("windows.immersivecontrolpanel_cw5n1h2txyewy!microsoft.windows.immersivecontrolpanel",
-                            page, Shell32.ACTIVATEOPTIONS.AO_NONE, out _);
-                        break;
-                    }
-
-                case "LaunchApp":
-                    if (message.ContainsKey("Application"))
-                    {
-                        var application = (string)message["Application"];
-                        var success = await HandleApplicationLaunch(application, message);
-                        await Win32API.SendMessageAsync(connection, new ValueSet()
-                        {
-                            { "Success", success }
-                        }, message.Get("RequestID", (string)null));
-                    }
-                    break;
-
-                case "RunCompatibilityTroubleshooter":
-                    {
-                        var filePath = (string)message["filepath"];
-                        var afPath = Path.Combine(Path.GetTempPath(), "CompatibilityTroubleshooterAnswerFile.xml");
-                        File.WriteAllText(afPath, string.Format("<?xml version=\"1.0\" encoding=\"UTF-8\"?><Answers Version=\"1.0\"><Interaction ID=\"IT_LaunchMethod\"><Value>CompatTab</Value></Interaction><Interaction ID=\"IT_BrowseForFile\"><Value>{0}</Value></Interaction></Answers>", filePath));
-                        message["Parameters"] = $"/id PCWDiagnostic /af \"{afPath}\"";
-                        await HandleApplicationLaunch("msdt.exe", message);
-                    }
-                    break;
-            }
+            return await HandleApplicationLaunch(application, arguments, workingDirectory);
         }
 
-        private async Task<bool> HandleApplicationLaunch(string application, Dictionary<string, object> message)
+        public static async Task<bool> RunCompatibilityTroubleshooterAsync(string filePath)
         {
-            var arguments = message.Get("Parameters", "");
-            var workingDirectory = message.Get("WorkingDirectory", "");
+            var afPath = Path.Combine(Path.GetTempPath(), "CompatibilityTroubleshooterAnswerFile.xml");
+            File.WriteAllText(afPath, string.Format("<?xml version=\"1.0\" encoding=\"UTF-8\"?><Answers Version=\"1.0\"><Interaction ID=\"IT_LaunchMethod\"><Value>CompatTab</Value></Interaction><Interaction ID=\"IT_BrowseForFile\"><Value>{0}</Value></Interaction></Answers>", filePath));
+            return await HandleApplicationLaunch("msdt.exe", $"/id PCWDiagnostic /af \"{afPath}\"", "");
+        }
+
+        private static async Task<bool> HandleApplicationLaunch(string application, string arguments, string workingDirectory)
+        {
             var currentWindows = Win32API.GetDesktopWindows();
 
             if (new[] { ".vhd", ".vhdx" }.Contains(Path.GetExtension(application).ToLowerInvariant()))
@@ -135,7 +106,7 @@ namespace Files.FullTrust.MessageHandlers
                 {
                     try
                     {
-                        var opened = await Win32API.StartSTATask(() =>
+                        var opened = await Win32API.StartSTATask(async () =>
                         {
                             var split = application.Split('|').Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => GetMtpPath(x));
                             if (split.Count() == 1)
@@ -156,8 +127,11 @@ namespace Files.FullTrust.MessageHandlers
                                     {
                                         continue;
                                     }
-                                    using var cMenu = ContextMenu.GetContextMenuForFiles(group.ToArray(), Shell32.CMF.CMF_DEFAULTONLY);
-                                    cMenu?.InvokeVerb(Shell32.CMDSTR_OPEN);
+                                    using var cMenu = await ContextMenu.GetContextMenuForFiles(group.ToArray(), Shell32.CMF.CMF_DEFAULTONLY);
+                                    if (cMenu is not null)
+                                    {
+                                        await cMenu.InvokeVerb(Shell32.CMDSTR_OPEN);
+                                    }
                                 }
                             }
                             return true;
@@ -166,11 +140,14 @@ namespace Files.FullTrust.MessageHandlers
                         {
                             if (application.StartsWith(@"\\SHELL\", StringComparison.Ordinal))
                             {
-                                opened = await Win32API.StartSTATask(() =>
+                                opened = await Win32API.StartSTATask(async () =>
                                 {
                                     using var si = ShellFolderExtensions.GetShellItemFromPathOrPidl(application);
-                                    using var cMenu = ContextMenu.GetContextMenuForFiles(new[] { si }, Shell32.CMF.CMF_DEFAULTONLY);
-                                    cMenu?.InvokeItem(cMenu?.Items.FirstOrDefault().ID ?? -1);
+                                    using var cMenu = await ContextMenu.GetContextMenuForFiles(new[] { si }, Shell32.CMF.CMF_DEFAULTONLY);
+                                    if (cMenu is not null)
+                                    {
+                                        await cMenu.InvokeItem(cMenu.Items.FirstOrDefault()?.ID ?? -1);
+                                    }
                                     return true;
                                 });
                             }
@@ -196,7 +173,7 @@ namespace Files.FullTrust.MessageHandlers
                                         await inStream.CopyToAsync(outStream);
                                         await outStream.FlushAsync();
                                     }
-                                    opened = await HandleApplicationLaunch(tempPath, message);
+                                    opened = await HandleApplicationLaunch(tempPath, arguments, workingDirectory);
                                 }
                             }
                         }
@@ -222,12 +199,12 @@ namespace Files.FullTrust.MessageHandlers
             catch (Exception ex)
             {
                 // Generic error, log
-                Program.Logger.Warn(ex, $"Error launching: {application}");
+                App.Logger.Warn(ex, $"Error launching: {application}");
                 return false;
             }
         }
 
-        private string GetMtpPath(string executable)
+        private static string GetMtpPath(string executable)
         {
             if (executable.StartsWith("\\\\?\\", StringComparison.Ordinal))
             {

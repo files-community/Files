@@ -313,10 +313,10 @@
     <value>Openen</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
-    <value>Openen in nieuw tabblad</value>
+    <value>In nieuw tabblad openen</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" xml:space="preserve">
-    <value>Openen in nieuw venster</value>
+    <value>In nieuw venster openen</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" xml:space="preserve">
     <value>Als bureaubladachtergrond gebruiken</value>
@@ -1588,7 +1588,7 @@
     <value>Als standaardpad instellen</value>
   </data>
   <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
-    <value>Verwijderen</value>
+    <value>Wissen</value>
   </data>
   <data name="LibraryNoLocations.Text" xml:space="preserve">
     <value>Geen locaties</value>
@@ -2047,7 +2047,7 @@
     <value>Herstel standaard bibliotheken</value>
   </data>
   <data name="DialogRestoreLibrariesButtonText" xml:space="preserve">
-    <value>Herstel</value>
+    <value>Herstellen</value>
   </data>
   <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
     <value>Weet u zeker dat u de standaard bibliotheken wilt herstellen? Al uw bestanden blijven op uw opslag.</value>
@@ -2366,7 +2366,7 @@ We gebruiken App Center om app-gebruik bij te houden, bugs te vinden en crashes 
     <value>Een schijf plaatsen</value>
   </data>
   <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Oke</value>
+    <value>Oké</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
     <value>Gegevens vereist</value>
@@ -2411,13 +2411,13 @@ We gebruiken App Center om app-gebruik bij te houden, bugs te vinden en crashes 
     <value>Kolommen</value>
   </data>
   <data name="LargeIcons" xml:space="preserve">
-    <value>Grote Pictogrammen</value>
+    <value>Rasterweergave (groot)</value>
   </data>
   <data name="MediumIcons" xml:space="preserve">
-    <value>Middelgrote Pictogrammen</value>
+    <value>Rasterweergave (normaal)</value>
   </data>
   <data name="SmallIcons" xml:space="preserve">
-    <value>Kleine Pictogrammen</value>
+    <value>Rasterweergave (klein)</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Tegels</value>
@@ -2429,34 +2429,34 @@ We gebruiken App Center om app-gebruik bij te houden, bugs te vinden en crashes 
     <value>Toon verborgen items</value>
   </data>
   <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Toon favorieten sectie</value>
+    <value>Toon favorieten sectie op de zijbalk</value>
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Open mappen in een nieuw tabblad</value>
   </data>
   <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Pin Prullenbak aan favorieten</value>
+    <value>Prullenbak aan favorieten vastmaken</value>
   </data>
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Taal</value>
   </data>
   <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Toon cloud schijven sectie</value>
+    <value>Toon cloudstations sectie op de zijbalk</value>
   </data>
   <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Toon een bevestigingsvenster bij het verwijderen van bestanden of mappen</value>
+    <value>Toon een bevestigingsdialoog bij het verwijderen van bestanden of mappen</value>
   </data>
   <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Toon schijven sectie</value>
+    <value>Toon stations sectie op de zijbalk</value>
   </data>
   <data name="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Toon bibliotheek sectie</value>
+    <value>Toon bibliotheeksectie op de zijbalk</value>
   </data>
   <data name="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Toon netwerk sectie</value>
+    <value>Toon netwerkstations sectie op de zijbalk</value>
   </data>
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Toon WSL sectie</value>
+    <value>Toon WSL sectie op de zijbalk</value>
   </data>
   <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Terminal applicatie</value>

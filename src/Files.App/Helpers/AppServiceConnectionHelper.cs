@@ -23,16 +23,11 @@ namespace Files.App.Helpers
 
         public static event EventHandler<Task<NamedPipeAsAppServiceConnection>> ConnectionChanged;
 
-        public static void Register()
-        {
-            // WINUI3: app does not get suspended
-        }
-
         public static async Task<bool> Elevate(this NamedPipeAsAppServiceConnection connection)
         {
             if (connection == null)
             {
-                App.MainViewModel.IsFullTrustElevated = false;
+                App.AppModel.IsAppElevated = false;
                 return false;
             }
 
@@ -64,7 +59,7 @@ namespace Files.App.Helpers
                 }
             }
 
-            App.MainViewModel.IsFullTrustElevated = wasElevated;
+            App.AppModel.IsAppElevated = wasElevated;
 
             return wasElevated;
         }

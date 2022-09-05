@@ -4,14 +4,13 @@ using System.Runtime.Versioning;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.FullTrust.Helpers
+namespace Files.App.Shell
 {
     [SupportedOSPlatform("Windows")]
-    public class ThreadWithMessageQueue<T> : Disposable
+    public class ThreadWithMessageQueue : Disposable
     {
         private readonly BlockingCollection<Internal> messageQueue;
         private readonly Thread thread;
-        private readonly DisposableDictionary state;
 
         protected override void Dispose(bool disposing)
         {
@@ -19,47 +18,52 @@ namespace Files.FullTrust.Helpers
             {
                 messageQueue.CompleteAdding();
                 thread.Join();
-                state.Dispose();
                 messageQueue.Dispose();
             }
         }
 
-        public async Task<V> PostMessageAsync<V>(T payload)
+        public async Task<V> PostMethod<V>(Func<object> payload)
         {
             var message = new Internal(payload);
             messageQueue.TryAdd(message);
             return (V)await message.tcs.Task;
         }
 
-        public Task PostMessage(T payload)
+        public Task PostMethod(Action payload)
         {
             var message = new Internal(payload);
             messageQueue.TryAdd(message);
             return message.tcs.Task;
         }
 
-        public ThreadWithMessageQueue(Func<T, DisposableDictionary, object> handleMessage)
+        public ThreadWithMessageQueue()
         {
             messageQueue = new BlockingCollection<Internal>(new ConcurrentQueue<Internal>());
-            state = new DisposableDictionary();
             thread = new Thread(new ThreadStart(() =>
             {
                 foreach (var message in messageQueue.GetConsumingEnumerable())
                 {
-                    var res = handleMessage(message.payload, state);
+                    var res = message.payload();
                     message.tcs.SetResult(res);
                 }
             }));
             thread.SetApartmentState(ApartmentState.STA);
+            thread.IsBackground = true; // Do not prevent app from closing
             thread.Start();
         }
 
         private class Internal
         {
-            public T payload;
+            public Func<object?> payload;
             public TaskCompletionSource<object> tcs;
 
-            public Internal(T payload)
+            public Internal(Action payload)
+            {
+                this.payload = () => { payload(); return default; };
+                this.tcs = new TaskCompletionSource<object>(TaskCreationOptions.RunContinuationsAsynchronously);
+            }
+
+            public Internal(Func<object?> payload)
             {
                 this.payload = payload;
                 this.tcs = new TaskCompletionSource<object>(TaskCreationOptions.RunContinuationsAsynchronously);

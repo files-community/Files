@@ -1,3 +1,4 @@
+using Files.App.Shell;
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -269,20 +270,7 @@ namespace Files.App.Helpers
 
         public static async Task<string> GetFileAssociationAsync(string filePath)
         {
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
-            {
-                var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
-                {
-                    { "Arguments", "GetFileAssociation" },
-                    { "filepath", filePath }
-                });
-                if (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success && response.ContainsKey("FileAssociation"))
-                {
-                    return (string)response["FileAssociation"];
-                }
-            }
-            return null;
+            return await Win32API.GetFileAssociationAsync(filePath, true);
         }
     }
 }

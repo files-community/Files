@@ -240,8 +240,8 @@ namespace Files.App.DataModels.NavigationControlItems
                 }
                 if (IconData == null)
                 {
-                    var resource = await UIHelpers.GetIconResourceInfo(Constants.ImageRes.Folder);
-                    IconData = resource?.IconDataBytes;
+                    var resource = UIHelpers.GetIconResourceInfo(Constants.ImageRes.Folder);
+                    IconData = resource?.IconData;
                 }
             }
             Icon = await IconData.ToBitmapAsync();

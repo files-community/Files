@@ -37,6 +37,7 @@ using Files.Backend.Services;
 using Files.Backend.ViewModels.Dialogs.AddItemDialog;
 using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI;
+using Files.App.DataModels;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -57,7 +58,7 @@ namespace Files.App.Views
 
         public FolderSettingsViewModel FolderSettings => InstanceViewModel?.FolderSettings;
 
-        public MainViewModel MainViewModel => App.MainViewModel;
+        public AppModel AppModel => App.AppModel;
 
         public bool IsColumnView { get; } = true;
 

@@ -28,6 +28,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Files.Backend.Enums;
+using Files.App.Shell;
 
 namespace Files.App.Interacts
 {
@@ -134,30 +135,12 @@ namespace Files.App.Interacts
 
         public virtual async void RunAsAdmin(RoutedEventArgs e)
         {
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
-            {
-                await connection.SendMessageAsync(new ValueSet()
-                {
-                    { "Arguments", "InvokeVerb" },
-                    { "FilePath", SlimContentPage.SelectedItem.ItemPath },
-                    { "Verb", "runas" }
-                });
-            }
+            await ContextMenu.InvokeVerb("runas", SlimContentPage.SelectedItem.ItemPath);
         }
 
         public virtual async void RunAsAnotherUser(RoutedEventArgs e)
         {
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
-            {
-                await connection.SendMessageAsync(new ValueSet()
-                {
-                    { "Arguments", "InvokeVerb" },
-                    { "FilePath", SlimContentPage.SelectedItem.ItemPath },
-                    { "Verb", "runasuser" }
-                });
-            }
+            await ContextMenu.InvokeVerb("runasuser", SlimContentPage.SelectedItem.ItemPath);
         }
 
         public virtual void SidebarPinItem(RoutedEventArgs e)

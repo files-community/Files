@@ -358,7 +358,7 @@
     <value>Введіть назву</value>
   </data>
   <data name="RenameDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Введіть назву елемента</value>
+    <value>Введіть назву</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Зберегти</value>
@@ -1393,10 +1393,10 @@
     <value>Немає відомостей.</value>
   </data>
   <data name="PropertyItemName" xml:space="preserve">
-    <value>Ім'я елемента</value>
+    <value>Ім’я</value>
   </data>
   <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
-    <value>Відкріпити від Обраного</value>
+    <value>Видалити з обраного</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Мережні диски</value>
@@ -1588,13 +1588,13 @@
     <value>Встановити як шлях збереження за замовчуванням</value>
   </data>
   <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
-    <value>Вилучення</value>
+    <value>Вилучити</value>
   </data>
   <data name="LibraryNoLocations.Text" xml:space="preserve">
     <value>Локація відсутня</value>
   </data>
   <data name="ErrorInputEmpty" xml:space="preserve">
-    <value>Поле вводу не повинно бути порожнім!</value>
+    <value>Поле вводу не повинно бути пустим!</value>
   </data>
   <data name="ErrorNameInputRestrictedCharacters" xml:space="preserve">
     <value>Ім'я не повинно містити таких символів: \ / : * ? " &lt; &gt; |</value>
@@ -1615,7 +1615,7 @@
     <value>Відкритий Сховище Даних</value>
   </data>
   <data name="DrivesWidgetOpenStorageSenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Відкрити Сховище Даних</value>
+    <value>Відкритий Сховище Даних</value>
   </data>
   <data name="Copy" xml:space="preserve">
     <value>Копіювати</value>
@@ -2406,13 +2406,13 @@
     <value>Стовпці</value>
   </data>
   <data name="LargeIcons" xml:space="preserve">
-    <value>Великі піктограми</value>
+    <value>Величезні піктограми</value>
   </data>
   <data name="MediumIcons" xml:space="preserve">
-    <value>Середні піктограми</value>
+    <value>Великі піктограми</value>
   </data>
   <data name="SmallIcons" xml:space="preserve">
-    <value>Дрібні піктограми</value>
+    <value>Середні піктограми</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Плитки</value>
@@ -2427,10 +2427,10 @@
     <value>Показати розділ Улюблені</value>
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Відкрити папки в новій вкладці</value>
+    <value>Відкривати папки у новій вкладці</value>
   </data>
   <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Закріпити Кошик у розділ Улюблені</value>
+    <value>Додати Кошик до вибраного</value>
   </data>
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Мови</value>
@@ -2439,7 +2439,7 @@
     <value>Показати розділ хмарних дисків</value>
   </data>
   <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Показувати діалогове вікно коли видаляєш файли або папки</value>
+    <value>Показувати вікно підтвердження при видаленні файлів або папок</value>
   </data>
   <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Показати розділ дисків</value>
@@ -2595,7 +2595,7 @@
     <value>Зареєструватися для перезавантаження</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
-    <value>У режимі адміністратора</value>
+    <value>Запуск від імені адміністратора</value>
   </data>
   <data name="RunCompatibilityTroubleShooter" xml:space="preserve">
     <value>Запустити засіб усунення неполадок, пов'язаних із сумісністю</value>
@@ -2730,7 +2730,7 @@
     <value>Показати розділ тегів</value>
   </data>
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Показувати розділ тегів</value>
+    <value>Показати розділ тегів</value>
   </data>
   <data name="UseCompactStyles" xml:space="preserve">
     <value>Використовувати компактні стилі у макеті відомостей</value>
@@ -2763,7 +2763,7 @@
     <value>Стовпці по розміру вмісту</value>
   </data>
   <data name="Contributors" xml:space="preserve">
-    <value>Розробники</value>
+    <value>Автори</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
     <value>Адаптивний</value>

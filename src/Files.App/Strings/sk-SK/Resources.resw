@@ -244,7 +244,7 @@
     <value>Prispôsobenie</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
-    <value>Experimentálne</value>
+    <value>Experimentálne funkcie</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Predvoľby</value>
@@ -358,7 +358,7 @@
     <value>Zadajte názov položky</value>
   </data>
   <data name="RenameDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Zadejte názov položky</value>
+    <value>Zadajte názov položky</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Nastavit názov</value>
@@ -1272,7 +1272,7 @@
     <value>Nový panel</value>
   </data>
   <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
-    <value>Otvoriť v sekundárnom paneli</value>
+    <value>Otvoriť v novom paneli</value>
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Dvojpanelové rozhranie</value>
@@ -1296,13 +1296,13 @@
     <value>Náhľad</value>
   </data>
   <data name="NavToolbarLargeIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>Velké ikony</value>
+    <value>Veľké ikony</value>
   </data>
   <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>Veľké ikony (Ctrl+Shift+5)</value>
   </data>
   <data name="NavToolbarMediumIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>Střední ikony</value>
+    <value>Stredné ikony</value>
   </data>
   <data name="NavToolbarMediumIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>Stredné ikony (Ctrl+Shift+4)</value>
@@ -1444,7 +1444,7 @@
     <value>Nevypočítané</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
-    <value>Neznámy</value>
+    <value>Neznáma</value>
   </data>
   <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>Viacnásobný výber</value>
@@ -1477,7 +1477,7 @@
     <value>Vymeniteľné úložné zariadenie</value>
   </data>
   <data name="DriveTypeUnknown" xml:space="preserve">
-    <value>Neznámy</value>
+    <value>Neznáma</value>
   </data>
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
     <value>Virtuálny disk</value>
@@ -1486,7 +1486,7 @@
     <value>Datum vytvorenia</value>
   </data>
   <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Dalšie možnosti</value>
+    <value>Daľšie možnosti</value>
   </data>
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
     <value>Mapovať sieťový disk</value>
@@ -1591,7 +1591,7 @@
     <value>Nastaviť ako predvolenú cestu</value>
   </data>
   <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
-    <value>Odobrať</value>
+    <value>Vymazať</value>
   </data>
   <data name="LibraryNoLocations.Text" xml:space="preserve">
     <value>Žiadne umiestnenia</value>
@@ -1771,7 +1771,7 @@
     <value>Zoskupiť podľa</value>
   </data>
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
-    <value>Meno/názov</value>
+    <value>Názov</value>
   </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Dátum zmeny</value>
@@ -2098,7 +2098,7 @@
     <value>Nemáte povolenia na zobrazenie bezpečnostných vlastností tohto objektu. Môžete sa pokúsiť prevziať vlastníctvo tohto objektu.</value>
   </data>
   <data name="SecurityAdvancedSpecialLabel.Text" xml:space="preserve">
-    <value>Špeciálne</value>
+    <value>Špecialne</value>
   </data>
   <data name="SecurityAdvancedFolderFiles.Text" xml:space="preserve">
     <value>Tento priečinok a súbory</value>
@@ -2340,7 +2340,7 @@ Centrum aplikácií používame na sledovanie používania aplikácií, vyhľad�
     <value>Otvoriť nadradený priečinok</value>
   </data>
   <data name="FileTagUnknown" xml:space="preserve">
-    <value>Neznámy</value>
+    <value>Neznáma</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
     <value>Značka súboru</value>
@@ -2493,7 +2493,7 @@ Centrum aplikácií používame na sledovanie používania aplikácií, vyhľad�
     <value>Použiť Files ako dialógové okno Otvorenia súboru</value>
   </data>
   <data name="Tag" xml:space="preserve">
-    <value>Značka</value>
+    <value>Značka súboru</value>
   </data>
   <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
     <value>Otvoriť priečinky jediným kliknutím</value>
@@ -2658,7 +2658,7 @@ Centrum aplikácií používame na sledovanie používania aplikácií, vyhľad�
     <value>bajtov</value>
   </data>
   <data name="Extract" xml:space="preserve">
-    <value>Extrakcia</value>
+    <value>Rozbaliť</value>
   </data>
   <data name="ExtractFiles" xml:space="preserve">
     <value>Extrahovať súbory</value>
