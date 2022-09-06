@@ -453,10 +453,12 @@ namespace Files.App.Views.LayoutModes
         private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             var clickedItem = e.OriginalSource as FrameworkElement;
-            if (clickedItem?.DataContext is ListedItem item
-                 && !UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)
+            if (clickedItem?.DataContext is ListedItem item)
             {
-                NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+                if (!UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)
+                {
+                    NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+                }
             }
             else
             {
