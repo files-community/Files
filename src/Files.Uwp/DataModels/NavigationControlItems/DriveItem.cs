@@ -12,6 +12,7 @@ using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
 using Files.Shared.Extensions;
+using System.ComponentModel;
 
 namespace Files.Uwp.DataModels.NavigationControlItems
 {
@@ -69,11 +70,7 @@ namespace Files.Uwp.DataModels.NavigationControlItems
         public ByteSize SpaceUsed
         {
             get => spaceUsed;
-            set
-            {
-                SetProperty(ref spaceUsed, value);
-                HoverDisplayText = (Path.Contains("?", StringComparison.Ordinal) ? Text : Path) + $"\n{"PropertiesDriveUsedSpace/Text".GetLocalized()} {spaceUsed.ToSizeString()}";
-            }
+            set => SetProperty(ref spaceUsed, value);
         }
 
         public Visibility ShowDriveDetails
@@ -147,6 +144,7 @@ namespace Files.Uwp.DataModels.NavigationControlItems
         public DriveItem()
         {
             ItemType = NavigationControlItemType.CloudDrive;
+            PropertyChanged += SizeChanged;
         }
 
         public static async Task<DriveItem> CreateFromPropertiesAsync(StorageFolder root, string deviceId, DriveType type, IRandomAccessStream imageStream = null)
@@ -250,6 +248,15 @@ namespace Files.Uwp.DataModels.NavigationControlItems
                 }
             }
             Icon = await IconData.ToBitmapAsync();
+        }
+
+        private void SizeChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(SpaceUsed))
+            {
+                HoverDisplayText = (Path.Contains("?", StringComparison.Ordinal) ? Text : Path) +
+                    $"\n{"PropertiesDriveUsedSpace/Text".GetLocalized()} {spaceUsed.ToSizeString()}";
+            }
         }
     }
 
