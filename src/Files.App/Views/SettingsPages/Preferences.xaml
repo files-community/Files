@@ -176,6 +176,27 @@
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsListAndSortDirectoriesAlongsideFiles}" HorizontalAlignment="Stretch">
+							<local:SettingsBlockControl.Icon>
+								<FontIcon Glyph="&#xE174;" />
+							</local:SettingsBlockControl.Icon>
+							<ToggleSwitch
+								AutomationProperties.Name="{helpers:ResourceString Name=SettingsListAndSortDirectoriesAlongsideFiles}"
+								IsOn="{Binding ListAndSortDirectoriesAlongsideFiles, Mode=TwoWay}"
+								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						</local:SettingsBlockControl>
+					</StackPanel>
+				</local:SettingsBlockControl.ExpandableContent>
+			</local:SettingsBlockControl>
+
+
+			<!--  Click to open settings  -->
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=BehaviorForOpeningFilesAndFolders}" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xED25;" />
+				</local:SettingsBlockControl.Icon>
+				<local:SettingsBlockControl.ExpandableContent>
+					<StackPanel>
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsOpenFilesWithOneClick}" HorizontalAlignment="Stretch">
 							<local:SettingsBlockControl.Icon>
 								<FontIcon Glyph="&#xE8B0;" />
@@ -196,19 +217,18 @@
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsListAndSortDirectoriesAlongsideFiles}" HorizontalAlignment="Stretch">
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=OpenFolderWithOneClickColumnsLayout}" HorizontalAlignment="Stretch">
 							<local:SettingsBlockControl.Icon>
-								<FontIcon Glyph="&#xE174;" />
+								<FontIcon Glyph="&#xE8B0;" />
 							</local:SettingsBlockControl.Icon>
 							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=SettingsListAndSortDirectoriesAlongsideFiles}"
-								IsOn="{Binding ListAndSortDirectoriesAlongsideFiles, Mode=TwoWay}"
+								AutomationProperties.Name="{helpers:ResourceString Name=OpenFolderWithOneClickColumnsLayout}"
+								IsOn="{Binding ColumnLayoutOpenFoldersWithOneClick, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 					</StackPanel>
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
-
 
 			<!--  Hidden file and folder settings  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=HiddenFilesAndFolders}" HorizontalAlignment="Stretch">
