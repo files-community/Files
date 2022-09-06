@@ -1,8 +1,10 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.EventArguments;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Helpers.XamlHelpers;
 using Files.App.Interacts;
+using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
 using Files.App.UserControls.Selection;
 using CommunityToolkit.WinUI.UI;
@@ -24,6 +26,8 @@ namespace Files.App.Views.LayoutModes
 {
     public sealed partial class ColumnViewBase : BaseLayout
     {
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+
         protected override uint IconSize => Browser.ColumnViewBrowser.ColumnViewSizeSmall;
 
         protected override ItemsControl ItemsControl => FileList;
@@ -455,9 +459,19 @@ namespace Files.App.Views.LayoutModes
             var clickedItem = e.OriginalSource as FrameworkElement;
             if (clickedItem?.DataContext is ListedItem item)
             {
-                if (!UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)
+                if (!UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick
+                    && item.PrimaryItemAttribute == StorageItemTypes.File)
                 {
                     NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+                }
+                else if (UserSettingsService.PreferencesSettingsService.OpenFoldersWithDoubleClickColumn
+                    && item.PrimaryItemAttribute == StorageItemTypes.Folder)
+                {
+                    ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
+                }
+                else
+                {
+                    ParentShellPageInstance.Up_Click();
                 }
             }
             else
@@ -526,7 +540,8 @@ namespace Files.App.Views.LayoutModes
                         CommitRename(textBox);
                     }
                 }
-                if (item != null && item.PrimaryItemAttribute == StorageItemTypes.Folder)
+                if (item != null && item.PrimaryItemAttribute == StorageItemTypes.Folder &&
+                    !UserSettingsService.PreferencesSettingsService.OpenFoldersWithDoubleClickColumn)
                 {
                     ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
                 }

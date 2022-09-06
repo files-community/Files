@@ -186,17 +186,27 @@
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsOpenFoldersWithOneClick}" HorizontalAlignment="Stretch">
-							<local:SettingsBlockControl.Icon>
-								<FontIcon Glyph="&#xE8B0;" />
-							</local:SettingsBlockControl.Icon>
-							<ToggleSwitch
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsOpenFoldersWithOneClick}" HorizontalAlignment="Stretch">
+                            <local:SettingsBlockControl.Icon>
+                                <FontIcon Glyph="&#xE8B0;" />
+                            </local:SettingsBlockControl.Icon>
+                            <ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenFoldersWithOneClick}"
 								IsOn="{Binding OpenFoldersWithOneClick, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
+                        </local:SettingsBlockControl>
+                        
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsOpenFolderWithDoubleClickColumnsLayout}" HorizontalAlignment="Stretch">
+                            <local:SettingsBlockControl.Icon>
+                                <FontIcon Glyph="&#xE8B0;" />
+                            </local:SettingsBlockControl.Icon>
+                            <ToggleSwitch
+								AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenFolderWithDoubleClickColumnsLayout}"
+								IsOn="{Binding OpenFoldersWithDoubleClickColumn, Mode=TwoWay}"
+								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                        </local:SettingsBlockControl>
 
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsListAndSortDirectoriesAlongsideFiles}" HorizontalAlignment="Stretch">
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsListAndSortDirectoriesAlongsideFiles}" HorizontalAlignment="Stretch">
 							<local:SettingsBlockControl.Icon>
 								<FontIcon Glyph="&#xE174;" />
 							</local:SettingsBlockControl.Icon>
