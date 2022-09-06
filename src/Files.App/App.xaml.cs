@@ -148,11 +148,7 @@ namespace Files.App
         private static async Task EnsureSettingsAndConfigurationAreBootstrapped()
         {
             AppSettings ??= new SettingsViewModel();
-
             ExternalResourcesHelper ??= new ExternalResourcesHelper();
-            await ExternalResourcesHelper.LoadSelectedTheme();
-            new AppearanceViewModel().SetCompactStyles(updateTheme: false);
-
             JumpList ??= new JumpListManager();
             RecentItemsManager ??= new RecentItemsManager();
             AppModel ??= new AppModel();
@@ -166,9 +162,11 @@ namespace Files.App
             FileTagsManager ??= new FileTagsManager();
             SidebarPinnedController ??= new SidebarPinnedController();
             TerminalController ??= new TerminalController();
-        }
 
-        private static async Task StartAppCenter()
+			new AppearanceViewModel().SetCompactStyles(updateTheme: false);
+		}
+
+		private static async Task StartAppCenter()
         {
             try
             {
