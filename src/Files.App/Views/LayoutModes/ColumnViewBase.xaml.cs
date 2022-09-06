@@ -303,10 +303,9 @@ namespace Files.App.Views.LayoutModes
 		private async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x != null).ToList();
+
 			if (SelectedItems.Count == 1)
-			{
 				await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance, true);
-			}
 		}
 
 		private void FileList_RightTapped(object sender, RightTappedRoutedEventArgs e)
@@ -434,24 +433,26 @@ namespace Files.App.Views.LayoutModes
 
 		protected override void Page_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
 		{
-			if (ParentShellPageInstance != null)
-			{
-				if (ParentShellPageInstance.CurrentPageType == typeof(ColumnViewBase) && !IsRenamingItem)
-				{
-					// Don't block the various uses of enter key (key 13)
-					var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;
-					if (Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Enter) == CoreVirtualKeyStates.Down
-						|| focusedElement is Button
-						|| focusedElement is TextBox
-						|| focusedElement is PasswordBox
-						|| DependencyObjectHelpers.FindParent<ContentDialog>(focusedElement) != null)
-					{
-						return;
-					}
+			if (ParentShellPageInstance == null)
+				return;
 
-					base.Page_CharacterReceived(sender, args);
-				}
-			}
+			if (ParentShellPageInstance.CurrentPageType != typeof(ColumnViewBase) || IsRenamingItem)
+				return;
+
+			// Don't block the various uses of enter key (key 13)
+			var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;
+
+			if
+			(
+				Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Enter) == CoreVirtualKeyStates.Down ||
+				focusedElement is Button ||
+				focusedElement is TextBox ||
+				focusedElement is PasswordBox ||
+				DependencyObjectHelpers.FindParent<ContentDialog>(focusedElement) != null
+			)
+				return;
+
+			base.Page_CharacterReceived(sender, args);
 		}
 
 		private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
@@ -495,19 +496,15 @@ namespace Files.App.Views.LayoutModes
 		private void HandleRightClick(object sender, HoldingRoutedEventArgs e)
 		{
 			var objectPressed = ((FrameworkElement)e.OriginalSource).DataContext as ListedItem;
+
 			if (objectPressed != null)
-			{
-				{
-					return;
-				}
-			}
+				return;
+
 			// Check if RightTapped row is currently selected
 			if (IsItemSelected)
 			{
 				if (SelectedItems.Contains(objectPressed))
-				{
 					return;
-				}
 			}
 
 			// The following code is only reachable when a user RightTapped an unselected row
@@ -521,9 +518,8 @@ namespace Files.App.Views.LayoutModes
 			var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
 
 			if (ctrlPressed || shiftPressed) // Allow for Ctrl+Shift selection
-			{
 				return;
-			}
+
 			// Check if the setting to open items with a single click is turned on
 			if (item != null
 				&& (UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File))
@@ -557,10 +553,10 @@ namespace Files.App.Views.LayoutModes
 		private void StackPanel_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
 			var parentContainer = DependencyObjectHelpers.FindParent<ListViewItem>(e.OriginalSource as DependencyObject);
+			
 			if (parentContainer.IsSelected)
-			{
 				return;
-			}
+
 			// The following code is only reachable when a user RightTapped an unselected row
 			ItemManipulationModel.SetSelectedItem(FileList.ItemFromContainer(parentContainer) as ListedItem);
 		}
