@@ -58,7 +58,7 @@ namespace Files.Backend.Services.Settings
         /// <summary>
         /// Gets or sets a value indicating whether or not folders should open with two clicks in ColumnsLayout.
         /// </summary>
-        bool OpenFoldersWithDoubleClickColumn { get; set; }
+        bool ColumnLayoutOpenFoldersWithOneClick { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether or not to search unindexed items.

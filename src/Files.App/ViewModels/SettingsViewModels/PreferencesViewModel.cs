@@ -615,14 +615,14 @@ namespace Files.App.ViewModels.SettingsViewModels
             }
         }
 
-        public bool OpenFoldersWithDoubleClickColumn
+        public bool ColumnLayoutOpenFoldersWithOneClick
         {
-            get => UserSettingsService.PreferencesSettingsService.OpenFoldersWithDoubleClickColumn;
+            get => UserSettingsService.PreferencesSettingsService.ColumnLayoutOpenFoldersWithOneClick;
             set
             {
-                if (value != UserSettingsService.PreferencesSettingsService.OpenFoldersWithDoubleClickColumn)
+                if (value != UserSettingsService.PreferencesSettingsService.ColumnLayoutOpenFoldersWithOneClick)
                 {
-                    UserSettingsService.PreferencesSettingsService.OpenFoldersWithDoubleClickColumn = value;
+                    UserSettingsService.PreferencesSettingsService.ColumnLayoutOpenFoldersWithOneClick = value;
                     OnPropertyChanged();
                 }
             }

@@ -2825,7 +2825,10 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   <data name="Lockscreen" xml:space="preserve">
     <value>Lockscreen</value>
   </data>
-  <data name="SettingsOpenFolderWithDoubleClickColumnsLayout" xml:space="preserve">
-    <value>Open folders with double click in Columns Layout</value>
+  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
+    <value>Open folders with a single click in the Columns Layout</value>
+  </data>
+  <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
+    <value>Behavior for opening files and folders</value>
   </data>
 </root>

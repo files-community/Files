@@ -74,9 +74,9 @@ namespace Files.App.ServicesImplementation.Settings
             set => Set(value);
         }
 
-        public bool OpenFoldersWithDoubleClickColumn
+        public bool ColumnLayoutOpenFoldersWithOneClick
         {
-            get => Get(false);
+            get => Get(true);
             set => Set(value);
         }
 
@@ -153,7 +153,7 @@ namespace Files.App.ServicesImplementation.Settings
                 case nameof(ShowDotFiles):
                 case nameof(OpenFilesWithOneClick):
                 case nameof(OpenFoldersWithOneClick):
-                case nameof(OpenFoldersWithDoubleClickColumn):
+                case nameof(ColumnLayoutOpenFoldersWithOneClick):
                 case nameof(SearchUnindexedItems):
                 case nameof(ForceLayoutPreferencesOnAllDirectories):
                 case nameof(ShowFolderSize):
@@ -179,7 +179,7 @@ namespace Files.App.ServicesImplementation.Settings
             Analytics.TrackEvent($"{nameof(ShowDotFiles)}, {ShowDotFiles}");
             Analytics.TrackEvent($"{nameof(OpenFilesWithOneClick)}, {OpenFilesWithOneClick}");
             Analytics.TrackEvent($"{nameof(OpenFoldersWithOneClick)}, {OpenFoldersWithOneClick}");
-            Analytics.TrackEvent($"{nameof(OpenFoldersWithDoubleClickColumn)}, {OpenFoldersWithDoubleClickColumn}");
+            Analytics.TrackEvent($"{nameof(ColumnLayoutOpenFoldersWithOneClick)}, {ColumnLayoutOpenFoldersWithOneClick}");
             Analytics.TrackEvent($"{nameof(SearchUnindexedItems)}, {SearchUnindexedItems}");
             Analytics.TrackEvent($"{nameof(ForceLayoutPreferencesOnAllDirectories)}, {ForceLayoutPreferencesOnAllDirectories}");
             Analytics.TrackEvent($"{nameof(ShowFolderSize)}, {ShowFolderSize}");
