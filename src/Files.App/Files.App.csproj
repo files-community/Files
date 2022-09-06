@@ -199,6 +199,7 @@
     <OutputPath>bin\x64\Sideload\</OutputPath>
     <DefineConstants>TRACE;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN;SIDELOAD;CODE_ANALYSIS</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	<PublishReadyToRun>true</PublishReadyToRun>
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
     <UseVSHostingProcess>false</UseVSHostingProcess>
