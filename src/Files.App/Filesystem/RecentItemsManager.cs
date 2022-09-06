@@ -23,7 +23,6 @@ namespace Files.App.Filesystem
     {
         private readonly ILogger logger = Ioc.Default.GetService<ILogger>();
         private const string QuickAccessGuid = "::{679f85cb-0220-4080-b29b-5540cc05aab6}";
-        private static string RecentItemsPath = Environment.GetFolderPath(Environment.SpecialFolder.Recent);
 
         public EventHandler<NotifyCollectionChangedEventArgs> RecentFilesChanged;
         public EventHandler<NotifyCollectionChangedEventArgs> RecentFoldersChanged;
@@ -116,7 +115,7 @@ namespace Files.App.Filesystem
         {
             var recentItems = new List<RecentItem>();
             var excludeMask = FileAttributes.Hidden;
-            var linkFilePaths = Directory.EnumerateFiles(RecentItemsPath).Where(f => (new FileInfo(f).Attributes & excludeMask) == 0);
+            var linkFilePaths = Directory.EnumerateFiles(CommonPaths.RecentItemsPath).Where(f => (new FileInfo(f).Attributes & excludeMask) == 0);
 
             foreach (var linkFilePath in linkFilePaths)
             {
