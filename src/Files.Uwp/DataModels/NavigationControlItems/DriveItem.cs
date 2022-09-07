@@ -36,6 +36,7 @@ namespace Files.Uwp.DataModels.NavigationControlItems
             set
             {
                 path = value;
+                UpdateHoverDisplayText();
             }
         }
 
@@ -69,7 +70,11 @@ namespace Files.Uwp.DataModels.NavigationControlItems
         public ByteSize SpaceUsed
         {
             get => spaceUsed;
-            set => SetProperty(ref spaceUsed, value);
+            set
+            {
+                SetProperty(ref spaceUsed, value);
+                UpdateHoverDisplayText();
+            }
         }
 
         public Visibility ShowDriveDetails
@@ -139,7 +144,6 @@ namespace Files.Uwp.DataModels.NavigationControlItems
         public DriveItem()
         {
             ItemType = NavigationControlItemType.CloudDrive;
-            PropertyChanged += SizeChanged;
         }
 
         public static async Task<DriveItem> CreateFromPropertiesAsync(StorageFolder root, string deviceId, DriveType type, IRandomAccessStream imageStream = null)
@@ -219,7 +223,7 @@ namespace Files.Uwp.DataModels.NavigationControlItems
             var result = Type.CompareTo((other as DriveItem)?.Type ?? Type);
             if (result == 0)
                 return Text.CompareTo(other.Text);
-            
+
             return result;
         }
 
@@ -239,11 +243,10 @@ namespace Files.Uwp.DataModels.NavigationControlItems
             Icon = await IconData.ToBitmapAsync();
         }
 
-        private void SizeChanged(object sender, PropertyChangedEventArgs e)
+        private void UpdateHoverDisplayText()
         {
-            if (e.PropertyName == nameof(SpaceUsed) || e.PropertyName == nameof(Path))
-                HoverDisplayText = $"{"PropertiesItemPath/Text".GetLocalized()} {(Path.Contains("?", StringComparison.Ordinal) ? Text : Path)}" +
-                    $"\n{"PropertiesDriveUsedSpace/Text".GetLocalized()} {spaceUsed.ToSizeString()}";
+            HoverDisplayText = $"{"PropertiesItemPath/Text".GetLocalized()} {(Path.Contains("?", StringComparison.Ordinal) ? Text : Path)}" +
+                $"\n{"PropertiesDriveUsedSpace/Text".GetLocalized()} {spaceUsed.ToSizeString()}";
         }
     }
 
