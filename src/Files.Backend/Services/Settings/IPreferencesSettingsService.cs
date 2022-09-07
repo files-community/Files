@@ -56,19 +56,19 @@ namespace Files.Backend.Services.Settings
         bool OpenFoldersWithOneClick { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether or not folders should open with two clicks in ColumnsLayout.
+        /// </summary>
+        bool ColumnLayoutOpenFoldersWithOneClick { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether or not to search unindexed items.
         /// </summary>
         bool SearchUnindexedItems { get; set; }
 
         /// <summary>
-        /// Enables saving a unique layout mode, gridview size and sort direction per folder
+        /// Forces default directory preferences on all folders
         /// </summary>
-        bool AreLayoutPreferencesPerFolder { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not to enable file tags feature.
-        /// </summary>
-        bool AreFileTagsEnabled { get; set; }
+        bool ForceLayoutPreferencesOnAllDirectories { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether or not to show folder size.

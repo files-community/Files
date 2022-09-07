@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -53,7 +54,14 @@ namespace Files.Shared.Extensions
                 var defaultValue = defaultValueFunc();
                 if (defaultValue is Task<TValue?> value)
                 {
-                    dictionary.Add(key, value);
+                    if (dictionary is ConcurrentDictionary<TKey, Task<TValue?>> cDict)
+                    {
+                        cDict.TryAdd(key, value);
+                    }
+                    else
+                    {
+                        dictionary.Add(key, value);
+                    }
                 }
                 return defaultValue;
             }
@@ -77,9 +85,6 @@ namespace Files.Shared.Extensions
                 }
             }
         }
-
-        public static IEnumerable<T> DistinctBy<T, TKey>(this IEnumerable<T> items, Func<T, TKey> property)
-            => items.GroupBy(property).Select(x => x.First());
 
         public static IEnumerable<T> IntersectBy<T, TKey>(this IEnumerable<T> items, IEnumerable<T> others, Func<T, TKey> keySelector)
             => items.Join(others.Select(keySelector), keySelector, id => id, (o, id) => o);

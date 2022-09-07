@@ -32,7 +32,7 @@ variables:
 - name: solution
   value: '**/*.sln'
 - name: buildPlatform
-  value: 'x86|x64|arm64'
+  value: 'x64'
 - name: buildConfiguration
   value: 'Release'
 - name: sideloadBuildConfiguration
@@ -79,7 +79,7 @@ jobs:
     inputs:
       SourceFolder: '$(Agent.TempDirectory)'
       Contents: '$(mapsDevKey.secureFilePath)'
-      TargetFolder: '$(Build.SourcesDirectory)\src\Files.Uwp\Resources'
+      TargetFolder: '$(Build.SourcesDirectory)\src\Files.App\Resources'
       overWrite: true
 
   - task: DownloadSecureFile@1
@@ -93,13 +93,13 @@ jobs:
     inputs:
       SourceFolder: '$(Agent.TempDirectory)'
       Contents: '$(appCenterDevKey.secureFilePath)'
-      TargetFolder: '$(Build.SourcesDirectory)\src\Files.Uwp\Resources'
+      TargetFolder: '$(Build.SourcesDirectory)\src\Files.App\Resources'
       overWrite: true
 
   - task: UseDotNet@2
     inputs:
       packageType: sdk
-      version: 6.0.100
+      version: 6.0.400
 
   - task: NuGetToolInstaller@1
 
@@ -118,7 +118,7 @@ jobs:
   - task: MSBuild@1
     inputs:
       solution: '**/*.wapproj'
-      platform: 'x86'
+      platform: 'x64'
       configuration: '$(sideloadBuildConfiguration)'
       msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxLogTelemetryFromSideloadingScript=False /p:GenerateAppInstallerFile=True /p:AppInstallerUri=https://cdn.files.community/files/${{parameters.releaseBranch}}/ /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=Sideload /p:AppxPackageSigningEnabled=true /p:PackageCertificateKeyFile="$(caCertificate.secureFilePath)" /p:PackageCertificatePassword="$(signingCert.password)" /p:PackageCertificateThumbprint=""'
       maximumCpuCount: true
@@ -193,7 +193,7 @@ jobs:
     inputs:
       SourceFolder: '$(Agent.TempDirectory)'
       Contents: '$(mapsDevKey.secureFilePath)'
-      TargetFolder: '$(Build.SourcesDirectory)\src\Files.Uwp\Resources'
+      TargetFolder: '$(Build.SourcesDirectory)\src\Files.App\Resources'
       overWrite: true
 
 # Adds the AppCenter token to the project
@@ -207,13 +207,13 @@ jobs:
     inputs:
       SourceFolder: '$(Agent.TempDirectory)'
       Contents: '$(appCenterDevKey.secureFilePath)'
-      TargetFolder: '$(Build.SourcesDirectory)\src\Files.Uwp\Resources'
+      TargetFolder: '$(Build.SourcesDirectory)\src\Files.App\Resources'
       overWrite: true
 
   - task: UseDotNet@2
     inputs:
       packageType: sdk
-      version: 6.0.100
+      version: 6.0.400
 
   - task: NuGetToolInstaller@1
 
@@ -226,7 +226,7 @@ jobs:
   - task: MSBuild@1
     inputs:
       solution: '**/*.wapproj'
-      platform: 'x86'
+      platform: 'x64'
       configuration: '$(buildConfiguration)'
       msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
       maximumCpuCount: true

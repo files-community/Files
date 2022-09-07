@@ -47,12 +47,9 @@ namespace Files.FullTrust
                     new DriveHandler(),
                     new LibrariesHandler(),
                     new FileTagsHandler(),
-                    new ApplicationLaunchHandler(),
                     new NetworkDrivesHandler(),
                     new FileOperationsHandler(),
-                    new ContextMenuHandler(),
                     new QuickLookHandler(),
-                    new Win32MessageHandler(),
                     new InstallOperationsHandler(),
                     new DesktopWallpaperHandler(),
                     new RecentItemsHandler(),
@@ -101,9 +98,8 @@ namespace Files.FullTrust
 
         private static async void InitializeAppServiceConnection()
         {
-            var packageSid = ApplicationData.Current.LocalSettings.Values["PackageSid"];
             connection = new NamedPipeClientStream(".",
-                $"Sessions\\{Process.GetCurrentProcess().SessionId}\\AppContainerNamedObjects\\{packageSid}\\FilesInteropService_ServerPipe",
+                $"LOCAL\\FilesInteropService_ServerPipe",
                 PipeDirection.InOut, PipeOptions.Asynchronous);
 
             try

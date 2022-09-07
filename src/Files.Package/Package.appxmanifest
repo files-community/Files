@@ -9,7 +9,7 @@
          xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4"
          xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
          IgnorableNamespaces="uap uap5 mp rescap desktop4 desktop">
-    <Identity Name="FilesDev" Publisher="CN=Files" Version="2.3.6.0" />
+    <Identity Name="FilesDev" Publisher="CN=Files" Version="2.3.22.0" />
     <Properties>
         <DisplayName>Files - Dev</DisplayName>
         <PublisherDisplayName>Yair A</PublisherDisplayName>
@@ -20,7 +20,47 @@
         <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.17763.0" />
     </Dependencies>
     <Resources>
-        <Resource Language="x-generate" />
+        <Resource Language="en-US"/>
+        <Resource Language="af"/>
+        <Resource Language="ar"/>
+        <Resource Language="bg"/>
+        <Resource Language="ca"/>
+        <Resource Language="cs-CZ"/>
+        <Resource Language="da"/>
+        <Resource Language="da-DK"/>
+        <Resource Language="de-DE"/>
+        <Resource Language="el"/>
+        <Resource Language="en-GB"/>
+        <Resource Language="es-ES"/>
+        <Resource Language="es-419"/>
+        <Resource Language="fil-PH"/>
+        <Resource Language="fr-FR"/>
+        <Resource Language="he-IL"/>
+        <Resource Language="hi-IN"/>
+        <Resource Language="hr-HR"/>
+        <Resource Language="hu-HU"/>
+        <Resource Language="id-ID"/>
+        <Resource Language="it-IT"/>
+        <Resource Language="ja-JP"/>
+        <Resource Language="ka"/>
+        <Resource Language="ko-KR"/>
+        <Resource Language="lv-LV"/>
+        <Resource Language="nb-NO"/>
+        <Resource Language="nl-NL"/>
+        <Resource Language="or-IN"/>
+        <Resource Language="pl-PL"/>
+        <Resource Language="pt-BR"/>
+        <Resource Language="pt-PT"/>
+        <Resource Language="ru-RU"/>
+        <Resource Language="sk-SK"/>
+        <Resource Language="sv-SE"/>
+        <Resource Language="ta"/>
+        <Resource Language="th-TH"/>
+        <Resource Language="tr-TR"/>
+        <Resource Language="uk-UA"/>
+        <Resource Language="vi"/>
+        <Resource Language="zh-Hans"/>
+        <Resource Language="zh-Hant"/>
     </Resources>
     <Applications>
         <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="$targetentrypoint$" desktop4:SupportsMultipleInstances="true">
@@ -52,7 +92,7 @@
               </uap:Extension>
               <uap5:Extension
                 Category="windows.appExecutionAlias"
-                Executable="files.exe"
+                Executable="Files.App\files.exe"
                 EntryPoint="files.App">
                   <uap5:AppExecutionAlias>
                       <uap5:ExecutionAlias Alias="files.exe"/>
@@ -60,7 +100,7 @@
               </uap5:Extension>
               <uap5:Extension
                 Category="windows.startupTask"
-                Executable="files.exe"
+                Executable="Files.App\files.exe"
                 EntryPoint="files.App">
                 <uap5:StartupTask
                   TaskId="3AA55462-A5FA-4933-88C4-712D0B6CDEBB"
@@ -81,6 +121,17 @@
             </Extensions>
         </Application>
     </Applications>
+  
+    <!-- To host the BgTaskComponent, you must add this activatable class entry -->
+    <Extensions>
+      <Extension Category="windows.activatableClass.inProcessServer">
+        <InProcessServer>
+          <Path>Files.App\WinRT.Host.dll</Path>
+          <ActivatableClass ActivatableClassId="BackgroundTasks.UpdateTask" ThreadingModel="both" />
+        </InProcessServer>
+      </Extension>
+    </Extensions>
+  
     <Capabilities>
         <!--<rescap:Capability Name="packageQuery"/>-->
         <rescap:Capability Name="runFullTrust" />

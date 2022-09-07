@@ -23,7 +23,7 @@ namespace Files.Shared
 
     public class Win32ContextMenuItem
     {
-        public string IconBase64 { get; set; }
+        public byte[] Icon { get; set; }
         public int ID { get; set; } // Valid only in current menu to invoke item
         public string Label { get; set; }
         public string CommandString { get; set; }
