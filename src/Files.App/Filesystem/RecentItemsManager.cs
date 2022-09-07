@@ -134,6 +134,10 @@ namespace Files.App.Filesystem
                     // occurs when shortcut or shortcut target is deleted and accessed (link.Target)
                     // consequently, we shouldn't include the item as a recent item
                 }
+                catch (Exception ex)
+                {
+                    App.Logger.Warn(ex, ex.Message);
+                }
             }
 
             return recentItems;
