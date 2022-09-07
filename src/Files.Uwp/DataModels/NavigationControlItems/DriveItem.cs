@@ -36,7 +36,6 @@ namespace Files.Uwp.DataModels.NavigationControlItems
             set
             {
                 path = value;
-                HoverDisplayText = Path.Contains("?", StringComparison.Ordinal) ? Text : Path;
             }
         }
 
@@ -121,13 +120,9 @@ namespace Files.Uwp.DataModels.NavigationControlItems
                     if (Type == DriveType.Fixed)
                     {
                         if (percentageUsed >= Constants.Widgets.Drives.LowStorageSpacePercentageThreshold)
-                        {
                             ShowStorageSense = true;
-                        }
                         else
-                        {
                             ShowStorageSense = false;
-                        }
                     }
                 }
             }
@@ -152,9 +147,7 @@ namespace Files.Uwp.DataModels.NavigationControlItems
             var item = new DriveItem();
 
             if (imageStream != null)
-            {
                 item.IconData = await imageStream.ToByteArrayAsync();
-            }
 
             item.Text = root.DisplayName;
             item.Type = type;
@@ -206,9 +199,7 @@ namespace Files.Uwp.DataModels.NavigationControlItems
                         MaxSpace.ToSizeString());
 
                     if (FreeSpace.Bytes > 0 && MaxSpace.Bytes > 0) // Make sure we don't divide by 0
-                    {
                         PercentageUsed = 100.0f - ((float)(FreeSpace.Bytes / MaxSpace.Bytes) * 100.0f);
-                    }
                 }
                 else
                 {
@@ -227,9 +218,8 @@ namespace Files.Uwp.DataModels.NavigationControlItems
         {
             var result = Type.CompareTo((other as DriveItem)?.Type ?? Type);
             if (result == 0)
-            {
                 return Text.CompareTo(other.Text);
-            }
+            
             return result;
         }
 
@@ -238,9 +228,8 @@ namespace Files.Uwp.DataModels.NavigationControlItems
             if (IconData == null)
             {
                 if (!string.IsNullOrEmpty(DeviceID))
-                {
                     IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, 24);
-                }
+
                 if (IconData == null)
                 {
                     var resource = await UIHelpers.GetIconResourceInfo(Constants.ImageRes.Folder);
@@ -252,11 +241,9 @@ namespace Files.Uwp.DataModels.NavigationControlItems
 
         private void SizeChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(SpaceUsed))
-            {
-                HoverDisplayText = (Path.Contains("?", StringComparison.Ordinal) ? Text : Path) +
+            if (e.PropertyName == nameof(SpaceUsed) || e.PropertyName == nameof(Path))
+                HoverDisplayText = $"{"PropertiesItemPath/Text".GetLocalized()} {(Path.Contains("?", StringComparison.Ordinal) ? Text : Path)}" +
                     $"\n{"PropertiesDriveUsedSpace/Text".GetLocalized()} {spaceUsed.ToSizeString()}";
-            }
         }
     }
 
