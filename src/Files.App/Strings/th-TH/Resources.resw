@@ -2319,12 +2319,6 @@
   <data name="SettingsPrivacy.Title" xml:space="preserve">
     <value>นโยบายความเป็นส่วนตัว</value>
   </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
-    <value>Fluent UI System Icons</value>
-  </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Fluent UI System Icons</value>
-  </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value> 
 เราใช้เครื่องมือเก็บข้อมูลวิเคราะห์ App Center เพื่อวิเคราะห์ว่าตั้งค่าใดถูกใช้มากน้อยแค่ไหน, ตรวงสอบว่าโปรแกรมปิดตัวลงเพราะอะไร, เกิดข้อผิดพลาดอะไร, หรือปุ่มไหนทำงานได้ไม่ถูกต้อง. โดยข้อมูลที่ส่งเหล่านั้นไม่สามารถใช้ระบุผู้ใช้อย่างเจาะจงได้
@@ -2824,5 +2818,11 @@
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Lockscreen</value>
+  </data>
+  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
+    <value>Open folders with a single click in the Columns Layout</value>
+  </data>
+  <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
+    <value>Behavior for opening files and folders</value>
   </data>
 </root>
