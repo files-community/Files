@@ -8,6 +8,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 
+#nullable enable
+
 namespace Files.App.Helpers
 {
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
@@ -18,7 +20,7 @@ namespace Files.App.Helpers
         private readonly object syncRoot = new object();
         private readonly List<T> collection = new List<T>();
 
-        public BulkConcurrentObservableCollection<GroupedCollection<T>> GroupedCollection { get; private set; }
+        public BulkConcurrentObservableCollection<GroupedCollection<T>>? GroupedCollection { get; private set; }
         public bool IsSorted { get; set; }
 
         public int Count
@@ -40,9 +42,9 @@ namespace Files.App.Helpers
 
         public object SyncRoot => syncRoot;
 
-        public bool IsGrouped => !(ItemGroupKeySelector is null);
+        public bool IsGrouped => ItemGroupKeySelector is not null;
 
-        object IList.this[int index]
+        object? IList.this[int index]
         {
             get
             {
@@ -50,7 +52,10 @@ namespace Files.App.Helpers
             }
             set
             {
-                this[index] = (T)value;
+                if (value is not null)
+                {
+                    this[index] = (T)value;
+                }
             }
         }
 
@@ -76,13 +81,13 @@ namespace Files.App.Helpers
             }
         }
 
-        public event NotifyCollectionChangedEventHandler CollectionChanged;
+        public event NotifyCollectionChangedEventHandler? CollectionChanged;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
-        private Func<T, string> itemGroupKeySelector;
+        private Func<T, string>? itemGroupKeySelector;
 
-        public Func<T, string> ItemGroupKeySelector
+        public Func<T, string>? ItemGroupKeySelector
         {
             get => itemGroupKeySelector;
             set
@@ -99,16 +104,16 @@ namespace Files.App.Helpers
             }
         }
 
-        private Func<T, object> itemSortKeySelector;
+        private Func<T, object>? itemSortKeySelector;
 
-        public Func<T, object> ItemSortKeySelector
+        public Func<T, object>? ItemSortKeySelector
         {
             get => itemSortKeySelector;
             set => itemSortKeySelector = value;
         }
 
-        public Action<GroupedCollection<T>> GetGroupHeaderInfo { get; set; }
-        public Action<GroupedCollection<T>> GetExtendedGroupHeaderInfo { get; set; }
+        public Action<GroupedCollection<T>>? GetGroupHeaderInfo { get; set; }
+        public Action<GroupedCollection<T>>? GetExtendedGroupHeaderInfo { get; set; }
 
         public BulkConcurrentObservableCollection()
         {
@@ -140,11 +145,11 @@ namespace Files.App.Helpers
 
             if (IsGrouped)
             {
-                if (!(e.NewItems is null))
+                if (e.NewItems is not null)
                 {
                     AddItemsToGroup(e.NewItems.Cast<T>());
                 }
-                if (!(e.OldItems is null))
+                if (e.OldItems is not null)
                 {
                     RemoveItemsFromGroup(e.OldItems.Cast<T>());
                 }
@@ -159,13 +164,18 @@ namespace Files.App.Helpers
             }
 
             // Prevents any unwanted errors caused by bindings updating
-            GroupedCollection.ForEach(x => x.Model.PausePropertyChangedNotifications());
-            GroupedCollection.Clear();
+            GroupedCollection?.ForEach(x => x.Model.PausePropertyChangedNotifications());
+            GroupedCollection?.Clear();
             AddItemsToGroup(collection, token);
         }
 
         private void AddItemsToGroup(IEnumerable<T> items, CancellationToken token = default)
         {
+            if (GroupedCollection is null)
+            {
+                return;
+            }
+
             foreach (var item in items)
             {
                 if (token.IsCancellationRequested)
@@ -173,12 +183,17 @@ namespace Files.App.Helpers
                     return;
                 }
                 var key = GetGroupKeyForItem(item);
-                var groups = GroupedCollection.Where(x => x.Model.Key == key);
+                if (key is null)
+                {
+                    return;
+                }    
+                var groups = GroupedCollection?.Where(x => x.Model.Key == key);
                 if (item is IGroupableItem groupable)
                 {
                     groupable.Key = key;
                 }
-                if (groups.Count() > 0)
+                if (groups is not null &&
+                    groups.Count() > 0)
                 {
                     var gp = groups.First();
                     gp.Add(item);
@@ -192,12 +207,12 @@ namespace Files.App.Helpers
                     };
 
                     group.GetExtendedGroupHeaderInfo = GetExtendedGroupHeaderInfo;
-                    if (!(GetGroupHeaderInfo is null))
+                    if (GetGroupHeaderInfo is not null)
                     {
                         GetGroupHeaderInfo.Invoke(group);
                     }
-                    GroupedCollection.Add(group);
-                    GroupedCollection.IsSorted = false;
+                    GroupedCollection?.Add(group);
+                    GroupedCollection!.IsSorted = false;
                 }
             }
         }
@@ -208,15 +223,19 @@ namespace Files.App.Helpers
             {
                 var key = GetGroupKeyForItem(item);
 
-                var groups = GroupedCollection.Where(x => x.Model.Key == key);
-                if (groups.Count() > 0)
+                var group = GroupedCollection?.Where(x => x.Model.Key == key).FirstOrDefault();
+                if (group is not null)
                 {
-                    groups.First().Remove(item);
+                    group.Remove(item);
+                    if (group.Count == 0)
+                    {
+                        GroupedCollection?.Remove(group);
+                    }
                 }
             }
         }
 
-        private string GetGroupKeyForItem(T item)
+        private string? GetGroupKeyForItem(T item)
         {
             return ItemGroupKeySelector?.Invoke(item);
         }
@@ -236,8 +255,13 @@ namespace Files.App.Helpers
             PropertyChanged?.Invoke(this, EventArgsCache.IndexerPropertyChanged);
         }
 
-        public void Add(T item)
+        public void Add(T? item)
         {
+            if (item is null)
+            {
+                return;
+            }
+
             lock (syncRoot)
             {
                 collection.Add(item);
@@ -257,8 +281,13 @@ namespace Files.App.Helpers
             OnCollectionChanged(EventArgsCache.ResetCollectionChanged);
         }
 
-        public bool Contains(T item)
+        public bool Contains(T? item)
         {
+            if (item is null)
+            {
+                return false;
+            }
+
             lock (syncRoot)
             {
                 return collection.Contains(item);
@@ -273,8 +302,13 @@ namespace Files.App.Helpers
             }
         }
 
-        public bool Remove(T item)
+        public bool Remove(T? item)
         {
+            if (item is null)
+            {
+                return false;
+            }
+
             int index;
 
             lock (syncRoot)
@@ -303,16 +337,26 @@ namespace Files.App.Helpers
             return GetEnumerator();
         }
 
-        public int IndexOf(T item)
+        public int IndexOf(T? item)
         {
+            if (item is null)
+            {
+                return -1;
+            }
+
             lock (syncRoot)
             {
                 return collection.IndexOf(item);
             }
         }
 
-        public void Insert(int index, T item)
+        public void Insert(int index, T? item)
         {
+            if (item is null)
+            {
+                return;
+            }
+
             lock (syncRoot)
             {
                 collection.Insert(index, item);
@@ -448,8 +492,13 @@ namespace Files.App.Helpers
             }
         }
 
-        int IList.Add(object value)
+        int IList.Add(object? value)
         {
+            if (value is null)
+            {
+                return -1;
+            }
+
             int index;
 
             lock (syncRoot)
@@ -461,13 +510,13 @@ namespace Files.App.Helpers
             return index;
         }
 
-        bool IList.Contains(object value) => Contains((T)value);
+        bool IList.Contains(object? value) => Contains((T?)value);
 
-        int IList.IndexOf(object value) => IndexOf((T)value);
+        int IList.IndexOf(object? value) => IndexOf((T?)value);
 
-        void IList.Insert(int index, object value) => Insert(index, (T)value);
+        void IList.Insert(int index, object? value) => Insert(index, (T?)value);
 
-        void IList.Remove(object value) => Remove((T)value);
+        void IList.Remove(object? value) => Remove((T?)value);
 
         void ICollection.CopyTo(Array array, int index) => CopyTo((T[])array, index);
 
