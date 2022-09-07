@@ -283,11 +283,6 @@
 							AutomationProperties.Name="7-Zip (GNU LGPL)"
 							Content="7-Zip (GNU LGPL)"
 							NavigateUri="https://7-zip.org" />
-
-						<HyperlinkButton
-							AutomationProperties.Name="{helpers:ResourceString Name=SettingsFluentUISystemIconsLicenseButton/AutomationProperties/Name}"
-							Content="{helpers:ResourceString Name=SettingsFluentUISystemIconsLicenseButton/Content}"
-							NavigateUri="https://github.com/microsoft/fluentui-system-icons/blob/master/LICENSE" />
 					</StackPanel>
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
