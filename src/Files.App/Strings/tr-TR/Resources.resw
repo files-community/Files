@@ -166,7 +166,7 @@
     <value>Boyut:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed Size:</value>
+    <value>Sıkıştırılmamış Boyut:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Bu işlem yapılamaz</value>
@@ -2319,12 +2319,6 @@
   <data name="SettingsPrivacy.Title" xml:space="preserve">
     <value>Gizlilik Politikası</value>
   </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
-    <value>Fluent UI Sistem Simgeleri</value>
-  </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Fluent UI Sistem Simgeleri</value>
-  </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
 *Kişisel Bilgi Toplama* 
@@ -2788,16 +2782,16 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
     <value>Files'ı değerlendirmek ister misiniz?</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
-    <value>Set as background</value>
+    <value>Arka plan olarak ayarla</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Set as lockscreen</value>
+    <value>Kilit ekranı olarak ayarla</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>Masaüstü arka planı olarak ayarla</value>
   </data>
   <data name="SetAsDefault" xml:space="preserve">
-    <value>Set as default</value>
+    <value>Varsayılan olarak ayarla</value>
   </data>
   <data name="FolderPreferences" xml:space="preserve">
     <value>Folder preferences</value>
@@ -2818,15 +2812,21 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
     <value>Display Type column</value>
   </data>
   <data name="Reset" xml:space="preserve">
-    <value>Reset</value>
+    <value>Sıfırla</value>
   </data>
   <data name="ResetLayoutPreferences" xml:space="preserve">
     <value>This action will reset all directories back to your default preferences.</value>
   </data>
   <data name="AreYouSure" xml:space="preserve">
-    <value>Are you sure?</value>
+    <value>Emin misin?</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
-    <value>Lockscreen</value>
+    <value>Kilit Ekranı</value>
+  </data>
+  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
+    <value>Open folders with a single click in the Columns Layout</value>
+  </data>
+  <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
+    <value>Behavior for opening files and folders</value>
   </data>
 </root>
