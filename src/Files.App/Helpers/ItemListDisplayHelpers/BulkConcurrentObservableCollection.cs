@@ -53,9 +53,7 @@ namespace Files.App.Helpers
             set
             {
                 if (value is not null)
-                {
                     this[index] = (T)value;
-                }
             }
         }
 
@@ -94,13 +92,9 @@ namespace Files.App.Helpers
             {
                 itemGroupKeySelector = value;
                 if (value != null)
-                {
                     GroupedCollection ??= new BulkConcurrentObservableCollection<GroupedCollection<T>>();
-                }
                 else
-                {
                     GroupedCollection = null;
-                }
             }
         }
 
@@ -136,9 +130,8 @@ namespace Files.App.Helpers
             if (!isBulkOperationStarted)
             {
                 if (countChanged)
-                {
                     PropertyChanged?.Invoke(this, EventArgsCache.CountPropertyChanged);
-                }
+
                 PropertyChanged?.Invoke(this, EventArgsCache.IndexerPropertyChanged);
                 CollectionChanged?.Invoke(this, e);
             }
@@ -146,22 +139,17 @@ namespace Files.App.Helpers
             if (IsGrouped)
             {
                 if (e.NewItems is not null)
-                {
                     AddItemsToGroup(e.NewItems.Cast<T>());
-                }
+                
                 if (e.OldItems is not null)
-                {
                     RemoveItemsFromGroup(e.OldItems.Cast<T>());
-                }
             }
         }
 
         public void ResetGroups(CancellationToken token = default)
         {
             if (!IsGrouped)
-            {
                 return;
-            }
 
             // Prevents any unwanted errors caused by bindings updating
             GroupedCollection?.ForEach(x => x.Model.PausePropertyChangedNotifications());
@@ -172,28 +160,23 @@ namespace Files.App.Helpers
         private void AddItemsToGroup(IEnumerable<T> items, CancellationToken token = default)
         {
             if (GroupedCollection is null)
-            {
                 return;
-            }
 
             foreach (var item in items)
             {
                 if (token.IsCancellationRequested)
-                {
                     return;
-                }
+
                 var key = GetGroupKeyForItem(item);
                 if (key is null)
-                {
                     return;
-                }    
+
                 var groups = GroupedCollection?.Where(x => x.Model.Key == key);
                 if (item is IGroupableItem groupable)
-                {
                     groupable.Key = key;
-                }
+
                 if (groups is not null &&
-                    groups.Count() > 0)
+                    groups.Any())
                 {
                     var gp = groups.First();
                     gp.Add(item);
@@ -208,9 +191,8 @@ namespace Files.App.Helpers
 
                     group.GetExtendedGroupHeaderInfo = GetExtendedGroupHeaderInfo;
                     if (GetGroupHeaderInfo is not null)
-                    {
                         GetGroupHeaderInfo.Invoke(group);
-                    }
+                   
                     GroupedCollection?.Add(group);
                     GroupedCollection!.IsSorted = false;
                 }
@@ -228,9 +210,7 @@ namespace Files.App.Helpers
                 {
                     group.Remove(item);
                     if (group.Count == 0)
-                    {
                         GroupedCollection?.Remove(group);
-                    }
                 }
             }
         }
@@ -243,9 +223,8 @@ namespace Files.App.Helpers
         public virtual void EndBulkOperation()
         {
             if (!isBulkOperationStarted)
-            {
                 return;
-            }
+
             isBulkOperationStarted = false;
             GroupedCollection?.ForEach(gp => gp.EndBulkOperation());
             GroupedCollection?.EndBulkOperation();
@@ -258,9 +237,7 @@ namespace Files.App.Helpers
         public void Add(T? item)
         {
             if (item is null)
-            {
                 return;
-            }
 
             lock (syncRoot)
             {
@@ -284,9 +261,7 @@ namespace Files.App.Helpers
         public bool Contains(T? item)
         {
             if (item is null)
-            {
                 return false;
-            }
 
             lock (syncRoot)
             {
@@ -305,9 +280,7 @@ namespace Files.App.Helpers
         public bool Remove(T? item)
         {
             if (item is null)
-            {
                 return false;
-            }
 
             int index;
 
@@ -316,9 +289,7 @@ namespace Files.App.Helpers
                 index = collection.IndexOf(item);
 
                 if (index == -1)
-                {
                     return false;
-                }
 
                 collection.RemoveAt(index);
             }
@@ -340,9 +311,7 @@ namespace Files.App.Helpers
         public int IndexOf(T? item)
         {
             if (item is null)
-            {
                 return -1;
-            }
 
             lock (syncRoot)
             {
@@ -353,9 +322,7 @@ namespace Files.App.Helpers
         public void Insert(int index, T? item)
         {
             if (item is null)
-            {
                 return;
-            }
 
             lock (syncRoot)
             {
@@ -381,9 +348,7 @@ namespace Files.App.Helpers
         public void AddRange(IEnumerable<T> items)
         {
             if (!items.Any())
-            {
                 return;
-            }
 
             lock (syncRoot)
             {
@@ -396,9 +361,7 @@ namespace Files.App.Helpers
         public void InsertRange(int index, IEnumerable<T> items)
         {
             if (!items.Any())
-            {
                 return;
-            }
 
             lock (syncRoot)
             {
@@ -411,9 +374,7 @@ namespace Files.App.Helpers
         public void RemoveRange(int index, int count)
         {
             if (count <= 0)
-            {
                 return;
-            }
 
             List<T> items;
 
@@ -431,9 +392,7 @@ namespace Files.App.Helpers
             var count = items.Count();
 
             if (count == 0)
-            {
                 return;
-            }
 
             List<T> oldItems;
             List<T> newItems;
@@ -487,17 +446,13 @@ namespace Files.App.Helpers
             Remove(item);
             var index = result.IndexOf(item);
             if (index != -1)
-            {
                 Insert(index, item);
-            }
         }
 
         int IList.Add(object? value)
         {
             if (value is null)
-            {
                 return -1;
-            }
 
             int index;
 
