@@ -2319,12 +2319,6 @@
   <data name="SettingsPrivacy.Title" xml:space="preserve">
     <value>プライバシー ポリシー</value>
   </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
-    <value>Fluent UI システムアイコン</value>
-  </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Fluent UI システムアイコン</value>
-  </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
 私達はApp Center を使用して、設定の使用状況を追跡し、バグを見つけ、クラッシュを修正します。App Center に送信されるすべての情報は匿名であり、ユーザーまたはコンテキスト データは含まれていません。
@@ -2824,5 +2818,11 @@
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>ロック画面</value>
+  </data>
+  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
+    <value>Open folders with a single click in the Columns Layout</value>
+  </data>
+  <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
+    <value>Behavior for opening files and folders</value>
   </data>
 </root>
