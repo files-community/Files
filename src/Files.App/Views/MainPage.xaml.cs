@@ -146,22 +146,6 @@ namespace Files.App.Views
 
         private void SetRectDragRegion()
         {
-            const bool WORKAROUND = true;
-            if (WORKAROUND)
-            {
-                const short LeftButton = 0x01;
-
-                if ((NativeWinApiHelper.GetKeyState(LeftButton) & 0xFF00) == 0xFF00)
-                    return;                    
-
-                App.Window.AppWindow.TitleBar.ResetToDefault();
-                App.Window.AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
-
-                // Set window buttons background to transparent
-                App.Window.AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
-                App.Window.AppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-            }
-
             const uint MDT_Effective_DPI = 0;
 
             var displayArea = DisplayArea.GetFromWindowId(App.Window.AppWindow.Id, DisplayAreaFallback.Primary);
