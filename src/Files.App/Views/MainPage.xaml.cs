@@ -153,9 +153,8 @@ namespace Files.App.Views
             var hr = NativeWinApiHelper.GetDpiForMonitor(hMonitor, MDT_Effective_DPI, out var dpiX, out _);
             if (hr != 0)
                 return;
-            
-            var scalePercent = (uint)(((long)dpiX * 100 + (96 >> 1)) / 96); // wtf
-            var scaleAdjustment = scalePercent / 100.0;
+
+			var scaleAdjustment = XamlRoot.RasterizationScale;
             var dragArea = horizontalMultitaskingControl.DragArea;
 
             var x = (int)((horizontalMultitaskingControl.ActualWidth - dragArea.ActualWidth) * scaleAdjustment);
