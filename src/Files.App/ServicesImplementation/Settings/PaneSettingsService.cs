@@ -46,11 +46,16 @@ namespace Files.App.ServicesImplementation.Settings
 
         public void ReportToAppCenter()
         {
-            Analytics.TrackEvent($"{nameof(ShowPreviewOnly)} {ShowPreviewOnly}");
+            Analytics.TrackEvent($"{nameof(ShowPreviewOnly)}, {ShowPreviewOnly}");
         }
 
         protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
         {
+            if (e.SettingName is nameof(ShowPreviewOnly))
+            {
+                Analytics.TrackEvent($"{e.SettingName} {e.NewValue}");
+            }
+
             base.RaiseOnSettingChangedEvent(sender, e);
         }
 

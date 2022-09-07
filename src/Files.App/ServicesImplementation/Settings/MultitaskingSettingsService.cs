@@ -27,13 +27,21 @@ namespace Files.App.ServicesImplementation.Settings
 
         protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
         {
+            switch (e.SettingName)
+            {
+                case nameof(IsDualPaneEnabled):
+                case nameof(AlwaysOpenDualPaneInNewTab):
+                    Analytics.TrackEvent($"{e.SettingName} {e.NewValue}");
+                    break;
+            }
+
             base.RaiseOnSettingChangedEvent(sender, e);
         }
 
         public void ReportToAppCenter()
         {
-            Analytics.TrackEvent($"{nameof(IsDualPaneEnabled)} {IsDualPaneEnabled}");
-            Analytics.TrackEvent($"{nameof(AlwaysOpenDualPaneInNewTab)} {AlwaysOpenDualPaneInNewTab}");
+            Analytics.TrackEvent($"{nameof(IsDualPaneEnabled)}, {IsDualPaneEnabled}");
+            Analytics.TrackEvent($"{nameof(AlwaysOpenDualPaneInNewTab)}, {AlwaysOpenDualPaneInNewTab}");
         }
     }
 }

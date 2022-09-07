@@ -88,20 +88,35 @@ namespace Files.App.ServicesImplementation.Settings
 
         protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
         {
+            switch (e.SettingName)
+            {
+                case nameof(MoveOverflowMenuItemsToSubMenu):
+                case nameof(ShowFavoritesSection):
+                case nameof(ShowLibrarySection):
+                case nameof(ShowCloudDrivesSection):
+                case nameof(ShowNetworkDrivesSection):
+                case nameof(ShowWslSection):
+                case nameof(ShowFileTagsSection):
+                case nameof(PinRecycleBinToSidebar):
+                case nameof(UseCompactStyles):
+                    Analytics.TrackEvent($"{e.SettingName} {e.NewValue}");
+                    break;
+            }
+
             base.RaiseOnSettingChangedEvent(sender, e);
         }
 
         public void ReportToAppCenter()
         {
-            Analytics.TrackEvent($"{nameof(MoveOverflowMenuItemsToSubMenu)} {MoveOverflowMenuItemsToSubMenu}");
-            Analytics.TrackEvent($"{nameof(ShowFavoritesSection)} {ShowFavoritesSection}");
-            Analytics.TrackEvent($"{nameof(ShowLibrarySection)} {ShowLibrarySection}");
-            Analytics.TrackEvent($"{nameof(ShowCloudDrivesSection)} {ShowCloudDrivesSection}");
-            Analytics.TrackEvent($"{nameof(ShowNetworkDrivesSection)} {ShowNetworkDrivesSection}");
-            Analytics.TrackEvent($"{nameof(ShowWslSection)} {ShowWslSection}");
-            Analytics.TrackEvent($"{nameof(ShowFileTagsSection)} {ShowFileTagsSection}");
-            Analytics.TrackEvent($"{nameof(PinRecycleBinToSidebar)} {PinRecycleBinToSidebar}");
-            Analytics.TrackEvent($"{nameof(UseCompactStyles)} {UseCompactStyles}");
+            Analytics.TrackEvent($"{nameof(MoveOverflowMenuItemsToSubMenu)}, {MoveOverflowMenuItemsToSubMenu}");
+            Analytics.TrackEvent($"{nameof(ShowFavoritesSection)}, {ShowFavoritesSection}");
+            Analytics.TrackEvent($"{nameof(ShowLibrarySection)}, {ShowLibrarySection}");
+            Analytics.TrackEvent($"{nameof(ShowCloudDrivesSection)}, {ShowCloudDrivesSection}");
+            Analytics.TrackEvent($"{nameof(ShowNetworkDrivesSection)}, {ShowNetworkDrivesSection}");
+            Analytics.TrackEvent($"{nameof(ShowWslSection)}, {ShowWslSection}");
+            Analytics.TrackEvent($"{nameof(ShowFileTagsSection)}, {ShowFileTagsSection}");
+            Analytics.TrackEvent($"{nameof(PinRecycleBinToSidebar)}, {PinRecycleBinToSidebar}");
+            Analytics.TrackEvent($"{nameof(UseCompactStyles)}, {UseCompactStyles}");
         }
     }
 }
