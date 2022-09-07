@@ -152,8 +152,9 @@ namespace Files.App.Filesystem
                 Shell32.SHAddToRecentDocs(Shell32.SHARD.SHARD_PATHW, path);
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
+                App.Logger.Warn(ex, ex.Message);
                 return false;
             }
         }
@@ -170,8 +171,9 @@ namespace Files.App.Filesystem
                 Shell32.SHAddToRecentDocs(Shell32.SHARD.SHARD_PIDL, (string)null);
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
+                App.Logger.Warn(ex, ex.Message);
                 return false;
             }
         }
@@ -189,45 +191,11 @@ namespace Files.App.Filesystem
                               $"| Where-Object {{ $_.Path -eq '{path}' }}).InvokeVerb('remove')\"";
                 return Win32API.RunPowershellCommand(command, false);
             }
-            catch
+            catch (Exception ex)
             {
+                App.Logger.Warn(ex, ex.Message);
                 return false;
             }
-        }
-
-        /// <summary>
-        /// Send an action for response with the argument `ShellRecentItems` which is handled by RecentItemsHandler.
-        /// </summary>
-        /// <param name="actionValue">The action to perform (e.g. "EnumerateFolders")</param>
-        /// <param name="extras">Any extra payload data needed (e.g. sending a path to enumerate)</param>
-        /// <returns>A tuple containing the response status and any additional payload data as key-value pairs</returns>
-        private async Task<(AppServiceResponseStatus Status, Dictionary<string, object> Data)> SendRecentItemsActionForResponse(string actionValue, ValueSet extras = null)
-        {
-            var connection = await AppServiceConnectionHelper.Instance;
-
-            if (connection == null)
-            {
-                return (AppServiceResponseStatus.Failure, null);
-            }
-
-            var valueSet = new ValueSet
-            {
-                { "Arguments", "ShellRecentItems" },
-                { "action", actionValue },
-            };
-
-            if (extras is not null)
-            {
-                foreach (var entry in extras)
-                {
-                    if (!valueSet.ContainsKey(entry.Key))
-                    {
-                        valueSet.Add(entry);
-                    }
-                }
-            }
-
-            return await connection.SendMessageForResponseAsync(valueSet);
         }
 
         /// <summary>
