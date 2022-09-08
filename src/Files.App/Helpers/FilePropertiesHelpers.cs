@@ -59,8 +59,7 @@ namespace Files.App.Helpers
                     var propertiesWindow = new WinUIEx.WindowEx()
                     {
                         IsMaximizable = false,
-                        IsMinimizable = false,
-                        IsResizable = false
+                        IsMinimizable = false
                     };
                     var appWindow = propertiesWindow.AppWindow;
 
