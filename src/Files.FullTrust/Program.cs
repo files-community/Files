@@ -51,7 +51,6 @@ namespace Files.FullTrust
                     new FileOperationsHandler(),
                     new QuickLookHandler(),
                     new InstallOperationsHandler(),
-                    new DesktopWallpaperHandler(),
                     new RecentItemsHandler(),
                 };
 
