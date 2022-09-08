@@ -773,20 +773,9 @@ namespace Files.App.Interacts
 
         public async Task InstallInfDriver()
         {
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
+            foreach (ListedItem selectedItem in SlimContentPage.SelectedItems)
             {
-                foreach (ListedItem selectedItem in SlimContentPage.SelectedItems)
-                {
-                    var value = new ValueSet
-                    {
-                        { "Arguments", "InstallOperation" },
-                        { "installop", "InstallInf" },
-                        { "filepath", selectedItem.ItemPath },
-                        { "extension", selectedItem.FileExtension },
-                    };
-                    await connection.SendMessageAsync(value);
-                }
+                await Win32API.InstallInf(selectedItem.ItemPath);
             }
         }
 
@@ -812,23 +801,14 @@ namespace Files.App.Interacts
             App.PreviewPaneViewModel.UpdateSelectedItemPreview();
         }
 
-        public async Task InstallFont()
+        public Task InstallFont()
         {
             foreach (ListedItem selectedItem in SlimContentPage.SelectedItems)
             {
-                var connection = await AppServiceConnectionHelper.Instance;
-                if (connection != null)
-                {
-                    var value = new ValueSet
-                    {
-                        { "Arguments", "InstallOperation" },
-                        { "installop", "InstallFont" },
-                        { "filepath", selectedItem.ItemPath },
-                        { "extension", selectedItem.FileExtension },
-                    };
-                    await connection.SendMessageAsync(value);
-                }
+                Win32API.InstallFont(selectedItem.ItemPath);
             }
+
+            return Task.CompletedTask;
         }
 
         #endregion Command Implementation
