@@ -66,7 +66,7 @@ namespace Files.App.Helpers
             // Set wallpaper to fill desktop.
             wallpaper.SetPosition(Shell32.DESKTOP_WALLPAPER_POSITION.DWPOS_FILL);
 
-            // Should we handle multiple monitors?
+            // TODO: Should we handle multiple monitors?
             // var monitors = wallpaper.GetMonitorDevicePathCount();
             wallpaper.GetMonitorDevicePathAt(0, out var monitorId);
             // Advance the slideshow to reflect the change.
