@@ -1,7 +1,9 @@
-using Files.Shared.Enums;
+using System;
+using System.Linq;
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
-using System;
+using Files.Shared.Enums;
+using Vanara.PInvoke;
 using Windows.Storage;
 using Windows.System.UserProfile;
 
@@ -45,6 +47,30 @@ namespace Files.App.Helpers
                     await profileSettings.TrySetLockScreenImageAsync(await file.ToStorageFileAsync());
                 }
             }
+        }
+
+        public static void SetSlideshow(string[] filePaths)
+        {
+            if (filePaths is null || filePaths.Any())
+            {
+                return;
+            }
+
+            var idList = filePaths.Select(Shell32.IntILCreateFromPath).ToArray();
+            Shell32.SHCreateShellItemArrayFromIDLists((uint)idList.Length, idList.ToArray(), out var shellItemArray);
+
+            // Set SlideShow
+            var wallpaper = (Shell32.IDesktopWallpaper)new Shell32.DesktopWallpaper();
+            wallpaper.SetSlideshow(shellItemArray);
+
+            // Set wallpaper to fill desktop.
+            wallpaper.SetPosition(Shell32.DESKTOP_WALLPAPER_POSITION.DWPOS_FILL);
+
+            // Should we handle multiple monitors?
+            // var monitors = wallpaper.GetMonitorDevicePathCount();
+            wallpaper.GetMonitorDevicePathAt(0, out var monitorId);
+            // Advance the slideshow to reflect the change.
+            wallpaper.AdvanceSlideshow(monitorId, Shell32.DESKTOP_SLIDESHOW_DIRECTION.DSD_FORWARD);
         }
     }
 }

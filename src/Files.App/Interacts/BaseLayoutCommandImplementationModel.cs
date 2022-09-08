@@ -111,26 +111,15 @@ namespace Files.App.Interacts
             WallpaperHelpers.SetAsBackground(WallpaperType.LockScreen, SlimContentPage.SelectedItem.ItemPath);
         }
 
-        public virtual async void SetAsDesktopBackgroundItem(RoutedEventArgs e)
+        public virtual void SetAsDesktopBackgroundItem(RoutedEventArgs e)
         {
             WallpaperHelpers.SetAsBackground(WallpaperType.Desktop, SlimContentPage.SelectedItem.ItemPath);
         }
 
-        public virtual async void SetAsSlideshowItem(RoutedEventArgs e)
+        public virtual void SetAsSlideshowItem(RoutedEventArgs e)
         {
             var images = (from o in SlimContentPage.SelectedItems select o.ItemPath).ToArray();
-
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
-            {
-                var value = new ValueSet
-                {
-                    { "Arguments", "WallpaperOperation" },
-                    { "wallpaperop", "SetSlideshow" },
-                    { "filepaths", images }
-                };
-                await connection.SendMessageAsync(value);
-            }
+            WallpaperHelpers.SetSlideshow(images);
         }
 
         public virtual async void RunAsAdmin(RoutedEventArgs e)
