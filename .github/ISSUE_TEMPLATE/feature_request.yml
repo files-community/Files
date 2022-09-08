@@ -22,17 +22,23 @@ body:
         - This proposal will accomplish X
         - This proposal will accomplish Y
         - This proposal will accomplish Z
+    validations:
+      required: true
   - type: input
     id: files-version
     attributes:
       label: Files Version
       description: Which version of Files are you currently using?
       placeholder: 'Version: 2.0.36.0'
+    validations:
+      required: true
   - type: input
     attributes:
       label: Windows Version
       description: Which version of Windows are you currently using? Press <kbd>Win</kbd> + <kbd>Pause/Break</kbd> and copy.
       placeholder: e.g. Windows 11 21H2 22000.194
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: Comments
