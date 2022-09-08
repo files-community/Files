@@ -2820,9 +2820,9 @@ Utilizamos o App Center para localizar as definições que estão a ser utilizad
     <value>Ecrã de bloqueio</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Open folders with a single click in the Columns Layout</value>
+    <value>Abrir pastas com um clique no esquema Colunas</value>
   </data>
   <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
-    <value>Behavior for opening files and folders</value>
+    <value>Comportamento para abrir ficheiros ou pastas</value>
   </data>
 </root>
