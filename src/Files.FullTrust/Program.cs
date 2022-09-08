@@ -50,7 +50,6 @@ namespace Files.FullTrust
                     new NetworkDrivesHandler(),
                     new FileOperationsHandler(),
                     new QuickLookHandler(),
-                    new DesktopWallpaperHandler(),
                     new RecentItemsHandler(),
                 };
 

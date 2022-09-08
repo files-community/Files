@@ -211,8 +211,6 @@ namespace Files.App
                     ExternalResourcesHelper.LoadOtherThemesAsync(),
                     ContextFlyoutItemHelper.CachedNewContextMenuEntries
                 );
-
-                userSettingsService.ReportToAppCenter();
             });
 
             // Check for required updates
