@@ -782,14 +782,12 @@ namespace Files.App.Interacts
             }
         }
 
-        public Task InstallInfDriver()
+        public async Task InstallInfDriver()
         {
             foreach (ListedItem selectedItem in SlimContentPage.SelectedItems)
             {
-                Win32API.InstallInf(selectedItem.ItemPath);
+                await Win32API.InstallInf(selectedItem.ItemPath);
             }
-
-            return Task.CompletedTask;
         }
 
         public async Task RotateImageLeft()
