@@ -786,17 +786,25 @@ namespace Files.App.Shell
         public static extern int SHQueryRecycleBin(string pszRootPath,
             ref SHQUERYRBINFO pSHQueryRBInfo);
 
-        public static async Task InstallInf(string filePath)
+        public static async Task<bool> InstallInf(string filePath)
         {
-            var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(30 * 1000));
-            using Process process = new Process();
-            process.StartInfo.FileName = "InfDefaultInstall.exe";
-            process.StartInfo.Verb = "runas";
-            process.StartInfo.UseShellExecute = true;
-            process.StartInfo.CreateNoWindow = true;
-            process.StartInfo.Arguments = $"{filePath}";
-            process.Start();
-            await process.WaitForExitAsync(cts.Token);
+            try
+            {
+                var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(30 * 1000));
+                using Process process = new Process();
+                process.StartInfo.FileName = "InfDefaultInstall.exe";
+                process.StartInfo.Verb = "runas";
+                process.StartInfo.UseShellExecute = true;
+                process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.Arguments = $"{filePath}";
+                process.Start();
+                await process.WaitForExitAsync(cts.Token);
+                return true;
+            }
+            catch (Win32Exception)
+            {
+                return false;
+            }
         }
 
         public static void InstallFont(string fontFilePath)
