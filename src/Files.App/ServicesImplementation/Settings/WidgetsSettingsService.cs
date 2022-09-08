@@ -69,19 +69,11 @@ namespace Files.App.ServicesImplementation.Settings
                 case nameof(ShowRecentFilesWidget):
                 case nameof(ShowDrivesWidget):
                 case nameof(ShowBundlesWidget):
-                    Analytics.TrackEvent($"{e.SettingName} {e.NewValue}");
+                    Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
                     break;
             }
 
             base.RaiseOnSettingChangedEvent(sender, e);
-        }
-
-        public void ReportToAppCenter()
-        {
-            Analytics.TrackEvent($"{nameof(ShowFoldersWidget)}, {ShowFoldersWidget}");
-            Analytics.TrackEvent($"{nameof(ShowRecentFilesWidget)}, {ShowRecentFilesWidget}");
-            Analytics.TrackEvent($"{nameof(ShowDrivesWidget)}, {ShowDrivesWidget}");
-            Analytics.TrackEvent($"{nameof(ShowBundlesWidget)}, {ShowBundlesWidget}");
         }
     }
 }
