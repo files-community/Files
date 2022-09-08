@@ -7,7 +7,6 @@ using Files.Shared.Extensions;
 using Files.Shared.Services.DateTimeFormatter;
 using Files.App.Controllers;
 using Files.App.DataModels;
-using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Extensions;
 using CommunityToolkit.WinUI;
@@ -19,12 +18,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel;
-using Windows.Foundation.Collections;
 using Windows.Storage;
-using Windows.Storage.AccessCache;
 using Windows.Storage.Pickers;
 using Windows.System;
-using Microsoft.UI.Xaml.Controls;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 using static Files.App.Helpers.MenuFlyoutHelper;
 using Files.App.Shell;
@@ -614,6 +610,19 @@ namespace Files.App.ViewModels.SettingsViewModels
                 if (value != UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick)
                 {
                     UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool ColumnLayoutOpenFoldersWithOneClick
+        {
+            get => UserSettingsService.PreferencesSettingsService.ColumnLayoutOpenFoldersWithOneClick;
+            set
+            {
+                if (value != UserSettingsService.PreferencesSettingsService.ColumnLayoutOpenFoldersWithOneClick)
+                {
+                    UserSettingsService.PreferencesSettingsService.ColumnLayoutOpenFoldersWithOneClick = value;
                     OnPropertyChanged();
                 }
             }
