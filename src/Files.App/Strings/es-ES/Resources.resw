@@ -1753,7 +1753,7 @@
     <value>Columna de fecha de eliminación</value>
   </data>
   <data name="ResizeElementKeyboardControl.AutomationProperties.Name" xml:space="preserve">
-    <value>Ajuste de tamaño de la barra lateral</value>
+    <value>Ajustar tamaño de la barra lateral</value>
   </data>
   <data name="NavToolbarSortOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Ordenar</value>
@@ -2026,7 +2026,7 @@
     <value>Seleccionar destino y extraer archivos</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
-    <value>Abrir la carpeta de destino cuando se haya completado</value>
+    <value>Abrir carpeta de destino al finalizar</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractFilesOption" xml:space="preserve">
     <value>Extraer archivos</value>
@@ -2092,7 +2092,7 @@
     <value>Tipo</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
-    <value>No tienes permisos para ver las propiedades de seguridad de este objeto. Puedes intentar tomar posesión de él.</value>
+    <value>No tiene permisos para ver las propiedades de seguridad de este objeto. Puede intentar tomar posesión del objeto.</value>
   </data>
   <data name="SecurityAdvancedSpecialLabel.Text" xml:space="preserve">
     <value>Especial</value>
@@ -2119,7 +2119,7 @@
     <value>Esta carpeta y subcarpetas</value>
   </data>
   <data name="SecurityAppendDataLabel.Text" xml:space="preserve">
-    <value>Anexar datos</value>
+    <value>Añadir datos</value>
   </data>
   <data name="SecurityChangePermissionsLabel.Text" xml:space="preserve">
     <value>Cambiar permiso</value>
@@ -2152,7 +2152,7 @@
     <value>Tomar posesión</value>
   </data>
   <data name="SecurityTraverseLabel.Text" xml:space="preserve">
-    <value>Ir a la carpeta</value>
+    <value>Visitar carpeta</value>
   </data>
   <data name="SecurityWriteAttributesLabel.Text" xml:space="preserve">
     <value>Escribir atributos</value>
@@ -2206,7 +2206,7 @@
     <value>Cargar vista previa completa</value>
   </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Descarga el elemento de la nube y carga la vista previa</value>
+    <value>Descargue el elemento de la nube y cargue la vista previa</value>
   </data>
   <data name="DetailsArchiveItemCount" xml:space="preserve">
     <value>{0} elementos ({1} archivos, {2} carpetas)</value>
@@ -2215,34 +2215,34 @@
     <value>Tamaño sin comprimir</value>
   </data>
   <data name="SettingsShowCloudDrivesSection.Title" xml:space="preserve">
-    <value>Mostrar unidades de la nube</value>
+    <value>Mostrar sección de unidades en la nube</value>
   </data>
   <data name="SettingsShowDrivesSection.Title" xml:space="preserve">
-    <value>Mostrar unidades</value>
+    <value>Mostrar sección de unidades</value>
   </data>
   <data name="SettingsShowWslSection.Title" xml:space="preserve">
-    <value>Mostrar WSL</value>
+    <value>Mostrar sección WSL</value>
   </data>
   <data name="SettingsShowNetworkDrivesSection.Title" xml:space="preserve">
-    <value>Mostrar unidades de red</value>
+    <value>Mostrar sección de unidades de red</value>
   </data>
   <data name="WSL" xml:space="preserve">
     <value>WSL</value>
   </data>
   <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
-    <value>Ocultar {0}</value>
+    <value>Ocultar sección {0}</value>
   </data>
   <data name="NavSettingsButton" xml:space="preserve">
-    <value>Ajustes</value>
+    <value>Configuración</value>
   </data>
   <data name="AddFile" xml:space="preserve">
-    <value>Agregar archivo</value>
+    <value>Añadir archivo</value>
   </data>
   <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">
-    <value>Agregar carpeta</value>
+    <value>Añadir carpeta</value>
   </data>
   <data name="BundleOptionsFlyoutAddItemMenuItem.Text" xml:space="preserve">
-    <value>Agregar elemento...</value>
+    <value>Añadir elemento...</value>
   </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
     <value>Actualizaciones disponibles</value>
@@ -2824,9 +2824,9 @@ Utilizamos App Center para hacer un seguimiento del uso de la aplicación, encon
     <value>Pantalla de bloqueo</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Open folders with a single click in the Columns Layout</value>
+    <value>Abrir carpetas con un solo clic en el diseño de columnas</value>
   </data>
   <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
-    <value>Behavior for opening files and folders</value>
+    <value>Comportamiento al abrir archivos y carpetas</value>
   </data>
 </root>
