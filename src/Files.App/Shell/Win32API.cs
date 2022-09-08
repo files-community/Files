@@ -10,7 +10,6 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using System.Text;
@@ -787,7 +786,7 @@ namespace Files.App.Shell
         public static extern int SHQueryRecycleBin(string pszRootPath,
             ref SHQUERYRBINFO pSHQueryRBInfo);
 
-        public static bool InfDefaultInstall(string filePath)
+        public static bool InstallInf(string filePath)
         {
             try
             {
@@ -809,6 +808,13 @@ namespace Files.App.Shell
                 // If user cancels UAC
                 return false;
             }
+        }
+
+        public static void InstallFont(string fontFilePath)
+        {
+            var userFontDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft", "Windows", "Fonts");
+            var destName = Path.Combine(userFontDir, Path.GetFileName(fontFilePath));
+            RunPowershellCommand($"-command \"Copy-Item '{fontFilePath}' '{userFontDir}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(fontFilePath)}' -Path 'HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts' -PropertyType string -Value '{destName}'\"", false);
         }
     }
 }
