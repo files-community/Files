@@ -1,17 +1,16 @@
 using ByteSizeLib;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.WinUI;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.WinUI;
+using Files.Shared.Extensions;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Media.Imaging;
-using Files.Shared.Extensions;
-using System.ComponentModel;
 
 namespace Files.App.DataModels.NavigationControlItems
 {
@@ -35,7 +34,6 @@ namespace Files.App.DataModels.NavigationControlItems
             set
             {
                 path = value;
-                UpdateHoverDisplayText();
             }
         }
 
@@ -63,7 +61,11 @@ namespace Files.App.DataModels.NavigationControlItems
         public ByteSize FreeSpace
         {
             get => freeSpace;
-            set => SetProperty(ref freeSpace, value);
+            set
+            {
+                SetProperty(ref freeSpace, value);
+                HoverDisplayText = GetSizeString();
+            }
         }
 
         public ByteSize SpaceUsed
@@ -72,7 +74,6 @@ namespace Files.App.DataModels.NavigationControlItems
             set
             {
                 SetProperty(ref spaceUsed, value);
-                UpdateHoverDisplayText();
             }
         }
 
@@ -196,10 +197,7 @@ namespace Files.App.DataModels.NavigationControlItems
                     FreeSpace = ByteSize.FromBytes((ulong)properties["System.FreeSpace"]);
                     SpaceUsed = MaxSpace - FreeSpace;
 
-                    SpaceText = string.Format(
-                        "DriveFreeSpaceAndCapacity".GetLocalizedResource(),
-                        FreeSpace.ToSizeString(),
-                        MaxSpace.ToSizeString());
+                    SpaceText = GetSizeString();
 
                     if (FreeSpace.Bytes > 0 && MaxSpace.Bytes > 0) // Make sure we don't divide by 0
                         PercentageUsed = 100.0f - ((float)(FreeSpace.Bytes / MaxSpace.Bytes) * 100.0f);
@@ -242,10 +240,12 @@ namespace Files.App.DataModels.NavigationControlItems
             Icon = await IconData.ToBitmapAsync();
         }
 
-        private void UpdateHoverDisplayText()
+        private string GetSizeString()
         {
-            HoverDisplayText = $"{"PropertiesItemPath/Text".GetLocalizedResource()} {(Path.Contains("?", StringComparison.Ordinal) ? Text : Path)}" +
-                $"\n{"PropertiesDriveUsedSpace/Text".GetLocalizedResource()} {spaceUsed.ToSizeString()}";
+            return string.Format(
+                "DriveFreeSpaceAndCapacity".GetLocalizedResource(),
+                FreeSpace.ToSizeString(),
+                MaxSpace.ToSizeString());
         }
     }
 
