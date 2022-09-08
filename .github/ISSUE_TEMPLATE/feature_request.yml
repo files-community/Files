@@ -13,11 +13,11 @@ body:
       value: |
         ---
 
-        Please include a changes required to make this improvement. A good rule of thumb is to start your proposal with no more than 7 high-level requirements.
+        Please include a list changes required to make this improvement. A good rule of thumb is to start your proposal with no more than 7 high-level requirements.
   - type: textarea
     attributes:
-      label: Priorities
-      description: describe all the elements of your idea and how important they are.
+      label: Requirements
+      description: describe all the requirements to make your idea happen
       value: |
         - This proposal will accomplish X
         - This proposal will accomplish Y
