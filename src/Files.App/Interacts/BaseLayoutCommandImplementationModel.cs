@@ -1,3 +1,5 @@
+#nullable disable warnings
+
 using Files.Shared;
 using Files.App.Dialogs;
 using Files.Shared.Enums;
@@ -623,151 +625,105 @@ namespace Files.App.Interacts
         {
             BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(associatedInstance.SlimContentPage.SelectedItem.ItemPath);
 
-            if (archive != null)
+            if (archive == null)
             {
-                DecompressArchiveDialog decompressArchiveDialog = new();
-                DecompressArchiveDialogViewModel decompressArchiveViewModel = new(archive);
-                decompressArchiveDialog.ViewModel = decompressArchiveViewModel;
+                return;
+            }
 
-                ContentDialogResult option = await decompressArchiveDialog.ShowAsync();
+            DecompressArchiveDialog decompressArchiveDialog = new();
+            DecompressArchiveDialogViewModel decompressArchiveViewModel = new(archive);
+            decompressArchiveDialog.ViewModel = decompressArchiveViewModel;
 
-                if (option == ContentDialogResult.Primary)
-                {
-                    // Check if archive still exists
-                    if (!StorageHelpers.Exists(archive.Path))
-                    {
-                        return;
-                    }
+            ContentDialogResult option = await decompressArchiveDialog.ShowAsync();
 
-                    CancellationTokenSource extractCancellation = new();
-                    PostedStatusBanner banner = App.OngoingTasksViewModel.PostOperationBanner(
-                        archive.Name.Length >= 30 ? archive.Name + "\n" : archive.Name,
-                        "ExtractingArchiveText".GetLocalizedResource(),
-                        0,
-                        ReturnResult.InProgress,
-                        FileOperationType.Extract,
-                        extractCancellation);
+            if (option != ContentDialogResult.Primary)
+            {
+                return;
+            }
 
-                    BaseStorageFolder destinationFolder = decompressArchiveViewModel.DestinationFolder;
-                    string destinationFolderPath = decompressArchiveViewModel.DestinationFolderPath;
+            // Check if archive still exists
+            if (!StorageHelpers.Exists(archive.Path))
+            {
+                return;
+            }
 
-                    if (destinationFolder == null)
-                    {
-                        BaseStorageFolder parentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(Path.GetDirectoryName(archive.Path));
-                        destinationFolder = await FilesystemTasks.Wrap(() => parentFolder.CreateFolderAsync(Path.GetFileName(destinationFolderPath), CreationCollisionOption.GenerateUniqueName).AsTask());
-                    }
-                    if (destinationFolder == null)
-                    {
-                        return; // Could not create dest folder
-                    }
+            BaseStorageFolder destinationFolder = decompressArchiveViewModel.DestinationFolder;
+            string destinationFolderPath = decompressArchiveViewModel.DestinationFolderPath;
 
-                    Stopwatch sw = new();
-                    sw.Start();
+            if (destinationFolder == null)
+            {
+                BaseStorageFolder parentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(Path.GetDirectoryName(archive.Path));
+                destinationFolder = await FilesystemTasks.Wrap(() => parentFolder.CreateFolderAsync(Path.GetFileName(destinationFolderPath), CreationCollisionOption.GenerateUniqueName).AsTask());
+            }
 
-                    await ZipHelpers.ExtractArchive(archive, destinationFolder, banner.Progress, extractCancellation.Token);
+            await ExtractArchive(archive, destinationFolder);
 
-                    sw.Stop();
-                    banner.Remove();
-
-                    if (sw.Elapsed.TotalSeconds >= 6)
-                    {
-                        App.OngoingTasksViewModel.PostBanner(
-                            "ExtractingCompleteText".GetLocalizedResource(),
-                            "ArchiveExtractionCompletedSuccessfullyText".GetLocalizedResource(),
-                            0,
-                            ReturnResult.Success,
-                            FileOperationType.Extract);
-                    }
-
-                    if (decompressArchiveViewModel.OpenDestinationFolderOnCompletion)
-                    {
-                        await NavigationHelpers.OpenPath(destinationFolderPath, associatedInstance, FilesystemItemType.Directory);
-                    }
-                }
+            if (decompressArchiveViewModel.OpenDestinationFolderOnCompletion)
+            {
+                await NavigationHelpers.OpenPath(destinationFolderPath, associatedInstance, FilesystemItemType.Directory);
             }
         }
 
         public async Task DecompressArchiveHere()
         {
-            BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(associatedInstance.SlimContentPage.SelectedItem.ItemPath);
-            BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
-
-            if (archive != null && currentFolder != null)
+            foreach (var selectedItem in associatedInstance.SlimContentPage.SelectedItems)
             {
-                CancellationTokenSource extractCancellation = new();
-                PostedStatusBanner banner = App.OngoingTasksViewModel.PostOperationBanner(
-                    archive.Name.Length >= 30 ? archive.Name + "\n" : archive.Name,
-                    "ExtractingArchiveText".GetLocalizedResource(),
-                    0,
-                    ReturnResult.InProgress,
-                    FileOperationType.Extract,
-                    extractCancellation);
+                BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(selectedItem.ItemPath);
+                BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
 
-                Stopwatch sw = new();
-                sw.Start();
-
-                await ZipHelpers.ExtractArchive(archive, currentFolder, banner.Progress, extractCancellation.Token);
-
-                sw.Stop();
-                banner.Remove();
-
-                if (sw.Elapsed.TotalSeconds >= 6)
-                {
-                    App.OngoingTasksViewModel.PostBanner(
-                        "ExtractingCompleteText".GetLocalizedResource(),
-                        "ArchiveExtractionCompletedSuccessfullyText".GetLocalizedResource(),
-                        0,
-                        ReturnResult.Success,
-                        FileOperationType.Extract);
-                }
+                await ExtractArchive(archive, currentFolder);
             }
         }
 
         public async Task DecompressArchiveToChildFolder()
         {
-            var selectedItem = associatedInstance?.SlimContentPage?.SelectedItem;
-            if (selectedItem == null)
+            foreach (var selectedItem in associatedInstance.SlimContentPage.SelectedItems)
+            {
+                BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(selectedItem.ItemPath);
+                BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
+                BaseStorageFolder destinationFolder = null;
+
+                if (currentFolder != null)
+                {
+                    destinationFolder = await FilesystemTasks.Wrap(() => currentFolder.CreateFolderAsync(Path.GetFileNameWithoutExtension(archive.Path), CreationCollisionOption.GenerateUniqueName).AsTask());
+                }
+
+                await ExtractArchive(archive, destinationFolder);
+            }
+        }
+
+        private static async Task ExtractArchive(BaseStorageFile archive, BaseStorageFolder destinationFolder)
+        {
+            if (archive == null || destinationFolder == null)
             {
                 return;
             }
 
-            BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(selectedItem.ItemPath);
-            BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
-            BaseStorageFolder destinationFolder = null;
+            CancellationTokenSource extractCancellation = new();
+            PostedStatusBanner banner = App.OngoingTasksViewModel.PostOperationBanner(
+                archive.Name.Length >= 30 ? archive.Name + "\n" : archive.Name,
+                "ExtractingArchiveText".GetLocalizedResource(),
+                0,
+                ReturnResult.InProgress,
+                FileOperationType.Extract,
+                extractCancellation);
 
-            if (currentFolder != null)
-            {
-                destinationFolder = await FilesystemTasks.Wrap(() => currentFolder.CreateFolderAsync(Path.GetFileNameWithoutExtension(archive.Path), CreationCollisionOption.GenerateUniqueName).AsTask());
-            }
+            Stopwatch sw = new();
+            sw.Start();
 
-            if (archive != null && destinationFolder != null)
+            await ZipHelpers.ExtractArchive(archive, destinationFolder, banner.Progress, extractCancellation.Token);
+
+            sw.Stop();
+            banner.Remove();
+
+            if (sw.Elapsed.TotalSeconds >= 6)
             {
-                CancellationTokenSource extractCancellation = new();
-                PostedStatusBanner banner = App.OngoingTasksViewModel.PostOperationBanner(
-                    archive.Name.Length >= 30 ? archive.Name + "\n" : archive.Name,
-                    "ExtractingArchiveText".GetLocalizedResource(),
+                App.OngoingTasksViewModel.PostBanner(
+                    "ExtractingCompleteText".GetLocalizedResource(),
+                    "ArchiveExtractionCompletedSuccessfullyText".GetLocalizedResource(),
                     0,
-                    ReturnResult.InProgress,
-                    FileOperationType.Extract,
-                    extractCancellation);
-
-                Stopwatch sw = new();
-                sw.Start();
-
-                await ZipHelpers.ExtractArchive(archive, destinationFolder, banner.Progress, extractCancellation.Token);
-
-                sw.Stop();
-                banner.Remove();
-
-                if (sw.Elapsed.TotalSeconds >= 6)
-                {
-                    App.OngoingTasksViewModel.PostBanner(
-                        "ExtractingCompleteText".GetLocalizedResource(),
-                        "ArchiveExtractionCompletedSuccessfullyText".GetLocalizedResource(),
-                        0,
-                        ReturnResult.Success,
-                        FileOperationType.Extract);
-                }
+                    ReturnResult.Success,
+                    FileOperationType.Extract);
             }
         }
 
