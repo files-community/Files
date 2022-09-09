@@ -626,9 +626,7 @@ namespace Files.App.Interacts
             BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(associatedInstance.SlimContentPage.SelectedItem.ItemPath);
 
             if (archive == null)
-            {
                 return;
-            }
 
             DecompressArchiveDialog decompressArchiveDialog = new();
             DecompressArchiveDialogViewModel decompressArchiveViewModel = new(archive);
@@ -637,15 +635,11 @@ namespace Files.App.Interacts
             ContentDialogResult option = await decompressArchiveDialog.ShowAsync();
 
             if (option != ContentDialogResult.Primary)
-            {
                 return;
-            }
 
             // Check if archive still exists
             if (!StorageHelpers.Exists(archive.Path))
-            {
                 return;
-            }
 
             BaseStorageFolder destinationFolder = decompressArchiveViewModel.DestinationFolder;
             string destinationFolderPath = decompressArchiveViewModel.DestinationFolderPath;
@@ -659,9 +653,7 @@ namespace Files.App.Interacts
             await ExtractArchive(archive, destinationFolder);
 
             if (decompressArchiveViewModel.OpenDestinationFolderOnCompletion)
-            {
                 await NavigationHelpers.OpenPath(destinationFolderPath, associatedInstance, FilesystemItemType.Directory);
-            }
         }
 
         public async Task DecompressArchiveHere()
@@ -684,9 +676,7 @@ namespace Files.App.Interacts
                 BaseStorageFolder destinationFolder = null;
 
                 if (currentFolder != null)
-                {
                     destinationFolder = await FilesystemTasks.Wrap(() => currentFolder.CreateFolderAsync(Path.GetFileNameWithoutExtension(archive.Path), CreationCollisionOption.GenerateUniqueName).AsTask());
-                }
 
                 await ExtractArchive(archive, destinationFolder);
             }
@@ -695,9 +685,7 @@ namespace Files.App.Interacts
         private static async Task ExtractArchive(BaseStorageFile archive, BaseStorageFolder destinationFolder)
         {
             if (archive == null || destinationFolder == null)
-            {
                 return;
-            }
 
             CancellationTokenSource extractCancellation = new();
             PostedStatusBanner banner = App.OngoingTasksViewModel.PostOperationBanner(
