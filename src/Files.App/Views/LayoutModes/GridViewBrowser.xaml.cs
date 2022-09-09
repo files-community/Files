@@ -139,6 +139,12 @@ namespace Files.App.Views.LayoutModes
             FileList.Focus(FocusState.Programmatic);
         }
 
+        private void ZoomIn(object sender, GroupOption option)
+        {
+            if (option == GroupOption.None)
+                RootGridZoom.IsZoomedInViewActive = true;
+        }
+
         protected override void UnhookEvents()
         {
             if (ItemManipulationModel != null)
@@ -171,6 +177,8 @@ namespace Files.App.Views.LayoutModes
             base.OnNavigatedTo(eventArgs);
 
             currentIconSize = FolderSettings.GetIconSize();
+            FolderSettings.GroupOptionPreferenceUpdated -= ZoomIn;
+            FolderSettings.GroupOptionPreferenceUpdated += ZoomIn;
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
             SetItemTemplate(); // Set ItemTemplate

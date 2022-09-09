@@ -120,7 +120,13 @@ namespace Files.App.Views.LayoutModes
 			FileList.Focus(FocusState.Programmatic);
 		}
 
-		protected override void UnhookEvents()
+        private void ZoomIn(object sender, GroupOption option)
+        {
+            if (option == GroupOption.None)
+                RootGridZoom.IsZoomedInViewActive = true;
+        }
+
+        protected override void UnhookEvents()
 		{
 			if (ItemManipulationModel != null)
 			{
@@ -146,7 +152,10 @@ namespace Files.App.Views.LayoutModes
 				navArgs.FocusOnNavigation = (navArgs.AssociatedTabInstance as ColumnShellPage)?.ColumnParams?.Column == 0;
 			}
 			base.OnNavigatedTo(eventArgs);
-		}
+
+            FolderSettings.GroupOptionPreferenceUpdated -= ZoomIn;
+            FolderSettings.GroupOptionPreferenceUpdated += ZoomIn;
+        }
 
 		protected override void InitializeCommandsViewModel()
 		{

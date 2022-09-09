@@ -24,6 +24,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 
 using SortDirection = Files.Shared.Enums.SortDirection;
+using System.Windows.Markup;
 
 namespace Files.App.Views.LayoutModes
 {
@@ -162,6 +163,12 @@ namespace Files.App.Views.LayoutModes
             FileList.Focus(FocusState.Programmatic);
         }
 
+        private void ZoomIn(object sender, GroupOption option)
+        {
+            if (option == GroupOption.None)
+                RootGridZoom.IsZoomedInViewActive = true;
+        }
+
         protected override void UnhookEvents()
         {
             if (ItemManipulationModel != null)
@@ -201,6 +208,8 @@ namespace Files.App.Views.LayoutModes
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
             FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
             FolderSettings.GridViewSizeChangeRequested += FolderSettings_GridViewSizeChangeRequested;
+            FolderSettings.GroupOptionPreferenceUpdated -= ZoomIn;
+            FolderSettings.GroupOptionPreferenceUpdated += ZoomIn;
             FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
             FolderSettings.SortDirectionPreferenceUpdated += FolderSettings_SortDirectionPreferenceUpdated;
             FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
