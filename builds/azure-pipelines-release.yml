@@ -26,6 +26,13 @@ parameters:
     values:
     - 'Files (Preview)'
     - 'Files'
+  - name: iconVariant
+    displayName: Icon Variant
+    type: string
+    default: 'Preview'
+    values:
+    - 'Preview'
+    - 'Release'
 
 variables:
 - group: BuildPipelineVariables
@@ -57,14 +64,14 @@ jobs:
         $xmlDoc.Save('$(Build.SourcesDirectory)\src\Files.Package\Package.appxmanifest')
       failOnStderr: true
 
- # This replaces references to the dev icon with the regular release icon 
+ # This replaces references to the dev icon with the specified icon variant 
   - task: PowerShell@2
     displayName: 'Use Correct Logo'
     inputs:
       targetType: 'inline'
       script: |
         gci $(Build.SourcesDirectory)\src -Include *.csproj, *.appxmanifest, *.wapproj -recurse | ForEach -Process {
-        (Get-Content $_ -Raw | ForEach -Process {$_ -replace "Assets\\AppTilesDev", "Assets\AppTiles"}) | Set-Content $_ -NoNewline
+        (Get-Content $_ -Raw | ForEach -Process {$_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\\${{parameters.iconVariant}}"}) | Set-Content $_ -NoNewline
         }
       failOnStderr: true
 
@@ -171,14 +178,14 @@ jobs:
         $xmlDoc.Save('$(Build.SourcesDirectory)\src\Files.Package\Package.appxmanifest')
       failOnStderr: true
 
- # This replaces references to the dev icon with the regular release icon 
+ # This replaces references to the dev icon with the specified icon variant 
   - task: PowerShell@2
-    displayName: 'Use Release Logo'
+    displayName: 'Use Correct Logo'
     inputs:
       targetType: 'inline'
       script: |
         gci $(Build.SourcesDirectory)\src -Include *.csproj, *.appxmanifest, *.wapproj -recurse | ForEach -Process {
-        (Get-Content $_ -Raw | ForEach -Process {$_ -replace "Assets\\AppTilesDev", "Assets\AppTiles"}) | Set-Content $_ -NoNewline
+        (Get-Content $_ -Raw | ForEach -Process {$_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\\${{parameters.iconVariant}}"}) | Set-Content $_ -NoNewline
         }
       failOnStderr: true
 
