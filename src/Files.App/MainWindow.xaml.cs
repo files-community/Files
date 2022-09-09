@@ -49,7 +49,7 @@ namespace Files.App
             AppWindow.Title = "Files";
 
             // Set icon
-            AppWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, "Assets/AppTiles/StoreLogo.ico"));
+            AppWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, "Assets/AppTiles/Dev/Logo.ico"));
 
             if (AppWindowTitleBar.IsCustomizationSupported())
             {

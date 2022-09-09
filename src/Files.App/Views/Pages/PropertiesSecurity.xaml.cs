@@ -101,7 +101,7 @@ namespace Files.App.Views
                         var appWindow = propertiesWindow.AppWindow;
 
                         // Set icon
-                        appWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, "Assets/AppTiles/StoreLogo.ico"));
+                        appWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, "Assets/AppTiles/Dev/Logo.ico"));
 
                         // Set content
                         propertiesWindow.Content = frame;
