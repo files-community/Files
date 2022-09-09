@@ -76,6 +76,7 @@ namespace Files.App.Views
             App.AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
+                appWindow.Destroying += AppWindow_Destroying;
                 await App.Window.DispatcherQueue.EnqueueAsync(() => App.AppSettings.UpdateThemeElements.Execute(null));
             }
             else
@@ -83,6 +84,12 @@ namespace Files.App.Views
             }
 
             ViewModel.GetFilePermissions();
+        }
+
+        private void AppWindow_Destroying(AppWindow sender, object args)
+        {
+            App.AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
+            sender.Destroying -= AppWindow_Destroying;
         }
 
         private void Properties_Unloaded(object sender, RoutedEventArgs e)

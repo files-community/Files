@@ -121,7 +121,7 @@ namespace Files.App.Views
 
                     appWindow.Title = string.Format("SecurityAdvancedPermissionsTitle".GetLocalizedResource(), SecurityProperties.Item.ItemName);
                     appWindow.Resize(new SizeInt32(850, 550));
-                    appWindow.Closing += AppWindow_Closing;
+                    appWindow.Destroying += AppWindow_Destroying;
                     appWindow.Show();
 
                     propsView = appWindow;
@@ -137,9 +137,9 @@ namespace Files.App.Views
             }
         }
 
-        private async void AppWindow_Closing(AppWindow sender, AppWindowClosingEventArgs args)
+        private async void AppWindow_Destroying(AppWindow sender, object args)
         {
-            sender.Closing -= AppWindow_Closing;
+            sender.Destroying -= AppWindow_Destroying;
             propsView = null;
 
             if (SecurityProperties != null)

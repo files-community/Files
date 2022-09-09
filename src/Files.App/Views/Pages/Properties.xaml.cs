@@ -80,12 +80,24 @@ namespace Files.App.Views
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
                 //Window.Current.SetTitleBar(TitleBarDragArea); //WINUI3, SetDragRectangles?
+                appWindow.Destroying += AppWindow_Destroying;
                 await App.Window.DispatcherQueue.EnqueueAsync(() => AppSettings.UpdateThemeElements.Execute(null));
             }
             else
             {
                 propertiesDialog = DependencyObjectHelpers.FindParent<ContentDialog>(this);
                 propertiesDialog.Closed += PropertiesDialog_Closed;
+            }
+        }
+
+        private void AppWindow_Destroying(AppWindow sender, object args)
+        {
+            AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
+            sender.Destroying -= AppWindow_Destroying;
+            if (tokenSource != null && !tokenSource.IsCancellationRequested)
+            {
+                tokenSource.Cancel();
+                tokenSource = null;
             }
         }
 
