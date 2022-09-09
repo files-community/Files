@@ -30,7 +30,7 @@
 			<Setter Property="BorderThickness" Value="{ThemeResource ExpanderHeaderBorderThickness}" />
 			<Setter Property="HorizontalAlignment" Value="Stretch" />
 			<Setter Property="MinHeight" Value="{StaticResource ExpanderMinHeight}" />
-			<Setter Property="Padding" Value="{StaticResource ExpanderContentPadding}" />
+			<Setter Property="Padding" Value="20,4,20,4" />
 			<Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
 		</Style>
 
@@ -43,7 +43,7 @@
 			<Setter Property="BorderThickness" Value="{ThemeResource ExpanderHeaderBorderThickness}" />
 			<Setter Property="HorizontalAlignment" Value="Stretch" />
 			<Setter Property="HorizontalContentAlignment" Value="Stretch" />
-			<Setter Property="Padding" Value="{StaticResource ExpanderContentPadding}" />
+			<Setter Property="Padding" Value="20,4,20,4" />
 			<Setter Property="MinHeight" Value="{StaticResource ExpanderMinHeight}" />
 			<Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
 		</Style>
@@ -63,7 +63,7 @@
 					<Expander.Header>
 						<local:SettingsDisplayControl
 							Title="{x:Bind Title, Mode=OneWay}"
-							Margin="0,16"
+							Margin="0,4"
 							AdditionalDescriptionContent="{x:Bind AdditionalDescriptionContent, Mode=OneWay}"
 							Description="{x:Bind Description, Mode=OneWay}"
 							Icon="{x:Bind Icon, Mode=OneWay}"

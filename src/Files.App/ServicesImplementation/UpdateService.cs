@@ -50,8 +50,6 @@ namespace Files.App.ServicesImplementation
             _updatePackages = new List<StorePackageUpdate>();
         }
 
-        public void ReportToAppCenter() { }
-
         public async Task DownloadUpdates()
         {
             OnUpdateInProgress();

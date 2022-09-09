@@ -31,17 +31,11 @@ namespace Files.App.ServicesImplementation.Settings
             {
                 case nameof(IsDualPaneEnabled):
                 case nameof(AlwaysOpenDualPaneInNewTab):
-                    Analytics.TrackEvent($"{e.SettingName} {e.NewValue}");
+                    Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
                     break;
             }
 
             base.RaiseOnSettingChangedEvent(sender, e);
-        }
-
-        public void ReportToAppCenter()
-        {
-            Analytics.TrackEvent($"{nameof(IsDualPaneEnabled)}, {IsDualPaneEnabled}");
-            Analytics.TrackEvent($"{nameof(AlwaysOpenDualPaneInNewTab)}, {AlwaysOpenDualPaneInNewTab}");
         }
     }
 }

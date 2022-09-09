@@ -111,26 +111,15 @@ namespace Files.App.Interacts
             WallpaperHelpers.SetAsBackground(WallpaperType.LockScreen, SlimContentPage.SelectedItem.ItemPath);
         }
 
-        public virtual async void SetAsDesktopBackgroundItem(RoutedEventArgs e)
+        public virtual void SetAsDesktopBackgroundItem(RoutedEventArgs e)
         {
             WallpaperHelpers.SetAsBackground(WallpaperType.Desktop, SlimContentPage.SelectedItem.ItemPath);
         }
 
-        public virtual async void SetAsSlideshowItem(RoutedEventArgs e)
+        public virtual void SetAsSlideshowItem(RoutedEventArgs e)
         {
             var images = (from o in SlimContentPage.SelectedItems select o.ItemPath).ToArray();
-
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
-            {
-                var value = new ValueSet
-                {
-                    { "Arguments", "WallpaperOperation" },
-                    { "wallpaperop", "SetSlideshow" },
-                    { "filepaths", images }
-                };
-                await connection.SendMessageAsync(value);
-            }
+            WallpaperHelpers.SetSlideshow(images);
         }
 
         public virtual async void RunAsAdmin(RoutedEventArgs e)
@@ -784,20 +773,9 @@ namespace Files.App.Interacts
 
         public async Task InstallInfDriver()
         {
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
+            foreach (ListedItem selectedItem in SlimContentPage.SelectedItems)
             {
-                foreach (ListedItem selectedItem in SlimContentPage.SelectedItems)
-                {
-                    var value = new ValueSet
-                    {
-                        { "Arguments", "InstallOperation" },
-                        { "installop", "InstallInf" },
-                        { "filepath", selectedItem.ItemPath },
-                        { "extension", selectedItem.FileExtension },
-                    };
-                    await connection.SendMessageAsync(value);
-                }
+                await Win32API.InstallInf(selectedItem.ItemPath);
             }
         }
 
@@ -823,23 +801,14 @@ namespace Files.App.Interacts
             App.PreviewPaneViewModel.UpdateSelectedItemPreview();
         }
 
-        public async Task InstallFont()
+        public Task InstallFont()
         {
             foreach (ListedItem selectedItem in SlimContentPage.SelectedItems)
             {
-                var connection = await AppServiceConnectionHelper.Instance;
-                if (connection != null)
-                {
-                    var value = new ValueSet
-                    {
-                        { "Arguments", "InstallOperation" },
-                        { "installop", "InstallFont" },
-                        { "filepath", selectedItem.ItemPath },
-                        { "extension", selectedItem.FileExtension },
-                    };
-                    await connection.SendMessageAsync(value);
-                }
+                Win32API.InstallFont(selectedItem.ItemPath);
             }
+
+            return Task.CompletedTask;
         }
 
         #endregion Command Implementation

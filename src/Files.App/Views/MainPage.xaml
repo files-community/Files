@@ -245,14 +245,9 @@
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="*" />
-						<ColumnDefinition x:Name="RightPaddingColumn" Width="0" />
-					</Grid.ColumnDefinitions>
 
 					<usercontrols:HorizontalMultitaskingControl
 						x:Name="horizontalMultitaskingControl"
-						Grid.Column="0"
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Stretch"
 						HorizontalContentAlignment="Stretch"
@@ -265,7 +260,6 @@
 						<usercontrols:HorizontalMultitaskingControl.ActionsControl>
 							<Button
 								x:Name="HorizontalMultitaskingControlAddButton"
-								Grid.Column="1"
 								Width="32"
 								Height="32"
 								Padding="8"
@@ -287,19 +281,9 @@
 						</usercontrols:HorizontalMultitaskingControl.ActionsControl>
 					</usercontrols:HorizontalMultitaskingControl>
 
-					<Grid
-						x:Name="TabBorder"
-						Grid.Column="1"
-						HorizontalAlignment="Stretch"
-						VerticalAlignment="Bottom"
-						BorderBrush="{ThemeResource CardStrokeColorDefault}"
-						BorderThickness="0,0,0,1" />
-
 					<controls:AddressToolbar
 						x:Name="NavToolbar"
 						Grid.Row="1"
-						Grid.Column="0"
-						Grid.ColumnSpan="2"
 						HorizontalAlignment="Stretch"
 						HorizontalContentAlignment="Stretch"
 						x:Load="False"

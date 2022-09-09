@@ -14,6 +14,8 @@ using Windows.Foundation.Metadata;
 using Windows.Graphics;
 using static Files.App.Views.Properties;
 
+#nullable enable
+
 namespace Files.App.Helpers
 {
     public static class FilePropertiesHelpers
@@ -23,35 +25,25 @@ namespace Files.App.Helpers
             if (associatedInstance.SlimContentPage.IsItemSelected)
             {
                 if (associatedInstance.SlimContentPage.SelectedItems.Count > 1)
-                {
                     await OpenPropertiesWindowAsync(associatedInstance.SlimContentPage.SelectedItems, associatedInstance);
-                }
                 else
-                {
                     await OpenPropertiesWindowAsync(associatedInstance.SlimContentPage.SelectedItem, associatedInstance);
-                }
             }
             else
             {
-                if (!System.IO.Path.GetPathRoot(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath)
-                    .Equals(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath, StringComparison.OrdinalIgnoreCase))
-                {
+                var path = System.IO.Path.GetPathRoot(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
+                if (path is not null && path.Equals(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath, StringComparison.OrdinalIgnoreCase))
                     await OpenPropertiesWindowAsync(associatedInstance.FilesystemViewModel.CurrentFolder, associatedInstance);
-                }
                 else
-                {
                     await OpenPropertiesWindowAsync(App.DrivesManager.Drives
-                        .SingleOrDefault(x => x.Path.Equals(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath)), associatedInstance);
-                }
+                        .Single(x => x.Path.Equals(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath)), associatedInstance);
             }
         }
 
         public static async Task OpenPropertiesWindowAsync(object item, IShellPage associatedInstance)
         {
             if (item == null)
-            {
                 return;
-            }
 
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
@@ -66,7 +58,11 @@ namespace Files.App.Helpers
                     }, new SuppressNavigationTransitionInfo());
 
                     // Initialize window
-                    var propertiesWindow = new WinUIEx.WindowEx();
+                    var propertiesWindow = new WinUIEx.WindowEx()
+                    {
+                        IsMaximizable = false,
+                        IsMinimizable = false
+                    };
                     var appWindow = propertiesWindow.AppWindow;
 
                     // Set icon
