@@ -18,8 +18,6 @@
 	Loading="Page_Loading"
 	Unloaded="Properties_Unloaded"
 	mc:Ignorable="d">
-	<!--  WINUI3  -->
-	<!--  BackdropMaterial.ApplyToRootOrPageBackground="False"  -->
 
 	<Page.Resources>
 		<ResourceDictionary>

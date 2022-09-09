@@ -47,58 +47,51 @@ namespace Files.App.Helpers
 
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
-                if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
+                var frame = new Frame();
+                frame.RequestedTheme = ThemeHelper.RootTheme;
+                frame.Navigate(typeof(Properties), new PropertiesPageNavigationArguments()
                 {
-                    var frame = new Frame();
-                    frame.RequestedTheme = ThemeHelper.RootTheme;
-                    frame.Navigate(typeof(Properties), new PropertiesPageNavigationArguments()
-                    {
-                        Item = item,
-                        AppInstanceArgument = associatedInstance
-                    }, new SuppressNavigationTransitionInfo());
+                    Item = item,
+                    AppInstanceArgument = associatedInstance
+                }, new SuppressNavigationTransitionInfo());
 
-                    // Initialize window
-                    var propertiesWindow = new WinUIEx.WindowEx()
-                    {
-                        IsMaximizable = false,
-                        IsMinimizable = false
-                    };
-                    var appWindow = propertiesWindow.AppWindow;
-
-                    // Set icon
-                    appWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, "Assets/AppTiles/Dev/Logo.ico"));
-
-                    // Set content
-                    propertiesWindow.Content = frame;
-                    if (frame.Content is Properties properties)
-                        properties.appWindow = appWindow;
-
-                    // Set min size
-                    propertiesWindow.MinWidth = 460;
-                    propertiesWindow.MinHeight = 550;
-
-                    // Set backdrop
-                    propertiesWindow.Backdrop = new WinUIEx.MicaSystemBackdrop() { DarkTintOpacity = 0.8 };
-
-                    appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
-
-                    // Set window buttons background to transparent
-                    appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
-                    appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-
-                    appWindow.Title = "PropertiesTitle".GetLocalizedResource();
-                    appWindow.Resize(new SizeInt32(460, 550));
-                    appWindow.Show();
-
-                    if (true) // WINUI3: move window to cursor position, todo better
-                    {
-                        UWPToWinAppSDKUpgradeHelpers.InteropHelpers.GetCursorPos(out var pointerPosition);
-                        appWindow.Move(new PointInt32(pointerPosition.X, pointerPosition.Y));
-                    }
-                }
-                else
+                // Initialize window
+                var propertiesWindow = new WinUIEx.WindowEx()
                 {
-                    //WINUI3: no CoreApplicationView
+                    IsMaximizable = false,
+                    IsMinimizable = false
+                };
+                var appWindow = propertiesWindow.AppWindow;
+
+                // Set icon
+                appWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, "Assets/AppTiles/Dev/Logo.ico"));
+
+                // Set content
+                propertiesWindow.Content = frame;
+                if (frame.Content is Properties properties)
+                    properties.appWindow = appWindow;
+
+                // Set min size
+                propertiesWindow.MinWidth = 460;
+                propertiesWindow.MinHeight = 550;
+
+                // Set backdrop
+                propertiesWindow.Backdrop = new WinUIEx.MicaSystemBackdrop() { DarkTintOpacity = 0.8 };
+
+                appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+
+                // Set window buttons background to transparent
+                appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+                appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+
+                appWindow.Title = "PropertiesTitle".GetLocalizedResource();
+                appWindow.Resize(new SizeInt32(460, 550));
+                appWindow.Show();
+
+                if (true) // WINUI3: move window to cursor position, todo better
+                {
+                    UWPToWinAppSDKUpgradeHelpers.InteropHelpers.GetCursorPos(out var pointerPosition);
+                    appWindow.Move(new PointInt32(pointerPosition.X, pointerPosition.Y));
                 }
             }
             else

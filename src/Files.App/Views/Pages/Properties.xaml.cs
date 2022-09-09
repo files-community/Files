@@ -25,8 +25,6 @@ namespace Files.App.Views
 {
     public sealed partial class Properties : Page
     {
-        //private static AppWindowTitleBar TitleBar; //WINUI3
-
         private CancellationTokenSource tokenSource = new CancellationTokenSource();
         private ContentDialog propertiesDialog;
 
@@ -34,14 +32,6 @@ namespace Files.App.Views
         private IShellPage AppInstance;
 
         private ListedItem listedItem;
-
-        private Storyboard RectHoverAnim;
-        private Storyboard RectUnHoverAnim;
-
-        private Storyboard CrossHoverAnim;
-        private Storyboard CrossUnHoverAnim;
-
-        //private XamlCompositionBrushBase micaBrush; //WINUI3
 
         public SettingsViewModel AppSettings => App.AppSettings;
 
@@ -89,89 +79,11 @@ namespace Files.App.Views
             AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
-                // Set window size in the loaded event to prevent flickering
-                if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
-                {
-                    //appWindow.TitleBar.SetPreferredVisibility(AppWindowTitleBarVisibility.AlwaysHidden);
-                    //appWindow.Frame.DragRegionVisuals.Add(TitleBarDragArea); //WINUI3, SetDragRectangles?
-
-                    //WINUI3
-                    /*crossIcon.Foreground = ThemeHelper.RootTheme switch
-                    {
-                        ElementTheme.Default => new SolidColorBrush((Color)Application.Current.Resources["SystemBaseHighColor"]),
-                        ElementTheme.Light => new SolidColorBrush(Colors.Black),
-                        ElementTheme.Dark => new SolidColorBrush(Colors.White),
-                        _ => new SolidColorBrush((Color)Application.Current.Resources["SystemBaseHighColor"])
-                    };*/
-
-                    // WINUI3: restore Mica background
-                    //var micaIsSupported = ApiInformation.IsMethodPresent("Microsoft.UI.Composition.Compositor", "TryCreateBlurredWallpaperBackdropBrush");
-                    //if (micaIsSupported)
-                    //{
-                    //micaBrush = new Brushes.MicaBrush(false);
-                    //(micaBrush as Brushes.MicaBrush).SetAppWindow(appWindow);
-                    //Frame.Background = micaBrush;
-                    //}
-                    //else
-                    //{
-                    //Microsoft.UI.Xaml.Controls.BackdropMaterial.SetApplyToRootOrPageBackground(sender as Control, true);
-                    //}
-
-                    /*var duration = new Duration(TimeSpan.FromMilliseconds(280));
-
-                    RectHoverAnim = new Storyboard();
-                    var RectHoverColorAnim = new ColorAnimation();
-                    RectHoverColorAnim.Duration = duration;
-                    RectHoverColorAnim.From = Colors.Transparent;
-                    RectHoverColorAnim.To = Color.FromArgb(255, 232, 17, 35);
-                    RectHoverColorAnim.EasingFunction = new SineEase();
-                    Storyboard.SetTarget(RectHoverColorAnim, CloseRect);
-                    Storyboard.SetTargetProperty(RectHoverColorAnim, "(Rectangle.Fill).(SolidColorBrush.Color)");
-                    RectHoverAnim.Children.Add(RectHoverColorAnim);
-
-                    RectUnHoverAnim = new Storyboard();
-                    var RectUnHoverColorAnim = new ColorAnimation();
-                    RectUnHoverColorAnim.Duration = duration;
-                    RectUnHoverColorAnim.To = Colors.Transparent;
-                    RectUnHoverColorAnim.From = Color.FromArgb(255, 232, 17, 35);
-                    RectUnHoverColorAnim.EasingFunction = new SineEase();
-                    Storyboard.SetTarget(RectUnHoverColorAnim, CloseRect);
-                    Storyboard.SetTargetProperty(RectUnHoverColorAnim, "(Rectangle.Fill).(SolidColorBrush.Color)");
-                    RectUnHoverAnim.Children.Add(RectUnHoverColorAnim);
-
-                    CrossHoverAnim = new Storyboard();
-                    var CrossHoverColorAnim = new ColorAnimation();
-                    CrossHoverColorAnim.Duration = duration;
-                    CrossHoverColorAnim.From = ((SolidColorBrush)crossIcon.Foreground).Color;
-                    CrossHoverColorAnim.To = Colors.White;
-                    CrossHoverColorAnim.EasingFunction = new SineEase();
-                    Storyboard.SetTarget(CrossHoverColorAnim, crossIcon);
-                    Storyboard.SetTargetProperty(CrossHoverColorAnim, "(PathIcon.Foreground).(SolidColorBrush.Color)");
-                    CrossHoverAnim.Children.Add(CrossHoverColorAnim);
-
-                    CrossUnHoverAnim = new Storyboard();
-                    var CrossUnHoverColorAnim = new ColorAnimation();
-                    CrossUnHoverColorAnim.Duration = duration;
-                    CrossUnHoverColorAnim.To = ((SolidColorBrush)crossIcon.Foreground).Color;
-                    CrossUnHoverColorAnim.From = Colors.White;
-                    CrossUnHoverColorAnim.EasingFunction = new SineEase();
-                    Storyboard.SetTarget(CrossUnHoverColorAnim, crossIcon);
-                    Storyboard.SetTargetProperty(CrossUnHoverColorAnim, "(PathIcon.Foreground).(SolidColorBrush.Color)");
-                    CrossUnHoverAnim.Children.Add(CrossUnHoverColorAnim);*/
-                }
-                else
-                {
-                    //WINUI3
-                    //TitleBar = ApplicationView.GetForCurrentView().TitleBar;
-                    //TitleBar.ButtonBackgroundColor = Colors.Transparent;
-                    //TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-                    //Window.Current.SetTitleBar(TitleBarDragArea);
-                }
+                //Window.Current.SetTitleBar(TitleBarDragArea); //WINUI3, SetDragRectangles?
                 await App.Window.DispatcherQueue.EnqueueAsync(() => AppSettings.UpdateThemeElements.Execute(null));
             }
             else
             {
-                //Microsoft.UI.Xaml.Controls.BackdropMaterial.SetApplyToRootOrPageBackground(sender as Control, true); //WINUI3
                 propertiesDialog = DependencyObjectHelpers.FindParent<ContentDialog>(this);
                 propertiesDialog.Closed += PropertiesDialog_Closed;
             }
@@ -205,51 +117,18 @@ namespace Files.App.Views
                     switch (RequestedTheme)
                     {
                         case ElementTheme.Default:
-                            if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
-                            {
-                                //WINUI3
-                                //crossIcon.Foreground = new SolidColorBrush((Color)Application.Current.Resources["SystemBaseHighColor"]);
-                                //((ColorAnimation)CrossHoverAnim.Children[0]).From = (Color)Application.Current.Resources["SystemBaseHighColor"];
-                                //((ColorAnimation)CrossUnHoverAnim.Children[0]).To = (Color)Application.Current.Resources["SystemBaseHighColor"];
-                            }
-                            else
-                            {
-                                //WINUI3
-                                //TitleBar.ButtonHoverBackgroundColor = (Color)Application.Current.Resources["SystemBaseLowColor"];
-                                //TitleBar.ButtonForegroundColor = (Color)Application.Current.Resources["SystemBaseHighColor"];
-                            }
+                            appWindow.TitleBar.ButtonHoverBackgroundColor = (Color)Application.Current.Resources["SystemBaseLowColor"];
+                            appWindow.TitleBar.ButtonForegroundColor = (Color)Application.Current.Resources["SystemBaseHighColor"];
                             break;
 
                         case ElementTheme.Light:
-                            if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
-                            {
-                                //WINUI3
-                                //crossIcon.Foreground = new SolidColorBrush(Colors.Black);
-                                //((ColorAnimation)CrossHoverAnim.Children[0]).From = Colors.Black;
-                                //((ColorAnimation)CrossUnHoverAnim.Children[0]).To = Colors.Black;
-                            }
-                            else
-                            {
-                                //WINUI3
-                                //TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 0, 0, 0);
-                                //TitleBar.ButtonForegroundColor = Colors.Black;
-                            }
+                            appWindow.TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 0, 0, 0);
+                            appWindow.TitleBar.ButtonForegroundColor = Colors.Black;
                             break;
 
                         case ElementTheme.Dark:
-                            if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
-                            {
-                                //WINUI3
-                                //crossIcon.Foreground = new SolidColorBrush(Colors.White);
-                                //((ColorAnimation)CrossHoverAnim.Children[0]).From = Colors.White;
-                                //((ColorAnimation)CrossUnHoverAnim.Children[0]).To = Colors.White;
-                            }
-                            else
-                            {
-                                //WINUI3
-                                //TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 255, 255, 255);
-                                //TitleBar.ButtonForegroundColor = Colors.White;
-                            }
+                            appWindow.TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 255, 255, 255);
+                            appWindow.TitleBar.ButtonForegroundColor = Colors.White;
                             break;
                     }
                 }
@@ -272,14 +151,7 @@ namespace Files.App.Views
 
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
-                if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
-                {
-                    appWindow.Destroy();
-                }
-                else
-                {
-                    //WINUI3
-                }
+                appWindow.Destroy();
             }
             else
             {
@@ -291,14 +163,7 @@ namespace Files.App.Views
         {
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
-                if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
-                {
-                    appWindow.Destroy();
-                }
-                else
-                {
-                    //WINUI3
-                }
+                appWindow.Destroy();
             }
             else
             {
@@ -312,14 +177,7 @@ namespace Files.App.Views
             {
                 if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
                 {
-                    if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
-                    {
-                        appWindow.Destroy();
-                    }
-                    else
-                    {
-                        //WINUI3
-                    }
+                    appWindow.Destroy();
                 }
                 else
                 {
@@ -394,34 +252,6 @@ namespace Files.App.Views
             catch (Exception)
             {
             }
-        }
-
-        private async void CloseRect_PointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            CrossUnHoverAnim.Stop();
-            RectUnHoverAnim.Stop();
-            CrossHoverAnim.Stop();
-            RectHoverAnim.Stop();
-
-            appWindow.Destroy();
-        }
-
-        private void CloseRect_PointerEntered(object sender, PointerRoutedEventArgs e)
-        {
-            CrossUnHoverAnim.Stop();
-            RectUnHoverAnim.Stop();
-
-            CrossHoverAnim.Begin();
-            RectHoverAnim.Begin();
-        }
-
-        private void CloseRect_PointerExited(object sender, PointerRoutedEventArgs e)
-        {
-            CrossHoverAnim.Stop();
-            RectHoverAnim.Stop();
-
-            CrossUnHoverAnim.Begin();
-            RectUnHoverAnim.Begin();
         }
     }
 }
