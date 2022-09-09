@@ -74,6 +74,12 @@ namespace Files.App.ServicesImplementation.Settings
             set => Set(value);
         }
 
+        public bool ColumnLayoutOpenFoldersWithOneClick
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
         public bool SearchUnindexedItems
         {
             get => Get(false);
@@ -147,6 +153,7 @@ namespace Files.App.ServicesImplementation.Settings
                 case nameof(ShowDotFiles):
                 case nameof(OpenFilesWithOneClick):
                 case nameof(OpenFoldersWithOneClick):
+                case nameof(ColumnLayoutOpenFoldersWithOneClick):
                 case nameof(SearchUnindexedItems):
                 case nameof(ForceLayoutPreferencesOnAllDirectories):
                 case nameof(ShowFolderSize):
@@ -154,31 +161,11 @@ namespace Files.App.ServicesImplementation.Settings
                 case nameof(ContinueLastSessionOnStartUp):
                 case nameof(OpenNewTabOnStartup):
                 case nameof(AlwaysOpenNewInstance):
-                    Analytics.TrackEvent($"{e.SettingName} {e.NewValue}");
+                    Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
                     break;
             }
 
             base.RaiseOnSettingChangedEvent(sender, e);
-        }
-
-        public void ReportToAppCenter()
-        {
-            Analytics.TrackEvent($"{nameof(ShowConfirmDeleteDialog)}, {ShowConfirmDeleteDialog}");
-            Analytics.TrackEvent($"{nameof(OpenFoldersInNewTab)}, {OpenFoldersInNewTab}");
-            Analytics.TrackEvent($"{nameof(ShowFileExtensions)}, {ShowFileExtensions}");
-            Analytics.TrackEvent($"{nameof(AreHiddenItemsVisible)}, {AreHiddenItemsVisible}");
-            Analytics.TrackEvent($"{nameof(AreSystemItemsHidden)}, {AreSystemItemsHidden}");
-            Analytics.TrackEvent($"{nameof(AreAlternateStreamsVisible)}, {AreAlternateStreamsVisible}");
-            Analytics.TrackEvent($"{nameof(ShowDotFiles)}, {ShowDotFiles}");
-            Analytics.TrackEvent($"{nameof(OpenFilesWithOneClick)}, {OpenFilesWithOneClick}");
-            Analytics.TrackEvent($"{nameof(OpenFoldersWithOneClick)}, {OpenFoldersWithOneClick}");
-            Analytics.TrackEvent($"{nameof(SearchUnindexedItems)}, {SearchUnindexedItems}");
-            Analytics.TrackEvent($"{nameof(ForceLayoutPreferencesOnAllDirectories)}, {ForceLayoutPreferencesOnAllDirectories}");
-            Analytics.TrackEvent($"{nameof(ShowFolderSize)}, {ShowFolderSize}");
-            Analytics.TrackEvent($"{nameof(OpenSpecificPageOnStartup)}, {OpenSpecificPageOnStartup}");
-            Analytics.TrackEvent($"{nameof(ContinueLastSessionOnStartUp)}, {ContinueLastSessionOnStartUp}");
-            Analytics.TrackEvent($"{nameof(OpenNewTabOnStartup)}, {OpenNewTabOnStartup}");
-            Analytics.TrackEvent($"{nameof(AlwaysOpenNewInstance)}, {AlwaysOpenNewInstance}");
         }
     }
 }

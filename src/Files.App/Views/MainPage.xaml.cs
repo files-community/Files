@@ -63,7 +63,6 @@ namespace Files.App.Views
 		{
 			InitializeComponent();
 
-			TitleBar_LayoutMetricsChanged(null, null); //WINUI3, event does not exist. Is this ok?
 			var flowDirectionSetting = /*
 				TODO ResourceContext.GetForCurrentView and ResourceContext.GetForViewIndependentUse do not exist in Windows App SDK
 				Use your ResourceManager instance to create a ResourceContext as below. If you already have a ResourceManager instance,
@@ -88,15 +87,15 @@ namespace Files.App.Views
 			}
 
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
-
-			LoadSelectedTheme();
+      
+      LoadSelectedTheme();
 		}
 
-		private async void LoadSelectedTheme()
+    private async void LoadSelectedTheme()
 		{
 			await App.ExternalResourcesHelper.LoadSelectedTheme();
 		}
-
+    
 		private async void PromptForReview()
 		{
 			var AskForReviewDialog = new ContentDialog
@@ -140,25 +139,9 @@ namespace Files.App.Views
 			}
 		}
 
-		private void TitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
-		{
-			if (AppWindowTitleBar.IsCustomizationSupported())
-			{
-				RightPaddingColumn.Width = new GridLength(App.GetAppWindow(App.Window).TitleBar.RightInset);
-			}
-		}
-
 		private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
 		{
-			if (AppWindowTitleBar.IsCustomizationSupported())
-			{
-				horizontalMultitaskingControl.DragArea.SizeChanged += (_, _) => SetRectDragRegion();
-				SetRectDragRegion();
-			}
-			else
-			{
-				App.Window.SetTitleBar(horizontalMultitaskingControl.DragArea);
-			}
+			horizontalMultitaskingControl.DragArea.SizeChanged += (_, _) => SetRectDragRegion();
 
 			if (!(ViewModel.MultitaskingControl is HorizontalMultitaskingControl))
 			{
@@ -170,25 +153,6 @@ namespace Files.App.Views
 
 		private void SetRectDragRegion()
 		{
-			if (!AppWindowTitleBar.IsCustomizationSupported())
-				return;
-
-			const bool WORKAROUND = true;
-			if (WORKAROUND)
-			{
-				const short LeftButton = 0x01;
-
-				if ((NativeWinApiHelper.GetKeyState(LeftButton) & 0xFF00) == 0xFF00)
-					return;                    
-
-				App.Window.AppWindow.TitleBar.ResetToDefault();
-				App.Window.AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
-
-				// Set window buttons background to transparent
-				App.Window.AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
-				App.Window.AppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-			}
-
 			const uint MDT_Effective_DPI = 0;
 
 			var displayArea = DisplayArea.GetFromWindowId(App.Window.AppWindow.Id, DisplayAreaFallback.Primary);
@@ -196,9 +160,8 @@ namespace Files.App.Views
 			var hr = NativeWinApiHelper.GetDpiForMonitor(hMonitor, MDT_Effective_DPI, out var dpiX, out _);
 			if (hr != 0)
 				return;
-			
-			var scalePercent = (uint)(((long)dpiX * 100 + (96 >> 1)) / 96); // wtf
-			var scaleAdjustment = scalePercent / 100.0;
+
+			var scaleAdjustment = XamlRoot.RasterizationScale;
 			var dragArea = horizontalMultitaskingControl.DragArea;
 
 			var x = (int)((horizontalMultitaskingControl.ActualWidth - dragArea.ActualWidth) * scaleAdjustment);
@@ -402,22 +365,6 @@ namespace Files.App.Views
 			FindName(nameof(InnerNavigationToolbar));
 			FindName(nameof(horizontalMultitaskingControl));
 			FindName(nameof(NavToolbar));
-
-			// the adaptive triggers do not evaluate on app startup, manually checking and calling GoToState here fixes https://github.com/files-community/Files/issues/5801
-			if (App.Window.Bounds.Width < CollapseSearchBoxAdaptiveTrigger.MinWindowWidth)
-			{
-				_ = VisualStateManager.GoToState(this, nameof(CollapseSearchBoxState), true);
-			}
-
-			if (App.Window.Bounds.Width < MinimalSidebarAdaptiveTrigger.MinWindowWidth)
-			{
-				_ = VisualStateManager.GoToState(this, nameof(MinimalSidebarState), true);
-			}
-
-			if (App.Window.Bounds.Width < CollapseHorizontalTabViewTrigger.MinWindowWidth)
-			{
-				_ = VisualStateManager.GoToState(this, nameof(HorizontalTabViewCollapsed), true);
-			}
 		}
 
 		private void Page_SizeChanged(object sender, SizeChangedEventArgs e)

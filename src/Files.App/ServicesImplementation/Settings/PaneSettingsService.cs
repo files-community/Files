@@ -1,7 +1,7 @@
+using Files.App.Serialization;
 using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
 using Files.Shared.EventArguments;
-using Files.App.Serialization;
 using Microsoft.AppCenter.Analytics;
 using System;
 
@@ -44,16 +44,11 @@ namespace Files.App.ServicesImplementation.Settings
             RegisterSettingsContext(settingsSharingContext);
         }
 
-        public void ReportToAppCenter()
-        {
-            Analytics.TrackEvent($"{nameof(ShowPreviewOnly)}, {ShowPreviewOnly}");
-        }
-
         protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
         {
             if (e.SettingName is nameof(ShowPreviewOnly))
             {
-                Analytics.TrackEvent($"{e.SettingName} {e.NewValue}");
+                Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
             }
 
             base.RaiseOnSettingChangedEvent(sender, e);

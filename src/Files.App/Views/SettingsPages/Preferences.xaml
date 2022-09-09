@@ -135,9 +135,6 @@
 				<local:SettingsBlockControl.ExpandableContent>
 					<StackPanel>
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsPreferencesShowConfirmDeleteDialog/Title}" HorizontalAlignment="Stretch">
-							<local:SettingsBlockControl.Icon>
-								<FontIcon Glyph="&#xE107;" />
-							</local:SettingsBlockControl.Icon>
 							<ToggleSwitch
 								x:Name="ShowConfirmDeleteDialogSwitch"
 								AutomationProperties.Name="{helpers:ResourceString Name=SettingsShowConfirmDeleteDialogToggleSwitch/AutomationProperties/Name}"
@@ -145,21 +142,7 @@
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsPreferencesOpenFoldersNewTab/Title}" HorizontalAlignment="Stretch">
-							<local:SettingsBlockControl.Icon>
-								<FontIcon Glyph="&#xF12B;" />
-							</local:SettingsBlockControl.Icon>
-							<ToggleSwitch
-								x:Name="OpenFoldersNewTab"
-								AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenFoldersNewTabToggleSwitch/AutomationProperties/Name}"
-								IsOn="{Binding OpenFoldersNewTab, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsFilesAndFoldersShowFileExtensions}" HorizontalAlignment="Stretch">
-							<local:SettingsBlockControl.Icon>
-								<FontIcon Glyph="&#xE160;" />
-							</local:SettingsBlockControl.Icon>
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersShowFileExtensions}"
 								IsOn="{Binding ShowFileExtensions, Mode=TwoWay}"
@@ -167,39 +150,13 @@
 						</local:SettingsBlockControl>
 
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsFilesAndFoldersShowThumbnails}" HorizontalAlignment="Stretch">
-							<local:SettingsBlockControl.Icon>
-								<FontIcon Glyph="&#xE91B;" />
-							</local:SettingsBlockControl.Icon>
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersShowThumbnails}"
 								IsOn="{Binding ShowThumbnails, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsOpenFilesWithOneClick}" HorizontalAlignment="Stretch">
-							<local:SettingsBlockControl.Icon>
-								<FontIcon Glyph="&#xE8B0;" />
-							</local:SettingsBlockControl.Icon>
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenFilesWithOneClick}"
-								IsOn="{Binding OpenFilesWithOneClick, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsOpenFoldersWithOneClick}" HorizontalAlignment="Stretch">
-							<local:SettingsBlockControl.Icon>
-								<FontIcon Glyph="&#xE8B0;" />
-							</local:SettingsBlockControl.Icon>
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenFoldersWithOneClick}"
-								IsOn="{Binding OpenFoldersWithOneClick, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsListAndSortDirectoriesAlongsideFiles}" HorizontalAlignment="Stretch">
-							<local:SettingsBlockControl.Icon>
-								<FontIcon Glyph="&#xE174;" />
-							</local:SettingsBlockControl.Icon>
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=SettingsListAndSortDirectoriesAlongsideFiles}"
 								IsOn="{Binding ListAndSortDirectoriesAlongsideFiles, Mode=TwoWay}"
@@ -210,17 +167,53 @@
 			</local:SettingsBlockControl>
 
 
+			<!--  Click to open settings  -->
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=BehaviorForOpeningFilesAndFolders}" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xED25;" />
+				</local:SettingsBlockControl.Icon>
+				<local:SettingsBlockControl.ExpandableContent>
+					<StackPanel>
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsOpenFilesWithOneClick}" HorizontalAlignment="Stretch">
+							<ToggleSwitch
+								AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenFilesWithOneClick}"
+								IsOn="{Binding OpenFilesWithOneClick, Mode=TwoWay}"
+								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						</local:SettingsBlockControl>
+
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsOpenFoldersWithOneClick}" HorizontalAlignment="Stretch">
+							<ToggleSwitch
+								AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenFoldersWithOneClick}"
+								IsOn="{Binding OpenFoldersWithOneClick, Mode=TwoWay}"
+								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						</local:SettingsBlockControl>
+
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=OpenFolderWithOneClickColumnsLayout}" HorizontalAlignment="Stretch">
+							<ToggleSwitch
+								AutomationProperties.Name="{helpers:ResourceString Name=OpenFolderWithOneClickColumnsLayout}"
+								IsOn="{Binding ColumnLayoutOpenFoldersWithOneClick, Mode=TwoWay}"
+								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						</local:SettingsBlockControl>
+
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsPreferencesOpenFoldersNewTab/Title}" HorizontalAlignment="Stretch">
+							<ToggleSwitch
+								x:Name="OpenFoldersNewTab"
+								AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenFoldersNewTabToggleSwitch/AutomationProperties/Name}"
+								IsOn="{Binding OpenFoldersNewTab, Mode=TwoWay}"
+								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						</local:SettingsBlockControl>
+					</StackPanel>
+				</local:SettingsBlockControl.ExpandableContent>
+			</local:SettingsBlockControl>
+
 			<!--  Hidden file and folder settings  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=HiddenFilesAndFolders}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xF12B;" />
+					<FontIcon Glyph="&#xED1A;" />
 				</local:SettingsBlockControl.Icon>
 				<local:SettingsBlockControl.ExpandableContent>
 					<StackPanel>
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsFilesAndFoldersShowHiddenItems}" HorizontalAlignment="Stretch">
-							<local:SettingsBlockControl.Icon>
-								<FontIcon Glyph="&#xE7B3;" />
-							</local:SettingsBlockControl.Icon>
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersShowHiddenItems}"
 								IsOn="{Binding AreHiddenItemsVisible, Mode=TwoWay}"
@@ -228,9 +221,6 @@
 						</local:SettingsBlockControl>
 
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowDotFiles}" HorizontalAlignment="Stretch">
-							<local:SettingsBlockControl.Icon>
-								<FontIcon Glyph="&#xE7B3;" />
-							</local:SettingsBlockControl.Icon>
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=ShowDotFiles}"
 								IsOn="{Binding ShowDotFiles, Mode=TwoWay}"
@@ -238,9 +228,6 @@
 						</local:SettingsBlockControl>
 
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsFilesAndFoldersHideSystemItems}" HorizontalAlignment="Stretch">
-							<local:SettingsBlockControl.Icon>
-								<FontIcon contract13NotPresent:Glyph="&#xE72E;" contract13Present:Glyph="&#xED1A;" />
-							</local:SettingsBlockControl.Icon>
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersHideSystemItems}"
 								IsOn="{Binding AreSystemItemsHidden, Mode=TwoWay}"
@@ -248,9 +235,6 @@
 						</local:SettingsBlockControl>
 
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowAlternateStreams}" HorizontalAlignment="Stretch">
-							<local:SettingsBlockControl.Icon>
-								<FontIcon Glyph="&#xE16F;" />
-							</local:SettingsBlockControl.Icon>
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=ShowAlternateStreams}"
 								IsOn="{Binding AreAlternateStreamsVisible, Mode=TwoWay}"
@@ -293,9 +277,6 @@
 				<local:SettingsBlockControl.ExpandableContent>
 					<StackPanel>
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ForceThesePreferencesOnAllDirectories}" HorizontalAlignment="Stretch">
-							<local:SettingsBlockControl.Icon>
-								<FontIcon Glyph="&#xE8B7;" />
-							</local:SettingsBlockControl.Icon>
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=ForceThesePreferencesOnAllDirectories}"
 								IsOn="{Binding ForceLayoutPreferencesOnAllDirectories, Mode=TwoWay}"
@@ -303,45 +284,30 @@
 						</local:SettingsBlockControl>
 
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=DisplayTagColumn}" HorizontalAlignment="Stretch">
-							<local:SettingsBlockControl.Icon>
-								<FontIcon Glyph="&#xE7B3;" />
-							</local:SettingsBlockControl.Icon>
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=DisplayTagColumn}"
 								IsOn="{Binding ShowFileTagColumn, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=DisplaySizeColumn}" HorizontalAlignment="Stretch">
-							<local:SettingsBlockControl.Icon>
-								<FontIcon Glyph="&#xE7B3;" />
-							</local:SettingsBlockControl.Icon>
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=DisplaySizeColumn}"
 								IsOn="{Binding ShowSizeColumn, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=DisplayTypeColumn}" HorizontalAlignment="Stretch">
-							<local:SettingsBlockControl.Icon>
-								<FontIcon Glyph="&#xE7B3;" />
-							</local:SettingsBlockControl.Icon>
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=DisplayTypeColumn}"
 								IsOn="{Binding ShowTypeColumn, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=DisplayDateColumn}" HorizontalAlignment="Stretch">
-							<local:SettingsBlockControl.Icon>
-								<FontIcon Glyph="&#xE7B3;" />
-							</local:SettingsBlockControl.Icon>
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=DisplayDateColumn}"
 								IsOn="{Binding ShowDateColumn, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=DisplayDateCreatedColumn}" HorizontalAlignment="Stretch">
-							<local:SettingsBlockControl.Icon>
-								<FontIcon Glyph="&#xE7B3;" />
-							</local:SettingsBlockControl.Icon>
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=DisplayDateCreatedColumn}"
 								IsOn="{Binding ShowDateCreatedColumn, Mode=TwoWay}"
@@ -443,9 +409,6 @@
 						</local:SettingsBlockControl>
 
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=OpenNewInstance}" HorizontalAlignment="Stretch">
-							<local:SettingsBlockControl.Icon>
-								<FontIcon Glyph="&#xE7E8;" />
-							</local:SettingsBlockControl.Icon>
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=OpenNewInstance}"
 								IsOn="{Binding AlwaysOpenANewInstance, Mode=TwoWay}"
@@ -453,9 +416,6 @@
 						</local:SettingsBlockControl>
 
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsOpenInLogin}" HorizontalAlignment="Stretch">
-							<local:SettingsBlockControl.Icon>
-								<FontIcon Glyph="&#xE7E8;" />
-							</local:SettingsBlockControl.Icon>
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenInLogin}"
 								IsEnabled="{Binding CanOpenInLogin, Mode=OneWay}"
