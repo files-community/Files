@@ -80,18 +80,11 @@ namespace Files.App.Helpers
                     // Set backdrop
                     propertiesWindow.Backdrop = new WinUIEx.MicaSystemBackdrop() { DarkTintOpacity = 0.8 };
 
-                    if (AppWindowTitleBar.IsCustomizationSupported())
-                    {
-                        appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+                    appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
 
-                        // Set window buttons background to transparent
-                        appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
-                        appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-                    }
-                    else
-                    {
-                        propertiesWindow.ExtendsContentIntoTitleBar = true;
-                    }
+                    // Set window buttons background to transparent
+                    appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+                    appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
                     appWindow.Title = "PropertiesTitle".GetLocalizedResource();
                     appWindow.Resize(new SizeInt32(460, 550));
