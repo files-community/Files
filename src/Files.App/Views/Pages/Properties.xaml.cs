@@ -123,7 +123,7 @@ namespace Files.App.Views
             var selectedTheme = ThemeHelper.RootTheme;
             await DispatcherQueue.EnqueueAsync(() =>
             {
-                RequestedTheme = selectedTheme;
+                ((Frame)Parent).RequestedTheme = selectedTheme;
                 if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
                 {
                     switch (RequestedTheme)
