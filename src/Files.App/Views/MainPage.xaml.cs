@@ -134,12 +134,12 @@ namespace Files.App.Views
 
 		private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
 		{
-            // WINUI3: bad workaround to be removed asap!
-            // SetDragRectangles() does not work on windows 10 with winappsdk "1.2.220902.1-preview1"
-            if (Environment.OSVersion.Version.Build >= 22000)
+			// WINUI3: bad workaround to be removed asap!
+			// SetDragRectangles() does not work on windows 10 with winappsdk "1.2.220902.1-preview1"
+			if (Environment.OSVersion.Version.Build >= 22000)
 			{
-                horizontalMultitaskingControl.DragArea.SizeChanged += (_, _) => SetRectDragRegion();
-            }
+				horizontalMultitaskingControl.DragArea.SizeChanged += (_, _) => SetRectDragRegion();
+			}
 			else
 			{
 				App.Window.AppWindow.TitleBar.ExtendsContentIntoTitleBar = false;
