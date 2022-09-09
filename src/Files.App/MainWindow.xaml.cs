@@ -1,26 +1,28 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.App.CommandLine;
+using Files.App.Filesystem;
+using Files.App.Helpers;
+using Files.App.UserControls.MultitaskingControl;
 using Files.App.ViewModels;
 using Files.App.Views;
+using Files.Backend.Services.Settings;
 using Files.Shared.Extensions;
+using Microsoft.UI;
+using Microsoft.UI.Dispatching;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Windows.AppLifecycle;
 using System;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.Activation;
-using Microsoft.UI;
-using Microsoft.UI.Windowing;
-using WinUIEx;
-using Microsoft.UI.Dispatching;
-using Files.App.Helpers;
-using Files.App.CommandLine;
-using Windows.Storage;
-using Files.App.Filesystem;
+using System.IO;
 using System.Linq;
-using Files.Backend.Services.Settings;
-using CommunityToolkit.Mvvm.DependencyInjection;
+using System.Threading.Tasks;
+using Windows.ApplicationModel;
+using Windows.ApplicationModel.Activation;
+using Windows.Storage;
+using WinUIEx;
 using IO = System.IO;
-using Files.App.UserControls.MultitaskingControl;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -45,6 +47,9 @@ namespace Files.App
         {
             // Set title
             AppWindow.Title = "Files";
+
+            // Set icon
+            AppWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, "Assets/AppTiles/StoreLogo.ico"));
 
             if (AppWindowTitleBar.IsCustomizationSupported())
             {

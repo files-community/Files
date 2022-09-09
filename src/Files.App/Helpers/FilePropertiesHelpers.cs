@@ -1,17 +1,18 @@
 using Files.App.Dialogs;
-using Files.App.Views;
 using Files.App.Extensions;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Windows.Foundation.Metadata;
-using Microsoft.UI.Xaml;
+using Files.App.Views;
+using Microsoft.UI;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
+using System;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Windows.ApplicationModel;
+using Windows.Foundation.Metadata;
 using Windows.Graphics;
-using Microsoft.UI;
 using static Files.App.Views.Properties;
-using Microsoft.UI.Windowing;
 
 namespace Files.App.Helpers
 {
@@ -67,6 +68,9 @@ namespace Files.App.Helpers
                     // Initialize window
                     var propertiesWindow = new WinUIEx.WindowEx();
                     var appWindow = propertiesWindow.AppWindow;
+
+                    // Set icon
+                    appWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, "Assets/AppTiles/StoreLogo.ico"));
 
                     // Set content
                     propertiesWindow.Content = frame;
