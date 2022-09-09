@@ -6,8 +6,10 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 using Windows.Foundation.Metadata;
 using Windows.Graphics;
 using static Files.App.Views.Properties;
@@ -62,6 +64,9 @@ namespace Files.App.Helpers
                         IsMinimizable = false
                     };
                     var appWindow = propertiesWindow.AppWindow;
+
+                    // Set icon
+                    appWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, "Assets/AppTiles/Dev/Logo.ico"));
 
                     // Set content
                     propertiesWindow.Content = frame;

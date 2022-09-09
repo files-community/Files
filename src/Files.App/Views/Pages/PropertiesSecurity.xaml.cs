@@ -1,21 +1,23 @@
-using Files.App.DataModels.NavigationControlItems;
-using Files.App.Filesystem;
-using Files.App.ViewModels.Properties;
-using Files.App.Extensions;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
-using System;
-using System.Threading.Tasks;
-using Windows.Foundation.Metadata;
+using Files.App.DataModels.NavigationControlItems;
+using Files.App.Extensions;
+using Files.App.Filesystem;
+using Files.App.Helpers;
+using Files.App.ViewModels.Properties;
+using Microsoft.UI;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
-using static Files.App.Views.PropertiesSecurityAdvanced;
-using Files.App.Helpers;
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using Windows.ApplicationModel;
+using Windows.Foundation.Metadata;
 using Windows.Graphics;
-using Microsoft.UI.Windowing;
-using Microsoft.UI;
+using static Files.App.Views.PropertiesSecurityAdvanced;
 
 namespace Files.App.Views
 {
@@ -97,6 +99,9 @@ namespace Files.App.Views
                         // Initialize window
                         var propertiesWindow = new WinUIEx.WindowEx();
                         var appWindow = propertiesWindow.AppWindow;
+
+                        // Set icon
+                        appWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, "Assets/AppTiles/Dev/Logo.ico"));
 
                         // Set content
                         propertiesWindow.Content = frame;
