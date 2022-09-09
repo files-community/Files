@@ -119,20 +119,6 @@
 	</Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="Assets\AppTiles\Preview\**" />
-    <Compile Remove="Assets\AppTiles\Release\**" />
-    <Content Remove="Assets\AppTiles\Preview\**" />
-    <Content Remove="Assets\AppTiles\Release\**" />
-    <EmbeddedResource Remove="Assets\AppTiles\Preview\**" />
-    <EmbeddedResource Remove="Assets\AppTiles\Release\**" />
-    <None Remove="Assets\AppTiles\Preview\**" />
-    <None Remove="Assets\AppTiles\Release\**" />
-    <Page Remove="Assets\AppTiles\Preview\**" />
-    <Page Remove="Assets\AppTiles\Release\**" />
-    <PRIResource Remove="Assets\AppTiles\Preview\**" />
-    <PRIResource Remove="Assets\AppTiles\Release\**" />
-  </ItemGroup>
-  <ItemGroup>
 	<Content Remove="Assets\FilesHome.png" />
 	<Content Remove="Assets\FilesHome.png" />
   </ItemGroup>
