@@ -53,28 +53,64 @@ namespace Files.App
         private static bool ShowErrorNotification = false;
 
         public static string OutputPath { get; set; }
-        public static StorageHistoryWrapper HistoryWrapper = new StorageHistoryWrapper();
-        public static SettingsViewModel AppSettings { get; private set; }
-        public static AppModel AppModel { get; private set; }
-        public static PaneViewModel PaneViewModel { get; private set; }
-        public static PreviewPaneViewModel PreviewPaneViewModel { get; private set; }
-        public static JumpListManager JumpList { get; private set; }
-        public static RecentItemsManager RecentItemsManager { get; private set; }
-        public static SidebarPinnedController SidebarPinnedController { get; private set; }
-        public static TerminalController TerminalController { get; private set; }
-        public static CloudDrivesManager CloudDrivesManager { get; private set; }
-        public static NetworkDrivesManager NetworkDrivesManager { get; private set; }
-        public static DrivesManager DrivesManager { get; private set; }
-        public static WSLDistroManager WSLDistroManager { get; private set; }
-        public static LibraryManager LibraryManager { get; private set; }
-        public static FileTagsManager FileTagsManager { get; private set; }
-        public static ExternalResourcesHelper ExternalResourcesHelper { get; private set; }
+
+        private static Lazy<StorageHistoryWrapper> _historyWrapper = new();
+        public static StorageHistoryWrapper HistoryWrapper => _historyWrapper.Value;
+
+        private static Lazy<SettingsViewModel> _appSettings = new();
+        public static SettingsViewModel AppSettings => _appSettings.Value;
+
+        private static Lazy<AppModel> _appModel = new();
+        public static AppModel AppModel => _appModel.Value;
+
+        private static Lazy<PaneViewModel> _paneViewModel = new();
+        public static PaneViewModel PaneViewModel => _paneViewModel.Value;
+
+        private static Lazy<PreviewPaneViewModel> _previewPaneViewModel = new();
+        public static PreviewPaneViewModel PreviewPaneViewModel => _previewPaneViewModel.Value;
+
+        private static Lazy<JumpListManager> _jumpList = new();
+        public static JumpListManager JumpList => _jumpList.Value;
+
+        private static Lazy<RecentItemsManager> _recentItemsManager = new();
+        public static RecentItemsManager RecentItemsManager => _recentItemsManager.Value;
+
+        private static Lazy<SidebarPinnedController> _sidebarPinnedController = new();
+        public static SidebarPinnedController SidebarPinnedController => _sidebarPinnedController.Value;
+
+        private static Lazy<TerminalController> _terminalController = new();
+        public static TerminalController TerminalController => _terminalController.Value;
+
+        private static Lazy<CloudDrivesManager> _cloudDrivesManager = new();
+        public static CloudDrivesManager CloudDrivesManager => _cloudDrivesManager.Value;
+
+        private static Lazy<NetworkDrivesManager> _networkDrivesManager = new();
+        public static NetworkDrivesManager NetworkDrivesManager => _networkDrivesManager.Value;
+
+        private static Lazy<DrivesManager> _drivesManager = new();
+        public static DrivesManager DrivesManager => _drivesManager.Value;
+
+        private static Lazy<WSLDistroManager> _wslDistroManager = new();
+        public static WSLDistroManager WSLDistroManager => _wslDistroManager.Value;
+
+        private static Lazy<LibraryManager> _libraryManager = new();
+        public static LibraryManager LibraryManager => _libraryManager.Value;
+
+        private static Lazy<FileTagsManager> _fileTagsManager = new();
+        public static FileTagsManager FileTagsManager => _fileTagsManager.Value;
+
+        private static Lazy<ExternalResourcesHelper> _externalResourcesHelper = new();
+        public static ExternalResourcesHelper ExternalResourcesHelper => _externalResourcesHelper.Value;
+
+        private static Lazy<OngoingTasksViewModel> _ongoingTasksViewModel = new();
+        public static OngoingTasksViewModel OngoingTasksViewModel => _ongoingTasksViewModel.Value;
+
+        private static Lazy<SecondaryTileHelper> _secondaryTileHelper = new();
+        public static SecondaryTileHelper SecondaryTileHelper => _secondaryTileHelper.Value;
 
         public static ILogger Logger { get; private set; }
-        private static readonly UniversalLogWriter logWriter = new UniversalLogWriter();
 
-        public static OngoingTasksViewModel OngoingTasksViewModel { get; } = new OngoingTasksViewModel();
-        public static SecondaryTileHelper SecondaryTileHelper { get; private set; } = new SecondaryTileHelper();
+        private static readonly UniversalLogWriter logWriter = new UniversalLogWriter();
 
         public static string AppVersion = $"{Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}.{Package.Current.Id.Version.Revision}";
 
@@ -147,22 +183,6 @@ namespace Files.App
 
         private static async Task EnsureSettingsAndConfigurationAreBootstrapped()
         {
-            AppSettings ??= new SettingsViewModel();
-            ExternalResourcesHelper ??= new ExternalResourcesHelper();
-            JumpList ??= new JumpListManager();
-            RecentItemsManager ??= new RecentItemsManager();
-            AppModel ??= new AppModel();
-            PaneViewModel ??= new PaneViewModel();
-            PreviewPaneViewModel ??= new PreviewPaneViewModel();
-            LibraryManager ??= new LibraryManager();
-            DrivesManager ??= new DrivesManager();
-            NetworkDrivesManager ??= new NetworkDrivesManager();
-            CloudDrivesManager ??= new CloudDrivesManager();
-            WSLDistroManager ??= new WSLDistroManager();
-            FileTagsManager ??= new FileTagsManager();
-            SidebarPinnedController ??= new SidebarPinnedController();
-            TerminalController ??= new TerminalController();
-
             await ExternalResourcesHelper.LoadSelectedTheme();
             new AppearanceViewModel().SetCompactStyles(updateTheme: false);
         }
