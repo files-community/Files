@@ -21,17 +21,12 @@ namespace Files.App.Helpers
             },
         };
 
-        public StorageFolder ThemeFolder { get; set; }
-        public StorageFolder ImportedThemesFolder { get; set; }
+        public Task<StorageFolder> ThemeFolder { get; } =
+            StorageFolder.GetFolderFromPathAsync(Path.Combine(Windows.ApplicationModel.Package.Current.InstalledLocation.Path, "Files.App", "Themes")).AsTask();
+        public Task<StorageFolder> ImportedThemesFolder { get; } =
+            ApplicationData.Current.LocalFolder.CreateFolderAsync("Themes", CreationCollisionOption.OpenIfExists).AsTask();
 
         public string CurrentThemeResources { get; set; }
-
-        public async Task Init()
-        {
-            string bundledThemesPath = Path.Combine(Windows.ApplicationModel.Package.Current.InstalledLocation.Path, "Files.App", "Themes");
-            ThemeFolder ??= await StorageFolder.GetFolderFromPathAsync(bundledThemesPath);
-            ImportedThemesFolder ??= await ApplicationData.Current.LocalFolder.CreateFolderAsync("Themes", CreationCollisionOption.OpenIfExists);
-        }
 
         public Task LoadSelectedTheme()
         {
@@ -46,9 +41,8 @@ namespace Files.App.Helpers
         {
             try
             {
-                await Init();
-                await AddThemesAsync(ThemeFolder);
-                await AddThemesAsync(ImportedThemesFolder);
+                await AddThemesAsync(await ThemeFolder);
+                await AddThemesAsync(await ImportedThemesFolder);
             }
             catch (Exception)
             {
@@ -99,16 +93,14 @@ namespace Files.App.Helpers
                 return null;
             }
 
-            await Init();
-
-            if (theme.AbsolutePath.Contains(ImportedThemesFolder.Path))
+            if (theme.AbsolutePath.Contains((await ImportedThemesFolder).Path))
             {
-                file = await ImportedThemesFolder.GetFileAsync(theme.Path);
+                file = await (await ImportedThemesFolder).GetFileAsync(theme.Path);
                 theme.IsImportedTheme = true;
             }
             else
             {
-                file = await ThemeFolder.GetFileAsync(theme.Path);
+                file = await (await ThemeFolder).GetFileAsync(theme.Path);
                 theme.IsImportedTheme = false;
             }
 

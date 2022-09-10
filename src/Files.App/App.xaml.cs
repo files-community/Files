@@ -181,12 +181,6 @@ namespace Files.App
             return services.BuildServiceProvider();
         }
 
-        private static async Task EnsureSettingsAndConfigurationAreBootstrapped()
-        {
-            await ExternalResourcesHelper.LoadSelectedTheme();
-            new AppearanceViewModel().SetCompactStyles(updateTheme: false);
-        }
-
         private static async Task StartAppCenter()
         {
             try
@@ -267,7 +261,9 @@ namespace Files.App
             // Initialize MainWindow here
             EnsureWindowIsInitialized();
 
-            await EnsureSettingsAndConfigurationAreBootstrapped();
+            await ExternalResourcesHelper.LoadSelectedTheme();
+            new AppearanceViewModel().SetCompactStyles(updateTheme: false);
+
             _ = InitializeAppComponentsAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
 
             await Window.InitializeApplication(activatedEventArgs);

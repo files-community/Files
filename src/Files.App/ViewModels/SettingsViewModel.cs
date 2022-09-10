@@ -152,6 +152,7 @@ namespace Files.App.ViewModels
             {
                 if (value.Name == "Default".GetLocalizedResource())
                 {
+                    // Remove setting in case of default theme to avoid deserialization on app start
                     localSettings.Values.Remove("SelectedTheme");
                 }
                 else
