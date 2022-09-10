@@ -604,6 +604,14 @@ namespace Files.App.Helpers
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
+                    Text = "RestoreRecycleBin".GetLocalizedResource(),
+                    Glyph = "\xE10D",
+                    Command = commandsViewModel.RestoreRecycleBinCommand,
+                    ShowItem = currentInstanceViewModel.IsPageTypeRecycleBin,
+                    ShowInRecycleBin = true,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
                     ItemType = ItemType.Separator,
                     Tag = "OverflowSeparator",
                     IsHidden = true,
