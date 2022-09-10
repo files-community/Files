@@ -140,11 +140,25 @@ namespace Files.App.ViewModels
         /// </summary>
         public AppTheme SelectedTheme
         {
-            get => Newtonsoft.Json.JsonConvert.DeserializeObject<AppTheme>(Get(System.Text.Json.JsonSerializer.Serialize(new AppTheme()
+            get
             {
-                Name = "Default".GetLocalizedResource()
-            })));
-            set => Set(Newtonsoft.Json.JsonConvert.SerializeObject(value));
+                if (localSettings.Values.TryGetValue("SelectedTheme", out var value) && value is string stringValue)
+                {
+                    return Newtonsoft.Json.JsonConvert.DeserializeObject<AppTheme>(stringValue);
+                }
+                return new AppTheme() { Name = "Default".GetLocalizedResource() };
+            }
+            set
+            {
+                if (value.Name == "Default".GetLocalizedResource())
+                {
+                    localSettings.Values.Remove("SelectedTheme");
+                }
+                else
+                {
+                    Set(Newtonsoft.Json.JsonConvert.SerializeObject(value));
+                }
+            }
         }
 
         #endregion Appearance

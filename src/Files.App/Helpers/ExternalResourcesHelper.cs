@@ -26,22 +26,27 @@ namespace Files.App.Helpers
 
         public string CurrentThemeResources { get; set; }
 
-        public async Task LoadSelectedTheme()
+        public async Task Init()
         {
             string bundledThemesPath = Path.Combine(Windows.ApplicationModel.Package.Current.InstalledLocation.Path, "Files.App", "Themes");
-            ThemeFolder = await StorageFolder.GetFolderFromPathAsync(bundledThemesPath);
-            ImportedThemesFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Themes", CreationCollisionOption.OpenIfExists);
+            ThemeFolder ??= await StorageFolder.GetFolderFromPathAsync(bundledThemesPath);
+            ImportedThemesFolder ??= await ApplicationData.Current.LocalFolder.CreateFolderAsync("Themes", CreationCollisionOption.OpenIfExists);
+        }
 
+        public Task LoadSelectedTheme()
+        {
             if (App.AppSettings.SelectedTheme.Path != null)
             {
-                await TryLoadThemeAsync(App.AppSettings.SelectedTheme);
+                return TryLoadThemeAsync(App.AppSettings.SelectedTheme);
             }
+            return Task.CompletedTask;
         }
 
         public async Task LoadOtherThemesAsync()
         {
             try
             {
+                await Init();
                 await AddThemesAsync(ThemeFolder);
                 await AddThemesAsync(ImportedThemesFolder);
             }
@@ -93,6 +98,8 @@ namespace Files.App.Helpers
             {
                 return null;
             }
+
+            await Init();
 
             if (theme.AbsolutePath.Contains(ImportedThemesFolder.Path))
             {
