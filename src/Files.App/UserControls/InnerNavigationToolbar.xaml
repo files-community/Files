@@ -207,6 +207,19 @@
 						<FontIcon FontFamily="{StaticResource RecycleBinIcons}" Glyph="&#xEF88;" />
 					</AppBarButton.Icon>
 				</AppBarButton>
+                <AppBarButton
+                    x:Name="RestoreRecycleBinButton"
+                    x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
+                    AccessKey="R"
+                    Command="{x:Bind ViewModel.RestoreRecycleBinCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind ViewModel.CanRestoreRecycleBin, Mode=OneWay}"
+                    Visibility="{x:Bind ViewModel.CanRestoreRecycleBin, Mode=OneWay}"
+                    Label="{helpers:ResourceString Name=RestoreRecycleBin}"
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=RestoreRecycleBin}">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE10D;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
 				<AppBarButton
 					x:Name="ExtractButton"
 					Width="Auto"
