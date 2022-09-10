@@ -25,5 +25,6 @@ namespace Files.App
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
         public BaseLayoutCommandsViewModel CommandsViewModel { get; }
+        public Microsoft.UI.Xaml.Controls.CommandBarFlyout ItemContextMenuFlyout { get; set; }
     }
 }

@@ -88,6 +88,8 @@ namespace Files.App.UserControls.Widgets
         public BulkConcurrentObservableCollection<FolderCardItem> ItemsAdded = new BulkConcurrentObservableCollection<FolderCardItem>();
         private bool showMultiPaneControls;
 
+        private FolderCardItem? propertiesItem = null;
+
         public FolderWidget()
         {
             InitializeComponent();
@@ -239,11 +241,7 @@ namespace Files.App.UserControls.Widgets
 
         private void OpenLibraryProperties_Click(object sender, RoutedEventArgs e)
         {
-            var item = (sender as MenuFlyoutItem).DataContext as FolderCardItem;
-            if (item.IsLibrary)
-            {
-                LibraryCardPropertiesInvoked?.Invoke(this, new LibraryCardEventArgs { Library = item.Item as LibraryLocationItem });
-            }
+            propertiesItem = (sender as MenuFlyoutItem)?.DataContext as FolderCardItem;
         }
 
         private async Task OpenLibraryCard(FolderCardItem item)
@@ -276,6 +274,15 @@ namespace Files.App.UserControls.Widgets
         public void Dispose()
         {
 
+        }
+
+        private void MenuFlyout_Closed(object sender, object e)
+        {
+            if (propertiesItem is null || !propertiesItem.IsLibrary)
+                return;
+
+            LibraryCardPropertiesInvoked?.Invoke(this, new LibraryCardEventArgs { Library = (propertiesItem.Item as LibraryLocationItem)! });
+            propertiesItem = null;
         }
     }
 }

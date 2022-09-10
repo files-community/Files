@@ -194,11 +194,17 @@ namespace Files.App.Interacts
 
         public virtual void ShowFolderProperties(RoutedEventArgs e)
         {
-            FilePropertiesHelpers.ShowProperties(associatedInstance);
+            SlimContentPage.ItemContextMenuFlyout.Closed += OpenProperties;
         }
 
         public virtual void ShowProperties(RoutedEventArgs e)
         {
+            SlimContentPage.ItemContextMenuFlyout.Closed += OpenProperties;
+        }
+
+        private void OpenProperties(object sender, object e)
+        {
+            SlimContentPage.ItemContextMenuFlyout.Closed -= OpenProperties;
             FilePropertiesHelpers.ShowProperties(associatedInstance);
         }
 
