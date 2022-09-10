@@ -13,6 +13,7 @@ using Windows.Storage;
 using Microsoft.UI.Xaml.Controls;
 using Files.App.Shell;
 using Vanara.PInvoke;
+using Files.App.Filesystem;
 
 namespace Files.App.Helpers
 {
@@ -112,6 +113,36 @@ namespace Files.App.Helpers
         public bool RecycleBinHasItems()
         {
             return Win32Shell.QueryRecycleBin().NumItems > 0;
+        }
+
+        public static async Task S_RestoreItem(IShellPage associatedInstance)
+        {
+            await new RecycleBinHelpers().RestoreItem(associatedInstance);
+        }
+
+        private async Task RestoreItem(IShellPage associatedInstance)
+        {
+            var items = associatedInstance.SlimContentPage.SelectedItems.ToList().Where(x => x is RecycleBinItem).Select((item) => new
+            {
+                Source = StorageHelpers.FromPathAndType(
+                    item.ItemPath,
+                    item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory),
+                Dest = ((RecycleBinItem)item).ItemOriginalPath
+            });
+            await associatedInstance.FilesystemHelpers.RestoreItemsFromTrashAsync(items.Select(x => x.Source), items.Select(x => x.Dest), true);
+        }
+
+        public static async Task S_DeleteItem(IShellPage associatedInstance)
+        {
+            await new RecycleBinHelpers().DeleteItem(associatedInstance);
+        }
+
+        public virtual async Task DeleteItem(IShellPage associatedInstance)
+        {
+            var items = associatedInstance.SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
+                item.ItemPath,
+                item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
+            await associatedInstance.FilesystemHelpers.DeleteItemsAsync(items, true, false, true);
         }
     }
 }
