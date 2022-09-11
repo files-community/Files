@@ -162,7 +162,14 @@
 								IsOn="{Binding ListAndSortDirectoriesAlongsideFiles, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
-					</StackPanel>
+
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SelectFilesAndFoldersOnHovering}" HorizontalAlignment="Stretch">
+                            <ToggleSwitch
+								AutomationProperties.Name="{helpers:ResourceString Name=SelectFilesAndFoldersOnHovering}"
+								IsOn="{Binding SelectOnHover, Mode=TwoWay}"
+								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                        </local:SettingsBlockControl>
+                    </StackPanel>
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
 

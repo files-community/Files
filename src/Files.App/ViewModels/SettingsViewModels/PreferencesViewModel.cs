@@ -589,6 +589,19 @@ namespace Files.App.ViewModels.SettingsViewModels
             }
         }
 
+        public bool SelectOnHover
+        {
+            get => UserSettingsService.PreferencesSettingsService.SelectOnHover;
+            set
+            {
+                if (value != UserSettingsService.PreferencesSettingsService.SelectOnHover)
+                {
+                    UserSettingsService.PreferencesSettingsService.SelectOnHover = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public bool OpenFilesWithOneClick
         {
             get => UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick;

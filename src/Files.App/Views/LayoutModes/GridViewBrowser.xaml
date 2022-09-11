@@ -62,6 +62,8 @@
 				Background="Transparent"
 				IsRightTapEnabled="True"
 				Loaded="Grid_Loaded"
+                PointerEntered="ListedItem_PointerEntered"
+                PointerExited="ListedItem_PointerExited"
 				RightTapped="StackPanel_RightTapped"
 				ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
 				<Grid.RowDefinitions>
@@ -214,6 +216,8 @@
 				ColumnSpacing="4"
 				IsRightTapEnabled="True"
 				Loaded="Grid_Loaded"
+				PointerEntered="ListedItem_PointerEntered"
+                PointerExited="ListedItem_PointerExited"
 				RightTapped="StackPanel_RightTapped"
 				ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
 				<Grid.ColumnDefinitions>

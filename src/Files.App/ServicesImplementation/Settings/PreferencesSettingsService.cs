@@ -62,6 +62,12 @@ namespace Files.App.ServicesImplementation.Settings
             set => Set(value);
         }
 
+        public bool SelectOnHover
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
         public bool OpenFilesWithOneClick
         {
             get => Get(false);
@@ -151,6 +157,7 @@ namespace Files.App.ServicesImplementation.Settings
                 case nameof(AreSystemItemsHidden):
                 case nameof(AreAlternateStreamsVisible):
                 case nameof(ShowDotFiles):
+                case nameof(SelectOnHover):
                 case nameof(OpenFilesWithOneClick):
                 case nameof(OpenFoldersWithOneClick):
                 case nameof(ColumnLayoutOpenFoldersWithOneClick):
