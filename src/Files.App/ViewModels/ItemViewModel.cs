@@ -164,6 +164,12 @@ namespace Files.App.ViewModels
 
             WorkingDirectory = value;
             OnPropertyChanged(nameof(WorkingDirectory));
+
+            if (value == "Home".GetLocalizedResource())
+            {
+                // Initialize connection to receive drive notifications
+                _ = InitializeConnectionAsync(); // fire and forget
+            }
         }
 
         public async Task<FilesystemResult<BaseStorageFolder>> GetFolderFromPathAsync(string value)
@@ -407,8 +413,6 @@ namespace Files.App.ViewModels
             UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
             FileTagsSettingsService.OnSettingImportedEvent += FileTagsSettingsService_OnSettingImportedEvent;
             FolderSizeProvider.SizeChanged += FolderSizeProvider_SizeChanged;
-
-            _ = InitializeConnectionAsync(); // fire and forget
             AppServiceConnectionHelper.ConnectionChanged += AppServiceConnectionHelper_ConnectionChanged;
         }
 
