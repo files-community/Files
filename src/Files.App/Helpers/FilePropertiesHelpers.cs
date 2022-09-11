@@ -1,17 +1,20 @@
 using Files.App.Dialogs;
-using Files.App.Views;
 using Files.App.Extensions;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Windows.Foundation.Metadata;
-using Microsoft.UI.Xaml;
+using Files.App.Views;
+using Microsoft.UI;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
+using System;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Windows.ApplicationModel;
+using Windows.Foundation.Metadata;
 using Windows.Graphics;
-using Microsoft.UI;
 using static Files.App.Views.Properties;
-using Microsoft.UI.Windowing;
+
+#nullable enable
 
 namespace Files.App.Helpers
 {
@@ -22,35 +25,25 @@ namespace Files.App.Helpers
             if (associatedInstance.SlimContentPage.IsItemSelected)
             {
                 if (associatedInstance.SlimContentPage.SelectedItems.Count > 1)
-                {
                     await OpenPropertiesWindowAsync(associatedInstance.SlimContentPage.SelectedItems, associatedInstance);
-                }
                 else
-                {
                     await OpenPropertiesWindowAsync(associatedInstance.SlimContentPage.SelectedItem, associatedInstance);
-                }
             }
             else
             {
-                if (!System.IO.Path.GetPathRoot(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath)
-                    .Equals(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath, StringComparison.OrdinalIgnoreCase))
-                {
+                var path = System.IO.Path.GetPathRoot(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
+                if (path is not null && path.Equals(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath, StringComparison.OrdinalIgnoreCase))
                     await OpenPropertiesWindowAsync(associatedInstance.FilesystemViewModel.CurrentFolder, associatedInstance);
-                }
                 else
-                {
                     await OpenPropertiesWindowAsync(App.DrivesManager.Drives
-                        .SingleOrDefault(x => x.Path.Equals(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath)), associatedInstance);
-                }
+                        .Single(x => x.Path.Equals(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath)), associatedInstance);
             }
         }
 
         public static async Task OpenPropertiesWindowAsync(object item, IShellPage associatedInstance)
         {
             if (item == null)
-            {
                 return;
-            }
 
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
@@ -65,8 +58,15 @@ namespace Files.App.Helpers
                     }, new SuppressNavigationTransitionInfo());
 
                     // Initialize window
-                    var propertiesWindow = new WinUIEx.WindowEx();
+                    var propertiesWindow = new WinUIEx.WindowEx()
+                    {
+                        IsMaximizable = false,
+                        IsMinimizable = false
+                    };
                     var appWindow = propertiesWindow.AppWindow;
+
+                    // Set icon
+                    appWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, "Assets/AppTiles/Dev/Logo.ico"));
 
                     // Set content
                     propertiesWindow.Content = frame;
