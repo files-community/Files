@@ -105,7 +105,7 @@ namespace Files.App.Views
                 ((Frame)Parent).RequestedTheme = selectedTheme;
                 if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
                 {
-                    switch (RequestedTheme)
+                    switch (selectedTheme)
                     {
                         case ElementTheme.Default:
                             appWindow.TitleBar.ButtonHoverBackgroundColor = (Color)Application.Current.Resources["SystemBaseLowColor"];
