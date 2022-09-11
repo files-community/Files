@@ -1,30 +1,18 @@
 ﻿using Files.App.Interacts;
 using Files.App.Extensions;
-using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Windows.Foundation.Collections;
 using Windows.UI.Notifications;
 using CommunityToolkit.WinUI.Notifications;
+using Files.App.Shell;
 
 namespace Files.App.Helpers
 {
     public static class DriveHelpers
     {
         // Eject using Shell Verb (fixes #6072, #6439)
-        public static async Task EjectDeviceAsync(string path)
-        {
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
-            {
-                await connection.SendMessageAsync(new ValueSet()
-                {
-                    { "Arguments", "InvokeVerb" },
-                    { "FilePath", path },
-                    { "Verb", "eject" }
-                });
-            }
-        }
+        public static Task EjectDeviceAsync(string path)
+            => ContextMenu.InvokeVerb("eject", path);
 
         // Eject using DeviceIoControl
         /*public static async Task EjectDeviceAsync(string path)
