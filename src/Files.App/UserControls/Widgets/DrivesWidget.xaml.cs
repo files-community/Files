@@ -20,6 +20,9 @@ using Microsoft.UI.Xaml.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.Collections.Specialized;
+using CommunityToolkit.WinUI.Notifications;
+using System.Diagnostics;
+using Windows.UI.Notifications;
 
 namespace Files.App.UserControls.Widgets
 {
@@ -144,7 +147,8 @@ namespace Files.App.UserControls.Widgets
         private async void EjectDevice_Click(object sender, RoutedEventArgs e)
         {
             var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
-            await DriveHelpers.EjectDeviceAsync(item.Path);
+            var result = await DriveHelpers.EjectDeviceAsync(item.Path);
+            await UIHelpers.ShowDeviceEjectResultAsync(result);
         }
 
         private async void OpenInNewTab_Click(object sender, RoutedEventArgs e)
@@ -309,7 +313,8 @@ namespace Files.App.UserControls.Widgets
                     bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalizedResource(), string.Format("InsertDiscDialog/Text".GetLocalizedResource(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalizedResource(), "Close".GetLocalizedResource());
                     if (ejectButton)
                     {
-                        await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
+                        var result = await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
+                        await UIHelpers.ShowDeviceEjectResultAsync(result);
                     }
                     return true;
                 }
