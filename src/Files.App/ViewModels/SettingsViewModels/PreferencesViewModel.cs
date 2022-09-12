@@ -589,14 +589,14 @@ namespace Files.App.ViewModels.SettingsViewModels
             }
         }
 
-        public bool SelectOnHover
+        public bool SelectFilesOnHover
         {
-            get => UserSettingsService.PreferencesSettingsService.SelectOnHover;
+            get => UserSettingsService.PreferencesSettingsService.SelectFilesOnHover;
             set
             {
-                if (value != UserSettingsService.PreferencesSettingsService.SelectOnHover)
+                if (value != UserSettingsService.PreferencesSettingsService.SelectFilesOnHover)
                 {
-                    UserSettingsService.PreferencesSettingsService.SelectOnHover = value;
+                    UserSettingsService.PreferencesSettingsService.SelectFilesOnHover = value;
                     OnPropertyChanged();
                 }
             }

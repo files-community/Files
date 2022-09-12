@@ -48,7 +48,7 @@ namespace Files.Backend.Services.Settings
         /// <summary>
         /// Gets or sets a value indicating whether or not to select files and folders when hovering them.
         /// </summary>
-        bool SelectOnHover { get; set; }
+        bool SelectFilesOnHover { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether or not files should open with one click.

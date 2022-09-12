@@ -62,7 +62,7 @@ namespace Files.App.ServicesImplementation.Settings
             set => Set(value);
         }
 
-        public bool SelectOnHover
+        public bool SelectFilesOnHover
         {
             get => Get(false);
             set => Set(value);
@@ -157,7 +157,7 @@ namespace Files.App.ServicesImplementation.Settings
                 case nameof(AreSystemItemsHidden):
                 case nameof(AreAlternateStreamsVisible):
                 case nameof(ShowDotFiles):
-                case nameof(SelectOnHover):
+                case nameof(SelectFilesOnHover):
                 case nameof(OpenFilesWithOneClick):
                 case nameof(OpenFoldersWithOneClick):
                 case nameof(ColumnLayoutOpenFoldersWithOneClick):

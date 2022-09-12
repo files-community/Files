@@ -2825,7 +2825,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
     <value>Behavior for opening files and folders</value>
   </data>
-  <data name="SelectFilesAndFoldersOnHovering" xml:space="preserve">
-	<value>Select files and folders hovering them</value>
+  <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
+    <value>Select files and folders hovering them</value>
   </data>
 </root>

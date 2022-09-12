@@ -507,8 +507,8 @@
 									AutomationProperties.Name="{x:Bind ItemName, Mode=OneWay}"
 									IsRightTapEnabled="True"
 									Loaded="Grid_Loaded"
-                                    PointerEntered="ListedItem_PointerEntered"
-                                    PointerExited="ListedItem_PointerExited"
+									PointerEntered="ListedItem_PointerEntered"
+									PointerExited="ListedItem_PointerExited"
 									RightTapped="StackPanel_RightTapped"
 									ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
 									<Grid.ColumnDefinitions>
