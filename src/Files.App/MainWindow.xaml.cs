@@ -51,19 +51,12 @@ namespace Files.App
             // Set icon
             AppWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, "Assets/AppTiles/Dev/Logo.ico"));
 
-            if (AppWindowTitleBar.IsCustomizationSupported())
-            {
-                // Extend title bar
-                AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+            // Extend title bar
+            AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
 
-                // Set window buttons background to transparent
-                AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
-                AppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-            }
-            else
-            {
-                this.ExtendsContentIntoTitleBar = true;
-            }
+            // Set window buttons background to transparent
+            AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+            AppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
             // Set min size
             base.MinHeight = 328;

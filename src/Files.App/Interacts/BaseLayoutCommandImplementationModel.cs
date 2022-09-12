@@ -332,10 +332,12 @@ namespace Files.App.Interacts
 
         public virtual void ShareItem(RoutedEventArgs e)
         {
-            DataTransferManager manager = DataTransferManager.GetForCurrentView();
+            var interop = DataTransferManager.As<UWPToWinAppSDKUpgradeHelpers.IDataTransferManagerInterop>();
+            IntPtr result = interop.GetForWindow(App.WindowHandle, UWPToWinAppSDKUpgradeHelpers.InteropHelpers.DataTransferManagerInteropIID);
+            var manager = WinRT.MarshalInterface<DataTransferManager>.FromAbi(result);
             manager.DataRequested += new TypedEventHandler<DataTransferManager, DataRequestedEventArgs>(Manager_DataRequested);
 
-            DataTransferManager.As<UWPToWinAppSDKUpgradeHelpers.IDataTransferManagerInterop>().ShowShareUIForWindow(App.WindowHandle);
+            interop.ShowShareUIForWindow(App.WindowHandle);
 
             async void Manager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
             {
