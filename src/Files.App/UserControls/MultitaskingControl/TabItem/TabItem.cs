@@ -2,11 +2,8 @@ using Files.App.ViewModels;
 using Files.App.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Text.Json;
 using Files.App.Helpers;
 
 namespace Files.App.UserControls.MultitaskingControl
@@ -90,24 +87,13 @@ namespace Files.App.UserControls.MultitaskingControl
 
     public class TabItemArguments
     {
-        private static KnownTypesBinder TypesBinder = new KnownTypesBinder
-        {
-            KnownTypes = { typeof(PaneNavigationArguments) }
-        };
+        private static readonly KnownTypesConverter TypesConverter = new KnownTypesConverter();
 
         public Type InitialPageType { get; set; }
         public object NavigationArg { get; set; }
 
-        public string Serialize() => JsonConvert.SerializeObject(this, new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.Auto,
-            SerializationBinder = TypesBinder
-        });
+        public string Serialize() => JsonSerializer.Serialize(this, TypesConverter.Options);
 
-        public static TabItemArguments Deserialize(string obj) => JsonConvert.DeserializeObject<TabItemArguments>(obj, new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.Auto,
-            SerializationBinder = TypesBinder
-        });
+        public static TabItemArguments Deserialize(string obj) => JsonSerializer.Deserialize<TabItemArguments>(obj, TypesConverter.Options);
     }
 }

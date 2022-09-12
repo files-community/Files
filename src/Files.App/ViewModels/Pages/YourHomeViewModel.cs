@@ -9,9 +9,8 @@ using System.Windows.Input;
 using Microsoft.UI.Xaml;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using Newtonsoft.Json;
-using Files.Shared;
 using Files.Shared.Extensions;
+using System.Text.Json;
 
 namespace Files.App.ViewModels.Pages
 {
@@ -22,6 +21,8 @@ namespace Files.App.ViewModels.Pages
         private readonly WidgetsListControlViewModel widgetsViewModel;
 
         private IShellPage associatedInstance;
+
+        private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
 
         public event EventHandler<RoutedEventArgs> YourHomeLoadedInvoked;
 
@@ -103,11 +104,11 @@ namespace Files.App.ViewModels.Pages
             Connection = await e;
         }
 
-        private async void Connection_RequestReceived(object sender, Dictionary<string, object> message)
+        private async void Connection_RequestReceived(object sender, Dictionary<string, JsonElement> message)
         {
             if (message.ContainsKey("RecentItems"))
             {
-                var changeType = message.Get("ChangeType", "");
+                var changeType = message.Get("ChangeType", defaultJson).GetString();
                 await App.RecentItemsManager.HandleWin32RecentItemsEvent(changeType);
             }
         }

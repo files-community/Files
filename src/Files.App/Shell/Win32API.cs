@@ -13,6 +13,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using System.Text;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,11 +23,15 @@ using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Windows.System;
 
+#nullable enable
+
 namespace Files.App.Shell
 {
     [SupportedOSPlatform("Windows10.0.10240")]
     internal class Win32API
     {
+        private static readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
+
         public static Task StartSTATask(Func<Task> func)
         {
             var taskCompletionSource = new TaskCompletionSource();
@@ -87,9 +92,9 @@ namespace Files.App.Shell
             return taskCompletionSource.Task;
         }
 
-        public static Task<T> StartSTATask<T>(Func<T> func)
+        public static Task<T?> StartSTATask<T>(Func<T> func)
         {
-            var taskCompletionSource = new TaskCompletionSource<T>();
+            var taskCompletionSource = new TaskCompletionSource<T?>();
             Thread thread = new Thread(() =>
             {
                 Ole32.OleInitialize();
@@ -117,9 +122,9 @@ namespace Files.App.Shell
             return taskCompletionSource.Task;
         }
 
-        public static Task<T> StartSTATask<T>(Func<Task<T>> func)
+        public static Task<T?> StartSTATask<T>(Func<Task<T>> func)
         {
-            var taskCompletionSource = new TaskCompletionSource<T>();
+            var taskCompletionSource = new TaskCompletionSource<T?>();
             Thread thread = new Thread(async () =>
             {
                 Ole32.OleInitialize();
@@ -147,39 +152,33 @@ namespace Files.App.Shell
             return taskCompletionSource.Task;
         }
 
-        public static async Task<string> GetFileAssociationAsync(string filename, bool checkDesktopFirst = false)
+        public static async Task<string?> GetFileAssociationAsync(string filename, bool checkDesktopFirst = false)
         {
             // Find UWP apps
-            async Task<string> GetUwpAssoc()
+            async Task<string?> GetUwpAssoc()
             {
                 var uwpApps = await Launcher.FindFileHandlersAsync(Path.GetExtension(filename));
                 if (uwpApps.Any())
-                {
                     return uwpApps[0].PackageFamilyName;
-                }
+                
                 return null;
             }
 
             // Find desktop apps
-            string GetDesktopAssoc()
+            string? GetDesktopAssoc()
             {
                 var lpResult = new StringBuilder(2048);
                 var hResult = Shell32.FindExecutable(filename, null, lpResult);
                 if (hResult.ToInt64() > 32)
-                {
                     return lpResult.ToString();
-                }
+
                 return null;
             }
 
             if (checkDesktopFirst)
-            {
                 return GetDesktopAssoc() ?? await GetUwpAssoc();
-            }
             else
-            {
                 return await GetUwpAssoc() ?? GetDesktopAssoc();
-            }
         }
 
         public static string ExtractStringFromDLL(string file, int number)
@@ -191,22 +190,18 @@ namespace Files.App.Shell
             return result.ToString();
         }
 
-        public static string[] CommandLineToArgs(string commandLine)
+        public static string?[] CommandLineToArgs(string commandLine)
         {
             if (string.IsNullOrEmpty(commandLine))
-            {
                 return Array.Empty<string>();
-            }
 
             var argv = Shell32.CommandLineToArgvW(commandLine, out int argc);
             if (argv == IntPtr.Zero)
-            {
                 throw new Win32Exception();
-            }
 
             try
             {
-                var args = new string[argc];
+                var args = new string?[argc];
                 for (var i = 0; i < args.Length; i++)
                 {
                     var p = Marshal.ReadIntPtr(argv, i * IntPtr.Size);
@@ -261,9 +256,7 @@ namespace Files.App.Shell
                         {
                             using var image = GetBitmapFromHBitmap(hbitmap);
                             if (image != null)
-                            {
-                                iconData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
-                            }
+                                iconData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
                         }
                         //Marshal.ReleaseComObject(fctry);
                     }
@@ -278,9 +271,7 @@ namespace Files.App.Shell
                         Shell32.SHGetFileInfo(pidl, 0, ref shfi, Shell32.SHFILEINFO.Size, Shell32.SHGFI.SHGFI_PIDL | flags) :
                         Shell32.SHGetFileInfo(path, isFolder ? FileAttributes.Directory : 0, ref shfi, Shell32.SHFILEINFO.Size, flags | (useFileAttibutes ? Shell32.SHGFI.SHGFI_USEFILEATTRIBUTES : 0));
                     if (ret == IntPtr.Zero)
-                    {
                         return (iconData, null);
-                    }
 
                     User32.DestroyIcon(shfi.hIcon);
 
@@ -292,9 +283,7 @@ namespace Files.App.Shell
                         _ => Shell32.SHIL.SHIL_JUMBO,
                     };
                     if (!Shell32.SHGetImageList(imageListSize, typeof(ComCtl32.CImageList).GUID, out var imageList).Succeeded)
-                    {
                         return (iconData, null);
-                    }
 
                     if (!onlyGetOverlay && iconData == null)
                     {
@@ -308,7 +297,7 @@ namespace Files.App.Shell
                                 using (var icon = hIcon.ToIcon())
                                 using (var image = icon.ToBitmap())
                                 {
-                                    iconData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
+                                    iconData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
                                 }
                             }
                         }
@@ -338,7 +327,7 @@ namespace Files.App.Shell
                             using var icon = hOverlay.ToIcon();
                             using var image = icon.ToBitmap();
 
-                            overlayData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
+                            overlayData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
                         }
                     }
 
@@ -354,13 +343,11 @@ namespace Files.App.Shell
             {
                 cacheEntry = new IconAndOverlayCacheEntry();
                 if (iconData != null)
-                {
                     cacheEntry.Icon = iconData;
-                }
+
                 if (overlayData != null)
-                {
                     cacheEntry.Overlay = overlayData;
-                }
+
                 entry[thumbnailSize] = cacheEntry;
             }
         }
@@ -381,9 +368,8 @@ namespace Files.App.Shell
                 process.StartInfo.Arguments = command;
                 process.Start();
                 if (process.WaitForExit(30 * 1000))
-                {
                     return process.ExitCode == 0;
-                }
+
                 return false;
             }
             catch (Win32Exception)
@@ -410,7 +396,7 @@ namespace Files.App.Shell
                     if (Shell32.SHDefExtractIcon(file, -1 * index, 0, out User32.SafeHICON icon, out User32.SafeHICON hIcon2, Convert.ToUInt32(iconSize)) == HRESULT.S_OK)
                     {
                         using var image = icon.ToBitmap();
-                        byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
+                        byte[] bitmapData = (byte[])(new ImageConverter().ConvertTo(image, typeof(byte[])) ?? Array.Empty<byte>());
                         iconInfo = new IconFileInfo(bitmapData, index);
                         _iconCache[(file, index, iconSize)] = iconInfo;
                         iconsList.Add(iconInfo);
@@ -422,7 +408,7 @@ namespace Files.App.Shell
             return iconsList;
         }
 
-        public static IList<IconFileInfo> ExtractIconsFromDLL(string file)
+        public static IList<IconFileInfo>? ExtractIconsFromDLL(string file)
         {
             var iconsList = new List<IconFileInfo>();
             using var currentProc = Process.GetCurrentProcess();
@@ -445,7 +431,7 @@ namespace Files.App.Shell
                     using var icon = Shell32.ExtractIcon(currentProc.Handle, file, i);
                     using var image = icon.ToBitmap();
 
-                    byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
+                    byte[] bitmapData = (byte[])(new ImageConverter().ConvertTo(image, typeof(byte[])) ?? Array.Empty<byte>());
                     iconInfo = new IconFileInfo(bitmapData, i);
                     _iconCache[(file, i, -1)] = iconInfo;
                     iconsList.Add(iconInfo);
@@ -455,8 +441,11 @@ namespace Files.App.Shell
             return iconsList;
         }
 
-        public static bool SetCustomDirectoryIcon(string folderPath, string iconFile, int iconIndex = 0)
+        public static bool SetCustomDirectoryIcon(string? folderPath, string? iconFile, int iconIndex = 0)
         {
+            if (folderPath == null)
+                return false;
+
             var fcs = new Shell32.SHFOLDERCUSTOMSETTINGS();
             fcs.dwSize = (uint)Marshal.SizeOf(fcs);
             fcs.dwMask = Shell32.FOLDERCUSTOMSETTINGSMASK.FCSM_ICONFILE;
@@ -466,17 +455,20 @@ namespace Files.App.Shell
 
             var success = Shell32.SHGetSetFolderCustomSettings(ref fcs, folderPath, Shell32.FCS.FCS_FORCEWRITE).Succeeded;
             if (success)
-            {
                 _iconAndOverlayCache[folderPath] = new();
-            }
+
             return success;
         }
 
-        public static async Task<bool> SetCustomFileIconAsync(string filePath, string iconFile, int iconIndex = 0)
+        public static async Task<bool> SetCustomFileIconAsync(string? filePath, string? iconFile, int iconIndex = 0)
         {
+            if (filePath == null)
+                return false;
+
             var connection = await AppServiceConnectionHelper.Instance;
             if (connection == null)
                 return false;
+
             var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
                 {
                     {"Arguments", "FileOperation" },
@@ -485,7 +477,7 @@ namespace Files.App.Shell
                     {"filepath", filePath },
                     {"iconFile", iconFile }
                 });
-            var success = status == AppServiceResponseStatus.Success && response.Get("Success", false);
+            var success = status == AppServiceResponseStatus.Success && response.Get("Success", defaultJson).GetBoolean();
             if (success) _iconAndOverlayCache[filePath] = new();
             return success;
         }
@@ -514,15 +506,13 @@ namespace Files.App.Shell
             return RunPowershellCommand($"-command \"Mount-DiskImage -ImagePath '{vhdPath}'\"", true);
         }
 
-        public static Bitmap GetBitmapFromHBitmap(HBITMAP hBitmap)
+        public static Bitmap? GetBitmapFromHBitmap(HBITMAP hBitmap)
         {
             try
             {
                 Bitmap bmp = Image.FromHbitmap((IntPtr)hBitmap);
                 if (Image.GetPixelFormatSize(bmp.PixelFormat) < 32)
-                {
                     return bmp;
-                }
 
                 Rectangle bmBounds = new Rectangle(0, 0, bmp.Width, bmp.Height);
                 var bmpData = bmp.LockBits(bmBounds, ImageLockMode.ReadOnly, bmp.PixelFormat);
@@ -543,7 +533,7 @@ namespace Files.App.Shell
             }
         }
 
-        public static Shell32.ITaskbarList4 CreateTaskbarObject()
+        public static Shell32.ITaskbarList4? CreateTaskbarObject()
         {
             var taskbar2 = new Shell32.ITaskbarList2();
             taskbar2.HrInit();
@@ -571,9 +561,7 @@ namespace Files.App.Shell
                         Marshal.ReadInt32(bmpData.Scan0, (bmpData.Stride * y) + (4 * x)));
 
                     if (pixelColor.A > 0 & pixelColor.A < 255)
-                    {
                         return true;
-                    }
                 }
             }
 
@@ -600,9 +588,8 @@ namespace Files.App.Shell
             {
                 prevHwnd = User32.FindWindowEx(HWND.NULL, prevHwnd, null, null);
                 if (prevHwnd == HWND.NULL)
-                {
                     break;
-                }
+
                 windowsList.Add(prevHwnd);
             }
             return windowsList;
@@ -643,37 +630,29 @@ namespace Files.App.Shell
             {
                 string nameWithoutExt = Path.GetFileNameWithoutExtension(path);
                 string extension = Path.GetExtension(path);
-                string directory = Path.GetDirectoryName(path);
+                string directory = Path.GetDirectoryName(path)!;
                 var countMatch = Regex.Match(nameWithoutExt, @"\(\d+\)", RegexOptions.RightToLeft);
 
                 for (ushort count = 1; File.Exists(uniquePath); count++)
                 {
                     if (countMatch.Success)
-                    {
                         uniquePath = Path.Combine(directory, $"{nameWithoutExt[..countMatch.Index]}({count}){extension}");
-                    }
                     else
-                    {
                         uniquePath = Path.Combine(directory, $"{nameWithoutExt} ({count}){extension}");
-                    }
                 }
             }
             else if (Directory.Exists(path))
             {
-                string directory = Path.GetDirectoryName(path);
+                string? directory = Path.GetDirectoryName(path)!;
                 string Name = Path.GetFileName(path);
                 var countMatch = Regex.Match(Name, @"\(\d+\)", RegexOptions.RightToLeft);
 
                 for (ushort Count = 1; Directory.Exists(uniquePath); Count++)
                 {
                     if (countMatch.Success)
-                    {
                         uniquePath = Path.Combine(directory, $"{Name[..countMatch.Index]}({Count})");
-                    }
                     else
-                    {
                         uniquePath = Path.Combine(directory, $"{Name} ({Count})");
-                    }
                 }
             }
 
@@ -686,9 +665,9 @@ namespace Files.App.Shell
         /// <param name="frn">File reference number</param>
         /// <param name="volumeHint">Drive containing the file (e.g. "C:\")</param>
         /// <returns>File path or null</returns>
-        public static string PathFromFileId(ulong frn, string volumeHint)
+        public static string? PathFromFileId(ulong frn, string volumeHint)
         {
-            string volumePath = Path.GetPathRoot(volumeHint);
+            string? volumePath = Path.GetPathRoot(volumeHint);
             using var volumeHandle = Kernel32.CreateFile(volumePath, Kernel32.FileAccess.GENERIC_READ, FileShare.Read, null, FileMode.Open, FileFlagsAndAttributes.FILE_FLAG_BACKUP_SEMANTICS);
             if (volumeHandle.IsInvalid)
                 return null;
