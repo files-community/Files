@@ -87,8 +87,15 @@ namespace Files.App.Views
 			}
 
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
+      
+      LoadSelectedTheme();
 		}
 
+    private async void LoadSelectedTheme()
+		{
+			await App.ExternalResourcesHelper.LoadSelectedTheme();
+		}
+    
 		private async void PromptForReview()
 		{
 			var AskForReviewDialog = new ContentDialog
