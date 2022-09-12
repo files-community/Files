@@ -59,8 +59,6 @@ namespace Files.App.UserControls
 
         private bool isDropOnProcess = false;
 
-        private bool wasOpenPropertiesSelected = false;
-
         /// <summary>
         /// true if the user is currently resizing the sidebar
         /// </summary>
@@ -160,7 +158,7 @@ namespace Files.App.UserControls
             OpenInNewWindowCommand = new RelayCommand(OpenInNewWindow);
             OpenInNewPaneCommand = new RelayCommand(OpenInNewPane);
             EjectDeviceCommand = new RelayCommand(EjectDevice);
-            OpenPropertiesCommand = new RelayCommand(OpenProperties);
+            OpenPropertiesCommand = new RelayCommand<CommandBarFlyout>(OpenProperties);
         }
 
         public SidebarViewModel ViewModel
@@ -191,7 +189,7 @@ namespace Files.App.UserControls
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems(INavigationControlItem item)
+        private List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems(INavigationControlItem item, CommandBarFlyout menu)
         {
             ContextMenuOptions options = item.MenuOptions;
 
@@ -317,6 +315,7 @@ namespace Files.App.UserControls
                     Text = "BaseLayoutContextFlyoutPropertiesFolder/Text".GetLocalizedResource(),
                     Glyph = "\uE946",
                     Command = OpenPropertiesCommand,
+                    CommandParameter = menu,
                     ShowItem = options.ShowProperties
                 },
                 new ContextMenuFlyoutItemViewModel()
@@ -491,23 +490,20 @@ namespace Files.App.UserControls
             }
         }
 
-        private void OpenProperties()
+        private void OpenProperties(CommandBarFlyout menu)
         {
-            wasOpenPropertiesSelected = true;
+            EventHandler<object> flyoutClosed = null!;
+            flyoutClosed = (s, e) =>
+            {
+                menu.Closed -= flyoutClosed;
+                SidebarItemPropertiesInvoked?.Invoke(this, new SidebarItemPropertiesInvokedEventArgs(rightClickedItem));
+            };
+            menu.Closed += flyoutClosed;
         }
 
         private async void EjectDevice()
         {
             await DriveHelpers.EjectDeviceAsync(rightClickedItem.Path);
-        }
-
-        private void Flyout_Closed(object sender, object e)
-        {
-            ((CommandBarFlyout)sender).Closed -= Flyout_Closed;
-            if (!wasOpenPropertiesSelected)
-                return;
-            SidebarItemPropertiesInvoked?.Invoke(this, new SidebarItemPropertiesInvokedEventArgs(rightClickedItem));
-            wasOpenPropertiesSelected = false;
         }
 
         private async void Sidebar_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
@@ -567,9 +563,7 @@ namespace Files.App.UserControls
 
             rightClickedItem = item;
 
-            itemContextMenuFlyout.Closed += Flyout_Closed;
-
-            var menuItems = GetLocationItemMenuItems(item);
+            var menuItems = GetLocationItemMenuItems(item, itemContextMenuFlyout);
             var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
             if (!UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu)
