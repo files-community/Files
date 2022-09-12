@@ -1,13 +1,12 @@
 ﻿using Files.Shared.Extensions;
 using Files.FullTrust.Helpers;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Pipes;
-using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using System.Security.Principal;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
@@ -59,7 +58,7 @@ namespace Files.FullTrust.MessageHandlers
             }
         }
 
-        public Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments)
+        public Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, JsonElement> message, string arguments)
         {
             return Task.CompletedTask;
         }
@@ -85,7 +84,7 @@ namespace Files.FullTrust.MessageHandlers
                     using var folderItem = SafetyExtensions.IgnoreExceptions(() => new ShellItem(e.FullPath));
                     if (folderItem == null) return;
                     var shellFileItem = ShellFolderExtensions.GetShellFileItem(folderItem);
-                    response["Item"] = JsonConvert.SerializeObject(shellFileItem);
+                    response["Item"] = JsonSerializer.Serialize(shellFileItem);
                 }
                 // Send message to UWP app to refresh items
                 await Win32API.SendMessageAsync(connection, response);

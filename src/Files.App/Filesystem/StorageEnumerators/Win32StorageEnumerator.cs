@@ -7,12 +7,10 @@ using Files.App.Extensions;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.Helpers.FileListCache;
-using CommunityToolkit.WinUI;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
@@ -325,7 +323,7 @@ namespace Files.App.Filesystem.StorageEnumerators
                     if (status == AppServiceResponseStatus.Success && response.ContainsKey("ShortcutInfo"))
                     {
                         var isUrl = findData.cFileName.EndsWith(".url", StringComparison.OrdinalIgnoreCase);
-                        var shInfo = JsonConvert.DeserializeObject<ShellLinkItem>((string)response["ShortcutInfo"]);
+                        var shInfo = JsonSerializer.Deserialize<ShellLinkItem>(response["ShortcutInfo"].GetString());
                         if (shInfo == null)
                         {
                             return null;

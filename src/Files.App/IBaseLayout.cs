@@ -1,6 +1,7 @@
 using Files.App.Filesystem;
 using Files.App.Interacts;
 using Files.App.ViewModels;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 
@@ -25,5 +26,6 @@ namespace Files.App
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
         public BaseLayoutCommandsViewModel? CommandsViewModel { get; }
+        public CommandBarFlyout ItemContextMenuFlyout { get; set; }
     }
 }

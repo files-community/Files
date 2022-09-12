@@ -87,8 +87,15 @@ namespace Files.App.Views
 			}
 
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
+      
+      LoadSelectedTheme();
 		}
 
+    private async void LoadSelectedTheme()
+		{
+			await App.ExternalResourcesHelper.LoadSelectedTheme();
+		}
+    
 		private async void PromptForReview()
 		{
 			var AskForReviewDialog = new ContentDialog
@@ -134,7 +141,18 @@ namespace Files.App.Views
 
 		private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
 		{
-			horizontalMultitaskingControl.DragArea.SizeChanged += (_, _) => SetRectDragRegion();
+			// WINUI3: bad workaround to be removed asap!
+			// SetDragRectangles() does not work on windows 10 with winappsdk "1.2.220902.1-preview1"
+			if (Environment.OSVersion.Version.Build >= 22000)
+			{
+				horizontalMultitaskingControl.DragArea.SizeChanged += (_, _) => SetRectDragRegion();
+			}
+			else
+			{
+				App.Window.AppWindow.TitleBar.ExtendsContentIntoTitleBar = false;
+				App.Window.ExtendsContentIntoTitleBar = true;
+				App.Window.SetTitleBar(horizontalMultitaskingControl.DragArea);
+			}
 
 			if (!(ViewModel.MultitaskingControl is HorizontalMultitaskingControl))
 			{

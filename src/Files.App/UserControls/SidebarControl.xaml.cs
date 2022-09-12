@@ -29,6 +29,7 @@ using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Input;
 using UWPToWinAppSDKUpgradeHelpers;
+using Windows.ApplicationModel.Search.Core;
 
 namespace Files.App.UserControls
 {
@@ -57,6 +58,8 @@ namespace Files.App.UserControls
         private object dragOverSection, dragOverItem = null;
 
         private bool isDropOnProcess = false;
+
+        private bool wasOpenPropertiesSelected = false;
 
         /// <summary>
         /// true if the user is currently resizing the sidebar
@@ -490,12 +493,21 @@ namespace Files.App.UserControls
 
         private void OpenProperties()
         {
-            SidebarItemPropertiesInvoked?.Invoke(this, new SidebarItemPropertiesInvokedEventArgs(rightClickedItem));
+            wasOpenPropertiesSelected = true;
         }
 
         private async void EjectDevice()
         {
             await DriveHelpers.EjectDeviceAsync(rightClickedItem.Path);
+        }
+
+        private void Flyout_Closed(object sender, object e)
+        {
+            ((CommandBarFlyout)sender).Closed -= Flyout_Closed;
+            if (!wasOpenPropertiesSelected)
+                return;
+            SidebarItemPropertiesInvoked?.Invoke(this, new SidebarItemPropertiesInvokedEventArgs(rightClickedItem));
+            wasOpenPropertiesSelected = false;
         }
 
         private async void Sidebar_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
@@ -554,6 +566,8 @@ namespace Files.App.UserControls
             var item = sidebarItem.DataContext as INavigationControlItem;
 
             rightClickedItem = item;
+
+            itemContextMenuFlyout.Closed += Flyout_Closed;
 
             var menuItems = GetLocationItemMenuItems(item);
             var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);

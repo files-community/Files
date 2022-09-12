@@ -1,6 +1,6 @@
 ﻿using Files.Backend.Models.Coloring;
-using Newtonsoft.Json;
 using System;
+using System.Text.Json.Serialization;
 
 #nullable enable
 

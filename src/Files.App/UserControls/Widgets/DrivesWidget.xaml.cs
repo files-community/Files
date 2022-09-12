@@ -92,6 +92,8 @@ namespace Files.App.UserControls.Widgets
             }
         }
 
+        private DriveItem? propertiesItem = null;
+
         public string WidgetName => nameof(DrivesWidget);
 
         public string AutomationProperties => "DrivesWidgetAutomationProperties/Name".GetLocalizedResource();
@@ -189,8 +191,7 @@ namespace Files.App.UserControls.Widgets
 
         private async void OpenDriveProperties_Click(object sender, RoutedEventArgs e)
         {
-            var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
-            await FilePropertiesHelpers.OpenPropertiesWindowAsync(item, associatedInstance);
+            propertiesItem = ((MenuFlyoutItem)sender).DataContext as DriveItem;
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
@@ -328,6 +329,14 @@ namespace Files.App.UserControls.Widgets
         public void Dispose()
         {
 
+        }
+
+        private async void MenuFlyout_Closed(object sender, object e)
+        {
+            if (propertiesItem is null)
+                return;
+            await FilePropertiesHelpers.OpenPropertiesWindowAsync(propertiesItem, associatedInstance);
+            propertiesItem = null;
         }
     }
 }

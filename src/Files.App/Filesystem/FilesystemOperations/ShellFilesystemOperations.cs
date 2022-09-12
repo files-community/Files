@@ -3,11 +3,11 @@ using Files.Shared.Enums;
 using Files.App.Extensions;
 using Files.App.Filesystem.FilesystemHistory;
 using Files.App.Helpers;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
@@ -17,7 +17,6 @@ using Files.Shared;
 using Files.Backend.ViewModels.Dialogs;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services;
-using CommunityToolkit.WinUI;
 using Files.App.Filesystem.StorageItems;
 using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
 using Files.App.Shell;
@@ -35,6 +34,8 @@ namespace Files.App.Filesystem
         private RecycleBinHelpers recycleBinHelpers;
 
         private IDialogService DialogService { get; } = Ioc.Default.GetRequiredService<IDialogService>();
+
+        private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
 
         #endregion Private Members
 
@@ -85,7 +86,7 @@ namespace Files.App.Filesystem
             var operationID = Guid.NewGuid().ToString();
             using var r = cancellationToken.Register(CancelOperation, operationID, false);
 
-            EventHandler<Dictionary<string, object>> handler = (s, e) => OnProgressUpdated(s, e, operationID, progress);
+            EventHandler<Dictionary<string, JsonElement>> handler = (s, e) => OnProgressUpdated(s, e, operationID, progress);
             connection.RequestReceived += handler;
 
             var sourceReplace = sourceNoSkip.Zip(collisionsNoSkip, (src, coll) => new { src, coll }).Where(item => item.coll == FileNameConflictResolveOptionType.ReplaceExisting).Select(item => item.src);
@@ -108,8 +109,8 @@ namespace Files.App.Filesystem
                     { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
                 });
                 result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
-                    && response.Get("Success", false));
-                var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", ""));
+                    && response.Get("Success", defaultJson).GetBoolean());
+                var shellOpResult = JsonSerializer.Deserialize<ShellOperationResult>(response.Get("Result", defaultJson).GetString());
                 copyResult.Items.AddRange(shellOpResult?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
             }
             if (sourceReplace.Any())
@@ -125,8 +126,8 @@ namespace Files.App.Filesystem
                     { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
                 });
                 result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
-                    && response.Get("Success", false));
-                var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", ""));
+                    && response.Get("Success", defaultJson).GetBoolean());
+                var shellOpResult = JsonSerializer.Deserialize<ShellOperationResult>(response.Get("Result", defaultJson).GetString());
                 copyResult.Items.AddRange(shellOpResult?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
             }
 
@@ -223,7 +224,7 @@ namespace Files.App.Filesystem
             }
 
             var createResult = new ShellOperationResult();
-            (var status, var response) = (AppServiceResponseStatus.Failure, (Dictionary<string, object>)null);
+            (var status, var response) = (AppServiceResponseStatus.Failure, (Dictionary<string, JsonElement>)null);
 
             switch (source.ItemType)
             {
@@ -269,8 +270,8 @@ namespace Files.App.Filesystem
             }
 
             var result = (FilesystemResult)(status == AppServiceResponseStatus.Success
-                && response.Get("Success", false));
-            var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", ""));
+                && response.Get("Success", defaultJson).GetBoolean());
+            var shellOpResult = JsonSerializer.Deserialize<ShellOperationResult>(response.Get("Result", defaultJson).GetString());
             createResult.Items.AddRange(shellOpResult?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
 
             result &= (FilesystemResult)createResult.Items.All(x => x.Succeeded);
@@ -336,7 +337,7 @@ namespace Files.App.Filesystem
                         { "filepath", item.dest }
                     };
                     var (status, response) = await connection.SendMessageForResponseAsync(value);
-                    var success = status == AppServiceResponseStatus.Success && response.Get("Success", false);
+                    var success = status == AppServiceResponseStatus.Success && response.Get("Success", defaultJson).GetBoolean();
                     if (success)
                     {
                         createdSources.Add(item.src);
@@ -391,7 +392,7 @@ namespace Files.App.Filesystem
             var operationID = Guid.NewGuid().ToString();
             using var r = cancellationToken.Register(CancelOperation, operationID, false);
 
-            EventHandler<Dictionary<string, object>> handler = (s, e) => OnProgressUpdated(s, e, operationID, progress);
+            EventHandler<Dictionary<string, JsonElement>> handler = (s, e) => OnProgressUpdated(s, e, operationID, progress);
             connection.RequestReceived += handler;
 
             var deleteResult = new ShellOperationResult();
@@ -405,8 +406,8 @@ namespace Files.App.Filesystem
                 { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
             });
             var result = (FilesystemResult)(status == AppServiceResponseStatus.Success
-                && response.Get("Success", false));
-            var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", ""));
+                && response.Get("Success", defaultJson).GetBoolean());
+            var shellOpResult = JsonSerializer.Deserialize<ShellOperationResult>(response.Get("Result", defaultJson).GetString());
             deleteResult.Items.AddRange(shellOpResult?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
 
             if (connection != null)
@@ -512,7 +513,7 @@ namespace Files.App.Filesystem
             var operationID = Guid.NewGuid().ToString();
             using var r = cancellationToken.Register(CancelOperation, operationID, false);
 
-            EventHandler<Dictionary<string, object>> handler = (s, e) => OnProgressUpdated(s, e, operationID, progress);
+            EventHandler<Dictionary<string, JsonElement>> handler = (s, e) => OnProgressUpdated(s, e, operationID, progress);
             connection.RequestReceived += handler;
 
             var sourceReplace = sourceNoSkip.Zip(collisionsNoSkip, (src, coll) => new { src, coll }).Where(item => item.coll == FileNameConflictResolveOptionType.ReplaceExisting).Select(item => item.src);
@@ -535,8 +536,8 @@ namespace Files.App.Filesystem
                     { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
                 });
                 result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
-                    && response.Get("Success", false));
-                var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", ""));
+                    && response.Get("Success", defaultJson).GetBoolean());
+                var shellOpResult = JsonSerializer.Deserialize<ShellOperationResult>(response.Get("Result", defaultJson).GetString());
                 moveResult.Items.AddRange(shellOpResult?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
             }
             if (sourceReplace.Any())
@@ -552,8 +553,8 @@ namespace Files.App.Filesystem
                     { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
                 });
                 result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
-                    && response.Get("Success", false));
-                var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", ""));
+                    && response.Get("Success", defaultJson).GetBoolean());
+                var shellOpResult = JsonSerializer.Deserialize<ShellOperationResult>(response.Get("Result", defaultJson).GetString());
                 moveResult.Items.AddRange(shellOpResult?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
             }
 
@@ -671,8 +672,8 @@ namespace Files.App.Filesystem
                 { "overwrite", collision == NameCollisionOption.ReplaceExisting }
             });
             var result = (FilesystemResult)(status == AppServiceResponseStatus.Success
-                && response.Get("Success", false));
-            var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", ""));
+                && response.Get("Success", defaultJson).GetBoolean());
+            var shellOpResult = JsonSerializer.Deserialize<ShellOperationResult>(response.Get("Result", defaultJson).GetString());
             renameResult.Items.AddRange(shellOpResult?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
 
             result &= (FilesystemResult)renameResult.Items.All(x => x.Succeeded);
@@ -759,7 +760,7 @@ namespace Files.App.Filesystem
             var operationID = Guid.NewGuid().ToString();
             using var r = cancellationToken.Register(CancelOperation, operationID, false);
 
-            EventHandler<Dictionary<string, object>> handler = (s, e) => OnProgressUpdated(s, e, operationID, progress);
+            EventHandler<Dictionary<string, JsonElement>> handler = (s, e) => OnProgressUpdated(s, e, operationID, progress);
             connection.RequestReceived += handler;
 
             var moveResult = new ShellOperationResult();
@@ -774,8 +775,8 @@ namespace Files.App.Filesystem
                 { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
             });
             var result = (FilesystemResult)(status == AppServiceResponseStatus.Success
-                && response.Get("Success", false));
-            var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", ""));
+                && response.Get("Success", defaultJson).GetBoolean());
+            var shellOpResult = JsonSerializer.Deserialize<ShellOperationResult>(response.Get("Result", defaultJson).GetString());
             moveResult.Items.AddRange(shellOpResult?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
 
             if (connection != null)
@@ -853,14 +854,14 @@ namespace Files.App.Filesystem
             }
         }
 
-        private void OnProgressUpdated(object sender, Dictionary<string, object> message, string currentOperation, IProgress<float> progress)
+        private void OnProgressUpdated(object sender, Dictionary<string, JsonElement> message, string currentOperation, IProgress<float> progress)
         {
             if (message.ContainsKey("OperationID"))
             {
-                var operationID = (string)message["OperationID"];
+                var operationID = message["OperationID"].GetString();
                 if (operationID == currentOperation)
                 {
-                    var value = (long)message["Progress"];
+                    var value = message["Progress"].GetInt64();
                     progress?.Report(value);
                 }
             }
@@ -947,7 +948,7 @@ namespace Files.App.Filesystem
                 });
                 if (status == AppServiceResponseStatus.Success && response.ContainsKey("Processes"))
                 {
-                    return JsonConvert.DeserializeObject<List<Win32Process>>((string)response["Processes"]);
+                    return JsonSerializer.Deserialize<List<Win32Process>>(response["Processes"]);
                 }
             }
             return null;
