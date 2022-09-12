@@ -555,10 +555,9 @@ namespace Files.App
                 BaseContextMenuFlyout.PrimaryCommands.Clear();
                 BaseContextMenuFlyout.SecondaryCommands.Clear();
                 var (primaryElements, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(items);
-                primaryElements.Where(i => i is AppBarButton).ForEach(i =>
+                primaryElements.OfType<AppBarButton>().ForEach(i =>
                 {
-                    if (i is AppBarButton button)
-                        button.Click += new RoutedEventHandler((s, e) => BaseContextMenuFlyout.Hide());  // Workaround for WinUI (#5508)
+                    i.Click += new RoutedEventHandler((s, e) => BaseContextMenuFlyout.Hide());  // Workaround for WinUI (#5508)
                 });
                 primaryElements.ForEach(i => BaseContextMenuFlyout.PrimaryCommands.Add(i));
                 secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width
