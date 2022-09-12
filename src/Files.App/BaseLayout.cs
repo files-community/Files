@@ -112,11 +112,11 @@ namespace Files.App
             {
                 if (collectionViewSource == value)
                     return;
-                if (collectionViewSource?.View is not null)
+                if (collectionViewSource.View is not null)
                     collectionViewSource.View.VectorChanged -= View_VectorChanged;
                 collectionViewSource = value;
                 NotifyPropertyChanged(nameof(CollectionViewSource));
-                if (collectionViewSource?.View is not null)
+                if (collectionViewSource.View is not null)
                     collectionViewSource.View.VectorChanged += View_VectorChanged;
             }
         }
@@ -325,20 +325,15 @@ namespace Files.App
 
         protected IEnumerable<ListedItem>? GetAllItems()
         {
-            if (CollectionViewSource.IsSourceGrouped)
-                // add all items from each group to the new list
-                return (CollectionViewSource.Source as BulkConcurrentObservableCollection<GroupedCollection<ListedItem>>)?.SelectMany(g => g);
-
-            return CollectionViewSource.Source as IEnumerable<ListedItem>;
+            var items = CollectionViewSource.IsSourceGrouped ? // add all items from each group to the new list
+                (CollectionViewSource.Source as BulkConcurrentObservableCollection<GroupedCollection<ListedItem>>)?.SelectMany(g => g) :
+                CollectionViewSource.Source as IEnumerable<ListedItem>;
+            return items ?? new List<ListedItem>();
         }
 
         public virtual void ResetItemOpacity()
         {
-            var items = GetAllItems();
-            if (items == null)
-                return;
-
-            foreach (var item in items)
+            foreach (var item in GetAllItems())
             {
                 if (item != null)
                     item.Opacity = item.IsHiddenItem ? Constants.UI.DimItemOpacity : 1.0d;
@@ -360,10 +355,9 @@ namespace Files.App
         {
             if (ParentShellPageInstance?.SlimContentPage != null)
             {
-                var layoutType = FolderSettings?.GetLayoutType(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory);
+                var layoutType = FolderSettings!.GetLayoutType(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory);
 
-                if (layoutType is not null && 
-                    layoutType != ParentShellPageInstance.CurrentPageType)
+                if (layoutType != ParentShellPageInstance.CurrentPageType)
                 {
                     ParentShellPageInstance.NavigateWithArguments(layoutType, new NavigationArguments()
                     {
@@ -611,10 +605,9 @@ namespace Files.App
             ItemContextMenuFlyout.PrimaryCommands.Clear();
             ItemContextMenuFlyout.SecondaryCommands.Clear();
             var (primaryElements, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(items);
-            primaryElements.Where(i => i is AppBarButton).ForEach(i =>
+            primaryElements.OfType<AppBarButton>().ForEach(i =>
             {
-                if (i is AppBarButton button)
-                    button.Click += new RoutedEventHandler((s, e) => ItemContextMenuFlyout.Hide()); // Workaround for WinUI (#5508)
+                i.Click += new RoutedEventHandler((s, e) => ItemContextMenuFlyout.Hide()); // Workaround for WinUI (#5508)
             });
             primaryElements.ForEach(i => ItemContextMenuFlyout.PrimaryCommands.Add(i));
             secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width
@@ -709,9 +702,9 @@ namespace Files.App
 
             // add items to openwith dropdown
             var openWithOverflow = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "OpenWithOverflow") as AppBarButton;
-            if (openWithSubItems is not null && openWithOverflow is not null)
+            var openWith = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "OpenWith") as AppBarButton;
+            if (openWithSubItems is not null && openWithOverflow is not null && openWith is not null)
             {
-                var openWith = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "OpenWith") as AppBarButton;
                 var flyout = openWithOverflow.Flyout as MenuFlyout;
 
                 flyout!.Items.Clear();
@@ -722,7 +715,7 @@ namespace Files.App
                 }
 
                 openWithOverflow.Flyout = flyout;
-                openWith!.Visibility = Visibility.Collapsed;
+                openWith.Visibility = Visibility.Collapsed;
                 openWithOverflow.Visibility = Visibility.Visible;
             }
 
@@ -734,7 +727,7 @@ namespace Files.App
                         label.TextTrimming = TextTrimming.CharacterEllipsis;
                     if ((item as AppBarButton)?.Flyout as MenuFlyout is MenuFlyout flyout) // Close main menu when clicking on subitems (#5508)
                     {
-                        Action<IList<MenuFlyoutItemBase>>? clickAction = null;
+                        Action<IList<MenuFlyoutItemBase>> clickAction = null!;
                         clickAction = (items) =>
                         {
                             items.OfType<MenuFlyoutItem>().ForEach(i =>
@@ -1030,7 +1023,7 @@ namespace Files.App
             CommandsViewModel?.DropCommand?.Execute(e);
         }
 
-        public void UpdateCollectionViewSource()
+        private void UpdateCollectionViewSource()
         {
             if (ParentShellPageInstance is null)
                 return;
@@ -1085,7 +1078,7 @@ namespace Files.App
 
         private void ItemManipulationModel_RefreshItemsOpacityInvoked(object? sender, EventArgs e)
         {
-            foreach (ListedItem listedItem in GetAllItems()!)
+            foreach (ListedItem listedItem in GetAllItems())
             {
                 if (listedItem.IsHiddenItem)
                     listedItem.Opacity = Constants.UI.DimItemOpacity;
