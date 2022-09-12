@@ -166,6 +166,12 @@ namespace Files.App.ViewModels
 
             WorkingDirectory = value;
             OnPropertyChanged(nameof(WorkingDirectory));
+
+            if (value == "Home".GetLocalizedResource())
+            {
+                // Initialize connection to receive drive notifications
+                _ = InitializeConnectionAsync(); // fire and forget
+            }
         }
 
         public async Task<FilesystemResult<BaseStorageFolder>> GetFolderFromPathAsync(string value)
@@ -491,6 +497,11 @@ namespace Files.App.ViewModels
                     await ApplyFilesAndFoldersChangesAsync();
                     break;
             }
+        }
+
+        private async Task InitializeConnectionAsync()
+        {
+            Connection ??= await AppServiceConnectionHelper.Instance;
         }
 
         private async void AppServiceConnectionHelper_ConnectionChanged(object sender, Task<NamedPipeAsAppServiceConnection> e)
@@ -1311,7 +1322,7 @@ namespace Files.App.ViewModels
 
                 ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress });
 
-                Connection ??= await AppServiceConnectionHelper.Instance;
+                await InitializeConnectionAsync();
 
                 if (path.ToLowerInvariant().EndsWith(ShellLibraryItem.EXTENSION, StringComparison.Ordinal))
                 {
