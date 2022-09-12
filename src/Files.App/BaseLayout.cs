@@ -957,7 +957,7 @@ namespace Files.App
 
         protected internal void ListedItem_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            if (!UserSettingsService.PreferencesSettingsService.SelectOnHover)
+            if (!UserSettingsService.PreferencesSettingsService.SelectFilesOnHover)
                 return;
 
             var hovered = (sender as Grid)?.DataContext as ListedItem;
@@ -979,7 +979,7 @@ namespace Files.App
 
         protected internal void ListedItem_PointerExited(object sender, PointerRoutedEventArgs e)
         {
-            if (!UserSettingsService.PreferencesSettingsService.SelectOnHover)
+            if (!UserSettingsService.PreferencesSettingsService.SelectFilesOnHover)
                 return;
             hoverTimer.Stop();
             hoveredItem = null;
