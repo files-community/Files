@@ -39,7 +39,8 @@
 						PointerPressed="Button_PointerPressed"
 						Tag="{x:Bind Path}">
 						<Button.ContextFlyout>
-							<MenuFlyout Opening="MenuFlyout_Opening">
+							<MenuFlyout Opening="MenuFlyout_Opening"
+                                        Closed="MenuFlyout_Closed">
 								<MenuFlyout.Items>
 									<MenuFlyoutItem
 										x:Name="OpenInNewPane"
