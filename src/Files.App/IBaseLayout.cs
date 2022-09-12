@@ -15,7 +15,7 @@ namespace Files.App
 
         bool IsMiddleClickToScrollEnabled { get; set; }
 
-        public List<ListedItem> SelectedItems { get; }
+        public List<ListedItem>? SelectedItems { get; }
 
         public ListedItem? SelectedItem { get; }
 
