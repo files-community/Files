@@ -39,7 +39,7 @@ namespace Files.App.ViewModels
             UpdateThemeElements = new RelayCommand(() => ThemeModeChanged?.Invoke(this, EventArgs.Empty));
         }
 
-        public static Task DetectQuickLook()
+        public Task DetectQuickLook()
         {
             // Detect QuickLook
             try
