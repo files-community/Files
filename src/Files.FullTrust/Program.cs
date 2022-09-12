@@ -49,7 +49,6 @@ namespace Files.FullTrust
                     new FileTagsHandler(),
                     new NetworkDrivesHandler(),
                     new FileOperationsHandler(),
-                    new QuickLookHandler(),
                     new RecentItemsHandler(),
                 };
 

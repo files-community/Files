@@ -39,28 +39,19 @@ namespace Files.App.ViewModels
             UpdateThemeElements = new RelayCommand(() => ThemeModeChanged?.Invoke(this, EventArgs.Empty));
         }
 
-        public async Task DetectQuickLook()
+        public static Task DetectQuickLook()
         {
             // Detect QuickLook
             try
             {
-                var connection = await AppServiceConnectionHelper.Instance;
-                if (connection != null)
-                {
-                    var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
-                    {
-                        { "Arguments", "DetectQuickLook" }
-                    });
-                    if (status == AppServiceResponseStatus.Success)
-                    {
-                        App.AppModel.IsQuickLookSupported = response.Get("IsAvailable", false);
-                    }
-                }
+                App.AppModel.IsQuickLookSupported = QuickLookHelpers.CheckQuickLookAvailability();
             }
             catch (Exception ex)
             {
                 App.Logger.Warn(ex, ex.Message);
             }
+
+            return Task.CompletedTask;
         }
 
         private void DetectDateTimeFormat()
