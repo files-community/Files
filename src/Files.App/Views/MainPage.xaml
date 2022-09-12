@@ -20,8 +20,6 @@
 	NavigationCacheMode="Required"
 	SizeChanged="Page_SizeChanged"
 	mc:Ignorable="d">
-	<!--  WINUI3  -->
-	<!--  BackdropMaterial.ApplyToRootOrPageBackground="False"  -->
 
 	<Page.DataContext>
 		<viewmodels:MainPageViewModel />

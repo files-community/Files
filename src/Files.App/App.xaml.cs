@@ -252,8 +252,6 @@ namespace Files.App
             _ = InitializeAppComponentsAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
 
             await Window.InitializeApplication(activatedEventArgs);
-
-            WindowDecorationsHelper.RequestWindowDecorationsAccess();
         }
 
         private void EnsureWindowIsInitialized()
