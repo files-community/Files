@@ -705,9 +705,9 @@ namespace Files.App
             var openWith = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "OpenWith") as AppBarButton;
             if (openWithSubItems is not null && openWithOverflow is not null && openWith is not null)
             {
-                var flyout = openWithOverflow.Flyout as MenuFlyout;
+                var flyout = (MenuFlyout)openWithOverflow.Flyout;
 
-                flyout!.Items.Clear();
+                flyout.Items.Clear();
 
                 foreach (var item in openWithSubItems)
                 {
@@ -736,7 +736,7 @@ namespace Files.App
                             });
                             items.OfType<MenuFlyoutSubItem>().ForEach(i =>
                             {
-                                clickAction!(i.Items);
+                                clickAction(i.Items);
                             });
                         };
                         clickAction(flyout.Items);
