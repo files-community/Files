@@ -324,12 +324,12 @@ namespace Files.App.Helpers
             else
             {
                 opened = await associatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(path)
-                    .OnSuccess(async (childFolder) =>
+                    .OnSuccess((childFolder) =>
                     {
                         // Add location to Recent Items List
                         if (childFolder.Item is SystemStorageFolder)
                         {
-                            await App.RecentItemsManager.AddToRecentItems(childFolder.Path);
+                            App.RecentItemsManager.AddToRecentItems(childFolder.Path);
                         }
                     });
                 if (!opened)
@@ -382,7 +382,7 @@ namespace Files.App.Helpers
                             // Add location to Recent Items List
                             if (childFile.Item is SystemStorageFile)
                             {
-                                await App.RecentItemsManager.AddToRecentItems(childFile.Path);
+                                App.RecentItemsManager.AddToRecentItems(childFile.Path);
                             }
                         }
                     }
@@ -402,7 +402,7 @@ namespace Files.App.Helpers
                         // Add location to Recent Items List
                         if (childFile.Item is SystemStorageFile)
                         {
-                            await App.RecentItemsManager.AddToRecentItems(childFile.Path);
+                            App.RecentItemsManager.AddToRecentItems(childFile.Path);
                         }
 
                         if (openViaApplicationPicker)

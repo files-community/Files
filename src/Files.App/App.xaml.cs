@@ -38,6 +38,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Notifications;
+using Vanara.Extensions.Reflection;
 
 #nullable enable
 
@@ -149,11 +150,7 @@ namespace Files.App
         private static async Task EnsureSettingsAndConfigurationAreBootstrapped()
         {
             AppSettings ??= new SettingsViewModel();
-
             ExternalResourcesHelper ??= new ExternalResourcesHelper();
-            await ExternalResourcesHelper.LoadSelectedTheme();
-            new AppearanceViewModel().SetCompactStyles(updateTheme: false);
-
             JumpList ??= new JumpListManager();
             RecentItemsManager ??= new RecentItemsManager();
             AppModel ??= new AppModel();
@@ -167,6 +164,8 @@ namespace Files.App
             FileTagsManager ??= new FileTagsManager();
             SidebarPinnedController ??= new SidebarPinnedController();
             TerminalController ??= new TerminalController();
+            
+            new AppearanceViewModel().SetCompactStyles(updateTheme: false);
         }
 
         private static async Task StartAppCenter()
@@ -179,7 +178,7 @@ namespace Files.App
                     var lines = await FileIO.ReadTextAsync(file);
                     using var document = System.Text.Json.JsonDocument.Parse(lines);
                     var obj = document.RootElement;
-                    AppCenter.Start(obj.GetProperty("key").GetString(), typeof(Analytics), typeof(Crashes));
+                    AppCenter.Start(obj.GetPropertyValue<string>("key"), typeof(Analytics), typeof(Crashes));
                 }
             }
             catch (Exception ex)
@@ -213,8 +212,6 @@ namespace Files.App
                     ExternalResourcesHelper.LoadOtherThemesAsync(),
                     ContextFlyoutItemHelper.CachedNewContextMenuEntries
                 );
-
-                userSettingsService.ReportToAppCenter();
             });
 
             // Check for required updates
@@ -252,8 +249,6 @@ namespace Files.App
             _ = InitializeAppComponentsAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
 
             await Window.InitializeApplication(activatedEventArgs);
-
-            WindowDecorationsHelper.RequestWindowDecorationsAccess();
         }
 
         private void EnsureWindowIsInitialized()

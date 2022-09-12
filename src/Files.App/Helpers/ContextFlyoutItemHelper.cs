@@ -947,7 +947,7 @@ namespace Files.App.Helpers
                 {
                     Text = "BaseLayoutItemContextFlyoutExtractionOptions".GetLocalizedResource(),
                     Glyph = "\xF11A",
-                    ShowItem = selectedItems.Count == 1 && (selectedItems.First().IsZipItem || (selectedItems.First().PrimaryItemAttribute == StorageItemTypes.File && FileExtensionHelpers.IsZipFile(selectedItems.First().FileExtension))),
+                    ShowItem = selectedItems.Any() && selectedItems.All(x => x.IsZipItem) || selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.File && FileExtensionHelpers.IsZipFile(x.FileExtension)),
                     ShowInSearchPage = true,
                     GlyphFontFamilyName = "CustomGlyph",
                     Items = new List<ContextMenuFlyoutItemViewModel>()
@@ -955,6 +955,7 @@ namespace Files.App.Helpers
                         new ContextMenuFlyoutItemViewModel()
                         {
                             Text = "BaseLayoutItemContextFlyoutExtractFilesOption".GetLocalizedResource(),
+                            ShowItem = selectedItems.Count == 1,
                             Command = commandsViewModel.DecompressArchiveCommand,
                             Glyph = "\xF11A",
                             GlyphFontFamilyName = "CustomGlyph",
@@ -970,7 +971,9 @@ namespace Files.App.Helpers
                         },
                         new ContextMenuFlyoutItemViewModel()
                         {
-                            Text = string.Format("BaseLayoutItemContextFlyoutExtractToChildFolder".GetLocalizedResource(), Path.GetFileNameWithoutExtension(selectedItems.First().ItemName)),
+                            Text = selectedItems.Count > 1
+                                ? string.Format("BaseLayoutItemContextFlyoutExtractToChildFolder".GetLocalizedResource(), "*")
+                                : string.Format("BaseLayoutItemContextFlyoutExtractToChildFolder".GetLocalizedResource(), Path.GetFileNameWithoutExtension(selectedItems.First().ItemName)),
                             Command = commandsViewModel.DecompressArchiveToChildFolderCommand,
                             Glyph = "\xF11A",
                             GlyphFontFamilyName = "CustomGlyph",

@@ -765,10 +765,11 @@ namespace Files.App.Shell
         public static extern int SHQueryRecycleBin(string pszRootPath,
             ref SHQUERYRBINFO pSHQueryRBInfo);
 
-        public static bool InfDefaultInstall(string filePath)
+        public static async Task<bool> InstallInf(string filePath)
         {
             try
             {
+                var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(30 * 1000));
                 using Process process = new Process();
                 process.StartInfo.FileName = "InfDefaultInstall.exe";
                 process.StartInfo.Verb = "runas";
@@ -776,16 +777,20 @@ namespace Files.App.Shell
                 process.StartInfo.CreateNoWindow = true;
                 process.StartInfo.Arguments = $"{filePath}";
                 process.Start();
-                if (process.WaitForExit(30 * 1000))
-                    return process.ExitCode == 0;
-
-                return false;
+                await process.WaitForExitAsync(cts.Token);
+                return true;
             }
             catch (Win32Exception)
             {
-                // If user cancels UAC
                 return false;
             }
+        }
+
+        public static void InstallFont(string fontFilePath)
+        {
+            var userFontDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft", "Windows", "Fonts");
+            var destName = Path.Combine(userFontDir, Path.GetFileName(fontFilePath));
+            RunPowershellCommand($"-command \"Copy-Item '{fontFilePath}' '{userFontDir}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(fontFilePath)}' -Path 'HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts' -PropertyType string -Value '{destName}'\"", false);
         }
     }
 }

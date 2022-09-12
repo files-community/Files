@@ -55,7 +55,7 @@ namespace Files.App.ViewModels
                     });
                     if (status == AppServiceResponseStatus.Success)
                     {
-                        App.MainViewModel.IsQuickLookEnabled = response.Get("IsAvailable", defaultJson).GetBoolean();
+                        App.AppModel.IsQuickLookSupported = response.Get("IsAvailable", defaultJson).GetBoolean();
                     }
                 }
             }

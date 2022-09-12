@@ -169,7 +169,7 @@ namespace Files.App.UserControls.Widgets
                 {
                     // evict it from the recent items shortcut list
                     // this operation invokes RecentFilesChanged which we handle to update the visible collection
-                    await App.RecentItemsManager.UnpinFromRecentFiles(vm.LinkPath);
+                    App.RecentItemsManager.UnpinFromRecentFiles(vm.LinkPath);
                 }
             }
             finally
@@ -184,7 +184,7 @@ namespace Files.App.UserControls.Widgets
             try
             {
                 recentItemsCollection.Clear();
-                bool success = await App.RecentItemsManager.ClearRecentItems();
+                bool success = App.RecentItemsManager.ClearRecentItems();
 
                 if (success)
                 {
