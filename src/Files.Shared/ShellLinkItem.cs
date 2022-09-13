@@ -2,10 +2,10 @@
 {
     public class ShellLinkItem : ShellFileItem
     {
-        public string TargetPath;
-        public string Arguments;
-        public string WorkingDirectory;
-        public bool RunAsAdmin;
+        public string TargetPath { get; set; }
+        public string Arguments { get; set; }
+        public string WorkingDirectory { get; set; }
+        public bool RunAsAdmin { get; set; }
 
         public ShellLinkItem()
         {
