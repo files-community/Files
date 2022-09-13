@@ -11,7 +11,7 @@ public static class QuickLookHelpers
     public static Task ToggleQuickLook(IShellPage associatedInstance, bool switchPreview = false)
     {
         if (!App.AppModel.IsQuickLookSupported || !associatedInstance.SlimContentPage.IsItemSelected || associatedInstance.SlimContentPage.IsRenamingItem)
-            return null;
+            return Task.CompletedTask;
 
         App.Logger.Info("Toggle QuickLook");
 
