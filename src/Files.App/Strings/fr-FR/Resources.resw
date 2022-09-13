@@ -2818,7 +2818,7 @@
     <value>Écran de verrouillage</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Ouvrir des dossiers avec un seul clic dans la disposition des colonnes</value>
+    <value>Ouvrir les dossiers avec un seul clic dans la disposition des colonnes</value>
   </data>
   <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
     <value>Comportement pour ouvrir les fichiers et dossiers</value>
