@@ -18,6 +18,15 @@ body:
         3. Scroll down to '....'
     validations:
       required: true
+  - type: textarea
+    attributes:
+      label: Steps to fix
+      description: describe all the requirements to fix the issue (if left blank, issue will likely be closed without discussion).
+      value: |
+        - eg. Fix crash that occurs when...
+        - eg. Correct action happens when clicking...
+    validations:
+      required: true
   - type: input
     id: files-version
     attributes:

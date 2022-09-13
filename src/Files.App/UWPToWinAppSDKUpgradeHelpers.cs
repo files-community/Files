@@ -23,6 +23,9 @@ namespace UWPToWinAppSDKUpgradeHelpers
 
     public static class InteropHelpers
     {
+        public static readonly Guid DataTransferManagerInteropIID =
+            new Guid(0xa5caee9b, 0x8708, 0x49d1, 0x8d, 0x36, 0x67, 0xd2, 0x5a, 0x8d, 0xa0, 0x0c);
+
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetCursorPos(out POINT point);
