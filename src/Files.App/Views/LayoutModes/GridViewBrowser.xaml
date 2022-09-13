@@ -210,7 +210,7 @@
 				MaxHeight="68"
 				Margin="8,4"
 				Padding="0"
-				HorizontalAlignment="Left"
+				HorizontalAlignment="Stretch"
 				VerticalAlignment="Stretch"
 				Background="Transparent"
 				ColumnSpacing="4"
