@@ -8,41 +8,42 @@ namespace Files.App.Helpers;
 
 public static class QuickLookHelpers
 {
-    public static Task ToggleQuickLook(IShellPage associatedInstance, bool switchPreview = false)
+    private const int TIMEOUT = 500;
+
+    public static async Task ToggleQuickLook(IShellPage associatedInstance, bool switchPreview = false)
     {
         if (!App.AppModel.IsQuickLookSupported || !associatedInstance.SlimContentPage.IsItemSelected || associatedInstance.SlimContentPage.IsRenamingItem)
-            return Task.CompletedTask;
+            return;
 
         App.Logger.Info("Toggle QuickLook");
 
-        string PipeName = $"QuickLook.App.Pipe.{WindowsIdentity.GetCurrent().User?.Value}";
-        string Message = switchPreview ? "QuickLook.App.PipeMessages.Switch" : "QuickLook.App.PipeMessages.Toggle";
+        string pipeName = $"QuickLook.App.Pipe.{WindowsIdentity.GetCurrent().User?.Value}";
+        string message = switchPreview ? "QuickLook.App.PipeMessages.Switch" : "QuickLook.App.PipeMessages.Toggle";
 
-        using var client = new NamedPipeClientStream(".", PipeName, PipeDirection.Out);
-        client.Connect();
+        await using var client = new NamedPipeClientStream(".", pipeName, PipeDirection.Out);
+        await client.ConnectAsync(TIMEOUT);
 
-        using var writer = new StreamWriter(client);
-        writer.WriteLine($"{Message}|{associatedInstance.SlimContentPage.SelectedItem.ItemPath}");
-        writer.Flush();
-        return Task.CompletedTask;
+        await using var writer = new StreamWriter(client);
+        await writer.WriteLineAsync($"{message}|{associatedInstance.SlimContentPage.SelectedItem.ItemPath}");
+        await writer.FlushAsync();
     }
 
-    public static bool CheckQuickLookAvailability()
+    public static async Task<bool> CheckQuickLookAvailability()
     {
-        static int QuickLookServerAvailable()
+        static async Task<int> QuickLookServerAvailable()
         {
             string pipeName = $"QuickLook.App.Pipe.{WindowsIdentity.GetCurrent().User?.Value}";
             string pipeSwitch = "QuickLook.App.PipeMessages.Switch";
 
-            using var client = new NamedPipeClientStream(".", pipeName, PipeDirection.Out);
+            await using var client = new NamedPipeClientStream(".", pipeName, PipeDirection.Out);
             try
             {
-                client.Connect(500);
+                await client.ConnectAsync(TIMEOUT);
                 var serverInstances = client.NumberOfServerInstances;
 
-                using var writer = new StreamWriter(client);
-                writer.WriteLine($"{pipeSwitch}|");
-                writer.Flush();
+                await using var writer = new StreamWriter(client);
+                await writer.WriteLineAsync($"{pipeSwitch}|");
+                await writer.FlushAsync();
 
                 return serverInstances;
             }
@@ -55,7 +56,7 @@ public static class QuickLookHelpers
 
         try
         {
-            var result = QuickLookServerAvailable();
+            var result = await QuickLookServerAvailable();
             App.Logger.Info($"QuickLook detected: {result != 0}");
             return result != 0;
         }
