@@ -205,7 +205,7 @@ namespace Files.App
                     SidebarPinnedController.InitializeAsync()
                 );
                 await Task.WhenAll(
-                    AppSettings.DetectQuickLook(),
+                    QuickLookHelpers.DetectQuickLook(),
                     TerminalController.InitializeAsync(),
                     JumpList.InitializeAsync(),
                     ExternalResourcesHelper.LoadOtherThemesAsync(),

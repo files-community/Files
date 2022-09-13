@@ -66,4 +66,17 @@ public static class QuickLookHelpers
             return false;
         }
     }
+
+    public static async Task DetectQuickLook()
+    {
+        // Detect QuickLook
+        try
+        {
+            App.AppModel.IsQuickLookSupported = await CheckQuickLookAvailability();
+        }
+        catch (Exception ex)
+        {
+            App.Logger.Warn(ex, ex.Message);
+        }
+    }
 }
