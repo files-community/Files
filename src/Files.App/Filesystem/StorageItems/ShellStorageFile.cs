@@ -1,13 +1,8 @@
 using Files.Shared;
-using Files.Shared.Extensions;
-using Files.App.Helpers;
-using Newtonsoft.Json;
 using System;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.AppService;
 using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;

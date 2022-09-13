@@ -21,6 +21,8 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Files.App.DataModels.NavigationControlItems;
+using Files.App.Helpers.XamlHelpers;
+using Microsoft.UI.Xaml.Controls.Primitives;
 
 namespace Files.App.UserControls.Widgets
 {
@@ -239,11 +241,19 @@ namespace Files.App.UserControls.Widgets
 
         private void OpenLibraryProperties_Click(object sender, RoutedEventArgs e)
         {
-            var item = (sender as MenuFlyoutItem).DataContext as FolderCardItem;
-            if (item.IsLibrary)
+            var presenter = DependencyObjectHelpers.FindParent<MenuFlyoutPresenter>((MenuFlyoutItem)sender);
+            var flyoutParent = presenter?.Parent as Popup;
+            var propertiesItem = ((MenuFlyoutItem)sender).DataContext as FolderCardItem;
+            if (propertiesItem is null || !propertiesItem.IsLibrary || flyoutParent is null)
+                return;
+
+            EventHandler<object> flyoutClosed = null!;
+            flyoutClosed = (s, e) =>
             {
-                LibraryCardPropertiesInvoked?.Invoke(this, new LibraryCardEventArgs { Library = item.Item as LibraryLocationItem });
-            }
+                flyoutParent.Closed -= flyoutClosed;
+                LibraryCardPropertiesInvoked?.Invoke(this, new LibraryCardEventArgs { Library = (propertiesItem.Item as LibraryLocationItem)! });
+            };
+            flyoutParent.Closed += flyoutClosed;
         }
 
         private Task OpenLibraryCard(FolderCardItem item)

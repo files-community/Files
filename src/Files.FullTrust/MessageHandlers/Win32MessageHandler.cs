@@ -1,19 +1,16 @@
 ﻿using Files.Shared;
 using Files.Shared.Extensions;
 using Files.FullTrust.Helpers;
-using Microsoft.Win32;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
 using System.Linq;
 using System.Runtime.Versioning;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
-using Windows.ApplicationModel;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 
@@ -22,6 +19,7 @@ namespace Files.FullTrust.MessageHandlers
     [SupportedOSPlatform("Windows10.0.10240")]
     public class Win32MessageHandler : Disposable, IMessageHandler
     {
+        private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
         private IList<FileSystemWatcher> dirWatchers;
         private PipeStream connection;
 
@@ -36,25 +34,25 @@ namespace Files.FullTrust.MessageHandlers
             ApplicationData.Current.LocalSettings.Values["TEMP"] = Environment.GetEnvironmentVariable("TEMP");
         }
 
-        public async Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments)
+        public async Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, JsonElement> message, string arguments)
         {
             switch (arguments)
             {
                 case "WatchDirectory":
-                    var watchAction = (string)message["action"];
+                    var watchAction = message["action"].GetString();
                     await ParseWatchDirectoryActionAsync(connection, message, watchAction);
                     break;
             }
         }
 
-        private async Task ParseWatchDirectoryActionAsync(PipeStream connection, Dictionary<string, object> message, string action)
+        private async Task ParseWatchDirectoryActionAsync(PipeStream connection, Dictionary<string, JsonElement> message, string action)
         {
             switch (action)
             {
                 case "start":
                     {
                         var res = new ValueSet();
-                        var folderPath = (string)message["folderPath"];
+                        var folderPath = message["folderPath"].GetString();
                         if (Directory.Exists(folderPath))
                         {
                             var watcher = new FileSystemWatcher
@@ -70,13 +68,13 @@ namespace Files.FullTrust.MessageHandlers
                             res.Add("watcherID", watcher.GetHashCode());
                             dirWatchers.Add(watcher);
                         }
-                        await Win32API.SendMessageAsync(connection, res, message.Get("RequestID", (string)null));
+                        await Win32API.SendMessageAsync(connection, res, message.Get("RequestID", defaultJson).GetString());
                     }
                     break;
 
                 case "cancel":
                     {
-                        var watcherID = (long)message["watcherID"];
+                        var watcherID = message["watcherID"].GetInt64();
                         var watcher = dirWatchers.SingleOrDefault(x => x.GetHashCode() == watcherID);
                         if (watcher != null)
                         {
@@ -105,7 +103,7 @@ namespace Files.FullTrust.MessageHandlers
                 {
                     var shellFileItem = await GetShellFileItemAsync(e.FullPath);
                     if (shellFileItem == null) return;
-                    response["Item"] = JsonConvert.SerializeObject(shellFileItem);
+                    response["Item"] = JsonSerializer.Serialize(shellFileItem);
                 }
                 else if (e.ChangeType == WatcherChangeTypes.Renamed)
                 {

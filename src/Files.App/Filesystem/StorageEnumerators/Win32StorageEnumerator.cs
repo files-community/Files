@@ -7,12 +7,10 @@ using Files.App.Extensions;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.Helpers.FileListCache;
-using CommunityToolkit.WinUI;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
@@ -44,7 +42,6 @@ namespace Files.App.Filesystem.StorageEnumerators
         {
             var sampler = new IntervalSampler(500);
             var tempList = new List<ListedItem>();
-            var hasNextFile = false;
             var count = 0;
 
             IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
@@ -123,14 +120,13 @@ namespace Files.App.Filesystem.StorageEnumerators
                     break;
                 }
 
-                hasNextFile = FindNextFile(hFile, out findData);
                 if (intermediateAction != null && (count == 32 || sampler.CheckNow()))
                 {
                     await intermediateAction(tempList);
                     // clear the temporary list every time we do an intermediate action
                     tempList.Clear();
                 }
-            } while (hasNextFile);
+            } while (FindNextFile(hFile, out findData));
 
             FindClose(hFile);
             return tempList;
@@ -327,7 +323,7 @@ namespace Files.App.Filesystem.StorageEnumerators
                     if (status == AppServiceResponseStatus.Success && response.ContainsKey("ShortcutInfo"))
                     {
                         var isUrl = findData.cFileName.EndsWith(".url", StringComparison.OrdinalIgnoreCase);
-                        var shInfo = JsonConvert.DeserializeObject<ShellLinkItem>((string)response["ShortcutInfo"]);
+                        var shInfo = JsonSerializer.Deserialize<ShellLinkItem>(response["ShortcutInfo"].GetString());
                         if (shInfo == null)
                         {
                             return null;

@@ -1,24 +1,23 @@
-using Files.Shared;
 using Files.Shared.Extensions;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Pipes;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
-using Windows.Security.Authentication.Web;
-using Windows.Storage;
 
 namespace Files.App.Helpers
 {
     public static class AppServiceConnectionHelper
     {
+        private static readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
+
         public static Task<NamedPipeAsAppServiceConnection> Instance = BuildConnection(true);
 
         public static event EventHandler<Task<NamedPipeAsAppServiceConnection>> ConnectionChanged;
@@ -27,7 +26,7 @@ namespace Files.App.Helpers
         {
             if (connection == null)
             {
-                App.MainViewModel.IsFullTrustElevated = false;
+                App.AppModel.IsAppElevated = false;
                 return false;
             }
 
@@ -36,7 +35,7 @@ namespace Files.App.Helpers
             var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet() { { "Arguments", "Elevate" } });
             if (status == AppServiceResponseStatus.Success)
             {
-                var res = response.Get("Success", 1L);
+                var res = response.Get("Success", defaultJson).GetInt64();
                 switch (res)
                 {
                     case 0: // FTP is restarting as admin
@@ -59,7 +58,7 @@ namespace Files.App.Helpers
                 }
             }
 
-            App.MainViewModel.IsFullTrustElevated = wasElevated;
+            App.AppModel.IsAppElevated = wasElevated;
 
             return wasElevated;
         }
@@ -91,17 +90,19 @@ namespace Files.App.Helpers
 
     public class NamedPipeAsAppServiceConnection : IDisposable
     {
+        private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
+
         private NamedPipeServerStream serverStream;
 
-        public event EventHandler<Dictionary<string, object>> RequestReceived;
+        public event EventHandler<Dictionary<string, JsonElement>> RequestReceived;
 
         public event EventHandler ServiceClosed;
 
-        private ConcurrentDictionary<string, TaskCompletionSource<Dictionary<string, object>>> messageList;
+        private ConcurrentDictionary<string, TaskCompletionSource<Dictionary<string, JsonElement>>> messageList;
 
         public NamedPipeAsAppServiceConnection()
         {
-            this.messageList = new ConcurrentDictionary<string, TaskCompletionSource<Dictionary<string, object>>>();
+            this.messageList = new ConcurrentDictionary<string, TaskCompletionSource<Dictionary<string, JsonElement>>>();
         }
 
         private async Task BeginRead(NamedPipeServerStream serverStream)
@@ -118,12 +119,12 @@ namespace Files.App.Helpers
                     if (serverStream.IsMessageComplete)
                     {
                         var message = Encoding.UTF8.GetString(memoryStream.ToArray()).TrimEnd('\0');
-                        var msg = JsonConvert.DeserializeObject<Dictionary<string, object>>(message);
-                        if (msg != null && msg.Get("RequestID", (string)null) == null)
+                        var msg = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(message);
+                        if (msg != null && msg.Get("RequestID", defaultJson).GetString() == null)
                         {
                             RequestReceived?.Invoke(this, msg);
                         }
-                        else if (messageList.TryRemove((string)msg["RequestID"], out var tcs))
+                        else if (msg != null && messageList.TryRemove(msg["RequestID"].GetString(), out var tcs))
                         {
                             tcs.TrySetResult(msg);
                         }
@@ -150,7 +151,7 @@ namespace Files.App.Helpers
             return true;
         }
 
-        public async Task<(AppServiceResponseStatus Status, Dictionary<string, object> Data)> SendMessageForResponseAsync(ValueSet valueSet)
+        public async Task<(AppServiceResponseStatus Status, Dictionary<string, JsonElement> Data)> SendMessageForResponseAsync(ValueSet valueSet)
         {
             if (serverStream == null)
             {
@@ -161,9 +162,9 @@ namespace Files.App.Helpers
             {
                 var guid = Guid.NewGuid().ToString();
                 valueSet.Add("RequestID", guid);
-                var tcs = new TaskCompletionSource<Dictionary<string, object>>();
+                var tcs = new TaskCompletionSource<Dictionary<string, JsonElement>>();
                 messageList.TryAdd(guid, tcs);
-                var serialized = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Dictionary<string, object>(valueSet)));
+                var serialized = JsonSerializer.SerializeToUtf8Bytes(new Dictionary<string, object>(valueSet));
                 await serverStream.WriteAsync(serialized, 0, serialized.Length);
                 var response = await tcs.Task;
 
@@ -194,7 +195,7 @@ namespace Files.App.Helpers
             {
                 var guid = Guid.NewGuid().ToString();
                 valueSet.Add("RequestID", guid);
-                var serialized = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Dictionary<string, object>(valueSet)));
+                var serialized = JsonSerializer.SerializeToUtf8Bytes(new Dictionary<string, object>(valueSet));
                 await serverStream.WriteAsync(serialized, 0, serialized.Length);
                 return AppServiceResponseStatus.Success;
             }

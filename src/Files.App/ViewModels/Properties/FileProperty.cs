@@ -3,11 +3,11 @@ using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Files.App.Extensions;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Microsoft.UI.Xaml;
@@ -264,7 +264,7 @@ namespace Files.App.ViewModels.Properties
                 cachedPropertiesListFiles[path] = text;
             }
 
-            List<FileProperty> list = JsonConvert.DeserializeObject<List<FileProperty>>(text);
+            List<FileProperty> list = JsonSerializer.Deserialize<List<FileProperty>>(text);
 
             var propsToGet = new List<string>();
 

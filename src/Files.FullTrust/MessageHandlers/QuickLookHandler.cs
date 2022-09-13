@@ -6,6 +6,7 @@ using System.IO;
 using System.IO.Pipes;
 using System.Runtime.Versioning;
 using System.Security.Principal;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 
@@ -15,24 +16,25 @@ namespace Files.FullTrust.MessageHandlers
     public class QuickLookHandler : Disposable, IMessageHandler
     {
         private static readonly ILogger Logger = Program.Logger;
+        private static readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
 
         public void Initialize(PipeStream connection)
         {
         }
 
-        public async Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments)
+        public async Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, JsonElement> message, string arguments)
         {
             switch (arguments)
             {
                 case "DetectQuickLook":
                     // Check QuickLook Availability
                     var available = CheckQuickLookAvailability();
-                    await Win32API.SendMessageAsync(connection, new ValueSet() { { "IsAvailable", available } }, message.Get("RequestID", (string)null));
+                    await Win32API.SendMessageAsync(connection, new ValueSet() { { "IsAvailable", available } }, message.Get("RequestID", defaultJson).GetString());
                     break;
 
                 case "ToggleQuickLook":
-                    var path = (string)message["path"];
-                    var switchPreview = (bool)message["switch"];
+                    var path = message["path"].GetString();
+                    var switchPreview = message["switch"].GetBoolean();
                     SafetyExtensions.IgnoreExceptions(() => ToggleQuickLook(path, switchPreview), Logger);
                     break;
             }

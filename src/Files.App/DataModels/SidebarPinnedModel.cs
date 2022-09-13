@@ -4,15 +4,14 @@ using Files.App.Controllers;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Filesystem;
 using Files.App.Helpers;
-using Files.App.ViewModels;
 using CommunityToolkit.WinUI;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -28,9 +27,9 @@ namespace Files.App.DataModels
         private SemaphoreSlim addSyncSemaphore;
 
         [JsonIgnore]
-        public MainViewModel MainViewModel => App.MainViewModel;
+        public AppModel AppModel => App.AppModel;
 
-        [JsonProperty("items")]
+        [JsonPropertyName("items")]
         public List<string> FavoriteItems { get; set; } = new List<string>();
 
         private readonly List<INavigationControlItem> favoriteList = new List<INavigationControlItem>();
@@ -239,7 +238,7 @@ namespace Files.App.DataModels
             var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
             var locationItem = new LocationItem
             {
-                Font = MainViewModel.FontName,
+                Font = AppModel.SymbolFontFamily,
                 Path = path,
                 Section = SectionType.Favorites,
                 MenuOptions = new ContextMenuOptions

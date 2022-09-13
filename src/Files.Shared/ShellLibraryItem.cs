@@ -15,7 +15,7 @@ namespace Files.Shared
         /// C:\Users\[username]\AppData\Roaming\Microsoft\Windows\Libraries\Documents.library-ms<br/>
         /// C:\Users\[username]\AppData\Roaming\Microsoft\Windows\Libraries\Custom library.library-ms
         /// </summary>
-        public string FullPath;
+        public string FullPath { get; set; }
 
         /// <summary>
         /// ShellItemDisplayString.DesktopAbsoluteParsing<br/>
@@ -23,7 +23,7 @@ namespace Files.Shared
         /// ::{031E4825-7B94-4DC3-B131-E946B44C8DD5}\Documents.library-ms<br/>
         /// C:\Users\[username]\AppData\Roaming\Microsoft\Windows\Libraries\Custom library.library-ms
         /// </summary>
-        public string AbsolutePath;
+        public string AbsolutePath { get; set; }
 
         /// <summary>
         /// ShellItemDisplayString.ParentRelativeParsing<br/>
@@ -31,7 +31,7 @@ namespace Files.Shared
         /// {7B0DB17D-9CD2-4A93-9733-46CC89022E7C}<br/>
         /// Custom library.library-ms
         /// </summary>
-        public string RelativePath;
+        public string RelativePath { get; set; }
 
         /// <summary>
         /// ShellItemDisplayString.NormalDisplay<br/>
@@ -39,11 +39,11 @@ namespace Files.Shared
         /// Documents (locale dependent based on desktop.ini file of the Libraries folder)<br/>
         /// Custom library (locale independent)
         /// </summary>
-        public string DisplayName;
+        public string DisplayName { get; set; }
 
-        public bool IsPinned;
-        public string DefaultSaveFolder;
-        public string[] Folders;
+        public bool IsPinned { get; set; }
+        public string DefaultSaveFolder { get; set; }
+        public string[] Folders { get; set; }
 
         public ShellLibraryItem()
         {

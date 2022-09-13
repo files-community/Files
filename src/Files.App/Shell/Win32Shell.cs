@@ -23,26 +23,6 @@ namespace Files.App.Shell
             controlPanelCategoryView = new ShellFolder("::{26EE0668-A00A-44D7-9371-BEB064C98683}");
         }
 
-        private static async Task<ShellFileItem> GetShellFileItemAsync(string fullPath)
-        {
-            while (true)
-            {
-                using var hFile = Kernel32.CreateFile(fullPath, Kernel32.FileAccess.GENERIC_READ, FileShare.Read, null, FileMode.Open, FileFlagsAndAttributes.FILE_FLAG_BACKUP_SEMANTICS);
-                if (!hFile.IsInvalid)
-                {
-                    using var folderItem = SafetyExtensions.IgnoreExceptions(() => new ShellItem(fullPath));
-                    if (folderItem == null) return null;
-                    return ShellFolderExtensions.GetShellFileItem(folderItem);
-                }
-                var lastError = System.Runtime.InteropServices.Marshal.GetLastWin32Error();
-                if (lastError != Win32Error.ERROR_SHARING_VIOLATION && lastError != Win32Error.ERROR_LOCK_VIOLATION)
-                {
-                    return null;
-                }
-                await Task.Delay(200);
-            }
-        }
-
         public static async Task<(ShellFileItem Folder, List<ShellFileItem> Enumerate)> GetShellFolderAsync(string path, string action, int from, int count)
         {
             if (path.StartsWith("::{", StringComparison.Ordinal))

@@ -124,7 +124,7 @@ namespace Files.App.Shell
             {
                 pidl = pathOrPidl.Replace(@"\\SHELL\", "", StringComparison.Ordinal)
                     .Split('\\', StringSplitOptions.RemoveEmptyEntries)
-                    .Select(x => new Shell32.PIDL(Convert.FromBase64String(x)))
+                    .Select(pathSegment => new Shell32.PIDL(pathSegment))
                     .Aggregate((x, y) => Shell32.PIDL.Combine(x, y));
                 return true;
             }

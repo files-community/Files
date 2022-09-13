@@ -70,10 +70,6 @@
 							Title="{helpers:ResourceString Name=ExportSettings}"
 							ButtonCommand="{x:Bind ViewModel.ExportSettingsCommand}"
 							IsClickable="True">
-							<local:SettingsBlockControl.Icon>
-								<FontIcon Glyph="&#xEDE1;" />
-							</local:SettingsBlockControl.Icon>
-
 							<FontIcon
 								FontSize="14"
 								Foreground="{ThemeResource TextFillColorPrimaryBrush}"
@@ -85,10 +81,6 @@
 							Title="{helpers:ResourceString Name=ImportSettings}"
 							ButtonCommand="{x:Bind ViewModel.ImportSettingsCommand}"
 							IsClickable="True">
-							<local:SettingsBlockControl.Icon>
-								<FontIcon Glyph="&#xE8B5;" />
-							</local:SettingsBlockControl.Icon>
-
 							<FontIcon
 								FontSize="14"
 								Foreground="{ThemeResource TextFillColorPrimaryBrush}"
@@ -278,16 +270,11 @@
 							AutomationProperties.Name="QuickLook"
 							Content="QuickLook"
 							NavigateUri="https://github.com/QL-Win/QuickLook/blob/master/LICENSE-GPL.txt" />
-						
+
 						<HyperlinkButton
 							AutomationProperties.Name="7-Zip (GNU LGPL)"
 							Content="7-Zip (GNU LGPL)"
 							NavigateUri="https://7-zip.org" />
-
-						<HyperlinkButton
-							AutomationProperties.Name="{helpers:ResourceString Name=SettingsFluentUISystemIconsLicenseButton/AutomationProperties/Name}"
-							Content="{helpers:ResourceString Name=SettingsFluentUISystemIconsLicenseButton/Content}"
-							NavigateUri="https://github.com/microsoft/fluentui-system-icons/blob/master/LICENSE" />
 					</StackPanel>
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>

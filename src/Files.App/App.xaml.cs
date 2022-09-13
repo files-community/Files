@@ -1,43 +1,46 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.WinUI.Notifications;
+using CommunityToolkit.WinUI;
+using CommunityToolkit.WinUI.Helpers;
+using Files.App.Controllers;
+using Files.App.DataModels;
+using Files.App.Extensions;
+using Files.App.Filesystem;
+using Files.App.Filesystem.Cloud;
+using Files.App.Filesystem.FilesystemHistory;
+using Files.App.Helpers;
+using Files.App.ServicesImplementation;
+using Files.App.ServicesImplementation.DateTimeFormatter;
+using Files.App.ServicesImplementation.Settings;
+using Files.App.UserControls.MultitaskingControl;
+using Files.App.ViewModels;
+using Files.App.ViewModels.SettingsViewModels;
+using Files.App.Views;
+using Files.Backend.Services;
+using Files.Backend.Services.Settings;
+using Files.Backend.Services.SizeProvider;
+using Files.Shared;
+using Files.Shared.Cloud;
+using Files.Shared.Extensions;
+using Files.Shared.Services.DateTimeFormatter;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
 using System;
-using Windows.ApplicationModel;
-using Files.App.Filesystem.FilesystemHistory;
-using Files.App.ViewModels;
-using Files.App.Helpers;
-using Files.App.Controllers;
-using Files.App.Filesystem;
-using Files.Shared;
-using Files.App.Filesystem.Cloud;
-using Microsoft.UI.Dispatching;
-using System.Threading.Tasks;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection;
-using Files.Backend.Services.Settings;
-using Files.App.ServicesImplementation.Settings;
-using Files.Backend.Services;
-using Files.App.ServicesImplementation;
-using Files.App.ServicesImplementation.DateTimeFormatter;
-using Files.Shared.Services.DateTimeFormatter;
-using Files.Shared.Cloud;
-using Files.Backend.Services.SizeProvider;
-using Files.App.ViewModels.SettingsViewModels;
-using Microsoft.AppCenter;
-using Windows.Storage;
-using Microsoft.AppCenter.Analytics;
-using Microsoft.AppCenter.Crashes;
-using Microsoft.UI.Windowing;
-using CommunityToolkit.WinUI.Helpers;
 using System.Diagnostics;
-using CommunityToolkit.WinUI.Notifications;
-using Files.App.Extensions;
-using Windows.UI.Notifications;
 using System.Linq;
-using Files.App.UserControls.MultitaskingControl;
-using Files.App.Views;
-using CommunityToolkit.WinUI;
-using Files.Shared.Extensions;
+using System.Threading.Tasks;
+using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Storage;
+using Windows.UI.Notifications;
+using Vanara.Extensions.Reflection;
+
+#nullable enable
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -54,7 +57,7 @@ namespace Files.App
         public static string OutputPath { get; set; }
         public static StorageHistoryWrapper HistoryWrapper = new StorageHistoryWrapper();
         public static SettingsViewModel AppSettings { get; private set; }
-        public static MainViewModel MainViewModel { get; private set; }
+        public static AppModel AppModel { get; private set; }
         public static PaneViewModel PaneViewModel { get; private set; }
         public static PreviewPaneViewModel PreviewPaneViewModel { get; private set; }
         public static JumpListManager JumpList { get; private set; }
@@ -147,14 +150,10 @@ namespace Files.App
         private static async Task EnsureSettingsAndConfigurationAreBootstrapped()
         {
             AppSettings ??= new SettingsViewModel();
-
             ExternalResourcesHelper ??= new ExternalResourcesHelper();
-            await ExternalResourcesHelper.LoadSelectedTheme();
-            new AppearanceViewModel().SetCompactStyles(updateTheme: false);
-
             JumpList ??= new JumpListManager();
             RecentItemsManager ??= new RecentItemsManager();
-            MainViewModel ??= new MainViewModel();
+            AppModel ??= new AppModel();
             PaneViewModel ??= new PaneViewModel();
             PreviewPaneViewModel ??= new PreviewPaneViewModel();
             LibraryManager ??= new LibraryManager();
@@ -165,6 +164,8 @@ namespace Files.App
             FileTagsManager ??= new FileTagsManager();
             SidebarPinnedController ??= new SidebarPinnedController();
             TerminalController ??= new TerminalController();
+            
+            new AppearanceViewModel().SetCompactStyles(updateTheme: false);
         }
 
         private static async Task StartAppCenter()
@@ -175,8 +176,9 @@ namespace Files.App
                 {
                     var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/AppCenterKey.txt"));
                     var lines = await FileIO.ReadTextAsync(file);
-                    var obj = Newtonsoft.Json.Linq.JObject.Parse(lines);
-                    AppCenter.Start((string)obj.SelectToken("key"), typeof(Analytics), typeof(Crashes));
+                    using var document = System.Text.Json.JsonDocument.Parse(lines);
+                    var obj = document.RootElement;
+                    AppCenter.Start(obj.GetPropertyValue<string>("key"), typeof(Analytics), typeof(Crashes));
                 }
             }
             catch (Exception ex)
@@ -210,8 +212,6 @@ namespace Files.App
                     ExternalResourcesHelper.LoadOtherThemesAsync(),
                     ContextFlyoutItemHelper.CachedNewContextMenuEntries
                 );
-
-                userSettingsService.ReportToAppCenter();
             });
 
             // Check for required updates
@@ -222,9 +222,7 @@ namespace Files.App
             static async Task OptionalTask(Task task, bool condition)
             {
                 if (condition)
-                {
                     await task;
-                }
             }
         }
 
@@ -242,9 +240,7 @@ namespace Files.App
 
             //start tracking app usage
             if (activatedEventArgs.Data is Windows.ApplicationModel.Activation.IActivatedEventArgs iaea)
-            {
                 SystemInformation.Instance.TrackAppUse(iaea);
-            }
 
             // Initialize MainWindow here
             EnsureWindowIsInitialized();
@@ -253,8 +249,6 @@ namespace Files.App
             _ = InitializeAppComponentsAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
 
             await Window.InitializeApplication(activatedEventArgs);
-
-            WindowDecorationsHelper.RequestWindowDecorationsAccess();
         }
 
         private void EnsureWindowIsInitialized()
@@ -272,10 +266,8 @@ namespace Files.App
             {
                 ShowErrorNotification = true;
                 ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = -Process.GetCurrentProcess().Id;
-                if (MainViewModel != null)
-                {
-                    MainViewModel.Clipboard_ContentChanged(null, null);
-                }
+                if (AppModel != null)
+                    AppModel.Clipboard_ContentChanged(null, null);
             }
         }
 
@@ -303,14 +295,10 @@ namespace Files.App
                 {
                     var instance = MainPageViewModel.AppInstances.FirstOrDefault(x => x.Control.TabItemContent.IsCurrentInstance);
                     if (instance == null)
-                    {
                         return;
-                    }
                     var items = (instance.Control.TabItemContent as PaneHolderPage)?.ActivePane?.SlimContentPage?.SelectedItems;
                     if (items == null)
-                    {
                         return;
-                    }
                     await FileIO.WriteLinesAsync(await StorageFile.GetFileFromPathAsync(OutputPath), items.Select(x => x.ItemPath));
                 }, Logger);
             }
@@ -326,37 +314,33 @@ namespace Files.App
                 if (dataPackage.Properties.PackageFamilyName == Package.Current.Id.FamilyName)
                 {
                     if (dataPackage.Contains(StandardDataFormats.StorageItems))
-                    {
                         Clipboard.Flush();
-                    }
                 }
             }, Logger);
         }
 
         public static void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages
         {
-            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
-            IBundlesSettingsService bundlesSettingsService = Ioc.Default.GetService<IBundlesSettingsService>();
+            IUserSettingsService? userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+            IBundlesSettingsService? bundlesSettingsService = Ioc.Default.GetService<IBundlesSettingsService>();
 
             if (bundlesSettingsService != null)
-            {
                 bundlesSettingsService.FlushSettings();
-            }
-            if (userSettingsService?.PreferencesSettingsService != null)
+            if (userSettingsService?.PreferencesSettingsService is null)
+                return;
+
+            userSettingsService.PreferencesSettingsService.LastSessionTabList = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>
             {
-                userSettingsService.PreferencesSettingsService.LastSessionTabList = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>
+                if (tab != null && tab.TabItemArguments != null)
                 {
-                    if (tab != null && tab.TabItemArguments != null)
-                    {
-                        return tab.TabItemArguments.Serialize();
-                    }
-                    else
-                    {
-                        var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home".GetLocalizedResource() };
-                        return defaultArg.Serialize();
-                    }
-                }).ToList();
-            }
+                    return tab.TabItemArguments.Serialize();
+                }
+                else
+                {
+                    var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home".GetLocalizedResource() };
+                    return defaultArg.Serialize();
+                }
+            }).ToList();
         }
 
         // Occurs when an exception is not handled on the UI thread.
@@ -469,7 +453,7 @@ namespace Files.App
                 AppWindow.GetFromWindowId(windowId);
         }
 
-        public static MainWindow Window { get; set; }
+        public static MainWindow Window { get; set; } = null!;
 
         public static IntPtr WindowHandle { get; private set; }
     }

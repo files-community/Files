@@ -557,7 +557,7 @@ namespace Files.App.Views.LayoutModes
                 return;
             }
             // Skip code if the control or shift key is pressed or if the user is using multiselect
-            if (ctrlPressed || shiftPressed || MainViewModel.MultiselectEnabled)
+            if (ctrlPressed || shiftPressed || AppModel.MultiselectEnabled)
             {
                 return;
             }
@@ -796,11 +796,6 @@ namespace Files.App.Views.LayoutModes
         private void FileList_Loaded(object sender, RoutedEventArgs e)
         {
             ContentScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "ScrollViewer");
-        }
-
-        private void RefreshContainer_RefreshRequested(RefreshContainer sender, RefreshRequestedEventArgs args)
-        {
-            ParentShellPageInstance.FilesystemViewModel.RefreshItems(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, SetSelectedItemsOnNavigation);
         }
 
         private void SetDetailsColumnsAsDefault_Click(object sender, RoutedEventArgs e)

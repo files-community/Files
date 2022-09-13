@@ -8,10 +8,10 @@ using Files.App.Filesystem.StorageItems;
 using Files.App.ViewModels;
 using Files.App.Views;
 using Files.App.Extensions;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
@@ -160,7 +160,7 @@ namespace Files.App.Helpers
 
                     if (status == AppServiceResponseStatus.Success && response.ContainsKey("ShortcutInfo"))
                     {
-                        var shInfo = JsonConvert.DeserializeObject<ShellLinkItem>((string)response["ShortcutInfo"]);
+                        var shInfo = JsonSerializer.Deserialize<ShellLinkItem>(response["ShortcutInfo"].GetString());
                         if (shInfo != null)
                         {
                             shortcutInfo = shInfo;
@@ -322,12 +322,12 @@ namespace Files.App.Helpers
             else
             {
                 opened = await associatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(path)
-                    .OnSuccess(async (childFolder) =>
+                    .OnSuccess((childFolder) =>
                     {
                         // Add location to Recent Items List
                         if (childFolder.Item is SystemStorageFolder)
                         {
-                            await App.RecentItemsManager.AddToRecentItems(childFolder.Path);
+                            App.RecentItemsManager.AddToRecentItems(childFolder.Path);
                         }
                     });
                 if (!opened)
@@ -380,7 +380,7 @@ namespace Files.App.Helpers
                             // Add location to Recent Items List
                             if (childFile.Item is SystemStorageFile)
                             {
-                                await App.RecentItemsManager.AddToRecentItems(childFile.Path);
+                                App.RecentItemsManager.AddToRecentItems(childFile.Path);
                             }
                         }
                     }
@@ -400,7 +400,7 @@ namespace Files.App.Helpers
                         // Add location to Recent Items List
                         if (childFile.Item is SystemStorageFile)
                         {
-                            await App.RecentItemsManager.AddToRecentItems(childFile.Path);
+                            App.RecentItemsManager.AddToRecentItems(childFile.Path);
                         }
 
                         if (openViaApplicationPicker)

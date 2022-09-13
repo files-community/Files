@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
@@ -27,6 +28,8 @@ namespace Files.App.Filesystem
     public class FilesystemHelpers : IFilesystemHelpers
     {
         #region Private Members
+
+        private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
 
         private IShellPage associatedInstance;
 
@@ -380,7 +383,7 @@ namespace Files.App.Filesystem
                         { "Arguments", "FileOperation" },
                         { "fileop", "DragDrop" },
                         { "droppath", associatedInstance.FilesystemViewModel.WorkingDirectory } });
-                    return (status == AppServiceResponseStatus.Success && response.Get("Success", false)) ? ReturnResult.Success : ReturnResult.Failed;
+                    return (status == AppServiceResponseStatus.Success && response.Get("Success", defaultJson).GetBoolean()) ? ReturnResult.Success : ReturnResult.Failed;
                 }
                 return ReturnResult.Failed;
             }
