@@ -75,7 +75,7 @@ namespace Files.App.Filesystem
         public async Task UpdateRecentFoldersAsync()
         {
             // enumerate with fulltrust process
-            List<RecentItem> enumeratedFolders = ListRecentFolders();
+            var enumeratedFolders = await Task.Run(() => ListRecentFolders());
             if (enumeratedFolders != null)
             {
                 lock (recentFolders)
@@ -113,10 +113,10 @@ namespace Files.App.Filesystem
 
             foreach (var linkFilePath in linkFilePaths)
             {
-                using var link = new ShellLink(linkFilePath, LinkResolution.NoUIWithMsgPump, null, TimeSpan.FromMilliseconds(100));
-
                 try
                 {
+                    using var link = new ShellLink(linkFilePath, LinkResolution.NoUIWithMsgPump, null, TimeSpan.FromMilliseconds(100));
+
                     if (!string.IsNullOrEmpty(link.TargetPath) && link.Target.IsFolder)
                     {
                         var shellLinkItem = ShellFolderExtensions.GetShellLinkItem(link);

@@ -77,8 +77,7 @@
 						Tag="{x:Bind Item.Path}"
 						ToolTipService.ToolTip="{x:Bind Item.Text, Mode=OneWay}">
 						<Button.ContextFlyout>
-							<MenuFlyout Opening="MenuFlyout_Opening"
-                                        Closed="MenuFlyout_Closed">
+							<MenuFlyout Opening="MenuFlyout_Opening">
 								<MenuFlyout.Items>
 									<MenuFlyoutItem
 										x:Name="OpenInNewPane"

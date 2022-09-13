@@ -21,6 +21,8 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Files.App.DataModels.NavigationControlItems;
+using Files.App.Helpers.XamlHelpers;
+using Microsoft.UI.Xaml.Controls.Primitives;
 
 namespace Files.App.UserControls.Widgets
 {
@@ -87,8 +89,6 @@ namespace Files.App.UserControls.Widgets
 
         public BulkConcurrentObservableCollection<FolderCardItem> ItemsAdded = new BulkConcurrentObservableCollection<FolderCardItem>();
         private bool showMultiPaneControls;
-
-        private FolderCardItem? propertiesItem = null;
 
         public FolderWidget()
         {
@@ -241,7 +241,19 @@ namespace Files.App.UserControls.Widgets
 
         private void OpenLibraryProperties_Click(object sender, RoutedEventArgs e)
         {
-            propertiesItem = (sender as MenuFlyoutItem)?.DataContext as FolderCardItem;
+            var presenter = DependencyObjectHelpers.FindParent<MenuFlyoutPresenter>((MenuFlyoutItem)sender);
+            var flyoutParent = presenter?.Parent as Popup;
+            var propertiesItem = ((MenuFlyoutItem)sender).DataContext as FolderCardItem;
+            if (propertiesItem is null || !propertiesItem.IsLibrary || flyoutParent is null)
+                return;
+
+            EventHandler<object> flyoutClosed = null!;
+            flyoutClosed = (s, e) =>
+            {
+                flyoutParent.Closed -= flyoutClosed;
+                LibraryCardPropertiesInvoked?.Invoke(this, new LibraryCardEventArgs { Library = (propertiesItem.Item as LibraryLocationItem)! });
+            };
+            flyoutParent.Closed += flyoutClosed;
         }
 
         private async Task OpenLibraryCard(FolderCardItem item)
@@ -274,15 +286,6 @@ namespace Files.App.UserControls.Widgets
         public void Dispose()
         {
 
-        }
-
-        private void MenuFlyout_Closed(object sender, object e)
-        {
-            if (propertiesItem is null || !propertiesItem.IsLibrary)
-                return;
-
-            LibraryCardPropertiesInvoked?.Invoke(this, new LibraryCardEventArgs { Library = (propertiesItem.Item as LibraryLocationItem)! });
-            propertiesItem = null;
         }
     }
 }
