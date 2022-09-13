@@ -32,11 +32,11 @@ namespace Files.App.DataModels.NavigationControlItems
             set
             {
                 path = value;
-                HoverDisplayText = string.IsNullOrEmpty(Path) || Path.Contains("?", StringComparison.Ordinal) || Path.StartsWith("shell:", StringComparison.OrdinalIgnoreCase) || Path.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase) || Path == "Home".GetLocalizedResource() ? Text : $"{"Path".GetLocalizedResource()} {Path}";
+                ToolTipText = string.IsNullOrEmpty(Path) || Path.Contains("?", StringComparison.Ordinal) || Path.StartsWith("shell:", StringComparison.OrdinalIgnoreCase) || Path.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase) || Path == "Home".GetLocalizedResource() ? Text : $"{"Path".GetLocalizedResource()} {Path}";
             }
         }
 
-        public string HoverDisplayText { get; private set; }
+        public string ToolTipText { get; private set; }
         public FontFamily Font { get; set; }
         public NavigationControlItemType ItemType => NavigationControlItemType.Location;
         public bool IsDefaultLocation { get; set; }

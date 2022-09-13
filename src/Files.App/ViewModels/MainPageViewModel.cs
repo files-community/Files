@@ -206,7 +206,7 @@ namespace Files.App.ViewModels
 				Header = null,
 				IconSource = null,
 				Description = null,
-				HoverDisplayText = null
+				ToolTipText = null
 			};
 			tabItem.Control.NavigationArguments = new TabItemArguments()
 			{
@@ -265,20 +265,20 @@ namespace Files.App.ViewModels
 				}
 				else
 				{
-					(tabItem.Header, tabItem.IconSource, tabItem.HoverDisplayText) = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
+					(tabItem.Header, tabItem.IconSource, tabItem.ToolTipText) = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
 				}
 			}
 			else if (navigationArg is string pathArgs)
 			{
-				(tabItem.Header, tabItem.IconSource, tabItem.HoverDisplayText) = await GetSelectedTabInfoAsync(pathArgs);
+				(tabItem.Header, tabItem.IconSource, tabItem.ToolTipText) = await GetSelectedTabInfoAsync(pathArgs);
 			}
 		}
 
-		public static async Task<(string tabLocationHeader, Microsoft.UI.Xaml.Controls.IconSource tabIcon, string hoverDisplayText)> GetSelectedTabInfoAsync(string currentPath)
+		public static async Task<(string tabLocationHeader, Microsoft.UI.Xaml.Controls.IconSource tabIcon, string toolTipText)> GetSelectedTabInfoAsync(string currentPath)
 		{
 			string tabLocationHeader;
 			var iconSource = new Microsoft.UI.Xaml.Controls.ImageIconSource();
-			string hoverDisplayText = currentPath;
+			string toolTipText = currentPath;
 
 			if (string.IsNullOrEmpty(currentPath) || currentPath == "Home".GetLocalizedResource())
 			{
@@ -352,7 +352,7 @@ namespace Files.App.ViewModels
 				}
 			}
 
-			return (tabLocationHeader, iconSource, hoverDisplayText);
+			return (tabLocationHeader, iconSource, toolTipText);
 		}
 
 		public async void OnNavigatedTo(NavigationEventArgs e)
@@ -491,7 +491,7 @@ namespace Files.App.ViewModels
 				Header = null,
 				IconSource = null,
 				Description = null,
-				HoverDisplayText = null
+				ToolTipText = null
 			};
 			tabItem.Control.NavigationArguments = new TabItemArguments()
 			{

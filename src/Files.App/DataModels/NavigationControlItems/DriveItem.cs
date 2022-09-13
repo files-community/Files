@@ -37,7 +37,7 @@ namespace Files.App.DataModels.NavigationControlItems
             }
         }
 
-        public string HoverDisplayText { get; private set; }
+        public string ToolTipText { get; private set; }
         public string DeviceID { get; set; }
         public StorageFolder Root { get; set; }
         public NavigationControlItemType ItemType { get; set; } = NavigationControlItemType.Drive;
@@ -64,7 +64,7 @@ namespace Files.App.DataModels.NavigationControlItems
             set
             {
                 SetProperty(ref freeSpace, value);
-                HoverDisplayText = GetSizeString();
+                ToolTipText = GetSizeString();
             }
         }
 
