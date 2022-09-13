@@ -21,11 +21,18 @@ public static class QuickLookHelpers
         string message = switchPreview ? "QuickLook.App.PipeMessages.Switch" : "QuickLook.App.PipeMessages.Toggle";
 
         await using var client = new NamedPipeClientStream(".", pipeName, PipeDirection.Out);
-        await client.ConnectAsync(TIMEOUT);
+        try
+        {
+            await client.ConnectAsync(TIMEOUT);
 
-        await using var writer = new StreamWriter(client);
-        await writer.WriteLineAsync($"{message}|{associatedInstance.SlimContentPage.SelectedItem.ItemPath}");
-        await writer.FlushAsync();
+            await using var writer = new StreamWriter(client);
+            await writer.WriteLineAsync($"{message}|{associatedInstance.SlimContentPage.SelectedItem.ItemPath}");
+            await writer.FlushAsync();
+        }
+        catch (TimeoutException)
+        {
+            client.Close();
+        }
     }
 
     public static async Task<bool> CheckQuickLookAvailability()
