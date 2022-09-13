@@ -7,13 +7,13 @@ namespace Files.App.ServicesImplementation
 {
     internal class VolumeInfoFactory : IVolumeInfoFactory
     {
-        public async Task<VolumeInfo> BuildVolumeInfo(string driveName)
+        public VolumeInfo BuildVolumeInfo(string driveName)
         {
-            string volumeId = await GetVolumeID(driveName);
+            string volumeId = GetVolumeID(driveName);
             return new VolumeInfo(volumeId);
         }
 
-        private async Task<string> GetVolumeID(string driveName)
+        private string GetVolumeID(string driveName)
         {
             return DriveHelpers.GetVolumeId(driveName);
         }
