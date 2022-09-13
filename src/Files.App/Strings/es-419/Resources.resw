@@ -2824,9 +2824,9 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
     <value>Pantalla de bloqueo</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Open folders with a single click in the Columns Layout</value>
+    <value>Abrir carpetas con un solo clic en el diseño de columnas</value>
   </data>
   <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
-    <value>Behavior for opening files and folders</value>
+    <value>Comportamiento al abrir archivos y carpetas</value>
   </data>
 </root>
