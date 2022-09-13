@@ -2825,4 +2825,22 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
     <value>Behavior for opening files and folders</value>
   </data>
+  <data name="AddSingleItemToArchive.Text" xml:space="preserve">
+    <value>Add to {0}.zip</value>
+  </data>
+  <data name="AddToArchive.Text" xml:space="preserve">
+    <value>Add to archive</value>
+  </data>
+  <data name="CompressionCompletedText" xml:space="preserve">
+    <value>Compression completed</value>
+  </data>
+  <data name="CompressionSuccededText" xml:space="preserve">
+    <value>{0} has been compressed</value>
+  </data>
+  <data name="CompressionFailedText" xml:space="preserve">
+    <value>{0} couldn't be compressed</value>
+  </data>
+  <data name="CompressionInProgressText" xml:space="preserve">
+    <value>Compressing archive</value>
+  </data>
 </root>

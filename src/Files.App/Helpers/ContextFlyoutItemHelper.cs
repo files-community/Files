@@ -19,6 +19,7 @@ using Windows.System;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.Threading;
+using System.Configuration;
 
 namespace Files.App.Helpers
 {
@@ -942,6 +943,22 @@ namespace Files.App.Helpers
                     ShowInSearchPage = true,
                     ShowInFtpPage = true,
                     ShowInZipPage = true,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Command = commandsViewModel.CompressSingleFolderCommand,
+                    Glyph = "\uE8DE",
+                    Text = string.Format("AddSingleItemToArchive/Text".GetLocalizedResource(), selectedItems.First().ItemName),
+                    ShowInSearchPage = true,
+                    ShowItem = selectedItems.Count == 1 && !selectedItems.First().IsZipItem,
+                },
+                new ContextMenuFlyoutItemViewModel()
+				{
+                    Command = commandsViewModel.CompressMultipleFoldersCommand,
+				    Glyph = "\uE8DE",
+                    Text = "AddToArchive/Text".GetLocalizedResource(),
+                    ShowInSearchPage = true,
+                    ShowItem = selectedItems.Count > 1 && !selectedItems.First().IsZipItem,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
