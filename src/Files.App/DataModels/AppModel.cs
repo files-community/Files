@@ -89,8 +89,8 @@ namespace Files.App.DataModels
 			set => SetProperty(ref multiselectEnabled, value);
 		}
 
-		private bool isQuickLookSupported;
-		public bool IsQuickLookSupported
+		private bool ?isQuickLookSupported;
+		public bool ?IsQuickLookSupported
 		{
 			get => isQuickLookSupported;
 			set => SetProperty(ref isQuickLookSupported, value);

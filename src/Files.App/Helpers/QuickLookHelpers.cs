@@ -15,8 +15,11 @@ public static class QuickLookHelpers
         if (!associatedInstance.SlimContentPage.IsItemSelected || associatedInstance.SlimContentPage.IsRenamingItem)
             return;
 
-        if (!App.AppModel.IsQuickLookSupported)
-            await DetectQuickLook();
+        if (App.AppModel.IsQuickLookSupported == null)
+			await DetectQuickLook();
+
+        if (App.AppModel.IsQuickLookSupported == false)
+            return;
 
         App.Logger.Info("Toggle QuickLook");
 
