@@ -23,6 +23,8 @@ using System.Collections.Specialized;
 using CommunityToolkit.WinUI.Notifications;
 using System.Diagnostics;
 using Windows.UI.Notifications;
+using Files.App.Helpers.XamlHelpers;
+using Microsoft.UI.Xaml.Controls.Primitives;
 
 namespace Files.App.UserControls.Widgets
 {
