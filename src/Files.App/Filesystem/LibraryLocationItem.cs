@@ -24,7 +24,7 @@ namespace Files.App.Filesystem
                 ShowShellItems = true,
                 ShowUnpinItem = !shellLibrary.IsPinned,
             };
-            Text = shellLibrary.DisplayName;
+            Text = shellLibrary.DisplayName != null ? shellLibrary.DisplayName : "";
             Path = shellLibrary.FullPath;
             DefaultSaveFolder = shellLibrary.DefaultSaveFolder;
             Folders = shellLibrary.Folders is null ? null : new ReadOnlyCollection<string>(shellLibrary.Folders);

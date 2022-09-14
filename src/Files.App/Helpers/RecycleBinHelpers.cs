@@ -1,10 +1,10 @@
 using Files.Shared;
 using Files.Shared.Extensions;
 using Files.App.Extensions;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
@@ -20,6 +20,8 @@ namespace Files.App.Helpers
     public class RecycleBinHelpers
     {
         #region Private Members
+
+        private static readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
 
         private static readonly Regex recycleBinPathRegex = new Regex(@"^[A-Z]:\\\$Recycle\.Bin\\", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
 
@@ -127,8 +129,8 @@ namespace Files.App.Helpers
                     { "fileop", "TestRecycle" },
                     { "filepath", path }
                 });
-                var result = status == AppServiceResponseStatus.Success && response.Get("Success", false);
-                var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", ""));
+                var result = status == AppServiceResponseStatus.Success && response.Get("Success", defaultJson).GetBoolean();
+                var shellOpResult = JsonSerializer.Deserialize<ShellOperationResult>(response.Get("Result", defaultJson).GetString());
                 result &= shellOpResult != null && shellOpResult.Items.All(x => x.Succeeded);
                 return result;
             }

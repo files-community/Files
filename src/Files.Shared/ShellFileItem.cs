@@ -4,16 +4,16 @@ namespace Files.Shared
 {
     public class ShellFileItem
     {
-        public bool IsFolder;
-        public string RecyclePath;
-        public string FileName;
-        public string FilePath;
-        public DateTime RecycleDate;
-        public DateTime ModifiedDate;
-        public DateTime CreatedDate;
-        public string FileSize;
-        public ulong FileSizeBytes;
-        public string FileType;
+        public bool IsFolder { get; set; }
+        public string RecyclePath { get; set; }
+        public string FileName { get; set; }
+        public string FilePath { get; set; }
+        public DateTime RecycleDate { get; set; }
+        public DateTime ModifiedDate { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public string FileSize { get; set; }
+        public ulong FileSizeBytes { get; set; }
+        public string FileType { get; set; }
 
         public ShellFileItem()
         {
