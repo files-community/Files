@@ -8,10 +8,10 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using System;
+using System.Text.Json;
 using System.Windows.Input;
 using Windows.Storage;
 using Files.Shared.Extensions;
-using Newtonsoft.Json;
 using IO = System.IO;
 
 namespace Files.App.ViewModels
@@ -363,7 +363,7 @@ namespace Files.App.ViewModels
         {
             var str = NativeFileOperationsHelper.ReadStringFromFile($"{folderPath}:files_layoutmode");
             var adsPrefs = SafetyExtensions.IgnoreExceptions(() =>
-                string.IsNullOrEmpty(str) ? null : JsonConvert.DeserializeObject<LayoutPreferences>(str));
+                string.IsNullOrEmpty(str) ? null : JsonSerializer.Deserialize<LayoutPreferences>(str));
             WriteLayoutPreferencesToDb(folderPath, frn, adsPrefs); // Port settings to DB, delete ADS
             NativeFileOperationsHelper.DeleteFileFromApp($"{folderPath}:files_layoutmode");
             return adsPrefs;

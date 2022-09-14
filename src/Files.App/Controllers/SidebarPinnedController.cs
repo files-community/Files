@@ -1,15 +1,16 @@
 using Files.App.DataModels;
 using Files.Shared.Enums;
 using Files.App.Filesystem;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Search;
 using Files.Shared.Extensions;
 using System.Collections.Specialized;
+using Files.App.Serialization.Implementation;
 
 namespace Files.App.Controllers
 {
@@ -91,7 +92,7 @@ namespace Files.App.Controllers
             try
             {
                 configContent = await FileIO.ReadTextAsync(JsonFile.Result);
-                Model = JsonConvert.DeserializeObject<SidebarPinnedModel>(configContent);
+                Model = JsonSerializer.Deserialize<SidebarPinnedModel>(configContent);
                 if (Model == null)
                 {
                     throw new ArgumentException($"{JsonFileName} is empty, regenerating...");
@@ -151,12 +152,9 @@ namespace Files.App.Controllers
             {
                 using (var file = File.CreateText(Path.Combine(folderPath, JsonFileName)))
                 {
-                    JsonSerializer serializer = new JsonSerializer();
-                    serializer.Formatting = Formatting.Indented;
-                    serializer.Serialize(file, Model);
-
                     // update local configContent to avoid unnecessary refreshes
-                    configContent = JsonConvert.SerializeObject(Model, Formatting.Indented);
+                    configContent = JsonSerializer.Serialize(Model, DefaultJsonSettingsSerializer.Options);
+                    file.Write(configContent);
                 }
             }
             catch
@@ -181,7 +179,7 @@ namespace Files.App.Controllers
             return await SafetyExtensions.IgnoreExceptions(async () =>
             {
                 var oldPinnedItemsFile = await ApplicationData.Current.LocalCacheFolder.GetFileAsync("PinnedItems.json");
-                var model = JsonConvert.DeserializeObject<SidebarPinnedModel>(await FileIO.ReadTextAsync(oldPinnedItemsFile));
+                var model = JsonSerializer.Deserialize<SidebarPinnedModel>(await FileIO.ReadTextAsync(oldPinnedItemsFile));
                 await oldPinnedItemsFile.DeleteAsync();
                 return model.FavoriteItems;
             });

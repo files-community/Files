@@ -1,17 +1,10 @@
-﻿using Files.FullTrust.Helpers;
-using Files.Shared;
-using Files.Shared.Enums;
-using Files.Shared.Extensions;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Pipes;
-using System.Linq;
 using System.Runtime.Versioning;
+using System.Text.Json;
 using System.Threading.Tasks;
-using Vanara.PInvoke;
-using Vanara.Windows.Shell;
 using Windows.Foundation.Collections;
 
 namespace Files.FullTrust.MessageHandlers
@@ -57,7 +50,7 @@ namespace Files.FullTrust.MessageHandlers
             quickAccessJumpListWatcher.EnableRaisingEvents = true;
         }
 
-        public Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments)
+        public Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, JsonElement> message, string arguments)
         {
             return Task.CompletedTask;
         }

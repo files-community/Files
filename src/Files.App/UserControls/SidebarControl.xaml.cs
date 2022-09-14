@@ -158,7 +158,7 @@ namespace Files.App.UserControls
             OpenInNewWindowCommand = new RelayCommand(OpenInNewWindow);
             OpenInNewPaneCommand = new RelayCommand(OpenInNewPane);
             EjectDeviceCommand = new RelayCommand(EjectDevice);
-            OpenPropertiesCommand = new RelayCommand(OpenProperties);
+            OpenPropertiesCommand = new RelayCommand<CommandBarFlyout>(OpenProperties);
         }
 
         public SidebarViewModel ViewModel
@@ -189,7 +189,7 @@ namespace Files.App.UserControls
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems(INavigationControlItem item)
+        private List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems(INavigationControlItem item, CommandBarFlyout menu)
         {
             ContextMenuOptions options = item.MenuOptions;
 
@@ -315,6 +315,7 @@ namespace Files.App.UserControls
                     Text = "BaseLayoutContextFlyoutPropertiesFolder/Text".GetLocalizedResource(),
                     Glyph = "\uE946",
                     Command = OpenPropertiesCommand,
+                    CommandParameter = menu,
                     ShowItem = options.ShowProperties
                 },
                 new ContextMenuFlyoutItemViewModel()
@@ -489,9 +490,15 @@ namespace Files.App.UserControls
             }
         }
 
-        private void OpenProperties()
+        private void OpenProperties(CommandBarFlyout menu)
         {
-            SidebarItemPropertiesInvoked?.Invoke(this, new SidebarItemPropertiesInvokedEventArgs(rightClickedItem));
+            EventHandler<object> flyoutClosed = null!;
+            flyoutClosed = (s, e) =>
+            {
+                menu.Closed -= flyoutClosed;
+                SidebarItemPropertiesInvoked?.Invoke(this, new SidebarItemPropertiesInvokedEventArgs(rightClickedItem));
+            };
+            menu.Closed += flyoutClosed;
         }
 
         private async void EjectDevice()
@@ -557,7 +564,7 @@ namespace Files.App.UserControls
 
             rightClickedItem = item;
 
-            var menuItems = GetLocationItemMenuItems(item);
+            var menuItems = GetLocationItemMenuItems(item, itemContextMenuFlyout);
             var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
             if (!UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu)

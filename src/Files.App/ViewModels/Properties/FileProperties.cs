@@ -4,12 +4,12 @@ using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Devices.Geolocation;
@@ -19,9 +19,9 @@ using Windows.Security.Cryptography.Core;
 using Windows.Services.Maps;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using Windows.UI.Core;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Dispatching;
+using Vanara.Extensions.Reflection;
 
 namespace Files.App.ViewModels.Properties
 {
@@ -205,19 +205,17 @@ namespace Files.App.ViewModels.Properties
                 return null;
             }
 
-            JObject obj;
             try
             {
                 StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/BingMapsKey.txt"));
                 var lines = await FileIO.ReadTextAsync(file);
-                obj = JObject.Parse(lines);
+                using var obj = JsonDocument.Parse(lines);
+                MapService.ServiceToken = obj.RootElement.GetFieldValue<string>("key");
             }
             catch (Exception)
             {
                 return null;
             }
-
-            MapService.ServiceToken = (string)obj.SelectToken("key");
 
             BasicGeoposition location = new BasicGeoposition();
             location.Latitude = Lat.Value;

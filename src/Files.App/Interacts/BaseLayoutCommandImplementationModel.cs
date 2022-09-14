@@ -196,11 +196,17 @@ namespace Files.App.Interacts
 
         public virtual void ShowFolderProperties(RoutedEventArgs e)
         {
-            FilePropertiesHelpers.ShowProperties(associatedInstance);
+            SlimContentPage.ItemContextMenuFlyout.Closed += OpenProperties;
         }
 
         public virtual void ShowProperties(RoutedEventArgs e)
         {
+            SlimContentPage.ItemContextMenuFlyout.Closed += OpenProperties;
+        }
+
+        private void OpenProperties(object sender, object e)
+        {
+            SlimContentPage.ItemContextMenuFlyout.Closed -= OpenProperties;
             FilePropertiesHelpers.ShowProperties(associatedInstance);
         }
 
@@ -337,10 +343,12 @@ namespace Files.App.Interacts
 
         public virtual void ShareItem(RoutedEventArgs e)
         {
-            DataTransferManager manager = DataTransferManager.GetForCurrentView();
+            var interop = DataTransferManager.As<UWPToWinAppSDKUpgradeHelpers.IDataTransferManagerInterop>();
+            IntPtr result = interop.GetForWindow(App.WindowHandle, UWPToWinAppSDKUpgradeHelpers.InteropHelpers.DataTransferManagerInteropIID);
+            var manager = WinRT.MarshalInterface<DataTransferManager>.FromAbi(result);
             manager.DataRequested += new TypedEventHandler<DataTransferManager, DataRequestedEventArgs>(Manager_DataRequested);
 
-            DataTransferManager.As<UWPToWinAppSDKUpgradeHelpers.IDataTransferManagerInterop>().ShowShareUIForWindow(App.WindowHandle);
+            interop.ShowShareUIForWindow(App.WindowHandle);
 
             async void Manager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
             {

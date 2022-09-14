@@ -191,10 +191,21 @@ namespace Files.App.UserControls.Widgets
             App.SidebarPinnedController.Model.RemoveItem(item.Path);
         }
 
-        private async void OpenDriveProperties_Click(object sender, RoutedEventArgs e)
+        private void OpenDriveProperties_Click(object sender, RoutedEventArgs e)
         {
-            var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
-            await FilePropertiesHelpers.OpenPropertiesWindowAsync(item, associatedInstance);
+            var presenter = DependencyObjectHelpers.FindParent<MenuFlyoutPresenter>((MenuFlyoutItem)sender);
+            var flyoutParent = presenter?.Parent as Popup;
+            var propertiesItem = ((MenuFlyoutItem)sender).DataContext as DriveItem;
+            if (propertiesItem is null || flyoutParent is null)
+                return;
+
+            EventHandler<object> flyoutClosed = null!;
+            flyoutClosed = async (s, e) =>
+            {
+                flyoutParent.Closed -= flyoutClosed;
+                await FilePropertiesHelpers.OpenPropertiesWindowAsync(propertiesItem, associatedInstance);
+            };
+            flyoutParent.Closed += flyoutClosed;
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
