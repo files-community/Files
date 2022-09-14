@@ -2825,9 +2825,9 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
     <value>Sperrbildschirm</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Open folders with a single click in the Columns Layout</value>
+    <value>Ordner mit einem Klick im Spaltenlayout öffnen</value>
   </data>
   <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
-    <value>Behavior for opening files and folders</value>
+    <value>Verhalten beim Öffnen von Dateien und Ordnern</value>
   </data>
 </root>
