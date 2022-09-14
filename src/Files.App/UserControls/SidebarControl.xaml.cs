@@ -29,7 +29,7 @@ using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Input;
 using UWPToWinAppSDKUpgradeHelpers;
-using Windows.ApplicationModel.Search.Core;
+using Vanara.PInvoke;
 
 namespace Files.App.UserControls
 {
@@ -503,7 +503,8 @@ namespace Files.App.UserControls
 
         private async void EjectDevice()
         {
-            await DriveHelpers.EjectDeviceAsync(rightClickedItem.Path);
+            var result = await DriveHelpers.EjectDeviceAsync(rightClickedItem.Path);
+            await UIHelpers.ShowDeviceEjectResultAsync(result);
         }
 
         private async void Sidebar_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
@@ -1159,7 +1160,8 @@ namespace Files.App.UserControls
                     bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalizedResource(), string.Format("InsertDiscDialog/Text".GetLocalizedResource(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalizedResource(), "Close".GetLocalizedResource());
                     if (ejectButton)
                     {
-                        await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
+                        var result = await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
+                        await UIHelpers.ShowDeviceEjectResultAsync(result);
                     }
                     return true;
                 }
