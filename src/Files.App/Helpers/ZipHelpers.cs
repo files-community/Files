@@ -63,6 +63,7 @@ namespace Files.App.Helpers
 			catch (Exception ex)
 			{
 				App.Logger.Warn(ex, $"Error compressing folder: {archive}");
+				NativeFileOperationsHelper.DeleteFileFromApp(archive);
 				noErrors = false;
 			}
 			return noErrors;
