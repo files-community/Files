@@ -12,8 +12,11 @@ public static class QuickLookHelpers
 
     public static async Task ToggleQuickLook(IShellPage associatedInstance, bool switchPreview = false)
     {
-        if (!App.AppModel.IsQuickLookSupported || !associatedInstance.SlimContentPage.IsItemSelected || associatedInstance.SlimContentPage.IsRenamingItem)
+        if (!associatedInstance.SlimContentPage.IsItemSelected || associatedInstance.SlimContentPage.IsRenamingItem)
             return;
+
+        if (!App.AppModel.IsQuickLookSupported)
+            await DetectQuickLook();
 
         App.Logger.Info("Toggle QuickLook");
 
@@ -35,7 +38,7 @@ public static class QuickLookHelpers
         }
     }
 
-    public static async Task<bool> CheckQuickLookAvailability()
+    private static async Task<bool> CheckQuickLookAvailability()
     {
         static async Task<int> QuickLookServerAvailable()
         {
@@ -76,7 +79,6 @@ public static class QuickLookHelpers
 
     public static async Task DetectQuickLook()
     {
-        // Detect QuickLook
         try
         {
             App.AppModel.IsQuickLookSupported = await CheckQuickLookAvailability();
