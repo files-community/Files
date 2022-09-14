@@ -16,7 +16,7 @@ public static class QuickLookHelpers
             return;
 
         if (App.AppModel.IsQuickLookSupported == null)
-			await DetectQuickLook();
+            await DetectQuickLook();
 
         if (App.AppModel.IsQuickLookSupported == false)
             return;
