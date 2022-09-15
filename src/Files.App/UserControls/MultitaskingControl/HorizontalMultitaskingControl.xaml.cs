@@ -28,11 +28,11 @@ namespace Files.App.UserControls.MultitaskingControl
 			var flowDirectionSetting = new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
 			if (flowDirectionSetting == "RTL")
 			{
-				RightPaddingColumn.Width = new GridLength(App.GetAppWindow(App.Window).TitleBar.RightInset);
+				RightPaddingColumn.Width = new GridLength(App.GetAppWindow(App.Window).TitleBar.LeftInset);
 			}
 			else
 			{
-				RightPaddingColumn.Width = new GridLength(App.GetAppWindow(App.Window).TitleBar.LeftInset);
+				RightPaddingColumn.Width = new GridLength(App.GetAppWindow(App.Window).TitleBar.RightInset);
 			}
 		}
 
