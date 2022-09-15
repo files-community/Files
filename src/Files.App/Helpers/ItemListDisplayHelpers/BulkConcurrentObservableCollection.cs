@@ -20,8 +20,8 @@ namespace Files.App.Helpers
         private readonly object syncRoot = new object();
         private readonly List<T> collection = new List<T>();
 
-		// When 'GroupOption' is set to 'None' or when a folder is opened, 'GroupedCollection' is assigned 'null' by 'ItemGroupKeySelector'
-		public BulkConcurrentObservableCollection<GroupedCollection<T>>? GroupedCollection { get; private set; }    
+	// When 'GroupOption' is set to 'None' or when a folder is opened, 'GroupedCollection' is assigned 'null' by 'ItemGroupKeySelector'
+	public BulkConcurrentObservableCollection<GroupedCollection<T>>? GroupedCollection { get; private set; }    
         public bool IsSorted { get; set; }
 
         public int Count
