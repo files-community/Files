@@ -166,7 +166,7 @@
     <value>Boyut:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed Size:</value>
+    <value>Sıkıştırılmamış Boyut:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Bu işlem yapılamaz</value>
@@ -1237,7 +1237,7 @@
     <value>Dosya ve klasör ararken dizine eklenmemiş öğeleri göster (aramalar daha uzun sürebilir)</value>
   </data>
   <data name="ForceThesePreferencesOnAllDirectories" xml:space="preserve">
-    <value>Force these preferences on all directories</value>
+    <value>Bu tercihleri tüm dizinlere uygulamaya zorla</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Sağ tık menüsünü özelleştir</value>
@@ -2319,12 +2319,6 @@
   <data name="SettingsPrivacy.Title" xml:space="preserve">
     <value>Gizlilik Politikası</value>
   </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
-    <value>Fluent UI Sistem Simgeleri</value>
-  </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Fluent UI Sistem Simgeleri</value>
-  </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
 *Kişisel Bilgi Toplama* 
@@ -2737,7 +2731,7 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
     <value>Etiketler bölümünü göster</value>
   </data>
   <data name="UseCompactStyles" xml:space="preserve">
-    <value>Ayrıntılı görünümde kompakt düzen kullan</value>
+    <value>Ayrıntılı görünümde kompakt stil kullan</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Evrensel</value>
@@ -2752,7 +2746,7 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
     <value>Yeniden Dene</value>
   </data>
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
-    <value>Taşıma işlemi bu durumda desteklenmiyor. Bunun yerine ögeleri kopyalamak ister misiniz?</value>
+    <value>Taşıma işlemi bu amaç için kullanılamaz. Bunun yerine öğeleri kopyalamak ister misiniz?</value>
   </data>
   <data name="HiddenFilesAndFolders" xml:space="preserve">
     <value>Gizli dosya ve klasörler</value>
@@ -2770,16 +2764,16 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
     <value>Katkıda Bulunanlar</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Uyumlu</value>
+    <value>Uyarlanabilir</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>Uyumlu (Ctrl+Shift+7)</value>
+    <value>Uyarlanabilir (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>Alternatif Veri Akışlarını Göster</value>
+    <value>Alternatif Veri Akışını Göster</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
     <value>Files'ı Değerlendir</value>
@@ -2788,45 +2782,51 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
     <value>Files'ı değerlendirmek ister misiniz?</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
-    <value>Set as background</value>
+    <value>Arka plan olarak ayarla</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Set as lockscreen</value>
+    <value>Kilit ekranı olarak ayarla</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>Masaüstü arka planı olarak ayarla</value>
   </data>
   <data name="SetAsDefault" xml:space="preserve">
-    <value>Set as default</value>
+    <value>Varsayılan olarak ayarla</value>
   </data>
   <data name="FolderPreferences" xml:space="preserve">
-    <value>Folder preferences</value>
+    <value>Klasör tercihleri</value>
   </data>
   <data name="DisplayDateColumn" xml:space="preserve">
-    <value>Display Date column</value>
+    <value>Tarih sütununu göster</value>
   </data>
   <data name="DisplayDateCreatedColumn" xml:space="preserve">
-    <value>Display Date Created column</value>
+    <value>Oluşturulma Tarihi sütununu göster</value>
   </data>
   <data name="DisplaySizeColumn" xml:space="preserve">
-    <value>Display Size column</value>
+    <value>Boyut sütununu göster</value>
   </data>
   <data name="DisplayTagColumn" xml:space="preserve">
-    <value>Display Tag column</value>
+    <value>Etiket sütununu göster</value>
   </data>
   <data name="DisplayTypeColumn" xml:space="preserve">
-    <value>Display Type column</value>
+    <value>Tür sütununu göster</value>
   </data>
   <data name="Reset" xml:space="preserve">
-    <value>Reset</value>
+    <value>Sıfırla</value>
   </data>
   <data name="ResetLayoutPreferences" xml:space="preserve">
-    <value>This action will reset all directories back to your default preferences.</value>
+    <value>Bu eylem tüm dizinleri varsayılan tercihlerinize geri döndürecektir.</value>
   </data>
   <data name="AreYouSure" xml:space="preserve">
-    <value>Are you sure?</value>
+    <value>Emin misin?</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
-    <value>Lockscreen</value>
+    <value>Kilit Ekranı</value>
+  </data>
+  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
+    <value>Sütunlar Düzeninde tek bir tıklama ile klasörleri aç</value>
+  </data>
+  <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
+    <value>Dosya ve klasörleri açma şekli</value>
   </data>
 </root>

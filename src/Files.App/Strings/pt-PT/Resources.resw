@@ -2319,12 +2319,6 @@
   <data name="SettingsPrivacy.Title" xml:space="preserve">
     <value>Política de privacidade</value>
   </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
-    <value>Sistema de Ícones Fluent UI</value>
-  </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Sistema de Ícones Fluent UI</value>
-  </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
 Utilizamos o App Center para localizar as definições que estão a ser utilizadas, encontrar bugs, e corrigir falhas. A informação enviada para o App Center é anónima e livre de qualquer utilizador ou dados contextuais.
@@ -2824,5 +2818,11 @@ Utilizamos o App Center para localizar as definições que estão a ser utilizad
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Ecrã de bloqueio</value>
+  </data>
+  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
+    <value>Abrir pastas com um clique no esquema Colunas</value>
+  </data>
+  <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
+    <value>Comportamento para abrir ficheiros ou pastas</value>
   </data>
 </root>

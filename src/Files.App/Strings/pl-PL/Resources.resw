@@ -2319,12 +2319,6 @@
   <data name="SettingsPrivacy.Title" xml:space="preserve">
     <value>Polityka prywatności</value>
   </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
-    <value>Fluent UI System Icons</value>
-  </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Fluent UI System Icons</value>
-  </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
 Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błędy i naprawiać awarie. Informacje przesyłane do App Center są anonimowe i wolne od jakichkolwiek danych użytkownika bądź danych kontekstowych.
@@ -2824,5 +2818,11 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Lockscreen</value>
+  </data>
+  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
+    <value>Open folders with a single click in the Columns Layout</value>
+  </data>
+  <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
+    <value>Behavior for opening files and folders</value>
   </data>
 </root>

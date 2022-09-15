@@ -2319,12 +2319,6 @@
   <data name="SettingsPrivacy.Title" xml:space="preserve">
     <value>Chính sách về quyền riêng tư</value>
   </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
-    <value>Biểu tượng hệ thống Fluent UI</value>
-  </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Biểu tượng hệ thống Fluent UI</value>
-  </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
 *Thu thập thông tin cá nhân*
@@ -2829,5 +2823,11 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Lockscreen</value>
+  </data>
+  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
+    <value>Open folders with a single click in the Columns Layout</value>
+  </data>
+  <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
+    <value>Behavior for opening files and folders</value>
   </data>
 </root>

@@ -20,6 +20,11 @@ using Microsoft.UI.Xaml.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.Collections.Specialized;
+using CommunityToolkit.WinUI.Notifications;
+using System.Diagnostics;
+using Windows.UI.Notifications;
+using Files.App.Helpers.XamlHelpers;
+using Microsoft.UI.Xaml.Controls.Primitives;
 
 namespace Files.App.UserControls.Widgets
 {
@@ -144,7 +149,8 @@ namespace Files.App.UserControls.Widgets
         private async void EjectDevice_Click(object sender, RoutedEventArgs e)
         {
             var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
-            await DriveHelpers.EjectDeviceAsync(item.Path);
+            var result = await DriveHelpers.EjectDeviceAsync(item.Path);
+            await UIHelpers.ShowDeviceEjectResultAsync(result);
         }
 
         private async void OpenInNewTab_Click(object sender, RoutedEventArgs e)
@@ -187,10 +193,21 @@ namespace Files.App.UserControls.Widgets
             App.SidebarPinnedController.Model.RemoveItem(item.Path);
         }
 
-        private async void OpenDriveProperties_Click(object sender, RoutedEventArgs e)
+        private void OpenDriveProperties_Click(object sender, RoutedEventArgs e)
         {
-            var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
-            await FilePropertiesHelpers.OpenPropertiesWindowAsync(item, associatedInstance);
+            var presenter = DependencyObjectHelpers.FindParent<MenuFlyoutPresenter>((MenuFlyoutItem)sender);
+            var flyoutParent = presenter?.Parent as Popup;
+            var propertiesItem = ((MenuFlyoutItem)sender).DataContext as DriveItem;
+            if (propertiesItem is null || flyoutParent is null)
+                return;
+
+            EventHandler<object> flyoutClosed = null!;
+            flyoutClosed = async (s, e) =>
+            {
+                flyoutParent.Closed -= flyoutClosed;
+                await FilePropertiesHelpers.OpenPropertiesWindowAsync(propertiesItem, associatedInstance);
+            };
+            flyoutParent.Closed += flyoutClosed;
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
@@ -309,7 +326,8 @@ namespace Files.App.UserControls.Widgets
                     bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalizedResource(), string.Format("InsertDiscDialog/Text".GetLocalizedResource(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalizedResource(), "Close".GetLocalizedResource());
                     if (ejectButton)
                     {
-                        await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
+                        var result = await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
+                        await UIHelpers.ShowDeviceEjectResultAsync(result);
                     }
                     return true;
                 }

@@ -2320,12 +2320,6 @@
   <data name="SettingsPrivacy.Title" xml:space="preserve">
     <value>Privaatheidsbeleid</value>
   </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
-    <value>Fluent UI-stelselikone</value>
-  </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Fluent UI-stelselikone</value>
-  </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>*Persoonlike inligting versameling*
 Files versamel, stoor, deel of publiseer geen persoonlike inligting nie.
@@ -2828,5 +2822,11 @@ Ons gebruik App Center om tred te hou met programgebruik, foute te vind en ongel
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Lockscreen</value>
+  </data>
+  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
+    <value>Open folders with a single click in the Columns Layout</value>
+  </data>
+  <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
+    <value>Behavior for opening files and folders</value>
   </data>
 </root>

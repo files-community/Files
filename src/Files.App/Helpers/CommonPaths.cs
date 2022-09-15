@@ -28,6 +28,8 @@ namespace Files.App.Helpers
 
         public static readonly string SystemRootPath = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
 
+        public static readonly string RecentItemsPath = Environment.GetFolderPath(Environment.SpecialFolder.Recent);
+
         public static Dictionary<string, string> ShellPlaces = new Dictionary<string, string>() {
             { "::{645FF040-5081-101B-9F08-00AA002F954E}", RecycleBinPath },
             { "::{5E5F29CE-E0A8-49D3-AF32-7A7BDC173478}", "Home".GetLocalizedResource() /*MyComputerPath*/ },

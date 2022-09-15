@@ -2319,12 +2319,6 @@
   <data name="SettingsPrivacy.Title" xml:space="preserve">
     <value>Soukromí</value>
   </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
-    <value>Systémové ikony Fluent UI</value>
-  </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Systémové ikony Fluent UI</value>
-  </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
 Používáme centrum aplikací k sledování nastavení, které jsou používány, hledání chyb a opravování pádů. Informace poslány to centra aplikací jsou anonymní a bez jakýchkoliv uživatelských nebo kontexních dat.  </value>
@@ -2823,5 +2817,11 @@ Používáme centrum aplikací k sledování nastavení, které jsou používán
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Zamykací obrazovka</value>
+  </data>
+  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
+    <value>Otevřít složky jedním kliknutím v rozvržení sloupců</value>
+  </data>
+  <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
+    <value>Chování pro otevírání souborů a složek</value>
   </data>
 </root>

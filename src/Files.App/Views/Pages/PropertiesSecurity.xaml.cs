@@ -1,21 +1,23 @@
-using Files.App.DataModels.NavigationControlItems;
-using Files.App.Filesystem;
-using Files.App.ViewModels.Properties;
-using Files.App.Extensions;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
-using System;
-using System.Threading.Tasks;
-using Windows.Foundation.Metadata;
+using Files.App.DataModels.NavigationControlItems;
+using Files.App.Extensions;
+using Files.App.Filesystem;
+using Files.App.Helpers;
+using Files.App.ViewModels.Properties;
+using Microsoft.UI;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
-using static Files.App.Views.PropertiesSecurityAdvanced;
-using Files.App.Helpers;
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using Windows.ApplicationModel;
+using Windows.Foundation.Metadata;
 using Windows.Graphics;
-using Microsoft.UI.Windowing;
-using Microsoft.UI;
+using static Files.App.Views.PropertiesSecurityAdvanced;
 
 namespace Files.App.Views
 {
@@ -83,61 +85,50 @@ namespace Files.App.Views
 
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
-                if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
+                if (propsView == null)
                 {
-                    if (propsView == null)
+                    var frame = new Frame();
+                    frame.RequestedTheme = ThemeHelper.RootTheme;
+                    frame.Navigate(typeof(PropertiesSecurityAdvanced), new PropertiesPageNavigationArguments()
                     {
-                        var frame = new Frame();
-                        frame.RequestedTheme = ThemeHelper.RootTheme;
-                        frame.Navigate(typeof(PropertiesSecurityAdvanced), new PropertiesPageNavigationArguments()
-                        {
-                            Item = SecurityProperties.Item
-                        }, new SuppressNavigationTransitionInfo());
+                        Item = SecurityProperties.Item
+                    }, new SuppressNavigationTransitionInfo());
 
-                        // Initialize window
-                        var propertiesWindow = new WinUIEx.WindowEx();
-                        var appWindow = propertiesWindow.AppWindow;
+                    // Initialize window
+                    var propertiesWindow = new WinUIEx.WindowEx();
+                    var appWindow = propertiesWindow.AppWindow;
 
-                        // Set content
-                        propertiesWindow.Content = frame;
-                        if (frame.Content is PropertiesSecurityAdvanced properties)
-                            properties.appWindow = appWindow;
+                    // Set icon
+                    appWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, "Assets/AppTiles/Dev/Logo.ico"));
 
-                        // Set min size
-                        propertiesWindow.MinWidth = 850;
-                        propertiesWindow.MinHeight = 550;
+                    // Set content
+                    propertiesWindow.Content = frame;
+                    if (frame.Content is PropertiesSecurityAdvanced properties)
+                        properties.appWindow = appWindow;
 
-                        // Set backdrop
-                        propertiesWindow.Backdrop = new WinUIEx.MicaSystemBackdrop() { DarkTintOpacity = 0.8 };
+                    // Set min size
+                    propertiesWindow.MinWidth = 850;
+                    propertiesWindow.MinHeight = 550;
 
-                        if (AppWindowTitleBar.IsCustomizationSupported())
-                        {
-                            appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+                    // Set backdrop
+                    propertiesWindow.Backdrop = new WinUIEx.MicaSystemBackdrop() { DarkTintOpacity = 0.8 };
 
-                            // Set window buttons background to transparent
-                            appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
-                            appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-                        }
-                        else
-                        {
-                            propertiesWindow.ExtendsContentIntoTitleBar = true;
-                        }
+                    appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
 
-                        appWindow.Title = string.Format("SecurityAdvancedPermissionsTitle".GetLocalizedResource(), SecurityProperties.Item.ItemName);
-                        appWindow.Resize(new SizeInt32(850, 550));
-                        appWindow.Closing += AppWindow_Closing;
-                        appWindow.Show();
+                    // Set window buttons background to transparent
+                    appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+                    appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
-                        propsView = appWindow;
-                    }
-                    else
-                    {
-                        propsView.Show(true);
-                    }
+                    appWindow.Title = string.Format("SecurityAdvancedPermissionsTitle".GetLocalizedResource(), SecurityProperties.Item.ItemName);
+                    appWindow.Resize(new SizeInt32(850, 550));
+                    appWindow.Destroying += AppWindow_Destroying;
+                    appWindow.Show();
+
+                    propsView = appWindow;
                 }
                 else
                 {
-                    //WINUI3
+                    propsView.Show(true);
                 }
             }
             else
@@ -146,9 +137,9 @@ namespace Files.App.Views
             }
         }
 
-        private async void AppWindow_Closing(AppWindow sender, AppWindowClosingEventArgs args)
+        private async void AppWindow_Destroying(AppWindow sender, object args)
         {
-            sender.Closing -= AppWindow_Closing;
+            sender.Destroying -= AppWindow_Destroying;
             propsView = null;
 
             if (SecurityProperties != null)

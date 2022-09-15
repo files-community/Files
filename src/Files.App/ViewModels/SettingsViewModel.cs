@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.AppService;
@@ -23,6 +24,7 @@ namespace Files.App.ViewModels
     public class SettingsViewModel : ObservableObject
     {
         private readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+        private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
 
         public SettingsViewModel()
         {
@@ -53,7 +55,7 @@ namespace Files.App.ViewModels
                     });
                     if (status == AppServiceResponseStatus.Success)
                     {
-                        App.AppModel.IsQuickLookSupported = response.Get("IsAvailable", false);
+                        App.AppModel.IsQuickLookSupported = response.Get("IsAvailable", defaultJson).GetBoolean();
                     }
                 }
             }
@@ -140,11 +142,11 @@ namespace Files.App.ViewModels
         /// </summary>
         public AppTheme SelectedTheme
         {
-            get => Newtonsoft.Json.JsonConvert.DeserializeObject<AppTheme>(Get(System.Text.Json.JsonSerializer.Serialize(new AppTheme()
+            get => JsonSerializer.Deserialize<AppTheme>(Get(JsonSerializer.Serialize(new AppTheme()
             {
                 Name = "Default".GetLocalizedResource()
             })));
-            set => Set(Newtonsoft.Json.JsonConvert.SerializeObject(value));
+            set => Set(JsonSerializer.Serialize(value));
         }
 
         #endregion Appearance

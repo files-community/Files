@@ -2319,12 +2319,6 @@
   <data name="SettingsPrivacy.Title" xml:space="preserve">
     <value>Πολιτική απορρήτου</value>
   </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
-    <value>Εικονίδια συστήματος Fluent UI</value>
-  </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Εικονίδια συστήματος Fluent UI</value>
-  </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
 Χρησιμοποιούμε το Κέντρο Εφαρμογών για να παρακολουθούμε τη χρήση της εφαρμογής, να βρίσκουμε σφάλματα και να διορθώνουμε συντριβές. Όλες οι πληροφορίες που αποστέλλονται στο Κέντρο Εφαρμογών είναι ανώνυμες και δεν περιέχουν δεδομένα χρήστη ή συμφραζόμενα.
@@ -2824,5 +2818,11 @@
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Lockscreen</value>
+  </data>
+  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
+    <value>Open folders with a single click in the Columns Layout</value>
+  </data>
+  <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
+    <value>Behavior for opening files and folders</value>
   </data>
 </root>
