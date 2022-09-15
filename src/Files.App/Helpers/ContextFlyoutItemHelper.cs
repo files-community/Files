@@ -1031,7 +1031,7 @@ namespace Files.App.Helpers
                     ShowInFtpPage = true,
                     SingleItemOnly = true,
                 },
-				new ContextMenuFlyoutItemViewModel()
+                new ContextMenuFlyoutItemViewModel()
                 {
                     ItemType = ItemType.Separator,
                     Tag = "OverflowSeparator",
@@ -1039,22 +1039,22 @@ namespace Files.App.Helpers
                     IsHidden = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
-				{
-					Command = commandsViewModel.CompressSingleFolderCommand,
-					Glyph = "\uE8DE",
-					Text = string.Format("AddSingleItemToArchive/Text".GetLocalizedResource(), selectedItems.First().ItemName),
-					ShowInSearchPage = true,
-					ShowItem = selectedItems.Count == 1 && !selectedItems.First().IsZipItem,
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Command = commandsViewModel.CompressMultipleFoldersCommand,
-					Glyph = "\uE8DE",
-					Text = "AddToArchive/Text".GetLocalizedResource(),
-					ShowInSearchPage = true,
-					ShowItem = selectedItems.Count > 1 && !selectedItems.First().IsZipItem,
-				},
-				new ContextMenuFlyoutItemViewModel()
+                {
+                    Command = commandsViewModel.CompressSingleFolderCommand,
+                    Glyph = "\uE8DE",
+                    Text = string.Format("AddSingleItemToArchive/Text".GetLocalizedResource(), selectedItems.First().ItemName),
+                    ShowInSearchPage = true,
+                    ShowItem = selectedItems.Count == 1 && !selectedItems.First().IsZipItem,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Command = commandsViewModel.CompressMultipleFoldersCommand,
+                    Glyph = "\uE8DE",
+                    Text = "AddToArchive/Text".GetLocalizedResource(),
+                    ShowInSearchPage = true,
+                    ShowItem = selectedItems.Count > 1 && !selectedItems.First().IsZipItem,
+                },
+                new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "ContextMenuMoreItemsLabel".GetLocalizedResource(),
                     Glyph = "\xE712",

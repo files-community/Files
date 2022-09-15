@@ -58,7 +58,7 @@ namespace Files.Shared.Enums
         Prepare = 10,
 
         /// <summary>
-        /// An item has been compressed
+        /// An item has been added to an archive
         /// </summary>
         Compressed = 11,
     }
