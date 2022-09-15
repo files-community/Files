@@ -304,7 +304,7 @@ namespace Files.App.Views.LayoutModes
 		{
 			SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x != null).ToList();
 
-			if (SelectedItems.Count == 1)
+			if (SelectedItems.Count == 1 && App.AppModel.IsQuickLookAvailable)
 				await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance, true);
 		}
 

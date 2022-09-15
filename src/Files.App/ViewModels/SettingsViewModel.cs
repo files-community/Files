@@ -41,30 +41,6 @@ namespace Files.App.ViewModels
             UpdateThemeElements = new RelayCommand(() => ThemeModeChanged?.Invoke(this, EventArgs.Empty));
         }
 
-        public async Task DetectQuickLook()
-        {
-            // Detect QuickLook
-            try
-            {
-                var connection = await AppServiceConnectionHelper.Instance;
-                if (connection != null)
-                {
-                    var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
-                    {
-                        { "Arguments", "DetectQuickLook" }
-                    });
-                    if (status == AppServiceResponseStatus.Success)
-                    {
-                        App.AppModel.IsQuickLookSupported = response.Get("IsAvailable", defaultJson).GetBoolean();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                App.Logger.Warn(ex, ex.Message);
-            }
-        }
-
         private void DetectDateTimeFormat()
         {
             if (localSettings.Values[Constants.LocalSettings.DateTimeFormat] != null)
