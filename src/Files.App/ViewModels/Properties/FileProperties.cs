@@ -21,7 +21,6 @@ using Windows.Storage;
 using Windows.Storage.Streams;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Dispatching;
-using Vanara.Extensions.Reflection;
 
 namespace Files.App.ViewModels.Properties
 {
@@ -210,7 +209,7 @@ namespace Files.App.ViewModels.Properties
                 StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/BingMapsKey.txt"));
                 var lines = await FileIO.ReadTextAsync(file);
                 using var obj = JsonDocument.Parse(lines);
-                MapService.ServiceToken = obj.RootElement.GetFieldValue<string>("key");
+                MapService.ServiceToken = obj.RootElement.GetProperty("key").GetString();
             }
             catch (Exception)
             {
