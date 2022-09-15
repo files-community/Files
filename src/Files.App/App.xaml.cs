@@ -38,7 +38,6 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Notifications;
-using Vanara.Extensions.Reflection;
 
 #nullable enable
 
@@ -178,7 +177,7 @@ namespace Files.App
                     var lines = await FileIO.ReadTextAsync(file);
                     using var document = System.Text.Json.JsonDocument.Parse(lines);
                     var obj = document.RootElement;
-                    AppCenter.Start(obj.GetPropertyValue<string>("key"), typeof(Analytics), typeof(Crashes));
+                    AppCenter.Start(obj.GetProperty("key").GetString(), typeof(Analytics), typeof(Crashes));
                 }
             }
             catch (Exception ex)
