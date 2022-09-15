@@ -159,6 +159,11 @@ namespace Files.App.Interacts
             await RecycleBinHelpers.S_EmptyRecycleBin();
         }
 
+        public virtual async void EmptySelectionRecycleBin(RoutedEventArgs e)
+        {
+            await RecycleBinHelpers.S_EmptySelectionRecycleBin(associatedInstance);
+        }
+
         public virtual async void RestoreRecycleBin(RoutedEventArgs e)
         {
             await RecycleBinHelpers.S_RestoreRecycleBin(associatedInstance);
