@@ -220,7 +220,20 @@
                         <FontIcon Glyph="&#xE10D;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
-				<AppBarButton
+                <AppBarButton
+                    x:Name="RestoreSelectionRecycleBinButton"
+                    x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
+                    AccessKey="R"
+                    Command="{x:Bind ViewModel.RestoreSelectionRecycleBinCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind ViewModel.CanRestoreSelectionRecycleBin, Mode=OneWay}"
+                    Visibility="{x:Bind ViewModel.CanRestoreSelectionRecycleBin, Mode=OneWay}"
+                    Label="{helpers:ResourceString Name=RestoreSelection}"
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=RestoreSelection}">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE10D;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarButton
 					x:Name="ExtractButton"
 					Width="Auto"
 					MinWidth="40"

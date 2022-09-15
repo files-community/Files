@@ -757,6 +757,8 @@ namespace Files.App.ViewModels
         {
             OnPropertyChanged(nameof(HasAdditionalAction));
             OnPropertyChanged(nameof(CanEmptyRecycleBin));
+            OnPropertyChanged(nameof(CanRestoreRecycleBin));
+            OnPropertyChanged(nameof(CanRestoreSelectionRecycleBin));
         }
 
         private AddressToolbar AddressToolbar => (App.Window.Content as Frame).FindDescendant<AddressToolbar>();
@@ -881,6 +883,8 @@ namespace Files.App.ViewModels
         public ICommand EmptyRecycleBinCommand { get; set; }
 
         public ICommand RestoreRecycleBinCommand { get; set; }
+
+        public ICommand RestoreSelectionRecycleBinCommand { get; set; }
 
         public ICommand PropertiesCommand { get; set; }
 
@@ -1214,6 +1218,8 @@ namespace Files.App.ViewModels
                     OnPropertyChanged(nameof(IsMultipleImageSelected));
                     OnPropertyChanged(nameof(IsFont));
                     OnPropertyChanged(nameof(HasAdditionalAction));
+                    OnPropertyChanged(nameof(CanRestoreRecycleBin));
+                    OnPropertyChanged(nameof(CanRestoreSelectionRecycleBin));
                 }
             }
         }
@@ -1224,7 +1230,8 @@ namespace Files.App.ViewModels
         public bool CanRename => SelectedItems is not null && SelectedItems.Count == 1;
         public bool CanViewProperties => SelectedItems is not null && SelectedItems.Any();
         public bool CanEmptyRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem;
-        public bool CanRestoreRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem;
+        public bool CanRestoreRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem && (SelectedItems is null || SelectedItems is not null && SelectedItems.Count == 0);
+        public bool CanRestoreSelectionRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem && SelectedItems is not null && SelectedItems is not null && SelectedItems.Count > 0;
         public bool CanExtract => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsZipFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
         public string ExtractToText => CanExtract ? SelectedItems.Count > 1 ? string.Format("ExtractToChildFolder".GetLocalizedResource(), $"*{Path.DirectorySeparatorChar}") : string.Format("ExtractToChildFolder".GetLocalizedResource() + "\\", Path.GetFileNameWithoutExtension(selectedItems.First().ItemName)) : "ExtractToChildFolder".GetLocalizedResource();
         public bool IsMultipleArchivesSelected => CanExtract && SelectedItems.Count > 1;
