@@ -90,25 +90,24 @@
 					RightTapped="NavigationViewItem_RightTapped"
 					Tag="{x:Bind Path}"
 					Visibility="{x:Bind ItemVisibility}">
-                    <ToolTipService.ToolTip>
-                        <ToolTip>
-                            <StackPanel
-                                Margin="5"
-                                Spacing="5">
-                                <TextBlock 
-                                    Text="{x:Bind Text, Mode=OneWay}"/>
-                                
-                                <ProgressBar
-                                    Maximum="{x:Bind MaxSpace.GigaBytes}"
-                                    Value="{x:Bind SpaceUsed.GigaBytes}"
-                                    VerticalAlignment="Stretch"
-                                    VerticalContentAlignment="Stretch" />
-                                
-                                <TextBlock 
-                                    Text="{x:Bind ToolTipText, Mode=OneWay}"/>
-                            </StackPanel>
-                        </ToolTip>
-                    </ToolTipService.ToolTip>
+					<ToolTipService.ToolTip>
+						<ToolTip>
+							<StackPanel Margin="5" Spacing="5">
+								<TextBlock
+									FontSize="14"
+									FontWeight="Medium"
+									Text="{x:Bind Text, Mode=OneWay}" />
+
+								<ProgressBar
+									VerticalAlignment="Stretch"
+									VerticalContentAlignment="Stretch"
+									Maximum="{x:Bind MaxSpace.GigaBytes}"
+									Value="{x:Bind SpaceUsed.GigaBytes}" />
+
+								<TextBlock Text="{x:Bind ToolTipText, Mode=OneWay}" />
+							</StackPanel>
+						</ToolTip>
+					</ToolTipService.ToolTip>
 					<NavigationViewItem.Icon>
 						<ImageIcon Source="{x:Bind Icon, Mode=OneWay}" />
 					</NavigationViewItem.Icon>
