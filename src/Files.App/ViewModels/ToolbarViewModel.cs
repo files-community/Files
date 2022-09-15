@@ -1011,7 +1011,8 @@ namespace Files.App.ViewModels
                             bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalizedResource(), string.Format("InsertDiscDialog/Text".GetLocalizedResource(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalizedResource(), "Close".GetLocalizedResource());
                             if (ejectButton)
                             {
-                                await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
+                                var result = await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
+                                await UIHelpers.ShowDeviceEjectResultAsync(result);
                             }
                             return;
                         }
