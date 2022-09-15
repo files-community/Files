@@ -91,22 +91,30 @@
 					Tag="{x:Bind Path}"
 					Visibility="{x:Bind ItemVisibility}">
 					<ToolTipService.ToolTip>
-						<ToolTip>
-							<StackPanel Margin="8" Spacing="8">
-								<TextBlock
+                        <ToolTip>
+                            <StackPanel
+                                Margin="8">
+                                <TextBlock
 									FontSize="14"
 									FontWeight="Medium"
-									Text="{x:Bind Text, Mode=OneWay}" />
+									Text="{x:Bind Text, Mode=OneWay}"
+                                    VerticalAlignment="Center" />
 
-								<ProgressBar
-									VerticalAlignment="Stretch"
-									VerticalContentAlignment="Stretch"
-									Maximum="{x:Bind MaxSpace.GigaBytes}"
-									Value="{x:Bind SpaceUsed.GigaBytes}" />
+                                <StackPanel 
+									Spacing="8"
+									Padding="0, 8, 0, 0"
+									Visibility="{x:Bind ShowDriveDetails}">
 
-								<TextBlock Text="{x:Bind ToolTipText, Mode=OneWay}" />
-							</StackPanel>
-						</ToolTip>
+                                    <ProgressBar
+										VerticalAlignment="Stretch"
+										VerticalContentAlignment="Stretch"
+										Maximum="{x:Bind MaxSpace.GigaBytes}"
+										Value="{x:Bind SpaceUsed.GigaBytes}" />
+
+                                    <TextBlock Text="{x:Bind ToolTipText, Mode=OneWay}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </ToolTip>
 					</ToolTipService.ToolTip>
 					<NavigationViewItem.Icon>
 						<ImageIcon Source="{x:Bind Icon, Mode=OneWay}" />

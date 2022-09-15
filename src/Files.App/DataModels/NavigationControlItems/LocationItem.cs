@@ -32,7 +32,7 @@ namespace Files.App.DataModels.NavigationControlItems
             set
             {
                 path = value;
-                ToolTipText = string.IsNullOrEmpty(Path) || Path.Contains("?", StringComparison.Ordinal) || Path.StartsWith("shell:", StringComparison.OrdinalIgnoreCase) || Path.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase) || Path == "Home".GetLocalizedResource() ? Text : $"{"Path".GetLocalizedResource()} {Path}";
+                ToolTipText = string.IsNullOrEmpty(Path) || Path.Contains("?", StringComparison.Ordinal) || Path.StartsWith("shell:", StringComparison.OrdinalIgnoreCase) || Path.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase) || Path == "Home".GetLocalizedResource() ? Text : Path;
             }
         }
 
