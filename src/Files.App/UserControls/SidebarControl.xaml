@@ -92,7 +92,7 @@
 					Visibility="{x:Bind ItemVisibility}">
 					<ToolTipService.ToolTip>
 						<ToolTip>
-							<StackPanel Margin="5" Spacing="5">
+							<StackPanel Margin="8" Spacing="8">
 								<TextBlock
 									FontSize="14"
 									FontWeight="Medium"
