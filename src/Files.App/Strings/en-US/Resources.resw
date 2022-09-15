@@ -2837,4 +2837,10 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   <data name="RestoreSelection" xml:space="preserve">
     <value>Restore Selection</value>
   </data>
+  <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
+    <value>Do you want to restore the {0} selected item(s) ?</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
+    <value>Restore Selection</value>
+  </data>
 </root>

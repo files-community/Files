@@ -104,6 +104,30 @@ namespace Files.App.Helpers
             }
         }
 
+        public static async Task S_RestoreSelectionRecycleBin(IShellPage associatedInstance)
+        {
+            await new RecycleBinHelpers().RestoreSelectionRecycleBin(associatedInstance);
+        }
+
+        public async Task RestoreSelectionRecycleBin(IShellPage associatedInstance)
+        {
+            var ConfirmEmptyBinDialog = new ContentDialog()
+            {
+                Title = "ConfirmRestoreSelectionBinDialogTitle".GetLocalizedResource(),
+                Content = string.Format("ConfirmRestoreSelectionBinDialogContent".GetLocalizedResource(), associatedInstance.SlimContentPage.SelectedItems.Count),
+                PrimaryButtonText = "Yes".GetLocalizedResource(),
+                SecondaryButtonText = "Cancel".GetLocalizedResource(),
+                DefaultButton = ContentDialogButton.Primary
+            };
+
+            ContentDialogResult result = await this.SetContentDialogRoot(ConfirmEmptyBinDialog).ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+                await this.RestoreItem(associatedInstance);
+            }
+        }
+
         //WINUI3
         private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
         {

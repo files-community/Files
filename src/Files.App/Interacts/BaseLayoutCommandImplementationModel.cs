@@ -164,6 +164,11 @@ namespace Files.App.Interacts
             await RecycleBinHelpers.S_RestoreRecycleBin(associatedInstance);
         }
 
+        public virtual async void RestoreSelectionRecycleBin(RoutedEventArgs e)
+        {
+            await RecycleBinHelpers.S_RestoreSelectionRecycleBin(associatedInstance);
+        }
+
         public virtual async void QuickLook(RoutedEventArgs e)
         {
             await QuickLookHelpers.ToggleQuickLook(associatedInstance);

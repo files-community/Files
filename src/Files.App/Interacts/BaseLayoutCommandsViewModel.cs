@@ -40,6 +40,7 @@ namespace Files.App.Interacts
             OpenItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenItem);
             EmptyRecycleBinCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.EmptyRecycleBin);
             RestoreRecycleBinCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RestoreRecycleBin);
+            RestoreSelectionRecycleBinCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RestoreSelectionRecycleBin);
             QuickLookCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.QuickLook);
             CopyItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.CopyItem);
             CutItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.CutItem);
@@ -109,6 +110,8 @@ namespace Files.App.Interacts
         public ICommand EmptyRecycleBinCommand { get; private set; }
 
         public ICommand RestoreRecycleBinCommand { get; private set; }
+
+        public ICommand RestoreSelectionRecycleBinCommand { get; private set; }
 
         public ICommand QuickLookCommand { get; private set; }
 
