@@ -5,6 +5,6 @@ namespace Files.Backend.Services
 {
     public interface IVolumeInfoFactory
     {
-        Task<VolumeInfo> BuildVolumeInfo(string driveName);
+        VolumeInfo BuildVolumeInfo(string driveName);
     }
 }
