@@ -228,8 +228,8 @@
                     Command="{x:Bind ViewModel.RestoreRecycleBinCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind ViewModel.CanRestoreRecycleBin, Mode=OneWay}"
                     Visibility="{x:Bind ViewModel.CanRestoreRecycleBin, Mode=OneWay}"
-                    Label="{helpers:ResourceString Name=RestoreRecycleBin}"
-                    ToolTipService.ToolTip="{helpers:ResourceString Name=RestoreRecycleBin}">
+                    Label="{helpers:ResourceString Name=RestoreAllItems}"
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=RestoreAllItems}">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE10D;" />
                     </AppBarButton.Icon>
