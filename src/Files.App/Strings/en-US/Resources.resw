@@ -2832,7 +2832,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Are you sure you want to restore all items in the recycle bin?</value>
   </data>
   <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
-    <value>Restore all items?</value>
+    <value>Restore all items</value>
   </data>
   <data name="RestoreSelection" xml:space="preserve">
     <value>Restore</value>
