@@ -28,46 +28,8 @@ namespace Files.App.ViewModels
 
 		public SettingsViewModel()
 		{
-			// Load the supported languages
-			var supportedLang = ApplicationLanguages.ManifestLanguages;
-			DefaultLanguages = new ObservableCollection<DefaultLanguageModel> { new DefaultLanguageModel(null) };
-			foreach (var lang in supportedLang)
-			{
-				DefaultLanguages.Add(new DefaultLanguageModel(lang));
-			}
-
 			UpdateThemeElements = new RelayCommand(() => ThemeModeChanged?.Invoke(this, EventArgs.Empty));
 		}
-
-		#region Preferences
-
-		/// <summary>
-		/// Gets or sets a value indicating the application language.
-		/// </summary>
-		public DefaultLanguageModel CurrentLanguage { get; set; } = new DefaultLanguageModel(ApplicationLanguages.PrimaryLanguageOverride);
-
-		/// <summary>
-		/// Gets or sets an ObservableCollection of the support languages.
-		/// </summary>
-		public ObservableCollection<DefaultLanguageModel> DefaultLanguages { get; private set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating the default language.
-		/// </summary>
-		public DefaultLanguageModel DefaultLanguage
-		{
-			get
-			{
-				return DefaultLanguages.FirstOrDefault(dl => dl.ID == ApplicationLanguages.PrimaryLanguageOverride) ??
-						   DefaultLanguages.FirstOrDefault();
-			}
-			set
-			{
-				ApplicationLanguages.PrimaryLanguageOverride = value.ID;
-			}
-		}
-
-		#endregion Preferences
 
 		#region Appearance
 
