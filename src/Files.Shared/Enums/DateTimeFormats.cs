@@ -1,7 +1,7 @@
 ﻿namespace Files.Shared.Enums
 {
-    public enum TimeStyle
-    {
+    public enum DateTimeFormats
+	{
         Application = 0,
         System = 1,
         Universal = 2,

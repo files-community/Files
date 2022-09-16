@@ -6,12 +6,12 @@ namespace Files.App.ServicesImplementation.DateTimeFormatter
 {
     public class DateTimeFormatterFactory : IDateTimeFormatterFactory
     {
-        public IDateTimeFormatter GetDateTimeFormatter(TimeStyle timeStyle) => timeStyle switch
+        public IDateTimeFormatter GetDateTimeFormatter(DateTimeFormats dateTimeFormat) => dateTimeFormat switch
         {
-            TimeStyle.Application => new ApplicationDateTimeFormatter(),
-            TimeStyle.System => new SystemDateTimeFormatter(),
-            TimeStyle.Universal => new UniversalDateTimeFormatter(),
-            _ => throw new ArgumentException(nameof(timeStyle)),
+			DateTimeFormats.Application => new ApplicationDateTimeFormatter(),
+			DateTimeFormats.System => new SystemDateTimeFormatter(),
+			DateTimeFormats.Universal => new UniversalDateTimeFormatter(),
+            _ => throw new ArgumentException(nameof(dateTimeFormat)),
         };
     }
 }
