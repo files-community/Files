@@ -18,7 +18,6 @@ using System.Collections.Specialized;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 using Windows.ApplicationModel;
 using Windows.Globalization;
 using Windows.Storage;
@@ -92,7 +91,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				}
 			}
 		}
-		
+
 		private int selectedAppLanguageIndex;
 		public int SelectedAppLanguageIndex
 		{
