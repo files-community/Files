@@ -19,6 +19,7 @@ using Windows.System;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.Threading;
+using System.Runtime.CompilerServices;
 
 namespace Files.App.Helpers
 {
@@ -639,6 +640,15 @@ namespace Files.App.Helpers
                     Text = "BaseLayoutItemContextFlyoutRestore/Text".GetLocalizedResource(),
                     Glyph = "\uE8E5",
                     Command = commandsViewModel.RestoreItemCommand,
+                    ShowInRecycleBin = true,
+                    ShowItem = selectedItems.All(x => x.IsRecycleBinItem)
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "BaseLayoutContextFlyoutEmptySelectionRecycleBin/Text".GetLocalizedResource(),
+                    Glyph = "\uEF88",
+                    GlyphFontFamilyName = "RecycleBinIcons",
+                    Command = commandsViewModel.EmptySelectionRecycleBinCommand,
                     ShowInRecycleBin = true,
                     ShowItem = selectedItems.All(x => x.IsRecycleBinItem)
                 },
