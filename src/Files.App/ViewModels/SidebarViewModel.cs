@@ -615,9 +615,6 @@ namespace Files.App.ViewModels
 					UpdateSectionVisibility(SectionType.FileTag, ShowFileTagsSection);
 					OnPropertyChanged(nameof(ShowFileTagsSection));
 					break;
-				case nameof(UserSettingsService.AppearanceSettingsService.UseCompactStyles):
-					new SettingsViewModels.AppearanceViewModel().SetCompactStyles(true);
-					break;
 			}
 		}
 

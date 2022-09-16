@@ -3,6 +3,7 @@ using Files.Shared.EventArguments;
 using Files.App.Serialization;
 using Microsoft.AppCenter.Analytics;
 using System.Collections.Generic;
+using Files.Shared.Enums;
 
 namespace Files.App.ServicesImplementation.Settings
 {
@@ -146,7 +147,13 @@ namespace Files.App.ServicesImplementation.Settings
             set => Set(value);
         }
 
-        protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
+		public DateTimeFormats DateTimeFormat
+		{
+			get => Get(DateTimeFormats.Application);
+			set => Set(value);
+		}
+
+		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
         {
             switch (e.SettingName)
             {
