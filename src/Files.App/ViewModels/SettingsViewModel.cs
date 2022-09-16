@@ -28,8 +28,6 @@ namespace Files.App.ViewModels
 
 		public SettingsViewModel()
 		{
-			DetectDateTimeFormat();
-
 			// Load the supported languages
 			var supportedLang = ApplicationLanguages.ManifestLanguages;
 			DefaultLanguages = new ObservableCollection<DefaultLanguageModel> { new DefaultLanguageModel(null) };
@@ -39,46 +37,6 @@ namespace Files.App.ViewModels
 			}
 
 			UpdateThemeElements = new RelayCommand(() => ThemeModeChanged?.Invoke(this, EventArgs.Empty));
-		}
-
-		private void DetectDateTimeFormat()
-		{
-			if (localSettings.Values[Constants.LocalSettings.DateTimeFormat] != null)
-			{
-				if (localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString() == "Application")
-				{
-					DisplayedTimeStyle = TimeStyle.Application;
-				}
-				else if (localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString() == "System")
-				{
-					DisplayedTimeStyle = TimeStyle.System;
-				}
-				else if (localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString() == "Universal")
-				{
-					DisplayedTimeStyle = TimeStyle.Universal;
-				}
-			}
-			else
-			{
-				localSettings.Values[Constants.LocalSettings.DateTimeFormat] = "Application";
-			}
-		}
-
-		private TimeStyle displayedTimeStyle = TimeStyle.Application;
-
-		public TimeStyle DisplayedTimeStyle
-		{
-			get => displayedTimeStyle;
-			set
-			{
-				SetProperty(ref displayedTimeStyle, value);
-				localSettings.Values[Constants.LocalSettings.DateTimeFormat] = value switch
-				{
-					TimeStyle.System => "System",
-					TimeStyle.Universal => "Universal",
-					_ => "Application",
-				};
-			}
 		}
 
 		#region Preferences
