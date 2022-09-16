@@ -10,7 +10,7 @@ namespace Files.App.Filesystem
 
         public SectionType Section { get; }
 
-        public string HoverDisplayText { get; }
+        public string ToolTipText { get; }
 
         public NavigationControlItemType ItemType { get; }
 
