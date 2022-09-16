@@ -648,7 +648,7 @@ namespace Files.App.Helpers
                     Text = "BaseLayoutContextFlyoutEmptySelectionRecycleBin/Text".GetLocalizedResource(),
                     Glyph = "\uEF88",
                     GlyphFontFamilyName = "RecycleBinIcons",
-                    Command = commandsViewModel.EmptySelectionRecycleBinCommand,
+                    Command = commandsViewModel.DeleteItemCommand,
                     ShowInRecycleBin = true,
                     ShowItem = selectedItems.All(x => x.IsRecycleBinItem)
                 },
