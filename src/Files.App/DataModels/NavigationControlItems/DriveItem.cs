@@ -77,9 +77,9 @@ namespace Files.App.DataModels.NavigationControlItems
             }
         }
 
-        public Visibility ShowDriveDetails
+        public bool ShowDriveDetails
         {
-            get => MaxSpace.Bytes > 0d ? Visibility.Visible : Visibility.Collapsed;
+            get => MaxSpace.Bytes > 0d ? true : false;
         }
 
         private DriveType type;
