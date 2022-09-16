@@ -1,30 +1,28 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.WinUI;
+using Files.App.Controllers;
+using Files.App.DataModels;
+using Files.App.Extensions;
+using Files.App.Helpers;
+using Files.App.Shell;
 using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
 using Files.Shared.Services.DateTimeFormatter;
-using Files.App.Controllers;
-using Files.App.DataModels;
-using Files.App.Helpers;
-using Files.App.Extensions;
-using CommunityToolkit.WinUI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;
-using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 using static Files.App.Helpers.MenuFlyoutHelper;
-using Files.App.Shell;
-using Windows.ApplicationModel.VoiceCommands;
+using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 
 namespace Files.App.ViewModels.SettingsViewModels
 {
@@ -46,7 +44,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 		public AsyncRelayCommand ChangePageCommand { get; }
 		public RelayCommand RemovePageCommand { get; }
 		public RelayCommand<string> AddPageCommand { get; }
-
 
 		// Properties
 
@@ -127,12 +124,23 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		private List<Terminal> terminals;
-		public List<Terminal> Terminals
+		private bool isLayoutResetCheckmarkVisible;
+		public bool IsLayoutResetCheckmarkVisible
 		{
-			get => terminals;
-			set => SetProperty(ref terminals, value);
+			get => isLayoutResetCheckmarkVisible;
+			set => SetProperty(ref isLayoutResetCheckmarkVisible, value);
 		}
+
+		private bool isResetLayoutPreferencesTipOpen;
+		public bool IsResetLayoutPreferencesTipOpen
+		{
+			get => isResetLayoutPreferencesTipOpen;
+			set => SetProperty(ref isResetLayoutPreferencesTipOpen, value);
+		}
+
+		public ObservableCollection<DefaultLanguageModel> DefaultLanguages { get; set; }
+		public List<DateTimeFormatItem> DateFormats { get; set; }
+		public ObservableCollection<Terminal> Terminals { get; set; }
 
 		public PreferencesViewModel()
 		{
@@ -150,7 +158,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			Terminals = App.TerminalController.Model.Terminals;
 			SelectedTerminal = App.TerminalController.Model.GetDefaultTerminal();
 
-			SyncDateTimeSettings();
+			AddDateTimeOptions();
 			SelectedDateTimeFormatIndex = (int)Enum.Parse(typeof(DateTimeFormats), DateTimeFormat.ToString());
 
 			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
@@ -172,12 +180,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 			_ = DetectOpenFilesAtStartup();
 		}
 
-		private void SyncDateTimeSettings()
+		private void AddDateTimeOptions()
 		{
 			DateTimeOffset sampleDate1 = DateTime.Now;
 			DateTimeOffset sampleDate2 = new DateTime(sampleDate1.Year - 5, 12, 31, 14, 30, 0);
 			var styles = new DateTimeFormats[] { DateTimeFormats.Application, DateTimeFormats.System, DateTimeFormats.Universal };
-			DateFormats = styles.Select(style => new DateFormatItem(style, sampleDate1, sampleDate2)).ToList();
+			DateFormats = styles.Select(style => new DateTimeFormatItem(style, sampleDate1, sampleDate2)).ToList();
 		}
 
 		private async Task InitStartupSettingsRecentFoldersFlyout()
@@ -402,12 +410,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 		public string DateFormatSample
 			=> string.Format("DateFormatSample".GetLocalizedResource(), DateFormats[SelectedDateTimeFormatIndex].Sample1, DateFormats[SelectedDateTimeFormatIndex].Sample2);
 
-		public List<DateFormatItem> DateFormats { get; set; }
 
 		private DispatcherQueue dispatcherQueue;
-
-
-		public ObservableCollection<DefaultLanguageModel> DefaultLanguages { get; set; }
 
 
 		public bool ShowConfirmDeleteDialog
@@ -435,7 +439,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				}
 			}
 		}
-		
+
 		public DateTimeFormats DateTimeFormat
 		{
 			get => UserSettingsService.PreferencesSettingsService.DateTimeFormat;
@@ -536,6 +540,13 @@ namespace Files.App.ViewModels.SettingsViewModels
 		{
 			var state = await StartupTask.GetAsync("3AA55462-A5FA-4933-88C4-712D0B6CDEBB");
 			return state.State;
+		}
+
+		public void ResetLayoutPreferences()
+		{
+			FolderSettingsViewModel.DbInstance.ResetAll();
+			IsResetLayoutPreferencesTipOpen = false;
+			IsLayoutResetCheckmarkVisible = true;
 		}
 
 		public bool AreHiddenItemsVisible
@@ -693,7 +704,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				}
 			}
 		}
-		
+
 		public bool ShowFileTagColumn
 		{
 			get => UserSettingsService.LayoutSettingsService.ShowFileTagColumn;
@@ -706,7 +717,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				}
 			}
 		}
-		
+
 		public bool ShowSizeColumn
 		{
 			get => UserSettingsService.LayoutSettingsService.ShowSizeColumn;
@@ -759,27 +770,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		private bool isLayoutResetCheckmarkVisible;
-		public bool IsLayoutResetCheckmarkVisible
-		{
-			get => isLayoutResetCheckmarkVisible;
-			set => SetProperty(ref isLayoutResetCheckmarkVisible, value);
-		}
-
-		private bool isResetLayoutPreferencesTipOpen;
-		public bool IsResetLayoutPreferencesTipOpen
-		{
-			get => isResetLayoutPreferencesTipOpen;
-			set => SetProperty(ref isResetLayoutPreferencesTipOpen, value);
-		}
-
-		public void ResetLayoutPreferences()
-		{
-			FolderSettingsViewModel.DbInstance.ResetAll();
-			IsResetLayoutPreferencesTipOpen = false;
-			IsLayoutResetCheckmarkVisible = true;
-		}
-
 		public void Dispose()
 		{
 			if (!disposed)
@@ -796,13 +786,13 @@ namespace Files.App.ViewModels.SettingsViewModels
 		}
 	}
 
-	public class DateFormatItem
+	public class DateTimeFormatItem
 	{
 		public string Label { get; }
 		public string Sample1 { get; }
 		public string Sample2 { get; }
 
-		public DateFormatItem(DateTimeFormats style, DateTimeOffset sampleDate1, DateTimeOffset sampleDate2)
+		public DateTimeFormatItem(DateTimeFormats style, DateTimeOffset sampleDate1, DateTimeOffset sampleDate2)
 		{
 			var factory = Ioc.Default.GetService<IDateTimeFormatterFactory>();
 			var formatter = factory.GetDateTimeFormatter(style);

@@ -68,7 +68,7 @@
 					ItemsSource="{Binding DateFormats}"
 					SelectedIndex="{Binding SelectedDateTimeFormatIndex, Mode=TwoWay}">
 					<ComboBox.ItemTemplate>
-						<DataTemplate x:DataType="settingsviewmodels:DateFormatItem">
+						<DataTemplate x:DataType="settingsviewmodels:DateTimeFormatItem">
 							<StackPanel Orientation="Vertical">
 								<TextBlock Text="{x:Bind Label}" />
 								<TextBlock
