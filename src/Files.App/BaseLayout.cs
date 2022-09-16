@@ -897,18 +897,22 @@ namespace Files.App
 
 		private void RefreshContainer(SelectorItem container, bool inRecycleQueue)
 		{
-			container.PointerEntered -= ListedItem_PointerEntered;
-			container.PointerExited -= ListedItem_PointerExited;
 			container.PointerPressed -= FileListItem_PointerPressed;
+			container.PointerEntered -= FileListItem_PointerEntered;
+			container.PointerExited -= FileListItem_PointerExited;
+
 			if (inRecycleQueue)
 			{
 				UninitializeDrag(container);
 			}
 			else
 			{
-				container.PointerEntered += ListedItem_PointerEntered;
-				container.PointerExited += ListedItem_PointerExited;
 				container.PointerPressed += FileListItem_PointerPressed;
+				if (UserSettingsService.PreferencesSettingsService.SelectFilesOnHover)
+				{
+					container.PointerEntered += FileListItem_PointerEntered;
+					container.PointerExited += FileListItem_PointerExited;
+				}
 			}
 		}
 
@@ -955,7 +959,7 @@ namespace Files.App
 
 		private ListedItem? hoveredItem = null;
 
-		protected internal void ListedItem_PointerEntered(object sender, PointerRoutedEventArgs e)
+		protected internal void FileListItem_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
 			if (!UserSettingsService.PreferencesSettingsService.SelectFilesOnHover)
 				return;
@@ -999,10 +1003,11 @@ namespace Files.App
 			}
 		}
 
-		protected internal void ListedItem_PointerExited(object sender, PointerRoutedEventArgs e)
+		protected internal void FileListItem_PointerExited(object sender, PointerRoutedEventArgs e)
 		{
 			if (!UserSettingsService.PreferencesSettingsService.SelectFilesOnHover)
 				return;
+
 			hoverTimer.Stop();
 			hoveredItem = null;
 		}
