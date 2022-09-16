@@ -1,9 +1,9 @@
-using Files.Backend.Services.Settings;
-using Files.Shared.EventArguments;
 using Files.App.Serialization;
+using Files.Backend.Services.Settings;
+using Files.Shared.Enums;
+using Files.Shared.EventArguments;
 using Microsoft.AppCenter.Analytics;
 using System.Collections.Generic;
-using Files.Shared.Enums;
 
 namespace Files.App.ServicesImplementation.Settings
 {
@@ -141,38 +141,38 @@ namespace Files.App.ServicesImplementation.Settings
             set => Set(value);
         }
 
-		public DateTimeFormats DateTimeFormat
-		{
-			get => Get(DateTimeFormats.Application);
-			set => Set(value);
-		}
-
-		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
+        public DateTimeFormats DateTimeFormat
         {
-            switch (e.SettingName)
-            {
-                case nameof(ShowConfirmDeleteDialog):
-                case nameof(OpenFoldersInNewTab):
-                case nameof(ShowFileExtensions):
-                case nameof(AreHiddenItemsVisible):
-                case nameof(AreSystemItemsHidden):
-                case nameof(AreAlternateStreamsVisible):
-                case nameof(ShowDotFiles):
-                case nameof(OpenFilesWithOneClick):
-                case nameof(OpenFoldersWithOneClick):
-                case nameof(ColumnLayoutOpenFoldersWithOneClick):
-                case nameof(SearchUnindexedItems):
-                case nameof(ForceLayoutPreferencesOnAllDirectories):
-                case nameof(ShowFolderSize):
-                case nameof(OpenSpecificPageOnStartup):
-                case nameof(ContinueLastSessionOnStartUp):
-                case nameof(OpenNewTabOnStartup):
-                case nameof(AlwaysOpenNewInstance):
-                    Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
-                    break;
-            }
-
-            base.RaiseOnSettingChangedEvent(sender, e);
+            get => Get(DateTimeFormats.Application);
+            set => Set(value);
         }
+
+    protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
+    {
+        switch (e.SettingName)
+        {
+            case nameof(ShowConfirmDeleteDialog):
+            case nameof(OpenFoldersInNewTab):
+            case nameof(ShowFileExtensions):
+            case nameof(AreHiddenItemsVisible):
+            case nameof(AreSystemItemsHidden):
+            case nameof(AreAlternateStreamsVisible):
+            case nameof(ShowDotFiles):
+            case nameof(OpenFilesWithOneClick):
+            case nameof(OpenFoldersWithOneClick):
+            case nameof(ColumnLayoutOpenFoldersWithOneClick):
+            case nameof(SearchUnindexedItems):
+            case nameof(ForceLayoutPreferencesOnAllDirectories):
+            case nameof(ShowFolderSize):
+            case nameof(OpenSpecificPageOnStartup):
+            case nameof(ContinueLastSessionOnStartUp):
+            case nameof(OpenNewTabOnStartup):
+            case nameof(AlwaysOpenNewInstance):
+                Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
+                break;
+        }
+
+        base.RaiseOnSettingChangedEvent(sender, e);
     }
+}
 }
