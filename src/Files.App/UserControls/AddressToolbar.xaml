@@ -612,11 +612,11 @@
 			</StackPanel>
 
 			<TeachingTip
-				x:Name="OngoingTasksTeachingTip"
+				x:Name="StatusCenterTeachingTip"
 				Title="{helpers:ResourceString Name=OngoingTasksTeachingTip/Title}"
+				IsOpen="False"
 				Subtitle="{helpers:ResourceString Name=OngoingTasksTeachingTip/Subtitle}"
-				Target="{x:Bind OngoingTasks}"
-				Visibility="Collapsed" />
+				Target="{x:Bind OngoingTasks}" />
 		</Grid>
 
 		<VisualStateManager.VisualStateGroups>

@@ -127,14 +127,6 @@ namespace Files.App.ViewModels
 
         #endregion Appearance
 
-        /// <summary>
-        /// Gets or sets a value indicating whether or not to show a teaching tip informing the user about the status center.
-        /// </summary>
-        public bool ShowOngoingTasksTeachingTip
-        {
-            get => Get(true);
-            set => Set(value);
-        }
 
         /// <summary>
         /// Gets or sets a value indicating whether or not to restore tabs after restarting the app.

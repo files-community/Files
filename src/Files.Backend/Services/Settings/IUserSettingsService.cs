@@ -24,5 +24,7 @@ namespace Files.Backend.Services.Settings
         IPaneSettingsService PaneSettingsService { get; }
 
         ILayoutSettingsService LayoutSettingsService { get; }
+
+		IAppSettingsService AppSettingsService { get; }
     }
 }
