@@ -208,8 +208,7 @@
 		<DataTemplate x:Name="TilesBrowserTemplate" x:DataType="local2:ListedItem">
 			<Grid
 				MaxHeight="68"
-				Margin="8,4"
-				Padding="0"
+				Padding="8,4"
 				HorizontalAlignment="Stretch"
 				VerticalAlignment="Stretch"
 				Background="Transparent"
