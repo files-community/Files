@@ -19,9 +19,6 @@ namespace Files.App.UserControls
 
 		public ISearchBox SearchBox => ViewModel.SearchBox;
 
-
-		public SettingsViewModel AppSettings => App.AppSettings;
-
 		public AddressToolbar()
 		{
 			InitializeComponent();
