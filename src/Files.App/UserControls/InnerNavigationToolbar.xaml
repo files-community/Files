@@ -208,7 +208,7 @@
 						<FontIcon FontFamily="{StaticResource RecycleBinIcons}" Glyph="&#xEF88;" />
 					</AppBarButton.Icon>
 				</AppBarButton>
-                <AppBarButton
+				<AppBarButton
 					x:Name="EmptySelectionRecycleBinButton"
 					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
 					AccessKey="B"
