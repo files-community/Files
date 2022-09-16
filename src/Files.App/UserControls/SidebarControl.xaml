@@ -96,10 +96,7 @@
 								<!--  Displays the drive name, this is hidden when the extended details are shown  -->
 								<TextBlock
 									x:Name="DriveNameTextBlock"
-									VerticalAlignment="Center"
 									x:Load="{x:Bind ShowDriveDetails, Converter={StaticResource BoolNegationConverter}}"
-									FontSize="14"
-									FontWeight="Medium"
 									Text="{x:Bind Text, Mode=OneWay}" />
 
 								<!--  Displays the drive name and extended details  -->
