@@ -54,7 +54,10 @@ namespace Files.App.Filesystem.Cloud
                     cloudProviderItem.Root = await StorageFolder.GetFolderFromPathAsync(cloudProviderItem.Path);
                     _ = App.Window.DispatcherQueue.EnqueueAsync(() => cloudProviderItem.UpdatePropertiesAsync());
                 }
-                catch (Exception) { }
+                catch (Exception ex) 
+                {
+                    logger?.Warn(ex, "Cloud provider local folder couldn't be found");
+                }
 
                 cloudProviderItem.MenuOptions = new ContextMenuOptions
                 {
