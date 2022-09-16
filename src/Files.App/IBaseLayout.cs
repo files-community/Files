@@ -15,9 +15,9 @@ namespace Files.App
 
         bool IsMiddleClickToScrollEnabled { get; set; }
 
-        public List<ListedItem> SelectedItems { get; }
+        public List<ListedItem>? SelectedItems { get; }
 
-        public ListedItem SelectedItem { get; }
+        public ListedItem? SelectedItem { get; }
 
         ItemManipulationModel ItemManipulationModel { get; }
 
@@ -25,7 +25,7 @@ namespace Files.App
 
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
-        public BaseLayoutCommandsViewModel CommandsViewModel { get; }
+        public BaseLayoutCommandsViewModel? CommandsViewModel { get; }
         public CommandBarFlyout ItemContextMenuFlyout { get; set; }
     }
 }
