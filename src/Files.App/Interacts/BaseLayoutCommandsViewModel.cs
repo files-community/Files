@@ -70,8 +70,7 @@ namespace Files.App.Interacts
             RefreshCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RefreshItems);
             SearchUnindexedItems = new RelayCommand<RoutedEventArgs>(CommandsModel.SearchUnindexedItems);
             CreateFolderWithSelection = new AsyncRelayCommand<RoutedEventArgs>(CommandsModel.CreateFolderWithSelection);
-            CompressSingleFolderCommand = new AsyncRelayCommand(CommandsModel.CompressSingleIntoArchive);
-            CompressMultipleFoldersCommand = new AsyncRelayCommand(CommandsModel.CompressMultipleIntoArchive);
+            CompressIntoArchiveCommand = new AsyncRelayCommand(CommandsModel.CompressIntoArchive);
             DecompressArchiveCommand = new AsyncRelayCommand(CommandsModel.DecompressArchive);
             DecompressArchiveHereCommand = new AsyncRelayCommand(CommandsModel.DecompressArchiveHere);
             DecompressArchiveToChildFolderCommand = new AsyncRelayCommand(CommandsModel.DecompressArchiveToChildFolder);
@@ -171,9 +170,7 @@ namespace Files.App.Interacts
 
         public ICommand CreateFolderWithSelection { get; private set; }
 
-        public ICommand CompressSingleFolderCommand { get; private set; }
-
-        public ICommand CompressMultipleFoldersCommand { get; private set; }
+        public ICommand CompressIntoArchiveCommand { get; private set; }
 
         public ICommand DecompressArchiveCommand { get; private set; }
 

@@ -94,9 +94,7 @@ namespace Files.App.Interacts
 
         Task CreateFolderWithSelection(RoutedEventArgs e);
 
-        Task CompressSingleIntoArchive();
-
-        Task CompressMultipleIntoArchive();
+        Task CompressIntoArchive();
 
         Task DecompressArchive();
 

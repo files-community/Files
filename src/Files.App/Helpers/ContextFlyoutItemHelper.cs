@@ -1040,7 +1040,7 @@ namespace Files.App.Helpers
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Command = commandsViewModel.CompressSingleFolderCommand,
+                    Command = commandsViewModel.CompressIntoArchiveCommand,
                     Glyph = "\uE8DE",
                     Text = string.Format("AddSingleItemToArchive/Text".GetLocalizedResource(), selectedItems.First().ItemName),
                     ShowInSearchPage = true,
@@ -1048,7 +1048,7 @@ namespace Files.App.Helpers
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Command = commandsViewModel.CompressMultipleFoldersCommand,
+                    Command = commandsViewModel.CompressIntoArchiveCommand,
                     Glyph = "\uE8DE",
                     Text = "AddToArchive/Text".GetLocalizedResource(),
                     ShowInSearchPage = true,

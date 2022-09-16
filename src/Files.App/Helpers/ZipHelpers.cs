@@ -6,35 +6,11 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Shell;
 
 namespace Files.App.Helpers
 {
 	public static class ZipHelpers
 	{
-		public static async Task<bool> CompressSingleToArchive(string sourceFolder, string archive)
-		{
-			SevenZipCompressor compressor = new()
-			{
-				ArchiveFormat = OutArchiveFormat.Zip,
-				CompressionLevel = CompressionLevel.High,
-				EventSynchronization = EventSynchronizationStrategy.AlwaysAsynchronous,
-				FastCompression = true,
-				IncludeEmptyDirectories = true
-			};
-
-			try
-			{
-				await compressor.CompressDirectoryAsync(sourceFolder, archive);
-				return true;
-			}
-			catch (Exception ex)
-			{
-				App.Logger.Warn(ex, $"Error compressing folder: {sourceFolder}");
-			}
-			return false;
-		}
-
 		public static async Task<bool> CompressMultipleToArchive(string[] sourceFolders, string archive, IProgress<float> progressDelegate)
 		{
 			SevenZipCompressor compressor = new()
@@ -44,7 +20,7 @@ namespace Files.App.Helpers
 				EventSynchronization = EventSynchronizationStrategy.AlwaysAsynchronous,
 				FastCompression = true,
 				IncludeEmptyDirectories = true,
-				PreserveDirectoryRoot = true
+				PreserveDirectoryRoot = sourceFolders.Length > 1
 			};
 
 			bool noErrors = true;

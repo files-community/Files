@@ -594,68 +594,53 @@ namespace Files.App.Interacts
             await UIFilesystemHelpers.CreateFolderWithSelectionAsync(associatedInstance);
         }
 
-        public async Task CompressSingleIntoArchive()
+        public async Task CompressIntoArchive()
         {
-            string folderPath = associatedInstance.SlimContentPage.SelectedItem.ItemPath;
-            string archivePath = folderPath + ".zip";
+            string archivePath;
+            string[] sources = associatedInstance.SlimContentPage.SelectedItems
+                .Select(item => item.ItemPath)
+                .ToArray();
 
-            if (await ZipHelpers.CompressSingleToArchive(folderPath, archivePath))
+            if (sources.Length == 1)
+                archivePath = sources[0] + ".zip";
+            else
+            {
+                DynamicDialog archiveDialog = DynamicDialogFactory.GetFor_RenameDialog();
+                await archiveDialog.ShowAsync();
+                if (archiveDialog.DynamicResult != DynamicDialogResult.Primary)
+                    return;
+                archivePath = Path.Combine(
+                    associatedInstance.FilesystemViewModel.WorkingDirectory,
+                    $"{(string)archiveDialog.ViewModel.AdditionalData}.zip");
+            }
+
+            CancellationTokenSource compressionToken = new();
+            PostedStatusBanner banner = App.OngoingTasksViewModel.PostOperationBanner(
+                "CompressionInProgressText".GetLocalizedResource(),
+                archivePath,
+                0,
+                ReturnResult.InProgress,
+                FileOperationType.Compressed,
+                compressionToken);
+            
+            bool result = await ZipHelpers.CompressMultipleToArchive(sources, archivePath, banner.Progress);
+            
+            banner.Remove();
+            if (result)
                 App.OngoingTasksViewModel.PostBanner(
                     "CompressionCompletedText".GetLocalizedResource(),
-                    string.Format ("CompressionSuccededText".GetLocalizedResource(), folderPath),
+                    string.Format("CompressionSuccededText".GetLocalizedResource(), archivePath),
                     0,
                     ReturnResult.Success,
                     FileOperationType.Compressed);
             else
                 App.OngoingTasksViewModel.PostBanner(
-					"CompressionCompletedText".GetLocalizedResource(),
-					string.Format("CompressionFailedText".GetLocalizedResource(), folderPath),
-					0,
-					ReturnResult.Failed,
-					FileOperationType.Compressed);
+                    "CompressionCompletedText".GetLocalizedResource(),
+                    string.Format("CompressionFailedText".GetLocalizedResource(), archivePath),
+                    0,
+                    ReturnResult.Failed,
+                    FileOperationType.Compressed);
 		}
-
-        public async Task CompressMultipleIntoArchive()
-        {
-            DynamicDialog archiveDialog = DynamicDialogFactory.GetFor_RenameDialog();
-            await archiveDialog.ShowAsync();
-            if (archiveDialog.DynamicResult != DynamicDialogResult.Primary)
-                return;
-
-			string archivePath = Path.Combine(
-                associatedInstance.FilesystemViewModel.WorkingDirectory, 
-                $"{(string)archiveDialog.ViewModel.AdditionalData}.zip");
-            string[] sources = associatedInstance.SlimContentPage.SelectedItems
-                .Select(item => item.ItemPath)
-                .ToArray();
-
-            CancellationTokenSource compressionToken = new();
-            PostedStatusBanner banner = App.OngoingTasksViewModel.PostOperationBanner(
-				"CompressionInProgressText".GetLocalizedResource(),
-                archivePath,
-                0, 
-                ReturnResult.InProgress,
-                FileOperationType.Compressed,
-                compressionToken);
-
-            bool result = await ZipHelpers.CompressMultipleToArchive(sources, archivePath, banner.Progress);
-
-            banner.Remove();
-			if (result)
-				App.OngoingTasksViewModel.PostBanner(
-				   "CompressionCompletedText".GetLocalizedResource(),
-				   string.Format("CompressionSuccededText".GetLocalizedResource(), archivePath),
-				   0,
-				   ReturnResult.Success,
-				   FileOperationType.Compressed);
-            else
-				App.OngoingTasksViewModel.PostBanner(
-				   "CompressionCompletedText".GetLocalizedResource(),
-				   string.Format("CompressionFailedText".GetLocalizedResource(), archivePath),
-				   0,
-				   ReturnResult.Failed,
-				   FileOperationType.Compressed);
-        }
 
         public async Task DecompressArchive()
         {
