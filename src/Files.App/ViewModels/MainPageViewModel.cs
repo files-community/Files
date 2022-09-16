@@ -383,7 +383,7 @@ namespace Files.App.ViewModels
 				try
 				{
 					// add last session tabs to closed tabs stack if those tabs are not about to be opened
-					if (!App.AppSettings.ResumeAfterRestart && !UserSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp && UserSettingsService.PreferencesSettingsService.LastSessionTabList != null)
+					if (!UserSettingsService.AppSettingsService.RestoreTabsOnStartup && !UserSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp && UserSettingsService.PreferencesSettingsService.LastSessionTabList != null)
 					{
 						var items = new TabItemArguments[UserSettingsService.PreferencesSettingsService.LastSessionTabList.Count];
 						for (int i = 0; i < items.Length; i++)
@@ -394,9 +394,9 @@ namespace Files.App.ViewModels
 						BaseMultitaskingControl.RecentlyClosedTabs.Add(items);
 					}
 
-					if (App.AppSettings.ResumeAfterRestart)
+					if (UserSettingsService.AppSettingsService.RestoreTabsOnStartup)
 					{
-						App.AppSettings.ResumeAfterRestart = false;
+						UserSettingsService.AppSettingsService.RestoreTabsOnStartup = false;
 
 						foreach (string tabArgsString in UserSettingsService.PreferencesSettingsService.LastSessionTabList)
 						{

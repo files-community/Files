@@ -20,206 +20,196 @@ using Windows.Storage;
 
 namespace Files.App.ViewModels
 {
-    [Obsolete("Do not use this class as Settings store anymore, settings have been merged to IUserSettingsService.")]
-    public class SettingsViewModel : ObservableObject
-    {
-        private readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-        private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
+	[Obsolete("Do not use this class as Settings store anymore, settings have been merged to IUserSettingsService.")]
+	public class SettingsViewModel : ObservableObject
+	{
+		private readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+		private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
 
-        public SettingsViewModel()
-        {
-            DetectDateTimeFormat();
+		public SettingsViewModel()
+		{
+			DetectDateTimeFormat();
 
-            // Load the supported languages
-            var supportedLang = ApplicationLanguages.ManifestLanguages;
-            DefaultLanguages = new ObservableCollection<DefaultLanguageModel> { new DefaultLanguageModel(null) };
-            foreach (var lang in supportedLang)
-            {
-                DefaultLanguages.Add(new DefaultLanguageModel(lang));
-            }
+			// Load the supported languages
+			var supportedLang = ApplicationLanguages.ManifestLanguages;
+			DefaultLanguages = new ObservableCollection<DefaultLanguageModel> { new DefaultLanguageModel(null) };
+			foreach (var lang in supportedLang)
+			{
+				DefaultLanguages.Add(new DefaultLanguageModel(lang));
+			}
 
-            UpdateThemeElements = new RelayCommand(() => ThemeModeChanged?.Invoke(this, EventArgs.Empty));
-        }
+			UpdateThemeElements = new RelayCommand(() => ThemeModeChanged?.Invoke(this, EventArgs.Empty));
+		}
 
-        private void DetectDateTimeFormat()
-        {
-            if (localSettings.Values[Constants.LocalSettings.DateTimeFormat] != null)
-            {
-                if (localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString() == "Application")
-                {
-                    DisplayedTimeStyle = TimeStyle.Application;
-                }
-                else if (localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString() == "System")
-                {
-                    DisplayedTimeStyle = TimeStyle.System;
-                }
-                else if (localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString() == "Universal")
-                {
-                    DisplayedTimeStyle = TimeStyle.Universal;
-                }
-            }
-            else
-            {
-                localSettings.Values[Constants.LocalSettings.DateTimeFormat] = "Application";
-            }
-        }
+		private void DetectDateTimeFormat()
+		{
+			if (localSettings.Values[Constants.LocalSettings.DateTimeFormat] != null)
+			{
+				if (localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString() == "Application")
+				{
+					DisplayedTimeStyle = TimeStyle.Application;
+				}
+				else if (localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString() == "System")
+				{
+					DisplayedTimeStyle = TimeStyle.System;
+				}
+				else if (localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString() == "Universal")
+				{
+					DisplayedTimeStyle = TimeStyle.Universal;
+				}
+			}
+			else
+			{
+				localSettings.Values[Constants.LocalSettings.DateTimeFormat] = "Application";
+			}
+		}
 
-        private TimeStyle displayedTimeStyle = TimeStyle.Application;
+		private TimeStyle displayedTimeStyle = TimeStyle.Application;
 
-        public TimeStyle DisplayedTimeStyle
-        {
-            get => displayedTimeStyle;
-            set
-            {
-                SetProperty(ref displayedTimeStyle, value);
-                localSettings.Values[Constants.LocalSettings.DateTimeFormat] = value switch
-                {
-                    TimeStyle.System => "System",
-                    TimeStyle.Universal => "Universal",
-                    _ => "Application",
-                };
-            }
-        }
+		public TimeStyle DisplayedTimeStyle
+		{
+			get => displayedTimeStyle;
+			set
+			{
+				SetProperty(ref displayedTimeStyle, value);
+				localSettings.Values[Constants.LocalSettings.DateTimeFormat] = value switch
+				{
+					TimeStyle.System => "System",
+					TimeStyle.Universal => "Universal",
+					_ => "Application",
+				};
+			}
+		}
 
-        #region Preferences
+		#region Preferences
 
-        /// <summary>
-        /// Gets or sets a value indicating the application language.
-        /// </summary>
-        public DefaultLanguageModel CurrentLanguage { get; set; } = new DefaultLanguageModel(ApplicationLanguages.PrimaryLanguageOverride);
+		/// <summary>
+		/// Gets or sets a value indicating the application language.
+		/// </summary>
+		public DefaultLanguageModel CurrentLanguage { get; set; } = new DefaultLanguageModel(ApplicationLanguages.PrimaryLanguageOverride);
 
-        /// <summary>
-        /// Gets or sets an ObservableCollection of the support languages.
-        /// </summary>
-        public ObservableCollection<DefaultLanguageModel> DefaultLanguages { get; private set; }
+		/// <summary>
+		/// Gets or sets an ObservableCollection of the support languages.
+		/// </summary>
+		public ObservableCollection<DefaultLanguageModel> DefaultLanguages { get; private set; }
 
-        /// <summary>
-        /// Gets or sets a value indicating the default language.
-        /// </summary>
-        public DefaultLanguageModel DefaultLanguage
-        {
-            get
-            {
-                return DefaultLanguages.FirstOrDefault(dl => dl.ID == ApplicationLanguages.PrimaryLanguageOverride) ??
-                           DefaultLanguages.FirstOrDefault();
-            }
-            set
-            {
-                ApplicationLanguages.PrimaryLanguageOverride = value.ID;
-            }
-        }
+		/// <summary>
+		/// Gets or sets a value indicating the default language.
+		/// </summary>
+		public DefaultLanguageModel DefaultLanguage
+		{
+			get
+			{
+				return DefaultLanguages.FirstOrDefault(dl => dl.ID == ApplicationLanguages.PrimaryLanguageOverride) ??
+						   DefaultLanguages.FirstOrDefault();
+			}
+			set
+			{
+				ApplicationLanguages.PrimaryLanguageOverride = value.ID;
+			}
+		}
 
-        #endregion Preferences
+		#endregion Preferences
 
-        #region Appearance
+		#region Appearance
 
-        /// <summary>
-        /// Gets or sets the user's current selected skin
-        /// </summary>
-        public AppTheme SelectedTheme
-        {
-            get => JsonSerializer.Deserialize<AppTheme>(Get(JsonSerializer.Serialize(new AppTheme()
-            {
-                Name = "Default".GetLocalizedResource()
-            })));
-            set => Set(JsonSerializer.Serialize(value));
-        }
+		/// <summary>
+		/// Gets or sets the user's current selected skin
+		/// </summary>
+		public AppTheme SelectedTheme
+		{
+			get => JsonSerializer.Deserialize<AppTheme>(Get(JsonSerializer.Serialize(new AppTheme()
+			{
+				Name = "Default".GetLocalizedResource()
+			})));
+			set => Set(JsonSerializer.Serialize(value));
+		}
 
-        #endregion Appearance
+		#endregion Appearance
 
+		public event EventHandler ThemeModeChanged;
 
-        /// <summary>
-        /// Gets or sets a value indicating whether or not to restore tabs after restarting the app.
-        /// </summary>
-        public bool ResumeAfterRestart
-        {
-            get => Get(false);
-            set => Set(value);
-        }
+		public ICommand UpdateThemeElements { get; }
 
-        public event EventHandler ThemeModeChanged;
+		#region ReadAndSaveSettings
 
-        public ICommand UpdateThemeElements { get; }
+		public bool Set<TValue>(TValue value, [CallerMemberName] string propertyName = null)
+		{
+			propertyName = propertyName != null && propertyName.StartsWith("set_", StringComparison.OrdinalIgnoreCase)
+				? propertyName.Substring(4)
+				: propertyName;
 
-        #region ReadAndSaveSettings
+			TValue originalValue = default;
 
-        public bool Set<TValue>(TValue value, [CallerMemberName] string propertyName = null)
-        {
-            propertyName = propertyName != null && propertyName.StartsWith("set_", StringComparison.OrdinalIgnoreCase)
-                ? propertyName.Substring(4)
-                : propertyName;
+			if (localSettings.Values.ContainsKey(propertyName))
+			{
+				originalValue = Get(originalValue, propertyName);
 
-            TValue originalValue = default;
+				localSettings.Values[propertyName] = value;
+				if (!SetProperty(ref originalValue, value, propertyName))
+				{
+					return false;
+				}
+			}
+			else
+			{
+				localSettings.Values[propertyName] = value;
+			}
 
-            if (localSettings.Values.ContainsKey(propertyName))
-            {
-                originalValue = Get(originalValue, propertyName);
+			return true;
+		}
 
-                localSettings.Values[propertyName] = value;
-                if (!SetProperty(ref originalValue, value, propertyName))
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                localSettings.Values[propertyName] = value;
-            }
+		public TValue Get<TValue>(TValue defaultValue, [CallerMemberName] string propertyName = null)
+		{
+			var name = propertyName ??
+					   throw new ArgumentNullException(nameof(propertyName), "Cannot store property of unnamed.");
 
-            return true;
-        }
+			name = name.StartsWith("get_", StringComparison.OrdinalIgnoreCase)
+				? propertyName.Substring(4)
+				: propertyName;
 
-        public TValue Get<TValue>(TValue defaultValue, [CallerMemberName] string propertyName = null)
-        {
-            var name = propertyName ??
-                       throw new ArgumentNullException(nameof(propertyName), "Cannot store property of unnamed.");
+			if (localSettings.Values.ContainsKey(name))
+			{
+				var value = localSettings.Values[name];
 
-            name = name.StartsWith("get_", StringComparison.OrdinalIgnoreCase)
-                ? propertyName.Substring(4)
-                : propertyName;
+				if (value is not TValue tValue)
+				{
+					if (value is IConvertible)
+					{
+						tValue = (TValue)Convert.ChangeType(value, typeof(TValue));
+					}
+					else
+					{
+						var valueType = value.GetType();
+						var tryParse = typeof(TValue).GetMethod("TryParse", BindingFlags.Instance | BindingFlags.Public);
 
-            if (localSettings.Values.ContainsKey(name))
-            {
-                var value = localSettings.Values[name];
+						if (tryParse == null)
+						{
+							return default;
+						}
 
-                if (value is not TValue tValue)
-                {
-                    if (value is IConvertible)
-                    {
-                        tValue = (TValue)Convert.ChangeType(value, typeof(TValue));
-                    }
-                    else
-                    {
-                        var valueType = value.GetType();
-                        var tryParse = typeof(TValue).GetMethod("TryParse", BindingFlags.Instance | BindingFlags.Public);
+						var stringValue = value.ToString();
+						tValue = default;
 
-                        if (tryParse == null)
-                        {
-                            return default;
-                        }
+						var tryParseDelegate =
+							(TryParseDelegate<TValue>)Delegate.CreateDelegate(valueType, tryParse, false);
 
-                        var stringValue = value.ToString();
-                        tValue = default;
+						tValue = (tryParseDelegate?.Invoke(stringValue, out tValue) ?? false) ? tValue : default;
+					}
 
-                        var tryParseDelegate =
-                            (TryParseDelegate<TValue>)Delegate.CreateDelegate(valueType, tryParse, false);
+					Set(tValue, propertyName); // Put the corrected value in settings.
+					return tValue;
+				}
+				return tValue;
+			}
 
-                        tValue = (tryParseDelegate?.Invoke(stringValue, out tValue) ?? false) ? tValue : default;
-                    }
+			localSettings.Values[propertyName] = defaultValue;
 
-                    Set(tValue, propertyName); // Put the corrected value in settings.
-                    return tValue;
-                }
-                return tValue;
-            }
+			return defaultValue;
+		}
 
-            localSettings.Values[propertyName] = defaultValue;
+		private delegate bool TryParseDelegate<TValue>(string inValue, out TValue parsedValue);
 
-            return defaultValue;
-        }
-
-        private delegate bool TryParseDelegate<TValue>(string inValue, out TValue parsedValue);
-
-        #endregion ReadAndSaveSettings
-    }
+		#endregion ReadAndSaveSettings
+	}
 }

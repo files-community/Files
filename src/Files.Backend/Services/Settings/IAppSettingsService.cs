@@ -7,6 +7,12 @@ namespace Files.Backend.Services.Settings
 		/// <summary>
 		/// Gets or sets a value indicating whether or not to show the StatusCenter teaching tip.
 		/// </summary>
-		bool ShowStatusCenterTeachingTip { get; set; }       
+		bool ShowStatusCenterTeachingTip { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to restore tabs on startup.
+		/// This is used when prompting users to restart after changing the app language.
+		/// </summary>
+		bool RestoreTabsOnStartup { get; set; }       
 	}
 }

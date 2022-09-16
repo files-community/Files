@@ -18,12 +18,21 @@ namespace Files.App.ServicesImplementation.Settings
 			get => Get(true);
 			set => Set(value);
 		}
+		
+		public bool RestoreTabsOnStartup
+		{
+			get => Get(false);
+			set => Set(value);
+		}
 
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			switch (e.SettingName)
 			{
 				case nameof(ShowStatusCenterTeachingTip):
+					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
+					break;
+				case nameof(RestoreTabsOnStartup):
 					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
 					break;
 			}
