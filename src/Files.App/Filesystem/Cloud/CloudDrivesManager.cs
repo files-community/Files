@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.Storage;
 
 namespace Files.App.Filesystem.Cloud
 {
@@ -48,6 +49,16 @@ namespace Files.App.Filesystem.Cloud
                     Path = provider.SyncFolder,
                     Type = DriveType.CloudDrive,
                 };
+                try
+                {
+                    cloudProviderItem.Root = await StorageFolder.GetFolderFromPathAsync(cloudProviderItem.Path);
+                    _ = App.Window.DispatcherQueue.EnqueueAsync(() => cloudProviderItem.UpdatePropertiesAsync());
+                }
+                catch (Exception ex) 
+                {
+                    logger?.Warn(ex, "Cloud provider local folder couldn't be found");
+                }
+
                 cloudProviderItem.MenuOptions = new ContextMenuOptions
                 {
                     IsLocationItem = true,

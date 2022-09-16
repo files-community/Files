@@ -902,8 +902,8 @@ namespace Files.App
 			container.PointerPressed -= FileListItem_PointerPressed;
 			if (inRecycleQueue)
 			{
-                UninitializeDrag(container);
-            }
+				UninitializeDrag(container);
+			}
 			else
 			{
 				container.PointerEntered += ListedItem_PointerEntered;
