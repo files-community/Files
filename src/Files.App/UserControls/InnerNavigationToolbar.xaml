@@ -195,28 +195,14 @@
 					</AppBarButton.Content>
 				</AppBarButton>
 				<AppBarSeparator x:Name="AdditionalActionSeparator" x:Load="{x:Bind ViewModel.HasAdditionalAction, Mode=OneWay}" />
-				<AppBarButton
+                <AppBarButton
 					x:Name="EmptyRecycleBinButton"
 					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
 					AccessKey="B"
 					Command="{x:Bind ViewModel.EmptyRecycleBinCommand, Mode=OneWay}"
 					IsEnabled="{x:Bind ViewModel.CanEmptyRecycleBin, Mode=OneWay}"
-					Visibility="{x:Bind ViewModel.CanEmptyRecycleBin, Mode=OneWay}"
 					Label="{helpers:ResourceString Name=EmptyRecycleBin}"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=EmptyRecycleBin}">
-					<AppBarButton.Icon>
-						<FontIcon FontFamily="{StaticResource RecycleBinIcons}" Glyph="&#xEF88;" />
-					</AppBarButton.Icon>
-				</AppBarButton>
-				<AppBarButton
-					x:Name="EmptySelectionRecycleBinButton"
-					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
-					AccessKey="B"
-					Command="{x:Bind ViewModel.EmptySelectionRecycleBinCommand, Mode=OneWay}"
-					IsEnabled="{x:Bind ViewModel.CanEmptySelectionRecycleBin, Mode=OneWay}"
-					Visibility="{x:Bind ViewModel.CanEmptySelectionRecycleBin, Mode=OneWay}"
-					Label="{helpers:ResourceString Name=EmptySelectionRecycleBin}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=EmptySelectionRecycleBin}">
                     <AppBarButton.Icon>
                         <FontIcon FontFamily="{StaticResource RecycleBinIcons}" Glyph="&#xEF88;" />
                     </AppBarButton.Icon>

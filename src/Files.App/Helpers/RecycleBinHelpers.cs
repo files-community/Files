@@ -79,11 +79,6 @@ namespace Files.App.Helpers
             }
         }
 
-        public static async Task S_EmptySelectionRecycleBin(IShellPage associatedInstance)
-        {
-            await RecycleBinHelpers.S_DeleteItem(associatedInstance);
-        }
-
         public static async Task S_RestoreRecycleBin(IShellPage associatedInstance)
         {
             await new RecycleBinHelpers().RestoreRecycleBin(associatedInstance);

@@ -2843,10 +2843,4 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
     <value>Restore Selection</value>
   </data>
-  <data name="EmptySelectionRecycleBin" xml:space="preserve">
-    <value>Empty Selection</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutEmptySelectionRecycleBin/Text" xml:space="preserve">
-    <value>Empty</value>
-  </data>
 </root>
