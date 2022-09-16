@@ -897,11 +897,19 @@ namespace Files.App
 
 		private void RefreshContainer(SelectorItem container, bool inRecycleQueue)
 		{
+			container.PointerEntered -= ListedItem_PointerEntered;
+			container.PointerExited -= ListedItem_PointerExited;
 			container.PointerPressed -= FileListItem_PointerPressed;
 			if (inRecycleQueue)
-				UninitializeDrag(container);
+			{
+                UninitializeDrag(container);
+            }
 			else
+			{
+				container.PointerEntered += ListedItem_PointerEntered;
+				container.PointerExited += ListedItem_PointerExited;
 				container.PointerPressed += FileListItem_PointerPressed;
+			}
 		}
 
 		private void RefreshItem(SelectorItem container, object item, bool inRecycleQueue, ContainerContentChangingEventArgs args)
@@ -952,7 +960,7 @@ namespace Files.App
 			if (!UserSettingsService.PreferencesSettingsService.SelectFilesOnHover)
 				return;
 
-			var hovered = (sender as Grid)?.DataContext as ListedItem;
+			var hovered = GetItemFromElement(sender);
 			if (hovered != hoveredItem)
 			{
 				hoveredItem = hovered;

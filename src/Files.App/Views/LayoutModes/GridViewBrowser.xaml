@@ -62,8 +62,6 @@
 				Background="Transparent"
 				IsRightTapEnabled="True"
 				Loaded="Grid_Loaded"
-				PointerEntered="ListedItem_PointerEntered"
-				PointerExited="ListedItem_PointerExited"
 				RightTapped="StackPanel_RightTapped"
 				ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
 				<Grid.RowDefinitions>
@@ -208,15 +206,14 @@
 		<DataTemplate x:Name="TilesBrowserTemplate" x:DataType="local2:ListedItem">
 			<Grid
 				MaxHeight="68"
-				Padding="8,4"
-				HorizontalAlignment="Stretch"
+				Margin="8,4"
+				Padding="0"
+				HorizontalAlignment="Left"
 				VerticalAlignment="Stretch"
 				Background="Transparent"
 				ColumnSpacing="4"
 				IsRightTapEnabled="True"
 				Loaded="Grid_Loaded"
-				PointerEntered="ListedItem_PointerEntered"
-				PointerExited="ListedItem_PointerExited"
 				RightTapped="StackPanel_RightTapped"
 				ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
 				<Grid.ColumnDefinitions>
