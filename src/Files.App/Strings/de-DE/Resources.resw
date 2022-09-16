@@ -159,7 +159,7 @@
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>Dateiname</value>
   </data>
-  <data name="PropertiesItemPath.Text" xml:space="preserve">
+  <data name="Path" xml:space="preserve">
     <value>Pfad:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">

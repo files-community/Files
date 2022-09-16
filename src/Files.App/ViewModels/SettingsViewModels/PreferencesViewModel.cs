@@ -15,9 +15,11 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
+using Windows.Globalization;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;
@@ -44,6 +46,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 		public AsyncRelayCommand ChangePageCommand { get; }
 		public RelayCommand RemovePageCommand { get; }
 		public RelayCommand<string> AddPageCommand { get; }
+
+
 
 		// Properties
 
@@ -88,24 +92,20 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		private int selectedLanguageIndex;
-		public int SelectedLanguageIndex
+		private int selectedAppLanguageIndex;
+		public int SelectedAppLanguageIndex
 		{
-			get => selectedLanguageIndex;
+			get => selectedAppLanguageIndex;
 			set
 			{
-				if (SetProperty(ref selectedLanguageIndex, value))
+				if (SetProperty(ref selectedAppLanguageIndex, value))
 				{
-					App.AppSettings.DefaultLanguage = DefaultLanguages[value];
+					OnPropertyChanged(nameof(SelectedAppLanguageIndex));
 
-					if (App.AppSettings.CurrentLanguage.ID != DefaultLanguages[value].ID)
-					{
+					if (ApplicationLanguages.PrimaryLanguageOverride != AppLanguages[value].LanguagID)
 						ShowRestartControl = true;
-					}
-					else
-					{
-						ShowRestartControl = false;
-					}
+
+					ApplicationLanguages.PrimaryLanguageOverride = AppLanguages[value].LanguagID;
 				}
 			}
 		}
@@ -138,9 +138,14 @@ namespace Files.App.ViewModels.SettingsViewModels
 			set => SetProperty(ref isResetLayoutPreferencesTipOpen, value);
 		}
 
-		public ObservableCollection<DefaultLanguageModel> DefaultLanguages { get; set; }
+
+
+		// Lists
+
 		public List<DateTimeFormatItem> DateFormats { get; set; }
 		public ObservableCollection<Terminal> Terminals { get; set; }
+		public ObservableCollection<AppLanguageItem> AppLanguages { get; set; }
+
 
 		public PreferencesViewModel()
 		{
@@ -152,8 +157,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			RemovePageCommand = new RelayCommand(RemovePage);
 			AddPageCommand = new RelayCommand<string>(async (path) => await AddPage(path));
 
-			DefaultLanguages = App.AppSettings.DefaultLanguages;
-			SelectedLanguageIndex = App.AppSettings.DefaultLanguages.IndexOf(App.AppSettings.DefaultLanguage);
+			AddSupportedAppLanguages();
 
 			Terminals = App.TerminalController.Model.Terminals;
 			SelectedTerminal = App.TerminalController.Model.GetDefaultTerminal();
@@ -186,6 +190,19 @@ namespace Files.App.ViewModels.SettingsViewModels
 			DateTimeOffset sampleDate2 = new DateTime(sampleDate1.Year - 5, 12, 31, 14, 30, 0);
 			var styles = new DateTimeFormats[] { DateTimeFormats.Application, DateTimeFormats.System, DateTimeFormats.Universal };
 			DateFormats = styles.Select(style => new DateTimeFormatItem(style, sampleDate1, sampleDate2)).ToList();
+		}
+
+		private void AddSupportedAppLanguages()
+		{
+			var supportedLanguages = ApplicationLanguages.ManifestLanguages;
+
+			AppLanguages = new ObservableCollection<AppLanguageItem> { };
+			foreach (var language in supportedLanguages)
+			{
+				AppLanguages.Add(new AppLanguageItem(language));
+			}
+
+			SelectedAppLanguageIndex = AppLanguages.IndexOf(AppLanguages.FirstOrDefault(dl => dl.LanguagID == ApplicationLanguages.PrimaryLanguageOverride) ?? AppLanguages.FirstOrDefault());
 		}
 
 		private async Task InitStartupSettingsRecentFoldersFlyout()
@@ -627,18 +644,31 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		public bool OpenFilesWithOneClick
-		{
-			get => UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick;
-			set
-			{
-				if (value != UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick)
-				{
-					UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick = value;
-					OnPropertyChanged();
-				}
-			}
-		}
+        public bool SelectFilesOnHover
+        {
+            get => UserSettingsService.PreferencesSettingsService.SelectFilesOnHover;
+            set
+            {
+                if (value != UserSettingsService.PreferencesSettingsService.SelectFilesOnHover)
+                {
+                    UserSettingsService.PreferencesSettingsService.SelectFilesOnHover = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool OpenFilesWithOneClick
+        {
+            get => UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick;
+            set
+            {
+                if (value != UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick)
+                {
+                    UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
 		public bool OpenFoldersWithOneClick
 		{
@@ -786,6 +816,33 @@ namespace Files.App.ViewModels.SettingsViewModels
 		}
 	}
 
+	public class AppLanguageItem
+	{
+		public string LanguagID { get; set; }
+		public string LanguageName { get; set; }
+
+		public AppLanguageItem(string languagID)
+		{
+			if (!string.IsNullOrEmpty(languagID))
+			{
+				var info = new CultureInfo(languagID);
+				LanguagID = info.Name;
+				LanguageName = info.NativeName;
+			}
+			else
+			{
+				LanguagID = string.Empty;
+				var systemDefaultLanguageOptionStr = "SettingsPreferencesSystemDefaultLanguageOption".GetLocalizedResource();
+				LanguageName = string.IsNullOrEmpty(systemDefaultLanguageOptionStr) ? "System Default" : systemDefaultLanguageOptionStr;
+			}
+		}
+
+		public override string ToString()
+		{
+			return LanguageName;
+		}
+	}
+
 	public class DateTimeFormatItem
 	{
 		public string Label { get; }
@@ -803,3 +860,4 @@ namespace Files.App.ViewModels.SettingsViewModels
 		}
 	}
 }
+

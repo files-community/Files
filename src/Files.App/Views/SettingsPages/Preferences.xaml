@@ -42,11 +42,11 @@
 				<ComboBox
 					HorizontalAlignment="Left"
 					AutomationProperties.Name="{helpers:ResourceString Name=SettingsPreferencesAppLanguageComboBox/AutomationProperties/Name}"
-					ItemsSource="{Binding DefaultLanguages}"
-					SelectedIndex="{Binding SelectedLanguageIndex, Mode=TwoWay}">
+					ItemsSource="{Binding AppLanguages}"
+					SelectedIndex="{Binding SelectedAppLanguageIndex, Mode=TwoWay}">
 					<ComboBox.ItemTemplate>
-						<DataTemplate x:DataType="datamodels:DefaultLanguageModel">
-							<TextBlock Text="{x:Bind Name}" />
+						<DataTemplate x:DataType="settingsviewmodels:AppLanguageItem">
+							<TextBlock Text="{x:Bind LanguageName}" />
 						</DataTemplate>
 					</ComboBox.ItemTemplate>
 				</ComboBox>
@@ -162,7 +162,14 @@
 								IsOn="{Binding ListAndSortDirectoriesAlongsideFiles, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
-					</StackPanel>
+
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SelectFilesAndFoldersOnHover}" HorizontalAlignment="Stretch">
+                            <ToggleSwitch
+								AutomationProperties.Name="{helpers:ResourceString Name=SelectFilesAndFoldersOnHover}"
+								IsOn="{Binding SelectFilesOnHover, Mode=TwoWay}"
+								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                        </local:SettingsBlockControl>
+                    </StackPanel>
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
 
