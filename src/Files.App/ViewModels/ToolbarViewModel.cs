@@ -1221,7 +1221,6 @@ namespace Files.App.ViewModels
                     OnPropertyChanged(nameof(IsFont));
                     OnPropertyChanged(nameof(HasAdditionalAction));
                     OnPropertyChanged(nameof(CanEmptyRecycleBin));
-
                     OnPropertyChanged(nameof(CanRestoreRecycleBin));
                     OnPropertyChanged(nameof(CanRestoreSelectionRecycleBin));
                 }
