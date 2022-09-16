@@ -15,9 +15,7 @@ namespace Files.App.UserControls.MultitaskingControl
 	public sealed partial class HorizontalMultitaskingControl : BaseMultitaskingControl
 	{
 		private readonly DispatcherTimer tabHoverTimer = new DispatcherTimer();
-		private TabViewItem hoveredTabViewItem = null;
-
-		private SettingsViewModel AppSettings => App.AppSettings;
+		private TabViewItem? hoveredTabViewItem;
 
 		public HorizontalMultitaskingControl()
 		{
