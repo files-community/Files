@@ -7,6 +7,7 @@ using Files.App.Serialization.Implementation;
 using System.Collections.Generic;
 using System.IO;
 using Windows.Storage;
+using System.Text.Json;
 
 namespace Files.App.ServicesImplementation.Settings
 {
@@ -52,6 +53,12 @@ namespace Files.App.ServicesImplementation.Settings
         public IApplicationSettingsService ApplicationSettingsService
         {
             get => GetSettingsService(ref _ApplicationSettingsService);
+        }
+
+        private IAppSettingsService _AppSettingsService;
+        public IAppSettingsService AppSettingsService
+		{
+            get => GetSettingsService(ref _AppSettingsService);
         }
 
         public UserSettingsService()

@@ -1,7 +1,7 @@
 using Files.Shared.Cloud;
 using Files.App.Helpers;
-using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Text.Json;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 
@@ -21,7 +21,7 @@ namespace Files.App.Filesystem.Cloud
 
                 if (status is AppServiceResponseStatus.Success && response.ContainsKey("Drives"))
                 {
-                    var providers = JsonConvert.DeserializeObject<List<CloudProvider>>((string)response["Drives"]);
+                    var providers = JsonSerializer.Deserialize<List<CloudProvider>>(response["Drives"].GetString());
                     if (providers is not null)
                     {
                         foreach (var provider in providers)

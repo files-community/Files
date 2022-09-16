@@ -1,4 +1,3 @@
-using Files.Shared;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Filesystem;
 using Files.App.Filesystem.Permissions;
@@ -6,10 +5,10 @@ using Files.App.Helpers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Files.App.Extensions;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Files.Shared.Extensions;
@@ -18,6 +17,8 @@ namespace Files.App.ViewModels.Properties
 {
     public class SecurityProperties : ObservableObject
     {
+        private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
+
         public ListedItem Item { get; }
 
         public SecurityProperties(ListedItem item)
@@ -261,7 +262,7 @@ namespace Files.App.ViewModels.Properties
                 var (status, response) = await connection.SendMessageForResponseAsync(value);
                 if (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)
                 {
-                    var filePermissions = JsonConvert.DeserializeObject<FilePermissions>((string)response["FilePermissions"]);
+                    var filePermissions = JsonSerializer.Deserialize<FilePermissions>(response["FilePermissions"].GetString());
                     FilePermissions = new FilePermissionsManager(filePermissions);
                 }
             }
@@ -281,11 +282,11 @@ namespace Files.App.ViewModels.Properties
                 {
                     { "Arguments", "FileOperation" },
                     { "fileop", "SetFilePermissions" },
-                    { "permissions", JsonConvert.SerializeObject(FilePermissions.ToFilePermissions()) }
+                    { "permissions", JsonSerializer.Serialize(FilePermissions.ToFilePermissions()) }
                 };
                 var (status, response) = await connection.SendMessageForResponseAsync(value);
                 return (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success
-                    && response.Get("Success", false));
+                    && response.Get("Success", defaultJson).GetBoolean());
             }
             return false;
         }
@@ -305,7 +306,7 @@ namespace Files.App.ViewModels.Properties
                 };
                 var (status, response) = await connection.SendMessageForResponseAsync(value);
                 return (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success
-                    && response.Get("Success", false));
+                    && response.Get("Success", defaultJson).GetBoolean());
             }
             return false;
         }
@@ -324,7 +325,7 @@ namespace Files.App.ViewModels.Properties
                 var (status, response) = await connection.SendMessageForResponseAsync(value);
                 if (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)
                 {
-                    return response.Get("PickedObject", (string)null);
+                    return response.Get("PickedObject", defaultJson).GetString();
                 }
             }
             return null;
@@ -346,7 +347,7 @@ namespace Files.App.ViewModels.Properties
                 };
                 var (status, response) = await connection.SendMessageForResponseAsync(value);
                 return (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success
-                    && response.Get("Success", false));
+                    && response.Get("Success", defaultJson).GetBoolean());
             }
             return false;
         }

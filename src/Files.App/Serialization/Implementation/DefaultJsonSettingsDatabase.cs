@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
 
 #nullable enable
 
@@ -115,9 +115,9 @@ namespace Files.App.Serialization.Implementation
 
         protected static TValue? GetValueFromObject<TValue>(object? obj)
         {
-            if (obj is JToken jToken)
+            if (obj is JsonElement jElem)
             {
-                return jToken.ToObject<TValue>();
+                return jElem.Deserialize<TValue>();
             }
 
             return (TValue?)obj;

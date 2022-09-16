@@ -20,8 +20,6 @@
 	NavigationCacheMode="Required"
 	SizeChanged="Page_SizeChanged"
 	mc:Ignorable="d">
-	<!--  WINUI3  -->
-	<!--  BackdropMaterial.ApplyToRootOrPageBackground="False"  -->
 
 	<Page.DataContext>
 		<viewmodels:MainPageViewModel />
@@ -292,7 +290,7 @@
 						SettingsButtonCommand="{x:Bind ViewModel.OpenSettingsCommand}"
 						ShowOngoingTasks="True"
 						ShowSearchBox="True"
-						ShowSettingsButton="{x:Bind IsCompactOverlay, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+						ShowSettingsButton="{x:Bind ViewModel.IsWindowCompactOverlay, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 						TabIndex="1" />
 				</Grid>
 			</controls:SidebarControl.TabContent>
@@ -325,7 +323,7 @@
 					x:Name="InnerNavigationToolbar"
 					Grid.ColumnSpan="3"
 					x:Load="False"
-					IsCompactOverlay="{x:Bind IsCompactOverlay, Mode=OneWay}"
+					IsCompactOverlay="{x:Bind ViewModel.IsWindowCompactOverlay, Mode=OneWay}"
 					Loaded="NavToolbar_Loaded"
 					SetCompactOverlayCommand="{x:Bind SetCompactOverlayCommand}"
 					ShowPreviewPaneButton="{x:Bind IsPreviewPaneEnabled, Mode=OneWay}"

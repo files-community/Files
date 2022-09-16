@@ -22,7 +22,7 @@ namespace Files.App.DataModels.NavigationControlItems
         //public Uri IconSource { get; set; }
         public byte[] IconData { get; set; }
 
-        public string Text { get; set; }
+        public string Text { get; set; } = "";
 
         private string path;
 

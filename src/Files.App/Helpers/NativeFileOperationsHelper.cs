@@ -3,10 +3,10 @@ using Microsoft.Win32.SafeHandles;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
@@ -15,6 +15,8 @@ namespace Files.App.Helpers
 {
     public class NativeFileOperationsHelper
     {
+        private static readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
+
         public enum File_Attributes : uint
         {
             Readonly = 0x00000001,
@@ -477,9 +479,9 @@ namespace Files.App.Helpers
                     { "processid", System.Diagnostics.Process.GetCurrentProcess().Id },
                 });
 
-                if (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success && response.Get("Success", false))
+                if (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success && response.Get("Success", defaultJson).GetBoolean())
                 {
-                    return new SafeFileHandle(new IntPtr((long)response["Handle"]), true);
+                    return new SafeFileHandle(new IntPtr(response["Handle"].GetInt64()), true);
                 }
             }
             return new SafeFileHandle(new IntPtr(-1), true);

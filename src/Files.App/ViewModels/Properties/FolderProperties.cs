@@ -124,8 +124,8 @@ namespace Files.App.ViewModels.Properties
                     {
                         if (response.TryGetValue("BinSize", out var binSize))
                         {
-                            ViewModel.ItemSizeBytes = (long)binSize;
-                            ViewModel.ItemSize = ByteSize.FromBytes((long)binSize).ToString();
+                            ViewModel.ItemSizeBytes = binSize.GetInt64();
+                            ViewModel.ItemSize = ByteSize.FromBytes(binSize.GetInt64()).ToString();
                             ViewModel.ItemSizeVisibility = true;
                         }
                         else
@@ -134,7 +134,7 @@ namespace Files.App.ViewModels.Properties
                         }
                         if (response.TryGetValue("NumItems", out var numItems))
                         {
-                            ViewModel.FilesCount = (int)(long)numItems;
+                            ViewModel.FilesCount = (int)numItems.GetInt64();
                             SetItemsCountString();
                             ViewModel.FilesAndFoldersCountVisibility = true;
                         }
