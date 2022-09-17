@@ -159,8 +159,8 @@
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>Név</value>
   </data>
-  <data name="PropertiesItemPath.Text" xml:space="preserve">
-    <value>Elérési út:</value>
+  <data name="Path" xml:space="preserve">
+    <value>Path:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Méret:</value>
@@ -2830,5 +2830,8 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
   </data>
   <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
     <value>Behavior for opening files and folders</value>
+  </data>
+  <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
+    <value>Select files and folders when hovering over them</value>
   </data>
 </root>
