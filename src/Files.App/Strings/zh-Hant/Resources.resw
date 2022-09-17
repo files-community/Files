@@ -159,8 +159,8 @@
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>檔案名稱</value>
   </data>
-  <data name="PropertiesItemPath.Text" xml:space="preserve">
-    <value>位置：</value>
+  <data name="Path" xml:space="preserve">
+    <value>Path:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>大小：</value>
@@ -2824,5 +2824,8 @@
   </data>
   <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
     <value>開啟檔案與資料夾行為</value>
+  </data>
+  <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
+    <value>Select files and folders when hovering over them</value>
   </data>
 </root>
