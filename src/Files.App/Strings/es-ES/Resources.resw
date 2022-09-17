@@ -159,8 +159,8 @@
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>Nombre del elemento</value>
   </data>
-  <data name="PropertiesItemPath.Text" xml:space="preserve">
-    <value>Ruta:</value>
+  <data name="Path" xml:space="preserve">
+    <value>Path:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Tamaño:</value>
@@ -2828,5 +2828,8 @@ Utilizamos App Center para hacer un seguimiento del uso de la aplicación, encon
   </data>
   <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
     <value>Comportamiento al abrir archivos y carpetas</value>
+  </data>
+  <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
+    <value>Seleccionar archivos y carpetas al pasar el cursor sobre ellos</value>
   </data>
 </root>
