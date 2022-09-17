@@ -159,7 +159,7 @@
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>Nome do item</value>
   </data>
-  <data name="PropertiesItemPath.Text" xml:space="preserve">
+  <data name="Path" xml:space="preserve">
     <value>Caminho:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
@@ -487,19 +487,19 @@
     <value>Há {0} dia</value>
   </data>
   <data name="HoursAgo" xml:space="preserve">
-    <value>Há  {0} horas</value>
+    <value>Há {0} horas</value>
   </data>
   <data name="HourAgo" xml:space="preserve">
-    <value>Há  {0} hora</value>
+    <value>Há {0} hora</value>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
-    <value>Há  {0} minutos</value>
+    <value>Há {0} minutos</value>
   </data>
   <data name="MinuteAgo" xml:space="preserve">
-    <value>Há  {0} minuto</value>
+    <value>Há {0} minuto</value>
   </data>
   <data name="SecondsAgo" xml:space="preserve">
-    <value>Há  {0} segundos</value>
+    <value>Há {0} segundos</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
     <value>Novo separador</value>
@@ -2823,5 +2823,8 @@ Utilizamos o App Center para monitorizar as definições que estão a ser utiliz
   </data>
   <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
     <value>Comportamento para abrir ficheiros ou pastas</value>
+  </data>
+  <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
+    <value>Selecionar ficheiros e pastas ao passar com o rato por cima</value>
   </data>
 </root>
