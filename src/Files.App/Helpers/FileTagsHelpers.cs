@@ -1,20 +1,15 @@
-﻿using Files.Shared.Extensions;
+﻿using Files.App.Shell;
+using Files.Shared.Extensions;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.IO.Pipes;
 using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
-using System.Runtime.Versioning;
-using System.Text.Json;
-using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Windows.Storage;
 
-namespace Files.FullTrust.MessageHandlers
+namespace Files.App.Helpers
 {
-    [SupportedOSPlatform("Windows10.0.10240")]
-    public class FileTagsHandler : Disposable, IMessageHandler
+    public class FileTagsHelpers
     {
         public static string[] ReadFileTag(string filePath)
         {
@@ -109,7 +104,7 @@ namespace Files.FullTrust.MessageHandlers
                             var frn = GetFileFRN(file.FilePath);
                             dbInstance.UpdateTag(file.FilePath, frn, null);
                             dbInstance.SetTags(file.FilePath, (ulong?)frn, tag);
-                        }, Program.Logger))
+                        }, App.Logger))
                         {
                             dbInstance.SetTags(file.FilePath, null, null);
                         }
@@ -132,21 +127,6 @@ namespace Files.FullTrust.MessageHandlers
         {
             using var hFile = Kernel32.CreateFile(filePath, Kernel32.FileAccess.FILE_WRITE_ATTRIBUTES, FileShare.None, null, FileMode.Open, FileFlagsAndAttributes.FILE_FLAG_BACKUP_SEMANTICS);
             return Kernel32.SetFileTime(hFile, new(), new(), dateModified);
-        }
-
-        public Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, JsonElement> message, string arguments)
-        {
-            switch (arguments)
-            {
-                case "UpdateTagsDb":
-                    UpdateTagsDb();
-                    break;
-            }
-            return Task.CompletedTask;
-        }
-
-        public void Initialize(PipeStream connection)
-        {
         }
     }
 }

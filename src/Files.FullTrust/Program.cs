@@ -47,7 +47,6 @@ namespace Files.FullTrust
                     new RecycleBinHandler(),
                     new DriveHandler(),
                     new LibrariesHandler(),
-                    new FileTagsHandler(),
                     new NetworkDrivesHandler(),
                     new QuickLookHandler(),
                     new RecentItemsHandler(),
@@ -63,9 +62,6 @@ namespace Files.FullTrust
                 // Initialize device watcher
                 deviceWatcher = new DeviceWatcher(connection);
                 deviceWatcher.Start();
-
-                // Update tags db
-                messageHandlers.OfType<FileTagsHandler>().Single().UpdateTagsDb();
 
                 // Wait until the connection gets closed
                 appServiceExit.WaitOne();
