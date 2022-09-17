@@ -159,8 +159,8 @@
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>Elementnavn</value>
   </data>
-  <data name="PropertiesItemPath.Text" xml:space="preserve">
-    <value>Sti:</value>
+  <data name="Path" xml:space="preserve">
+    <value>Path:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Størrelse:</value>
@@ -2829,5 +2829,8 @@ Vi bruker App Center for å spore app-bruk og for å finne/reparere feil. All in
   </data>
   <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
     <value>Behavior for opening files and folders</value>
+  </data>
+  <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
+    <value>Select files and folders when hovering over them</value>
   </data>
 </root>
