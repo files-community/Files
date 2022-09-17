@@ -159,7 +159,7 @@
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>Nom de l'élément</value>
   </data>
-  <data name="PropertiesItemPath.Text" xml:space="preserve">
+  <data name="Path" xml:space="preserve">
     <value>Chemin :</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
@@ -2822,5 +2822,8 @@
   </data>
   <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
     <value>Comportement pour ouvrir les fichiers et dossiers</value>
+  </data>
+  <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
+    <value>Sélectionnez les fichiers et dossiers lorsque vous les survolez</value>
   </data>
 </root>
