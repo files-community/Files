@@ -3,7 +3,6 @@ using Files.Shared;
 using Files.Shared.Extensions;
 using Files.FullTrust.Helpers;
 using Microsoft.Win32;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -12,6 +11,7 @@ using System.IO;
 using System.IO.Pipes;
 using System.Linq;
 using System.Runtime.Versioning;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
@@ -26,6 +26,7 @@ namespace Files.FullTrust.MessageHandlers
     {
         private FileTagsDb dbInstance;
         private ProgressHandler progressHandler;
+        private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
 
         public void Initialize(PipeStream connection)
         {
@@ -34,7 +35,7 @@ namespace Files.FullTrust.MessageHandlers
             progressHandler = new ProgressHandler(connection);
         }
 
-        public async Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments)
+        public async Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, JsonElement> message, string arguments)
         {
             switch (arguments)
             {
@@ -44,31 +45,31 @@ namespace Files.FullTrust.MessageHandlers
             }
         }
 
-        private async Task ParseFileOperationAsync(PipeStream connection, Dictionary<string, object> message)
+        private async Task ParseFileOperationAsync(PipeStream connection, Dictionary<string, JsonElement> message)
         {
-            switch (message.Get("fileop", ""))
+            switch (message.Get("fileop", defaultJson).GetString())
             {
                 case "GetFileHandle":
                     {
-                        var filePath = (string)message["filepath"];
-                        var readWrite = (bool)message["readwrite"];
+                        var filePath = message["filepath"].GetString();
+                        var readWrite = message["readwrite"].GetBoolean();
                         using var hFile = Kernel32.CreateFile(filePath, Kernel32.FileAccess.GENERIC_READ | (readWrite ? Kernel32.FileAccess.GENERIC_WRITE : 0), FileShare.ReadWrite, null, FileMode.Open, FileFlagsAndAttributes.FILE_ATTRIBUTE_NORMAL);
                         if (hFile.IsInvalid)
                         {
-                            await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", false } }, message.Get("RequestID", (string)null));
+                            await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", false } }, message.Get("RequestID", defaultJson).GetString());
                             return;
                         }
-                        var processId = (int)(long)message["processid"];
+                        var processId = (int)message["processid"].GetInt64();
                         using var uwpProces = System.Diagnostics.Process.GetProcessById(processId);
                         if (!Kernel32.DuplicateHandle(Kernel32.GetCurrentProcess(), hFile.DangerousGetHandle(), uwpProces.Handle, out var targetHandle, 0, false, Kernel32.DUPLICATE_HANDLE_OPTIONS.DUPLICATE_SAME_ACCESS))
                         {
-                            await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", false } }, message.Get("RequestID", (string)null));
+                            await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", false } }, message.Get("RequestID", defaultJson).GetString());
                             return;
                         }
                         await Win32API.SendMessageAsync(connection, new ValueSet() {
                             { "Success", true },
                             { "Handle", targetHandle.ToInt64() }
-                        }, message.Get("RequestID", (string)null));
+                        }, message.Get("RequestID", defaultJson).GetString());
                     }
                     break;
 
@@ -76,8 +77,8 @@ namespace Files.FullTrust.MessageHandlers
                     await Win32API.StartSTATask(() =>
                     {
                         System.Windows.Forms.Clipboard.Clear();
-                        var fileToCopy = (string)message["filepath"];
-                        var operation = (DataPackageOperation)(long)message["operation"];
+                        var fileToCopy = message["filepath"].GetString();
+                        var operation = (DataPackageOperation)message["operation"].GetInt64();
                         var fileList = new System.Collections.Specialized.StringCollection();
                         fileList.AddRange(fileToCopy.Split('|'));
                         MemoryStream dropEffect = new MemoryStream(operation == DataPackageOperation.Copy ?
@@ -91,7 +92,7 @@ namespace Files.FullTrust.MessageHandlers
                     break;
 
                 case "DragDrop":
-                    var dropPath = (string)message["droppath"];
+                    var dropPath = message["droppath"].GetString();
                     var result = await Win32API.StartSTATask(() =>
                     {
                         var rdo = new RemoteDataObject(System.Windows.Forms.Clipboard.GetDataObject());
@@ -128,15 +129,15 @@ namespace Files.FullTrust.MessageHandlers
                         }
                         return true;
                     });
-                    await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", result } }, message.Get("RequestID", (string)null));
+                    await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", result } }, message.Get("RequestID", defaultJson).GetString());
                     break;
 
                 case "CreateFile":
                 case "CreateFolder":
                     {
-                        var filePath = (string)message["filepath"];
-                        var template = message.Get("template", (string)null);
-                        var dataStr = message.Get("data", (string)null);
+                        var filePath = message["filepath"].GetString();
+                        var template = message.Get("template", defaultJson).GetString();
+                        var dataStr = message.Get("data", defaultJson).GetString();
                         var (success, shellOperationResult) = await Win32API.StartSTATask(async () =>
                         {
                             using var op = new ShellFileOperations();
@@ -152,7 +153,7 @@ namespace Files.FullTrust.MessageHandlers
                             {
                                 using var shd = new ShellFolder(Path.GetDirectoryName(filePath));
                                 op.QueueNewItemOperation(shd, Path.GetFileName(filePath),
-                                    (string)message["fileop"] == "CreateFolder" ? FileAttributes.Directory : FileAttributes.Normal, template);
+                                    message["fileop"].GetString() == "CreateFolder" ? FileAttributes.Directory : FileAttributes.Normal, template);
                             }))
                             {
                                 shellOperationResult.Items.Add(new ShellOperationItemResult()
@@ -199,14 +200,14 @@ namespace Files.FullTrust.MessageHandlers
                         });
                         await Win32API.SendMessageAsync(connection, new ValueSet() {
                             { "Success", success },
-                            { "Result", JsonConvert.SerializeObject(shellOperationResult) }
-                        }, message.Get("RequestID", (string)null));
+                            { "Result", JsonSerializer.Serialize(shellOperationResult) }
+                        }, message.Get("RequestID", defaultJson).GetString());
                     }
                     break;
 
                 case "TestRecycle":
                     {
-                        var fileToDeletePath = ((string)message["filepath"]).Split('|');
+                        var fileToDeletePath = (message["filepath"].GetString()).Split('|');
                         var (success, shellOperationResult) = await Win32API.StartSTATask(async () =>
                         {
                             using var op = new ShellFileOperations();
@@ -275,17 +276,17 @@ namespace Files.FullTrust.MessageHandlers
                         });
                         await Win32API.SendMessageAsync(connection, new ValueSet() {
                             { "Success", success },
-                            { "Result", JsonConvert.SerializeObject(shellOperationResult) }
-                        }, message.Get("RequestID", (string)null));
+                            { "Result", JsonSerializer.Serialize(shellOperationResult) }
+                        }, message.Get("RequestID", defaultJson).GetString());
                     }
                     break;
 
                 case "DeleteItem":
                     {
-                        var fileToDeletePath = ((string)message["filepath"]).Split('|');
-                        var permanently = (bool)message["permanently"];
-                        var operationID = (string)message["operationID"];
-                        var ownerHwnd = (long)message["HWND"];
+                        var fileToDeletePath = message["filepath"].GetString().Split('|');
+                        var permanently = message["permanently"].GetBoolean();
+                        var operationID = message["operationID"].GetString();
+                        var ownerHwnd = message["HWND"].GetInt64();
                         var (success, shellOperationResult) = await Win32API.StartSTATask(async () =>
                         {
                             using var op = new ShellFileOperations();
@@ -365,17 +366,17 @@ namespace Files.FullTrust.MessageHandlers
                         });
                         await Win32API.SendMessageAsync(connection, new ValueSet() {
                             { "Success", success },
-                            { "Result", JsonConvert.SerializeObject(shellOperationResult) }
-                        }, message.Get("RequestID", (string)null));
+                            { "Result", JsonSerializer.Serialize(shellOperationResult) }
+                        }, message.Get("RequestID", defaultJson).GetString());
                     }
                     break;
 
                 case "RenameItem":
                     {
-                        var fileToRenamePath = (string)message["filepath"];
-                        var newName = (string)message["newName"];
-                        var operationID = (string)message["operationID"];
-                        var overwriteOnRename = (bool)message["overwrite"];
+                        var fileToRenamePath = message["filepath"].GetString();
+                        var newName = message["newName"].GetString();
+                        var operationID = message["operationID"].GetString();
+                        var overwriteOnRename = message["overwrite"].GetBoolean();
                         var (success, shellOperationResult) = await Win32API.StartSTATask(async () =>
                         {
                             using var op = new ShellFileOperations();
@@ -431,18 +432,18 @@ namespace Files.FullTrust.MessageHandlers
                         });
                         await Win32API.SendMessageAsync(connection, new ValueSet() {
                             { "Success", success },
-                            { "Result", JsonConvert.SerializeObject(shellOperationResult) },
-                        }, message.Get("RequestID", (string)null));
+                            { "Result", JsonSerializer.Serialize(shellOperationResult) },
+                        }, message.Get("RequestID", defaultJson).GetString());
                     }
                     break;
 
                 case "MoveItem":
                     {
-                        var fileToMovePath = ((string)message["filepath"]).Split('|');
-                        var moveDestination = ((string)message["destpath"]).Split('|');
-                        var operationID = (string)message["operationID"];
-                        var overwriteOnMove = (bool)message["overwrite"];
-                        var ownerHwnd = (long)message["HWND"];
+                        var fileToMovePath = message["filepath"].GetString().Split('|');
+                        var moveDestination = message["destpath"].GetString().Split('|');
+                        var operationID = message["operationID"].GetString();
+                        var overwriteOnMove = message["overwrite"].GetBoolean();
+                        var ownerHwnd = message["HWND"].GetInt64();
                         var (success, shellOperationResult) = await Win32API.StartSTATask(async () =>
                         {
                             using var op = new ShellFileOperations();
@@ -514,18 +515,18 @@ namespace Files.FullTrust.MessageHandlers
                         });
                         await Win32API.SendMessageAsync(connection, new ValueSet() {
                             { "Success", success },
-                            { "Result", JsonConvert.SerializeObject(shellOperationResult) }
-                        }, message.Get("RequestID", (string)null));
+                            { "Result", JsonSerializer.Serialize(shellOperationResult) }
+                        }, message.Get("RequestID", defaultJson).GetString());
                     }
                     break;
 
                 case "CopyItem":
                     {
-                        var fileToCopyPath = ((string)message["filepath"]).Split('|');
-                        var copyDestination = ((string)message["destpath"]).Split('|');
-                        var operationID = (string)message["operationID"];
-                        var overwriteOnCopy = (bool)message["overwrite"];
-                        var ownerHwnd = (long)message["HWND"];
+                        var fileToCopyPath = message["filepath"].GetString().Split('|');
+                        var copyDestination = message["destpath"].GetString().Split('|');
+                        var operationID = message["operationID"].GetString();
+                        var overwriteOnCopy = message["overwrite"].GetBoolean();
+                        var ownerHwnd = message["HWND"].GetInt64();
                         var (success, shellOperationResult) = await Win32API.StartSTATask(async () =>
                         {
                             using var op = new ShellFileOperations();
@@ -598,21 +599,21 @@ namespace Files.FullTrust.MessageHandlers
                         });
                         await Win32API.SendMessageAsync(connection, new ValueSet() {
                             { "Success", success },
-                            { "Result", JsonConvert.SerializeObject(shellOperationResult) }
-                        }, message.Get("RequestID", (string)null));
+                            { "Result", JsonSerializer.Serialize(shellOperationResult) }
+                        }, message.Get("RequestID", defaultJson).GetString());
                     }
                     break;
 
                 case "CancelOperation":
                     {
-                        var operationID = (string)message["operationID"];
+                        var operationID = message["operationID"].GetString();
                         progressHandler.TryCancel(operationID);
                     }
                     break;
 
                 case "CheckFileInUse":
                     {
-                        var fileToCheckPath = ((string)message["filepath"]).Split('|');
+                        var fileToCheckPath = message["filepath"].GetString().Split('|');
                         var processes = SafetyExtensions.IgnoreExceptions(() => FileUtils.WhoIsLocking(fileToCheckPath), Program.Logger);
                         if (processes != null)
                         {
@@ -625,13 +626,13 @@ namespace Files.FullTrust.MessageHandlers
                             }).ToList();
                             processes.ForEach(x => x.Dispose());
                             await Win32API.SendMessageAsync(connection, new ValueSet() {
-                                { "Processes", JsonConvert.SerializeObject(win32proc) }
-                            }, message.Get("RequestID", (string)null));
+                                { "Processes", JsonSerializer.Serialize(win32proc) }
+                            }, message.Get("RequestID", defaultJson).GetString());
                         }
                         else
                         {
                             await Win32API.SendMessageAsync(connection, new ValueSet(), 
-                                message.Get("RequestID", (string)null));
+                                message.Get("RequestID", defaultJson).GetString());
                         }
                     }
                     break;
@@ -639,14 +640,14 @@ namespace Files.FullTrust.MessageHandlers
                 case "ParseLink":
                     try
                     {
-                        var linkPath = (string)message["filepath"];
+                        var linkPath = message["filepath"].GetString();
                         if (linkPath.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase))
                         {
                             using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, null, TimeSpan.FromMilliseconds(100));
                             await Win32API.SendMessageAsync(connection, new ValueSet()
                             {
-                                { "ShortcutInfo", JsonConvert.SerializeObject(ShellFolderExtensions.GetShellLinkItem(link)) }
-                            }, message.Get("RequestID", (string)null));
+                                { "ShortcutInfo", JsonSerializer.Serialize(ShellFolderExtensions.GetShellLinkItem(link)) }
+                            }, message.Get("RequestID", defaultJson).GetString());
                         }
                         else if (linkPath.EndsWith(".url", StringComparison.OrdinalIgnoreCase))
                         {
@@ -659,8 +660,8 @@ namespace Files.FullTrust.MessageHandlers
                             });
                             await Win32API.SendMessageAsync(connection, new ValueSet()
                             {
-                                { "ShortcutInfo", JsonConvert.SerializeObject(new ShellLinkItem() { TargetPath = linkUrl }) }
-                            }, message.Get("RequestID", (string)null));
+                                { "ShortcutInfo", JsonSerializer.Serialize(new ShellLinkItem() { TargetPath = linkUrl }) }
+                            }, message.Get("RequestID", defaultJson).GetString());
                         }
                     }
                     catch (Exception ex)
@@ -669,8 +670,8 @@ namespace Files.FullTrust.MessageHandlers
                         Program.Logger.Warn(ex, ex.Message);
                         await Win32API.SendMessageAsync(connection, new ValueSet()
                         {
-                            { "ShortcutInfo", JsonConvert.SerializeObject(new ShellLinkItem()) }
-                        }, message.Get("RequestID", (string)null));
+                            { "ShortcutInfo", JsonSerializer.Serialize(new ShellLinkItem()) }
+                        }, message.Get("RequestID", defaultJson).GetString());
                     }
                     break;
 
@@ -678,15 +679,15 @@ namespace Files.FullTrust.MessageHandlers
                 case "UpdateLink":
                     try
                     {
-                        var linkSavePath = (string)message["filepath"];
-                        var targetPath = (string)message["targetpath"];
+                        var linkSavePath = message["filepath"].GetString();
+                        var targetPath = message["targetpath"].GetString();
 
                         bool success = false;
                         if (linkSavePath.EndsWith(".lnk", StringComparison.Ordinal))
                         {
-                            var arguments = (string)message["arguments"];
-                            var workingDirectory = (string)message["workingdir"];
-                            var runAsAdmin = (bool)message["runasadmin"];
+                            var arguments = message["arguments"].GetString();
+                            var workingDirectory = message["workingdir"].GetString();
+                            var runAsAdmin = message["runasadmin"].GetBoolean();
                             using var newLink = new ShellLink(targetPath, arguments, workingDirectory);
                             newLink.RunAsAdministrator = runAsAdmin;
                             newLink.SaveAs(linkSavePath); // Overwrite if exists
@@ -702,95 +703,95 @@ namespace Files.FullTrust.MessageHandlers
                                 return true;
                             });
                         }
-                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", success } }, message.Get("RequestID", (string)null));
+                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", success } }, message.Get("RequestID", defaultJson).GetString());
                     }
                     catch (Exception ex)
                     {
                         // Could not create shortcut
                         Program.Logger.Warn(ex, ex.Message);
-                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", false } }, message.Get("RequestID", (string)null));
+                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", false } }, message.Get("RequestID", defaultJson).GetString());
                     }
                     break;
 
                 case "SetLinkIcon":
                     try
                     {
-                        var linkPath = (string)message["filepath"];
+                        var linkPath = message["filepath"].GetString();
                         using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, null, TimeSpan.FromMilliseconds(100));
-                        link.IconLocation = new IconLocation((string)message["iconFile"], (int)message.Get("iconIndex", 0L));
+                        link.IconLocation = new IconLocation(message["iconFile"].GetString(), (int)message.Get("iconIndex", defaultJson).GetInt64());
                         link.SaveAs(linkPath); // Overwrite if exists
-                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", true } }, message.Get("RequestID", (string)null));
+                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", true } }, message.Get("RequestID", defaultJson).GetString());
                     }
                     catch (Exception ex)
                     {
                         // Could not create shortcut
                         Program.Logger.Warn(ex, ex.Message);
-                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", false } }, message.Get("RequestID", (string)null));
+                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", false } }, message.Get("RequestID", defaultJson).GetString());
                     }
                     break;
 
                 case "GetFilePermissions":
                     {
-                        var filePathForPerm = (string)message["filepath"];
-                        var isFolder = (bool)message["isfolder"];
+                        var filePathForPerm = message["filepath"].GetString();
+                        var isFolder = message["isfolder"].GetBoolean();
                         var filePermissions = FilePermissions.FromFilePath(filePathForPerm, isFolder);
                         await Win32API.SendMessageAsync(connection, new ValueSet()
                         {
-                            { "FilePermissions", JsonConvert.SerializeObject(filePermissions) }
-                        }, message.Get("RequestID", (string)null));
+                            { "FilePermissions", JsonSerializer.Serialize(filePermissions) }
+                        }, message.Get("RequestID", defaultJson).GetString());
                     }
                     break;
 
                 case "SetFilePermissions":
                     {
-                        var filePermissionsString = (string)message["permissions"];
-                        var filePermissionsToSet = JsonConvert.DeserializeObject<FilePermissions>(filePermissionsString);
+                        var filePermissionsString = message["permissions"].GetString();
+                        var filePermissionsToSet = JsonSerializer.Deserialize<FilePermissions>(filePermissionsString);
                         await Win32API.SendMessageAsync(connection, new ValueSet()
                         {
                             { "Success", filePermissionsToSet.SetPermissions() }
-                        }, message.Get("RequestID", (string)null));
+                        }, message.Get("RequestID", defaultJson).GetString());
                     }
                     break;
 
                 case "SetFileOwner":
                     {
-                        var filePathForPerm = (string)message["filepath"];
-                        var isFolder = (bool)message["isfolder"];
-                        var ownerSid = (string)message["ownersid"];
+                        var filePathForPerm = message["filepath"].GetString();
+                        var isFolder = message["isfolder"].GetBoolean();
+                        var ownerSid = message["ownersid"].GetString();
                         var fp = FilePermissions.FromFilePath(filePathForPerm, isFolder);
                         await Win32API.SendMessageAsync(connection, new ValueSet()
                         {
                             { "Success", fp.SetOwner(ownerSid) }
-                        }, message.Get("RequestID", (string)null));
+                        }, message.Get("RequestID", defaultJson).GetString());
                     }
                     break;
 
                 case "SetAccessRuleProtection":
                     {
-                        var filePathForPerm = (string)message["filepath"];
-                        var isFolder = (bool)message["isfolder"];
-                        var isProtected = (bool)message["isprotected"];
-                        var preserveInheritance = (bool)message["preserveinheritance"];
+                        var filePathForPerm = message["filepath"].GetString();
+                        var isFolder = message["isfolder"].GetBoolean();
+                        var isProtected = message["isprotected"].GetBoolean();
+                        var preserveInheritance = message["preserveinheritance"].GetBoolean();
                         var fp = FilePermissions.FromFilePath(filePathForPerm, isFolder);
                         await Win32API.SendMessageAsync(connection, new ValueSet()
                         {
                             { "Success", fp.SetAccessRuleProtection(isProtected, preserveInheritance) }
-                        }, message.Get("RequestID", (string)null));
+                        }, message.Get("RequestID", defaultJson).GetString());
                     }
                     break;
 
                 case "OpenObjectPicker":
-                    var hwnd = (long)message["HWND"];
+                    var hwnd = message["HWND"].GetInt64();
                     var pickedObject = await FilePermissions.OpenObjectPicker(hwnd);
                     await Win32API.SendMessageAsync(connection, new ValueSet()
                     {
                         { "PickedObject", pickedObject }
-                    }, message.Get("RequestID", (string)null));
+                    }, message.Get("RequestID", defaultJson).GetString());
                     break;
 
                 case "ReadCompatOptions":
                     {
-                        var filePath = (string)message["filepath"];
+                        var filePath = message["filepath"].GetString();
                         var compatOptions = SafetyExtensions.IgnoreExceptions(() =>
                         {
                             using var compatKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers");
@@ -803,14 +804,14 @@ namespace Files.FullTrust.MessageHandlers
                         await Win32API.SendMessageAsync(connection, new ValueSet()
                         {
                             { "CompatOptions", compatOptions }
-                        }, message.Get("RequestID", (string)null));
+                        }, message.Get("RequestID", defaultJson).GetString());
                     }
                     break;
 
                 case "SetCompatOptions":
                     {
-                        var filePath = (string)message["filepath"];
-                        var compatOptions = (string)message["options"];
+                        var filePath = message["filepath"].GetString();
+                        var compatOptions = message["options"].GetString();
                         bool success = false;
                         if (string.IsNullOrEmpty(compatOptions) || compatOptions == "~")
                         {
@@ -820,7 +821,7 @@ namespace Files.FullTrust.MessageHandlers
                         {
                             success = Win32API.RunPowershellCommand(@$"New-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers' -Name '{filePath}' -Value '{compatOptions}' -PropertyType String -Force | Out-Null", false);
                         }
-                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", success } }, message.Get("RequestID", (string)null));
+                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", success } }, message.Get("RequestID", defaultJson).GetString());
                     }
                     break;
             }
@@ -868,7 +869,7 @@ namespace Files.FullTrust.MessageHandlers
                 };
                 if (destination == null)
                 {
-                    dbInstance.SetTag(sourcePath, null, null); // remove tag from deleted files
+                    dbInstance.SetTags(sourcePath, null, null); // remove tag from deleted files
                 }
                 else
                 {
@@ -876,8 +877,8 @@ namespace Files.FullTrust.MessageHandlers
                     {
                         if (operationType == "copy")
                         {
-                            var tag = dbInstance.GetTag(sourcePath);
-                            dbInstance.SetTag(destination, FileTagsHandler.GetFileFRN(destination), tag); // copy tag to new files
+                            var tag = dbInstance.GetTags(sourcePath);
+                            dbInstance.SetTags(destination, FileTagsHandler.GetFileFRN(destination), tag); // copy tag to new files
                             using var si = new ShellItem(destination);
                             if (si.IsFolder) // File tag is not copied automatically for folders
                             {
@@ -895,7 +896,7 @@ namespace Files.FullTrust.MessageHandlers
                     var tags = dbInstance.GetAllUnderPath(sourcePath).ToList();
                     if (destination == null) // remove tag for items contained in the folder
                     {
-                        tags.ForEach(t => dbInstance.SetTag(t.FilePath, null, null));
+                        tags.ForEach(t => dbInstance.SetTags(t.FilePath, null, null));
                     }
                     else
                     {
@@ -906,7 +907,7 @@ namespace Files.FullTrust.MessageHandlers
                                 SafetyExtensions.IgnoreExceptions(() =>
                                 {
                                     var subPath = t.FilePath.Replace(sourcePath, destination, StringComparison.Ordinal);
-                                    dbInstance.SetTag(subPath, FileTagsHandler.GetFileFRN(subPath), t.Tag);
+                                    dbInstance.SetTags(subPath, FileTagsHandler.GetFileFRN(subPath), t.Tags);
                                 }, Program.Logger);
                             });
                         }

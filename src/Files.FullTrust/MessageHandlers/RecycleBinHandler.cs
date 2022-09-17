@@ -1,13 +1,12 @@
 ﻿using Files.Shared.Extensions;
 using Files.FullTrust.Helpers;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Pipes;
-using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using System.Security.Principal;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
@@ -59,53 +58,9 @@ namespace Files.FullTrust.MessageHandlers
             }
         }
 
-        public async Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments)
+        public Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, JsonElement> message, string arguments)
         {
-            switch (arguments)
-            {
-                case "RecycleBin":
-                    var binAction = (string)message["action"];
-                    await ParseRecycleBinActionAsync(connection, message, binAction);
-                    break;
-            }
-        }
-
-        private async Task ParseRecycleBinActionAsync(PipeStream connection, Dictionary<string, object> message, string action)
-        {
-            switch (action)
-            {
-                case "Empty":
-                    // Shell function to empty recyclebin
-                    Shell32.SHEmptyRecycleBin(IntPtr.Zero, null, Shell32.SHERB.SHERB_NOCONFIRMATION | Shell32.SHERB.SHERB_NOPROGRESSUI);
-                    break;
-
-                case "Query":
-                    var binForDrive = message.Get("drive", "");
-                    var responseQuery = new ValueSet();
-                    Win32API.SHQUERYRBINFO queryBinInfo = new Win32API.SHQUERYRBINFO();
-                    queryBinInfo.cbSize = Marshal.SizeOf(queryBinInfo);
-                    var res = Win32API.SHQueryRecycleBin(binForDrive, ref queryBinInfo);
-                    if (res == HRESULT.S_OK)
-                    {
-                        var numItems = queryBinInfo.i64NumItems;
-                        var binSize = queryBinInfo.i64Size;
-                        responseQuery.Add("HasRecycleBin", true);
-                        responseQuery.Add("NumItems", numItems);
-                        responseQuery.Add("BinSize", binSize);
-                        await Win32API.SendMessageAsync(connection, responseQuery, message.Get("RequestID", (string)null));
-                    }
-                    else
-                    {
-                        responseQuery.Add("HasRecycleBin", false);
-                        responseQuery.Add("NumItems", 0);
-                        responseQuery.Add("BinSize", 0);
-                        await Win32API.SendMessageAsync(connection, responseQuery, message.Get("RequestID", (string)null));
-                    }
-                    break;
-
-                default:
-                    break;
-            }
+            return Task.CompletedTask;
         }
 
         private async void RecycleBinWatcher_Changed(object sender, FileSystemEventArgs e)
@@ -129,7 +84,7 @@ namespace Files.FullTrust.MessageHandlers
                     using var folderItem = SafetyExtensions.IgnoreExceptions(() => new ShellItem(e.FullPath));
                     if (folderItem == null) return;
                     var shellFileItem = ShellFolderExtensions.GetShellFileItem(folderItem);
-                    response["Item"] = JsonConvert.SerializeObject(shellFileItem);
+                    response["Item"] = JsonSerializer.Serialize(shellFileItem);
                 }
                 // Send message to UWP app to refresh items
                 await Win32API.SendMessageAsync(connection, response);

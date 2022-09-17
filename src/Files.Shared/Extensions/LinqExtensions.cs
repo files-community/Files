@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -42,6 +43,31 @@ namespace Files.Shared.Extensions
             return defaultValue;
         }
 
+        public static Task<TValue?> GetAsync<TKey, TValue>(this IDictionary<TKey, Task<TValue?>> dictionary, TKey key, Func<Task<TValue?>> defaultValueFunc)
+        {
+            if (dictionary is null || key is null)
+            {
+                return defaultValueFunc();
+            }
+            if (!dictionary.ContainsKey(key))
+            {
+                var defaultValue = defaultValueFunc();
+                if (defaultValue is Task<TValue?> value)
+                {
+                    if (dictionary is ConcurrentDictionary<TKey, Task<TValue?>> cDict)
+                    {
+                        cDict.TryAdd(key, value);
+                    }
+                    else
+                    {
+                        dictionary.Add(key, value);
+                    }
+                }
+                return defaultValue;
+            }
+            return dictionary[key];
+        }
+
         public static async Task<IEnumerable<T>> WhereAsync<T>(this IEnumerable<T> source, Func<T, Task<bool>> predicate)
         {
             var results = await Task.WhenAll(source.Select(async x => (x, await predicate(x))));
@@ -59,9 +85,6 @@ namespace Files.Shared.Extensions
                 }
             }
         }
-
-        public static IEnumerable<T> DistinctBy<T, TKey>(this IEnumerable<T> items, Func<T, TKey> property)
-            => items.GroupBy(property).Select(x => x.First());
 
         public static IEnumerable<T> IntersectBy<T, TKey>(this IEnumerable<T> items, IEnumerable<T> others, Func<T, TKey> keySelector)
             => items.Join(others.Select(keySelector), keySelector, id => id, (o, id) => o);

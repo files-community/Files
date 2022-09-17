@@ -29,6 +29,13 @@ namespace Files.FullTrust.Helpers
             return libraryItem;
         }
 
+        private static T TryGetProperty<T>(this ShellItemPropertyStore sip, Ole32.PROPERTYKEY key)
+        {
+            T value = default;
+            SafetyExtensions.IgnoreExceptions(() => sip.TryGetValue<T>(key, out value));
+            return value;
+        }
+
         public static ShellFileItem GetShellFileItem(ShellItem folderItem)
         {
             if (folderItem == null)
@@ -36,22 +43,25 @@ namespace Files.FullTrust.Helpers
                 return null;
             }
             bool isFolder = folderItem.IsFolder && !folderItem.Attributes.HasFlag(ShellItemAttribute.Stream);
-            if (folderItem.Properties == null)
-            {
-                return new ShellFileItem(isFolder, folderItem.FileSystemPath, Path.GetFileName(folderItem.Name), folderItem.Name, DateTime.Now, DateTime.Now, DateTime.Now, null, 0, null);
-            }
             var parsingPath = folderItem.GetDisplayName(ShellItemDisplayString.DesktopAbsoluteParsing);
             parsingPath ??= folderItem.FileSystemPath; // True path on disk
             if (parsingPath == null || !Path.IsPathRooted(parsingPath))
             {
-                // Use PIDL as path
-                parsingPath = $@"\\SHELL\{string.Join("\\", folderItem.PIDL.Select(x => x.GetBytes()).Select(x => Convert.ToBase64String(x, 0, x.Length)))}";
+                parsingPath = parsingPath switch
+                {
+                    "::{645FF040-5081-101B-9F08-00AA002F954E}" => "Shell:RecycleBinFolder",
+                    "::{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}" => "Shell:NetworkPlacesFolder",
+                    "::{208D2C60-3AEA-1069-A2D7-08002B30309D}" => "Shell:NetworkPlacesFolder",
+                    // Use PIDL as path
+                    _ => $@"\\SHELL\{string.Join("\\", folderItem.PIDL.Select(x => x.GetBytes()).Select(x => Convert.ToBase64String(x, 0, x.Length)))}"
+                };
             }
-            folderItem.Properties.TryGetValue<string>(
-                Ole32.PROPERTYKEY.System.ItemNameDisplay, out var fileName);
+            var fileName = folderItem.Properties.TryGetProperty<string>(Ole32.PROPERTYKEY.System.ItemNameDisplay);
             fileName ??= Path.GetFileName(folderItem.Name); // Original file name
+            fileName ??= folderItem.GetDisplayName(ShellItemDisplayString.ParentRelativeParsing);
+            var itemNameOrOriginalPath = folderItem.Name ?? fileName;
             string filePath = string.IsNullOrEmpty(Path.GetDirectoryName(parsingPath)) ? // Null if root
-                parsingPath : Path.Combine(Path.GetDirectoryName(parsingPath), folderItem.Name); // In recycle bin "Name" contains original file path + name
+                parsingPath : Path.Combine(Path.GetDirectoryName(parsingPath), itemNameOrOriginalPath); // In recycle bin "Name" contains original file path + name
             if (!isFolder && !string.IsNullOrEmpty(parsingPath) && Path.GetExtension(parsingPath) is string realExtension && !string.IsNullOrEmpty(realExtension))
             {
                 if (!string.IsNullOrEmpty(fileName) && !fileName.EndsWith(realExtension, StringComparison.OrdinalIgnoreCase))
@@ -63,20 +73,18 @@ namespace Files.FullTrust.Helpers
                     filePath = $"{filePath}{realExtension}";
                 }
             }
-            folderItem.Properties.TryGetValue<System.Runtime.InteropServices.ComTypes.FILETIME?>(
-                Ole32.PROPERTYKEY.System.Recycle.DateDeleted, out var fileTime);
+            var fileTime = folderItem.Properties.TryGetProperty<System.Runtime.InteropServices.ComTypes.FILETIME?>(
+                Ole32.PROPERTYKEY.System.Recycle.DateDeleted);
             var recycleDate = fileTime?.ToDateTime().ToLocalTime() ?? DateTime.Now; // This is LocalTime
-            folderItem.Properties.TryGetValue<System.Runtime.InteropServices.ComTypes.FILETIME?>(
-                Ole32.PROPERTYKEY.System.DateModified, out fileTime);
-            var modifiedDate = fileTime?.ToDateTime().ToLocalTime() ?? DateTime.Now; // This is LocalTime
-            folderItem.Properties.TryGetValue<System.Runtime.InteropServices.ComTypes.FILETIME?>(
-                Ole32.PROPERTYKEY.System.DateCreated, out fileTime);
-            var createdDate = fileTime?.ToDateTime().ToLocalTime() ?? DateTime.Now; // This is LocalTime
-            string fileSize = folderItem.Properties.TryGetValue<ulong?>(
-                Ole32.PROPERTYKEY.System.Size, out var fileSizeBytes) ?
-                folderItem.Properties.GetPropertyString(Ole32.PROPERTYKEY.System.Size) : null;
-            folderItem.Properties.TryGetValue<string>(
-                Ole32.PROPERTYKEY.System.ItemTypeText, out var fileType);
+            fileTime = folderItem.Properties.TryGetProperty<System.Runtime.InteropServices.ComTypes.FILETIME?>(
+                Ole32.PROPERTYKEY.System.DateModified);
+            var modifiedDate = fileTime?.ToDateTime().ToLocalTime() ?? folderItem.FileInfo?.LastWriteTime ?? DateTime.Now; // This is LocalTime
+            fileTime = folderItem.Properties.TryGetProperty<System.Runtime.InteropServices.ComTypes.FILETIME?>(
+                Ole32.PROPERTYKEY.System.DateCreated);
+            var createdDate = fileTime?.ToDateTime().ToLocalTime() ?? folderItem.FileInfo?.CreationTime ?? DateTime.Now; // This is LocalTime
+            var fileSizeBytes = folderItem.Properties.TryGetProperty<ulong?>(Ole32.PROPERTYKEY.System.Size);
+            string fileSize = fileSizeBytes is not null ? folderItem.Properties.GetPropertyString(Ole32.PROPERTYKEY.System.Size) : null;
+            var fileType = folderItem.Properties.TryGetProperty<string>(Ole32.PROPERTYKEY.System.ItemTypeText);
             return new ShellFileItem(isFolder, parsingPath, fileName, filePath, recycleDate, modifiedDate, createdDate, fileSize, fileSizeBytes ?? 0, fileType);
         }
 

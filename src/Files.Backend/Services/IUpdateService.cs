@@ -15,6 +15,8 @@ namespace Files.Backend.Services
         /// </summary>
         bool IsUpdating { get; }
 
+        int DownloadPercentage { get; }
+
         Task DownloadUpdates();
 
         Task DownloadMandatoryUpdates();

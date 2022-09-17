@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Files.Shared.Enums;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace Files.Backend.Services.Settings
@@ -36,9 +37,19 @@ namespace Files.Backend.Services.Settings
         bool AreSystemItemsHidden { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether or not alternate data streams should be visible.
+        /// </summary>
+        bool AreAlternateStreamsVisible { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether or not to display dot files.
         /// </summary>
         bool ShowDotFiles{ get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to select files and folders when hovering them.
+        /// </summary>
+        bool SelectFilesOnHover { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether or not files should open with one click.
@@ -51,24 +62,19 @@ namespace Files.Backend.Services.Settings
         bool OpenFoldersWithOneClick { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether or not folders should open with two clicks in ColumnsLayout.
+        /// </summary>
+        bool ColumnLayoutOpenFoldersWithOneClick { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether or not to search unindexed items.
         /// </summary>
         bool SearchUnindexedItems { get; set; }
 
         /// <summary>
-        /// Enables saving a unique layout mode, gridview size and sort direction per folder
+        /// Forces default directory preferences on all folders
         /// </summary>
-        bool AreLayoutPreferencesPerFolder { get; set; }
-
-        /// <summary>
-        /// Enables adaptive layout that adjusts layout mode based on the context of the directory
-        /// </summary>
-        bool AdaptiveLayoutEnabled { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not to enable file tags feature.
-        /// </summary>
-        bool AreFileTagsEnabled { get; set; }
+        bool ForceLayoutPreferencesOnAllDirectories { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether or not to show folder size.
@@ -109,5 +115,10 @@ namespace Files.Backend.Services.Settings
         /// A list containing all paths to tabs closed on last session.
         /// </summary>
         List<string> LastSessionTabList { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating which date and time format to use.
+		/// </summary>
+		DateTimeFormats DateTimeFormat { get; set; }
     }
 }

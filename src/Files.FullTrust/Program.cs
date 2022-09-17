@@ -1,7 +1,6 @@
 using Files.Shared;
 using Files.Shared.Extensions;
 using Files.FullTrust.MessageHandlers;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,6 +11,7 @@ using System.Linq;
 using System.Runtime.Versioning;
 using System.Security.Principal;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
@@ -24,6 +24,7 @@ namespace Files.FullTrust
     {
         public static ILogger Logger { get; private set; }
         private static readonly LogWriter logWriter = new LogWriter();
+        private static readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
 
         [STAThread]
         private static async Task Main()
@@ -46,13 +47,9 @@ namespace Files.FullTrust
                     new RecycleBinHandler(),
                     new LibrariesHandler(),
                     new FileTagsHandler(),
-                    new ApplicationLaunchHandler(),
                     new NetworkDrivesHandler(),
                     new FileOperationsHandler(),
-                    new ContextMenuHandler(),
-                    new QuickLookHandler(),
-                    new Win32MessageHandler(),
-                    new InstallOperationsHandler()
+                    new RecentItemsHandler(),
                 };
 
                 // Connect to app service and wait until the connection gets closed
@@ -98,9 +95,8 @@ namespace Files.FullTrust
 
         private static async void InitializeAppServiceConnection()
         {
-            var packageSid = ApplicationData.Current.LocalSettings.Values["PackageSid"];
             connection = new NamedPipeClientStream(".",
-                $"Sessions\\{Process.GetCurrentProcess().SessionId}\\AppContainerNamedObjects\\{packageSid}\\FilesInteropService_ServerPipe",
+                $"LOCAL\\FilesInteropService_ServerPipe",
                 PipeDirection.InOut, PipeOptions.Asynchronous);
 
             try
@@ -132,7 +128,7 @@ namespace Files.FullTrust
                     if (connection.IsMessageComplete)
                     {
                         var message = Encoding.UTF8.GetString(memoryStream.ToArray()).TrimEnd('\0');
-                        OnConnectionRequestReceived(JsonConvert.DeserializeObject<Dictionary<string, object>>(message));
+                        OnConnectionRequestReceived(JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(message));
                         memoryStream.SetLength(0);
                     }
                 }
@@ -142,7 +138,7 @@ namespace Files.FullTrust
             }
         }
 
-        private static async void OnConnectionRequestReceived(Dictionary<string, object> message)
+        private static async void OnConnectionRequestReceived(Dictionary<string, JsonElement> message)
         {
             // Get a deferral because we use an awaitable API below to respond to the message
             // and we don't want this call to get cancelled while we are waiting.
@@ -156,7 +152,7 @@ namespace Files.FullTrust
                 // This replaces launching the fulltrust process with arguments
                 // Instead a single instance of the process is running
                 // Requests from UWP app are sent via AppService connection
-                var arguments = (string)message["Arguments"];
+                var arguments = message["Arguments"].GetString();
                 Logger.Info($"Argument: {arguments}");
 
                 await SafetyExtensions.IgnoreExceptions(async () =>
@@ -173,7 +169,7 @@ namespace Files.FullTrust
             return principal.IsInRole(WindowsBuiltInRole.Administrator);
         }
 
-        private static async Task ParseArgumentsAsync(Dictionary<string, object> message, string arguments)
+        private static async Task ParseArgumentsAsync(Dictionary<string, JsonElement> message, string arguments)
         {
             switch (arguments)
             {
@@ -196,18 +192,18 @@ namespace Files.FullTrust
                                 elevatedProcess.StartInfo.Arguments = "elevate";
                                 elevatedProcess.Start();
                             }
-                            await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", 0 } }, message.Get("RequestID", (string)null));
+                            await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", 0 } }, message.Get("RequestID", defaultJson).GetString());
                             appServiceExit?.Set();
                         }
                         catch (Win32Exception)
                         {
                             // If user cancels UAC
-                            await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", 1 } }, message.Get("RequestID", (string)null));
+                            await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", 1 } }, message.Get("RequestID", defaultJson).GetString());
                         }
                     }
                     else
                     {
-                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", -1 } }, message.Get("RequestID", (string)null));
+                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", -1 } }, message.Get("RequestID", defaultJson).GetString());
                     }
                     break;
 
@@ -228,46 +224,27 @@ namespace Files.FullTrust
             {
                 localSettings.Values.Remove("Arguments");
 
-                if (arguments == "StartUwp")
+                if (arguments == "TerminateUwp")
                 {
-                    var folder = localSettings.Values.Get("Folder", "");
-                    localSettings.Values.Remove("Folder");
-
-                    using Process process = new Process();
-                    process.StartInfo.UseShellExecute = true;
-                    process.StartInfo.FileName = "files.exe";
-                    process.StartInfo.Arguments = folder;
-                    process.Start();
-
-                    TerminateProcess((int)localSettings.Values["pid"]);
-                    return true;
-                }
-                else if (arguments == "TerminateUwp")
-                {
-                    TerminateProcess((int)localSettings.Values["pid"]);
-                    return true;
+                    // Return false and don't exit if PID process is not running
+                    // Argument may refer to unrelated session (#9580)
+                    return TerminateProcess((int)localSettings.Values["pid"]);
                 }
                 else if (arguments == "ShellCommand")
                 {
-                    TerminateProcess((int)localSettings.Values["pid"]);
-
                     Win32API.OpenFolderInExistingShellWindow((string)localSettings.Values["ShellCommand"]);
 
-                    return true;
+                    return TerminateProcess((int)localSettings.Values["pid"]);
                 }
             }
 
             return false;
         }
 
-        private static void TerminateProcess(int processId)
+        private static bool TerminateProcess(int processId)
         {
             // Kill the process. This is a BRUTAL WAY to kill a process.
-#if DEBUG
-            // In debug mode this kills this process too??
-#else
-            Process.GetProcessById(processId).Kill();
-#endif
+            return SafetyExtensions.IgnoreExceptions(() => Process.GetProcessById(processId).Kill());
         }
     }
 }
