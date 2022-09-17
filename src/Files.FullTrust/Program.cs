@@ -49,7 +49,6 @@ namespace Files.FullTrust
                     new LibrariesHandler(),
                     new FileTagsHandler(),
                     new NetworkDrivesHandler(),
-                    new FileOperationsHandler(),
                     new QuickLookHandler(),
                     new RecentItemsHandler(),
                 };
@@ -70,9 +69,6 @@ namespace Files.FullTrust
 
                 // Wait until the connection gets closed
                 appServiceExit.WaitOne();
-
-                // Wait for ongoing file operations
-                messageHandlers.OfType<FileOperationsHandler>().Single().WaitForCompletion();
             }
             finally
             {

@@ -29,14 +29,14 @@ namespace Files.App.Filesystem.Permissions
             GrantedPermissions = GetGrantedPermissions();
         }
 
-        public FileSystemAccessRuleForUI(FileSystemAccessRule accessRule, bool isFolder) : this(isFolder)
+        public FileSystemAccessRuleForUI(FileSystemAccessRule2 accessRule, bool isFolder) : this(isFolder)
         {
-            AccessControlType = accessRule.AccessControlType;
-            FileSystemRights = accessRule.FileSystemRights;
+            AccessControlType = (AccessControlType)accessRule.AccessControlType;
+            FileSystemRights = (FileSystemRights)accessRule.FileSystemRights;
             IdentityReference = accessRule.IdentityReference;
             IsInherited = accessRule.IsInherited;
-            InheritanceFlags = accessRule.InheritanceFlags;
-            PropagationFlags = accessRule.PropagationFlags;
+            InheritanceFlags = (InheritanceFlags)accessRule.InheritanceFlags;
+            PropagationFlags = (PropagationFlags)accessRule.PropagationFlags;
         }
 
         public RelayCommand<string> ChangeAccessControlTypeCommand { get; set; }
