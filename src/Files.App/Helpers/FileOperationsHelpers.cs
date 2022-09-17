@@ -239,9 +239,10 @@ namespace Files.App.Helpers
             });
         }
 
-        public static Task<(bool, ShellOperationResult)> DeleteItemAsync(string filePath, bool permanently, string operationID, long ownerHwnd)
+        public static Task<(bool, ShellOperationResult)> DeleteItemAsync(string filePath, bool permanently, long ownerHwnd)
         {
             var fileToDeletePath = filePath.Split('|');
+            var operationID = Guid.NewGuid().ToString();
 
             return Win32API.StartSTATask(async () =>
             {
@@ -322,8 +323,10 @@ namespace Files.App.Helpers
             });
         }
 
-        public static Task<(bool, ShellOperationResult)> RenameItemAsync(string fileToRenamePath, string newName, string operationID, bool overwriteOnRename)
+        public static Task<(bool, ShellOperationResult)> RenameItemAsync(string fileToRenamePath, string newName, bool overwriteOnRename)
         {
+            var operationID = Guid.NewGuid().ToString();
+
             return Win32API.StartSTATask(async () =>
             {
                 using var op = new ShellFileOperations();
@@ -379,10 +382,11 @@ namespace Files.App.Helpers
             });
         }
 
-        public static Task<(bool, ShellOperationResult)> MoveItemAsync(string filePath, string destPath, string operationID, bool overwriteOnMove, long ownerHwnd)
+        public static Task<(bool, ShellOperationResult)> MoveItemAsync(string filePath, string destPath, bool overwriteOnMove, long ownerHwnd)
         {
             var fileToMovePath = filePath.Split('|');
             var moveDestination = destPath.Split('|');
+            var operationID = Guid.NewGuid().ToString();
 
             return Win32API.StartSTATask(async () =>
             {
@@ -455,10 +459,11 @@ namespace Files.App.Helpers
             });
         }
 
-        public static Task<(bool, ShellOperationResult)> CopyItemAsync(string filePath, string destPath, string operationID, bool overwriteOnCopy, long ownerHwnd)
+        public static Task<(bool, ShellOperationResult)> CopyItemAsync(string filePath, string destPath, bool overwriteOnCopy, long ownerHwnd)
         {
             var fileToCopyPath = filePath.Split('|');
             var copyDestination = destPath.Split('|');
+            var operationID = Guid.NewGuid().ToString();
 
             return Win32API.StartSTATask(async () =>
             {
@@ -759,18 +764,16 @@ namespace Files.App.Helpers
                         {
                             var tag = dbInstance.GetTags(sourcePath);
 
-                            // TODO: remove file tags handler
-                            dbInstance.SetTags(destination, FileTagsHandler.GetFileFRN(destination), tag); // copy tag to new files
+                            dbInstance.SetTags(destination, FileTagsHelpers.GetFileFRN(destination), tag); // copy tag to new files
                             using var si = new ShellItem(destination);
                             if (si.IsFolder) // File tag is not copied automatically for folders
                             {
-                                FileTagsHandler.WriteFileTag(destination, tag);
+                                FileTagsHelpers.WriteFileTag(destination, tag);
                             }
                         }
                         else
                         {
-                            // TODO: remove file tags handler
-                            dbInstance.UpdateTag(sourcePath, FileTagsHandler.GetFileFRN(destination), destination); // move tag to new files
+                            dbInstance.UpdateTag(sourcePath, FileTagsHelpers.GetFileFRN(destination), destination); // move tag to new files
                         }
                     }, App.Logger);
                 }
@@ -790,7 +793,7 @@ namespace Files.App.Helpers
                                 SafetyExtensions.IgnoreExceptions(() =>
                                 {
                                     var subPath = t.FilePath.Replace(sourcePath, destination, StringComparison.Ordinal);
-                                    dbInstance.SetTags(subPath, FileTagsHandler.GetFileFRN(subPath), t.Tags);
+                                    dbInstance.SetTags(subPath, FileTagsHelpers.GetFileFRN(subPath), t.Tags);
                                 }, App.Logger);
                             });
                         }
@@ -801,7 +804,7 @@ namespace Files.App.Helpers
                                 SafetyExtensions.IgnoreExceptions(() =>
                                 {
                                     var subPath = t.FilePath.Replace(sourcePath, destination, StringComparison.Ordinal);
-                                    dbInstance.UpdateTag(t.FilePath, FileTagsHandler.GetFileFRN(subPath), subPath);
+                                    dbInstance.UpdateTag(t.FilePath, FileTagsHelpers.GetFileFRN(subPath), subPath);
                                 }, App.Logger);
                             });
                         }
