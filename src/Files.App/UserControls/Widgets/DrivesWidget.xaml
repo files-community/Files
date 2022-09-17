@@ -196,13 +196,14 @@
 								TextWrapping="NoWrap" />
 
 							<ProgressBar
+								x:Name="DriveSpaceProgressBar"
 								Grid.Row="1"
 								Grid.Column="1"
 								VerticalAlignment="Stretch"
 								VerticalContentAlignment="Stretch"
+								x:Load="{x:Bind Item.ShowDriveDetails, Mode=OneWay}"
 								AutomationProperties.AccessibilityView="Raw"
 								Maximum="{x:Bind Item.MaxSpace.GigaBytes, Mode=OneWay}"
-								Visibility="{x:Bind Item.ShowDriveDetails, Mode=OneWay}"
 								Value="{x:Bind Item.SpaceUsed.GigaBytes, Mode=OneWay}" />
 
 							<Button
@@ -230,17 +231,18 @@
 							</Button>
 
 							<TextBlock
+								x:Name="DriveSpaceTextBlock"
 								Grid.Row="2"
 								Grid.Column="1"
 								HorizontalAlignment="Stretch"
 								VerticalAlignment="Center"
+								x:Load="{x:Bind Item.ShowDriveDetails, Mode=OneWay}"
 								x:Phase="1"
 								FontSize="12"
 								Text="{x:Bind Item.SpaceText, Mode=OneWay}"
 								TextTrimming="CharacterEllipsis"
 								TextWrapping="NoWrap"
-								ToolTipService.ToolTip="{x:Bind Item.SpaceText, Mode=OneWay}"
-								Visibility="{x:Bind Item.ShowDriveDetails, Mode=OneWay}" />
+								ToolTipService.ToolTip="{x:Bind Item.SpaceText, Mode=OneWay}" />
 						</Grid>
 					</Button>
 				</DataTemplate>

@@ -159,7 +159,7 @@
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>Item Name</value>
   </data>
-  <data name="PropertiesItemPath.Text" xml:space="preserve">
+  <data name="Path" xml:space="preserve">
     <value>Path:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
@@ -2842,5 +2842,8 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   </data>
   <data name="CompressionInProgressText" xml:space="preserve">
     <value>Compressing archive</value>
+  </data>
+  <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
+    <value>Select files and folders when hovering over them</value>
   </data>
 </root>

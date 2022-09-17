@@ -39,7 +39,7 @@
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>ଆଇଟମ୍ ନାମ</value>
   </data>
-  <data name="PropertiesItemPath.Text" xml:space="preserve">
+  <data name="Path" xml:space="preserve">
     <value>ପଥ:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">

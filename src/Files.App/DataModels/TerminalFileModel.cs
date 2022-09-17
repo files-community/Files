@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.Json.Serialization;
 
@@ -14,7 +15,7 @@ namespace Files.App.DataModels
         public string DefaultTerminalName { get; set; }
 
         [JsonPropertyName("terminals")]
-        public List<Terminal> Terminals { get; set; } = new List<Terminal>();
+        public ObservableCollection<Terminal> Terminals { get; set; } = new ObservableCollection<Terminal>();
 
         public Terminal GetDefaultTerminal()
         {
