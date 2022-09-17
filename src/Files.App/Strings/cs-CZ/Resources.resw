@@ -159,8 +159,8 @@
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>Název položky</value>
   </data>
-  <data name="PropertiesItemPath.Text" xml:space="preserve">
-    <value>Cesta:</value>
+  <data name="Path" xml:space="preserve">
+    <value>Path:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Velikost:</value>
@@ -2823,5 +2823,8 @@ Používáme centrum aplikací k sledování nastavení, které jsou používán
   </data>
   <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
     <value>Chování pro otevírání souborů a složek</value>
+  </data>
+  <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
+    <value>Select files and folders when hovering over them</value>
   </data>
 </root>
