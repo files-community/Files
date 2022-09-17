@@ -148,31 +148,12 @@ namespace Files.App.Helpers
             {
                 if (isShortcutItem)
                 {
-                    var connection = await AppServiceConnectionHelper.Instance;
-                    if (connection == null)
-                    {
-                        return false;
-                    }
-                    var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
-                    {
-                        { "Arguments", "FileOperation" },
-                        { "fileop", "ParseLink" },
-                        { "filepath", path }
-                    });
+                    var shInfo = await FileOperationsHelpers.ParseLinkAsync(path);
 
-                    if (status == AppServiceResponseStatus.Success && response.ContainsKey("ShortcutInfo"))
-                    {
-                        var shInfo = JsonSerializer.Deserialize<ShellLinkItem>(response["ShortcutInfo"].GetString());
-                        if (shInfo != null)
-                        {
-                            shortcutInfo = shInfo;
-                        }
-                        itemType = shInfo != null && shInfo.IsFolder ? FilesystemItemType.Directory : FilesystemItemType.File;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    if (shInfo != null)
+                        shortcutInfo = shInfo;
+
+                    itemType = shInfo != null && shInfo.IsFolder ? FilesystemItemType.Directory : FilesystemItemType.File;
                 }
                 else if (isReparsePoint)
                 {

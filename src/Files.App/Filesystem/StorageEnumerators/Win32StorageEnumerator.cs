@@ -309,34 +309,25 @@ namespace Files.App.Filesystem.StorageEnumerators
             {
                 if (connection != null)
                 {
-                    var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
-                    {
-                        { "Arguments", "FileOperation" },
-                        { "fileop", "ParseLink" },
-                        { "filepath", itemPath }
-                    });
+                    var response = await FileOperationsHelpers.ParseLinkAsync(itemPath);
+
                     // If the request was canceled return now
                     if (cancellationToken.IsCancellationRequested)
                     {
                         return null;
                     }
-                    if (status == AppServiceResponseStatus.Success && response.ContainsKey("ShortcutInfo"))
+                    if (response != null)
                     {
                         var isUrl = findData.cFileName.EndsWith(".url", StringComparison.OrdinalIgnoreCase);
-                        var shInfo = JsonSerializer.Deserialize<ShellLinkItem>(response["ShortcutInfo"].GetString());
-                        if (shInfo == null)
-                        {
-                            return null;
-                        }
                         return new ShortcutItem(null)
                         {
-                            PrimaryItemAttribute = shInfo.IsFolder ? StorageItemTypes.Folder : StorageItemTypes.File,
+                            PrimaryItemAttribute = response.IsFolder ? StorageItemTypes.Folder : StorageItemTypes.File,
                             FileExtension = itemFileExtension,
                             IsHiddenItem = isHidden,
                             Opacity = opacity,
                             FileImage = null,
-                            LoadFileIcon = !shInfo.IsFolder && itemThumbnailImgVis,
-                            LoadWebShortcutGlyph = !shInfo.IsFolder && isUrl && itemEmptyImgVis,
+                            LoadFileIcon = !response.IsFolder && itemThumbnailImgVis,
+                            LoadWebShortcutGlyph = !response.IsFolder && isUrl && itemEmptyImgVis,
                             ItemNameRaw = itemName,
                             ItemDateModifiedReal = itemModifiedDate,
                             ItemDateAccessedReal = itemLastAccessDate,
@@ -345,10 +336,10 @@ namespace Files.App.Filesystem.StorageEnumerators
                             ItemPath = itemPath,
                             FileSize = itemSize,
                             FileSizeBytes = itemSizeBytes,
-                            TargetPath = shInfo.TargetPath,
-                            Arguments = shInfo.Arguments,
-                            WorkingDirectory = shInfo.WorkingDirectory,
-                            RunAsAdmin = shInfo.RunAsAdmin,
+                            TargetPath = response.TargetPath,
+                            Arguments = response.Arguments,
+                            WorkingDirectory = response.WorkingDirectory,
+                            RunAsAdmin = response.RunAsAdmin,
                             IsUrl = isUrl,
                         };
                     }

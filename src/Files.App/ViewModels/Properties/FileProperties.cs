@@ -345,21 +345,7 @@ namespace Files.App.ViewModels.Properties
                     if (string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath))
                         return;
 
-                    var connection = await AppServiceConnectionHelper.Instance;
-                    if (connection != null)
-                    {
-                        var value = new ValueSet()
-                        {
-                            { "Arguments", "FileOperation" },
-                            { "fileop", "UpdateLink" },
-                            { "filepath", Item.ItemPath },
-                            { "targetpath", ViewModel.ShortcutItemPath },
-                            { "arguments", ViewModel.ShortcutItemArguments },
-                            { "workingdir", ViewModel.ShortcutItemWorkingDir },
-                            { "runasadmin", tmpItem.RunAsAdmin },
-                        };
-                        await connection.SendMessageAsync(value);
-                    }
+                    await FileOperationsHelpers.CreateOrUpdateLinkAsync(Item.ItemPath, ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, ViewModel.ShortcutItemWorkingDir, tmpItem.RunAsAdmin);
                     break;
             }
         }

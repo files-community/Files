@@ -101,18 +101,11 @@ namespace Files.App.Helpers
                         if (connection != null)
                         {
                             string filePaths = string.Join('|', associatedInstance.SlimContentPage.SelectedItems.Select(x => x.ItemPath));
-                            AppServiceResponseStatus status = await connection.SendMessageAsync(new ValueSet()
-                            {
-                                { "Arguments", "FileOperation" },
-                                { "fileop", "Clipboard" },
-                                { "filepath", filePaths },
-                                { "operation", (int)DataPackageOperation.Move }
-                            });
-                            if (status == AppServiceResponseStatus.Success)
-                            {
-                                banner?.Remove();
-                                return;
-                            }
+                            
+                            await FileOperationsHelpers.SetClipboard(filePaths, DataPackageOperation.Move);
+
+                            banner?.Remove();
+                            return;
                         }
                     }
                     associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
@@ -207,18 +200,11 @@ namespace Files.App.Helpers
                         if (connection != null)
                         {
                             string filePaths = string.Join('|', associatedInstance.SlimContentPage.SelectedItems.Select(x => x.ItemPath));
-                            AppServiceResponseStatus status = await connection.SendMessageAsync(new ValueSet()
-                            {
-                                { "Arguments", "FileOperation" },
-                                { "fileop", "Clipboard" },
-                                { "filepath", filePaths },
-                                { "operation", (int)DataPackageOperation.Copy }
-                            });
-                            if (status == AppServiceResponseStatus.Success)
-                            {
-                                banner?.Remove();
-                                return;
-                            }
+                            
+                            await FileOperationsHelpers.SetClipboard(filePaths, DataPackageOperation.Copy);
+
+                            banner?.Remove();
+                            return;
                         }
                     }
                     banner?.Remove();

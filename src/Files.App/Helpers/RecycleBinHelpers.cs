@@ -91,24 +91,11 @@ namespace Files.App.Helpers
         public async Task<bool> HasRecycleBin(string path)
         {
             if (string.IsNullOrEmpty(path) || path.StartsWith(@"\\?\", StringComparison.Ordinal))
-            {
                 return false;
-            }
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
-            {
-                var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
-                {
-                    { "Arguments", "FileOperation" },
-                    { "fileop", "TestRecycle" },
-                    { "filepath", path }
-                });
-                var result = status == AppServiceResponseStatus.Success && response.Get("Success", defaultJson).GetBoolean();
-                var shellOpResult = JsonSerializer.Deserialize<ShellOperationResult>(response.Get("Result", defaultJson).GetString());
-                result &= shellOpResult != null && shellOpResult.Items.All(x => x.Succeeded);
-                return result;
-            }
-            return false;
+
+            var result = await FileOperationsHelpers.TestRecycleAsync(path);
+
+            return result.Item1 &= result.Item2 != null && result.Item2.Items.All(x => x.Succeeded);
         }
 
         public bool RecycleBinHasItems()

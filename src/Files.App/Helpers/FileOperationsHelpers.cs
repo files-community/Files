@@ -239,10 +239,10 @@ namespace Files.App.Helpers
             });
         }
 
-        public static Task<(bool, ShellOperationResult)> DeleteItemAsync(string filePath, bool permanently, long ownerHwnd)
+        public static Task<(bool, ShellOperationResult)> DeleteItemAsync(string filePath, bool permanently, long ownerHwnd, string operationID = "")
         {
             var fileToDeletePath = filePath.Split('|');
-            var operationID = Guid.NewGuid().ToString();
+            operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
             return Win32API.StartSTATask(async () =>
             {
@@ -323,9 +323,9 @@ namespace Files.App.Helpers
             });
         }
 
-        public static Task<(bool, ShellOperationResult)> RenameItemAsync(string fileToRenamePath, string newName, bool overwriteOnRename)
+        public static Task<(bool, ShellOperationResult)> RenameItemAsync(string fileToRenamePath, string newName, bool overwriteOnRename, string operationID = "")
         {
-            var operationID = Guid.NewGuid().ToString();
+            operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
             return Win32API.StartSTATask(async () =>
             {
@@ -382,11 +382,11 @@ namespace Files.App.Helpers
             });
         }
 
-        public static Task<(bool, ShellOperationResult)> MoveItemAsync(string filePath, string destPath, bool overwriteOnMove, long ownerHwnd)
+        public static Task<(bool, ShellOperationResult)> MoveItemAsync(string filePath, string destPath, bool overwriteOnMove, long ownerHwnd, string operationID = "")
         {
             var fileToMovePath = filePath.Split('|');
             var moveDestination = destPath.Split('|');
-            var operationID = Guid.NewGuid().ToString();
+            operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
             return Win32API.StartSTATask(async () =>
             {
@@ -459,11 +459,11 @@ namespace Files.App.Helpers
             });
         }
 
-        public static Task<(bool, ShellOperationResult)> CopyItemAsync(string filePath, string destPath, bool overwriteOnCopy, long ownerHwnd)
+        public static Task<(bool, ShellOperationResult)> CopyItemAsync(string filePath, string destPath, bool overwriteOnCopy, long ownerHwnd, string operationID = "")
         {
             var fileToCopyPath = filePath.Split('|');
             var copyDestination = destPath.Split('|');
-            var operationID = Guid.NewGuid().ToString();
+            operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
             return Win32API.StartSTATask(async () =>
             {

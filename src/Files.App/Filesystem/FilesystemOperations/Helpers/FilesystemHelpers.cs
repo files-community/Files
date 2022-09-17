@@ -393,18 +393,7 @@ namespace Files.App.Filesystem
             var source = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(packageView);
 
             if (handledByFtp)
-            {
-                var connection = await ServiceConnection;
-                if (connection != null)
-                {
-                    var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet() {
-                        { "Arguments", "FileOperation" },
-                        { "fileop", "DragDrop" },
-                        { "droppath", associatedInstance.FilesystemViewModel.WorkingDirectory } });
-                    return (status == AppServiceResponseStatus.Success && response.Get("Success", defaultJson).GetBoolean()) ? ReturnResult.Success : ReturnResult.Failed;
-                }
-                return ReturnResult.Failed;
-            }
+                return await FileOperationsHelpers.DragDropAsync(associatedInstance.FilesystemViewModel.WorkingDirectory) ? ReturnResult.Success : ReturnResult.Failed;
 
             if (!source.IsEmpty())
             {

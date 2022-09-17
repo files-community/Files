@@ -130,7 +130,7 @@ namespace Files.App.Views
         {
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
-                if (await ViewModel.SetFilePermissions())
+                if (ViewModel.SetFilePermissions())
                 {
                     appWindow.Destroy();
                 }
