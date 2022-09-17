@@ -159,8 +159,8 @@
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>ნივთის სახელი</value>
   </data>
-  <data name="PropertiesItemPath.Text" xml:space="preserve">
-    <value>გზა:</value>
+  <data name="Path" xml:space="preserve">
+    <value>Path:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>ზომა:</value>
@@ -2828,5 +2828,8 @@
   </data>
   <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
     <value>Behavior for opening files and folders</value>
+  </data>
+  <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
+    <value>Select files and folders when hovering over them</value>
   </data>
 </root>
