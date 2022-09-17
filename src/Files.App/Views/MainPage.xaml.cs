@@ -2,10 +2,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.UI.Controls;
-using Files.Backend.Extensions;
-using Files.Backend.Services.Settings;
-using Files.Shared.Enums;
-using Files.Shared.EventArguments;
+using Files.App.DataModels;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
 using Files.App.Filesystem;
@@ -13,6 +10,10 @@ using Files.App.Helpers;
 using Files.App.UserControls;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.ViewModels;
+using Files.Backend.Extensions;
+using Files.Backend.Services.Settings;
+using Files.Shared.Enums;
+using Files.Shared.EventArguments;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -22,14 +23,11 @@ using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using System.Windows.Input;
 using Windows.ApplicationModel;
-using Windows.ApplicationModel.Core;
 using Windows.Graphics;
 using Windows.Services.Store;
 using Windows.Storage;
-using Files.App.DataModels;
 
 namespace Files.App.Views
 {
@@ -63,17 +61,11 @@ namespace Files.App.Views
 		{
 			InitializeComponent();
 
-			var flowDirectionSetting = /*
-				TODO ResourceContext.GetForCurrentView and ResourceContext.GetForViewIndependentUse do not exist in Windows App SDK
-				Use your ResourceManager instance to create a ResourceContext as below. If you already have a ResourceManager instance,
-				replace the new instance created below with correct instance.
-				Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/mrtcore
-			*/new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
-
+			// TODO LayoutDirection is empty, might be an issue with WinAppSdk
+			var flowDirectionSetting = new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"]; 
 			if (flowDirectionSetting == "RTL")
-			{
 				FlowDirection = FlowDirection.RightToLeft;
-			}
+
 			AllowDrop = true;
 
 			ToggleFullScreenAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(ToggleFullScreenAccelerator);
@@ -87,15 +79,16 @@ namespace Files.App.Views
 			}
 
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
-      
-      LoadSelectedTheme();
+
+			LoadSelectedTheme();
 		}
 
-    private async void LoadSelectedTheme()
+		private async void LoadSelectedTheme()
 		{
+			App.ExternalResourcesHelper.OverrideAppResources(UserSettingsService.AppearanceSettingsService.UseCompactStyles);
 			await App.ExternalResourcesHelper.LoadSelectedTheme();
 		}
-    
+
 		private async void PromptForReview()
 		{
 			var AskForReviewDialog = new ContentDialog
@@ -186,16 +179,16 @@ namespace Files.App.Views
 
 		public void TabItemContent_ContentChanged(object sender, TabItemArguments e)
 		{
-			if (SidebarAdaptiveViewModel.PaneHolder != null)
-			{
-				var paneArgs = e.NavigationArg as PaneNavigationArguments;
-				SidebarAdaptiveViewModel.UpdateSidebarSelectedItemFromArgs(SidebarAdaptiveViewModel.PaneHolder.IsLeftPaneActive ?
-					paneArgs.LeftPaneNavPathParam : paneArgs.RightPaneNavPathParam);
-				UpdateStatusBarProperties();
-				LoadPaneChanged();
-				UpdateNavToolbarProperties();
-				ViewModel.UpdateInstanceProperties(paneArgs);
-			}
+			if (SidebarAdaptiveViewModel.PaneHolder == null)
+				return;
+
+			var paneArgs = e.NavigationArg as PaneNavigationArguments;
+			SidebarAdaptiveViewModel.UpdateSidebarSelectedItemFromArgs(SidebarAdaptiveViewModel.PaneHolder.IsLeftPaneActive ?
+				paneArgs.LeftPaneNavPathParam : paneArgs.RightPaneNavPathParam);
+			UpdateStatusBarProperties();
+			LoadPaneChanged();
+			UpdateNavToolbarProperties();
+			ViewModel.UpdateInstanceProperties(paneArgs);
 		}
 
 		public void MultitaskingControl_CurrentInstanceChanged(object sender, CurrentInstanceChangedEventArgs e)
@@ -204,6 +197,7 @@ namespace Files.App.Views
 			{
 				SidebarAdaptiveViewModel.PaneHolder.PropertyChanged -= PaneHolder_PropertyChanged;
 			}
+
 			var navArgs = e.CurrentInstance.TabItemArguments?.NavigationArg;
 			SidebarAdaptiveViewModel.PaneHolder = e.CurrentInstance as IPaneHolder;
 			SidebarAdaptiveViewModel.PaneHolder.PropertyChanged += PaneHolder_PropertyChanged;
@@ -354,18 +348,6 @@ namespace Files.App.Views
 			if (SidebarAdaptiveViewModel.PaneHolder?.ActivePane is IShellPage shellPage)
 			{
 				shellPage.NavigateToPath(navigationPath, sourcePageType);
-			}
-		}
-
-		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
-		{
-			base.OnNavigatingFrom(e);
-			if (SidebarControl != null)
-			{
-				SidebarControl.SidebarItemInvoked -= SidebarControl_SidebarItemInvoked;
-				SidebarControl.SidebarItemPropertiesInvoked -= SidebarControl_SidebarItemPropertiesInvoked;
-				SidebarControl.SidebarItemDropped -= SidebarControl_SidebarItemDropped;
-				SidebarControl.SidebarItemNewPaneInvoked -= SidebarControl_SidebarItemNewPaneInvoked;
 			}
 		}
 
@@ -537,29 +519,14 @@ namespace Files.App.Views
 
 			if (!isCompact)
 			{
-				IsCompactOverlay = true;
+				ViewModel.IsWindowCompactOverlay = true;
 				view.SetPresenter(AppWindowPresenterKind.Overlapped);
 			}
 			else
 			{
-				IsCompactOverlay = false;
+				ViewModel.IsWindowCompactOverlay = false;
 				view.SetPresenter(AppWindowPresenterKind.CompactOverlay);
 				view.Resize(new SizeInt32(400, 350));
-			}
-		}
-
-		private bool isCompactOverlay;
-
-		public bool IsCompactOverlay
-		{
-			get => isCompactOverlay;
-			set
-			{
-				if (value != isCompactOverlay)
-				{
-					isCompactOverlay = value;
-					OnPropertyChanged(nameof(IsCompactOverlay));
-				}
 			}
 		}
 

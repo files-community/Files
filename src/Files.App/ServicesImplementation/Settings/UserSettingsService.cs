@@ -55,6 +55,12 @@ namespace Files.App.ServicesImplementation.Settings
             get => GetSettingsService(ref _ApplicationSettingsService);
         }
 
+        private IAppSettingsService _AppSettingsService;
+        public IAppSettingsService AppSettingsService
+		{
+            get => GetSettingsService(ref _AppSettingsService);
+        }
+
         public UserSettingsService()
         {
             SettingsSerializer = new DefaultSettingsSerializer();

@@ -159,7 +159,7 @@
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>Nombre del elemento</value>
   </data>
-  <data name="PropertiesItemPath.Text" xml:space="preserve">
+  <data name="Path" xml:space="preserve">
     <value>Ruta:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">

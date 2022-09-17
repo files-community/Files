@@ -26,15 +26,15 @@ namespace Files.App.UserControls.MultitaskingControl
             set => SetProperty(ref description, value);
         }
 
-        private string hoverDisplayText;
+        private string toolTipText;
 
         /// <summary>
         /// The text that should be displayed in the tooltip when hovering the tab item.
         /// </summary>
-        public string HoverDisplayText
+        public string ToolTipText
         {
-            get => hoverDisplayText;
-            set => SetProperty(ref hoverDisplayText, value);
+            get => toolTipText;
+            set => SetProperty(ref toolTipText, value);
         }
 
         private IconSource iconSource;

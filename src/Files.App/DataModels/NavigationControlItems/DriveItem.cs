@@ -1,16 +1,16 @@
 using ByteSizeLib;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.WinUI;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.WinUI;
+using Files.Shared.Extensions;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Media.Imaging;
-using Files.Shared.Extensions;
 
 namespace Files.App.DataModels.NavigationControlItems
 {
@@ -34,11 +34,10 @@ namespace Files.App.DataModels.NavigationControlItems
             set
             {
                 path = value;
-                HoverDisplayText = Path.Contains("?", StringComparison.Ordinal) ? Text : Path;
             }
         }
 
-        public string HoverDisplayText { get; private set; }
+        public string ToolTipText { get; private set; }
         public string DeviceID { get; set; }
         public StorageFolder Root { get; set; }
         public NavigationControlItemType ItemType { get; set; } = NavigationControlItemType.Drive;
@@ -62,18 +61,25 @@ namespace Files.App.DataModels.NavigationControlItems
         public ByteSize FreeSpace
         {
             get => freeSpace;
-            set => SetProperty(ref freeSpace, value);
+            set
+            {
+                SetProperty(ref freeSpace, value);
+                ToolTipText = GetSizeString();
+            }
         }
 
         public ByteSize SpaceUsed
         {
             get => spaceUsed;
-            set => SetProperty(ref spaceUsed, value);
+            set
+            {
+                SetProperty(ref spaceUsed, value);
+            }
         }
 
-        public Visibility ShowDriveDetails
+        public bool ShowDriveDetails
         {
-            get => MaxSpace.Bytes > 0d ? Visibility.Visible : Visibility.Collapsed;
+            get => MaxSpace.Bytes > 0d ? true : false;
         }
 
         private DriveType type;
@@ -119,13 +125,9 @@ namespace Files.App.DataModels.NavigationControlItems
                     if (Type == DriveType.Fixed)
                     {
                         if (percentageUsed >= Constants.Widgets.Drives.LowStorageSpacePercentageThreshold)
-                        {
                             ShowStorageSense = true;
-                        }
                         else
-                        {
                             ShowStorageSense = false;
-                        }
                     }
                 }
             }
@@ -149,9 +151,7 @@ namespace Files.App.DataModels.NavigationControlItems
             var item = new DriveItem();
 
             if (imageStream != null)
-            {
                 item.IconData = await imageStream.ToByteArrayAsync();
-            }
 
             item.Text = root.DisplayName;
             item.Type = type;
@@ -197,15 +197,10 @@ namespace Files.App.DataModels.NavigationControlItems
                     FreeSpace = ByteSize.FromBytes((ulong)properties["System.FreeSpace"]);
                     SpaceUsed = MaxSpace - FreeSpace;
 
-                    SpaceText = string.Format(
-                        "DriveFreeSpaceAndCapacity".GetLocalizedResource(),
-                        FreeSpace.ToSizeString(),
-                        MaxSpace.ToSizeString());
+                    SpaceText = GetSizeString();
 
                     if (FreeSpace.Bytes > 0 && MaxSpace.Bytes > 0) // Make sure we don't divide by 0
-                    {
                         PercentageUsed = 100.0f - ((float)(FreeSpace.Bytes / MaxSpace.Bytes) * 100.0f);
-                    }
                 }
                 else
                 {
@@ -224,9 +219,8 @@ namespace Files.App.DataModels.NavigationControlItems
         {
             var result = Type.CompareTo((other as DriveItem)?.Type ?? Type);
             if (result == 0)
-            {
                 return Text.CompareTo(other.Text);
-            }
+
             return result;
         }
 
@@ -235,9 +229,8 @@ namespace Files.App.DataModels.NavigationControlItems
             if (IconData == null)
             {
                 if (!string.IsNullOrEmpty(DeviceID))
-                {
-                    IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, 24, true);
-                }
+                    IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, 24);
+
                 if (IconData == null)
                 {
                     var resource = UIHelpers.GetIconResourceInfo(Constants.ImageRes.Folder);
@@ -245,6 +238,14 @@ namespace Files.App.DataModels.NavigationControlItems
                 }
             }
             Icon = await IconData.ToBitmapAsync();
+        }
+
+        private string GetSizeString()
+        {
+            return string.Format(
+                "DriveFreeSpaceAndCapacity".GetLocalizedResource(),
+                FreeSpace.ToSizeString(),
+                MaxSpace.ToSizeString());
         }
     }
 

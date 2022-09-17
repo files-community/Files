@@ -45,10 +45,10 @@ namespace Files.FullTrust
                 messageHandlers = new List<IMessageHandler>
                 {
                     new RecycleBinHandler(),
-                    new DriveHandler(),
                     new LibrariesHandler(),
                     new NetworkDrivesHandler(),
                     new QuickLookHandler(),
+                    new FileOperationsHandler(),
                     new RecentItemsHandler(),
                 };
 
