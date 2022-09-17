@@ -309,7 +309,7 @@ namespace Files.App.Filesystem.StorageEnumerators
             {
                 if (connection != null)
                 {
-                    var response = await FileOperationsHelpers.ParseLinkAsync(itemPath);
+                    var (_, response) = await FileOperationsHelpers.ParseLinkAsync(itemPath);
 
                     // If the request was canceled return now
                     if (cancellationToken.IsCancellationRequested)

@@ -565,24 +565,23 @@ namespace Files.App.Helpers
             }
         }
 
-        public static Task<ShellLinkItem> ParseLinkAsync(string linkPath)
+        public static Task<(string, ShellLinkItem)> ParseLinkAsync(string linkPath)
         {
             try
             {
                 if (linkPath.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase))
                 {
                     using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, null, TimeSpan.FromMilliseconds(100));
-                    return Task.FromResult(ShellFolderExtensions.GetShellLinkItem(link));
+                    return Task.FromResult((string.Empty, ShellFolderExtensions.GetShellLinkItem(link)));
                 }
                 else if (linkPath.EndsWith(".url", StringComparison.OrdinalIgnoreCase))
                 {
-                    // Do I change the return type to string or try to convert this to a ShellLinkItem?
                     return Win32API.StartSTATask(() =>
                     {
                         var ipf = new Url.IUniformResourceLocator();
                         (ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Load(linkPath, 0);
                         ipf.GetUrl(out var retVal);
-                        return retVal;
+                        return Task.FromResult<(string, ShellLinkItem)>((retVal, null));
                     });
                 }
             }
@@ -592,7 +591,7 @@ namespace Files.App.Helpers
                 App.Logger.Warn(ex, ex.Message);
             }
 
-            return Task.FromResult(new ShellLinkItem());
+            return Task.FromResult((string.Empty, new ShellLinkItem()));
         }
 
         public static Task<bool> CreateOrUpdateLinkAsync(string linkSavePath, string targetPath, string arguments = "", string workingDirectory = "", bool runAsAdmin = false)

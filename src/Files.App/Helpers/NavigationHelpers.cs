@@ -148,7 +148,7 @@ namespace Files.App.Helpers
             {
                 if (isShortcutItem)
                 {
-                    var shInfo = await FileOperationsHelpers.ParseLinkAsync(path);
+                    var (_, shInfo) = await FileOperationsHelpers.ParseLinkAsync(path);
 
                     if (shInfo != null)
                         shortcutInfo = shInfo;
