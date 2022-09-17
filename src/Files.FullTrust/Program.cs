@@ -47,8 +47,6 @@ namespace Files.FullTrust
                     new RecycleBinHandler(),
                     new LibrariesHandler(),
                     new NetworkDrivesHandler(),
-                    new QuickLookHandler(),
-                    new FileOperationsHandler(),
                     new RecentItemsHandler(),
                 };
 
