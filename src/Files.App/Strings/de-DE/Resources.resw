@@ -2831,6 +2831,6 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
     <value>Verhalten beim Öffnen von Dateien und Ordnern</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
-    <value>Select files and folders when hovering over them</value>
+    <value>Dateien und Ordner beim Überfahren auswählen</value>
   </data>
 </root>
