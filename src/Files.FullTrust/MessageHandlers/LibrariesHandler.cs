@@ -48,7 +48,7 @@ namespace Files.FullTrust.MessageHandlers
             librariesWatcher.EnableRaisingEvents = true;
         }
 
-        public Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments)
+        public Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, JsonElement> message, string arguments)
             => arguments switch
             {
                 "ShellLibrary" => HandleShellLibraryMessage(message),

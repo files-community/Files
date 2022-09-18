@@ -35,7 +35,7 @@ namespace Files.FullTrust.MessageHandlers
             progressHandler = new ProgressHandler(connection);
         }
 
-        public Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments)
+        public Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, JsonElement> message, string arguments)
             => arguments switch
             {
                 "FileOperation" => ParseFileOperationAsync(connection, message),
