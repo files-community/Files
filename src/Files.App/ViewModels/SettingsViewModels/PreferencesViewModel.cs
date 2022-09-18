@@ -644,31 +644,31 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-        public bool SelectFilesOnHover
-        {
-            get => UserSettingsService.PreferencesSettingsService.SelectFilesOnHover;
-            set
-            {
-                if (value != UserSettingsService.PreferencesSettingsService.SelectFilesOnHover)
-                {
-                    UserSettingsService.PreferencesSettingsService.SelectFilesOnHover = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
+		public bool SelectFilesOnHover
+		{
+			get => UserSettingsService.PreferencesSettingsService.SelectFilesOnHover;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.SelectFilesOnHover)
+				{
+					UserSettingsService.PreferencesSettingsService.SelectFilesOnHover = value;
+					OnPropertyChanged();
+				}
+			}
+		}
 
-        public bool OpenFilesWithOneClick
-        {
-            get => UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick;
-            set
-            {
-                if (value != UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick)
-                {
-                    UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
+		public bool OpenFilesWithOneClick
+		{
+			get => UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick)
+				{
+					UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick = value;
+					OnPropertyChanged();
+				}
+			}
+		}
 
 		public bool OpenFoldersWithOneClick
 		{
