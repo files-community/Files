@@ -4,6 +4,6 @@ namespace Files.Shared.Services.DateTimeFormatter
 {
     public interface IDateTimeFormatterFactory
     {
-        IDateTimeFormatter GetDateTimeFormatter(TimeStyle timeStyle);
+        IDateTimeFormatter GetDateTimeFormatter(DateTimeFormats dateTimeFormat);
     }
 }

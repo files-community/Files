@@ -27,28 +27,6 @@ namespace Files.App.ViewModels.SettingsViewModels
             };
         }
 
-        /// <summary>
-        /// Forces the application to use the correct styles if compact mode is turned on
-        /// </summary>
-        public void SetCompactStyles(bool updateTheme)
-        {
-            if (UseCompactStyles)
-            {
-                Application.Current.Resources["ListItemHeight"] = 28;
-                Application.Current.Resources["NavigationViewItemOnLeftMinHeight"] = 24;
-            }
-            else
-            {
-                Application.Current.Resources["ListItemHeight"] = 36;
-                Application.Current.Resources["NavigationViewItemOnLeftMinHeight"] = 32;
-            }
-
-            if (updateTheme)
-            {
-                UpdateTheme();
-            }
-        }
-
         public List<string> Themes { get; set; }
         public List<AppTheme> CustomThemes => App.ExternalResourcesHelper.Themes;
 
@@ -100,7 +78,7 @@ namespace Files.App.ViewModels.SettingsViewModels
                             .ContinueWith(t =>
                             {
                                 App.AppSettings.SelectedTheme = selectedTheme;
-                                UpdateTheme(); // Force the application to use the correct resource file
+                                ForceReloadResourceFile(); // Force the application to use the correct resource file
                             }, TaskScheduler.FromCurrentSynchronizationContext());
                     }
                 }
@@ -110,7 +88,7 @@ namespace Files.App.ViewModels.SettingsViewModels
         /// <summary>
         /// Forces the application to use the correct resource styles
         /// </summary>
-        private void UpdateTheme()
+        private void ForceReloadResourceFile()
         {
             // Get the index of the current theme
             var selTheme = SelectedThemeIndex;
@@ -159,11 +137,11 @@ namespace Files.App.ViewModels.SettingsViewModels
                 if (value != UserSettingsService.AppearanceSettingsService.UseCompactStyles)
                 {
                     UserSettingsService.AppearanceSettingsService.UseCompactStyles = value;
+                    					
+					App.ExternalResourcesHelper.OverrideAppResources(UseCompactStyles); // Override the app resources the correct styles
+					ForceReloadResourceFile(); // Force the application to use the correct resource file
 
-                    // Apply the correct styles
-                    SetCompactStyles(updateTheme: true);
-
-                    OnPropertyChanged();
+					OnPropertyChanged();
                 }
             }
         }

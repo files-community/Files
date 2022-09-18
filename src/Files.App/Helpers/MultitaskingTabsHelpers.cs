@@ -66,7 +66,7 @@ namespace Files.App.Helpers
 				Header = null,
 				IconSource = fontIconSource,
 				Description = null,
-				HoverDisplayText = null
+				ToolTipText = null
 			};
 			tabItem.Control.NavigationArguments = new TabItemArguments()
 			{

@@ -9,11 +9,69 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Files.App.Shell;
+using System.Diagnostics;
+using CommunityToolkit.WinUI.Notifications;
+using Windows.UI.Notifications;
+using Files.App.Extensions;
 
 namespace Files.App.Helpers
 {
     public static class UIHelpers
     {
+        /// <summary>
+        /// Displays a toast or dialog to indicate the result of
+        /// a device ejection operation.
+        /// </summary>
+        /// <param name="result">Only true implies a successful device ejection</param>
+        /// <returns></returns>
+        public static async Task ShowDeviceEjectResultAsync(bool result)
+        {
+            if (result)
+            {
+                Debug.WriteLine("Device successfully ejected");
+
+                var toastContent = new ToastContent()
+                {
+                    Visual = new ToastVisual()
+                    {
+                        BindingGeneric = new ToastBindingGeneric()
+                        {
+                            Children =
+                            {
+                                new AdaptiveText()
+                                {
+                                    Text = "EjectNotificationHeader".GetLocalizedResource()
+                                },
+                                new AdaptiveText()
+                                {
+                                    Text = "EjectNotificationBody".GetLocalizedResource()
+                                }
+                            },
+                            Attribution = new ToastGenericAttributionText()
+                            {
+                                Text = "SettingsAboutAppName".GetLocalizedResource()
+                            }
+                        }
+                    },
+                    ActivationType = ToastActivationType.Protocol
+                };
+
+                // Create the toast notification
+                var toastNotif = new ToastNotification(toastContent.GetXml());
+
+                // And send the notification
+                ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
+            }
+            else
+            {
+                Debug.WriteLine("Can't eject device");
+
+                await DialogDisplayHelper.ShowDialogAsync(
+                    "EjectNotificationErrorDialogHeader".GetLocalizedResource(),
+                    "EjectNotificationErrorDialogBody".GetLocalizedResource());
+            }
+        }
+
         public static async Task<ContentDialogResult> TryShowAsync(this ContentDialog dialog)
         {
             try
