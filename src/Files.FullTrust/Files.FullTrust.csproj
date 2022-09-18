@@ -9,8 +9,6 @@
 	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 	<CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
 	<Configurations>Debug;Release;Sideload</Configurations>
-	<PublishReadyToRun>true</PublishReadyToRun>
-	<PublishReadyToRunComposite>true</PublishReadyToRunComposite>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
 	<UseVSHostingProcess>false</UseVSHostingProcess>

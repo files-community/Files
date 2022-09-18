@@ -7,8 +7,6 @@
 	<LangVersion>9</LangVersion>
 	<Nullable>enable</Nullable>
 	<Configurations>Debug;Release;Sideload</Configurations>
-	  <PublishReadyToRun>true</PublishReadyToRun>
-	<PublishReadyToRunComposite>true</PublishReadyToRunComposite>
   </PropertyGroup>
 
   <ItemGroup>
