@@ -93,7 +93,7 @@ namespace Files.App.Helpers
             if (string.IsNullOrEmpty(path) || path.StartsWith(@"\\?\", StringComparison.Ordinal))
                 return false;
 
-            var result = await FileOperationsHelpers.TestRecycleAsync(path);
+            var result = await FileOperationsHelpers.TestRecycleAsync(path.Split("|"));
 
             return result.Item1 &= result.Item2 != null && result.Item2.Items.All(x => x.Succeeded);
         }

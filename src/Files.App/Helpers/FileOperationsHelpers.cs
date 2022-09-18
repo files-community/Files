@@ -47,13 +47,13 @@ namespace Files.App.Helpers
             return targetHandle.ToInt64();
         }
 
-        public static Task SetClipboard(string fileToCopy, DataPackageOperation operation)
+        public static Task SetClipboard(string[] filesToCopy, DataPackageOperation operation)
         {
             return Win32API.StartSTATask(() =>
             {
                 System.Windows.Forms.Clipboard.Clear();
                 var fileList = new System.Collections.Specialized.StringCollection();
-                fileList.AddRange(fileToCopy.Split('|'));
+                fileList.AddRange(filesToCopy);
                 MemoryStream dropEffect = new MemoryStream(operation == DataPackageOperation.Copy ?
                     new byte[] { 5, 0, 0, 0 } : new byte[] { 2, 0, 0, 0 });
                 var data = new System.Windows.Forms.DataObject();
@@ -167,10 +167,8 @@ namespace Files.App.Helpers
             });
         }
 
-        public static Task<(bool, ShellOperationResult)> TestRecycleAsync(string filePath)
+        public static Task<(bool, ShellOperationResult)> TestRecycleAsync(string[] fileToDeletePath)
         {
-            var fileToDeletePath = filePath.Split('|');
-
             return Win32API.StartSTATask(async () =>
             {
                 using var op = new ShellFileOperations();
@@ -239,9 +237,8 @@ namespace Files.App.Helpers
             });
         }
 
-        public static Task<(bool, ShellOperationResult)> DeleteItemAsync(string filePath, bool permanently, long ownerHwnd, string operationID = "")
+        public static Task<(bool, ShellOperationResult)> DeleteItemAsync(string[] fileToDeletePath, bool permanently, long ownerHwnd, string operationID = "")
         {
-            var fileToDeletePath = filePath.Split('|');
             operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
             return Win32API.StartSTATask(async () =>
@@ -382,10 +379,8 @@ namespace Files.App.Helpers
             });
         }
 
-        public static Task<(bool, ShellOperationResult)> MoveItemAsync(string filePath, string destPath, bool overwriteOnMove, long ownerHwnd, string operationID = "")
+        public static Task<(bool, ShellOperationResult)> MoveItemAsync(string[] fileToMovePath, string[] moveDestination, bool overwriteOnMove, long ownerHwnd, string operationID = "")
         {
-            var fileToMovePath = filePath.Split('|');
-            var moveDestination = destPath.Split('|');
             operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
             return Win32API.StartSTATask(async () =>
@@ -459,10 +454,8 @@ namespace Files.App.Helpers
             });
         }
 
-        public static Task<(bool, ShellOperationResult)> CopyItemAsync(string filePath, string destPath, bool overwriteOnCopy, long ownerHwnd, string operationID = "")
+        public static Task<(bool, ShellOperationResult)> CopyItemAsync(string[] fileToCopyPath, string[] copyDestination, bool overwriteOnCopy, long ownerHwnd, string operationID = "")
         {
-            var fileToCopyPath = filePath.Split('|');
-            var copyDestination = destPath.Split('|');
             operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
             return Win32API.StartSTATask(async () =>
@@ -540,10 +533,8 @@ namespace Files.App.Helpers
         public static void TryCancelOperation(string operationId)
             => progressHandler.TryCancel(operationId);
 
-        public static IEnumerable<Win32Process>? CheckFileInUse(string filePath)
+        public static IEnumerable<Win32Process>? CheckFileInUse(string[] fileToCheckPath)
         {
-            var fileToCheckPath = filePath.Split('|');
-
             var processes = SafetyExtensions.IgnoreExceptions(() => FileUtils.WhoIsLocking(fileToCheckPath), App.Logger);
             
             if (processes != null)

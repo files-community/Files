@@ -98,7 +98,7 @@ namespace Files.App.Filesystem
             var copyResult = new ShellOperationResult();
             if (sourceRename.Any())
             {
-                var resultItem = await FileOperationsHelpers.CopyItemAsync(string.Join('|', sourceRename.Select(s => s.Path)), string.Join('|', destinationRename), false, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID);
+                var resultItem = await FileOperationsHelpers.CopyItemAsync(sourceRename.Select(s => s.Path).ToArray(), destinationRename.ToArray(), false, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID);
                 
                 result &= (FilesystemResult)resultItem.Item1;
 
@@ -106,7 +106,7 @@ namespace Files.App.Filesystem
             }
             if (sourceReplace.Any())
             {
-                var resultItem = await FileOperationsHelpers.CopyItemAsync(string.Join('|', sourceReplace.Select(s => s.Path)), string.Join('|', destinationReplace), true, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID);
+                var resultItem = await FileOperationsHelpers.CopyItemAsync(sourceReplace.Select(s => s.Path).ToArray(), destinationReplace.ToArray(), true, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID);
 
                 result &= (FilesystemResult)resultItem.Item1;
 
@@ -350,7 +350,7 @@ namespace Files.App.Filesystem
             EventHandler<Dictionary<string, JsonElement>> handler = (s, e) => OnProgressUpdated(s, e, operationID, progress);
             connection.RequestReceived += handler;
 
-            var (success, deleteResult) = await FileOperationsHelpers.DeleteItemAsync(string.Join('|', deleleFilePaths), permanently, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID);
+            var (success, deleteResult) = await FileOperationsHelpers.DeleteItemAsync(deleleFilePaths.ToArray(), permanently, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID);
             
             var result = (FilesystemResult)success;
             var shellOpResult = deleteResult;
@@ -471,14 +471,14 @@ namespace Files.App.Filesystem
             var moveResult = new ShellOperationResult();
             if (sourceRename.Any())
             {
-                var (status, response) = await FileOperationsHelpers.MoveItemAsync(string.Join('|', sourceRename.Select(s => s.Path)), string.Join('|', destinationRename), false, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID);
+                var (status, response) = await FileOperationsHelpers.MoveItemAsync(sourceRename.Select(s => s.Path).ToArray(), destinationRename.ToArray(), false, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID);
 
                 result &= (FilesystemResult)status;
                 moveResult.Items.AddRange(response?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
             }
             if (sourceReplace.Any())
             {
-                var (status, response) = await FileOperationsHelpers.MoveItemAsync(string.Join('|', sourceReplace.Select(s => s.Path)), string.Join('|', destinationReplace), true, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID);
+                var (status, response) = await FileOperationsHelpers.MoveItemAsync(sourceReplace.Select(s => s.Path).ToArray(), destinationReplace.ToArray(), true, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID);
 
                 result &= (FilesystemResult)status;
                 moveResult.Items.AddRange(response?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
@@ -682,7 +682,7 @@ namespace Files.App.Filesystem
             connection.RequestReceived += handler;
 
             var moveResult = new ShellOperationResult();
-            var (status, response) = await FileOperationsHelpers.MoveItemAsync(string.Join('|', source.Select(s => s.Path)), string.Join('|', destination), false, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID);
+            var (status, response) = await FileOperationsHelpers.MoveItemAsync(source.Select(s => s.Path).ToArray(), destination.ToArray(), false, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID);
 
             var result = (FilesystemResult)status;
             moveResult.Items.AddRange(response?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
@@ -833,7 +833,7 @@ namespace Files.App.Filesystem
         }
 
         private List<Win32Process> WhoIsLocking(IEnumerable<string> filesToCheck)
-            => (List<Win32Process>?)FileOperationsHelpers.CheckFileInUse(string.Join('|', filesToCheck)) ?? new List<Win32Process>();
+            => (List<Win32Process>?)FileOperationsHelpers.CheckFileInUse(filesToCheck.ToArray()) ?? new List<Win32Process>();
 
         #region IDisposable
 

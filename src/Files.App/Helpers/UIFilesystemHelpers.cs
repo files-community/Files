@@ -100,8 +100,8 @@ namespace Files.App.Helpers
                         var connection = await AppServiceConnectionHelper.Instance;
                         if (connection != null)
                         {
-                            string filePaths = string.Join('|', associatedInstance.SlimContentPage.SelectedItems.Select(x => x.ItemPath));
-                            
+                            string[] filePaths = associatedInstance.SlimContentPage.SelectedItems.Select(x => x.ItemPath).ToArray();
+
                             await FileOperationsHelpers.SetClipboard(filePaths, DataPackageOperation.Move);
 
                             banner?.Remove();
@@ -199,7 +199,7 @@ namespace Files.App.Helpers
                         var connection = await AppServiceConnectionHelper.Instance;
                         if (connection != null)
                         {
-                            string filePaths = string.Join('|', associatedInstance.SlimContentPage.SelectedItems.Select(x => x.ItemPath));
+                            string[] filePaths = associatedInstance.SlimContentPage.SelectedItems.Select(x => x.ItemPath).ToArray();
                             
                             await FileOperationsHelpers.SetClipboard(filePaths, DataPackageOperation.Copy);
 
