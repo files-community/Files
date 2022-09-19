@@ -21,6 +21,7 @@
 	<UseWinUI>true</UseWinUI>
 	<NoWin32Manifest>True</NoWin32Manifest>
 	<Platforms>x86;x64;arm64</Platforms>
+	<PublishReadyToRun>true</PublishReadyToRun>
 	<RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
