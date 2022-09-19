@@ -1,8 +1,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services.Settings;
-using Files.App.Helpers;
 using Files.App.Extensions;
+using Files.App.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -224,7 +224,51 @@ namespace Files.App.ViewModels.SettingsViewModels
             }
         }
 
-        public async Task OpenThemesFolder()
+		#region WidgetsPage Widgets
+
+		public bool ShowFoldersWidget
+		{
+			get => UserSettingsService.WidgetsSettingsService.ShowFoldersWidget;
+			set
+			{
+				if (value != UserSettingsService.WidgetsSettingsService.ShowFoldersWidget)
+					UserSettingsService.WidgetsSettingsService.ShowFoldersWidget = value;
+			}
+		}
+
+		public bool ShowDrivesWidget
+		{
+			get => UserSettingsService.WidgetsSettingsService.ShowDrivesWidget;
+			set
+			{
+				if (value != UserSettingsService.WidgetsSettingsService.ShowDrivesWidget)
+					UserSettingsService.WidgetsSettingsService.ShowDrivesWidget = value;
+			}
+		}
+
+		public bool ShowBundlesWidget
+		{
+			get => UserSettingsService.WidgetsSettingsService.ShowBundlesWidget;
+			set
+			{
+				if (value != UserSettingsService.WidgetsSettingsService.ShowBundlesWidget)
+					UserSettingsService.WidgetsSettingsService.ShowBundlesWidget = value;
+			}
+		}
+
+		public bool ShowRecentFilesWidget
+		{
+			get => UserSettingsService.WidgetsSettingsService.ShowRecentFilesWidget;
+			set
+			{
+				if (value != UserSettingsService.WidgetsSettingsService.ShowRecentFilesWidget)
+					UserSettingsService.WidgetsSettingsService.ShowRecentFilesWidget = value;
+			}
+		}
+
+		#endregion YourHome Widgets
+
+		public async Task OpenThemesFolder()
         {
             //await CoreApplication.MainView.Dispatcher.YieldAsync(); // WINUI3
             await NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.ImportedThemesFolder.Path);
