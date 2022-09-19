@@ -67,16 +67,18 @@ namespace Files.FullTrust
             await SendEvent(deviceName, deviceId, DeviceEvent.Added);
         }
 
-        private async Task SendEvent(string deviceName, string deviceId, DeviceEvent eventType)
+        private Task SendEvent(string deviceName, string deviceId, DeviceEvent eventType)
         {
             if (connection?.IsConnected ?? false)
             {
-                await Win32API.SendMessageAsync(connection, new ValueSet()
+                return Win32API.SendMessageAsync(connection, new ValueSet()
                 {
                     { "DeviceID", deviceId },
                     { "EventType", (int)eventType }
                 });
             }
+
+            return Task.CompletedTask;
         }
 
         protected override void Dispose(bool disposing)
