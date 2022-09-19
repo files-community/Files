@@ -645,15 +645,6 @@ namespace Files.App.Helpers
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutContextFlyoutEmptySelectionRecycleBin/Text".GetLocalizedResource(),
-                    Glyph = "\uEF88",
-                    GlyphFontFamilyName = "RecycleBinIcons",
-                    Command = commandsViewModel.DeleteItemCommand,
-                    ShowInRecycleBin = true,
-                    ShowItem = selectedItems.All(x => x.IsRecycleBinItem)
-                },
-                new ContextMenuFlyoutItemViewModel()
-                {
                     Text = "Open".GetLocalizedResource(),
                     Glyph = "\uE8E5",
                     Command = commandsViewModel.OpenItemCommand,
