@@ -1671,16 +1671,16 @@
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
     <value>Abrir pastas em uma nova guia</value>
   </data>
-  <data name="ShowBundlesWidgetSetting.Title" xml:space="preserve">
+  <data name="ShowBundlesWidget" xml:space="preserve">
     <value>Mostrar Widget de Pacotes</value>
   </data>
-  <data name="ShowDrivesWidgetSetting.Title" xml:space="preserve">
+  <data name="ShowDrivesWidget" xml:space="preserve">
     <value>Mostrar Widget de Unidades</value>
   </data>
-  <data name="ShowFolderWidgetSetting.Title" xml:space="preserve">
+  <data name="ShowFolderWidget" xml:space="preserve">
     <value>Mostrar Widget de Pastas</value>
   </data>
-  <data name="ShowRecentFilesWidgetSetting.Title" xml:space="preserve">
+  <data name="ShowRecentFilesWidget" xml:space="preserve">
     <value>Mostrar Widget de Arquivos Recentes</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
@@ -1947,7 +1947,7 @@
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Dispensar</value>
   </data>
-  <data name="WidgetsSettings.Title" xml:space="preserve">
+  <data name="Widgets" xml:space="preserve">
     <value>Componentes</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">

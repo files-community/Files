@@ -155,36 +155,36 @@
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</local:SettingsBlockControl>
 			
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=WidgetsSettings/Title}" HorizontalAlignment="Stretch">
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=Widgets}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xF246;" />
 				</local:SettingsBlockControl.Icon>
 				<local:SettingsBlockControl.ExpandableContent>
 					<StackPanel>
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowFolderWidgetSetting/Title}" HorizontalAlignment="Stretch">
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowFolderWidget}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=ShowFolderWidgetSetting/Title}"
+								AutomationProperties.Name="{helpers:ResourceString Name=ShowFolderWidget}"
 								IsOn="{Binding ShowFoldersWidget, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowDrivesWidgetSetting/Title}" HorizontalAlignment="Stretch">
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowDrivesWidget}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=ShowDrivesWidgetSetting/Title}"
+								AutomationProperties.Name="{helpers:ResourceString Name=ShowDrivesWidget}"
 								IsOn="{Binding ShowDrivesWidget, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowBundlesWidgetSetting/Title}" HorizontalAlignment="Stretch">
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowBundlesWidget}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=ShowBundlesWidgetSetting/Title}"
+								AutomationProperties.Name="{helpers:ResourceString Name=ShowBundlesWidget}"
 								IsOn="{Binding ShowBundlesWidget, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowRecentFilesWidgetSetting/Title}" HorizontalAlignment="Stretch">
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowRecentFilesWidget}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=ShowRecentFilesWidgetSetting/Title}"
+								AutomationProperties.Name="{helpers:ResourceString Name=ShowRecentFilesWidget}"
 								IsOn="{Binding ShowRecentFilesWidget, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>

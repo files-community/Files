@@ -1671,16 +1671,16 @@
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
     <value>Open mappen in een nieuw tabblad</value>
   </data>
-  <data name="ShowBundlesWidgetSetting.Title" xml:space="preserve">
+  <data name="ShowBundlesWidget" xml:space="preserve">
     <value>Bundelwidget weergeven</value>
   </data>
-  <data name="ShowDrivesWidgetSetting.Title" xml:space="preserve">
+  <data name="ShowDrivesWidget" xml:space="preserve">
     <value>Stationswidget weergeven</value>
   </data>
-  <data name="ShowFolderWidgetSetting.Title" xml:space="preserve">
+  <data name="ShowFolderWidget" xml:space="preserve">
     <value>Bibliotheekwidget weergeven</value>
   </data>
-  <data name="ShowRecentFilesWidgetSetting.Title" xml:space="preserve">
+  <data name="ShowRecentFilesWidget" xml:space="preserve">
     <value>Recente bestanden-widget weergeven</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
@@ -1947,7 +1947,7 @@
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Sluiten</value>
   </data>
-  <data name="WidgetsSettings.Title" xml:space="preserve">
+  <data name="Widgets" xml:space="preserve">
     <value>Widgets</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">

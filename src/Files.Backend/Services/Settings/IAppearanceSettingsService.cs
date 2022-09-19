@@ -88,12 +88,24 @@ namespace Files.Backend.Services.Settings
 		/// </summary>
 		bool ShowBundlesWidget { get; set; }
 
+		/// <summary>
+		/// Gets or sets a value indicating wheter or not the folders widget section is expanded.
+		/// </summary>
 		bool FoldersWidgetExpanded { get; set; }
 
+		/// <summary>
+		/// Gets or sets a value indicating wheter or not the recent files widget section is expanded.
+		/// </summary>
 		bool RecentFilesWidgetExpanded { get; set; }
 
+		/// <summary>
+		/// Gets or sets a value indicating wheter or not the drives widget section is expanded.
+		/// </summary>
 		bool DrivesWidgetExpanded { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating wheter or not the Bundles widget section is expanded.
+        /// </summary>
 		bool BundlesWidgetExpanded { get; set; }
 	}
 }

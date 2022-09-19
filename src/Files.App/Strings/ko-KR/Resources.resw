@@ -1671,16 +1671,16 @@
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
     <value>새 탭에서 폴더 열기</value>
   </data>
-  <data name="ShowBundlesWidgetSetting.Title" xml:space="preserve">
+  <data name="ShowBundlesWidget" xml:space="preserve">
     <value>번들 위젯 표시</value>
   </data>
-  <data name="ShowDrivesWidgetSetting.Title" xml:space="preserve">
+  <data name="ShowDrivesWidget" xml:space="preserve">
     <value>드라이브 위젯 표시</value>
   </data>
-  <data name="ShowFolderWidgetSetting.Title" xml:space="preserve">
+  <data name="ShowFolderWidget" xml:space="preserve">
     <value>폴더 위젯 표시</value>
   </data>
-  <data name="ShowRecentFilesWidgetSetting.Title" xml:space="preserve">
+  <data name="ShowRecentFilesWidget" xml:space="preserve">
     <value>최근 파일 위젯 표시</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
@@ -1947,7 +1947,7 @@
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>해제</value>
   </data>
-  <data name="WidgetsSettings.Title" xml:space="preserve">
+  <data name="Widgets" xml:space="preserve">
     <value>위젯</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">

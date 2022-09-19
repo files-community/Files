@@ -1671,16 +1671,16 @@
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
     <value>Mở thư mục trong tab mới</value>
   </data>
-  <data name="ShowBundlesWidgetSetting.Title" xml:space="preserve">
+  <data name="ShowBundlesWidget" xml:space="preserve">
     <value>Hiển thị phụ tùng bó</value>
   </data>
-  <data name="ShowDrivesWidgetSetting.Title" xml:space="preserve">
+  <data name="ShowDrivesWidget" xml:space="preserve">
     <value>Hiển thị phụ tùng ổ lưu trữ</value>
   </data>
-  <data name="ShowFolderWidgetSetting.Title" xml:space="preserve">
+  <data name="ShowFolderWidget" xml:space="preserve">
     <value>Hiển thị phụ tùng thư mục</value>
   </data>
-  <data name="ShowRecentFilesWidgetSetting.Title" xml:space="preserve">
+  <data name="ShowRecentFilesWidget" xml:space="preserve">
     <value>Di chuyển phụ tùng tệp tin gần đây </value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
@@ -1947,7 +1947,7 @@
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Bỏ qua</value>
   </data>
-  <data name="WidgetsSettings.Title" xml:space="preserve">
+  <data name="Widgets" xml:space="preserve">
     <value>Phụ tùng</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
