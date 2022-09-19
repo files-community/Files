@@ -389,10 +389,10 @@ namespace Files.App.ViewModels
 		{
 			switch (e.SettingName)
 			{
-				case nameof(UserSettingsService.WidgetsSettingsService.ShowFoldersWidget):
-				case nameof(UserSettingsService.WidgetsSettingsService.ShowDrivesWidget):
-				case nameof(UserSettingsService.WidgetsSettingsService.ShowBundlesWidget):
-				case nameof(UserSettingsService.WidgetsSettingsService.ShowRecentFilesWidget):
+				case nameof(UserSettingsService.AppearanceSettingsService.ShowFoldersWidget):
+				case nameof(UserSettingsService.AppearanceSettingsService.ShowDrivesWidget):
+				case nameof(UserSettingsService.AppearanceSettingsService.ShowBundlesWidget):
+				case nameof(UserSettingsService.AppearanceSettingsService.ShowRecentFilesWidget):
 					RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
 					OnPropertyChanged(e.SettingName);
 					break;

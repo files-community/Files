@@ -1,18 +1,18 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Backend.Services.Settings;
 using Files.App.Extensions;
 using Files.App.Helpers;
+using Files.Backend.Services.Settings;
+using Microsoft.UI.Xaml;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.UI.Xaml;
 
 namespace Files.App.ViewModels.SettingsViewModels
 {
     public class AppearanceViewModel : ObservableObject
     {
-        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>()!;
 
         private int selectedThemeIndex = (int)Enum.Parse(typeof(ElementTheme), ThemeHelper.RootTheme.ToString());
         private AppTheme selectedTheme = App.AppSettings.SelectedTheme;
@@ -224,49 +224,45 @@ namespace Files.App.ViewModels.SettingsViewModels
             }
         }
 
-		#region WidgetsPage Widgets
-
 		public bool ShowFoldersWidget
 		{
-			get => UserSettingsService.WidgetsSettingsService.ShowFoldersWidget;
+			get => UserSettingsService.AppearanceSettingsService.ShowFoldersWidget;
 			set
 			{
-				if (value != UserSettingsService.WidgetsSettingsService.ShowFoldersWidget)
-					UserSettingsService.WidgetsSettingsService.ShowFoldersWidget = value;
+				if (value != UserSettingsService.AppearanceSettingsService.ShowFoldersWidget)
+					UserSettingsService.AppearanceSettingsService.ShowFoldersWidget = value;
 			}
 		}
 
 		public bool ShowDrivesWidget
 		{
-			get => UserSettingsService.WidgetsSettingsService.ShowDrivesWidget;
+			get => UserSettingsService.AppearanceSettingsService.ShowDrivesWidget;
 			set
 			{
-				if (value != UserSettingsService.WidgetsSettingsService.ShowDrivesWidget)
-					UserSettingsService.WidgetsSettingsService.ShowDrivesWidget = value;
+				if (value != UserSettingsService.AppearanceSettingsService.ShowDrivesWidget)
+					UserSettingsService.AppearanceSettingsService.ShowDrivesWidget = value;
 			}
 		}
 
 		public bool ShowBundlesWidget
 		{
-			get => UserSettingsService.WidgetsSettingsService.ShowBundlesWidget;
+			get => UserSettingsService.AppearanceSettingsService.ShowBundlesWidget;
 			set
 			{
-				if (value != UserSettingsService.WidgetsSettingsService.ShowBundlesWidget)
-					UserSettingsService.WidgetsSettingsService.ShowBundlesWidget = value;
+				if (value != UserSettingsService.AppearanceSettingsService.ShowBundlesWidget)
+					UserSettingsService.AppearanceSettingsService.ShowBundlesWidget = value;
 			}
 		}
 
 		public bool ShowRecentFilesWidget
 		{
-			get => UserSettingsService.WidgetsSettingsService.ShowRecentFilesWidget;
+			get => UserSettingsService.AppearanceSettingsService.ShowRecentFilesWidget;
 			set
 			{
-				if (value != UserSettingsService.WidgetsSettingsService.ShowRecentFilesWidget)
-					UserSettingsService.WidgetsSettingsService.ShowRecentFilesWidget = value;
+				if (value != UserSettingsService.AppearanceSettingsService.ShowRecentFilesWidget)
+					UserSettingsService.AppearanceSettingsService.ShowRecentFilesWidget = value;
 			}
 		}
-
-		#endregion YourHome Widgets
 
 		public async Task OpenThemesFolder()
         {
