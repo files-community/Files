@@ -470,6 +470,7 @@ namespace Files.App.ViewModels
 				case nameof(UserSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible):
 				case nameof(UserSettingsService.PreferencesSettingsService.ShowDotFiles):
 				case nameof(UserSettingsService.PreferencesSettingsService.ShowFolderSize):
+				case nameof(UserSettingsService.PreferencesSettingsService.SelectFilesOnHover):
 					await dispatcherQueue.EnqueueAsync(() =>
 					{
 						if (WorkingDirectory != "Home".GetLocalizedResource())
