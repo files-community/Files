@@ -160,7 +160,7 @@
     <value>项目名称</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Path:</value>
+    <value>路径:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>大小:</value>
@@ -2824,6 +2824,6 @@
     <value>打开文件和文件夹时的行为</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
-    <value>Select files and folders when hovering over them</value>
+    <value>鼠标指向项目时自动选定</value>
   </data>
 </root>
