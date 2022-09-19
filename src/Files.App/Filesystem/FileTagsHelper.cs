@@ -49,13 +49,13 @@ namespace Files.App.Filesystem
             }
         }
 
-        public static async Task<ulong?> GetFileFRN(IStorageItem item)
+        public static Task<ulong?> GetFileFRN(IStorageItem item)
         {
             return item switch
             {
-                BaseStorageFolder { Properties: not null } folder => await GetFileFRN(folder.Properties),
-                BaseStorageFile { Properties: not null } file => await GetFileFRN(file.Properties),
-                _ => null,
+                BaseStorageFolder { Properties: not null } folder => GetFileFRN(folder.Properties),
+                BaseStorageFile { Properties: not null } file => GetFileFRN(file.Properties),
+                _ => Task.FromResult<ulong?>(null),
             };
 
             static async Task<ulong?> GetFileFRN(IStorageItemExtraProperties properties)

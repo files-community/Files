@@ -7,17 +7,17 @@ namespace Files.Backend.Extensions
 {
     public static class DialogExtensions
     {
-        public static async Task<DialogResult> TryShowAsync<TViewModel>(this IDialog<TViewModel> dialog)
+        public static Task<DialogResult> TryShowAsync<TViewModel>(this IDialog<TViewModel> dialog)
             where TViewModel : class, INotifyPropertyChanged
         {
             try
             {
-                return await dialog.ShowAsync();
+                return dialog.ShowAsync();
             }
             catch
             {
                 // Another dialog is already open
-                return DialogResult.None;
+                return Task.FromResult(DialogResult.None);
             }
         }
     }

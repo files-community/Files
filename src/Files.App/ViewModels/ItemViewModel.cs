@@ -174,25 +174,17 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		public async Task<FilesystemResult<BaseStorageFolder>> GetFolderFromPathAsync(string value)
-		{
-			return await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(value, workingRoot, currentStorageFolder));
-		}
+		public Task<FilesystemResult<BaseStorageFolder>> GetFolderFromPathAsync(string value)
+			=> FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(value, workingRoot, currentStorageFolder));
 
-		public async Task<FilesystemResult<BaseStorageFile>> GetFileFromPathAsync(string value)
-		{
-			return await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(value, workingRoot, currentStorageFolder));
-		}
+		public Task<FilesystemResult<BaseStorageFile>> GetFileFromPathAsync(string value)
+			=> FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(value, workingRoot, currentStorageFolder));
 
-		public async Task<FilesystemResult<StorageFolderWithPath>> GetFolderWithPathFromPathAsync(string value)
-		{
-			return await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(value, workingRoot, currentStorageFolder));
-		}
+		public Task<FilesystemResult<StorageFolderWithPath>> GetFolderWithPathFromPathAsync(string value)
+			=> FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(value, workingRoot, currentStorageFolder));
 
-		public async Task<FilesystemResult<StorageFileWithPath>> GetFileWithPathFromPathAsync(string value)
-		{
-			return await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileWithPathFromPathAsync(value, workingRoot, currentStorageFolder));
-		}
+		public Task<FilesystemResult<StorageFileWithPath>> GetFileWithPathFromPathAsync(string value)
+			=> FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileWithPathFromPathAsync(value, workingRoot, currentStorageFolder));
 
 		private EmptyTextType emptyTextType;
 
@@ -762,15 +754,15 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		private async Task RequestSelectionAsync(List<ListedItem> itemsToSelect)
+		private Task RequestSelectionAsync(List<ListedItem> itemsToSelect)
 		{
 			// don't notify if there weren't listed items
 			if (itemsToSelect == null || itemsToSelect.IsEmpty())
 			{
-				return;
+				return Task.CompletedTask;
 			}
 
-			await dispatcherQueue.EnqueueAsync(() =>
+			return dispatcherQueue.EnqueueAsync(() =>
 			{
 				OnSelectionRequestedEvent?.Invoke(this, itemsToSelect);
 			});
@@ -881,12 +873,12 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		public async Task ReloadItemGroupHeaderImagesAsync()
+		public Task ReloadItemGroupHeaderImagesAsync()
 		{
 			// this is needed to update the group icons for file type groups
 			if (folderSettings.DirectoryGroupOption == GroupOption.FileType && FilesAndFolders.GroupedCollection != null)
 			{
-				await Task.Run(async () =>
+				return Task.Run(async () =>
 				{
 					foreach (var gp in FilesAndFolders.GroupedCollection.ToList())
 					{
@@ -898,6 +890,8 @@ namespace Files.App.ViewModels
 					}
 				});
 			}
+
+			return Task.CompletedTask;
 		}
 
 		public void UpdateGroupOptions()
@@ -2122,16 +2116,14 @@ namespace Files.App.ViewModels
 			Debug.WriteLine("aProcessQueueAction done: {0}", rand);
 		}
 
-		public async Task<ListedItem> AddFileOrFolderFromShellFile(ShellFileItem item)
+		public Task<ListedItem> AddFileOrFolderFromShellFile(ShellFileItem item)
 		{
 			if (item.IsFolder)
 			{
-				return await UniversalStorageEnumerator.AddFolderAsync(ShellStorageFolder.FromShellItem(item), currentStorageFolder, addFilesCTS.Token);
+				return UniversalStorageEnumerator.AddFolderAsync(ShellStorageFolder.FromShellItem(item), currentStorageFolder, addFilesCTS.Token);
 			}
-			else
-			{
-				return await UniversalStorageEnumerator.AddFileAsync(ShellStorageFile.FromShellItem(item), currentStorageFolder, addFilesCTS.Token);
-			}
+
+			return UniversalStorageEnumerator.AddFileAsync(ShellStorageFile.FromShellItem(item), currentStorageFolder, addFilesCTS.Token);
 		}
 
 		private async Task AddFileOrFolderAsync(ListedItem item)
