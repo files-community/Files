@@ -25,7 +25,7 @@ namespace Files.App.UserControls
         }
 
         public IUserSettingsService UserSettingsService { get; } =
-            Ioc.Default.GetService<IUserSettingsService>();
+            Ioc.Default.GetRequiredService<IUserSettingsService>();
 
         public AppModel AppModel => App.AppModel;
 

@@ -85,7 +85,7 @@ namespace Files.App.UserControls.Widgets
 
     public sealed partial class FolderWidget : UserControl, IWidgetItemModel, INotifyPropertyChanged
     {
-        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
         public BulkConcurrentObservableCollection<FolderCardItem> ItemsAdded = new BulkConcurrentObservableCollection<FolderCardItem>();
         private bool showMultiPaneControls;
@@ -228,7 +228,7 @@ namespace Files.App.UserControls.Widgets
         {
             if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed) // check middle click
             {
-                string navigationPath = (sender as Button).Tag.ToString();
+                string navigationPath = ((Button)sender).Tag.ToString()!;
                 await NavigationHelpers.OpenPathInNewTab(navigationPath);
             }
         }

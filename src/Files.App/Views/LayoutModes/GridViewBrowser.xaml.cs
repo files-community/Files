@@ -262,7 +262,7 @@ namespace Files.App.Views.LayoutModes
 				return;
 			}
 			int extensionLength = RenamingItem.FileExtension?.Length ?? 0;
-			GridViewItem gridViewItem = FileList.ContainerFromItem(RenamingItem) as GridViewItem;
+			GridViewItem gridViewItem = (GridViewItem)FileList.ContainerFromItem(RenamingItem);
 			TextBox textBox = null;
 			if (gridViewItem == null)
 			{
@@ -271,17 +271,17 @@ namespace Files.App.Views.LayoutModes
 			// Handle layout differences between tiles browser and photo album
 			if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
 			{
-				Popup popup = gridViewItem.FindDescendant("EditPopup") as Popup;
-				TextBlock textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
-				textBox = popup.Child as TextBox;
+				Popup popup = (Popup)gridViewItem.FindDescendant("EditPopup")!;
+				TextBlock textBlock = (TextBlock)gridViewItem.FindDescendant("ItemName")!;
+				textBox = (TextBox)popup.Child;
 				textBox.Text = textBlock.Text;
 				popup.IsOpen = true;
 				OldItemName = textBlock.Text;
 			}
 			else
 			{
-				TextBlock textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
-				textBox = gridViewItem.FindDescendant("TileViewTextBoxItemName") as TextBox;
+				TextBlock textBlock = (TextBlock)gridViewItem.FindDescendant("ItemName")!;
+				textBox = (TextBox)gridViewItem.FindDescendant("TileViewTextBoxItemName")!;
 				textBox.Text = textBlock.Text;
 				OldItemName = textBlock.Text;
 				textBlock.Visibility = Visibility.Collapsed;

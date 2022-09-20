@@ -35,7 +35,7 @@ namespace Files.App.Filesystem.Cloud
             while (reader.Read())
             {
                 // Extract the data from the reader
-                string path = reader["last_seen_absolute_path"]?.ToString();
+                string path = reader["last_seen_absolute_path"]?.ToString()!;
                 if (string.IsNullOrWhiteSpace(path))
                 {
                     continue;
@@ -62,7 +62,7 @@ namespace Files.App.Filesystem.Cloud
             reader = cmdMedia.ExecuteReader(); // Google virtual drive
             while (reader.Read())
             {
-                string path = reader["last_mount_point"]?.ToString();
+                string path = reader["last_mount_point"]?.ToString()!;
                 if (string.IsNullOrWhiteSpace(path))
                 {
                     continue;

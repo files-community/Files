@@ -12,7 +12,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 {
     public class AppearanceViewModel : ObservableObject
     {
-        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
         private int selectedThemeIndex = (int)Enum.Parse(typeof(ElementTheme), ThemeHelper.RootTheme.ToString());
         private AppTheme selectedTheme = App.AppSettings.SelectedTheme;
