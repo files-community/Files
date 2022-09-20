@@ -268,9 +268,7 @@ namespace Files.App.Helpers
 
         public static IntPtr CoreWindowHandle => App.WindowHandle;
 
-        public static async Task<string> GetFileAssociationAsync(string filePath)
-        {
-            return await Win32API.GetFileAssociationAsync(filePath, true);
-        }
+        public static Task<string> GetFileAssociationAsync(string filePath)
+            => Win32API.GetFileAssociationAsync(filePath, true);
     }
 }

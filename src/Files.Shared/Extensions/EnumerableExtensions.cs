@@ -85,10 +85,8 @@ namespace Files.Shared.Extensions
             await block.Completion;
         }
 
-        public static async Task<IList<T>> ToListAsync<T>(this IEnumerable<T> source)
-        {
-            return await Task.Run(() => source.ToList());
-        }
+        public static Task<IList<T>> ToListAsync<T>(this IEnumerable<T> source)
+            => Task.Run(() => (IList<T>)source.ToList());
 
         public static IEnumerable<TResult> Zip<T1, T2, TResult>(
             this IEnumerable<T1> source,

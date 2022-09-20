@@ -14,10 +14,8 @@ namespace Files.App.Helpers
 {
     public static class FileThumbnailHelper
     {
-        public static async Task<(byte[] IconData, byte[] OverlayData)> LoadIconAndOverlayAsync(string filePath, uint thumbnailSize, bool isFolder = false)
-        {
-            return await Win32API.StartSTATask(() => Win32API.GetFileIconAndOverlay(filePath, (int)thumbnailSize, isFolder, true, false));
-        }
+        public static Task<(byte[] IconData, byte[] OverlayData)> LoadIconAndOverlayAsync(string filePath, uint thumbnailSize, bool isFolder = false)
+            => Win32API.StartSTATask(() => Win32API.GetFileIconAndOverlay(filePath, (int)thumbnailSize, isFolder, true, false));
 
         public static async Task<byte[]> LoadOverlayAsync(string filePath, uint thumbnailSize)
         {

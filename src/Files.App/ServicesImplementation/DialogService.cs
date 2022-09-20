@@ -52,19 +52,19 @@ namespace Files.App.ServicesImplementation
         }
 
         /// <inheritdoc/>
-        public async Task<DialogResult> ShowDialogAsync<TViewModel>(TViewModel viewModel)
+        public Task<DialogResult> ShowDialogAsync<TViewModel>(TViewModel viewModel)
             where TViewModel : class, INotifyPropertyChanged
         {
             try
             {
-                return await GetDialog(viewModel).ShowAsync();
+                return GetDialog(viewModel).ShowAsync();
             }
             catch (Exception ex)
             {
                 _ = ex;
             }
 
-            return DialogResult.None;
+            return Task.FromResult(DialogResult.None);
         }
     }
 }
