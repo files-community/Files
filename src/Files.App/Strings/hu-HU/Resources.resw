@@ -2826,10 +2826,10 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
     <value>Zárolási képernyő</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Open folders with a single click in the Columns Layout</value>
+    <value>Mappák megnyitása egy kattintással Oszlopok nézetben</value>
   </data>
   <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
-    <value>Behavior for opening files and folders</value>
+    <value>Fájlok és mappák megnyitása</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Select files and folders when hovering over them</value>
