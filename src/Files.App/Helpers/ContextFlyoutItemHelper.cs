@@ -602,7 +602,7 @@ namespace Files.App.Helpers
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "RestoreAllItems".GetLocalizedResource(),
-                    Glyph = "\xE10D",
+                    Glyph = "\xE777",
                     Command = commandsViewModel.RestoreRecycleBinCommand,
                     ShowItem = currentInstanceViewModel.IsPageTypeRecycleBin,
                     ShowInRecycleBin = true,
@@ -634,7 +634,7 @@ namespace Files.App.Helpers
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutItemContextFlyoutRestore/Text".GetLocalizedResource(),
-                    Glyph = "\uE8E5",
+                    Glyph = "\xE777",
                     Command = commandsViewModel.RestoreItemCommand,
                     ShowInRecycleBin = true,
                     ShowItem = selectedItems.All(x => x.IsRecycleBinItem)

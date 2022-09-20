@@ -217,7 +217,7 @@
                     Label="{helpers:ResourceString Name=RestoreAllItems}"
                     ToolTipService.ToolTip="{helpers:ResourceString Name=RestoreAllItems}">
                     <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE10D;" />
+                        <FontIcon Glyph="&#xE777;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
                 <AppBarButton
@@ -230,7 +230,7 @@
                     Label="{helpers:ResourceString Name=RestoreSelection}"
                     ToolTipService.ToolTip="{helpers:ResourceString Name=RestoreSelection}">
                     <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE10D;" />
+                        <FontIcon Glyph="&#xE777;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
                 <AppBarButton
