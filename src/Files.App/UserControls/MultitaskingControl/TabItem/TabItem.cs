@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Text.Json;
 using Files.App.Helpers;
+using System.Collections.Generic;
 
 namespace Files.App.UserControls.MultitaskingControl
 {
@@ -94,6 +95,23 @@ namespace Files.App.UserControls.MultitaskingControl
 
         public string Serialize() => JsonSerializer.Serialize(this, TypesConverter.Options);
 
-        public static TabItemArguments Deserialize(string obj) => JsonSerializer.Deserialize<TabItemArguments>(obj, TypesConverter.Options);
+        public static TabItemArguments Deserialize(string obj)
+        {
+            var tabArgs = new TabItemArguments();
+
+            var tempArgs = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(obj);
+            tabArgs.InitialPageType = Type.GetType(tempArgs["InitialPageType"].GetString());
+
+            try
+            {
+                tabArgs.NavigationArg = JsonSerializer.Deserialize<PaneNavigationArguments>(tempArgs["NavigationArg"].GetRawText());
+            }
+            catch (JsonException)
+            {
+                tabArgs.NavigationArg = tempArgs["NavigationArg"].GetString();
+            }
+
+            return tabArgs;
+        }
     }
 }
