@@ -1,19 +1,20 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Backend.Services.Settings;
+using Files.App.DataModels;
 using Files.App.Helpers;
 using Files.App.ViewModels;
-using System;
-using System.IO;
-using System.Linq;
-using System.Windows.Input;
-using Windows.UI.ViewManagement;
+using Files.Backend.Services.Settings;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Files.App.DataModels;
+using System;
+using System.IO;
+using System.Linq;
+using System.Windows.Input;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
+
+#nullable enable
 
 namespace Files.App.UserControls
 {
@@ -25,7 +26,7 @@ namespace Files.App.UserControls
         }
 
         public IUserSettingsService UserSettingsService { get; } =
-            Ioc.Default.GetService<IUserSettingsService>();
+            Ioc.Default.GetService<IUserSettingsService>()!;
 
         public AppModel AppModel => App.AppModel;
 
@@ -38,50 +39,6 @@ namespace Files.App.UserControls
         // Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ViewModelProperty =
             DependencyProperty.Register(nameof(ViewModel), typeof(ToolbarViewModel), typeof(InnerNavigationToolbar), new PropertyMetadata(null));
-
-        private void NavToolbarEnterCompactOverlay_Click(object sender, RoutedEventArgs e)
-        {
-            var appWindow = App.GetAppWindow(App.Window);
-            if (appWindow.Presenter.Kind == Microsoft.UI.Windowing.AppWindowPresenterKind.CompactOverlay)
-            {
-                appWindow.SetPresenter(Microsoft.UI.Windowing.AppWindowPresenterKind.Overlapped);
-                NavToolbarExitCompactOverlay.Visibility = Visibility.Collapsed;
-                NavToolbarEnterCompactOverlay.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                appWindow.SetPresenter(Microsoft.UI.Windowing.AppWindowPresenterKind.CompactOverlay);
-                NavToolbarExitCompactOverlay.Visibility = Visibility.Visible;
-                NavToolbarEnterCompactOverlay.Visibility = Visibility.Collapsed;
-            }
-        }
-
-        private void SetAppBarButtonProps(ICommandBarElement e)
-        {
-            if (e is AppBarButton appBarButton)
-            {
-                if (appBarButton.Icon is FontIcon bFontIcon)
-                {
-                    bFontIcon.Style = Resources["AccentColorFontIconStyle"] as Style;
-                }
-                if (appBarButton.LabelPosition == CommandBarLabelPosition.Collapsed)
-                {
-                    appBarButton.Width = 48;
-                }
-            }
-            else if (e is AppBarToggleButton appBarToggleButton)
-            {
-                if (appBarToggleButton.Icon is FontIcon tFontIcon)
-                {
-                    tFontIcon.Style = Resources["AccentColorFontIconStyle"] as Style;
-                }
-
-                if (appBarToggleButton.LabelPosition == CommandBarLabelPosition.Collapsed)
-                {
-                    appBarToggleButton.Width = 48;
-                }
-            }
-        }
 
         public bool ShowPreviewPaneButton
         {
@@ -143,9 +100,7 @@ namespace Files.App.UserControls
             }
             var cachedNewContextMenuEntries = ContextFlyoutItemHelper.CachedNewContextMenuEntries.IsCompletedSuccessfully ? ContextFlyoutItemHelper.CachedNewContextMenuEntries.Result : null;
             if (cachedNewContextMenuEntries == null)
-            {
                 return;
-            }
             if (!NewEmptySpace.Items.Any(x => (x.Tag as string) == "CreateNewFile"))
             {
                 var separatorIndex = NewEmptySpace.Items.IndexOf(NewEmptySpace.Items.Single(x => x.Name == "NewMenuFileFolderSeparator"));
