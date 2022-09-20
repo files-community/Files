@@ -18,140 +18,140 @@ using System.Windows.Input;
 
 namespace Files.App.UserControls
 {
-    public sealed partial class InnerNavigationToolbar : UserControl
-    {
-        public InnerNavigationToolbar()
-        {
-            this.InitializeComponent();
-        }
+	public sealed partial class InnerNavigationToolbar : UserControl
+	{
+		public InnerNavigationToolbar()
+		{
+			this.InitializeComponent();
+		}
 
-        public IUserSettingsService UserSettingsService { get; } =
-            Ioc.Default.GetService<IUserSettingsService>()!;
+		public IUserSettingsService UserSettingsService { get; } =
+			Ioc.Default.GetService<IUserSettingsService>()!;
 
-        public AppModel AppModel => App.AppModel;
+		public AppModel AppModel => App.AppModel;
 
-        public ToolbarViewModel ViewModel
-        {
-            get => (ToolbarViewModel)GetValue(ViewModelProperty);
-            set => SetValue(ViewModelProperty, value);
-        }
+		public ToolbarViewModel ViewModel
+		{
+			get => (ToolbarViewModel)GetValue(ViewModelProperty);
+			set => SetValue(ViewModelProperty, value);
+		}
 
-        // Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register(nameof(ViewModel), typeof(ToolbarViewModel), typeof(InnerNavigationToolbar), new PropertyMetadata(null));
+		// Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
+		public static readonly DependencyProperty ViewModelProperty =
+			DependencyProperty.Register(nameof(ViewModel), typeof(ToolbarViewModel), typeof(InnerNavigationToolbar), new PropertyMetadata(null));
 
-        public bool ShowPreviewPaneButton
-        {
-            get { return (bool)GetValue(ShowPreviewPaneButtonProperty); }
-            set { SetValue(ShowPreviewPaneButtonProperty, value); }
-        }
+		public bool ShowPreviewPaneButton
+		{
+			get { return (bool)GetValue(ShowPreviewPaneButtonProperty); }
+			set { SetValue(ShowPreviewPaneButtonProperty, value); }
+		}
 
-        // Using a DependencyProperty as the backing store for ShowPreviewPaneButton.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ShowPreviewPaneButtonProperty =
-            DependencyProperty.Register("ShowPreviewPaneButton", typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
+		// Using a DependencyProperty as the backing store for ShowPreviewPaneButton.  This enables animation, styling, binding, etc...
+		public static readonly DependencyProperty ShowPreviewPaneButtonProperty =
+			DependencyProperty.Register("ShowPreviewPaneButton", typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
 
-        public bool ShowMultiPaneControls
-        {
-            get => (bool)GetValue(ShowMultiPaneControlsProperty);
-            set => SetValue(ShowMultiPaneControlsProperty, value);
-        }
+		public bool ShowMultiPaneControls
+		{
+			get => (bool)GetValue(ShowMultiPaneControlsProperty);
+			set => SetValue(ShowMultiPaneControlsProperty, value);
+		}
 
-        // Using a DependencyProperty as the backing store for ShowMultiPaneControls.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ShowMultiPaneControlsProperty =
-            DependencyProperty.Register(nameof(ShowMultiPaneControls), typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
+		// Using a DependencyProperty as the backing store for ShowMultiPaneControls.  This enables animation, styling, binding, etc...
+		public static readonly DependencyProperty ShowMultiPaneControlsProperty =
+			DependencyProperty.Register(nameof(ShowMultiPaneControls), typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
 
-        public bool IsMultiPaneActive
-        {
-            get { return (bool)GetValue(IsMultiPaneActiveProperty); }
-            set { SetValue(IsMultiPaneActiveProperty, value); }
-        }
+		public bool IsMultiPaneActive
+		{
+			get { return (bool)GetValue(IsMultiPaneActiveProperty); }
+			set { SetValue(IsMultiPaneActiveProperty, value); }
+		}
 
-        // Using a DependencyProperty as the backing store for IsMultiPaneActive.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty IsMultiPaneActiveProperty =
-            DependencyProperty.Register("IsMultiPaneActive", typeof(bool), typeof(AddressToolbar), new PropertyMetadata(false));
+		// Using a DependencyProperty as the backing store for IsMultiPaneActive.  This enables animation, styling, binding, etc...
+		public static readonly DependencyProperty IsMultiPaneActiveProperty =
+			DependencyProperty.Register("IsMultiPaneActive", typeof(bool), typeof(AddressToolbar), new PropertyMetadata(false));
 
-        public bool IsCompactOverlay
-        {
-            get { return (bool)GetValue(IsCompactOverlayProperty); }
-            set { SetValue(IsCompactOverlayProperty, value); }
-        }
+		public bool IsCompactOverlay
+		{
+			get { return (bool)GetValue(IsCompactOverlayProperty); }
+			set { SetValue(IsCompactOverlayProperty, value); }
+		}
 
-        // Using a DependencyProperty as the backing store for IsCompactOverlay.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty IsCompactOverlayProperty =
-            DependencyProperty.Register("IsCompactOverlay", typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
+		// Using a DependencyProperty as the backing store for IsCompactOverlay.  This enables animation, styling, binding, etc...
+		public static readonly DependencyProperty IsCompactOverlayProperty =
+			DependencyProperty.Register("IsCompactOverlay", typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
 
-        public ICommand SetCompactOverlayCommand
-        {
-            get { return (ICommand)GetValue(SetCompactOverlayCommandProperty); }
-            set { SetValue(SetCompactOverlayCommandProperty, value); }
-        }
+		public ICommand SetCompactOverlayCommand
+		{
+			get { return (ICommand)GetValue(SetCompactOverlayCommandProperty); }
+			set { SetValue(SetCompactOverlayCommandProperty, value); }
+		}
 
-        // Using a DependencyProperty as the backing store for ToggleCompactOverlayCommand.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty SetCompactOverlayCommandProperty =
-            DependencyProperty.Register("ToggleCompactOverlayCommand", typeof(ICommand), typeof(AddressToolbar), new PropertyMetadata(null));
+		// Using a DependencyProperty as the backing store for ToggleCompactOverlayCommand.  This enables animation, styling, binding, etc...
+		public static readonly DependencyProperty SetCompactOverlayCommandProperty =
+			DependencyProperty.Register("ToggleCompactOverlayCommand", typeof(ICommand), typeof(AddressToolbar), new PropertyMetadata(null));
 
-        private void NewEmptySpace_Opening(object sender, object e)
-        {
-            if (!ViewModel.InstanceViewModel.CanCreateFileInPage)
-            {
-                var shell = NewEmptySpace.Items.Where(x => (x.Tag as string) == "CreateNewFile").Reverse().ToList();
-                shell.ForEach(x => NewEmptySpace.Items.Remove(x));
-                return;
-            }
-            var cachedNewContextMenuEntries = ContextFlyoutItemHelper.CachedNewContextMenuEntries.IsCompletedSuccessfully ? ContextFlyoutItemHelper.CachedNewContextMenuEntries.Result : null;
-            if (cachedNewContextMenuEntries == null)
-                return;
-            if (!NewEmptySpace.Items.Any(x => (x.Tag as string) == "CreateNewFile"))
-            {
-                var separatorIndex = NewEmptySpace.Items.IndexOf(NewEmptySpace.Items.Single(x => x.Name == "NewMenuFileFolderSeparator"));
-                foreach (var newEntry in Enumerable.Reverse(cachedNewContextMenuEntries))
-                {
-                    MenuFlyoutItem menuLayoutItem;
-                    if (!string.IsNullOrEmpty(newEntry.IconBase64))
-                    {
-                        byte[] bitmapData = Convert.FromBase64String(newEntry.IconBase64);
-                        using var ms = new MemoryStream(bitmapData);
-                        var image = new BitmapImage();
-                        _ = image.SetSourceAsync(ms.AsRandomAccessStream());
-                        menuLayoutItem = new MenuFlyoutItemWithImage()
-                        {
-                            Text = newEntry.Name,
-                            BitmapIcon = image,
-                            Tag = "CreateNewFile"
-                        };
-                    }
-                    else
-                    {
-                        menuLayoutItem = new MenuFlyoutItem()
-                        {
-                            Text = newEntry.Name,
-                            Icon = new FontIcon()
-                            {
-                                Glyph = "\xE7C3"
-                            },
-                            Tag = "CreateNewFile"
-                        };
-                    }
-                    menuLayoutItem.Command = ViewModel.CreateNewFileCommand;
-                    menuLayoutItem.CommandParameter = newEntry;
-                    NewEmptySpace.Items.Insert(separatorIndex + 1, menuLayoutItem);
-                }
-            }
-        }
+		private void NewEmptySpace_Opening(object sender, object e)
+		{
+			if (!ViewModel.InstanceViewModel.CanCreateFileInPage)
+			{
+				var shell = NewEmptySpace.Items.Where(x => (x.Tag as string) == "CreateNewFile").Reverse().ToList();
+				shell.ForEach(x => NewEmptySpace.Items.Remove(x));
+				return;
+			}
+			var cachedNewContextMenuEntries = ContextFlyoutItemHelper.CachedNewContextMenuEntries.IsCompletedSuccessfully ? ContextFlyoutItemHelper.CachedNewContextMenuEntries.Result : null;
+			if (cachedNewContextMenuEntries == null)
+				return;
+			if (!NewEmptySpace.Items.Any(x => (x.Tag as string) == "CreateNewFile"))
+			{
+				var separatorIndex = NewEmptySpace.Items.IndexOf(NewEmptySpace.Items.Single(x => x.Name == "NewMenuFileFolderSeparator"));
+				foreach (var newEntry in Enumerable.Reverse(cachedNewContextMenuEntries))
+				{
+					MenuFlyoutItem menuLayoutItem;
+					if (!string.IsNullOrEmpty(newEntry.IconBase64))
+					{
+						byte[] bitmapData = Convert.FromBase64String(newEntry.IconBase64);
+						using var ms = new MemoryStream(bitmapData);
+						var image = new BitmapImage();
+						_ = image.SetSourceAsync(ms.AsRandomAccessStream());
+						menuLayoutItem = new MenuFlyoutItemWithImage()
+						{
+							Text = newEntry.Name,
+							BitmapIcon = image,
+							Tag = "CreateNewFile"
+						};
+					}
+					else
+					{
+						menuLayoutItem = new MenuFlyoutItem()
+						{
+							Text = newEntry.Name,
+							Icon = new FontIcon()
+							{
+								Glyph = "\xE7C3"
+							},
+							Tag = "CreateNewFile"
+						};
+					}
+					menuLayoutItem.Command = ViewModel.CreateNewFileCommand;
+					menuLayoutItem.CommandParameter = newEntry;
+					NewEmptySpace.Items.Insert(separatorIndex + 1, menuLayoutItem);
+				}
+			}
+		}
 
-        private void NavToolbarDetailsHeader_Tapped(object sender, TappedRoutedEventArgs e)
-            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView(true);
-        private void NavToolbarTilesHeader_Tapped(object sender, TappedRoutedEventArgs e)
-            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeTiles(true);
-        private void NavToolbarSmallIconsHeader_Tapped(object sender, TappedRoutedEventArgs e)
-            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall(true);
-        private void NavToolbarMediumIconsHeader_Tapped(object sender, TappedRoutedEventArgs e)
-            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium(true);
-        private void NavToolbarLargeIconsHeader_Tapped(object sender, TappedRoutedEventArgs e)
-            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge(true);
-        private void NavToolbarColumnsHeader_Tapped(object sender, TappedRoutedEventArgs e)
-            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView(true);
-        private void NavToolbarAdaptiveHeader_Tapped(object sender, TappedRoutedEventArgs e)
-            => ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeAdaptive();
-    }
+		private void NavToolbarDetailsHeader_Tapped(object sender, TappedRoutedEventArgs e)
+			=> ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView(true);
+		private void NavToolbarTilesHeader_Tapped(object sender, TappedRoutedEventArgs e)
+			=> ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeTiles(true);
+		private void NavToolbarSmallIconsHeader_Tapped(object sender, TappedRoutedEventArgs e)
+			=> ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall(true);
+		private void NavToolbarMediumIconsHeader_Tapped(object sender, TappedRoutedEventArgs e)
+			=> ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium(true);
+		private void NavToolbarLargeIconsHeader_Tapped(object sender, TappedRoutedEventArgs e)
+			=> ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge(true);
+		private void NavToolbarColumnsHeader_Tapped(object sender, TappedRoutedEventArgs e)
+			=> ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView(true);
+		private void NavToolbarAdaptiveHeader_Tapped(object sender, TappedRoutedEventArgs e)
+			=> ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeAdaptive();
+	}
 }
