@@ -19,6 +19,7 @@ using Windows.System;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.Threading;
+using System.Runtime.CompilerServices;
 
 namespace Files.App.Helpers
 {
@@ -600,6 +601,14 @@ namespace Files.App.Helpers
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
+                    Text = "RestoreAllItems".GetLocalizedResource(),
+                    Glyph = "\xE777",
+                    Command = commandsViewModel.RestoreRecycleBinCommand,
+                    ShowItem = currentInstanceViewModel.IsPageTypeRecycleBin,
+                    ShowInRecycleBin = true,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
                     ItemType = ItemType.Separator,
                     Tag = "OverflowSeparator",
                     IsHidden = true,
@@ -625,7 +634,7 @@ namespace Files.App.Helpers
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutItemContextFlyoutRestore/Text".GetLocalizedResource(),
-                    Glyph = "\uE8E5",
+                    Glyph = "\xE777",
                     Command = commandsViewModel.RestoreItemCommand,
                     ShowInRecycleBin = true,
                     ShowItem = selectedItems.All(x => x.IsRecycleBinItem)
