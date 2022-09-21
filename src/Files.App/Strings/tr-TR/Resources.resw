@@ -160,7 +160,7 @@
     <value>Öge Adı</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Path:</value>
+    <value>Yol:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Boyut:</value>
@@ -2830,6 +2830,6 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
     <value>Dosya ve klasörleri açma şekli</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
-    <value>Select files and folders when hovering over them</value>
+    <value>Üzerine getirildiğinde dosyaları ve klasörleri seçin</value>
   </data>
 </root>
