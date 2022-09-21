@@ -160,7 +160,7 @@
     <value>Nombre del elemento</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Path:</value>
+    <value>Ruta:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Tamaño:</value>
