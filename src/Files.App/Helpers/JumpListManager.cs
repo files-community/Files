@@ -148,7 +148,7 @@ namespace Files.App.Helpers
             catch { }
         }
 
-        private async Task RefreshAsync()
+        private Task RefreshAsync()
         {
             if (instance != null)
             {
@@ -160,8 +160,10 @@ namespace Files.App.Helpers
                     AddFolder(path);
                 }
 
-                await instance.SaveAsync();
+                return instance.SaveAsync().AsTask();
             }
+
+            return Task.CompletedTask;
         }
     }
 }

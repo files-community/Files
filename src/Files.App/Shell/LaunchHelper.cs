@@ -22,16 +22,14 @@ namespace Files.App.Shell
                 page, Shell32.ACTIVATEOPTIONS.AO_NONE, out _);
         }
 
-        public static async Task<bool> LaunchAppAsync(string application, string arguments, string workingDirectory)
-        {
-            return await HandleApplicationLaunch(application, arguments, workingDirectory);
-        }
+        public static Task<bool> LaunchAppAsync(string application, string arguments, string workingDirectory)
+            => HandleApplicationLaunch(application, arguments, workingDirectory);
 
-        public static async Task<bool> RunCompatibilityTroubleshooterAsync(string filePath)
+        public static Task<bool> RunCompatibilityTroubleshooterAsync(string filePath)
         {
             var afPath = Path.Combine(Path.GetTempPath(), "CompatibilityTroubleshooterAnswerFile.xml");
             File.WriteAllText(afPath, string.Format("<?xml version=\"1.0\" encoding=\"UTF-8\"?><Answers Version=\"1.0\"><Interaction ID=\"IT_LaunchMethod\"><Value>CompatTab</Value></Interaction><Interaction ID=\"IT_BrowseForFile\"><Value>{0}</Value></Interaction></Answers>", filePath));
-            return await HandleApplicationLaunch("msdt.exe", $"/id PCWDiagnostic /af \"{afPath}\"", "");
+            return HandleApplicationLaunch("msdt.exe", $"/id PCWDiagnostic /af \"{afPath}\"", "");
         }
 
         private static async Task<bool> HandleApplicationLaunch(string application, string arguments, string workingDirectory)

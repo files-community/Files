@@ -40,9 +40,11 @@ namespace Files.App.Views
         public override Task<bool> SaveChangesAsync(ListedItem item)
         {
             if (CompatibilityProperties != null)
+            {
                 return Task.FromResult(CompatibilityProperties.SetCompatibilityOptions());
+            }
 
-            return Task.FromResult(true);
+            return Task.FromResult(false);
         }
 
         public override void Dispose()

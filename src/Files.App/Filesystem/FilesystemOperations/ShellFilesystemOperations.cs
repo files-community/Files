@@ -1,8 +1,15 @@
-using Files.Shared.Extensions;
-using Files.Shared.Enums;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Extensions;
 using Files.App.Filesystem.FilesystemHistory;
+using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
+using Files.App.Shell;
+using Files.Backend.Services;
+using Files.Backend.ViewModels.Dialogs;
+using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
+using Files.Shared;
+using Files.Shared.Enums;
+using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,13 +20,6 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Windows.Storage;
-using Files.Shared;
-using Files.Backend.ViewModels.Dialogs;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Backend.Services;
-using Files.App.Filesystem.StorageItems;
-using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
-using Files.App.Shell;
 
 namespace Files.App.Filesystem
 {

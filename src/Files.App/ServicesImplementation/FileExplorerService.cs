@@ -18,16 +18,12 @@ namespace Files.App.ServicesImplementation
     internal sealed class FileExplorerService : IFileExplorerService
     {
         /// <inheritdoc/>
-        public async Task OpenAppFolderAsync(CancellationToken cancellationToken = default)
-        {
-            await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder).AsTask(cancellationToken);
-        }
+        public Task OpenAppFolderAsync(CancellationToken cancellationToken = default)
+            => Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder).AsTask(cancellationToken);
 
         /// <inheritdoc/>
-        public async Task OpenInFileExplorerAsync(ILocatableFolder folder, CancellationToken cancellationToken = default)
-        {
-            await Launcher.LaunchFolderPathAsync(folder.Path).AsTask(cancellationToken);
-        }
+        public Task OpenInFileExplorerAsync(ILocatableFolder folder, CancellationToken cancellationToken = default)
+            => Launcher.LaunchFolderPathAsync(folder.Path).AsTask(cancellationToken);
 
         /// <inheritdoc/>
         public async Task<ILocatableFile?> PickSingleFileAsync(IEnumerable<string>? filter, CancellationToken cancellationToken = default)

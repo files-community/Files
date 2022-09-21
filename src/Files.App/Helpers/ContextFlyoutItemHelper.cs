@@ -33,10 +33,8 @@ namespace Files.App.Helpers
             return menuItemsList;
         }
 
-        public static async Task<List<ContextMenuFlyoutItemViewModel>> GetItemContextShellCommandsAsync(CurrentInstanceViewModel currentInstanceViewModel, string workingDir, List<ListedItem> selectedItems, bool shiftPressed, bool showOpenMenu, CancellationToken cancellationToken)
-        {
-            return await ShellContextmenuHelper.GetShellContextmenuAsync(shiftPressed: shiftPressed, showOpenMenu: showOpenMenu, workingDirectory: workingDir, selectedItems: selectedItems, cancellationToken: cancellationToken);
-        }
+        public static Task<List<ContextMenuFlyoutItemViewModel>> GetItemContextShellCommandsAsync(CurrentInstanceViewModel currentInstanceViewModel, string workingDir, List<ListedItem> selectedItems, bool shiftPressed, bool showOpenMenu, CancellationToken cancellationToken)
+            => ShellContextmenuHelper.GetShellContextmenuAsync(shiftPressed: shiftPressed, showOpenMenu: showOpenMenu, workingDirectory: workingDir, selectedItems: selectedItems, cancellationToken: cancellationToken);
 
         public static List<ContextMenuFlyoutItemViewModel> GetBaseContextCommandsWithoutShellItems(CurrentInstanceViewModel currentInstanceViewModel, ItemViewModel itemViewModel, BaseLayoutCommandsViewModel commandsViewModel, bool shiftPressed, bool showOpenMenu)
         {
@@ -45,10 +43,8 @@ namespace Files.App.Helpers
             return menuItemsList;
         }
 
-        public static async Task<List<ContextMenuFlyoutItemViewModel>> GetBaseContextShellCommandsAsync(CurrentInstanceViewModel currentInstanceViewModel, string workingDir, bool shiftPressed, bool showOpenMenu, CancellationToken cancellationToken)
-        {
-            return await ShellContextmenuHelper.GetShellContextmenuAsync(shiftPressed: shiftPressed, showOpenMenu: showOpenMenu, workingDirectory: workingDir, selectedItems: new List<ListedItem>(), cancellationToken: cancellationToken);
-        }
+        public static Task<List<ContextMenuFlyoutItemViewModel>> GetBaseContextShellCommandsAsync(CurrentInstanceViewModel currentInstanceViewModel, string workingDir, bool shiftPressed, bool showOpenMenu, CancellationToken cancellationToken)
+            => ShellContextmenuHelper.GetShellContextmenuAsync(shiftPressed: shiftPressed, showOpenMenu: showOpenMenu, workingDirectory: workingDir, selectedItems: new List<ListedItem>(), cancellationToken: cancellationToken);
 
         public static List<ContextMenuFlyoutItemViewModel> Filter(List<ContextMenuFlyoutItemViewModel> items, List<ListedItem> selectedItems, bool shiftPressed, CurrentInstanceViewModel currentInstanceViewModel, bool removeOverflowMenu = true)
         {
