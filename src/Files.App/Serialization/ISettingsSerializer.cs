@@ -6,7 +6,7 @@ namespace Files.App.Serialization
     {
         bool CreateFile(string path);
 
-        string? ReadFromFile();
+        string ReadFromFile();
 
         bool WriteToFile(string? text);
     }
