@@ -78,9 +78,7 @@ namespace Files.App.ViewModels
 		private void NavigateToNumberedTabKeyboardAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
 		{
 			int indexToSelect = 0;
-			if (e is null)
-				return;
-			switch (e.KeyboardAccelerator.Key)
+			switch (e!.KeyboardAccelerator.Key)
 			{
 				case VirtualKey.Number1:
 					indexToSelect = 0;
@@ -148,10 +146,9 @@ namespace Files.App.ViewModels
 
 		private async void OpenNewWindowAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
 		{
-			if (e is not null)
-				e.Handled = true;
 			Uri filesUWPUri = new Uri("files-uwp:");
 			await Launcher.LaunchUriAsync(filesUWPUri);
+			e!.Handled = true;
 		}
 
 		private void CloseSelectedTabKeyboardAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
@@ -166,22 +163,19 @@ namespace Files.App.ViewModels
 				TabItem tabItem = AppInstances[App.AppModel.TabStripSelectedIndex];
 				MultitaskingControl?.CloseTab(tabItem);
 			}
-			if (e is not null)
-				e.Handled = true;
+			e!.Handled = true;
 		}
 
 		private async void AddNewInstanceAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
 		{
 			await AddNewTabAsync();
-			if (e is not null)
-				e.Handled = true;
+			e!.Handled = true;
 		}
 
 		private void ReopenClosedTabAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
 		{
 			(MultitaskingControl as BaseMultitaskingControl)?.ReopenClosedTab(null, null);
-			if (e is not null)
-				e.Handled = true;
+			e!.Handled = true;
 		}
 
 		private async void OpenSettings()

@@ -377,11 +377,8 @@ namespace Files.App.Views
 
 		private void ToggleSidebarCollapsedState(KeyboardAcceleratorInvokedEventArgs? e)
 		{
-			if (e is null)
-				return;
 			SidebarAdaptiveViewModel.IsSidebarOpen = !SidebarAdaptiveViewModel.IsSidebarOpen;
-
-			e.Handled = true;
+			e!.Handled = true;
 		}
 
 		private void SidebarControl_Loaded(object sender, RoutedEventArgs e)
