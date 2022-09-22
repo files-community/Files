@@ -29,7 +29,6 @@ namespace Files.App.Helpers
     public class FileOperationsHelpers
     {
         private static FileTagsDb dbInstance = new(Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "filetags.db"));
-        private static readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
         private static readonly ProgressHandler progressHandler = new();
 
         public static long? GetFileHandle(string filePath, bool readWrite, int processId)
