@@ -3,7 +3,7 @@
 I ACKNOWLEDGE THE FOLLOWING BEFORE PROCEEDING:
 1. PR may be deleted if it is not following the template
 2. Try not to make duplicates. Do a quick search before posting
-3. Add a clear title starting with "Feature:" or "Bug:"
+3. Add a clear title starting with "Feature:" or "Fix:"
 -->
 
 **Resolved / Related Issues**
