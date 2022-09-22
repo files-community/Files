@@ -42,7 +42,7 @@ namespace Files.App.Views
             if (CompatibilityProperties != null)
                 return Task.FromResult(CompatibilityProperties.SetCompatibilityOptions());
 
-            return Task.FromResult(true);
+            return Task.FromResult(false);
         }
 
         public override void Dispose()
