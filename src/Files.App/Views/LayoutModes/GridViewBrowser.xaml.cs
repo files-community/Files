@@ -262,8 +262,8 @@ namespace Files.App.Views.LayoutModes
 				return;
 			}
 			int extensionLength = RenamingItem.FileExtension?.Length ?? 0;
-			GridViewItem gridViewItem = (GridViewItem)FileList.ContainerFromItem(RenamingItem);
-			TextBox textBox = null;
+			GridViewItem? gridViewItem = FileList.ContainerFromItem(RenamingItem) as GridViewItem;
+			TextBox? textBox = null;
 			if (gridViewItem == null)
 			{
 				return;

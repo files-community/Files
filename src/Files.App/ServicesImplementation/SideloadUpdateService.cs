@@ -89,7 +89,7 @@ namespace Files.App.ServicesImplementation
 
                 // Deserialize AppInstaller.
                 XmlSerializer xml = new XmlSerializer(typeof(AppInstaller));
-                var appInstaller = (AppInstaller)xml.Deserialize(stream);
+                var appInstaller = (AppInstaller?)xml.Deserialize(stream);
 
                 if (appInstaller == null)
                 {
