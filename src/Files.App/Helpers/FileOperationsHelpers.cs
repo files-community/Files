@@ -102,7 +102,7 @@ namespace Files.App.Helpers
             });
         }
 
-        public static Task<(bool, ShellOperationResult)> CreateItemAsync(string filePath, string fileOp, string template = "", string dataStr = "")
+        public static Task<(bool, ShellOperationResult)> CreateItemAsync(string filePath, string fileOp, string template = "", byte[]? dataBytes = null)
         {
             return Win32API.StartSTATask(async () =>
             {
@@ -151,11 +151,10 @@ namespace Files.App.Helpers
                     createTcs.TrySetResult(false);
                 }
 
-                if (dataStr != null && (shellOperationResult.Items.SingleOrDefault()?.Succeeded ?? false))
+                if (dataBytes != null && (shellOperationResult.Items.SingleOrDefault()?.Succeeded ?? false))
                 {
                     SafetyExtensions.IgnoreExceptions(() =>
                     {
-                        var dataBytes = Convert.FromBase64String(dataStr);
                         using var fs = new FileStream(shellOperationResult.Items.Single().Destination, FileMode.Open);
                         fs.Write(dataBytes, 0, dataBytes.Length);
                         fs.Flush();

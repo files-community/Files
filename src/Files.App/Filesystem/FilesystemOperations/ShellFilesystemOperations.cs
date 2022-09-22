@@ -227,7 +227,7 @@ namespace Files.App.Filesystem
                             }
                         }
                         else
-                            (success, response) = await FileOperationsHelpers.CreateItemAsync(source.Path, "CreateFile", newEntryInfo?.Template, Convert.ToBase64String(newEntryInfo?.Data));
+                            (success, response) = await FileOperationsHelpers.CreateItemAsync(source.Path, "CreateFile", newEntryInfo?.Template, newEntryInfo?.Data);
                         break;
                     }
                 case FilesystemItemType.Directory:
