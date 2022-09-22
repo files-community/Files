@@ -18,6 +18,7 @@ using Windows.Foundation.Metadata;
 using Windows.System;
 using Windows.UI;
 using Windows.Graphics;
+using System.Linq;
 
 namespace Files.App.Views
 {
@@ -75,16 +76,9 @@ namespace Files.App.Views
 			AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
 			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
 			{
-				int navigationViewWidth = (int)(NavigationView.ActualWidth - NavigationView.Margin.Right);
-				appWindow.TitleBar.SetDragRectangles(new RectInt32[]
-				{
-					new RectInt32(
-						navigationViewWidth,
-						0,
-						(int)(TitleBarDragArea.ActualSize.X - navigationViewWidth),
-						(int)TitleBarDragArea.ActualSize.Y)
-				});
+				SetDragRegion();
 				appWindow.Destroying += AppWindow_Destroying;
+				appWindow.Changed += AppWindow_Changed;
 				await App.Window.DispatcherQueue.EnqueueAsync(() => AppSettings.UpdateThemeElements.Execute(null));
 			}
 			else
@@ -92,6 +86,13 @@ namespace Files.App.Views
 				propertiesDialog = DependencyObjectHelpers.FindParent<ContentDialog>(this);
 				propertiesDialog.Closed += PropertiesDialog_Closed;
 			}
+		}
+
+		private void AppWindow_Changed(AppWindow sender, AppWindowChangedEventArgs args)
+		{
+			if (!args.DidSizeChange)
+				return;
+			SetDragRegion();
 		}
 
 		private void AppWindow_Destroying(AppWindow sender, object args)
@@ -148,6 +149,29 @@ namespace Files.App.Views
 							break;
 					}
 				}
+			});
+		}
+
+		void SetDragRegion()
+		{
+			int navigationViewWidth = 0;
+			foreach (NavigationViewItem item in NavigationView.MenuItems)
+			{
+				if (item.Visibility == Visibility.Visible)
+					navigationViewWidth += item.ActualWidth != 0 ? (int)item.ActualWidth : (int)item.CompactPaneLength;
+			}
+			appWindow.TitleBar.SetDragRectangles(new RectInt32[]
+			{
+				new RectInt32(
+					0,
+					0,
+					navigationViewWidth,
+					(int)NavigationView.ActualOffset.Y),
+				new RectInt32(
+					navigationViewWidth,
+					0,
+					(int)(TitleBarDragArea.ActualSize.X - navigationViewWidth),
+					(int)TitleBarDragArea.ActualSize.Y)
 			});
 		}
 
