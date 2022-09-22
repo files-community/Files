@@ -936,6 +936,7 @@ namespace Files.App.ViewModels
 			}
 		}
 
+		// thumbnailSize is set to 80 so that unless we override it, mode is in turn set to SingleItem
 		private async Task LoadItemThumbnail(ListedItem item, uint thumbnailSize = 80, IStorageItem matchingStorageItem = null)
 		{
 			var wasIconLoaded = false;
@@ -947,6 +948,7 @@ namespace Files.App.ViewModels
 					var matchingStorageFile = matchingStorageItem.AsBaseStorageFile() ?? await GetFileFromPathAsync(item.ItemPath);
 					if (matchingStorageFile != null)
 					{
+						// Single item is used to return a nice thumbnail in the grid layouts
 						var mode = thumbnailSize < 80 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
 
 						using StorageItemThumbnail Thumbnail = await FilesystemTasks.Wrap(() => matchingStorageFile.GetThumbnailAsync(mode, thumbnailSize, ThumbnailOptions.ResizeThumbnail).AsTask());
