@@ -40,7 +40,7 @@ namespace Files.Backend.Services.SizeProvider
             providers.Clear();
         }
 
-        public async Task UpdateAsync(string path, CancellationToken cancellationToken)
+        public Task UpdateAsync(string path, CancellationToken cancellationToken)
         {
             string driveName = GetDriveName(path);
             if (!providers.ContainsKey(driveName))
@@ -48,7 +48,7 @@ namespace Files.Backend.Services.SizeProvider
                 CreateProvider(driveName);
             }
             var provider = providers[driveName];
-            await provider.UpdateAsync(path, cancellationToken);
+            return provider.UpdateAsync(path, cancellationToken);
         }
 
         public bool TryGetSize(string path, out ulong size)

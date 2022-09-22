@@ -183,9 +183,9 @@ namespace Files.FullTrust
             }
         }
 
-        public static async Task<string> OpenObjectPicker(long hwnd)
+        public static Task<string> OpenObjectPicker(long hwnd)
         {
-            return await Win32API.StartSTATask(() =>
+            return Win32API.StartSTATask(() =>
             {
                 DirectoryObjectPickerDialog picker = new DirectoryObjectPickerDialog()
                 {
