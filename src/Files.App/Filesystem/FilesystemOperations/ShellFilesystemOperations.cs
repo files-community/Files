@@ -833,7 +833,7 @@ namespace Files.App.Filesystem
         }
 
         private List<Win32Process> WhoIsLocking(IEnumerable<string> filesToCheck)
-            => FileOperationsHelpers.CheckFileInUse(filesToCheck.ToArray());
+            => FileOperationsHelpers.CheckFileInUse(filesToCheck.ToArray()).ToList();
 
         #region IDisposable
 

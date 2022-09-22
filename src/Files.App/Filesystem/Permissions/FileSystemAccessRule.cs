@@ -40,7 +40,14 @@ namespace Files.App.Filesystem.Permissions
             if (acsResult)
             {
                 var accessRules = acs.GetAccessRules(true, true, typeof(SecurityIdentifier));
-                filePermissions.AccessRules.AddRange(accessRules.Cast<FileSystemAccessRule2>());
+
+                var rules = new List<FileSystemAccessRule2>();
+                foreach (var accessRule in accessRules)
+                {
+                    rules.Add(FileSystemAccessRule2.FromFileSystemAccessRule((System.Security.AccessControl.FileSystemAccessRule)accessRule));
+                }
+
+                filePermissions.AccessRules.AddRange(rules);
                 filePermissions.OwnerSID = acs.GetOwner(typeof(SecurityIdentifier)).Value;
                 filePermissions.AreAccessRulesProtected = acs.AreAccessRulesProtected;
             }
@@ -268,6 +275,19 @@ namespace Files.App.Filesystem.Permissions
         public bool IsInherited { get; set; }
         public System.Security.AccessControl.InheritanceFlags InheritanceFlags { get; set; }
         public System.Security.AccessControl.PropagationFlags PropagationFlags { get; set; }
+
+        public static FileSystemAccessRule2 FromFileSystemAccessRule(FileSystemAccessRule rule)
+        {
+            return new FileSystemAccessRule2()
+            {
+                AccessControlType = (System.Security.AccessControl.AccessControlType)rule.AccessControlType,
+                FileSystemRights = (System.Security.AccessControl.FileSystemRights)rule.FileSystemRights,
+                IsInherited = rule.IsInherited,
+                IdentityReference = rule.IdentityReference,
+                InheritanceFlags = (System.Security.AccessControl.InheritanceFlags)rule.InheritanceFlags,
+                PropagationFlags = (System.Security.AccessControl.PropagationFlags)rule.PropagationFlags
+            };
+        }
 
         public static FileSystemAccessRule2 FromFileSystemAccessRule(System.Security.AccessControl.FileSystemAccessRule rule)
         {
