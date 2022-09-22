@@ -171,9 +171,7 @@ namespace Files.App.ViewModels.Properties
         public bool SetCompatibilityOptions()
             => FileOperationsHelpers.SetCompatOptions(ExePath, CompatibilityOptions?.ToString());
 
-        public async Task RunTroubleshooter()
-        {
-            await LaunchHelper.RunCompatibilityTroubleshooterAsync(ExePath);
-        }
+        public Task RunTroubleshooter()
+            => LaunchHelper.RunCompatibilityTroubleshooterAsync(ExePath);
     }
 }

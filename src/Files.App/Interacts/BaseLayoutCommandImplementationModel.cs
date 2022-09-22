@@ -144,6 +144,16 @@ namespace Files.App.Interacts
             await RecycleBinHelpers.S_EmptyRecycleBin();
         }
 
+        public virtual async void RestoreRecycleBin(RoutedEventArgs e)
+        {
+            await RecycleBinHelpers.S_RestoreRecycleBin(associatedInstance);
+        }
+
+        public virtual async void RestoreSelectionRecycleBin(RoutedEventArgs e)
+        {
+            await RecycleBinHelpers.S_RestoreSelectionRecycleBin(associatedInstance);
+        }
+
         public virtual async void QuickLook(RoutedEventArgs e)
         {
             await QuickLookHelpers.ToggleQuickLook(associatedInstance);
@@ -161,22 +171,12 @@ namespace Files.App.Interacts
 
         public virtual async void RestoreItem(RoutedEventArgs e)
         {
-            var items = SlimContentPage.SelectedItems.ToList().Where(x => x is RecycleBinItem).Select((item) => new
-            {
-                Source = StorageHelpers.FromPathAndType(
-                    item.ItemPath,
-                    item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory),
-                Dest = (item as RecycleBinItem).ItemOriginalPath
-            });
-            await FilesystemHelpers.RestoreItemsFromTrashAsync(items.Select(x => x.Source), items.Select(x => x.Dest), true);
+            await RecycleBinHelpers.S_RestoreItem(associatedInstance);
         }
 
         public virtual async void DeleteItem(RoutedEventArgs e)
         {
-            var items = SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
-                item.ItemPath,
-                item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
-            await FilesystemHelpers.DeleteItemsAsync(items, true, false, true);
+            await RecycleBinHelpers.S_DeleteItem(associatedInstance);
         }
 
         public virtual void ShowFolderProperties(RoutedEventArgs e)
