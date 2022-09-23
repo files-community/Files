@@ -2825,9 +2825,30 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
     <value>Sperrbildschirm</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Open folders with a single click in the Columns Layout</value>
+    <value>Ordner mit einem Klick im Spaltenlayout öffnen</value>
   </data>
   <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
-    <value>Behavior for opening files and folders</value>
+    <value>Verhalten beim Öffnen von Dateien und Ordnern</value>
+  </data>
+  <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
+    <value>Dateien und Ordner beim Überfahren auswählen</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
+    <value>Sind Sie sicher, dass Sie alle Elemente im Papierkorb wiederherstellen möchten?</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
+    <value>Alle Elemente wiederherstellen</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
+    <value>Möchten Sie {0} ausgewählte Elemente(n) wiederherstellen?</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
+    <value>Auswahl wiederherstellen</value>
+  </data>
+  <data name="RestoreAllItems" xml:space="preserve">
+    <value>Alle Elemente wiederherstellen</value>
+  </data>
+  <data name="RestoreSelection" xml:space="preserve">
+    <value>Wiederherstellen</value>
   </data>
 </root>
