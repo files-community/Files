@@ -160,7 +160,7 @@
     <value>名前</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Path:</value>
+    <value>パス:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>サイズ:</value>
@@ -2820,28 +2820,28 @@
     <value>ロック画面</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Open folders with a single click in the Columns Layout</value>
+    <value>列レイアウトでワンクリックでフォルダを開く</value>
   </data>
   <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
-    <value>Behavior for opening files and folders</value>
+    <value>ファイルとフォルダを開くときの動作</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
-    <value>Select files and folders when hovering over them</value>
+    <value>上にカーソルを合わせたときにファイルとフォルダを選択する</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
-    <value>Are you sure you want to restore all items in the recycle bin?</value>
+    <value>ごみ箱内のすべてのアイテムを復元してもよろしいですか？</value>
   </data>
   <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
-    <value>Restore all items</value>
+    <value>すべてのアイテムを復元</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
-    <value>Do you want to restore the {0} selected item(s)?</value>
+    <value>選択した {0} アイテムを復元しますか？</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
-    <value>Restore selection</value>
+    <value>選択範囲を復元</value>
   </data>
   <data name="RestoreAllItems" xml:space="preserve">
-    <value>Restore All Items</value>
+    <value>すべてのアイテムを復元</value>
   </data>
   <data name="RestoreSelection" xml:space="preserve">
     <value>元に戻す</value>
