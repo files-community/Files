@@ -2834,19 +2834,19 @@ Wir benutzen das App Center, um einen Überblick über die Nutzung von Files zu 
     <value>Dateien und Ordner beim Überfahren auswählen</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
-    <value>Are you sure you want to restore all items in the recycle bin?</value>
+    <value>Sind Sie sicher, dass Sie alle Elemente im Papierkorb wiederherstellen möchten?</value>
   </data>
   <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
-    <value>Restore all items</value>
+    <value>Alle Elemente wiederherstellen</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
-    <value>Do you want to restore the {0} selected item(s)?</value>
+    <value>Möchten Sie {0} ausgewählte Elemente(n) wiederherstellen?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
-    <value>Restore selection</value>
+    <value>Auswahl wiederherstellen</value>
   </data>
   <data name="RestoreAllItems" xml:space="preserve">
-    <value>Restore All Items</value>
+    <value>Alle Elemente wiederherstellen</value>
   </data>
   <data name="RestoreSelection" xml:space="preserve">
     <value>Wiederherstellen</value>
