@@ -954,6 +954,7 @@ namespace Files.App.ViewModels
 						if (FileExtensionHelpers.IsImageFile(item.FileExtension))
 							thumbnailMode = thumbnailSize < 80 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
 						else
+							// DocumentsView is used for non images for sagethumbs support
 							thumbnailMode = thumbnailSize < 80 ? ThumbnailMode.ListView : ThumbnailMode.DocumentsView;
 
 						using StorageItemThumbnail Thumbnail = await FilesystemTasks.Wrap(() => matchingStorageFile.GetThumbnailAsync(thumbnailMode, thumbnailSize, ThumbnailOptions.ResizeThumbnail).AsTask());
