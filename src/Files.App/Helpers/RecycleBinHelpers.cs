@@ -14,6 +14,7 @@ using Microsoft.UI.Xaml.Controls;
 using Files.App.Shell;
 using Vanara.PInvoke;
 using Files.App.Filesystem;
+using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace Files.App.Helpers
 {
@@ -194,6 +195,21 @@ namespace Files.App.Helpers
                 item.ItemPath,
                 item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
             await associatedInstance.FilesystemHelpers.DeleteItemsAsync(items, true, false, true);
+        }
+
+        public async Task<BitmapImage> RetrieveAdaptedRecycleBinIcon()
+        {
+            BitmapImage icon;
+            if (this.RecycleBinHasItems())
+            {
+                icon = await UIHelpers.GetIconResource(Constants.ImageRes.RecycleBin);
+            }
+            else
+            {
+                icon = await UIHelpers.GetIconResource(Constants.ImageRes.EmptyRecycleBin);
+            }
+
+            return icon;
         }
     }
 }
