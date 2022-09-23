@@ -160,7 +160,7 @@
     <value>Tên Mục</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Hướng dẫn</value>
+    <value>Path:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Kích thước:</value>
@@ -2829,5 +2829,26 @@ Chúng tôi sử dụng Trung tâm ứng dụng để theo dõi việc sử dụ
   </data>
   <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
     <value>Behavior for opening files and folders</value>
+  </data>
+  <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
+    <value>Select files and folders when hovering over them</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
+    <value>Are you sure you want to restore all items in the recycle bin?</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
+    <value>Restore all items</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
+    <value>Do you want to restore the {0} selected item(s)?</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
+    <value>Restore selection</value>
+  </data>
+  <data name="RestoreAllItems" xml:space="preserve">
+    <value>Restore All Items</value>
+  </data>
+  <data name="RestoreSelection" xml:space="preserve">
+    <value>Khôi phục</value>
   </data>
 </root>
