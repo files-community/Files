@@ -948,10 +948,15 @@ namespace Files.App.ViewModels
 					var matchingStorageFile = matchingStorageItem.AsBaseStorageFile() ?? await GetFileFromPathAsync(item.ItemPath);
 					if (matchingStorageFile != null)
 					{
-						// Single item is used to return a nice thumbnail in the grid layouts
-						var mode = thumbnailSize < 80 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
+						ThumbnailMode thumbnailMode;
 
-						using StorageItemThumbnail Thumbnail = await FilesystemTasks.Wrap(() => matchingStorageFile.GetThumbnailAsync(mode, thumbnailSize, ThumbnailOptions.ResizeThumbnail).AsTask());
+						// Single item is used for images in the grid layout so that is has the proper aspect ratio
+						if (FileExtensionHelpers.IsImageFile(item.FileExtension))
+							thumbnailMode = thumbnailSize < 80 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
+						else
+							thumbnailMode = thumbnailSize < 80 ? ThumbnailMode.ListView : ThumbnailMode.DocumentsView;
+
+						using StorageItemThumbnail Thumbnail = await FilesystemTasks.Wrap(() => matchingStorageFile.GetThumbnailAsync(thumbnailMode, thumbnailSize, ThumbnailOptions.ResizeThumbnail).AsTask());
 						if (!(Thumbnail == null || Thumbnail.Size == 0 || Thumbnail.OriginalHeight == 0 || Thumbnail.OriginalWidth == 0))
 						{
 							await dispatcherQueue.EnqueueAsync(async () =>
