@@ -1,5 +1,17 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.WinUI;
+using Files.App.Extensions;
+using Files.App.Filesystem;
+using Files.App.Filesystem.Cloud;
+using Files.App.Filesystem.Search;
+using Files.App.Filesystem.StorageEnumerators;
+using Files.App.Filesystem.StorageItems;
+using Files.App.Helpers;
+using Files.App.Helpers.FileListCache;
+using Files.App.Shell;
+using Files.App.UserControls;
+using Files.App.ViewModels.Previews;
 using Files.Backend.Services;
 using Files.Backend.Services.Settings;
 using Files.Backend.Services.SizeProvider;
@@ -9,18 +21,10 @@ using Files.Shared.Cloud;
 using Files.Shared.Enums;
 using Files.Shared.EventArguments;
 using Files.Shared.Extensions;
-using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Filesystem.Cloud;
-using Files.App.Filesystem.Search;
-using Files.App.Filesystem.StorageEnumerators;
-using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers;
-using Files.App.Helpers.FileListCache;
-using Files.App.UserControls;
-using Files.App.ViewModels.Previews;
 using FluentFTP;
-using CommunityToolkit.WinUI;
+using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -40,15 +44,10 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
-using Windows.System;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Media.Imaging;
-using static Files.Backend.Helpers.NativeFindStorageItemHelper;
 using static Files.App.Helpers.NativeDirectoryChangesHelper;
-using FileAttributes = System.IO.FileAttributes;
+using static Files.Backend.Helpers.NativeFindStorageItemHelper;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
-using Files.App.Shell;
+using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.App.ViewModels
 {
@@ -942,48 +941,56 @@ namespace Files.App.ViewModels
 			var wasIconLoaded = false;
 			if (item.IsLibraryItem || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsZipItem)
 			{
-				if (UserSettingsService.PreferencesSettingsService.ShowThumbnails && 
+				if (UserSettingsService.PreferencesSettingsService.ShowThumbnails &&
 					!item.IsShortcutItem && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
 				{
 					var matchingStorageFile = matchingStorageItem.AsBaseStorageFile() ?? await GetFileFromPathAsync(item.ItemPath);
-					if (matchingStorageFile != null)
+					
+					if (matchingStorageFile == null)
+						return;
+
+					ThumbnailMode thumbnailMode;
+
+					// ListView is used for the details and columns layout
+					if (thumbnailSize < 80)
 					{
-						ThumbnailMode thumbnailMode;
+						thumbnailMode = ThumbnailMode.ListView;
+					}
+					else
+					{
+						// SingleItem returns image thumbnails in the correct aspect ratio
+						// DocumentsView is used for non images so that SageThumbs works
+						// This is relevant for the grid layouts
+						thumbnailMode = FileExtensionHelpers.IsImageFile(item.FileExtension) ? ThumbnailMode.SingleItem : ThumbnailMode.DocumentsView;
+					}
 
-						// Single item is used for images in the grid layout so that is has the proper aspect ratio
-						if (FileExtensionHelpers.IsImageFile(item.FileExtension))
-							thumbnailMode = thumbnailSize < 80 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
-						else
-							// DocumentsView is used for non images for sagethumbs support
-							thumbnailMode = thumbnailSize < 80 ? ThumbnailMode.ListView : ThumbnailMode.DocumentsView;
-
-						using StorageItemThumbnail Thumbnail = await FilesystemTasks.Wrap(() => matchingStorageFile.GetThumbnailAsync(thumbnailMode, thumbnailSize, ThumbnailOptions.ResizeThumbnail).AsTask());
-						if (!(Thumbnail == null || Thumbnail.Size == 0 || Thumbnail.OriginalHeight == 0 || Thumbnail.OriginalWidth == 0))
+					using StorageItemThumbnail Thumbnail = await FilesystemTasks.Wrap(() => matchingStorageFile.GetThumbnailAsync(thumbnailMode, thumbnailSize, ThumbnailOptions.ResizeThumbnail).AsTask());
+					
+					if (!(Thumbnail == null || Thumbnail.Size == 0 || Thumbnail.OriginalHeight == 0 || Thumbnail.OriginalWidth == 0))
+					{
+						await dispatcherQueue.EnqueueAsync(async () =>
 						{
-							await dispatcherQueue.EnqueueAsync(async () =>
+							item.FileImage ??= new BitmapImage();
+							item.FileImage.DecodePixelType = DecodePixelType.Logical;
+							item.FileImage.DecodePixelWidth = (int)thumbnailSize;
+							await item.FileImage.SetSourceAsync(Thumbnail);
+							if (!string.IsNullOrEmpty(item.FileExtension) &&
+								!item.IsShortcutItem && !item.IsExecutable &&
+								!ImagePreviewViewModel.ContainsExtension(item.FileExtension.ToLowerInvariant()))
 							{
-								item.FileImage ??= new BitmapImage();
-								item.FileImage.DecodePixelType = DecodePixelType.Logical;
-								item.FileImage.DecodePixelWidth = (int)thumbnailSize;
-								await item.FileImage.SetSourceAsync(Thumbnail);
-								if (!string.IsNullOrEmpty(item.FileExtension) &&
-									!item.IsShortcutItem && !item.IsExecutable &&
-									!ImagePreviewViewModel.ContainsExtension(item.FileExtension.ToLowerInvariant()))
-								{
-									DefaultIcons.AddIfNotPresent(item.FileExtension.ToLowerInvariant(), item.FileImage);
-								}
-							}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
-							wasIconLoaded = true;
-						}
+								DefaultIcons.AddIfNotPresent(item.FileExtension.ToLowerInvariant(), item.FileImage);
+							}
+						}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
+						wasIconLoaded = true;
+					}
 
-						var overlayInfo = await FileThumbnailHelper.LoadOverlayAsync(item.ItemPath, thumbnailSize);
-						if (overlayInfo != null)
+					var overlayInfo = await FileThumbnailHelper.LoadOverlayAsync(item.ItemPath, thumbnailSize);
+					if (overlayInfo != null)
+					{
+						await dispatcherQueue.EnqueueAsync(async () =>
 						{
-							await dispatcherQueue.EnqueueAsync(async () =>
-							{
-								item.IconOverlay = await overlayInfo.ToBitmapAsync();
-							}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
-						}
+							item.IconOverlay = await overlayInfo.ToBitmapAsync();
+						}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 					}
 				}
 
@@ -1397,7 +1404,7 @@ namespace Files.App.ViewModels
 				switch (enumerated)
 				{
 					case 0: // Enumerated with FindFirstFileExFromApp
-						// Is folder synced to cloud storage?
+							// Is folder synced to cloud storage?
 						currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
 						var syncStatus = await CheckCloudDriveSyncStatusAsync(currentStorageFolder?.Item);
 						PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown });
