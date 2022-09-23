@@ -164,7 +164,7 @@ namespace Files.App.Views
 			// Why is this not called? Are we cleaning up properly?
 		}
 
-		private async void AppSettings_ThemeModeChanged(object sender, EventArgs e)
+		private async void AppSettings_ThemeModeChanged(object? sender, EventArgs e)
 		{
 			var selectedTheme = ThemeHelper.RootTheme;
 			await DispatcherQueue.EnqueueAsync(() =>
@@ -229,7 +229,7 @@ namespace Files.App.Views
 				propertiesDialog?.Hide();
 		}
 
-		private void NavigationView_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
+		private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
 		{
 			var navParam = new PropertyNavParam()
 			{
