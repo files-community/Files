@@ -160,7 +160,7 @@
     <value>Nombre</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Ubicación:</value>
+    <value>Ruta:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Tamaño:</value>
@@ -2824,9 +2824,30 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
     <value>Pantalla de bloqueo</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Open folders with a single click in the Columns Layout</value>
+    <value>Abrir carpetas con un solo clic en el diseño de columnas</value>
   </data>
   <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
-    <value>Behavior for opening files and folders</value>
+    <value>Comportamiento al abrir archivos y carpetas</value>
+  </data>
+  <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
+    <value>Seleccionar archivos y carpetas al pasar el cursor sobre ellos</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
+    <value>¿Está seguro de que desea restaurar todos los elementos en la papelera?</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
+    <value>Restaurar todos los elementos</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
+    <value>¿Desea restaurar los elemento(s) {0} seleccionado(s)?</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
+    <value>Restaurar selección</value>
+  </data>
+  <data name="RestoreAllItems" xml:space="preserve">
+    <value>Restaurar todos los elementos</value>
+  </data>
+  <data name="RestoreSelection" xml:space="preserve">
+    <value>Restaurar</value>
   </data>
 </root>
