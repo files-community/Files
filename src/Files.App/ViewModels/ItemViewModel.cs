@@ -946,40 +946,40 @@ namespace Files.App.ViewModels
 				{
 					var matchingStorageFile = matchingStorageItem.AsBaseStorageFile() ?? await GetFileFromPathAsync(item.ItemPath);
 
-					if (matchingStorageFile == null)
-						return;
-
-					// SingleItem returns image thumbnails in the correct aspect ratio for the grid layouts
-					// ListView is used for the details and columns layout
-					var thumbnailMode = thumbnailSize < 80 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
-
-					using StorageItemThumbnail Thumbnail = await FilesystemTasks.Wrap(() => matchingStorageFile.GetThumbnailAsync(thumbnailMode, thumbnailSize, ThumbnailOptions.ResizeThumbnail).AsTask());
-
-					if (!(Thumbnail == null || Thumbnail.Size == 0 || Thumbnail.OriginalHeight == 0 || Thumbnail.OriginalWidth == 0))
+					if (matchingStorageFile != null)
 					{
-						await dispatcherQueue.EnqueueAsync(async () =>
+						// SingleItem returns image thumbnails in the correct aspect ratio for the grid layouts
+						// ListView is used for the details and columns layout
+						var thumbnailMode = thumbnailSize < 80 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
+
+						using StorageItemThumbnail Thumbnail = await FilesystemTasks.Wrap(() => matchingStorageFile.GetThumbnailAsync(thumbnailMode, thumbnailSize, ThumbnailOptions.ResizeThumbnail).AsTask());
+
+						if (!(Thumbnail == null || Thumbnail.Size == 0 || Thumbnail.OriginalHeight == 0 || Thumbnail.OriginalWidth == 0))
 						{
-							item.FileImage ??= new BitmapImage();
-							item.FileImage.DecodePixelType = DecodePixelType.Logical;
-							item.FileImage.DecodePixelWidth = (int)thumbnailSize;
-							await item.FileImage.SetSourceAsync(Thumbnail);
-							if (!string.IsNullOrEmpty(item.FileExtension) &&
-								!item.IsShortcutItem && !item.IsExecutable &&
-								!ImagePreviewViewModel.ContainsExtension(item.FileExtension.ToLowerInvariant()))
+							await dispatcherQueue.EnqueueAsync(async () =>
 							{
-								DefaultIcons.AddIfNotPresent(item.FileExtension.ToLowerInvariant(), item.FileImage);
-							}
-						}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
-						wasIconLoaded = true;
-					}
+								item.FileImage ??= new BitmapImage();
+								item.FileImage.DecodePixelType = DecodePixelType.Logical;
+								item.FileImage.DecodePixelWidth = (int)thumbnailSize;
+								await item.FileImage.SetSourceAsync(Thumbnail);
+								if (!string.IsNullOrEmpty(item.FileExtension) &&
+									!item.IsShortcutItem && !item.IsExecutable &&
+									!ImagePreviewViewModel.ContainsExtension(item.FileExtension.ToLowerInvariant()))
+								{
+									DefaultIcons.AddIfNotPresent(item.FileExtension.ToLowerInvariant(), item.FileImage);
+								}
+							}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
+							wasIconLoaded = true;
+						}
 
-					var overlayInfo = await FileThumbnailHelper.LoadOverlayAsync(item.ItemPath, thumbnailSize);
-					if (overlayInfo != null)
-					{
-						await dispatcherQueue.EnqueueAsync(async () =>
+						var overlayInfo = await FileThumbnailHelper.LoadOverlayAsync(item.ItemPath, thumbnailSize);
+						if (overlayInfo != null)
 						{
-							item.IconOverlay = await overlayInfo.ToBitmapAsync();
-						}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+							await dispatcherQueue.EnqueueAsync(async () =>
+							{
+								item.IconOverlay = await overlayInfo.ToBitmapAsync();
+							}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+						}
 					}
 				}
 
