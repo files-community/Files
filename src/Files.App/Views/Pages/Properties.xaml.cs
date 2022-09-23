@@ -18,7 +18,6 @@ using Windows.Foundation.Metadata;
 using Windows.System;
 using Windows.UI;
 using Windows.Graphics;
-using System.Linq;
 
 namespace Files.App.Views
 {
@@ -49,6 +48,8 @@ namespace Files.App.Views
 
 			if (flowDirectionSetting == "RTL")
 				FlowDirection = FlowDirection.RightToLeft;
+
+			contentFrame.Navigated += ContentFrame_Navigated;
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -76,9 +77,8 @@ namespace Files.App.Views
 			AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
 			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
 			{
-				SetDragRegion();
+				NavigationView.SizeChanged += NavigationView_SizeChanged;
 				appWindow.Destroying += AppWindow_Destroying;
-				appWindow.Changed += AppWindow_Changed;
 				await App.Window.DispatcherQueue.EnqueueAsync(() => AppSettings.UpdateThemeElements.Execute(null));
 			}
 			else
@@ -88,11 +88,52 @@ namespace Files.App.Views
 			}
 		}
 
-		private void AppWindow_Changed(AppWindow sender, AppWindowChangedEventArgs args)
+		private void NavigationView_SizeChanged(object? sender, SizeChangedEventArgs? e)
 		{
-			if (!args.DidSizeChange)
-				return;
-			SetDragRegion();
+			int navigationViewWidth = 0;
+			bool overflowAdded = false;
+			foreach (NavigationViewItem item in NavigationView.MenuItems)
+			{
+				if (item.Visibility == Visibility.Visible)
+				{
+					if (item.ActualWidth != 0)
+					{
+						navigationViewWidth += (int)item.ActualWidth;
+					}
+					else if (!overflowAdded)
+					{
+						navigationViewWidth += (int)item.CompactPaneLength;
+						overflowAdded = true;
+					}
+				}
+			}
+			appWindow.TitleBar.SetDragRectangles(new RectInt32[]
+			{
+				new RectInt32(
+					0,
+					0,
+					navigationViewWidth,
+					(int)NavigationView.ActualOffset.Y),
+				new RectInt32(
+					navigationViewWidth,
+					0,
+					(int)(TitleBarDragArea.ActualSize.X - navigationViewWidth),
+					(int)TitleBarDragArea.ActualSize.Y)
+			});
+		}
+
+		private void ContentFrame_Navigated(object sender, NavigationEventArgs e)
+		{
+			if (contentFrame.Content is Page propertiesMenu)
+			{
+				propertiesMenu.Loaded -= PropertiesMenu_Loaded;
+				propertiesMenu.Loaded += PropertiesMenu_Loaded;
+			}
+		}
+
+		private void PropertiesMenu_Loaded(object sender, RoutedEventArgs e)
+		{
+			NavigationView_SizeChanged(null, null);
 		}
 
 		private void AppWindow_Destroying(AppWindow sender, object args)
@@ -149,29 +190,6 @@ namespace Files.App.Views
 							break;
 					}
 				}
-			});
-		}
-
-		void SetDragRegion()
-		{
-			int navigationViewWidth = 0;
-			foreach (NavigationViewItem item in NavigationView.MenuItems)
-			{
-				if (item.Visibility == Visibility.Visible)
-					navigationViewWidth += item.ActualWidth != 0 ? (int)item.ActualWidth : (int)item.CompactPaneLength;
-			}
-			appWindow.TitleBar.SetDragRectangles(new RectInt32[]
-			{
-				new RectInt32(
-					0,
-					0,
-					navigationViewWidth,
-					(int)NavigationView.ActualOffset.Y),
-				new RectInt32(
-					navigationViewWidth,
-					0,
-					(int)(TitleBarDragArea.ActualSize.X - navigationViewWidth),
-					(int)TitleBarDragArea.ActualSize.Y)
 			});
 		}
 
