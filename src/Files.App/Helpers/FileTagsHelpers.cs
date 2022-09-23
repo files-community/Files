@@ -73,7 +73,7 @@ namespace Files.App.Helpers
             return frn;
         }
 
-        public void UpdateTagsDb()
+        public static void UpdateTagsDb()
         {
             string fileTagsDbPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "filetags.db");
             using var dbInstance = new Common.FileTagsDb(fileTagsDbPath, true);

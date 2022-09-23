@@ -132,8 +132,6 @@ namespace Files.App
             }
             ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = -proc.Id;
 
-            Task.Run(() => FileOperationsHelpers.WaitForCompletion());
-
             Application.Start((p) =>
             {
                 var context = new DispatcherQueueSynchronizationContext(
