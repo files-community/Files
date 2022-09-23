@@ -949,20 +949,9 @@ namespace Files.App.ViewModels
 					if (matchingStorageFile == null)
 						return;
 
-					ThumbnailMode thumbnailMode;
-
+					// SingleItem returns image thumbnails in the correct aspect ratio for the grid layouts
 					// ListView is used for the details and columns layout
-					if (thumbnailSize < 80)
-					{
-						thumbnailMode = ThumbnailMode.ListView;
-					}
-					else
-					{
-						// SingleItem returns image thumbnails in the correct aspect ratio
-						// DocumentsView is used for non images so that SageThumbs works
-						// This is relevant for the grid layouts
-						thumbnailMode = FileExtensionHelpers.IsImageFile(item.FileExtension) ? ThumbnailMode.SingleItem : ThumbnailMode.DocumentsView;
-					}
+					var thumbnailMode = thumbnailSize < 80 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
 
 					using StorageItemThumbnail Thumbnail = await FilesystemTasks.Wrap(() => matchingStorageFile.GetThumbnailAsync(thumbnailMode, thumbnailSize, ThumbnailOptions.ResizeThumbnail).AsTask());
 					
