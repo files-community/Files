@@ -255,11 +255,10 @@ namespace Files.App.DataModels
                 Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
             };
 
-            if (res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path))
+            locationItem.IsInvalid = res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path);
+            if (locationItem.IsInvalid)
             {
-                locationItem.IsInvalid = false;
                 locationItem.IconData = await RetrieveItemIconData(path, res);
-
                 if (locationItem.IconData != null)
                 {
                     locationItem.Icon = await App.Window.DispatcherQueue.EnqueueAsync(() => locationItem.IconData.ToBitmapAsync());
@@ -268,7 +267,6 @@ namespace Files.App.DataModels
             else
             {
                 locationItem.Icon = await App.Window.DispatcherQueue.EnqueueAsync(() => UIHelpers.GetIconResource(Constants.ImageRes.Folder));
-                locationItem.IsInvalid = true;
                 Debug.WriteLine($"Pinned item was invalid {res.ErrorCode}, item: {path}");
             }
 
