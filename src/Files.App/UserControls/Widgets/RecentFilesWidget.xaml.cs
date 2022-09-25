@@ -197,10 +197,10 @@ namespace Files.App.UserControls.Widgets
             }
         }
 
-        public async Task RefreshWidget()
+        public Task RefreshWidget()
         {
             // if files changed, event is fired to update widget
-            await App.RecentItemsManager.UpdateRecentFilesAsync();
+            return App.RecentItemsManager.UpdateRecentFilesAsync();
         }
 
         public void Dispose() 

@@ -741,11 +741,13 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		public void UpdateAdditionalActions()
-		{
-			OnPropertyChanged(nameof(HasAdditionalAction));
-			OnPropertyChanged(nameof(CanEmptyRecycleBin));
-		}
+        public void UpdateAdditionalActions()
+        {
+            OnPropertyChanged(nameof(HasAdditionalAction));
+            OnPropertyChanged(nameof(CanEmptyRecycleBin));
+            OnPropertyChanged(nameof(CanRestoreRecycleBin));
+            OnPropertyChanged(nameof(CanRestoreSelectionRecycleBin));
+        }
 
 		private AddressToolbar? AddressToolbar => (App.Window.Content as Frame)?.FindDescendant<AddressToolbar>();
 
@@ -806,7 +808,11 @@ namespace Files.App.ViewModels
 
 		public ICommand? EmptyRecycleBinCommand { get; set; }
 
-		public ICommand? PropertiesCommand { get; set; }
+        public ICommand RestoreRecycleBinCommand { get; set; }
+
+        public ICommand RestoreSelectionRecycleBinCommand { get; set; }
+
+        public ICommand PropertiesCommand { get; set; }
 
 		public ICommand? ExtractCommand { get; set; }
 
@@ -1085,57 +1091,66 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		private bool hasItem = false;
-		public bool HasItem
-		{
-			get => hasItem;
-			set
-			{
-				if (SetProperty(ref hasItem, value))
-					OnPropertyChanged(nameof(CanEmptyRecycleBin));
-			}
-		}
+        private bool hasItem = false;
+        public bool HasItem
+        {
+            get => hasItem;
+            set
+            {
+                if (SetProperty(ref hasItem, value))
+                {
+                    OnPropertyChanged(nameof(CanEmptyRecycleBin));
+                    OnPropertyChanged(nameof(CanRestoreRecycleBin));
+                    OnPropertyChanged(nameof(CanRestoreSelectionRecycleBin));
+                }
+            }
+        }
 
 		private List<ListedItem>? selectedItems;
 
-		public List<ListedItem>? SelectedItems
-		{
-			get => selectedItems;
-			set
-			{
-				if (SetProperty(ref selectedItems, value))
-				{
-					OnPropertyChanged(nameof(CanCopy));
-					OnPropertyChanged(nameof(CanShare));
-					OnPropertyChanged(nameof(CanRename));
-					OnPropertyChanged(nameof(CanViewProperties));
-					OnPropertyChanged(nameof(CanExtract));
-					OnPropertyChanged(nameof(ExtractToText));
-					OnPropertyChanged(nameof(IsMultipleArchivesSelected));
-					OnPropertyChanged(nameof(IsInfFile));
-					OnPropertyChanged(nameof(IsPowerShellScript));
-					OnPropertyChanged(nameof(IsImage));
-					OnPropertyChanged(nameof(IsMultipleImageSelected));
-					OnPropertyChanged(nameof(IsFont));
-					OnPropertyChanged(nameof(HasAdditionalAction));
-				}
-			}
-		}
+        public List<ListedItem> SelectedItems
+        {
+            get => selectedItems;
+            set
+            {
+                if (SetProperty(ref selectedItems, value))
+                {
+                    OnPropertyChanged(nameof(CanCopy));
+                    OnPropertyChanged(nameof(CanShare));
+                    OnPropertyChanged(nameof(CanRename));
+                    OnPropertyChanged(nameof(CanViewProperties));
+                    OnPropertyChanged(nameof(CanExtract));
+                    OnPropertyChanged(nameof(ExtractToText));
+                    OnPropertyChanged(nameof(IsMultipleArchivesSelected));
+                    OnPropertyChanged(nameof(IsInfFile));
+                    OnPropertyChanged(nameof(IsPowerShellScript));
+                    OnPropertyChanged(nameof(IsImage));
+                    OnPropertyChanged(nameof(IsMultipleImageSelected));
+                    OnPropertyChanged(nameof(IsFont));
+                    OnPropertyChanged(nameof(HasAdditionalAction));
+                    OnPropertyChanged(nameof(CanEmptyRecycleBin));
+                    OnPropertyChanged(nameof(CanRestoreRecycleBin));
+                    OnPropertyChanged(nameof(CanRestoreSelectionRecycleBin));
+                }
+            }
+        }
 
-		public bool HasAdditionalAction => InstanceViewModel.IsPageTypeRecycleBin || IsPowerShellScript || CanExtract || IsImage || IsFont || IsInfFile;
-		public bool CanCopy => SelectedItems is not null && SelectedItems.Any();
-		public bool CanShare => SelectedItems is not null && SelectedItems.Any() && DataTransferManager.IsSupported() && !SelectedItems.Any(x => (x.IsShortcutItem && !x.IsLinkItem) || x.IsHiddenItem || (x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsZipItem));
-		public bool CanRename => SelectedItems is not null && SelectedItems.Count == 1;
-		public bool CanViewProperties => SelectedItems is not null && SelectedItems.Any();
-		public bool CanEmptyRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem;
-		public bool CanExtract => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsZipFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
-		public string ExtractToText => CanExtract ? SelectedItems?.Count > 1 ? string.Format("ExtractToChildFolder".GetLocalizedResource(), $"*{Path.DirectorySeparatorChar}") : string.Format("ExtractToChildFolder".GetLocalizedResource() + "\\", Path.GetFileNameWithoutExtension(selectedItems.First().ItemName)) : "ExtractToChildFolder".GetLocalizedResource();
-		public bool IsMultipleArchivesSelected => CanExtract && SelectedItems?.Count > 1;
-		public bool IsPowerShellScript => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsPowerShellFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
-		public bool IsImage => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
-		public bool IsMultipleImageSelected => SelectedItems is not null && SelectedItems.Count > 1 && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
-		public bool IsInfFile => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsInfFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
-		public bool IsFont => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
+        public bool HasAdditionalAction => InstanceViewModel.IsPageTypeRecycleBin || IsPowerShellScript || CanExtract || IsImage || IsFont || IsInfFile;
+        public bool CanCopy => SelectedItems is not null && SelectedItems.Any();
+        public bool CanShare => SelectedItems is not null && SelectedItems.Any() && DataTransferManager.IsSupported() && !SelectedItems.Any(x => (x.IsShortcutItem && !x.IsLinkItem) || x.IsHiddenItem || (x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsZipItem));
+        public bool CanRename => SelectedItems is not null && SelectedItems.Count == 1;
+        public bool CanViewProperties => SelectedItems is not null && SelectedItems.Any();
+        public bool CanEmptyRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem;
+        public bool CanRestoreRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem && (SelectedItems is null || SelectedItems.Count == 0);
+        public bool CanRestoreSelectionRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem && SelectedItems is not null && SelectedItems.Count > 0;
+        public bool CanExtract => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsZipFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
+        public string ExtractToText => CanExtract ? SelectedItems.Count > 1 ? string.Format("ExtractToChildFolder".GetLocalizedResource(), $"*{Path.DirectorySeparatorChar}") : string.Format("ExtractToChildFolder".GetLocalizedResource() + "\\", Path.GetFileNameWithoutExtension(selectedItems.First().ItemName)) : "ExtractToChildFolder".GetLocalizedResource();
+        public bool IsMultipleArchivesSelected => CanExtract && SelectedItems.Count > 1;
+        public bool IsPowerShellScript => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsPowerShellFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
+        public bool IsImage => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
+        public bool IsMultipleImageSelected => SelectedItems is not null && SelectedItems.Count > 1 && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
+        public bool IsInfFile => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsInfFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
+        public bool IsFont => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
 
 		public string OpenInTerminal => $"{"OpenIn".GetLocalizedResource()} {App.TerminalController.Model.GetDefaultTerminal()?.Name}";
 

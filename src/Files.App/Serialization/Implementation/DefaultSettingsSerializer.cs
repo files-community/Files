@@ -28,7 +28,12 @@ namespace Files.App.Serialization.Implementation
             return true;
         }
 
-        public string? ReadFromFile()
+        /// <summary>
+        /// Reads a file to a string
+        /// </summary>
+        /// <returns>A string value or string.Empty if nothing is present in the file</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public string ReadFromFile()
         {
             _ = _filePath ?? throw new ArgumentNullException(nameof(_filePath));
 

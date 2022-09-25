@@ -21,7 +21,7 @@ namespace Files.App.Dialogs
             get => ViewModel.DynamicResult;
         }
 
-        public new async Task<ContentDialogResult> ShowAsync() => await SetContentDialogRoot(this).ShowAsync();
+        public new Task<ContentDialogResult> ShowAsync() => SetContentDialogRoot(this).ShowAsync().AsTask();
 
         // WINUI3
         private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)

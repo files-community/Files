@@ -2419,28 +2419,28 @@ Utilizamos App Center para hacer un seguimiento del uso de la aplicación, encon
     <value>Abrir carpetas en nueva pestaña</value>
   </data>
   <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Anclar la Papelera de reciclaje a Favoritos</value>
+    <value>Anclar la papelera de reciclaje a Favoritos</value>
   </data>
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Idioma</value>
   </data>
   <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar unidades de la nube</value>
+    <value>Mostrar sección de unidades en la nube</value>
   </data>
   <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Mostrar un diálogo de confirmación al eliminar archivos o carpetas</value>
   </data>
   <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar unidades</value>
+    <value>Mostrar sección de unidades</value>
   </data>
   <data name="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar Bibliotecas</value>
+    <value>Mostrar sección Bibliotecas</value>
   </data>
   <data name="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar unidades de red</value>
+    <value>Mostrar sección de unidades de red</value>
   </data>
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar WSL</value>
+    <value>Mostrar sección WSL</value>
   </data>
   <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Aplicación de terminal</value>
@@ -2819,5 +2819,26 @@ Utilizamos App Center para hacer un seguimiento del uso de la aplicación, encon
   </data>
   <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
     <value>Comportamiento al abrir archivos y carpetas</value>
+  </data>
+  <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
+    <value>Seleccionar archivos y carpetas al pasar el cursor sobre ellos</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
+    <value>¿Está seguro de que desea restaurar todos los elementos en la papelera?</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
+    <value>Restaurar todos los elementos</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
+    <value>¿Desea restaurar los elemento(s) {0} seleccionado(s)?</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
+    <value>Restaurar selección</value>
+  </data>
+  <data name="RestoreAllItems" xml:space="preserve">
+    <value>Restaurar todos los elementos</value>
+  </data>
+  <data name="RestoreSelection" xml:space="preserve">
+    <value>Restaurar</value>
   </data>
 </root>
