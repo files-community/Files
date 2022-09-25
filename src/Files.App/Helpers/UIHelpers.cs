@@ -144,5 +144,20 @@ namespace Files.App.Helpers
 
             return imageResList;
         }
+
+        public static async Task<BitmapImage> RetrieveAdaptedRecycleBinIcon()
+        {
+            BitmapImage icon;
+            if (new RecycleBinHelpers().RecycleBinHasItems())
+            {
+                icon = await UIHelpers.GetIconResource(Constants.ImageRes.RecycleBin);
+            }
+            else
+            {
+                icon = await UIHelpers.GetIconResource(Constants.ImageRes.EmptyRecycleBin);
+            }
+
+            return icon;
+        }
     }
 }
