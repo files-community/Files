@@ -109,7 +109,7 @@ namespace Files.App.Helpers
 
         private static IEnumerable<IconFileInfo> IconResources = UIHelpers.LoadSidebarIconResources();
 
-        public static IconFileInfo GetIconResourceInfo(int index)
+        public static IconFileInfo? GetIconResourceInfo(int index)
         {
             var icons = UIHelpers.IconResources;
             if (icons != null)
@@ -119,7 +119,7 @@ namespace Files.App.Helpers
             return null;
         }
 
-        public static async Task<BitmapImage> GetIconResource(int index)
+        public static async Task<BitmapImage?> GetIconResource(int index)
         {
             var iconInfo = GetIconResourceInfo(index);
             if (iconInfo != null)
@@ -145,9 +145,9 @@ namespace Files.App.Helpers
             return imageResList;
         }
 
-        public static async Task<BitmapImage> RetrieveAdaptedRecycleBinIcon()
+        public static async Task<BitmapImage?> RetrieveAdaptedRecycleBinIcon()
         {
-            BitmapImage icon;
+            BitmapImage? icon;
             if (new RecycleBinHelpers().RecycleBinHasItems())
             {
                 icon = await UIHelpers.GetIconResource(Constants.ImageRes.RecycleBin);
