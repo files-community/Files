@@ -15,6 +15,8 @@ using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Devices.AllJoyn;
+using Files.App.Filesystem.StorageItems;
 
 namespace Files.App.DataModels
 {
@@ -256,19 +258,7 @@ namespace Files.App.DataModels
             if (res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path))
             {
                 locationItem.IsInvalid = false;
-                if (res)
-                {
-                    var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(res.Result, 24u, Windows.Storage.FileProperties.ThumbnailMode.ListView);
-                    if (iconData == null)
-                    {
-                        iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(res.Result, 24u, Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
-                    }
-                    locationItem.IconData = iconData;
-                }
-                if (locationItem.IconData == null)
-                {
-                    locationItem.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(path, 24u);
-                }
+                locationItem.IconData = await RetrieveItemIconData(path, res);
 
                 if (locationItem.IconData != null)
                 {
@@ -283,6 +273,20 @@ namespace Files.App.DataModels
             }
 
             AddLocationItemToSidebar(locationItem);
+        }
+
+        private async Task<byte[]?> RetrieveItemIconData(string itemPath, FilesystemResult<BaseStorageFolder> result)
+        {
+            byte[]? iconData = null;
+            if (result)
+            {
+                iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(result.Result, 24u, Windows.Storage.FileProperties.ThumbnailMode.ListView);
+                iconData ??= await FileThumbnailHelper.LoadIconFromStorageItemAsync(result.Result, 24u, Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
+            }
+
+            iconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(itemPath, 24u);
+
+            return iconData;
         }
 
         /// <summary>
