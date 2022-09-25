@@ -199,9 +199,7 @@ namespace Files.App.ViewModels.Properties
             return false;
         }
 
-        public async Task RunTroubleshooter()
-        {
-            await LaunchHelper.RunCompatibilityTroubleshooterAsync(ExePath);
-        }
+        public Task RunTroubleshooter()
+            => LaunchHelper.RunCompatibilityTroubleshooterAsync(ExePath);
     }
 }

@@ -32,6 +32,10 @@ namespace Files.App.Interacts
 
         void EmptyRecycleBin(RoutedEventArgs e);
 
+        void RestoreRecycleBin(RoutedEventArgs e);
+
+        void RestoreSelectionRecycleBin(RoutedEventArgs e);
+
         void QuickLook(RoutedEventArgs e);
 
         void CopyItem(RoutedEventArgs e);

@@ -26,7 +26,7 @@ namespace Files.App.ViewModels.Previews
 
         public FolderPreviewViewModel(ListedItem item) => Item = item;
 
-        public async Task LoadAsync() => await LoadPreviewAndDetailsAsync();
+        public Task LoadAsync() => LoadPreviewAndDetailsAsync();
 
         private async Task LoadPreviewAndDetailsAsync()
         {
