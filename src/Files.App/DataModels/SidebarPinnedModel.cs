@@ -264,15 +264,15 @@ namespace Files.App.DataModels
                         iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(res.Result, 24u, Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
                     }
                     locationItem.IconData = iconData;
-                    locationItem.Icon = await App.Window.DispatcherQueue.EnqueueAsync(() => locationItem.IconData.ToBitmapAsync());
                 }
                 if (locationItem.IconData == null)
                 {
                     locationItem.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(path, 24u);
-                    if (locationItem.IconData != null)
-                    {
-                        locationItem.Icon = await App.Window.DispatcherQueue.EnqueueAsync(() => locationItem.IconData.ToBitmapAsync());
-                    }
+                }
+
+                if (locationItem.IconData != null)
+                {
+                    locationItem.Icon = await App.Window.DispatcherQueue.EnqueueAsync(() => locationItem.IconData.ToBitmapAsync());
                 }
             }
             else
