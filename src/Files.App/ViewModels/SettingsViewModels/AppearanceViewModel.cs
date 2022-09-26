@@ -264,10 +264,10 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-        public Task OpenThemesFolder()
-        {
-            //await CoreApplication.MainView.Dispatcher.YieldAsync(); // WINUI3
-            return NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.ImportedThemesFolder.Path);
-        }
-    }
+		public Task OpenThemesFolder()
+		{
+			//await CoreApplication.MainView.Dispatcher.YieldAsync(); // WINUI3
+			return NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.ImportedThemesFolder.Path);
+		}
+	}
 }
