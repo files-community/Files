@@ -150,7 +150,7 @@ namespace Files.App.ServicesImplementation.Settings
                 case nameof(ShowRecentFilesWidget):
                 case nameof(ShowDrivesWidget):
                 case nameof(ShowBundlesWidget):
-                    Analytics.TrackEvent($"{e.SettingName} {e.NewValue}");
+                    Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
                     break;
             }
 
