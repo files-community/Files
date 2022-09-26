@@ -640,8 +640,7 @@ namespace Files.App.Interacts
             DecompressArchiveDialogViewModel decompressArchiveViewModel = new(archive);
             decompressArchiveDialog.ViewModel = decompressArchiveViewModel;
 
-            ContentDialogResult option = await decompressArchiveDialog.ShowAsync();
-
+            ContentDialogResult option = await decompressArchiveDialog.TryShowAsync();
             if (option != ContentDialogResult.Primary)
                 return;
 
