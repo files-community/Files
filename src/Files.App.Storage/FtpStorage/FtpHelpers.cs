@@ -34,12 +34,12 @@ namespace Files.App.Storage.FtpStorage
             }
         }
 
-        public static async Task EnsureConnectedAsync(this FtpClient ftpClient, CancellationToken cancellationToken = default)
+        public static Task EnsureConnectedAsync(this FtpClient ftpClient, CancellationToken cancellationToken = default)
         {
             if (ftpClient.IsConnected)
-                return;
+                return Task.CompletedTask;
 
-            await ftpClient.ConnectAsync(cancellationToken);
+            return ftpClient.ConnectAsync(cancellationToken);
         }
 
         public static string GetFtpHost(string path)
