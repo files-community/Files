@@ -3,26 +3,27 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-using Windows.ApplicationModel;
-using Windows.Management.Deployment;
-using Windows.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services;
 using Files.Shared;
+using Windows.ApplicationModel;
+using Windows.Management.Deployment;
+using Windows.Storage;
 
 namespace Files.App.ServicesImplementation
 {
-    public sealed class SideloadUpdateService : ObservableObject, IUpdateService
+    public sealed class SideloadUpdateService : ObservableObject, IUpdateService, IDisposable
     {
         private const string SIDELOAD_STABLE = "https://cdn.files.community/files/stable/Files.Package.appinstaller";
         private const string SIDELOAD_PREVIEW = "https://cdn.files.community/files/preview/Files.Package.appinstaller";
 
         private bool _isUpdateAvailable;
         private bool _isUpdating;
+
+        private readonly HttpClient _client = new(new SocketsHttpHandler { PooledConnectionLifetime = TimeSpan.FromMinutes(1) });
 
         private readonly Dictionary<string, string> _sideloadVersion = new()
         {
@@ -69,8 +70,7 @@ namespace Files.App.ServicesImplementation
             {
                 Logger?.Info($"SIDELOAD: Checking for updates...");
 
-                using var client = new HttpClient();
-                await using var stream = await client.GetStreamAsync(_sideloadVersion[PackageName]);
+                await using var stream = await _client.GetStreamAsync(_sideloadVersion[PackageName]);
 
                 // Deserialize AppInstaller.
                 XmlSerializer xml = new XmlSerializer(typeof(AppInstaller));
@@ -110,14 +110,12 @@ namespace Files.App.ServicesImplementation
         {
             try
             {
-                using var client = new HttpClient();
-
                 var tempDownloadPath = ApplicationData.Current.LocalFolder.Path + "\\" + TEMPORARY_UPDATE_PACKAGE_NAME;
 
                 Stopwatch timer = Stopwatch.StartNew();
 
-                await using (var stream = await client.GetStreamAsync(DownloadUri))
-                await using (var fileStream = new FileStream(tempDownloadPath, FileMode.CreateNew))
+                await using (var stream = await _client.GetStreamAsync(DownloadUri))
+                await using (var fileStream = new FileStream(tempDownloadPath, FileMode.OpenOrCreate))
                     await stream.CopyToAsync(fileStream);
 
                 timer.Stop();
@@ -175,6 +173,11 @@ namespace Files.App.ServicesImplementation
                 IsUpdateAvailable = false;
                 DownloadUri = null;
             }
+        }
+
+        public void Dispose()
+        {
+            _client?.Dispose();
         }
     }
 
