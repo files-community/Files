@@ -14,6 +14,8 @@ using Microsoft.UI.Xaml.Controls;
 using Files.App.Shell;
 using Vanara.PInvoke;
 using Files.App.Filesystem;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace Files.App.Helpers
 {
@@ -28,6 +30,8 @@ namespace Files.App.Helpers
         private Task<NamedPipeAsAppServiceConnection> ServiceConnection => AppServiceConnectionHelper.Instance;
 
         #endregion Private Members
+
+        public static event EventHandler? RecycleBinChanged;
 
         public async Task<List<ShellFileItem>> EnumerateRecycleBin()
         {
@@ -76,6 +80,7 @@ namespace Files.App.Helpers
             if (result == ContentDialogResult.Primary)
             {
                 Shell32.SHEmptyRecycleBin(IntPtr.Zero, null, Shell32.SHERB.SHERB_NOCONFIRMATION | Shell32.SHERB.SHERB_NOPROGRESSUI);
+                RaiseRecycleBinChangedEvent();
             }
         }
 
@@ -125,6 +130,7 @@ namespace Files.App.Helpers
             if (result == ContentDialogResult.Primary)
             {
                 await this.RestoreItem(associatedInstance);
+                RaiseRecycleBinChangedEvent();
             }
         }
 
@@ -181,6 +187,8 @@ namespace Files.App.Helpers
                 Dest = ((RecycleBinItem)item).ItemOriginalPath
             });
             await associatedInstance.FilesystemHelpers.RestoreItemsFromTrashAsync(items.Select(x => x.Source), items.Select(x => x.Dest), true);
+
+            RaiseRecycleBinChangedEvent();
         }
 
         public static async Task S_DeleteItem(IShellPage associatedInstance)
@@ -194,6 +202,16 @@ namespace Files.App.Helpers
                 item.ItemPath,
                 item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
             await associatedInstance.FilesystemHelpers.DeleteItemsAsync(items, true, false, true);
+
+            RaiseRecycleBinChangedEvent();
+        }
+
+        private static void RaiseRecycleBinChangedEvent()
+        {
+            if(RecycleBinChanged != null)
+            {
+                RecycleBinChanged.Invoke(null, null);
+            }
         }
     }
 }

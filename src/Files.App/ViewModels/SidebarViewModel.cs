@@ -224,6 +224,7 @@ namespace Files.App.ViewModels
 			SideBarItems = new BulkConcurrentObservableCollection<INavigationControlItem>();
 			EmptyRecycleBinCommand = new RelayCommand<RoutedEventArgs>(EmptyRecycleBin);
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
+			RecycleBinHelpers.RecycleBinChanged += OnRecycleBinChanged;
 			CreateItemHome();
 
 			Manager_DataChanged(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
@@ -575,6 +576,11 @@ namespace Files.App.ViewModels
 		public async void EmptyRecycleBin(RoutedEventArgs e)
 		{
 			await RecycleBinHelpers.S_EmptyRecycleBin();
+		}
+
+		public void OnRecycleBinChanged(object sender, EventArgs e)
+		{
+			
 		}
 
 		private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
