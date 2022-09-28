@@ -201,7 +201,10 @@ namespace Files.App.Interacts
 
         public virtual void ShowProperties(RoutedEventArgs e)
         {
-            SlimContentPage.ItemContextMenuFlyout.Closed += OpenProperties;
+            if (SlimContentPage.ItemContextMenuFlyout.IsOpen)
+                SlimContentPage.ItemContextMenuFlyout.Closed += OpenProperties;
+            else
+                FilePropertiesHelpers.ShowProperties(associatedInstance);
         }
 
         private void OpenProperties(object sender, object e)
