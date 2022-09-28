@@ -1,10 +1,11 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Backend.Services.Settings;
+using CommunityToolkit.WinUI;
 using Files.App.Controllers;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Filesystem;
+using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
-using CommunityToolkit.WinUI;
+using Files.Backend.Services.Settings;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -15,8 +16,6 @@ using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Windows.Devices.AllJoyn;
-using Files.App.Filesystem.StorageItems;
 
 namespace Files.App.DataModels
 {
@@ -276,10 +275,18 @@ namespace Files.App.DataModels
         private async Task<byte[]?> RetrieveItemIconData(string itemPath, FilesystemResult<BaseStorageFolder> result)
         {
             byte[]? iconData = null;
+
             if (result)
             {
-                iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(result.Result, 24u, Windows.Storage.FileProperties.ThumbnailMode.ListView);
-                iconData ??= await FileThumbnailHelper.LoadIconFromStorageItemAsync(result.Result, 24u, Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
+                if (itemPath == CommonPaths.RecycleBinPath)
+                {
+                    iconData = UIHelpers.RetrieveAdaptedRecycleBinIconData();
+                }
+                else
+                {
+                    iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(result.Result, 24u, Windows.Storage.FileProperties.ThumbnailMode.ListView);
+                    iconData ??= await FileThumbnailHelper.LoadIconFromStorageItemAsync(result.Result, 24u, Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
+                }
             }
 
             iconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(itemPath, 24u);

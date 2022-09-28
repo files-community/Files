@@ -14,7 +14,6 @@ using Microsoft.UI.Xaml.Controls;
 using Files.App.Shell;
 using Vanara.PInvoke;
 using Files.App.Filesystem;
-using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace Files.App.Helpers
 {

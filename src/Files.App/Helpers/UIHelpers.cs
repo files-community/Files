@@ -129,6 +129,17 @@ namespace Files.App.Helpers
             return null;
         }
 
+
+        public static byte[]? GetIconDataResource(int index)
+        {
+            var iconInfo = GetIconResourceInfo(index);
+            if (iconInfo != null)
+            {
+                return iconInfo.IconData;
+            }
+            return null;
+        }
+
         private static IEnumerable<IconFileInfo> LoadSidebarIconResources()
         {
             string imageres = Path.Combine(CommonPaths.SystemRootPath, "System32", "imageres.dll");
@@ -145,16 +156,16 @@ namespace Files.App.Helpers
             return imageResList;
         }
 
-        public static async Task<BitmapImage?> RetrieveAdaptedRecycleBinIcon()
+        public static byte[]? RetrieveAdaptedRecycleBinIconData()
         {
-            BitmapImage? icon;
+            byte[] icon;
             if (new RecycleBinHelpers().RecycleBinHasItems())
             {
-                icon = await UIHelpers.GetIconResource(Constants.ImageRes.RecycleBin);
+                icon = UIHelpers.GetIconDataResource(Constants.ImageRes.RecycleBin);
             }
             else
             {
-                icon = await UIHelpers.GetIconResource(Constants.ImageRes.EmptyRecycleBin);
+                icon = UIHelpers.GetIconDataResource(Constants.ImageRes.EmptyRecycleBin);
             }
 
             return icon;
