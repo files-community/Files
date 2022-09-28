@@ -2818,9 +2818,30 @@
     <value>Écran de verrouillage</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Ouvrir des dossiers avec un seul clic dans la disposition des colonnes</value>
+    <value>Ouvrir les dossiers avec un seul clic dans la disposition des colonnes</value>
   </data>
   <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
     <value>Comportement pour ouvrir les fichiers et dossiers</value>
+  </data>
+  <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
+    <value>Sélectionnez les fichiers et dossiers lorsque vous les survolez</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
+    <value>Êtes-vous sûr de vouloir restaurer tous les éléments de la corbeille ?</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
+    <value>Restaurer tous les éléments</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
+    <value>Voulez-vous restaurer le(s) {0} élément(s) sélectionné(s)?</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
+    <value>Restaurer la sélection</value>
+  </data>
+  <data name="RestoreAllItems" xml:space="preserve">
+    <value>Restaurer tous les éléments</value>
+  </data>
+  <data name="RestoreSelection" xml:space="preserve">
+    <value>Restaurer</value>
   </data>
 </root>
