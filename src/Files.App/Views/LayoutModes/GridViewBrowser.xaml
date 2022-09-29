@@ -62,7 +62,6 @@
 				Background="Transparent"
 				IsRightTapEnabled="True"
 				Loaded="Grid_Loaded"
-				RightTapped="StackPanel_RightTapped"
 				ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
@@ -214,7 +213,6 @@
 				ColumnSpacing="4"
 				IsRightTapEnabled="True"
 				Loaded="Grid_Loaded"
-				RightTapped="StackPanel_RightTapped"
 				ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" />

@@ -15,11 +15,11 @@ namespace Files.App.DataModels.NavigationControlItems
             set
             {
                 path = value;
-                HoverDisplayText = Text;
+                ToolTipText = Text;
             }
         }
 
-        public string HoverDisplayText { get; private set; }
+        public string ToolTipText { get; private set; }
 
         public SectionType Section { get; set; }
 

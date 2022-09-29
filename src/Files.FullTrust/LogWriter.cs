@@ -15,21 +15,19 @@ namespace Files.FullTrust
         private string logFilePath;
         private bool initialized = false;
 
-        public async Task InitializeAsync(string name)
+        public Task InitializeAsync(string name)
         {
             if (!initialized)
             {
                 logFilePath = System.IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, name);
                 initialized = true;
             }
-            await Task.CompletedTask;
+
+            return Task.CompletedTask;
         }
 
-        public async Task WriteLineToLogAsync(string text)
-        {
-            await Task.Run(() => WriteLineToLog(text));
-            Debug.WriteLine($"Logged event: {text}");
-        }
+        public Task WriteLineToLogAsync(string text)
+            => Task.Run(() => WriteLineToLog(text));
 
         public void WriteLineToLog(string text)
         {

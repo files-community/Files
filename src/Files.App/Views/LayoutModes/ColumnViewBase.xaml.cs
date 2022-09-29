@@ -530,24 +530,13 @@ namespace Files.App.Views.LayoutModes
             }
         }
 
-        private void StackPanel_RightTapped(object sender, RightTappedRoutedEventArgs e)
-        {
-            var parentContainer = DependencyObjectHelpers.FindParent<ListViewItem>(e.OriginalSource as DependencyObject);
-
-            if (parentContainer.IsSelected)
-                return;
-
-            // The following code is only reachable when a user RightTapped an unselected row
-            ItemManipulationModel.SetSelectedItem(FileList.ItemFromContainer(parentContainer) as ListedItem);
-        }
-
-        private void Grid_Loaded(object sender, RoutedEventArgs e)
-        {
-            var itemContainer = (sender as Grid)?.FindAscendant<ListViewItem>();
-            if (itemContainer is null)
-            {
-                return;
-            }
+		private void Grid_Loaded(object sender, RoutedEventArgs e)
+		{
+			var itemContainer = (sender as Grid)?.FindAscendant<ListViewItem>();
+			if (itemContainer is null)
+			{
+				return;
+			}
 
             itemContainer.ContextFlyout = ItemContextMenuFlyout;
         }

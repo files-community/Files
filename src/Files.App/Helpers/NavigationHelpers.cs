@@ -24,21 +24,19 @@ namespace Files.App.Helpers
 {
     public static class NavigationHelpers
     {
-        public static async Task OpenPathInNewTab(string path)
-        {
-            await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), path);
-        }
+        public static Task OpenPathInNewTab(string path)
+            => MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), path);
 
-        public static async Task<bool> OpenPathInNewWindowAsync(string path)
+        public static Task<bool> OpenPathInNewWindowAsync(string path)
         {
             var folderUri = new Uri($"files-uwp:?folder={Uri.EscapeDataString(path)}");
-            return await Launcher.LaunchUriAsync(folderUri);
+            return Launcher.LaunchUriAsync(folderUri).AsTask();
         }
 
-        public static async Task<bool> OpenTabInNewWindowAsync(string tabArgs)
+        public static Task<bool> OpenTabInNewWindowAsync(string tabArgs)
         {
             var folderUri = new Uri($"files-uwp:?tab={Uri.EscapeDataString(tabArgs)}");
-            return await Launcher.LaunchUriAsync(folderUri);
+            return Launcher.LaunchUriAsync(folderUri).AsTask();
         }
 
         public static async void LaunchNewWindow()

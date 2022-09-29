@@ -158,7 +158,7 @@
 						Grid.Column="0"
 						HorizontalAlignment="Left"
 						Style="{StaticResource PropertyName}"
-						Text="{helpers:ResourceString Name=PropertiesItemPath/Text}"
+						Text="{helpers:ResourceString Name=Path}"
 						Visibility="{x:Bind ViewModel.ItemPathVisibility, Mode=OneWay}" />
 					<TextBlock
 						x:Name="itemPathValue"

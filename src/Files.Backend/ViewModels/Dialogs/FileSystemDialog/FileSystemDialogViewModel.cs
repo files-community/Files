@@ -232,12 +232,12 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
             return viewModel;
         }
 
-        private static async Task LoadItemsIcon(IEnumerable<BaseFileSystemDialogItemViewModel> items, CancellationToken token)
+        private static Task LoadItemsIcon(IEnumerable<BaseFileSystemDialogItemViewModel> items, CancellationToken token)
         {
             var imagingService = Ioc.Default.GetRequiredService<IImagingService>();
             var threadingService = Ioc.Default.GetRequiredService<IThreadingService>();
 
-            await items.ParallelForEachAsync(async (item) =>
+            return items.ParallelForEachAsync(async (item) =>
             {
                 try
                 {
