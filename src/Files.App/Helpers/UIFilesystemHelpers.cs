@@ -20,6 +20,8 @@ using Windows.Storage;
 using Files.Backend.Enums;
 using Windows.System;
 using Microsoft.UI.Xaml.Controls;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services;
 
 namespace Files.App.Helpers
 {
@@ -48,7 +50,7 @@ namespace Files.App.Helpers
 
                 try
                 {
-                    var dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+                    var threadingService = Ioc.Default.GetRequiredService<IThreadingService>();
                     await associatedInstance.SlimContentPage.SelectedItems.ToList().ParallelForEachAsync(async listedItem =>
                     {
                         if (banner != null)
@@ -59,7 +61,7 @@ namespace Files.App.Helpers
                         // FTP don't support cut, fallback to copy
                         if (listedItem is not FtpItem)
                         {
-                            _ = dispatcherQueue.TryEnqueue(DispatcherQueuePriority.Low, () =>
+                            _ = threadingService.ExecuteOnUiThreadAsync(() =>
                             {
                                 // Dim opacities accordingly
                                 listedItem.Opacity = Constants.UI.DimItemOpacity;
