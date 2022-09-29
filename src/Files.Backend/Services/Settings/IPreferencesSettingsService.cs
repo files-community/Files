@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Files.Shared.Enums;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace Files.Backend.Services.Settings
@@ -46,6 +47,11 @@ namespace Files.Backend.Services.Settings
         bool ShowDotFiles{ get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether or not to select files and folders when hovering them.
+        /// </summary>
+        bool SelectFilesOnHover { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether or not files should open with one click.
         /// </summary>
         bool OpenFilesWithOneClick { get; set; }
@@ -54,6 +60,11 @@ namespace Files.Backend.Services.Settings
         /// Gets or sets a value indicating whether or not folders should open with one click.
         /// </summary>
         bool OpenFoldersWithOneClick { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not folders should open with two clicks in ColumnsLayout.
+        /// </summary>
+        bool ColumnLayoutOpenFoldersWithOneClick { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether or not to search unindexed items.
@@ -104,5 +115,10 @@ namespace Files.Backend.Services.Settings
         /// A list containing all paths to tabs closed on last session.
         /// </summary>
         List<string> LastSessionTabList { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating which date and time format to use.
+		/// </summary>
+		DateTimeFormats DateTimeFormat { get; set; }
     }
 }

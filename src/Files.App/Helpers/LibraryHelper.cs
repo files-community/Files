@@ -4,11 +4,11 @@ using Files.App.Dialogs;
 using Files.App.Filesystem;
 using Files.App.ViewModels.Dialogs;
 using Files.App.Extensions;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
@@ -65,7 +65,7 @@ namespace Files.App.Helpers
             });
             if (status == AppServiceResponseStatus.Success && response.ContainsKey("Enumerate"))
             {
-                libraries = JsonConvert.DeserializeObject<List<ShellLibraryItem>>((string)response["Enumerate"]).Select(lib => new LibraryLocationItem(lib)).ToList();
+                libraries = JsonSerializer.Deserialize<List<ShellLibraryItem>>(response["Enumerate"].GetString())?.Select(lib => new LibraryLocationItem(lib)).ToList();
             }
             return libraries;
         }
@@ -95,7 +95,7 @@ namespace Files.App.Helpers
             LibraryLocationItem library = null;
             if (status == AppServiceResponseStatus.Success && response.ContainsKey("Create"))
             {
-                library = new LibraryLocationItem(JsonConvert.DeserializeObject<ShellLibraryItem>((string)response["Create"]));
+                library = new LibraryLocationItem(JsonSerializer.Deserialize<ShellLibraryItem>(response["Create"].GetString()));
             }
             return library;
         }
@@ -132,7 +132,7 @@ namespace Files.App.Helpers
             }
             if (folders != null)
             {
-                request.Add("folders", JsonConvert.SerializeObject(folders));
+                request.Add("folders", JsonSerializer.Serialize(folders));
             }
             if (isPinned != null)
             {
@@ -142,7 +142,7 @@ namespace Files.App.Helpers
             LibraryLocationItem library = null;
             if (status == AppServiceResponseStatus.Success && response.ContainsKey("Update"))
             {
-                library = new LibraryLocationItem(JsonConvert.DeserializeObject<ShellLibraryItem>((string)response["Update"]));
+                library = new LibraryLocationItem(JsonSerializer.Deserialize<ShellLibraryItem>(response["Update"].GetString()));
             }
             return library;
         }

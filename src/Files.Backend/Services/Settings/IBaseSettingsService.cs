@@ -2,6 +2,6 @@
 {
     public interface IBaseSettingsService
     {
-        void ReportToAppCenter();
+
     }
 }

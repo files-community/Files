@@ -15,8 +15,6 @@ namespace Files.Backend.Services.Settings
 
         IMultitaskingSettingsService MultitaskingSettingsService { get; }
 
-        IWidgetsSettingsService WidgetsSettingsService { get; }
-
         IAppearanceSettingsService AppearanceSettingsService { get; }
 
         IApplicationSettingsService ApplicationSettingsService { get; }
@@ -24,5 +22,7 @@ namespace Files.Backend.Services.Settings
         IPaneSettingsService PaneSettingsService { get; }
 
         ILayoutSettingsService LayoutSettingsService { get; }
+
+		IAppSettingsService AppSettingsService { get; }
     }
 }

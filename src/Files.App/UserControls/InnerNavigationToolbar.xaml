@@ -195,7 +195,7 @@
 					</AppBarButton.Content>
 				</AppBarButton>
 				<AppBarSeparator x:Name="AdditionalActionSeparator" x:Load="{x:Bind ViewModel.HasAdditionalAction, Mode=OneWay}" />
-				<AppBarButton
+                <AppBarButton
 					x:Name="EmptyRecycleBinButton"
 					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
 					AccessKey="B"
@@ -203,11 +203,37 @@
 					IsEnabled="{x:Bind ViewModel.CanEmptyRecycleBin, Mode=OneWay}"
 					Label="{helpers:ResourceString Name=EmptyRecycleBin}"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=EmptyRecycleBin}">
-					<AppBarButton.Icon>
-						<FontIcon FontFamily="{StaticResource RecycleBinIcons}" Glyph="&#xEF88;" />
-					</AppBarButton.Icon>
-				</AppBarButton>
-				<AppBarButton
+                    <AppBarButton.Icon>
+                        <FontIcon FontFamily="{StaticResource RecycleBinIcons}" Glyph="&#xEF88;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarButton
+                    x:Name="RestoreRecycleBinButton"
+                    x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
+                    AccessKey="R"
+                    Command="{x:Bind ViewModel.RestoreRecycleBinCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind ViewModel.CanRestoreRecycleBin, Mode=OneWay}"
+                    Visibility="{x:Bind ViewModel.CanRestoreRecycleBin, Mode=OneWay}"
+                    Label="{helpers:ResourceString Name=RestoreAllItems}"
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=RestoreAllItems}">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE777;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarButton
+                    x:Name="RestoreSelectionRecycleBinButton"
+                    x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
+                    AccessKey="R"
+                    Command="{x:Bind ViewModel.RestoreSelectionRecycleBinCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind ViewModel.CanRestoreSelectionRecycleBin, Mode=OneWay}"
+                    Visibility="{x:Bind ViewModel.CanRestoreSelectionRecycleBin, Mode=OneWay}"
+                    Label="{helpers:ResourceString Name=RestoreSelection}"
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=RestoreSelection}">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE777;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarButton
 					x:Name="ExtractButton"
 					Width="Auto"
 					MinWidth="40"
@@ -215,13 +241,16 @@
 					AccessKey="Z"
 					IsEnabled="{x:Bind ViewModel.CanExtract, Mode=OneWay, FallbackValue=False}"
 					Label="{helpers:ResourceString Name=Extract}"
-					LabelPosition="Default">
+					LabelPosition="Default"
+					Style="{StaticResource ToolBarAppBarButtonFlyoutStyle}">
 					<AppBarButton.Content>
 						<local:ColoredIcon BaseLayerGlyph="&#xF03F;" OverlayLayerGlyph="&#xF040;" />
 					</AppBarButton.Content>
 					<AppBarButton.Flyout>
 						<MenuFlyout helpers:MenuFlyoutHelper.IsVisible="{x:Bind ViewModel.CanExtract, Mode=OneWay}" Placement="Bottom">
 							<MenuFlyoutItem
+								x:Name="ExtractSingle"
+								x:Load="{x:Bind ViewModel.IsMultipleArchivesSelected, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 								Command="{x:Bind ViewModel.ExtractCommand, Mode=OneWay}"
 								IsEnabled="{x:Bind ViewModel.CanExtract, Mode=OneWay, FallbackValue=False}"
 								KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=ExtractKeyboardAcceleratorTextOverride}"
@@ -374,34 +403,6 @@
 					<SolidColorBrush x:Key="CommandBarBorderBrushOpen" Color="Transparent" />
 				</ResourceDictionary>
 			</CommandBar.Resources>
-			<AppBarButton
-				x:Name="WidgetsManager"
-				Width="Auto"
-				MinWidth="40"
-				x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-				AccessKey="W"
-				AutomationProperties.Name="Manage widgets"
-				Label="{helpers:ResourceString Name=NavToolbarWidgets/Label}"
-				LabelPosition="Collapsed"
-				Style="{StaticResource ToolBarAppBarButtonFlyoutStyle}"
-				ToolTipService.ToolTip="{helpers:ResourceString Name=NavToolbarWidgets/ToolTipService/ToolTip}">
-				<AppBarButton.Icon>
-					<FontIcon FontSize="10" Glyph="&#xF246;" />
-				</AppBarButton.Icon>
-				<AppBarButton.Flyout>
-					<Flyout contract8Present:ShouldConstrainToRootBounds="False" Placement="Bottom">
-						<StackPanel Spacing="12">
-							<TextBlock FontWeight="Medium" Text="{helpers:ResourceString Name=NavToolbarManageWidgetsFlyoutHeader/Text}" />
-							<StackPanel Spacing="4">
-								<ToggleSwitch Header="{helpers:ResourceString Name=NavToolbarShowFolderWidget/Header}" IsOn="{x:Bind ViewModel.ShowFoldersWidget, Mode=TwoWay}" />
-								<ToggleSwitch Header="{helpers:ResourceString Name=NavToolbarShowDrivesWidget/Header}" IsOn="{x:Bind ViewModel.ShowDrivesWidget, Mode=TwoWay}" />
-								<ToggleSwitch Header="{helpers:ResourceString Name=NavToolbarShowBundlesWidget/Header}" IsOn="{x:Bind ViewModel.ShowBundlesWidget, Mode=TwoWay}" />
-								<ToggleSwitch Header="{helpers:ResourceString Name=NavToolbarShowRecentFilesWidget/Header}" IsOn="{x:Bind ViewModel.ShowRecentFilesWidget, Mode=TwoWay}" />
-							</StackPanel>
-						</StackPanel>
-					</Flyout>
-				</AppBarButton.Flyout>
-			</AppBarButton>
 			<AppBarButton
 				x:Name="SelectionOptions"
 				Width="Auto"

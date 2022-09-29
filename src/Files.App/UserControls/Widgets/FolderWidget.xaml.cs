@@ -21,6 +21,8 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Files.App.DataModels.NavigationControlItems;
+using Files.App.Helpers.XamlHelpers;
+using Microsoft.UI.Xaml.Controls.Primitives;
 
 namespace Files.App.UserControls.Widgets
 {
@@ -114,7 +116,7 @@ namespace Files.App.UserControls.Widgets
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public bool IsWidgetSettingEnabled => UserSettingsService.WidgetsSettingsService.ShowFoldersWidget;
+        public bool IsWidgetSettingEnabled => UserSettingsService.AppearanceSettingsService.ShowFoldersWidget;
 
         public ICommand LibraryCardCommand { get; }
 
@@ -239,33 +241,42 @@ namespace Files.App.UserControls.Widgets
 
         private void OpenLibraryProperties_Click(object sender, RoutedEventArgs e)
         {
-            var item = (sender as MenuFlyoutItem).DataContext as FolderCardItem;
-            if (item.IsLibrary)
+            var presenter = DependencyObjectHelpers.FindParent<MenuFlyoutPresenter>((MenuFlyoutItem)sender);
+            var flyoutParent = presenter?.Parent as Popup;
+            var propertiesItem = ((MenuFlyoutItem)sender).DataContext as FolderCardItem;
+            if (propertiesItem is null || !propertiesItem.IsLibrary || flyoutParent is null)
+                return;
+
+            EventHandler<object> flyoutClosed = null!;
+            flyoutClosed = (s, e) =>
             {
-                LibraryCardPropertiesInvoked?.Invoke(this, new LibraryCardEventArgs { Library = item.Item as LibraryLocationItem });
-            }
+                flyoutParent.Closed -= flyoutClosed;
+                LibraryCardPropertiesInvoked?.Invoke(this, new LibraryCardEventArgs { Library = (propertiesItem.Item as LibraryLocationItem)! });
+            };
+            flyoutParent.Closed += flyoutClosed;
         }
 
-        private async Task OpenLibraryCard(FolderCardItem item)
+        private Task OpenLibraryCard(FolderCardItem item)
         {
             if (string.IsNullOrEmpty(item.Path))
             {
-                return;
+                return Task.CompletedTask;
             }
             if (item.Item is LibraryLocationItem lli && lli.IsEmpty)
             {
                 // TODO: show message?
-                return;
+                return Task.CompletedTask;
             }
 
             var ctrlPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             if (ctrlPressed)
             {
-                await NavigationHelpers.OpenPathInNewTab(item.Path);
-                return;
+                return NavigationHelpers.OpenPathInNewTab(item.Path);
             }
 
             LibraryCardInvoked?.Invoke(this, new LibraryCardInvokedEventArgs { Path = item.Path });
+
+            return Task.CompletedTask;
         }
 
         public Task RefreshWidget()

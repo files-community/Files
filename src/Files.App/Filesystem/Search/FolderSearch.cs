@@ -76,27 +76,29 @@ namespace Files.App.Filesystem.Search
             }
         }
 
-        public async Task SearchAsync(IList<ListedItem> results, CancellationToken token)
+        public Task SearchAsync(IList<ListedItem> results, CancellationToken token)
         {
             try
             {
                 if (App.LibraryManager.TryGetLibrary(Folder, out var library))
                 {
-                    await AddItemsAsyncForLibrary(library, results, token);
+                    return AddItemsAsyncForLibrary(library, results, token);
                 }
                 else if (Folder == "Home".GetLocalizedResource())
                 {
-                    await AddItemsAsyncForHome(results, token);
+                    return AddItemsAsyncForHome(results, token);
                 }
                 else
                 {
-                    await AddItemsAsync(Folder, results, token);
+                    return AddItemsAsync(Folder, results, token);
                 }
             }
             catch (Exception e)
             {
                 App.Logger.Warn(e, "Search failure");
             }
+
+            return Task.CompletedTask;
         }
 
         private async Task AddItemsAsyncForHome(IList<ListedItem> results, CancellationToken token)
@@ -531,10 +533,10 @@ namespace Files.App.Filesystem.Search
             return query;
         }
 
-        private static async Task<FilesystemResult<BaseStorageFolder>> GetStorageFolderAsync(string path)
-            => await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
+        private static Task<FilesystemResult<BaseStorageFolder>> GetStorageFolderAsync(string path)
+            => FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
 
-        private static async Task<FilesystemResult<BaseStorageFile>> GetStorageFileAsync(string path)
-            => await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path));
+        private static Task<FilesystemResult<BaseStorageFile>> GetStorageFileAsync(string path)
+            => FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path));
     }
 }

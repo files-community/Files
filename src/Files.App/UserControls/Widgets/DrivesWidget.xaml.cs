@@ -1,12 +1,20 @@
-using Files.App.DataModels.NavigationControlItems;
-using Files.App.Helpers;
-using Files.Backend.Services.Settings;
-using Files.App.ViewModels.Widgets;
-using Files.App.Extensions;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
+using Files.App.DataModels.NavigationControlItems;
+using Files.App.Extensions;
+using Files.App.Helpers;
+using Files.App.Helpers.XamlHelpers;
+using Files.App.ViewModels.Widgets;
+using Files.Backend.Services.Settings;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -14,12 +22,6 @@ using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Windows.System;
 using Windows.UI.Core;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
-using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.UI.Xaml.Media.Imaging;
-using System.Collections.Specialized;
 
 namespace Files.App.UserControls.Widgets
 {
@@ -63,7 +65,7 @@ namespace Files.App.UserControls.Widgets
 
     public sealed partial class DrivesWidget : UserControl, IWidgetItemModel, INotifyPropertyChanged
     {
-        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>()!;
 
         public delegate void DrivesWidgetInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
 
@@ -98,7 +100,7 @@ namespace Files.App.UserControls.Widgets
 
         public string WidgetHeader => "Drives".GetLocalizedResource();
 
-        public bool IsWidgetSettingEnabled => UserSettingsService.WidgetsSettingsService.ShowDrivesWidget;
+        public bool IsWidgetSettingEnabled => UserSettingsService.AppearanceSettingsService.ShowDrivesWidget;
 
         public DrivesWidget()
         {
@@ -144,7 +146,8 @@ namespace Files.App.UserControls.Widgets
         private async void EjectDevice_Click(object sender, RoutedEventArgs e)
         {
             var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
-            await DriveHelpers.EjectDeviceAsync(item.Path);
+            var result = await DriveHelpers.EjectDeviceAsync(item.Path);
+            await UIHelpers.ShowDeviceEjectResultAsync(result);
         }
 
         private async void OpenInNewTab_Click(object sender, RoutedEventArgs e)
@@ -187,10 +190,21 @@ namespace Files.App.UserControls.Widgets
             App.SidebarPinnedController.Model.RemoveItem(item.Path);
         }
 
-        private async void OpenDriveProperties_Click(object sender, RoutedEventArgs e)
+        private void OpenDriveProperties_Click(object sender, RoutedEventArgs e)
         {
-            var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
-            await FilePropertiesHelpers.OpenPropertiesWindowAsync(item, associatedInstance);
+            var presenter = DependencyObjectHelpers.FindParent<MenuFlyoutPresenter>((MenuFlyoutItem)sender);
+            var flyoutParent = presenter?.Parent as Popup;
+            var propertiesItem = ((MenuFlyoutItem)sender).DataContext as DriveItem;
+            if (propertiesItem is null || flyoutParent is null)
+                return;
+
+            EventHandler<object> flyoutClosed = null!;
+            flyoutClosed = async (s, e) =>
+            {
+                flyoutParent.Closed -= flyoutClosed;
+                await FilePropertiesHelpers.OpenPropertiesWindowAsync(propertiesItem, associatedInstance);
+            };
+            flyoutParent.Closed += flyoutClosed;
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
@@ -309,7 +323,8 @@ namespace Files.App.UserControls.Widgets
                     bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalizedResource(), string.Format("InsertDiscDialog/Text".GetLocalizedResource(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalizedResource(), "Close".GetLocalizedResource());
                     if (ejectButton)
                     {
-                        await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
+                        var result = await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
+                        await UIHelpers.ShowDeviceEjectResultAsync(result);
                     }
                     return true;
                 }

@@ -12,11 +12,6 @@ namespace Files.App.ServicesImplementation.Settings
             set => Set(value);
         }
 
-        public void ReportToAppCenter()
-        {
-           
-        }
-
         public ApplicationSettingsService(ISettingsSharingContext settingsSharingContext)
         {
             RegisterSettingsContext(settingsSharingContext);

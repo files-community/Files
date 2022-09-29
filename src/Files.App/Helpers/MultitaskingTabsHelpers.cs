@@ -41,22 +41,20 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public static async Task MoveTabToNewWindow(TabItem tab, IMultitaskingControl multitaskingControl)
-		{
-			int index = MainPageViewModel.AppInstances.IndexOf(tab);
-			TabItemArguments tabItemArguments = MainPageViewModel.AppInstances[index].TabItemArguments;
+        public static Task MoveTabToNewWindow(TabItem tab, IMultitaskingControl multitaskingControl)
+        {
+            int index = MainPageViewModel.AppInstances.IndexOf(tab);
+            TabItemArguments tabItemArguments = MainPageViewModel.AppInstances[index].TabItemArguments;
 
 			multitaskingControl?.CloseTab(MainPageViewModel.AppInstances[index]);
 
-			if (tabItemArguments != null)
-			{
-				await NavigationHelpers.OpenTabInNewWindowAsync(tabItemArguments.Serialize());
-			}
-			else
-			{
-				await NavigationHelpers.OpenPathInNewWindowAsync("Home".GetLocalizedResource());
-			}
-		}
+            if (tabItemArguments != null)
+            {
+                return NavigationHelpers.OpenTabInNewWindowAsync(tabItemArguments.Serialize());
+            }
+
+            return NavigationHelpers.OpenPathInNewWindowAsync("Home".GetLocalizedResource());
+        }
 
 		public static async Task AddNewTab(Type type, object tabViewItemArgs, int atIndex = -1)
 		{
@@ -68,7 +66,7 @@ namespace Files.App.Helpers
 				Header = null,
 				IconSource = fontIconSource,
 				Description = null,
-				HoverDisplayText = null
+				ToolTipText = null
 			};
 			tabItem.Control.NavigationArguments = new TabItemArguments()
 			{

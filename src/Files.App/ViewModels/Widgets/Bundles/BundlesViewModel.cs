@@ -429,10 +429,8 @@ namespace Files.App.ViewModels.Widgets.Bundles
             }
         }
 
-        public async Task Initialize()
-        {
-            await Load();
-        }
+        public Task Initialize()
+            => Load();
 
         public (bool result, string reason) CanAddBundle(string name)
         {

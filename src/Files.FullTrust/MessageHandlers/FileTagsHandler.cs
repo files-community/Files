@@ -6,6 +6,7 @@ using System.IO.Pipes;
 using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
 using System.Runtime.Versioning;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Windows.Storage;
@@ -133,7 +134,7 @@ namespace Files.FullTrust.MessageHandlers
             return Kernel32.SetFileTime(hFile, new(), new(), dateModified);
         }
 
-        public Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments)
+        public Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, JsonElement> message, string arguments)
         {
             switch (arguments)
             {

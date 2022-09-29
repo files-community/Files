@@ -77,9 +77,5 @@ namespace Files.App.ServicesImplementation.Settings
             get => (GroupOption)Get((long)GroupOption.None);
             set => Set((long)value);
         }
-
-        public void ReportToAppCenter()
-        {
-        }
     }
 }

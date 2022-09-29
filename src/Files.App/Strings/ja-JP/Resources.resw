@@ -159,7 +159,7 @@
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>名前</value>
   </data>
-  <data name="PropertiesItemPath.Text" xml:space="preserve">
+  <data name="Path" xml:space="preserve">
     <value>パス:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
@@ -1237,7 +1237,7 @@
     <value>ファイルやフォルダーの検索時にインデックスされていないファイルを表示</value>
   </data>
   <data name="ForceThesePreferencesOnAllDirectories" xml:space="preserve">
-    <value>すべてのディレクトリに設定を強制</value>
+    <value>すべてのディレクトリに設定を強制する</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>右クリック メニューをカスタマイズ</value>
@@ -1671,32 +1671,23 @@
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
     <value>新しいタブでフォルダーを開く</value>
   </data>
-  <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
+  <data name="ShowBundlesWidget" xml:space="preserve">
     <value>バンドル ウィジェットを表示</value>
   </data>
-  <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
+  <data name="ShowDrivesWidget" xml:space="preserve">
     <value>ドライブ ウィジェットを表示</value>
   </data>
-  <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
+  <data name="ShowFolderWidget" xml:space="preserve">
     <value>ライブラリ ウィジェットを表示</value>
   </data>
-  <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
+  <data name="ShowRecentFilesWidget" xml:space="preserve">
     <value>最近使用したファイル ウィジェットを表示</value>
-  </data>
-  <data name="NavToolbarWidgets.ToolTipService.ToolTip" xml:space="preserve">
-    <value>ウィジェットを管理</value>
-  </data>
-  <data name="NavToolbarWidgetsManager.AutomationProperties.Name" xml:space="preserve">
-    <value>ウィジェットを管理</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>お探しのファイルが見つかりませんでしたか?</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
     <value>インデックスされていないファイルを検索</value>
-  </data>
-  <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
-    <value>ウィジェットを管理</value>
   </data>
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>テーマ フォルダーを開く</value>
@@ -1956,7 +1947,7 @@
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>閉じる</value>
   </data>
-  <data name="NavToolbarWidgets.Label" xml:space="preserve">
+  <data name="Widgets" xml:space="preserve">
     <value>ウィジェット</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
@@ -2318,12 +2309,6 @@
   </data>
   <data name="SettingsPrivacy.Title" xml:space="preserve">
     <value>プライバシー ポリシー</value>
-  </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
-    <value>Fluent UI システムアイコン</value>
-  </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Fluent UI システムアイコン</value>
   </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
@@ -2733,7 +2718,7 @@
     <value>タグ セクションを表示</value>
   </data>
   <data name="UseCompactStyles" xml:space="preserve">
-    <value>詳細レイアウトでコンパクトスタイルを使う</value>
+    <value>詳細レイアウトでコンパクトスタイルを使用する</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>ユニバーサル</value>
@@ -2748,7 +2733,7 @@
     <value>再試行</value>
   </data>
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
-    <value>ここでは移動の操作がサポートされていません。代わりにファイルをコピーしますか？</value>
+    <value>ここではファイルの移動がサポートされていません。代わりにファイルをコピーしますか？</value>
   </data>
   <data name="HiddenFilesAndFolders" xml:space="preserve">
     <value>隠しファイルとフォルダ</value>
@@ -2757,10 +2742,10 @@
     <value>カスタム</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
-    <value>デスクトップのスライドショーとして設定</value>
+    <value>デスクトップ スライドショーとして設定</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
-    <value>すべてのカラムをフィットさせる</value>
+    <value>すべての列のサイズを合わせる</value>
   </data>
   <data name="Contributors" xml:space="preserve">
     <value>共同作成者</value>
@@ -2824,5 +2809,32 @@
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>ロック画面</value>
+  </data>
+  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
+    <value>列レイアウトでワンクリックでフォルダを開く</value>
+  </data>
+  <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
+    <value>ファイルとフォルダを開くときの動作</value>
+  </data>
+  <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
+    <value>上にカーソルを合わせたときにファイルとフォルダを選択する</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
+    <value>ごみ箱内のすべてのアイテムを復元してもよろしいですか？</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
+    <value>すべてのアイテムを復元</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
+    <value>選択した {0} アイテムを復元しますか？</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
+    <value>選択範囲を復元</value>
+  </data>
+  <data name="RestoreAllItems" xml:space="preserve">
+    <value>すべてのアイテムを復元</value>
+  </data>
+  <data name="RestoreSelection" xml:space="preserve">
+    <value>元に戻す</value>
   </data>
 </root>

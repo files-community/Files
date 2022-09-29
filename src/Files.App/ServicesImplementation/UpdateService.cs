@@ -13,8 +13,8 @@ namespace Files.App.ServicesImplementation
 {
     internal sealed class UpdateService : ObservableObject, IUpdateService
     {
-        private StoreContext _storeContext;
-        private IList<StorePackageUpdate> _updatePackages;
+        private StoreContext? _storeContext;
+        private IList<StorePackageUpdate>? _updatePackages;
 
         private bool IsMandatory => _updatePackages?.Where(e => e.Mandatory).ToList().Count >= 1;
 
@@ -23,11 +23,7 @@ namespace Files.App.ServicesImplementation
         public bool IsUpdateAvailable
         {
             get => _isUpdateAvailable;
-            set
-            {
-                _isUpdateAvailable = value;
-                OnPropertyChanged(nameof(IsUpdateAvailable));
-            }
+            set => SetProperty(ref _isUpdateAvailable, value);
         }
 
         private bool _isUpdating;
@@ -35,22 +31,13 @@ namespace Files.App.ServicesImplementation
         public bool IsUpdating
         {
             get => _isUpdating;
-            private set
-            {
-                _isUpdating = value;
-                OnPropertyChanged(nameof(IsUpdating));
-            }
+            private set => SetProperty(ref _isUpdating, value);
         }
-
-        // TODO: This needs to be implemented in this service.
-        public int DownloadPercentage { get; }
 
         public UpdateService()
         {
             _updatePackages = new List<StorePackageUpdate>();
         }
-
-        public void ReportToAppCenter() { }
 
         public async Task DownloadUpdates()
         {
@@ -110,7 +97,7 @@ namespace Files.App.ServicesImplementation
         private async Task DownloadAndInstall()
         {
             App.SaveSessionTabs();
-            var downloadOperation = _storeContext.RequestDownloadAndInstallStorePackageUpdatesAsync(_updatePackages);
+            var downloadOperation = _storeContext?.RequestDownloadAndInstallStorePackageUpdatesAsync(_updatePackages);
             await downloadOperation.AsTask();
         }
 
@@ -168,7 +155,7 @@ namespace Files.App.ServicesImplementation
         {
             IsUpdating = false;
             IsUpdateAvailable = false;
-            _updatePackages.Clear();
+            _updatePackages?.Clear();
         }
 
         private void OnUpdateCancelled()

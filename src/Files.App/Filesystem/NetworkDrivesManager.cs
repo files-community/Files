@@ -2,11 +2,11 @@ using Files.Shared;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Helpers;
 using Files.App.Extensions;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
@@ -66,7 +66,7 @@ namespace Files.App.Filesystem
                 });
                 if (status is AppServiceResponseStatus.Success && response.ContainsKey("NetworkLocations"))
                 {
-                    var items = JsonConvert.DeserializeObject<List<ShellLinkItem>>((string)response["NetworkLocations"]);
+                    var items = JsonSerializer.Deserialize<List<ShellLinkItem>>(response["NetworkLocations"].GetString());
                     foreach (var item in items ?? new())
                     {
                         var networkItem = new DriveItem

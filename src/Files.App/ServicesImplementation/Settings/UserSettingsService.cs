@@ -1,9 +1,9 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.App.Serialization;
+using Files.App.Serialization.Implementation;
 using Files.Backend.Services.Settings;
 using Files.Shared.EventArguments;
 using Files.Shared.Extensions;
-using Files.App.Serialization;
-using Files.App.Serialization.Implementation;
 using System.Collections.Generic;
 using System.IO;
 using Windows.Storage;
@@ -22,12 +22,6 @@ namespace Files.App.ServicesImplementation.Settings
         public IMultitaskingSettingsService MultitaskingSettingsService
         {
             get => GetSettingsService(ref _MultitaskingSettingsService);
-        }
-
-        private IWidgetsSettingsService _WidgetsSettingsService;
-        public IWidgetsSettingsService WidgetsSettingsService
-        {
-            get => GetSettingsService(ref _WidgetsSettingsService);
         }
 
         private IAppearanceSettingsService _AppearanceSettingsService;
@@ -52,6 +46,12 @@ namespace Files.App.ServicesImplementation.Settings
         public IApplicationSettingsService ApplicationSettingsService
         {
             get => GetSettingsService(ref _ApplicationSettingsService);
+        }
+
+        private IAppSettingsService _AppSettingsService;
+        public IAppSettingsService AppSettingsService
+		{
+            get => GetSettingsService(ref _AppSettingsService);
         }
 
         public UserSettingsService()
@@ -101,19 +101,8 @@ namespace Files.App.ServicesImplementation.Settings
         private TSettingsService GetSettingsService<TSettingsService>(ref TSettingsService settingsServiceMember)
             where TSettingsService : class, IBaseSettingsService
         {
-            settingsServiceMember ??= Ioc.Default.GetService<TSettingsService>();
+            settingsServiceMember ??= Ioc.Default.GetService<TSettingsService>()!;
             return settingsServiceMember;
-        }
-
-        public void ReportToAppCenter()
-        {
-            PreferencesSettingsService?.ReportToAppCenter();
-            MultitaskingSettingsService?.ReportToAppCenter();
-            WidgetsSettingsService?.ReportToAppCenter();
-            AppearanceSettingsService?.ReportToAppCenter();
-            PreferencesSettingsService?.ReportToAppCenter();
-            LayoutSettingsService?.ReportToAppCenter();
-            PaneSettingsService?.ReportToAppCenter();
         }
     }
 }

@@ -8,10 +8,10 @@ using Files.App.Filesystem.StorageItems;
 using Files.App.ViewModels;
 using Files.App.Views;
 using Files.App.Extensions;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
@@ -24,21 +24,19 @@ namespace Files.App.Helpers
 {
     public static class NavigationHelpers
     {
-        public static async Task OpenPathInNewTab(string path)
-        {
-            await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), path);
-        }
+        public static Task OpenPathInNewTab(string path)
+            => MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), path);
 
-        public static async Task<bool> OpenPathInNewWindowAsync(string path)
+        public static Task<bool> OpenPathInNewWindowAsync(string path)
         {
             var folderUri = new Uri($"files-uwp:?folder={Uri.EscapeDataString(path)}");
-            return await Launcher.LaunchUriAsync(folderUri);
+            return Launcher.LaunchUriAsync(folderUri).AsTask();
         }
 
-        public static async Task<bool> OpenTabInNewWindowAsync(string tabArgs)
+        public static Task<bool> OpenTabInNewWindowAsync(string tabArgs)
         {
             var folderUri = new Uri($"files-uwp:?tab={Uri.EscapeDataString(tabArgs)}");
-            return await Launcher.LaunchUriAsync(folderUri);
+            return Launcher.LaunchUriAsync(folderUri).AsTask();
         }
 
         public static async void LaunchNewWindow()
@@ -162,7 +160,7 @@ namespace Files.App.Helpers
 
                     if (status == AppServiceResponseStatus.Success && response.ContainsKey("ShortcutInfo"))
                     {
-                        var shInfo = JsonConvert.DeserializeObject<ShellLinkItem>((string)response["ShortcutInfo"]);
+                        var shInfo = JsonSerializer.Deserialize<ShellLinkItem>(response["ShortcutInfo"].GetString());
                         if (shInfo != null)
                         {
                             shortcutInfo = shInfo;
@@ -324,12 +322,12 @@ namespace Files.App.Helpers
             else
             {
                 opened = await associatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(path)
-                    .OnSuccess(async (childFolder) =>
+                    .OnSuccess((childFolder) =>
                     {
                         // Add location to Recent Items List
                         if (childFolder.Item is SystemStorageFolder)
                         {
-                            await App.RecentItemsManager.AddToRecentItems(childFolder.Path);
+                            App.RecentItemsManager.AddToRecentItems(childFolder.Path);
                         }
                     });
                 if (!opened)
@@ -382,7 +380,7 @@ namespace Files.App.Helpers
                             // Add location to Recent Items List
                             if (childFile.Item is SystemStorageFile)
                             {
-                                await App.RecentItemsManager.AddToRecentItems(childFile.Path);
+                                App.RecentItemsManager.AddToRecentItems(childFile.Path);
                             }
                         }
                     }
@@ -402,7 +400,7 @@ namespace Files.App.Helpers
                         // Add location to Recent Items List
                         if (childFile.Item is SystemStorageFile)
                         {
-                            await App.RecentItemsManager.AddToRecentItems(childFile.Path);
+                            App.RecentItemsManager.AddToRecentItems(childFile.Path);
                         }
 
                         if (openViaApplicationPicker)
