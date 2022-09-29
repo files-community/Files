@@ -236,15 +236,6 @@ namespace Files.App.Views.LayoutModes
 			NotifyPropertyChanged(nameof(GridViewItemMinWidth));
 		}
 
-		private void StackPanel_RightTapped(object sender, RightTappedRoutedEventArgs e)
-		{
-			var parentContainer = DependencyObjectHelpers.FindParent<GridViewItem>(e.OriginalSource as DependencyObject);
-			if (!parentContainer.IsSelected)
-			{
-				ItemManipulationModel.SetSelectedItem(FileList.ItemFromContainer(parentContainer) as ListedItem);
-			}
-		}
-
 		private async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x != null).ToList();
