@@ -900,6 +900,7 @@ namespace Files.App
 			container.PointerPressed -= FileListItem_PointerPressed;
 			container.PointerEntered -= FileListItem_PointerEntered;
 			container.PointerExited -= FileListItem_PointerExited;
+			container.RightTapped -= FileListItem_RightTapped;
 
 			if (inRecycleQueue)
 			{
@@ -908,6 +909,7 @@ namespace Files.App
 			else
 			{
 				container.PointerPressed += FileListItem_PointerPressed;
+				container.RightTapped += FileListItem_RightTapped;
 				if (UserSettingsService.PreferencesSettingsService.SelectFilesOnHover)
 				{
 					container.PointerEntered += FileListItem_PointerEntered;
@@ -1010,6 +1012,15 @@ namespace Files.App
 
 			hoverTimer.Stop();
 			hoveredItem = null;
+		}
+
+		protected void FileListItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		{
+			var rightClickedItem = GetItemFromElement(sender);
+			if (rightClickedItem != null && !((ListViewItem)sender).IsSelected)
+			{
+				ItemManipulationModel.SetSelectedItem(rightClickedItem);
+			}
 		}
 
 		private readonly RecycleBinHelpers recycleBinHelpers = new();

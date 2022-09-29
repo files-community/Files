@@ -192,7 +192,6 @@
 								CornerRadius="{StaticResource ControlCornerRadius}"
 								IsRightTapEnabled="True"
 								Loaded="Grid_Loaded"
-								RightTapped="StackPanel_RightTapped"
 								ToolTipService.ToolTip="{x:Bind ItemName, Mode=OneWay}">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="24" />
