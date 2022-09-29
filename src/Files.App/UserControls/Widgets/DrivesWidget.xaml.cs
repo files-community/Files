@@ -1,12 +1,20 @@
-using Files.App.DataModels.NavigationControlItems;
-using Files.App.Helpers;
-using Files.Backend.Services.Settings;
-using Files.App.ViewModels.Widgets;
-using Files.App.Extensions;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
+using Files.App.DataModels.NavigationControlItems;
+using Files.App.Extensions;
+using Files.App.Helpers;
+using Files.App.Helpers.XamlHelpers;
+using Files.App.ViewModels.Widgets;
+using Files.Backend.Services.Settings;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -14,17 +22,6 @@ using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Windows.System;
 using Windows.UI.Core;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
-using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.UI.Xaml.Media.Imaging;
-using System.Collections.Specialized;
-using CommunityToolkit.WinUI.Notifications;
-using System.Diagnostics;
-using Windows.UI.Notifications;
-using Files.App.Helpers.XamlHelpers;
-using Microsoft.UI.Xaml.Controls.Primitives;
 
 namespace Files.App.UserControls.Widgets
 {
@@ -68,7 +65,7 @@ namespace Files.App.UserControls.Widgets
 
     public sealed partial class DrivesWidget : UserControl, IWidgetItemModel, INotifyPropertyChanged
     {
-        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>()!;
 
         public delegate void DrivesWidgetInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
 
@@ -103,7 +100,7 @@ namespace Files.App.UserControls.Widgets
 
         public string WidgetHeader => "Drives".GetLocalizedResource();
 
-        public bool IsWidgetSettingEnabled => UserSettingsService.WidgetsSettingsService.ShowDrivesWidget;
+        public bool IsWidgetSettingEnabled => UserSettingsService.AppearanceSettingsService.ShowDrivesWidget;
 
         public DrivesWidget()
         {
