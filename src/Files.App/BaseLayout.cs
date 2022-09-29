@@ -1017,7 +1017,7 @@ namespace Files.App
 		protected void FileListItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
 			var rightClickedItem = GetItemFromElement(sender);
-			if (rightClickedItem != null && !((ListViewItem)sender).IsSelected)
+			if (rightClickedItem != null && !((SelectorItem)sender).IsSelected)
 			{
 				ItemManipulationModel.SetSelectedItem(rightClickedItem);
 			}
