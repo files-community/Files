@@ -37,13 +37,14 @@ namespace Files.App.Views
             }
         }
 
-        public override async Task<bool> SaveChangesAsync(ListedItem item)
+        public override Task<bool> SaveChangesAsync(ListedItem item)
         {
             if (CompatibilityProperties != null)
             {
-                return await CompatibilityProperties.SetCompatibilityOptions();
+                return CompatibilityProperties.SetCompatibilityOptions();
             }
-            return true;
+
+            return Task.FromResult(false);
         }
 
         public override void Dispose()

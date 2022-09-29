@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Text.Json;
 using Files.App.Helpers;
+using System.Collections.Generic;
 
 namespace Files.App.UserControls.MultitaskingControl
 {
@@ -26,15 +27,15 @@ namespace Files.App.UserControls.MultitaskingControl
             set => SetProperty(ref description, value);
         }
 
-        private string hoverDisplayText;
+        private string toolTipText;
 
         /// <summary>
         /// The text that should be displayed in the tooltip when hovering the tab item.
         /// </summary>
-        public string HoverDisplayText
+        public string ToolTipText
         {
-            get => hoverDisplayText;
-            set => SetProperty(ref hoverDisplayText, value);
+            get => toolTipText;
+            set => SetProperty(ref toolTipText, value);
         }
 
         private IconSource iconSource;
@@ -94,6 +95,23 @@ namespace Files.App.UserControls.MultitaskingControl
 
         public string Serialize() => JsonSerializer.Serialize(this, TypesConverter.Options);
 
-        public static TabItemArguments Deserialize(string obj) => JsonSerializer.Deserialize<TabItemArguments>(obj, TypesConverter.Options);
+        public static TabItemArguments Deserialize(string obj)
+        {
+            var tabArgs = new TabItemArguments();
+
+            var tempArgs = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(obj);
+            tabArgs.InitialPageType = Type.GetType(tempArgs["InitialPageType"].GetString());
+
+            try
+            {
+                tabArgs.NavigationArg = JsonSerializer.Deserialize<PaneNavigationArguments>(tempArgs["NavigationArg"].GetRawText());
+            }
+            catch (JsonException)
+            {
+                tabArgs.NavigationArg = tempArgs["NavigationArg"].GetString();
+            }
+
+            return tabArgs;
+        }
     }
 }

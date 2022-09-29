@@ -15,11 +15,11 @@ namespace Files.App.DataModels.NavigationControlItems
             set
             {
                 path = value;
-                HoverDisplayText = Path.Contains("?", StringComparison.Ordinal) ? Text : Path;
+                ToolTipText = Path.Contains("?", StringComparison.Ordinal) ? Text : Path;
             }
         }
 
-        public string HoverDisplayText { get; private set; }
+        public string ToolTipText { get; private set; }
 
         public NavigationControlItemType ItemType => NavigationControlItemType.LinuxDistro;
 

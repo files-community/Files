@@ -1,11 +1,11 @@
-using Files.Shared;
-using Files.App.Filesystem;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Files.App.Extensions;
-using System;
+using Files.App.Filesystem;
+using Files.App.Helpers;
+using Files.Shared;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Files.App.Helpers;
+using System;
 
 namespace Files.App.DataModels.NavigationControlItems
 {
@@ -32,11 +32,11 @@ namespace Files.App.DataModels.NavigationControlItems
             set
             {
                 path = value;
-                HoverDisplayText = string.IsNullOrEmpty(Path) || Path.Contains("?", StringComparison.Ordinal) || Path.StartsWith("shell:", StringComparison.OrdinalIgnoreCase) || Path.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase) || Path == "Home".GetLocalizedResource() ? Text : Path;
+                ToolTipText = string.IsNullOrEmpty(Path) || Path.Contains("?", StringComparison.Ordinal) || Path.StartsWith("shell:", StringComparison.OrdinalIgnoreCase) || Path.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase) || Path == "Home".GetLocalizedResource() ? Text : Path;
             }
         }
 
-        public string HoverDisplayText { get; private set; }
+        public string ToolTipText { get; private set; }
         public FontFamily Font { get; set; }
         public NavigationControlItemType ItemType => NavigationControlItemType.Location;
         public bool IsDefaultLocation { get; set; }

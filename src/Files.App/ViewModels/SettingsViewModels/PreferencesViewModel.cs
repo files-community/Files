@@ -1,788 +1,863 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.WinUI;
+using Files.App.Controllers;
+using Files.App.DataModels;
+using Files.App.Extensions;
+using Files.App.Helpers;
+using Files.App.Shell;
 using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
 using Files.Shared.Services.DateTimeFormatter;
-using Files.App.Controllers;
-using Files.App.DataModels;
-using Files.App.Helpers;
-using Files.App.Extensions;
-using CommunityToolkit.WinUI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Windows.ApplicationModel;
+using Windows.Globalization;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;
-using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 using static Files.App.Helpers.MenuFlyoutHelper;
-using Files.App.Shell;
+using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 
 namespace Files.App.ViewModels.SettingsViewModels
 {
-    public class PreferencesViewModel : ObservableObject, IDisposable
-    {
-        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
-
-        private int selectedLanguageIndex = App.AppSettings.DefaultLanguages.IndexOf(App.AppSettings.DefaultLanguage);
-        private Terminal selectedTerminal = App.TerminalController.Model.GetDefaultTerminal();
-        private int selectedDateFormatIndex = (int)Enum.Parse(typeof(TimeStyle), App.AppSettings.DisplayedTimeStyle.ToString());
-
-        private bool showRestartControl;
-        private List<Terminal> terminals;
-        private bool disposed;
-        private int selectedPageIndex = -1;
-        private bool isPageListEditEnabled;
-        private ReadOnlyCollection<IMenuFlyoutItemViewModel> addFlyoutItemsSource;
-
-        public ICommand EditTerminalApplicationsCommand { get; }
-
-        public ICommand OpenFilesAtStartupCommand { get; }
-
-        public ICommand ResetLayoutPreferencesCommand { get; }
-        public ICommand ShowResetLayoutPreferencesTipCommand { get; }
-        
-        public PreferencesViewModel()
-        {
-            ChangePageCommand = new AsyncRelayCommand(ChangePage);
-            RemovePageCommand = new RelayCommand(RemovePage);
-            AddPageCommand = new RelayCommand<string>(async (path) => await AddPage(path));
-            ResetLayoutPreferencesCommand = new RelayCommand(ResetLayoutPreferences);
-            ShowResetLayoutPreferencesTipCommand = new RelayCommand(() => IsResetLayoutPreferencesTipOpen = true);
-
-            DefaultLanguages = App.AppSettings.DefaultLanguages;
-            Terminals = App.TerminalController.Model.Terminals;
-
-            DateTimeOffset sampleDate1 = DateTime.Now;
-            DateTimeOffset sampleDate2 = new DateTime(sampleDate1.Year - 5, 12, 31, 14, 30, 0);
-            var styles = new TimeStyle[] { TimeStyle.Application, TimeStyle.System, TimeStyle.Universal };
-            DateFormats = styles.Select(style => new DateFormatItem(style, sampleDate1, sampleDate2)).ToList();
-
-            dispatcherQueue = DispatcherQueue.GetForCurrentThread();
-
-            EditTerminalApplicationsCommand = new AsyncRelayCommand(LaunchTerminalsConfigFile);
-            OpenFilesAtStartupCommand = new AsyncRelayCommand(OpenFilesAtStartup);
-            App.TerminalController.ModelChanged += ReloadTerminals;
-
-            if (UserSettingsService.PreferencesSettingsService.TabsOnStartupList != null)
-            {
-                PagesOnStartupList = new ObservableCollection<PageOnStartupViewModel>(UserSettingsService.PreferencesSettingsService.TabsOnStartupList.Select((p) => new PageOnStartupViewModel(p)));
-            }
-            else
-            {
-                PagesOnStartupList = new ObservableCollection<PageOnStartupViewModel>();
-            }
-
-            PagesOnStartupList.CollectionChanged += PagesOnStartupList_CollectionChanged;
-
-            _ = InitStartupSettingsRecentFoldersFlyout();
-            _ = DetectOpenFilesAtStartup();
-        }
-
-        private async Task InitStartupSettingsRecentFoldersFlyout()
-        {
-            var recentsItem = new MenuFlyoutSubItemViewModel("JumpListRecentGroupHeader".GetLocalizedResource());
-            recentsItem.Items.Add(new MenuFlyoutItemViewModel("Home".GetLocalizedResource())
-            {
-                Command = AddPageCommand,
-                CommandParameter = "Home".GetLocalizedResource(),
-                Tooltip = "Home".GetLocalizedResource()
-            });
-
-            await App.RecentItemsManager.UpdateRecentFoldersAsync();    // ensure recent folders aren't stale since we don't update them with a watcher
-            await PopulateRecentItems(recentsItem).ContinueWith(_ =>
-            {
-                AddFlyoutItemsSource = new List<IMenuFlyoutItemViewModel>() {
-                    new MenuFlyoutItemViewModel("Browse".GetLocalizedResource()) { Command = AddPageCommand },
-                    recentsItem,
-                }.AsReadOnly();
-            }, TaskScheduler.FromCurrentSynchronizationContext());
-        }
-
-        private Task PopulateRecentItems(MenuFlyoutSubItemViewModel menu)
-        {
-            try
-            {
-                var recentFolders = App.RecentItemsManager.RecentFolders;
-
-                // add separator
-                if (recentFolders.Any())
-                {
-                    menu.Items.Add(new MenuFlyoutSeparatorViewModel());
-                }
-
-                foreach (var recentFolder in recentFolders)
-                {
-                    var menuItem = new MenuFlyoutItemViewModel(recentFolder.Name)
-                    {
-                        Command = AddPageCommand,
-                        CommandParameter = recentFolder.RecentPath,
-                        Tooltip = recentFolder.RecentPath
-                    };
-                    menu.Items.Add(menuItem);
-                }
-            }
-            catch (Exception ex)
-            {
-                App.Logger.Info(ex, "Could not fetch recent items");
-            }
-
-            return Task.CompletedTask;
-        }
-
-        private void PagesOnStartupList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (PagesOnStartupList.Count > 0)
-            {
-                UserSettingsService.PreferencesSettingsService.TabsOnStartupList = PagesOnStartupList.Select((p) => p.Path).ToList();
-            }
-            else
-            {
-                UserSettingsService.PreferencesSettingsService.TabsOnStartupList = null;
-            }
-        }
-
-        public int SelectedStartupSettingIndex => ContinueLastSessionOnStartUp ? 1 : OpenASpecificPageOnStartup ? 2 : 0;
-
-        public bool OpenNewTabPageOnStartup
-        {
-            get => UserSettingsService.PreferencesSettingsService.OpenNewTabOnStartup;
-            set
-            {
-                if (value != UserSettingsService.PreferencesSettingsService.OpenNewTabOnStartup)
-                {
-                    UserSettingsService.PreferencesSettingsService.OpenNewTabOnStartup = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public bool ContinueLastSessionOnStartUp
-        {
-            get => UserSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp;
-            set
-            {
-                if (value != UserSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp)
-                {
-                    UserSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public bool OpenASpecificPageOnStartup
-        {
-            get => UserSettingsService.PreferencesSettingsService.OpenSpecificPageOnStartup;
-            set
-            {
-                if (value != UserSettingsService.PreferencesSettingsService.OpenSpecificPageOnStartup)
-                {
-                    UserSettingsService.PreferencesSettingsService.OpenSpecificPageOnStartup = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public ObservableCollection<PageOnStartupViewModel> PagesOnStartupList { get; set; }
-
-        public int SelectedPageIndex
-        {
-            get => selectedPageIndex;
-            set
-            {
-                if (SetProperty(ref selectedPageIndex, value))
-                {
-                    IsPageListEditEnabled = value >= 0;
-                }
-            }
-        }
-
-        public bool IsPageListEditEnabled
-        {
-            get => isPageListEditEnabled;
-            set => SetProperty(ref isPageListEditEnabled, value);
-        }
-
-        public ReadOnlyCollection<IMenuFlyoutItemViewModel> AddFlyoutItemsSource
-        {
-            get => addFlyoutItemsSource;
-            set => SetProperty(ref addFlyoutItemsSource, value);
-        }
-
-        public ICommand ChangePageCommand { get; }
-        public ICommand RemovePageCommand { get; }
-        public RelayCommand<string> AddPageCommand { get; }
-
-        public bool AlwaysOpenANewInstance
-        {
-            get => UserSettingsService.PreferencesSettingsService.AlwaysOpenNewInstance;
-            set
-            {
-                if (value != UserSettingsService.PreferencesSettingsService.AlwaysOpenNewInstance)
-                {
-                    UserSettingsService.PreferencesSettingsService.AlwaysOpenNewInstance = value;
-                    ApplicationData.Current.LocalSettings.Values["AlwaysOpenANewInstance"] = value; // Needed in Program.cs
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        private async Task ChangePage()
-        {
-            var folderPicker = this.InitializeWithWindow(new FolderPicker());
-            folderPicker.FileTypeFilter.Add("*");
-            StorageFolder folder = await folderPicker.PickSingleFolderAsync();
-
-            if (folder != null)
-            {
-                if (SelectedPageIndex >= 0)
-                {
-                    PagesOnStartupList[SelectedPageIndex] = new PageOnStartupViewModel(folder.Path);
-                }
-            }
-        }
-
-        // WINUI3
-        private FolderPicker InitializeWithWindow(FolderPicker obj)
-        {
-            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
-            return obj;
-        }
-
-        private void RemovePage()
-        {
-            int index = SelectedPageIndex;
-            if (index >= 0)
-            {
-                PagesOnStartupList.RemoveAt(index);
-                if (index > 0)
-                {
-                    SelectedPageIndex = index - 1;
-                }
-                else if (PagesOnStartupList.Count > 0)
-                {
-                    SelectedPageIndex = 0;
-                }
-            }
-        }
-
-        private async Task AddPage(string path = null)
-        {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                var folderPicker = this.InitializeWithWindow(new FolderPicker());
-                folderPicker.FileTypeFilter.Add("*");
-
-                var folder = await folderPicker.PickSingleFolderAsync();
-                if (folder != null)
-                {
-                    path = folder.Path;
-                }
-            }
-
-            if (path != null && PagesOnStartupList != null)
-            {
-                PagesOnStartupList.Add(new PageOnStartupViewModel(path));
-            }
-        }
-
-        public class PageOnStartupViewModel
-        {
-            public string Text
-            {
-                get
-                {
-                    if (Path == "Home".GetLocalizedResource())
-                    {
-                        return "Home".GetLocalizedResource();
-                    }
-                    if (Path == CommonPaths.RecycleBinPath)
-                    {
-                        return ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
-                    }
-                    return Path;
-                }
-            }
-
-            public string Path { get; }
-
-            internal PageOnStartupViewModel(string path) => Path = path;
-        }
-
-        private void ReloadTerminals(TerminalController controller)
-        {
-            dispatcherQueue.EnqueueAsync(() =>
-            {
-                Terminals = controller.Model.Terminals;
-                SelectedTerminal = controller.Model.GetDefaultTerminal();
-            });
-        }
-
-        public string DateFormatSample
-            => string.Format("DateFormatSample".GetLocalizedResource(), DateFormats[SelectedDateFormatIndex].Sample1, DateFormats[SelectedDateFormatIndex].Sample2);
-
-        public List<DateFormatItem> DateFormats { get; set; }
-
-        private DispatcherQueue dispatcherQueue;
-
-        public int SelectedDateFormatIndex
-        {
-            get
-            {
-                return selectedDateFormatIndex;
-            }
-            set
-            {
-                if (SetProperty(ref selectedDateFormatIndex, value))
-                {
-                    OnPropertyChanged(nameof(DateFormatSample));
-                    App.AppSettings.DisplayedTimeStyle = (TimeStyle)value;
-                }
-            }
-        }
-
-        public ObservableCollection<DefaultLanguageModel> DefaultLanguages { get; set; }
-
-        public int SelectedLanguageIndex
-        {
-            get { return selectedLanguageIndex; }
-            set
-            {
-                if (SetProperty(ref selectedLanguageIndex, value))
-                {
-                    App.AppSettings.DefaultLanguage = DefaultLanguages[value];
-
-                    if (App.AppSettings.CurrentLanguage.ID != DefaultLanguages[value].ID)
-                    {
-                        ShowRestartControl = true;
-                    }
-                    else
-                    {
-                        ShowRestartControl = false;
-                    }
-                }
-            }
-        }
-
-        public bool ShowRestartControl
-        {
-            get => showRestartControl;
-            set => SetProperty(ref showRestartControl, value);
-        }
-
-        public List<Terminal> Terminals
-        {
-            get => terminals;
-            set => SetProperty(ref terminals, value);
-        }
-
-        public Terminal SelectedTerminal
-        {
-            get { return selectedTerminal; }
-            set
-            {
-                if (value is not null && SetProperty(ref selectedTerminal, value))
-                {
-                    App.TerminalController.Model.DefaultTerminalName = value.Name;
-                    App.TerminalController.SaveModel();
-                }
-            }
-        }
-
-        public bool ShowConfirmDeleteDialog
-        {
-            get => UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog;
-            set
-            {
-                if (value != UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog)
-                {
-                    UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public bool OpenFoldersNewTab
-        {
-            get => UserSettingsService.PreferencesSettingsService.OpenFoldersInNewTab;
-            set
-            {
-                if (value != UserSettingsService.PreferencesSettingsService.OpenFoldersInNewTab)
-                {
-                    UserSettingsService.PreferencesSettingsService.OpenFoldersInNewTab = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        private async Task LaunchTerminalsConfigFile()
-        {
-            var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/terminal.json"));
-
-            if (!await Launcher.LaunchFileAsync(configFile))
-            {
-                await ContextMenu.InvokeVerb("open", configFile.Path);
-            }
-        }
-
-        private bool openInLogin;
-
-        public bool OpenInLogin
-        {
-            get => openInLogin;
-            set => SetProperty(ref openInLogin, value);
-        }
-
-        private bool canOpenInLogin;
-
-        public bool CanOpenInLogin
-        {
-            get => canOpenInLogin;
-            set => SetProperty(ref canOpenInLogin, value);
-        }
-
-        public async Task OpenFilesAtStartup()
-        {
-            var stateMode = await ReadState();
-
-            bool state = stateMode switch
-            {
-                StartupTaskState.Enabled => true,
-                StartupTaskState.EnabledByPolicy => true,
-                StartupTaskState.DisabledByPolicy => false,
-                StartupTaskState.DisabledByUser => false,
-                _ => false,
-            };
-
-            if (state != OpenInLogin)
-            {
-                StartupTask startupTask = await StartupTask.GetAsync("3AA55462-A5FA-4933-88C4-712D0B6CDEBB");
-                if (OpenInLogin)
-                {
-                    await startupTask.RequestEnableAsync();
-                }
-                else
-                {
-                    startupTask.Disable();
-                }
-                await DetectOpenFilesAtStartup();
-            }
-        }
-
-        public async Task DetectOpenFilesAtStartup()
-        {
-            var stateMode = await ReadState();
-
-            switch (stateMode)
-            {
-                case StartupTaskState.Disabled:
-                    CanOpenInLogin = true;
-                    OpenInLogin = false;
-                    break;
-                case StartupTaskState.Enabled:
-                    CanOpenInLogin = true;
-                    OpenInLogin = true;
-                    break;
-                case StartupTaskState.DisabledByPolicy:
-                    CanOpenInLogin = false;
-                    OpenInLogin = false;
-                    break;
-                case StartupTaskState.DisabledByUser:
-                    CanOpenInLogin = false;
-                    OpenInLogin = false;
-                    break;
-                case StartupTaskState.EnabledByPolicy:
-                    CanOpenInLogin = false;
-                    OpenInLogin = true;
-                    break;
-            }
-        }
-
-        public async Task<StartupTaskState> ReadState()
-        {
-            var state = await StartupTask.GetAsync("3AA55462-A5FA-4933-88C4-712D0B6CDEBB");
-            return state.State;
-        }
-
-        public bool AreHiddenItemsVisible
-        {
-            get => UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible;
-            set
-            {
-                if (value != UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible)
-                {
-                    UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public bool AreSystemItemsHidden
-        {
-            get => UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden;
-            set
-            {
-                if (value != UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden)
-                {
-                    UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public bool AreAlternateStreamsVisible
-        {
-            get => UserSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible;
-            set
-            {
-                if (value != UserSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible)
-                {
-                    UserSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public bool ShowDotFiles
-        {
-            get => UserSettingsService.PreferencesSettingsService.ShowDotFiles;
-            set
-            {
-                if (value != UserSettingsService.PreferencesSettingsService.ShowDotFiles)
-                {
-                    UserSettingsService.PreferencesSettingsService.ShowDotFiles = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public bool ShowFileExtensions
-        {
-            get => UserSettingsService.PreferencesSettingsService.ShowFileExtensions;
-            set
-            {
-                if (value != UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
-                {
-                    UserSettingsService.PreferencesSettingsService.ShowFileExtensions = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public bool ShowThumbnails
-        {
-            get => UserSettingsService.PreferencesSettingsService.ShowThumbnails;
-            set
-            {
-                if (value != UserSettingsService.PreferencesSettingsService.ShowThumbnails)
-                {
-                    UserSettingsService.PreferencesSettingsService.ShowThumbnails = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public bool OpenFilesWithOneClick
-        {
-            get => UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick;
-            set
-            {
-                if (value != UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick)
-                {
-                    UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public bool OpenFoldersWithOneClick
-        {
-            get => UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick;
-            set
-            {
-                if (value != UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick)
-                {
-                    UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public bool ColumnLayoutOpenFoldersWithOneClick
-        {
-            get => UserSettingsService.PreferencesSettingsService.ColumnLayoutOpenFoldersWithOneClick;
-            set
-            {
-                if (value != UserSettingsService.PreferencesSettingsService.ColumnLayoutOpenFoldersWithOneClick)
-                {
-                    UserSettingsService.PreferencesSettingsService.ColumnLayoutOpenFoldersWithOneClick = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public bool ListAndSortDirectoriesAlongsideFiles
-        {
-            get => UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles;
-            set
-            {
-                if (value != UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles)
-                {
-                    UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public bool SearchUnindexedItems
-        {
-            get => UserSettingsService.PreferencesSettingsService.SearchUnindexedItems;
-            set
-            {
-                if (value != UserSettingsService.PreferencesSettingsService.SearchUnindexedItems)
-                {
-                    UserSettingsService.PreferencesSettingsService.SearchUnindexedItems = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public bool ForceLayoutPreferencesOnAllDirectories
-        {
-            get => UserSettingsService.PreferencesSettingsService.ForceLayoutPreferencesOnAllDirectories;
-            set
-            {
-                if (value != UserSettingsService.PreferencesSettingsService.ForceLayoutPreferencesOnAllDirectories)
-                {
-                    UserSettingsService.PreferencesSettingsService.ForceLayoutPreferencesOnAllDirectories = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-        
-        public bool ShowFileTagColumn
-        {
-            get => UserSettingsService.LayoutSettingsService.ShowFileTagColumn;
-            set
-            {
-                if (value != UserSettingsService.LayoutSettingsService.ShowFileTagColumn)
-                {
-                    UserSettingsService.LayoutSettingsService.ShowFileTagColumn = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-        
-        public bool ShowSizeColumn
-        {
-            get => UserSettingsService.LayoutSettingsService.ShowSizeColumn;
-            set
-            {
-                if (value != UserSettingsService.LayoutSettingsService.ShowSizeColumn)
-                {
-                    UserSettingsService.LayoutSettingsService.ShowSizeColumn = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public bool ShowTypeColumn
-        {
-            get => UserSettingsService.LayoutSettingsService.ShowTypeColumn;
-            set
-            {
-                if (value != UserSettingsService.LayoutSettingsService.ShowTypeColumn)
-                {
-                    UserSettingsService.LayoutSettingsService.ShowTypeColumn = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public bool ShowDateCreatedColumn
-        {
-            get => UserSettingsService.LayoutSettingsService.ShowDateCreatedColumn;
-            set
-            {
-                if (value != UserSettingsService.LayoutSettingsService.ShowDateCreatedColumn)
-                {
-                    UserSettingsService.LayoutSettingsService.ShowDateCreatedColumn = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public bool ShowDateColumn
-        {
-            get => UserSettingsService.LayoutSettingsService.ShowDateColumn;
-            set
-            {
-                if (value != UserSettingsService.LayoutSettingsService.ShowDateColumn)
-                {
-                    UserSettingsService.LayoutSettingsService.ShowDateColumn = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        private bool isLayoutResetCheckmarkVisible;
-        public bool IsLayoutResetCheckmarkVisible
-        {
-            get => isLayoutResetCheckmarkVisible;
-            set => SetProperty(ref isLayoutResetCheckmarkVisible, value);
-        }
-
-        private bool isResetLayoutPreferencesTipOpen;
-        public bool IsResetLayoutPreferencesTipOpen
-        {
-            get => isResetLayoutPreferencesTipOpen;
-            set => SetProperty(ref isResetLayoutPreferencesTipOpen, value);
-        }
-
-        public void ResetLayoutPreferences()
-        {
-            FolderSettingsViewModel.DbInstance.ResetAll();
-            IsResetLayoutPreferencesTipOpen = false;
-            IsLayoutResetCheckmarkVisible = true;
-        }
-
-        public void Dispose()
-        {
-            if (!disposed)
-            {
-                App.TerminalController.ModelChanged -= ReloadTerminals;
-                disposed = true;
-                GC.SuppressFinalize(this);
-            }
-        }
-
-        ~PreferencesViewModel()
-        {
-            Dispose();
-        }
-    }
-
-    public class DateFormatItem
-    {
-        public string Label { get; }
-        public string Sample1 { get; }
-        public string Sample2 { get; }
-
-        public DateFormatItem(TimeStyle style, DateTimeOffset sampleDate1, DateTimeOffset sampleDate2)
-        {
-            var factory = Ioc.Default.GetService<IDateTimeFormatterFactory>();
-            var formatter = factory.GetDateTimeFormatter(style);
-
-            Label = formatter.Name;
-            Sample1 = formatter.ToShortLabel(sampleDate1);
-            Sample2 = formatter.ToShortLabel(sampleDate2);
-        }
-    }
+	public class PreferencesViewModel : ObservableObject, IDisposable
+	{
+		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+
+		private bool disposed;
+		private ReadOnlyCollection<IMenuFlyoutItemViewModel> addFlyoutItemsSource;
+
+
+
+		// Commands
+
+		public AsyncRelayCommand EditTerminalApplicationsCommand { get; }
+		public AsyncRelayCommand OpenFilesAtStartupCommand { get; }
+		public RelayCommand ResetLayoutPreferencesCommand { get; }
+		public RelayCommand ShowResetLayoutPreferencesTipCommand { get; }
+		public AsyncRelayCommand ChangePageCommand { get; }
+		public RelayCommand RemovePageCommand { get; }
+		public RelayCommand<string> AddPageCommand { get; }
+
+
+
+		// Properties
+
+		private bool showRestartControl;
+		public bool ShowRestartControl
+		{
+			get => showRestartControl;
+			set => SetProperty(ref showRestartControl, value);
+		}
+
+		private int selectedPageIndex = -1;
+		public int SelectedPageIndex
+		{
+			get => selectedPageIndex;
+			set
+			{
+				if (SetProperty(ref selectedPageIndex, value))
+				{
+					IsPageListEditEnabled = value >= 0;
+				}
+			}
+		}
+
+		private bool isPageListEditEnabled;
+		public bool IsPageListEditEnabled
+		{
+			get => isPageListEditEnabled;
+			set => SetProperty(ref isPageListEditEnabled, value);
+		}
+
+		private int selectedDateTimeFormatIndex;
+		public int SelectedDateTimeFormatIndex
+		{
+			get => selectedDateTimeFormatIndex;
+			set
+			{
+				if (SetProperty(ref selectedDateTimeFormatIndex, value))
+				{
+					OnPropertyChanged(nameof(SelectedDateTimeFormatIndex));
+					DateTimeFormat = (DateTimeFormats)value;
+				}
+			}
+		}
+
+		private int selectedAppLanguageIndex;
+		public int SelectedAppLanguageIndex
+		{
+			get => selectedAppLanguageIndex;
+			set
+			{
+				if (SetProperty(ref selectedAppLanguageIndex, value))
+				{
+					OnPropertyChanged(nameof(SelectedAppLanguageIndex));
+
+					if (ApplicationLanguages.PrimaryLanguageOverride != AppLanguages[value].LanguagID)
+						ShowRestartControl = true;
+
+					ApplicationLanguages.PrimaryLanguageOverride = AppLanguages[value].LanguagID;
+				}
+			}
+		}
+
+		private Terminal selectedTerminal;
+		public Terminal SelectedTerminal
+		{
+			get { return selectedTerminal; }
+			set
+			{
+				if (value is not null && SetProperty(ref selectedTerminal, value))
+				{
+					App.TerminalController.Model.DefaultTerminalName = value.Name;
+					App.TerminalController.SaveModel();
+				}
+			}
+		}
+
+		private bool isLayoutResetCheckmarkVisible;
+		public bool IsLayoutResetCheckmarkVisible
+		{
+			get => isLayoutResetCheckmarkVisible;
+			set => SetProperty(ref isLayoutResetCheckmarkVisible, value);
+		}
+
+		private bool isResetLayoutPreferencesTipOpen;
+		public bool IsResetLayoutPreferencesTipOpen
+		{
+			get => isResetLayoutPreferencesTipOpen;
+			set => SetProperty(ref isResetLayoutPreferencesTipOpen, value);
+		}
+
+
+
+		// Lists
+
+		public List<DateTimeFormatItem> DateFormats { get; set; }
+		public ObservableCollection<Terminal> Terminals { get; set; }
+		public ObservableCollection<AppLanguageItem> AppLanguages { get; set; }
+
+
+		public PreferencesViewModel()
+		{
+			EditTerminalApplicationsCommand = new AsyncRelayCommand(LaunchTerminalsConfigFile);
+			OpenFilesAtStartupCommand = new AsyncRelayCommand(OpenFilesAtStartup);
+			ResetLayoutPreferencesCommand = new RelayCommand(ResetLayoutPreferences);
+			ShowResetLayoutPreferencesTipCommand = new RelayCommand(() => IsResetLayoutPreferencesTipOpen = true);
+			ChangePageCommand = new AsyncRelayCommand(ChangePage);
+			RemovePageCommand = new RelayCommand(RemovePage);
+			AddPageCommand = new RelayCommand<string>(async (path) => await AddPage(path));
+
+			AddSupportedAppLanguages();
+
+			Terminals = App.TerminalController.Model.Terminals;
+			SelectedTerminal = App.TerminalController.Model.GetDefaultTerminal();
+
+			AddDateTimeOptions();
+			SelectedDateTimeFormatIndex = (int)Enum.Parse(typeof(DateTimeFormats), DateTimeFormat.ToString());
+
+			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+
+			App.TerminalController.ModelChanged += ReloadTerminals;
+
+			if (UserSettingsService.PreferencesSettingsService.TabsOnStartupList != null)
+			{
+				PagesOnStartupList = new ObservableCollection<PageOnStartupViewModel>(UserSettingsService.PreferencesSettingsService.TabsOnStartupList.Select((p) => new PageOnStartupViewModel(p)));
+			}
+			else
+			{
+				PagesOnStartupList = new ObservableCollection<PageOnStartupViewModel>();
+			}
+
+			PagesOnStartupList.CollectionChanged += PagesOnStartupList_CollectionChanged;
+
+			_ = InitStartupSettingsRecentFoldersFlyout();
+			_ = DetectOpenFilesAtStartup();
+		}
+
+		private void AddDateTimeOptions()
+		{
+			DateTimeOffset sampleDate1 = DateTime.Now;
+			DateTimeOffset sampleDate2 = new DateTime(sampleDate1.Year - 5, 12, 31, 14, 30, 0);
+			var styles = new DateTimeFormats[] { DateTimeFormats.Application, DateTimeFormats.System, DateTimeFormats.Universal };
+			DateFormats = styles.Select(style => new DateTimeFormatItem(style, sampleDate1, sampleDate2)).ToList();
+		}
+
+		private void AddSupportedAppLanguages()
+		{
+			var supportedLanguages = ApplicationLanguages.ManifestLanguages;
+
+			AppLanguages = new ObservableCollection<AppLanguageItem> { };
+			foreach (var language in supportedLanguages)
+			{
+				AppLanguages.Add(new AppLanguageItem(language));
+			}
+
+			SelectedAppLanguageIndex = AppLanguages.IndexOf(AppLanguages.FirstOrDefault(dl => dl.LanguagID == ApplicationLanguages.PrimaryLanguageOverride) ?? AppLanguages.FirstOrDefault());
+		}
+
+		private async Task InitStartupSettingsRecentFoldersFlyout()
+		{
+			var recentsItem = new MenuFlyoutSubItemViewModel("JumpListRecentGroupHeader".GetLocalizedResource());
+			recentsItem.Items.Add(new MenuFlyoutItemViewModel("Home".GetLocalizedResource())
+			{
+				Command = AddPageCommand,
+				CommandParameter = "Home".GetLocalizedResource(),
+				Tooltip = "Home".GetLocalizedResource()
+			});
+
+			await App.RecentItemsManager.UpdateRecentFoldersAsync();    // ensure recent folders aren't stale since we don't update them with a watcher
+			await PopulateRecentItems(recentsItem).ContinueWith(_ =>
+			{
+				AddFlyoutItemsSource = new List<IMenuFlyoutItemViewModel>() {
+					new MenuFlyoutItemViewModel("Browse".GetLocalizedResource()) { Command = AddPageCommand },
+					recentsItem,
+				}.AsReadOnly();
+			}, TaskScheduler.FromCurrentSynchronizationContext());
+		}
+
+		private Task PopulateRecentItems(MenuFlyoutSubItemViewModel menu)
+		{
+			try
+			{
+				var recentFolders = App.RecentItemsManager.RecentFolders;
+
+				// add separator
+				if (recentFolders.Any())
+				{
+					menu.Items.Add(new MenuFlyoutSeparatorViewModel());
+				}
+
+				foreach (var recentFolder in recentFolders)
+				{
+					var menuItem = new MenuFlyoutItemViewModel(recentFolder.Name)
+					{
+						Command = AddPageCommand,
+						CommandParameter = recentFolder.RecentPath,
+						Tooltip = recentFolder.RecentPath
+					};
+					menu.Items.Add(menuItem);
+				}
+			}
+			catch (Exception ex)
+			{
+				App.Logger.Info(ex, "Could not fetch recent items");
+			}
+
+			return Task.CompletedTask;
+		}
+
+		private void PagesOnStartupList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+		{
+			if (PagesOnStartupList.Count > 0)
+			{
+				UserSettingsService.PreferencesSettingsService.TabsOnStartupList = PagesOnStartupList.Select((p) => p.Path).ToList();
+			}
+			else
+			{
+				UserSettingsService.PreferencesSettingsService.TabsOnStartupList = null;
+			}
+		}
+
+		public int SelectedStartupSettingIndex => ContinueLastSessionOnStartUp ? 1 : OpenASpecificPageOnStartup ? 2 : 0;
+
+		public bool OpenNewTabPageOnStartup
+		{
+			get => UserSettingsService.PreferencesSettingsService.OpenNewTabOnStartup;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.OpenNewTabOnStartup)
+				{
+					UserSettingsService.PreferencesSettingsService.OpenNewTabOnStartup = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ContinueLastSessionOnStartUp
+		{
+			get => UserSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp)
+				{
+					UserSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool OpenASpecificPageOnStartup
+		{
+			get => UserSettingsService.PreferencesSettingsService.OpenSpecificPageOnStartup;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.OpenSpecificPageOnStartup)
+				{
+					UserSettingsService.PreferencesSettingsService.OpenSpecificPageOnStartup = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public ObservableCollection<PageOnStartupViewModel> PagesOnStartupList { get; set; }
+
+
+
+
+		public ReadOnlyCollection<IMenuFlyoutItemViewModel> AddFlyoutItemsSource
+		{
+			get => addFlyoutItemsSource;
+			set => SetProperty(ref addFlyoutItemsSource, value);
+		}
+		public bool AlwaysOpenANewInstance
+		{
+			get => UserSettingsService.PreferencesSettingsService.AlwaysOpenNewInstance;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.AlwaysOpenNewInstance)
+				{
+					UserSettingsService.PreferencesSettingsService.AlwaysOpenNewInstance = value;
+					ApplicationData.Current.LocalSettings.Values["AlwaysOpenANewInstance"] = value; // Needed in Program.cs
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		private async Task ChangePage()
+		{
+			var folderPicker = this.InitializeWithWindow(new FolderPicker());
+			folderPicker.FileTypeFilter.Add("*");
+			StorageFolder folder = await folderPicker.PickSingleFolderAsync();
+
+			if (folder != null)
+			{
+				if (SelectedPageIndex >= 0)
+				{
+					PagesOnStartupList[SelectedPageIndex] = new PageOnStartupViewModel(folder.Path);
+				}
+			}
+		}
+
+		// WINUI3
+		private FolderPicker InitializeWithWindow(FolderPicker obj)
+		{
+			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+			return obj;
+		}
+
+		private void RemovePage()
+		{
+			int index = SelectedPageIndex;
+			if (index >= 0)
+			{
+				PagesOnStartupList.RemoveAt(index);
+				if (index > 0)
+				{
+					SelectedPageIndex = index - 1;
+				}
+				else if (PagesOnStartupList.Count > 0)
+				{
+					SelectedPageIndex = 0;
+				}
+			}
+		}
+
+		private async Task AddPage(string path = null)
+		{
+			if (string.IsNullOrWhiteSpace(path))
+			{
+				var folderPicker = this.InitializeWithWindow(new FolderPicker());
+				folderPicker.FileTypeFilter.Add("*");
+
+				var folder = await folderPicker.PickSingleFolderAsync();
+				if (folder != null)
+				{
+					path = folder.Path;
+				}
+			}
+
+			if (path != null && PagesOnStartupList != null)
+			{
+				PagesOnStartupList.Add(new PageOnStartupViewModel(path));
+			}
+		}
+
+		public class PageOnStartupViewModel
+		{
+			public string Text
+			{
+				get
+				{
+					if (Path == "Home".GetLocalizedResource())
+					{
+						return "Home".GetLocalizedResource();
+					}
+					if (Path == CommonPaths.RecycleBinPath)
+					{
+						return ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
+					}
+					return Path;
+				}
+			}
+
+			public string Path { get; }
+
+			internal PageOnStartupViewModel(string path) => Path = path;
+		}
+
+		private void ReloadTerminals(TerminalController controller)
+		{
+			dispatcherQueue.EnqueueAsync(() =>
+			{
+				Terminals = controller.Model.Terminals;
+				SelectedTerminal = controller.Model.GetDefaultTerminal();
+			});
+		}
+
+		public string DateFormatSample
+			=> string.Format("DateFormatSample".GetLocalizedResource(), DateFormats[SelectedDateTimeFormatIndex].Sample1, DateFormats[SelectedDateTimeFormatIndex].Sample2);
+
+
+		private DispatcherQueue dispatcherQueue;
+
+
+		public bool ShowConfirmDeleteDialog
+		{
+			get => UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog)
+				{
+					UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool OpenFoldersNewTab
+		{
+			get => UserSettingsService.PreferencesSettingsService.OpenFoldersInNewTab;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.OpenFoldersInNewTab)
+				{
+					UserSettingsService.PreferencesSettingsService.OpenFoldersInNewTab = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public DateTimeFormats DateTimeFormat
+		{
+			get => UserSettingsService.PreferencesSettingsService.DateTimeFormat;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.DateTimeFormat)
+				{
+					UserSettingsService.PreferencesSettingsService.DateTimeFormat = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		private async Task LaunchTerminalsConfigFile()
+		{
+			var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/terminal.json"));
+
+			if (!await Launcher.LaunchFileAsync(configFile))
+			{
+				await ContextMenu.InvokeVerb("open", configFile.Path);
+			}
+		}
+
+		private bool openInLogin;
+
+		public bool OpenInLogin
+		{
+			get => openInLogin;
+			set => SetProperty(ref openInLogin, value);
+		}
+
+		private bool canOpenInLogin;
+
+		public bool CanOpenInLogin
+		{
+			get => canOpenInLogin;
+			set => SetProperty(ref canOpenInLogin, value);
+		}
+
+		public async Task OpenFilesAtStartup()
+		{
+			var stateMode = await ReadState();
+
+			bool state = stateMode switch
+			{
+				StartupTaskState.Enabled => true,
+				StartupTaskState.EnabledByPolicy => true,
+				StartupTaskState.DisabledByPolicy => false,
+				StartupTaskState.DisabledByUser => false,
+				_ => false,
+			};
+
+			if (state != OpenInLogin)
+			{
+				StartupTask startupTask = await StartupTask.GetAsync("3AA55462-A5FA-4933-88C4-712D0B6CDEBB");
+				if (OpenInLogin)
+				{
+					await startupTask.RequestEnableAsync();
+				}
+				else
+				{
+					startupTask.Disable();
+				}
+				await DetectOpenFilesAtStartup();
+			}
+		}
+
+		public async Task DetectOpenFilesAtStartup()
+		{
+			var stateMode = await ReadState();
+
+			switch (stateMode)
+			{
+				case StartupTaskState.Disabled:
+					CanOpenInLogin = true;
+					OpenInLogin = false;
+					break;
+				case StartupTaskState.Enabled:
+					CanOpenInLogin = true;
+					OpenInLogin = true;
+					break;
+				case StartupTaskState.DisabledByPolicy:
+					CanOpenInLogin = false;
+					OpenInLogin = false;
+					break;
+				case StartupTaskState.DisabledByUser:
+					CanOpenInLogin = false;
+					OpenInLogin = false;
+					break;
+				case StartupTaskState.EnabledByPolicy:
+					CanOpenInLogin = false;
+					OpenInLogin = true;
+					break;
+			}
+		}
+
+		public async Task<StartupTaskState> ReadState()
+		{
+			var state = await StartupTask.GetAsync("3AA55462-A5FA-4933-88C4-712D0B6CDEBB");
+			return state.State;
+		}
+
+		public void ResetLayoutPreferences()
+		{
+			FolderSettingsViewModel.DbInstance.ResetAll();
+			IsResetLayoutPreferencesTipOpen = false;
+			IsLayoutResetCheckmarkVisible = true;
+		}
+
+		public bool AreHiddenItemsVisible
+		{
+			get => UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible)
+				{
+					UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool AreSystemItemsHidden
+		{
+			get => UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden)
+				{
+					UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool AreAlternateStreamsVisible
+		{
+			get => UserSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible)
+				{
+					UserSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowDotFiles
+		{
+			get => UserSettingsService.PreferencesSettingsService.ShowDotFiles;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ShowDotFiles)
+				{
+					UserSettingsService.PreferencesSettingsService.ShowDotFiles = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowFileExtensions
+		{
+			get => UserSettingsService.PreferencesSettingsService.ShowFileExtensions;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
+				{
+					UserSettingsService.PreferencesSettingsService.ShowFileExtensions = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowThumbnails
+		{
+			get => UserSettingsService.PreferencesSettingsService.ShowThumbnails;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ShowThumbnails)
+				{
+					UserSettingsService.PreferencesSettingsService.ShowThumbnails = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool SelectFilesOnHover
+		{
+			get => UserSettingsService.PreferencesSettingsService.SelectFilesOnHover;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.SelectFilesOnHover)
+				{
+					UserSettingsService.PreferencesSettingsService.SelectFilesOnHover = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool OpenFilesWithOneClick
+		{
+			get => UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick)
+				{
+					UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool OpenFoldersWithOneClick
+		{
+			get => UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick)
+				{
+					UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ColumnLayoutOpenFoldersWithOneClick
+		{
+			get => UserSettingsService.PreferencesSettingsService.ColumnLayoutOpenFoldersWithOneClick;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ColumnLayoutOpenFoldersWithOneClick)
+				{
+					UserSettingsService.PreferencesSettingsService.ColumnLayoutOpenFoldersWithOneClick = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ListAndSortDirectoriesAlongsideFiles
+		{
+			get => UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles;
+			set
+			{
+				if (value != UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles)
+				{
+					UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool SearchUnindexedItems
+		{
+			get => UserSettingsService.PreferencesSettingsService.SearchUnindexedItems;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.SearchUnindexedItems)
+				{
+					UserSettingsService.PreferencesSettingsService.SearchUnindexedItems = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ForceLayoutPreferencesOnAllDirectories
+		{
+			get => UserSettingsService.PreferencesSettingsService.ForceLayoutPreferencesOnAllDirectories;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ForceLayoutPreferencesOnAllDirectories)
+				{
+					UserSettingsService.PreferencesSettingsService.ForceLayoutPreferencesOnAllDirectories = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowFileTagColumn
+		{
+			get => UserSettingsService.LayoutSettingsService.ShowFileTagColumn;
+			set
+			{
+				if (value != UserSettingsService.LayoutSettingsService.ShowFileTagColumn)
+				{
+					UserSettingsService.LayoutSettingsService.ShowFileTagColumn = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowSizeColumn
+		{
+			get => UserSettingsService.LayoutSettingsService.ShowSizeColumn;
+			set
+			{
+				if (value != UserSettingsService.LayoutSettingsService.ShowSizeColumn)
+				{
+					UserSettingsService.LayoutSettingsService.ShowSizeColumn = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowTypeColumn
+		{
+			get => UserSettingsService.LayoutSettingsService.ShowTypeColumn;
+			set
+			{
+				if (value != UserSettingsService.LayoutSettingsService.ShowTypeColumn)
+				{
+					UserSettingsService.LayoutSettingsService.ShowTypeColumn = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowDateCreatedColumn
+		{
+			get => UserSettingsService.LayoutSettingsService.ShowDateCreatedColumn;
+			set
+			{
+				if (value != UserSettingsService.LayoutSettingsService.ShowDateCreatedColumn)
+				{
+					UserSettingsService.LayoutSettingsService.ShowDateCreatedColumn = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowDateColumn
+		{
+			get => UserSettingsService.LayoutSettingsService.ShowDateColumn;
+			set
+			{
+				if (value != UserSettingsService.LayoutSettingsService.ShowDateColumn)
+				{
+					UserSettingsService.LayoutSettingsService.ShowDateColumn = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public void Dispose()
+		{
+			if (!disposed)
+			{
+				App.TerminalController.ModelChanged -= ReloadTerminals;
+				disposed = true;
+				GC.SuppressFinalize(this);
+			}
+		}
+
+		~PreferencesViewModel()
+		{
+			Dispose();
+		}
+	}
+
+	public class AppLanguageItem
+	{
+		public string LanguagID { get; set; }
+		public string LanguageName { get; set; }
+
+		public AppLanguageItem(string languagID)
+		{
+			if (!string.IsNullOrEmpty(languagID))
+			{
+				var info = new CultureInfo(languagID);
+				LanguagID = info.Name;
+				LanguageName = info.NativeName;
+			}
+			else
+			{
+				LanguagID = string.Empty;
+				var systemDefaultLanguageOptionStr = "SettingsPreferencesSystemDefaultLanguageOption".GetLocalizedResource();
+				LanguageName = string.IsNullOrEmpty(systemDefaultLanguageOptionStr) ? "System Default" : systemDefaultLanguageOptionStr;
+			}
+		}
+
+		public override string ToString()
+		{
+			return LanguageName;
+		}
+	}
+
+	public class DateTimeFormatItem
+	{
+		public string Label { get; }
+		public string Sample1 { get; }
+		public string Sample2 { get; }
+
+		public DateTimeFormatItem(DateTimeFormats style, DateTimeOffset sampleDate1, DateTimeOffset sampleDate2)
+		{
+			var factory = Ioc.Default.GetService<IDateTimeFormatterFactory>();
+			var formatter = factory.GetDateTimeFormatter(style);
+
+			Label = formatter.Name;
+			Sample1 = formatter.ToShortLabel(sampleDate1);
+			Sample2 = formatter.ToShortLabel(sampleDate2);
+		}
+	}
 }
+
