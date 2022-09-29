@@ -706,7 +706,7 @@ namespace Files.App.Interacts
             Stopwatch sw = new();
             sw.Start();
 
-            await FilesystemTasks.Wrap(async () => await ZipHelpers.ExtractArchive(archive, destinationFolder, banner.Progress, extractCancellation.Token));
+            await FilesystemTasks.Wrap(() => ZipHelpers.ExtractArchive(archive, destinationFolder, banner.Progress, extractCancellation.Token));
 
             sw.Stop();
             banner.Remove();
