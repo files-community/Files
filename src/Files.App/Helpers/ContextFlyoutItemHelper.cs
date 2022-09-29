@@ -1042,7 +1042,7 @@ namespace Files.App.Helpers
                 {
                     Command = commandsViewModel.CompressIntoArchiveCommand,
                     Glyph = "\uE8DE",
-                    Text = string.Format("AddSingleItemToArchive/Text".GetLocalizedResource(), selectedItems.First().ItemName),
+                    Text = string.Format("AddSingleItemToArchive".GetLocalizedResource(), selectedItems.First().ItemName),
                     ShowInSearchPage = true,
                     ShowItem = selectedItems.Count == 1 && !selectedItems.First().IsZipItem,
                 },
@@ -1050,7 +1050,7 @@ namespace Files.App.Helpers
                 {
                     Command = commandsViewModel.CompressIntoArchiveCommand,
                     Glyph = "\uE8DE",
-                    Text = "AddToArchive/Text".GetLocalizedResource(),
+                    Text = "AddToArchive".GetLocalizedResource(),
                     ShowInSearchPage = true,
                     ShowItem = selectedItems.Count > 1 && !selectedItems.First().IsZipItem,
                 },

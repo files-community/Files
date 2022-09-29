@@ -616,7 +616,7 @@ namespace Files.App.Interacts
 
             CancellationTokenSource compressionToken = new();
             PostedStatusBanner banner = App.OngoingTasksViewModel.PostOperationBanner(
-                "CompressionInProgressText".GetLocalizedResource(),
+                "CompressionInProgress".GetLocalizedResource(),
                 archivePath,
                 0,
                 ReturnResult.InProgress,
@@ -628,15 +628,15 @@ namespace Files.App.Interacts
             banner.Remove();
             if (result)
                 App.OngoingTasksViewModel.PostBanner(
-                    "CompressionCompletedText".GetLocalizedResource(),
-                    string.Format("CompressionSuccededText".GetLocalizedResource(), archivePath),
+                    "CompressionCompleted".GetLocalizedResource(),
+                    string.Format("CompressionSucceded".GetLocalizedResource(), archivePath),
                     0,
                     ReturnResult.Success,
                     FileOperationType.Compressed);
             else
                 App.OngoingTasksViewModel.PostBanner(
-                    "CompressionCompletedText".GetLocalizedResource(),
-                    string.Format("CompressionFailedText".GetLocalizedResource(), archivePath),
+                    "CompressionCompleted".GetLocalizedResource(),
+                    string.Format("CompressionFailed".GetLocalizedResource(), archivePath),
                     0,
                     ReturnResult.Failed,
                     FileOperationType.Compressed);
