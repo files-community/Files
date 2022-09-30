@@ -507,7 +507,6 @@
 									AutomationProperties.Name="{x:Bind ItemName, Mode=OneWay}"
 									IsRightTapEnabled="True"
 									Loaded="Grid_Loaded"
-									RightTapped="StackPanel_RightTapped"
 									ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
 									<Grid.ColumnDefinitions>
 										<ColumnDefinition Width="{Binding ColumnsViewModel.IconColumn.LengthIncludingGridSplitter, ElementName=PageRoot, Mode=OneWay}" />
