@@ -1675,16 +1675,16 @@
     <value>Otvoriť priečinky na novej karte</value>
   </data>
   <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>Zobraziť miniaplikáciu Bundles</value>
+    <value>Show Bundles widget</value>
   </data>
   <data name="ShowDrivesWidget" xml:space="preserve">
-    <value>Zobraziť miniaplikáciu Disky</value>
+    <value>Show Drives widget</value>
   </data>
   <data name="ShowFolderWidget" xml:space="preserve">
-    <value>Zobraziť miniaplikáciu Files</value>
+    <value>Show Folders widget</value>
   </data>
   <data name="ShowRecentFilesWidget" xml:space="preserve">
-    <value>Zobraziť miniaplikáciu Nedávne súbory</value>
+    <value>Show Recent Files widget</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>Nenašli ste čo ste hľadali?</value>
@@ -1951,7 +1951,7 @@
     <value>Zavrieť</value>
   </data>
   <data name="Widgets" xml:space="preserve">
-    <value>Miniaplikácie</value>
+    <value>Widgets</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>Stav synchronizácie</value>
