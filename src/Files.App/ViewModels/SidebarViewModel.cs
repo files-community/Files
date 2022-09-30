@@ -37,17 +37,6 @@ namespace Files.App.ViewModels
 			set => SetProperty(ref paneHolder, value);
 		}
 
-		private SectionType[] SectionTypes = new SectionType[] {
-			SectionType.Home,
-			SectionType.Favorites,
-			SectionType.Library,
-			SectionType.Drives,
-			SectionType.CloudDrives,
-			SectionType.Network,
-			SectionType.WSL,
-			SectionType.FileTag
-		 };
-
 		public IFilesystemHelpers FilesystemHelpers => PaneHolder?.FilesystemHelpers;
 
 		private DispatcherQueue dispatcherQueue;
@@ -373,6 +362,8 @@ namespace Files.App.ViewModels
 
 		private async Task<LocationItem> GetOrCreateSection(SectionType sectionType)
 		{
+			var sectionOrder = new[] { SectionType.Home, SectionType.Favorites, SectionType.Library,
+				SectionType.Drives, SectionType.CloudDrives, SectionType.Network, SectionType.WSL, SectionType.FileTag };
 			switch (sectionType)
 			{
 				case SectionType.Home:
@@ -391,125 +382,170 @@ namespace Files.App.ViewModels
 					};
 				case SectionType.Favorites:
 					{
-						if (UserSettingsService.AppearanceSettingsService.ShowFavoritesSection == false)
+						var section = SideBarItems.FirstOrDefault(x => x.Text == "SidebarFavorites".GetLocalizedResource()) as LocationItem;
+						if (UserSettingsService.AppearanceSettingsService.ShowFavoritesSection && section == null)
 						{
-							return null;
+							section = new LocationItem()
+							{
+								Text = "SidebarFavorites".GetLocalizedResource(),
+								Section = SectionType.Favorites,
+								MenuOptions = new ContextMenuOptions
+								{
+									ShowHideSection = true
+								},
+								SelectsOnInvoked = false,
+								Font = App.AppModel.SymbolFontFamily,
+								ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
+							};
+							var index = sectionOrder.TakeWhile(x => x != sectionType).Select(x => SideBarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
+							SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
+							section.Icon = new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Favorites.png")); // After insert
 						}
-						return BuildSection("SidebarFavorites".GetLocalizedResource(),
-											SectionType.Favorites,
-											new ContextMenuOptions { ShowHideSection = true },
-											false,
-											new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Favorites.png"))
-											);
+						return section;
 					}
 
 				case SectionType.Library:
 					{
-						if(UserSettingsService.AppearanceSettingsService.ShowLibrarySection == false)
+						var section = SideBarItems.FirstOrDefault(x => x.Text == "SidebarLibraries".GetLocalizedResource()) as LocationItem;
+						if (UserSettingsService.AppearanceSettingsService.ShowLibrarySection && section == null)
 						{
-							return null;
+							section = new LocationItem
+							{
+								Text = "SidebarLibraries".GetLocalizedResource(),
+								Section = SectionType.Library,
+								MenuOptions = new ContextMenuOptions
+								{
+									IsLibrariesHeader = true,
+									ShowHideSection = true
+								},
+								SelectsOnInvoked = false,
+								ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
+							};
+							var index = sectionOrder.TakeWhile(x => x != sectionType).Select(x => SideBarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
+							SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
+							section.Icon = await UIHelpers.GetIconResource(Constants.ImageRes.Libraries); // After insert
 						}
-						return BuildSection("SidebarLibraries".GetLocalizedResource(),
-											SectionType.Library,
-											new ContextMenuOptions { IsLibrariesHeader = true, ShowHideSection = true },
-											false,
-											await UIHelpers.GetIconResource(Constants.ImageRes.Libraries)
-											);
+						return section;
 					}
 
 				case SectionType.Drives:
 					{
-						if(UserSettingsService.AppearanceSettingsService.ShowDrivesSection == false)
+						var section = SideBarItems.FirstOrDefault(x => x.Text == "Drives".GetLocalizedResource()) as LocationItem;
+						if (UserSettingsService.AppearanceSettingsService.ShowDrivesSection && section == null)
 						{
-							return null;
+							section = new LocationItem()
+							{
+								Text = "Drives".GetLocalizedResource(),
+								Section = SectionType.Drives,
+								MenuOptions = new ContextMenuOptions
+								{
+									ShowHideSection = true
+								},
+								SelectsOnInvoked = false,
+								ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
+							};
+							var index = sectionOrder.TakeWhile(x => x != sectionType).Select(x => SideBarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
+							SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
+							section.Icon = await UIHelpers.GetIconResource(Constants.ImageRes.ThisPC); // After insert
 						}
-						return BuildSection("Drives".GetLocalizedResource(),
-											SectionType.Drives,
-											new ContextMenuOptions { ShowHideSection = true },
-											false,
-											await UIHelpers.GetIconResource(Constants.ImageRes.ThisPC)
-											);
+						return section;
 					}
 
 				case SectionType.CloudDrives:
 					{
-						if (UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection == false || App.CloudDrivesManager.Drives.Any() == false)
+						var section = SideBarItems.FirstOrDefault(x => x.Text == "SidebarCloudDrives".GetLocalizedResource()) as LocationItem;
+						if (UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection && section == null && App.CloudDrivesManager.Drives.Any())
 						{
-							return null;
+							section = new LocationItem()
+							{
+								Text = "SidebarCloudDrives".GetLocalizedResource(),
+								Section = SectionType.CloudDrives,
+								MenuOptions = new ContextMenuOptions
+								{
+									ShowHideSection = true
+								},
+								SelectsOnInvoked = false,
+								Icon = new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/CloudDrive.png")),
+								ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
+							};
+							var index = sectionOrder.TakeWhile(x => x != sectionType).Select(x => SideBarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
+							SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
 						}
-						return BuildSection("SidebarCloudDrives".GetLocalizedResource(),
-											SectionType.CloudDrives,
-											new ContextMenuOptions { ShowHideSection = true },
-											false,
-											new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/CloudDrive.png"))
-											);
+						return section;
 					}
 
 				case SectionType.Network:
 					{
-						if(UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection == false)
+						var section = SideBarItems.FirstOrDefault(x => x.Text == "SidebarNetworkDrives".GetLocalizedResource()) as LocationItem;
+						if (UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection && section == null)
 						{
-							return null;
+							section = new LocationItem()
+							{
+								Text = "SidebarNetworkDrives".GetLocalizedResource(),
+								Section = SectionType.Network,
+								MenuOptions = new ContextMenuOptions
+								{
+									ShowHideSection = true
+								},
+								SelectsOnInvoked = false,
+								ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
+							};
+							var index = sectionOrder.TakeWhile(x => x != sectionType).Select(x => SideBarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
+							SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
+							section.Icon = await UIHelpers.GetIconResource(Constants.ImageRes.NetworkDrives); // After insert
 						}
-						return BuildSection("SidebarNetworkDrives".GetLocalizedResource(),
-											SectionType.Network,
-											new ContextMenuOptions { ShowHideSection = true },
-											false,
-                                            await UIHelpers.GetIconResource(Constants.ImageRes.NetworkDrives)
-											);
+						return section;
 					}
 
 				case SectionType.WSL:
 					{
-						if(UserSettingsService.AppearanceSettingsService.ShowWslSection == false ||App.WSLDistroManager.Distros.Any() == false)
+						var section = SideBarItems.FirstOrDefault(x => x.Text == "WSL".GetLocalizedResource()) as LocationItem;
+						if (UserSettingsService.AppearanceSettingsService.ShowWslSection && section == null && App.WSLDistroManager.Distros.Any())
 						{
-							return null;
+							section = new LocationItem()
+							{
+								Text = "WSL".GetLocalizedResource(),
+								Section = SectionType.WSL,
+								MenuOptions = new ContextMenuOptions
+								{
+									ShowHideSection = true
+								},
+								SelectsOnInvoked = false,
+								Icon = new BitmapImage(new Uri("ms-appx:///Assets/WSL/genericpng.png")),
+								ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
+							};
+							var index = sectionOrder.TakeWhile(x => x != sectionType).Select(x => SideBarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
+							SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
 						}
-						return BuildSection("WSL".GetLocalizedResource(),
-											SectionType.WSL,
-											new ContextMenuOptions { ShowHideSection = true },
-											false,
-											new BitmapImage(new Uri("ms-appx:///Assets/WSL/genericpng.png"))
-											);
+						return section;
 					}
 
 				case SectionType.FileTag:
 					{
-						if(UserSettingsService.AppearanceSettingsService.ShowFileTagsSection == false)
+						var section = SideBarItems.FirstOrDefault(x => x.Text == "FileTags".GetLocalizedResource()) as LocationItem;
+						if (UserSettingsService.AppearanceSettingsService.ShowFileTagsSection && section == null)
 						{
-							return null;
+							section = new LocationItem()
+							{
+								Text = "FileTags".GetLocalizedResource(),
+								Section = SectionType.FileTag,
+								MenuOptions = new ContextMenuOptions
+								{
+									ShowHideSection = true
+								},
+								SelectsOnInvoked = false,
+								Icon = new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/FileTags.png")),
+								ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
+							};
+							var index = sectionOrder.TakeWhile(x => x != sectionType).Select(x => SideBarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
+							SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
 						}
-						return BuildSection("FileTags".GetLocalizedResource(),
-											SectionType.FileTag,
-											new ContextMenuOptions { ShowHideSection = true },
-											false,
-											new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/FileTags.png"))
-											);
+						return section;
 					}
 				default:
 					return null;
 			}
 		}
-
-		private LocationItem BuildSection(string sectionName, SectionType sectionType, ContextMenuOptions contextMenuOptions, bool selectsOnInvoked, BitmapImage icon)
-		{
-			var section = SideBarItems.FirstOrDefault(x => x.Text == sectionName) as LocationItem;
-			if (section == null)
-			{
-				section = new LocationItem
-				{
-					Text = sectionName,
-					Section = sectionType,
-					MenuOptions = contextMenuOptions,
-					SelectsOnInvoked = selectsOnInvoked,
-					ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
-				};
-				var index = SectionTypes.TakeWhile(x => x != sectionType).Select(x => SideBarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
-				SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
-				section.Icon = icon; // After insert
-			}
-			return section;
-        }
 
 		public async void UpdateSectionVisibility(SectionType sectionType, bool show)
 		{
