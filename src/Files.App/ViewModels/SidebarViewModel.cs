@@ -396,13 +396,13 @@ namespace Files.App.ViewModels
 				section = BuildSection("Home".GetLocalizedResource(), sectionType, new ContextMenuOptions { IsLocationItem = true }, true);
 				section.Path = "Home".GetLocalizedResource();
 				section.Font = App.AppModel.SymbolFontFamily;
-				section.Icon = new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png"));
+				section.Icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
 			}
 			else if (sectionType == SectionType.Favorites && ShowFavoritesSection)
 			{
 				section = BuildSection("SidebarFavorites".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 				section.Font = App.AppModel.SymbolFontFamily;
-				icon = new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Favorites.png"));
+				icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.FavoritesIcon));
 			}
 			else if (sectionType == SectionType.Library && ShowLibrarySection)
 			{
@@ -417,7 +417,7 @@ namespace Files.App.ViewModels
 			else if (sectionType == SectionType.CloudDrives && ShowCloudDrivesSection && App.CloudDrivesManager.Drives.Any())
 			{
 				section = BuildSection("SidebarCloudDrives".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
-				icon = new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/CloudDrive.png"));
+				icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.CloudDriveIcon));
 			}
 			else if (sectionType == SectionType.Network && ShowNetworkDrivesSection)
 			{
@@ -427,12 +427,12 @@ namespace Files.App.ViewModels
 			else if (sectionType == SectionType.WSL & ShowWslSection && App.WSLDistroManager.Distros.Any())
 			{
 				section = BuildSection("WSL".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
-				icon = new BitmapImage(new Uri("ms-appx:///Assets/WSL/genericpng.png"));
+				icon = new BitmapImage(new Uri(Constants.WslIconsPaths.GenericIcon));
 			}
 			else if(sectionType == SectionType.FileTag && ShowFileTagsSection)
 			{
 				section = BuildSection("FileTags".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
-				icon = new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/FileTags.png"));
+				icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.FileTagsIcon));
 			}
 
 			if(section != null)
