@@ -1672,16 +1672,16 @@
     <value>Abrir carpetas en una nueva pestaña</value>
   </data>
   <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>Mostrar contenedores</value>
+    <value>Mostrar widget de contenedores</value>
   </data>
   <data name="ShowDrivesWidget" xml:space="preserve">
-    <value>Mostrar unidades</value>
+    <value>Mostrar widget de unidades</value>
   </data>
   <data name="ShowFolderWidget" xml:space="preserve">
-    <value>Mostrar carpetas</value>
+    <value>Mostrar widget de carpetas</value>
   </data>
   <data name="ShowRecentFilesWidget" xml:space="preserve">
-    <value>Mostrar archivos recientes</value>
+    <value>Mostrar widget de archivos recientes</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>¿No encontró lo que buscaba?</value>
@@ -2824,7 +2824,7 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
     <value>Seleccionar archivos y carpetas al pasar el cursor sobre ellos</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
-    <value>¿Está seguro de que desea restaurar todos los elementos en la papelera?</value>
+    <value>¿Está seguro que desea restaurar todos los elementos de la papelera de reciclaje?</value>
   </data>
   <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
     <value>Restaurar todos los elementos</value>

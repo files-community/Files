@@ -1672,16 +1672,16 @@
     <value>Відкривати папки у новій вкладці</value>
   </data>
   <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>Показати віджет наборів</value>
+    <value>Show Bundles widget</value>
   </data>
   <data name="ShowDrivesWidget" xml:space="preserve">
-    <value>Показати віджет дисків</value>
+    <value>Show Drives widget</value>
   </data>
   <data name="ShowFolderWidget" xml:space="preserve">
-    <value>Показати віджет папок</value>
+    <value>Show Folders widget</value>
   </data>
   <data name="ShowRecentFilesWidget" xml:space="preserve">
-    <value>Показати віджет нещодавні папки</value>
+    <value>Show Recent Files widget</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>Не знайшли те, що шукаєте?</value>
@@ -1948,7 +1948,7 @@
     <value>Відхилити</value>
   </data>
   <data name="Widgets" xml:space="preserve">
-    <value>Віджети</value>
+    <value>Widgets</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>Стан синхронізації</value>

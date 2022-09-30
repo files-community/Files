@@ -1672,16 +1672,16 @@
     <value>Åpne mapper i ny fane</value>
   </data>
   <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>Vis widget for samlinger</value>
+    <value>Show Bundles widget</value>
   </data>
   <data name="ShowDrivesWidget" xml:space="preserve">
-    <value>Vis widget for enheter</value>
+    <value>Show Drives widget</value>
   </data>
   <data name="ShowFolderWidget" xml:space="preserve">
-    <value>Vis widget for mapper</value>
+    <value>Show Folders widget</value>
   </data>
   <data name="ShowRecentFilesWidget" xml:space="preserve">
-    <value>Vis widget for nylige filer</value>
+    <value>Show Recent Files widget</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>Fant du ikke det du letet etter?</value>
@@ -1948,7 +1948,7 @@
     <value>Avvis</value>
   </data>
   <data name="Widgets" xml:space="preserve">
-    <value>Widgeter</value>
+    <value>Widgets</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>Synkroniseringsstatus</value>

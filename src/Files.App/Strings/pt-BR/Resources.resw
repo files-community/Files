@@ -1672,16 +1672,16 @@
     <value>Abrir pastas em uma nova guia</value>
   </data>
   <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>Mostrar Widget de Pacotes</value>
+    <value>Show Bundles widget</value>
   </data>
   <data name="ShowDrivesWidget" xml:space="preserve">
-    <value>Mostrar Widget de Unidades</value>
+    <value>Show Drives widget</value>
   </data>
   <data name="ShowFolderWidget" xml:space="preserve">
-    <value>Mostrar Widget de Pastas</value>
+    <value>Show Folders widget</value>
   </data>
   <data name="ShowRecentFilesWidget" xml:space="preserve">
-    <value>Mostrar Widget de Arquivos Recentes</value>
+    <value>Show Recent Files widget</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>Não encontrou o que procurava?</value>
@@ -1948,7 +1948,7 @@
     <value>Dispensar</value>
   </data>
   <data name="Widgets" xml:space="preserve">
-    <value>Componentes</value>
+    <value>Widgets</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>Status de sincronização</value>

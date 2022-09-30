@@ -1672,16 +1672,16 @@
     <value>Open mappen in een nieuw tabblad</value>
   </data>
   <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>Bundelwidget weergeven</value>
+    <value>Show Bundles widget</value>
   </data>
   <data name="ShowDrivesWidget" xml:space="preserve">
-    <value>Stationswidget weergeven</value>
+    <value>Show Drives widget</value>
   </data>
   <data name="ShowFolderWidget" xml:space="preserve">
-    <value>Bibliotheekwidget weergeven</value>
+    <value>Show Folders widget</value>
   </data>
   <data name="ShowRecentFilesWidget" xml:space="preserve">
-    <value>Recente bestanden-widget weergeven</value>
+    <value>Show Recent Files widget</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>Niet gevonden wat u zoekt?</value>

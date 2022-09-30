@@ -1672,13 +1672,13 @@
     <value>Buksan ang mga folder sa bagong tab</value>
   </data>
   <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>Ipakita ang widget ng Bundle</value>
+    <value>Show Bundles widget</value>
   </data>
   <data name="ShowDrivesWidget" xml:space="preserve">
-    <value>Ipakita ang widget ng Drives</value>
+    <value>Show Drives widget</value>
   </data>
   <data name="ShowFolderWidget" xml:space="preserve">
-    <value>Ipakita ang widget ng Mga Folder</value>
+    <value>Show Folders widget</value>
   </data>
   <data name="ShowRecentFilesWidget" xml:space="preserve">
     <value>Show Recent Files widget</value>
