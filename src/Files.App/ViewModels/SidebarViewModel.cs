@@ -21,6 +21,7 @@ using System.Windows.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Dispatching;
+using Microsoft.UI.Xaml.Media;
 
 namespace Files.App.ViewModels
 {
@@ -410,18 +411,7 @@ namespace Files.App.ViewModels
 					{
 						if (UserSettingsService.AppearanceSettingsService.ShowFavoritesSection)
 						{
-							section = new LocationItem()
-							{
-								Text = "SidebarFavorites".GetLocalizedResource(),
-								Section = SectionType.Favorites,
-								MenuOptions = new ContextMenuOptions
-								{
-									ShowHideSection = true
-								},
-								SelectsOnInvoked = false,
-								Font = App.AppModel.SymbolFontFamily,
-								ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
-							};
+							section = BuildSection("SidebarFavorites".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false, App.AppModel.SymbolFontFamily);
 							AddSectionToSideBar(section);
 							section.Icon = new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Favorites.png")); // After insert
 						}
@@ -432,18 +422,7 @@ namespace Files.App.ViewModels
 					{
 						if (UserSettingsService.AppearanceSettingsService.ShowLibrarySection)
 						{
-							section = new LocationItem
-							{
-								Text = "SidebarLibraries".GetLocalizedResource(),
-								Section = SectionType.Library,
-								MenuOptions = new ContextMenuOptions
-								{
-									IsLibrariesHeader = true,
-									ShowHideSection = true
-								},
-								SelectsOnInvoked = false,
-								ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
-							};
+							section = BuildSection("SidebarLibraries".GetLocalizedResource(), sectionType, new ContextMenuOptions { IsLibrariesHeader = true, ShowHideSection = true }, false, null);
 							AddSectionToSideBar(section);
 							section.Icon = await UIHelpers.GetIconResource(Constants.ImageRes.Libraries); // After insert
 						}
@@ -454,17 +433,7 @@ namespace Files.App.ViewModels
 					{
 						if (UserSettingsService.AppearanceSettingsService.ShowDrivesSection)
 						{
-							section = new LocationItem()
-							{
-								Text = "Drives".GetLocalizedResource(),
-								Section = SectionType.Drives,
-								MenuOptions = new ContextMenuOptions
-								{
-									ShowHideSection = true
-								},
-								SelectsOnInvoked = false,
-								ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
-							};
+							section = BuildSection("Drives".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false, null);
 							AddSectionToSideBar(section);
 							section.Icon = await UIHelpers.GetIconResource(Constants.ImageRes.ThisPC); // After insert
 						}
@@ -475,17 +444,7 @@ namespace Files.App.ViewModels
 					{
 						if (UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection && App.CloudDrivesManager.Drives.Any())
 						{
-							section = new LocationItem()
-							{
-								Text = "SidebarCloudDrives".GetLocalizedResource(),
-								Section = SectionType.CloudDrives,
-								MenuOptions = new ContextMenuOptions
-								{
-									ShowHideSection = true
-								},
-								SelectsOnInvoked = false,
-								ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
-							};
+							section = BuildSection("SidebarCloudDrives".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false, null);
 							AddSectionToSideBar(section);
 							section.Icon = new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/CloudDrive.png"));
 						}
@@ -496,17 +455,7 @@ namespace Files.App.ViewModels
 					{
 						if (UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection)
 						{
-							section = new LocationItem()
-							{
-								Text = "SidebarNetworkDrives".GetLocalizedResource(),
-								Section = SectionType.Network,
-								MenuOptions = new ContextMenuOptions
-								{
-									ShowHideSection = true
-								},
-								SelectsOnInvoked = false,
-								ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
-							};
+							section = BuildSection("SidebarNetworkDrives".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false, null);
 							AddSectionToSideBar(section);
 							section.Icon = await UIHelpers.GetIconResource(Constants.ImageRes.NetworkDrives); // After insert
 						}
@@ -517,17 +466,7 @@ namespace Files.App.ViewModels
 					{
 						if (UserSettingsService.AppearanceSettingsService.ShowWslSection && App.WSLDistroManager.Distros.Any())
 						{
-							section = new LocationItem()
-							{
-								Text = "WSL".GetLocalizedResource(),
-								Section = SectionType.WSL,
-								MenuOptions = new ContextMenuOptions
-								{
-									ShowHideSection = true
-								},
-								SelectsOnInvoked = false,
-								ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
-							};
+							section = BuildSection("WSL".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false, null);
 							AddSectionToSideBar(section);
 							section.Icon = new BitmapImage(new Uri("ms-appx:///Assets/WSL/genericpng.png"));
 						}
@@ -538,23 +477,32 @@ namespace Files.App.ViewModels
 					{
 						if (UserSettingsService.AppearanceSettingsService.ShowFileTagsSection)
 						{
-							section = new LocationItem()
-							{
-								Text = "FileTags".GetLocalizedResource(),
-								Section = SectionType.FileTag,
-								MenuOptions = new ContextMenuOptions
-								{
-									ShowHideSection = true
-								},
-								SelectsOnInvoked = false,
-								ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
-							};
+							section = BuildSection("FileTags".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false, null);
 							AddSectionToSideBar(section);
 							section.Icon = new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/FileTags.png"));
 						}
 						break;
 					}
 			}
+			return section;
+		}
+
+		private LocationItem BuildSection(string sectionName, SectionType sectionType, ContextMenuOptions options, bool selectsOnInvoked, FontFamily? font)
+		{
+			LocationItem section = new LocationItem()
+			{
+				Text = sectionName,
+				Section = sectionType,
+				MenuOptions = options,
+				SelectsOnInvoked = selectsOnInvoked,
+				ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
+			};
+
+			if(font != null)
+			{
+				section.Font = font;
+			}
+
 			return section;
 		}
 
