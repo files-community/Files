@@ -1672,16 +1672,16 @@
     <value>საქაღალდეების გახსნა ახალ ჩანართში</value>
   </data>
   <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>პაკეტების ვიჯეტის ჩვენება</value>
+    <value>Show Bundles widget</value>
   </data>
   <data name="ShowDrivesWidget" xml:space="preserve">
-    <value>დისკების ვიჯეტის ჩვენება</value>
+    <value>Show Drives widget</value>
   </data>
   <data name="ShowFolderWidget" xml:space="preserve">
-    <value>საქაღალდეების ვიჯეტის ჩვენება</value>
+    <value>Show Folders widget</value>
   </data>
   <data name="ShowRecentFilesWidget" xml:space="preserve">
-    <value>ბოლოდროინდელი ფაილების ვიჯეტის ჩვენება</value>
+    <value>Show Recent Files widget</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>ვერ იპოვეთ ის რასაც ეძებდით?</value>
@@ -1948,7 +1948,7 @@
     <value>გათავისუფლება</value>
   </data>
   <data name="Widgets" xml:space="preserve">
-    <value>ვიჯეტები</value>
+    <value>Widgets</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>სინქრონიზაციის სტატუსი</value>
