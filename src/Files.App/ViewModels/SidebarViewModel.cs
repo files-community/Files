@@ -392,7 +392,7 @@ namespace Files.App.ViewModels
 			switch (sectionType)
 			{
 				case SectionType.Home:
-					return new LocationItem()
+					section = new LocationItem()
 					{
 						Text = "Home".GetLocalizedResource(),
 						Section = SectionType.Home,
@@ -402,9 +402,10 @@ namespace Files.App.ViewModels
 						},
 						Font = App.AppModel.SymbolFontFamily,
 						IsDefaultLocation = true,
-						Icon = new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png")),
 						Path = "Home".GetLocalizedResource()
 					};
+					section.Icon = new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png"));
+					break;
 				case SectionType.Favorites:
 					{
 						if (UserSettingsService.AppearanceSettingsService.ShowFavoritesSection)
@@ -486,11 +487,11 @@ namespace Files.App.ViewModels
 									ShowHideSection = true
 								},
 								SelectsOnInvoked = false,
-								Icon = new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/CloudDrive.png")),
 								ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
 							};
 							var index = SectionOrder.TakeWhile(x => x != sectionType).Select(x => SideBarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
 							SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
+							section.Icon = new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/CloudDrive.png"));
 						}
 						break;
 					}
@@ -530,11 +531,11 @@ namespace Files.App.ViewModels
 									ShowHideSection = true
 								},
 								SelectsOnInvoked = false,
-								Icon = new BitmapImage(new Uri("ms-appx:///Assets/WSL/genericpng.png")),
 								ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
 							};
 							var index = SectionOrder.TakeWhile(x => x != sectionType).Select(x => SideBarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
 							SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
+							section.Icon = new BitmapImage(new Uri("ms-appx:///Assets/WSL/genericpng.png"));
 						}
 						break;
 					}
@@ -552,11 +553,11 @@ namespace Files.App.ViewModels
 									ShowHideSection = true
 								},
 								SelectsOnInvoked = false,
-								Icon = new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/FileTags.png")),
 								ChildItems = new BulkConcurrentObservableCollection<INavigationControlItem>()
 							};
 							var index = SectionOrder.TakeWhile(x => x != sectionType).Select(x => SideBarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
 							SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
+							section.Icon = new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/FileTags.png"));
 						}
 						break;
 					}
