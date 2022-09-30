@@ -15,7 +15,7 @@
 	<UserControl.Resources>
 
 		<converters:BoolToObjectConverter
-			x:Key="ListedItemGlyphConverter"
+			x:Key="SearchSuggestionGlyphConverter"
 			FalseValue="&#xE7C3;"
 			TrueValue="&#xE81C;" />
 
@@ -61,11 +61,10 @@
 							Source="{x:Bind FileImage, Mode=OneWay}"
 							Stretch="Uniform" />
 					</Border>
-					<!-- "\xE81C" is the glyph for Recent Searches, "\xE7C3" is the default glyph -->
 					<FontIcon
 						x:Name="EmptyIconGlyph"
 						x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
-						Glyph="{x:Bind IsRecentSearch, Mode=OneTime, Converter={StaticResource ListedItemGlyphConverter}}" />
+						Glyph="{x:Bind IsRecentSearch, Mode=OneTime, Converter={StaticResource SearchSuggestionGlyphConverter}}" />
 				</Grid>
 				<TextBlock VerticalAlignment="Center" Text="{x:Bind ItemName}" />
 			</StackPanel>
