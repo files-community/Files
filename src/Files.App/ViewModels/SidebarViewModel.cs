@@ -21,7 +21,6 @@ using System.Windows.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Dispatching;
-using Microsoft.UI.Xaml.Media;
 
 namespace Files.App.ViewModels
 {
@@ -397,52 +396,44 @@ namespace Files.App.ViewModels
 				section.Font = App.AppModel.SymbolFontFamily;
 				section.Icon = new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png"));
 			}
-			else if (sectionType == SectionType.Favorites && UserSettingsService.AppearanceSettingsService.ShowFavoritesSection)
+			else if (sectionType == SectionType.Favorites && ShowFavoritesSection)
 			{
 				section = BuildSection("SidebarFavorites".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 				section.Font = App.AppModel.SymbolFontFamily;
 				AddSectionToSideBar(section);
 				section.Icon = new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Favorites.png"));
 			}
-			else if (sectionType == SectionType.Library &&
-					 UserSettingsService.AppearanceSettingsService.ShowLibrarySection)
+			else if (sectionType == SectionType.Library && ShowLibrarySection)
 			{
 				section = BuildSection("SidebarLibraries".GetLocalizedResource(), sectionType, new ContextMenuOptions { IsLibrariesHeader = true, ShowHideSection = true }, false);
 				AddSectionToSideBar(section);
 				section.Icon = await UIHelpers.GetIconResource(Constants.ImageRes.Libraries);
 			}
-			else if (sectionType == SectionType.Drives &&
-					 UserSettingsService.AppearanceSettingsService.ShowDrivesSection)
+			else if (sectionType == SectionType.Drives && ShowDrivesSection)
 			{
 				section = BuildSection("Drives".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 				AddSectionToSideBar(section);
 				section.Icon = await UIHelpers.GetIconResource(Constants.ImageRes.ThisPC);
 			}
-			else if (sectionType == SectionType.CloudDrives &&
-					UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection &&
-					App.CloudDrivesManager.Drives.Any()) 
+			else if (sectionType == SectionType.CloudDrives && ShowCloudDrivesSection && App.CloudDrivesManager.Drives.Any())
 			{
 				section = BuildSection("SidebarCloudDrives".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 				AddSectionToSideBar(section);
 				section.Icon = new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/CloudDrive.png"));
 			}
-			else if (sectionType == SectionType.Network &&
-					 UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection)
+			else if (sectionType == SectionType.Network && ShowNetworkDrivesSection)
 			{
 				section = BuildSection("SidebarNetworkDrives".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 				AddSectionToSideBar(section);
 				section.Icon = await UIHelpers.GetIconResource(Constants.ImageRes.NetworkDrives); // After insert
 			}
-			else if (sectionType == SectionType.WSL &&
-					 UserSettingsService.AppearanceSettingsService.ShowWslSection &&
-					 App.WSLDistroManager.Distros.Any())
+			else if (sectionType == SectionType.WSL & ShowWslSection && App.WSLDistroManager.Distros.Any())
 			{
 				section = BuildSection("WSL".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 				AddSectionToSideBar(section);
 				section.Icon = new BitmapImage(new Uri("ms-appx:///Assets/WSL/genericpng.png"));
 			}
-			else if(sectionType == SectionType.FileTag &&
-					UserSettingsService.AppearanceSettingsService.ShowFileTagsSection)
+			else if(sectionType == SectionType.FileTag && ShowFileTagsSection)
 			{
 				section = BuildSection("FileTags".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 				AddSectionToSideBar(section);
