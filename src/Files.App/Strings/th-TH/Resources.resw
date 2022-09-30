@@ -1672,16 +1672,16 @@
     <value>เปิดโฟลเดอร์เหล่านี้ในแท็บใหม่</value>
   </data>
   <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>แสดงวิตเจ็ทกลุ่มไฟล์</value>
+    <value>Show Bundles widget</value>
   </data>
   <data name="ShowDrivesWidget" xml:space="preserve">
-    <value>แสดงวิตเจ็ทไดร์ฟ</value>
+    <value>Show Drives widget</value>
   </data>
   <data name="ShowFolderWidget" xml:space="preserve">
-    <value>แสดงวิตเจ็ทโฟลเดอร์ของผู้ใช้</value>
+    <value>Show Folders widget</value>
   </data>
   <data name="ShowRecentFilesWidget" xml:space="preserve">
-    <value>แสดงวิตเจ็ทประวัติการใช้งาน</value>
+    <value>Show Recent Files widget</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>หาสิ่งที่ต้องการไม่เจอเหรอ?</value>
@@ -1948,7 +1948,7 @@
     <value>หยุด</value>
   </data>
   <data name="Widgets" xml:space="preserve">
-    <value>วิตเจท</value>
+    <value>Widgets</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>สถานะการซิงค์</value>
