@@ -372,6 +372,23 @@ namespace Files.App.ViewModels
 
 		private async Task<LocationItem> GetOrCreateSection(SectionType sectionType)
 		{
+			LocationItem? section = GetSection(sectionType);
+			if (section == null)
+			{
+				section = await CreateSection(sectionType);
+			}
+			return section;
+		}
+
+		private LocationItem? GetSection(SectionType sectionType)
+		{
+			return SideBarItems.FirstOrDefault(x => x.Section == sectionType) as LocationItem;
+		}
+
+		private async Task<LocationItem> CreateSection(SectionType sectionType)
+		{
+			LocationItem section = null;
+
 			switch (sectionType)
 			{
 				case SectionType.Home:
@@ -390,8 +407,7 @@ namespace Files.App.ViewModels
 					};
 				case SectionType.Favorites:
 					{
-						var section = SideBarItems.FirstOrDefault(x => x.Text == "SidebarFavorites".GetLocalizedResource()) as LocationItem;
-						if (UserSettingsService.AppearanceSettingsService.ShowFavoritesSection && section == null)
+						if (UserSettingsService.AppearanceSettingsService.ShowFavoritesSection)
 						{
 							section = new LocationItem()
 							{
@@ -409,13 +425,12 @@ namespace Files.App.ViewModels
 							SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
 							section.Icon = new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Favorites.png")); // After insert
 						}
-						return section;
+						break;
 					}
 
 				case SectionType.Library:
 					{
-						var section = SideBarItems.FirstOrDefault(x => x.Text == "SidebarLibraries".GetLocalizedResource()) as LocationItem;
-						if (UserSettingsService.AppearanceSettingsService.ShowLibrarySection && section == null)
+						if (UserSettingsService.AppearanceSettingsService.ShowLibrarySection)
 						{
 							section = new LocationItem
 							{
@@ -433,13 +448,12 @@ namespace Files.App.ViewModels
 							SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
 							section.Icon = await UIHelpers.GetIconResource(Constants.ImageRes.Libraries); // After insert
 						}
-						return section;
+						break;
 					}
 
 				case SectionType.Drives:
 					{
-						var section = SideBarItems.FirstOrDefault(x => x.Text == "Drives".GetLocalizedResource()) as LocationItem;
-						if (UserSettingsService.AppearanceSettingsService.ShowDrivesSection && section == null)
+						if (UserSettingsService.AppearanceSettingsService.ShowDrivesSection)
 						{
 							section = new LocationItem()
 							{
@@ -456,13 +470,12 @@ namespace Files.App.ViewModels
 							SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
 							section.Icon = await UIHelpers.GetIconResource(Constants.ImageRes.ThisPC); // After insert
 						}
-						return section;
+						break;
 					}
 
 				case SectionType.CloudDrives:
 					{
-						var section = SideBarItems.FirstOrDefault(x => x.Text == "SidebarCloudDrives".GetLocalizedResource()) as LocationItem;
-						if (UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection && section == null && App.CloudDrivesManager.Drives.Any())
+						if (UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection && App.CloudDrivesManager.Drives.Any())
 						{
 							section = new LocationItem()
 							{
@@ -479,13 +492,12 @@ namespace Files.App.ViewModels
 							var index = SectionOrder.TakeWhile(x => x != sectionType).Select(x => SideBarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
 							SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
 						}
-						return section;
+						break;
 					}
 
 				case SectionType.Network:
 					{
-						var section = SideBarItems.FirstOrDefault(x => x.Text == "SidebarNetworkDrives".GetLocalizedResource()) as LocationItem;
-						if (UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection && section == null)
+						if (UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection)
 						{
 							section = new LocationItem()
 							{
@@ -502,13 +514,12 @@ namespace Files.App.ViewModels
 							SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
 							section.Icon = await UIHelpers.GetIconResource(Constants.ImageRes.NetworkDrives); // After insert
 						}
-						return section;
+						break;
 					}
 
 				case SectionType.WSL:
 					{
-						var section = SideBarItems.FirstOrDefault(x => x.Text == "WSL".GetLocalizedResource()) as LocationItem;
-						if (UserSettingsService.AppearanceSettingsService.ShowWslSection && section == null && App.WSLDistroManager.Distros.Any())
+						if (UserSettingsService.AppearanceSettingsService.ShowWslSection && App.WSLDistroManager.Distros.Any())
 						{
 							section = new LocationItem()
 							{
@@ -525,13 +536,12 @@ namespace Files.App.ViewModels
 							var index = SectionOrder.TakeWhile(x => x != sectionType).Select(x => SideBarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
 							SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
 						}
-						return section;
+						break;
 					}
 
 				case SectionType.FileTag:
 					{
-						var section = SideBarItems.FirstOrDefault(x => x.Text == "FileTags".GetLocalizedResource()) as LocationItem;
-						if (UserSettingsService.AppearanceSettingsService.ShowFileTagsSection && section == null)
+						if (UserSettingsService.AppearanceSettingsService.ShowFileTagsSection)
 						{
 							section = new LocationItem()
 							{
@@ -548,11 +558,10 @@ namespace Files.App.ViewModels
 							var index = SectionOrder.TakeWhile(x => x != sectionType).Select(x => SideBarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
 							SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
 						}
-						return section;
+						break;
 					}
-				default:
-					return null;
 			}
+			return section;
 		}
 
 		public async void UpdateSectionVisibility(SectionType sectionType, bool show)
