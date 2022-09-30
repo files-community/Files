@@ -388,6 +388,7 @@ namespace Files.App.ViewModels
 		private async Task<LocationItem> CreateSection(SectionType sectionType)
 		{
 			LocationItem section = null;
+			BitmapImage? icon = null;
 
 			switch (sectionType)
 			{
@@ -404,7 +405,7 @@ namespace Files.App.ViewModels
 						IsDefaultLocation = true,
 						Path = "Home".GetLocalizedResource()
 					};
-					section.Icon = new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png"));
+					icon = new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png"));
 					break;
 				case SectionType.Favorites:
 					{
@@ -424,7 +425,7 @@ namespace Files.App.ViewModels
 							};
 							var index = SectionOrder.TakeWhile(x => x != sectionType).Select(x => SideBarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
 							SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
-							section.Icon = new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Favorites.png")); // After insert
+							icon = new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Favorites.png")); // After insert
 						}
 						break;
 					}
@@ -447,7 +448,7 @@ namespace Files.App.ViewModels
 							};
 							var index = SectionOrder.TakeWhile(x => x != sectionType).Select(x => SideBarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
 							SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
-							section.Icon = await UIHelpers.GetIconResource(Constants.ImageRes.Libraries); // After insert
+							icon = await UIHelpers.GetIconResource(Constants.ImageRes.Libraries); // After insert
 						}
 						break;
 					}
@@ -469,7 +470,7 @@ namespace Files.App.ViewModels
 							};
 							var index = SectionOrder.TakeWhile(x => x != sectionType).Select(x => SideBarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
 							SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
-							section.Icon = await UIHelpers.GetIconResource(Constants.ImageRes.ThisPC); // After insert
+							icon = await UIHelpers.GetIconResource(Constants.ImageRes.ThisPC); // After insert
 						}
 						break;
 					}
@@ -491,7 +492,7 @@ namespace Files.App.ViewModels
 							};
 							var index = SectionOrder.TakeWhile(x => x != sectionType).Select(x => SideBarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
 							SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
-							section.Icon = new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/CloudDrive.png"));
+							icon = new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/CloudDrive.png"));
 						}
 						break;
 					}
@@ -513,7 +514,7 @@ namespace Files.App.ViewModels
 							};
 							var index = SectionOrder.TakeWhile(x => x != sectionType).Select(x => SideBarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
 							SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
-							section.Icon = await UIHelpers.GetIconResource(Constants.ImageRes.NetworkDrives); // After insert
+							icon = await UIHelpers.GetIconResource(Constants.ImageRes.NetworkDrives); // After insert
 						}
 						break;
 					}
@@ -535,7 +536,7 @@ namespace Files.App.ViewModels
 							};
 							var index = SectionOrder.TakeWhile(x => x != sectionType).Select(x => SideBarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
 							SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
-							section.Icon = new BitmapImage(new Uri("ms-appx:///Assets/WSL/genericpng.png"));
+							icon = new BitmapImage(new Uri("ms-appx:///Assets/WSL/genericpng.png"));
 						}
 						break;
 					}
@@ -557,10 +558,15 @@ namespace Files.App.ViewModels
 							};
 							var index = SectionOrder.TakeWhile(x => x != sectionType).Select(x => SideBarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
 							SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
-							section.Icon = new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/FileTags.png"));
+							icon = new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/FileTags.png"));
 						}
 						break;
 					}
+			}
+
+			if(section != null)
+			{
+				section.Icon = icon;
 			}
 			return section;
 		}
