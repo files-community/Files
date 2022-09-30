@@ -109,6 +109,20 @@ namespace Files.App.ViewModels.SettingsViewModels
 				}
 			}
 		}
+		
+		private long selectedDefaultLayoutModeIndex;
+		public long SelectedDefaultLayoutModeIndex
+		{
+			get => selectedAppLanguageIndex;
+			set
+			{
+				if (SetProperty(ref selectedDefaultLayoutModeIndex, value))
+				{
+					OnPropertyChanged(nameof(SelectedDefaultLayoutModeIndex));
+					DefaultLayoutMode = (FolderLayoutModes)value;
+				}
+			}
+		}
 
 		private Terminal selectedTerminal;
 		public Terminal SelectedTerminal
@@ -164,6 +178,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 			AddDateTimeOptions();
 			SelectedDateTimeFormatIndex = (int)Enum.Parse(typeof(DateTimeFormats), DateTimeFormat.ToString());
+
+			SelectedDefaultLayoutModeIndex = (long)DefaultLayoutMode;
 
 			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
@@ -737,12 +753,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool ShowFileTagColumn
 		{
-			get => UserSettingsService.LayoutSettingsService.ShowFileTagColumn;
+			get => UserSettingsService.PreferencesSettingsService.ShowFileTagColumn;
 			set
 			{
-				if (value != UserSettingsService.LayoutSettingsService.ShowFileTagColumn)
+				if (value != UserSettingsService.PreferencesSettingsService.ShowFileTagColumn)
 				{
-					UserSettingsService.LayoutSettingsService.ShowFileTagColumn = value;
+					UserSettingsService.PreferencesSettingsService.ShowFileTagColumn = value;
 					OnPropertyChanged();
 				}
 			}
@@ -750,12 +766,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool ShowSizeColumn
 		{
-			get => UserSettingsService.LayoutSettingsService.ShowSizeColumn;
+			get => UserSettingsService.PreferencesSettingsService.ShowSizeColumn;
 			set
 			{
-				if (value != UserSettingsService.LayoutSettingsService.ShowSizeColumn)
+				if (value != UserSettingsService.PreferencesSettingsService.ShowSizeColumn)
 				{
-					UserSettingsService.LayoutSettingsService.ShowSizeColumn = value;
+					UserSettingsService.PreferencesSettingsService.ShowSizeColumn = value;
 					OnPropertyChanged();
 				}
 			}
@@ -763,12 +779,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool ShowTypeColumn
 		{
-			get => UserSettingsService.LayoutSettingsService.ShowTypeColumn;
+			get => UserSettingsService.PreferencesSettingsService.ShowTypeColumn;
 			set
 			{
-				if (value != UserSettingsService.LayoutSettingsService.ShowTypeColumn)
+				if (value != UserSettingsService.PreferencesSettingsService.ShowTypeColumn)
 				{
-					UserSettingsService.LayoutSettingsService.ShowTypeColumn = value;
+					UserSettingsService.PreferencesSettingsService.ShowTypeColumn = value;
 					OnPropertyChanged();
 				}
 			}
@@ -776,12 +792,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool ShowDateCreatedColumn
 		{
-			get => UserSettingsService.LayoutSettingsService.ShowDateCreatedColumn;
+			get => UserSettingsService.PreferencesSettingsService.ShowDateCreatedColumn;
 			set
 			{
-				if (value != UserSettingsService.LayoutSettingsService.ShowDateCreatedColumn)
+				if (value != UserSettingsService.PreferencesSettingsService.ShowDateCreatedColumn)
 				{
-					UserSettingsService.LayoutSettingsService.ShowDateCreatedColumn = value;
+					UserSettingsService.PreferencesSettingsService.ShowDateCreatedColumn = value;
 					OnPropertyChanged();
 				}
 			}
@@ -789,12 +805,24 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public bool ShowDateColumn
 		{
-			get => UserSettingsService.LayoutSettingsService.ShowDateColumn;
+			get => UserSettingsService.PreferencesSettingsService.ShowDateColumn;
 			set
 			{
-				if (value != UserSettingsService.LayoutSettingsService.ShowDateColumn)
+				if (value != UserSettingsService.PreferencesSettingsService.ShowDateColumn)
 				{
-					UserSettingsService.LayoutSettingsService.ShowDateColumn = value;
+					UserSettingsService.PreferencesSettingsService.ShowDateColumn = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+		public FolderLayoutModes DefaultLayoutMode
+		{
+			get => UserSettingsService.PreferencesSettingsService.DefaultLayoutMode;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.DefaultLayoutMode)
+				{
+					UserSettingsService.PreferencesSettingsService.DefaultLayoutMode = value;
 					OnPropertyChanged();
 				}
 			}
