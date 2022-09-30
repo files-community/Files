@@ -1672,16 +1672,16 @@
     <value>在新索引標籤開啟資料夾</value>
   </data>
   <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>顯示 Bundles 小工具</value>
+    <value>Show Bundles widget</value>
   </data>
   <data name="ShowDrivesWidget" xml:space="preserve">
-    <value>顯示磁碟機小工具</value>
+    <value>Show Drives widget</value>
   </data>
   <data name="ShowFolderWidget" xml:space="preserve">
-    <value>顯示資料夾小工具</value>
+    <value>Show Folders widget</value>
   </data>
   <data name="ShowRecentFilesWidget" xml:space="preserve">
-    <value>顯示最近使用過的檔案小工具</value>
+    <value>Show Recent Files widget</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>沒有找到您想找的嗎？</value>
@@ -1948,7 +1948,7 @@
     <value>關閉</value>
   </data>
   <data name="Widgets" xml:space="preserve">
-    <value>小工具</value>
+    <value>Widgets</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>同步狀態</value>
