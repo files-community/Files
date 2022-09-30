@@ -393,20 +393,12 @@ namespace Files.App.ViewModels
 			switch (sectionType)
 			{
 				case SectionType.Home:
-					section = new LocationItem()
 					{
-						Text = "Home".GetLocalizedResource(),
-						Section = SectionType.Home,
-						MenuOptions = new ContextMenuOptions
-						{
-							IsLocationItem = true
-						},
-						Font = App.AppModel.SymbolFontFamily,
-						IsDefaultLocation = true,
-						Path = "Home".GetLocalizedResource()
-					};
-					section.Icon = new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png"));
-					break;
+						section = BuildSection("Home".GetLocalizedResource(), sectionType, new ContextMenuOptions { IsLocationItem = true }, true, App.AppModel.SymbolFontFamily);
+						section.Path = "Home".GetLocalizedResource();
+						section.Icon = new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png"));
+						break;
+					}
 				case SectionType.Favorites:
 					{
 						if (UserSettingsService.AppearanceSettingsService.ShowFavoritesSection)
