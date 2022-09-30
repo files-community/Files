@@ -328,7 +328,7 @@
 								<ComboBoxItem Content="{helpers:ResourceString Name=Details}"/>
 								<ComboBoxItem Content="{helpers:ResourceString Name=Tiles}"/>
 								<ComboBoxItem Content="{helpers:ResourceString Name=Columns}"/>
-								<ComboBoxItem Content="{helpers:ResourceString Name=Grid}"/>
+								<ComboBoxItem Content="{helpers:ResourceString Name=IconGrid}"/>
 								<ComboBoxItem Content="{helpers:ResourceString Name=Adaptive}"/>
 							</ComboBox>
 						</local:SettingsBlockControl>

@@ -113,7 +113,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 		private long selectedDefaultLayoutModeIndex;
 		public long SelectedDefaultLayoutModeIndex
 		{
-			get => selectedAppLanguageIndex;
+			get => selectedDefaultLayoutModeIndex;
 			set
 			{
 				if (SetProperty(ref selectedDefaultLayoutModeIndex, value))
