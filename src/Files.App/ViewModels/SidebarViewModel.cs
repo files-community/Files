@@ -1,16 +1,19 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
-using Files.Backend.Services.Settings;
-using Files.Shared.EventArguments;
-using Files.Shared.Extensions;
+using CommunityToolkit.WinUI;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.UserControls;
 using Files.App.Extensions;
-using CommunityToolkit.WinUI;
+using Files.Backend.Services.Settings;
+using Files.Shared.EventArguments;
+using Files.Shared.Extensions;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Imaging;
+using Microsoft.UI.Dispatching;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -18,15 +21,13 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Media.Imaging;
-using Microsoft.UI.Dispatching;
 
 namespace Files.App.ViewModels
 {
 	public class SidebarViewModel : ObservableObject, IDisposable
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+
 		public ICommand EmptyRecycleBinCommand { get; private set; }
 
 		private IPaneHolder paneHolder;
