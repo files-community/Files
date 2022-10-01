@@ -160,13 +160,13 @@
     <value>Ім’я</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Path:</value>
+    <value>Шлях:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Розмір:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed Size:</value>
+    <value>Нестиснутий розмір:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Ця дія не може бути завершена</value>
@@ -274,7 +274,7 @@
     <value>Завантаження</value>
   </data>
   <data name="SideBarUnpinFromFavorites.Text" xml:space="preserve">
-    <value>Видалити з обраного</value>
+    <value>Відкріпити з Уподобань</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Сортування</value>
@@ -454,13 +454,13 @@
     <value>Ви видалили цю папку?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>Файл, до якого ви намагаєтеся отримати доступ, в даний час використовується {0}</value>
+    <value>Файл, до якого ви намагаєтеся отримати доступ, зараз використовується {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>Файл, який ви намагаєтеся отримати доступ, в даний час використовується іншою програмою</value>
+    <value>Файл, який ви намагаєтеся отримати доступ, зараз використовується іншою програмою</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
-    <value>Файл вже використовується</value>
+    <value>Файл зараз використовується</value>
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>Макет</value>
@@ -1237,7 +1237,7 @@
     <value>Показати неіндексовані елементи під час пошуку файлів і папок</value>
   </data>
   <data name="ForceThesePreferencesOnAllDirectories" xml:space="preserve">
-    <value>Force these preferences on all directories</value>
+    <value>Застосувати ці налаштування для всіх директорій</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Налаштування контекстного меню</value>
@@ -1396,7 +1396,7 @@
     <value>Ім’я</value>
   </data>
   <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
-    <value>Видалити з обраного</value>
+    <value>Відкріпити з Уподобань</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Мережні диски</value>
@@ -1672,16 +1672,16 @@
     <value>Відкривати папки у новій вкладці</value>
   </data>
   <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>Show Bundles widget</value>
+    <value>Показати віджет наборів</value>
   </data>
   <data name="ShowDrivesWidget" xml:space="preserve">
-    <value>Show Drives widget</value>
+    <value>Показати віджет дисків</value>
   </data>
   <data name="ShowFolderWidget" xml:space="preserve">
-    <value>Show Folders widget</value>
+    <value>Показати віджет папок</value>
   </data>
   <data name="ShowRecentFilesWidget" xml:space="preserve">
-    <value>Show Recent Files widget</value>
+    <value>Показати віджети останніх файлів</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>Не знайшли те, що шукаєте?</value>
@@ -1948,7 +1948,7 @@
     <value>Відхилити</value>
   </data>
   <data name="Widgets" xml:space="preserve">
-    <value>Widgets</value>
+    <value>Віджети</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>Стан синхронізації</value>
@@ -2769,70 +2769,70 @@
     <value>Ви бажаєте переглянути файли?</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
-    <value>Set as background</value>
+    <value>Встановити як тло</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Set as lockscreen</value>
+    <value>Встановити як екран блокування</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>Установити як тло робочого стола</value>
   </data>
   <data name="SetAsDefault" xml:space="preserve">
-    <value>Set as default</value>
+    <value>Встановити за замовчуванням</value>
   </data>
   <data name="FolderPreferences" xml:space="preserve">
-    <value>Folder preferences</value>
+    <value>Налаштування папки</value>
   </data>
   <data name="DisplayDateColumn" xml:space="preserve">
-    <value>Display Date column</value>
+    <value>Показати стовпчик дати</value>
   </data>
   <data name="DisplayDateCreatedColumn" xml:space="preserve">
-    <value>Display Date Created column</value>
+    <value>Показати стовпчик дати створення</value>
   </data>
   <data name="DisplaySizeColumn" xml:space="preserve">
-    <value>Display Size column</value>
+    <value>Показати стовпчик розміру</value>
   </data>
   <data name="DisplayTagColumn" xml:space="preserve">
-    <value>Display Tag column</value>
+    <value>Показати стовпчик тегів</value>
   </data>
   <data name="DisplayTypeColumn" xml:space="preserve">
-    <value>Display Type column</value>
+    <value>Показати стовпчик типів</value>
   </data>
   <data name="Reset" xml:space="preserve">
-    <value>Reset</value>
+    <value>Скинути</value>
   </data>
   <data name="ResetLayoutPreferences" xml:space="preserve">
-    <value>This action will reset all directories back to your default preferences.</value>
+    <value>Ця дія скине всі директорії до ваших налаштувань за замовчуванням.</value>
   </data>
   <data name="AreYouSure" xml:space="preserve">
-    <value>Are you sure?</value>
+    <value>Ви впевнені?</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
-    <value>Lockscreen</value>
+    <value>Екран блокування</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Open folders with a single click in the Columns Layout</value>
+    <value>Відкрити папки одним натисканням по Макету Стовпчиків</value>
   </data>
   <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
-    <value>Behavior for opening files and folders</value>
+    <value>Поведінка при відкритті файлів та папок</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
-    <value>Select files and folders when hovering over them</value>
+    <value>Виділити файли та папки при наведенні на них</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
-    <value>Are you sure you want to restore all items in the recycle bin?</value>
+    <value>Ви впевнені, що хочете відновити всі елементи з кошика?</value>
   </data>
   <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
-    <value>Restore all items</value>
+    <value>Відновити всі елементи</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
-    <value>Do you want to restore the {0} selected item(s)?</value>
+    <value>Ви хочете відновити {0} виділених елементів?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
-    <value>Restore selection</value>
+    <value>Відновити вибране</value>
   </data>
   <data name="RestoreAllItems" xml:space="preserve">
-    <value>Restore All Items</value>
+    <value>Відновити всі елементи</value>
   </data>
   <data name="RestoreSelection" xml:space="preserve">
     <value>Відновити</value>
