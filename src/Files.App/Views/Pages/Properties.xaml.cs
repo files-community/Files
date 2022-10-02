@@ -117,9 +117,13 @@ namespace Files.App.Views
 			appWindow.TitleBar.SetDragRectangles(new RectInt32[]
 			{
 				// This area is over the top margin of NavigationView.
-				new RectInt32(0, 0, navigationViewWidth, (int)NavigationView.ActualOffset.Y),
+				new RectInt32(0, 0, (int)(navigationViewWidth + NavigationView.ActualOffset.X), (int)NavigationView.ActualOffset.Y),
+				// This area is over the left margin of NavigationView.
+				new RectInt32(0, (int)NavigationView.ActualOffset.Y, (int)NavigationView.ActualOffset.X, (int)NavigationView.ActualSize.Y),
+				// This area is over the bottom margin of NavigationView.
+				new RectInt32(0, (int)(NavigationView.ActualSize.Y + NavigationView.ActualOffset.Y), (int)(navigationViewWidth + NavigationView.ActualOffset.X), (int)NavigationView.Margin.Bottom),
 				// This area is on the right of NavigationView and stretches for all the remaining space.
-				new RectInt32(navigationViewWidth, 0, (int)(TitleBarDragArea.ActualSize.X - navigationViewWidth), (int)TitleBarDragArea.ActualSize.Y)
+				new RectInt32(navigationViewWidth, 0, (int)(TitleBarDragArea.ActualSize.X - navigationViewWidth), (int)NavigationView.DesiredSize.Height)
 			});
 		}
 
