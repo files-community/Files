@@ -77,7 +77,7 @@ namespace Files.App.Views
 			AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
 			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
 			{
-				NavigationView.SizeChanged += NavigationView_SizeChanged;
+				TitleBarDragArea.SizeChanged += TitleBarDragArea_SizeChanged;
 				appWindow.Destroying += AppWindow_Destroying;
 				await App.Window.DispatcherQueue.EnqueueAsync(() => AppSettings.UpdateThemeElements.Execute(null));
 			}
@@ -88,7 +88,7 @@ namespace Files.App.Views
 			}
 		}
 
-		private void NavigationView_SizeChanged(object? sender, SizeChangedEventArgs? e)
+		private void TitleBarDragArea_SizeChanged(object? sender, SizeChangedEventArgs? e)
 		{
 			/*
 			 We have to calculate the width of NavigationView as 'ActualWidth' is bigger than the real size occupied by the control.
@@ -139,7 +139,7 @@ namespace Files.App.Views
 		private void PropertiesMenu_Loaded(object sender, RoutedEventArgs e)
 		{
 			// Drag region is calculated each time the active tab is changed
-			NavigationView_SizeChanged(null, null);
+			TitleBarDragArea_SizeChanged(null, null);
 		}
 
 		private void AppWindow_Destroying(AppWindow sender, object args)
