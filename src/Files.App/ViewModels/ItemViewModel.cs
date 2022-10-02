@@ -952,7 +952,12 @@ namespace Files.App.ViewModels
 						// ListView is used for the details and columns layout
 						var thumbnailMode = thumbnailSize < 80 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
 
-						using StorageItemThumbnail Thumbnail = await FilesystemTasks.Wrap(() => matchingStorageFile.GetThumbnailAsync(thumbnailMode, thumbnailSize, ThumbnailOptions.ResizeThumbnail).AsTask());
+						// ReturnOnlyIfCached forces the thumbnail to be cached before it's returned,
+						// this prevents an issue where the user needs to refresh the current directory.
+						// UseCurrentScale returns a sharp image
+						var thumbnailOptions = ThumbnailOptions.ReturnOnlyIfCached | ThumbnailOptions.UseCurrentScale;
+
+						using StorageItemThumbnail Thumbnail = await FilesystemTasks.Wrap(() => matchingStorageFile.GetThumbnailAsync(thumbnailMode, thumbnailSize, thumbnailOptions).AsTask());
 
 						if (!(Thumbnail == null || Thumbnail.Size == 0 || Thumbnail.OriginalHeight == 0 || Thumbnail.OriginalWidth == 0))
 						{
