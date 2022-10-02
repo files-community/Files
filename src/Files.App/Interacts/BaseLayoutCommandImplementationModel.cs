@@ -200,7 +200,10 @@ namespace Files.App.Interacts
 
         public virtual void ShowProperties(RoutedEventArgs e)
         {
-            SlimContentPage.ItemContextMenuFlyout.Closed += OpenProperties;
+            if (SlimContentPage.ItemContextMenuFlyout.IsOpen)
+                SlimContentPage.ItemContextMenuFlyout.Closed += OpenProperties;
+            else
+                FilePropertiesHelpers.ShowProperties(associatedInstance);
         }
 
         private void OpenProperties(object sender, object e)
@@ -653,8 +656,7 @@ namespace Files.App.Interacts
             DecompressArchiveDialogViewModel decompressArchiveViewModel = new(archive);
             decompressArchiveDialog.ViewModel = decompressArchiveViewModel;
 
-            ContentDialogResult option = await decompressArchiveDialog.ShowAsync();
-
+            ContentDialogResult option = await decompressArchiveDialog.TryShowAsync();
             if (option != ContentDialogResult.Primary)
                 return;
 
@@ -720,7 +722,7 @@ namespace Files.App.Interacts
             Stopwatch sw = new();
             sw.Start();
 
-            await ZipHelpers.ExtractArchive(archive, destinationFolder, banner.Progress, extractCancellation.Token);
+            await FilesystemTasks.Wrap(() => ZipHelpers.ExtractArchive(archive, destinationFolder, banner.Progress, extractCancellation.Token));
 
             sw.Stop();
             banner.Remove();

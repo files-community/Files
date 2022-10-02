@@ -404,34 +404,6 @@
 				</ResourceDictionary>
 			</CommandBar.Resources>
 			<AppBarButton
-				x:Name="WidgetsManager"
-				Width="Auto"
-				MinWidth="40"
-				x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-				AccessKey="W"
-				AutomationProperties.Name="Manage widgets"
-				Label="{helpers:ResourceString Name=NavToolbarWidgets/Label}"
-				LabelPosition="Collapsed"
-				Style="{StaticResource ToolBarAppBarButtonFlyoutStyle}"
-				ToolTipService.ToolTip="{helpers:ResourceString Name=NavToolbarWidgets/ToolTipService/ToolTip}">
-				<AppBarButton.Icon>
-					<FontIcon FontSize="10" Glyph="&#xF246;" />
-				</AppBarButton.Icon>
-				<AppBarButton.Flyout>
-					<Flyout contract8Present:ShouldConstrainToRootBounds="False" Placement="Bottom">
-						<StackPanel Spacing="12">
-							<TextBlock FontWeight="Medium" Text="{helpers:ResourceString Name=NavToolbarManageWidgetsFlyoutHeader/Text}" />
-							<StackPanel Spacing="4">
-								<ToggleSwitch Header="{helpers:ResourceString Name=NavToolbarShowFolderWidget/Header}" IsOn="{x:Bind ViewModel.ShowFoldersWidget, Mode=TwoWay}" />
-								<ToggleSwitch Header="{helpers:ResourceString Name=NavToolbarShowDrivesWidget/Header}" IsOn="{x:Bind ViewModel.ShowDrivesWidget, Mode=TwoWay}" />
-								<ToggleSwitch Header="{helpers:ResourceString Name=NavToolbarShowBundlesWidget/Header}" IsOn="{x:Bind ViewModel.ShowBundlesWidget, Mode=TwoWay}" />
-								<ToggleSwitch Header="{helpers:ResourceString Name=NavToolbarShowRecentFilesWidget/Header}" IsOn="{x:Bind ViewModel.ShowRecentFilesWidget, Mode=TwoWay}" />
-							</StackPanel>
-						</StackPanel>
-					</Flyout>
-				</AppBarButton.Flyout>
-			</AppBarButton>
-			<AppBarButton
 				x:Name="SelectionOptions"
 				Width="Auto"
 				MinWidth="40"

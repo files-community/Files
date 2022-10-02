@@ -790,8 +790,6 @@ namespace Files.App
 			{
 				deferral = e.GetDeferral();
 
-				ItemManipulationModel.SetSelectedItem(item);
-
 				if (dragOverItem != item)
 				{
 					dragOverItem = item;
@@ -800,8 +798,9 @@ namespace Files.App
 					{
 						if (dragOverItem != null && !dragOverItem.IsExecutable)
 						{
-							dragOverItem = null;
 							dragOverTimer.Stop();
+							ItemManipulationModel.SetSelectedItem(dragOverItem);
+							dragOverItem = null;
 							NavigationHelpers.OpenSelectedItems(ParentShellPageInstance!, false);
 						}
 					}, TimeSpan.FromMilliseconds(1000), false);
@@ -900,6 +899,7 @@ namespace Files.App
 			container.PointerPressed -= FileListItem_PointerPressed;
 			container.PointerEntered -= FileListItem_PointerEntered;
 			container.PointerExited -= FileListItem_PointerExited;
+			container.RightTapped -= FileListItem_RightTapped;
 
 			if (inRecycleQueue)
 			{
@@ -908,6 +908,7 @@ namespace Files.App
 			else
 			{
 				container.PointerPressed += FileListItem_PointerPressed;
+				container.RightTapped += FileListItem_RightTapped;
 				if (UserSettingsService.PreferencesSettingsService.SelectFilesOnHover)
 				{
 					container.PointerEntered += FileListItem_PointerEntered;
@@ -1010,6 +1011,15 @@ namespace Files.App
 
 			hoverTimer.Stop();
 			hoveredItem = null;
+		}
+
+		protected void FileListItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		{
+			var rightClickedItem = GetItemFromElement(sender);
+			if (rightClickedItem != null && !((SelectorItem)sender).IsSelected)
+			{
+				ItemManipulationModel.SetSelectedItem(rightClickedItem);
+			}
 		}
 
 		private readonly RecycleBinHelpers recycleBinHelpers = new();
