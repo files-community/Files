@@ -282,26 +282,26 @@ namespace Files.App.DataModels
 			AddLocationItemToSidebar(locationItem);
 		}
 
-        private async Task<byte[]?> RetrieveItemIconData(string itemPath, FilesystemResult<BaseStorageFolder> result)
-        {
-            byte[]? iconData = null;
+		private async Task<byte[]?> RetrieveItemIconData(string itemPath, FilesystemResult<BaseStorageFolder> result)
+		{
+			byte[]? iconData = null;
 
-            if (result)
-            {
-                iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(result.Result, 24u, Windows.Storage.FileProperties.ThumbnailMode.ListView);
-                iconData ??= await FileThumbnailHelper.LoadIconFromStorageItemAsync(result.Result, 24u, Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
-            }
+			if (result)
+			{
+				iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(result.Result, 24u, Windows.Storage.FileProperties.ThumbnailMode.ListView);
+				iconData ??= await FileThumbnailHelper.LoadIconFromStorageItemAsync(result.Result, 24u, Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
+			}
 
-            iconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(itemPath, 24u);
+			iconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(itemPath, 24u);
 
-            return iconData;
-        }
+			return iconData;
+		}
 
-        /// <summary>
-        /// Adds the location item to the navigation sidebar
-        /// </summary>
-        /// <param name="locationItem">The location item which to save</param>
-        private void AddLocationItemToSidebar(LocationItem locationItem)
+		/// <summary>
+		/// Adds the location item to the navigation sidebar
+		/// </summary>
+		/// <param name="locationItem">The location item which to save</param>
+		private void AddLocationItemToSidebar(LocationItem locationItem)
 		{
 			int insertIndex = -1;
 			lock (favoriteList)
