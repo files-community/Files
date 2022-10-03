@@ -1020,7 +1020,7 @@ namespace Files.App.ViewModels
 						// ListView is used for the details and columns layout
 						var thumbnailMode = thumbnailSize < 96 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
 
-						// We use ReturnOnlyIfCached because otherwise folders thumbnails have a black background
+						// We use ReturnOnlyIfCached because otherwise folders thumbnails have a black background. The only downside is that folder thumbnail previews are not shown properly.
 						using StorageItemThumbnail Thumbnail = await FilesystemTasks.Wrap(() => matchingStorageFolder.GetThumbnailAsync(thumbnailMode, thumbnailSize, ThumbnailOptions.ReturnOnlyIfCached).AsTask());
 						if (!(Thumbnail == null || Thumbnail.Size == 0 || Thumbnail.OriginalHeight == 0 || Thumbnail.OriginalWidth == 0))
 						{
