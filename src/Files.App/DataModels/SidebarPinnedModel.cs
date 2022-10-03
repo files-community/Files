@@ -255,23 +255,23 @@ namespace Files.App.DataModels
 
 			locationItem.IsInvalid = res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path);
 
-            if (res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path))
+			if (res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path))
 			{
-                if (locationItem.Path == CommonPaths.RecycleBinPath)
-                {
-                    int recycleBinIconIndex = UIHelpers.GetAdaptedRecycleBinIconIndex();
-                    locationItem.IconData = UIHelpers.GetIconResourceInfo(recycleBinIconIndex).IconData;
-                }
-                else
-                {
-                    locationItem.IconData = await RetrieveItemIconData(path, res);
-                }
+				if (locationItem.Path == CommonPaths.RecycleBinPath)
+				{
+					int recycleBinIconIndex = UIHelpers.GetAdaptedRecycleBinIconIndex();
+					locationItem.IconData = UIHelpers.GetIconResourceInfo(recycleBinIconIndex).IconData;
+				}
+				else
+				{
+					locationItem.IconData = await RetrieveItemIconData(path, res);
+				}
 
-                if (locationItem.IconData != null)
-                {
-                    locationItem.Icon = await App.Window.DispatcherQueue.EnqueueAsync(() => locationItem.IconData.ToBitmapAsync());
-                }
-            }
+				if (locationItem.IconData != null)
+				{
+					locationItem.Icon = await App.Window.DispatcherQueue.EnqueueAsync(() => locationItem.IconData.ToBitmapAsync());
+				}
+			}
 			else
 			{
 				locationItem.Icon = await App.Window.DispatcherQueue.EnqueueAsync(() => UIHelpers.GetIconResource(Constants.ImageRes.Folder));
