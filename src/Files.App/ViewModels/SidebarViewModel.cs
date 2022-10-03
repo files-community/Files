@@ -392,48 +392,88 @@ namespace Files.App.ViewModels
 			BitmapImage icon = null;
 			int iconIdex = -1;
 
-			if(sectionType == SectionType.Home)
+			switch(sectionType)
 			{
-				section = BuildSection("Home".GetLocalizedResource(), sectionType, new ContextMenuOptions { IsLocationItem = true }, true);
-				section.Path = "Home".GetLocalizedResource();
-				section.Font = App.AppModel.SymbolFontFamily;
-				section.Icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
-			}
-			else if (sectionType == SectionType.Favorites && ShowFavoritesSection)
-			{
-				section = BuildSection("SidebarFavorites".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
-				section.Font = App.AppModel.SymbolFontFamily;
-				icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.FavoritesIcon));
-			}
-			else if (sectionType == SectionType.Library && ShowLibrarySection)
-			{
-				section = BuildSection("SidebarLibraries".GetLocalizedResource(), sectionType, new ContextMenuOptions { IsLibrariesHeader = true, ShowHideSection = true }, false);
-				iconIdex = Constants.ImageRes.Libraries;
-			}
-			else if (sectionType == SectionType.Drives && ShowDrivesSection)
-			{
-				section = BuildSection("Drives".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
-				iconIdex = Constants.ImageRes.ThisPC;
-			}
-			else if (sectionType == SectionType.CloudDrives && ShowCloudDrivesSection && App.CloudDrivesManager.Drives.Any())
-			{
-				section = BuildSection("SidebarCloudDrives".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
-				icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.CloudDriveIcon));
-			}
-			else if (sectionType == SectionType.Network && ShowNetworkDrivesSection)
-			{
-				section = BuildSection("SidebarNetworkDrives".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
-				iconIdex = Constants.ImageRes.NetworkDrives;
-			}
-			else if (sectionType == SectionType.WSL & ShowWslSection && App.WSLDistroManager.Distros.Any())
-			{
-				section = BuildSection("WSL".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
-				icon = new BitmapImage(new Uri(Constants.WslIconsPaths.GenericIcon));
-			}
-			else if(sectionType == SectionType.FileTag && ShowFileTagsSection)
-			{
-				section = BuildSection("FileTags".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
-				icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.FileTagsIcon));
+				case SectionType.Home:
+					{
+						section = BuildSection("Home".GetLocalizedResource(), sectionType, new ContextMenuOptions { IsLocationItem = true }, true);
+						section.Path = "Home".GetLocalizedResource();
+						section.Font = App.AppModel.SymbolFontFamily;
+						section.Icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
+						break;
+					}
+				case SectionType.Favorites:
+					{
+						if (ShowFavoritesSection == false)
+						{
+							break;
+						}
+
+						section = BuildSection("SidebarFavorites".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
+						section.Font = App.AppModel.SymbolFontFamily;
+						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.FavoritesIcon));
+						break;
+					}
+				case SectionType.Library:
+					{
+						if (ShowLibrarySection == false)
+						{
+							break;
+						}
+						section = BuildSection("SidebarLibraries".GetLocalizedResource(), sectionType, new ContextMenuOptions { IsLibrariesHeader = true, ShowHideSection = true }, false);
+						iconIdex = Constants.ImageRes.Libraries;
+						break;
+					}
+				case SectionType.Drives:
+					{
+						if (ShowDrivesSection == false)
+						{
+							break;
+						}
+						section = BuildSection("Drives".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
+						iconIdex = Constants.ImageRes.ThisPC;
+						break;
+					}
+				case SectionType.CloudDrives:
+					{
+						if (ShowCloudDrivesSection == false || App.CloudDrivesManager.Drives.Any() == false)
+						{
+							break;
+						}
+						section = BuildSection("SidebarCloudDrives".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
+						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.CloudDriveIcon));
+						break;
+					}
+				case SectionType.Network:
+					{
+						if (ShowNetworkDrivesSection)
+						{
+							break;
+						}
+						section = BuildSection("SidebarNetworkDrives".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
+						iconIdex = Constants.ImageRes.NetworkDrives;
+						break;
+					}
+				case SectionType.WSL:
+					{
+						if(ShowWslSection == false || App.WSLDistroManager.Distros.Any() == false)
+						{
+							break;
+						}
+						section = BuildSection("WSL".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
+						icon = new BitmapImage(new Uri(Constants.WslIconsPaths.GenericIcon));
+						break;
+					}
+				case SectionType.FileTag:
+					{
+						if(ShowFileTagsSection)
+						{
+							break;
+						}
+						section = BuildSection("FileTags".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
+						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.FileTagsIcon));
+						break;
+					}
 			}
 
 			if(section != null)
