@@ -130,7 +130,6 @@ namespace Files.App.Helpers
             if (result == ContentDialogResult.Primary)
             {
                 await this.RestoreItem(associatedInstance);
-                RaiseRecycleBinChangedEvent();
             }
         }
 
@@ -187,8 +186,6 @@ namespace Files.App.Helpers
                 Dest = ((RecycleBinItem)item).ItemOriginalPath
             });
             await associatedInstance.FilesystemHelpers.RestoreItemsFromTrashAsync(items.Select(x => x.Source), items.Select(x => x.Dest), true);
-
-            RaiseRecycleBinChangedEvent();
         }
 
         public static async Task S_DeleteItem(IShellPage associatedInstance)
@@ -202,11 +199,9 @@ namespace Files.App.Helpers
                 item.ItemPath,
                 item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
             await associatedInstance.FilesystemHelpers.DeleteItemsAsync(items, true, false, true);
-
-            RaiseRecycleBinChangedEvent();
         }
 
-        private static void RaiseRecycleBinChangedEvent()
+        public static void RaiseRecycleBinChangedEvent()
         {
             if(RecycleBinChanged != null)
             {

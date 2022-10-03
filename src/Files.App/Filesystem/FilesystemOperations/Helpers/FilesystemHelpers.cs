@@ -190,6 +190,7 @@ namespace Files.App.Filesystem
             sw.Stop();
 
             PostBannerHelpers.PostBanner_Delete(source, returnStatus, permanently, token.IsCancellationRequested, itemsDeleted);
+            RecycleBinHelpers.RaiseRecycleBinChangedEvent();
 
             return returnStatus;
         }
@@ -238,6 +239,8 @@ namespace Files.App.Filesystem
             int itemsMoved = history?.Source.Count() ?? 0;
 
             sw.Stop();
+
+            RecycleBinHelpers.RaiseRecycleBinChangedEvent();
 
             return returnStatus;
         }
