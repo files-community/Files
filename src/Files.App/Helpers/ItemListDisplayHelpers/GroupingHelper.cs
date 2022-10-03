@@ -18,11 +18,11 @@ namespace Files.App.Helpers
         {
             return option switch
             {
-                GroupOption.Name => x => new string(x.ItemName.Take(1).ToArray()).ToUpperInvariant(),
+                GroupOption.Name => x => new string(x.Name.Take(1).ToArray()).ToUpperInvariant(),
                 GroupOption.Size => x => x.PrimaryItemAttribute != StorageItemTypes.Folder ? GetGroupSizeKey(x.FileSizeBytes) : x.FileSizeDisplay,
                 GroupOption.DateCreated => x => dateTimeFormatter.ToTimeSpanLabel(x.ItemDateCreatedReal).Text,
                 GroupOption.DateModified => x => dateTimeFormatter.ToTimeSpanLabel(x.ItemDateModifiedReal).Text,
-                GroupOption.FileType => x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsShortcutItem ? x.ItemType : x.FileExtension?.ToLowerInvariant() ?? " ",
+                GroupOption.FileType => x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsShortcut ? x.ItemType : x.FileExtension?.ToLowerInvariant() ?? " ",
                 GroupOption.SyncStatus => x => x.SyncStatusString,
                 GroupOption.FileTag => x => x.FileTags?.FirstOrDefault(),
                 GroupOption.OriginalFolder => x => (x as RecycleBinItem)?.ItemOriginalFolder,
@@ -41,7 +41,7 @@ namespace Files.App.Helpers
                     var first = x.First();
                     x.Model.Text = first.ItemType;
                     x.Model.Subtext = first.FileExtension;
-                    if (first.IsShortcutItem)
+                    if (first.IsShortcut)
                     {
                         x.Model.Icon = "\uE71B";
                     }

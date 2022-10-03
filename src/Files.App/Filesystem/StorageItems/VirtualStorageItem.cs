@@ -36,7 +36,7 @@ namespace Files.App.Filesystem.StorageItems
                 Name = item.ItemNameRaw,
                 Path = item.ItemPath,
                 DateCreated = item.ItemDateCreatedReal,
-                Attributes = item.IsZipItem || item.PrimaryItemAttribute == StorageItemTypes.File ? Windows.Storage.FileAttributes.Normal : Windows.Storage.FileAttributes.Directory
+                Attributes = item.IsArchive || item.PrimaryItemAttribute == StorageItemTypes.File ? Windows.Storage.FileAttributes.Normal : Windows.Storage.FileAttributes.Directory
             };
         }
 
