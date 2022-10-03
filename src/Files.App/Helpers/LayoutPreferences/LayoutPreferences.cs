@@ -42,7 +42,7 @@ namespace Files.App.Helpers.LayoutPreferences
 			this.ColumnsViewModel.NameColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.NameColumnWidth;
 			this.ColumnsViewModel.DateModifiedColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.DateModifiedColumnWidth;
 			this.ColumnsViewModel.DateCreatedColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.DateCreatedColumnWidth;
-			this.ColumnsViewModel.ItemTypeColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.ItemTypeColumnWidth;
+			this.ColumnsViewModel.ItemTypeColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.TypeColumnWidth;
 			this.ColumnsViewModel.SizeColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.SizeColumnWidth;
 			this.ColumnsViewModel.TagColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.TagColumnWidth;
 		}

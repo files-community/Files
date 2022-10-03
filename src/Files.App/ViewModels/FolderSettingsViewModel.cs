@@ -335,7 +335,7 @@ namespace Files.App.ViewModels
                 userSettingsService.LayoutSettingsService.NameColumnWidth = prefs.ColumnsViewModel.NameColumn.UserLengthPixels;
 				userSettingsService.LayoutSettingsService.DateModifiedColumnWidth = prefs.ColumnsViewModel.DateModifiedColumn.UserLengthPixels;
 				userSettingsService.LayoutSettingsService.DateCreatedColumnWidth = prefs.ColumnsViewModel.DateCreatedColumn.UserLengthPixels;
-				userSettingsService.LayoutSettingsService.ItemTypeColumnWidth = prefs.ColumnsViewModel.ItemTypeColumn.UserLengthPixels;
+				userSettingsService.LayoutSettingsService.TypeColumnWidth = prefs.ColumnsViewModel.ItemTypeColumn.UserLengthPixels;
 				userSettingsService.LayoutSettingsService.SizeColumnWidth = prefs.ColumnsViewModel.SizeColumn.UserLengthPixels;
 				userSettingsService.LayoutSettingsService.TagColumnWidth = prefs.ColumnsViewModel.TagColumn.UserLengthPixels;
 			}
@@ -514,7 +514,7 @@ namespace Files.App.ViewModels
 			userSettingsService.LayoutSettingsService.NameColumnWidth = columns.NameColumn.UserLengthPixels;
 			userSettingsService.LayoutSettingsService.DateModifiedColumnWidth = columns.DateModifiedColumn.UserLengthPixels;
 			userSettingsService.LayoutSettingsService.DateCreatedColumnWidth = columns.DateCreatedColumn.UserLengthPixels;
-			userSettingsService.LayoutSettingsService.ItemTypeColumnWidth = columns.ItemTypeColumn.UserLengthPixels;
+			userSettingsService.LayoutSettingsService.TypeColumnWidth = columns.ItemTypeColumn.UserLengthPixels;
 			userSettingsService.LayoutSettingsService.SizeColumnWidth = columns.SizeColumn.UserLengthPixels;
 			userSettingsService.LayoutSettingsService.TagColumnWidth = columns.TagColumn.UserLengthPixels;
 		}
@@ -525,7 +525,7 @@ namespace Files.App.ViewModels
 			userSettingsService.LayoutSettingsService.NameColumnWidth = 200d;
 			userSettingsService.LayoutSettingsService.DateModifiedColumnWidth = 200d;
 			userSettingsService.LayoutSettingsService.DateCreatedColumnWidth = 200d;
-			userSettingsService.LayoutSettingsService.ItemTypeColumnWidth = 200d;
+			userSettingsService.LayoutSettingsService.TypeColumnWidth = 200d;
 			userSettingsService.LayoutSettingsService.SizeColumnWidth = 200d;
             userSettingsService.LayoutSettingsService.TagColumnWidth = 200d;
 		}

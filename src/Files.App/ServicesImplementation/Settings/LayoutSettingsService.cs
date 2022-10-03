@@ -72,7 +72,7 @@ namespace Files.App.ServicesImplementation.Settings
 			}
 		}
 
-		public double ItemTypeColumnWidth
+		public double TypeColumnWidth
 		{
 			get => Get(200d);
 			set

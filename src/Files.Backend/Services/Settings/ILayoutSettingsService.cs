@@ -48,7 +48,7 @@ namespace Files.Backend.Services.Settings
 		/// <summary>
 		/// Gets or sets a value indicating item type column's default width
 		/// </summary>
-		double ItemTypeColumnWidth { get; set; }
+		double TypeColumnWidth { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating date created column's default width
