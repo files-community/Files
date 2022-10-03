@@ -790,8 +790,6 @@ namespace Files.App
 			{
 				deferral = e.GetDeferral();
 
-				ItemManipulationModel.SetSelectedItem(item);
-
 				if (dragOverItem != item)
 				{
 					dragOverItem = item;
@@ -800,8 +798,9 @@ namespace Files.App
 					{
 						if (dragOverItem != null && !dragOverItem.IsExecutable)
 						{
-							dragOverItem = null;
 							dragOverTimer.Stop();
+							ItemManipulationModel.SetSelectedItem(dragOverItem);
+							dragOverItem = null;
 							NavigationHelpers.OpenSelectedItems(ParentShellPageInstance!, false);
 						}
 					}, TimeSpan.FromMilliseconds(1000), false);

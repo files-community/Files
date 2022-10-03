@@ -143,23 +143,23 @@ namespace Files.App.Views.LayoutModes
                 RootGridZoom.IsZoomedInViewActive = true;
         }
 
-        protected override void UnhookEvents()
-        {
-            if (ItemManipulationModel != null)
-            {
-                ItemManipulationModel.FocusFileListInvoked -= ItemManipulationModel_FocusFileListInvoked;
-                ItemManipulationModel.SelectAllItemsInvoked -= ItemManipulationModel_SelectAllItemsInvoked;
-                ItemManipulationModel.ClearSelectionInvoked -= ItemManipulationModel_ClearSelectionInvoked;
-                ItemManipulationModel.InvertSelectionInvoked -= ItemManipulationModel_InvertSelectionInvoked;
-                ItemManipulationModel.AddSelectedItemInvoked -= ItemManipulationModel_AddSelectedItemInvoked;
-                ItemManipulationModel.RemoveSelectedItemInvoked -= ItemManipulationModel_RemoveSelectedItemInvoked;
-                ItemManipulationModel.FocusSelectedItemsInvoked -= ItemManipulationModel_FocusSelectedItemsInvoked;
-                ItemManipulationModel.StartRenameItemInvoked -= ItemManipulationModel_StartRenameItemInvoked;
-                ItemManipulationModel.ScrollIntoViewInvoked -= ItemManipulationModel_ScrollIntoViewInvoked;
-                ItemManipulationModel.RefreshItemThumbnailInvoked -= ItemManipulationModel_RefreshItemThumbnail;
-                ItemManipulationModel.RefreshItemsThumbnailInvoked -= ItemManipulationModel_RefreshItemsThumbnail;
-            }
-        }
+		protected override void UnhookEvents()
+		{
+			if (ItemManipulationModel == null)
+				return;
+
+			ItemManipulationModel.FocusFileListInvoked -= ItemManipulationModel_FocusFileListInvoked;
+			ItemManipulationModel.SelectAllItemsInvoked -= ItemManipulationModel_SelectAllItemsInvoked;
+			ItemManipulationModel.ClearSelectionInvoked -= ItemManipulationModel_ClearSelectionInvoked;
+			ItemManipulationModel.InvertSelectionInvoked -= ItemManipulationModel_InvertSelectionInvoked;
+			ItemManipulationModel.AddSelectedItemInvoked -= ItemManipulationModel_AddSelectedItemInvoked;
+			ItemManipulationModel.RemoveSelectedItemInvoked -= ItemManipulationModel_RemoveSelectedItemInvoked;
+			ItemManipulationModel.FocusSelectedItemsInvoked -= ItemManipulationModel_FocusSelectedItemsInvoked;
+			ItemManipulationModel.StartRenameItemInvoked -= ItemManipulationModel_StartRenameItemInvoked;
+			ItemManipulationModel.ScrollIntoViewInvoked -= ItemManipulationModel_ScrollIntoViewInvoked;
+			ItemManipulationModel.RefreshItemThumbnailInvoked -= ItemManipulationModel_RefreshItemThumbnail;
+			ItemManipulationModel.RefreshItemsThumbnailInvoked -= ItemManipulationModel_RefreshItemsThumbnail;
+		}
 
         protected override void InitializeCommandsViewModel()
         {
@@ -287,17 +287,17 @@ namespace Files.App.Views.LayoutModes
             IsRenamingItem = true;
         }
 
-        private void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
-        {
-            if (IsRenamingItem)
-            {
-                ValidateItemNameInputText(textBox, args, (showError) =>
-                {
-                    FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
-                    FileNameTeachingTip.IsOpen = showError;
-                });
-            }
-        }
+		private void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
+		{
+			if (!IsRenamingItem)
+				return;
+
+			ValidateItemNameInputText(textBox, args, (showError) =>
+			{
+				FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
+				FileNameTeachingTip.IsOpen = showError;
+			});
+		}
 
         private void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
         {
@@ -318,15 +318,15 @@ namespace Files.App.Views.LayoutModes
             }
         }
 
-        private void RenameTextBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            // This check allows the user to use the text box context menu without ending the rename
-            if (!(FocusManager.GetFocusedElement() is AppBarButton or Popup))
-            {
-                TextBox textBox = (TextBox)e.OriginalSource;
-                CommitRename(textBox);
-            }
-        }
+		private void RenameTextBox_LostFocus(object sender, RoutedEventArgs e)
+		{
+			// This check allows the user to use the text box context menu without ending the rename
+			if ((FocusManager.GetFocusedElement() is AppBarButton or Popup))
+				return;
+
+			TextBox textBox = (TextBox)e.OriginalSource;
+			CommitRename(textBox);
+		}
 
         private async void CommitRename(TextBox textBox)
         {
@@ -372,69 +372,69 @@ namespace Files.App.Views.LayoutModes
             var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;
             var isFooterFocused = focusedElement is HyperlinkButton;
 
-            if (e.Key == VirtualKey.Enter && !isFooterFocused && !e.KeyStatus.IsMenuKeyDown)
-            {
-                if (!IsRenamingItem)
-                {
-                    NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
-                    e.Handled = true;
-                }
-            }
-            else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
-            {
-                FilePropertiesHelpers.ShowProperties(ParentShellPageInstance);
-                e.Handled = true;
-            }
-            else if (e.Key == VirtualKey.Space)
-            {
-                if (!IsRenamingItem && !isFooterFocused && !ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
-                {
-                    e.Handled = true;
-                    await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
-                }
-            }
-            else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
-            {
-                // Unfocus the GridView so keyboard shortcut can be handled
-                NavToolbar?.Focus(FocusState.Pointer);
-            }
-            else if (e.KeyStatus.IsMenuKeyDown && shiftPressed && e.Key == VirtualKey.Add)
-            {
-                // Unfocus the ListView so keyboard shortcut can be handled (alt + shift + "+")
-                NavToolbar?.Focus(FocusState.Pointer);
-            }
-            else if (e.Key == VirtualKey.Up || e.Key == VirtualKey.Down)
-            {
-                // If list has only one item, select it on arrow down/up (#5681)
-                if (!IsItemSelected)
-                {
-                    FileList.SelectedIndex = 0;
-                    e.Handled = true;
-                }
-            }
-        }
+			if (e.Key == VirtualKey.Enter && !isFooterFocused && !e.KeyStatus.IsMenuKeyDown)
+			{
+				if (IsRenamingItem)
+					return;
 
-        protected override void Page_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
-        {
-            if (ParentShellPageInstance != null)
-            {
-                if (ParentShellPageInstance.CurrentPageType == typeof(GridViewBrowser) && !IsRenamingItem)
-                {
-                    // Don't block the various uses of enter key (key 13)
-                    var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement();
-                    if (Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Enter) == CoreVirtualKeyStates.Down
-                        || focusedElement is Button
-                        || focusedElement is TextBox
-                        || focusedElement is PasswordBox
-                        || DependencyObjectHelpers.FindParent<ContentDialog>(focusedElement) != null)
-                    {
-                        return;
-                    }
+				NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+				e.Handled = true;
+			}
+			else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
+			{
+				FilePropertiesHelpers.ShowProperties(ParentShellPageInstance);
+				e.Handled = true;
+			}
+			else if (e.Key == VirtualKey.Space)
+			{
+				if (!IsRenamingItem && !isFooterFocused && !ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
+				{
+					e.Handled = true;
+					await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
+				}
+			}
+			else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
+			{
+				// Unfocus the GridView so keyboard shortcut can be handled
+				NavToolbar?.Focus(FocusState.Pointer);
+			}
+			else if (e.KeyStatus.IsMenuKeyDown && shiftPressed && e.Key == VirtualKey.Add)
+			{
+				// Unfocus the ListView so keyboard shortcut can be handled (alt + shift + "+")
+				NavToolbar?.Focus(FocusState.Pointer);
+			}
+			else if (e.Key == VirtualKey.Up || e.Key == VirtualKey.Down)
+			{
+				// If list has only one item, select it on arrow down/up (#5681)
+				if (IsItemSelected)
+					return;
 
-                    base.Page_CharacterReceived(sender, args);
-                }
-            }
-        }
+				FileList.SelectedIndex = 0;
+				e.Handled = true;
+			}
+		}
+
+		protected override void Page_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
+		{
+			if (ParentShellPageInstance == null)
+				return;
+
+			if (ParentShellPageInstance.CurrentPageType == typeof(GridViewBrowser) && !IsRenamingItem)
+			{
+				// Don't block the various uses of enter key (key 13)
+				var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement();
+				if (Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Enter) == CoreVirtualKeyStates.Down
+					|| focusedElement is Button
+					|| focusedElement is TextBox
+					|| focusedElement is PasswordBox
+					|| DependencyObjectHelpers.FindParent<ContentDialog>(focusedElement) != null)
+				{
+					return;
+				}
+
+				base.Page_CharacterReceived(sender, args);
+			}
+		}
 
         protected override bool CanGetItemFromElement(object element)
             => element is GridViewItem;
@@ -452,16 +452,18 @@ namespace Files.App.Views.LayoutModes
             }
         }
 
-        private async void ReloadItemIcons()
-        {
-            ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
-            foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
-            {
-                listedItem.ItemPropertiesInitialized = false;
-                if (FileList.ContainerFromItem(listedItem) != null)
-                    await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, currentIconSize);
-            }
-        }
+		private async void ReloadItemIcons()
+		{
+			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
+			foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
+			{
+				listedItem.ItemPropertiesInitialized = false;
+				if (FileList.ContainerFromItem(listedItem) == null)
+					return;
+
+				await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, currentIconSize);
+			}
+		}
 
         private async void ReloadSelectedItemIcon()
         {
@@ -481,16 +483,18 @@ namespace Files.App.Views.LayoutModes
             }
         }
 
-        private void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
-        {
-            var ctrlPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-            var shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-            var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
-            if (item == null)
-                return;
-            // Skip code if the control or shift key is pressed or if the user is using multiselect
-            if (ctrlPressed || shiftPressed || AppModel.MultiselectEnabled)
-                return;
+		private void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
+		{
+			var ctrlPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+			var shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+			
+			var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
+			if (item == null)
+				return;
+
+			// Skip code if the control or shift key is pressed or if the user is using multiselect
+			if (ctrlPressed || shiftPressed || AppModel.MultiselectEnabled)
+				return;
 
             // Check if the setting to open items with a single click is turned on
             if (item != null

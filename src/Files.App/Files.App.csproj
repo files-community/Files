@@ -104,13 +104,13 @@
 	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	</None>    
 	<Content Include="Resources\AppCenterKey.txt" />
-	<Content Include="Resources\BingMapsKey.txt" />    
-	<None Update="Resources\PreviewPanePropertiesInformation.json">
+	<Content Include="Resources\BingMapsKey.txt" />
+	<Content Include="Resources\PreviewPanePropertiesInformation.json">
 	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	</None>
-	<None Update="Resources\PropertiesInformation.json">
+	</Content>
+	<Content Include="Resources\PropertiesInformation.json">
 	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	</None>
+	</Content>
 	<Content Include="Themes\*.xaml">
 	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  <Generator>MSBuild:Compile</Generator>
@@ -134,6 +134,10 @@
   <ItemGroup>
 	<Content Remove="Assets\FilesHome.png" />
 	<Content Remove="Assets\FilesHome.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Resources\PreviewPanePropertiesInformation.json" />
+    <None Remove="Resources\PropertiesInformation.json" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ByteSize">

@@ -1672,16 +1672,16 @@
     <value>Otwieraj foldery w nowej karcie</value>
   </data>
   <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>Pokaż widżet Paczek</value>
+    <value>Show Bundles widget</value>
   </data>
   <data name="ShowDrivesWidget" xml:space="preserve">
-    <value>Pokaż widżet dysków</value>
+    <value>Show Drives widget</value>
   </data>
   <data name="ShowFolderWidget" xml:space="preserve">
-    <value>Pokaż widżet folderów</value>
+    <value>Show Folders widget</value>
   </data>
   <data name="ShowRecentFilesWidget" xml:space="preserve">
-    <value>Pokaż widżet ostatnich plików</value>
+    <value>Show Recent Files widget</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>Nie możesz znaleźć tego, czego szukasz?</value>
@@ -1948,7 +1948,7 @@
     <value>Odrzuć</value>
   </data>
   <data name="Widgets" xml:space="preserve">
-    <value>Widżety</value>
+    <value>Widgets</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>Stan synchronizacji</value>

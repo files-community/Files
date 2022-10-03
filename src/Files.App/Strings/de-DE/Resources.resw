@@ -1672,16 +1672,16 @@
     <value>Ordner in einem neuen Tab öffnen</value>
   </data>
   <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>Sammlungswidget anzeigen</value>
+    <value>Show Bundles widget</value>
   </data>
   <data name="ShowDrivesWidget" xml:space="preserve">
-    <value>Laufwerkswidget anzeigen</value>
+    <value>Show Drives widget</value>
   </data>
   <data name="ShowFolderWidget" xml:space="preserve">
-    <value>Bibiliothekswidget anzeigen</value>
+    <value>Show Folders widget</value>
   </data>
   <data name="ShowRecentFilesWidget" xml:space="preserve">
-    <value>Zuletzt verwendete Dateien-Widget anzeigen</value>
+    <value>Show Recent Files widget</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>Nicht gefunden was du suchst?</value>

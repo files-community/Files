@@ -67,10 +67,10 @@
 					<NavigationViewItem.Icon>
 						<ImageIcon Source="{x:Bind Icon, Mode=OneWay}" />
 					</NavigationViewItem.Icon>
-					<!--  WINUI3  -->
+					<!--  WINUI3  missing some styles -->
 					<!--<NavigationViewItem.InfoBadge>
-                        <InfoBadge Style="{ThemeResource CautionIconInfoBadgeStyle}" Visibility="{x:Bind IsInvalid, Mode=OneWay}" />
-                    </NavigationViewItem.InfoBadge>-->
+						<InfoBadge Style="{ThemeResource CautionIconInfoBadgeStyle}" Visibility="{x:Bind IsInvalid, Mode=OneWay}" />
+					</NavigationViewItem.InfoBadge>-->
 				</NavigationViewItem>
 			</DataTemplate>
 
