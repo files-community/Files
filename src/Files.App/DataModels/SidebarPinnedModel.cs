@@ -257,7 +257,16 @@ namespace Files.App.DataModels
             locationItem.IsInvalid = res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path);
             if (locationItem.IsInvalid)
             {
-                locationItem.IconData = await RetrieveItemIconData(path, res);
+                if (locationItem.Path == CommonPaths.RecycleBinPath)
+                {
+                    int recycleBinIconIndex = UIHelpers.GetAdaptedRecycleBinIconIndex();
+                    locationItem.IconData = UIHelpers.GetIconResourceInfo(recycleBinIconIndex).IconData;
+                }
+                else
+                {
+                    locationItem.IconData = await RetrieveItemIconData(path, res);
+                }
+
                 if (locationItem.IconData != null)
                 {
                     locationItem.Icon = await App.Window.DispatcherQueue.EnqueueAsync(() => locationItem.IconData.ToBitmapAsync());
@@ -278,15 +287,8 @@ namespace Files.App.DataModels
 
             if (result)
             {
-                if (itemPath == CommonPaths.RecycleBinPath)
-                {
-                    iconData = UIHelpers.RetrieveAdaptedRecycleBinIconData();
-                }
-                else
-                {
-                    iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(result.Result, 24u, Windows.Storage.FileProperties.ThumbnailMode.ListView);
-                    iconData ??= await FileThumbnailHelper.LoadIconFromStorageItemAsync(result.Result, 24u, Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
-                }
+                iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(result.Result, 24u, Windows.Storage.FileProperties.ThumbnailMode.ListView);
+                iconData ??= await FileThumbnailHelper.LoadIconFromStorageItemAsync(result.Result, 24u, Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
             }
 
             iconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(itemPath, 24u);

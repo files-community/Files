@@ -578,9 +578,24 @@ namespace Files.App.ViewModels
 			await RecycleBinHelpers.S_EmptyRecycleBin();
 		}
 
-		public void OnRecycleBinChanged(object sender, EventArgs e)
+		public async void OnRecycleBinChanged(object sender, EventArgs e)
 		{
-			
+			var recycleBinLocationItem = SideBarItems
+							 .OfType<LocationItem>()
+							 .Where(x => x.Section == SectionType.Favorites)
+							 .SelectMany(favoriteSection => favoriteSection.ChildItems)
+							 .OfType<LocationItem>()
+							 .FirstOrDefault(favoriteItem => favoriteItem.Path == CommonPaths.RecycleBinPath);
+
+			if(recycleBinLocationItem != null)
+			{
+				int recycleBinIconIndex = UIHelpers.GetAdaptedRecycleBinIconIndex();
+				recycleBinLocationItem.IconData = UIHelpers.GetIconResourceInfo(recycleBinIconIndex).IconData;
+				if (recycleBinLocationItem.IconData != null)
+				{
+					recycleBinLocationItem.Icon = await App.Window.DispatcherQueue.EnqueueAsync(() => recycleBinLocationItem.IconData.ToBitmapAsync());
+				}
+			}
 		}
 
 		private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
