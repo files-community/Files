@@ -30,7 +30,7 @@ namespace Files.App.ViewModels
 {
 	public class MainPageViewModel : ObservableObject
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>()!;
+		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public IMultitaskingControl? MultitaskingControl { get; set; }
 		public List<IMultitaskingControl> MultitaskingControls { get; } = new List<IMultitaskingControl>();

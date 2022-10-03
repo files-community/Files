@@ -19,7 +19,7 @@ namespace Files.App.ViewModels.Previews
 {
     public abstract class BasePreviewModel : ObservableObject
     {
-        private readonly IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+        private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
         public ListedItem Item { get; }
 

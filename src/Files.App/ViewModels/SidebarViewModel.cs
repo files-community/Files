@@ -26,7 +26,7 @@ namespace Files.App.ViewModels
 {
 	public class SidebarViewModel : ObservableObject, IDisposable
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		public ICommand EmptyRecycleBinCommand { get; private set; }
 
 		private IPaneHolder paneHolder;
@@ -73,10 +73,10 @@ namespace Files.App.ViewModels
 		{
 			var value = arg;
 
-			INavigationControlItem item = null;
+			INavigationControlItem? item = null;
 			List<INavigationControlItem> sidebarItems = SideBarItems
 				.Where(x => !string.IsNullOrWhiteSpace(x.Path))
-				.Concat(SideBarItems.Where(x => (x as LocationItem)?.ChildItems != null).SelectMany(x => (x as LocationItem).ChildItems).Where(x => !string.IsNullOrWhiteSpace(x.Path)))
+				.Concat(SideBarItems.Where(x => (x as LocationItem)?.ChildItems != null).SelectMany(x => ((LocationItem)x).ChildItems).Where(x => !string.IsNullOrWhiteSpace(x.Path)))
 				.ToList();
 
 			if (string.IsNullOrEmpty(value))

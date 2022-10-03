@@ -27,11 +27,11 @@ namespace Files.App.Filesystem
 {
     public class ListedItem : ObservableObject, IGroupableItem
     {
-        protected static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+        protected static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-        protected static IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>();
+        protected static IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
-        protected static IDateTimeFormatter DateTimeFormatter { get; } = Ioc.Default.GetService<IDateTimeFormatter>();
+        protected static IDateTimeFormatter DateTimeFormatter { get; } = Ioc.Default.GetRequiredService<IDateTimeFormatter>();
 
         public bool IsHiddenItem { get; set; } = false;
 
