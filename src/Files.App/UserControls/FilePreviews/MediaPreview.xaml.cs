@@ -13,7 +13,7 @@ namespace Files.App.UserControls.FilePreviews
 {
     public sealed partial class MediaPreview : UserControl
     {
-        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
         public MediaPreview(MediaPreviewViewModel model)
         {

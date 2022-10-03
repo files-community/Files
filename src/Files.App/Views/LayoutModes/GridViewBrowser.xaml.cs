@@ -249,8 +249,9 @@ namespace Files.App.Views.LayoutModes
 
 			int extensionLength = RenamingItem.FileExtension?.Length ?? 0;
 
-			GridViewItem gridViewItem = FileList.ContainerFromItem(RenamingItem) as GridViewItem;
-			TextBox textBox = null;
+			GridViewItem? gridViewItem = FileList.ContainerFromItem(RenamingItem) as GridViewItem;
+			TextBox? textBox = null;
+
 			if (gridViewItem == null)
 			{
 				return;
@@ -259,17 +260,17 @@ namespace Files.App.Views.LayoutModes
 			// Handle layout differences between tiles browser and photo album
 			if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
 			{
-				Popup popup = gridViewItem.FindDescendant("EditPopup") as Popup;
-				TextBlock textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
-				textBox = popup.Child as TextBox;
+				Popup popup = (Popup)gridViewItem.FindDescendant("EditPopup")!;
+				TextBlock textBlock = (TextBlock)gridViewItem.FindDescendant("Name")!;
+				textBox = (TextBox)popup.Child;
 				textBox.Text = textBlock.Text;
 				popup.IsOpen = true;
 				OldItemName = textBlock.Text;
 			}
 			else
 			{
-				TextBlock textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
-				textBox = gridViewItem.FindDescendant("TileViewTextBoxItemName") as TextBox;
+				TextBlock textBlock = (TextBlock)gridViewItem.FindDescendant("Name")!;
+				textBox = (TextBox)gridViewItem.FindDescendant("TileViewTextBoxItemName")!;
 				textBox.Text = textBlock.Text;
 				OldItemName = textBlock.Text;
 				textBlock.Visibility = Visibility.Collapsed;
@@ -280,8 +281,8 @@ namespace Files.App.Views.LayoutModes
 			textBox.LostFocus += RenameTextBox_LostFocus;
 			textBox.KeyDown += RenameTextBox_KeyDown;
 
-			int selectedTextLength = SelectedItem.ItemName.Length;
-			if (!SelectedItem.IsShortcutItem && UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
+			int selectedTextLength = SelectedItem.Name.Length;
+			if (!SelectedItem.IsShortcut && UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
 			{
 				selectedTextLength -= extensionLength;
 			}
@@ -489,7 +490,7 @@ namespace Files.App.Views.LayoutModes
 		{
 			var ctrlPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-			
+
 			var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
 			if (item == null)
 				return;
@@ -508,7 +509,7 @@ namespace Files.App.Views.LayoutModes
 			else
 			{
 				var clickedItem = e.OriginalSource as FrameworkElement;
-				if (clickedItem is TextBlock textBlock && textBlock.Name == "ItemName")
+				if (clickedItem is TextBlock textBlock && textBlock.Name == "Name")
 				{
 					CheckRenameDoubleClick(clickedItem?.DataContext);
 				}

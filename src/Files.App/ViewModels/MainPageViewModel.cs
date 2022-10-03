@@ -30,7 +30,7 @@ namespace Files.App.ViewModels
 {
 	public class MainPageViewModel : ObservableObject
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>()!;
+		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public IMultitaskingControl? MultitaskingControl { get; set; }
 		public List<IMultitaskingControl> MultitaskingControls { get; } = new List<IMultitaskingControl>();
@@ -273,7 +273,7 @@ namespace Files.App.ViewModels
 			if (string.IsNullOrEmpty(currentPath) || currentPath == "Home".GetLocalizedResource())
 			{
 				tabLocationHeader = "Home".GetLocalizedResource();
-				iconSource.ImageSource = new Microsoft.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png"));
+				iconSource.ImageSource = new Microsoft.UI.Xaml.Media.Imaging.BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
 			}
 			else if (currentPath.Equals(CommonPaths.DesktopPath, StringComparison.OrdinalIgnoreCase))
 			{
