@@ -56,6 +56,24 @@ namespace Files.App
 			public const int QuickAccess = 51380;
 		}
 
+		public static class FluentIconsPaths
+		{
+			public const string CloudDriveIcon = "ms-appx:///Assets/FluentIcons/CloudDrive.png";
+			public const string FavoritesIcon = "ms-appx:///Assets/FluentIcons/Favorites.png";
+			public const string FileTagsIcon = "ms-appx:///Assets/FluentIcons/FileTags.png";
+			public const string HomeIcon = "ms-appx:///Assets/FluentIcons/Home.png";
+		}
+
+		public static class WslIconsPaths
+		{
+			public const string Alpine = "ms-appx:///Assets/WSL/alpinepng.png";
+			public const string DebianIcon = "ms-appx:///Assets/WSL/debianpng.png";
+			public const string GenericIcon = "ms-appx:///Assets/WSL/genericpng.png";
+			public const string KaliIcon = "ms-appx:///Assets/WSL/kalipng.png";
+			public const string OpenSuse = "ms-appx:///Assets/WSL/opensusepng.png";
+			public const string UbuntuIcon = "ms-appx:///Assets/WSL/ubuntupng.png";
+		}
+
 		public static class UI
 		{
 			public const float DimItemOpacity = 0.4f;

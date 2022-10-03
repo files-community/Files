@@ -657,7 +657,7 @@ namespace Files.App.Helpers
                     Tag = "OpenWith",
                     CollapseLabel = true,
                     ShowInSearchPage = true,
-                    ShowItem = selectedItems.All(i => (i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.File && !i.IsShortcutItem && !i.IsExecutable) || (i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && i.IsZipItem)),
+                    ShowItem = selectedItems.All(i => (i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.File && !i.IsShortcut && !i.IsExecutable) || (i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && i.IsArchive)),
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -674,14 +674,14 @@ namespace Files.App.Helpers
                         }
                     },
                     ShowInSearchPage = true,
-                    ShowItem = selectedItems.All(i => (i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.File && !i.IsShortcutItem && !i.IsExecutable) || (i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && i.IsZipItem)),
+                    ShowItem = selectedItems.All(i => (i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.File && !i.IsShortcut && !i.IsExecutable) || (i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && i.IsArchive)),
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutItemContextFlyoutOpenFileLocation/Text".GetLocalizedResource(),
                     Glyph = "\uE8DA",
                     Command = commandsViewModel.OpenFileLocationCommand,
-                    ShowItem = selectedItems.All(i => i.IsShortcutItem),
+                    ShowItem = selectedItems.All(i => i.IsShortcut),
                     ShowInSearchPage = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
@@ -873,7 +873,7 @@ namespace Files.App.Helpers
                     Glyph = "\uF10A",
                     GlyphFontFamilyName = "CustomGlyph",
                     Command = commandsViewModel.CreateShortcutCommand,
-                    ShowItem = !selectedItems.FirstOrDefault().IsShortcutItem,
+                    ShowItem = !selectedItems.FirstOrDefault().IsShortcut,
                     SingleItemOnly = true,
                     ShowInSearchPage = true,
                 },
@@ -909,7 +909,7 @@ namespace Files.App.Helpers
                         OverlayLayerGlyph = "\uF026",
                     },
                     Command = commandsViewModel.ShareItemCommand,
-                    ShowItem = DataTransferManager.IsSupported() && !selectedItems.Any(i => i.IsHiddenItem || (i.IsShortcutItem && !i.IsLinkItem) || (i.PrimaryItemAttribute == StorageItemTypes.Folder && !i.IsZipItem)),
+                    ShowItem = DataTransferManager.IsSupported() && !selectedItems.Any(i => i.IsHiddenItem || (i.IsShortcut && !i.IsLinkItem) || (i.PrimaryItemAttribute == StorageItemTypes.Folder && !i.IsArchive)),
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -952,7 +952,7 @@ namespace Files.App.Helpers
                 {
                     Text = "BaseLayoutItemContextFlyoutExtractionOptions".GetLocalizedResource(),
                     Glyph = "\xF11A",
-                    ShowItem = selectedItems.Any() && selectedItems.All(x => x.IsZipItem) || selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.File && FileExtensionHelpers.IsZipFile(x.FileExtension)),
+                    ShowItem = selectedItems.Any() && selectedItems.All(x => x.IsArchive) || selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.File && FileExtensionHelpers.IsZipFile(x.FileExtension)),
                     ShowInSearchPage = true,
                     GlyphFontFamilyName = "CustomGlyph",
                     Items = new List<ContextMenuFlyoutItemViewModel>()
@@ -978,7 +978,7 @@ namespace Files.App.Helpers
                         {
                             Text = selectedItems.Count > 1
                                 ? string.Format("BaseLayoutItemContextFlyoutExtractToChildFolder".GetLocalizedResource(), "*")
-                                : string.Format("BaseLayoutItemContextFlyoutExtractToChildFolder".GetLocalizedResource(), Path.GetFileNameWithoutExtension(selectedItems.First().ItemName)),
+                                : string.Format("BaseLayoutItemContextFlyoutExtractToChildFolder".GetLocalizedResource(), Path.GetFileNameWithoutExtension(selectedItems.First().Name)),
                             Command = commandsViewModel.DecompressArchiveToChildFolderCommand,
                             Glyph = "\xF11A",
                             GlyphFontFamilyName = "CustomGlyph",
@@ -1000,7 +1000,7 @@ namespace Files.App.Helpers
                     Text = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalizedResource(),
                     Glyph = "\uE840",
                     Command = commandsViewModel.SidebarPinItemCommand,
-                    ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsZipItem && !x.IsPinned) & userSettingsService.AppearanceSettingsService.ShowFavoritesSection,
+                    ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsArchive && !x.IsPinned) & userSettingsService.AppearanceSettingsService.ShowFavoritesSection,
                     ShowInSearchPage = true,
                     ShowInFtpPage = true,
                 },
@@ -1009,7 +1009,7 @@ namespace Files.App.Helpers
                     Text = "BaseLayoutContextFlyoutUnpinFromFavorites/Text".GetLocalizedResource(),
                     Glyph = "\uE77A",
                     Command = commandsViewModel.SidebarUnpinItemCommand,
-                    ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsZipItem && x.IsPinned) & userSettingsService.AppearanceSettingsService.ShowFavoritesSection,
+                    ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsArchive && x.IsPinned) & userSettingsService.AppearanceSettingsService.ShowFavoritesSection,
                     ShowInSearchPage = true,
                     ShowInFtpPage = true,
                 },
@@ -1019,7 +1019,7 @@ namespace Files.App.Helpers
                     Glyph = "\uE840",
                     Command = commandsViewModel.PinItemToStartCommand,
                     ShowOnShift = true,
-                    ShowItem = selectedItems.All(x => !x.IsShortcutItem && (x.PrimaryItemAttribute == StorageItemTypes.Folder || x.IsExecutable) && !x.IsZipItem && !x.IsItemPinnedToStart),
+                    ShowItem = selectedItems.All(x => !x.IsShortcut && (x.PrimaryItemAttribute == StorageItemTypes.Folder || x.IsExecutable) && !x.IsArchive && !x.IsItemPinnedToStart),
                     ShowInSearchPage = true,
                     ShowInFtpPage = true,
                     SingleItemOnly = true,
@@ -1030,7 +1030,7 @@ namespace Files.App.Helpers
                     Glyph = "\uE77A",
                     Command = commandsViewModel.UnpinItemFromStartCommand,
                     ShowOnShift = true,
-                    ShowItem = selectedItems.All(x => !x.IsShortcutItem && (x.PrimaryItemAttribute == StorageItemTypes.Folder || x.IsExecutable) && !x.IsZipItem && x.IsItemPinnedToStart),
+                    ShowItem = selectedItems.All(x => !x.IsShortcut && (x.PrimaryItemAttribute == StorageItemTypes.Folder || x.IsExecutable) && !x.IsArchive && x.IsItemPinnedToStart),
                     ShowInSearchPage = true,
                     ShowInFtpPage = true,
                     SingleItemOnly = true,

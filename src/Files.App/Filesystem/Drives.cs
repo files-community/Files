@@ -1,10 +1,10 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.WinUI;
+using Files.App.DataModels.NavigationControlItems;
 using Files.Backend.Services.SizeProvider;
 using Files.Shared;
 using Files.Shared.Enums;
-using Files.App.DataModels.NavigationControlItems;
-using CommunityToolkit.WinUI;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -55,9 +55,8 @@ namespace Files.App.Filesystem
         public static async Task<StorageFolderWithPath> GetRootFromPathAsync(string devicePath)
         {
             if (!Path.IsPathRooted(devicePath))
-            {
                 return null;
-            }
+
             var rootPath = Path.GetPathRoot(devicePath);
             if (devicePath.StartsWith(@"\\?\", StringComparison.Ordinal)) // USB device
             {
@@ -343,10 +342,9 @@ namespace Files.App.Filesystem
             if (drive.DriveType is IO.DriveType.Unknown)
             {
                 string path = Helpers.PathNormalization.NormalizePath(drive.Name);
+
                 if (path is "A:" or "B:")
-                {
                     return DriveType.FloppyDisk;
-                }
             }
 
             return drive.DriveType switch
