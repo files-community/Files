@@ -1,19 +1,19 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Dialogs;
+using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
-using Files.Backend.Services.Settings;
 using Files.App.UserControls.Widgets;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Pages;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Extensions;
+using Files.Backend.Services.Settings;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Navigation;
 using System.Threading.Tasks;
 
 namespace Files.App.Views
@@ -56,21 +56,21 @@ namespace Files.App.Views
 
         public void RefreshWidgetList() => Widgets.ViewModel.RefreshWidgetList();
 
-        private void ViewModel_WidgetListRefreshRequestedInvoked(object sender, EventArgs e)
+        private void ViewModel_WidgetListRefreshRequestedInvoked(object? sender, EventArgs e)
         {
             ReloadWidgets();
         }
 
         private void ReloadWidgets()
         {
-            folderWidget = WidgetsHelpers.TryGetWidget<FolderWidget>(UserSettingsService.WidgetsSettingsService, Widgets.ViewModel, out bool shouldReloadFolderWidget, folderWidget);
-            drivesWidget = WidgetsHelpers.TryGetWidget<DrivesWidget>(UserSettingsService.WidgetsSettingsService, Widgets.ViewModel, out bool shouldReloadDrivesWidget, drivesWidget);
-            bundlesWidget = WidgetsHelpers.TryGetWidget<BundlesWidget>(UserSettingsService.WidgetsSettingsService, Widgets.ViewModel, out bool shouldReloadBundles, bundlesWidget);
-            recentFilesWidget = WidgetsHelpers.TryGetWidget<RecentFilesWidget>(UserSettingsService.WidgetsSettingsService, Widgets.ViewModel, out bool shouldReloadRecentFiles, recentFilesWidget);
+            folderWidget = WidgetsHelpers.TryGetWidget<FolderWidget>(UserSettingsService.AppearanceSettingsService, Widgets.ViewModel, out bool shouldReloadFolderWidget, folderWidget);
+            drivesWidget = WidgetsHelpers.TryGetWidget<DrivesWidget>(UserSettingsService.AppearanceSettingsService, Widgets.ViewModel, out bool shouldReloadDrivesWidget, drivesWidget);
+            bundlesWidget = WidgetsHelpers.TryGetWidget<BundlesWidget>(UserSettingsService.AppearanceSettingsService, Widgets.ViewModel, out bool shouldReloadBundles, bundlesWidget);
+            recentFilesWidget = WidgetsHelpers.TryGetWidget<RecentFilesWidget>(UserSettingsService.AppearanceSettingsService, Widgets.ViewModel, out bool shouldReloadRecentFiles, recentFilesWidget);
 
             if (shouldReloadFolderWidget && folderWidget != null)
             {
-                Widgets.ViewModel.InsertWidget(new(folderWidget, (value) => WidgetsSettingsService.FoldersWidgetExpanded = value, () => WidgetsSettingsService.FoldersWidgetExpanded), 0);
+                Widgets.ViewModel.InsertWidget(new(folderWidget, (value) => UserSettingsService.AppearanceSettingsService.FoldersWidgetExpanded = value, () => UserSettingsService.AppearanceSettingsService.FoldersWidgetExpanded), 0);
 
                 folderWidget.LibraryCardInvoked -= FolderWidget_LibraryCardInvoked;
                 folderWidget.LibraryCardNewPaneInvoked -= FolderWidget_LibraryCardNewPaneInvoked;
@@ -83,7 +83,7 @@ namespace Files.App.Views
             }
             if (shouldReloadDrivesWidget && drivesWidget != null)
             {
-                Widgets.ViewModel.InsertWidget(new(drivesWidget, (value) => WidgetsSettingsService.DrivesWidgetExpanded = value, () => WidgetsSettingsService.DrivesWidgetExpanded), 1);
+                Widgets.ViewModel.InsertWidget(new(drivesWidget, (value) => UserSettingsService.AppearanceSettingsService.DrivesWidgetExpanded = value, () => UserSettingsService.AppearanceSettingsService.DrivesWidgetExpanded), 1);
 
                 drivesWidget.AppInstance = AppInstance;
                 drivesWidget.DrivesWidgetInvoked -= DrivesWidget_DrivesWidgetInvoked;
@@ -93,12 +93,12 @@ namespace Files.App.Views
             }
             if (shouldReloadBundles && bundlesWidget != null)
             {
-                Widgets.ViewModel.InsertWidget(new(bundlesWidget, (value) => WidgetsSettingsService.BundlesWidgetExpanded = value, () => WidgetsSettingsService.BundlesWidgetExpanded), 2);
+                Widgets.ViewModel.InsertWidget(new(bundlesWidget, (value) => UserSettingsService.AppearanceSettingsService.BundlesWidgetExpanded = value, () => UserSettingsService.AppearanceSettingsService.BundlesWidgetExpanded), 2);
                 ViewModel.LoadBundlesCommand.Execute(bundlesWidget.ViewModel);
             }
             if (shouldReloadRecentFiles && recentFilesWidget != null)
             {
-                Widgets.ViewModel.InsertWidget(new(recentFilesWidget, (value) => WidgetsSettingsService.RecentFilesWidgetExpanded = value, () => WidgetsSettingsService.RecentFilesWidgetExpanded), 3);
+                Widgets.ViewModel.InsertWidget(new(recentFilesWidget, (value) => UserSettingsService.AppearanceSettingsService.RecentFilesWidgetExpanded = value, () => UserSettingsService.AppearanceSettingsService.RecentFilesWidgetExpanded), 3);
 
                 recentFilesWidget.RecentFilesOpenLocationInvoked -= RecentFilesWidget_RecentFilesOpenLocationInvoked;
                 recentFilesWidget.RecentFileInvoked -= RecentFilesWidget_RecentFileInvoked;
@@ -107,7 +107,7 @@ namespace Files.App.Views
             }
         }
 
-        private void ViewModel_YourHomeLoadedInvoked(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        private void ViewModel_YourHomeLoadedInvoked(object? sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             // We must change the associatedInstance because only now it has loaded and not null
             ViewModel.ChangeAppInstance(AppInstance);
@@ -260,14 +260,12 @@ namespace Files.App.Views
             AppInstance.ToolbarViewModel.RefreshRequested -= ToolbarViewModel_RefreshRequested;
         }
 
-        private async void ToolbarViewModel_RefreshRequested(object sender, EventArgs e)
+        private async void ToolbarViewModel_RefreshRequested(object? sender, EventArgs e)
         {
             AppInstance.ToolbarViewModel.CanRefresh = false;
             await Task.WhenAll(Widgets.ViewModel.Widgets.Select(w => w.WidgetItemModel.RefreshWidget()));
             AppInstance.ToolbarViewModel.CanRefresh = true;
         }
-
-        #region IDisposable
 
         public void Dispose()
         {
@@ -276,7 +274,5 @@ namespace Files.App.Views
             AppInstance.ToolbarViewModel.RefreshRequested -= ToolbarViewModel_RefreshRequested;
             ViewModel?.Dispose();
         }
-
-        #endregion IDisposable
     }
 }

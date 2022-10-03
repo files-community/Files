@@ -104,13 +104,13 @@
 	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	</None>    
 	<Content Include="Resources\AppCenterKey.txt" />
-	<Content Include="Resources\BingMapsKey.txt" />    
-	<None Update="Resources\PreviewPanePropertiesInformation.json">
+	<Content Include="Resources\BingMapsKey.txt" />
+	<Content Include="Resources\PreviewPanePropertiesInformation.json">
 	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	</None>
-	<None Update="Resources\PropertiesInformation.json">
+	</Content>
+	<Content Include="Resources\PropertiesInformation.json">
 	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	</None>
+	</Content>
 	<Content Include="Themes\*.xaml">
 	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  <Generator>MSBuild:Compile</Generator>
@@ -134,6 +134,10 @@
   <ItemGroup>
 	<Content Remove="Assets\FilesHome.png" />
 	<Content Remove="Assets\FilesHome.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Resources\PreviewPanePropertiesInformation.json" />
+    <None Remove="Resources\PropertiesInformation.json" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ByteSize">
@@ -162,7 +166,7 @@
     <PackageReference Include="SQLitePCLRaw.bundle_green">
       <Version>2.1.2</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.220902.1-preview1" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.220909.2-experimental2" />
     <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.3.1" />
     <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.346202">
       <PrivateAssets>all</PrivateAssets>

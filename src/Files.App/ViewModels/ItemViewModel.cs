@@ -1,5 +1,17 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.WinUI;
+using Files.App.Extensions;
+using Files.App.Filesystem;
+using Files.App.Filesystem.Cloud;
+using Files.App.Filesystem.Search;
+using Files.App.Filesystem.StorageEnumerators;
+using Files.App.Filesystem.StorageItems;
+using Files.App.Helpers;
+using Files.App.Helpers.FileListCache;
+using Files.App.Shell;
+using Files.App.UserControls;
+using Files.App.ViewModels.Previews;
 using Files.Backend.Services;
 using Files.Backend.Services.Settings;
 using Files.Backend.Services.SizeProvider;
@@ -9,18 +21,10 @@ using Files.Shared.Cloud;
 using Files.Shared.Enums;
 using Files.Shared.EventArguments;
 using Files.Shared.Extensions;
-using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Filesystem.Cloud;
-using Files.App.Filesystem.Search;
-using Files.App.Filesystem.StorageEnumerators;
-using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers;
-using Files.App.Helpers.FileListCache;
-using Files.App.UserControls;
-using Files.App.ViewModels.Previews;
 using FluentFTP;
-using CommunityToolkit.WinUI;
+using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -40,15 +44,10 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
-using Windows.System;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Media.Imaging;
-using static Files.Backend.Helpers.NativeFindStorageItemHelper;
 using static Files.App.Helpers.NativeDirectoryChangesHelper;
-using FileAttributes = System.IO.FileAttributes;
+using static Files.Backend.Helpers.NativeFindStorageItemHelper;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
-using Files.App.Shell;
+using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.App.ViewModels
 {
@@ -936,20 +935,25 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		private async Task LoadItemThumbnail(ListedItem item, uint thumbnailSize = 20, IStorageItem matchingStorageItem = null)
+		// thumbnailSize is set to 96 so that unless we override it, mode is in turn set to SingleItem
+		private async Task LoadItemThumbnail(ListedItem item, uint thumbnailSize = 96, IStorageItem matchingStorageItem = null)
 		{
 			var wasIconLoaded = false;
 			if (item.IsLibraryItem || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsZipItem)
 			{
-				if (UserSettingsService.PreferencesSettingsService.ShowThumbnails && 
+				if (UserSettingsService.PreferencesSettingsService.ShowThumbnails &&
 					!item.IsShortcutItem && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
 				{
 					var matchingStorageFile = matchingStorageItem.AsBaseStorageFile() ?? await GetFileFromPathAsync(item.ItemPath);
+
 					if (matchingStorageFile != null)
 					{
-						var mode = thumbnailSize < 80 ? ThumbnailMode.ListView : ThumbnailMode.DocumentsView;
+						// SingleItem returns image thumbnails in the correct aspect ratio for the grid layouts
+						// ListView is used for the details and columns layout
+						var thumbnailMode = thumbnailSize < 96 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
 
-						using StorageItemThumbnail Thumbnail = await FilesystemTasks.Wrap(() => matchingStorageFile.GetThumbnailAsync(mode, thumbnailSize, ThumbnailOptions.ResizeThumbnail).AsTask());
+						using StorageItemThumbnail Thumbnail = await FilesystemTasks.Wrap(() => matchingStorageFile.GetThumbnailAsync(thumbnailMode, thumbnailSize, ThumbnailOptions.ResizeThumbnail).AsTask());
+
 						if (!(Thumbnail == null || Thumbnail.Size == 0 || Thumbnail.OriginalHeight == 0 || Thumbnail.OriginalWidth == 0))
 						{
 							await dispatcherQueue.EnqueueAsync(async () =>
@@ -1012,9 +1016,12 @@ namespace Files.App.ViewModels
 					var matchingStorageFolder = matchingStorageItem.AsBaseStorageFolder() ?? await GetFolderFromPathAsync(item.ItemPath);
 					if (matchingStorageFolder != null)
 					{
-						var mode = thumbnailSize < 80 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
+						// SingleItem returns image thumbnails in the correct aspect ratio for the grid layouts
+						// ListView is used for the details and columns layout
+						var thumbnailMode = thumbnailSize < 96 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
 
-						using StorageItemThumbnail Thumbnail = await FilesystemTasks.Wrap(() => matchingStorageFolder.GetThumbnailAsync(mode, thumbnailSize, ThumbnailOptions.ResizeThumbnail).AsTask());
+						// We use ReturnOnlyIfCached because otherwise folders thumbnails have a black background, this has the downside the folder previews don't work
+						using StorageItemThumbnail Thumbnail = await FilesystemTasks.Wrap(() => matchingStorageFolder.GetThumbnailAsync(thumbnailMode, thumbnailSize, ThumbnailOptions.ReturnOnlyIfCached).AsTask());
 						if (!(Thumbnail == null || Thumbnail.Size == 0 || Thumbnail.OriginalHeight == 0 || Thumbnail.OriginalWidth == 0))
 						{
 							await dispatcherQueue.EnqueueAsync(async () =>
@@ -1388,7 +1395,7 @@ namespace Files.App.ViewModels
 				switch (enumerated)
 				{
 					case 0: // Enumerated with FindFirstFileExFromApp
-						// Is folder synced to cloud storage?
+							// Is folder synced to cloud storage?
 						currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
 						var syncStatus = await CheckCloudDriveSyncStatusAsync(currentStorageFolder?.Item);
 						PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown });

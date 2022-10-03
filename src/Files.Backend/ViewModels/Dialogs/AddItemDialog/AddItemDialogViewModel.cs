@@ -40,8 +40,20 @@ namespace Files.Backend.ViewModels.Dialogs.AddItemDialog
                 IsItemEnabled = true,
                 ItemResult = new AddItemDialogResultModel() { ItemType = AddItemDialogItemType.Folder }
             });
+			AddItemsList.Add(new AddItemDialogListItemViewModel
+			{
+				Header = "File".ToLocalized(),
+				SubHeader = "AddDialogListFileSubHeader".ToLocalized(),
+				Glyph = "\xE8A5",
+				IsItemEnabled = true,
+				ItemResult = new AddItemDialogResultModel()
+				{
+					ItemType = AddItemDialogItemType.File,
+					ItemInfo = new ShellNewEntry() // TODO(i): Make ItemInfo nullable and pass null there?
+				}
+			});
 
-            foreach (var itemType in itemTypes)
+			foreach (var itemType in itemTypes)
             {
                 ImageModel? imageModel = null;
                 if (!string.IsNullOrEmpty(itemType.IconBase64))
@@ -64,19 +76,6 @@ namespace Files.Backend.ViewModels.Dialogs.AddItemDialog
                     }
                 });
             }
-
-            AddItemsList.Add(new AddItemDialogListItemViewModel
-            {
-                Header = "File".ToLocalized(),
-                SubHeader = "AddDialogListFileSubHeader".ToLocalized(),
-                Glyph = "\xE8A5",
-                IsItemEnabled = true,
-                ItemResult = new AddItemDialogResultModel()
-                {
-                    ItemType = AddItemDialogItemType.File,
-                    ItemInfo = new ShellNewEntry() // TODO(i): Make ItemInfo nullable and pass null there?
-                }
-            });
         }
     }
 }

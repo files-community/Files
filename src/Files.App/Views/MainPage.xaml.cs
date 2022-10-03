@@ -62,7 +62,7 @@ namespace Files.App.Views
 			InitializeComponent();
 
 			// TODO LayoutDirection is empty, might be an issue with WinAppSdk
-			var flowDirectionSetting = new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"]; 
+			var flowDirectionSetting = new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
 			if (flowDirectionSetting == "RTL")
 				FlowDirection = FlowDirection.RightToLeft;
 
@@ -116,13 +116,11 @@ namespace Files.App.Views
 		private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
 		{
 			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-			{
 				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
-			}
 			return contentDialog;
 		}
 
-		private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
+		private void UserSettingsService_OnSettingChangedEvent(object? sender, SettingChangedEventArgs e)
 		{
 			switch (e.SettingName)
 			{
@@ -177,7 +175,7 @@ namespace Files.App.Views
 			App.Window.AppWindow.TitleBar.SetDragRectangles(new[] { dragRect });
 		}
 
-		public void TabItemContent_ContentChanged(object sender, TabItemArguments e)
+		public void TabItemContent_ContentChanged(object? sender, TabItemArguments e)
 		{
 			if (SidebarAdaptiveViewModel.PaneHolder == null)
 				return;
@@ -191,12 +189,10 @@ namespace Files.App.Views
 			ViewModel.UpdateInstanceProperties(paneArgs);
 		}
 
-		public void MultitaskingControl_CurrentInstanceChanged(object sender, CurrentInstanceChangedEventArgs e)
+		public void MultitaskingControl_CurrentInstanceChanged(object? sender, CurrentInstanceChangedEventArgs e)
 		{
 			if (SidebarAdaptiveViewModel.PaneHolder != null)
-			{
 				SidebarAdaptiveViewModel.PaneHolder.PropertyChanged -= PaneHolder_PropertyChanged;
-			}
 
 			var navArgs = e.CurrentInstance.TabItemArguments?.NavigationArg;
 			SidebarAdaptiveViewModel.PaneHolder = e.CurrentInstance as IPaneHolder;
@@ -210,7 +206,7 @@ namespace Files.App.Views
 			e.CurrentInstance.ContentChanged += TabItemContent_ContentChanged;
 		}
 
-		private void PaneHolder_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		private void PaneHolder_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged(SidebarAdaptiveViewModel.PaneHolder.ActivePane?.TabItemArguments?.NavigationArg?.ToString());
 			UpdateStatusBarProperties();
@@ -230,9 +226,7 @@ namespace Files.App.Views
 		private void UpdateNavToolbarProperties()
 		{
 			if (NavToolbar != null)
-			{
 				NavToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.ToolbarViewModel;
-			}
 
 			if (InnerNavigationToolbar != null)
 			{
@@ -269,7 +263,7 @@ namespace Files.App.Views
 			}
 			else if (e.InvokedItemDataContext is LocationItem locationItem)
 			{
-				ListedItem listedItem = new ListedItem(null)
+				ListedItem listedItem = new ListedItem(null!)
 				{
 					ItemPath = locationItem.Path,
 					ItemNameRaw = locationItem.Text,
@@ -283,23 +277,21 @@ namespace Files.App.Views
 		private void SidebarControl_SidebarItemNewPaneInvoked(object sender, SidebarItemNewPaneInvokedEventArgs e)
 		{
 			if (e.InvokedItemDataContext is INavigationControlItem navItem)
-			{
 				SidebarAdaptiveViewModel.PaneHolder.OpenPathInNewPane(navItem.Path);
-			}
 		}
 
 		private void SidebarControl_SidebarItemInvoked(object sender, SidebarItemInvokedEventArgs e)
 		{
 			var invokedItemContainer = e.InvokedItemContainer;
 
-			string navigationPath; // path to navigate
-			Type sourcePageType = null; // type of page to navigate
+			string? navigationPath; // path to navigate
+			Type? sourcePageType = null; // type of page to navigate
 
-			switch ((invokedItemContainer.DataContext as INavigationControlItem).ItemType)
+			switch ((invokedItemContainer.DataContext as INavigationControlItem)?.ItemType)
 			{
 				case NavigationControlItemType.Location:
 					{
-						var ItemPath = (invokedItemContainer.DataContext as INavigationControlItem).Path; // Get the path of the invoked item
+						var ItemPath = (invokedItemContainer.DataContext as INavigationControlItem)?.Path; // Get the path of the invoked item
 
 						if (string.IsNullOrEmpty(ItemPath)) // Section item
 						{
@@ -308,9 +300,7 @@ namespace Files.App.Views
 						else if (ItemPath.Equals("Home".GetLocalizedResource(), StringComparison.OrdinalIgnoreCase)) // Home item
 						{
 							if (ItemPath.Equals(SidebarAdaptiveViewModel.SidebarSelectedItem?.Path, StringComparison.OrdinalIgnoreCase))
-							{
 								return; // return if already selected
-							}
 
 							navigationPath = "Home".GetLocalizedResource();
 							sourcePageType = typeof(WidgetsPage);
@@ -324,7 +314,7 @@ namespace Files.App.Views
 					}
 
 				case NavigationControlItemType.FileTag:
-					var tagPath = (invokedItemContainer.DataContext as INavigationControlItem).Path; // Get the path of the invoked item
+					var tagPath = (invokedItemContainer.DataContext as INavigationControlItem)?.Path; // Get the path of the invoked item
 					if (SidebarAdaptiveViewModel.PaneHolder?.ActivePane is IShellPage shp)
 					{
 						shp.NavigateToPath(tagPath, new NavigationArguments()
@@ -346,9 +336,7 @@ namespace Files.App.Views
 			}
 
 			if (SidebarAdaptiveViewModel.PaneHolder?.ActivePane is IShellPage shellPage)
-			{
 				shellPage.NavigateToPath(navigationPath, sourcePageType);
-			}
 		}
 
 		private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -375,27 +363,22 @@ namespace Files.App.Views
 			}
 		}
 
-		private void ToggleFullScreenAccelerator(KeyboardAcceleratorInvokedEventArgs e)
+		private void ToggleFullScreenAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
 		{
 			var view = App.GetAppWindow(App.Window);
 
 			if (view.Presenter.Kind == AppWindowPresenterKind.FullScreen)
-			{
 				view.SetPresenter(AppWindowPresenterKind.Overlapped);
-			}
 			else
-			{
 				view.SetPresenter(AppWindowPresenterKind.FullScreen);
-			}
-
-			e.Handled = true;
+			if (e != null)
+				e.Handled = true;
 		}
 
-		private void ToggleSidebarCollapsedState(KeyboardAcceleratorInvokedEventArgs e)
+		private void ToggleSidebarCollapsedState(KeyboardAcceleratorInvokedEventArgs? e)
 		{
 			SidebarAdaptiveViewModel.IsSidebarOpen = !SidebarAdaptiveViewModel.IsSidebarOpen;
-
-			e.Handled = true;
+			e!.Handled = true;
 		}
 
 		private void SidebarControl_Loaded(object sender, RoutedEventArgs e)
@@ -504,7 +487,7 @@ namespace Files.App.Views
 			UpdatePositioning();
 		}
 
-		public event PropertyChangedEventHandler PropertyChanged;
+		public event PropertyChangedEventHandler? PropertyChanged;
 
 		private void OnPropertyChanged([CallerMemberName] string propertyName = "")
 		{
@@ -519,12 +502,12 @@ namespace Files.App.Views
 
 			if (!isCompact)
 			{
-				ViewModel.IsWindowCompactOverlay = true;
+				ViewModel.IsWindowCompactOverlay = false;
 				view.SetPresenter(AppWindowPresenterKind.Overlapped);
 			}
 			else
 			{
-				ViewModel.IsWindowCompactOverlay = false;
+				ViewModel.IsWindowCompactOverlay = true;
 				view.SetPresenter(AppWindowPresenterKind.CompactOverlay);
 				view.Resize(new SizeInt32(400, 350));
 			}
@@ -534,9 +517,7 @@ namespace Files.App.Views
 		{
 			// prevents the arrow key events from navigating the list instead of switching compact overlay
 			if (EnterCompactOverlayKeyboardAccelerator.CheckIsPressed() || ExitCompactOverlayKeyboardAccelerator.CheckIsPressed())
-			{
 				Focus(FocusState.Keyboard);
-			}
 		}
 
 		private void NavToolbar_Loaded(object sender, RoutedEventArgs e) => UpdateNavToolbarProperties();
