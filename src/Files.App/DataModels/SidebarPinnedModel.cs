@@ -3,6 +3,7 @@ using CommunityToolkit.WinUI;
 using Files.App.Controllers;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Filesystem;
+using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.Backend.Services.Settings;
 using System;
@@ -252,24 +253,25 @@ namespace Files.App.DataModels
 				Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
 			};
 
-			if (res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path))
+			locationItem.IsInvalid = res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path);
+
+            if (res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path))
 			{
-				locationItem.IsInvalid = false;
-				if (res)
-				{
-					var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(res.Result, 24u, ThumbnailMode.ListView);
-					locationItem.IconData = iconData;
-					locationItem.Icon = await App.Window.DispatcherQueue.EnqueueAsync(() => locationItem.IconData.ToBitmapAsync());
-				}
-				if (locationItem.IconData == null)
-				{
-					locationItem.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(path, 24u);
-					if (locationItem.IconData != null)
-					{
-						locationItem.Icon = await App.Window.DispatcherQueue.EnqueueAsync(() => locationItem.IconData.ToBitmapAsync());
-					}
-				}
-			}
+                if (locationItem.Path == CommonPaths.RecycleBinPath)
+                {
+                    int recycleBinIconIndex = UIHelpers.GetAdaptedRecycleBinIconIndex();
+                    locationItem.IconData = UIHelpers.GetIconResourceInfo(recycleBinIconIndex).IconData;
+                }
+                else
+                {
+                    locationItem.IconData = await RetrieveItemIconData(path, res);
+                }
+
+                if (locationItem.IconData != null)
+                {
+                    locationItem.Icon = await App.Window.DispatcherQueue.EnqueueAsync(() => locationItem.IconData.ToBitmapAsync());
+                }
+            }
 			else
 			{
 				locationItem.Icon = await App.Window.DispatcherQueue.EnqueueAsync(() => UIHelpers.GetIconResource(Constants.ImageRes.Folder));
@@ -280,11 +282,26 @@ namespace Files.App.DataModels
 			AddLocationItemToSidebar(locationItem);
 		}
 
-		/// <summary>
-		/// Adds the location item to the navigation sidebar
-		/// </summary>
-		/// <param name="locationItem">The location item which to save</param>
-		private void AddLocationItemToSidebar(LocationItem locationItem)
+        private async Task<byte[]?> RetrieveItemIconData(string itemPath, FilesystemResult<BaseStorageFolder> result)
+        {
+            byte[]? iconData = null;
+
+            if (result)
+            {
+                iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(result.Result, 24u, Windows.Storage.FileProperties.ThumbnailMode.ListView);
+                iconData ??= await FileThumbnailHelper.LoadIconFromStorageItemAsync(result.Result, 24u, Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
+            }
+
+            iconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(itemPath, 24u);
+
+            return iconData;
+        }
+
+        /// <summary>
+        /// Adds the location item to the navigation sidebar
+        /// </summary>
+        /// <param name="locationItem">The location item which to save</param>
+        private void AddLocationItemToSidebar(LocationItem locationItem)
 		{
 			int insertIndex = -1;
 			lock (favoriteList)
