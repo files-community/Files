@@ -952,12 +952,7 @@ namespace Files.App.ViewModels
 						// ListView is used for the details and columns layout
 						var thumbnailMode = thumbnailSize < 96 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
 
-						// ReturnOnlyIfCached forces the thumbnail to be cached before it's returned,
-						// this prevents an issue where the user needs to refresh the current directory.
-						// UseCurrentScale isn't used as it breaks the preview part of the folder thumbnail
-						var thumbnailOptions = ThumbnailOptions.ReturnOnlyIfCached | ThumbnailOptions.ResizeThumbnail;
-
-						using StorageItemThumbnail Thumbnail = await FilesystemTasks.Wrap(() => matchingStorageFile.GetThumbnailAsync(thumbnailMode, thumbnailSize, thumbnailOptions).AsTask());
+						using StorageItemThumbnail Thumbnail = await FilesystemTasks.Wrap(() => matchingStorageFile.GetThumbnailAsync(thumbnailMode, thumbnailSize, ThumbnailOptions.ResizeThumbnail).AsTask());
 
 						if (!(Thumbnail == null || Thumbnail.Size == 0 || Thumbnail.OriginalHeight == 0 || Thumbnail.OriginalWidth == 0))
 						{
@@ -1025,13 +1020,8 @@ namespace Files.App.ViewModels
 						// ListView is used for the details and columns layout
 						var thumbnailMode = thumbnailSize < 96 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
 
-						// ReturnOnlyIfCached forces the thumbnail to be cached before it's returned,
-						// this prevents an issue where the user needs to refresh the current directory.
-						// UseCurrentScale isn't used as it breaks the preview part of the folder thumbnail
-						var thumbnailOptions = ThumbnailOptions.ReturnOnlyIfCached | ThumbnailOptions.ResizeThumbnail;
-
 						// We use ReturnOnlyIfCached because otherwise folders thumbnails have a black background
-						using StorageItemThumbnail Thumbnail = await FilesystemTasks.Wrap(() => matchingStorageFolder.GetThumbnailAsync(thumbnailMode, thumbnailSize, thumbnailOptions).AsTask());
+						using StorageItemThumbnail Thumbnail = await FilesystemTasks.Wrap(() => matchingStorageFolder.GetThumbnailAsync(thumbnailMode, thumbnailSize, ThumbnailOptions.ReturnOnlyIfCached).AsTask());
 						if (!(Thumbnail == null || Thumbnail.Size == 0 || Thumbnail.OriginalHeight == 0 || Thumbnail.OriginalWidth == 0))
 						{
 							await dispatcherQueue.EnqueueAsync(async () =>
