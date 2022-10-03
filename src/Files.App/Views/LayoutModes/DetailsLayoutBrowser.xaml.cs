@@ -331,7 +331,7 @@ namespace Files.App.Views.LayoutModes
 			{
 				return;
 			}
-			TextBlock textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
+			TextBlock textBlock = listViewItem.FindDescendant("Name") as TextBlock;
 			textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
 			textBox.Text = textBlock.Text;
 			OldItemName = textBlock.Text;
@@ -343,8 +343,8 @@ namespace Files.App.Views.LayoutModes
 			textBox.LostFocus += RenameTextBox_LostFocus;
 			textBox.KeyDown += RenameTextBox_KeyDown;
 
-			int selectedTextLength = SelectedItem.ItemName.Length;
-			if (!SelectedItem.IsShortcutItem && UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
+			int selectedTextLength = SelectedItem.Name.Length;
+			if (!SelectedItem.IsShortcut && UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
 			{
 				selectedTextLength -= extensionLength;
 			}
@@ -415,7 +415,7 @@ namespace Files.App.Views.LayoutModes
 			}
 			else
 			{
-				TextBlock textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
+				TextBlock textBlock = listViewItem.FindDescendant("Name") as TextBlock;
 				textBox.Visibility = Visibility.Collapsed;
 				textBlock.Visibility = Visibility.Visible;
 			}
@@ -563,7 +563,7 @@ namespace Files.App.Views.LayoutModes
 			else
 			{
 				var clickedItem = e.OriginalSource as FrameworkElement;
-				if (clickedItem is TextBlock && ((TextBlock)clickedItem).Name == "ItemName")
+				if (clickedItem is TextBlock && ((TextBlock)clickedItem).Name == "Name")
 				{
 					CheckRenameDoubleClick(clickedItem?.DataContext);
 				}
@@ -698,7 +698,7 @@ namespace Files.App.Views.LayoutModes
 
 			var maxItemLength = columnToResize switch
 			{
-				1 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemName?.Length ?? 0).Max(), // file name column
+				1 => FileList.Items.Cast<ListedItem>().Select(x => x.Name?.Length ?? 0).Max(), // file name column
 				2 => FileList.Items.Cast<ListedItem>().Select(x => x.FileTagsUI?.FirstOrDefault()?.TagName?.Length ?? 0).Max(), // file tag column
 				3 => FileList.Items.Cast<ListedItem>().Select(x => (x as RecycleBinItem)?.ItemOriginalPath?.Length ?? 0).Max(), // original path column
 				4 => FileList.Items.Cast<ListedItem>().Select(x => (x as RecycleBinItem)?.ItemDateDeleted?.Length ?? 0).Max(), // date deleted column
