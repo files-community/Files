@@ -32,7 +32,7 @@ namespace Files.App.Helpers
             if (item.IsOfType(StorageItemTypes.File))
             {
                 using var thumbnail = (StorageItemThumbnail)await FilesystemTasks.Wrap(
-                    () => item.AsBaseStorageFile().GetThumbnailAsync(thumbnailMode, thumbnailSize, ThumbnailOptions.ResizeThumbnail).AsTask());
+                    () => item.AsBaseStorageFile().GetThumbnailAsync(thumbnailMode, thumbnailSize, ThumbnailOptions.ResizeThumbnail | ThumbnailOptions.ReturnOnlyIfCached).AsTask());
                 if (thumbnail != null)
                 {
                     return await thumbnail.ToByteArrayAsync();
@@ -41,7 +41,7 @@ namespace Files.App.Helpers
             else if (item.IsOfType(StorageItemTypes.Folder))
             {
                 using var thumbnail = (StorageItemThumbnail)await FilesystemTasks.Wrap(
-                    () => item.AsBaseStorageFolder().GetThumbnailAsync(thumbnailMode, thumbnailSize, ThumbnailOptions.ResizeThumbnail).AsTask());
+                    () => item.AsBaseStorageFolder().GetThumbnailAsync(thumbnailMode, thumbnailSize, ThumbnailOptions.ResizeThumbnail | ThumbnailOptions.ReturnOnlyIfCached).AsTask());
                 if (thumbnail != null)
                 {
                     return await thumbnail.ToByteArrayAsync();
