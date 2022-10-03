@@ -76,7 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FluentFTP">
-      <Version>39.4.0</Version>
+      <Version>41.0.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
