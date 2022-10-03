@@ -261,7 +261,7 @@ namespace Files.App.Views.LayoutModes
 			if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
 			{
 				Popup popup = (Popup)gridViewItem.FindDescendant("EditPopup")!;
-				TextBlock textBlock = (TextBlock)gridViewItem.FindDescendant("Name")!;
+				TextBlock textBlock = (TextBlock)gridViewItem.FindDescendant("ItemName")!;
 				textBox = (TextBox)popup.Child;
 				textBox.Text = textBlock.Text;
 				popup.IsOpen = true;
@@ -269,7 +269,7 @@ namespace Files.App.Views.LayoutModes
 			}
 			else
 			{
-				TextBlock textBlock = (TextBlock)gridViewItem.FindDescendant("Name")!;
+				TextBlock textBlock = (TextBlock)gridViewItem.FindDescendant("ItemName")!;
 				textBox = (TextBox)gridViewItem.FindDescendant("TileViewTextBoxItemName")!;
 				textBox.Text = textBlock.Text;
 				OldItemName = textBlock.Text;

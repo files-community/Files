@@ -190,7 +190,7 @@ namespace Files.App.Views.LayoutModes
 			if (listViewItem == null)
 				return;
 
-			TextBlock textBlock = listViewItem.FindDescendant("Name") as TextBlock;
+			TextBlock textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
 			textBox = listViewItem.FindDescendant("ListViewTextBoxItemName") as TextBox;
 			textBox.Text = textBlock.Text;
 			OldItemName = textBlock.Text;
@@ -270,7 +270,7 @@ namespace Files.App.Views.LayoutModes
 				ListViewItem listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
 				listViewItem?.Focus(FocusState.Programmatic);
 
-				TextBlock textBlock = listViewItem.FindDescendant("Name") as TextBlock;
+				TextBlock textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
 				textBox.Visibility = Visibility.Collapsed;
 				textBlock.Visibility = Visibility.Visible;
 			}
