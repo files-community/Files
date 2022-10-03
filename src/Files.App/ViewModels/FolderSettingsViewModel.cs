@@ -25,7 +25,7 @@ namespace Files.App.ViewModels
 
         public event EventHandler<LayoutPreferenceEventArgs> LayoutPreferencesUpdateRequired;
 
-        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
         public FolderSettingsViewModel()
         {
@@ -309,7 +309,7 @@ namespace Files.App.ViewModels
 
         private static LayoutPreferences GetLayoutPreferencesForPath(string folderPath)
         {
-            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+            IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
             if (!userSettingsService.PreferencesSettingsService.ForceLayoutPreferencesOnAllDirectories)
             {
                 folderPath = folderPath.TrimPath();
@@ -324,7 +324,7 @@ namespace Files.App.ViewModels
 
         public static void SetLayoutPreferencesForPath(string folderPath, LayoutPreferences prefs)
         {
-            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+            IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
             if (!userSettingsService.PreferencesSettingsService.ForceLayoutPreferencesOnAllDirectories)
             {
@@ -385,8 +385,6 @@ namespace Files.App.ViewModels
             {
                 return LayoutPreferences.DefaultLayoutPreferences;
             }
-
-            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
 
             if (folderPath == CommonPaths.DownloadsPath)
             {
@@ -538,7 +536,7 @@ namespace Files.App.ViewModels
 
         public void SetDefaultLayoutPreferences(ColumnsViewModel columns)
         {
-            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+            IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
             userSettingsService.PreferencesSettingsService.ShowDateColumn = !columns.DateModifiedColumn.UserCollapsed;
             userSettingsService.PreferencesSettingsService.ShowDateCreatedColumn = !columns.DateCreatedColumn.UserCollapsed;
             userSettingsService.PreferencesSettingsService.ShowTypeColumn = !columns.ItemTypeColumn.UserCollapsed;

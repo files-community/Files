@@ -1672,16 +1672,16 @@
     <value>새 탭에서 폴더 열기</value>
   </data>
   <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>번들 위젯 표시</value>
+    <value>Show Bundles widget</value>
   </data>
   <data name="ShowDrivesWidget" xml:space="preserve">
-    <value>드라이브 위젯 표시</value>
+    <value>Show Drives widget</value>
   </data>
   <data name="ShowFolderWidget" xml:space="preserve">
-    <value>폴더 위젯 표시</value>
+    <value>Show Folders widget</value>
   </data>
   <data name="ShowRecentFilesWidget" xml:space="preserve">
-    <value>최근 파일 위젯 표시</value>
+    <value>Show Recent Files widget</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>원하는 항목을 찾지 못했나요?</value>
@@ -1948,7 +1948,7 @@
     <value>해제</value>
   </data>
   <data name="Widgets" xml:space="preserve">
-    <value>위젯</value>
+    <value>Widgets</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>동기화 상태</value>

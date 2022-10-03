@@ -63,9 +63,9 @@ namespace Files.App.ViewModels
 		private List<ListedItem> filesAndFolders;
 
 		private IDialogService DialogService { get; } = Ioc.Default.GetRequiredService<IDialogService>();
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
-		private IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>();
-		private ISizeProvider FolderSizeProvider { get; } = Ioc.Default.GetService<ISizeProvider>();
+		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
+		private ISizeProvider FolderSizeProvider { get; } = Ioc.Default.GetRequiredService<ISizeProvider>();
 
 		// only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
 		public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
@@ -935,8 +935,8 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		// thumbnailSize is set to 80 so that unless we override it, mode is in turn set to SingleItem
-		private async Task LoadItemThumbnail(ListedItem item, uint thumbnailSize = 80, IStorageItem matchingStorageItem = null)
+		// thumbnailSize is set to 96 so that unless we override it, mode is in turn set to SingleItem
+		private async Task LoadItemThumbnail(ListedItem item, uint thumbnailSize = 96, IStorageItem matchingStorageItem = null)
 		{
 			var wasIconLoaded = false;
 			if (item.IsLibraryItem || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsZipItem)
@@ -950,7 +950,7 @@ namespace Files.App.ViewModels
 					{
 						// SingleItem returns image thumbnails in the correct aspect ratio for the grid layouts
 						// ListView is used for the details and columns layout
-						var thumbnailMode = thumbnailSize < 80 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
+						var thumbnailMode = thumbnailSize < 96 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
 
 						using StorageItemThumbnail Thumbnail = await FilesystemTasks.Wrap(() => matchingStorageFile.GetThumbnailAsync(thumbnailMode, thumbnailSize, ThumbnailOptions.ResizeThumbnail).AsTask());
 
@@ -1016,10 +1016,12 @@ namespace Files.App.ViewModels
 					var matchingStorageFolder = matchingStorageItem.AsBaseStorageFolder() ?? await GetFolderFromPathAsync(item.ItemPath);
 					if (matchingStorageFolder != null)
 					{
-						var mode = thumbnailSize < 80 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
+						// SingleItem returns image thumbnails in the correct aspect ratio for the grid layouts
+						// ListView is used for the details and columns layout
+						var thumbnailMode = thumbnailSize < 96 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
 
-						// We use ReturnOnlyIfCached because otherwise folders thumbnails have a black background
-						using StorageItemThumbnail Thumbnail = await FilesystemTasks.Wrap(() => matchingStorageFolder.GetThumbnailAsync(mode, thumbnailSize, ThumbnailOptions.ReturnOnlyIfCached).AsTask());
+						// We use ReturnOnlyIfCached because otherwise folders thumbnails have a black background, this has the downside the folder previews don't work
+						using StorageItemThumbnail Thumbnail = await FilesystemTasks.Wrap(() => matchingStorageFolder.GetThumbnailAsync(thumbnailMode, thumbnailSize, ThumbnailOptions.ReturnOnlyIfCached).AsTask());
 						if (!(Thumbnail == null || Thumbnail.Size == 0 || Thumbnail.OriginalHeight == 0 || Thumbnail.OriginalWidth == 0))
 						{
 							await dispatcherQueue.EnqueueAsync(async () =>

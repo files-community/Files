@@ -152,7 +152,7 @@ namespace Files.App.CommandLine
 
         private static KeyValuePair<string, string[]> ParseData(string[] args, int index)
         {
-            string key = null;
+            string? key = null;
             var val = new List<string>();
             if (args[index].StartsWith('-') || args[index].StartsWith('/'))
             {

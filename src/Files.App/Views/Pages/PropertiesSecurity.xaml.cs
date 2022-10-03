@@ -76,7 +76,7 @@ namespace Files.App.Views
 
         }
 
-        private async void OpenAdvancedProperties()
+        private void OpenAdvancedProperties()
         {
             if (SecurityProperties == null)
             {
@@ -95,7 +95,11 @@ namespace Files.App.Views
                     }, new SuppressNavigationTransitionInfo());
 
                     // Initialize window
-                    var propertiesWindow = new WinUIEx.WindowEx();
+                    var propertiesWindow = new WinUIEx.WindowEx()
+                    {
+                        IsMinimizable = false,
+                        IsMaximizable = false
+                    };
                     var appWindow = propertiesWindow.AppWindow;
 
                     // Set icon

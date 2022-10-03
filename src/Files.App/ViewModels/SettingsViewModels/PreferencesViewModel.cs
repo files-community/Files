@@ -30,7 +30,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 {
 	public class PreferencesViewModel : ObservableObject, IDisposable
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		private bool disposed;
 		private ReadOnlyCollection<IMenuFlyoutItemViewModel> addFlyoutItemsSource;

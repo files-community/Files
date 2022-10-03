@@ -221,7 +221,7 @@ namespace Files.App.Helpers
 
         private static async Task<FilesystemResult> OpenLibrary(string path, IShellPage associatedInstance, IEnumerable<string> selectItems, bool forceOpenInNewTab)
         {
-            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+            IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
             var opened = (FilesystemResult)false;
             bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
@@ -268,7 +268,7 @@ namespace Files.App.Helpers
 
         private static async Task<FilesystemResult> OpenDirectory(string path, IShellPage associatedInstance, IEnumerable<string> selectItems, ShellLinkItem shortcutInfo, bool forceOpenInNewTab)
         {
-            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+            IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
             var opened = (FilesystemResult)false;
             bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
