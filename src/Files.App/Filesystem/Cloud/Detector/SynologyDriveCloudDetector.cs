@@ -52,7 +52,7 @@ namespace Files.App.Filesystem.Cloud
                 // Extract the data from the reader
                 if (connections[reader["conn_id"]?.ToString()].ConnectionType is "1")
                 {
-                    string path = reader["sync_folder"]?.ToString();
+                    string? path = reader["sync_folder"]?.ToString();
                     if (string.IsNullOrWhiteSpace(path))
                     {
                         continue;

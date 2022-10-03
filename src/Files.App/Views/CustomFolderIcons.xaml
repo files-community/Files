@@ -52,7 +52,7 @@
 				Grid.Row="0"
 				Grid.Column="1"
 				HorizontalAlignment="Right"
-				x:Load="{x:Bind IsShortcutItem, Converter={StaticResource BoolNegationConverter}}"
+				x:Load="{x:Bind IsShortcut, Converter={StaticResource BoolNegationConverter}}"
 				Command="{x:Bind RestoreDefaultIconCommand}"
 				Content="{helpers:ResourceString Name=RestoreDefault}" />
 

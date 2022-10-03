@@ -73,7 +73,7 @@ namespace Files.App.Shell
             var valueNames = key.GetValueNames();
 
             if (!valueNames.Contains("NullFile", StringComparer.OrdinalIgnoreCase) &&
-                !valueNames.Contains("ItemName", StringComparer.OrdinalIgnoreCase) &&
+                !valueNames.Contains("Name", StringComparer.OrdinalIgnoreCase) &&
                 !valueNames.Contains("FileName", StringComparer.OrdinalIgnoreCase) &&
                 !valueNames.Contains("Command", StringComparer.OrdinalIgnoreCase))
             {

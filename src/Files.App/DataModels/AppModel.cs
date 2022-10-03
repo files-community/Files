@@ -60,8 +60,8 @@ namespace Files.App.DataModels
 
 					if (value < MainPageViewModel.AppInstances.Count)
 					{
-						Frame rootFrame = App.Window.Content as Frame;
-						var mainView = rootFrame.Content as MainPage;
+						Frame rootFrame = (Frame)App.Window.Content;
+						var mainView = (MainPage)rootFrame.Content;
 						mainView.ViewModel.SelectedTabItem = MainPageViewModel.AppInstances[value];
 					}
 				}

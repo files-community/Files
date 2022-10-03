@@ -14,7 +14,7 @@ namespace Files.App.UserControls
 {
 	public sealed partial class AddressToolbar : UserControl
 	{
-		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 
 		public ISearchBox SearchBox => ViewModel.SearchBox;

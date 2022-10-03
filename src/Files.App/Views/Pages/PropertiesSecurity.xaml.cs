@@ -123,7 +123,7 @@ namespace Files.App.Views
                     appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
                     appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
-                    appWindow.Title = string.Format("SecurityAdvancedPermissionsTitle".GetLocalizedResource(), SecurityProperties.Item.ItemName);
+                    appWindow.Title = string.Format("SecurityAdvancedPermissionsTitle".GetLocalizedResource(), SecurityProperties.Item.Name);
                     appWindow.Resize(new SizeInt32(850, 550));
                     appWindow.Destroying += AppWindow_Destroying;
                     appWindow.Show();
