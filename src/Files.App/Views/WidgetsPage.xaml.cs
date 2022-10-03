@@ -22,8 +22,6 @@ namespace Files.App.Views
     {
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-        private IWidgetsSettingsService WidgetsSettingsService { get; } = Ioc.Default.GetRequiredService<IWidgetsSettingsService>();
-
         private IShellPage AppInstance = null;
         public FolderSettingsViewModel FolderSettings => AppInstance?.InstanceViewModel.FolderSettings;
 
