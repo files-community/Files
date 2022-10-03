@@ -456,7 +456,7 @@ namespace Files.App.ViewModels
 					}
 				case SectionType.WSL:
 					{
-						if(ShowWslSection == false || App.WSLDistroManager.Distros.Any() == false)
+						if (ShowWslSection == false || App.WSLDistroManager.Distros.Any() == false)
 						{
 							break;
 						}
@@ -466,7 +466,7 @@ namespace Files.App.ViewModels
 					}
 				case SectionType.FileTag:
 					{
-						if(ShowFileTagsSection)
+						if (ShowFileTagsSection)
 						{
 							break;
 						}
@@ -476,16 +476,16 @@ namespace Files.App.ViewModels
 					}
 			}
 
-			if(section != null)
+			if (section != null)
 			{
-				if(icon != null)
+				if (icon != null)
 				{
 					section.Icon = icon;
 				}
 
 				AddSectionToSideBar(section);
 
-				if(iconIdex != -1)
+				if (iconIdex != -1)
 				{
 					section.Icon = await UIHelpers.GetIconResource(iconIdex);
 				}
