@@ -70,14 +70,14 @@ namespace Files.App.UserControls.Widgets
             }
         }
 
-        public async Task LoadCardThumbnailAsync(int overrideThumbnailSize = 32)
+        public async Task LoadCardThumbnailAsync()
         {
             if (thumbnailData == null || thumbnailData.Length == 0)
             {
-                thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Path, Convert.ToUInt32(overrideThumbnailSize), Windows.Storage.FileProperties.ThumbnailMode.ListView);
+                thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Path, Convert.ToUInt32(Constants.Widgets.WidgetIconSize), Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
                 if (thumbnailData != null && thumbnailData.Length > 0)
                 {
-                    Thumbnail = await App.Window.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(overrideThumbnailSize));
+                    Thumbnail = await App.Window.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize));
                 }
             }
         }

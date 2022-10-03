@@ -935,8 +935,8 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		// thumbnailSize is set to 80 so that unless we override it, mode is in turn set to SingleItem
-		private async Task LoadItemThumbnail(ListedItem item, uint thumbnailSize = 80, IStorageItem matchingStorageItem = null)
+		// thumbnailSize is set to 96 so that unless we override it, mode is in turn set to SingleItem
+		private async Task LoadItemThumbnail(ListedItem item, uint thumbnailSize = 96, IStorageItem matchingStorageItem = null)
 		{
 			var wasIconLoaded = false;
 			if (item.IsLibraryItem || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsZipItem)
@@ -950,12 +950,12 @@ namespace Files.App.ViewModels
 					{
 						// SingleItem returns image thumbnails in the correct aspect ratio for the grid layouts
 						// ListView is used for the details and columns layout
-						var thumbnailMode = thumbnailSize < 80 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
+						var thumbnailMode = thumbnailSize < 96 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
 
 						// ReturnOnlyIfCached forces the thumbnail to be cached before it's returned,
 						// this prevents an issue where the user needs to refresh the current directory.
-						// UseCurrentScale returns a sharp image
-						var thumbnailOptions = ThumbnailOptions.ReturnOnlyIfCached | ThumbnailOptions.UseCurrentScale;
+						// UseCurrentScale isn't used as it breaks the preview part of the folder thumbnail
+						var thumbnailOptions = ThumbnailOptions.ReturnOnlyIfCached | ThumbnailOptions.ResizeThumbnail;
 
 						using StorageItemThumbnail Thumbnail = await FilesystemTasks.Wrap(() => matchingStorageFile.GetThumbnailAsync(thumbnailMode, thumbnailSize, thumbnailOptions).AsTask());
 
@@ -1021,10 +1021,17 @@ namespace Files.App.ViewModels
 					var matchingStorageFolder = matchingStorageItem.AsBaseStorageFolder() ?? await GetFolderFromPathAsync(item.ItemPath);
 					if (matchingStorageFolder != null)
 					{
-						var mode = thumbnailSize < 80 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
+						// SingleItem returns image thumbnails in the correct aspect ratio for the grid layouts
+						// ListView is used for the details and columns layout
+						var thumbnailMode = thumbnailSize < 96 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
+
+						// ReturnOnlyIfCached forces the thumbnail to be cached before it's returned,
+						// this prevents an issue where the user needs to refresh the current directory.
+						// UseCurrentScale isn't used as it breaks the preview part of the folder thumbnail
+						var thumbnailOptions = ThumbnailOptions.ReturnOnlyIfCached | ThumbnailOptions.ResizeThumbnail;
 
 						// We use ReturnOnlyIfCached because otherwise folders thumbnails have a black background
-						using StorageItemThumbnail Thumbnail = await FilesystemTasks.Wrap(() => matchingStorageFolder.GetThumbnailAsync(mode, thumbnailSize, ThumbnailOptions.ReturnOnlyIfCached).AsTask());
+						using StorageItemThumbnail Thumbnail = await FilesystemTasks.Wrap(() => matchingStorageFolder.GetThumbnailAsync(thumbnailMode, thumbnailSize, thumbnailOptions).AsTask());
 						if (!(Thumbnail == null || Thumbnail.Size == 0 || Thumbnail.OriginalHeight == 0 || Thumbnail.OriginalWidth == 0))
 						{
 							await dispatcherQueue.EnqueueAsync(async () =>
