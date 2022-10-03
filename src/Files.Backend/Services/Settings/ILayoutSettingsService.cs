@@ -30,7 +30,37 @@ namespace Files.Backend.Services.Settings
         /// </summary>
         bool ShowFileTagColumn { get; set; }
 
-        int DefaultGridViewSize { get; set; }
+		/// <summary>
+		/// Gets or sets a value indicating tags column's default width
+		/// </summary>
+		double TagColumnWidth { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating name column's default width
+		/// </summary>
+		double NameColumnWidth { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating date modified column's default width
+		/// </summary>
+		double DateModifiedColumnWidth { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating item type column's default width
+		/// </summary>
+		double ItemTypeColumnWidth { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating date created column's default width
+		/// </summary>
+		double DateCreatedColumnWidth { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating size column's default width
+		/// </summary>
+		double SizeColumnWidth { get; set; }
+
+		int DefaultGridViewSize { get; set; }
 
         FolderLayoutModes DefaultLayoutMode { get; set; }
 

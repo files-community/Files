@@ -1,6 +1,6 @@
+using Files.App.Serialization;
 using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
-using Files.App.Serialization;
 
 namespace Files.App.ServicesImplementation.Settings
 {
@@ -42,7 +42,43 @@ namespace Files.App.ServicesImplementation.Settings
             set => Set(value);
         }
 
-        public int DefaultGridViewSize
+		public double TagColumnWidth
+		{
+			get => Get(200d);
+			set => Set(value);
+		}
+
+		public double NameColumnWidth
+		{
+			get => Get(200d);
+			set => Set(value);
+		}
+
+		public double DateModifiedColumnWidth
+		{
+			get => Get(200d);
+			set => Set(value);
+		}
+
+		public double ItemTypeColumnWidth
+		{
+			get => Get(200d);
+			set => Set(value);
+		}
+
+		public double DateCreatedColumnWidth
+		{
+			get => Get(200d);
+			set => Set(value);
+		}
+
+		public double SizeColumnWidth
+		{
+			get => Get(200d);
+			set => Set(value);
+		}
+
+		public int DefaultGridViewSize
         {
             get => (int)Get((long)Constants.Browser.GridViewBrowser.GridViewSizeSmall);
             set => Set((long)value);

@@ -1,17 +1,17 @@
-using Files.Shared.Enums;
-using Files.App.EventArguments;
-using Files.App.Helpers;
-using Files.App.Helpers.LayoutPreferences;
-using Files.Backend.Services.Settings;
-using Files.App.Views.LayoutModes;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
+using Files.App.EventArguments;
+using Files.App.Helpers;
+using Files.App.Helpers.LayoutPreferences;
+using Files.App.Views.LayoutModes;
+using Files.Backend.Services.Settings;
+using Files.Shared.Enums;
+using Files.Shared.Extensions;
 using System;
 using System.Text.Json;
 using System.Windows.Input;
 using Windows.Storage;
-using Files.Shared.Extensions;
 using IO = System.IO;
 
 namespace Files.App.ViewModels
@@ -23,9 +23,9 @@ namespace Files.App.ViewModels
         private static readonly Lazy<LayoutPrefsDb> dbInstance = new(() => new LayoutPrefsDb(LayoutSettingsDbPath, true));
         public static LayoutPrefsDb DbInstance => dbInstance.Value;
 
-        public event EventHandler<LayoutPreferenceEventArgs> LayoutPreferencesUpdateRequired;
+        public event EventHandler<LayoutPreferenceEventArgs>? LayoutPreferencesUpdateRequired;
 
-        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
         public FolderSettingsViewModel()
         {
@@ -55,9 +55,7 @@ namespace Files.App.ViewModels
             set
             {
                 if (SetProperty(ref LayoutPreference.IsAdaptiveLayoutOverridden, !value, nameof(IsAdaptiveLayoutEnabled)))
-                {
                     LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference, true));
-                }
             }
         }
 
@@ -67,42 +65,27 @@ namespace Files.App.ViewModels
             set
             {
                 if (SetProperty(ref LayoutPreference.LayoutMode, value, nameof(LayoutMode)))
-                {
                     LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
-                }
             }
         }
 
         public uint GetIconSize()
         {
             if (LayoutMode == FolderLayoutModes.DetailsView)
-            {
                 return Constants.Browser.DetailsLayoutBrowser.DetailsViewSize; // ListView thumbnail
-            }
+
             if (LayoutMode == FolderLayoutModes.ColumnView)
-            {
                 return Constants.Browser.ColumnViewBrowser.ColumnViewSize; // ListView thumbnail
-            }
             else if (LayoutMode == FolderLayoutModes.TilesView)
-            {
                 return Constants.Browser.GridViewBrowser.GridViewSizeSmall; // Small thumbnail
-            }
             else if (GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeSmall)
-            {
                 return Constants.Browser.GridViewBrowser.GridViewSizeSmall; // Small thumbnail
-            }
             else if (GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeMedium)
-            {
                 return Constants.Browser.GridViewBrowser.GridViewSizeMedium; // Medium thumbnail
-            }
             else if (GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeLarge)
-            {
                 return Constants.Browser.GridViewBrowser.GridViewSizeLarge; // Large thumbnail
-            }
             else
-            {
                 return Constants.Browser.GridViewBrowser.GridViewSizeMax; // Extra large thumbnail
-            }
         }
 
         private bool isLayoutModeChanging;
@@ -129,9 +112,9 @@ namespace Files.App.ViewModels
             };
         }
 
-        public event EventHandler<LayoutModeEventArgs> LayoutModeChangeRequested;
+        public event EventHandler<LayoutModeEventArgs>? LayoutModeChangeRequested;
 
-        public event EventHandler GridViewSizeChangeRequested;
+        public event EventHandler? GridViewSizeChangeRequested;
 
         public ICommand ToggleLayoutModeGridViewLargeCommand { get; }
         public ICommand ToggleLayoutModeColumnViewCommand { get; }
@@ -147,17 +130,11 @@ namespace Files.App.ViewModels
             get
             {
                 if (GridViewSize < Constants.Browser.GridViewBrowser.GridViewSizeMedium)
-                {
                     return GridViewSizeKind.Small;
-                }
                 else if (GridViewSize >= Constants.Browser.GridViewBrowser.GridViewSizeMedium && GridViewSize < Constants.Browser.GridViewBrowser.GridViewSizeLarge)
-                {
                     return GridViewSizeKind.Medium;
-                }
                 else
-                {
                     return GridViewSizeKind.Large;
-                }
             }
         }
 
@@ -224,21 +201,19 @@ namespace Files.App.ViewModels
                         }
 
                         if (value < Constants.Browser.GridViewBrowser.GridViewSizeMax) // Don't request a grid resize if it is already at the max size
-                        {
                             GridViewSizeChangeRequested?.Invoke(this, EventArgs.Empty);
-                        }
                     }
                 }
             }
         }
 
-        public event EventHandler<SortOption> SortOptionPreferenceUpdated;
+        public event EventHandler<SortOption>? SortOptionPreferenceUpdated;
 
-        public event EventHandler<GroupOption> GroupOptionPreferenceUpdated;
+        public event EventHandler<GroupOption>? GroupOptionPreferenceUpdated;
 
-        public event EventHandler<SortDirection> SortDirectionPreferenceUpdated;
+        public event EventHandler<SortDirection>? SortDirectionPreferenceUpdated;
 
-        public event EventHandler<bool> SortDirectoriesAlongsideFilesPreferenceUpdated;
+        public event EventHandler<bool>? SortDirectoriesAlongsideFilesPreferenceUpdated;
 
         public SortOption DirectorySortOption
         {
@@ -309,7 +284,7 @@ namespace Files.App.ViewModels
 
         private static LayoutPreferences GetLayoutPreferencesForPath(string folderPath)
         {
-            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+            IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
             if (!userSettingsService.PreferencesSettingsService.ForceLayoutPreferencesOnAllDirectories)
             {
                 folderPath = folderPath.TrimPath();
@@ -324,7 +299,7 @@ namespace Files.App.ViewModels
 
         public static void SetLayoutPreferencesForPath(string folderPath, LayoutPreferences prefs)
         {
-            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+            IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
             if (!userSettingsService.PreferencesSettingsService.ForceLayoutPreferencesOnAllDirectories)
             {
@@ -356,8 +331,15 @@ namespace Files.App.ViewModels
                 userSettingsService.LayoutSettingsService.ShowTypeColumn = !prefs.ColumnsViewModel.ItemTypeColumn.UserCollapsed;
                 userSettingsService.LayoutSettingsService.ShowSizeColumn = !prefs.ColumnsViewModel.SizeColumn.UserCollapsed;
                 userSettingsService.LayoutSettingsService.ShowFileTagColumn = !prefs.ColumnsViewModel.TagColumn.UserCollapsed;
-            }
-        }
+
+                userSettingsService.LayoutSettingsService.NameColumnWidth = prefs.ColumnsViewModel.NameColumn.UserLengthPixels;
+				userSettingsService.LayoutSettingsService.DateModifiedColumnWidth = prefs.ColumnsViewModel.DateModifiedColumn.UserLengthPixels;
+				userSettingsService.LayoutSettingsService.DateCreatedColumnWidth = prefs.ColumnsViewModel.DateCreatedColumn.UserLengthPixels;
+				userSettingsService.LayoutSettingsService.ItemTypeColumnWidth = prefs.ColumnsViewModel.ItemTypeColumn.UserLengthPixels;
+				userSettingsService.LayoutSettingsService.SizeColumnWidth = prefs.ColumnsViewModel.SizeColumn.UserLengthPixels;
+				userSettingsService.LayoutSettingsService.TagColumnWidth = prefs.ColumnsViewModel.TagColumn.UserLengthPixels;
+			}
+		}
 
         private static LayoutPreferences ReadLayoutPreferencesFromAds(string folderPath, ulong? frn)
         {
@@ -369,12 +351,10 @@ namespace Files.App.ViewModels
             return adsPrefs;
         }
 
-        private static LayoutPreferences ReadLayoutPreferencesFromDb(string folderPath, ulong? frn)
+        private static LayoutPreferences? ReadLayoutPreferencesFromDb(string folderPath, ulong? frn)
         {
             if (string.IsNullOrEmpty(folderPath))
-            {
                 return null;
-            }
 
             return DbInstance.GetPreferences(folderPath, frn);
         }
@@ -382,41 +362,27 @@ namespace Files.App.ViewModels
         private static LayoutPreferences GetDefaultLayoutPreferences(string folderPath)
         {
             if (string.IsNullOrEmpty(folderPath))
-            {
                 return LayoutPreferences.DefaultLayoutPreferences;
-            }
-
-            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
 
             if (folderPath == CommonPaths.DownloadsPath)
-            {
                 // Default for downloads folder is to group by date created
                 return new LayoutPreferences() { DirectoryGroupOption = GroupOption.DateCreated };
-            }
             else if (LibraryHelper.IsLibraryPath(folderPath))
-            {
                 // Default for libraries is to group by folder path
                 return new LayoutPreferences() { DirectoryGroupOption = GroupOption.FolderPath };
-            }
             else
-            {
                 return LayoutPreferences.DefaultLayoutPreferences; // Either global setting or smart guess
-            }
         }
 
         private static void WriteLayoutPreferencesToDb(string folderPath, ulong? frn, LayoutPreferences prefs)
         {
             if (string.IsNullOrEmpty(folderPath))
-            {
                 return;
-            }
 
             if (DbInstance.GetPreferences(folderPath, frn) is null)
             {
                 if (LayoutPreferences.DefaultLayoutPreferences.Equals(prefs))
-                {
                     return; // Do not create setting if it's default
-                }
             }
             DbInstance.SetPreferences(folderPath, frn, prefs);
         }
@@ -538,13 +504,30 @@ namespace Files.App.ViewModels
 
         public void SetDefaultLayoutPreferences(ColumnsViewModel columns)
         {
-            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+            IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
             userSettingsService.LayoutSettingsService.ShowDateColumn = !columns.DateModifiedColumn.UserCollapsed;
             userSettingsService.LayoutSettingsService.ShowDateCreatedColumn = !columns.DateCreatedColumn.UserCollapsed;
             userSettingsService.LayoutSettingsService.ShowTypeColumn = !columns.ItemTypeColumn.UserCollapsed;
             userSettingsService.LayoutSettingsService.ShowSizeColumn = !columns.SizeColumn.UserCollapsed;
             userSettingsService.LayoutSettingsService.ShowFileTagColumn = !columns.TagColumn.UserCollapsed;
-            //TODO: save column sizes
-        }
-    }
+
+			userSettingsService.LayoutSettingsService.NameColumnWidth = columns.NameColumn.UserLengthPixels;
+			userSettingsService.LayoutSettingsService.DateModifiedColumnWidth = columns.DateModifiedColumn.UserLengthPixels;
+			userSettingsService.LayoutSettingsService.DateCreatedColumnWidth = columns.DateCreatedColumn.UserLengthPixels;
+			userSettingsService.LayoutSettingsService.ItemTypeColumnWidth = columns.ItemTypeColumn.UserLengthPixels;
+			userSettingsService.LayoutSettingsService.SizeColumnWidth = columns.SizeColumn.UserLengthPixels;
+			userSettingsService.LayoutSettingsService.TagColumnWidth = columns.TagColumn.UserLengthPixels;
+		}
+
+        public static void ResetColumnsWidth()
+        {
+			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+			userSettingsService.LayoutSettingsService.NameColumnWidth = 200d;
+			userSettingsService.LayoutSettingsService.DateModifiedColumnWidth = 200d;
+			userSettingsService.LayoutSettingsService.DateCreatedColumnWidth = 200d;
+			userSettingsService.LayoutSettingsService.ItemTypeColumnWidth = 200d;
+			userSettingsService.LayoutSettingsService.SizeColumnWidth = 200d;
+            userSettingsService.LayoutSettingsService.TagColumnWidth = 200d;
+		}
+	}
 }

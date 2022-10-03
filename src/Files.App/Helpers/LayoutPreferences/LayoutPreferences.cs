@@ -1,13 +1,13 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.App.ViewModels;
 using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
-using Files.App.ViewModels;
 
 namespace Files.App.Helpers.LayoutPreferences
 {
     public class LayoutPreferences
     {
-        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
         public SortOption DirectorySortOption;
         public SortDirection DirectorySortDirection;
@@ -38,18 +38,21 @@ namespace Files.App.Helpers.LayoutPreferences
             this.ColumnsViewModel.ItemTypeColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowTypeColumn;
             this.ColumnsViewModel.SizeColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowSizeColumn;
             this.ColumnsViewModel.TagColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowFileTagColumn;
-        }
 
-        public override bool Equals(object obj)
+			this.ColumnsViewModel.NameColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.NameColumnWidth;
+			this.ColumnsViewModel.DateModifiedColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.DateModifiedColumnWidth;
+			this.ColumnsViewModel.DateCreatedColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.DateCreatedColumnWidth;
+			this.ColumnsViewModel.ItemTypeColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.ItemTypeColumnWidth;
+			this.ColumnsViewModel.SizeColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.SizeColumnWidth;
+			this.ColumnsViewModel.TagColumn.UserLengthPixels = UserSettingsService.LayoutSettingsService.TagColumnWidth;
+		}
+
+		public override bool Equals(object? obj)
         {
             if (obj == null)
-            {
                 return false;
-            }
             if (obj == this)
-            {
                 return true;
-            }
             if (obj is LayoutPreferences prefs)
             {
                 return (
