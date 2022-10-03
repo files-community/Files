@@ -108,7 +108,7 @@
 							x:Load="{x:Bind FileIconVis}"
 							x:Phase="1"
 							Source="{x:Bind FileImg, Mode=OneWay}"
-							Stretch="UniformToFill" />
+							Stretch="Uniform" />
 
 						<TextBlock
 							Grid.Column="1"

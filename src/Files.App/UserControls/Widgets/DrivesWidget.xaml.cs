@@ -43,12 +43,12 @@ namespace Files.App.UserControls.Widgets
             this.Item = item;
         }
 
-        public async Task LoadCardThumbnailAsync(int overrideThumbnailSize = 32)
+        public async Task LoadCardThumbnailAsync()
         {
             if (thumbnailData == null || thumbnailData.Length == 0)
             {
                 // Try load thumbnail using ListView mode
-                thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.Path, Convert.ToUInt32(overrideThumbnailSize), Windows.Storage.FileProperties.ThumbnailMode.ListView);
+                thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.Path, Convert.ToUInt32(Constants.Widgets.WidgetIconSize), Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
             }
             if (thumbnailData == null || thumbnailData.Length == 0)
             {
@@ -58,7 +58,7 @@ namespace Files.App.UserControls.Widgets
             if (thumbnailData != null && thumbnailData.Length > 0)
             {
                 // Thumbnail data is valid, set the item icon
-                Thumbnail = await App.Window.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(overrideThumbnailSize));
+                Thumbnail = await App.Window.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize));
             }
         }
     }
