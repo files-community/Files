@@ -93,14 +93,13 @@ namespace Files.App.ViewModels
 			set
 			{
 				if (connection != null)
-				{
 					connection.RequestReceived -= Connection_RequestReceived;
-				}
+
 				connection = value;
+
 				if (connection != null)
-				{
 					connection.RequestReceived += Connection_RequestReceived;
-				}
+
 				ConnectionChanged?.Invoke(this, EventArgs.Empty);
 			}
 		}
@@ -451,9 +450,7 @@ namespace Files.App.ViewModels
 			await dispatcherQueue.EnqueueAsync(() =>
 			{
 				if (WorkingDirectory != "Home".GetLocalizedResource())
-				{
 					RefreshItems(null);
-				}
 			});
 		}
 
@@ -472,9 +469,7 @@ namespace Files.App.ViewModels
 					await dispatcherQueue.EnqueueAsync(() =>
 					{
 						if (WorkingDirectory != "Home".GetLocalizedResource())
-						{
 							RefreshItems(null);
-						}
 					});
 					break;
 				case nameof(UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles):
@@ -546,7 +541,7 @@ namespace Files.App.ViewModels
 							var itemRemovedIndex = filesAndFolders.FindIndex(x => x.ItemPath.Equals(itemPath, StringComparison.OrdinalIgnoreCase));
 							var nextOfMatchingItem = filesAndFolders.ElementAtOrDefault(itemRemovedIndex + 1 < filesAndFolders.Count() ? itemRemovedIndex + 1 : itemRemovedIndex - 1);
 							var removedItem = await RemoveFileOrFolderAsync(itemPath);
-							
+
 							if (removedItem != null)
 								await ApplySingleFileChangeAsync(removedItem);
 
