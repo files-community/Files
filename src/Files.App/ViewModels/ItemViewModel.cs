@@ -954,7 +954,7 @@ namespace Files.App.ViewModels
 
 						// ReturnOnlyIfCached forces the thumbnail to be cached before it's returned,
 						// this prevents an issue where the user needs to refresh the current directory.
-						// UseCurrentScale returns a sharp image
+						// UseCurrentScale isn't used as it breaks the preview part of the folder thumbnail
 						var thumbnailOptions = ThumbnailOptions.ReturnOnlyIfCached | ThumbnailOptions.ResizeThumbnail;
 
 						using StorageItemThumbnail Thumbnail = await FilesystemTasks.Wrap(() => matchingStorageFile.GetThumbnailAsync(thumbnailMode, thumbnailSize, thumbnailOptions).AsTask());
@@ -1027,7 +1027,7 @@ namespace Files.App.ViewModels
 
 						// ReturnOnlyIfCached forces the thumbnail to be cached before it's returned,
 						// this prevents an issue where the user needs to refresh the current directory.
-						// UseCurrentScale returns a sharp image
+						// UseCurrentScale isn't used as it breaks the preview part of the folder thumbnail
 						var thumbnailOptions = ThumbnailOptions.ReturnOnlyIfCached | ThumbnailOptions.ResizeThumbnail;
 
 						// We use ReturnOnlyIfCached because otherwise folders thumbnails have a black background
