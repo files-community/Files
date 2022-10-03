@@ -112,7 +112,7 @@
 							FontWeight="Bold"
 							HorizontalTextAlignment="Center"
 							IsTextSelectionEnabled="True"
-							Text="{x:Bind ViewModel.SelectedItem.ItemName, Mode=OneWay}"
+							Text="{x:Bind ViewModel.SelectedItem.Name, Mode=OneWay}"
 							TextAlignment="Center"
 							TextWrapping="Wrap" />
 						<TextBlock
@@ -120,7 +120,7 @@
 							FontSize="18"
 							HorizontalTextAlignment="Center"
 							IsTextSelectionEnabled="True"
-							Text="{x:Bind ViewModel.SelectedItem.ItemType, Mode=OneWay}"
+							Text="{x:Bind ViewModel.SelectedItem.Name, Mode=OneWay}"
 							TextAlignment="Center"
 							TextWrapping="Wrap" />
 					</StackPanel>

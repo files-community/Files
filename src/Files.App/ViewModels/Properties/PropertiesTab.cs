@@ -18,8 +18,6 @@ namespace Files.App.ViewModels.Properties
 
         public SelectedItemsPropertiesViewModel ViewModel { get; set; }
 
-        protected IProgress<float> hashProgress;
-
         protected virtual void Properties_Loaded(object sender, RoutedEventArgs e)
         {
             if (BaseProperties != null)
@@ -41,9 +39,9 @@ namespace Files.App.ViewModels.Properties
             }
             else if (np.navParameter is ListedItem item)
             {
-                if (item.PrimaryItemAttribute == StorageItemTypes.File || item.IsZipItem)
+                if (item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
                 {
-                    BaseProperties = new FileProperties(ViewModel, np.tokenSource, DispatcherQueue, hashProgress, item, AppInstance);
+                    BaseProperties = new FileProperties(ViewModel, np.tokenSource, DispatcherQueue, item, AppInstance);
                 }
                 else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
