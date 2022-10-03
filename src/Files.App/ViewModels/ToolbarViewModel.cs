@@ -41,7 +41,7 @@ namespace Files.App.ViewModels
 {
 	public class ToolbarViewModel : ObservableObject, IAddressToolbar, IDisposable
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>()!;
+		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public IUpdateService UpdateService { get; } = Ioc.Default.GetService<IUpdateService>()!;
 

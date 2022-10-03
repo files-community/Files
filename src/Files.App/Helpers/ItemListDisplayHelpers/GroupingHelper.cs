@@ -134,7 +134,7 @@ namespace Files.App.Helpers
 
         public static (string key, string text, string range, int index) GetGroupSizeInfo(long size)
         {
-            string lastSizeStr = default;
+            string lastSizeStr = string.Empty;
             for (int i = 0; i < sizeGroups.Length; i++)
             {
                 var sizeGp = sizeGroups[i];

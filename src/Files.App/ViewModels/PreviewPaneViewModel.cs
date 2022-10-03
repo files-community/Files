@@ -21,7 +21,7 @@ namespace Files.App.ViewModels
 {
     public class PreviewPaneViewModel : ObservableObject, IDisposable
     {
-        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
         private CancellationTokenSource loadCancellationTokenSource;
 
