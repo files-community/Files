@@ -2780,7 +2780,7 @@
     <value>Установить по умолчанию</value>
   </data>
   <data name="FolderPreferences" xml:space="preserve">
-    <value>Настройки папки</value>
+    <value>Предпочтения папок</value>
   </data>
   <data name="DisplayDateColumn" xml:space="preserve">
     <value>Отображать столбец даты</value>
