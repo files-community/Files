@@ -205,7 +205,7 @@
     <value>Buscar</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
-    <value>Los archivos a los que ha accedido anteriormente se mostrarán aquí</value>
+    <value>Los archivos a los que previamente haya accedido se mostrarán aquí</value>
   </data>
   <data name="RecentItemOpenFileLocation.Text" xml:space="preserve">
     <value>Abrir ubicación del archivo</value>
