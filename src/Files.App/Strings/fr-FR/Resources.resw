@@ -1672,7 +1672,7 @@
     <value>Ouvrir les dossiers dans un nouvel onglet</value>
   </data>
   <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>Afficher le widget Bundles</value>
+    <value>Afficher les groupes de widget</value>
   </data>
   <data name="ShowDrivesWidget" xml:space="preserve">
     <value>Afficher le widget Disques</value>
@@ -1681,7 +1681,7 @@
     <value>Afficher le widget Dossiers</value>
   </data>
   <data name="ShowRecentFilesWidget" xml:space="preserve">
-    <value>Afficher le widget Fichiers Récents</value>
+    <value>Afficher le widget Fichiers récents</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>Vous n'avez pas trouvé ce que vous cherchiez ?</value>
