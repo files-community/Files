@@ -155,6 +155,8 @@ namespace Files.App.Helpers
 						var shortcutItem = StorageHelpers.FromPathAndType(path, FilesystemItemType.File);
 						await associatedInstance.FilesystemHelpers.DeleteItemAsync(shortcutItem, false, false, true);
 					}
+
+					itemType = shInfo.IsFolder ? FilesystemItemType.Directory : FilesystemItemType.File;
 				}
 				else if (isReparsePoint)
 				{
