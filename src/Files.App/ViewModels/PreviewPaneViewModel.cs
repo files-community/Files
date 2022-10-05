@@ -21,7 +21,7 @@ namespace Files.App.ViewModels
 {
     public class PreviewPaneViewModel : ObservableObject, IDisposable
     {
-        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
         private CancellationTokenSource loadCancellationTokenSource;
 
@@ -114,7 +114,7 @@ namespace Files.App.ViewModels
 
             if (SelectedItem.IsRecycleBinItem)
             {
-                if (item.PrimaryItemAttribute == StorageItemTypes.Folder && !item.IsZipItem)
+                if (item.PrimaryItemAttribute == StorageItemTypes.Folder && !item.IsArchive)
                 {
                     var model = new FolderPreviewViewModel(item);
                     await model.LoadAsync();
@@ -128,7 +128,7 @@ namespace Files.App.ViewModels
                 }
             }
 
-            if (item.IsShortcutItem)
+            if (item.IsShortcut)
             {
                 var model = new ShortcutPreviewViewModel(SelectedItem);
                 await model.LoadAsync();
@@ -246,7 +246,7 @@ namespace Files.App.ViewModels
                     loadCancellationTokenSource?.Cancel();
                     // If initial loading fails, attempt to load a basic preview (thumbnail and details only)
                     // If that fails, revert to no preview/details available as long as the item is not a shortcut or folder
-                    if (SelectedItem != null && !SelectedItem.IsShortcutItem && SelectedItem.PrimaryItemAttribute != StorageItemTypes.Folder)
+                    if (SelectedItem != null && !SelectedItem.IsShortcut && SelectedItem.PrimaryItemAttribute != StorageItemTypes.Folder)
                     {
                         await LoadBasicPreviewAsync();
                         return;

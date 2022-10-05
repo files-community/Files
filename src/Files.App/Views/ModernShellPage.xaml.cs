@@ -53,9 +53,9 @@ namespace Files.App.Views
 
         private IDialogService DialogService { get; } = Ioc.Default.GetRequiredService<IDialogService>();
 
-        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-        private IUpdateService UpdateSettingsService { get; } = Ioc.Default.GetService<IUpdateService>();
+        private IUpdateService UpdateSettingsService { get; } = Ioc.Default.GetRequiredService<IUpdateService>();
 
         private bool isCurrentInstance = false;
         public bool IsCurrentInstance

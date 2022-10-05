@@ -49,7 +49,7 @@ namespace Files.App.Filesystem
         {
             get
             {
-                var userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+                var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
                 if (userSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible)
                 {
                     // Allow ":" char
@@ -76,7 +76,7 @@ namespace Files.App.Filesystem
 
         #region Properties
 
-        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
         #endregion
 

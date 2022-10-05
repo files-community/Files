@@ -1672,16 +1672,16 @@
     <value>Atvērt mapes jaunā cilnē</value>
   </data>
   <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>Rādīt Saišņu logrīku</value>
+    <value>Show Bundles widget</value>
   </data>
   <data name="ShowDrivesWidget" xml:space="preserve">
-    <value>Rādīt Disku logrīku</value>
+    <value>Show Drives widget</value>
   </data>
   <data name="ShowFolderWidget" xml:space="preserve">
-    <value>Rādīt Bibliotēkas logrīku</value>
+    <value>Show Folders widget</value>
   </data>
   <data name="ShowRecentFilesWidget" xml:space="preserve">
-    <value>Rādīt Neseno Failu logrīku</value>
+    <value>Show Recent Files widget</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>Neatradāt, ko meklējāt?</value>
@@ -1948,7 +1948,7 @@
     <value>Noraidīt</value>
   </data>
   <data name="Widgets" xml:space="preserve">
-    <value>Logrīki</value>
+    <value>Widgets</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>Sinhronizācijas statuss</value>

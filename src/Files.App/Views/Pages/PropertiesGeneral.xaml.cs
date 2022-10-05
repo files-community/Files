@@ -23,7 +23,7 @@ namespace Files.App.Views
             if (BaseProperties is DriveProperties driveProps)
             {
                 var drive = driveProps.Drive;
-                ViewModel.ItemName = ItemFileName.Text; // Make sure ItemName is updated
+                ViewModel.ItemName = ItemFileName.Text; // Make sure Name is updated
                 if (!string.IsNullOrWhiteSpace(ViewModel.ItemName) && ViewModel.OriginalItemName != ViewModel.ItemName)
                 {
                     var remDrive = new System.Text.RegularExpressions.Regex(@"\s*\(\w:\)$");
@@ -43,7 +43,7 @@ namespace Files.App.Views
             else if (BaseProperties is LibraryProperties libProps)
             {
                 var library = libProps.Library;
-                ViewModel.ItemName = ItemFileName.Text; // Make sure ItemName is updated
+                ViewModel.ItemName = ItemFileName.Text; // Make sure Name is updated
                 var newName = ViewModel.ItemName;
                 if (!string.IsNullOrWhiteSpace(newName) && ViewModel.OriginalItemName != newName)
                 {
@@ -83,7 +83,7 @@ namespace Files.App.Views
                     await App.Window.DispatcherQueue.EnqueueAsync(() => UIFilesystemHelpers.SetHiddenAttributeItem(item, ViewModel.IsHidden, AppInstance.SlimContentPage.ItemManipulationModel));
                 }
 
-                ViewModel.ItemName = ItemFileName.Text; // Make sure ItemName is updated
+                ViewModel.ItemName = ItemFileName.Text; // Make sure Name is updated
                 if (!string.IsNullOrWhiteSpace(ViewModel.ItemName) && ViewModel.OriginalItemName != ViewModel.ItemName)
                 {
                     return await App.Window.DispatcherQueue.EnqueueAsync(() => UIFilesystemHelpers.RenameFileItemAsync(item,

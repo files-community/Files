@@ -66,7 +66,7 @@
 						x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
 						Glyph="{x:Bind IsRecentSearch, Mode=OneTime, Converter={StaticResource SearchSuggestionGlyphConverter}}" />
 				</Grid>
-				<TextBlock VerticalAlignment="Center" Text="{x:Bind ItemName}" />
+				<TextBlock VerticalAlignment="Center" Text="{x:Bind Name}" />
 			</StackPanel>
 		</DataTemplate>
 	</UserControl.Resources>

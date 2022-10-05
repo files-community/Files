@@ -1672,16 +1672,16 @@
     <value>在新标签页中打开文件夹</value>
   </data>
   <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>显示 包 小组件</value>
+    <value>显示“文件筐”组件</value>
   </data>
   <data name="ShowDrivesWidget" xml:space="preserve">
-    <value>显示 驱动器 小组件</value>
+    <value>显示“驱动器”组件</value>
   </data>
   <data name="ShowFolderWidget" xml:space="preserve">
-    <value>显示 文件夹 小组件</value>
+    <value>显示“文件夹”组件</value>
   </data>
   <data name="ShowRecentFilesWidget" xml:space="preserve">
-    <value>显示 最近使用的文件 小组件</value>
+    <value>显示“最近使用的文件”组件</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>没有找到你想要的内容?</value>
@@ -1948,7 +1948,7 @@
     <value>消除</value>
   </data>
   <data name="Widgets" xml:space="preserve">
-    <value>小组件</value>
+    <value>组件</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>同步状态</value>

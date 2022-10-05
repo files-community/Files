@@ -1672,16 +1672,16 @@
     <value>פתחו תיקיות בכרטיסיה חדשה</value>
   </data>
   <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>הציגו כלי חבילות</value>
+    <value>Show Bundles widget</value>
   </data>
   <data name="ShowDrivesWidget" xml:space="preserve">
-    <value>הציגו כלי כוננים</value>
+    <value>Show Drives widget</value>
   </data>
   <data name="ShowFolderWidget" xml:space="preserve">
-    <value>הציגו כלי תיקיות</value>
+    <value>Show Folders widget</value>
   </data>
   <data name="ShowRecentFilesWidget" xml:space="preserve">
-    <value>הציגו כלי תיקיות אחרונות</value>
+    <value>Show Recent Files widget</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>לא מצאת את מה שחיפשת?</value>

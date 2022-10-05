@@ -1672,16 +1672,16 @@
     <value>Klasörleri yeni sekmede aç</value>
   </data>
   <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>Paketler widget'ını göster</value>
+    <value>Show Bundles widget</value>
   </data>
   <data name="ShowDrivesWidget" xml:space="preserve">
-    <value>Sürücüler widget'ını göster</value>
+    <value>Show Drives widget</value>
   </data>
   <data name="ShowFolderWidget" xml:space="preserve">
-    <value>Klasörler widget'ını göster</value>
+    <value>Show Folders widget</value>
   </data>
   <data name="ShowRecentFilesWidget" xml:space="preserve">
-    <value>Son Dosyalar widget'ını göster</value>
+    <value>Show Recent Files widget</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>Aradığınızı bulamadınız mı?</value>
@@ -1948,7 +1948,7 @@
     <value>Azletmek</value>
   </data>
   <data name="Widgets" xml:space="preserve">
-    <value>Widget'lar</value>
+    <value>Widgets</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>Senkronizasyon durumu</value>
