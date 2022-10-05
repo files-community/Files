@@ -95,17 +95,20 @@ namespace Files.App.Shell
             if (string.IsNullOrEmpty(filePath))
                 return null;
 
+            string targetPath = string.Empty;
+
             try
             {
                 if (filePath.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase))
                 {
                     using var link = new ShellLink(filePath, LinkResolution.NoUIWithMsgPump, null, TimeSpan.FromMilliseconds(100));
+                    targetPath = link.TargetPath;
                     return ShellFolderExtensions.GetShellLinkItem(link);
                 }
 
                 if (filePath.EndsWith(".url", StringComparison.OrdinalIgnoreCase))
                 {
-                    var linkUrl = await Win32API.StartSTATask(() =>
+                    targetPath = await Win32API.StartSTATask(() =>
                     {
                         var ipf = new Url.IUniformResourceLocator();
                         (ipf as System.Runtime.InteropServices.ComTypes.IPersistFile)?.Load(filePath, 0);
@@ -113,10 +116,20 @@ namespace Files.App.Shell
                         return retVal;
                     });
 
-                    return string.IsNullOrEmpty(linkUrl) ? null : new ShellLinkItem { TargetPath = linkUrl };
+                    return string.IsNullOrEmpty(targetPath) ? null : new ShellLinkItem { TargetPath = targetPath, TargetExists = true };
                 }
             }
-            catch (Exception ex) // Could not parse shortcut
+            catch (FileNotFoundException ex) // Could not parse shortcut
+            {
+                App.Logger?.Warn(ex, ex.Message);
+                // Return a item containing the invalid target path
+                return new ShellLinkItem
+                {
+                    TargetPath = string.IsNullOrEmpty(targetPath) ? string.Empty : targetPath,
+                    TargetExists = false
+                };
+            }
+            catch (Exception ex)
             {
                 App.Logger?.Warn(ex, ex.Message);
             }

@@ -106,6 +106,7 @@ namespace Files.App.Shell
             link.Arguments = linkItem.Arguments;
             link.WorkingDirectory = linkItem.WorkingDirectory;
             link.TargetPath = linkItem.TargetPath;
+            link.TargetExists = true;
             return link;
         }
 

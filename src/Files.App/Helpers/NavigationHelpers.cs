@@ -11,16 +11,11 @@ using Files.App.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.AppService;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.System;
 using Files.App.Shell;
-using Vanara.PInvoke;
-using Vanara.Windows.Shell;
 
 namespace Files.App.Helpers
 {
@@ -153,11 +148,18 @@ namespace Files.App.Helpers
                     if (shInfo != null)
                     {
                         shortcutInfo = shInfo;
+                        if (!shortcutInfo.TargetExists)
+                        {
+                            if (await DialogDisplayHelper.ShowDialogAsync(DynamicDialogFactory.GetFor_ShortcutNotFound(shortcutInfo.TargetPath)) != DynamicDialogResult.Primary)
+                                return false;
+
+                            // Delete shortcut
+                            var shortcutItem = StorageHelpers.FromPathAndType(path, FilesystemItemType.File);
+                            await associatedInstance.FilesystemHelpers.DeleteItemAsync(shortcutItem, false, false, true);
+                        }
                     }
                     else
                     {
-                        // Display dialog here
-
                         return false;
                     }
 
