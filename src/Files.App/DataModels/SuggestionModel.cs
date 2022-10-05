@@ -11,7 +11,7 @@ namespace Files.App.DataModels
 		public bool LoadFileIcon { get; set; } = false;
 		public bool NeedsPlaceholderGlyph { get; set; } = true;
 		public string? ItemPath { get; set; }
-		public string ItemName { get; set; }
+		public string Name { get; set; }
 
 		private BitmapImage? fileImage;
 
@@ -63,14 +63,14 @@ namespace Files.App.DataModels
 			this.LoadFileIcon = item.LoadFileIcon;
 			this.NeedsPlaceholderGlyph = item.NeedsPlaceholderGlyph;
 			this.ItemPath = item.ItemPath;
-			this.ItemName = item.ItemName;
+			this.Name = item.Name;
 			this.FileImage = item.FileImage;
 		}
 
 		public SuggestionModel(string itemName, bool isRecentSearch)
 		{
 			this.IsRecentSearch = isRecentSearch;
-			this.ItemName = itemName;
+			this.Name = itemName;
 		}
 	}
 }
