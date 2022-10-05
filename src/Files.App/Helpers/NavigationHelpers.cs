@@ -132,32 +132,28 @@ namespace Files.App.Helpers
 			bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
 			bool isDirectory = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Directory);
 			bool isReparsePoint = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.ReparsePoint);
-			bool IsShortcut = path.EndsWith(".lnk", StringComparison.Ordinal) || path.EndsWith(".url", StringComparison.Ordinal);
+			bool isShortcut = path.EndsWith(".lnk", StringComparison.Ordinal) || path.EndsWith(".url", StringComparison.Ordinal);
 			FilesystemResult opened = (FilesystemResult)false;
 
 			var shortcutInfo = new ShellLinkItem();
-			if (itemType == null || IsShortcut || isHiddenItem || isReparsePoint)
+			if (itemType == null || isShortcut || isHiddenItem || isReparsePoint)
 			{
-				if (IsShortcut)
+				if (isShortcut)
 				{
 					var shInfo = await Win32Shell.ParseLink(path);
 
-					if (shInfo != null)
-					{
-						shortcutInfo = shInfo;
-						if (!shortcutInfo.TargetExists)
-						{
-							if (await DialogDisplayHelper.ShowDialogAsync(DynamicDialogFactory.GetFor_ShortcutNotFound(shortcutInfo.TargetPath)) != DynamicDialogResult.Primary)
-								return false;
-
-							// Delete shortcut
-							var shortcutItem = StorageHelpers.FromPathAndType(path, FilesystemItemType.File);
-							await associatedInstance.FilesystemHelpers.DeleteItemAsync(shortcutItem, false, false, true);
-						}
-					}
-					else
-					{
+					if (shInfo == null)
 						return false;
+
+					shortcutInfo = shInfo;
+					if (!shortcutInfo.TargetExists)
+					{
+						if (await DialogDisplayHelper.ShowDialogAsync(DynamicDialogFactory.GetFor_ShortcutNotFound(shortcutInfo.TargetPath)) != DynamicDialogResult.Primary)
+							return false;
+
+						// Delete shortcut
+						var shortcutItem = StorageHelpers.FromPathAndType(path, FilesystemItemType.File);
+						await associatedInstance.FilesystemHelpers.DeleteItemAsync(shortcutItem, false, false, true);
 					}
 				}
 				else if (isReparsePoint)
