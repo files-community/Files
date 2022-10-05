@@ -1,4 +1,5 @@
 using Files.App.Filesystem;
+using Files.App.DataModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
@@ -22,21 +23,21 @@ namespace Files.App.ViewModels
 
         public bool WasQuerySubmitted { get; set; } = false;
 
-        public event TypedEventHandler<ISearchBox, SearchBoxTextChangedEventArgs> TextChanged;
-        public event TypedEventHandler<ISearchBox, SearchBoxQuerySubmittedEventArgs> QuerySubmitted;
-        public event EventHandler<ISearchBox> Escaped;
+        public event TypedEventHandler<ISearchBox, SearchBoxTextChangedEventArgs>? TextChanged;
+        public event TypedEventHandler<ISearchBox, SearchBoxQuerySubmittedEventArgs>? QuerySubmitted;
+        public event EventHandler<ISearchBox>? Escaped;
 
         private readonly SuggestionComparer suggestionComparer = new SuggestionComparer();
 
-        public ObservableCollection<ListedItem> Suggestions { get; } = new ObservableCollection<ListedItem>();
-        private readonly List<ListedItem> oldQueries = new List<ListedItem>();
+        public ObservableCollection<SuggestionModel> Suggestions { get; } = new ObservableCollection<SuggestionModel>();
+        private readonly List<SuggestionModel> oldQueries = new List<SuggestionModel>();
 
         public void ClearSuggestions()
         {
             Suggestions.Clear();
         }
 
-        public void SetSuggestions(IEnumerable<ListedItem> suggestions)
+        public void SetSuggestions(IEnumerable<SuggestionModel> suggestions)
         {
             ClearSuggestions();
 
@@ -72,26 +73,23 @@ namespace Files.App.ViewModels
         public void SearchRegion_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs e)
         {
             WasQuerySubmitted = true;
-            if (e.ChosenSuggestion is ListedItem chosen && chosen.ItemPath is null)
+            if (e.ChosenSuggestion is SuggestionModel chosen && chosen.ItemPath is null)
             {
-                Query = chosen.ItemNameRaw;
+                Query = chosen.ItemName;
                 QuerySubmitted?.Invoke(this, new SearchBoxQuerySubmittedEventArgs(null));
             }
             else
             {
-                QuerySubmitted?.Invoke(this, new SearchBoxQuerySubmittedEventArgs(e.ChosenSuggestion as ListedItem));
+                QuerySubmitted?.Invoke(this, new SearchBoxQuerySubmittedEventArgs((SuggestionModel)e.ChosenSuggestion));
             }
 
             if (!string.IsNullOrWhiteSpace(e.QueryText))
             {
                 // If the element is already contained, update its position
-                oldQueries.Remove(oldQueries.FirstOrDefault(suggestion => suggestion.ItemNameRaw == e.QueryText));
+                if (oldQueries.FirstOrDefault(suggestion => suggestion.ItemName == e.QueryText) is SuggestionModel old)
+                    oldQueries.Remove(old);
 
-                oldQueries.Insert(0, new ListedItem
-                {
-                    ItemNameRaw = e.QueryText,
-                    IsRecentSearch = true
-                });
+                oldQueries.Insert(0, new SuggestionModel(e.QueryText, true));
 
                 // Limit to last 5 queries to improve performance
                 if (oldQueries.Count > 5)
@@ -120,13 +118,13 @@ namespace Files.App.ViewModels
             oldQueries.ForEach(query => Suggestions.Add(query));
         }
 
-        public class SuggestionComparer : IEqualityComparer<ListedItem>, IComparer<ListedItem>
+        public class SuggestionComparer : IEqualityComparer<SuggestionModel>, IComparer<SuggestionModel>
         {
-            public int Compare(ListedItem x, ListedItem y) => y.ItemPath.CompareTo(x.ItemPath);
+            public int Compare(SuggestionModel x, SuggestionModel y) => y.ItemPath.CompareTo(x.ItemPath);
 
-            public bool Equals(ListedItem x, ListedItem y) => y.ItemPath.Equals(x.ItemPath);
+            public bool Equals(SuggestionModel x, SuggestionModel y) => y.ItemPath.Equals(x.ItemPath);
 
-            public int GetHashCode(ListedItem o) => o.ItemPath.GetHashCode();
+            public int GetHashCode(SuggestionModel o) => o.ItemPath.GetHashCode();
         }
     }
 }

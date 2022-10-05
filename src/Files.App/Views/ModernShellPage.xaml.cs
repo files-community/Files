@@ -352,7 +352,7 @@ namespace Files.App.Views
                         MaxItemCount = 10,
                         SearchUnindexedItems = UserSettingsService.PreferencesSettingsService.SearchUnindexedItems
                     };
-                    sender.SetSuggestions(await search.SearchAsync());
+                    sender.SetSuggestions((await search.SearchAsync()).Select(suggestion => new SuggestionModel(suggestion)));
                 }
                 else
                 {
@@ -363,7 +363,7 @@ namespace Files.App.Views
 
         private async void ModernShellPage_QuerySubmitted(ISearchBox sender, SearchBoxQuerySubmittedEventArgs e)
         {
-            if (e.ChosenSuggestion is ListedItem item)
+            if (e.ChosenSuggestion is SuggestionModel item && !string.IsNullOrWhiteSpace(item.ItemPath))
             {
                 await NavigationHelpers.OpenPath(item.ItemPath, this);
             }

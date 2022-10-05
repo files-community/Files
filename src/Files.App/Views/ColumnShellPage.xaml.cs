@@ -30,7 +30,6 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
-using Files.App.Interacts;
 using SortDirection = Files.Shared.Enums.SortDirection;
 using Files.Backend.Enums;
 using Files.Backend.Services;
@@ -354,7 +353,7 @@ namespace Files.App.Views
                         MaxItemCount = 10,
                         SearchUnindexedItems = UserSettingsService.PreferencesSettingsService.SearchUnindexedItems
                     };
-                    sender.SetSuggestions(await search.SearchAsync());
+                    sender.SetSuggestions((await search.SearchAsync()).Select(suggestion => new SuggestionModel(suggestion)));
                 }
                 else
                 {
@@ -365,7 +364,7 @@ namespace Files.App.Views
 
         private async void ColumnShellPage_QuerySubmitted(ISearchBox sender, SearchBoxQuerySubmittedEventArgs e)
         {
-            if (e.ChosenSuggestion is ListedItem item)
+            if (e.ChosenSuggestion is SuggestionModel item && !string.IsNullOrWhiteSpace(item.ItemPath))
             {
                 await NavigationHelpers.OpenPath(item.ItemPath, this);
             }

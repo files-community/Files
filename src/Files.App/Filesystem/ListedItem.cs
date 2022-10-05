@@ -65,8 +65,6 @@ namespace Files.App.Filesystem
             set => SetProperty(ref needsPlaceholderGlyph, value);
         }
 
-        public bool IsRecentSearch { get; set; } = false;
-
         private bool loadFileIcon;
         public bool LoadFileIcon
         {

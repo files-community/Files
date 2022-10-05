@@ -1,4 +1,4 @@
-using Files.App.Filesystem;
+using Files.App.DataModels;
 using System;
 using System.Collections.Generic;
 using Windows.Foundation;
@@ -18,7 +18,7 @@ namespace Files.App
 
         void ClearSuggestions();
 
-        void SetSuggestions(IEnumerable<ListedItem> suggestions);
+        void SetSuggestions(IEnumerable<SuggestionModel> suggestions);
 
         void AddRecentQueries();
     }
@@ -42,9 +42,9 @@ namespace Files.App
 
     public class SearchBoxQuerySubmittedEventArgs
     {
-        public ListedItem ChosenSuggestion { get; }
+        public SuggestionModel ChosenSuggestion { get; }
 
-        public SearchBoxQuerySubmittedEventArgs(ListedItem chosenSuggestion) => ChosenSuggestion = chosenSuggestion;
+        public SearchBoxQuerySubmittedEventArgs(SuggestionModel chosenSuggestion) => ChosenSuggestion = chosenSuggestion;
     }
 
     public enum SearchBoxTextChangeReason : ushort
