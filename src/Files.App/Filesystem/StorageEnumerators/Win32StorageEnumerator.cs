@@ -44,7 +44,7 @@ namespace Files.App.Filesystem.StorageEnumerators
             var tempList = new List<ListedItem>();
             var count = 0;
 
-            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+            IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
             bool showFolderSize = userSettingsService.PreferencesSettingsService.ShowFolderSize;
 
             do
