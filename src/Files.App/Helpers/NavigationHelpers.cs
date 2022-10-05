@@ -146,7 +146,7 @@ namespace Files.App.Helpers
 						return false;
 
 					shortcutInfo = shInfo;
-					if (!shortcutInfo.TargetExists)
+					if (shortcutInfo.InvalidTarget)
 					{
 						if (await DialogDisplayHelper.ShowDialogAsync(DynamicDialogFactory.GetFor_ShortcutNotFound(shortcutInfo.TargetPath)) != DynamicDialogResult.Primary)
 							return false;

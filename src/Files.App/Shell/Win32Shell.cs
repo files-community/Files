@@ -116,7 +116,7 @@ namespace Files.App.Shell
                         return retVal;
                     });
 
-                    return string.IsNullOrEmpty(targetPath) ? null : new ShellLinkItem { TargetPath = targetPath, TargetExists = true };
+                    return string.IsNullOrEmpty(targetPath) ? null : new ShellLinkItem { TargetPath = targetPath };
                 }
             }
             catch (FileNotFoundException ex) // Could not parse shortcut
@@ -126,7 +126,7 @@ namespace Files.App.Shell
                 return new ShellLinkItem
                 {
                     TargetPath = string.IsNullOrEmpty(targetPath) ? string.Empty : targetPath,
-                    TargetExists = false
+                    InvalidTarget = true
                 };
             }
             catch (Exception ex)
