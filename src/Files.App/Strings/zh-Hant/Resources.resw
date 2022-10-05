@@ -166,7 +166,7 @@
     <value>大小：</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>壓縮前的大小:</value>
+    <value>壓縮前的大小：</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>無法完成該操作</value>

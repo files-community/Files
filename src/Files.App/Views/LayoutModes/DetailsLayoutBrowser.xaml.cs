@@ -331,7 +331,7 @@ namespace Files.App.Views.LayoutModes
 			{
 				return;
 			}
-			TextBlock textBlock = listViewItem.FindDescendant("Name") as TextBlock;
+			TextBlock textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
 			textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
 			textBox.Text = textBlock.Text;
 			OldItemName = textBlock.Text;
@@ -415,7 +415,7 @@ namespace Files.App.Views.LayoutModes
 			}
 			else
 			{
-				TextBlock textBlock = listViewItem.FindDescendant("Name") as TextBlock;
+				TextBlock textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
 				textBox.Visibility = Visibility.Collapsed;
 				textBlock.Visibility = Visibility.Visible;
 			}
