@@ -75,7 +75,7 @@ namespace Files.App.ViewModels
             WasQuerySubmitted = true;
             if (e.ChosenSuggestion is SuggestionModel chosen && chosen.ItemPath is null)
             {
-                Query = chosen.ItemName;
+                Query = chosen.Name;
                 QuerySubmitted?.Invoke(this, new SearchBoxQuerySubmittedEventArgs(null));
             }
             else
@@ -86,7 +86,7 @@ namespace Files.App.ViewModels
             if (!string.IsNullOrWhiteSpace(e.QueryText))
             {
                 // If the element is already contained, update its position
-                if (oldQueries.FirstOrDefault(suggestion => suggestion.ItemName == e.QueryText) is SuggestionModel old)
+                if (oldQueries.FirstOrDefault(suggestion => suggestion.Name == e.QueryText) is SuggestionModel old)
                     oldQueries.Remove(old);
 
                 oldQueries.Insert(0, new SuggestionModel(e.QueryText, true));
