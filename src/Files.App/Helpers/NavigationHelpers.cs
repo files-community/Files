@@ -140,25 +140,25 @@ namespace Files.App.Helpers
 			{
 				if (IsShortcut)
 				{
-          var shInfo = await Win32Shell.ParseLink(path);
+					var shInfo = await Win32Shell.ParseLink(path);
 
-          if (shInfo != null)
-          {
-            shortcutInfo = shInfo;
-            if (!shortcutInfo.TargetExists)
-            {
-              if (await DialogDisplayHelper.ShowDialogAsync(DynamicDialogFactory.GetFor_ShortcutNotFound(shortcutInfo.TargetPath)) != DynamicDialogResult.Primary)
-                return false;
+					if (shInfo != null)
+					{
+						shortcutInfo = shInfo;
+						if (!shortcutInfo.TargetExists)
+						{
+							if (await DialogDisplayHelper.ShowDialogAsync(DynamicDialogFactory.GetFor_ShortcutNotFound(shortcutInfo.TargetPath)) != DynamicDialogResult.Primary)
+								return false;
 
-                // Delete shortcut
-                var shortcutItem = StorageHelpers.FromPathAndType(path, FilesystemItemType.File);
-                await associatedInstance.FilesystemHelpers.DeleteItemAsync(shortcutItem, false, false, true);
-            }
-          }
-          else
-          {
-            return false;
-          }
+							// Delete shortcut
+							var shortcutItem = StorageHelpers.FromPathAndType(path, FilesystemItemType.File);
+							await associatedInstance.FilesystemHelpers.DeleteItemAsync(shortcutItem, false, false, true);
+						}
+					}
+					else
+					{
+						return false;
+					}
 				}
 				else if (isReparsePoint)
 				{
