@@ -10,13 +10,13 @@ namespace Files.App.Helpers
 {
     public static class SortingHelper
     {
-        private static object orderByNameFunc(ListedItem item) => item.ItemName;
+        private static object orderByNameFunc(ListedItem item) => item.Name;
 
         public static Func<ListedItem, object> GetSortFunc(SortOption directorySortOption)
         {
             return directorySortOption switch
             {
-                SortOption.Name => item => item.ItemName,
+                SortOption.Name => item => item.Name,
                 SortOption.DateModified => item => item.ItemDateModifiedReal,
                 SortOption.DateCreated => item => item.ItemDateCreatedReal,
                 SortOption.FileType => item => item.ItemType,
@@ -36,7 +36,7 @@ namespace Files.App.Helpers
 
             // In ascending order, show folders first, then files.
             // So, we use == StorageItemTypes.File to make the value for a folder equal to 0, and equal to 1 for the rest.
-            static bool folderThenFileAsync(ListedItem listedItem) => (listedItem.PrimaryItemAttribute == StorageItemTypes.File || listedItem.IsShortcutItem || listedItem.IsZipItem);
+            static bool folderThenFileAsync(ListedItem listedItem) => (listedItem.PrimaryItemAttribute == StorageItemTypes.File || listedItem.IsShortcut || listedItem.IsArchive);
             IOrderedEnumerable<ListedItem> ordered;
 
             if (directorySortDirection == SortDirection.Ascending)

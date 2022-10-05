@@ -8,7 +8,7 @@ namespace Files.App.ServicesImplementation.DateTimeFormatter
 {
 	internal class UserDateTimeFormatter : IDateTimeFormatter
 	{
-		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		private IDateTimeFormatter formatter;
 

@@ -22,6 +22,7 @@ namespace Files.App.Shell
             foreach (var keyName in Registry.ClassesRoot.GetSubKeyNames().Where(x => x.StartsWith('.') && !new string[] { ShellLibraryItem.EXTENSION, ".url", ".lnk" }.Contains(x, StringComparer.OrdinalIgnoreCase)))
             {
                 using var key = Registry.ClassesRoot.OpenSubKeySafe(keyName);
+
                 if (key != null)
                 {
                     var ret = await GetShellNewRegistryEntries(key, key);
@@ -36,7 +37,9 @@ namespace Files.App.Shell
 
         public static async Task<ShellNewEntry> GetNewContextMenuEntryForType(string extension)
         {
-            if (string.IsNullOrEmpty(extension)) return null;
+            if (string.IsNullOrEmpty(extension))
+                return null;
+
             using var key = Registry.ClassesRoot.OpenSubKeySafe(extension);
             return key != null ? await GetShellNewRegistryEntries(key, key) : null;
         }
@@ -46,10 +49,10 @@ namespace Files.App.Shell
             foreach (var keyName in current.GetSubKeyNames())
             {
                 using var key = current.OpenSubKeySafe(keyName);
+
                 if (key == null)
-                {
                     continue;
-                }
+
                 if (keyName == "ShellNew")
                 {
                     return await ParseShellNewRegistryEntry(key, root);
@@ -58,19 +61,19 @@ namespace Files.App.Shell
                 {
                     var ret = await GetShellNewRegistryEntries(key, root);
                     if (ret != null)
-                    {
                         return ret;
-                    }
                 }
             }
+
             return null;
         }
 
         private static async Task<ShellNewEntry> ParseShellNewRegistryEntry(RegistryKey key, RegistryKey root)
         {
             var valueNames = key.GetValueNames();
+
             if (!valueNames.Contains("NullFile", StringComparer.OrdinalIgnoreCase) &&
-                !valueNames.Contains("ItemName", StringComparer.OrdinalIgnoreCase) &&
+                !valueNames.Contains("Name", StringComparer.OrdinalIgnoreCase) &&
                 !valueNames.Contains("FileName", StringComparer.OrdinalIgnoreCase) &&
                 !valueNames.Contains("Command", StringComparer.OrdinalIgnoreCase))
             {
@@ -82,6 +85,7 @@ namespace Files.App.Shell
 
             byte[] data = null;
             var dataObj = key.GetValue("Data");
+
             if (dataObj != null)
             {
                 switch (key.GetValueKind("Data"))
@@ -103,6 +107,7 @@ namespace Files.App.Shell
             var thumbnail = sampleFile != null ? await SafetyExtensions.IgnoreExceptions(() => sampleFile.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 24, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale).AsTask()) : null;
 
             string iconString = null;
+
             if (thumbnail != null)
             {
                 var readStream = thumbnail.AsStreamForRead();

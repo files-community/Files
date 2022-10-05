@@ -5,19 +5,19 @@ using Files.App.Helpers;
 using Files.App.Helpers.XamlHelpers;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Properties;
+using Microsoft.UI;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Navigation;
-using Microsoft.UI;
-using Microsoft.UI.Windowing;
 using System;
 using System.Threading;
 using Windows.Foundation.Metadata;
+using Windows.Graphics;
 using Windows.System;
 using Windows.UI;
-using Windows.Graphics;
 
 namespace Files.App.Views
 {
@@ -58,14 +58,14 @@ namespace Files.App.Views
 			AppInstance = args.AppInstanceArgument;
 			navParameterItem = args.Item;
 			listedItem = args.Item as ListedItem;
-			TabShorcut.Visibility = listedItem != null && listedItem.IsShortcutItem ? Visibility.Visible : Visibility.Collapsed;
-			TabLibrary.Visibility = listedItem != null && listedItem.IsLibraryItem ? Visibility.Visible : Visibility.Collapsed;
-			TabDetails.Visibility = listedItem != null && listedItem.FileExtension != null && !listedItem.IsShortcutItem && !listedItem.IsLibraryItem ? Visibility.Visible : Visibility.Collapsed;
+			TabShorcut.Visibility = listedItem != null && listedItem.IsShortcut ? Visibility.Visible : Visibility.Collapsed;
+			TabLibrary.Visibility = listedItem != null && listedItem.IsLibrary ? Visibility.Visible : Visibility.Collapsed;
+			TabDetails.Visibility = listedItem != null && listedItem.FileExtension != null && !listedItem.IsShortcut && !listedItem.IsLibrary ? Visibility.Visible : Visibility.Collapsed;
 			TabSecurity.Visibility = args.Item is DriveItem ||
-				(listedItem != null && !listedItem.IsLibraryItem && !listedItem.IsRecycleBinItem) ? Visibility.Visible : Visibility.Collapsed;
-			TabCustomization.Visibility = listedItem != null && !listedItem.IsLibraryItem && (
-				(listedItem.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !listedItem.IsZipItem) ||
-				(listedItem.IsShortcutItem && !listedItem.IsLinkItem)) ? Visibility.Visible : Visibility.Collapsed;
+				(listedItem != null && !listedItem.IsLibrary && !listedItem.IsRecycleBinItem) ? Visibility.Visible : Visibility.Collapsed;
+			TabCustomization.Visibility = listedItem != null && !listedItem.IsLibrary && (
+				(listedItem.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !listedItem.IsArchive) ||
+				(listedItem.IsShortcut && !listedItem.IsLinkItem)) ? Visibility.Visible : Visibility.Collapsed;
 			TabCompatibility.Visibility = listedItem != null && (
 					".exe".Equals(listedItem is ShortcutItem sht ? System.IO.Path.GetExtension(sht.TargetPath) : listedItem.FileExtension, StringComparison.OrdinalIgnoreCase)
 				) ? Visibility.Visible : Visibility.Collapsed;
@@ -173,28 +173,30 @@ namespace Files.App.Views
 		private async void AppSettings_ThemeModeChanged(object? sender, EventArgs e)
 		{
 			var selectedTheme = ThemeHelper.RootTheme;
+
 			await DispatcherQueue.EnqueueAsync(() =>
 			{
 				((Frame)Parent).RequestedTheme = selectedTheme;
-				if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+
+				if (!ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+					return;
+
+				switch (selectedTheme)
 				{
-					switch (selectedTheme)
-					{
-						case ElementTheme.Default:
-							appWindow.TitleBar.ButtonHoverBackgroundColor = (Color)Application.Current.Resources["SystemBaseLowColor"];
-							appWindow.TitleBar.ButtonForegroundColor = (Color)Application.Current.Resources["SystemBaseHighColor"];
-							break;
+					case ElementTheme.Default:
+						appWindow.TitleBar.ButtonHoverBackgroundColor = (Color)Application.Current.Resources["SystemBaseLowColor"];
+						appWindow.TitleBar.ButtonForegroundColor = (Color)Application.Current.Resources["SystemBaseHighColor"];
+						break;
 
-						case ElementTheme.Light:
-							appWindow.TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 0, 0, 0);
-							appWindow.TitleBar.ButtonForegroundColor = Colors.Black;
-							break;
+					case ElementTheme.Light:
+						appWindow.TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 0, 0, 0);
+						appWindow.TitleBar.ButtonForegroundColor = Colors.Black;
+						break;
 
-						case ElementTheme.Dark:
-							appWindow.TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 255, 255, 255);
-							appWindow.TitleBar.ButtonForegroundColor = Colors.White;
-							break;
-					}
+					case ElementTheme.Dark:
+						appWindow.TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 255, 255, 255);
+						appWindow.TitleBar.ButtonForegroundColor = Colors.White;
+						break;
 				}
 			});
 		}
