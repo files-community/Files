@@ -19,6 +19,8 @@ using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.System;
 using Files.App.Shell;
+using Vanara.PInvoke;
+using Vanara.Windows.Shell;
 
 namespace Files.App.Helpers
 {
@@ -146,31 +148,20 @@ namespace Files.App.Helpers
             {
                 if (isShortcutItem)
                 {
-                    var connection = await AppServiceConnectionHelper.Instance;
-                    if (connection == null)
-                    {
-                        return false;
-                    }
-                    var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
-                    {
-                        { "Arguments", "FileOperation" },
-                        { "fileop", "ParseLink" },
-                        { "filepath", path }
-                    });
+                    var shInfo = await Win32Shell.ParseLink(path);
 
-                    if (status == AppServiceResponseStatus.Success && response.ContainsKey("ShortcutInfo"))
+                    if (shInfo != null)
                     {
-                        var shInfo = JsonSerializer.Deserialize<ShellLinkItem>(response["ShortcutInfo"].GetString());
-                        if (shInfo != null)
-                        {
-                            shortcutInfo = shInfo;
-                        }
-                        itemType = shInfo != null && shInfo.IsFolder ? FilesystemItemType.Directory : FilesystemItemType.File;
+                        shortcutInfo = shInfo;
                     }
                     else
                     {
+                        // Display dialog here
+
                         return false;
                     }
+
+                    itemType = shInfo.IsFolder ? FilesystemItemType.Directory : FilesystemItemType.File;
                 }
                 else if (isReparsePoint)
                 {
@@ -197,17 +188,11 @@ namespace Files.App.Helpers
             }
 
             if (itemType == FilesystemItemType.Library)
-            {
                 opened = await OpenLibrary(path, associatedInstance, selectItems, forceOpenInNewTab);
-            }
             else if (itemType == FilesystemItemType.Directory)
-            {
                 opened = await OpenDirectory(path, associatedInstance, selectItems, shortcutInfo, forceOpenInNewTab);
-            }
             else if (itemType == FilesystemItemType.File)
-            {
                 opened = await OpenFile(path, associatedInstance, selectItems, shortcutInfo, openViaApplicationPicker, args);
-            }
 
             if (opened.ErrorCode == FileSystemStatusCode.NotFound && !openSilent)
             {

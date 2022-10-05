@@ -1,15 +1,14 @@
-﻿using Files.Shared;
-using Files.Shared.Extensions;
+﻿#nullable enable
+
+using Files.Shared;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
-using Windows.Storage;
 
 namespace Files.App.Shell
 {
@@ -89,6 +88,39 @@ namespace Files.App.Shell
             {
                 return (false, 0, 0);
             }
+        }
+
+        public static async Task<ShellLinkItem?> ParseLink(string filePath)
+        {
+            if (string.IsNullOrEmpty(filePath))
+                return null;
+
+            try
+            {
+                if (filePath.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase))
+                {
+                    using var link = new ShellLink(filePath, LinkResolution.NoUIWithMsgPump, null, TimeSpan.FromMilliseconds(100));
+                    return ShellFolderExtensions.GetShellLinkItem(link);
+                }
+
+                if (filePath.EndsWith(".url", StringComparison.OrdinalIgnoreCase))
+                {
+                    var linkUrl = await Win32API.StartSTATask(() =>
+                    {
+                        var ipf = new Url.IUniformResourceLocator();
+                        (ipf as System.Runtime.InteropServices.ComTypes.IPersistFile)?.Load(filePath, 0);
+                        ipf.GetUrl(out var retVal);
+                        return retVal;
+                    });
+
+                    return string.IsNullOrEmpty(linkUrl) ? null : new ShellLinkItem { TargetPath = linkUrl };
+                }
+            }
+            catch (Exception ex) // Could not parse shortcut
+            {
+                App.Logger?.Warn(ex, ex.Message);
+            }
+            return null;
         }
     }
 }
