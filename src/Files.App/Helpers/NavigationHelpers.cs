@@ -145,7 +145,10 @@ namespace Files.App.Helpers
 					if (shInfo == null)
 						return false;
 
+					itemType = shInfo.IsFolder ? FilesystemItemType.Directory : FilesystemItemType.File;
+
 					shortcutInfo = shInfo;
+
 					if (shortcutInfo.InvalidTarget)
 					{
 						if (await DialogDisplayHelper.ShowDialogAsync(DynamicDialogFactory.GetFor_ShortcutNotFound(shortcutInfo.TargetPath)) != DynamicDialogResult.Primary)
@@ -155,8 +158,6 @@ namespace Files.App.Helpers
 						var shortcutItem = StorageHelpers.FromPathAndType(path, FilesystemItemType.File);
 						await associatedInstance.FilesystemHelpers.DeleteItemAsync(shortcutItem, false, false, true);
 					}
-
-					itemType = shInfo.IsFolder ? FilesystemItemType.Directory : FilesystemItemType.File;
 				}
 				else if (isReparsePoint)
 				{
