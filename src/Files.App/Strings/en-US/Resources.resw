@@ -2838,7 +2838,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Restore</value>
   </data>
   <data name="ShortcutDialog.Title" xml:space="preserve">
-    <value>Problem with Shortcut</value>
+    <value>Shortcut cannot be opened</value>
   </data>
   <data name="ShortcutDialog.Delete" xml:space="preserve">
     <value>Do you want to delete this shortcut?</value>
