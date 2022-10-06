@@ -445,7 +445,7 @@ namespace Files.App.ViewModels
 					}
 				case SectionType.Network:
 					{
-						if (ShowNetworkDrivesSection == false)
+						if (!ShowNetworkDrivesSection)
 						{
 							break;
 						}
