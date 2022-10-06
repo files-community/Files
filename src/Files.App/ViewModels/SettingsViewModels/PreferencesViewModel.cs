@@ -541,7 +541,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 		public void ResetLayoutPreferences()
 		{
 			FolderSettingsViewModel.DbInstance.ResetAll();
-			FolderSettingsViewModel.ResetColumnsWidth();
 			IsResetLayoutPreferencesTipOpen = false;
 			IsLayoutResetCheckmarkVisible = true;
 		}

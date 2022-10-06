@@ -520,16 +520,5 @@ namespace Files.App.ViewModels
 			userSettingsService.PreferencesSettingsService.SizeColumnWidth = columns.SizeColumn.UserLengthPixels;
 			userSettingsService.PreferencesSettingsService.TagColumnWidth = columns.TagColumn.UserLengthPixels;
 		}
-
-		public static void ResetColumnsWidth()
-		{
-			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-			userSettingsService.PreferencesSettingsService.NameColumnWidth = 200d;
-			userSettingsService.PreferencesSettingsService.DateModifiedColumnWidth = 200d;
-			userSettingsService.PreferencesSettingsService.DateCreatedColumnWidth = 200d;
-			userSettingsService.PreferencesSettingsService.TypeColumnWidth = 200d;
-			userSettingsService.PreferencesSettingsService.SizeColumnWidth = 200d;
-			userSettingsService.PreferencesSettingsService.TagColumnWidth = 200d;
-		}
 	}
 }
