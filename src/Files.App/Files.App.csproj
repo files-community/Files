@@ -167,7 +167,7 @@
       <Version>2.1.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.220909.2-experimental2" />
-    <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.3.1" />
+    <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.4" />
     <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.346202">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
