@@ -289,7 +289,6 @@ namespace Files.App.DataModels
 			if (result)
 			{
 				iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(result.Result, 24u, Windows.Storage.FileProperties.ThumbnailMode.ListView);
-				iconData ??= await FileThumbnailHelper.LoadIconFromStorageItemAsync(result.Result, 24u, Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
 			}
 
 			iconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(itemPath, 24u);
