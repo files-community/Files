@@ -257,8 +257,7 @@ namespace Files.App.ViewModels
 
 		private async void CreateItemHome()
 		{
-			var home = await GetOrCreateSection(SectionType.Home);
-			SideBarItems.Add(home);
+			await GetOrCreateSection(SectionType.Home);
 		}
 
 		private async void Manager_DataChanged(object sender, NotifyCollectionChangedEventArgs e)
