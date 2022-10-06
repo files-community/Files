@@ -2233,7 +2233,7 @@
     <value>Dodaj folder</value>
   </data>
   <data name="BundleOptionsFlyoutAddItemMenuItem.Text" xml:space="preserve">
-    <value>&amp;Dodaj element</value>
+    <value>Dodaj element</value>
   </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
     <value>Dostępne aktualizacje</value>
