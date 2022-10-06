@@ -465,7 +465,7 @@ namespace Files.App.ViewModels
 					}
 				case SectionType.FileTag:
 					{
-						if (ShowFileTagsSection == false)
+						if (!ShowFileTagsSection)
 						{
 							break;
 						}
