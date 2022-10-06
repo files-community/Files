@@ -2,9 +2,9 @@
 
   <!-- Output paths -->
   <PropertyGroup>
-    <BaseOutputPath>..\artifacts\$(Configuration)\$(Platform)\</BaseOutputPath>
+    <BaseOutputPath>..\..\artifacts\$(Configuration)\$(Platform)\</BaseOutputPath>
     <OutputPath>$(BaseOutputPath)\$(MSBuildProjectName)\</OutputPath>
-    <IntermediateOutputPath>..\artifacts\intermediates\$(Platform)\$(MSBuildProjectName)\</IntermediateOutputPath>
-    <GeneratedFilesDir>..\artifacts\intermediates\$(Platform)\$(MSBuildProjectName)\Generated Files\</GeneratedFilesDir>
+    <IntermediateOutputPath>..\..\artifacts\intermediates\$(Platform)\$(MSBuildProjectName)\</IntermediateOutputPath>
+    <GeneratedFilesDir>..\..\artifacts\intermediates\$(Platform)\$(MSBuildProjectName)\Generated Files\</GeneratedFilesDir>
   </PropertyGroup>
 </Project>

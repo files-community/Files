@@ -5,7 +5,7 @@ body:
   - type: textarea
     attributes:
       label: Description
-      description: A clear and concise description of what the bug is.
+      description: A clear and concise description of what the issue is.
     validations:
       required: true
   - type: textarea
@@ -16,21 +16,23 @@ body:
         1. Go to '....'
         2. Click on '....'
         3. Scroll down to '....'
-        4. See the error
     validations:
-      required: false
+      required: true
   - type: textarea
     attributes:
-      label: Expected behavior
-      description: A clear and concise description of what you expected to happen.
+      label: Steps to fix
+      description: describe all the requirements to fix the issue (if left blank, issue will likely be closed without discussion).
+      value: |
+        - eg. Fix crash that occurs when...
+        - eg. Correct action happens when clicking...
     validations:
       required: true
   - type: input
     id: files-version
     attributes:
       label: Files Version
-      description: Which version of Files are you using?
-      placeholder: v1.5
+      description: Which version of Files are you using? The version number can be found by going to Files' Settings > About
+      placeholder: "e.g. Version: 2.0.34.0 OS Version: 10.0.22000.282"
     validations:
       required: true
   - type: input
@@ -42,12 +44,14 @@ body:
       required: true
   - type: textarea
     attributes:
-      label: Relevant Assets
+      label: Relevant Assets/Logs
       description: |
-        A list of assets (logs, screenshots, etc) relevant to this bug.
+        A list of assets (logs, screenshots, etc) relevant to this bug. This issue will be closed if the applications log files are not included.
 
         Tip: You can attach image(s) or log file(s) by clicking this area to highlight it and then dragging files in.
       placeholder: |
         To upload the log, access it from Settings -> About -> Open log location; Or
         - Copy the `debug.log` and `debug_fulltrust.log` files from `%localappdata%\Packages\49306atecsolution.FilesUWP_et10x9a9vyk8t\LocalState`
         - Drag and drop them into this text area.
+    validations:
+      required: true
