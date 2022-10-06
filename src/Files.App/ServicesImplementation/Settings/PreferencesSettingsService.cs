@@ -192,61 +192,37 @@ namespace Files.App.ServicesImplementation.Settings
 		public double TagColumnWidth
 		{
 			get => Get(200d);
-			set
-			{
-				if (value != 0)
-					Set(value);
-			}
+			set => Set(value);
 		}
 
 		public double NameColumnWidth
 		{
 			get => Get(200d);
-			set
-			{
-				if (value != 0)
-					Set(value);
-			}
+			set => Set(value);
 		}
 
 		public double DateModifiedColumnWidth
 		{
 			get => Get(200d);
-			set
-			{
-				if (value != 0)
-					Set(value);
-			}
+			set => Set(value);
 		}
 
 		public double TypeColumnWidth
 		{
 			get => Get(200d);
-			set
-			{
-				if (value != 0)
-					Set(value);
-			}
+			set => Set(value);
 		}
 
 		public double DateCreatedColumnWidth
 		{
 			get => Get(200d);
-			set
-			{
-				if (value != 0)
-					Set(value);
-			}
+			set => Set(value);
 		}
 
 		public double SizeColumnWidth
 		{
 			get => Get(200d);
-			set
-			{
-				if (value != 0)
-					Set(value);
-			}
+			set => Set(value);
 		}
 
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
