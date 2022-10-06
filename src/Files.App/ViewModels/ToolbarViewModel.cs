@@ -252,7 +252,7 @@ namespace Files.App.ViewModels
 			&& IsAdaptiveLayoutEnabled;
 
 		public bool IsAdaptiveLayoutEnabled
-			=> !UserSettingsService.PreferencesSettingsService.ForceLayoutPreferencesOnAllDirectories;
+			=> UserSettingsService.PreferencesSettingsService.EnableOverridingFolderPreferences;
 
 		private bool canCopyPathInPage;
 
@@ -396,7 +396,7 @@ namespace Files.App.ViewModels
 					RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
 					OnPropertyChanged(e.SettingName);
 					break;
-				case nameof(UserSettingsService.PreferencesSettingsService.ForceLayoutPreferencesOnAllDirectories):
+				case nameof(UserSettingsService.PreferencesSettingsService.EnableOverridingFolderPreferences):
 					FolderSettings_LayoutPreferencesUpdateRequired(null, 0);
 					break;
 			}

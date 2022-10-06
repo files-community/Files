@@ -473,7 +473,7 @@ namespace Files.App.ViewModels
 					});
 					break;
 				case nameof(UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles):
-				case nameof(UserSettingsService.PreferencesSettingsService.ForceLayoutPreferencesOnAllDirectories):
+				case nameof(UserSettingsService.PreferencesSettingsService.EnableOverridingFolderPreferences):
 					await dispatcherQueue.EnqueueAsync(() =>
 					{
 						folderSettings.OnDefaultPreferencesChanged(WorkingDirectory, e.SettingName);

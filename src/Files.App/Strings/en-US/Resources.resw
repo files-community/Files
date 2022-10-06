@@ -1239,8 +1239,14 @@
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
     <value>Show unindexed items when searching for files and folders</value>
   </data>
-  <data name="ForceThesePreferencesOnAllDirectories" xml:space="preserve">
-    <value>Force these preferences on all directories</value>
+  <data name="ResetFolderPreferencesOverrides" xml:space="preserve">
+    <value>Reset folder overrides</value>
+  </data>
+  <data name="EnableOverridingFolderPreferencesDescription" xml:space="preserve">
+    <value>Changing the layout mode in a directory when this setting is turned off will update the layout mode for all directories.</value>
+  </data>
+  <data name="EnableOverridingFolderPreferences" xml:space="preserve">
+    <value>Enable overriding folder preferences in individual directories</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Customize the right click context menu</value>
@@ -2785,9 +2791,6 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   </data>
   <data name="SetAsDefault" xml:space="preserve">
     <value>Set as default</value>
-  </data>
-  <data name="FolderPreferences" xml:space="preserve">
-    <value>Folder preferences</value>
   </data>
   <data name="DisplayDateColumn" xml:space="preserve">
     <value>Display Date column</value>

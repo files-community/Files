@@ -93,9 +93,9 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
-		public bool ForceLayoutPreferencesOnAllDirectories
+		public bool EnableOverridingFolderPreferences
 		{
-			get => Get(false);
+			get => Get(true);
 			set => Set(value);
 		}
 
@@ -241,7 +241,7 @@ namespace Files.App.ServicesImplementation.Settings
 				case nameof(OpenFoldersWithOneClick):
 				case nameof(ColumnLayoutOpenFoldersWithOneClick):
 				case nameof(SearchUnindexedItems):
-				case nameof(ForceLayoutPreferencesOnAllDirectories):
+				case nameof(EnableOverridingFolderPreferences):
 				case nameof(ShowFolderSize):
 				case nameof(OpenSpecificPageOnStartup):
 				case nameof(ContinueLastSessionOnStartUp):

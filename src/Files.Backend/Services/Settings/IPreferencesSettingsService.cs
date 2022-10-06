@@ -72,9 +72,9 @@ namespace Files.Backend.Services.Settings
 		bool SearchUnindexedItems { get; set; }
 
 		/// <summary>
-		/// Forces default directory preferences on all folders
+		/// Enable overriding folder preferencess in individual directories
 		/// </summary>
-		bool ForceLayoutPreferencesOnAllDirectories { get; set; }
+		bool EnableOverridingFolderPreferences { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether or not to show folder size.

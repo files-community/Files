@@ -701,14 +701,14 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		public bool ForceLayoutPreferencesOnAllDirectories
+		public bool EnableOverridingFolderPreferences
 		{
-			get => UserSettingsService.PreferencesSettingsService.ForceLayoutPreferencesOnAllDirectories;
+			get => UserSettingsService.PreferencesSettingsService.EnableOverridingFolderPreferences;
 			set
 			{
-				if (value != UserSettingsService.PreferencesSettingsService.ForceLayoutPreferencesOnAllDirectories)
+				if (value != UserSettingsService.PreferencesSettingsService.EnableOverridingFolderPreferences)
 				{
-					UserSettingsService.PreferencesSettingsService.ForceLayoutPreferencesOnAllDirectories = value;
+					UserSettingsService.PreferencesSettingsService.EnableOverridingFolderPreferences = value;
 					OnPropertyChanged();
 				}
 			}

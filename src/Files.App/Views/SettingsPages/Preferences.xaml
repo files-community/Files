@@ -252,43 +252,58 @@
 			</local:SettingsBlockControl>
 
 			<!--  Default folder preferences  -->
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=FolderPreferences}" HorizontalAlignment="Stretch">
+			<!--TODO move to own page-->
+			<local:SettingsBlockControl
+				Title="{helpers:ResourceString Name=EnableOverridingFolderPreferences}"
+				HorizontalAlignment="Stretch"
+				Description="{helpers:ResourceString Name=EnableOverridingFolderPreferencesDescription}">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE2AC;" />
 				</local:SettingsBlockControl.Icon>
-				<StackPanel
-					VerticalAlignment="Center"
-					Orientation="Horizontal"
-					Spacing="12">
-					<FontIcon
-						Width="16"
-						VerticalAlignment="Center"
-						FontFamily="{ThemeResource SymbolThemeFontFamily}"
-						FontSize="16"
-						Glyph="&#xE001;"
-						Visibility="{Binding IsLayoutResetCheckmarkVisible}" />
-					<Button
-						x:Name="ResetLayoutPreferencesButton"
-						AutomationProperties.Name="{helpers:ResourceString Name=Reset}"
-						Command="{Binding ShowResetLayoutPreferencesTipCommand}"
-						Content="{helpers:ResourceString Name=Reset}" />
-					<muxc:TeachingTip
-						Title="{helpers:ResourceString Name=AreYouSure}"
-						ActionButtonCommand="{Binding ResetLayoutPreferencesCommand}"
-						ActionButtonContent="{helpers:ResourceString Name=Confirm}"
-						IsLightDismissEnabled="True"
-						IsOpen="{Binding IsResetLayoutPreferencesTipOpen, Mode=TwoWay}"
-						Subtitle="{helpers:ResourceString Name=ResetLayoutPreferences}"
-						Target="{x:Bind ResetLayoutPreferencesButton}" />
-				</StackPanel>
+
+				<ToggleSwitch
+					AutomationProperties.Name="{helpers:ResourceString Name=EnableOverridingFolderPreferences}"
+					IsOn="{Binding EnableOverridingFolderPreferences, Mode=TwoWay}"
+					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 				<local:SettingsBlockControl.ExpandableContent>
 					<StackPanel>
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ForceThesePreferencesOnAllDirectories}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=ForceThesePreferencesOnAllDirectories}"
-								IsOn="{Binding ForceLayoutPreferencesOnAllDirectories, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						<!--  Reset folder overrides  -->
+						<local:SettingsBlockControl
+							x:Name="ResetLayoutPreferencesButton"
+							Title="{helpers:ResourceString Name=ResetFolderPreferencesOverrides}"
+							ButtonCommand="{Binding ShowResetLayoutPreferencesTipCommand}"
+							IsClickable="True">
+							<local:SettingsBlockControl.Icon>
+								<FontIcon
+									FontSize="14"
+									Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+									Glyph="&#xE104;" />
+							</local:SettingsBlockControl.Icon>
+							<Grid>
+								<FontIcon
+									Width="16"
+									HorizontalAlignment="Left"
+									VerticalAlignment="Center"
+									FontFamily="{ThemeResource SymbolThemeFontFamily}"
+									FontSize="16"
+									Glyph="&#xE001;"
+									Visibility="{Binding IsLayoutResetCheckmarkVisible}" />
+
+								<FontIcon
+									HorizontalAlignment="Right"
+									FontSize="14"
+									Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+									Glyph="&#xE2B4;" />
+							</Grid>
 						</local:SettingsBlockControl>
+						<muxc:TeachingTip
+							Title="{helpers:ResourceString Name=AreYouSure}"
+							ActionButtonCommand="{Binding ResetLayoutPreferencesCommand}"
+							ActionButtonContent="{helpers:ResourceString Name=Confirm}"
+							IsLightDismissEnabled="True"
+							IsOpen="{Binding IsResetLayoutPreferencesTipOpen, Mode=TwoWay}"
+							Subtitle="{helpers:ResourceString Name=ResetLayoutPreferences}"
+							Target="{x:Bind ResetLayoutPreferencesButton}" />
 
 						<!--  Details layout columns  -->
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=DisplayTagColumn}" HorizontalAlignment="Stretch">
@@ -325,11 +340,11 @@
 						<!--  Layout mode  -->
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=LayoutMode}" HorizontalAlignment="Stretch">
 							<ComboBox SelectedIndex="{Binding SelectedDefaultLayoutModeIndex, Mode=TwoWay}">
-								<ComboBoxItem Content="{helpers:ResourceString Name=Details}"/>
-								<ComboBoxItem Content="{helpers:ResourceString Name=Tiles}"/>
-								<ComboBoxItem Content="{helpers:ResourceString Name=Columns}"/>
-								<ComboBoxItem Content="{helpers:ResourceString Name=IconGrid}"/>
-								<ComboBoxItem Content="{helpers:ResourceString Name=Adaptive}"/>
+								<ComboBoxItem Content="{helpers:ResourceString Name=Details}" />
+								<ComboBoxItem Content="{helpers:ResourceString Name=Tiles}" />
+								<ComboBoxItem Content="{helpers:ResourceString Name=Columns}" />
+								<ComboBoxItem Content="{helpers:ResourceString Name=IconGrid}" />
+								<ComboBoxItem Content="{helpers:ResourceString Name=Adaptive}" />
 							</ComboBox>
 						</local:SettingsBlockControl>
 					</StackPanel>
