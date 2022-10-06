@@ -153,33 +153,75 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
-	protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
-	{
-		switch (e.SettingName)
+		public bool ShowDateColumn
 		{
-			case nameof(ShowConfirmDeleteDialog):
-			case nameof(OpenFoldersInNewTab):
-			case nameof(ShowFileExtensions):
-			case nameof(AreHiddenItemsVisible):
-			case nameof(AreSystemItemsHidden):
-			case nameof(AreAlternateStreamsVisible):
-			case nameof(ShowDotFiles):
-			case nameof(SelectFilesOnHover):
-			case nameof(OpenFilesWithOneClick):
-			case nameof(OpenFoldersWithOneClick):
-			case nameof(ColumnLayoutOpenFoldersWithOneClick):
-			case nameof(SearchUnindexedItems):
-			case nameof(ForceLayoutPreferencesOnAllDirectories):
-			case nameof(ShowFolderSize):
-			case nameof(OpenSpecificPageOnStartup):
-			case nameof(ContinueLastSessionOnStartUp):
-			case nameof(OpenNewTabOnStartup):
-			case nameof(AlwaysOpenNewInstance):
-				Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
-				break;
+			get => Get(true);
+			set => Set(value);
 		}
 
-		base.RaiseOnSettingChangedEvent(sender, e);
+		public bool ShowDateCreatedColumn
+		{
+			get => Get(false);
+			set => Set(value);
+		}
+
+		public bool ShowTypeColumn
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowSizeColumn
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowFileTagColumn
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public FolderLayoutModes DefaultLayoutMode
+		{
+			get => (FolderLayoutModes)Get((long)FolderLayoutModes.DetailsView);
+			set => Set((long)value);
+		}
+
+		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
+		{
+			switch (e.SettingName)
+			{
+				case nameof(ShowConfirmDeleteDialog):
+				case nameof(OpenFoldersInNewTab):
+				case nameof(ShowFileExtensions):
+				case nameof(AreHiddenItemsVisible):
+				case nameof(AreSystemItemsHidden):
+				case nameof(AreAlternateStreamsVisible):
+				case nameof(ShowDotFiles):
+				case nameof(SelectFilesOnHover):
+				case nameof(OpenFilesWithOneClick):
+				case nameof(OpenFoldersWithOneClick):
+				case nameof(ColumnLayoutOpenFoldersWithOneClick):
+				case nameof(SearchUnindexedItems):
+				case nameof(ForceLayoutPreferencesOnAllDirectories):
+				case nameof(ShowFolderSize):
+				case nameof(OpenSpecificPageOnStartup):
+				case nameof(ContinueLastSessionOnStartUp):
+				case nameof(OpenNewTabOnStartup):
+				case nameof(AlwaysOpenNewInstance):
+				case nameof(ShowDateColumn):
+				case nameof(ShowDateCreatedColumn):
+				case nameof(ShowTypeColumn):
+				case nameof(ShowSizeColumn):
+				case nameof(ShowFileTagColumn):
+				case nameof(DefaultLayoutMode):
+					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
+					break;
+			}
+
+			base.RaiseOnSettingChangedEvent(sender, e);
+		}
 	}
-}
 }
