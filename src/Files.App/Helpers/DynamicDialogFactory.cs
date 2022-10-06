@@ -47,8 +47,8 @@ namespace Files.App.Helpers
             DynamicDialog dialog = new(new DynamicDialogViewModel
             {
                 TitleText = "ShortcutDialog/Title".GetLocalizedResource(),
-                PrimaryButtonText = "ShortcutDialog/PrimaryButtonText".GetLocalizedResource(),
-                SecondaryButtonText = "ShortcutDialog/SecondaryButtonText".GetLocalizedResource(),
+                PrimaryButtonText = "Yes".GetLocalizedResource(),
+                SecondaryButtonText = "No".GetLocalizedResource(),
                 DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary,
                 DisplayControl = new Grid
                 {
