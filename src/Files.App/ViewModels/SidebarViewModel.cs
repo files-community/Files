@@ -257,7 +257,7 @@ namespace Files.App.ViewModels
 
 		private async void CreateItemHome()
 		{
-			await GetOrCreateSection(SectionType.Home);
+			await CreateSection(SectionType.Home);
 		}
 
 		private async void Manager_DataChanged(object sender, NotifyCollectionChangedEventArgs e)
