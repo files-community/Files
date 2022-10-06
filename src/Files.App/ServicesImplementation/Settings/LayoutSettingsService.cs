@@ -4,138 +4,42 @@ using Files.Shared.Enums;
 
 namespace Files.App.ServicesImplementation.Settings
 {
-    internal sealed class LayoutSettingsService : BaseObservableJsonSettings, ILayoutSettingsService
-    {
-        public LayoutSettingsService(ISettingsSharingContext settingsSharingContext)
-        {
-            // Register root
-            RegisterSettingsContext(settingsSharingContext);
-        }
-
-        public bool ShowDateColumn
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
-        public bool ShowDateCreatedColumn
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        public bool ShowTypeColumn
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
-        public bool ShowSizeColumn
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
-        public bool ShowFileTagColumn
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
-		public double TagColumnWidth
+	internal sealed class LayoutSettingsService : BaseObservableJsonSettings, ILayoutSettingsService
+	{
+		public LayoutSettingsService(ISettingsSharingContext settingsSharingContext)
 		{
-			get => Get(200d);
-            set
-            {
-                if (value != 0)
-                    Set(value);
-            }
-		}
-
-		public double NameColumnWidth
-		{
-			get => Get(200d);
-			set
-			{
-				if (value != 0)
-					Set(value);
-			}
-		}
-
-		public double DateModifiedColumnWidth
-		{
-			get => Get(200d);
-			set
-			{
-				if (value != 0)
-					Set(value);
-			}
-		}
-
-		public double TypeColumnWidth
-		{
-			get => Get(200d);
-			set
-			{
-				if (value != 0)
-					Set(value);
-			}
-		}
-
-		public double DateCreatedColumnWidth
-		{
-			get => Get(200d);
-			set
-			{
-				if (value != 0)
-					Set(value);
-			}
-		}
-
-		public double SizeColumnWidth
-		{
-			get => Get(200d);
-			set
-			{
-				if (value != 0)
-					Set(value);
-			}
-		}
+			// Register root
+			RegisterSettingsContext(settingsSharingContext);
+		}		
 
 		public int DefaultGridViewSize
-        {
-            get => (int)Get((long)Constants.Browser.GridViewBrowser.GridViewSizeSmall);
-            set => Set((long)value);
-        }
+		{
+			get => (int)Get((long)Constants.Browser.GridViewBrowser.GridViewSizeSmall);
+			set => Set((long)value);
+		}
 
-        public FolderLayoutModes DefaultLayoutMode
-        {
-            get => (FolderLayoutModes)Get((long)FolderLayoutModes.DetailsView);
-            set => Set((long)value);
-        }
+		public SortDirection DefaultDirectorySortDirection
+		{
+			get => (SortDirection)Get((long)SortDirection.Ascending);
+			set => Set((long)value);
+		}
 
-        public SortDirection DefaultDirectorySortDirection
-        {
-            get => (SortDirection)Get((long)SortDirection.Ascending);
-            set => Set((long)value);
-        }
+		public SortOption DefaultDirectorySortOption
+		{
+			get => (SortOption)Get((long)SortOption.Name);
+			set => Set((long)value);
+		}
+		
+		public bool DefaultSortDirectoriesAlongsideFiles
+		{
+			get => Get(false);
+			set => Set(value);
+		}
 
-        public SortOption DefaultDirectorySortOption
-        {
-            get => (SortOption)Get((long)SortOption.Name);
-            set => Set((long)value);
-        }
-        
-        public bool DefaultSortDirectoriesAlongsideFiles
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        public GroupOption DefaultDirectoryGroupOption
-        {
-            get => (GroupOption)Get((long)GroupOption.None);
-            set => Set((long)value);
-        }
-    }
+		public GroupOption DefaultDirectoryGroupOption
+		{
+			get => (GroupOption)Get((long)GroupOption.None);
+			set => Set((long)value);
+		}
+	}
 }

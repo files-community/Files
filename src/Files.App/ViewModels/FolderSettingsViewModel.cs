@@ -308,7 +308,7 @@ namespace Files.App.ViewModels
             }
             else
             {
-                userSettingsService.LayoutSettingsService.DefaultLayoutMode = prefs.LayoutMode;
+                userSettingsService.PreferencesSettingsService.DefaultLayoutMode = prefs.LayoutMode;
                 userSettingsService.LayoutSettingsService.DefaultGridViewSize = prefs.GridViewSize;
                 // Do not save OriginalPath as global sort option (only works in recycle bin)
                 if (prefs.DirectorySortOption != SortOption.OriginalFolder &&
@@ -326,18 +326,19 @@ namespace Files.App.ViewModels
                 }
                 userSettingsService.LayoutSettingsService.DefaultDirectorySortDirection = prefs.DirectorySortDirection;
                 userSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles = prefs.SortDirectoriesAlongsideFiles;
-                userSettingsService.LayoutSettingsService.ShowDateColumn = !prefs.ColumnsViewModel.DateModifiedColumn.UserCollapsed;
-                userSettingsService.LayoutSettingsService.ShowDateCreatedColumn = !prefs.ColumnsViewModel.DateCreatedColumn.UserCollapsed;
-                userSettingsService.LayoutSettingsService.ShowTypeColumn = !prefs.ColumnsViewModel.ItemTypeColumn.UserCollapsed;
-                userSettingsService.LayoutSettingsService.ShowSizeColumn = !prefs.ColumnsViewModel.SizeColumn.UserCollapsed;
-                userSettingsService.LayoutSettingsService.ShowFileTagColumn = !prefs.ColumnsViewModel.TagColumn.UserCollapsed;
+               
+			    userSettingsService.PreferencesSettingsService.ShowDateColumn = !prefs.ColumnsViewModel.DateModifiedColumn.UserCollapsed;
+                userSettingsService.PreferencesSettingsService.ShowDateCreatedColumn = !prefs.ColumnsViewModel.DateCreatedColumn.UserCollapsed;
+                userSettingsService.PreferencesSettingsService.ShowTypeColumn = !prefs.ColumnsViewModel.ItemTypeColumn.UserCollapsed;
+                userSettingsService.PreferencesSettingsService.ShowSizeColumn = !prefs.ColumnsViewModel.SizeColumn.UserCollapsed;
+                userSettingsService.PreferencesSettingsService.ShowFileTagColumn = !prefs.ColumnsViewModel.TagColumn.UserCollapsed;
 
-                userSettingsService.LayoutSettingsService.NameColumnWidth = prefs.ColumnsViewModel.NameColumn.UserLengthPixels;
-				userSettingsService.LayoutSettingsService.DateModifiedColumnWidth = prefs.ColumnsViewModel.DateModifiedColumn.UserLengthPixels;
-				userSettingsService.LayoutSettingsService.DateCreatedColumnWidth = prefs.ColumnsViewModel.DateCreatedColumn.UserLengthPixels;
-				userSettingsService.LayoutSettingsService.TypeColumnWidth = prefs.ColumnsViewModel.ItemTypeColumn.UserLengthPixels;
-				userSettingsService.LayoutSettingsService.SizeColumnWidth = prefs.ColumnsViewModel.SizeColumn.UserLengthPixels;
-				userSettingsService.LayoutSettingsService.TagColumnWidth = prefs.ColumnsViewModel.TagColumn.UserLengthPixels;
+                userSettingsService.PreferencesSettingsService.NameColumnWidth = prefs.ColumnsViewModel.NameColumn.UserLengthPixels;
+				userSettingsService.PreferencesSettingsService.DateModifiedColumnWidth = prefs.ColumnsViewModel.DateModifiedColumn.UserLengthPixels;
+				userSettingsService.PreferencesSettingsService.DateCreatedColumnWidth = prefs.ColumnsViewModel.DateCreatedColumn.UserLengthPixels;
+				userSettingsService.PreferencesSettingsService.TypeColumnWidth = prefs.ColumnsViewModel.ItemTypeColumn.UserLengthPixels;
+				userSettingsService.PreferencesSettingsService.SizeColumnWidth = prefs.ColumnsViewModel.SizeColumn.UserLengthPixels;
+				userSettingsService.PreferencesSettingsService.TagColumnWidth = prefs.ColumnsViewModel.TagColumn.UserLengthPixels;
 			}
 		}
 
@@ -505,29 +506,30 @@ namespace Files.App.ViewModels
         public void SetDefaultLayoutPreferences(ColumnsViewModel columns)
         {
             IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-            userSettingsService.LayoutSettingsService.ShowDateColumn = !columns.DateModifiedColumn.UserCollapsed;
-            userSettingsService.LayoutSettingsService.ShowDateCreatedColumn = !columns.DateCreatedColumn.UserCollapsed;
-            userSettingsService.LayoutSettingsService.ShowTypeColumn = !columns.ItemTypeColumn.UserCollapsed;
-            userSettingsService.LayoutSettingsService.ShowSizeColumn = !columns.SizeColumn.UserCollapsed;
-            userSettingsService.LayoutSettingsService.ShowFileTagColumn = !columns.TagColumn.UserCollapsed;
+           
+		    userSettingsService.PreferencesSettingsService.ShowDateColumn = !columns.DateModifiedColumn.UserCollapsed;
+            userSettingsService.PreferencesSettingsService.ShowDateCreatedColumn = !columns.DateCreatedColumn.UserCollapsed;
+            userSettingsService.PreferencesSettingsService.ShowTypeColumn = !columns.ItemTypeColumn.UserCollapsed;
+            userSettingsService.PreferencesSettingsService.ShowSizeColumn = !columns.SizeColumn.UserCollapsed;
+            userSettingsService.PreferencesSettingsService.ShowFileTagColumn = !columns.TagColumn.UserCollapsed;
 
-			userSettingsService.LayoutSettingsService.NameColumnWidth = columns.NameColumn.UserLengthPixels;
-			userSettingsService.LayoutSettingsService.DateModifiedColumnWidth = columns.DateModifiedColumn.UserLengthPixels;
-			userSettingsService.LayoutSettingsService.DateCreatedColumnWidth = columns.DateCreatedColumn.UserLengthPixels;
-			userSettingsService.LayoutSettingsService.TypeColumnWidth = columns.ItemTypeColumn.UserLengthPixels;
-			userSettingsService.LayoutSettingsService.SizeColumnWidth = columns.SizeColumn.UserLengthPixels;
-			userSettingsService.LayoutSettingsService.TagColumnWidth = columns.TagColumn.UserLengthPixels;
+			userSettingsService.PreferencesSettingsService.NameColumnWidth = columns.NameColumn.UserLengthPixels;
+			userSettingsService.PreferencesSettingsService.DateModifiedColumnWidth = columns.DateModifiedColumn.UserLengthPixels;
+			userSettingsService.PreferencesSettingsService.DateCreatedColumnWidth = columns.DateCreatedColumn.UserLengthPixels;
+			userSettingsService.PreferencesSettingsService.TypeColumnWidth = columns.ItemTypeColumn.UserLengthPixels;
+			userSettingsService.PreferencesSettingsService.SizeColumnWidth = columns.SizeColumn.UserLengthPixels;
+			userSettingsService.PreferencesSettingsService.TagColumnWidth = columns.TagColumn.UserLengthPixels;
 		}
 
         public static void ResetColumnsWidth()
         {
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-			userSettingsService.LayoutSettingsService.NameColumnWidth = 200d;
-			userSettingsService.LayoutSettingsService.DateModifiedColumnWidth = 200d;
-			userSettingsService.LayoutSettingsService.DateCreatedColumnWidth = 200d;
-			userSettingsService.LayoutSettingsService.TypeColumnWidth = 200d;
-			userSettingsService.LayoutSettingsService.SizeColumnWidth = 200d;
-            userSettingsService.LayoutSettingsService.TagColumnWidth = 200d;
+			userSettingsService.PreferencesSettingsService.NameColumnWidth = 200d;
+			userSettingsService.PreferencesSettingsService.DateModifiedColumnWidth = 200d;
+			userSettingsService.PreferencesSettingsService.DateCreatedColumnWidth = 200d;
+			userSettingsService.PreferencesSettingsService.TypeColumnWidth = 200d;
+			userSettingsService.PreferencesSettingsService.SizeColumnWidth = 200d;
+            userSettingsService.PreferencesSettingsService.TagColumnWidth = 200d;
 		}
 	}
 }

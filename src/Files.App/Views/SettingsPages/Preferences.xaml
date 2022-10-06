@@ -163,13 +163,13 @@
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
-                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SelectFilesAndFoldersOnHover}" HorizontalAlignment="Stretch">
-                            <ToggleSwitch
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SelectFilesAndFoldersOnHover}" HorizontalAlignment="Stretch">
+							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=SelectFilesAndFoldersOnHover}"
 								IsOn="{Binding SelectFilesOnHover, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-                        </local:SettingsBlockControl>
-                    </StackPanel>
+						</local:SettingsBlockControl>
+					</StackPanel>
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
 
@@ -290,6 +290,7 @@
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
+						<!--  Details layout columns  -->
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=DisplayTagColumn}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=DisplayTagColumn}"
@@ -319,6 +320,17 @@
 								AutomationProperties.Name="{helpers:ResourceString Name=DisplayDateCreatedColumn}"
 								IsOn="{Binding ShowDateCreatedColumn, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						</local:SettingsBlockControl>
+
+						<!--  Layout mode  -->
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=LayoutMode}" HorizontalAlignment="Stretch">
+							<ComboBox SelectedIndex="{Binding SelectedDefaultLayoutModeIndex, Mode=TwoWay}">
+								<ComboBoxItem Content="{helpers:ResourceString Name=Details}"/>
+								<ComboBoxItem Content="{helpers:ResourceString Name=Tiles}"/>
+								<ComboBoxItem Content="{helpers:ResourceString Name=Columns}"/>
+								<ComboBoxItem Content="{helpers:ResourceString Name=IconGrid}"/>
+								<ComboBoxItem Content="{helpers:ResourceString Name=Adaptive}"/>
+							</ComboBox>
 						</local:SettingsBlockControl>
 					</StackPanel>
 				</local:SettingsBlockControl.ExpandableContent>
