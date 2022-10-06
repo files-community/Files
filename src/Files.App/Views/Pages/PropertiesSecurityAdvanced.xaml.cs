@@ -31,7 +31,7 @@ namespace Files.App.Views
     {
         private object navParameterItem;
 
-        public string DialogTitle => string.Format("SecurityAdvancedPermissionsTitle".GetLocalizedResource(), ViewModel.Item.ItemName);
+        public string DialogTitle => string.Format("SecurityAdvancedPermissionsTitle".GetLocalizedResource(), ViewModel.Item.Name);
 
         public SecurityProperties ViewModel { get; set; }
 

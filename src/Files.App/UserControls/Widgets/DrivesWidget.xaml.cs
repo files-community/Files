@@ -65,7 +65,7 @@ namespace Files.App.UserControls.Widgets
 
     public sealed partial class DrivesWidget : UserControl, IWidgetItemModel, INotifyPropertyChanged
     {
-        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>()!;
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
         public delegate void DrivesWidgetInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
 

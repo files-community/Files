@@ -25,8 +25,7 @@ namespace Files.App.UserControls
 			this.InitializeComponent();
 		}
 
-		public IUserSettingsService UserSettingsService { get; } =
-			Ioc.Default.GetService<IUserSettingsService>()!;
+		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public AppModel AppModel => App.AppModel;
 

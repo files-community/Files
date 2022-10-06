@@ -22,7 +22,7 @@ namespace Files.App.DataModels
 {
 	public class SidebarPinnedModel
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		private SidebarPinnedController controller;
 
