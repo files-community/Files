@@ -65,9 +65,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			set
 			{
 				if (SetProperty(ref selectedPageIndex, value))
-				{
 					IsPageListEditEnabled = value >= 0;
-				}
 			}
 		}
 
@@ -160,7 +158,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 		public ObservableCollection<Terminal> Terminals { get; set; }
 		public ObservableCollection<AppLanguageItem> AppLanguages { get; set; }
 
-
 		public PreferencesViewModel()
 		{
 			EditTerminalApplicationsCommand = new AsyncRelayCommand(LaunchTerminalsConfigFile);
@@ -186,13 +183,9 @@ namespace Files.App.ViewModels.SettingsViewModels
 			App.TerminalController.ModelChanged += ReloadTerminals;
 
 			if (UserSettingsService.PreferencesSettingsService.TabsOnStartupList != null)
-			{
 				PagesOnStartupList = new ObservableCollection<PageOnStartupViewModel>(UserSettingsService.PreferencesSettingsService.TabsOnStartupList.Select((p) => new PageOnStartupViewModel(p)));
-			}
 			else
-			{
 				PagesOnStartupList = new ObservableCollection<PageOnStartupViewModel>();
-			}
 
 			PagesOnStartupList.CollectionChanged += PagesOnStartupList_CollectionChanged;
 
@@ -214,9 +207,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 			AppLanguages = new ObservableCollection<AppLanguageItem> { };
 			foreach (var language in supportedLanguages)
-			{
 				AppLanguages.Add(new AppLanguageItem(language));
-			}
 
 			SelectedAppLanguageIndex = AppLanguages.IndexOf(AppLanguages.FirstOrDefault(dl => dl.LanguagID == ApplicationLanguages.PrimaryLanguageOverride) ?? AppLanguages.FirstOrDefault());
 		}
@@ -249,9 +240,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 				// add separator
 				if (recentFolders.Any())
-				{
 					menu.Items.Add(new MenuFlyoutSeparatorViewModel());
-				}
 
 				foreach (var recentFolder in recentFolders)
 				{
@@ -275,13 +264,9 @@ namespace Files.App.ViewModels.SettingsViewModels
 		private void PagesOnStartupList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
 			if (PagesOnStartupList.Count > 0)
-			{
 				UserSettingsService.PreferencesSettingsService.TabsOnStartupList = PagesOnStartupList.Select((p) => p.Path).ToList();
-			}
 			else
-			{
 				UserSettingsService.PreferencesSettingsService.TabsOnStartupList = null;
-			}
 		}
 
 		public int SelectedStartupSettingIndex => ContinueLastSessionOnStartUp ? 1 : OpenASpecificPageOnStartup ? 2 : 0;
@@ -327,14 +312,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public ObservableCollection<PageOnStartupViewModel> PagesOnStartupList { get; set; }
 
-
-
-
 		public ReadOnlyCollection<IMenuFlyoutItemViewModel> AddFlyoutItemsSource
 		{
 			get => addFlyoutItemsSource;
 			set => SetProperty(ref addFlyoutItemsSource, value);
 		}
+
 		public bool AlwaysOpenANewInstance
 		{
 			get => UserSettingsService.PreferencesSettingsService.AlwaysOpenNewInstance;
@@ -358,9 +341,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			if (folder != null)
 			{
 				if (SelectedPageIndex >= 0)
-				{
 					PagesOnStartupList[SelectedPageIndex] = new PageOnStartupViewModel(folder.Path);
-				}
 			}
 		}
 
@@ -378,13 +359,9 @@ namespace Files.App.ViewModels.SettingsViewModels
 			{
 				PagesOnStartupList.RemoveAt(index);
 				if (index > 0)
-				{
 					SelectedPageIndex = index - 1;
-				}
 				else if (PagesOnStartupList.Count > 0)
-				{
 					SelectedPageIndex = 0;
-				}
 			}
 		}
 
@@ -397,15 +374,11 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 				var folder = await folderPicker.PickSingleFolderAsync();
 				if (folder != null)
-				{
 					path = folder.Path;
-				}
 			}
 
 			if (path != null && PagesOnStartupList != null)
-			{
 				PagesOnStartupList.Add(new PageOnStartupViewModel(path));
-			}
 		}
 
 		public class PageOnStartupViewModel
@@ -415,13 +388,9 @@ namespace Files.App.ViewModels.SettingsViewModels
 				get
 				{
 					if (Path == "Home".GetLocalizedResource())
-					{
 						return "Home".GetLocalizedResource();
-					}
 					if (Path == CommonPaths.RecycleBinPath)
-					{
 						return ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
-					}
 					return Path;
 				}
 			}
@@ -491,9 +460,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/terminal.json"));
 
 			if (!await Launcher.LaunchFileAsync(configFile))
-			{
 				await ContextMenu.InvokeVerb("open", configFile.Path);
-			}
 		}
 
 		private bool openInLogin;
@@ -529,13 +496,9 @@ namespace Files.App.ViewModels.SettingsViewModels
 			{
 				StartupTask startupTask = await StartupTask.GetAsync("3AA55462-A5FA-4933-88C4-712D0B6CDEBB");
 				if (OpenInLogin)
-				{
 					await startupTask.RequestEnableAsync();
-				}
 				else
-				{
 					startupTask.Disable();
-				}
 				await DetectOpenFilesAtStartup();
 			}
 		}
@@ -879,7 +842,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public DateTimeFormatItem(DateTimeFormats style, DateTimeOffset sampleDate1, DateTimeOffset sampleDate2)
 		{
-			var factory = Ioc.Default.GetService<IDateTimeFormatterFactory>();
+			var factory = Ioc.Default.GetRequiredService<IDateTimeFormatterFactory>();
 			var formatter = factory.GetDateTimeFormatter(style);
 
 			Label = formatter.Name;
