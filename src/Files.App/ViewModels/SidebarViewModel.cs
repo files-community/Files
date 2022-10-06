@@ -258,8 +258,7 @@ namespace Files.App.ViewModels
 
 		private async void CreateItemHome()
 		{
-			var home = await GetOrCreateSection(SectionType.Home);
-			SideBarItems.Add(home);
+			await CreateSection(SectionType.Home);
 		}
 
 		private async void Manager_DataChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -447,7 +446,7 @@ namespace Files.App.ViewModels
 					}
 				case SectionType.Network:
 					{
-						if (ShowNetworkDrivesSection)
+						if (!ShowNetworkDrivesSection)
 						{
 							break;
 						}
@@ -467,7 +466,7 @@ namespace Files.App.ViewModels
 					}
 				case SectionType.FileTag:
 					{
-						if (ShowFileTagsSection)
+						if (!ShowFileTagsSection)
 						{
 							break;
 						}

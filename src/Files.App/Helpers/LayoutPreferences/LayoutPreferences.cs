@@ -24,7 +24,7 @@ namespace Files.App.Helpers.LayoutPreferences
 
         public LayoutPreferences()
         {
-            this.LayoutMode = UserSettingsService.LayoutSettingsService.DefaultLayoutMode;
+            this.LayoutMode = UserSettingsService.PreferencesSettingsService.DefaultLayoutMode;
             this.GridViewSize = UserSettingsService.LayoutSettingsService.DefaultGridViewSize;
             this.DirectorySortOption = UserSettingsService.LayoutSettingsService.DefaultDirectorySortOption;
             this.DirectoryGroupOption = UserSettingsService.LayoutSettingsService.DefaultDirectoryGroupOption;
@@ -33,11 +33,11 @@ namespace Files.App.Helpers.LayoutPreferences
             this.IsAdaptiveLayoutOverridden = false;
 
             this.ColumnsViewModel = new ColumnsViewModel();
-            this.ColumnsViewModel.DateCreatedColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowDateCreatedColumn;
-            this.ColumnsViewModel.DateModifiedColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowDateColumn;
-            this.ColumnsViewModel.ItemTypeColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowTypeColumn;
-            this.ColumnsViewModel.SizeColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowSizeColumn;
-            this.ColumnsViewModel.TagColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowFileTagColumn;
+            this.ColumnsViewModel.DateCreatedColumn.UserCollapsed = !UserSettingsService.PreferencesSettingsService.ShowDateCreatedColumn;
+            this.ColumnsViewModel.DateModifiedColumn.UserCollapsed = !UserSettingsService.PreferencesSettingsService.ShowDateColumn;
+            this.ColumnsViewModel.ItemTypeColumn.UserCollapsed = !UserSettingsService.PreferencesSettingsService.ShowTypeColumn;
+            this.ColumnsViewModel.SizeColumn.UserCollapsed = !UserSettingsService.PreferencesSettingsService.ShowSizeColumn;
+            this.ColumnsViewModel.TagColumn.UserCollapsed = !UserSettingsService.PreferencesSettingsService.ShowFileTagColumn;
         }
 
         public override bool Equals(object obj)
