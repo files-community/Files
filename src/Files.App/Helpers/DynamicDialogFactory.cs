@@ -48,7 +48,7 @@ namespace Files.App.Helpers
             {
                 TitleText = "ShortcutCannotBeOpened".GetLocalizedResource(),
                 SubtitleText = string.Format("DeleteShortcutDescription".GetLocalizedResource(), targetPath),
-                PrimaryButtonText = "Yes".GetLocalizedResource(),
+                PrimaryButtonText = "Delete".GetLocalizedResource(),
                 SecondaryButtonText = "No".GetLocalizedResource(),
                 DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary
             });
