@@ -333,7 +333,7 @@ namespace Files.App.ViewModels
             }
             else
             {
-                userSettingsService.LayoutSettingsService.DefaultLayoutMode = prefs.LayoutMode;
+                userSettingsService.PreferencesSettingsService.DefaultLayoutMode = prefs.LayoutMode;
                 userSettingsService.LayoutSettingsService.DefaultGridViewSize = prefs.GridViewSize;
                 // Do not save OriginalPath as global sort option (only works in recycle bin)
                 if (prefs.DirectorySortOption != SortOption.OriginalFolder &&
@@ -351,11 +351,11 @@ namespace Files.App.ViewModels
                 }
                 userSettingsService.LayoutSettingsService.DefaultDirectorySortDirection = prefs.DirectorySortDirection;
                 userSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles = prefs.SortDirectoriesAlongsideFiles;
-                userSettingsService.LayoutSettingsService.ShowDateColumn = !prefs.ColumnsViewModel.DateModifiedColumn.UserCollapsed;
-                userSettingsService.LayoutSettingsService.ShowDateCreatedColumn = !prefs.ColumnsViewModel.DateCreatedColumn.UserCollapsed;
-                userSettingsService.LayoutSettingsService.ShowTypeColumn = !prefs.ColumnsViewModel.ItemTypeColumn.UserCollapsed;
-                userSettingsService.LayoutSettingsService.ShowSizeColumn = !prefs.ColumnsViewModel.SizeColumn.UserCollapsed;
-                userSettingsService.LayoutSettingsService.ShowFileTagColumn = !prefs.ColumnsViewModel.TagColumn.UserCollapsed;
+                userSettingsService.PreferencesSettingsService.ShowDateColumn = !prefs.ColumnsViewModel.DateModifiedColumn.UserCollapsed;
+                userSettingsService.PreferencesSettingsService.ShowDateCreatedColumn = !prefs.ColumnsViewModel.DateCreatedColumn.UserCollapsed;
+                userSettingsService.PreferencesSettingsService.ShowTypeColumn = !prefs.ColumnsViewModel.ItemTypeColumn.UserCollapsed;
+                userSettingsService.PreferencesSettingsService.ShowSizeColumn = !prefs.ColumnsViewModel.SizeColumn.UserCollapsed;
+                userSettingsService.PreferencesSettingsService.ShowFileTagColumn = !prefs.ColumnsViewModel.TagColumn.UserCollapsed;
             }
         }
 
@@ -537,11 +537,11 @@ namespace Files.App.ViewModels
         public void SetDefaultLayoutPreferences(ColumnsViewModel columns)
         {
             IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-            userSettingsService.LayoutSettingsService.ShowDateColumn = !columns.DateModifiedColumn.UserCollapsed;
-            userSettingsService.LayoutSettingsService.ShowDateCreatedColumn = !columns.DateCreatedColumn.UserCollapsed;
-            userSettingsService.LayoutSettingsService.ShowTypeColumn = !columns.ItemTypeColumn.UserCollapsed;
-            userSettingsService.LayoutSettingsService.ShowSizeColumn = !columns.SizeColumn.UserCollapsed;
-            userSettingsService.LayoutSettingsService.ShowFileTagColumn = !columns.TagColumn.UserCollapsed;
+            userSettingsService.PreferencesSettingsService.ShowDateColumn = !columns.DateModifiedColumn.UserCollapsed;
+            userSettingsService.PreferencesSettingsService.ShowDateCreatedColumn = !columns.DateCreatedColumn.UserCollapsed;
+            userSettingsService.PreferencesSettingsService.ShowTypeColumn = !columns.ItemTypeColumn.UserCollapsed;
+            userSettingsService.PreferencesSettingsService.ShowSizeColumn = !columns.SizeColumn.UserCollapsed;
+            userSettingsService.PreferencesSettingsService.ShowFileTagColumn = !columns.TagColumn.UserCollapsed;
             //TODO: save column sizes
         }
     }
