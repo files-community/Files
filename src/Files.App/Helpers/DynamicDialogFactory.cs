@@ -46,34 +46,11 @@ namespace Files.App.Helpers
         {
             DynamicDialog dialog = new(new DynamicDialogViewModel
             {
-                TitleText = "ShortcutDialog/Title".GetLocalizedResource(),
+                TitleText = "ShortcutCannotBeOpened".GetLocalizedResource(),
+                SubtitleText = string.Format("DeleteShortcutDescription".GetLocalizedResource(), targetPath),
                 PrimaryButtonText = "Yes".GetLocalizedResource(),
                 SecondaryButtonText = "No".GetLocalizedResource(),
-                DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary,
-                DisplayControl = new Grid
-                {
-                    MinWidth = 300d,
-                    Children =
-                    {
-                        new StackPanel
-                        {
-                            Spacing = 4d,
-                            Children =
-                            {
-                                new TextBlock
-                                {
-                                    Text = string.Format("ShortcutDialog/Text".GetLocalizedResource(), targetPath),
-                                    TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap,
-                                },
-                                new TextBlock(),
-                                new TextBlock
-                                {
-                                    Text = "ShortcutDialog/Delete".GetLocalizedResource(),
-                                }
-                            }
-                        }
-                    }
-                },
+                DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary
             });
             return dialog;
         }
