@@ -445,7 +445,7 @@ namespace Files.App.ViewModels
 					}
 				case SectionType.Network:
 					{
-						if (ShowNetworkDrivesSection)
+						if (ShowNetworkDrivesSection == false)
 						{
 							break;
 						}
@@ -465,7 +465,7 @@ namespace Files.App.ViewModels
 					}
 				case SectionType.FileTag:
 					{
-						if (ShowFileTagsSection)
+						if (ShowFileTagsSection == false)
 						{
 							break;
 						}
