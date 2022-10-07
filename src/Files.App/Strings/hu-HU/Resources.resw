@@ -2609,7 +2609,7 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>A könyvtár neve</value>
   </data>
-  <data name="ShowFolderSize" xml:space="preserve">
+  <data name="CalculateFolderSizes" xml:space="preserve">
     <value>Mappák méretének megjelenítése</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">

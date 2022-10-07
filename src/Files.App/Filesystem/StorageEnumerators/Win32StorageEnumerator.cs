@@ -45,7 +45,7 @@ namespace Files.App.Filesystem.StorageEnumerators
             var count = 0;
 
             IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-            bool showFolderSize = userSettingsService.PreferencesSettingsService.ShowFolderSize;
+            bool CalculateFolderSizes = userSettingsService.FoldersSettingsService.CalculateFolderSizes;
 
             do
             {
@@ -102,7 +102,7 @@ namespace Files.App.Filesystem.StorageEnumerators
                                     tempList.AddRange(EnumAdsForPath(folder.ItemPath, folder));
                                 }
 
-                                if (showFolderSize)
+                                if (CalculateFolderSizes)
                                 {
                                     if (folderSizeProvider.TryGetSize(folder.ItemPath, out var size))
                                     {

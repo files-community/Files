@@ -46,12 +46,6 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
-		public bool ShowFolderSize
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
 		public bool OpenSpecificPageOnStartup
 		{
 			get => Get(false);
@@ -108,7 +102,6 @@ namespace Files.App.ServicesImplementation.Settings
 				case nameof(ShowFileExtensions):
 				case nameof(SelectFilesOnHover):
 				case nameof(SearchUnindexedItems):
-				case nameof(ShowFolderSize):
 				case nameof(OpenSpecificPageOnStartup):
 				case nameof(ContinueLastSessionOnStartUp):
 				case nameof(OpenNewTabOnStartup):

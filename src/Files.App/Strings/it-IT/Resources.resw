@@ -2603,7 +2603,7 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>Inserisci il nome della Raccolta</value>
   </data>
-  <data name="ShowFolderSize" xml:space="preserve">
+  <data name="CalculateFolderSizes" xml:space="preserve">
     <value>Mostra dimensione delle cartelle</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">

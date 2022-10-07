@@ -140,6 +140,12 @@ namespace Files.App.ServicesImplementation.Settings
 			get => Get(false);
 			set => Set(value);
 		}
+
+		public bool CalculateFolderSizes
+		{
+			get => Get(false);
+			set => Set(value);
+		}
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
         {
             switch (e.SettingName)
@@ -165,6 +171,7 @@ namespace Files.App.ServicesImplementation.Settings
 				case nameof(OpenFoldersWithOneClick):
 				case nameof(ColumnLayoutOpenFoldersWithOneClick):
 				case nameof(OpenFoldersInNewTab):
+				case nameof(CalculateFolderSizes):
 					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
                     break;
             }

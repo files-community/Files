@@ -2601,7 +2601,7 @@
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>Entrer le nom de la bibliothèque</value>
   </data>
-  <data name="ShowFolderSize" xml:space="preserve">
+  <data name="CalculateFolderSizes" xml:space="preserve">
     <value>Afficher la taille des dossiers</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">

@@ -2608,7 +2608,7 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>Masukkan nama Perpustakaan</value>
   </data>
-  <data name="ShowFolderSize" xml:space="preserve">
+  <data name="CalculateFolderSizes" xml:space="preserve">
     <value>Tampilkan ukuran folder</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">

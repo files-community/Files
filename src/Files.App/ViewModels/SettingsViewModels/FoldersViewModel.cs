@@ -241,6 +241,18 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
+		public bool CalculateFolderSizes
+		{
+			get => UserSettingsService.FoldersSettingsService.CalculateFolderSizes;
+			set
+			{
+				if (value != UserSettingsService.FoldersSettingsService.CalculateFolderSizes)
+				{
+					UserSettingsService.FoldersSettingsService.CalculateFolderSizes = value;
+					OnPropertyChanged();
+				}
+			}
+		}
 
 
 		// Local methods
