@@ -1,36 +1,34 @@
 ﻿<Page
-    x:Class="Files.App.Views.MainPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:contract8Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,8)"
-    xmlns:controls="using:Files.App.UserControls"
-    xmlns:converters="using:Files.App.Converters"
-    xmlns:converters1="using:CommunityToolkit.WinUI.UI.Converters"
-    xmlns:custom="using:CommunityToolkit.WinUI.UI.Controls"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helpers="using:Files.App.Helpers"
-    xmlns:i="using:Microsoft.Xaml.Interactivity"
-    xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:usercontrols="using:Files.App.UserControls.MultitaskingControl"
-    xmlns:viewmodels="using:Files.App.ViewModels"
-    Background="Transparent"
-    KeyboardAcceleratorPlacementMode="Hidden"
-    Loaded="Page_Loaded"
-    NavigationCacheMode="Required"
-    SizeChanged="Page_SizeChanged"
-    mc:Ignorable="d">
-    <!--  WINUI3  -->
-    <!--  BackdropMaterial.ApplyToRootOrPageBackground="False"  -->
+	x:Class="Files.App.Views.MainPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:contract8Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,8)"
+	xmlns:controls="using:Files.App.UserControls"
+	xmlns:converters="using:Files.App.Converters"
+	xmlns:converters1="using:CommunityToolkit.WinUI.UI.Converters"
+	xmlns:custom="using:CommunityToolkit.WinUI.UI.Controls"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:i="using:Microsoft.Xaml.Interactivity"
+	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:usercontrols="using:Files.App.UserControls.MultitaskingControl"
+	xmlns:viewmodels="using:Files.App.ViewModels"
+	Background="Transparent"
+	KeyboardAcceleratorPlacementMode="Hidden"
+	Loaded="Page_Loaded"
+	NavigationCacheMode="Required"
+	SizeChanged="Page_SizeChanged"
+	mc:Ignorable="d">
 
-    <Page.DataContext>
-        <viewmodels:MainPageViewModel />
-    </Page.DataContext>
-    <Page.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ms-appx:///ResourceDictionaries/DefaultGridSplitterStyle.xaml" />
-            </ResourceDictionary.MergedDictionaries>
+	<Page.DataContext>
+		<viewmodels:MainPageViewModel />
+	</Page.DataContext>
+	<Page.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/DefaultGridSplitterStyle.xaml" />
+			</ResourceDictionary.MergedDictionaries>
 
 			<ResourceDictionary.ThemeDictionaries>
 				<ResourceDictionary x:Key="Light">
@@ -245,14 +243,9 @@
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="*" />
-						<ColumnDefinition x:Name="RightPaddingColumn" Width="0" />
-					</Grid.ColumnDefinitions>
 
 					<usercontrols:HorizontalMultitaskingControl
 						x:Name="horizontalMultitaskingControl"
-						Grid.Column="0"
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Stretch"
 						HorizontalContentAlignment="Stretch"
@@ -265,7 +258,6 @@
 						<usercontrols:HorizontalMultitaskingControl.ActionsControl>
 							<Button
 								x:Name="HorizontalMultitaskingControlAddButton"
-								Grid.Column="1"
 								Width="32"
 								Height="32"
 								Padding="8"
@@ -287,28 +279,18 @@
 						</usercontrols:HorizontalMultitaskingControl.ActionsControl>
 					</usercontrols:HorizontalMultitaskingControl>
 
-					<Grid
-						x:Name="TabBorder"
-						Grid.Column="1"
-						HorizontalAlignment="Stretch"
-						VerticalAlignment="Bottom"
-						BorderBrush="{ThemeResource CardStrokeColorDefault}"
-						BorderThickness="0,0,0,1" />
-
 					<controls:AddressToolbar
 						x:Name="NavToolbar"
 						Grid.Row="1"
-						Grid.Column="0"
-						Grid.ColumnSpan="2"
 						HorizontalAlignment="Stretch"
 						HorizontalContentAlignment="Stretch"
 						x:Load="False"
 						Loaded="NavToolbar_Loaded"
 						OngoingTasksViewModel="{x:Bind OngoingTasksViewModel}"
-						SettingsButtonCommand="{x:Bind MainViewModel.OpenSettingsCommand}"
+						SettingsButtonCommand="{x:Bind ViewModel.OpenSettingsCommand}"
 						ShowOngoingTasks="True"
 						ShowSearchBox="True"
-						ShowSettingsButton="{x:Bind IsCompactOverlay, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+						ShowSettingsButton="{x:Bind ViewModel.IsWindowCompactOverlay, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 						TabIndex="1" />
 				</Grid>
 			</controls:SidebarControl.TabContent>
@@ -341,7 +323,7 @@
 					x:Name="InnerNavigationToolbar"
 					Grid.ColumnSpan="3"
 					x:Load="False"
-					IsCompactOverlay="{x:Bind IsCompactOverlay, Mode=OneWay}"
+					IsCompactOverlay="{x:Bind ViewModel.IsWindowCompactOverlay, Mode=OneWay}"
 					Loaded="NavToolbar_Loaded"
 					SetCompactOverlayCommand="{x:Bind SetCompactOverlayCommand}"
 					ShowPreviewPaneButton="{x:Bind IsPreviewPaneEnabled, Mode=OneWay}"

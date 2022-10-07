@@ -454,12 +454,12 @@ namespace Files.App.ViewModels.Widgets.Bundles
             return false;
         }
 
-        private async Task<bool> AddItemFromPath(string path, FilesystemItemType itemType)
+        private Task<bool> AddItemFromPath(string path, FilesystemItemType itemType)
         {
             // Make sure we don't exceed maximum amount && make sure we don't make duplicates
             if (Contents.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle && !Contents.Any((item) => item.Path == path))
             {
-                return await AddBundleItem(new BundleItemViewModel(path, itemType)
+                return AddBundleItem(new BundleItemViewModel(path, itemType)
                 {
                     ParentBundleName = BundleName,
                     NotifyItemRemoved = NotifyItemRemovedHandle,
@@ -468,12 +468,12 @@ namespace Files.App.ViewModels.Widgets.Bundles
                 });
             }
 
-            return false;
+            return Task.FromResult(false);
         }
 
-        private async Task<bool> AddItemsFromPath(IDictionary<string, FilesystemItemType> paths)
+        private Task<bool> AddItemsFromPath(IDictionary<string, FilesystemItemType> paths)
         {
-            return await AddBundleItems(paths.Select((item) => new BundleItemViewModel(item.Key, item.Value)
+            return AddBundleItems(paths.Select((item) => new BundleItemViewModel(item.Key, item.Value)
             {
                 ParentBundleName = BundleName,
                 NotifyItemRemoved = NotifyItemRemovedHandle,

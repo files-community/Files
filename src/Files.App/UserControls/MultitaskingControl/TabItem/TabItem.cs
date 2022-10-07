@@ -2,12 +2,10 @@ using Files.App.ViewModels;
 using Files.App.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Text.Json;
 using Files.App.Helpers;
+using System.Collections.Generic;
 
 namespace Files.App.UserControls.MultitaskingControl
 {
@@ -29,15 +27,15 @@ namespace Files.App.UserControls.MultitaskingControl
             set => SetProperty(ref description, value);
         }
 
-        private string hoverDisplayText;
+        private string toolTipText;
 
         /// <summary>
         /// The text that should be displayed in the tooltip when hovering the tab item.
         /// </summary>
-        public string HoverDisplayText
+        public string ToolTipText
         {
-            get => hoverDisplayText;
-            set => SetProperty(ref hoverDisplayText, value);
+            get => toolTipText;
+            set => SetProperty(ref toolTipText, value);
         }
 
         private IconSource iconSource;
@@ -90,24 +88,30 @@ namespace Files.App.UserControls.MultitaskingControl
 
     public class TabItemArguments
     {
-        private static KnownTypesBinder TypesBinder = new KnownTypesBinder
-        {
-            KnownTypes = { typeof(PaneNavigationArguments) }
-        };
+        private static readonly KnownTypesConverter TypesConverter = new KnownTypesConverter();
 
         public Type InitialPageType { get; set; }
         public object NavigationArg { get; set; }
 
-        public string Serialize() => JsonConvert.SerializeObject(this, new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.Auto,
-            SerializationBinder = TypesBinder
-        });
+        public string Serialize() => JsonSerializer.Serialize(this, TypesConverter.Options);
 
-        public static TabItemArguments Deserialize(string obj) => JsonConvert.DeserializeObject<TabItemArguments>(obj, new JsonSerializerSettings
+        public static TabItemArguments Deserialize(string obj)
         {
-            TypeNameHandling = TypeNameHandling.Auto,
-            SerializationBinder = TypesBinder
-        });
+            var tabArgs = new TabItemArguments();
+
+            var tempArgs = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(obj);
+            tabArgs.InitialPageType = Type.GetType(tempArgs["InitialPageType"].GetString());
+
+            try
+            {
+                tabArgs.NavigationArg = JsonSerializer.Deserialize<PaneNavigationArguments>(tempArgs["NavigationArg"].GetRawText());
+            }
+            catch (JsonException)
+            {
+                tabArgs.NavigationArg = tempArgs["NavigationArg"].GetString();
+            }
+
+            return tabArgs;
+        }
     }
 }

@@ -1,21 +1,23 @@
-using Files.App.DataModels.NavigationControlItems;
-using Files.App.Filesystem;
-using Files.App.ViewModels.Properties;
-using Files.App.Extensions;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
-using System;
-using System.Threading.Tasks;
-using Windows.Foundation.Metadata;
+using Files.App.DataModels.NavigationControlItems;
+using Files.App.Extensions;
+using Files.App.Filesystem;
+using Files.App.Helpers;
+using Files.App.ViewModels.Properties;
+using Microsoft.UI;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
-using static Files.App.Views.PropertiesSecurityAdvanced;
-using Files.App.Helpers;
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using Windows.ApplicationModel;
+using Windows.Foundation.Metadata;
 using Windows.Graphics;
-using Microsoft.UI.Windowing;
-using Microsoft.UI;
+using static Files.App.Views.PropertiesSecurityAdvanced;
 
 namespace Files.App.Views
 {
@@ -74,7 +76,7 @@ namespace Files.App.Views
 
         }
 
-        private async void OpenAdvancedProperties()
+        private void OpenAdvancedProperties()
         {
             if (SecurityProperties == null)
             {
@@ -83,61 +85,54 @@ namespace Files.App.Views
 
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
-                if (WindowDecorationsHelper.IsWindowDecorationsAllowed)
+                if (propsView == null)
                 {
-                    if (propsView == null)
+                    var frame = new Frame();
+                    frame.RequestedTheme = ThemeHelper.RootTheme;
+                    frame.Navigate(typeof(PropertiesSecurityAdvanced), new PropertiesPageNavigationArguments()
                     {
-                        var frame = new Frame();
-                        frame.RequestedTheme = ThemeHelper.RootTheme;
-                        frame.Navigate(typeof(PropertiesSecurityAdvanced), new PropertiesPageNavigationArguments()
-                        {
-                            Item = SecurityProperties.Item
-                        }, new SuppressNavigationTransitionInfo());
+                        Item = SecurityProperties.Item
+                    }, new SuppressNavigationTransitionInfo());
 
-                        // Initialize window
-                        var propertiesWindow = new WinUIEx.WindowEx();
-                        var appWindow = propertiesWindow.AppWindow;
-
-                        // Set content
-                        propertiesWindow.Content = frame;
-                        if (frame.Content is PropertiesSecurityAdvanced properties)
-                            properties.appWindow = appWindow;
-
-                        // Set min size
-                        propertiesWindow.MinWidth = 850;
-                        propertiesWindow.MinHeight = 550;
-
-                        // Set backdrop
-                        propertiesWindow.Backdrop = new WinUIEx.MicaSystemBackdrop() { DarkTintOpacity = 0.8 };
-
-                        if (AppWindowTitleBar.IsCustomizationSupported())
-                        {
-                            appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
-
-                            // Set window buttons background to transparent
-                            appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
-                            appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-                        }
-                        else
-                        {
-                            propertiesWindow.ExtendsContentIntoTitleBar = true;
-                        }
-
-                        appWindow.Title = string.Format("SecurityAdvancedPermissionsTitle".GetLocalizedResource(), SecurityProperties.Item.ItemName);
-                        appWindow.Resize(new SizeInt32(850, 550));
-                        appWindow.Closing += AppWindow_Closing;
-                        appWindow.Show();
-
-                        propsView = appWindow;
-                    }
-                    else
+                    // Initialize window
+                    var propertiesWindow = new WinUIEx.WindowEx()
                     {
-                        propsView.Show(true);
-                    }
+                        IsMinimizable = false,
+                        IsMaximizable = false
+                    };
+                    var appWindow = propertiesWindow.AppWindow;
+
+                    // Set icon
+                    appWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, "Assets/AppTiles/Dev/Logo.ico"));
+
+                    // Set content
+                    propertiesWindow.Content = frame;
+                    if (frame.Content is PropertiesSecurityAdvanced properties)
+                        properties.appWindow = appWindow;
+
+                    // Set min size
+                    propertiesWindow.MinWidth = 850;
+                    propertiesWindow.MinHeight = 550;
+
+                    // Set backdrop
+                    propertiesWindow.Backdrop = new WinUIEx.MicaSystemBackdrop() { DarkTintOpacity = 0.8 };
+
+                    appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+
+                    // Set window buttons background to transparent
+                    appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+                    appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+
+                    appWindow.Title = string.Format("SecurityAdvancedPermissionsTitle".GetLocalizedResource(), SecurityProperties.Item.Name);
+                    appWindow.Resize(new SizeInt32(850, 550));
+                    appWindow.Destroying += AppWindow_Destroying;
+                    appWindow.Show();
+
+                    propsView = appWindow;
                 }
                 else
                 {
-                    //WINUI3
+                    propsView.Show(true);
                 }
             }
             else
@@ -146,9 +141,9 @@ namespace Files.App.Views
             }
         }
 
-        private async void AppWindow_Closing(AppWindow sender, AppWindowClosingEventArgs args)
+        private async void AppWindow_Destroying(AppWindow sender, object args)
         {
-            sender.Closing -= AppWindow_Closing;
+            sender.Destroying -= AppWindow_Destroying;
             propsView = null;
 
             if (SecurityProperties != null)

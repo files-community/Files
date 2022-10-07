@@ -1,8 +1,9 @@
 using Files.Shared.Cloud;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.Json;
+using Vanara.Extensions.Reflection;
 using Windows.Storage;
 
 namespace Files.App.Filesystem.Cloud
@@ -13,11 +14,12 @@ namespace Files.App.Filesystem.Cloud
         {
             string jsonPath = Path.Combine(UserDataPaths.GetDefault().LocalAppData, @"Dropbox\info.json");
             var configFile = await StorageFile.GetFileFromPathAsync(jsonPath);
-            var jsonObj = JObject.Parse(await FileIO.ReadTextAsync(configFile));
+            using var jsonDoc = JsonDocument.Parse(await FileIO.ReadTextAsync(configFile));
+            var jsonElem = jsonDoc.RootElement;
 
-            if (jsonObj.ContainsKey("personal"))
+            if (jsonElem.TryGetProperty("personal", out JsonElement inner))
             {
-                string dropboxPath = (string)jsonObj["personal"]["path"];
+                string dropboxPath = inner.GetProperty("path").GetString();
 
                 yield return new CloudProvider(CloudProviders.DropBox)
                 {
@@ -26,9 +28,9 @@ namespace Files.App.Filesystem.Cloud
                 };
             }
 
-            if (jsonObj.ContainsKey("business"))
+            if (jsonElem.TryGetProperty("business", out JsonElement innerBusiness))
             {
-                string dropboxPath = (string)jsonObj["business"]["path"];
+                string dropboxPath = innerBusiness.GetProperty("path").GetString();
 
                 yield return new CloudProvider(CloudProviders.DropBox)
                 {

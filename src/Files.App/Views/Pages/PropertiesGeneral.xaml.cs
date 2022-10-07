@@ -7,6 +7,7 @@ using CommunityToolkit.WinUI;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
+using Files.App.Shell;
 
 namespace Files.App.Views
 {
@@ -22,20 +23,14 @@ namespace Files.App.Views
             if (BaseProperties is DriveProperties driveProps)
             {
                 var drive = driveProps.Drive;
-                ViewModel.ItemName = ItemFileName.Text; // Make sure ItemName is updated
+                ViewModel.ItemName = ItemFileName.Text; // Make sure Name is updated
                 if (!string.IsNullOrWhiteSpace(ViewModel.ItemName) && ViewModel.OriginalItemName != ViewModel.ItemName)
                 {
                     var remDrive = new System.Text.RegularExpressions.Regex(@"\s*\(\w:\)$");
                     ViewModel.ItemName = remDrive.Replace(ViewModel.ItemName, ""); // Remove "(C:)" from the new label
-                    var connection = await AppServiceConnectionHelper.Instance;
-                    if (connection != null && AppInstance.FilesystemViewModel != null)
+                    if (AppInstance.FilesystemViewModel != null)
                     {
-                        _ = await connection.SendMessageForResponseAsync(new ValueSet()
-                        {
-                            { "Arguments", "SetVolumeLabel" },
-                            { "drivename", drive.Path },
-                            { "newlabel", ViewModel.ItemName }
-                        });
+                        Win32API.SetVolumeLabel(drive.Path, ViewModel.ItemName);
                         _ = App.Window.DispatcherQueue.EnqueueAsync(async () =>
                         {
                             await drive.UpdateLabelAsync();
@@ -48,7 +43,7 @@ namespace Files.App.Views
             else if (BaseProperties is LibraryProperties libProps)
             {
                 var library = libProps.Library;
-                ViewModel.ItemName = ItemFileName.Text; // Make sure ItemName is updated
+                ViewModel.ItemName = ItemFileName.Text; // Make sure Name is updated
                 var newName = ViewModel.ItemName;
                 if (!string.IsNullOrWhiteSpace(newName) && ViewModel.OriginalItemName != newName)
                 {
@@ -88,7 +83,7 @@ namespace Files.App.Views
                     await App.Window.DispatcherQueue.EnqueueAsync(() => UIFilesystemHelpers.SetHiddenAttributeItem(item, ViewModel.IsHidden, AppInstance.SlimContentPage.ItemManipulationModel));
                 }
 
-                ViewModel.ItemName = ItemFileName.Text; // Make sure ItemName is updated
+                ViewModel.ItemName = ItemFileName.Text; // Make sure Name is updated
                 if (!string.IsNullOrWhiteSpace(ViewModel.ItemName) && ViewModel.OriginalItemName != ViewModel.ItemName)
                 {
                     return await App.Window.DispatcherQueue.EnqueueAsync(() => UIFilesystemHelpers.RenameFileItemAsync(item,

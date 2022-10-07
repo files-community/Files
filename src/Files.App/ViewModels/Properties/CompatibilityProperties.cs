@@ -7,15 +7,18 @@ using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
-using Files.App.Helpers;
+using Files.App.Shell;
 
 namespace Files.App.ViewModels.Properties
 {
     public class CompatibilityProperties : ObservableObject
     {
         public ListedItem Item { get; }
+
+        private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
 
         private string ExePath => Item is ShortcutItem sht ? sht.TargetPath : Item.ItemPath;
 
@@ -172,7 +175,7 @@ namespace Files.App.ViewModels.Properties
                 if (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success
                     && response.ContainsKey("CompatOptions"))
                 {
-                    CompatibilityOptions = CompatibilityOptions.FromString((string)response["CompatOptions"]);
+                    CompatibilityOptions = CompatibilityOptions.FromString(response["CompatOptions"].GetString());
                 }
             }
         }
@@ -191,23 +194,12 @@ namespace Files.App.ViewModels.Properties
                 };
                 var (status, response) = await connection.SendMessageForResponseAsync(value);
                 return (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success
-                    && response.Get("Success", false));
+                    && response.Get("Success", defaultJson).GetBoolean());
             }
             return false;
         }
 
-        public async Task RunTroubleshooter()
-        {
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
-            {
-                var value = new ValueSet()
-                {
-                    { "Arguments", "RunCompatibilityTroubleshooter" },
-                    { "filepath", ExePath }
-                };
-                await connection.SendMessageAsync(value);
-            }
-        }
+        public Task RunTroubleshooter()
+            => LaunchHelper.RunCompatibilityTroubleshooterAsync(ExePath);
     }
 }

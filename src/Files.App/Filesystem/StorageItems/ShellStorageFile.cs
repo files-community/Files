@@ -1,17 +1,13 @@
 using Files.Shared;
-using Files.Shared.Extensions;
-using Files.App.Helpers;
-using Newtonsoft.Json;
 using System;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.AppService;
 using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
 using IO = System.IO;
+using Files.App.Shell;
 
 namespace Files.App.Filesystem.StorageItems
 {
@@ -89,37 +85,20 @@ namespace Files.App.Filesystem.StorageItems
 
         public static IAsyncOperation<BaseStorageFile> FromPathAsync(string path)
         {
-            return AsyncInfo.Run<BaseStorageFile>(async (cancellationToken) =>
+            if (ShellStorageFolder.IsShellPath(path))
             {
-                if (ShellStorageFolder.IsShellPath(path))
+                if (GetFile(path) is ShellFileItem file)
                 {
-                    if (await GetFile(path) is ShellFileItem file)
-                    {
-                        return FromShellItem(file);
-                    }
-                }
-                return null;
-            });
-        }
-
-        private static async Task<ShellFileItem> GetFile(string path)
-        {
-            if (await AppServiceConnectionHelper.Instance is NamedPipeAsAppServiceConnection connection)
-            {
-                ValueSet value = new ValueSet()
-                {
-                    { "Arguments", "ShellItem" },
-                    { "action", "Query" },
-                    { "item", path }
-                };
-                var (status, response) = await connection.SendMessageForResponseAsync(value);
-
-                if (status == AppServiceResponseStatus.Success)
-                {
-                    return JsonConvert.DeserializeObject<ShellFileItem>(response.Get("Item", ""));
+                    return Task.FromResult<BaseStorageFile>(FromShellItem(file)).AsAsyncOperation();
                 }
             }
-            return null;
+            return Task.FromResult<BaseStorageFile>(null).AsAsyncOperation();
+        }
+
+        private static ShellFileItem GetFile(string path)
+        {
+            using var shellItem = ShellFolderExtensions.GetShellItemFromPathOrPidl(path);
+            return ShellFolderExtensions.GetShellFileItem(shellItem);
         }
 
         public override bool IsEqual(IStorageItem item) => item?.Path == Path;
@@ -189,13 +168,13 @@ namespace Files.App.Filesystem.StorageItems
         public override IAsyncAction RenameAsync(string desiredName) => throw new NotSupportedException();
         public override IAsyncAction RenameAsync(string desiredName, NameCollisionOption option) => throw new NotSupportedException();
 
-        private async Task<BaseBasicProperties> GetBasicProperties()
+        private Task<BaseBasicProperties> GetBasicProperties()
         {
-            if (await GetFile(Path) is ShellFileItem file)
+            if (GetFile(Path) is ShellFileItem file)
             {
-                return new ShellFileBasicProperties(file);
+                return Task.FromResult<BaseBasicProperties>(new ShellFileBasicProperties(file));
             }
-            return new BaseBasicProperties();
+            return Task.FromResult(new BaseBasicProperties());
         }
 
         private class ShellFileBasicProperties : BaseBasicProperties

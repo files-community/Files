@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Имя</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>Тип</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>Размер</value>
   </data>
@@ -159,8 +156,8 @@
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>Имя</value>
   </data>
-  <data name="PropertiesItemPath.Text" xml:space="preserve">
-    <value>Расположение:</value>
+  <data name="Path" xml:space="preserve">
+    <value>Путь:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Размер:</value>
@@ -517,7 +514,7 @@
     <value>Имя элемента не должно содержать следующих знаков: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
-    <value>Ок</value>
+    <value>ОК</value>
   </data>
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>Имя элемента не должно содержать следующих знаков: \ / : * ? " &lt; &gt; |</value>
@@ -799,6 +796,9 @@
     <value>Создает пустую папку</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>Вид значков</value>
+  </data>
+  <data name="LayoutMode" xml:space="preserve">
     <value>Вид значков</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
@@ -1588,7 +1588,7 @@
     <value>Установить как путь по умолчанию</value>
   </data>
   <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
-    <value>Удалить</value>
+    <value>Убрать</value>
   </data>
   <data name="LibraryNoLocations.Text" xml:space="preserve">
     <value>Расположения отсутствуют</value>
@@ -1671,32 +1671,23 @@
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
     <value>Открывать папки в новой вкладке</value>
   </data>
-  <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
-    <value>Показывать виджет Коллекции папок</value>
+  <data name="ShowBundlesWidget" xml:space="preserve">
+    <value>Показывать виджет наборов</value>
   </data>
-  <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
-    <value>Показывать виджет Диски</value>
+  <data name="ShowDrivesWidget" xml:space="preserve">
+    <value>Показывать виджет дисков</value>
   </data>
-  <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
-    <value>Показывать виджет Папки</value>
+  <data name="ShowFolderWidget" xml:space="preserve">
+    <value>Показать виджет папок</value>
   </data>
-  <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
-    <value>Показывать виджет Последние файлы</value>
-  </data>
-  <data name="NavToolbarWidgets.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Управление виджетами</value>
-  </data>
-  <data name="NavToolbarWidgetsManager.AutomationProperties.Name" xml:space="preserve">
-    <value>Управление виджетами</value>
+  <data name="ShowRecentFilesWidget" xml:space="preserve">
+    <value>Виджет Недавние файлы</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>Не нашли то, что искали?</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
     <value>Искать неиндексированные элементы.</value>
-  </data>
-  <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
-    <value>Управление виджетами</value>
   </data>
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>Перейти к расположению тем</value>
@@ -1768,7 +1759,7 @@
     <value>Группировка</value>
   </data>
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
-    <value>Название</value>
+    <value>Имя</value>
   </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Дата изменения</value>
@@ -1956,7 +1947,7 @@
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Закрыть</value>
   </data>
-  <data name="NavToolbarWidgets.Label" xml:space="preserve">
+  <data name="Widgets" xml:space="preserve">
     <value>Виджеты</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
@@ -2319,12 +2310,6 @@
   <data name="SettingsPrivacy.Title" xml:space="preserve">
     <value>Политика конфиденциальности</value>
   </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
-    <value>Fluent UI System Icons</value>
-  </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Fluent UI System Icons</value>
-  </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>Мы используем App Center для того, чтобы отслеживать и исправлять ошибки. Вся информация, отправляемая в App Center является анонимной и не привязанной к какому-либо пользователю либо контекстуальным данным.
   </value>
@@ -2360,7 +2345,7 @@
     <value>Вставьте диск</value>
   </data>
   <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Ок</value>
+    <value>ОК</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
     <value>Требуются учетные данные</value>
@@ -2405,13 +2390,13 @@
     <value>Столбцы</value>
   </data>
   <data name="LargeIcons" xml:space="preserve">
-    <value>Большие Иконки</value>
+    <value>Огромные значки</value>
   </data>
   <data name="MediumIcons" xml:space="preserve">
-    <value>Средние Иконки</value>
+    <value>Крупные значки</value>
   </data>
   <data name="SmallIcons" xml:space="preserve">
-    <value>Маленькие Иконки</value>
+    <value>Обычные значки</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Плитки</value>
@@ -2426,7 +2411,7 @@
     <value>Показать секцию Избранное</value>
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Открыть в новой вкладке</value>
+    <value>Открывать папки в новой вкладке</value>
   </data>
   <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Закрепить Корзину в секции Избранное</value>
@@ -2546,7 +2531,7 @@
     <value>При запуске программы</value>
   </data>
   <data name="HighDpiOverride_System" xml:space="preserve">
-    <value>Система</value>
+    <value>система</value>
   </data>
   <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
     <value>Система (продвинутый)</value>
@@ -2594,7 +2579,7 @@
     <value>Зарегистрироваться для перезапуска</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
-    <value>Запустить от имени администратора</value>
+    <value>Запуск от имени администратора</value>
   </data>
   <data name="RunCompatibilityTroubleShooter" xml:space="preserve">
     <value>Запустить средство устранения неполадок совместимости</value>
@@ -2617,7 +2602,7 @@
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>Введите название Библиотеки</value>
   </data>
-  <data name="ShowFolderSize" xml:space="preserve">
+  <data name="CalculateFolderSizes" xml:space="preserve">
     <value>Показать размер папки</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
@@ -2630,7 +2615,7 @@
     <value>Аттрибуты</value>
   </data>
   <data name="Hidden" xml:space="preserve">
-    <value>Скрыто</value>
+    <value>Скрытая</value>
   </data>
   <data name="MoreDetails" xml:space="preserve">
     <value>Больше информации</value>
@@ -2647,6 +2632,9 @@
   <data name="Type" xml:space="preserve">
     <value>Тип:</value>
   </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Сітка іконок</value>
+  </data>
   <data name="Bytes" xml:space="preserve">
     <value>Байты</value>
   </data>
@@ -2657,7 +2645,7 @@
     <value>Извлечь файлы</value>
   </data>
   <data name="ExtractHere" xml:space="preserve">
-    <value>Извлечь здесь</value>
+    <value>Извлечь сюда</value>
   </data>
   <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+E</value>
@@ -2729,7 +2717,7 @@
     <value>Показать Секцию Меток</value>
   </data>
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Показывать Секцию Меток</value>
+    <value>Показать Секцию Меток</value>
   </data>
   <data name="UseCompactStyles" xml:space="preserve">
     <value>Использовать компактный стиль макета боковой панели</value>
@@ -2762,7 +2750,7 @@
     <value>Столбцы по размеру содержимого</value>
   </data>
   <data name="Contributors" xml:space="preserve">
-    <value>Контрибьюторы</value>
+    <value>Авторы</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
     <value>Адаптивный</value>
@@ -2783,19 +2771,19 @@
     <value>Хотели бы вы оценить Files?</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
-    <value>Set as background</value>
+    <value>Сделать фоном рабочего стола</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Set as lockscreen</value>
+    <value>Сделать фоном экрана блокировки</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
-    <value>Установить как фон</value>
+    <value>Применить как фон рабочего стола</value>
   </data>
   <data name="SetAsDefault" xml:space="preserve">
     <value>Установить по умолчанию</value>
   </data>
   <data name="FolderPreferences" xml:space="preserve">
-    <value>Folder preferences</value>
+    <value>Предпочтения папок</value>
   </data>
   <data name="DisplayDateColumn" xml:space="preserve">
     <value>Отображать столбец даты</value>
@@ -2813,15 +2801,42 @@
     <value>Отображать столбец типа</value>
   </data>
   <data name="Reset" xml:space="preserve">
-    <value>Reset</value>
+    <value>Сбросить</value>
   </data>
   <data name="ResetLayoutPreferences" xml:space="preserve">
-    <value>This action will reset all directories back to your default preferences.</value>
+    <value>Это действие вернет все папки к настройкам по умолчанию.</value>
   </data>
   <data name="AreYouSure" xml:space="preserve">
-    <value>Are you sure?</value>
+    <value>Вы уверены?</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
-    <value>Lockscreen</value>
+    <value>Экран блокировки</value>
+  </data>
+  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
+    <value>Open folders with a single click in the Columns Layout</value>
+  </data>
+  <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
+    <value>Behavior for opening files and folders</value>
+  </data>
+  <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
+    <value>Select files and folders when hovering over them</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
+    <value>Are you sure you want to restore all items in the recycle bin?</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
+    <value>Восстановить все элементы</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
+    <value>Do you want to restore the {0} selected item(s)?</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
+    <value>Восстановить выбранное</value>
+  </data>
+  <data name="RestoreAllItems" xml:space="preserve">
+    <value>Восстановить все элементы</value>
+  </data>
+  <data name="RestoreSelection" xml:space="preserve">
+    <value>Восстановить</value>
   </data>
 </root>

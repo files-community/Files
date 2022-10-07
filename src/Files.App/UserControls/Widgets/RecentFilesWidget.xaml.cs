@@ -1,34 +1,34 @@
-using Files.Shared.Enums;
-using Files.App.Filesystem;
-using Files.App.Filesystem.StorageItems;
-using Files.Backend.Services.Settings;
-using Files.App.ViewModels;
-using Files.App.ViewModels.Widgets;
-using Files.App.Extensions;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
+using Files.App.Extensions;
+using Files.App.Filesystem;
+using Files.App.Filesystem.StorageItems;
+using Files.App.ViewModels;
+using Files.App.ViewModels.Widgets;
+using Files.Backend.Services.Settings;
+using Files.Shared.Enums;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Imaging;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.AccessCache;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media.Imaging;
-using System.Collections.Specialized;
 using Windows.UI.Core;
-using System.Threading;
-using System.Collections.Generic;
 
 namespace Files.App.UserControls.Widgets
 {
     public sealed partial class RecentFilesWidget : UserControl, IWidgetItemModel
     {
-        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
         public delegate void RecentFilesOpenLocationInvokedEventHandler(object sender, PathNavigationEventArgs e);
 
@@ -52,7 +52,7 @@ namespace Files.App.UserControls.Widgets
 
         public string WidgetHeader => "RecentFiles".GetLocalizedResource();
 
-        public bool IsWidgetSettingEnabled => UserSettingsService.WidgetsSettingsService.ShowRecentFilesWidget;
+        public bool IsWidgetSettingEnabled => UserSettingsService.AppearanceSettingsService.ShowRecentFilesWidget;
 
         public RecentFilesWidget()
         {
@@ -169,7 +169,7 @@ namespace Files.App.UserControls.Widgets
                 {
                     // evict it from the recent items shortcut list
                     // this operation invokes RecentFilesChanged which we handle to update the visible collection
-                    await App.RecentItemsManager.UnpinFromRecentFiles(vm.LinkPath);
+                    App.RecentItemsManager.UnpinFromRecentFiles(vm.LinkPath);
                 }
             }
             finally
@@ -184,7 +184,7 @@ namespace Files.App.UserControls.Widgets
             try
             {
                 recentItemsCollection.Clear();
-                bool success = await App.RecentItemsManager.ClearRecentItems();
+                bool success = App.RecentItemsManager.ClearRecentItems();
 
                 if (success)
                 {
@@ -197,10 +197,10 @@ namespace Files.App.UserControls.Widgets
             }
         }
 
-        public async Task RefreshWidget()
+        public Task RefreshWidget()
         {
             // if files changed, event is fired to update widget
-            await App.RecentItemsManager.UpdateRecentFilesAsync();
+            return App.RecentItemsManager.UpdateRecentFilesAsync();
         }
 
         public void Dispose() 

@@ -56,7 +56,7 @@ namespace Files.App.UserControls.MultitaskingControl
 
         protected void TabStrip_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (App.MainViewModel.TabStripSelectedIndex >= 0 && App.MainViewModel.TabStripSelectedIndex < Items.Count)
+            if (App.AppModel.TabStripSelectedIndex >= 0 && App.AppModel.TabStripSelectedIndex < Items.Count)
             {
                 CurrentSelectedAppInstance = GetCurrentSelectedTabInstance();
 
@@ -93,7 +93,7 @@ namespace Files.App.UserControls.MultitaskingControl
 
         public ITabItemContent GetCurrentSelectedTabInstance()
         {
-            return MainPageViewModel.AppInstances[App.MainViewModel.TabStripSelectedIndex].Control?.TabItemContent;
+            return MainPageViewModel.AppInstances[App.AppModel.TabStripSelectedIndex].Control?.TabItemContent;
         }
 
         public List<ITabItemContent> GetAllTabInstances()

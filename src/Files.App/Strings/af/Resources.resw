@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Naam</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>Soort:</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>Grootte</value>
   </data>
@@ -159,8 +156,8 @@
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>Item Naam</value>
   </data>
-  <data name="PropertiesItemPath.Text" xml:space="preserve">
-    <value>Plek:</value>
+  <data name="Path" xml:space="preserve">
+    <value>Path:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Grootte:</value>
@@ -283,7 +280,7 @@
     <value>Naam</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
-    <value>Soort</value>
+    <value>Soort:</value>
   </data>
   <data name="Ascending" xml:space="preserve">
     <value>Stygende</value>
@@ -313,10 +310,10 @@
     <value>Maak oop</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
-    <value>Maak oop in nuwe duimgids</value>
+    <value>Maak in nuwe duimgids oop</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" xml:space="preserve">
-    <value>Maak oop in nuwe venster</value>
+    <value>Maak in nuwe venster oop</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" xml:space="preserve">
     <value>Stel as werkskermagtergrond</value>
@@ -772,7 +769,7 @@
     <value>Multitasking</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
-    <value>Multi-taak</value>
+    <value>Multitasking</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>Stel as</value>
@@ -799,6 +796,9 @@
     <value>Skep 'n leë omslag</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>Uitlegmodus</value>
+  </data>
+  <data name="LayoutMode" xml:space="preserve">
     <value>Uitlegmodus</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
@@ -1343,7 +1343,7 @@
     <value>Insetveld kan nie leeg wees nie!</value>
   </data>
   <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
-    <value>Maak oop in nuwe duimgids</value>
+    <value>Maak in nuwe duimgids oop</value>
   </data>
   <data name="BundleItemFlyouOpenItemLocationMenuItem.Text" xml:space="preserve">
     <value>Maak itemligging oop</value>
@@ -1397,7 +1397,7 @@
     <value>Item Naam</value>
   </data>
   <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
-    <value>Onpen van Gunstelinge</value>
+    <value>Onpen van gunstelinge</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Netwerkaandrywers</value>
@@ -1672,32 +1672,23 @@
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
     <value>Maak omslae in nuwe duimgids oop</value>
   </data>
-  <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
-    <value>Wys Bondels-hulptuig</value>
+  <data name="ShowBundlesWidget" xml:space="preserve">
+    <value>Show Bundles widget</value>
   </data>
-  <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
-    <value>Wys Aandrywers-hulptuig</value>
+  <data name="ShowDrivesWidget" xml:space="preserve">
+    <value>Show Drives widget</value>
   </data>
-  <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
-    <value>Wys Omslae-hulptuig</value>
+  <data name="ShowFolderWidget" xml:space="preserve">
+    <value>Show Folders widget</value>
   </data>
-  <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
-    <value>Wys onlangse lêers hulptuig</value>
-  </data>
-  <data name="NavToolbarWidgets.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Bestuur Hulptuie</value>
-  </data>
-  <data name="NavToolbarWidgetsManager.AutomationProperties.Name" xml:space="preserve">
-    <value>Bestuur hulptuie</value>
+  <data name="ShowRecentFilesWidget" xml:space="preserve">
+    <value>Show Recent Files widget</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>Het jy nie gevind waarna jy soek nie?</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
     <value>Soek ongedekseerde items.</value>
-  </data>
-  <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
-    <value>Bestuur Hulptuie</value>
   </data>
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>Maak temasomslag oop</value>
@@ -1778,7 +1769,7 @@
     <value>Oorspronklike omslag</value>
   </data>
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
-    <value>Soort</value>
+    <value>Soort:</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Sorteer Volgens</value>
@@ -1957,8 +1948,8 @@
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Ontslaan</value>
   </data>
-  <data name="NavToolbarWidgets.Label" xml:space="preserve">
-    <value>Hulptuie</value>
+  <data name="Widgets" xml:space="preserve">
+    <value>Widgets</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>Sinchrostatus</value>
@@ -2090,7 +2081,7 @@
     <value>Toestemmings</value>
   </data>
   <data name="SecurityAdvancedTypeLabel.Text" xml:space="preserve">
-    <value>Soort</value>
+    <value>Soort:</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
     <value>Jy het nie toestemmings om die sekuriteitseienskappe van hierdie voorwerp te bekyk nie. Jy kan probeer om eienaarskap van hierdie voorwerp te neem.</value>
@@ -2320,12 +2311,6 @@
   <data name="SettingsPrivacy.Title" xml:space="preserve">
     <value>Privaatheidsbeleid</value>
   </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
-    <value>Fluent UI-stelselikone</value>
-  </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Fluent UI-stelselikone</value>
-  </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>*Persoonlike inligting versameling*
 Files versamel, stoor, deel of publiseer geen persoonlike inligting nie.
@@ -2410,13 +2395,13 @@ Ons gebruik App Center om tred te hou met programgebruik, foute te vind en ongel
     <value>Kolomme</value>
   </data>
   <data name="LargeIcons" xml:space="preserve">
-    <value>Groot ikone</value>
+    <value>Groot Ikone</value>
   </data>
   <data name="MediumIcons" xml:space="preserve">
     <value>Medium Ikone</value>
   </data>
   <data name="SmallIcons" xml:space="preserve">
-    <value>Klein ikone</value>
+    <value>Klein Ikone</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Teëls</value>
@@ -2431,7 +2416,7 @@ Ons gebruik App Center om tred te hou met programgebruik, foute te vind en ongel
     <value>Wys gunstelinge-afdeling</value>
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Maak vouers in nuwe duimgids oop</value>
+    <value>Maak omslae in nuwe duimgids oop</value>
   </data>
   <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Pen Herwin Bin na gunstelinge</value>
@@ -2491,7 +2476,7 @@ Ons gebruik App Center om tred te hou met programgebruik, foute te vind en ongel
     <value>Gebruik Files as oop lêerdialoog</value>
   </data>
   <data name="Tag" xml:space="preserve">
-    <value>Merker</value>
+    <value>Lêermerker</value>
   </data>
   <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
     <value>Maak omslae oop met 'n enkele klik</value>
@@ -2622,7 +2607,7 @@ Ons gebruik App Center om tred te hou met programgebruik, foute te vind en ongel
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>Enter Library name</value>
   </data>
-  <data name="ShowFolderSize" xml:space="preserve">
+  <data name="CalculateFolderSizes" xml:space="preserve">
     <value>Show folder size</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
@@ -2635,7 +2620,7 @@ Ons gebruik App Center om tred te hou met programgebruik, foute te vind en ongel
     <value>Kenmerke:</value>
   </data>
   <data name="Hidden" xml:space="preserve">
-    <value>Versteek</value>
+    <value>Versteekte</value>
   </data>
   <data name="MoreDetails" xml:space="preserve">
     <value>Meer besonderhede</value>
@@ -2650,13 +2635,16 @@ Ons gebruik App Center om tred te hou met programgebruik, foute te vind en ongel
     <value>Disk cleanup</value>
   </data>
   <data name="Type" xml:space="preserve">
-    <value>Tipe:</value>
+    <value>Soort:</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Icon Grid</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Grepe</value>
   </data>
   <data name="Extract" xml:space="preserve">
-    <value>Ekstraheer</value>
+    <value>Uitreksel</value>
   </data>
   <data name="ExtractFiles" xml:space="preserve">
     <value>Onttrek lêers</value>
@@ -2828,5 +2816,32 @@ Ons gebruik App Center om tred te hou met programgebruik, foute te vind en ongel
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Lockscreen</value>
+  </data>
+  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
+    <value>Open folders with a single click in the Columns Layout</value>
+  </data>
+  <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
+    <value>Behavior for opening files and folders</value>
+  </data>
+  <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
+    <value>Select files and folders when hovering over them</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
+    <value>Are you sure you want to restore all items in the recycle bin?</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
+    <value>Restore all items</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
+    <value>Do you want to restore the {0} selected item(s)?</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
+    <value>Restore selection</value>
+  </data>
+  <data name="RestoreAllItems" xml:space="preserve">
+    <value>Restore All Items</value>
+  </data>
+  <data name="RestoreSelection" xml:space="preserve">
+    <value>Herstel</value>
   </data>
 </root>

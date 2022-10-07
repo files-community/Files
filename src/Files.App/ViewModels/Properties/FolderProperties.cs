@@ -37,8 +37,8 @@ namespace Files.App.ViewModels.Properties
         {
             if (Item != null)
             {
-                ViewModel.ItemName = Item.ItemName;
-                ViewModel.OriginalItemName = Item.ItemName;
+                ViewModel.ItemName = Item.Name;
+                ViewModel.OriginalItemName = Item.Name;
                 ViewModel.ItemType = Item.ItemType;
                 ViewModel.ItemPath = (Item as RecycleBinItem)?.ItemOriginalFolder ??
                     (Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath);
@@ -49,7 +49,7 @@ namespace Files.App.ViewModels.Properties
                 ViewModel.LoadFileIcon = Item.LoadFileIcon;
                 ViewModel.ContainsFilesOrFolders = Item.ContainsFilesOrFolders;
 
-                if (Item.IsShortcutItem)
+                if (Item.IsShortcut)
                 {
                     var shortcutItem = (ShortcutItem)Item;
                     ViewModel.ShortcutItemType = "Folder".GetLocalizedResource();
@@ -84,7 +84,7 @@ namespace Files.App.ViewModels.Properties
                 ViewModel.LoadFileIcon = true;
             }
 
-            if (Item.IsShortcutItem)
+            if (Item.IsShortcut)
             {
                 ViewModel.ItemSizeVisibility = true;
                 ViewModel.ItemSize = Item.FileSizeBytes.ToLongSizeString();
@@ -124,8 +124,8 @@ namespace Files.App.ViewModels.Properties
                     {
                         if (response.TryGetValue("BinSize", out var binSize))
                         {
-                            ViewModel.ItemSizeBytes = (long)binSize;
-                            ViewModel.ItemSize = ByteSize.FromBytes((long)binSize).ToString();
+                            ViewModel.ItemSizeBytes = binSize.GetInt64();
+                            ViewModel.ItemSize = ByteSize.FromBytes(binSize.GetInt64()).ToString();
                             ViewModel.ItemSizeVisibility = true;
                         }
                         else
@@ -134,7 +134,7 @@ namespace Files.App.ViewModels.Properties
                         }
                         if (response.TryGetValue("NumItems", out var numItems))
                         {
-                            ViewModel.FilesCount = (int)(long)numItems;
+                            ViewModel.FilesCount = (int)numItems.GetInt64();
                             SetItemsCountString();
                             ViewModel.FilesAndFoldersCountVisibility = true;
                         }

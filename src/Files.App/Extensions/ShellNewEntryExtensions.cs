@@ -2,15 +2,13 @@ using Files.Shared;
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.AppService;
-using Windows.Foundation.Collections;
 using Windows.Storage;
-using System.Linq;
+using Files.Shared.Extensions;
+using Files.App.Shell;
 
 namespace Files.App.Extensions
 {
@@ -19,41 +17,17 @@ namespace Files.App.Extensions
         public static async Task<List<ShellNewEntry>> GetNewContextMenuEntries()
         {
             var shellEntryList = new List<ShellNewEntry>();
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
+            var entries = await SafetyExtensions.IgnoreExceptions(() => ShellNewMenuHelper.GetNewContextMenuEntries(), App.Logger);
+            if (entries != null)
             {
-                var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
-                {
-                    { "Arguments", "GetNewContextMenuEntries" }
-                });
-                if (status == AppServiceResponseStatus.Success && response.ContainsKey("Entries"))
-                {
-                    var entries = JsonConvert.DeserializeObject<List<ShellNewEntry>>((string)response["Entries"]);
-                    if (entries != null)
-                    {
-                        shellEntryList.AddRange(entries);
-                    }
-                }
+                shellEntryList.AddRange(entries);
             }
             return shellEntryList;
         }
 
-        public static async Task<ShellNewEntry> GetNewContextMenuEntryForType(string extension)
+        public static async Task<ShellNewEntry?> GetNewContextMenuEntryForType(string extension)
         {
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
-            {
-                var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
-                {
-                    { "Arguments", "GetNewContextMenuEntryForType" },
-                    { "extension", extension }
-                });
-                if (status == AppServiceResponseStatus.Success && response.ContainsKey("Entry"))
-                {
-                    return JsonConvert.DeserializeObject<ShellNewEntry>((string)response["Entry"]);
-                }
-            }
-            return null;
+            return await SafetyExtensions.IgnoreExceptions(() => ShellNewMenuHelper.GetNewContextMenuEntryForType(extension), App.Logger);
         }
 
         public static async Task<FilesystemResult<BaseStorageFile>> Create(this ShellNewEntry shellEntry, string filePath, IShellPage associatedInstance)

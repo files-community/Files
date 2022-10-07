@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Naziv</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>Vrsta</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>Veličina</value>
   </data>
@@ -159,8 +156,8 @@
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>Naziv stavke</value>
   </data>
-  <data name="PropertiesItemPath.Text" xml:space="preserve">
-    <value>Putanja:</value>
+  <data name="Path" xml:space="preserve">
+    <value>Path:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Veličina:</value>
@@ -801,6 +798,9 @@
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Način rasporeda</value>
   </data>
+  <data name="LayoutMode" xml:space="preserve">
+    <value>Način rasporeda</value>
+  </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
     <value>Navigiraj natrag</value>
   </data>
@@ -1195,7 +1195,7 @@
     <value>Status centar</value>
   </data>
   <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Traži</value>
+    <value>Pretraga</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Traži rezultate u {1} za {0}</value>
@@ -1671,32 +1671,23 @@
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
     <value>Otvori mape u novoj kartici</value>
   </data>
-  <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
-    <value>Prikaži programčić Paketi</value>
+  <data name="ShowBundlesWidget" xml:space="preserve">
+    <value>Show Bundles widget</value>
   </data>
-  <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
-    <value>Prikaži programčić Pogoni</value>
+  <data name="ShowDrivesWidget" xml:space="preserve">
+    <value>Show Drives widget</value>
   </data>
-  <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
-    <value>Prikaži programčić Mape</value>
+  <data name="ShowFolderWidget" xml:space="preserve">
+    <value>Show Folders widget</value>
   </data>
-  <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
-    <value>Prikaži programčić Nedavne datoteke</value>
-  </data>
-  <data name="NavToolbarWidgets.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Upravljaj programčićima</value>
-  </data>
-  <data name="NavToolbarWidgetsManager.AutomationProperties.Name" xml:space="preserve">
-    <value>Upravljaj programčićima</value>
+  <data name="ShowRecentFilesWidget" xml:space="preserve">
+    <value>Show Recent Files widget</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>Niste pronašli ono što tražite?</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
     <value>Pretraži neindeksirane stavke.</value>
-  </data>
-  <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
-    <value>Upravljaj programčićima</value>
   </data>
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>Otvori mapu tema</value>
@@ -1956,8 +1947,8 @@
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Odbaci</value>
   </data>
-  <data name="NavToolbarWidgets.Label" xml:space="preserve">
-    <value>Programčići</value>
+  <data name="Widgets" xml:space="preserve">
+    <value>Widgets</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>Status sinkronizacije</value>
@@ -2319,12 +2310,6 @@
   <data name="SettingsPrivacy.Title" xml:space="preserve">
     <value>Pravila zaštite privatnosti</value>
   </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
-    <value>Fluent UI ikone sustava</value>
-  </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Fluent UI ikone sustava</value>
-  </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
 *Prikupljanje osobnih podataka*
@@ -2440,19 +2425,19 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
     <value>Jezik</value>
   </data>
   <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Prikaži odjeljak pogona u oblaku</value>
+    <value>Prikaži odjeljak pogoni u oblaku</value>
   </data>
   <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Prikaz dijaloga za potvrdu prilikom brisanja datoteka ili mapa</value>
   </data>
   <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Prikaži odjeljak s diskovima</value>
+    <value>Prikaži odjeljak za pogone</value>
   </data>
   <data name="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Prikaži odjeljak biblioteke</value>
+    <value>Prikaz biblioteke</value>
   </data>
   <data name="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Prikaži odjeljak mreža</value>
+    <value>Prikaži odjeljak za mreže</value>
   </data>
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Prikaži WSL odjeljak</value>
@@ -2491,7 +2476,7 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
     <value>Koristi Files aplikciju kao dijalog za otvarenje datoteka</value>
   </data>
   <data name="Tag" xml:space="preserve">
-    <value>Oznaka</value>
+    <value>Oznaka datoteke</value>
   </data>
   <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
     <value>Otvori mape jednim klikom</value>
@@ -2622,7 +2607,7 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>Enter Library name</value>
   </data>
-  <data name="ShowFolderSize" xml:space="preserve">
+  <data name="CalculateFolderSizes" xml:space="preserve">
     <value>Prikaži veličinu mape</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
@@ -2650,13 +2635,16 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
     <value>Disk cleanup</value>
   </data>
   <data name="Type" xml:space="preserve">
-    <value>Tip:</value>
+    <value>Vrsta:</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Icon Grid</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Bajtovi</value>
   </data>
   <data name="Extract" xml:space="preserve">
-    <value>Izdvajanje</value>
+    <value>Raspakiraj</value>
   </data>
   <data name="ExtractFiles" xml:space="preserve">
     <value>Raspakiraj datoteke</value>
@@ -2828,5 +2816,32 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Lockscreen</value>
+  </data>
+  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
+    <value>Open folders with a single click in the Columns Layout</value>
+  </data>
+  <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
+    <value>Behavior for opening files and folders</value>
+  </data>
+  <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
+    <value>Select files and folders when hovering over them</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
+    <value>Are you sure you want to restore all items in the recycle bin?</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
+    <value>Restore all items</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
+    <value>Do you want to restore the {0} selected item(s)?</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
+    <value>Restore selection</value>
+  </data>
+  <data name="RestoreAllItems" xml:space="preserve">
+    <value>Restore All Items</value>
+  </data>
+  <data name="RestoreSelection" xml:space="preserve">
+    <value>Vrati</value>
   </data>
 </root>

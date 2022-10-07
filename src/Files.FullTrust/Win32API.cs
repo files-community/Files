@@ -1,7 +1,4 @@
-using Files.Shared;
 using Files.Shared.Extensions;
-using Files.FullTrust.Helpers;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,6 +11,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using System.Text;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -163,119 +161,6 @@ namespace Files.FullTrust
 
         private static readonly object lockObject = new object();
 
-        public static (string icon, string overlay) GetFileIconAndOverlay(string path, int thumbnailSize, bool isFolder, bool getOverlay = true, bool onlyGetOverlay = false)
-        {
-            string iconStr = null, overlayStr = null;
-
-            if (!onlyGetOverlay)
-            {
-                using var shellItem = SafetyExtensions.IgnoreExceptions(() => ShellFolderExtensions.GetShellItemFromPathOrPidl(path));
-                if (shellItem != null && shellItem.IShellItem is Shell32.IShellItemImageFactory fctry)
-                {
-                    var flags = Shell32.SIIGBF.SIIGBF_BIGGERSIZEOK;
-                    if (thumbnailSize < 80) flags |= Shell32.SIIGBF.SIIGBF_ICONONLY;
-                    var hres = fctry.GetImage(new SIZE(thumbnailSize, thumbnailSize), flags, out var hbitmap);
-                    if (hres == HRESULT.S_OK)
-                    {
-                        using var image = GetBitmapFromHBitmap(hbitmap);
-                        if (image != null)
-                        {
-                            byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
-                            iconStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
-                        }
-                    }
-                    //Marshal.ReleaseComObject(fctry);
-                }
-            }
-
-            if (getOverlay || (!onlyGetOverlay && iconStr == null))
-            {
-                var shfi = new Shell32.SHFILEINFO();
-                var flags = Shell32.SHGFI.SHGFI_OVERLAYINDEX | Shell32.SHGFI.SHGFI_ICON | Shell32.SHGFI.SHGFI_SYSICONINDEX | Shell32.SHGFI.SHGFI_ICONLOCATION;
-                var useFileAttibutes = !onlyGetOverlay && iconStr == null; // Cannot access file, use file attributes
-                var ret = ShellFolderExtensions.GetStringAsPidl(path, out var pidl) ? 
-                    Shell32.SHGetFileInfo(pidl, 0, ref shfi, Shell32.SHFILEINFO.Size, Shell32.SHGFI.SHGFI_PIDL | flags) :
-                    Shell32.SHGetFileInfo(path, isFolder ? FileAttributes.Directory : 0, ref shfi, Shell32.SHFILEINFO.Size, flags | (useFileAttibutes ? Shell32.SHGFI.SHGFI_USEFILEATTRIBUTES : 0));
-                if (ret == IntPtr.Zero)
-                {
-                    return (iconStr, null);
-                }
-
-                User32.DestroyIcon(shfi.hIcon);
-
-                lock (lockObject)
-                {
-                    var imageListSize = thumbnailSize switch
-                    {
-                        <= 16 => Shell32.SHIL.SHIL_SMALL,
-                        <= 32 => Shell32.SHIL.SHIL_LARGE,
-                        <= 48 => Shell32.SHIL.SHIL_EXTRALARGE,
-                        _ => Shell32.SHIL.SHIL_JUMBO,
-                    };
-                    if (!Shell32.SHGetImageList(imageListSize, typeof(ComCtl32.IImageList).GUID, out var imageList).Succeeded)
-                    {
-                        return (iconStr, null);
-                    }
-
-                    if (!onlyGetOverlay && iconStr == null)
-                    {
-                        var iconIdx = shfi.iIcon & 0xFFFFFF;
-                        if (iconIdx != 0)
-                        {
-                            // Could not fetch thumbnail, load simple icon
-                            using var hIcon = imageList.GetIcon(iconIdx, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
-                            if (!hIcon.IsNull && !hIcon.IsInvalid)
-                            {
-                                using (var icon = hIcon.ToIcon())
-                                using (var image = icon.ToBitmap())
-                                {
-                                    byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
-                                    iconStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
-                                }
-                            }
-                        }
-                        else if (isFolder)
-                        {
-                            // Could not icon, load generic icon
-                            var icons = ExtractSelectedIconsFromDLL(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "imageres.dll"), new[] { 2 }, thumbnailSize);
-                            var generic = icons.SingleOrDefault(x => x.Index == 2);
-                            iconStr = generic?.IconData;
-                        }
-                        else
-                        {
-                            // Could not icon, load generic icon
-                            var icons = ExtractSelectedIconsFromDLL(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "shell32.dll"), new[] { 1 }, thumbnailSize);
-                            var generic = icons.SingleOrDefault(x => x.Index == 1);
-                            iconStr = generic?.IconData;
-                        }
-                    }
-
-                    var overlayIdx = shfi.iIcon >> 24;
-                    if (overlayIdx != 0 && getOverlay)
-                    {
-                        var overlayImage = imageList.GetOverlayImage(overlayIdx);
-                        using var hOverlay = imageList.GetIcon(overlayImage, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
-                        if (!hOverlay.IsNull && !hOverlay.IsInvalid)
-                        {
-                            using var icon = hOverlay.ToIcon();
-                            using var image = icon.ToBitmap();
-
-                            byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
-                            overlayStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
-                        }
-                    }
-
-                    Marshal.ReleaseComObject(imageList);
-                }
-
-                return (iconStr, overlayStr);
-            }
-            else
-            {
-                return (iconStr, null);
-            }
-        }
-
         public static bool RunPowershellCommand(string command, bool runAsAdmin)
         {
             try
@@ -302,77 +187,6 @@ namespace Files.FullTrust
                 // If user cancels UAC
                 return false;
             }
-        }
-
-        public static IList<IconFileInfo> ExtractSelectedIconsFromDLL(string file, IList<int> indexes, int iconSize = 48)
-        {
-            var iconsList = new List<IconFileInfo>();
-
-            foreach (int index in indexes)
-            {
-                // This is merely to pass into the function and is unneeded otherwise
-                if (Shell32.SHDefExtractIcon(file, -1 * index, 0, out User32.SafeHICON icon, out User32.SafeHICON hIcon2, Convert.ToUInt32(iconSize)) == HRESULT.S_OK)
-                {
-                    using var image = icon.ToBitmap();
-                    byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
-                    var icoStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
-                    iconsList.Add(new IconFileInfo(icoStr, index));
-                    User32.DestroyIcon(icon);
-                    User32.DestroyIcon(hIcon2);
-                }
-            }
-            return iconsList;
-        }
-
-        public static IList<IconFileInfo> ExtractIconsFromDLL(string file)
-        {
-            var iconsList = new List<IconFileInfo>();
-            var currentProc = Process.GetCurrentProcess();
-            using var icoCnt = Shell32.ExtractIcon(currentProc.Handle, file, -1);
-            if (icoCnt == null)
-            {
-                return null;
-            }
-            int count = icoCnt.DangerousGetHandle().ToInt32();
-            int maxIndex = count - 1;
-            if (maxIndex == 0)
-            {
-                using var icon = Shell32.ExtractIcon(currentProc.Handle, file, 0);
-                using var image = icon.ToBitmap();
-
-                byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
-                var icoStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
-                iconsList.Add(new IconFileInfo(icoStr, 0));
-            }
-            else if (maxIndex > 0)
-            {
-                for (int i = 0; i <= maxIndex; i++)
-                {
-                    using var icon = Shell32.ExtractIcon(currentProc.Handle, file, i);
-                    using var image = icon.ToBitmap();
-
-                    byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
-                    var icoStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
-                    iconsList.Add(new IconFileInfo(icoStr, i));
-                }
-            }
-            else
-            {
-                return null;
-            }
-            return iconsList;
-        }
-
-        public static bool SetCustomDirectoryIcon(string folderPath, string iconFile, int iconIndex = 0)
-        {
-            var fcs = new Shell32.SHFOLDERCUSTOMSETTINGS();
-            fcs.dwSize = (uint)Marshal.SizeOf(fcs);
-            fcs.dwMask = Shell32.FOLDERCUSTOMSETTINGSMASK.FCSM_ICONFILE;
-            fcs.pszIconFile = iconFile;
-            fcs.cchIconFile = 0;
-            fcs.iIconIndex = iconIndex;
-
-            return Shell32.SHGetSetFolderCustomSettings(ref fcs, folderPath, Shell32.FCS.FCS_FORCEWRITE).Succeeded;
         }
 
         public static void UnlockBitlockerDrive(string drive, string password)
@@ -473,7 +287,7 @@ namespace Files.FullTrust
                 {
                     { "RequestID", requestID }
                 };
-                var serialized = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message));
+                var serialized = JsonSerializer.SerializeToUtf8Bytes(message);
                 await pipe.WriteAsync(serialized);
             });
         }

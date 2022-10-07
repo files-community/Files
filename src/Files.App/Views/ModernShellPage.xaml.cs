@@ -36,6 +36,7 @@ using Files.Backend.Enums;
 using Files.Backend.Services;
 using Files.Backend.ViewModels.Dialogs.AddItemDialog;
 using CommunityToolkit.WinUI;
+using Files.App.DataModels;
 
 namespace Files.App.Views
 {
@@ -48,13 +49,13 @@ namespace Files.App.Views
         public bool CanNavigateBackward => ItemDisplayFrame.CanGoBack;
         public bool CanNavigateForward => ItemDisplayFrame.CanGoForward;
         public FolderSettingsViewModel FolderSettings => InstanceViewModel?.FolderSettings;
-        public MainViewModel MainViewModel => App.MainViewModel;
+        public AppModel AppModel => App.AppModel;
 
         private IDialogService DialogService { get; } = Ioc.Default.GetRequiredService<IDialogService>();
 
-        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-        private IUpdateService UpdateSettingsService { get; } = Ioc.Default.GetService<IUpdateService>();
+        private IUpdateService UpdateSettingsService { get; } = Ioc.Default.GetRequiredService<IUpdateService>();
 
         private bool isCurrentInstance = false;
         public bool IsCurrentInstance
@@ -271,6 +272,8 @@ namespace Files.App.Views
             ToolbarViewModel.DeleteCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DeleteItemCommand.Execute(null));
             ToolbarViewModel.CutCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.CutItemCommand.Execute(null));
             ToolbarViewModel.EmptyRecycleBinCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.EmptyRecycleBinCommand.Execute(null));
+            ToolbarViewModel.RestoreRecycleBinCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RestoreRecycleBinCommand.Execute(null));
+            ToolbarViewModel.RestoreSelectionRecycleBinCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RestoreSelectionRecycleBinCommand.Execute(null));
             ToolbarViewModel.RunWithPowerShellCommand = new RelayCommand(async () => await Win32Helpers.InvokeWin32ComponentAsync("powershell", this, PathNormalization.NormalizePath(SlimContentPage?.SelectedItem.ItemPath)));
             ToolbarViewModel.PropertiesCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.ShowPropertiesCommand.Execute(null));
             ToolbarViewModel.SetAsBackgroundCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.SetAsDesktopBackgroundItemCommand.Execute(null));
@@ -851,7 +854,7 @@ namespace Files.App.Views
                     break;
 
                 case (true, false, false, true, VirtualKey.H): // ctrl + h, toggle hidden folder visibility
-                    UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible ^= true; // flip bool
+                    UserSettingsService.FoldersSettingsService.ShowHiddenItems ^= true; // flip bool
                     break;
 
                 case (false, false, false, _, VirtualKey.F1): // F1, open Files wiki

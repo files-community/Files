@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Nome</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>Tipo</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>Tamanho</value>
   </data>
@@ -159,8 +156,8 @@
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>Nome do Item</value>
   </data>
-  <data name="PropertiesItemPath.Text" xml:space="preserve">
-    <value>Caminho:</value>
+  <data name="Path" xml:space="preserve">
+    <value>Path:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Tamanho:</value>
@@ -801,6 +798,9 @@
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Modo de layout</value>
   </data>
+  <data name="LayoutMode" xml:space="preserve">
+    <value>Modo de layout</value>
+  </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
     <value>Navegar para trás</value>
   </data>
@@ -1393,7 +1393,7 @@
     <value>Nenhum detalhe disponível</value>
   </data>
   <data name="PropertyItemName" xml:space="preserve">
-    <value>Nome do item</value>
+    <value>Nome do Item</value>
   </data>
   <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
     <value>Desafixar dos Favoritos</value>
@@ -1671,32 +1671,23 @@
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
     <value>Abrir pastas em uma nova guia</value>
   </data>
-  <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
-    <value>Mostrar Widget de Pacotes</value>
+  <data name="ShowBundlesWidget" xml:space="preserve">
+    <value>Show Bundles widget</value>
   </data>
-  <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
-    <value>Mostrar Widget de Unidades</value>
+  <data name="ShowDrivesWidget" xml:space="preserve">
+    <value>Show Drives widget</value>
   </data>
-  <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
-    <value>Mostrar Widget de Pastas</value>
+  <data name="ShowFolderWidget" xml:space="preserve">
+    <value>Show Folders widget</value>
   </data>
-  <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
-    <value>Mostrar Widget de Arquivos Recentes</value>
-  </data>
-  <data name="NavToolbarWidgets.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Gerenciar Widgets</value>
-  </data>
-  <data name="NavToolbarWidgetsManager.AutomationProperties.Name" xml:space="preserve">
-    <value>Gerenciar Widgets</value>
+  <data name="ShowRecentFilesWidget" xml:space="preserve">
+    <value>Show Recent Files widget</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>Não encontrou o que procurava?</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
     <value>Pesquisar itens não indexados.</value>
-  </data>
-  <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
-    <value>Gerenciar Widgets</value>
   </data>
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>Abrir a pasta de temas</value>
@@ -1956,8 +1947,8 @@
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Dispensar</value>
   </data>
-  <data name="NavToolbarWidgets.Label" xml:space="preserve">
-    <value>Componentes</value>
+  <data name="Widgets" xml:space="preserve">
+    <value>Widgets</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>Status de sincronização</value>
@@ -2319,12 +2310,6 @@
   <data name="SettingsPrivacy.Title" xml:space="preserve">
     <value>Política de privacidade</value>
   </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
-    <value>Ícones de Sistema Fluent UI</value>
-  </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Ícones de Sistema Fluent UI</value>
-  </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
 Usamos o App Center para rastrear quais configurações estão sendo usadas, encontrar bugs e corrigir falhas. As informações enviadas ao App Center são anônimas e livres de quaisquer dados do usuário ou contextuais.
@@ -2334,7 +2319,7 @@ Usamos o App Center para rastrear quais configurações estão sendo usadas, enc
     <value>Abrir local do arquivo</value>
   </data>
   <data name="FileTagUnknown" xml:space="preserve">
-    <value>Desconhecida</value>
+    <value>Desconhecido</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
     <value>Etiqueta</value>
@@ -2424,31 +2409,31 @@ Usamos o App Center para rastrear quais configurações estão sendo usadas, enc
     <value>Mostrar itens ocultos</value>
   </data>
   <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar seção de Favoritos</value>
+    <value>Mostrar a seção de favoritos</value>
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Abrir pastas em uma nova guia</value>
   </data>
   <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Fixar lixeira nos Favoritos</value>
+    <value>Fixar a Lixeira nos Favoritos</value>
   </data>
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Idioma</value>
   </data>
   <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar seção de Unidades em Nuvem</value>
+    <value>Mostrar seção de drives em nuvem</value>
   </data>
   <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostra diálogo de confirmação ao deletar arquivos ou pastas</value>
+    <value>Mostrar uma caixa de confirmação ao deletar arquivos ou pastas</value>
   </data>
   <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar seção de Unidades</value>
+    <value>Mostrar seção de unidades de armazenamento</value>
   </data>
   <data name="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar a seção de Bibliotecas</value>
+    <value>Mostrar a seção de bibliotecas</value>
   </data>
   <data name="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar seção de Rede</value>
+    <value>Mostrar seção de rede</value>
   </data>
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Mostrar seção WSL</value>
@@ -2618,7 +2603,7 @@ Usamos o App Center para rastrear quais configurações estão sendo usadas, enc
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>Digite o nome da Biblioteca</value>
   </data>
-  <data name="ShowFolderSize" xml:space="preserve">
+  <data name="CalculateFolderSizes" xml:space="preserve">
     <value>Mostrar tamanho da pasta</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
@@ -2647,6 +2632,9 @@ Usamos o App Center para rastrear quais configurações estão sendo usadas, enc
   </data>
   <data name="Type" xml:space="preserve">
     <value>Tipo:</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Icon Grid</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>‘Bytes’</value>
@@ -2694,7 +2682,7 @@ Usamos o App Center para rastrear quais configurações estão sendo usadas, enc
     <value>Fechar demais guias</value>
   </data>
   <data name="Music" xml:space="preserve">
-    <value>Músicas</value>
+    <value>Música</value>
   </data>
   <data name="Pictures" xml:space="preserve">
     <value>Imagens</value>
@@ -2790,7 +2778,7 @@ Usamos o App Center para rastrear quais configurações estão sendo usadas, enc
     <value>Set as lockscreen</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
-    <value>Definir como fundo da área de trabalho</value>
+    <value>Definir como tela de fundo da área de trabalho</value>
   </data>
   <data name="SetAsDefault" xml:space="preserve">
     <value>Set as default</value>
@@ -2824,5 +2812,32 @@ Usamos o App Center para rastrear quais configurações estão sendo usadas, enc
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Lockscreen</value>
+  </data>
+  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
+    <value>Open folders with a single click in the Columns Layout</value>
+  </data>
+  <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
+    <value>Behavior for opening files and folders</value>
+  </data>
+  <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
+    <value>Select files and folders when hovering over them</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
+    <value>Are you sure you want to restore all items in the recycle bin?</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
+    <value>Restore all items</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
+    <value>Do you want to restore the {0} selected item(s)?</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
+    <value>Restore selection</value>
+  </data>
+  <data name="RestoreAllItems" xml:space="preserve">
+    <value>Restore All Items</value>
+  </data>
+  <data name="RestoreSelection" xml:space="preserve">
+    <value>Restaurar</value>
   </data>
 </root>

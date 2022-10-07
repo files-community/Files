@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Név</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>Típus</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>Méret</value>
   </data>
@@ -159,8 +156,8 @@
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>Név</value>
   </data>
-  <data name="PropertiesItemPath.Text" xml:space="preserve">
-    <value>Elérési út:</value>
+  <data name="Path" xml:space="preserve">
+    <value>Path:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Méret:</value>
@@ -550,7 +547,7 @@
     <value>Biztosan véglegesen törölni szeretné ezeket az elemeket?</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
-    <value>Lomtár kiürítése</value>
+    <value>Lomtár ürítése</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
     <value>bájt</value>
@@ -799,6 +796,9 @@
     <value>Új mappa létrehozása</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>Elrendezés</value>
+  </data>
+  <data name="LayoutMode" xml:space="preserve">
     <value>Elrendezés</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
@@ -1174,7 +1174,7 @@
     <value>Új lap (Ctrl+T)</value>
   </data>
   <data name="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Új lap (Ctrl + T)</value>
+    <value>Új lap (Ctrl+T)</value>
   </data>
   <data name="HorizontalMultitaskingControlCloseButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Lap bezárása (Ctrl+W)</value>
@@ -1588,7 +1588,7 @@
     <value>Beállítás alapértelmezett mentési útvonalként</value>
   </data>
   <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
-    <value>Eltávolítás</value>
+    <value>Törlés</value>
   </data>
   <data name="LibraryNoLocations.Text" xml:space="preserve">
     <value>Nincsenek helyek</value>
@@ -1671,32 +1671,23 @@
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
     <value>Mappák megnyitása új lapon</value>
   </data>
-  <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
+  <data name="ShowBundlesWidget" xml:space="preserve">
     <value>Munkaterületek megjelenítése</value>
   </data>
-  <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
+  <data name="ShowDrivesWidget" xml:space="preserve">
     <value>Meghajtók megjelenítése</value>
   </data>
-  <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
+  <data name="ShowFolderWidget" xml:space="preserve">
     <value>Könyvtárak megjelenítése</value>
   </data>
-  <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
+  <data name="ShowRecentFilesWidget" xml:space="preserve">
     <value>Előzmények megjelenítése</value>
-  </data>
-  <data name="NavToolbarWidgets.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Widgetek kezelése</value>
-  </data>
-  <data name="NavToolbarWidgetsManager.AutomationProperties.Name" xml:space="preserve">
-    <value>Widgetek kezelése</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>Nincs itt amit keresett?</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
     <value>Nem indexelt elemek keresése.</value>
-  </data>
-  <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
-    <value>Widgetek kezelése</value>
   </data>
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>Témák mappa megnyitása</value>
@@ -1956,8 +1947,8 @@
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Elutasítás</value>
   </data>
-  <data name="NavToolbarWidgets.Label" xml:space="preserve">
-    <value>Widgetek</value>
+  <data name="Widgets" xml:space="preserve">
+    <value>Widgets</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>Szinkronizálás állapota</value>
@@ -2317,13 +2308,7 @@
     <value>Ctrl+Shift+N</value>
   </data>
   <data name="SettingsPrivacy.Title" xml:space="preserve">
-    <value>Adatvédelmi szabályzat</value>
-  </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
-    <value>Fluent UI System Icons</value>
-  </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Fluent UI System Icons</value>
+    <value>Adatvédelmi irányelvek</value>
   </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
@@ -2624,7 +2609,7 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>A könyvtár neve</value>
   </data>
-  <data name="ShowFolderSize" xml:space="preserve">
+  <data name="CalculateFolderSizes" xml:space="preserve">
     <value>Mappák méretének megjelenítése</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
@@ -2653,6 +2638,9 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
   </data>
   <data name="Type" xml:space="preserve">
     <value>Típus:</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Icon Grid</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Méret bájtokban</value>
@@ -2830,5 +2818,32 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Zárolási képernyő</value>
+  </data>
+  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
+    <value>Mappák megnyitása egy kattintással Oszlopok nézetben</value>
+  </data>
+  <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
+    <value>Fájlok és mappák megnyitása</value>
+  </data>
+  <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
+    <value>Select files and folders when hovering over them</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
+    <value>Biztosan vissza szeretné állítani a Lomtárban lévő összes elemet?</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
+    <value>Összes elem visszaállítása</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
+    <value>Biztosan vissza szeretne állítani {0} kijelölt elemet?</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
+    <value>Kiválasztott visszaállítása</value>
+  </data>
+  <data name="RestoreAllItems" xml:space="preserve">
+    <value>Összes elem visszaállítása</value>
+  </data>
+  <data name="RestoreSelection" xml:space="preserve">
+    <value>Visszaállítás</value>
   </data>
 </root>

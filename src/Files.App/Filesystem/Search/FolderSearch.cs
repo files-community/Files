@@ -22,9 +22,9 @@ namespace Files.App.Filesystem.Search
 {
     public class FolderSearch
     {
-        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-        private IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>();
+        private IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
         private const uint defaultStepSize = 500;
 
@@ -76,27 +76,29 @@ namespace Files.App.Filesystem.Search
             }
         }
 
-        public async Task SearchAsync(IList<ListedItem> results, CancellationToken token)
+        public Task SearchAsync(IList<ListedItem> results, CancellationToken token)
         {
             try
             {
                 if (App.LibraryManager.TryGetLibrary(Folder, out var library))
                 {
-                    await AddItemsAsyncForLibrary(library, results, token);
+                    return AddItemsAsyncForLibrary(library, results, token);
                 }
                 else if (Folder == "Home".GetLocalizedResource())
                 {
-                    await AddItemsAsyncForHome(results, token);
+                    return AddItemsAsyncForHome(results, token);
                 }
                 else
                 {
-                    await AddItemsAsync(Folder, results, token);
+                    return AddItemsAsync(Folder, results, token);
                 }
             }
             catch (Exception e)
             {
                 App.Logger.Warn(e, "Search failure");
             }
+
+            return Task.CompletedTask;
         }
 
         private async Task AddItemsAsyncForHome(IList<ListedItem> results, CancellationToken token)
@@ -156,7 +158,7 @@ namespace Files.App.Filesystem.Search
                     try
                     {
                         var startWithDot = item.Name.StartsWith(".");
-                        bool shouldBeListed = !startWithDot || UserSettingsService.PreferencesSettingsService.ShowDotFiles;
+                        bool shouldBeListed = !startWithDot || UserSettingsService.FoldersSettingsService.ShowDotFiles;
                         if (shouldBeListed)
                         {
                             results.Add(await GetListedItemAsync(item));
@@ -217,9 +219,9 @@ namespace Files.App.Filesystem.Search
                     var startWithDot = findData.cFileName.StartsWith(".");
                     
                     bool shouldBeListed = (!isHidden || 
-                        (UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible && 
-                        (!isSystem || !UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden))) && 
-                        (!startWithDot || UserSettingsService.PreferencesSettingsService.ShowDotFiles);
+                        (UserSettingsService.FoldersSettingsService.ShowHiddenItems && 
+                        (!isSystem || UserSettingsService.FoldersSettingsService.ShowProtectedSystemFiles))) && 
+                        (!startWithDot || UserSettingsService.FoldersSettingsService.ShowDotFiles);
                     
                     if (shouldBeListed)
                     {
@@ -239,7 +241,7 @@ namespace Files.App.Filesystem.Search
                         IStorageItem item = (BaseStorageFile)await GetStorageFileAsync(match.FilePath);
                         item ??= (BaseStorageFolder)await GetStorageFolderAsync(match.FilePath);
                         var startWithDot = item.Name.StartsWith(".");
-                        bool shouldBeListed = !startWithDot || UserSettingsService.PreferencesSettingsService.ShowDotFiles;
+                        bool shouldBeListed = !startWithDot || UserSettingsService.FoldersSettingsService.ShowDotFiles;
                         if (shouldBeListed)
                         {
                             results.Add(await GetListedItemAsync(item));
@@ -280,7 +282,7 @@ namespace Files.App.Filesystem.Search
                     hiddenOnlyFromWin32 = (results.Count != 0);
                 }
 
-                if (!IsAQSQuery && (!hiddenOnlyFromWin32 || UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible))
+                if (!IsAQSQuery && (!hiddenOnlyFromWin32 || UserSettingsService.FoldersSettingsService.ShowHiddenItems))
                 {
                     await SearchWithWin32Async(folder, hiddenOnlyFromWin32, UsedMaxItemCount - (uint)results.Count, results, token);
                 }
@@ -316,9 +318,9 @@ namespace Files.App.Filesystem.Search
                         var startWithDot = findData.cFileName.StartsWith(".");
 
                         bool shouldBeListed = (hiddenOnly ?
-                            isHidden && (!isSystem || !UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden) :
-                            !isHidden || (UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible && (!isSystem || !UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden))) &&
-                            (!startWithDot || UserSettingsService.PreferencesSettingsService.ShowDotFiles);
+                            isHidden && (!isSystem || !UserSettingsService.FoldersSettingsService.ShowProtectedSystemFiles) :
+                            !isHidden || (UserSettingsService.FoldersSettingsService.ShowHiddenItems && (!isSystem || UserSettingsService.FoldersSettingsService.ShowProtectedSystemFiles))) &&
+                            (!startWithDot || UserSettingsService.FoldersSettingsService.ShowDotFiles);
                         
                         if (shouldBeListed)
                         {
@@ -531,10 +533,10 @@ namespace Files.App.Filesystem.Search
             return query;
         }
 
-        private static async Task<FilesystemResult<BaseStorageFolder>> GetStorageFolderAsync(string path)
-            => await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
+        private static Task<FilesystemResult<BaseStorageFolder>> GetStorageFolderAsync(string path)
+            => FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
 
-        private static async Task<FilesystemResult<BaseStorageFile>> GetStorageFileAsync(string path)
-            => await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path));
+        private static Task<FilesystemResult<BaseStorageFile>> GetStorageFileAsync(string path)
+            => FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path));
     }
 }

@@ -1,15 +1,21 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
-using Files.Backend.Services.Settings;
-using Files.Shared.Extensions;
+using CommunityToolkit.WinUI.UI;
 using Files.App.DataModels;
 using Files.App.DataModels.NavigationControlItems;
+using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.ViewModels;
-using Files.App.Extensions;
+using Files.Backend.Services.Settings;
+using Files.Shared.Extensions;
+using Microsoft.UI.Input;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Input;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,24 +23,18 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using UWPToWinAppSDKUpgradeHelpers;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.System;
 using Windows.UI.Core;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Input;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
-using CommunityToolkit.WinUI.UI;
-using Microsoft.UI.Input;
-using UWPToWinAppSDKUpgradeHelpers;
 
 namespace Files.App.UserControls
 {
     public sealed partial class SidebarControl : NavigationView, INotifyPropertyChanged
     {
-        public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+        public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
         public delegate void SidebarItemInvokedEventHandler(object sender, SidebarItemInvokedEventArgs e);
 
@@ -157,7 +157,7 @@ namespace Files.App.UserControls
             OpenInNewWindowCommand = new RelayCommand(OpenInNewWindow);
             OpenInNewPaneCommand = new RelayCommand(OpenInNewPane);
             EjectDeviceCommand = new RelayCommand(EjectDevice);
-            OpenPropertiesCommand = new RelayCommand(OpenProperties);
+            OpenPropertiesCommand = new RelayCommand<CommandBarFlyout>(OpenProperties);
         }
 
         public SidebarViewModel ViewModel
@@ -188,7 +188,7 @@ namespace Files.App.UserControls
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems(INavigationControlItem item)
+        private List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems(INavigationControlItem item, CommandBarFlyout menu)
         {
             ContextMenuOptions options = item.MenuOptions;
 
@@ -314,6 +314,7 @@ namespace Files.App.UserControls
                     Text = "BaseLayoutContextFlyoutPropertiesFolder/Text".GetLocalizedResource(),
                     Glyph = "\uE946",
                     Command = OpenPropertiesCommand,
+                    CommandParameter = menu,
                     ShowItem = options.ShowProperties
                 },
                 new ContextMenuFlyoutItemViewModel()
@@ -385,7 +386,7 @@ namespace Files.App.UserControls
 
         private void PinItem()
         {
-            if(rightClickedItem is DriveItem)
+            if (rightClickedItem is DriveItem)
             {
                 App.SidebarPinnedController.Model.AddItem(rightClickedItem.Path);
             }
@@ -393,12 +394,7 @@ namespace Files.App.UserControls
 
         private void UnpinItem()
         {
-            if (rightClickedItem.MenuOptions.ShowEmptyRecycleBin)
-            {
-                UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar = false;
-                App.SidebarPinnedController.Model.ShowHideRecycleBinItem(false);
-            }
-            else if (rightClickedItem.Section == SectionType.Favorites || rightClickedItem is DriveItem)
+            if (rightClickedItem.Section == SectionType.Favorites || rightClickedItem is DriveItem)
             {
                 App.SidebarPinnedController.Model.RemoveItem(rightClickedItem.Path);
             }
@@ -488,14 +484,21 @@ namespace Files.App.UserControls
             }
         }
 
-        private void OpenProperties()
+        private void OpenProperties(CommandBarFlyout menu)
         {
-            SidebarItemPropertiesInvoked?.Invoke(this, new SidebarItemPropertiesInvokedEventArgs(rightClickedItem));
+            EventHandler<object> flyoutClosed = null!;
+            flyoutClosed = (s, e) =>
+            {
+                menu.Closed -= flyoutClosed;
+                SidebarItemPropertiesInvoked?.Invoke(this, new SidebarItemPropertiesInvokedEventArgs(rightClickedItem));
+            };
+            menu.Closed += flyoutClosed;
         }
 
         private async void EjectDevice()
         {
-            await DriveHelpers.EjectDeviceAsync(rightClickedItem.Path);
+            var result = await DriveHelpers.EjectDeviceAsync(rightClickedItem.Path);
+            await UIHelpers.ShowDeviceEjectResultAsync(result);
         }
 
         private async void Sidebar_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
@@ -555,7 +558,7 @@ namespace Files.App.UserControls
 
             rightClickedItem = item;
 
-            var menuItems = GetLocationItemMenuItems(item);
+            var menuItems = GetLocationItemMenuItems(item, itemContextMenuFlyout);
             var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
             if (!UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu)
@@ -1151,7 +1154,8 @@ namespace Files.App.UserControls
                     bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalizedResource(), string.Format("InsertDiscDialog/Text".GetLocalizedResource(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalizedResource(), "Close".GetLocalizedResource());
                     if (ejectButton)
                     {
-                        await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
+                        var result = await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
+                        await UIHelpers.ShowDeviceEjectResultAsync(result);
                     }
                     return true;
                 }
@@ -1168,15 +1172,15 @@ namespace Files.App.UserControls
                     var emptyRecycleBinItem = itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "EmptyRecycleBin") as AppBarButton;
                     if (emptyRecycleBinItem is not null)
                     {
-                        var binHasItems = await new RecycleBinHelpers().RecycleBinHasItems();
+                        var binHasItems = new RecycleBinHelpers().RecycleBinHasItems();
                         emptyRecycleBinItem.IsEnabled = binHasItems;
                     }
                 }
                 if (options.IsLocationItem)
                 {
                     var shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
-                    var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(connection: await AppServiceConnectionHelper.Instance, currentInstanceViewModel: null, workingDir: null,
-                        new List<ListedItem>() { new ListedItem(null) { ItemPath = rightClickedItem.Path } }, shiftPressed: shiftPressed, showOpenMenu: false);
+                    var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(currentInstanceViewModel: null, workingDir: null,
+                        new List<ListedItem>() { new ListedItem(null) { ItemPath = rightClickedItem.Path } }, shiftPressed: shiftPressed, showOpenMenu: false, default);
                     if (!UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu)
                     {
                         var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(shellMenuItems);

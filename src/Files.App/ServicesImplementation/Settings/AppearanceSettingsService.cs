@@ -1,6 +1,6 @@
+using Files.App.Serialization;
 using Files.Backend.Services.Settings;
 using Files.Shared.EventArguments;
-using Files.App.Serialization;
 using Microsoft.AppCenter.Analytics;
 using System;
 
@@ -68,12 +68,6 @@ namespace Files.App.ServicesImplementation.Settings
             set => Set(value);
         }
 
-        public bool PinRecycleBinToSidebar
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
         public bool MoveOverflowMenuItemsToSubMenu
         {
             get => Get(true);
@@ -83,6 +77,53 @@ namespace Files.App.ServicesImplementation.Settings
         public bool UseCompactStyles
         {
             get => Get(false);
+            set => Set(value);
+        }
+        public bool ShowFoldersWidget
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        public bool ShowRecentFilesWidget
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        public bool ShowDrivesWidget
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        public bool ShowBundlesWidget
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        public bool FoldersWidgetExpanded
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        public bool RecentFilesWidgetExpanded
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        public bool DrivesWidgetExpanded
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        public bool BundlesWidgetExpanded
+        {
+            get => Get(true);
             set => Set(value);
         }
 
@@ -97,26 +138,16 @@ namespace Files.App.ServicesImplementation.Settings
                 case nameof(ShowNetworkDrivesSection):
                 case nameof(ShowWslSection):
                 case nameof(ShowFileTagsSection):
-                case nameof(PinRecycleBinToSidebar):
                 case nameof(UseCompactStyles):
-                    Analytics.TrackEvent($"{e.SettingName} {e.NewValue}");
+                case nameof(ShowFoldersWidget):
+                case nameof(ShowRecentFilesWidget):
+                case nameof(ShowDrivesWidget):
+                case nameof(ShowBundlesWidget):
+                    Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
                     break;
             }
 
             base.RaiseOnSettingChangedEvent(sender, e);
-        }
-
-        public void ReportToAppCenter()
-        {
-            Analytics.TrackEvent($"{nameof(MoveOverflowMenuItemsToSubMenu)}, {MoveOverflowMenuItemsToSubMenu}");
-            Analytics.TrackEvent($"{nameof(ShowFavoritesSection)}, {ShowFavoritesSection}");
-            Analytics.TrackEvent($"{nameof(ShowLibrarySection)}, {ShowLibrarySection}");
-            Analytics.TrackEvent($"{nameof(ShowCloudDrivesSection)}, {ShowCloudDrivesSection}");
-            Analytics.TrackEvent($"{nameof(ShowNetworkDrivesSection)}, {ShowNetworkDrivesSection}");
-            Analytics.TrackEvent($"{nameof(ShowWslSection)}, {ShowWslSection}");
-            Analytics.TrackEvent($"{nameof(ShowFileTagsSection)}, {ShowFileTagsSection}");
-            Analytics.TrackEvent($"{nameof(PinRecycleBinToSidebar)}, {PinRecycleBinToSidebar}");
-            Analytics.TrackEvent($"{nameof(UseCompactStyles)}, {UseCompactStyles}");
         }
     }
 }

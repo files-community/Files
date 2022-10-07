@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Navn</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>Type</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>Størrelse</value>
   </data>
@@ -159,8 +156,8 @@
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>Emnenavn</value>
   </data>
-  <data name="PropertiesItemPath.Text" xml:space="preserve">
-    <value>Sti:</value>
+  <data name="Path" xml:space="preserve">
+    <value>Path:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Størrelse:</value>
@@ -292,7 +289,7 @@
     <value>Opdatér</value>
   </data>
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
-    <value>Indsæt</value>
+    <value>Sæt ind</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Nyt</value>
@@ -550,7 +547,7 @@
     <value>Er du sikker på, at du vil slette alle disse emner permanent?</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
-    <value>Tøm papirkurv</value>
+    <value>Tøm papirkurven</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
     <value>bytes</value>
@@ -799,6 +796,9 @@
     <value>Opretter en tom mappe</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>Layouttilstand</value>
+  </data>
+  <data name="LayoutMode" xml:space="preserve">
     <value>Layouttilstand</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
@@ -1342,7 +1342,7 @@
     <value>Input-feltet kan ikke være tomt!</value>
   </data>
   <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
-    <value>Åbn på en ny fane</value>
+    <value>Åbn i ny fane</value>
   </data>
   <data name="BundleItemFlyouOpenItemLocationMenuItem.Text" xml:space="preserve">
     <value>Åbn element-lokation</value>
@@ -1393,7 +1393,7 @@
     <value>Der er ingen detaljer tilgængelige.</value>
   </data>
   <data name="PropertyItemName" xml:space="preserve">
-    <value>Elementnavn</value>
+    <value>Emnenavn</value>
   </data>
   <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
     <value>Unpin from Favorites</value>
@@ -1588,7 +1588,7 @@
     <value>Set as default save path</value>
   </data>
   <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
-    <value>Slet</value>
+    <value>Fjern</value>
   </data>
   <data name="LibraryNoLocations.Text" xml:space="preserve">
     <value>No locations</value>
@@ -1671,32 +1671,23 @@
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
     <value>Open folders in new tab</value>
   </data>
-  <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
+  <data name="ShowBundlesWidget" xml:space="preserve">
     <value>Show Bundles widget</value>
   </data>
-  <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
+  <data name="ShowDrivesWidget" xml:space="preserve">
     <value>Show Drives widget</value>
   </data>
-  <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
+  <data name="ShowFolderWidget" xml:space="preserve">
     <value>Show Folders widget</value>
   </data>
-  <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
+  <data name="ShowRecentFilesWidget" xml:space="preserve">
     <value>Show Recent Files widget</value>
-  </data>
-  <data name="NavToolbarWidgets.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Manage Widgets</value>
-  </data>
-  <data name="NavToolbarWidgetsManager.AutomationProperties.Name" xml:space="preserve">
-    <value>Manage widgets</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>Fandt du ikke det, du søgte efter?</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
     <value>Search unindexed items.</value>
-  </data>
-  <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
-    <value>Manage Widgets</value>
   </data>
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>Open themes folder</value>
@@ -1768,7 +1759,7 @@
     <value>Gruppér efter</value>
   </data>
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
-    <value>Navngiv</value>
+    <value>Navn</value>
   </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>Ændringsdato</value>
@@ -1777,7 +1768,7 @@
     <value>Original folder</value>
   </data>
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
-    <value>skriv</value>
+    <value>Type</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Sortér efter</value>
@@ -1956,7 +1947,7 @@
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Afvis</value>
   </data>
-  <data name="NavToolbarWidgets.Label" xml:space="preserve">
+  <data name="Widgets" xml:space="preserve">
     <value>Widgets</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
@@ -2089,7 +2080,7 @@
     <value>Tilladelser</value>
   </data>
   <data name="SecurityAdvancedTypeLabel.Text" xml:space="preserve">
-    <value>skriv</value>
+    <value>Type</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
     <value>You do not have permissions to view the security properties of this object. You can try to take ownership of this object.</value>
@@ -2319,12 +2310,6 @@
   <data name="SettingsPrivacy.Title" xml:space="preserve">
     <value>Politik om beskyttelse af personlige oplysninger</value>
   </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
-    <value>Fluent UI System Icons</value>
-  </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Fluent UI System Icons</value>
-  </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
 We use App Center to track which settings are being used, find bugs, and fix crashes. Information sent to App Center is anonymous and free of any user or contextual data.
@@ -2361,7 +2346,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Indsæt en disk</value>
   </data>
   <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Vælg</value>
+    <value>OK</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
     <value>Legitimationsoplysninger er påkrævet</value>
@@ -2406,13 +2391,13 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Kolonner</value>
   </data>
   <data name="LargeIcons" xml:space="preserve">
-    <value>Store ikoner</value>
+    <value>Gittervisning (Stor)</value>
   </data>
   <data name="MediumIcons" xml:space="preserve">
-    <value>Mellemstore ikoner</value>
+    <value>Gittervisning (Mellem)</value>
   </data>
   <data name="SmallIcons" xml:space="preserve">
-    <value>Små ikoner</value>
+    <value>Gittervisning (Lille)</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Felter</value>
@@ -2618,7 +2603,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>Enter Library name</value>
   </data>
-  <data name="ShowFolderSize" xml:space="preserve">
+  <data name="CalculateFolderSizes" xml:space="preserve">
     <value>Show folder size</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
@@ -2648,11 +2633,14 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   <data name="Type" xml:space="preserve">
     <value>Filtype:</value>
   </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Icon Grid</value>
+  </data>
   <data name="Bytes" xml:space="preserve">
     <value>Byte</value>
   </data>
   <data name="Extract" xml:space="preserve">
-    <value>Pak ud</value>
+    <value>Udpak</value>
   </data>
   <data name="ExtractFiles" xml:space="preserve">
     <value>Extract files</value>
@@ -2790,7 +2778,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
     <value>Set as lockscreen</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
-    <value>Anvend som skrivebordsbaggrund</value>
+    <value>Brug som skrivebordsbaggrund</value>
   </data>
   <data name="SetAsDefault" xml:space="preserve">
     <value>Set as default</value>
@@ -2824,5 +2812,32 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Lockscreen</value>
+  </data>
+  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
+    <value>Open folders with a single click in the Columns Layout</value>
+  </data>
+  <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
+    <value>Behavior for opening files and folders</value>
+  </data>
+  <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
+    <value>Select files and folders when hovering over them</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
+    <value>Are you sure you want to restore all items in the recycle bin?</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
+    <value>Restore all items</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
+    <value>Do you want to restore the {0} selected item(s)?</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
+    <value>Restore selection</value>
+  </data>
+  <data name="RestoreAllItems" xml:space="preserve">
+    <value>Restore All Items</value>
+  </data>
+  <data name="RestoreSelection" xml:space="preserve">
+    <value>Gendan</value>
   </data>
 </root>

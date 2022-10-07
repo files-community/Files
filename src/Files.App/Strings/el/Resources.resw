@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Όνομα</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>Τύπος</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>Μέγεθος</value>
   </data>
@@ -159,14 +156,14 @@
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>Όνομα στοιχείου</value>
   </data>
-  <data name="PropertiesItemPath.Text" xml:space="preserve">
+  <data name="Path" xml:space="preserve">
     <value>Διαδρομή:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Μέγεθος:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed Size:</value>
+    <value>Μη συμπιεσμένο μέγεθος:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Η ενέργεια αυτή δεν μπορεί να γίνει</value>
@@ -460,7 +457,7 @@
     <value>The file you are attempting to access is currently being used by an another application</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
-    <value>File is in use</value>
+    <value>Το αρχείο χρησιμοποιείται</value>
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>Διάταξη</value>
@@ -649,7 +646,7 @@
     <value>Δημιουργία συντόμευσης</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
-    <value>Άνοιγμα θέσης αρχείου</value>
+    <value>Ανοίγμα θέσης αρχείου</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
     <value>Παράμετροι:</value>
@@ -685,7 +682,7 @@
     <value>{0} - συντόμευση</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
-    <value>Άνοιγμα θέσης αρχείου</value>
+    <value>Ανοίγμα θέσης αρχείου</value>
   </data>
   <data name="DriveCapacityUnknown" xml:space="preserve">
     <value>Άγνωστο</value>
@@ -799,6 +796,9 @@
     <value>Δημιουργεί έναν κενό φάκελο</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>Λειτουργία διάταξης</value>
+  </data>
+  <data name="LayoutMode" xml:space="preserve">
     <value>Λειτουργία διάταξης</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
@@ -1237,7 +1237,7 @@
     <value>Εμφάνιση μη ευρετηριασμένων στοιχείων κατά την αναζήτηση αρχείων και φακέλων</value>
   </data>
   <data name="ForceThesePreferencesOnAllDirectories" xml:space="preserve">
-    <value>Force these preferences on all directories</value>
+    <value>Επιβολή αυτών των προτιμήσεων σε όλους τους καταλόγους</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Προσαρμογή του μενού περιβάλλοντος δεξιού κλικ</value>
@@ -1396,7 +1396,7 @@
     <value>Όνομα στοιχείου</value>
   </data>
   <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
-    <value>Ξεκαρφίτσωμα από τα αγαπημένα</value>
+    <value>Ξεκαρφίτσωμα από Αγαπημένα</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Δίσκοι δικτύου</value>
@@ -1441,7 +1441,7 @@
     <value>Δεν έχει υπολογιστεί</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
-    <value>Άγνωστος</value>
+    <value>Άγνωστο</value>
   </data>
   <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>Πολυεπιλογή</value>
@@ -1474,7 +1474,7 @@
     <value>Αφαιρούμενη συσκευή αποθήκευσης</value>
   </data>
   <data name="DriveTypeUnknown" xml:space="preserve">
-    <value>Άγνωστος</value>
+    <value>Άγνωστο</value>
   </data>
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
     <value>Εικονική μονάδα δίσκου</value>
@@ -1671,32 +1671,23 @@
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
     <value>Άνοιγμα φακέλων σε νέα καρτέλα</value>
   </data>
-  <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
-    <value>Εμφάνιση widget δεσμών</value>
+  <data name="ShowBundlesWidget" xml:space="preserve">
+    <value>Show Bundles widget</value>
   </data>
-  <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
-    <value>Εμφάνιση widget δίσκων</value>
+  <data name="ShowDrivesWidget" xml:space="preserve">
+    <value>Show Drives widget</value>
   </data>
-  <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
-    <value>Εμφάνιση widget φακέλων</value>
+  <data name="ShowFolderWidget" xml:space="preserve">
+    <value>Show Folders widget</value>
   </data>
-  <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
-    <value>Εμφάνιση widget πρόσφατων αρχείων</value>
-  </data>
-  <data name="NavToolbarWidgets.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Διαχείριση Widgets</value>
-  </data>
-  <data name="NavToolbarWidgetsManager.AutomationProperties.Name" xml:space="preserve">
-    <value>Διαχείριση widgets</value>
+  <data name="ShowRecentFilesWidget" xml:space="preserve">
+    <value>Show Recent Files widget</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>Δεν βρήκατε αυτό που ψάχνατε;</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
     <value>Αναζήτηση μη ευρετηριασμένων στοιχείων.</value>
-  </data>
-  <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
-    <value>Διαχείριση Widgets</value>
   </data>
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>Ανοίξτε το φάκελο themes</value>
@@ -1956,7 +1947,7 @@
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Απόρριψη</value>
   </data>
-  <data name="NavToolbarWidgets.Label" xml:space="preserve">
+  <data name="Widgets" xml:space="preserve">
     <value>Widgets</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
@@ -2319,12 +2310,6 @@
   <data name="SettingsPrivacy.Title" xml:space="preserve">
     <value>Πολιτική απορρήτου</value>
   </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
-    <value>Εικονίδια συστήματος Fluent UI</value>
-  </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Εικονίδια συστήματος Fluent UI</value>
-  </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
 Χρησιμοποιούμε το Κέντρο Εφαρμογών για να παρακολουθούμε τη χρήση της εφαρμογής, να βρίσκουμε σφάλματα και να διορθώνουμε συντριβές. Όλες οι πληροφορίες που αποστέλλονται στο Κέντρο Εφαρμογών είναι ανώνυμες και δεν περιέχουν δεδομένα χρήστη ή συμφραζόμενα.
@@ -2334,7 +2319,7 @@
     <value>Άνοιγμα γονικού φακέλου</value>
   </data>
   <data name="FileTagUnknown" xml:space="preserve">
-    <value>Άγνωστος</value>
+    <value>Άγνωστο</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
     <value>Ετικέτα αρχείου</value>
@@ -2487,7 +2472,7 @@
     <value>Χρήση Files ως παράθυρο διαλόγου για άνοιγμα αρχείων</value>
   </data>
   <data name="Tag" xml:space="preserve">
-    <value>Ετικέτα</value>
+    <value>Ετικέτα αρχείου</value>
   </data>
   <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
     <value>Άνοιγμα φακέλων με ένα κλικ</value>
@@ -2618,7 +2603,7 @@
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>Εισάγετε το όνομα της βιβλιοθήκης</value>
   </data>
-  <data name="ShowFolderSize" xml:space="preserve">
+  <data name="CalculateFolderSizes" xml:space="preserve">
     <value>Εμφάνιση μεγέθους φακέλων</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
@@ -2647,6 +2632,9 @@
   </data>
   <data name="Type" xml:space="preserve">
     <value>Τύπος:</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Icon Grid</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Bytes</value>
@@ -2754,7 +2742,7 @@
     <value>Hidden files and folders</value>
   </data>
   <data name="Custom" xml:space="preserve">
-    <value>Custom</value>
+    <value>Προσαρμοσμένο</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
     <value>Set as desktop slideshow</value>
@@ -2766,7 +2754,7 @@
     <value>Συντελεστές</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Adaptive</value>
+    <value>Προσαρμοστικό</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
     <value>Adaptive (Ctrl+Shift+7)</value>
@@ -2775,10 +2763,10 @@
     <value>Ctrl+Shift+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>Show Alternate Data Streams</value>
+    <value>Εμφάνιση Εναλλακτικών Ροών Δεδομένων</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
-    <value>Review Files</value>
+    <value>Αξιολογήστε το Files</value>
   </data>
   <data name="ReviewFilesContent" xml:space="preserve">
     <value>Would you like to review Files?</value>
@@ -2790,13 +2778,13 @@
     <value>Set as lockscreen</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
-    <value>Ορισμός ως φόντου επιφάνειας εργασίας</value>
+    <value>Ορισμός ως φόντο επιφάνειας εργασίας</value>
   </data>
   <data name="SetAsDefault" xml:space="preserve">
-    <value>Set as default</value>
+    <value>Ορισμός ως προεπιλογή</value>
   </data>
   <data name="FolderPreferences" xml:space="preserve">
-    <value>Folder preferences</value>
+    <value>Προτιμήσεις φακέλων</value>
   </data>
   <data name="DisplayDateColumn" xml:space="preserve">
     <value>Display Date column</value>
@@ -2814,15 +2802,42 @@
     <value>Display Type column</value>
   </data>
   <data name="Reset" xml:space="preserve">
-    <value>Reset</value>
+    <value>Επαναφορά</value>
   </data>
   <data name="ResetLayoutPreferences" xml:space="preserve">
-    <value>This action will reset all directories back to your default preferences.</value>
+    <value>Αυτή η ενέργεια θα επαναφέρει όλους τους καταλόγους πίσω στις προεπιλεγμένες προτιμήσεις σας.</value>
   </data>
   <data name="AreYouSure" xml:space="preserve">
-    <value>Are you sure?</value>
+    <value>Είστε σίγουροι;</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
-    <value>Lockscreen</value>
+    <value>Οθόνη κλειδώματος</value>
+  </data>
+  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
+    <value>Open folders with a single click in the Columns Layout</value>
+  </data>
+  <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
+    <value>Behavior for opening files and folders</value>
+  </data>
+  <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
+    <value>Select files and folders when hovering over them</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
+    <value>Are you sure you want to restore all items in the recycle bin?</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
+    <value>Επαναφορά όλων των αντικειμένων</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
+    <value>Do you want to restore the {0} selected item(s)?</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
+    <value>Επαναφορά επιλογής</value>
+  </data>
+  <data name="RestoreAllItems" xml:space="preserve">
+    <value>Επαναφορά Όλων των Αντικειμένων</value>
+  </data>
+  <data name="RestoreSelection" xml:space="preserve">
+    <value>Επαναφορά</value>
   </data>
 </root>

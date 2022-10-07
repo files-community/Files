@@ -1,21 +1,77 @@
 using Files.Shared;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.AppService;
-using Windows.Foundation.Collections;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Files.App.Shell;
+using System.Diagnostics;
+using CommunityToolkit.WinUI.Notifications;
+using Windows.UI.Notifications;
+using Files.App.Extensions;
 
 namespace Files.App.Helpers
 {
     public static class UIHelpers
     {
+        /// <summary>
+        /// Displays a toast or dialog to indicate the result of
+        /// a device ejection operation.
+        /// </summary>
+        /// <param name="result">Only true implies a successful device ejection</param>
+        /// <returns></returns>
+        public static async Task ShowDeviceEjectResultAsync(bool result)
+        {
+            if (result)
+            {
+                Debug.WriteLine("Device successfully ejected");
+
+                var toastContent = new ToastContent()
+                {
+                    Visual = new ToastVisual()
+                    {
+                        BindingGeneric = new ToastBindingGeneric()
+                        {
+                            Children =
+                            {
+                                new AdaptiveText()
+                                {
+                                    Text = "EjectNotificationHeader".GetLocalizedResource()
+                                },
+                                new AdaptiveText()
+                                {
+                                    Text = "EjectNotificationBody".GetLocalizedResource()
+                                }
+                            },
+                            Attribution = new ToastGenericAttributionText()
+                            {
+                                Text = "SettingsAboutAppName".GetLocalizedResource()
+                            }
+                        }
+                    },
+                    ActivationType = ToastActivationType.Protocol
+                };
+
+                // Create the toast notification
+                var toastNotif = new ToastNotification(toastContent.GetXml());
+
+                // And send the notification
+                ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
+            }
+            else
+            {
+                Debug.WriteLine("Can't eject device");
+
+                await DialogDisplayHelper.ShowDialogAsync(
+                    "EjectNotificationErrorDialogHeader".GetLocalizedResource(),
+                    "EjectNotificationErrorDialogBody".GetLocalizedResource());
+            }
+        }
+
         public static async Task<ContentDialogResult> TryShowAsync(this ContentDialog dialog)
         {
             try
@@ -51,41 +107,11 @@ namespace Files.App.Helpers
             }
         }
 
-        private static async Task<IList<IconFileInfo>> LoadSelectedIconsAsync(string filePath, IList<int> indexes, int iconSize = 48)
+        private static IEnumerable<IconFileInfo> IconResources = UIHelpers.LoadSidebarIconResources();
+
+        public static IconFileInfo GetIconResourceInfo(int index)
         {
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
-            {
-                var value = new ValueSet
-                {
-                    { "Arguments", "GetSelectedIconsFromDLL" },
-                    { "iconFile", filePath },
-                    { "requestedIconSize", iconSize },
-                    { "iconIndexes", JsonConvert.SerializeObject(indexes) }
-                };
-                var (status, response) = await connection.SendMessageForResponseAsync(value);
-                if (status == AppServiceResponseStatus.Success)
-                {
-                    var icons = JsonConvert.DeserializeObject<IList<IconFileInfo>>((string)response["IconInfos"]);
-                    if (icons != null)
-                    {
-                        foreach (IconFileInfo iFInfo in icons)
-                        {
-                            iFInfo.IconDataBytes = Convert.FromBase64String(iFInfo.IconData);
-                        }
-                    }
-
-                    return icons;
-                }
-            }
-            return null;
-        }
-
-        private static Task<IEnumerable<IconFileInfo>> IconResources = UIHelpers.LoadSidebarIconResources();
-
-        public static async Task<IconFileInfo> GetIconResourceInfo(int index)
-        {
-            var icons = await UIHelpers.IconResources;
+            var icons = UIHelpers.IconResources;
             if (icons != null)
             {
                 return icons.FirstOrDefault(x => x.Index == index);
@@ -95,18 +121,18 @@ namespace Files.App.Helpers
 
         public static async Task<BitmapImage> GetIconResource(int index)
         {
-            var iconInfo = await GetIconResourceInfo(index);
+            var iconInfo = GetIconResourceInfo(index);
             if (iconInfo != null)
             {
-                return await iconInfo.IconDataBytes.ToBitmapAsync();
+                return await iconInfo.IconData.ToBitmapAsync();
             }
             return null;
         }
 
-        private static async Task<IEnumerable<IconFileInfo>> LoadSidebarIconResources()
+        private static IEnumerable<IconFileInfo> LoadSidebarIconResources()
         {
             string imageres = Path.Combine(CommonPaths.SystemRootPath, "System32", "imageres.dll");
-            var imageResList = await UIHelpers.LoadSelectedIconsAsync(imageres, new List<int>() {
+            var imageResList = Win32API.ExtractSelectedIconsFromDLL(imageres, new List<int>() {
                     Constants.ImageRes.RecycleBin,
                     Constants.ImageRes.NetworkDrives,
                     Constants.ImageRes.Libraries,
