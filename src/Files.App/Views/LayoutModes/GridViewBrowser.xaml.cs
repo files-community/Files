@@ -285,8 +285,8 @@ namespace Files.App.Views.LayoutModes
             textBox.LostFocus += RenameTextBox_LostFocus;
             textBox.KeyDown += RenameTextBox_KeyDown;
 
-            int selectedTextLength = SelectedItem.ItemName.Length;
-            if (!SelectedItem.IsShortcutItem && UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
+            int selectedTextLength = SelectedItem.Name.Length;
+            if (!SelectedItem.IsShortcut && UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
                 selectedTextLength -= extensionLength;
             textBox.Select(0, selectedTextLength);
             IsRenamingItem = true;
@@ -503,7 +503,7 @@ namespace Files.App.Views.LayoutModes
 
             // Check if the setting to open items with a single click is turned on
             if (item != null
-                && ((UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder) || (UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)))
+                && ((UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder) || (UserSettingsService.FoldersSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)))
             {
                 ResetRenameDoubleClick();
                 NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);

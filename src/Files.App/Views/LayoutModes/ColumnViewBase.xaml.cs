@@ -203,8 +203,8 @@ namespace Files.App.Views.LayoutModes
             textBox.LostFocus += RenameTextBox_LostFocus;
             textBox.KeyDown += RenameTextBox_KeyDown;
 
-            int selectedTextLength = SelectedItem.ItemName.Length;
-            if (!SelectedItem.IsShortcutItem && UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
+            int selectedTextLength = SelectedItem.Name.Length;
+            if (!SelectedItem.IsShortcut && UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
                 selectedTextLength -= extensionLength;
             textBox.Select(0, selectedTextLength);
             IsRenamingItem = true;
@@ -448,11 +448,11 @@ namespace Files.App.Views.LayoutModes
                 switch (item.PrimaryItemAttribute)
                 {
                     case StorageItemTypes.File:
-                        if (!UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick)
+                        if (!UserSettingsService.FoldersSettingsService.OpenFilesWithOneClick)
                             NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
                         break;
                     case StorageItemTypes.Folder:
-                        if (!UserSettingsService.PreferencesSettingsService.ColumnLayoutOpenFoldersWithOneClick)
+                        if (!UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
                             ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
                         break;
                     default:
