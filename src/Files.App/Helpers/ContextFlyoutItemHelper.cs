@@ -1046,9 +1046,9 @@ namespace Files.App.Helpers
                 {
                     Command = commandsViewModel.CompressIntoArchiveCommand,
                     Glyph = "\uE8DE",
-                    Text = string.Format("AddSingleItemToArchive".GetLocalizedResource(), selectedItems.First().ItemName),
+                    Text = string.Format("AddSingleItemToArchive".GetLocalizedResource(), selectedItems.First().Name),
                     ShowInSearchPage = true,
-                    ShowItem = selectedItems.Count == 1 && !selectedItems.First().IsZipItem,
+                    ShowItem = selectedItems.Count == 1 && !selectedItems.First().IsArchive,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -1056,7 +1056,7 @@ namespace Files.App.Helpers
                     Glyph = "\uE8DE",
                     Text = "AddToArchive".GetLocalizedResource(),
                     ShowInSearchPage = true,
-                    ShowItem = selectedItems.Count > 1 && !selectedItems.First().IsZipItem,
+                    ShowItem = selectedItems.Count > 1 && !selectedItems.First().IsArchive,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
