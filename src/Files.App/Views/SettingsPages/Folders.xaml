@@ -67,17 +67,17 @@
 								Foreground="{ThemeResource TextFillColorPrimaryBrush}"
 								Glyph="&#xE2B4;" />
 						</local:SettingsBlockControl>
+						<muxc:TeachingTip
+							Title="{helpers:ResourceString Name=AreYouSure}"
+							ActionButtonCommand="{Binding ResetLayoutPreferencesCommand}"
+							ActionButtonContent="{helpers:ResourceString Name=Confirm}"
+							IsLightDismissEnabled="True"
+							IsOpen="{Binding IsResetLayoutPreferencesTipOpen, Mode=TwoWay}"
+							Subtitle="{helpers:ResourceString Name=ResetLayoutPreferences}"
+							Target="{x:Bind ResetLayoutPreferencesButton}" />
 					</StackPanel>
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
-			<muxc:TeachingTip
-				Title="{helpers:ResourceString Name=AreYouSure}"
-				ActionButtonCommand="{Binding ResetLayoutPreferencesCommand}"
-				ActionButtonContent="{helpers:ResourceString Name=Confirm}"
-				IsLightDismissEnabled="True"
-				IsOpen="{Binding IsResetLayoutPreferencesTipOpen, Mode=TwoWay}"
-				Subtitle="{helpers:ResourceString Name=ResetLayoutPreferences}"
-				Target="{x:Bind ResetLayoutPreferencesButton}" />
 
 			<!--  Details layout columns  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=DetailsLayoutColumns}" HorizontalAlignment="Stretch">
