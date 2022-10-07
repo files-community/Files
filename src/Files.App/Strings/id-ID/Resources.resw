@@ -160,13 +160,13 @@
     <value>Nama Benda</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Path:</value>
+    <value>Jalur:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Ukuran:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed Size:</value>
+    <value>Ukuran tidak terkompresi:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Tindakan ini tidak dapat dilakukan </value>
@@ -238,13 +238,13 @@
     <value>Tampilkan titik pada berkas</value>
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
-    <value>Uji Coba</value>
+    <value>Experimental</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Tampilan</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
-    <value>Uji Coba</value>
+    <value>Experimental</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Preferensi</value>
@@ -793,12 +793,15 @@
     <value>Buat berkas kosong</value>
   </data>
   <data name="Folder" xml:space="preserve">
-    <value>Berkas</value>
+    <value>Folder</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Buat folder kosong</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>Mode tata letak</value>
+  </data>
+  <data name="LayoutMode" xml:space="preserve">
     <value>Mode tata letak</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
@@ -1108,7 +1111,7 @@
     <value>Media</value>
   </data>
   <data name="PropertySectionAudio" xml:space="preserve">
-    <value>Suara</value>
+    <value>Audio</value>
   </data>
   <data name="PropertySectionMusic" xml:space="preserve">
     <value>Lagu</value>
@@ -1237,7 +1240,7 @@
     <value>Tampilkan item yang tidak terindeks ketika mencari berkas dan katalog (pencarian mungkin lebih lama)</value>
   </data>
   <data name="ForceThesePreferencesOnAllDirectories" xml:space="preserve">
-    <value>Force these preferences on all directories</value>
+    <value>Paksa preferensi ini di semua direktori</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Kustomisasi menu konteks klik kanan</value>
@@ -1252,7 +1255,7 @@
     <value>Tambahkan</value>
   </data>
   <data name="Edit" xml:space="preserve">
-    <value>Sunting</value>
+    <value>Edit</value>
   </data>
   <data name="Remove" xml:space="preserve">
     <value>Hapus</value>
@@ -1507,7 +1510,7 @@
     <value>Tidak ada benda yang dipilih</value>
   </data>
   <data name="PropertyItemTarget" xml:space="preserve">
-    <value>Sasaran</value>
+    <value>Target</value>
   </data>
   <data name="Arguments" xml:space="preserve">
     <value>Argumen</value>
@@ -1672,16 +1675,16 @@
     <value>Buka folder di halaman baru</value>
   </data>
   <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>Show Bundles widget</value>
+    <value>Tampilkan widget Bundel</value>
   </data>
   <data name="ShowDrivesWidget" xml:space="preserve">
-    <value>Show Drives widget</value>
+    <value>Tampilkan widget Penyimpanan</value>
   </data>
   <data name="ShowFolderWidget" xml:space="preserve">
-    <value>Show Folders widget</value>
+    <value>Tampilkan widget Folder</value>
   </data>
   <data name="ShowRecentFilesWidget" xml:space="preserve">
-    <value>Show Recent Files widget</value>
+    <value>Tampilkan widget Berkas Terbaru</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>Tidak menemukan apa yang Anda cari?</value>
@@ -1948,7 +1951,7 @@
     <value>Hilangkan</value>
   </data>
   <data name="Widgets" xml:space="preserve">
-    <value>Widgets</value>
+    <value>Widget</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>Status sinkronisasi</value>
@@ -2638,6 +2641,9 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
   <data name="Type" xml:space="preserve">
     <value>Jenis:</value>
   </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Icon Grid</value>
+  </data>
   <data name="Bytes" xml:space="preserve">
     <value>Bita</value>
   </data>
@@ -2747,7 +2753,7 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
     <value>Kustom</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
-    <value>Atur sebagai slideshow desktop</value>
+    <value>Atur sebagai tampilan slide desktop</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
     <value>Atur Semua Ukuran Kolom ke Sesuai</value>
@@ -2765,79 +2771,79 @@ Kami menggunakan Pusat App untuk melacak penggunaan aplikasi, menemukan bug, dan
     <value>Ctrl+Shift+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>Show Alternate Data Streams</value>
+    <value>Tampilkan Stream Data Alternatif</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
-    <value>Review Files</value>
+    <value>Ulas Files</value>
   </data>
   <data name="ReviewFilesContent" xml:space="preserve">
-    <value>Would you like to review Files?</value>
+    <value>Apakah Anda ingin memberi ulasan Files?</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
-    <value>Set as background</value>
+    <value>Atur sebagai latar belakang</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Set as lockscreen</value>
+    <value>Atur sebagai layar kunci</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>Atur sebagai latar belakang desktop</value>
   </data>
   <data name="SetAsDefault" xml:space="preserve">
-    <value>Set as default</value>
+    <value>Atur sebagai default</value>
   </data>
   <data name="FolderPreferences" xml:space="preserve">
-    <value>Folder preferences</value>
+    <value>Preferensi folder</value>
   </data>
   <data name="DisplayDateColumn" xml:space="preserve">
-    <value>Display Date column</value>
+    <value>Tampilkan kolom Tanggal</value>
   </data>
   <data name="DisplayDateCreatedColumn" xml:space="preserve">
-    <value>Display Date Created column</value>
+    <value>Tampilkan kolom Tanggal Dibuat</value>
   </data>
   <data name="DisplaySizeColumn" xml:space="preserve">
-    <value>Display Size column</value>
+    <value>Tampilkan kolom Ukuran</value>
   </data>
   <data name="DisplayTagColumn" xml:space="preserve">
-    <value>Display Tag column</value>
+    <value>Tampilkan kolom Tag</value>
   </data>
   <data name="DisplayTypeColumn" xml:space="preserve">
-    <value>Display Type column</value>
+    <value>Tampilkan kolom Jenis</value>
   </data>
   <data name="Reset" xml:space="preserve">
-    <value>Reset</value>
+    <value>Setel ulang</value>
   </data>
   <data name="ResetLayoutPreferences" xml:space="preserve">
-    <value>This action will reset all directories back to your default preferences.</value>
+    <value>Tindakan ini akan mengatur ulang semua direktori kembali ke preferensi default Anda.</value>
   </data>
   <data name="AreYouSure" xml:space="preserve">
-    <value>Are you sure?</value>
+    <value>Apakah Anda yakin?</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
-    <value>Lockscreen</value>
+    <value>Layar kunci</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Open folders with a single click in the Columns Layout</value>
+    <value>Buka folder dengan satu klik di Tata Letak Kolom</value>
   </data>
   <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
-    <value>Behavior for opening files and folders</value>
+    <value>Perilaku untuk membuka file dan folder</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
-    <value>Select files and folders when hovering over them</value>
+    <value>Pilih file dan folder saat mengarahkan kursor ke atasnya</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
-    <value>Are you sure you want to restore all items in the recycle bin?</value>
+    <value>Apakah Anda yakin ingin memulihkan semua item di keranjang sampah?</value>
   </data>
   <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
-    <value>Restore all items</value>
+    <value>Pulihkan semua item</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
-    <value>Do you want to restore the {0} selected item(s)?</value>
+    <value>Apakah Anda ingin memulihkan {0} item yang dipilih?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
-    <value>Restore selection</value>
+    <value>Pulihkan yang dipilih</value>
   </data>
   <data name="RestoreAllItems" xml:space="preserve">
-    <value>Restore All Items</value>
+    <value>Pulihkan Semua Item</value>
   </data>
   <data name="RestoreSelection" xml:space="preserve">
     <value>Pulihkan</value>
