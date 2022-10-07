@@ -52,28 +52,6 @@
 					Glyph="&#xE2B4;" />
 			</local:SettingsBlockControl>
 
-			<local:SettingsBlockControl
-				Title="{helpers:ResourceString Name=ShowFolderSize}"
-				HorizontalAlignment="Stretch"
-				IsExpanded="True">
-				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE2B2;" />
-				</local:SettingsBlockControl.Icon>
-				<ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=ShowFolderSize}"
-					IsOn="{Binding ShowFolderSize, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-				<local:SettingsBlockControl.ExpandableContent>
-					<InfoBar
-						CornerRadius="0,0,2,2"
-						IsClosable="False"
-						IsIconVisible="True"
-						IsOpen="True"
-						Message="{helpers:ResourceString Name=ShowFolderSizesWarning}"
-						Severity="Warning" />
-				</local:SettingsBlockControl.ExpandableContent>
-			</local:SettingsBlockControl>
-
 			<TextBlock
 				Padding="0,12,0,4"
 				FontSize="14"

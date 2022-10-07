@@ -71,7 +71,7 @@ namespace Files.App.Filesystem.StorageEnumerators
                 foreach (var item in items)
                 {
                     var startWithDot = item.Name.StartsWith(".");
-                    if (!startWithDot || userSettingsService.PreferencesSettingsService.ShowDotFiles)
+                    if (!startWithDot || userSettingsService.FoldersSettingsService.ShowDotFiles)
                     {
                         if (item.IsOfType(StorageItemTypes.Folder))
                         {

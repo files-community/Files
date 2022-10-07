@@ -854,7 +854,7 @@ namespace Files.App.Views
                     break;
 
                 case (true, false, false, true, VirtualKey.H): // ctrl + h, toggle hidden folder visibility
-                    UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible ^= true; // flip bool
+                    UserSettingsService.FoldersSettingsService.ShowHiddenItems ^= true; // flip bool
                     break;
 
                 case (false, false, false, _, VirtualKey.F1): // F1, open Files wiki

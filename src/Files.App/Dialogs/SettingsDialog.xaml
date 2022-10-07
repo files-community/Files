@@ -58,11 +58,21 @@
 					</NavigationViewItem.Icon>
 				</NavigationViewItem>
 				<NavigationViewItem
+					AccessKey="F"
+					AutomationProperties.AutomationId="SettingsItemFolders"
+					Content="{helpers:ResourceString Name=Folders}"
+					CornerRadius="0"
+					Tag="2">
+					<NavigationViewItem.Icon>
+						<FontIcon Glyph="&#xE8B7;" />
+					</NavigationViewItem.Icon>
+				</NavigationViewItem>
+				<NavigationViewItem
 					AccessKey="M"
 					AutomationProperties.AutomationId="SettingsItemMultitasking"
 					Content="{helpers:ResourceString Name=SettingsNavMultitasking/Content}"
 					CornerRadius="0"
-					Tag="2">
+					Tag="3">
 					<NavigationViewItem.Icon>
 						<FontIcon FontSize="16" Glyph="&#xEE40;" />
 					</NavigationViewItem.Icon>
@@ -72,7 +82,7 @@
 					AutomationProperties.AutomationId="SettingsItemExperimental"
 					Content="{helpers:ResourceString Name=SettingsNavExperimental/Content}"
 					CornerRadius="0"
-					Tag="3">
+					Tag="4">
 					<NavigationViewItem.Icon>
 						<FontIcon Glyph="&#xF1AD;" />
 					</NavigationViewItem.Icon>
@@ -82,7 +92,7 @@
 					AutomationProperties.AutomationId="SettingsItemAbout"
 					Content="{helpers:ResourceString Name=About}"
 					CornerRadius="0,4,4,0"
-					Tag="4">
+					Tag="5">
 					<NavigationViewItem.Icon>
 						<FontIcon FontSize="16" Glyph="&#xE946;" />
 					</NavigationViewItem.Icon>

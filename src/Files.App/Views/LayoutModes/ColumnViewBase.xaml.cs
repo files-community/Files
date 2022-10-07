@@ -460,13 +460,13 @@ namespace Files.App.Views.LayoutModes
 				switch (item.PrimaryItemAttribute)
 				{
 					case StorageItemTypes.File:
-						if (!UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick)
+						if (!UserSettingsService.FoldersSettingsService.OpenFilesWithOneClick)
 						{
 							NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
 						}
 						break;
 					case StorageItemTypes.Folder:
-						if (!UserSettingsService.PreferencesSettingsService.ColumnLayoutOpenFoldersWithOneClick)
+						if (!UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
 						{
 							ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
 						}
@@ -519,7 +519,7 @@ namespace Files.App.Views.LayoutModes
 
 			// Check if the setting to open items with a single click is turned on
 			if (item != null
-				&& (UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File))
+				&& (UserSettingsService.FoldersSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File))
 			{
 				ResetRenameDoubleClick();
 				NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
@@ -540,7 +540,7 @@ namespace Files.App.Views.LayoutModes
 					}
 				}
 				if (item != null && item.PrimaryItemAttribute == StorageItemTypes.Folder &&
-					UserSettingsService.PreferencesSettingsService.ColumnLayoutOpenFoldersWithOneClick)
+					UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
 				{
 					ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
 				}
