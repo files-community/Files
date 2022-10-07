@@ -107,20 +107,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 				}
 			}
 		}
-		
-		private long selectedDefaultLayoutModeIndex;
-		public long SelectedDefaultLayoutModeIndex
-		{
-			get => selectedDefaultLayoutModeIndex;
-			set
-			{
-				if (SetProperty(ref selectedDefaultLayoutModeIndex, value))
-				{
-					OnPropertyChanged(nameof(SelectedDefaultLayoutModeIndex));
-					DefaultLayoutMode = (FolderLayoutModes)value;
-				}
-			}
-		}
 
 		private Terminal selectedTerminal;
 		public Terminal SelectedTerminal
@@ -175,8 +161,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 			AddDateTimeOptions();
 			SelectedDateTimeFormatIndex = (int)Enum.Parse(typeof(DateTimeFormats), DateTimeFormat.ToString());
-
-			SelectedDefaultLayoutModeIndex = (long)DefaultLayoutMode;
 
 			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
@@ -545,58 +529,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 			IsLayoutResetCheckmarkVisible = true;
 		}
 
-		public bool AreHiddenItemsVisible
-		{
-			get => UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible;
-			set
-			{
-				if (value != UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible)
-				{
-					UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool AreSystemItemsHidden
-		{
-			get => UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden;
-			set
-			{
-				if (value != UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden)
-				{
-					UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool AreAlternateStreamsVisible
-		{
-			get => UserSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible;
-			set
-			{
-				if (value != UserSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible)
-				{
-					UserSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool ShowDotFiles
-		{
-			get => UserSettingsService.PreferencesSettingsService.ShowDotFiles;
-			set
-			{
-				if (value != UserSettingsService.PreferencesSettingsService.ShowDotFiles)
-				{
-					UserSettingsService.PreferencesSettingsService.ShowDotFiles = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
 		public bool ShowFileExtensions
 		{
 			get => UserSettingsService.PreferencesSettingsService.ShowFileExtensions;
@@ -696,96 +628,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.PreferencesSettingsService.SearchUnindexedItems)
 				{
 					UserSettingsService.PreferencesSettingsService.SearchUnindexedItems = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool EnableOverridingFolderPreferences
-		{
-			get => UserSettingsService.PreferencesSettingsService.EnableOverridingFolderPreferences;
-			set
-			{
-				if (value != UserSettingsService.PreferencesSettingsService.EnableOverridingFolderPreferences)
-				{
-					UserSettingsService.PreferencesSettingsService.EnableOverridingFolderPreferences = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool ShowFileTagColumn
-		{
-			get => UserSettingsService.PreferencesSettingsService.ShowFileTagColumn;
-			set
-			{
-				if (value != UserSettingsService.PreferencesSettingsService.ShowFileTagColumn)
-				{
-					UserSettingsService.PreferencesSettingsService.ShowFileTagColumn = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool ShowSizeColumn
-		{
-			get => UserSettingsService.PreferencesSettingsService.ShowSizeColumn;
-			set
-			{
-				if (value != UserSettingsService.PreferencesSettingsService.ShowSizeColumn)
-				{
-					UserSettingsService.PreferencesSettingsService.ShowSizeColumn = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool ShowTypeColumn
-		{
-			get => UserSettingsService.PreferencesSettingsService.ShowTypeColumn;
-			set
-			{
-				if (value != UserSettingsService.PreferencesSettingsService.ShowTypeColumn)
-				{
-					UserSettingsService.PreferencesSettingsService.ShowTypeColumn = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool ShowDateCreatedColumn
-		{
-			get => UserSettingsService.PreferencesSettingsService.ShowDateCreatedColumn;
-			set
-			{
-				if (value != UserSettingsService.PreferencesSettingsService.ShowDateCreatedColumn)
-				{
-					UserSettingsService.PreferencesSettingsService.ShowDateCreatedColumn = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool ShowDateColumn
-		{
-			get => UserSettingsService.PreferencesSettingsService.ShowDateColumn;
-			set
-			{
-				if (value != UserSettingsService.PreferencesSettingsService.ShowDateColumn)
-				{
-					UserSettingsService.PreferencesSettingsService.ShowDateColumn = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-		public FolderLayoutModes DefaultLayoutMode
-		{
-			get => UserSettingsService.PreferencesSettingsService.DefaultLayoutMode;
-			set
-			{
-				if (value != UserSettingsService.PreferencesSettingsService.DefaultLayoutMode)
-				{
-					UserSettingsService.PreferencesSettingsService.DefaultLayoutMode = value;
 					OnPropertyChanged();
 				}
 			}

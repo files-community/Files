@@ -24,7 +24,7 @@ namespace Files.App.Helpers.LayoutPreferences
 
 		public LayoutPreferences()
 		{
-			this.LayoutMode = UserSettingsService.PreferencesSettingsService.DefaultLayoutMode;
+			this.LayoutMode = UserSettingsService.FoldersSettingsService.DefaultLayoutMode;
 			this.GridViewSize = UserSettingsService.LayoutSettingsService.DefaultGridViewSize;
 			this.DirectorySortOption = UserSettingsService.LayoutSettingsService.DefaultDirectorySortOption;
 			this.DirectoryGroupOption = UserSettingsService.LayoutSettingsService.DefaultDirectoryGroupOption;
@@ -33,18 +33,18 @@ namespace Files.App.Helpers.LayoutPreferences
 			this.IsAdaptiveLayoutOverridden = false;
 
 			this.ColumnsViewModel = new ColumnsViewModel();
-			this.ColumnsViewModel.DateCreatedColumn.UserCollapsed = !UserSettingsService.PreferencesSettingsService.ShowDateCreatedColumn;
-			this.ColumnsViewModel.DateModifiedColumn.UserCollapsed = !UserSettingsService.PreferencesSettingsService.ShowDateColumn;
-			this.ColumnsViewModel.ItemTypeColumn.UserCollapsed = !UserSettingsService.PreferencesSettingsService.ShowTypeColumn;
-			this.ColumnsViewModel.SizeColumn.UserCollapsed = !UserSettingsService.PreferencesSettingsService.ShowSizeColumn;
-			this.ColumnsViewModel.TagColumn.UserCollapsed = !UserSettingsService.PreferencesSettingsService.ShowFileTagColumn;
+			this.ColumnsViewModel.DateCreatedColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowDateCreatedColumn;
+			this.ColumnsViewModel.DateModifiedColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowDateColumn;
+			this.ColumnsViewModel.ItemTypeColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowTypeColumn;
+			this.ColumnsViewModel.SizeColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowSizeColumn;
+			this.ColumnsViewModel.TagColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowFileTagColumn;
 
-			this.ColumnsViewModel.NameColumn.UserLengthPixels = UserSettingsService.PreferencesSettingsService.NameColumnWidth;
-			this.ColumnsViewModel.DateModifiedColumn.UserLengthPixels = UserSettingsService.PreferencesSettingsService.DateModifiedColumnWidth;
-			this.ColumnsViewModel.DateCreatedColumn.UserLengthPixels = UserSettingsService.PreferencesSettingsService.DateCreatedColumnWidth;
-			this.ColumnsViewModel.ItemTypeColumn.UserLengthPixels = UserSettingsService.PreferencesSettingsService.TypeColumnWidth;
-			this.ColumnsViewModel.SizeColumn.UserLengthPixels = UserSettingsService.PreferencesSettingsService.SizeColumnWidth;
-			this.ColumnsViewModel.TagColumn.UserLengthPixels = UserSettingsService.PreferencesSettingsService.TagColumnWidth;
+			this.ColumnsViewModel.NameColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.NameColumnWidth;
+			this.ColumnsViewModel.DateModifiedColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.DateModifiedColumnWidth;
+			this.ColumnsViewModel.DateCreatedColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.DateCreatedColumnWidth;
+			this.ColumnsViewModel.ItemTypeColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.TypeColumnWidth;
+			this.ColumnsViewModel.SizeColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.SizeColumnWidth;
+			this.ColumnsViewModel.TagColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.TagColumnWidth;
 		}
 
 		public override bool Equals(object? obj)
