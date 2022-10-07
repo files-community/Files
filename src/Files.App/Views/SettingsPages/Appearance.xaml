@@ -90,16 +90,6 @@
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
-						<local:SettingsBlockControl
-							Title="{helpers:ResourceString Name=SettingsPinRecycleBin/Title}"
-							HorizontalAlignment="Stretch"
-							IsEnabled="{Binding ShowFavoritesSection}">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=SettingsPinRecycleBinSwitch/AutomationProperties/Name}"
-								IsOn="{Binding PinRecycleBinToSideBar, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsShowLibrarySection/Title}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=SettingsShowLibrarySectionSwitch/AutomationProperties/Name}"

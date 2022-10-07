@@ -226,7 +226,7 @@ namespace Files.App.Helpers
 			bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
 			if (isHiddenItem)
 			{
-				if (forceOpenInNewTab || userSettingsService.PreferencesSettingsService.OpenFoldersInNewTab)
+				if (forceOpenInNewTab || userSettingsService.FoldersSettingsService.OpenFoldersInNewTab)
 				{
 					await OpenPathInNewTab(path);
 				}
@@ -246,7 +246,7 @@ namespace Files.App.Helpers
 				opened = (FilesystemResult)await library.CheckDefaultSaveFolderAccess();
 				if (opened)
 				{
-					if (forceOpenInNewTab || userSettingsService.PreferencesSettingsService.OpenFoldersInNewTab)
+					if (forceOpenInNewTab || userSettingsService.FoldersSettingsService.OpenFoldersInNewTab)
 					{
 						await OpenPathInNewTab(library.Text);
 					}
@@ -282,7 +282,7 @@ namespace Files.App.Helpers
 				}
 				else
 				{
-					if (forceOpenInNewTab || userSettingsService.PreferencesSettingsService.OpenFoldersInNewTab)
+					if (forceOpenInNewTab || userSettingsService.FoldersSettingsService.OpenFoldersInNewTab)
 					{
 						await OpenPathInNewTab(shortcutInfo.TargetPath);
 					}
@@ -302,7 +302,7 @@ namespace Files.App.Helpers
 			}
 			else if (isHiddenItem)
 			{
-				if (forceOpenInNewTab || userSettingsService.PreferencesSettingsService.OpenFoldersInNewTab)
+				if (forceOpenInNewTab || userSettingsService.FoldersSettingsService.OpenFoldersInNewTab)
 				{
 					await OpenPathInNewTab(path);
 				}
@@ -335,7 +335,7 @@ namespace Files.App.Helpers
 				}
 				if (opened)
 				{
-					if (forceOpenInNewTab || userSettingsService.PreferencesSettingsService.OpenFoldersInNewTab)
+					if (forceOpenInNewTab || userSettingsService.FoldersSettingsService.OpenFoldersInNewTab)
 					{
 						await OpenPathInNewTab(path);
 					}

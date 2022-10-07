@@ -158,7 +158,7 @@ namespace Files.App.Filesystem.Search
                     try
                     {
                         var startWithDot = item.Name.StartsWith(".");
-                        bool shouldBeListed = !startWithDot || UserSettingsService.PreferencesSettingsService.ShowDotFiles;
+                        bool shouldBeListed = !startWithDot || UserSettingsService.FoldersSettingsService.ShowDotFiles;
                         if (shouldBeListed)
                         {
                             results.Add(await GetListedItemAsync(item));
@@ -219,9 +219,9 @@ namespace Files.App.Filesystem.Search
                     var startWithDot = findData.cFileName.StartsWith(".");
                     
                     bool shouldBeListed = (!isHidden || 
-                        (UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible && 
-                        (!isSystem || !UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden))) && 
-                        (!startWithDot || UserSettingsService.PreferencesSettingsService.ShowDotFiles);
+                        (UserSettingsService.FoldersSettingsService.ShowHiddenItems && 
+                        (!isSystem || UserSettingsService.FoldersSettingsService.ShowProtectedSystemFiles))) && 
+                        (!startWithDot || UserSettingsService.FoldersSettingsService.ShowDotFiles);
                     
                     if (shouldBeListed)
                     {
@@ -241,7 +241,7 @@ namespace Files.App.Filesystem.Search
                         IStorageItem item = (BaseStorageFile)await GetStorageFileAsync(match.FilePath);
                         item ??= (BaseStorageFolder)await GetStorageFolderAsync(match.FilePath);
                         var startWithDot = item.Name.StartsWith(".");
-                        bool shouldBeListed = !startWithDot || UserSettingsService.PreferencesSettingsService.ShowDotFiles;
+                        bool shouldBeListed = !startWithDot || UserSettingsService.FoldersSettingsService.ShowDotFiles;
                         if (shouldBeListed)
                         {
                             results.Add(await GetListedItemAsync(item));
@@ -282,7 +282,7 @@ namespace Files.App.Filesystem.Search
                     hiddenOnlyFromWin32 = (results.Count != 0);
                 }
 
-                if (!IsAQSQuery && (!hiddenOnlyFromWin32 || UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible))
+                if (!IsAQSQuery && (!hiddenOnlyFromWin32 || UserSettingsService.FoldersSettingsService.ShowHiddenItems))
                 {
                     await SearchWithWin32Async(folder, hiddenOnlyFromWin32, UsedMaxItemCount - (uint)results.Count, results, token);
                 }
@@ -318,9 +318,9 @@ namespace Files.App.Filesystem.Search
                         var startWithDot = findData.cFileName.StartsWith(".");
 
                         bool shouldBeListed = (hiddenOnly ?
-                            isHidden && (!isSystem || !UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden) :
-                            !isHidden || (UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible && (!isSystem || !UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden))) &&
-                            (!startWithDot || UserSettingsService.PreferencesSettingsService.ShowDotFiles);
+                            isHidden && (!isSystem || !UserSettingsService.FoldersSettingsService.ShowProtectedSystemFiles) :
+                            !isHidden || (UserSettingsService.FoldersSettingsService.ShowHiddenItems && (!isSystem || UserSettingsService.FoldersSettingsService.ShowProtectedSystemFiles))) &&
+                            (!startWithDot || UserSettingsService.FoldersSettingsService.ShowDotFiles);
                         
                         if (shouldBeListed)
                         {
