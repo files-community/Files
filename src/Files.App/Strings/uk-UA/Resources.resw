@@ -798,6 +798,9 @@
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Вид піктограм</value>
   </data>
+  <data name="LayoutMode" xml:space="preserve">
+    <value>Вид піктограм</value>
+  </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
     <value>Навігація назад</value>
   </data>
@@ -2629,6 +2632,9 @@
   </data>
   <data name="Type" xml:space="preserve">
     <value>Тип</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Сітка іконок</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>байт</value>

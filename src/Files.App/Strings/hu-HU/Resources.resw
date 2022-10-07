@@ -798,6 +798,9 @@
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Elrendezés</value>
   </data>
+  <data name="LayoutMode" xml:space="preserve">
+    <value>Elrendezés</value>
+  </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
     <value>Vissza navigálás</value>
   </data>
@@ -2635,6 +2638,9 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
   </data>
   <data name="Type" xml:space="preserve">
     <value>Típus:</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Icon Grid</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Méret bájtokban</value>

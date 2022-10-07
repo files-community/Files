@@ -798,6 +798,9 @@
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Mode d'organització</value>
   </data>
+  <data name="LayoutMode" xml:space="preserve">
+    <value>Mode d'organització</value>
+  </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
     <value>Navega enrere</value>
   </data>
@@ -2629,6 +2632,9 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   </data>
   <data name="Type" xml:space="preserve">
     <value>Tipus</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Icon Grid</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Bytes</value>
