@@ -41,8 +41,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public AsyncRelayCommand EditTerminalApplicationsCommand { get; }
 		public AsyncRelayCommand OpenFilesAtStartupCommand { get; }
-		public RelayCommand ResetLayoutPreferencesCommand { get; }
-		public RelayCommand ShowResetLayoutPreferencesTipCommand { get; }
 		public AsyncRelayCommand ChangePageCommand { get; }
 		public RelayCommand RemovePageCommand { get; }
 		public RelayCommand<string> AddPageCommand { get; }
@@ -65,9 +63,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			set
 			{
 				if (SetProperty(ref selectedPageIndex, value))
-				{
 					IsPageListEditEnabled = value >= 0;
-				}
 			}
 		}
 
@@ -124,21 +120,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		private bool isLayoutResetCheckmarkVisible;
-		public bool IsLayoutResetCheckmarkVisible
-		{
-			get => isLayoutResetCheckmarkVisible;
-			set => SetProperty(ref isLayoutResetCheckmarkVisible, value);
-		}
-
-		private bool isResetLayoutPreferencesTipOpen;
-		public bool IsResetLayoutPreferencesTipOpen
-		{
-			get => isResetLayoutPreferencesTipOpen;
-			set => SetProperty(ref isResetLayoutPreferencesTipOpen, value);
-		}
-
-
 
 		// Lists
 
@@ -146,13 +127,10 @@ namespace Files.App.ViewModels.SettingsViewModels
 		public ObservableCollection<Terminal> Terminals { get; set; }
 		public ObservableCollection<AppLanguageItem> AppLanguages { get; set; }
 
-
 		public PreferencesViewModel()
 		{
 			EditTerminalApplicationsCommand = new AsyncRelayCommand(LaunchTerminalsConfigFile);
-			OpenFilesAtStartupCommand = new AsyncRelayCommand(OpenFilesAtStartup);
-			ResetLayoutPreferencesCommand = new RelayCommand(ResetLayoutPreferences);
-			ShowResetLayoutPreferencesTipCommand = new RelayCommand(() => IsResetLayoutPreferencesTipOpen = true);
+			OpenFilesAtStartupCommand = new AsyncRelayCommand(OpenFilesAtStartup);			
 			ChangePageCommand = new AsyncRelayCommand(ChangePage);
 			RemovePageCommand = new RelayCommand(RemovePage);
 			AddPageCommand = new RelayCommand<string>(async (path) => await AddPage(path));
@@ -170,13 +148,9 @@ namespace Files.App.ViewModels.SettingsViewModels
 			App.TerminalController.ModelChanged += ReloadTerminals;
 
 			if (UserSettingsService.PreferencesSettingsService.TabsOnStartupList != null)
-			{
 				PagesOnStartupList = new ObservableCollection<PageOnStartupViewModel>(UserSettingsService.PreferencesSettingsService.TabsOnStartupList.Select((p) => new PageOnStartupViewModel(p)));
-			}
 			else
-			{
 				PagesOnStartupList = new ObservableCollection<PageOnStartupViewModel>();
-			}
 
 			PagesOnStartupList.CollectionChanged += PagesOnStartupList_CollectionChanged;
 
@@ -198,9 +172,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 			AppLanguages = new ObservableCollection<AppLanguageItem> { };
 			foreach (var language in supportedLanguages)
-			{
 				AppLanguages.Add(new AppLanguageItem(language));
-			}
 
 			SelectedAppLanguageIndex = AppLanguages.IndexOf(AppLanguages.FirstOrDefault(dl => dl.LanguagID == ApplicationLanguages.PrimaryLanguageOverride) ?? AppLanguages.FirstOrDefault());
 		}
@@ -233,9 +205,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 				// add separator
 				if (recentFolders.Any())
-				{
 					menu.Items.Add(new MenuFlyoutSeparatorViewModel());
-				}
 
 				foreach (var recentFolder in recentFolders)
 				{
@@ -259,13 +229,9 @@ namespace Files.App.ViewModels.SettingsViewModels
 		private void PagesOnStartupList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
 			if (PagesOnStartupList.Count > 0)
-			{
 				UserSettingsService.PreferencesSettingsService.TabsOnStartupList = PagesOnStartupList.Select((p) => p.Path).ToList();
-			}
 			else
-			{
 				UserSettingsService.PreferencesSettingsService.TabsOnStartupList = null;
-			}
 		}
 
 		public int SelectedStartupSettingIndex => ContinueLastSessionOnStartUp ? 1 : OpenASpecificPageOnStartup ? 2 : 0;
@@ -311,14 +277,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public ObservableCollection<PageOnStartupViewModel> PagesOnStartupList { get; set; }
 
-
-
-
 		public ReadOnlyCollection<IMenuFlyoutItemViewModel> AddFlyoutItemsSource
 		{
 			get => addFlyoutItemsSource;
 			set => SetProperty(ref addFlyoutItemsSource, value);
 		}
+
 		public bool AlwaysOpenANewInstance
 		{
 			get => UserSettingsService.PreferencesSettingsService.AlwaysOpenNewInstance;
@@ -342,9 +306,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			if (folder != null)
 			{
 				if (SelectedPageIndex >= 0)
-				{
 					PagesOnStartupList[SelectedPageIndex] = new PageOnStartupViewModel(folder.Path);
-				}
 			}
 		}
 
@@ -362,13 +324,9 @@ namespace Files.App.ViewModels.SettingsViewModels
 			{
 				PagesOnStartupList.RemoveAt(index);
 				if (index > 0)
-				{
 					SelectedPageIndex = index - 1;
-				}
 				else if (PagesOnStartupList.Count > 0)
-				{
 					SelectedPageIndex = 0;
-				}
 			}
 		}
 
@@ -381,15 +339,11 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 				var folder = await folderPicker.PickSingleFolderAsync();
 				if (folder != null)
-				{
 					path = folder.Path;
-				}
 			}
 
 			if (path != null && PagesOnStartupList != null)
-			{
 				PagesOnStartupList.Add(new PageOnStartupViewModel(path));
-			}
 		}
 
 		public class PageOnStartupViewModel
@@ -399,13 +353,9 @@ namespace Files.App.ViewModels.SettingsViewModels
 				get
 				{
 					if (Path == "Home".GetLocalizedResource())
-					{
 						return "Home".GetLocalizedResource();
-					}
 					if (Path == CommonPaths.RecycleBinPath)
-					{
 						return ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
-					}
 					return Path;
 				}
 			}
@@ -444,19 +394,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		public bool OpenFoldersNewTab
-		{
-			get => UserSettingsService.PreferencesSettingsService.OpenFoldersInNewTab;
-			set
-			{
-				if (value != UserSettingsService.PreferencesSettingsService.OpenFoldersInNewTab)
-				{
-					UserSettingsService.PreferencesSettingsService.OpenFoldersInNewTab = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
 		public DateTimeFormats DateTimeFormat
 		{
 			get => UserSettingsService.PreferencesSettingsService.DateTimeFormat;
@@ -475,9 +412,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/terminal.json"));
 
 			if (!await Launcher.LaunchFileAsync(configFile))
-			{
 				await ContextMenu.InvokeVerb("open", configFile.Path);
-			}
 		}
 
 		private bool openInLogin;
@@ -513,13 +448,9 @@ namespace Files.App.ViewModels.SettingsViewModels
 			{
 				StartupTask startupTask = await StartupTask.GetAsync("3AA55462-A5FA-4933-88C4-712D0B6CDEBB");
 				if (OpenInLogin)
-				{
 					await startupTask.RequestEnableAsync();
-				}
 				else
-				{
 					startupTask.Disable();
-				}
 				await DetectOpenFilesAtStartup();
 			}
 		}
@@ -557,65 +488,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 		{
 			var state = await StartupTask.GetAsync("3AA55462-A5FA-4933-88C4-712D0B6CDEBB");
 			return state.State;
-		}
-
-		public void ResetLayoutPreferences()
-		{
-			FolderSettingsViewModel.DbInstance.ResetAll();
-			IsResetLayoutPreferencesTipOpen = false;
-			IsLayoutResetCheckmarkVisible = true;
-		}
-
-		public bool AreHiddenItemsVisible
-		{
-			get => UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible;
-			set
-			{
-				if (value != UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible)
-				{
-					UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool AreSystemItemsHidden
-		{
-			get => UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden;
-			set
-			{
-				if (value != UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden)
-				{
-					UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool AreAlternateStreamsVisible
-		{
-			get => UserSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible;
-			set
-			{
-				if (value != UserSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible)
-				{
-					UserSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool ShowDotFiles
-		{
-			get => UserSettingsService.PreferencesSettingsService.ShowDotFiles;
-			set
-			{
-				if (value != UserSettingsService.PreferencesSettingsService.ShowDotFiles)
-				{
-					UserSettingsService.PreferencesSettingsService.ShowDotFiles = value;
-					OnPropertyChanged();
-				}
-			}
 		}
 
 		public bool ShowFileExtensions
@@ -657,45 +529,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		public bool OpenFilesWithOneClick
-		{
-			get => UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick;
-			set
-			{
-				if (value != UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick)
-				{
-					UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool OpenFoldersWithOneClick
-		{
-			get => UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick;
-			set
-			{
-				if (value != UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick)
-				{
-					UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool ColumnLayoutOpenFoldersWithOneClick
-		{
-			get => UserSettingsService.PreferencesSettingsService.ColumnLayoutOpenFoldersWithOneClick;
-			set
-			{
-				if (value != UserSettingsService.PreferencesSettingsService.ColumnLayoutOpenFoldersWithOneClick)
-				{
-					UserSettingsService.PreferencesSettingsService.ColumnLayoutOpenFoldersWithOneClick = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
 		public bool ListAndSortDirectoriesAlongsideFiles
 		{
 			get => UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles;
@@ -717,84 +550,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.PreferencesSettingsService.SearchUnindexedItems)
 				{
 					UserSettingsService.PreferencesSettingsService.SearchUnindexedItems = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool ForceLayoutPreferencesOnAllDirectories
-		{
-			get => UserSettingsService.PreferencesSettingsService.ForceLayoutPreferencesOnAllDirectories;
-			set
-			{
-				if (value != UserSettingsService.PreferencesSettingsService.ForceLayoutPreferencesOnAllDirectories)
-				{
-					UserSettingsService.PreferencesSettingsService.ForceLayoutPreferencesOnAllDirectories = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool ShowFileTagColumn
-		{
-			get => UserSettingsService.LayoutSettingsService.ShowFileTagColumn;
-			set
-			{
-				if (value != UserSettingsService.LayoutSettingsService.ShowFileTagColumn)
-				{
-					UserSettingsService.LayoutSettingsService.ShowFileTagColumn = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool ShowSizeColumn
-		{
-			get => UserSettingsService.LayoutSettingsService.ShowSizeColumn;
-			set
-			{
-				if (value != UserSettingsService.LayoutSettingsService.ShowSizeColumn)
-				{
-					UserSettingsService.LayoutSettingsService.ShowSizeColumn = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool ShowTypeColumn
-		{
-			get => UserSettingsService.LayoutSettingsService.ShowTypeColumn;
-			set
-			{
-				if (value != UserSettingsService.LayoutSettingsService.ShowTypeColumn)
-				{
-					UserSettingsService.LayoutSettingsService.ShowTypeColumn = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool ShowDateCreatedColumn
-		{
-			get => UserSettingsService.LayoutSettingsService.ShowDateCreatedColumn;
-			set
-			{
-				if (value != UserSettingsService.LayoutSettingsService.ShowDateCreatedColumn)
-				{
-					UserSettingsService.LayoutSettingsService.ShowDateCreatedColumn = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool ShowDateColumn
-		{
-			get => UserSettingsService.LayoutSettingsService.ShowDateColumn;
-			set
-			{
-				if (value != UserSettingsService.LayoutSettingsService.ShowDateColumn)
-				{
-					UserSettingsService.LayoutSettingsService.ShowDateColumn = value;
 					OnPropertyChanged();
 				}
 			}
@@ -851,7 +606,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public DateTimeFormatItem(DateTimeFormats style, DateTimeOffset sampleDate1, DateTimeOffset sampleDate2)
 		{
-			var factory = Ioc.Default.GetService<IDateTimeFormatterFactory>();
+			var factory = Ioc.Default.GetRequiredService<IDateTimeFormatterFactory>();
 			var formatter = factory.GetDateTimeFormatter(style);
 
 			Label = formatter.Name;

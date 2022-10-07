@@ -1,15 +1,21 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
-using Files.Backend.Services.Settings;
-using Files.Shared.Extensions;
+using CommunityToolkit.WinUI.UI;
 using Files.App.DataModels;
 using Files.App.DataModels.NavigationControlItems;
+using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.ViewModels;
-using Files.App.Extensions;
+using Files.Backend.Services.Settings;
+using Files.Shared.Extensions;
+using Microsoft.UI.Input;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Input;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,19 +23,12 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using UWPToWinAppSDKUpgradeHelpers;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.System;
 using Windows.UI.Core;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Input;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
-using CommunityToolkit.WinUI.UI;
-using Microsoft.UI.Input;
-using UWPToWinAppSDKUpgradeHelpers;
-using Vanara.PInvoke;
 
 namespace Files.App.UserControls
 {
@@ -387,7 +386,7 @@ namespace Files.App.UserControls
 
         private void PinItem()
         {
-            if(rightClickedItem is DriveItem)
+            if (rightClickedItem is DriveItem)
             {
                 App.SidebarPinnedController.Model.AddItem(rightClickedItem.Path);
             }
@@ -395,12 +394,7 @@ namespace Files.App.UserControls
 
         private void UnpinItem()
         {
-            if (rightClickedItem.MenuOptions.ShowEmptyRecycleBin)
-            {
-                UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar = false;
-                App.SidebarPinnedController.Model.ShowHideRecycleBinItem(false);
-            }
-            else if (rightClickedItem.Section == SectionType.Favorites || rightClickedItem is DriveItem)
+            if (rightClickedItem.Section == SectionType.Favorites || rightClickedItem is DriveItem)
             {
                 App.SidebarPinnedController.Model.RemoveItem(rightClickedItem.Path);
             }

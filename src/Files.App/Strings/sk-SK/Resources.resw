@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Názov</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>Typ</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>Veľkosť</value>
   </data>
@@ -799,6 +796,9 @@
     <value>Vytvorí prázdny priečinok</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>Rozloženie</value>
+  </data>
+  <data name="LayoutMode" xml:space="preserve">
     <value>Rozloženie</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
@@ -2609,7 +2609,7 @@ Centrum aplikácií používame na sledovanie používania aplikácií, vyhľad�
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>Zadajte názov knižnice</value>
   </data>
-  <data name="ShowFolderSize" xml:space="preserve">
+  <data name="CalculateFolderSizes" xml:space="preserve">
     <value>Zobraziť veľkosť priečinka</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
@@ -2638,6 +2638,9 @@ Centrum aplikácií používame na sledovanie používania aplikácií, vyhľad�
   </data>
   <data name="Type" xml:space="preserve">
     <value>Typ:</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Icon Grid</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>bajtov</value>
