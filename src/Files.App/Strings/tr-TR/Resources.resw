@@ -801,6 +801,9 @@
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Görünüm kipi</value>
   </data>
+  <data name="LayoutMode" xml:space="preserve">
+    <value>Görünüm kipi</value>
+  </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
     <value>Geri git</value>
   </data>
@@ -2636,6 +2639,9 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
   </data>
   <data name="Type" xml:space="preserve">
     <value>Tip:</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Icon Grid</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Bayt</value>
