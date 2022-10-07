@@ -460,10 +460,10 @@ namespace Files.App.ViewModels
 			{
 				case nameof(UserSettingsService.PreferencesSettingsService.ShowFileExtensions):
 				case nameof(UserSettingsService.PreferencesSettingsService.ShowThumbnails):
-				case nameof(UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible):
-				case nameof(UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden):
-				case nameof(UserSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible):
-				case nameof(UserSettingsService.PreferencesSettingsService.ShowDotFiles):
+				case nameof(UserSettingsService.FoldersSettingsService.ShowHiddenItems):
+				case nameof(UserSettingsService.FoldersSettingsService.ShowProtectedSystemFiles):
+				case nameof(UserSettingsService.FoldersSettingsService.AreAlternateStreamsVisible):
+				case nameof(UserSettingsService.FoldersSettingsService.ShowDotFiles):
 				case nameof(UserSettingsService.PreferencesSettingsService.ShowFolderSize):
 				case nameof(UserSettingsService.PreferencesSettingsService.SelectFilesOnHover):
 					await dispatcherQueue.EnqueueAsync(() =>
@@ -473,7 +473,7 @@ namespace Files.App.ViewModels
 					});
 					break;
 				case nameof(UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles):
-				case nameof(UserSettingsService.PreferencesSettingsService.ForceLayoutPreferencesOnAllDirectories):
+				case nameof(UserSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences):
 					await dispatcherQueue.EnqueueAsync(() =>
 					{
 						folderSettings.OnDefaultPreferencesChanged(WorkingDirectory, e.SettingName);
@@ -2094,7 +2094,7 @@ namespace Files.App.ViewModels
 			{
 				filesAndFolders.Add(item);
 
-				if (UserSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible)
+				if (UserSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
 				{
 					// New file added, enumerate ADS
 					foreach (var ads in NativeFileOperationsHelper.GetAlternateStreams(item.ItemPath))
@@ -2128,9 +2128,9 @@ namespace Files.App.ViewModels
 			var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
 			var startWithDot = findData.cFileName.StartsWith(".");
 			if ((isHidden &&
-			   (!UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible ||
-			   (isSystem && UserSettingsService.PreferencesSettingsService.AreSystemItemsHidden))) ||
-			   (startWithDot && !UserSettingsService.PreferencesSettingsService.ShowDotFiles))
+			   (!UserSettingsService.FoldersSettingsService.ShowHiddenItems ||
+			   (isSystem && !UserSettingsService.FoldersSettingsService.ShowProtectedSystemFiles))) ||
+			   (startWithDot && !UserSettingsService.FoldersSettingsService.ShowDotFiles))
 			{
 				// Do not add to file list if hidden/system attribute is set and system/hidden file are not to be shown
 				return null;
@@ -2251,7 +2251,7 @@ namespace Files.App.ViewModels
 				{
 					filesAndFolders.Remove(matchingItem);
 
-					if (UserSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible)
+					if (UserSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
 					{
 						// Main file is removed, remove connected ADS
 						foreach (var adsItem in filesAndFolders.Where(x => x is AlternateStreamItem ads && ads.MainStreamPath == matchingItem.ItemPath).ToList())

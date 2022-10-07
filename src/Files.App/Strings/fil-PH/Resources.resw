@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Pangalan</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>Uri</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>Laki</value>
   </data>

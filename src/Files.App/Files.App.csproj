@@ -138,6 +138,7 @@
   <ItemGroup>
     <None Remove="Resources\PreviewPanePropertiesInformation.json" />
     <None Remove="Resources\PropertiesInformation.json" />
+    <None Remove="Views\SettingsPages\Folders.xaml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ByteSize">
@@ -193,6 +194,11 @@
 	<!--<ProjectReference Include="..\BackgroundTasks\BackgroundTasks.csproj" />-->
 	<ProjectReference Include="..\Files.Shared\Files.Shared.csproj" />
 	<ProjectReference Include="..\Files.Backend\Files.Backend.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\SettingsPages\Folders.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
   </ItemGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sideload|x86'">
 	<OutputPath>bin\x86\Sideload\</OutputPath>

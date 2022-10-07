@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>اسم</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>النوع</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>الحجم</value>
   </data>

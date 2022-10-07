@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Όνομα</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>Τύπος</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>Μέγεθος</value>
   </data>

@@ -21,11 +21,6 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
-		public bool OpenFoldersInNewTab
-		{
-			get => Get(false);
-			set => Set(value);
-		}
 
 		public bool ShowFileExtensions
 		{
@@ -39,61 +34,13 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
-		public bool AreHiddenItemsVisible
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
-		public bool AreSystemItemsHidden
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool AreAlternateStreamsVisible
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
-		public bool ShowDotFiles
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
 		public bool SelectFilesOnHover
 		{
 			get => Get(false);
 			set => Set(value);
 		}
 
-		public bool OpenFilesWithOneClick
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
-		public bool OpenFoldersWithOneClick
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
-		public bool ColumnLayoutOpenFoldersWithOneClick
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
 		public bool SearchUnindexedItems
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
-		public bool ForceLayoutPreferencesOnAllDirectories
 		{
 			get => Get(false);
 			set => Set(value);
@@ -153,106 +100,19 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
-		public bool ShowDateColumn
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool ShowDateCreatedColumn
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
-		public bool ShowTypeColumn
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool ShowSizeColumn
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool ShowFileTagColumn
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public FolderLayoutModes DefaultLayoutMode
-		{
-			get => (FolderLayoutModes)Get((long)FolderLayoutModes.DetailsView);
-			set => Set((long)value);
-		}
-
-		public double TagColumnWidth
-		{
-			get => Get(200d);
-			set => Set(value);
-		}
-
-		public double NameColumnWidth
-		{
-			get => Get(200d);
-			set => Set(value);
-		}
-
-		public double DateModifiedColumnWidth
-		{
-			get => Get(200d);
-			set => Set(value);
-		}
-
-		public double TypeColumnWidth
-		{
-			get => Get(200d);
-			set => Set(value);
-		}
-
-		public double DateCreatedColumnWidth
-		{
-			get => Get(200d);
-			set => Set(value);
-		}
-
-		public double SizeColumnWidth
-		{
-			get => Get(200d);
-			set => Set(value);
-		}
-
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			switch (e.SettingName)
 			{
 				case nameof(ShowConfirmDeleteDialog):
-				case nameof(OpenFoldersInNewTab):
 				case nameof(ShowFileExtensions):
-				case nameof(AreHiddenItemsVisible):
-				case nameof(AreSystemItemsHidden):
-				case nameof(AreAlternateStreamsVisible):
-				case nameof(ShowDotFiles):
 				case nameof(SelectFilesOnHover):
-				case nameof(OpenFilesWithOneClick):
-				case nameof(OpenFoldersWithOneClick):
-				case nameof(ColumnLayoutOpenFoldersWithOneClick):
 				case nameof(SearchUnindexedItems):
-				case nameof(ForceLayoutPreferencesOnAllDirectories):
 				case nameof(ShowFolderSize):
 				case nameof(OpenSpecificPageOnStartup):
 				case nameof(ContinueLastSessionOnStartUp):
 				case nameof(OpenNewTabOnStartup):
 				case nameof(AlwaysOpenNewInstance):
-				case nameof(ShowDateColumn):
-				case nameof(ShowDateCreatedColumn):
-				case nameof(ShowTypeColumn):
-				case nameof(ShowSizeColumn):
-				case nameof(ShowFileTagColumn):
-				case nameof(DefaultLayoutMode):
 					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
 					break;
 			}

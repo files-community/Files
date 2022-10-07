@@ -451,7 +451,7 @@
 									Grid.Column="14"
 									Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 									CommandParameter="FileType"
-									Header="{helpers:ResourceString Name=typeColumn/Header}"
+									Header="{helpers:ResourceString Name=Type}"
 									Visibility="{x:Bind ColumnsViewModel.ItemTypeColumn.Visibility, Mode=OneWay}" />
 
 								<controls:GridSplitter
