@@ -801,6 +801,9 @@
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Modo de diseño</value>
   </data>
+  <data name="LayoutMode" xml:space="preserve">
+    <value>Modo de diseño</value>
+  </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
     <value>Navegar hacia atrás</value>
   </data>
@@ -2636,6 +2639,9 @@ Utilizamos App Center para hacer un seguimiento del uso de la aplicación, encon
   </data>
   <data name="Type" xml:space="preserve">
     <value>Tipo:</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Rejilla de icono</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Bytes</value>
