@@ -189,6 +189,60 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
+		public bool OpenFilesWithOneClick
+		{
+			get => UserSettingsService.FoldersSettingsService.OpenFilesWithOneClick;
+			set
+			{
+				if (value != UserSettingsService.FoldersSettingsService.OpenFilesWithOneClick)
+				{
+					UserSettingsService.FoldersSettingsService.OpenFilesWithOneClick = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool OpenFoldersWithOneClick
+		{
+			get => UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick;
+			set
+			{
+				if (value != UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick)
+				{
+					UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ColumnLayoutOpenFoldersWithOneClick
+		{
+			get => UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick;
+			set
+			{
+				if (value != UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
+				{
+					UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool OpenFoldersNewTab
+		{
+			get => UserSettingsService.FoldersSettingsService.OpenFoldersInNewTab;
+			set
+			{
+				if (value != UserSettingsService.FoldersSettingsService.OpenFoldersInNewTab)
+				{
+					UserSettingsService.FoldersSettingsService.OpenFoldersInNewTab = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+
+
 		// Local methods
 
 		public void ResetLayoutPreferences()

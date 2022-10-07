@@ -21,11 +21,6 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
-		public bool OpenFoldersInNewTab
-		{
-			get => Get(false);
-			set => Set(value);
-		}
 
 		public bool ShowFileExtensions
 		{
@@ -42,24 +37,6 @@ namespace Files.App.ServicesImplementation.Settings
 		public bool SelectFilesOnHover
 		{
 			get => Get(false);
-			set => Set(value);
-		}
-
-		public bool OpenFilesWithOneClick
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
-		public bool OpenFoldersWithOneClick
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
-		public bool ColumnLayoutOpenFoldersWithOneClick
-		{
-			get => Get(true);
 			set => Set(value);
 		}
 
@@ -128,12 +105,8 @@ namespace Files.App.ServicesImplementation.Settings
 			switch (e.SettingName)
 			{
 				case nameof(ShowConfirmDeleteDialog):
-				case nameof(OpenFoldersInNewTab):
 				case nameof(ShowFileExtensions):
 				case nameof(SelectFilesOnHover):
-				case nameof(OpenFilesWithOneClick):
-				case nameof(OpenFoldersWithOneClick):
-				case nameof(ColumnLayoutOpenFoldersWithOneClick):
 				case nameof(SearchUnindexedItems):
 				case nameof(ShowFolderSize):
 				case nameof(OpenSpecificPageOnStartup):

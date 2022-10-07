@@ -173,46 +173,6 @@
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
 
-
-			<!--  Click to open settings  -->
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=BehaviorForOpeningFilesAndFolders}" HorizontalAlignment="Stretch">
-				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xED25;" />
-				</local:SettingsBlockControl.Icon>
-				<local:SettingsBlockControl.ExpandableContent>
-					<StackPanel>
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsOpenFilesWithOneClick}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenFilesWithOneClick}"
-								IsOn="{Binding OpenFilesWithOneClick, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsOpenFoldersWithOneClick}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenFoldersWithOneClick}"
-								IsOn="{Binding OpenFoldersWithOneClick, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=OpenFolderWithOneClickColumnsLayout}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=OpenFolderWithOneClickColumnsLayout}"
-								IsOn="{Binding ColumnLayoutOpenFoldersWithOneClick, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsPreferencesOpenFoldersNewTab/Title}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								x:Name="OpenFoldersNewTab"
-								AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenFoldersNewTabToggleSwitch/AutomationProperties/Name}"
-								IsOn="{Binding OpenFoldersNewTab, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-					</StackPanel>
-				</local:SettingsBlockControl.ExpandableContent>
-			</local:SettingsBlockControl>
-
 			<!--  Search settings  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsSearchUnindexedItems}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>

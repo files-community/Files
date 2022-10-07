@@ -90,5 +90,25 @@ namespace Files.Backend.Services.Settings
 		/// Gets or sets a value indicating whether or not to display dot files.
 		/// </summary>
 		bool ShowDotFiles { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not files should open with one click.
+		/// </summary>
+		bool OpenFilesWithOneClick { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not folders should open with one click.
+		/// </summary>
+		bool OpenFoldersWithOneClick { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not folders should open with two clicks in ColumnsLayout.
+		/// </summary>
+		bool ColumnLayoutOpenFoldersWithOneClick { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to open folders in new tab.
+		/// </summary>
+		bool OpenFoldersInNewTab { get; set; }
 	}
 }

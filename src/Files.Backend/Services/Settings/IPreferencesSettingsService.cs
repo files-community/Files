@@ -12,16 +12,6 @@ namespace Files.Backend.Services.Settings
 		bool ShowConfirmDeleteDialog { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating whether or not to open folders in new tab.
-		/// </summary>
-		bool OpenFoldersInNewTab { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating whether or not file extensions should be visible.
-		/// </summary>
-		bool ShowFileExtensions { get; set; }
-
-		/// <summary>
 		/// Gets or sets a value indicating whether or not media thumbnails should be visible.
 		/// </summary>
 		bool ShowThumbnails { get; set; }
@@ -32,19 +22,9 @@ namespace Files.Backend.Services.Settings
 		bool SelectFilesOnHover { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating whether or not files should open with one click.
+		/// Gets or sets a value indicating whether or not file extensions should be visible.
 		/// </summary>
-		bool OpenFilesWithOneClick { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating whether or not folders should open with one click.
-		/// </summary>
-		bool OpenFoldersWithOneClick { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating whether or not folders should open with two clicks in ColumnsLayout.
-		/// </summary>
-		bool ColumnLayoutOpenFoldersWithOneClick { get; set; }
+		bool ShowFileExtensions { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether or not to search unindexed items.

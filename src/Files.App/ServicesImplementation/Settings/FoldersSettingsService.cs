@@ -116,6 +116,30 @@ namespace Files.App.ServicesImplementation.Settings
 			get => Get(true);
 			set => Set(value);
 		}
+
+		public bool OpenFilesWithOneClick
+		{
+			get => Get(false);
+			set => Set(value);
+		}
+
+		public bool OpenFoldersWithOneClick
+		{
+			get => Get(false);
+			set => Set(value);
+		}
+
+		public bool ColumnLayoutOpenFoldersWithOneClick
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool OpenFoldersInNewTab
+		{
+			get => Get(false);
+			set => Set(value);
+		}
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
         {
             switch (e.SettingName)
@@ -137,7 +161,11 @@ namespace Files.App.ServicesImplementation.Settings
                 case nameof(ShowProtectedSystemFiles):
                 case nameof(AreAlternateStreamsVisible):
                 case nameof(ShowDotFiles):
-                    Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
+				case nameof(OpenFilesWithOneClick):
+				case nameof(OpenFoldersWithOneClick):
+				case nameof(ColumnLayoutOpenFoldersWithOneClick):
+				case nameof(OpenFoldersInNewTab):
+					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
                     break;
             }
 

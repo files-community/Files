@@ -394,19 +394,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		public bool OpenFoldersNewTab
-		{
-			get => UserSettingsService.PreferencesSettingsService.OpenFoldersInNewTab;
-			set
-			{
-				if (value != UserSettingsService.PreferencesSettingsService.OpenFoldersInNewTab)
-				{
-					UserSettingsService.PreferencesSettingsService.OpenFoldersInNewTab = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
 		public DateTimeFormats DateTimeFormat
 		{
 			get => UserSettingsService.PreferencesSettingsService.DateTimeFormat;
@@ -537,45 +524,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.PreferencesSettingsService.SelectFilesOnHover)
 				{
 					UserSettingsService.PreferencesSettingsService.SelectFilesOnHover = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool OpenFilesWithOneClick
-		{
-			get => UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick;
-			set
-			{
-				if (value != UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick)
-				{
-					UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool OpenFoldersWithOneClick
-		{
-			get => UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick;
-			set
-			{
-				if (value != UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick)
-				{
-					UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool ColumnLayoutOpenFoldersWithOneClick
-		{
-			get => UserSettingsService.PreferencesSettingsService.ColumnLayoutOpenFoldersWithOneClick;
-			set
-			{
-				if (value != UserSettingsService.PreferencesSettingsService.ColumnLayoutOpenFoldersWithOneClick)
-				{
-					UserSettingsService.PreferencesSettingsService.ColumnLayoutOpenFoldersWithOneClick = value;
 					OnPropertyChanged();
 				}
 			}
