@@ -12,7 +12,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 {
 	public class AppearanceViewModel : ObservableObject
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>()!;
+		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		private int selectedThemeIndex = (int)Enum.Parse(typeof(ElementTheme), ThemeHelper.RootTheme.ToString());
 		private AppTheme selectedTheme = App.AppSettings.SelectedTheme;
@@ -110,20 +110,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.AppearanceSettingsService.ShowFavoritesSection)
 				{
 					UserSettingsService.AppearanceSettingsService.ShowFavoritesSection = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool PinRecycleBinToSideBar
-		{
-			get => UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar)
-				{
-					UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar = value;
-					App.SidebarPinnedController.Model.ShowHideRecycleBinItem(value);
 					OnPropertyChanged();
 				}
 			}

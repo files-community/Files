@@ -145,8 +145,7 @@ namespace Files.App.ServicesImplementation
             {
                 await Task.Run(async () =>
                 {
-                    var bundlePath = new Uri(ApplicationData.Current.LocalFolder.Path + Path.DirectorySeparatorChar +
-                                             TEMPORARY_UPDATE_PACKAGE_NAME);
+                    var bundlePath = new Uri(ApplicationData.Current.LocalFolder.Path + "\\" + TEMPORARY_UPDATE_PACKAGE_NAME);
 
                     var deployment = pm.RequestAddPackageAsync(
                         bundlePath,

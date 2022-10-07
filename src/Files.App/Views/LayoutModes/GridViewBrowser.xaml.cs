@@ -246,35 +246,40 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-        override public void StartRenameItem()
-        {
-            RenamingItem = SelectedItem;
-            if (RenamingItem == null)
-                return;
-            int extensionLength = RenamingItem.FileExtension?.Length ?? 0;
-            GridViewItem? gridViewItem = FileList.ContainerFromItem(RenamingItem) as GridViewItem;
-            TextBox? textBox = null;
-            if (gridViewItem == null)
-                return;
-            // Handle layout differences between tiles browser and photo album
-            if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
-            {
-                Popup? popup = gridViewItem.FindDescendant("EditPopup") as Popup;
-                TextBlock? textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
-                textBox = popup!.Child as TextBox;
-                textBox!.Text = textBlock!.Text;
-                popup.IsOpen = true;
-                OldItemName = textBlock.Text;
-            }
-            else
-            {
-                TextBlock? textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
-                textBox = gridViewItem.FindDescendant("TileViewTextBoxItemName") as TextBox;
-                textBox!.Text = textBlock!.Text;
-                OldItemName = textBlock.Text;
-                textBlock.Visibility = Visibility.Collapsed;
-                textBox.Visibility = Visibility.Visible;
-            }
+		override public void StartRenameItem()
+		{
+			RenamingItem = SelectedItem;
+			if (RenamingItem == null)
+				return;
+
+			int extensionLength = RenamingItem.FileExtension?.Length ?? 0;
+
+			GridViewItem gridViewItem = FileList.ContainerFromItem(RenamingItem) as GridViewItem;
+			TextBox textBox = null;
+			if (gridViewItem == null)
+			{
+				return;
+			}
+
+			// Handle layout differences between tiles browser and photo album
+			if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
+			{
+				Popup popup = gridViewItem.FindDescendant("EditPopup") as Popup;
+				TextBlock textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
+				textBox = popup.Child as TextBox;
+				textBox.Text = textBlock.Text;
+				popup.IsOpen = true;
+				OldItemName = textBlock.Text;
+			}
+			else
+			{
+				TextBlock textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
+				textBox = gridViewItem.FindDescendant("TileViewTextBoxItemName") as TextBox;
+				textBox.Text = textBlock.Text;
+				OldItemName = textBlock.Text;
+				textBlock.Visibility = Visibility.Collapsed;
+				textBox.Visibility = Visibility.Visible;
+			}
 
             textBox.Focus(FocusState.Pointer);
             textBox.LostFocus += RenameTextBox_LostFocus;
@@ -487,7 +492,7 @@ namespace Files.App.Views.LayoutModes
 		{
 			var ctrlPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-			
+
 			var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
 			if (item == null)
 				return;
@@ -530,21 +535,21 @@ namespace Files.App.Views.LayoutModes
             }
         }
 
-        private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
-        {
-            // Skip opening selected items if the double tap doesn't capture an item
-            if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item
-                 && ((!UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)
-                 || (!UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder)))
-            {
-                NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
-            }
-            else
-            {
-                ParentShellPageInstance.Up_Click();
-            }
-            ResetRenameDoubleClick();
-        }
+		private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+		{
+			// Skip opening selected items if the double tap doesn't capture an item
+			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item
+				 && ((!UserSettingsService.FoldersSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)
+				 || (!UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder)))
+			{
+				NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+			}
+			else
+			{
+				ParentShellPageInstance.Up_Click();
+			}
+			ResetRenameDoubleClick();
+		}
 
         #region IDisposable
 

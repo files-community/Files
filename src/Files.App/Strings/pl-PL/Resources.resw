@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Nazwa</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>Typ</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>Rozmiar</value>
   </data>
@@ -160,13 +157,13 @@
     <value>Nazwa</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Path:</value>
+    <value>Lokalizacja:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Rozmiar:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed Size:</value>
+    <value>Rozmiar nieskompresowany:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Ta akcja nie może być wykonana</value>
@@ -799,6 +796,9 @@
     <value>Tworzy pusty folder</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>Układ</value>
+  </data>
+  <data name="LayoutMode" xml:space="preserve">
     <value>Układ</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
@@ -1672,13 +1672,13 @@
     <value>Otwieraj foldery w nowej karcie</value>
   </data>
   <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>Show Bundles widget</value>
+    <value>Pokaż widżet Paczek</value>
   </data>
   <data name="ShowDrivesWidget" xml:space="preserve">
-    <value>Show Drives widget</value>
+    <value>Pokaż widżet Dysków</value>
   </data>
   <data name="ShowFolderWidget" xml:space="preserve">
-    <value>Show Folders widget</value>
+    <value>Pokaż widżet Folderów</value>
   </data>
   <data name="ShowRecentFilesWidget" xml:space="preserve">
     <value>Show Recent Files widget</value>
@@ -1948,7 +1948,7 @@
     <value>Odrzuć</value>
   </data>
   <data name="Widgets" xml:space="preserve">
-    <value>Widgets</value>
+    <value>Widżety</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>Stan synchronizacji</value>
@@ -2603,7 +2603,7 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>Podaj nazwę biblioteki</value>
   </data>
-  <data name="ShowFolderSize" xml:space="preserve">
+  <data name="CalculateFolderSizes" xml:space="preserve">
     <value>Pokaż rozmiar folderu</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
@@ -2632,6 +2632,9 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
   </data>
   <data name="Type" xml:space="preserve">
     <value>Typ:</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Siatka ikon</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Bajty</value>
@@ -2769,43 +2772,43 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
     <value>Czy chcesz ocenić Files?</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
-    <value>Set as background</value>
+    <value>Ustaw tło</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Set as lockscreen</value>
+    <value>Ustaw jako ekran blokady</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>Ustaw jako tło pulpitu</value>
   </data>
   <data name="SetAsDefault" xml:space="preserve">
-    <value>Set as default</value>
+    <value>Ustaw jako domyślną</value>
   </data>
   <data name="FolderPreferences" xml:space="preserve">
-    <value>Folder preferences</value>
+    <value>Ustawienia folderu</value>
   </data>
   <data name="DisplayDateColumn" xml:space="preserve">
-    <value>Display Date column</value>
+    <value>Wyświetl kolumnę Data</value>
   </data>
   <data name="DisplayDateCreatedColumn" xml:space="preserve">
-    <value>Display Date Created column</value>
+    <value>Wyświetl kolumnę Data Utworzenia</value>
   </data>
   <data name="DisplaySizeColumn" xml:space="preserve">
-    <value>Display Size column</value>
+    <value>Wyświetl kolumnę Rozmiaru</value>
   </data>
   <data name="DisplayTagColumn" xml:space="preserve">
-    <value>Display Tag column</value>
+    <value>Wyświetl kolumnę Tagów</value>
   </data>
   <data name="DisplayTypeColumn" xml:space="preserve">
-    <value>Display Type column</value>
+    <value>Wyświetl kolumnęTypu</value>
   </data>
   <data name="Reset" xml:space="preserve">
-    <value>Reset</value>
+    <value>Resetuj</value>
   </data>
   <data name="ResetLayoutPreferences" xml:space="preserve">
-    <value>This action will reset all directories back to your default preferences.</value>
+    <value>Ta akcja zresetuje wszystkie katalogi z powrotem do ustawień domyślnych.</value>
   </data>
   <data name="AreYouSure" xml:space="preserve">
-    <value>Are you sure?</value>
+    <value>Jesteś pewny?</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Lockscreen</value>
@@ -2823,16 +2826,16 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
     <value>Are you sure you want to restore all items in the recycle bin?</value>
   </data>
   <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
-    <value>Restore all items</value>
+    <value>Przywróć wszystkie elementy</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
     <value>Do you want to restore the {0} selected item(s)?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
-    <value>Restore selection</value>
+    <value>Przywróć zaznaczone</value>
   </data>
   <data name="RestoreAllItems" xml:space="preserve">
-    <value>Restore All Items</value>
+    <value>Przywróć wszystkie elementy</value>
   </data>
   <data name="RestoreSelection" xml:space="preserve">
     <value>Przywróć</value>

@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Nome</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>Tipo</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>Dimensione</value>
   </data>
@@ -160,7 +157,7 @@
     <value>Nome file</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Path:</value>
+    <value>Percorso:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Dimensioni:</value>
@@ -799,6 +796,9 @@
     <value>Crea una cartella vuota</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>Modalità di visualizzazione</value>
+  </data>
+  <data name="LayoutMode" xml:space="preserve">
     <value>Modalità di visualizzazione</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
@@ -1672,16 +1672,16 @@
     <value>Apri cartelle in una nuova scheda</value>
   </data>
   <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>Show Bundles widget</value>
+    <value>Mostra widget Gruppi</value>
   </data>
   <data name="ShowDrivesWidget" xml:space="preserve">
-    <value>Show Drives widget</value>
+    <value>Mostra widget Dispositivi e Unità</value>
   </data>
   <data name="ShowFolderWidget" xml:space="preserve">
-    <value>Show Folders widget</value>
+    <value>Mostra widget Cartelle</value>
   </data>
   <data name="ShowRecentFilesWidget" xml:space="preserve">
-    <value>Show Recent Files widget</value>
+    <value>Mostra widget File Recenti</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>Non sono i droidi che stavi cercando?</value>
@@ -1948,7 +1948,7 @@
     <value>Rimuovi</value>
   </data>
   <data name="Widgets" xml:space="preserve">
-    <value>Widgets</value>
+    <value>Widget</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>Stato sincronizzazione</value>
@@ -2603,7 +2603,7 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>Inserisci il nome della Raccolta</value>
   </data>
-  <data name="ShowFolderSize" xml:space="preserve">
+  <data name="CalculateFolderSizes" xml:space="preserve">
     <value>Mostra dimensione delle cartelle</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
@@ -2632,6 +2632,9 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
   </data>
   <data name="Type" xml:space="preserve">
     <value>Tipo:</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Icon Grid</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Byte</value>
@@ -2805,34 +2808,34 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
     <value>Questa azione reimposterà tutte le cartelle alle tue preferenze predefinite.</value>
   </data>
   <data name="AreYouSure" xml:space="preserve">
-    <value>Sei sicuro/a?</value>
+    <value>Lo vuoi davvero?</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Schermata di blocco</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Open folders with a single click in the Columns Layout</value>
+    <value>Apri cartelle con un singolo clic nel Layout Colonne</value>
   </data>
   <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
-    <value>Behavior for opening files and folders</value>
+    <value>Comportamento per l'apertura di file e cartelle</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
-    <value>Select files and folders when hovering over them</value>
+    <value>Seleziona i file e le cartelle quando si passa con il mouse</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
-    <value>Are you sure you want to restore all items in the recycle bin?</value>
+    <value>Vuoi davvero ripristinare tutti i file dal cestino?</value>
   </data>
   <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
-    <value>Restore all items</value>
+    <value>Ripristina tutti gli elementi</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
-    <value>Do you want to restore the {0} selected item(s)?</value>
+    <value>Vuoi ripritinare {0} file selezionato/i?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
-    <value>Restore selection</value>
+    <value>Ripristina selezione</value>
   </data>
   <data name="RestoreAllItems" xml:space="preserve">
-    <value>Restore All Items</value>
+    <value>Ripristina tutti gli elementi</value>
   </data>
   <data name="RestoreSelection" xml:space="preserve">
     <value>Ripristina</value>

@@ -64,9 +64,9 @@ namespace Files.App.Views
 
         private IDialogService DialogService { get; } = Ioc.Default.GetRequiredService<IDialogService>();
 
-        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-        private IUpdateService UpdateSettingsService { get; } = Ioc.Default.GetService<IUpdateService>();
+        private IUpdateService UpdateSettingsService { get; } = Ioc.Default.GetRequiredService<IUpdateService>();
 
         private bool isCurrentInstance = false;
         public bool IsCurrentInstance
@@ -798,7 +798,7 @@ namespace Files.App.Views
                     break;
 
                 case (true, false, false, true, VirtualKey.H): // ctrl + h, toggle hidden folder visibility
-                    UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible ^= true; // flip bool
+                    UserSettingsService.FoldersSettingsService.ShowHiddenItems ^= true; // flip bool
                     break;
 
                 case (false, false, false, _, VirtualKey.F1): // F1, open Files wiki

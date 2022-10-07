@@ -17,7 +17,7 @@ namespace Files.App.ViewModels.Previews
             var details = new List<FileProperty>
             {
                 GetFileProperty("PropertyItemPathDisplay", item.ItemPath),
-                GetFileProperty("PropertyItemName", item.ItemName),
+                GetFileProperty("PropertyItemName", item.Name),
                 GetFileProperty("PropertyItemTypeText", item.ItemType),
                 GetFileProperty("PropertyItemTarget", item.TargetPath),
                 GetFileProperty("Arguments", item.Arguments),
@@ -35,7 +35,7 @@ namespace Files.App.ViewModels.Previews
 
         private async Task LoadItemThumbnail()
         {
-            var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, 400);
+            var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, 256);
             if (iconData is not null)
             {
                 FileImage = await iconData.ToBitmapAsync();
