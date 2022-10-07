@@ -801,6 +801,9 @@
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>განლაგების რეჟიმი</value>
   </data>
+  <data name="LayoutMode" xml:space="preserve">
+    <value>განლაგების რეჟიმი</value>
+  </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
     <value>მართეთ უკან გადასვლები</value>
   </data>
@@ -2636,6 +2639,9 @@
   </data>
   <data name="Type" xml:space="preserve">
     <value>ტიპი:</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Icon Grid</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>ბაიტი:</value>
