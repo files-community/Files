@@ -801,6 +801,9 @@
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>檢視模式</value>
   </data>
+  <data name="LayoutMode" xml:space="preserve">
+    <value>檢視模式</value>
+  </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
     <value>向後導覽</value>
   </data>
@@ -2632,6 +2635,9 @@
   </data>
   <data name="Type" xml:space="preserve">
     <value>類型：</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Icon Grid</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>位元組</value>
