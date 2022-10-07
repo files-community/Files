@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Nosaukums</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>Tips</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>Izmērs</value>
   </data>
@@ -799,6 +796,9 @@
     <value>Izveido tukšu mapi</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>Izkārtojuma režīms</value>
+  </data>
+  <data name="LayoutMode" xml:space="preserve">
     <value>Izkārtojuma režīms</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
@@ -2632,6 +2632,9 @@ Mēs lietojam App Center, lai sekotu līdzi programmas lietojumam, atrastu un no
   </data>
   <data name="Type" xml:space="preserve">
     <value>Tips:</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Icon Grid</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Baiti</value>

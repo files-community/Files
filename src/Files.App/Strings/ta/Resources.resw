@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>பெயர்</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>வகை</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>அளவு</value>
   </data>
@@ -800,6 +797,9 @@
     <value>ஒரு வெறுமை கோப்புறையை உருவாக்கும்</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>தளவமைப்பு முறை</value>
+  </data>
+  <data name="LayoutMode" xml:space="preserve">
     <value>தளவமைப்பு முறை</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
@@ -2633,6 +2633,9 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   </data>
   <data name="Type" xml:space="preserve">
     <value>வகை:</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Icon Grid</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>பைட்கள்</value>

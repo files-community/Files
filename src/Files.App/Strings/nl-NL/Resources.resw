@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Naam</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>Soort</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>Grootte</value>
   </data>
@@ -799,6 +796,9 @@
     <value>Maakt een lege map</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>Indelingsmodus</value>
+  </data>
+  <data name="LayoutMode" xml:space="preserve">
     <value>Indelingsmodus</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
@@ -2637,6 +2637,9 @@ We gebruiken App Center om app-gebruik bij te houden, bugs te vinden en crashes 
   </data>
   <data name="Type" xml:space="preserve">
     <value>Soort:</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Icon Grid</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Bytes</value>

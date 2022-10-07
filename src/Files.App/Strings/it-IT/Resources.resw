@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Nome</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>Tipo</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>Dimensione</value>
   </data>
@@ -799,6 +796,9 @@
     <value>Crea una cartella vuota</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>Modalità di visualizzazione</value>
+  </data>
+  <data name="LayoutMode" xml:space="preserve">
     <value>Modalità di visualizzazione</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
@@ -2632,6 +2632,9 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
   </data>
   <data name="Type" xml:space="preserve">
     <value>Tipo:</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Icon Grid</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Byte</value>

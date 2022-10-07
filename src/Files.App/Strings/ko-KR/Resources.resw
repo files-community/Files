@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>이름</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>유형</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>크기</value>
   </data>
@@ -799,6 +796,9 @@
     <value>빈 폴더를 생성합니다.</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>레이아웃 설정</value>
+  </data>
+  <data name="LayoutMode" xml:space="preserve">
     <value>레이아웃 설정</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
@@ -2632,6 +2632,9 @@
   </data>
   <data name="Type" xml:space="preserve">
     <value>유형:</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Icon Grid</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>바이트</value>

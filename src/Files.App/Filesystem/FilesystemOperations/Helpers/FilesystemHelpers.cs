@@ -50,7 +50,7 @@ namespace Files.App.Filesystem
             get
             {
                 var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-                if (userSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible)
+                if (userSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
                 {
                     // Allow ":" char
                     return new[] { '\\', '/', '*', '?', '"', '<', '>', '|' };

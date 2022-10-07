@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Nombre</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>Tipo</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>Tamaño</value>
   </data>
@@ -205,7 +202,7 @@
     <value>Buscar</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
-    <value>Los archivos a los que ha accedido anteriormente se mostrarán aquí</value>
+    <value>Los archivos a los que previamente haya accedido se mostrarán aquí</value>
   </data>
   <data name="RecentItemOpenFileLocation.Text" xml:space="preserve">
     <value>Abrir ubicación del archivo</value>
@@ -799,6 +796,9 @@
     <value>Crea una carpeta vacía</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>Modo de diseño</value>
+  </data>
+  <data name="LayoutMode" xml:space="preserve">
     <value>Modo de diseño</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
@@ -2636,6 +2636,9 @@ Utilizamos App Center para hacer un seguimiento del uso de la aplicación, encon
   </data>
   <data name="Type" xml:space="preserve">
     <value>Tipo:</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Rejilla de icono</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Bytes</value>

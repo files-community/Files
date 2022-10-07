@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Имя</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>Тип</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>Размер</value>
   </data>
@@ -799,6 +796,9 @@
     <value>Создает пустую папку</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>Вид значков</value>
+  </data>
+  <data name="LayoutMode" xml:space="preserve">
     <value>Вид значков</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
@@ -2631,6 +2631,9 @@
   </data>
   <data name="Type" xml:space="preserve">
     <value>Тип:</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Сітка іконок</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Байты</value>

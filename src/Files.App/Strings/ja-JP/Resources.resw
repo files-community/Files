@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>名前</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>種類</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>サイズ</value>
   </data>
@@ -799,6 +796,9 @@
     <value>空のフォルダーを作成</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>レイアウト モード</value>
+  </data>
+  <data name="LayoutMode" xml:space="preserve">
     <value>レイアウト モード</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
@@ -2632,6 +2632,9 @@
   </data>
   <data name="Type" xml:space="preserve">
     <value>種類:</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Icon Grid</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>バイト</value>

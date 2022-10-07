@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Nom</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>Type</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>Taille</value>
   </data>
@@ -800,6 +797,9 @@
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Disposition</value>
+  </data>
+  <data name="LayoutMode" xml:space="preserve">
+    <value>Mode d'affichage</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
     <value>Naviguer en arrière</value>
@@ -2630,6 +2630,9 @@
   </data>
   <data name="Type" xml:space="preserve">
     <value>Type :</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Grille d'icône</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Octets</value>

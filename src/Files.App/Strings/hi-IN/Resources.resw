@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>नाम</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>प्रकार</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>आकार</value>
   </data>
@@ -799,6 +796,9 @@
     <value>Creates an empty folder</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>Layout mode</value>
+  </data>
+  <data name="LayoutMode" xml:space="preserve">
     <value>Layout mode</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
@@ -2632,6 +2632,9 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   </data>
   <data name="Type" xml:space="preserve">
     <value>प्रकार</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Icon Grid</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>बाइट्स</value>

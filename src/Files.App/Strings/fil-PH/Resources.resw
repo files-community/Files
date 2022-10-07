@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Pangalan</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>Uri</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>Laki</value>
   </data>
@@ -160,13 +157,13 @@
     <value>Pangalan ng bagay</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Path:</value>
+    <value>Landas:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Laki:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed Size:</value>
+    <value>Uncompressed na Laki:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Hindi maaaring magawa ang aksyon na ito</value>
@@ -801,6 +798,9 @@
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Anyo ng pagkaka-ayos</value>
   </data>
+  <data name="LayoutMode" xml:space="preserve">
+    <value>Anyo ng pagkaka-ayos</value>
+  </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
     <value>Mag-navigate pabalik</value>
   </data>
@@ -1237,7 +1237,7 @@
     <value>Ipakita ang mga hindi na-index na item kapag naghahanap ng mga file at folder</value>
   </data>
   <data name="ForceThesePreferencesOnAllDirectories" xml:space="preserve">
-    <value>Force these preferences on all directories</value>
+    <value>Ipilit ang mga kagustuhan sa lahat ng mga folder</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>I-customize ang right click context menu</value>
@@ -1672,13 +1672,13 @@
     <value>Buksan ang mga folder sa bagong tab</value>
   </data>
   <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>Show Bundles widget</value>
+    <value>Ipakita ang widget ng mga Bundle</value>
   </data>
   <data name="ShowDrivesWidget" xml:space="preserve">
-    <value>Show Drives widget</value>
+    <value>Ipakita ang widget ng mga Drive</value>
   </data>
   <data name="ShowFolderWidget" xml:space="preserve">
-    <value>Show Folders widget</value>
+    <value>Ipakita ang widget ng Mga Folder</value>
   </data>
   <data name="ShowRecentFilesWidget" xml:space="preserve">
     <value>Show Recent Files widget</value>
@@ -2632,6 +2632,9 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   </data>
   <data name="Type" xml:space="preserve">
     <value>Uri:</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Icon Grid</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Bytes</value>
