@@ -19,7 +19,7 @@ namespace Files.App.ViewModels.Previews
 {
     public abstract class BasePreviewModel : ObservableObject
     {
-        private readonly IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+        private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
         public ListedItem Item { get; }
 
@@ -90,8 +90,8 @@ namespace Files.App.ViewModels.Previews
         /// <returns>A list of details</returns>
         public async virtual Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
         {
-            var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(Item.ItemFile, 400, ThumbnailMode.DocumentsView);
-            iconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, 400);
+            var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(Item.ItemFile, 256, ThumbnailMode.SingleItem);
+            iconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, 256);
             if (iconData is not null)
             {
                 await App.Window.DispatcherQueue.EnqueueAsync(async () => FileImage = await iconData.ToBitmapAsync());
@@ -116,10 +116,8 @@ namespace Files.App.ViewModels.Previews
 
         private async Task<List<FileProperty>> GetSystemFilePropertiesAsync()
         {
-            if (Item.IsShortcutItem)
-            {
+            if (Item.IsShortcut)
                 return null;
-            }
 
             var list = await FileProperty.RetrieveAndInitializePropertiesAsync(Item.ItemFile,
                 Constants.ResourceFilePaths.PreviewPaneDetailsPropertiesJsonPath);

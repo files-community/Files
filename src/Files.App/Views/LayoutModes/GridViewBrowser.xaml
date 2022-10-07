@@ -133,7 +133,7 @@
 						Padding="2"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Bottom"
-						x:Load="{x:Bind IsShortcutItem}"
+						x:Load="{x:Bind IsShortcut}"
 						x:Phase="1"
 						Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
 						BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
@@ -179,7 +179,7 @@
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Stretch"
 						Opacity="{Binding IsOpen, ElementName=EditPopup, Converter={StaticResource NegatedBoolToOpacityConverter}}"
-						Text="{x:Bind ItemName, Mode=OneWay}"
+						Text="{x:Bind Name, Mode=OneWay}"
 						TextTrimming="CharacterEllipsis"
 						TextWrapping="Wrap" />
 				</Grid>
@@ -195,7 +195,7 @@
 						VerticalAlignment="Stretch"
 						Background="{ThemeResource SolidBackgroundFillColorSecondary}"
 						BeforeTextChanging="ItemNameTextBox_BeforeTextChanging"
-						Text="{x:Bind ItemName, Mode=OneWay}"
+						Text="{x:Bind Name, Mode=OneWay}"
 						TextAlignment="Center"
 						TextWrapping="Wrap" />
 				</Popup>
@@ -300,7 +300,7 @@
 						Padding="2"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Bottom"
-						x:Load="{x:Bind IsShortcutItem}"
+						x:Load="{x:Bind IsShortcut}"
 						x:Phase="1"
 						Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
 						BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
@@ -326,7 +326,7 @@
 						Grid.Row="0"
 						HorizontalAlignment="Left"
 						MaxLines="2"
-						Text="{x:Bind ItemName, Mode=OneWay}"
+						Text="{x:Bind Name, Mode=OneWay}"
 						TextTrimming="CharacterEllipsis"
 						TextWrapping="Wrap" />
 					<TextBox
@@ -334,7 +334,7 @@
 						Grid.Row="0"
 						HorizontalAlignment="Left"
 						BeforeTextChanging="ItemNameTextBox_BeforeTextChanging"
-						Text="{x:Bind ItemName, Mode=OneWay}"
+						Text="{x:Bind Name, Mode=OneWay}"
 						Visibility="Collapsed" />
 					<TextBlock
 						Grid.Row="1"

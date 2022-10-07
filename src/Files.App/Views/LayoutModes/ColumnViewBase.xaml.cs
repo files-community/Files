@@ -26,7 +26,7 @@ namespace Files.App.Views.LayoutModes
 {
 	public sealed partial class ColumnViewBase : BaseLayout
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		protected override uint IconSize => Browser.ColumnViewBrowser.ColumnViewSizeSmall;
 
@@ -179,17 +179,17 @@ namespace Files.App.Views.LayoutModes
 		override public void StartRenameItem()
 		{
 			RenamingItem = FileList.SelectedItem as ListedItem;
+
 			if (RenamingItem == null)
-			{
 				return;
-			}
+
 			int extensionLength = RenamingItem.FileExtension?.Length ?? 0;
 			ListViewItem listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
 			TextBox textBox = null;
+
 			if (listViewItem == null)
-			{
 				return;
-			}
+
 			TextBlock textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
 			textBox = listViewItem.FindDescendant("ListViewTextBoxItemName") as TextBox;
 			textBox.Text = textBlock.Text;
@@ -201,8 +201,8 @@ namespace Files.App.Views.LayoutModes
 			textBox.LostFocus += RenameTextBox_LostFocus;
 			textBox.KeyDown += RenameTextBox_KeyDown;
 
-			int selectedTextLength = SelectedItem.ItemName.Length;
-			if (!SelectedItem.IsShortcutItem && UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
+			int selectedTextLength = SelectedItem.Name.Length;
+			if (!SelectedItem.IsShortcut && UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
 			{
 				selectedTextLength -= extensionLength;
 			}
@@ -310,28 +310,24 @@ namespace Files.App.Views.LayoutModes
 
 		private void FileList_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
-			if (!IsRenamingItem)
-			{
-				HandleRightClick(sender, e);
-			}
+			if (IsRenamingItem)
+				return;
+
+			HandleRightClick(sender, e);
 		}
 
 		private void HandleRightClick(object sender, RightTappedRoutedEventArgs e)
 		{
 			var objectPressed = ((FrameworkElement)e.OriginalSource).DataContext as ListedItem;
+
 			if (objectPressed != null)
-			{
-				{
-					return;
-				}
-			}
+				return;
+
 			// Check if RightTapped row is currently selected
 			if (IsItemSelected)
 			{
 				if (SelectedItems.Contains(objectPressed))
-				{
 					return;
-				}
 			}
 
 			// The following code is only reachable when a user RightTapped an unselected row
@@ -464,13 +460,13 @@ namespace Files.App.Views.LayoutModes
 				switch (item.PrimaryItemAttribute)
 				{
 					case StorageItemTypes.File:
-						if (!UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick)
+						if (!UserSettingsService.FoldersSettingsService.OpenFilesWithOneClick)
 						{
 							NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
 						}
 						break;
 					case StorageItemTypes.Folder:
-						if (!UserSettingsService.PreferencesSettingsService.ColumnLayoutOpenFoldersWithOneClick)
+						if (!UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
 						{
 							ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
 						}
@@ -517,12 +513,13 @@ namespace Files.App.Views.LayoutModes
 			var shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 			var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
 
-			if (ctrlPressed || shiftPressed) // Allow for Ctrl+Shift selection
+			// Allow for Ctrl+Shift selection
+			if (ctrlPressed || shiftPressed)
 				return;
 
 			// Check if the setting to open items with a single click is turned on
 			if (item != null
-				&& (UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File))
+				&& (UserSettingsService.FoldersSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File))
 			{
 				ResetRenameDoubleClick();
 				NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
@@ -530,7 +527,7 @@ namespace Files.App.Views.LayoutModes
 			else
 			{
 				var clickedItem = e.OriginalSource as FrameworkElement;
-				if (clickedItem is TextBlock textBlock && textBlock.Name == "ItemName")
+				if (clickedItem is TextBlock textBlock && textBlock.Name == "Name")
 				{
 					CheckRenameDoubleClick(clickedItem.DataContext);
 				}
@@ -543,7 +540,7 @@ namespace Files.App.Views.LayoutModes
 					}
 				}
 				if (item != null && item.PrimaryItemAttribute == StorageItemTypes.Folder &&
-					UserSettingsService.PreferencesSettingsService.ColumnLayoutOpenFoldersWithOneClick)
+					UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
 				{
 					ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
 				}
@@ -553,10 +550,9 @@ namespace Files.App.Views.LayoutModes
 		private void Grid_Loaded(object sender, RoutedEventArgs e)
 		{
 			var itemContainer = (sender as Grid)?.FindAscendant<ListViewItem>();
+
 			if (itemContainer is null)
-			{
 				return;
-			}
 
 			itemContainer.ContextFlyout = ItemContextMenuFlyout;
 		}
@@ -564,25 +560,26 @@ namespace Files.App.Views.LayoutModes
 		protected override void BaseFolderSettings_LayoutModeChangeRequested(object sender, LayoutModeEventArgs e)
 		{
 			var parent = this.FindAscendant<ModernShellPage>();
-			if (parent != null)
+
+			if (parent == null)
+				return;
+
+			switch (e.LayoutMode)
 			{
-				switch (e.LayoutMode)
-				{
-					case FolderLayoutModes.ColumnView:
-						break;
-					case FolderLayoutModes.DetailsView:
-						parent.FolderSettings.ToggleLayoutModeDetailsView(true);
-						break;
-					case FolderLayoutModes.TilesView:
-						parent.FolderSettings.ToggleLayoutModeTiles(true);
-						break;
-					case FolderLayoutModes.GridView:
-						parent.FolderSettings.ToggleLayoutModeGridView(e.GridViewSize);
-						break;
-					case FolderLayoutModes.Adaptive:
-						parent.FolderSettings.ToggleLayoutModeAdaptive();
-						break;
-				}
+				case FolderLayoutModes.ColumnView:
+					break;
+				case FolderLayoutModes.DetailsView:
+					parent.FolderSettings.ToggleLayoutModeDetailsView(true);
+					break;
+				case FolderLayoutModes.TilesView:
+					parent.FolderSettings.ToggleLayoutModeTiles(true);
+					break;
+				case FolderLayoutModes.GridView:
+					parent.FolderSettings.ToggleLayoutModeGridView(e.GridViewSize);
+					break;
+				case FolderLayoutModes.Adaptive:
+					parent.FolderSettings.ToggleLayoutModeAdaptive();
+					break;
 			}
 		}
 	}

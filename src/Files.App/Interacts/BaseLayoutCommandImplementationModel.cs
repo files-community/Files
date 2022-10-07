@@ -99,7 +99,7 @@ namespace Files.App.Interacts
                         {
                             "filepath",
                             Path.Combine(associatedInstance.FilesystemViewModel.WorkingDirectory,
-                                string.Format("ShortcutCreateNewSuffix".GetLocalizedResource(), selectedItem.ItemName) + ".lnk")
+                                string.Format("ShortcutCreateNewSuffix".GetLocalizedResource(), selectedItem.Name) + ".lnk")
                         }
                     };
                     await connection.SendMessageAsync(value);
@@ -357,14 +357,14 @@ namespace Files.App.Interacts
                     {
                         if (shItem.IsLinkItem && !string.IsNullOrEmpty(shItem.TargetPath))
                         {
-                            dataRequest.Data.Properties.Title = string.Format("ShareDialogTitle".GetLocalizedResource(), item.ItemName);
+                            dataRequest.Data.Properties.Title = string.Format("ShareDialogTitle".GetLocalizedResource(), item.Name);
                             dataRequest.Data.Properties.Description = "ShareDialogSingleItemDescription".GetLocalizedResource();
                             dataRequest.Data.SetWebLink(new Uri(shItem.TargetPath));
                             dataRequestDeferral.Complete();
                             return;
                         }
                     }
-                    else if (item.PrimaryItemAttribute == StorageItemTypes.Folder && !item.IsZipItem)
+                    else if (item.PrimaryItemAttribute == StorageItemTypes.Folder && !item.IsArchive)
                     {
                         if (await StorageHelpers.ToStorageItem<BaseStorageFolder>(item.ItemPath) is BaseStorageFolder folder)
                             items.Add(folder);
@@ -416,7 +416,7 @@ namespace Files.App.Interacts
                     SlimContentPage.IsMiddleClickToScrollEnabled = false;
                     SlimContentPage.IsMiddleClickToScrollEnabled = true;
 
-                    if (Item.IsShortcutItem)
+                    if (Item.IsShortcut)
                         await NavigationHelpers.OpenPathInNewTab(((e.OriginalSource as FrameworkElement)?.DataContext as ShortcutItem)?.TargetPath ?? Item.ItemPath);
                     else
                         await NavigationHelpers.OpenPathInNewTab(Item.ItemPath);
@@ -442,11 +442,11 @@ namespace Files.App.Interacts
             if (associatedInstance.SlimContentPage.SelectedItems.Count > 0)
             {
                 foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
-                    await App.SecondaryTileHelper.TryPinFolderAsync(listedItem.ItemPath, listedItem.ItemName);
+                    await App.SecondaryTileHelper.TryPinFolderAsync(listedItem.ItemPath, listedItem.Name);
             }
             else
             {
-                await App.SecondaryTileHelper.TryPinFolderAsync(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath, associatedInstance.FilesystemViewModel.CurrentFolder.ItemName);
+                await App.SecondaryTileHelper.TryPinFolderAsync(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath, associatedInstance.FilesystemViewModel.CurrentFolder.Name);
             }
         }
 

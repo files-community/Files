@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Nom</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>Type</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>Taille</value>
   </data>
@@ -800,6 +797,9 @@
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Disposition</value>
+  </data>
+  <data name="LayoutMode" xml:space="preserve">
+    <value>Mode d'affichage</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
     <value>Naviguer en arrière</value>
@@ -1672,7 +1672,7 @@
     <value>Ouvrir les dossiers dans un nouvel onglet</value>
   </data>
   <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>Afficher le widget Bundles</value>
+    <value>Afficher les groupes de widget</value>
   </data>
   <data name="ShowDrivesWidget" xml:space="preserve">
     <value>Afficher le widget Disques</value>
@@ -1681,7 +1681,7 @@
     <value>Afficher le widget Dossiers</value>
   </data>
   <data name="ShowRecentFilesWidget" xml:space="preserve">
-    <value>Afficher le widget Fichiers Récents</value>
+    <value>Afficher le widget Fichiers récents</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>Vous n'avez pas trouvé ce que vous cherchiez ?</value>
@@ -2601,7 +2601,7 @@
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>Entrer le nom de la bibliothèque</value>
   </data>
-  <data name="ShowFolderSize" xml:space="preserve">
+  <data name="CalculateFolderSizes" xml:space="preserve">
     <value>Afficher la taille des dossiers</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
@@ -2630,6 +2630,9 @@
   </data>
   <data name="Type" xml:space="preserve">
     <value>Type :</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Grille d'icône</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Octets</value>

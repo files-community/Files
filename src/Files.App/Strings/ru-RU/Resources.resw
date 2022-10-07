@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Имя</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>Тип</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>Размер</value>
   </data>
@@ -160,7 +157,7 @@
     <value>Имя</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Path:</value>
+    <value>Путь:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Размер:</value>
@@ -799,6 +796,9 @@
     <value>Создает пустую папку</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>Вид значков</value>
+  </data>
+  <data name="LayoutMode" xml:space="preserve">
     <value>Вид значков</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
@@ -1672,16 +1672,16 @@
     <value>Открывать папки в новой вкладке</value>
   </data>
   <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>Show Bundles widget</value>
+    <value>Показывать виджет наборов</value>
   </data>
   <data name="ShowDrivesWidget" xml:space="preserve">
-    <value>Show Drives widget</value>
+    <value>Показывать виджет дисков</value>
   </data>
   <data name="ShowFolderWidget" xml:space="preserve">
-    <value>Show Folders widget</value>
+    <value>Показать виджет папок</value>
   </data>
   <data name="ShowRecentFilesWidget" xml:space="preserve">
-    <value>Show Recent Files widget</value>
+    <value>Виджет Недавние файлы</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>Не нашли то, что искали?</value>
@@ -1948,7 +1948,7 @@
     <value>Закрыть</value>
   </data>
   <data name="Widgets" xml:space="preserve">
-    <value>Widgets</value>
+    <value>Виджеты</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>Состояние синхронизации</value>
@@ -2602,7 +2602,7 @@
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>Введите название Библиотеки</value>
   </data>
-  <data name="ShowFolderSize" xml:space="preserve">
+  <data name="CalculateFolderSizes" xml:space="preserve">
     <value>Показать размер папки</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
@@ -2631,6 +2631,9 @@
   </data>
   <data name="Type" xml:space="preserve">
     <value>Тип:</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Сітка іконок</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Байты</value>
@@ -2780,7 +2783,7 @@
     <value>Установить по умолчанию</value>
   </data>
   <data name="FolderPreferences" xml:space="preserve">
-    <value>Настройки папки</value>
+    <value>Предпочтения папок</value>
   </data>
   <data name="DisplayDateColumn" xml:space="preserve">
     <value>Отображать столбец даты</value>
@@ -2822,16 +2825,16 @@
     <value>Are you sure you want to restore all items in the recycle bin?</value>
   </data>
   <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
-    <value>Restore all items</value>
+    <value>Восстановить все элементы</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
     <value>Do you want to restore the {0} selected item(s)?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
-    <value>Restore selection</value>
+    <value>Восстановить выбранное</value>
   </data>
   <data name="RestoreAllItems" xml:space="preserve">
-    <value>Restore All Items</value>
+    <value>Восстановить все элементы</value>
   </data>
   <data name="RestoreSelection" xml:space="preserve">
     <value>Восстановить</value>

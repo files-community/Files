@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Nome</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>Tipo</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>Tamanho</value>
   </data>
@@ -799,6 +796,9 @@
     <value>Cria uma pasta vazia</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>Modo de esquema</value>
+  </data>
+  <data name="LayoutMode" xml:space="preserve">
     <value>Modo de esquema</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
@@ -1672,16 +1672,16 @@
     <value>Abrir pastas em novo separador</value>
   </data>
   <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>Show Bundles widget</value>
+    <value>Mostrar widget de pacotes</value>
   </data>
   <data name="ShowDrivesWidget" xml:space="preserve">
-    <value>Show Drives widget</value>
+    <value>Mostrar widget de unidades</value>
   </data>
   <data name="ShowFolderWidget" xml:space="preserve">
-    <value>Show Folders widget</value>
+    <value>Mostrar widget de pastas</value>
   </data>
   <data name="ShowRecentFilesWidget" xml:space="preserve">
-    <value>Show Recent Files widget</value>
+    <value>Mostrar widget de ficheiros recentes</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>Não encontrou o que estava a procura?</value>
@@ -2602,7 +2602,7 @@ Utilizamos o App Center para monitorizar as definições que estão a ser utiliz
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>Insira o nome da biblioteca</value>
   </data>
-  <data name="ShowFolderSize" xml:space="preserve">
+  <data name="CalculateFolderSizes" xml:space="preserve">
     <value>Mostrar tamanho da pasta</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
@@ -2631,6 +2631,9 @@ Utilizamos o App Center para monitorizar as definições que estão a ser utiliz
   </data>
   <data name="Type" xml:space="preserve">
     <value>Tipo:</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Grelha de ícones</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Bytes</value>

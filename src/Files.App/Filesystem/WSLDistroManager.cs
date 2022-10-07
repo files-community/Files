@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
+using static Files.App.Constants;
 
 namespace Files.App.Filesystem
 {
@@ -62,25 +63,25 @@ namespace Files.App.Filesystem
         {
             if (Contains(displayName, "ubuntu"))
             {
-                return new Uri("ms-appx:///Assets/WSL/ubuntupng.png");
+                return new Uri(WslIconsPaths.UbuntuIcon);
             }
             if (Contains(displayName, "kali"))
             {
-                return new Uri("ms-appx:///Assets/WSL/kalipng.png");
+                return new Uri(WslIconsPaths.KaliIcon);
             }
             if (Contains(displayName, "debian"))
             {
-                return new Uri("ms-appx:///Assets/WSL/debianpng.png");
+                return new Uri(WslIconsPaths.DebianIcon);
             }
             if (Contains(displayName, "opensuse"))
             {
-                return new Uri("ms-appx:///Assets/WSL/opensusepng.png");
+                return new Uri(WslIconsPaths.OpenSuse);
             }
             if (Contains(displayName, "alpine"))
             {
-                return new Uri("ms-appx:///Assets/WSL/alpinepng.png");
+                return new Uri(WslIconsPaths.Alpine);
             }
-            return new Uri("ms-appx:///Assets/WSL/genericpng.png");
+            return new Uri(WslIconsPaths.GenericIcon);
 
             static bool Contains(string displayName, string distroName)
                 => displayName.Contains(distroName, StringComparison.OrdinalIgnoreCase);

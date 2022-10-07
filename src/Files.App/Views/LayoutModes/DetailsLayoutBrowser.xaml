@@ -451,7 +451,7 @@
 									Grid.Column="14"
 									Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 									CommandParameter="FileType"
-									Header="{helpers:ResourceString Name=typeColumn/Header}"
+									Header="{helpers:ResourceString Name=Type}"
 									Visibility="{x:Bind ColumnsViewModel.ItemTypeColumn.Visibility, Mode=OneWay}" />
 
 								<controls:GridSplitter
@@ -504,7 +504,7 @@
 							<DataTemplate x:DataType="local2:ListedItem">
 								<Grid
 									HorizontalAlignment="Stretch"
-									AutomationProperties.Name="{x:Bind ItemName, Mode=OneWay}"
+									AutomationProperties.Name="{x:Bind Name, Mode=OneWay}"
 									IsRightTapEnabled="True"
 									Loaded="Grid_Loaded"
 									ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
@@ -597,7 +597,7 @@
 											x:Name="ShortcutGlyphElement"
 											HorizontalAlignment="Left"
 											VerticalAlignment="Bottom"
-											x:Load="{x:Bind IsShortcutItem}"
+											x:Load="{x:Bind IsShortcut}"
 											Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
 											BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
 											BorderThickness="1">
@@ -622,7 +622,7 @@
 										<TextBlock
 											x:Name="ItemName"
 											VerticalAlignment="Center"
-											Text="{x:Bind ItemName, Mode=OneWay}"
+											Text="{x:Bind Name, Mode=OneWay}"
 											TextTrimming="CharacterEllipsis" />
 										<TextBox
 											x:Name="ItemNameTextBox"

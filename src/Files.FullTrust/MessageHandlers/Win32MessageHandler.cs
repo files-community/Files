@@ -1,6 +1,6 @@
-﻿using Files.Shared;
+﻿using Files.FullTrust.Helpers;
+using Files.Shared;
 using Files.Shared.Extensions;
-using Files.FullTrust.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -99,6 +99,7 @@ namespace Files.FullTrust.MessageHandlers
                     { "Type", e.ChangeType.ToString() },
                     { "WatcherID", sender.GetHashCode() },
                 };
+
                 if (e.ChangeType == WatcherChangeTypes.Created)
                 {
                     var shellFileItem = await GetShellFileItemAsync(e.FullPath);
@@ -109,6 +110,7 @@ namespace Files.FullTrust.MessageHandlers
                 {
                     response["OldPath"] = (e as RenamedEventArgs).OldFullPath;
                 }
+
                 // Send message to UWP app to refresh items
                 await Win32API.SendMessageAsync(connection, response);
             }
@@ -119,17 +121,22 @@ namespace Files.FullTrust.MessageHandlers
             while (true)
             {
                 using var hFile = Kernel32.CreateFile(fullPath, Kernel32.FileAccess.GENERIC_READ, FileShare.Read, null, FileMode.Open, FileFlagsAndAttributes.FILE_FLAG_BACKUP_SEMANTICS);
+                
                 if (!hFile.IsInvalid)
                 {
                     using var folderItem = SafetyExtensions.IgnoreExceptions(() => new ShellItem(fullPath));
-                    if (folderItem == null) return null;
+
+                    if (folderItem == null)
+                        return null;
+
                     return ShellFolderExtensions.GetShellFileItem(folderItem);
                 }
+
                 var lastError = System.Runtime.InteropServices.Marshal.GetLastWin32Error();
+
                 if (lastError != Win32Error.ERROR_SHARING_VIOLATION && lastError != Win32Error.ERROR_LOCK_VIOLATION)
-                {
                     return null;
-                }
+
                 await Task.Delay(200);
             }
         }

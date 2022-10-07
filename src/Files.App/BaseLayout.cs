@@ -167,7 +167,7 @@ namespace Files.App
 						IEnumerable<ListedItem> candidateItems = ParentShellPageInstance!.FilesystemViewModel.FilesAndFolders
 							.SkipWhile(x => x != previouslySelectedItem)
 							.Skip(value.Length == 1 ? 1 : 0) // User is trying to cycle through items starting with the same letter
-							.Where(f => f.ItemName.Length >= value.Length && string.Equals(f.ItemName.Substring(0, value.Length), value, StringComparison.OrdinalIgnoreCase));
+							.Where(f => f.Name.Length >= value.Length && string.Equals(f.Name.Substring(0, value.Length), value, StringComparison.OrdinalIgnoreCase));
 						jumpedToItem = candidateItems.FirstOrDefault();
 					}
 
@@ -175,7 +175,7 @@ namespace Files.App
 					{
 						// Use FilesAndFolders because only displayed entries should be jumped to
 						IEnumerable<ListedItem> candidateItems = ParentShellPageInstance!.FilesystemViewModel.FilesAndFolders
-							.Where(f => f.ItemName.Length >= value.Length && string.Equals(f.ItemName.Substring(0, value.Length), value, StringComparison.OrdinalIgnoreCase));
+							.Where(f => f.Name.Length >= value.Length && string.Equals(f.Name.Substring(0, value.Length), value, StringComparison.OrdinalIgnoreCase));
 						jumpedToItem = candidateItems.FirstOrDefault();
 					}
 
@@ -761,7 +761,7 @@ namespace Files.App
 			try
 			{
 				// Only support IStorageItem capable paths
-				var itemList = e.Items.OfType<ListedItem>().Where(x => !(x.IsHiddenItem && x.IsLinkItem && x.IsRecycleBinItem && x.IsShortcutItem)).Select(x => VirtualStorageItem.FromListedItem(x));
+				var itemList = e.Items.OfType<ListedItem>().Where(x => !(x.IsHiddenItem && x.IsLinkItem && x.IsRecycleBinItem && x.IsShortcut)).Select(x => VirtualStorageItem.FromListedItem(x));
 				e.Data.SetStorageItems(itemList, false);
 			}
 			catch (Exception)
@@ -820,7 +820,7 @@ namespace Files.App
 					else if (handledByFtp)
 					{
 						e.DragUIOverride.IsCaptionVisible = true;
-						e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), item.ItemName);
+						e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), item.Name);
 						e.AcceptedOperation = DataPackageOperation.Copy;
 					}
 					else if (!draggedItems.Any())
@@ -832,38 +832,38 @@ namespace Files.App
 						e.DragUIOverride.IsCaptionVisible = true;
 						if (item.IsExecutable)
 						{
-							e.DragUIOverride.Caption = $"{"OpenItemsWithCaptionText".GetLocalizedResource()} {item.ItemName}";
+							e.DragUIOverride.Caption = $"{"OpenItemsWithCaptionText".GetLocalizedResource()} {item.Name}";
 							e.AcceptedOperation = DataPackageOperation.Link;
 						} // Items from the same drive as this folder are dragged into this folder, so we move the items instead of copy
 						else if (e.Modifiers.HasFlag(DragDropModifiers.Alt) || e.Modifiers.HasFlag(DragDropModifiers.Control | DragDropModifiers.Shift))
 						{
-							e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalizedResource(), item.ItemName);
+							e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalizedResource(), item.Name);
 							e.AcceptedOperation = DataPackageOperation.Link;
 						}
 						else if (e.Modifiers.HasFlag(DragDropModifiers.Control))
 						{
-							e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), item.ItemName);
+							e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), item.Name);
 							e.AcceptedOperation = DataPackageOperation.Copy;
 						}
 						else if (e.Modifiers.HasFlag(DragDropModifiers.Shift))
 						{
-							e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), item.ItemName);
+							e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), item.Name);
 							e.AcceptedOperation = DataPackageOperation.Move;
 						}
 						else if (draggedItems.Any(x => x.Item is ZipStorageFile || x.Item is ZipStorageFolder)
 							|| ZipStorageFolder.IsZipPath(item.ItemPath))
 						{
-							e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), item.ItemName);
+							e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), item.Name);
 							e.AcceptedOperation = DataPackageOperation.Copy;
 						}
 						else if (draggedItems.AreItemsInSameDrive(item.ItemPath))
 						{
-							e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), item.ItemName);
+							e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), item.Name);
 							e.AcceptedOperation = DataPackageOperation.Move;
 						}
 						else
 						{
-							e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), item.ItemName);
+							e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), item.Name);
 							e.AcceptedOperation = DataPackageOperation.Copy;
 						}
 					}
@@ -1016,10 +1016,9 @@ namespace Files.App
 		protected void FileListItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
 			var rightClickedItem = GetItemFromElement(sender);
+
 			if (rightClickedItem != null && !((SelectorItem)sender).IsSelected)
-			{
 				ItemManipulationModel.SetSelectedItem(rightClickedItem);
-			}
 		}
 
 		private readonly RecycleBinHelpers recycleBinHelpers = new();
