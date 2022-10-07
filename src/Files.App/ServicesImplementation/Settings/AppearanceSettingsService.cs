@@ -68,12 +68,6 @@ namespace Files.App.ServicesImplementation.Settings
             set => Set(value);
         }
 
-        public bool PinRecycleBinToSidebar
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
         public bool MoveOverflowMenuItemsToSubMenu
         {
             get => Get(true);
@@ -144,7 +138,6 @@ namespace Files.App.ServicesImplementation.Settings
                 case nameof(ShowNetworkDrivesSection):
                 case nameof(ShowWslSection):
                 case nameof(ShowFileTagsSection):
-                case nameof(PinRecycleBinToSidebar):
                 case nameof(UseCompactStyles):
                 case nameof(ShowFoldersWidget):
                 case nameof(ShowRecentFilesWidget):
