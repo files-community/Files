@@ -801,6 +801,9 @@
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Modalità di visualizzazione</value>
   </data>
+  <data name="LayoutMode" xml:space="preserve">
+    <value>Modalità di visualizzazione</value>
+  </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
     <value>Posizione precedente</value>
   </data>
@@ -2632,6 +2635,9 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
   </data>
   <data name="Type" xml:space="preserve">
     <value>Tipo:</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Icon Grid</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Byte</value>
