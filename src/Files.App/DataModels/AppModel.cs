@@ -60,8 +60,8 @@ namespace Files.App.DataModels
 
 					if (value < MainPageViewModel.AppInstances.Count)
 					{
-						Frame rootFrame = App.Window.Content as Frame;
-						var mainView = rootFrame.Content as MainPage;
+						Frame rootFrame = (Frame)App.Window.Content;
+						var mainView = (MainPage)rootFrame.Content;
 						mainView.ViewModel.SelectedTabItem = MainPageViewModel.AppInstances[value];
 					}
 				}
@@ -89,11 +89,11 @@ namespace Files.App.DataModels
 			set => SetProperty(ref multiselectEnabled, value);
 		}
 
-		private bool isQuickLookSupported;
-		public bool IsQuickLookSupported
+		private bool isQuickLookAvailable;
+		public bool IsQuickLookAvailable
 		{
-			get => isQuickLookSupported;
-			set => SetProperty(ref isQuickLookSupported, value);
+			get => isQuickLookAvailable;
+			set => SetProperty(ref isQuickLookAvailable, value);
 		}
 
 		private FontFamily symbolFontFamily;

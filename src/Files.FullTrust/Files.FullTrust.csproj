@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
 	<TargetFramework>net6.0-windows10.0.22000.0</TargetFramework>
 	<OutputType>WinExe</OutputType>
@@ -10,7 +10,6 @@
 	<CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
 	<Configurations>Debug;Release;Sideload</Configurations>
 	<PublishReadyToRun>true</PublishReadyToRun>
-	<PublishReadyToRunComposite>true</PublishReadyToRunComposite>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
 	<UseVSHostingProcess>false</UseVSHostingProcess>
@@ -23,13 +22,12 @@
 	<SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
   </PropertyGroup>
   <ItemGroup>
-	<PackageReference Include="Microsoft.Management.Infrastructure" Version="2.0.0" />
-	<PackageReference Include="Microsoft.Management.Infrastructure.Runtime.Win" Version="2.0.1" />
-	<PackageReference Include="System.IO.FileSystem.AccessControl" Version="5.0.0" />
-	<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-	<PackageReference Include="Tulpep.ActiveDirectoryObjectPicker" Version="3.0.11" />
-	<PackageReference Include="Vanara.PInvoke.Mpr" Version="3.4.7" />
-	<PackageReference Include="Vanara.Windows.Shell" Version="3.3.15" />
+    <PackageReference Include="Microsoft.Management.Infrastructure" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Management.Infrastructure.Runtime.Win" Version="2.0.1" />
+    <PackageReference Include="System.IO.FileSystem.AccessControl" Version="5.0.0" />
+    <PackageReference Include="Tulpep.ActiveDirectoryObjectPicker" Version="3.0.11" />
+    <PackageReference Include="Vanara.PInvoke.Mpr" Version="3.4.9" />
+    <PackageReference Include="Vanara.Windows.Shell" Version="3.3.15" />
   </ItemGroup>
   <ItemGroup>
 	<ProjectReference Include="..\Files.Shared\Files.Shared.csproj" />

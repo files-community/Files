@@ -108,9 +108,9 @@ namespace Files.FullTrust
             }
         }
 
-        public static async Task<bool> OpenMapNetworkDriveDialog(long hwnd)
+        public static Task<bool> OpenMapNetworkDriveDialog(long hwnd)
         {
-            return await Win32API.StartSTATask(() =>
+            return Win32API.StartSTATask(() =>
             {
                 using var ncd = new NetworkConnectionDialog { UseMostRecentPath = true };
                 ncd.HideRestoreConnectionCheckBox = false;

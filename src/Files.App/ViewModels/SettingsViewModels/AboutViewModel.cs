@@ -179,7 +179,7 @@ namespace Files.App.ViewModels.SettingsViewModels
             await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.SupportUsUrl));
         }
 
-        public static async Task OpenLogLocation() => await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
+        public static Task OpenLogLocation() => Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder).AsTask();
 
         public string Version
         {
@@ -192,7 +192,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 
         public string AppName => Package.Current.DisplayName;
 
-        private async Task ClickAboutFeedbackItem(ItemClickEventArgs e)
+        private Task ClickAboutFeedbackItem(ItemClickEventArgs e)
         {
             var clickedItem = (StackPanel)e.ClickedItem;
             var uri = clickedItem.Tag switch
@@ -206,8 +206,10 @@ namespace Files.App.ViewModels.SettingsViewModels
             };
             if (uri is not null)
             {
-                await Launcher.LaunchUriAsync(new Uri(uri));
+                return Launcher.LaunchUriAsync(new Uri(uri)).AsTask();
             }
+
+            return Task.CompletedTask;
         }
     }
 }

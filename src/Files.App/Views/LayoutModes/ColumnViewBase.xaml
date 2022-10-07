@@ -192,8 +192,7 @@
 								CornerRadius="{StaticResource ControlCornerRadius}"
 								IsRightTapEnabled="True"
 								Loaded="Grid_Loaded"
-								RightTapped="StackPanel_RightTapped"
-								ToolTipService.ToolTip="{x:Bind ItemName, Mode=OneWay}">
+								ToolTipService.ToolTip="{x:Bind Name, Mode=OneWay}">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="24" />
 									<ColumnDefinition Width="*" />
@@ -281,10 +280,10 @@
 										Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
 										BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
 										BorderThickness="1"
-										Visibility="{x:Bind IsShortcutItem}">
+										Visibility="{x:Bind IsShortcut}">
 										<FontIcon
 											FontFamily="{StaticResource CustomGlyph}"
-											FontSize="14"
+											FontSize="8"
 											Glyph="&#xF10A;" />
 									</Border>
 								</Grid>
@@ -297,7 +296,7 @@
 										Grid.Column="1"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
-										Text="{x:Bind ItemName, Mode=OneWay}"
+										Text="{x:Bind Name, Mode=OneWay}"
 										TextTrimming="CharacterEllipsis"
 										TextWrapping="NoWrap" />
 								</Grid>

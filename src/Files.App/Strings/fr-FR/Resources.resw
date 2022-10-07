@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Nom</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>Type :</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>Taille</value>
   </data>
@@ -159,14 +156,14 @@
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>Nom de l'élément</value>
   </data>
-  <data name="PropertiesItemPath.Text" xml:space="preserve">
+  <data name="Path" xml:space="preserve">
     <value>Chemin :</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Taille :</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Taille décompressée:</value>
+    <value>Taille non compressé :</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Cette action ne peut pas être effectuée</value>
@@ -283,7 +280,7 @@
     <value>Nom</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
-    <value>Type :</value>
+    <value>Type</value>
   </data>
   <data name="Ascending" xml:space="preserve">
     <value>Croissant</value>
@@ -801,6 +798,9 @@
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Disposition</value>
   </data>
+  <data name="LayoutMode" xml:space="preserve">
+    <value>Mode d'affichage</value>
+  </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
     <value>Naviguer en arrière</value>
   </data>
@@ -859,7 +859,7 @@
     <value>Commentaire</value>
   </data>
   <data name="PropertyCopyright" xml:space="preserve">
-    <value>Copyright</value>
+    <value>Droits d'auteur</value>
   </data>
   <data name="PropertyDateModified" xml:space="preserve">
     <value>Date de modification</value>
@@ -1671,32 +1671,23 @@
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
     <value>Ouvrir les dossiers dans un nouvel onglet</value>
   </data>
-  <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
-    <value>Afficher le widget Bundles</value>
+  <data name="ShowBundlesWidget" xml:space="preserve">
+    <value>Afficher les groupes de widget</value>
   </data>
-  <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
+  <data name="ShowDrivesWidget" xml:space="preserve">
     <value>Afficher le widget Disques</value>
   </data>
-  <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
+  <data name="ShowFolderWidget" xml:space="preserve">
     <value>Afficher le widget Dossiers</value>
   </data>
-  <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
-    <value>Afficher le widget Fichiers Récents</value>
-  </data>
-  <data name="NavToolbarWidgets.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Gérer les widgets</value>
-  </data>
-  <data name="NavToolbarWidgetsManager.AutomationProperties.Name" xml:space="preserve">
-    <value>Gérer les widgets</value>
+  <data name="ShowRecentFilesWidget" xml:space="preserve">
+    <value>Afficher le widget Fichiers récents</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>Vous n'avez pas trouvé ce que vous cherchiez ?</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
     <value>Chercher les éléments non-indexés.</value>
-  </data>
-  <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
-    <value>Gérer les widgets</value>
   </data>
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>Ouvrir le dossier de thèmes</value>
@@ -1777,7 +1768,7 @@
     <value>Dossier original</value>
   </data>
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
-    <value>Type :</value>
+    <value>Type</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Trier par</value>
@@ -1956,7 +1947,7 @@
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Ignorer</value>
   </data>
-  <data name="NavToolbarWidgets.Label" xml:space="preserve">
+  <data name="Widgets" xml:space="preserve">
     <value>Widgets</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
@@ -2089,7 +2080,7 @@
     <value>Autorisations</value>
   </data>
   <data name="SecurityAdvancedTypeLabel.Text" xml:space="preserve">
-    <value>Type :</value>
+    <value>Type</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
     <value>Vous n'êtes pas autorisé à afficher les propriétés de sécurité de cet objet. Vous pouvez essayer de vous approprier cet objet.</value>
@@ -2266,7 +2257,7 @@
     <value>Ctrl+A</value>
   </data>
   <data name="NavigationToolbarNewPane.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Alt+Shift++</value>
+    <value>Alt+Maj++</value>
   </data>
   <data name="NavigationToolbarClosePane.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+W</value>
@@ -2281,19 +2272,19 @@
     <value>Ctrl+Alt+Down</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+1</value>
+    <value>Ctrl+Maj+1</value>
   </data>
   <data name="BaseLayoutContextFlyoutTiles.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+2</value>
+    <value>Ctrl+Maj+2</value>
   </data>
   <data name="BaseLayoutContextFlyoutSmallIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+3</value>
+    <value>Ctrl+Maj+3</value>
   </data>
   <data name="BaseLayoutContextFlyoutMediumIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+4</value>
+    <value>Ctrl+Maj+4</value>
   </data>
   <data name="BaseLayoutContextFlyoutLargeIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+5</value>
+    <value>Ctrl+Maj+5</value>
   </data>
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+6</value>
@@ -2302,7 +2293,7 @@
     <value>Ctrl+T</value>
   </data>
   <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+T</value>
+    <value>Ctrl+Maj+T</value>
   </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
     <value>L'extraction des archives s'est terminée avec succès.</value>
@@ -2314,16 +2305,10 @@
     <value>Extraction terminée !</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+N</value>
+    <value>Ctrl+Maj+N</value>
   </data>
   <data name="SettingsPrivacy.Title" xml:space="preserve">
     <value>Politique de confidentialité</value>
-  </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
-    <value>Icônes du système Fluent UI</value>
-  </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Icônes du système Fluent UI</value>
   </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>Nous utilisons App Center pour suivre l'utilisation de l'application, trouver des bogues et réparer les pannes. Toutes les informations envoyées à App Center sont anonymes et exemptes de toute donnée relative à l'utilisateur ou au contexte.</value>
@@ -2616,7 +2601,7 @@
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>Entrer le nom de la bibliothèque</value>
   </data>
-  <data name="ShowFolderSize" xml:space="preserve">
+  <data name="CalculateFolderSizes" xml:space="preserve">
     <value>Afficher la taille des dossiers</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
@@ -2645,6 +2630,9 @@
   </data>
   <data name="Type" xml:space="preserve">
     <value>Type :</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Grille d'icône</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Octets</value>
@@ -2737,7 +2725,7 @@
     <value>Universel</value>
   </data>
   <data name="DateFormatSample" xml:space="preserve">
-    <value>ex: {0}, {1}</value>
+    <value>ex : {0}, {1}</value>
   </data>
   <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
     <value>Afficher les vignettes</value>
@@ -2767,7 +2755,7 @@
     <value>Adaptatif</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>Adaptatif (Ctrl+Shift+7)</value>
+    <value>Adaptatif (Ctrl+Maj+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
@@ -2785,7 +2773,7 @@
     <value>Définir comme arrière-plan</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Définir comme écran de verouillage</value>
+    <value>Définir comme écran de verrouillage</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>Définir comme fond d'écran</value>
@@ -2822,5 +2810,32 @@
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Écran de verrouillage</value>
+  </data>
+  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
+    <value>Ouvrir les dossiers avec un seul clic dans la disposition des colonnes</value>
+  </data>
+  <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
+    <value>Comportement pour ouvrir les fichiers et dossiers</value>
+  </data>
+  <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
+    <value>Sélectionnez les fichiers et dossiers lorsque vous les survolez</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
+    <value>Êtes-vous sûr de vouloir restaurer tous les éléments de la corbeille ?</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
+    <value>Restaurer tous les éléments</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
+    <value>Voulez-vous restaurer le(s) {0} élément(s) sélectionné(s)?</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
+    <value>Restaurer la sélection</value>
+  </data>
+  <data name="RestoreAllItems" xml:space="preserve">
+    <value>Restaurer tous les éléments</value>
+  </data>
+  <data name="RestoreSelection" xml:space="preserve">
+    <value>Restaurer</value>
   </data>
 </root>

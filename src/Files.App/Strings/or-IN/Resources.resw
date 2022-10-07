@@ -27,9 +27,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>ନାମ</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>ପ୍ରକାର</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>ଆକାର</value>
   </data>
@@ -39,7 +36,7 @@
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>ଆଇଟମ୍ ନାମ</value>
   </data>
-  <data name="PropertiesItemPath.Text" xml:space="preserve">
+  <data name="Path" xml:space="preserve">
     <value>ପଥ:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">

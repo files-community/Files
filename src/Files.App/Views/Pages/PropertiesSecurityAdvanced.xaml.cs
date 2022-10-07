@@ -18,6 +18,7 @@ using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
+using Windows.UI;
 
 // Il modello di elemento Pagina vuota è documentato all'indirizzo https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -28,11 +29,9 @@ namespace Files.App.Views
     /// </summary>
     public sealed partial class PropertiesSecurityAdvanced : Page
     {
-        //private static AppWindowTitleBar TitleBar; //WINUI3
-
         private object navParameterItem;
 
-        public string DialogTitle => string.Format("SecurityAdvancedPermissionsTitle".GetLocalizedResource(), ViewModel.Item.ItemName);
+        public string DialogTitle => string.Format("SecurityAdvancedPermissionsTitle".GetLocalizedResource(), ViewModel.Item.Name);
 
         public SecurityProperties ViewModel { get; set; }
 
@@ -74,12 +73,10 @@ namespace Files.App.Views
 
         private async void Properties_Loaded(object sender, RoutedEventArgs e)
         {
-            //Microsoft.UI.Xaml.Controls.BackdropMaterial.SetApplyToRootOrPageBackground(sender as Control, true); //WINUI3
-
             App.AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
-                //WINUI3
+                appWindow.Destroying += AppWindow_Destroying;
                 await App.Window.DispatcherQueue.EnqueueAsync(() => App.AppSettings.UpdateThemeElements.Execute(null));
             }
             else
@@ -87,6 +84,12 @@ namespace Files.App.Views
             }
 
             ViewModel.GetFilePermissions();
+        }
+
+        private void AppWindow_Destroying(AppWindow sender, object args)
+        {
+            App.AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
+            sender.Destroying -= AppWindow_Destroying;
         }
 
         private void Properties_Unloaded(object sender, RoutedEventArgs e)
@@ -99,27 +102,24 @@ namespace Files.App.Views
             var selectedTheme = ThemeHelper.RootTheme;
             await DispatcherQueue.EnqueueAsync(() =>
             {
-                RequestedTheme = selectedTheme;
+                ((Frame)Parent).RequestedTheme = selectedTheme;
                 if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
                 {
-                    switch (RequestedTheme)
+                    switch (selectedTheme)
                     {
                         case ElementTheme.Default:
-                            //WINUI3
-                            //TitleBar.ButtonHoverBackgroundColor = (Color)Application.Current.Resources["SystemBaseLowColor"];
-                            //TitleBar.ButtonForegroundColor = (Color)Application.Current.Resources["SystemBaseHighColor"];
+                            appWindow.TitleBar.ButtonHoverBackgroundColor = (Color)Application.Current.Resources["SystemBaseLowColor"];
+                            appWindow.TitleBar.ButtonForegroundColor = (Color)Application.Current.Resources["SystemBaseHighColor"];
                             break;
 
                         case ElementTheme.Light:
-                            //WINUI3
-                            //TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 0, 0, 0);
-                            //TitleBar.ButtonForegroundColor = Colors.Black;
+                            appWindow.TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 0, 0, 0);
+                            appWindow.TitleBar.ButtonForegroundColor = Colors.Black;
                             break;
 
                         case ElementTheme.Dark:
-                            //WINUI3
-                            //TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 255, 255, 255);
-                            //TitleBar.ButtonForegroundColor = Colors.White;
+                            appWindow.TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 255, 255, 255);
+                            appWindow.TitleBar.ButtonForegroundColor = Colors.White;
                             break;
                     }
                 }

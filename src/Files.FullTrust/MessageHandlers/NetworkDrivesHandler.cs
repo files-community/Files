@@ -1,10 +1,10 @@
 ﻿using Files.Shared;
 using Files.Shared.Extensions;
 using Files.FullTrust.Helpers;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO.Pipes;
 using System.Runtime.Versioning;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
@@ -15,11 +15,13 @@ namespace Files.FullTrust.MessageHandlers
     [SupportedOSPlatform("Windows10.0.10240")]
     public class NetworkDrivesHandler : Disposable, IMessageHandler
     {
+        private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
+
         public void Initialize(PipeStream connection)
         {
         }
 
-        public async Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments)
+        public async Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, JsonElement> message, string arguments)
         {
             switch (arguments)
             {
@@ -31,15 +33,15 @@ namespace Files.FullTrust.MessageHandlers
                     var cloudDrives = await CloudDrivesDetector.DetectCloudDrives();
                     await Win32API.SendMessageAsync(connection, new ValueSet()
                     {
-                        { "Drives", JsonConvert.SerializeObject(cloudDrives) }
-                    }, message.Get("RequestID", (string)null));
+                        { "Drives", JsonSerializer.Serialize(cloudDrives) }
+                    }, message.Get("RequestID", defaultJson).GetString());
                     break;
             }
         }
 
-        private async Task ParseNetworkDriveOperationAsync(PipeStream connection, Dictionary<string, object> message)
+        private async Task ParseNetworkDriveOperationAsync(PipeStream connection, Dictionary<string, JsonElement> message)
         {
-            switch (message.Get("netdriveop", ""))
+            switch (message.Get("netdriveop", defaultJson).GetString())
             {
                 case "GetNetworkLocations":
                     var networkLocations = await Win32API.StartSTATask(() =>
@@ -68,18 +70,18 @@ namespace Files.FullTrust.MessageHandlers
                     });
                     var response = new ValueSet
                     {
-                        { "NetworkLocations", JsonConvert.SerializeObject(networkLocations) }
+                        { "NetworkLocations", JsonSerializer.Serialize(networkLocations) }
                     };
-                    await Win32API.SendMessageAsync(connection, response, message.Get("RequestID", (string)null));
+                    await Win32API.SendMessageAsync(connection, response, message.Get("RequestID", defaultJson).GetString());
                     break;
 
                 case "OpenMapNetworkDriveDialog":
-                    var hwnd = (long)message["HWND"];
+                    var hwnd = message["HWND"].GetInt64();
                     _ = NetworkDrivesAPI.OpenMapNetworkDriveDialog(hwnd);
                     break;
 
                 case "DisconnectNetworkDrive":
-                    var drivePath = (string)message["drive"];
+                    var drivePath = message["drive"].GetString();
                     _ = NetworkDrivesAPI.DisconnectNetworkDrive(drivePath);
                     break;
             }

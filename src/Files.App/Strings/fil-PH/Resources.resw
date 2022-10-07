@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Pangalan</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>Uri</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>Laki</value>
   </data>
@@ -159,14 +156,14 @@
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>Pangalan ng bagay</value>
   </data>
-  <data name="PropertiesItemPath.Text" xml:space="preserve">
+  <data name="Path" xml:space="preserve">
     <value>Landas:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Laki:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed Size:</value>
+    <value>Uncompressed na Laki:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Hindi maaaring magawa ang aksyon na ito</value>
@@ -801,6 +798,9 @@
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Anyo ng pagkaka-ayos</value>
   </data>
+  <data name="LayoutMode" xml:space="preserve">
+    <value>Anyo ng pagkaka-ayos</value>
+  </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
     <value>Mag-navigate pabalik</value>
   </data>
@@ -1237,7 +1237,7 @@
     <value>Ipakita ang mga hindi na-index na item kapag naghahanap ng mga file at folder</value>
   </data>
   <data name="ForceThesePreferencesOnAllDirectories" xml:space="preserve">
-    <value>Force these preferences on all directories</value>
+    <value>Ipilit ang mga kagustuhan sa lahat ng mga folder</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>I-customize ang right click context menu</value>
@@ -1671,32 +1671,23 @@
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
     <value>Buksan ang mga folder sa bagong tab</value>
   </data>
-  <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
-    <value>Ipakita ang widget ng Bundle</value>
+  <data name="ShowBundlesWidget" xml:space="preserve">
+    <value>Ipakita ang widget ng mga Bundle</value>
   </data>
-  <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
-    <value>Ipakita ang widget ng Drives</value>
+  <data name="ShowDrivesWidget" xml:space="preserve">
+    <value>Ipakita ang widget ng mga Drive</value>
   </data>
-  <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
+  <data name="ShowFolderWidget" xml:space="preserve">
     <value>Ipakita ang widget ng Mga Folder</value>
   </data>
-  <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
+  <data name="ShowRecentFilesWidget" xml:space="preserve">
     <value>Show Recent Files widget</value>
-  </data>
-  <data name="NavToolbarWidgets.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Manage Widgets</value>
-  </data>
-  <data name="NavToolbarWidgetsManager.AutomationProperties.Name" xml:space="preserve">
-    <value>Manage widgets</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>Didn't find what you're looking for?</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
     <value>Search unindexed items.</value>
-  </data>
-  <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
-    <value>Manage Widgets</value>
   </data>
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>Open themes folder</value>
@@ -1956,7 +1947,7 @@
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Dismiss</value>
   </data>
-  <data name="NavToolbarWidgets.Label" xml:space="preserve">
+  <data name="Widgets" xml:space="preserve">
     <value>Widgets</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
@@ -2319,12 +2310,6 @@
   <data name="SettingsPrivacy.Title" xml:space="preserve">
     <value>Polisiya sa Pagkapribado</value>
   </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
-    <value>Fluent UI System Icons</value>
-  </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Fluent UI System Icons</value>
-  </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
 We use App Center to track which settings are being used, find bugs, and fix crashes. Information sent to App Center is anonymous and free of any user or contextual data.
@@ -2618,7 +2603,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>Ilagay ang pangalan ng Aklatan</value>
   </data>
-  <data name="ShowFolderSize" xml:space="preserve">
+  <data name="CalculateFolderSizes" xml:space="preserve">
     <value>Ipakita ang laki ng folder</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
@@ -2647,6 +2632,9 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   </data>
   <data name="Type" xml:space="preserve">
     <value>Uri:</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Icon Grid</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Bytes</value>
@@ -2824,5 +2812,32 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Lockscreen</value>
+  </data>
+  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
+    <value>Open folders with a single click in the Columns Layout</value>
+  </data>
+  <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
+    <value>Behavior for opening files and folders</value>
+  </data>
+  <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
+    <value>Select files and folders when hovering over them</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
+    <value>Are you sure you want to restore all items in the recycle bin?</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
+    <value>Restore all items</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
+    <value>Do you want to restore the {0} selected item(s)?</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
+    <value>Restore selection</value>
+  </data>
+  <data name="RestoreAllItems" xml:space="preserve">
+    <value>Restore All Items</value>
+  </data>
+  <data name="RestoreSelection" xml:space="preserve">
+    <value>Ibalik</value>
   </data>
 </root>

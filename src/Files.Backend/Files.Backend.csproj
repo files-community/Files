@@ -7,15 +7,14 @@
 	<LangVersion>9</LangVersion>
 	<Nullable>enable</Nullable>
 	<Configurations>Debug;Release;Sideload</Configurations>
-	  <PublishReadyToRun>true</PublishReadyToRun>
-	<PublishReadyToRunComposite>true</PublishReadyToRunComposite>
+	<PublishReadyToRun>true</PublishReadyToRun>
   </PropertyGroup>
 
   <ItemGroup>
-	<PackageReference Include="ByteSize" Version="2.1.1" />
-	<PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
-	<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-	<PackageReference Include="System.Collections.Immutable" Version="6.0.0" />
+    <PackageReference Include="ByteSize" Version="2.1.1" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
+    <PackageReference Include="System.Collections.Immutable" Version="6.0.0" />
+    <PackageReference Include="System.Text.Json" Version="6.0.6" />
   </ItemGroup>
 
   <ItemGroup>

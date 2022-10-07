@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>名称</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>类型</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>大小</value>
   </data>
@@ -159,7 +156,7 @@
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>项目名称</value>
   </data>
-  <data name="PropertiesItemPath.Text" xml:space="preserve">
+  <data name="Path" xml:space="preserve">
     <value>路径:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
@@ -799,6 +796,9 @@
     <value>创建空文件夹</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>布局模式</value>
+  </data>
+  <data name="LayoutMode" xml:space="preserve">
     <value>布局模式</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
@@ -1671,32 +1671,23 @@
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
     <value>在新标签页中打开文件夹</value>
   </data>
-  <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
-    <value>显示 包 小组件</value>
+  <data name="ShowBundlesWidget" xml:space="preserve">
+    <value>显示“文件筐”组件</value>
   </data>
-  <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
-    <value>显示 驱动器 小组件</value>
+  <data name="ShowDrivesWidget" xml:space="preserve">
+    <value>显示“驱动器”组件</value>
   </data>
-  <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
-    <value>显示 文件夹 小组件</value>
+  <data name="ShowFolderWidget" xml:space="preserve">
+    <value>显示“文件夹”组件</value>
   </data>
-  <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
-    <value>显示 最近使用的文件 小组件</value>
-  </data>
-  <data name="NavToolbarWidgets.ToolTipService.ToolTip" xml:space="preserve">
-    <value>管理小组件</value>
-  </data>
-  <data name="NavToolbarWidgetsManager.AutomationProperties.Name" xml:space="preserve">
-    <value>管理小组件</value>
+  <data name="ShowRecentFilesWidget" xml:space="preserve">
+    <value>显示“最近使用的文件”组件</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>没有找到你想要的内容?</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
     <value>搜索未编入索引的项。</value>
-  </data>
-  <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
-    <value>管理小组件</value>
   </data>
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>打开主题文件夹</value>
@@ -1956,8 +1947,8 @@
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>消除</value>
   </data>
-  <data name="NavToolbarWidgets.Label" xml:space="preserve">
-    <value>小组件</value>
+  <data name="Widgets" xml:space="preserve">
+    <value>组件</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>同步状态</value>
@@ -2319,12 +2310,6 @@
   <data name="SettingsPrivacy.Title" xml:space="preserve">
     <value>隐私政策</value>
   </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
-    <value>Fluent UI 系统图标</value>
-  </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Fluent UI 系统图标</value>
-  </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>我们使用 App Center 来跟踪正在使用的设置、查找漏洞和修复崩溃。 发送到 App Center 的信息是匿名的，不涉及任何用户数据或上下文数据。</value>
   </data>
@@ -2616,7 +2601,7 @@
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>输入库名</value>
   </data>
-  <data name="ShowFolderSize" xml:space="preserve">
+  <data name="CalculateFolderSizes" xml:space="preserve">
     <value>显示文件夹大小</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
@@ -2645,6 +2630,9 @@
   </data>
   <data name="Type" xml:space="preserve">
     <value>类型:</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Icon Grid</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>字节</value>
@@ -2822,5 +2810,32 @@
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>锁屏界面</value>
+  </data>
+  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
+    <value>在“列视图”布局下，通过单击打开文件夹</value>
+  </data>
+  <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
+    <value>打开文件和文件夹时的行为</value>
+  </data>
+  <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
+    <value>鼠标指向项目时自动选定</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
+    <value>是否确实要还原回收站中的所有项目？</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
+    <value>还原所有项目</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
+    <value>是否还原选中的 {0} 个项目？</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
+    <value>还原选定的项目</value>
+  </data>
+  <data name="RestoreAllItems" xml:space="preserve">
+    <value>还原所有项目</value>
+  </data>
+  <data name="RestoreSelection" xml:space="preserve">
+    <value>还原</value>
   </data>
 </root>

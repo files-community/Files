@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Nombre</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>Tipo</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>Tamaño</value>
   </data>
@@ -159,8 +156,8 @@
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>Nombre</value>
   </data>
-  <data name="PropertiesItemPath.Text" xml:space="preserve">
-    <value>Ubicación:</value>
+  <data name="Path" xml:space="preserve">
+    <value>Ruta:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Tamaño:</value>
@@ -799,6 +796,9 @@
     <value>Crea una carpeta vacía</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>Ver</value>
+  </data>
+  <data name="LayoutMode" xml:space="preserve">
     <value>Ver</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
@@ -1671,32 +1671,23 @@
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
     <value>Abrir carpetas en una nueva pestaña</value>
   </data>
-  <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
-    <value>Mostrar contenedores</value>
+  <data name="ShowBundlesWidget" xml:space="preserve">
+    <value>Mostrar widget de contenedores</value>
   </data>
-  <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
-    <value>Mostrar unidades</value>
+  <data name="ShowDrivesWidget" xml:space="preserve">
+    <value>Mostrar widget de unidades</value>
   </data>
-  <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
-    <value>Mostrar carpetas</value>
+  <data name="ShowFolderWidget" xml:space="preserve">
+    <value>Mostrar widget de carpetas</value>
   </data>
-  <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
-    <value>Mostrar archivos recientes</value>
-  </data>
-  <data name="NavToolbarWidgets.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Ajustes de widgets</value>
-  </data>
-  <data name="NavToolbarWidgetsManager.AutomationProperties.Name" xml:space="preserve">
-    <value>Ajustes de widgets</value>
+  <data name="ShowRecentFilesWidget" xml:space="preserve">
+    <value>Mostrar widget de archivos recientes</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>¿No encontró lo que buscaba?</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
     <value>Buscar elementos no indexados.</value>
-  </data>
-  <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
-    <value>Ajustes de widgets</value>
   </data>
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>Abrir carpeta de temas</value>
@@ -1956,7 +1947,7 @@
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Descartar</value>
   </data>
-  <data name="NavToolbarWidgets.Label" xml:space="preserve">
+  <data name="Widgets" xml:space="preserve">
     <value>Widgets</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
@@ -2319,12 +2310,6 @@
   <data name="SettingsPrivacy.Title" xml:space="preserve">
     <value>Política de privacidad</value>
   </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
-    <value>Iconos de sistema Fluent UI</value>
-  </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Iconos de sistema Fluent UI</value>
-  </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
 * Recopilación de información personal *
@@ -2622,7 +2607,7 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>Introduzca el nombre de la biblioteca</value>
   </data>
-  <data name="ShowFolderSize" xml:space="preserve">
+  <data name="CalculateFolderSizes" xml:space="preserve">
     <value>Mostrar el tamaño de la carpeta</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
@@ -2651,6 +2636,9 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
   </data>
   <data name="Type" xml:space="preserve">
     <value>Tipo:</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Rejilla de icono</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Bytes</value>
@@ -2828,5 +2816,32 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Pantalla de bloqueo</value>
+  </data>
+  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
+    <value>Abrir carpetas con un solo clic en el diseño de columnas</value>
+  </data>
+  <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
+    <value>Comportamiento al abrir archivos y carpetas</value>
+  </data>
+  <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
+    <value>Seleccionar archivos y carpetas al pasar el cursor sobre ellos</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
+    <value>¿Está seguro que desea restaurar todos los elementos de la papelera de reciclaje?</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
+    <value>Restaurar todos los elementos</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
+    <value>¿Desea restaurar los elemento(s) {0} seleccionado(s)?</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
+    <value>Restaurar selección</value>
+  </data>
+  <data name="RestoreAllItems" xml:space="preserve">
+    <value>Restaurar todos los elementos</value>
+  </data>
+  <data name="RestoreSelection" xml:space="preserve">
+    <value>Restaurar</value>
   </data>
 </root>

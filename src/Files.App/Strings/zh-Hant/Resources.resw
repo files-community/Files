@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>名稱</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>類型</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>大小</value>
   </data>
@@ -159,14 +156,14 @@
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>檔案名稱</value>
   </data>
-  <data name="PropertiesItemPath.Text" xml:space="preserve">
-    <value>位置：</value>
+  <data name="Path" xml:space="preserve">
+    <value>Path:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>大小：</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed Size:</value>
+    <value>壓縮前的大小：</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>無法完成該操作</value>
@@ -801,6 +798,9 @@
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>檢視模式</value>
   </data>
+  <data name="LayoutMode" xml:space="preserve">
+    <value>檢視模式</value>
+  </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
     <value>向後導覽</value>
   </data>
@@ -1237,7 +1237,7 @@
     <value>搜尋檔案或資料夾時一併顯示未被索引的項目</value>
   </data>
   <data name="ForceThesePreferencesOnAllDirectories" xml:space="preserve">
-    <value>Force these preferences on all directories</value>
+    <value>套用至所有資料夾</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>自訂右鍵選單</value>
@@ -1671,32 +1671,23 @@
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
     <value>在新索引標籤開啟資料夾</value>
   </data>
-  <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
-    <value>顯示 Bundles 小工具</value>
+  <data name="ShowBundlesWidget" xml:space="preserve">
+    <value>Show Bundles widget</value>
   </data>
-  <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
-    <value>顯示磁碟機小工具</value>
+  <data name="ShowDrivesWidget" xml:space="preserve">
+    <value>Show Drives widget</value>
   </data>
-  <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
-    <value>顯示資料夾小工具</value>
+  <data name="ShowFolderWidget" xml:space="preserve">
+    <value>Show Folders widget</value>
   </data>
-  <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
-    <value>顯示最近使用過的檔案小工具</value>
-  </data>
-  <data name="NavToolbarWidgets.ToolTipService.ToolTip" xml:space="preserve">
-    <value>管理小工具</value>
-  </data>
-  <data name="NavToolbarWidgetsManager.AutomationProperties.Name" xml:space="preserve">
-    <value>管理小工具</value>
+  <data name="ShowRecentFilesWidget" xml:space="preserve">
+    <value>Show Recent Files widget</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>沒有找到您想找的嗎？</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
     <value>搜尋未被索引的檔案。</value>
-  </data>
-  <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
-    <value>管理小工具</value>
   </data>
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>開啟客製化主題資料夾</value>
@@ -1956,8 +1947,8 @@
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>關閉</value>
   </data>
-  <data name="NavToolbarWidgets.Label" xml:space="preserve">
-    <value>小工具</value>
+  <data name="Widgets" xml:space="preserve">
+    <value>Widgets</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>同步狀態</value>
@@ -2319,12 +2310,6 @@
   <data name="SettingsPrivacy.Title" xml:space="preserve">
     <value>隱私權政策</value>
   </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
-    <value>Fluent UI 系統圖示</value>
-  </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Fluent UI 系統圖示</value>
-  </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
             我們使用 App Center 來追蹤使用者在應用程式的使用情況，並藉此查找錯誤及修復問題。所有資料都是以匿名身份回傳至 App Center，您的個人資料也不會被回傳。
@@ -2618,7 +2603,7 @@
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>輸入媒體庫名稱</value>
   </data>
-  <data name="ShowFolderSize" xml:space="preserve">
+  <data name="CalculateFolderSizes" xml:space="preserve">
     <value>顯示資料夾大小</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
@@ -2647,6 +2632,9 @@
   </data>
   <data name="Type" xml:space="preserve">
     <value>類型：</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Icon Grid</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>位元組</value>
@@ -2778,51 +2766,78 @@
     <value>顯示NTFS交換資料流程</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
-    <value>Review Files</value>
+    <value>評論本軟體</value>
   </data>
   <data name="ReviewFilesContent" xml:space="preserve">
-    <value>Would you like to review Files?</value>
+    <value>您想要在商店中評論本軟體嗎？</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
-    <value>Set as background</value>
+    <value>設為背景</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Set as lockscreen</value>
+    <value>設為鎖定畫面</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>設為桌面背景</value>
   </data>
   <data name="SetAsDefault" xml:space="preserve">
-    <value>Set as default</value>
+    <value>設爲預設值</value>
   </data>
   <data name="FolderPreferences" xml:space="preserve">
-    <value>Folder preferences</value>
+    <value>資料夾選項</value>
   </data>
   <data name="DisplayDateColumn" xml:space="preserve">
-    <value>Display Date column</value>
+    <value>顯示日期欄位</value>
   </data>
   <data name="DisplayDateCreatedColumn" xml:space="preserve">
-    <value>Display Date Created column</value>
+    <value>顯示建立日期欄位</value>
   </data>
   <data name="DisplaySizeColumn" xml:space="preserve">
-    <value>Display Size column</value>
+    <value>顯示檔案大小欄位</value>
   </data>
   <data name="DisplayTagColumn" xml:space="preserve">
-    <value>Display Tag column</value>
+    <value>顯示標籤欄位</value>
   </data>
   <data name="DisplayTypeColumn" xml:space="preserve">
-    <value>Display Type column</value>
+    <value>顯示檔案類型欄位</value>
   </data>
   <data name="Reset" xml:space="preserve">
-    <value>Reset</value>
+    <value>重設</value>
   </data>
   <data name="ResetLayoutPreferences" xml:space="preserve">
-    <value>This action will reset all directories back to your default preferences.</value>
+    <value>此動作將會重設所有目錄的設定為預設值</value>
   </data>
   <data name="AreYouSure" xml:space="preserve">
-    <value>Are you sure?</value>
+    <value>您確定嗎？</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
-    <value>Lockscreen</value>
+    <value>鎖定畫面</value>
+  </data>
+  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
+    <value>Open folders with a single click in the Columns Layout</value>
+  </data>
+  <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
+    <value>開啟檔案與資料夾行為</value>
+  </data>
+  <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
+    <value>Select files and folders when hovering over them</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
+    <value>Are you sure you want to restore all items in the recycle bin?</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
+    <value>Restore all items</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
+    <value>Do you want to restore the {0} selected item(s)?</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
+    <value>Restore selection</value>
+  </data>
+  <data name="RestoreAllItems" xml:space="preserve">
+    <value>Restore All Items</value>
+  </data>
+  <data name="RestoreSelection" xml:space="preserve">
+    <value>復原</value>
   </data>
 </root>

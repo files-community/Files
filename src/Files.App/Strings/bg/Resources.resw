@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Име</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>Тип</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>Размер</value>
   </data>
@@ -159,8 +156,8 @@
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>Име на елемента</value>
   </data>
-  <data name="PropertiesItemPath.Text" xml:space="preserve">
-    <value>Местоположение:</value>
+  <data name="Path" xml:space="preserve">
+    <value>Path:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Размер:</value>
@@ -799,6 +796,9 @@
     <value>Създава празна папка</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>Режим на оформление</value>
+  </data>
+  <data name="LayoutMode" xml:space="preserve">
     <value>Режим на оформление</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
@@ -1671,32 +1671,23 @@
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
     <value>Отваряй папките в нов раздел</value>
   </data>
-  <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
-    <value>Показване на притурка за пакети</value>
+  <data name="ShowBundlesWidget" xml:space="preserve">
+    <value>Show Bundles widget</value>
   </data>
-  <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
-    <value>Показване на притурка за дискови устройства</value>
+  <data name="ShowDrivesWidget" xml:space="preserve">
+    <value>Show Drives widget</value>
   </data>
-  <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
-    <value>Показване на притурка за папки</value>
+  <data name="ShowFolderWidget" xml:space="preserve">
+    <value>Show Folders widget</value>
   </data>
-  <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
-    <value>Показване на притурка за последните файлове</value>
-  </data>
-  <data name="NavToolbarWidgets.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Управление на притурки</value>
-  </data>
-  <data name="NavToolbarWidgetsManager.AutomationProperties.Name" xml:space="preserve">
-    <value>Управление на притурки</value>
+  <data name="ShowRecentFilesWidget" xml:space="preserve">
+    <value>Show Recent Files widget</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>Не намери това, което търсеше?</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
     <value>Търси неиндексирани елементи.</value>
-  </data>
-  <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
-    <value>Управление на притурки</value>
   </data>
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>Отвори папката с теми</value>
@@ -1956,8 +1947,8 @@
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Отхвърли</value>
   </data>
-  <data name="NavToolbarWidgets.Label" xml:space="preserve">
-    <value>Притурки</value>
+  <data name="Widgets" xml:space="preserve">
+    <value>Widgets</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>Състояние на синхронизиране</value>
@@ -2319,12 +2310,6 @@
   <data name="SettingsPrivacy.Title" xml:space="preserve">
     <value>Политика за поверителност</value>
   </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
-    <value>Fluent UI системни икони</value>
-  </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Fluent UI системни икони</value>
-  </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
 Използваме App Center, за да проследяваме кои настройки се използват, да намираме грешки и да коригираме сривове. Информацията, изпратена до App Center, е анонимна и без никакви потребителски или контекстуални данни.
@@ -2618,7 +2603,7 @@
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>Въведи име на библиотека</value>
   </data>
-  <data name="ShowFolderSize" xml:space="preserve">
+  <data name="CalculateFolderSizes" xml:space="preserve">
     <value>Покажи размера на папката</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
@@ -2647,6 +2632,9 @@
   </data>
   <data name="Type" xml:space="preserve">
     <value>Тип:</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Icon Grid</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>байтове</value>
@@ -2824,5 +2812,32 @@
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Lockscreen</value>
+  </data>
+  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
+    <value>Open folders with a single click in the Columns Layout</value>
+  </data>
+  <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
+    <value>Behavior for opening files and folders</value>
+  </data>
+  <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
+    <value>Select files and folders when hovering over them</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
+    <value>Are you sure you want to restore all items in the recycle bin?</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
+    <value>Restore all items</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
+    <value>Do you want to restore the {0} selected item(s)?</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
+    <value>Restore selection</value>
+  </data>
+  <data name="RestoreAllItems" xml:space="preserve">
+    <value>Restore All Items</value>
+  </data>
+  <data name="RestoreSelection" xml:space="preserve">
+    <value>Възстанови</value>
   </data>
 </root>

@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>이름</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>유형</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>크기</value>
   </data>
@@ -159,8 +156,8 @@
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>항목명</value>
   </data>
-  <data name="PropertiesItemPath.Text" xml:space="preserve">
-    <value>위치:</value>
+  <data name="Path" xml:space="preserve">
+    <value>Path:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>크기:</value>
@@ -799,6 +796,9 @@
     <value>빈 폴더를 생성합니다.</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>레이아웃 설정</value>
+  </data>
+  <data name="LayoutMode" xml:space="preserve">
     <value>레이아웃 설정</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
@@ -1671,32 +1671,23 @@
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
     <value>새 탭에서 폴더 열기</value>
   </data>
-  <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
-    <value>번들 위젯 표시</value>
+  <data name="ShowBundlesWidget" xml:space="preserve">
+    <value>Show Bundles widget</value>
   </data>
-  <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
-    <value>드라이브 위젯 표시</value>
+  <data name="ShowDrivesWidget" xml:space="preserve">
+    <value>Show Drives widget</value>
   </data>
-  <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
-    <value>폴더 위젯 표시</value>
+  <data name="ShowFolderWidget" xml:space="preserve">
+    <value>Show Folders widget</value>
   </data>
-  <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
-    <value>최근 파일 위젯 표시</value>
-  </data>
-  <data name="NavToolbarWidgets.ToolTipService.ToolTip" xml:space="preserve">
-    <value>위젯 관리</value>
-  </data>
-  <data name="NavToolbarWidgetsManager.AutomationProperties.Name" xml:space="preserve">
-    <value>위젯 관리</value>
+  <data name="ShowRecentFilesWidget" xml:space="preserve">
+    <value>Show Recent Files widget</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>원하는 항목을 찾지 못했나요?</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
     <value>색인되지 않은 항목을 검색하세요.</value>
-  </data>
-  <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
-    <value>위젯 관리</value>
   </data>
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>테마 폴더 열기</value>
@@ -1956,8 +1947,8 @@
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>해제</value>
   </data>
-  <data name="NavToolbarWidgets.Label" xml:space="preserve">
-    <value>위젯</value>
+  <data name="Widgets" xml:space="preserve">
+    <value>Widgets</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>동기화 상태</value>
@@ -2319,12 +2310,6 @@
   <data name="SettingsPrivacy.Title" xml:space="preserve">
     <value>개인정보취급방침</value>
   </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
-    <value>Fluent UI 시스템 아이콘</value>
-  </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Fluent UI 시스템 아이콘</value>
-  </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
 저희는 App Center를 사용하여 사용 중인 설정을 추적하고, 버그를 찾고, 충돌을 수정합니다. App Center로 전송되는 정보는 익명 처리되며 사용자와 직간접적으로 관련되어 있는 데이터는 일체 포함되지 않습니다.
@@ -2618,7 +2603,7 @@
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>라이브러리 이름 입력</value>
   </data>
-  <data name="ShowFolderSize" xml:space="preserve">
+  <data name="CalculateFolderSizes" xml:space="preserve">
     <value>폴더 크기 표시</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
@@ -2647,6 +2632,9 @@
   </data>
   <data name="Type" xml:space="preserve">
     <value>유형:</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Icon Grid</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>바이트</value>
@@ -2824,5 +2812,32 @@
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Lockscreen</value>
+  </data>
+  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
+    <value>Open folders with a single click in the Columns Layout</value>
+  </data>
+  <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
+    <value>Behavior for opening files and folders</value>
+  </data>
+  <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
+    <value>Select files and folders when hovering over them</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
+    <value>Are you sure you want to restore all items in the recycle bin?</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
+    <value>Restore all items</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
+    <value>Do you want to restore the {0} selected item(s)?</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
+    <value>Restore selection</value>
+  </data>
+  <data name="RestoreAllItems" xml:space="preserve">
+    <value>Restore All Items</value>
+  </data>
+  <data name="RestoreSelection" xml:space="preserve">
+    <value>복원</value>
   </data>
 </root>

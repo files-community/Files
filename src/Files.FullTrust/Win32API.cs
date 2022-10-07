@@ -1,7 +1,4 @@
-using Files.Shared;
 using Files.Shared.Extensions;
-using Files.FullTrust.Helpers;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,6 +11,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using System.Text;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -289,7 +287,7 @@ namespace Files.FullTrust
                 {
                     { "RequestID", requestID }
                 };
-                var serialized = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message));
+                var serialized = JsonSerializer.SerializeToUtf8Bytes(message);
                 await pipe.WriteAsync(serialized);
             });
         }

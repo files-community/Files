@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>नाम</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>प्रकार</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>आकार</value>
   </data>
@@ -159,8 +156,8 @@
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>वस्तु का नाम</value>
   </data>
-  <data name="PropertiesItemPath.Text" xml:space="preserve">
-    <value>मार्ग:</value>
+  <data name="Path" xml:space="preserve">
+    <value>Path:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>आकार:</value>
@@ -799,6 +796,9 @@
     <value>Creates an empty folder</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>Layout mode</value>
+  </data>
+  <data name="LayoutMode" xml:space="preserve">
     <value>Layout mode</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
@@ -1671,32 +1671,23 @@
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
     <value>Open folders in new tab</value>
   </data>
-  <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
+  <data name="ShowBundlesWidget" xml:space="preserve">
     <value>Show Bundles widget</value>
   </data>
-  <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
+  <data name="ShowDrivesWidget" xml:space="preserve">
     <value>Show Drives widget</value>
   </data>
-  <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
+  <data name="ShowFolderWidget" xml:space="preserve">
     <value>Show Folders widget</value>
   </data>
-  <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
+  <data name="ShowRecentFilesWidget" xml:space="preserve">
     <value>Show Recent Files widget</value>
-  </data>
-  <data name="NavToolbarWidgets.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Manage Widgets</value>
-  </data>
-  <data name="NavToolbarWidgetsManager.AutomationProperties.Name" xml:space="preserve">
-    <value>Manage widgets</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>जो आप खोज रहे हैं वह नहीं मिला?</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
     <value>Search unindexed items.</value>
-  </data>
-  <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
-    <value>Manage Widgets</value>
   </data>
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>Open themes folder</value>
@@ -1956,8 +1947,8 @@
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>ख़ारिज करें</value>
   </data>
-  <data name="NavToolbarWidgets.Label" xml:space="preserve">
-    <value>विजेट्स</value>
+  <data name="Widgets" xml:space="preserve">
+    <value>Widgets</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>सिंक्रनाइज़ेशन स्थिति</value>
@@ -2319,12 +2310,6 @@
   <data name="SettingsPrivacy.Title" xml:space="preserve">
     <value>गोपनीयता नीति</value>
   </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
-    <value>Fluent UI System Icons</value>
-  </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Fluent UI System Icons</value>
-  </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
 We use App Center to track which settings are being used, find bugs, and fix crashes. Information sent to App Center is anonymous and free of any user or contextual data.
@@ -2618,7 +2603,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>Enter Library name</value>
   </data>
-  <data name="ShowFolderSize" xml:space="preserve">
+  <data name="CalculateFolderSizes" xml:space="preserve">
     <value>Show folder size</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
@@ -2647,6 +2632,9 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   </data>
   <data name="Type" xml:space="preserve">
     <value>प्रकार</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Icon Grid</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>बाइट्स</value>
@@ -2824,5 +2812,32 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Lockscreen</value>
+  </data>
+  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
+    <value>Open folders with a single click in the Columns Layout</value>
+  </data>
+  <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
+    <value>Behavior for opening files and folders</value>
+  </data>
+  <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
+    <value>Select files and folders when hovering over them</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
+    <value>Are you sure you want to restore all items in the recycle bin?</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
+    <value>Restore all items</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
+    <value>Do you want to restore the {0} selected item(s)?</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
+    <value>Restore selection</value>
+  </data>
+  <data name="RestoreAllItems" xml:space="preserve">
+    <value>Restore All Items</value>
+  </data>
+  <data name="RestoreSelection" xml:space="preserve">
+    <value>पुनर्स्थापित</value>
   </data>
 </root>

@@ -42,11 +42,11 @@
 				<ComboBox
 					HorizontalAlignment="Left"
 					AutomationProperties.Name="{helpers:ResourceString Name=SettingsPreferencesAppLanguageComboBox/AutomationProperties/Name}"
-					ItemsSource="{Binding DefaultLanguages}"
-					SelectedIndex="{Binding SelectedLanguageIndex, Mode=TwoWay}">
+					ItemsSource="{Binding AppLanguages}"
+					SelectedIndex="{Binding SelectedAppLanguageIndex, Mode=TwoWay}">
 					<ComboBox.ItemTemplate>
-						<DataTemplate x:DataType="datamodels:DefaultLanguageModel">
-							<TextBlock Text="{x:Bind Name}" />
+						<DataTemplate x:DataType="settingsviewmodels:AppLanguageItem">
+							<TextBlock Text="{x:Bind LanguageName}" />
 						</DataTemplate>
 					</ComboBox.ItemTemplate>
 				</ComboBox>
@@ -66,9 +66,9 @@
 					Grid.Column="1"
 					AutomationProperties.Name="{helpers:ResourceString Name=DateFormat}"
 					ItemsSource="{Binding DateFormats}"
-					SelectedIndex="{Binding SelectedDateFormatIndex, Mode=TwoWay}">
+					SelectedIndex="{Binding SelectedDateTimeFormatIndex, Mode=TwoWay}">
 					<ComboBox.ItemTemplate>
-						<DataTemplate x:DataType="settingsviewmodels:DateFormatItem">
+						<DataTemplate x:DataType="settingsviewmodels:DateTimeFormatItem">
 							<StackPanel Orientation="Vertical">
 								<TextBlock Text="{x:Bind Label}" />
 								<TextBlock
@@ -162,164 +162,21 @@
 								IsOn="{Binding ListAndSortDirectoriesAlongsideFiles, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
-					</StackPanel>
-				</local:SettingsBlockControl.ExpandableContent>
-			</local:SettingsBlockControl>
 
-
-			<!--  Click to open settings  -->
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=BehaviorForOpeningFilesAndFolders}" HorizontalAlignment="Stretch">
-				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xED25;" />
-				</local:SettingsBlockControl.Icon>
-				<local:SettingsBlockControl.ExpandableContent>
-					<StackPanel>
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsOpenFilesWithOneClick}" HorizontalAlignment="Stretch">
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SelectFilesAndFoldersOnHover}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenFilesWithOneClick}"
-								IsOn="{Binding OpenFilesWithOneClick, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsOpenFoldersWithOneClick}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenFoldersWithOneClick}"
-								IsOn="{Binding OpenFoldersWithOneClick, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=OpenFolderWithOneClickColumnsLayout}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=OpenFolderWithOneClickColumnsLayout}"
-								IsOn="{Binding ColumnLayoutOpenFoldersWithOneClick, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsPreferencesOpenFoldersNewTab/Title}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								x:Name="OpenFoldersNewTab"
-								AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenFoldersNewTabToggleSwitch/AutomationProperties/Name}"
-								IsOn="{Binding OpenFoldersNewTab, Mode=TwoWay}"
+								AutomationProperties.Name="{helpers:ResourceString Name=SelectFilesAndFoldersOnHover}"
+								IsOn="{Binding SelectFilesOnHover, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 					</StackPanel>
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
-
-			<!--  Hidden file and folder settings  -->
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=HiddenFilesAndFolders}" HorizontalAlignment="Stretch">
-				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xED1A;" />
-				</local:SettingsBlockControl.Icon>
-				<local:SettingsBlockControl.ExpandableContent>
-					<StackPanel>
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsFilesAndFoldersShowHiddenItems}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersShowHiddenItems}"
-								IsOn="{Binding AreHiddenItemsVisible, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowDotFiles}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=ShowDotFiles}"
-								IsOn="{Binding ShowDotFiles, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsFilesAndFoldersHideSystemItems}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersHideSystemItems}"
-								IsOn="{Binding AreSystemItemsHidden, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowAlternateStreams}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=ShowAlternateStreams}"
-								IsOn="{Binding AreAlternateStreamsVisible, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-					</StackPanel>
-				</local:SettingsBlockControl.ExpandableContent>
-			</local:SettingsBlockControl>
-
-			<!--  Default folder preferences  -->
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=FolderPreferences}" HorizontalAlignment="Stretch">
-				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE2AC;" />
-				</local:SettingsBlockControl.Icon>
-				<StackPanel
-					VerticalAlignment="Center"
-					Orientation="Horizontal"
-					Spacing="12">
-					<FontIcon
-						Width="16"
-						VerticalAlignment="Center"
-						FontFamily="{ThemeResource SymbolThemeFontFamily}"
-						FontSize="16"
-						Glyph="&#xE001;"
-						Visibility="{Binding IsLayoutResetCheckmarkVisible}" />
-					<Button
-						x:Name="ResetLayoutPreferencesButton"
-						AutomationProperties.Name="{helpers:ResourceString Name=Reset}"
-						Command="{Binding ShowResetLayoutPreferencesTipCommand}"
-						Content="{helpers:ResourceString Name=Reset}" />
-					<muxc:TeachingTip
-						Title="{helpers:ResourceString Name=AreYouSure}"
-						ActionButtonCommand="{Binding ResetLayoutPreferencesCommand}"
-						ActionButtonContent="{helpers:ResourceString Name=Confirm}"
-						IsLightDismissEnabled="True"
-						IsOpen="{Binding IsResetLayoutPreferencesTipOpen, Mode=TwoWay}"
-						Subtitle="{helpers:ResourceString Name=ResetLayoutPreferences}"
-						Target="{x:Bind ResetLayoutPreferencesButton}" />
-				</StackPanel>
-				<local:SettingsBlockControl.ExpandableContent>
-					<StackPanel>
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ForceThesePreferencesOnAllDirectories}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=ForceThesePreferencesOnAllDirectories}"
-								IsOn="{Binding ForceLayoutPreferencesOnAllDirectories, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=DisplayTagColumn}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=DisplayTagColumn}"
-								IsOn="{Binding ShowFileTagColumn, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=DisplaySizeColumn}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=DisplaySizeColumn}"
-								IsOn="{Binding ShowSizeColumn, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=DisplayTypeColumn}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=DisplayTypeColumn}"
-								IsOn="{Binding ShowTypeColumn, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=DisplayDateColumn}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=DisplayDateColumn}"
-								IsOn="{Binding ShowDateColumn, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=DisplayDateCreatedColumn}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=DisplayDateCreatedColumn}"
-								IsOn="{Binding ShowDateCreatedColumn, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-					</StackPanel>
-				</local:SettingsBlockControl.ExpandableContent>
-			</local:SettingsBlockControl>
-
 
 			<!--  Search settings  -->
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsSearchUnindexedItems}" HorizontalAlignment="Stretch">
+			<local:SettingsBlockControl
+				Title="{helpers:ResourceString Name=SettingsSearchUnindexedItems}"
+				HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE721;" />
 				</local:SettingsBlockControl.Icon>
@@ -328,7 +185,6 @@
 					IsOn="{Binding SearchUnindexedItems, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</local:SettingsBlockControl>
-
 
 			<!--  Startup settings  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=StartupSettings}" HorizontalAlignment="Stretch">

@@ -3,34 +3,27 @@ using System.Diagnostics;
 using Windows.System;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services.Settings;
 
 namespace Files.App.UserControls
 {
     public sealed partial class RestartControl : UserControl
     {
-        public RestartControl()
+		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
+		public RestartControl()
         {
             InitializeComponent();
         }
 
         public static readonly DependencyProperty ShowDialogProperty = DependencyProperty.Register(
-          "ShowDialog",
-          typeof(bool),
-          typeof(RestartControl),
-          new PropertyMetadata(false, new PropertyChangedCallback(OnShowDialogPropertyChanged))
-        );
-
-        public bool ShowDialog
-        {
-            get
-            {
-                return (bool)GetValue(ShowDialogProperty);
-            }
-            set
-            {
-                SetValue(ShowDialogProperty, value);
-            }
-        }
+          "ShowDialog", typeof(bool), typeof(RestartControl), new PropertyMetadata(false, new PropertyChangedCallback(OnShowDialogPropertyChanged)));
+		public bool ShowDialog
+		{
+			get => (bool)GetValue(dp: ShowDialogProperty);
+			set => SetValue(ShowDialogProperty, value);
+		}
 
         private static void OnShowDialogPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
@@ -57,10 +50,10 @@ namespace Files.App.UserControls
 
         private async void YesButton_Click(object sender, RoutedEventArgs e)
         {
-            App.AppSettings.ResumeAfterRestart = true;
-            App.SaveSessionTabs();
-            await Launcher.LaunchUriAsync(new Uri("files-uwp:"));
-            Process.GetCurrentProcess().Kill();
+            UserSettingsService.AppSettingsService.RestoreTabsOnStartup = true; // Tells the app to restore tabs when it's next launched
+			App.SaveSessionTabs(); // Saves the open tabs
+            await Launcher.LaunchUriAsync(new Uri("files-uwp:")); // Launches a new instance of Files
+            Process.GetCurrentProcess().Kill(); // Closes the current instance
         }
 
         private void NoButton_Click(object sender, RoutedEventArgs e)

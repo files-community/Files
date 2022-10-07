@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
 
 #nullable enable
 
@@ -21,7 +21,12 @@ namespace Files.App.Serialization.Implementation
 
         protected Dictionary<string, object?> GetFreshSettings()
         {
-            var data = SettingsSerializer.ReadFromFile() ?? string.Empty;
+            string data = SettingsSerializer.ReadFromFile();
+
+            if (string.IsNullOrWhiteSpace(data)) 
+            { 
+                data = "null"; 
+            }
 
             return JsonSettingsSerializer.DeserializeFromJson<Dictionary<string, object?>?>(data) ?? new();
         }
@@ -115,9 +120,9 @@ namespace Files.App.Serialization.Implementation
 
         protected static TValue? GetValueFromObject<TValue>(object? obj)
         {
-            if (obj is JToken jToken)
+            if (obj is JsonElement jElem)
             {
-                return jToken.ToObject<TValue>();
+                return jElem.Deserialize<TValue>();
             }
 
             return (TValue?)obj;

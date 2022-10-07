@@ -63,14 +63,14 @@
 					RightTapped="NavigationViewItem_RightTapped"
 					SelectsOnInvoked="{x:Bind SelectsOnInvoked}"
 					Tag="{x:Bind Path}"
-					ToolTipService.ToolTip="{x:Bind HoverDisplayText}">
+					ToolTipService.ToolTip="{x:Bind ToolTipText}">
 					<NavigationViewItem.Icon>
 						<ImageIcon Source="{x:Bind Icon, Mode=OneWay}" />
 					</NavigationViewItem.Icon>
-					<!--  WINUI3  -->
+					<!--  WINUI3  missing some styles -->
 					<!--<NavigationViewItem.InfoBadge>
-                        <InfoBadge Style="{ThemeResource CautionIconInfoBadgeStyle}" Visibility="{x:Bind IsInvalid, Mode=OneWay}" />
-                    </NavigationViewItem.InfoBadge>-->
+						<InfoBadge Style="{ThemeResource CautionIconInfoBadgeStyle}" Visibility="{x:Bind IsInvalid, Mode=OneWay}" />
+					</NavigationViewItem.InfoBadge>-->
 				</NavigationViewItem>
 			</DataTemplate>
 
@@ -89,8 +89,39 @@
 					PointerPressed="Sidebar_PointerPressed"
 					RightTapped="NavigationViewItem_RightTapped"
 					Tag="{x:Bind Path}"
-					ToolTipService.ToolTip="{x:Bind HoverDisplayText, Mode=OneWay}"
 					Visibility="{x:Bind ItemVisibility}">
+					<ToolTipService.ToolTip>
+						<ToolTip>
+							<Grid>
+								<!--  Displays the drive name, this is hidden when the extended details are shown  -->
+								<TextBlock
+									x:Name="DriveNameTextBlock"
+									x:Load="{x:Bind ShowDriveDetails, Converter={StaticResource BoolNegationConverter}}"
+									Text="{x:Bind Text, Mode=OneWay}" />
+
+								<!--  Displays the drive name and extended details  -->
+								<StackPanel
+									x:Name="DriveDetailsStackPanel"
+									Padding="8"
+									x:Load="{x:Bind ShowDriveDetails}"
+									Spacing="8">
+									<TextBlock
+										VerticalAlignment="Center"
+										FontSize="14"
+										FontWeight="Medium"
+										Text="{x:Bind Text, Mode=OneWay}" />
+
+									<ProgressBar
+										VerticalAlignment="Stretch"
+										VerticalContentAlignment="Stretch"
+										Maximum="{x:Bind MaxSpace.GigaBytes}"
+										Value="{x:Bind SpaceUsed.GigaBytes}" />
+
+									<TextBlock Text="{x:Bind ToolTipText, Mode=OneWay}" />
+								</StackPanel>
+							</Grid>
+						</ToolTip>
+					</ToolTipService.ToolTip>
 					<NavigationViewItem.Icon>
 						<ImageIcon Source="{x:Bind Icon, Mode=OneWay}" />
 					</NavigationViewItem.Icon>
@@ -108,7 +139,7 @@
 					PointerPressed="Sidebar_PointerPressed"
 					RightTapped="NavigationViewItem_RightTapped"
 					Tag="{x:Bind Path}"
-					ToolTipService.ToolTip="{x:Bind HoverDisplayText}">
+					ToolTipService.ToolTip="{x:Bind ToolTipText}">
 					<NavigationViewItem.Icon>
 						<ImageIcon>
 							<ImageIcon.Source>
@@ -133,7 +164,7 @@
 					PointerPressed="Sidebar_PointerPressed"
 					RightTapped="NavigationViewItem_RightTapped"
 					Tag="{x:Bind Path}"
-					ToolTipService.ToolTip="{x:Bind HoverDisplayText}">
+					ToolTipService.ToolTip="{x:Bind ToolTipText}">
 					<NavigationViewItem.Icon>
 						<PathIcon Foreground="{x:Bind FileTag.ColorModel, Mode=OneWay, Converter={StaticResource ColorModelToColorConverter}}">
 							<PathIcon.Data>
