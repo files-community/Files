@@ -1,19 +1,37 @@
-using Files.Backend.Services.Settings;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Input;
+using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
 
 namespace Files.App.ViewModels.SettingsViewModels
 {
 	public class FoldersViewModel : ObservableObject
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();		
+		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
+		// Commands
+		public RelayCommand ResetLayoutPreferencesCommand { get; }
+		public RelayCommand ShowResetLayoutPreferencesTipCommand { get; }
+
+
 
 		public FoldersViewModel()
 		{
+			ResetLayoutPreferencesCommand = new RelayCommand(ResetLayoutPreferences);
+			ShowResetLayoutPreferencesTipCommand = new RelayCommand(() => IsResetLayoutPreferencesTipOpen = true);
+
 			SelectedDefaultLayoutModeIndex = (long)DefaultLayoutMode;
 		}
 
+		// Properties
+
+		private bool isResetLayoutPreferencesTipOpen;
+		public bool IsResetLayoutPreferencesTipOpen
+		{
+			get => isResetLayoutPreferencesTipOpen;
+			set => SetProperty(ref isResetLayoutPreferencesTipOpen, value);
+		}
 
 		private long selectedDefaultLayoutModeIndex;
 		public long SelectedDefaultLayoutModeIndex
@@ -169,6 +187,15 @@ namespace Files.App.ViewModels.SettingsViewModels
 					OnPropertyChanged();
 				}
 			}
+		}
+
+		// Local methods
+
+		public void ResetLayoutPreferences()
+		{
+			// Is this proper practice?
+			FolderSettingsViewModel.DbInstance.ResetAll();
+			IsResetLayoutPreferencesTipOpen = false;
 		}
 	}
 }

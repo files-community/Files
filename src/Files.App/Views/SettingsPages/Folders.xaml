@@ -61,39 +61,26 @@
 									Foreground="{ThemeResource TextFillColorPrimaryBrush}"
 									Glyph="&#xE104;" />
 							</local:SettingsBlockControl.Icon>
-							<Grid>
-								<FontIcon
-									Width="16"
-									HorizontalAlignment="Left"
-									VerticalAlignment="Center"
-									FontFamily="{ThemeResource SymbolThemeFontFamily}"
-									FontSize="16"
-									Glyph="&#xE001;"
-									Visibility="{Binding IsLayoutResetCheckmarkVisible}" />
-
-								<FontIcon
-									HorizontalAlignment="Right"
-									FontSize="14"
-									Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-									Glyph="&#xE2B4;" />
-							</Grid>
+							<FontIcon
+								HorizontalAlignment="Right"
+								FontSize="14"
+								Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+								Glyph="&#xE2B4;" />
 						</local:SettingsBlockControl>
-						<muxc:TeachingTip
-							Title="{helpers:ResourceString Name=AreYouSure}"
-							ActionButtonCommand="{Binding ResetLayoutPreferencesCommand}"
-							ActionButtonContent="{helpers:ResourceString Name=Confirm}"
-							IsLightDismissEnabled="True"
-							IsOpen="{Binding IsResetLayoutPreferencesTipOpen, Mode=TwoWay}"
-							Subtitle="{helpers:ResourceString Name=ResetLayoutPreferences}"
-							Target="{x:Bind ResetLayoutPreferencesButton}" />
 					</StackPanel>
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
+			<muxc:TeachingTip
+				Title="{helpers:ResourceString Name=AreYouSure}"
+				ActionButtonCommand="{Binding ResetLayoutPreferencesCommand}"
+				ActionButtonContent="{helpers:ResourceString Name=Confirm}"
+				IsLightDismissEnabled="True"
+				IsOpen="{Binding IsResetLayoutPreferencesTipOpen, Mode=TwoWay}"
+				Subtitle="{helpers:ResourceString Name=ResetLayoutPreferences}"
+				Target="{x:Bind ResetLayoutPreferencesButton}" />
 
 			<!--  Details layout columns  -->
-			<local:SettingsBlockControl
-				Title="{helpers:ResourceString Name=DetailsLayoutColumns}"
-				HorizontalAlignment="Stretch">
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=DetailsLayoutColumns}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE179;" />
 				</local:SettingsBlockControl.Icon>
@@ -138,7 +125,7 @@
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE152;" />
 				</local:SettingsBlockControl.Icon>
-				
+
 				<ComboBox SelectedIndex="{Binding SelectedDefaultLayoutModeIndex, Mode=TwoWay}">
 					<ComboBoxItem Content="{helpers:ResourceString Name=Details}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Tiles}" />

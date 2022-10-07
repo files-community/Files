@@ -41,8 +41,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public AsyncRelayCommand EditTerminalApplicationsCommand { get; }
 		public AsyncRelayCommand OpenFilesAtStartupCommand { get; }
-		public RelayCommand ResetLayoutPreferencesCommand { get; }
-		public RelayCommand ShowResetLayoutPreferencesTipCommand { get; }
 		public AsyncRelayCommand ChangePageCommand { get; }
 		public RelayCommand RemovePageCommand { get; }
 		public RelayCommand<string> AddPageCommand { get; }
@@ -122,21 +120,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		private bool isLayoutResetCheckmarkVisible;
-		public bool IsLayoutResetCheckmarkVisible
-		{
-			get => isLayoutResetCheckmarkVisible;
-			set => SetProperty(ref isLayoutResetCheckmarkVisible, value);
-		}
-
-		private bool isResetLayoutPreferencesTipOpen;
-		public bool IsResetLayoutPreferencesTipOpen
-		{
-			get => isResetLayoutPreferencesTipOpen;
-			set => SetProperty(ref isResetLayoutPreferencesTipOpen, value);
-		}
-
-
 
 		// Lists
 
@@ -147,9 +130,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 		public PreferencesViewModel()
 		{
 			EditTerminalApplicationsCommand = new AsyncRelayCommand(LaunchTerminalsConfigFile);
-			OpenFilesAtStartupCommand = new AsyncRelayCommand(OpenFilesAtStartup);
-			ResetLayoutPreferencesCommand = new RelayCommand(ResetLayoutPreferences);
-			ShowResetLayoutPreferencesTipCommand = new RelayCommand(() => IsResetLayoutPreferencesTipOpen = true);
+			OpenFilesAtStartupCommand = new AsyncRelayCommand(OpenFilesAtStartup);			
 			ChangePageCommand = new AsyncRelayCommand(ChangePage);
 			RemovePageCommand = new RelayCommand(RemovePage);
 			AddPageCommand = new RelayCommand<string>(async (path) => await AddPage(path));
@@ -520,13 +501,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 		{
 			var state = await StartupTask.GetAsync("3AA55462-A5FA-4933-88C4-712D0B6CDEBB");
 			return state.State;
-		}
-
-		public void ResetLayoutPreferences()
-		{
-			FolderSettingsViewModel.DbInstance.ResetAll();
-			IsResetLayoutPreferencesTipOpen = false;
-			IsLayoutResetCheckmarkVisible = true;
 		}
 
 		public bool ShowFileExtensions
