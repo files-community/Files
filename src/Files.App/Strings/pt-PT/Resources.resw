@@ -2602,7 +2602,7 @@ Utilizamos o App Center para monitorizar as definições que estão a ser utiliz
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>Insira o nome da biblioteca</value>
   </data>
-  <data name="ShowFolderSize" xml:space="preserve">
+  <data name="CalculateFolderSizes" xml:space="preserve">
     <value>Mostrar tamanho da pasta</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">

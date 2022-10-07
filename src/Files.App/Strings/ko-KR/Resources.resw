@@ -2603,7 +2603,7 @@
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>라이브러리 이름 입력</value>
   </data>
-  <data name="ShowFolderSize" xml:space="preserve">
+  <data name="CalculateFolderSizes" xml:space="preserve">
     <value>폴더 크기 표시</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">

@@ -32,11 +32,6 @@ namespace Files.Backend.Services.Settings
 		bool SearchUnindexedItems { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating whether or not to show folder size.
-		/// </summary>
-		bool ShowFolderSize { get; set; }
-
-		/// <summary>
 		/// Gets or sets a value indicating whether or not to navigate to a specific location when launching the app.
 		/// </summary>
 		bool OpenSpecificPageOnStartup { get; set; }

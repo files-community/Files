@@ -2603,7 +2603,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>Ilagay ang pangalan ng Aklatan</value>
   </data>
-  <data name="ShowFolderSize" xml:space="preserve">
+  <data name="CalculateFolderSizes" xml:space="preserve">
     <value>Ipakita ang laki ng folder</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">

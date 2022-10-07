@@ -2603,7 +2603,7 @@
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>輸入媒體庫名稱</value>
   </data>
-  <data name="ShowFolderSize" xml:space="preserve">
+  <data name="CalculateFolderSizes" xml:space="preserve">
     <value>顯示資料夾大小</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">

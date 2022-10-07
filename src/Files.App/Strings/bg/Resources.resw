@@ -2603,7 +2603,7 @@
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>Въведи име на библиотека</value>
   </data>
-  <data name="ShowFolderSize" xml:space="preserve">
+  <data name="CalculateFolderSizes" xml:space="preserve">
     <value>Покажи размера на папката</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">

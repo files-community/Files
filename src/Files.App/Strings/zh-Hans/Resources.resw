@@ -2601,7 +2601,7 @@
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>输入库名</value>
   </data>
-  <data name="ShowFolderSize" xml:space="preserve">
+  <data name="CalculateFolderSizes" xml:space="preserve">
     <value>显示文件夹大小</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">

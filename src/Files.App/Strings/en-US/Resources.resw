@@ -825,9 +825,6 @@
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Move overflow items into a sub menu</value>
   </data>
-  <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
-    <value>Pin Recycle Bin to favorites</value>
-  </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
     <value>Show a confirmation dialog when deleting files or folders</value>
   </data>
@@ -1234,13 +1231,13 @@
     <value>Show protected system files</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Show unindexed items when searching for files and folders</value>
+    <value>Include unindexed items in search results</value>
   </data>
   <data name="ResetFolderPreferencesOverrides" xml:space="preserve">
     <value>Reset folder overrides</value>
   </data>
   <data name="EnableOverridingFolderPreferencesDescription" xml:space="preserve">
-    <value>Changing the layout mode in a directory when this setting is turned off will update the layout mode for all directories.</value>
+    <value>Changing the layout in a directory when this setting is turned off will update the layout for all directories.</value>
   </data>
   <data name="EnableOverridingFolderPreferences" xml:space="preserve">
     <value>Enable overriding folder preferences in individual directories</value>
@@ -2412,9 +2409,6 @@
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Open folders in new tab</value>
   </data>
-  <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Pin Recycle Bin to favorites</value>
-  </data>
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Language</value>
   </data>
@@ -2601,8 +2595,8 @@
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>Enter Library name</value>
   </data>
-  <data name="ShowFolderSize" xml:space="preserve">
-    <value>Show folder size</value>
+  <data name="CalculateFolderSizes" xml:space="preserve">
+    <value>Calculate folder sizes</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
     <value>Recent Files</value>

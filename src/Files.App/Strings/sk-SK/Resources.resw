@@ -2609,7 +2609,7 @@ Centrum aplikácií používame na sledovanie používania aplikácií, vyhľad�
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>Zadajte názov knižnice</value>
   </data>
-  <data name="ShowFolderSize" xml:space="preserve">
+  <data name="CalculateFolderSizes" xml:space="preserve">
     <value>Zobraziť veľkosť priečinka</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">

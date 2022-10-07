@@ -2607,7 +2607,7 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>Introduzca el nombre de la biblioteca</value>
   </data>
-  <data name="ShowFolderSize" xml:space="preserve">
+  <data name="CalculateFolderSizes" xml:space="preserve">
     <value>Mostrar el tamaño de la carpeta</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">

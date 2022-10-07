@@ -115,20 +115,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		public bool PinRecycleBinToSideBar
-		{
-			get => UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar)
-				{
-					UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar = value;
-					App.SidebarPinnedController.Model.ShowHideRecycleBinItem(value);
-					OnPropertyChanged();
-				}
-			}
-		}
-
 		public bool UseCompactStyles
 		{
 			get => UserSettingsService.AppearanceSettingsService.UseCompactStyles;
