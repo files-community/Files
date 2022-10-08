@@ -19,8 +19,7 @@ namespace Files.App.Helpers
 
 			if (userSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences
 				&& folderSettings.IsAdaptiveLayoutEnabled
-				&& !folderSettings.IsLayoutModeFixed
-				&& folderSettings.LayoutMode == FolderLayoutModes.Adaptive)
+				&& !folderSettings.IsLayoutModeFixed)
 			{
 				Action layoutDetails = () => folderSettings.ToggleLayoutModeDetailsView(false);
 				Action layoutTiles = () => folderSettings.ToggleLayoutModeTiles(false);
