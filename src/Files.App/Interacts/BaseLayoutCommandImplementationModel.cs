@@ -1,16 +1,7 @@
 #nullable disable warnings
 
 using Files.Shared;
-using Files.App.Dialogs;
 using Files.Shared.Enums;
-using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers;
-using Files.App.ViewModels;
-using Files.App.ViewModels.Dialogs;
-using Files.App.Views;
-using CommunityToolkit.WinUI;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -18,19 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.ApplicationModel.DataTransfer.DragDrop;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Graphics.Imaging;
-using Windows.Storage;
-using Windows.System;
-using Windows.UI.Core;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
 using Files.Backend.Enums;
-using Files.App.Shell;
 
 namespace Files.App.Interacts
 {
@@ -40,49 +19,22 @@ namespace Files.App.Interacts
     /// </summary>
     public class BaseLayoutCommandImplementationModel : IBaseLayoutCommandImplementationModel
     {
-        #region Singleton
 
-        private IBaseLayout SlimContentPage => associatedInstance?.SlimContentPage;
-
-        private IFilesystemHelpers FilesystemHelpers => associatedInstance?.FilesystemHelpers;
-
-        #endregion Singleton
-
-        #region Private Members
-
-        private readonly IShellPage associatedInstance;
-
-        private readonly ItemManipulationModel itemManipulationModel;
-
-        #endregion Private Members
-
-        #region Constructor
-
-        public BaseLayoutCommandImplementationModel(IShellPage associatedInstance, ItemManipulationModel itemManipulationModel)
+        public BaseLayoutCommandImplementationModel()
         {
-            this.associatedInstance = associatedInstance;
-            this.itemManipulationModel = itemManipulationModel;
         }
-
-        #endregion Constructor
-
-        #region IDisposable
 
         public void Dispose()
         {
-            //associatedInstance = null;
         }
 
-        #endregion IDisposable
-
-        #region Command Implementation
-
-        public virtual void RenameItem(RoutedEventArgs e)
+        
+        public virtual void RenameItem()
         {
             itemManipulationModel.StartRenameItem();
         }
 
-        public virtual async void CreateShortcut(RoutedEventArgs e)
+        public virtual async void CreateShortcut()
         {
             foreach (ListedItem selectedItem in SlimContentPage.SelectedItems)
             {
@@ -99,7 +51,7 @@ namespace Files.App.Interacts
                         { "runasadmin", false },
                         {
                             "filepath",
-                            Path.Combine(associatedInstance.FilesystemViewModel.WorkingDirectory,
+                            Path.Combine(associatedViewModel.FilesystemViewModel.WorkingDirectory,
                                 string.Format("ShortcutCreateNewSuffix".GetLocalizedResource(), selectedItem.ItemName) + ".lnk")
                         }
                     };
@@ -108,98 +60,98 @@ namespace Files.App.Interacts
             }
         }
 
-        public virtual void SetAsLockscreenBackgroundItem(RoutedEventArgs e)
+        public virtual void SetAsLockscreenBackgroundItem()
         {
             WallpaperHelpers.SetAsBackground(WallpaperType.LockScreen, SlimContentPage.SelectedItem.ItemPath);
         }
 
-        public virtual void SetAsDesktopBackgroundItem(RoutedEventArgs e)
+        public virtual void SetAsDesktopBackgroundItem()
         {
             WallpaperHelpers.SetAsBackground(WallpaperType.Desktop, SlimContentPage.SelectedItem.ItemPath);
         }
 
-        public virtual void SetAsSlideshowItem(RoutedEventArgs e)
+        public virtual void SetAsSlideshowItem()
         {
             var images = (from o in SlimContentPage.SelectedItems select o.ItemPath).ToArray();
             WallpaperHelpers.SetSlideshow(images);
         }
 
-        public virtual async void RunAsAdmin(RoutedEventArgs e)
+        public virtual async void RunAsAdmin()
         {
             await ContextMenu.InvokeVerb("runas", SlimContentPage.SelectedItem.ItemPath);
         }
 
-        public virtual async void RunAsAnotherUser(RoutedEventArgs e)
+        public virtual async void RunAsAnotherUser()
         {
             await ContextMenu.InvokeVerb("runasuser", SlimContentPage.SelectedItem.ItemPath);
         }
 
-        public virtual void SidebarPinItem(RoutedEventArgs e)
+        public virtual void SidebarPinItem()
         {
             SidebarHelpers.PinItems(SlimContentPage.SelectedItems);
         }
 
-        public virtual void SidebarUnpinItem(RoutedEventArgs e)
+        public virtual void SidebarUnpinItem()
         {
             SidebarHelpers.UnpinItems(SlimContentPage.SelectedItems);
         }
 
-        public virtual void OpenItem(RoutedEventArgs e)
+        public virtual void OpenItem()
         {
-            NavigationHelpers.OpenSelectedItems(associatedInstance, false);
+            NavigationHelpers.OpenSelectedItems(associatedViewModel, false);
         }
 
-        public virtual void UnpinDirectoryFromFavorites(RoutedEventArgs e)
+        public virtual void UnpinDirectoryFromFavorites()
         {
-            App.SidebarPinnedController.Model.RemoveItem(associatedInstance.FilesystemViewModel.WorkingDirectory);
+            App.SidebarPinnedController.Model.RemoveItem(associatedViewModel.FilesystemViewModel.WorkingDirectory);
         }
 
-        public virtual async void EmptyRecycleBin(RoutedEventArgs e)
+        public virtual async void EmptyRecycleBin()
         {
             await RecycleBinHelpers.S_EmptyRecycleBin();
         }
 
-        public virtual async void RestoreRecycleBin(RoutedEventArgs e)
+        public virtual async void RestoreRecycleBin()
         {
-            await RecycleBinHelpers.S_RestoreRecycleBin(associatedInstance);
+            await RecycleBinHelpers.S_RestoreRecycleBin(associatedViewModel);
         }
 
-        public virtual async void RestoreSelectionRecycleBin(RoutedEventArgs e)
+        public virtual async void RestoreSelectionRecycleBin()
         {
-            await RecycleBinHelpers.S_RestoreSelectionRecycleBin(associatedInstance);
+            await RecycleBinHelpers.S_RestoreSelectionRecycleBin(associatedViewModel);
         }
 
-        public virtual async void QuickLook(RoutedEventArgs e)
+        public virtual async void QuickLook()
         {
-            await QuickLookHelpers.ToggleQuickLook(associatedInstance);
+            await QuickLookHelpers.ToggleQuickLook(associatedViewModel);
         }
 
-        public virtual async void CopyItem(RoutedEventArgs e)
+        public virtual async void CopyItem()
         {
-            await UIFilesystemHelpers.CopyItem(associatedInstance);
+            await UIFilesystemHelpers.CopyItem(associatedViewModel);
         }
 
-        public virtual void CutItem(RoutedEventArgs e)
+        public virtual void CutItem()
         {
-            UIFilesystemHelpers.CutItem(associatedInstance);
+            UIFilesystemHelpers.CutItem(associatedViewModel);
         }
 
-        public virtual async void RestoreItem(RoutedEventArgs e)
+        public virtual async void RestoreItem()
         {
-            await RecycleBinHelpers.S_RestoreItem(associatedInstance);
+            await RecycleBinHelpers.S_RestoreItem(associatedViewModel);
         }
 
-        public virtual async void DeleteItem(RoutedEventArgs e)
+        public virtual async void DeleteItem()
         {
-            await RecycleBinHelpers.S_DeleteItem(associatedInstance);
+            await RecycleBinHelpers.S_DeleteItem(associatedViewModel);
         }
 
-        public virtual void ShowFolderProperties(RoutedEventArgs e)
+        public virtual void ShowFolderProperties()
         {
             SlimContentPage.ItemContextMenuFlyout.Closed += OpenProperties;
         }
 
-        public virtual void ShowProperties(RoutedEventArgs e)
+        public virtual void ShowProperties()
         {
             SlimContentPage.ItemContextMenuFlyout.Closed += OpenProperties;
         }
@@ -207,10 +159,10 @@ namespace Files.App.Interacts
         private void OpenProperties(object sender, object e)
         {
             SlimContentPage.ItemContextMenuFlyout.Closed -= OpenProperties;
-            FilePropertiesHelpers.ShowProperties(associatedInstance);
+            FilePropertiesHelpers.ShowProperties(associatedViewModel);
         }
 
-        public virtual async void OpenFileLocation(RoutedEventArgs e)
+        public virtual async void OpenFileLocation()
         {
             ShortcutItem item = SlimContentPage.SelectedItem as ShortcutItem;
 
@@ -221,15 +173,15 @@ namespace Files.App.Interacts
 
             // Check if destination path exists
             string folderPath = Path.GetDirectoryName(item.TargetPath);
-            FilesystemResult<StorageFolderWithPath> destFolder = await associatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
+            FilesystemResult<StorageFolderWithPath> destFolder = await associatedViewModel.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
 
             if (destFolder)
             {
-                associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
+                associatedViewModel.NavigateWithArguments(associatedViewModel.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new LayoutModeArguments()
                 {
                     NavPathParam = folderPath,
                     SelectItems = new[] { Path.GetFileName(item.TargetPath.TrimPath()) },
-                    AssociatedTabInstance = associatedInstance
+                    AssociatedTabInstance = associatedViewModel
                 });
             }
             else if (destFolder == FileSystemStatusCode.NotFound)
@@ -243,24 +195,24 @@ namespace Files.App.Interacts
             }
         }
 
-        public virtual void OpenParentFolder(RoutedEventArgs e)
+        public virtual void OpenParentFolder()
         {
             var item = SlimContentPage.SelectedItem;
             var folderPath = Path.GetDirectoryName(item.ItemPath.TrimEnd('\\'));
-            associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
+            associatedViewModel.NavigateWithArguments(associatedViewModel.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new LayoutModeArguments()
             {
                 NavPathParam = folderPath,
                 SelectItems = new[] { item.ItemNameRaw },
-                AssociatedTabInstance = associatedInstance
+                AssociatedTabInstance = associatedViewModel
             });
         }
 
-        public virtual void OpenItemWithApplicationPicker(RoutedEventArgs e)
+        public virtual void OpenItemWithApplicationPicker()
         {
-            NavigationHelpers.OpenSelectedItems(associatedInstance, true);
+            NavigationHelpers.OpenSelectedItems(associatedViewModel, true);
         }
 
-        public virtual async void OpenDirectoryInNewTab(RoutedEventArgs e)
+        public virtual async void OpenDirectoryInNewTab()
         {
             foreach (ListedItem listedItem in SlimContentPage.SelectedItems)
             {
@@ -271,16 +223,16 @@ namespace Files.App.Interacts
             }
         }
 
-        public virtual void OpenDirectoryInNewPane(RoutedEventArgs e)
+        public virtual void OpenDirectoryInNewPane()
         {
             ListedItem listedItem = SlimContentPage.SelectedItems.FirstOrDefault();
             if (listedItem != null)
             {
-                associatedInstance.PaneHolder?.OpenPathInNewPane((listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
+                associatedViewModel.PaneHolder?.OpenPathInNewPane((listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
             }
         }
 
-        public virtual async void OpenInNewWindowItem(RoutedEventArgs e)
+        public virtual async void OpenInNewWindowItem()
         {
             List<ListedItem> items = SlimContentPage.SelectedItems;
             foreach (ListedItem listedItem in items)
@@ -291,35 +243,35 @@ namespace Files.App.Interacts
             }
         }
 
-        public virtual void CreateNewFolder(RoutedEventArgs e)
+        public virtual void CreateNewFolder()
         {
-            UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.Folder, null, associatedInstance);
+            UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.Folder, null, associatedViewModel);
         }
 
         public virtual void CreateNewFile(ShellNewEntry f)
         {
-            UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.File, f, associatedInstance);
+            UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.File, f, associatedViewModel);
         }
 
-        public virtual async void PasteItemsFromClipboard(RoutedEventArgs e)
+        public virtual async void PasteItemsFromClipboard()
         {
             if (SlimContentPage.SelectedItems.Count == 1 && SlimContentPage.SelectedItems.Single().PrimaryItemAttribute == StorageItemTypes.Folder)
             {
-                await UIFilesystemHelpers.PasteItemAsync(SlimContentPage.SelectedItems.Single().ItemPath, associatedInstance);
+                await UIFilesystemHelpers.PasteItemAsync(SlimContentPage.SelectedItems.Single().ItemPath, associatedViewModel);
             }
             else
             {
-                await UIFilesystemHelpers.PasteItemAsync(associatedInstance.FilesystemViewModel.WorkingDirectory, associatedInstance);
+                await UIFilesystemHelpers.PasteItemAsync(associatedViewModel.FilesystemViewModel.WorkingDirectory, associatedViewModel);
             }
         }
 
-        public virtual void CopyPathOfSelectedItem(RoutedEventArgs e)
+        public virtual void CopyPathOfSelectedItem()
         {
             try
             {
                 if (SlimContentPage != null)
                 {
-                    var path = SlimContentPage.SelectedItem != null ? SlimContentPage.SelectedItem.ItemPath : associatedInstance.FilesystemViewModel.WorkingDirectory;
+                    var path = SlimContentPage.SelectedItem != null ? SlimContentPage.SelectedItem.ItemPath : associatedViewModel.FilesystemViewModel.WorkingDirectory;
                     if (FtpHelpers.IsFtpPath(path))
                     {
                         path = path.Replace("\\", "/", StringComparison.Ordinal);
@@ -336,12 +288,12 @@ namespace Files.App.Interacts
             }
         }
 
-        public virtual async void OpenDirectoryInDefaultTerminal(RoutedEventArgs e)
+        public virtual async void OpenDirectoryInDefaultTerminal()
         {
-            await NavigationHelpers.OpenDirectoryInTerminal(associatedInstance.FilesystemViewModel.WorkingDirectory);
+            await NavigationHelpers.OpenDirectoryInTerminal(associatedViewModel.FilesystemViewModel.WorkingDirectory);
         }
 
-        public virtual void ShareItem(RoutedEventArgs e)
+        public virtual void ShareItem()
         {
             var interop = DataTransferManager.As<UWPToWinAppSDKUpgradeHelpers.IDataTransferManagerInterop>();
             IntPtr result = interop.GetForWindow(App.WindowHandle, UWPToWinAppSDKUpgradeHelpers.InteropHelpers.DataTransferManagerInteropIID);
@@ -413,12 +365,12 @@ namespace Files.App.Interacts
             }
         }
 
-        public virtual void PinDirectoryToFavorites(RoutedEventArgs e)
+        public virtual void PinDirectoryToFavorites()
         {
-            App.SidebarPinnedController.Model.AddItem(associatedInstance.FilesystemViewModel.WorkingDirectory);
+            App.SidebarPinnedController.Model.AddItem(associatedViewModel.FilesystemViewModel.WorkingDirectory);
         }
 
-        public virtual async void ItemPointerPressed(PointerRoutedEventArgs e)
+        public virtual async void ItemPointerPressed(Pointer)
         {
             if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
             {
@@ -440,37 +392,37 @@ namespace Files.App.Interacts
             }
         }
 
-        public virtual async void UnpinItemFromStart(RoutedEventArgs e)
+        public virtual async void UnpinItemFromStart()
         {
-            if (associatedInstance.SlimContentPage.SelectedItems.Count > 0)
+            if (associatedViewModel.SlimContentPage.SelectedItems.Count > 0)
             {
-                foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
+                foreach (ListedItem listedItem in associatedViewModel.SlimContentPage.SelectedItems)
                 {
                     await App.SecondaryTileHelper.UnpinFromStartAsync(listedItem.ItemPath);
                 }
             }
             else
             {
-                await App.SecondaryTileHelper.UnpinFromStartAsync(associatedInstance.FilesystemViewModel.WorkingDirectory);
+                await App.SecondaryTileHelper.UnpinFromStartAsync(associatedViewModel.FilesystemViewModel.WorkingDirectory);
             }
         }
 
-        public async void PinItemToStart(RoutedEventArgs e)
+        public async void PinItemToStart()
         {
-            if (associatedInstance.SlimContentPage.SelectedItems.Count > 0)
+            if (associatedViewModel.SlimContentPage.SelectedItems.Count > 0)
             {
-                foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
+                foreach (ListedItem listedItem in associatedViewModel.SlimContentPage.SelectedItems)
                 {
                     await App.SecondaryTileHelper.TryPinFolderAsync(listedItem.ItemPath, listedItem.ItemName);
                 }
             }
             else
             {
-                await App.SecondaryTileHelper.TryPinFolderAsync(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath, associatedInstance.FilesystemViewModel.CurrentFolder.ItemName);
+                await App.SecondaryTileHelper.TryPinFolderAsync(associatedViewModel.FilesystemViewModel.CurrentFolder.ItemPath, associatedViewModel.FilesystemViewModel.CurrentFolder.ItemName);
             }
         }
 
-        public virtual void PointerWheelChanged(PointerRoutedEventArgs e)
+        public virtual void PointerWheelChanged(Pointer)
         {
             if (e.KeyModifiers == VirtualKeyModifiers.Control)
             {
@@ -489,9 +441,9 @@ namespace Files.App.Interacts
 
         public virtual void GridViewSizeDecrease(KeyboardAcceleratorInvokedEventArgs e)
         {
-            if (associatedInstance.IsCurrentInstance)
+            if (associatedViewModel.IsCurrentInstance)
             {
-                associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize - Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Smaller
+                associatedViewModel.InstanceViewModel.FolderSettings.GridViewSize = associatedViewModel.InstanceViewModel.FolderSettings.GridViewSize - Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Smaller
             }
             if (e != null)
             {
@@ -501,9 +453,9 @@ namespace Files.App.Interacts
 
         public virtual void GridViewSizeIncrease(KeyboardAcceleratorInvokedEventArgs e)
         {
-            if (associatedInstance.IsCurrentInstance)
+            if (associatedViewModel.IsCurrentInstance)
             {
-                associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize + Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Larger
+                associatedViewModel.InstanceViewModel.FolderSettings.GridViewSize = associatedViewModel.InstanceViewModel.FolderSettings.GridViewSize + Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Larger
             }
             if (e != null)
             {
@@ -515,7 +467,7 @@ namespace Files.App.Interacts
         {
             var deferral = e.GetDeferral();
 
-            if (associatedInstance.InstanceViewModel.IsPageTypeSearchResults)
+            if (associatedViewModel.InstanceViewModel.IsPageTypeSearchResults)
             {
                 e.AcceptedOperation = DataPackageOperation.None;
                 deferral.Complete();
@@ -531,11 +483,11 @@ namespace Files.App.Interacts
                 var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
                 var draggedItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
-                var pwd = associatedInstance.FilesystemViewModel.WorkingDirectory.TrimPath();
+                var pwd = associatedViewModel.FilesystemViewModel.WorkingDirectory.TrimPath();
                 var folderName = (Path.IsPathRooted(pwd) && Path.GetPathRoot(pwd) == pwd) ? Path.GetPathRoot(pwd) : Path.GetFileName(pwd);
 
                 // As long as one file doesn't already belong to this folder
-                if (associatedInstance.InstanceViewModel.IsPageTypeSearchResults || (draggedItems.Any() && draggedItems.AreItemsAlreadyInFolder(associatedInstance.FilesystemViewModel.WorkingDirectory)))
+                if (associatedViewModel.InstanceViewModel.IsPageTypeSearchResults || (draggedItems.Any() && draggedItems.AreItemsAlreadyInFolder(associatedViewModel.FilesystemViewModel.WorkingDirectory)))
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
                 }
@@ -585,7 +537,7 @@ namespace Files.App.Interacts
                         e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), folderName);
                         e.AcceptedOperation = DataPackageOperation.Copy;
                     }
-                    else if (draggedItems.AreItemsInSameDrive(associatedInstance.FilesystemViewModel.WorkingDirectory))
+                    else if (draggedItems.AreItemsInSameDrive(associatedViewModel.FilesystemViewModel.WorkingDirectory))
                     {
                         e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), folderName);
                         e.AcceptedOperation = DataPackageOperation.Move;
@@ -607,31 +559,31 @@ namespace Files.App.Interacts
 
             if (Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
             {
-                await associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, associatedInstance.FilesystemViewModel.WorkingDirectory, false, true);
+                await associatedViewModel.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, associatedViewModel.FilesystemViewModel.WorkingDirectory, false, true);
                 e.Handled = true;
             }
 
             deferral.Complete();
         }
 
-        public virtual void RefreshItems(RoutedEventArgs e)
+        public virtual void RefreshItems()
         {
-            associatedInstance.Refresh_Click();
+            associatedViewModel.Refresh_Click();
         }
 
-        public void SearchUnindexedItems(RoutedEventArgs e)
+        public void SearchUnindexedItems()
         {
-            associatedInstance.SubmitSearch(associatedInstance.InstanceViewModel.CurrentSearchQuery, true);
+            associatedViewModel.SubmitSearch(associatedViewModel.InstanceViewModel.CurrentSearchQuery, true);
         }
 
-        public async Task CreateFolderWithSelection(RoutedEventArgs e)
+        public async Task CreateFolderWithSelection()
         {
-            await UIFilesystemHelpers.CreateFolderWithSelectionAsync(associatedInstance);
+            await UIFilesystemHelpers.CreateFolderWithSelectionAsync(associatedViewModel);
         }
 
         public async Task DecompressArchive()
         {
-            BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(associatedInstance.SlimContentPage.SelectedItem.ItemPath);
+            BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(associatedViewModel.SlimContentPage.SelectedItem.ItemPath);
 
             if (archive == null)
                 return;
@@ -661,15 +613,15 @@ namespace Files.App.Interacts
             await ExtractArchive(archive, destinationFolder);
 
             if (decompressArchiveViewModel.OpenDestinationFolderOnCompletion)
-                await NavigationHelpers.OpenPath(destinationFolderPath, associatedInstance, FilesystemItemType.Directory);
+                await NavigationHelpers.OpenPath(destinationFolderPath, associatedViewModel, FilesystemItemType.Directory);
         }
 
         public async Task DecompressArchiveHere()
         {
-            foreach (var selectedItem in associatedInstance.SlimContentPage.SelectedItems)
+            foreach (var selectedItem in associatedViewModel.SlimContentPage.SelectedItems)
             {
                 BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(selectedItem.ItemPath);
-                BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
+                BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(associatedViewModel.FilesystemViewModel.CurrentFolder.ItemPath);
 
                 await ExtractArchive(archive, currentFolder);
             }
@@ -677,10 +629,10 @@ namespace Files.App.Interacts
 
         public async Task DecompressArchiveToChildFolder()
         {
-            foreach (var selectedItem in associatedInstance.SlimContentPage.SelectedItems)
+            foreach (var selectedItem in associatedViewModel.SlimContentPage.SelectedItems)
             {
                 BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(selectedItem.ItemPath);
-                BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
+                BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(associatedViewModel.FilesystemViewModel.CurrentFolder.ItemPath);
                 BaseStorageFolder destinationFolder = null;
 
                 if (currentFolder != null)
@@ -762,7 +714,5 @@ namespace Files.App.Interacts
 
             return Task.CompletedTask;
         }
-
-        #endregion Command Implementation
     }
 }

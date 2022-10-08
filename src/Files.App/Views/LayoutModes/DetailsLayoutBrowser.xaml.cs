@@ -185,7 +185,7 @@ namespace Files.App.Views.LayoutModes
 
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
 		{
-			if (eventArgs.Parameter is NavigationArguments navArgs)
+			if (eventArgs.Parameter is LayoutModeArguments navArgs)
 			{
 				navArgs.FocusOnNavigation = true;
 			}
@@ -208,7 +208,7 @@ namespace Files.App.Views.LayoutModes
 			ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
 			ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
 
-			var parameters = (NavigationArguments)eventArgs.Parameter;
+			var parameters = (LayoutModeArguments)eventArgs.Parameter;
 			if (parameters.IsLayoutSwitch)
 			{
 				ReloadItemIcons();
@@ -518,9 +518,6 @@ namespace Files.App.Views.LayoutModes
 				}
 			}
 		}
-
-		protected override bool CanGetItemFromElement(object element)
-			=> element is ListViewItem;
 
 		private void FolderSettings_GridViewSizeChangeRequested(object sender, EventArgs e)
 		{

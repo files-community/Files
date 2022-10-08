@@ -11,11 +11,7 @@ namespace Files.App.UserControls
     {
         public bool IsSearchBoxVisible { get; set; }
         public bool IsEditModeEnabled { get; set; }
-        public bool CanRefresh { get; set; }
         public bool CanCopyPathInPage { get; set; }
-        public bool CanNavigateToParent { get; set; }
-        public bool CanGoBack { get; set; }
-        public bool CanGoForward { get; set; }
         public bool IsSingleItemOverride { get; set; }
         public string PathControlDisplayText { get; set; }
         public ObservableCollection<PathBoxItem> PathComponents { get; }

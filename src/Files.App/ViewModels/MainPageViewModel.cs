@@ -222,12 +222,11 @@ namespace Files.App.ViewModels
 				Description = null,
 				ToolTipText = null
 			};
-			tabItem.Control.NavigationArguments = new TabItemArguments()
+			tabItem = new TabItemArguments()
 			{
-				InitialPageType = type,
-				NavigationArg = path
+				PageType = type,
+				NavigationArguments = new PaneNavigationArguments()
 			};
-			tabItem.Control.ContentChanged += Control_ContentChanged;
 			await UpdateTabInfo(tabItem, path);
 			var index = atIndex == -1 ? AppInstances.Count : atIndex;
 			AppInstances.Insert(index, tabItem);
@@ -258,7 +257,7 @@ namespace Files.App.ViewModels
 			{
 				windowTitle = $"{windowTitle} ({AppInstances.Count})";
 			}
-			if (navigationArg == SelectedTabItem?.TabItemArguments?.NavigationArg)
+			if (navigationArg == SelectedTabItem?.TabItemArguments?.NavigationArguments)
 			{
 
 				App.GetAppWindow(App.Window).Title = windowTitle;
@@ -401,7 +400,7 @@ namespace Files.App.ViewModels
 						foreach (string tabArgsString in UserSettingsService.PreferencesSettingsService.LastSessionTabList)
 						{
 							var tabArgs = TabItemArguments.Deserialize(tabArgsString);
-							await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
+							await AddNewTabByParam(tabArgs.PageType, tabArgs.NavigationArguments);
 						}
 
 						if (!UserSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp)
@@ -430,9 +429,9 @@ namespace Files.App.ViewModels
 							foreach (string tabArgsString in UserSettingsService.PreferencesSettingsService.LastSessionTabList)
 							{
 								var tabArgs = TabItemArguments.Deserialize(tabArgsString);
-								await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
+								await AddNewTabByParam(tabArgs.PageType, tabArgs.NavigationArguments);
 							}
-							var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home".GetLocalizedResource() };
+							var defaultArg = new TabItemArguments() { PageType = typeof(PaneHolderPage), NavigationArguments = "Home".GetLocalizedResource() };
 							UserSettingsService.PreferencesSettingsService.LastSessionTabList = new List<string> { defaultArg.Serialize() };
 						}
 						else
@@ -462,7 +461,7 @@ namespace Files.App.ViewModels
 				}
 				else if (e.Parameter is TabItemArguments tabArgs)
 				{
-					await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
+					await AddNewTabByParam(tabArgs.PageType, tabArgs.NavigationArguments);
 				}
 			}
 		}
@@ -486,7 +485,7 @@ namespace Files.App.ViewModels
 			if (AppInstances[index].TabItemArguments != null)
 			{
 				var tabArgs = AppInstances[index].TabItemArguments;
-				await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg, index + 1);
+				await AddNewTabByParam(tabArgs.PageType, tabArgs.NavigationArguments, index + 1);
 			}
 			else
 			{
@@ -506,8 +505,8 @@ namespace Files.App.ViewModels
 
 			tabItem.Control.NavigationArguments = new TabItemArguments()
 			{
-				InitialPageType = type,
-				NavigationArg = tabViewItemArgs
+				PageType = type,
+				NavigationArguments = tabViewItemArgs
 			};
 
 			tabItem.Control.ContentChanged += Control_ContentChanged;
@@ -523,7 +522,7 @@ namespace Files.App.ViewModels
 			if (matchingTabItem == null)
 				return;
 
-			await UpdateTabInfo(matchingTabItem, e.NavigationArg);
+			await UpdateTabInfo(matchingTabItem, e.NavigationArguments);
 		}
 	}
 }

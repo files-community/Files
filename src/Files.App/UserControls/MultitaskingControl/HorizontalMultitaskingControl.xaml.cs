@@ -148,7 +148,7 @@ namespace Files.App.UserControls.MultitaskingControl
 
 			var tabViewItemArgs = TabItemArguments.Deserialize(tabViewItemString);
 			ApplicationData.Current.LocalSettings.Values[TabDropHandledIdentifier] = true;
-			await MainPageViewModel.AddNewTabByParam(tabViewItemArgs.InitialPageType, tabViewItemArgs.NavigationArg, index);
+			await MainPageViewModel.AddNewTabByParam(tabViewItemArgs.PageType, tabViewItemArgs.NavigationArguments, index);
 		}
 
 		private void TabStrip_TabDragCompleted(TabView sender, TabViewTabDragCompletedEventArgs args)

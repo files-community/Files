@@ -22,6 +22,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
+using Files.App.ViewModels;
 
 namespace Files.App.Filesystem
 {
@@ -31,7 +32,7 @@ namespace Files.App.Filesystem
 
         private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
 
-        private IShellPage associatedInstance;
+        private LayoutModeViewModel associatedInstance;
 
         private IFilesystemOperations filesystemOperations;
 
@@ -82,7 +83,7 @@ namespace Files.App.Filesystem
 
         #region Constructor
 
-        public FilesystemHelpers(IShellPage associatedInstance, CancellationToken cancellationToken)
+        public FilesystemHelpers(LayoutModeViewModel associatedInstance, CancellationToken cancellationToken)
         {
             this.associatedInstance = associatedInstance;
             this.cancellationToken = cancellationToken;

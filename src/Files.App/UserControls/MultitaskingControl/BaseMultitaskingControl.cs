@@ -8,7 +8,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.UserControls.MultitaskingControl
 {
@@ -16,7 +15,7 @@ namespace Files.App.UserControls.MultitaskingControl
     {
         private static bool isRestoringClosedTab = false; // Avoid reopening two tabs
 
-        protected ITabItemContent CurrentSelectedAppInstance;
+        protected IPaneContent CurrentSelectedAppInstance;
 
         public const string TabDropHandledIdentifier = "FilesTabViewItemDropHandled";
 
@@ -26,7 +25,7 @@ namespace Files.App.UserControls.MultitaskingControl
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public virtual DependencyObject ContainerFromItem(ITabItem item)
+        public virtual DependencyObject ContainerFromItem(TabItem item)
         {
             return null;
         }
@@ -45,7 +44,7 @@ namespace Files.App.UserControls.MultitaskingControl
 
         private void MultitaskingControl_CurrentInstanceChanged(object sender, CurrentInstanceChangedEventArgs e)
         {
-            foreach (ITabItemContent instance in e.PageInstances)
+            foreach (IPaneContent instance in e.PageInstances)
             {
                 if (instance != null)
                 {
@@ -91,12 +90,12 @@ namespace Files.App.UserControls.MultitaskingControl
             CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
         }
 
-        public ITabItemContent GetCurrentSelectedTabInstance()
+        public IPaneContent GetCurrentSelectedTabInstance()
         {
             return MainPageViewModel.AppInstances[App.AppModel.TabStripSelectedIndex].Control?.TabItemContent;
         }
 
-        public List<ITabItemContent> GetAllTabInstances()
+        public List<IPaneContent> GetAllTabInstances()
         {
             return MainPageViewModel.AppInstances.Select(x => x.Control?.TabItemContent).ToList();
         }
@@ -119,7 +118,7 @@ namespace Files.App.UserControls.MultitaskingControl
                 RecentlyClosedTabs.Remove(lastTab);
                 foreach (var item in lastTab)
                 {
-                    await MainPageViewModel.AddNewTabByParam(item.InitialPageType, item.NavigationArg);
+                    await MainPageViewModel.AddNewTabByParam(item.PageType, item.NavigationArguments);
                 }
                 isRestoringClosedTab = false;
             }
@@ -139,7 +138,6 @@ namespace Files.App.UserControls.MultitaskingControl
             else if (Items.Count > 1)
             {
                 Items.Remove(tabItem);
-                tabItem?.Unload(); // Dispose and save tab arguments
                 RecentlyClosedTabs.Add(new TabItemArguments[] {
                     tabItem.TabItemArguments
                 });
@@ -151,7 +149,7 @@ namespace Files.App.UserControls.MultitaskingControl
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void SetLoadingIndicatorStatus(ITabItem item, bool loading)
+        public void SetLoadingIndicatorStatus(TabItem item, bool loading)
         {
             var tabItem = ContainerFromItem(item) as Control;
             if (tabItem is null)

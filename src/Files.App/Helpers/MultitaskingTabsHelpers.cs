@@ -70,8 +70,8 @@ namespace Files.App.Helpers
 			};
 			tabItem.Control.NavigationArguments = new TabItemArguments()
 			{
-				InitialPageType = type,
-				NavigationArg = tabViewItemArgs
+				PageType = type,
+				NavigationArguments = tabViewItemArgs
 			};
 			tabItem.Control.ContentChanged += MainPageViewModel.Control_ContentChanged;
 			await MainPageViewModel.UpdateTabInfo(tabItem, tabViewItemArgs);

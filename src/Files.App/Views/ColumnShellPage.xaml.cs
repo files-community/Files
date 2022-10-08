@@ -289,8 +289,6 @@ namespace Files.App.Views
             ToolbarViewModel.DeleteCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DeleteItemCommand.Execute(null));
             ToolbarViewModel.CutCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.CutItemCommand.Execute(null));
             ToolbarViewModel.EmptyRecycleBinCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.EmptyRecycleBinCommand.Execute(null));
-            ToolbarViewModel.RestoreRecycleBinCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RestoreRecycleBinCommand.Execute(null));
-            ToolbarViewModel.RestoreSelectionRecycleBinCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RestoreSelectionRecycleBinCommand.Execute(null));
             ToolbarViewModel.RunWithPowerShellCommand = new RelayCommand(async () => await Win32Helpers.InvokeWin32ComponentAsync("powershell", this, PathNormalization.NormalizePath(SlimContentPage?.SelectedItem.ItemPath)));
             ToolbarViewModel.PropertiesCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.ShowPropertiesCommand.Execute(null));
             ToolbarViewModel.SetAsBackgroundCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.SetAsDesktopBackgroundItemCommand.Execute(null));
@@ -540,7 +538,7 @@ namespace Files.App.Views
         private void OnNavigationParamsChanged()
         {
             ItemDisplayFrame.Navigate(typeof(ColumnViewBase),
-                new NavigationArguments()
+                new LayoutModeArguments()
                 {
                     IsSearchResultPage = columnParams.IsSearchResultPage,
                     SearchQuery = columnParams.SearchQuery,
@@ -652,11 +650,11 @@ namespace Files.App.Views
                 // Reset DataGrid Rows that may be in "cut" command mode
                 ContentPage.ResetItemOpacity();
             }
-            var parameters = e.Parameter as NavigationArguments;
+            var parameters = e.Parameter as LayoutModeArguments;
             TabItemArguments = new TabItemArguments()
             {
-                InitialPageType = typeof(ColumnShellPage),
-                NavigationArg = parameters.IsSearchResultPage ? parameters.SearchPathParam : parameters.NavPathParam
+                PageType = typeof(ColumnShellPage),
+                NavigationArguments = parameters.IsSearchResultPage ? parameters.SearchPathParam : parameters.NavPathParam
             };
         }
 
@@ -850,7 +848,7 @@ namespace Files.App.Views
             if (ItemDisplayFrame.CanGoBack)
             {
                 var previousPageContent = ItemDisplayFrame.BackStack[ItemDisplayFrame.BackStack.Count - 1];
-                var previousPageNavPath = previousPageContent.Parameter as NavigationArguments;
+                var previousPageNavPath = previousPageContent.Parameter as LayoutModeArguments;
                 previousPageNavPath.IsLayoutSwitch = false;
                 if (previousPageContent.SourcePageType != typeof(WidgetsPage))
                 {
@@ -880,7 +878,7 @@ namespace Files.App.Views
             if (ItemDisplayFrame.CanGoForward)
             {
                 var incomingPageContent = ItemDisplayFrame.ForwardStack[ItemDisplayFrame.ForwardStack.Count - 1];
-                var incomingPageNavPath = incomingPageContent.Parameter as NavigationArguments;
+                var incomingPageNavPath = incomingPageContent.Parameter as LayoutModeArguments;
                 incomingPageNavPath.IsLayoutSwitch = false;
                 if (incomingPageContent.SourcePageType != typeof(WidgetsPage))
                 {
@@ -1028,17 +1026,17 @@ namespace Files.App.Views
 
         public Task TabItemDrop(object sender, DragEventArgs e) => SlimContentPage?.CommandsViewModel.CommandsModel.Drop(e);
 
-        public void NavigateWithArguments(Type sourcePageType, NavigationArguments navArgs)
+        public void NavigateWithArguments(Type sourcePageType, LayoutModeArguments navArgs)
         {
             NavigateToPath(navArgs.NavPathParam, sourcePageType, navArgs);
         }
 
-        public void NavigateToPath(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null)
+        public void NavigateToPath(string navigationPath, Type sourcePageType, LayoutModeArguments navArgs = null)
         {
             this.FindAscendant<ColumnViewBrowser>().SetSelectedPathOrNavigate(navigationPath, sourcePageType, navArgs);
         }
 
-        public void NavigateToPath(string navigationPath, NavigationArguments navArgs = null)
+        public void NavigateToPath(string navigationPath, LayoutModeArguments navArgs = null)
         {
             NavigateToPath(navigationPath, FolderSettings.GetLayoutType(navigationPath), navArgs);
         }
@@ -1058,7 +1056,7 @@ namespace Files.App.Views
             FilesystemViewModel.CancelSearch();
             InstanceViewModel.CurrentSearchQuery = query;
             InstanceViewModel.SearchedUnindexedItems = searchUnindexedItems;
-            ItemDisplayFrame.Navigate(typeof(ColumnViewBase), new NavigationArguments()
+            ItemDisplayFrame.Navigate(typeof(ColumnViewBase), new LayoutModeArguments()
             {
                 AssociatedTabInstance = this,
                 IsSearchResultPage = true,

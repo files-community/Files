@@ -182,7 +182,7 @@ namespace Files.App.Views
 			if (SidebarAdaptiveViewModel.PaneHolder == null)
 				return;
 
-			var paneArgs = e.NavigationArg as PaneNavigationArguments;
+			var paneArgs = e.NavigationArguments as PaneNavigationArguments;
 			SidebarAdaptiveViewModel.UpdateSidebarSelectedItemFromArgs(SidebarAdaptiveViewModel.PaneHolder.IsLeftPaneActive ?
 				paneArgs.LeftPaneNavPathParam : paneArgs.RightPaneNavPathParam);
 			UpdateStatusBarProperties();
@@ -198,7 +198,7 @@ namespace Files.App.Views
 				SidebarAdaptiveViewModel.PaneHolder.PropertyChanged -= PaneHolder_PropertyChanged;
 			}
 
-			var navArgs = e.CurrentInstance.TabItemArguments?.NavigationArg;
+			var navArgs = e.CurrentInstance.TabItemArguments?.NavigationArguments;
 			SidebarAdaptiveViewModel.PaneHolder = e.CurrentInstance as IPaneHolder;
 			SidebarAdaptiveViewModel.PaneHolder.PropertyChanged += PaneHolder_PropertyChanged;
 			SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged((navArgs as PaneNavigationArguments).LeftPaneNavPathParam);
@@ -327,7 +327,7 @@ namespace Files.App.Views
 					var tagPath = (invokedItemContainer.DataContext as INavigationControlItem).Path; // Get the path of the invoked item
 					if (SidebarAdaptiveViewModel.PaneHolder?.ActivePane is IShellPage shp)
 					{
-						shp.NavigateToPath(tagPath, new NavigationArguments()
+						shp.NavigateToPath(tagPath, new LayoutModeArguments()
 						{
 							IsSearchResultPage = true,
 							SearchPathParam = "Home".GetLocalizedResource(),

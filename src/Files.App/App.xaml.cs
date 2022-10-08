@@ -56,8 +56,6 @@ namespace Files.App
 		public static StorageHistoryWrapper HistoryWrapper = new StorageHistoryWrapper();
 		public static SettingsViewModel AppSettings { get; private set; }
 		public static AppModel AppModel { get; private set; }
-		public static PaneViewModel PaneViewModel { get; private set; }
-		public static PreviewPaneViewModel PreviewPaneViewModel { get; private set; }
 		public static JumpListManager JumpList { get; private set; }
 		public static RecentItemsManager RecentItemsManager { get; private set; }
 		public static SidebarPinnedController SidebarPinnedController { get; private set; }
@@ -69,7 +67,8 @@ namespace Files.App
 		public static LibraryManager LibraryManager { get; private set; }
 		public static FileTagsManager FileTagsManager { get; private set; }
 		public static ExternalResourcesHelper ExternalResourcesHelper { get; private set; }
-
+		public static NotificationManager NotificationManager { get; private set; }
+        
 		public static ILogger Logger { get; private set; }
 		private static readonly UniversalLogWriter logWriter = new UniversalLogWriter();
 
@@ -153,8 +152,6 @@ namespace Files.App
 			JumpList ??= new JumpListManager();
 			RecentItemsManager ??= new RecentItemsManager();
 			AppModel ??= new AppModel();
-			PaneViewModel ??= new PaneViewModel();
-			PreviewPaneViewModel ??= new PreviewPaneViewModel();
 			LibraryManager ??= new LibraryManager();
 			DrivesManager ??= new DrivesManager();
 			NetworkDrivesManager ??= new NetworkDrivesManager();
@@ -163,6 +160,7 @@ namespace Files.App
 			FileTagsManager ??= new FileTagsManager();
 			SidebarPinnedController ??= new SidebarPinnedController();
 			TerminalController ??= new TerminalController();
+			NotificationManager ??= new NotificationManager();
 		}
 
 		private static async Task StartAppCenter()
@@ -244,6 +242,8 @@ namespace Files.App
 			await EnsureSettingsAndConfigurationAreBootstrapped();
 			_ = InitializeAppComponentsAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
 
+			NotificationManager.Init();
+            
 			await Window.InitializeApplication(activatedEventArgs);
 		}
 
@@ -300,11 +300,11 @@ namespace Files.App
 			}
 
 			DrivesManager?.Dispose();
-			PaneViewModel?.Dispose();
-			PreviewPaneViewModel?.Dispose();
 
-			// Try to maintain clipboard data after app close
-			SafetyExtensions.IgnoreExceptions(() =>
+			NotificationManager.Unregister();
+
+            // Try to maintain clipboard data after app close
+            SafetyExtensions.IgnoreExceptions(() =>
 			{
 				var dataPackage = Clipboard.GetContent();
 				if (dataPackage.Properties.PackageFamilyName == Package.Current.Id.FamilyName)
@@ -333,7 +333,7 @@ namespace Files.App
 				}
 				else
 				{
-					var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home".GetLocalizedResource() };
+					var defaultArg = new TabItemArguments() { PageType = typeof(PaneHolderPage), NavigationArguments = "Home".GetLocalizedResource() };
 					return defaultArg.Serialize();
 				}
 			}).ToList();

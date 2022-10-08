@@ -1,31 +1,27 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Backend.Services.Settings;
 using Files.App.Helpers;
 using Files.App.ViewModels;
 using System;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
-using Windows.UI.ViewManagement;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Files.App.DataModels;
+using Windows.Foundation.Collections;
 
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace Files.App.UserControls
 {
-    public sealed partial class InnerNavigationToolbar : UserControl
+    public sealed partial class InnerNavigationToolbar : CommandBar
     {
+        public IObservableVector<ICommandBarElement> TertiaryCommands { get; }
+
         public InnerNavigationToolbar()
         {
             this.InitializeComponent();
         }
-
-        public IUserSettingsService UserSettingsService { get; } =
-            Ioc.Default.GetService<IUserSettingsService>();
 
         public AppModel AppModel => App.AppModel;
 

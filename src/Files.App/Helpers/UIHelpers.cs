@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
@@ -11,62 +10,81 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Files.App.Shell;
 using System.Diagnostics;
 using CommunityToolkit.WinUI.Notifications;
-using Windows.UI.Notifications;
 using Files.App.Extensions;
+using CommunityToolkit.WinUI;
+using Files.App.Dialogs;
+using System.Runtime.Versioning;
+using Microsoft.Windows.AppNotifications;
 
 namespace Files.App.Helpers
 {
     public static class UIHelpers
     {
         /// <summary>
+        /// Displays a dialog prompting the user to grant access to the filesystem
+        /// </summary>
+        /// <returns></returns>
+        public static Task RequestFilesystemConsentAsync()
+        {
+            if (App.DrivesManager?.ShowUserConsentOnInit ?? false)
+            {
+                App.DrivesManager.ShowUserConsentOnInit = false;
+                return App.Window.DispatcherQueue.EnqueueAsync(async () =>
+                {
+                    DynamicDialog dialog = DynamicDialogFactory.GetFor_ConsentDialog();
+                    await SetContentDialogRoot(dialog).ShowAsync(ContentDialogPlacement.Popup);
+                });
+            }
+            else
+            {
+                return Task.CompletedTask;
+            }
+        }
+
+        /// <summary>
+        /// Set the XamlRoot of the ContentDialog to the XamlRoot of the main window
+        /// </summary>
+        /// <param name="contentDialog"></param>
+        /// <returns></returns>
+        public static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
+        {
+            if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+            {
+                contentDialog.XamlRoot = App.Window.Content.XamlRoot;
+            }
+            return contentDialog;
+        }
+
+        /// <summary>
         /// Displays a toast or dialog to indicate the result of
         /// a device ejection operation.
         /// </summary>
         /// <param name="result">Only true implies a successful device ejection</param>
         /// <returns></returns>
-        public static async Task ShowDeviceEjectResultAsync(bool result)
+        [SupportedOSPlatform("windows10.0.18362.0")]
+        public static Task ShowDeviceEjectResultAsync(bool result)
         {
             if (result)
             {
-                Debug.WriteLine("Device successfully ejected");
+                ToastContentBuilder toastContent = new ToastContentBuilder()
+                    .AddText("EjectNotificationHeader".GetLocalizedResource())
+                    .AddText("EjectNotificationBody".GetLocalizedResource())
+                    .SetProtocolActivation(new Uri("files-uwp://"))
+                    .AddAttributionText("SettingsAboutAppName".GetLocalizedResource());
 
-                var toastContent = new ToastContent()
-                {
-                    Visual = new ToastVisual()
-                    {
-                        BindingGeneric = new ToastBindingGeneric()
-                        {
-                            Children =
-                            {
-                                new AdaptiveText()
-                                {
-                                    Text = "EjectNotificationHeader".GetLocalizedResource()
-                                },
-                                new AdaptiveText()
-                                {
-                                    Text = "EjectNotificationBody".GetLocalizedResource()
-                                }
-                            },
-                            Attribution = new ToastGenericAttributionText()
-                            {
-                                Text = "SettingsAboutAppName".GetLocalizedResource()
-                            }
-                        }
-                    },
-                    ActivationType = ToastActivationType.Protocol
-                };
+                // Create the app notification
+                var appNotif = new AppNotification(toastContent.GetXml().DocumentElement.GetXml());
 
-                // Create the toast notification
-                var toastNotif = new ToastNotification(toastContent.GetXml());
+                // Send the notification
+                AppNotificationManager.Default.Show(appNotif);
 
-                // And send the notification
-                ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
+                return Task.CompletedTask;
             }
             else
             {
                 Debug.WriteLine("Can't eject device");
 
-                await DialogDisplayHelper.ShowDialogAsync(
+                return DialogDisplayHelper.ShowDialogAsync(
                     "EjectNotificationErrorDialogHeader".GetLocalizedResource(),
                     "EjectNotificationErrorDialogBody".GetLocalizedResource());
             }
@@ -82,16 +100,6 @@ namespace Files.App.Helpers
             {
                 return ContentDialogResult.None;
             }
-        }
-
-        // WINUI3
-        private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
-        {
-            if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-            {
-                contentDialog.XamlRoot = App.Window.Content.XamlRoot;
-            }
-            return contentDialog;
         }
 
         public static void CloseAllDialogs()

@@ -4,32 +4,32 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.AppService;
-using Windows.Foundation.Collections;
 
 namespace Files.App.Helpers
 {
     public static class Win32Helpers
     {
-        public static async Task<bool> InvokeWin32ComponentAsync(string applicationPath, IShellPage associatedInstance, string arguments = null, bool runAsAdmin = false, string workingDirectory = null)
+        public static async Task<bool> InvokeWin32ComponentAsync(string applicationPath,
+                                                                 string workingDirectory,
+                                                                 string? arguments = null,
+                                                                 bool runAsAdmin = false)
         {
-            return await InvokeWin32ComponentsAsync(applicationPath.CreateEnumerable(), associatedInstance, arguments, runAsAdmin, workingDirectory);
+            return await InvokeWin32ComponentsAsync(applicationPath.CreateEnumerable(), workingDirectory, arguments, runAsAdmin);
         }
 
-        public static async Task<bool> InvokeWin32ComponentsAsync(IEnumerable<string> applicationPaths, IShellPage associatedInstance, string arguments = null, bool runAsAdmin = false, string workingDirectory = null)
+        public static async Task<bool> InvokeWin32ComponentsAsync(IEnumerable<string> applicationPaths,
+                                                                  string workingDirectory,
+                                                                  string? arguments = null,
+                                                                  bool runAsAdmin = false)
         {
             Debug.WriteLine("Launching EXE in FullTrustProcess");
 
             if (string.IsNullOrEmpty(workingDirectory))
             {
-                workingDirectory = associatedInstance.FilesystemViewModel.WorkingDirectory;
+                return await Task.FromResult(false);
             }
 
             var application = applicationPaths.FirstOrDefault();
-            if (string.IsNullOrEmpty(workingDirectory))
-            {
-                workingDirectory = associatedInstance?.FilesystemViewModel?.WorkingDirectory;
-            }
 
             if (runAsAdmin)
             {

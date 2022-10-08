@@ -4,6 +4,7 @@ using Files.App.Filesystem.FilesystemHistory;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.Shell;
+using Files.App.ViewModels;
 using Files.Backend.Services;
 using Files.Backend.ViewModels.Dialogs;
 using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
@@ -27,7 +28,7 @@ namespace Files.App.Filesystem
     {
         #region Private Members
 
-        private IShellPage associatedInstance;
+        private BrowserPaneViewModel associatedInstance;
 
         private FilesystemOperations filesystemOperations;
 
@@ -41,7 +42,7 @@ namespace Files.App.Filesystem
 
         #region Constructor
 
-        public ShellFilesystemOperations(IShellPage associatedInstance)
+        public ShellFilesystemOperations(LayoutModeViewModel associatedInstance)
         {
             this.associatedInstance = associatedInstance;
             filesystemOperations = new FilesystemOperations(associatedInstance);

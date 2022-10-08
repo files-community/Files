@@ -147,7 +147,7 @@ namespace Files.App.Views
             {
                 if (new DirectoryInfo(e.ItemPath).Root.ToString().Contains(@"C:\", StringComparison.Ordinal))
                 {
-                    AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
+                    AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.ItemPath), new LayoutModeArguments()
                     {
                         NavPathParam = e.ItemPath
                     });
@@ -158,7 +158,7 @@ namespace Files.App.Views
                     {
                         if (drive.Path == new DirectoryInfo(e.ItemPath).Root.ToString())
                         {
-                            AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
+                            AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.ItemPath), new LayoutModeArguments()
                             {
                                 NavPathParam = e.ItemPath
                             });
@@ -177,7 +177,7 @@ namespace Files.App.Views
 
         private void RecentFilesWidget_RecentFilesOpenLocationInvoked(object sender, UserControls.PathNavigationEventArgs e)
         {
-            AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
+            AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.ItemPath), new LayoutModeArguments()
             {
                 NavPathParam = e.ItemPath,
                 SelectItems = new[] { e.ItemName },
@@ -187,7 +187,7 @@ namespace Files.App.Views
 
         private void FolderWidget_LibraryCardInvoked(object sender, LibraryCardInvokedEventArgs e)
         {
-            AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.Path), new NavigationArguments()
+            AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.Path), new LayoutModeArguments()
             {
                 NavPathParam = e.Path
             });
@@ -211,7 +211,7 @@ namespace Files.App.Views
 
         private void DrivesWidget_DrivesWidgetInvoked(object sender, DrivesWidget.DrivesWidgetInvokedEventArgs e)
         {
-            AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.Path), new NavigationArguments()
+            AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.Path), new LayoutModeArguments()
             {
                 NavPathParam = e.Path
             });
@@ -220,7 +220,7 @@ namespace Files.App.Views
 
         protected override async void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
-            var parameters = eventArgs.Parameter as NavigationArguments;
+            var parameters = eventArgs.Parameter as LayoutModeArguments;
             AppInstance = parameters.AssociatedTabInstance;
             AppInstance.InstanceViewModel.IsPageTypeNotHome = false;
             AppInstance.InstanceViewModel.IsPageTypeSearchResults = false;

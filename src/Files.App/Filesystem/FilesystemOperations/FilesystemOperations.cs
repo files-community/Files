@@ -18,6 +18,7 @@ using Microsoft.UI.Xaml.Controls;
 using FileAttributes = System.IO.FileAttributes;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services;
+using Files.App.ViewModels;
 
 namespace Files.App.Filesystem
 {
@@ -31,13 +32,13 @@ namespace Files.App.Filesystem
     {
         private IDialogService DialogService { get; } = Ioc.Default.GetRequiredService<IDialogService>();
 
-        private IShellPage associatedInstance;
+        private LayoutModeViewModel associatedInstance;
 
         private RecycleBinHelpers recycleBinHelpers;
 
         #region Constructor
 
-        public FilesystemOperations(IShellPage associatedInstance)
+        public FilesystemOperations(LayoutModeViewModel associatedInstance)
         {
             this.associatedInstance = associatedInstance;
             recycleBinHelpers = new RecycleBinHelpers();

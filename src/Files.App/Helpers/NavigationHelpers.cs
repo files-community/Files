@@ -57,20 +57,15 @@ namespace Files.App.Helpers
                        Helpers.PathNormalization.NormalizePath(workingDir)), workingDir);
         }
 
-        public static async void OpenSelectedItems(IShellPage associatedInstance, bool openViaApplicationPicker = false)
+        public static async void OpenSelectedItems(ListedItem workingFolder, IEnumerable<ListedItem> selectedItems, bool openViaApplicationPicker = false)
         {
-            if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
+            if (workingFolder.ItemPath.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
             {
                 // Do not open files and folders inside the recycle bin
                 return;
             }
-            if (associatedInstance.SlimContentPage == null)
-            {
-                return;
-            }
 
             bool forceOpenInNewTab = false;
-            var selectedItems = associatedInstance.SlimContentPage.SelectedItems.ToList();
             var opened = false;
 
             if (!openViaApplicationPicker &&
@@ -87,7 +82,7 @@ namespace Files.App.Helpers
                     var type = item.PrimaryItemAttribute == StorageItemTypes.Folder ?
                         FilesystemItemType.Directory : FilesystemItemType.File;
 
-                    await OpenPath(item.ItemPath, associatedInstance, type, false, openViaApplicationPicker, forceOpenInNewTab: forceOpenInNewTab);
+                    await OpenPath(item.ItemPath, workingFolder.ItemPath, type, false, openViaApplicationPicker, forceOpenInNewTab: forceOpenInNewTab);
 
                     if (type == FilesystemItemType.Directory)
                     {
@@ -97,17 +92,14 @@ namespace Files.App.Helpers
             }
         }
 
-        public static async void OpenItemsWithExecutable(IShellPage associatedInstance, IEnumerable<IStorageItemWithPath> items, string executable)
+        public static async void OpenItemsWithExecutable(LayoutModeViewModel associatedInstance, IEnumerable<IStorageItemWithPath> items, string executable)
         {
             if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
             {
                 // Do not open files and folders inside the recycle bin
                 return;
             }
-            if (associatedInstance.SlimContentPage == null)
-            {
-                return;
-            }
+
             foreach (var item in items)
             {
                 try
@@ -132,9 +124,8 @@ namespace Files.App.Helpers
         /// <param name="openViaApplicationPicker">Determines whether open file using application picker</param>
         /// <param name="selectItems">List of filenames that are selected upon navigation</param>
         /// <param name="forceOpenInNewTab">Open folders in a new tab regardless of the "OpenFoldersInNewTab" option</param>
-        public static async Task<bool> OpenPath(string path, IShellPage associatedInstance, FilesystemItemType? itemType = null, bool openSilent = false, bool openViaApplicationPicker = false, IEnumerable<string> selectItems = null, string args = default, bool forceOpenInNewTab = false)
+        public static async Task<bool> OpenPath(string path, string workingDirectory, FilesystemItemType? itemType = null, bool openSilent = false, bool openViaApplicationPicker = false, IEnumerable<string> selectItems = null, string args = default, bool forceOpenInNewTab = false)
         {
-            string previousDir = associatedInstance.FilesystemViewModel.WorkingDirectory;
             bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
             bool isDirectory = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Directory);
             bool isReparsePoint = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.ReparsePoint);
@@ -213,15 +204,15 @@ namespace Files.App.Helpers
             {
                 await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalizedResource(), "FileNotFoundDialog/Text".GetLocalizedResource());
                 associatedInstance.ToolbarViewModel.CanRefresh = false;
-                associatedInstance.FilesystemViewModel?.RefreshItems(previousDir);
+                associatedInstance.FilesystemViewModel?.RefreshItems(workingDirectory);
             }
 
             return opened;
         }
 
-        private static async Task<FilesystemResult> OpenLibrary(string path, IShellPage associatedInstance, IEnumerable<string> selectItems, bool forceOpenInNewTab)
+        private static async Task<FilesystemResult> OpenLibrary(string path, LayoutModeViewModel associatedInstance, IEnumerable<string> selectItems, bool forceOpenInNewTab)
         {
-            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+            IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
             var opened = (FilesystemResult)false;
             bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
@@ -234,7 +225,7 @@ namespace Files.App.Helpers
                 else
                 {
                     associatedInstance.ToolbarViewModel.PathControlDisplayText = path;
-                    associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
+                    associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new LayoutModeArguments()
                     {
                         NavPathParam = path,
                         AssociatedTabInstance = associatedInstance
@@ -254,7 +245,7 @@ namespace Files.App.Helpers
                     else
                     {
                         associatedInstance.ToolbarViewModel.PathControlDisplayText = library.Text;
-                        associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
+                        associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new LayoutModeArguments()
                         {
                             NavPathParam = path,
                             AssociatedTabInstance = associatedInstance,
@@ -266,7 +257,7 @@ namespace Files.App.Helpers
             return opened;
         }
 
-        private static async Task<FilesystemResult> OpenDirectory(string path, IShellPage associatedInstance, IEnumerable<string> selectItems, ShellLinkItem shortcutInfo, bool forceOpenInNewTab)
+        private static async Task<FilesystemResult> OpenDirectory(string path, LayoutModeViewModel associatedInstance, IEnumerable<string> selectItems, ShellLinkItem shortcutInfo, bool forceOpenInNewTab)
         {
             IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
 
@@ -290,7 +281,7 @@ namespace Files.App.Helpers
                     else
                     {
                         associatedInstance.ToolbarViewModel.PathControlDisplayText = shortcutInfo.TargetPath;
-                        associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(shortcutInfo.TargetPath), new NavigationArguments()
+                        associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(shortcutInfo.TargetPath), new LayoutModeArguments()
                         {
                             NavPathParam = shortcutInfo.TargetPath,
                             AssociatedTabInstance = associatedInstance,
@@ -310,7 +301,7 @@ namespace Files.App.Helpers
                 else
                 {
                     associatedInstance.ToolbarViewModel.PathControlDisplayText = path;
-                    associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
+                    associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new LayoutModeArguments()
                     {
                         NavPathParam = path,
                         AssociatedTabInstance = associatedInstance
@@ -343,7 +334,7 @@ namespace Files.App.Helpers
                     else
                     {
                         associatedInstance.ToolbarViewModel.PathControlDisplayText = path;
-                        associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
+                        associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new LayoutModeArguments()
                         {
                             NavPathParam = path,
                             AssociatedTabInstance = associatedInstance,
@@ -359,7 +350,7 @@ namespace Files.App.Helpers
             return opened;
         }
 
-        private static async Task<FilesystemResult> OpenFile(string path, IShellPage associatedInstance, IEnumerable<string> selectItems, ShellLinkItem shortcutInfo, bool openViaApplicationPicker = false, string args = default)
+        private static async Task<FilesystemResult> OpenFile(string path, LayoutModeViewModel associatedInstance, IEnumerable<string> selectItems, ShellLinkItem shortcutInfo, bool openViaApplicationPicker = false, string args = default)
         {
             var opened = (FilesystemResult)false;
             bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);

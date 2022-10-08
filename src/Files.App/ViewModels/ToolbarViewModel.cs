@@ -9,11 +9,7 @@ using Files.App.Helpers;
 using Files.Shared.Enums;
 using Files.Shared.EventArguments;
 using Files.Shared.Extensions;
-using Files.App.UserControls;
-using Files.App.Views;
 using Files.App.Extensions;
-using CommunityToolkit.WinUI;
-using CommunityToolkit.WinUI.UI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,19 +18,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Foundation.Collections;
 using Windows.Storage;
-using Windows.UI.Text;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Input;
-using static Files.App.UserControls.IAddressToolbar;
-using SearchBox = Files.App.UserControls.SearchBox;
 using SortDirection = Files.Shared.Enums.SortDirection;
-using Microsoft.UI.Dispatching;
-using FocusManager = Microsoft.UI.Xaml.Input.FocusManager;
 using Files.App.Shell;
+using Files.App.Views;
+using Files.App.UserControls;
 
 namespace Files.App.ViewModels
 {

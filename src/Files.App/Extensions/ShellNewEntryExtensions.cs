@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Files.Shared.Extensions;
 using Files.App.Shell;
+using Files.App.ViewModels;
 
 namespace Files.App.Extensions
 {
@@ -30,7 +31,7 @@ namespace Files.App.Extensions
             return await SafetyExtensions.IgnoreExceptions(() => ShellNewMenuHelper.GetNewContextMenuEntryForType(extension), App.Logger);
         }
 
-        public static async Task<FilesystemResult<BaseStorageFile>> Create(this ShellNewEntry shellEntry, string filePath, IShellPage associatedInstance)
+        public static async Task<FilesystemResult<BaseStorageFile>> Create(this ShellNewEntry shellEntry, string filePath, LayoutModeViewModel associatedInstance)
         {
             var parentFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(filePath));
             if (parentFolder)

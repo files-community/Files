@@ -10,18 +10,18 @@ namespace Files.App.UserControls.MultitaskingControl
 
         public ObservableCollection<TabItem> Items { get; }
 
-        public ITabItemContent GetCurrentSelectedTabInstance();
+        public IPaneContent GetCurrentSelectedTabInstance();
 
-        public List<ITabItemContent> GetAllTabInstances();
+        public List<IPaneContent> GetAllTabInstances();
 
         public void CloseTab(TabItem tabItem);
 
-        public void SetLoadingIndicatorStatus(ITabItem item, bool loading);
+        public void SetLoadingIndicatorStatus(TabItem item, bool loading);
     }
 
     public class CurrentInstanceChangedEventArgs : EventArgs
     {
-        public ITabItemContent CurrentInstance { get; set; }
-        public List<ITabItemContent> PageInstances { get; set; }
+        public IPaneContent CurrentInstance { get; set; }
+        public List<IPaneContent> PageInstances { get; set; }
     }
 }

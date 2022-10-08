@@ -11,6 +11,8 @@
 	xmlns:local="using:Files.App.Views"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:mconv="using:CommunityToolkit.WinUI.UI.Converters"
+	xmlns:layoutmodes="using:Files.App.Views.LayoutModes"
+	xmlns:viewmodels="using:Files.App.ViewModels"
 	mc:Ignorable="d">
 
 	<Page.Resources>
@@ -49,26 +51,30 @@
 				MinWidth="0" />
 		</Grid.ColumnDefinitions>
 
-		<local:ModernShellPage
-			x:Name="PaneLeft"
-			ContentChanged="Pane_ContentChanged"
-			IsPageMainPane="True"
-			Loaded="PaneLeft_Loaded"
-			NavParams="{x:Bind NavParamsLeft, Mode=OneWay}"
-			PaneHolder="{x:Bind}" />
-
-		<Border
-			x:Name="PaneRightBorder"
-			Grid.Column="1"
-			x:Load="{x:Bind IsRightPaneVisible, Mode=OneWay}">
-			<local:ModernShellPage
-				x:Name="PaneRight"
-				ContentChanged="Pane_ContentChanged"
-				IsPageMainPane="False"
-				Loaded="PaneRight_Loaded"
-				NavParams="{x:Bind NavParamsRight, Mode=OneWay}"
-				PaneHolder="{x:Bind}" />
-		</Border>
+		<ListBox
+			SelectedIndex="{x:Bind viewModel.SelectedPaneIndex, Mode=TwoWay}">
+			<ListBox.ItemsPanel>
+				<ItemsPanelTemplate>
+					<VariableSizedWrapGrid
+						Orientation="Horizontal"
+						HorizontalChildrenAlignment="Stretch"
+						VerticalChildrenAlignment="Stretch" />
+				</ItemsPanelTemplate>
+			</ListBox.ItemsPanel>
+			<ListBox.ItemTemplate>
+				<DataTemplate x:DataType="local:PaneNavigationArguments">
+                    <local:BrowserPane
+                        MinWidth="300"
+                        Content="{x:Bind}">
+                        <local:BrowserPane.ContentTemplate>
+                            <DataTemplate x:DataType="local:PaneNavigationArguments">
+                                <layoutmodes:BaseLayoutBrowser />
+                            </DataTemplate>
+                        </local:BrowserPane.ContentTemplate>
+                    </local:BrowserPane>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
 
 		<Custom:GridSplitter
 			x:Name="PaneResizer"

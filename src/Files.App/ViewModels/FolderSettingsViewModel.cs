@@ -25,10 +25,10 @@ namespace Files.App.ViewModels
 
         public event EventHandler<LayoutPreferenceEventArgs> LayoutPreferencesUpdateRequired;
 
-        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
-
-        public FolderSettingsViewModel()
+        public FolderSettingsViewModel(IUserSettingsService userSettingsService)
         {
+            this.userSettingsService = userSettingsService;
+
             LayoutPreference = new LayoutPreferences();
 
             ToggleLayoutModeGridViewLargeCommand = new RelayCommand<bool>(ToggleLayoutModeGridViewLarge);
@@ -42,10 +42,15 @@ namespace Files.App.ViewModels
 
             ChangeGroupOptionCommand = new RelayCommand<GroupOption>(ChangeGroupOption);
         }
-        public FolderSettingsViewModel(FolderLayoutModes modeOverride) : this()
-            => (rootLayoutMode, LayoutPreference.IsAdaptiveLayoutOverridden) = (modeOverride, true);
+        
+        private FolderLayoutModes? rootLayoutMode;
+        private readonly IUserSettingsService userSettingsService;
 
-        private readonly FolderLayoutModes? rootLayoutMode;
+        public void OverrideAdaptiveLayout(FolderLayoutModes layoutMode)
+        {
+            rootLayoutMode = layoutMode;
+            LayoutPreference.IsAdaptiveLayoutOverridden = layoutMode != FolderLayoutModes.Adaptive;
+        }
 
         public bool IsLayoutModeFixed => rootLayoutMode is not null;
 
@@ -113,20 +118,13 @@ namespace Files.App.ViewModels
             set => SetProperty(ref isLayoutModeChanging, value);
         }
 
-        public Type GetLayoutType(string folderPath)
+        public FolderLayoutModes GetLayoutType(string folderPath)
         {
             var prefsForPath = GetLayoutPreferencesForPath(folderPath);
             IsLayoutModeChanging = LayoutPreference.LayoutMode != prefsForPath.LayoutMode;
             LayoutPreference = prefsForPath;
 
-            return (prefsForPath.LayoutMode) switch
-            {
-                FolderLayoutModes.DetailsView => typeof(DetailsLayoutBrowser),
-                FolderLayoutModes.TilesView => typeof(GridViewBrowser),
-                FolderLayoutModes.GridView => typeof(GridViewBrowser),
-                FolderLayoutModes.ColumnView => typeof(ColumnViewBrowser),
-                _ => typeof(DetailsLayoutBrowser)
-            };
+            return prefsForPath.LayoutMode;
         }
 
         public event EventHandler<LayoutModeEventArgs> LayoutModeChangeRequested;
@@ -526,10 +524,10 @@ namespace Files.App.ViewModels
             var prefs = GetLayoutPreferencesForPath(folderPath);
             switch (settingsName)
             {
-                case nameof(UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles):
+                case nameof(userSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles):
                     SortDirectoriesAlongsideFiles = prefs.SortDirectoriesAlongsideFiles;
                     break;
-                case nameof(UserSettingsService.PreferencesSettingsService.ForceLayoutPreferencesOnAllDirectories):
+                case nameof(userSettingsService.PreferencesSettingsService.ForceLayoutPreferencesOnAllDirectories):
                     LayoutPreference = prefs;
                     // TODO: update layout
                     break;

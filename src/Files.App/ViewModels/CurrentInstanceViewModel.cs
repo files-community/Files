@@ -5,25 +5,6 @@ namespace Files.App.ViewModels
 {
     public class CurrentInstanceViewModel : ObservableObject
     {
-        /*
-         * TODO:
-         * In the future, we should consolidate these public variables into
-         * a single enum property providing simplified customization of the
-         * values being manipulated inside the setter blocks.
-         */
-
-        public FolderSettingsViewModel FolderSettings { get; }
-
-        public CurrentInstanceViewModel()
-        {
-            FolderSettings = new FolderSettingsViewModel();
-        }
-
-        public CurrentInstanceViewModel(FolderLayoutModes rootLayoutMode)
-        {
-            FolderSettings = new FolderSettingsViewModel(rootLayoutMode);
-        }
-
         private bool isPageTypeSearchResults = false;
 
         public bool IsPageTypeSearchResults

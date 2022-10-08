@@ -111,6 +111,12 @@
 	<None Update="Resources\PropertiesInformation.json">
 	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	</None>
+	<Page Update="UserControls\LayoutBrowserControl.xaml">
+	  <Generator>MSBuild:Compile</Generator>
+	</Page>
+	<Page Update="Views\BaseLayoutBrowser.xaml">
+	  <Generator>MSBuild:Compile</Generator>
+	</Page>
 	<Content Include="Themes\*.xaml">
 	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  <Generator>MSBuild:Compile</Generator>
@@ -134,6 +140,10 @@
   <ItemGroup>
 	<Content Remove="Assets\FilesHome.png" />
 	<Content Remove="Assets\FilesHome.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="UserControls\LayoutBrowserControl.xaml" />
+    <None Remove="Views\LayoutModes\BaseLayoutBrowserPage.xaml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ByteSize">

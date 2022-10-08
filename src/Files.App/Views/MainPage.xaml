@@ -14,6 +14,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:usercontrols="using:Files.App.UserControls.MultitaskingControl"
 	xmlns:viewmodels="using:Files.App.ViewModels"
+	xmlns:views="using:Files.App.Views"
 	Background="Transparent"
 	KeyboardAcceleratorPlacementMode="Hidden"
 	Loaded="Page_Loaded"
@@ -329,12 +330,12 @@
 					ShowPreviewPaneButton="{x:Bind IsPreviewPaneEnabled, Mode=OneWay}"
 					TabIndex="2" />
 
-				<ContentPresenter
+				<views:PaneHolderPage
 					Grid.Row="1"
 					Grid.Column="0"
 					HorizontalAlignment="Stretch"
 					HorizontalContentAlignment="Stretch"
-					Content="{x:Bind ((viewmodels:MainPageViewModel)DataContext).SelectedTabItem.Control, Mode=OneWay}" />
+					Content="{x:Bind ((viewmodels:MainPageViewModel)DataContext).SelectedTabItem, Mode=OneWay}" />
 
 				<custom:GridSplitter
 					x:Name="PaneSplitter"

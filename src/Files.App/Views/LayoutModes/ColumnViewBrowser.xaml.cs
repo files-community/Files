@@ -74,7 +74,7 @@ namespace Files.App.Views.LayoutModes
         {
             base.OnNavigatedTo(eventArgs);
 
-            var navigationArguments = (NavigationArguments)eventArgs.Parameter;
+            var navigationArguments = (LayoutModeArguments)eventArgs.Parameter;
             MainPageFrame.Navigated += Frame_Navigated;
             MainPageFrame.Navigate(typeof(ColumnShellPage), new ColumnParam
             {
@@ -206,7 +206,7 @@ namespace Files.App.Views.LayoutModes
             }
         }
 
-        public void SetSelectedPathOrNavigate(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null)
+        public void SetSelectedPathOrNavigate(string navigationPath, Type sourcePageType, LayoutModeArguments navArgs = null)
         {
             var destPath = navArgs != null ? (navArgs.IsSearchResultPage ? navArgs.SearchPathParam : navArgs.NavPathParam) : navigationPath;
             var columnPath = ((ColumnHost.ActiveBlades.Last().Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel.WorkingDirectory;

@@ -6,11 +6,7 @@ namespace Files.App.UserControls.MultitaskingControl
     {
         string Header { get; }
 
-        string Description { get; }
-
         IconSource IconSource { get; }
-
-        TabItemControl Control { get; }
 
         bool AllowStorageItemDrop { get; }
     }

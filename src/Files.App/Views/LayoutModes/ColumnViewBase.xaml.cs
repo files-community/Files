@@ -140,7 +140,7 @@ namespace Files.App.Views.LayoutModes
 
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
 		{
-			if (eventArgs.Parameter is NavigationArguments navArgs)
+			if (eventArgs.Parameter is LayoutModeArguments navArgs)
 			{
 				// Focus filelist only if first column
 				navArgs.FocusOnNavigation = (navArgs.AssociatedTabInstance as ColumnShellPage)?.ColumnParams?.Column == 0;

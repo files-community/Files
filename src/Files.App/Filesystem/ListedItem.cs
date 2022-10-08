@@ -20,6 +20,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Microsoft.UI.Xaml.Input;
+using Windows.ApplicationModel.DataTransfer;
+using Files.Shared.Helpers;
 
 #pragma warning disable CS0618 // Type or member is obsolete
 
@@ -364,7 +367,7 @@ namespace Files.App.Filesystem
         /// Initializes a new instance of the <see cref="ListedItem" /> class.
         /// </summary>
         /// <param name="folderRelativeId"></param>
-        public ListedItem(string folderRelativeId) => FolderRelativeId = folderRelativeId;
+        public ListedItem(string folderRelativeId) : this() => FolderRelativeId = folderRelativeId;
 
         // Parameterless constructor for JsonConvert
         public ListedItem() { }
