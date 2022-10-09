@@ -1231,13 +1231,13 @@
     <value>Afficher les fichiers système protégés</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Include unindexed items in search results</value>
+    <value>Inclure les éléments non indexés dans les résultats de recherche</value>
   </data>
   <data name="ResetFolderPreferencesOverrides" xml:space="preserve">
     <value>Réinitialiser les modifications de dossier</value>
   </data>
   <data name="EnableOverridingFolderPreferencesDescription" xml:space="preserve">
-    <value>Changing the layout in a directory when this setting is turned off will update the layout for all directories.</value>
+    <value>Changer la disposition d'un dossier quand ce paramètre est désactivé mettra à jour la disposition pour tous les dossiers.</value>
   </data>
   <data name="EnableOverridingFolderPreferences" xml:space="preserve">
     <value>Activer le remplacement des préférences de dossier dans les répertoires individuels</value>
@@ -2596,7 +2596,7 @@
     <value>Entrer le nom de la bibliothèque</value>
   </data>
   <data name="CalculateFolderSizes" xml:space="preserve">
-    <value>Calculate folder sizes</value>
+    <value>Calculer la taille du fichier</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
     <value>Fichiers récents</value>
