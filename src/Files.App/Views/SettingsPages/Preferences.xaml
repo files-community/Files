@@ -163,13 +163,13 @@
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
-                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SelectFilesAndFoldersOnHover}" HorizontalAlignment="Stretch">
-                            <ToggleSwitch
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SelectFilesAndFoldersOnHover}" HorizontalAlignment="Stretch">
+							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=SelectFilesAndFoldersOnHover}"
 								IsOn="{Binding SelectFilesOnHover, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-                        </local:SettingsBlockControl>
-                    </StackPanel>
+						</local:SettingsBlockControl>
+					</StackPanel>
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
 

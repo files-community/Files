@@ -8,10 +8,10 @@
 	xmlns:animations="using:CommunityToolkit.WinUI.UI.Animations"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:layoutmodes="using:Files.App.Views.LayoutModes"
 	xmlns:local="using:Files.App.Views"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:mconv="using:CommunityToolkit.WinUI.UI.Converters"
-	xmlns:layoutmodes="using:Files.App.Views.LayoutModes"
 	xmlns:viewmodels="using:Files.App.ViewModels"
 	mc:Ignorable="d">
 
@@ -51,27 +51,24 @@
 				MinWidth="0" />
 		</Grid.ColumnDefinitions>
 
-		<ListBox
-			SelectedIndex="{x:Bind viewModel.SelectedPaneIndex, Mode=TwoWay}">
+		<ListBox SelectedIndex="{x:Bind viewModel.SelectedPaneIndex, Mode=TwoWay}">
 			<ListBox.ItemsPanel>
 				<ItemsPanelTemplate>
 					<VariableSizedWrapGrid
-						Orientation="Horizontal"
 						HorizontalChildrenAlignment="Stretch"
+						Orientation="Horizontal"
 						VerticalChildrenAlignment="Stretch" />
 				</ItemsPanelTemplate>
 			</ListBox.ItemsPanel>
 			<ListBox.ItemTemplate>
 				<DataTemplate x:DataType="local:PaneNavigationArguments">
-                    <local:BrowserPane
-                        MinWidth="300"
-                        Content="{x:Bind}">
-                        <local:BrowserPane.ContentTemplate>
-                            <DataTemplate x:DataType="local:PaneNavigationArguments">
-                                <layoutmodes:BaseLayoutBrowser />
-                            </DataTemplate>
-                        </local:BrowserPane.ContentTemplate>
-                    </local:BrowserPane>
+					<local:BrowserPane MinWidth="300" Content="{x:Bind}">
+						<local:BrowserPane.ContentTemplate>
+							<DataTemplate x:DataType="local:PaneNavigationArguments">
+								<layoutmodes:BaseLayoutBrowser />
+							</DataTemplate>
+						</local:BrowserPane.ContentTemplate>
+					</local:BrowserPane>
 				</DataTemplate>
 			</ListBox.ItemTemplate>
 		</ListBox>
