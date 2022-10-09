@@ -15,6 +15,11 @@
     <CsWinRTGeneratedFilesDir>$(MSBuildProjectDirectory)\bin\$(Platform)\$(Configuration)</CsWinRTGeneratedFilesDir>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="bin\**" />
+    <EmbeddedResource Remove="bin\**" />
+    <None Remove="bin\**" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Microsoft.Windows.CsWinRT">
       <Version>2.0.0</Version>
     </PackageReference>
