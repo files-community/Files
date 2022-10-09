@@ -1231,13 +1231,13 @@
     <value>Geschützte Systemdateien anzeigen</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Include unindexed items in search results</value>
+    <value>Nicht indizierte Elemente in Suchergebnisse einbeziehen</value>
   </data>
   <data name="ResetFolderPreferencesOverrides" xml:space="preserve">
-    <value>Reset folder overrides</value>
+    <value>Ordnerüberschreibungen zurücksetzen</value>
   </data>
   <data name="EnableOverridingFolderPreferencesDescription" xml:space="preserve">
-    <value>Changing the layout in a directory when this setting is turned off will update the layout for all directories.</value>
+    <value>Das Ändern des Layoutmodus in einem Verzeichnis, wenn diese Einstellung deaktiviert ist, aktualisiert den Layoutmodus für alle Verzeichnisse.</value>
   </data>
   <data name="EnableOverridingFolderPreferences" xml:space="preserve">
     <value>Individuelle Einstellungen für einzelne Ordner aktivieren</value>
@@ -2596,7 +2596,7 @@
     <value>Bibliotheksnamen eingeben</value>
   </data>
   <data name="CalculateFolderSizes" xml:space="preserve">
-    <value>Calculate folder sizes</value>
+    <value>Ordnergrößen berechnen</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
     <value>Zuletzt verwendete Dateien</value>
@@ -2776,22 +2776,22 @@
     <value>Als Standard festlegen</value>
   </data>
   <data name="DateColumn" xml:space="preserve">
-    <value>Date column</value>
+    <value>Datumsspalte</value>
   </data>
   <data name="DateCreatedColumn" xml:space="preserve">
-    <value>Date Created column</value>
+    <value>Erstelldatumsspalte</value>
   </data>
   <data name="SizeColumn" xml:space="preserve">
-    <value>Size column</value>
+    <value>Größenspalte</value>
   </data>
   <data name="TagColumn" xml:space="preserve">
-    <value>Tag column</value>
+    <value>Tag-Spalte</value>
   </data>
   <data name="TypeColumn" xml:space="preserve">
-    <value>Type column</value>
+    <value>Typspalte</value>
   </data>
   <data name="DetailsLayoutColumns" xml:space="preserve">
-    <value>Details layout columns</value>
+    <value>Detail-Layoutspalten</value>
   </data>
   <data name="Reset" xml:space="preserve">
     <value>Zurücksetzen</value>
@@ -2809,7 +2809,7 @@
     <value>Ordner mit einem Klick im Spaltenlayout öffnen</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
-    <value>Opening items</value>
+    <value>Öffne Elemente</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Dateien und Ordner beim Überfahren auswählen</value>
