@@ -24,13 +24,15 @@ namespace Files.App.Helpers.LayoutPreferences
 
 		public LayoutPreferences()
 		{
-			this.LayoutMode = UserSettingsService.FoldersSettingsService.DefaultLayoutMode;
+			var defaultLayout = UserSettingsService.FoldersSettingsService.DefaultLayoutMode;
+
+			this.LayoutMode = defaultLayout is FolderLayoutModes.Adaptive ? FolderLayoutModes.DetailsView : defaultLayout;
 			this.GridViewSize = UserSettingsService.LayoutSettingsService.DefaultGridViewSize;
 			this.DirectorySortOption = UserSettingsService.LayoutSettingsService.DefaultDirectorySortOption;
 			this.DirectoryGroupOption = UserSettingsService.LayoutSettingsService.DefaultDirectoryGroupOption;
 			this.DirectorySortDirection = UserSettingsService.LayoutSettingsService.DefaultDirectorySortDirection;
 			this.SortDirectoriesAlongsideFiles = UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles;
-			this.IsAdaptiveLayoutOverridden = false;
+			this.IsAdaptiveLayoutOverridden = defaultLayout is not FolderLayoutModes.Adaptive;
 
 			this.ColumnsViewModel = new ColumnsViewModel();
 			this.ColumnsViewModel.DateCreatedColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowDateCreatedColumn;
