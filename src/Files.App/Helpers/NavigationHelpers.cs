@@ -12,10 +12,7 @@ using Files.Shared.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.AppService;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.System;
@@ -135,38 +132,31 @@ namespace Files.App.Helpers
 			bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
 			bool isDirectory = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Directory);
 			bool isReparsePoint = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.ReparsePoint);
-			bool IsShortcut = path.EndsWith(".lnk", StringComparison.Ordinal) || path.EndsWith(".url", StringComparison.Ordinal);
+			bool isShortcut = associatedInstance.SlimContentPage.SelectedItem is { IsShortcut: true };
 			FilesystemResult opened = (FilesystemResult)false;
 
 			var shortcutInfo = new ShellLinkItem();
-			if (itemType == null || IsShortcut || isHiddenItem || isReparsePoint)
+			if (itemType == null || isShortcut || isHiddenItem || isReparsePoint)
 			{
-				if (IsShortcut)
+				if (isShortcut)
 				{
-					var connection = await AppServiceConnectionHelper.Instance;
+					var shInfo = await Win32Shell.ParseLink(path);
 
-					if (connection == null)
+					if (shInfo == null)
 						return false;
 
-					var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
-					{
-						{ "Arguments", "FileOperation" },
-						{ "fileop", "ParseLink" },
-						{ "filepath", path }
-					});
+					itemType = shInfo.IsFolder ? FilesystemItemType.Directory : FilesystemItemType.File;
 
-					if (status == AppServiceResponseStatus.Success && response.ContainsKey("ShortcutInfo"))
+					shortcutInfo = shInfo;
+
+					if (shortcutInfo.InvalidTarget)
 					{
-						var shInfo = JsonSerializer.Deserialize<ShellLinkItem>(response["ShortcutInfo"].GetString());
-						if (shInfo != null)
-						{
-							shortcutInfo = shInfo;
-						}
-						itemType = shInfo != null && shInfo.IsFolder ? FilesystemItemType.Directory : FilesystemItemType.File;
-					}
-					else
-					{
-						return false;
+						if (await DialogDisplayHelper.ShowDialogAsync(DynamicDialogFactory.GetFor_ShortcutNotFound(shortcutInfo.TargetPath)) != DynamicDialogResult.Primary)
+							return false;
+
+						// Delete shortcut
+						var shortcutItem = StorageHelpers.FromPathAndType(path, FilesystemItemType.File);
+						await associatedInstance.FilesystemHelpers.DeleteItemAsync(shortcutItem, false, false, true);
 					}
 				}
 				else if (isReparsePoint)
