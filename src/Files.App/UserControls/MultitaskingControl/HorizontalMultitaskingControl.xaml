@@ -5,8 +5,8 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.UserControls.MultitaskingControl"
 	xmlns:local1="using:Files.App"
-	xmlns:vm="using:Files.App.ViewModels"
-    xmlns:views="using:Files.App.Views">
+	xmlns:views="using:Files.App.Views"
+	xmlns:vm="using:Files.App.ViewModels">
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>

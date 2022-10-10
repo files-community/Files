@@ -5,18 +5,16 @@
 	xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    KeyboardAcceleratorPlacementMode="Hidden"
+	KeyboardAcceleratorPlacementMode="Hidden"
 	mc:Ignorable="d">
-    <ListBoxItem.Resources>
+	<ListBoxItem.Resources>
 		<ResourceDictionary>
-            <converters:BoolToVisibilityConverter
-                x:Key="BooleanToVisibilityConverter" />
-            <converters:BoolNegationConverter 
-                x:Key="BoolNegationConverter" />
+			<converters:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+			<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
 		</ResourceDictionary>
 	</ListBoxItem.Resources>
 
-    <ListBoxItem.KeyboardAccelerators>
+	<ListBoxItem.KeyboardAccelerators>
 		<KeyboardAccelerator
 			Key="E"
 			Invoked="KeyboardAccelerator_Invoked"
@@ -25,42 +23,42 @@
 		<KeyboardAccelerator
 			Key="Z"
 			Invoked="KeyboardAccelerator_Invoked"
-            IsEnabled="{x:Bind IsSelected, Mode=OneWay}"
+			IsEnabled="{x:Bind IsSelected, Mode=OneWay}"
 			Modifiers="Control" />
 		<KeyboardAccelerator
 			Key="Y"
 			Invoked="KeyboardAccelerator_Invoked"
-            IsEnabled="{x:Bind IsSelected, Mode=OneWay}"
+			IsEnabled="{x:Bind IsSelected, Mode=OneWay}"
 			Modifiers="Control" />
 		<KeyboardAccelerator
 			Key="C"
 			Invoked="KeyboardAccelerator_Invoked"
-            IsEnabled="{x:Bind IsSelected, Mode=OneWay}"
+			IsEnabled="{x:Bind IsSelected, Mode=OneWay}"
 			Modifiers="Control,Shift" />
 		<KeyboardAccelerator
 			Key="N"
 			Invoked="KeyboardAccelerator_Invoked"
-            IsEnabled="{x:Bind IsSelected, Mode=OneWay}"
+			IsEnabled="{x:Bind IsSelected, Mode=OneWay}"
 			Modifiers="Control,Shift" />
 		<KeyboardAccelerator
 			Key="Delete"
 			Invoked="KeyboardAccelerator_Invoked"
-            IsEnabled="{x:Bind IsSelected, Mode=OneWay}"
+			IsEnabled="{x:Bind IsSelected, Mode=OneWay}"
 			Modifiers="Shift" />
 		<KeyboardAccelerator
 			Key="C"
 			Invoked="KeyboardAccelerator_Invoked"
-            IsEnabled="{x:Bind IsSelected, Mode=OneWay}"
+			IsEnabled="{x:Bind IsSelected, Mode=OneWay}"
 			Modifiers="Control" />
 		<KeyboardAccelerator
 			Key="V"
 			Invoked="KeyboardAccelerator_Invoked"
-            IsEnabled="{x:Bind IsSelected, Mode=OneWay}"
+			IsEnabled="{x:Bind IsSelected, Mode=OneWay}"
 			Modifiers="Control" />
 		<KeyboardAccelerator
 			Key="X"
 			Invoked="KeyboardAccelerator_Invoked"
-            IsEnabled="{x:Bind IsSelected, Mode=OneWay}"
+			IsEnabled="{x:Bind IsSelected, Mode=OneWay}"
 			Modifiers="Control" />
 		<KeyboardAccelerator
 			Key="A"
