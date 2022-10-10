@@ -46,8 +46,8 @@ namespace Files.App.Helpers
 		{
 			if (UseCompactSpacing)
 			{
-				Application.Current.Resources["ListItemHeight"] = 28;
-				Application.Current.Resources["NavigationViewItemOnLeftMinHeight"] = 24;
+				Application.Current.Resources["ListItemHeight"] = 24;
+				Application.Current.Resources["NavigationViewItemOnLeftMinHeight"] = 20;
 			}
 			else
 			{
