@@ -1,21 +1,18 @@
-using Files.App.Extensions;
 using Windows.System;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Files.App.ViewModels;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.ServicesImplementation.Settings;
 
 namespace Files.App.Views
 {
-    public sealed partial class PaneHolderPage : Page
+    public sealed partial class PaneHolderControl : UserControl
     {
-        private readonly PaneHolderViewModel viewModel;
+        private PaneHolderViewModel? viewModel => DataContext as PaneHolderViewModel;
 
-        public PaneHolderPage()
+        public PaneHolderControl()
         {
-            this.InitializeComponent();
-            viewModel = Ioc.Default.GetRequiredService<PaneHolderViewModel>();
+            InitializeComponent();
         }
 
         private void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)

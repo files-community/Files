@@ -414,7 +414,7 @@ namespace Files.App.ViewModels
 						{
 							foreach (string path in UserSettingsService.PreferencesSettingsService.TabsOnStartupList)
 							{
-								await AddNewTabByPathAsync(typeof(PaneHolderPage), path);
+								await AddNewTabByPathAsync(typeof(PaneHolderControl), path);
 							}
 						}
 						else
@@ -431,7 +431,7 @@ namespace Files.App.ViewModels
 								var tabArgs = TabItemArguments.Deserialize(tabArgsString);
 								await AddNewTabByParam(tabArgs.PageType, tabArgs.NavigationArguments);
 							}
-							var defaultArg = new TabItemArguments() { PageType = typeof(PaneHolderPage), NavigationArguments = "Home".GetLocalizedResource() };
+							var defaultArg = new TabItemArguments() { PageType = typeof(PaneHolderControl), NavigationArguments = "Home".GetLocalizedResource() };
 							UserSettingsService.PreferencesSettingsService.LastSessionTabList = new List<string> { defaultArg.Serialize() };
 						}
 						else
@@ -453,11 +453,11 @@ namespace Files.App.ViewModels
 			{
 				if (e.Parameter is string navArgs)
 				{
-					await AddNewTabByPathAsync(typeof(PaneHolderPage), navArgs);
+					await AddNewTabByPathAsync(typeof(PaneHolderControl), navArgs);
 				}
 				else if (e.Parameter is PaneNavigationArguments paneArgs)
 				{
-					await AddNewTabByParam(typeof(PaneHolderPage), paneArgs);
+					await AddNewTabByParam(typeof(PaneHolderControl), paneArgs);
 				}
 				else if (e.Parameter is TabItemArguments tabArgs)
 				{
@@ -467,7 +467,7 @@ namespace Files.App.ViewModels
 		}
 
         public static Task AddNewTabAsync()
-            => AddNewTabByPathAsync(typeof(PaneHolderPage), "Home".GetLocalizedResource());
+            => AddNewTabByPathAsync(typeof(PaneHolderControl), "Home".GetLocalizedResource());
 
         public void AddNewTab()
             => AddNewTabAsync();
@@ -489,7 +489,7 @@ namespace Files.App.ViewModels
 			}
 			else
 			{
-				await AddNewTabByPathAsync(typeof(PaneHolderPage), "Home".GetLocalizedResource());
+				await AddNewTabByPathAsync(typeof(PaneHolderControl), "Home".GetLocalizedResource());
 			}
 		}
 

@@ -292,7 +292,7 @@ namespace Files.App
 					var instance = MainPageViewModel.AppInstances.FirstOrDefault(x => x.Control.TabItemContent.IsCurrentInstance);
 					if (instance == null)
 						return;
-					var items = (instance.Control.TabItemContent as PaneHolderPage)?.ActivePane?.SlimContentPage?.SelectedItems;
+					var items = (instance.Control.TabItemContent as PaneHolderControl)?.ActivePane?.SlimContentPage?.SelectedItems;
 					if (items == null)
 						return;
 					await FileIO.WriteLinesAsync(await StorageFile.GetFileFromPathAsync(OutputPath), items.Select(x => x.ItemPath));
@@ -333,7 +333,7 @@ namespace Files.App
 				}
 				else
 				{
-					var defaultArg = new TabItemArguments() { PageType = typeof(PaneHolderPage), NavigationArguments = "Home".GetLocalizedResource() };
+					var defaultArg = new TabItemArguments() { PageType = typeof(PaneHolderControl), NavigationArguments = "Home".GetLocalizedResource() };
 					return defaultArg.Serialize();
 				}
 			}).ToList();

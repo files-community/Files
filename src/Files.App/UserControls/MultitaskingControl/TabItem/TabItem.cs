@@ -1,12 +1,10 @@
-using Files.App.ViewModels;
 using Files.App.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
-using System;
 using System.Text.Json;
 using Files.App.Helpers;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using Files.App.ViewModels;
 
 namespace Files.App.UserControls.MultitaskingControl
 {
@@ -17,7 +15,7 @@ namespace Files.App.UserControls.MultitaskingControl
         private string toolTipText;
         private IconSource iconSource;
         private bool allowStorageItemDrop;
-        
+        private PaneHolderViewModel viewModel;
 
         public string Header
         {
@@ -47,6 +45,12 @@ namespace Files.App.UserControls.MultitaskingControl
         {
             get => allowStorageItemDrop;
             set => SetProperty(ref allowStorageItemDrop, value);
+        }
+
+        public PaneHolderViewModel ViewModel
+        {
+            get => viewModel;
+            set => SetProperty(ref viewModel, value);
         }
     }
 

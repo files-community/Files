@@ -709,7 +709,7 @@ namespace Files.App.ViewModels
             {
                 await App.Window.DispatcherQueue.EnqueueAsync(async () =>
                 {
-                    await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), itemTappedPath);
+                    await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderControl), itemTappedPath);
                 }, DispatcherQueuePriority.Low);
                 e.Handled = true;
                 pointerRoutedEventArgs = null;

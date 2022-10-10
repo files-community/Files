@@ -133,7 +133,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
         private async void OpenInNewTab()
         {
-            await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), Path);
+            await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderControl), Path);
         }
 
         private void OpenInNewPane()

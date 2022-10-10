@@ -25,7 +25,7 @@ namespace Files.App.Helpers
     public static class NavigationHelpers
     {
         public static Task OpenPathInNewTab(string path)
-            => MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), path);
+            => MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderControl), path);
 
         public static Task<bool> OpenPathInNewWindowAsync(string path)
         {

@@ -1,0 +1,90 @@
+﻿<UserControl
+	x:Class="Files.App.Views.PaneHolderControl"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Files.App.Views"
+    xmlns:mconv="using:CommunityToolkit.WinUI.UI.Converters"
+    xmlns:layoutmodes="using:Files.App.Views.LayoutModes">
+
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/DefaultGridSplitterStyle.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+
+			<ResourceDictionary.ThemeDictionaries>
+				<ResourceDictionary x:Key="Light">
+					<SolidColorBrush x:Key="PaneBorderBrush" Color="#FAF9F8" />
+				</ResourceDictionary>
+				<ResourceDictionary x:Key="Dark">
+					<SolidColorBrush x:Key="PaneBorderBrush" Color="#323130" />
+				</ResourceDictionary>
+				<ResourceDictionary x:Key="HighContrast">
+					<SolidColorBrush x:Key="PaneBorderBrush" Color="{ThemeResource SystemColorWindowColor}" />
+				</ResourceDictionary>
+			</ResourceDictionary.ThemeDictionaries>
+
+			<SolidColorBrush x:Key="PaneSelectedBorderBrush" Color="{ThemeResource SystemAccentColorLight1}" />
+
+			<mconv:BoolNegationConverter x:Key="BoolNegationConverter" />
+		</ResourceDictionary>
+	</UserControl.Resources>
+
+	<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition
+				x:Name="LeftColumn"
+				Width="1.0*"
+				MinWidth="300" />
+			<ColumnDefinition
+				x:Name="RightColumn"
+				Width="0"
+				MinWidth="0" />
+		</Grid.ColumnDefinitions>
+
+        <ListBox
+            SelectedIndex="{x:Bind viewModel.SelectedPaneIndex, Mode=TwoWay}">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VariableSizedWrapGrid
+                        Orientation="Horizontal"
+                        HorizontalChildrenAlignment="Stretch"
+                        VerticalChildrenAlignment="Stretch" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
+                <DataTemplate
+                    x:DataType="local:PaneNavigationArguments">
+                    <local:BrowserPane
+                        MinWidth="300"
+                        Content="{x:Bind}">
+                        <local:BrowserPane.ContentTemplate>
+                            <DataTemplate
+                                x:DataType="local:PaneNavigationArguments">
+                                <layoutmodes:BaseLayoutBrowser />
+                            </DataTemplate>
+                        </local:BrowserPane.ContentTemplate>
+                    </local:BrowserPane>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+	<UserControl.KeyboardAccelerators>
+		<KeyboardAccelerator
+			Key="Left"
+			Invoked="KeyboardAccelerator_Invoked"
+			Modifiers="Control,Shift" />
+		<KeyboardAccelerator
+			Key="Right"
+			Invoked="KeyboardAccelerator_Invoked"
+			Modifiers="Control,Shift" />
+		<KeyboardAccelerator
+			Key="W"
+			Invoked="KeyboardAccelerator_Invoked"
+			Modifiers="Control,Shift" />
+		<KeyboardAccelerator
+			Key="Add"
+			Invoked="KeyboardAccelerator_Invoked"
+			Modifiers="Menu,Shift" />
+	</UserControl.KeyboardAccelerators>
+</UserControl>

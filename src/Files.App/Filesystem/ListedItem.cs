@@ -10,7 +10,6 @@ using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.ViewModels.Properties;
 using FluentFTP;
-using CommunityToolkit.WinUI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,15 +19,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Microsoft.UI.Xaml.Input;
-using Windows.ApplicationModel.DataTransfer;
-using Files.Shared.Helpers;
-
-#pragma warning disable CS0618 // Type or member is obsolete
+using Files.Sdk.Storage.LocatableStorage;
+using Files.Sdk.Storage;
 
 namespace Files.App.Filesystem
 {
-    public class ListedItem : ObservableObject, IGroupableItem
+    [Obsolete("Use storage backend instead", false)]
+    public class ListedItem : ObservableObject, IGroupableItem, ILocatableStorable
     {
         protected static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
@@ -439,6 +436,17 @@ namespace Files.App.Filesystem
             NeedsPlaceholderGlyph = false;
             LoadDefaultIcon = true;
             PlaceholderDefaultIcon = img;
+        }
+
+        string ILocatableStorable.Path => itemPath;
+
+        string IStorable.Id => itemPath;
+
+        string IStorable.Name => ItemName;
+
+        Task<ILocatableFolder?> ILocatableStorable.GetParentAsync(CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
         }
     }
 

@@ -82,7 +82,7 @@ namespace Files.App
                     {
                         if (!(string.IsNullOrEmpty(launchArgs.Arguments) && MainPageViewModel.AppInstances.Count > 0))
                         {
-                            await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), launchArgs.Arguments);
+                            await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderControl), launchArgs.Arguments);
                         }
                     }
                     break;
@@ -157,7 +157,7 @@ namespace Files.App
                     }
                     for (; index < fileArgs.Files.Count; index++)
                     {
-                        await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), fileArgs.Files[index].Path);
+                        await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderControl), fileArgs.Files[index].Path);
                     }
                     break;
             }
@@ -219,7 +219,7 @@ namespace Files.App
                 };
                 if (rootFrame.Content != null)
                 {
-                    await MainPageViewModel.AddNewTabByParam(typeof(PaneHolderPage), paneNavigationArgs);
+                    await MainPageViewModel.AddNewTabByParam(typeof(PaneHolderControl), paneNavigationArgs);
                 }
                 else
                 {

@@ -590,7 +590,7 @@
                         Style="{StaticResource Local.TabViewItem}"
                         ToolTipService.ToolTip="{x:Bind ToolTipText, Mode=OneWay}">
                         <TabViewItem.Content>
-                            <views:PaneHolderPage />
+                            <views:PaneHolderControl DataContext="{x:Bind ViewModel}" />
                         </TabViewItem.Content>
                     </TabViewItem>
 				</DataTemplate>
