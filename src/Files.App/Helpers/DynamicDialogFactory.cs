@@ -42,6 +42,19 @@ namespace Files.App.Helpers
             return dialog;
         }
 
+        public static DynamicDialog GetFor_ShortcutNotFound(string targetPath)
+        {
+            DynamicDialog dialog = new(new DynamicDialogViewModel
+            {
+                TitleText = "ShortcutCannotBeOpened".GetLocalizedResource(),
+                SubtitleText = string.Format("DeleteShortcutDescription".GetLocalizedResource(), targetPath),
+                PrimaryButtonText = "Delete".GetLocalizedResource(),
+                SecondaryButtonText = "No".GetLocalizedResource(),
+                DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary
+            });
+            return dialog;
+        }
+
         public static DynamicDialog GetFor_RenameDialog()
         {
             DynamicDialog dialog = null;
