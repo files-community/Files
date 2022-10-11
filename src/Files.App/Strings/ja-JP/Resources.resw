@@ -226,7 +226,7 @@
     <value>色を選択</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
-    <value>既知のファイル タイプの拡張子を表示</value>
+    <value>既知のファイル形式の拡張子を表示</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>すべてのファイルとフォルダーを表示</value>
@@ -292,7 +292,7 @@
     <value>貼り付け</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
-    <value>新規</value>
+    <value>新規作成</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>ファイル</value>
@@ -340,7 +340,7 @@
     <value>Files へようこそ!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
-    <value>付与された許可</value>
+    <value>付与された権限</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>使用を開始する前に、ファイル システムへのアクセスを許可してください。Windows の設定が開き、アクセス許可の付与を選択できます。設定が完了したら、アプリケーションを再起動する必要があります。</value>
@@ -388,7 +388,7 @@
     <value>進む (Alt+右矢印)</value>
   </data>
   <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>1 つ上のディレクトリへ行く (Alt+上矢印)</value>
+    <value>1 つ上のディレクトリへ移動 (Alt+上矢印)</value>
   </data>
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>最新の情報に更新 (F5)</value>
@@ -532,7 +532,7 @@
     <value>ファイル</value>
   </data>
   <data name="DeleteInProgress.Title" xml:space="preserve">
-    <value>ファイルを削除しています</value>
+    <value>ファイルの削除中</value>
   </data>
   <data name="PasteInProgress.Title" xml:space="preserve">
     <value>ファイルを貼り付けています</value>
@@ -811,7 +811,7 @@
     <value>フォルダーの最新情報に更新</value>
   </data>
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
-    <value>1 つ上のディレクトリへ行く</value>
+    <value>1 つ上のディレクトリへ移動</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>言語</value>
@@ -1201,7 +1201,7 @@
     <value>検索結果</value>
   </data>
   <data name="SettingsAboutContributorsListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Files の開発に貢献者を見る</value>
+    <value>Files の開発への貢献者を見る</value>
   </data>
   <data name="SettingsAboutReleaseNotesListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Files の新機能を確認</value>
@@ -1390,10 +1390,10 @@
     <value>プレビューペインの表示/非表示切替 (Ctrl+P)</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
-    <value>プレビュー利用不可</value>
+    <value>プレビューを利用できません</value>
   </data>
   <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
-    <value>詳細利用不可</value>
+    <value>詳細を利用できません</value>
   </data>
   <data name="PropertyItemName" xml:space="preserve">
     <value>名前</value>
@@ -2458,7 +2458,7 @@
     <value>標準のファイル マネージャー</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
-    <value>Files を標準のファイルマネージャーに設定する</value>
+    <value>Files を既定のファイルマネージャーに設定する</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
     <value>ファイルを開くダイアログで Files を使用</value>
@@ -2728,7 +2728,7 @@
     <value>再試行</value>
   </data>
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
-    <value>ここではファイルの移動がサポートされていません。代わりにファイルをコピーしますか？</value>
+    <value>ここではファイルの移動がサポートされていません。代わりにファイルをコピーしますか?</value>
   </data>
   <data name="HiddenItems" xml:space="preserve">
     <value>隠しファイル</value>
@@ -2761,7 +2761,7 @@
     <value>Files を評価</value>
   </data>
   <data name="ReviewFilesContent" xml:space="preserve">
-    <value>Files を評価していただけますか？</value>
+    <value>Files を評価していただけますか?</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
     <value>背景に設定</value>
@@ -2800,7 +2800,7 @@
     <value>この操作を行うと、すべてのディレクトリがデフォルト設定にリセットされます</value>
   </data>
   <data name="AreYouSure" xml:space="preserve">
-    <value>よろしいですか？</value>
+    <value>よろしいですか?</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>ロック画面</value>
@@ -2815,13 +2815,13 @@
     <value>上にカーソルを合わせたときにファイルとフォルダーを選択する</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
-    <value>ごみ箱内のすべてのアイテムを復元してもよろしいですか？</value>
+    <value>ごみ箱内のすべてのアイテムを復元してもよろしいですか?</value>
   </data>
   <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
     <value>すべてのアイテムを復元</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
-    <value>選択した {0} アイテムを復元しますか？</value>
+    <value>選択した {0} アイテムを復元しますか?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
     <value>選択範囲を復元</value>
