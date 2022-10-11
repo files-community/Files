@@ -2776,10 +2776,10 @@
     <value>デフォルトに設定</value>
   </data>
   <data name="DateColumn" xml:space="preserve">
-    <value>日付</value>
+    <value>日時</value>
   </data>
   <data name="DateCreatedColumn" xml:space="preserve">
-    <value>作成日</value>
+    <value>作成日時</value>
   </data>
   <data name="SizeColumn" xml:space="preserve">
     <value>サイズ</value>
