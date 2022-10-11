@@ -2833,9 +2833,9 @@
     <value>Pulihkan</value>
   </data>
   <data name="ShortcutCannotBeOpened" xml:space="preserve">
-    <value>Shortcut cannot be opened</value>
+    <value>Pintasan tidak dapat dibuka</value>
   </data>
   <data name="DeleteShortcutDescription" xml:space="preserve">
-    <value>The target destination cannot be found {0}. Do you want to delete this shortcut?</value>
+    <value>Tujuan target tidak dapat ditemukan {0}. Apakah Anda ingin menghapus pintasan ini?</value>
   </data>
 </root>
