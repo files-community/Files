@@ -148,7 +148,7 @@
     <value>サイズ</value>
   </data>
   <data name="OpenIn" xml:space="preserve">
-    <value>開く</value>
+    <value>次で開く: </value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>作成日時:</value>
@@ -1228,19 +1228,19 @@
     <value>更新あり</value>
   </data>
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
-    <value>Show protected system files</value>
+    <value>保護されたシステムファイルを表示</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Include unindexed items in search results</value>
+    <value>インデックスされていないファイルを検索結果に含める</value>
   </data>
   <data name="ResetFolderPreferencesOverrides" xml:space="preserve">
-    <value>Reset folder overrides</value>
+    <value>フォルダーの追加設定をリセット</value>
   </data>
   <data name="EnableOverridingFolderPreferencesDescription" xml:space="preserve">
-    <value>Changing the layout in a directory when this setting is turned off will update the layout for all directories.</value>
+    <value>この設定がオフのときに任意のフォルダーのレイアウトを変更すると、すべてのフォルダーにそのレイアウトが適用されます。</value>
   </data>
   <data name="EnableOverridingFolderPreferences" xml:space="preserve">
-    <value>Enable overriding folder preferences in individual directories</value>
+    <value>個別のフォルダーごとに設定を変更できるようにする</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>右クリック メニューをカスタマイズ</value>
@@ -1675,16 +1675,16 @@
     <value>新しいタブでフォルダーを開く</value>
   </data>
   <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>Show Bundles widget</value>
+    <value>バンドル ウィジェットを表示</value>
   </data>
   <data name="ShowDrivesWidget" xml:space="preserve">
-    <value>Show Drives widget</value>
+    <value>ドライブ ウィジェットを表示</value>
   </data>
   <data name="ShowFolderWidget" xml:space="preserve">
-    <value>Show Folders widget</value>
+    <value>フォルダー ウィジェットを表示</value>
   </data>
   <data name="ShowRecentFilesWidget" xml:space="preserve">
-    <value>Show Recent Files widget</value>
+    <value>最近使用したファイル ウィジェットを表示</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>お探しのファイルが見つかりませんでしたか?</value>
@@ -1738,7 +1738,7 @@
     <value>元のパス</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowItemType.Text" xml:space="preserve">
-    <value>ファイル タイプ</value>
+    <value>種類</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateModified.Text" xml:space="preserve">
     <value>更新日時</value>
@@ -1951,7 +1951,7 @@
     <value>閉じる</value>
   </data>
   <data name="Widgets" xml:space="preserve">
-    <value>Widgets</value>
+    <value>ウィジェット</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>同期状況</value>
@@ -2011,16 +2011,16 @@
     <value>カスタム テーマの詳細</value>
   </data>
   <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
-    <value>カスタムテーマは、あなたの Files を作り上げるのに役立ちます。</value>
+    <value>カスタムテーマを使用して、自分なりの Files を作り上げましょう。</value>
   </data>
   <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>ドキュメントを見る</value>
   </data>
   <data name="DecompressArchiveDialog.Title" xml:space="preserve">
-    <value>宛先を選択してファイルを展開</value>
+    <value>展開先を選択してファイルを展開</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
-    <value>完了したら宛先フォルダーを開きます</value>
+    <value>完了したら展開されたファイルを開きます</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractFilesOption" xml:space="preserve">
     <value>ファイルを展開</value>
@@ -2596,7 +2596,7 @@
     <value>ライブラリ名を入力</value>
   </data>
   <data name="CalculateFolderSizes" xml:space="preserve">
-    <value>Calculate folder sizes</value>
+    <value>フォルダー サイズを計算</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
     <value>最近使用したファイル</value>
@@ -2626,7 +2626,7 @@
     <value>種類:</value>
   </data>
   <data name="IconGrid" xml:space="preserve">
-    <value>Icon Grid</value>
+    <value>アイコン グリッド</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>バイト</value>
@@ -2731,7 +2731,7 @@
     <value>ここではファイルの移動がサポートされていません。代わりにファイルをコピーしますか？</value>
   </data>
   <data name="HiddenItems" xml:space="preserve">
-    <value>Hidden items</value>
+    <value>隠しファイル</value>
   </data>
   <data name="Custom" xml:space="preserve">
     <value>カスタム</value>
@@ -2776,22 +2776,22 @@
     <value>デフォルトに設定</value>
   </data>
   <data name="DateColumn" xml:space="preserve">
-    <value>Date column</value>
+    <value>日付</value>
   </data>
   <data name="DateCreatedColumn" xml:space="preserve">
-    <value>Date Created column</value>
+    <value>作成日</value>
   </data>
   <data name="SizeColumn" xml:space="preserve">
-    <value>Size column</value>
+    <value>サイズ</value>
   </data>
   <data name="TagColumn" xml:space="preserve">
-    <value>Tag column</value>
+    <value>タグ</value>
   </data>
   <data name="TypeColumn" xml:space="preserve">
-    <value>Type column</value>
+    <value>種類</value>
   </data>
   <data name="DetailsLayoutColumns" xml:space="preserve">
-    <value>Details layout columns</value>
+    <value>詳細レイアウト</value>
   </data>
   <data name="Reset" xml:space="preserve">
     <value>リセット</value>
@@ -2806,13 +2806,13 @@
     <value>ロック画面</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>列レイアウトでワンクリックでフォルダを開く</value>
+    <value>列レイアウトでワンクリックでフォルダーを開く</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
-    <value>Opening items</value>
+    <value>ファイルを開いています</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
-    <value>上にカーソルを合わせたときにファイルとフォルダを選択する</value>
+    <value>上にカーソルを合わせたときにファイルとフォルダーを選択する</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
     <value>ごみ箱内のすべてのアイテムを復元してもよろしいですか？</value>
