@@ -2731,7 +2731,7 @@
     <value>Itt nem támogatott az áthelyezés művelet. Szeretné inkább másolni az elemeket?</value>
   </data>
   <data name="HiddenItems" xml:space="preserve">
-    <value>Hidden items</value>
+    <value>Rejtett elemek</value>
   </data>
   <data name="Custom" xml:space="preserve">
     <value>Egyéni</value>
