@@ -76,7 +76,7 @@ namespace Files.App.Views
 
         }
 
-        private void OpenAdvancedProperties()
+        public void OpenAdvancedProperties()
         {
             if (SecurityProperties == null)
             {

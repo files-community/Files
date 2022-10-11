@@ -1,15 +1,15 @@
-using Files.App.Dialogs;
-using Files.Shared.Enums;
-using Files.Shared.Extensions;
-using Files.App.Filesystem;
-using Files.App.ViewModels.Dialogs;
-using Files.App.Extensions;
-using CommunityToolkit.WinUI;
 using System;
-using Windows.System;
-using Microsoft.UI.Xaml.Controls;
 using System.Collections.Generic;
 using System.Linq;
+using Windows.System;
+using CommunityToolkit.WinUI;
+using Files.App.Dialogs;
+using Files.App.Extensions;
+using Files.App.Filesystem;
+using Files.App.ViewModels.Dialogs;
+using Files.Shared.Enums;
+using Files.Shared.Extensions;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Helpers
 {
@@ -51,6 +51,19 @@ namespace Files.App.Helpers
                 PrimaryButtonText = "Delete".GetLocalizedResource(),
                 SecondaryButtonText = "No".GetLocalizedResource(),
                 DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary
+            });
+            return dialog;
+        }
+
+        public static DynamicDialog GetFor_FolderNoPermission()
+        {
+            DynamicDialog dialog = new(new DynamicDialogViewModel
+            {
+                TitleText = "No Permission",
+                SubtitleText = "You currently don't have permission to access this folder.",
+                PrimaryButtonText = "Edit Permissions",
+                SecondaryButtonText = "Close",
+                DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary,
             });
             return dialog;
         }
