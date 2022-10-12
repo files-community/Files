@@ -1240,7 +1240,7 @@
     <value>Se alterar o esquema de um diretório e esta opção estiver inativa todos os diretório utilizarão esse esquema.</value>
   </data>
   <data name="EnableOverridingFolderPreferences" xml:space="preserve">
-    <value>Enable overriding folder preferences in individual directories</value>
+    <value>Permitir alterar as preferências padrão das pastas para diretórios específicos</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Personalize o menu de contexto do botão direito do rato</value>
@@ -2831,5 +2831,11 @@
   </data>
   <data name="RestoreSelection" xml:space="preserve">
     <value>Restaurar</value>
+  </data>
+  <data name="ShortcutCannotBeOpened" xml:space="preserve">
+    <value>Não foi possível abrir o item</value>
+  </data>
+  <data name="DeleteShortcutDescription" xml:space="preserve">
+    <value>Não foi possível encontrar o objeto de destino {0}. Deseja eliminar este atalho?</value>
   </data>
 </root>

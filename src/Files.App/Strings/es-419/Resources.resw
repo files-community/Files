@@ -2832,4 +2832,10 @@
   <data name="RestoreSelection" xml:space="preserve">
     <value>Restaurar</value>
   </data>
+  <data name="ShortcutCannotBeOpened" xml:space="preserve">
+    <value>No se puede abrir el acceso directo</value>
+  </data>
+  <data name="DeleteShortcutDescription" xml:space="preserve">
+    <value>No se puede encontrar el destino {0}. ¿Desea eliminar este acceso directo?</value>
+  </data>
 </root>
