@@ -825,9 +825,6 @@
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Переміщення додаткових елементів у підменю</value>
   </data>
-  <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
-    <value>Додати Кошик до вибраного</value>
-  </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
     <value>Показувати вікно підтвердження при видаленні файлів або папок</value>
   </data>
@@ -1230,14 +1227,20 @@
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Доступні оновлення</value>
   </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
-    <value>Приховувати захищені системні файли (рекомендовано)</value>
+  <data name="ShowProtectedSystemFiles" xml:space="preserve">
+    <value>Показати захищені системні файли</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Показати неіндексовані елементи під час пошуку файлів і папок</value>
+    <value>Include unindexed items in search results</value>
   </data>
-  <data name="ForceThesePreferencesOnAllDirectories" xml:space="preserve">
-    <value>Застосувати ці налаштування для всіх директорій</value>
+  <data name="ResetFolderPreferencesOverrides" xml:space="preserve">
+    <value>Скинути налаштування перезапису директорій</value>
+  </data>
+  <data name="EnableOverridingFolderPreferencesDescription" xml:space="preserve">
+    <value>Changing the layout in a directory when this setting is turned off will update the layout for all directories.</value>
+  </data>
+  <data name="EnableOverridingFolderPreferences" xml:space="preserve">
+    <value>Ввімкнути перезапис налаштувань директорій в окремих директоріях</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Налаштування контекстного меню</value>
@@ -2307,14 +2310,6 @@
   <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+N</value>
   </data>
-  <data name="SettingsPrivacy.Title" xml:space="preserve">
-    <value>Політика конфіденційності</value>
-  </data>
-  <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
-    <value>
-Ми використовуємо App Center, щоб відстежувати, які налаштування використовуються, знаходити помилки та виправляти збої. Інформація, що надсилається до App Center, є анонімною та вільною від будь-яких даних користувача або контекстуальних даних.
-  </value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Відкрити батьківську папку</value>
   </data>
@@ -2413,9 +2408,6 @@
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Відкрити папки у новій вкладці</value>
-  </data>
-  <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Додати Кошик до вибраного</value>
   </data>
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Мови</value>
@@ -2604,7 +2596,7 @@
     <value>Введіть назву Бібліотеки</value>
   </data>
   <data name="CalculateFolderSizes" xml:space="preserve">
-    <value>Відображати розмір папки</value>
+    <value>Calculate folder sizes</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
     <value>Останні файли</value>
@@ -2738,8 +2730,8 @@
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
     <value>Операція переміщення не підтримується в цьому контексті. Натомість скопіювати елементи?</value>
   </data>
-  <data name="HiddenFilesAndFolders" xml:space="preserve">
-    <value>Приховані файли та папки</value>
+  <data name="HiddenItems" xml:space="preserve">
+    <value>Приховані елементи</value>
   </data>
   <data name="Custom" xml:space="preserve">
     <value>Користувацький</value>
@@ -2783,23 +2775,23 @@
   <data name="SetAsDefault" xml:space="preserve">
     <value>Встановити за замовчуванням</value>
   </data>
-  <data name="FolderPreferences" xml:space="preserve">
-    <value>Налаштування папки</value>
+  <data name="DateColumn" xml:space="preserve">
+    <value>Стовпчик дати</value>
   </data>
-  <data name="DisplayDateColumn" xml:space="preserve">
-    <value>Показати стовпчик дати</value>
+  <data name="DateCreatedColumn" xml:space="preserve">
+    <value>Стовпчик дати створення</value>
   </data>
-  <data name="DisplayDateCreatedColumn" xml:space="preserve">
-    <value>Показати стовпчик дати створення</value>
+  <data name="SizeColumn" xml:space="preserve">
+    <value>Стовпчик розміру</value>
   </data>
-  <data name="DisplaySizeColumn" xml:space="preserve">
-    <value>Показати стовпчик розміру</value>
+  <data name="TagColumn" xml:space="preserve">
+    <value>Стовпчик тегів</value>
   </data>
-  <data name="DisplayTagColumn" xml:space="preserve">
-    <value>Показати стовпчик тегів</value>
+  <data name="TypeColumn" xml:space="preserve">
+    <value>Стовпчик типів</value>
   </data>
-  <data name="DisplayTypeColumn" xml:space="preserve">
-    <value>Показати стовпчик типів</value>
+  <data name="DetailsLayoutColumns" xml:space="preserve">
+    <value>Стовпчик деталей макета</value>
   </data>
   <data name="Reset" xml:space="preserve">
     <value>Скинути</value>
@@ -2816,8 +2808,8 @@
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
     <value>Відкрити папки одним натисканням по Макету Стовпчиків</value>
   </data>
-  <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
-    <value>Поведінка при відкритті файлів та папок</value>
+  <data name="OpeningItems" xml:space="preserve">
+    <value>Елементи відкриття</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Виділити файли та папки при наведенні на них</value>
@@ -2839,5 +2831,11 @@
   </data>
   <data name="RestoreSelection" xml:space="preserve">
     <value>Відновити</value>
+  </data>
+  <data name="ShortcutCannotBeOpened" xml:space="preserve">
+    <value>Shortcut cannot be opened</value>
+  </data>
+  <data name="DeleteShortcutDescription" xml:space="preserve">
+    <value>The target destination cannot be found {0}. Do you want to delete this shortcut?</value>
   </data>
 </root>

@@ -825,9 +825,6 @@
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Presunúť položky "navyše" do podponuky</value>
   </data>
-  <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
-    <value>Pripnúť Kôš medzi obľúbené</value>
-  </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
     <value>Pri odstraňovaní súborov alebo priečinkov zobraziť dialógové okno s potvrdením</value>
   </data>
@@ -1232,14 +1229,20 @@
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Dostupné aktualizácie</value>
   </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
-    <value>Skryť chránené súbory operačného systému (odporúča sa)</value>
+  <data name="ShowProtectedSystemFiles" xml:space="preserve">
+    <value>Zobraziť chránené systémové súbory</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Pri vyhľadávaní súborov a priečinkov zobraziť neindexované položky</value>
+    <value>Include unindexed items in search results</value>
   </data>
-  <data name="ForceThesePreferencesOnAllDirectories" xml:space="preserve">
-    <value>Vynútiť tieto nastavenia pre všetky priečinky</value>
+  <data name="ResetFolderPreferencesOverrides" xml:space="preserve">
+    <value>Obnoviť prepísania priečinka</value>
+  </data>
+  <data name="EnableOverridingFolderPreferencesDescription" xml:space="preserve">
+    <value>Changing the layout in a directory when this setting is turned off will update the layout for all directories.</value>
+  </data>
+  <data name="EnableOverridingFolderPreferences" xml:space="preserve">
+    <value>Povoliť prepísanie preferencií priečinkov v jednotlivých adresároch</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Prizpôsobiť kontextové menu</value>
@@ -1675,16 +1678,16 @@
     <value>Otvoriť priečinky na novej karte</value>
   </data>
   <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>Show Bundles widget</value>
+    <value>Zobraziť widget Bundles</value>
   </data>
   <data name="ShowDrivesWidget" xml:space="preserve">
-    <value>Show Drives widget</value>
+    <value>Zobraziť widget diskov</value>
   </data>
   <data name="ShowFolderWidget" xml:space="preserve">
-    <value>Show Folders widget</value>
+    <value>Zobraziť widget priečinkov</value>
   </data>
   <data name="ShowRecentFilesWidget" xml:space="preserve">
-    <value>Show Recent Files widget</value>
+    <value>Zobraziť widget nedávnych súborov</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>Nenašli ste čo ste hľadali?</value>
@@ -1951,7 +1954,7 @@
     <value>Zavrieť</value>
   </data>
   <data name="Widgets" xml:space="preserve">
-    <value>Widgets</value>
+    <value>Widgety</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>Stav synchronizácie</value>
@@ -2310,17 +2313,6 @@
   <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+N</value>
   </data>
-  <data name="SettingsPrivacy.Title" xml:space="preserve">
-    <value>Zásady ochrany osobných údajov</value>
-  </data>
-  <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
-    <value>*Zhromažďovanie osobných údajov*
-Files nezhromažďuje, neukladá, nezdieľa ani nezverejňuje žiadne osobné informácie.
-
-*Zhromažďovanie neosobných informácií*
-
-Centrum aplikácií používame na sledovanie používania aplikácií, vyhľadávanie chýb a opravy zlyhaní. Všetky informácie odoslané do App Center sú anonymné a neobsahujú žiadne používateľské ani kontextové údaje.</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Otvoriť nadradený priečinok</value>
   </data>
@@ -2419,9 +2411,6 @@ Centrum aplikácií používame na sledovanie používania aplikácií, vyhľad�
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Otvoriť priečinky na novej karte</value>
-  </data>
-  <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Pripnúť Kôš medzi obľúbené</value>
   </data>
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Jazyk</value>
@@ -2610,7 +2599,7 @@ Centrum aplikácií používame na sledovanie používania aplikácií, vyhľad�
     <value>Zadajte názov knižnice</value>
   </data>
   <data name="CalculateFolderSizes" xml:space="preserve">
-    <value>Zobraziť veľkosť priečinka</value>
+    <value>Calculate folder sizes</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
     <value>Naposledy otvorené súbory</value>
@@ -2640,7 +2629,7 @@ Centrum aplikácií používame na sledovanie používania aplikácií, vyhľad�
     <value>Typ:</value>
   </data>
   <data name="IconGrid" xml:space="preserve">
-    <value>Icon Grid</value>
+    <value>Mriežka ikon</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>bajtov</value>
@@ -2744,8 +2733,8 @@ Centrum aplikácií používame na sledovanie používania aplikácií, vyhľad�
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
     <value>Operácia presunu nie je v tomto kontexte podporovaná. Chcete namiesto toho skopírovať položky?</value>
   </data>
-  <data name="HiddenFilesAndFolders" xml:space="preserve">
-    <value>Skryté súbory a priečinky</value>
+  <data name="HiddenItems" xml:space="preserve">
+    <value>Skryté položky</value>
   </data>
   <data name="Custom" xml:space="preserve">
     <value>Vlastné</value>
@@ -2789,29 +2778,29 @@ Centrum aplikácií používame na sledovanie používania aplikácií, vyhľad�
   <data name="SetAsDefault" xml:space="preserve">
     <value>Nastaviť ako predvolené</value>
   </data>
-  <data name="FolderPreferences" xml:space="preserve">
-    <value>Nastavenia priečinka</value>
+  <data name="DateColumn" xml:space="preserve">
+    <value>Stĺpec dátumu</value>
   </data>
-  <data name="DisplayDateColumn" xml:space="preserve">
-    <value>Zobraziť dátumový stĺpec</value>
+  <data name="DateCreatedColumn" xml:space="preserve">
+    <value>Stĺpec dátumu vytvorenia</value>
   </data>
-  <data name="DisplayDateCreatedColumn" xml:space="preserve">
-    <value>Zobraziť stĺpec dátumu vytvorenia</value>
+  <data name="SizeColumn" xml:space="preserve">
+    <value>Stĺpec veľkosti</value>
   </data>
-  <data name="DisplaySizeColumn" xml:space="preserve">
-    <value>Zobraziť sĺpec veľkosti</value>
+  <data name="TagColumn" xml:space="preserve">
+    <value>Stĺpec značky</value>
   </data>
-  <data name="DisplayTagColumn" xml:space="preserve">
-    <value>Zobraziť stĺpec značiek</value>
+  <data name="TypeColumn" xml:space="preserve">
+    <value>Stĺpec typu</value>
   </data>
-  <data name="DisplayTypeColumn" xml:space="preserve">
-    <value>Zobraziť stĺpec typu</value>
+  <data name="DetailsLayoutColumns" xml:space="preserve">
+    <value>Podrobnosti stĺpcoch rozloženia</value>
   </data>
   <data name="Reset" xml:space="preserve">
     <value>Obnoviť</value>
   </data>
   <data name="ResetLayoutPreferences" xml:space="preserve">
-    <value>This action will reset all directories back to your default preferences.</value>
+    <value>Táto akcia obnoví všetky adresáre späť na vaše predvolené nastavenia.</value>
   </data>
   <data name="AreYouSure" xml:space="preserve">
     <value>Ste si istý?</value>
@@ -2820,13 +2809,13 @@ Centrum aplikácií používame na sledovanie používania aplikácií, vyhľad�
     <value>Obrazovka uzamknutia</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Open folders with a single click in the Columns Layout</value>
+    <value>Otvoriť priečinky jedným kliknutím v rozložení stĺpcov</value>
   </data>
-  <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
-    <value>Správanie otvárania súborov a priečinkov</value>
+  <data name="OpeningItems" xml:space="preserve">
+    <value>Otváranie položiek</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
-    <value>Select files and folders when hovering over them</value>
+    <value>Vybrať súbory a priečinky, keď na ne umiestnite kurzor myši</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
     <value>Ste si istý, že chcete obnoviť všetky položky v koši?</value>
@@ -2845,5 +2834,11 @@ Centrum aplikácií používame na sledovanie používania aplikácií, vyhľad�
   </data>
   <data name="RestoreSelection" xml:space="preserve">
     <value>Obnoviť</value>
+  </data>
+  <data name="ShortcutCannotBeOpened" xml:space="preserve">
+    <value>Shortcut cannot be opened</value>
+  </data>
+  <data name="DeleteShortcutDescription" xml:space="preserve">
+    <value>The target destination cannot be found {0}. Do you want to delete this shortcut?</value>
   </data>
 </root>

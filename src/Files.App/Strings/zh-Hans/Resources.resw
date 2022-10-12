@@ -825,9 +825,6 @@
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>将溢出项移动到子菜单内</value>
   </data>
-  <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
-    <value>将回收站固定到收藏夹</value>
-  </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
     <value>删除文件或文件夹时显示确认对话框</value>
   </data>
@@ -1230,14 +1227,20 @@
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>有更新可用</value>
   </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
-    <value>隐藏受保护的操作系统文件 (推荐)</value>
+  <data name="ShowProtectedSystemFiles" xml:space="preserve">
+    <value>Show protected system files</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>搜索文件和文件夹时，显示未建立索引的项</value>
+    <value>Include unindexed items in search results</value>
   </data>
-  <data name="ForceThesePreferencesOnAllDirectories" xml:space="preserve">
-    <value>强制对所有目录应用这些首选项</value>
+  <data name="ResetFolderPreferencesOverrides" xml:space="preserve">
+    <value>Reset folder overrides</value>
+  </data>
+  <data name="EnableOverridingFolderPreferencesDescription" xml:space="preserve">
+    <value>Changing the layout in a directory when this setting is turned off will update the layout for all directories.</value>
+  </data>
+  <data name="EnableOverridingFolderPreferences" xml:space="preserve">
+    <value>Enable overriding folder preferences in individual directories</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>自定义右键菜单</value>
@@ -2307,12 +2310,6 @@
   <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+N</value>
   </data>
-  <data name="SettingsPrivacy.Title" xml:space="preserve">
-    <value>隐私政策</value>
-  </data>
-  <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
-    <value>我们使用 App Center 来跟踪正在使用的设置、查找漏洞和修复崩溃。 发送到 App Center 的信息是匿名的，不涉及任何用户数据或上下文数据。</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>打开上级目录</value>
   </data>
@@ -2411,9 +2408,6 @@
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>在新标签页中打开文件夹</value>
-  </data>
-  <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>将回收站固定到收藏夹</value>
   </data>
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>语言</value>
@@ -2602,7 +2596,7 @@
     <value>输入库名</value>
   </data>
   <data name="CalculateFolderSizes" xml:space="preserve">
-    <value>显示文件夹大小</value>
+    <value>Calculate folder sizes</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
     <value>最近使用的文件</value>
@@ -2736,8 +2730,8 @@
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
     <value>当前无法执行移动操作。要复制此项目吗？</value>
   </data>
-  <data name="HiddenFilesAndFolders" xml:space="preserve">
-    <value>隐藏的文件和文件夹</value>
+  <data name="HiddenItems" xml:space="preserve">
+    <value>Hidden items</value>
   </data>
   <data name="Custom" xml:space="preserve">
     <value>自定义</value>
@@ -2781,23 +2775,23 @@
   <data name="SetAsDefault" xml:space="preserve">
     <value>设为默认</value>
   </data>
-  <data name="FolderPreferences" xml:space="preserve">
-    <value>文件夹首选项</value>
+  <data name="DateColumn" xml:space="preserve">
+    <value>Date column</value>
   </data>
-  <data name="DisplayDateColumn" xml:space="preserve">
-    <value>显示“日期”列</value>
+  <data name="DateCreatedColumn" xml:space="preserve">
+    <value>Date Created column</value>
   </data>
-  <data name="DisplayDateCreatedColumn" xml:space="preserve">
-    <value>显示“创建日期”列</value>
+  <data name="SizeColumn" xml:space="preserve">
+    <value>Size column</value>
   </data>
-  <data name="DisplaySizeColumn" xml:space="preserve">
-    <value>显示“大小”列</value>
+  <data name="TagColumn" xml:space="preserve">
+    <value>Tag column</value>
   </data>
-  <data name="DisplayTagColumn" xml:space="preserve">
-    <value>显示“标签”列</value>
+  <data name="TypeColumn" xml:space="preserve">
+    <value>Type column</value>
   </data>
-  <data name="DisplayTypeColumn" xml:space="preserve">
-    <value>显示“类型”列</value>
+  <data name="DetailsLayoutColumns" xml:space="preserve">
+    <value>Details layout columns</value>
   </data>
   <data name="Reset" xml:space="preserve">
     <value>重置首选项</value>
@@ -2814,8 +2808,8 @@
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
     <value>在“列视图”布局下，通过单击打开文件夹</value>
   </data>
-  <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
-    <value>打开文件和文件夹时的行为</value>
+  <data name="OpeningItems" xml:space="preserve">
+    <value>Opening items</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>鼠标指向项目时自动选定</value>
@@ -2837,5 +2831,11 @@
   </data>
   <data name="RestoreSelection" xml:space="preserve">
     <value>还原</value>
+  </data>
+  <data name="ShortcutCannotBeOpened" xml:space="preserve">
+    <value>Shortcut cannot be opened</value>
+  </data>
+  <data name="DeleteShortcutDescription" xml:space="preserve">
+    <value>The target destination cannot be found {0}. Do you want to delete this shortcut?</value>
   </data>
 </root>

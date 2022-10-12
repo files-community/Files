@@ -326,29 +326,29 @@ namespace Files.App.Views
 
         private async void ModernShellPage_TextChanged(ISearchBox sender, SearchBoxTextChangedEventArgs e)
         {
-            if (e.Reason != SearchBoxTextChangeReason.UserInput)
-                return;
-
-            if (!string.IsNullOrWhiteSpace(sender.Query))
+            if (e.Reason == SearchBoxTextChangeReason.UserInput)
             {
-                var search = new FolderSearch
+                if (!string.IsNullOrWhiteSpace(sender.Query))
                 {
-                    Query = sender.Query,
-                    Folder = FilesystemViewModel.WorkingDirectory,
-                    MaxItemCount = 10,
-                    SearchUnindexedItems = UserSettingsService.PreferencesSettingsService.SearchUnindexedItems
-                };
-                sender.SetSuggestions(await search.SearchAsync());
-            }
-            else
-            {
-                sender.ClearSuggestions();
+                    var search = new FolderSearch
+                    {
+                        Query = sender.Query,
+                        Folder = FilesystemViewModel.WorkingDirectory,
+                        MaxItemCount = 10,
+                        SearchUnindexedItems = UserSettingsService.PreferencesSettingsService.SearchUnindexedItems
+                    };
+                    sender.SetSuggestions((await search.SearchAsync()).Select(suggestion => new SuggestionModel(suggestion)));
+                }
+                else
+                {
+                    sender.AddRecentQueries();
+                }
             }
         }
 
         private async void ModernShellPage_QuerySubmitted(ISearchBox sender, SearchBoxQuerySubmittedEventArgs e)
         {
-            if (e.ChosenSuggestion is ListedItem item)
+            if (e.ChosenSuggestion is SuggestionModel item && !string.IsNullOrWhiteSpace(item.ItemPath))
                 await NavigationHelpers.OpenPath(item.ItemPath, this);
             else if (e.ChosenSuggestion is null && !string.IsNullOrWhiteSpace(sender.Query))
                 SubmitSearch(sender.Query, UserSettingsService.PreferencesSettingsService.SearchUnindexedItems);
@@ -651,8 +651,11 @@ namespace Files.App.Views
         private async void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e)
         {
             ContentPage = await GetContentOrNullAsync();
-            ToolbarViewModel.SearchBox.Query = string.Empty;
-            ToolbarViewModel.IsSearchBoxVisible = false;
+            if (!ToolbarViewModel.SearchBox.WasQuerySubmitted)
+            {
+                ToolbarViewModel.SearchBox.Query = string.Empty;
+                ToolbarViewModel.IsSearchBoxVisible = false;
+            }
             ToolbarViewModel.UpdateAdditionalActions();
             if (ItemDisplayFrame.CurrentSourcePageType == (typeof(DetailsLayoutBrowser))
                 || ItemDisplayFrame.CurrentSourcePageType == typeof(GridViewBrowser))

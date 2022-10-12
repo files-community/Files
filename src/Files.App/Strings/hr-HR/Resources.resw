@@ -825,9 +825,6 @@
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Premjesti prekomjerne stavke u podizbornik</value>
   </data>
-  <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
-    <value>Prikvači Koš za smeće u favorite</value>
-  </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
     <value>Prikaz dijaloga za potvrdu prilikom brisanja datoteka ili mapa</value>
   </data>
@@ -1230,14 +1227,20 @@
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Dostupna ažuriranja</value>
   </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
-    <value>Sakrij zaštićene datoteke operacijskog sustava (preporučeno)</value>
+  <data name="ShowProtectedSystemFiles" xml:space="preserve">
+    <value>Show protected system files</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Prikaži neindeksirane stavke pri traženju datoteka i mapa (pretraživanja mogu potrajati dulje)</value>
+    <value>Include unindexed items in search results</value>
   </data>
-  <data name="ForceThesePreferencesOnAllDirectories" xml:space="preserve">
-    <value>Force these preferences on all directories</value>
+  <data name="ResetFolderPreferencesOverrides" xml:space="preserve">
+    <value>Reset folder overrides</value>
+  </data>
+  <data name="EnableOverridingFolderPreferencesDescription" xml:space="preserve">
+    <value>Changing the layout in a directory when this setting is turned off will update the layout for all directories.</value>
+  </data>
+  <data name="EnableOverridingFolderPreferences" xml:space="preserve">
+    <value>Enable overriding folder preferences in individual directories</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Prilagodi kontekstni izbornik desnog klika</value>
@@ -2307,18 +2310,6 @@
   <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+N</value>
   </data>
-  <data name="SettingsPrivacy.Title" xml:space="preserve">
-    <value>Pravila zaštite privatnosti</value>
-  </data>
-  <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
-    <value>
-*Prikupljanje osobnih podataka*
-Files aplikacija ne prikuplja, ne pohranjuje, ne dijeli niti objavljuje nikakve osobne podatke.
-
-*Prikupljanje neosobnih podataka*
-
-Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka i ispravljanje padova. Sve informacije poslane u App Center anonimne su i ne sadrže nikakve korisničke ili kontekstualne podatke.</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Otvori nadređenu mapu</value>
   </data>
@@ -2417,9 +2408,6 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Otvori mape u novoj kartici</value>
-  </data>
-  <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Prikvači Koš za smeće u favorite</value>
   </data>
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Jezik</value>
@@ -2608,7 +2596,7 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
     <value>Enter Library name</value>
   </data>
   <data name="CalculateFolderSizes" xml:space="preserve">
-    <value>Prikaži veličinu mape</value>
+    <value>Calculate folder sizes</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
     <value>Nedavne datoteke</value>
@@ -2742,8 +2730,8 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
     <value>Move operation is not supported in this context. Do you want to copy the items instead?</value>
   </data>
-  <data name="HiddenFilesAndFolders" xml:space="preserve">
-    <value>Hidden files and folders</value>
+  <data name="HiddenItems" xml:space="preserve">
+    <value>Hidden items</value>
   </data>
   <data name="Custom" xml:space="preserve">
     <value>Custom</value>
@@ -2787,23 +2775,23 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
   <data name="SetAsDefault" xml:space="preserve">
     <value>Set as default</value>
   </data>
-  <data name="FolderPreferences" xml:space="preserve">
-    <value>Folder preferences</value>
+  <data name="DateColumn" xml:space="preserve">
+    <value>Date column</value>
   </data>
-  <data name="DisplayDateColumn" xml:space="preserve">
-    <value>Display Date column</value>
+  <data name="DateCreatedColumn" xml:space="preserve">
+    <value>Date Created column</value>
   </data>
-  <data name="DisplayDateCreatedColumn" xml:space="preserve">
-    <value>Display Date Created column</value>
+  <data name="SizeColumn" xml:space="preserve">
+    <value>Size column</value>
   </data>
-  <data name="DisplaySizeColumn" xml:space="preserve">
-    <value>Display Size column</value>
+  <data name="TagColumn" xml:space="preserve">
+    <value>Tag column</value>
   </data>
-  <data name="DisplayTagColumn" xml:space="preserve">
-    <value>Display Tag column</value>
+  <data name="TypeColumn" xml:space="preserve">
+    <value>Type column</value>
   </data>
-  <data name="DisplayTypeColumn" xml:space="preserve">
-    <value>Display Type column</value>
+  <data name="DetailsLayoutColumns" xml:space="preserve">
+    <value>Details layout columns</value>
   </data>
   <data name="Reset" xml:space="preserve">
     <value>Reset</value>
@@ -2820,8 +2808,8 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
     <value>Open folders with a single click in the Columns Layout</value>
   </data>
-  <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
-    <value>Behavior for opening files and folders</value>
+  <data name="OpeningItems" xml:space="preserve">
+    <value>Opening items</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Select files and folders when hovering over them</value>
@@ -2843,5 +2831,11 @@ Koristimo App Center za praćenje korištenja aplikacija, pronalaženje grešaka
   </data>
   <data name="RestoreSelection" xml:space="preserve">
     <value>Vrati</value>
+  </data>
+  <data name="ShortcutCannotBeOpened" xml:space="preserve">
+    <value>Shortcut cannot be opened</value>
+  </data>
+  <data name="DeleteShortcutDescription" xml:space="preserve">
+    <value>The target destination cannot be found {0}. Do you want to delete this shortcut?</value>
   </data>
 </root>
