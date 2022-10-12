@@ -159,7 +159,7 @@
       <Version>6.0.9</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection">
-      <Version>6.0.0</Version>
+      <Version>6.0.1</Version>
     </PackageReference>
     <PackageReference Include="SevenZipSharp">
       <Version>1.0.0</Version>
