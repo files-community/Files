@@ -68,6 +68,7 @@ namespace Files.App.DataModels
 			FavoriteItems.Add(CommonPaths.DesktopPath);
 			FavoriteItems.Add(CommonPaths.DownloadsPath);
 			FavoriteItems.Add(udp.Documents);
+			FavoriteItems.Add(CommonPaths.RecycleBinPath);
 		}
 
 		/// <summary>
@@ -94,11 +95,6 @@ namespace Files.App.DataModels
 					FavoriteItems.Add(item);
 					await AddItemToSidebarAsync(item);
 					Save();
-
-					if (item == CommonPaths.RecycleBinPath)
-					{
-						UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar = true;
-					}
 				}
 			}
 			finally
@@ -118,11 +114,6 @@ namespace Files.App.DataModels
 				FavoriteItems.Remove(item);
 				RemoveStaleSidebarItems();
 				Save();
-
-				if (item == CommonPaths.RecycleBinPath)
-				{
-					UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar = false;
-				}
 			}
 		}
 
@@ -206,20 +197,6 @@ namespace Files.App.DataModels
 		public int IndexOfItem(INavigationControlItem locationItem, List<INavigationControlItem> collection)
 		{
 			return collection.IndexOf(locationItem);
-		}
-
-		public void ShowHideRecycleBinItem(bool show)
-		{
-			bool isPinned = favoriteList.Any(x => x.Path == CommonPaths.RecycleBinPath);
-
-			if (show && !isPinned)
-			{
-				AddItem(CommonPaths.RecycleBinPath);
-			}
-			else if (!show && isPinned)
-			{
-				RemoveItem(CommonPaths.RecycleBinPath);
-			}
 		}
 
 		/// <summary>
@@ -326,7 +303,6 @@ namespace Files.App.DataModels
 				{
 					await AddItemToSidebarAsync(path);
 				}
-				ShowHideRecycleBinItem(UserSettingsService.AppearanceSettingsService.PinRecycleBinToSidebar);
 			}
 		}
 

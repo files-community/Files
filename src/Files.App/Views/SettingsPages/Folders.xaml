@@ -211,6 +211,29 @@
 					</StackPanel>
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
+			
+			<!--  Calculate folder sizes  -->
+			<local:SettingsBlockControl
+				Title="{helpers:ResourceString Name=CalculateFolderSizes}"
+				HorizontalAlignment="Stretch"
+				IsExpanded="True">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE2B2;" />
+				</local:SettingsBlockControl.Icon>
+				<ToggleSwitch
+					AutomationProperties.Name="{helpers:ResourceString Name=CalculateFolderSizes}"
+					IsOn="{Binding CalculateFolderSizes, Mode=TwoWay}"
+					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+				<local:SettingsBlockControl.ExpandableContent>
+					<InfoBar
+						CornerRadius="0,0,2,2"
+						IsClosable="False"
+						IsIconVisible="True"
+						IsOpen="True"
+						Message="{helpers:ResourceString Name=ShowFolderSizesWarning}"
+						Severity="Warning" />
+				</local:SettingsBlockControl.ExpandableContent>
+			</local:SettingsBlockControl>
 		</StackPanel>
 	</Grid>
 </Page>

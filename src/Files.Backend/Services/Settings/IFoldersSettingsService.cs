@@ -110,5 +110,10 @@ namespace Files.Backend.Services.Settings
 		/// Gets or sets a value indicating whether or not to open folders in new tab.
 		/// </summary>
 		bool OpenFoldersInNewTab { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to show folder size.
+		/// </summary>
+		bool CalculateFolderSizes { get; set; }
 	}
 }

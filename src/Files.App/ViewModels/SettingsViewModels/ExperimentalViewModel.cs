@@ -38,19 +38,6 @@ namespace Files.App.ViewModels.SettingsViewModels
             SetAsOpenFileDialogCommand = new AsyncRelayCommand(SetAsOpenFileDialog);
         }
 
-        public bool ShowFolderSize
-        {
-            get => UserSettingsService.PreferencesSettingsService.ShowFolderSize;
-            set
-            {
-                if (value != UserSettingsService.PreferencesSettingsService.ShowFolderSize)
-                {
-                    UserSettingsService.PreferencesSettingsService.ShowFolderSize = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
         private async Task LaunchFileTagsConfigFile()
         {
             var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/filetags.json"));
