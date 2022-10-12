@@ -39,7 +39,7 @@ variables:
 - name: solution
   value: '**/*.sln'
 - name: buildPlatform
-  value: 'x64'
+  value: 'x64|ARM64'
 - name: buildConfiguration
   value: 'Release'
 - name: sideloadBuildConfiguration
