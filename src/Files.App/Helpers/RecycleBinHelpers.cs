@@ -203,10 +203,7 @@ namespace Files.App.Helpers
 
         public static void RaiseRecycleBinChangedEvent()
         {
-            if(RecycleBinChanged != null)
-            {
-                RecycleBinChanged.Invoke(null, null);
-            }
-        }
+			RecycleBinChanged?.Invoke(null, null);
+		}
     }
 }
