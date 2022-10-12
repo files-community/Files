@@ -37,8 +37,6 @@ namespace Files.App.Filesystem
 
         private ItemManipulationModel itemManipulationModel => associatedInstance.SlimContentPage?.ItemManipulationModel;
 
-        private RecycleBinHelpers recycleBinHelpers;
-
         private readonly CancellationToken cancellationToken;
 
         private Task<NamedPipeAsAppServiceConnection> ServiceConnection => AppServiceConnectionHelper.Instance;
@@ -87,7 +85,6 @@ namespace Files.App.Filesystem
             this.associatedInstance = associatedInstance;
             this.cancellationToken = cancellationToken;
             this.filesystemOperations = new ShellFilesystemOperations(this.associatedInstance);
-            this.recycleBinHelpers = new RecycleBinHelpers();
         }
 
         #endregion Constructor
@@ -123,8 +120,8 @@ namespace Files.App.Filesystem
 
             var returnStatus = ReturnResult.InProgress;
 
-            var deleteFromRecycleBin = source.Select(item => item.Path).Any(path => recycleBinHelpers.IsPathUnderRecycleBin(path));
-            var canBeSentToBin = !deleteFromRecycleBin && await recycleBinHelpers.HasRecycleBin(source.FirstOrDefault()?.Path);
+            var deleteFromRecycleBin = source.Select(item => item.Path).Any(path => RecycleBinHelpers.IsPathUnderRecycleBin(path));
+            var canBeSentToBin = !deleteFromRecycleBin && await RecycleBinHelpers.HasRecycleBin(source.FirstOrDefault()?.Path);
 
             if (((!permanently && !canBeSentToBin) || UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog) && showDialog) // Check if the setting to show a confirmation dialog is on
             {
@@ -132,9 +129,9 @@ namespace Files.App.Filesystem
                 List<ShellFileItem> binItems = null;
                 foreach (var src in source)
                 {
-                    if (recycleBinHelpers.IsPathUnderRecycleBin(src.Path))
+                    if (RecycleBinHelpers.IsPathUnderRecycleBin(src.Path))
                     {
-                        binItems ??= await recycleBinHelpers.EnumerateRecycleBin();
+                        binItems ??= await RecycleBinHelpers.EnumerateRecycleBin();
                         if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
                         {
                             var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == src.Path); // Get original file name
@@ -399,9 +396,9 @@ namespace Files.App.Filesystem
                 List<ShellFileItem> binItems = null;
                 foreach (var item in source)
                 {
-                    if (recycleBinHelpers.IsPathUnderRecycleBin(item.Path))
+                    if (RecycleBinHelpers.IsPathUnderRecycleBin(item.Path))
                     {
-                        binItems ??= await recycleBinHelpers.EnumerateRecycleBin();
+                        binItems ??= await RecycleBinHelpers.EnumerateRecycleBin();
                         if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
                         {
                             var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
@@ -546,9 +543,9 @@ namespace Files.App.Filesystem
             List<ShellFileItem> binItems = null;
             foreach (var item in source)
             {
-                if (recycleBinHelpers.IsPathUnderRecycleBin(item.Path))
+                if (RecycleBinHelpers.IsPathUnderRecycleBin(item.Path))
                 {
-                    binItems ??= await recycleBinHelpers.EnumerateRecycleBin();
+                    binItems ??= await RecycleBinHelpers.EnumerateRecycleBin();
                     if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
                     {
                         var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
@@ -682,7 +679,7 @@ namespace Files.App.Filesystem
 
             ReturnResult returnStatus = ReturnResult.InProgress;
 
-            source = source.Where(x => !recycleBinHelpers.IsPathUnderRecycleBin(x.Path)); // Can't recycle items already in recyclebin
+            source = source.Where(x => !RecycleBinHelpers.IsPathUnderRecycleBin(x.Path)); // Can't recycle items already in recyclebin
             returnStatus = await DeleteItemsAsync(source, showDialog, false, registerHistory);
 
             return returnStatus;
@@ -866,7 +863,6 @@ namespace Files.App.Filesystem
 
             associatedInstance = null;
             filesystemOperations = null;
-            recycleBinHelpers = null;
         }
 
         #endregion IDisposable

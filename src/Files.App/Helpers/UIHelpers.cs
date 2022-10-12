@@ -147,7 +147,7 @@ namespace Files.App.Helpers
 
         public static int GetAdaptedRecycleBinIconIndex()
         {
-            if (new RecycleBinHelpers().RecycleBinHasItems())
+            if (RecycleBinHelpers.RecycleBinHasItems())
             {
                 return Constants.ImageRes.RecycleBin;
             }

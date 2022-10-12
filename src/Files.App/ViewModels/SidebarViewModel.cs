@@ -540,7 +540,7 @@ namespace Files.App.ViewModels
 
 		public async void EmptyRecycleBin(RoutedEventArgs e)
 		{
-			await RecycleBinHelpers.S_EmptyRecycleBin();
+			await RecycleBinHelpers.EmptyRecycleBin();
 		}
 
 		public async void OnRecycleBinChanged(object sender, EventArgs e)

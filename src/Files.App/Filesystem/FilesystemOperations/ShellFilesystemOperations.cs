@@ -31,8 +31,6 @@ namespace Files.App.Filesystem
 
         private FilesystemOperations filesystemOperations;
 
-        private RecycleBinHelpers recycleBinHelpers;
-
         private IDialogService DialogService { get; } = Ioc.Default.GetRequiredService<IDialogService>();
 
         private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
@@ -45,7 +43,6 @@ namespace Files.App.Filesystem
         {
             this.associatedInstance = associatedInstance;
             filesystemOperations = new FilesystemOperations(associatedInstance);
-            recycleBinHelpers = new RecycleBinHelpers();
         }
 
         #endregion Constructor
@@ -380,7 +377,7 @@ namespace Files.App.Filesystem
             }
 
             var deleleFilePaths = source.Select(s => s.Path).Distinct();
-            var deleteFromRecycleBin = source.Any() ? recycleBinHelpers.IsPathUnderRecycleBin(source.ElementAt(0).Path) : false;
+            var deleteFromRecycleBin = source.Any() ? RecycleBinHelpers.IsPathUnderRecycleBin(source.ElementAt(0).Path) : false;
             permanently |= deleteFromRecycleBin;
 
             if (deleteFromRecycleBin)
@@ -912,9 +909,9 @@ namespace Files.App.Filesystem
             List<ShellFileItem> binItems = null;
             foreach (var src in source)
             {
-                if (recycleBinHelpers.IsPathUnderRecycleBin(src))
+                if (RecycleBinHelpers.IsPathUnderRecycleBin(src))
                 {
-                    binItems ??= await recycleBinHelpers.EnumerateRecycleBin();
+                    binItems ??= await RecycleBinHelpers.EnumerateRecycleBin();
                     if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
                     {
                         var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == src); // Get original file name
@@ -961,7 +958,6 @@ namespace Files.App.Filesystem
             filesystemOperations?.Dispose();
 
             filesystemOperations = null;
-            recycleBinHelpers = null;
             associatedInstance = null;
         }
 

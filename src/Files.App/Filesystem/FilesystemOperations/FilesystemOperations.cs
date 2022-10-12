@@ -33,14 +33,11 @@ namespace Files.App.Filesystem
 
         private IShellPage associatedInstance;
 
-        private RecycleBinHelpers recycleBinHelpers;
-
         #region Constructor
 
         public FilesystemOperations(IShellPage associatedInstance)
         {
             this.associatedInstance = associatedInstance;
-            recycleBinHelpers = new RecycleBinHelpers();
         }
 
         #endregion Constructor
@@ -495,7 +492,7 @@ namespace Files.App.Filesystem
                                                        bool permanently,
                                                        CancellationToken cancellationToken)
         {
-            bool deleteFromRecycleBin = recycleBinHelpers.IsPathUnderRecycleBin(source.Path);
+            bool deleteFromRecycleBin = RecycleBinHelpers.IsPathUnderRecycleBin(source.Path);
 
             FilesystemResult fsResult = FileSystemStatusCode.InProgress;
 
@@ -549,7 +546,7 @@ namespace Files.App.Filesystem
                 if (!permanently)
                 {
                     // Enumerate Recycle Bin
-                    IEnumerable<ShellFileItem> nameMatchItems, items = await recycleBinHelpers.EnumerateRecycleBin();
+                    IEnumerable<ShellFileItem> nameMatchItems, items = await RecycleBinHelpers.EnumerateRecycleBin();
 
                     // Get name matching files
                     if (Path.GetExtension(source.Path) == ".lnk" || Path.GetExtension(source.Path) == ".url") // We need to check if it is a shortcut file
@@ -861,7 +858,6 @@ namespace Files.App.Filesystem
 
         public void Dispose()
         {
-            recycleBinHelpers = null;
             associatedInstance = null;
         }
 
@@ -964,7 +960,7 @@ namespace Files.App.Filesystem
                     break;
                 }
 
-                if (recycleBinHelpers.IsPathUnderRecycleBin(source[i].Path))
+                if (RecycleBinHelpers.IsPathUnderRecycleBin(source[i].Path))
                 {
                     permanently = true;
                 }

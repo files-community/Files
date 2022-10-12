@@ -156,17 +156,17 @@ namespace Files.App.Interacts
 
         public virtual async void EmptyRecycleBin(RoutedEventArgs e)
         {
-            await RecycleBinHelpers.S_EmptyRecycleBin();
+            await RecycleBinHelpers.EmptyRecycleBin();
         }
 
         public virtual async void RestoreRecycleBin(RoutedEventArgs e)
         {
-            await RecycleBinHelpers.S_RestoreRecycleBin(associatedInstance);
+            await RecycleBinHelpers.RestoreRecycleBin(associatedInstance);
         }
 
         public virtual async void RestoreSelectionRecycleBin(RoutedEventArgs e)
         {
-            await RecycleBinHelpers.S_RestoreSelectionRecycleBin(associatedInstance);
+            await RecycleBinHelpers.RestoreSelectionRecycleBin(associatedInstance);
         }
 
         public virtual async void QuickLook(RoutedEventArgs e)
@@ -186,12 +186,12 @@ namespace Files.App.Interacts
 
         public virtual async void RestoreItem(RoutedEventArgs e)
         {
-            await RecycleBinHelpers.S_RestoreItem(associatedInstance);
+            await RecycleBinHelpers.RestoreItem(associatedInstance);
         }
 
         public virtual async void DeleteItem(RoutedEventArgs e)
         {
-            await RecycleBinHelpers.S_DeleteItem(associatedInstance);
+            await RecycleBinHelpers.DeleteItem(associatedInstance);
         }
 
         public virtual void ShowFolderProperties(RoutedEventArgs e)
