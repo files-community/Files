@@ -15,6 +15,7 @@ using CommunityToolkit.WinUI;
 using Files.App.Dialogs;
 using System.Runtime.Versioning;
 using Microsoft.Windows.AppNotifications;
+using Windows.System;
 
 namespace Files.App.Helpers
 {
@@ -53,6 +54,12 @@ namespace Files.App.Helpers
                 contentDialog.XamlRoot = App.Window.Content.XamlRoot;
             }
             return contentDialog;
+        }
+
+        public static LauncherOptions InitializeWithWindow(LauncherOptions obj)
+        {
+            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+            return obj;
         }
 
         /// <summary>

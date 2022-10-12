@@ -12,21 +12,9 @@ using Windows.Storage;
 
 namespace Files.App.Filesystem.FilesystemHistory
 {
-    public class StorageHistoryOperations : IStorageHistoryOperations
+    public static class StorageHistoryOperations
     {
-        private IFilesystemHelpers helpers;
-        private IFilesystemOperations operations;
-
-        private readonly CancellationToken cancellationToken;
-
-        public StorageHistoryOperations(IShellPage associatedInstance, CancellationToken cancellationToken)
-        {
-            this.cancellationToken = cancellationToken;
-            helpers = associatedInstance.FilesystemHelpers;
-            operations = new ShellFilesystemOperations(associatedInstance);
-        }
-
-        public async Task<ReturnResult> Undo(IStorageHistory history)
+        public static async Task<ReturnResult> Undo(IStorageHistory history)
         {
             ReturnResult returnStatus = ReturnResult.InProgress;
             Progress<FileSystemStatusCode> errorCode = new();
@@ -107,7 +95,7 @@ namespace Files.App.Filesystem.FilesystemHistory
             return returnStatus;
         }
 
-        public async Task<ReturnResult> Redo(IStorageHistory history)
+        public static async Task<ReturnResult> Redo(IStorageHistory history)
         {
             ReturnResult returnStatus = ReturnResult.InProgress;
             Progress<FileSystemStatusCode> errorCode = new();
@@ -162,7 +150,7 @@ namespace Files.App.Filesystem.FilesystemHistory
                 case FileOperationType.Recycle: // Recycle PASS
                     if (!IsHistoryNull(history.Destination))
                     {
-                        var newHistory = await operations.DeleteItemsAsync(history.Source, null, errorCode, false, cancellationToken);
+                        var newHistory = await FilesystemOperations.DeleteItemsAsync(history.Source, null, errorCode, false, cancellationToken);
                         if (newHistory is null)
                         {
                             App.HistoryWrapper.RemoveHistory(history, true);
@@ -177,7 +165,7 @@ namespace Files.App.Filesystem.FilesystemHistory
                 case FileOperationType.Restore:
                     if (!IsHistoryNull(history))
                     {
-                        await helpers.RestoreItemsFromTrashAsync(history.Source, history.Destination.Select(item => item.Path), false);
+                        await FilesystemHelpers.RestoreItemsFromTrashAsync(history.Source, history.Destination.Select(item => item.Path), false);
                     }
                     break;
                 case FileOperationType.Delete:
@@ -188,18 +176,9 @@ namespace Files.App.Filesystem.FilesystemHistory
             return returnStatus;
         }
 
-        public void Dispose()
-        {
-            helpers?.Dispose();
-            helpers = null;
-
-            operations?.Dispose();
-            operations = null;
-        }
-
-        private bool IsHistoryNull(IStorageHistory history) // history.Destination is null with CreateNew
+        private static bool IsHistoryNull(IStorageHistory history) // history.Destination is null with CreateNew
             => IsHistoryNull(history.Source) || (history.Destination is not null && IsHistoryNull(history.Destination));
-        private bool IsHistoryNull(IEnumerable<IStorageItemWithPath> source) => !source.All(HasPath);
+        private static bool IsHistoryNull(IEnumerable<IStorageItemWithPath> source) => !source.All(HasPath);
 
         private static bool HasPath(IStorageItemWithPath item) => item is not null && !string.IsNullOrWhiteSpace(item.Path);
     }

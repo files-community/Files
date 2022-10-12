@@ -69,11 +69,11 @@ namespace Files.App.Helpers
             var opened = false;
 
             if (!openViaApplicationPicker &&
-                selectedItems.Count > 1 &&
+                selectedItems.Count() > 1 &&
                 selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.File && !x.IsExecutable && !x.IsShortcutItem))
             {
                 // Multiple files are selected, open them together
-                opened = await Win32Helpers.InvokeWin32ComponentAsync(string.Join('|', selectedItems.Select(x => x.ItemPath)), associatedInstance);
+                opened = await Win32Helpers.InvokeWin32ComponentAsync(string.Join('|', selectedItems.Select(x => x.ItemPath)), workingFolder.ItemPath);
             }
             if (!opened)
             {
@@ -92,19 +92,19 @@ namespace Files.App.Helpers
             }
         }
 
-        public static async void OpenItemsWithExecutable(LayoutModeViewModel associatedInstance, IEnumerable<IStorageItemWithPath> items, string executable)
+        public static async void OpenItemsWithExecutable(string workingDirectory, IEnumerable<IStorageItemWithPath> items, string executable)
         {
-            if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
+            if (workingDirectory.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
             {
                 // Do not open files and folders inside the recycle bin
                 return;
             }
-
+            
             foreach (var item in items)
             {
                 try
                 {
-                    await OpenPath(executable, associatedInstance, FilesystemItemType.File, false, false, args: $"\"{item.Path}\"");
+                    await OpenPath(executable, workingDirectory, FilesystemItemType.File, false, false, args: $"\"{item.Path}\"");
                 }
                 catch (Exception e)
                 {
@@ -118,7 +118,7 @@ namespace Files.App.Helpers
         /// Navigates to a directory or opens file
         /// </summary>
         /// <param name="path">The path to navigate to or open</param>
-        /// <param name="associatedInstance">The instance associated with view</param>
+        /// <param name="workingDirectory">The instance associated with view</param>
         /// <param name="itemType"></param>
         /// <param name="openSilent">Determines whether history of opened item is saved (... to Recent Items/Windows Timeline/opening in background)</param>
         /// <param name="openViaApplicationPicker">Determines whether open file using application picker</param>
@@ -189,28 +189,28 @@ namespace Files.App.Helpers
 
             if (itemType == FilesystemItemType.Library)
             {
-                opened = await OpenLibrary(path, associatedInstance, selectItems, forceOpenInNewTab);
+                opened = await OpenLibrary(path, workingDirectory, selectItems, forceOpenInNewTab);
             }
             else if (itemType == FilesystemItemType.Directory)
             {
-                opened = await OpenDirectory(path, associatedInstance, selectItems, shortcutInfo, forceOpenInNewTab);
+                opened = await OpenDirectory(path, workingDirectory, selectItems, shortcutInfo, forceOpenInNewTab);
             }
             else if (itemType == FilesystemItemType.File)
             {
-                opened = await OpenFile(path, associatedInstance, selectItems, shortcutInfo, openViaApplicationPicker, args);
+                opened = await OpenFile(path, workingDirectory, selectItems, shortcutInfo, openViaApplicationPicker, args);
             }
 
             if (opened.ErrorCode == FileSystemStatusCode.NotFound && !openSilent)
             {
                 await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalizedResource(), "FileNotFoundDialog/Text".GetLocalizedResource());
-                associatedInstance.ToolbarViewModel.CanRefresh = false;
-                associatedInstance.FilesystemViewModel?.RefreshItems(workingDirectory);
+                workingDirectory.ToolbarViewModel.CanRefresh = false;
+                workingDirectory.FilesystemViewModel?.RefreshItems(workingDirectory);
             }
 
             return opened;
         }
 
-        private static async Task<FilesystemResult> OpenLibrary(string path, LayoutModeViewModel associatedInstance, IEnumerable<string> selectItems, bool forceOpenInNewTab)
+        private static async Task<FilesystemResult> OpenLibrary(string path, string workingDirectory, IEnumerable<string> selectItems, bool forceOpenInNewTab)
         {
             IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
@@ -224,11 +224,11 @@ namespace Files.App.Helpers
                 }
                 else
                 {
-                    associatedInstance.ToolbarViewModel.PathControlDisplayText = path;
-                    associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new LayoutModeArguments()
+                    workingDirectory.ToolbarViewModel.PathControlDisplayText = path;
+                    workingDirectory.NavigateWithArguments(workingDirectory.InstanceViewModel.FolderSettings.GetLayoutType(path), new LayoutModeArguments()
                     {
                         NavPathParam = path,
-                        AssociatedTabInstance = associatedInstance
+                        AssociatedTabInstance = workingDirectory
                     });
                 }
                 opened = (FilesystemResult)true;
@@ -244,11 +244,11 @@ namespace Files.App.Helpers
                     }
                     else
                     {
-                        associatedInstance.ToolbarViewModel.PathControlDisplayText = library.Text;
-                        associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new LayoutModeArguments()
+                        workingDirectory.ToolbarViewModel.PathControlDisplayText = library.Text;
+                        workingDirectory.NavigateWithArguments(workingDirectory.InstanceViewModel.FolderSettings.GetLayoutType(path), new LayoutModeArguments()
                         {
                             NavPathParam = path,
-                            AssociatedTabInstance = associatedInstance,
+                            AssociatedTabInstance = workingDirectory,
                             SelectItems = selectItems,
                         });
                     }
@@ -257,9 +257,9 @@ namespace Files.App.Helpers
             return opened;
         }
 
-        private static async Task<FilesystemResult> OpenDirectory(string path, LayoutModeViewModel associatedInstance, IEnumerable<string> selectItems, ShellLinkItem shortcutInfo, bool forceOpenInNewTab)
+        private static async Task<FilesystemResult> OpenDirectory(string path, string workingDirectory, IEnumerable<string> selectItems, ShellLinkItem shortcutInfo, bool forceOpenInNewTab)
         {
-            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+            IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
             var opened = (FilesystemResult)false;
             bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
@@ -269,7 +269,7 @@ namespace Files.App.Helpers
             {
                 if (string.IsNullOrEmpty(shortcutInfo.TargetPath))
                 {
-                    await Win32Helpers.InvokeWin32ComponentAsync(path, associatedInstance);
+                    await Win32Helpers.InvokeWin32ComponentAsync(path, workingDirectory);
                     opened = (FilesystemResult)true;
                 }
                 else
@@ -280,11 +280,11 @@ namespace Files.App.Helpers
                     }
                     else
                     {
-                        associatedInstance.ToolbarViewModel.PathControlDisplayText = shortcutInfo.TargetPath;
-                        associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(shortcutInfo.TargetPath), new LayoutModeArguments()
+                        workingDirectory.ToolbarViewModel.PathControlDisplayText = shortcutInfo.TargetPath;
+                        workingDirectory.NavigateWithArguments(workingDirectory.InstanceViewModel.FolderSettings.GetLayoutType(shortcutInfo.TargetPath), new LayoutModeArguments()
                         {
                             NavPathParam = shortcutInfo.TargetPath,
-                            AssociatedTabInstance = associatedInstance,
+                            AssociatedTabInstance = workingDirectory,
                             SelectItems = selectItems
                         });
                     }
@@ -300,11 +300,11 @@ namespace Files.App.Helpers
                 }
                 else
                 {
-                    associatedInstance.ToolbarViewModel.PathControlDisplayText = path;
-                    associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new LayoutModeArguments()
+                    workingDirectory.ToolbarViewModel.PathControlDisplayText = path;
+                    workingDirectory.NavigateWithArguments(workingDirectory.InstanceViewModel.FolderSettings.GetLayoutType(path), new LayoutModeArguments()
                     {
                         NavPathParam = path,
-                        AssociatedTabInstance = associatedInstance
+                        AssociatedTabInstance = workingDirectory
                     });
                 }
 
@@ -312,7 +312,7 @@ namespace Files.App.Helpers
             }
             else
             {
-                opened = await associatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(path)
+                opened = await workingDirectory.FilesystemViewModel.GetFolderWithPathFromPathAsync(path)
                     .OnSuccess((childFolder) =>
                     {
                         // Add location to Recent Items List
@@ -333,24 +333,24 @@ namespace Files.App.Helpers
                     }
                     else
                     {
-                        associatedInstance.ToolbarViewModel.PathControlDisplayText = path;
-                        associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new LayoutModeArguments()
+                        workingDirectory.ToolbarViewModel.PathControlDisplayText = path;
+                        workingDirectory.NavigateWithArguments(workingDirectory.InstanceViewModel.FolderSettings.GetLayoutType(path), new LayoutModeArguments()
                         {
                             NavPathParam = path,
-                            AssociatedTabInstance = associatedInstance,
+                            AssociatedTabInstance = workingDirectory,
                             SelectItems = selectItems
                         });
                     }
                 }
                 else
                 {
-                    await Win32Helpers.InvokeWin32ComponentAsync(path, associatedInstance);
+                    await Win32Helpers.InvokeWin32ComponentAsync(path, workingDirectory);
                 }
             }
             return opened;
         }
 
-        private static async Task<FilesystemResult> OpenFile(string path, LayoutModeViewModel associatedInstance, IEnumerable<string> selectItems, ShellLinkItem shortcutInfo, bool openViaApplicationPicker = false, string args = default)
+        private static async Task<FilesystemResult> OpenFile(string path, string workingDirectory, IEnumerable<string> selectItems, ShellLinkItem shortcutInfo, bool openViaApplicationPicker = false, string? args = default)
         {
             var opened = (FilesystemResult)false;
             bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
@@ -359,13 +359,13 @@ namespace Files.App.Helpers
             {
                 if (string.IsNullOrEmpty(shortcutInfo.TargetPath))
                 {
-                    await Win32Helpers.InvokeWin32ComponentAsync(path, associatedInstance, args);
+                    await Win32Helpers.InvokeWin32ComponentAsync(path, workingDirectory, args);
                 }
                 else
                 {
                     if (!path.EndsWith(".url", StringComparison.Ordinal))
                     {
-                        StorageFileWithPath childFile = await associatedInstance.FilesystemViewModel.GetFileWithPathFromPathAsync(shortcutInfo.TargetPath);
+                        StorageFileWithPath childFile = await workingDirectory.FilesystemViewModel.GetFileWithPathFromPathAsync(shortcutInfo.TargetPath);
                         if (childFile != null)
                         {
                             // Add location to Recent Items List
@@ -375,17 +375,17 @@ namespace Files.App.Helpers
                             }
                         }
                     }
-                    await Win32Helpers.InvokeWin32ComponentAsync(shortcutInfo.TargetPath, associatedInstance, $"{args} {shortcutInfo.Arguments}", shortcutInfo.RunAsAdmin, shortcutInfo.WorkingDirectory);
+                    await Win32Helpers.InvokeWin32ComponentAsync(shortcutInfo.TargetPath, workingDirectory, $"{args} {shortcutInfo.Arguments}", shortcutInfo.RunAsAdmin);
                 }
                 opened = (FilesystemResult)true;
             }
             else if (isHiddenItem)
             {
-                await Win32Helpers.InvokeWin32ComponentAsync(path, associatedInstance, args);
+                await Win32Helpers.InvokeWin32ComponentAsync(path, workingDirectory, args);
             }
             else
             {
-                opened = await associatedInstance.FilesystemViewModel.GetFileWithPathFromPathAsync(path)
+                opened = await workingDirectory.FilesystemViewModel.GetFileWithPathFromPathAsync(path)
                     .OnSuccess(async childFile =>
                     {
                         // Add location to Recent Items List
@@ -396,7 +396,7 @@ namespace Files.App.Helpers
 
                         if (openViaApplicationPicker)
                         {
-                            LauncherOptions options = InitializeWithWindow(new LauncherOptions
+                            LauncherOptions options = UIHelpers.InitializeWithWindow(new LauncherOptions
                             {
                                 DisplayApplicationPicker = true
                             });
@@ -413,7 +413,7 @@ namespace Files.App.Helpers
                             BaseStorageFileQueryResult fileQueryResult = null;
 
                             //Get folder to create a file query (to pass to apps like Photos, Movies & TV..., needed to scroll through the folder like what Windows Explorer does)
-                            BaseStorageFolder currentFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(path));
+                            BaseStorageFolder currentFolder = await workingDirectory.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(path));
 
                             if (currentFolder != null)
                             {
@@ -422,11 +422,11 @@ namespace Files.App.Helpers
                                 //We can have many sort entries
                                 SortEntry sortEntry = new SortEntry()
                                 {
-                                    AscendingOrder = associatedInstance.InstanceViewModel.FolderSettings.DirectorySortDirection == SortDirection.Ascending
+                                    AscendingOrder = workingDirectory.InstanceViewModel.FolderSettings.DirectorySortDirection == SortDirection.Ascending
                                 };
 
                                 //Basically we tell to the launched app to follow how we sorted the files in the directory.
-                                var sortOption = associatedInstance.InstanceViewModel.FolderSettings.DirectorySortOption;
+                                var sortOption = workingDirectory.InstanceViewModel.FolderSettings.DirectorySortOption;
 
                                 switch (sortOption)
                                 {
@@ -470,7 +470,7 @@ namespace Files.App.Helpers
                                         break;
                                 }
 
-                                var options = InitializeWithWindow(new LauncherOptions());
+                                var options = UIHelpers.InitializeWithWindow(new LauncherOptions());
                                 if (currentFolder.AreQueryOptionsSupported(queryOptions))
                                 {
                                     fileQueryResult = currentFolder.CreateFileQueryWithOptions(queryOptions);
@@ -487,19 +487,12 @@ namespace Files.App.Helpers
 
                             if (!launchSuccess)
                             {
-                                await Win32Helpers.InvokeWin32ComponentAsync(path, associatedInstance, args);
+                                await Win32Helpers.InvokeWin32ComponentAsync(path, workingDirectory, args);
                             }
                         }
                     });
             }
             return opened;
-        }
-
-        // WINUI3
-        private static LauncherOptions InitializeWithWindow(LauncherOptions obj)
-        {
-            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
-            return obj;
         }
     }
 }

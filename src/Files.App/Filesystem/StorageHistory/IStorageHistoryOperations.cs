@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Files.App.Filesystem.FilesystemHistory
 {
-    public interface IStorageHistoryOperations : IDisposable
+    public interface IStorageHistoryOperations
     {
         /// <summary>
         /// Redo an action with given <paramref name="history"/>

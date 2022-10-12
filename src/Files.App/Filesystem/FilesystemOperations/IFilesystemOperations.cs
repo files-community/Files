@@ -14,7 +14,7 @@ namespace Files.App.Filesystem
     /// <br/>
     /// Each operation returns <see cref="Task{IStorageHistory}"/> and the <see cref="IStorageHistory"/> is NOT saved automatically
     /// </summary>
-    public interface IFilesystemOperations : IDisposable
+    public interface IFilesystemOperations
     // TODO Maybe replace IProgress<float> with custom IProgress<FilesystemProgress> class?
     // It would give us the ability to extend the reported progress by e.g.: transfer speed
     {
