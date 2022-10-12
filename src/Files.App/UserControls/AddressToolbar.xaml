@@ -432,7 +432,7 @@
 				BorderBrush="{ThemeResource SystemBaseMediumLowColor}"
 				BorderThickness="{ThemeResource TextControlBorderThemeThickness}"
 				CornerRadius="{StaticResource ControlCornerRadius}"
-				DisplayMemberPath="ItemName"
+				DisplayMemberPath="Name"
 				FocusDisengaged="VisiblePath_LostFocus"
 				FontWeight="SemiBold"
 				ItemsSource="{x:Bind ViewModel.NavigationBarSuggestions, Mode=OneWay}"
