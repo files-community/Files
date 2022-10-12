@@ -56,16 +56,6 @@ namespace Files.App.Views.LayoutModes
             }
         }
 
-        private void HookBaseEvents()
-        {
-            ItemManipulationModel.RefreshItemsOpacityInvoked += ItemManipulationModel_RefreshItemsOpacityInvoked;
-        }
-
-        private void UnhookBaseEvents()
-        {
-            ItemManipulationModel.RefreshItemsOpacityInvoked -= ItemManipulationModel_RefreshItemsOpacityInvoked;
-        }
-
         private void JumpTimer_Tick(object sender, object e)
         {
             jumpString = string.Empty;
@@ -190,14 +180,14 @@ namespace Files.App.Views.LayoutModes
             return item.DataContext as ListedItem ?? item.Content as ListedItem ?? BrowserControl.ItemFromContainer(item) as ListedItem;
         }
 
-        private void Item_DragLeave(object sender, DragEventArgs e)
+        private void OnItemDragLeave(object sender, DragEventArgs e)
         {
             var item = GetItemFromElement(sender);
             if (item == dragOverItem)
                 dragOverItem = null; // Reset dragged over item
         }
 
-        private async void Item_DragOver(object sender, DragEventArgs e)
+        private async void OnItemDragOver(object sender, DragEventArgs e)
         {
             var item = GetItemFromElement(sender);
             if (item is null)
@@ -303,7 +293,7 @@ namespace Files.App.Views.LayoutModes
 
             var item = GetItemFromElement(sender);
             if (item != null)
-                await FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (item as ShortcutItem)?.TargetPath ?? item.ItemPath, false, true, item.IsExecutable);
+                await viewModel.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (item as ShortcutItem)?.TargetPath ?? item.ItemPath, false, true, item.IsExecutable);
             deferral.Complete();
         }
 

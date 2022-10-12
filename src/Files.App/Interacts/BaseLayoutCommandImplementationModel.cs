@@ -1,5 +1,3 @@
-#nullable disable warnings
-
 using Files.Shared;
 using Files.Shared.Enums;
 using System;
