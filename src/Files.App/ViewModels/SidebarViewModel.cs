@@ -545,14 +545,9 @@ namespace Files.App.ViewModels
 
 		public async void OnRecycleBinChanged(object sender, EventArgs e)
 		{
-			var recycleBinLocationItem = SideBarItems
-							 .OfType<LocationItem>()
-							 .Where(x => x.Section == SectionType.Favorites)
-							 .SelectMany(favoriteSection => favoriteSection.ChildItems)
-							 .OfType<LocationItem>()
-							 .FirstOrDefault(favoriteItem => favoriteItem.Path == CommonPaths.RecycleBinPath);
+			LocationItem? recycleBinLocationItem = RetrieveRecycleBinLocationElement();
 
-			if(recycleBinLocationItem != null)
+			if (recycleBinLocationItem != null)
 			{
 				int recycleBinIconIndex = UIHelpers.GetAdaptedRecycleBinIconIndex();
 				recycleBinLocationItem.IconData = UIHelpers.GetIconResourceInfo(recycleBinIconIndex).IconData;
@@ -561,6 +556,27 @@ namespace Files.App.ViewModels
 					recycleBinLocationItem.Icon = await App.Window.DispatcherQueue.EnqueueAsync(() => recycleBinLocationItem.IconData.ToBitmapAsync());
 				}
 			}
+		}
+
+		private LocationItem? RetrieveRecycleBinLocationElement()
+		{
+			foreach (LocationItem locationItem in SideBarItems.Cast<LocationItem>())
+			{
+				if (locationItem.Section != SectionType.Favorites)
+				{
+					continue;
+				}
+
+				foreach (LocationItem favoriteElement in locationItem.ChildItems.Cast<LocationItem>())
+				{
+					if (favoriteElement.Path == CommonPaths.RecycleBinPath)
+					{
+						return favoriteElement;
+					}
+				}
+			}
+
+			return null;
 		}
 
 		private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
