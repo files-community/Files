@@ -239,7 +239,7 @@ namespace Files.App.DataModels
 					int recycleBinIconIndex = UIHelpers.GetAdaptedRecycleBinIconIndex();
 					locationItem.IconData = UIHelpers.GetIconResourceInfo(recycleBinIconIndex).IconData;
 				}
-				else
+				else if (res)
 				{
 					locationItem.IconData = await RetrieveItemIconData(path, res);
 				}
@@ -261,13 +261,7 @@ namespace Files.App.DataModels
 
 		private async Task<byte[]?> RetrieveItemIconData(string itemPath, FilesystemResult<BaseStorageFolder> result)
 		{
-			byte[]? iconData = null;
-
-			if (result)
-			{
-				iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(result.Result, 24u, Windows.Storage.FileProperties.ThumbnailMode.ListView);
-			}
-
+			byte[]? iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(result.Result, 24u, Windows.Storage.FileProperties.ThumbnailMode.ListView);
 			iconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(itemPath, 24u);
 
 			return iconData;
