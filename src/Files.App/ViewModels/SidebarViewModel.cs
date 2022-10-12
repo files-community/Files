@@ -623,6 +623,7 @@ namespace Files.App.ViewModels
 		public void Dispose()
 		{
 			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
+			RecycleBinHelpers.RecycleBinChanged -= OnRecycleBinChanged;
 
 			App.SidebarPinnedController.DataChanged -= Manager_DataChanged;
 			App.LibraryManager.DataChanged -= Manager_DataChanged;
