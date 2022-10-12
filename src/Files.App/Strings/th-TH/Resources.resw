@@ -2832,4 +2832,10 @@
   <data name="RestoreSelection" xml:space="preserve">
     <value>เอาออกไปไว้ที่เดิม</value>
   </data>
+  <data name="ShortcutCannotBeOpened" xml:space="preserve">
+    <value>Shortcut cannot be opened</value>
+  </data>
+  <data name="DeleteShortcutDescription" xml:space="preserve">
+    <value>The target destination cannot be found {0}. Do you want to delete this shortcut?</value>
+  </data>
 </root>

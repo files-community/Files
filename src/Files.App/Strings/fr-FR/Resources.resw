@@ -2832,4 +2832,10 @@
   <data name="RestoreSelection" xml:space="preserve">
     <value>Restaurer</value>
   </data>
+  <data name="ShortcutCannotBeOpened" xml:space="preserve">
+    <value>Le raccourci ne peut pas être ouvert</value>
+  </data>
+  <data name="DeleteShortcutDescription" xml:space="preserve">
+    <value>La cible est introuvable {0}. Voulez-vous supprimer ce raccourci ?</value>
+  </data>
 </root>
