@@ -1,7 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.WinUI;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
@@ -14,7 +13,6 @@ using Files.Backend.Services.Settings;
 using Files.Backend.ViewModels.Dialogs;
 using Files.Shared.Extensions;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using System;
@@ -269,13 +267,13 @@ namespace Files.App.ViewModels
 		public static async Task<(string tabLocationHeader, Microsoft.UI.Xaml.Controls.IconSource tabIcon, string toolTipText)> GetSelectedTabInfoAsync(string currentPath)
 		{
 			string? tabLocationHeader;
-			var symbolIconSource = new SymbolIconSource() { Symbol = Symbol.Folder };
+			var iconSource = new Microsoft.UI.Xaml.Controls.ImageIconSource();
 			string toolTipText = currentPath;
 
 			if (string.IsNullOrEmpty(currentPath) || currentPath == "Home".GetLocalizedResource())
 			{
 				tabLocationHeader = "Home".GetLocalizedResource();
-				symbolIconSource.Symbol = Symbol.Home;
+				iconSource.ImageSource = new Microsoft.UI.Xaml.Media.Imaging.BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
 			}
 			else if (currentPath.Equals(CommonPaths.DesktopPath, StringComparison.OrdinalIgnoreCase))
 			{
@@ -329,7 +327,14 @@ namespace Files.App.ViewModels
 				}
 			}
 
-			return (tabLocationHeader, symbolIconSource, toolTipText);
+			if (iconSource.ImageSource == null)
+			{
+				var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(currentPath, 24u, Windows.Storage.FileProperties.ThumbnailMode.ListView, true);
+				if (iconData != null)
+					iconSource.ImageSource = await iconData.ToBitmapAsync();
+			}
+
+			return (tabLocationHeader, iconSource, toolTipText);
 		}
 
 		public async void OnNavigatedTo(NavigationEventArgs e)
