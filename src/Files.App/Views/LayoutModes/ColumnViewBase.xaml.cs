@@ -460,7 +460,7 @@ namespace Files.App.Views.LayoutModes
 				switch (item.PrimaryItemAttribute)
 				{
 					case StorageItemTypes.File:
-						if (!UserSettingsService.FoldersSettingsService.OpenFilesWithOneClick)
+						if (!UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 						{
 							NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
 						}
@@ -519,7 +519,7 @@ namespace Files.App.Views.LayoutModes
 
 			// Check if the setting to open items with a single click is turned on
 			if (item != null
-				&& (UserSettingsService.FoldersSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File))
+				&& (UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File))
 			{
 				ResetRenameDoubleClick();
 				NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);

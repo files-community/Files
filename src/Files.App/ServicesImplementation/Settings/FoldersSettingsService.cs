@@ -117,13 +117,7 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
-		public bool OpenFilesWithOneClick
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
-		public bool OpenFoldersWithOneClick
+		public bool OpenItemsWithOneClick
 		{
 			get => Get(false);
 			set => Set(value);
@@ -167,8 +161,7 @@ namespace Files.App.ServicesImplementation.Settings
 				case nameof(ShowProtectedSystemFiles):
 				case nameof(AreAlternateStreamsVisible):
 				case nameof(ShowDotFiles):
-				case nameof(OpenFilesWithOneClick):
-				case nameof(OpenFoldersWithOneClick):
+				case nameof(OpenItemsWithOneClick):
 				case nameof(ColumnLayoutOpenFoldersWithOneClick):
 				case nameof(OpenFoldersInNewTab):
 				case nameof(CalculateFolderSizes):
