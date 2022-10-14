@@ -11,7 +11,7 @@ body:
   - type: textarea
     attributes:
       label: Concerned code
-      description: A list of the different files or area of the code concerned by the issue.
+      description: A list of the different files and/or areas of the code concerned by the issue.
     validations:
       required: true
   - type: textarea
