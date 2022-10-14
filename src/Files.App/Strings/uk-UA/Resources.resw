@@ -2811,6 +2811,24 @@
   <data name="OpeningItems" xml:space="preserve">
     <value>Елементи відкриття</value>
   </data>
+  <data name="AddSingleItemToArchive" xml:space="preserve">
+    <value>Додати до {0}.zip</value>
+  </data>
+  <data name="AddToArchive" xml:space="preserve">
+    <value>Додати до архіву</value>
+  </data>
+  <data name="CompressionCompleted" xml:space="preserve">
+    <value>Стиснення завершено</value>
+  </data>
+  <data name="CompressionSucceded" xml:space="preserve">
+    <value>{0} було стиснуто</value>
+  </data>
+  <data name="CompressionFailed" xml:space="preserve">
+    <value>{0} не вдалося стиснути</value>
+  </data>
+  <data name="CompressionInProgress" xml:space="preserve">
+    <value>Стиснення архіву</value>
+  </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Виділити файли та папки при наведенні на них</value>
   </data>
