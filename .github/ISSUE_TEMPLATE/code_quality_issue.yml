@@ -1,0 +1,53 @@
+name: Code Quality Issue
+description: Create a code quality issue to help Files keep a clean codebase
+labels: [code quality]
+body:
+  - type: textarea
+    attributes:
+      label: Description
+      description: A clear and concise description of what the code issue is.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Concerned code
+      description: A list of the different files or area of the code concerned by the issue.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Gains
+      description: What would fixing this code quality issue bring to the source code? 
+      value: |
+        - eg. A better readability.
+        - eg. Uncoupling concepts X and Y.
+        - eg. Clarifying the responsability of class C
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Possibles solutions
+      description: If you have any idea of how to fix the issue, please describe it here. If appropriate, diagrams are welcomed.
+      value: |
+        - eg. Using a specific design pattern.
+        - eg. Separating Interface I into three new interfaces I1, I2 and I3.
+        - eg. Regrouping the duplicated process into a new helper.
+ - type: input
+    id: files-version
+    attributes:
+      label: Files Version
+      description: Which version of Files are you currently using?
+      placeholder: 'Version: 2.0.36.0'
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Windows Version
+      description: Which version of Windows are you currently using? Press <kbd>Win</kbd> + <kbd>Pause/Break</kbd> and copy.
+      placeholder: e.g. Windows 11 21H2 22000.194
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Comments
+      description: Additional information, comments or screenshots about the code quality issue.
