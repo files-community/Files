@@ -250,7 +250,7 @@ namespace Files.App.ViewModels.Properties
 
         public void GetFilePermissions()
         {
-            bool isFolder = Item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !Item.IsShortcutItem;
+            bool isFolder = Item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !Item.IsShortcut;
             FilePermissions = new FilePermissionsManager(FileOperationsHelpers.GetFilePermissions(Item.ItemPath, isFolder));
         }
 
@@ -264,7 +264,7 @@ namespace Files.App.ViewModels.Properties
 
         public bool SetFileOwner(string ownerSid)
         {
-            bool isFolder = Item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !Item.IsShortcutItem;
+            bool isFolder = Item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !Item.IsShortcut;
             return FileOperationsHelpers.SetFileOwner(Item.ItemPath, isFolder, ownerSid);
         }
 
@@ -273,7 +273,7 @@ namespace Files.App.ViewModels.Properties
 
         public bool SetAccessRuleProtection(bool isProtected, bool preserveInheritance)
         {
-            bool isFolder = Item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !Item.IsShortcutItem;
+            bool isFolder = Item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !Item.IsShortcut;
             return FileOperationsHelpers.SetAccessRuleProtection(Item.ItemPath, isFolder, isProtected, preserveInheritance);
         }
     }

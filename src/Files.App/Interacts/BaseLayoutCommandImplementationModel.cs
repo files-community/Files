@@ -86,7 +86,7 @@ namespace Files.App.Interacts
             foreach (ListedItem selectedItem in SlimContentPage.SelectedItems)
             {
                 var filePath = Path.Combine(associatedInstance.FilesystemViewModel.WorkingDirectory,
-                                string.Format("ShortcutCreateNewSuffix".GetLocalizedResource(), selectedItem.ItemName) + ".lnk");
+                                string.Format("ShortcutCreateNewSuffix".GetLocalizedResource(), selectedItem.Name) + ".lnk");
 
                 await FileOperationsHelpers.CreateOrUpdateLinkAsync(filePath, selectedItem.ItemPath);
             }
