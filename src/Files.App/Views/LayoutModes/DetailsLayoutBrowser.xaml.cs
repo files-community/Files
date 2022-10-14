@@ -81,7 +81,6 @@ namespace Files.App.Views.LayoutModes
 
 			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
-			
 		}
 
 		protected override void HookEvents()
