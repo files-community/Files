@@ -2811,6 +2811,24 @@
   <data name="OpeningItems" xml:space="preserve">
     <value>Abrir itens</value>
   </data>
+  <data name="AddSingleItemToArchive" xml:space="preserve">
+    <value>Adicionar a {0}.zip</value>
+  </data>
+  <data name="AddToArchive" xml:space="preserve">
+    <value>Adicionar ao arquivo</value>
+  </data>
+  <data name="CompressionCompleted" xml:space="preserve">
+    <value>Compressão terminada</value>
+  </data>
+  <data name="CompressionSucceded" xml:space="preserve">
+    <value>{0} foi compactado</value>
+  </data>
+  <data name="CompressionFailed" xml:space="preserve">
+    <value>Não foi possível compactar {0}</value>
+  </data>
+  <data name="CompressionInProgress" xml:space="preserve">
+    <value>Compressão terminada</value>
+  </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Selecionar ficheiros e pastas ao passar com o rato por cima</value>
   </data>
