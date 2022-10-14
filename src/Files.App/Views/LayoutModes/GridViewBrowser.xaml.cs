@@ -495,8 +495,12 @@ namespace Files.App.Views.LayoutModes
 			if (item == null)
 				return;
 
-			// Skip code if the control or shift key is pressed or if the user is using multiselect
-			if (ctrlPressed || shiftPressed || AppModel.MultiselectEnabled)
+			// Skip code if the control or shift key is pressed 
+			if (ctrlPressed || shiftPressed)
+				return;
+
+			// Return if multiple items are selected
+			if (SelectedItems?.Count > 1)
 				return;
 
 			// Check if the setting to open items with a single click is turned on
@@ -535,6 +539,10 @@ namespace Files.App.Views.LayoutModes
 
 		private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
+			// Return if multiple items are selected
+			if (SelectedItems?.Count > 1)
+				return;
+
 			// Skip opening selected items if the double tap doesn't capture an item
 			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item
 				 && ((!UserSettingsService.FoldersSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)

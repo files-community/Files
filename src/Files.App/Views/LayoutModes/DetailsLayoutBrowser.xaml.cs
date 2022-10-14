@@ -1,4 +1,5 @@
-using Files.Shared.Enums;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.WinUI.UI;
 using Files.App.EventArguments;
 using Files.App.Filesystem;
 using Files.App.Helpers;
@@ -7,8 +8,13 @@ using Files.App.Interacts;
 using Files.App.UserControls;
 using Files.App.UserControls.Selection;
 using Files.App.ViewModels;
-using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.WinUI.UI;
+using Files.Shared.Enums;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,13 +22,6 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-
 using SortDirection = Files.Shared.Enums.SortDirection;
 
 namespace Files.App.Views.LayoutModes
@@ -547,11 +546,13 @@ namespace Files.App.Views.LayoutModes
 			{
 				return;
 			}
-			// Skip code if the control or shift key is pressed or if the user is using multiselect
-			if (ctrlPressed || shiftPressed || AppModel.MultiselectEnabled)
-			{
+			// Skip code if the control or shift key is pressed
+			if (ctrlPressed || shiftPressed)
 				return;
-			}
+
+			// Return if multiple items are selected
+			if (SelectedItems?.Count > 1)
+				return;
 
 			// Check if the setting to open items with a single click is turned on
 			if (item != null
@@ -581,6 +582,10 @@ namespace Files.App.Views.LayoutModes
 
 		private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
+			// Return if multiple items are selected
+			if (SelectedItems?.Count > 1)
+				return;
+
 			// Skip opening selected items if the double tap doesn't capture an item
 			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item
 				 && ((!UserSettingsService.FoldersSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)
