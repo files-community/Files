@@ -98,6 +98,8 @@ namespace Files.App.Interacts
 
         Task CreateFolderWithSelection(RoutedEventArgs e);
 
+        Task CompressIntoArchive();
+
         Task DecompressArchive();
 
         Task DecompressArchiveHere();

@@ -3,8 +3,9 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
+	xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:fs="using:Files.App.Filesystem"
+	xmlns:dm="using:Files.App.DataModels"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	d:DesignHeight="300"
@@ -12,6 +13,11 @@
 	mc:Ignorable="d">
 
 	<UserControl.Resources>
+
+		<converters:BoolToObjectConverter
+			x:Key="SearchSuggestionGlyphConverter"
+			FalseValue="&#xE7C3;"
+			TrueValue="&#xE81C;" />
 
 		<Style
 			x:Key="TextBoxStyle"
@@ -35,7 +41,7 @@
 			<Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
 		</Style>
 
-		<DataTemplate x:Key="SuggestionTemplate" x:DataType="fs:ListedItem">
+		<DataTemplate x:Key="SuggestionTemplate" x:DataType="dm:SuggestionModel">
 			<StackPanel
 				Orientation="Horizontal"
 				Spacing="8"
@@ -58,7 +64,7 @@
 					<FontIcon
 						x:Name="EmptyIconGlyph"
 						x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
-						Glyph="&#xE7C3;" />
+						Glyph="{x:Bind IsRecentSearch, Mode=OneTime, Converter={StaticResource SearchSuggestionGlyphConverter}}" />
 				</Grid>
 				<TextBlock VerticalAlignment="Center" Text="{x:Bind Name}" />
 			</StackPanel>
@@ -74,7 +80,8 @@
 		Text="{x:Bind SearchBoxViewModel.Query, Mode=TwoWay}"
 		TextBoxStyle="{StaticResource TextBoxStyle}"
 		TextChanged="SearchRegion_TextChanged"
-		UpdateTextOnSelect="False">
+		UpdateTextOnSelect="False"
+		GotFocus="{x:Bind SearchBoxViewModel.SearchRegion_GotFocus}">
 		<AutoSuggestBox.QueryIcon>
 			<AnimatedIcon x:Name="SearchAnimatedIcon" Height="16">
 				<AnimatedIcon.Source>
@@ -89,4 +96,5 @@
 			<KeyboardAccelerator Key="Escape" Invoked="SearchRegion_Escaped" />
 		</AutoSuggestBox.KeyboardAccelerators>
 	</AutoSuggestBox>
+
 </UserControl>

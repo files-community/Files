@@ -2811,6 +2811,24 @@
   <data name="OpeningItems" xml:space="preserve">
     <value>Ouverture d'objets</value>
   </data>
+  <data name="AddSingleItemToArchive" xml:space="preserve">
+    <value>Ajouter à {0}.zip</value>
+  </data>
+  <data name="AddToArchive" xml:space="preserve">
+    <value>Ajouter à l'archive</value>
+  </data>
+  <data name="CompressionCompleted" xml:space="preserve">
+    <value>Compression terminée</value>
+  </data>
+  <data name="CompressionSucceded" xml:space="preserve">
+    <value>{0} a été compressé</value>
+  </data>
+  <data name="CompressionFailed" xml:space="preserve">
+    <value>{0} n'a pas pu être compressé</value>
+  </data>
+  <data name="CompressionInProgress" xml:space="preserve">
+    <value>Compression de l'archive</value>
+  </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Sélectionnez les fichiers et dossiers lorsque vous les survolez</value>
   </data>
@@ -2831,5 +2849,11 @@
   </data>
   <data name="RestoreSelection" xml:space="preserve">
     <value>Restaurer</value>
+  </data>
+  <data name="ShortcutCannotBeOpened" xml:space="preserve">
+    <value>Le raccourci ne peut pas être ouvert</value>
+  </data>
+  <data name="DeleteShortcutDescription" xml:space="preserve">
+    <value>La cible est introuvable {0}. Voulez-vous supprimer ce raccourci ?</value>
   </data>
 </root>

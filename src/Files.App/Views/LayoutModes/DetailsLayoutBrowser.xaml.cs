@@ -9,6 +9,7 @@ using Files.App.UserControls;
 using Files.App.UserControls.Selection;
 using Files.App.ViewModels;
 using Files.Shared.Enums;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -18,6 +19,7 @@ using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UWPToWinAppSDKUpgradeHelpers;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.System;
@@ -33,7 +35,11 @@ namespace Files.App.Views.LayoutModes
     {
         private uint currentIconSize;
 
-        protected override uint IconSize => currentIconSize;
+		private InputCursor arrowCursor = InputCursor.CreateFromCoreCursor(new CoreCursor(CoreCursorType.Arrow, 0));
+
+		private InputCursor resizeCursor = InputCursor.CreateFromCoreCursor(new CoreCursor(CoreCursorType.SizeWestEast, 1));
+
+		protected override uint IconSize => currentIconSize;
 
         protected override ItemsControl ItemsControl => FileList;
 
@@ -533,45 +539,46 @@ namespace Files.App.Views.LayoutModes
             if (ctrlPressed || shiftPressed || AppModel.MultiselectEnabled)
                 return;
 
-            // Check if the setting to open items with a single click is turned on
-            if (item != null
-                && ((UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder) || (UserSettingsService.FoldersSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)))
-            {
-                ResetRenameDoubleClick();
-                NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
-            }
-            else
-            {
-                var clickedItem = e.OriginalSource as FrameworkElement;
-                if (clickedItem is TextBlock && ((TextBlock)clickedItem).Name == "ItemName")
-                {
-                    CheckRenameDoubleClick(clickedItem.DataContext);
-                }
-                else if (IsRenamingItem)
-                {
-                    ListViewItem listViewItem = (ListViewItem)FileList.ContainerFromItem(RenamingItem);
-                    TextBox? textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
-                    CommitRename(textBox!);
+			// Check if the setting to open items with a single click is turned on
+			if (item != null
+				&& UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
+			{
+				ResetRenameDoubleClick();
+				NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+			}
+			else
+			{
+				var clickedItem = e.OriginalSource as FrameworkElement;
+				if (clickedItem is TextBlock && ((TextBlock)clickedItem).Name == "Name")
+				{
+					CheckRenameDoubleClick(clickedItem?.DataContext);
+				}
+				else if (IsRenamingItem)
+				{
+					ListViewItem listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
+					if (listViewItem != null)
+					{
+						var textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
+						CommitRename(textBox);
+					}
+				}
+			}
+		}
 
-                }
-            }
-        }
-
-        private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
-        {
-            // Skip opening selected items if the double tap doesn't capture an item
-            if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item
-                 && ((!UserSettingsService.FoldersSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)
-                 || (!UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder)))
-            {
-                NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
-            }
-            else
-            {
-                ParentShellPageInstance.Up_Click();
-            }
-            ResetRenameDoubleClick();
-        }
+		private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+		{
+			// Skip opening selected items if the double tap doesn't capture an item
+			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item
+				 && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
+			{
+				NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+			}
+			else
+			{
+				ParentShellPageInstance.Up_Click();
+			}
+			ResetRenameDoubleClick();
+		}
 
         #region IDisposable
 
@@ -635,10 +642,21 @@ namespace Files.App.Views.LayoutModes
             MaxWidthForRenameTextbox = Math.Max(0, RootGrid.ActualWidth - 80);
         }
 
-        private void GridSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
-        {
-            FolderSettings.ColumnsViewModel = ColumnsViewModel;
-        }
+		private void GridSplitter_ManipulationStarting(object sender, ManipulationStartingRoutedEventArgs e)
+		{
+			this.ChangeCursor(resizeCursor);
+		}
+
+		private void GridSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+		{
+			FolderSettings.ColumnsViewModel = ColumnsViewModel;
+			this.ChangeCursor(arrowCursor);
+		}
+
+		private void GridSplitter_Loaded(object sender, RoutedEventArgs e)
+		{
+			(sender as UIElement).ChangeCursor(resizeCursor);
+		}
 
         private void ToggleMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {

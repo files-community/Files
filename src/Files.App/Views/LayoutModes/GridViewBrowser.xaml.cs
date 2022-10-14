@@ -15,7 +15,6 @@ using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 
@@ -501,46 +500,45 @@ namespace Files.App.Views.LayoutModes
 			if (ctrlPressed || shiftPressed || AppModel.MultiselectEnabled)
 				return;
 
-            // Check if the setting to open items with a single click is turned on
-            if (item != null
-                && ((UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder) || (UserSettingsService.FoldersSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)))
-            {
-                ResetRenameDoubleClick();
-                NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
-            }
-            else
-            {
-                var clickedItem = (FrameworkElement)e.OriginalSource;
-                if (clickedItem is TextBlock textBlock && textBlock.Name == "ItemName")
-                {
-                    CheckRenameDoubleClick(clickedItem.DataContext);
-                }
-                else if (IsRenamingItem)
-                {
-                    if (FileList.ContainerFromItem(RenamingItem) is GridViewItem gridViewItem)
-                    {
-                        if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
-                        {
-                            Popup? popup = gridViewItem.FindDescendant("EditPopup") as Popup;
-                            TextBox? textBox = popup?.Child as TextBox;
-                            CommitRename(textBox!);
-                        }
-                        else
-                        {
-                            TextBox? textBox = gridViewItem.FindDescendant("TileViewTextBoxItemName") as TextBox;
-                            CommitRename(textBox!);
-                        }
-                    }
-                }
-            }
-        }
+			// Check if the setting to open items with a single click is turned on
+			if (item != null
+				&& UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
+			{
+				ResetRenameDoubleClick();
+				NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+			}
+			else
+			{
+				var clickedItem = e.OriginalSource as FrameworkElement;
+				if (clickedItem is TextBlock textBlock && textBlock.Name == "Name")
+				{
+					CheckRenameDoubleClick(clickedItem?.DataContext);
+				}
+				else if (IsRenamingItem)
+				{
+					if (FileList.ContainerFromItem(RenamingItem) is GridViewItem gridViewItem)
+					{
+						if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
+						{
+							Popup popup = gridViewItem.FindDescendant("EditPopup") as Popup;
+							var textBox = popup.Child as TextBox;
+							CommitRename(textBox);
+						}
+						else
+						{
+							var textBox = gridViewItem.FindDescendant("TileViewTextBoxItemName") as TextBox;
+							CommitRename(textBox);
+						}
+					}
+				}
+			}
+		}
 
 		private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
 			// Skip opening selected items if the double tap doesn't capture an item
 			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item
-				 && ((!UserSettingsService.FoldersSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)
-				 || (!UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder)))
+				 && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 			{
 				NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
 			}
