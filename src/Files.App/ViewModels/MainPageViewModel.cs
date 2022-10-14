@@ -33,10 +33,10 @@ namespace Files.App.ViewModels
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public IMultitaskingControl? MultitaskingControl { get; set; }
+
 		public List<IMultitaskingControl> MultitaskingControls { get; } = new List<IMultitaskingControl>();
 
 		public static ObservableCollection<TabItem> AppInstances { get; private set; } = new ObservableCollection<TabItem>();
-
 
 		private TabItem? selectedTabItem;
 		public TabItem? SelectedTabItem
@@ -309,9 +309,13 @@ namespace Files.App.ViewModels
 				{
 					var matchingNetDrive = App.NetworkDrivesManager.Drives.FirstOrDefault(x => PathNormalization.NormalizePath(currentPath).Contains(PathNormalization.NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
 					if (matchingNetDrive != null)
+					{
 						tabLocationHeader = matchingNetDrive.Text;
+					}
 					else
+					{
 						tabLocationHeader = PathNormalization.NormalizePath(currentPath);
+					}
 				}
 				else
 				{
@@ -322,7 +326,9 @@ namespace Files.App.ViewModels
 					{
 						BaseStorageFolder currentFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(currentPath, rootItem));
 						if (currentFolder != null && !string.IsNullOrEmpty(currentFolder.DisplayName))
+						{
 							tabLocationHeader = currentFolder.DisplayName;
+						}
 					}
 				}
 			}
@@ -331,7 +337,9 @@ namespace Files.App.ViewModels
 			{
 				var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(currentPath, 24u, Windows.Storage.FileProperties.ThumbnailMode.ListView, true);
 				if (iconData != null)
+				{
 					iconSource.ImageSource = await iconData.ToBitmapAsync();
+				}
 			}
 
 			return (tabLocationHeader, iconSource, toolTipText);
