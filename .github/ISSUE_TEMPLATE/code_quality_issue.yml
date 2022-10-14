@@ -32,7 +32,7 @@ body:
         - eg. Using a specific design pattern.
         - eg. Separating Interface I into three new interfaces I1, I2 and I3.
         - eg. Regrouping the duplicated process into a new helper.
- - type: input
+  - type: input
     id: files-version
     attributes:
       label: Files Version
