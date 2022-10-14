@@ -34,6 +34,7 @@ namespace Files.App.Views.LayoutModes
 		private uint currentIconSize;
 
 		private InputCursor arrowCursor = InputCursor.CreateFromCoreCursor(new CoreCursor(CoreCursorType.Arrow, 0));
+
 		private InputCursor resizeCursor = InputCursor.CreateFromCoreCursor(new CoreCursor(CoreCursorType.SizeWestEast, 1));
 
 		protected override uint IconSize => currentIconSize;
