@@ -27,9 +27,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>ନାମ</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>ପ୍ରକାର</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>ଆକାର</value>
   </data>

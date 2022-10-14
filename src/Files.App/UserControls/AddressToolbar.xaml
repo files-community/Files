@@ -432,7 +432,7 @@
 				BorderBrush="{ThemeResource SystemBaseMediumLowColor}"
 				BorderThickness="{ThemeResource TextControlBorderThemeThickness}"
 				CornerRadius="{StaticResource ControlCornerRadius}"
-				DisplayMemberPath="ItemName"
+				DisplayMemberPath="Name"
 				FocusDisengaged="VisiblePath_LostFocus"
 				FontWeight="SemiBold"
 				ItemsSource="{x:Bind ViewModel.NavigationBarSuggestions, Mode=OneWay}"
@@ -559,12 +559,11 @@
 							</Flyout>
 						</Button.Flyout>
 					</Button>
-					<!--  WINUI3  -->
-					<!--<InfoBadge
+					<InfoBadge
 						x:Name="StatusInfoBadge"
 						HorizontalAlignment="Right"
 						VerticalAlignment="Top"
-						Value="{x:Bind OngoingTasksViewModel.InfoBadgeValue, Mode=OneWay}" />-->
+						Value="{x:Bind OngoingTasksViewModel.InfoBadgeValue, Mode=OneWay}" />
 				</Grid>
 
 				<Button
@@ -622,28 +621,25 @@
 		<VisualStateManager.VisualStateGroups>
 			<VisualStateGroup>
 				<VisualState x:Name="SearchBoxAlwaysShown">
-					<!--  WINUI3  -->
-					<!--<VisualState.StateTriggers>
+					<VisualState.StateTriggers>
 						<triggers:IsEqualStateTrigger Value="{x:Bind ShowSearchBox, Mode=OneWay}" To="True" />
-					</VisualState.StateTriggers>-->
+					</VisualState.StateTriggers>
 				</VisualState>
 
 				<VisualState x:Name="SearchBoxCollapse">
-					<!--  WINUI3  -->
-					<!--<VisualState.StateTriggers>
+					<VisualState.StateTriggers>
 						<triggers:IsEqualStateTrigger Value="{x:Bind ShowSearchBox, Mode=OneWay}" To="False" />
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
 						<Setter Target="SearchButton.Visibility" Value="Visible" />
 						<Setter Target="SearchRegion.(Grid.Column)" Value="1" />
 						<Setter Target="SearchRegion.Width" Value="NaN" />
-					</VisualState.Setters>-->
+					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>
 			<VisualStateGroup>
 				<VisualState x:Name="TasksSuccess">
-					<!--  WINUI3  -->
-					<!--<VisualState.StateTriggers>
+					<VisualState.StateTriggers>
 						<triggers:CompareStateTrigger
 							Comparison="Equal"
 							Value="{x:Bind OngoingTasksViewModel.InfoBadgeState, Mode=OneWay}"
@@ -651,11 +647,10 @@
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
 						<Setter Target="StatusInfoBadge.Style" Value="{StaticResource SuccessIconInfoBadgeStyle}" />
-					</VisualState.Setters>-->
+					</VisualState.Setters>
 				</VisualState>
 				<VisualState x:Name="TasksOnging">
-					<!--  WINUI3  -->
-					<!--<VisualState.StateTriggers>
+					<VisualState.StateTriggers>
 						<triggers:CompareStateTrigger
 							Comparison="Equal"
 							Value="{x:Bind OngoingTasksViewModel.InfoBadgeState, Mode=OneWay}"
@@ -663,11 +658,10 @@
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
 						<Setter Target="StatusInfoBadge.Style" Value="{StaticResource AttentionValueInfoBadgeStyle}" />
-					</VisualState.Setters>-->
+					</VisualState.Setters>
 				</VisualState>
 				<VisualState x:Name="TasksFailure">
-					<!--  WINUI3  -->
-					<!--<VisualState.StateTriggers>
+					<VisualState.StateTriggers>
 						<triggers:CompareStateTrigger
 							Comparison="Equal"
 							Value="{x:Bind OngoingTasksViewModel.InfoBadgeState, Mode=OneWay}"
@@ -675,11 +669,10 @@
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
 						<Setter Target="StatusInfoBadge.Style" Value="{StaticResource CriticalValueInfoBadgeStyle}" />
-					</VisualState.Setters>-->
+					</VisualState.Setters>
 				</VisualState>
 				<VisualState x:Name="TasksCompletionWithFailure">
-					<!--  WINUI3  -->
-					<!--<VisualState.StateTriggers>
+					<VisualState.StateTriggers>
 						<triggers:CompareStateTrigger
 							Comparison="Equal"
 							Value="{x:Bind OngoingTasksViewModel.InfoBadgeState, Mode=OneWay}"
@@ -687,7 +680,7 @@
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
 						<Setter Target="StatusInfoBadge.Style" Value="{StaticResource CriticalIconInfoBadgeStyle}" />
-					</VisualState.Setters>-->
+					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>
 		</VisualStateManager.VisualStateGroups>

@@ -188,20 +188,6 @@
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
 
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsPrivacy/Title}" HorizontalAlignment="Stretch">
-				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xEA18;" />
-				</local:SettingsBlockControl.Icon>
-
-				<local:SettingsBlockControl.ExpandableContent>
-					<controls:MarkdownTextBlock
-						x:Name="PrivacyTextBlock"
-						Margin="4"
-						Padding="8"
-						Text="{helpers:ResourceString Name=SettingsPrivacyPolicyMarkdownBlock/Text}" />
-				</local:SettingsBlockControl.ExpandableContent>
-			</local:SettingsBlockControl>
-
 			<local:SettingsBlockControl
 				Title="{helpers:ResourceString Name=OpenLogLocation}"
 				HorizontalAlignment="Stretch"
@@ -215,49 +201,6 @@
 					FontSize="14"
 					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
 					Glyph="&#xE2B4;" />
-			</local:SettingsBlockControl>
-
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=Contributors}" HorizontalAlignment="Stretch">
-				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xEBDA;" />
-				</local:SettingsBlockControl.Icon>
-				<local:SettingsBlockControl.ExpandableContent>
-					<GridView Padding="4" SelectionMode="None">
-						<HyperlinkButton Content="gave92" NavigateUri="https://github.com/gave92" />
-						<HyperlinkButton Content="R3voA3" NavigateUri="https://github.com/R3voA3" />
-						<HyperlinkButton Content="cinqmilleans" NavigateUri="https://github.com/cinqmilleans" />
-						<HyperlinkButton Content="yaichenbaum" NavigateUri="https://github.com/yaichenbaum" />
-						<HyperlinkButton Content="puppetsw" NavigateUri="https://github.com/puppetsw" />
-						<HyperlinkButton Content="jiejasonliu" NavigateUri="https://github.com/jiejasonliu" />
-						<HyperlinkButton Content="shiazza" NavigateUri="https://github.com/shiazza" />
-						<HyperlinkButton Content="szabolcstarnai" NavigateUri="https://github.com/szabolcstarnai" />
-						<HyperlinkButton Content="onein528" NavigateUri="https://github.com/onein528" />
-						<HyperlinkButton Content="manfromarce" NavigateUri="https://github.com/manfromarce" />
-						<HyperlinkButton Content="devovercome" NavigateUri="https://github.com/devovercome" />
-						<HyperlinkButton Content="SudaCat" NavigateUri="https://github.com/SudaCat" />
-						<HyperlinkButton Content="dependabot[bot]" NavigateUri="https://github.com/apps/dependabot" />
-						<HyperlinkButton Content="bebeyaco" NavigateUri="https://github.com/bebeyaco" />
-						<HyperlinkButton Content="lukeblevins" NavigateUri="https://github.com/lukeblevins" />
-						<HyperlinkButton Content="d2dyno" NavigateUri="https://github.com/d2dyno1" />
-						<HyperlinkButton Content="somnisomni" NavigateUri="https://github.com/somnisomni" />
-						<HyperlinkButton Content="xlifi" NavigateUri="https://github.com/xlifi" />
-						<HyperlinkButton Content="konradsikorski" NavigateUri="https://github.com/konradsikorski" />
-						<HyperlinkButton Content="oleklukasiewicz" NavigateUri="https://github.com/oleklukasiewicz" />
-						<HyperlinkButton Content="mafra99" NavigateUri="https://github.com/mafra99" />
-						<HyperlinkButton Content="THEBOSSMAGNUS" NavigateUri="https://github.com/THEBOSSMAGNUS" />
-						<HyperlinkButton Content="elvistkf" NavigateUri="https://github.com/elvistkf" />
-						<HyperlinkButton Content="tsakalerisk" NavigateUri="https://github.com/tsakalerisk" />
-						<HyperlinkButton Content="michalmrowiec" NavigateUri="https://github.com/michalmrowiec" />
-						<HyperlinkButton Content="oxixes" NavigateUri="https://github.com/oxixes" />
-						<HyperlinkButton Content="Daxxxis" NavigateUri="https://github.com/Daxxxis" />
-						<HyperlinkButton Content="ahmed605" NavigateUri="https://github.com/ahmed605" />
-						<HyperlinkButton Content="pklion" NavigateUri="https://github.com/pklion" />
-						<HyperlinkButton Content="Wtcheesecakes" NavigateUri="https://github.com/Wtcheesecakes" />
-						<HyperlinkButton Content="slorixsh" NavigateUri="https://github.com/slorixsh" />
-						<HyperlinkButton Content="FilopateerMaged" NavigateUri="https://github.com/FilopateerMaged" />
-						<HyperlinkButton Content="acesyde" NavigateUri="https://github.com/acesyde" />
-					</GridView>
-				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
 
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ThirdPartyLicenses}" HorizontalAlignment="Stretch">

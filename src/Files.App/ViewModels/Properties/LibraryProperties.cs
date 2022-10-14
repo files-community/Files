@@ -44,8 +44,8 @@ namespace Files.App.ViewModels.Properties
         {
             if (Library != null)
             {
-                ViewModel.ItemName = Library.ItemName;
-                ViewModel.OriginalItemName = Library.ItemName;
+                ViewModel.ItemName = Library.Name;
+                ViewModel.OriginalItemName = Library.Name;
                 ViewModel.ItemType = Library.ItemType;
                 ViewModel.LoadCustomIcon = Library.LoadCustomIcon;
                 ViewModel.CustomIconSource = Library.CustomIconSource;

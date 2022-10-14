@@ -6,6 +6,7 @@
         public string Arguments { get; set; }
         public string WorkingDirectory { get; set; }
         public bool RunAsAdmin { get; set; }
+        public bool InvalidTarget { get; set; }
 
         public ShellLinkItem()
         {

@@ -30,7 +30,6 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
-using Files.App.Interacts;
 using SortDirection = Files.Shared.Enums.SortDirection;
 using Files.Backend.Enums;
 using Files.Backend.Services;
@@ -64,9 +63,9 @@ namespace Files.App.Views
 
         private IDialogService DialogService { get; } = Ioc.Default.GetRequiredService<IDialogService>();
 
-        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-        private IUpdateService UpdateSettingsService { get; } = Ioc.Default.GetService<IUpdateService>();
+        private IUpdateService UpdateSettingsService { get; } = Ioc.Default.GetRequiredService<IUpdateService>();
 
         private bool isCurrentInstance = false;
         public bool IsCurrentInstance
@@ -354,18 +353,18 @@ namespace Files.App.Views
                         MaxItemCount = 10,
                         SearchUnindexedItems = UserSettingsService.PreferencesSettingsService.SearchUnindexedItems
                     };
-                    sender.SetSuggestions(await search.SearchAsync());
+                    sender.SetSuggestions((await search.SearchAsync()).Select(suggestion => new SuggestionModel(suggestion)));
                 }
                 else
                 {
-                    sender.ClearSuggestions();
+                    sender.AddRecentQueries();
                 }
             }
         }
 
         private async void ColumnShellPage_QuerySubmitted(ISearchBox sender, SearchBoxQuerySubmittedEventArgs e)
         {
-            if (e.ChosenSuggestion is ListedItem item)
+            if (e.ChosenSuggestion is SuggestionModel item && !string.IsNullOrWhiteSpace(item.ItemPath))
             {
                 await NavigationHelpers.OpenPath(item.ItemPath, this);
             }
@@ -645,8 +644,11 @@ namespace Files.App.Views
         private async void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e)
         {
             ContentPage = await GetContentOrNullAsync();
-            ToolbarViewModel.SearchBox.Query = string.Empty;
-            ToolbarViewModel.IsSearchBoxVisible = false;
+            if (!ToolbarViewModel.SearchBox.WasQuerySubmitted)
+            {
+                ToolbarViewModel.SearchBox.Query = string.Empty;
+                ToolbarViewModel.IsSearchBoxVisible = false;
+            }
             if (ItemDisplayFrame.CurrentSourcePageType == typeof(ColumnViewBase))
             {
                 // Reset DataGrid Rows that may be in "cut" command mode
@@ -798,7 +800,7 @@ namespace Files.App.Views
                     break;
 
                 case (true, false, false, true, VirtualKey.H): // ctrl + h, toggle hidden folder visibility
-                    UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible ^= true; // flip bool
+                    UserSettingsService.FoldersSettingsService.ShowHiddenItems ^= true; // flip bool
                     break;
 
                 case (false, false, false, _, VirtualKey.F1): // F1, open Files wiki

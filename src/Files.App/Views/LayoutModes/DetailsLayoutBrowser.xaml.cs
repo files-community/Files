@@ -308,15 +308,6 @@ namespace Files.App.Views.LayoutModes
 		{
 		}
 
-		private void StackPanel_RightTapped(object sender, RightTappedRoutedEventArgs e)
-		{
-			var parentContainer = DependencyObjectHelpers.FindParent<ListViewItem>(e.OriginalSource as DependencyObject);
-			if (!parentContainer.IsSelected)
-			{
-				ItemManipulationModel.SetSelectedItem(FileList.ItemFromContainer(parentContainer) as ListedItem);
-			}
-		}
-
 		private async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x != null).ToList();
@@ -352,8 +343,8 @@ namespace Files.App.Views.LayoutModes
 			textBox.LostFocus += RenameTextBox_LostFocus;
 			textBox.KeyDown += RenameTextBox_KeyDown;
 
-			int selectedTextLength = SelectedItem.ItemName.Length;
-			if (!SelectedItem.IsShortcutItem && UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
+			int selectedTextLength = SelectedItem.Name.Length;
+			if (!SelectedItem.IsShortcut && UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
 			{
 				selectedTextLength -= extensionLength;
 			}
@@ -564,7 +555,7 @@ namespace Files.App.Views.LayoutModes
 
 			// Check if the setting to open items with a single click is turned on
 			if (item != null
-				&& ((UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder) || (UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)))
+				&& ((UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder) || (UserSettingsService.FoldersSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)))
 			{
 				ResetRenameDoubleClick();
 				NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
@@ -572,7 +563,7 @@ namespace Files.App.Views.LayoutModes
 			else
 			{
 				var clickedItem = e.OriginalSource as FrameworkElement;
-				if (clickedItem is TextBlock && ((TextBlock)clickedItem).Name == "ItemName")
+				if (clickedItem is TextBlock && ((TextBlock)clickedItem).Name == "Name")
 				{
 					CheckRenameDoubleClick(clickedItem?.DataContext);
 				}
@@ -592,8 +583,8 @@ namespace Files.App.Views.LayoutModes
 		{
 			// Skip opening selected items if the double tap doesn't capture an item
 			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item
-				 && ((!UserSettingsService.PreferencesSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)
-				 || (!UserSettingsService.PreferencesSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder)))
+				 && ((!UserSettingsService.FoldersSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)
+				 || (!UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder)))
 			{
 				NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
 			}
@@ -707,7 +698,7 @@ namespace Files.App.Views.LayoutModes
 
 			var maxItemLength = columnToResize switch
 			{
-				1 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemName?.Length ?? 0).Max(), // file name column
+				1 => FileList.Items.Cast<ListedItem>().Select(x => x.Name?.Length ?? 0).Max(), // file name column
 				2 => FileList.Items.Cast<ListedItem>().Select(x => x.FileTagsUI?.FirstOrDefault()?.TagName?.Length ?? 0).Max(), // file tag column
 				3 => FileList.Items.Cast<ListedItem>().Select(x => (x as RecycleBinItem)?.ItemOriginalPath?.Length ?? 0).Max(), // original path column
 				4 => FileList.Items.Cast<ListedItem>().Select(x => (x as RecycleBinItem)?.ItemDateDeleted?.Length ?? 0).Max(), // date deleted column

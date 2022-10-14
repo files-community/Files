@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>이름</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>유형</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>크기</value>
   </data>
@@ -160,7 +157,7 @@
     <value>항목명</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>위치:</value>
+    <value>Path:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>크기:</value>
@@ -801,6 +798,9 @@
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>레이아웃 설정</value>
   </data>
+  <data name="LayoutMode" xml:space="preserve">
+    <value>레이아웃 설정</value>
+  </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
     <value>뒤로 가기</value>
   </data>
@@ -824,9 +824,6 @@
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>넘어간 항목을 더보기 메뉴로 이동</value>
-  </data>
-  <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
-    <value>즐겨찾기에 휴지통 고정</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
     <value>파일이나 폴더를 삭제할 때 확인 창을 표시</value>
@@ -1230,14 +1227,20 @@
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>업데이트 가능</value>
   </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
-    <value>보호된 운영 체제 파일 숨기기 (권장)</value>
+  <data name="ShowProtectedSystemFiles" xml:space="preserve">
+    <value>Show protected system files</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>파일 및 폴더 검색 시 색인되지 않은 항목도 표시</value>
+    <value>Include unindexed items in search results</value>
   </data>
-  <data name="ForceThesePreferencesOnAllDirectories" xml:space="preserve">
-    <value>Force these preferences on all directories</value>
+  <data name="ResetFolderPreferencesOverrides" xml:space="preserve">
+    <value>Reset folder overrides</value>
+  </data>
+  <data name="EnableOverridingFolderPreferencesDescription" xml:space="preserve">
+    <value>Changing the layout in a directory when this setting is turned off will update the layout for all directories.</value>
+  </data>
+  <data name="EnableOverridingFolderPreferences" xml:space="preserve">
+    <value>Enable overriding folder preferences in individual directories</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>마우스 우클릭 컨텍스트 메뉴를 설정</value>
@@ -1671,32 +1674,23 @@
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
     <value>새 탭에서 폴더 열기</value>
   </data>
-  <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
-    <value>번들 위젯 표시</value>
+  <data name="ShowBundlesWidget" xml:space="preserve">
+    <value>Show Bundles widget</value>
   </data>
-  <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
-    <value>드라이브 위젯 표시</value>
+  <data name="ShowDrivesWidget" xml:space="preserve">
+    <value>Show Drives widget</value>
   </data>
-  <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
-    <value>폴더 위젯 표시</value>
+  <data name="ShowFolderWidget" xml:space="preserve">
+    <value>Show Folders widget</value>
   </data>
-  <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
-    <value>최근 파일 위젯 표시</value>
-  </data>
-  <data name="NavToolbarWidgets.ToolTipService.ToolTip" xml:space="preserve">
-    <value>위젯 관리</value>
-  </data>
-  <data name="NavToolbarWidgetsManager.AutomationProperties.Name" xml:space="preserve">
-    <value>위젯 관리</value>
+  <data name="ShowRecentFilesWidget" xml:space="preserve">
+    <value>Show Recent Files widget</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>원하는 항목을 찾지 못했나요?</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
     <value>색인되지 않은 항목을 검색하세요.</value>
-  </data>
-  <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
-    <value>위젯 관리</value>
   </data>
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>테마 폴더 열기</value>
@@ -1956,8 +1950,8 @@
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>해제</value>
   </data>
-  <data name="NavToolbarWidgets.Label" xml:space="preserve">
-    <value>위젯</value>
+  <data name="Widgets" xml:space="preserve">
+    <value>Widgets</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>동기화 상태</value>
@@ -2316,14 +2310,6 @@
   <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+N</value>
   </data>
-  <data name="SettingsPrivacy.Title" xml:space="preserve">
-    <value>개인정보취급방침</value>
-  </data>
-  <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
-    <value>
-저희는 App Center를 사용하여 사용 중인 설정을 추적하고, 버그를 찾고, 충돌을 수정합니다. App Center로 전송되는 정보는 익명 처리되며 사용자와 직간접적으로 관련되어 있는 데이터는 일체 포함되지 않습니다.
-  </value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>상위 폴더 열기</value>
   </data>
@@ -2422,9 +2408,6 @@
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>새 탭에서 폴더 열기</value>
-  </data>
-  <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>즐겨찾기에 휴지통 고정</value>
   </data>
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>언어</value>
@@ -2612,8 +2595,8 @@
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>라이브러리 이름 입력</value>
   </data>
-  <data name="ShowFolderSize" xml:space="preserve">
-    <value>폴더 크기 표시</value>
+  <data name="CalculateFolderSizes" xml:space="preserve">
+    <value>Calculate folder sizes</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
     <value>최근에 사용한 파일</value>
@@ -2641,6 +2624,9 @@
   </data>
   <data name="Type" xml:space="preserve">
     <value>유형:</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Icon Grid</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>바이트</value>
@@ -2744,8 +2730,8 @@
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
     <value>Move operation is not supported in this context. Do you want to copy the items instead?</value>
   </data>
-  <data name="HiddenFilesAndFolders" xml:space="preserve">
-    <value>Hidden files and folders</value>
+  <data name="HiddenItems" xml:space="preserve">
+    <value>Hidden items</value>
   </data>
   <data name="Custom" xml:space="preserve">
     <value>Custom</value>
@@ -2789,23 +2775,23 @@
   <data name="SetAsDefault" xml:space="preserve">
     <value>Set as default</value>
   </data>
-  <data name="FolderPreferences" xml:space="preserve">
-    <value>Folder preferences</value>
+  <data name="DateColumn" xml:space="preserve">
+    <value>Date column</value>
   </data>
-  <data name="DisplayDateColumn" xml:space="preserve">
-    <value>Display Date column</value>
+  <data name="DateCreatedColumn" xml:space="preserve">
+    <value>Date Created column</value>
   </data>
-  <data name="DisplayDateCreatedColumn" xml:space="preserve">
-    <value>Display Date Created column</value>
+  <data name="SizeColumn" xml:space="preserve">
+    <value>Size column</value>
   </data>
-  <data name="DisplaySizeColumn" xml:space="preserve">
-    <value>Display Size column</value>
+  <data name="TagColumn" xml:space="preserve">
+    <value>Tag column</value>
   </data>
-  <data name="DisplayTagColumn" xml:space="preserve">
-    <value>Display Tag column</value>
+  <data name="TypeColumn" xml:space="preserve">
+    <value>Type column</value>
   </data>
-  <data name="DisplayTypeColumn" xml:space="preserve">
-    <value>Display Type column</value>
+  <data name="DetailsLayoutColumns" xml:space="preserve">
+    <value>Details layout columns</value>
   </data>
   <data name="Reset" xml:space="preserve">
     <value>Reset</value>
@@ -2822,7 +2808,34 @@
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
     <value>Open folders with a single click in the Columns Layout</value>
   </data>
-  <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
-    <value>Behavior for opening files and folders</value>
+  <data name="OpeningItems" xml:space="preserve">
+    <value>Opening items</value>
+  </data>
+  <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
+    <value>Select files and folders when hovering over them</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
+    <value>Are you sure you want to restore all items in the recycle bin?</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
+    <value>Restore all items</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
+    <value>Do you want to restore the {0} selected item(s)?</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
+    <value>Restore selection</value>
+  </data>
+  <data name="RestoreAllItems" xml:space="preserve">
+    <value>Restore All Items</value>
+  </data>
+  <data name="RestoreSelection" xml:space="preserve">
+    <value>복원</value>
+  </data>
+  <data name="ShortcutCannotBeOpened" xml:space="preserve">
+    <value>Shortcut cannot be opened</value>
+  </data>
+  <data name="DeleteShortcutDescription" xml:space="preserve">
+    <value>The target destination cannot be found {0}. Do you want to delete this shortcut?</value>
   </data>
 </root>

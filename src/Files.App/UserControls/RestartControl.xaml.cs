@@ -10,7 +10,7 @@ namespace Files.App.UserControls
 {
     public sealed partial class RestartControl : UserControl
     {
-		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public RestartControl()
         {

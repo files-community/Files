@@ -25,7 +25,6 @@ using Windows.Foundation.Collections;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.System;
-using Windows.UI.Core;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -186,7 +185,10 @@ namespace Files.App.Interacts
 
         public virtual void ShowProperties(RoutedEventArgs e)
         {
-            SlimContentPage.ItemContextMenuFlyout.Closed += OpenProperties;
+            if (SlimContentPage.ItemContextMenuFlyout.IsOpen)
+                SlimContentPage.ItemContextMenuFlyout.Closed += OpenProperties;
+            else
+                FilePropertiesHelpers.ShowProperties(associatedInstance);
         }
 
         private void OpenProperties(object sender, object e)
@@ -200,9 +202,7 @@ namespace Files.App.Interacts
             ShortcutItem item = SlimContentPage.SelectedItem as ShortcutItem;
 
             if (string.IsNullOrWhiteSpace(item?.TargetPath))
-            {
                 return;
-            }
 
             // Check if destination path exists
             string folderPath = Path.GetDirectoryName(item.TargetPath);
@@ -260,9 +260,7 @@ namespace Files.App.Interacts
         {
             ListedItem listedItem = SlimContentPage.SelectedItems.FirstOrDefault();
             if (listedItem != null)
-            {
                 associatedInstance.PaneHolder?.OpenPathInNewPane((listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
-            }
         }
 
         public virtual async void OpenInNewWindowItem(RoutedEventArgs e)
@@ -289,13 +287,9 @@ namespace Files.App.Interacts
         public virtual async void PasteItemsFromClipboard(RoutedEventArgs e)
         {
             if (SlimContentPage.SelectedItems.Count == 1 && SlimContentPage.SelectedItems.Single().PrimaryItemAttribute == StorageItemTypes.Folder)
-            {
                 await UIFilesystemHelpers.PasteItemAsync(SlimContentPage.SelectedItems.Single().ItemPath, associatedInstance);
-            }
             else
-            {
                 await UIFilesystemHelpers.PasteItemAsync(associatedInstance.FilesystemViewModel.WorkingDirectory, associatedInstance);
-            }
         }
 
         public virtual void CopyPathOfSelectedItem(RoutedEventArgs e)
@@ -306,9 +300,7 @@ namespace Files.App.Interacts
                 {
                     var path = SlimContentPage.SelectedItem != null ? SlimContentPage.SelectedItem.ItemPath : associatedInstance.FilesystemViewModel.WorkingDirectory;
                     if (FtpHelpers.IsFtpPath(path))
-                    {
                         path = path.Replace("\\", "/", StringComparison.Ordinal);
-                    }
                     DataPackage data = new();
                     data.SetText(path);
                     Clipboard.SetContent(data);
@@ -350,26 +342,22 @@ namespace Files.App.Interacts
                     {
                         if (shItem.IsLinkItem && !string.IsNullOrEmpty(shItem.TargetPath))
                         {
-                            dataRequest.Data.Properties.Title = string.Format("ShareDialogTitle".GetLocalizedResource(), item.ItemName);
+                            dataRequest.Data.Properties.Title = string.Format("ShareDialogTitle".GetLocalizedResource(), item.Name);
                             dataRequest.Data.Properties.Description = "ShareDialogSingleItemDescription".GetLocalizedResource();
                             dataRequest.Data.SetWebLink(new Uri(shItem.TargetPath));
                             dataRequestDeferral.Complete();
                             return;
                         }
                     }
-                    else if (item.PrimaryItemAttribute == StorageItemTypes.Folder && !item.IsZipItem)
+                    else if (item.PrimaryItemAttribute == StorageItemTypes.Folder && !item.IsArchive)
                     {
                         if (await StorageHelpers.ToStorageItem<BaseStorageFolder>(item.ItemPath) is BaseStorageFolder folder)
-                        {
                             items.Add(folder);
-                        }
                     }
                     else
                     {
                         if (await StorageHelpers.ToStorageItem<BaseStorageFile>(item.ItemPath) is BaseStorageFile file)
-                        {
                             items.Add(file);
-                        }
                     }
                 }
 
@@ -413,14 +401,10 @@ namespace Files.App.Interacts
                     SlimContentPage.IsMiddleClickToScrollEnabled = false;
                     SlimContentPage.IsMiddleClickToScrollEnabled = true;
 
-                    if (Item.IsShortcutItem)
-                    {
+                    if (Item.IsShortcut)
                         await NavigationHelpers.OpenPathInNewTab(((e.OriginalSource as FrameworkElement)?.DataContext as ShortcutItem)?.TargetPath ?? Item.ItemPath);
-                    }
                     else
-                    {
                         await NavigationHelpers.OpenPathInNewTab(Item.ItemPath);
-                    }
                 }
             }
         }
@@ -430,9 +414,7 @@ namespace Files.App.Interacts
             if (associatedInstance.SlimContentPage.SelectedItems.Count > 0)
             {
                 foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
-                {
                     await App.SecondaryTileHelper.UnpinFromStartAsync(listedItem.ItemPath);
-                }
             }
             else
             {
@@ -445,13 +427,11 @@ namespace Files.App.Interacts
             if (associatedInstance.SlimContentPage.SelectedItems.Count > 0)
             {
                 foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
-                {
-                    await App.SecondaryTileHelper.TryPinFolderAsync(listedItem.ItemPath, listedItem.ItemName);
-                }
+                    await App.SecondaryTileHelper.TryPinFolderAsync(listedItem.ItemPath, listedItem.Name);
             }
             else
             {
-                await App.SecondaryTileHelper.TryPinFolderAsync(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath, associatedInstance.FilesystemViewModel.CurrentFolder.ItemName);
+                await App.SecondaryTileHelper.TryPinFolderAsync(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath, associatedInstance.FilesystemViewModel.CurrentFolder.Name);
             }
         }
 
@@ -460,13 +440,9 @@ namespace Files.App.Interacts
             if (e.KeyModifiers == VirtualKeyModifiers.Control)
             {
                 if (e.GetCurrentPoint(null).Properties.MouseWheelDelta < 0) // Mouse wheel down
-                {
                     GridViewSizeDecrease(null);
-                }
                 else // Mouse wheel up
-                {
                     GridViewSizeIncrease(null);
-                }
 
                 e.Handled = true;
             }
@@ -475,25 +451,17 @@ namespace Files.App.Interacts
         public virtual void GridViewSizeDecrease(KeyboardAcceleratorInvokedEventArgs e)
         {
             if (associatedInstance.IsCurrentInstance)
-            {
                 associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize - Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Smaller
-            }
             if (e != null)
-            {
                 e.Handled = true;
-            }
         }
 
         public virtual void GridViewSizeIncrease(KeyboardAcceleratorInvokedEventArgs e)
         {
             if (associatedInstance.IsCurrentInstance)
-            {
                 associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize + Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Larger
-            }
             if (e != null)
-            {
                 e.Handled = true;
-            }
         }
 
         public virtual async Task DragOver(DragEventArgs e)
@@ -614,6 +582,54 @@ namespace Files.App.Interacts
             await UIFilesystemHelpers.CreateFolderWithSelectionAsync(associatedInstance);
         }
 
+        public async Task CompressIntoArchive()
+        {
+            string archivePath;
+            string[] sources = associatedInstance.SlimContentPage.SelectedItems
+                .Select(item => item.ItemPath)
+                .ToArray();
+
+            if (sources.Length == 1)
+                archivePath = sources[0] + ".zip";
+            else
+            {
+                DynamicDialog archiveDialog = DynamicDialogFactory.GetFor_RenameDialog();
+                await archiveDialog.ShowAsync();
+                if (archiveDialog.DynamicResult != DynamicDialogResult.Primary)
+                    return;
+                archivePath = Path.Combine(
+                    associatedInstance.FilesystemViewModel.WorkingDirectory,
+                    $"{(string)archiveDialog.ViewModel.AdditionalData}.zip");
+            }
+
+            CancellationTokenSource compressionToken = new();
+            PostedStatusBanner banner = App.OngoingTasksViewModel.PostOperationBanner(
+                "CompressionInProgress".GetLocalizedResource(),
+                archivePath,
+                0,
+                ReturnResult.InProgress,
+                FileOperationType.Compressed,
+                compressionToken);
+            
+            bool result = await ZipHelpers.CompressMultipleToArchive(sources, archivePath, banner.Progress);
+            
+            banner.Remove();
+            if (result)
+                App.OngoingTasksViewModel.PostBanner(
+                    "CompressionCompleted".GetLocalizedResource(),
+                    string.Format("CompressionSucceded".GetLocalizedResource(), archivePath),
+                    0,
+                    ReturnResult.Success,
+                    FileOperationType.Compressed);
+            else
+                App.OngoingTasksViewModel.PostBanner(
+                    "CompressionCompleted".GetLocalizedResource(),
+                    string.Format("CompressionFailed".GetLocalizedResource(), archivePath),
+                    0,
+                    ReturnResult.Failed,
+                    FileOperationType.Compressed);
+		}
+
         public async Task DecompressArchive()
         {
             BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(associatedInstance.SlimContentPage.SelectedItem.ItemPath);
@@ -625,8 +641,7 @@ namespace Files.App.Interacts
             DecompressArchiveDialogViewModel decompressArchiveViewModel = new(archive);
             decompressArchiveDialog.ViewModel = decompressArchiveViewModel;
 
-            ContentDialogResult option = await decompressArchiveDialog.ShowAsync();
-
+            ContentDialogResult option = await decompressArchiveDialog.TryShowAsync();
             if (option != ContentDialogResult.Primary)
                 return;
 
@@ -692,7 +707,7 @@ namespace Files.App.Interacts
             Stopwatch sw = new();
             sw.Start();
 
-            await ZipHelpers.ExtractArchive(archive, destinationFolder, banner.Progress, extractCancellation.Token);
+            await FilesystemTasks.Wrap(() => ZipHelpers.ExtractArchive(archive, destinationFolder, banner.Progress, extractCancellation.Token));
 
             sw.Stop();
             banner.Remove();
@@ -711,17 +726,13 @@ namespace Files.App.Interacts
         public async Task InstallInfDriver()
         {
             foreach (ListedItem selectedItem in SlimContentPage.SelectedItems)
-            {
                 await Win32API.InstallInf(selectedItem.ItemPath);
-            }
         }
 
         public async Task RotateImageLeft()
         {
             foreach (var image in SlimContentPage.SelectedItems)
-            {
                 await BitmapHelper.Rotate(PathNormalization.NormalizePath(image.ItemPath), BitmapRotation.Clockwise270Degrees);
-            }
 
             SlimContentPage.ItemManipulationModel.RefreshItemsThumbnail();
             App.PreviewPaneViewModel.UpdateSelectedItemPreview();
@@ -730,9 +741,7 @@ namespace Files.App.Interacts
         public async Task RotateImageRight()
         {
             foreach (var image in SlimContentPage.SelectedItems)
-            {
                 await BitmapHelper.Rotate(PathNormalization.NormalizePath(image.ItemPath), BitmapRotation.Clockwise90Degrees);
-            }
 
             SlimContentPage.ItemManipulationModel.RefreshItemsThumbnail();
             App.PreviewPaneViewModel.UpdateSelectedItemPreview();
@@ -741,9 +750,7 @@ namespace Files.App.Interacts
         public Task InstallFont()
         {
             foreach (ListedItem selectedItem in SlimContentPage.SelectedItems)
-            {
                 Win32API.InstallFont(selectedItem.ItemPath);
-            }
 
             return Task.CompletedTask;
         }

@@ -21,7 +21,7 @@ namespace Files.App.Views
         private IShellPage? appInstance;
 
         public ICommand RestoreDefaultIconCommand { get; private set; }
-        public bool IsShortcutItem { get; private set; }
+        public bool IsShortcut { get; private set; }
 
         public CustomFolderIcons()
         {
@@ -36,7 +36,7 @@ namespace Files.App.Views
                 return;
 
             selectedItemPath = selectorInfo.SelectedItem;
-            IsShortcutItem = selectorInfo.IsShortcut;
+            IsShortcut = selectorInfo.IsShortcut;
             iconResourceItemPath = selectorInfo.InitialPath;
             appInstance = selectorInfo.AppInstance;
             ItemDisplayedPath.Text = iconResourceItemPath;
@@ -74,7 +74,7 @@ namespace Files.App.Views
             if (selectedIconInfo == null)
                 return;
 
-            var setIconResult = IsShortcutItem ?
+            var setIconResult = IsShortcut ?
                 SetCustomFileIcon(selectedItemPath, iconResourceItemPath, selectedIconInfo.Index) :
                 SetCustomFolderIcon(selectedItemPath, iconResourceItemPath, selectedIconInfo.Index);
             if (setIconResult)
@@ -90,7 +90,7 @@ namespace Files.App.Views
         {
             RestoreDefaultButton.IsEnabled = false;
 
-            var setIconResult = IsShortcutItem ?
+            var setIconResult = IsShortcut ?
                 SetCustomFileIcon(selectedItemPath, null) :
                 SetCustomFolderIcon(selectedItemPath, null);
             if (setIconResult)

@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,7 +23,7 @@ namespace Files.App.Filesystem.StorageItems
         public StorageProvider Provider => null;
 
         public abstract DateTimeOffset DateCreated { get; }
-        public abstract FileAttributes Attributes { get; }
+        public abstract Windows.Storage.FileAttributes Attributes { get; }
         public abstract string FolderRelativeId { get; }
 
         public abstract IStorageItemExtraProperties Properties { get; }
@@ -96,15 +97,17 @@ namespace Files.App.Filesystem.StorageItems
         public async Task<string> ReadTextAsync(int maxLength = -1)
         {
             using var inputStream = await OpenReadAsync();
-            using var dataReader = new DataReader(inputStream);
+            using var stream = inputStream.AsStreamForRead();
+            using var dataReader = new StreamReader(stream, true);
             StringBuilder builder = new();
-            uint bytesRead, bytesToRead;
+            int charsRead, charsToRead;
             do
             {
-                bytesToRead = maxLength < 0 ? 4096 : (uint)Math.Min(maxLength, 4096);
-                bytesRead = await dataReader.LoadAsync(bytesToRead);
-                builder.Append(dataReader.ReadString(bytesRead));
-            } while (bytesRead > 0 && inputStream.Position < inputStream.Size);
+                charsToRead = maxLength < 0 ? 4096 : Math.Min(maxLength, 4096);
+                var data = new char[charsToRead];
+                charsRead = await dataReader.ReadAsync(data);
+                builder.Append(data);
+            } while (charsRead > 0 && inputStream.Position < inputStream.Size);
             return builder.ToString();
         }
 

@@ -44,8 +44,8 @@ namespace Files.App.Filesystem.StorageEnumerators
             var tempList = new List<ListedItem>();
             var count = 0;
 
-            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
-            bool showFolderSize = userSettingsService.PreferencesSettingsService.ShowFolderSize;
+            IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+            bool CalculateFolderSizes = userSettingsService.FoldersSettingsService.CalculateFolderSizes;
 
             do
             {
@@ -53,9 +53,9 @@ namespace Files.App.Filesystem.StorageEnumerators
                 var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
                 var startWithDot = findData.cFileName.StartsWith(".");
                 if ((!isHidden ||
-                   (userSettingsService.PreferencesSettingsService.AreHiddenItemsVisible &&
-                   (!isSystem || !userSettingsService.PreferencesSettingsService.AreSystemItemsHidden))) &&
-                   (!startWithDot || userSettingsService.PreferencesSettingsService.ShowDotFiles))
+                   (userSettingsService.FoldersSettingsService.ShowHiddenItems &&
+                   (!isSystem || userSettingsService.FoldersSettingsService.ShowProtectedSystemFiles))) &&
+                   (!startWithDot || userSettingsService.FoldersSettingsService.ShowDotFiles))
                 {
                     if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
                     {
@@ -76,7 +76,7 @@ namespace Files.App.Filesystem.StorageEnumerators
                             tempList.Add(file);
                             ++count;
 
-                            if (userSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible)
+                            if (userSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
                             {
                                 tempList.AddRange(EnumAdsForPath(file.ItemPath, file));
                             }
@@ -97,12 +97,12 @@ namespace Files.App.Filesystem.StorageEnumerators
                                 tempList.Add(folder);
                                 ++count;
 
-                                if (userSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible)
+                                if (userSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
                                 {
                                     tempList.AddRange(EnumAdsForPath(folder.ItemPath, folder));
                                 }
 
-                                if (showFolderSize)
+                                if (CalculateFolderSizes)
                                 {
                                     if (folderSizeProvider.TryGetSize(folder.ItemPath, out var size))
                                     {

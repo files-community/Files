@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Nazwa</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>Typ</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>Rozmiar</value>
   </data>
@@ -166,7 +163,7 @@
     <value>Rozmiar:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed Size:</value>
+    <value>Rozmiar nieskompresowany:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Ta akcja nie może być wykonana</value>
@@ -801,6 +798,9 @@
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Układ</value>
   </data>
+  <data name="LayoutMode" xml:space="preserve">
+    <value>Układ</value>
+  </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
     <value>Nawiguj do tyłu</value>
   </data>
@@ -824,9 +824,6 @@
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Przenieś przepełnione elementy do podmenu</value>
-  </data>
-  <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
-    <value>Przypnij Kosz do ulubionych</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
     <value>Pokaż okno dialogowe potwierdzenia podczas usuwania plików lub folderów</value>
@@ -1230,14 +1227,20 @@
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Dostępne aktualizacje</value>
   </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
-    <value>Ukryj chronione pliki systemu operacyjnego (zalecane)</value>
+  <data name="ShowProtectedSystemFiles" xml:space="preserve">
+    <value>Pokaż chronione pliki systemu operacyjnego</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Pokaż niezindeksowane elementy podczas wyszukiwania plików i folderów</value>
+    <value>Include unindexed items in search results</value>
   </data>
-  <data name="ForceThesePreferencesOnAllDirectories" xml:space="preserve">
-    <value>Force these preferences on all directories</value>
+  <data name="ResetFolderPreferencesOverrides" xml:space="preserve">
+    <value>Reset folder overrides</value>
+  </data>
+  <data name="EnableOverridingFolderPreferencesDescription" xml:space="preserve">
+    <value>Changing the layout in a directory when this setting is turned off will update the layout for all directories.</value>
+  </data>
+  <data name="EnableOverridingFolderPreferences" xml:space="preserve">
+    <value>Enable overriding folder preferences in individual directories</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Dostosuj menu kontekstowe prawego przycisku myszy</value>
@@ -1671,32 +1674,23 @@
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
     <value>Otwieraj foldery w nowej karcie</value>
   </data>
-  <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
+  <data name="ShowBundlesWidget" xml:space="preserve">
     <value>Pokaż widżet Paczek</value>
   </data>
-  <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
-    <value>Pokaż widżet dysków</value>
+  <data name="ShowDrivesWidget" xml:space="preserve">
+    <value>Pokaż widżet Dysków</value>
   </data>
-  <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
-    <value>Pokaż widżet folderów</value>
+  <data name="ShowFolderWidget" xml:space="preserve">
+    <value>Pokaż widżet Folderów</value>
   </data>
-  <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
+  <data name="ShowRecentFilesWidget" xml:space="preserve">
     <value>Pokaż widżet ostatnich plików</value>
-  </data>
-  <data name="NavToolbarWidgets.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Zarządzaj widżetami</value>
-  </data>
-  <data name="NavToolbarWidgetsManager.AutomationProperties.Name" xml:space="preserve">
-    <value>Zarządzaj widżetami</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>Nie możesz znaleźć tego, czego szukasz?</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
     <value>Wyszukaj niezindeksowane elementy.</value>
-  </data>
-  <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
-    <value>Zarządzaj widżetami</value>
   </data>
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>Otwórz folder motywów</value>
@@ -1956,7 +1950,7 @@
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Odrzuć</value>
   </data>
-  <data name="NavToolbarWidgets.Label" xml:space="preserve">
+  <data name="Widgets" xml:space="preserve">
     <value>Widżety</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
@@ -2316,14 +2310,6 @@
   <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+N</value>
   </data>
-  <data name="SettingsPrivacy.Title" xml:space="preserve">
-    <value>Polityka prywatności</value>
-  </data>
-  <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
-    <value>
-Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błędy i naprawiać awarie. Informacje przesyłane do App Center są anonimowe i wolne od jakichkolwiek danych użytkownika bądź danych kontekstowych.
-  </value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Otwórz folder nadrzędny</value>
   </data>
@@ -2422,9 +2408,6 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Otwieraj foldery w nowej karcie</value>
-  </data>
-  <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Przypnij Kosz do ulubionych</value>
   </data>
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Język</value>
@@ -2612,8 +2595,8 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>Podaj nazwę biblioteki</value>
   </data>
-  <data name="ShowFolderSize" xml:space="preserve">
-    <value>Pokaż rozmiar folderu</value>
+  <data name="CalculateFolderSizes" xml:space="preserve">
+    <value>Calculate folder sizes</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
     <value>Ostatnio używane pliki</value>
@@ -2641,6 +2624,9 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
   </data>
   <data name="Type" xml:space="preserve">
     <value>Typ:</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Siatka ikon</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Bajty</value>
@@ -2744,8 +2730,8 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
     <value>Operacja przenoszenia nie jest obsługiwana w tym kontekście. Czy chcesz zamiast tego skopiować elementy?</value>
   </data>
-  <data name="HiddenFilesAndFolders" xml:space="preserve">
-    <value>Ukryte pliki i foldery</value>
+  <data name="HiddenItems" xml:space="preserve">
+    <value>Ukryte elementy</value>
   </data>
   <data name="Custom" xml:space="preserve">
     <value>Niestandardowy</value>
@@ -2778,43 +2764,43 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
     <value>Czy chcesz ocenić Files?</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
-    <value>Set as background</value>
+    <value>Ustaw tło</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Set as lockscreen</value>
+    <value>Ustaw jako ekran blokady</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>Ustaw jako tło pulpitu</value>
   </data>
   <data name="SetAsDefault" xml:space="preserve">
-    <value>Set as default</value>
+    <value>Ustaw jako domyślną</value>
   </data>
-  <data name="FolderPreferences" xml:space="preserve">
-    <value>Folder preferences</value>
+  <data name="DateColumn" xml:space="preserve">
+    <value>Kolumna daty</value>
   </data>
-  <data name="DisplayDateColumn" xml:space="preserve">
-    <value>Display Date column</value>
+  <data name="DateCreatedColumn" xml:space="preserve">
+    <value>Kolumna daty utworzenia</value>
   </data>
-  <data name="DisplayDateCreatedColumn" xml:space="preserve">
-    <value>Display Date Created column</value>
+  <data name="SizeColumn" xml:space="preserve">
+    <value>Kolumna rozmiaru</value>
   </data>
-  <data name="DisplaySizeColumn" xml:space="preserve">
-    <value>Display Size column</value>
+  <data name="TagColumn" xml:space="preserve">
+    <value>Kolumna tagów</value>
   </data>
-  <data name="DisplayTagColumn" xml:space="preserve">
-    <value>Display Tag column</value>
+  <data name="TypeColumn" xml:space="preserve">
+    <value>Kolumna typu</value>
   </data>
-  <data name="DisplayTypeColumn" xml:space="preserve">
-    <value>Display Type column</value>
+  <data name="DetailsLayoutColumns" xml:space="preserve">
+    <value>Details layout columns</value>
   </data>
   <data name="Reset" xml:space="preserve">
-    <value>Reset</value>
+    <value>Resetuj</value>
   </data>
   <data name="ResetLayoutPreferences" xml:space="preserve">
-    <value>This action will reset all directories back to your default preferences.</value>
+    <value>Ta akcja zresetuje wszystkie katalogi z powrotem do ustawień domyślnych.</value>
   </data>
   <data name="AreYouSure" xml:space="preserve">
-    <value>Are you sure?</value>
+    <value>Jesteś pewny?</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Lockscreen</value>
@@ -2822,7 +2808,34 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
     <value>Open folders with a single click in the Columns Layout</value>
   </data>
-  <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
-    <value>Behavior for opening files and folders</value>
+  <data name="OpeningItems" xml:space="preserve">
+    <value>Otwieranie elementów</value>
+  </data>
+  <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
+    <value>Select files and folders when hovering over them</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
+    <value>Are you sure you want to restore all items in the recycle bin?</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
+    <value>Przywróć wszystkie elementy</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
+    <value>Do you want to restore the {0} selected item(s)?</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
+    <value>Przywróć zaznaczone</value>
+  </data>
+  <data name="RestoreAllItems" xml:space="preserve">
+    <value>Przywróć wszystkie elementy</value>
+  </data>
+  <data name="RestoreSelection" xml:space="preserve">
+    <value>Przywróć</value>
+  </data>
+  <data name="ShortcutCannotBeOpened" xml:space="preserve">
+    <value>Shortcut cannot be opened</value>
+  </data>
+  <data name="DeleteShortcutDescription" xml:space="preserve">
+    <value>The target destination cannot be found {0}. Do you want to delete this shortcut?</value>
   </data>
 </root>
