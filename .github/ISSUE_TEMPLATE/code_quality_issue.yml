@@ -27,7 +27,7 @@ body:
   - type: textarea
     attributes:
       label: Possibles solutions
-      description: If you have any idea of how to fix the issue, please describe it here. If appropriate, diagrams are welcomed.
+      description: If you have any idea how to fix the issue, please describe it here.
       value: |
         - eg. Using a specific design pattern.
         - eg. Separating Interface I into three new interfaces I1, I2 and I3.
