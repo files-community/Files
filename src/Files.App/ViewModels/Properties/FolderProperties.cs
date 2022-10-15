@@ -142,7 +142,7 @@ namespace Files.App.ViewModels.Properties
                         {
                             ViewModel.FilesAndFoldersCountVisibility = false;
                         }
-                        ViewModel.ItemCreatedTimestampVisibiity = false;
+                        ViewModel.ItemCreatedTimestampVisibility = false;
                         ViewModel.ItemAccessedTimestampVisibility = false;
                         ViewModel.ItemModifiedTimestampVisibility = false;
                         ViewModel.LastSeparatorVisibility = false;
