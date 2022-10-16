@@ -1125,9 +1125,6 @@
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Vybrať</value>
   </data>
-  <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
-    <value>Otvárajte súbory jediným kliknutím</value>
-  </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>Súbor</value>
   </data>
@@ -2469,8 +2466,8 @@
   <data name="Tag" xml:space="preserve">
     <value>Značka súboru</value>
   </data>
-  <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
-    <value>Otvoriť priečinky jediným kliknutím</value>
+  <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
+    <value>Open items with a single click</value>
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
     <value>Cesta k priečinku: </value>
