@@ -1126,9 +1126,6 @@
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Kies</value>
   </data>
-  <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
-    <value>Maak lêers oop met 'n enkele klik</value>
-  </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>Lêer</value>
   </data>
@@ -2467,8 +2464,8 @@
   <data name="Tag" xml:space="preserve">
     <value>Lêermerker</value>
   </data>
-  <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
-    <value>Maak omslae oop met 'n enkele klik</value>
+  <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
+    <value>Open items with a single click</value>
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
     <value>Omslagpad</value>
