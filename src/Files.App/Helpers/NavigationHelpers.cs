@@ -267,12 +267,7 @@ namespace Files.App.Helpers
 			// Check for folder permission
 			if (!FolderHelpers.CheckFolderAccessWithWin32(path))
 			{
-				if (await DialogDisplayHelper.ShowDialogAsync(DynamicDialogFactory.GetFor_FolderNoPermission()) != DynamicDialogResult.Primary)
-					return (FilesystemResult)false;
-
-				var propView = new PropertiesSecurity();
-				propView.SecurityProperties = new SecurityProperties(new ListedItem { ItemPath = path });
-				propView.OpenAdvancedProperties();
+				await DialogDisplayHelper.ShowDialogAsync(DynamicDialogFactory.GetFor_FolderNoPermission());
 				return (FilesystemResult)false;
 			}
 

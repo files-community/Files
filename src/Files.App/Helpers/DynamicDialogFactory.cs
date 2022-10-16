@@ -59,11 +59,10 @@ namespace Files.App.Helpers
         {
             DynamicDialog dialog = new(new DynamicDialogViewModel
             {
-                TitleText = "No Permission",
-                SubtitleText = "You currently don't have permission to access this folder.",
-                PrimaryButtonText = "Edit Permissions",
-                SecondaryButtonText = "Close",
-                DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary,
+                TitleText = "AccessDenied".GetLocalizedResource(),
+                SubtitleText = "AccessDeniedToFolder".GetLocalizedResource(),
+                PrimaryButtonText = "Close".GetLocalizedResource(),
+                DynamicButtons = DynamicDialogButtons.Primary
             });
             return dialog;
         }
