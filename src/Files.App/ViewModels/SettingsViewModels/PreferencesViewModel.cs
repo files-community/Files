@@ -178,7 +178,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			string languageID = ApplicationLanguages.PrimaryLanguageOverride;
 			SelectedAppLanguageIndex = AppLanguages
 				.IndexOf(AppLanguages.FirstOrDefault(dl => dl.LanguagID == languageID) ?? AppLanguages.First());
-			}
+		}
 
 		private async Task InitStartupSettingsRecentFoldersFlyout()
 		{
