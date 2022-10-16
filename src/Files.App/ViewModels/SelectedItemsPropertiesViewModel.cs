@@ -258,7 +258,7 @@ namespace Files.App.ViewModels
 			get => driveUsedSpace;
 			set
 			{
-				DriveUsedSpaceVisibiity = true;
+				DriveUsedSpaceVisibility = true;
 				SetProperty(ref driveUsedSpace, value);
 			}
 		}
@@ -273,11 +273,11 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		public bool driveUsedSpaceVisibiity = false;
-		public bool DriveUsedSpaceVisibiity
+		public bool driveUsedSpaceVisibility = false;
+		public bool DriveUsedSpaceVisibility
 		{
-			get => driveUsedSpaceVisibiity;
-			set => SetProperty(ref driveUsedSpaceVisibiity, value);
+			get => driveUsedSpaceVisibility;
+			set => SetProperty(ref driveUsedSpaceVisibility, value);
 		}
 
 		private ulong driveFreeSpaceValue;
@@ -299,7 +299,7 @@ namespace Files.App.ViewModels
 			get => driveFreeSpace;
 			set
 			{
-				DriveFreeSpaceVisibiity = true;
+				DriveFreeSpaceVisibility = true;
 				SetProperty(ref driveFreeSpace, value);
 			}
 		}
@@ -314,11 +314,11 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		public bool driveFreeSpaceVisibiity = false;
-		public bool DriveFreeSpaceVisibiity
+		public bool driveFreeSpaceVisibility = false;
+		public bool DriveFreeSpaceVisibility
 		{
-			get => driveFreeSpaceVisibiity;
-			set => SetProperty(ref driveFreeSpaceVisibiity, value);
+			get => driveFreeSpaceVisibility;
+			set => SetProperty(ref driveFreeSpaceVisibility, value);
 		}
 
 		private string itemCreatedTimestamp;
@@ -327,16 +327,16 @@ namespace Files.App.ViewModels
 			get => itemCreatedTimestamp;
 			set
 			{
-				ItemCreatedTimestampVisibiity = true;
+				ItemCreatedTimestampVisibility = true;
 				SetProperty(ref itemCreatedTimestamp, value);
 			}
 		}
 
-		public bool itemCreatedTimestampVisibiity = false;
-		public bool ItemCreatedTimestampVisibiity
+		public bool itemCreatedTimestampVisibility = false;
+		public bool ItemCreatedTimestampVisibility
 		{
-			get => itemCreatedTimestampVisibiity;
-			set => SetProperty(ref itemCreatedTimestampVisibiity, value);
+			get => itemCreatedTimestampVisibility;
+			set => SetProperty(ref itemCreatedTimestampVisibility, value);
 		}
 
 		private string itemModifiedTimestamp;
@@ -401,7 +401,7 @@ namespace Files.App.ViewModels
 			get => driveCapacity;
 			set
 			{
-				DriveCapacityVisibiity = true;
+				DriveCapacityVisibility = true;
 				SetProperty(ref driveCapacity, value);
 			}
 		}
@@ -416,11 +416,11 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		public bool driveCapacityVisibiity = false;
-		public bool DriveCapacityVisibiity
+		public bool driveCapacityVisibility = false;
+		public bool DriveCapacityVisibility
 		{
-			get => driveCapacityVisibiity;
-			set => SetProperty(ref driveCapacityVisibiity, value);
+			get => driveCapacityVisibility;
+			set => SetProperty(ref driveCapacityVisibility, value);
 		}
 
 		public double DrivePercentageValue

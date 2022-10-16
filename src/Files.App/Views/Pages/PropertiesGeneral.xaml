@@ -229,14 +229,14 @@
 						Grid.Column="0"
 						Style="{StaticResource PropertyName}"
 						Text="{helpers:ResourceString Name=PropertiesCreated/Text}"
-						Visibility="{x:Bind ViewModel.ItemCreatedTimestampVisibiity, Mode=OneWay}" />
+						Visibility="{x:Bind ViewModel.ItemCreatedTimestampVisibility, Mode=OneWay}" />
 					<TextBlock
 						x:Name="itemCreatedTimestampValue"
 						Grid.Row="4"
 						Grid.Column="1"
 						Style="{StaticResource PropertyValueTextBlock}"
 						Text="{x:Bind ViewModel.ItemCreatedTimestamp, Mode=OneWay}"
-						Visibility="{x:Bind ViewModel.ItemCreatedTimestampVisibiity, Mode=OneWay}" />
+						Visibility="{x:Bind ViewModel.ItemCreatedTimestampVisibility, Mode=OneWay}" />
 
 					<!--  Date modified  -->
 					<TextBlock
@@ -276,7 +276,7 @@
 			x:Name="DiskDetailsGrid"
 			Padding="12"
 			HorizontalAlignment="Stretch"
-			x:Load="{x:Bind ViewModel.DriveCapacityVisibiity, Mode=OneWay}"
+			x:Load="{x:Bind ViewModel.DriveCapacityVisibility, Mode=OneWay}"
 			Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 			BorderThickness="1"
@@ -308,7 +308,7 @@
 				Width="60"
 				Height="60"
 				HorizontalAlignment="Left"
-				x:Load="{x:Bind ViewModel.DriveCapacityVisibiity, Mode=OneWay}"
+				x:Load="{x:Bind ViewModel.DriveCapacityVisibility, Mode=OneWay}"
 				IsIndeterminate="False"
 				Value="{x:Bind ViewModel.DrivePercentageValue, Mode=OneWay}">
 
@@ -354,7 +354,7 @@
 				x:Name="DriveUsedSpaceStackPanel"
 				Grid.Row="0"
 				Grid.Column="1"
-				x:Load="{x:Bind ViewModel.DriveUsedSpaceVisibiity, Mode=OneWay}"
+				x:Load="{x:Bind ViewModel.DriveUsedSpaceVisibility, Mode=OneWay}"
 				Orientation="Horizontal">
 				<Rectangle
 					Width="15"
@@ -373,7 +373,7 @@
 				x:Name="driveUsedSpaceValue"
 				Grid.Row="0"
 				Grid.Column="2"
-				x:Load="{x:Bind ViewModel.DriveUsedSpaceVisibiity, Mode=OneWay}"
+				x:Load="{x:Bind ViewModel.DriveUsedSpaceVisibility, Mode=OneWay}"
 				Style="{StaticResource PropertyValueTextBlock}"
 				Text="{x:Bind ViewModel.DriveUsedSpace, Mode=OneWay}" />
 			<Button
@@ -398,7 +398,7 @@
 				x:Name="DiskSpaceStackPanel"
 				Grid.Row="1"
 				Grid.Column="1"
-				x:Load="{x:Bind ViewModel.DriveFreeSpaceVisibiity, Mode=OneWay}"
+				x:Load="{x:Bind ViewModel.DriveFreeSpaceVisibility, Mode=OneWay}"
 				Orientation="Horizontal">
 				<Rectangle
 					Width="15"
@@ -417,7 +417,7 @@
 				x:Name="driveFreeSpaceValue"
 				Grid.Row="1"
 				Grid.Column="2"
-				x:Load="{x:Bind ViewModel.DriveFreeSpaceVisibiity, Mode=OneWay}"
+				x:Load="{x:Bind ViewModel.DriveFreeSpaceVisibility, Mode=OneWay}"
 				Style="{StaticResource PropertyValueTextBlock}"
 				Text="{x:Bind ViewModel.DriveFreeSpace, Mode=OneWay}" />
 			<Button
@@ -442,14 +442,14 @@
 				Grid.Row="2"
 				Grid.Column="1"
 				Padding="28,0,0,0"
-				x:Load="{x:Bind ViewModel.DriveCapacityVisibiity, Mode=OneWay}"
+				x:Load="{x:Bind ViewModel.DriveCapacityVisibility, Mode=OneWay}"
 				Style="{StaticResource PropertyName}"
 				Text="{helpers:ResourceString Name=PropertiesDriveCapacity/Text}" />
 			<TextBlock
 				x:Name="DriveCapacityValue"
 				Grid.Row="2"
 				Grid.Column="2"
-				x:Load="{x:Bind ViewModel.DriveCapacityVisibiity, Mode=OneWay}"
+				x:Load="{x:Bind ViewModel.DriveCapacityVisibility, Mode=OneWay}"
 				Style="{StaticResource PropertyValueTextBlock}"
 				Text="{x:Bind ViewModel.DriveCapacity, Mode=OneWay}" />
 			<Button

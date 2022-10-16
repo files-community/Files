@@ -1228,19 +1228,19 @@
     <value>Aggiornamenti disponibili</value>
   </data>
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
-    <value>Show protected system files</value>
+    <value>Mostra file di sistema protetti</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Include unindexed items in search results</value>
+    <value>Includi elementi non indicizzati nei risultati di ricerca</value>
   </data>
   <data name="ResetFolderPreferencesOverrides" xml:space="preserve">
-    <value>Reset folder overrides</value>
+    <value>Resetta impostazioni delle cartelle</value>
   </data>
   <data name="EnableOverridingFolderPreferencesDescription" xml:space="preserve">
-    <value>Changing the layout in a directory when this setting is turned off will update the layout for all directories.</value>
+    <value>Cambiare il layout in una cartella quando questa impostazione è disattivata aggiornerà il layout per tutte le cartelle.</value>
   </data>
   <data name="EnableOverridingFolderPreferences" xml:space="preserve">
-    <value>Enable overriding folder preferences in individual directories</value>
+    <value>Abilita impostazioni personalizzate per ogni cartella</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Personalizza il menu contestuale</value>
@@ -2596,7 +2596,7 @@
     <value>Inserisci il nome della Raccolta</value>
   </data>
   <data name="CalculateFolderSizes" xml:space="preserve">
-    <value>Calculate folder sizes</value>
+    <value>Calcola le dimensioni delle cartelle</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
     <value>File recenti</value>
@@ -2626,7 +2626,7 @@
     <value>Tipo:</value>
   </data>
   <data name="IconGrid" xml:space="preserve">
-    <value>Icon Grid</value>
+    <value>Griglia icone</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Byte</value>
@@ -2731,7 +2731,7 @@
     <value>L'operazione di spostamento non è supportata in questo contesto. Vuoi copiare gli elementi?</value>
   </data>
   <data name="HiddenItems" xml:space="preserve">
-    <value>Hidden items</value>
+    <value>Elementi nascosti</value>
   </data>
   <data name="Custom" xml:space="preserve">
     <value>Personalizzato</value>
@@ -2776,22 +2776,22 @@
     <value>Imposta come predefinito</value>
   </data>
   <data name="DateColumn" xml:space="preserve">
-    <value>Date column</value>
+    <value>Data modifica</value>
   </data>
   <data name="DateCreatedColumn" xml:space="preserve">
-    <value>Date Created column</value>
+    <value>Data creazione</value>
   </data>
   <data name="SizeColumn" xml:space="preserve">
-    <value>Size column</value>
+    <value>Dimensione</value>
   </data>
   <data name="TagColumn" xml:space="preserve">
-    <value>Tag column</value>
+    <value>Etichetta</value>
   </data>
   <data name="TypeColumn" xml:space="preserve">
-    <value>Type column</value>
+    <value>Tipo</value>
   </data>
   <data name="DetailsLayoutColumns" xml:space="preserve">
-    <value>Details layout columns</value>
+    <value>Colonne in visualizzazione Dettagli</value>
   </data>
   <data name="Reset" xml:space="preserve">
     <value>Reimposta</value>
@@ -2809,7 +2809,25 @@
     <value>Apri cartelle con un singolo clic nel Layout Colonne</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
-    <value>Opening items</value>
+    <value>Apertura elementi</value>
+  </data>
+  <data name="AddSingleItemToArchive" xml:space="preserve">
+    <value>Add to {0}.zip</value>
+  </data>
+  <data name="AddToArchive" xml:space="preserve">
+    <value>Add to archive</value>
+  </data>
+  <data name="CompressionCompleted" xml:space="preserve">
+    <value>Compression completed</value>
+  </data>
+  <data name="CompressionSucceded" xml:space="preserve">
+    <value>{0} has been compressed</value>
+  </data>
+  <data name="CompressionFailed" xml:space="preserve">
+    <value>{0} couldn't be compressed</value>
+  </data>
+  <data name="CompressionInProgress" xml:space="preserve">
+    <value>Compressing archive</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Seleziona i file e le cartelle quando si passa con il mouse</value>
@@ -2831,5 +2849,11 @@
   </data>
   <data name="RestoreSelection" xml:space="preserve">
     <value>Ripristina</value>
+  </data>
+  <data name="ShortcutCannotBeOpened" xml:space="preserve">
+    <value>Impossibile aprire il collegamento</value>
+  </data>
+  <data name="DeleteShortcutDescription" xml:space="preserve">
+    <value>Impossibile trovare la destinazione {0}. Vuoi eliminare questo collegamento?</value>
   </data>
 </root>

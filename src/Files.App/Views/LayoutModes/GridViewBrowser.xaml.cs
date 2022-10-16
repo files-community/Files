@@ -15,7 +15,6 @@ using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 
@@ -501,7 +500,7 @@ namespace Files.App.Views.LayoutModes
 
 			// Check if the setting to open items with a single click is turned on
 			if (item != null
-				&& ((UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder) || (UserSettingsService.FoldersSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)))
+				&& UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 			{
 				ResetRenameDoubleClick();
 				NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
@@ -537,8 +536,7 @@ namespace Files.App.Views.LayoutModes
 		{
 			// Skip opening selected items if the double tap doesn't capture an item
 			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item
-				 && ((!UserSettingsService.FoldersSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)
-				 || (!UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder)))
+				 && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 			{
 				NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
 			}

@@ -1044,6 +1044,22 @@ namespace Files.App.Helpers
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
+                    Command = commandsViewModel.CompressIntoArchiveCommand,
+                    Glyph = "\uE8DE",
+                    Text = string.Format("AddSingleItemToArchive".GetLocalizedResource(), selectedItems.First().Name),
+                    ShowInSearchPage = true,
+                    ShowItem = selectedItems.Count == 1 && !selectedItems.First().IsArchive,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Command = commandsViewModel.CompressIntoArchiveCommand,
+                    Glyph = "\uE8DE",
+                    Text = "AddToArchive".GetLocalizedResource(),
+                    ShowInSearchPage = true,
+                    ShowItem = selectedItems.Count > 1 && !selectedItems.First().IsArchive,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
                     Text = "ContextMenuMoreItemsLabel".GetLocalizedResource(),
                     Glyph = "\xE712",
                     Items = new List<ContextMenuFlyoutItemViewModel>(),
