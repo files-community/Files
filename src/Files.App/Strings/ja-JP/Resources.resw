@@ -532,10 +532,10 @@
     <value>ファイル</value>
   </data>
   <data name="DeleteInProgress.Title" xml:space="preserve">
-    <value>ファイルを削除中</value>
+    <value>ファイルを削除しています</value>
   </data>
   <data name="PasteInProgress.Title" xml:space="preserve">
-    <value>ファイルを貼り付け中</value>
+    <value>ファイルを貼り付けています</value>
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>ごみ箱に移動</value>
@@ -1927,10 +1927,10 @@
     <value>ごみ箱</value>
   </data>
   <data name="MoveInProgress" xml:space="preserve">
-    <value>ファイルを移動中</value>
+    <value>ファイルを移動しています</value>
   </data>
   <data name="CopyInProgress.Title" xml:space="preserve">
-    <value>ファイルをコピー中</value>
+    <value>ファイルをコピーしています</value>
   </data>
   <data name="StatusRecycleFailed" xml:space="preserve">
     <value>ごみ箱から元に戻す操作に失敗しました</value>
@@ -2299,7 +2299,7 @@
     <value>アーカイブの展開が正常に完了しました。</value>
   </data>
   <data name="ExtractingArchiveText" xml:space="preserve">
-    <value>アーカイブを展開中</value>
+    <value>アーカイブを展開しています</value>
   </data>
   <data name="ExtractingCompleteText" xml:space="preserve">
     <value>展開が完了しました</value>
@@ -2464,7 +2464,7 @@
     <value>ファイル タグ</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Open items with a single click</value>
+    <value>シングル クリックでファイルを開く</value>
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
     <value>フォルダー パス</value>
@@ -2803,28 +2803,28 @@
     <value>ロック画面</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>列レイアウトでワンクリックでフォルダーを開く</value>
+    <value>列レイアウトでシングル クリックでフォルダーを開く</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>ファイルを開いています</value>
   </data>
   <data name="AddSingleItemToArchive" xml:space="preserve">
-    <value>Add to {0}.zip</value>
+    <value>{0}.zip に追加</value>
   </data>
   <data name="AddToArchive" xml:space="preserve">
-    <value>Add to archive</value>
+    <value>アーカイブに追加</value>
   </data>
   <data name="CompressionCompleted" xml:space="preserve">
-    <value>Compression completed</value>
+    <value>圧縮が完了しました</value>
   </data>
   <data name="CompressionSucceded" xml:space="preserve">
-    <value>{0} has been compressed</value>
+    <value>{0} は圧縮されました</value>
   </data>
   <data name="CompressionFailed" xml:space="preserve">
-    <value>{0} couldn't be compressed</value>
+    <value>{0} を圧縮できませんでした</value>
   </data>
   <data name="CompressionInProgress" xml:space="preserve">
-    <value>Compressing archive</value>
+    <value>圧縮しています</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>上にカーソルを合わせたときにファイルとフォルダーを選択する</value>
