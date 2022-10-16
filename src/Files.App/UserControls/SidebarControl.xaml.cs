@@ -196,8 +196,9 @@ namespace Files.App.UserControls
             int favoriteIndex = favoriteModel.IndexOfItem(item);
             int favoriteCount = favoriteModel.FavoriteItems.Count;
 
-            bool showMoveItemUp = favoriteIndex > 0 && item.Section == SectionType.Favorites;
-            bool showMoveItemDown = favoriteIndex < favoriteCount - 1 && item.Section == SectionType.Favorites;
+            bool isFavoriteItem = item.Section is SectionType.Favorites && favoriteIndex is not -1;
+            bool showMoveItemUp = isFavoriteItem && favoriteIndex > 0;
+            bool showMoveItemDown = isFavoriteItem && favoriteIndex < favoriteCount - 1;
 
             bool isDriveItem = item is DriveItem;
             bool isDriveItemPinned = isDriveItem && (item as DriveItem).IsPinned;
