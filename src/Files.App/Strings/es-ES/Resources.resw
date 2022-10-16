@@ -2464,7 +2464,7 @@
     <value>Etiqueta de archivo</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Open items with a single click</value>
+    <value>Abrir elementos con un solo clic</value>
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
     <value>Ruta de la carpeta</value>
