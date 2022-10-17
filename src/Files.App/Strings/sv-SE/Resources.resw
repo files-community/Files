@@ -1125,9 +1125,6 @@
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Välj</value>
   </data>
-  <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
-    <value>Open files with a single click</value>
-  </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>Fil</value>
   </data>
@@ -2466,8 +2463,8 @@
   <data name="Tag" xml:space="preserve">
     <value>Tagg</value>
   </data>
-  <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
-    <value>Open folders with a single click</value>
+  <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
+    <value>Open items with a single click</value>
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
     <value>Mappsökväg:</value>
@@ -2810,6 +2807,24 @@
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Opening items</value>
+  </data>
+  <data name="AddSingleItemToArchive" xml:space="preserve">
+    <value>Add to {0}.zip</value>
+  </data>
+  <data name="AddToArchive" xml:space="preserve">
+    <value>Add to archive</value>
+  </data>
+  <data name="CompressionCompleted" xml:space="preserve">
+    <value>Compression completed</value>
+  </data>
+  <data name="CompressionSucceded" xml:space="preserve">
+    <value>{0} has been compressed</value>
+  </data>
+  <data name="CompressionFailed" xml:space="preserve">
+    <value>{0} couldn't be compressed</value>
+  </data>
+  <data name="CompressionInProgress" xml:space="preserve">
+    <value>Compressing archive</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Select files and folders when hovering over them</value>
