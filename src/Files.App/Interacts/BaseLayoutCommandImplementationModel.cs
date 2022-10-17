@@ -647,7 +647,9 @@ namespace Files.App.Interacts
 
         public async Task DecompressArchive()
         {
-            BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(associatedInstance.SlimContentPage.SelectedItem.ItemPath);
+            BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(associatedInstance.SlimContentPage.SelectedItems.Count != 0
+                ? associatedInstance.SlimContentPage.SelectedItem.ItemPath
+                : associatedInstance.FilesystemViewModel.WorkingDirectory);
 
             if (archive == null)
                 return;
