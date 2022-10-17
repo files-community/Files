@@ -241,7 +241,7 @@
 									x:Name="MaxSpaceDriveLabel"
 									Grid.Row="3"
 									Grid.Column="1"
-									Padding="28,0,0,0"
+									Padding="25,0,0,0"
 									x:Load="{x:Bind ShowDriveDetails}"
 									Style="{StaticResource PropertyName}"
 									Text="{helpers:ResourceString Name=PropertiesDriveCapacity/Text}" />
@@ -1204,6 +1204,19 @@
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
 			</ResourceDictionary.MergedDictionaries>
+			<ResourceDictionary.ThemeDictionaries>
+				<ResourceDictionary x:Key="Light">
+					<SolidColorBrush x:Key="ProgressRingBackgroundThemeBrush" Color="#c3c3c3" />
+				</ResourceDictionary>
+
+				<ResourceDictionary x:Key="Dark">
+					<SolidColorBrush x:Key="ProgressRingBackgroundThemeBrush" Color="#191919" />
+				</ResourceDictionary>
+
+				<ResourceDictionary x:Key="HighContrast">
+					<SolidColorBrush x:Key="ProgressRingBackgroundThemeBrush" Color="#c3c3c3" />
+				</ResourceDictionary>
+			</ResourceDictionary.ThemeDictionaries>
 
 		</ResourceDictionary>
 	</NavigationView.Resources>
