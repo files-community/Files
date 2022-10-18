@@ -34,7 +34,7 @@ namespace Files.App.Helpers
             }
 
             // Fast get attributes
-            bool exists = NativeFileOperationsHelper.GetFileAttributesExFromApp(path, NativeFileOperationsHelper.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out NativeFileOperationsHelper.WIN32_FILE_ATTRIBUTE_DATA itemAttributes);
+            bool exists = NativeFileOperationsHelpers.GetFileAttributesExFromApp(path, NativeFileOperationsHelpers.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out NativeFileOperationsHelpers.WIN32_FILE_ATTRIBUTE_DATA itemAttributes);
             if (exists) // Exists on local storage
             {
                 // Directory
@@ -162,7 +162,7 @@ namespace Files.App.Helpers
 
         public static bool Exists(string path)
         {
-            return NativeFileOperationsHelper.GetFileAttributesExFromApp(path, NativeFileOperationsHelper.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out _);
+            return NativeFileOperationsHelpers.GetFileAttributesExFromApp(path, NativeFileOperationsHelpers.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out _);
         }
 
         public static IStorageItemWithPath FromStorageItem(this IStorageItem item, string customPath = null, FilesystemItemType? itemType = null)

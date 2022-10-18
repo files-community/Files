@@ -90,7 +90,7 @@ namespace Files.App.Filesystem.StorageItems
                     if (!string.IsNullOrEmpty(destFolder.Path))
                     {
                         var destination = IO.Path.Combine(destFolder.Path, desiredNewName);
-                        var hFile = NativeFileOperationsHelper.CreateFileForWrite(destination, 
+                        var hFile = NativeFileOperationsHelpers.CreateFileForWrite(destination, 
                             option == NameCollisionOption.ReplaceExisting);
                         if (!hFile.IsInvalid)
                         {

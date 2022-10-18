@@ -288,7 +288,7 @@ namespace Files.App.ViewModels
 			if (userSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences)
 			{
 				folderPath = folderPath.TrimPath();
-				var folderFRN = NativeFileOperationsHelper.GetFolderFRN(folderPath);
+				var folderFRN = NativeFileOperationsHelpers.GetFolderFRN(folderPath);
 				return ReadLayoutPreferencesFromDb(folderPath, folderFRN)
 					?? ReadLayoutPreferencesFromAds(folderPath, folderFRN)
 					?? GetDefaultLayoutPreferences(folderPath);
@@ -303,7 +303,7 @@ namespace Files.App.ViewModels
 
 			if (userSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences)
 			{
-				var folderFRN = NativeFileOperationsHelper.GetFolderFRN(folderPath);
+				var folderFRN = NativeFileOperationsHelpers.GetFolderFRN(folderPath);
 				WriteLayoutPreferencesToDb(folderPath.TrimPath(), folderFRN, prefs);
 			}
 			else
@@ -344,11 +344,11 @@ namespace Files.App.ViewModels
 
 		private static LayoutPreferences ReadLayoutPreferencesFromAds(string folderPath, ulong? frn)
 		{
-			var str = NativeFileOperationsHelper.ReadStringFromFile($"{folderPath}:files_layoutmode");
+			var str = NativeFileOperationsHelpers.ReadStringFromFile($"{folderPath}:files_layoutmode");
 			var adsPrefs = SafetyExtensions.IgnoreExceptions(() =>
 				string.IsNullOrEmpty(str) ? null : JsonSerializer.Deserialize<LayoutPreferences>(str));
 			WriteLayoutPreferencesToDb(folderPath, frn, adsPrefs); // Port settings to DB, delete ADS
-			NativeFileOperationsHelper.DeleteFileFromApp($"{folderPath}:files_layoutmode");
+			NativeFileOperationsHelpers.DeleteFileFromApp($"{folderPath}:files_layoutmode");
 			return adsPrefs;
 		}
 

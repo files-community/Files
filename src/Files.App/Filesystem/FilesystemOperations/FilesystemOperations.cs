@@ -205,10 +205,10 @@ namespace Files.App.Filesystem
 
                         if (fsCopyResult)
                         {
-                            if (NativeFileOperationsHelper.HasFileAttribute(source.Path, FileAttributes.Hidden))
+                            if (NativeFileOperationsHelpers.HasFileAttribute(source.Path, FileAttributes.Hidden))
                             {
                                 // The source folder was hidden, apply hidden attribute to destination
-                                NativeFileOperationsHelper.SetFileAttribute(fsCopyResult.Result.Path, FileAttributes.Hidden);
+                                NativeFileOperationsHelpers.SetFileAttribute(fsCopyResult.Result.Path, FileAttributes.Hidden);
                             }
                             copiedItem = (BaseStorageFolder)fsCopyResult;
                         }
@@ -227,7 +227,7 @@ namespace Files.App.Filesystem
             }
             else if (source.ItemType == FilesystemItemType.File)
             {
-                var fsResult = (FilesystemResult)await Task.Run(() => NativeFileOperationsHelper.CopyFileFromApp(source.Path, destination, true));
+                var fsResult = (FilesystemResult)await Task.Run(() => NativeFileOperationsHelpers.CopyFileFromApp(source.Path, destination, true));
 
                 if (!fsResult)
                 {
@@ -386,7 +386,7 @@ namespace Files.App.Filesystem
                 }
                 else
                 {
-                    var fsResult = (FilesystemResult)await Task.Run(() => NativeFileOperationsHelper.MoveFileFromApp(source.Path, destination));
+                    var fsResult = (FilesystemResult)await Task.Run(() => NativeFileOperationsHelpers.MoveFileFromApp(source.Path, destination));
 
                     if (!fsResult)
                     {
@@ -415,10 +415,10 @@ namespace Files.App.Filesystem
 
                             if (fsResultMove)
                             {
-                                if (NativeFileOperationsHelper.HasFileAttribute(source.Path, FileAttributes.Hidden))
+                                if (NativeFileOperationsHelpers.HasFileAttribute(source.Path, FileAttributes.Hidden))
                                 {
                                     // The source folder was hidden, apply hidden attribute to destination
-                                    NativeFileOperationsHelper.SetFileAttribute(fsResultMove.Result.Path, FileAttributes.Hidden);
+                                    NativeFileOperationsHelpers.SetFileAttribute(fsResultMove.Result.Path, FileAttributes.Hidden);
                                 }
                                 movedItem = (BaseStorageFolder)fsResultMove;
                             }
@@ -434,7 +434,7 @@ namespace Files.App.Filesystem
             }
             else if (source.ItemType == FilesystemItemType.File)
             {
-                var fsResult = (FilesystemResult)await Task.Run(() => NativeFileOperationsHelper.MoveFileFromApp(source.Path, destination));
+                var fsResult = (FilesystemResult)await Task.Run(() => NativeFileOperationsHelpers.MoveFileFromApp(source.Path, destination));
 
                 if (!fsResult)
                 {
@@ -504,7 +504,7 @@ namespace Files.App.Filesystem
 
             if (permanently)
             {
-                fsResult = (FilesystemResult)NativeFileOperationsHelper.DeleteFileFromApp(source.Path);
+                fsResult = (FilesystemResult)NativeFileOperationsHelpers.DeleteFileFromApp(source.Path);
             }
             if (!fsResult)
             {
@@ -622,7 +622,7 @@ namespace Files.App.Filesystem
                 {
                     // Try again with MoveFileFromApp
                     var destination = Path.Combine(Path.GetDirectoryName(source.Path), newName);
-                    if (NativeFileOperationsHelper.MoveFileFromApp(source.Path, destination))
+                    if (NativeFileOperationsHelpers.MoveFileFromApp(source.Path, destination))
                     {
                         errorCode?.Report(FileSystemStatusCode.Success);
                         return new StorageHistory(FileOperationType.Rename, source, StorageHelpers.FromPathAndType(destination, source.ItemType));
@@ -737,7 +737,7 @@ namespace Files.App.Filesystem
             FilesystemResult fsResult = FileSystemStatusCode.InProgress;
             errorCode?.Report(fsResult);
 
-            fsResult = (FilesystemResult)await Task.Run(() => NativeFileOperationsHelper.MoveFileFromApp(source.Path, destination));
+            fsResult = (FilesystemResult)await Task.Run(() => NativeFileOperationsHelpers.MoveFileFromApp(source.Path, destination));
 
             if (!fsResult)
             {

@@ -1832,8 +1832,8 @@ namespace Files.App.ViewModels
 		private void WatchForDirectoryChanges(string path, CloudDriveSyncStatus syncStatus)
 		{
 			Debug.WriteLine($"WatchForDirectoryChanges: {path}");
-			var hWatchDir = NativeFileOperationsHelper.CreateFileFromApp(path, 1, 1 | 2 | 4,
-				IntPtr.Zero, 3, (uint)NativeFileOperationsHelper.File_Attributes.BackupSemantics | (uint)NativeFileOperationsHelper.File_Attributes.Overlapped, IntPtr.Zero);
+			var hWatchDir = NativeFileOperationsHelpers.CreateFileFromApp(path, 1, 1 | 2 | 4,
+				IntPtr.Zero, 3, (uint)NativeFileOperationsHelpers.File_Attributes.BackupSemantics | (uint)NativeFileOperationsHelpers.File_Attributes.Overlapped, IntPtr.Zero);
 			if (hWatchDir.ToInt64() == -1)
 				return;
 
@@ -2097,7 +2097,7 @@ namespace Files.App.ViewModels
 				if (UserSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
 				{
 					// New file added, enumerate ADS
-					foreach (var ads in NativeFileOperationsHelper.GetAlternateStreams(item.ItemPath))
+					foreach (var ads in NativeFileOperationsHelpers.GetAlternateStreams(item.ItemPath))
 					{
 						var adsItem = Win32StorageEnumerator.GetAlternateStream(ads, item);
 						filesAndFolders.Add(adsItem);

@@ -97,9 +97,9 @@ namespace Files.App.ViewModels.Properties
 
 		public override async void GetSpecialProperties()
 		{
-			ViewModel.IsReadOnly = NativeFileOperationsHelper.HasFileAttribute(
+			ViewModel.IsReadOnly = NativeFileOperationsHelpers.HasFileAttribute(
 				Item.ItemPath, System.IO.FileAttributes.ReadOnly);
-			ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(
+			ViewModel.IsHidden = NativeFileOperationsHelpers.HasFileAttribute(
 				Item.ItemPath, System.IO.FileAttributes.Hidden);
 
 			ViewModel.ItemSizeVisibility = true;
@@ -287,14 +287,14 @@ namespace Files.App.ViewModels.Properties
 				case "IsReadOnly":
 					if (ViewModel.IsReadOnly)
 					{
-						NativeFileOperationsHelper.SetFileAttribute(
+						NativeFileOperationsHelpers.SetFileAttribute(
 							Item.ItemPath,
 							System.IO.FileAttributes.ReadOnly
 						);
 					}
 					else
 					{
-						NativeFileOperationsHelper.UnsetFileAttribute(
+						NativeFileOperationsHelpers.UnsetFileAttribute(
 							Item.ItemPath,
 							System.IO.FileAttributes.ReadOnly
 						);
@@ -304,14 +304,14 @@ namespace Files.App.ViewModels.Properties
 				case "IsHidden":
 					if (ViewModel.IsHidden)
 					{
-						NativeFileOperationsHelper.SetFileAttribute(
+						NativeFileOperationsHelpers.SetFileAttribute(
 							Item.ItemPath,
 							System.IO.FileAttributes.Hidden
 						);
 					}
 					else
 					{
-						NativeFileOperationsHelper.UnsetFileAttribute(
+						NativeFileOperationsHelpers.UnsetFileAttribute(
 							Item.ItemPath,
 							System.IO.FileAttributes.Hidden
 						);

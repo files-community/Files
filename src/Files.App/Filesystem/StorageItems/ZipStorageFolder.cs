@@ -336,7 +336,7 @@ namespace Files.App.Filesystem.StorageItems
                     else
                     {
                         var fileName = IO.Path.Combine(IO.Path.GetDirectoryName(Path), desiredName);
-                        NativeFileOperationsHelper.MoveFileFromApp(Path, fileName);
+                        NativeFileOperationsHelpers.MoveFileFromApp(Path, fileName);
                     }
                 }
                 else
@@ -383,7 +383,7 @@ namespace Files.App.Filesystem.StorageItems
                     }
                     else if (option == StorageDeleteOption.PermanentDelete)
                     {
-                        NativeFileOperationsHelper.DeleteFileFromApp(Path);
+                        NativeFileOperationsHelpers.DeleteFileFromApp(Path);
                     }
                     else
                     {
@@ -474,7 +474,7 @@ namespace Files.App.Filesystem.StorageItems
         {
             return SafetyExtensions.IgnoreExceptions(() =>
             {
-                var hFile = NativeFileOperationsHelper.OpenFileForRead(path);
+                var hFile = NativeFileOperationsHelpers.OpenFileForRead(path);
                 if (hFile.IsInvalid)
                 {
                     return false;
@@ -507,7 +507,7 @@ namespace Files.App.Filesystem.StorageItems
         {
             return SafetyExtensions.IgnoreExceptions(() =>
             {
-                var hFile = NativeFileOperationsHelper.OpenFileForRead(path, true);
+                var hFile = NativeFileOperationsHelpers.OpenFileForRead(path, true);
                 if (hFile.IsInvalid)
                 {
                     return Task.FromResult(false);
@@ -561,7 +561,7 @@ namespace Files.App.Filesystem.StorageItems
                 }
                 else
                 {
-                    var hFile = NativeFileOperationsHelper.OpenFileForRead(containerPath, readWrite);
+                    var hFile = NativeFileOperationsHelpers.OpenFileForRead(containerPath, readWrite);
                     if (hFile.IsInvalid)
                     {
                         return null;

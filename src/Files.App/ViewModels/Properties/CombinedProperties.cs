@@ -56,9 +56,9 @@ namespace Files.App.ViewModels.Properties
         {
             if (List.All(x => x.PrimaryItemAttribute == StorageItemTypes.File))
             {
-                ViewModel.IsReadOnly = List.All(x => NativeFileOperationsHelper.HasFileAttribute(x.ItemPath, System.IO.FileAttributes.ReadOnly));
+                ViewModel.IsReadOnly = List.All(x => NativeFileOperationsHelpers.HasFileAttribute(x.ItemPath, System.IO.FileAttributes.ReadOnly));
             }
-            ViewModel.IsHidden = List.All(x => NativeFileOperationsHelper.HasFileAttribute(x.ItemPath, System.IO.FileAttributes.Hidden));
+            ViewModel.IsHidden = List.All(x => NativeFileOperationsHelpers.HasFileAttribute(x.ItemPath, System.IO.FileAttributes.Hidden));
 
             ViewModel.LastSeparatorVisibility = false;
             ViewModel.ItemSizeVisibility = true;
@@ -104,12 +104,12 @@ namespace Files.App.ViewModels.Properties
                 case "IsReadOnly":
                     if (ViewModel.IsReadOnly)
                     {
-                        List.ForEach(x => NativeFileOperationsHelper.SetFileAttribute(
+                        List.ForEach(x => NativeFileOperationsHelpers.SetFileAttribute(
                             x.ItemPath, System.IO.FileAttributes.ReadOnly));
                     }
                     else
                     {
-                        List.ForEach(x => NativeFileOperationsHelper.UnsetFileAttribute(
+                        List.ForEach(x => NativeFileOperationsHelpers.UnsetFileAttribute(
                             x.ItemPath, System.IO.FileAttributes.ReadOnly));
                     }
                     break;
@@ -117,12 +117,12 @@ namespace Files.App.ViewModels.Properties
                 case "IsHidden":
                     if (ViewModel.IsHidden)
                     {
-                        List.ForEach(x => NativeFileOperationsHelper.SetFileAttribute(
+                        List.ForEach(x => NativeFileOperationsHelpers.SetFileAttribute(
                             x.ItemPath, System.IO.FileAttributes.Hidden));
                     }
                     else
                     {
-                        List.ForEach(x => NativeFileOperationsHelper.UnsetFileAttribute(
+                        List.ForEach(x => NativeFileOperationsHelpers.UnsetFileAttribute(
                             x.ItemPath, System.IO.FileAttributes.Hidden));
                     }
                     break;

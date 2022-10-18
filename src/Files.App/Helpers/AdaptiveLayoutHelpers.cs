@@ -33,7 +33,7 @@ namespace Files.App.Helpers
 				}
 
 				var iniPath = System.IO.Path.Combine(path, "desktop.ini");
-				var iniContents = NativeFileOperationsHelper.ReadStringFromFile(iniPath)?.Trim();
+				var iniContents = NativeFileOperationsHelpers.ReadStringFromFile(iniPath)?.Trim();
 				if (!string.IsNullOrEmpty(iniContents))
 				{
 					var parser = new IniParser.Parser.IniDataParser();

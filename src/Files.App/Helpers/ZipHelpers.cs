@@ -39,7 +39,7 @@ namespace Files.App.Helpers
 			catch (Exception ex)
 			{
 				App.Logger.Warn(ex, $"Error compressing folder: {archive}");
-				NativeFileOperationsHelper.DeleteFileFromApp(archive);
+				NativeFileOperationsHelpers.DeleteFileFromApp(archive);
 				noErrors = false;
 			}
 			return noErrors;
@@ -85,13 +85,13 @@ namespace Files.App.Helpers
 
 				foreach (var dir in directories.Distinct().OrderBy(x => x.Length))
 				{
-					if (!NativeFileOperationsHelper.CreateDirectoryFromApp(dir, IntPtr.Zero))
+					if (!NativeFileOperationsHelpers.CreateDirectoryFromApp(dir, IntPtr.Zero))
 					{
 						var dirName = destinationFolder.Path;
 						foreach (var component in dir.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries))
 						{
 							dirName = Path.Combine(dirName, component);
-							NativeFileOperationsHelper.CreateDirectoryFromApp(dirName, IntPtr.Zero);
+							NativeFileOperationsHelpers.CreateDirectoryFromApp(dirName, IntPtr.Zero);
 						}
 					}
 
@@ -120,7 +120,7 @@ namespace Files.App.Helpers
 
 					string filePath = Path.Combine(destinationFolder.Path, entry.FileName);
 
-					var hFile = NativeFileOperationsHelper.CreateFileForWrite(filePath);
+					var hFile = NativeFileOperationsHelpers.CreateFileForWrite(filePath);
 					if (hFile.IsInvalid)
 						return; // TODO: handle error
 
@@ -154,7 +154,7 @@ namespace Files.App.Helpers
 			foreach (var folder in await destination.GetFoldersAsync())
 			{
 				string subDirectoryPath = Path.Combine(destination.Path, folder.Name);
-				NativeFileOperationsHelper.CreateDirectoryFromApp(subDirectoryPath, IntPtr.Zero);
+				NativeFileOperationsHelpers.CreateDirectoryFromApp(subDirectoryPath, IntPtr.Zero);
 				BaseStorageFolder subDirectory = await StorageHelpers.ToStorageItem<BaseStorageFolder>(subDirectoryPath);
 				await CopyDirectory(folder, subDirectory);
 			}

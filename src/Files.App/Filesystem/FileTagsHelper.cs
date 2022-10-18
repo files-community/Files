@@ -19,33 +19,33 @@ namespace Files.App.Filesystem
 
         public static string[] ReadFileTag(string filePath)
         {
-            var tagString = NativeFileOperationsHelper.ReadStringFromFile($"{filePath}:files");
+            var tagString = NativeFileOperationsHelpers.ReadStringFromFile($"{filePath}:files");
             return tagString?.Split(',');
         }
 
         public static void WriteFileTag(string filePath, string[] tag)
         {
-            var isDateOk = NativeFileOperationsHelper.GetFileDateModified(filePath, out var dateModified); // Backup date modified
-            var isReadOnly = NativeFileOperationsHelper.HasFileAttribute(filePath, IO.FileAttributes.ReadOnly);
+            var isDateOk = NativeFileOperationsHelpers.GetFileDateModified(filePath, out var dateModified); // Backup date modified
+            var isReadOnly = NativeFileOperationsHelpers.HasFileAttribute(filePath, IO.FileAttributes.ReadOnly);
             if (isReadOnly) // Unset read-only attribute (#7534)
             {
-                NativeFileOperationsHelper.UnsetFileAttribute(filePath, IO.FileAttributes.ReadOnly);
+                NativeFileOperationsHelpers.UnsetFileAttribute(filePath, IO.FileAttributes.ReadOnly);
             }
             if (tag is null || !tag.Any())
             {
-                NativeFileOperationsHelper.DeleteFileFromApp($"{filePath}:files");
+                NativeFileOperationsHelpers.DeleteFileFromApp($"{filePath}:files");
             }
             else if (ReadFileTag(filePath) is not string[] arr || !tag.SequenceEqual(arr))
             {
-                NativeFileOperationsHelper.WriteStringToFile($"{filePath}:files", string.Join(',', tag));
+                NativeFileOperationsHelpers.WriteStringToFile($"{filePath}:files", string.Join(',', tag));
             }
             if (isReadOnly) // Restore read-only attribute (#7534)
             {
-                NativeFileOperationsHelper.SetFileAttribute(filePath, IO.FileAttributes.ReadOnly);
+                NativeFileOperationsHelpers.SetFileAttribute(filePath, IO.FileAttributes.ReadOnly);
             }
             if (isDateOk)
             {
-                NativeFileOperationsHelper.SetFileDateModified(filePath, dateModified); // Restore date modified
+                NativeFileOperationsHelpers.SetFileDateModified(filePath, dateModified); // Restore date modified
             }
         }
 

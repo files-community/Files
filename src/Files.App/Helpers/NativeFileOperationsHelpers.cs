@@ -13,7 +13,7 @@ using Windows.Foundation.Collections;
 
 namespace Files.App.Helpers
 {
-    public class NativeFileOperationsHelper
+    public static class NativeFileOperationsHelpers
     {
         private static readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
 

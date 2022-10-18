@@ -233,7 +233,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
             {
                 try
                 {
-                    string data = NativeFileOperationsHelper.ReadStringFromFile(file.Path);
+                    string data = NativeFileOperationsHelpers.ReadStringFromFile(file.Path);
                     BundlesSettingsService.ImportSettings(data);
                 }
                 catch // Couldn't deserialize, data is corrupted
@@ -255,7 +255,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
             StorageFile file = await filePicker.PickSaveFileAsync();
             if (file != null)
             {
-                NativeFileOperationsHelper.WriteStringToFile(file.Path, (string)BundlesSettingsService.ExportSettings());
+                NativeFileOperationsHelpers.WriteStringToFile(file.Path, (string)BundlesSettingsService.ExportSettings());
             }
         }
         private FileSavePicker InitializeWithWindow(FileSavePicker obj)

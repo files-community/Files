@@ -134,7 +134,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 
         private static IEnumerable<ListedItem> EnumAdsForPath(string itemPath, ListedItem main)
         {
-            foreach (var ads in NativeFileOperationsHelper.GetAlternateStreams(itemPath))
+            foreach (var ads in NativeFileOperationsHelpers.GetAlternateStreams(itemPath))
             {
                 yield return GetAlternateStream(ads, main);
             }
@@ -279,11 +279,11 @@ namespace Files.App.Filesystem.StorageEnumerators
 
             // https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/c8e77b37-3909-4fe6-a4ea-2b9d423b1ee4
             bool isReparsePoint = ((FileAttributes)findData.dwFileAttributes & FileAttributes.ReparsePoint) == FileAttributes.ReparsePoint;
-            bool isSymlink = isReparsePoint && findData.dwReserved0 == NativeFileOperationsHelper.IO_REPARSE_TAG_SYMLINK;
+            bool isSymlink = isReparsePoint && findData.dwReserved0 == NativeFileOperationsHelpers.IO_REPARSE_TAG_SYMLINK;
 
             if (isSymlink)
             {
-                var targetPath = NativeFileOperationsHelper.ParseSymLink(itemPath);
+                var targetPath = NativeFileOperationsHelpers.ParseSymLink(itemPath);
                 return new ShortcutItem(null)
                 {
                     PrimaryItemAttribute = StorageItemTypes.File,
