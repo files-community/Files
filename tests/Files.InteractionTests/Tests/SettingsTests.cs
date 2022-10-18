@@ -19,7 +19,7 @@ namespace Files.InteractionTests.Tests
 		public void VerifySettingsAreAccessible()
 		{
 			TestHelpers.InvokeButtonById("SettingsButton");
-			AxeHelper.AssertNoAccessibilityErrors();
+			AxeHelpers.AssertNoAccessibilityErrors();
 
 			var settingsItems = new string[]
 			{
@@ -51,10 +51,10 @@ namespace Files.InteractionTests.Tests
 				try
 				{
 					// First run can be flaky due to external components
-					AxeHelper.AssertNoAccessibilityErrors();
+					AxeHelpers.AssertNoAccessibilityErrors();
 				}
 				catch (System.Exception) { }
-				AxeHelper.AssertNoAccessibilityErrors();
+				AxeHelpers.AssertNoAccessibilityErrors();
 			}
 		}
 	}

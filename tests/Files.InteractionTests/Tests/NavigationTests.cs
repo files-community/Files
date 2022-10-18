@@ -18,7 +18,7 @@ namespace Files.InteractionTests.Tests
 		public void VerifyNavigationWorks()
 		{
 			TestHelpers.InvokeButtonById("Desktop");
-			AxeHelper.AssertNoAccessibilityErrors();
+			AxeHelpers.AssertNoAccessibilityErrors();
 		}
 	}
 }

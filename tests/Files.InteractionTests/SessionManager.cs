@@ -106,7 +106,7 @@ namespace Files.InteractionTests
 				_session.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
 				_session.Manage().Window.Maximize();
 
-				AxeHelper.InitializeAxe();
+				AxeHelpers.InitializeAxe();
 			}
 		}
 
