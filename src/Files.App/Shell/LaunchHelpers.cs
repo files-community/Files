@@ -13,7 +13,7 @@ using Vanara.Windows.Shell;
 
 namespace Files.App.Shell
 {
-    public static class LaunchHelper
+    public static class LaunchHelpers
     {
         public static void LaunchSettings(string page)
         {

@@ -236,7 +236,7 @@ namespace Files.App.Filesystem
                             var args = CommandLine.CommandLineParser.SplitArguments(newEntryInfo.Command);
                             if (args.Any())
                             {
-                                if (await LaunchHelper.LaunchAppAsync(args[0].Replace("\"", "", StringComparison.Ordinal),
+                                if (await LaunchHelpers.LaunchAppAsync(args[0].Replace("\"", "", StringComparison.Ordinal),
                                         string.Join(" ", args.Skip(1)).Replace("%1", source.Path),
                                         PathNormalization.GetParentDir(source.Path)))
                                 {

@@ -33,11 +33,11 @@ namespace Files.App.Helpers
 
             if (runAsAdmin)
             {
-                return await LaunchHelper.LaunchAppAsync(application, "runas", workingDirectory);
+                return await LaunchHelpers.LaunchAppAsync(application, "runas", workingDirectory);
             }
             else
             {
-                return await LaunchHelper.LaunchAppAsync(application, arguments, workingDirectory);
+                return await LaunchHelpers.LaunchAppAsync(application, arguments, workingDirectory);
             }
         }
     }

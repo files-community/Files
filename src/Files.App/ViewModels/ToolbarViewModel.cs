@@ -974,7 +974,7 @@ namespace Files.App.ViewModels
 								if (terminal.Path.Equals(currentInput, StringComparison.OrdinalIgnoreCase)
 									|| terminal.Path.Equals(currentInput + ".exe", StringComparison.OrdinalIgnoreCase) || terminal.Name.Equals(currentInput, StringComparison.OrdinalIgnoreCase))
 								{
-									await LaunchHelper.LaunchAppAsync(terminal.Path, string.Format(terminal.Arguments, workingDir), workingDir);
+									await LaunchHelpers.LaunchAppAsync(terminal.Path, string.Format(terminal.Arguments, workingDir), workingDir);
 									return;
 								}
 							}
@@ -1012,7 +1012,7 @@ namespace Files.App.ViewModels
 				fileName = trimmedInput.Substring(0, positionOfBlank);
 				arguments = currentInput.Substring(currentInput.IndexOf(' '));
 			}
-			return await LaunchHelper.LaunchAppAsync(fileName, arguments, workingDir);
+			return await LaunchHelpers.LaunchAppAsync(fileName, arguments, workingDir);
 		}
 
 		public async void SetAddressBarSuggestions(AutoSuggestBox sender, IShellPage shellpage, int maxSuggestions = 7)

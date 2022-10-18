@@ -12,7 +12,7 @@ namespace Files.App.Helpers
             if (!path.StartsWith("C:", StringComparison.OrdinalIgnoreCase)
                 && ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
-                LaunchHelper.LaunchSettings("page=SettingsPageStorageSenseStorageOverview&target=SystemSettings_StorageSense_VolumeListLink");
+                LaunchHelpers.LaunchSettings("page=SettingsPageStorageSenseStorageOverview&target=SystemSettings_StorageSense_VolumeListLink");
             }
             else
             {

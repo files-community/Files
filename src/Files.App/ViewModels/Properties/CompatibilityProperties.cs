@@ -200,6 +200,6 @@ namespace Files.App.ViewModels.Properties
         }
 
         public Task RunTroubleshooter()
-            => LaunchHelper.RunCompatibilityTroubleshooterAsync(ExePath);
+            => LaunchHelpers.RunCompatibilityTroubleshooterAsync(ExePath);
     }
 }

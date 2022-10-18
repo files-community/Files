@@ -50,7 +50,7 @@ namespace Files.App.Helpers
 				return;
 			}
 
-			await LaunchHelper.LaunchAppAsync(terminal.Path, string.Format(terminal.Arguments,
+			await LaunchHelpers.LaunchAppAsync(terminal.Path, string.Format(terminal.Arguments,
 					   Helpers.PathNormalization.NormalizePath(workingDir)), workingDir);
 		}
 
