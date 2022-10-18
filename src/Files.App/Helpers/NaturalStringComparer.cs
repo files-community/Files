@@ -39,7 +39,7 @@ namespace Files.App.Helpers
     {
         public static IComparer<object> GetForProcessor()
         {
-            return NativeWinApiHelper.IsRunningOnArm ?
+            return NativeWinApiHelpers.IsRunningOnArm ?
                 (IComparer<object>)new StringComparerArm64() :
                 (IComparer<object>)new StringComparerDefault();
         }

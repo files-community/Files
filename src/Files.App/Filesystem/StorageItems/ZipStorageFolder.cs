@@ -98,7 +98,7 @@ namespace Files.App.Filesystem.StorageItems
         {
             Func<Task<bool>> queryFileAssoc = async () =>
             {
-                var assoc = await NativeWinApiHelper.GetFileAssociationAsync(filePath);
+                var assoc = await NativeWinApiHelpers.GetFileAssociationAsync(filePath);
                 if (assoc != null)
                 {
                     return assoc == Package.Current.Id.FamilyName

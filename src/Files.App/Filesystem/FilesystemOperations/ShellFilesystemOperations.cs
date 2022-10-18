@@ -106,7 +106,7 @@ namespace Files.App.Filesystem
                     { "filepath", string.Join('|', sourceRename.Select(s => s.Path)) },
                     { "destpath", string.Join('|', destinationRename) },
                     { "overwrite", false },
-                    { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
+                    { "HWND", NativeWinApiHelpers.CoreWindowHandle.ToInt64() }
                 });
                 result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
                     && response.Get("Success", defaultJson).GetBoolean());
@@ -123,7 +123,7 @@ namespace Files.App.Filesystem
                     { "filepath", string.Join('|', sourceReplace.Select(s => s.Path)) },
                     { "destpath", string.Join('|', destinationReplace) },
                     { "overwrite", true },
-                    { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
+                    { "HWND", NativeWinApiHelpers.CoreWindowHandle.ToInt64() }
                 });
                 result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
                     && response.Get("Success", defaultJson).GetBoolean());
@@ -403,7 +403,7 @@ namespace Files.App.Filesystem
                 { "operationID", operationID },
                 { "filepath", string.Join('|', deleleFilePaths) },
                 { "permanently", permanently },
-                { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
+                { "HWND", NativeWinApiHelpers.CoreWindowHandle.ToInt64() }
             });
             var result = (FilesystemResult)(status == AppServiceResponseStatus.Success
                 && response.Get("Success", defaultJson).GetBoolean());
@@ -533,7 +533,7 @@ namespace Files.App.Filesystem
                     { "filepath", string.Join('|', sourceRename.Select(s => s.Path)) },
                     { "destpath", string.Join('|', destinationRename) },
                     { "overwrite", false },
-                    { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
+                    { "HWND", NativeWinApiHelpers.CoreWindowHandle.ToInt64() }
                 });
                 result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
                     && response.Get("Success", defaultJson).GetBoolean());
@@ -550,7 +550,7 @@ namespace Files.App.Filesystem
                     { "filepath", string.Join('|', sourceReplace.Select(s => s.Path)) },
                     { "destpath", string.Join('|', destinationReplace) },
                     { "overwrite", true },
-                    { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
+                    { "HWND", NativeWinApiHelpers.CoreWindowHandle.ToInt64() }
                 });
                 result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
                     && response.Get("Success", defaultJson).GetBoolean());
@@ -772,7 +772,7 @@ namespace Files.App.Filesystem
                 { "filepath", string.Join('|', source.Select(s => s.Path)) },
                 { "destpath", string.Join('|', destination) },
                 { "overwrite", false },
-                { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
+                { "HWND", NativeWinApiHelpers.CoreWindowHandle.ToInt64() }
             });
             var result = (FilesystemResult)(status == AppServiceResponseStatus.Success
                 && response.Get("Success", defaultJson).GetBoolean());

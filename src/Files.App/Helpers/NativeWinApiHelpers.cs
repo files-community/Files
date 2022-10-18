@@ -3,11 +3,10 @@ using System;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.Foundation.Collections;
 
 namespace Files.App.Helpers
 {
-    public class NativeWinApiHelper
+    public static class NativeWinApiHelpers
     {
         [DllImport("user32.dll")]
         public static extern short GetKeyState(short code);

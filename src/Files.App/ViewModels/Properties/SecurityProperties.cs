@@ -320,7 +320,7 @@ namespace Files.App.ViewModels.Properties
 				{
 					{ "Arguments", "FileOperation" },
 					{ "fileop", "OpenObjectPicker" },
-					{ "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
+					{ "HWND", NativeWinApiHelpers.CoreWindowHandle.ToInt64() }
 				};
 				var (status, response) = await connection.SendMessageForResponseAsync(value);
 				if (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)

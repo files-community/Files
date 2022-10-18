@@ -287,7 +287,7 @@ namespace Files.App.UserControls.Widgets
                 {
                     { "Arguments", "NetworkDriveOperation" },
                     { "netdriveop", "OpenMapNetworkDriveDialog" },
-                    { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
+                    { "HWND", NativeWinApiHelpers.CoreWindowHandle.ToInt64() }
                 });
             }
         }

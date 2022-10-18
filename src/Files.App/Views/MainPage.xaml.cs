@@ -159,7 +159,7 @@ namespace Files.App.Views
 
 			var displayArea = DisplayArea.GetFromWindowId(App.Window.AppWindow.Id, DisplayAreaFallback.Primary);
 			var hMonitor = Win32Interop.GetMonitorFromDisplayId(displayArea.DisplayId);
-			var hr = NativeWinApiHelper.GetDpiForMonitor(hMonitor, MDT_Effective_DPI, out var dpiX, out _);
+			var hr = NativeWinApiHelpers.GetDpiForMonitor(hMonitor, MDT_Effective_DPI, out var dpiX, out _);
 			if (hr != 0)
 				return;
 

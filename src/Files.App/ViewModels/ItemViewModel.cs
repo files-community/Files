@@ -639,7 +639,7 @@ namespace Files.App.ViewModels
 						UpdateEmptyTextType();
 						DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
 					}
-					if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
+					if (NativeWinApiHelpers.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
 					{
 						ClearDisplay();
 					}
@@ -722,7 +722,7 @@ namespace Files.App.ViewModels
 					DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
 				}
 
-				if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
+				if (NativeWinApiHelpers.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
 				{
 					await Task.Run(ApplyChanges);
 					UpdateUI();
@@ -766,7 +766,7 @@ namespace Files.App.ViewModels
 				filesAndFolders = SortingHelper.OrderFileList(filesAndFolders, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles).ToList();
 			}
 
-			if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
+			if (NativeWinApiHelpers.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
 			{
 				return Task.Run(OrderEntries);
 			}
