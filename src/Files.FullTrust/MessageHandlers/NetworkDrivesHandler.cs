@@ -53,14 +53,14 @@ namespace Files.FullTrust.MessageHandlers
                             {
                                 if (item is ShellLink link)
                                 {
-                                    locations.Add(ShellFolderExtensions.GetShellLinkItem(link));
+                                    locations.Add(ShellFolderHelpers.GetShellLinkItem(link));
                                 }
                                 else
                                 {
                                     var linkPath = (string)item.Properties["System.Link.TargetParsingPath"];
                                     if (linkPath != null)
                                     {
-                                        var linkItem = ShellFolderExtensions.GetShellFileItem(item);
+                                        var linkItem = ShellFolderHelpers.GetShellFileItem(item);
                                         locations.Add(new ShellLinkItem(linkItem) { TargetPath = linkPath });
                                     }
                                 }

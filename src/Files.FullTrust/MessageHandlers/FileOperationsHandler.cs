@@ -643,7 +643,7 @@ namespace Files.FullTrust.MessageHandlers
                             using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, null, TimeSpan.FromMilliseconds(100));
                             await Win32API.SendMessageAsync(connection, new ValueSet()
                             {
-                                { "ShortcutInfo", JsonSerializer.Serialize(ShellFolderExtensions.GetShellLinkItem(link)) }
+                                { "ShortcutInfo", JsonSerializer.Serialize(ShellFolderHelpers.GetShellLinkItem(link)) }
                             }, message.Get("RequestID", defaultJson).GetString());
                         }
                         else if (linkPath.EndsWith(".url", StringComparison.OrdinalIgnoreCase))

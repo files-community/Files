@@ -83,7 +83,7 @@ namespace Files.FullTrust.MessageHandlers
                 {
                     using var folderItem = SafetyExtensions.IgnoreExceptions(() => new ShellItem(e.FullPath));
                     if (folderItem == null) return;
-                    var shellFileItem = ShellFolderExtensions.GetShellFileItem(folderItem);
+                    var shellFileItem = ShellFolderHelpers.GetShellFileItem(folderItem);
                     response["Item"] = JsonSerializer.Serialize(shellFileItem);
                 }
                 // Send message to UWP app to refresh items

@@ -86,7 +86,7 @@ namespace Files.FullTrust.MessageHandlers
                         Program.Logger.Warn($"Failed to open library after {changeType}: {newPath}");
                         return;
                     }
-                    response["Item"] = JsonSerializer.Serialize(ShellFolderExtensions.GetShellLibraryItem(library, newPath));
+                    response["Item"] = JsonSerializer.Serialize(ShellFolderHelpers.GetShellLibraryItem(library, newPath));
                     library.Dispose();
                 }
                 // Send message to UWP app to refresh items
@@ -113,7 +113,7 @@ namespace Files.FullTrust.MessageHandlers
                                 using var shellItem = new ShellLibrary2(Shell32.ShellUtil.GetShellItemForPath(libFile), true);
                                 if (shellItem is ShellLibrary2 library)
                                 {
-                                    libraryItems.Add(ShellFolderExtensions.GetShellLibraryItem(library, libFile));
+                                    libraryItems.Add(ShellFolderHelpers.GetShellLibraryItem(library, libFile));
                                 }
                             }
                             response.Add("Enumerate", JsonSerializer.Serialize(libraryItems));
@@ -138,7 +138,7 @@ namespace Files.FullTrust.MessageHandlers
                             library.Folders.Add(ShellItem.Open(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))); // Add default folder so it's not empty
                             library.Commit();
                             library.Reload();
-                            response.Add("Create", JsonSerializer.Serialize(ShellFolderExtensions.GetShellLibraryItem(library, library.GetDisplayName(ShellItemDisplayString.DesktopAbsoluteParsing))));
+                            response.Add("Create", JsonSerializer.Serialize(ShellFolderHelpers.GetShellLibraryItem(library, library.GetDisplayName(ShellItemDisplayString.DesktopAbsoluteParsing))));
                         }
                         catch (Exception e)
                         {
@@ -201,7 +201,7 @@ namespace Files.FullTrust.MessageHandlers
                             {
                                 library.Commit();
                                 library.Reload(); // Reload folders list
-                                response.Add("Update", JsonSerializer.Serialize(ShellFolderExtensions.GetShellLibraryItem(library, libPath)));
+                                response.Add("Update", JsonSerializer.Serialize(ShellFolderHelpers.GetShellLibraryItem(library, libPath)));
                             }
                         }
                         catch (Exception e)

@@ -8,7 +8,7 @@ using Vanara.Windows.Shell;
 
 namespace Files.FullTrust.Helpers
 {
-    public static class ShellFolderExtensions
+    public static class ShellFolderHelpers
     {
         public static ShellLibraryItem GetShellLibraryItem(ShellLibrary2 library, string filePath)
         {

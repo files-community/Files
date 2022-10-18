@@ -129,7 +129,7 @@ namespace Files.FullTrust.MessageHandlers
                     if (folderItem == null)
                         return null;
 
-                    return ShellFolderExtensions.GetShellFileItem(folderItem);
+                    return ShellFolderHelpers.GetShellFileItem(folderItem);
                 }
 
                 var lastError = System.Runtime.InteropServices.Marshal.GetLastWin32Error();
