@@ -1,11 +1,9 @@
+using CommunityToolkit.WinUI;
 using Files.App.Extensions;
-using System;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Microsoft.UI.Xaml;
-using CommunityToolkit.WinUI;
-using Microsoft.UI;
 using Microsoft.UI.Windowing;
 
 namespace Files.App.Helpers
