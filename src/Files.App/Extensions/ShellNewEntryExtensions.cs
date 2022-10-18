@@ -17,7 +17,7 @@ namespace Files.App.Extensions
         public static async Task<List<ShellNewEntry>> GetNewContextMenuEntries()
         {
             var shellEntryList = new List<ShellNewEntry>();
-            var entries = await SafetyExtensions.IgnoreExceptions(() => ShellNewMenuHelper.GetNewContextMenuEntries(), App.Logger);
+            var entries = await SafetyExtensions.IgnoreExceptions(() => ShellNewMenuHelpers.GetNewContextMenuEntries(), App.Logger);
             if (entries != null)
             {
                 shellEntryList.AddRange(entries);
@@ -27,7 +27,7 @@ namespace Files.App.Extensions
 
         public static async Task<ShellNewEntry?> GetNewContextMenuEntryForType(string extension)
         {
-            return await SafetyExtensions.IgnoreExceptions(() => ShellNewMenuHelper.GetNewContextMenuEntryForType(extension), App.Logger);
+            return await SafetyExtensions.IgnoreExceptions(() => ShellNewMenuHelpers.GetNewContextMenuEntryForType(extension), App.Logger);
         }
 
         public static async Task<FilesystemResult<BaseStorageFile>> Create(this ShellNewEntry shellEntry, string filePath, IShellPage associatedInstance)

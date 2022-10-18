@@ -14,7 +14,7 @@ using Windows.Storage;
 namespace Files.App.Shell
 {
     [SupportedOSPlatform("Windows10.0.10240")]
-    public static class ShellNewMenuHelper
+    public static class ShellNewMenuHelpers
     {
         public static async Task<List<ShellNewEntry>> GetNewContextMenuEntries()
         {
