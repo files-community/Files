@@ -310,7 +310,7 @@ namespace Files.App.UserControls.Widgets
         private void GoToStorageSense_Click(object sender, RoutedEventArgs e)
         {
             string clickedCard = (sender as Button).Tag.ToString();
-            StorageSenseHelper.OpenStorageSense(clickedCard);
+            StorageSenseHelpers.OpenStorageSense(clickedCard);
         }
 
         private async Task<bool> CheckEmptyDrive(string drivePath)

@@ -5,7 +5,7 @@ using Windows.System;
 
 namespace Files.App.Helpers
 {
-    internal class StorageSenseHelper
+    internal static class StorageSenseHelpers
     {
         public static async void OpenStorageSense(string path)
         {

@@ -106,7 +106,7 @@ namespace Files.App.Views
             {
                 var drive = driveProps.Drive;
 
-                StorageSenseHelper.OpenStorageSense(drive.Path);
+                StorageSenseHelpers.OpenStorageSense(drive.Path);
             }
         }
     }
