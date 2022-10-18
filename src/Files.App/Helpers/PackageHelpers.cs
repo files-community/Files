@@ -5,7 +5,7 @@ using Windows.System;
 
 namespace Files.App.Helpers
 {
-    public static class PackageHelper
+    public static class PackageHelpers
     {
         private static readonly Uri dummyUri = new Uri("mailto:dummy@dummy.com");
 

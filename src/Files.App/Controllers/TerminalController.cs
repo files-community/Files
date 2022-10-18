@@ -170,7 +170,7 @@ namespace Files.App.Controllers
                 Path = "flute.exe",
                 Arguments = "",
                 Icon = ""
-            }, await PackageHelper.IsAppInstalledAsync("53621FSApps.FluentTerminal_87x1pks76srcp"));
+            }, await PackageHelpers.IsAppInstalledAsync("53621FSApps.FluentTerminal_87x1pks76srcp"));
 
             terminalDefs.Add(new Terminal()
             {
@@ -186,8 +186,8 @@ namespace Files.App.Controllers
 
         public async static Task<bool> IsWindowsTerminalBuildInstalled()
         {
-            bool isWindowsTerminalInstalled = await PackageHelper.IsAppInstalledAsync("Microsoft.WindowsTerminal_8wekyb3d8bbwe");
-            bool isWindowsTerminalPreviewInstalled = await PackageHelper.IsAppInstalledAsync("Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe");
+            bool isWindowsTerminalInstalled = await PackageHelpers.IsAppInstalledAsync("Microsoft.WindowsTerminal_8wekyb3d8bbwe");
+            bool isWindowsTerminalPreviewInstalled = await PackageHelpers.IsAppInstalledAsync("Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe");
 
             return isWindowsTerminalPreviewInstalled || isWindowsTerminalInstalled;
         }
