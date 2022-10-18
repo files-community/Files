@@ -2434,7 +2434,7 @@
     <value>Lopende taken</value>
   </data>
   <data name="SideBarFavoritesMoveOneDown" xml:space="preserve">
-    <value>erplaats één omlaag</value>
+    <value>Verplaats één omlaag</value>
   </data>
   <data name="SideBarFavoritesMoveOneUp" xml:space="preserve">
     <value>Verplaats één omhoog</value>
