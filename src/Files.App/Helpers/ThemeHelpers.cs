@@ -3,6 +3,7 @@ using Files.App.Extensions;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.ViewManagement;
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Windowing;
 
@@ -11,7 +12,7 @@ namespace Files.App.Helpers
     /// <summary>
     /// Class providing functionality around switching and restoring theme settings
     /// </summary>
-    public static class ThemeHelper
+    public static class ThemeHelpers
     {
         private const string selectedAppThemeKey = "theme";
         private static Window currentApplicationWindow;

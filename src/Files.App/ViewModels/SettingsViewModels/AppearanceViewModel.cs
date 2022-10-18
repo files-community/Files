@@ -14,7 +14,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-		private int selectedThemeIndex = (int)Enum.Parse(typeof(ElementTheme), ThemeHelper.RootTheme.ToString());
+		private int selectedThemeIndex = (int)Enum.Parse(typeof(ElementTheme), ThemeHelpers.RootTheme.ToString());
 		private AppTheme selectedTheme = App.AppSettings.SelectedTheme;
 
 		public AppearanceViewModel()
@@ -37,7 +37,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			{
 				if (SetProperty(ref selectedThemeIndex, value))
 				{
-					ThemeHelper.RootTheme = (ElementTheme)value;
+					ThemeHelpers.RootTheme = (ElementTheme)value;
 					OnPropertyChanged(nameof(SelectedElementTheme));
 				}
 			}

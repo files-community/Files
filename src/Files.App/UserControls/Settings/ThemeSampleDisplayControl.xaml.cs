@@ -43,7 +43,7 @@ namespace Files.App.UserControls.Settings
                     Resources.MergedDictionaries.Add(resources);
                     RequestedTheme = ElementTheme.Dark;
                     RequestedTheme = ElementTheme.Light;
-                    RequestedTheme = ThemeHelper.RootTheme;
+                    RequestedTheme = ThemeHelpers.RootTheme;
                     return true;
                 }
                 return false;

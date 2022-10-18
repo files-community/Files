@@ -168,7 +168,7 @@ namespace Files.App.Views
 
 		private async void AppSettings_ThemeModeChanged(object? sender, EventArgs e)
 		{
-			var selectedTheme = ThemeHelper.RootTheme;
+			var selectedTheme = ThemeHelpers.RootTheme;
 
 			await DispatcherQueue.EnqueueAsync(() =>
 			{

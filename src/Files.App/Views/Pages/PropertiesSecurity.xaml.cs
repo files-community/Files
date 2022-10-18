@@ -88,7 +88,7 @@ namespace Files.App.Views
                 if (propsView == null)
                 {
                     var frame = new Frame();
-                    frame.RequestedTheme = ThemeHelper.RootTheme;
+                    frame.RequestedTheme = ThemeHelpers.RootTheme;
                     frame.Navigate(typeof(PropertiesSecurityAdvanced), new PropertiesPageNavigationArguments()
                     {
                         Item = SecurityProperties.Item

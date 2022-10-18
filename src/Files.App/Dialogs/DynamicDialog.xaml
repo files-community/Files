@@ -17,7 +17,7 @@
 	KeyDown="ContentDialog_KeyDown"
 	PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
 	PrimaryButtonText="{Binding PrimaryButtonText, Mode=OneWay}"
-	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
+	RequestedTheme="{x:Bind helpers:ThemeHelpers.RootTheme}"
 	SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
 	SecondaryButtonText="{Binding SecondaryButtonText, Mode=OneWay}"
 	Style="{StaticResource DefaultContentDialogStyle}"

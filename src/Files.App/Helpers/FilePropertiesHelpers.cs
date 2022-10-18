@@ -48,7 +48,7 @@ namespace Files.App.Helpers
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
                 var frame = new Frame();
-                frame.RequestedTheme = ThemeHelper.RootTheme;
+                frame.RequestedTheme = ThemeHelpers.RootTheme;
                 frame.Navigate(typeof(Properties), new PropertiesPageNavigationArguments()
                 {
                     Item = item,
