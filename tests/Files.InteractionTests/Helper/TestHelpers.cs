@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Files.InteractionTests.Helper
 {
-    public static class TestHelper
+    public static class TestHelpers
     {
 
         public static ICollection<WindowsElement> GetElementsOfType(string elementType)

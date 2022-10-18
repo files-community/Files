@@ -18,7 +18,7 @@ namespace Files.InteractionTests.Tests
 		[TestMethod]
 		public void VerifySettingsAreAccessible()
 		{
-			TestHelper.InvokeButtonById("SettingsButton");
+			TestHelpers.InvokeButtonById("SettingsButton");
 			AxeHelper.AssertNoAccessibilityErrors();
 
 			var settingsItems = new string[]
@@ -39,7 +39,7 @@ namespace Files.InteractionTests.Tests
 					{
 						Console.WriteLine("Inoking button:" + item);
 						Thread.Sleep(2000);
-						TestHelper.InvokeButtonById(item);
+						TestHelpers.InvokeButtonById(item);
 						i = 1000;
 					}
 					catch (Exception exc)

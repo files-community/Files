@@ -11,13 +11,13 @@ namespace Files.InteractionTests.Tests
 		[TestCleanup]
 		public void Cleanup()
 		{
-			TestHelper.InvokeButtonById("Home");
+			TestHelpers.InvokeButtonById("Home");
 		}
 
 		[TestMethod]
 		public void VerifyNavigationWorks()
 		{
-			TestHelper.InvokeButtonById("Desktop");
+			TestHelpers.InvokeButtonById("Desktop");
 			AxeHelper.AssertNoAccessibilityErrors();
 		}
 	}
