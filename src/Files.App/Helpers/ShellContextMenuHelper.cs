@@ -1,17 +1,17 @@
-using Files.Shared;
-using Files.App.Filesystem;
-using Files.App.ViewModels;
 using CommunityToolkit.Mvvm.Input;
 using Files.App.Extensions;
+using Files.App.Filesystem;
+using Files.App.Shell;
+using Files.App.ViewModels;
+using Files.Shared;
+using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.UI.Xaml.Media.Imaging;
-using Files.App.Shell;
-using Vanara.PInvoke;
 using System.Threading;
+using System.Threading.Tasks;
+using Vanara.PInvoke;
 
 namespace Files.App.Helpers
 {

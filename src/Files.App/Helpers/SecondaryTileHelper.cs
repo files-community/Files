@@ -58,11 +58,12 @@ namespace Files.App.Helpers
 
             return result;
         }
-                        private SecondaryTile InitializeWithWindow(SecondaryTile obj)
-                        {
-                            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
-                            return obj;
-                        }
+
+        private SecondaryTile InitializeWithWindow(SecondaryTile obj)
+        {
+            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+            return obj;
+        }
 
         public async Task<bool> UnpinFromStartAsync(string path)
         {
