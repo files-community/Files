@@ -9,7 +9,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage.FileProperties;
-using static Files.Backend.Helpers.NativeFindStorageItemHelper;
+using static Files.Backend.Helpers.NativeFindStorageItemHelpers;
 using FileAttributes = System.IO.FileAttributes;
 using Microsoft.UI.Dispatching;
 

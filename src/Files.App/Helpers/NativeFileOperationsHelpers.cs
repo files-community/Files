@@ -1,4 +1,3 @@
-using Files.Shared.Extensions;
 using Microsoft.Win32.SafeHandles;
 using System;
 using System.Collections.Generic;
@@ -8,12 +7,10 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Text.Json;
 using System.Threading;
-using System.Threading.Tasks;
-using Windows.Foundation.Collections;
 
 namespace Files.App.Helpers
 {
-    public class NativeFileOperationsHelper
+    public static class NativeFileOperationsHelpers
     {
         private static readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
 

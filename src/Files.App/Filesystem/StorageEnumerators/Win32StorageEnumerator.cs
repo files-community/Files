@@ -2,7 +2,6 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Extensions;
 using Files.Backend.Services.Settings;
 using Files.Backend.Services.SizeProvider;
-using Files.Shared;
 using Files.App.Extensions;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
@@ -10,14 +9,11 @@ using Files.App.Helpers.FileListCache;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.AppService;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Microsoft.UI.Xaml.Media.Imaging;
-using static Files.Backend.Helpers.NativeFindStorageItemHelper;
+using static Files.Backend.Helpers.NativeFindStorageItemHelpers;
 using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.App.Filesystem.StorageEnumerators

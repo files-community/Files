@@ -6,7 +6,6 @@ namespace Files.InteractionTests.Helper
 {
     public static class TestHelpers
     {
-
         public static ICollection<WindowsElement> GetElementsOfType(string elementType)
             => SessionManager.Session.FindElementsByTagName(elementType);
 

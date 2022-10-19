@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
-using static Files.Backend.Helpers.NativeFindStorageItemHelper;
+using static Files.Backend.Helpers.NativeFindStorageItemHelpers;
 using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.App.Filesystem.Search

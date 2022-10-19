@@ -15,7 +15,7 @@ using Vanara.PInvoke;
 
 namespace Files.App.Helpers
 {
-    public static class ShellContextmenuHelper
+    public static class ShellContextmenuHelpers
     {
         public static async Task<List<ContextMenuFlyoutItemViewModel>> GetShellContextmenuAsync(bool showOpenMenu, bool shiftPressed, string workingDirectory, List<ListedItem> selectedItems, CancellationToken cancellationToken)
         {
