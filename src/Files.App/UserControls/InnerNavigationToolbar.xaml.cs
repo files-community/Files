@@ -97,7 +97,7 @@ namespace Files.App.UserControls
 				shell.ForEach(x => NewEmptySpace.Items.Remove(x));
 				return;
 			}
-			var cachedNewContextMenuEntries = ContextFlyoutItemHelper.CachedNewContextMenuEntries.IsCompletedSuccessfully ? ContextFlyoutItemHelper.CachedNewContextMenuEntries.Result : null;
+			var cachedNewContextMenuEntries = ContextFlyoutItemHelpers.CachedNewContextMenuEntries.IsCompletedSuccessfully ? ContextFlyoutItemHelpers.CachedNewContextMenuEntries.Result : null;
 			if (cachedNewContextMenuEntries == null)
 				return;
 			if (!NewEmptySpace.Items.Any(x => (x.Tag as string) == "CreateNewFile"))

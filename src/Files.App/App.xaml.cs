@@ -206,7 +206,7 @@ namespace Files.App
 					TerminalController.InitializeAsync(),
 					JumpList.InitializeAsync(),
 					ExternalResourcesHelper.LoadOtherThemesAsync(),
-					ContextFlyoutItemHelper.CachedNewContextMenuEntries
+					ContextFlyoutItemHelpers.CachedNewContextMenuEntries
 				);
 			});
 
