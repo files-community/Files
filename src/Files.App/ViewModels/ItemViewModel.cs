@@ -44,7 +44,7 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
-using static Files.App.Helpers.NativeDirectoryChangesHelper;
+using static Files.App.Helpers.NativeDirectoryChangesHelpers;
 using static Files.Backend.Helpers.NativeFindStorageItemHelper;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 using FileAttributes = System.IO.FileAttributes;
@@ -1864,7 +1864,7 @@ namespace Files.App.ViewModels
 							ref var notifyInformation = ref Unsafe.As<byte, FILE_NOTIFY_INFORMATION>(ref buff[0]);
 							if (x.Status != AsyncStatus.Canceled)
 							{
-								NativeDirectoryChangesHelper.ReadDirectoryChangesW(hWatchDir, pBuff,
+								NativeDirectoryChangesHelpers.ReadDirectoryChangesW(hWatchDir, pBuff,
 								4096, false,
 								notifyFilters, null,
 								ref overlapped, null);
