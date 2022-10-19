@@ -1128,6 +1128,8 @@ namespace Files.App.ViewModels
 					OnPropertyChanged(nameof(CanViewProperties));
 					OnPropertyChanged(nameof(CanExtract));
 					OnPropertyChanged(nameof(ExtractToText));
+					OnPropertyChanged(nameof(IsArchiveOpened));
+					OnPropertyChanged(nameof(IsSelectionArchivesOnly));
 					OnPropertyChanged(nameof(IsMultipleArchivesSelected));
 					OnPropertyChanged(nameof(IsInfFile));
 					OnPropertyChanged(nameof(IsPowerShellScript));
