@@ -4,7 +4,7 @@ using System.Runtime.InteropServices.ComTypes;
 
 namespace Files.Backend.Helpers
 {
-    public class NativeFindStorageItemHelper
+    public static class NativeFindStorageItemHelpers
     {
         [StructLayout(LayoutKind.Sequential)]
         public struct SYSTEMTIME

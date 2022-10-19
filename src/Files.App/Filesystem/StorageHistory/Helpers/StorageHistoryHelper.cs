@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 
 namespace Files.App.Filesystem.FilesystemHistory
 {
-    public class StorageHistoryHelpers : IDisposable
+    public class StorageHistoryHelper : IDisposable
     {
         private IStorageHistoryOperations operations;
 
         private static SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
 
-        public StorageHistoryHelpers(IStorageHistoryOperations storageHistoryOperations)
+        public StorageHistoryHelper(IStorageHistoryOperations storageHistoryOperations)
             => operations = storageHistoryOperations;
 
         public async Task<ReturnResult> TryUndo()

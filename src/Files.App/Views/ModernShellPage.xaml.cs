@@ -44,7 +44,7 @@ namespace Files.App.Views
 {
     public sealed partial class ModernShellPage : Page, IShellPage, INotifyPropertyChanged
     {
-        private readonly StorageHistoryHelpers storageHistoryHelpers;
+        private readonly StorageHistoryHelper storageHistoryHelpers;
         public IBaseLayout SlimContentPage => ContentPage;
         public IFilesystemHelper FilesystemHelpers { get; private set; }
         private readonly CancellationTokenSource cancellationTokenSource;
@@ -149,7 +149,7 @@ namespace Files.App.Views
             InstanceViewModel.FolderSettings.LayoutPreferencesUpdateRequired += FolderSettings_LayoutPreferencesUpdateRequired;
             cancellationTokenSource = new CancellationTokenSource();
             FilesystemHelpers = new FilesystemHelper(this, cancellationTokenSource.Token);
-            storageHistoryHelpers = new StorageHistoryHelpers(new StorageHistoryOperations(this, cancellationTokenSource.Token));
+            storageHistoryHelpers = new StorageHistoryHelper(new StorageHistoryOperations(this, cancellationTokenSource.Token));
 
             ToolbarViewModel.SearchBox.TextChanged += ModernShellPage_TextChanged;
             ToolbarViewModel.SearchBox.QuerySubmitted += ModernShellPage_QuerySubmitted;
