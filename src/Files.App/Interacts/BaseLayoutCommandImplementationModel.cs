@@ -234,11 +234,11 @@ namespace Files.App.Interacts
             }
             else if (destFolder == FileSystemStatusCode.NotFound)
             {
-                await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalizedResource(), "FileNotFoundDialog/Text".GetLocalizedResource());
+                await DialogDisplayHelpers.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalizedResource(), "FileNotFoundDialog/Text".GetLocalizedResource());
             }
             else
             {
-                await DialogDisplayHelper.ShowDialogAsync("InvalidItemDialogTitle".GetLocalizedResource(),
+                await DialogDisplayHelpers.ShowDialogAsync("InvalidItemDialogTitle".GetLocalizedResource(),
                     string.Format("InvalidItemDialogContent".GetLocalizedResource(), Environment.NewLine, destFolder.ErrorCode.ToString()));
             }
         }

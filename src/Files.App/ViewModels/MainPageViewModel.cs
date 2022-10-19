@@ -329,7 +329,7 @@ namespace Files.App.ViewModels
 
 			if (iconSource.ImageSource == null)
 			{
-				var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(currentPath, 24u, Windows.Storage.FileProperties.ThumbnailMode.ListView, true);
+				var iconData = await FileThumbnailHelpers.LoadIconFromPathAsync(currentPath, 24u, Windows.Storage.FileProperties.ThumbnailMode.ListView, true);
 				if (iconData != null)
 					iconSource.ImageSource = await iconData.ToBitmapAsync();
 			}

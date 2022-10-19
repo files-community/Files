@@ -151,7 +151,7 @@ namespace Files.App.Helpers
 
 					if (shortcutInfo.InvalidTarget)
 					{
-						if (await DialogDisplayHelper.ShowDialogAsync(DynamicDialogFactory.GetFor_ShortcutNotFound(shortcutInfo.TargetPath)) != DynamicDialogResult.Primary)
+						if (await DialogDisplayHelpers.ShowDialogAsync(DynamicDialogFactory.GetFor_ShortcutNotFound(shortcutInfo.TargetPath)) != DynamicDialogResult.Primary)
 							return false;
 
 						// Delete shortcut
@@ -200,7 +200,7 @@ namespace Files.App.Helpers
 
 			if (opened.ErrorCode == FileSystemStatusCode.NotFound && !openSilent)
 			{
-				await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalizedResource(), "FileNotFoundDialog/Text".GetLocalizedResource());
+				await DialogDisplayHelpers.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalizedResource(), "FileNotFoundDialog/Text".GetLocalizedResource());
 				associatedInstance.ToolbarViewModel.CanRefresh = false;
 				associatedInstance.FilesystemViewModel?.RefreshItems(previousDir);
 			}

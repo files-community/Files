@@ -8,7 +8,7 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Helpers
 {
-    internal class DialogDisplayHelper
+    internal static class DialogDisplayHelpers
     {
         /// <summary>
         /// Standard dialog, to ensure consistency.

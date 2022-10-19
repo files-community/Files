@@ -90,8 +90,8 @@ namespace Files.App.ViewModels.Previews
         /// <returns>A list of details</returns>
         public async virtual Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
         {
-            var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(Item.ItemFile, 256, ThumbnailMode.SingleItem);
-            iconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, 256);
+            var iconData = await FileThumbnailHelpers.LoadIconFromStorageItemAsync(Item.ItemFile, 256, ThumbnailMode.SingleItem);
+            iconData ??= await FileThumbnailHelpers.LoadIconWithoutOverlayAsync(Item.ItemPath, 256);
             if (iconData is not null)
             {
                 await App.Window.DispatcherQueue.EnqueueAsync(async () => FileImage = await iconData.ToBitmapAsync());

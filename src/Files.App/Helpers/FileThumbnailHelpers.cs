@@ -12,7 +12,7 @@ using Files.App.Shell;
 
 namespace Files.App.Helpers
 {
-    public static class FileThumbnailHelper
+    public static class FileThumbnailHelpers
     {
         public static Task<(byte[] IconData, byte[] OverlayData)> LoadIconAndOverlayAsync(string filePath, uint thumbnailSize, bool isFolder = false)
             => Win32API.StartSTATask(() => Win32API.GetFileIconAndOverlay(filePath, (int)thumbnailSize, isFolder, true, false));

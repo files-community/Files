@@ -221,7 +221,7 @@ namespace Files.App.DataModels.NavigationControlItems
 			if (IconData == null)
 			{
 				if (!string.IsNullOrEmpty(DeviceID))
-					IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, 24);
+					IconData = await FileThumbnailHelpers.LoadIconWithoutOverlayAsync(DeviceID, 24);
 
 				if (IconData == null)
 				{

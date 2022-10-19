@@ -364,7 +364,7 @@ namespace Files.App.Helpers
 
             if (created.Status == ReturnResult.AccessUnauthorized)
             {
-                await DialogDisplayHelper.ShowDialogAsync("AccessDenied".GetLocalizedResource(), "AccessDeniedCreateDialog/Text".GetLocalizedResource());
+                await DialogDisplayHelpers.ShowDialogAsync("AccessDenied".GetLocalizedResource(), "AccessDeniedCreateDialog/Text".GetLocalizedResource());
             }
 
             return created.Item;

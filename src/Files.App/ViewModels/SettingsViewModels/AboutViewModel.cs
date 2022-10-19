@@ -151,7 +151,7 @@ namespace Files.App.ViewModels.SettingsViewModels
                 {
                     App.Logger.Warn(ex, "Error importing settings");
                     UIHelpers.CloseAllDialogs();
-                    await DialogDisplayHelper.ShowDialogAsync("SettingsImportErrorTitle".GetLocalizedResource(), "SettingsImportErrorDescription".GetLocalizedResource());
+                    await DialogDisplayHelpers.ShowDialogAsync("SettingsImportErrorTitle".GetLocalizedResource(), "SettingsImportErrorDescription".GetLocalizedResource());
                 }
             }
         }

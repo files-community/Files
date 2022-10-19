@@ -949,7 +949,7 @@ namespace Files.App.ViewModels
 							wasIconLoaded = true;
 						}
 
-						var overlayInfo = await FileThumbnailHelper.LoadOverlayAsync(item.ItemPath, thumbnailSize);
+						var overlayInfo = await FileThumbnailHelpers.LoadOverlayAsync(item.ItemPath, thumbnailSize);
 						if (overlayInfo != null)
 						{
 							await dispatcherQueue.EnqueueAsync(async () =>
@@ -962,7 +962,7 @@ namespace Files.App.ViewModels
 
 				if (!wasIconLoaded)
 				{
-					var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, false);
+					var iconInfo = await FileThumbnailHelpers.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, false);
 					if (iconInfo.IconData != null)
 					{
 						await dispatcherQueue.EnqueueAsync(async () =>
@@ -1011,7 +1011,7 @@ namespace Files.App.ViewModels
 							wasIconLoaded = true;
 						}
 
-						var overlayInfo = await FileThumbnailHelper.LoadOverlayAsync(item.ItemPath, thumbnailSize);
+						var overlayInfo = await FileThumbnailHelpers.LoadOverlayAsync(item.ItemPath, thumbnailSize);
 						if (overlayInfo != null)
 						{
 							await dispatcherQueue.EnqueueAsync(async () =>
@@ -1024,7 +1024,7 @@ namespace Files.App.ViewModels
 
 				if (!wasIconLoaded)
 				{
-					var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, true);
+					var iconInfo = await FileThumbnailHelpers.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, true);
 					if (iconInfo.IconData != null)
 					{
 						await dispatcherQueue.EnqueueAsync(async () =>
@@ -1212,7 +1212,7 @@ namespace Files.App.ViewModels
 			ImageSource groupImage = null;
 			if (item.PrimaryItemAttribute != StorageItemTypes.Folder || item.IsArchive)
 			{
-				var headerIconInfo = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(item.ItemPath, 64u, false);
+				var headerIconInfo = await FileThumbnailHelpers.LoadIconWithoutOverlayAsync(item.ItemPath, 64u, false);
 
 				if (headerIconInfo != null && !item.IsShortcut)
 					groupImage = await dispatcherQueue.EnqueueAsync(() => headerIconInfo.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
@@ -1559,21 +1559,21 @@ namespace Files.App.ViewModels
 				else if (res == FileSystemStatusCode.Unauthorized)
 				{
 					//TODO: proper dialog
-					await DialogDisplayHelper.ShowDialogAsync(
+					await DialogDisplayHelpers.ShowDialogAsync(
 						"AccessDenied".GetLocalizedResource(),
 						"SubDirectoryAccessDenied".GetLocalizedResource());
 					return -1;
 				}
 				else if (res == FileSystemStatusCode.NotFound)
 				{
-					await DialogDisplayHelper.ShowDialogAsync(
+					await DialogDisplayHelpers.ShowDialogAsync(
 						"FolderNotFoundDialog/Title".GetLocalizedResource(),
 						"FolderNotFoundDialog/Text".GetLocalizedResource());
 					return -1;
 				}
 				else
 				{
-					await DialogDisplayHelper.ShowDialogAsync("DriveUnpluggedDialog/Title".GetLocalizedResource(), res.ErrorCode.ToString());
+					await DialogDisplayHelpers.ShowDialogAsync("DriveUnpluggedDialog/Title".GetLocalizedResource(), res.ErrorCode.ToString());
 					return -1;
 				}
 			}
@@ -1658,7 +1658,7 @@ namespace Files.App.ViewModels
 
 				if (hFile == IntPtr.Zero)
 				{
-					await DialogDisplayHelper.ShowDialogAsync("DriveUnpluggedDialog/Title".GetLocalizedResource(), "");
+					await DialogDisplayHelpers.ShowDialogAsync("DriveUnpluggedDialog/Title".GetLocalizedResource(), "");
 					return -1;
 				}
 				else if (hFile.ToInt64() == -1)

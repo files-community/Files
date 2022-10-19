@@ -59,7 +59,7 @@ namespace Files.App.ViewModels.Properties
             ViewModel.IsReadOnly = NativeFileOperationsHelpers.HasFileAttribute(Library.ItemPath, System.IO.FileAttributes.ReadOnly);
             ViewModel.IsHidden = NativeFileOperationsHelpers.HasFileAttribute(Library.ItemPath, System.IO.FileAttributes.Hidden);
 
-            var fileIconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Library.ItemPath, 80);
+            var fileIconData = await FileThumbnailHelpers.LoadIconWithoutOverlayAsync(Library.ItemPath, 80);
             if (fileIconData != null)
             {
                 ViewModel.IconData = fileIconData;

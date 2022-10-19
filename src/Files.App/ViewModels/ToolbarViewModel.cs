@@ -938,7 +938,7 @@ namespace Files.App.ViewModels
 						var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => PathNormalization.NormalizePath(currentInput).StartsWith(PathNormalization.NormalizePath(x.Path), StringComparison.Ordinal));
 						if (matchingDrive != null && matchingDrive.Type == DataModels.NavigationControlItems.DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
 						{
-							bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalizedResource(), string.Format("InsertDiscDialog/Text".GetLocalizedResource(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalizedResource(), "Close".GetLocalizedResource());
+							bool ejectButton = await DialogDisplayHelpers.ShowDialogAsync("InsertDiscDialog/Title".GetLocalizedResource(), string.Format("InsertDiscDialog/Text".GetLocalizedResource(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalizedResource(), "Close".GetLocalizedResource());
 							if (ejectButton)
 							{
 								var result = await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
@@ -985,12 +985,12 @@ namespace Files.App.ViewModels
 							try
 							{
 								if (!await Windows.System.Launcher.LaunchUriAsync(new Uri(currentInput)))
-									await DialogDisplayHelper.ShowDialogAsync("InvalidItemDialogTitle".GetLocalizedResource(),
+									await DialogDisplayHelpers.ShowDialogAsync("InvalidItemDialogTitle".GetLocalizedResource(),
 										string.Format("InvalidItemDialogContent".GetLocalizedResource(), Environment.NewLine, resFolder.ErrorCode.ToString()));
 							}
 							catch (Exception ex) when (ex is UriFormatException || ex is ArgumentException)
 							{
-								await DialogDisplayHelper.ShowDialogAsync("InvalidItemDialogTitle".GetLocalizedResource(),
+								await DialogDisplayHelpers.ShowDialogAsync("InvalidItemDialogTitle".GetLocalizedResource(),
 									string.Format("InvalidItemDialogContent".GetLocalizedResource(), Environment.NewLine, resFolder.ErrorCode.ToString()));
 							}
 						}

@@ -167,7 +167,7 @@ namespace Files.App.Views
             }
             catch (COMException)
             {
-                await DialogDisplayHelper.ShowDialogAsync(
+                await DialogDisplayHelpers.ShowDialogAsync(
                     "DriveUnpluggedDialog/Title".GetLocalizedResource(),
                     "DriveUnpluggedDialog/Text".GetLocalizedResource());
             }

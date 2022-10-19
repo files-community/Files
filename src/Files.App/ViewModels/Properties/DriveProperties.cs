@@ -45,13 +45,13 @@ namespace Files.App.ViewModels.Properties
 			{
 				if (diskRoot != null)
 				{
-					ViewModel.IconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(diskRoot, 80, ThumbnailMode.SingleItem);
+					ViewModel.IconData = await FileThumbnailHelpers.LoadIconFromStorageItemAsync(diskRoot, 80, ThumbnailMode.SingleItem);
 				}
 				else
 				{
-					ViewModel.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Drive.Path, 80);
+					ViewModel.IconData = await FileThumbnailHelpers.LoadIconWithoutOverlayAsync(Drive.Path, 80);
 				}
-				ViewModel.IconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Drive.DeviceID, 80); // For network shortcuts
+				ViewModel.IconData ??= await FileThumbnailHelpers.LoadIconWithoutOverlayAsync(Drive.DeviceID, 80); // For network shortcuts
 			}
 
 			if (diskRoot == null || diskRoot.Properties == null)

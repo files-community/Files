@@ -590,7 +590,7 @@ namespace Files.App.Filesystem
                        not when file name has changed */
                     if (Path.GetExtension(source.Path) != Path.GetExtension(newName))
                     {
-                        var yesSelected = await DialogDisplayHelper.ShowDialogAsync("RenameFileDialogTitle".GetLocalizedResource(), "RenameFileDialog/Text".GetLocalizedResource(), "Yes".GetLocalizedResource(), "No".GetLocalizedResource());
+                        var yesSelected = await DialogDisplayHelpers.ShowDialogAsync("RenameFileDialogTitle".GetLocalizedResource(), "RenameFileDialog/Text".GetLocalizedResource(), "Yes".GetLocalizedResource(), "No".GetLocalizedResource());
                         if (yesSelected)
                         {
                             history = await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);

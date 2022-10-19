@@ -393,7 +393,7 @@ namespace Files.App.Filesystem.Search
             }
             if (listedItem != null && MaxItemCount > 0) // Only load icon for searchbox suggestions
             {
-                _ = FileThumbnailHelper.LoadIconFromPathAsync(listedItem.ItemPath, ThumbnailSize, ThumbnailMode.ListView, isFolder)
+                _ = FileThumbnailHelpers.LoadIconFromPathAsync(listedItem.ItemPath, ThumbnailSize, ThumbnailMode.ListView, isFolder)
                     .ContinueWith((t) =>
                     {
                         if (t.IsCompletedSuccessfully && t.Result != null)
@@ -499,7 +499,7 @@ namespace Files.App.Filesystem.Search
             }
             if (listedItem != null && MaxItemCount > 0) // Only load icon for searchbox suggestions
             {
-                var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(item, ThumbnailSize, ThumbnailMode.ListView);
+                var iconData = await FileThumbnailHelpers.LoadIconFromStorageItemAsync(item, ThumbnailSize, ThumbnailMode.ListView);
                 if (iconData != null)
                 {
                     listedItem.FileImage = await iconData.ToBitmapAsync();
