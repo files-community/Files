@@ -97,7 +97,7 @@ namespace Files.App.Helpers
                     if (ex.HResult == (int)FileSystemStatusCode.Unauthorized)
                     {
                         // Try again with fulltrust process
-                        var connection = await AppServiceConnectionHelper.Instance;
+                        var connection = await AppServiceConnectionHelpers.Instance;
                         if (connection != null)
                         {
                             string filePaths = string.Join('|', associatedInstance.SlimContentPage.SelectedItems.Select(x => x.ItemPath));
@@ -203,7 +203,7 @@ namespace Files.App.Helpers
                     if (ex.HResult == (int)FileSystemStatusCode.Unauthorized)
                     {
                         // Try again with fulltrust process
-                        var connection = await AppServiceConnectionHelper.Instance;
+                        var connection = await AppServiceConnectionHelpers.Instance;
                         if (connection != null)
                         {
                             string filePaths = string.Join('|', associatedInstance.SlimContentPage.SelectedItems.Select(x => x.ItemPath));

@@ -465,7 +465,7 @@ namespace Files.App.Shell
             if (filePath == null)
                 return false;
 
-            var connection = await AppServiceConnectionHelper.Instance;
+            var connection = await AppServiceConnectionHelpers.Instance;
             if (connection == null)
                 return false;
 

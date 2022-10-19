@@ -325,7 +325,7 @@ namespace Files.App.ViewModels.Properties
 					if (string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath))
 						return;
 
-					var connection = await AppServiceConnectionHelper.Instance;
+					var connection = await AppServiceConnectionHelpers.Instance;
 					if (connection != null)
 					{
 						var value = new ValueSet()

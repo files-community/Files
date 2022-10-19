@@ -72,7 +72,7 @@ namespace Files.App.Filesystem
 
         public async Task<IStorageHistory> CopyItemsAsync(IList<IStorageItemWithPath> source, IList<string> destination, IList<FileNameConflictResolveOptionType> collisions, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
-            var connection = await AppServiceConnectionHelper.Instance;
+            var connection = await AppServiceConnectionHelpers.Instance;
             if (connection == null || source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\", StringComparison.Ordinal)) || destination.Any(x => string.IsNullOrWhiteSpace(x) || x.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(x) || ZipStorageFolder.IsZipPath(x, false)))
             {
                 // Fallback to builtin file operations
@@ -216,7 +216,7 @@ namespace Files.App.Filesystem
 
         public async Task<(IStorageHistory, IStorageItem)> CreateAsync(IStorageItemWithPath source, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
-            var connection = await AppServiceConnectionHelper.Instance;
+            var connection = await AppServiceConnectionHelpers.Instance;
             if (connection == null || string.IsNullOrWhiteSpace(source.Path) || source.Path.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(source.Path) || ZipStorageFolder.IsZipPath(source.Path, false))
             {
                 // Fallback to builtin file operations
@@ -320,7 +320,7 @@ namespace Files.App.Filesystem
             var createdSources = new List<IStorageItemWithPath>();
             var createdDestination = new List<IStorageItemWithPath>();
 
-            var connection = await AppServiceConnectionHelper.Instance;
+            var connection = await AppServiceConnectionHelpers.Instance;
             if (connection != null)
             {
                 var items = source.Zip(destination, (src, dest, index) => new { src, dest, index }).Where(x => !string.IsNullOrEmpty(x.src.Path) && !string.IsNullOrEmpty(x.dest));
@@ -372,7 +372,7 @@ namespace Files.App.Filesystem
 
         public async Task<IStorageHistory> DeleteItemsAsync(IList<IStorageItemWithPath> source, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, bool permanently, CancellationToken cancellationToken)
         {
-            var connection = await AppServiceConnectionHelper.Instance;
+            var connection = await AppServiceConnectionHelpers.Instance;
             if (connection == null || source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(x.Path)))
             {
                 // Fallback to builtin file operations
@@ -499,7 +499,7 @@ namespace Files.App.Filesystem
 
         public async Task<IStorageHistory> MoveItemsAsync(IList<IStorageItemWithPath> source, IList<string> destination, IList<FileNameConflictResolveOptionType> collisions, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
-            var connection = await AppServiceConnectionHelper.Instance;
+            var connection = await AppServiceConnectionHelpers.Instance;
             if (connection == null || source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\", StringComparison.Ordinal)) || destination.Any(x => string.IsNullOrWhiteSpace(x) || x.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(x) || ZipStorageFolder.IsZipPath(x, false)))
             {
                 // Fallback to builtin file operations
@@ -654,7 +654,7 @@ namespace Files.App.Filesystem
 
         public async Task<IStorageHistory> RenameAsync(IStorageItemWithPath source, string newName, NameCollisionOption collision, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
-            var connection = await AppServiceConnectionHelper.Instance;
+            var connection = await AppServiceConnectionHelpers.Instance;
             if (connection == null || string.IsNullOrWhiteSpace(source.Path) || source.Path.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(source.Path) || ZipStorageFolder.IsZipPath(source.Path, false))
             {
                 // Fallback to builtin file operations
@@ -750,7 +750,7 @@ namespace Files.App.Filesystem
 
         public async Task<IStorageHistory> RestoreItemsFromTrashAsync(IList<IStorageItemWithPath> source, IList<string> destination, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
-            var connection = await AppServiceConnectionHelper.Instance;
+            var connection = await AppServiceConnectionHelpers.Instance;
             if (connection == null || source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\", StringComparison.Ordinal)) || destination.Any(x => string.IsNullOrWhiteSpace(x) || x.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(x) || ZipStorageFolder.IsZipPath(x, false)))
             {
                 // Fallback to builtin file operations
@@ -869,7 +869,7 @@ namespace Files.App.Filesystem
 
         private async void CancelOperation(object operationID)
         {
-            var connection = await AppServiceConnectionHelper.Instance;
+            var connection = await AppServiceConnectionHelpers.Instance;
             if (connection != null)
             {
                 await connection.SendMessageAsync(new ValueSet()
@@ -887,10 +887,10 @@ namespace Files.App.Filesystem
             {
                 if (await DialogService.ShowDialogAsync(new ElevateConfirmDialogViewModel()) == DialogResult.Primary)
                 {
-                    var connection = await AppServiceConnectionHelper.Instance;
+                    var connection = await AppServiceConnectionHelpers.Instance;
                     if (connection != null && await connection.Elevate())
                     {
-                        connection = await AppServiceConnectionHelper.Instance;
+                        connection = await AppServiceConnectionHelpers.Instance;
                         return connection != null;
                     }
                 }
@@ -937,7 +937,7 @@ namespace Files.App.Filesystem
 
         private async Task<List<Win32Process>> WhoIsLockingAsync(IEnumerable<string> filesToCheck)
         {
-            var connection = await AppServiceConnectionHelper.Instance;
+            var connection = await AppServiceConnectionHelpers.Instance;
             if (connection != null)
             {
                 var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()

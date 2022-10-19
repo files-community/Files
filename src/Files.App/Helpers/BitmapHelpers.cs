@@ -10,7 +10,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace Files.App.Helpers
 {
-    internal static class BitmapHelper
+    internal static class BitmapHelpers
     {
         public static async Task<BitmapImage> ToBitmapAsync(this byte[]? data, int decodeSize = -1)
         {

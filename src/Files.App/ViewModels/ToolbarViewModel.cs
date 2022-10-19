@@ -556,7 +556,7 @@ namespace Files.App.ViewModels
 				}
 			}
 
-			if (!FilesystemHelpers.HasDraggedStorageItems(e.DataView))
+			if (!FilesystemHelper.HasDraggedStorageItems(e.DataView))
 			{
 				e.AcceptedOperation = DataPackageOperation.None;
 				return;
@@ -570,8 +570,8 @@ namespace Files.App.ViewModels
 			e.Handled = true;
 			var deferral = e.GetDeferral();
 
-			var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
-			var storageItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+			var handledByFtp = await Filesystem.FilesystemHelper.CheckDragNeedsFulltrust(e.DataView);
+			var storageItems = await Filesystem.FilesystemHelper.GetDraggedStorageItems(e.DataView);
 
 			if (handledByFtp)
 			{

@@ -404,7 +404,7 @@ namespace Files.App.ViewModels
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			FileTagsSettingsService.OnSettingImportedEvent += FileTagsSettingsService_OnSettingImportedEvent;
 			FolderSizeProvider.SizeChanged += FolderSizeProvider_SizeChanged;
-			AppServiceConnectionHelper.ConnectionChanged += AppServiceConnectionHelper_ConnectionChanged;
+			AppServiceConnectionHelpers.ConnectionChanged += AppServiceConnectionHelper_ConnectionChanged;
 		}
 
 		private async void FolderSizeProvider_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -487,7 +487,7 @@ namespace Files.App.ViewModels
 
 		private async Task InitializeConnectionAsync()
 		{
-			Connection ??= await AppServiceConnectionHelper.Instance;
+			Connection ??= await AppServiceConnectionHelpers.Instance;
 		}
 
 		private async void AppServiceConnectionHelper_ConnectionChanged(object sender, Task<NamedPipeAsAppServiceConnection> e)
@@ -611,7 +611,7 @@ namespace Files.App.ViewModels
 					var group = FilesAndFolders.GroupedCollection?.FirstOrDefault(x => x.Model.Key == key);
 
 					if (group != null)
-						group.OrderOne(list => SortingHelper.OrderFileList(list, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles), item);
+						group.OrderOne(list => SortingHelpers.OrderFileList(list, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles), item);
 				}
 
 				UpdateEmptyTextType();
@@ -763,7 +763,7 @@ namespace Files.App.ViewModels
 				if (filesAndFolders.Count == 0)
 					return;
 
-				filesAndFolders = SortingHelper.OrderFileList(filesAndFolders, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles).ToList();
+				filesAndFolders = SortingHelpers.OrderFileList(filesAndFolders, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles).ToList();
 			}
 
 			if (NativeWinApiHelpers.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
@@ -788,7 +788,7 @@ namespace Files.App.ViewModels
 				if (token.IsCancellationRequested)
 					return;
 
-				gp.Order(list => SortingHelper.OrderFileList(list, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles));
+				gp.Order(list => SortingHelpers.OrderFileList(list, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles));
 			}
 
 			if (!FilesAndFolders.GroupedCollection.IsSorted)
@@ -872,8 +872,8 @@ namespace Files.App.ViewModels
 
 		public void UpdateGroupOptions()
 		{
-			FilesAndFolders.ItemGroupKeySelector = GroupingHelper.GetItemGroupKeySelector(folderSettings.DirectoryGroupOption);
-			var groupInfoSelector = GroupingHelper.GetGroupInfoSelector(folderSettings.DirectoryGroupOption);
+			FilesAndFolders.ItemGroupKeySelector = GroupingHelpers.GetItemGroupKeySelector(folderSettings.DirectoryGroupOption);
+			var groupInfoSelector = GroupingHelpers.GetGroupInfoSelector(folderSettings.DirectoryGroupOption);
 			FilesAndFolders.GetGroupHeaderInfo = groupInfoSelector.Item1;
 			FilesAndFolders.GetExtendedGroupHeaderInfo = groupInfoSelector.Item2;
 		}
@@ -1089,8 +1089,8 @@ namespace Files.App.ViewModels
 									await LoadItemThumbnail(item, thumbnailSize, matchingStorageFile);
 
 									var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFile);
-									var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFile);
-									var fileTag = FileTagsHelper.ReadFileTag(item.ItemPath);
+									var fileFRN = await FileTagsHelpers.GetFileFRN(matchingStorageFile);
+									var fileTag = FileTagsHelpers.ReadFileTag(item.ItemPath);
 
 									cts.Token.ThrowIfCancellationRequested();
 									await dispatcherQueue.EnqueueAsync(() =>
@@ -1101,7 +1101,7 @@ namespace Files.App.ViewModels
 										item.FileFRN = fileFRN;
 										item.FileTags = fileTag;
 									}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
-									FileTagsHelper.DbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
+									FileTagsHelpers.DbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
 									wasSyncStatusLoaded = true;
 								}
 							}
@@ -1136,8 +1136,8 @@ namespace Files.App.ViewModels
 
 									cts.Token.ThrowIfCancellationRequested();
 									var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
-									var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFolder);
-									var fileTag = FileTagsHelper.ReadFileTag(item.ItemPath);
+									var fileFRN = await FileTagsHelpers.GetFileFRN(matchingStorageFolder);
+									var fileTag = FileTagsHelpers.ReadFileTag(item.ItemPath);
 									cts.Token.ThrowIfCancellationRequested();
 									await dispatcherQueue.EnqueueAsync(() =>
 									{
@@ -1147,7 +1147,7 @@ namespace Files.App.ViewModels
 										item.FileFRN = fileFRN;
 										item.FileTags = fileTag;
 									}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
-									FileTagsHelper.DbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
+									FileTagsHelpers.DbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
 									wasSyncStatusLoaded = true;
 								}
 							}
@@ -1174,13 +1174,13 @@ namespace Files.App.ViewModels
 							cts.Token.ThrowIfCancellationRequested();
 							await FilesystemTasks.Wrap(async () =>
 							{
-								var fileTag = FileTagsHelper.ReadFileTag(item.ItemPath);
+								var fileTag = FileTagsHelpers.ReadFileTag(item.ItemPath);
 								await dispatcherQueue.EnqueueAsync(() =>
 								{
 									item.SyncStatusUI = new CloudDriveSyncStatusUI(); // Reset cloud sync status icon
 									item.FileTags = fileTag;
 								}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
-								FileTagsHelper.DbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
+								FileTagsHelpers.DbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
 							});
 						}
 
@@ -2329,7 +2329,7 @@ namespace Files.App.ViewModels
 			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
 			FileTagsSettingsService.OnSettingImportedEvent -= FileTagsSettingsService_OnSettingImportedEvent;
 			FolderSizeProvider.SizeChanged -= FolderSizeProvider_SizeChanged;
-			AppServiceConnectionHelper.ConnectionChanged -= AppServiceConnectionHelper_ConnectionChanged;
+			AppServiceConnectionHelpers.ConnectionChanged -= AppServiceConnectionHelper_ConnectionChanged;
 			DefaultIcons.Clear();
 		}
 	}

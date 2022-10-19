@@ -46,7 +46,7 @@ namespace Files.App.Views
     {
         private readonly StorageHistoryHelpers storageHistoryHelpers;
         public IBaseLayout SlimContentPage => ContentPage;
-        public IFilesystemHelpers FilesystemHelpers { get; private set; }
+        public IFilesystemHelper FilesystemHelpers { get; private set; }
         private readonly CancellationTokenSource cancellationTokenSource;
         public bool CanNavigateBackward => ItemDisplayFrame.CanGoBack;
         public bool CanNavigateForward => ItemDisplayFrame.CanGoForward;
@@ -148,7 +148,7 @@ namespace Files.App.Views
             InstanceViewModel = new CurrentInstanceViewModel();
             InstanceViewModel.FolderSettings.LayoutPreferencesUpdateRequired += FolderSettings_LayoutPreferencesUpdateRequired;
             cancellationTokenSource = new CancellationTokenSource();
-            FilesystemHelpers = new FilesystemHelpers(this, cancellationTokenSource.Token);
+            FilesystemHelpers = new FilesystemHelper(this, cancellationTokenSource.Token);
             storageHistoryHelpers = new StorageHistoryHelpers(new StorageHistoryOperations(this, cancellationTokenSource.Token));
 
             ToolbarViewModel.SearchBox.TextChanged += ModernShellPage_TextChanged;

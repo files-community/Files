@@ -280,7 +280,7 @@ namespace Files.App.UserControls.Widgets
 
         private async void MapNetworkDrive_Click(object sender, RoutedEventArgs e)
         {
-            var connection = await AppServiceConnectionHelper.Instance;
+            var connection = await AppServiceConnectionHelpers.Instance;
             if (connection != null)
             {
                 await connection.SendMessageAsync(new ValueSet()
@@ -295,7 +295,7 @@ namespace Files.App.UserControls.Widgets
         private async void DisconnectNetworkDrive_Click(object sender, RoutedEventArgs e)
         {
             var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
-            var connection = await AppServiceConnectionHelper.Instance;
+            var connection = await AppServiceConnectionHelpers.Instance;
             if (connection != null)
             {
                 await connection.SendMessageAsync(new ValueSet()

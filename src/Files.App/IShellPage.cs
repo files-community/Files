@@ -17,7 +17,7 @@ namespace Files.App
 
         Type CurrentPageType { get; }
 
-        IFilesystemHelpers FilesystemHelpers { get; }
+        IFilesystemHelper FilesystemHelpers { get; }
 
         ToolbarViewModel ToolbarViewModel { get; }
 
@@ -61,7 +61,7 @@ namespace Files.App
     {
         public IShellPage ActivePane { get; set; }
         public IShellPage ActivePaneOrColumn { get; } // if column view, returns the last column shell page, otherwise returns the active pane normally
-        public IFilesystemHelpers FilesystemHelpers { get; }
+        public IFilesystemHelper FilesystemHelpers { get; }
         public TabItemArguments TabItemArguments { get; set; }
 
         public void OpenPathInNewPane(string path);

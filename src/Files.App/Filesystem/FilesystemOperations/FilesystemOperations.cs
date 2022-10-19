@@ -596,8 +596,8 @@ namespace Files.App.Filesystem
             }
 
             if (!string.IsNullOrWhiteSpace(newName)
-                && !FilesystemHelpers.ContainsRestrictedCharacters(newName)
-                && !FilesystemHelpers.ContainsRestrictedFileName(newName))
+                && !FilesystemHelper.ContainsRestrictedCharacters(newName)
+                && !FilesystemHelper.ContainsRestrictedFileName(newName))
             {
                 var renamed = await source.ToStorageItemResult()
                     .OnSuccess(async (t) =>

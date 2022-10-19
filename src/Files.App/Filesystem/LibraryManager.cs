@@ -128,11 +128,11 @@ namespace Files.App.Filesystem
             {
                 return (false, "ErrorInputEmpty".GetLocalizedResource());
             }
-            if (FilesystemHelpers.ContainsRestrictedCharacters(name))
+            if (FilesystemHelper.ContainsRestrictedCharacters(name))
             {
                 return (false, "ErrorNameInputRestrictedCharacters".GetLocalizedResource());
             }
-            if (FilesystemHelpers.ContainsRestrictedFileName(name))
+            if (FilesystemHelper.ContainsRestrictedFileName(name))
             {
                 return (false, "ErrorNameInputRestricted".GetLocalizedResource());
             }

@@ -25,7 +25,7 @@ namespace Files.App.Helpers
 
         private static readonly Regex recycleBinPathRegex = new Regex(@"^[A-Z]:\\\$Recycle\.Bin\\", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
 
-        private Task<NamedPipeAsAppServiceConnection> ServiceConnection => AppServiceConnectionHelper.Instance;
+        private Task<NamedPipeAsAppServiceConnection> ServiceConnection => AppServiceConnectionHelpers.Instance;
 
         #endregion Private Members
 
@@ -144,7 +144,7 @@ namespace Files.App.Helpers
             {
                 return false;
             }
-            var connection = await AppServiceConnectionHelper.Instance;
+            var connection = await AppServiceConnectionHelpers.Instance;
             if (connection != null)
             {
                 var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()

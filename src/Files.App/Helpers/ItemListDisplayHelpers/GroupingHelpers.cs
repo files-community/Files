@@ -3,14 +3,13 @@ using Files.Shared.Enums;
 using Files.Shared.Services.DateTimeFormatter;
 using Files.App.Extensions;
 using Files.App.Filesystem;
-using CommunityToolkit.WinUI;
 using System;
 using System.Linq;
 using Windows.Storage;
 
 namespace Files.App.Helpers
 {
-    public static class GroupingHelper
+    public static class GroupingHelpers
     {
         private static readonly IDateTimeFormatter dateTimeFormatter = Ioc.Default.GetService<IDateTimeFormatter>();
 

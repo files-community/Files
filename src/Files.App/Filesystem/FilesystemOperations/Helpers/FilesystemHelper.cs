@@ -25,7 +25,7 @@ using Windows.Storage;
 
 namespace Files.App.Filesystem
 {
-    public class FilesystemHelpers : IFilesystemHelpers
+    public class FilesystemHelper : IFilesystemHelper
     {
         #region Private Members
 
@@ -41,7 +41,7 @@ namespace Files.App.Filesystem
 
         private readonly CancellationToken cancellationToken;
 
-        private Task<NamedPipeAsAppServiceConnection> ServiceConnection => AppServiceConnectionHelper.Instance;
+        private Task<NamedPipeAsAppServiceConnection> ServiceConnection => AppServiceConnectionHelpers.Instance;
 
         #region Helpers Members
 
@@ -82,7 +82,7 @@ namespace Files.App.Filesystem
 
         #region Constructor
 
-        public FilesystemHelpers(IShellPage associatedInstance, CancellationToken cancellationToken)
+        public FilesystemHelper(IShellPage associatedInstance, CancellationToken cancellationToken)
         {
             this.associatedInstance = associatedInstance;
             this.cancellationToken = cancellationToken;
@@ -371,8 +371,8 @@ namespace Files.App.Filesystem
 
         public async Task<ReturnResult> CopyItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
         {
-            var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(packageView);
-            var source = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(packageView);
+            var handledByFtp = await Filesystem.FilesystemHelper.CheckDragNeedsFulltrust(packageView);
+            var source = await Filesystem.FilesystemHelper.GetDraggedStorageItems(packageView);
 
             if (handledByFtp)
             {
@@ -434,7 +434,7 @@ namespace Files.App.Filesystem
                     // Get the SoftwareBitmap representation of the file
                     softwareBitmap = await decoder.GetSoftwareBitmapAsync();
 
-                    await Helpers.BitmapHelper.SaveSoftwareBitmapToFile(softwareBitmap, file, BitmapEncoder.PngEncoderId);
+                    await Helpers.BitmapHelpers.SaveSoftwareBitmapToFile(softwareBitmap, file, BitmapEncoder.PngEncoderId);
                     return ReturnResult.Success;
                 }
                 catch (Exception)
@@ -528,8 +528,8 @@ namespace Files.App.Filesystem
                 return ReturnResult.BadArgumentException;
             }
 
-            var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(packageView);
-            var source = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(packageView);
+            var handledByFtp = await Filesystem.FilesystemHelper.CheckDragNeedsFulltrust(packageView);
+            var source = await Filesystem.FilesystemHelper.GetDraggedStorageItems(packageView);
 
             if (handledByFtp)
             {
@@ -629,8 +629,8 @@ namespace Files.App.Filesystem
                 return ReturnResult.BadArgumentException;
             }
 
-            var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(packageView);
-            var source = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(packageView);
+            var handledByFtp = await Filesystem.FilesystemHelper.CheckDragNeedsFulltrust(packageView);
+            var source = await Filesystem.FilesystemHelper.GetDraggedStorageItems(packageView);
 
             if (handledByFtp)
             {
@@ -668,8 +668,8 @@ namespace Files.App.Filesystem
                 return ReturnResult.BadArgumentException;
             }
 
-            var handledByFtp = await FilesystemHelpers.CheckDragNeedsFulltrust(packageView);
-            var source = await FilesystemHelpers.GetDraggedStorageItems(packageView);
+            var handledByFtp = await FilesystemHelper.CheckDragNeedsFulltrust(packageView);
+            var source = await FilesystemHelper.GetDraggedStorageItems(packageView);
 
             if (handledByFtp)
             {

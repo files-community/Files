@@ -53,7 +53,7 @@ namespace Files.App.Helpers
         public static async Task<List<LibraryLocationItem>> ListUserLibraries()
         {
             List<LibraryLocationItem> libraries = null;
-            var connection = await AppServiceConnectionHelper.Instance;
+            var connection = await AppServiceConnectionHelpers.Instance;
             if (connection == null)
             {
                 return null;
@@ -81,7 +81,7 @@ namespace Files.App.Helpers
             {
                 return null;
             }
-            var connection = await AppServiceConnectionHelper.Instance;
+            var connection = await AppServiceConnectionHelpers.Instance;
             if (connection == null)
             {
                 return null;
@@ -115,7 +115,7 @@ namespace Files.App.Helpers
                 // Nothing to update
                 return null;
             }
-            var connection = await AppServiceConnectionHelper.Instance;
+            var connection = await AppServiceConnectionHelpers.Instance;
             if (connection == null)
             {
                 return null;

@@ -467,7 +467,7 @@ namespace Files.App.Helpers
 
         public static async Task<SafeFileHandle> OpenProtectedFileForRead(string filePath, bool readWrite = false)
         {
-            var connection = await AppServiceConnectionHelper.Instance;
+            var connection = await AppServiceConnectionHelpers.Instance;
             if (connection != null)
             {
                 var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()

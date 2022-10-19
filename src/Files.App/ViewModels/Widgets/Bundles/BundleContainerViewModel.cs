@@ -302,7 +302,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
         private void DragOver(DragEventArgs e)
         {
-            if (Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView) || e.DataView.Contains(StandardDataFormats.Text))
+            if (Filesystem.FilesystemHelper.HasDraggedStorageItems(e.DataView) || e.DataView.Contains(StandardDataFormats.Text))
             {
                 if (Contents.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle) // Don't exceed the limit!
                 {
@@ -324,9 +324,9 @@ namespace Files.App.ViewModels.Widgets.Bundles
             {
                 bool itemsAdded = false;
 
-                if (Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
+                if (Filesystem.FilesystemHelper.HasDraggedStorageItems(e.DataView))
                 {
-                    var items = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+                    var items = await Filesystem.FilesystemHelper.GetDraggedStorageItems(e.DataView);
 
                     if (await AddItemsFromPath(items.ToDictionary((item) => item.Path, (item) => item.ItemType)))
                     {

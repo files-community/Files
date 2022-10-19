@@ -28,7 +28,7 @@ namespace Files.App.Views
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public IFilesystemHelpers FilesystemHelpers => ActivePane?.FilesystemHelpers;
+        public IFilesystemHelper FilesystemHelpers => ActivePane?.FilesystemHelpers;
 
         private TabItemArguments tabItemArguments;
 

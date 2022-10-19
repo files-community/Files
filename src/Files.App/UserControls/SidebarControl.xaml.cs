@@ -660,13 +660,13 @@ namespace Files.App.UserControls
 
             var deferral = e.GetDeferral();
 
-            if (Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
+            if (Filesystem.FilesystemHelper.HasDraggedStorageItems(e.DataView))
             {
                 e.Handled = true;
                 isDropOnProcess = true;
 
-                var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
-                var storageItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+                var handledByFtp = await Filesystem.FilesystemHelper.CheckDragNeedsFulltrust(e.DataView);
+                var storageItems = await Filesystem.FilesystemHelper.GetDraggedStorageItems(e.DataView);
 
                 if (string.IsNullOrEmpty(locationItem.Path) && SectionType.Favorites.Equals(locationItem.Section) && storageItems.Any())
                 {
@@ -804,7 +804,7 @@ namespace Files.App.UserControls
             }
 
             // If the dropped item is a folder or file from a file system
-            if (FilesystemHelpers.HasDraggedStorageItems(e.DataView))
+            if (FilesystemHelper.HasDraggedStorageItems(e.DataView))
             {
                 VisualStateManager.GoToState(sender as NavigationViewItem, "Drop", false);
 
@@ -812,7 +812,7 @@ namespace Files.App.UserControls
 
                 if (string.IsNullOrEmpty(locationItem.Path) && SectionType.Favorites.Equals(locationItem.Section) && isDropOnProcess) // Pin to Favorites section
                 {
-                    var storageItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+                    var storageItems = await Filesystem.FilesystemHelper.GetDraggedStorageItems(e.DataView);
                     foreach (var item in storageItems)
                     {
                         if (item.ItemType == FilesystemItemType.Directory && !SidebarPinnedModel.FavoriteItems.Contains(item.Path))
@@ -852,7 +852,7 @@ namespace Files.App.UserControls
         private async void NavigationViewDriveItem_DragOver(object sender, DragEventArgs e)
         {
             if (!((sender as NavigationViewItem).DataContext is DriveItem driveItem) ||
-                !Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
+                !Filesystem.FilesystemHelper.HasDraggedStorageItems(e.DataView))
             {
                 return;
             }
@@ -860,8 +860,8 @@ namespace Files.App.UserControls
             var deferral = e.GetDeferral();
             e.Handled = true;
 
-            var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
-            var storageItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+            var handledByFtp = await Filesystem.FilesystemHelper.CheckDragNeedsFulltrust(e.DataView);
+            var storageItems = await Filesystem.FilesystemHelper.GetDraggedStorageItems(e.DataView);
 
             if ("DriveCapacityUnknown".GetLocalizedResource().Equals(driveItem.SpaceText, StringComparison.OrdinalIgnoreCase) ||
                 (storageItems.Any() && storageItems.AreItemsAlreadyInFolder(driveItem.Path)))
@@ -949,7 +949,7 @@ namespace Files.App.UserControls
         private async void NavigationViewFileTagItem_DragOver(object sender, DragEventArgs e)
         {
             if (!((sender as NavigationViewItem).DataContext is FileTagItem fileTagItem) ||
-                !Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
+                !Filesystem.FilesystemHelper.HasDraggedStorageItems(e.DataView))
             {
                 return;
             }
@@ -957,8 +957,8 @@ namespace Files.App.UserControls
             var deferral = e.GetDeferral();
             e.Handled = true;
 
-            var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
-            var storageItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+            var handledByFtp = await Filesystem.FilesystemHelper.CheckDragNeedsFulltrust(e.DataView);
+            var storageItems = await Filesystem.FilesystemHelper.GetDraggedStorageItems(e.DataView);
 
             if (handledByFtp)
             {
@@ -998,8 +998,8 @@ namespace Files.App.UserControls
 
             var deferral = e.GetDeferral();
 
-            var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
-            var storageItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+            var handledByFtp = await Filesystem.FilesystemHelper.CheckDragNeedsFulltrust(e.DataView);
+            var storageItems = await Filesystem.FilesystemHelper.GetDraggedStorageItems(e.DataView);
 
             if (handledByFtp)
             {
@@ -1009,7 +1009,7 @@ namespace Files.App.UserControls
             foreach (var item in storageItems.Where(x => !string.IsNullOrEmpty(x.Path)))
             {
                 var listedItem = new ListedItem(null) { ItemPath = item.Path };
-                listedItem.FileFRN = await FileTagsHelper.GetFileFRN(item.Item);
+                listedItem.FileFRN = await FileTagsHelpers.GetFileFRN(item.Item);
                 listedItem.FileTags = new[] { fileTagItem.FileTag.Uid };
             }
 

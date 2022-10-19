@@ -52,7 +52,7 @@ namespace Files.App
 
 		protected IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>()!;
 
-		protected Task<NamedPipeAsAppServiceConnection> Connection => AppServiceConnectionHelper.Instance;
+		protected Task<NamedPipeAsAppServiceConnection> Connection => AppServiceConnectionHelpers.Instance;
 
 		public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
 
@@ -548,7 +548,7 @@ namespace Files.App
 				shellContextMenuItemCancellationToken?.Cancel();
 				shellContextMenuItemCancellationToken = new CancellationTokenSource();
 				var shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
-				var items = ContextFlyoutItemHelper.GetBaseContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, itemViewModel: ParentShellPageInstance!.FilesystemViewModel, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed, false);
+				var items = ContextFlyoutItemHelpers.GetBaseContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, itemViewModel: ParentShellPageInstance!.FilesystemViewModel, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed, false);
 				BaseContextMenuFlyout.PrimaryCommands.Clear();
 				BaseContextMenuFlyout.SecondaryCommands.Clear();
 				var (primaryElements, secondaryElements) = ItemModelListToContextFlyoutHelpers.GetAppBarItemsFromModel(items);
@@ -562,7 +562,7 @@ namespace Files.App
 
 				if (!InstanceViewModel!.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeZipFolder)
 				{
-					var shellMenuItems = await ContextFlyoutItemHelper.GetBaseContextShellCommandsAsync(currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
+					var shellMenuItems = await ContextFlyoutItemHelpers.GetBaseContextShellCommandsAsync(currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
 					if (shellMenuItems.Any())
 						AddShellItemsToMenu(shellMenuItems, BaseContextMenuFlyout, shiftPressed);
 				}
@@ -601,7 +601,7 @@ namespace Files.App
 			shellContextMenuItemCancellationToken = new CancellationTokenSource();
 			SelectedItemsPropertiesViewModel.CheckAllFileExtensions(this.SelectedItems!.Select(selectedItem => selectedItem?.FileExtension).ToList()!);
 			var shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
-			var items = ContextFlyoutItemHelper.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, workingDir: ParentShellPageInstance!.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems!, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed, showOpenMenu: false);
+			var items = ContextFlyoutItemHelpers.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, workingDir: ParentShellPageInstance!.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems!, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed, showOpenMenu: false);
 			ItemContextMenuFlyout.PrimaryCommands.Clear();
 			ItemContextMenuFlyout.SecondaryCommands.Clear();
 			var (primaryElements, secondaryElements) = ItemModelListToContextFlyoutHelpers.GetAppBarItemsFromModel(items);
@@ -618,7 +618,7 @@ namespace Files.App
 
 			if (!InstanceViewModel.IsPageTypeZipFolder)
 			{
-				var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems!, shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
+				var shellMenuItems = await ContextFlyoutItemHelpers.GetItemContextShellCommandsAsync(currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems!, shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
 				if (shellMenuItems.Any())
 					AddShellItemsToMenu(shellMenuItems, ItemContextMenuFlyout, shiftPressed);
 			}
@@ -806,12 +806,12 @@ namespace Files.App
 					}, TimeSpan.FromMilliseconds(1000), false);
 				}
 
-				if (FilesystemHelpers.HasDraggedStorageItems(e.DataView))
+				if (FilesystemHelper.HasDraggedStorageItems(e.DataView))
 				{
 					e.Handled = true;
 
-					var handledByFtp = await FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
-					var draggedItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+					var handledByFtp = await FilesystemHelper.CheckDragNeedsFulltrust(e.DataView);
+					var draggedItems = await FilesystemHelper.GetDraggedStorageItems(e.DataView);
 
 					if (draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
 					{
@@ -1176,14 +1176,14 @@ namespace Files.App
 
 		protected async void ValidateItemNameInputText(TextBox textBox, TextBoxBeforeTextChangingEventArgs args, Action<bool> showError)
 		{
-			if (FilesystemHelpers.ContainsRestrictedCharacters(args.NewText))
+			if (FilesystemHelper.ContainsRestrictedCharacters(args.NewText))
 			{
 				args.Cancel = true;
 				await DispatcherQueue.EnqueueAsync(() =>
 				{
 					var oldSelection = textBox.SelectionStart + textBox.SelectionLength;
 					var oldText = textBox.Text;
-					textBox.Text = FilesystemHelpers.FilterRestrictedCharacters(args.NewText);
+					textBox.Text = FilesystemHelper.FilterRestrictedCharacters(args.NewText);
 					textBox.SelectionStart = oldSelection + textBox.Text.Length - oldText.Length;
 					showError?.Invoke(true);
 				});

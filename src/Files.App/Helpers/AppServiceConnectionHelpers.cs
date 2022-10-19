@@ -14,7 +14,7 @@ using Windows.Foundation.Collections;
 
 namespace Files.App.Helpers
 {
-    public static class AppServiceConnectionHelper
+    public static class AppServiceConnectionHelpers
     {
         private static readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
 

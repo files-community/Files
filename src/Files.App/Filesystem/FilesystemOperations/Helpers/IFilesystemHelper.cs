@@ -8,7 +8,7 @@ using Windows.Storage;
 
 namespace Files.App.Filesystem
 {
-    public interface IFilesystemHelpers : IDisposable
+    public interface IFilesystemHelper : IDisposable
     {
         /// <summary>
         /// Creates an item from <paramref name="source"/>

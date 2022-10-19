@@ -162,7 +162,7 @@ namespace Files.App.ViewModels.Properties
 
         public async void GetCompatibilityOptions()
         {
-            var connection = await AppServiceConnectionHelper.Instance;
+            var connection = await AppServiceConnectionHelpers.Instance;
             if (connection != null)
             {
                 var value = new ValueSet()
@@ -182,7 +182,7 @@ namespace Files.App.ViewModels.Properties
 
         public async Task<bool> SetCompatibilityOptions()
         {
-            var connection = await AppServiceConnectionHelper.Instance;
+            var connection = await AppServiceConnectionHelpers.Instance;
             if (connection != null)
             {
                 var value = new ValueSet()

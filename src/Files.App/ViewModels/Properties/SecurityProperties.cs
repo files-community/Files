@@ -166,7 +166,7 @@ namespace Files.App.ViewModels.Properties
 
 		private async void ReplaceChildPermissions()
 		{
-			var connection = await AppServiceConnectionHelper.Instance;
+			var connection = await AppServiceConnectionHelpers.Instance;
 			if (connection != null)
 			{
 				var value = new ValueSet()
@@ -249,7 +249,7 @@ namespace Files.App.ViewModels.Properties
 
 		public async void GetFilePermissions()
 		{
-			var connection = await AppServiceConnectionHelper.Instance;
+			var connection = await AppServiceConnectionHelpers.Instance;
 			if (connection != null)
 			{
 				var value = new ValueSet()
@@ -275,7 +275,7 @@ namespace Files.App.ViewModels.Properties
 				return true;
 			}
 
-			var connection = await AppServiceConnectionHelper.Instance;
+			var connection = await AppServiceConnectionHelpers.Instance;
 			if (connection != null)
 			{
 				var value = new ValueSet()
@@ -293,7 +293,7 @@ namespace Files.App.ViewModels.Properties
 
 		public async Task<bool> SetFileOwner(string ownerSid)
 		{
-			var connection = await AppServiceConnectionHelper.Instance;
+			var connection = await AppServiceConnectionHelpers.Instance;
 			if (connection != null)
 			{
 				var value = new ValueSet()
@@ -313,7 +313,7 @@ namespace Files.App.ViewModels.Properties
 
 		public async Task<string> OpenObjectPicker()
 		{
-			var connection = await AppServiceConnectionHelper.Instance;
+			var connection = await AppServiceConnectionHelpers.Instance;
 			if (connection != null)
 			{
 				var value = new ValueSet()
@@ -333,7 +333,7 @@ namespace Files.App.ViewModels.Properties
 
 		public async Task<bool> SetAccessRuleProtection(bool isProtected, bool preserveInheritance)
 		{
-			var connection = await AppServiceConnectionHelper.Instance;
+			var connection = await AppServiceConnectionHelpers.Instance;
 			if (connection != null)
 			{
 				var value = new ValueSet()

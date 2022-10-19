@@ -11,7 +11,7 @@ namespace Files.App.ServicesImplementation
     {
         public async Task<ImageModel?> GetImageModelFromDataAsync(byte[] rawData)
         {
-            return new BitmapImageModel(await BitmapHelper.ToBitmapAsync(rawData));
+            return new BitmapImageModel(await BitmapHelpers.ToBitmapAsync(rawData));
         }
 
         public async Task<ImageModel?> GetImageModelFromPathAsync(string filePath, uint thumbnailSize = 64)

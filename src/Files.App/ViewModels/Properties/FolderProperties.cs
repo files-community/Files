@@ -112,7 +112,7 @@ namespace Files.App.ViewModels.Properties
             else if (Item.ItemPath.Equals(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
             {
                 // GetFolderFromPathAsync cannot access recyclebin folder
-                var connection = await AppServiceConnectionHelper.Instance;
+                var connection = await AppServiceConnectionHelpers.Instance;
                 if (connection != null)
                 {
                     var value = new ValueSet();
@@ -213,7 +213,7 @@ namespace Files.App.ViewModels.Properties
                         return;
                     }
 
-                    var connection = await AppServiceConnectionHelper.Instance;
+                    var connection = await AppServiceConnectionHelpers.Instance;
                     if (connection != null)
                     {
                         var value = new ValueSet()

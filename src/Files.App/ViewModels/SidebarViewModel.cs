@@ -38,7 +38,7 @@ namespace Files.App.ViewModels
 			set => SetProperty(ref paneHolder, value);
 		}
 
-		public IFilesystemHelpers FilesystemHelpers => PaneHolder?.FilesystemHelpers;
+		public IFilesystemHelper FilesystemHelpers => PaneHolder?.FilesystemHelpers;
 
 		private DispatcherQueue dispatcherQueue;
 

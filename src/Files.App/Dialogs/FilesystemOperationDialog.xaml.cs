@@ -161,7 +161,7 @@ namespace Files.App.Dialogs
         {
             if ((sender as FrameworkElement)?.DataContext is FileSystemDialogConflictItemViewModel conflictItem)
             {
-                conflictItem.CustomName = FilesystemHelpers.FilterRestrictedCharacters(conflictItem.CustomName);
+                conflictItem.CustomName = FilesystemHelper.FilterRestrictedCharacters(conflictItem.CustomName);
 
                 if (ViewModel.IsNameAvailableForItem(conflictItem, conflictItem.CustomName!))
                 {

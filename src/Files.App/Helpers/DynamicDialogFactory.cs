@@ -74,14 +74,14 @@ namespace Files.App.Helpers
 
             inputText.BeforeTextChanging += async (textBox, args) =>
             {
-                if (FilesystemHelpers.ContainsRestrictedCharacters(args.NewText))
+                if (FilesystemHelper.ContainsRestrictedCharacters(args.NewText))
                 {
                     args.Cancel = true;
                     await inputText.DispatcherQueue.EnqueueAsync(() =>
                     {
                         var oldSelection = textBox.SelectionStart + textBox.SelectionLength;
                         var oldText = textBox.Text;
-                        textBox.Text = FilesystemHelpers.FilterRestrictedCharacters(args.NewText);
+                        textBox.Text = FilesystemHelper.FilterRestrictedCharacters(args.NewText);
                         textBox.SelectionStart = oldSelection + textBox.Text.Length - oldText.Length;
                         tipText.Opacity = 1.0d;
                     });

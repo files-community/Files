@@ -59,12 +59,12 @@ namespace Files.App.ViewModels.Pages
             LoadBundlesCommand = new RelayCommand<BundlesViewModel>(LoadBundles);
 
             _ = InitializeConnectionAsync(); // fire and forget
-            AppServiceConnectionHelper.ConnectionChanged += AppServiceConnectionHelper_ConnectionChanged;
+            AppServiceConnectionHelpers.ConnectionChanged += AppServiceConnectionHelper_ConnectionChanged;
         }
 
         private async Task InitializeConnectionAsync()
         {
-            Connection ??= await AppServiceConnectionHelper.Instance;
+            Connection ??= await AppServiceConnectionHelpers.Instance;
         }
 
         public void ChangeAppInstance(IShellPage associatedInstance)
@@ -130,7 +130,7 @@ namespace Files.App.ViewModels.Pages
                 connection.RequestReceived -= Connection_RequestReceived;
             }
 
-            AppServiceConnectionHelper.ConnectionChanged -= AppServiceConnectionHelper_ConnectionChanged;
+            AppServiceConnectionHelpers.ConnectionChanged -= AppServiceConnectionHelper_ConnectionChanged;
         }
 
         #endregion IDisposable

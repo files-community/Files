@@ -56,7 +56,7 @@ namespace Files.App.Filesystem
 
         public async Task UpdateDrivesAsync()
         {
-            var connection = await AppServiceConnectionHelper.Instance;
+            var connection = await AppServiceConnectionHelpers.Instance;
             if (connection is not null)
             {
                 var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet

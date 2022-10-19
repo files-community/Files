@@ -14,7 +14,7 @@ namespace Files.App.Filesystem.FilesystemHistory
 {
     public class StorageHistoryOperations : IStorageHistoryOperations
     {
-        private IFilesystemHelpers helpers;
+        private IFilesystemHelper helpers;
         private IFilesystemOperations operations;
 
         private readonly CancellationToken cancellationToken;
