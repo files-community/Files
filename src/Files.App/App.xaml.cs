@@ -95,9 +95,9 @@ namespace Files.App
 			InitializeComponent();
 			this.Services = ConfigureServices();
 			Ioc.Default.ConfigureServices(Services);
-		}
+        }
 
-		private IServiceProvider ConfigureServices()
+        private IServiceProvider ConfigureServices()
 		{
 			ServiceCollection services = new ServiceCollection();
 
@@ -164,7 +164,10 @@ namespace Files.App
 			FileTagsManager ??= new FileTagsManager();
 			SidebarPinnedController ??= new SidebarPinnedController();
 			TerminalController ??= new TerminalController();
-		}
+
+            //FileTagsHelpers.UpdateTagsDb();
+            FileOperationsHelpers.WaitForCompletion();
+        }
 
 		private static async Task StartAppCenter()
 		{

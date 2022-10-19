@@ -325,23 +325,73 @@ namespace Files.App.ViewModels.Properties
 					if (string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath))
 						return;
 
-					var connection = await AppServiceConnectionHelper.Instance;
-					if (connection != null)
-					{
-						var value = new ValueSet()
-						{
-							{ "Arguments", "FileOperation" },
-							{ "fileop", "UpdateLink" },
-							{ "filepath", Item.ItemPath },
-							{ "targetpath", ViewModel.ShortcutItemPath },
-							{ "arguments", ViewModel.ShortcutItemArguments },
-							{ "workingdir", ViewModel.ShortcutItemWorkingDir },
-							{ "runasadmin", tmpItem.RunAsAdmin },
-						};
-						await connection.SendMessageAsync(value);
-					}
-					break;
-			}
-		}
-	}
+                    await FileOperationsHelpers.CreateOrUpdateLinkAsync(Item.ItemPath, ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, ViewModel.ShortcutItemWorkingDir, tmpItem.RunAsAdmin);
+                    break;
+            }
+        }
+
+        private async Task<string> GetHashForFileAsync(ListedItem fileItem, string nameOfAlg, CancellationToken token, IProgress<float> progress, IShellPage associatedInstance)
+        {
+            HashAlgorithmProvider algorithmProvider = HashAlgorithmProvider.OpenAlgorithm(nameOfAlg);
+            BaseStorageFile file = await StorageHelpers.ToStorageItem<BaseStorageFile>((fileItem as ShortcutItem)?.TargetPath ?? fileItem.ItemPath);
+            if (file == null)
+            {
+                return "";
+            }
+
+            Stream stream = await FilesystemTasks.Wrap(() => file.OpenStreamForReadAsync());
+            if (stream == null)
+            {
+                return "";
+            }
+
+            uint capacity;
+            var inputStream = stream.AsInputStream();
+            bool isProgressSupported = false;
+
+            try
+            {
+                var cap = (long)(0.5 * stream.Length) / 100;
+                if (cap >= uint.MaxValue)
+                {
+                    capacity = uint.MaxValue;
+                }
+                else
+                {
+                    capacity = Convert.ToUInt32(cap);
+                }
+                isProgressSupported = true;
+            }
+            catch (NotSupportedException)
+            {
+                capacity = 64 * 1024;
+            }
+
+            Windows.Storage.Streams.Buffer buffer = new Windows.Storage.Streams.Buffer(capacity);
+            var hash = algorithmProvider.CreateHash();
+            while (!token.IsCancellationRequested)
+            {
+                await inputStream.ReadAsync(buffer, capacity, InputStreamOptions.None);
+                if (buffer.Length > 0)
+                {
+                    hash.Append(buffer);
+                }
+                else
+                {
+                    break;
+                }
+                if (stream.Length > 0)
+                {
+                    progress?.Report(isProgressSupported ? (float)stream.Position / stream.Length * 100.0f : 20);
+                }
+            }
+            inputStream.Dispose();
+            stream.Dispose();
+            if (token.IsCancellationRequested)
+            {
+                return "";
+            }
+            return CryptographicBuffer.EncodeToHexString(hash.GetValueAndReset()).ToLowerInvariant();
+        }
+    }
 }
