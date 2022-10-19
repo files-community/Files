@@ -17,8 +17,6 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.AppService;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 
 namespace Files.App.Filesystem
@@ -72,7 +70,7 @@ namespace Files.App.Filesystem
 
         public async Task<IStorageHistory> CopyItemsAsync(IList<IStorageItemWithPath> source, IList<string> destination, IList<FileNameConflictResolveOptionType> collisions, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
-            var connection = await AppServiceConnectionHelper.Instance;
+            var connection = await AppServiceConnectionHelpers.Instance;
             if (connection == null || source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\", StringComparison.Ordinal)) || destination.Any(x => string.IsNullOrWhiteSpace(x) || x.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(x) || ZipStorageFolder.IsZipPath(x, false)))
             {
                 // Fallback to builtin file operations
@@ -98,7 +96,7 @@ namespace Files.App.Filesystem
             var copyResult = new ShellOperationResult();
             if (sourceRename.Any())
             {
-                var resultItem = await FileOperationsHelpers.CopyItemAsync(sourceRename.Select(s => s.Path).ToArray(), destinationRename.ToArray(), false, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID);
+                var resultItem = await FileOperationsHelpers.CopyItemAsync(sourceRename.Select(s => s.Path).ToArray(), destinationRename.ToArray(), false, NativeWinApiHelpers.CoreWindowHandle.ToInt64(), operationID);
                 
                 result &= (FilesystemResult)resultItem.Item1;
 
@@ -106,7 +104,7 @@ namespace Files.App.Filesystem
             }
             if (sourceReplace.Any())
             {
-                var resultItem = await FileOperationsHelpers.CopyItemAsync(sourceReplace.Select(s => s.Path).ToArray(), destinationReplace.ToArray(), true, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID);
+                var resultItem = await FileOperationsHelpers.CopyItemAsync(sourceReplace.Select(s => s.Path).ToArray(), destinationReplace.ToArray(), true, NativeWinApiHelpers.CoreWindowHandle.ToInt64(), operationID);
 
                 result &= (FilesystemResult)resultItem.Item1;
 
@@ -174,11 +172,11 @@ namespace Files.App.Filesystem
                 }
                 else if (copyResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NotFound))
                 {
-                    await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalizedResource(), "FileNotFoundDialog/Text".GetLocalizedResource());
+                    await DialogDisplayHelpers.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalizedResource(), "FileNotFoundDialog/Text".GetLocalizedResource());
                 }
                 else if (copyResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.AlreadyExists))
                 {
-                    await DialogDisplayHelper.ShowDialogAsync("ItemAlreadyExistsDialogTitle".GetLocalizedResource(), "ItemAlreadyExistsDialogContent".GetLocalizedResource());
+                    await DialogDisplayHelpers.ShowDialogAsync("ItemAlreadyExistsDialogTitle".GetLocalizedResource(), "ItemAlreadyExistsDialogContent".GetLocalizedResource());
                 }
                 else if (copyResult.Items.All(x => x.HResult == -1)) // ADS
                 {
@@ -198,7 +196,7 @@ namespace Files.App.Filesystem
 
         public async Task<(IStorageHistory, IStorageItem)> CreateAsync(IStorageItemWithPath source, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
-            var connection = await AppServiceConnectionHelper.Instance;
+            var connection = await AppServiceConnectionHelpers.Instance;
             if (connection == null || string.IsNullOrWhiteSpace(source.Path) || source.Path.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(source.Path) || ZipStorageFolder.IsZipPath(source.Path, false))
             {
                 // Fallback to builtin file operations
@@ -218,7 +216,7 @@ namespace Files.App.Filesystem
                             var args = CommandLine.CommandLineParser.SplitArguments(newEntryInfo.Command);
                             if (args.Any())
                             {
-                                if (await LaunchHelper.LaunchAppAsync(args[0].Replace("\"", "", StringComparison.Ordinal),
+                                if (await LaunchHelpers.LaunchAppAsync(args[0].Replace("\"", "", StringComparison.Ordinal),
                                         string.Join(" ", args.Skip(1)).Replace("%1", source.Path),
                                         PathNormalization.GetParentDir(source.Path)))
                                 {
@@ -271,11 +269,11 @@ namespace Files.App.Filesystem
                 }
                 else if (createResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NotFound))
                 {
-                    await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalizedResource(), "FileNotFoundDialog/Text".GetLocalizedResource());
+                    await DialogDisplayHelpers.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalizedResource(), "FileNotFoundDialog/Text".GetLocalizedResource());
                 }
                 else if (createResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.AlreadyExists))
                 {
-                    await DialogDisplayHelper.ShowDialogAsync("ItemAlreadyExistsDialogTitle".GetLocalizedResource(), "ItemAlreadyExistsDialogContent".GetLocalizedResource());
+                    await DialogDisplayHelpers.ShowDialogAsync("ItemAlreadyExistsDialogTitle".GetLocalizedResource(), "ItemAlreadyExistsDialogContent".GetLocalizedResource());
                 }
                 errorCode?.Report(CopyEngineResult.Convert(createResult.Items.FirstOrDefault(x => !x.Succeeded)?.HResult));
                 return (null, null);
@@ -287,7 +285,7 @@ namespace Files.App.Filesystem
             var createdSources = new List<IStorageItemWithPath>();
             var createdDestination = new List<IStorageItemWithPath>();
 
-            var connection = await AppServiceConnectionHelper.Instance;
+            var connection = await AppServiceConnectionHelpers.Instance;
             if (connection != null)
             {
                 var items = source.Zip(destination, (src, dest, index) => new { src, dest, index }).Where(x => !string.IsNullOrEmpty(x.src.Path) && !string.IsNullOrEmpty(x.dest));
@@ -327,7 +325,7 @@ namespace Files.App.Filesystem
 
         public async Task<IStorageHistory> DeleteItemsAsync(IList<IStorageItemWithPath> source, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, bool permanently, CancellationToken cancellationToken)
         {
-            var connection = await AppServiceConnectionHelper.Instance;
+            var connection = await AppServiceConnectionHelpers.Instance;
             if (connection == null || source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(x.Path)))
             {
                 // Fallback to builtin file operations
@@ -350,7 +348,7 @@ namespace Files.App.Filesystem
             EventHandler<Dictionary<string, JsonElement>> handler = (s, e) => OnProgressUpdated(s, e, operationID, progress);
             connection.RequestReceived += handler;
 
-            var (success, deleteResult) = await FileOperationsHelpers.DeleteItemAsync(deleleFilePaths.ToArray(), permanently, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID);
+            var (success, deleteResult) = await FileOperationsHelpers.DeleteItemAsync(deleleFilePaths.ToArray(), permanently, NativeWinApiHelpers.CoreWindowHandle.ToInt64(), operationID);
             
             var result = (FilesystemResult)success;
             var shellOpResult = deleteResult;
@@ -409,7 +407,7 @@ namespace Files.App.Filesystem
                 }
                 else if (deleteResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NotFound))
                 {
-                    await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalizedResource(), "FileNotFoundDialog/Text".GetLocalizedResource());
+                    await DialogDisplayHelpers.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalizedResource(), "FileNotFoundDialog/Text".GetLocalizedResource());
                 }
                 else if (deleteResult.Items.All(x => x.HResult == -1) && permanently) // ADS
                 {
@@ -445,7 +443,7 @@ namespace Files.App.Filesystem
 
         public async Task<IStorageHistory> MoveItemsAsync(IList<IStorageItemWithPath> source, IList<string> destination, IList<FileNameConflictResolveOptionType> collisions, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
-            var connection = await AppServiceConnectionHelper.Instance;
+            var connection = await AppServiceConnectionHelpers.Instance;
             if (connection == null || source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\", StringComparison.Ordinal)) || destination.Any(x => string.IsNullOrWhiteSpace(x) || x.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(x) || ZipStorageFolder.IsZipPath(x, false)))
             {
                 // Fallback to builtin file operations
@@ -471,14 +469,14 @@ namespace Files.App.Filesystem
             var moveResult = new ShellOperationResult();
             if (sourceRename.Any())
             {
-                var (status, response) = await FileOperationsHelpers.MoveItemAsync(sourceRename.Select(s => s.Path).ToArray(), destinationRename.ToArray(), false, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID);
+                var (status, response) = await FileOperationsHelpers.MoveItemAsync(sourceRename.Select(s => s.Path).ToArray(), destinationRename.ToArray(), false, NativeWinApiHelpers.CoreWindowHandle.ToInt64(), operationID);
 
                 result &= (FilesystemResult)status;
                 moveResult.Items.AddRange(response?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
             }
             if (sourceReplace.Any())
             {
-                var (status, response) = await FileOperationsHelpers.MoveItemAsync(sourceReplace.Select(s => s.Path).ToArray(), destinationReplace.ToArray(), true, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID);
+                var (status, response) = await FileOperationsHelpers.MoveItemAsync(sourceReplace.Select(s => s.Path).ToArray(), destinationReplace.ToArray(), true, NativeWinApiHelpers.CoreWindowHandle.ToInt64(), operationID);
 
                 result &= (FilesystemResult)status;
                 moveResult.Items.AddRange(response?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
@@ -520,7 +518,7 @@ namespace Files.App.Filesystem
                 {
                     var destName = subtree.dest.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last();
                     var srcName = subtree.src.Path.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last();
-                    await DialogDisplayHelper.ShowDialogAsync("ErrorDialogThisActionCannotBeDone".GetLocalizedResource(), $"{"ErrorDialogTheDestinationFolder".GetLocalizedResource()} ({destName}) {"ErrorDialogIsASubfolder".GetLocalizedResource()} ({srcName})");
+                    await DialogDisplayHelpers.ShowDialogAsync("ErrorDialogThisActionCannotBeDone".GetLocalizedResource(), $"{"ErrorDialogTheDestinationFolder".GetLocalizedResource()} ({destName}) {"ErrorDialogIsASubfolder".GetLocalizedResource()} ({srcName})");
                 }
                 else if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
                 {
@@ -551,11 +549,11 @@ namespace Files.App.Filesystem
                 }
                 else if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NotFound))
                 {
-                    await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalizedResource(), "FileNotFoundDialog/Text".GetLocalizedResource());
+                    await DialogDisplayHelpers.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalizedResource(), "FileNotFoundDialog/Text".GetLocalizedResource());
                 }
                 else if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.AlreadyExists))
                 {
-                    await DialogDisplayHelper.ShowDialogAsync("ItemAlreadyExistsDialogTitle".GetLocalizedResource(), "ItemAlreadyExistsDialogContent".GetLocalizedResource());
+                    await DialogDisplayHelpers.ShowDialogAsync("ItemAlreadyExistsDialogTitle".GetLocalizedResource(), "ItemAlreadyExistsDialogContent".GetLocalizedResource());
                 }
                 else if (moveResult.Items.All(x => x.HResult == -1)) // ADS
                 {
@@ -580,7 +578,7 @@ namespace Files.App.Filesystem
 
         public async Task<IStorageHistory> RenameAsync(IStorageItemWithPath source, string newName, NameCollisionOption collision, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
-            var connection = await AppServiceConnectionHelper.Instance;
+            var connection = await AppServiceConnectionHelpers.Instance;
             if (connection == null || string.IsNullOrWhiteSpace(source.Path) || source.Path.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(source.Path) || ZipStorageFolder.IsZipPath(source.Path, false))
             {
                 // Fallback to builtin file operations
@@ -635,11 +633,11 @@ namespace Files.App.Filesystem
                 }
                 else if (renameResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NotFound))
                 {
-                    await DialogDisplayHelper.ShowDialogAsync("RenameError/ItemDeleted/Title".GetLocalizedResource(), "RenameError/ItemDeleted/Text".GetLocalizedResource());
+                    await DialogDisplayHelpers.ShowDialogAsync("RenameError/ItemDeleted/Title".GetLocalizedResource(), "RenameError/ItemDeleted/Text".GetLocalizedResource());
                 }
                 else if (renameResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.AlreadyExists))
                 {
-                    await DialogDisplayHelper.ShowDialogAsync("ItemAlreadyExistsDialogTitle".GetLocalizedResource(), "ItemAlreadyExistsDialogContent".GetLocalizedResource());
+                    await DialogDisplayHelpers.ShowDialogAsync("ItemAlreadyExistsDialogTitle".GetLocalizedResource(), "ItemAlreadyExistsDialogContent".GetLocalizedResource());
                 }
                 else if (renameResult.Items.All(x => x.HResult == -1)) // ADS
                 {
@@ -668,7 +666,7 @@ namespace Files.App.Filesystem
 
         public async Task<IStorageHistory> RestoreItemsFromTrashAsync(IList<IStorageItemWithPath> source, IList<string> destination, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
-            var connection = await AppServiceConnectionHelper.Instance;
+            var connection = await AppServiceConnectionHelpers.Instance;
             if (connection == null || source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\", StringComparison.Ordinal)) || destination.Any(x => string.IsNullOrWhiteSpace(x) || x.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(x) || ZipStorageFolder.IsZipPath(x, false)))
             {
                 // Fallback to builtin file operations
@@ -682,7 +680,7 @@ namespace Files.App.Filesystem
             connection.RequestReceived += handler;
 
             var moveResult = new ShellOperationResult();
-            var (status, response) = await FileOperationsHelpers.MoveItemAsync(source.Select(s => s.Path).ToArray(), destination.ToArray(), false, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID);
+            var (status, response) = await FileOperationsHelpers.MoveItemAsync(source.Select(s => s.Path).ToArray(), destination.ToArray(), false, NativeWinApiHelpers.CoreWindowHandle.ToInt64(), operationID);
 
             var result = (FilesystemResult)status;
             moveResult.Items.AddRange(response?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
@@ -751,11 +749,11 @@ namespace Files.App.Filesystem
                 }
                 else if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NotFound))
                 {
-                    await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalizedResource(), "FileNotFoundDialog/Text".GetLocalizedResource());
+                    await DialogDisplayHelpers.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalizedResource(), "FileNotFoundDialog/Text".GetLocalizedResource());
                 }
                 else if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.AlreadyExists))
                 {
-                    await DialogDisplayHelper.ShowDialogAsync("ItemAlreadyExistsDialogTitle".GetLocalizedResource(), "ItemAlreadyExistsDialogContent".GetLocalizedResource());
+                    await DialogDisplayHelpers.ShowDialogAsync("ItemAlreadyExistsDialogTitle".GetLocalizedResource(), "ItemAlreadyExistsDialogContent".GetLocalizedResource());
                 }
                 errorCode?.Report(CopyEngineResult.Convert(moveResult.Items.FirstOrDefault(x => !x.Succeeded)?.HResult));
                 return null;
@@ -784,10 +782,10 @@ namespace Files.App.Filesystem
             {
                 if (await DialogService.ShowDialogAsync(new ElevateConfirmDialogViewModel()) == DialogResult.Primary)
                 {
-                    var connection = await AppServiceConnectionHelper.Instance;
+                    var connection = await AppServiceConnectionHelpers.Instance;
                     if (connection != null && await connection.Elevate())
                     {
-                        connection = await AppServiceConnectionHelper.Instance;
+                        connection = await AppServiceConnectionHelpers.Instance;
                         return connection != null;
                     }
                 }

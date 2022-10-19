@@ -1089,7 +1089,7 @@ namespace Files.App.ViewModels
 									await LoadItemThumbnail(item, thumbnailSize, matchingStorageFile);
 
 									var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFile);
-									var fileFRN = await FileTagsHelpers.GetFileFRN(matchingStorageFile);
+									var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFile);
 									var fileTag = FileTagsHelpers.ReadFileTag(item.ItemPath);
 
 									cts.Token.ThrowIfCancellationRequested();
@@ -1101,7 +1101,7 @@ namespace Files.App.ViewModels
 										item.FileFRN = fileFRN;
 										item.FileTags = fileTag;
 									}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
-									FileTagsHelpers.DbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
+									FileTagsHelper.DbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
 									wasSyncStatusLoaded = true;
 								}
 							}
@@ -1136,7 +1136,7 @@ namespace Files.App.ViewModels
 
 									cts.Token.ThrowIfCancellationRequested();
 									var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
-									var fileFRN = await FileTagsHelpers.GetFileFRN(matchingStorageFolder);
+									var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFolder);
 									var fileTag = FileTagsHelpers.ReadFileTag(item.ItemPath);
 									cts.Token.ThrowIfCancellationRequested();
 									await dispatcherQueue.EnqueueAsync(() =>
@@ -1147,7 +1147,7 @@ namespace Files.App.ViewModels
 										item.FileFRN = fileFRN;
 										item.FileTags = fileTag;
 									}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
-									FileTagsHelpers.DbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
+									FileTagsHelper.DbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
 									wasSyncStatusLoaded = true;
 								}
 							}
@@ -1180,7 +1180,7 @@ namespace Files.App.ViewModels
 									item.SyncStatusUI = new CloudDriveSyncStatusUI(); // Reset cloud sync status icon
 									item.FileTags = fileTag;
 								}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
-								FileTagsHelpers.DbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
+								FileTagsHelper.DbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
 							});
 						}
 

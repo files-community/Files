@@ -73,10 +73,10 @@ namespace Files.App.ViewModels.Properties
 
         public async override void GetSpecialProperties()
         {
-            ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(
+            ViewModel.IsHidden = NativeFileOperationsHelpers.HasFileAttribute(
                 Item.ItemPath, System.IO.FileAttributes.Hidden);
 
-            var fileIconData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.ItemPath, 80, Windows.Storage.FileProperties.ThumbnailMode.SingleItem, true);
+            var fileIconData = await FileThumbnailHelpers.LoadIconFromPathAsync(Item.ItemPath, 80, Windows.Storage.FileProperties.ThumbnailMode.SingleItem, true);
             if (fileIconData != null)
             {
                 ViewModel.IconData = fileIconData;
@@ -112,7 +112,7 @@ namespace Files.App.ViewModels.Properties
             else if (Item.ItemPath.Equals(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
             {
                 // GetFolderFromPathAsync cannot access recyclebin folder
-                var connection = await AppServiceConnectionHelper.Instance;
+                var connection = await AppServiceConnectionHelpers.Instance;
                 if (connection != null)
                 {
                     var value = new ValueSet();
@@ -194,12 +194,12 @@ namespace Files.App.ViewModels.Properties
                 case "IsHidden":
                     if (ViewModel.IsHidden)
                     {
-                        NativeFileOperationsHelper.SetFileAttribute(
+                        NativeFileOperationsHelpers.SetFileAttribute(
                             Item.ItemPath, System.IO.FileAttributes.Hidden);
                     }
                     else
                     {
-                        NativeFileOperationsHelper.UnsetFileAttribute(
+                        NativeFileOperationsHelpers.UnsetFileAttribute(
                             Item.ItemPath, System.IO.FileAttributes.Hidden);
                     }
                     break;

@@ -83,8 +83,8 @@ namespace Files.App.ViewModels.SettingsViewModels
                     // Export file tags list and DB
                     var exportTags = UTF8Encoding.UTF8.GetBytes((string)FileTagsSettingsService.ExportSettings());
                     await zipFolder.CreateFileAsync(new MemoryStream(exportTags), Constants.LocalSettings.FileTagSettingsFileName, CreationCollisionOption.ReplaceExisting);
-                    var exportTagsDB = UTF8Encoding.UTF8.GetBytes(FileTagsHelpers.DbInstance.Export());
-                    await zipFolder.CreateFileAsync(new MemoryStream(exportTagsDB), Path.GetFileName(FileTagsHelpers.FileTagsDbPath), CreationCollisionOption.ReplaceExisting);
+                    var exportTagsDB = UTF8Encoding.UTF8.GetBytes(FileTagsHelper.DbInstance.Export());
+                    await zipFolder.CreateFileAsync(new MemoryStream(exportTagsDB), Path.GetFileName(FileTagsHelper.FileTagsDbPath), CreationCollisionOption.ReplaceExisting);
                     // Export layout preferences DB
                     var exportPrefsDB = UTF8Encoding.UTF8.GetBytes(FolderSettingsViewModel.DbInstance.Export());
                     await zipFolder.CreateFileAsync(new MemoryStream(exportPrefsDB), Path.GetFileName(FolderSettingsViewModel.LayoutSettingsDbPath), CreationCollisionOption.ReplaceExisting);
@@ -139,9 +139,9 @@ namespace Files.App.ViewModels.SettingsViewModels
                     var fileTagsList = await zipFolder.GetFileAsync(Constants.LocalSettings.FileTagSettingsFileName);
                     string importTags = await fileTagsList.ReadTextAsync();
                     FileTagsSettingsService.ImportSettings(importTags);
-                    var fileTagsDB = await zipFolder.GetFileAsync(Path.GetFileName(FileTagsHelpers.FileTagsDbPath));
+                    var fileTagsDB = await zipFolder.GetFileAsync(Path.GetFileName(FileTagsHelper.FileTagsDbPath));
                     string importTagsDB = await fileTagsDB.ReadTextAsync();
-                    FileTagsHelpers.DbInstance.Import(importTagsDB);
+                    FileTagsHelper.DbInstance.Import(importTagsDB);
                     // Import layout preferences and DB
                     var layoutPrefsDB = await zipFolder.GetFileAsync(Path.GetFileName(FolderSettingsViewModel.LayoutSettingsDbPath));
                     string importPrefsDB = await layoutPrefsDB.ReadTextAsync();

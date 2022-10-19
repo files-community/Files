@@ -269,7 +269,7 @@ namespace Files.App.ViewModels.Properties
         }
 
         public Task<string?> OpenObjectPicker()
-            => FileOperationsHelpers.OpenObjectPickerAsync(NativeWinApiHelper.CoreWindowHandle.ToInt64());
+            => FileOperationsHelpers.OpenObjectPickerAsync(NativeWinApiHelpers.CoreWindowHandle.ToInt64());
 
         public bool SetAccessRuleProtection(bool isProtected, bool preserveInheritance)
         {

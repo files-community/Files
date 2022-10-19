@@ -163,7 +163,7 @@ namespace Files.App.Helpers
 				{
 					if (!isDirectory)
 					{
-						if (NativeFindStorageItemHelper.GetWin32FindDataForPath(path, out var findData))
+						if (NativeFindStorageItemHelpers.GetWin32FindDataForPath(path, out var findData))
 						{
 							if (findData.dwReserved0 == NativeFileOperationsHelpers.IO_REPARSE_TAG_SYMLINK)
 							{

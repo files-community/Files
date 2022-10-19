@@ -250,12 +250,12 @@ namespace Files.App
                         foreach (var file in command.Args.Skip(1))
                         {
                             var fileFRN = await FilesystemTasks.Wrap(() => StorageHelpers.ToStorageItem<IStorageItem>(file))
-                                .OnSuccess(item => FileTagsHelpers.GetFileFRN(item));
+                                .OnSuccess(item => FileTagsHelper.GetFileFRN(item));
                             if (fileFRN is not null)
                             {
                                 var tagUid = tag is not null ? new[] { tag.Uid } : null;
-                                FileTagsHelpers.DbInstance.SetTags(file, fileFRN, tagUid);
-                                FileTagsHelpers.WriteFileTag(file, tagUid);
+                                FileTagsHelper.DbInstance.SetTags(file, fileFRN, tagUid);
+                                FileTagsHelper.WriteFileTag(file, tagUid);
                             }
                         }
                         break;

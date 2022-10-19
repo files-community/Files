@@ -10,7 +10,7 @@ using IO = System.IO;
 
 namespace Files.App.Filesystem
 {
-    public static class FileTagsHelpers
+    public static class FileTagsHelper
     {
         public static string FileTagsDbPath => IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, "filetags.db");
 

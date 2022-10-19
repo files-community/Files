@@ -1009,7 +1009,7 @@ namespace Files.App.UserControls
             foreach (var item in storageItems.Where(x => !string.IsNullOrEmpty(x.Path)))
             {
                 var listedItem = new ListedItem(null) { ItemPath = item.Path };
-                listedItem.FileFRN = await FileTagsHelpers.GetFileFRN(item.Item);
+                listedItem.FileFRN = await FileTagsHelper.GetFileFRN(item.Item);
                 listedItem.FileTags = new[] { fileTagItem.FileTag.Uid };
             }
 
