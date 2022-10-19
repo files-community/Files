@@ -56,7 +56,7 @@ namespace Files.App.Views
         {
             if (SecurityProperties != null)
             {
-                return await SecurityProperties.SetFilePermissions();
+                return SecurityProperties.SetFilePermissions();
             }
             return true;
         }

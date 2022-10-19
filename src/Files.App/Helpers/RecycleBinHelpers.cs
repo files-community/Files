@@ -25,7 +25,7 @@ namespace Files.App.Helpers
 
         private static readonly Regex recycleBinPathRegex = new Regex(@"^[A-Z]:\\\$Recycle\.Bin\\", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
 
-        private Task<NamedPipeAsAppServiceConnection> ServiceConnection => AppServiceConnectionHelpers.Instance;
+        private Task<NamedPipeAsAppServiceConnection> ServiceConnection => AppServiceConnectionHelper.Instance;
 
         #endregion Private Members
 
@@ -141,24 +141,11 @@ namespace Files.App.Helpers
         public async Task<bool> HasRecycleBin(string path)
         {
             if (string.IsNullOrEmpty(path) || path.StartsWith(@"\\?\", StringComparison.Ordinal))
-            {
                 return false;
-            }
-            var connection = await AppServiceConnectionHelpers.Instance;
-            if (connection != null)
-            {
-                var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
-                {
-                    { "Arguments", "FileOperation" },
-                    { "fileop", "TestRecycle" },
-                    { "filepath", path }
-                });
-                var result = status == AppServiceResponseStatus.Success && response.Get("Success", defaultJson).GetBoolean();
-                var shellOpResult = JsonSerializer.Deserialize<ShellOperationResult>(response.Get("Result", defaultJson).GetString());
-                result &= shellOpResult != null && shellOpResult.Items.All(x => x.Succeeded);
-                return result;
-            }
-            return false;
+
+            var result = await FileOperationsHelpers.TestRecycleAsync(path.Split("|"));
+
+            return result.Item1 &= result.Item2 != null && result.Item2.Items.All(x => x.Succeeded);
         }
 
         public bool RecycleBinHasItems()

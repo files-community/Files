@@ -43,7 +43,7 @@ namespace Files.App.Interacts
 
         private IBaseLayout SlimContentPage => associatedInstance?.SlimContentPage;
 
-        private IFilesystemHelper FilesystemHelpers => associatedInstance?.FilesystemHelpers;
+        private IFilesystemHelpers FilesystemHelpers => associatedInstance?.FilesystemHelpers;
 
         #endregion Singleton
 
@@ -85,25 +85,10 @@ namespace Files.App.Interacts
         {
             foreach (ListedItem selectedItem in SlimContentPage.SelectedItems)
             {
-                var connection = await AppServiceConnectionHelpers.Instance;
-                if (connection != null)
-                {
-                    var value = new ValueSet()
-                    {
-                        { "Arguments", "FileOperation" },
-                        { "fileop", "CreateLink" },
-                        { "targetpath", selectedItem.ItemPath },
-                        { "arguments", "" },
-                        { "workingdir", "" },
-                        { "runasadmin", false },
-                        {
-                            "filepath",
-                            Path.Combine(associatedInstance.FilesystemViewModel.WorkingDirectory,
-                                string.Format("ShortcutCreateNewSuffix".GetLocalizedResource(), selectedItem.Name) + ".lnk")
-                        }
-                    };
-                    await connection.SendMessageAsync(value);
-                }
+                var filePath = Path.Combine(associatedInstance.FilesystemViewModel.WorkingDirectory,
+                                string.Format("ShortcutCreateNewSuffix".GetLocalizedResource(), selectedItem.Name) + ".lnk");
+
+                await FileOperationsHelpers.CreateOrUpdateLinkAsync(filePath, selectedItem.ItemPath);
             }
         }
 
@@ -234,11 +219,11 @@ namespace Files.App.Interacts
             }
             else if (destFolder == FileSystemStatusCode.NotFound)
             {
-                await DialogDisplayHelpers.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalizedResource(), "FileNotFoundDialog/Text".GetLocalizedResource());
+                await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalizedResource(), "FileNotFoundDialog/Text".GetLocalizedResource());
             }
             else
             {
-                await DialogDisplayHelpers.ShowDialogAsync("InvalidItemDialogTitle".GetLocalizedResource(),
+                await DialogDisplayHelper.ShowDialogAsync("InvalidItemDialogTitle".GetLocalizedResource(),
                     string.Format("InvalidItemDialogContent".GetLocalizedResource(), Environment.NewLine, destFolder.ErrorCode.ToString()));
             }
         }
@@ -492,12 +477,12 @@ namespace Files.App.Interacts
 
             itemManipulationModel.ClearSelection();
 
-            if (Filesystem.FilesystemHelper.HasDraggedStorageItems(e.DataView))
+            if (Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
             {
                 e.Handled = true;
 
-                var handledByFtp = await Filesystem.FilesystemHelper.CheckDragNeedsFulltrust(e.DataView);
-                var draggedItems = await Filesystem.FilesystemHelper.GetDraggedStorageItems(e.DataView);
+                var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
+                var draggedItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
                 var pwd = associatedInstance.FilesystemViewModel.WorkingDirectory.TrimPath();
                 var folderName = (Path.IsPathRooted(pwd) && Path.GetPathRoot(pwd) == pwd) ? Path.GetPathRoot(pwd) : Path.GetFileName(pwd);
@@ -573,7 +558,7 @@ namespace Files.App.Interacts
         {
             var deferral = e.GetDeferral();
 
-            if (Filesystem.FilesystemHelper.HasDraggedStorageItems(e.DataView))
+            if (Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
             {
                 await associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, associatedInstance.FilesystemViewModel.WorkingDirectory, false, true);
                 e.Handled = true;
@@ -747,7 +732,7 @@ namespace Files.App.Interacts
         public async Task RotateImageLeft()
         {
             foreach (var image in SlimContentPage.SelectedItems)
-                await BitmapHelpers.Rotate(PathNormalization.NormalizePath(image.ItemPath), BitmapRotation.Clockwise270Degrees);
+                await BitmapHelper.Rotate(PathNormalization.NormalizePath(image.ItemPath), BitmapRotation.Clockwise270Degrees);
 
             SlimContentPage.ItemManipulationModel.RefreshItemsThumbnail();
             App.PreviewPaneViewModel.UpdateSelectedItemPreview();
@@ -756,7 +741,7 @@ namespace Files.App.Interacts
         public async Task RotateImageRight()
         {
             foreach (var image in SlimContentPage.SelectedItems)
-                await BitmapHelpers.Rotate(PathNormalization.NormalizePath(image.ItemPath), BitmapRotation.Clockwise90Degrees);
+                await BitmapHelper.Rotate(PathNormalization.NormalizePath(image.ItemPath), BitmapRotation.Clockwise90Degrees);
 
             SlimContentPage.ItemManipulationModel.RefreshItemsThumbnail();
             App.PreviewPaneViewModel.UpdateSelectedItemPreview();

@@ -105,7 +105,7 @@ namespace Files.App.Filesystem.StorageItems
                         return await backingFile.OpenAsync(accessMode);
                     }
 
-                    var file = NativeFileOperationsHelpers.OpenFileForRead(containerPath, rw);
+                    var file = NativeFileOperationsHelper.OpenFileForRead(containerPath, rw);
                     if (file.IsInvalid)
                     {
                         return null;
@@ -155,7 +155,7 @@ namespace Files.App.Filesystem.StorageItems
                         return await backingFile.OpenReadAsync();
                     }
 
-                    var hFile = NativeFileOperationsHelpers.OpenFileForRead(containerPath);
+                    var hFile = NativeFileOperationsHelper.OpenFileForRead(containerPath);
                     if (hFile.IsInvalid)
                     {
                         return null;
@@ -199,7 +199,7 @@ namespace Files.App.Filesystem.StorageItems
                         return await backingFile.OpenSequentialReadAsync();
                     }
 
-                    var hFile = NativeFileOperationsHelpers.OpenFileForRead(containerPath);
+                    var hFile = NativeFileOperationsHelper.OpenFileForRead(containerPath);
                     if (hFile.IsInvalid)
                     {
                         return null;
@@ -322,7 +322,7 @@ namespace Files.App.Filesystem.StorageItems
                     else
                     {
                         var fileName = IO.Path.Combine(IO.Path.GetDirectoryName(Path), desiredName);
-                        NativeFileOperationsHelpers.MoveFileFromApp(Path, fileName);
+                        NativeFileOperationsHelper.MoveFileFromApp(Path, fileName);
                     }
                 }
                 else
@@ -366,7 +366,7 @@ namespace Files.App.Filesystem.StorageItems
                     }
                     else if (option == StorageDeleteOption.PermanentDelete)
                     {
-                        NativeFileOperationsHelpers.DeleteFileFromApp(Path);
+                        NativeFileOperationsHelper.DeleteFileFromApp(Path);
                     }
                     else
                     {
@@ -411,7 +411,7 @@ namespace Files.App.Filesystem.StorageItems
         {
             try
             {
-                var hFile = NativeFileOperationsHelpers.OpenFileForRead(path);
+                var hFile = NativeFileOperationsHelper.OpenFileForRead(path);
                 if (hFile.IsInvalid)
                 {
                     return false;
@@ -483,8 +483,8 @@ namespace Files.App.Filesystem.StorageItems
                 else
                 {
                     var hFile = openProtected ?
-                        await NativeFileOperationsHelpers.OpenProtectedFileForRead(containerPath) :
-                        NativeFileOperationsHelpers.OpenFileForRead(containerPath, readWrite);
+                        NativeFileOperationsHelper.OpenProtectedFileForRead(containerPath) :
+                        NativeFileOperationsHelper.OpenFileForRead(containerPath, readWrite);
                     if (hFile.IsInvalid)
                     {
                         return null;

@@ -73,10 +73,10 @@ namespace Files.App.ViewModels.Properties
 
         public async override void GetSpecialProperties()
         {
-            ViewModel.IsHidden = NativeFileOperationsHelpers.HasFileAttribute(
+            ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(
                 Item.ItemPath, System.IO.FileAttributes.Hidden);
 
-            var fileIconData = await FileThumbnailHelpers.LoadIconFromPathAsync(Item.ItemPath, 80, Windows.Storage.FileProperties.ThumbnailMode.SingleItem, true);
+            var fileIconData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.ItemPath, 80, Windows.Storage.FileProperties.ThumbnailMode.SingleItem, true);
             if (fileIconData != null)
             {
                 ViewModel.IconData = fileIconData;
@@ -112,7 +112,7 @@ namespace Files.App.ViewModels.Properties
             else if (Item.ItemPath.Equals(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
             {
                 // GetFolderFromPathAsync cannot access recyclebin folder
-                var connection = await AppServiceConnectionHelpers.Instance;
+                var connection = await AppServiceConnectionHelper.Instance;
                 if (connection != null)
                 {
                     var value = new ValueSet();
@@ -194,12 +194,12 @@ namespace Files.App.ViewModels.Properties
                 case "IsHidden":
                     if (ViewModel.IsHidden)
                     {
-                        NativeFileOperationsHelpers.SetFileAttribute(
+                        NativeFileOperationsHelper.SetFileAttribute(
                             Item.ItemPath, System.IO.FileAttributes.Hidden);
                     }
                     else
                     {
-                        NativeFileOperationsHelpers.UnsetFileAttribute(
+                        NativeFileOperationsHelper.UnsetFileAttribute(
                             Item.ItemPath, System.IO.FileAttributes.Hidden);
                     }
                     break;
@@ -208,26 +208,11 @@ namespace Files.App.ViewModels.Properties
                 case "ShortcutItemWorkingDir":
                 case "ShortcutItemArguments":
                     var tmpItem = (ShortcutItem)Item;
-                    if (string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath))
-                    {
-                        return;
-                    }
 
-                    var connection = await AppServiceConnectionHelpers.Instance;
-                    if (connection != null)
-                    {
-                        var value = new ValueSet()
-                        {
-                            { "Arguments", "FileOperation" },
-                            { "fileop", "UpdateLink" },
-                            { "filepath", Item.ItemPath },
-                            { "targetpath", ViewModel.ShortcutItemPath },
-                            { "arguments", ViewModel.ShortcutItemArguments },
-                            { "workingdir", ViewModel.ShortcutItemWorkingDir },
-                            { "runasadmin", tmpItem.RunAsAdmin },
-                        };
-                        await connection.SendMessageAsync(value);
-                    }
+                    if (string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath))
+                        return;
+
+                    await FileOperationsHelpers.CreateOrUpdateLinkAsync(Item.ItemPath, ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, ViewModel.ShortcutItemWorkingDir, tmpItem.RunAsAdmin);
                     break;
             }
         }
