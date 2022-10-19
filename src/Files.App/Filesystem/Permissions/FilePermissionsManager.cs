@@ -77,7 +77,19 @@ namespace Files.App.Filesystem.Permissions
             {
                 FilePath = this.FilePath,
                 IsFolder = this.IsFolder,
-                AccessRules = this.AccessRules.Select(x => x.ToFileSystemAccessRule()).ToList(),
+                AccessRules = this.AccessRules.Select(x =>
+                {
+                    FileSystemAccessRule rule = x.ToFileSystemAccessRule();
+                    return new FileSystemAccessRule2()
+                    {
+                        AccessControlType = (System.Security.AccessControl.AccessControlType)rule.AccessControlType,
+                        FileSystemRights = (System.Security.AccessControl.FileSystemRights)rule.FileSystemRights,
+                        IdentityReference = rule.IdentityReference,
+                        IsInherited = rule.IsInherited,
+                        InheritanceFlags = (System.Security.AccessControl.InheritanceFlags)rule.InheritanceFlags,
+                        PropagationFlags = (System.Security.AccessControl.PropagationFlags)rule.PropagationFlags
+                    };
+                }).ToList(),
                 CanReadFilePermissions = this.CanReadFilePermissions,
                 CurrentUserSID = this.CurrentUser.Sid,
                 OwnerSID = this.Owner.Sid,

@@ -850,7 +850,7 @@ namespace Files.App.Views
                 ToolbarViewModel.CanRefresh = false;
                 var searchInstance = new FolderSearch
                 {
-                    Query = InstanceViewModel.CurrentSearchQuery,
+                    Query = InstanceViewModel.CurrentSearchQuery ?? (string)TabItemArguments.NavigationArg,
                     Folder = FilesystemViewModel.WorkingDirectory,
                     ThumbnailSize = InstanceViewModel.FolderSettings.GetIconSize(),
                     SearchUnindexedItems = InstanceViewModel.SearchedUnindexedItems
