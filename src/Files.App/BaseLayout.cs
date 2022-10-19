@@ -551,7 +551,7 @@ namespace Files.App
 				var items = ContextFlyoutItemHelper.GetBaseContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, itemViewModel: ParentShellPageInstance!.FilesystemViewModel, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed, false);
 				BaseContextMenuFlyout.PrimaryCommands.Clear();
 				BaseContextMenuFlyout.SecondaryCommands.Clear();
-				var (primaryElements, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(items);
+				var (primaryElements, secondaryElements) = ItemModelListToContextFlyoutHelpers.GetAppBarItemsFromModel(items);
 				primaryElements.OfType<AppBarButton>().ForEach(i =>
 				{
 					i.Click += new RoutedEventHandler((s, e) => BaseContextMenuFlyout.Hide());  // Workaround for WinUI (#5508)
@@ -604,7 +604,7 @@ namespace Files.App
 			var items = ContextFlyoutItemHelper.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, workingDir: ParentShellPageInstance!.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems!, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed, showOpenMenu: false);
 			ItemContextMenuFlyout.PrimaryCommands.Clear();
 			ItemContextMenuFlyout.SecondaryCommands.Clear();
-			var (primaryElements, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(items);
+			var (primaryElements, secondaryElements) = ItemModelListToContextFlyoutHelpers.GetAppBarItemsFromModel(items);
 			primaryElements.OfType<AppBarButton>().ForEach(i =>
 			{
 				i.Click += new RoutedEventHandler((s, e) => ItemContextMenuFlyout.Hide()); // Workaround for WinUI (#5508)
@@ -641,12 +641,12 @@ namespace Files.App
 
 		private void AddShellItemsToMenu(List<ContextMenuFlyoutItemViewModel> shellMenuItems, Microsoft.UI.Xaml.Controls.CommandBarFlyout contextMenuFlyout, bool shiftPressed)
 		{
-			var openWithSubItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(ShellContextmenuHelper.GetOpenWithItems(shellMenuItems));
+			var openWithSubItems = ItemModelListToContextFlyoutHelpers.GetMenuFlyoutItemsFromModel(ShellContextmenuHelper.GetOpenWithItems(shellMenuItems));
 			var mainShellMenuItems = shellMenuItems.RemoveFrom(!UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 4);
 			var overflowShellMenuItems = shellMenuItems.Except(mainShellMenuItems).ToList();
 
-			var overflowItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(overflowShellMenuItems);
-			var mainItems = ItemModelListToContextFlyoutHelper.GetAppBarButtonsFromModelIgnorePrimary(mainShellMenuItems);
+			var overflowItems = ItemModelListToContextFlyoutHelpers.GetMenuFlyoutItemsFromModel(overflowShellMenuItems);
+			var mainItems = ItemModelListToContextFlyoutHelpers.GetAppBarButtonsFromModelIgnorePrimary(mainShellMenuItems);
 
 			var openedPopups = Microsoft.UI.Xaml.Media.VisualTreeHelper.GetOpenPopups(App.Window);
 			var secondaryMenu = openedPopups.FirstOrDefault(popup => popup.Name == "OverflowPopup");

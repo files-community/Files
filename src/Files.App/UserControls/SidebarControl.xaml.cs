@@ -560,7 +560,7 @@ namespace Files.App.UserControls
             rightClickedItem = item;
 
             var menuItems = GetLocationItemMenuItems(item, itemContextMenuFlyout);
-            var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
+            var (_, secondaryElements) = ItemModelListToContextFlyoutHelpers.GetAppBarItemsFromModel(menuItems);
 
             if (!UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu)
             {
@@ -1184,7 +1184,7 @@ namespace Files.App.UserControls
                         new List<ListedItem>() { new ListedItem(null) { ItemPath = rightClickedItem.Path } }, shiftPressed: shiftPressed, showOpenMenu: false, default);
                     if (!UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu)
                     {
-                        var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(shellMenuItems);
+                        var (_, secondaryElements) = ItemModelListToContextFlyoutHelpers.GetAppBarItemsFromModel(shellMenuItems);
                         if (secondaryElements.Any())
                         {
                             var openedPopups = Microsoft.UI.Xaml.Media.VisualTreeHelper.GetOpenPopups(App.Window);
@@ -1201,7 +1201,7 @@ namespace Files.App.UserControls
                     }
                     else
                     {
-                        var overflowItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(shellMenuItems);
+                        var overflowItems = ItemModelListToContextFlyoutHelpers.GetMenuFlyoutItemsFromModel(shellMenuItems);
                         var overflowItem = itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") as AppBarButton;
                         if (overflowItem is not null)
                         {
