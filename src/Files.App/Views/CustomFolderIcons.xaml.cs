@@ -75,7 +75,7 @@ namespace Files.App.Views
                 return;
 
             var setIconResult = IsShortcut ?
-                await SetCustomFileIcon(selectedItemPath, iconResourceItemPath, selectedIconInfo.Index) :
+                SetCustomFileIcon(selectedItemPath, iconResourceItemPath, selectedIconInfo.Index) :
                 SetCustomFolderIcon(selectedItemPath, iconResourceItemPath, selectedIconInfo.Index);
             if (setIconResult)
             {
@@ -91,7 +91,7 @@ namespace Files.App.Views
             RestoreDefaultButton.IsEnabled = false;
 
             var setIconResult = IsShortcut ?
-                await SetCustomFileIcon(selectedItemPath, null) :
+                SetCustomFileIcon(selectedItemPath, null) :
                 SetCustomFolderIcon(selectedItemPath, null);
             if (setIconResult)
             {
@@ -110,9 +110,7 @@ namespace Files.App.Views
             return Win32API.SetCustomDirectoryIcon(folderPath, iconFile, iconIndex);
         }
 
-        private async Task<bool> SetCustomFileIcon(string? filePath, string? iconFile, int iconIndex = 0)
-        {
-            return await Win32API.SetCustomFileIconAsync(filePath, iconFile, iconIndex);
-        }
+        private bool SetCustomFileIcon(string? filePath, string? iconFile, int iconIndex = 0)
+            => Win32API.SetCustomFileIcon(filePath, iconFile, iconIndex);
     }
 }

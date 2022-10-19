@@ -85,25 +85,10 @@ namespace Files.App.Interacts
         {
             foreach (ListedItem selectedItem in SlimContentPage.SelectedItems)
             {
-                var connection = await AppServiceConnectionHelper.Instance;
-                if (connection != null)
-                {
-                    var value = new ValueSet()
-                    {
-                        { "Arguments", "FileOperation" },
-                        { "fileop", "CreateLink" },
-                        { "targetpath", selectedItem.ItemPath },
-                        { "arguments", "" },
-                        { "workingdir", "" },
-                        { "runasadmin", false },
-                        {
-                            "filepath",
-                            Path.Combine(associatedInstance.FilesystemViewModel.WorkingDirectory,
-                                string.Format("ShortcutCreateNewSuffix".GetLocalizedResource(), selectedItem.Name) + ".lnk")
-                        }
-                    };
-                    await connection.SendMessageAsync(value);
-                }
+                var filePath = Path.Combine(associatedInstance.FilesystemViewModel.WorkingDirectory,
+                                string.Format("ShortcutCreateNewSuffix".GetLocalizedResource(), selectedItem.Name) + ".lnk");
+
+                await FileOperationsHelpers.CreateOrUpdateLinkAsync(filePath, selectedItem.ItemPath);
             }
         }
 
