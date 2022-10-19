@@ -98,37 +98,19 @@ namespace Files.App.Filesystem
             var copyResult = new ShellOperationResult();
             if (sourceRename.Any())
             {
-                var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
-                {
-                    { "Arguments", "FileOperation" },
-                    { "fileop", "CopyItem" },
-                    { "operationID", operationID },
-                    { "filepath", string.Join('|', sourceRename.Select(s => s.Path)) },
-                    { "destpath", string.Join('|', destinationRename) },
-                    { "overwrite", false },
-                    { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
-                });
-                result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
-                    && response.Get("Success", defaultJson).GetBoolean());
-                var shellOpResult = JsonSerializer.Deserialize<ShellOperationResult>(response.Get("Result", defaultJson).GetString());
-                copyResult.Items.AddRange(shellOpResult?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
+                var resultItem = await FileOperationsHelpers.CopyItemAsync(sourceRename.Select(s => s.Path).ToArray(), destinationRename.ToArray(), false, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID);
+                
+                result &= (FilesystemResult)resultItem.Item1;
+
+                copyResult.Items.AddRange(resultItem.Item2?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
             }
             if (sourceReplace.Any())
             {
-                var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
-                {
-                    { "Arguments", "FileOperation" },
-                    { "fileop", "CopyItem" },
-                    { "operationID", operationID },
-                    { "filepath", string.Join('|', sourceReplace.Select(s => s.Path)) },
-                    { "destpath", string.Join('|', destinationReplace) },
-                    { "overwrite", true },
-                    { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
-                });
-                result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
-                    && response.Get("Success", defaultJson).GetBoolean());
-                var shellOpResult = JsonSerializer.Deserialize<ShellOperationResult>(response.Get("Result", defaultJson).GetString());
-                copyResult.Items.AddRange(shellOpResult?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
+                var resultItem = await FileOperationsHelpers.CopyItemAsync(sourceReplace.Select(s => s.Path).ToArray(), destinationReplace.ToArray(), true, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID);
+
+                result &= (FilesystemResult)resultItem.Item1;
+
+                copyResult.Items.AddRange(resultItem.Item2?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
             }
 
             if (connection != null)
@@ -167,7 +149,7 @@ namespace Files.App.Filesystem
                 {
                     var failedSources = copyResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse);
                     var filePath = failedSources.Select(x => x.HResult == CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_SRC ? x.Source : x.Destination);
-                    var lockingProcess = await WhoIsLockingAsync(filePath);
+                    var lockingProcess = WhoIsLocking(filePath);
                     switch (await GetFileInUseDialog(filePath, lockingProcess))
                     {
                         case DialogResult.Primary:
@@ -224,7 +206,7 @@ namespace Files.App.Filesystem
             }
 
             var createResult = new ShellOperationResult();
-            (var status, var response) = (AppServiceResponseStatus.Failure, (Dictionary<string, JsonElement>)null);
+            (var success, var response) = (false, new ShellOperationResult());
 
             switch (source.ItemType)
             {
@@ -240,38 +222,23 @@ namespace Files.App.Filesystem
                                         string.Join(" ", args.Skip(1)).Replace("%1", source.Path),
                                         PathNormalization.GetParentDir(source.Path)))
                                 {
-                                    status = AppServiceResponseStatus.Success;
+                                    success = true;
                                 }
                             }
                         }
                         else
-                        {
-                            (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
-                            {
-                                { "Arguments", "FileOperation" },
-                                { "fileop", "CreateFile" },
-                                { "filepath", source.Path },
-                                { "template", newEntryInfo?.Template },
-                                { "data", newEntryInfo?.Data }
-                            });
-                        }
+                            (success, response) = await FileOperationsHelpers.CreateItemAsync(source.Path, "CreateFile", newEntryInfo?.Template, newEntryInfo?.Data);
                         break;
                     }
                 case FilesystemItemType.Directory:
                     {
-                        (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
-                        {
-                            { "Arguments", "FileOperation" },
-                            { "fileop", "CreateFolder" },
-                            { "filepath", source.Path }
-                        });
+                        (success, response) = await FileOperationsHelpers.CreateItemAsync(source.Path, "CreateFolder");
                         break;
                     }
             }
 
-            var result = (FilesystemResult)(status == AppServiceResponseStatus.Success
-                && response.Get("Success", defaultJson).GetBoolean());
-            var shellOpResult = JsonSerializer.Deserialize<ShellOperationResult>(response.Get("Result", defaultJson).GetString());
+            var result = (FilesystemResult)success;
+            var shellOpResult = response;
             createResult.Items.AddRange(shellOpResult?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
 
             result &= (FilesystemResult)createResult.Items.All(x => x.Succeeded);
@@ -326,19 +293,7 @@ namespace Files.App.Filesystem
                 var items = source.Zip(destination, (src, dest, index) => new { src, dest, index }).Where(x => !string.IsNullOrEmpty(x.src.Path) && !string.IsNullOrEmpty(x.dest));
                 foreach (var item in items)
                 {
-                    var value = new ValueSet()
-                    {
-                        { "Arguments", "FileOperation" },
-                        { "fileop", "CreateLink" },
-                        { "targetpath", item.src.Path },
-                        { "arguments", "" },
-                        { "workingdir", "" },
-                        { "runasadmin", false },
-                        { "filepath", item.dest }
-                    };
-                    var (status, response) = await connection.SendMessageForResponseAsync(value);
-                    var success = status == AppServiceResponseStatus.Success && response.Get("Success", defaultJson).GetBoolean();
-                    if (success)
+                    if (await FileOperationsHelpers.CreateOrUpdateLinkAsync(item.dest, item.src.Path))
                     {
                         createdSources.Add(item.src);
                         createdDestination.Add(StorageHelpers.FromPathAndType(item.dest, FilesystemItemType.File));
@@ -395,19 +350,10 @@ namespace Files.App.Filesystem
             EventHandler<Dictionary<string, JsonElement>> handler = (s, e) => OnProgressUpdated(s, e, operationID, progress);
             connection.RequestReceived += handler;
 
-            var deleteResult = new ShellOperationResult();
-            var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
-            {
-                { "Arguments", "FileOperation" },
-                { "fileop", "DeleteItem" },
-                { "operationID", operationID },
-                { "filepath", string.Join('|', deleleFilePaths) },
-                { "permanently", permanently },
-                { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
-            });
-            var result = (FilesystemResult)(status == AppServiceResponseStatus.Success
-                && response.Get("Success", defaultJson).GetBoolean());
-            var shellOpResult = JsonSerializer.Deserialize<ShellOperationResult>(response.Get("Result", defaultJson).GetString());
+            var (success, deleteResult) = await FileOperationsHelpers.DeleteItemAsync(deleleFilePaths.ToArray(), permanently, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID);
+            
+            var result = (FilesystemResult)success;
+            var shellOpResult = deleteResult;
             deleteResult.Items.AddRange(shellOpResult?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
 
             if (connection != null)
@@ -450,7 +396,7 @@ namespace Files.App.Filesystem
                 {
                     var failedSources = deleteResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse);
                     var filePath = failedSources.Select(x => x.Source); // When deleting only source can be in use but shell returns COPYENGINE_E_SHARING_VIOLATION_DEST for folders
-                    var lockingProcess = await WhoIsLockingAsync(filePath);
+                    var lockingProcess = WhoIsLocking(filePath);
                     switch (await GetFileInUseDialog(filePath, lockingProcess))
                     {
                         case DialogResult.Primary:
@@ -525,37 +471,17 @@ namespace Files.App.Filesystem
             var moveResult = new ShellOperationResult();
             if (sourceRename.Any())
             {
-                var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
-                {
-                    { "Arguments", "FileOperation" },
-                    { "fileop", "MoveItem" },
-                    { "operationID", operationID },
-                    { "filepath", string.Join('|', sourceRename.Select(s => s.Path)) },
-                    { "destpath", string.Join('|', destinationRename) },
-                    { "overwrite", false },
-                    { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
-                });
-                result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
-                    && response.Get("Success", defaultJson).GetBoolean());
-                var shellOpResult = JsonSerializer.Deserialize<ShellOperationResult>(response.Get("Result", defaultJson).GetString());
-                moveResult.Items.AddRange(shellOpResult?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
+                var (status, response) = await FileOperationsHelpers.MoveItemAsync(sourceRename.Select(s => s.Path).ToArray(), destinationRename.ToArray(), false, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID);
+
+                result &= (FilesystemResult)status;
+                moveResult.Items.AddRange(response?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
             }
             if (sourceReplace.Any())
             {
-                var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
-                {
-                    { "Arguments", "FileOperation" },
-                    { "fileop", "MoveItem" },
-                    { "operationID", operationID },
-                    { "filepath", string.Join('|', sourceReplace.Select(s => s.Path)) },
-                    { "destpath", string.Join('|', destinationReplace) },
-                    { "overwrite", true },
-                    { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
-                });
-                result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
-                    && response.Get("Success", defaultJson).GetBoolean());
-                var shellOpResult = JsonSerializer.Deserialize<ShellOperationResult>(response.Get("Result", defaultJson).GetString());
-                moveResult.Items.AddRange(shellOpResult?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
+                var (status, response) = await FileOperationsHelpers.MoveItemAsync(sourceReplace.Select(s => s.Path).ToArray(), destinationReplace.ToArray(), true, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID);
+
+                result &= (FilesystemResult)status;
+                moveResult.Items.AddRange(response?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
             }
 
             if (connection != null)
@@ -600,7 +526,7 @@ namespace Files.App.Filesystem
                 {
                     var failedSources = moveResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse);
                     var filePath = failedSources.Select(x => x.HResult == CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_SRC ? x.Source : x.Destination);
-                    var lockingProcess = await WhoIsLockingAsync(filePath);
+                    var lockingProcess = WhoIsLocking(filePath);
                     switch (await GetFileInUseDialog(filePath, lockingProcess))
                     {
                         case DialogResult.Primary:
@@ -662,19 +588,11 @@ namespace Files.App.Filesystem
             }
 
             var renameResult = new ShellOperationResult();
-            var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
-            {
-                { "Arguments", "FileOperation" },
-                { "fileop", "RenameItem" },
-                { "operationID", Guid.NewGuid().ToString() },
-                { "filepath", source.Path },
-                { "newName", newName },
-                { "overwrite", collision == NameCollisionOption.ReplaceExisting }
-            });
-            var result = (FilesystemResult)(status == AppServiceResponseStatus.Success
-                && response.Get("Success", defaultJson).GetBoolean());
-            var shellOpResult = JsonSerializer.Deserialize<ShellOperationResult>(response.Get("Result", defaultJson).GetString());
-            renameResult.Items.AddRange(shellOpResult?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
+
+            var (status, response) = await FileOperationsHelpers.RenameItemAsync(source.Path, newName, collision == NameCollisionOption.ReplaceExisting);
+
+            var result = (FilesystemResult)status;
+            renameResult.Items.AddRange(response?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
 
             result &= (FilesystemResult)renameResult.Items.All(x => x.Succeeded);
 
@@ -703,7 +621,7 @@ namespace Files.App.Filesystem
                 {
                     var failedSources = renameResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse);
                     var filePath = failedSources.Select(x => x.HResult == CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_SRC ? x.Source : x.Destination);
-                    var lockingProcess = await WhoIsLockingAsync(filePath);
+                    var lockingProcess = WhoIsLocking(filePath);
                     switch (await GetFileInUseDialog(filePath, lockingProcess))
                     {
                         case DialogResult.Primary:
@@ -764,20 +682,10 @@ namespace Files.App.Filesystem
             connection.RequestReceived += handler;
 
             var moveResult = new ShellOperationResult();
-            var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
-            {
-                { "Arguments", "FileOperation" },
-                { "fileop", "MoveItem" },
-                { "operationID", operationID },
-                { "filepath", string.Join('|', source.Select(s => s.Path)) },
-                { "destpath", string.Join('|', destination) },
-                { "overwrite", false },
-                { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
-            });
-            var result = (FilesystemResult)(status == AppServiceResponseStatus.Success
-                && response.Get("Success", defaultJson).GetBoolean());
-            var shellOpResult = JsonSerializer.Deserialize<ShellOperationResult>(response.Get("Result", defaultJson).GetString());
-            moveResult.Items.AddRange(shellOpResult?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
+            var (status, response) = await FileOperationsHelpers.MoveItemAsync(source.Select(s => s.Path).ToArray(), destination.ToArray(), false, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID);
+
+            var result = (FilesystemResult)status;
+            moveResult.Items.AddRange(response?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
 
             if (connection != null)
             {
@@ -820,7 +728,7 @@ namespace Files.App.Filesystem
                 {
                     var failedSources = moveResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse);
                     var filePath = failedSources.Select(x => x.HResult == CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_SRC ? x.Source : x.Destination);
-                    var lockingProcess = await WhoIsLockingAsync(filePath);
+                    var lockingProcess = WhoIsLocking(filePath);
                     switch (await GetFileInUseDialog(filePath, lockingProcess))
                     {
                         case DialogResult.Primary:
@@ -868,18 +776,7 @@ namespace Files.App.Filesystem
         }
 
         private async void CancelOperation(object operationID)
-        {
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
-            {
-                await connection.SendMessageAsync(new ValueSet()
-                {
-                    { "Arguments", "FileOperation" },
-                    { "fileop", "CancelOperation" },
-                    { "operationID", (string)operationID }
-                });
-            }
-        }
+            => FileOperationsHelpers.TryCancelOperation((string)operationID);
 
         private async Task<bool> RequestAdminOperation()
         {
@@ -935,24 +832,8 @@ namespace Files.App.Filesystem
             return await dialogService.ShowDialogAsync(dialogViewModel);
         }
 
-        private async Task<List<Win32Process>> WhoIsLockingAsync(IEnumerable<string> filesToCheck)
-        {
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
-            {
-                var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
-                {
-                    { "Arguments", "FileOperation" },
-                    { "fileop", "CheckFileInUse" },
-                    { "filepath", string.Join('|', filesToCheck) }
-                });
-                if (status == AppServiceResponseStatus.Success && response.ContainsKey("Processes"))
-                {
-                    return JsonSerializer.Deserialize<List<Win32Process>>(response["Processes"].GetString());
-                }
-            }
-            return null;
-        }
+        private List<Win32Process> WhoIsLocking(IEnumerable<string> filesToCheck)
+            => FileOperationsHelpers.CheckFileInUse(filesToCheck.ToArray()).ToList();
 
         #region IDisposable
 

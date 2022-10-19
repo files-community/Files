@@ -184,7 +184,7 @@
     <value>Pilih Sebaliknya</value>
   </data>
   <data name="NavToolbarClearSelection.Text" xml:space="preserve">
-    <value>Hapus Pilihan</value>
+    <value>Bersihkan Pilihan</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Diubah:</value>
@@ -193,7 +193,7 @@
     <value>Diakses:</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
-    <value>Hapus semua item</value>
+    <value>Bersihkan semua item</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>Masukkan jalur</value>
@@ -274,7 +274,7 @@
     <value>Lepas dari Favorit</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
-    <value>Urutkan menurut</value>
+    <value>Urutkan berdasarkan</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Nama</value>
@@ -538,7 +538,7 @@
     <value>Menyalin file</value>
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
-    <value>Memindahkan file ke Keranjang Sampah</value>
+    <value>Memindah file ke Keranjang Sampah</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Ya</value>
@@ -604,13 +604,13 @@
     <value>Kapasitas:</value>
   </data>
   <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
-    <value>File sistem:</value>
+    <value>Sistem file:</value>
   </data>
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
     <value>Terbaru</value>
   </data>
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
-    <value>Pindahkan tab ke sini</value>
+    <value>Pindah tab ke sini</value>
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Status</value>
@@ -766,10 +766,10 @@
     <value>Buka tab</value>
   </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
-    <value>Multitasking</value>
+    <value>Multi tugas</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
-    <value>Multitasking</value>
+    <value>Multi tugas</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>Atur sebagai</value>
@@ -823,7 +823,7 @@
     <value>Edit aplikasi terminal</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>Pindahkan item yang berlebih ke dalam sub menu</value>
+    <value>Pindah item yang berlebih ke dalam sub menu</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
     <value>Tampilkan dialog konfirmasi saat menghapus file atau folder</value>
@@ -976,7 +976,7 @@
     <value>Jenis Proteksi</value>
   </data>
   <data name="PropertyAuthorUrl" xml:space="preserve">
-    <value>Author Url</value>
+    <value>URL Penulis</value>
   </data>
   <data name="PropertyContentDistributor" xml:space="preserve">
     <value>Distributor Konten</value>
@@ -997,7 +997,7 @@
     <value>Produser</value>
   </data>
   <data name="PropertyPromotionUrl" xml:space="preserve">
-    <value>Promotion Url</value>
+    <value>URL Promosi</value>
   </data>
   <data name="PropertyProviderStyle" xml:space="preserve">
     <value>Gaya Penyedia</value>
@@ -1009,16 +1009,16 @@
     <value>Jalur Gambar Mini Besar</value>
   </data>
   <data name="PropertyThumbnailLargeUri" xml:space="preserve">
-    <value>Thumbnail Large Uri</value>
+    <value>URI Gambar Mini Besar</value>
   </data>
   <data name="PropertyThumbnailSmallPath" xml:space="preserve">
     <value>Jalur Gambar Mini Kecil</value>
   </data>
   <data name="PropertyThumbnailSmallUri" xml:space="preserve">
-    <value>Thumbnail Small Uri</value>
+    <value>URI Gambar Mini Kecil</value>
   </data>
   <data name="PropertyUserWebUrl" xml:space="preserve">
-    <value>User Web Url</value>
+    <value>URL Web Pengguna</value>
   </data>
   <data name="PropertyWriter" xml:space="preserve">
     <value>Penulis</value>
@@ -1072,7 +1072,7 @@
     <value>Jumlah Slide</value>
   </data>
   <data name="PropertyFrameRate" xml:space="preserve">
-    <value>Frame Rate</value>
+    <value>Kecepatan Bingkai</value>
   </data>
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>Encoding Bitrate</value>
@@ -1138,7 +1138,7 @@
     <value>Drive</value>
   </data>
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
-    <value>Move here</value>
+    <value>Pindah ke sini</value>
   </data>
   <data name="EjectNotificationHeader" xml:space="preserve">
     <value>Aman untuk melepas perangkat</value>
@@ -1159,7 +1159,7 @@
     <value>Duplikat tab</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
-    <value>Move tab to new window</value>
+    <value>Pindah tab ke jendela baru</value>
   </data>
   <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
     <value>Tab baru</value>
@@ -1273,7 +1273,7 @@
     <value>Buka di panel sekunder</value>
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
-    <value>Dual pane</value>
+    <value>Panel ganda</value>
   </data>
   <data name="Folders" xml:space="preserve">
     <value>Folder</value>
@@ -1354,13 +1354,13 @@
     <value>Hapus Bundel</value>
   </data>
   <data name="Bundles" xml:space="preserve">
-    <value>Bundle</value>
+    <value>Bundel</value>
   </data>
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
     <value>Seret dan lepas file atau folder apa pun di sini untuk mengaksesnya dengan cepat</value>
   </data>
   <data name="EnterBundleName" xml:space="preserve">
-    <value>Masukan nama Bundel</value>
+    <value>Masukkan nama Bundel</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
     <value>Masukkan nama baru</value>
@@ -1375,10 +1375,10 @@
     <value>Konfirmasi</value>
   </data>
   <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
-    <value>Tambah Bundel</value>
+    <value>Tambahkan Bundel</value>
   </data>
   <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
-    <value>Ubah nama Bundle</value>
+    <value>Ubah nama Bundel</value>
   </data>
   <data name="DesiredName" xml:space="preserve">
     <value>Nama yang diinginkan</value>
@@ -1420,16 +1420,16 @@
     <value>Kunjungi situs web dokumentasi Files</value>
   </data>
   <data name="OngoingTasksFlyout.AutomationProperties.Name" xml:space="preserve">
-    <value>Ongoing tasks flyout</value>
+    <value>Flyout tugas yang berjalan</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
-    <value>Available when online</value>
+    <value>Tersedia ketika online</value>
   </data>
   <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
-    <value>Available offline</value>
+    <value>Tersedia offline</value>
   </data>
   <data name="CloudDriveSyncStatus_PartialOffline" xml:space="preserve">
-    <value>Partially available offline</value>
+    <value>Sebagian tersedia offline</value>
   </data>
   <data name="CloudDriveSyncStatus_Sync" xml:space="preserve">
     <value>Menyinkronkan</value>
@@ -1444,7 +1444,7 @@
     <value>Tidak diketahui</value>
   </data>
   <data name="NavToolbarMultiselect.Text" xml:space="preserve">
-    <value>Multiselect</value>
+    <value>Kotak centang</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
     <value>Jika Anda mengubah ekstensi file, file mungkin menjadi tidak dapat digunakan. Apakah Anda yakin ingin mengubahnya?</value>
@@ -1492,7 +1492,7 @@
     <value>Putuskan</value>
   </data>
   <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Opsi bundle lainnya</value>
+    <value>Opsi bundel lainnya</value>
   </data>
   <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Opsi drive lainnya</value>
@@ -1513,7 +1513,7 @@
     <value>Argumen</value>
   </data>
   <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
-    <value>Open in new Pane</value>
+    <value>Buka di Panel baru</value>
   </data>
   <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
     <value>Tampilkan bagian pustaka</value>
@@ -1528,28 +1528,28 @@
     <value>Jumlah item</value>
   </data>
   <data name="StatusDeletionFailed" xml:space="preserve">
-    <value>Deletion Failed</value>
+    <value>Penghapusan gagal</value>
   </data>
   <data name="StatusUnknownError" xml:space="preserve">
     <value>Terjadi kesalahan yang tidak diketahui.</value>
   </data>
   <data name="StatusDeletionComplete" xml:space="preserve">
-    <value>Deletion complete</value>
+    <value>Penghapusan selesai</value>
   </data>
   <data name="StatusDeletionCancelled" xml:space="preserve">
-    <value>Deletion cancelled</value>
+    <value>Penghapusan dibatalkan</value>
   </data>
   <data name="StatusOperationCompleted" xml:space="preserve">
     <value>Operasi telah selesai.</value>
   </data>
   <data name="StatusRecycleComplete" xml:space="preserve">
-    <value>Recycle complete</value>
+    <value>Pindah ke keranjang sampah selesai</value>
   </data>
   <data name="StatusMoveComplete" xml:space="preserve">
-    <value>Move complete</value>
+    <value>Pemindahan selesai</value>
   </data>
   <data name="StatusCopyComplete" xml:space="preserve">
-    <value>Copy complete</value>
+    <value>Penyalinan selesai</value>
   </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
     <value>Tindakan ini memerlukan hak administrator</value>
@@ -1672,7 +1672,7 @@
     <value>Buka folder di tab baru</value>
   </data>
   <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>Tampilkan widget Bundle</value>
+    <value>Tampilkan widget Bundel</value>
   </data>
   <data name="ShowDrivesWidget" xml:space="preserve">
     <value>Tampilkan widget Drive</value>
@@ -1693,13 +1693,13 @@
     <value>Buka folder tema</value>
   </data>
   <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
-    <value>Replace existing</value>
+    <value>Ganti yang ada</value>
   </data>
   <data name="ConflictingItemsDialogOptionReplaceExisting.Text" xml:space="preserve">
-    <value>Replace existing</value>
+    <value>Ganti yang ada</value>
   </data>
   <data name="ConflictingItemsDialogTakenActionReplaceExisting" xml:space="preserve">
-    <value>Replace existing</value>
+    <value>Ganti yang ada</value>
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>Buat nama baru</value>
@@ -1714,7 +1714,7 @@
     <value>Ada satu nama file yang bertentangan.</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" xml:space="preserve">
-    <value>Create folder with selection</value>
+    <value>Buat folder dari yang dipilih</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>Nama:</value>
@@ -1747,16 +1747,16 @@
     <value>Pengubah ukuran bilah sisi</value>
   </data>
   <data name="NavToolbarSortOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Sort</value>
+    <value>Urutkan</value>
   </data>
   <data name="NavToolbarSortOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Sort</value>
+    <value>Urutkan</value>
   </data>
   <data name="NavToolbarSortOptionsButton.Label" xml:space="preserve">
-    <value>Sort</value>
+    <value>Urutkan</value>
   </data>
   <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
-    <value>Group By</value>
+    <value>Kelompokkan Berdasarkan</value>
   </data>
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
     <value>Nama</value>
@@ -1771,13 +1771,13 @@
     <value>Jenis</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
-    <value>Sort By</value>
+    <value>Urutkan Berdasarkan</value>
   </data>
   <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">
-    <value>Sort direction</value>
+    <value>Arah pengurutan</value>
   </data>
   <data name="Descending" xml:space="preserve">
-    <value>Descending</value>
+    <value>Urut turun</value>
   </data>
   <data name="ItemSizeText_Huge" xml:space="preserve">
     <value>Super besar</value>
@@ -1849,31 +1849,31 @@
     <value>Penyalinan dibatalkan</value>
   </data>
   <data name="StatusMoveCanceledDetails_Singular" xml:space="preserve">
-    <value>Pemindahan {0} item dari {1} ke {2} dibatalkan</value>
+    <value>Memindah {0} item dari {1} ke {2} dibatalkan</value>
   </data>
   <data name="StatusMoveCanceledDetails_Plural" xml:space="preserve">
-    <value>Memindahkan {0} item dari {1} ke {2} dibatalkan setelah memindahkan {3} item</value>
+    <value>Memindah {0} item dari {1} ke {2} dibatalkan setelah memindah {3} item</value>
   </data>
   <data name="StatusMoveCanceledDetails_Plural2" xml:space="preserve">
-    <value>Memindahkan {0} item dari {1} ke {2} dibatalkan setelah memindahkan {3} item</value>
+    <value>Memindah {0} item dari {1} ke {2} dibatalkan setelah memindah {3} item</value>
   </data>
   <data name="StatusMovingItemsDetails_Singular" xml:space="preserve">
-    <value>Memindahkan {0} item dari {1} ke {2}</value>
+    <value>Memindah {0} item dari {1} ke {2}</value>
   </data>
   <data name="StatusMovingItemsDetails_Plural" xml:space="preserve">
-    <value>Memindahkan {0} item dari {1} ke {2}</value>
+    <value>Memindah {0} item dari {1} ke {2}</value>
   </data>
   <data name="StatusMovedItemsDetails_Singular" xml:space="preserve">
-    <value>Berhasil memindahkan {0} item dari {1} ke {2}</value>
+    <value>Berhasil memindah {0} item dari {1} ke {2}</value>
   </data>
   <data name="StatusMovedItemsDetails_Plural" xml:space="preserve">
-    <value>Berhasil memindahkan {0} item dari {1} ke {2}</value>
+    <value>Berhasil memindah {0} item dari {1} ke {2}</value>
   </data>
   <data name="StatusMoveFailedDetails_Singular" xml:space="preserve">
-    <value>Gagal memindahkan {0} item dari {1} ke {2}</value>
+    <value>Gagal memindah {0} item dari {1} ke {2}</value>
   </data>
   <data name="StatusMoveFailedDetails_Plural" xml:space="preserve">
-    <value>Gagal memindahkan {0} item dari {1} ke {2}</value>
+    <value>Gagal memindah {0} item dari {1} ke {2}</value>
   </data>
   <data name="StatusCopyCanceledDetails_Singular" xml:space="preserve">
     <value>Menyalin {0} item ke {1} dibatalkan</value>
@@ -1927,25 +1927,25 @@
     <value>Keranjang Sampah</value>
   </data>
   <data name="MoveInProgress" xml:space="preserve">
-    <value>Memindahkan item</value>
+    <value>Memindah item</value>
   </data>
   <data name="CopyInProgress.Title" xml:space="preserve">
     <value>Menyalin item</value>
   </data>
   <data name="StatusRecycleFailed" xml:space="preserve">
-    <value>Recycle failed</value>
+    <value>Pindah ke keranjang sampah gagal</value>
   </data>
   <data name="StatusRecycleCancelled" xml:space="preserve">
-    <value>Recycle cancelled</value>
+    <value>Pindah ke keranjang sampah dibatalkan</value>
   </data>
   <data name="canceling" xml:space="preserve">
     <value>membatalkan</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Dismiss</value>
+    <value>Tutup</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Dismiss</value>
+    <value>Tutup</value>
   </data>
   <data name="Widgets" xml:space="preserve">
     <value>Widget</value>
@@ -1969,7 +1969,7 @@
     <value>Kontrol penuh</value>
   </data>
   <data name="SecurityListDirectoryLabel.Text" xml:space="preserve">
-    <value>List directory contents</value>
+    <value>Daftar konten direktori</value>
   </data>
   <data name="SecurityModifyLabel.Text" xml:space="preserve">
     <value>Memodifikasi</value>
@@ -2014,7 +2014,7 @@
     <value>Lihat dokumentasi.</value>
   </data>
   <data name="DecompressArchiveDialog.Title" xml:space="preserve">
-    <value>Pilih tujuan dan ekstrak file</value>
+    <value>Pilih tujuan untuk ekstrak file</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>Buka folder tujuan saat selesai</value>
@@ -2110,7 +2110,7 @@
     <value>Folder dan subfolder ini</value>
   </data>
   <data name="SecurityAppendDataLabel.Text" xml:space="preserve">
-    <value>Append data</value>
+    <value>Sisipkan data</value>
   </data>
   <data name="SecurityChangePermissionsLabel.Text" xml:space="preserve">
     <value>Ubah izin</value>
@@ -2227,13 +2227,13 @@
     <value>Pengaturan</value>
   </data>
   <data name="AddFile" xml:space="preserve">
-    <value>Add file</value>
+    <value>Tambahkan file</value>
   </data>
   <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">
-    <value>Add folder</value>
+    <value>Tambahkan folder</value>
   </data>
   <data name="BundleOptionsFlyoutAddItemMenuItem.Text" xml:space="preserve">
-    <value>Add item...</value>
+    <value>Tambahkan item...</value>
   </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
     <value>Pembaruan tersedia</value>
@@ -2296,19 +2296,19 @@
     <value>Ctrl+Shift+T</value>
   </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
-    <value>The archive extraction completed successfully.</value>
+    <value>Ekstraksi arsip berhasil diselesaikan.</value>
   </data>
   <data name="ExtractingArchiveText" xml:space="preserve">
-    <value>Extracting archive</value>
+    <value>Mengekstrak arsip</value>
   </data>
   <data name="ExtractingCompleteText" xml:space="preserve">
-    <value>Extracting complete!</value>
+    <value>Mengekstrak selesai!</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+N</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
-    <value>Open parent folder</value>
+    <value>Buka folder induk</value>
   </data>
   <data name="FileTagUnknown" xml:space="preserve">
     <value>Tidak diketahui</value>
@@ -2323,19 +2323,19 @@
     <value>Tampilkan bagian favorit</value>
   </data>
   <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
-    <value>Apply to all</value>
+    <value>Terapkan ke semua</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
-    <value>Part of set</value>
+    <value>Bagian dari set</value>
   </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
-    <value>Open Drive</value>
+    <value>Buka Drive</value>
   </data>
   <data name="InsertDiscDialog.Text" xml:space="preserve">
-    <value>Please insert a disc into drive {0}</value>
+    <value>Harap masukkan disk ke dalam drive {0}</value>
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
-    <value>Insert a disc</value>
+    <value>Masukkan disk</value>
   </data>
   <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
     <value>Oke</value>
@@ -2356,10 +2356,10 @@
     <value>Nama pengguna</value>
   </data>
   <data name="BundlesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Bundles Widget</value>
+    <value>Widget Bundel</value>
   </data>
   <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Drives Widget</value>
+    <value>Widget Drive</value>
   </data>
   <data name="FolderWidgetAutomationProperties.Name" xml:space="preserve">
     <value>Widget Pustaka</value>
@@ -2431,19 +2431,19 @@
     <value>Aplikasi terminal</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
-    <value>Ongoing Tasks</value>
+    <value>Tugas yang Berjalan</value>
   </data>
   <data name="SideBarFavoritesMoveOneDown" xml:space="preserve">
-    <value>Move one down</value>
+    <value>Pindah satu ke bawah</value>
   </data>
   <data name="SideBarFavoritesMoveOneUp" xml:space="preserve">
-    <value>Move one up</value>
+    <value>Pindah satu ke atas</value>
   </data>
   <data name="SideBarFavoritesMoveToBottom" xml:space="preserve">
-    <value>Move to bottom</value>
+    <value>Pindah ke bawah</value>
   </data>
   <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
-    <value>Move to top</value>
+    <value>Pindah ke atas</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
     <value>Kolom tanggal dibuat</value>
@@ -2497,7 +2497,7 @@
     <value>Kustomisasi</value>
   </data>
   <data name="RestoreDefault" xml:space="preserve">
-    <value>Kembalikan ke bawaan</value>
+    <value>Pulihkan ke bawaan</value>
   </data>
   <data name="FilesAndFolders" xml:space="preserve">
     <value>File dan folder</value>
@@ -2560,13 +2560,13 @@
     <value>Opsi</value>
   </data>
   <data name="OverrideDPIScalingBehaviour" xml:space="preserve">
-    <value>Override high DPI scaling behaviour</value>
+    <value>Ganti perilaku penskalaan DPI tinggi</value>
   </data>
   <data name="ReducedColorMode" xml:space="preserve">
     <value>Mode warna yang dikurangi</value>
   </data>
   <data name="RegisterForRestart" xml:space="preserve">
-    <value>Register for restart</value>
+    <value>Daftar untuk mulai ulang</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
     <value>Jalankan sebagai administrator</value>
@@ -2575,7 +2575,7 @@
     <value>Jalankan pemecah masalah kompatibilitas</value>
   </data>
   <data name="UseMainMonitorDPISettings" xml:space="preserve">
-    <value>Use DPI settings of the main monitor</value>
+    <value>Gunakan pengaturan DPI dari monitor utama</value>
   </data>
   <data name="ThirdPartyLicenses" xml:space="preserve">
     <value>Lisensi pihak ketiga</value>
@@ -2584,13 +2584,13 @@
     <value>Opsi ini mengubah registri sistem dan dapat memiliki efek samping yang tidak terduga pada perangkat Anda. Lanjutkan dengan risiko Anda sendiri.</value>
   </data>
   <data name="ClearAll" xml:space="preserve">
-    <value>Clear all</value>
+    <value>Bersihkan semua</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Buat Pustaka</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
-    <value>Enter Library name</value>
+    <value>Masukkan nama Pustaka</value>
   </data>
   <data name="CalculateFolderSizes" xml:space="preserve">
     <value>Kalkulasi ukuran folder</value>
@@ -2614,16 +2614,16 @@
     <value>Hanya baca</value>
   </data>
   <data name="CleanupDrive" xml:space="preserve">
-    <value>Cleanup your drive contents</value>
+    <value>Bersihkan konten drive Anda</value>
   </data>
   <data name="DiskCleanup" xml:space="preserve">
-    <value>Disk cleanup</value>
+    <value>Pembersih Disk</value>
   </data>
   <data name="Type" xml:space="preserve">
-    <value>Jenis:</value>
+    <value>Jenis</value>
   </data>
   <data name="IconGrid" xml:space="preserve">
-    <value>Icon Grid</value>
+    <value>Kisi Ikon</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Bita</value>
@@ -2689,7 +2689,7 @@
     <value>Mempersiapkan item</value>
   </data>
   <data name="StatusCopyFailed" xml:space="preserve">
-    <value>Copy failed</value>
+    <value>Penyalinan gagal</value>
   </data>
   <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
     <value>Gagal menyalin {0} item dari {1} ke {2}</value>
@@ -2698,19 +2698,19 @@
     <value>Gagal menyalin {0} item dari {1} ke {2}</value>
   </data>
   <data name="StatusMoveFailed" xml:space="preserve">
-    <value>Move failed</value>
+    <value>Pemindahan gagal</value>
   </data>
   <data name="FileTags" xml:space="preserve">
-    <value>Tags</value>
+    <value>Tag</value>
   </data>
   <data name="SettingsShowFileTagsSection.Title" xml:space="preserve">
-    <value>Show Tags section</value>
+    <value>Tampilkan bagian Tag</value>
   </data>
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Show Tags section</value>
+    <value>Tampilkan bagian Tag</value>
   </data>
   <data name="UseCompactStyles" xml:space="preserve">
-    <value>Gunakan gaya fleksibel dalam tata letak detail</value>
+    <value>Gunakan tampilan padat dalam tata letak detil</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Universal</value>
@@ -2737,7 +2737,7 @@
     <value>Atur sebagai tampilan slide desktop</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
-    <value>Size All Columns to Fit</value>
+    <value>Atur Ukuran Semua Kolom ke Sesuai</value>
   </data>
   <data name="Contributors" xml:space="preserve">
     <value>Kontributor</value>
@@ -2752,7 +2752,7 @@
     <value>Ctrl+Shift+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>Show Alternate Data Streams</value>
+    <value>Tampilkan Stream Data Alternatif</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
     <value>Ulas Files</value>
@@ -2788,7 +2788,7 @@
     <value>Kolom Jenis</value>
   </data>
   <data name="DetailsLayoutColumns" xml:space="preserve">
-    <value>Details layout columns</value>
+    <value>Detil kolom tata letak</value>
   </data>
   <data name="Reset" xml:space="preserve">
     <value>Atur Ulang</value>
@@ -2803,19 +2803,19 @@
     <value>Layar kunci</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Open folders with a single click in the Columns Layout</value>
+    <value>Buka folder dengan sekali klik di Tata Letak Kolom</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Membuka item</value>
   </data>
   <data name="AddSingleItemToArchive" xml:space="preserve">
-    <value>Add to {0}.zip</value>
+    <value>Tambahkan ke {0}.zip</value>
   </data>
   <data name="AddToArchive" xml:space="preserve">
-    <value>Add to archive</value>
+    <value>Tambahkan ke arsip</value>
   </data>
   <data name="CompressionCompleted" xml:space="preserve">
-    <value>Compression completed</value>
+    <value>Kompresi selesai</value>
   </data>
   <data name="CompressionSucceded" xml:space="preserve">
     <value>{0} telah dikompres</value>
@@ -2824,25 +2824,25 @@
     <value>{0} tidak dapat dikompres</value>
   </data>
   <data name="CompressionInProgress" xml:space="preserve">
-    <value>Compressing archive</value>
+    <value>Mengompres arsip</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
-    <value>Select files and folders when hovering over them</value>
+    <value>Pilih file dan folder saat mengarahkan kursor ke atasnya</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
     <value>Apakah Anda yakin ingin memulihkan semua item di keranjang sampah?</value>
   </data>
   <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
-    <value>Restore all items</value>
+    <value>Pulihkan semua item</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
     <value>Apakah Anda ingin memulihkan {0} item yang dipilih?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
-    <value>Restore selection</value>
+    <value>Pulihkan yang dipilih</value>
   </data>
   <data name="RestoreAllItems" xml:space="preserve">
-    <value>Restore All Items</value>
+    <value>Pulihkan Semua Item</value>
   </data>
   <data name="RestoreSelection" xml:space="preserve">
     <value>Pulihkan</value>
