@@ -22,7 +22,7 @@ namespace Files.App.Helpers
     /// <summary>
     /// Helper class for listing and managing Shell libraries.
     /// </summary>
-    internal class LibraryHelper
+    internal static class LibraryHelpers
     {
         // https://docs.microsoft.com/en-us/windows/win32/shell/library-ovw
 

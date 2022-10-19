@@ -32,7 +32,7 @@ namespace Files.App.Filesystem
             {
                 libraries.Clear();
             }
-            var libs = await LibraryHelper.ListUserLibraries();
+            var libs = await LibraryHelpers.ListUserLibraries();
             if (libs is not null)
             {
                 libs.Sort();
@@ -90,7 +90,7 @@ namespace Files.App.Filesystem
             {
                 return false;
             }
-            var newLib = await LibraryHelper.CreateLibrary(name);
+            var newLib = await LibraryHelpers.CreateLibrary(name);
             if (newLib is not null)
             {
                 lock (libraries)
@@ -105,7 +105,7 @@ namespace Files.App.Filesystem
 
         public async Task<LibraryLocationItem> UpdateLibrary(string libraryPath, string defaultSaveFolder = null, string[] folders = null, bool? isPinned = null)
         {
-            var newLib = await LibraryHelper.UpdateLibrary(libraryPath, defaultSaveFolder, folders, isPinned);
+            var newLib = await LibraryHelpers.UpdateLibrary(libraryPath, defaultSaveFolder, folders, isPinned);
             if (newLib is not null)
             {
                 var libItem = Libraries.FirstOrDefault(l => string.Equals(l.Path, libraryPath, StringComparison.OrdinalIgnoreCase));
