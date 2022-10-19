@@ -180,17 +180,10 @@
 				</local:SettingsBlockControl.Icon>
 				<local:SettingsBlockControl.ExpandableContent>
 					<StackPanel>
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsOpenFilesWithOneClick}" HorizontalAlignment="Stretch">
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsOpenItemsWithOneClick}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenFilesWithOneClick}"
-								IsOn="{Binding OpenFilesWithOneClick, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsOpenFoldersWithOneClick}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenFoldersWithOneClick}"
-								IsOn="{Binding OpenFoldersWithOneClick, Mode=TwoWay}"
+								AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenItemsWithOneClick}"
+								IsOn="{Binding OpenItemsWithOneClick, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 

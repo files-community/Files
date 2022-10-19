@@ -30,7 +30,11 @@ namespace Files.App.ServicesImplementation.Settings
 		public double TagColumnWidth
 		{
 			get => Get(200d);
-			set => Set(value);
+			set
+			{
+				if (ShowFileTagColumn)
+					Set(value);
+			}
 		}
 
 		public double NameColumnWidth
@@ -42,25 +46,41 @@ namespace Files.App.ServicesImplementation.Settings
 		public double DateModifiedColumnWidth
 		{
 			get => Get(200d);
-			set => Set(value);
+			set
+			{
+				if (ShowDateColumn)
+					Set(value);
+			}
 		}
 
 		public double TypeColumnWidth
 		{
 			get => Get(200d);
-			set => Set(value);
+			set
+			{
+				if (ShowTypeColumn)
+					Set(value);
+			}
 		}
 
 		public double DateCreatedColumnWidth
 		{
 			get => Get(200d);
-			set => Set(value);
+			set
+			{
+				if (ShowDateCreatedColumn)
+					Set(value);
+			}
 		}
 
 		public double SizeColumnWidth
 		{
 			get => Get(200d);
-			set => Set(value);
+			set
+			{
+				if (ShowSizeColumn)
+					Set(value);
+			}
 		}
 
 		public bool ShowDateColumn
@@ -117,13 +137,7 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
-		public bool OpenFilesWithOneClick
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
-		public bool OpenFoldersWithOneClick
+		public bool OpenItemsWithOneClick
 		{
 			get => Get(false);
 			set => Set(value);
@@ -167,8 +181,7 @@ namespace Files.App.ServicesImplementation.Settings
 				case nameof(ShowProtectedSystemFiles):
 				case nameof(AreAlternateStreamsVisible):
 				case nameof(ShowDotFiles):
-				case nameof(OpenFilesWithOneClick):
-				case nameof(OpenFoldersWithOneClick):
+				case nameof(OpenItemsWithOneClick):
 				case nameof(ColumnLayoutOpenFoldersWithOneClick):
 				case nameof(OpenFoldersInNewTab):
 				case nameof(CalculateFolderSizes):

@@ -131,6 +131,7 @@ namespace Files.App
                 currentInstance.Activated += OnActivated;
             }
             ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = -proc.Id;
+
             Application.Start((p) =>
             {
                 var context = new DispatcherQueueSynchronizationContext(

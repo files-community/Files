@@ -130,7 +130,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 		public PreferencesViewModel()
 		{
 			EditTerminalApplicationsCommand = new AsyncRelayCommand(LaunchTerminalsConfigFile);
-			OpenFilesAtStartupCommand = new AsyncRelayCommand(OpenFilesAtStartup);			
+			OpenFilesAtStartupCommand = new AsyncRelayCommand(OpenFilesAtStartup);
 			ChangePageCommand = new AsyncRelayCommand(ChangePage);
 			RemovePageCommand = new RelayCommand(RemovePage);
 			AddPageCommand = new RelayCommand<string>(async (path) => await AddPage(path));
@@ -168,13 +168,16 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		private void AddSupportedAppLanguages()
 		{
-			var supportedLanguages = ApplicationLanguages.ManifestLanguages;
+			var appLanguages = ApplicationLanguages.ManifestLanguages
+				.Append(string.Empty) // add default language id
+				.Select(language => new AppLanguageItem(language))
+				.OrderBy(language => language.LanguagID is not "") // default language on top
+				.ThenBy(language => language.LanguageName);
+			AppLanguages = new ObservableCollection<AppLanguageItem>(appLanguages);
 
-			AppLanguages = new ObservableCollection<AppLanguageItem> { };
-			foreach (var language in supportedLanguages)
-				AppLanguages.Add(new AppLanguageItem(language));
-
-			SelectedAppLanguageIndex = AppLanguages.IndexOf(AppLanguages.FirstOrDefault(dl => dl.LanguagID == ApplicationLanguages.PrimaryLanguageOverride) ?? AppLanguages.FirstOrDefault());
+			string languageID = ApplicationLanguages.PrimaryLanguageOverride;
+			SelectedAppLanguageIndex = AppLanguages
+				.IndexOf(AppLanguages.FirstOrDefault(dl => dl.LanguagID == languageID) ?? AppLanguages.First());
 		}
 
 		private async Task InitStartupSettingsRecentFoldersFlyout()
