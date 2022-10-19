@@ -14,8 +14,7 @@ namespace Files.App.Filesystem
     {
         public static string FileTagsDbPath => IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, "filetags.db");
 
-        private static readonly Lazy<FileTagsDb> dbInstance = new(() => new FileTagsDb(FileTagsDbPath, true));
-        public static FileTagsDb DbInstance => dbInstance.Value;
+        public static FileTagsDb DbInstance => new FileTagsDb(FileTagsDbPath, true);
 
         public static string[] ReadFileTag(string filePath)
         {

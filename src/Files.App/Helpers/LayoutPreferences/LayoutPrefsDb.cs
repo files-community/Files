@@ -1,7 +1,7 @@
 using LiteDB;
 using System;
-using System.Linq;
 using Files.Shared.Extensions;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 #nullable enable
 
@@ -15,7 +15,8 @@ namespace Files.App.Helpers.LayoutPreferences
         {
             db = new LiteDatabase(new ConnectionString(connection)
             {
-                Mode = shared ? FileMode.Shared : FileMode.Exclusive
+                Connection = shared ? ConnectionType.Shared : ConnectionType.Direct,
+                Upgrade = true
             }, new BsonMapper() { IncludeFields = true });
         }
 
@@ -103,11 +104,11 @@ namespace Files.App.Helpers.LayoutPreferences
             var col = db.GetCollection<LayoutDbPrefs>("layoutprefs");
             if (predicate is null)
             {
-                col.Delete(Query.All());
+                col.DeleteAll();
             }
             else
             {
-                col.Delete(x => predicate(x));
+                col.DeleteMany(x => predicate(x));
             }
         }
 
@@ -126,14 +127,15 @@ namespace Files.App.Helpers.LayoutPreferences
 
         public void Import(string json)
         {
-            var dataValues = JsonSerializer.DeserializeArray(json);
-            db.Engine.Delete("layoutprefs", Query.All());
-            db.Engine.InsertBulk("layoutprefs", dataValues.Select(x => x.AsDocument));
+            var dataValues = JsonSerializer.Deserialize<LayoutDbPrefs[]>(json);
+            var col = db.GetCollection<LayoutDbPrefs>("layoutprefs");
+            col.DeleteAll();
+            col.InsertBulk(dataValues);
         }
 
         public string Export()
         {
-            return JsonSerializer.Serialize(new BsonArray(db.Engine.FindAll("layoutprefs")));
+            return JsonSerializer.Serialize(db.GetCollection<LayoutDbPrefs>("layoutprefs").FindAll());
         }
 
         public class LayoutDbPrefs

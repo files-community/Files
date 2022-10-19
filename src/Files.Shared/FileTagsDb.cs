@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Common
 {
@@ -15,7 +16,8 @@ namespace Common
         {
             db = new LiteDatabase(new ConnectionString(connection)
             {
-                Mode = shared ? FileMode.Shared : FileMode.Exclusive
+                Connection = shared ? ConnectionType.Shared : ConnectionType.Direct,
+                Upgrade = true
             });
             UpdateDb();
         }
@@ -164,27 +166,29 @@ namespace Common
 
         public void Import(string json)
         {
-            var dataValues = JsonSerializer.DeserializeArray(json);
-            db.Engine.Delete(TaggedFiles, Query.All());
-            db.Engine.InsertBulk(TaggedFiles, dataValues.Select(x => x.AsDocument));
+            var dataValues = JsonSerializer.Deserialize<TaggedFile[]>(json);
+            var col = db.GetCollection<TaggedFile>(TaggedFiles);
+            col.DeleteAll();
+            col.InsertBulk(dataValues);
         }
 
         public string Export()
         {
-            return JsonSerializer.Serialize(new BsonArray(db.Engine.FindAll(TaggedFiles)));
+            return JsonSerializer.Serialize(db.GetCollection<TaggedFile>(TaggedFiles).FindAll());
         }
 
         private void UpdateDb()
         {
-            if (db.Engine.UserVersion == 0)
+            if (db.UserVersion == 0)
             {
-                foreach (var doc in db.Engine.FindAll(TaggedFiles))
+                var col = db.GetCollection(TaggedFiles);
+                foreach (var doc in col.FindAll())
                 {
                     doc["Tags"] = new BsonValue(new[] { doc["Tag"].AsString });
                     doc.Remove("Tags");
-                    db.Engine.Update(TaggedFiles, doc);
+                    col.Update(doc);
                 }
-                db.Engine.UserVersion = 1;
+                db.UserVersion = 1;
             }
         }
 

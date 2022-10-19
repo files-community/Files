@@ -254,7 +254,8 @@ namespace Files.App
                             if (fileFRN is not null)
                             {
                                 var tagUid = tag is not null ? new[] { tag.Uid } : null;
-                                FileTagsHelper.DbInstance.SetTags(file, fileFRN, tagUid);
+                                using var dbInstance = FileTagsHelper.DbInstance;
+                                dbInstance.SetTags(file, fileFRN, tagUid);
                                 FileTagsHelper.WriteFileTag(file, tagUid);
                             }
                         }
