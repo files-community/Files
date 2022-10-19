@@ -1125,9 +1125,6 @@
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Sélectionner</value>
   </data>
-  <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
-    <value>Ouvrir les éléments d'un seul clic</value>
-  </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>Fichier</value>
   </data>
@@ -1546,7 +1543,7 @@
     <value>L'opération est terminée.</value>
   </data>
   <data name="StatusRecycleComplete" xml:space="preserve">
-    <value>La Corbeille est vide</value>
+    <value>Vidage de la corbeille terminée</value>
   </data>
   <data name="StatusMoveComplete" xml:space="preserve">
     <value>Déplacement terminé</value>
@@ -2466,8 +2463,8 @@
   <data name="Tag" xml:space="preserve">
     <value>Étiquette</value>
   </data>
-  <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
-    <value>Ouvrir les dossiers d'un seul clic</value>
+  <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
+    <value>Ouvrir les éléments d'un seul clic</value>
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
     <value>Chemin du dossier</value>
@@ -2810,6 +2807,24 @@
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Ouverture d'objets</value>
+  </data>
+  <data name="AddSingleItemToArchive" xml:space="preserve">
+    <value>Ajouter à {0}.zip</value>
+  </data>
+  <data name="AddToArchive" xml:space="preserve">
+    <value>Ajouter à l'archive</value>
+  </data>
+  <data name="CompressionCompleted" xml:space="preserve">
+    <value>Compression terminée</value>
+  </data>
+  <data name="CompressionSucceded" xml:space="preserve">
+    <value>{0} a été compressé</value>
+  </data>
+  <data name="CompressionFailed" xml:space="preserve">
+    <value>{0} n'a pas pu être compressé</value>
+  </data>
+  <data name="CompressionInProgress" xml:space="preserve">
+    <value>Compression de l'archive</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Sélectionnez les fichiers et dossiers lorsque vous les survolez</value>

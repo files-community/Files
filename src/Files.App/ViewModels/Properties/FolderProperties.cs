@@ -142,7 +142,7 @@ namespace Files.App.ViewModels.Properties
                         {
                             ViewModel.FilesAndFoldersCountVisibility = false;
                         }
-                        ViewModel.ItemCreatedTimestampVisibiity = false;
+                        ViewModel.ItemCreatedTimestampVisibility = false;
                         ViewModel.ItemAccessedTimestampVisibility = false;
                         ViewModel.ItemModifiedTimestampVisibility = false;
                         ViewModel.LastSeparatorVisibility = false;
@@ -208,26 +208,11 @@ namespace Files.App.ViewModels.Properties
                 case "ShortcutItemWorkingDir":
                 case "ShortcutItemArguments":
                     var tmpItem = (ShortcutItem)Item;
-                    if (string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath))
-                    {
-                        return;
-                    }
 
-                    var connection = await AppServiceConnectionHelper.Instance;
-                    if (connection != null)
-                    {
-                        var value = new ValueSet()
-                        {
-                            { "Arguments", "FileOperation" },
-                            { "fileop", "UpdateLink" },
-                            { "filepath", Item.ItemPath },
-                            { "targetpath", ViewModel.ShortcutItemPath },
-                            { "arguments", ViewModel.ShortcutItemArguments },
-                            { "workingdir", ViewModel.ShortcutItemWorkingDir },
-                            { "runasadmin", tmpItem.RunAsAdmin },
-                        };
-                        await connection.SendMessageAsync(value);
-                    }
+                    if (string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath))
+                        return;
+
+                    await FileOperationsHelpers.CreateOrUpdateLinkAsync(Item.ItemPath, ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, ViewModel.ShortcutItemWorkingDir, tmpItem.RunAsAdmin);
                     break;
             }
         }

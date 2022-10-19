@@ -1,4 +1,5 @@
-using Files.Shared.Enums;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.WinUI.UI;
 using Files.App.EventArguments;
 using Files.App.Filesystem;
 using Files.App.Helpers;
@@ -7,21 +8,22 @@ using Files.App.Interacts;
 using Files.App.UserControls;
 using Files.App.UserControls.Selection;
 using Files.App.ViewModels;
-using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.WinUI.UI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Windows.Foundation;
-using Windows.Storage;
-using Windows.System;
-using Windows.UI.Core;
+using Files.Shared.Enums;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using UWPToWinAppSDKUpgradeHelpers;
+using Windows.Foundation;
+using Windows.Storage;
+using Windows.System;
+using Windows.UI.Core;
 
 using SortDirection = Files.Shared.Enums.SortDirection;
 
@@ -30,6 +32,10 @@ namespace Files.App.Views.LayoutModes
 	public sealed partial class DetailsLayoutBrowser : BaseLayout
 	{
 		private uint currentIconSize;
+
+		private InputCursor arrowCursor = InputCursor.CreateFromCoreCursor(new CoreCursor(CoreCursorType.Arrow, 0));
+
+		private InputCursor resizeCursor = InputCursor.CreateFromCoreCursor(new CoreCursor(CoreCursorType.SizeWestEast, 1));
 
 		protected override uint IconSize => currentIconSize;
 
@@ -555,7 +561,7 @@ namespace Files.App.Views.LayoutModes
 
 			// Check if the setting to open items with a single click is turned on
 			if (item != null
-				&& ((UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder) || (UserSettingsService.FoldersSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)))
+				&& UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 			{
 				ResetRenameDoubleClick();
 				NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
@@ -583,8 +589,7 @@ namespace Files.App.Views.LayoutModes
 		{
 			// Skip opening selected items if the double tap doesn't capture an item
 			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item
-				 && ((!UserSettingsService.FoldersSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)
-				 || (!UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder)))
+				 && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 			{
 				NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
 			}
@@ -657,9 +662,20 @@ namespace Files.App.Views.LayoutModes
 			MaxWidthForRenameTextbox = Math.Max(0, RootGrid.ActualWidth - 80);
 		}
 
+		private void GridSplitter_ManipulationStarting(object sender, ManipulationStartingRoutedEventArgs e)
+		{
+			this.ChangeCursor(resizeCursor);
+		}
+
 		private void GridSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
 		{
 			FolderSettings.ColumnsViewModel = ColumnsViewModel;
+			this.ChangeCursor(arrowCursor);
+		}
+
+		private void GridSplitter_Loaded(object sender, RoutedEventArgs e)
+		{
+			(sender as UIElement).ChangeCursor(resizeCursor);
 		}
 
 		private void ToggleMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
