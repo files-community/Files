@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Common;
 using Files.App.DataModels;
+using Files.App.Filesystem;
 using Files.App.Filesystem.Permissions;
 using Files.App.Shell;
 using Files.Shared;
@@ -28,7 +29,6 @@ namespace Files.App.Helpers
 {
     public class FileOperationsHelpers
     {
-        private static FileTagsDb dbInstance = new(Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "filetags.db"));
         private static readonly ProgressHandler progressHandler = new();
 
         public static long? GetFileHandle(string filePath, bool readWrite, int processId)
@@ -729,6 +729,7 @@ namespace Files.App.Helpers
 
         private static void UpdateFileTagsDb(ShellFileOperations.ShellFileOpEventArgs e, string operationType)
         {
+            using var dbInstance = FileTagsHelper.GetDbInstance();
             if (e.Result.Succeeded)
             {
                 var sourcePath = e.SourceItem.GetParsingPath();
@@ -752,16 +753,16 @@ namespace Files.App.Helpers
                         {
                             var tag = dbInstance.GetTags(sourcePath);
 
-                            dbInstance.SetTags(destination, FileTagsHelpers.GetFileFRN(destination), tag); // copy tag to new files
+                            dbInstance.SetTags(destination, FileTagsHelper.GetFileFRN(destination), tag); // copy tag to new files
                             using var si = new ShellItem(destination);
                             if (si.IsFolder) // File tag is not copied automatically for folders
                             {
-                                FileTagsHelpers.WriteFileTag(destination, tag);
+                                FileTagsHelper.WriteFileTag(destination, tag);
                             }
                         }
                         else
                         {
-                            dbInstance.UpdateTag(sourcePath, FileTagsHelpers.GetFileFRN(destination), destination); // move tag to new files
+                            dbInstance.UpdateTag(sourcePath, FileTagsHelper.GetFileFRN(destination), destination); // move tag to new files
                         }
                     }, App.Logger);
                 }
@@ -781,7 +782,7 @@ namespace Files.App.Helpers
                                 SafetyExtensions.IgnoreExceptions(() =>
                                 {
                                     var subPath = t.FilePath.Replace(sourcePath, destination, StringComparison.Ordinal);
-                                    dbInstance.SetTags(subPath, FileTagsHelpers.GetFileFRN(subPath), t.Tags);
+                                    dbInstance.SetTags(subPath, FileTagsHelper.GetFileFRN(subPath), t.Tags);
                                 }, App.Logger);
                             });
                         }
@@ -792,7 +793,7 @@ namespace Files.App.Helpers
                                 SafetyExtensions.IgnoreExceptions(() =>
                                 {
                                     var subPath = t.FilePath.Replace(sourcePath, destination, StringComparison.Ordinal);
-                                    dbInstance.UpdateTag(t.FilePath, FileTagsHelpers.GetFileFRN(subPath), subPath);
+                                    dbInstance.UpdateTag(t.FilePath, FileTagsHelper.GetFileFRN(subPath), subPath);
                                 }, App.Logger);
                             });
                         }
