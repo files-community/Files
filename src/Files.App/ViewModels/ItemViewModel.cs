@@ -1067,7 +1067,7 @@ namespace Files.App.ViewModels
 					ImageSource groupImage = null;
 					bool loadGroupHeaderInfo = false;
 					GroupedCollection<ListedItem> gp = null;
-					try
+                    try
 					{
 						bool isFileTypeGroupMode = folderSettings.DirectoryGroupOption == GroupOption.FileType;
 						BaseStorageFile matchingStorageFile = null;
@@ -1101,7 +1101,10 @@ namespace Files.App.ViewModels
 										item.FileFRN = fileFRN;
 										item.FileTags = fileTag;
 									}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
-									FileTagsHelper.DbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
+									using (var dbInstance = FileTagsHelper.GetDbInstance())
+									{
+										dbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
+									}
 									wasSyncStatusLoaded = true;
 								}
 							}
@@ -1147,7 +1150,10 @@ namespace Files.App.ViewModels
 										item.FileFRN = fileFRN;
 										item.FileTags = fileTag;
 									}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
-									FileTagsHelper.DbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
+									using (var dbInstance = FileTagsHelper.GetDbInstance())
+									{
+										dbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
+									}
 									wasSyncStatusLoaded = true;
 								}
 							}
@@ -1180,7 +1186,10 @@ namespace Files.App.ViewModels
 									item.SyncStatusUI = new CloudDriveSyncStatusUI(); // Reset cloud sync status icon
 									item.FileTags = fileTag;
 								}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
-								FileTagsHelper.DbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
+								using (var dbInstance = FileTagsHelper.GetDbInstance())
+								{
+									dbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
+								}
 							});
 						}
 

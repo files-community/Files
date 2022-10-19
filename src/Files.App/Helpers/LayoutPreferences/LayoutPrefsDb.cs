@@ -2,6 +2,9 @@ using LiteDB;
 using System;
 using Files.Shared.Extensions;
 using JsonSerializer = System.Text.Json.JsonSerializer;
+using System.Threading;
+using System.Collections;
+using System.Collections.Concurrent;
 
 #nullable enable
 
@@ -10,14 +13,54 @@ namespace Files.App.Helpers.LayoutPreferences
     public class LayoutPrefsDb : IDisposable
     {
         private readonly LiteDatabase db;
+        private readonly IEnumerator mutexCoroutine;
+        private static readonly Mutex dbMutex = new(false, "Files_LayoutSettingsDb");
+        private static readonly ConcurrentQueue<Action> backgroundMutexOperationQueue = new();
 
-        public LayoutPrefsDb(string connection, bool shared = false)
+        static LayoutPrefsDb()
         {
+            new Thread(OperationQueueWorker) { IsBackground = true }.Start();
+        }
+
+        private static void OperationQueueWorker()
+        {
+            while (!Environment.HasShutdownStarted)
+            {
+                SpinWait.SpinUntil(() => !backgroundMutexOperationQueue.IsEmpty);
+                while (backgroundMutexOperationQueue.TryDequeue(out var action))
+                {
+                    action();
+                }
+            }
+        }
+
+        public LayoutPrefsDb(string connection)
+        {
+            mutexCoroutine = MutexOperator().GetEnumerator();
+            mutexCoroutine.MoveNext();
             db = new LiteDatabase(new ConnectionString(connection)
             {
-                Connection = shared ? ConnectionType.Shared : ConnectionType.Direct,
+                Connection = ConnectionType.Direct,
                 Upgrade = true
             }, new BsonMapper() { IncludeFields = true });
+        }
+
+        private IEnumerable MutexOperator()
+        {
+            var e1 = new ManualResetEventSlim();
+            var e2 = new ManualResetEventSlim();
+            backgroundMutexOperationQueue.Enqueue(() =>
+            {
+                dbMutex.WaitOne();
+                e1.Set();
+                e2.Wait();
+                e2.Dispose();
+                dbMutex.ReleaseMutex();
+            });
+            e1.Wait();
+            e1.Dispose();
+            yield return default;
+            e2.Set();
         }
 
         public void SetPreferences(string filePath, ulong? frn, LayoutPreferences? prefs)
@@ -120,9 +163,15 @@ namespace Files.App.Helpers.LayoutPreferences
             col.Update(allDocs);
         }
 
+        ~LayoutPrefsDb()
+        {
+            Dispose();
+        }
+
         public void Dispose()
         {
             db.Dispose();
+            mutexCoroutine.MoveNext();
         }
 
         public void Import(string json)

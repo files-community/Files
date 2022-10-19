@@ -138,6 +138,7 @@
   <ItemGroup>
     <None Remove="Resources\PreviewPanePropertiesInformation.json" />
     <None Remove="Resources\PropertiesInformation.json" />
+    <None Remove="ViewModels\ItemViewModel.cs~RF3e5d35.TMP" />
     <None Remove="Views\SettingsPages\Folders.xaml" />
   </ItemGroup>
   <ItemGroup>

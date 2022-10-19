@@ -122,9 +122,10 @@ namespace Files.App.Filesystem
 			{
 				if (SetProperty(ref fileTags, value))
 				{
-					using var db = FileTagsHelper.DbInstance;
-
-                    db.SetTags(ItemPath, FileFRN, value);
+					using (var dbInstance = FileTagsHelper.GetDbInstance())
+					{
+						dbInstance.SetTags(ItemPath, FileFRN, value);
+					}
 					FileTagsHelper.WriteFileTag(ItemPath, value);
 					OnPropertyChanged(nameof(FileTagsUI));
 				}

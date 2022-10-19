@@ -1,7 +1,10 @@
 ﻿using LiteDB;
 using System;
+using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Common
@@ -9,17 +12,56 @@ namespace Common
     public class FileTagsDb : IDisposable
     {
         private readonly LiteDatabase db;
-
+        private readonly IEnumerator mutexCoroutine;
+        private static readonly Mutex dbMutex = new(false, "Files_FileTagDb");
+        private static readonly ConcurrentQueue<Action> backgroundMutexOperationQueue = new();
         private const string TaggedFiles = "taggedfiles";
 
-        public FileTagsDb(string connection, bool shared = false)
+        static FileTagsDb()
         {
+            new Thread(OperationQueueWorker) { IsBackground = true }.Start();
+        }
+
+        private static void OperationQueueWorker()
+        {
+            while (!Environment.HasShutdownStarted)
+            {
+                SpinWait.SpinUntil(() => !backgroundMutexOperationQueue.IsEmpty);
+                while (backgroundMutexOperationQueue.TryDequeue(out var action))
+                {
+                    action();
+                }
+            }
+        }
+
+        public FileTagsDb(string connection)
+        {
+            mutexCoroutine = MutexOperator().GetEnumerator();
+            mutexCoroutine.MoveNext();
             db = new LiteDatabase(new ConnectionString(connection)
             {
-                Connection = shared ? ConnectionType.Shared : ConnectionType.Direct,
+                Connection = ConnectionType.Direct,
                 Upgrade = true
             });
             UpdateDb();
+        }
+
+        private IEnumerable MutexOperator()
+        {
+            var e1 = new ManualResetEventSlim();
+            var e2 = new ManualResetEventSlim();
+            backgroundMutexOperationQueue.Enqueue(() =>
+            {
+                dbMutex.WaitOne();
+                e1.Set();
+                e2.Wait();
+                e2.Dispose();
+                dbMutex.ReleaseMutex();
+            });
+            e1.Wait();
+            e1.Dispose();
+            yield return default;
+            e2.Set();
         }
 
         public void SetTags(string filePath, ulong? frn, string[]? tags)
@@ -159,9 +201,15 @@ namespace Common
             return col.Find(x => x.FilePath.StartsWith(folderPath, StringComparison.OrdinalIgnoreCase));
         }
 
+        ~FileTagsDb()
+        {
+            Dispose();
+        }
+
         public void Dispose()
         {
             db.Dispose();
+            mutexCoroutine.MoveNext();
         }
 
         public void Import(string json)
