@@ -199,11 +199,15 @@ namespace Files.App.DataModels.NavigationControlItems
 					SpaceText = "DriveCapacityUnknown".GetLocalizedResource();
 					MaxSpace = SpaceUsed = FreeSpace = ByteSize.FromBytes(0);
 				}
+
+				OnPropertyChanged(nameof(ShowDriveDetails));
 			}
 			catch (Exception)
 			{
 				SpaceText = "DriveCapacityUnknown".GetLocalizedResource();
 				MaxSpace = SpaceUsed = FreeSpace = ByteSize.FromBytes(0);
+
+				OnPropertyChanged(nameof(ShowDriveDetails));
 			}
 		}
 
