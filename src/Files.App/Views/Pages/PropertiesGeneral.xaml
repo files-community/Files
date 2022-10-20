@@ -357,9 +357,9 @@
 				x:Load="{x:Bind ViewModel.DriveUsedSpaceVisibility, Mode=OneWay}"
 				Orientation="Horizontal">
 				<Rectangle
-					Width="15"
-					Height="15"
-					Margin="0,0,10,0"
+					Width="16"
+					Height="16"
+					Margin="0,0,12,0"
 					Fill="{ThemeResource SystemAccentColorLight2}"
 					RadiusX="2"
 					RadiusY="2"
@@ -401,9 +401,9 @@
 				x:Load="{x:Bind ViewModel.DriveFreeSpaceVisibility, Mode=OneWay}"
 				Orientation="Horizontal">
 				<Rectangle
-					Width="15"
-					Height="15"
-					Margin="0,0,10,0"
+					Width="16"
+					Height="16"
+					Margin="0,0,12,0"
 					Fill="{ThemeResource ProgressRingBackgroundThemeBrush}"
 					RadiusX="2"
 					RadiusY="2"
@@ -441,7 +441,7 @@
 				x:Name="PropertiesDriveCapacity"
 				Grid.Row="2"
 				Grid.Column="1"
-				Padding="25,0,0,0"
+				Padding="28,0,0,0"
 				x:Load="{x:Bind ViewModel.DriveCapacityVisibility, Mode=OneWay}"
 				Style="{StaticResource PropertyName}"
 				Text="{helpers:ResourceString Name=PropertiesDriveCapacity/Text}" />
