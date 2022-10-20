@@ -27,7 +27,7 @@ using Windows.UI.Core;
 namespace Files.App.UserControls.Widgets
 {
     public class DriveCardItem : ObservableObject, IWidgetCardItem<DriveItem>, IComparable<DriveCardItem>
-	{
+    {
         private BitmapImage thumbnail;
         private byte[] thumbnailData;
 
