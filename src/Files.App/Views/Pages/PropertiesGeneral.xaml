@@ -357,9 +357,9 @@
 				x:Load="{x:Bind ViewModel.DriveUsedSpaceVisibility, Mode=OneWay}"
 				Orientation="Horizontal">
 				<Rectangle
-					Width="15"
-					Height="15"
-					Margin="0,0,10,0"
+					Width="16"
+					Height="16"
+					Margin="0,0,12,0"
 					Fill="{ThemeResource SystemAccentColorLight2}"
 					RadiusX="2"
 					RadiusY="2"
@@ -401,9 +401,9 @@
 				x:Load="{x:Bind ViewModel.DriveFreeSpaceVisibility, Mode=OneWay}"
 				Orientation="Horizontal">
 				<Rectangle
-					Width="15"
-					Height="15"
-					Margin="0,0,10,0"
+					Width="16"
+					Height="16"
+					Margin="0,0,12,0"
 					Fill="{ThemeResource ProgressRingBackgroundThemeBrush}"
 					RadiusX="2"
 					RadiusY="2"
