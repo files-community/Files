@@ -46,11 +46,23 @@ namespace Files.App.DataModels.NavigationControlItems
 		public bool IsNetwork => Type == DriveType.Network;
 		public bool IsPinned => App.SidebarPinnedController.Model.FavoriteItems.Contains(path);
 
+		public string MaxSpaceText => MaxSpace.ToSizeString();
+		public string FreeSpaceText => FreeSpace.ToSizeString();
+		public string UsedSpaceText => SpaceUsed.ToSizeString();
+
 		private ByteSize maxSpace;
 		public ByteSize MaxSpace
 		{
 			get => maxSpace;
-			set => SetProperty(ref maxSpace, value);
+			set
+			{
+				if (SetProperty(ref maxSpace, value))
+				{
+					ToolTipText = GetSizeString();
+					OnPropertyChanged(nameof(MaxSpaceText));
+					OnPropertyChanged(nameof(ShowDriveDetails));
+				}
+			}
 		}
 
 		private ByteSize freeSpace;
@@ -59,8 +71,11 @@ namespace Files.App.DataModels.NavigationControlItems
 			get => freeSpace;
 			set
 			{
-				SetProperty(ref freeSpace, value);
-				ToolTipText = GetSizeString();
+				if (SetProperty(ref freeSpace, value))
+				{
+					ToolTipText = GetSizeString();
+					OnPropertyChanged(nameof(FreeSpaceText));
+				}
 			}
 		}
 
@@ -70,24 +85,16 @@ namespace Files.App.DataModels.NavigationControlItems
 			get => spaceUsed;
 			set
 			{
-				SetProperty(ref spaceUsed, value);
+				if (SetProperty(ref spaceUsed, value))
+				{
+					OnPropertyChanged(nameof(UsedSpaceText));
+				}
 			}
 		}
 
-		public bool ShowDriveDetails
-		{
-			get => MaxSpace.Bytes > 0d ? true : false;
-		}
+		public bool ShowDriveDetails => MaxSpace.Bytes > 0d;
 
-		private DriveType type;
-		public DriveType Type
-		{
-			get => type;
-			set
-			{
-				type = value;
-			}
-		}
+		public DriveType Type { get; set; }
 
 		private string text;
 		public string Text
