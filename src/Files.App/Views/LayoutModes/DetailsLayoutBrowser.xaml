@@ -299,8 +299,7 @@
 									<ColumnDefinition Width="Auto" />
 									<ColumnDefinition
 										x:Name="Column2"
-										Width="{x:Bind ColumnsViewModel.NameColumn.Length, Mode=OneWay}"
-										MaxWidth="{x:Bind ColumnsViewModel.NameColumn.MaxLength, Mode=OneWay}" />
+										Width="{x:Bind ColumnsViewModel.NameColumn.Length, Mode=OneWay}" />
 									<ColumnDefinition Width="Auto" />
 									<ColumnDefinition
 										x:Name="Column3"
