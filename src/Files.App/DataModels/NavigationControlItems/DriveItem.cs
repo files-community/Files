@@ -152,7 +152,7 @@ namespace Files.App.DataModels.NavigationControlItems
 			if (imageStream != null)
 				item.IconData = await imageStream.ToByteArrayAsync();
 
-			item.Text = root.DisplayName;
+			item.Text = type is DriveType.Network ? $"{root.DisplayName} ({deviceId})" : root.DisplayName;
 			item.Type = type;
 			item.MenuOptions = new ContextMenuOptions
 			{
