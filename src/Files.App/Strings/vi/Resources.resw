@@ -157,13 +157,13 @@
     <value>Tên Mục</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Path:</value>
+    <value>Đường dẫn:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Kích thước:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed Size:</value>
+    <value>Cỡ không nén:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Không thể làm hoạt động này</value>
@@ -1225,19 +1225,19 @@
     <value>Đã có Bản cập nhật</value>
   </data>
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
-    <value>Show protected system files</value>
+    <value>Hiện các tệp hệ thống được bảo vệ</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Include unindexed items in search results</value>
+    <value>Bao gồm các tệp chưa đánh chỉ mục trong kết quả tìm kiếm</value>
   </data>
   <data name="ResetFolderPreferencesOverrides" xml:space="preserve">
-    <value>Reset folder overrides</value>
+    <value>Đặt lại ghi đè thư mục</value>
   </data>
   <data name="EnableOverridingFolderPreferencesDescription" xml:space="preserve">
-    <value>Changing the layout in a directory when this setting is turned off will update the layout for all directories.</value>
+    <value>Thay đổi bố trí trong một danh mục khi thiết đặt này đang tắt sẽ cập nhật bố trí cho mọi danh mục.</value>
   </data>
   <data name="EnableOverridingFolderPreferences" xml:space="preserve">
-    <value>Enable overriding folder preferences in individual directories</value>
+    <value>Bật ghi đè tùy chỉnh thư mục trong các danh mục riêng</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Tùy chỉnh danh mục truy cập bằng cú nhấp phía phải</value>
@@ -1672,16 +1672,16 @@
     <value>Mở thư mục trong tab mới</value>
   </data>
   <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>Show Bundles widget</value>
+    <value>Hiện tiện ích bó</value>
   </data>
   <data name="ShowDrivesWidget" xml:space="preserve">
-    <value>Show Drives widget</value>
+    <value>Hiện tiện ích ổ lưu trữ</value>
   </data>
   <data name="ShowFolderWidget" xml:space="preserve">
-    <value>Show Folders widget</value>
+    <value>Hiện tiện ích thư mục</value>
   </data>
   <data name="ShowRecentFilesWidget" xml:space="preserve">
-    <value>Show Recent Files widget</value>
+    <value>Hiện tiện ích tập tin gần đây</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>Bạn không tìm thấy nội dung cần tìm?</value>
@@ -1948,7 +1948,7 @@
     <value>Bỏ qua</value>
   </data>
   <data name="Widgets" xml:space="preserve">
-    <value>Widgets</value>
+    <value>Tiện ích</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>Trạng thái đồng bộ</value>
@@ -2464,7 +2464,7 @@
     <value>Thẻ tệp</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Open items with a single click</value>
+    <value>Mở mục bằng một cú nhấp chuột</value>
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
     <value>Đường dẫn thư mục</value>
@@ -2593,7 +2593,7 @@
     <value>Nhập tên thư mục</value>
   </data>
   <data name="CalculateFolderSizes" xml:space="preserve">
-    <value>Calculate folder sizes</value>
+    <value>Tính toán kích thước thư mục</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
     <value>Tệp Gần đây</value>
@@ -2623,7 +2623,7 @@
     <value>Loại:</value>
   </data>
   <data name="IconGrid" xml:space="preserve">
-    <value>Icon Grid</value>
+    <value>Lưới biểu tượng</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Byte</value>
@@ -2728,7 +2728,7 @@
     <value>Không hỗ trợ hành động di chuyển trong ngữ cảnh này. Bạn có muốn sao chép các mục thay vào đó không?</value>
   </data>
   <data name="HiddenItems" xml:space="preserve">
-    <value>Hidden items</value>
+    <value>Mục ẩn</value>
   </data>
   <data name="Custom" xml:space="preserve">
     <value>Tuỳ chỉnh</value>
@@ -2761,96 +2761,96 @@
     <value>Bạn có muốn đánh giá Files không?</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
-    <value>Set as background</value>
+    <value>Đặt làm hình nền</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Set as lockscreen</value>
+    <value>Đặt làm màn hình khóa</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>Đặt như nền bàn làm việc</value>
   </data>
   <data name="SetAsDefault" xml:space="preserve">
-    <value>Set as default</value>
+    <value>Đặt làm mặc định</value>
   </data>
   <data name="DateColumn" xml:space="preserve">
-    <value>Date column</value>
+    <value>Cột ngày</value>
   </data>
   <data name="DateCreatedColumn" xml:space="preserve">
-    <value>Date Created column</value>
+    <value>Cột ngày tạo</value>
   </data>
   <data name="SizeColumn" xml:space="preserve">
-    <value>Size column</value>
+    <value>Cột kích thước</value>
   </data>
   <data name="TagColumn" xml:space="preserve">
-    <value>Tag column</value>
+    <value>Cột thẻ</value>
   </data>
   <data name="TypeColumn" xml:space="preserve">
-    <value>Type column</value>
+    <value>Cột loại</value>
   </data>
   <data name="DetailsLayoutColumns" xml:space="preserve">
-    <value>Details layout columns</value>
+    <value>Cột bố trí chi tiết</value>
   </data>
   <data name="Reset" xml:space="preserve">
-    <value>Reset</value>
+    <value>Đặt lại</value>
   </data>
   <data name="ResetLayoutPreferences" xml:space="preserve">
-    <value>This action will reset all directories back to your default preferences.</value>
+    <value>Hành động này sẽ đặt lại mọi danh mục về thiết đặt mặc định.</value>
   </data>
   <data name="AreYouSure" xml:space="preserve">
-    <value>Are you sure?</value>
+    <value>Bạn có chắc không?</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
-    <value>Lockscreen</value>
+    <value>Màn hình khoá</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Open folders with a single click in the Columns Layout</value>
+    <value>Mở thư mục bằng một cú nhấp chuột ở bố trí cột</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
-    <value>Opening items</value>
+    <value>Đang mở khoản mục</value>
   </data>
   <data name="AddSingleItemToArchive" xml:space="preserve">
-    <value>Add to {0}.zip</value>
+    <value>Thêm vào {0}.zip</value>
   </data>
   <data name="AddToArchive" xml:space="preserve">
-    <value>Add to archive</value>
+    <value>Thêm vào lưu trữ</value>
   </data>
   <data name="CompressionCompleted" xml:space="preserve">
-    <value>Compression completed</value>
+    <value>Đã hoàn thành nén</value>
   </data>
   <data name="CompressionSucceded" xml:space="preserve">
-    <value>{0} has been compressed</value>
+    <value>{0} đã được nén</value>
   </data>
   <data name="CompressionFailed" xml:space="preserve">
-    <value>{0} couldn't be compressed</value>
+    <value>Không thể nén {0}</value>
   </data>
   <data name="CompressionInProgress" xml:space="preserve">
-    <value>Compressing archive</value>
+    <value>Đang nén lưu trữ</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
-    <value>Select files and folders when hovering over them</value>
+    <value>Chọn tệp và thư mục khi di chuột lên chúng</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
-    <value>Are you sure you want to restore all items in the recycle bin?</value>
+    <value>Bạn có chắc muốn khôi phục mọi khoản mục trong Thùng rác?</value>
   </data>
   <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
-    <value>Restore all items</value>
+    <value>Khôi phục mọi khoản mục</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
-    <value>Do you want to restore the {0} selected item(s)?</value>
+    <value>Bạn có muốn khôi phục {0} khoản mục được chọn?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
-    <value>Restore selection</value>
+    <value>Khôi phục các khoản mục đã chọn</value>
   </data>
   <data name="RestoreAllItems" xml:space="preserve">
-    <value>Restore All Items</value>
+    <value>Khôi phục mọi khoản mục</value>
   </data>
   <data name="RestoreSelection" xml:space="preserve">
     <value>Khôi phục</value>
   </data>
   <data name="ShortcutCannotBeOpened" xml:space="preserve">
-    <value>Shortcut cannot be opened</value>
+    <value>Không thể mở lối tắt</value>
   </data>
   <data name="DeleteShortcutDescription" xml:space="preserve">
-    <value>The target destination cannot be found {0}. Do you want to delete this shortcut?</value>
+    <value>Không thể tìm thấy đối tượng {0}. Bạn có muốn xóa bỏ lối tắt này không?</value>
   </data>
 </root>
