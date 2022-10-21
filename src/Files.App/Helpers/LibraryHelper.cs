@@ -16,6 +16,9 @@ using Windows.System;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Files.App.Shell;
+using Vanara.Windows.Shell;
+using Vanara.PInvoke;
+using Visibility = Microsoft.UI.Xaml.Visibility;
 
 namespace Files.App.Helpers
 {
@@ -47,27 +50,37 @@ namespace Files.App.Helpers
         }
 
         /// <summary>
-        /// Get libraries of the current user with the help of the FullTrust process.
+        /// Get libraries of the current user.
         /// </summary>
         /// <returns>List of library items</returns>
         public static async Task<List<LibraryLocationItem>> ListUserLibraries()
         {
-            List<LibraryLocationItem> libraries = null;
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection == null)
+            var libraries = await Win32API.StartSTATask(() =>
             {
-                return null;
-            }
-            var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet
-            {
-                { "Arguments", "ShellLibrary" },
-                { "action", "Enumerate" }
+                try
+                {
+                    var libraryItems = new List<ShellLibraryItem>();
+                    // https://docs.microsoft.com/en-us/windows/win32/search/-search-win7-development-scenarios#library-descriptions
+                    var libFiles = Directory.EnumerateFiles(ShellLibraryItem.LibrariesPath, "*" + ShellLibraryItem.EXTENSION);
+                    foreach (var libFile in libFiles)
+                    {
+                        using var shellItem = new ShellLibrary2(Shell32.ShellUtil.GetShellItemForPath(libFile), true);
+                        if (shellItem is ShellLibrary2 library)
+                        {
+                            libraryItems.Add(ShellFolderExtensions.GetShellLibraryItem(library, libFile));
+                        }
+                    }
+                    return libraryItems;
+                }
+                catch (Exception e)
+                {
+                    App.Logger.Warn(e);
+                }
+
+                return new();
             });
-            if (status == AppServiceResponseStatus.Success && response.ContainsKey("Enumerate"))
-            {
-                libraries = JsonSerializer.Deserialize<List<ShellLibraryItem>>(response["Enumerate"].GetString())?.Select(lib => new LibraryLocationItem(lib)).ToList();
-            }
-            return libraries;
+
+            return libraries.Select(lib => new LibraryLocationItem(lib)).ToList();
         }
 
         /// <summary>
@@ -75,29 +88,28 @@ namespace Files.App.Helpers
         /// </summary>
         /// <param name="name">The name of the new library (must be unique)</param>
         /// <returns>The new library if successfully created</returns>
-        public static async Task<LibraryLocationItem> CreateLibrary(string name)
+        public static async Task<LibraryLocationItem?> CreateLibrary(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
-            {
                 return null;
-            }
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection == null)
+
+            return new(await Win32API.StartSTATask(() =>
             {
-                return null;
-            }
-            var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet
-            {
-                { "Arguments", "ShellLibrary" },
-                { "action", "Create" },
-                { "library", name }
-            });
-            LibraryLocationItem library = null;
-            if (status == AppServiceResponseStatus.Success && response.ContainsKey("Create"))
-            {
-                library = new LibraryLocationItem(JsonSerializer.Deserialize<ShellLibraryItem>(response["Create"].GetString()));
-            }
-            return library;
+                try
+                {
+                    using var library = new ShellLibrary2(name, Shell32.KNOWNFOLDERID.FOLDERID_Libraries, false);
+                    library.Folders.Add(ShellItem.Open(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))); // Add default folder so it's not empty
+                    library.Commit();
+                    library.Reload();
+                    return Task.FromResult(ShellFolderExtensions.GetShellLibraryItem(library, library.GetDisplayName(ShellItemDisplayString.DesktopAbsoluteParsing)));
+                }
+                catch (Exception e)
+                {
+                    App.Logger.Warn(e);
+                }
+
+                return Task.FromResult<ShellLibraryItem>(null);
+            }));
         }
 
         /// <summary>
@@ -108,43 +120,68 @@ namespace Files.App.Helpers
         /// <param name="folders">Update the library folders or null to keep current</param>
         /// <param name="isPinned">Update the library pinned status or null to keep current</param>
         /// <returns>The new library if successfully updated</returns>
-        public static async Task<LibraryLocationItem> UpdateLibrary(string libraryFilePath, string defaultSaveFolder = null, string[] folders = null, bool? isPinned = null)
+        public static async Task<LibraryLocationItem?> UpdateLibrary(string libraryFilePath, string defaultSaveFolder = null, string[] folders = null, bool? isPinned = null)
         {
             if (string.IsNullOrWhiteSpace(libraryFilePath) || (defaultSaveFolder == null && folders == null && isPinned == null))
-            {
                 // Nothing to update
                 return null;
-            }
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection == null)
+
+            var item = await Win32API.StartSTATask(() =>
             {
-                return null;
-            }
-            var request = new ValueSet
-            {
-                { "Arguments", "ShellLibrary" },
-                { "action", "Update" },
-                { "library", libraryFilePath }
-            };
-            if (!string.IsNullOrEmpty(defaultSaveFolder))
-            {
-                request.Add("defaultSaveFolder", defaultSaveFolder);
-            }
-            if (folders != null)
-            {
-                request.Add("folders", JsonSerializer.Serialize(folders));
-            }
-            if (isPinned != null)
-            {
-                request.Add("isPinned", isPinned);
-            }
-            var (status, response) = await connection.SendMessageForResponseAsync(request);
-            LibraryLocationItem library = null;
-            if (status == AppServiceResponseStatus.Success && response.ContainsKey("Update"))
-            {
-                library = new LibraryLocationItem(JsonSerializer.Deserialize<ShellLibraryItem>(response["Update"].GetString()));
-            }
-            return library;
+                try
+                {
+                    bool updated = false;
+                    using var library = new ShellLibrary2(Shell32.ShellUtil.GetShellItemForPath(libraryFilePath), false);
+                    if (folders != null)
+                    {
+                        if (folders.Length > 0)
+                        {
+                            var foldersToRemove = library.Folders.Where(f => !folders.Any(folderPath => string.Equals(folderPath, f.FileSystemPath, StringComparison.OrdinalIgnoreCase)));
+                            foreach (var toRemove in foldersToRemove)
+                            {
+                                library.Folders.Remove(toRemove);
+                                updated = true;
+                            }
+                            var foldersToAdd = folders.Distinct(StringComparer.OrdinalIgnoreCase)
+                                                      .Where(folderPath => !library.Folders.Any(f => string.Equals(folderPath, f.FileSystemPath, StringComparison.OrdinalIgnoreCase)))
+                                                      .Select(ShellItem.Open);
+                            foreach (var toAdd in foldersToAdd)
+                            {
+                                library.Folders.Add(toAdd);
+                                updated = true;
+                            }
+                            foreach (var toAdd in foldersToAdd)
+                            {
+                                toAdd.Dispose();
+                            }
+                        }
+                    }
+                    if (defaultSaveFolder != null)
+                    {
+                        library.DefaultSaveFolder = ShellItem.Open(defaultSaveFolder);
+                        updated = true;
+                    }
+                    if (isPinned != null)
+                    {
+                        library.PinnedToNavigationPane = isPinned == true;
+                        updated = true;
+                    }
+                    if (updated)
+                    {
+                        library.Commit();
+                        library.Reload(); // Reload folders list
+                        ShellFolderExtensions.GetShellLibraryItem(library, libraryFilePath);
+                    }
+                }
+                catch (Exception e)
+                {
+                    App.Logger.Warn(e);
+                }
+
+                return Task.FromResult<ShellLibraryItem>(null);
+            });
+
+            return item != null ? new(item) : null;
         }
 
         public static async void ShowRestoreDefaultLibrariesDialog()
