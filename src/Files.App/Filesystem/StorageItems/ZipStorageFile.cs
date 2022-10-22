@@ -483,7 +483,7 @@ namespace Files.App.Filesystem.StorageItems
                 else
                 {
                     var hFile = openProtected ?
-                        await NativeFileOperationsHelper.OpenProtectedFileForRead(containerPath) :
+                        NativeFileOperationsHelper.OpenProtectedFileForRead(containerPath) :
                         NativeFileOperationsHelper.OpenFileForRead(containerPath, readWrite);
                     if (hFile.IsInvalid)
                     {

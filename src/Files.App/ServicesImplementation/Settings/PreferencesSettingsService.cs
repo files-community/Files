@@ -21,11 +21,6 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
-		public bool OpenFoldersInNewTab
-		{
-			get => Get(false);
-			set => Set(value);
-		}
 
 		public bool ShowFileExtensions
 		{
@@ -39,67 +34,13 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
-		public bool AreHiddenItemsVisible
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
-		public bool AreSystemItemsHidden
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool AreAlternateStreamsVisible
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
-		public bool ShowDotFiles
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
 		public bool SelectFilesOnHover
 		{
 			get => Get(false);
 			set => Set(value);
 		}
 
-		public bool OpenFilesWithOneClick
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
-		public bool OpenFoldersWithOneClick
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
-		public bool ColumnLayoutOpenFoldersWithOneClick
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
 		public bool SearchUnindexedItems
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
-		public bool ForceLayoutPreferencesOnAllDirectories
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
-		public bool ShowFolderSize
 		{
 			get => Get(false);
 			set => Set(value);
@@ -153,33 +94,23 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
-	protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
-	{
-		switch (e.SettingName)
+		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
-			case nameof(ShowConfirmDeleteDialog):
-			case nameof(OpenFoldersInNewTab):
-			case nameof(ShowFileExtensions):
-			case nameof(AreHiddenItemsVisible):
-			case nameof(AreSystemItemsHidden):
-			case nameof(AreAlternateStreamsVisible):
-			case nameof(ShowDotFiles):
-			case nameof(SelectFilesOnHover):
-			case nameof(OpenFilesWithOneClick):
-			case nameof(OpenFoldersWithOneClick):
-			case nameof(ColumnLayoutOpenFoldersWithOneClick):
-			case nameof(SearchUnindexedItems):
-			case nameof(ForceLayoutPreferencesOnAllDirectories):
-			case nameof(ShowFolderSize):
-			case nameof(OpenSpecificPageOnStartup):
-			case nameof(ContinueLastSessionOnStartUp):
-			case nameof(OpenNewTabOnStartup):
-			case nameof(AlwaysOpenNewInstance):
-				Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
-				break;
-		}
+			switch (e.SettingName)
+			{
+				case nameof(ShowConfirmDeleteDialog):
+				case nameof(ShowFileExtensions):
+				case nameof(SelectFilesOnHover):
+				case nameof(SearchUnindexedItems):
+				case nameof(OpenSpecificPageOnStartup):
+				case nameof(ContinueLastSessionOnStartUp):
+				case nameof(OpenNewTabOnStartup):
+				case nameof(AlwaysOpenNewInstance):
+					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
+					break;
+			}
 
-		base.RaiseOnSettingChangedEvent(sender, e);
+			base.RaiseOnSettingChangedEvent(sender, e);
+		}
 	}
-}
 }

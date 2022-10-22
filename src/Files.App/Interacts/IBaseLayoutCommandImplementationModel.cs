@@ -32,6 +32,10 @@ namespace Files.App.Interacts
 
         void EmptyRecycleBin(RoutedEventArgs e);
 
+        void RestoreRecycleBin(RoutedEventArgs e);
+
+        void RestoreSelectionRecycleBin(RoutedEventArgs e);
+
         void QuickLook(RoutedEventArgs e);
 
         void CopyItem(RoutedEventArgs e);
@@ -93,6 +97,8 @@ namespace Files.App.Interacts
         void SearchUnindexedItems(RoutedEventArgs e);
 
         Task CreateFolderWithSelection(RoutedEventArgs e);
+
+        Task CompressIntoArchive();
 
         Task DecompressArchive();
 

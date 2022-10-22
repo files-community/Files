@@ -44,8 +44,8 @@ namespace Files.App.Filesystem.StorageEnumerators
             var tempList = new List<ListedItem>();
             var count = 0;
 
-            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
-            bool showFolderSize = userSettingsService.PreferencesSettingsService.ShowFolderSize;
+            IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+            bool CalculateFolderSizes = userSettingsService.FoldersSettingsService.CalculateFolderSizes;
 
             do
             {
@@ -53,9 +53,9 @@ namespace Files.App.Filesystem.StorageEnumerators
                 var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
                 var startWithDot = findData.cFileName.StartsWith(".");
                 if ((!isHidden ||
-                   (userSettingsService.PreferencesSettingsService.AreHiddenItemsVisible &&
-                   (!isSystem || !userSettingsService.PreferencesSettingsService.AreSystemItemsHidden))) &&
-                   (!startWithDot || userSettingsService.PreferencesSettingsService.ShowDotFiles))
+                   (userSettingsService.FoldersSettingsService.ShowHiddenItems &&
+                   (!isSystem || userSettingsService.FoldersSettingsService.ShowProtectedSystemFiles))) &&
+                   (!startWithDot || userSettingsService.FoldersSettingsService.ShowDotFiles))
                 {
                     if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
                     {
@@ -76,7 +76,7 @@ namespace Files.App.Filesystem.StorageEnumerators
                             tempList.Add(file);
                             ++count;
 
-                            if (userSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible)
+                            if (userSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
                             {
                                 tempList.AddRange(EnumAdsForPath(file.ItemPath, file));
                             }
@@ -97,12 +97,12 @@ namespace Files.App.Filesystem.StorageEnumerators
                                 tempList.Add(folder);
                                 ++count;
 
-                                if (userSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible)
+                                if (userSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
                                 {
                                     tempList.AddRange(EnumAdsForPath(folder.ItemPath, folder));
                                 }
 
-                                if (showFolderSize)
+                                if (CalculateFolderSizes)
                                 {
                                     if (folderSizeProvider.TryGetSize(folder.ItemPath, out var size))
                                     {
@@ -309,34 +309,25 @@ namespace Files.App.Filesystem.StorageEnumerators
             {
                 if (connection != null)
                 {
-                    var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
-                    {
-                        { "Arguments", "FileOperation" },
-                        { "fileop", "ParseLink" },
-                        { "filepath", itemPath }
-                    });
+                    var (_, response) = await FileOperationsHelpers.ParseLinkAsync(itemPath);
+
                     // If the request was canceled return now
                     if (cancellationToken.IsCancellationRequested)
                     {
                         return null;
                     }
-                    if (status == AppServiceResponseStatus.Success && response.ContainsKey("ShortcutInfo"))
+                    if (response != null)
                     {
                         var isUrl = findData.cFileName.EndsWith(".url", StringComparison.OrdinalIgnoreCase);
-                        var shInfo = JsonSerializer.Deserialize<ShellLinkItem>(response["ShortcutInfo"].GetString());
-                        if (shInfo == null)
-                        {
-                            return null;
-                        }
                         return new ShortcutItem(null)
                         {
-                            PrimaryItemAttribute = shInfo.IsFolder ? StorageItemTypes.Folder : StorageItemTypes.File,
+                            PrimaryItemAttribute = response.IsFolder ? StorageItemTypes.Folder : StorageItemTypes.File,
                             FileExtension = itemFileExtension,
                             IsHiddenItem = isHidden,
                             Opacity = opacity,
                             FileImage = null,
-                            LoadFileIcon = !shInfo.IsFolder && itemThumbnailImgVis,
-                            LoadWebShortcutGlyph = !shInfo.IsFolder && isUrl && itemEmptyImgVis,
+                            LoadFileIcon = !response.IsFolder && itemThumbnailImgVis,
+                            LoadWebShortcutGlyph = !response.IsFolder && isUrl && itemEmptyImgVis,
                             ItemNameRaw = itemName,
                             ItemDateModifiedReal = itemModifiedDate,
                             ItemDateAccessedReal = itemLastAccessDate,
@@ -345,10 +336,10 @@ namespace Files.App.Filesystem.StorageEnumerators
                             ItemPath = itemPath,
                             FileSize = itemSize,
                             FileSizeBytes = itemSizeBytes,
-                            TargetPath = shInfo.TargetPath,
-                            Arguments = shInfo.Arguments,
-                            WorkingDirectory = shInfo.WorkingDirectory,
-                            RunAsAdmin = shInfo.RunAsAdmin,
+                            TargetPath = response.TargetPath,
+                            Arguments = response.Arguments,
+                            WorkingDirectory = response.WorkingDirectory,
+                            RunAsAdmin = response.RunAsAdmin,
                             IsUrl = isUrl,
                         };
                     }

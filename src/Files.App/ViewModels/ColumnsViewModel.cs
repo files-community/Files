@@ -26,7 +26,10 @@ namespace Files.App.ViewModels
             set => SetProperty(ref tagColumn, value);
         }
 
-        private ColumnViewModel nameColumn = new ColumnViewModel();
+        private ColumnViewModel nameColumn = new ColumnViewModel()
+        {
+            NormalMaxLength = 1000d
+        };
 
         public ColumnViewModel NameColumn
         {
@@ -129,16 +132,12 @@ namespace Files.App.ViewModels
             StatusColumn.TryMultiplySize(factor);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj == null)
-            {
                 return false;
-            }
             if (obj == this)
-            {
                 return true;
-            }
             if (obj is ColumnsViewModel model)
             {
                 return (
@@ -225,9 +224,7 @@ namespace Files.App.ViewModels
             set
             {
                 if (SetProperty(ref userCollapsed, value))
-                {
                     UpdateVisibility();
-                }
             }
         }
 
@@ -292,33 +289,23 @@ namespace Files.App.ViewModels
         {
             var newSize = Length.Value * factor;
             if (newSize == 0)
-            {
                 return;
-            }
 
             double setLength = newSize;
             if (newSize < MinLength)
-            {
                 setLength = MinLength;
-            }
             else if (newSize >= MaxLength)
-            {
                 setLength = MaxLength;
-            }
 
             UserLength = new GridLength(setLength);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj == null)
-            {
                 return false;
-            }
             if (obj == this)
-            {
                 return true;
-            }
             if (obj is ColumnViewModel model)
             {
                 return (

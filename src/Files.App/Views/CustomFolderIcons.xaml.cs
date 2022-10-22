@@ -21,7 +21,7 @@ namespace Files.App.Views
         private IShellPage? appInstance;
 
         public ICommand RestoreDefaultIconCommand { get; private set; }
-        public bool IsShortcutItem { get; private set; }
+        public bool IsShortcut { get; private set; }
 
         public CustomFolderIcons()
         {
@@ -36,7 +36,7 @@ namespace Files.App.Views
                 return;
 
             selectedItemPath = selectorInfo.SelectedItem;
-            IsShortcutItem = selectorInfo.IsShortcut;
+            IsShortcut = selectorInfo.IsShortcut;
             iconResourceItemPath = selectorInfo.InitialPath;
             appInstance = selectorInfo.AppInstance;
             ItemDisplayedPath.Text = iconResourceItemPath;
@@ -74,8 +74,8 @@ namespace Files.App.Views
             if (selectedIconInfo == null)
                 return;
 
-            var setIconResult = IsShortcutItem ?
-                await SetCustomFileIcon(selectedItemPath, iconResourceItemPath, selectedIconInfo.Index) :
+            var setIconResult = IsShortcut ?
+                SetCustomFileIcon(selectedItemPath, iconResourceItemPath, selectedIconInfo.Index) :
                 SetCustomFolderIcon(selectedItemPath, iconResourceItemPath, selectedIconInfo.Index);
             if (setIconResult)
             {
@@ -90,8 +90,8 @@ namespace Files.App.Views
         {
             RestoreDefaultButton.IsEnabled = false;
 
-            var setIconResult = IsShortcutItem ?
-                await SetCustomFileIcon(selectedItemPath, null) :
+            var setIconResult = IsShortcut ?
+                SetCustomFileIcon(selectedItemPath, null) :
                 SetCustomFolderIcon(selectedItemPath, null);
             if (setIconResult)
             {
@@ -110,9 +110,7 @@ namespace Files.App.Views
             return Win32API.SetCustomDirectoryIcon(folderPath, iconFile, iconIndex);
         }
 
-        private async Task<bool> SetCustomFileIcon(string? filePath, string? iconFile, int iconIndex = 0)
-        {
-            return await Win32API.SetCustomFileIconAsync(filePath, iconFile, iconIndex);
-        }
+        private bool SetCustomFileIcon(string? filePath, string? iconFile, int iconIndex = 0)
+            => Win32API.SetCustomFileIcon(filePath, iconFile, iconIndex);
     }
 }

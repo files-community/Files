@@ -460,24 +460,12 @@ namespace Files.App.Shell
             return success;
         }
 
-        public static async Task<bool> SetCustomFileIconAsync(string? filePath, string? iconFile, int iconIndex = 0)
+        public static bool SetCustomFileIcon(string? filePath, string? iconFile, int iconIndex = 0)
         {
             if (filePath == null)
                 return false;
 
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection == null)
-                return false;
-
-            var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
-                {
-                    {"Arguments", "FileOperation" },
-                    {"fileop", "SetLinkIcon" },
-                    {"iconIndex", iconIndex },
-                    {"filepath", filePath },
-                    {"iconFile", iconFile }
-                });
-            var success = status == AppServiceResponseStatus.Success && response.Get("Success", defaultJson).GetBoolean();
+            var success = FileOperationsHelpers.SetLinkIcon(filePath, iconFile, iconIndex);
             if (success) _iconAndOverlayCache[filePath] = new();
             return success;
         }

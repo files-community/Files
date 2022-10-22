@@ -21,7 +21,12 @@ namespace Files.App.Serialization.Implementation
 
         protected Dictionary<string, object?> GetFreshSettings()
         {
-            var data = SettingsSerializer.ReadFromFile() ?? string.Empty;
+            string data = SettingsSerializer.ReadFromFile();
+
+            if (string.IsNullOrWhiteSpace(data)) 
+            { 
+                data = "null"; 
+            }
 
             return JsonSettingsSerializer.DeserializeFromJson<Dictionary<string, object?>?>(data) ?? new();
         }

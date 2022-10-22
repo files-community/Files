@@ -49,8 +49,8 @@ namespace Files.App.Filesystem
         {
             get
             {
-                var userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
-                if (userSettingsService.PreferencesSettingsService.AreAlternateStreamsVisible)
+                var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+                if (userSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
                 {
                     // Allow ":" char
                     return new[] { '\\', '/', '*', '?', '"', '<', '>', '|' };
@@ -76,7 +76,7 @@ namespace Files.App.Filesystem
 
         #region Properties
 
-        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
         #endregion
 
@@ -194,39 +194,27 @@ namespace Files.App.Filesystem
             return returnStatus;
         }
 
-        public async Task<ReturnResult> DeleteItemAsync(IStorageItemWithPath source, bool showDialog, bool permanently, bool registerHistory)
-        {
-            return await DeleteItemsAsync(source.CreateEnumerable(), showDialog, permanently, registerHistory);
-        }
+        public Task<ReturnResult> DeleteItemAsync(IStorageItemWithPath source, bool showDialog, bool permanently, bool registerHistory)
+            => DeleteItemsAsync(source.CreateEnumerable(), showDialog, permanently, registerHistory);
 
-        public async Task<ReturnResult> DeleteItemsAsync(IEnumerable<IStorageItem> source, bool showDialog, bool permanently, bool registerHistory)
-        {
-            return await DeleteItemsAsync(source.Select((item) => item.FromStorageItem()), showDialog, permanently, registerHistory);
-        }
+        public Task<ReturnResult> DeleteItemsAsync(IEnumerable<IStorageItem> source, bool showDialog, bool permanently, bool registerHistory)
+            => DeleteItemsAsync(source.Select((item) => item.FromStorageItem()), showDialog, permanently, registerHistory);
 
-        public async Task<ReturnResult> DeleteItemAsync(IStorageItem source, bool showDialog, bool permanently, bool registerHistory)
-        {
-            return await DeleteItemAsync(source.FromStorageItem(), showDialog, permanently, registerHistory);
-        }
+        public Task<ReturnResult> DeleteItemAsync(IStorageItem source, bool showDialog, bool permanently, bool registerHistory)
+            => DeleteItemAsync(source.FromStorageItem(), showDialog, permanently, registerHistory);
 
         #endregion Delete
 
         #region Restore
 
-        public async Task<ReturnResult> RestoreItemFromTrashAsync(IStorageItem source, string destination, bool registerHistory)
-        {
-            return await RestoreItemFromTrashAsync(source.FromStorageItem(), destination, registerHistory);
-        }
+        public Task<ReturnResult> RestoreItemFromTrashAsync(IStorageItem source, string destination, bool registerHistory)
+            => RestoreItemFromTrashAsync(source.FromStorageItem(), destination, registerHistory);
 
-        public async Task<ReturnResult> RestoreItemsFromTrashAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool registerHistory)
-        {
-            return await RestoreItemsFromTrashAsync(source.Select((item) => item.FromStorageItem()), destination, registerHistory);
-        }
+        public Task<ReturnResult> RestoreItemsFromTrashAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool registerHistory)
+            => RestoreItemsFromTrashAsync(source.Select((item) => item.FromStorageItem()), destination, registerHistory);
 
-        public async Task<ReturnResult> RestoreItemFromTrashAsync(IStorageItemWithPath source, string destination, bool registerHistory)
-        {
-            return await RestoreItemsFromTrashAsync(source.CreateEnumerable(), destination.CreateEnumerable(), registerHistory);
-        }
+        public Task<ReturnResult> RestoreItemFromTrashAsync(IStorageItemWithPath source, string destination, bool registerHistory)
+            => RestoreItemsFromTrashAsync(source.CreateEnumerable(), destination.CreateEnumerable(), registerHistory);
 
         public async Task<ReturnResult> RestoreItemsFromTrashAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool registerHistory)
         {
@@ -317,15 +305,11 @@ namespace Files.App.Filesystem
 
         #region Copy
 
-        public async Task<ReturnResult> CopyItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool showDialog, bool registerHistory)
-        {
-            return await CopyItemsAsync(source.Select((item) => item.FromStorageItem()), destination, showDialog, registerHistory);
-        }
+        public Task<ReturnResult> CopyItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool showDialog, bool registerHistory)
+            => CopyItemsAsync(source.Select((item) => item.FromStorageItem()), destination, showDialog, registerHistory);
 
-        public async Task<ReturnResult> CopyItemAsync(IStorageItem source, string destination, bool showDialog, bool registerHistory)
-        {
-            return await CopyItemAsync(source.FromStorageItem(), destination, showDialog, registerHistory);
-        }
+        public Task<ReturnResult> CopyItemAsync(IStorageItem source, string destination, bool showDialog, bool registerHistory)
+            => CopyItemAsync(source.FromStorageItem(), destination, showDialog, registerHistory);
 
         public async Task<ReturnResult> CopyItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool showDialog, bool registerHistory)
         {
@@ -382,10 +366,8 @@ namespace Files.App.Filesystem
             return returnStatus;
         }
 
-        public async Task<ReturnResult> CopyItemAsync(IStorageItemWithPath source, string destination, bool showDialog, bool registerHistory)
-        {
-            return await CopyItemsAsync(source.CreateEnumerable(), destination.CreateEnumerable(), showDialog, registerHistory);
-        }
+        public Task<ReturnResult> CopyItemAsync(IStorageItemWithPath source, string destination, bool showDialog, bool registerHistory)
+            => CopyItemsAsync(source.CreateEnumerable(), destination.CreateEnumerable(), showDialog, registerHistory);
 
         public async Task<ReturnResult> CopyItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
         {
@@ -393,18 +375,7 @@ namespace Files.App.Filesystem
             var source = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(packageView);
 
             if (handledByFtp)
-            {
-                var connection = await ServiceConnection;
-                if (connection != null)
-                {
-                    var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet() {
-                        { "Arguments", "FileOperation" },
-                        { "fileop", "DragDrop" },
-                        { "droppath", associatedInstance.FilesystemViewModel.WorkingDirectory } });
-                    return (status == AppServiceResponseStatus.Success && response.Get("Success", defaultJson).GetBoolean()) ? ReturnResult.Success : ReturnResult.Failed;
-                }
-                return ReturnResult.Failed;
-            }
+                return await FileOperationsHelpers.DragDropAsync(associatedInstance.FilesystemViewModel.WorkingDirectory) ? ReturnResult.Success : ReturnResult.Failed;
 
             if (!source.IsEmpty())
             {
@@ -469,15 +440,11 @@ namespace Files.App.Filesystem
 
         #region Move
 
-        public async Task<ReturnResult> MoveItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool showDialog, bool registerHistory)
-        {
-            return await MoveItemsAsync(source.Select((item) => item.FromStorageItem()), destination, showDialog, registerHistory);
-        }
+        public Task<ReturnResult> MoveItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool showDialog, bool registerHistory)
+            => MoveItemsAsync(source.Select((item) => item.FromStorageItem()), destination, showDialog, registerHistory);
 
-        public async Task<ReturnResult> MoveItemAsync(IStorageItem source, string destination, bool showDialog, bool registerHistory)
-        {
-            return await MoveItemAsync(source.FromStorageItem(), destination, showDialog, registerHistory);
-        }
+        public Task<ReturnResult> MoveItemAsync(IStorageItem source, string destination, bool showDialog, bool registerHistory)
+            => MoveItemAsync(source.FromStorageItem(), destination, showDialog, registerHistory);
 
         public async Task<ReturnResult> MoveItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool showDialog, bool registerHistory)
         {
@@ -539,10 +506,8 @@ namespace Files.App.Filesystem
             return returnStatus;
         }
 
-        public async Task<ReturnResult> MoveItemAsync(IStorageItemWithPath source, string destination, bool showDialog, bool registerHistory)
-        {
-            return await MoveItemsAsync(source.CreateEnumerable(), destination.CreateEnumerable(), showDialog, registerHistory);
-        }
+        public Task<ReturnResult> MoveItemAsync(IStorageItemWithPath source, string destination, bool showDialog, bool registerHistory)
+            => MoveItemsAsync(source.CreateEnumerable(), destination.CreateEnumerable(), showDialog, registerHistory);
 
         public async Task<ReturnResult> MoveItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
         {
@@ -591,10 +556,8 @@ namespace Files.App.Filesystem
 
         #region Rename
 
-        public async Task<ReturnResult> RenameAsync(IStorageItem source, string newName, NameCollisionOption collision, bool registerHistory)
-        {
-            return await RenameAsync(source.FromStorageItem(), newName, collision, registerHistory);
-        }
+        public Task<ReturnResult> RenameAsync(IStorageItem source, string newName, NameCollisionOption collision, bool registerHistory)
+            => RenameAsync(source.FromStorageItem(), newName, collision, registerHistory);
 
         public async Task<ReturnResult> RenameAsync(IStorageItemWithPath source, string newName, NameCollisionOption collision, bool registerHistory)
         {

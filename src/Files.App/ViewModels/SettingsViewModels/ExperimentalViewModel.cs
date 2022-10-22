@@ -20,7 +20,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 {
     public class ExperimentalViewModel : ObservableObject
     {
-        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
         public ICommand EditFileTagsCommand { get; }
 
@@ -36,19 +36,6 @@ namespace Files.App.ViewModels.SettingsViewModels
             EditFileTagsCommand = new AsyncRelayCommand(LaunchFileTagsConfigFile);
             SetAsDefaultExplorerCommand = new AsyncRelayCommand(SetAsDefaultExplorer);
             SetAsOpenFileDialogCommand = new AsyncRelayCommand(SetAsOpenFileDialog);
-        }
-
-        public bool ShowFolderSize
-        {
-            get => UserSettingsService.PreferencesSettingsService.ShowFolderSize;
-            set
-            {
-                if (value != UserSettingsService.PreferencesSettingsService.ShowFolderSize)
-                {
-                    UserSettingsService.PreferencesSettingsService.ShowFolderSize = value;
-                    OnPropertyChanged();
-                }
-            }
         }
 
         private async Task LaunchFileTagsConfigFile()

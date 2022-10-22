@@ -56,5 +56,10 @@ namespace Files.Shared.Enums
         /// An item is being preparend for copy/move/drag
         /// </summary>
         Prepare = 10,
+
+        /// <summary>
+        /// An item has been added to an archive
+        /// </summary>
+        Compressed = 11,
     }
 }

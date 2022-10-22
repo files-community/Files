@@ -70,14 +70,14 @@ namespace Files.App.UserControls.Widgets
             }
         }
 
-        public async Task LoadCardThumbnailAsync(int overrideThumbnailSize = 32)
+        public async Task LoadCardThumbnailAsync()
         {
             if (thumbnailData == null || thumbnailData.Length == 0)
             {
-                thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Path, Convert.ToUInt32(overrideThumbnailSize), Windows.Storage.FileProperties.ThumbnailMode.ListView);
+                thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Path, Convert.ToUInt32(Constants.Widgets.WidgetIconSize), Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
                 if (thumbnailData != null && thumbnailData.Length > 0)
                 {
-                    Thumbnail = await App.Window.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(overrideThumbnailSize));
+                    Thumbnail = await App.Window.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize));
                 }
             }
         }
@@ -85,7 +85,7 @@ namespace Files.App.UserControls.Widgets
 
     public sealed partial class FolderWidget : UserControl, IWidgetItemModel, INotifyPropertyChanged
     {
-        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
         public BulkConcurrentObservableCollection<FolderCardItem> ItemsAdded = new BulkConcurrentObservableCollection<FolderCardItem>();
         private bool showMultiPaneControls;
@@ -116,7 +116,7 @@ namespace Files.App.UserControls.Widgets
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public bool IsWidgetSettingEnabled => UserSettingsService.WidgetsSettingsService.ShowFoldersWidget;
+        public bool IsWidgetSettingEnabled => UserSettingsService.AppearanceSettingsService.ShowFoldersWidget;
 
         public ICommand LibraryCardCommand { get; }
 
@@ -228,7 +228,7 @@ namespace Files.App.UserControls.Widgets
         {
             if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed) // check middle click
             {
-                string navigationPath = (sender as Button).Tag.ToString();
+                string navigationPath = ((Button)sender).Tag.ToString()!;
                 await NavigationHelpers.OpenPathInNewTab(navigationPath);
             }
         }
@@ -256,26 +256,27 @@ namespace Files.App.UserControls.Widgets
             flyoutParent.Closed += flyoutClosed;
         }
 
-        private async Task OpenLibraryCard(FolderCardItem item)
+        private Task OpenLibraryCard(FolderCardItem item)
         {
             if (string.IsNullOrEmpty(item.Path))
             {
-                return;
+                return Task.CompletedTask;
             }
             if (item.Item is LibraryLocationItem lli && lli.IsEmpty)
             {
                 // TODO: show message?
-                return;
+                return Task.CompletedTask;
             }
 
             var ctrlPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             if (ctrlPressed)
             {
-                await NavigationHelpers.OpenPathInNewTab(item.Path);
-                return;
+                return NavigationHelpers.OpenPathInNewTab(item.Path);
             }
 
             LibraryCardInvoked?.Invoke(this, new LibraryCardInvokedEventArgs { Path = item.Path });
+
+            return Task.CompletedTask;
         }
 
         public Task RefreshWidget()

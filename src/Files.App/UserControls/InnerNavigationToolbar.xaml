@@ -208,6 +208,32 @@
 					</AppBarButton.Icon>
 				</AppBarButton>
 				<AppBarButton
+					x:Name="RestoreRecycleBinButton"
+					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
+					AccessKey="R"
+					Command="{x:Bind ViewModel.RestoreRecycleBinCommand, Mode=OneWay}"
+					IsEnabled="{x:Bind ViewModel.CanRestoreRecycleBin, Mode=OneWay}"
+					Label="{helpers:ResourceString Name=RestoreAllItems}"
+					ToolTipService.ToolTip="{helpers:ResourceString Name=RestoreAllItems}"
+					Visibility="{x:Bind ViewModel.CanRestoreRecycleBin, Mode=OneWay}">
+					<AppBarButton.Icon>
+						<FontIcon Glyph="&#xE777;" />
+					</AppBarButton.Icon>
+				</AppBarButton>
+				<AppBarButton
+					x:Name="RestoreSelectionRecycleBinButton"
+					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
+					AccessKey="R"
+					Command="{x:Bind ViewModel.RestoreSelectionRecycleBinCommand, Mode=OneWay}"
+					IsEnabled="{x:Bind ViewModel.CanRestoreSelectionRecycleBin, Mode=OneWay}"
+					Label="{helpers:ResourceString Name=RestoreSelection}"
+					ToolTipService.ToolTip="{helpers:ResourceString Name=RestoreSelection}"
+					Visibility="{x:Bind ViewModel.CanRestoreSelectionRecycleBin, Mode=OneWay}">
+					<AppBarButton.Icon>
+						<FontIcon Glyph="&#xE777;" />
+					</AppBarButton.Icon>
+				</AppBarButton>
+				<AppBarButton
 					x:Name="ExtractButton"
 					Width="Auto"
 					MinWidth="40"
@@ -240,16 +266,20 @@
 								</MenuFlyoutItem.Icon>
 							</MenuFlyoutItem>
 							<MenuFlyoutItem
+								x:Name="ExtractHere"
+								x:Load="{x:Bind ViewModel.IsArchiveOpened, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 								Command="{x:Bind ViewModel.ExtractHereCommand, Mode=OneWay}"
-								IsEnabled="{x:Bind ViewModel.CanExtract, Mode=OneWay, FallbackValue=False}"
+								IsEnabled="{x:Bind ViewModel.IsSelectionArchivesOnly, Mode=OneWay, FallbackValue=False}"
 								Text="{helpers:ResourceString Name=ExtractHere}">
 								<MenuFlyoutItem.Icon>
 									<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF11A;" />
 								</MenuFlyoutItem.Icon>
 							</MenuFlyoutItem>
 							<MenuFlyoutItem
+								x:Name="ExtractTo"
+								x:Load="{x:Bind ViewModel.IsArchiveOpened, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 								Command="{x:Bind ViewModel.ExtractToCommand, Mode=OneWay}"
-								IsEnabled="{x:Bind ViewModel.CanExtract, Mode=OneWay, FallbackValue=False}"
+								IsEnabled="{x:Bind ViewModel.IsSelectionArchivesOnly, Mode=OneWay, FallbackValue=False}"
 								Text="{x:Bind ViewModel.ExtractToText, Mode=OneWay}">
 								<MenuFlyoutItem.Icon>
 									<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF11A;" />
@@ -377,34 +407,6 @@
 					<SolidColorBrush x:Key="CommandBarBorderBrushOpen" Color="Transparent" />
 				</ResourceDictionary>
 			</CommandBar.Resources>
-			<AppBarButton
-				x:Name="WidgetsManager"
-				Width="Auto"
-				MinWidth="40"
-				x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-				AccessKey="W"
-				AutomationProperties.Name="Manage widgets"
-				Label="{helpers:ResourceString Name=NavToolbarWidgets/Label}"
-				LabelPosition="Collapsed"
-				Style="{StaticResource ToolBarAppBarButtonFlyoutStyle}"
-				ToolTipService.ToolTip="{helpers:ResourceString Name=NavToolbarWidgets/ToolTipService/ToolTip}">
-				<AppBarButton.Icon>
-					<FontIcon FontSize="10" Glyph="&#xF246;" />
-				</AppBarButton.Icon>
-				<AppBarButton.Flyout>
-					<Flyout contract8Present:ShouldConstrainToRootBounds="False" Placement="Bottom">
-						<StackPanel Spacing="12">
-							<TextBlock FontWeight="Medium" Text="{helpers:ResourceString Name=NavToolbarManageWidgetsFlyoutHeader/Text}" />
-							<StackPanel Spacing="4">
-								<ToggleSwitch Header="{helpers:ResourceString Name=NavToolbarShowFolderWidget/Header}" IsOn="{x:Bind ViewModel.ShowFoldersWidget, Mode=TwoWay}" />
-								<ToggleSwitch Header="{helpers:ResourceString Name=NavToolbarShowDrivesWidget/Header}" IsOn="{x:Bind ViewModel.ShowDrivesWidget, Mode=TwoWay}" />
-								<ToggleSwitch Header="{helpers:ResourceString Name=NavToolbarShowBundlesWidget/Header}" IsOn="{x:Bind ViewModel.ShowBundlesWidget, Mode=TwoWay}" />
-								<ToggleSwitch Header="{helpers:ResourceString Name=NavToolbarShowRecentFilesWidget/Header}" IsOn="{x:Bind ViewModel.ShowRecentFilesWidget, Mode=TwoWay}" />
-							</StackPanel>
-						</StackPanel>
-					</Flyout>
-				</AppBarButton.Flyout>
-			</AppBarButton>
 			<AppBarButton
 				x:Name="SelectionOptions"
 				Width="Auto"
@@ -791,7 +793,7 @@
 									Grid.Column="1"
 									HorizontalAlignment="Right"
 									AutomationProperties.Name="{helpers:ResourceString Name=NavToolbarShowHiddenItems/AutomationProperties/Name}"
-									IsOn="{x:Bind UserSettingsService.PreferencesSettingsService.AreHiddenItemsVisible, Mode=TwoWay}"
+									IsOn="{x:Bind UserSettingsService.FoldersSettingsService.ShowHiddenItems, Mode=TwoWay}"
 									Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 
 								<TextBlock

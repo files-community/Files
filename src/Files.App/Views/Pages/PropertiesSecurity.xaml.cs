@@ -56,7 +56,7 @@ namespace Files.App.Views
         {
             if (SecurityProperties != null)
             {
-                return await SecurityProperties.SetFilePermissions();
+                return SecurityProperties.SetFilePermissions();
             }
             return true;
         }
@@ -76,7 +76,7 @@ namespace Files.App.Views
 
         }
 
-        private async void OpenAdvancedProperties()
+        private void OpenAdvancedProperties()
         {
             if (SecurityProperties == null)
             {
@@ -95,7 +95,11 @@ namespace Files.App.Views
                     }, new SuppressNavigationTransitionInfo());
 
                     // Initialize window
-                    var propertiesWindow = new WinUIEx.WindowEx();
+                    var propertiesWindow = new WinUIEx.WindowEx()
+                    {
+                        IsMinimizable = false,
+                        IsMaximizable = false
+                    };
                     var appWindow = propertiesWindow.AppWindow;
 
                     // Set icon
@@ -119,7 +123,7 @@ namespace Files.App.Views
                     appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
                     appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
-                    appWindow.Title = string.Format("SecurityAdvancedPermissionsTitle".GetLocalizedResource(), SecurityProperties.Item.ItemName);
+                    appWindow.Title = string.Format("SecurityAdvancedPermissionsTitle".GetLocalizedResource(), SecurityProperties.Item.Name);
                     appWindow.Resize(new SizeInt32(850, 550));
                     appWindow.Destroying += AppWindow_Destroying;
                     appWindow.Show();

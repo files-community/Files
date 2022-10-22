@@ -206,6 +206,7 @@
 				Visibility="Collapsed" />
 
 			<SemanticZoom
+				x:Name="RootGridZoom"
 				CanChangeViews="{x:Bind CollectionViewSource.IsSourceGrouped, Mode=OneWay}"
 				ViewChangeStarted="SemanticZoom_ViewChangeStarted"
 				Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
@@ -299,8 +300,7 @@
 									<ColumnDefinition Width="Auto" />
 									<ColumnDefinition
 										x:Name="Column2"
-										Width="{x:Bind ColumnsViewModel.NameColumn.Length, Mode=OneWay}"
-										MaxWidth="{x:Bind ColumnsViewModel.NameColumn.MaxLength, Mode=OneWay}" />
+										Width="{x:Bind ColumnsViewModel.NameColumn.Length, Mode=OneWay}" />
 									<ColumnDefinition Width="Auto" />
 									<ColumnDefinition
 										x:Name="Column3"
@@ -358,6 +358,8 @@
 									DoubleTapped="GridSplitter_DoubleTapped"
 									ManipulationCompleted="GridSplitter_ManipulationCompleted"
 									ManipulationDelta="GridSplitter_ManipulationDelta"
+									ManipulationStarting="GridSplitter_ManipulationStarting"
+									Loaded="GridSplitter_Loaded"
 									PreviewKeyUp="GridSplitter_PreviewKeyUp"
 									Style="{StaticResource HeaderGridSplitterStyle}" />
 
@@ -374,6 +376,8 @@
 									DoubleTapped="GridSplitter_DoubleTapped"
 									ManipulationCompleted="GridSplitter_ManipulationCompleted"
 									ManipulationDelta="GridSplitter_ManipulationDelta"
+									ManipulationStarting="GridSplitter_ManipulationStarting"
+									Loaded="GridSplitter_Loaded"
 									PreviewKeyUp="GridSplitter_PreviewKeyUp"
 									Style="{StaticResource HeaderGridSplitterStyle}"
 									Visibility="{x:Bind ColumnsViewModel.TagColumn.Visibility, Mode=OneWay}" />
@@ -391,6 +395,8 @@
 									DoubleTapped="GridSplitter_DoubleTapped"
 									ManipulationCompleted="GridSplitter_ManipulationCompleted"
 									ManipulationDelta="GridSplitter_ManipulationDelta"
+									ManipulationStarting="GridSplitter_ManipulationStarting"
+									Loaded="GridSplitter_Loaded"
 									PreviewKeyUp="GridSplitter_PreviewKeyUp"
 									Style="{StaticResource HeaderGridSplitterStyle}"
 									Visibility="{x:Bind ColumnsViewModel.OriginalPathColumn.Visibility, Mode=OneWay}" />
@@ -408,6 +414,8 @@
 									DoubleTapped="GridSplitter_DoubleTapped"
 									ManipulationCompleted="GridSplitter_ManipulationCompleted"
 									ManipulationDelta="GridSplitter_ManipulationDelta"
+									ManipulationStarting="GridSplitter_ManipulationStarting"
+									Loaded="GridSplitter_Loaded"
 									PreviewKeyUp="GridSplitter_PreviewKeyUp"
 									Style="{StaticResource HeaderGridSplitterStyle}"
 									Visibility="{x:Bind ColumnsViewModel.DateDeletedColumn.Visibility, Mode=OneWay}" />
@@ -425,6 +433,8 @@
 									DoubleTapped="GridSplitter_DoubleTapped"
 									ManipulationCompleted="GridSplitter_ManipulationCompleted"
 									ManipulationDelta="GridSplitter_ManipulationDelta"
+									ManipulationStarting="GridSplitter_ManipulationStarting"
+									Loaded="GridSplitter_Loaded"
 									PreviewKeyUp="GridSplitter_PreviewKeyUp"
 									Style="{StaticResource HeaderGridSplitterStyle}"
 									Visibility="{x:Bind ColumnsViewModel.DateModifiedColumn.Visibility, Mode=OneWay}" />
@@ -442,6 +452,8 @@
 									DoubleTapped="GridSplitter_DoubleTapped"
 									ManipulationCompleted="GridSplitter_ManipulationCompleted"
 									ManipulationDelta="GridSplitter_ManipulationDelta"
+									ManipulationStarting="GridSplitter_ManipulationStarting"
+									Loaded="GridSplitter_Loaded"
 									PreviewKeyUp="GridSplitter_PreviewKeyUp"
 									Style="{StaticResource HeaderGridSplitterStyle}"
 									Visibility="{x:Bind ColumnsViewModel.DateCreatedColumn.Visibility, Mode=OneWay}" />
@@ -451,7 +463,7 @@
 									Grid.Column="14"
 									Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 									CommandParameter="FileType"
-									Header="{helpers:ResourceString Name=typeColumn/Header}"
+									Header="{helpers:ResourceString Name=Type}"
 									Visibility="{x:Bind ColumnsViewModel.ItemTypeColumn.Visibility, Mode=OneWay}" />
 
 								<controls:GridSplitter
@@ -459,6 +471,8 @@
 									DoubleTapped="GridSplitter_DoubleTapped"
 									ManipulationCompleted="GridSplitter_ManipulationCompleted"
 									ManipulationDelta="GridSplitter_ManipulationDelta"
+									ManipulationStarting="GridSplitter_ManipulationStarting"
+									Loaded="GridSplitter_Loaded"
 									PreviewKeyUp="GridSplitter_PreviewKeyUp"
 									Style="{StaticResource HeaderGridSplitterStyle}"
 									Visibility="{x:Bind ColumnsViewModel.ItemTypeColumn.Visibility, Mode=OneWay}" />
@@ -476,6 +490,8 @@
 									DoubleTapped="GridSplitter_DoubleTapped"
 									ManipulationCompleted="GridSplitter_ManipulationCompleted"
 									ManipulationDelta="GridSplitter_ManipulationDelta"
+									ManipulationStarting="GridSplitter_ManipulationStarting"
+									Loaded="GridSplitter_Loaded"
 									PreviewKeyUp="GridSplitter_PreviewKeyUp"
 									Style="{StaticResource HeaderGridSplitterStyle}"
 									Visibility="{x:Bind ColumnsViewModel.SizeColumn.Visibility, Mode=OneWay}" />
@@ -495,6 +511,8 @@
 									DoubleTapped="GridSplitter_DoubleTapped"
 									ManipulationCompleted="GridSplitter_ManipulationCompleted"
 									ManipulationDelta="GridSplitter_ManipulationDelta"
+									ManipulationStarting="GridSplitter_ManipulationStarting"
+									Loaded="GridSplitter_Loaded"
 									PreviewKeyUp="GridSplitter_PreviewKeyUp"
 									Style="{StaticResource HeaderGridSplitterStyle}"
 									Visibility="{x:Bind ColumnsViewModel.StatusColumn.Visibility, Mode=OneWay}" />
@@ -504,10 +522,9 @@
 							<DataTemplate x:DataType="local2:ListedItem">
 								<Grid
 									HorizontalAlignment="Stretch"
-									AutomationProperties.Name="{x:Bind ItemName, Mode=OneWay}"
+									AutomationProperties.Name="{x:Bind Name, Mode=OneWay}"
 									IsRightTapEnabled="True"
 									Loaded="Grid_Loaded"
-									RightTapped="StackPanel_RightTapped"
 									ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
 									<Grid.ColumnDefinitions>
 										<ColumnDefinition Width="{Binding ColumnsViewModel.IconColumn.LengthIncludingGridSplitter, ElementName=PageRoot, Mode=OneWay}" />
@@ -598,7 +615,7 @@
 											x:Name="ShortcutGlyphElement"
 											HorizontalAlignment="Left"
 											VerticalAlignment="Bottom"
-											x:Load="{x:Bind IsShortcutItem}"
+											x:Load="{x:Bind IsShortcut}"
 											Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
 											BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
 											BorderThickness="1">
@@ -623,7 +640,7 @@
 										<TextBlock
 											x:Name="ItemName"
 											VerticalAlignment="Center"
-											Text="{x:Bind ItemName, Mode=OneWay}"
+											Text="{x:Bind Name, Mode=OneWay}"
 											TextTrimming="CharacterEllipsis" />
 										<TextBox
 											x:Name="ItemNameTextBox"
