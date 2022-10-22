@@ -39,6 +39,8 @@ namespace Files.App.Interacts
             UnpinDirectoryFromFavoritesCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.UnpinDirectoryFromFavorites);
             OpenItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenItem);
             EmptyRecycleBinCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.EmptyRecycleBin);
+            RestoreRecycleBinCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RestoreRecycleBin);
+            RestoreSelectionRecycleBinCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RestoreSelectionRecycleBin);
             QuickLookCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.QuickLook);
             CopyItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.CopyItem);
             CutItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.CutItem);
@@ -70,6 +72,7 @@ namespace Files.App.Interacts
             RefreshCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RefreshItems);
             SearchUnindexedItems = new RelayCommand<RoutedEventArgs>(CommandsModel.SearchUnindexedItems);
             CreateFolderWithSelection = new AsyncRelayCommand<RoutedEventArgs>(CommandsModel.CreateFolderWithSelection);
+            CompressIntoArchiveCommand = new AsyncRelayCommand(CommandsModel.CompressIntoArchive);
             DecompressArchiveCommand = new AsyncRelayCommand(CommandsModel.DecompressArchive);
             DecompressArchiveHereCommand = new AsyncRelayCommand(CommandsModel.DecompressArchiveHere);
             DecompressArchiveToChildFolderCommand = new AsyncRelayCommand(CommandsModel.DecompressArchiveToChildFolder);
@@ -106,6 +109,10 @@ namespace Files.App.Interacts
         public ICommand UnpinDirectoryFromFavoritesCommand { get; private set; }
 
         public ICommand EmptyRecycleBinCommand { get; private set; }
+
+        public ICommand RestoreRecycleBinCommand { get; private set; }
+
+        public ICommand RestoreSelectionRecycleBinCommand { get; private set; }
 
         public ICommand QuickLookCommand { get; private set; }
 
@@ -168,6 +175,8 @@ namespace Files.App.Interacts
         public ICommand SearchUnindexedItems { get; private set; }
 
         public ICommand CreateFolderWithSelection { get; private set; }
+
+        public ICommand CompressIntoArchiveCommand { get; private set; }
 
         public ICommand DecompressArchiveCommand { get; private set; }
 

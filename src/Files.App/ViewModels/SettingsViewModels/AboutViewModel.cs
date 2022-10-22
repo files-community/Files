@@ -83,10 +83,18 @@ namespace Files.App.ViewModels.SettingsViewModels
                     // Export file tags list and DB
                     var exportTags = UTF8Encoding.UTF8.GetBytes((string)FileTagsSettingsService.ExportSettings());
                     await zipFolder.CreateFileAsync(new MemoryStream(exportTags), Constants.LocalSettings.FileTagSettingsFileName, CreationCollisionOption.ReplaceExisting);
-                    var exportTagsDB = UTF8Encoding.UTF8.GetBytes(FileTagsHelper.DbInstance.Export());
+                    byte[] exportTagsDB;
+                    using (var tagDbInstance = FileTagsHelper.GetDbInstance())
+                    {
+                        exportTagsDB = UTF8Encoding.UTF8.GetBytes(tagDbInstance.Export());
+                    }
                     await zipFolder.CreateFileAsync(new MemoryStream(exportTagsDB), Path.GetFileName(FileTagsHelper.FileTagsDbPath), CreationCollisionOption.ReplaceExisting);
                     // Export layout preferences DB
-                    var exportPrefsDB = UTF8Encoding.UTF8.GetBytes(FolderSettingsViewModel.DbInstance.Export());
+                    byte[] exportPrefsDB;
+                    using (var layoutDbInstance = FolderSettingsViewModel.GetDbInstance())
+                    {
+                        exportPrefsDB = UTF8Encoding.UTF8.GetBytes(layoutDbInstance.Export());
+                    }
                     await zipFolder.CreateFileAsync(new MemoryStream(exportPrefsDB), Path.GetFileName(FolderSettingsViewModel.LayoutSettingsDbPath), CreationCollisionOption.ReplaceExisting);
                 }
                 catch (Exception ex)
@@ -141,11 +149,17 @@ namespace Files.App.ViewModels.SettingsViewModels
                     FileTagsSettingsService.ImportSettings(importTags);
                     var fileTagsDB = await zipFolder.GetFileAsync(Path.GetFileName(FileTagsHelper.FileTagsDbPath));
                     string importTagsDB = await fileTagsDB.ReadTextAsync();
-                    FileTagsHelper.DbInstance.Import(importTagsDB);
+                    using (var tagDbInstance = FileTagsHelper.GetDbInstance())
+                    {
+                        tagDbInstance.Import(importTagsDB);
+                    }
                     // Import layout preferences and DB
                     var layoutPrefsDB = await zipFolder.GetFileAsync(Path.GetFileName(FolderSettingsViewModel.LayoutSettingsDbPath));
                     string importPrefsDB = await layoutPrefsDB.ReadTextAsync();
-                    FolderSettingsViewModel.DbInstance.Import(importPrefsDB);
+                    using (var layoutDbInstance = FolderSettingsViewModel.GetDbInstance())
+                    {
+                        layoutDbInstance.Import(importPrefsDB);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -179,7 +193,7 @@ namespace Files.App.ViewModels.SettingsViewModels
             await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.SupportUsUrl));
         }
 
-        public static async Task OpenLogLocation() => await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
+        public static Task OpenLogLocation() => Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder).AsTask();
 
         public string Version
         {
@@ -192,7 +206,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 
         public string AppName => Package.Current.DisplayName;
 
-        private async Task ClickAboutFeedbackItem(ItemClickEventArgs e)
+        private Task ClickAboutFeedbackItem(ItemClickEventArgs e)
         {
             var clickedItem = (StackPanel)e.ClickedItem;
             var uri = clickedItem.Tag switch
@@ -206,8 +220,10 @@ namespace Files.App.ViewModels.SettingsViewModels
             };
             if (uri is not null)
             {
-                await Launcher.LaunchUriAsync(new Uri(uri));
+                return Launcher.LaunchUriAsync(new Uri(uri)).AsTask();
             }
+
+            return Task.CompletedTask;
         }
     }
 }

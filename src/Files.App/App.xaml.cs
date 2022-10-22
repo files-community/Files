@@ -94,9 +94,9 @@ namespace Files.App
 			InitializeComponent();
 			this.Services = ConfigureServices();
 			Ioc.Default.ConfigureServices(Services);
-		}
+        }
 
-		private IServiceProvider ConfigureServices()
+        private IServiceProvider ConfigureServices()
 		{
 			ServiceCollection services = new ServiceCollection();
 
@@ -108,9 +108,9 @@ namespace Files.App
 				.AddSingleton<IUserSettingsService, UserSettingsService>()
 				// Children settings (from IUserSettingsService)
 				.AddSingleton<IMultitaskingSettingsService, MultitaskingSettingsService>((sp) => new MultitaskingSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-				.AddSingleton<IWidgetsSettingsService, WidgetsSettingsService>((sp) => new WidgetsSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
 				.AddSingleton<IAppearanceSettingsService, AppearanceSettingsService>((sp) => new AppearanceSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
 				.AddSingleton<IPreferencesSettingsService, PreferencesSettingsService>((sp) => new PreferencesSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
+				.AddSingleton<IFoldersSettingsService, FoldersSettingsService>((sp) => new FoldersSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
 				.AddSingleton<IApplicationSettingsService, ApplicationSettingsService>((sp) => new ApplicationSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
 				.AddSingleton<IPaneSettingsService, PaneSettingsService>((sp) => new PaneSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
 				.AddSingleton<ILayoutSettingsService, LayoutSettingsService>((sp) => new LayoutSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
@@ -163,7 +163,10 @@ namespace Files.App
 			FileTagsManager ??= new FileTagsManager();
 			SidebarPinnedController ??= new SidebarPinnedController();
 			TerminalController ??= new TerminalController();
-		}
+
+            //FileTagsHelpers.UpdateTagsDb();
+            FileOperationsHelpers.WaitForCompletion();
+        }
 
 		private static async Task StartAppCenter()
 		{

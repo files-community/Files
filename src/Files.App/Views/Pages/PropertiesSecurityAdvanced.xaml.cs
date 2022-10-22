@@ -31,7 +31,7 @@ namespace Files.App.Views
     {
         private object navParameterItem;
 
-        public string DialogTitle => string.Format("SecurityAdvancedPermissionsTitle".GetLocalizedResource(), ViewModel.Item.ItemName);
+        public string DialogTitle => string.Format("SecurityAdvancedPermissionsTitle".GetLocalizedResource(), ViewModel.Item.Name);
 
         public SecurityProperties ViewModel { get; set; }
 
@@ -130,7 +130,7 @@ namespace Files.App.Views
         {
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
-                if (await ViewModel.SetFilePermissions())
+                if (ViewModel.SetFilePermissions())
                 {
                     appWindow.Destroy();
                 }

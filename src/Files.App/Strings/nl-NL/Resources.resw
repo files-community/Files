@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Naam</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>Soort</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>Grootte</value>
   </data>
@@ -166,7 +163,7 @@
     <value>Grootte:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed Size:</value>
+    <value>Ongecomprimeerde grootte:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Deze actie kan niet worden uitgevoerd</value>
@@ -547,7 +544,7 @@
     <value>Ja</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
-    <value>Wilt u al deze items permanent verwijderen?</value>
+    <value>Weet u zeker dat u al deze items permanent verwijderen?</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
     <value>Prullenbak leegmaken</value>
@@ -801,6 +798,9 @@
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Indelingsmodus</value>
   </data>
+  <data name="LayoutMode" xml:space="preserve">
+    <value>Indelingsmodus</value>
+  </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
     <value>Achteruit navigeren</value>
   </data>
@@ -824,9 +824,6 @@
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Verplaats overlopende items naar een sub menu</value>
-  </data>
-  <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
-    <value>Prullenbak aan favorieten vastmaken</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
     <value>Toon een bevestigingsdialoog bij het verwijderen van bestanden of mappen</value>
@@ -1128,9 +1125,6 @@
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Selecteren</value>
   </data>
-  <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
-    <value>Open items met een enkele klik</value>
-  </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>Bestand</value>
   </data>
@@ -1230,14 +1224,20 @@
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Updates beschikbaar</value>
   </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
-    <value>Verberg beveiligde besturingssysteembestanden (aanbevolen)</value>
+  <data name="ShowProtectedSystemFiles" xml:space="preserve">
+    <value>Beveiligde systeembestanden weergeven</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Toon niet-geïndexeerde items bij het zoeken naar bestanden en mappen (zoekopdrachten kunnen langer duren)</value>
+    <value>Niet-geïndexeerde items opnemen in zoekresultaten</value>
   </data>
-  <data name="ForceThesePreferencesOnAllDirectories" xml:space="preserve">
-    <value>Force these preferences on all directories</value>
+  <data name="ResetFolderPreferencesOverrides" xml:space="preserve">
+    <value>Reset mapoverschrijvingen</value>
+  </data>
+  <data name="EnableOverridingFolderPreferencesDescription" xml:space="preserve">
+    <value>Het wijzigen van de lay-out in een map wanneer deze instelling is uitgeschakeld zal de lay-out van alle mappen bijwerken.</value>
+  </data>
+  <data name="EnableOverridingFolderPreferences" xml:space="preserve">
+    <value>Schakel overschrijven van map voorkeuren in individuele mappen in</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Contextmenu aanpassen</value>
@@ -1671,32 +1671,23 @@
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
     <value>Open mappen in een nieuw tabblad</value>
   </data>
-  <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
+  <data name="ShowBundlesWidget" xml:space="preserve">
     <value>Bundelwidget weergeven</value>
   </data>
-  <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
+  <data name="ShowDrivesWidget" xml:space="preserve">
     <value>Stationswidget weergeven</value>
   </data>
-  <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
-    <value>Bibliotheekwidget weergeven</value>
+  <data name="ShowFolderWidget" xml:space="preserve">
+    <value>Mappen widget weergeven</value>
   </data>
-  <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
+  <data name="ShowRecentFilesWidget" xml:space="preserve">
     <value>Recente bestanden-widget weergeven</value>
-  </data>
-  <data name="NavToolbarWidgets.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Widgets beheren</value>
-  </data>
-  <data name="NavToolbarWidgetsManager.AutomationProperties.Name" xml:space="preserve">
-    <value>Widgets beheren</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>Niet gevonden wat u zoekt?</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
     <value>Niet-geïndexeerde items doorzoeken.</value>
-  </data>
-  <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
-    <value>Widgets beheren</value>
   </data>
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>Uiterlijkenmap openen</value>
@@ -1956,7 +1947,7 @@
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Sluiten</value>
   </data>
-  <data name="NavToolbarWidgets.Label" xml:space="preserve">
+  <data name="Widgets" xml:space="preserve">
     <value>Widgets</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
@@ -2316,19 +2307,6 @@
   <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+N</value>
   </data>
-  <data name="SettingsPrivacy.Title" xml:space="preserve">
-    <value>Privacybeleid</value>
-  </data>
-  <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
-    <value>
-*Verzameling van persoonlijke informatie* 
-Files verzamelt, bewaart, deelt of publiceert geen persoonlijke informatie.
-
-*Verzameling van niet-persoonlijke informatie*
-
-We gebruiken App Center om app-gebruik bij te houden, bugs te vinden en crashes te verhelpen. Alle informatie die naar App Center gestuurd wordt is anoniem en bevat geen gebruikers of contextuele data. 
-  </value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Open bovenliggende map</value>
   </data>
@@ -2428,9 +2406,6 @@ We gebruiken App Center om app-gebruik bij te houden, bugs te vinden en crashes 
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Open mappen in een nieuw tabblad</value>
   </data>
-  <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Prullenbak aan favorieten vastmaken</value>
-  </data>
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Taal</value>
   </data>
@@ -2459,7 +2434,7 @@ We gebruiken App Center om app-gebruik bij te houden, bugs te vinden en crashes 
     <value>Lopende taken</value>
   </data>
   <data name="SideBarFavoritesMoveOneDown" xml:space="preserve">
-    <value>erplaats één omlaag</value>
+    <value>Verplaats één omlaag</value>
   </data>
   <data name="SideBarFavoritesMoveOneUp" xml:space="preserve">
     <value>Verplaats één omhoog</value>
@@ -2488,8 +2463,8 @@ We gebruiken App Center om app-gebruik bij te houden, bugs te vinden en crashes 
   <data name="Tag" xml:space="preserve">
     <value>Bestandslabel</value>
   </data>
-  <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
-    <value>Open mappen met één klik</value>
+  <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
+    <value>Open items met één klik</value>
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
     <value>Pad van map</value>
@@ -2617,8 +2592,8 @@ We gebruiken App Center om app-gebruik bij te houden, bugs te vinden en crashes 
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>Vul de Bibliotheek naam in</value>
   </data>
-  <data name="ShowFolderSize" xml:space="preserve">
-    <value>Toon folder grootte</value>
+  <data name="CalculateFolderSizes" xml:space="preserve">
+    <value>Bereken bestandsgrootte</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
     <value>Recente bestanden</value>
@@ -2647,6 +2622,9 @@ We gebruiken App Center om app-gebruik bij te houden, bugs te vinden en crashes 
   <data name="Type" xml:space="preserve">
     <value>Soort:</value>
   </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Pictogrammenraster</value>
+  </data>
   <data name="Bytes" xml:space="preserve">
     <value>Bytes</value>
   </data>
@@ -2663,16 +2641,16 @@ We gebruiken App Center om app-gebruik bij te houden, bugs te vinden en crashes 
     <value>Ctrl+E</value>
   </data>
   <data name="ExtractToChildFolder" xml:space="preserve">
-    <value>Extract to {0}</value>
+    <value>Uitpakken naar {0}</value>
   </data>
   <data name="RunScript" xml:space="preserve">
     <value>Script uitvoeren</value>
   </data>
   <data name="RunWithPowerShell" xml:space="preserve">
-    <value>Run with PowerShell</value>
+    <value>Uitvoeren met PowerShell</value>
   </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
-    <value>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</value>
+    <value>Het berekenen van mapgrootte is een bron die intensief is en kan uw CPU-gebruik doen toenemen.</value>
   </data>
   <data name="RotateLeft" xml:space="preserve">
     <value>Linksom draaien</value>
@@ -2684,7 +2662,7 @@ We gebruiken App Center om app-gebruik bij te houden, bugs te vinden en crashes 
     <value>Installeren</value>
   </data>
   <data name="CloseTabsToTheLeft" xml:space="preserve">
-    <value>Close tabs to the left</value>
+    <value>Tabbladen aan de linkerkant sluiten</value>
   </data>
   <data name="CloseTabsToTheRight" xml:space="preserve">
     <value>Tabbladen rechts sluiten</value>
@@ -2705,19 +2683,19 @@ We gebruiken App Center om app-gebruik bij te houden, bugs te vinden en crashes 
     <value>Updatebestanden</value>
   </data>
   <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
-    <value>Preparing {0} items</value>
+    <value>{0} items voorbereiden</value>
   </data>
   <data name="PrepareInProgress" xml:space="preserve">
-    <value>Preparing items</value>
+    <value>Items worden voorbereid</value>
   </data>
   <data name="StatusCopyFailed" xml:space="preserve">
     <value>Kan niet kopiëren</value>
   </data>
   <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
-    <value>Failed to copy {0} items from {1} to {2}</value>
+    <value>Kopiëren van {0} items van {1} naar {2} mislukt</value>
   </data>
   <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
-    <value>Failed to copy {0} item from {1} to {2}</value>
+    <value>Kopiëren van {0} item van {1} naar {2} mislukt</value>
   </data>
   <data name="StatusMoveFailed" xml:space="preserve">
     <value>Verplaatsen is mislukt.</value>
@@ -2726,19 +2704,19 @@ We gebruiken App Center om app-gebruik bij te houden, bugs te vinden en crashes 
     <value>Labels</value>
   </data>
   <data name="SettingsShowFileTagsSection.Title" xml:space="preserve">
-    <value>Show Tags section</value>
+    <value>Toon Tags sectie</value>
   </data>
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Show Tags section</value>
+    <value>Toon Tags sectie</value>
   </data>
   <data name="UseCompactStyles" xml:space="preserve">
-    <value>Use compact styles in the details layout</value>
+    <value>Gebruik compacte stijlen in de details-layout</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Universeel</value>
   </data>
   <data name="DateFormatSample" xml:space="preserve">
-    <value>ex: {0}, {1}</value>
+    <value>vb: {0}, {1}</value>
   </data>
   <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
     <value>Miniaturen weergeven</value>
@@ -2747,87 +2725,132 @@ We gebruiken App Center om app-gebruik bij te houden, bugs te vinden en crashes 
     <value>Opnieuw</value>
   </data>
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
-    <value>Move operation is not supported in this context. Do you want to copy the items instead?</value>
+    <value>Verplaatsen wordt niet ondersteund in deze context. Wilt u de items kopiëren?</value>
   </data>
-  <data name="HiddenFilesAndFolders" xml:space="preserve">
-    <value>Hidden files and folders</value>
+  <data name="HiddenItems" xml:space="preserve">
+    <value>Verborgen items</value>
   </data>
   <data name="Custom" xml:space="preserve">
-    <value>Custom</value>
+    <value>Aangepast</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
-    <value>Set as desktop slideshow</value>
+    <value>Instellen als bureaublad diavoorstelling</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
-    <value>Size All Columns to Fit</value>
+    <value>Grootte van alle kolommen naar passend maken</value>
   </data>
   <data name="Contributors" xml:space="preserve">
     <value>Bijdragers</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Adaptive</value>
+    <value>Aanpasbaar</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>Adaptive (Ctrl+Shift+7)</value>
+    <value>Aanpasbaar (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>Show Alternate Data Streams</value>
+    <value>Toon Alternatieve Datastromen</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
-    <value>Review Files</value>
+    <value>Files beoordelen</value>
   </data>
   <data name="ReviewFilesContent" xml:space="preserve">
-    <value>Would you like to review Files?</value>
+    <value>Wilt u Files beoordelen?</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
-    <value>Set as background</value>
+    <value>Als achtergrond instellen</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Set as lockscreen</value>
+    <value>Instellen als vergrendelscherm</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>Als bureaubladachtergrond gebruiken</value>
   </data>
   <data name="SetAsDefault" xml:space="preserve">
-    <value>Set as default</value>
+    <value>Instellen als standaard</value>
   </data>
-  <data name="FolderPreferences" xml:space="preserve">
-    <value>Folder preferences</value>
+  <data name="DateColumn" xml:space="preserve">
+    <value>Datum kolom</value>
   </data>
-  <data name="DisplayDateColumn" xml:space="preserve">
-    <value>Display Date column</value>
+  <data name="DateCreatedColumn" xml:space="preserve">
+    <value>Aanmaakdatum kolom</value>
   </data>
-  <data name="DisplayDateCreatedColumn" xml:space="preserve">
-    <value>Display Date Created column</value>
+  <data name="SizeColumn" xml:space="preserve">
+    <value>Grootte kolom</value>
   </data>
-  <data name="DisplaySizeColumn" xml:space="preserve">
-    <value>Display Size column</value>
+  <data name="TagColumn" xml:space="preserve">
+    <value>Tag kolom</value>
   </data>
-  <data name="DisplayTagColumn" xml:space="preserve">
-    <value>Display Tag column</value>
+  <data name="TypeColumn" xml:space="preserve">
+    <value>Type kolom</value>
   </data>
-  <data name="DisplayTypeColumn" xml:space="preserve">
-    <value>Display Type column</value>
+  <data name="DetailsLayoutColumns" xml:space="preserve">
+    <value>Details layout kolommen</value>
   </data>
   <data name="Reset" xml:space="preserve">
-    <value>Reset</value>
+    <value>Herstellen</value>
   </data>
   <data name="ResetLayoutPreferences" xml:space="preserve">
-    <value>This action will reset all directories back to your default preferences.</value>
+    <value>Deze actie zal alle mappen terugzetten naar uw standaardinstellingen.</value>
   </data>
   <data name="AreYouSure" xml:space="preserve">
-    <value>Are you sure?</value>
+    <value>Weet u het zeker?</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
-    <value>Lockscreen</value>
+    <value>Vergrendelingsscherm</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Open folders with a single click in the Columns Layout</value>
+    <value>Open mappen met één klik in de kolommen layout</value>
   </data>
-  <data name="BehaviorForOpeningFilesAndFolders" xml:space="preserve">
-    <value>Behavior for opening files and folders</value>
+  <data name="OpeningItems" xml:space="preserve">
+    <value>Items openen</value>
+  </data>
+  <data name="AddSingleItemToArchive" xml:space="preserve">
+    <value>Toevoegen aan {0}.zip</value>
+  </data>
+  <data name="AddToArchive" xml:space="preserve">
+    <value>Toevoegen aan archief</value>
+  </data>
+  <data name="CompressionCompleted" xml:space="preserve">
+    <value>Inpakken Compleet</value>
+  </data>
+  <data name="CompressionSucceded" xml:space="preserve">
+    <value>{0} is gecomprimeerd</value>
+  </data>
+  <data name="CompressionFailed" xml:space="preserve">
+    <value>{0} kan niet worden gecomprimeerd</value>
+  </data>
+  <data name="CompressionInProgress" xml:space="preserve">
+    <value>Archief comprimeren</value>
+  </data>
+  <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
+    <value>Selecteer bestanden en mappen wanneer je over hen beweegt</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
+    <value>Weet u zeker dat u deze bestanden uit de prullenbak wilt herstellen?</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
+    <value>Alle items herstellen</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
+    <value>Wilt u de {0} geselecteerde item(s) herstellen?</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
+    <value>Herstel selectie</value>
+  </data>
+  <data name="RestoreAllItems" xml:space="preserve">
+    <value>Alle items herstellen</value>
+  </data>
+  <data name="RestoreSelection" xml:space="preserve">
+    <value>Herstellen</value>
+  </data>
+  <data name="ShortcutCannotBeOpened" xml:space="preserve">
+    <value>Snelkoppeling kan niet worden geopend</value>
+  </data>
+  <data name="DeleteShortcutDescription" xml:space="preserve">
+    <value>De bestemming kan niet worden gevonden {0}. Wilt u deze snelkoppeling verwijderen?</value>
   </data>
 </root>
