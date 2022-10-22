@@ -16,6 +16,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Windows.Storage;
+using Files.FullTrust.Helpers;
 
 namespace Files.FullTrust
 {
@@ -24,7 +25,7 @@ namespace Files.FullTrust
     {
         public static ILogger Logger { get; private set; }
         private static readonly LogWriter logWriter = new LogWriter();
-        private static readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
+        private static readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}", JsonContext.Default.String);
 
         [STAThread]
         private static async Task Main()
@@ -120,7 +121,7 @@ namespace Files.FullTrust
                     if (connection.IsMessageComplete)
                     {
                         var message = Encoding.UTF8.GetString(memoryStream.ToArray()).TrimEnd('\0');
-                        OnConnectionRequestReceived(JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(message));
+                        OnConnectionRequestReceived(JsonSerializer.Deserialize(message, JsonContext.Default.DictionaryStringJsonElement));
                         memoryStream.SetLength(0);
                     }
                 }

@@ -61,7 +61,7 @@ namespace Files.Backend.Models
 
         public override string ToString() => ShortString;
         public override int GetHashCode() => size.GetHashCode();
-        public override bool Equals(object other) => other is ByteSize size && Equals(size);
+        public override bool Equals(object? other) => other is ByteSize size && Equals(size);
         public bool Equals(ByteSize other) => other.size.Equals(size);
         public int CompareTo(ByteSize other) => other.size.CompareTo(size);
     }

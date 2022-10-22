@@ -10,6 +10,8 @@
 	<CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
 	<Configurations>Debug;Release;Sideload</Configurations>
 	<PublishReadyToRun>true</PublishReadyToRun>
+	<PublishTrimmed>true</PublishTrimmed>
+	<TrimMode>link</TrimMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
 	<UseVSHostingProcess>false</UseVSHostingProcess>
@@ -53,9 +55,6 @@
 	<Content Include="Assets\FilesOpenDialog\CustomOpenDialog32.dll" />
 	<Content Include="Assets\FilesOpenDialog\CustomOpenDialog64.dll" />
 	<Content Include="Assets\FilesOpenDialog\CustomOpenDialogARM64.dll" />
-  </ItemGroup>
-  <ItemGroup>
-	<Compile Remove="FolderNames.cs" />
   </ItemGroup>
   <ItemGroup>
 	<None Remove="Assets\FilesOpenDialog\FilesLauncher.exe" />

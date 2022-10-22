@@ -65,7 +65,7 @@ namespace Files.App.Helpers
             });
             if (status == AppServiceResponseStatus.Success && response.ContainsKey("Enumerate"))
             {
-                libraries = JsonSerializer.Deserialize<List<ShellLibraryItem>>(response["Enumerate"].GetString())?.Select(lib => new LibraryLocationItem(lib)).ToList();
+                libraries = JsonSerializer.Deserialize<List<ShellLibraryItem>>(response["Enumerate"].GetString(), JsonContext.Default.ListShellLibraryItem)?.Select(lib => new LibraryLocationItem(lib)).ToList();
             }
             return libraries;
         }
@@ -95,7 +95,7 @@ namespace Files.App.Helpers
             LibraryLocationItem library = null;
             if (status == AppServiceResponseStatus.Success && response.ContainsKey("Create"))
             {
-                library = new LibraryLocationItem(JsonSerializer.Deserialize<ShellLibraryItem>(response["Create"].GetString()));
+                library = new LibraryLocationItem(JsonSerializer.Deserialize(response["Create"].GetString(), JsonContext.Default.ShellLibraryItem));
             }
             return library;
         }
@@ -132,7 +132,7 @@ namespace Files.App.Helpers
             }
             if (folders != null)
             {
-                request.Add("folders", JsonSerializer.Serialize(folders));
+                request.Add("folders", JsonSerializer.Serialize(folders, JsonContext.Default.StringArray));
             }
             if (isPinned != null)
             {
@@ -142,7 +142,7 @@ namespace Files.App.Helpers
             LibraryLocationItem library = null;
             if (status == AppServiceResponseStatus.Success && response.ContainsKey("Update"))
             {
-                library = new LibraryLocationItem(JsonSerializer.Deserialize<ShellLibraryItem>(response["Update"].GetString()));
+                library = new LibraryLocationItem(JsonSerializer.Deserialize(response["Update"].GetString(), JsonContext.Default.ShellLibraryItem));
             }
             return library;
         }

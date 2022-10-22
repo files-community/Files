@@ -11,6 +11,7 @@ using Windows.Storage.Search;
 using Files.Shared.Extensions;
 using System.Collections.Specialized;
 using Files.App.Serialization.Implementation;
+using Files.App.Helpers;
 
 namespace Files.App.Controllers
 {

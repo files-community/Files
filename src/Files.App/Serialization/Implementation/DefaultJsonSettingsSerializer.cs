@@ -1,3 +1,4 @@
+using Files.App.Helpers;
 using System.Text.Json;
 
 #nullable enable
@@ -10,6 +11,8 @@ namespace Files.App.Serialization.Implementation
         {
             WriteIndented = true
         };
+
+        public static readonly JsonContext Context = new(Options);
 
         public string? SerializeToJson(object? obj)
         {

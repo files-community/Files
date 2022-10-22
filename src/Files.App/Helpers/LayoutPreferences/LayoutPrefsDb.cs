@@ -176,7 +176,7 @@ namespace Files.App.Helpers.LayoutPreferences
 
         public void Import(string json)
         {
-            var dataValues = JsonSerializer.Deserialize<LayoutDbPrefs[]>(json);
+            var dataValues = JsonSerializer.Deserialize(json, JsonContext.Default.LayoutDbPrefsArray);
             var col = db.GetCollection<LayoutDbPrefs>("layoutprefs");
             col.DeleteAll();
             col.InsertBulk(dataValues);
@@ -184,7 +184,7 @@ namespace Files.App.Helpers.LayoutPreferences
 
         public string Export()
         {
-            return JsonSerializer.Serialize(db.GetCollection<LayoutDbPrefs>("layoutprefs").FindAll());
+            return JsonSerializer.Serialize(db.GetCollection<LayoutDbPrefs>("layoutprefs").FindAll(), JsonContext.Default.IEnumerableLayoutDbPrefs);
         }
 
         public class LayoutDbPrefs

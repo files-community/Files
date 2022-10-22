@@ -264,7 +264,7 @@ namespace Files.App.ViewModels.Properties
                 cachedPropertiesListFiles[path] = text;
             }
 
-            List<FileProperty> list = JsonSerializer.Deserialize<List<FileProperty>>(text);
+            List<FileProperty> list = JsonSerializer.Deserialize(text, JsonContext.Default.ListFileProperty);
 
             var propsToGet = new List<string>();
 

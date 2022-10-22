@@ -30,8 +30,6 @@ namespace Files.App.Shell
     [SupportedOSPlatform("Windows10.0.10240")]
     internal class Win32API
     {
-        private static readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
-
         public static Task StartSTATask(Func<Task> func)
         {
             var taskCompletionSource = new TaskCompletionSource();

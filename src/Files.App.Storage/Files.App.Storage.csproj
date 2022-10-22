@@ -5,11 +5,11 @@
     <OutputType>Library</OutputType>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
-    <LangVersion>9</LangVersion>
     <Nullable>enable</Nullable>
     <UseWinUI>true</UseWinUI>
     <Platforms>x86;x64;arm64</Platforms>
     <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
+    <IsTrimmable>true</IsTrimmable>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <OutputPath>bin\x86\Debug\</OutputPath>

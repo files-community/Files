@@ -15,8 +15,6 @@ namespace Files.App.Helpers
 {
     public class NativeFileOperationsHelper
     {
-        private static readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
-
         public enum File_Attributes : uint
         {
             Readonly = 0x00000001,

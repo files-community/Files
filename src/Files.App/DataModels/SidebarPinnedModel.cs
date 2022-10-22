@@ -23,9 +23,9 @@ namespace Files.App.DataModels
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-		private SidebarPinnedController controller;
+		private SidebarPinnedController? controller;
 
-		private SemaphoreSlim addSyncSemaphore;
+		private readonly SemaphoreSlim addSyncSemaphore = new SemaphoreSlim(1, 1);
 
 		[JsonIgnore]
 		public AppModel AppModel => App.AppModel;
@@ -50,11 +50,6 @@ namespace Files.App.DataModels
 		public void SetController(SidebarPinnedController controller)
 		{
 			this.controller = controller;
-		}
-
-		public SidebarPinnedModel()
-		{
-			addSyncSemaphore = new SemaphoreSlim(1, 1);
 		}
 
 		/// <summary>
@@ -141,7 +136,7 @@ namespace Files.App.DataModels
 					favoriteList.Insert(newIndex, locationItem);
 				}
 				var e = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, locationItem, newIndex, oldIndex);
-				controller.DataChanged?.Invoke(SectionType.Favorites, e);
+				controller?.DataChanged?.Invoke(SectionType.Favorites, e);
 				Save();
 				return true;
 			}
@@ -201,7 +196,7 @@ namespace Files.App.DataModels
 		/// <summary>
 		/// Saves the model
 		/// </summary>
-		public void Save() => controller?.SaveModel();
+		public void Save() => ((SidebarPinnedController?)controller)?.SaveModel();
 
 		/// <summary>
 		/// Adds the item (from a path) to the navigation sidebar
@@ -273,7 +268,7 @@ namespace Files.App.DataModels
 				insertIndex = lastItem is not null ? favoriteList.IndexOf(lastItem) + 1 : 0;
 				favoriteList.Insert(insertIndex, locationItem);
 			}
-			controller.DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, locationItem, insertIndex));
+            controller?.DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, locationItem, insertIndex));
 		}
 
 		/// <summary>
@@ -306,13 +301,13 @@ namespace Files.App.DataModels
 						{
 							favoriteList.Remove(item);
 						}
-						controller.DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
+                        controller?.DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
 					}
 				}
 			}
 
-			// Remove unpinned items from sidebar
-			controller.DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+            // Remove unpinned items from sidebar
+            controller?.DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 		}
 	}
 }

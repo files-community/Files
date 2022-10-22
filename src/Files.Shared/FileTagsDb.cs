@@ -214,7 +214,7 @@ namespace Common
 
         public void Import(string json)
         {
-            var dataValues = JsonSerializer.Deserialize<TaggedFile[]>(json);
+            var dataValues = JsonSerializer.Deserialize(json, JsonContext.Default.TaggedFileArray);
             var col = db.GetCollection<TaggedFile>(TaggedFiles);
             col.DeleteAll();
             col.InsertBulk(dataValues);
@@ -222,7 +222,7 @@ namespace Common
 
         public string Export()
         {
-            return JsonSerializer.Serialize(db.GetCollection<TaggedFile>(TaggedFiles).FindAll());
+            return JsonSerializer.Serialize(db.GetCollection<TaggedFile>(TaggedFiles).FindAll(), JsonContext.Default.IEnumerableTaggedFile);
         }
 
         private void UpdateDb()

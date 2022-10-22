@@ -17,8 +17,6 @@ namespace Files.App.ViewModels.Properties
 {
 	public class SecurityProperties : ObservableObject
 	{
-		private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
-
 		public ListedItem Item { get; }
 
 		public SecurityProperties(ListedItem item)

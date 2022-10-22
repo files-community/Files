@@ -19,7 +19,7 @@ namespace Files.FullTrust.MessageHandlers
     [SupportedOSPlatform("Windows10.0.10240")]
     public class Win32MessageHandler : Disposable, IMessageHandler
     {
-        private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
+        private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}", JsonContext.Default.String);
         private IList<FileSystemWatcher> dirWatchers;
         private PipeStream connection;
 
@@ -104,7 +104,7 @@ namespace Files.FullTrust.MessageHandlers
                 {
                     var shellFileItem = await GetShellFileItemAsync(e.FullPath);
                     if (shellFileItem == null) return;
-                    response["Item"] = JsonSerializer.Serialize(shellFileItem);
+                    response["Item"] = JsonSerializer.Serialize(shellFileItem, JsonContext.Default.ShellFileItem);
                 }
                 else if (e.ChangeType == WatcherChangeTypes.Renamed)
                 {

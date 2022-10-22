@@ -22,7 +22,7 @@ namespace Files.App.ViewModels.Pages
 
         private IShellPage associatedInstance;
 
-        private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
+        private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}", JsonContext.Default.String);
 
         public event EventHandler<RoutedEventArgs> YourHomeLoadedInvoked;
 

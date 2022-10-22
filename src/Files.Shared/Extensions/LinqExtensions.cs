@@ -41,7 +41,7 @@ namespace Files.Shared.Extensions
 			return defaultValue;
 		}
 
-		public static Task<TValue?> GetAsync<TKey, TValue>(this IDictionary<TKey, Task<TValue?>> dictionary, TKey key, Func<Task<TValue?>> defaultValueFunc)
+		public static Task<TValue?> GetAsync<TKey, TValue>(this IDictionary<TKey, Task<TValue?>> dictionary, TKey key, Func<Task<TValue?>> defaultValueFunc) where TKey : notnull
 		{
 			if (dictionary is null || key is null)
 				return defaultValueFunc();

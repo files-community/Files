@@ -17,6 +17,7 @@ using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Windows.Globalization;
 using Windows.Storage;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Files.App.ViewModels
 {
@@ -24,7 +25,6 @@ namespace Files.App.ViewModels
 	public class SettingsViewModel : ObservableObject
 	{
 		private readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-		private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
 
 		public SettingsViewModel()
 		{
@@ -38,11 +38,11 @@ namespace Files.App.ViewModels
 		/// </summary>
 		public AppTheme SelectedTheme
 		{
-			get => JsonSerializer.Deserialize<AppTheme>(Get(JsonSerializer.Serialize(new AppTheme()
+			get => JsonSerializer.Deserialize(Get(JsonSerializer.Serialize(new AppTheme()
 			{
 				Name = "Default".GetLocalizedResource()
-			})));
-			set => Set(JsonSerializer.Serialize(value));
+			}, JsonContext.Default.AppTheme)), JsonContext.Default.AppTheme);
+			set => Set(JsonSerializer.Serialize(value, JsonContext.Default.AppTheme));
 		}
 
 		#endregion Appearance
@@ -79,7 +79,7 @@ namespace Files.App.ViewModels
 			return true;
 		}
 
-		public TValue Get<TValue>(TValue defaultValue, [CallerMemberName] string propertyName = null)
+		public TValue Get<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods)]TValue>(TValue defaultValue, [CallerMemberName] string propertyName = null)
 		{
 			var name = propertyName ??
 					   throw new ArgumentNullException(nameof(propertyName), "Cannot store property of unnamed.");

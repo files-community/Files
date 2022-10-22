@@ -8,6 +8,7 @@
     <AssemblyName>BackgroundTasks</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <IsTrimmable>true</IsTrimmable>
   </PropertyGroup>
   <PropertyGroup>
     <CsWinRTComponent>true</CsWinRTComponent>

@@ -1,4 +1,5 @@
 using Files.Shared.Extensions;
+using Files.FullTrust.Helpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -287,7 +288,7 @@ namespace Files.FullTrust
                 {
                     { "RequestID", requestID }
                 };
-                var serialized = JsonSerializer.SerializeToUtf8Bytes(message);
+                var serialized = JsonSerializer.SerializeToUtf8Bytes(message, JsonContext.Default.DictionaryStringObject);
                 await pipe.WriteAsync(serialized);
             });
         }

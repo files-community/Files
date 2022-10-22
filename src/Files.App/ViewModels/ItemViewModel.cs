@@ -503,7 +503,7 @@ namespace Files.App.ViewModels
 				var folderPath = message["FileSystem"].GetString();
 				var itemPath = message["Path"].GetString();
 				var changeType = message["Type"].GetString();
-				var newItem = JsonSerializer.Deserialize<ShellFileItem>(message.Get("Item", defaultJson).GetString());
+				var newItem = JsonSerializer.Deserialize(message.Get("Item", defaultJson).GetString(), JsonContext.Default.ShellFileItem);
 				Debug.WriteLine("{0}: {1}", folderPath, changeType);
 				// If we are currently displaying the reycle bin lets refresh the items
 				if (CurrentFolder?.ItemPath == folderPath)
@@ -567,7 +567,7 @@ namespace Files.App.ViewModels
 			}
 			else if (message.ContainsKey("Library"))
 			{
-				await App.LibraryManager.HandleWin32LibraryEvent(JsonSerializer.Deserialize<ShellLibraryItem>(message.Get("Item", defaultJson).GetString()), message.Get("OldPath", defaultJson).GetString());
+				await App.LibraryManager.HandleWin32LibraryEvent(JsonSerializer.Deserialize(message.Get("Item", defaultJson).GetString(), JsonContext.Default.ShellLibraryItem), message.Get("OldPath", defaultJson).GetString());
 			}
 		}
 

@@ -89,22 +89,23 @@ namespace Files.App.UserControls.MultitaskingControl
     public class TabItemArguments
     {
         private static readonly KnownTypesConverter TypesConverter = new KnownTypesConverter();
+        private static readonly JsonContext JsonOptionsContext = new JsonContext(TypesConverter.Options);
 
         public Type InitialPageType { get; set; }
         public object NavigationArg { get; set; }
 
-        public string Serialize() => JsonSerializer.Serialize(this, TypesConverter.Options);
+        public string Serialize() => JsonSerializer.Serialize(this, JsonOptionsContext.TabItemArguments);
 
         public static TabItemArguments Deserialize(string obj)
         {
             var tabArgs = new TabItemArguments();
 
-            var tempArgs = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(obj);
+            var tempArgs = JsonSerializer.Deserialize(obj, JsonContext.Default.DictionaryStringJsonElement);
             tabArgs.InitialPageType = Type.GetType(tempArgs["InitialPageType"].GetString());
 
             try
             {
-                tabArgs.NavigationArg = JsonSerializer.Deserialize<PaneNavigationArguments>(tempArgs["NavigationArg"].GetRawText());
+                tabArgs.NavigationArg = JsonSerializer.Deserialize(tempArgs["NavigationArg"].GetRawText(), JsonContext.Default.PaneNavigationArguments);
             }
             catch (JsonException)
             {

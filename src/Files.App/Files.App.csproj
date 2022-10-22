@@ -23,6 +23,8 @@
 	<Platforms>x86;x64;arm64</Platforms>
 	<RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
 	<PublishReadyToRun>true</PublishReadyToRun>
+	<PublishTrimmed>true</PublishTrimmed>
+	<TrimMode>link</TrimMode>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
 	<DefineConstants>TRACE;DEBUG;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
