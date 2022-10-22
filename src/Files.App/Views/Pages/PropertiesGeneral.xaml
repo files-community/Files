@@ -21,11 +21,9 @@
 				<ResourceDictionary x:Key="Light">
 					<SolidColorBrush x:Key="ProgressRingBackgroundThemeBrush" Color="#c3c3c3" />
 				</ResourceDictionary>
-
 				<ResourceDictionary x:Key="Dark">
 					<SolidColorBrush x:Key="ProgressRingBackgroundThemeBrush" Color="#191919" />
 				</ResourceDictionary>
-
 				<ResourceDictionary x:Key="HighContrast">
 					<SolidColorBrush x:Key="ProgressRingBackgroundThemeBrush" Color="#c3c3c3" />
 				</ResourceDictionary>
@@ -293,12 +291,13 @@
 				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
 			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
+				<RowDefinition Height="*" />
+				<RowDefinition Height="*" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
+
 			<!--  Space used progress  -->
 			<ProgressRing
 				x:Name="SpaceUserProgressRing"
@@ -310,7 +309,8 @@
 				HorizontalAlignment="Left"
 				x:Load="{x:Bind ViewModel.DriveCapacityVisibility, Mode=OneWay}"
 				IsIndeterminate="False"
-				Value="{x:Bind ViewModel.DrivePercentageValue, Mode=OneWay}">
+				Value="{x:Bind ViewModel.DrivePercentageValue, Mode=OneWay}"
+				Background="{ThemeResource ProgressRingBackgroundThemeBrush}">
 
 				<ProgressRing.Template>
 					<ControlTemplate TargetType="ProgressRing">
@@ -360,7 +360,7 @@
 					Width="16"
 					Height="16"
 					Margin="0,0,12,0"
-					Fill="{ThemeResource SystemAccentColorLight2}"
+					Fill="{Binding Foreground, ElementName=SpaceUserProgressRing}"
 					RadiusX="2"
 					RadiusY="2"
 					Stroke="{ThemeResource TextControlElevationBorderBrush}" />
@@ -391,7 +391,6 @@
 					</Flyout>
 				</Button.Flyout>
 			</Button>
-
 
 			<!--  Disk free space  -->
 			<StackPanel
@@ -442,8 +441,9 @@
 				Grid.Row="2"
 				Grid.Column="1"
 				Padding="28,0,0,0"
+				VerticalAlignment="Center"
 				x:Load="{x:Bind ViewModel.DriveCapacityVisibility, Mode=OneWay}"
-				Style="{StaticResource PropertyName}"
+				FontWeight="SemiBold"
 				Text="{helpers:ResourceString Name=PropertiesDriveCapacity/Text}" />
 			<TextBlock
 				x:Name="DriveCapacityValue"
