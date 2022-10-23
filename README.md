@@ -59,3 +59,4 @@ Want to contribute to this project? Feel free to open an [issue](https://github.
 ## Screenshots
 
 ![Files](src/Files.App/Assets/FilesHome.png)
+Happy Contributing
