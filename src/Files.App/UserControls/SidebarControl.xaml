@@ -111,9 +111,9 @@
 								</Grid.ColumnDefinitions>
 								<Grid.RowDefinitions>
 									<RowDefinition Height="Auto" />
-									<RowDefinition Height="*" />
-									<RowDefinition Height="*" />
-									<RowDefinition Height="*" />
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
 								</Grid.RowDefinitions>
 
 								<!--  Displays the drive name, this is hidden when the extended details are shown  -->
