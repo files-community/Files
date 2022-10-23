@@ -52,8 +52,6 @@ namespace Files.App
 
 		protected IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>()!;
 
-		protected Task<NamedPipeAsAppServiceConnection> Connection => AppServiceConnectionHelper.Instance;
-
 		public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
 
 		public FolderSettingsViewModel? FolderSettings => ParentShellPageInstance?.InstanceViewModel.FolderSettings;

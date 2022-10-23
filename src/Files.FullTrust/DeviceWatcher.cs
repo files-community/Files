@@ -1,23 +1,18 @@
 ﻿using Files.Shared;
 using Files.FullTrust.MMI;
 using Microsoft.Management.Infrastructure;
-using System;
-using System.IO.Pipes;
 using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 
 namespace Files.FullTrust
 {
-    [SupportedOSPlatform("Windows10.0.10240")]
     public class DeviceWatcher : Disposable
     {
         private ManagementEventWatcher insertWatcher, removeWatcher, modifyWatcher;
-        private readonly PipeStream connection;
 
-        public DeviceWatcher(PipeStream connection)
+        public DeviceWatcher()
         {
-            this.connection = connection;
         }
 
         public void Start()

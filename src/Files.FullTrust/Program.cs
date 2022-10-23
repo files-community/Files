@@ -44,7 +44,6 @@ namespace Files.FullTrust
                 // Create message handlers
                 messageHandlers = new List<IMessageHandler>
                 {
-                    new RecycleBinHandler(),
                     new LibrariesHandler(),
                     new FileTagsHandler(),
                     new NetworkDrivesHandler(),
@@ -60,7 +59,7 @@ namespace Files.FullTrust
                 messageHandlers.ForEach(mh => mh.Initialize(connection));
 
                 // Initialize device watcher
-                deviceWatcher = new DeviceWatcher(connection);
+                deviceWatcher = new DeviceWatcher();
                 deviceWatcher.Start();
 
                 // Update tags db
