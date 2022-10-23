@@ -102,7 +102,7 @@
 	</None>
 	<None Update="Assets\terminal\terminal.json">
 	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	</None>    
+	</None>	
 	<Content Include="Resources\AppCenterKey.txt" />
 	<Content Include="Resources\BingMapsKey.txt" />
 	<Content Include="Resources\PreviewPanePropertiesInformation.json">
@@ -118,70 +118,70 @@
 	</Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="Assets\AppTiles\Preview\**" />
-    <Compile Remove="Assets\AppTiles\Release\**" />
-    <Content Remove="Assets\AppTiles\Preview\**" />
-    <Content Remove="Assets\AppTiles\Release\**" />
-    <EmbeddedResource Remove="Assets\AppTiles\Preview\**" />
-    <EmbeddedResource Remove="Assets\AppTiles\Release\**" />
-    <None Remove="Assets\AppTiles\Preview\**" />
-    <None Remove="Assets\AppTiles\Release\**" />
-    <Page Remove="Assets\AppTiles\Preview\**" />
-    <Page Remove="Assets\AppTiles\Release\**" />
-    <PRIResource Remove="Assets\AppTiles\Preview\**" />
-    <PRIResource Remove="Assets\AppTiles\Release\**" />
+	<Compile Remove="Assets\AppTiles\Preview\**" />
+	<Compile Remove="Assets\AppTiles\Release\**" />
+	<Content Remove="Assets\AppTiles\Preview\**" />
+	<Content Remove="Assets\AppTiles\Release\**" />
+	<EmbeddedResource Remove="Assets\AppTiles\Preview\**" />
+	<EmbeddedResource Remove="Assets\AppTiles\Release\**" />
+	<None Remove="Assets\AppTiles\Preview\**" />
+	<None Remove="Assets\AppTiles\Release\**" />
+	<Page Remove="Assets\AppTiles\Preview\**" />
+	<Page Remove="Assets\AppTiles\Release\**" />
+	<PRIResource Remove="Assets\AppTiles\Preview\**" />
+	<PRIResource Remove="Assets\AppTiles\Release\**" />
   </ItemGroup>
   <ItemGroup>
 	<Content Remove="Assets\FilesHome.png" />
 	<Content Remove="Assets\FilesHome.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="Resources\PreviewPanePropertiesInformation.json" />
-    <None Remove="Resources\PropertiesInformation.json" />
-    <None Remove="Views\SettingsPages\Folders.xaml" />
+	<None Remove="Resources\PreviewPanePropertiesInformation.json" />
+	<None Remove="Resources\PropertiesInformation.json" />
+	<None Remove="Views\SettingsPages\Folders.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="ByteSize">
-      <Version>2.1.1</Version>
-    </PackageReference>
-    <PackageReference Include="CommunityToolkit.Mvvm">
-      <Version>8.0.0</Version>
-    </PackageReference>
-    <PackageReference Include="FluentFTP">
-      <Version>39.4.0</Version>
-    </PackageReference>
-    <PackageReference Include="ini-parser-netstandard">
-      <Version>2.5.2</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.5.3" />
-    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.5.3" />
-    <PackageReference Include="Microsoft.Data.Sqlite.Core">
-      <Version>6.0.10</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection">
-      <Version>6.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="SevenZipSharp">
-      <Version>1.0.0</Version>
-    </PackageReference>
-    <PackageReference Include="SQLitePCLRaw.bundle_green">
-      <Version>2.1.2</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.220930.4-preview2" />
-    <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.4" />
-    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.346202">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />
-    <PackageReference Include="CommunityToolkit.WinUI.UI.Behaviors" Version="7.1.2" />
-    <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
-    <PackageReference Include="Tulpep.ActiveDirectoryObjectPicker" Version="3.0.11" />
-    <PackageReference Include="WinUIEx" Version="1.8.0" />
-    <PackageReference Include="Vanara.PInvoke.Mpr" Version="3.4.9" />
-    <PackageReference Include="Vanara.Windows.Shell" Version="3.3.15" />
-    <PackageReference Include="Microsoft.Management.Infrastructure" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Management.Infrastructure.Runtime.Win" Version="2.0.1" />
-    <FrameworkReference Include="Microsoft.WindowsDesktop.App" />
+	<PackageReference Include="ByteSize">
+	  <Version>2.1.1</Version>
+	</PackageReference>
+	<PackageReference Include="CommunityToolkit.Mvvm">
+	  <Version>8.0.0</Version>
+	</PackageReference>
+	<PackageReference Include="FluentFTP">
+	  <Version>39.4.0</Version>
+	</PackageReference>
+	<PackageReference Include="ini-parser-netstandard">
+	  <Version>2.5.2</Version>
+	</PackageReference>
+	<PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.5.3" />
+	<PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.5.3" />
+	<PackageReference Include="Microsoft.Data.Sqlite.Core">
+	  <Version>6.0.10</Version>
+	</PackageReference>
+	<PackageReference Include="Microsoft.Extensions.DependencyInjection">
+	  <Version>6.0.1</Version>
+	</PackageReference>
+	<PackageReference Include="SevenZipSharp">
+	  <Version>1.0.0</Version>
+	</PackageReference>
+	<PackageReference Include="SQLitePCLRaw.bundle_green">
+	  <Version>2.1.2</Version>
+	</PackageReference>
+	<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.220930.4-preview2" />
+	<PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.4" />
+	<PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.346202">
+	  <PrivateAssets>all</PrivateAssets>
+	</PackageReference>
+	<PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />
+	<PackageReference Include="CommunityToolkit.WinUI.UI.Behaviors" Version="7.1.2" />
+	<PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
+	<PackageReference Include="Tulpep.ActiveDirectoryObjectPicker" Version="3.0.11" />
+	<PackageReference Include="WinUIEx" Version="1.8.0" />
+	<PackageReference Include="Vanara.PInvoke.Mpr" Version="3.4.9" />
+	<PackageReference Include="Vanara.Windows.Shell" Version="3.3.15" />
+	<PackageReference Include="Microsoft.Management.Infrastructure" Version="2.0.0" />
+	<PackageReference Include="Microsoft.Management.Infrastructure.Runtime.Win" Version="2.0.1" />
+	<FrameworkReference Include="Microsoft.WindowsDesktop.App" />
   </ItemGroup>
   <ItemGroup>
 	<AppxManifest Include="..\Files.Package\Package.appxmanifest">
@@ -197,9 +197,9 @@
 	<ProjectReference Include="..\Files.Backend\Files.Backend.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Views\SettingsPages\Folders.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
+	<Page Update="Views\SettingsPages\Folders.xaml">
+	  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+	</Page>
   </ItemGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sideload|x86'">
 	<OutputPath>bin\x86\Sideload\</OutputPath>

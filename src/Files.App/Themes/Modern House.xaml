@@ -18,12 +18,12 @@
 			<Color x:Key="SolidBackgroundAcrylic">#535b70</Color>
 			<!--  Accent Color  -->
 			<Color x:Key="SystemAccentColor">#FFFFFF</Color>
-            <Color x:Key="SystemAccentColorDark1">#FFFFFF</Color>
-            <Color x:Key="SystemAccentColorDark2">#F5F5F5</Color>
-            <Color x:Key="SystemAccentColorDark3">#F5FEFD</Color>
-            <Color x:Key="SystemAccentColorLight1">#FFFFFF</Color>
-            <Color x:Key="SystemAccentColorLight2">#F8F8FF</Color>
-            <Color x:Key="SystemAccentColorLight3">#F5F5F5</Color>
+			<Color x:Key="SystemAccentColorDark1">#FFFFFF</Color>
+			<Color x:Key="SystemAccentColorDark2">#F5F5F5</Color>
+			<Color x:Key="SystemAccentColorDark3">#F5FEFD</Color>
+			<Color x:Key="SystemAccentColorLight1">#FFFFFF</Color>
+			<Color x:Key="SystemAccentColorLight2">#F8F8FF</Color>
+			<Color x:Key="SystemAccentColorLight3">#F5F5F5</Color>
 		</ResourceDictionary>
 		<ResourceDictionary x:Key="Light">
 			<!--  Background Resources  -->
@@ -38,13 +38,13 @@
 			<SolidColorBrush x:Key="SolidBackgroundFillColorQuarternaryBrush" Color="{ThemeResource SolidBackgroundFillColorQuarternary}" />
 			<Color x:Key="SolidBackgroundAcrylic">#eaefff</Color>
 			<!--  Accent Color  -->
-            <Color x:Key="SystemAccentColor">#000000</Color>
-            <Color x:Key="SystemAccentColorDark1">#000000</Color>
-            <Color x:Key="SystemAccentColorDark2">#0C0404</Color>
-            <Color x:Key="SystemAccentColorDark3">#1A2421</Color>
-            <Color x:Key="SystemAccentColorLight1">#000000</Color>
-            <Color x:Key="SystemAccentColorLight2">#232B2B</Color>
-            <Color x:Key="SystemAccentColorLight3">#1B1B1B</Color>
-        </ResourceDictionary>
+			<Color x:Key="SystemAccentColor">#000000</Color>
+			<Color x:Key="SystemAccentColorDark1">#000000</Color>
+			<Color x:Key="SystemAccentColorDark2">#0C0404</Color>
+			<Color x:Key="SystemAccentColorDark3">#1A2421</Color>
+			<Color x:Key="SystemAccentColorLight1">#000000</Color>
+			<Color x:Key="SystemAccentColorLight2">#232B2B</Color>
+			<Color x:Key="SystemAccentColorLight3">#1B1B1B</Color>
+		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>
