@@ -8,13 +8,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Files.FullTrust", "src\File
 		{25FD5045-6D4C-4DD0-B3AC-613AB59CBB07} = {25FD5045-6D4C-4DD0-B3AC-613AB59CBB07}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Files.App", "src\Files.App\Files.App.csproj", "{64C30C4E-A69A-411C-9F78-776E7AAD583C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Files.App", "src\Files.App\Files.App.csproj", "{64C30C4E-A69A-411C-9F78-776E7AAD583C}"
 EndProject
 Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "Files.Package", "src\Files.Package\Files.Package.wapproj", "{3B15596C-3DB9-4B58-B4C8-442D06A8C130}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Files.Shared", "src\Files.Shared\Files.Shared.csproj", "{0533133F-2559-4B53-A0FD-0970BC0E312E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BackgroundTasks", "src\BackgroundTasks\BackgroundTasks.csproj", "{3D19293F-0E3A-4946-ADE3-680A1E9123EC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackgroundTasks", "src\BackgroundTasks\BackgroundTasks.csproj", "{3D19293F-0E3A-4946-ADE3-680A1E9123EC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FilesOpenDialog", "FilesOpenDialog", "{0175B70C-1E29-4A3F-AA4F-C2017B040EF0}"
 EndProject
@@ -36,7 +36,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sdk", "Sdk", "{9F36C2AD-005
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Files.Sdk.Storage", "src\Files.Sdk.Storage\Files.Sdk.Storage.csproj", "{93B7A21C-A6CA-4A21-A69C-B5BD26BDDB79}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Files.App.Storage", "src\Files.App.Storage\Files.App.Storage.csproj", "{DEDFB63C-7A8D-4E1F-A143-7B61CAC1F2A7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Files.App.Storage", "src\Files.App.Storage\Files.App.Storage.csproj", "{DEDFB63C-7A8D-4E1F-A143-7B61CAC1F2A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
