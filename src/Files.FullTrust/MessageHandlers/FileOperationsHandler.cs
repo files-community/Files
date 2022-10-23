@@ -635,41 +635,7 @@ namespace Files.FullTrust.MessageHandlers
                     break;
 
                 case "ParseLink":
-                    try
-                    {
-                        var linkPath = message["filepath"].GetString();
-                        if (linkPath.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase))
-                        {
-                            using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, null, TimeSpan.FromMilliseconds(100));
-                            await Win32API.SendMessageAsync(connection, new ValueSet()
-                            {
-                                { "ShortcutInfo", JsonSerializer.Serialize(ShellFolderExtensions.GetShellLinkItem(link)) }
-                            }, message.Get("RequestID", defaultJson).GetString());
-                        }
-                        else if (linkPath.EndsWith(".url", StringComparison.OrdinalIgnoreCase))
-                        {
-                            var linkUrl = await Win32API.StartSTATask(() =>
-                            {
-                                var ipf = new Url.IUniformResourceLocator();
-                                (ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Load(linkPath, 0);
-                                ipf.GetUrl(out var retVal);
-                                return retVal;
-                            });
-                            await Win32API.SendMessageAsync(connection, new ValueSet()
-                            {
-                                { "ShortcutInfo", JsonSerializer.Serialize(new ShellLinkItem() { TargetPath = linkUrl }) }
-                            }, message.Get("RequestID", defaultJson).GetString());
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        // Could not parse shortcut
-                        Program.Logger.Warn(ex, ex.Message);
-                        await Win32API.SendMessageAsync(connection, new ValueSet()
-                        {
-                            { "ShortcutInfo", JsonSerializer.Serialize(new ShellLinkItem()) }
-                        }, message.Get("RequestID", defaultJson).GetString());
-                    }
+                    
                     break;
 
                 case "CreateLink":
