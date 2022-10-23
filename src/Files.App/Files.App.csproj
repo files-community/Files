@@ -156,10 +156,10 @@
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.5.3" />
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.5.3" />
     <PackageReference Include="Microsoft.Data.Sqlite.Core">
-      <Version>6.0.9</Version>
+      <Version>6.0.10</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection">
-      <Version>6.0.0</Version>
+      <Version>6.0.1</Version>
     </PackageReference>
     <PackageReference Include="SevenZipSharp">
       <Version>1.0.0</Version>
@@ -175,6 +175,7 @@
     <PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Behaviors" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
+    <PackageReference Include="Tulpep.ActiveDirectoryObjectPicker" Version="3.0.11" />
     <PackageReference Include="WinUIEx" Version="1.8.0" />
     <PackageReference Include="Vanara.PInvoke.Mpr" Version="3.4.9" />
     <PackageReference Include="Vanara.Windows.Shell" Version="3.3.15" />

@@ -157,7 +157,7 @@
     <value>Név</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Path:</value>
+    <value>Elérési út:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Méret:</value>
@@ -1125,9 +1125,6 @@
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Kiválasztás</value>
   </data>
-  <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
-    <value>Fájlok megnyitása egy kattintással</value>
-  </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>Fájl</value>
   </data>
@@ -1228,19 +1225,19 @@
     <value>Frissítés érhető el</value>
   </data>
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
-    <value>Show protected system files</value>
+    <value>Az operációs rendszer védett fájljainak megjelenítése</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Include unindexed items in search results</value>
+    <value>Keresés nem indexelt elemek között is</value>
   </data>
   <data name="ResetFolderPreferencesOverrides" xml:space="preserve">
-    <value>Reset folder overrides</value>
+    <value>Mappa felülírások visszaállítása</value>
   </data>
   <data name="EnableOverridingFolderPreferencesDescription" xml:space="preserve">
-    <value>Changing the layout in a directory when this setting is turned off will update the layout for all directories.</value>
+    <value>Nézetváltáskor a beállítás minden mappára alkalmazva lesz, ha ez nincs engedélyezve.</value>
   </data>
   <data name="EnableOverridingFolderPreferences" xml:space="preserve">
-    <value>Enable overriding folder preferences in individual directories</value>
+    <value>Ezek a beállítások mappánként felülírhatók</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Helyi menü testreszabása</value>
@@ -1951,7 +1948,7 @@
     <value>Elutasítás</value>
   </data>
   <data name="Widgets" xml:space="preserve">
-    <value>Widgets</value>
+    <value>Widgetek</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>Szinkronizálás állapota</value>
@@ -2466,8 +2463,8 @@
   <data name="Tag" xml:space="preserve">
     <value>Címke</value>
   </data>
-  <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
-    <value>Mappák megnyitása egy kattintással</value>
+  <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
+    <value>Elemek megnyitása egy kattintással</value>
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
     <value>Mappa útvonala</value>
@@ -2596,7 +2593,7 @@
     <value>A könyvtár neve</value>
   </data>
   <data name="CalculateFolderSizes" xml:space="preserve">
-    <value>Calculate folder sizes</value>
+    <value>Mappák méretének számolása</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
     <value>Előzmények</value>
@@ -2626,7 +2623,7 @@
     <value>Típus:</value>
   </data>
   <data name="IconGrid" xml:space="preserve">
-    <value>Icon Grid</value>
+    <value>Ikonrács</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Méret bájtokban</value>
@@ -2653,7 +2650,7 @@
     <value>Futtatás PowerShell használatával</value>
   </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
-    <value>A mappa méretek meghatározása erőforrás-igényes és a processzorhasználat növekedésével járhat.</value>
+    <value>A mappák méretek számolása erőforrás-igényes és a processzorhasználat növekedésével járhat.</value>
   </data>
   <data name="RotateLeft" xml:space="preserve">
     <value>Balra forgatás</value>
@@ -2731,7 +2728,7 @@
     <value>Itt nem támogatott az áthelyezés művelet. Szeretné inkább másolni az elemeket?</value>
   </data>
   <data name="HiddenItems" xml:space="preserve">
-    <value>Hidden items</value>
+    <value>Rejtett elemek</value>
   </data>
   <data name="Custom" xml:space="preserve">
     <value>Egyéni</value>
@@ -2776,22 +2773,22 @@
     <value>Beállítás alapértelmezettként</value>
   </data>
   <data name="DateColumn" xml:space="preserve">
-    <value>Date column</value>
+    <value>Dátum</value>
   </data>
   <data name="DateCreatedColumn" xml:space="preserve">
-    <value>Date Created column</value>
+    <value>Létrehozás dátuma</value>
   </data>
   <data name="SizeColumn" xml:space="preserve">
-    <value>Size column</value>
+    <value>Méret</value>
   </data>
   <data name="TagColumn" xml:space="preserve">
-    <value>Tag column</value>
+    <value>Címkék</value>
   </data>
   <data name="TypeColumn" xml:space="preserve">
-    <value>Type column</value>
+    <value>Típus</value>
   </data>
   <data name="DetailsLayoutColumns" xml:space="preserve">
-    <value>Details layout columns</value>
+    <value>Részletek nézet oszlopok</value>
   </data>
   <data name="Reset" xml:space="preserve">
     <value>Visszaállítás</value>
@@ -2809,10 +2806,28 @@
     <value>Mappák megnyitása egy kattintással Oszlopok nézetben</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
-    <value>Opening items</value>
+    <value>Elemek megnyitása</value>
+  </data>
+  <data name="AddSingleItemToArchive" xml:space="preserve">
+    <value>Tömörítés {0}.zip-be</value>
+  </data>
+  <data name="AddToArchive" xml:space="preserve">
+    <value>Tömörítés</value>
+  </data>
+  <data name="CompressionCompleted" xml:space="preserve">
+    <value>A tömörítés befejeződött</value>
+  </data>
+  <data name="CompressionSucceded" xml:space="preserve">
+    <value>{0} tömörítése kész</value>
+  </data>
+  <data name="CompressionFailed" xml:space="preserve">
+    <value>{0} tömörítése nem sikerült</value>
+  </data>
+  <data name="CompressionInProgress" xml:space="preserve">
+    <value>Tömörítés folyamatban</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
-    <value>Select files and folders when hovering over them</value>
+    <value>Fájlok és mappák kiválasztása kattintás nélkül</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
     <value>Biztosan vissza szeretné állítani a Lomtárban lévő összes elemet?</value>
@@ -2831,5 +2846,11 @@
   </data>
   <data name="RestoreSelection" xml:space="preserve">
     <value>Visszaállítás</value>
+  </data>
+  <data name="ShortcutCannotBeOpened" xml:space="preserve">
+    <value>A parancsikon nem nyitható meg</value>
+  </data>
+  <data name="DeleteShortcutDescription" xml:space="preserve">
+    <value>Nem található az elem, amire a parancsikon mutat ({0}). Szeretné eltávolítani a parancsikont?</value>
   </data>
 </root>
