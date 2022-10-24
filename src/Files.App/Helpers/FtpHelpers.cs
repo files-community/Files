@@ -39,7 +39,7 @@ namespace Files.App.Helpers
         public static bool VerifyFtpPath(string path)
         {
             var authority = GetFtpAuthority(path);
-            var index = authority.IndexOf(":", StringComparison.Ordinal);
+            var index = authority.IndexOf(':', StringComparison.Ordinal);
 
             if (index == -1)
             {
@@ -52,7 +52,7 @@ namespace Files.App.Helpers
         public static string GetFtpHost(string path)
         {
             var authority = GetFtpAuthority(path);
-            var index = authority.IndexOf(":", StringComparison.Ordinal);
+            var index = authority.IndexOf(':', StringComparison.Ordinal);
 
             if (index == -1)
             {
@@ -65,7 +65,7 @@ namespace Files.App.Helpers
         public static ushort GetFtpPort(string path)
         {
             var authority = GetFtpAuthority(path);
-            var index = authority.IndexOf(":", StringComparison.Ordinal);
+            var index = authority.IndexOf(':', StringComparison.Ordinal);
 
             if (index == -1)
             {

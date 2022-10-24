@@ -97,9 +97,8 @@ namespace Files.App.Filesystem
         /// </summary>
         public async Task<List<RecentItem>> ListRecentFilesAsync()
         {
-            var items = (await Win32Shell.GetShellFolderAsync(QuickAccessGuid, "Enumerate", 0, int.MaxValue)).Enumerate
-                                   .Select(link => new RecentItem(link)).ToList();
-            return items;
+            return (await Win32Shell.GetShellFolderAsync(QuickAccessGuid, "Enumerate", 0, int.MaxValue)).Enumerate
+                .Select(link => new RecentItem(link)).ToList();
         }
 
         /// <summary>
@@ -222,12 +221,7 @@ namespace Files.App.Filesystem
         /// </summary>
         private bool RecentItemsOrderEquals(IEnumerable<RecentItem> oldOrder, IEnumerable<RecentItem> newOrder)
         {
-            if (oldOrder is null || newOrder is null)
-            {
-                return false;
-            }
-
-            return oldOrder.SequenceEqual(newOrder);
+            return oldOrder != null && newOrder != null && oldOrder.SequenceEqual(newOrder);
         }
 
         public void Dispose() { }

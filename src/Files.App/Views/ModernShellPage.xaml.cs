@@ -925,7 +925,7 @@ namespace Files.App.Views
                     lastSlashIndex = parentDirectoryOfPath.LastIndexOf("/", StringComparison.Ordinal);
                 if (lastSlashIndex != -1)
                     parentDirectoryOfPath = FilesystemViewModel.WorkingDirectory.Remove(lastSlashIndex);
-                if (parentDirectoryOfPath.EndsWith(":"))
+                if (parentDirectoryOfPath.EndsWith(':'))
                     parentDirectoryOfPath += '\\';
 
                 SelectSidebarItemFromPath();

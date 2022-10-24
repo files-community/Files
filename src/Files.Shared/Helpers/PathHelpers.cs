@@ -10,7 +10,7 @@ namespace Files.Shared.Helpers
             if (string.IsNullOrEmpty(path))
                 return string.Empty;
 
-            var index = path.Contains("/") ? path.LastIndexOf("/", StringComparison.Ordinal) : path.LastIndexOf("\\", StringComparison.Ordinal);
+            var index = path.Contains('/') ? path.LastIndexOf("/", StringComparison.Ordinal) : path.LastIndexOf("\\", StringComparison.Ordinal);
             return path.Substring(0, index != -1 ? index : path.Length);
         }
 
@@ -20,7 +20,7 @@ namespace Files.Shared.Helpers
             {
                 return name;
             }
-            return folder.Contains("/") ? Path.Combine(folder, name).Replace("\\", "/") : Path.Combine(folder, name);
+            return folder.Contains('/') ? Path.Combine(folder, name).Replace("\\", "/") : Path.Combine(folder, name);
         }
     }
 }

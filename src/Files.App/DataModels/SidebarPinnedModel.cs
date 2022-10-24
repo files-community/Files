@@ -286,8 +286,8 @@ namespace Files.App.DataModels
 				foreach (string path in FavoriteItems)
 				{
 					await AddItemToSidebarAsync(path);
-				}
 			}
+		}
 		}
 
 		/// <summary>
@@ -298,16 +298,13 @@ namespace Files.App.DataModels
 			// Remove unpinned items from favoriteList
 			foreach (var childItem in Favorites)
 			{
-				if (childItem is LocationItem item)
+				if (childItem is LocationItem item && !item.IsDefaultLocation && !FavoriteItems.Contains(item.Path))
 				{
-					if (!item.IsDefaultLocation && !FavoriteItems.Contains(item.Path))
+					lock (favoriteList)
 					{
-						lock (favoriteList)
-						{
-							favoriteList.Remove(item);
-						}
-						controller.DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
+						favoriteList.Remove(item);
 					}
+					controller.DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
 				}
 			}
 

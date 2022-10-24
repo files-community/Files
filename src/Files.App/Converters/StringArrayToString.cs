@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using Microsoft.UI.Xaml.Data;
 
 namespace Files.App.Converters
@@ -9,15 +10,13 @@ namespace Files.App.Converters
         {
             var array = value as string[];
 
-            if (array == null || !(array is string[]))
-            {
-                return "";
-            }
+            if (array == null)
+                return string.Empty;
 
-            var str = "";
+            var str = new StringBuilder();
             foreach (var i in array)
             {
-                str += string.Format("{0}; ", i);
+                str.Append(string.Format("{0}; ", i));
             }
 
             return str;

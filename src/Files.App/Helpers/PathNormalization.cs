@@ -73,7 +73,7 @@ namespace Files.App.Helpers
             {
                 return string.Empty;
             }
-            var index = path.Contains("/", StringComparison.Ordinal) ? path.LastIndexOf("/", StringComparison.Ordinal) : path.LastIndexOf("\\", StringComparison.Ordinal);
+            var index = path.Contains('/', StringComparison.Ordinal) ? path.LastIndexOf("/", StringComparison.Ordinal) : path.LastIndexOf("\\", StringComparison.Ordinal);
             return path.Substring(0, index != -1 ? index : path.Length);
         }
 
@@ -83,7 +83,7 @@ namespace Files.App.Helpers
             {
                 return name;
             }
-            return folder.Contains("/", StringComparison.Ordinal) ? Path.Combine(folder, name).Replace("\\", "/", StringComparison.Ordinal) : Path.Combine(folder, name);
+            return folder.Contains('/', StringComparison.Ordinal) ? Path.Combine(folder, name).Replace("\\", "/", StringComparison.Ordinal) : Path.Combine(folder, name);
         }
     }
 }

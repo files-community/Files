@@ -1,3 +1,4 @@
+using Files.App.Shell;
 using Files.Shared;
 using System;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -7,7 +8,6 @@ using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
 using IO = System.IO;
-using Files.App.Shell;
 
 namespace Files.App.Filesystem.StorageItems
 {
@@ -52,7 +52,7 @@ namespace Files.App.Filesystem.StorageItems
 
         public override DateTimeOffset DateCreated { get; }
 
-        public override Windows.Storage.FileAttributes Attributes => Windows.Storage.FileAttributes.Normal | Windows.Storage.FileAttributes.ReadOnly;
+        public override FileAttributes Attributes => FileAttributes.Normal | FileAttributes.ReadOnly;
 
         private IStorageItemExtraProperties properties;
         public override IStorageItemExtraProperties Properties => properties ??= new BaseBasicStorageItemExtraProperties(this);
@@ -85,13 +85,8 @@ namespace Files.App.Filesystem.StorageItems
 
         public static IAsyncOperation<BaseStorageFile> FromPathAsync(string path)
         {
-            if (ShellStorageFolder.IsShellPath(path))
-            {
-                if (GetFile(path) is ShellFileItem file)
-                {
+            if (ShellStorageFolder.IsShellPath(path) && GetFile(path) is ShellFileItem file)
                     return Task.FromResult<BaseStorageFile>(FromShellItem(file)).AsAsyncOperation();
-                }
-            }
             return Task.FromResult<BaseStorageFile>(null).AsAsyncOperation();
         }
 

@@ -250,8 +250,8 @@ namespace Files.App.Helpers
             if (item is AlternateStreamItem ads) // For alternate streams Name is not a substring ItemNameRaw
             {
                 newName = item.ItemNameRaw.Replace(
-                    item.Name.Substring(item.Name.LastIndexOf(":") + 1),
-                    newName.Substring(newName.LastIndexOf(":") + 1),
+                    item.Name.Substring(item.Name.LastIndexOf(':') + 1),
+                    newName.Substring(newName.LastIndexOf(':') + 1),
                     StringComparison.Ordinal);
                 newName = $"{ads.MainStreamName}:{newName}";
             }

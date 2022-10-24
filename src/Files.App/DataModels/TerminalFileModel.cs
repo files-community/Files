@@ -34,14 +34,7 @@ namespace Files.App.DataModels
 
         public void ResetToDefaultTerminal()
         {
-            if (Terminals.Any(x => x.Name == "Windows Terminal"))
-            {
-                DefaultTerminalName = "Windows Terminal";
-            }
-            else
-            {
-                DefaultTerminalName = "CMD";
-            }
+            DefaultTerminalName = Terminals.Any(t => t.Name == "Windows Terminal") ? "Windows Terminal" : "CMD";
         }
 
         public void AddTerminal(Terminal terminal)
@@ -58,11 +51,8 @@ namespace Files.App.DataModels
             Terminal? existingTerminal = Terminals.FirstOrDefault(x => x.Name.Equals(terminal.Name, StringComparison.OrdinalIgnoreCase));
             if (existingTerminal != null && Terminals.Remove(existingTerminal))
             {
-                if (string.IsNullOrWhiteSpace(DefaultTerminalName))
-                {
-                    ResetToDefaultTerminal();
-                }
-                else if (DefaultTerminalName.Equals(terminal.Name, StringComparison.OrdinalIgnoreCase))
+                if (string.IsNullOrWhiteSpace(DefaultTerminalName) ||
+					DefaultTerminalName.Equals(terminal.Name, StringComparison.OrdinalIgnoreCase))
                 {
                     ResetToDefaultTerminal();
                 }

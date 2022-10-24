@@ -32,6 +32,7 @@ using Microsoft.Windows.AppLifecycle;
 using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
@@ -351,41 +352,41 @@ namespace Files.App
 
 		private static void AppUnhandledException(Exception ex)
 		{
-			string formattedException = string.Empty;
+			StringBuilder formattedException = new StringBuilder() { Capacity = 200 };
 
-			formattedException += "--------- UNHANDLED EXCEPTION ---------";
+			formattedException.Append("--------- UNHANDLED EXCEPTION ---------");
 			if (ex != null)
 			{
-				formattedException += $"\n>>>> HRESULT: {ex.HResult}\n";
+				formattedException.Append($"\n>>>> HRESULT: {ex.HResult}\n");
 				if (ex.Message != null)
 				{
-					formattedException += "\n--- MESSAGE ---";
-					formattedException += ex.Message;
+					formattedException.Append("\n--- MESSAGE ---");
+					formattedException.Append(ex.Message);
 				}
 				if (ex.StackTrace != null)
 				{
-					formattedException += "\n--- STACKTRACE ---";
-					formattedException += ex.StackTrace;
+					formattedException.Append("\n--- STACKTRACE ---");
+					formattedException.Append(ex.StackTrace);
 				}
 				if (ex.Source != null)
 				{
-					formattedException += "\n--- SOURCE ---";
-					formattedException += ex.Source;
+					formattedException.Append("\n--- SOURCE ---");
+					formattedException.Append(ex.Source);
 				}
 				if (ex.InnerException != null)
 				{
-					formattedException += "\n--- INNER ---";
-					formattedException += ex.InnerException;
+					formattedException.Append("\n--- INNER ---");
+					formattedException.Append(ex.InnerException);
 				}
 			}
 			else
 			{
-				formattedException += "\nException is null!\n";
+				formattedException.Append("\nException is null!\n");
 			}
 
-			formattedException += "---------------------------------------";
+			formattedException.Append("---------------------------------------");
 
-			Debug.WriteLine(formattedException);
+			Debug.WriteLine(formattedException.ToString());
 
 			Debugger.Break(); // Please check "Output Window" for exception details (View -> Output Window) (CTRL + ALT + O)
 

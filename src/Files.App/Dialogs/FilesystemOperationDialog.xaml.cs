@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
-using Files.App.Helpers.XamlHelpers;
 using Files.App.Filesystem;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -58,16 +57,7 @@ namespace Files.App.Dialogs
         private void UpdateDialogLayout()
         {
             if (ViewModel.FileSystemDialogMode.ConflictsExist)
-            {
-                if (App.Window.Bounds.Width <= 700)
-                {
-                    ContainerGrid.Width = App.Window.Bounds.Width - 50;
-                }
-                else
-                {
-                    ContainerGrid.Width = 650;
-                }
-            }
+                ContainerGrid.Width = App.Window.Bounds.Width <= 700 ? App.Window.Bounds.Width - 50 : 650;
         }
 
         protected override void OnApplyTemplate()
@@ -120,12 +110,10 @@ namespace Files.App.Dialogs
                 return;
             }
 
-            if (((sender as MenuFlyout)?.Target as ListViewItem)?.Content is BaseFileSystemDialogItemViewModel li)
+            if (((sender as MenuFlyout)?.Target as ListViewItem)?.Content is BaseFileSystemDialogItemViewModel li &&
+                !DetailsGrid.SelectedItems.Contains(li))
             {
-                if (!DetailsGrid.SelectedItems.Contains(li))
-                {
-                    DetailsGrid.SelectedItems.Add(li);
-                }
+                DetailsGrid.SelectedItems.Add(li);
             }
 
             if (DetailsGrid.Items.Count > 1 && DetailsGrid.SelectedItems.Count == 1 && !DetailsGrid.SelectedItems.Any(x => (x as FileSystemDialogConflictItemViewModel).IsDefault))
