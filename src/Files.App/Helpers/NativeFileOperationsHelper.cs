@@ -465,13 +465,6 @@ namespace Files.App.Helpers
             return null;
         }
 
-        public static SafeFileHandle OpenProtectedFileForRead(string filePath, bool readWrite = false)
-        {
-            var handle = FileOperationsHelpers.GetFileHandle(filePath, readWrite, System.Diagnostics.Process.GetCurrentProcess().Id);
-
-            return new SafeFileHandle(new IntPtr(handle ?? -1), true);
-        }
-
         // https://github.com/rad1oactive/BetterExplorer/blob/master/Windows%20API%20Code%20Pack%201.1/source/WindowsAPICodePack/Shell/ReparsePoint.cs
         public static string ParseSymLink(string path)
         {
