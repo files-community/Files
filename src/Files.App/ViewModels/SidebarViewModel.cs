@@ -3,17 +3,17 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using Files.App.DataModels.NavigationControlItems;
+using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.UserControls;
-using Files.App.Extensions;
 using Files.Backend.Services.Settings;
 using Files.Shared.EventArguments;
 using Files.Shared.Extensions;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Microsoft.UI.Dispatching;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -350,9 +350,15 @@ namespace Files.App.ViewModels
 			}
 			else if (elem is DriveItem drive)
 			{
-				if (!section.ChildItems.Any(x => x.Path == drive.Path))
+				string drivePath = drive.Path;
+				IList<string> paths = section.ChildItems.Select(item => item.Path).ToList();
+
+				if (!paths.Contains(drivePath))
 				{
-					section.ChildItems.Insert(index < 0 ? section.ChildItems.Count : Math.Min(index, section.ChildItems.Count), drive);
+					paths.AddSorted(drivePath);
+					int position = paths.IndexOf(drivePath);
+
+					section.ChildItems.Insert(position, drive);
 					await drive.LoadDriveIcon();
 				}
 			}
