@@ -301,12 +301,11 @@ namespace Files.App.Helpers
             if (associatedInstance.SlimContentPage != null)
             {
                 currentPath = associatedInstance.FilesystemViewModel.WorkingDirectory;
-                if (App.LibraryManager.TryGetLibrary(currentPath, out var library))
-                {
-                    if (!library.IsEmpty && library.Folders.Count == 1) // TODO: handle libraries with multiple folders
-                    {
-                        currentPath = library.Folders.First();
-                    }
+                if (App.LibraryManager.TryGetLibrary(currentPath, out var library) &&
+                    !library.IsEmpty &&
+                    library.Folders.Count == 1) // TODO: handle libraries with multiple folders
+				{
+                    currentPath = library.Folders.First();
                 }
             }
 
