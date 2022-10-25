@@ -2282,10 +2282,7 @@ namespace Files.App.ViewModels
 		public async Task AddSearchResultsToCollection(ObservableCollection<ListedItem> searchItems, string currentSearchPath)
 		{
 			filesAndFolders.Clear();
-			foreach (ListedItem li in searchItems)
-			{
-				filesAndFolders.Add(li);
-			}
+			filesAndFolders.AddRange(searchItems);
 			await OrderFilesAndFoldersAsync();
 			await ApplyFilesAndFoldersChangesAsync();
 		}

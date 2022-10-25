@@ -127,10 +127,7 @@ namespace Files.App
 
 		public bool IsItemSelected
 		{
-			get
-			{
-				return isItemSelected;
-			}
+			get => isItemSelected;
 			internal set
 			{
 				if (value != isItemSelected)
@@ -197,10 +194,7 @@ namespace Files.App
 
 		public List<ListedItem>? SelectedItems
 		{
-			get
-			{
-				return selectedItems;
-			}
+			get => selectedItems;
 			internal set
 			{
 				//if (!(value?.All(x => selectedItems?.Contains(x) ?? false) ?? value == selectedItems)) // check if the new list is different then the old one
@@ -209,16 +203,8 @@ namespace Files.App
 					if (value?.FirstOrDefault() != selectedItems?.FirstOrDefault())
 					{
 						// update preview pane properties
-						if (value?.Count == 1)
-						{
-							App.PreviewPaneViewModel.IsItemSelected = true;
-							App.PreviewPaneViewModel.SelectedItem = value.First();
-						}
-						else
-						{
-							App.PreviewPaneViewModel.IsItemSelected = value?.Count > 0;
-							App.PreviewPaneViewModel.SelectedItem = null;
-						}
+						App.PreviewPaneViewModel.IsItemSelected = value?.Count > 0;
+						App.PreviewPaneViewModel.SelectedItem = value?.Count == 1 ? value.First() : null;
 
 						// check if the preview pane is open before updating the model
 						if (PaneViewModel.IsPreviewSelected)
@@ -238,19 +224,18 @@ namespace Files.App
 						ResetRenameDoubleClick();
 						UpdateSelectionSize();
 					}
-					else
+					else if (selectedItems != null)
 					{
 						IsItemSelected = true;
 						SelectedItem = selectedItems.First();
 						SelectedItemsPropertiesViewModel.IsItemSelected = true;
 						UpdateSelectionSize();
 
-						if (SelectedItems?.Count >= 1)
-							SelectedItemsPropertiesViewModel.SelectedItemsCount = SelectedItems.Count;
+						SelectedItemsPropertiesViewModel.SelectedItemsCount = selectedItems.Count;
 
-						if (SelectedItems?.Count == 1)
+						if (selectedItems.Count == 1)
 						{
-							SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{SelectedItems.Count} {"ItemSelected/Text".GetLocalizedResource()}";
+							SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{selectedItems.Count} {"ItemSelected/Text".GetLocalizedResource()}";
 							DispatcherQueue.EnqueueAsync(async () =>
 							{
 								await Task.Delay(50); // Tapped event must be executed first
@@ -259,7 +244,7 @@ namespace Files.App
 						}
 						else
 						{
-							SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{SelectedItems!.Count} {"ItemsSelected/Text".GetLocalizedResource()}";
+							SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{selectedItems!.Count} {"ItemsSelected/Text".GetLocalizedResource()}";
 							ResetRenameDoubleClick();
 						}
 					}
@@ -274,7 +259,7 @@ namespace Files.App
 
 		public ListedItem? SelectedItem { get; private set; }
 
-		private DispatcherQueueTimer dragOverTimer, tapDebounceTimer, hoverTimer;
+		private readonly DispatcherQueueTimer dragOverTimer, tapDebounceTimer, hoverTimer;
 
 		protected abstract uint IconSize { get; }
 
@@ -398,22 +383,23 @@ namespace Files.App
 			FolderSettings.GroupOptionPreferenceUpdated += FolderSettings_GroupOptionPreferenceUpdated;
 			ParentShellPageInstance.FilesystemViewModel.EmptyTextType = EmptyTextType.None;
 			ParentShellPageInstance.ToolbarViewModel.UpdateSortAndGroupOptions();
+			ParentShellPageInstance.ToolbarViewModel.CanRefresh = true;
 
 			if (!navigationArguments.IsSearchResultPage)
 			{
-				ParentShellPageInstance.ToolbarViewModel.CanRefresh = true;
 				string previousDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory;
 				await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(navigationArguments.NavPathParam);
 
 				// pathRoot will be empty on recycle bin path
 				var workingDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory ?? string.Empty;
 				string pathRoot = GetPathRoot(workingDir);
-				if (string.IsNullOrEmpty(pathRoot) || workingDir.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal)) // Can't go up from recycle bin
-					ParentShellPageInstance.ToolbarViewModel.CanNavigateToParent = false;
-				else
-					ParentShellPageInstance.ToolbarViewModel.CanNavigateToParent = true;
 
-				ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal);
+				bool isRecycleBin = workingDir.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal);
+				ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = isRecycleBin;
+
+				// Can't go up from recycle bin
+				ParentShellPageInstance.ToolbarViewModel.CanNavigateToParent = !(string.IsNullOrEmpty(pathRoot) || isRecycleBin);
+
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\", StringComparison.Ordinal);
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeFtp = FtpHelpers.IsFtpPath(workingDir);
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeZipFolder = ZipStorageFolder.IsZipPath(workingDir);
@@ -427,7 +413,6 @@ namespace Files.App
 			}
 			else
 			{
-				ParentShellPageInstance.ToolbarViewModel.CanRefresh = true;
 				await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(navigationArguments.SearchPathParam);
 
 				ParentShellPageInstance.ToolbarViewModel.CanGoForward = false;
@@ -523,10 +508,9 @@ namespace Files.App
 		{
 			try
 			{
-				if (!IsItemSelected) // Workaround for item sometimes not getting selected
+				if (!IsItemSelected && ((sender as CommandBarFlyout)?.Target as ListViewItem)?.Content is ListedItem li) // Workaround for item sometimes not getting selected
 				{
-					if (((sender as CommandBarFlyout)?.Target as ListViewItem)?.Content is ListedItem li)
-						ItemManipulationModel.SetSelectedItem(li);
+					ItemManipulationModel.SetSelectedItem(li);
 				}
 				if (IsItemSelected)
 					await LoadMenuItemsAsync();
@@ -639,7 +623,7 @@ namespace Files.App
 			});
 		}
 
-		private void AddShellItemsToMenu(List<ContextMenuFlyoutItemViewModel> shellMenuItems, Microsoft.UI.Xaml.Controls.CommandBarFlyout contextMenuFlyout, bool shiftPressed)
+		private void AddShellItemsToMenu(List<ContextMenuFlyoutItemViewModel> shellMenuItems, CommandBarFlyout contextMenuFlyout, bool shiftPressed)
 		{
 			var openWithSubItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(ShellContextmenuHelper.GetOpenWithItems(shellMenuItems));
 			var mainShellMenuItems = shellMenuItems.RemoveFrom(!UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 4);
@@ -756,8 +740,7 @@ namespace Files.App
 
 		protected void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
 		{
-			e.Items.OfType<ListedItem>().ForEach(item => SelectedItems!.Add(item));
-
+			SelectedItems!.AddRange(e.Items.OfType<ListedItem>());
 			try
 			{
 				// Only support IStorageItem capable paths

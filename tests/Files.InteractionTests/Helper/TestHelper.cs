@@ -30,7 +30,6 @@ namespace Files.InteractionTests.Helper
                     if (child.Text.Contains(content, StringComparison.OrdinalIgnoreCase))
                     {
                         elementsToReturn.Add(element);
-                        continue;
                     }
                 }
             }

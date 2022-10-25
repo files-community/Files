@@ -228,7 +228,7 @@ namespace Files.App.Filesystem
             {
                 App.HistoryWrapper.AddHistory(history);
             }
-            int itemsMoved = history?.Source.Count() ?? 0;
+            int itemsMoved = history?.Source.Count ?? 0;
 
             sw.Stop();
 
