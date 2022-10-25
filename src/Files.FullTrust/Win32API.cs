@@ -279,19 +279,6 @@ namespace Files.FullTrust
             return false;
         }
 
-        public static async Task SendMessageAsync(PipeStream pipe, ValueSet valueSet, string requestID = null)
-        {
-            await SafetyExtensions.IgnoreExceptions(async () =>
-            {
-                var message = new Dictionary<string, object>(valueSet)
-                {
-                    { "RequestID", requestID }
-                };
-                var serialized = JsonSerializer.SerializeToUtf8Bytes(message);
-                await pipe.WriteAsync(serialized);
-            });
-        }
-
         // There is usually no need to define Win32 COM interfaces/P-Invoke methods here.
         // The Vanara library contains the definitions for all members of Shell32.dll, User32.dll and more
         // The ones below are due to bugs in the current version of the library and can be removed once fixed

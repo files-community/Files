@@ -1,4 +1,4 @@
-﻿namespace Files.FullTrust.MMI
+﻿namespace Files.App.MMI
 {
     public class WqlEventQuery
     {

@@ -3,23 +3,19 @@ using Files.Shared.Extensions;
 using Files.FullTrust.MessageHandlers;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
 using System.Linq;
-using System.Runtime.Versioning;
 using System.Security.Principal;
 using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 
 namespace Files.FullTrust
 {
-    [SupportedOSPlatform("Windows10.0.10240")]
     internal class Program
     {
         public static ILogger Logger { get; private set; }
@@ -58,10 +54,6 @@ namespace Files.FullTrust
                 // Initialize message handlers
                 messageHandlers.ForEach(mh => mh.Initialize(connection));
 
-                // Initialize device watcher
-                deviceWatcher = new DeviceWatcher();
-                deviceWatcher.Start();
-
                 // Update tags db
                 messageHandlers.OfType<FileTagsHandler>().Single().UpdateTagsDb();
 
@@ -74,7 +66,6 @@ namespace Files.FullTrust
             finally
             {
                 messageHandlers.ForEach(mh => mh.Dispose());
-                deviceWatcher?.Dispose();
                 connection?.Dispose();
                 appServiceExit?.Dispose();
                 appServiceExit = null;
@@ -89,7 +80,6 @@ namespace Files.FullTrust
 
         private static NamedPipeClientStream connection;
         private static ManualResetEvent appServiceExit;
-        private static DeviceWatcher deviceWatcher;
         private static List<IMessageHandler> messageHandlers;
 
         private static async void InitializeAppServiceConnection()
@@ -153,11 +143,7 @@ namespace Files.FullTrust
                 // Requests from UWP app are sent via AppService connection
                 var arguments = message["Arguments"].GetString();
                 Logger.Info($"Argument: {arguments}");
-
-                await SafetyExtensions.IgnoreExceptions(async () =>
-                {
-                    await Task.Run(() => ParseArgumentsAsync(message, arguments));
-                }, Logger);
+                
             }
         }
 
@@ -166,53 +152,6 @@ namespace Files.FullTrust
             using var identity = WindowsIdentity.GetCurrent();
             var principal = new WindowsPrincipal(identity);
             return principal.IsInRole(WindowsBuiltInRole.Administrator);
-        }
-
-        private static async Task ParseArgumentsAsync(Dictionary<string, JsonElement> message, string arguments)
-        {
-            switch (arguments)
-            {
-                case "Terminate":
-                    // Exit fulltrust process (UWP is closed or suspended)
-                    appServiceExit?.Set();
-                    break;
-
-                case "Elevate":
-                    // Relaunch fulltrust process as admin
-                    if (!IsAdministrator())
-                    {
-                        try
-                        {
-                            using (Process elevatedProcess = new Process())
-                            {
-                                elevatedProcess.StartInfo.Verb = "runas";
-                                elevatedProcess.StartInfo.UseShellExecute = true;
-                                elevatedProcess.StartInfo.FileName = Environment.ProcessPath;
-                                elevatedProcess.StartInfo.Arguments = "elevate";
-                                elevatedProcess.Start();
-                            }
-                            await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", 0 } }, message.Get("RequestID", defaultJson).GetString());
-                            appServiceExit?.Set();
-                        }
-                        catch (Win32Exception)
-                        {
-                            // If user cancels UAC
-                            await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", 1 } }, message.Get("RequestID", defaultJson).GetString());
-                        }
-                    }
-                    else
-                    {
-                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", -1 } }, message.Get("RequestID", defaultJson).GetString());
-                    }
-                    break;
-
-                default:
-                    foreach (var mh in messageHandlers)
-                    {
-                        await mh.ParseArgumentsAsync(connection, message, arguments);
-                    }
-                    break;
-            }
         }
 
         private static bool HandleCommandLineArgs()

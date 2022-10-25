@@ -1,7 +1,7 @@
 ﻿using Microsoft.Management.Infrastructure;
 using System;
 
-namespace Files.FullTrust.MMI
+namespace Files.App.MMI
 {
     /// <summary>
     /// CimWatcher event args, which contains CimSubscriptionResult

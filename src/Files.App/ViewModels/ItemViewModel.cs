@@ -517,14 +517,7 @@ namespace Files.App.ViewModels
 
 		private async void Connection_RequestReceived(object sender, Dictionary<string, JsonElement> message)
 		{
-			// The fulltrust process signaled that a drive has been connected/disconnected
-			if (message.ContainsKey("DeviceID"))
-			{
-				var deviceId = message["DeviceID"].GetString();
-				var eventType = (DeviceEvent)message["EventType"].GetInt64();
-				await App.DrivesManager.HandleWin32DriveEvent(eventType, deviceId);
-			}
-			else if (message.ContainsKey("Library"))
+			if (message.ContainsKey("Library"))
 			{
 				await App.LibraryManager.HandleWin32LibraryEvent(JsonSerializer.Deserialize<ShellLibraryItem>(message.Get("Item", defaultJson).GetString()), message.Get("OldPath", defaultJson).GetString());
 			}

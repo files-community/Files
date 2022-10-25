@@ -1,21 +1,37 @@
-﻿using Files.Shared;
-using Files.FullTrust.MMI;
+﻿using Files.App.Helpers.MMI;
+using Files.App.MMI;
+using Files.Shared;
 using Microsoft.Management.Infrastructure;
-using System.Runtime.Versioning;
-using System.Threading.Tasks;
-using Windows.Foundation.Collections;
+using System;
 
-namespace Files.FullTrust
+namespace Files.App
 {
-    public class DeviceWatcher : Disposable
+    public sealed class DeviceManager
     {
-        private ManagementEventWatcher insertWatcher, removeWatcher, modifyWatcher;
+        private static readonly Lazy<DeviceManager> lazy = new(() => new DeviceManager());
 
-        public DeviceWatcher()
+        private ManagementEventWatcher? insertWatcher, removeWatcher, modifyWatcher;
+
+        public event EventHandler<DeviceEventArgs>? DeviceAdded;
+        public event EventHandler<DeviceEventArgs>? DeviceRemoved;
+        public event EventHandler<DeviceEventArgs>? DeviceInserted;
+        public event EventHandler<DeviceEventArgs>? DeviceEjected;
+        
+
+        public static DeviceManager Default
         {
+            get
+            {
+                return lazy.Value;
+            }
+        }
+        
+        private DeviceManager()
+        {
+            Initialize();
         }
 
-        public void Start()
+        private void Initialize()
         {
             WqlEventQuery insertQuery = new WqlEventQuery("SELECT * FROM __InstanceCreationEvent WITHIN 1 WHERE TargetInstance ISA 'Win32_LogicalDisk'");
             insertWatcher = new ManagementEventWatcher(insertQuery);
@@ -33,7 +49,7 @@ namespace Files.FullTrust
             removeWatcher.Start();
         }
 
-        private async void DeviceModifiedEvent(object sender, EventArrivedEventArgs e)
+        private void DeviceModifiedEvent(object sender, EventArrivedEventArgs e)
         {
             CimInstance obj = (CimInstance)e.NewEvent.Instance.CimInstanceProperties["TargetInstance"].Value;
             var deviceName = (string)obj.CimInstanceProperties["Name"]?.Value;
@@ -41,52 +57,47 @@ namespace Files.FullTrust
             var volumeName = (string)obj.CimInstanceProperties["VolumeName"]?.Value;
             var eventType = volumeName != null ? DeviceEvent.Inserted : DeviceEvent.Ejected;
             System.Diagnostics.Debug.WriteLine($"Drive modify event: {deviceName}, {deviceId}, {eventType}");
-            await SendEvent(deviceName, deviceId, eventType);
+            if (eventType == DeviceEvent.Inserted)
+            {
+                DeviceInserted?.Invoke(sender, new DeviceEventArgs(deviceName, deviceId));
+            }
+            else
+            {
+                DeviceEjected?.Invoke(sender, new DeviceEventArgs(deviceName, deviceId));
+            }
         }
 
-        private async void DeviceRemovedEvent(object sender, EventArrivedEventArgs e)
+        private void DeviceRemovedEvent(object sender, EventArrivedEventArgs e)
         {
             CimInstance obj = (CimInstance)e.NewEvent.Instance.CimInstanceProperties["TargetInstance"].Value;
             var deviceName = (string)obj.CimInstanceProperties["Name"].Value;
             var deviceId = (string)obj.CimInstanceProperties["DeviceID"].Value;
             System.Diagnostics.Debug.WriteLine($"Drive removed event: {deviceName}, {deviceId}");
-            await SendEvent(deviceName, deviceId, DeviceEvent.Removed);
+            DeviceRemoved?.Invoke(sender, new DeviceEventArgs(deviceName, deviceId));
         }
 
-        private async void DeviceInsertedEvent(object sender, EventArrivedEventArgs e)
+        private void DeviceInsertedEvent(object sender, EventArrivedEventArgs e)
         {
             CimInstance obj = (CimInstance)e.NewEvent.Instance.CimInstanceProperties["TargetInstance"].Value;
             var deviceName = (string)obj.CimInstanceProperties["Name"].Value;
             var deviceId = (string)obj.CimInstanceProperties["DeviceID"].Value;
             System.Diagnostics.Debug.WriteLine($"Drive added event: {deviceName}, {deviceId}");
-            await SendEvent(deviceName, deviceId, DeviceEvent.Added);
+            DeviceAdded?.Invoke(sender, new DeviceEventArgs(deviceName, deviceId));
         }
 
-        private Task SendEvent(string deviceName, string deviceId, DeviceEvent eventType)
+        private void Unregister()
         {
-            if (connection?.IsConnected ?? false)
-            {
-                return Win32API.SendMessageAsync(connection, new ValueSet()
-                {
-                    { "DeviceID", deviceId },
-                    { "EventType", (int)eventType }
-                });
-            }
-
-            return Task.CompletedTask;
+            insertWatcher?.Dispose();
+            removeWatcher?.Dispose();
+            modifyWatcher?.Dispose();
+            insertWatcher = null;
+            removeWatcher = null;
+            modifyWatcher = null;
         }
 
-        protected override void Dispose(bool disposing)
+        ~DeviceManager()
         {
-            if (disposing)
-            {
-                insertWatcher?.Dispose();
-                removeWatcher?.Dispose();
-                modifyWatcher?.Dispose();
-                insertWatcher = null;
-                removeWatcher = null;
-                modifyWatcher = null;
-            }
+            Unregister();
         }
     }
 }

@@ -30,8 +30,8 @@ namespace Files.App.Shell
         {
             Initialize();
         }
-
-        public void Initialize()
+        
+        private void Initialize()
         {
             // Create shell COM object and get recycle bin folder
             using var recycler = new ShellFolder(Shell32.KNOWNFOLDERID.FOLDERID_RecycleBinFolder);
@@ -92,7 +92,7 @@ namespace Files.App.Shell
             }
         }
 
-        public void Unregister()
+        private void Unregister()
         {
             if (binWatchers != null)
             {

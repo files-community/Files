@@ -3,7 +3,7 @@ using Microsoft.Management.Infrastructure.Generic;
 using System;
 using System.Threading;
 
-namespace Files.FullTrust.MMI
+namespace Files.App.MMI
 {
     public delegate void EventArrivedEventHandler(object sender, EventArrivedEventArgs e);
 

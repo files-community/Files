@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
 using Files.App.DataModels.NavigationControlItems;
+using Files.App.Helpers.MMI;
 using Files.Backend.Services.SizeProvider;
 using Files.Shared;
 using Files.Shared.Enums;
@@ -131,71 +132,25 @@ namespace Files.App.Filesystem
             switch (eventType)
             {
                 case DeviceEvent.Added:
-                    var driveAdded = new DriveInfo(deviceId);
-                    var rootAdded = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(deviceId).AsTask());
-                    if (!rootAdded)
-                    {
-                        logger.Warn($"{rootAdded.ErrorCode}: Attempting to add the device, {deviceId},"
-                            + " failed at the StorageFolder initialization step. This device will be ignored.");
-                        return;
-                    }
-
-                    DriveItem driveItem;
-                    using (var thumbnail = await GetThumbnailAsync(rootAdded.Result))
-                    {
-                        var type = GetDriveType(driveAdded);
-                        driveItem = await DriveItem.CreateFromPropertiesAsync(rootAdded, deviceId, type, thumbnail);
-                    }
-
-                    lock (drives)
-                    {
-                        // If drive already in list, skip.
-                        var matchingDrive = drives.FirstOrDefault(x => x.DeviceID == deviceId ||
-                            string.IsNullOrEmpty(rootAdded.Result.Path)
-                                ? x.Path.Contains(rootAdded.Result.Name, StringComparison.OrdinalIgnoreCase)
-                                : x.Path == rootAdded.Result.Path
-                        );
-                        if (matchingDrive is not null)
-                        {
-                            // Update device id to match drive letter
-                            matchingDrive.DeviceID = deviceId;
-                            return;
-                        }
-                        logger.Info($"Drive added from fulltrust process: {driveItem.Path}, {driveItem.Type}");
-                        drives.Add(driveItem);
-                    }
-
-                    DataChanged?.Invoke(SectionType.Drives, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, driveItem));
-                    Watcher_EnumerationCompleted();
+                    
                     break;
                 case DeviceEvent.Removed:
-                    lock (drives)
-                    {
-                        drives.RemoveAll(x => x.DeviceID == deviceId);
-                    }
-
-                    DataChanged?.Invoke(SectionType.Drives, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-                    Watcher_EnumerationCompleted();
+                    
                     break;
                 case DeviceEvent.Inserted:
                 case DeviceEvent.Ejected:
-                    var rootModified = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(deviceId).AsTask());
-                    DriveItem matchingDriveEjected = Drives.FirstOrDefault(x => x.DeviceID == deviceId);
-                    if (rootModified && matchingDriveEjected is not null)
-                    {
-                        _ = App.Window.DispatcherQueue.EnqueueAsync(() =>
-                        {
-                            matchingDriveEjected.Root = rootModified.Result;
-                            matchingDriveEjected.Text = rootModified.Result.DisplayName;
-                            return matchingDriveEjected.UpdatePropertiesAsync();
-                        });
-                    }
+                    
                     break;
             }
         }
 
         public void Dispose()
         {
+            DeviceManager.Default.DeviceAdded -= OnDeviceAdded;
+            DeviceManager.Default.DeviceRemoved -= OnDeviceRemoved;
+            DeviceManager.Default.DeviceInserted -= OnDeviceEjectedOrInserted;
+            DeviceManager.Default.DeviceEjected -= OnDeviceEjectedOrInserted;
+            
             if (watcher?.Status is DeviceWatcherStatus.Started or DeviceWatcherStatus.EnumerationCompleted)
             {
                 watcher.Stop();
@@ -208,6 +163,77 @@ namespace Files.App.Filesystem
             watcher.Added += Watcher_Added;
             watcher.Removed += Watcher_Removed;
             watcher.EnumerationCompleted += Watcher_EnumerationCompleted;
+
+            DeviceManager.Default.DeviceAdded += OnDeviceAdded;
+            DeviceManager.Default.DeviceRemoved += OnDeviceRemoved;
+            DeviceManager.Default.DeviceInserted += OnDeviceEjectedOrInserted;
+            DeviceManager.Default.DeviceEjected += OnDeviceEjectedOrInserted;
+        }
+
+        private void OnDeviceRemoved(object? sender, DeviceEventArgs e)
+        {
+            lock (drives)
+            {
+                drives.RemoveAll(x => x.DeviceID == e.DeviceId);
+            }
+
+            DataChanged?.Invoke(SectionType.Drives, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+            Watcher_EnumerationCompleted();
+        }
+
+        private async void OnDeviceEjectedOrInserted(object? sender, DeviceEventArgs e)
+        {
+            var rootModified = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(e.DeviceId).AsTask());
+            DriveItem matchingDriveEjected = Drives.FirstOrDefault(x => x.DeviceID == e.DeviceId);
+            if (rootModified && matchingDriveEjected is not null)
+            {
+                _ = App.Window.DispatcherQueue.EnqueueAsync(() =>
+                {
+                    matchingDriveEjected.Root = rootModified.Result;
+                    matchingDriveEjected.Text = rootModified.Result.DisplayName;
+                    return matchingDriveEjected.UpdatePropertiesAsync();
+                });
+            }
+        }
+
+        private async void OnDeviceAdded(object? sender, Helpers.MMI.DeviceEventArgs e)
+        {
+            var driveAdded = new DriveInfo(e.DeviceId);
+            var rootAdded = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(e.DeviceId).AsTask());
+            if (!rootAdded)
+            {
+                logger.Warn($"{rootAdded.ErrorCode}: Attempting to add the device, {e.DeviceId},"
+                    + " failed at the StorageFolder initialization step. This device will be ignored.");
+                return;
+            }
+
+            DriveItem driveItem;
+            using (var thumbnail = await GetThumbnailAsync(rootAdded.Result))
+            {
+                var type = GetDriveType(driveAdded);
+                driveItem = await DriveItem.CreateFromPropertiesAsync(rootAdded, e.DeviceId, type, thumbnail);
+            }
+
+            lock (drives)
+            {
+                // If drive already in list, skip.
+                var matchingDrive = drives.FirstOrDefault(x => x.DeviceID == e.DeviceId ||
+                    string.IsNullOrEmpty(rootAdded.Result.Path)
+                        ? x.Path.Contains(rootAdded.Result.Name, StringComparison.OrdinalIgnoreCase)
+                        : x.Path == rootAdded.Result.Path
+                );
+                if (matchingDrive is not null)
+                {
+                    // Update device id to match drive letter
+                    matchingDrive.DeviceID = e.DeviceId;
+                    return;
+                }
+                logger.Info($"Drive added from fulltrust process: {driveItem.Path}, {driveItem.Type}");
+                drives.Add(driveItem);
+            }
+
+            DataChanged?.Invoke(SectionType.Drives, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, driveItem));
+            Watcher_EnumerationCompleted();
         }
 
         private void StartWatcher()
