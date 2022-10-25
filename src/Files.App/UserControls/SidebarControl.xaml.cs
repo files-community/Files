@@ -553,7 +553,7 @@ namespace Files.App.UserControls
 
         private void NavigationViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-			var itemContextMenuFlyout = new CommandBarFlyout{ Placement = FlyoutPlacementMode.Full };
+            var itemContextMenuFlyout = new CommandBarFlyout{ Placement = FlyoutPlacementMode.Full };
             var sidebarItem = sender as NavigationViewItem;
             var item = sidebarItem.DataContext as INavigationControlItem;
 
@@ -568,7 +568,7 @@ namespace Files.App.UserControls
             }
 
             secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
-			itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions { Position = e.GetPosition(sidebarItem) });
+            itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions { Position = e.GetPosition(sidebarItem) });
 
             if (item.MenuOptions.ShowShellItems)
             {
