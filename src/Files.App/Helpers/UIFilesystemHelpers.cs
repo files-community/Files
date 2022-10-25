@@ -255,10 +255,15 @@ namespace Files.App.Helpers
                     StringComparison.Ordinal);
                 newName = $"{ads.MainStreamName}:{newName}";
             }
+            else if (string.IsNullOrEmpty(item.Name))
+            {
+                newName = string.Concat(newName, item.FileExtension);
+            }
             else
             {
                 newName = item.ItemNameRaw.Replace(item.Name, newName, StringComparison.Ordinal);
             }
+
             if (item.ItemNameRaw == newName || string.IsNullOrEmpty(newName))
             {
                 return true;
