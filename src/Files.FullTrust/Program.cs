@@ -37,7 +37,6 @@ namespace Files.FullTrust
                 // Create message handlers
                 messageHandlers = new List<IMessageHandler>
                 {
-                    new LibrariesHandler(),
                     new NetworkDrivesHandler(),
                 };
                 
