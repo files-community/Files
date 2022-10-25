@@ -269,17 +269,10 @@ namespace Files.App.Helpers
                 return true;
             }
 
+            FilesystemItemType itemType = (item.PrimaryItemAttribute == StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File;
+
             ReturnResult renamed = ReturnResult.InProgress;
-            if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
-            {
-                renamed = await associatedInstance.FilesystemHelpers.RenameAsync(StorageHelpers.FromPathAndType(item.ItemPath, FilesystemItemType.Directory),
-                    newName, NameCollisionOption.FailIfExists, true);
-            }
-            else
-            {
-                renamed = await associatedInstance.FilesystemHelpers.RenameAsync(StorageHelpers.FromPathAndType(item.ItemPath, FilesystemItemType.File),
-                    newName, NameCollisionOption.FailIfExists, true);
-            }
+            renamed = await associatedInstance.FilesystemHelpers.RenameAsync(StorageHelpers.FromPathAndType(item.ItemPath, itemType), newName, NameCollisionOption.FailIfExists, true);
 
             if (renamed == ReturnResult.Success)
             {
