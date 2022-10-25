@@ -370,7 +370,7 @@ namespace Files.App.ViewModels
 			if (folderPath == CommonPaths.DownloadsPath)
 				// Default for downloads folder is to group by date created
 				return new LayoutPreferences() { DirectoryGroupOption = GroupOption.DateCreated };
-			else if (LibraryHelper.IsLibraryPath(folderPath))
+			else if (LibraryManager.IsLibraryPath(folderPath))
 				// Default for libraries is to group by folder path
 				return new LayoutPreferences() { DirectoryGroupOption = GroupOption.FolderPath };
 			else
