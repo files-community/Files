@@ -178,10 +178,7 @@ namespace Files.App.Interacts
             await RecycleBinHelpers.S_DeleteItem(associatedInstance);
         }
 
-        public virtual void ShowFolderProperties(RoutedEventArgs e)
-        {
-            SlimContentPage.ItemContextMenuFlyout.Closed += OpenProperties;
-        }
+        public virtual void ShowFolderProperties(RoutedEventArgs e) => ShowProperties(e);
 
         public virtual void ShowProperties(RoutedEventArgs e)
         {
@@ -610,9 +607,9 @@ namespace Files.App.Interacts
                 ReturnResult.InProgress,
                 FileOperationType.Compressed,
                 compressionToken);
-            
+
             bool result = await ZipHelpers.CompressMultipleToArchive(sources, archivePath, banner.Progress);
-            
+
             banner.Remove();
             if (result)
                 App.OngoingTasksViewModel.PostBanner(
