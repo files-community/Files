@@ -19,14 +19,11 @@ namespace Files.FullTrust
     internal class Program
     {
         public static ILogger Logger { get; private set; }
-        private static readonly LogWriter logWriter = new LogWriter();
         private static readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
 
         [STAThread]
         private static async Task Main()
         {
-            Logger = new Logger(logWriter);
-            await logWriter.InitializeAsync("debug_fulltrust.log");
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionTrapper;
 
             if (HandleCommandLineArgs())
@@ -44,7 +41,6 @@ namespace Files.FullTrust
                     new FileTagsHandler(),
                     new NetworkDrivesHandler(),
                     new FileOperationsHandler(),
-                    new RecentItemsHandler(),
                 };
 
                 // Connect to app service and wait until the connection gets closed

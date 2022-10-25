@@ -1,5 +1,3 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Shared;
 using Files.App.Helpers;
 using System;
 using System.Collections.Generic;
@@ -13,13 +11,12 @@ using Vanara.Windows.Shell;
 
 namespace Files.App.Filesystem
 {
-    public class RecentItemsManager : IDisposable
+    public class RecentItems : IDisposable
     {
-        private readonly ILogger logger = Ioc.Default.GetService<ILogger>();
         private const string QuickAccessGuid = "::{679f85cb-0220-4080-b29b-5540cc05aab6}";
 
-        public EventHandler<NotifyCollectionChangedEventArgs> RecentFilesChanged;
-        public EventHandler<NotifyCollectionChangedEventArgs> RecentFoldersChanged;
+        public EventHandler<NotifyCollectionChangedEventArgs>? RecentFilesChanged;
+        public EventHandler<NotifyCollectionChangedEventArgs>? RecentFoldersChanged;
 
         // recent files
         private readonly List<RecentItem> recentFiles = new();
@@ -45,6 +42,16 @@ namespace Files.App.Filesystem
                     return recentFolders.ToList().AsReadOnly();
                 }
             }
+        }
+
+        public RecentItems()
+        {
+            RecentItemsManager.Default.RecentItemsChanged += OnRecentItemsChanged;
+        }
+
+        private async void OnRecentItemsChanged(object? sender, EventArgs e)
+        {
+            await ListRecentFilesAsync();
         }
 
         /// <summary>
@@ -197,26 +204,6 @@ namespace Files.App.Filesystem
         }
 
         /// <summary>
-        /// Handle any events received from the fulltrust process.
-        /// Events are only received when the user is on the home page (YourHomeViewModel is loaded).
-        /// </summary>
-        public async Task HandleWin32RecentItemsEvent(string changeType)
-        {
-            System.Diagnostics.Debug.WriteLine(nameof(HandleWin32RecentItemsEvent) + $": ({changeType})");
-
-            switch (changeType)
-            {
-                case "QuickAccessJumpListChanged":
-                    await UpdateRecentFilesAsync();
-                    break;
-
-                default:
-                    logger.Warn($"{nameof(HandleWin32RecentItemsEvent)}: Received invalid changeType of {changeType}");
-                    break;
-            }
-        }
-
-        /// <summary>
         /// Returns whether two RecentItem enumerables have the same order.
         /// This function depends on `RecentItem` implementing IEquatable.
         /// </summary>
@@ -230,6 +217,9 @@ namespace Files.App.Filesystem
             return oldOrder.SequenceEqual(newOrder);
         }
 
-        public void Dispose() { }
+        public void Dispose()
+        {
+            RecentItemsManager.Default.RecentItemsChanged -= OnRecentItemsChanged;
+        }
     }
 }
