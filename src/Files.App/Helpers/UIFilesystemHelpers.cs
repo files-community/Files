@@ -284,7 +284,7 @@ namespace Files.App.Helpers
 
         public static async void CreateFileFromDialogResultType(AddItemDialogItemType itemType, ShellNewEntry itemInfo, IShellPage associatedInstance)
         {
-            _ = await CreateFileFromDialogResultTypeForResult(itemType, itemInfo, associatedInstance);
+            await CreateFileFromDialogResultTypeForResult(itemType, itemInfo, associatedInstance);
         }
 
         // WINUI3
