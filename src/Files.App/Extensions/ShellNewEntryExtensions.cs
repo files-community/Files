@@ -19,9 +19,9 @@ namespace Files.App.Extensions
 			var shellEntryList = new List<ShellNewEntry>();
 			var entries = await SafetyExtensions.IgnoreExceptions(() => ShellNewMenuHelper.GetNewContextMenuEntries(), App.Logger);
 			if (entries != null)
-            {
+			{
 				shellEntryList.AddRange(entries);
-            }
+			}
 			return shellEntryList;
 		}
 
@@ -34,9 +34,9 @@ namespace Files.App.Extensions
 		{
 			var parentFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(filePath));
 			if (parentFolder)
-            {
+			{
 				return await Create(shellEntry, parentFolder, filePath);
-            }
+			}
 			return new FilesystemResult<BaseStorageFile>(null, parentFolder.ErrorCode);
 		}
 
