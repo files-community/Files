@@ -465,28 +465,6 @@ namespace Files.App.Helpers
             return null;
         }
 
-        public static async Task<SafeFileHandle> OpenProtectedFileForRead(string filePath, bool readWrite = false)
-        {
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
-            {
-                var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
-                {
-                    { "Arguments", "FileOperation" },
-                    { "fileop", "GetFileHandle" },
-                    { "filepath", filePath },
-                    { "readwrite", readWrite },
-                    { "processid", System.Diagnostics.Process.GetCurrentProcess().Id },
-                });
-
-                if (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success && response.Get("Success", defaultJson).GetBoolean())
-                {
-                    return new SafeFileHandle(new IntPtr(response["Handle"].GetInt64()), true);
-                }
-            }
-            return new SafeFileHandle(new IntPtr(-1), true);
-        }
-
         // https://github.com/rad1oactive/BetterExplorer/blob/master/Windows%20API%20Code%20Pack%201.1/source/WindowsAPICodePack/Shell/ReparsePoint.cs
         public static string ParseSymLink(string path)
         {

@@ -38,11 +38,9 @@ namespace Files.FullTrust
                 messageHandlers = new List<IMessageHandler>
                 {
                     new LibrariesHandler(),
-                    new FileTagsHandler(),
                     new NetworkDrivesHandler(),
-                    new FileOperationsHandler(),
                 };
-
+                
                 // Connect to app service and wait until the connection gets closed
                 appServiceExit = new ManualResetEvent(false);
                 InitializeAppServiceConnection();
@@ -50,14 +48,8 @@ namespace Files.FullTrust
                 // Initialize message handlers
                 messageHandlers.ForEach(mh => mh.Initialize(connection));
 
-                // Update tags db
-                messageHandlers.OfType<FileTagsHandler>().Single().UpdateTagsDb();
-
                 // Wait until the connection gets closed
                 appServiceExit.WaitOne();
-
-                // Wait for ongoing file operations
-                messageHandlers.OfType<FileOperationsHandler>().Single().WaitForCompletion();
             }
             finally
             {

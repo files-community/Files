@@ -7,6 +7,7 @@ using Files.App.Helpers;
 using Files.App.Helpers.XamlHelpers;
 using Files.App.ViewModels.Widgets;
 using Files.Backend.Services.Settings;
+using Files.Shared.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -25,7 +26,7 @@ using Windows.UI.Core;
 
 namespace Files.App.UserControls.Widgets
 {
-    public class DriveCardItem : ObservableObject, IWidgetCardItem<DriveItem>
+    public class DriveCardItem : ObservableObject, IWidgetCardItem<DriveItem>, IComparable<DriveCardItem>
     {
         private BitmapImage thumbnail;
         private byte[] thumbnailData;
@@ -61,7 +62,9 @@ namespace Files.App.UserControls.Widgets
                 Thumbnail = await App.Window.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize));
             }
         }
-    }
+
+        public int CompareTo(DriveCardItem? other) => Item.Path.CompareTo(other?.Item?.Path);
+	}
 
     public sealed partial class DrivesWidget : UserControl, IWidgetItemModel, INotifyPropertyChanged
     {
@@ -122,7 +125,7 @@ namespace Files.App.UserControls.Widgets
                         if (drive.Type != DriveType.VirtualDrive)
                         {
                             var cardItem = new DriveCardItem(drive);
-                            ItemsAdded.Add(cardItem);
+                            ItemsAdded.AddSorted(cardItem);
                             await cardItem.LoadCardThumbnailAsync(); // After add
                         }
                     }

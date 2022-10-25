@@ -996,6 +996,14 @@ namespace Files.App.ViewModels
 			}
 		}
 
+		private static void SetFileTag(ListedItem item)
+		{
+			using (var dbInstance = FileTagsHelper.GetDbInstance())
+			{
+				dbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
+			}
+		}
+
 		// This works for recycle bin as well as GetFileFromPathAsync/GetFolderFromPathAsync work
 		// for file inside the recycle bin (but not on the recycle bin folder itself)
 		public async Task LoadExtendedItemProperties(ListedItem item, uint thumbnailSize = 20)
@@ -1006,6 +1014,7 @@ namespace Files.App.ViewModels
 			itemLoadQueue[item.ItemPath] = false;
 
 			var cts = loadPropsCTS;
+
 
 			try
 			{
@@ -1053,7 +1062,7 @@ namespace Files.App.ViewModels
 										item.FileFRN = fileFRN;
 										item.FileTags = fileTag;
 									}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
-									FileTagsHelper.DbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
+									SetFileTag(item);
 									wasSyncStatusLoaded = true;
 								}
 							}
@@ -1099,7 +1108,7 @@ namespace Files.App.ViewModels
 										item.FileFRN = fileFRN;
 										item.FileTags = fileTag;
 									}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
-									FileTagsHelper.DbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
+									SetFileTag(item);
 									wasSyncStatusLoaded = true;
 								}
 							}
@@ -1132,7 +1141,7 @@ namespace Files.App.ViewModels
 									item.SyncStatusUI = new CloudDriveSyncStatusUI(); // Reset cloud sync status icon
 									item.FileTags = fileTag;
 								}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
-								FileTagsHelper.DbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
+								SetFileTag(item);
 							});
 						}
 

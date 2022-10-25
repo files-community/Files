@@ -1125,9 +1125,6 @@
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Seleziona</value>
   </data>
-  <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
-    <value>Apri i file con un solo click</value>
-  </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>File</value>
   </data>
@@ -2466,8 +2463,8 @@
   <data name="Tag" xml:space="preserve">
     <value>Etichetta</value>
   </data>
-  <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
-    <value>Apri le cartelle con un solo click</value>
+  <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
+    <value>Open items with a single click</value>
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
     <value>Percorso</value>

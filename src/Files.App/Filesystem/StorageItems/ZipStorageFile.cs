@@ -462,16 +462,16 @@ namespace Files.App.Filesystem.StorageItems
                 : new ZipFileBasicProperties(entry);
         }
 
-        private IAsyncOperation<SevenZipExtractor> OpenZipFileAsync(bool openProtected = false)
+        private IAsyncOperation<SevenZipExtractor> OpenZipFileAsync()
         {
             return AsyncInfo.Run<SevenZipExtractor>(async (cancellationToken) =>
             {
-                var zipFile = await OpenZipFileAsync(FileAccessMode.Read, openProtected);
+                var zipFile = await OpenZipFileAsync(FileAccessMode.Read);
                 return zipFile is not null ? new SevenZipExtractor(zipFile) : null;
             });
         }
 
-        private IAsyncOperation<Stream> OpenZipFileAsync(FileAccessMode accessMode, bool openProtected = false)
+        private IAsyncOperation<Stream> OpenZipFileAsync(FileAccessMode accessMode)
         {
             return AsyncInfo.Run<Stream>(async (cancellationToken) =>
             {
@@ -482,9 +482,7 @@ namespace Files.App.Filesystem.StorageItems
                 }
                 else
                 {
-                    var hFile = openProtected ?
-                        await NativeFileOperationsHelper.OpenProtectedFileForRead(containerPath) :
-                        NativeFileOperationsHelper.OpenFileForRead(containerPath, readWrite);
+                    var hFile = NativeFileOperationsHelper.OpenFileForRead(containerPath, readWrite);
                     if (hFile.IsInvalid)
                     {
                         return null;
@@ -500,9 +498,7 @@ namespace Files.App.Filesystem.StorageItems
             {
                 try
                 {
-                    // If called from here it fails with Access Denied?!
-                    //var hFile = NativeFileOperationsHelper.OpenFileForRead(ContainerPath);
-                    using SevenZipExtractor zipFile = await OpenZipFileAsync(openProtected: true);
+                    using SevenZipExtractor zipFile = await OpenZipFileAsync();
                     if (zipFile == null || zipFile.ArchiveFileData == null)
                     {
                         request.FailAndClose(StreamedFileFailureMode.CurrentlyUnavailable);

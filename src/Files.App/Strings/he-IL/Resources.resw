@@ -1125,9 +1125,6 @@
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>בחר</value>
   </data>
-  <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
-    <value>פתיחת קבצים עם לחיצה אחת</value>
-  </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>קובץ</value>
   </data>
@@ -2466,8 +2463,8 @@
   <data name="Tag" xml:space="preserve">
     <value>תגית</value>
   </data>
-  <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
-    <value>Open folders with a single click</value>
+  <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
+    <value>Open items with a single click</value>
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
     <value>נתיב תיקיה:</value>
