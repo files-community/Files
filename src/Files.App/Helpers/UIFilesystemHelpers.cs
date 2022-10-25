@@ -1,25 +1,23 @@
-using Files.Shared;
 using Files.App.Dialogs;
-using Files.Shared.Enums;
-using Files.Shared.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Interacts;
 using Files.App.ViewModels;
 using Files.App.Extensions;
+using Files.Backend.Enums;
+using Files.Shared;
+using Files.Shared.Enums;
+using Files.Shared.Extensions;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Foundation.Collections;
 using Windows.Storage;
-using Files.Backend.Enums;
 using Windows.System;
-using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Helpers
 {
