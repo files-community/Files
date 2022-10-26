@@ -68,8 +68,7 @@ steps:
 - task: CmdLine@2
   inputs:
     script: |
-      dir %localappdata%\Microsoft\VisualStudio
-      echo UsePreviews=True>%localappdata%\Microsoft\VisualStudio\17.0_0ef9548b\sdk.txt
+      for /f %%a in ('dir /b /a:d %localappdata%\Microsoft\VisualStudio\17*') do echo UsePreviews=True>%localappdata%\Microsoft\VisualStudio\%%a\sdk.txt
 
 - task: NuGetToolInstaller@1
 
