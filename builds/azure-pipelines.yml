@@ -62,8 +62,8 @@ steps:
 - task: UseDotNet@2
   inputs:
     packageType: sdk
-    version: 7.0.*
-    include-prerelease: true
+    version: 7.0.x
+    includePreviewVersions: true
 
 - task: NuGetToolInstaller@1
 
