@@ -15,7 +15,7 @@ namespace Files.FullTrust.MessageHandlers
     [SupportedOSPlatform("Windows10.0.10240")]
     public class NetworkDrivesHandler : Disposable, IMessageHandler
     {
-        private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}", JsonContext.Default.String);
+        private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
 
         public void Initialize(PipeStream connection)
         {
@@ -33,7 +33,7 @@ namespace Files.FullTrust.MessageHandlers
                     var cloudDrives = await CloudDrivesDetector.DetectCloudDrives();
                     await Win32API.SendMessageAsync(connection, new ValueSet()
                     {
-                        { "Drives", JsonSerializer.Serialize(cloudDrives, JsonContext.Default.IEnumerableICloudProvider) }
+                        { "Drives", JsonSerializer.Serialize(cloudDrives) }
                     }, message.Get("RequestID", defaultJson).GetString());
                     break;
             }
@@ -70,7 +70,7 @@ namespace Files.FullTrust.MessageHandlers
                     });
                     var response = new ValueSet
                     {
-                        { "NetworkLocations", JsonSerializer.Serialize(networkLocations, JsonContext.Default.ListShellLinkItem) }
+                        { "NetworkLocations", JsonSerializer.Serialize(networkLocations) }
                     };
                     await Win32API.SendMessageAsync(connection, response, message.Get("RequestID", defaultJson).GetString());
                     break;

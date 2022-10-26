@@ -30,7 +30,7 @@ namespace Files.App.Storage.FtpStorage
             await ftpClient.EnsureConnectedAsync(cancellationToken);
 
             var path = FtpHelpers.GetFtpPath(PathHelpers.Combine(Path, fileName));
-            var item = await ftpClient.GetObjectInfoAsync(path, token: cancellationToken);
+            var item = await ftpClient.GetObjectInfo(path, token: cancellationToken);
 
             if (item is null || item.Type != FtpObjectType.File)
                 throw new FileNotFoundException();
@@ -45,7 +45,7 @@ namespace Files.App.Storage.FtpStorage
             await ftpClient.EnsureConnectedAsync(cancellationToken);
 
             var path = FtpHelpers.GetFtpPath(PathHelpers.Combine(Path, folderName));
-            var item = await ftpClient.GetObjectInfoAsync(path, token: cancellationToken);
+            var item = await ftpClient.GetObjectInfo(path, token: cancellationToken);
 
 
             if (item is null || item.Type != FtpObjectType.Directory)
@@ -62,7 +62,7 @@ namespace Files.App.Storage.FtpStorage
 
             if (kind == StorableKind.Files)
             {
-                foreach (var item in await ftpClient.GetListingAsync(Path, cancellationToken))
+                foreach (var item in await ftpClient.GetListing(Path, cancellationToken))
                 {
                     if (item.Type == FtpObjectType.File)
                         yield return new FtpStorageFile(item.FullName, item.Name);
@@ -70,7 +70,7 @@ namespace Files.App.Storage.FtpStorage
             }
             else if (kind == StorableKind.Folders)
             {
-                foreach (var item in await ftpClient.GetListingAsync(Path, cancellationToken))
+                foreach (var item in await ftpClient.GetListing(Path, cancellationToken))
                 {
                     if (item.Type == FtpObjectType.Directory)
                         yield return new FtpStorageFolder(item.FullName, item.Name);
@@ -78,7 +78,7 @@ namespace Files.App.Storage.FtpStorage
             }
             else
             {
-                foreach (var item in await ftpClient.GetListingAsync(Path, cancellationToken))
+                foreach (var item in await ftpClient.GetListing(Path, cancellationToken))
                 {
                     if (item.Type == FtpObjectType.File)
                         yield return new FtpStorageFile(item.FullName, item.Name);
@@ -97,11 +97,11 @@ namespace Files.App.Storage.FtpStorage
 
             if (item is ILocatableFile locatableFile)
             {
-                await ftpClient.DeleteFileAsync(locatableFile.Path, cancellationToken);
+                await ftpClient.DeleteFile(locatableFile.Path, cancellationToken);
             }
             else if (item is ILocatableFolder locatableFolder)
             {
-                await ftpClient.DeleteDirectoryAsync(locatableFolder.Path, cancellationToken);
+                await ftpClient.DeleteDirectory(locatableFolder.Path, cancellationToken);
             }
             else
             {
@@ -145,7 +145,7 @@ namespace Files.App.Storage.FtpStorage
             await ftpClient.EnsureConnectedAsync(cancellationToken);
 
             var newPath = $"{Path}/{desiredName}";
-            if (await ftpClient.FileExistsAsync(newPath, cancellationToken))
+            if (await ftpClient.FileExists(newPath, cancellationToken))
             {
                 if (collisionOption == CreationCollisionOption.FailIfExists)
                     throw new IOException("File already exists.");
@@ -156,7 +156,7 @@ namespace Files.App.Storage.FtpStorage
 
             using var stream = new MemoryStream();
             var replaceExisting = collisionOption == CreationCollisionOption.ReplaceExisting;
-            var result = await ftpClient.UploadStreamAsync(stream, newPath, replaceExisting ? FtpRemoteExists.Overwrite : FtpRemoteExists.Skip, token: cancellationToken);
+            var result = await ftpClient.UploadStream(stream, newPath, replaceExisting ? FtpRemoteExists.Overwrite : FtpRemoteExists.Skip, token: cancellationToken);
 
             if (result == FtpStatus.Success)
             {
@@ -182,7 +182,7 @@ namespace Files.App.Storage.FtpStorage
             await ftpClient.EnsureConnectedAsync(cancellationToken);
 
             var newPath = $"{Path}/{desiredName}";
-            if (await ftpClient.DirectoryExistsAsync(newPath, cancellationToken))
+            if (await ftpClient.DirectoryExists(newPath, cancellationToken))
             {
                 if (collisionOption == CreationCollisionOption.FailIfExists)
                     throw new IOException("Directory already exists.");
@@ -192,7 +192,7 @@ namespace Files.App.Storage.FtpStorage
             }
 
             var replaceExisting = collisionOption == CreationCollisionOption.ReplaceExisting;
-            var isSuccessful = await ftpClient.CreateDirectoryAsync(newPath, replaceExisting, cancellationToken);
+            var isSuccessful = await ftpClient.CreateDirectory(newPath, replaceExisting, cancellationToken);
             if (!isSuccessful)
                 throw new IOException("Directory was not successfully created.");
 

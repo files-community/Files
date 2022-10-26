@@ -21,19 +21,16 @@ namespace Files.App.DataModels
 {
 	public class SidebarPinnedModel
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-		private SidebarPinnedController? controller;
+        private SidebarPinnedController? controller;
 
-		private readonly SemaphoreSlim addSyncSemaphore = new SemaphoreSlim(1, 1);
-
-		[JsonIgnore]
-		public AppModel AppModel => App.AppModel;
+        private readonly SemaphoreSlim addSyncSemaphore = new SemaphoreSlim(1, 1);
 
 		[JsonPropertyName("items")]
 		public List<string> FavoriteItems { get; set; } = new List<string>();
 
-		private readonly List<INavigationControlItem> favoriteList = new List<INavigationControlItem>();
+        private readonly List<INavigationControlItem> favoriteList = new List<INavigationControlItem>();
 
 		[JsonIgnore]
 		public IReadOnlyList<INavigationControlItem> Favorites
@@ -196,7 +193,7 @@ namespace Files.App.DataModels
 		/// <summary>
 		/// Saves the model
 		/// </summary>
-		public void Save() => ((SidebarPinnedController?)controller)?.SaveModel();
+		public void Save() => controller?.SaveModel();
 
 		/// <summary>
 		/// Adds the item (from a path) to the navigation sidebar
@@ -209,7 +206,7 @@ namespace Files.App.DataModels
 			var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
 			var locationItem = new LocationItem
 			{
-				Font = AppModel.SymbolFontFamily,
+				Font = App.AppModel.SymbolFontFamily,
 				Path = path,
 				Section = SectionType.Favorites,
 				MenuOptions = new ContextMenuOptions

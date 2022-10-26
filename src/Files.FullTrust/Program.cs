@@ -25,7 +25,7 @@ namespace Files.FullTrust
     {
         public static ILogger Logger { get; private set; }
         private static readonly LogWriter logWriter = new LogWriter();
-        private static readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}", JsonContext.Default.String);
+        private static readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
 
         [STAThread]
         private static async Task Main()
@@ -121,7 +121,7 @@ namespace Files.FullTrust
                     if (connection.IsMessageComplete)
                     {
                         var message = Encoding.UTF8.GetString(memoryStream.ToArray()).TrimEnd('\0');
-                        OnConnectionRequestReceived(JsonSerializer.Deserialize(message, JsonContext.Default.DictionaryStringJsonElement));
+                        OnConnectionRequestReceived(JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(message));
                         memoryStream.SetLength(0);
                     }
                 }

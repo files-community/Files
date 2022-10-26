@@ -72,7 +72,7 @@ namespace Files.App.Controllers
             try
             {
                 configContent = await FileIO.ReadTextAsync(JsonFile.Result);
-                Model = JsonSerializer.Deserialize(configContent, JsonContext.Default.TerminalFileModel);
+                Model = JsonSerializer.Deserialize<TerminalFileModel>(configContent);
                 if (Model == null)
                 {
                     throw new ArgumentException($"{JsonFileName} is empty, regenerating...");
@@ -132,7 +132,7 @@ namespace Files.App.Controllers
             {
                 StorageFile defaultFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri(defaultTerminalPath));
                 var defaultContent = await FileIO.ReadTextAsync(defaultFile);
-                var model = JsonSerializer.Deserialize(defaultContent, JsonContext.Default.TerminalFileModel);
+                var model = JsonSerializer.Deserialize<TerminalFileModel>(defaultContent);
                 await GetInstalledTerminalsAsync(model);
                 model.ResetToDefaultTerminal();
                 return model;
@@ -199,7 +199,7 @@ namespace Files.App.Controllers
                 using (var file = File.CreateText(Path.Combine(folderPath, JsonFileName)))
                 {
                     // update local configContent to avoid unnecessary refreshes
-                    configContent = JsonSerializer.Serialize(Model, DefaultJsonSettingsSerializer.Context.TerminalFileModel);
+                    configContent = JsonSerializer.Serialize(Model);
                     file.Write(configContent);
                 }
             }

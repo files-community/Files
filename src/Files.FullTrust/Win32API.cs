@@ -288,7 +288,7 @@ namespace Files.FullTrust
                 {
                     { "RequestID", requestID }
                 };
-                var serialized = JsonSerializer.SerializeToUtf8Bytes(message, JsonContext.Default.DictionaryStringObject);
+                var serialized = JsonSerializer.SerializeToUtf8Bytes(message);
                 await pipe.WriteAsync(serialized);
             });
         }

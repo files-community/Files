@@ -348,7 +348,7 @@ namespace Files.App.ViewModels
 		{
 			var str = NativeFileOperationsHelper.ReadStringFromFile($"{folderPath}:files_layoutmode");
 			var adsPrefs = SafetyExtensions.IgnoreExceptions(() =>
-				string.IsNullOrEmpty(str) ? null : JsonSerializer.Deserialize(str, JsonContext.Default.LayoutPreferences));
+				string.IsNullOrEmpty(str) ? null : JsonSerializer.Deserialize<LayoutPreferences>(str));
 			WriteLayoutPreferencesToDb(folderPath, frn, adsPrefs); // Port settings to DB, delete ADS
 			NativeFileOperationsHelper.DeleteFileFromApp($"{folderPath}:files_layoutmode");
 			return adsPrefs;

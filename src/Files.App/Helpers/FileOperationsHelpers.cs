@@ -245,7 +245,7 @@ namespace Files.App.Helpers
                 op.Options = ShellFileOperations.OperationFlags.Silent
                             | ShellFileOperations.OperationFlags.NoConfirmation
                             | ShellFileOperations.OperationFlags.NoErrorUI;
-                op.OwnerWindow = Win32API.Win32Window.FromLong(ownerHwnd);
+                op.OwnerWindow = (IntPtr)ownerHwnd;
                 if (!permanently)
                 {
                     op.Options |= ShellFileOperations.OperationFlags.RecycleOnDelete
@@ -389,7 +389,7 @@ namespace Files.App.Helpers
                 op.Options = ShellFileOperations.OperationFlags.NoConfirmMkDir
                             | ShellFileOperations.OperationFlags.Silent
                             | ShellFileOperations.OperationFlags.NoErrorUI;
-                op.OwnerWindow = Win32API.Win32Window.FromLong(ownerHwnd);
+                op.OwnerWindow = (IntPtr)ownerHwnd;
                 op.Options |= !overwriteOnMove ? ShellFileOperations.OperationFlags.PreserveFileExtensions | ShellFileOperations.OperationFlags.RenameOnCollision
                     : ShellFileOperations.OperationFlags.NoConfirmation;
 
@@ -465,7 +465,7 @@ namespace Files.App.Helpers
                 op.Options = ShellFileOperations.OperationFlags.NoConfirmMkDir
                             | ShellFileOperations.OperationFlags.Silent
                             | ShellFileOperations.OperationFlags.NoErrorUI;
-                op.OwnerWindow = Win32API.Win32Window.FromLong(ownerHwnd);
+                op.OwnerWindow = (IntPtr)ownerHwnd;
                 op.Options |= !overwriteOnCopy ? ShellFileOperations.OperationFlags.PreserveFileExtensions | ShellFileOperations.OperationFlags.RenameOnCollision
                     : ShellFileOperations.OperationFlags.NoConfirmation;
 
@@ -560,7 +560,7 @@ namespace Files.App.Helpers
             {
                 if (linkPath.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase))
                 {
-                    using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, null, TimeSpan.FromMilliseconds(100));
+                    using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, default, TimeSpan.FromMilliseconds(100));
                     return Task.FromResult((string.Empty, ShellFolderExtensions.GetShellLinkItem(link)));
                 }
                 else if (linkPath.EndsWith(".url", StringComparison.OrdinalIgnoreCase))
@@ -618,7 +618,7 @@ namespace Files.App.Helpers
         {
             try
             {
-                using var link = new ShellLink(filePath, LinkResolution.NoUIWithMsgPump, null, TimeSpan.FromMilliseconds(100));
+                using var link = new ShellLink(filePath, LinkResolution.NoUIWithMsgPump, default, TimeSpan.FromMilliseconds(100));
                 link.IconLocation = new IconLocation(iconFile, iconIndex);
                 link.SaveAs(filePath); // Overwrite if exists
                 return true;
@@ -818,7 +818,7 @@ namespace Files.App.Helpers
             private readonly Shell32.ITaskbarList4 taskbar;
             private readonly ConcurrentDictionary<string, OperationWithProgress> operations;
 
-            public System.Windows.Forms.IWin32Window OwnerWindow { get; set; }
+            public HWND OwnerWindow { get; set; }
 
             public ProgressHandler()
             {
@@ -880,17 +880,17 @@ namespace Files.App.Helpers
 
             private void UpdateTaskbarProgress()
             {
-                if (OwnerWindow == null || taskbar == null)
+                if (OwnerWindow == 0 || taskbar == null)
                 {
                     return;
                 }
                 if (operations.Any())
                 {
-                    taskbar.SetProgressValue(OwnerWindow.Handle, (ulong)Progress, 100);
+                    taskbar.SetProgressValue(OwnerWindow, (ulong)Progress, 100);
                 }
                 else
                 {
-                    taskbar.SetProgressState(OwnerWindow.Handle, Shell32.TBPFLAG.TBPF_NOPROGRESS);
+                    taskbar.SetProgressState(OwnerWindow, Shell32.TBPFLAG.TBPF_NOPROGRESS);
                 }
             }
 

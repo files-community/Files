@@ -12,8 +12,6 @@ namespace Files.App.Serialization.Implementation
             WriteIndented = true
         };
 
-        public static readonly JsonContext Context = new(Options);
-
         public string? SerializeToJson(object? obj)
         {
             return JsonSerializer.Serialize(obj, Options);

@@ -16,7 +16,7 @@ namespace Files.App.Helpers
 {
     public static class AppServiceConnectionHelper
     {
-        private static readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}", JsonContext.Default.String);
+        private static readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
 
         public static Task<NamedPipeAsAppServiceConnection> Instance = BuildConnection(true);
 
@@ -90,7 +90,7 @@ namespace Files.App.Helpers
 
     public class NamedPipeAsAppServiceConnection : IDisposable
     {
-        private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}", JsonContext.Default.String);
+        private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
 
         private NamedPipeServerStream serverStream;
 
@@ -119,7 +119,7 @@ namespace Files.App.Helpers
                     if (serverStream.IsMessageComplete)
                     {
                         var message = Encoding.UTF8.GetString(memoryStream.ToArray()).TrimEnd('\0');
-                        var msg = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(message, JsonContext.Default.DictionaryStringJsonElement);
+                        var msg = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(message);
                         if (msg != null && msg.Get("RequestID", defaultJson).GetString() == null)
                         {
                             RequestReceived?.Invoke(this, msg);
@@ -164,7 +164,7 @@ namespace Files.App.Helpers
                 valueSet.Add("RequestID", guid);
                 var tcs = new TaskCompletionSource<Dictionary<string, JsonElement>>();
                 messageList.TryAdd(guid, tcs);
-                var serialized = JsonSerializer.SerializeToUtf8Bytes(new Dictionary<string, object>(valueSet), JsonContext.Default.DictionaryStringObject);
+                var serialized = JsonSerializer.SerializeToUtf8Bytes(new Dictionary<string, object>(valueSet));
                 await serverStream.WriteAsync(serialized, 0, serialized.Length);
                 var response = await tcs.Task;
 
@@ -195,7 +195,7 @@ namespace Files.App.Helpers
             {
                 var guid = Guid.NewGuid().ToString();
                 valueSet.Add("RequestID", guid);
-                var serialized = JsonSerializer.SerializeToUtf8Bytes(new Dictionary<string, object>(valueSet), JsonContext.Default.DictionaryStringObject);
+                var serialized = JsonSerializer.SerializeToUtf8Bytes(new Dictionary<string, object>(valueSet));
                 await serverStream.WriteAsync(serialized, 0, serialized.Length);
                 return AppServiceResponseStatus.Success;
             }

@@ -66,7 +66,7 @@ namespace Files.App.Filesystem
                 });
                 if (status is AppServiceResponseStatus.Success && response.ContainsKey("NetworkLocations"))
                 {
-                    var items = JsonSerializer.Deserialize(response["NetworkLocations"].GetString(), JsonContext.Default.ListShellLinkItem);
+                    var items = JsonSerializer.Deserialize<List<ShellLinkItem>>(response["NetworkLocations"].GetString());
                     foreach (var item in items ?? new())
                     {
                         var networkItem = new DriveItem

@@ -38,11 +38,8 @@ namespace Files.App.ViewModels
 		/// </summary>
 		public AppTheme SelectedTheme
 		{
-			get => JsonSerializer.Deserialize(Get(JsonSerializer.Serialize(new AppTheme()
-			{
-				Name = "Default".GetLocalizedResource()
-			}, JsonContext.Default.AppTheme)), JsonContext.Default.AppTheme);
-			set => Set(JsonSerializer.Serialize(value, JsonContext.Default.AppTheme));
+			get => JsonSerializer.Deserialize<AppTheme>(Get(JsonSerializer.Serialize(new AppTheme() { Name = "Default".GetLocalizedResource() })));
+			set => Set(JsonSerializer.Serialize(value));
 		}
 
 		#endregion Appearance

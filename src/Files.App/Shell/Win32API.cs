@@ -280,8 +280,10 @@ namespace Files.App.Shell
                         <= 48 => Shell32.SHIL.SHIL_EXTRALARGE,
                         _ => Shell32.SHIL.SHIL_JUMBO,
                     };
-                    if (!Shell32.SHGetImageList(imageListSize, typeof(ComCtl32.CImageList).GUID, out var imageList).Succeeded)
+                    if (!Shell32.SHGetImageList(imageListSize, typeof(ComCtl32.CImageList).GUID, out var imageListOut).Succeeded)
                         return (iconData, null);
+
+                    var imageList = (ComCtl32.IImageList)imageListOut;
 
                     if (!onlyGetOverlay && iconData == null)
                     {

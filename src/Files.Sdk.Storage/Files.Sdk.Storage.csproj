@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net7.0</TargetFramework>
 		<Platforms>x86;x64;arm64</Platforms>
 		<RuntimeIdentifiers>win-arm64;win-x86;win-x64</RuntimeIdentifiers>
 		<Nullable>enable</Nullable>

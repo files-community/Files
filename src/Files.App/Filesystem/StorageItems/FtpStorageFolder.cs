@@ -75,7 +75,7 @@ namespace Files.App.Filesystem.StorageItems
                     return new BaseBasicProperties();
                 }
 
-                var item = await ftpClient.GetObjectInfoAsync(FtpPath);
+                var item = await ftpClient.GetObjectInfo(FtpPath);
                 return item is null ? new BaseBasicProperties(): new FtpFolderBasicProperties(item);
             });
         }
@@ -90,7 +90,7 @@ namespace Files.App.Filesystem.StorageItems
                     return null;
                 }
 
-                var item = await ftpClient.GetObjectInfoAsync(FtpHelpers.GetFtpPath(PathNormalization.Combine(Path, name)));
+                var item = await ftpClient.GetObjectInfo(FtpHelpers.GetFtpPath(PathNormalization.Combine(Path, name)));
                 if (item is not null)
                 {
                     if (item.Type is FtpObjectType.File)
@@ -130,7 +130,7 @@ namespace Files.App.Filesystem.StorageItems
                 }
 
                 var items = new List<IStorageItem>();
-                var list = await ftpClient.GetListingAsync(FtpPath);
+                var list = await ftpClient.GetListing(FtpPath);
                 foreach (var item in list)
                 {
                     if (item.Type is FtpObjectType.File)
@@ -186,7 +186,7 @@ namespace Files.App.Filesystem.StorageItems
                 string remotePath = $"{FtpPath}/{desiredName}";
                 var ftpRemoteExists = options is CreationCollisionOption.ReplaceExisting ? FtpRemoteExists.Overwrite : FtpRemoteExists.Skip;
 
-                var result = await ftpClient.UploadStreamAsync(stream, remotePath, ftpRemoteExists);
+                var result = await ftpClient.UploadStream(stream, remotePath, ftpRemoteExists);
                 if (result is FtpStatus.Success)
                 {
                     return new FtpStorageFile(new StorageFileWithPath(null, $"{Path}/{desiredName}"));
@@ -218,13 +218,13 @@ namespace Files.App.Filesystem.StorageItems
                 }
 
                 string fileName = $"{FtpPath}/{desiredName}";
-                if (ftpClient.DirectoryExists(fileName))
+                if (await ftpClient.DirectoryExists(fileName))
                 {
                     return new FtpStorageFolder(new StorageFileWithPath(null, fileName));
                 }
 
                 bool replaceExisting = options is CreationCollisionOption.ReplaceExisting;
-                bool isSuccessful = await ftpClient.CreateDirectoryAsync(fileName, replaceExisting, cancellationToken);
+                bool isSuccessful = await ftpClient.CreateDirectory(fileName, replaceExisting, cancellationToken);
                 if (!isSuccessful)
                 {
                     throw new IOException($"Failed to create folder {desiredName}.");
@@ -248,7 +248,7 @@ namespace Files.App.Filesystem.StorageItems
 
                 string destination = $"{PathNormalization.GetParentDir(FtpPath)}/{desiredName}";
                 var ftpOption = option is NameCollisionOption.ReplaceExisting ? FtpRemoteExists.Overwrite : FtpRemoteExists.Skip;
-                bool isSuccessful = await ftpClient.MoveDirectoryAsync(FtpPath, destination, ftpOption, cancellationToken);
+                bool isSuccessful = await ftpClient.MoveDirectory(FtpPath, destination, ftpOption, cancellationToken);
                 if (!isSuccessful && option is NameCollisionOption.GenerateUniqueName)
                 {
                     // TODO: handle name generation
@@ -263,7 +263,7 @@ namespace Files.App.Filesystem.StorageItems
                 using var ftpClient = GetFtpClient();
                 if (await ftpClient.EnsureConnectedAsync())
                 {
-                    await ftpClient.DeleteDirectoryAsync(FtpPath, cancellationToken);
+                    await ftpClient.DeleteDirectory(FtpPath, cancellationToken);
                 }
             });
         }
@@ -291,13 +291,13 @@ namespace Files.App.Filesystem.StorageItems
         public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize, ThumbnailOptions options)
             => Task.FromResult<StorageItemThumbnail>(null).AsAsyncOperation();
 
-        private FtpClient GetFtpClient()
+        private AsyncFtpClient GetFtpClient()
         {
             string host = FtpHelpers.GetFtpHost(Path);
             ushort port = FtpHelpers.GetFtpPort(Path);
             var credentials = FtpManager.Credentials.Get(host, FtpManager.Anonymous);
 
-            return new(host, port, credentials);
+            return new(host, credentials, port);
         }
 
         private class FtpFolderBasicProperties : BaseBasicProperties

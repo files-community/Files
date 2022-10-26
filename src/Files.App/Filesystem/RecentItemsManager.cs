@@ -115,7 +115,7 @@ namespace Files.App.Filesystem
             {
                 try
                 {
-                    using var link = new ShellLink(linkFilePath, LinkResolution.NoUIWithMsgPump, null, TimeSpan.FromMilliseconds(100));
+                    using var link = new ShellLink(linkFilePath, LinkResolution.NoUIWithMsgPump, default, TimeSpan.FromMilliseconds(100));
 
                     if (!string.IsNullOrEmpty(link.TargetPath) && link.Target.IsFolder)
                     {

@@ -30,7 +30,7 @@ namespace Files.App.Storage.FtpStorage
             return Task.FromResult<ILocatableFolder?>(null);
         }
 
-        protected FtpClient GetFtpClient()
+        protected AsyncFtpClient GetFtpClient()
         {
             return FtpHelpers.GetFtpClient(Path);
         }

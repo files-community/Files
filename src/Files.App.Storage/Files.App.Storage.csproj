@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0-windows10.0.22000.0</TargetFramework>
+    <TargetFramework>net7.0-windows10.0.22000.0</TargetFramework>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <OutputType>Library</OutputType>
     <DefaultLanguage>en-US</DefaultLanguage>
-    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
     <Nullable>enable</Nullable>
     <UseWinUI>true</UseWinUI>
     <Platforms>x86;x64;arm64</Platforms>
@@ -72,11 +72,8 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Files.App.Storage.rd.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="FluentFTP">
-      <Version>39.4.0</Version>
+      <Version>41.0.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

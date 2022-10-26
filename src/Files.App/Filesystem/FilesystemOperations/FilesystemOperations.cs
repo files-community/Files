@@ -562,7 +562,7 @@ namespace Files.App.Filesystem
                     }
 
                     // Get newest file
-                    ShellFileItem item = nameMatchItems.Where((item) => item.RecycleDate != null).OrderBy((item) => item.RecycleDate).FirstOrDefault();
+                    ShellFileItem item = nameMatchItems.OrderBy((item) => item.RecycleDate).FirstOrDefault();
 
                     return new StorageHistory(FileOperationType.Recycle, source, StorageHelpers.FromPathAndType(item?.RecyclePath, source.ItemType));
                 }

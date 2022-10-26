@@ -503,7 +503,7 @@ namespace Files.App.ViewModels
 				var folderPath = message["FileSystem"].GetString();
 				var itemPath = message["Path"].GetString();
 				var changeType = message["Type"].GetString();
-				var newItem = JsonSerializer.Deserialize(message.Get("Item", defaultJson).GetString(), JsonContext.Default.ShellFileItem);
+				var newItem = JsonSerializer.Deserialize<ShellFileItem>(message.Get("Item", defaultJson).GetString());
 				Debug.WriteLine("{0}: {1}", folderPath, changeType);
 				// If we are currently displaying the reycle bin lets refresh the items
 				if (CurrentFolder?.ItemPath == folderPath)
@@ -567,7 +567,7 @@ namespace Files.App.ViewModels
 			}
 			else if (message.ContainsKey("Library"))
 			{
-				await App.LibraryManager.HandleWin32LibraryEvent(JsonSerializer.Deserialize(message.Get("Item", defaultJson).GetString(), JsonContext.Default.ShellLibraryItem), message.Get("OldPath", defaultJson).GetString());
+				await App.LibraryManager.HandleWin32LibraryEvent(JsonSerializer.Deserialize<ShellLibraryItem>(message.Get("Item", defaultJson).GetString()), message.Get("OldPath", defaultJson).GetString());
 			}
 		}
 
@@ -1465,16 +1465,16 @@ namespace Files.App.ViewModels
 				if (!FtpHelpers.VerifyFtpPath(path))
 					return;
 
-				using var client = new FtpClient();
+				using var client = new AsyncFtpClient();
 				client.Host = FtpHelpers.GetFtpHost(path);
 				client.Port = FtpHelpers.GetFtpPort(path);
 				client.Credentials = FtpManager.Credentials.Get(client.Host, FtpManager.Anonymous);
 
-				static async Task<FtpProfile> WrappedAutoConnectFtpAsync(FtpClient client)
+				static async Task<FtpProfile> WrappedAutoConnectFtpAsync(AsyncFtpClient client)
 				{
 					try
 					{
-						return await client.AutoConnectAsync();
+						return await client.AutoConnect();
 					}
 					catch (FtpAuthenticationException)
 					{
@@ -1509,7 +1509,7 @@ namespace Files.App.ViewModels
 						FtpManager.Credentials[client.Host] = client.Credentials;
 
 						var sampler = new IntervalSampler(500);
-						var list = await client.GetListingAsync(FtpHelpers.GetFtpPath(path));
+						var list = await client.GetListing(FtpHelpers.GetFtpPath(path));
 
 						for (var i = 0; i < list.Length; i++)
 						{

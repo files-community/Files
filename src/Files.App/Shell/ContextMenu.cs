@@ -136,7 +136,7 @@ namespace Files.App.Shell
             return await owningThread.PostMethod<ContextMenu>(() =>
             {
                 using var sf = shellItems[0].Parent; // HP: the items are all in the same folder
-                Shell32.IContextMenu menu = sf.GetChildrenUIObjects<Shell32.IContextMenu>(null, shellItems);
+                Shell32.IContextMenu menu = sf.GetChildrenUIObjects<Shell32.IContextMenu>(default, shellItems);
                 var hMenu = User32.CreatePopupMenu();
                 menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, flags);
                 var contextMenu = new ContextMenu(menu, hMenu, shellItems.Select(x => x.ParsingName), owningThread);
@@ -174,7 +174,7 @@ namespace Files.App.Shell
             var owningThread = new ThreadWithMessageQueue();
             return await owningThread.PostMethod<ContextMenu>(() =>
             {
-                var sv = shellFolder.GetViewObject<Shell32.IShellView>(null);
+                var sv = shellFolder.GetViewObject<Shell32.IShellView>(default);
                 Shell32.IContextMenu menu = sv.GetItemObject<Shell32.IContextMenu>(Shell32.SVGIO.SVGIO_BACKGROUND);
                 var hMenu = User32.CreatePopupMenu();
                 menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, flags);

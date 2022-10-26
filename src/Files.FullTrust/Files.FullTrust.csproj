@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-	<TargetFramework>net6.0-windows10.0.22000.0</TargetFramework>
+	<TargetFramework>net7.0-windows10.0.22000.0</TargetFramework>
 	<OutputType>WinExe</OutputType>
 	<RootNamespace>FilesFullTrust</RootNamespace>
 	<AssemblyName>FilesFullTrust</AssemblyName>
@@ -9,9 +9,9 @@
 	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 	<CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
 	<Configurations>Debug;Release;Sideload</Configurations>
-	<PublishReadyToRun>true</PublishReadyToRun>
+	<!--<PublishReadyToRun>true</PublishReadyToRun>-->
 	<PublishTrimmed>true</PublishTrimmed>
-	<TrimMode>link</TrimMode>
+  <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
 	<UseVSHostingProcess>false</UseVSHostingProcess>
@@ -26,10 +26,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Management.Infrastructure" Version="2.0.0" />
     <PackageReference Include="Microsoft.Management.Infrastructure.Runtime.Win" Version="2.0.1" />
-    <PackageReference Include="System.IO.FileSystem.AccessControl" Version="5.0.0" />
     <PackageReference Include="Tulpep.ActiveDirectoryObjectPicker" Version="3.0.11" />
     <PackageReference Include="Vanara.PInvoke.Mpr" Version="3.4.9" />
-    <PackageReference Include="Vanara.Windows.Shell" Version="3.3.15" />
+    <PackageReference Include="Vanara.Windows.Shell" Version="3.4.9" />
   </ItemGroup>
   <ItemGroup>
 	<ProjectReference Include="..\Files.Shared\Files.Shared.csproj" />
@@ -50,6 +49,10 @@
 	<Content Include="Assets\FilesOpenDialog\UnsetFilesAsDefault.reg">
 	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	</Content>
+  </ItemGroup>
+  <ItemGroup>
+    <TrimmerRootAssembly Include="FilesFullTrust" />
+    <TrimmerRootAssembly Include="Files.Shared" />
   </ItemGroup>
   <ItemGroup>
 	<Content Include="Assets\FilesOpenDialog\CustomOpenDialog32.dll" />
