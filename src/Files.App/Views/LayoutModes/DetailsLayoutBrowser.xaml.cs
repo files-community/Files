@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UWPToWinAppSDKUpgradeHelpers;
 using Windows.Foundation;
+using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 
@@ -434,11 +435,23 @@ namespace Files.App.Views.LayoutModes
 
             if (e.Key == VirtualKey.Enter && !e.KeyStatus.IsMenuKeyDown)
             {
-                if (!IsRenamingItem && !isHeaderFocused && !isFooterFocused)
+                if (IsRenamingItem)
+                    return;
+
+                if (ctrlPressed)
+                {
+                    var folders = ParentShellPageInstance?.SlimContentPage.SelectedItems?.Where(file => file.PrimaryItemAttribute == StorageItemTypes.Folder);
+                    foreach (ListedItem? folder in folders)
+                    {
+                        if (folder != null)
+                            await NavigationHelpers.OpenPathInNewTab(folder.ItemPath);
+                    }
+                }
+                else
                 {
                     NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
-                    e.Handled = true;
                 }
+                e.Handled = true;
             }
             else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
             {

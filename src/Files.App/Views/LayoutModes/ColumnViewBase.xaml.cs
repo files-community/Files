@@ -357,14 +357,15 @@ namespace Files.App.Views.LayoutModes
 
             if (e.Key == VirtualKey.Enter && !e.KeyStatus.IsMenuKeyDown)
             {
-                if (!IsRenamingItem)
-                {
-                    if (IsItemSelected && SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
-                        ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
-                    else
-                        NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
-                    e.Handled = true;
-                }
+                if (IsRenamingItem)
+                    return;
+
+                if (IsItemSelected && SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
+                    ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
+                else
+                    NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+
+                e.Handled = true;
             }
             else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
             {

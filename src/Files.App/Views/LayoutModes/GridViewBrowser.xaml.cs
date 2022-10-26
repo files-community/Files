@@ -16,6 +16,7 @@ using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 
@@ -378,15 +379,27 @@ namespace Files.App.Views.LayoutModes
             var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;
             var isFooterFocused = focusedElement is HyperlinkButton;
 
-			if (e.Key == VirtualKey.Enter && !isFooterFocused && !e.KeyStatus.IsMenuKeyDown)
-			{
-				if (IsRenamingItem)
-					return;
+            if (e.Key == VirtualKey.Enter && !isFooterFocused && !e.KeyStatus.IsMenuKeyDown)
+            {
+                if (IsRenamingItem)
+                    return;
 
-				NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
-				e.Handled = true;
-			}
-			else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
+                if (ctrlPressed)
+                {
+                    var folders = ParentShellPageInstance?.SlimContentPage.SelectedItems?.Where(file => file.PrimaryItemAttribute == StorageItemTypes.Folder);
+                    foreach (ListedItem? folder in folders)
+                    {
+                        if (folder != null)
+                            await NavigationHelpers.OpenPathInNewTab(folder.ItemPath);
+                    }
+                }
+                else
+                {
+                    NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+                }
+                e.Handled = true;
+            }
+            else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
 			{
 				FilePropertiesHelpers.ShowProperties(ParentShellPageInstance);
 				e.Handled = true;
