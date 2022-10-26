@@ -148,7 +148,7 @@ namespace Files.App.ViewModels
 			if (value == "Home".GetLocalizedResource())
 			{
 				// TODO: Initialize connection to receive drive notifications
-				_ = InitializeConnectionAsync(); // fire and forget
+				//_ = InitializeConnectionAsync(); // fire and forget
 			}
 		}
 
@@ -512,14 +512,6 @@ namespace Files.App.ViewModels
 					await OrderFilesAndFoldersAsync();
 					await ApplyFilesAndFoldersChangesAsync();
 					break;
-			}
-		}
-
-		private async void Connection_RequestReceived(object sender, Dictionary<string, JsonElement> message)
-		{
-			if (message.ContainsKey("Library"))
-			{
-				await App.LibraryManager.HandleWin32LibraryEvent(JsonSerializer.Deserialize<ShellLibraryItem>(message.Get("Item", defaultJson).GetString()), message.Get("OldPath", defaultJson).GetString());
 			}
 		}
 

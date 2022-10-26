@@ -35,10 +35,7 @@ namespace Files.FullTrust
             try
             {
                 // Create message handlers
-                messageHandlers = new List<IMessageHandler>
-                {
-                    new LibrariesHandler(),
-                };
+                messageHandlers = new List<IMessageHandler>();
                 
                 // Connect to app service and wait until the connection gets closed
                 appServiceExit = new ManualResetEvent(false);
