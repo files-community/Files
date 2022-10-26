@@ -285,7 +285,7 @@ namespace Files.App.UserControls.Widgets
         private async void MapNetworkDrive_Click(object sender, RoutedEventArgs e)
             => await NetworkDrivesManager.OpenMapNetworkDriveDialogAsync(NativeWinApiHelper.CoreWindowHandle.ToInt64());
 
-        private async void DisconnectNetworkDrive_Click(object sender, RoutedEventArgs e)
+        private void DisconnectNetworkDrive_Click(object sender, RoutedEventArgs e)
         {
             var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
             NetworkDrivesManager.DisconnectNetworkDrive(item.Path);
