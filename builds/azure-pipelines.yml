@@ -69,7 +69,7 @@ steps:
   inputs:
     script: |
       dir %localappdata%\Microsoft\VisualStudio
-      echo UsePreviews=True>%localappdata%\Microsoft\VisualStudio\17.0_ace374cd\sdk.txt
+      echo UsePreviews=True>%localappdata%\Microsoft\VisualStudio\17.0_0ef9548b\sdk.txt
 
 - task: NuGetToolInstaller@1
 
