@@ -16,7 +16,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Windows.Storage;
-using Files.FullTrust.Helpers;
 
 namespace Files.FullTrust
 {
