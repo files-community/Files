@@ -65,6 +65,10 @@ steps:
     version: 7.0.x
     includePreviewVersions: true
 
+- task: CmdLine@2
+  inputs:
+    script: 'echo UsePreviews=True>%localappdata%\Microsoft\VisualStudio\17.0_26117e48\sdk.txt'
+
 - task: NuGetToolInstaller@1
 
 - task: NuGetCommand@2
