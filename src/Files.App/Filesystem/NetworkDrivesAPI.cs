@@ -1,16 +1,15 @@
-﻿using System;
+﻿using Files.App.Shell;
+using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
-using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Vanara.Extensions;
 using Vanara.InteropServices;
 using static Vanara.PInvoke.Mpr;
 
-namespace Files.FullTrust
+namespace Files.App.Filesystem
 {
-    [SupportedOSPlatform("Windows10.0.10240")]
     public class NetworkDrivesAPI
     {
         /// <summary>

@@ -38,7 +38,6 @@ namespace Files.FullTrust
                 messageHandlers = new List<IMessageHandler>
                 {
                     new LibrariesHandler(),
-                    new NetworkDrivesHandler(),
                 };
                 
                 // Connect to app service and wait until the connection gets closed
