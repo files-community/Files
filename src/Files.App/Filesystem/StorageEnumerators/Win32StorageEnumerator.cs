@@ -395,7 +395,7 @@ namespace Files.App.Filesystem.StorageEnumerators
             {
                 if (linkPath.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase))
                 {
-                    using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, null, TimeSpan.FromMilliseconds(100));
+                    using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, default, TimeSpan.FromMilliseconds(100));
                     return ShellFolderExtensions.GetShellLinkItem(link);
                 }
                 else if (linkPath.EndsWith(".url", StringComparison.OrdinalIgnoreCase))
