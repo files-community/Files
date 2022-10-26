@@ -30,8 +30,6 @@ namespace Files.App.Shell
     [SupportedOSPlatform("Windows10.0.10240")]
     internal class Win32API
     {
-        private static readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
-
         public static Task StartSTATask(Func<Task> func)
         {
             var taskCompletionSource = new TaskCompletionSource();
@@ -282,8 +280,10 @@ namespace Files.App.Shell
                         <= 48 => Shell32.SHIL.SHIL_EXTRALARGE,
                         _ => Shell32.SHIL.SHIL_JUMBO,
                     };
-                    if (!Shell32.SHGetImageList(imageListSize, typeof(ComCtl32.CImageList).GUID, out var imageList).Succeeded)
+                    if (!Shell32.SHGetImageList(imageListSize, typeof(ComCtl32.CImageList).GUID, out var imageListOut).Succeeded)
                         return (iconData, null);
+
+                    var imageList = (ComCtl32.IImageList)imageListOut;
 
                     if (!onlyGetOverlay && iconData == null)
                     {

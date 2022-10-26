@@ -1406,16 +1406,16 @@ namespace Files.App.ViewModels
 				if (!FtpHelpers.VerifyFtpPath(path))
 					return;
 
-				using var client = new FtpClient();
+				using var client = new AsyncFtpClient();
 				client.Host = FtpHelpers.GetFtpHost(path);
 				client.Port = FtpHelpers.GetFtpPort(path);
 				client.Credentials = FtpManager.Credentials.Get(client.Host, FtpManager.Anonymous);
 
-				static async Task<FtpProfile> WrappedAutoConnectFtpAsync(FtpClient client)
+				static async Task<FtpProfile> WrappedAutoConnectFtpAsync(AsyncFtpClient client)
 				{
 					try
 					{
-						return await client.AutoConnectAsync();
+						return await client.AutoConnect();
 					}
 					catch (FtpAuthenticationException)
 					{
@@ -1450,7 +1450,7 @@ namespace Files.App.ViewModels
 						FtpManager.Credentials[client.Host] = client.Credentials;
 
 						var sampler = new IntervalSampler(500);
-						var list = await client.GetListingAsync(FtpHelpers.GetFtpPath(path));
+						var list = await client.GetListing(FtpHelpers.GetFtpPath(path));
 
 						for (var i = 0; i < list.Length; i++)
 						{

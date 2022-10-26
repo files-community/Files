@@ -8,13 +8,13 @@ namespace Files.App.Helpers
 {
     public static class FtpHelpers
     {
-        public static async Task<bool> EnsureConnectedAsync(this FtpClient ftpClient)
+        public static async Task<bool> EnsureConnectedAsync(this AsyncFtpClient ftpClient)
         {
             if (!ftpClient.IsConnected)
             {
                 try
                 {
-                    await ftpClient.ConnectAsync();
+                    await ftpClient.Connect();
                 }
                 catch
                 {

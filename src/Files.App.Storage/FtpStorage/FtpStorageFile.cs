@@ -24,11 +24,11 @@ namespace Files.App.Storage.FtpStorage
 
             if (access.HasFlag(FileAccess.Write))
             {
-                return await ftpClient.OpenWriteAsync(Path, token: cancellationToken);
+                return await ftpClient.OpenWrite(Path, token: cancellationToken);
             }
             else if (access.HasFlag(FileAccess.Read))
             {
-                return await ftpClient.OpenReadAsync(Path, token: cancellationToken);
+                return await ftpClient.OpenRead(Path, token: cancellationToken);
             }
             else
             {
