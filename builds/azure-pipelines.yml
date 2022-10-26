@@ -62,7 +62,7 @@ steps:
 - task: UseDotNet@2
   inputs:
     packageType: sdk
-    version: 7.0.0
+    version: 7.0.100-preview2
 
 - task: NuGetToolInstaller@1
 
