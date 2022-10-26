@@ -18,14 +18,14 @@ namespace Files.App.Storage.FtpStorage
             return hostIndex == -1 ? "/" : path.Substring(hostIndex);
         }
 
-        public static async Task<bool> TryEnsureConnectedAsync(this FtpClient ftpClient, CancellationToken cancellationToken = default)
+        public static async Task<bool> TryEnsureConnectedAsync(this AsyncFtpClient ftpClient, CancellationToken cancellationToken = default)
         {
             if (ftpClient.IsConnected)
                 return true;
 
             try
             {
-                await ftpClient.ConnectAsync(cancellationToken);
+                await ftpClient.Connect(cancellationToken);
                 return true;
             }
             catch (Exception)
@@ -34,12 +34,12 @@ namespace Files.App.Storage.FtpStorage
             }
         }
 
-        public static Task EnsureConnectedAsync(this FtpClient ftpClient, CancellationToken cancellationToken = default)
+        public static Task EnsureConnectedAsync(this AsyncFtpClient ftpClient, CancellationToken cancellationToken = default)
         {
             if (ftpClient.IsConnected)
                 return Task.CompletedTask;
 
-            return ftpClient.ConnectAsync(cancellationToken);
+            return ftpClient.Connect(cancellationToken);
         }
 
         public static string GetFtpHost(string path)
@@ -80,13 +80,13 @@ namespace Files.App.Storage.FtpStorage
             return path.Substring(schemaIndex, hostIndex - schemaIndex);
         }
 
-        public static FtpClient GetFtpClient(string ftpPath)
+        public static AsyncFtpClient GetFtpClient(string ftpPath)
         {
-            var host = FtpHelpers.GetFtpHost(ftpPath);
-            var port = FtpHelpers.GetFtpPort(ftpPath);
+            var host = GetFtpHost(ftpPath);
+            var port = GetFtpPort(ftpPath);
             var credentials = FtpManager.Credentials.Get(host, FtpManager.Anonymous);
 
-            return new(host, port, credentials);
+            return new(host, credentials, port);
         }
     }
 }

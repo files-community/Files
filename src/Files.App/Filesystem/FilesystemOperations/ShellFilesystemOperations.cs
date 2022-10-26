@@ -35,8 +35,6 @@ namespace Files.App.Filesystem
 
         private IDialogService DialogService { get; } = Ioc.Default.GetRequiredService<IDialogService>();
 
-        private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
-
         #endregion Private Members
 
         #region Constructor

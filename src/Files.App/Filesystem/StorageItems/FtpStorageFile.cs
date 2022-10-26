@@ -85,7 +85,7 @@ namespace Files.App.Filesystem.StorageItems
                     return new BaseBasicProperties();
                 }
 
-                var item = await ftpClient.GetObjectInfoAsync(FtpPath);
+                var item = await ftpClient.GetObjectInfo(FtpPath);
                 return item is null ? new BaseBasicProperties() : new FtpFileBasicProperties(item);
             });
         }
@@ -102,13 +102,13 @@ namespace Files.App.Filesystem.StorageItems
 
                 if (accessMode is FileAccessMode.Read)
                 {
-                    var inStream = await ftpClient.OpenReadAsync(FtpPath, token: cancellationToken);
+                    var inStream = await ftpClient.OpenRead(FtpPath, token: cancellationToken);
                     return new NonSeekableRandomAccessStreamForRead(inStream, (ulong)inStream.Length)
                     {
                         DisposeCallback = ftpClient.Dispose
                     };
                 }
-                return new NonSeekableRandomAccessStreamForWrite(await ftpClient.OpenWriteAsync(FtpPath, token: cancellationToken))
+                return new NonSeekableRandomAccessStreamForWrite(await ftpClient.OpenWrite(FtpPath, token: cancellationToken))
                 {
                     DisposeCallback = ftpClient.Dispose
                 };
@@ -126,7 +126,7 @@ namespace Files.App.Filesystem.StorageItems
                     return null;
                 }
 
-                var inStream = await ftpClient.OpenReadAsync(FtpPath, token: cancellationToken);
+                var inStream = await ftpClient.OpenRead(FtpPath, token: cancellationToken);
                 var nsStream = new NonSeekableRandomAccessStreamForRead(inStream, (ulong)inStream.Length) { DisposeCallback = ftpClient.Dispose };
                 return new StreamWithContentType(nsStream);
             });
@@ -141,7 +141,7 @@ namespace Files.App.Filesystem.StorageItems
                     return null;
                 }
 
-                var inStream = await ftpClient.OpenReadAsync(FtpPath, token: cancellationToken);
+                var inStream = await ftpClient.OpenRead(FtpPath, token: cancellationToken);
                 return new InputStreamWithDisposeCallback(inStream) { DisposeCallback = () => ftpClient.Dispose() };
             });
         }
@@ -167,14 +167,14 @@ namespace Files.App.Filesystem.StorageItems
 
                 if (destFolder is ICreateFileWithStream cwsf)
                 {
-                    using var inStream = await ftpClient.OpenReadAsync(FtpPath, token: cancellationToken);
+                    using var inStream = await ftpClient.OpenRead(FtpPath, token: cancellationToken);
                     return await cwsf.CreateFileAsync(inStream, desiredNewName, option.Convert());
                 }
                 else
                 {
                     BaseStorageFile file = await destFolder.CreateFileAsync(desiredNewName, option.Convert());
                     using var stream = await file.OpenStreamForWriteAsync();
-                    return await ftpClient.DownloadStreamAsync(stream, FtpPath, token: cancellationToken) ? file : null;
+                    return await ftpClient.DownloadStream(stream, FtpPath, token: cancellationToken) ? file : null;
                 }
             });
         }
@@ -200,7 +200,7 @@ namespace Files.App.Filesystem.StorageItems
 
                 string destination = $"{PathNormalization.GetParentDir(FtpPath)}/{desiredName}";
                 var remoteExists = option is NameCollisionOption.ReplaceExisting ? FtpRemoteExists.Overwrite : FtpRemoteExists.Skip;
-                bool isSuccessful = await ftpClient.MoveFileAsync(FtpPath, destination, remoteExists, cancellationToken);
+                bool isSuccessful = await ftpClient.MoveFile(FtpPath, destination, remoteExists, cancellationToken);
                 if (!isSuccessful && option is NameCollisionOption.GenerateUniqueName)
                 {
                     // TODO: handle name generation
@@ -215,7 +215,7 @@ namespace Files.App.Filesystem.StorageItems
                 using var ftpClient = GetFtpClient();
                 if (await ftpClient.EnsureConnectedAsync())
                 {
-                    await ftpClient.DeleteFileAsync(FtpPath, cancellationToken);
+                    await ftpClient.DeleteFile(FtpPath, cancellationToken);
                 }
             });
         }
@@ -228,13 +228,13 @@ namespace Files.App.Filesystem.StorageItems
         public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize, ThumbnailOptions options)
             => Task.FromResult<StorageItemThumbnail>(null).AsAsyncOperation();
 
-        private FtpClient GetFtpClient()
+        private AsyncFtpClient GetFtpClient()
         {
             string host = FtpHelpers.GetFtpHost(Path);
             ushort port = FtpHelpers.GetFtpPort(Path);
             var credentials = FtpManager.Credentials.Get(host, FtpManager.Anonymous);
 
-            return new(host, port, credentials);
+            return new(host, credentials, port);
         }
 
         private async void FtpDataStreamingHandler(StreamedFileDataRequest request)
@@ -250,7 +250,7 @@ namespace Files.App.Filesystem.StorageItems
 
                 using (var outStream = request.AsStreamForWrite())
                 {
-                    await ftpClient.DownloadStreamAsync(outStream, FtpPath);
+                    await ftpClient.DownloadStream(outStream, FtpPath);
                     await outStream.FlushAsync();
                 }
                 request.Dispose();
