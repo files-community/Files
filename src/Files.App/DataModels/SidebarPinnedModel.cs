@@ -21,16 +21,16 @@ namespace Files.App.DataModels
 {
 	public class SidebarPinnedModel
 	{
-        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-        private SidebarPinnedController? controller;
+		private SidebarPinnedController? controller;
 
-        private readonly SemaphoreSlim addSyncSemaphore = new SemaphoreSlim(1, 1);
+		private readonly SemaphoreSlim addSyncSemaphore = new SemaphoreSlim(1, 1);
 
 		[JsonPropertyName("items")]
 		public List<string> FavoriteItems { get; set; } = new List<string>();
 
-        private readonly List<INavigationControlItem> favoriteList = new List<INavigationControlItem>();
+		private readonly List<INavigationControlItem> favoriteList = new List<INavigationControlItem>();
 
 		[JsonIgnore]
 		public IReadOnlyList<INavigationControlItem> Favorites
@@ -265,7 +265,7 @@ namespace Files.App.DataModels
 				insertIndex = lastItem is not null ? favoriteList.IndexOf(lastItem) + 1 : 0;
 				favoriteList.Insert(insertIndex, locationItem);
 			}
-            controller?.DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, locationItem, insertIndex));
+			controller?.DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, locationItem, insertIndex));
 		}
 
 		/// <summary>
@@ -298,13 +298,13 @@ namespace Files.App.DataModels
 						{
 							favoriteList.Remove(item);
 						}
-                        controller?.DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
+						controller?.DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
 					}
 				}
 			}
 
-            // Remove unpinned items from sidebar
-            controller?.DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+			// Remove unpinned items from sidebar
+			controller?.DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 		}
 	}
 }
