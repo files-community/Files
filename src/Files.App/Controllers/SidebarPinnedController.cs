@@ -154,7 +154,7 @@ namespace Files.App.Controllers
                 using (var file = File.CreateText(Path.Combine(folderPath, JsonFileName)))
                 {
                     // update local configContent to avoid unnecessary refreshes
-                    configContent = JsonSerializer.Serialize(Model);
+                    configContent = JsonSerializer.Serialize(Model, DefaultJsonSettingsSerializer.Options);
                     file.Write(configContent);
                 }
             }
