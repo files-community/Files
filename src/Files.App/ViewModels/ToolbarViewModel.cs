@@ -556,12 +556,8 @@ namespace Files.App.ViewModels
 				}
 			}
 
-			if (!FilesystemHelpers.HasDraggedStorageItems(e.DataView))
-			{
-				e.AcceptedOperation = DataPackageOperation.None;
-				return;
-			}
-			if (string.IsNullOrEmpty(pathBoxItem.Path)) // In search page
+			if (!FilesystemHelpers.HasDraggedStorageItems(e.DataView) 
+				|| string.IsNullOrEmpty(pathBoxItem.Path))  // In search page
 			{
 				e.AcceptedOperation = DataPackageOperation.None;
 				return;
@@ -570,15 +566,15 @@ namespace Files.App.ViewModels
 			e.Handled = true;
 			var deferral = e.GetDeferral();
 
-			var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
-			var storageItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
-
+			var handledByFtp = await FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
 			if (handledByFtp)
 			{
 				e.AcceptedOperation = DataPackageOperation.None;
 				deferral.Complete();
 				return;
 			}
+
+			var storageItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
 			if (!storageItems.Any(storageItem =>
 				!string.IsNullOrEmpty(storageItem?.Path) &&
@@ -692,10 +688,7 @@ namespace Files.App.ViewModels
 			if (e.Pointer.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Mouse)
 			{
 				var ptrPt = e.GetCurrentPoint(AddressToolbar);
-				if (ptrPt.Properties.IsMiddleButtonPressed)
-					pointerRoutedEventArgs = e;
-				else
-					pointerRoutedEventArgs = null;
+				pointerRoutedEventArgs = ptrPt.Properties.IsMiddleButtonPressed ? e : null;
 			}
 		}
 
@@ -1005,7 +998,7 @@ namespace Files.App.ViewModels
 		{
 			var trimmedInput = currentInput.Trim();
 			var fileName = trimmedInput;
-			var arguments = "";
+			var arguments = string.Empty;
 			if (trimmedInput.Contains(' '))
 			{
 				var positionOfBlank = trimmedInput.IndexOf(' ');
