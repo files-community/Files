@@ -76,7 +76,9 @@ namespace Files.App.ViewModels
 
 		public ListedItem CurrentFolder { get; private set; }
 		public CollectionViewSource viewSource;
-		private CancellationTokenSource addFilesCTS, semaphoreCTS, loadPropsCTS, watcherCTS;
+
+		private FileSystemWatcher watcher;
+        private CancellationTokenSource addFilesCTS, semaphoreCTS, loadPropsCTS, watcherCTS, searchCTS;
 
 		public event EventHandler DirectoryInfoUpdated;
 
@@ -144,12 +146,6 @@ namespace Files.App.ViewModels
 
 			WorkingDirectory = value;
 			OnPropertyChanged(nameof(WorkingDirectory));
-
-			if (value == "Home".GetLocalizedResource())
-			{
-				// TODO: Initialize connection to receive drive notifications
-				//_ = InitializeConnectionAsync(); // fire and forget
-			}
 		}
 
 		public Task<FilesystemResult<BaseStorageFolder>> GetFolderFromPathAsync(string value)
@@ -1376,6 +1372,9 @@ namespace Files.App.ViewModels
 
 		public void CloseWatcher()
 		{
+			watcher?.Dispose();
+			watcher = null;
+
 			aProcessQueueAction = null;
 			watcherCTS?.Cancel();
 			watcherCTS = new CancellationTokenSource();
@@ -1722,46 +1721,34 @@ namespace Files.App.ViewModels
 			}, default, TaskCreationOptions.LongRunning, TaskScheduler.Default);
 		}
 
-		private async void WatchForWin32FolderChanges(string folderPath)
+		private void WatchForWin32FolderChanges(string folderPath)
 		{
-			void RestartWatcher(object sender, EventArgs e)
-			{
-				if (Connection != null)
-				{
-					ConnectionChanged -= RestartWatcher;
-					WatchForWin32FolderChanges(folderPath);
-				}
-			}
-			if (Connection != null)
-			{
-				var (status, response) = await Connection.SendMessageForResponseAsync(new ValueSet()
-				{
-					{ "Arguments", "WatchDirectory" },
-					{ "action", "start" },
-					{ "folderPath", folderPath }
-				});
-				if (status == AppServiceResponseStatus.Success
-					&& response.ContainsKey("watcherID"))
-				{
-					ConnectionChanged += RestartWatcher;
-					watcherCTS.Token.Register(async () =>
-					{
-						ConnectionChanged -= RestartWatcher;
-						if (Connection != null)
-						{
-							await Connection.SendMessageAsync(new ValueSet()
-							{
-								{ "Arguments", "WatchDirectory" },
-								{ "action", "cancel" },
-								{ "watcherID", response["watcherID"].GetInt64() }
-							});
-						}
-					});
-				}
-			}
-		}
+            if (Directory.Exists(folderPath))
+            {
+                watcher = new FileSystemWatcher
+                {
+                    Path = folderPath,
+                    Filter = "*.*",
+                    NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName
+                };
+                watcher.Created += DirectoryWatcher_Changed;
+                watcher.Deleted += DirectoryWatcher_Changed;
+                watcher.Renamed += DirectoryWatcher_Changed;
+                watcher.EnableRaisingEvents = true;
+            }
+        }
+        
+        private async void DirectoryWatcher_Changed(object sender, FileSystemEventArgs e)
+        {
+			Debug.WriteLine($"Directory watcher event: {e.ChangeType}, {e.FullPath}");
 
-		private async void ItemQueryResult_ContentsChanged(IStorageQueryResultBase sender, object args)
+            await dispatcherQueue.EnqueueAsync(() =>
+            {
+                RefreshItems(null);
+            });
+        }
+
+        private async void ItemQueryResult_ContentsChanged(IStorageQueryResultBase sender, object args)
 		{
 			//query options have to be reapplied otherwise old results are returned
 			var options = new QueryOptions()
@@ -2232,14 +2219,12 @@ namespace Files.App.ViewModels
 			await ApplyFilesAndFoldersChangesAsync();
 		}
 
-		private CancellationTokenSource searchCancellationToken;
-
 		public async Task SearchAsync(FolderSearch search)
 		{
 			ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Starting });
 
 			CancelSearch();
-			searchCancellationToken = new CancellationTokenSource();
+			searchCTS = new CancellationTokenSource();
 			filesAndFolders.Clear();
 			IsLoadingItems = true;
 			IsSearchResults = true;
@@ -2255,7 +2240,7 @@ namespace Files.App.ViewModels
 				await OrderFilesAndFoldersAsync();
 				await ApplyFilesAndFoldersChangesAsync();
 			};
-			await search.SearchAsync(results, searchCancellationToken.Token);
+			await search.SearchAsync(results, searchCTS.Token);
 
 			filesAndFolders = new List<ListedItem>(results);
 			await OrderFilesAndFoldersAsync();
@@ -2267,7 +2252,7 @@ namespace Files.App.ViewModels
 
 		public void CancelSearch()
 		{
-			searchCancellationToken?.Cancel();
+			searchCTS?.Cancel();
 		}
 
 		public void Dispose()

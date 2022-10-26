@@ -41,8 +41,6 @@ namespace Files.App.Filesystem
 
         private readonly CancellationToken cancellationToken;
 
-        private Task<NamedPipeAsAppServiceConnection> ServiceConnection => AppServiceConnectionHelper.Instance;
-
         #region Helpers Members
 
         private static char[] RestrictedCharacters

@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using Files.App.EventArguments;
+using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Helpers.LayoutPreferences;
 using Files.App.Views.LayoutModes;
