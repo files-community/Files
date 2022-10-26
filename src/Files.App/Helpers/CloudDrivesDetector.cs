@@ -8,7 +8,7 @@ using System.Linq;
 using System.Runtime.Versioning;
 using System.Threading.Tasks;
 
-namespace Files.FullTrust.Helpers
+namespace Files.App.Helpers
 {
     [SupportedOSPlatform("Windows10.0.10240")]
     public class CloudDrivesDetector
@@ -17,10 +17,10 @@ namespace Files.FullTrust.Helpers
         {
             var tasks = new Task<IEnumerable<ICloudProvider>>[]
             {
-                SafetyExtensions.IgnoreExceptions(DetectOneDrive, Program.Logger),
-                SafetyExtensions.IgnoreExceptions(DetectSharepoint, Program.Logger),
-                SafetyExtensions.IgnoreExceptions(DetectGenericCloudDrive, Program.Logger),
-                SafetyExtensions.IgnoreExceptions(DetectYandexDisk, Program.Logger),
+                SafetyExtensions.IgnoreExceptions(DetectOneDrive, App.Logger),
+                SafetyExtensions.IgnoreExceptions(DetectSharepoint, App.Logger),
+                SafetyExtensions.IgnoreExceptions(DetectGenericCloudDrive, App.Logger),
+                SafetyExtensions.IgnoreExceptions(DetectYandexDisk, App.Logger),
             };
 
             await Task.WhenAll(tasks);
