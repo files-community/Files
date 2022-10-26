@@ -132,7 +132,7 @@ namespace Files.App.Helpers
             }
             if (folders != null)
             {
-                request.Add("folders", JsonSerializer.Serialize<string[]>(folders));
+                request.Add("folders", JsonSerializer.Serialize(folders));
             }
             if (isPinned != null)
             {
