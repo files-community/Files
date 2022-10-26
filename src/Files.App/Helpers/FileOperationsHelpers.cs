@@ -31,21 +31,6 @@ namespace Files.App.Helpers
     {
         private static readonly ProgressHandler progressHandler = new();
 
-        public static long? GetFileHandle(string filePath, bool readWrite, int processId)
-        {
-            using var hFile = Kernel32.CreateFile(filePath, Kernel32.FileAccess.GENERIC_READ | (readWrite ? Kernel32.FileAccess.GENERIC_WRITE : 0), FileShare.ReadWrite, null, FileMode.Open, FileFlagsAndAttributes.FILE_ATTRIBUTE_NORMAL);
-            
-            if (hFile.IsInvalid)
-                return null;
-
-            using var uwpProces = System.Diagnostics.Process.GetProcessById(processId);
-
-            if (!Kernel32.DuplicateHandle(Kernel32.GetCurrentProcess(), hFile.DangerousGetHandle(), uwpProces.Handle, out var targetHandle, 0, false, Kernel32.DUPLICATE_HANDLE_OPTIONS.DUPLICATE_SAME_ACCESS))
-                return null;
-
-            return targetHandle.ToInt64();
-        }
-
         public static Task SetClipboard(string[] filesToCopy, DataPackageOperation operation)
         {
             return Win32API.StartSTATask(() =>
