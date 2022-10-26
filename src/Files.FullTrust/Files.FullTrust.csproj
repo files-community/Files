@@ -9,8 +9,8 @@
 	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 	<CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
 	<Configurations>Debug;Release;Sideload</Configurations>
-	<!--<PublishReadyToRun>true</PublishReadyToRun>-->
-	<PublishTrimmed>true</PublishTrimmed>
+	<PublishReadyToRun>true</PublishReadyToRun>
+	<PublishTrimmed>false</PublishTrimmed>
   <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
