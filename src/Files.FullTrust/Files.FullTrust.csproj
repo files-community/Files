@@ -11,7 +11,7 @@
 	<Configurations>Debug;Release;Sideload</Configurations>
 	<PublishReadyToRun>true</PublishReadyToRun>
 	<PublishTrimmed>false</PublishTrimmed>
-  <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+	<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
 	<UseVSHostingProcess>false</UseVSHostingProcess>
