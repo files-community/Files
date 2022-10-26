@@ -179,12 +179,12 @@ namespace Files.App.Views
             ToolbarViewModel.PathBoxItemDropped += ColumnShellPage_PathBoxItemDropped;
 
             /*
-              
             TODO UA307 Default back button in the title bar does not exist in WinUI3 apps.
             The tool has generated a custom back button in the MainWindow.xaml.cs file.
             Feel free to edit its position, behavior and use the custom back button instead.
             Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/case-study-1#restoring-back-button-functionality
-            */ToolbarViewModel.BackRequested += ColumnShellPage_BackNavRequested;
+            */
+            ToolbarViewModel.BackRequested += ColumnShellPage_BackNavRequested;
             ToolbarViewModel.UpRequested += ColumnShellPage_UpNavRequested;
             ToolbarViewModel.RefreshRequested += ColumnShellPage_RefreshRequested;
             ToolbarViewModel.ForwardRequested += ColumnShellPage_ForwardNavRequested;

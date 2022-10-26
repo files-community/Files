@@ -21,7 +21,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UWPToWinAppSDKUpgradeHelpers;
 using Windows.Foundation;
-using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 
@@ -176,6 +175,7 @@ namespace Files.App.Views.LayoutModes
         {
             if (ItemManipulationModel == null)
                 return;
+
             ItemManipulationModel.FocusFileListInvoked -= ItemManipulationModel_FocusFileListInvoked;
             ItemManipulationModel.SelectAllItemsInvoked -= ItemManipulationModel_SelectAllItemsInvoked;
             ItemManipulationModel.ClearSelectionInvoked -= ItemManipulationModel_ClearSelectionInvoked;
@@ -426,8 +426,8 @@ namespace Files.App.Views.LayoutModes
 
         private async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
-            var ctrlPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-            var shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+            var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
             var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement();
             var isHeaderFocused = DependencyObjectHelpers.FindParent<DataGridHeader>(focusedElement) != null;
             var isFooterFocused = focusedElement is HyperlinkButton;
@@ -530,8 +530,8 @@ namespace Files.App.Views.LayoutModes
 
         private void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
         {
-            var ctrlPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-            var shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+            var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
             var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
             if (item == null)
                 return;

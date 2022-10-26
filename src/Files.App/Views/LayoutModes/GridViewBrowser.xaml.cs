@@ -6,6 +6,7 @@ using Files.App.Helpers.XamlHelpers;
 using Files.App.Interacts;
 using Files.App.UserControls.Selection;
 using Files.Shared.Enums;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -27,6 +28,7 @@ namespace Files.App.Views.LayoutModes
         private uint currentIconSize;
 
         protected override uint IconSize => currentIconSize;
+
         protected override ItemsControl ItemsControl => FileList;
 
         /// <summary>
@@ -178,8 +180,7 @@ namespace Files.App.Views.LayoutModes
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
             SetItemTemplate(); // Set ItemTemplate
-            if (FileList.ItemsSource == null)
-                FileList.ItemsSource = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders;
+            FileList.ItemsSource ??= ParentShellPageInstance.FilesystemViewModel.FilesAndFolders;
             var parameters = (NavigationArguments)eventArgs.Parameter;
             if (parameters.IsLayoutSwitch)
                 ReloadItemIcons();
@@ -254,11 +255,12 @@ namespace Files.App.Views.LayoutModes
 			int extensionLength = RenamingItem.FileExtension?.Length ?? 0;
 
 			GridViewItem gridViewItem = FileList.ContainerFromItem(RenamingItem) as GridViewItem;
-			TextBox textBox = null;
 			if (gridViewItem == null)
 			{
 				return;
 			}
+
+			TextBox textBox = null;
 
 			// Handle layout differences between tiles browser and photo album
 			if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
@@ -371,8 +373,8 @@ namespace Files.App.Views.LayoutModes
 
         private async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
-            var ctrlPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-            var shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+            var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
             var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;
             var isFooterFocused = focusedElement is HyperlinkButton;
 
@@ -427,7 +429,7 @@ namespace Files.App.Views.LayoutModes
 			{
 				// Don't block the various uses of enter key (key 13)
 				var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement();
-				if (Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Enter) == CoreVirtualKeyStates.Down
+				if (InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Enter) == CoreVirtualKeyStates.Down
 					|| focusedElement is Button
 					|| focusedElement is TextBox
 					|| focusedElement is PasswordBox
@@ -489,8 +491,8 @@ namespace Files.App.Views.LayoutModes
 
 		private void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
 		{
-			var ctrlPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-			var shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 
 			var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
 			if (item == null)
