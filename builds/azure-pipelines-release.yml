@@ -106,7 +106,13 @@ jobs:
   - task: UseDotNet@2
     inputs:
       packageType: sdk
-      version: 6.0.400
+      version: 7.0.x
+      includePreviewVersions: true
+
+  - task: CmdLine@2
+    inputs:
+      script: |
+        for /f %%a in ('dir /b /a:d %localappdata%\Microsoft\VisualStudio\17*') do echo UsePreviews=True>%localappdata%\Microsoft\VisualStudio\%%a\sdk.txt
 
   - task: NuGetToolInstaller@1
 
@@ -220,7 +226,13 @@ jobs:
   - task: UseDotNet@2
     inputs:
       packageType: sdk
-      version: 6.0.400
+      version: 7.0.x
+      includePreviewVersions: true
+
+  - task: CmdLine@2
+    inputs:
+      script: |
+        for /f %%a in ('dir /b /a:d %localappdata%\Microsoft\VisualStudio\17*') do echo UsePreviews=True>%localappdata%\Microsoft\VisualStudio\%%a\sdk.txt
 
   - task: NuGetToolInstaller@1
 

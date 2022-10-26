@@ -192,11 +192,8 @@ namespace Files.FullTrust.MessageHandlers
                                 library.DefaultSaveFolder = ShellItem.Open(defaultSaveFolder);
                                 updated = true;
                             }
-                            if (isPinned != null)
-                            {
-                                library.PinnedToNavigationPane = isPinned == true;
-                                updated = true;
-                            }
+                            library.PinnedToNavigationPane = isPinned == true;
+                            updated = true;
                             if (updated)
                             {
                                 library.Commit();

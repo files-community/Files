@@ -18,8 +18,6 @@ namespace Files.App.ViewModels.Properties
     {
         public ListedItem Item { get; }
 
-        private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
-
         private string ExePath => Item is ShortcutItem sht ? sht.TargetPath : Item.ItemPath;
 
         private CompatibilityOptions compatibilityOptions;

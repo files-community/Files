@@ -101,7 +101,7 @@ namespace Files.App.Shell
             {
                 if (filePath.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase))
                 {
-                    using var link = new ShellLink(filePath, LinkResolution.NoUIWithMsgPump, null, TimeSpan.FromMilliseconds(100));
+                    using var link = new ShellLink(filePath, LinkResolution.NoUIWithMsgPump, default, TimeSpan.FromMilliseconds(100));
                     targetPath = link.TargetPath;
                     return ShellFolderExtensions.GetShellLinkItem(link);
                 }

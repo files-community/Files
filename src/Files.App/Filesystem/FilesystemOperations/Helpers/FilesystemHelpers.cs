@@ -29,8 +29,6 @@ namespace Files.App.Filesystem
     {
         #region Private Members
 
-        private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
-
         private IShellPage associatedInstance;
 
         private IFilesystemOperations filesystemOperations;
