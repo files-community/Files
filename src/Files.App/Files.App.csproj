@@ -63,6 +63,14 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Content Update="Assets\FilesOpenDialog\SetFilesAsDefault.reg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\FilesOpenDialog\UnsetFilesAsDefault.reg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Remove="Assets\AppTiles\Preview\**" />
     <Compile Remove="Assets\AppTiles\Release\**" />
     <Content Remove="Assets\AppTiles\Preview\**" />
@@ -86,6 +94,7 @@
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.5.3" />
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.0-rc.2.22472.11" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0-rc.2.22472.3" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.1" />
     <PackageReference Include="SevenZipSharp" Version="1.0.0" />
     <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.2" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.220930.4-preview2" />
@@ -101,7 +110,6 @@
     <PackageReference Include="Vanara.Windows.Shell" Version="3.4.10" />
     <PackageReference Include="Microsoft.Management.Infrastructure" Version="2.0.0" />
     <PackageReference Include="Microsoft.Management.Infrastructure.Runtime.Win" Version="2.0.1" />
-    <FrameworkReference Include="Microsoft.WindowsDesktop.App" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Files.App.Storage\Files.App.Storage.csproj" />
@@ -138,14 +146,6 @@
   -->
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Update="Assets\FilesOpenDialog\SetFilesAsDefault.reg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\FilesOpenDialog\UnsetFilesAsDefault.reg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
   <!-- 
