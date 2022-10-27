@@ -33,7 +33,7 @@
     <Optimize>true</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Sideload'">
-    <DefineConstants>TRACE;SIDELOAD;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN;CODE_ANALYSIS</DefineConstants>
+    <DefineConstants>TRACE;SIDELOAD;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
     <Optimize>true</Optimize>
   </PropertyGroup>
   <ItemGroup>
