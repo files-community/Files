@@ -2,12 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
-    <Platforms>x86;x64;arm64</Platforms>
-    <RuntimeIdentifiers>win-arm64;win-x86;win-x64</RuntimeIdentifiers>
     <Nullable>enable</Nullable>
-    <Configurations>Debug;Release;Sideload</Configurations>
     <IsTrimmable>true</IsTrimmable>
-</PropertyGroup>
+  </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="LiteDB" Version="5.0.12" />

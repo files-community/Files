@@ -16,6 +16,7 @@
         <Logo>Assets\AppTiles\Dev\StoreLogo.png</Logo>
     </Properties>
     <Dependencies>
+        <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.19041.0" MaxVersionTested="10.0.22621.0" />
         <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.19041.0" MaxVersionTested="10.0.22621.0" />
     </Dependencies>
     <Resources>
@@ -79,13 +80,6 @@
                   <uap3:Name>com.files.filepreview</uap3:Name>
                 </uap3:AppExtensionHost>
               </uap3:Extension>
-              <desktop:Extension Category="windows.fullTrustProcess" Executable="Files.FullTrust\FilesFullTrust.exe">
-                  <desktop:FullTrustProcess>
-                      <!--<desktop:ParameterGroup GroupId="DesktopAppExeGroup" Parameters="/DesktopApp"/>
-                      <desktop:ParameterGroup GroupId="TerminalGroup" Parameters="/Terminal"/>
-                      <desktop:ParameterGroup GroupId="UserFolderPathsGroup" Parameters="/DetectUserPaths"/>-->
-                  </desktop:FullTrustProcess>
-              </desktop:Extension>
               <uap:Extension Category="windows.protocol">
                   <uap:Protocol ReturnResults="none" Name="files-uwp"/>
               </uap:Extension>
@@ -133,7 +127,6 @@
   
     <Capabilities>
         <!--<rescap:Capability Name="packageQuery"/>-->
-        <rescap:Capability Name="runFullTrust" />
         <rescap:Capability Name="broadFileSystemAccess" />
         <rescap:Capability Name="allowElevation"/>
         <!--The packageManagement capability is used to download updates in the sideload version of Files. We only use
