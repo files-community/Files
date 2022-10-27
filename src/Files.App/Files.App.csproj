@@ -112,6 +112,7 @@
     <PackageReference Include="Microsoft.Management.Infrastructure.Runtime.Win" Version="2.0.1" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BackgroundTasks\BackgroundTasks.csproj" />
     <ProjectReference Include="..\Files.App.Storage\Files.App.Storage.csproj" />
     <ProjectReference Include="..\Files.Backend\Files.Backend.csproj" />
     <ProjectReference Include="..\Files.Sdk.Storage\Files.Sdk.Storage.csproj" />
