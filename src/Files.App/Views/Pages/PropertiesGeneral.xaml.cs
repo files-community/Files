@@ -112,14 +112,15 @@ namespace Files.App.Views
 		}
 		private void ItemFileName_LosingFocus(UIElement _, LosingFocusEventArgs e)
 		{
-			if (string.IsNullOrWhiteSpace(ItemFileName.Text))
-				ItemFileName.Text = ViewModel.ItemName;
-			else
+			if (string.IsNullOrWhiteSpace(ItemFileName.Text)) 
 			{
-				var match = letterRegex.Match(ViewModel.OriginalItemName);
-				if (match.Success)
-					ItemFileName.Text += match.Value;
+				ItemFileName.Text = ViewModel.ItemName;
+				return;
 			}
+
+			var match = letterRegex.Match(ViewModel.OriginalItemName);
+			if (match.Success)
+				ItemFileName.Text += match.Value;
 		}
 
 		private void DiskCleanupButton_Click(object sender, RoutedEventArgs e)
