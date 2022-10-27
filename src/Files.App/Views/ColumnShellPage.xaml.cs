@@ -70,10 +70,7 @@ namespace Files.App.Views
         private bool isCurrentInstance = false;
         public bool IsCurrentInstance
         {
-            get
-            {
-                return isCurrentInstance;
-            }
+            get => isCurrentInstance;
             set
             {
                 if (isCurrentInstance != value)
@@ -83,10 +80,10 @@ namespace Files.App.Views
                     {
                         ContentPage?.ItemManipulationModel.FocusFileList();
                     }
-                    else
-                    {
-                        //NavigationToolbar.IsEditModeEnabled = false;
-                    }
+                    //else
+                    //{
+                    //    NavigationToolbar.IsEditModeEnabled = false;
+                    //}
                     NotifyPropertyChanged(nameof(IsCurrentInstance));
                 }
             }
@@ -98,10 +95,7 @@ namespace Files.App.Views
 
         public BaseLayout ContentPage
         {
-            get
-            {
-                return contentPage;
-            }
+            get => contentPage;
             set
             {
                 if (value != contentPage)
@@ -336,7 +330,7 @@ namespace Files.App.Views
             {
                 ToolbarViewModel.PathComponents.Clear(); // Clear the path UI
                 ToolbarViewModel.IsSingleItemOverride = true;
-                ToolbarViewModel.PathComponents.Add(new Views.PathBoxItem() { Path = null, Title = singleItemOverride });
+                ToolbarViewModel.PathComponents.Add(new PathBoxItem() { Path = null, Title = singleItemOverride });
             }
         }
 

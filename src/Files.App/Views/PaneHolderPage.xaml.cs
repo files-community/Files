@@ -1,19 +1,19 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Filesystem;
-using Files.Backend.Services.Settings;
+using Files.App.Extensions;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.Views.LayoutModes;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Extensions;
+using Files.Backend.Services.Settings;
+using Files.Shared.EventArguments;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.System;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Navigation;
-using Files.Shared.EventArguments;
 
 namespace Files.App.Views
 {
@@ -49,31 +49,18 @@ namespace Files.App.Views
 
         private bool windowIsCompact
         {
-            get
-            {
-                return _windowIsCompact;
-            }
+            get => _windowIsCompact;
             set
             {
                 if (value != _windowIsCompact)
                 {
                     _windowIsCompact = value;
-                    if (value)
-                    {
-                        wasRightPaneVisible = isRightPaneVisible;
-                        IsRightPaneVisible = false;
-                    }
-                    else if (wasRightPaneVisible)
-                    {
-                        IsRightPaneVisible = true;
-                        wasRightPaneVisible = false;
-                    }
+                    IsRightPaneVisible = !value;
+                    wasRightPaneVisible = !value || isRightPaneVisible;
                     NotifyPropertyChanged(nameof(IsMultiPaneEnabled));
                 }
             }
         }
-
-        private bool wasRightPaneVisible;
 
         public bool IsMultiPaneActive => IsRightPaneVisible;
 
@@ -229,7 +216,7 @@ namespace Files.App.Views
                 NavParamsLeft = new NavigationParams { NavPath = navPath };
                 NavParamsRight = new NavigationParams { NavPath = "Home".GetLocalizedResource() };
             }
-            if (eventArgs.Parameter is PaneNavigationArguments paneArgs)
+            else if (eventArgs.Parameter is PaneNavigationArguments paneArgs)
             {
                 NavParamsLeft = new NavigationParams
                 {
