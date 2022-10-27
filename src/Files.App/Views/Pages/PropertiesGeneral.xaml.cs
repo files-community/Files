@@ -1,4 +1,5 @@
 using CommunityToolkit.WinUI;
+using Files.App.DataModels.NavigationControlItems;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Shell;
@@ -7,6 +8,7 @@ using Files.Shared;
 using Files.Shared.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -28,15 +30,20 @@ namespace Files.App.Views
 			string oldName = ViewModel.OriginalItemName;
 			bool hasNewName = !string.IsNullOrWhiteSpace(newName) && newName != oldName;
 
-			var fsVM = AppInstance.FilesystemViewModel;
-			var itemMM = AppInstance?.SlimContentPage?.ItemManipulationModel;
-
-			if (BaseProperties is DriveProperties driveProps)
+			return BaseProperties switch
 			{
+				DriveProperties properties => SaveDrive(properties.Drive),
+				LibraryProperties properties => await SaveLibraryAsync(properties.Library),
+				CombinedProperties properties => await SaveCombinedAsync(properties.List),
+				_ => await SaveBaseAsync(),
+			};
+
+			bool SaveDrive(DriveItem drive)
+			{
+				var fsVM = AppInstance.FilesystemViewModel;
 				if (!hasNewName || fsVM is null)
 					return false;
 
-				var drive = driveProps.Drive;
 				newName = letterRegex.Replace(newName, string.Empty); // Remove "(C:)" from the new label
 
 				Win32API.SetVolumeLabel(drive.Path, newName);
@@ -48,19 +55,19 @@ namespace Files.App.Views
 				return true;
 			}
 
-			if (BaseProperties is LibraryProperties libProps)
+			async Task<bool> SaveLibraryAsync(LibraryItem library)
 			{
+				var fsVM = AppInstance.FilesystemViewModel;
 				if (!hasNewName || fsVM is null || !App.LibraryManager.CanCreateLibrary(newName).result)
 					return false;
 
-				string libraryPath = libProps.Library.ItemPath;
 				newName = $"{newName}{ShellLibraryItem.EXTENSION}";
 
-				var file = new StorageFileWithPath(null, libraryPath);
+				var file = new StorageFileWithPath(null, library.ItemPath);
 				var renamed = await AppInstance!.FilesystemHelpers.RenameAsync(file, newName, NameCollisionOption.FailIfExists, false);
 				if (renamed is ReturnResult.Success)
 				{
-					var newPath = Path.Combine(Path.GetDirectoryName(libraryPath)!, newName);
+					var newPath = Path.Combine(Path.GetDirectoryName(library.ItemPath)!, newName);
 					_ = App.Window.DispatcherQueue.EnqueueAsync(async () =>
 					{
 						await fsVM.SetWorkingDirectoryAsync(newPath);
@@ -71,12 +78,13 @@ namespace Files.App.Views
 				return false;
 			}
 
-			if (BaseProperties is CombinedProperties combinedProps)
+			async Task<bool> SaveCombinedAsync(IList<ListedItem> fileOrFolders)
 			{
 				// Handle the visibility attribute for multiple files
+				var itemMM = AppInstance?.SlimContentPage?.ItemManipulationModel;
 				if (itemMM is not null) // null on homepage
 				{
-					foreach (var fileOrFolder in combinedProps.List)
+					foreach (var fileOrFolder in fileOrFolders)
 					{
 						await App.Window.DispatcherQueue.EnqueueAsync(() =>
 							UIFilesystemHelpers.SetHiddenAttributeItem(fileOrFolder, ViewModel.IsHidden, itemMM)
@@ -86,20 +94,24 @@ namespace Files.App.Views
 				return true;
 			}
 
-			// Handle the visibility attribute for a single file
-			if (itemMM is not null) // null on homepage
+			async Task<bool> SaveBaseAsync()
 			{
-				await App.Window.DispatcherQueue.EnqueueAsync(() =>
-					UIFilesystemHelpers.SetHiddenAttributeItem(item, ViewModel.IsHidden, itemMM)
+				// Handle the visibility attribute for a single file
+				var itemMM = AppInstance?.SlimContentPage?.ItemManipulationModel;
+				if (itemMM is not null) // null on homepage
+				{
+					await App.Window.DispatcherQueue.EnqueueAsync(() =>
+						UIFilesystemHelpers.SetHiddenAttributeItem(item, ViewModel.IsHidden, itemMM)
+					);
+				}
+
+				if (!hasNewName)
+					return true;
+
+				return await App.Window.DispatcherQueue.EnqueueAsync(() =>
+					UIFilesystemHelpers.RenameFileItemAsync(item, ViewModel.ItemName, AppInstance)
 				);
 			}
-
-			if (!hasNewName)
-				return true;
-
-			return await App.Window.DispatcherQueue.EnqueueAsync(() =>
-				UIFilesystemHelpers.RenameFileItemAsync(item, ViewModel.ItemName, AppInstance)
-			);
 		}
 
 		public override void Dispose()
@@ -112,7 +124,7 @@ namespace Files.App.Views
 		}
 		private void ItemFileName_LosingFocus(UIElement _, LosingFocusEventArgs e)
 		{
-			if (string.IsNullOrWhiteSpace(ItemFileName.Text)) 
+			if (string.IsNullOrWhiteSpace(ItemFileName.Text))
 			{
 				ItemFileName.Text = ViewModel.ItemName;
 				return;
@@ -123,7 +135,7 @@ namespace Files.App.Views
 				ItemFileName.Text += match.Value;
 		}
 
-		private void DiskCleanupButton_Click(object sender, RoutedEventArgs e)
+		private void DiskCleanupButton_Click(object _, RoutedEventArgs e)
 		{
 			if (BaseProperties is DriveProperties driveProps)
 				StorageSenseHelper.OpenStorageSense(driveProps.Drive.Path);
