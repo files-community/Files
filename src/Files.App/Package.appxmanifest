@@ -83,18 +83,12 @@
               <uap:Extension Category="windows.protocol">
                   <uap:Protocol ReturnResults="none" Name="files-uwp"/>
               </uap:Extension>
-              <uap5:Extension
-                Category="windows.appExecutionAlias"
-                Executable="Files.App\files.exe"
-                EntryPoint="files.App">
+              <uap5:Extension Category="windows.appExecutionAlias">
                   <uap5:AppExecutionAlias>
                       <uap5:ExecutionAlias Alias="files.exe"/>
                   </uap5:AppExecutionAlias>
               </uap5:Extension>
-              <uap5:Extension
-                Category="windows.startupTask"
-                Executable="Files.App\files.exe"
-                EntryPoint="files.App">
+              <uap5:Extension Category="windows.startupTask">
                 <uap5:StartupTask
                   TaskId="3AA55462-A5FA-4933-88C4-712D0B6CDEBB"
                   Enabled="false"
@@ -127,6 +121,7 @@
   
     <Capabilities>
         <!--<rescap:Capability Name="packageQuery"/>-->
+        <rescap:Capability Name="runFullTrust" />
         <rescap:Capability Name="broadFileSystemAccess" />
         <rescap:Capability Name="allowElevation"/>
         <!--The packageManagement capability is used to download updates in the sideload version of Files. We only use
