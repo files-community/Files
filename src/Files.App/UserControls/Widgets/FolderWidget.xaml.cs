@@ -75,10 +75,10 @@ namespace Files.App.UserControls.Widgets
             if (thumbnailData == null || thumbnailData.Length == 0)
             {
                 thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Path, Convert.ToUInt32(Constants.Widgets.WidgetIconSize), Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
-                if (thumbnailData != null && thumbnailData.Length > 0)
-                {
-                    Thumbnail = await App.Window.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize));
-                }
+            }
+            if (thumbnailData != null && thumbnailData.Length > 0)
+            {
+                Thumbnail = await App.Window.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize));
             }
         }
     }
