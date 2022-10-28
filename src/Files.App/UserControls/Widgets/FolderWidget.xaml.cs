@@ -1,13 +1,21 @@
-using Files.App.Filesystem;
-using Files.App.Helpers;
-using Files.Backend.Services.Settings;
-using Files.App.ViewModels.Widgets;
-using Files.App.Extensions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
+using Files.App.Extensions;
+using Files.App.DataModels.NavigationControlItems;
+using Files.App.Filesystem;
+using Files.App.Helpers;
+using Files.App.Helpers.XamlHelpers;
+using Files.App.ViewModels.Widgets;
+using Files.Backend.Services.Settings;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media.Imaging;
 using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -16,13 +24,6 @@ using System.Windows.Input;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media.Imaging;
-using Files.App.DataModels.NavigationControlItems;
-using Files.App.Helpers.XamlHelpers;
-using Microsoft.UI.Xaml.Controls.Primitives;
 
 namespace Files.App.UserControls.Widgets
 {
@@ -75,10 +76,10 @@ namespace Files.App.UserControls.Widgets
             if (thumbnailData == null || thumbnailData.Length == 0)
             {
                 thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Path, Convert.ToUInt32(Constants.Widgets.WidgetIconSize), Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
-                if (thumbnailData != null && thumbnailData.Length > 0)
-                {
-                    Thumbnail = await App.Window.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize));
-                }
+            }
+            if (thumbnailData != null && thumbnailData.Length > 0)
+            {
+                Thumbnail = await App.Window.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize));
             }
         }
     }
@@ -87,7 +88,8 @@ namespace Files.App.UserControls.Widgets
     {
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-        public BulkConcurrentObservableCollection<FolderCardItem> ItemsAdded = new BulkConcurrentObservableCollection<FolderCardItem>();
+        public ObservableCollection<FolderCardItem> ItemsAdded = new();
+
         private bool showMultiPaneControls;
 
         public FolderWidget()
@@ -152,7 +154,6 @@ namespace Files.App.UserControls.Widgets
         {
             Loaded -= FolderWidget_Loaded;
 
-            ItemsAdded.BeginBulkOperation();
             ItemsAdded.Add(new FolderCardItem("Desktop".GetLocalizedResource())
             {
                 Path = UserDataPaths.GetDefault().Desktop,
@@ -184,12 +185,8 @@ namespace Files.App.UserControls.Widgets
                 SelectCommand = LibraryCardCommand
             });
 
-            foreach (var cardItem in ItemsAdded.ToList()) // ToList() is necessary
-            {
-                await cardItem.LoadCardThumbnailAsync();
-            }
-
-            ItemsAdded.EndBulkOperation();
+            var cardLoadTasks = ItemsAdded.Select(cardItem => cardItem.LoadCardThumbnailAsync());
+            await Task.WhenAll(cardLoadTasks);
         }
 
         private void FolderWidget_Unloaded(object sender, RoutedEventArgs e)

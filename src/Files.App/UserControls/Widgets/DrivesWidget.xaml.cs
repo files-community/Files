@@ -80,7 +80,7 @@ namespace Files.App.UserControls.Widgets
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public static ObservableCollection<DriveCardItem> ItemsAdded = new ObservableCollection<DriveCardItem>();
+        public static ObservableCollection<DriveCardItem> ItemsAdded = new();
 
         private IShellPage associatedInstance;
 
