@@ -88,6 +88,7 @@ namespace Files.App.UserControls.Widgets
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
         public BulkConcurrentObservableCollection<FolderCardItem> ItemsAdded = new BulkConcurrentObservableCollection<FolderCardItem>();
+
         private bool showMultiPaneControls;
 
         public FolderWidget()
