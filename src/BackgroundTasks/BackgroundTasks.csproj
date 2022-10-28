@@ -5,6 +5,7 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
     <IsTrimmable>true</IsTrimmable>
+    <Configurations>Debug;Release;Sideload</Configurations>
   </PropertyGroup>
   <PropertyGroup>
     <CsWinRTComponent>true</CsWinRTComponent>

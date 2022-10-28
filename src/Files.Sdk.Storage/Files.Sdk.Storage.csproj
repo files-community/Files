@@ -4,6 +4,7 @@
 		<TargetFramework>net7.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<IsTrimmable>true</IsTrimmable>
+		<Configurations>Debug;Release;Sideload</Configurations>
 	</PropertyGroup>
 	
 </Project>
