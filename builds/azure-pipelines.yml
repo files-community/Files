@@ -6,7 +6,7 @@ pool:
 
 variables:
   solution: '**/*.sln'
-  buildPlatform: 'x64|ARM64'
+  buildPlatform: 'x86|x64|ARM64'
   buildConfiguration: 'Debug'
   appxPackageDir: '$(build.artifactStagingDirectory)\AppxPackages\\'
 
@@ -21,16 +21,6 @@ steps:
       $xmlDoc.Package.Properties.DisplayName="Files"
       $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files"
       $xmlDoc.Save('$(Build.SourcesDirectory)\src\Files.App\Package.appxmanifest')
-    failOnStderr: true
-
-- task: PowerShell@2
-  displayName: 'Use Release Logo'
-  inputs:
-    targetType: 'inline'
-    script: |
-      gci $(Build.SourcesDirectory)\src -Include *.csproj, *.appxmanifest, *.wapproj -recurse | ForEach -Process {
-      (Get-Content $_ -Raw | ForEach -Process {$_ -replace "Assets\\AppTilesDev", "Assets\AppTiles"}) | Set-Content $_ -NoNewline
-      }
     failOnStderr: true
 
 - task: DownloadSecureFile@1
@@ -81,7 +71,7 @@ steps:
 - task: MSBuild@1
   inputs:
     platform: 'x64'
-    solution: '$(Build.SourcesDirectory)\src\Files.App\Files.App.csproj'
+    solution: '$(Build.SourcesDirectory)\src\Files.App (Package)\Files.App (Package).wapproj'
     configuration: '$(buildConfiguration)'
     msbuildArguments: '/t:build;_GenerateAppxPackage /p:Configuration=Debug;Platform="$(buildPlatform)";AppxBundle=Always;AppxBundlePlatforms="$(buildPlatform)";AppxPackageDir="$(appxPackageDir)";AppxPackageSigningEnabled=true;UapAppxPackageBuildMode=SideloadOnly;PackageCertificateKeyFile="$(Build.SourcesDirectory)\builds\Files_SelfSigned.pfx";PackageCertificatePassword="";PackageCertificateThumbprint=""'
     maximumCpuCount: true

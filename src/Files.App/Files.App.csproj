@@ -13,15 +13,13 @@
     <GenerateTestArtifacts>False</GenerateTestArtifacts>
     <AppxBundle>Always</AppxBundle>
     <DisableXbfLineInfo>False</DisableXbfLineInfo>
-    <AppxBundlePlatforms>x86|x64|arm64</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x64</AppxBundlePlatforms>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <Nullable>Enable</Nullable>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <Platforms>x86;x64;arm64</Platforms>
     <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
-    <PublishProfile>win10-$(Platform).pubxml</PublishProfile>
     <UseWinUI>true</UseWinUI>
-    <EnableMsixTooling>true</EnableMsixTooling>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Configurations>Debug;Release;Sideload</Configurations>
@@ -48,7 +46,6 @@
     <Content Include="7z64.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Package.appinstaller" />
     <Content Include="Resources\AppCenterKey.txt" />
     <Content Include="Resources\BingMapsKey.txt" />
     <Content Include="Resources\PreviewPanePropertiesInformation.json">
@@ -62,28 +59,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
     <Content Update="Assets\FilesOpenDialog\SetFilesAsDefault.reg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Assets\FilesOpenDialog\UnsetFilesAsDefault.reg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="Assets\AppTiles\Preview\**" />
-    <Compile Remove="Assets\AppTiles\Release\**" />
-    <Content Remove="Assets\AppTiles\Preview\**" />
-    <Content Remove="Assets\AppTiles\Release\**" />
-    <EmbeddedResource Remove="Assets\AppTiles\Preview\**" />
-    <EmbeddedResource Remove="Assets\AppTiles\Release\**" />
-    <None Remove="Assets\AppTiles\Preview\**" />
-    <None Remove="Assets\AppTiles\Release\**" />
-    <Page Remove="Assets\AppTiles\Preview\**" />
-    <Page Remove="Assets\AppTiles\Release\**" />
-    <PRIResource Remove="Assets\AppTiles\Preview\**" />
-    <PRIResource Remove="Assets\AppTiles\Release\**" />
     <Content Remove="Assets\FilesHome.png" />
   </ItemGroup>
   <ItemGroup>
@@ -140,22 +121,4 @@
     <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Media" />
     <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Primitives" />
   </ItemGroup>
-
-  <!-- 
-    Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
-    Tools extension to be activated for this project even if the Windows App SDK Nuget
-    package has not yet been restored.
-  -->
-  <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
-    <ProjectCapability Include="Msix" />
-  </ItemGroup>
-
-  <!-- 
-    Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution 
-    Explorer "Package and Publish" context menu entry to be enabled for this project even if 
-    the Windows App SDK Nuget package has not yet been restored.
-  -->
-  <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
-    <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
-  </PropertyGroup>
 </Project>

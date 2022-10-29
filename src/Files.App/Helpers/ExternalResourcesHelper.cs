@@ -28,7 +28,7 @@ namespace Files.App.Helpers
 
 		public async Task LoadSelectedTheme()
 		{
-			string bundledThemesPath = Path.Combine(Windows.ApplicationModel.Package.Current.InstalledLocation.Path, "Themes");
+			string bundledThemesPath = Path.Combine(Windows.ApplicationModel.Package.Current.InstalledLocation.Path, "Files.App", "Themes");
 			ThemeFolder = await StorageFolder.GetFolderFromPathAsync(bundledThemesPath);
 			ImportedThemesFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Themes", CreationCollisionOption.OpenIfExists);
 

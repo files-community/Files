@@ -130,7 +130,7 @@ jobs:
 
   - task: MSBuild@1
     inputs:
-      solution: '$(Build.SourcesDirectory)\src\Files.App\Files.App.csproj'
+      solution: '$(Build.SourcesDirectory)\src\Files.App (Package)\Files.App (Package).wapproj'
       platform: 'x64'
       configuration: '$(sideloadBuildConfiguration)'
       msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxLogTelemetryFromSideloadingScript=False /p:GenerateAppInstallerFile=True /p:AppInstallerUri=https://cdn.files.community/files/${{parameters.releaseBranch}}/ /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=Sideload /p:AppxPackageSigningEnabled=true /p:PackageCertificateKeyFile="$(caCertificate.secureFilePath)" /p:PackageCertificatePassword="$(signingCert.password)" /p:PackageCertificateThumbprint=""'
@@ -168,7 +168,7 @@ jobs:
     inputs:
       targetType: 'inline'
       script: |
-        [xml]$xmlDoc = Get-Content $(Build.SourcesDirectory)\src\Files.App\Package.appxmanifest
+        [xml]$xmlDoc = Get-Content $(Build.SourcesDirectory)\src\Files.App (Package)\Package.appxmanifest
         $xmlDoc.Package.Identity.Name="49306atecsolution.FilesUWP"
         $xmlDoc.Package.Identity.Publisher="CN=53EC4384-7F5B-4CF6-8C23-513FFE9D1AB7"
         $xmlDoc.Package.Properties.DisplayName="Files"
@@ -181,7 +181,7 @@ jobs:
         $pm = $xmlDoc.SelectSingleNode("/pkg:Package/pkg:Capabilities/rescap:Capability[@Name='packageManagement']", $nsmgr)
         $xmlDoc.Package.Capabilities.RemoveChild($pm)
 
-        $xmlDoc.Save('$(Build.SourcesDirectory)\src\Files.Package\App.appxmanifest')
+        $xmlDoc.Save('$(Build.SourcesDirectory)\src\Files.App (Package)\App.appxmanifest')
       failOnStderr: true
 
  # This replaces references to the dev icon with the specified icon variant 
@@ -244,7 +244,7 @@ jobs:
 
   - task: MSBuild@1
     inputs:
-      solution: '$(Build.SourcesDirectory)\src\Files.App\Files.App.csproj'
+      solution: '$(Build.SourcesDirectory)\src\Files.App (Package)\Files.App (Package).wapproj'
       platform: 'x64'
       configuration: '$(buildConfiguration)'
       msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
