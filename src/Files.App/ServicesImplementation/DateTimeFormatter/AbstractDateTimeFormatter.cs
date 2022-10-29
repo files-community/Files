@@ -6,7 +6,7 @@ using Windows.Globalization;
 
 namespace Files.App.ServicesImplementation.DateTimeFormatter
 {
-	internal abstract class AbstractDateTimeFormatter : IDateTimeFormatter
+    internal abstract class AbstractDateTimeFormatter : IDateTimeFormatter
     {
         private static readonly CultureInfo cultureInfo = new(ApplicationLanguages.PrimaryLanguageOverride);
 
