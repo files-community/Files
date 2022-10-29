@@ -6,7 +6,7 @@
     <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
     <IsTrimmable>true</IsTrimmable>
     <Configurations>Debug;Release;Sideload</Configurations>
-    <Platforms>x64;x86;ARM64</Platforms>
+    <Platforms>x64;x86;arm64</Platforms>
     <RuntimeIdentifier>win10-$(Platform)</RuntimeIdentifier>
   </PropertyGroup>
   <PropertyGroup>
