@@ -72,9 +72,6 @@
       <SubType>Designer</SubType>
     </AppxManifest>
   </ItemGroup>
-  <PropertyGroup>
-    <AppTilesMode>Dev</AppTilesMode>
-  </PropertyGroup>
   <ItemGroup>
     <Content Include="Assets\AppTiles\Dev\**" />
     <Content Include="Package.appinstaller" />
