@@ -56,12 +56,12 @@ jobs:
     inputs:
       targetType: 'inline'
       script: |
-        [xml]$xmlDoc = Get-Content $(Build.SourcesDirectory)\src\Files.App\Package.appxmanifest
+        [xml]$xmlDoc = Get-Content $(Build.SourcesDirectory)\src\Files.App (Package)\Package.appxmanifest
         $xmlDoc.Package.Identity.Name="${{parameters.packageIdentityName}}"
         $xmlDoc.Package.Identity.Publisher="Files"
         $xmlDoc.Package.Properties.DisplayName="${{parameters.packageDisplayName}}"
         $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="${{parameters.packageDisplayName}}"
-        $xmlDoc.Save('$(Build.SourcesDirectory)\src\Files.App\Package.appxmanifest')
+        $xmlDoc.Save('$(Build.SourcesDirectory)\src\Files.App (Package)\Package.appxmanifest')
       failOnStderr: true
 
  # This replaces references to the dev icon with the specified icon variant 
