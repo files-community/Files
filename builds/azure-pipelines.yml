@@ -75,7 +75,7 @@ steps:
   inputs:
     feedsToUse: config
     nugetConfigPath: nuget.config
-    restoreSolution: '$(solution)'
+    restoreSolution: '$(solution);**/*.csproj;**/*.wapproj;**/*.vcxproj'
 
 - task: MSBuild@1
   inputs:
