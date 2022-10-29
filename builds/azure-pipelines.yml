@@ -84,6 +84,7 @@ steps:
     configuration: '$(buildConfiguration)'
     msbuildArguments: '/t:build;_GenerateAppxPackage /p:Configuration=Debug;Platform="$(buildPlatform)";AppxBundle=Always;AppxBundlePlatforms="$(buildPlatform)";AppxPackageDir="$(appxPackageDir)";AppxPackageSigningEnabled=true;UapAppxPackageBuildMode=SideloadOnly;PackageCertificateKeyFile="$(Build.SourcesDirectory)\builds\Files_SelfSigned.pfx";PackageCertificatePassword="";PackageCertificateThumbprint=""'
     maximumCpuCount: true
+    restoreNugetPackages: true
 
 - task: DotNetCoreCLI@2
   inputs:

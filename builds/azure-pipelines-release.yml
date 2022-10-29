@@ -134,6 +134,7 @@ jobs:
       configuration: '$(sideloadBuildConfiguration)'
       msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxLogTelemetryFromSideloadingScript=False /p:GenerateAppInstallerFile=True /p:AppInstallerUri=https://cdn.files.community/files/${{parameters.releaseBranch}}/ /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=Sideload /p:AppxPackageSigningEnabled=true /p:PackageCertificateKeyFile="$(caCertificate.secureFilePath)" /p:PackageCertificatePassword="$(signingCert.password)" /p:PackageCertificateThumbprint=""'
       maximumCpuCount: true
+      restoreNugetPackages: true
 
   - task: CopyFiles@2
     displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
@@ -245,6 +246,7 @@ jobs:
       configuration: '$(buildConfiguration)'
       msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
       maximumCpuCount: true
+      restoreNugetPackages: true
     
   - task: CopyFiles@2
     displayName: 'Copy Files to: $(build.artifactstagingdirectory)'

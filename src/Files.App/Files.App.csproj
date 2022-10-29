@@ -23,11 +23,9 @@
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Configurations>Debug;Release;Sideload</Configurations>
-    <PublishReadyToRun>true</PublishReadyToRun>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <DefineConstants>TRACE;DEBUG;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
-    <PublishReadyToRun>false</PublishReadyToRun>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <DefineConstants>TRACE;RELEASE;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
