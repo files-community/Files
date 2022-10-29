@@ -113,13 +113,14 @@ jobs:
     inputs:
       script: |
         for /f %%a in ('dir /b /a:d %localappdata%\Microsoft\VisualStudio\17*') do echo UsePreviews=True>%localappdata%\Microsoft\VisualStudio\%%a\sdk.txt
-  - task: NuGetToolInstaller@1
 
-  - task: NuGetCommand@2
+  - task: MSBuild@1
     inputs:
-      feedsToUse: config
-      nugetConfigPath: nuget.config
-      restoreSolution: '$(solution)'
+      platform: 'x64'
+      solution: '$(solution)'
+      configuration: '$(sideloadBuildConfiguration)'
+      msbuildArguments: '/t:restore /p:Configuration="$(sideloadBuildConfiguration)";Platform="$(buildPlatform)";PublishReadyToRun=true'
+      maximumCpuCount: true
 
   - task: DownloadSecureFile@1
     name: caCertificate
@@ -134,7 +135,6 @@ jobs:
       configuration: '$(sideloadBuildConfiguration)'
       msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxLogTelemetryFromSideloadingScript=False /p:GenerateAppInstallerFile=True /p:AppInstallerUri=https://cdn.files.community/files/${{parameters.releaseBranch}}/ /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=Sideload /p:AppxPackageSigningEnabled=true /p:PackageCertificateKeyFile="$(caCertificate.secureFilePath)" /p:PackageCertificatePassword="$(signingCert.password)" /p:PackageCertificateThumbprint=""'
       maximumCpuCount: true
-      restoreNugetPackages: true
 
   - task: CopyFiles@2
     displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
@@ -231,13 +231,14 @@ jobs:
     inputs:
       script: |
         for /f %%a in ('dir /b /a:d %localappdata%\Microsoft\VisualStudio\17*') do echo UsePreviews=True>%localappdata%\Microsoft\VisualStudio\%%a\sdk.txt
-  - task: NuGetToolInstaller@1
 
-  - task: NuGetCommand@2
+  - task: MSBuild@1
     inputs:
-      feedsToUse: config
-      nugetConfigPath: nuget.config
-      restoreSolution: '$(solution)'
+      platform: 'x64'
+      solution: '$(solution)'
+      configuration: '$(buildConfiguration)'
+      msbuildArguments: '/t:restore /p:Configuration="$(buildConfiguration)";Platform="$(buildPlatform)";PublishReadyToRun=true'
+      maximumCpuCount: true
 
   - task: MSBuild@1
     inputs:
@@ -246,8 +247,7 @@ jobs:
       configuration: '$(buildConfiguration)'
       msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
       maximumCpuCount: true
-      restoreNugetPackages: true
-    
+
   - task: CopyFiles@2
     displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
     inputs:
