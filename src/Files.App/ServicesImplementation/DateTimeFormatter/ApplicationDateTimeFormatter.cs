@@ -3,7 +3,7 @@ using System;
 
 namespace Files.App.ServicesImplementation.DateTimeFormatter
 {
-	internal class ApplicationDateTimeFormatter : AbstractDateTimeFormatter
+    internal class ApplicationDateTimeFormatter : AbstractDateTimeFormatter
     {
         public override string Name => "Application".GetLocalizedResource();
 
