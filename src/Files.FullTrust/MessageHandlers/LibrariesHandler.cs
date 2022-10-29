@@ -57,7 +57,7 @@ namespace Files.FullTrust.MessageHandlers
 
         private async void OnLibraryChanged(WatcherChangeTypes changeType, string oldPath, string newPath)
         {
-            if (newPath != null && (!newPath.ToLowerInvariant().EndsWith(ShellLibraryItem.EXTENSION, StringComparison.Ordinal) || !File.Exists(newPath)))
+            if (newPath is not null && (!newPath.ToLowerInvariant().EndsWith(ShellLibraryItem.EXTENSION, StringComparison.Ordinal) || !File.Exists(newPath)))
             {
                 System.Diagnostics.Debug.WriteLine($"Ignored library event: {changeType}, {oldPath} -> {newPath}");
                 return;
@@ -81,7 +81,7 @@ namespace Files.FullTrust.MessageHandlers
                 if (!changeType.HasFlag(WatcherChangeTypes.Deleted))
                 {
                     var library = SafetyExtensions.IgnoreExceptions(() => new ShellLibrary2(Shell32.ShellUtil.GetShellItemForPath(newPath), true));
-                    if (library == null)
+                    if (library is null)
                     {
                         Program.Logger.Warn($"Failed to open library after {changeType}: {newPath}");
                         return;
@@ -163,7 +163,7 @@ namespace Files.FullTrust.MessageHandlers
                             bool updated = false;
                             var libPath = message["library"].GetString();
                             using var library = new ShellLibrary2(Shell32.ShellUtil.GetShellItemForPath(libPath), false);
-                            if (folders != null)
+                            if (folders is not null)
                             {
                                 if (folders.Length > 0)
                                 {
@@ -187,7 +187,7 @@ namespace Files.FullTrust.MessageHandlers
                                     }
                                 }
                             }
-                            if (defaultSaveFolder != null)
+                            if (defaultSaveFolder is not null)
                             {
                                 library.DefaultSaveFolder = ShellItem.Open(defaultSaveFolder);
                                 updated = true;

@@ -89,7 +89,7 @@ namespace Files.App
                 var cmdLineString = operation.Arguments;
                 var parsedCommands = CommandLineParser.ParseUntrustedCommands(cmdLineString);
 
-                if (parsedCommands != null)
+                if (parsedCommands is not null)
                 {
                     foreach (var command in parsedCommands)
                     {
@@ -109,7 +109,7 @@ namespace Files.App
                 }
 
                 // Always open a new instance for OpenDialog, never open new instance for "-Tag" command
-                if (parsedCommands == null || !parsedCommands.Any(x => x.Type == ParsedCommandType.OutputPath)
+                if (parsedCommands is null || !parsedCommands.Any(x => x.Type == ParsedCommandType.OutputPath)
                     && (!alwaysOpenNewInstance || parsedCommands.Any(x => x.Type == ParsedCommandType.TagFiles)))
                 {
                     var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);

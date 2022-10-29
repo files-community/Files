@@ -154,7 +154,7 @@ namespace Files.App.DataModels
 		/// <param name="secondLocationItem">The second location item</param>
 		public void SwapItems(INavigationControlItem firstLocationItem, INavigationControlItem secondLocationItem)
 		{
-			if (firstLocationItem == null || secondLocationItem == null)
+			if (firstLocationItem is null || secondLocationItem is null)
 			{
 				return;
 			}
@@ -231,11 +231,11 @@ namespace Files.App.DataModels
 					locationItem.Icon = await App.Window.DispatcherQueue.EnqueueAsync(() => locationItem.IconData.ToBitmapAsync());
 				}
 
-				if (locationItem.IconData == null)
+				if (locationItem.IconData is null)
 				{
 					locationItem.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(path, 96u);
 
-					if (locationItem.IconData != null)
+					if (locationItem.IconData is not null)
 						locationItem.Icon = await App.Window.DispatcherQueue.EnqueueAsync(() => locationItem.IconData.ToBitmapAsync());
 				}
 			}

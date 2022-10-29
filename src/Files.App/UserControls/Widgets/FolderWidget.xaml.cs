@@ -44,7 +44,7 @@ namespace Files.App.UserControls.Widgets
 
         public string AutomationProperties { get; set; }
         public bool HasPath => !string.IsNullOrEmpty(Path);
-        public bool HasThumbnail => thumbnail != null && thumbnailData != null;
+        public bool HasThumbnail => thumbnail is not null && thumbnailData is not null;
         public BitmapImage Thumbnail
         {
             get => thumbnail;
@@ -73,11 +73,11 @@ namespace Files.App.UserControls.Widgets
 
         public async Task LoadCardThumbnailAsync()
         {
-            if (thumbnailData == null || thumbnailData.Length == 0)
+            if (thumbnailData is null || thumbnailData.Length == 0)
             {
                 thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Path, Convert.ToUInt32(Constants.Widgets.WidgetIconSize), Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
             }
-            if (thumbnailData != null && thumbnailData.Length > 0)
+            if (thumbnailData is not null && thumbnailData.Length > 0)
             {
                 Thumbnail = await App.Window.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize));
             }
@@ -198,7 +198,7 @@ namespace Files.App.UserControls.Widgets
         {
             var newPaneMenuItem = (sender as MenuFlyout).Items.SingleOrDefault(x => x.Name == "OpenInNewPane");
             // eg. an empty library doesn't have OpenInNewPane context menu item
-            if (newPaneMenuItem != null)
+            if (newPaneMenuItem is not null)
             {
                 newPaneMenuItem.Visibility = ShowMultiPaneControls ? Visibility.Visible : Visibility.Collapsed;
             }

@@ -45,10 +45,10 @@ namespace Files.App.SettingsPages
                 foreach (var theme in ViewModel.CustomThemes)
                 {
                     var container = AppThemeSelectionGridView.ContainerFromItem(theme);
-                    if (container != null)
+                    if (container is not null)
                     {
                         var item = DependencyObjectHelpers.FindChild<ThemeSampleDisplayControl>(container);
-                        if (item != null)
+                        if (item is not null)
                         {
                             await item.ReevaluateThemeResourceBinding();
                         }

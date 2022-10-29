@@ -102,7 +102,7 @@ namespace Files.App.Views.LayoutModes
         public override void Dispose()
         {
             base.Dispose();
-            ColumnHost.Items.OfType<BladeItem>().Select(x => ((x.Content as Frame)?.Content as ColumnShellPage).SlimContentPage as ColumnViewBase).Where(x => x != null).ForEach(x => x.ItemInvoked -= ColumnViewBase_ItemInvoked);
+            ColumnHost.Items.OfType<BladeItem>().Select(x => ((x.Content as Frame)?.Content as ColumnShellPage).SlimContentPage as ColumnViewBase).Where(x => x is not null).ForEach(x => x.ItemInvoked -= ColumnViewBase_ItemInvoked);
             ColumnHost.Items.OfType<BladeItem>().ForEach(x => ((x.Content as Frame)?.Content as ColumnShellPage).ContentChanged -= ColumnViewBrowser_ContentChanged);
             ColumnHost.Items.OfType<BladeItem>().ForEach(x => ((x.Content as Frame)?.Content as UIElement).GotFocus -= ColumnViewBrowser_GotFocus);
             ColumnHost.Items.OfType<BladeItem>().Select(x => (x.Content as Frame)?.Content).OfType<IDisposable>().ForEach(x => x.Dispose());
@@ -162,7 +162,7 @@ namespace Files.App.Views.LayoutModes
             {
                 var currentBlade = ColumnHost.ActiveBlades.Single(x => (x.Content as Frame)?.Content == sender);
                 currentBlade.StartBringIntoView();
-                if (ColumnHost.ActiveBlades != null)
+                if (ColumnHost.ActiveBlades is not null)
                 {
                     ColumnHost.ActiveBlades.ForEach(x =>
                     {
@@ -207,7 +207,7 @@ namespace Files.App.Views.LayoutModes
 
         public void SetSelectedPathOrNavigate(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null)
         {
-            var destPath = navArgs != null ? (navArgs.IsSearchResultPage ? navArgs.SearchPathParam : navArgs.NavPathParam) : navigationPath;
+            var destPath = navArgs is not null ? (navArgs.IsSearchResultPage ? navArgs.SearchPathParam : navArgs.NavPathParam) : navigationPath;
             var columnPath = ((ColumnHost.ActiveBlades.Last().Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel.WorkingDirectory;
             var columnFirstPath = ((ColumnHost.ActiveBlades.First().Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel.WorkingDirectory;
 
@@ -243,7 +243,7 @@ namespace Files.App.Views.LayoutModes
                     newblade.Content = frame;
                     ColumnHost.Items.Add(newblade);
 
-                    if (navArgs != null)
+                    if (navArgs is not null)
                     {
                         frame.Navigate(typeof(ColumnShellPage), new ColumnParam
                         {

@@ -436,14 +436,14 @@ namespace Files.FullTrust
                 {
                     var item = shellWindows.Item(i);
                     var serv = (Shell32.IServiceProvider)item;
-                    if (serv != null)
+                    if (serv is not null)
                     {
                         if (serv.QueryService(Shell32.SID_STopLevelBrowser, typeof(Shell32.IShellBrowser).GUID, out var ppv).Succeeded)
                         {
                             var pUnk = Marshal.GetObjectForIUnknown(ppv);
                             var shellBrowser = (Shell32.IShellBrowser)pUnk;
                             using var targetFolder = SafetyExtensions.IgnoreExceptions(() => new Vanara.Windows.Shell.ShellItem(folderPath));
-                            if (targetFolder != null)
+                            if (targetFolder is not null)
                             {
                                 if (shellBrowser.QueryActiveShellView(out var shellView).Succeeded)
                                 {

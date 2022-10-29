@@ -186,7 +186,7 @@ namespace Files.FullTrust.Helpers
             /// <exception cref="ArgumentNullException">location</exception>
             public void Add(ShellItem location)
             {
-                if (location == null) throw new ArgumentNullException(nameof(location));
+                if (location is null) throw new ArgumentNullException(nameof(location));
                 lib.AddFolder(location.IShellItem);
             }
 
@@ -204,7 +204,7 @@ namespace Files.FullTrust.Helpers
             /// <exception cref="ArgumentNullException">location</exception>
             public bool Remove(ShellItem location)
             {
-                if (location == null) throw new ArgumentNullException(nameof(location));
+                if (location is null) throw new ArgumentNullException(nameof(location));
                 try
                 {
                     lib.RemoveFolder(location.IShellItem);

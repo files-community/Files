@@ -49,7 +49,7 @@ namespace Files.App.Controllers
         private async Task LoadAsync()
         {
             StorageFolder Folder = await FilesystemTasks.Wrap(() => ApplicationData.Current.LocalFolder.CreateFolderAsync("settings", CreationCollisionOption.OpenIfExists).AsTask());
-            if (Folder == null)
+            if (Folder is null)
             {
                 Model.AddDefaultItems();
                 await Model.AddAllItemsToSidebar();
@@ -62,7 +62,7 @@ namespace Files.App.Controllers
                 if (JsonFile == FileSystemStatusCode.NotFound)
                 {
                     var oldItems = await ReadV2PinnedItemsFile() ?? await ReadV1PinnedItemsFile();
-                    if (oldItems != null)
+                    if (oldItems is not null)
                     {
                         foreach (var item in oldItems)
                         {
@@ -93,7 +93,7 @@ namespace Files.App.Controllers
             {
                 configContent = await FileIO.ReadTextAsync(JsonFile.Result);
                 Model = JsonSerializer.Deserialize<SidebarPinnedModel>(configContent);
-                if (Model == null)
+                if (Model is null)
                 {
                     throw new ArgumentException($"{JsonFileName} is empty, regenerating...");
                 }

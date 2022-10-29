@@ -93,7 +93,7 @@ namespace Files.App.Serialization.Implementation
             {
                 // Try convert
                 var data = (Dictionary<string, object?>?)import;
-                if (data == null)
+                if (data is null)
                 {
                     return false;
                 }

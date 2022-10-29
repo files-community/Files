@@ -24,7 +24,7 @@ namespace Files.App.Helpers
 
         public static async Task<bool> Elevate(this NamedPipeAsAppServiceConnection connection)
         {
-            if (connection == null)
+            if (connection is null)
             {
                 App.AppModel.IsAppElevated = false;
                 return false;
@@ -120,11 +120,11 @@ namespace Files.App.Helpers
                     {
                         var message = Encoding.UTF8.GetString(memoryStream.ToArray()).TrimEnd('\0');
                         var msg = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(message);
-                        if (msg != null && msg.Get("RequestID", defaultJson).GetString() == null)
+                        if (msg is not null && msg.Get("RequestID", defaultJson).GetString() is null)
                         {
                             RequestReceived?.Invoke(this, msg);
                         }
-                        else if (msg != null && messageList.TryRemove(msg["RequestID"].GetString(), out var tcs))
+                        else if (msg is not null && messageList.TryRemove(msg["RequestID"].GetString(), out var tcs))
                         {
                             tcs.TrySetResult(msg);
                         }
@@ -153,7 +153,7 @@ namespace Files.App.Helpers
 
         public async Task<(AppServiceResponseStatus Status, Dictionary<string, JsonElement> Data)> SendMessageForResponseAsync(ValueSet valueSet)
         {
-            if (serverStream == null)
+            if (serverStream is null)
             {
                 return (AppServiceResponseStatus.Failure, null);
             }
@@ -186,7 +186,7 @@ namespace Files.App.Helpers
 
         public async Task<AppServiceResponseStatus> SendMessageAsync(ValueSet valueSet)
         {
-            if (serverStream == null)
+            if (serverStream is null)
             {
                 return AppServiceResponseStatus.Failure;
             }

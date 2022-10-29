@@ -32,7 +32,7 @@ namespace Files.App.Helpers
 			ThemeFolder = await StorageFolder.GetFolderFromPathAsync(bundledThemesPath);
 			ImportedThemesFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Themes", CreationCollisionOption.OpenIfExists);
 
-			if (App.AppSettings.SelectedTheme.Path != null)
+			if (App.AppSettings.SelectedTheme.Path is not null)
 			{
 				await TryLoadThemeAsync(App.AppSettings.SelectedTheme);
 			}
@@ -90,7 +90,7 @@ namespace Files.App.Helpers
 			try
 			{
 				var xaml = await TryLoadResourceDictionary(theme);
-				if (xaml != null)
+				if (xaml is not null)
 				{
 					App.Current.Resources.MergedDictionaries.Add(xaml);
 					return true;
@@ -107,7 +107,7 @@ namespace Files.App.Helpers
 		public async Task<ResourceDictionary> TryLoadResourceDictionary(AppTheme theme)
 		{
 			StorageFile file;
-			if (theme?.Path == null)
+			if (theme?.Path is null)
 			{
 				return null;
 			}
@@ -131,12 +131,12 @@ namespace Files.App.Helpers
 
 		public async Task UpdateTheme(AppTheme OldTheme, AppTheme NewTheme)
 		{
-			if (OldTheme.Path != null)
+			if (OldTheme.Path is not null)
 			{
 				RemoveTheme(OldTheme);
 			}
 
-			if (NewTheme.Path != null)
+			if (NewTheme.Path is not null)
 			{
 				await TryLoadThemeAsync(NewTheme);
 			}

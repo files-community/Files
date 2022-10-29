@@ -71,7 +71,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			{
 				if (SetProperty(ref selectedTheme, value))
 				{
-					if (selectedTheme != null)
+					if (selectedTheme is not null)
 					{
 						// Remove the old resource file and load the new file
 						App.ExternalResourcesHelper.UpdateTheme(App.AppSettings.SelectedTheme, selectedTheme)

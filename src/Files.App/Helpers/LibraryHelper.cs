@@ -54,7 +54,7 @@ namespace Files.App.Helpers
         {
             List<LibraryLocationItem> libraries = null;
             var connection = await AppServiceConnectionHelper.Instance;
-            if (connection == null)
+            if (connection is null)
             {
                 return null;
             }
@@ -82,7 +82,7 @@ namespace Files.App.Helpers
                 return null;
             }
             var connection = await AppServiceConnectionHelper.Instance;
-            if (connection == null)
+            if (connection is null)
             {
                 return null;
             }
@@ -110,13 +110,13 @@ namespace Files.App.Helpers
         /// <returns>The new library if successfully updated</returns>
         public static async Task<LibraryLocationItem> UpdateLibrary(string libraryFilePath, string defaultSaveFolder = null, string[] folders = null, bool? isPinned = null)
         {
-            if (string.IsNullOrWhiteSpace(libraryFilePath) || (defaultSaveFolder == null && folders == null && isPinned == null))
+            if (string.IsNullOrWhiteSpace(libraryFilePath) || (defaultSaveFolder is null && folders is null && isPinned is null))
             {
                 // Nothing to update
                 return null;
             }
             var connection = await AppServiceConnectionHelper.Instance;
-            if (connection == null)
+            if (connection is null)
             {
                 return null;
             }
@@ -130,11 +130,11 @@ namespace Files.App.Helpers
             {
                 request.Add("defaultSaveFolder", defaultSaveFolder);
             }
-            if (folders != null)
+            if (folders is not null)
             {
                 request.Add("folders", JsonSerializer.Serialize(folders));
             }
-            if (isPinned != null)
+            if (isPinned is not null)
             {
                 request.Add("isPinned", isPinned);
             }

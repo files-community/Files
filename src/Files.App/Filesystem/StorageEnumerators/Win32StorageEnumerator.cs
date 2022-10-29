@@ -60,9 +60,9 @@ namespace Files.App.Filesystem.StorageEnumerators
                     if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
                     {
                         var file = await GetFile(findData, path, connection, cancellationToken);
-                        if (file != null)
+                        if (file is not null)
                         {
-                            if (defaultIconPairs != null)
+                            if (defaultIconPairs is not null)
                             {
                                 if (!string.IsNullOrEmpty(file.FileExtension))
                                 {
@@ -87,7 +87,7 @@ namespace Files.App.Filesystem.StorageEnumerators
                         if (findData.cFileName != "." && findData.cFileName != "..")
                         {
                             var folder = await GetFolder(findData, path, cancellationToken);
-                            if (folder != null)
+                            if (folder is not null)
                             {
                                 if (defaultIconPairs?.ContainsKey(string.Empty) ?? false)
                                 {
@@ -120,7 +120,7 @@ namespace Files.App.Filesystem.StorageEnumerators
                     break;
                 }
 
-                if (intermediateAction != null && (count == 32 || sampler.CheckNow()))
+                if (intermediateAction is not null && (count == 32 || sampler.CheckNow()))
                 {
                     await intermediateAction(tempList);
                     // clear the temporary list every time we do an intermediate action
@@ -307,7 +307,7 @@ namespace Files.App.Filesystem.StorageEnumerators
             }
             else if (findData.cFileName.EndsWith(".lnk", StringComparison.Ordinal) || findData.cFileName.EndsWith(".url", StringComparison.Ordinal))
             {
-                if (connection != null)
+                if (connection is not null)
                 {
                     var (_, response) = await FileOperationsHelpers.ParseLinkAsync(itemPath);
 
@@ -316,7 +316,7 @@ namespace Files.App.Filesystem.StorageEnumerators
                     {
                         return null;
                     }
-                    if (response != null)
+                    if (response is not null)
                     {
                         var isUrl = findData.cFileName.EndsWith(".url", StringComparison.OrdinalIgnoreCase);
                         return new ShortcutItem(null)

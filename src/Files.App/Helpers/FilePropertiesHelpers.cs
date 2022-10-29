@@ -42,7 +42,7 @@ namespace Files.App.Helpers
 
         public static async Task OpenPropertiesWindowAsync(object item, IShellPage associatedInstance)
         {
-            if (item == null)
+            if (item is null)
                 return;
 
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))

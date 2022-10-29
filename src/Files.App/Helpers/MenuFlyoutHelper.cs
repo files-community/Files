@@ -91,12 +91,12 @@ namespace Files.App.Helpers
 
         private static async void SetupItems(MenuFlyout menu)
         {
-            if (menu == null || Windows.ApplicationModel.DesignMode.DesignModeEnabled)
+            if (menu is null || Windows.ApplicationModel.DesignMode.DesignModeEnabled)
             {
                 return;
             }
             var itemSource = GetItemsSource(menu);
-            if (itemSource == null)
+            if (itemSource is null)
             {
                 return;
             }

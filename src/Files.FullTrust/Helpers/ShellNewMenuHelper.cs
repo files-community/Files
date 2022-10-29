@@ -22,10 +22,10 @@ namespace Files.FullTrust.Helpers
             foreach (var keyName in Registry.ClassesRoot.GetSubKeyNames().Where(x => x.StartsWith('.') && !new string[] { ShellLibraryItem.EXTENSION, ".url", ".lnk" }.Contains(x, StringComparer.OrdinalIgnoreCase)))
             {
                 using var key = Registry.ClassesRoot.OpenSubKeySafe(keyName);
-                if (key != null)
+                if (key is not null)
                 {
                     var ret = await GetShellNewRegistryEntries(key, key);
-                    if (ret != null)
+                    if (ret is not null)
                     {
                         newMenuItems.Add(ret);
                     }
@@ -38,7 +38,7 @@ namespace Files.FullTrust.Helpers
         {
             if (string.IsNullOrEmpty(extension)) return null;
             using var key = Registry.ClassesRoot.OpenSubKeySafe(extension);
-            return key != null ? await GetShellNewRegistryEntries(key, key) : null;
+            return key is not null ? await GetShellNewRegistryEntries(key, key) : null;
         }
 
         private static async Task<ShellNewEntry> GetShellNewRegistryEntries(RegistryKey current, RegistryKey root)
@@ -46,7 +46,7 @@ namespace Files.FullTrust.Helpers
             foreach (var keyName in current.GetSubKeyNames())
             {
                 using var key = current.OpenSubKeySafe(keyName);
-                if (key == null)
+                if (key is null)
                 {
                     continue;
                 }
@@ -57,7 +57,7 @@ namespace Files.FullTrust.Helpers
                 else
                 {
                     var ret = await GetShellNewRegistryEntries(key, root);
-                    if (ret != null)
+                    if (ret is not null)
                     {
                         return ret;
                     }
@@ -82,7 +82,7 @@ namespace Files.FullTrust.Helpers
 
             byte[] data = null;
             var dataObj = key.GetValue("Data");
-            if (dataObj != null)
+            if (dataObj is not null)
             {
                 switch (key.GetValueKind("Data"))
                 {
@@ -95,15 +95,15 @@ namespace Files.FullTrust.Helpers
                         break;
                 }
             }
-            
-            var folder = await SafetyExtensions.IgnoreExceptions(() => ApplicationData.Current.LocalFolder.CreateFolderAsync("extensions", CreationCollisionOption.OpenIfExists).AsTask());
-            var sampleFile = folder != null ? await SafetyExtensions.IgnoreExceptions(() => folder.CreateFileAsync("file" + extension, CreationCollisionOption.OpenIfExists).AsTask()) : null;
 
-            var displayType = sampleFile != null ? sampleFile.DisplayType : string.Format("{0} {1}", "file", extension);
-            var thumbnail = sampleFile != null ? await SafetyExtensions.IgnoreExceptions(() => sampleFile.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 24, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale).AsTask()) : null;
+            var folder = await SafetyExtensions.IgnoreExceptions(() => ApplicationData.Current.LocalFolder.CreateFolderAsync("extensions", CreationCollisionOption.OpenIfExists).AsTask());
+            var sampleFile = folder is not null ? await SafetyExtensions.IgnoreExceptions(() => folder.CreateFileAsync("file" + extension, CreationCollisionOption.OpenIfExists).AsTask()) : null;
+
+            var displayType = sampleFile is not null ? sampleFile.DisplayType : string.Format("{0} {1}", "file", extension);
+            var thumbnail = sampleFile is not null ? await SafetyExtensions.IgnoreExceptions(() => sampleFile.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 24, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale).AsTask()) : null;
 
             string iconString = null;
-            if (thumbnail != null)
+            if (thumbnail is not null)
             {
                 var readStream = thumbnail.AsStreamForRead();
                 var bitmapData = new byte[readStream.Length];

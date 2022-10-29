@@ -42,7 +42,7 @@ namespace Files.App.ViewModels.Properties
 
         public override void GetBaseProperties()
         {
-            if (Library != null)
+            if (Library is not null)
             {
                 ViewModel.ItemName = Library.Name;
                 ViewModel.OriginalItemName = Library.Name;
@@ -60,7 +60,7 @@ namespace Files.App.ViewModels.Properties
             ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(Library.ItemPath, System.IO.FileAttributes.Hidden);
 
             var fileIconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Library.ItemPath, 80);
-            if (fileIconData != null)
+            if (fileIconData is not null)
             {
                 ViewModel.IconData = fileIconData;
                 ViewModel.LoadCustomIcon = false;
@@ -68,17 +68,17 @@ namespace Files.App.ViewModels.Properties
             }
 
             BaseStorageFile libraryFile = await AppInstance.FilesystemViewModel.GetFileFromPathAsync(Library.ItemPath);
-            if (libraryFile != null)
+            if (libraryFile is not null)
             {
                 ViewModel.ItemCreatedTimestamp = dateTimeFormatter.ToShortLabel(libraryFile.DateCreated);
-                if (libraryFile.Properties != null)
+                if (libraryFile.Properties is not null)
                 {
                     GetOtherProperties(libraryFile.Properties);
                 }
             }
 
             var storageFolders = new List<BaseStorageFolder>();
-            if (Library.Folders != null)
+            if (Library.Folders is not null)
             {
                 try
                 {

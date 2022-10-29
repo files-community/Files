@@ -134,7 +134,7 @@ namespace Files.FullTrust
         {
             // Get a deferral because we use an awaitable API below to respond to the message
             // and we don't want this call to get cancelled while we are waiting.
-            if (message == null)
+            if (message is null)
             {
                 return;
             }

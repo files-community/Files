@@ -58,15 +58,15 @@ namespace Files.App.Views
 			AppInstance = args.AppInstanceArgument;
 			navParameterItem = args.Item;
 			listedItem = args.Item as ListedItem;
-			TabShorcut.Visibility = listedItem != null && listedItem.IsShortcut ? Visibility.Visible : Visibility.Collapsed;
-			TabLibrary.Visibility = listedItem != null && listedItem.IsLibrary ? Visibility.Visible : Visibility.Collapsed;
-			TabDetails.Visibility = listedItem != null && listedItem.FileExtension != null && !listedItem.IsShortcut && !listedItem.IsLibrary ? Visibility.Visible : Visibility.Collapsed;
+			TabShorcut.Visibility = listedItem is not null && listedItem.IsShortcut ? Visibility.Visible : Visibility.Collapsed;
+			TabLibrary.Visibility = listedItem is not null && listedItem.IsLibrary ? Visibility.Visible : Visibility.Collapsed;
+			TabDetails.Visibility = listedItem is not null && listedItem.FileExtension is not null && !listedItem.IsShortcut && !listedItem.IsLibrary ? Visibility.Visible : Visibility.Collapsed;
 			TabSecurity.Visibility = args.Item is DriveItem ||
-				(listedItem != null && !listedItem.IsLibrary && !listedItem.IsRecycleBinItem) ? Visibility.Visible : Visibility.Collapsed;
-			TabCustomization.Visibility = listedItem != null && !listedItem.IsLibrary && (
+				(listedItem is not null && !listedItem.IsLibrary && !listedItem.IsRecycleBinItem) ? Visibility.Visible : Visibility.Collapsed;
+			TabCustomization.Visibility = listedItem is not null && !listedItem.IsLibrary && (
 				(listedItem.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !listedItem.IsArchive) ||
 				(listedItem.IsShortcut && !listedItem.IsLinkItem)) ? Visibility.Visible : Visibility.Collapsed;
-			TabCompatibility.Visibility = listedItem != null && (
+			TabCompatibility.Visibility = listedItem is not null && (
 					".exe".Equals(listedItem is ShortcutItem sht ? System.IO.Path.GetExtension(sht.TargetPath) : listedItem.FileExtension, StringComparison.OrdinalIgnoreCase)
 				) ? Visibility.Visible : Visibility.Collapsed;
 			base.OnNavigatedTo(e);
@@ -142,7 +142,7 @@ namespace Files.App.Views
 		{
 			AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
 			sender.Destroying -= AppWindow_Destroying;
-			if (tokenSource != null && !tokenSource.IsCancellationRequested)
+			if (tokenSource is not null && !tokenSource.IsCancellationRequested)
 			{
 				tokenSource.Cancel();
 				tokenSource = null;
@@ -153,7 +153,7 @@ namespace Files.App.Views
 		{
 			AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
 			sender.Closed -= PropertiesDialog_Closed;
-			if (tokenSource != null && !tokenSource.IsCancellationRequested)
+			if (tokenSource is not null && !tokenSource.IsCancellationRequested)
 			{
 				tokenSource.Cancel();
 				tokenSource = null;

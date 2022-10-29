@@ -92,12 +92,12 @@ namespace Files.App.ViewModels
 			get => connection;
 			set
 			{
-				if (connection != null)
+				if (connection is not null)
 					connection.RequestReceived -= Connection_RequestReceived;
 
 				connection = value;
 
-				if (connection != null)
+				if (connection is not null)
 					connection.RequestReceived += Connection_RequestReceived;
 
 				ConnectionChanged?.Invoke(this, EventArgs.Empty);
@@ -512,7 +512,7 @@ namespace Files.App.ViewModels
 					{
 						case "Created":
 							var newListedItem = await AddFileOrFolderFromShellFile(newItem);
-							if (newListedItem != null)
+							if (newListedItem is not null)
 							{
 								await AddFileOrFolderAsync(newListedItem);
 								await OrderFilesAndFoldersAsync();
@@ -522,7 +522,7 @@ namespace Files.App.ViewModels
 
 						case "Renamed":
 							var matchingItem = filesAndFolders.FirstOrDefault(x => x.ItemPath.Equals(message["OldPath"].GetString(), StringComparison.OrdinalIgnoreCase));
-							if (matchingItem != null)
+							if (matchingItem is not null)
 							{
 								await dispatcherQueue.EnqueueAsync(() =>
 								{
@@ -542,10 +542,10 @@ namespace Files.App.ViewModels
 							var nextOfMatchingItem = filesAndFolders.ElementAtOrDefault(itemRemovedIndex + 1 < filesAndFolders.Count() ? itemRemovedIndex + 1 : itemRemovedIndex - 1);
 							var removedItem = await RemoveFileOrFolderAsync(itemPath);
 
-							if (removedItem != null)
+							if (removedItem is not null)
 								await ApplySingleFileChangeAsync(removedItem);
 
-							if (nextOfMatchingItem != null)
+							if (nextOfMatchingItem is not null)
 								await RequestSelectionAsync(new List<ListedItem>() { nextOfMatchingItem });
 							break;
 
@@ -610,7 +610,7 @@ namespace Files.App.ViewModels
 					var key = FilesAndFolders.ItemGroupKeySelector?.Invoke(item);
 					var group = FilesAndFolders.GroupedCollection?.FirstOrDefault(x => x.Model.Key == key);
 
-					if (group != null)
+					if (group is not null)
 						group.OrderOne(list => SortingHelper.OrderFileList(list, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles), item);
 				}
 
@@ -631,7 +631,7 @@ namespace Files.App.ViewModels
 		{
 			try
 			{
-				if (filesAndFolders == null || filesAndFolders.Count == 0)
+				if (filesAndFolders is null || filesAndFolders.Count == 0)
 				{
 					void ClearDisplay()
 					{
@@ -742,7 +742,7 @@ namespace Files.App.ViewModels
 		private Task RequestSelectionAsync(List<ListedItem> itemsToSelect)
 		{
 			// don't notify if there weren't listed items
-			if (itemsToSelect == null || itemsToSelect.IsEmpty())
+			if (itemsToSelect is null || itemsToSelect.IsEmpty())
 				return Task.CompletedTask;
 
 
@@ -852,7 +852,7 @@ namespace Files.App.ViewModels
 		public Task ReloadItemGroupHeaderImagesAsync()
 		{
 			// this is needed to update the group icons for file type groups
-			if (folderSettings.DirectoryGroupOption == GroupOption.FileType && FilesAndFolders.GroupedCollection != null)
+			if (folderSettings.DirectoryGroupOption == GroupOption.FileType && FilesAndFolders.GroupedCollection is not null)
 			{
 				return Task.Run(async () =>
 				{
@@ -888,7 +888,7 @@ namespace Files.App.ViewModels
 				// TODO: Add more than just the folder icon
 				DefaultIcons.Clear();
 				using StorageItemThumbnail icon = await FilesystemTasks.Wrap(() => StorageItemIconHelpers.GetIconForItemType(size, IconPersistenceOptions.Persist));
-				if (icon != null)
+				if (icon is not null)
 				{
 					BitmapImage img = new BitmapImage();
 					await img.SetSourceAsync(icon);
@@ -923,7 +923,7 @@ namespace Files.App.ViewModels
 				{
 					var matchingStorageFile = matchingStorageItem.AsBaseStorageFile() ?? await GetFileFromPathAsync(item.ItemPath);
 
-					if (matchingStorageFile != null)
+					if (matchingStorageFile is not null)
 					{
 						// SingleItem returns image thumbnails in the correct aspect ratio for the grid layouts
 						// ListView is used for the details and columns layout
@@ -931,7 +931,7 @@ namespace Files.App.ViewModels
 
 						using StorageItemThumbnail Thumbnail = await FilesystemTasks.Wrap(() => matchingStorageFile.GetThumbnailAsync(thumbnailMode, thumbnailSize, ThumbnailOptions.ResizeThumbnail).AsTask());
 
-						if (!(Thumbnail == null || Thumbnail.Size == 0 || Thumbnail.OriginalHeight == 0 || Thumbnail.OriginalWidth == 0))
+						if (!(Thumbnail is null || Thumbnail.Size == 0 || Thumbnail.OriginalHeight == 0 || Thumbnail.OriginalWidth == 0))
 						{
 							await dispatcherQueue.EnqueueAsync(async () =>
 							{
@@ -950,7 +950,7 @@ namespace Files.App.ViewModels
 						}
 
 						var overlayInfo = await FileThumbnailHelper.LoadOverlayAsync(item.ItemPath, thumbnailSize);
-						if (overlayInfo != null)
+						if (overlayInfo is not null)
 						{
 							await dispatcherQueue.EnqueueAsync(async () =>
 							{
@@ -963,7 +963,7 @@ namespace Files.App.ViewModels
 				if (!wasIconLoaded)
 				{
 					var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, false);
-					if (iconInfo.IconData != null)
+					if (iconInfo.IconData is not null)
 					{
 						await dispatcherQueue.EnqueueAsync(async () =>
 						{
@@ -977,7 +977,7 @@ namespace Files.App.ViewModels
 						}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 					}
 
-					if (iconInfo.OverlayData != null)
+					if (iconInfo.OverlayData is not null)
 					{
 						await dispatcherQueue.EnqueueAsync(async () =>
 						{
@@ -991,7 +991,7 @@ namespace Files.App.ViewModels
 				if (!item.IsShortcut && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
 				{
 					var matchingStorageFolder = matchingStorageItem.AsBaseStorageFolder() ?? await GetFolderFromPathAsync(item.ItemPath);
-					if (matchingStorageFolder != null)
+					if (matchingStorageFolder is not null)
 					{
 						// SingleItem returns image thumbnails in the correct aspect ratio for the grid layouts
 						// ListView is used for the details and columns layout
@@ -999,7 +999,7 @@ namespace Files.App.ViewModels
 
 						// We use ReturnOnlyIfCached because otherwise folders thumbnails have a black background, this has the downside the folder previews don't work
 						using StorageItemThumbnail Thumbnail = await FilesystemTasks.Wrap(() => matchingStorageFolder.GetThumbnailAsync(thumbnailMode, thumbnailSize, ThumbnailOptions.ReturnOnlyIfCached).AsTask());
-						if (!(Thumbnail == null || Thumbnail.Size == 0 || Thumbnail.OriginalHeight == 0 || Thumbnail.OriginalWidth == 0))
+						if (!(Thumbnail is null || Thumbnail.Size == 0 || Thumbnail.OriginalHeight == 0 || Thumbnail.OriginalWidth == 0))
 						{
 							await dispatcherQueue.EnqueueAsync(async () =>
 							{
@@ -1012,7 +1012,7 @@ namespace Files.App.ViewModels
 						}
 
 						var overlayInfo = await FileThumbnailHelper.LoadOverlayAsync(item.ItemPath, thumbnailSize);
-						if (overlayInfo != null)
+						if (overlayInfo is not null)
 						{
 							await dispatcherQueue.EnqueueAsync(async () =>
 							{
@@ -1025,7 +1025,7 @@ namespace Files.App.ViewModels
 				if (!wasIconLoaded)
 				{
 					var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize, true);
-					if (iconInfo.IconData != null)
+					if (iconInfo.IconData is not null)
 					{
 						await dispatcherQueue.EnqueueAsync(async () =>
 						{
@@ -1033,7 +1033,7 @@ namespace Files.App.ViewModels
 						}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 					}
 
-					if (iconInfo.OverlayData != null)
+					if (iconInfo.OverlayData is not null)
 					{
 						await dispatcherQueue.EnqueueAsync(async () =>
 						{
@@ -1056,7 +1056,7 @@ namespace Files.App.ViewModels
 		// for file inside the recycle bin (but not on the recycle bin folder itself)
 		public async Task LoadExtendedItemProperties(ListedItem item, uint thumbnailSize = 20)
 		{
-			if (item == null)
+			if (item is null)
 				return;
 
 			itemLoadQueue[item.ItemPath] = false;
@@ -1080,7 +1080,7 @@ namespace Files.App.ViewModels
 					{
 						bool isFileTypeGroupMode = folderSettings.DirectoryGroupOption == GroupOption.FileType;
 						BaseStorageFile matchingStorageFile = null;
-						if (item.Key != null && FilesAndFolders.IsGrouped && FilesAndFolders.GetExtendedGroupHeaderInfo != null)
+						if (item.Key is not null && FilesAndFolders.IsGrouped && FilesAndFolders.GetExtendedGroupHeaderInfo is not null)
 						{
 							gp = FilesAndFolders.GroupedCollection.Where(x => x.Model.Key == item.Key).FirstOrDefault();
 							loadGroupHeaderInfo = !(gp is null) && !gp.Model.Initialized && !(gp.GetExtendedGroupHeaderInfo is null);
@@ -1092,7 +1092,7 @@ namespace Files.App.ViewModels
 							{
 								cts.Token.ThrowIfCancellationRequested();
 								matchingStorageFile = await GetFileFromPathAsync(item.ItemPath);
-								if (matchingStorageFile != null)
+								if (matchingStorageFile is not null)
 								{
 									cts.Token.ThrowIfCancellationRequested();
 									await LoadItemThumbnail(item, thumbnailSize, matchingStorageFile);
@@ -1124,7 +1124,7 @@ namespace Files.App.ViewModels
 							{
 								cts.Token.ThrowIfCancellationRequested();
 								BaseStorageFolder matchingStorageFolder = await GetFolderFromPathAsync(item.ItemPath);
-								if (matchingStorageFolder != null)
+								if (matchingStorageFolder is not null)
 								{
 									cts.Token.ThrowIfCancellationRequested();
 									await LoadItemThumbnail(item, thumbnailSize, matchingStorageFolder);
@@ -1223,19 +1223,19 @@ namespace Files.App.ViewModels
 			{
 				var headerIconInfo = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(item.ItemPath, 64u, false);
 
-				if (headerIconInfo != null && !item.IsShortcut)
+				if (headerIconInfo is not null && !item.IsShortcut)
 					groupImage = await dispatcherQueue.EnqueueAsync(() => headerIconInfo.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 
 				if (!item.IsShortcut && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
 				{
-					if (groupImage == null) // Loading icon from fulltrust process failed
+					if (groupImage is null) // Loading icon from fulltrust process failed
 					{
 						matchingStorageItem ??= await GetFileFromPathAsync(item.ItemPath);
 
-						if (matchingStorageItem != null)
+						if (matchingStorageItem is not null)
 						{
 							using StorageItemThumbnail headerThumbnail = await FilesystemTasks.Wrap(() => matchingStorageItem.GetThumbnailAsync(ThumbnailMode.DocumentsView, 36, ThumbnailOptions.UseCurrentScale).AsTask());
-							if (headerThumbnail != null)
+							if (headerThumbnail is not null)
 							{
 								await dispatcherQueue.EnqueueAsync(async () =>
 								{
@@ -1547,7 +1547,7 @@ namespace Files.App.ViewModels
 				// Will enumerate with FindFirstFileExFromApp, rootFolder only used for Bitlocker
 				currentStorageFolder = null;
 			}
-			else if (workingRoot != null)
+			else if (workingRoot is not null)
 			{
 				var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path, workingRoot, currentStorageFolder));
 				if (!res)
@@ -1611,7 +1611,7 @@ namespace Files.App.ViewModels
 					FileSizeBytes = 0,
 				};
 
-				if (library == null)
+				if (library is null)
 					currentFolder.ItemDateCreatedReal = rootFolder.DateCreated;
 
 				CurrentFolder = currentFolder;
@@ -1698,7 +1698,7 @@ namespace Files.App.ViewModels
 
 		private async Task EnumFromStorageFolderAsync(string path, ListedItem currentFolder, BaseStorageFolder rootFolder, StorageFolderWithPath currentStorageFolder, CancellationToken cancellationToken)
 		{
-			if (rootFolder == null)
+			if (rootFolder is null)
 				return;
 
 			Stopwatch stopwatch = new Stopwatch();
@@ -1729,14 +1729,14 @@ namespace Files.App.ViewModels
 		private async Task<CloudDriveSyncStatus> CheckCloudDriveSyncStatusAsync(IStorageItem item)
 		{
 			int? syncStatus = null;
-			if (item is BaseStorageFile file && file.Properties != null)
+			if (item is BaseStorageFile file && file.Properties is not null)
 			{
 				var extraProperties = await FilesystemTasks.Wrap(() => file.Properties.RetrievePropertiesAsync(new string[] { "System.FilePlaceholderStatus" }).AsTask());
 				if (extraProperties)
 					syncStatus = (int?)(uint?)extraProperties.Result["System.FilePlaceholderStatus"];
 
 			}
-			else if (item is BaseStorageFolder folder && folder.Properties != null)
+			else if (item is BaseStorageFolder folder && folder.Properties is not null)
 			{
 				var extraProperties = await FilesystemTasks.Wrap(() => folder.Properties.RetrievePropertiesAsync(new string[] { "System.FilePlaceholderStatus", "System.FileOfflineAvailabilityStatus" }).AsTask());
 				if (extraProperties)
@@ -1746,7 +1746,7 @@ namespace Files.App.ViewModels
 					syncStatus = syncStatus ?? (int?)(uint?)extraProperties.Result["System.FilePlaceholderStatus"];
 				}
 			}
-			if (syncStatus == null || !Enum.IsDefined(typeof(CloudDriveSyncStatus), syncStatus))
+			if (syncStatus is null || !Enum.IsDefined(typeof(CloudDriveSyncStatus), syncStatus))
 				return CloudDriveSyncStatus.Unknown;
 
 			return (CloudDriveSyncStatus)syncStatus;
@@ -1754,7 +1754,7 @@ namespace Files.App.ViewModels
 
 		private async void WatchForStorageFolderChanges(BaseStorageFolder rootFolder)
 		{
-			if (rootFolder == null)
+			if (rootFolder is null)
 				return;
 
 			await Task.Factory.StartNew(() =>
@@ -1784,13 +1784,13 @@ namespace Files.App.ViewModels
 		{
 			void RestartWatcher(object sender, EventArgs e)
 			{
-				if (Connection != null)
+				if (Connection is not null)
 				{
 					ConnectionChanged -= RestartWatcher;
 					WatchForWin32FolderChanges(folderPath);
 				}
 			}
-			if (Connection != null)
+			if (Connection is not null)
 			{
 				var (status, response) = await Connection.SendMessageForResponseAsync(new ValueSet()
 				{
@@ -1805,7 +1805,7 @@ namespace Files.App.ViewModels
 					watcherCTS.Token.Register(async () =>
 					{
 						ConnectionChanged -= RestartWatcher;
-						if (Connection != null)
+						if (Connection is not null)
 						{
 							await Connection.SendMessageAsync(new ValueSet()
 							{
@@ -1848,7 +1848,7 @@ namespace Files.App.ViewModels
 
 			var hasSyncStatus = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown;
 
-			if (aProcessQueueAction == null) // Only start one ProcessOperationQueue
+			if (aProcessQueueAction is null) // Only start one ProcessOperationQueue
 				aProcessQueueAction = Task.Factory.StartNew(() => ProcessOperationQueue(watcherCTS.Token, hasSyncStatus), default, TaskCreationOptions.LongRunning, TaskScheduler.Default);
 
 			var aWatcherAction = Windows.System.Threading.ThreadPool.RunAsync((x) =>
@@ -1930,7 +1930,7 @@ namespace Files.App.ViewModels
 
 			watcherCTS.Token.Register(() =>
 			{
-				if (aWatcherAction != null)
+				if (aWatcherAction is not null)
 				{
 					aWatcherAction?.Cancel();
 					aWatcherAction = null;  // Prevent duplicate execution of this block
@@ -1963,12 +1963,12 @@ namespace Files.App.ViewModels
 			{
 				await OrderFilesAndFoldersAsync();
 				await ApplyFilesAndFoldersChangesAsync();
-				if (lastItemAdded != null)
+				if (lastItemAdded is not null)
 				{
 					await RequestSelectionAsync(new List<ListedItem>() { lastItemAdded });
 					lastItemAdded = null;
 				}
-				if (nextOfLastItemRemoved != null)
+				if (nextOfLastItemRemoved is not null)
 				{
 					await RequestSelectionAsync(new List<ListedItem>() { nextOfLastItemRemoved });
 					nextOfLastItemRemoved = null;
@@ -1994,7 +1994,7 @@ namespace Files.App.ViewModels
 									case FILE_ACTION_ADDED:
 									case FILE_ACTION_RENAMED_NEW_NAME:
 										lastItemAdded = await AddFileOrFolderAsync(operation.FileName);
-										if (lastItemAdded != null)
+										if (lastItemAdded is not null)
 										{
 											anyEdits = true;
 										}
@@ -2013,7 +2013,7 @@ namespace Files.App.ViewModels
 										var itemRemovedIndex = filesAndFolders.FindIndex(x => x.ItemPath.Equals(operation.FileName));
 										nextOfLastItemRemoved = filesAndFolders.ElementAtOrDefault(itemRemovedIndex + 1 < filesAndFolders.Count() ? itemRemovedIndex + 1 : itemRemovedIndex - 1);
 										var itemRemoved = await RemoveFileOrFolderAsync(operation.FileName);
-										if (itemRemoved != null)
+										if (itemRemoved is not null)
 										{
 											anyEdits = true;
 										}
@@ -2021,7 +2021,7 @@ namespace Files.App.ViewModels
 
 									case FILE_ACTION_RENAMED_OLD_NAME:
 										var itemRenamedOld = await RemoveFileOrFolderAsync(operation.FileName);
-										if (itemRenamedOld != null)
+										if (itemRenamedOld is not null)
 										{
 											anyEdits = true;
 										}
@@ -2085,7 +2085,7 @@ namespace Files.App.ViewModels
 
 		private async Task AddFileOrFolderAsync(ListedItem item)
 		{
-			if (item == null)
+			if (item is null)
 			{
 				return;
 			}
@@ -2171,7 +2171,7 @@ namespace Files.App.ViewModels
 			{
 				storageItem = (await GetFolderFromPathAsync(item.ItemPath)).Result;
 			}
-			if (storageItem != null)
+			if (storageItem is not null)
 			{
 				CloudDriveSyncStatus? syncStatus = hasSyncStatus ? await CheckCloudDriveSyncStatusAsync(storageItem) : null;
 				long? size = null;
@@ -2217,16 +2217,16 @@ namespace Files.App.ViewModels
 				{
 					foreach (var result in results)
 					{
-						if (result != null)
+						if (result is not null)
 						{
 							var item = result.Value.Item;
 							item.ItemDateModifiedReal = result.Value.Modified;
 							item.ItemDateCreatedReal = result.Value.Created;
 
-							if (result.Value.SyncStatus != null)
+							if (result.Value.SyncStatus is not null)
 								item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(result.Value.SyncStatus.Value);
 
-							if (result.Value.Size != null)
+							if (result.Value.Size is not null)
 							{
 								item.FileSizeBytes = result.Value.Size.Value;
 								item.FileSize = item.FileSizeBytes.ToSizeString();
@@ -2256,7 +2256,7 @@ namespace Files.App.ViewModels
 			{
 				var matchingItem = filesAndFolders.FirstOrDefault(x => x.ItemPath.Equals(path, StringComparison.OrdinalIgnoreCase));
 
-				if (matchingItem != null)
+				if (matchingItem is not null)
 				{
 					filesAndFolders.Remove(matchingItem);
 
@@ -2331,7 +2331,7 @@ namespace Files.App.ViewModels
 		public void Dispose()
 		{
 			CancelLoadAndClearFiles();
-			if (Connection != null)
+			if (Connection is not null)
 			{
 				Connection.RequestReceived -= Connection_RequestReceived;
 			}

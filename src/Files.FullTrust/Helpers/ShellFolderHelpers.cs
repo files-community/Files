@@ -38,14 +38,14 @@ namespace Files.FullTrust.Helpers
 
         public static ShellFileItem GetShellFileItem(ShellItem folderItem)
         {
-            if (folderItem == null)
+            if (folderItem is null)
             {
                 return null;
             }
             bool isFolder = folderItem.IsFolder && !folderItem.Attributes.HasFlag(ShellItemAttribute.Stream);
             var parsingPath = folderItem.GetDisplayName(ShellItemDisplayString.DesktopAbsoluteParsing);
             parsingPath ??= folderItem.FileSystemPath; // True path on disk
-            if (parsingPath == null || !Path.IsPathRooted(parsingPath))
+            if (parsingPath is null || !Path.IsPathRooted(parsingPath))
             {
                 parsingPath = parsingPath switch
                 {
@@ -90,12 +90,12 @@ namespace Files.FullTrust.Helpers
 
         public static ShellLinkItem GetShellLinkItem(ShellLink linkItem)
         {
-            if (linkItem == null)
+            if (linkItem is null)
             {
                 return null;
             }
             var baseItem = GetShellFileItem(linkItem);
-            if (baseItem == null)
+            if (baseItem is null)
             {
                 return null;
             }
@@ -110,7 +110,7 @@ namespace Files.FullTrust.Helpers
 
         public static string GetParsingPath(this ShellItem item)
         {
-            if (item == null)
+            if (item is null)
             {
                 return null;
             }

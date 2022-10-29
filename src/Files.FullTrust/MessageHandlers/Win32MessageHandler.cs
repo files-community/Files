@@ -76,7 +76,7 @@ namespace Files.FullTrust.MessageHandlers
                     {
                         var watcherID = message["watcherID"].GetInt64();
                         var watcher = dirWatchers.SingleOrDefault(x => x.GetHashCode() == watcherID);
-                        if (watcher != null)
+                        if (watcher is not null)
                         {
                             dirWatchers.Remove(watcher);
                             watcher.Dispose();
@@ -103,7 +103,7 @@ namespace Files.FullTrust.MessageHandlers
                 if (e.ChangeType == WatcherChangeTypes.Created)
                 {
                     var shellFileItem = await GetShellFileItemAsync(e.FullPath);
-                    if (shellFileItem == null) return;
+                    if (shellFileItem is null) return;
                     response["Item"] = JsonSerializer.Serialize(shellFileItem);
                 }
                 else if (e.ChangeType == WatcherChangeTypes.Renamed)
@@ -126,7 +126,7 @@ namespace Files.FullTrust.MessageHandlers
                 {
                     using var folderItem = SafetyExtensions.IgnoreExceptions(() => new ShellItem(fullPath));
 
-                    if (folderItem == null)
+                    if (folderItem is null)
                         return null;
 
                     return ShellFolderExtensions.GetShellFileItem(folderItem);

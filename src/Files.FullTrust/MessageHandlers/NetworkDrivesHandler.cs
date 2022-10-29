@@ -58,7 +58,7 @@ namespace Files.FullTrust.MessageHandlers
                                 else
                                 {
                                     var linkPath = (string)item.Properties["System.Link.TargetParsingPath"];
-                                    if (linkPath != null)
+                                    if (linkPath is not null)
                                     {
                                         var linkItem = ShellFolderExtensions.GetShellFileItem(item);
                                         locations.Add(new ShellLinkItem(linkItem) { TargetPath = linkPath });

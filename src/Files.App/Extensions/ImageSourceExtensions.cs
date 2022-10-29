@@ -12,7 +12,7 @@ namespace Files.App.Extensions
     {
         internal static async Task<byte[]> ToByteArrayAsync(this IInputStream stream)
         {
-            if (stream == null)
+            if (stream is null)
             {
                 return null;
             }
@@ -23,7 +23,7 @@ namespace Files.App.Extensions
 
         internal static async Task<byte[]> ToByteArrayAsync(this StorageFile file)
         {
-            if (file == null)
+            if (file is null)
             {
                 return null;
             }

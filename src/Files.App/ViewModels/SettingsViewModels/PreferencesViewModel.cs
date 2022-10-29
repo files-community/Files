@@ -147,7 +147,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 			App.TerminalController.ModelChanged += ReloadTerminals;
 
-			if (UserSettingsService.PreferencesSettingsService.TabsOnStartupList != null)
+			if (UserSettingsService.PreferencesSettingsService.TabsOnStartupList is not null)
 				PagesOnStartupList = new ObservableCollection<PageOnStartupViewModel>(UserSettingsService.PreferencesSettingsService.TabsOnStartupList.Select((p) => new PageOnStartupViewModel(p)));
 			else
 				PagesOnStartupList = new ObservableCollection<PageOnStartupViewModel>();
@@ -306,7 +306,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			folderPicker.FileTypeFilter.Add("*");
 			StorageFolder folder = await folderPicker.PickSingleFolderAsync();
 
-			if (folder != null)
+			if (folder is not null)
 			{
 				if (SelectedPageIndex >= 0)
 					PagesOnStartupList[SelectedPageIndex] = new PageOnStartupViewModel(folder.Path);
@@ -341,11 +341,11 @@ namespace Files.App.ViewModels.SettingsViewModels
 				folderPicker.FileTypeFilter.Add("*");
 
 				var folder = await folderPicker.PickSingleFolderAsync();
-				if (folder != null)
+				if (folder is not null)
 					path = folder.Path;
 			}
 
-			if (path != null && PagesOnStartupList != null)
+			if (path is not null && PagesOnStartupList is not null)
 				PagesOnStartupList.Add(new PageOnStartupViewModel(path));
 		}
 

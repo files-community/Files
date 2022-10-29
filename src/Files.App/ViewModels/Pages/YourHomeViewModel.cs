@@ -37,12 +37,12 @@ namespace Files.App.ViewModels.Pages
             get => connection;
             set
             {
-                if (connection != null)
+                if (connection is not null)
                 {
                     connection.RequestReceived -= Connection_RequestReceived;
                 }
                 connection = value;
-                if (connection != null)
+                if (connection is not null)
                 {
                     connection.RequestReceived += Connection_RequestReceived;
                 }
@@ -117,7 +117,7 @@ namespace Files.App.ViewModels.Pages
 
         public void Dispose()
         {
-            if (bundlesViewModel != null)
+            if (bundlesViewModel is not null)
             {
                 bundlesViewModel.OpenPathEvent -= BundlesViewModel_OpenPathEvent;
                 bundlesViewModel.OpenPathInNewPaneEvent -= BundlesViewModel_OpenPathInNewPaneEvent;
@@ -125,7 +125,7 @@ namespace Files.App.ViewModels.Pages
 
             widgetsViewModel?.Dispose();
 
-            if (connection != null)
+            if (connection is not null)
             {
                 connection.RequestReceived -= Connection_RequestReceived;
             }

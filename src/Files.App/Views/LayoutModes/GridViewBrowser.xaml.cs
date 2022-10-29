@@ -147,7 +147,7 @@ namespace Files.App.Views.LayoutModes
 
 		protected override void UnhookEvents()
 		{
-			if (ItemManipulationModel == null)
+			if (ItemManipulationModel is null)
 				return;
 
 			ItemManipulationModel.FocusFileListInvoked -= ItemManipulationModel_FocusFileListInvoked;
@@ -240,7 +240,7 @@ namespace Files.App.Views.LayoutModes
 
 		private async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x != null).ToList();
+			SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
 			if (SelectedItems.Count == 1 && App.AppModel.IsQuickLookAvailable)
 			{
 				await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance, true);
@@ -250,13 +250,13 @@ namespace Files.App.Views.LayoutModes
 		override public void StartRenameItem()
 		{
 			RenamingItem = SelectedItem;
-			if (RenamingItem == null)
+			if (RenamingItem is null)
 				return;
 
 			int extensionLength = RenamingItem.FileExtension?.Length ?? 0;
 
 			GridViewItem gridViewItem = FileList.ContainerFromItem(RenamingItem) as GridViewItem;
-			if (gridViewItem == null)
+			if (gridViewItem is null)
 			{
 				return;
 			}
@@ -344,7 +344,7 @@ namespace Files.App.Views.LayoutModes
 
         private void EndRename(TextBox textBox)
         {
-            if (textBox == null || textBox.Parent == null)
+            if (textBox is null || textBox.Parent is null)
             {
                 // Navigating away, do nothing
             }
@@ -389,7 +389,7 @@ namespace Files.App.Views.LayoutModes
                     var folders = ParentShellPageInstance?.SlimContentPage.SelectedItems?.Where(file => file.PrimaryItemAttribute == StorageItemTypes.Folder);
                     foreach (ListedItem? folder in folders)
                     {
-                        if (folder != null)
+                        if (folder is not null)
                             await NavigationHelpers.OpenPathInNewTab(folder.ItemPath);
                     }
                 }
@@ -435,7 +435,7 @@ namespace Files.App.Views.LayoutModes
 
 		protected override void Page_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
 		{
-			if (ParentShellPageInstance == null)
+			if (ParentShellPageInstance is null)
 				return;
 
 			if (ParentShellPageInstance.CurrentPageType == typeof(GridViewBrowser) && !IsRenamingItem)
@@ -446,7 +446,7 @@ namespace Files.App.Views.LayoutModes
 					|| focusedElement is Button
 					|| focusedElement is TextBox
 					|| focusedElement is PasswordBox
-					|| DependencyObjectHelpers.FindParent<ContentDialog>(focusedElement) != null)
+					|| DependencyObjectHelpers.FindParent<ContentDialog>(focusedElement) is not null)
 				{
 					return;
 				}
@@ -477,7 +477,7 @@ namespace Files.App.Views.LayoutModes
 			foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
 			{
 				listedItem.ItemPropertiesInitialized = false;
-				if (FileList.ContainerFromItem(listedItem) == null)
+				if (FileList.ContainerFromItem(listedItem) is null)
 					return;
 
 				await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, currentIconSize);
@@ -508,7 +508,7 @@ namespace Files.App.Views.LayoutModes
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 
 			var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
-			if (item == null)
+			if (item is null)
 				return;
 
 			// Skip code if the control or shift key is pressed or if the user is using multiselect
@@ -516,7 +516,7 @@ namespace Files.App.Views.LayoutModes
 				return;
 
 			// Check if the setting to open items with a single click is turned on
-			if (item != null
+			if (item is not null
 				&& UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 			{
 				ResetRenameDoubleClick();

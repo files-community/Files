@@ -69,9 +69,9 @@ namespace Files.App.Helpers.LayoutPreferences
             var col = db.GetCollection<LayoutDbPrefs>("layoutprefs");
 
             var tmp = _FindPreferences(filePath, frn);
-            if (tmp == null)
+            if (tmp is null)
             {
-                if (prefs != null)
+                if (prefs is not null)
                 {
                     // Insert new tagged file (Id will be auto-incremented)
                     var newPref = new LayoutDbPrefs()
@@ -87,7 +87,7 @@ namespace Files.App.Helpers.LayoutPreferences
             }
             else
             {
-                if (prefs != null)
+                if (prefs is not null)
                 {
                     // Update file tag
                     tmp.Prefs = prefs;
@@ -111,12 +111,12 @@ namespace Files.App.Helpers.LayoutPreferences
             // Get a collection (or create, if doesn't exist)
             var col = db.GetCollection<LayoutDbPrefs>("layoutprefs");
 
-            if (filePath != null)
+            if (filePath is not null)
             {
                 var tmp = col.FindOne(x => x.FilePath == filePath);
-                if (tmp != null)
+                if (tmp is not null)
                 {
-                    if (frn != null)
+                    if (frn is not null)
                     {
                         // Keep entry updated
                         tmp.Frn = frn;
@@ -125,12 +125,12 @@ namespace Files.App.Helpers.LayoutPreferences
                     return tmp;
                 }
             }
-            if (frn != null)
+            if (frn is not null)
             {
                 var tmp = col.FindOne(x => x.Frn == frn);
-                if (tmp != null)
+                if (tmp is not null)
                 {
-                    if (filePath != null)
+                    if (filePath is not null)
                     {
                         // Keep entry updated
                         tmp.FilePath = filePath;

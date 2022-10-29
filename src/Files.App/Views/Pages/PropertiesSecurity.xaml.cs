@@ -54,7 +54,7 @@ namespace Files.App.Views
 
         public async override Task<bool> SaveChangesAsync(ListedItem item)
         {
-            if (SecurityProperties != null)
+            if (SecurityProperties is not null)
             {
                 return SecurityProperties.SetFilePermissions();
             }
@@ -65,7 +65,7 @@ namespace Files.App.Views
         {
             base.Properties_Loaded(sender, e);
 
-            if (SecurityProperties != null)
+            if (SecurityProperties is not null)
             {
                 SecurityProperties.GetFilePermissions();
             }
@@ -78,14 +78,14 @@ namespace Files.App.Views
 
         private void OpenAdvancedProperties()
         {
-            if (SecurityProperties == null)
+            if (SecurityProperties is null)
             {
                 return;
             }
 
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
-                if (propsView == null)
+                if (propsView is null)
                 {
                     var frame = new Frame();
                     frame.RequestedTheme = ThemeHelper.RootTheme;
@@ -146,7 +146,7 @@ namespace Files.App.Views
             sender.Destroying -= AppWindow_Destroying;
             propsView = null;
 
-            if (SecurityProperties != null)
+            if (SecurityProperties is not null)
             {
                 await DispatcherQueue.EnqueueAsync(() => SecurityProperties.GetFilePermissions()); // Reload permissions
             }

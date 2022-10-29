@@ -82,7 +82,7 @@ namespace Files.FullTrust.MessageHandlers
                 if (e.ChangeType == WatcherChangeTypes.Created)
                 {
                     using var folderItem = SafetyExtensions.IgnoreExceptions(() => new ShellItem(e.FullPath));
-                    if (folderItem == null) return;
+                    if (folderItem is null) return;
                     var shellFileItem = ShellFolderExtensions.GetShellFileItem(folderItem);
                     response["Item"] = JsonSerializer.Serialize(shellFileItem);
                 }

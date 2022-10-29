@@ -32,7 +32,7 @@ namespace Files.App.UserControls.Widgets
         private byte[] thumbnailData;
 
         public DriveItem Item { get; private set; }
-        public bool HasThumbnail => thumbnail != null && thumbnailData != null;
+        public bool HasThumbnail => thumbnail is not null && thumbnailData is not null;
         public BitmapImage Thumbnail
         {
             get => thumbnail;
@@ -46,17 +46,17 @@ namespace Files.App.UserControls.Widgets
 
         public async Task LoadCardThumbnailAsync()
         {
-            if (thumbnailData == null || thumbnailData.Length == 0)
+            if (thumbnailData is null || thumbnailData.Length == 0)
             {
                 // Try load thumbnail using ListView mode
                 thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.Path, Convert.ToUInt32(Constants.Widgets.WidgetIconSize), Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
             }
-            if (thumbnailData == null || thumbnailData.Length == 0)
+            if (thumbnailData is null || thumbnailData.Length == 0)
             {
                 // Thumbnail is still null, use DriveItem icon (loaded using SingleItem mode)
                 thumbnailData = Item.IconData;
             }
-            if (thumbnailData != null && thumbnailData.Length > 0)
+            if (thumbnailData is not null && thumbnailData.Length > 0)
             {
                 // Thumbnail data is valid, set the item icon
                 Thumbnail = await App.Window.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize));
@@ -284,7 +284,7 @@ namespace Files.App.UserControls.Widgets
         private async void MapNetworkDrive_Click(object sender, RoutedEventArgs e)
         {
             var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
+            if (connection is not null)
             {
                 await connection.SendMessageAsync(new ValueSet()
                 {
@@ -299,7 +299,7 @@ namespace Files.App.UserControls.Widgets
         {
             var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
             var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
+            if (connection is not null)
             {
                 await connection.SendMessageAsync(new ValueSet()
                 {
@@ -321,7 +321,7 @@ namespace Files.App.UserControls.Widgets
             if (drivePath is not null)
             {
                 var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => drivePath.StartsWith(x.Path, StringComparison.Ordinal));
-                if (matchingDrive != null && matchingDrive.Type == DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
+                if (matchingDrive is not null && matchingDrive.Type == DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
                 {
                     bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalizedResource(), string.Format("InsertDiscDialog/Text".GetLocalizedResource(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalizedResource(), "Close".GetLocalizedResource());
                     if (ejectButton)

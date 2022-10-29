@@ -44,7 +44,7 @@ namespace Files.App.ViewModels.Properties
 
 		public override void GetBaseProperties()
 		{
-			if (Item == null)
+			if (Item is null)
 				return;
 
 			ViewModel.ItemName = Item.Name;
@@ -106,7 +106,7 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.ItemSize = Item.FileSizeBytes.ToLongSizeString();
 
 			var fileIconData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.ItemPath, 80, Windows.Storage.FileProperties.ThumbnailMode.DocumentsView, false);
-			if (fileIconData != null)
+			if (fileIconData is not null)
 			{
 				ViewModel.IconData = fileIconData;
 				ViewModel.LoadUnknownTypeGlyph = false;
@@ -129,7 +129,7 @@ namespace Files.App.ViewModels.Properties
 			BaseStorageFile file = await AppInstance.FilesystemViewModel.GetFileFromPathAsync(filePath);
 
 			// Couldn't access the file and can't load any other properties
-			if (file == null)
+			if (file is null)
 				return;
 
 			// Can't load any other properties
@@ -146,14 +146,14 @@ namespace Files.App.ViewModels.Properties
 				}
 			}
 
-			if (file.Properties != null)
+			if (file.Properties is not null)
 				GetOtherProperties(file.Properties);
 		}
 
 		public async void GetSystemFileProperties()
 		{
 			BaseStorageFile file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(Item.ItemPath));
-			if (file == null)
+			if (file is null)
 			{
 				// Could not access file, can't show any other property
 				return;
@@ -165,13 +165,13 @@ namespace Files.App.ViewModels.Properties
 																						   (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
 
 			var query = list
-				.Where(fileProp => !(fileProp.Value == null && fileProp.IsReadOnly))
+				.Where(fileProp => !(fileProp.Value is null && fileProp.IsReadOnly))
 				.GroupBy(fileProp => fileProp.SectionResource)
 				.Select(group => new FilePropertySection(group) { Key = group.Key })
-				.Where(section => !section.All(fileProp => fileProp.Value == null))
+				.Where(section => !section.All(fileProp => fileProp.Value is null))
 				.OrderBy(group => group.Priority);
 			ViewModel.PropertySections = new ObservableCollection<FilePropertySection>(query);
-			ViewModel.FileProperties = new ObservableCollection<FileProperty>(list.Where(i => i.Value != null));
+			ViewModel.FileProperties = new ObservableCollection<FileProperty>(list.Where(i => i.Value is not null));
 		}
 
 		public static async Task<string> GetAddressFromCoordinatesAsync(double? Lat, double? Lon)
@@ -207,7 +207,7 @@ namespace Files.App.ViewModels.Properties
 			BaseStorageFile file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(Item.ItemPath));
 			
 			// Couldn't access the file to save properties
-			if (file == null)
+			if (file is null)
 				return;
 
 			var failedProperties = "";
@@ -222,7 +222,7 @@ namespace Files.App.ViewModels.Properties
 
 						try
 						{
-							if (file.Properties != null)
+							if (file.Properties is not null)
 							{
 								await file.Properties.SavePropertiesAsync(newDict);
 							}
@@ -250,7 +250,7 @@ namespace Files.App.ViewModels.Properties
 			var failedProperties = new List<string>();
 			BaseStorageFile file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(Item.ItemPath));
 			
-			if (file == null)
+			if (file is null)
 				return;
 
 			foreach (var group in ViewModel.PropertySections)
@@ -264,7 +264,7 @@ namespace Files.App.ViewModels.Properties
 
 						try
 						{
-							if (file.Properties != null)
+							if (file.Properties is not null)
 							{
 								await file.Properties.SavePropertiesAsync(newDict);
 							}
@@ -334,13 +334,13 @@ namespace Files.App.ViewModels.Properties
         {
             HashAlgorithmProvider algorithmProvider = HashAlgorithmProvider.OpenAlgorithm(nameOfAlg);
             BaseStorageFile file = await StorageHelpers.ToStorageItem<BaseStorageFile>((fileItem as ShortcutItem)?.TargetPath ?? fileItem.ItemPath);
-            if (file == null)
+            if (file is null)
             {
                 return "";
             }
 
             Stream stream = await FilesystemTasks.Wrap(() => file.OpenStreamForReadAsync());
-            if (stream == null)
+            if (stream is null)
             {
                 return "";
             }

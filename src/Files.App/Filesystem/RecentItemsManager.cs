@@ -54,7 +54,7 @@ namespace Files.App.Filesystem
         {
             // enumerate with fulltrust process
             List<RecentItem> enumeratedFiles = await ListRecentFilesAsync();
-            if (enumeratedFiles != null)
+            if (enumeratedFiles is not null)
             {
                 lock (recentFiles)
                 {
@@ -76,7 +76,7 @@ namespace Files.App.Filesystem
         {
             // enumerate with fulltrust process
             var enumeratedFolders = await Task.Run(() => ListRecentFolders());
-            if (enumeratedFolders != null)
+            if (enumeratedFolders is not null)
             {
                 lock (recentFolders)
                 {
