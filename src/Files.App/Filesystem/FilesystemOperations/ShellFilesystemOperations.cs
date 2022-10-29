@@ -97,7 +97,7 @@ namespace Files.App.Filesystem
             if (sourceRename.Any())
             {
                 var resultItem = await FileOperationsHelpers.CopyItemAsync(sourceRename.Select(s => s.Path).ToArray(), destinationRename.ToArray(), false, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID);
-                
+
                 result &= (FilesystemResult)resultItem.Item1;
 
                 copyResult.Items.AddRange(resultItem.Item2?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
@@ -348,11 +348,11 @@ namespace Files.App.Filesystem
             EventHandler<Dictionary<string, JsonElement>> handler = (s, e) => OnProgressUpdated(s, e, operationID, progress);
             connection.RequestReceived += handler;
 
-            var (success, deleteResult) = await FileOperationsHelpers.DeleteItemAsync(deleleFilePaths.ToArray(), permanently, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID);
-            
+            var (success, response) = await FileOperationsHelpers.DeleteItemAsync(deleleFilePaths.ToArray(), permanently, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID);
+
             var result = (FilesystemResult)success;
-            var shellOpResult = deleteResult;
-            deleteResult.Items.AddRange(shellOpResult?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
+            var deleteResult = new ShellOperationResult();
+            deleteResult.Items.AddRange(response?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
 
             if (connection != null)
             {
