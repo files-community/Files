@@ -3,7 +3,7 @@ using System;
 
 namespace Files.App.ServicesImplementation.DateTimeFormatter
 {
-    internal class ApplicationDateTimeFormatter : AbstractDateTimeFormatter
+	internal class ApplicationDateTimeFormatter : AbstractDateTimeFormatter
     {
         public override string Name => "Application".GetLocalizedResource();
 
@@ -18,7 +18,7 @@ namespace Files.App.ServicesImplementation.DateTimeFormatter
 
             return elapsed switch
             {
-                { TotalDays: >= 7 } => offset.ToLocalTime().ToString("D"),
+                { TotalDays: >= 7 } => ToString(offset, "D"),
                 { TotalDays: >= 2 } => string.Format("DaysAgo".GetLocalizedResource(), elapsed.Days),
                 { TotalDays: >= 1 } => string.Format("DayAgo".GetLocalizedResource(), elapsed.Days),
                 { TotalHours: >= 2 } => string.Format("HoursAgo".GetLocalizedResource(), elapsed.Hours),

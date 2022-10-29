@@ -1,13 +1,14 @@
-using Files.Shared.Services.DateTimeFormatter;
 using Files.App.Extensions;
+using Files.Shared.Services.DateTimeFormatter;
 using System;
 using System.Globalization;
+using Windows.Globalization;
 
 namespace Files.App.ServicesImplementation.DateTimeFormatter
 {
-    internal abstract class AbstractDateTimeFormatter : IDateTimeFormatter
+	internal abstract class AbstractDateTimeFormatter : IDateTimeFormatter
     {
-        private readonly Calendar calendar = new CultureInfo(CultureInfo.CurrentUICulture.Name).Calendar;
+        private static readonly CultureInfo cultureInfo = new(ApplicationLanguages.PrimaryLanguageOverride);
 
         public abstract string Name { get; }
 
@@ -36,10 +37,12 @@ namespace Files.App.ServicesImplementation.DateTimeFormatter
             };
         }
 
-        private int GetWeekOfYear(DateTimeOffset t)
+        protected static string ToString(DateTimeOffset offset, string format) => offset.ToLocalTime().ToString(format, cultureInfo);
+
+        private static int GetWeekOfYear(DateTimeOffset t)
         {
             // Should we use the system setting for the first day of week in the future?
-            return calendar.GetWeekOfYear(t.DateTime, CalendarWeekRule.FirstDay, DayOfWeek.Sunday);
+            return cultureInfo.Calendar.GetWeekOfYear(t.DateTime, CalendarWeekRule.FirstDay, System.DayOfWeek.Sunday);
         }
 
         private class Label : ITimeSpanLabel
