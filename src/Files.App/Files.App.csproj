@@ -29,10 +29,12 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <DefineConstants>TRACE;RELEASE;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
+    <PublishReadyToRun>true</PublishReadyToRun>
     <Optimize>true</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Sideload'">
     <DefineConstants>TRACE;SIDELOAD;RELEASE;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
+    <PublishReadyToRun>true</PublishReadyToRun>
     <Optimize>true</Optimize>
   </PropertyGroup>
   <ItemGroup>
