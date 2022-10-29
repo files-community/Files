@@ -6,7 +6,7 @@ pool:
 
 variables:
   solution: '**/*.sln'
-  buildPlatform: 'x86|x64|ARM64'
+  buildPlatform: 'x64'
   buildConfiguration: 'Debug'
   appxPackageDir: '$(build.artifactStagingDirectory)\AppxPackages\\'
 
@@ -21,6 +21,16 @@ steps:
       $xmlDoc.Package.Properties.DisplayName="Files"
       $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files"
       $xmlDoc.Save('$(Build.SourcesDirectory)\src\Files.App (Package)\Package.appxmanifest')
+    failOnStderr: true
+
+- task: PowerShell@2
+  displayName: 'Use Release Logo'
+  inputs:
+    targetType: 'inline'
+    script: |
+      gci $(Build.SourcesDirectory)\src -Include *.csproj, *.appxmanifest, *.wapproj -recurse | ForEach -Process {
+      (Get-Content $_ -Raw | ForEach -Process {$_ -replace "Assets\\AppTilesDev", "Assets\AppTiles"}) | Set-Content $_ -NoNewline
+      }
     failOnStderr: true
 
 - task: DownloadSecureFile@1
@@ -59,7 +69,6 @@ steps:
   inputs:
     script: |
       for /f %%a in ('dir /b /a:d %localappdata%\Microsoft\VisualStudio\17*') do echo UsePreviews=True>%localappdata%\Microsoft\VisualStudio\%%a\sdk.txt
-
 - task: NuGetToolInstaller@1
 
 - task: NuGetCommand@2
@@ -71,7 +80,7 @@ steps:
 - task: MSBuild@1
   inputs:
     platform: 'x64'
-    solution: '$(Build.SourcesDirectory)\src\Files.App (Package)\Files.App (Package).wapproj'
+    solution: '**/*.wapproj'
     configuration: '$(buildConfiguration)'
     msbuildArguments: '/t:build;_GenerateAppxPackage /p:Configuration=Debug;Platform="$(buildPlatform)";AppxBundle=Always;AppxBundlePlatforms="$(buildPlatform)";AppxPackageDir="$(appxPackageDir)";AppxPackageSigningEnabled=true;UapAppxPackageBuildMode=SideloadOnly;PackageCertificateKeyFile="$(Build.SourcesDirectory)\builds\Files_SelfSigned.pfx";PackageCertificatePassword="";PackageCertificateThumbprint=""'
     maximumCpuCount: true
@@ -107,7 +116,7 @@ steps:
 #  inputs:
 #    testSelector: 'testAssemblies'
 #    testAssemblyVer2: |
-#      **\$(buildConfiguration)\Files.InteractionTests\net6.0\Files.InteractionTests.dll
+#      **\$(buildConfiguration)\Files.InteractionTests\net7.0\Files.InteractionTests.dll
 #      !**\*TestAdapter.dll
 #      !**\obj\**
 #    searchFolder: '$(System.DefaultWorkingDirectory)'

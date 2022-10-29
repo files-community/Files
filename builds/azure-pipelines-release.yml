@@ -39,7 +39,7 @@ variables:
 - name: solution
   value: '**/*.sln'
 - name: buildPlatform
-  value: 'x64|ARM64'
+  value: 'x64'
 - name: buildConfiguration
   value: 'Release'
 - name: sideloadBuildConfiguration
@@ -113,7 +113,6 @@ jobs:
     inputs:
       script: |
         for /f %%a in ('dir /b /a:d %localappdata%\Microsoft\VisualStudio\17*') do echo UsePreviews=True>%localappdata%\Microsoft\VisualStudio\%%a\sdk.txt
-
   - task: NuGetToolInstaller@1
 
   - task: NuGetCommand@2
@@ -130,7 +129,7 @@ jobs:
 
   - task: MSBuild@1
     inputs:
-      solution: '$(Build.SourcesDirectory)\src\Files.App (Package)\Files.App (Package).wapproj'
+      solution: '**/*.wapproj'
       platform: 'x64'
       configuration: '$(sideloadBuildConfiguration)'
       msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxLogTelemetryFromSideloadingScript=False /p:GenerateAppInstallerFile=True /p:AppInstallerUri=https://cdn.files.community/files/${{parameters.releaseBranch}}/ /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=Sideload /p:AppxPackageSigningEnabled=true /p:PackageCertificateKeyFile="$(caCertificate.secureFilePath)" /p:PackageCertificatePassword="$(signingCert.password)" /p:PackageCertificateThumbprint=""'
@@ -173,15 +172,13 @@ jobs:
         $xmlDoc.Package.Identity.Publisher="CN=53EC4384-7F5B-4CF6-8C23-513FFE9D1AB7"
         $xmlDoc.Package.Properties.DisplayName="Files"
         $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files"
-
         # Removes packageManagement from Store release
         $nsmgr = New-Object System.Xml.XmlNamespaceManager($xmlDoc.NameTable)
         $nsmgr.AddNamespace("pkg", "http://schemas.microsoft.com/appx/manifest/foundation/windows10")
         $nsmgr.AddNamespace("rescap", "http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities")
         $pm = $xmlDoc.SelectSingleNode("/pkg:Package/pkg:Capabilities/rescap:Capability[@Name='packageManagement']", $nsmgr)
         $xmlDoc.Package.Capabilities.RemoveChild($pm)
-
-        $xmlDoc.Save('$(Build.SourcesDirectory)\src\Files.App (Package)\App.appxmanifest')
+        $xmlDoc.Save('$(Build.SourcesDirectory)\src\Files.App (Package)\Package.appxmanifest')
       failOnStderr: true
 
  # This replaces references to the dev icon with the specified icon variant 
@@ -233,7 +230,6 @@ jobs:
     inputs:
       script: |
         for /f %%a in ('dir /b /a:d %localappdata%\Microsoft\VisualStudio\17*') do echo UsePreviews=True>%localappdata%\Microsoft\VisualStudio\%%a\sdk.txt
-
   - task: NuGetToolInstaller@1
 
   - task: NuGetCommand@2
@@ -244,7 +240,7 @@ jobs:
 
   - task: MSBuild@1
     inputs:
-      solution: '$(Build.SourcesDirectory)\src\Files.App (Package)\Files.App (Package).wapproj'
+      solution: '**/*.wapproj'
       platform: 'x64'
       configuration: '$(buildConfiguration)'
       msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
