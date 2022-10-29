@@ -13,7 +13,7 @@
     <GenerateTestArtifacts>False</GenerateTestArtifacts>
     <AppxBundle>Always</AppxBundle>
     <DisableXbfLineInfo>False</DisableXbfLineInfo>
-    <AppxBundlePlatforms>x64</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x86|x64|arm64</AppxBundlePlatforms>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <Nullable>Enable</Nullable>
     <ApplicationManifest>app.manifest</ApplicationManifest>
