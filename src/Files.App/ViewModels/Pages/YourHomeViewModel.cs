@@ -1,16 +1,16 @@
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Files.App.EventArguments.Bundles;
 using Files.App.Helpers;
 using Files.App.ViewModels.Widgets;
 using Files.App.ViewModels.Widgets.Bundles;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using System;
-using System.Windows.Input;
-using Microsoft.UI.Xaml;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 using Files.Shared.Extensions;
+using Microsoft.UI.Xaml;
+using System;
+using System.Collections.Generic;
 using System.Text.Json;
+using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Files.App.ViewModels.Pages
 {
