@@ -12,7 +12,6 @@ using Files.Sdk.Storage.ModifiableStorage;
 using Files.Shared.Helpers;
 using FluentFTP;
 
-#nullable enable
 
 namespace Files.App.Storage.FtpStorage
 {

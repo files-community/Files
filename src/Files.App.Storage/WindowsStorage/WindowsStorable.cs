@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Files.Sdk.Storage;
 
-#nullable enable
 
 namespace Files.App.Storage.WindowsStorage
 {

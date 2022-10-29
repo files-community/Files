@@ -2,7 +2,6 @@
 using CommunityToolkit.Mvvm.Input;
 using Files.Backend.SecureStore;
 
-#nullable enable
 
 namespace Files.Backend.ViewModels.Dialogs
 {

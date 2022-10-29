@@ -6,7 +6,6 @@ using Files.Sdk.Storage.LocatableStorage;
 using Files.Sdk.Storage.Services;
 using FluentFTP;
 
-#nullable enable
 
 namespace Files.App.Storage.FtpStorage
 {

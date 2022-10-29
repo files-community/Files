@@ -38,7 +38,6 @@ using Windows.System;
 using Windows.UI.Core;
 using SortDirection = Files.Shared.Enums.SortDirection;
 
-#nullable enable
 
 namespace Files.App.Views
 {
