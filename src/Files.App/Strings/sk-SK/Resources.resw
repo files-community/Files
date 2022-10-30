@@ -2467,7 +2467,7 @@
     <value>Značka súboru</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Open items with a single click</value>
+    <value>Otvoriť položky jedným kliknutím</value>
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
     <value>Cesta k priečinku: </value>
@@ -2596,7 +2596,7 @@
     <value>Zadajte názov knižnice</value>
   </data>
   <data name="CalculateFolderSizes" xml:space="preserve">
-    <value>Calculate folder sizes</value>
+    <value>Vypočítať veľkosti priečinka</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
     <value>Naposledy otvorené súbory</value>
@@ -2812,22 +2812,22 @@
     <value>Otváranie položiek</value>
   </data>
   <data name="AddSingleItemToArchive" xml:space="preserve">
-    <value>Add to {0}.zip</value>
+    <value>Pridať do {0}.zip</value>
   </data>
   <data name="AddToArchive" xml:space="preserve">
-    <value>Add to archive</value>
+    <value>Pridať do archívu</value>
   </data>
   <data name="CompressionCompleted" xml:space="preserve">
-    <value>Compression completed</value>
+    <value>Kompresia dokončená</value>
   </data>
   <data name="CompressionSucceded" xml:space="preserve">
-    <value>{0} has been compressed</value>
+    <value>{0} bolo skomprimované</value>
   </data>
   <data name="CompressionFailed" xml:space="preserve">
-    <value>{0} couldn't be compressed</value>
+    <value>{0} nemohlo byť skomprimované</value>
   </data>
   <data name="CompressionInProgress" xml:space="preserve">
-    <value>Compressing archive</value>
+    <value>Komprimovanie archívu</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Vybrať súbory a priečinky, keď na ne umiestnite kurzor myši</value>
@@ -2851,9 +2851,9 @@
     <value>Obnoviť</value>
   </data>
   <data name="ShortcutCannotBeOpened" xml:space="preserve">
-    <value>Shortcut cannot be opened</value>
+    <value>Odkaz nemôže byť otvorený</value>
   </data>
   <data name="DeleteShortcutDescription" xml:space="preserve">
-    <value>The target destination cannot be found {0}. Do you want to delete this shortcut?</value>
+    <value>Cieľová destinácia nebola nájdená {0}. Chcete zmazať tento odkaz?</value>
   </data>
 </root>
