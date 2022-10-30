@@ -2860,7 +2860,7 @@
     <value>Emptying recycle bin</value>
   </data>
   <data name="BinEmptyingSucceded" xml:space="preserve">
-    <value>Recyle bin has been emptied</value>
+    <value>Successfully emptied recycle bin</value>
   </data>
   <data name="BinEmptyingFailed" xml:space="preserve">
     <value>Failed to empty recycle bin</value>
