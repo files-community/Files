@@ -251,6 +251,17 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
+		private bool _loadingTheme;
+		public bool LoadingTheme
+		{
+			get => _loadingTheme;
+			set
+			{
+				_loadingTheme = value;
+				OnPropertyChanged();
+            }
+        }
+
 		public Task OpenThemesFolder()
 		{
 			//await CoreApplication.MainView.Dispatcher.YieldAsync(); // WINUI3
