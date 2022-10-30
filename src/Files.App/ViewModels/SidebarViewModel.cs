@@ -88,7 +88,7 @@ namespace Files.App.ViewModels
 			INavigationControlItem? item = null;
 			List<INavigationControlItem> sidebarItems = SideBarItems
 				.Where(x => !string.IsNullOrWhiteSpace(x.Path))
-				.Concat(SideBarItems.Where(x => (x as LocationItem)?.ChildItems != null).SelectMany(x => ((LocationItem)x).ChildItems).Where(x => !string.IsNullOrWhiteSpace(x.Path)))
+				.Concat(SideBarItems.Where(x => (x as LocationItem)?.ChildItems is not null).SelectMany(x => ((LocationItem)x).ChildItems).Where(x => !string.IsNullOrWhiteSpace(x.Path)))
 				.ToList();
 
 			if (string.IsNullOrEmpty(value))
@@ -101,7 +101,7 @@ namespace Files.App.ViewModels
 			item ??= sidebarItems.FirstOrDefault(x => x.Path.Equals(value + "\\", StringComparison.OrdinalIgnoreCase));
 			item ??= sidebarItems.FirstOrDefault(x => value.StartsWith(x.Path, StringComparison.OrdinalIgnoreCase));
 			item ??= sidebarItems.FirstOrDefault(x => x.Path.Equals(Path.GetPathRoot(value), StringComparison.OrdinalIgnoreCase));
-			if (item == null && value == "Home".GetLocalizedResource())
+			if (item is null && value == "Home".GetLocalizedResource())
 				item = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home".GetLocalizedResource()));
 
 			if (SidebarSelectedItem != item)
@@ -268,7 +268,7 @@ namespace Files.App.ViewModels
 
 		private async Task SyncSidebarItems(LocationItem section, Func<IReadOnlyList<INavigationControlItem>> getElements, NotifyCollectionChangedEventArgs e)
 		{
-			if (section == null)
+			if (section is null)
 			{
 				return;
 			}
@@ -317,7 +317,7 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		private bool IsLibraryOnSidebar(LibraryLocationItem item) => item != null && !item.IsEmpty && item.IsDefaultLocation;
+		private bool IsLibraryOnSidebar(LibraryLocationItem item) => item is not null && !item.IsEmpty && item.IsDefaultLocation;
 
 		private async Task AddElementToSection(INavigationControlItem elem, LocationItem section, int index = -1)
 		{
@@ -463,9 +463,9 @@ namespace Files.App.ViewModels
 					}
 			}
 
-			if (section != null)
+			if (section is not null)
 			{
-				if (icon != null)
+				if (icon is not null)
 				{
 					section.Icon = icon;
 				}

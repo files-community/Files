@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
-#nullable enable
 
 namespace Files.Backend.ViewModels.Dialogs.AddItemDialog
 {
@@ -66,7 +65,7 @@ namespace Files.Backend.ViewModels.Dialogs.AddItemDialog
                 {
                     Header = itemType.Name,
                     SubHeader = itemType.Extension,
-                    Glyph = imageModel != null ? null : "\xE8A5",
+                    Glyph = imageModel is not null ? null : "\xE8A5",
                     Icon = imageModel,
                     IsItemEnabled = true,
                     ItemResult = new AddItemDialogResultModel()

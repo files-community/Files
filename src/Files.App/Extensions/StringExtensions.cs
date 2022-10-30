@@ -33,7 +33,7 @@ namespace Files.App.Extensions
         /// <example>"hel".WithEnding("llo") returns "hello", which is the result of "hel" + "lo".</example>
         public static string WithEnding(this string str, string ending)
         {
-            if (str == null)
+            if (str is null)
             {
                 return ending;
             }

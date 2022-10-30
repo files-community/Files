@@ -4,7 +4,6 @@ using Files.Shared.Extensions;
 
 using static Files.App.Helpers.NativeFileOperationsHelper;
 
-#nullable enable
 
 namespace Files.App.Serialization.Implementation
 {

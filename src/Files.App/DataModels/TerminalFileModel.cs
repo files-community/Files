@@ -20,7 +20,7 @@ namespace Files.App.DataModels
         public Terminal GetDefaultTerminal()
         {
             Terminal terminal = Terminals.FirstOrDefault(x => x.Name.Equals(DefaultTerminalName, StringComparison.OrdinalIgnoreCase));
-            if (terminal != null)
+            if (terminal is not null)
             {
                 return terminal;
             }
@@ -49,7 +49,7 @@ namespace Files.App.DataModels
         public void RemoveTerminal(Terminal terminal)
         {
             Terminal? existingTerminal = Terminals.FirstOrDefault(x => x.Name.Equals(terminal.Name, StringComparison.OrdinalIgnoreCase));
-            if (existingTerminal != null && Terminals.Remove(existingTerminal))
+            if (existingTerminal is not null && Terminals.Remove(existingTerminal))
             {
                 if (string.IsNullOrWhiteSpace(DefaultTerminalName) ||
 					DefaultTerminalName.Equals(terminal.Name, StringComparison.OrdinalIgnoreCase))

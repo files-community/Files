@@ -136,7 +136,7 @@ namespace Files.App.Helpers
                     createTcs.TrySetResult(false);
                 }
 
-                if (dataBytes != null && (shellOperationResult.Items.SingleOrDefault()?.Succeeded ?? false))
+                if (dataBytes is not null && (shellOperationResult.Items.SingleOrDefault()?.Succeeded ?? false))
                 {
                     SafetyExtensions.IgnoreExceptions(() =>
                     {
@@ -407,7 +407,7 @@ namespace Files.App.Helpers
                     {
                         Succeeded = e.Result.Succeeded,
                         Source = e.SourceItem.GetParsingPath(),
-                        Destination = e.DestFolder.GetParsingPath() != null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.GetParsingPath(), e.Name) : null,
+                        Destination = e.DestFolder.GetParsingPath() is not null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.GetParsingPath(), e.Name) : null,
                         HResult = (int)e.Result
                     });
                 };
@@ -483,7 +483,7 @@ namespace Files.App.Helpers
                     {
                         Succeeded = e.Result.Succeeded,
                         Source = e.SourceItem.GetParsingPath(),
-                        Destination = e.DestFolder.GetParsingPath() != null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.GetParsingPath(), e.Name) : null,
+                        Destination = e.DestFolder.GetParsingPath() is not null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.GetParsingPath(), e.Name) : null,
                         HResult = (int)e.Result
                     });
                 };
@@ -520,7 +520,7 @@ namespace Files.App.Helpers
         {
             var processes = SafetyExtensions.IgnoreExceptions(() => FileUtils.WhoIsLocking(fileToCheckPath), App.Logger);
             
-            if (processes != null)
+            if (processes is not null)
             {
                 var win32proc = processes.Select(x => new Win32Process()
                 {
@@ -673,7 +673,7 @@ namespace Files.App.Helpers
             => SafetyExtensions.IgnoreExceptions(() =>
             {
                 using var compatKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers");
-                if (compatKey == null)
+                if (compatKey is null)
                 {
                     return null;
                 }
@@ -723,10 +723,10 @@ namespace Files.App.Helpers
                 {
                     "delete" => e.DestItem.GetParsingPath(),
                     "rename" => !string.IsNullOrEmpty(e.Name) ? Path.Combine(Path.GetDirectoryName(sourcePath), e.Name) : null,
-                    "copy" => destPath != null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(destPath, e.Name) : null,
-                    _ => destPath != null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(destPath, e.Name) : null
+                    "copy" => destPath is not null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(destPath, e.Name) : null,
+                    _ => destPath is not null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(destPath, e.Name) : null
                 };
-                if (destination == null)
+                if (destination is null)
                 {
                     dbInstance.SetTags(sourcePath, null, null); // remove tag from deleted files
                 }
@@ -754,7 +754,7 @@ namespace Files.App.Helpers
                 if (e.Result == HRESULT.COPYENGINE_S_DONT_PROCESS_CHILDREN) // child items not processed, update manually
                 {
                     var tags = dbInstance.GetAllUnderPath(sourcePath).ToList();
-                    if (destination == null) // remove tag for items contained in the folder
+                    if (destination is null) // remove tag for items contained in the folder
                     {
                         tags.ForEach(t => dbInstance.SetTags(t.FilePath, null, null));
                     }
@@ -865,7 +865,7 @@ namespace Files.App.Helpers
 
             private void UpdateTaskbarProgress()
             {
-                if (OwnerWindow == 0 || taskbar == null)
+                if (OwnerWindow == 0 || taskbar is null)
                 {
                     return;
                 }

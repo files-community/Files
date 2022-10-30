@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
-#nullable enable
 
 namespace Files.Shared.Extensions
 {
@@ -15,10 +14,10 @@ namespace Files.Shared.Extensions
             var description = enumValue.ToString();
             var fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
 
-            if (fieldInfo != null)
+            if (fieldInfo is not null)
             {
                 var attrs = fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), true);
-                if (attrs != null && attrs.Length > 0)
+                if (attrs is not null && attrs.Length > 0)
                 {
                     description = ((DescriptionAttribute)attrs[0]).Description;
                 }

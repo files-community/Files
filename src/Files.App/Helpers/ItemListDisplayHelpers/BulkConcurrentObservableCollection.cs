@@ -8,7 +8,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 
-#nullable enable
 
 namespace Files.App.Helpers
 {
@@ -92,7 +91,7 @@ namespace Files.App.Helpers
             set
             {
                 itemGroupKeySelector = value;
-                if (value != null)
+                if (value is not null)
                     GroupedCollection ??= new BulkConcurrentObservableCollection<GroupedCollection<T>>();
                 else
                     GroupedCollection = null;

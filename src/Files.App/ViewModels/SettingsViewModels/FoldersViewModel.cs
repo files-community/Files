@@ -21,7 +21,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			ResetLayoutPreferencesCommand = new RelayCommand(ResetLayoutPreferences);
 			ShowResetLayoutPreferencesTipCommand = new RelayCommand(() => IsResetLayoutPreferencesTipOpen = true);
 
-			SelectedDefaultLayoutModeIndex = (long)DefaultLayoutMode;
+			SelectedDefaultLayoutModeIndex = (int)DefaultLayoutMode;
 		}
 
 		// Properties
@@ -33,8 +33,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 			set => SetProperty(ref isResetLayoutPreferencesTipOpen, value);
 		}
 
-		private long selectedDefaultLayoutModeIndex;
-		public long SelectedDefaultLayoutModeIndex
+		private int selectedDefaultLayoutModeIndex;
+		public int SelectedDefaultLayoutModeIndex
 		{
 			get => selectedDefaultLayoutModeIndex;
 			set

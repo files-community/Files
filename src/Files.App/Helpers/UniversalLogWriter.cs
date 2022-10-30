@@ -1,5 +1,6 @@
 using Files.Shared;
 using System;
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,15 +15,29 @@ namespace Files.App.Helpers
     /// </summary>
     public class UniversalLogWriter : ILogWriter
     {
-        private StorageFile logFile;
+        private StorageFile? logFile;
         private bool initialized = false;
+        private readonly ConcurrentQueue<string> logsBeforeInit = new();
 
         public async Task InitializeAsync(string name)
         {
             if (!initialized)
             {
-                logFile = await ApplicationData.Current.LocalFolder.CreateFileAsync(name, CreationCollisionOption.OpenIfExists);
                 initialized = true;
+                logFile = await ApplicationData.Current.LocalFolder.CreateFileAsync(name, CreationCollisionOption.OpenIfExists);
+
+                if (logsBeforeInit.Count > 0)
+                {
+                    using var stream = await logFile.OpenAsync(FileAccessMode.ReadWrite, StorageOpenOptions.AllowOnlyReaders);
+                    using var outputStream = stream.GetOutputStreamAt(stream.Size);
+                    using var dataWriter = new DataWriter(outputStream);
+                    while (logsBeforeInit.TryDequeue(out var text))
+                    {
+                        dataWriter.WriteString("\n" + text);
+                    }
+                    await dataWriter.StoreAsync();
+                    await outputStream.FlushAsync();
+                }
             }
         }
 
@@ -30,6 +45,7 @@ namespace Files.App.Helpers
         {
             if (logFile is null)
             {
+                logsBeforeInit.Enqueue(text);
                 return;
             }
             using var stream = await logFile.OpenAsync(FileAccessMode.ReadWrite, StorageOpenOptions.AllowOnlyReaders);
@@ -46,6 +62,7 @@ namespace Files.App.Helpers
         {
             if (logFile is null)
             {
+                logsBeforeInit.Enqueue(text);
                 return;
             }
             IntPtr hStream = CreateFileFromApp(logFile.Path,

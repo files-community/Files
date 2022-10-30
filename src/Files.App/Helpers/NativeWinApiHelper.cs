@@ -220,7 +220,7 @@ namespace Files.App.Helpers
         {
             get
             {
-                if (isRunningOnArm == null)
+                if (isRunningOnArm is null)
                 {
                     isRunningOnArm = IsArmProcessor();
                     App.Logger.Info("Running on ARM: {0}", isRunningOnArm);
@@ -248,7 +248,7 @@ namespace Files.App.Helpers
         {
             get
             {
-                if (isHasThreadAccessPropertyPresent == null)
+                if (isHasThreadAccessPropertyPresent is null)
                 {
                     isHasThreadAccessPropertyPresent =
                         Windows.Foundation.Metadata.ApiInformation.IsPropertyPresent(typeof(Windows.System.DispatcherQueue).FullName, "HasThreadAccess");

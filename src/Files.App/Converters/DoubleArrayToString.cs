@@ -10,7 +10,7 @@ namespace Files.App.Converters
         {
             var array = value as double[];
 
-            if (array == null)
+            if (array is null)
                 return string.Empty;
 
             var str = new StringBuilder();

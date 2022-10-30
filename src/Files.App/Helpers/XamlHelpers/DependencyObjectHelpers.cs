@@ -20,7 +20,7 @@ namespace Files.App.Helpers.XamlHelpers
                     return asType;
                 }
                 var retVal = FindChild<T>(current);
-                if (retVal != null)
+                if (retVal is not null)
                 {
                     return retVal;
                 }
@@ -43,7 +43,7 @@ namespace Files.App.Helpers.XamlHelpers
                     }
                 }
                 var retVal = FindChild<T>(current, predicate);
-                if (retVal != null)
+                if (retVal is not null)
                 {
                     return retVal;
                 }
@@ -72,12 +72,12 @@ namespace Files.App.Helpers.XamlHelpers
         public static T FindParent<T>(DependencyObject child) where T : DependencyObject
         {
             T parent = null;
-            if (child == null)
+            if (child is null)
             {
                 return parent;
             }
             DependencyObject CurrentParent = VisualTreeHelper.GetParent(child);
-            while (CurrentParent != null)
+            while (CurrentParent is not null)
             {
                 if (CurrentParent is T)
                 {

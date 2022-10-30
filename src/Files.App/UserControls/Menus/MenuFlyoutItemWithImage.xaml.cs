@@ -19,7 +19,7 @@ namespace Files.App.UserControls
 
         private static void OnBitmapIconChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            (d as MenuFlyoutItem).Icon = e.NewValue != null ? new IconSourceElement() : null;
+            (d as MenuFlyoutItem).Icon = e.NewValue is not null ? new IconSourceElement() : null;
         }
 
         public MenuFlyoutItemWithImage()

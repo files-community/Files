@@ -66,7 +66,7 @@ namespace Files.App.Views
             bundlesWidget = WidgetsHelpers.TryGetWidget<BundlesWidget>(UserSettingsService.AppearanceSettingsService, Widgets.ViewModel, out bool shouldReloadBundles, bundlesWidget);
             recentFilesWidget = WidgetsHelpers.TryGetWidget<RecentFilesWidget>(UserSettingsService.AppearanceSettingsService, Widgets.ViewModel, out bool shouldReloadRecentFiles, recentFilesWidget);
 
-            if (shouldReloadFolderWidget && folderWidget != null)
+            if (shouldReloadFolderWidget && folderWidget is not null)
             {
                 Widgets.ViewModel.InsertWidget(new(folderWidget, (value) => UserSettingsService.AppearanceSettingsService.FoldersWidgetExpanded = value, () => UserSettingsService.AppearanceSettingsService.FoldersWidgetExpanded), 0);
 
@@ -79,7 +79,7 @@ namespace Files.App.Views
                 folderWidget.LibraryCardPropertiesInvoked += FolderWidget_LibraryCardPropertiesInvoked;
                 folderWidget.FolderWidgethowMultiPaneControlsInvoked += FolderWidget_FolderWidgethowMultiPaneControlsInvoked;
             }
-            if (shouldReloadDrivesWidget && drivesWidget != null)
+            if (shouldReloadDrivesWidget && drivesWidget is not null)
             {
                 Widgets.ViewModel.InsertWidget(new(drivesWidget, (value) => UserSettingsService.AppearanceSettingsService.DrivesWidgetExpanded = value, () => UserSettingsService.AppearanceSettingsService.DrivesWidgetExpanded), 1);
 
@@ -89,12 +89,12 @@ namespace Files.App.Views
                 drivesWidget.DrivesWidgetInvoked += DrivesWidget_DrivesWidgetInvoked;
                 drivesWidget.DrivesWidgetNewPaneInvoked += DrivesWidget_DrivesWidgetNewPaneInvoked;
             }
-            if (shouldReloadBundles && bundlesWidget != null)
+            if (shouldReloadBundles && bundlesWidget is not null)
             {
                 Widgets.ViewModel.InsertWidget(new(bundlesWidget, (value) => UserSettingsService.AppearanceSettingsService.BundlesWidgetExpanded = value, () => UserSettingsService.AppearanceSettingsService.BundlesWidgetExpanded), 2);
                 ViewModel.LoadBundlesCommand.Execute(bundlesWidget.ViewModel);
             }
-            if (shouldReloadRecentFiles && recentFilesWidget != null)
+            if (shouldReloadRecentFiles && recentFilesWidget is not null)
             {
                 Widgets.ViewModel.InsertWidget(new(recentFilesWidget, (value) => UserSettingsService.AppearanceSettingsService.RecentFilesWidgetExpanded = value, () => UserSettingsService.AppearanceSettingsService.RecentFilesWidgetExpanded), 3);
 

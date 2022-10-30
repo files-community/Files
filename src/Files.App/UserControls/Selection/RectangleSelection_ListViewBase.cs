@@ -38,7 +38,7 @@ namespace Files.App.UserControls.Selection
 
         private void RectangleSelection_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            if (scrollViewer == null)
+            if (scrollViewer is null)
             {
                 return;
             }
@@ -96,10 +96,10 @@ namespace Files.App.UserControls.Selection
                     scrollViewer.ChangeView(null, verticalOffset - scrollIncrement, null, false);
                 }
 
-                if (selectionChanged != null)
+                if (selectionChanged is not null)
                 {
                     var currentSelectedItemsDrag = uiElement.SelectedItems.Cast<object>().ToList();
-                    if (prevSelectedItemsDrag == null || !prevSelectedItemsDrag.SequenceEqual(currentSelectedItemsDrag))
+                    if (prevSelectedItemsDrag is null || !prevSelectedItemsDrag.SequenceEqual(currentSelectedItemsDrag))
                     {
                         // Trigger SelectionChanged event if the selection has changed
                         selectionChanged(sender, null);
@@ -111,7 +111,7 @@ namespace Files.App.UserControls.Selection
 
         private void RectangleSelection_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            if (scrollViewer == null)
+            if (scrollViewer is null)
             {
                 return;
             }
@@ -144,7 +144,7 @@ namespace Files.App.UserControls.Selection
 
             uiElement.PointerMoved -= RectangleSelection_PointerMoved;
             uiElement.PointerMoved += RectangleSelection_PointerMoved;
-            if (selectionChanged != null)
+            if (selectionChanged is not null)
             {
                 // Unsunscribe from SelectionChanged event for performance
                 uiElement.SelectionChanged -= selectionChanged;
@@ -159,7 +159,7 @@ namespace Files.App.UserControls.Selection
             foreach (var item in uiElement.Items.ToList().Except(itemsPosition.Keys))
             {
                 var listViewItem = (FrameworkElement)uiElement.ContainerFromItem(item); // Get ListViewItem
-                if (listViewItem == null)
+                if (listViewItem is null)
                 {
                     continue; // Element is not loaded (virtualized list)
                 }
@@ -189,12 +189,12 @@ namespace Files.App.UserControls.Selection
 
             scrollViewer.ViewChanged -= ScrollViewer_ViewChanged;
             uiElement.ReleasePointerCapture(e.Pointer);
-            if (selectionChanged != null)
+            if (selectionChanged is not null)
             {
                 // Restore and trigger SelectionChanged event
                 uiElement.SelectionChanged -= selectionChanged;
                 uiElement.SelectionChanged += selectionChanged;
-                if (prevSelectedItems == null || !uiElement.SelectedItems.SequenceEqual(prevSelectedItems))
+                if (prevSelectedItems is null || !uiElement.SelectedItems.SequenceEqual(prevSelectedItems))
                 {
                     // Trigger SelectionChanged event if the selection has changed
                     selectionChanged(sender, null);
@@ -216,12 +216,12 @@ namespace Files.App.UserControls.Selection
 
         private void RectangleSelection_SizeChanged(object sender, object e)
         {
-            if (scrollViewer == null)
+            if (scrollViewer is null)
             {
                 scrollViewer = DependencyObjectHelpers.FindChild<ScrollViewer>(uiElement, sv => sv.VerticalScrollMode != ScrollMode.Disabled);
             }
 
-            if (scrollViewer != null)
+            if (scrollViewer is not null)
             {
                 uiElement.SizeChanged -= RectangleSelection_SizeChanged;
             }
@@ -242,7 +242,7 @@ namespace Files.App.UserControls.Selection
                 uiElement.PointerCanceled += RectangleSelection_PointerReleased;
 
                 scrollViewer = DependencyObjectHelpers.FindChild<ScrollViewer>(uiElement, sv => sv.VerticalScrollMode != ScrollMode.Disabled);
-                if (scrollViewer == null)
+                if (scrollViewer is null)
                 {
                     uiElement.SizeChanged += RectangleSelection_SizeChanged;
                 }

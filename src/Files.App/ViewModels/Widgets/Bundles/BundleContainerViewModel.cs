@@ -140,7 +140,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
             StorageFolder folder = await folderPicker.PickSingleFolderAsync();
 
-            if (folder != null)
+            if (folder is not null)
             {
                 await AddItemFromPath(folder.Path, FilesystemItemType.Directory);
                 SaveBundle();
@@ -161,7 +161,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
             StorageFile file = await filePicker.PickSingleFileAsync();
 
-            if (file != null)
+            if (file is not null)
             {
                 await AddItemFromPath(file.Path, FilesystemItemType.File);
                 SaveBundle();
@@ -361,7 +361,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
                     IStorageItem item = await StorageHelpers.ToStorageItem<IStorageItem>(itemPath);
 
-                    if (item != null || (itemPath.EndsWith(".lnk", StringComparison.Ordinal) || itemPath.EndsWith(".url", StringComparison.Ordinal)))
+                    if (item is not null || (itemPath.EndsWith(".lnk", StringComparison.Ordinal) || itemPath.EndsWith(".url", StringComparison.Ordinal)))
                     {
                         if (await AddItemFromPath(itemPath,
                             itemPath.EndsWith(".lnk", StringComparison.Ordinal) || itemPath.EndsWith(".url", StringComparison.Ordinal) ? FilesystemItemType.File : (item.IsOfType(StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File)))
@@ -501,7 +501,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
         public async Task<bool> AddBundleItem(BundleItemViewModel bundleItem)
         {
             // Make sure we don't exceed maximum amount && make sure we don't make duplicates
-            if (bundleItem != null && Contents.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle && !Contents.Any((item) => item.Path == bundleItem.Path))
+            if (bundleItem is not null && Contents.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle && !Contents.Any((item) => item.Path == bundleItem.Path))
             {
                 itemAddedInternally = true;
                 Contents.Add(bundleItem);

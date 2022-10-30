@@ -53,7 +53,7 @@ namespace Files.App.Helpers
 				return arch?.ArchiveFileData is null ? null : arch; // Force load archive (1665013614u)
 			}))
 			{
-				if (zipFile == null)
+				if (zipFile is null)
 					return;
 				//zipFile.IsStreamOwner = true;
 				List<ArchiveFileInfo> directoryEntries = new List<ArchiveFileInfo>();

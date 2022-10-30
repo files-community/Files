@@ -32,7 +32,7 @@ namespace Files.App.ViewModels.Properties
 
         public override void GetBaseProperties()
         {
-            if (List != null)
+            if (List is not null)
             {
                 ViewModel.LoadCombinedItemsGlyph = true;
                 if (List.All(x => x.ItemType.Equals(List.First().ItemType)))

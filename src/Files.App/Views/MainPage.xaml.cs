@@ -23,6 +23,7 @@ using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel;
 using Windows.Graphics;
@@ -80,10 +81,10 @@ namespace Files.App.Views
 
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 
-			LoadSelectedTheme();
+			DispatcherQueue.TryEnqueue(async () => await LoadSelectedTheme());
 		}
 
-		private async void LoadSelectedTheme()
+		private async Task LoadSelectedTheme()
 		{
 			App.ExternalResourcesHelper.OverrideAppResources(UserSettingsService.AppearanceSettingsService.UseCompactStyles);
 			await App.ExternalResourcesHelper.LoadSelectedTheme();
@@ -177,7 +178,7 @@ namespace Files.App.Views
 
 		public void TabItemContent_ContentChanged(object? sender, TabItemArguments e)
 		{
-			if (SidebarAdaptiveViewModel.PaneHolder == null)
+			if (SidebarAdaptiveViewModel.PaneHolder is null)
 				return;
 
 			var paneArgs = e.NavigationArg as PaneNavigationArguments;
@@ -191,7 +192,7 @@ namespace Files.App.Views
 
 		public void MultitaskingControl_CurrentInstanceChanged(object? sender, CurrentInstanceChangedEventArgs e)
 		{
-			if (SidebarAdaptiveViewModel.PaneHolder != null)
+			if (SidebarAdaptiveViewModel.PaneHolder is not null)
 				SidebarAdaptiveViewModel.PaneHolder.PropertyChanged -= PaneHolder_PropertyChanged;
 
 			var navArgs = e.CurrentInstance.TabItemArguments?.NavigationArg;
@@ -216,7 +217,7 @@ namespace Files.App.Views
 
 		private void UpdateStatusBarProperties()
 		{
-			if (StatusBarControl != null)
+			if (StatusBarControl is not null)
 			{
 				StatusBarControl.DirectoryPropertiesViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.SlimContentPage?.DirectoryPropertiesViewModel;
 				StatusBarControl.SelectedItemsPropertiesViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.SlimContentPage?.SelectedItemsPropertiesViewModel;
@@ -225,10 +226,10 @@ namespace Files.App.Views
 
 		private void UpdateNavToolbarProperties()
 		{
-			if (NavToolbar != null)
+			if (NavToolbar is not null)
 				NavToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.ToolbarViewModel;
 
-			if (InnerNavigationToolbar != null)
+			if (InnerNavigationToolbar is not null)
 			{
 				InnerNavigationToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.ToolbarViewModel;
 				InnerNavigationToolbar.ShowMultiPaneControls = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneEnabled ?? false;
@@ -371,7 +372,7 @@ namespace Files.App.Views
 				view.SetPresenter(AppWindowPresenterKind.Overlapped);
 			else
 				view.SetPresenter(AppWindowPresenterKind.FullScreen);
-			if (e != null)
+			if (e is not null)
 				e.Handled = true;
 		}
 

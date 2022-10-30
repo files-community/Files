@@ -12,18 +12,18 @@ using Files.App.Shell;
 
 namespace Files.App.Extensions
 {
-	public static class ShellNewEntryExtensions
-	{
-		public static async Task<List<ShellNewEntry>> GetNewContextMenuEntries()
-		{
-			var shellEntryList = new List<ShellNewEntry>();
-			var entries = await SafetyExtensions.IgnoreExceptions(() => ShellNewMenuHelper.GetNewContextMenuEntries(), App.Logger);
-			if (entries != null)
-			{
-				shellEntryList.AddRange(entries);
-			}
-			return shellEntryList;
-		}
+    public static class ShellNewEntryExtensions
+    {
+        public static async Task<List<ShellNewEntry>> GetNewContextMenuEntries()
+        {
+            var shellEntryList = new List<ShellNewEntry>();
+            var entries = await SafetyExtensions.IgnoreExceptions(() => ShellNewMenuHelper.GetNewContextMenuEntries(), App.Logger);
+            if (entries is not null)
+            {
+                shellEntryList.AddRange(entries);
+            }
+            return shellEntryList;
+        }
 
 		public static async Task<ShellNewEntry?> GetNewContextMenuEntryForType(string extension)
 		{
@@ -44,7 +44,7 @@ namespace Files.App.Extensions
 		{
 			FilesystemResult<BaseStorageFile> createdFile = null;
 			var fileName = Path.GetFileName(filePath);
-			if (shellEntry.Template == null)
+			if (shellEntry.Template is null)
 			{
 				createdFile = await FilesystemTasks.Wrap(() => parentFolder.CreateFileAsync(fileName, CreationCollisionOption.GenerateUniqueName).AsTask());
 			}
@@ -54,7 +54,7 @@ namespace Files.App.Extensions
 					.OnSuccess(t => t.CopyAsync(parentFolder, fileName, NameCollisionOption.GenerateUniqueName).AsTask());
 			}
 			if (createdFile &&
-				shellEntry.Data != null)
+				shellEntry.Data is not null)
 			{
 				//await FileIO.WriteBytesAsync(createdFile.Result, shellEntry.Data); // Calls unsupported OpenTransactedWriteAsync
 				await createdFile.Result.WriteBytesAsync(shellEntry.Data);

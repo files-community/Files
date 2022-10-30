@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using static Files.App.Views.PropertiesCustomization;
 
-#nullable enable
 
 namespace Files.App.Views
 {
@@ -71,7 +70,7 @@ namespace Files.App.Views
         private async void IconSelectionGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var selectedIconInfo = ((GridView)sender).SelectedItem as IconFileInfo;
-            if (selectedIconInfo == null)
+            if (selectedIconInfo is null)
                 return;
 
             var setIconResult = IsShortcut ?

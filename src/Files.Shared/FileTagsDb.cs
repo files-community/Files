@@ -70,9 +70,9 @@ namespace Common
             var col = db.GetCollection<TaggedFile>(TaggedFiles);
 
             var tmp = _FindTag(filePath, frn);
-            if (tmp == null)
+            if (tmp is null)
             {
-                if (tags != null && tags.Any())
+                if (tags is not null && tags.Any())
                 {
                     // Insert new tagged file (Id will be auto-incremented)
                     var newTag = new TaggedFile()
@@ -88,7 +88,7 @@ namespace Common
             }
             else
             {
-                if (tags != null && tags.Any())
+                if (tags is not null && tags.Any())
                 {
                     // Update file tag
                     tmp.Tags = tags;
@@ -107,12 +107,12 @@ namespace Common
             // Get a collection (or create, if doesn't exist)
             var col = db.GetCollection<TaggedFile>(TaggedFiles);
 
-            if (filePath != null)
+            if (filePath is not null)
             {
                 var tmp = col.FindOne(x => x.FilePath == filePath);
-                if (tmp != null)
+                if (tmp is not null)
                 {
-                    if (frn != null)
+                    if (frn is not null)
                     {
                         // Keep entry updated
                         tmp.Frn = frn;
@@ -123,12 +123,12 @@ namespace Common
                 }
             }
 
-            if (frn != null)
+            if (frn is not null)
             {
                 var tmp = col.FindOne(x => x.Frn == frn);
-                if (tmp != null)
+                if (tmp is not null)
                 {
-                    if (filePath != null)
+                    if (filePath is not null)
                     {
                         // Keep entry updated
                         tmp.FilePath = filePath;
@@ -147,15 +147,15 @@ namespace Common
             // Get a collection (or create, if doesn't exist)
             var col = db.GetCollection<TaggedFile>(TaggedFiles);
             var tmp = col.FindOne(x => x.FilePath == oldFilePath);
-            if (tmp != null)
+            if (tmp is not null)
             {
-                if (frn != null)
+                if (frn is not null)
                 {
                     tmp.Frn = frn;
                     col.Update(tmp);
                 }
 
-                if (newFilePath != null)
+                if (newFilePath is not null)
                 {
                     tmp.FilePath = newFilePath;
                     col.Update(tmp);
@@ -168,15 +168,15 @@ namespace Common
             // Get a collection (or create, if doesn't exist)
             var col = db.GetCollection<TaggedFile>(TaggedFiles);
             var tmp = col.FindOne(x => x.Frn == oldFrn);
-            if (tmp != null)
+            if (tmp is not null)
             {
-                if (frn != null)
+                if (frn is not null)
                 {
                     tmp.Frn = frn;
                     col.Update(tmp);
                 }
 
-                if (newFilePath != null)
+                if (newFilePath is not null)
                 {
                     tmp.FilePath = newFilePath;
                     col.Update(tmp);

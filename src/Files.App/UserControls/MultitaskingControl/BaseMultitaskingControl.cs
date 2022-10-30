@@ -47,7 +47,7 @@ namespace Files.App.UserControls.MultitaskingControl
         {
             foreach (ITabItemContent instance in e.PageInstances)
             {
-                if (instance != null)
+                if (instance is not null)
                 {
                     instance.IsCurrentInstance = instance == e.CurrentInstance;
                 }
@@ -60,7 +60,7 @@ namespace Files.App.UserControls.MultitaskingControl
             {
                 CurrentSelectedAppInstance = GetCurrentSelectedTabInstance();
 
-                if (CurrentSelectedAppInstance != null)
+                if (CurrentSelectedAppInstance is not null)
                 {
                     CurrentInstanceChanged?.Invoke(this, new CurrentInstanceChangedEventArgs()
                     {

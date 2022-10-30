@@ -19,7 +19,7 @@
 		<ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
 	</Page.Resources>
 	<Page.DataContext>
-		<settingsviewmodels:FoldersViewModel />
+		<settingsviewmodels:FoldersViewModel x:Name="ViewModel" />
 	</Page.DataContext>
 
 	<Grid>
@@ -45,7 +45,7 @@
 
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=EnableOverridingFolderPreferences}"
-					IsOn="{Binding EnableOverridingFolderPreferences, Mode=TwoWay}"
+					IsOn="{x:Bind ViewModel.EnableOverridingFolderPreferences, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 				<local:SettingsBlockControl.ExpandableContent>
 					<StackPanel>
@@ -53,7 +53,7 @@
 						<local:SettingsBlockControl
 							x:Name="ResetLayoutPreferencesButton"
 							Title="{helpers:ResourceString Name=ResetFolderPreferencesOverrides}"
-							ButtonCommand="{Binding ShowResetLayoutPreferencesTipCommand}"
+							ButtonCommand="{x:Bind ViewModel.ShowResetLayoutPreferencesTipCommand, Mode=OneWay}"
 							IsClickable="True">
 							<local:SettingsBlockControl.Icon>
 								<FontIcon
@@ -69,10 +69,10 @@
 						</local:SettingsBlockControl>
 						<muxc:TeachingTip
 							Title="{helpers:ResourceString Name=AreYouSure}"
-							ActionButtonCommand="{Binding ResetLayoutPreferencesCommand}"
+							ActionButtonCommand="{x:Bind ViewModel.ResetLayoutPreferencesCommand, Mode=OneWay}"
 							ActionButtonContent="{helpers:ResourceString Name=Confirm}"
 							IsLightDismissEnabled="True"
-							IsOpen="{Binding IsResetLayoutPreferencesTipOpen, Mode=TwoWay}"
+							IsOpen="{x:Bind ViewModel.IsResetLayoutPreferencesTipOpen, Mode=TwoWay}"
 							Subtitle="{helpers:ResourceString Name=ResetLayoutPreferences}"
 							Target="{x:Bind ResetLayoutPreferencesButton}" />
 					</StackPanel>
@@ -89,31 +89,31 @@
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=TagColumn}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=TagColumn}"
-								IsOn="{Binding ShowFileTagColumn, Mode=TwoWay}"
+								IsOn="{x:Bind ViewModel.ShowFileTagColumn, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SizeColumn}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=SizeColumn}"
-								IsOn="{Binding ShowSizeColumn, Mode=TwoWay}"
+								IsOn="{x:Bind ViewModel.ShowSizeColumn, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=TypeColumn}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=TypeColumn}"
-								IsOn="{Binding ShowTypeColumn, Mode=TwoWay}"
+								IsOn="{x:Bind ViewModel.ShowTypeColumn, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=DateColumn}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=DateColumn}"
-								IsOn="{Binding ShowDateColumn, Mode=TwoWay}"
+								IsOn="{x:Bind ViewModel.ShowDateColumn, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=DateCreatedColumn}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=DateCreatedColumn}"
-								IsOn="{Binding ShowDateCreatedColumn, Mode=TwoWay}"
+								IsOn="{x:Bind ViewModel.ShowDateCreatedColumn, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 					</StackPanel>
@@ -126,7 +126,7 @@
 					<FontIcon Glyph="&#xE152;" />
 				</local:SettingsBlockControl.Icon>
 
-				<ComboBox SelectedIndex="{Binding SelectedDefaultLayoutModeIndex, Mode=TwoWay}">
+				<ComboBox SelectedIndex="{x:Bind ViewModel.SelectedDefaultLayoutModeIndex, Mode=TwoWay}">
 					<ComboBoxItem Content="{helpers:ResourceString Name=Details}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Tiles}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Columns}" />
@@ -145,28 +145,28 @@
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsFilesAndFoldersShowHiddenItems}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersShowHiddenItems}"
-								IsOn="{Binding ShowHiddenItems, Mode=TwoWay}"
+								IsOn="{x:Bind ViewModel.ShowHiddenItems, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowDotFiles}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=ShowDotFiles}"
-								IsOn="{Binding ShowDotFiles, Mode=TwoWay}"
+								IsOn="{x:Bind ViewModel.ShowDotFiles, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowProtectedSystemFiles}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=ShowProtectedSystemFiles}"
-								IsOn="{Binding ShowProtectedSystemFiles, Mode=TwoWay}"
+								IsOn="{x:Bind ViewModel.ShowProtectedSystemFiles, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowAlternateStreams}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=ShowAlternateStreams}"
-								IsOn="{Binding AreAlternateStreamsVisible, Mode=TwoWay}"
+								IsOn="{x:Bind ViewModel.AreAlternateStreamsVisible, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 					</StackPanel>
@@ -183,14 +183,14 @@
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsOpenItemsWithOneClick}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenItemsWithOneClick}"
-								IsOn="{Binding OpenItemsWithOneClick, Mode=TwoWay}"
+								IsOn="{x:Bind ViewModel.OpenItemsWithOneClick, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=OpenFolderWithOneClickColumnsLayout}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=OpenFolderWithOneClickColumnsLayout}"
-								IsOn="{Binding ColumnLayoutOpenFoldersWithOneClick, Mode=TwoWay}"
+								IsOn="{x:Bind ViewModel.ColumnLayoutOpenFoldersWithOneClick, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
@@ -198,7 +198,7 @@
 							<ToggleSwitch
 								x:Name="OpenFoldersNewTab"
 								AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenFoldersNewTabToggleSwitch/AutomationProperties/Name}"
-								IsOn="{Binding OpenFoldersNewTab, Mode=TwoWay}"
+								IsOn="{x:Bind ViewModel.OpenFoldersNewTab, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 					</StackPanel>
@@ -215,7 +215,7 @@
 				</local:SettingsBlockControl.Icon>
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=CalculateFolderSizes}"
-					IsOn="{Binding CalculateFolderSizes, Mode=TwoWay}"
+					IsOn="{x:Bind ViewModel.CalculateFolderSizes, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 				<local:SettingsBlockControl.ExpandableContent>
 					<InfoBar

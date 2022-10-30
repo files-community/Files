@@ -1,195 +1,106 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-	<TargetFramework>net7.0-windows10.0.22000.0</TargetFramework>
-	<Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-	<OutputType>WinExe</OutputType>
-	<AssemblyName>Files</AssemblyName>
-	<DefaultLanguage>en-US</DefaultLanguage>
-	<AppxBundleAutoResourcePackageQualifiers>Scale|DXFeatureLevel</AppxBundleAutoResourcePackageQualifiers>
-	<AppxDefaultResourceQualifiers>Language=en-US;af;ar;bg;ca;cs-CZ;da;da-DK;de-DE;el;en-GB;es-ES;es-419;fil-PH;fr-FR;he-IL;hi-IN;hu-HU;id-ID;it-IT;ja-JP;ka;ko-KR;lv-LV;nb-NO;nl-NL;or-IN;pl-PL;pt-BR;pt-PT;ru-RU;sk-SK;sv-SE;ta;th-TH;tr-TR;uk-UA;vi;zh-Hans;zh-Hant</AppxDefaultResourceQualifiers>
-	<TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
-	<GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-	<AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
-	<AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
-	<GenerateTestArtifacts>False</GenerateTestArtifacts>
-	<AppxBundle>Always</AppxBundle>
-	<DisableXbfLineInfo>False</DisableXbfLineInfo>
-	<AppxBundlePlatforms>x86|x64|arm64</AppxBundlePlatforms>
-	<HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-	<Win32Resource>Resources\MiddleClickScrolling-CursorType.res</Win32Resource>
-	<Nullable>Enable</Nullable>
-	<UseWinUI>true</UseWinUI>
-	<NoWin32Manifest>True</NoWin32Manifest>
-	<Platforms>x86;x64;arm64</Platforms>
-	<RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
-	<PublishReadyToRun>true</PublishReadyToRun>
-	<PublishTrimmed>false</PublishTrimmed>
-	<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+    <TargetFramework>net7.0-windows10.0.22000.0</TargetFramework>
+    <OutputType>WinExe</OutputType>
+    <AssemblyName>Files</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <AppxBundleAutoResourcePackageQualifiers>Scale|DXFeatureLevel</AppxBundleAutoResourcePackageQualifiers>
+    <AppxDefaultResourceQualifiers>Language=en-US;af;ar;bg;ca;cs-CZ;da;da-DK;de-DE;el;en-GB;es-ES;es-419;fil-PH;fr-FR;he-IL;hi-IN;hu-HU;id-ID;it-IT;ja-JP;ka;ko-KR;lv-LV;nb-NO;nl-NL;or-IN;pl-PL;pt-BR;pt-PT;ru-RU;sk-SK;sv-SE;ta;th-TH;tr-TR;uk-UA;vi;zh-Hans;zh-Hant</AppxDefaultResourceQualifiers>
+    <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
+    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
+    <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+    <GenerateTestArtifacts>False</GenerateTestArtifacts>
+    <AppxBundle>Always</AppxBundle>
+    <DisableXbfLineInfo>False</DisableXbfLineInfo>
+    <AppxBundlePlatforms>x86|x64|arm64</AppxBundlePlatforms>
+    <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
+    <Nullable>Enable</Nullable>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Platforms>x86;x64;arm64</Platforms>
+    <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
+    <UseWinUI>true</UseWinUI>
+    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Configurations>Debug;Release;Sideload</Configurations>
+    <TieredCompilation>true</TieredCompilation>
+    <TieredPgo>true</TieredPgo>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-	<DefineConstants>TRACE;DEBUG;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
-	<NoWarn>;2008</NoWarn>
-	<UseVSHostingProcess>false</UseVSHostingProcess>
-	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-	<UseDotNetNativeToolchain>false</UseDotNetNativeToolchain>
-	<UseAppLocalCoreFramework>true</UseAppLocalCoreFramework>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <DefineConstants>TRACE;DEBUG;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-	<DefineConstants>TRACE;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
-	<NoWarn>;2008</NoWarn>
-	<UseVSHostingProcess>false</UseVSHostingProcess>
-	<UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
-	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <DefineConstants>TRACE;RELEASE;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
+    <Optimize>true</Optimize>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sideload|x86'">
-	<DefineConstants>TRACE;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN;SIDELOAD</DefineConstants>
-	<Optimize>true</Optimize>
-	<NoWarn>;2008</NoWarn>
-	<UseVSHostingProcess>false</UseVSHostingProcess>
-	<UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
-	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|arm64'">
-	<DefineConstants>TRACE;DEBUG;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
-	<NoWarn>;2008</NoWarn>
-	<PlatformTarget>arm64</PlatformTarget>
-	<UseVSHostingProcess>false</UseVSHostingProcess>
-	<UseDotNetNativeToolchain>false</UseDotNetNativeToolchain>
-	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-	<UseAppLocalCoreFramework>true</UseAppLocalCoreFramework>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|arm64'">
-	<DefineConstants>TRACE;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
-	<NoWarn>;2008</NoWarn>
-	<PlatformTarget>arm64</PlatformTarget>
-	<UseVSHostingProcess>false</UseVSHostingProcess>
-	<UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
-	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sideload|arm64'">
-	<DefineConstants>TRACE;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN;SIDELOAD</DefineConstants>
-	<Optimize>true</Optimize>
-	<NoWarn>;2008</NoWarn>
-	<PlatformTarget>arm64</PlatformTarget>
-	<UseVSHostingProcess>false</UseVSHostingProcess>
-	<UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
-	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-	<DefineConstants>TRACE;DEBUG;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
-	<NoWarn>;2008</NoWarn>
-	<UseVSHostingProcess>false</UseVSHostingProcess>
-	<UseDotNetNativeToolchain>false</UseDotNetNativeToolchain>
-	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-	<UseAppLocalCoreFramework>true</UseAppLocalCoreFramework>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-	<DefineConstants>TRACE;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
-	<NoWarn>;2008</NoWarn>
-	<UseVSHostingProcess>false</UseVSHostingProcess>
-	<UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
-	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sideload|x64'">
-	<DefineConstants>TRACE;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN;SIDELOAD</DefineConstants>
-	<Optimize>true</Optimize>
-	<NoWarn>;2008</NoWarn>
-	<UseVSHostingProcess>false</UseVSHostingProcess>
-	<UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
-	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  <PropertyGroup Condition="'$(Configuration)' == 'Sideload'">
+    <DefineConstants>TRACE;SIDELOAD;RELEASE;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
+    <Optimize>true</Optimize>
   </PropertyGroup>
   <ItemGroup>
-	<None Update="Files.exe.manifest">
-	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	</None>
-	<None Update="Assets\terminal\terminal.json">
-	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	</None>    
-	<Content Include="Resources\AppCenterKey.txt" />
-	<Content Include="Resources\BingMapsKey.txt" />
-	<Content Include="Resources\PreviewPanePropertiesInformation.json">
-	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	</Content>
-	<Content Include="Resources\PropertiesInformation.json">
-	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	</Content>
-	<Content Include="Themes\*.xaml">
-	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  <Generator>MSBuild:Compile</Generator>
-	  <SubType>Designer</SubType>
-	</Content>
+    <Manifest Include="$(ApplicationManifest)" />
+    <None Update="Assets\terminal\terminal.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Content Include="7z.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="7z64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\AppCenterKey.txt" />
+    <Content Include="Resources\BingMapsKey.txt" />
+    <Content Include="Resources\PreviewPanePropertiesInformation.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\PropertiesInformation.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Themes\*.xaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Update="Assets\FilesOpenDialog\SetFilesAsDefault.reg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\FilesOpenDialog\UnsetFilesAsDefault.reg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Remove="Assets\FilesHome.png" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="Assets\AppTiles\Preview\**" />
-    <Compile Remove="Assets\AppTiles\Release\**" />
-    <Content Remove="Assets\AppTiles\Preview\**" />
-    <Content Remove="Assets\AppTiles\Release\**" />
-    <EmbeddedResource Remove="Assets\AppTiles\Preview\**" />
-    <EmbeddedResource Remove="Assets\AppTiles\Release\**" />
-    <None Remove="Assets\AppTiles\Preview\**" />
-    <None Remove="Assets\AppTiles\Release\**" />
-    <Page Remove="Assets\AppTiles\Preview\**" />
-    <Page Remove="Assets\AppTiles\Release\**" />
-    <PRIResource Remove="Assets\AppTiles\Preview\**" />
-    <PRIResource Remove="Assets\AppTiles\Release\**" />
-  </ItemGroup>
-  <ItemGroup>
-	<Content Remove="Assets\FilesHome.png" />
-	<Content Remove="Assets\FilesHome.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="Resources\PreviewPanePropertiesInformation.json" />
-    <None Remove="Resources\PropertiesInformation.json" />
-    <None Remove="Views\SettingsPages\Folders.xaml" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="ByteSize">
-      <Version>2.1.1</Version>
-    </PackageReference>
-    <PackageReference Include="CommunityToolkit.Mvvm">
-      <Version>8.0.0</Version>
-    </PackageReference>
-    <PackageReference Include="FluentFTP">
-      <Version>41.0.0</Version>
-    </PackageReference>
-    <PackageReference Include="ini-parser-netstandard">
-      <Version>2.5.2</Version>
-    </PackageReference>
+    <PackageReference Include="ByteSize" Version="2.1.1" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
+    <PackageReference Include="FluentFTP" Version="41.0.0" />
+    <PackageReference Include="ini-parser-netstandard" Version="2.5.2" />
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.5.3" />
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.5.3" />
-    <PackageReference Include="Microsoft.Data.Sqlite.Core">
-      <Version>7.0.0-rc.2.22472.11</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection">
-      <Version>7.0.0-rc.2.22472.3</Version>
-    </PackageReference>
-    <PackageReference Include="SevenZipSharp">
-      <Version>1.0.0</Version>
-    </PackageReference>
-    <PackageReference Include="SQLitePCLRaw.bundle_green">
-      <Version>2.1.2</Version>
-    </PackageReference>
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.0-rc.2.22472.11" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0-rc.2.22472.3" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.1" />
+    <PackageReference Include="SevenZipSharp" Version="1.0.0" />
+    <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.2" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.220930.4-preview2" />
     <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.4" />
-    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.346202">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
+    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.346202" PrivateAssets="all" />
     <PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Behaviors" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
     <PackageReference Include="Tulpep.ActiveDirectoryObjectPicker" Version="3.0.11" />
-    <PackageReference Include="Vanara.Windows.Extensions" Version="3.4.9" />
+    <PackageReference Include="Vanara.Windows.Extensions" Version="3.4.10" />
     <PackageReference Include="WinUIEx" Version="1.8.0" />
     <PackageReference Include="Vanara.PInvoke.Mpr" Version="3.4.10" />
     <PackageReference Include="Vanara.Windows.Shell" Version="3.4.10" />
     <PackageReference Include="Microsoft.Management.Infrastructure" Version="2.0.0" />
     <PackageReference Include="Microsoft.Management.Infrastructure.Runtime.Win" Version="2.0.1" />
-    <FrameworkReference Include="Microsoft.WindowsDesktop.App" />
   </ItemGroup>
   <ItemGroup>
-	<AppxManifest Include="..\Files.Package\Package.appxmanifest">
-	  <SubType>Designer</SubType>
-	</AppxManifest>
+    <ProjectReference Include="..\BackgroundTasks\BackgroundTasks.csproj" />
+    <ProjectReference Include="..\Files.App.Storage\Files.App.Storage.csproj" />
+    <ProjectReference Include="..\Files.Backend\Files.Backend.csproj" />
+    <ProjectReference Include="..\Files.Sdk.Storage\Files.Sdk.Storage.csproj" />
+    <ProjectReference Include="..\Files.Shared\Files.Shared.csproj" />
   </ItemGroup>
   <ItemGroup>
     <TrimmerRootAssembly Include="BackgroundTasks" />
@@ -212,52 +123,4 @@
     <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Media" />
     <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Primitives" />
   </ItemGroup>
-  <ItemGroup>
-	<ProjectReference Include="..\BackgroundTasks\BackgroundTasks.csproj" />
-	<ProjectReference Include="..\Files.Sdk.Storage\Files.Sdk.Storage.csproj" />
-	<ProjectReference Include="..\Files.App.Storage\Files.App.Storage.csproj" />
-	<!--<ProjectReference Include="..\BackgroundTasks\BackgroundTasks.csproj" />-->
-	<ProjectReference Include="..\Files.Shared\Files.Shared.csproj" />
-	<ProjectReference Include="..\Files.Backend\Files.Backend.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Views\SettingsPages\Folders.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
-  </ItemGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sideload|x86'">
-	<OutputPath>bin\x86\Sideload\</OutputPath>
-	<DefineConstants>TRACE;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN;SIDELOAD;CODE_ANALYSIS</DefineConstants>
-	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-	<Optimize>true</Optimize>
-	<NoWarn>;2008</NoWarn>
-	<UseVSHostingProcess>false</UseVSHostingProcess>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sideload|arm64'">
-	<OutputPath>bin\arm64\Sideload\</OutputPath>
-	<DefineConstants>TRACE;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN;SIDELOAD;CODE_ANALYSIS</DefineConstants>
-	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-	<Optimize>true</Optimize>
-	<NoWarn>;2008</NoWarn>
-	<PlatformTarget>arm64</PlatformTarget>
-	<UseVSHostingProcess>false</UseVSHostingProcess>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sideload|x64'">
-	<OutputPath>bin\x64\Sideload\</OutputPath>
-	<DefineConstants>TRACE;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN;SIDELOAD;CODE_ANALYSIS</DefineConstants>
-	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-	<Optimize>true</Optimize>
-	<NoWarn>;2008</NoWarn>
-	<UseVSHostingProcess>false</UseVSHostingProcess>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sideload|Win32'">
-	<OutputPath>bin\Win32\Sideload\</OutputPath>
-	<DefineConstants>;CODE_ANALYSIS</DefineConstants>
-	<UseVSHostingProcess>false</UseVSHostingProcess>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Sideload|AnyCPU'">
-	<OutputPath>bin\Sideload\</OutputPath>
-	<DefineConstants>;CODE_ANALYSIS</DefineConstants>
-	<UseVSHostingProcess>false</UseVSHostingProcess>
-  </PropertyGroup>
 </Project>

@@ -109,11 +109,11 @@ namespace Files.App.Views
                 {
                     activePane = value;
                     PaneLeft.IsCurrentInstance = false;
-                    if (PaneRight != null)
+                    if (PaneRight is not null)
                     {
                         PaneRight.IsCurrentInstance = false;
                     }
-                    if (ActivePane != null)
+                    if (ActivePane is not null)
                     {
                         ActivePane.IsCurrentInstance = isCurrentInstance;
                     }
@@ -130,7 +130,7 @@ namespace Files.App.Views
         {
             get
             {
-                if (ActivePane != null && ActivePane.IsColumnView)
+                if (ActivePane is not null && ActivePane.IsColumnView)
                 {
                     return (ActivePane.SlimContentPage as ColumnViewBrowser).ActiveColumnShellPage;
                 }
@@ -169,11 +169,11 @@ namespace Files.App.Views
             {
                 isCurrentInstance = value;
                 PaneLeft.IsCurrentInstance = false;
-                if (PaneRight != null)
+                if (PaneRight is not null)
                 {
                     PaneRight.IsCurrentInstance = false;
                 }
-                if (ActivePane != null)
+                if (ActivePane is not null)
                 {
                     ActivePane.IsCurrentInstance = value;
                 }
@@ -227,7 +227,7 @@ namespace Files.App.Views
                     NavPath = paneArgs.RightPaneNavPathParam,
                     SelectItem = paneArgs.RightPaneSelectItemParam
                 };
-                IsRightPaneVisible = IsMultiPaneEnabled && paneArgs.RightPaneNavPathParam != null;
+                IsRightPaneVisible = IsMultiPaneEnabled && paneArgs.RightPaneNavPathParam is not null;
             }
 
             TabItemArguments = new TabItemArguments()
@@ -245,7 +245,7 @@ namespace Files.App.Views
 
         private void PaneResizer_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
-            if (PaneRight != null && PaneRight.ActualWidth <= 300)
+            if (PaneRight is not null && PaneRight.ActualWidth <= 300)
             {
                 IsRightPaneVisible = false;
             }

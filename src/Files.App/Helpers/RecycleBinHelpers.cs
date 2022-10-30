@@ -23,8 +23,6 @@ namespace Files.App.Helpers
 
         private static readonly Regex recycleBinPathRegex = new Regex(@"^[A-Z]:\\\$Recycle\.Bin\\", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
 
-        private Task<NamedPipeAsAppServiceConnection> ServiceConnection => AppServiceConnectionHelper.Instance;
-
         #endregion Private Members
 
         public async Task<List<ShellFileItem>> EnumerateRecycleBin()
@@ -143,7 +141,7 @@ namespace Files.App.Helpers
 
             var result = await FileOperationsHelpers.TestRecycleAsync(path.Split('|'));
 
-            return result.Item1 &= result.Item2 != null && result.Item2.Items.All(x => x.Succeeded);
+            return result.Item1 &= result.Item2 is not null && result.Item2.Items.All(x => x.Succeeded);
         }
 
         public bool RecycleBinHasItems()

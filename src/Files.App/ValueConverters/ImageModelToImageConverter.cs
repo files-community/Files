@@ -4,7 +4,6 @@ using System.Linq;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media.Imaging;
 
-#nullable enable
 
 namespace Files.App.ValueConverters
 {

@@ -1,6 +1,5 @@
 using System.Text.Json;
 
-#nullable enable
 
 namespace Files.App.Serialization.Implementation
 {
