@@ -207,7 +207,6 @@ namespace Files.App
 				await Task.WhenAll(
 					TerminalController.InitializeAsync(),
 					JumpList.InitializeAsync(),
-					ExternalResourcesHelper.LoadOtherThemesAsync(),
 					ContextFlyoutItemHelper.CachedNewContextMenuEntries
 				);
 			});
@@ -244,20 +243,20 @@ namespace Files.App
 			EnsureWindowIsInitialized();
 
 			EnsureSettingsAndConfigurationAreBootstrapped();
-			Task.Run(async () =>
-			{
-				try
-				{
-					await InitializeAppComponentsAsync();
-				}
-				catch (Exception ex)
-				{
-					Logger.Warn(ex, "Error during InitializeAppComponentsAsync()");
-				}
-			});
+            Task.Run(async () =>
+            {
+                try
+                {
+                    await InitializeAppComponentsAsync();
+                }
+                catch (Exception ex)
+                {
+                    Logger.Warn(ex, "Error during InitializeAppComponentsAsync()");
+                }
+            });
 
-			_ = Window.InitializeApplication(activatedEventArgs);
-		}
+            _ = Window.InitializeApplication(activatedEventArgs);
+        }
 
 		private void EnsureWindowIsInitialized()
 		{

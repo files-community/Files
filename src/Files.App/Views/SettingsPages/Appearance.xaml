@@ -9,214 +9,218 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:settingsviewmodels="using:Files.App.ViewModels.SettingsViewModels"
 	mc:Ignorable="d">
-	<Page.Resources>
-		<ResourceDictionary>
-			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
-				<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
-			</ResourceDictionary.MergedDictionaries>
-			<StaticResource x:Key="GridViewItemBackgroundSelected" ResourceKey="SystemAccentColor" />
-			<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
-		</ResourceDictionary>
-	</Page.Resources>
-	<Page.DataContext>
-		<settingsviewmodels:AppearanceViewModel x:Name="ViewModel" PropertyChanged="ViewModel_PropertyChanged" />
-	</Page.DataContext>
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+            </ResourceDictionary.MergedDictionaries>
+            <StaticResource x:Key="GridViewItemBackgroundSelected" ResourceKey="SystemAccentColor" />
+            <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+        </ResourceDictionary>
+    </Page.Resources>
+    <Page.DataContext>
+        <settingsviewmodels:AppearanceViewModel x:Name="ViewModel" PropertyChanged="ViewModel_PropertyChanged" />
+    </Page.DataContext>
 
-	<Grid>
-		<StackPanel
+    <Grid>
+        <StackPanel
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
 			Spacing="4">
-			<StackPanel.ChildrenTransitions>
-				<TransitionCollection>
-					<EntranceThemeTransition />
-				</TransitionCollection>
-			</StackPanel.ChildrenTransitions>
+            <StackPanel.ChildrenTransitions>
+                <TransitionCollection>
+                    <EntranceThemeTransition />
+                </TransitionCollection>
+            </StackPanel.ChildrenTransitions>
 
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsAppearanceTheme}" HorizontalAlignment="Stretch">
-				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE790;" />
-				</local:SettingsBlockControl.Icon>
-				<ComboBox
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsAppearanceTheme}" HorizontalAlignment="Stretch">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon Glyph="&#xE790;" />
+                </local:SettingsBlockControl.Icon>
+                <ComboBox
 					x:Name="ThemeChooser"
 					AutomationProperties.Name="{helpers:ResourceString Name=SettingsAppearanceTheme}"
 					ItemsSource="{Binding Themes}"
 					SelectedIndex="{Binding SelectedThemeIndex, Mode=TwoWay}" />
-			</local:SettingsBlockControl>
+            </local:SettingsBlockControl>
 
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsAppearanceCustomThemes}" HorizontalAlignment="Stretch">
-				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE771;" />
-				</local:SettingsBlockControl.Icon>
-				<local:SettingsBlockControl.ExpandableContent>
-					<GridView
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsAppearanceCustomThemes}" HorizontalAlignment="Stretch">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon Glyph="&#xE771;" />
+                </local:SettingsBlockControl.Icon>
+                <local:SettingsBlockControl.ExpandableContent>
+                    <GridView
 						x:Name="AppThemeSelectionGridView"
+                        Loaded="AppThemeSelectionGridView_Loaded"
 						Padding="8"
 						ItemsSource="{Binding CustomThemes}"
 						SelectedItem="{Binding SelectedTheme, Mode=TwoWay}"
 						SelectionMode="Single">
-						<GridView.ItemTemplate>
-							<DataTemplate>
-								<local:ThemeSampleDisplayControl SampleTheme="{Binding Mode=OneWay}" />
-							</DataTemplate>
-						</GridView.ItemTemplate>
-					</GridView>
-				</local:SettingsBlockControl.ExpandableContent>
-				<Button
-					x:Name="ThemesLearnMoreButton"
-					Height="32"
-					Padding="8,4,8,4"
-					VerticalAlignment="Bottom"
-					AutomationProperties.Name="{helpers:ResourceString Name=SettingsThemesLearnMoreButton/AutomationProperties/Name}"
-					Background="Transparent"
-					BorderBrush="Transparent"
-					Click="ThemesLearnMoreButton_Click"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=SettingsThemesLearnMoreButton/ToolTipService/ToolTip}">
-					<FontIcon FontSize="14" Glyph="&#xE946;" />
-				</Button>
-			</local:SettingsBlockControl>
+                        <GridView.ItemTemplate>
+                            <DataTemplate>
+                                <local:ThemeSampleDisplayControl SampleTheme="{Binding Mode=OneWay}" />
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>
+                </local:SettingsBlockControl.ExpandableContent>
+                <StackPanel Orientation="Horizontal">
+                    <ProgressRing x:Name="AppThemeLoading" Height="32" Width="32" Padding="8" VerticalAlignment="Bottom" Visibility="Collapsed" IsIndeterminate="True" />
+                    <Button
+					    x:Name="ThemesLearnMoreButton"
+					    Height="32"
+					    Padding="8,4,8,4"
+					    VerticalAlignment="Bottom"
+					    AutomationProperties.Name="{helpers:ResourceString Name=SettingsThemesLearnMoreButton/AutomationProperties/Name}"
+					    Background="Transparent"
+					    BorderBrush="Transparent"
+					    Click="ThemesLearnMoreButton_Click"
+					    ToolTipService.ToolTip="{helpers:ResourceString Name=SettingsThemesLearnMoreButton/ToolTipService/ToolTip}">
+                        <FontIcon FontSize="14" Glyph="&#xE946;" />
+                    </Button>
+                </StackPanel>
+            </local:SettingsBlockControl>
 
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=Sidebar}" HorizontalAlignment="Stretch">
-				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE145;" />
-				</local:SettingsBlockControl.Icon>
-				<local:SettingsBlockControl.ExpandableContent>
-					<StackPanel>
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsShowFavoritesSection/Title}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=Sidebar}" HorizontalAlignment="Stretch">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon Glyph="&#xE145;" />
+                </local:SettingsBlockControl.Icon>
+                <local:SettingsBlockControl.ExpandableContent>
+                    <StackPanel>
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsShowFavoritesSection/Title}" HorizontalAlignment="Stretch">
+                            <ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=SettingsShowFavoritesSectionSwitch/AutomationProperties/Name}"
 								IsOn="{Binding ShowFavoritesSection, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
+                        </local:SettingsBlockControl>
 
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsShowLibrarySection/Title}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsShowLibrarySection/Title}" HorizontalAlignment="Stretch">
+                            <ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=SettingsShowLibrarySectionSwitch/AutomationProperties/Name}"
 								IsOn="{Binding ShowLibrarySection, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
+                        </local:SettingsBlockControl>
 
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsShowDrivesSection/Title}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsShowDrivesSection/Title}" HorizontalAlignment="Stretch">
+                            <ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=SettingsShowDrivesSectionSwitch/AutomationProperties/Name}"
 								IsOn="{Binding ShowDrivesSection, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
+                        </local:SettingsBlockControl>
 
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsShowCloudDrivesSection/Title}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsShowCloudDrivesSection/Title}" HorizontalAlignment="Stretch">
+                            <ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=SettingsShowCloudDrivesSectionSwitch/AutomationProperties/Name}"
 								IsOn="{Binding ShowCloudDrivesSection, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
+                        </local:SettingsBlockControl>
 
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsShowNetworkDrivesSection/Title}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsShowNetworkDrivesSection/Title}" HorizontalAlignment="Stretch">
+                            <ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=SettingsShowNetworkDrivesSectionSwitch/AutomationProperties/Name}"
 								IsOn="{Binding ShowNetworkDrivesSection, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
+                        </local:SettingsBlockControl>
 
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsShowWslSection/Title}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsShowWslSection/Title}" HorizontalAlignment="Stretch">
+                            <ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=SettingsShowWslSectionSwitch/AutomationProperties/Name}"
 								IsOn="{Binding ShowWslSection, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
+                        </local:SettingsBlockControl>
 
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsShowFileTagsSection/Title}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsShowFileTagsSection/Title}" HorizontalAlignment="Stretch">
+                            <ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=SettingsShowFileTagsSectionSwitch/AutomationProperties/Name}"
 								IsOn="{Binding ShowFileTagsSection, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-					</StackPanel>
-				</local:SettingsBlockControl.ExpandableContent>
-			</local:SettingsBlockControl>
-			
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=Widgets}" HorizontalAlignment="Stretch">
-				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xF246;" />
-				</local:SettingsBlockControl.Icon>
-				<local:SettingsBlockControl.ExpandableContent>
-					<StackPanel>
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowFolderWidget}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
+                        </local:SettingsBlockControl>
+                    </StackPanel>
+                </local:SettingsBlockControl.ExpandableContent>
+            </local:SettingsBlockControl>
+
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=Widgets}" HorizontalAlignment="Stretch">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon Glyph="&#xF246;" />
+                </local:SettingsBlockControl.Icon>
+                <local:SettingsBlockControl.ExpandableContent>
+                    <StackPanel>
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowFolderWidget}" HorizontalAlignment="Stretch">
+                            <ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=ShowFolderWidget}"
 								IsOn="{Binding ShowFoldersWidget, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
+                        </local:SettingsBlockControl>
 
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowDrivesWidget}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowDrivesWidget}" HorizontalAlignment="Stretch">
+                            <ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=ShowDrivesWidget}"
 								IsOn="{Binding ShowDrivesWidget, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
+                        </local:SettingsBlockControl>
 
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowBundlesWidget}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowBundlesWidget}" HorizontalAlignment="Stretch">
+                            <ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=ShowBundlesWidget}"
 								IsOn="{Binding ShowBundlesWidget, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
+                        </local:SettingsBlockControl>
 
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowRecentFilesWidget}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowRecentFilesWidget}" HorizontalAlignment="Stretch">
+                            <ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=ShowRecentFilesWidget}"
 								IsOn="{Binding ShowRecentFilesWidget, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-					</StackPanel>
-				</local:SettingsBlockControl.ExpandableContent>
-			</local:SettingsBlockControl>
+                        </local:SettingsBlockControl>
+                    </StackPanel>
+                </local:SettingsBlockControl.ExpandableContent>
+            </local:SettingsBlockControl>
 
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=UseCompactStyles}" HorizontalAlignment="Stretch">
-				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE14C;" />
-				</local:SettingsBlockControl.Icon>
-				<ToggleSwitch
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=UseCompactStyles}" HorizontalAlignment="Stretch">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon Glyph="&#xE14C;" />
+                </local:SettingsBlockControl.Icon>
+                <ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=UseCompactStyles}"
 					IsOn="{Binding UseCompactStyles, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-			</local:SettingsBlockControl>
+            </local:SettingsBlockControl>
 
-			<TextBlock
+            <TextBlock
 				Padding="0,12,0,4"
 				FontSize="14"
 				FontWeight="Medium"
 				Text="{helpers:ResourceString Name=SettingsContextMenu/Text}" />
 
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsContextMenuOverflow}" HorizontalAlignment="Stretch">
-				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE10C;" />
-				</local:SettingsBlockControl.Icon>
-				<ToggleSwitch
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsContextMenuOverflow}" HorizontalAlignment="Stretch">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon Glyph="&#xE10C;" />
+                </local:SettingsBlockControl.Icon>
+                <ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=SettingsContextMenuOverflow}"
 					IsOn="{Binding MoveOverflowMenuItemsToSubMenu, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-			</local:SettingsBlockControl>
-		</StackPanel>
+            </local:SettingsBlockControl>
+        </StackPanel>
 
-		<TeachingTip
+        <TeachingTip
 			x:Name="ThemesTeachingTip"
 			IsLightDismissEnabled="True"
 			PreferredPlacement="BottomLeft"
 			Target="{x:Bind ThemesLearnMoreButton}">
-			<StackPanel Spacing="12">
-				<TextBlock TextWrapping="Wrap">
+            <StackPanel Spacing="12">
+                <TextBlock TextWrapping="Wrap">
 					<Run Text="{helpers:ResourceString Name=SettingsThemesTeachingTipHeader/Text}" />
 					<Hyperlink NavigateUri="https://files.community/docs/configuring/custom-themes">
 						<Run Text="{helpers:ResourceString Name=SettingsThemesTeachingTipHyperlinkText/Text}" />
 					</Hyperlink>
-				</TextBlock>
+                </TextBlock>
 
-				<Button
+                <Button
 					x:Name="OpenThemesFolderButton"
 					Click="OpenThemesFolderButton_Click"
 					Content="{helpers:ResourceString Name=SettingsAppearanceOpenThemesFolderButton/Content}" />
-			</StackPanel>
-		</TeachingTip>
-	</Grid>
+            </StackPanel>
+        </TeachingTip>
+    </Grid>
 </Page>
