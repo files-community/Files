@@ -78,7 +78,7 @@ namespace Files.App.Helpers
                 if (opSucceded)
                     App.OngoingTasksViewModel.PostBanner(
                         bannerTitle,
-                        "BinEmptyingSucceded".GetLocalizedResource()
+                        "BinEmptyingSucceded".GetLocalizedResource(),
                         100.0f,
                         ReturnResult.Success,
                         FileOperationType.Delete);
