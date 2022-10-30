@@ -66,8 +66,9 @@ namespace Files.App.Helpers
 
             if (result == ContentDialogResult.Primary)
             {
+                string bannerTitle = "EmptyRecycleBin".GetLocalizedResource();
                 var banner = App.OngoingTasksViewModel.PostBanner(
-                    "EmptyRecycleBin".GetLocalizedResource(),
+                    bannerTitle,
                     "EmptyingRecycleBin".GetLocalizedResource(),
                     0.0f,
                     ReturnResult.InProgress,
@@ -77,14 +78,14 @@ namespace Files.App.Helpers
                 banner.Remove();
                 if (opSucceded)
                     App.OngoingTasksViewModel.PostBanner(
-                        "EmptyRecycleBin".GetLocalizedResource(),
-                        "BinEmptyingSucceded".GetLocalizedResource(),
+                        bannerTitle,
+                        "BinEmptyingSucceded".GetLocalizedResource()
                         100.0f,
                         ReturnResult.Success,
                         FileOperationType.Delete);
                 else
                     App.OngoingTasksViewModel.PostBanner(
-                        "EmptyRecycleBin".GetLocalizedResource(),
+                        bannerTitle,
                         "BinEmptyingFailed".GetLocalizedResource(),
                         100.0f,
                         ReturnResult.Failed,
