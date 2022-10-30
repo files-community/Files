@@ -52,7 +52,7 @@ namespace Files.App.ViewModels
 
 		public bool Set<TValue>(TValue value, [CallerMemberName] string propertyName = null)
 		{
-			propertyName = propertyName != null && propertyName.StartsWith("set_", StringComparison.OrdinalIgnoreCase)
+			propertyName = propertyName is not null && propertyName.StartsWith("set_", StringComparison.OrdinalIgnoreCase)
 				? propertyName.Substring(4)
 				: propertyName;
 
@@ -100,7 +100,7 @@ namespace Files.App.ViewModels
 						var valueType = value.GetType();
 						var tryParse = typeof(TValue).GetMethod("TryParse", BindingFlags.Instance | BindingFlags.Public);
 
-						if (tryParse == null)
+						if (tryParse is null)
 						{
 							return default;
 						}

@@ -14,10 +14,10 @@ namespace Files.Shared.Extensions
             var description = enumValue.ToString();
             var fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
 
-            if (fieldInfo != null)
+            if (fieldInfo is not null)
             {
                 var attrs = fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), true);
-                if (attrs != null && attrs.Length > 0)
+                if (attrs is not null && attrs.Length > 0)
                 {
                     description = ((DescriptionAttribute)attrs[0]).Description;
                 }

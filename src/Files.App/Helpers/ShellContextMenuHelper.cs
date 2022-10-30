@@ -49,7 +49,7 @@ namespace Files.App.Helpers
             var contextMenu = await ContextMenu.GetContextMenuForFiles(filePaths,
                 (shiftPressed ? Shell32.CMF.CMF_EXTENDEDVERBS : Shell32.CMF.CMF_NORMAL) | Shell32.CMF.CMF_SYNCCASCADEMENU, FilterMenuItems(showOpenMenu));
 
-            if (contextMenu != null)
+            if (contextMenu is not null)
             {
                 LoadMenuFlyoutItem(menuItemsList, contextMenu, contextMenu.Items, cancellationToken, true);
             }
@@ -81,7 +81,7 @@ namespace Files.App.Helpers
             if (overflowItems.Where(x => x.Type != MenuItemType.MFT_SEPARATOR).Any())
             {
                 var moreItem = menuItemsListLocal.Where(x => x.ID == "ItemOverflow").FirstOrDefault();
-                if (moreItem == null)
+                if (moreItem is null)
                 {
                     var menuLayoutSubItem = new ContextMenuFlyoutItemViewModel()
                     {

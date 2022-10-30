@@ -202,7 +202,7 @@ namespace Files.App.Filesystem
         /// <returns>The new library if successfully updated</returns>
         public async Task<LibraryLocationItem> UpdateLibrary(string libraryPath, string defaultSaveFolder = null, string[] folders = null, bool? isPinned = null)
         {
-            if (string.IsNullOrWhiteSpace(libraryPath) || (defaultSaveFolder == null && folders == null && isPinned == null))
+            if (string.IsNullOrWhiteSpace(libraryPath) || (defaultSaveFolder is null && folders is null && isPinned is null))
                 // Nothing to update
                 return null;
 
@@ -212,7 +212,7 @@ namespace Files.App.Filesystem
                 {
                     bool updated = false;
                     using var library = new ShellLibrary2(Shell32.ShellUtil.GetShellItemForPath(libraryPath), false);
-                    if (folders != null)
+                    if (folders is not null)
                     {
                         if (folders.Length > 0)
                         {
@@ -236,12 +236,12 @@ namespace Files.App.Filesystem
                             }
                         }
                     }
-                    if (defaultSaveFolder != null)
+                    if (defaultSaveFolder is not null)
                     {
                         library.DefaultSaveFolder = ShellItem.Open(defaultSaveFolder);
                         updated = true;
                     }
-                    if (isPinned != null)
+                    if (isPinned is not null)
                     {
                         library.PinnedToNavigationPane = isPinned == true;
                         updated = true;
@@ -261,7 +261,7 @@ namespace Files.App.Filesystem
                 return Task.FromResult<ShellLibraryItem>(null);
             });
 
-            var newLib = item != null ? new LibraryLocationItem(item) : null;
+            var newLib = item is not null ? new LibraryLocationItem(item) : null;
             if (newLib is not null)
             {
                 var libItem = Libraries.FirstOrDefault(l => string.Equals(l.Path, libraryPath, StringComparison.OrdinalIgnoreCase));
@@ -393,7 +393,7 @@ namespace Files.App.Filesystem
 
         private async void OnLibraryChanged(WatcherChangeTypes changeType, string oldPath, string newPath)
         {
-            if (newPath != null && (!newPath.ToLowerInvariant().EndsWith(ShellLibraryItem.EXTENSION, StringComparison.Ordinal) || !File.Exists(newPath)))
+            if (newPath is not null && (!newPath.ToLowerInvariant().EndsWith(ShellLibraryItem.EXTENSION, StringComparison.Ordinal) || !File.Exists(newPath)))
             {
                 System.Diagnostics.Debug.WriteLine($"Ignored library event: {changeType}, {oldPath} -> {newPath}");
                 return;
@@ -404,7 +404,7 @@ namespace Files.App.Filesystem
             if (!changeType.HasFlag(WatcherChangeTypes.Deleted))
             {
                 var library = SafetyExtensions.IgnoreExceptions(() => new ShellLibrary2(Shell32.ShellUtil.GetShellItemForPath(newPath), true));
-                if (library == null)
+                if (library is null)
                 {
                     App.Logger.Warn($"Failed to open library after {changeType}: {newPath}");
                     return;

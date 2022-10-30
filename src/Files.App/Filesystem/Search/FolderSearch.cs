@@ -229,7 +229,7 @@ namespace Files.App.Filesystem.Search
                     if (shouldBeListed)
                     {
                         var item = GetListedItemAsync(match.FilePath, findData);
-                        if (item != null)
+                        if (item is not null)
                         {
                             results.Add(item);
                         }
@@ -328,7 +328,7 @@ namespace Files.App.Filesystem.Search
                         if (shouldBeListed)
                         {
                             var item = GetListedItemAsync(itemPath, findData);
-                            if (item != null)
+                            if (item is not null)
                             {
                                 results.Add(item);
                             }
@@ -394,12 +394,12 @@ namespace Files.App.Filesystem.Search
                     };
                 }
             }
-            if (listedItem != null && MaxItemCount > 0) // Only load icon for searchbox suggestions
+            if (listedItem is not null && MaxItemCount > 0) // Only load icon for searchbox suggestions
             {
                 _ = FileThumbnailHelper.LoadIconFromPathAsync(listedItem.ItemPath, ThumbnailSize, ThumbnailMode.ListView, isFolder)
                     .ContinueWith((t) =>
                     {
-                        if (t.IsCompletedSuccessfully && t.Result != null)
+                        if (t.IsCompletedSuccessfully && t.Result is not null)
                         {
                             _ = FilesystemTasks.Wrap(() => App.Window.DispatcherQueue.EnqueueAsync(async () =>
                             {
@@ -500,10 +500,10 @@ namespace Files.App.Filesystem.Search
                     };
                 }
             }
-            if (listedItem != null && MaxItemCount > 0) // Only load icon for searchbox suggestions
+            if (listedItem is not null && MaxItemCount > 0) // Only load icon for searchbox suggestions
             {
                 var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(item, ThumbnailSize, ThumbnailMode.ListView);
-                if (iconData != null)
+                if (iconData is not null)
                 {
                     listedItem.FileImage = await iconData.ToBitmapAsync();
                 }

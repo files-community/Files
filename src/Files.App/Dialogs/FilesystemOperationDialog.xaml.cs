@@ -22,7 +22,7 @@ namespace Files.App.Dialogs
             get => (FileSystemDialogViewModel)DataContext;
             set
             {
-                if (value != null)
+                if (value is not null)
                 {
                     value.PrimaryButtonEnabled = true;
                 }
@@ -74,7 +74,7 @@ namespace Files.App.Dialogs
         {
             base.OnApplyTemplate();
             var primaryButton = this.FindDescendant("PrimaryButton") as Button;
-            if (primaryButton != null)
+            if (primaryButton is not null)
             {
                 primaryButton.GotFocus += PrimaryButton_GotFocus;
             }
@@ -83,7 +83,7 @@ namespace Files.App.Dialogs
         private void PrimaryButton_GotFocus(object sender, RoutedEventArgs e)
         {
             (sender as Button).GotFocus -= PrimaryButton_GotFocus;
-            if (chkPermanentlyDelete != null)
+            if (chkPermanentlyDelete is not null)
             {
                 chkPermanentlyDelete.IsEnabled = ViewModel.IsDeletePermanentlyEnabled;
             }

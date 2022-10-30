@@ -55,7 +55,7 @@ namespace Files.App.Helpers
             IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
             var overflow = items.Where(x => x.ID == "ItemOverflow").FirstOrDefault();
-            if (overflow != null)
+            if (overflow is not null)
             {
                 if (!shiftPressed && userSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu) // items with ShowOnShift to overflow menu
                 {

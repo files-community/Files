@@ -36,7 +36,7 @@ namespace Files.App.ViewModels.Properties
 
         public override void GetBaseProperties()
         {
-            if (Item != null)
+            if (Item is not null)
             {
                 ViewModel.ItemName = Item.Name;
                 ViewModel.OriginalItemName = Item.Name;
@@ -78,7 +78,7 @@ namespace Files.App.ViewModels.Properties
                 Item.ItemPath, System.IO.FileAttributes.Hidden);
 
             var fileIconData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.ItemPath, 80, Windows.Storage.FileProperties.ThumbnailMode.SingleItem, true);
-            if (fileIconData != null)
+            if (fileIconData is not null)
             {
                 ViewModel.IconData = fileIconData;
                 ViewModel.LoadFolderGlyph = false;
@@ -101,10 +101,10 @@ namespace Files.App.ViewModels.Properties
             string folderPath = (Item as ShortcutItem)?.TargetPath ?? Item.ItemPath;
             BaseStorageFolder storageFolder = await AppInstance.FilesystemViewModel.GetFolderFromPathAsync(folderPath);
 
-            if (storageFolder != null)
+            if (storageFolder is not null)
             {
                 ViewModel.ItemCreatedTimestamp = dateTimeFormatter.ToShortLabel(storageFolder.DateCreated);
-                if (storageFolder.Properties != null)
+                if (storageFolder.Properties is not null)
                 {
                     GetOtherProperties(storageFolder.Properties);
                 }

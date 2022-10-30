@@ -7,19 +7,19 @@
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	Title="{Binding TitleText, Mode=OneWay}"
+	Title="{x:Bind ViewModel.TitleText, Mode=OneWay}"
 	CloseButtonClick="ContentDialog_CloseButtonClick"
-	CloseButtonText="{Binding CloseButtonText, Mode=OneWay}"
+	CloseButtonText="{x:Bind ViewModel.CloseButtonText, Mode=OneWay}"
 	CornerRadius="{StaticResource OverlayCornerRadius}"
 	DefaultButton="Primary"
-	IsPrimaryButtonEnabled="{Binding IsPrimaryButtonEnabled, Mode=OneWay}"
-	IsSecondaryButtonEnabled="{Binding IsSecondaryButtonEnabled, Mode=OneWay}"
+	IsPrimaryButtonEnabled="{x:Bind ViewModel.IsPrimaryButtonEnabled, Mode=OneWay}"
+	IsSecondaryButtonEnabled="{x:Bind ViewModel.IsSecondaryButtonEnabled, Mode=OneWay}"
 	KeyDown="ContentDialog_KeyDown"
 	PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
-	PrimaryButtonText="{Binding PrimaryButtonText, Mode=OneWay}"
+	PrimaryButtonText="{x:Bind ViewModel.PrimaryButtonText, Mode=OneWay}"
 	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
 	SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
-	SecondaryButtonText="{Binding SecondaryButtonText, Mode=OneWay}"
+	SecondaryButtonText="{x:Bind ViewModel.SecondaryButtonText, Mode=OneWay}"
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">
 
@@ -36,7 +36,7 @@
 			HorizontalAlignment="Left"
 			VerticalAlignment="Center"
 			x:Load="{x:Bind ViewModel.SubtitleLoad, Mode=OneWay}"
-			Text="{Binding SubtitleText, Mode=OneWay}"
+			Text="{x:Bind ViewModel.SubtitleText, Mode=OneWay}"
 			TextWrapping="WrapWholeWords" />
 
 		<!--  The dynamic content control  -->
@@ -48,11 +48,11 @@
 			HorizontalContentAlignment="Stretch"
 			VerticalContentAlignment="Stretch"
 			x:Load="{x:Bind ViewModel.DisplayControlLoad, Mode=OneWay}"
-			Content="{Binding DisplayControl, Mode=OneWay}">
+			Content="{x:Bind ViewModel.DisplayControl, Mode=OneWay}">
 			<i:Interaction.Behaviors>
 				<!--  No need to specify CommandParameter - `e` is passed by default  -->
 				<icore:EventTriggerBehavior EventName="Loaded">
-					<icore:InvokeCommandAction Command="{Binding DisplayControlOnLoadedCommand, Mode=OneWay}" />
+					<icore:InvokeCommandAction Command="{x:Bind ViewModel.DisplayControlOnLoadedCommand, Mode=OneWay}" />
 				</icore:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 		</ContentControl>

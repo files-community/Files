@@ -162,7 +162,7 @@ namespace Files.App.ViewModels.Properties
         {
             var options = FileOperationsHelpers.ReadCompatOptions(ExePath);
 
-            if (options != null)
+            if (options is not null)
                 CompatibilityOptions = CompatibilityOptions.FromString(options);
         }
 

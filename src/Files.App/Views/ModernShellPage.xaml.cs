@@ -284,7 +284,7 @@ namespace Files.App.Views
 
         private void FolderSettings_LayoutPreferencesUpdateRequired(object sender, LayoutPreferenceEventArgs e)
         {
-            if (FilesystemViewModel == null)
+            if (FilesystemViewModel is null)
                 return;
 
             FolderSettingsViewModel.SetLayoutPreferencesForPath(FilesystemViewModel.WorkingDirectory, e.LayoutPreference);
@@ -623,7 +623,7 @@ namespace Files.App.Views
 
         private void FilesystemViewModel_DirectoryInfoUpdated(object sender, EventArgs e)
         {
-            if (ContentPage != null)
+            if (ContentPage is not null)
             {
                 if (FilesystemViewModel.FilesAndFolders.Count == 1)
                     ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {"ItemCount/Text".GetLocalizedResource()}";
@@ -938,7 +938,7 @@ namespace Files.App.Views
 
         private void SelectSidebarItemFromPath(Type incomingSourcePageType = null)
         {
-            if (incomingSourcePageType == typeof(WidgetsPage) && incomingSourcePageType != null)
+            if (incomingSourcePageType == typeof(WidgetsPage) && incomingSourcePageType is not null)
                 ToolbarViewModel.PathControlDisplayText = "Home".GetLocalizedResource();
         }
 
@@ -968,7 +968,7 @@ namespace Files.App.Views
             InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated -= AppSettings_SortOptionPreferenceUpdated;
             InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFilesPreferenceUpdated -= AppSettings_SortDirectoriesAlongsideFilesPreferenceUpdated;
 
-            if (FilesystemViewModel != null) // Prevent weird case of this being null when many tabs are opened/closed quickly
+            if (FilesystemViewModel is not null) // Prevent weird case of this being null when many tabs are opened/closed quickly
             {
                 FilesystemViewModel.WorkingDirectoryModified -= ViewModel_WorkingDirectoryModified;
                 FilesystemViewModel.ItemLoadStatusChanged -= FilesystemViewModel_ItemLoadStatusChanged;
@@ -1025,7 +1025,7 @@ namespace Files.App.Views
 
                             ListedItem itemToSelect = FilesystemViewModel.FilesAndFolders.Where((item) => item.ItemPath == folderToSelect).FirstOrDefault();
 
-                            if (itemToSelect != null && ContentPage != null)
+                            if (itemToSelect is not null && ContentPage is not null)
                             {
                                 ContentPage.ItemManipulationModel.SetSelectedItem(itemToSelect);
                                 ContentPage.ItemManipulationModel.ScrollIntoView(itemToSelect);
@@ -1073,12 +1073,12 @@ namespace Files.App.Views
 
         public void NavigateToPath(string? navigationPath, Type? sourcePageType, NavigationArguments? navArgs = null)
         {
-            if (sourcePageType == null && !string.IsNullOrEmpty(navigationPath))
+            if (sourcePageType is null && !string.IsNullOrEmpty(navigationPath))
             {
                 sourcePageType = InstanceViewModel.FolderSettings.GetLayoutType(navigationPath);
             }
 
-            if (navArgs != null && navArgs.AssociatedTabInstance != null)
+            if (navArgs is not null && navArgs.AssociatedTabInstance is not null)
             {
                 ItemDisplayFrame.Navigate(
                 sourcePageType,

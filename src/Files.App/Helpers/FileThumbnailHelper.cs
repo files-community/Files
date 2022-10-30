@@ -33,7 +33,7 @@ namespace Files.App.Helpers
             {
                 using var thumbnail = (StorageItemThumbnail)await FilesystemTasks.Wrap(
                     () => item.AsBaseStorageFile().GetThumbnailAsync(thumbnailMode, thumbnailSize, ThumbnailOptions.ResizeThumbnail).AsTask());
-                if (thumbnail != null)
+                if (thumbnail is not null)
                 {
                     return await thumbnail.ToByteArrayAsync();
                 }
@@ -42,7 +42,7 @@ namespace Files.App.Helpers
             {
                 using var thumbnail = (StorageItemThumbnail)await FilesystemTasks.Wrap(
                     () => item.AsBaseStorageFolder().GetThumbnailAsync(thumbnailMode, thumbnailSize, ThumbnailOptions.ResizeThumbnail).AsTask());
-                if (thumbnail != null)
+                if (thumbnail is not null)
                 {
                     return await thumbnail.ToByteArrayAsync();
                 }
@@ -55,10 +55,10 @@ namespace Files.App.Helpers
             if (!filePath.EndsWith(".lnk", StringComparison.Ordinal) && !filePath.EndsWith(".url", StringComparison.Ordinal))
             {
                 var item = await StorageHelpers.ToStorageItem<IStorageItem>(filePath);
-                if (item != null)
+                if (item is not null)
                 {
                     var iconData = await LoadIconFromStorageItemAsync(item, thumbnailSize, thumbnailMode);
-                    if (iconData != null)
+                    if (iconData is not null)
                     {
                         return iconData;
                     }

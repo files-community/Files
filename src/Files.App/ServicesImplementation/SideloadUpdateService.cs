@@ -76,7 +76,7 @@ namespace Files.App.ServicesImplementation
                 XmlSerializer xml = new XmlSerializer(typeof(AppInstaller));
                 var appInstaller = (AppInstaller?)xml.Deserialize(stream);
 
-                if (appInstaller == null)
+                if (appInstaller is null)
                     throw new ArgumentNullException(nameof(appInstaller));
 
                 var remoteVersion = new Version(appInstaller.Version);
@@ -160,7 +160,7 @@ namespace Files.App.ServicesImplementation
             }
             catch (Exception e)
             {
-                if (result?.ExtendedErrorCode != null)
+                if (result?.ExtendedErrorCode is not null)
                     Logger?.Info(result.ErrorText);
 
                 Logger?.Error(e, e.Message);
