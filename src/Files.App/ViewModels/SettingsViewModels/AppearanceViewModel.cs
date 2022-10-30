@@ -251,13 +251,13 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		private bool _loadingTheme;
-		public bool LoadingTheme
+		private bool isLoadingThemes;
+		public bool IsLoadingThemes
 		{
-			get => _loadingTheme;
+			get => isLoadingThemes;
 			set
 			{
-				_loadingTheme = value;
+				isLoadingThemes = value;
 				OnPropertyChanged();
 			}
 		}

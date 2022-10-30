@@ -59,11 +59,11 @@ namespace Files.App.SettingsPages
 
         private void AppThemeSelectionGridView_Loaded(object sender, RoutedEventArgs e)
         {
-            ViewModel.LoadingTheme = true;
+            ViewModel.IsLoadingThemes = true;
             DispatcherQueue.TryEnqueue(async () =>
             {
                 await App.ExternalResourcesHelper.LoadOtherThemesAsync();
-                ViewModel.LoadingTheme = false;
+                ViewModel.IsLoadingThemes = false;
             });
         }
     }

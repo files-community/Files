@@ -52,9 +52,9 @@
 				<local:SettingsBlockControl.ExpandableContent>
 					<GridView
 						x:Name="AppThemeSelectionGridView"
-						Loaded="AppThemeSelectionGridView_Loaded"
 						Padding="8"
 						ItemsSource="{x:Bind ViewModel.CustomThemes, Mode=OneWay}"
+						Loaded="AppThemeSelectionGridView_Loaded"
 						SelectedItem="{x:Bind ViewModel.SelectedTheme, Mode=TwoWay}"
 						SelectionMode="Single">
 						<GridView.ItemTemplate>
@@ -65,7 +65,14 @@
 					</GridView>
 				</local:SettingsBlockControl.ExpandableContent>
 				<StackPanel Orientation="Horizontal">
-					<ProgressRing Height="32" Width="32" Padding="8" VerticalAlignment="Bottom" AutomationProperties.Name="{helpers:ResourceString Name=LoadingThemes}" Visibility="{x:Bind ViewModel.LoadingTheme, Mode=OneWay}" IsIndeterminate="True" />
+					<ProgressRing
+						Width="32"
+						Height="32"
+						Padding="8"
+						VerticalAlignment="Bottom"
+						AutomationProperties.Name="{helpers:ResourceString Name=LoadingThemes}"
+						IsIndeterminate="True"
+						x:Load="{x:Bind ViewModel.IsLoadingThemes, Mode=OneWay}" />
 					<Button
 						x:Name="ThemesLearnMoreButton"
 						Height="32"
