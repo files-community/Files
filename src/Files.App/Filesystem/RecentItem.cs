@@ -75,7 +75,7 @@ namespace Files.App.Filesystem
 		public async Task LoadRecentItemIcon()
 		{
 			var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(RecentPath, 96u, ThumbnailMode.SingleItem);
-			if (iconData == null)
+			if (iconData is null)
 			{
 				EmptyImgVis = true;
 			}
@@ -91,7 +91,7 @@ namespace Files.App.Filesystem
 		/// </summary>
 		public bool Equals(RecentItem other)
 		{
-			if (other == null)
+			if (other is null)
 			{
 				return false;
 			}

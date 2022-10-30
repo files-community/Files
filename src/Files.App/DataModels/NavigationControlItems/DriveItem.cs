@@ -149,7 +149,7 @@ namespace Files.App.DataModels.NavigationControlItems
 		{
 			var item = new DriveItem();
 
-			if (imageStream != null)
+			if (imageStream is not null)
 				item.IconData = await imageStream.ToByteArrayAsync();
 
 			item.Text = type is DriveType.Network ? $"{root.DisplayName} ({deviceId})" : root.DisplayName;
@@ -190,7 +190,7 @@ namespace Files.App.DataModels.NavigationControlItems
 				var properties = await Root.Properties.RetrievePropertiesAsync(new[] { "System.FreeSpace", "System.Capacity" })
 					.AsTask().WithTimeoutAsync(TimeSpan.FromSeconds(5));
 
-				if (properties != null && properties["System.Capacity"] != null && properties["System.FreeSpace"] != null)
+				if (properties is not null && properties["System.Capacity"] is not null && properties["System.FreeSpace"] is not null)
 				{
 					MaxSpace = ByteSize.FromBytes((ulong)properties["System.Capacity"]);
 					FreeSpace = ByteSize.FromBytes((ulong)properties["System.FreeSpace"]);
@@ -229,12 +229,12 @@ namespace Files.App.DataModels.NavigationControlItems
 
 		public async Task LoadDriveIcon()
 		{
-			if (IconData == null)
+			if (IconData is null)
 			{
 				if (!string.IsNullOrEmpty(DeviceID))
 					IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, 24);
 
-				if (IconData == null)
+				if (IconData is null)
 				{
 					var resource = UIHelpers.GetIconResourceInfo(Constants.ImageRes.Folder);
 					IconData = resource?.IconData;

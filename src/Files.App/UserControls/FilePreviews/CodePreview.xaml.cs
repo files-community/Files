@@ -21,7 +21,7 @@ namespace Files.App.UserControls.FilePreviews
 
         private void RenderDocument()
         {
-            if (codeView != null)
+            if (codeView is not null)
             {
                 codeView.Blocks?.Clear();
                 formatter = new RichTextBlockFormatter(ActualTheme);

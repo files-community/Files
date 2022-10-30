@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Files.Sdk.Storage.LocatableStorage;
 using Files.Sdk.Storage.ModifiableStorage;
 
-#nullable enable
 
 namespace Files.App.Storage.FtpStorage
 {

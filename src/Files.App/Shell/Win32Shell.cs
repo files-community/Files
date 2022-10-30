@@ -1,5 +1,4 @@
-﻿#nullable enable
-
+﻿
 using Files.Shared;
 using System;
 using System.Collections.Generic;

@@ -11,7 +11,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
-using System;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
@@ -54,7 +53,7 @@ namespace Files.App.Views
 
         public async override Task<bool> SaveChangesAsync(ListedItem item)
         {
-            if (SecurityProperties != null)
+            if (SecurityProperties is not null)
             {
                 return SecurityProperties.SetFilePermissions();
             }
@@ -65,7 +64,7 @@ namespace Files.App.Views
         {
             base.Properties_Loaded(sender, e);
 
-            if (SecurityProperties != null)
+            if (SecurityProperties is not null)
             {
                 SecurityProperties.GetFilePermissions();
             }
@@ -78,14 +77,14 @@ namespace Files.App.Views
 
         private void OpenAdvancedProperties()
         {
-            if (SecurityProperties == null)
+            if (SecurityProperties is null)
             {
                 return;
             }
 
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
-                if (propsView == null)
+                if (propsView is null)
                 {
                     var frame = new Frame();
                     frame.RequestedTheme = ThemeHelper.RootTheme;
@@ -103,7 +102,7 @@ namespace Files.App.Views
                     var appWindow = propertiesWindow.AppWindow;
 
                     // Set icon
-                    appWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, "Assets/AppTiles/Dev/Logo.ico"));
+                    appWindow.SetIcon(FilePropertiesHelpers.GetFilesLogoPath());
 
                     // Set content
                     propertiesWindow.Content = frame;
@@ -146,7 +145,7 @@ namespace Files.App.Views
             sender.Destroying -= AppWindow_Destroying;
             propsView = null;
 
-            if (SecurityProperties != null)
+            if (SecurityProperties is not null)
             {
                 await DispatcherQueue.EnqueueAsync(() => SecurityProperties.GetFilePermissions()); // Reload permissions
             }

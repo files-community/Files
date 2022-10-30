@@ -49,7 +49,7 @@ namespace Files.App.ViewModels.Dialogs
 
             DestinationFolder = await folderPicker.PickSingleFolderAsync();
 
-            if (DestinationFolder != null)
+            if (DestinationFolder is not null)
             {
                 DestinationFolderPath = DestinationFolder.Path;
             }

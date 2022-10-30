@@ -17,7 +17,7 @@ namespace Files.App.Helpers
             {
                 // Get the path of the selected file
                 BaseStorageFile sourceFile = await StorageHelpers.ToStorageItem<BaseStorageFile>(filePath);
-                if (sourceFile == null)
+                if (sourceFile is null)
                 {
                     return;
                 }
@@ -30,7 +30,7 @@ namespace Files.App.Helpers
                 // If the file you are trying to set as the wallpaper has the same name as the current wallpaper,
                 // the system will ignore the request and no-op the operation
                 BaseStorageFile file = await FilesystemTasks.Wrap(() => sourceFile.CopyAsync(localFolder, sourceFile.Name, NameCollisionOption.GenerateUniqueName).AsTask());
-                if (file == null)
+                if (file is null)
                 {
                     return;
                 }

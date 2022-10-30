@@ -2,7 +2,6 @@ using Files.Shared.EventArguments;
 using System;
 using System.Runtime.CompilerServices;
 
-#nullable enable
 
 namespace Files.App.Serialization
 {
@@ -60,7 +59,7 @@ namespace Files.App.Serialization
 
         public bool RegisterSettingsContext(ISettingsSharingContext settingsSharingContext)
         {
-            if (_settingsSharingContext == null)
+            if (_settingsSharingContext is null)
             {
                 // Can register only once
                 _settingsSharingContext = settingsSharingContext;
@@ -88,7 +87,7 @@ namespace Files.App.Serialization
                 return defaultValue;
             }
 
-            return JsonSettingsDatabase == null ? defaultValue : JsonSettingsDatabase.GetValue(propertyName, defaultValue) ?? defaultValue;
+            return JsonSettingsDatabase is null ? defaultValue : JsonSettingsDatabase.GetValue(propertyName, defaultValue) ?? defaultValue;
         }
 
         protected virtual bool Set<TValue>(TValue? value, [CallerMemberName] string propertyName = "")

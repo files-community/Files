@@ -21,7 +21,7 @@ namespace Files.App.Shell
         {
             if (disposing)
             {
-                if (SubItems != null)
+                if (SubItems is not null)
                 {
                     foreach (var si in SubItems)
                     {

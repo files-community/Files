@@ -66,12 +66,13 @@ namespace Files.App
         public async Task InitializeApplication(AppActivationArguments activatedEventArgs)
         {
             var rootFrame = EnsureWindowIsInitialized();
+            Activate();
 
             // WINUI3: port activation args from App.xaml.cs.old: OnActivated, OnFileActivated
             switch (activatedEventArgs.Data)
             {
                 case ILaunchActivatedEventArgs launchArgs:
-                    if (rootFrame.Content == null)
+                    if (rootFrame.Content is null)
                     {
                         // When the navigation stack isn't restored navigate to the first page,
                         // configuring the new page by passing required information as a navigation
@@ -97,7 +98,7 @@ namespace Files.App
                         var parsedArgs = eventArgs.Uri.Query.TrimStart('?').Split('=');
                         var unescapedValue = Uri.UnescapeDataString(parsedArgs[1]);
                         var folder = (StorageFolder)await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(unescapedValue).AsTask());
-                        if (folder != null && !string.IsNullOrEmpty(folder.Path))
+                        if (folder is not null && !string.IsNullOrEmpty(folder.Path))
                         {
                             unescapedValue = folder.Path; // Convert short name to long name (#6190)
                         }
@@ -129,7 +130,7 @@ namespace Files.App
                     var activationPath = operation.CurrentDirectoryPath;
 
                     var parsedCommands = CommandLineParser.ParseUntrustedCommands(cmdLineString);
-                    if (parsedCommands != null && parsedCommands.Count > 0)
+                    if (parsedCommands is not null && parsedCommands.Count > 0)
                     {
                         await InitializeFromCmdLineArgs(rootFrame, parsedCommands, activationPath);
                     }
@@ -147,7 +148,7 @@ namespace Files.App
 
                 case IFileActivatedEventArgs fileArgs:
                     var index = 0;
-                    if (rootFrame.Content == null)
+                    if (rootFrame.Content is null)
                     {
                         // When the navigation stack isn't restored navigate to the first page,
                         // configuring the new page by passing required information as a navigation
@@ -162,13 +163,10 @@ namespace Files.App
                     break;
             }
 
-            if (rootFrame.Content == null)
+            if (rootFrame.Content is null)
             {
                 rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
             }
-
-            ((MainPage)rootFrame.Content).Loaded += 
-                (s, e) => DispatcherQueue.TryEnqueue(() => Activate());
         }
 
         private Frame EnsureWindowIsInitialized()
@@ -207,7 +205,7 @@ namespace Files.App
                 {
                     payload = CommonPaths.ShellPlaces.Get(payload.ToUpperInvariant(), payload);
                     var folder = (StorageFolder)await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(payload).AsTask());
-                    if (folder != null && !string.IsNullOrEmpty(folder.Path))
+                    if (folder is not null && !string.IsNullOrEmpty(folder.Path))
                     {
                         payload = folder.Path; // Convert short name to long name (#6190)
                     }
@@ -217,7 +215,7 @@ namespace Files.App
                     LeftPaneNavPathParam = payload,
                     LeftPaneSelectItemParam = selectItem,
                 };
-                if (rootFrame.Content != null)
+                if (rootFrame.Content is not null)
                 {
                     await MainPageViewModel.AddNewTabByParam(typeof(PaneHolderPage), paneNavigationArgs);
                 }

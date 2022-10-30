@@ -39,8 +39,6 @@ namespace Files.App.Filesystem
 
         private readonly CancellationToken cancellationToken;
 
-        private Task<NamedPipeAsAppServiceConnection> ServiceConnection => AppServiceConnectionHelper.Instance;
-
         #region Helpers Members
 
         private static char[] RestrictedCharacters
@@ -251,7 +249,7 @@ namespace Files.App.Filesystem
         {
             try
             {
-                if (destination == null)
+                if (destination is null)
                 {
                     return default;
                 }
@@ -338,7 +336,7 @@ namespace Files.App.Filesystem
             ((IProgress<float>)banner.Progress).Report(100.0f);
             await Task.Yield();
 
-            if (registerHistory && history != null && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
+            if (registerHistory && history is not null && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
             {
                 foreach (var item in history.Source.Zip(history.Destination, (k, v) => new { Key = k, Value = v }).ToDictionary(k => k.Key, v => v.Value))
                 {
@@ -476,7 +474,7 @@ namespace Files.App.Filesystem
             ((IProgress<float>)banner.Progress).Report(100.0f);
             await Task.Yield();
 
-            if (registerHistory && history != null && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
+            if (registerHistory && history is not null && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
             {
                 foreach (var item in history.Source.Zip(history.Destination, (k, v) => new { Key = k, Value = v }).ToDictionary(k => k.Key, v => v.Value))
                 {
@@ -741,7 +739,7 @@ namespace Files.App.Filesystem
             {
                 var itemPathOrName = string.IsNullOrEmpty(src.Path) ? src.Item.Name : src.Path;
                 var match = collisions.SingleOrDefault(x => x.Key == itemPathOrName);
-                if (match.Key != null)
+                if (match.Key is not null)
                 {
                     newCollisions.Add(match.Value);
                 }
@@ -758,7 +756,7 @@ namespace Files.App.Filesystem
 
         public static bool HasDraggedStorageItems(DataPackageView packageView)
         {
-            return packageView != null && (packageView.Contains(StandardDataFormats.StorageItems) || (packageView.Properties.TryGetValue("FileDrop", out _)));
+            return packageView is not null && (packageView.Contains(StandardDataFormats.StorageItems) || (packageView.Properties.TryGetValue("FileDrop", out _)));
         }
 
         public static async Task<bool> CheckDragNeedsFulltrust(DataPackageView packageView)

@@ -47,14 +47,14 @@ namespace Files.App.Helpers
             }
 
             var file = await StorageHelpers.ToStorageItem<IStorageFile>(filePath);
-            if (file == null)
+            if (file is null)
             {
                 return;
             }
 
             var fileStreamRes = await FilesystemTasks.Wrap(() => file.OpenAsync(FileAccessMode.ReadWrite).AsTask());
             using IRandomAccessStream fileStream = fileStreamRes.Result;
-            if (fileStream == null)
+            if (fileStream is null)
             {
                 return;
             }

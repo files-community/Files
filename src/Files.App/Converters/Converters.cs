@@ -2,7 +2,6 @@ using System;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 
-#nullable enable
 
 namespace Files.App.Converters
 {
@@ -167,7 +166,7 @@ namespace Files.App.Converters
         /// <returns></returns>
         protected override bool Convert(object? value, object? parameter, string? language)
         {
-            return Inverse ? value != null : value == null;
+            return Inverse ? value is not null : value is null;
         }
 
         /// <summary>

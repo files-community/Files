@@ -30,25 +30,6 @@ namespace Files.App.ViewModels.Pages
 
         public ICommand LoadBundlesCommand { get; private set; }
 
-        private NamedPipeAsAppServiceConnection connection;
-
-        private NamedPipeAsAppServiceConnection Connection
-        {
-            get => connection;
-            set
-            {
-                if (connection != null)
-                {
-                    connection.RequestReceived -= Connection_RequestReceived;
-                }
-                connection = value;
-                if (connection != null)
-                {
-                    connection.RequestReceived += Connection_RequestReceived;
-                }
-            }
-        }
-
         public YourHomeViewModel(WidgetsListControlViewModel widgetsViewModel, IShellPage associatedInstance)
         {
             this.widgetsViewModel = widgetsViewModel;
@@ -57,14 +38,6 @@ namespace Files.App.ViewModels.Pages
             // Create commands
             YourHomeLoadedCommand = new RelayCommand<RoutedEventArgs>(YourHomeLoaded);
             LoadBundlesCommand = new RelayCommand<BundlesViewModel>(LoadBundles);
-
-            _ = InitializeConnectionAsync(); // fire and forget
-            AppServiceConnectionHelper.ConnectionChanged += AppServiceConnectionHelper_ConnectionChanged;
-        }
-
-        private async Task InitializeConnectionAsync()
-        {
-            Connection ??= await AppServiceConnectionHelper.Instance;
         }
 
         public void ChangeAppInstance(IShellPage associatedInstance)
@@ -99,38 +72,17 @@ namespace Files.App.ViewModels.Pages
             await NavigationHelpers.OpenPath(e.path, associatedInstance, e.itemType, e.openSilent, e.openViaApplicationPicker, e.selectItems);
         }
 
-        private async void AppServiceConnectionHelper_ConnectionChanged(object sender, Task<NamedPipeAsAppServiceConnection> e)
-        {
-            Connection = await e;
-        }
-
-        private async void Connection_RequestReceived(object sender, Dictionary<string, JsonElement> message)
-        {
-            if (message.ContainsKey("RecentItems"))
-            {
-                var changeType = message.Get("ChangeType", defaultJson).GetString();
-                await App.RecentItemsManager.HandleWin32RecentItemsEvent(changeType);
-            }
-        }
-
         #region IDisposable
 
         public void Dispose()
         {
-            if (bundlesViewModel != null)
+            if (bundlesViewModel is not null)
             {
                 bundlesViewModel.OpenPathEvent -= BundlesViewModel_OpenPathEvent;
                 bundlesViewModel.OpenPathInNewPaneEvent -= BundlesViewModel_OpenPathInNewPaneEvent;
             }
 
             widgetsViewModel?.Dispose();
-
-            if (connection != null)
-            {
-                connection.RequestReceived -= Connection_RequestReceived;
-            }
-
-            AppServiceConnectionHelper.ConnectionChanged -= AppServiceConnectionHelper_ConnectionChanged;
         }
 
         #endregion IDisposable
