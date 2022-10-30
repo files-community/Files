@@ -159,7 +159,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
             else // NotADirectory
             {
                 var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(Path, 24u, ThumbnailMode.ListView);
-                if (iconData != null)
+                if (iconData is not null)
                 {
                     Icon = await iconData.ToBitmapAsync();
                     OnPropertyChanged(nameof(Icon));

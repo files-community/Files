@@ -13,7 +13,7 @@ namespace Files.App.ServicesImplementation.DateTimeFormatter
             {
                 return " ";
             }
-            return offset.ToLocalTime().ToString("g");
+            return ToString(offset, "g");
         }
     }
 }

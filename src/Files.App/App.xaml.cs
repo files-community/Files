@@ -207,7 +207,6 @@ namespace Files.App
 				await Task.WhenAll(
 					TerminalController.InitializeAsync(),
 					JumpList.InitializeAsync(),
-					ExternalResourcesHelper.LoadOtherThemesAsync(),
 					ContextFlyoutItemHelper.CachedNewContextMenuEntries
 				);
 			});
@@ -274,7 +273,7 @@ namespace Files.App
 			{
 				ShowErrorNotification = true;
 				ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = -Process.GetCurrentProcess().Id;
-				if (AppModel != null)
+				if (AppModel is not null)
 					AppModel.Clipboard_ContentChanged(null, null);
 			}
 		}
@@ -296,15 +295,15 @@ namespace Files.App
 
 			SaveSessionTabs();
 
-			if (OutputPath != null)
+			if (OutputPath is not null)
 			{
 				await SafetyExtensions.IgnoreExceptions(async () =>
 				{
 					var instance = MainPageViewModel.AppInstances.FirstOrDefault(x => x.Control.TabItemContent.IsCurrentInstance);
-					if (instance == null)
+					if (instance is null)
 						return;
 					var items = (instance.Control.TabItemContent as PaneHolderPage)?.ActivePane?.SlimContentPage?.SelectedItems;
-					if (items == null)
+					if (items is null)
 						return;
 					await FileIO.WriteLinesAsync(await StorageFile.GetFileFromPathAsync(OutputPath), items.Select(x => x.ItemPath));
 				}, Logger);
@@ -331,14 +330,14 @@ namespace Files.App
 			IUserSettingsService? userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
 			IBundlesSettingsService? bundlesSettingsService = Ioc.Default.GetService<IBundlesSettingsService>();
 
-			if (bundlesSettingsService != null)
+			if (bundlesSettingsService is not null)
 				bundlesSettingsService.FlushSettings();
 			if (userSettingsService?.PreferencesSettingsService is null)
 				return;
 
 			userSettingsService.PreferencesSettingsService.LastSessionTabList = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>
 			{
-				if (tab != null && tab.TabItemArguments != null)
+				if (tab is not null && tab.TabItemArguments is not null)
 				{
 					return tab.TabItemArguments.Serialize();
 				}
@@ -362,25 +361,25 @@ namespace Files.App
 			string formattedException = string.Empty;
 
 			formattedException += "--------- UNHANDLED EXCEPTION ---------";
-			if (ex != null)
+			if (ex is not null)
 			{
 				formattedException += $"\n>>>> HRESULT: {ex.HResult}\n";
-				if (ex.Message != null)
+				if (ex.Message is not null)
 				{
 					formattedException += "\n--- MESSAGE ---";
 					formattedException += ex.Message;
 				}
-				if (ex.StackTrace != null)
+				if (ex.StackTrace is not null)
 				{
 					formattedException += "\n--- STACKTRACE ---";
 					formattedException += ex.StackTrace;
 				}
-				if (ex.Source != null)
+				if (ex.Source is not null)
 				{
 					formattedException += "\n--- SOURCE ---";
 					formattedException += ex.Source;
 				}
-				if (ex.InnerException != null)
+				if (ex.InnerException is not null)
 				{
 					formattedException += "\n--- INNER ---";
 					formattedException += ex.InnerException;

@@ -113,7 +113,7 @@ namespace Files.App.CommandLine
             var parsedArgs = new List<KeyValuePair<string, string[]>>();
             //Environment.GetCommandLineArgs() IS better but... I haven't tested this enough.
 
-            if (args != null)
+            if (args is not null)
             {
                 //if - or / are not used then add the command as-is
 
@@ -125,7 +125,7 @@ namespace Files.App.CommandLine
                         {
                             var data = ParseData(args, i);
 
-                            if (data.Key != null)
+                            if (data.Key is not null)
                             {
                                 for (int j = 0; j < parsedArgs.Count; j++)
                                 {
@@ -177,7 +177,7 @@ namespace Files.App.CommandLine
                 }
             }
 
-            return key != null ? new KeyValuePair<string, string[]>(key, val.ToArray()) : default;
+            return key is not null ? new KeyValuePair<string, string[]>(key, val.ToArray()) : default;
         }
     }
 }

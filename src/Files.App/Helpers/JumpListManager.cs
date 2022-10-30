@@ -47,7 +47,7 @@ namespace Files.App.Helpers
             // In that case app should just catch the error and proceed as usual
             try
             {
-                if (instance != null)
+                if (instance is not null)
                 {
                     AddFolder(path);
                     await instance.SaveAsync();
@@ -58,14 +58,14 @@ namespace Files.App.Helpers
 
         private void AddFolder(string path)
         {
-            if (instance != null)
+            if (instance is not null)
             {
                 string displayName = null;
                 if (path.EndsWith("\\"))
                 {
                     // Jumplist item argument can't end with a slash so append a character that can't exist in a directory name to support listing drives.
                     var drive = App.DrivesManager.Drives.Where(drive => drive.Path == path).FirstOrDefault();
-                    if (drive == null)
+                    if (drive is null)
                     {
                         return;
                     }
@@ -74,7 +74,7 @@ namespace Files.App.Helpers
                     path += '?';
                 }
 
-                if (displayName == null)
+                if (displayName is null)
                 {
                     if (path.Equals(CommonPaths.DesktopPath, StringComparison.OrdinalIgnoreCase))
                     {
@@ -133,7 +133,7 @@ namespace Files.App.Helpers
             // In that case app should just catch the error and proceed as usual
             try
             {
-                if (instance == null)
+                if (instance is null)
                 {
                     return;
                 }
@@ -150,7 +150,7 @@ namespace Files.App.Helpers
 
         private Task RefreshAsync()
         {
-            if (instance != null)
+            if (instance is not null)
             {
                 // Clear all items to avoid localization issues
                 instance.Items.Clear();

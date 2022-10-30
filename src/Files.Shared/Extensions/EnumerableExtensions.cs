@@ -68,7 +68,7 @@ namespace Files.Shared.Extensions
                 CancellationToken = cts
             };
 
-            if (scheduler != null)
+            if (scheduler is not null)
             {
                 options.TaskScheduler = scheduler;
             }

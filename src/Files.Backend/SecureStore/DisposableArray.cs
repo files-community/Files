@@ -20,7 +20,7 @@ namespace Files.Backend.SecureStore
 
         public override bool Equals(DisposableArray other)
         {
-            if (other?.Bytes == null || Bytes == null)
+            if (other?.Bytes is null || Bytes is null)
             {
                 return false;
             }

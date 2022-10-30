@@ -87,7 +87,7 @@ namespace Files.App.Filesystem
 
         public static BaseStorageFolder AsBaseStorageFolder(this IStorageItem item)
         {
-            if (item == null)
+            if (item is null)
             {
                 return null;
             }

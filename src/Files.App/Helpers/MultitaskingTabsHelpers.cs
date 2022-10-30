@@ -48,7 +48,7 @@ namespace Files.App.Helpers
 
 			multitaskingControl?.CloseTab(MainPageViewModel.AppInstances[index]);
 
-            if (tabItemArguments != null)
+            if (tabItemArguments is not null)
             {
                 return NavigationHelpers.OpenTabInNewWindowAsync(tabItemArguments.Serialize());
             }

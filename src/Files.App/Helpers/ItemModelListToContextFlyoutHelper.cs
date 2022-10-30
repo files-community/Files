@@ -89,7 +89,7 @@ namespace Files.App.Helpers.ContextFlyouts
 
         private static MenuFlyoutItemBase GetItem(ContextMenuFlyoutItemViewModel i)
         {
-            if (i.BitmapIcon != null)
+            if (i.BitmapIcon is not null)
             {
                 var item = new MenuFlyoutItemWithImage()
                 {
@@ -128,7 +128,7 @@ namespace Files.App.Helpers.ContextFlyouts
                     Glyph = i.Glyph,
                 };
 
-                if (icon != null && !string.IsNullOrEmpty(i.GlyphFontFamilyName))
+                if (icon is not null && !string.IsNullOrEmpty(i.GlyphFontFamilyName))
                 {
                     var fontFamily = App.Current.Resources[i.GlyphFontFamilyName] as FontFamily;
                     icon.FontFamily = fontFamily;
@@ -144,13 +144,13 @@ namespace Files.App.Helpers.ContextFlyouts
                 };
             }
 
-            if (i.KeyboardAccelerator != null)
+            if (i.KeyboardAccelerator is not null)
             {
                 flyoutItem.KeyboardAccelerators.Add(i.KeyboardAccelerator);
             }
             flyoutItem.IsEnabled = i.IsEnabled;
 
-            if (i.KeyboardAcceleratorTextOverride != null)
+            if (i.KeyboardAcceleratorTextOverride is not null)
             {
                 flyoutItem.KeyboardAcceleratorTextOverride = i.KeyboardAcceleratorTextOverride;
             }
@@ -197,7 +197,7 @@ namespace Files.App.Helpers.ContextFlyouts
             }
 
             UIElement content = null;
-            if (item.BitmapIcon != null)
+            if (item.BitmapIcon is not null)
             {
                 content = new Image()
                 {
@@ -232,7 +232,7 @@ namespace Files.App.Helpers.ContextFlyouts
                     Visibility = item.IsHidden ? Visibility.Collapsed : Visibility.Visible,
                 };
 
-                if (icon != null)
+                if (icon is not null)
                 {
                     (element as AppBarToggleButton).Icon = icon;
                 }
@@ -257,7 +257,7 @@ namespace Files.App.Helpers.ContextFlyouts
                     Visibility = item.IsHidden ? Visibility.Collapsed : Visibility.Visible,
                 };
 
-                if (icon != null)
+                if (icon is not null)
                 {
                     (element as AppBarButton).Icon = icon;
                 }

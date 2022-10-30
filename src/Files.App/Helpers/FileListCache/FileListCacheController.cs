@@ -31,7 +31,7 @@ namespace Files.App.Helpers.FileListCache
 
         public ValueTask SaveFileDisplayNameToCache(string path, string displayName)
         {
-            if (displayName == null)
+            if (displayName is null)
             {
                 fileNamesCache.TryRemove(path, out _);
             }

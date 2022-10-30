@@ -344,7 +344,7 @@ namespace Files.App.ViewModels
 			{
 				if (instanceViewModel != value)
 				{
-					if (instanceViewModel != null)
+					if (instanceViewModel is not null)
 					{
 						InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
 						InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
@@ -355,7 +355,7 @@ namespace Files.App.ViewModels
 
 					SetProperty(ref instanceViewModel, value);
 
-					if (instanceViewModel != null)
+					if (instanceViewModel is not null)
 					{
 						InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated += FolderSettings_SortDirectionPreferenceUpdated;
 						InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated += FolderSettings_SortOptionPreferenceUpdated;
@@ -542,7 +542,7 @@ namespace Files.App.ViewModels
 				{
 					dragOverTimer.Debounce(() =>
 					{
-						if (dragOverPath != null)
+						if (dragOverPath is not null)
 						{
 							dragOverTimer.Stop();
 							ItemDraggedOverPathItem?.Invoke(this, new PathNavigationEventArgs()
@@ -659,7 +659,7 @@ namespace Files.App.ViewModels
 		public void PathItemSeparator_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
 		{
 			var pathSeparatorIcon = sender as FontIcon;
-			if (pathSeparatorIcon == null || pathSeparatorIcon.DataContext == null)
+			if (pathSeparatorIcon is null || pathSeparatorIcon.DataContext is null)
 				return;
 			ToolbarPathItemLoaded?.Invoke(pathSeparatorIcon, new ToolbarPathItemLoadedEventArgs()
 			{
@@ -704,7 +704,7 @@ namespace Files.App.ViewModels
 			if (itemTappedPath is null)
 				return;
 
-			if (pointerRoutedEventArgs != null)
+			if (pointerRoutedEventArgs is not null)
 			{
 				await App.Window.DispatcherQueue.EnqueueAsync(async () =>
 				{
@@ -850,12 +850,12 @@ namespace Files.App.ViewModels
 			IList<StorageFolderWithPath>? childFolders = null;
 
 			StorageFolderWithPath folder = await shellPage.FilesystemViewModel.GetFolderWithPathFromPathAsync(pathItem.Path);
-			if (folder != null)
+			if (folder is not null)
 				childFolders = (await FilesystemTasks.Wrap(() => folder.GetFoldersWithPathAsync(string.Empty))).Result;
 
 			flyout.Items?.Clear();
 
-			if (childFolders == null || childFolders.Count == 0)
+			if (childFolders is null || childFolders.Count == 0)
 			{
 				var flyoutItem = new MenuFlyoutItem
 				{
@@ -935,7 +935,7 @@ namespace Files.App.ViewModels
 					if (resFolder || FolderHelpers.CheckFolderAccessWithWin32(currentInput))
 					{
 						var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => PathNormalization.NormalizePath(currentInput).StartsWith(PathNormalization.NormalizePath(x.Path), StringComparison.Ordinal));
-						if (matchingDrive != null && matchingDrive.Type == DataModels.NavigationControlItems.DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
+						if (matchingDrive is not null && matchingDrive.Type == DataModels.NavigationControlItems.DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
 						{
 							bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalizedResource(), string.Format("InsertDiscDialog/Text".GetLocalizedResource(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalizedResource(), "Close".GetLocalizedResource());
 							if (ejectButton)
@@ -1016,7 +1016,7 @@ namespace Files.App.ViewModels
 
 		public async void SetAddressBarSuggestions(AutoSuggestBox sender, IShellPage shellpage, int maxSuggestions = 7)
 		{
-			if (!string.IsNullOrWhiteSpace(sender.Text) && shellpage.FilesystemViewModel != null)
+			if (!string.IsNullOrWhiteSpace(sender.Text) && shellpage.FilesystemViewModel is not null)
 			{
 				if (!await SafetyExtensions.IgnoreExceptions(async () =>
 				{
@@ -1024,7 +1024,7 @@ namespace Files.App.ViewModels
 					var expandedPath = StorageFileExtensions.GetPathWithoutEnvironmentVariable(sender.Text);
 					var folderPath = PathNormalization.GetParentDir(expandedPath) ?? expandedPath;
 					StorageFolderWithPath folder = await shellpage.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
-					if (folder == null) return false;
+					if (folder is null) return false;
 					var currPath = await folder.GetFoldersWithPathAsync(Path.GetFileName(expandedPath), (uint)maxSuggestions);
 					if (currPath.Count >= maxSuggestions)
 					{

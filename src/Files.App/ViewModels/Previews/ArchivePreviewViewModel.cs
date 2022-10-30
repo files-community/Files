@@ -21,7 +21,7 @@ namespace Files.App.ViewModels.Previews
                 var arch = new SevenZipExtractor(await Item.ItemFile.OpenStreamForReadAsync());
                 return arch?.ArchiveFileData is null ? null : arch; // Force load archive (1665013614u)
             });
-            if (zipFile == null)
+            if (zipFile is null)
             {
                 _ = await base.LoadPreviewAndDetailsAsync(); // Loads the thumbnail preview
                 return details;

@@ -20,7 +20,7 @@ namespace Files.App.ViewModels.Properties
 
         protected virtual void Properties_Loaded(object sender, RoutedEventArgs e)
         {
-            if (BaseProperties != null)
+            if (BaseProperties is not null)
             {
                 BaseProperties.GetSpecialProperties();
             }
@@ -62,7 +62,7 @@ namespace Files.App.ViewModels.Properties
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            if (BaseProperties != null && BaseProperties.TokenSource != null)
+            if (BaseProperties is not null && BaseProperties.TokenSource is not null)
             {
                 //BaseProperties.TokenSource.Cancel();
             }

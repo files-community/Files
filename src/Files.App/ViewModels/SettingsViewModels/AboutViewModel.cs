@@ -57,13 +57,13 @@ namespace Files.App.ViewModels.SettingsViewModels
             filePicker.SuggestedFileName = $"Files_{App.AppVersion}";
 
             StorageFile file = await filePicker.PickSaveFileAsync();
-            if (file != null)
+            if (file is not null)
             {
                 try
                 {
                     await ZipStorageFolder.InitArchive(file, OutArchiveFormat.Zip);
                     var zipFolder = (ZipStorageFolder)await ZipStorageFolder.FromStorageFileAsync(file);
-                    if (zipFolder == null)
+                    if (zipFolder is null)
                     {
                         return;
                     }
@@ -117,12 +117,12 @@ namespace Files.App.ViewModels.SettingsViewModels
             filePicker.FileTypeFilter.Add(".zip");
 
             StorageFile file = await filePicker.PickSingleFileAsync();
-            if (file != null)
+            if (file is not null)
             {
                 try
                 {
                     var zipFolder = await ZipStorageFolder.FromStorageFileAsync(file);
-                    if (zipFolder == null)
+                    if (zipFolder is null)
                     {
                         return;
                     }

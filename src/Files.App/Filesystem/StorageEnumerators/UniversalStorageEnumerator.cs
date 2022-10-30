@@ -38,7 +38,7 @@ namespace Files.App.Filesystem.StorageEnumerators
                 IReadOnlyList<IStorageItem> items;
                 uint maxItemsToRetrieve = 300;
 
-                if (intermediateAction == null)
+                if (intermediateAction is null)
                 {
                     // without intermediate action increase batches significantly
                     maxItemsToRetrieve = 1000;
@@ -51,7 +51,7 @@ namespace Files.App.Filesystem.StorageEnumerators
                 try
                 {
                     items = await rootFolder.GetItemsAsync(count, maxItemsToRetrieve);
-                    if (items == null || items.Count == 0)
+                    if (items is null || items.Count == 0)
                     {
                         break;
                     }
@@ -76,7 +76,7 @@ namespace Files.App.Filesystem.StorageEnumerators
                         if (item.IsOfType(StorageItemTypes.Folder))
                         {
                             var folder = await AddFolderAsync(item.AsBaseStorageFolder(), currentStorageFolder, cancellationToken);
-                            if (folder != null)
+                            if (folder is not null)
                             {
                                 if (defaultIconPairs?.ContainsKey(string.Empty) ?? false)
                                 {
@@ -88,9 +88,9 @@ namespace Files.App.Filesystem.StorageEnumerators
                         else
                         {
                             var fileEntry = await AddFileAsync(item.AsBaseStorageFile(), currentStorageFolder, cancellationToken);
-                            if (fileEntry != null)
+                            if (fileEntry is not null)
                             {
-                                if (defaultIconPairs != null)
+                                if (defaultIconPairs is not null)
                                 {
                                     if (!string.IsNullOrEmpty(fileEntry.FileExtension))
                                     {
@@ -117,7 +117,7 @@ namespace Files.App.Filesystem.StorageEnumerators
                     break;
                 }
 
-                if (intermediateAction != null && (items.Count == maxItemsToRetrieve || sampler.CheckNow()))
+                if (intermediateAction is not null && (items.Count == maxItemsToRetrieve || sampler.CheckNow()))
                 {
                     await intermediateAction(tempList);
                     // clear the temporary list every time we do an intermediate action
@@ -137,7 +137,7 @@ namespace Files.App.Filesystem.StorageEnumerators
                 {
                     var results = await rootFolder.GetItemsAsync(i, 1);
                     item = results?.FirstOrDefault();
-                    if (item == null)
+                    if (item is null)
                     {
                         break;
                     }
