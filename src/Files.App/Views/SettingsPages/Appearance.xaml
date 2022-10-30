@@ -66,13 +66,14 @@
 				</local:SettingsBlockControl.ExpandableContent>
 				<StackPanel Orientation="Horizontal">
 					<ProgressRing
+						x:Name="LoadingThemesProgressRing"
 						Width="32"
 						Height="32"
 						Padding="8"
 						VerticalAlignment="Bottom"
+						x:Load="{x:Bind ViewModel.IsLoadingThemes, Mode=OneWay}"
 						AutomationProperties.Name="{helpers:ResourceString Name=LoadingThemes}"
-						IsIndeterminate="True"
-						x:Load="{x:Bind ViewModel.IsLoadingThemes, Mode=OneWay}" />
+						IsIndeterminate="True" />
 					<Button
 						x:Name="ThemesLearnMoreButton"
 						Height="32"
