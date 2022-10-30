@@ -61,7 +61,6 @@ namespace Files.App.Helpers
                 SecondaryButtonText = "Cancel".GetLocalizedResource(),
                 DefaultButton = ContentDialogButton.Primary
             };
-
             ContentDialogResult result = await this.SetContentDialogRoot(ConfirmEmptyBinDialog).ShowAsync();
 
             if (result == ContentDialogResult.Primary)
