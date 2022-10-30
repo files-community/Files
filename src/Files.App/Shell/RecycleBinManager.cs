@@ -12,7 +12,7 @@ namespace Files.App.Shell
     {
         private static readonly Lazy<RecycleBinManager> lazy = new(() => new RecycleBinManager());
         private IList<FileSystemWatcher>? binWatchers;
-        
+
         public event FileSystemEventHandler? RecycleBinItemCreated;
         public event FileSystemEventHandler? RecycleBinItemDeleted;
         public event FileSystemEventHandler? RecycleBinItemRenamed;
@@ -30,7 +30,7 @@ namespace Files.App.Shell
         {
             Initialize();
         }
-        
+
         private void Initialize()
         {
             // Create shell COM object and get recycle bin folder
@@ -94,7 +94,7 @@ namespace Files.App.Shell
 
         private void Unregister()
         {
-            if (binWatchers != null)
+            if (binWatchers is not null)
             {
                 foreach (var watcher in binWatchers)
                 {

@@ -49,7 +49,7 @@ namespace Files.App.Helpers
                     var dispatcherQueue = DispatcherQueue.GetForCurrentThread();
                     await associatedInstance.SlimContentPage.SelectedItems.ToList().ParallelForEachAsync(async listedItem =>
                     {
-                        if (banner != null)
+                        if (banner is not null)
                         {
                             ((IProgress<float>)banner.Progress).Report(items.Count / (float)itemsCount * 100);
                         }
@@ -152,7 +152,7 @@ namespace Files.App.Helpers
                 {
                     await associatedInstance.SlimContentPage.SelectedItems.ToList().ParallelForEachAsync(async listedItem =>
                     {
-                        if (banner != null)
+                        if (banner is not null)
                         {
                             ((IProgress<float>)banner.Progress).Report(items.Count / (float)itemsCount * 100);
                         }
@@ -226,7 +226,7 @@ namespace Files.App.Helpers
         public static async Task PasteItemAsync(string destinationPath, IShellPage associatedInstance)
         {
             FilesystemResult<DataPackageView> packageView = await FilesystemTasks.Wrap(() => Task.FromResult(Clipboard.GetContent()));
-            if (packageView && packageView.Result != null)
+            if (packageView && packageView.Result is not null)
             {
                 await associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(packageView.Result.RequestedOperation, packageView, destinationPath, false, true);
                 associatedInstance?.SlimContentPage?.ItemManipulationModel?.RefreshItemsOpacity();
@@ -288,7 +288,7 @@ namespace Files.App.Helpers
         public static async Task<IStorageItem> CreateFileFromDialogResultTypeForResult(AddItemDialogItemType itemType, ShellNewEntry itemInfo, IShellPage associatedInstance)
         {
             string currentPath = null;
-            if (associatedInstance.SlimContentPage != null)
+            if (associatedInstance.SlimContentPage is not null)
             {
                 currentPath = associatedInstance.FilesystemViewModel.WorkingDirectory;
                 if (App.LibraryManager.TryGetLibrary(currentPath, out var library) &&
@@ -301,7 +301,7 @@ namespace Files.App.Helpers
 
             // Skip rename dialog when ShellNewEntry has a Command (e.g. ".accdb", ".gdoc")
             string userInput = null;
-            if (itemType != AddItemDialogItemType.File || itemInfo?.Command == null)
+            if (itemType != AddItemDialogItemType.File || itemInfo?.Command is null)
             {
                 DynamicDialog dialog = DynamicDialogFactory.GetFor_RenameDialog();
                 await SetContentDialogRoot(dialog).ShowAsync(); // Show rename dialog
@@ -349,7 +349,7 @@ namespace Files.App.Helpers
                     item.ItemPath,
                     item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
                 var folder = await CreateFileFromDialogResultTypeForResult(AddItemDialogItemType.Folder, null, associatedInstance);
-                if (folder == null)
+                if (folder is null)
                 {
                     return;
                 }

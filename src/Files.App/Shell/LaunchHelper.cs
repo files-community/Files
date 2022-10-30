@@ -210,7 +210,7 @@ namespace Files.App.Shell
                 using var device = computer.FirstOrDefault(i => executable.Replace("\\\\?\\", "", StringComparison.Ordinal).StartsWith(i.Name, StringComparison.Ordinal));
                 var deviceId = device?.ParsingName;
                 var itemPath = Regex.Replace(executable, @"^\\\\\?\\[^\\]*\\?", "");
-                return deviceId != null ? Path.Combine(deviceId, itemPath) : executable;
+                return deviceId is not null ? Path.Combine(deviceId, itemPath) : executable;
             }
             return executable;
         }

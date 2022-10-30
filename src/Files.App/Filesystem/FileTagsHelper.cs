@@ -92,7 +92,7 @@ namespace Files.App.Filesystem
             foreach (var file in dbInstance.GetAll())
             {
                 var pathFromFrn = Win32API.PathFromFileId(file.Frn ?? 0, file.FilePath);
-                if (pathFromFrn != null)
+                if (pathFromFrn is not null)
                 {
                     // Frn is valid, update file path
                     var tag = ReadFileTag(pathFromFrn.Replace(@"\\?\", "", StringComparison.Ordinal));

@@ -17,7 +17,7 @@ namespace Files.App.UserControls.MultitaskingControl
                 if (value != navigationArguments)
                 {
                     navigationArguments = value;
-                    if (navigationArguments != null)
+                    if (navigationArguments is not null)
                     {
                         ContentFrame.Navigate(navigationArguments.InitialPageType, navigationArguments.NavigationArg);
                     }
@@ -47,7 +47,7 @@ namespace Files.App.UserControls.MultitaskingControl
 
         private void ContentFrame_Navigated(object sender, Microsoft.UI.Xaml.Navigation.NavigationEventArgs e)
         {
-            if (TabItemContent != null)
+            if (TabItemContent is not null)
             {
                 TabItemContent.ContentChanged += TabItemContent_ContentChanged;
             }

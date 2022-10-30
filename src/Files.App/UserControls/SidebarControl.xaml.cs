@@ -504,7 +504,7 @@ namespace Files.App.UserControls
 
         private async void Sidebar_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
-            if (IsInPointerPressed || args.InvokedItem == null || args.InvokedItemContainer == null)
+            if (IsInPointerPressed || args.InvokedItem is null || args.InvokedItemContainer is null)
             {
                 IsInPointerPressed = false;
                 return;
@@ -531,7 +531,7 @@ namespace Files.App.UserControls
         {
             var properties = e.GetCurrentPoint(null).Properties;
             var context = (sender as NavigationViewItem).DataContext;
-            if (properties.IsMiddleButtonPressed && context is INavigationControlItem item && item.Path != null)
+            if (properties.IsMiddleButtonPressed && context is INavigationControlItem item && item.Path is not null)
             {
                 if (await CheckEmptyDrive(item.Path))
                 {
@@ -602,7 +602,7 @@ namespace Files.App.UserControls
                     dragOverSectionTimer.Stop();
                     dragOverSectionTimer.Debounce(() =>
                     {
-                        if (dragOverSection != null)
+                        if (dragOverSection is not null)
                         {
                             dragOverSectionTimer.Stop();
                             if ((dragOverSection as NavigationViewItem).DataContext is LocationItem section)
@@ -619,7 +619,7 @@ namespace Files.App.UserControls
                     dragOverItemTimer.Stop();
                     dragOverItemTimer.Debounce(() =>
                     {
-                        if (dragOverItem != null)
+                        if (dragOverItem is not null)
                         {
                             dragOverItemTimer.Stop();
                             SidebarItemInvoked?.Invoke(this, new SidebarItemInvokedEventArgs(dragOverItem as NavigationViewItemBase));
@@ -1150,7 +1150,7 @@ namespace Files.App.UserControls
             if (drivePath is not null)
             {
                 var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => drivePath.StartsWith(x.Path, StringComparison.Ordinal));
-                if (matchingDrive != null && matchingDrive.Type == DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
+                if (matchingDrive is not null && matchingDrive.Type == DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
                 {
                     bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalizedResource(), string.Format("InsertDiscDialog/Text".GetLocalizedResource(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalizedResource(), "Close".GetLocalizedResource());
                     if (ejectButton)
@@ -1230,7 +1230,7 @@ namespace Files.App.UserControls
 
         private async void NavigationView_Expanding(NavigationView sender, NavigationViewItemExpandingEventArgs args)
         {
-            if (args.ExpandingItem is LocationItem loc && loc.ChildItems != null)
+            if (args.ExpandingItem is LocationItem loc && loc.ChildItems is not null)
             {
                 await Task.Delay(50); // Wait a little so IsPaneOpen tells the truth when in minimal mode
                 if (sender.IsPaneOpen) // Don't store expanded state if sidebar pane is closed
@@ -1242,7 +1242,7 @@ namespace Files.App.UserControls
 
         private async void NavigationView_Collapsed(NavigationView sender, NavigationViewItemCollapsedEventArgs args)
         {
-            if (args.CollapsedItem is LocationItem loc && loc.ChildItems != null)
+            if (args.CollapsedItem is LocationItem loc && loc.ChildItems is not null)
             {
                 await Task.Delay(50); // Wait a little so IsPaneOpen tells the truth when in minimal mode
                 if (sender.IsPaneOpen) // Don't store expanded state if sidebar pane is closed
@@ -1255,7 +1255,7 @@ namespace Files.App.UserControls
         private void NavigationView_PaneOpened(NavigationView sender, object args)
         {
             // Restore expanded state when pane is opened
-            foreach (var loc in ViewModel.SideBarItems.OfType<LocationItem>().Where(x => x.ChildItems != null))
+            foreach (var loc in ViewModel.SideBarItems.OfType<LocationItem>().Where(x => x.ChildItems is not null))
             {
                 loc.IsExpanded = App.AppSettings.Get(loc.Text == "SidebarFavorites".GetLocalizedResource(), $"section:{loc.Text.Replace('\\', '_')}");
             }
@@ -1264,7 +1264,7 @@ namespace Files.App.UserControls
         private void NavigationView_PaneClosed(NavigationView sender, object args)
         {
             // Collapse all sections but do not store the state when pane is closed
-            foreach (var loc in ViewModel.SideBarItems.OfType<LocationItem>().Where(x => x.ChildItems != null))
+            foreach (var loc in ViewModel.SideBarItems.OfType<LocationItem>().Where(x => x.ChildItems is not null))
             {
                 loc.IsExpanded = false;
             }
@@ -1321,7 +1321,7 @@ namespace Files.App.UserControls
 
         protected override DataTemplate SelectTemplateCore(object item)
         {
-            if (item != null && item is INavigationControlItem)
+            if (item is not null && item is INavigationControlItem)
             {
                 INavigationControlItem navControlItem = item as INavigationControlItem;
                 switch (navControlItem.ItemType)

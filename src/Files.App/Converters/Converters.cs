@@ -166,7 +166,7 @@ namespace Files.App.Converters
         /// <returns></returns>
         protected override bool Convert(object? value, object? parameter, string? language)
         {
-            return Inverse ? value != null : value == null;
+            return Inverse ? value is not null : value is null;
         }
 
         /// <summary>

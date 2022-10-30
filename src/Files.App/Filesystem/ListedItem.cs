@@ -230,7 +230,7 @@ namespace Files.App.Filesystem
 			get => iconOverlay;
 			set
 			{
-				if (value != null)
+				if (value is not null)
 				{
 					SetProperty(ref iconOverlay, value);
 				}
@@ -286,7 +286,7 @@ namespace Files.App.Filesystem
 			get => itemType;
 			set
 			{
-				if (value != null)
+				if (value is not null)
 				{
 					SetProperty(ref itemType, value);
 				}

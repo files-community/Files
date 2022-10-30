@@ -38,7 +38,7 @@ namespace Files.App.UserControls.Settings
             try
             {
                 var resources = await App.ExternalResourcesHelper.TryLoadResourceDictionary(SampleTheme);
-                if (resources != null)
+                if (resources is not null)
                 {
                     Resources.MergedDictionaries.Add(resources);
                     RequestedTheme = ElementTheme.Dark;

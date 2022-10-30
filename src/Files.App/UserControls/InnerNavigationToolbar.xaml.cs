@@ -97,7 +97,7 @@ namespace Files.App.UserControls
 				return;
 			}
 			var cachedNewContextMenuEntries = ContextFlyoutItemHelper.CachedNewContextMenuEntries.IsCompletedSuccessfully ? ContextFlyoutItemHelper.CachedNewContextMenuEntries.Result : null;
-			if (cachedNewContextMenuEntries == null)
+			if (cachedNewContextMenuEntries is null)
 				return;
 			if (!NewEmptySpace.Items.Any(x => (x.Tag as string) == "CreateNewFile"))
 			{

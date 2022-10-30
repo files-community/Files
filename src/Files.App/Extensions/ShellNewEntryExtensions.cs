@@ -18,7 +18,7 @@ namespace Files.App.Extensions
         {
             var shellEntryList = new List<ShellNewEntry>();
             var entries = await SafetyExtensions.IgnoreExceptions(() => ShellNewMenuHelper.GetNewContextMenuEntries(), App.Logger);
-            if (entries != null)
+            if (entries is not null)
             {
                 shellEntryList.AddRange(entries);
             }
@@ -44,7 +44,7 @@ namespace Files.App.Extensions
         {
             FilesystemResult<BaseStorageFile> createdFile = null;
             var fileName = Path.GetFileName(filePath);
-            if (shellEntry.Template == null)
+            if (shellEntry.Template is null)
             {
                 createdFile = await FilesystemTasks.Wrap(() => parentFolder.CreateFileAsync(fileName, CreationCollisionOption.GenerateUniqueName).AsTask());
             }
@@ -55,7 +55,7 @@ namespace Files.App.Extensions
             }
             if (createdFile)
             {
-                if (shellEntry.Data != null)
+                if (shellEntry.Data is not null)
                 {
                     //await FileIO.WriteBytesAsync(createdFile.Result, shellEntry.Data); // Calls unsupported OpenTransactedWriteAsync
                     await createdFile.Result.WriteBytesAsync(shellEntry.Data);

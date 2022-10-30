@@ -47,7 +47,7 @@ namespace Files.App.Controllers
         private async Task LoadAsync()
         {
             StorageFolder Folder = await FilesystemTasks.Wrap(() => ApplicationData.Current.LocalFolder.CreateFolderAsync("settings", CreationCollisionOption.OpenIfExists).AsTask());
-            if (Folder == null)
+            if (Folder is null)
             {
                 Model = await GetDefaultTerminalFileModel();
                 return;
@@ -73,7 +73,7 @@ namespace Files.App.Controllers
             {
                 configContent = await FileIO.ReadTextAsync(JsonFile.Result);
                 Model = JsonSerializer.Deserialize<TerminalFileModel>(configContent);
-                if (Model == null)
+                if (Model is null)
                 {
                     throw new ArgumentException($"{JsonFileName} is empty, regenerating...");
                 }

@@ -82,11 +82,11 @@ namespace Files.App.Helpers
                         await GetFile();
                     }
 
-                    if (!file || file.Result == null) // Possibly a folder
+                    if (!file || file.Result is null) // Possibly a folder
                     {
                         await GetFolder();
 
-                        if (file == null && (!folder || folder.Result == null))
+                        if (file is null && (!folder || folder.Result is null))
                         {
                             // Try file because it wasn't checked
                             await GetFile();
@@ -95,11 +95,11 @@ namespace Files.App.Helpers
                 }
             }
 
-            if (file != null && file)
+            if (file is not null && file)
             {
                 return (TRequested)(IStorageItem)file.Result;
             }
-            else if (folder != null && folder)
+            else if (folder is not null && folder)
             {
                 return (TRequested)(IStorageItem)folder.Result;
             }
@@ -139,7 +139,7 @@ namespace Files.App.Helpers
                     ToType<IStorageItem, BaseStorageFolder>(
                         await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(item.Path, rootItem)));
             }
-            if (returnedItem.Result == null && item.Item != null)
+            if (returnedItem.Result is null && item.Item is not null)
             {
                 returnedItem = new FilesystemResult<IStorageItem>(item.Item, FileSystemStatusCode.Success);
             }
@@ -157,7 +157,7 @@ namespace Files.App.Helpers
         {
             IStorageItem item = await ToStorageItem<IStorageItem>(path);
 
-            return item == null ? FilesystemItemType.File : (item.IsOfType(StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File);
+            return item is null ? FilesystemItemType.File : (item.IsOfType(StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File);
         }
 
         public static bool Exists(string path)
@@ -167,7 +167,7 @@ namespace Files.App.Helpers
 
         public static IStorageItemWithPath FromStorageItem(this IStorageItem item, string customPath = null, FilesystemItemType? itemType = null)
         {
-            if (item == null)
+            if (item is null)
             {
                 return FromPathAndType(customPath, itemType);
             }

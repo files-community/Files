@@ -105,7 +105,7 @@ namespace Files.App.Filesystem.StorageItems
                 if (IsShellPath(path))
                 {
                     var res = await GetFolderAndItems(path, false);
-                    if (res.Folder != null)
+                    if (res.Folder is not null)
                     {
                         return FromShellItem(res.Folder);
                     }
@@ -151,7 +151,7 @@ namespace Files.App.Filesystem.StorageItems
                     return null;
                 }
 
-                var entry = res.Items.FirstOrDefault(x => x.FileName != null && x.FileName.Equals(name, StringComparison.OrdinalIgnoreCase));
+                var entry = res.Items.FirstOrDefault(x => x.FileName is not null && x.FileName.Equals(name, StringComparison.OrdinalIgnoreCase));
                 if (entry is null)
                 {
                     return null;

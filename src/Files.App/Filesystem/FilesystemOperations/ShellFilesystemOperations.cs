@@ -113,11 +113,11 @@ namespace Files.App.Filesystem
             {
                 progress?.Report(100.0f);
                 errorCode?.Report(FileSystemStatusCode.Success);
-                var copiedSources = copyResult.Items.Where(x => x.Succeeded && x.Destination != null && x.Source != x.Destination);
+                var copiedSources = copyResult.Items.Where(x => x.Succeeded && x.Destination is not null && x.Source != x.Destination);
                 if (copiedSources.Any())
                 {
                     var sourceMatch = await copiedSources.Select(x => sourceRename
-                        .SingleOrDefault(s => s.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x != null).ToListAsync();
+                        .SingleOrDefault(s => s.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x is not null).ToListAsync();
                     return new StorageHistory(FileOperationType.Copy,
                         sourceMatch,
                         await copiedSources.Zip(sourceMatch, (rSrc, oSrc) => new { rSrc, oSrc })
@@ -143,7 +143,7 @@ namespace Files.App.Filesystem
                     {
                         case DialogResult.Primary:
                             var copyZip = sourceNoSkip.Zip(destinationNoSkip, (src, dest) => new { src, dest }).Zip(collisionsNoSkip, (z1, coll) => new { z1.src, z1.dest, coll });
-                            var sourceMatch = await failedSources.Select(x => copyZip.SingleOrDefault(s => s.src.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x != null).ToListAsync();
+                            var sourceMatch = await failedSources.Select(x => copyZip.SingleOrDefault(s => s.src.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x is not null).ToListAsync();
                             return await CopyItemsAsync(
                                 await sourceMatch.Select(x => x.src).ToListAsync(),
                                 await sourceMatch.Select(x => x.dest).ToListAsync(),
@@ -155,7 +155,7 @@ namespace Files.App.Filesystem
                     // Retry with StorageFile API
                     var failedSources = copyResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong);
                     var copyZip = sourceNoSkip.Zip(destinationNoSkip, (src, dest) => new { src, dest }).Zip(collisionsNoSkip, (z1, coll) => new { z1.src, z1.dest, coll });
-                    var sourceMatch = await failedSources.Select(x => copyZip.SingleOrDefault(s => s.src.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x != null).ToListAsync();
+                    var sourceMatch = await failedSources.Select(x => copyZip.SingleOrDefault(s => s.src.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x is not null).ToListAsync();
                     return await filesystemOperations.CopyItemsAsync(
                         await sourceMatch.Select(x => x.src).ToListAsync(),
                         await sourceMatch.Select(x => x.dest).ToListAsync(),
@@ -174,7 +174,7 @@ namespace Files.App.Filesystem
                     // Retry with StorageFile API
                     var failedSources = copyResult.Items.Where(x => !x.Succeeded);
                     var copyZip = sourceNoSkip.Zip(destinationNoSkip, (src, dest) => new { src, dest }).Zip(collisionsNoSkip, (z1, coll) => new { z1.src, z1.dest, coll });
-                    var sourceMatch = await failedSources.Select(x => copyZip.SingleOrDefault(s => s.src.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x != null).ToListAsync();
+                    var sourceMatch = await failedSources.Select(x => copyZip.SingleOrDefault(s => s.src.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x is not null).ToListAsync();
                     return await filesystemOperations.CopyItemsAsync(
                         await sourceMatch.Select(x => x.src).ToListAsync(),
                         await sourceMatch.Select(x => x.dest).ToListAsync(),
@@ -201,7 +201,7 @@ namespace Files.App.Filesystem
                 case FilesystemItemType.File:
                     {
                         var newEntryInfo = await ShellNewEntryExtensions.GetNewContextMenuEntryForType(Path.GetExtension(source.Path));
-                        if (newEntryInfo?.Command != null)
+                        if (newEntryInfo?.Command is not null)
                         {
                             var args = CommandLine.CommandLineParser.SplitArguments(newEntryInfo.Command);
                             if (args.Any())
@@ -234,7 +234,7 @@ namespace Files.App.Filesystem
             if (result)
             {
                 errorCode?.Report(FileSystemStatusCode.Success);
-                var createdSources = createResult.Items.Where(x => x.Succeeded && x.Destination != null && x.Source != x.Destination);
+                var createdSources = createResult.Items.Where(x => x.Succeeded && x.Destination is not null && x.Source != x.Destination);
                 if (createdSources.Any())
                 {
                     var item = StorageHelpers.FromPathAndType(createdSources.Single().Destination, source.ItemType);
@@ -346,11 +346,11 @@ namespace Files.App.Filesystem
                 {
                     await associatedInstance.FilesystemViewModel.RemoveFileOrFolderAsync(item.Source);
                 }
-                var recycledSources = deleteResult.Items.Where(x => x.Succeeded && x.Destination != null && x.Source != x.Destination);
+                var recycledSources = deleteResult.Items.Where(x => x.Succeeded && x.Destination is not null && x.Source != x.Destination);
                 if (recycledSources.Any())
                 {
                     var sourceMatch = await recycledSources.Select(x => source.DistinctBy(x => x.Path)
-                        .SingleOrDefault(s => s.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x != null).ToListAsync();
+                        .SingleOrDefault(s => s.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x is not null).ToListAsync();
                     return new StorageHistory(FileOperationType.Recycle,
                         sourceMatch,
                         await recycledSources.Zip(sourceMatch, (rSrc, oSrc) => new { rSrc, oSrc })
@@ -375,7 +375,7 @@ namespace Files.App.Filesystem
                     switch (await GetFileInUseDialog(filePath, lockingProcess))
                     {
                         case DialogResult.Primary:
-                            return await DeleteItemsAsync(await failedSources.Select(x => source.DistinctBy(x => x.Path).SingleOrDefault(s => s.Path == x.Source)).Where(x => x != null).ToListAsync(), progress, errorCode, permanently, cancellationToken);
+                            return await DeleteItemsAsync(await failedSources.Select(x => source.DistinctBy(x => x.Path).SingleOrDefault(s => s.Path == x.Source)).Where(x => x is not null).ToListAsync(), progress, errorCode, permanently, cancellationToken);
                     }
                 }
                 else if (deleteResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong))
@@ -390,7 +390,7 @@ namespace Files.App.Filesystem
                 {
                     // Retry with StorageFile API
                     var failedSources = deleteResult.Items.Where(x => !x.Succeeded);
-                    var sourceMatch = await failedSources.Select(x => source.DistinctBy(x => x.Path).SingleOrDefault(s => s.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x != null).ToListAsync();
+                    var sourceMatch = await failedSources.Select(x => source.DistinctBy(x => x.Path).SingleOrDefault(s => s.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x is not null).ToListAsync();
                     return await filesystemOperations.DeleteItemsAsync(sourceMatch, progress, errorCode, permanently, cancellationToken);
                 }
                 errorCode?.Report(CopyEngineResult.Convert(deleteResult.Items.FirstOrDefault(x => !x.Succeeded)?.HResult));
@@ -461,11 +461,11 @@ namespace Files.App.Filesystem
             {
                 progress?.Report(100.0f);
                 errorCode?.Report(FileSystemStatusCode.Success);
-                var movedSources = moveResult.Items.Where(x => x.Succeeded && x.Destination != null && x.Source != x.Destination);
+                var movedSources = moveResult.Items.Where(x => x.Succeeded && x.Destination is not null && x.Source != x.Destination);
                 if (movedSources.Any())
                 {
                     var sourceMatch = await movedSources.Select(x => sourceRename
-                        .SingleOrDefault(s => s.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x != null).ToListAsync();
+                        .SingleOrDefault(s => s.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x is not null).ToListAsync();
                     return new StorageHistory(FileOperationType.Move,
                         sourceMatch,
                         await movedSources.Zip(sourceMatch, (rSrc, oSrc) => new { rSrc, oSrc })
@@ -497,7 +497,7 @@ namespace Files.App.Filesystem
                     {
                         case DialogResult.Primary:
                             var moveZip = sourceNoSkip.Zip(destinationNoSkip, (src, dest) => new { src, dest }).Zip(collisionsNoSkip, (z1, coll) => new { z1.src, z1.dest, coll });
-                            var sourceMatch = await failedSources.Select(x => moveZip.SingleOrDefault(s => s.src.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x != null).ToListAsync();
+                            var sourceMatch = await failedSources.Select(x => moveZip.SingleOrDefault(s => s.src.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x is not null).ToListAsync();
                             return await MoveItemsAsync(
                                 await sourceMatch.Select(x => x.src).ToListAsync(),
                                 await sourceMatch.Select(x => x.dest).ToListAsync(),
@@ -509,7 +509,7 @@ namespace Files.App.Filesystem
                     // Retry with StorageFile API
                     var failedSources = moveResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong);
                     var moveZip = sourceNoSkip.Zip(destinationNoSkip, (src, dest) => new { src, dest }).Zip(collisionsNoSkip, (z1, coll) => new { z1.src, z1.dest, coll });
-                    var sourceMatch = await failedSources.Select(x => moveZip.SingleOrDefault(s => s.src.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x != null).ToListAsync();
+                    var sourceMatch = await failedSources.Select(x => moveZip.SingleOrDefault(s => s.src.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x is not null).ToListAsync();
                     return await filesystemOperations.MoveItemsAsync(
                         await sourceMatch.Select(x => x.src).ToListAsync(),
                         await sourceMatch.Select(x => x.dest).ToListAsync(),
@@ -528,7 +528,7 @@ namespace Files.App.Filesystem
                     // Retry with StorageFile API
                     var failedSources = moveResult.Items.Where(x => !x.Succeeded);
                     var moveZip = sourceNoSkip.Zip(destinationNoSkip, (src, dest) => new { src, dest }).Zip(collisionsNoSkip, (z1, coll) => new { z1.src, z1.dest, coll });
-                    var sourceMatch = await failedSources.Select(x => moveZip.SingleOrDefault(s => s.src.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x != null).ToListAsync();
+                    var sourceMatch = await failedSources.Select(x => moveZip.SingleOrDefault(s => s.src.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x is not null).ToListAsync();
                     return await filesystemOperations.MoveItemsAsync(
                         await sourceMatch.Select(x => x.src).ToListAsync(),
                         await sourceMatch.Select(x => x.dest).ToListAsync(),
@@ -564,7 +564,7 @@ namespace Files.App.Filesystem
             if (result)
             {
                 errorCode?.Report(FileSystemStatusCode.Success);
-                var renamedSources = renameResult.Items.Where(x => x.Succeeded && x.Destination != null && x.Source != x.Destination)
+                var renamedSources = renameResult.Items.Where(x => x.Succeeded && x.Destination is not null && x.Source != x.Destination)
                     .Where(x => new[] { source }.Select(s => s.Path).Contains(x.Source));
                 if (renamedSources.Any())
                 {
@@ -654,11 +654,11 @@ namespace Files.App.Filesystem
             {
                 progress?.Report(100.0f);
                 errorCode?.Report(FileSystemStatusCode.Success);
-                var movedSources = moveResult.Items.Where(x => x.Succeeded && x.Destination != null && x.Source != x.Destination);
+                var movedSources = moveResult.Items.Where(x => x.Succeeded && x.Destination is not null && x.Source != x.Destination);
                 if (movedSources.Any())
                 {
                     var sourceMatch = await movedSources.Select(x => source
-                        .SingleOrDefault(s => s.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x != null).ToListAsync();
+                        .SingleOrDefault(s => s.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x is not null).ToListAsync();
                     // Recycle bin also stores a file starting with $I for each item
                     await DeleteItemsAsync(await movedSources.Zip(sourceMatch, (rSrc, oSrc) => new { rSrc, oSrc })
                         .Select(src => StorageHelpers.FromPathAndType(
@@ -689,7 +689,7 @@ namespace Files.App.Filesystem
                     {
                         case DialogResult.Primary:
                             var moveZip = source.Zip(destination, (src, dest) => new { src, dest });
-                            var sourceMatch = await failedSources.Select(x => moveZip.SingleOrDefault(s => s.src.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x != null).ToListAsync();
+                            var sourceMatch = await failedSources.Select(x => moveZip.SingleOrDefault(s => s.src.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x is not null).ToListAsync();
                             return await RestoreItemsFromTrashAsync(
                                 await sourceMatch.Select(x => x.src).ToListAsync(),
                                 await sourceMatch.Select(x => x.dest).ToListAsync(), progress, errorCode, cancellationToken);
@@ -700,7 +700,7 @@ namespace Files.App.Filesystem
                     // Retry with StorageFile API
                     var failedSources = moveResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong);
                     var moveZip = source.Zip(destination, (src, dest) => new { src, dest });
-                    var sourceMatch = await failedSources.Select(x => moveZip.SingleOrDefault(s => s.src.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x != null).ToListAsync();
+                    var sourceMatch = await failedSources.Select(x => moveZip.SingleOrDefault(s => s.src.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x is not null).ToListAsync();
                     return await filesystemOperations.RestoreItemsFromTrashAsync(
                         await sourceMatch.Select(x => x.src).ToListAsync(),
                         await sourceMatch.Select(x => x.dest).ToListAsync(), progress, errorCode, cancellationToken);

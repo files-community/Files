@@ -69,7 +69,7 @@ namespace Files.App.UserControls
 
 			var element = FocusManager.GetFocusedElement();
 			var elementAsControl = element as Control;
-			if (elementAsControl == null)
+			if (elementAsControl is null)
 				return;
 
 			if (elementAsControl.FocusState != FocusState.Programmatic && elementAsControl.FocusState != FocusState.Keyboard)
