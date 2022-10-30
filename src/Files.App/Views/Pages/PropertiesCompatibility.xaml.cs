@@ -31,7 +31,7 @@ namespace Files.App.Views
         {
             base.Properties_Loaded(sender, e);
 
-            if (CompatibilityProperties != null)
+            if (CompatibilityProperties is not null)
             {
                 CompatibilityProperties.GetCompatibilityOptions();
             }
@@ -39,10 +39,8 @@ namespace Files.App.Views
 
         public override Task<bool> SaveChangesAsync(ListedItem item)
         {
-            if (CompatibilityProperties != null)
-            {
-                return CompatibilityProperties.SetCompatibilityOptions();
-            }
+            if (CompatibilityProperties is not null)
+                return Task.FromResult(CompatibilityProperties.SetCompatibilityOptions());
 
             return Task.FromResult(false);
         }

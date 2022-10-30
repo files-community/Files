@@ -10,15 +10,15 @@ using Files.App.Helpers.FileListCache;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.AppService;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Microsoft.UI.Xaml.Media.Imaging;
 using static Files.Backend.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
+using Files.App.Shell;
+using Vanara.Windows.Shell;
+using Vanara.PInvoke;
 
 namespace Files.App.Filesystem.StorageEnumerators
 {
@@ -32,8 +32,7 @@ namespace Files.App.Filesystem.StorageEnumerators
         public static async Task<List<ListedItem>> ListEntries(
             string path,
             IntPtr hFile,
-            WIN32_FIND_DATA findData,
-            NamedPipeAsAppServiceConnection connection,
+            Backend.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
             CancellationToken cancellationToken,
             int countLimit,
             Func<List<ListedItem>, Task> intermediateAction,
@@ -59,10 +58,10 @@ namespace Files.App.Filesystem.StorageEnumerators
                 {
                     if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
                     {
-                        var file = await GetFile(findData, path, connection, cancellationToken);
-                        if (file != null)
+                        var file = await GetFile(findData, path, cancellationToken);
+                        if (file is not null)
                         {
-                            if (defaultIconPairs != null)
+                            if (defaultIconPairs is not null)
                             {
                                 if (!string.IsNullOrEmpty(file.FileExtension))
                                 {
@@ -87,7 +86,7 @@ namespace Files.App.Filesystem.StorageEnumerators
                         if (findData.cFileName != "." && findData.cFileName != "..")
                         {
                             var folder = await GetFolder(findData, path, cancellationToken);
-                            if (folder != null)
+                            if (folder is not null)
                             {
                                 if (defaultIconPairs?.ContainsKey(string.Empty) ?? false)
                                 {
@@ -120,7 +119,7 @@ namespace Files.App.Filesystem.StorageEnumerators
                     break;
                 }
 
-                if (intermediateAction != null && (count == 32 || sampler.CheckNow()))
+                if (intermediateAction is not null && (count == 32 || sampler.CheckNow()))
                 {
                     await intermediateAction(tempList);
                     // clear the temporary list every time we do an intermediate action
@@ -171,7 +170,7 @@ namespace Files.App.Filesystem.StorageEnumerators
         }
 
         public static async Task<ListedItem> GetFolder(
-            WIN32_FIND_DATA findData,
+            Backend.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
             string pathRoot,
             CancellationToken cancellationToken
         )
@@ -185,10 +184,10 @@ namespace Files.App.Filesystem.StorageEnumerators
             DateTime itemCreatedDate;
             try
             {
-                FileTimeToSystemTime(ref findData.ftLastWriteTime, out SYSTEMTIME systemModifiedTimeOutput);
+                FileTimeToSystemTime(ref findData.ftLastWriteTime, out Backend.Helpers.NativeFindStorageItemHelper.SYSTEMTIME systemModifiedTimeOutput);
                 itemModifiedDate = systemModifiedTimeOutput.ToDateTime();
 
-                FileTimeToSystemTime(ref findData.ftCreationTime, out SYSTEMTIME systemCreatedTimeOutput);
+                FileTimeToSystemTime(ref findData.ftCreationTime, out Backend.Helpers.NativeFindStorageItemHelper.SYSTEMTIME systemCreatedTimeOutput);
                 itemCreatedDate = systemCreatedTimeOutput.ToDateTime();
             }
             catch (ArgumentException)
@@ -228,9 +227,8 @@ namespace Files.App.Filesystem.StorageEnumerators
         }
 
         public static async Task<ListedItem> GetFile(
-            WIN32_FIND_DATA findData,
+            Backend.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
             string pathRoot,
-            NamedPipeAsAppServiceConnection connection,
             CancellationToken cancellationToken
         )
         {
@@ -240,13 +238,13 @@ namespace Files.App.Filesystem.StorageEnumerators
             DateTime itemModifiedDate, itemCreatedDate, itemLastAccessDate;
             try
             {
-                FileTimeToSystemTime(ref findData.ftLastWriteTime, out SYSTEMTIME systemModifiedDateOutput);
+                FileTimeToSystemTime(ref findData.ftLastWriteTime, out Backend.Helpers.NativeFindStorageItemHelper.SYSTEMTIME systemModifiedDateOutput);
                 itemModifiedDate = systemModifiedDateOutput.ToDateTime();
 
-                FileTimeToSystemTime(ref findData.ftCreationTime, out SYSTEMTIME systemCreatedDateOutput);
+                FileTimeToSystemTime(ref findData.ftCreationTime, out Backend.Helpers.NativeFindStorageItemHelper.SYSTEMTIME systemCreatedDateOutput);
                 itemCreatedDate = systemCreatedDateOutput.ToDateTime();
 
-                FileTimeToSystemTime(ref findData.ftLastAccessTime, out SYSTEMTIME systemLastAccessOutput);
+                FileTimeToSystemTime(ref findData.ftLastAccessTime, out Backend.Helpers.NativeFindStorageItemHelper.SYSTEMTIME systemLastAccessOutput);
                 itemLastAccessDate = systemLastAccessOutput.ToDateTime();
             }
             catch (ArgumentException)
@@ -307,52 +305,35 @@ namespace Files.App.Filesystem.StorageEnumerators
             }
             else if (findData.cFileName.EndsWith(".lnk", StringComparison.Ordinal) || findData.cFileName.EndsWith(".url", StringComparison.Ordinal))
             {
-                if (connection != null)
+                var isUrl = findData.cFileName.EndsWith(".url", StringComparison.OrdinalIgnoreCase);
+                var shInfo = await ParseLinkAsync(itemPath);
+                if (shInfo is null)
                 {
-                    var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
-                    {
-                        { "Arguments", "FileOperation" },
-                        { "fileop", "ParseLink" },
-                        { "filepath", itemPath }
-                    });
-                    // If the request was canceled return now
-                    if (cancellationToken.IsCancellationRequested)
-                    {
-                        return null;
-                    }
-                    if (status == AppServiceResponseStatus.Success && response.ContainsKey("ShortcutInfo"))
-                    {
-                        var isUrl = findData.cFileName.EndsWith(".url", StringComparison.OrdinalIgnoreCase);
-                        var shInfo = JsonSerializer.Deserialize<ShellLinkItem>(response["ShortcutInfo"].GetString());
-                        if (shInfo == null)
-                        {
-                            return null;
-                        }
-                        return new ShortcutItem(null)
-                        {
-                            PrimaryItemAttribute = shInfo.IsFolder ? StorageItemTypes.Folder : StorageItemTypes.File,
-                            FileExtension = itemFileExtension,
-                            IsHiddenItem = isHidden,
-                            Opacity = opacity,
-                            FileImage = null,
-                            LoadFileIcon = !shInfo.IsFolder && itemThumbnailImgVis,
-                            LoadWebShortcutGlyph = !shInfo.IsFolder && isUrl && itemEmptyImgVis,
-                            ItemNameRaw = itemName,
-                            ItemDateModifiedReal = itemModifiedDate,
-                            ItemDateAccessedReal = itemLastAccessDate,
-                            ItemDateCreatedReal = itemCreatedDate,
-                            ItemType = isUrl ? "ShortcutWebLinkFileType".GetLocalizedResource() : "ShortcutFileType".GetLocalizedResource(),
-                            ItemPath = itemPath,
-                            FileSize = itemSize,
-                            FileSizeBytes = itemSizeBytes,
-                            TargetPath = shInfo.TargetPath,
-                            Arguments = shInfo.Arguments,
-                            WorkingDirectory = shInfo.WorkingDirectory,
-                            RunAsAdmin = shInfo.RunAsAdmin,
-                            IsUrl = isUrl,
-                        };
-                    }
+                    return null;
                 }
+                return new ShortcutItem(null)
+                {
+                    PrimaryItemAttribute = shInfo.IsFolder ? StorageItemTypes.Folder : StorageItemTypes.File,
+                    FileExtension = itemFileExtension,
+                    IsHiddenItem = isHidden,
+                    Opacity = opacity,
+                    FileImage = null,
+                    LoadFileIcon = !shInfo.IsFolder && itemThumbnailImgVis,
+                    LoadWebShortcutGlyph = !shInfo.IsFolder && isUrl && itemEmptyImgVis,
+                    ItemNameRaw = itemName,
+                    ItemDateModifiedReal = itemModifiedDate,
+                    ItemDateAccessedReal = itemLastAccessDate,
+                    ItemDateCreatedReal = itemCreatedDate,
+                    ItemType = isUrl ? "ShortcutWebLinkFileType".GetLocalizedResource() : "ShortcutFileType".GetLocalizedResource(),
+                    ItemPath = itemPath,
+                    FileSize = itemSize,
+                    FileSizeBytes = itemSizeBytes,
+                    TargetPath = shInfo.TargetPath,
+                    Arguments = shInfo.Arguments,
+                    WorkingDirectory = shInfo.WorkingDirectory,
+                    RunAsAdmin = shInfo.RunAsAdmin,
+                    IsUrl = isUrl,
+                };
             }
             else if (App.LibraryManager.TryGetLibrary(itemPath, out LibraryLocationItem library))
             {
@@ -406,6 +387,38 @@ namespace Files.App.Filesystem.StorageEnumerators
                 }
             }
             return null;
+        }
+
+        private async static Task<ShellLinkItem> ParseLinkAsync(string linkPath)
+        {
+            try
+            {
+                if (linkPath.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase))
+                {
+                    using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, default, TimeSpan.FromMilliseconds(100));
+                    return ShellFolderExtensions.GetShellLinkItem(link);
+                }
+                else if (linkPath.EndsWith(".url", StringComparison.OrdinalIgnoreCase))
+                {
+                    var linkUrl = await Win32API.StartSTATask(() =>
+                    {
+                        var ipf = new Url.IUniformResourceLocator();
+                        (ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Load(linkPath, 0);
+                        ipf.GetUrl(out var retVal);
+                        return retVal;
+                    });
+                    return new ShellLinkItem() { TargetPath = linkUrl };
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            catch (Exception)
+            {                
+                // TODO: Log this properly
+                return await Task.FromResult<ShellLinkItem>(null);
+            }
         }
     }
 }

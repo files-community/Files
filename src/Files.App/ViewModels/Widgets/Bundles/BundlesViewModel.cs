@@ -199,7 +199,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
             string savedBundleNameTextInput = name;
             BundleNameTextInput = string.Empty;
 
-            if (BundlesSettingsService.SavedBundles == null || (BundlesSettingsService.SavedBundles?.ContainsKey(savedBundleNameTextInput) ?? false)) // Init
+            if (BundlesSettingsService.SavedBundles is null || (BundlesSettingsService.SavedBundles?.ContainsKey(savedBundleNameTextInput) ?? false)) // Init
             {
                 BundlesSettingsService.SavedBundles = new Dictionary<string, List<string>>()
                 {
@@ -229,7 +229,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
             filePicker.FileTypeFilter.Add(System.IO.Path.GetExtension(Constants.LocalSettings.BundlesSettingsFileName));
 
             StorageFile file = await filePicker.PickSingleFileAsync();
-            if (file != null)
+            if (file is not null)
             {
                 try
                 {
@@ -253,7 +253,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
             filePicker.FileTypeChoices.Add("Json File", new List<string>() { System.IO.Path.GetExtension(Constants.LocalSettings.BundlesSettingsFileName) });
 
             StorageFile file = await filePicker.PickSaveFileAsync();
-            if (file != null)
+            if (file is not null)
             {
                 NativeFileOperationsHelper.WriteStringToFile(file.Path, (string)BundlesSettingsService.ExportSettings());
             }
@@ -346,7 +346,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
         public void Save()
         {
-            if (BundlesSettingsService.SavedBundles != null)
+            if (BundlesSettingsService.SavedBundles is not null)
             {
                 Dictionary<string, List<string>> bundles = new Dictionary<string, List<string>>();
 
@@ -358,7 +358,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
                     // For every bundleItem in current bundle
                     foreach (var bundleItem in bundle.Contents)
                     {
-                        if (bundleItem != null)
+                        if (bundleItem is not null)
                         {
                             bundleItems.Add(bundleItem.Path);
                         }
@@ -373,7 +373,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
         public async Task Load()
         {
-            if (BundlesSettingsService.SavedBundles != null)
+            if (BundlesSettingsService.SavedBundles is not null)
             {
                 Items.Clear();
 
@@ -387,7 +387,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
                     {
                         if (bundleItems.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle)
                         {
-                            if (bundleItem != null)
+                            if (bundleItem is not null)
                             {
                                 bundleItems.Add(new BundleItemViewModel(bundleItem, await StorageHelpers.GetTypeFromPath(bundleItem))
                                 {

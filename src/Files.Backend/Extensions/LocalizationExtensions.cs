@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services;
 
-#nullable enable
 
 namespace Files.Backend.Extensions
 {
@@ -11,7 +10,7 @@ namespace Files.Backend.Extensions
 
         public static string ToLocalized(this string resourceKey, ILocalizationService? localizationService = null)
         {
-            if (localizationService == null)
+            if (localizationService is null)
             {
                 FallbackLocalizationService ??= Ioc.Default.GetService<ILocalizationService>();
                 return FallbackLocalizationService?.LocalizeFromResourceKey(resourceKey) ?? string.Empty;

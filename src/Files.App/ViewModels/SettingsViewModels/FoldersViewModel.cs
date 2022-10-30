@@ -21,7 +21,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			ResetLayoutPreferencesCommand = new RelayCommand(ResetLayoutPreferences);
 			ShowResetLayoutPreferencesTipCommand = new RelayCommand(() => IsResetLayoutPreferencesTipOpen = true);
 
-			SelectedDefaultLayoutModeIndex = (long)DefaultLayoutMode;
+			SelectedDefaultLayoutModeIndex = (int)DefaultLayoutMode;
 		}
 
 		// Properties
@@ -33,8 +33,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 			set => SetProperty(ref isResetLayoutPreferencesTipOpen, value);
 		}
 
-		private long selectedDefaultLayoutModeIndex;
-		public long SelectedDefaultLayoutModeIndex
+		private int selectedDefaultLayoutModeIndex;
+		public int SelectedDefaultLayoutModeIndex
 		{
 			get => selectedDefaultLayoutModeIndex;
 			set
@@ -189,27 +189,14 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		public bool OpenFilesWithOneClick
+		public bool OpenItemsWithOneClick
 		{
-			get => UserSettingsService.FoldersSettingsService.OpenFilesWithOneClick;
+			get => UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick;
 			set
 			{
-				if (value != UserSettingsService.FoldersSettingsService.OpenFilesWithOneClick)
+				if (value != UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 				{
-					UserSettingsService.FoldersSettingsService.OpenFilesWithOneClick = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public bool OpenFoldersWithOneClick
-		{
-			get => UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick;
-			set
-			{
-				if (value != UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick)
-				{
-					UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick = value;
+					UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick = value;
 					OnPropertyChanged();
 				}
 			}
@@ -260,7 +247,10 @@ namespace Files.App.ViewModels.SettingsViewModels
 		public void ResetLayoutPreferences()
 		{
 			// Is this proper practice?
-			FolderSettingsViewModel.DbInstance.ResetAll();
+			using (var dbInstance = FolderSettingsViewModel.GetDbInstance())
+			{
+				dbInstance.ResetAll();
+			}
 			IsResetLayoutPreferencesTipOpen = false;
 		}
 	}

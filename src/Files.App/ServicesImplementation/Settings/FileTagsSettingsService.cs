@@ -42,14 +42,14 @@ namespace Files.App.ServicesImplementation.Settings
 
         public FileTagViewModel GetTagById(string uid)
         {
-            if (FileTagList.Any(x => x.Uid == null))
+            if (FileTagList.Any(x => x.Uid is null))
             {
                 App.Logger.Warn("Tags file is invalid, regenerate");
                 FileTagList = DefaultFileTags;
             }
 
             var tag = FileTagList.SingleOrDefault(x => x.Uid == uid);
-            if (!string.IsNullOrEmpty(uid) && tag == null)
+            if (!string.IsNullOrEmpty(uid) && tag is null)
             {
                 tag = new FileTagViewModel("FileTagUnknown".GetLocalizedResource(), "#9ea3a1", uid);
                 FileTagList = FileTagList.Append(tag).ToList();
@@ -86,7 +86,7 @@ namespace Files.App.ServicesImplementation.Settings
 
             FileTagList ??= DefaultFileTags;
 
-            if (FileTagList != null)
+            if (FileTagList is not null)
             {
                 FlushSettings();
                 OnSettingImportedEvent?.Invoke(this, null);

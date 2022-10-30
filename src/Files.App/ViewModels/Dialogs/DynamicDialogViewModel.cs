@@ -33,7 +33,7 @@ namespace Files.App.ViewModels.Dialogs
             {
                 if (SetProperty(ref displayControl, value))
                 {
-                    if (value == null)
+                    if (value is null)
                     {
                         DisplayControlLoad = false;
                     }
@@ -422,7 +422,7 @@ namespace Files.App.ViewModels.Dialogs
             {
                 Control control = (vm.DisplayControl as Control);
 
-                if (control == null)
+                if (control is null)
                 {
                     control = DependencyObjectHelpers.FindChild<Control>(vm.DisplayControl as DependencyObject);
                 }

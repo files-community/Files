@@ -1,7 +1,6 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-#nullable enable
 
 namespace Files.App.Serialization
 {

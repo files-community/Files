@@ -57,13 +57,13 @@ namespace Files.App.ViewModels.SettingsViewModels
             filePicker.SuggestedFileName = $"Files_{App.AppVersion}";
 
             StorageFile file = await filePicker.PickSaveFileAsync();
-            if (file != null)
+            if (file is not null)
             {
                 try
                 {
                     await ZipStorageFolder.InitArchive(file, OutArchiveFormat.Zip);
                     var zipFolder = (ZipStorageFolder)await ZipStorageFolder.FromStorageFileAsync(file);
-                    if (zipFolder == null)
+                    if (zipFolder is null)
                     {
                         return;
                     }
@@ -83,10 +83,18 @@ namespace Files.App.ViewModels.SettingsViewModels
                     // Export file tags list and DB
                     var exportTags = UTF8Encoding.UTF8.GetBytes((string)FileTagsSettingsService.ExportSettings());
                     await zipFolder.CreateFileAsync(new MemoryStream(exportTags), Constants.LocalSettings.FileTagSettingsFileName, CreationCollisionOption.ReplaceExisting);
-                    var exportTagsDB = UTF8Encoding.UTF8.GetBytes(FileTagsHelper.DbInstance.Export());
+                    byte[] exportTagsDB;
+                    using (var tagDbInstance = FileTagsHelper.GetDbInstance())
+                    {
+                        exportTagsDB = UTF8Encoding.UTF8.GetBytes(tagDbInstance.Export());
+                    }
                     await zipFolder.CreateFileAsync(new MemoryStream(exportTagsDB), Path.GetFileName(FileTagsHelper.FileTagsDbPath), CreationCollisionOption.ReplaceExisting);
                     // Export layout preferences DB
-                    var exportPrefsDB = UTF8Encoding.UTF8.GetBytes(FolderSettingsViewModel.DbInstance.Export());
+                    byte[] exportPrefsDB;
+                    using (var layoutDbInstance = FolderSettingsViewModel.GetDbInstance())
+                    {
+                        exportPrefsDB = UTF8Encoding.UTF8.GetBytes(layoutDbInstance.Export());
+                    }
                     await zipFolder.CreateFileAsync(new MemoryStream(exportPrefsDB), Path.GetFileName(FolderSettingsViewModel.LayoutSettingsDbPath), CreationCollisionOption.ReplaceExisting);
                 }
                 catch (Exception ex)
@@ -109,12 +117,12 @@ namespace Files.App.ViewModels.SettingsViewModels
             filePicker.FileTypeFilter.Add(".zip");
 
             StorageFile file = await filePicker.PickSingleFileAsync();
-            if (file != null)
+            if (file is not null)
             {
                 try
                 {
                     var zipFolder = await ZipStorageFolder.FromStorageFileAsync(file);
-                    if (zipFolder == null)
+                    if (zipFolder is null)
                     {
                         return;
                     }
@@ -141,11 +149,17 @@ namespace Files.App.ViewModels.SettingsViewModels
                     FileTagsSettingsService.ImportSettings(importTags);
                     var fileTagsDB = await zipFolder.GetFileAsync(Path.GetFileName(FileTagsHelper.FileTagsDbPath));
                     string importTagsDB = await fileTagsDB.ReadTextAsync();
-                    FileTagsHelper.DbInstance.Import(importTagsDB);
+                    using (var tagDbInstance = FileTagsHelper.GetDbInstance())
+                    {
+                        tagDbInstance.Import(importTagsDB);
+                    }
                     // Import layout preferences and DB
                     var layoutPrefsDB = await zipFolder.GetFileAsync(Path.GetFileName(FolderSettingsViewModel.LayoutSettingsDbPath));
                     string importPrefsDB = await layoutPrefsDB.ReadTextAsync();
-                    FolderSettingsViewModel.DbInstance.Import(importPrefsDB);
+                    using (var layoutDbInstance = FolderSettingsViewModel.GetDbInstance())
+                    {
+                        layoutDbInstance.Import(importPrefsDB);
+                    }
                 }
                 catch (Exception ex)
                 {

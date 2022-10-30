@@ -148,7 +148,7 @@ namespace Files.App.ViewModels.Properties
         /// <returns></returns>
         public Task SaveValueToFile(BaseStorageFile file)
         {
-            if (!string.IsNullOrEmpty(Property) || file.Properties == null)
+            if (!string.IsNullOrEmpty(Property) || file.Properties is null)
             {
                 return Task.CompletedTask;
             }
@@ -179,7 +179,7 @@ namespace Files.App.ViewModels.Properties
                 return new DateTimeOffsetToString();
             }
 
-            if (Value != null && Value.GetType().IsArray)
+            if (Value is not null && Value.GetType().IsArray)
             {
                 if (Value.GetType().GetElementType().Equals(typeof(string)))
                 {
@@ -201,23 +201,23 @@ namespace Files.App.ViewModels.Properties
         private string ConvertToString()
         {
             // Don't attempt any convert null values
-            if (Value == null)
+            if (Value is null)
             {
                 return null;
             }
 
-            if (EnumeratedList != null)
+            if (EnumeratedList is not null)
             {
                 var value = "";
                 return EnumeratedList.TryGetValue(Convert.ToInt32(Value), out value) ? value.GetLocalizedResource() : null;
             }
 
-            if (DisplayFunction != null)
+            if (DisplayFunction is not null)
             {
                 return DisplayFunction.Invoke(Value);
             }
 
-            if (Converter != null)
+            if (Converter is not null)
             {
                 return Converter.Convert(Value, typeof(string), null, null) as string;
             }
@@ -232,7 +232,7 @@ namespace Files.App.ViewModels.Properties
         /// <returns></returns>
         private object ConvertBack(string value)
         {
-            if (Converter != null && value != null)
+            if (Converter is not null && value is not null)
             {
                 return Converter.ConvertBack(value, typeof(object), null, null);
             }
@@ -283,7 +283,7 @@ namespace Files.App.ViewModels.Properties
                 object val = null;
                 try
                 {
-                    if (file.Properties != null)
+                    if (file.Properties is not null)
                     {
                         val = (await file.Properties.RetrievePropertiesAsync(new string[] { prop })).First().Value;
                     }
@@ -296,7 +296,7 @@ namespace Files.App.ViewModels.Properties
             }
 #else
             IDictionary<string, object> keyValuePairs = new Dictionary<string, object>();
-            if (file.Properties != null)
+            if (file.Properties is not null)
             {
                 keyValuePairs = await file.Properties.RetrievePropertiesAsync(propsToGet);
             }

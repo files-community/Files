@@ -18,8 +18,6 @@ namespace Files.App.ViewModels.Properties
     {
         public ListedItem Item { get; }
 
-        private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
-
         private string ExePath => Item is ShortcutItem sht ? sht.TargetPath : Item.ItemPath;
 
         private CompatibilityOptions compatibilityOptions;
@@ -160,44 +158,16 @@ namespace Files.App.ViewModels.Properties
             RunTroubleshooterCommand = new AsyncRelayCommand(RunTroubleshooter);
         }
 
-        public async void GetCompatibilityOptions()
+        public void GetCompatibilityOptions()
         {
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
-            {
-                var value = new ValueSet()
-                {
-                    { "Arguments", "FileOperation" },
-                    { "fileop", "ReadCompatOptions" },
-                    { "filepath", ExePath }
-                };
-                var (status, response) = await connection.SendMessageForResponseAsync(value);
-                if (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success
-                    && response.ContainsKey("CompatOptions"))
-                {
-                    CompatibilityOptions = CompatibilityOptions.FromString(response["CompatOptions"].GetString());
-                }
-            }
+            var options = FileOperationsHelpers.ReadCompatOptions(ExePath);
+
+            if (options is not null)
+                CompatibilityOptions = CompatibilityOptions.FromString(options);
         }
 
-        public async Task<bool> SetCompatibilityOptions()
-        {
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
-            {
-                var value = new ValueSet()
-                {
-                    { "Arguments", "FileOperation" },
-                    { "fileop", "SetCompatOptions" },
-                    { "filepath", ExePath },
-                    { "options", CompatibilityOptions?.ToString() }
-                };
-                var (status, response) = await connection.SendMessageForResponseAsync(value);
-                return (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success
-                    && response.Get("Success", defaultJson).GetBoolean());
-            }
-            return false;
-        }
+        public bool SetCompatibilityOptions()
+            => FileOperationsHelpers.SetCompatOptions(ExePath, CompatibilityOptions?.ToString());
 
         public Task RunTroubleshooter()
             => LaunchHelper.RunCompatibilityTroubleshooterAsync(ExePath);

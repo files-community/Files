@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
-#nullable enable
 
 namespace Files.Shared.Extensions
 {
@@ -14,10 +14,10 @@ namespace Files.Shared.Extensions
             var description = enumValue.ToString();
             var fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
 
-            if (fieldInfo != null)
+            if (fieldInfo is not null)
             {
                 var attrs = fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), true);
-                if (attrs != null && attrs.Length > 0)
+                if (attrs is not null && attrs.Length > 0)
                 {
                     description = ((DescriptionAttribute)attrs[0]).Description;
                 }
@@ -26,7 +26,7 @@ namespace Files.Shared.Extensions
             return description;
         }
 
-        public static T? GetValueFromDescription<T>(string description) where T : Enum
+        public static T? GetValueFromDescription<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]T>(string description) where T : Enum
         {
             foreach (var field in typeof(T).GetFields())
             {
@@ -35,19 +35,19 @@ namespace Files.Shared.Extensions
                 {
                     if (attribute.Description == description)
                     {
-                        return (T)field.GetValue(null);
+                        return (T?)field.GetValue(null);
                     }
                 }
                 else
                 {
                     if (field.Name == description)
                     {
-                        return (T)field.GetValue(null);
+                        return (T?)field.GetValue(null);
                     }
                 }
             }
 
-            return default(T);
+            return default;
         }
     }
 }

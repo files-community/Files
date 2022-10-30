@@ -127,7 +127,7 @@ namespace Files.App.Shell
 
         public async static Task<ContextMenu> GetContextMenuForFiles(ShellItem[] shellItems, Shell32.CMF flags, Func<string, bool> itemFilter = null)
         {
-            if (shellItems == null || !shellItems.Any())
+            if (shellItems is null || !shellItems.Any())
             {
                 return null;
             }
@@ -136,7 +136,7 @@ namespace Files.App.Shell
             return await owningThread.PostMethod<ContextMenu>(() =>
             {
                 using var sf = shellItems[0].Parent; // HP: the items are all in the same folder
-                Shell32.IContextMenu menu = sf.GetChildrenUIObjects<Shell32.IContextMenu>(null, shellItems);
+                Shell32.IContextMenu menu = sf.GetChildrenUIObjects<Shell32.IContextMenu>(default, shellItems);
                 var hMenu = User32.CreatePopupMenu();
                 menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, flags);
                 var contextMenu = new ContextMenu(menu, hMenu, shellItems.Select(x => x.ParsingName), owningThread);
@@ -166,7 +166,7 @@ namespace Files.App.Shell
 
         private async static Task<ContextMenu> GetContextMenuForFolder(ShellFolder shellFolder, Shell32.CMF flags, Func<string, bool> itemFilter = null)
         {
-            if (shellFolder == null)
+            if (shellFolder is null)
             {
                 return null;
             }
@@ -174,7 +174,7 @@ namespace Files.App.Shell
             var owningThread = new ThreadWithMessageQueue();
             return await owningThread.PostMethod<ContextMenu>(() =>
             {
-                var sv = shellFolder.GetViewObject<Shell32.IShellView>(null);
+                var sv = shellFolder.GetViewObject<Shell32.IShellView>(default);
                 Shell32.IContextMenu menu = sv.GetItemObject<Shell32.IContextMenu>(Shell32.SVGIO.SVGIO_BACKGROUND);
                 var hMenu = User32.CreatePopupMenu();
                 menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, flags);
@@ -219,7 +219,7 @@ namespace Files.App.Shell
                     Debug.WriteLine("Item {0} ({1}): {2}", ii, mii.wID, mii.dwTypeData);
                     menuItem.Label = mii.dwTypeData;
                     menuItem.CommandString = GetCommandString(cMenu, mii.wID - 1);
-                    if (itemFilter != null && (itemFilter(menuItem.CommandString) || itemFilter(menuItem.Label)))
+                    if (itemFilter is not null && (itemFilter(menuItem.CommandString) || itemFilter(menuItem.Label)))
                     {
                         // Skip items implemented in UWP
                         container.Dispose();
@@ -228,7 +228,7 @@ namespace Files.App.Shell
                     if (mii.hbmpItem != HBITMAP.NULL && !Enum.IsDefined(typeof(HBITMAP_HMENU), ((IntPtr)mii.hbmpItem).ToInt64()))
                     {
                         using var bitmap = Win32API.GetBitmapFromHBitmap(mii.hbmpItem);
-                        if (bitmap != null)
+                        if (bitmap is not null)
                         {
                             byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(bitmap, typeof(byte[]));
                             menuItem.Icon = bitmapData;
@@ -304,7 +304,7 @@ namespace Files.App.Shell
                 if (disposing)
                 {
                     // TODO: dispose managed state (managed objects).
-                    if (Items != null)
+                    if (Items is not null)
                     {
                         foreach (var si in Items)
                         {
@@ -316,12 +316,12 @@ namespace Files.App.Shell
                 }
 
                 // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-                if (hMenu != null)
+                if (hMenu is not null)
                 {
                     User32.DestroyMenu(hMenu);
                     hMenu = null;
                 }
-                if (cMenu != null)
+                if (cMenu is not null)
                 {
                     Marshal.ReleaseComObject(cMenu);
                     cMenu = null;

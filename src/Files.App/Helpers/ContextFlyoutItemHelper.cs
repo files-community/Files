@@ -55,7 +55,7 @@ namespace Files.App.Helpers
             IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
             var overflow = items.Where(x => x.ID == "ItemOverflow").FirstOrDefault();
-            if (overflow != null)
+            if (overflow is not null)
             {
                 if (!shiftPressed && userSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu) // items with ShowOnShift to overflow menu
                 {
@@ -1041,6 +1041,22 @@ namespace Files.App.Helpers
                     Tag = "OverflowSeparator",
                     ShowInSearchPage = true,
                     IsHidden = true,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Command = commandsViewModel.CompressIntoArchiveCommand,
+                    Glyph = "\uE8DE",
+                    Text = string.Format("AddSingleItemToArchive".GetLocalizedResource(), selectedItems.First().Name),
+                    ShowInSearchPage = true,
+                    ShowItem = selectedItems.Count == 1 && !selectedItems.First().IsArchive,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Command = commandsViewModel.CompressIntoArchiveCommand,
+                    Glyph = "\uE8DE",
+                    Text = "AddToArchive".GetLocalizedResource(),
+                    ShowInSearchPage = true,
+                    ShowItem = selectedItems.Count > 1 && !selectedItems.First().IsArchive,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {

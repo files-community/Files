@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
+  <!--
+    Microsoft ResX Schema
+
     Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
     associated with the data types.
-    
+
     Example:
-    
+
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,36 +26,36 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-                
-    There are any number of "resheader" rows that contain simple 
+
+    There are any number of "resheader" rows that contain simple
     name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
     mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
     extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-    
+
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
+    value   : The object must be serialized into a byte array
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -544,7 +544,7 @@
     <value>Sí</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
-    <value>¿Está seguro de que desea eliminar permanentemente estos elementos?</value>
+    <value>¿Está seguro que desea eliminar permanentemente estos elementos?</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
     <value>Vaciar papelera de reciclaje</value>
@@ -1125,9 +1125,6 @@
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Selección</value>
   </data>
-  <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
-    <value>Abrir archivos con un solo clic</value>
-  </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>Archivo</value>
   </data>
@@ -1186,7 +1183,7 @@
     <value>Borrar todas las propiedades</value>
   </data>
   <data name="OngoingTasksTeachingTip.Subtitle" xml:space="preserve">
-    <value>Compruebe aquí el estado de las operaciones de archivo</value>
+    <value>Compruebe aquí el estado de las operaciones con archivos</value>
   </data>
   <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
     <value>Centro de actividades</value>
@@ -1468,7 +1465,7 @@
     <value>Unidad de red</value>
   </data>
   <data name="DriveTypeNoRootDirectory" xml:space="preserve">
-    <value>Unidad no montada</value>
+    <value>Unidad sin montar</value>
   </data>
   <data name="DriveTypeRam" xml:space="preserve">
     <value>Unidad de disco RAM</value>
@@ -1546,7 +1543,7 @@
     <value>La operación ha finalizado.</value>
   </data>
   <data name="StatusRecycleComplete" xml:space="preserve">
-    <value>Papelera vaciada</value>
+    <value>Reciclaje finalizado</value>
   </data>
   <data name="StatusMoveComplete" xml:space="preserve">
     <value>El cambio de ubicación ha finalizado</value>
@@ -1870,7 +1867,7 @@
     <value>Se ha movido satisfactoriamente {0} elemento de {1} a {2}</value>
   </data>
   <data name="StatusMovedItemsDetails_Plural" xml:space="preserve">
-    <value>Se han movido satisfactoriamente {0} elemento de {1} a {2}</value>
+    <value>Se han movido satisfactoriamente {0} elementos de {1} a {2}</value>
   </data>
   <data name="StatusMoveFailedDetails_Singular" xml:space="preserve">
     <value>No se ha podido mover {0} elemento de {1} a {2}</value>
@@ -2466,8 +2463,8 @@
   <data name="Tag" xml:space="preserve">
     <value>Etiqueta de archivo</value>
   </data>
-  <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
-    <value>Abrir carpetas con un solo clic</value>
+  <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
+    <value>Abrir elementos con un solo clic</value>
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
     <value>Ruta de la carpeta</value>
@@ -2623,7 +2620,7 @@
     <value>Limpieza del disco</value>
   </data>
   <data name="Type" xml:space="preserve">
-    <value>Tipo:</value>
+    <value>Tipo</value>
   </data>
   <data name="IconGrid" xml:space="preserve">
     <value>Cuadrícula de iconos</value>
@@ -2695,10 +2692,10 @@
     <value>Error al copiar</value>
   </data>
   <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
-    <value>No se ha podido copiar {0} elementos de {1} a {2}</value>
+    <value>No se han podido copiar {0} elementos de {1} a {2}</value>
   </data>
   <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
-    <value>No se ha podido copiar {0} elementos de {1} a {2}</value>
+    <value>No se ha podido copiar {0} elemento de {1} a {2}</value>
   </data>
   <data name="StatusMoveFailed" xml:space="preserve">
     <value>Error al mover</value>
@@ -2809,7 +2806,25 @@
     <value>Abrir carpetas con un solo clic en el diseño de columnas</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
-    <value>Elementos abiertos</value>
+    <value>Abrir elementos</value>
+  </data>
+  <data name="AddSingleItemToArchive" xml:space="preserve">
+    <value>Añadir a {0}.zip</value>
+  </data>
+  <data name="AddToArchive" xml:space="preserve">
+    <value>Añadir al archivo</value>
+  </data>
+  <data name="CompressionCompleted" xml:space="preserve">
+    <value>Compresión finalizada</value>
+  </data>
+  <data name="CompressionSucceded" xml:space="preserve">
+    <value>{0} ha sido comprimido</value>
+  </data>
+  <data name="CompressionFailed" xml:space="preserve">
+    <value>{0} no ha podido ser comprimido</value>
+  </data>
+  <data name="CompressionInProgress" xml:space="preserve">
+    <value>Comprimir archivo</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Seleccionar archivos y carpetas al pasar el cursor sobre ellos</value>
@@ -2831,5 +2846,14 @@
   </data>
   <data name="RestoreSelection" xml:space="preserve">
     <value>Restaurar</value>
+  </data>
+  <data name="ShortcutCannotBeOpened" xml:space="preserve">
+    <value>No se puede abrir el acceso directo</value>
+  </data>
+  <data name="DeleteShortcutDescription" xml:space="preserve">
+    <value>No se puede encontrar el destino {0}. ¿Desea eliminar este acceso directo?</value>
+  </data>
+  <data name="LoadingThemes" xml:space="preserve">
+    <value>Cargando temas</value>
   </data>
 </root>

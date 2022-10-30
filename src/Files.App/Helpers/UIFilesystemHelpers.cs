@@ -1,25 +1,23 @@
-using Files.Shared;
 using Files.App.Dialogs;
-using Files.Shared.Enums;
-using Files.Shared.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Interacts;
 using Files.App.ViewModels;
 using Files.App.Extensions;
+using Files.Backend.Enums;
+using Files.Shared;
+using Files.Shared.Enums;
+using Files.Shared.Extensions;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Foundation.Collections;
 using Windows.Storage;
-using Files.Backend.Enums;
 using Windows.System;
-using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Helpers
 {
@@ -51,7 +49,7 @@ namespace Files.App.Helpers
                     var dispatcherQueue = DispatcherQueue.GetForCurrentThread();
                     await associatedInstance.SlimContentPage.SelectedItems.ToList().ParallelForEachAsync(async listedItem =>
                     {
-                        if (banner != null)
+                        if (banner is not null)
                         {
                             ((IProgress<float>)banner.Progress).Report(items.Count / (float)itemsCount * 100);
                         }
@@ -96,24 +94,12 @@ namespace Files.App.Helpers
                 {
                     if (ex.HResult == (int)FileSystemStatusCode.Unauthorized)
                     {
-                        // Try again with fulltrust process
-                        var connection = await AppServiceConnectionHelper.Instance;
-                        if (connection != null)
-                        {
-                            string filePaths = string.Join('|', associatedInstance.SlimContentPage.SelectedItems.Select(x => x.ItemPath));
-                            AppServiceResponseStatus status = await connection.SendMessageAsync(new ValueSet()
-                            {
-                                { "Arguments", "FileOperation" },
-                                { "fileop", "Clipboard" },
-                                { "filepath", filePaths },
-                                { "operation", (int)DataPackageOperation.Move }
-                            });
-                            if (status == AppServiceResponseStatus.Success)
-                            {
-                                banner?.Remove();
-                                return;
-                            }
-                        }
+                        string[] filePaths = associatedInstance.SlimContentPage.SelectedItems.Select(x => x.ItemPath).ToArray();
+
+                        await FileOperationsHelpers.SetClipboard(filePaths, DataPackageOperation.Move);
+
+                        banner?.Remove();
+                        return;
                     }
                     associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
                     banner?.Remove();
@@ -166,7 +152,7 @@ namespace Files.App.Helpers
                 {
                     await associatedInstance.SlimContentPage.SelectedItems.ToList().ParallelForEachAsync(async listedItem =>
                     {
-                        if (banner != null)
+                        if (banner is not null)
                         {
                             ((IProgress<float>)banner.Progress).Report(items.Count / (float)itemsCount * 100);
                         }
@@ -202,24 +188,12 @@ namespace Files.App.Helpers
                 {
                     if (ex.HResult == (int)FileSystemStatusCode.Unauthorized)
                     {
-                        // Try again with fulltrust process
-                        var connection = await AppServiceConnectionHelper.Instance;
-                        if (connection != null)
-                        {
-                            string filePaths = string.Join('|', associatedInstance.SlimContentPage.SelectedItems.Select(x => x.ItemPath));
-                            AppServiceResponseStatus status = await connection.SendMessageAsync(new ValueSet()
-                            {
-                                { "Arguments", "FileOperation" },
-                                { "fileop", "Clipboard" },
-                                { "filepath", filePaths },
-                                { "operation", (int)DataPackageOperation.Copy }
-                            });
-                            if (status == AppServiceResponseStatus.Success)
-                            {
-                                banner?.Remove();
-                                return;
-                            }
-                        }
+                        string[] filePaths = associatedInstance.SlimContentPage.SelectedItems.Select(x => x.ItemPath).ToArray();
+
+                        await FileOperationsHelpers.SetClipboard(filePaths, DataPackageOperation.Copy);
+
+                        banner?.Remove();
+                        return;
                     }
                     banner?.Remove();
                     return;
@@ -252,7 +226,7 @@ namespace Files.App.Helpers
         public static async Task PasteItemAsync(string destinationPath, IShellPage associatedInstance)
         {
             FilesystemResult<DataPackageView> packageView = await FilesystemTasks.Wrap(() => Task.FromResult(Clipboard.GetContent()));
-            if (packageView && packageView.Result != null)
+            if (packageView && packageView.Result is not null)
             {
                 await associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(packageView.Result.RequestedOperation, packageView, destinationPath, false, true);
                 associatedInstance?.SlimContentPage?.ItemManipulationModel?.RefreshItemsOpacity();
@@ -269,26 +243,24 @@ namespace Files.App.Helpers
                     StringComparison.Ordinal);
                 newName = $"{ads.MainStreamName}:{newName}";
             }
+            else if (string.IsNullOrEmpty(item.Name))
+            {
+                newName = string.Concat(newName, item.FileExtension);
+            }
             else
             {
                 newName = item.ItemNameRaw.Replace(item.Name, newName, StringComparison.Ordinal);
             }
+
             if (item.ItemNameRaw == newName || string.IsNullOrEmpty(newName))
             {
                 return true;
             }
 
+            FilesystemItemType itemType = (item.PrimaryItemAttribute == StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File;
+
             ReturnResult renamed = ReturnResult.InProgress;
-            if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
-            {
-                renamed = await associatedInstance.FilesystemHelpers.RenameAsync(StorageHelpers.FromPathAndType(item.ItemPath, FilesystemItemType.Directory),
-                    newName, NameCollisionOption.FailIfExists, true);
-            }
-            else
-            {
-                renamed = await associatedInstance.FilesystemHelpers.RenameAsync(StorageHelpers.FromPathAndType(item.ItemPath, FilesystemItemType.File),
-                    newName, NameCollisionOption.FailIfExists, true);
-            }
+            renamed = await associatedInstance.FilesystemHelpers.RenameAsync(StorageHelpers.FromPathAndType(item.ItemPath, itemType), newName, NameCollisionOption.FailIfExists, true);
 
             if (renamed == ReturnResult.Success)
             {
@@ -300,7 +272,7 @@ namespace Files.App.Helpers
 
         public static async void CreateFileFromDialogResultType(AddItemDialogItemType itemType, ShellNewEntry itemInfo, IShellPage associatedInstance)
         {
-            _ = await CreateFileFromDialogResultTypeForResult(itemType, itemInfo, associatedInstance);
+            await CreateFileFromDialogResultTypeForResult(itemType, itemInfo, associatedInstance);
         }
 
         // WINUI3
@@ -316,21 +288,20 @@ namespace Files.App.Helpers
         public static async Task<IStorageItem> CreateFileFromDialogResultTypeForResult(AddItemDialogItemType itemType, ShellNewEntry itemInfo, IShellPage associatedInstance)
         {
             string currentPath = null;
-            if (associatedInstance.SlimContentPage != null)
+            if (associatedInstance.SlimContentPage is not null)
             {
                 currentPath = associatedInstance.FilesystemViewModel.WorkingDirectory;
-                if (App.LibraryManager.TryGetLibrary(currentPath, out var library))
-                {
-                    if (!library.IsEmpty && library.Folders.Count == 1) // TODO: handle libraries with multiple folders
-                    {
-                        currentPath = library.Folders.First();
-                    }
+                if (App.LibraryManager.TryGetLibrary(currentPath, out var library) &&
+                    !library.IsEmpty &&
+                    library.Folders.Count == 1) // TODO: handle libraries with multiple folders
+				{
+                    currentPath = library.Folders.First();
                 }
             }
 
             // Skip rename dialog when ShellNewEntry has a Command (e.g. ".accdb", ".gdoc")
             string userInput = null;
-            if (itemType != AddItemDialogItemType.File || itemInfo?.Command == null)
+            if (itemType != AddItemDialogItemType.File || itemInfo?.Command is null)
             {
                 DynamicDialog dialog = DynamicDialogFactory.GetFor_RenameDialog();
                 await SetContentDialogRoot(dialog).ShowAsync(); // Show rename dialog
@@ -378,7 +349,7 @@ namespace Files.App.Helpers
                     item.ItemPath,
                     item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
                 var folder = await CreateFileFromDialogResultTypeForResult(AddItemDialogItemType.Folder, null, associatedInstance);
-                if (folder == null)
+                if (folder is null)
                 {
                     return;
                 }

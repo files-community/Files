@@ -20,10 +20,10 @@
 		<Style BasedOn="{StaticResource AccentButtonStyle}" TargetType="Button">
 			<Setter Property="ContentTemplate">
 				<Setter.Value>
-					<DataTemplate x:DataType="Button">
+					<DataTemplate x:DataType="ContentDialog">
 						<StackPanel Orientation="Horizontal" Spacing="5">
 							<FontIcon FontSize="14" Glyph="&#xEA18;" />
-							<TextBlock Text="{Binding PrimaryButtonText, ElementName=ConfirmElevationDialog}" />
+							<TextBlock Text="{x:Bind PrimaryButtonText, Mode=OneWay}" />
 						</StackPanel>
 					</DataTemplate>
 				</Setter.Value>

@@ -8,22 +8,23 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.UserControls"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:views="using:Files.App.Views"
 	d:DesignHeight="300"
 	d:DesignWidth="400"
 	mc:Ignorable="d">
 	<UserControl.Resources>
-		<DataTemplate x:Name="CurrentItem">
+		<DataTemplate x:Name="CurrentItem" x:DataType="views:PathBoxItem">
 			<StackPanel
 				x:Name="ListViewItemContentGrid"
 				AllowDrop="True"
-				AutomationProperties.Name="{Binding Title}"
+				AutomationProperties.Name="{x:Bind Title, Mode=OneWay}"
 				Background="Transparent"
 				DragLeave="PathBoxItem_DragLeave"
 				DragOver="PathBoxItem_DragOver"
 				Drop="PathBoxItem_Drop"
 				Orientation="Horizontal"
 				Spacing="4"
-				Tag="{Binding Path}">
+				Tag="{x:Bind Path, Mode=OneWay}">
 				<Interactivity:Interaction.Behaviors>
 					<Core:EventTriggerBehavior EventName="PointerEntered">
 						<Core:ChangePropertyAction PropertyName="Opacity">
@@ -45,29 +46,29 @@
 				<TextBlock
 					FontSize="12"
 					FontWeight="Medium"
-					Text="{Binding Title}" />
+					Text="{x:Bind Title, Mode=OneWay}" />
 				<FontIcon FontSize="12" Glyph="&#xE76C;" />
 			</StackPanel>
 		</DataTemplate>
-		<DataTemplate x:Name="ParentItems">
+		<DataTemplate x:Name="ParentItems" x:DataType="views:PathBoxItem">
 			<StackPanel
 				x:Name="ListViewItemContentGrid"
 				VerticalAlignment="Center"
 				AllowDrop="True"
-				AutomationProperties.Name="{Binding Title}"
+				AutomationProperties.Name="{x:Bind Title, Mode=OneWay}"
 				Background="Transparent"
 				DragLeave="PathBoxItem_DragLeave"
 				DragOver="PathBoxItem_DragOver"
 				Drop="PathBoxItem_Drop"
 				Orientation="Horizontal"
 				Spacing="4"
-				Tag="{Binding Path}">
+				Tag="{x:Bind Path, Mode=OneWay}">
 				<TextBlock
 					Padding="0,4"
 					FontSize="12"
 					PointerPressed="PathBoxItem_PointerPressed"
 					Tapped="PathBoxItem_Tapped"
-					Text="{Binding Title}">
+					Text="{x:Bind Title, Mode=OneWay}">
 					<Interactivity:Interaction.Behaviors>
 						<Core:EventTriggerBehavior EventName="PointerEntered">
 							<Core:ChangePropertyAction PropertyName="Opacity">

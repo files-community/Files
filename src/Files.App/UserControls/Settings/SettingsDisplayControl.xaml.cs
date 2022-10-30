@@ -69,7 +69,7 @@ namespace Files.App.UserControls.Settings
 
         private void MainPanel_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (e.NewSize.Width == e.PreviousSize.Width || ActionableElement == null)
+            if (e.NewSize.Width == e.PreviousSize.Width || ActionableElement is null)
                 return;
 
             if (ActionableElement.ActualWidth > e.NewSize.Width / 3)

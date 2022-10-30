@@ -23,7 +23,7 @@ namespace Files.Backend.Models
 
         public override string ToString() => Id;
         public override int GetHashCode() => Guid.GetHashCode();
-        public override bool Equals(object other) => other is VolumeInfo info && Equals(info);
+        public override bool Equals(object? other) => other is VolumeInfo info && Equals(info);
         public bool Equals(VolumeInfo other) => other.Guid.Equals(Guid);
 
         private static Guid ToGuid(string id)

@@ -17,8 +17,6 @@ namespace Files.App.ViewModels.Properties
 {
 	public class SecurityProperties : ObservableObject
 	{
-		private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
-
 		public ListedItem Item { get; }
 
 		public SecurityProperties(ListedItem item)
@@ -45,17 +43,17 @@ namespace Files.App.ViewModels.Properties
 
 		private void InitCommands()
 		{
-			EditOwnerCommand = new RelayCommand(EditOwner, () => FilePermissions != null);
-			AddRulesForUserCommand = new RelayCommand(AddRulesForUser, () => FilePermissions != null && FilePermissions.CanReadFilePermissions);
-			RemoveRulesForUserCommand = new RelayCommand(RemoveRulesForUser, () => FilePermissions != null && FilePermissions.CanReadFilePermissions && SelectedRuleForUser != null);
-			AddAccessRuleCommand = new RelayCommand(AddAccessRule, () => FilePermissions != null && FilePermissions.CanReadFilePermissions);
-			RemoveAccessRuleCommand = new RelayCommand(RemoveAccessRule, () => FilePermissions != null && FilePermissions.CanReadFilePermissions && SelectedAccessRules != null);
+			EditOwnerCommand = new RelayCommand(EditOwner, () => FilePermissions is not null);
+			AddRulesForUserCommand = new RelayCommand(AddRulesForUser, () => FilePermissions is not null && FilePermissions.CanReadFilePermissions);
+			RemoveRulesForUserCommand = new RelayCommand(RemoveRulesForUser, () => FilePermissions is not null && FilePermissions.CanReadFilePermissions && SelectedRuleForUser is not null);
+			AddAccessRuleCommand = new RelayCommand(AddAccessRule, () => FilePermissions is not null && FilePermissions.CanReadFilePermissions);
+			RemoveAccessRuleCommand = new RelayCommand(RemoveAccessRule, () => FilePermissions is not null && FilePermissions.CanReadFilePermissions && SelectedAccessRules is not null);
 			DisableInheritanceCommand = new RelayCommand(DisableInheritance, () =>
 			{
-				return FilePermissions != null && FilePermissions.CanReadFilePermissions && (FilePermissions.AreAccessRulesProtected != isProtected);
+				return FilePermissions is not null && FilePermissions.CanReadFilePermissions && (FilePermissions.AreAccessRulesProtected != isProtected);
 			});
 			SetDisableInheritanceOptionCommand = new RelayCommand<string>(SetDisableInheritanceOption);
-			ReplaceChildPermissionsCommand = new RelayCommand(ReplaceChildPermissions, () => FilePermissions != null && FilePermissions.CanReadFilePermissions);
+			ReplaceChildPermissionsCommand = new RelayCommand(ReplaceChildPermissions, () => FilePermissions is not null && FilePermissions.CanReadFilePermissions);
 		}
 
 		public RelayCommand EditOwnerCommand { get; set; }
@@ -148,13 +146,13 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
-		private async void DisableInheritance()
-		{
-			if (await SetAccessRuleProtection(isProtected, preserveInheritance))
-			{
-				GetFilePermissions(); // Refresh file permissions
-			}
-		}
+        private async void DisableInheritance()
+        {
+            if (SetAccessRuleProtection(isProtected, preserveInheritance))
+            {
+                GetFilePermissions(); // Refresh file permissions
+            }
+        }
 
 		private void SetDisableInheritanceOption(string options)
 		{
@@ -164,26 +162,13 @@ namespace Files.App.ViewModels.Properties
 			DisableInheritanceCommand.NotifyCanExecuteChanged();
 		}
 
-		private async void ReplaceChildPermissions()
-		{
-			var connection = await AppServiceConnectionHelper.Instance;
-			if (connection != null)
-			{
-				var value = new ValueSet()
-				{
-					{ "Arguments", "FileOperation" },
-					{ "fileop", "ReplaceChildPermissions" },
-					{ "filepath", Item.ItemPath },
-					{ "isfolder", Item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !Item.IsShortcut }
-				};
-				await connection.SendMessageAsync(value);
-			}
-		}
+        private void ReplaceChildPermissions()
+        { }
 
 		private async void AddAccessRule()
 		{
 			var pickedObject = await OpenObjectPicker();
-			if (pickedObject != null)
+			if (pickedObject is not null)
 			{
 				FilePermissions.AccessRules.Add(new FileSystemAccessRuleForUI(IsFolder)
 				{
@@ -198,7 +183,7 @@ namespace Files.App.ViewModels.Properties
 
 		private void RemoveAccessRule()
 		{
-			if (SelectedAccessRules != null)
+			if (SelectedAccessRules is not null)
 			{
 				foreach (var rule in SelectedAccessRules)
 				{
@@ -207,22 +192,22 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
-		private async void EditOwner()
-		{
-			var pickedObject = await OpenObjectPicker();
-			if (pickedObject != null)
-			{
-				if (await SetFileOwner(pickedObject))
-				{
-					GetFilePermissions(); // Refresh file permissions
-				}
-			}
-		}
+        private async void EditOwner()
+        {
+            var pickedObject = await OpenObjectPicker();
+            if (pickedObject is not null)
+            {
+                if (SetFileOwner(pickedObject))
+                {
+                    GetFilePermissions(); // Refresh file permissions
+                }
+            }
+        }
 
 		private async void AddRulesForUser()
 		{
 			var pickedObject = await OpenObjectPicker();
-			if (pickedObject != null)
+			if (pickedObject is not null)
 			{
 				if (!FilePermissions.RulesForUsers.Any(x => x.UserGroup.Sid == pickedObject))
 				{
@@ -234,7 +219,7 @@ namespace Files.App.ViewModels.Properties
 
 		private void RemoveRulesForUser()
 		{
-			if (SelectedRuleForUser != null)
+			if (SelectedRuleForUser is not null)
 			{
 				SelectedRuleForUser.AllowRights = 0;
 				SelectedRuleForUser.DenyRights = 0;
@@ -247,109 +232,33 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
-		public async void GetFilePermissions()
-		{
-			var connection = await AppServiceConnectionHelper.Instance;
-			if (connection != null)
-			{
-				var value = new ValueSet()
-				{
-					{ "Arguments", "FileOperation" },
-					{ "fileop", "GetFilePermissions" },
-					{ "filepath", Item.ItemPath },
-					{ "isfolder", Item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !Item.IsShortcut }
-				};
-				var (status, response) = await connection.SendMessageForResponseAsync(value);
-				if (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)
-				{
-					var filePermissions = JsonSerializer.Deserialize<FilePermissions>(response["FilePermissions"].GetString());
-					FilePermissions = new FilePermissionsManager(filePermissions);
-				}
-			}
-		}
+        public void GetFilePermissions()
+        {
+            bool isFolder = Item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !Item.IsShortcut;
+            FilePermissions = new FilePermissionsManager(FileOperationsHelpers.GetFilePermissions(Item.ItemPath, isFolder));
+        }
 
-		public async Task<bool> SetFilePermissions()
-		{
-			if (FilePermissions == null || !FilePermissions.CanReadFilePermissions)
-			{
-				return true;
-			}
+        public bool SetFilePermissions()
+        {
+            if (FilePermissions is null || !FilePermissions.CanReadFilePermissions)
+                return true;
 
-			var connection = await AppServiceConnectionHelper.Instance;
-			if (connection != null)
-			{
-				var value = new ValueSet()
-				{
-					{ "Arguments", "FileOperation" },
-					{ "fileop", "SetFilePermissions" },
-					{ "permissions", JsonSerializer.Serialize(FilePermissions.ToFilePermissions()) }
-				};
-				var (status, response) = await connection.SendMessageForResponseAsync(value);
-				return (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success
-					&& response.Get("Success", defaultJson).GetBoolean());
-			}
-			return false;
-		}
+            return FilePermissions.ToFilePermissions().SetPermissions();
+        }
 
-		public async Task<bool> SetFileOwner(string ownerSid)
-		{
-			var connection = await AppServiceConnectionHelper.Instance;
-			if (connection != null)
-			{
-				var value = new ValueSet()
-				{
-					{ "Arguments", "FileOperation" },
-					{ "fileop", "SetFileOwner" },
-					{ "filepath", Item.ItemPath },
-					{ "isfolder", Item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !Item.IsShortcut },
-					{ "ownersid", ownerSid }
-				};
-				var (status, response) = await connection.SendMessageForResponseAsync(value);
-				return (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success
-					&& response.Get("Success", defaultJson).GetBoolean());
-			}
-			return false;
-		}
+        public bool SetFileOwner(string ownerSid)
+        {
+            bool isFolder = Item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !Item.IsShortcut;
+            return FileOperationsHelpers.SetFileOwner(Item.ItemPath, isFolder, ownerSid);
+        }
 
-		public async Task<string> OpenObjectPicker()
-		{
-			var connection = await AppServiceConnectionHelper.Instance;
-			if (connection != null)
-			{
-				var value = new ValueSet()
-				{
-					{ "Arguments", "FileOperation" },
-					{ "fileop", "OpenObjectPicker" },
-					{ "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
-				};
-				var (status, response) = await connection.SendMessageForResponseAsync(value);
-				if (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)
-				{
-					return response.Get("PickedObject", defaultJson).GetString();
-				}
-			}
-			return null;
-		}
+        public Task<string?> OpenObjectPicker()
+            => FileOperationsHelpers.OpenObjectPickerAsync(NativeWinApiHelper.CoreWindowHandle.ToInt64());
 
-		public async Task<bool> SetAccessRuleProtection(bool isProtected, bool preserveInheritance)
-		{
-			var connection = await AppServiceConnectionHelper.Instance;
-			if (connection != null)
-			{
-				var value = new ValueSet()
-				{
-					{ "Arguments", "FileOperation" },
-					{ "fileop", "SetAccessRuleProtection" },
-					{ "filepath", Item.ItemPath },
-					{ "isfolder", Item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !Item.IsShortcut },
-					{ "isprotected", isProtected },
-					{ "preserveinheritance", preserveInheritance }
-				};
-				var (status, response) = await connection.SendMessageForResponseAsync(value);
-				return (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success
-					&& response.Get("Success", defaultJson).GetBoolean());
-			}
-			return false;
-		}
-	}
+        public bool SetAccessRuleProtection(bool isProtected, bool preserveInheritance)
+        {
+            bool isFolder = Item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !Item.IsShortcut;
+            return FileOperationsHelpers.SetAccessRuleProtection(Item.ItemPath, isFolder, isProtected, preserveInheritance);
+        }
+    }
 }

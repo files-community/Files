@@ -23,15 +23,12 @@ using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Windows.System;
 
-#nullable enable
 
 namespace Files.App.Shell
 {
     [SupportedOSPlatform("Windows10.0.10240")]
     internal class Win32API
     {
-        private static readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
-
         public static Task StartSTATask(Func<Task> func)
         {
             var taskCompletionSource = new TaskCompletionSource();
@@ -234,9 +231,9 @@ namespace Files.App.Shell
                 iconData = cacheEntry.Icon;
                 overlayData = cacheEntry.Overlay;
 
-                if ((onlyGetOverlay && overlayData != null) ||
-                    (!getOverlay && iconData != null) ||
-                    (overlayData != null && iconData != null))
+                if ((onlyGetOverlay && overlayData is not null) ||
+                    (!getOverlay && iconData is not null) ||
+                    (overlayData is not null && iconData is not null))
                 {
                     return (iconData, overlayData);
                 }
@@ -247,7 +244,7 @@ namespace Files.App.Shell
                 if (!onlyGetOverlay)
                 {
                     using var shellItem = SafetyExtensions.IgnoreExceptions(() => ShellFolderExtensions.GetShellItemFromPathOrPidl(path));
-                    if (shellItem != null && shellItem.IShellItem is Shell32.IShellItemImageFactory fctry)
+                    if (shellItem is not null && shellItem.IShellItem is Shell32.IShellItemImageFactory fctry)
                     {
                         var flags = Shell32.SIIGBF.SIIGBF_BIGGERSIZEOK;
                         if (thumbnailSize < 80) flags |= Shell32.SIIGBF.SIIGBF_ICONONLY;
@@ -255,18 +252,18 @@ namespace Files.App.Shell
                         if (hres == HRESULT.S_OK)
                         {
                             using var image = GetBitmapFromHBitmap(hbitmap);
-                            if (image != null)
+                            if (image is not null)
                                 iconData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
                         }
                         //Marshal.ReleaseComObject(fctry);
                     }
                 }
 
-                if (getOverlay || (!onlyGetOverlay && iconData == null))
+                if (getOverlay || (!onlyGetOverlay && iconData is null))
                 {
                     var shfi = new Shell32.SHFILEINFO();
                     var flags = Shell32.SHGFI.SHGFI_OVERLAYINDEX | Shell32.SHGFI.SHGFI_ICON | Shell32.SHGFI.SHGFI_SYSICONINDEX | Shell32.SHGFI.SHGFI_ICONLOCATION;
-                    var useFileAttibutes = !onlyGetOverlay && iconData == null; // Cannot access file, use file attributes
+                    var useFileAttibutes = !onlyGetOverlay && iconData is null; // Cannot access file, use file attributes
                     var ret = ShellFolderExtensions.GetStringAsPidl(path, out var pidl) ?
                         Shell32.SHGetFileInfo(pidl, 0, ref shfi, Shell32.SHFILEINFO.Size, Shell32.SHGFI.SHGFI_PIDL | flags) :
                         Shell32.SHGetFileInfo(path, isFolder ? FileAttributes.Directory : 0, ref shfi, Shell32.SHFILEINFO.Size, flags | (useFileAttibutes ? Shell32.SHGFI.SHGFI_USEFILEATTRIBUTES : 0));
@@ -282,10 +279,12 @@ namespace Files.App.Shell
                         <= 48 => Shell32.SHIL.SHIL_EXTRALARGE,
                         _ => Shell32.SHIL.SHIL_JUMBO,
                     };
-                    if (!Shell32.SHGetImageList(imageListSize, typeof(ComCtl32.CImageList).GUID, out var imageList).Succeeded)
+                    if (!Shell32.SHGetImageList(imageListSize, typeof(ComCtl32.CImageList).GUID, out var imageListOut).Succeeded)
                         return (iconData, null);
 
-                    if (!onlyGetOverlay && iconData == null)
+                    var imageList = (ComCtl32.IImageList)imageListOut;
+
+                    if (!onlyGetOverlay && iconData is null)
                     {
                         var iconIdx = shfi.iIcon & 0xFFFFFF;
                         if (iconIdx != 0)
@@ -342,10 +341,10 @@ namespace Files.App.Shell
             finally
             {
                 cacheEntry = new IconAndOverlayCacheEntry();
-                if (iconData != null)
+                if (iconData is not null)
                     cacheEntry.Icon = iconData;
 
-                if (overlayData != null)
+                if (overlayData is not null)
                     cacheEntry.Overlay = overlayData;
 
                 entry[thumbnailSize] = cacheEntry;
@@ -413,7 +412,7 @@ namespace Files.App.Shell
             var iconsList = new List<IconFileInfo>();
             using var currentProc = Process.GetCurrentProcess();
             using var icoCnt = Shell32.ExtractIcon(currentProc.Handle, file, -1);
-            if (icoCnt == null)
+            if (icoCnt is null)
                 return null;
 
             int count = icoCnt.DangerousGetHandle().ToInt32();
@@ -443,7 +442,7 @@ namespace Files.App.Shell
 
         public static bool SetCustomDirectoryIcon(string? folderPath, string? iconFile, int iconIndex = 0)
         {
-            if (folderPath == null)
+            if (folderPath is null)
                 return false;
 
             var fcs = new Shell32.SHFOLDERCUSTOMSETTINGS();
@@ -460,24 +459,12 @@ namespace Files.App.Shell
             return success;
         }
 
-        public static async Task<bool> SetCustomFileIconAsync(string? filePath, string? iconFile, int iconIndex = 0)
+        public static bool SetCustomFileIcon(string? filePath, string? iconFile, int iconIndex = 0)
         {
-            if (filePath == null)
+            if (filePath is null)
                 return false;
 
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection == null)
-                return false;
-
-            var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
-                {
-                    {"Arguments", "FileOperation" },
-                    {"fileop", "SetLinkIcon" },
-                    {"iconIndex", iconIndex },
-                    {"filepath", filePath },
-                    {"iconFile", iconFile }
-                });
-            var success = status == AppServiceResponseStatus.Success && response.Get("Success", defaultJson).GetBoolean();
+            var success = FileOperationsHelpers.SetLinkIcon(filePath, iconFile, iconIndex);
             if (success) _iconAndOverlayCache[filePath] = new();
             return success;
         }
@@ -705,14 +692,14 @@ namespace Files.App.Shell
                 {
                     var item = shellWindows.Item(i);
                     var serv = (Shell32.IServiceProvider)item;
-                    if (serv != null)
+                    if (serv is not null)
                     {
                         if (serv.QueryService(Shell32.SID_STopLevelBrowser, typeof(Shell32.IShellBrowser).GUID, out var ppv).Succeeded)
                         {
                             var pUnk = Marshal.GetObjectForIUnknown(ppv);
                             var shellBrowser = (Shell32.IShellBrowser)pUnk;
                             using var targetFolder = SafetyExtensions.IgnoreExceptions(() => new Vanara.Windows.Shell.ShellItem(folderPath));
-                            if (targetFolder != null)
+                            if (targetFolder is not null)
                             {
                                 if (shellBrowser.QueryActiveShellView(out var shellView).Succeeded)
                                 {

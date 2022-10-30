@@ -117,7 +117,7 @@ namespace Files.App.Filesystem.StorageItems
                 if (!rw)
                 {
                     SevenZipExtractor zipFile = await OpenZipFileAsync();
-                    if (zipFile == null || zipFile.ArchiveFileData == null)
+                    if (zipFile is null || zipFile.ArchiveFileData is null)
                     {
                         return null;
                     }
@@ -165,7 +165,7 @@ namespace Files.App.Filesystem.StorageItems
                 }
 
                 SevenZipExtractor zipFile = await OpenZipFileAsync();
-                if (zipFile == null || zipFile.ArchiveFileData == null)
+                if (zipFile is null || zipFile.ArchiveFileData is null)
                 {
                     return null;
                 }
@@ -209,7 +209,7 @@ namespace Files.App.Filesystem.StorageItems
                 }
 
                 SevenZipExtractor zipFile = await OpenZipFileAsync();
-                if (zipFile == null || zipFile.ArchiveFileData == null)
+                if (zipFile is null || zipFile.ArchiveFileData is null)
                 {
                     return null;
                 }
@@ -244,7 +244,7 @@ namespace Files.App.Filesystem.StorageItems
             return AsyncInfo.Run(async (cancellationToken) =>
             {
                 using SevenZipExtractor zipFile = await OpenZipFileAsync();
-                if (zipFile == null || zipFile.ArchiveFileData == null)
+                if (zipFile is null || zipFile.ArchiveFileData is null)
                 {
                     return null;
                 }
@@ -280,7 +280,7 @@ namespace Files.App.Filesystem.StorageItems
             return AsyncInfo.Run(async (cancellationToken) =>
             {
                 using SevenZipExtractor zipFile = await OpenZipFileAsync();
-                if (zipFile == null || zipFile.ArchiveFileData == null)
+                if (zipFile is null || zipFile.ArchiveFileData is null)
                 {
                     return;
                 }
@@ -315,7 +315,7 @@ namespace Files.App.Filesystem.StorageItems
             {
                 if (Path == containerPath)
                 {
-                    if (backingFile != null)
+                    if (backingFile is not null)
                     {
                         await backingFile.RenameAsync(desiredName, option);
                     }
@@ -360,7 +360,7 @@ namespace Files.App.Filesystem.StorageItems
             {
                 if (Path == containerPath)
                 {
-                    if (backingFile != null)
+                    if (backingFile is not null)
                     {
                         await backingFile.DeleteAsync();
                     }
@@ -419,7 +419,7 @@ namespace Files.App.Filesystem.StorageItems
                 using (SevenZipExtractor zipFile = new SevenZipExtractor(new FileStream(hFile, FileAccess.Read)))
                 {
                     //zipFile.IsStreamOwner = true;
-                    return zipFile.ArchiveFileData != null;
+                    return zipFile.ArchiveFileData is not null;
                 }
             }
             catch
@@ -432,13 +432,13 @@ namespace Files.App.Filesystem.StorageItems
         {
             using (SevenZipExtractor zipFile = await OpenZipFileAsync())
             {
-                if (zipFile == null || zipFile.ArchiveFileData == null)
+                if (zipFile is null || zipFile.ArchiveFileData is null)
                 {
                     return -1;
                 }
                 //zipFile.IsStreamOwner = true;
                 var entry = zipFile.ArchiveFileData.FirstOrDefault(x => System.IO.Path.Combine(containerPath, x.FileName) == Path);
-                if (entry.FileName != null)
+                if (entry.FileName is not null)
                 {
                     return entry.Index;
                 }
@@ -449,7 +449,7 @@ namespace Files.App.Filesystem.StorageItems
         private async Task<BaseBasicProperties> GetBasicProperties()
         {
             using SevenZipExtractor zipFile = await OpenZipFileAsync();
-            if (zipFile == null || zipFile.ArchiveFileData == null)
+            if (zipFile is null || zipFile.ArchiveFileData is null)
             {
                 return null;
             }
@@ -462,29 +462,27 @@ namespace Files.App.Filesystem.StorageItems
                 : new ZipFileBasicProperties(entry);
         }
 
-        private IAsyncOperation<SevenZipExtractor> OpenZipFileAsync(bool openProtected = false)
+        private IAsyncOperation<SevenZipExtractor> OpenZipFileAsync()
         {
             return AsyncInfo.Run<SevenZipExtractor>(async (cancellationToken) =>
             {
-                var zipFile = await OpenZipFileAsync(FileAccessMode.Read, openProtected);
+                var zipFile = await OpenZipFileAsync(FileAccessMode.Read);
                 return zipFile is not null ? new SevenZipExtractor(zipFile) : null;
             });
         }
 
-        private IAsyncOperation<Stream> OpenZipFileAsync(FileAccessMode accessMode, bool openProtected = false)
+        private IAsyncOperation<Stream> OpenZipFileAsync(FileAccessMode accessMode)
         {
             return AsyncInfo.Run<Stream>(async (cancellationToken) =>
             {
                 bool readWrite = accessMode == FileAccessMode.ReadWrite;
-                if (backingFile != null)
+                if (backingFile is not null)
                 {
                     return (await backingFile.OpenAsync(accessMode)).AsStream();
                 }
                 else
                 {
-                    var hFile = openProtected ?
-                        await NativeFileOperationsHelper.OpenProtectedFileForRead(containerPath) :
-                        NativeFileOperationsHelper.OpenFileForRead(containerPath, readWrite);
+                    var hFile = NativeFileOperationsHelper.OpenFileForRead(containerPath, readWrite);
                     if (hFile.IsInvalid)
                     {
                         return null;
@@ -500,10 +498,8 @@ namespace Files.App.Filesystem.StorageItems
             {
                 try
                 {
-                    // If called from here it fails with Access Denied?!
-                    //var hFile = NativeFileOperationsHelper.OpenFileForRead(ContainerPath);
-                    using SevenZipExtractor zipFile = await OpenZipFileAsync(openProtected: true);
-                    if (zipFile == null || zipFile.ArchiveFileData == null)
+                    using SevenZipExtractor zipFile = await OpenZipFileAsync();
+                    if (zipFile is null || zipFile.ArchiveFileData is null)
                     {
                         request.FailAndClose(StreamedFileFailureMode.CurrentlyUnavailable);
                         return;

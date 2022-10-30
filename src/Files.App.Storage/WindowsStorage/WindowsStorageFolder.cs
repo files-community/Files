@@ -11,7 +11,6 @@ using Files.Sdk.Storage.ModifiableStorage;
 using CreationCollisionOption = Files.Sdk.Storage.Enums.CreationCollisionOption;
 using NameCollisionOption = Files.Sdk.Storage.Enums.NameCollisionOption;
 
-#nullable enable
 
 namespace Files.App.Storage.WindowsStorage
 {

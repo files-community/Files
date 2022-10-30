@@ -11,12 +11,10 @@ namespace Files.App.Helpers
         /// <param name="fileExtensionToCheck">The file extension to check.</param>
         /// <returns><c>true</c> if the fileExtensionToCheck is an image;
         /// otherwise, <c>false</c>.</returns>
-        public static bool IsImageFile(string fileExtensionToCheck)
+        public static bool IsImageFile(string? fileExtensionToCheck)
         {
-            if (string.IsNullOrEmpty(fileExtensionToCheck))
-            {
+            if (string.IsNullOrWhiteSpace(fileExtensionToCheck))
                 return false;
-            }
 
             return fileExtensionToCheck.Equals(".png", StringComparison.OrdinalIgnoreCase) ||
                    fileExtensionToCheck.Equals(".jpg", StringComparison.OrdinalIgnoreCase) ||
@@ -46,20 +44,18 @@ namespace Files.App.Helpers
         /// <param name="fileExtensionToCheck">The file extension to check.</param>
         /// <returns><c>true</c> if the fileExtensionToCheck is a zip bundle file;
         /// otherwise <c>false</c>.</returns>
-        public static bool IsZipFile(string fileExtensionToCheck)
+        public static bool IsZipFile(string? fileExtensionToCheck)
         {
-            if (string.IsNullOrEmpty(fileExtensionToCheck))
-            {
+            if (string.IsNullOrWhiteSpace(fileExtensionToCheck))
                 return false;
-            }
 
             return new[] { ".zip", ".msix", ".appx", ".msixbundle", ".7z", ".rar", ".tar" }
                 .Contains(fileExtensionToCheck, StringComparer.OrdinalIgnoreCase);
         }
 
-        public static bool IsBrowsableZipFile(string filePath, out string ext)
+        public static bool IsBrowsableZipFile(string? filePath, out string? ext)
         {
-            if (string.IsNullOrEmpty(filePath))
+            if (string.IsNullOrWhiteSpace(filePath))
             {
                 ext = null;
                 return false;
@@ -70,12 +66,10 @@ namespace Files.App.Helpers
             return ext is not null;
         }
 
-        public static bool IsInfFile(string fileExtensionToCheck)
+        public static bool IsInfFile(string? fileExtensionToCheck)
         {
-            if (string.IsNullOrEmpty(fileExtensionToCheck))
-            {
+            if (string.IsNullOrWhiteSpace(fileExtensionToCheck))
                 return false;
-            }
 
             return fileExtensionToCheck.Equals(".inf", StringComparison.OrdinalIgnoreCase);
         }
@@ -87,12 +81,10 @@ namespace Files.App.Helpers
         /// <returns><c>true</c> if the fileExtensionToCheck is a font file;
         /// otherwise <c>false</c>.</returns>
         /// <remarks>Font file types are; fon, otf, ttc, ttf</remarks>
-        public static bool IsFontFile(string fileExtensionToCheck)
+        public static bool IsFontFile(string? fileExtensionToCheck)
         {
-            if (string.IsNullOrEmpty(fileExtensionToCheck))
-            {
+            if (string.IsNullOrWhiteSpace(fileExtensionToCheck))
                 return false;
-            }
 
             return fileExtensionToCheck.Equals(".fon", StringComparison.OrdinalIgnoreCase) ||
                      fileExtensionToCheck.Equals(".otf", StringComparison.OrdinalIgnoreCase) ||
@@ -107,12 +99,10 @@ namespace Files.App.Helpers
         /// <returns><c>true</c> if the fileExtensionToCheck is a shortcute file;
         /// otherwise <c>false</c>.</returns>
         /// <remarks>Font file type is .lnkf</remarks>
-        public static bool IsShortcutFile(string fileExtensionToCheck)
+        public static bool IsShortcutFile(string? fileExtensionToCheck)
         {
-            if (string.IsNullOrEmpty(fileExtensionToCheck))
-            {
+            if (string.IsNullOrWhiteSpace(fileExtensionToCheck))
                 return false;
-            }
 
             return fileExtensionToCheck.Equals(".lnk", StringComparison.OrdinalIgnoreCase);
         }

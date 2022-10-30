@@ -30,7 +30,6 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
-using Files.App.Interacts;
 using SortDirection = Files.Shared.Enums.SortDirection;
 using Files.Backend.Enums;
 using Files.Backend.Services;
@@ -180,12 +179,12 @@ namespace Files.App.Views
             ToolbarViewModel.PathBoxItemDropped += ColumnShellPage_PathBoxItemDropped;
 
             /*
-              
             TODO UA307 Default back button in the title bar does not exist in WinUI3 apps.
             The tool has generated a custom back button in the MainWindow.xaml.cs file.
             Feel free to edit its position, behavior and use the custom back button instead.
             Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/case-study-1#restoring-back-button-functionality
-            */ToolbarViewModel.BackRequested += ColumnShellPage_BackNavRequested;
+            */
+            ToolbarViewModel.BackRequested += ColumnShellPage_BackNavRequested;
             ToolbarViewModel.UpRequested += ColumnShellPage_UpNavRequested;
             ToolbarViewModel.RefreshRequested += ColumnShellPage_RefreshRequested;
             ToolbarViewModel.ForwardRequested += ColumnShellPage_ForwardNavRequested;
@@ -354,18 +353,18 @@ namespace Files.App.Views
                         MaxItemCount = 10,
                         SearchUnindexedItems = UserSettingsService.PreferencesSettingsService.SearchUnindexedItems
                     };
-                    sender.SetSuggestions(await search.SearchAsync());
+                    sender.SetSuggestions((await search.SearchAsync()).Select(suggestion => new SuggestionModel(suggestion)));
                 }
                 else
                 {
-                    sender.ClearSuggestions();
+                    sender.AddRecentQueries();
                 }
             }
         }
 
         private async void ColumnShellPage_QuerySubmitted(ISearchBox sender, SearchBoxQuerySubmittedEventArgs e)
         {
-            if (e.ChosenSuggestion is ListedItem item)
+            if (e.ChosenSuggestion is SuggestionModel item && !string.IsNullOrWhiteSpace(item.ItemPath))
             {
                 await NavigationHelpers.OpenPath(item.ItemPath, this);
             }
@@ -619,7 +618,7 @@ namespace Files.App.Views
 
         private void FilesystemViewModel_DirectoryInfoUpdated(object sender, EventArgs e)
         {
-            if (ContentPage != null)
+            if (ContentPage is not null)
             {
                 if (FilesystemViewModel.FilesAndFolders.Count == 1)
                 {
@@ -645,8 +644,11 @@ namespace Files.App.Views
         private async void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e)
         {
             ContentPage = await GetContentOrNullAsync();
-            ToolbarViewModel.SearchBox.Query = string.Empty;
-            ToolbarViewModel.IsSearchBoxVisible = false;
+            if (!ToolbarViewModel.SearchBox.WasQuerySubmitted)
+            {
+                ToolbarViewModel.SearchBox.Query = string.Empty;
+                ToolbarViewModel.IsSearchBoxVisible = false;
+            }
             if (ItemDisplayFrame.CurrentSourcePageType == typeof(ColumnViewBase))
             {
                 // Reset DataGrid Rows that may be in "cut" command mode
@@ -903,7 +905,7 @@ namespace Files.App.Views
 
         private void SelectSidebarItemFromPath(Type incomingSourcePageType = null)
         {
-            if (incomingSourcePageType == typeof(WidgetsPage) && incomingSourcePageType != null)
+            if (incomingSourcePageType == typeof(WidgetsPage) && incomingSourcePageType is not null)
             {
                 ToolbarViewModel.PathControlDisplayText = "Home".GetLocalizedResource();
             }
@@ -937,7 +939,7 @@ namespace Files.App.Views
             InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated -= AppSettings_SortOptionPreferenceUpdated;
             InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFilesPreferenceUpdated -= AppSettings_SortDirectoriesAlongsideFilesPreferenceUpdated;
 
-            if (FilesystemViewModel != null)    // Prevent weird case of this being null when many tabs are opened/closed quickly
+            if (FilesystemViewModel is not null)    // Prevent weird case of this being null when many tabs are opened/closed quickly
             {
                 FilesystemViewModel.WorkingDirectoryModified -= ViewModel_WorkingDirectoryModified;
                 FilesystemViewModel.ItemLoadStatusChanged -= FilesystemViewModel_ItemLoadStatusChanged;
@@ -1003,7 +1005,7 @@ namespace Files.App.Views
 
                             ListedItem itemToSelect = FilesystemViewModel.FilesAndFolders.Where((item) => item.ItemPath == folderToSelect).FirstOrDefault();
 
-                            if (itemToSelect != null && ContentPage != null)
+                            if (itemToSelect is not null && ContentPage is not null)
                             {
                                 ContentPage.ItemManipulationModel.SetSelectedItem(itemToSelect);
                                 ContentPage.ItemManipulationModel.ScrollIntoView(itemToSelect);

@@ -130,7 +130,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 		public PreferencesViewModel()
 		{
 			EditTerminalApplicationsCommand = new AsyncRelayCommand(LaunchTerminalsConfigFile);
-			OpenFilesAtStartupCommand = new AsyncRelayCommand(OpenFilesAtStartup);			
+			OpenFilesAtStartupCommand = new AsyncRelayCommand(OpenFilesAtStartup);
 			ChangePageCommand = new AsyncRelayCommand(ChangePage);
 			RemovePageCommand = new RelayCommand(RemovePage);
 			AddPageCommand = new RelayCommand<string>(async (path) => await AddPage(path));
@@ -147,7 +147,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 			App.TerminalController.ModelChanged += ReloadTerminals;
 
-			if (UserSettingsService.PreferencesSettingsService.TabsOnStartupList != null)
+			if (UserSettingsService.PreferencesSettingsService.TabsOnStartupList is not null)
 				PagesOnStartupList = new ObservableCollection<PageOnStartupViewModel>(UserSettingsService.PreferencesSettingsService.TabsOnStartupList.Select((p) => new PageOnStartupViewModel(p)));
 			else
 				PagesOnStartupList = new ObservableCollection<PageOnStartupViewModel>();
@@ -168,13 +168,16 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		private void AddSupportedAppLanguages()
 		{
-			var supportedLanguages = ApplicationLanguages.ManifestLanguages;
+			var appLanguages = ApplicationLanguages.ManifestLanguages
+				.Append(string.Empty) // add default language id
+				.Select(language => new AppLanguageItem(language))
+				.OrderBy(language => language.LanguagID is not "") // default language on top
+				.ThenBy(language => language.LanguageName);
+			AppLanguages = new ObservableCollection<AppLanguageItem>(appLanguages);
 
-			AppLanguages = new ObservableCollection<AppLanguageItem> { };
-			foreach (var language in supportedLanguages)
-				AppLanguages.Add(new AppLanguageItem(language));
-
-			SelectedAppLanguageIndex = AppLanguages.IndexOf(AppLanguages.FirstOrDefault(dl => dl.LanguagID == ApplicationLanguages.PrimaryLanguageOverride) ?? AppLanguages.FirstOrDefault());
+			string languageID = ApplicationLanguages.PrimaryLanguageOverride;
+			SelectedAppLanguageIndex = AppLanguages
+				.IndexOf(AppLanguages.FirstOrDefault(dl => dl.LanguagID == languageID) ?? AppLanguages.First());
 		}
 
 		private async Task InitStartupSettingsRecentFoldersFlyout()
@@ -303,7 +306,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			folderPicker.FileTypeFilter.Add("*");
 			StorageFolder folder = await folderPicker.PickSingleFolderAsync();
 
-			if (folder != null)
+			if (folder is not null)
 			{
 				if (SelectedPageIndex >= 0)
 					PagesOnStartupList[SelectedPageIndex] = new PageOnStartupViewModel(folder.Path);
@@ -338,31 +341,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 				folderPicker.FileTypeFilter.Add("*");
 
 				var folder = await folderPicker.PickSingleFolderAsync();
-				if (folder != null)
+				if (folder is not null)
 					path = folder.Path;
 			}
 
-			if (path != null && PagesOnStartupList != null)
+			if (path is not null && PagesOnStartupList is not null)
 				PagesOnStartupList.Add(new PageOnStartupViewModel(path));
-		}
-
-		public class PageOnStartupViewModel
-		{
-			public string Text
-			{
-				get
-				{
-					if (Path == "Home".GetLocalizedResource())
-						return "Home".GetLocalizedResource();
-					if (Path == CommonPaths.RecycleBinPath)
-						return ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
-					return Path;
-				}
-			}
-
-			public string Path { get; }
-
-			internal PageOnStartupViewModel(string path) => Path = path;
 		}
 
 		private void ReloadTerminals(TerminalController controller)
@@ -569,6 +553,25 @@ namespace Files.App.ViewModels.SettingsViewModels
 		{
 			Dispose();
 		}
+	}
+
+	public class PageOnStartupViewModel
+	{
+		public string Text
+		{
+			get
+			{
+				if (Path == "Home".GetLocalizedResource())
+					return "Home".GetLocalizedResource();
+				if (Path == CommonPaths.RecycleBinPath)
+					return ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
+				return Path;
+			}
+		}
+
+		public string Path { get; }
+
+		internal PageOnStartupViewModel(string path) => Path = path;
 	}
 
 	public class AppLanguageItem

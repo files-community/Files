@@ -58,7 +58,7 @@ namespace Files.App.Filesystem
                     case FilesystemItemType.File:
                         {
                             var newEntryInfo = await ShellNewEntryExtensions.GetNewContextMenuEntryForType(Path.GetExtension(source.Path));
-                            if (newEntryInfo == null)
+                            if (newEntryInfo is null)
                             {
                                 var fsFolderResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(source.Path));
                                 fsResult = fsFolderResult;
@@ -113,7 +113,7 @@ namespace Files.App.Filesystem
                 }
 
                 errorCode?.Report(fsResult);
-                if (item != null)
+                if (item is not null)
                 {
                     return (new StorageHistory(FileOperationType.CreateNew, item.CreateList(), null), item.Item);
                 }
@@ -562,7 +562,7 @@ namespace Files.App.Filesystem
                     }
 
                     // Get newest file
-                    ShellFileItem item = nameMatchItems.Where((item) => item.RecycleDate != null).OrderBy((item) => item.RecycleDate).FirstOrDefault();
+                    ShellFileItem item = nameMatchItems.OrderBy((item) => item.RecycleDate).FirstOrDefault();
 
                     return new StorageHistory(FileOperationType.Recycle, source, StorageHelpers.FromPathAndType(item?.RecyclePath, source.ItemType));
                 }
@@ -711,7 +711,7 @@ namespace Files.App.Filesystem
                 progress?.Report(i / (float)source.Count * 100.0f);
             }
 
-            if (rawStorageHistory.Any() && rawStorageHistory.All((item) => item != null))
+            if (rawStorageHistory.Any() && rawStorageHistory.All((item) => item is not null))
             {
                 return new StorageHistory(
                     rawStorageHistory[0].OperationType,
@@ -897,7 +897,7 @@ namespace Files.App.Filesystem
                 progress?.Report(i / (float)source.Count * 100.0f);
             }
 
-            if (rawStorageHistory.Any() && rawStorageHistory.All((item) => item != null))
+            if (rawStorageHistory.Any() && rawStorageHistory.All((item) => item is not null))
             {
                 return new StorageHistory(
                     rawStorageHistory[0].OperationType,
@@ -937,7 +937,7 @@ namespace Files.App.Filesystem
                 progress?.Report(i / (float)source.Count * 100.0f);
             }
 
-            if (rawStorageHistory.Any() && rawStorageHistory.All((item) => item != null))
+            if (rawStorageHistory.Any() && rawStorageHistory.All((item) => item is not null))
             {
                 return new StorageHistory(
                     rawStorageHistory[0].OperationType,
@@ -977,7 +977,7 @@ namespace Files.App.Filesystem
                 progress?.Report(i / (float)source.Count * 100.0f);
             }
 
-            if (rawStorageHistory.Any() && rawStorageHistory.All((item) => item != null))
+            if (rawStorageHistory.Any() && rawStorageHistory.All((item) => item is not null))
             {
                 return new StorageHistory(
                     rawStorageHistory[0].OperationType,

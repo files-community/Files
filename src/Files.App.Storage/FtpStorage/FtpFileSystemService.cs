@@ -6,7 +6,6 @@ using Files.Sdk.Storage.LocatableStorage;
 using Files.Sdk.Storage.Services;
 using FluentFTP;
 
-#nullable enable
 
 namespace Files.App.Storage.FtpStorage
 {
@@ -49,7 +48,7 @@ namespace Files.App.Storage.FtpStorage
             await ftpClient.EnsureConnectedAsync(cancellationToken);
 
             var ftpPath = FtpHelpers.GetFtpPath(path);
-            var item = await ftpClient.GetObjectInfoAsync(ftpPath, token: cancellationToken);
+            var item = await ftpClient.GetObjectInfo(ftpPath, token: cancellationToken);
             if (item is null || item.Type != FtpObjectType.Directory)
                 throw new DirectoryNotFoundException("Directory was not found from path.");
 
@@ -62,7 +61,7 @@ namespace Files.App.Storage.FtpStorage
             await ftpClient.EnsureConnectedAsync(cancellationToken);
 
             var ftpPath = FtpHelpers.GetFtpPath(path);
-            var item = await ftpClient.GetObjectInfoAsync(ftpPath, token: cancellationToken);
+            var item = await ftpClient.GetObjectInfo(ftpPath, token: cancellationToken);
             if (item is null || item.Type != FtpObjectType.File)
                 throw new FileNotFoundException("File was not found from path.");
 

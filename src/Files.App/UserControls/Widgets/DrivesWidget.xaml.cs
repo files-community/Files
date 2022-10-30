@@ -3,10 +3,12 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
+using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Helpers.XamlHelpers;
 using Files.App.ViewModels.Widgets;
 using Files.Backend.Services.Settings;
+using Files.Shared.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -25,13 +27,13 @@ using Windows.UI.Core;
 
 namespace Files.App.UserControls.Widgets
 {
-    public class DriveCardItem : ObservableObject, IWidgetCardItem<DriveItem>
+    public class DriveCardItem : ObservableObject, IWidgetCardItem<DriveItem>, IComparable<DriveCardItem>
     {
         private BitmapImage thumbnail;
         private byte[] thumbnailData;
 
         public DriveItem Item { get; private set; }
-        public bool HasThumbnail => thumbnail != null && thumbnailData != null;
+        public bool HasThumbnail => thumbnail is not null && thumbnailData is not null;
         public BitmapImage Thumbnail
         {
             get => thumbnail;
@@ -45,23 +47,25 @@ namespace Files.App.UserControls.Widgets
 
         public async Task LoadCardThumbnailAsync()
         {
-            if (thumbnailData == null || thumbnailData.Length == 0)
+            if (thumbnailData is null || thumbnailData.Length == 0)
             {
                 // Try load thumbnail using ListView mode
                 thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.Path, Convert.ToUInt32(Constants.Widgets.WidgetIconSize), Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
             }
-            if (thumbnailData == null || thumbnailData.Length == 0)
+            if (thumbnailData is null || thumbnailData.Length == 0)
             {
                 // Thumbnail is still null, use DriveItem icon (loaded using SingleItem mode)
                 thumbnailData = Item.IconData;
             }
-            if (thumbnailData != null && thumbnailData.Length > 0)
+            if (thumbnailData is not null && thumbnailData.Length > 0)
             {
                 // Thumbnail data is valid, set the item icon
                 Thumbnail = await App.Window.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize));
             }
         }
-    }
+
+        public int CompareTo(DriveCardItem? other) => Item.Path.CompareTo(other?.Item?.Path);
+	}
 
     public sealed partial class DrivesWidget : UserControl, IWidgetItemModel, INotifyPropertyChanged
     {
@@ -77,7 +81,7 @@ namespace Files.App.UserControls.Widgets
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public static ObservableCollection<DriveCardItem> ItemsAdded = new ObservableCollection<DriveCardItem>();
+        public static ObservableCollection<DriveCardItem> ItemsAdded = new();
 
         private IShellPage associatedInstance;
 
@@ -122,7 +126,7 @@ namespace Files.App.UserControls.Widgets
                         if (drive.Type != DriveType.VirtualDrive)
                         {
                             var cardItem = new DriveCardItem(drive);
-                            ItemsAdded.Add(cardItem);
+                            ItemsAdded.AddSorted(cardItem);
                             await cardItem.LoadCardThumbnailAsync(); // After add
                         }
                     }
@@ -279,32 +283,12 @@ namespace Files.App.UserControls.Widgets
         }
 
         private async void MapNetworkDrive_Click(object sender, RoutedEventArgs e)
-        {
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
-            {
-                await connection.SendMessageAsync(new ValueSet()
-                {
-                    { "Arguments", "NetworkDriveOperation" },
-                    { "netdriveop", "OpenMapNetworkDriveDialog" },
-                    { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
-                });
-            }
-        }
+            => await NetworkDrivesManager.OpenMapNetworkDriveDialogAsync(NativeWinApiHelper.CoreWindowHandle.ToInt64());
 
-        private async void DisconnectNetworkDrive_Click(object sender, RoutedEventArgs e)
+        private void DisconnectNetworkDrive_Click(object sender, RoutedEventArgs e)
         {
             var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
-            {
-                await connection.SendMessageAsync(new ValueSet()
-                {
-                    { "Arguments", "NetworkDriveOperation" },
-                    { "netdriveop", "DisconnectNetworkDrive" },
-                    { "drive", item.Path }
-                });
-            }
+            NetworkDrivesManager.DisconnectNetworkDrive(item.Path);
         }
 
         private void GoToStorageSense_Click(object sender, RoutedEventArgs e)
@@ -318,7 +302,7 @@ namespace Files.App.UserControls.Widgets
             if (drivePath is not null)
             {
                 var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => drivePath.StartsWith(x.Path, StringComparison.Ordinal));
-                if (matchingDrive != null && matchingDrive.Type == DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
+                if (matchingDrive is not null && matchingDrive.Type == DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
                 {
                     bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalizedResource(), string.Format("InsertDiscDialog/Text".GetLocalizedResource(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalizedResource(), "Close".GetLocalizedResource());
                     if (ejectButton)
