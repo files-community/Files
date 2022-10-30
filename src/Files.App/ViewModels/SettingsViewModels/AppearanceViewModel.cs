@@ -6,6 +6,7 @@ using Files.Backend.Services.Settings;
 using Microsoft.UI.Xaml;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace Files.App.ViewModels.SettingsViewModels
@@ -27,8 +28,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 			};
 		}
 
-		public List<string> Themes { get; set; }
-		public List<AppTheme> CustomThemes => App.ExternalResourcesHelper.Themes;
+		public List<string> Themes { get; private set; }
+		public ObservableCollection<AppTheme> CustomThemes => App.ExternalResourcesHelper.Themes;
 
 		public int SelectedThemeIndex
 		{
@@ -247,6 +248,17 @@ namespace Files.App.ViewModels.SettingsViewModels
 			{
 				if (value != UserSettingsService.AppearanceSettingsService.ShowRecentFilesWidget)
 					UserSettingsService.AppearanceSettingsService.ShowRecentFilesWidget = value;
+			}
+		}
+
+		private bool isLoadingThemes;
+		public bool IsLoadingThemes
+		{
+			get => isLoadingThemes;
+			set
+			{
+				isLoadingThemes = value;
+				OnPropertyChanged();
 			}
 		}
 

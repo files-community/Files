@@ -238,11 +238,11 @@ namespace Files.App.Views
 		{
 		}
 
-		public class LibraryFolder
-		{
-			public string Path { get; set; }
+	}
+	public class LibraryFolder
+	{
+		public string Path { get; set; }
 
-			public bool IsDefault { get; set; }
-		}
+		public bool IsDefault { get; set; }
 	}
 }

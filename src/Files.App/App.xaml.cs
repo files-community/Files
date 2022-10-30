@@ -207,7 +207,6 @@ namespace Files.App
 				await Task.WhenAll(
 					TerminalController.InitializeAsync(),
 					JumpList.InitializeAsync(),
-					ExternalResourcesHelper.LoadOtherThemesAsync(),
 					ContextFlyoutItemHelper.CachedNewContextMenuEntries
 				);
 			});

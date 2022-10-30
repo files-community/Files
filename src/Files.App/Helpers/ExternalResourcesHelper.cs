@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Markup;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace Files.App.Helpers
 {
 	public class ExternalResourcesHelper
 	{
-		public List<AppTheme> Themes = new List<AppTheme>()
+		public readonly ObservableCollection<AppTheme> Themes = new()
 		{
 			new AppTheme
 			{
@@ -71,13 +72,13 @@ namespace Files.App.Helpers
 
 		private async Task AddThemesAsync(StorageFolder folder)
 		{
-			foreach (var file in (await folder.GetFilesAsync()).Where(x => x.FileType == ".xaml"))
+			foreach (var file in (await folder.GetFilesAsync()).Where(x => string.Equals(x.FileType, ".xaml", StringComparison.InvariantCultureIgnoreCase)))
 			{
-				if (!Themes.Exists(t => t.AbsolutePath == file.Path))
+				if (!Themes.Any(t => t.AbsolutePath == file.Path))
 				{
 					Themes.Add(new AppTheme()
 					{
-						Name = file.Name.Replace(".xaml", "", StringComparison.Ordinal),
+						Name = file.Name[..^5],
 						Path = file.Name,
 						AbsolutePath = file.Path,
 					});
@@ -93,6 +94,10 @@ namespace Files.App.Helpers
 				if (xaml is not null)
 				{
 					App.Current.Resources.MergedDictionaries.Add(xaml);
+					if (!Themes.Any(t => t.AbsolutePath == theme.AbsolutePath))
+					{
+						Themes.Add(theme);
+					}
 					return true;
 				}
 				return false;

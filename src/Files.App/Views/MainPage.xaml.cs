@@ -23,6 +23,7 @@ using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel;
 using Windows.Graphics;
@@ -80,10 +81,10 @@ namespace Files.App.Views
 
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 
-			LoadSelectedTheme();
+			DispatcherQueue.TryEnqueue(async () => await LoadSelectedTheme());
 		}
 
-		private async void LoadSelectedTheme()
+		private async Task LoadSelectedTheme()
 		{
 			App.ExternalResourcesHelper.OverrideAppResources(UserSettingsService.AppearanceSettingsService.UseCompactStyles);
 			await App.ExternalResourcesHelper.LoadSelectedTheme();

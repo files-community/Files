@@ -89,20 +89,20 @@
 				SelectedIndex="{x:Bind SelectedFolderIndex, Mode=TwoWay}"
 				SelectionMode="Single">
 				<ListView.ItemTemplate>
-					<DataTemplate>
+					<DataTemplate xmlns:vm="using:Files.App.Views" x:DataType="vm:LibraryFolder">
 						<Grid>
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="36" />
 								<ColumnDefinition />
 							</Grid.ColumnDefinitions>
-							<FontIcon Glyph="&#xE008;" Visibility="{Binding IsDefault, Converter={StaticResource BoolToVisibilityConverter}}" />
+							<FontIcon Glyph="&#xE008;" Visibility="{x:Bind IsDefault, Converter={StaticResource BoolToVisibilityConverter}}" />
 							<TextBlock
 								Grid.Column="2"
 								Margin="0,0,0,2"
 								VerticalAlignment="Center"
-								Text="{Binding Path}"
+								Text="{x:Bind Path}"
 								TextTrimming="CharacterEllipsis"
-								ToolTipService.ToolTip="{Binding Path}" />
+								ToolTipService.ToolTip="{x:Bind Path}" />
 						</Grid>
 					</DataTemplate>
 				</ListView.ItemTemplate>

@@ -56,5 +56,15 @@ namespace Files.App.SettingsPages
                 }
             }
         }
+
+        private void AppThemeSelectionGridView_Loaded(object sender, RoutedEventArgs e)
+        {
+            ViewModel.IsLoadingThemes = true;
+            DispatcherQueue.TryEnqueue(async () =>
+            {
+                await App.ExternalResourcesHelper.LoadOtherThemesAsync();
+                ViewModel.IsLoadingThemes = false;
+            });
+        }
     }
 }
