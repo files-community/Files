@@ -51,7 +51,7 @@ namespace Files.App.UserControls.Widgets
             set => SetProperty(ref thumbnail, value);
         }
         public bool IsLibrary => Item is LibraryLocationItem;
-        public bool IsUserCreatedLibrary => IsLibrary && !LibraryHelper.IsDefaultLibrary(Item.Path);
+        public bool IsUserCreatedLibrary => IsLibrary && !LibraryManager.IsDefaultLibrary(Item.Path);
         public LocationItem Item { get; private set; }
         public string Path { get; set; }
         public ICommand SelectCommand { get; set; }
@@ -122,9 +122,9 @@ namespace Files.App.UserControls.Widgets
 
         public ICommand LibraryCardCommand { get; }
 
-        public ICommand ShowCreateNewLibraryDialogCommand { get; } = new RelayCommand(LibraryHelper.ShowCreateNewLibraryDialog);
+        public ICommand ShowCreateNewLibraryDialogCommand { get; } = new RelayCommand(LibraryManager.ShowCreateNewLibraryDialog);
 
-        public readonly ICommand ShowRestoreLibrariesDialogCommand = new RelayCommand(LibraryHelper.ShowRestoreDefaultLibrariesDialog);
+        public readonly ICommand ShowRestoreLibrariesDialogCommand = new RelayCommand(LibraryManager.ShowRestoreDefaultLibrariesDialog);
 
         public bool ShowMultiPaneControls
         {

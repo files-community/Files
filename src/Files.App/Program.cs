@@ -12,6 +12,8 @@ using System.Threading;
 using Microsoft.UI.Dispatching;
 using System.Runtime.InteropServices;
 using static UWPToWinAppSDKUpgradeHelpers.InteropHelpers;
+using Files.App.Shell;
+using System.Diagnostics;
 
 namespace Files.App
 {
@@ -117,9 +119,6 @@ namespace Files.App
                     if (!instance.IsCurrent)
                     {
                         RedirectActivationTo(instance, activatedArgs);
-                        // Terminate "zombie" Files process which remains in suspended state
-                        // after redirection when launched by command line
-                        //TerminateUwpAppInstance(proc.Id); // WINUI3: check if needed
                         return;
                     }
                 }
@@ -152,19 +151,12 @@ namespace Files.App
 
         public static void OpenShellCommandInExplorer(string shellCommand, int pid)
         {
-            ApplicationData.Current.LocalSettings.Values["ShellCommand"] = shellCommand;
-            ApplicationData.Current.LocalSettings.Values["Arguments"] = "ShellCommand";
-            ApplicationData.Current.LocalSettings.Values["pid"] = pid;
-            var ftpPath = System.IO.Path.Combine(Windows.ApplicationModel.Package.Current.InstalledLocation.Path, "Files.FullTrust", "FilesFullTrust.exe");
-            System.Diagnostics.Process.Start(ftpPath);
-        }
-
-        public static void TerminateUwpAppInstance(int pid)
-        {
-            ApplicationData.Current.LocalSettings.Values["Arguments"] = "TerminateUwp";
-            ApplicationData.Current.LocalSettings.Values["pid"] = pid;
-            var ftpPath = System.IO.Path.Combine(Windows.ApplicationModel.Package.Current.InstalledLocation.Path, "Files.FullTrust", "FilesFullTrust.exe");
-            System.Diagnostics.Process.Start(ftpPath);
+            Win32API.OpenFolderInExistingShellWindow(shellCommand);
+            SafetyExtensions.IgnoreExceptions(() =>
+            {
+                using var process = Process.GetProcessById(pid);
+                process?.Kill();
+            });
         }
 
         private static IntPtr redirectEventHandle = IntPtr.Zero;

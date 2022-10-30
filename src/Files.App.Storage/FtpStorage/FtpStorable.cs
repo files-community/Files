@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Files.Sdk.Storage.LocatableStorage;
 using FluentFTP;
 
-#nullable enable
 
 namespace Files.App.Storage.FtpStorage
 {

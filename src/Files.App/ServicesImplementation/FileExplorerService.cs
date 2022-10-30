@@ -10,7 +10,6 @@ using Files.Sdk.Storage.LocatableStorage;
 using Files.Shared.Extensions;
 using Files.App.Storage.WindowsStorage;
 
-#nullable enable
 
 namespace Files.App.ServicesImplementation
 {

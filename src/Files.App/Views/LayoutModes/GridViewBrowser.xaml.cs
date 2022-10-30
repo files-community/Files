@@ -20,7 +20,6 @@ using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 
-#nullable enable
 
 namespace Files.App.Views.LayoutModes
 {

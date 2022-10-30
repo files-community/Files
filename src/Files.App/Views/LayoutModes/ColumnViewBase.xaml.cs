@@ -23,7 +23,6 @@ using Windows.UI.Core;
 using static Files.App.Constants;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 
-#nullable enable
 
 namespace Files.App.Views.LayoutModes
 {

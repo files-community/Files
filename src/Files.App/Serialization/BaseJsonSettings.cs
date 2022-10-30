@@ -2,7 +2,6 @@ using Files.Shared.EventArguments;
 using System;
 using System.Runtime.CompilerServices;
 
-#nullable enable
 
 namespace Files.App.Serialization
 {

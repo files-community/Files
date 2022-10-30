@@ -24,7 +24,6 @@ using System.Windows.Input;
 using Windows.Storage;
 using Windows.System;
 
-#nullable enable
 
 namespace Files.App.ViewModels
 {

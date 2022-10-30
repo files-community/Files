@@ -6,7 +6,6 @@ using System.Threading;
 using System.Collections;
 using System.Collections.Concurrent;
 
-#nullable enable
 
 namespace Files.App.Helpers.LayoutPreferences
 {

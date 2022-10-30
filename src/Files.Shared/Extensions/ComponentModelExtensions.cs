@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
-#nullable enable
 
 namespace Files.Shared.Extensions
 {

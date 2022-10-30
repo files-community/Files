@@ -10,6 +10,9 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
+using Files.App.Shell;
+using Vanara.Windows.Shell;
+using Vanara.PInvoke;
 
 namespace Files.App.Filesystem
 {
@@ -54,55 +57,73 @@ namespace Files.App.Filesystem
             DataChanged?.Invoke(SectionType.Network, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, networkItem));
         }
 
+        public static Task<bool> OpenMapNetworkDriveDialogAsync(long hwnd)
+            => NetworkDrivesAPI.OpenMapNetworkDriveDialog(hwnd);
+
+        public static bool DisconnectNetworkDrive(string drivePath)
+            => NetworkDrivesAPI.DisconnectNetworkDrive(drivePath);
+
         public async Task UpdateDrivesAsync()
         {
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection is not null)
+            var networkLocations = await Win32API.StartSTATask(() =>
             {
-                var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet
+                var locations = new List<ShellLinkItem>();
+                using (var nethood = new ShellFolder(Shell32.KNOWNFOLDERID.FOLDERID_NetHood))
                 {
-                    { "Arguments", "NetworkDriveOperation" },
-                    { "netdriveop", "GetNetworkLocations" },
-                });
-                if (status is AppServiceResponseStatus.Success && response.ContainsKey("NetworkLocations"))
-                {
-                    var items = JsonSerializer.Deserialize<List<ShellLinkItem>>(response["NetworkLocations"].GetString());
-                    foreach (var item in items ?? new())
+                    foreach (var item in nethood)
                     {
-                        var networkItem = new DriveItem
+                        if (item is ShellLink link)
                         {
-                            Text = System.IO.Path.GetFileNameWithoutExtension(item.FileName),
-                            Path = item.TargetPath,
-                            DeviceID = item.FilePath,
-                            Type = DriveType.Network,
-                            ItemType = NavigationControlItemType.Drive,
-                        };
-                        networkItem.MenuOptions = new ContextMenuOptions
+                            locations.Add(ShellFolderExtensions.GetShellLinkItem(link));
+                        }
+                        else
                         {
-                            IsLocationItem = true,
-                            ShowEjectDevice = networkItem.IsRemovable,
-                            ShowShellItems = true,
-                            ShowProperties = true,
-                        };
-
-                        lock (drives)
-                        {
-                            if (drives.Any(x => x.Path == networkItem.Path))
+                            var linkPath = (string)item.Properties["System.Link.TargetParsingPath"];
+                            if (linkPath != null)
                             {
-                                continue;
+                                var linkItem = ShellFolderExtensions.GetShellFileItem(item);
+                                locations.Add(new ShellLinkItem(linkItem) { TargetPath = linkPath });
                             }
-                            drives.Add(networkItem);
                         }
                     }
-
-                    var orderedDrives = Drives
-                        .OrderByDescending(o => string.Equals(o.Text, "Network".GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
-                        .ThenBy(o => o.Text);
-                    foreach (var drive in orderedDrives)
-                    {
-                        DataChanged?.Invoke(SectionType.Network, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, drive));
-                    }
                 }
+                return locations;
+            });
+
+            foreach (var item in networkLocations)
+            {
+                var networkItem = new DriveItem
+                {
+                    Text = System.IO.Path.GetFileNameWithoutExtension(item.FileName),
+                    Path = item.TargetPath,
+                    DeviceID = item.FilePath,
+                    Type = DriveType.Network,
+                    ItemType = NavigationControlItemType.Drive,
+                };
+                networkItem.MenuOptions = new ContextMenuOptions
+                {
+                    IsLocationItem = true,
+                    ShowEjectDevice = networkItem.IsRemovable,
+                    ShowShellItems = true,
+                    ShowProperties = true,
+                };
+
+                lock (drives)
+                {
+                    if (drives.Any(x => x.Path == networkItem.Path))
+                    {
+                        continue;
+                    }
+                    drives.Add(networkItem);
+                }
+            }
+
+            var orderedDrives = Drives
+                .OrderByDescending(o => string.Equals(o.Text, "Network".GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
+                .ThenBy(o => o.Text);
+            foreach (var drive in orderedDrives)
+            {
+                DataChanged?.Invoke(SectionType.Network, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, drive));
             }
         }
     }

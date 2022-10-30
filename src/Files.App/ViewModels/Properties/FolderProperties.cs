@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Windows.UI.Core;
 using Microsoft.UI.Dispatching;
+using Files.App.Shell;
 
 namespace Files.App.ViewModels.Properties
 {
@@ -35,7 +36,7 @@ namespace Files.App.ViewModels.Properties
 
         public override void GetBaseProperties()
         {
-            if (Item is not null)
+            if (Item != null)
             {
                 ViewModel.ItemName = Item.Name;
                 ViewModel.OriginalItemName = Item.Name;
@@ -77,7 +78,7 @@ namespace Files.App.ViewModels.Properties
                 Item.ItemPath, System.IO.FileAttributes.Hidden);
 
             var fileIconData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.ItemPath, 80, Windows.Storage.FileProperties.ThumbnailMode.SingleItem, true);
-            if (fileIconData is not null)
+            if (fileIconData != null)
             {
                 ViewModel.IconData = fileIconData;
                 ViewModel.LoadFolderGlyph = false;
@@ -100,10 +101,10 @@ namespace Files.App.ViewModels.Properties
             string folderPath = (Item as ShortcutItem)?.TargetPath ?? Item.ItemPath;
             BaseStorageFolder storageFolder = await AppInstance.FilesystemViewModel.GetFolderFromPathAsync(folderPath);
 
-            if (storageFolder is not null)
+            if (storageFolder != null)
             {
                 ViewModel.ItemCreatedTimestamp = dateTimeFormatter.ToShortLabel(storageFolder.DateCreated);
-                if (storageFolder.Properties is not null)
+                if (storageFolder.Properties != null)
                 {
                     GetOtherProperties(storageFolder.Properties);
                 }
@@ -111,43 +112,31 @@ namespace Files.App.ViewModels.Properties
             }
             else if (Item.ItemPath.Equals(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
             {
-                // GetFolderFromPathAsync cannot access recyclebin folder
-                var connection = await AppServiceConnectionHelper.Instance;
-                if (connection is not null)
+                var recycleBinQuery = Win32Shell.QueryRecycleBin();
+                if (recycleBinQuery.BinSize is long binSize)
                 {
-                    var value = new ValueSet();
-                    value.Add("Arguments", "RecycleBin");
-                    value.Add("action", "Query");
-                    // Send request to fulltrust process to get recyclebin properties
-                    var (status, response) = await connection.SendMessageForResponseAsync(value);
-                    if (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)
-                    {
-                        if (response.TryGetValue("BinSize", out var binSize))
-                        {
-                            ViewModel.ItemSizeBytes = binSize.GetInt64();
-                            ViewModel.ItemSize = ByteSize.FromBytes(binSize.GetInt64()).ToString();
-                            ViewModel.ItemSizeVisibility = true;
-                        }
-                        else
-                        {
-                            ViewModel.ItemSizeVisibility = false;
-                        }
-                        if (response.TryGetValue("NumItems", out var numItems))
-                        {
-                            ViewModel.FilesCount = (int)numItems.GetInt64();
-                            SetItemsCountString();
-                            ViewModel.FilesAndFoldersCountVisibility = true;
-                        }
-                        else
-                        {
-                            ViewModel.FilesAndFoldersCountVisibility = false;
-                        }
-                        ViewModel.ItemCreatedTimestampVisibility = false;
-                        ViewModel.ItemAccessedTimestampVisibility = false;
-                        ViewModel.ItemModifiedTimestampVisibility = false;
-                        ViewModel.LastSeparatorVisibility = false;
-                    }
+                    ViewModel.ItemSizeBytes = binSize;
+                    ViewModel.ItemSize = ByteSize.FromBytes(binSize).ToString();
+                    ViewModel.ItemSizeVisibility = true;
                 }
+                else
+                {
+                    ViewModel.ItemSizeVisibility = false;
+                }
+                if (recycleBinQuery.NumItems is long numItems)
+                {
+                    ViewModel.FilesCount = (int)numItems;
+                    SetItemsCountString();
+                    ViewModel.FilesAndFoldersCountVisibility = true;
+                }
+                else
+                {
+                    ViewModel.FilesAndFoldersCountVisibility = false;
+                }
+                ViewModel.ItemCreatedTimestampVisibility = false;
+                ViewModel.ItemAccessedTimestampVisibility = false;
+                ViewModel.ItemModifiedTimestampVisibility = false;
+                ViewModel.LastSeparatorVisibility = false;
             }
             else
             {

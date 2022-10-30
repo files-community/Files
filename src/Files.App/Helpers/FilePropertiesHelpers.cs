@@ -14,12 +14,35 @@ using Windows.Foundation.Metadata;
 using Windows.Graphics;
 using static Files.App.Views.Properties;
 
-#nullable enable
 
 namespace Files.App.Helpers
 {
-    public static class FilePropertiesHelpers
+    public class FilePropertiesHelpers
     {
+        private static string? logoPath;
+
+        public static string GetFilesLogoPath()
+        {
+            if (logoPath is not null) return logoPath;
+
+            var appTilesPath = Path.Combine(Package.Current.InstalledLocation.Path, "Assets/AppTiles");
+            if (Directory.Exists(Path.Combine(appTilesPath, "Dev")))
+            {
+                logoPath = Path.Combine(appTilesPath, "Dev", "Logo.ico");
+            }
+            else if (Directory.Exists(Path.Combine(appTilesPath, "Preview")))
+            {
+                logoPath = Path.Combine(appTilesPath, "Preview", "Logo.ico");
+            }
+            else if (Directory.Exists(Path.Combine(appTilesPath, "Release")))
+            {
+                logoPath = Path.Combine(appTilesPath, "Release", "Logo.ico");
+            }
+            else throw new InvalidOperationException("Cannot find Logo.ico from Assets/AppTiles.");
+
+            return logoPath;
+        }
+
         public static async void ShowProperties(IShellPage associatedInstance)
         {
             if (associatedInstance.SlimContentPage.IsItemSelected)
@@ -64,7 +87,7 @@ namespace Files.App.Helpers
                 var appWindow = propertiesWindow.AppWindow;
 
                 // Set icon
-                appWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, "Assets/AppTiles/Dev/Logo.ico"));
+                appWindow.SetIcon(GetFilesLogoPath());
 
                 // Set content
                 propertiesWindow.Content = frame;

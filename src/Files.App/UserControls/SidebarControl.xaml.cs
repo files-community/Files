@@ -106,9 +106,9 @@ namespace Files.App.UserControls
             set => SetValue(EmptyRecycleBinCommandProperty, value);
         }
 
-        public readonly ICommand CreateLibraryCommand = new RelayCommand(LibraryHelper.ShowCreateNewLibraryDialog);
+        public readonly ICommand CreateLibraryCommand = new RelayCommand(LibraryManager.ShowCreateNewLibraryDialog);
 
-        public readonly ICommand RestoreLibrariesCommand = new RelayCommand(LibraryHelper.ShowRestoreDefaultLibrariesDialog);
+        public readonly ICommand RestoreLibrariesCommand = new RelayCommand(LibraryManager.ShowRestoreDefaultLibrariesDialog);
 
         private ICommand HideSectionCommand { get; }
 

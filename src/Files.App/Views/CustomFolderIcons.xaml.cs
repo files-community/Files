@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using static Files.App.Views.PropertiesCustomization;
 
-#nullable enable
 
 namespace Files.App.Views
 {
