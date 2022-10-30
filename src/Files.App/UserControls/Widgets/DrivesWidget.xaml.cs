@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
+using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Helpers.XamlHelpers;
 using Files.App.ViewModels.Widgets;
@@ -80,7 +81,7 @@ namespace Files.App.UserControls.Widgets
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public static ObservableCollection<DriveCardItem> ItemsAdded = new ObservableCollection<DriveCardItem>();
+        public static ObservableCollection<DriveCardItem> ItemsAdded = new();
 
         private IShellPage associatedInstance;
 
@@ -282,32 +283,12 @@ namespace Files.App.UserControls.Widgets
         }
 
         private async void MapNetworkDrive_Click(object sender, RoutedEventArgs e)
-        {
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
-            {
-                await connection.SendMessageAsync(new ValueSet()
-                {
-                    { "Arguments", "NetworkDriveOperation" },
-                    { "netdriveop", "OpenMapNetworkDriveDialog" },
-                    { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
-                });
-            }
-        }
+            => await NetworkDrivesManager.OpenMapNetworkDriveDialogAsync(NativeWinApiHelper.CoreWindowHandle.ToInt64());
 
-        private async void DisconnectNetworkDrive_Click(object sender, RoutedEventArgs e)
+        private void DisconnectNetworkDrive_Click(object sender, RoutedEventArgs e)
         {
             var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
-            {
-                await connection.SendMessageAsync(new ValueSet()
-                {
-                    { "Arguments", "NetworkDriveOperation" },
-                    { "netdriveop", "DisconnectNetworkDrive" },
-                    { "drive", item.Path }
-                });
-            }
+            NetworkDrivesManager.DisconnectNetworkDrive(item.Path);
         }
 
         private void GoToStorageSense_Click(object sender, RoutedEventArgs e)

@@ -38,7 +38,6 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Notifications;
 
-#nullable enable
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -59,7 +58,7 @@ namespace Files.App
 		public static PaneViewModel PaneViewModel { get; private set; }
 		public static PreviewPaneViewModel PreviewPaneViewModel { get; private set; }
 		public static JumpListManager JumpList { get; private set; }
-		public static RecentItemsManager RecentItemsManager { get; private set; }
+		public static RecentItems RecentItemsManager { get; private set; }
 		public static SidebarPinnedController SidebarPinnedController { get; private set; }
 		public static TerminalController TerminalController { get; private set; }
 		public static CloudDrivesManager CloudDrivesManager { get; private set; }
@@ -94,9 +93,9 @@ namespace Files.App
 			InitializeComponent();
 			this.Services = ConfigureServices();
 			Ioc.Default.ConfigureServices(Services);
-        }
+		}
 
-        private IServiceProvider ConfigureServices()
+		private IServiceProvider ConfigureServices()
 		{
 			ServiceCollection services = new ServiceCollection();
 
@@ -146,12 +145,12 @@ namespace Files.App
 			return services.BuildServiceProvider();
 		}
 
-		private static async Task EnsureSettingsAndConfigurationAreBootstrapped()
+		private static void EnsureSettingsAndConfigurationAreBootstrapped()
 		{
 			AppSettings ??= new SettingsViewModel();
 			ExternalResourcesHelper ??= new ExternalResourcesHelper();
 			JumpList ??= new JumpListManager();
-			RecentItemsManager ??= new RecentItemsManager();
+			RecentItemsManager ??= new RecentItems();
 			AppModel ??= new AppModel();
 			PaneViewModel ??= new PaneViewModel();
 			PreviewPaneViewModel ??= new PreviewPaneViewModel();
@@ -164,9 +163,9 @@ namespace Files.App
 			SidebarPinnedController ??= new SidebarPinnedController();
 			TerminalController ??= new TerminalController();
 
-            //FileTagsHelpers.UpdateTagsDb();
-            FileOperationsHelpers.WaitForCompletion();
-        }
+			//FileTagsHelpers.UpdateTagsDb();
+			FileOperationsHelpers.WaitForCompletion();
+		}
 
 		private static async Task StartAppCenter()
 		{
@@ -230,11 +229,11 @@ namespace Files.App
 		/// will be used such as when the application is launched to open a specific file.
 		/// </summary>
 		/// <param name="args">Details about the launch request and process.</param>
-		protected override async void OnLaunched(LaunchActivatedEventArgs e)
+		protected override void OnLaunched(LaunchActivatedEventArgs e)
 		{
 			var activatedEventArgs = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
 
-			await logWriter.InitializeAsync("debug.log");
+			Task.Run(async () => await logWriter.InitializeAsync("debug.log"));
 			Logger.Info($"App launched. Launch args type: {activatedEventArgs.Data.GetType().Name}");
 
 			//start tracking app usage
@@ -244,10 +243,20 @@ namespace Files.App
 			// Initialize MainWindow here
 			EnsureWindowIsInitialized();
 
-			await EnsureSettingsAndConfigurationAreBootstrapped();
-			_ = InitializeAppComponentsAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
+			EnsureSettingsAndConfigurationAreBootstrapped();
+			Task.Run(async () =>
+			{
+				try
+				{
+					await InitializeAppComponentsAsync();
+				}
+				catch (Exception ex)
+				{
+					Logger.Warn(ex, "Error during InitializeAppComponentsAsync()");
+				}
+			});
 
-			await Window.InitializeApplication(activatedEventArgs);
+			_ = Window.InitializeApplication(activatedEventArgs);
 		}
 
 		private void EnsureWindowIsInitialized()
@@ -270,11 +279,10 @@ namespace Files.App
 			}
 		}
 
-		public async void OnActivated(AppActivationArguments activatedEventArgs)
+		public void OnActivated(AppActivationArguments activatedEventArgs)
 		{
 			Logger.Info($"App activated. Activated args type: {activatedEventArgs.Data.GetType().Name}");
-
-			await Window.DispatcherQueue.EnqueueAsync(() => Window.InitializeApplication(activatedEventArgs));
+			_ = Window.InitializeApplication(activatedEventArgs);
 		}
 
 		/// <summary>

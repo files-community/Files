@@ -72,7 +72,7 @@ namespace Files.Backend.Services.SizeProvider
             providers.Add(driveName, provider);
         }
 
-        private void Provider_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Provider_SizeChanged(object? sender, SizeChangedEventArgs e)
             => SizeChanged?.Invoke(this, e);
 
         public void Dispose()

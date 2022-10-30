@@ -66,6 +66,7 @@ namespace Files.App
         public async Task InitializeApplication(AppActivationArguments activatedEventArgs)
         {
             var rootFrame = EnsureWindowIsInitialized();
+            Activate();
 
             // WINUI3: port activation args from App.xaml.cs.old: OnActivated, OnFileActivated
             switch (activatedEventArgs.Data)
@@ -166,9 +167,6 @@ namespace Files.App
             {
                 rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
             }
-
-            ((MainPage)rootFrame.Content).Loaded += 
-                (s, e) => DispatcherQueue.TryEnqueue(() => Activate());
         }
 
         private Frame EnsureWindowIsInitialized()

@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using Files.App.EventArguments;
+using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Helpers.LayoutPreferences;
 using Files.App.Views.LayoutModes;
@@ -370,7 +371,7 @@ namespace Files.App.ViewModels
 			if (folderPath == CommonPaths.DownloadsPath)
 				// Default for downloads folder is to group by date created
 				return new LayoutPreferences() { DirectoryGroupOption = GroupOption.DateCreated };
-			else if (LibraryHelper.IsLibraryPath(folderPath))
+			else if (LibraryManager.IsLibraryPath(folderPath))
 				// Default for libraries is to group by folder path
 				return new LayoutPreferences() { DirectoryGroupOption = GroupOption.FolderPath };
 			else

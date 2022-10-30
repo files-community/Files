@@ -11,7 +11,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
-using System;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
@@ -103,7 +102,7 @@ namespace Files.App.Views
                     var appWindow = propertiesWindow.AppWindow;
 
                     // Set icon
-                    appWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, "Assets/AppTiles/Dev/Logo.ico"));
+                    appWindow.SetIcon(FilePropertiesHelpers.GetFilesLogoPath());
 
                     // Set content
                     propertiesWindow.Content = frame;

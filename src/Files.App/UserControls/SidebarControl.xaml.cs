@@ -106,9 +106,9 @@ namespace Files.App.UserControls
             set => SetValue(EmptyRecycleBinCommandProperty, value);
         }
 
-        public readonly ICommand CreateLibraryCommand = new RelayCommand(LibraryHelper.ShowCreateNewLibraryDialog);
+        public readonly ICommand CreateLibraryCommand = new RelayCommand(LibraryManager.ShowCreateNewLibraryDialog);
 
-        public readonly ICommand RestoreLibrariesCommand = new RelayCommand(LibraryHelper.ShowRestoreDefaultLibrariesDialog);
+        public readonly ICommand RestoreLibrariesCommand = new RelayCommand(LibraryManager.ShowRestoreDefaultLibrariesDialog);
 
         private ICommand HideSectionCommand { get; }
 
@@ -553,7 +553,7 @@ namespace Files.App.UserControls
 
         private void NavigationViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            var itemContextMenuFlyout = new CommandBarFlyout();
+            var itemContextMenuFlyout = new CommandBarFlyout{ Placement = FlyoutPlacementMode.Full };
             var sidebarItem = sender as NavigationViewItem;
             var item = sidebarItem.DataContext as INavigationControlItem;
 
@@ -568,7 +568,7 @@ namespace Files.App.UserControls
             }
 
             secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
-            itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions() { Position = e.GetPosition(sidebarItem) });
+            itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions { Position = e.GetPosition(sidebarItem) });
 
             if (item.MenuOptions.ShowShellItems)
             {

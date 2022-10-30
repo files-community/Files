@@ -1213,7 +1213,7 @@
     <value>Daftar dan urutkan direktori berdampingan dengan file</value>
   </data>
   <data name="Details" xml:space="preserve">
-    <value>Detil</value>
+    <value>Rincian</value>
   </data>
   <data name="No" xml:space="preserve">
     <value>Tidak</value>
@@ -1279,7 +1279,7 @@
     <value>Folder</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Detil (Ctrl+Shift+1)</value>
+    <value>Rincian (Ctrl+Shift+1)</value>
   </data>
   <data name="NavToolbarLayoutOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Tata Letak</value>
@@ -1390,7 +1390,7 @@
     <value>Pratinjau tidak tersedia</value>
   </data>
   <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
-    <value>Tidak ada detail yang tersedia</value>
+    <value>Tidak ada rincian yang tersedia</value>
   </data>
   <data name="PropertyItemName" xml:space="preserve">
     <value>Nama Item</value>
@@ -1405,7 +1405,7 @@
     <value>Jaringan</value>
   </data>
   <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
-    <value>Detail file</value>
+    <value>Rincian file</value>
   </data>
   <data name="PreviewPaneFilePreview.AutomationProperties.Name" xml:space="preserve">
     <value>Pratinjau file</value>
@@ -2710,7 +2710,7 @@
     <value>Tampilkan bagian Tag</value>
   </data>
   <data name="UseCompactStyles" xml:space="preserve">
-    <value>Gunakan tampilan padat dalam tata letak detil</value>
+    <value>Gunakan tampilan ringkas dalam tata letak rincian</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Universal</value>
@@ -2788,7 +2788,7 @@
     <value>Kolom Jenis</value>
   </data>
   <data name="DetailsLayoutColumns" xml:space="preserve">
-    <value>Detil kolom tata letak</value>
+    <value>Tata letak kolom Rincian</value>
   </data>
   <data name="Reset" xml:space="preserve">
     <value>Atur Ulang</value>

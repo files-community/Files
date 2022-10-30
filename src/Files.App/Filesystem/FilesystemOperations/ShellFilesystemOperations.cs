@@ -35,8 +35,6 @@ namespace Files.App.Filesystem
 
         private IDialogService DialogService { get; } = Ioc.Default.GetRequiredService<IDialogService>();
 
-        private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
-
         #endregion Private Members
 
         #region Constructor
@@ -72,8 +70,7 @@ namespace Files.App.Filesystem
 
         public async Task<IStorageHistory> CopyItemsAsync(IList<IStorageItemWithPath> source, IList<string> destination, IList<FileNameConflictResolveOptionType> collisions, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection == null || source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\", StringComparison.Ordinal)) || destination.Any(x => string.IsNullOrWhiteSpace(x) || x.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(x) || ZipStorageFolder.IsZipPath(x, false)))
+            if (source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\", StringComparison.Ordinal)) || destination.Any(x => string.IsNullOrWhiteSpace(x) || x.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(x) || ZipStorageFolder.IsZipPath(x, false)))
             {
                 // Fallback to builtin file operations
                 return await filesystemOperations.CopyItemsAsync(source, destination, collisions, progress, errorCode, cancellationToken);
@@ -85,9 +82,6 @@ namespace Files.App.Filesystem
 
             var operationID = Guid.NewGuid().ToString();
             using var r = cancellationToken.Register(CancelOperation, operationID, false);
-
-            EventHandler<Dictionary<string, JsonElement>> handler = (s, e) => OnProgressUpdated(s, e, operationID, progress);
-            connection.RequestReceived += handler;
 
             var sourceReplace = sourceNoSkip.Zip(collisionsNoSkip, (src, coll) => new { src, coll }).Where(item => item.coll == FileNameConflictResolveOptionType.ReplaceExisting).Select(item => item.src);
             var destinationReplace = destinationNoSkip.Zip(collisionsNoSkip, (src, coll) => new { src, coll }).Where(item => item.coll == FileNameConflictResolveOptionType.ReplaceExisting).Select(item => item.src);
@@ -111,11 +105,6 @@ namespace Files.App.Filesystem
                 result &= (FilesystemResult)resultItem.Item1;
 
                 copyResult.Items.AddRange(resultItem.Item2?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
-            }
-
-            if (connection != null)
-            {
-                connection.RequestReceived -= handler;
             }
 
             result &= (FilesystemResult)copyResult.Items.All(x => x.Succeeded);
@@ -198,8 +187,7 @@ namespace Files.App.Filesystem
 
         public async Task<(IStorageHistory, IStorageItem)> CreateAsync(IStorageItemWithPath source, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection == null || string.IsNullOrWhiteSpace(source.Path) || source.Path.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(source.Path) || ZipStorageFolder.IsZipPath(source.Path, false))
+            if (string.IsNullOrWhiteSpace(source.Path) || source.Path.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(source.Path) || ZipStorageFolder.IsZipPath(source.Path, false))
             {
                 // Fallback to builtin file operations
                 return await filesystemOperations.CreateAsync(source, errorCode, cancellationToken);
@@ -287,19 +275,15 @@ namespace Files.App.Filesystem
             var createdSources = new List<IStorageItemWithPath>();
             var createdDestination = new List<IStorageItemWithPath>();
 
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
+            var items = source.Zip(destination, (src, dest, index) => new { src, dest, index }).Where(x => !string.IsNullOrEmpty(x.src.Path) && !string.IsNullOrEmpty(x.dest));
+            foreach (var item in items)
             {
-                var items = source.Zip(destination, (src, dest, index) => new { src, dest, index }).Where(x => !string.IsNullOrEmpty(x.src.Path) && !string.IsNullOrEmpty(x.dest));
-                foreach (var item in items)
+                if (await FileOperationsHelpers.CreateOrUpdateLinkAsync(item.dest, item.src.Path))
                 {
-                    if (await FileOperationsHelpers.CreateOrUpdateLinkAsync(item.dest, item.src.Path))
-                    {
-                        createdSources.Add(item.src);
-                        createdDestination.Add(StorageHelpers.FromPathAndType(item.dest, FilesystemItemType.File));
-                    }
-                    progress?.Report(item.index / (float)source.Count * 100.0f);
+                    createdSources.Add(item.src);
+                    createdDestination.Add(StorageHelpers.FromPathAndType(item.dest, FilesystemItemType.File));
                 }
+                progress?.Report(item.index / (float)source.Count * 100.0f);
             }
 
             errorCode?.Report(createdSources.Count == source.Count ? FileSystemStatusCode.Success : FileSystemStatusCode.Generic);
@@ -327,8 +311,7 @@ namespace Files.App.Filesystem
 
         public async Task<IStorageHistory> DeleteItemsAsync(IList<IStorageItemWithPath> source, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, bool permanently, CancellationToken cancellationToken)
         {
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection == null || source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(x.Path)))
+            if (source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(x.Path)))
             {
                 // Fallback to builtin file operations
                 return await filesystemOperations.DeleteItemsAsync(source, progress, errorCode, permanently, cancellationToken);
@@ -347,19 +330,11 @@ namespace Files.App.Filesystem
             var operationID = Guid.NewGuid().ToString();
             using var r = cancellationToken.Register(CancelOperation, operationID, false);
 
-            EventHandler<Dictionary<string, JsonElement>> handler = (s, e) => OnProgressUpdated(s, e, operationID, progress);
-            connection.RequestReceived += handler;
-
             var (success, deleteResult) = await FileOperationsHelpers.DeleteItemAsync(deleleFilePaths.ToArray(), permanently, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID);
             
             var result = (FilesystemResult)success;
             var shellOpResult = deleteResult;
             deleteResult.Items.AddRange(shellOpResult?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
-
-            if (connection != null)
-            {
-                connection.RequestReceived -= handler;
-            }
 
             result &= (FilesystemResult)deleteResult.Items.All(x => x.Succeeded);
 
@@ -445,8 +420,7 @@ namespace Files.App.Filesystem
 
         public async Task<IStorageHistory> MoveItemsAsync(IList<IStorageItemWithPath> source, IList<string> destination, IList<FileNameConflictResolveOptionType> collisions, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection == null || source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\", StringComparison.Ordinal)) || destination.Any(x => string.IsNullOrWhiteSpace(x) || x.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(x) || ZipStorageFolder.IsZipPath(x, false)))
+            if (source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\", StringComparison.Ordinal)) || destination.Any(x => string.IsNullOrWhiteSpace(x) || x.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(x) || ZipStorageFolder.IsZipPath(x, false)))
             {
                 // Fallback to builtin file operations
                 return await filesystemOperations.MoveItemsAsync(source, destination, collisions, progress, errorCode, cancellationToken);
@@ -458,9 +432,6 @@ namespace Files.App.Filesystem
 
             var operationID = Guid.NewGuid().ToString();
             using var r = cancellationToken.Register(CancelOperation, operationID, false);
-
-            EventHandler<Dictionary<string, JsonElement>> handler = (s, e) => OnProgressUpdated(s, e, operationID, progress);
-            connection.RequestReceived += handler;
 
             var sourceReplace = sourceNoSkip.Zip(collisionsNoSkip, (src, coll) => new { src, coll }).Where(item => item.coll == FileNameConflictResolveOptionType.ReplaceExisting).Select(item => item.src);
             var destinationReplace = destinationNoSkip.Zip(collisionsNoSkip, (src, coll) => new { src, coll }).Where(item => item.coll == FileNameConflictResolveOptionType.ReplaceExisting).Select(item => item.src);
@@ -482,11 +453,6 @@ namespace Files.App.Filesystem
 
                 result &= (FilesystemResult)status;
                 moveResult.Items.AddRange(response?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
-            }
-
-            if (connection != null)
-            {
-                connection.RequestReceived -= handler;
             }
 
             result &= (FilesystemResult)moveResult.Items.All(x => x.Succeeded);
@@ -580,8 +546,7 @@ namespace Files.App.Filesystem
 
         public async Task<IStorageHistory> RenameAsync(IStorageItemWithPath source, string newName, NameCollisionOption collision, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection == null || string.IsNullOrWhiteSpace(source.Path) || source.Path.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(source.Path) || ZipStorageFolder.IsZipPath(source.Path, false))
+            if (string.IsNullOrWhiteSpace(source.Path) || source.Path.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(source.Path) || ZipStorageFolder.IsZipPath(source.Path, false))
             {
                 // Fallback to builtin file operations
                 return await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
@@ -668,8 +633,7 @@ namespace Files.App.Filesystem
 
         public async Task<IStorageHistory> RestoreItemsFromTrashAsync(IList<IStorageItemWithPath> source, IList<string> destination, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection == null || source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\", StringComparison.Ordinal)) || destination.Any(x => string.IsNullOrWhiteSpace(x) || x.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(x) || ZipStorageFolder.IsZipPath(x, false)))
+            if (source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\", StringComparison.Ordinal)) || destination.Any(x => string.IsNullOrWhiteSpace(x) || x.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(x) || ZipStorageFolder.IsZipPath(x, false)))
             {
                 // Fallback to builtin file operations
                 return await filesystemOperations.RestoreItemsFromTrashAsync(source, destination, progress, errorCode, cancellationToken);
@@ -678,19 +642,11 @@ namespace Files.App.Filesystem
             var operationID = Guid.NewGuid().ToString();
             using var r = cancellationToken.Register(CancelOperation, operationID, false);
 
-            EventHandler<Dictionary<string, JsonElement>> handler = (s, e) => OnProgressUpdated(s, e, operationID, progress);
-            connection.RequestReceived += handler;
-
             var moveResult = new ShellOperationResult();
             var (status, response) = await FileOperationsHelpers.MoveItemAsync(source.Select(s => s.Path).ToArray(), destination.ToArray(), false, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID);
 
             var result = (FilesystemResult)status;
             moveResult.Items.AddRange(response?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
-
-            if (connection != null)
-            {
-                connection.RequestReceived -= handler;
-            }
 
             result &= (FilesystemResult)moveResult.Items.All(x => x.Succeeded);
 
@@ -780,18 +736,7 @@ namespace Files.App.Filesystem
 
         private async Task<bool> RequestAdminOperation()
         {
-            if (!App.AppModel.IsAppElevated)
-            {
-                if (await DialogService.ShowDialogAsync(new ElevateConfirmDialogViewModel()) == DialogResult.Primary)
-                {
-                    var connection = await AppServiceConnectionHelper.Instance;
-                    if (connection != null && await connection.Elevate())
-                    {
-                        connection = await AppServiceConnectionHelper.Instance;
-                        return connection != null;
-                    }
-                }
-            }
+            // TODO:
             return false;
         }
 

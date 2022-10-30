@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Media.Animation;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using Vanara.Extensions.Reflection;
 using Windows.ApplicationModel;
 using Windows.Foundation.Metadata;
 using Windows.Graphics;
@@ -15,10 +16,13 @@ using static Files.App.Views.Properties;
 
 namespace Files.App.Helpers
 {
-	public static class FilePropertiesHelpers
+	public class FilePropertiesHelpers
 	{
 		private static readonly bool isUniversal =
 			ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", majorVersion: 8);
+
+		private static readonly Lazy<string> logoPath = new(GetFilesLogoPath);
+		public static string LogoPath => logoPath.Value;
 
 		public static async void ShowProperties(IShellPage associatedInstance)
 		{
@@ -79,7 +83,7 @@ namespace Files.App.Helpers
 				appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
 				appWindow.Resize(new SizeInt32(460, 550));
-				appWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, "Assets/AppTiles/Dev/Logo.ico"));
+				appWindow.SetIcon(LogoPath);
 
 				if (frame.Content is Properties properties)
 					properties.appWindow = appWindow;
@@ -117,6 +121,22 @@ namespace Files.App.Helpers
 				};
 				frame.Navigate(typeof(Properties), argument, new SuppressNavigationTransitionInfo());
 			}
+		}
+
+		private static string GetFilesLogoPath()
+		{
+			var appTilesPath = Path.Combine(Package.Current.InstalledLocation.Path, "Assets/AppTiles");
+
+			if (Directory.Exists(Path.Combine(appTilesPath, "Dev")))
+				return Path.Combine(appTilesPath, "Dev", "Logo.ico");
+
+			if (Directory.Exists(Path.Combine(appTilesPath, "Preview")))
+				return Path.Combine(appTilesPath, "Preview", "Logo.ico");
+
+			else if (Directory.Exists(Path.Combine(appTilesPath, "Release")))
+				return Path.Combine(appTilesPath, "Release", "Logo.ico");
+
+			throw new InvalidOperationException("Cannot find Logo.ico from Assets/AppTiles.");
 		}
 	}
 }

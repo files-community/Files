@@ -78,6 +78,8 @@
 				<TextBox
 					x:Name="ItemFileName"
 					x:Load="{x:Bind ViewModel.ItemNameVisibility, Mode=OneWay}"
+					GettingFocus="ItemFileName_GettingFocus"
+					LosingFocus="ItemFileName_LosingFocus"
 					PlaceholderText="{helpers:ResourceString Name=PropertiesItemFileName/PlaceholderText}"
 					Text="{x:Bind ViewModel.ItemName, Mode=TwoWay}" />
 				<TextBlock
@@ -308,9 +310,9 @@
 				Height="60"
 				HorizontalAlignment="Left"
 				x:Load="{x:Bind ViewModel.DriveCapacityVisibility, Mode=OneWay}"
+				Background="{ThemeResource ProgressRingBackgroundThemeBrush}"
 				IsIndeterminate="False"
-				Value="{x:Bind ViewModel.DrivePercentageValue, Mode=OneWay}"
-				Background="{ThemeResource ProgressRingBackgroundThemeBrush}">
+				Value="{x:Bind ViewModel.DrivePercentageValue, Mode=OneWay}">
 
 				<ProgressRing.Template>
 					<ControlTemplate TargetType="ProgressRing">

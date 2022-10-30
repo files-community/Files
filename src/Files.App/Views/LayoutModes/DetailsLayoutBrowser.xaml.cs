@@ -27,7 +27,6 @@ using Windows.UI.Core;
 
 using SortDirection = Files.Shared.Enums.SortDirection;
 
-#nullable enable
 
 namespace Files.App.Views.LayoutModes
 {
@@ -176,6 +175,7 @@ namespace Files.App.Views.LayoutModes
         {
             if (ItemManipulationModel == null)
                 return;
+
             ItemManipulationModel.FocusFileListInvoked -= ItemManipulationModel_FocusFileListInvoked;
             ItemManipulationModel.SelectAllItemsInvoked -= ItemManipulationModel_SelectAllItemsInvoked;
             ItemManipulationModel.ClearSelectionInvoked -= ItemManipulationModel_ClearSelectionInvoked;
@@ -426,19 +426,31 @@ namespace Files.App.Views.LayoutModes
 
         private async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
-            var ctrlPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-            var shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+            var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
             var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement();
             var isHeaderFocused = DependencyObjectHelpers.FindParent<DataGridHeader>(focusedElement) != null;
             var isFooterFocused = focusedElement is HyperlinkButton;
 
             if (e.Key == VirtualKey.Enter && !e.KeyStatus.IsMenuKeyDown)
             {
-                if (!IsRenamingItem && !isHeaderFocused && !isFooterFocused)
+                if (IsRenamingItem)
+                    return;
+
+                if (ctrlPressed)
+                {
+                    var folders = ParentShellPageInstance?.SlimContentPage.SelectedItems?.Where(file => file.PrimaryItemAttribute == StorageItemTypes.Folder);
+                    foreach (ListedItem? folder in folders)
+                    {
+                        if (folder != null)
+                            await NavigationHelpers.OpenPathInNewTab(folder.ItemPath);
+                    }
+                }
+                else
                 {
                     NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
-                    e.Handled = true;
                 }
+                e.Handled = true;
             }
             else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
             {
@@ -530,8 +542,8 @@ namespace Files.App.Views.LayoutModes
 
         private void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
         {
-            var ctrlPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-            var shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+            var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
             var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
             if (item == null)
                 return;

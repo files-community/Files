@@ -1,7 +1,6 @@
 ﻿using Files.Backend.Enums;
 using Files.Shared;
 
-#nullable enable
 
 namespace Files.Backend.Models.Dialogs
 {

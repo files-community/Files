@@ -17,8 +17,6 @@ namespace Files.App.ViewModels.Properties
 {
 	public class SecurityProperties : ObservableObject
 	{
-		private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
-
 		public ListedItem Item { get; }
 
 		public SecurityProperties(ListedItem item)
@@ -164,22 +162,8 @@ namespace Files.App.ViewModels.Properties
 			DisableInheritanceCommand.NotifyCanExecuteChanged();
 		}
 
-        private async void ReplaceChildPermissions()
-        {
-            // ReplaceChildPermissions didn't exist in FileOperationsHandler so I commented this part.
-            /*var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
-            {
-                var value = new ValueSet()
-                {
-                    { "Arguments", "FileOperation" },
-                    { "fileop", "ReplaceChildPermissions" },
-                    { "filepath", Item.ItemPath },
-                    { "isfolder", Item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !Item.IsShortcutItem }
-                };
-                await connection.SendMessageAsync(value);
-            }*/
-        }
+        private void ReplaceChildPermissions()
+        { }
 
 		private async void AddAccessRule()
 		{
