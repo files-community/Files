@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services;
 
-#nullable enable
 
 namespace Files.Backend.Extensions
 {

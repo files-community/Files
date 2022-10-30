@@ -52,8 +52,6 @@ namespace Files.App
 
 		protected IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>()!;
 
-		protected Task<NamedPipeAsAppServiceConnection> Connection => AppServiceConnectionHelper.Instance;
-
 		public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
 
 		public FolderSettingsViewModel? FolderSettings => ParentShellPageInstance?.InstanceViewModel.FolderSettings;
@@ -417,7 +415,7 @@ namespace Files.App
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\", StringComparison.Ordinal);
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeFtp = FtpHelpers.IsFtpPath(workingDir);
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeZipFolder = ZipStorageFolder.IsZipPath(workingDir);
-				ParentShellPageInstance.InstanceViewModel.IsPageTypeLibrary = LibraryHelper.IsLibraryPath(workingDir);
+				ParentShellPageInstance.InstanceViewModel.IsPageTypeLibrary = LibraryManager.IsLibraryPath(workingDir);
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = false;
 				ParentShellPageInstance.ToolbarViewModel.PathControlDisplayText = navigationArguments.NavPathParam;
 				if (!navigationArguments.IsLayoutSwitch || previousDir != workingDir)
@@ -439,7 +437,7 @@ namespace Files.App
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\", StringComparison.Ordinal);
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeFtp = FtpHelpers.IsFtpPath(workingDir);
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeZipFolder = ZipStorageFolder.IsZipPath(workingDir);
-				ParentShellPageInstance.InstanceViewModel.IsPageTypeLibrary = LibraryHelper.IsLibraryPath(workingDir);
+				ParentShellPageInstance.InstanceViewModel.IsPageTypeLibrary = LibraryManager.IsLibraryPath(workingDir);
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = true;
 
 				if (!navigationArguments.IsLayoutSwitch)

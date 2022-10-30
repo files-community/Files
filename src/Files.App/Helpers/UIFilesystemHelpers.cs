@@ -94,17 +94,12 @@ namespace Files.App.Helpers
                 {
                     if (ex.HResult == (int)FileSystemStatusCode.Unauthorized)
                     {
-                        // Try again with fulltrust process
-                        var connection = await AppServiceConnectionHelper.Instance;
-                        if (connection != null)
-                        {
-                            string[] filePaths = associatedInstance.SlimContentPage.SelectedItems.Select(x => x.ItemPath).ToArray();
+                        string[] filePaths = associatedInstance.SlimContentPage.SelectedItems.Select(x => x.ItemPath).ToArray();
 
-                            await FileOperationsHelpers.SetClipboard(filePaths, DataPackageOperation.Move);
+                        await FileOperationsHelpers.SetClipboard(filePaths, DataPackageOperation.Move);
 
-                            banner?.Remove();
-                            return;
-                        }
+                        banner?.Remove();
+                        return;
                     }
                     associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
                     banner?.Remove();
@@ -193,17 +188,12 @@ namespace Files.App.Helpers
                 {
                     if (ex.HResult == (int)FileSystemStatusCode.Unauthorized)
                     {
-                        // Try again with fulltrust process
-                        var connection = await AppServiceConnectionHelper.Instance;
-                        if (connection != null)
-                        {
-                            string[] filePaths = associatedInstance.SlimContentPage.SelectedItems.Select(x => x.ItemPath).ToArray();
-                            
-                            await FileOperationsHelpers.SetClipboard(filePaths, DataPackageOperation.Copy);
+                        string[] filePaths = associatedInstance.SlimContentPage.SelectedItems.Select(x => x.ItemPath).ToArray();
 
-                            banner?.Remove();
-                            return;
-                        }
+                        await FileOperationsHelpers.SetClipboard(filePaths, DataPackageOperation.Copy);
+
+                        banner?.Remove();
+                        return;
                     }
                     banner?.Remove();
                     return;

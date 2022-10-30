@@ -2,11 +2,11 @@
 	
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
-		<Platforms>x86;x64;arm64</Platforms>
-		<RuntimeIdentifiers>win-arm64;win-x86;win-x64</RuntimeIdentifiers>
 		<Nullable>enable</Nullable>
-		<Configurations>Debug;Release;Sideload</Configurations>
 		<IsTrimmable>true</IsTrimmable>
+		<Configurations>Debug;Release;Sideload</Configurations>
+    <Platforms>x86;x64;arm64</Platforms>
+    <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
 	</PropertyGroup>
 	
 </Project>
