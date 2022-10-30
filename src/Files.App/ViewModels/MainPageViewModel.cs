@@ -267,69 +267,69 @@ namespace Files.App.ViewModels
             var iconSource = new Microsoft.UI.Xaml.Controls.ImageIconSource();
             string toolTipText = currentPath;
 
-			if (string.IsNullOrEmpty(currentPath) || currentPath == "Home".GetLocalizedResource())
-			{
-				tabLocationHeader = "Home".GetLocalizedResource();
-				iconSource.ImageSource = new Microsoft.UI.Xaml.Media.Imaging.BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
-			}
-			else if (currentPath.Equals(CommonPaths.DesktopPath, StringComparison.OrdinalIgnoreCase))
-			{
-				tabLocationHeader = "Desktop".GetLocalizedResource();
-			}
-			else if (currentPath.Equals(CommonPaths.DownloadsPath, StringComparison.OrdinalIgnoreCase))
-			{
-				tabLocationHeader = "Downloads".GetLocalizedResource();
-			}
-			else if (currentPath.Equals(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
-			{
-				var localSettings = ApplicationData.Current.LocalSettings;
-				tabLocationHeader = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
-			}
-			else if (currentPath.Equals(CommonPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
-			{
-				tabLocationHeader = "SidebarNetworkDrives".GetLocalizedResource();
-			}
-			else if (App.LibraryManager.TryGetLibrary(currentPath, out LibraryLocationItem library))
-			{
-				var libName = System.IO.Path.GetFileNameWithoutExtension(library.Path).GetLocalizedResource();
-				// If localized string is empty use the library name.
-				tabLocationHeader = string.IsNullOrEmpty(libName) ? library.Text : libName;
-			}
-			else
-			{
-				var matchingCloudDrive = App.CloudDrivesManager.Drives.FirstOrDefault(x => PathNormalization.NormalizePath(currentPath).Equals(PathNormalization.NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
-				if (matchingCloudDrive is not null)
-				{
-					tabLocationHeader = matchingCloudDrive.Text;
-				}
-				else if (PathNormalization.NormalizePath(PathNormalization.GetPathRoot(currentPath)) == PathNormalization.NormalizePath(currentPath)) // If path is a drive's root
-				{
-					var matchingNetDrive = App.NetworkDrivesManager.Drives.FirstOrDefault(x => PathNormalization.NormalizePath(currentPath).Contains(PathNormalization.NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
-					if (matchingNetDrive is not null)
-						tabLocationHeader = matchingNetDrive.Text;
-					else
-						tabLocationHeader = PathNormalization.NormalizePath(currentPath);
-				}
-				else
-				{
-					tabLocationHeader = currentPath.TrimEnd(System.IO.Path.DirectorySeparatorChar, System.IO.Path.AltDirectorySeparatorChar).Split('\\', StringSplitOptions.RemoveEmptyEntries).Last();
+            if (string.IsNullOrEmpty(currentPath) || currentPath == "Home".GetLocalizedResource())
+            {
+                tabLocationHeader = "Home".GetLocalizedResource();
+                iconSource.ImageSource = new Microsoft.UI.Xaml.Media.Imaging.BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
+            }
+            else if (currentPath.Equals(CommonPaths.DesktopPath, StringComparison.OrdinalIgnoreCase))
+            {
+                tabLocationHeader = "Desktop".GetLocalizedResource();
+            }
+            else if (currentPath.Equals(CommonPaths.DownloadsPath, StringComparison.OrdinalIgnoreCase))
+            {
+                tabLocationHeader = "Downloads".GetLocalizedResource();
+            }
+            else if (currentPath.Equals(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+            {
+                var localSettings = ApplicationData.Current.LocalSettings;
+                tabLocationHeader = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
+            }
+            else if (currentPath.Equals(CommonPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
+            {
+                tabLocationHeader = "SidebarNetworkDrives".GetLocalizedResource();
+            }
+            else if (App.LibraryManager.TryGetLibrary(currentPath, out LibraryLocationItem library))
+            {
+                var libName = System.IO.Path.GetFileNameWithoutExtension(library.Path).GetLocalizedResource();
+                // If localized string is empty use the library name.
+                tabLocationHeader = string.IsNullOrEmpty(libName) ? library.Text : libName;
+            }
+            else
+            {
+                var matchingCloudDrive = App.CloudDrivesManager.Drives.FirstOrDefault(x => PathNormalization.NormalizePath(currentPath).Equals(PathNormalization.NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
+                if (matchingCloudDrive is not null)
+                {
+                    tabLocationHeader = matchingCloudDrive.Text;
+                }
+                else if (PathNormalization.NormalizePath(PathNormalization.GetPathRoot(currentPath)) == PathNormalization.NormalizePath(currentPath)) // If path is a drive's root
+                {
+                    var matchingNetDrive = App.NetworkDrivesManager.Drives.FirstOrDefault(x => PathNormalization.NormalizePath(currentPath).Contains(PathNormalization.NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
+                    if (matchingNetDrive is not null)
+                        tabLocationHeader = matchingNetDrive.Text;
+                    else
+                        tabLocationHeader = PathNormalization.NormalizePath(currentPath);
+                }
+                else
+                {
+                    tabLocationHeader = currentPath.TrimEnd(System.IO.Path.DirectorySeparatorChar, System.IO.Path.AltDirectorySeparatorChar).Split('\\', StringSplitOptions.RemoveEmptyEntries).Last();
 
-					FilesystemResult<StorageFolderWithPath> rootItem = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(currentPath));
-					if (rootItem)
-					{
-						BaseStorageFolder currentFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(currentPath, rootItem));
-						if (currentFolder is not null && !string.IsNullOrEmpty(currentFolder.DisplayName))
-							tabLocationHeader = currentFolder.DisplayName;
-					}
-				}
-			}
+                    FilesystemResult<StorageFolderWithPath> rootItem = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(currentPath));
+                    if (rootItem)
+                    {
+                        BaseStorageFolder currentFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(currentPath, rootItem));
+                        if (currentFolder is not null && !string.IsNullOrEmpty(currentFolder.DisplayName))
+                            tabLocationHeader = currentFolder.DisplayName;
+                    }
+                }
+            }
 
-			if (iconSource.ImageSource is null)
-			{
-				var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(currentPath, 24u, Windows.Storage.FileProperties.ThumbnailMode.ListView, true);
-				if (iconData is not null)
-					iconSource.ImageSource = await iconData.ToBitmapAsync();
-			}
+            if (iconSource.ImageSource is null)
+            {
+                var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(currentPath, 24u, Windows.Storage.FileProperties.ThumbnailMode.ListView, true);
+                if (iconData is not null)
+                    iconSource.ImageSource = await iconData.ToBitmapAsync();
+            }
 
             return (tabLocationHeader, iconSource, toolTipText);
         }
@@ -358,17 +358,17 @@ namespace Files.App.ViewModels
                         BaseMultitaskingControl.RecentlyClosedTabs.Add(items);
                     }
 
-					if (UserSettingsService.AppSettingsService.RestoreTabsOnStartup)
-					{
-						UserSettingsService.AppSettingsService.RestoreTabsOnStartup = false;
-						if (UserSettingsService.PreferencesSettingsService.LastSessionTabList is not null)
-						{
-							foreach (string tabArgsString in UserSettingsService.PreferencesSettingsService.LastSessionTabList)
-							{
-								var tabArgs = TabItemArguments.Deserialize(tabArgsString);
-								await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
-							}
-						}
+                    if (UserSettingsService.AppSettingsService.RestoreTabsOnStartup)
+                    {
+                        UserSettingsService.AppSettingsService.RestoreTabsOnStartup = false;
+                        if (UserSettingsService.PreferencesSettingsService.LastSessionTabList is not null)
+                        {
+                            foreach (string tabArgsString in UserSettingsService.PreferencesSettingsService.LastSessionTabList)
+                            {
+                                var tabArgs = TabItemArguments.Deserialize(tabArgsString);
+                                await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
+                            }
+                        }
 
                         if (!UserSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp)
                         {
@@ -429,16 +429,16 @@ namespace Files.App.ViewModels
             var tabItem = (TabItem)((FrameworkElement)sender).DataContext;
             var index = AppInstances.IndexOf(tabItem);
 
-			if (AppInstances[index].TabItemArguments is not null)
-			{
-				var tabArgs = AppInstances[index].TabItemArguments;
-				await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg, index + 1);
-			}
-			else
-			{
-				await AddNewTabByPathAsync(typeof(PaneHolderPage), "Home".GetLocalizedResource());
-			}
-		}
+            if (AppInstances[index].TabItemArguments is not null)
+            {
+                var tabArgs = AppInstances[index].TabItemArguments;
+                await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg, index + 1);
+            }
+            else
+            {
+                await AddNewTabByPathAsync(typeof(PaneHolderPage), "Home".GetLocalizedResource());
+            }
+        }
 
         public static async Task AddNewTabByParam(Type type, object tabViewItemArgs, int atIndex = -1)
         {
@@ -463,13 +463,13 @@ namespace Files.App.ViewModels
             App.AppModel.TabStripSelectedIndex = index;
         }
 
-		public static async void Control_ContentChanged(object? sender, TabItemArguments e)
-		{
-			if (sender is null)
-				return;
-			TabItem? matchingTabItem = AppInstances.SingleOrDefault(x => x.Control == (TabItemControl)sender);
-			if (matchingTabItem is null)
-				return;
+        public static async void Control_ContentChanged(object? sender, TabItemArguments e)
+        {
+            if (sender is null)
+                return;
+            TabItem? matchingTabItem = AppInstances.SingleOrDefault(x => x.Control == (TabItemControl)sender);
+            if (matchingTabItem is null)
+                return;
 
             await UpdateTabInfo(matchingTabItem, e.NavigationArg);
         }
