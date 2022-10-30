@@ -349,25 +349,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 				PagesOnStartupList.Add(new PageOnStartupViewModel(path));
 		}
 
-		public class PageOnStartupViewModel
-		{
-			public string Text
-			{
-				get
-				{
-					if (Path == "Home".GetLocalizedResource())
-						return "Home".GetLocalizedResource();
-					if (Path == CommonPaths.RecycleBinPath)
-						return ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
-					return Path;
-				}
-			}
-
-			public string Path { get; }
-
-			internal PageOnStartupViewModel(string path) => Path = path;
-		}
-
 		private void ReloadTerminals(TerminalController controller)
 		{
 			dispatcherQueue.EnqueueAsync(() =>
@@ -574,7 +555,26 @@ namespace Files.App.ViewModels.SettingsViewModels
 		}
 	}
 
-	public class AppLanguageItem
+    public class PageOnStartupViewModel
+    {
+        public string Text
+        {
+            get
+            {
+                if (Path == "Home".GetLocalizedResource())
+                    return "Home".GetLocalizedResource();
+                if (Path == CommonPaths.RecycleBinPath)
+                    return ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
+                return Path;
+            }
+        }
+
+        public string Path { get; }
+
+        internal PageOnStartupViewModel(string path) => Path = path;
+    }
+
+    public class AppLanguageItem
 	{
 		public string LanguagID { get; set; }
 		public string LanguageName { get; set; }
