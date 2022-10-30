@@ -2863,6 +2863,6 @@
     <value>Recyle bin has been emptied</value>
   </data>
   <data name="BinEmptyingFailed" xml:space="preserve">
-    <value>Could not empty recycle bin</value>
+    <value>Failed to empty recycle bin</value>
   </data>
 </root>
