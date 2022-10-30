@@ -94,11 +94,11 @@ namespace Files.App.Helpers
 				if (xaml != null)
 				{
 					App.Current.Resources.MergedDictionaries.Add(xaml);
-                    if (!Themes.Any(t => t.AbsolutePath == theme.Path))
-                    {
-                        Themes.Add(theme);
-                    }
-                    return true;
+					if (!Themes.Any(t => t.AbsolutePath == theme.Path))
+					{
+						Themes.Add(theme);
+					}
+					return true;
 				}
 				return false;
 			}
