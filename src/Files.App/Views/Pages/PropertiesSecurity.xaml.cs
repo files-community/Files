@@ -102,7 +102,7 @@ namespace Files.App.Views
                     var appWindow = propertiesWindow.AppWindow;
 
                     // Set icon
-                    appWindow.SetIcon(FilePropertiesHelpers.GetFilesLogoPath());
+                    appWindow.SetIcon(FilePropertiesHelpers.LogoPath);
 
                     // Set content
                     propertiesWindow.Content = frame;
