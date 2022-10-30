@@ -2853,4 +2853,13 @@
   <data name="DeleteShortcutDescription" xml:space="preserve">
     <value>The target destination cannot be found {0}. Do you want to delete this shortcut?</value>
   </data>
+  <data name="EmptyingRecycleBin" xml:space="preserve">
+    <value>Emptying recycle bin</value>
+  </data>
+  <data name="BinEmptyingSucceded" xml:space="preserve">
+    <value>Recyle bin has been emptied</value>
+  </data>
+  <data name="BinEmptyingFailed" xml:space="preserve">
+    <value>Could not empty recycle bin</value>
+  </data>
 </root>
