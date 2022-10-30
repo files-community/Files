@@ -8,7 +8,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 
-#nullable enable
 
 namespace Files.App.Helpers
 {

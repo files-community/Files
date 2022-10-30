@@ -2,7 +2,6 @@
 using Files.Backend.Models.Dialogs;
 using Files.Backend.Models.Imaging;
 
-#nullable enable
 
 namespace Files.Backend.ViewModels.Dialogs.AddItemDialog
 {

@@ -38,7 +38,6 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Notifications;
 
-#nullable enable
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -59,7 +58,7 @@ namespace Files.App
 		public static PaneViewModel PaneViewModel { get; private set; }
 		public static PreviewPaneViewModel PreviewPaneViewModel { get; private set; }
 		public static JumpListManager JumpList { get; private set; }
-		public static RecentItemsManager RecentItemsManager { get; private set; }
+		public static RecentItems RecentItemsManager { get; private set; }
 		public static SidebarPinnedController SidebarPinnedController { get; private set; }
 		public static TerminalController TerminalController { get; private set; }
 		public static CloudDrivesManager CloudDrivesManager { get; private set; }
@@ -151,7 +150,7 @@ namespace Files.App
 			AppSettings ??= new SettingsViewModel();
 			ExternalResourcesHelper ??= new ExternalResourcesHelper();
 			JumpList ??= new JumpListManager();
-			RecentItemsManager ??= new RecentItemsManager();
+			RecentItemsManager ??= new RecentItems();
 			AppModel ??= new AppModel();
 			PaneViewModel ??= new PaneViewModel();
 			PreviewPaneViewModel ??= new PreviewPaneViewModel();

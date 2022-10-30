@@ -38,6 +38,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using Vanara.Windows.Shell;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -75,35 +76,16 @@ namespace Files.App.ViewModels
 
 		public ListedItem CurrentFolder { get; private set; }
 		public CollectionViewSource viewSource;
-		private CancellationTokenSource addFilesCTS, semaphoreCTS, loadPropsCTS, watcherCTS;
+
+		private FileSystemWatcher watcher;
+        private CancellationTokenSource addFilesCTS, semaphoreCTS, loadPropsCTS, watcherCTS, searchCTS;
 
 		public event EventHandler DirectoryInfoUpdated;
 
 		public event EventHandler<List<ListedItem>> OnSelectionRequestedEvent;
 
 		private IFileListCache fileListCache = FileListCacheController.GetInstance();
-
-		public event EventHandler ConnectionChanged;
-
-		private NamedPipeAsAppServiceConnection connection;
-
-		private NamedPipeAsAppServiceConnection Connection
-		{
-			get => connection;
-			set
-			{
-				if (connection != null)
-					connection.RequestReceived -= Connection_RequestReceived;
-
-				connection = value;
-
-				if (connection != null)
-					connection.RequestReceived += Connection_RequestReceived;
-
-				ConnectionChanged?.Invoke(this, EventArgs.Empty);
-			}
-		}
-
+        
 		public string WorkingDirectory
 		{
 			get; private set;
@@ -164,12 +146,6 @@ namespace Files.App.ViewModels
 
 			WorkingDirectory = value;
 			OnPropertyChanged(nameof(WorkingDirectory));
-
-			if (value == "Home".GetLocalizedResource())
-			{
-				// Initialize connection to receive drive notifications
-				_ = InitializeConnectionAsync(); // fire and forget
-			}
 		}
 
 		public Task<FilesystemResult<BaseStorageFolder>> GetFolderFromPathAsync(string value)
@@ -404,8 +380,58 @@ namespace Files.App.ViewModels
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			FileTagsSettingsService.OnSettingImportedEvent += FileTagsSettingsService_OnSettingImportedEvent;
 			FolderSizeProvider.SizeChanged += FolderSizeProvider_SizeChanged;
-			AppServiceConnectionHelper.ConnectionChanged += AppServiceConnectionHelper_ConnectionChanged;
+			RecycleBinManager.Default.RecycleBinItemCreated += RecycleBinItemCreated;
+			RecycleBinManager.Default.RecycleBinItemDeleted += RecycleBinItemDeleted;
+			RecycleBinManager.Default.RecycleBinRefreshRequested += RecycleBinRefreshRequested;
 		}
+
+		private async void RecycleBinRefreshRequested(object sender, FileSystemEventArgs e)
+		{
+			if (CurrentFolder.ItemPath.Equals(@"Shell:RecycleBinFolder", StringComparison.OrdinalIgnoreCase))
+			{
+				await dispatcherQueue.EnqueueAsync(() =>
+				{
+					RefreshItems(null);
+				});
+			}
+		}
+
+		private async void RecycleBinItemDeleted(object sender, FileSystemEventArgs e)
+		{
+			if (CurrentFolder.ItemPath.Equals(@"Shell:RecycleBinFolder", StringComparison.OrdinalIgnoreCase))
+			{
+				// get the item that immediately follows matching item to be removed
+				// if the matching item is the last item, try to get the previous item; otherwise, null
+				// case must be ignored since $Recycle.Bin != $RECYCLE.BIN
+				var itemRemovedIndex = filesAndFolders.FindIndex(x => x.ItemPath.Equals(e.FullPath, StringComparison.OrdinalIgnoreCase));
+				var nextOfMatchingItem = filesAndFolders.ElementAtOrDefault(itemRemovedIndex + 1 < filesAndFolders.Count() ? itemRemovedIndex + 1 : itemRemovedIndex - 1);
+				var removedItem = await RemoveFileOrFolderAsync(e.FullPath);
+
+				if (removedItem != null)
+					await ApplySingleFileChangeAsync(removedItem);
+
+				if (nextOfMatchingItem != null)
+					await RequestSelectionAsync(new List<ListedItem>() { nextOfMatchingItem });
+			}
+        }
+
+		private async void RecycleBinItemCreated(object sender, FileSystemEventArgs e)
+		{
+			if (CurrentFolder.ItemPath.Equals(@"Shell:RecycleBinFolder", StringComparison.OrdinalIgnoreCase))
+			{
+				using var folderItem = SafetyExtensions.IgnoreExceptions(() => new ShellItem(e.FullPath));
+				if (folderItem == null) return;
+				var shellFileItem = ShellFolderExtensions.GetShellFileItem(folderItem);
+
+				var newListedItem = await AddFileOrFolderFromShellFile(shellFileItem);
+				if (newListedItem != null)
+				{
+					await AddFileOrFolderAsync(newListedItem);
+					await OrderFilesAndFoldersAsync();
+					await ApplySingleFileChangeAsync(newListedItem);
+				}
+			}
+        }
 
 		private async void FolderSizeProvider_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
@@ -482,92 +508,6 @@ namespace Files.App.ViewModels
 					await OrderFilesAndFoldersAsync();
 					await ApplyFilesAndFoldersChangesAsync();
 					break;
-			}
-		}
-
-		private async Task InitializeConnectionAsync()
-		{
-			Connection ??= await AppServiceConnectionHelper.Instance;
-		}
-
-		private async void AppServiceConnectionHelper_ConnectionChanged(object sender, Task<NamedPipeAsAppServiceConnection> e)
-		{
-			Connection = await e;
-		}
-
-		private async void Connection_RequestReceived(object sender, Dictionary<string, JsonElement> message)
-		{
-			// The fulltrust process signaled that something in the recycle bin folder has changed
-			if (message.ContainsKey("FileSystem"))
-			{
-				var folderPath = message["FileSystem"].GetString();
-				var itemPath = message["Path"].GetString();
-				var changeType = message["Type"].GetString();
-				var newItem = JsonSerializer.Deserialize<ShellFileItem>(message.Get("Item", defaultJson).GetString());
-				Debug.WriteLine("{0}: {1}", folderPath, changeType);
-				// If we are currently displaying the reycle bin lets refresh the items
-				if (CurrentFolder?.ItemPath == folderPath)
-				{
-					switch (changeType)
-					{
-						case "Created":
-							var newListedItem = await AddFileOrFolderFromShellFile(newItem);
-							if (newListedItem != null)
-							{
-								await AddFileOrFolderAsync(newListedItem);
-								await OrderFilesAndFoldersAsync();
-								await ApplySingleFileChangeAsync(newListedItem);
-							}
-							break;
-
-						case "Renamed":
-							var matchingItem = filesAndFolders.FirstOrDefault(x => x.ItemPath.Equals(message["OldPath"].GetString(), StringComparison.OrdinalIgnoreCase));
-							if (matchingItem != null)
-							{
-								await dispatcherQueue.EnqueueAsync(() =>
-								{
-									matchingItem.ItemPath = itemPath;
-									matchingItem.ItemNameRaw = message["Name"].GetString();
-								});
-								await OrderFilesAndFoldersAsync();
-								await ApplySingleFileChangeAsync(matchingItem);
-							}
-							break;
-
-						case "Deleted":
-							// get the item that immediately follows matching item to be removed
-							// if the matching item is the last item, try to get the previous item; otherwise, null
-							// case must be ignored since $Recycle.Bin != $RECYCLE.BIN
-							var itemRemovedIndex = filesAndFolders.FindIndex(x => x.ItemPath.Equals(itemPath, StringComparison.OrdinalIgnoreCase));
-							var nextOfMatchingItem = filesAndFolders.ElementAtOrDefault(itemRemovedIndex + 1 < filesAndFolders.Count() ? itemRemovedIndex + 1 : itemRemovedIndex - 1);
-							var removedItem = await RemoveFileOrFolderAsync(itemPath);
-
-							if (removedItem != null)
-								await ApplySingleFileChangeAsync(removedItem);
-
-							if (nextOfMatchingItem != null)
-								await RequestSelectionAsync(new List<ListedItem>() { nextOfMatchingItem });
-							break;
-
-						default:
-							await dispatcherQueue.EnqueueAsync(() =>
-							{
-								RefreshItems(null);
-							});
-							break;
-					}
-				}
-			}
-			// The fulltrust process signaled that a drive has been connected/disconnected
-			else if (message.ContainsKey("DeviceID"))
-			{
-				var deviceId = message["DeviceID"].GetString();
-				var eventType = (DeviceEvent)message["EventType"].GetInt64();
-				await App.DrivesManager.HandleWin32DriveEvent(eventType, deviceId);
-			}
-			else if (message.ContainsKey("Library"))
-			{
-				await App.LibraryManager.HandleWin32LibraryEvent(JsonSerializer.Deserialize<ShellLibraryItem>(message.Get("Item", defaultJson).GetString()), message.Get("OldPath", defaultJson).GetString());
 			}
 		}
 
@@ -1303,8 +1243,6 @@ namespace Files.App.ViewModels
 
 				ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress });
 
-				await InitializeConnectionAsync();
-
 				if (path.ToLowerInvariant().EndsWith(ShellLibraryItem.EXTENSION, StringComparison.Ordinal))
 				{
 					if (App.LibraryManager.TryGetLibrary(path, out LibraryLocationItem library) && !library.IsEmpty)
@@ -1434,6 +1372,9 @@ namespace Files.App.ViewModels
 
 		public void CloseWatcher()
 		{
+			watcher?.Dispose();
+			watcher = null;
+
 			aProcessQueueAction = null;
 			watcherCTS?.Cancel();
 			watcherCTS = new CancellationTokenSource();
@@ -1679,7 +1620,7 @@ namespace Files.App.ViewModels
 				{
 					await Task.Run(async () =>
 					{
-						List<ListedItem> fileList = await Win32StorageEnumerator.ListEntries(path, hFile, findData, Connection, cancellationToken, -1, intermediateAction: async (intermediateList) =>
+						List<ListedItem> fileList = await Win32StorageEnumerator.ListEntries(path, hFile, findData, cancellationToken, -1, intermediateAction: async (intermediateList) =>
 						{
 							filesAndFolders.AddRange(intermediateList);
 							await OrderFilesAndFoldersAsync();
@@ -1780,46 +1721,34 @@ namespace Files.App.ViewModels
 			}, default, TaskCreationOptions.LongRunning, TaskScheduler.Default);
 		}
 
-		private async void WatchForWin32FolderChanges(string folderPath)
+		private void WatchForWin32FolderChanges(string folderPath)
 		{
-			void RestartWatcher(object sender, EventArgs e)
-			{
-				if (Connection != null)
-				{
-					ConnectionChanged -= RestartWatcher;
-					WatchForWin32FolderChanges(folderPath);
-				}
-			}
-			if (Connection != null)
-			{
-				var (status, response) = await Connection.SendMessageForResponseAsync(new ValueSet()
-				{
-					{ "Arguments", "WatchDirectory" },
-					{ "action", "start" },
-					{ "folderPath", folderPath }
-				});
-				if (status == AppServiceResponseStatus.Success
-					&& response.ContainsKey("watcherID"))
-				{
-					ConnectionChanged += RestartWatcher;
-					watcherCTS.Token.Register(async () =>
-					{
-						ConnectionChanged -= RestartWatcher;
-						if (Connection != null)
-						{
-							await Connection.SendMessageAsync(new ValueSet()
-							{
-								{ "Arguments", "WatchDirectory" },
-								{ "action", "cancel" },
-								{ "watcherID", response["watcherID"].GetInt64() }
-							});
-						}
-					});
-				}
-			}
-		}
+            if (Directory.Exists(folderPath))
+            {
+                watcher = new FileSystemWatcher
+                {
+                    Path = folderPath,
+                    Filter = "*.*",
+                    NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName
+                };
+                watcher.Created += DirectoryWatcher_Changed;
+                watcher.Deleted += DirectoryWatcher_Changed;
+                watcher.Renamed += DirectoryWatcher_Changed;
+                watcher.EnableRaisingEvents = true;
+            }
+        }
+        
+        private async void DirectoryWatcher_Changed(object sender, FileSystemEventArgs e)
+        {
+			Debug.WriteLine($"Directory watcher event: {e.ChangeType}, {e.FullPath}");
 
-		private async void ItemQueryResult_ContentsChanged(IStorageQueryResultBase sender, object args)
+            await dispatcherQueue.EnqueueAsync(() =>
+            {
+                RefreshItems(null);
+            });
+        }
+
+        private async void ItemQueryResult_ContentsChanged(IStorageQueryResultBase sender, object args)
 		{
 			//query options have to be reapplied otherwise old results are returned
 			var options = new QueryOptions()
@@ -2152,7 +2081,7 @@ namespace Files.App.ViewModels
 			}
 			else
 			{
-				listedItem = await Win32StorageEnumerator.GetFile(findData, Directory.GetParent(fileOrFolderPath).FullName, Connection, addFilesCTS.Token);
+				listedItem = await Win32StorageEnumerator.GetFile(findData, Directory.GetParent(fileOrFolderPath).FullName, addFilesCTS.Token);
 			}
 
 			await AddFileOrFolderAsync(listedItem);
@@ -2290,14 +2219,12 @@ namespace Files.App.ViewModels
 			await ApplyFilesAndFoldersChangesAsync();
 		}
 
-		private CancellationTokenSource searchCancellationToken;
-
 		public async Task SearchAsync(FolderSearch search)
 		{
 			ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Starting });
 
 			CancelSearch();
-			searchCancellationToken = new CancellationTokenSource();
+			searchCTS = new CancellationTokenSource();
 			filesAndFolders.Clear();
 			IsLoadingItems = true;
 			IsSearchResults = true;
@@ -2313,7 +2240,7 @@ namespace Files.App.ViewModels
 				await OrderFilesAndFoldersAsync();
 				await ApplyFilesAndFoldersChangesAsync();
 			};
-			await search.SearchAsync(results, searchCancellationToken.Token);
+			await search.SearchAsync(results, searchCTS.Token);
 
 			filesAndFolders = new List<ListedItem>(results);
 			await OrderFilesAndFoldersAsync();
@@ -2325,20 +2252,18 @@ namespace Files.App.ViewModels
 
 		public void CancelSearch()
 		{
-			searchCancellationToken?.Cancel();
+			searchCTS?.Cancel();
 		}
 
 		public void Dispose()
 		{
 			CancelLoadAndClearFiles();
-			if (Connection != null)
-			{
-				Connection.RequestReceived -= Connection_RequestReceived;
-			}
-			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
+            RecycleBinManager.Default.RecycleBinItemCreated -= RecycleBinItemCreated;
+            RecycleBinManager.Default.RecycleBinItemDeleted -= RecycleBinItemDeleted;
+            RecycleBinManager.Default.RecycleBinRefreshRequested -= RecycleBinRefreshRequested;
+            UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
 			FileTagsSettingsService.OnSettingImportedEvent -= FileTagsSettingsService_OnSettingImportedEvent;
 			FolderSizeProvider.SizeChanged -= FolderSizeProvider_SizeChanged;
-			AppServiceConnectionHelper.ConnectionChanged -= AppServiceConnectionHelper_ConnectionChanged;
 			DefaultIcons.Clear();
 		}
 	}

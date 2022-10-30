@@ -23,7 +23,6 @@ using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Windows.System;
 
-#nullable enable
 
 namespace Files.App.Shell
 {
