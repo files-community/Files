@@ -8,7 +8,6 @@ using Microsoft.UI.Xaml.Media.Animation;
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using Vanara.Extensions.Reflection;
 using Windows.ApplicationModel;
 using Windows.Foundation.Metadata;
 using Windows.Graphics;
