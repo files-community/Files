@@ -65,7 +65,7 @@
 					</GridView>
 				</local:SettingsBlockControl.ExpandableContent>
 				<StackPanel Orientation="Horizontal">
-					<ProgressRing Height="32" Width="32" Padding="8" VerticalAlignment="Bottom" Visibility="{x:Bind ViewModel.LoadingTheme, Mode=OneWay}" IsIndeterminate="True" />
+					<ProgressRing Height="32" Width="32" Padding="8" VerticalAlignment="Bottom" AutomationProperties.Name="{helpers:ResourceString Name=SettingsThemesLoadingProgressRing/AutomationProperties/Name}" Visibility="{x:Bind ViewModel.LoadingTheme, Mode=OneWay}" IsIndeterminate="True" />
 					<Button
 						x:Name="ThemesLearnMoreButton"
 						Height="32"
