@@ -133,7 +133,7 @@ namespace Files.App.Helpers
 			if (Directory.Exists(Path.Combine(appTilesPath, "Preview")))
 				return Path.Combine(appTilesPath, "Preview", "Logo.ico");
 
-			else if (Directory.Exists(Path.Combine(appTilesPath, "Release")))
+			if (Directory.Exists(Path.Combine(appTilesPath, "Release")))
 				return Path.Combine(appTilesPath, "Release", "Logo.ico");
 
 			throw new InvalidOperationException("Cannot find Logo.ico from Assets/AppTiles.");
