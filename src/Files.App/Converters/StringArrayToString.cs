@@ -9,7 +9,7 @@ namespace Files.App.Converters
         {
             var array = value as string[];
 
-            if (array == null || !(array is string[]))
+            if (array is null || !(array is string[]))
             {
                 return "";
             }

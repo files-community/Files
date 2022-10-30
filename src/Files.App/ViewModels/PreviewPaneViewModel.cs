@@ -89,7 +89,7 @@ namespace Files.App.ViewModels
                 return;
             }
 
-            if (control != null)
+            if (control is not null)
             {
                 PreviewPaneContent = control;
                 PreviewPaneState = PreviewPaneStates.PreviewAndDetailsAvailable;
@@ -149,7 +149,7 @@ namespace Files.App.ViewModels
                 return new FolderPreview(model);
             }
 
-            if (item.FileExtension == null)
+            if (item.FileExtension is null)
             {
                 return null;
             }
@@ -219,7 +219,7 @@ namespace Files.App.ViewModels
             }
 
             var control = await TextPreviewViewModel.TryLoadAsTextAsync(item);
-            if (control != null)
+            if (control is not null)
             {
                 return control;
             }
@@ -230,7 +230,7 @@ namespace Files.App.ViewModels
         public async void UpdateSelectedItemPreview(bool downloadItem = false)
         {
             loadCancellationTokenSource?.Cancel();
-            if (SelectedItem != null && IsItemSelected)
+            if (SelectedItem is not null && IsItemSelected)
             {
                 SelectedItem?.FileDetails?.Clear();
 
@@ -246,7 +246,7 @@ namespace Files.App.ViewModels
                     loadCancellationTokenSource?.Cancel();
                     // If initial loading fails, attempt to load a basic preview (thumbnail and details only)
                     // If that fails, revert to no preview/details available as long as the item is not a shortcut or folder
-                    if (SelectedItem != null && !SelectedItem.IsShortcut && SelectedItem.PrimaryItemAttribute != StorageItemTypes.Folder)
+                    if (SelectedItem is not null && !SelectedItem.IsShortcut && SelectedItem.PrimaryItemAttribute != StorageItemTypes.Folder)
                     {
                         await LoadBasicPreviewAsync();
                         return;

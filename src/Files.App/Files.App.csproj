@@ -23,6 +23,8 @@
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Configurations>Debug;Release;Sideload</Configurations>
+    <TieredCompilation>true</TieredCompilation>
+    <TieredPgo>true</TieredPgo>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <DefineConstants>TRACE;DEBUG;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN</DefineConstants>

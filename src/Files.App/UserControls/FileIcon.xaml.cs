@@ -19,12 +19,12 @@ namespace Files.App.UserControls
             {
                 viewModel = value;
 
-                if (value == null)
+                if (value is null)
                 {
                     return;
                 }
 
-                if (ViewModel?.CustomIconSource != null)
+                if (ViewModel?.CustomIconSource is not null)
                 {
                     CustomIconImageSource = new SvgImageSource(ViewModel.CustomIconSource);
                 }
@@ -61,7 +61,7 @@ namespace Files.App.UserControls
             set
             {
                 SetValue(FileIconImageDataProperty, value);
-                if (value != null)
+                if (value is not null)
                 {
                     UpdateImageSourceAsync();
                 }
@@ -77,7 +77,7 @@ namespace Files.App.UserControls
 
         public async void UpdateImageSourceAsync()
         {
-            if (FileIconImageData != null)
+            if (FileIconImageData is not null)
             {
                 FileIconImageSource = new BitmapImage();
                 using InMemoryRandomAccessStream stream = new InMemoryRandomAccessStream();

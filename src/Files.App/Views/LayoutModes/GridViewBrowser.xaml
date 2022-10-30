@@ -341,7 +341,7 @@
 						HorizontalAlignment="Left"
 						FontSize="12px"
 						Opacity="0.6"
-						Text="{Binding ItemType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+						Text="{x:Bind ItemType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 						TextTrimming="CharacterEllipsis"
 						TextWrapping="NoWrap" />
 					<TextBlock

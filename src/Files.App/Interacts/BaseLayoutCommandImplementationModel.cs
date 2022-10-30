@@ -259,7 +259,7 @@ namespace Files.App.Interacts
         public virtual void OpenDirectoryInNewPane(RoutedEventArgs e)
         {
             ListedItem listedItem = SlimContentPage.SelectedItems.FirstOrDefault();
-            if (listedItem != null)
+            if (listedItem is not null)
                 associatedInstance.PaneHolder?.OpenPathInNewPane((listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
         }
 
@@ -296,9 +296,9 @@ namespace Files.App.Interacts
         {
             try
             {
-                if (SlimContentPage != null)
+                if (SlimContentPage is not null)
                 {
-                    var path = SlimContentPage.SelectedItem != null ? SlimContentPage.SelectedItem.ItemPath : associatedInstance.FilesystemViewModel.WorkingDirectory;
+                    var path = SlimContentPage.SelectedItem is not null ? SlimContentPage.SelectedItem.ItemPath : associatedInstance.FilesystemViewModel.WorkingDirectory;
                     if (FtpHelpers.IsFtpPath(path))
                         path = path.Replace("\\", "/", StringComparison.Ordinal);
                     DataPackage data = new();
@@ -452,7 +452,7 @@ namespace Files.App.Interacts
         {
             if (associatedInstance.IsCurrentInstance)
                 associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize - Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Smaller
-            if (e != null)
+            if (e is not null)
                 e.Handled = true;
         }
 
@@ -460,7 +460,7 @@ namespace Files.App.Interacts
         {
             if (associatedInstance.IsCurrentInstance)
                 associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize + Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Larger
-            if (e != null)
+            if (e is not null)
                 e.Handled = true;
         }
 
@@ -636,7 +636,7 @@ namespace Files.App.Interacts
                 ? associatedInstance.SlimContentPage.SelectedItem.ItemPath
                 : associatedInstance.FilesystemViewModel.WorkingDirectory);
 
-            if (archive == null)
+            if (archive is null)
                 return;
 
             DecompressArchiveDialog decompressArchiveDialog = new();
@@ -654,7 +654,7 @@ namespace Files.App.Interacts
             BaseStorageFolder destinationFolder = decompressArchiveViewModel.DestinationFolder;
             string destinationFolderPath = decompressArchiveViewModel.DestinationFolderPath;
 
-            if (destinationFolder == null)
+            if (destinationFolder is null)
             {
                 BaseStorageFolder parentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(Path.GetDirectoryName(archive.Path));
                 destinationFolder = await FilesystemTasks.Wrap(() => parentFolder.CreateFolderAsync(Path.GetFileName(destinationFolderPath), CreationCollisionOption.GenerateUniqueName).AsTask());
@@ -685,7 +685,7 @@ namespace Files.App.Interacts
                 BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
                 BaseStorageFolder destinationFolder = null;
 
-                if (currentFolder != null)
+                if (currentFolder is not null)
                     destinationFolder = await FilesystemTasks.Wrap(() => currentFolder.CreateFolderAsync(Path.GetFileNameWithoutExtension(archive.Path), CreationCollisionOption.GenerateUniqueName).AsTask());
 
                 await ExtractArchive(archive, destinationFolder);
@@ -694,7 +694,7 @@ namespace Files.App.Interacts
 
         private static async Task ExtractArchive(BaseStorageFile archive, BaseStorageFolder destinationFolder)
         {
-            if (archive == null || destinationFolder == null)
+            if (archive is null || destinationFolder is null)
                 return;
 
             CancellationTokenSource extractCancellation = new();

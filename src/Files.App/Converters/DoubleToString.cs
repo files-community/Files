@@ -7,7 +7,7 @@ namespace Files.App.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value != null)
+            if (value is not null)
             {
                 return value.ToString();
             }

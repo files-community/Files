@@ -159,7 +159,7 @@ namespace Files.App
 						previouslySelectedItem = SelectedItem;
 
 					// Select first matching item after currently selected item
-					if (previouslySelectedItem != null)
+					if (previouslySelectedItem is not null)
 					{
 						// Use FilesAndFolders because only displayed entries should be jumped to
 						IEnumerable<ListedItem> candidateItems = ParentShellPageInstance!.FilesystemViewModel.FilesAndFolders
@@ -169,7 +169,7 @@ namespace Files.App
 						jumpedToItem = candidateItems.FirstOrDefault();
 					}
 
-					if (jumpedToItem == null)
+					if (jumpedToItem is null)
 					{
 						// Use FilesAndFolders because only displayed entries should be jumped to
 						IEnumerable<ListedItem> candidateItems = ParentShellPageInstance!.FilesystemViewModel.FilesAndFolders
@@ -177,7 +177,7 @@ namespace Files.App
 						jumpedToItem = candidateItems.FirstOrDefault();
 					}
 
-					if (jumpedToItem != null)
+					if (jumpedToItem is not null)
 					{
 						ItemManipulationModel.SetSelectedItem(jumpedToItem);
 						ItemManipulationModel.ScrollIntoView(jumpedToItem);
@@ -228,7 +228,7 @@ namespace Files.App
 					}
 
 					selectedItems = value;
-					if (selectedItems?.Count == 0 || selectedItems?[0] == null)
+					if (selectedItems?.Count == 0 || selectedItems?[0] is null)
 					{
 						IsItemSelected = false;
 						SelectedItem = null;
@@ -333,7 +333,7 @@ namespace Files.App
 		{
 			foreach (var item in GetAllItems())
 			{
-				if (item != null)
+				if (item is not null)
 					item.Opacity = item.IsHiddenItem ? Constants.UI.DimItemOpacity : 1.0d;
 			}
 		}
@@ -341,7 +341,7 @@ namespace Files.App
 		protected ListedItem? GetItemFromElement(object element)
 		{
 			var item = element as ContentControl;
-			if (item == null || !CanGetItemFromElement(element))
+			if (item is null || !CanGetItemFromElement(element))
 				return null;
 
 			return (item.DataContext as ListedItem) ?? (item.Content as ListedItem) ?? (ItemsControl.ItemFromContainer(item) as ListedItem);
@@ -351,7 +351,7 @@ namespace Files.App
 
 		protected virtual void BaseFolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
 		{
-			if (ParentShellPageInstance?.SlimContentPage != null)
+			if (ParentShellPageInstance?.SlimContentPage is not null)
 			{
 				var layoutType = FolderSettings!.GetLayoutType(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory);
 
@@ -470,7 +470,7 @@ namespace Files.App
 		{
 			try
 			{
-				if (navigationArguments != null && navigationArguments.SelectItems != null && navigationArguments.SelectItems.Any())
+				if (navigationArguments is not null && navigationArguments.SelectItems is not null && navigationArguments.SelectItems.Any())
 				{
 					List<ListedItem> liItemsToSelect = new List<ListedItem>();
 					foreach (string item in navigationArguments.SelectItems)
@@ -479,7 +479,7 @@ namespace Files.App
 					ItemManipulationModel.SetSelectedItems(liItemsToSelect);
 					ItemManipulationModel.FocusSelectedItems();
 				}
-				else if (navigationArguments != null && navigationArguments.FocusOnNavigation)
+				else if (navigationArguments is not null && navigationArguments.FocusOnNavigation)
 				{
 					ItemManipulationModel.FocusFileList(); // Set focus on layout specific file list control
 				}
@@ -794,7 +794,7 @@ namespace Files.App
 					dragOverTimer.Stop();
 					dragOverTimer.Debounce(() =>
 					{
-						if (dragOverItem != null && !dragOverItem.IsExecutable)
+						if (dragOverItem is not null && !dragOverItem.IsExecutable)
 						{
 							dragOverTimer.Stop();
 							ItemManipulationModel.SetSelectedItem(dragOverItem);
@@ -881,7 +881,7 @@ namespace Files.App
 			dragOverItem = null; // Reset dragged over item
 
 			var item = GetItemFromElement(sender);
-			if (item != null)
+			if (item is not null)
 				await ParentShellPageInstance!.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (item as ShortcutItem)?.TargetPath ?? item.ItemPath, false, true, item.IsExecutable);
 			deferral.Complete();
 		}
@@ -1015,7 +1015,7 @@ namespace Files.App
 		{
 			var rightClickedItem = GetItemFromElement(sender);
 
-			if (rightClickedItem != null && !((SelectorItem)sender).IsSelected)
+			if (rightClickedItem is not null && !((SelectorItem)sender).IsSelected)
 				ItemManipulationModel.SetSelectedItem(rightClickedItem);
 		}
 

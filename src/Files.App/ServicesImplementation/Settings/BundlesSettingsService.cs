@@ -38,7 +38,7 @@ namespace Files.App.ServicesImplementation.Settings
                 SavedBundles = importDict;
             }
 
-            if (SavedBundles != null)
+            if (SavedBundles is not null)
             {
                 FlushSettings();
                 OnSettingImportedEvent?.Invoke(this, null);

@@ -13,7 +13,7 @@ namespace Files.App.ServicesImplementation.DateTimeFormatter
             {
                 return " ";
             }
-            return offset.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss");
+            return ToString(offset, "yyyy-MM-dd HH:mm:ss");
         }
     }
 }

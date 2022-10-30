@@ -317,7 +317,7 @@ namespace Files.App.ViewModels
 
         public bool SolutionButtonsVisible { get; } = false;
 
-        public bool CancelButtonVisible => CancellationTokenSource != null;
+        public bool CancelButtonVisible => CancellationTokenSource is not null;
 
         public CancellationTokenSource CancellationTokenSource { get; set; }
 

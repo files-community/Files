@@ -188,14 +188,14 @@ namespace Files.App.Views
         {
             ViewModel.SelectedAccessRules = (sender as ListView).SelectedItems.Cast<FileSystemAccessRuleForUI>().ToList();
 
-            if (e.AddedItems != null)
+            if (e.AddedItems is not null)
             {
                 foreach (var item in e.AddedItems)
                 {
                     (item as FileSystemAccessRuleForUI).IsSelected = true;
                 }
             }
-            if (e.RemovedItems != null)
+            if (e.RemovedItems is not null)
             {
                 foreach (var item in e.RemovedItems)
                 {

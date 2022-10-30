@@ -76,7 +76,7 @@ namespace Files.App.ViewModels.Pages
 
         public void Dispose()
         {
-            if (bundlesViewModel != null)
+            if (bundlesViewModel is not null)
             {
                 bundlesViewModel.OpenPathEvent -= BundlesViewModel_OpenPathEvent;
                 bundlesViewModel.OpenPathInNewPaneEvent -= BundlesViewModel_OpenPathInNewPaneEvent;

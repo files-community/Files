@@ -102,7 +102,7 @@ namespace Files.App.Views
 			folderPicker.FileTypeFilter.Add("*");
 
 			var folder = await folderPicker.PickSingleFolderAsync();
-			if (folder != null && !Folders.Any((f) => string.Equals(folder.Path, f.Path, StringComparison.OrdinalIgnoreCase)))
+			if (folder is not null && !Folders.Any((f) => string.Equals(folder.Path, f.Path, StringComparison.OrdinalIgnoreCase)))
 			{
 				bool isDefault = Folders.Count == 0;
 				Folders.Add(new LibraryFolder { Path = folder.Path, IsDefault = isDefault });
@@ -208,7 +208,7 @@ namespace Files.App.Views
 					try
 					{
 						var library = await Task.Run(() => App.LibraryManager.UpdateLibrary(props.Library.ItemPath, newDefaultSaveFolder, newFolders, newIsPinned));
-						if (library != null)
+						if (library is not null)
 						{
 							props.UpdateLibrary(new LibraryItem(library));
 							return true;
@@ -238,11 +238,11 @@ namespace Files.App.Views
 		{
 		}
 
-		public class LibraryFolder
-		{
-			public string Path { get; set; }
+	}
+	public class LibraryFolder
+	{
+		public string Path { get; set; }
 
-			public bool IsDefault { get; set; }
-		}
+		public bool IsDefault { get; set; }
 	}
 }
