@@ -59,9 +59,9 @@ namespace Files.App.Filesystem.StorageEnumerators
                     if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
                     {
                         var file = await GetFile(findData, path, cancellationToken);
-                        if (file != null)
+                        if (file is not null)
                         {
-                            if (defaultIconPairs != null)
+                            if (defaultIconPairs is not null)
                             {
                                 if (!string.IsNullOrEmpty(file.FileExtension))
                                 {
@@ -86,7 +86,7 @@ namespace Files.App.Filesystem.StorageEnumerators
                         if (findData.cFileName != "." && findData.cFileName != "..")
                         {
                             var folder = await GetFolder(findData, path, cancellationToken);
-                            if (folder != null)
+                            if (folder is not null)
                             {
                                 if (defaultIconPairs?.ContainsKey(string.Empty) ?? false)
                                 {
@@ -119,7 +119,7 @@ namespace Files.App.Filesystem.StorageEnumerators
                     break;
                 }
 
-                if (intermediateAction != null && (count == 32 || sampler.CheckNow()))
+                if (intermediateAction is not null && (count == 32 || sampler.CheckNow()))
                 {
                     await intermediateAction(tempList);
                     // clear the temporary list every time we do an intermediate action
@@ -307,7 +307,7 @@ namespace Files.App.Filesystem.StorageEnumerators
             {
                 var isUrl = findData.cFileName.EndsWith(".url", StringComparison.OrdinalIgnoreCase);
                 var shInfo = await ParseLinkAsync(itemPath);
-                if (shInfo == null)
+                if (shInfo is null)
                 {
                     return null;
                 }
