@@ -555,26 +555,26 @@ namespace Files.App.ViewModels.SettingsViewModels
 		}
 	}
 
-    public class PageOnStartupViewModel
-    {
-        public string Text
-        {
-            get
-            {
-                if (Path == "Home".GetLocalizedResource())
-                    return "Home".GetLocalizedResource();
-                if (Path == CommonPaths.RecycleBinPath)
-                    return ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
-                return Path;
-            }
-        }
+	public class PageOnStartupViewModel
+	{
+		public string Text
+		{
+			get
+			{
+				if (Path == "Home".GetLocalizedResource())
+					return "Home".GetLocalizedResource();
+				if (Path == CommonPaths.RecycleBinPath)
+					return ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
+				return Path;
+			}
+		}
 
-        public string Path { get; }
+		public string Path { get; }
 
-        internal PageOnStartupViewModel(string path) => Path = path;
-    }
+		internal PageOnStartupViewModel(string path) => Path = path;
+	}
 
-    public class AppLanguageItem
+	public class AppLanguageItem
 	{
 		public string LanguagID { get; set; }
 		public string LanguageName { get; set; }

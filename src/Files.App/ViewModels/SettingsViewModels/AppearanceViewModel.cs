@@ -259,8 +259,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 			{
 				_loadingTheme = value;
 				OnPropertyChanged();
-            }
-        }
+			}
+		}
 
 		public Task OpenThemesFolder()
 		{
