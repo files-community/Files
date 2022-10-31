@@ -865,7 +865,7 @@ namespace Files.App.Helpers
 
             private void UpdateTaskbarProgress()
             {
-                if (OwnerWindow == 0 || taskbar is null)
+                if (OwnerWindow == HWND.NULL || taskbar is null)
                 {
                     return;
                 }

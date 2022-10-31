@@ -78,7 +78,7 @@
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.5.3" />
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.0-rc.2.22472.11" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0-rc.2.22472.3" />
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.1" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
     <PackageReference Include="SevenZipSharp" Version="1.0.0" />
     <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.2" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.220930.4-preview2" />
