@@ -2856,4 +2856,13 @@
   <data name="LoadingThemes" xml:space="preserve">
     <value>Themen werden geladen</value>
   </data>
+  <data name="EmptyingRecycleBin" xml:space="preserve">
+    <value>Papierkorb wird geleert</value>
+  </data>
+  <data name="BinEmptyingSucceded" xml:space="preserve">
+    <value>Papierkorb erfolgreich geleert</value>
+  </data>
+  <data name="BinEmptyingFailed" xml:space="preserve">
+    <value>Fehler beim Leeren des Papierkorbs</value>
+  </data>
 </root>
