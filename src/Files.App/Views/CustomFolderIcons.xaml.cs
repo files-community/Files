@@ -46,6 +46,7 @@ namespace Files.App.Views
         private async void PickDllButton_Click(object sender, RoutedEventArgs e)
         {
             Windows.Storage.Pickers.FileOpenPicker picker = new Windows.Storage.Pickers.FileOpenPicker();
+            WinRT.Interop.InitializeWithWindow.Initialize(picker, App.WindowHandle);
             picker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.ComputerFolder;
             picker.ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail;
             picker.FileTypeFilter.Add(".dll");
