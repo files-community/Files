@@ -281,7 +281,8 @@ namespace Files.App
 		public void OnActivated(AppActivationArguments activatedEventArgs)
 		{
 			Logger.Info($"App activated. Activated args type: {activatedEventArgs.Data.GetType().Name}");
-			_ = Window.InitializeApplication(activatedEventArgs);
+			// InitializeApplication accesses UI, needs to be called on UI thread
+			_ = Window.DispatcherQueue.EnqueueAsync(() => Window.InitializeApplication(activatedEventArgs));
 		}
 
 		/// <summary>
