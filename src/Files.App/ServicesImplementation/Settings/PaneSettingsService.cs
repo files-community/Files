@@ -53,19 +53,5 @@ namespace Files.App.ServicesImplementation.Settings
 
             base.RaiseOnSettingChangedEvent(sender, e);
         }
-
-        private void RaiseOnSettingChangedEvent(string propertyName, object newValue)
-        {
-            string settingName = propertyName switch
-            {
-                nameof(Content) => Constants.PaneContent.ContentKey,
-                nameof(HorizontalSizePx) => Constants.PaneContent.HorizontalSizePxKey,
-                nameof(VerticalSizePx) => Constants.PaneContent.VerticalSizePxKey,
-                nameof(MediaVolume) => Constants.PaneContent.MediaVolumeKey,
-                nameof(ShowPreviewOnly) => Constants.PaneContent.ShowPreviewOnlyKey,
-                _ => throw new InvalidOperationException(),
-            };
-            base.RaiseOnSettingChangedEvent(this, new SettingChangedEventArgs(settingName, newValue));
-        }
     }
 }
