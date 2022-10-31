@@ -96,6 +96,8 @@ steps:
     targetType: 'inline'
     script: |
       # Find correct folder and run app install script.
+      Set-ExecutionPolicy Unrestricted -Force
+      
       cd $(appxPackageDir)
 
       $AppBundle = Get-ChildItem -Filter Files*Test -Name
