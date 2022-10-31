@@ -49,7 +49,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 
         private async Task SetAsDefaultExplorer()
         {
-            if (IsSetAsDefaultFileManager == DetectIsSetAsDefaultFileManager())
+            await Task.Yield(); // Make sure IsSetAsDefaultFileManager is updated
+			if (IsSetAsDefaultFileManager == DetectIsSetAsDefaultFileManager())
             {
                 return;
             }
@@ -100,7 +101,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 
         private async Task SetAsOpenFileDialog()
         {
-            if (IsSetAsOpenFileDialog == DetectIsSetAsOpenFileDialog())
+			await Task.Yield(); // Make sure IsSetAsDefaultFileManager is updated
+			if (IsSetAsOpenFileDialog == DetectIsSetAsOpenFileDialog())
             {
                 return;
             }
