@@ -283,6 +283,8 @@ namespace Files.App
 		{
 			// Save application state and stop any background activity
 
+			await Task.Yield(); // Method can take a long time, make sure the window is hidden
+
 			SaveSessionTabs();
 
 			if (OutputPath is not null)
