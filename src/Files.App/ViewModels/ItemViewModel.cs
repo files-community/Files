@@ -387,7 +387,7 @@ namespace Files.App.ViewModels
 
 		private async void RecycleBinRefreshRequested(object sender, FileSystemEventArgs e)
 		{
-			if (CurrentFolder.ItemPath.Equals(@"Shell:RecycleBinFolder", StringComparison.OrdinalIgnoreCase))
+			if (@"Shell:RecycleBinFolder".Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
 			{
 				await dispatcherQueue.EnqueueAsync(() =>
 				{
@@ -398,7 +398,7 @@ namespace Files.App.ViewModels
 
 		private async void RecycleBinItemDeleted(object sender, FileSystemEventArgs e)
 		{
-			if (CurrentFolder.ItemPath.Equals(@"Shell:RecycleBinFolder", StringComparison.OrdinalIgnoreCase))
+			if (@"Shell:RecycleBinFolder".Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
 			{
 				// get the item that immediately follows matching item to be removed
 				// if the matching item is the last item, try to get the previous item; otherwise, null
@@ -417,7 +417,7 @@ namespace Files.App.ViewModels
 
 		private async void RecycleBinItemCreated(object sender, FileSystemEventArgs e)
 		{
-			if (CurrentFolder.ItemPath.Equals(@"Shell:RecycleBinFolder", StringComparison.OrdinalIgnoreCase))
+			if (@"Shell:RecycleBinFolder".Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
 			{
 				using var folderItem = SafetyExtensions.IgnoreExceptions(() => new ShellItem(e.FullPath));
 				if (folderItem is null) return;
