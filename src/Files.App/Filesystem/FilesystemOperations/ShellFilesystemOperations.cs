@@ -20,7 +20,7 @@ using Windows.Storage;
 
 namespace Files.App.Filesystem
 {
-	public class ShellFilesystemOperations : IFilesystemOperations
+    public class ShellFilesystemOperations : IFilesystemOperations
     {
         #region Private Members
 
