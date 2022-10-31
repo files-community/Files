@@ -285,8 +285,8 @@ namespace Files.App.Helpers
                     {
                         throw new Win32Exception(unchecked((int)0x80004005)); // E_FAIL, stops operation
                     }
-					progress?.Report(e.ProgressPercentage);
-					progressHandler.UpdateOperation(operationID, e.ProgressPercentage);
+                    progress?.Report(e.ProgressPercentage);
+                    progressHandler.UpdateOperation(operationID, e.ProgressPercentage);
                 };
 
                 try
@@ -420,8 +420,8 @@ namespace Files.App.Helpers
                     {
                         throw new Win32Exception(unchecked((int)0x80004005)); // E_FAIL, stops operation
                     }
-					progress?.Report(e.ProgressPercentage);
-					progressHandler.UpdateOperation(operationID, e.ProgressPercentage);
+                    progress?.Report(e.ProgressPercentage);
+                    progressHandler.UpdateOperation(operationID, e.ProgressPercentage);
                 };
 
                 try
