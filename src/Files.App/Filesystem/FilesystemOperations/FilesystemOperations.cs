@@ -831,30 +831,6 @@ namespace Files.App.Filesystem
             return createdRoot;
         }
 
-        [Obsolete("Moving folders using Storage API can result in data loss. For example hidden folders will not be moved but the parent folder will be deleted at the end. If this happens on a drive without recycle bin StorageDeleteOption.Default results in a permanent delete.")]
-        private static async Task<BaseStorageFolder> MoveDirectoryAsync(BaseStorageFolder sourceFolder, BaseStorageFolder destinationDirectory, string sourceRootName, CreationCollisionOption collision = CreationCollisionOption.FailIfExists, bool deleteSource = false)
-        {
-            BaseStorageFolder createdRoot = await destinationDirectory.CreateFolderAsync(sourceRootName, collision);
-            destinationDirectory = createdRoot;
-
-            foreach (BaseStorageFile fileInSourceDir in await sourceFolder.GetFilesAsync())
-            {
-                await fileInSourceDir.MoveAsync(destinationDirectory, fileInSourceDir.Name, NameCollisionOption.GenerateUniqueName);
-            }
-
-            foreach (BaseStorageFolder folderinSourceDir in await sourceFolder.GetFoldersAsync())
-            {
-                await MoveDirectoryAsync(folderinSourceDir, destinationDirectory, folderinSourceDir.Name, collision, false);
-            }
-
-            if (deleteSource)
-            {
-                await sourceFolder.DeleteAsync(StorageDeleteOption.Default);
-            }
-
-            return createdRoot;
-        }
-
         #endregion Helpers
 
         #region IDisposable

@@ -718,19 +718,6 @@ namespace Files.App.Filesystem
             }
         }
 
-        private void OnProgressUpdated(object sender, Dictionary<string, JsonElement> message, string currentOperation, IProgress<float> progress)
-        {
-            if (message.ContainsKey("OperationID"))
-            {
-                var operationID = message["OperationID"].GetString();
-                if (operationID == currentOperation)
-                {
-                    var value = message["Progress"].GetInt64();
-                    progress?.Report(value);
-                }
-            }
-        }
-
         private async void CancelOperation(object operationID)
             => FileOperationsHelpers.TryCancelOperation((string)operationID);
 
