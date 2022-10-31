@@ -13,7 +13,7 @@ namespace Files.App.Filesystem
 	public class RecentItem : ObservableObject, IEquatable<RecentItem>
 	{
 		private BitmapImage _fileImg;
-		public BitmapImage FileImg 
+		public BitmapImage FileImg
 		{
 			get => _fileImg;
 			set => SetProperty(ref _fileImg, value);
@@ -28,7 +28,7 @@ namespace Files.App.Filesystem
 		public bool IsFile { get => Type == StorageItemTypes.File; }
 		public DateTime LastModified { get; set; }
 
-		public RecentItem() 
+		public RecentItem()
 		{
 			EmptyImgVis = true; // defer icon load to LoadRecentItemIcon()
 		}
@@ -104,7 +104,7 @@ namespace Files.App.Filesystem
 
 		/**
 		 * Strips a name from an extension while aware of some edge cases.
-		 * 
+		 *
 		 *   example.min.js => example.min
 		 *   example.js     => example
 		 *   .gitignore     => .gitignore
