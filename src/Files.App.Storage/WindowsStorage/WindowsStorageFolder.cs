@@ -151,18 +151,6 @@ namespace Files.App.Storage.WindowsStorage
             };
         }
 
-        private static Windows.Storage.NameCollisionOption GetWindowsNameCollisionOption(
-            NameCollisionOption options)
-        {
-            return options switch
-            {
-                NameCollisionOption.GenerateUniqueName => Windows.Storage.NameCollisionOption.GenerateUniqueName,
-                NameCollisionOption.ReplaceExisting => Windows.Storage.NameCollisionOption.ReplaceExisting,
-                NameCollisionOption.FailIfExists => Windows.Storage.NameCollisionOption.FailIfExists,
-                _ => throw new ArgumentOutOfRangeException(nameof(options))
-            };
-        }
-
         private static Windows.Storage.CreationCollisionOption GetWindowsCreationCollisionOption(
             CreationCollisionOption options)
         {
