@@ -8,7 +8,6 @@ using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using WinUIEx;
 using static Files.App.Views.PropertiesCustomization;
 
 
