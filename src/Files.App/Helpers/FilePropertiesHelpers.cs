@@ -6,7 +6,9 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Foundation.Metadata;
@@ -15,7 +17,7 @@ using static Files.App.Views.Properties;
 
 namespace Files.App.Helpers
 {
-	public class FilePropertiesHelpers
+	public static class FilePropertiesHelpers
 	{
 		private static readonly bool isUniversal =
 			ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", majorVersion: 8);
@@ -125,17 +127,15 @@ namespace Files.App.Helpers
 		private static string GetFilesLogoPath()
 		{
 			var appTilesPath = Path.Combine(Package.Current.InstalledLocation.Path, "Assets/AppTiles");
+			return GetLogoPaths(appTilesPath).FirstOrDefault(path => Directory.Exists(path))
+				?? throw new InvalidOperationException("Cannot find Logo.ico from Assets/AppTiles.");
 
-			if (Directory.Exists(Path.Combine(appTilesPath, "Dev")))
-				return Path.Combine(appTilesPath, "Dev", "Logo.ico");
-
-			if (Directory.Exists(Path.Combine(appTilesPath, "Preview")))
-				return Path.Combine(appTilesPath, "Preview", "Logo.ico");
-
-			if (Directory.Exists(Path.Combine(appTilesPath, "Release")))
-				return Path.Combine(appTilesPath, "Release", "Logo.ico");
-
-			throw new InvalidOperationException("Cannot find Logo.ico from Assets/AppTiles.");
+			static IEnumerable<string> GetLogoPaths(string appTilesPath)
+			{
+				yield return Path.Combine(appTilesPath, "Dev", "Logo.ico");
+				yield return Path.Combine(appTilesPath, "Preview", "Logo.ico");
+				yield return Path.Combine(appTilesPath, "Release", "Logo.ico");
+			}
 		}
 	}
 }
