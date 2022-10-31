@@ -1,19 +1,16 @@
-using Files.Shared;
-using Files.Shared.Extensions;
 using Files.App.Extensions;
+using Files.App.Filesystem;
+using Files.App.Shell;
+using Files.Shared;
+using Files.Shared.Enums;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.AppService;
-using Windows.Foundation.Collections;
-using Windows.Storage;
-using Microsoft.UI.Xaml.Controls;
-using Files.App.Shell;
 using Vanara.PInvoke;
-using Files.App.Filesystem;
+using Windows.Storage;
 
 namespace Files.App.Helpers
 {
@@ -44,10 +41,8 @@ namespace Files.App.Helpers
 
         public bool IsPathUnderRecycleBin(string path)
         {
-            if (string.IsNullOrEmpty(path))
-            {
+            if (string.IsNullOrWhiteSpace(path))
                 return false;
-            }
             return recycleBinPathRegex.IsMatch(path);
         }
 
@@ -66,12 +61,34 @@ namespace Files.App.Helpers
                 SecondaryButtonText = "Cancel".GetLocalizedResource(),
                 DefaultButton = ContentDialogButton.Primary
             };
-
             ContentDialogResult result = await this.SetContentDialogRoot(ConfirmEmptyBinDialog).ShowAsync();
 
             if (result == ContentDialogResult.Primary)
             {
-                Shell32.SHEmptyRecycleBin(IntPtr.Zero, null, Shell32.SHERB.SHERB_NOCONFIRMATION | Shell32.SHERB.SHERB_NOPROGRESSUI);
+                string bannerTitle = "EmptyRecycleBin".GetLocalizedResource();
+                var banner = App.OngoingTasksViewModel.PostBanner(
+                    bannerTitle,
+                    "EmptyingRecycleBin".GetLocalizedResource(),
+                    0.0f,
+                    ReturnResult.InProgress,
+                    FileOperationType.Delete);
+
+                bool opSucceded = Shell32.SHEmptyRecycleBin(IntPtr.Zero, null, Shell32.SHERB.SHERB_NOCONFIRMATION | Shell32.SHERB.SHERB_NOPROGRESSUI).Succeeded;
+                banner.Remove();
+                if (opSucceded)
+                    App.OngoingTasksViewModel.PostBanner(
+                        bannerTitle,
+                        "BinEmptyingSucceded".GetLocalizedResource(),
+                        100.0f,
+                        ReturnResult.Success,
+                        FileOperationType.Delete);
+                else
+                    App.OngoingTasksViewModel.PostBanner(
+                        bannerTitle,
+                        "BinEmptyingFailed".GetLocalizedResource(),
+                        100.0f,
+                        ReturnResult.Failed,
+                        FileOperationType.Delete);
             }
         }
 
@@ -119,9 +136,7 @@ namespace Files.App.Helpers
             ContentDialogResult result = await this.SetContentDialogRoot(ConfirmEmptyBinDialog).ShowAsync();
 
             if (result == ContentDialogResult.Primary)
-            {
                 await this.RestoreItem(associatedInstance);
-            }
         }
 
         //WINUI3
