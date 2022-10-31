@@ -220,7 +220,7 @@ namespace Files.App.Helpers
             });
         }
 
-        public static Task<(bool, ShellOperationResult)> DeleteItemAsync(string[] fileToDeletePath, bool permanently, long ownerHwnd, string operationID = "")
+        public static Task<(bool, ShellOperationResult)> DeleteItemAsync(string[] fileToDeletePath, bool permanently, long ownerHwnd, string operationID = "", IProgress<float>? progress = default)
         {
             operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
@@ -285,6 +285,7 @@ namespace Files.App.Helpers
                     {
                         throw new Win32Exception(unchecked((int)0x80004005)); // E_FAIL, stops operation
                     }
+                    progress?.Report(e.ProgressPercentage);
                     progressHandler.UpdateOperation(operationID, e.ProgressPercentage);
                 };
 
@@ -362,7 +363,7 @@ namespace Files.App.Helpers
             });
         }
 
-        public static Task<(bool, ShellOperationResult)> MoveItemAsync(string[] fileToMovePath, string[] moveDestination, bool overwriteOnMove, long ownerHwnd, string operationID = "")
+        public static Task<(bool, ShellOperationResult)> MoveItemAsync(string[] fileToMovePath, string[] moveDestination, bool overwriteOnMove, long ownerHwnd, string operationID = "", IProgress<float>? progress = default)
         {
             operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
@@ -419,6 +420,7 @@ namespace Files.App.Helpers
                     {
                         throw new Win32Exception(unchecked((int)0x80004005)); // E_FAIL, stops operation
                     }
+                    progress?.Report(e.ProgressPercentage);
                     progressHandler.UpdateOperation(operationID, e.ProgressPercentage);
                 };
 
@@ -437,7 +439,7 @@ namespace Files.App.Helpers
             });
         }
 
-        public static Task<(bool, ShellOperationResult)> CopyItemAsync(string[] fileToCopyPath, string[] copyDestination, bool overwriteOnCopy, long ownerHwnd, string operationID = "")
+        public static Task<(bool, ShellOperationResult)> CopyItemAsync(string[] fileToCopyPath, string[] copyDestination, bool overwriteOnCopy, long ownerHwnd, string operationID = "", IProgress<float>? progress = default)
         {
             operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
@@ -495,6 +497,7 @@ namespace Files.App.Helpers
                     {
                         throw new Win32Exception(unchecked((int)0x80004005)); // E_FAIL, stops operation
                     }
+                    progress?.Report(e.ProgressPercentage);
                     progressHandler.UpdateOperation(operationID, e.ProgressPercentage);
                 };
 
