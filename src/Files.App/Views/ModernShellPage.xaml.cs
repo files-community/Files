@@ -465,22 +465,6 @@ namespace Files.App.Views
                 : FilesystemViewModel.WorkingDirectory;
         }
 
-        private void ModernShellPage_BackRequested(object sender, BackRequestedEventArgs e)
-        {
-            if (IsCurrentInstance)
-            {
-                if (ItemDisplayFrame.CanGoBack)
-                {
-                    e.Handled = true;
-                    Back_Click();
-                }
-                else
-                {
-                    e.Handled = false;
-                }
-            }
-        }
-
         private void DrivesManager_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "ShowUserConsentOnInit")
