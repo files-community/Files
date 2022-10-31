@@ -561,7 +561,7 @@ namespace Files.App.Views.LayoutModes
 			else
 			{
 				var clickedItem = e.OriginalSource as FrameworkElement;
-				if (clickedItem is TextBlock && ((TextBlock)clickedItem).Name == "Name")
+				if (clickedItem is TextBlock && ((TextBlock)clickedItem).Name == "ItemName")
 				{
 					CheckRenameDoubleClick(clickedItem?.DataContext);
 				}
