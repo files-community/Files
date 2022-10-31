@@ -13,6 +13,6 @@ namespace Files.Backend.Services.Settings
 		/// Gets or sets a value indicating whether or not to restore tabs on startup.
 		/// This is used when prompting users to restart after changing the app language.
 		/// </summary>
-		bool RestoreTabsOnStartup { get; set; }       
+		bool RestoreTabsOnStartup { get; set; }
 	}
 }

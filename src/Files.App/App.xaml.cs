@@ -38,7 +38,6 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Notifications;
 
-
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
@@ -140,7 +139,6 @@ namespace Files.App
 				.AddSingleton<ISizeProvider, UserSizeProvider>()
 
 				; // End of service configuration
-
 
 			return services.BuildServiceProvider();
 		}

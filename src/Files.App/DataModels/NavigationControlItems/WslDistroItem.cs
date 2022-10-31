@@ -3,32 +3,32 @@ using System;
 
 namespace Files.App.DataModels.NavigationControlItems
 {
-    public class WslDistroItem : INavigationControlItem
-    {
-        public string Text { get; set; }
+	public class WslDistroItem : INavigationControlItem
+	{
+		public string Text { get; set; }
 
-        private string path;
+		private string path;
 
-        public string Path
-        {
-            get => path;
-            set
-            {
-                path = value;
-                ToolTipText = Path.Contains("?", StringComparison.Ordinal) ? Text : Path;
-            }
-        }
+		public string Path
+		{
+			get => path;
+			set
+			{
+				path = value;
+				ToolTipText = Path.Contains("?", StringComparison.Ordinal) ? Text : Path;
+			}
+		}
 
-        public string ToolTipText { get; private set; }
+		public string ToolTipText { get; private set; }
 
-        public NavigationControlItemType ItemType => NavigationControlItemType.LinuxDistro;
+		public NavigationControlItemType ItemType => NavigationControlItemType.LinuxDistro;
 
-        public Uri Logo { get; set; }
+		public Uri Logo { get; set; }
 
-        public SectionType Section { get; set; }
+		public SectionType Section { get; set; }
 
-        public ContextMenuOptions MenuOptions { get; set; }
+		public ContextMenuOptions MenuOptions { get; set; }
 
-        public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
-    }
+		public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
+	}
 }

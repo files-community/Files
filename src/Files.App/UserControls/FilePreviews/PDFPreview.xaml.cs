@@ -5,14 +5,14 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.UserControls.FilePreviews
 {
-    public sealed partial class PDFPreview : UserControl
-    {
-        public PDFPreview(PDFPreviewViewModel model)
-        {
-            ViewModel = model;
-            InitializeComponent();
-        }
+	public sealed partial class PDFPreview : UserControl
+	{
+		public PDFPreview(PDFPreviewViewModel model)
+		{
+			ViewModel = model;
+			InitializeComponent();
+		}
 
-        public PDFPreviewViewModel ViewModel { get; set; }
-    }
+		public PDFPreviewViewModel ViewModel { get; set; }
+	}
 }
