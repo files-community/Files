@@ -14,12 +14,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Foundation.Collections;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 
@@ -552,10 +549,10 @@ namespace Files.App.Filesystem
 
 		#region Rename
 
-		public Task<ReturnResult> RenameAsync(IStorageItem source, string newName, NameCollisionOption collision, bool registerHistory)
-			=> RenameAsync(source.FromStorageItem(), newName, collision, registerHistory);
+		public Task<ReturnResult> RenameAsync(IStorageItem source, string newName, NameCollisionOption collision, bool registerHistory, bool showExtensionDialog = true)
+			=> RenameAsync(source.FromStorageItem(), newName, collision, registerHistory, showExtensionDialog);
 
-		public async Task<ReturnResult> RenameAsync(IStorageItemWithPath source, string newName, NameCollisionOption collision, bool registerHistory)
+		public async Task<ReturnResult> RenameAsync(IStorageItemWithPath source, string newName, NameCollisionOption collision, bool registerHistory, bool showExtensionDialog = true)
 		{
 			var returnStatus = ReturnResult.InProgress;
 			var errorCode = new Progress<FileSystemStatusCode>();
@@ -573,7 +570,7 @@ namespace Files.App.Filesystem
 
 					/* Only prompt user when extension has changed,
                        not when file name has changed */
-					if (Path.GetExtension(source.Path) != Path.GetExtension(newName))
+					if (showExtensionDialog && Path.GetExtension(source.Path) != Path.GetExtension(newName))
 					{
 						var yesSelected = await DialogDisplayHelper.ShowDialogAsync("RenameFileDialogTitle".GetLocalizedResource(), "RenameFileDialog/Text".GetLocalizedResource(), "Yes".GetLocalizedResource(), "No".GetLocalizedResource());
 						if (yesSelected)
