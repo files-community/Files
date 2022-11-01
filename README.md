@@ -32,7 +32,7 @@ Have any questions? Check out our [documentation site](https://files.community/d
 ### 1: Prerequisites
 
 - [Git](https://git-scm.com)
-- [Visual Studio 2022](https://visualstudio.microsoft.com/vs/) with the UWP Development Kit and following individual components:
+- [Visual Studio 2022](https://visualstudio.microsoft.com/vs/) with the following individual components:
     - Windows 11 SDK (10.0.22000)
     - MSVC v143 - VS 2022 C++ x64/x86 build tools
     - C++ ATL for latest v143 build tools (x86 & x64)
