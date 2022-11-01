@@ -160,9 +160,6 @@ namespace Files.App
 			FileTagsManager ??= new FileTagsManager();
 			SidebarPinnedController ??= new SidebarPinnedController();
 			TerminalController ??= new TerminalController();
-
-			//FileTagsHelpers.UpdateTagsDb();
-			FileOperationsHelpers.WaitForCompletion();
 		}
 
 		private static async Task StartAppCenter()
@@ -207,6 +204,7 @@ namespace Files.App
 					JumpList.InitializeAsync(),
 					ContextFlyoutItemHelper.CachedNewContextMenuEntries
 				);
+				FileTagsHelper.UpdateTagsDb();
 			});
 
 			// Check for required updates
@@ -241,17 +239,8 @@ namespace Files.App
 			EnsureWindowIsInitialized();
 
 			EnsureSettingsAndConfigurationAreBootstrapped();
-			Task.Run(async () =>
-			{
-				try
-				{
-					await InitializeAppComponentsAsync();
-				}
-				catch (Exception ex)
-				{
-					Logger.Warn(ex, "Error during InitializeAppComponentsAsync()");
-				}
-			});
+
+			_ = InitializeAppComponentsAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
 
 			_ = Window.InitializeApplication(activatedEventArgs);
 		}
@@ -292,6 +281,8 @@ namespace Files.App
 		{
 			// Save application state and stop any background activity
 
+			await Task.Yield(); // Method can take a long time, make sure the window is hidden
+
 			SaveSessionTabs();
 
 			if (OutputPath is not null)
@@ -322,6 +313,9 @@ namespace Files.App
 						Clipboard.Flush();
 				}
 			}, Logger);
+
+			// Wait for ongoing file operations
+			FileOperationsHelpers.WaitForCompletion();
 		}
 
 		public static void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages

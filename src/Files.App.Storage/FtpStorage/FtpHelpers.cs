@@ -18,22 +18,6 @@ namespace Files.App.Storage.FtpStorage
 			return hostIndex == -1 ? "/" : path.Substring(hostIndex);
 		}
 
-		public static async Task<bool> TryEnsureConnectedAsync(this AsyncFtpClient ftpClient, CancellationToken cancellationToken = default)
-		{
-			if (ftpClient.IsConnected)
-				return true;
-
-			try
-			{
-				await ftpClient.Connect(cancellationToken);
-				return true;
-			}
-			catch (Exception)
-			{
-				return false;
-			}
-		}
-
 		public static Task EnsureConnectedAsync(this AsyncFtpClient ftpClient, CancellationToken cancellationToken = default)
 		{
 			if (ftpClient.IsConnected)
