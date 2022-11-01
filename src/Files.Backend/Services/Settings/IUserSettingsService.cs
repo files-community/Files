@@ -3,28 +3,28 @@ using System;
 
 namespace Files.Backend.Services.Settings
 {
-    public interface IUserSettingsService : IBaseSettingsService
-    {
-        event EventHandler<SettingChangedEventArgs> OnSettingChangedEvent;
+	public interface IUserSettingsService : IBaseSettingsService
+	{
+		event EventHandler<SettingChangedEventArgs> OnSettingChangedEvent;
 
-        bool ImportSettings(object import);
+		bool ImportSettings(object import);
 
-        object ExportSettings();
+		object ExportSettings();
 
-        IPreferencesSettingsService PreferencesSettingsService { get; }
-       
-        IFoldersSettingsService FoldersSettingsService { get; }
+		IPreferencesSettingsService PreferencesSettingsService { get; }
 
-        IMultitaskingSettingsService MultitaskingSettingsService { get; }
+		IFoldersSettingsService FoldersSettingsService { get; }
 
-        IAppearanceSettingsService AppearanceSettingsService { get; }
+		IMultitaskingSettingsService MultitaskingSettingsService { get; }
 
-        IApplicationSettingsService ApplicationSettingsService { get; }
+		IAppearanceSettingsService AppearanceSettingsService { get; }
 
-        IPaneSettingsService PaneSettingsService { get; }
+		IApplicationSettingsService ApplicationSettingsService { get; }
 
-        ILayoutSettingsService LayoutSettingsService { get; }
+		IPaneSettingsService PaneSettingsService { get; }
+
+		ILayoutSettingsService LayoutSettingsService { get; }
 
 		IAppSettingsService AppSettingsService { get; }
-    }
+	}
 }

@@ -76,7 +76,7 @@ namespace Files.App.ViewModels
 			return true;
 		}
 
-		public TValue Get<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods)]TValue>(TValue defaultValue, [CallerMemberName] string propertyName = null)
+		public TValue Get<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods)] TValue>(TValue defaultValue, [CallerMemberName] string propertyName = null)
 		{
 			var name = propertyName ??
 					   throw new ArgumentNullException(nameof(propertyName), "Cannot store property of unnamed.");
