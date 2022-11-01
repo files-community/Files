@@ -24,7 +24,6 @@ using System.Windows.Input;
 using Windows.Storage;
 using Windows.System;
 
-
 namespace Files.App.ViewModels
 {
 	public class MainPageViewModel : ObservableObject
@@ -35,7 +34,6 @@ namespace Files.App.ViewModels
 		public List<IMultitaskingControl> MultitaskingControls { get; } = new List<IMultitaskingControl>();
 
 		public static ObservableCollection<TabItem> AppInstances { get; private set; } = new ObservableCollection<TabItem>();
-
 
 		private TabItem? selectedTabItem;
 		public TabItem? SelectedTabItem
@@ -183,7 +181,6 @@ namespace Files.App.ViewModels
 			var dialog = dialogService.GetDialog(new SettingsDialogViewModel());
 			await dialog.TryShowAsync();
 		}
-
 
 		public static async Task AddNewTabByPathAsync(Type type, string path, int atIndex = -1)
 		{
@@ -428,11 +425,11 @@ namespace Files.App.ViewModels
 			}
 		}
 
-        public static Task AddNewTabAsync()
-            => AddNewTabByPathAsync(typeof(PaneHolderPage), "Home".GetLocalizedResource());
+		public static Task AddNewTabAsync()
+			=> AddNewTabByPathAsync(typeof(PaneHolderPage), "Home".GetLocalizedResource());
 
-        public void AddNewTab()
-            => AddNewTabAsync();
+		public void AddNewTab()
+			=> AddNewTabAsync();
 
 		public static async void AddNewTabAtIndex(object sender, RoutedEventArgs e)
 		{

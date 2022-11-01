@@ -180,7 +180,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 		ShExecInfo.lpFile = uriWithArgs.c_str();
 		ShExecInfo.lpDirectory = openDirectory;
 		ShExecInfo.nShow = SW_SHOW;
-		
+
 		if (!ShellExecuteEx(&ShExecInfo))
 		{
 			std::wcout << L"Protocol error: " << GetLastError() << std::endl;

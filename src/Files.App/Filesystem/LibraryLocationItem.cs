@@ -31,8 +31,6 @@ namespace Files.App.Filesystem
 			IsDefaultLocation = shellLibrary.IsPinned;
 		}
 
-
-
 		public async Task<bool> CheckDefaultSaveFolderAccess()
 		{
 			if (IsEmpty)
