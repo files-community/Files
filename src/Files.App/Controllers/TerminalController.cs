@@ -101,6 +101,7 @@ namespace Files.App.Controllers
 			};
 
 			var settingsFolder = await ApplicationData.Current.LocalFolder.GetFolderAsync("settings");
+			string a = settingsFolder.Path;
 			var query = settingsFolder.CreateFileQueryWithOptions(queryOptions);
 			query.ContentsChanged += Query_ContentsChanged;
 			await query.GetFilesAsync();
@@ -108,6 +109,8 @@ namespace Files.App.Controllers
 
 		private async void Query_ContentsChanged(IStorageQueryResultBase sender, object args)
 		{
+			sender.ContentsChanged -= Query_ContentsChanged;
+
 			try
 			{
 				var content = await ReadContent("ms-appdata:///local/settings/terminal.json");
