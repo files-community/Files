@@ -42,17 +42,17 @@ namespace Files.App.Views
 			LoadIconsForPath(iconResourceItemPath);
 		}
 
-        private async void PickDllButton_Click(object sender, RoutedEventArgs e)
-        {
-            Windows.Storage.Pickers.FileOpenPicker picker = new Windows.Storage.Pickers.FileOpenPicker();
-            var parentWindowId = ((Properties)((Grid)((ScrollViewer)((Frame)((PropertiesCustomization)((Frame)Parent).Parent).Parent).Parent).Parent).Parent).appWindow.Id;
-            var handle = Microsoft.UI.Win32Interop.GetWindowFromWindowId(parentWindowId);
-            WinRT.Interop.InitializeWithWindow.Initialize(picker, handle);
-            picker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.ComputerFolder;
-            picker.ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail;
-            picker.FileTypeFilter.Add(".dll");
-            picker.FileTypeFilter.Add(".exe");
-            picker.FileTypeFilter.Add(".ico");
+		private async void PickDllButton_Click(object sender, RoutedEventArgs e)
+		{
+			Windows.Storage.Pickers.FileOpenPicker picker = new Windows.Storage.Pickers.FileOpenPicker();
+			var parentWindowId = ((Properties)((Grid)((ScrollViewer)((Frame)((PropertiesCustomization)((Frame)Parent).Parent).Parent).Parent).Parent).Parent).appWindow.Id;
+			var handle = Microsoft.UI.Win32Interop.GetWindowFromWindowId(parentWindowId);
+			WinRT.Interop.InitializeWithWindow.Initialize(picker, handle);
+			picker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.ComputerFolder;
+			picker.ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail;
+			picker.FileTypeFilter.Add(".dll");
+			picker.FileTypeFilter.Add(".exe");
+			picker.FileTypeFilter.Add(".ico");
 
 			var file = await picker.PickSingleFileAsync();
 			if (file is null)
