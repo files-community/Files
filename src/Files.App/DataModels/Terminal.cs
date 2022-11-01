@@ -4,16 +4,20 @@ namespace Files.App.DataModels
 {
 	public class Terminal
 	{
+		public Terminal() {}
+		public Terminal(string name, string path, string arguments = "", string icon = "")
+			=> (Name, Path, Arguments, Icon) = (name, path, arguments, icon);
+
 		[JsonPropertyName("name")]
-		public string Name { get; set; }
+		public string Name { get; set; } = string.Empty;
 
 		[JsonPropertyName("path")]
-		public string Path { get; set; }
+		public string Path { get; set; } = string.Empty;
 
 		[JsonPropertyName("arguments")]
-		public string Arguments { get; set; }
+		public string Arguments { get; set; } = string.Empty;
 
 		[JsonPropertyName("icon")]
-		public string Icon { get; set; }
+		public string Icon { get; set; } = string.Empty;
 	}
 }

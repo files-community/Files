@@ -17,8 +17,6 @@ namespace Files.App.Controllers
 {
 	public class TerminalController : IJson
 	{
-		private const string defaultTerminalPath = "ms-appx:///Assets/terminal/terminal.json";
-
 		private string configContent = string.Empty;
 
 		public event Action<TerminalController>? ModelChanged;
@@ -48,9 +46,7 @@ namespace Files.App.Controllers
 				configContent = JsonSerializer.Serialize(model, DefaultJsonSettingsSerializer.Options);
 				file.Write(configContent);
 			}
-			catch
-			{
-			}
+			catch {}
 		}
 
 		private async Task LoadAsync()
@@ -114,10 +110,7 @@ namespace Files.App.Controllers
 		{
 			try
 			{
-				var uri = new Uri("ms-appdata:///local/settings/terminal.json");
-				var file = await StorageFile.GetFileFromApplicationUriAsync(uri);
-				var content = await FileIO.ReadTextAsync(file);
-
+				var content = await ReadContent("ms-appdata:///local/settings/terminal.json");
 				if (configContent == content)
 					return;
 
@@ -134,10 +127,7 @@ namespace Files.App.Controllers
 		{
 			try
 			{
-				var uri = new Uri(defaultTerminalPath);
-				var defaultFile = await StorageFile.GetFileFromApplicationUriAsync(uri);
-				var defaultContent = await FileIO.ReadTextAsync(defaultFile);
-
+				var content = await ReadContent("ms-appx:///Assets/terminal/terminal.json");
 				var fileModel = JsonSerializer.Deserialize<TerminalFileModel>(configContent);
 				if (fileModel is null)
 					throw new ArgumentException($"{JsonFileName} is empty, regenerating...");
@@ -156,38 +146,27 @@ namespace Files.App.Controllers
 			}
 		}
 
+		private static async Task<string> ReadContent(string path)
+		{
+			var uri = new Uri(path);
+			var file = await StorageFile.GetFileFromApplicationUriAsync(uri);
+			return await FileIO.ReadTextAsync(file);
+		}
+
 		private static async Task GetInstalledTerminalsAsync(TerminalFileModel model)
 		{
 			var terminalDefs = new Dictionary<Terminal, bool>
 			{
 				{
-					new Terminal
-					{
-						Name = "Windows Terminal",
-						Path = "wt.exe",
-						Arguments = "-d .",
-						Icon = string.Empty,
-					},
+					new Terminal("Windows Terminal", "wt.exe", "-d ."),
 					await IsWindowsTerminalBuildInstalled()
 				},
 				{
-					new Terminal
-					{
-						Name = "Fluent Terminal",
-						Path = "flute.exe",
-						Arguments = string.Empty,
-						Icon = string.Empty,
-					},
+					new Terminal("Fluent Terminal", "flute.exe"),
 					await IsFluentTerminalBuildInstalled()
 				},
 				{
-					new Terminal
-					{
-						Name = "CMD",
-						Path = "cmd.exe",
-						Arguments = string.Empty,
-						Icon = string.Empty,
-					},
+					new Terminal("CMD", "cmd.exe"),
 					true // CMD will always be present (for now at least)
 				}
 			};
