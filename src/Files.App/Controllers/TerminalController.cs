@@ -17,122 +17,125 @@ namespace Files.App.Controllers
 {
 	public class TerminalController : IJson
 	{
-		private string defaultTerminalPath = "ms-appx:///Assets/terminal/terminal.json";
+		private string configContent = string.Empty;
 
-		private string folderPath => Path.Combine(ApplicationData.Current.LocalFolder.Path, "settings");
+		public event Action<TerminalController>? ModelChanged;
 
-		private StorageFileQueryResult query;
+		public string JsonFileName => "terminal.json";
 
-		private string configContent;
-
-		public TerminalFileModel Model { get; set; }
-
-		public event Action<TerminalController> ModelChanged;
-
-		public string JsonFileName { get; } = "terminal.json";
-
-		public TerminalController()
-		{
-			Model = new TerminalFileModel();
-		}
+		private TerminalFileModel model = new();
+		public TerminalFileModel Model => model;
 
 		public async Task InitializeAsync()
 		{
 			await LoadAsync();
-			await GetInstalledTerminalsAsync();
+			await GetInstalledTerminalsAsync(model);
+			SaveModel();
 			await StartWatchConfigChangeAsync();
 			ModelChanged?.Invoke(this);
 		}
 
+		public void SaveModel()
+		{
+			try
+			{
+				var path = Path.Combine(ApplicationData.Current.LocalFolder.Path, "settings", JsonFileName);
+				using var file = File.CreateText(path);
+
+				// update local configContent to avoid unnecessary refreshes
+				configContent = JsonSerializer.Serialize(model, DefaultJsonSettingsSerializer.Options);
+				file.Write(configContent);
+			}
+			catch {}
+		}
+
 		private async Task LoadAsync()
 		{
-			StorageFolder Folder = await FilesystemTasks.Wrap(() => ApplicationData.Current.LocalFolder.CreateFolderAsync("settings", CreationCollisionOption.OpenIfExists).AsTask());
+			StorageFolder Folder = await FilesystemTasks.Wrap(() =>
+				ApplicationData.Current.LocalFolder.CreateFolderAsync("settings", CreationCollisionOption.OpenIfExists)
+			.AsTask());
+
 			if (Folder is null)
 			{
-				Model = await GetDefaultTerminalFileModel();
+				model = await GetDefaultTerminalFileModel();
 				return;
 			}
 
-			var JsonFile = await FilesystemTasks.Wrap(() => Folder.GetFileAsync(JsonFileName).AsTask());
-			if (!JsonFile)
+			var jsonFile = await FilesystemTasks.Wrap(() =>
+				Folder.GetFileAsync(JsonFileName)
+			.AsTask());
+
+			if (!jsonFile)
 			{
-				if (JsonFile == FileSystemStatusCode.NotFound)
-				{
-					Model = await GetDefaultTerminalFileModel();
+				model = await GetDefaultTerminalFileModel();
+				if (jsonFile.ErrorCode is FileSystemStatusCode.NotFound)
 					SaveModel();
-					return;
-				}
-				else
-				{
-					Model = await GetDefaultTerminalFileModel();
-					return;
-				}
+				return;
 			}
 
 			try
 			{
-				configContent = await FileIO.ReadTextAsync(JsonFile.Result);
-				Model = JsonSerializer.Deserialize<TerminalFileModel>(configContent);
-				if (Model is null)
-				{
+				configContent = await FileIO.ReadTextAsync(jsonFile.Result);
+
+				var fileModel = JsonSerializer.Deserialize<TerminalFileModel>(configContent);
+				if (fileModel is null)
 					throw new ArgumentException($"{JsonFileName} is empty, regenerating...");
-				}
+				model = fileModel!;
 			}
 			catch (ArgumentException)
 			{
-				Model = await GetDefaultTerminalFileModel();
+				model = await GetDefaultTerminalFileModel();
 				SaveModel();
 			}
 			catch (Exception)
 			{
-				Model = await GetDefaultTerminalFileModel();
+				model = await GetDefaultTerminalFileModel();
 			}
 		}
 
 		private async Task StartWatchConfigChangeAsync()
 		{
-			var queryOptions = new QueryOptions();
-			queryOptions.ApplicationSearchFilter = "System.FileName:" + JsonFileName;
+			var queryOptions = new QueryOptions
+			{
+				ApplicationSearchFilter = "System.FileName:" + JsonFileName
+			};
 
 			var settingsFolder = await ApplicationData.Current.LocalFolder.GetFolderAsync("settings");
-			query = settingsFolder.CreateFileQueryWithOptions(queryOptions);
+			string a = settingsFolder.Path;
+			var query = settingsFolder.CreateFileQueryWithOptions(queryOptions);
 			query.ContentsChanged += Query_ContentsChanged;
 			await query.GetFilesAsync();
 		}
 
 		private async void Query_ContentsChanged(IStorageQueryResultBase sender, object args)
 		{
+			sender.ContentsChanged -= Query_ContentsChanged;
+
 			try
 			{
-				var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/terminal.json"));
-				var content = await FileIO.ReadTextAsync(configFile);
-
-				if (configContent != content)
-				{
-					configContent = content;
-				}
-				else
-				{
+				var content = await ReadContent("ms-appdata:///local/settings/terminal.json");
+				if (configContent == content)
 					return;
-				}
 
+				configContent = content;
 				await LoadAsync();
-				await GetInstalledTerminalsAsync();
+				await GetInstalledTerminalsAsync(model);
+				SaveModel();
 				ModelChanged?.Invoke(this);
 			}
-			catch
-			{
-				// ignored
-			}
+			catch {}
 		}
 
 		private async Task<TerminalFileModel> GetDefaultTerminalFileModel()
 		{
 			try
 			{
-				StorageFile defaultFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri(defaultTerminalPath));
-				var defaultContent = await FileIO.ReadTextAsync(defaultFile);
-				var model = JsonSerializer.Deserialize<TerminalFileModel>(defaultContent);
+				var content = await ReadContent("ms-appx:///Assets/terminal/terminal.json");
+				var fileModel = JsonSerializer.Deserialize<TerminalFileModel>(configContent);
+				if (fileModel is null)
+					throw new ArgumentException($"{JsonFileName} is empty, regenerating...");
+				model = fileModel!;
+
 				await GetInstalledTerminalsAsync(model);
 				model.ResetToDefaultTerminal();
 				return model;
@@ -146,67 +149,40 @@ namespace Files.App.Controllers
 			}
 		}
 
-		private async Task GetInstalledTerminalsAsync()
+		private static async Task<string> ReadContent(string path)
 		{
-			await GetInstalledTerminalsAsync(Model);
-			SaveModel();
+			var uri = new Uri(path);
+			var file = await StorageFile.GetFileFromApplicationUriAsync(uri);
+			return await FileIO.ReadTextAsync(file);
 		}
 
-		private async Task GetInstalledTerminalsAsync(TerminalFileModel model)
+		private static async Task GetInstalledTerminalsAsync(TerminalFileModel model)
 		{
-			var terminalDefs = new Dictionary<Terminal, bool>();
-
-			terminalDefs.Add(new Terminal()
+			var terminalDefs = new Dictionary<Terminal, bool>
 			{
-				Name = "Windows Terminal",
-				Path = "wt.exe",
-				Arguments = "-d .",
-				Icon = ""
-			}, await IsWindowsTerminalBuildInstalled());
-
-			terminalDefs.Add(new Terminal()
-			{
-				Name = "Fluent Terminal",
-				Path = "flute.exe",
-				Arguments = "",
-				Icon = ""
-			}, await PackageHelper.IsAppInstalledAsync("53621FSApps.FluentTerminal_87x1pks76srcp"));
-
-			terminalDefs.Add(new Terminal()
-			{
-				Name = "CMD",
-				Path = "cmd.exe",
-				Arguments = "",
-				Icon = ""
-			}, true);    // CMD will always be present (for now at least)
+				{
+					new Terminal("Windows Terminal", "wt.exe", "-d ."),
+					await IsWindowsTerminalBuildInstalled()
+				},
+				{
+					new Terminal("Fluent Terminal", "flute.exe"),
+					await IsFluentTerminalBuildInstalled()
+				},
+				{
+					new Terminal("CMD", "cmd.exe"),
+					true // CMD will always be present (for now at least)
+				}
+			};
 
 			terminalDefs.Where(x => x.Value).ForEach(x => model.AddTerminal(x.Key));
 			terminalDefs.Where(x => !x.Value).ForEach(x => model.RemoveTerminal(x.Key));
-		}
 
-		public async static Task<bool> IsWindowsTerminalBuildInstalled()
-		{
-			bool isWindowsTerminalInstalled = await PackageHelper.IsAppInstalledAsync("Microsoft.WindowsTerminal_8wekyb3d8bbwe");
-			bool isWindowsTerminalPreviewInstalled = await PackageHelper.IsAppInstalledAsync("Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe");
+			async static Task<bool> IsWindowsTerminalBuildInstalled()
+				=> await PackageHelper.IsAppInstalledAsync("Microsoft.WindowsTerminal_8wekyb3d8bbwe")
+				|| await PackageHelper.IsAppInstalledAsync("Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe");
 
-			return isWindowsTerminalPreviewInstalled || isWindowsTerminalInstalled;
-		}
-
-		public void SaveModel()
-		{
-			try
-			{
-				using (var file = File.CreateText(Path.Combine(folderPath, JsonFileName)))
-				{
-					// update local configContent to avoid unnecessary refreshes
-					configContent = JsonSerializer.Serialize(Model, DefaultJsonSettingsSerializer.Options);
-					file.Write(configContent);
-				}
-			}
-			catch
-			{
-				// ignored
-			}
+			async static Task<bool> IsFluentTerminalBuildInstalled()
+				=> await PackageHelper.IsAppInstalledAsync("53621FSApps.FluentTerminal_87x1pks76srcp");
 		}
 	}
 }
