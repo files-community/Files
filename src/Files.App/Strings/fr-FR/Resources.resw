@@ -2857,12 +2857,12 @@
     <value>Chargement des thèmes</value>
   </data>
   <data name="EmptyingRecycleBin" xml:space="preserve">
-    <value>Emptying recycle bin</value>
+    <value>Vidage de la corbeille en cours</value>
   </data>
   <data name="BinEmptyingSucceded" xml:space="preserve">
-    <value>Successfully emptied recycle bin</value>
+    <value>Corbeille vidée avec succès</value>
   </data>
   <data name="BinEmptyingFailed" xml:space="preserve">
-    <value>Failed to empty recycle bin</value>
+    <value>Échec de vidage de la corbeille</value>
   </data>
 </root>
