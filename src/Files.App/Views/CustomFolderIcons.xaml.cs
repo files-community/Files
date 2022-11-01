@@ -45,7 +45,7 @@ namespace Files.App.Views
 		private async void PickDllButton_Click(object sender, RoutedEventArgs e)
 		{
 			Windows.Storage.Pickers.FileOpenPicker picker = new Windows.Storage.Pickers.FileOpenPicker();
-			var parentWindowId = ((Properties)((Grid)((ScrollViewer)((Frame)((PropertiesCustomization)((Frame)Parent).Parent).Parent).Parent).Parent).Parent).appWindow.Id;
+			var parentWindowId = ((Properties)((Frame)XamlRoot.Content).Content).appWindow.Id;
 			var handle = Microsoft.UI.Win32Interop.GetWindowFromWindowId(parentWindowId);
 			WinRT.Interop.InitializeWithWindow.Initialize(picker, handle);
 			picker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.ComputerFolder;
