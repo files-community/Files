@@ -14,8 +14,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 		public RelayCommand ResetLayoutPreferencesCommand { get; }
 		public RelayCommand ShowResetLayoutPreferencesTipCommand { get; }
 
-
-
 		public FoldersViewModel()
 		{
 			ResetLayoutPreferencesCommand = new RelayCommand(ResetLayoutPreferences);
@@ -240,7 +238,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 				}
 			}
 		}
-
 
 		// Local methods
 

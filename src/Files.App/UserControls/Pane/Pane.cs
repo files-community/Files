@@ -1,16 +1,16 @@
 namespace Files.App.UserControls
 {
-    public interface IPane
-    {
-        PanePositions Position { get; }
+	public interface IPane
+	{
+		PanePositions Position { get; }
 
-        void UpdatePosition(double panelWidth, double panelHeight);
-    }
+		void UpdatePosition(double panelWidth, double panelHeight);
+	}
 
-    public enum PanePositions : ushort
-    {
-        None,
-        Right,
-        Bottom,
-    }
+	public enum PanePositions : ushort
+	{
+		None,
+		Right,
+		Bottom,
+	}
 }

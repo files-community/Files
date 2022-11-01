@@ -11,31 +11,31 @@ using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace Files.App.ViewModels.Previews
 {
-    public class ImagePreviewViewModel : BasePreviewModel
-    {
-        private ImageSource imageSource;
-        public ImageSource ImageSource
-        {
-            get => imageSource;
-            private set => SetProperty(ref imageSource, value);
-        }
+	public class ImagePreviewViewModel : BasePreviewModel
+	{
+		private ImageSource imageSource;
+		public ImageSource ImageSource
+		{
+			get => imageSource;
+			private set => SetProperty(ref imageSource, value);
+		}
 
-        public ImagePreviewViewModel(ListedItem item) : base(item) {}
+		public ImagePreviewViewModel(ListedItem item) : base(item) { }
 
-        public static bool ContainsExtension(string extension)
-            => extension is ".png" or ".jpg" or ".jpeg" or ".bmp" or ".gif" or ".tiff" or ".ico" or ".webp";
+		public static bool ContainsExtension(string extension)
+			=> extension is ".png" or ".jpg" or ".jpeg" or ".bmp" or ".gif" or ".tiff" or ".ico" or ".webp";
 
-        public override async Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
-        {
-            using IRandomAccessStream stream = await Item.ItemFile.OpenAsync(FileAccessMode.Read);
-            await App.Window.DispatcherQueue.EnqueueAsync(async () =>
-            {
-                BitmapImage bitmap = new();
-                await bitmap.SetSourceAsync(stream);
-                ImageSource = bitmap;
-            });
+		public override async Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
+		{
+			using IRandomAccessStream stream = await Item.ItemFile.OpenAsync(FileAccessMode.Read);
+			await App.Window.DispatcherQueue.EnqueueAsync(async () =>
+			{
+				BitmapImage bitmap = new();
+				await bitmap.SetSourceAsync(stream);
+				ImageSource = bitmap;
+			});
 
-            return new List<FileProperty>();
-        }
-    }
+			return new List<FileProperty>();
+		}
+	}
 }

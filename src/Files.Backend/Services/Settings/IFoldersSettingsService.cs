@@ -70,7 +70,6 @@ namespace Files.Backend.Services.Settings
 		/// </summary>
 		bool EnableOverridingFolderPreferences { get; set; }
 
-
 		/// <summary>
 		/// Gets or sets a value indicating whether or not hidden items should be visible.
 		/// </summary>

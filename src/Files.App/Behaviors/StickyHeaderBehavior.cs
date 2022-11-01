@@ -114,7 +114,6 @@ namespace Files.App.Behaviors
 			if (_scrollProperties is null)
 				_scrollProperties = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(_scrollViewer);
 
-
 			if (_scrollProperties is null)
 				return false;
 

@@ -1,9 +1,9 @@
 ﻿namespace Files.Shared.Enums
 {
-    public enum DateTimeFormats
+	public enum DateTimeFormats
 	{
-        Application = 0,
-        System = 1,
-        Universal = 2,
-    }
+		Application = 0,
+		System = 1,
+		Universal = 2,
+	}
 }
