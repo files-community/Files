@@ -39,9 +39,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Vanara.Windows.Shell;
-using Windows.ApplicationModel.AppService;
 using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
@@ -1043,7 +1041,6 @@ namespace Files.App.ViewModels
 									await dispatcherQueue.EnqueueAsync(() =>
 									{
 										item.FolderRelativeId = matchingStorageFile.FolderRelativeId;
-										item.ItemType = matchingStorageFile.DisplayType;
 										item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
 										item.FileFRN = fileFRN;
 										item.FileTags = fileTag;
@@ -1089,7 +1086,6 @@ namespace Files.App.ViewModels
 									await dispatcherQueue.EnqueueAsync(() =>
 									{
 										item.FolderRelativeId = matchingStorageFolder.FolderRelativeId;
-										item.ItemType = matchingStorageFolder.DisplayType;
 										item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
 										item.FileFRN = fileFRN;
 										item.FileTags = fileTag;
