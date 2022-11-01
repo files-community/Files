@@ -1343,31 +1343,6 @@ namespace Files.App.ViewModels
 			Debug.WriteLine($"Loading of items in {path} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
 		}
 
-		private void AssignDefaultIcons()
-		{
-			foreach (string key in DefaultIcons.Keys)
-			{
-				if (string.IsNullOrEmpty(key))
-				{
-					var icon = DefaultIcons[key];
-					var folders = FilesAndFolders.Where(x => x.PrimaryItemAttribute == StorageItemTypes.Folder);
-					foreach (ListedItem folder in folders)
-					{
-						folder.SetDefaultIcon(icon);
-					}
-				}
-				else
-				{
-					var icon = DefaultIcons[key];
-					var filesMatching = FilesAndFolders.Where(x => key.Equals(x.FileExtension?.ToLowerInvariant()));
-					foreach (ListedItem file in filesMatching)
-					{
-						file.SetDefaultIcon(icon);
-					}
-				}
-			}
-		}
-
 		public void CloseWatcher()
 		{
 			watcher?.Dispose();
