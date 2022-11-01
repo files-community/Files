@@ -2857,12 +2857,12 @@
     <value>A carregar temas</value>
   </data>
   <data name="EmptyingRecycleBin" xml:space="preserve">
-    <value>Emptying recycle bin</value>
+    <value>Limpeza de reciclagem</value>
   </data>
   <data name="BinEmptyingSucceded" xml:space="preserve">
-    <value>Successfully emptied recycle bin</value>
+    <value>Reciclagem limpa com sucesso</value>
   </data>
   <data name="BinEmptyingFailed" xml:space="preserve">
-    <value>Failed to empty recycle bin</value>
+    <value>Falha ao limpar a reciclagem</value>
   </data>
 </root>
