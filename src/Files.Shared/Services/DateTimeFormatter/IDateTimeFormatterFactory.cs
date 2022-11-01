@@ -2,8 +2,8 @@
 
 namespace Files.Shared.Services.DateTimeFormatter
 {
-    public interface IDateTimeFormatterFactory
-    {
-        IDateTimeFormatter GetDateTimeFormatter(DateTimeFormats dateTimeFormat);
-    }
+	public interface IDateTimeFormatterFactory
+	{
+		IDateTimeFormatter GetDateTimeFormatter(DateTimeFormats dateTimeFormat);
+	}
 }

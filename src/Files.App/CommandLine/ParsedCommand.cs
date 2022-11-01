@@ -3,15 +3,15 @@ using System.Linq;
 
 namespace Files.App.CommandLine
 {
-    internal class ParsedCommand
-    {
-        public ParsedCommandType Type { get; set; }
+	internal class ParsedCommand
+	{
+		public ParsedCommandType Type { get; set; }
 
-        public string Payload => Args.FirstOrDefault();
+		public string Payload => Args.FirstOrDefault();
 
-        public List<string> Args { get; set; }
+		public List<string> Args { get; set; }
 
-        public ParsedCommand() =>
-            Args = new List<string>();
-    }
+		public ParsedCommand() =>
+			Args = new List<string>();
+	}
 }

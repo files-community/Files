@@ -5,7 +5,6 @@ using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.Shell;
 using Files.Backend.Services;
-using Files.Backend.ViewModels.Dialogs;
 using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
 using Files.Shared;
 using Files.Shared.Enums;
@@ -17,8 +16,6 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.AppService;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 
 namespace Files.App.Filesystem
@@ -92,7 +89,7 @@ namespace Files.App.Filesystem
 			var copyResult = new ShellOperationResult();
 			if (sourceRename.Any())
 			{
-				var resultItem = await FileOperationsHelpers.CopyItemAsync(sourceRename.Select(s => s.Path).ToArray(), destinationRename.ToArray(), false, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID);
+				var resultItem = await FileOperationsHelpers.CopyItemAsync(sourceRename.Select(s => s.Path).ToArray(), destinationRename.ToArray(), false, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID, progress);
 
 				result &= (FilesystemResult)resultItem.Item1;
 
@@ -100,7 +97,7 @@ namespace Files.App.Filesystem
 			}
 			if (sourceReplace.Any())
 			{
-				var resultItem = await FileOperationsHelpers.CopyItemAsync(sourceReplace.Select(s => s.Path).ToArray(), destinationReplace.ToArray(), true, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID);
+				var resultItem = await FileOperationsHelpers.CopyItemAsync(sourceReplace.Select(s => s.Path).ToArray(), destinationReplace.ToArray(), true, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID, progress);
 
 				result &= (FilesystemResult)resultItem.Item1;
 
@@ -330,11 +327,11 @@ namespace Files.App.Filesystem
 			var operationID = Guid.NewGuid().ToString();
 			using var r = cancellationToken.Register(CancelOperation, operationID, false);
 
-			var (success, deleteResult) = await FileOperationsHelpers.DeleteItemAsync(deleleFilePaths.ToArray(), permanently, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID);
+			var (success, response) = await FileOperationsHelpers.DeleteItemAsync(deleleFilePaths.ToArray(), permanently, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID, progress);
 
 			var result = (FilesystemResult)success;
-			var shellOpResult = deleteResult;
-			deleteResult.Items.AddRange(shellOpResult?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
+			var deleteResult = new ShellOperationResult();
+			deleteResult.Items.AddRange(response?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
 
 			result &= (FilesystemResult)deleteResult.Items.All(x => x.Succeeded);
 
@@ -442,14 +439,14 @@ namespace Files.App.Filesystem
 			var moveResult = new ShellOperationResult();
 			if (sourceRename.Any())
 			{
-				var (status, response) = await FileOperationsHelpers.MoveItemAsync(sourceRename.Select(s => s.Path).ToArray(), destinationRename.ToArray(), false, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID);
+				var (status, response) = await FileOperationsHelpers.MoveItemAsync(sourceRename.Select(s => s.Path).ToArray(), destinationRename.ToArray(), false, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID, progress);
 
 				result &= (FilesystemResult)status;
 				moveResult.Items.AddRange(response?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
 			}
 			if (sourceReplace.Any())
 			{
-				var (status, response) = await FileOperationsHelpers.MoveItemAsync(sourceReplace.Select(s => s.Path).ToArray(), destinationReplace.ToArray(), true, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID);
+				var (status, response) = await FileOperationsHelpers.MoveItemAsync(sourceReplace.Select(s => s.Path).ToArray(), destinationReplace.ToArray(), true, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID, progress);
 
 				result &= (FilesystemResult)status;
 				moveResult.Items.AddRange(response?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
@@ -643,7 +640,7 @@ namespace Files.App.Filesystem
 			using var r = cancellationToken.Register(CancelOperation, operationID, false);
 
 			var moveResult = new ShellOperationResult();
-			var (status, response) = await FileOperationsHelpers.MoveItemAsync(source.Select(s => s.Path).ToArray(), destination.ToArray(), false, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID);
+			var (status, response) = await FileOperationsHelpers.MoveItemAsync(source.Select(s => s.Path).ToArray(), destination.ToArray(), false, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID, progress);
 
 			var result = (FilesystemResult)status;
 			moveResult.Items.AddRange(response?.Final ?? Enumerable.Empty<ShellOperationItemResult>());

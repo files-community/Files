@@ -205,7 +205,7 @@ namespace Files.App.ViewModels.Properties
 		public async Task SyncPropertyChangesAsync()
 		{
 			BaseStorageFile file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(Item.ItemPath));
-			
+
 			// Couldn't access the file to save properties
 			if (file is null)
 				return;
@@ -249,7 +249,7 @@ namespace Files.App.ViewModels.Properties
 		{
 			var failedProperties = new List<string>();
 			BaseStorageFile file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(Item.ItemPath));
-			
+
 			if (file is null)
 				return;
 

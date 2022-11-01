@@ -4,8 +4,8 @@ using System.Text;
 
 namespace Files.Sdk.Storage.Services
 {
-    public interface IDeviceEnumeratorService
-    {
-        // TODO
-    }
+	public interface IDeviceEnumeratorService
+	{
+		// TODO
+	}
 }

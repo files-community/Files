@@ -10,7 +10,7 @@ namespace Files.App.ServicesImplementation.Settings
 		{
 			// Register root
 			RegisterSettingsContext(settingsSharingContext);
-		}		
+		}
 
 		public int DefaultGridViewSize
 		{
@@ -29,7 +29,7 @@ namespace Files.App.ServicesImplementation.Settings
 			get => (SortOption)Get((long)SortOption.Name);
 			set => Set((long)value);
 		}
-		
+
 		public bool DefaultSortDirectoriesAlongsideFiles
 		{
 			get => Get(false);

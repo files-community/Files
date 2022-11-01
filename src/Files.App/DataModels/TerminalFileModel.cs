@@ -6,67 +6,67 @@ using System.Text.Json.Serialization;
 
 namespace Files.App.DataModels
 {
-    public class TerminalFileModel
-    {
-        [JsonPropertyName("version")]
-        public int Version { get; set; }
+	public class TerminalFileModel
+	{
+		[JsonPropertyName("version")]
+		public int Version { get; set; }
 
-        [JsonPropertyName("DefaultTerminalName")]
-        public string DefaultTerminalName { get; set; }
+		[JsonPropertyName("DefaultTerminalName")]
+		public string DefaultTerminalName { get; set; }
 
-        [JsonPropertyName("terminals")]
-        public ObservableCollection<Terminal> Terminals { get; set; } = new ObservableCollection<Terminal>();
+		[JsonPropertyName("terminals")]
+		public ObservableCollection<Terminal> Terminals { get; set; } = new ObservableCollection<Terminal>();
 
-        public Terminal GetDefaultTerminal()
-        {
-            Terminal terminal = Terminals.FirstOrDefault(x => x.Name.Equals(DefaultTerminalName, StringComparison.OrdinalIgnoreCase));
-            if (terminal is not null)
-            {
-                return terminal;
-            }
-            else
-            {
-                ResetToDefaultTerminal();
-            }
+		public Terminal GetDefaultTerminal()
+		{
+			Terminal terminal = Terminals.FirstOrDefault(x => x.Name.Equals(DefaultTerminalName, StringComparison.OrdinalIgnoreCase));
+			if (terminal is not null)
+			{
+				return terminal;
+			}
+			else
+			{
+				ResetToDefaultTerminal();
+			}
 
-            return Terminals.FirstOrDefault();
-        }
+			return Terminals.FirstOrDefault();
+		}
 
-        public void ResetToDefaultTerminal()
-        {
-            if (Terminals.Any(x => x.Name == "Windows Terminal"))
-            {
-                DefaultTerminalName = "Windows Terminal";
-            }
-            else
-            {
-                DefaultTerminalName = "CMD";
-            }
-        }
+		public void ResetToDefaultTerminal()
+		{
+			if (Terminals.Any(x => x.Name == "Windows Terminal"))
+			{
+				DefaultTerminalName = "Windows Terminal";
+			}
+			else
+			{
+				DefaultTerminalName = "CMD";
+			}
+		}
 
-        public void AddTerminal(Terminal terminal)
-        {
-            //Ensure terminal is not already in List
-            if (!Terminals.Any(x => x.Name.Equals(terminal.Name, StringComparison.OrdinalIgnoreCase)))
-            {
-                Terminals.Add(terminal);
-            }
-        }
+		public void AddTerminal(Terminal terminal)
+		{
+			//Ensure terminal is not already in List
+			if (!Terminals.Any(x => x.Name.Equals(terminal.Name, StringComparison.OrdinalIgnoreCase)))
+			{
+				Terminals.Add(terminal);
+			}
+		}
 
-        public void RemoveTerminal(Terminal terminal)
-        {
-            Terminal? existingTerminal = Terminals.FirstOrDefault(x => x.Name.Equals(terminal.Name, StringComparison.OrdinalIgnoreCase));
-            if (existingTerminal is not null && Terminals.Remove(existingTerminal))
-            {
-                if (string.IsNullOrWhiteSpace(DefaultTerminalName))
-                {
-                    ResetToDefaultTerminal();
-                }
-                else if (DefaultTerminalName.Equals(terminal.Name, StringComparison.OrdinalIgnoreCase))
-                {
-                    ResetToDefaultTerminal();
-                }
-            }
-        }
-    }
+		public void RemoveTerminal(Terminal terminal)
+		{
+			Terminal? existingTerminal = Terminals.FirstOrDefault(x => x.Name.Equals(terminal.Name, StringComparison.OrdinalIgnoreCase));
+			if (existingTerminal is not null && Terminals.Remove(existingTerminal))
+			{
+				if (string.IsNullOrWhiteSpace(DefaultTerminalName))
+				{
+					ResetToDefaultTerminal();
+				}
+				else if (DefaultTerminalName.Equals(terminal.Name, StringComparison.OrdinalIgnoreCase))
+				{
+					ResetToDefaultTerminal();
+				}
+			}
+		}
+	}
 }

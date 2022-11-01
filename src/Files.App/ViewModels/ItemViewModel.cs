@@ -78,14 +78,14 @@ namespace Files.App.ViewModels
 		public CollectionViewSource viewSource;
 
 		private FileSystemWatcher watcher;
-        private CancellationTokenSource addFilesCTS, semaphoreCTS, loadPropsCTS, watcherCTS, searchCTS;
+		private CancellationTokenSource addFilesCTS, semaphoreCTS, loadPropsCTS, watcherCTS, searchCTS;
 
 		public event EventHandler DirectoryInfoUpdated;
 
 		public event EventHandler<List<ListedItem>> OnSelectionRequestedEvent;
 
 		private IFileListCache fileListCache = FileListCacheController.GetInstance();
-        
+
 		public string WorkingDirectory
 		{
 			get; private set;
@@ -387,7 +387,7 @@ namespace Files.App.ViewModels
 
 		private async void RecycleBinRefreshRequested(object sender, FileSystemEventArgs e)
 		{
-			if (CurrentFolder.ItemPath.Equals(@"Shell:RecycleBinFolder", StringComparison.OrdinalIgnoreCase))
+			if (@"Shell:RecycleBinFolder".Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
 			{
 				await dispatcherQueue.EnqueueAsync(() =>
 				{
@@ -398,7 +398,7 @@ namespace Files.App.ViewModels
 
 		private async void RecycleBinItemDeleted(object sender, FileSystemEventArgs e)
 		{
-			if (CurrentFolder.ItemPath.Equals(@"Shell:RecycleBinFolder", StringComparison.OrdinalIgnoreCase))
+			if (@"Shell:RecycleBinFolder".Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
 			{
 				// get the item that immediately follows matching item to be removed
 				// if the matching item is the last item, try to get the previous item; otherwise, null
@@ -413,11 +413,11 @@ namespace Files.App.ViewModels
 				if (nextOfMatchingItem is not null)
 					await RequestSelectionAsync(new List<ListedItem>() { nextOfMatchingItem });
 			}
-        }
+		}
 
 		private async void RecycleBinItemCreated(object sender, FileSystemEventArgs e)
 		{
-			if (CurrentFolder.ItemPath.Equals(@"Shell:RecycleBinFolder", StringComparison.OrdinalIgnoreCase))
+			if (@"Shell:RecycleBinFolder".Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
 			{
 				using var folderItem = SafetyExtensions.IgnoreExceptions(() => new ShellItem(e.FullPath));
 				if (folderItem is null) return;
@@ -431,7 +431,7 @@ namespace Files.App.ViewModels
 					await ApplySingleFileChangeAsync(newListedItem);
 				}
 			}
-        }
+		}
 
 		private async void FolderSizeProvider_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
@@ -684,7 +684,6 @@ namespace Files.App.ViewModels
 			// don't notify if there weren't listed items
 			if (itemsToSelect is null || itemsToSelect.IsEmpty())
 				return Task.CompletedTask;
-
 
 			return dispatcherQueue.EnqueueAsync(() =>
 			{
@@ -1002,7 +1001,6 @@ namespace Files.App.ViewModels
 			itemLoadQueue[item.ItemPath] = false;
 
 			var cts = loadPropsCTS;
-
 
 			try
 			{
@@ -1698,32 +1696,32 @@ namespace Files.App.ViewModels
 
 		private void WatchForWin32FolderChanges(string folderPath)
 		{
-            if (Directory.Exists(folderPath))
-            {
-                watcher = new FileSystemWatcher
-                {
-                    Path = folderPath,
-                    Filter = "*.*",
-                    NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName
-                };
-                watcher.Created += DirectoryWatcher_Changed;
-                watcher.Deleted += DirectoryWatcher_Changed;
-                watcher.Renamed += DirectoryWatcher_Changed;
-                watcher.EnableRaisingEvents = true;
-            }
-        }
-        
-        private async void DirectoryWatcher_Changed(object sender, FileSystemEventArgs e)
-        {
+			if (Directory.Exists(folderPath))
+			{
+				watcher = new FileSystemWatcher
+				{
+					Path = folderPath,
+					Filter = "*.*",
+					NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName
+				};
+				watcher.Created += DirectoryWatcher_Changed;
+				watcher.Deleted += DirectoryWatcher_Changed;
+				watcher.Renamed += DirectoryWatcher_Changed;
+				watcher.EnableRaisingEvents = true;
+			}
+		}
+
+		private async void DirectoryWatcher_Changed(object sender, FileSystemEventArgs e)
+		{
 			Debug.WriteLine($"Directory watcher event: {e.ChangeType}, {e.FullPath}");
 
-            await dispatcherQueue.EnqueueAsync(() =>
-            {
-                RefreshItems(null);
-            });
-        }
+			await dispatcherQueue.EnqueueAsync(() =>
+			{
+				RefreshItems(null);
+			});
+		}
 
-        private async void ItemQueryResult_ContentsChanged(IStorageQueryResultBase sender, object args)
+		private async void ItemQueryResult_ContentsChanged(IStorageQueryResultBase sender, object args)
 		{
 			//query options have to be reapplied otherwise old results are returned
 			var options = new QueryOptions()
@@ -2233,10 +2231,10 @@ namespace Files.App.ViewModels
 		public void Dispose()
 		{
 			CancelLoadAndClearFiles();
-            RecycleBinManager.Default.RecycleBinItemCreated -= RecycleBinItemCreated;
-            RecycleBinManager.Default.RecycleBinItemDeleted -= RecycleBinItemDeleted;
-            RecycleBinManager.Default.RecycleBinRefreshRequested -= RecycleBinRefreshRequested;
-            UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
+			RecycleBinManager.Default.RecycleBinItemCreated -= RecycleBinItemCreated;
+			RecycleBinManager.Default.RecycleBinItemDeleted -= RecycleBinItemDeleted;
+			RecycleBinManager.Default.RecycleBinRefreshRequested -= RecycleBinRefreshRequested;
+			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
 			FileTagsSettingsService.OnSettingImportedEvent -= FileTagsSettingsService_OnSettingImportedEvent;
 			FolderSizeProvider.SizeChanged -= FolderSizeProvider_SizeChanged;
 			DefaultIcons.Clear();
