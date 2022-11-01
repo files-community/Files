@@ -7,6 +7,7 @@ namespace Files.App.DataModels
 		public Terminal()
 		{
 		}
+		
 		public Terminal(string name, string path, string arguments = "", string icon = "")
 		{
 			Name = name;
