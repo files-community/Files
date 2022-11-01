@@ -2,7 +2,7 @@
 
 namespace Files.Backend.ViewModels.Dialogs
 {
-    public sealed class ElevateConfirmDialogViewModel : ObservableObject
-    {
-    }
+	public sealed class ElevateConfirmDialogViewModel : ObservableObject
+	{
+	}
 }

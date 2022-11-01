@@ -2854,6 +2854,15 @@
     <value>De bestemming kan niet worden gevonden {0}. Wilt u deze snelkoppeling verwijderen?</value>
   </data>
   <data name="LoadingThemes" xml:space="preserve">
-    <value>Loading Themes</value>
+    <value>Thema's laden</value>
+  </data>
+  <data name="EmptyingRecycleBin" xml:space="preserve">
+    <value>Prullenbak leegmaken</value>
+  </data>
+  <data name="BinEmptyingSucceded" xml:space="preserve">
+    <value>Prullenbak succesvol leeggemaakt</value>
+  </data>
+  <data name="BinEmptyingFailed" xml:space="preserve">
+    <value>Prullenbak leegmaken is mislukt</value>
   </data>
 </root>

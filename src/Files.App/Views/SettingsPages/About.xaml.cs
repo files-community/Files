@@ -3,19 +3,19 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.SettingsPages
 {
-    public sealed partial class About : Page
-    {
-        public AboutViewModel ViewModel
-        {
-            get => (AboutViewModel)DataContext;
-            set => DataContext = value;
-        }
+	public sealed partial class About : Page
+	{
+		public AboutViewModel ViewModel
+		{
+			get => (AboutViewModel)DataContext;
+			set => DataContext = value;
+		}
 
-        public About()
-        {
-            InitializeComponent();
+		public About()
+		{
+			InitializeComponent();
 
-            this.ViewModel = new AboutViewModel();
-        }
-    }
+			this.ViewModel = new AboutViewModel();
+		}
+	}
 }

@@ -3,22 +3,22 @@ using System.Threading.Tasks;
 
 namespace Files.Backend.Services
 {
-    public interface IUpdateService : INotifyPropertyChanged
-    {
-        /// <summary>
-        /// Gets a value indicating whether updates are available.
-        /// </summary>
-        bool IsUpdateAvailable { get; }
+	public interface IUpdateService : INotifyPropertyChanged
+	{
+		/// <summary>
+		/// Gets a value indicating whether updates are available.
+		/// </summary>
+		bool IsUpdateAvailable { get; }
 
-        /// <summary>
-        /// Gets a value indicating if an update is in progress.
-        /// </summary>
-        bool IsUpdating { get; }
+		/// <summary>
+		/// Gets a value indicating if an update is in progress.
+		/// </summary>
+		bool IsUpdating { get; }
 
-        Task DownloadUpdates();
+		Task DownloadUpdates();
 
-        Task DownloadMandatoryUpdates();
+		Task DownloadMandatoryUpdates();
 
-        Task CheckForUpdates();
-    }
+		Task CheckForUpdates();
+	}
 }

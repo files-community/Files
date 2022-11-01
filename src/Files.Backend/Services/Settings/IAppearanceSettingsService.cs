@@ -58,7 +58,6 @@ namespace Files.Backend.Services.Settings
 		/// </summary>
 		bool ShowFileTagsSection { get; set; }
 
-
 		/// <summary>
 		/// Gets or sets a value indicating whether or not to use the compact styles.
 		/// </summary>

@@ -2856,4 +2856,13 @@
   <data name="LoadingThemes" xml:space="preserve">
     <value>Завантаження тем</value>
   </data>
+  <data name="EmptyingRecycleBin" xml:space="preserve">
+    <value>Очищення кошика</value>
+  </data>
+  <data name="BinEmptyingSucceded" xml:space="preserve">
+    <value>Успішно очищено кошик</value>
+  </data>
+  <data name="BinEmptyingFailed" xml:space="preserve">
+    <value>Не вдалося очистити кошик</value>
+  </data>
 </root>
