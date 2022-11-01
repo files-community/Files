@@ -397,7 +397,7 @@ namespace Files.App.ViewModels
 			BitmapImage icon = null;
 			int iconIdex = -1;
 
-			switch(sectionType)
+			switch (sectionType)
 			{
 				case SectionType.Home:
 					{

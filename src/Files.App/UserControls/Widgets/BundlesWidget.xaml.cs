@@ -11,46 +11,46 @@ using System.Threading.Tasks;
 
 namespace Files.App.UserControls.Widgets
 {
-    public sealed partial class BundlesWidget : UserControl, IWidgetItemModel, IDisposable
-    {
-        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+	public sealed partial class BundlesWidget : UserControl, IWidgetItemModel, IDisposable
+	{
+		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-        public BundlesViewModel ViewModel
-        {
-            get => (BundlesViewModel)DataContext;
-            private set => DataContext = value;
-        }
+		public BundlesViewModel ViewModel
+		{
+			get => (BundlesViewModel)DataContext;
+			private set => DataContext = value;
+		}
 
-        public string WidgetName => nameof(BundlesWidget);
+		public string WidgetName => nameof(BundlesWidget);
 
-        public string AutomationProperties => "BundlesWidgetAutomationProperties/Name".GetLocalizedResource();
+		public string AutomationProperties => "BundlesWidgetAutomationProperties/Name".GetLocalizedResource();
 
-        public string WidgetHeader => "Bundles".GetLocalizedResource();
+		public string WidgetHeader => "Bundles".GetLocalizedResource();
 
-        public bool IsWidgetSettingEnabled => UserSettingsService.AppearanceSettingsService.ShowBundlesWidget;
+		public bool IsWidgetSettingEnabled => UserSettingsService.AppearanceSettingsService.ShowBundlesWidget;
 
-        public BundlesWidget()
-        {
-            this.InitializeComponent();
+		public BundlesWidget()
+		{
+			this.InitializeComponent();
 
-            this.ViewModel = new BundlesViewModel();
-        }
+			this.ViewModel = new BundlesViewModel();
+		}
 
-        public Task RefreshWidget()
-        {
-            return Task.CompletedTask;
-        }
+		public Task RefreshWidget()
+		{
+			return Task.CompletedTask;
+		}
 
-        #region IDisposable
+		#region IDisposable
 
-        public void Dispose()
-        {
-            // We need dispose to unhook events to avoid memory leaks
-            this.ViewModel?.Dispose();
+		public void Dispose()
+		{
+			// We need dispose to unhook events to avoid memory leaks
+			this.ViewModel?.Dispose();
 
-            this.ViewModel = null;
-        }
+			this.ViewModel = null;
+		}
 
-        #endregion IDisposable
-    }
+		#endregion IDisposable
+	}
 }

@@ -35,8 +35,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 		private bool disposed;
 		private ReadOnlyCollection<IMenuFlyoutItemViewModel> addFlyoutItemsSource;
 
-
-
 		// Commands
 
 		public AsyncRelayCommand EditTerminalApplicationsCommand { get; }
@@ -44,8 +42,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 		public AsyncRelayCommand ChangePageCommand { get; }
 		public RelayCommand RemovePageCommand { get; }
 		public RelayCommand<string> AddPageCommand { get; }
-
-
 
 		// Properties
 
@@ -119,7 +115,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 				}
 			}
 		}
-
 
 		// Lists
 
@@ -361,9 +356,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 		public string DateFormatSample
 			=> string.Format("DateFormatSample".GetLocalizedResource(), DateFormats[SelectedDateTimeFormatIndex].Sample1, DateFormats[SelectedDateTimeFormatIndex].Sample2);
 
-
 		private DispatcherQueue dispatcherQueue;
-
 
 		public bool ShowConfirmDeleteDialog
 		{

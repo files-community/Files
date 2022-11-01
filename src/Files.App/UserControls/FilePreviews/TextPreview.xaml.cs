@@ -6,14 +6,14 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.UserControls.FilePreviews
 {
-    public sealed partial class TextPreview : UserControl
-    {
-        public TextPreview(TextPreviewViewModel viewModel)
-        {
-            ViewModel = viewModel;
-            InitializeComponent();
-        }
+	public sealed partial class TextPreview : UserControl
+	{
+		public TextPreview(TextPreviewViewModel viewModel)
+		{
+			ViewModel = viewModel;
+			InitializeComponent();
+		}
 
-        public TextPreviewViewModel ViewModel { get; set; }
-    }
+		public TextPreviewViewModel ViewModel { get; set; }
+	}
 }

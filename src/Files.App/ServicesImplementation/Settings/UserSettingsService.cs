@@ -17,7 +17,7 @@ namespace Files.App.ServicesImplementation.Settings
 		{
 			get => GetSettingsService(ref _PreferencesSettingsService);
 		}
-		
+
 		private IFoldersSettingsService _FoldersSettingsService;
 		public IFoldersSettingsService FoldersSettingsService
 		{

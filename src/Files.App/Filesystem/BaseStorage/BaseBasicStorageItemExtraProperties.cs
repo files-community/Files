@@ -7,26 +7,26 @@ using Windows.Storage;
 
 namespace Files.App.Filesystem.StorageItems
 {
-    public class BaseBasicStorageItemExtraProperties : BaseStorageItemExtraProperties
-    {
-        private readonly IStorageItem item;
+	public class BaseBasicStorageItemExtraProperties : BaseStorageItemExtraProperties
+	{
+		private readonly IStorageItem item;
 
-        public BaseBasicStorageItemExtraProperties(IStorageItem item) => this.item = item;
+		public BaseBasicStorageItemExtraProperties(IStorageItem item) => this.item = item;
 
-        public override IAsyncOperation<IDictionary<string, object>> RetrievePropertiesAsync(IEnumerable<string> propertiesToRetrieve)
-        {
-            return AsyncInfo.Run<IDictionary<string, object>>(async (cancellationToken) =>
-            {
-                var props = new Dictionary<string, object>();
-                propertiesToRetrieve.ForEach(x => props[x] = null);
-                // Fill common poperties
-                var ret = item.AsBaseStorageFile()?.GetBasicPropertiesAsync() ?? item.AsBaseStorageFolder()?.GetBasicPropertiesAsync();
-                var basicProps = ret is not null ? await ret : null;
-                props["System.ItemPathDisplay"] = item?.Path;
-                props["System.DateCreated"] = basicProps?.ItemDate;
-                props["System.DateModified"] = basicProps?.DateModified;
-                return props;
-            });
-        }
-    }
+		public override IAsyncOperation<IDictionary<string, object>> RetrievePropertiesAsync(IEnumerable<string> propertiesToRetrieve)
+		{
+			return AsyncInfo.Run<IDictionary<string, object>>(async (cancellationToken) =>
+			{
+				var props = new Dictionary<string, object>();
+				propertiesToRetrieve.ForEach(x => props[x] = null);
+				// Fill common poperties
+				var ret = item.AsBaseStorageFile()?.GetBasicPropertiesAsync() ?? item.AsBaseStorageFolder()?.GetBasicPropertiesAsync();
+				var basicProps = ret is not null ? await ret : null;
+				props["System.ItemPathDisplay"] = item?.Path;
+				props["System.DateCreated"] = basicProps?.ItemDate;
+				props["System.DateModified"] = basicProps?.DateModified;
+				return props;
+			});
+		}
+	}
 }

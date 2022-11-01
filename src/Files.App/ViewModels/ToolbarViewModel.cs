@@ -35,7 +35,6 @@ using SearchBox = Files.App.UserControls.SearchBox;
 using SortDirection = Files.Shared.Enums.SortDirection;
 using FocusManager = Microsoft.UI.Xaml.Input.FocusManager;
 
-
 namespace Files.App.ViewModels
 {
 	public class ToolbarViewModel : ObservableObject, IAddressToolbar, IDisposable

@@ -38,7 +38,6 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Notifications;
 
-
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
@@ -140,7 +139,6 @@ namespace Files.App
 				.AddSingleton<ISizeProvider, UserSizeProvider>()
 
 				; // End of service configuration
-
 
 			return services.BuildServiceProvider();
 		}
@@ -281,7 +279,8 @@ namespace Files.App
 		public void OnActivated(AppActivationArguments activatedEventArgs)
 		{
 			Logger.Info($"App activated. Activated args type: {activatedEventArgs.Data.GetType().Name}");
-			_ = Window.InitializeApplication(activatedEventArgs);
+			// InitializeApplication accesses UI, needs to be called on UI thread
+			_ = Window.DispatcherQueue.EnqueueAsync(() => Window.InitializeApplication(activatedEventArgs));
 		}
 
 		/// <summary>
