@@ -5,17 +5,17 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Dialogs
 {
-    public sealed partial class DecompressArchiveDialog : ContentDialog
-    {
-        public DecompressArchiveDialogViewModel ViewModel
-        {
-            get => (DecompressArchiveDialogViewModel)DataContext;
-            set => DataContext = value;
-        }
+	public sealed partial class DecompressArchiveDialog : ContentDialog
+	{
+		public DecompressArchiveDialogViewModel ViewModel
+		{
+			get => (DecompressArchiveDialogViewModel)DataContext;
+			set => DataContext = value;
+		}
 
-        public DecompressArchiveDialog()
-        {
-            this.InitializeComponent();
-        }
-    }
+		public DecompressArchiveDialog()
+		{
+			this.InitializeComponent();
+		}
+	}
 }

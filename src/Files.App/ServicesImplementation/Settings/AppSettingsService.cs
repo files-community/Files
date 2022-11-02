@@ -18,7 +18,7 @@ namespace Files.App.ServicesImplementation.Settings
 			get => Get(true);
 			set => Set(value);
 		}
-		
+
 		public bool RestoreTabsOnStartup
 		{
 			get => Get(false);

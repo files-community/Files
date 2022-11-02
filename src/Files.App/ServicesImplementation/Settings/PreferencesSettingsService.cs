@@ -21,7 +21,6 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
-
 		public bool ShowFileExtensions
 		{
 			get => Get(true);

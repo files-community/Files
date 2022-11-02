@@ -5,19 +5,19 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.UserControls.FilePreviews
 {
-    public sealed partial class RichTextPreview : UserControl
-    {
-        public RichTextPreview(RichTextPreviewViewModel viewModel)
-        {
-            ViewModel = viewModel;
-            InitializeComponent();
-        }
+	public sealed partial class RichTextPreview : UserControl
+	{
+		public RichTextPreview(RichTextPreviewViewModel viewModel)
+		{
+			ViewModel = viewModel;
+			InitializeComponent();
+		}
 
-        public RichTextPreviewViewModel ViewModel { get; set; }
+		public RichTextPreviewViewModel ViewModel { get; set; }
 
-        private void TextPreviewControl_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
-        {
-            TextPreviewControl.Document.LoadFromStream(Microsoft.UI.Text.TextSetOptions.FormatRtf, ViewModel.Stream);
-        }
-    }
+		private void TextPreviewControl_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+		{
+			TextPreviewControl.Document.LoadFromStream(Microsoft.UI.Text.TextSetOptions.FormatRtf, ViewModel.Stream);
+		}
+	}
 }

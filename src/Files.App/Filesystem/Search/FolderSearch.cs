@@ -20,41 +20,41 @@ using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.App.Filesystem.Search
 {
-    public class FolderSearch
-    {
-        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+	public class FolderSearch
+	{
+		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-        private IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
+		private IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
-        private const uint defaultStepSize = 500;
+		private const uint defaultStepSize = 500;
 
         public string? Query { get; set; }
         public string? Folder { get; set; }
 
-        public uint MaxItemCount { get; set; } = 0; // 0: no limit
-        public uint ThumbnailSize { get; set; } = 24;
-        public bool SearchUnindexedItems { get; set; } = false;
+		public uint MaxItemCount { get; set; } = 0; // 0: no limit
+		public uint ThumbnailSize { get; set; } = 24;
+		public bool SearchUnindexedItems { get; set; } = false;
 
-        private uint UsedMaxItemCount => MaxItemCount > 0 ? MaxItemCount : uint.MaxValue;
+		private uint UsedMaxItemCount => MaxItemCount > 0 ? MaxItemCount : uint.MaxValue;
 
         public EventHandler? SearchTick;
 
         private bool IsAQSQuery => Query is not null && (Query.StartsWith('$') || Query.Contains(':', StringComparison.Ordinal));
 
-        private string QueryWithWildcard
-        {
-            get
-            {
-                if (!string.IsNullOrEmpty(Query) && Query.Contains('.')) // ".docx" -> "*.docx"
-                {
-                    var split = Query.Split('.');
-                    var leading = string.Join('.', split.SkipLast(1));
-                    var query = $"{leading}*.{split.Last()}";
-                    return $"{query}*";
-                }
-                return $"{Query}*";
-            }
-        }
+		private string QueryWithWildcard
+		{
+			get
+			{
+				if (!string.IsNullOrEmpty(Query) && Query.Contains('.')) // ".docx" -> "*.docx"
+				{
+					var split = Query.Split('.');
+					var leading = string.Join('.', split.SkipLast(1));
+					var query = $"{leading}*.{split.Last()}";
+					return $"{query}*";
+				}
+				return $"{Query}*";
+			}
+		}
 
         public string AQSQuery
         {
@@ -76,84 +76,84 @@ namespace Files.App.Filesystem.Search
             }
         }
 
-        public Task SearchAsync(IList<ListedItem> results, CancellationToken token)
-        {
-            try
-            {
-                if (App.LibraryManager.TryGetLibrary(Folder, out var library))
-                {
-                    return AddItemsAsyncForLibrary(library, results, token);
-                }
-                else if (Folder == "Home".GetLocalizedResource())
-                {
-                    return AddItemsAsyncForHome(results, token);
-                }
-                else
-                {
-                    return AddItemsAsync(Folder, results, token);
-                }
-            }
-            catch (Exception e)
-            {
-                App.Logger.Warn(e, "Search failure");
-            }
+		public Task SearchAsync(IList<ListedItem> results, CancellationToken token)
+		{
+			try
+			{
+				if (App.LibraryManager.TryGetLibrary(Folder, out var library))
+				{
+					return AddItemsAsyncForLibrary(library, results, token);
+				}
+				else if (Folder == "Home".GetLocalizedResource())
+				{
+					return AddItemsAsyncForHome(results, token);
+				}
+				else
+				{
+					return AddItemsAsync(Folder, results, token);
+				}
+			}
+			catch (Exception e)
+			{
+				App.Logger.Warn(e, "Search failure");
+			}
 
-            return Task.CompletedTask;
-        }
+			return Task.CompletedTask;
+		}
 
-        private async Task AddItemsAsyncForHome(IList<ListedItem> results, CancellationToken token)
-        {
-            foreach (var drive in App.DrivesManager.Drives.Where(x => !x.IsNetwork))
-            {
-                await AddItemsAsync(drive.Path, results, token);
-            }
-        }
+		private async Task AddItemsAsyncForHome(IList<ListedItem> results, CancellationToken token)
+		{
+			foreach (var drive in App.DrivesManager.Drives.Where(x => !x.IsNetwork))
+			{
+				await AddItemsAsync(drive.Path, results, token);
+			}
+		}
 
-        public async Task<ObservableCollection<ListedItem>> SearchAsync()
-        {
-            ObservableCollection<ListedItem> results = new ObservableCollection<ListedItem>();
-            try
-            {
-                var token = CancellationToken.None;
-                if (App.LibraryManager.TryGetLibrary(Folder, out var library))
-                {
-                    await AddItemsAsyncForLibrary(library, results, token);
-                }
-                else if (Folder == "Home".GetLocalizedResource())
-                {
-                    await AddItemsAsyncForHome(results, token);
-                }
-                else
-                {
-                    await AddItemsAsync(Folder, results, token);
-                }
-            }
-            catch (Exception e)
-            {
-                App.Logger.Warn(e, "Search failure");
-            }
+		public async Task<ObservableCollection<ListedItem>> SearchAsync()
+		{
+			ObservableCollection<ListedItem> results = new ObservableCollection<ListedItem>();
+			try
+			{
+				var token = CancellationToken.None;
+				if (App.LibraryManager.TryGetLibrary(Folder, out var library))
+				{
+					await AddItemsAsyncForLibrary(library, results, token);
+				}
+				else if (Folder == "Home".GetLocalizedResource())
+				{
+					await AddItemsAsyncForHome(results, token);
+				}
+				else
+				{
+					await AddItemsAsync(Folder, results, token);
+				}
+			}
+			catch (Exception e)
+			{
+				App.Logger.Warn(e, "Search failure");
+			}
 
-            return results;
-        }
+			return results;
+		}
 
-        private async Task SearchAsync(BaseStorageFolder folder, IList<ListedItem> results, CancellationToken token)
-        {
-            //var sampler = new IntervalSampler(500);
-            uint index = 0;
-            var stepSize = Math.Min(defaultStepSize, UsedMaxItemCount);
-            var options = ToQueryOptions();
+		private async Task SearchAsync(BaseStorageFolder folder, IList<ListedItem> results, CancellationToken token)
+		{
+			//var sampler = new IntervalSampler(500);
+			uint index = 0;
+			var stepSize = Math.Min(defaultStepSize, UsedMaxItemCount);
+			var options = ToQueryOptions();
 
-            var queryResult = folder.CreateItemQueryWithOptions(options);
-            var items = await queryResult.GetItemsAsync(0, stepSize);
+			var queryResult = folder.CreateItemQueryWithOptions(options);
+			var items = await queryResult.GetItemsAsync(0, stepSize);
 
-            while (items.Count > 0)
-            {
-                foreach (IStorageItem item in items)
-                {
-                    if (token.IsCancellationRequested)
-                    {
-                        return;
-                    }
+			while (items.Count > 0)
+			{
+				foreach (IStorageItem item in items)
+				{
+					if (token.IsCancellationRequested)
+					{
+						return;
+					}
 
                     try
                     {
@@ -165,25 +165,25 @@ namespace Files.App.Filesystem.Search
                         App.Logger.Warn(ex, "Error creating ListedItem from StorageItem");
                     }
 
-                    if (results.Count == 32 || results.Count % 300 == 0 /*|| sampler.CheckNow()*/)
-                    {
-                        SearchTick?.Invoke(this, EventArgs.Empty);
-                    }
-                }
+					if (results.Count == 32 || results.Count % 300 == 0 /*|| sampler.CheckNow()*/)
+					{
+						SearchTick?.Invoke(this, EventArgs.Empty);
+					}
+				}
 
-                index += (uint)items.Count;
-                stepSize = Math.Min(defaultStepSize, UsedMaxItemCount - (uint)results.Count);
-                items = await queryResult.GetItemsAsync(index, stepSize);
-            }
-        }
+				index += (uint)items.Count;
+				stepSize = Math.Min(defaultStepSize, UsedMaxItemCount - (uint)results.Count);
+				items = await queryResult.GetItemsAsync(index, stepSize);
+			}
+		}
 
-        private async Task AddItemsAsyncForLibrary(LibraryLocationItem library, IList<ListedItem> results, CancellationToken token)
-        {
-            foreach (var folder in library.Folders)
-            {
-                await AddItemsAsync(folder, results, token);
-            }
-        }
+		private async Task AddItemsAsyncForLibrary(LibraryLocationItem library, IList<ListedItem> results, CancellationToken token)
+		{
+			foreach (var folder in library.Folders)
+			{
+				await AddItemsAsync(folder, results, token);
+			}
+		}
 
         private async Task SearchTagsAsync(string folder, IList<ListedItem> results, CancellationToken token)
         {
@@ -201,15 +201,15 @@ namespace Files.App.Filesystem.Search
                                 .Where(x => tags.All(x.Tags.Contains));
             }
 
-            foreach (var match in matches)
-            {
-                (IntPtr hFile, WIN32_FIND_DATA findData) = await Task.Run(() =>
-                {
-                    int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
-                    IntPtr hFileTsk = FindFirstFileExFromApp(match.FilePath, FINDEX_INFO_LEVELS.FindExInfoBasic,
-                        out WIN32_FIND_DATA findDataTsk, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, additionalFlags);
-                    return (hFileTsk, findDataTsk);
-                }).WithTimeoutAsync(TimeSpan.FromSeconds(5));
+			foreach (var match in matches)
+			{
+				(IntPtr hFile, WIN32_FIND_DATA findData) = await Task.Run(() =>
+				{
+					int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
+					IntPtr hFileTsk = FindFirstFileExFromApp(match.FilePath, FINDEX_INFO_LEVELS.FindExInfoBasic,
+						out WIN32_FIND_DATA findDataTsk, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, additionalFlags);
+					return (hFileTsk, findDataTsk);
+				}).WithTimeoutAsync(TimeSpan.FromSeconds(5));
 
                 if (hFile != IntPtr.Zero && hFile.ToInt64() != -1)
                 {
@@ -251,60 +251,60 @@ namespace Files.App.Filesystem.Search
                 if (token.IsCancellationRequested)
                     return;
 
-                if (results.Count == 32 || results.Count % 300 == 0 /*|| sampler.CheckNow()*/)
-                {
-                    SearchTick?.Invoke(this, EventArgs.Empty);
-                }
-            }
-        }
+				if (results.Count == 32 || results.Count % 300 == 0 /*|| sampler.CheckNow()*/)
+				{
+					SearchTick?.Invoke(this, EventArgs.Empty);
+				}
+			}
+		}
 
-        private async Task AddItemsAsync(string folder, IList<ListedItem> results, CancellationToken token)
-        {
-            if (AQSQuery.StartsWith("tag:", StringComparison.Ordinal))
-            {
-                await SearchTagsAsync(folder, results, token);
-            }
-            else
-            {
-                var workingFolder = await GetStorageFolderAsync(folder);
+		private async Task AddItemsAsync(string folder, IList<ListedItem> results, CancellationToken token)
+		{
+			if (AQSQuery.StartsWith("tag:", StringComparison.Ordinal))
+			{
+				await SearchTagsAsync(folder, results, token);
+			}
+			else
+			{
+				var workingFolder = await GetStorageFolderAsync(folder);
 
-                var hiddenOnlyFromWin32 = false;
-                if (workingFolder)
-                {
-                    await SearchAsync(workingFolder, results, token);
-                    hiddenOnlyFromWin32 = (results.Count != 0);
-                }
+				var hiddenOnlyFromWin32 = false;
+				if (workingFolder)
+				{
+					await SearchAsync(workingFolder, results, token);
+					hiddenOnlyFromWin32 = (results.Count != 0);
+				}
 
-                if (!IsAQSQuery && (!hiddenOnlyFromWin32 || UserSettingsService.FoldersSettingsService.ShowHiddenItems))
-                {
-                    await SearchWithWin32Async(folder, hiddenOnlyFromWin32, UsedMaxItemCount - (uint)results.Count, results, token);
-                }
-            }
-        }
+				if (!IsAQSQuery && (!hiddenOnlyFromWin32 || UserSettingsService.FoldersSettingsService.ShowHiddenItems))
+				{
+					await SearchWithWin32Async(folder, hiddenOnlyFromWin32, UsedMaxItemCount - (uint)results.Count, results, token);
+				}
+			}
+		}
 
-        private async Task SearchWithWin32Async(string folder, bool hiddenOnly, uint maxItemCount, IList<ListedItem> results, CancellationToken token)
-        {
-            //var sampler = new IntervalSampler(500);
-            (IntPtr hFile, WIN32_FIND_DATA findData) = await Task.Run(() =>
-            {
-                int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
-                IntPtr hFileTsk = FindFirstFileExFromApp($"{folder}\\{QueryWithWildcard}", FINDEX_INFO_LEVELS.FindExInfoBasic,
-                    out WIN32_FIND_DATA findDataTsk, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, additionalFlags);
-                return (hFileTsk, findDataTsk);
-            }).WithTimeoutAsync(TimeSpan.FromSeconds(5));
+		private async Task SearchWithWin32Async(string folder, bool hiddenOnly, uint maxItemCount, IList<ListedItem> results, CancellationToken token)
+		{
+			//var sampler = new IntervalSampler(500);
+			(IntPtr hFile, WIN32_FIND_DATA findData) = await Task.Run(() =>
+			{
+				int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
+				IntPtr hFileTsk = FindFirstFileExFromApp($"{folder}\\{QueryWithWildcard}", FINDEX_INFO_LEVELS.FindExInfoBasic,
+					out WIN32_FIND_DATA findDataTsk, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, additionalFlags);
+				return (hFileTsk, findDataTsk);
+			}).WithTimeoutAsync(TimeSpan.FromSeconds(5));
 
-            if (hFile != IntPtr.Zero && hFile.ToInt64() != -1)
-            {
-                await Task.Run(() =>
-                {
-                    var hasNextFile = false;
-                    do
-                    {
-                        if (results.Count >= maxItemCount)
-                        {
-                            break;
-                        }
-                        var itemPath = Path.Combine(folder, findData.cFileName);
+			if (hFile != IntPtr.Zero && hFile.ToInt64() != -1)
+			{
+				await Task.Run(() =>
+				{
+					var hasNextFile = false;
+					do
+					{
+						if (results.Count >= maxItemCount)
+						{
+							break;
+						}
+						var itemPath = Path.Combine(folder, findData.cFileName);
 
                         var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
                         var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
@@ -324,23 +324,23 @@ namespace Files.App.Filesystem.Search
                             }
                         }
 
-                        if (token.IsCancellationRequested)
-                        {
-                            break;
-                        }
+						if (token.IsCancellationRequested)
+						{
+							break;
+						}
 
-                        if (results.Count == 32 || results.Count % 300 == 0 /*|| sampler.CheckNow()*/)
-                        {
-                            SearchTick?.Invoke(this, EventArgs.Empty);
-                        }
+						if (results.Count == 32 || results.Count % 300 == 0 /*|| sampler.CheckNow()*/)
+						{
+							SearchTick?.Invoke(this, EventArgs.Empty);
+						}
 
-                        hasNextFile = FindNextFile(hFile, out findData);
-                    } while (hasNextFile);
+						hasNextFile = FindNextFile(hFile, out findData);
+					} while (hasNextFile);
 
-                    FindClose(hFile);
-                });
-            }
-        }
+					FindClose(hFile);
+				});
+			}
+		}
 
         private ListedItem GetListedItemAsync(string itemPath, WIN32_FIND_DATA findData)
         {
@@ -357,49 +357,49 @@ namespace Files.App.Filesystem.Search
                     itemType = itemFileExtension.Trim('.') + " " + itemType;
                 }
 
-                listedItem = new ListedItem(null)
-                {
-                    PrimaryItemAttribute = StorageItemTypes.File,
-                    ItemNameRaw = findData.cFileName,
-                    ItemPath = itemPath,
-                    IsHiddenItem = isHidden,
-                    LoadFileIcon = false,
-                    FileExtension = itemFileExtension,
-                    ItemType = itemType,
-                    Opacity = isHidden ? Constants.UI.DimItemOpacity : 1
-                };
-            }
-            else
-            {
-                if (findData.cFileName != "." && findData.cFileName != "..")
-                {
-                    listedItem = new ListedItem(null)
-                    {
-                        PrimaryItemAttribute = StorageItemTypes.Folder,
-                        ItemNameRaw = findData.cFileName,
-                        ItemPath = itemPath,
-                        IsHiddenItem = isHidden,
-                        LoadFileIcon = false,
-                        Opacity = isHidden ? Constants.UI.DimItemOpacity : 1
-                    };
-                }
-            }
-            if (listedItem is not null && MaxItemCount > 0) // Only load icon for searchbox suggestions
-            {
-                _ = FileThumbnailHelper.LoadIconFromPathAsync(listedItem.ItemPath, ThumbnailSize, ThumbnailMode.ListView, isFolder)
-                    .ContinueWith((t) =>
-                    {
-                        if (t.IsCompletedSuccessfully && t.Result is not null)
-                        {
-                            _ = FilesystemTasks.Wrap(() => App.Window.DispatcherQueue.EnqueueAsync(async () =>
-                            {
-                                listedItem.FileImage = await t.Result.ToBitmapAsync();
-                            }, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low));
-                        }
-                    });
-            }
-            return listedItem;
-        }
+				listedItem = new ListedItem(null)
+				{
+					PrimaryItemAttribute = StorageItemTypes.File,
+					ItemNameRaw = findData.cFileName,
+					ItemPath = itemPath,
+					IsHiddenItem = isHidden,
+					LoadFileIcon = false,
+					FileExtension = itemFileExtension,
+					ItemType = itemType,
+					Opacity = isHidden ? Constants.UI.DimItemOpacity : 1
+				};
+			}
+			else
+			{
+				if (findData.cFileName != "." && findData.cFileName != "..")
+				{
+					listedItem = new ListedItem(null)
+					{
+						PrimaryItemAttribute = StorageItemTypes.Folder,
+						ItemNameRaw = findData.cFileName,
+						ItemPath = itemPath,
+						IsHiddenItem = isHidden,
+						LoadFileIcon = false,
+						Opacity = isHidden ? Constants.UI.DimItemOpacity : 1
+					};
+				}
+			}
+			if (listedItem is not null && MaxItemCount > 0) // Only load icon for searchbox suggestions
+			{
+				_ = FileThumbnailHelper.LoadIconFromPathAsync(listedItem.ItemPath, ThumbnailSize, ThumbnailMode.ListView, isFolder)
+					.ContinueWith((t) =>
+					{
+						if (t.IsCompletedSuccessfully && t.Result is not null)
+						{
+							_ = FilesystemTasks.Wrap(() => App.Window.DispatcherQueue.EnqueueAsync(async () =>
+							{
+								listedItem.FileImage = await t.Result.ToBitmapAsync();
+							}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low));
+						}
+					});
+			}
+			return listedItem;
+		}
 
         private async Task<ListedItem> GetListedItemAsync(IStorageItem item)
         {
@@ -449,87 +449,87 @@ namespace Files.App.Filesystem.Search
                     itemType = itemFileExtension.Trim('.') + " " + itemType;
                 }
 
-                var itemSize = props.Size.ToSizeString();
+				var itemSize = props.Size.ToSizeString();
 
-                if (file is BinStorageFile binFile)
-                {
-                    listedItem = new RecycleBinItem(null)
-                    {
-                        PrimaryItemAttribute = StorageItemTypes.File,
-                        ItemNameRaw = file.Name,
-                        ItemPath = file.Path,
-                        LoadFileIcon = false,
-                        FileExtension = itemFileExtension,
-                        FileSizeBytes = (long)props.Size,
-                        FileSize = itemSize,
-                        ItemDateModifiedReal = props.DateModified,
-                        ItemDateCreatedReal = file.DateCreated,
-                        ItemType = itemType,
-                        NeedsPlaceholderGlyph = false,
-                        Opacity = 1,
-                        ItemDateDeletedReal = binFile.DateDeleted,
-                        ItemOriginalPath = binFile.OriginalPath
-                    };
-                }
-                else
-                {
-                    listedItem = new ListedItem(null)
-                    {
-                        PrimaryItemAttribute = StorageItemTypes.File,
-                        ItemNameRaw = file.Name,
-                        ItemPath = file.Path,
-                        LoadFileIcon = false,
-                        FileExtension = itemFileExtension,
-                        FileSizeBytes = (long)props.Size,
-                        FileSize = itemSize,
-                        ItemDateModifiedReal = props.DateModified,
-                        ItemDateCreatedReal = file.DateCreated,
-                        ItemType = itemType,
-                        NeedsPlaceholderGlyph = false,
-                        Opacity = 1
-                    };
-                }
-            }
-            if (listedItem is not null && MaxItemCount > 0) // Only load icon for searchbox suggestions
-            {
-                var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(item, ThumbnailSize, ThumbnailMode.ListView);
-                if (iconData is not null)
-                {
-                    listedItem.FileImage = await iconData.ToBitmapAsync();
-                }
-                else
-                {
-                    listedItem.NeedsPlaceholderGlyph = true;
-                }
-            }
-            return listedItem;
-        }
+				if (file is BinStorageFile binFile)
+				{
+					listedItem = new RecycleBinItem(null)
+					{
+						PrimaryItemAttribute = StorageItemTypes.File,
+						ItemNameRaw = file.Name,
+						ItemPath = file.Path,
+						LoadFileIcon = false,
+						FileExtension = itemFileExtension,
+						FileSizeBytes = (long)props.Size,
+						FileSize = itemSize,
+						ItemDateModifiedReal = props.DateModified,
+						ItemDateCreatedReal = file.DateCreated,
+						ItemType = itemType,
+						NeedsPlaceholderGlyph = false,
+						Opacity = 1,
+						ItemDateDeletedReal = binFile.DateDeleted,
+						ItemOriginalPath = binFile.OriginalPath
+					};
+				}
+				else
+				{
+					listedItem = new ListedItem(null)
+					{
+						PrimaryItemAttribute = StorageItemTypes.File,
+						ItemNameRaw = file.Name,
+						ItemPath = file.Path,
+						LoadFileIcon = false,
+						FileExtension = itemFileExtension,
+						FileSizeBytes = (long)props.Size,
+						FileSize = itemSize,
+						ItemDateModifiedReal = props.DateModified,
+						ItemDateCreatedReal = file.DateCreated,
+						ItemType = itemType,
+						NeedsPlaceholderGlyph = false,
+						Opacity = 1
+					};
+				}
+			}
+			if (listedItem is not null && MaxItemCount > 0) // Only load icon for searchbox suggestions
+			{
+				var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(item, ThumbnailSize, ThumbnailMode.ListView);
+				if (iconData is not null)
+				{
+					listedItem.FileImage = await iconData.ToBitmapAsync();
+				}
+				else
+				{
+					listedItem.NeedsPlaceholderGlyph = true;
+				}
+			}
+			return listedItem;
+		}
 
-        private QueryOptions ToQueryOptions()
-        {
-            var query = new QueryOptions
-            {
-                FolderDepth = FolderDepth.Deep,
-                UserSearchFilter = AQSQuery ?? string.Empty,
-            };
+		private QueryOptions ToQueryOptions()
+		{
+			var query = new QueryOptions
+			{
+				FolderDepth = FolderDepth.Deep,
+				UserSearchFilter = AQSQuery ?? string.Empty,
+			};
 
-            query.IndexerOption = SearchUnindexedItems
-                ? IndexerOption.DoNotUseIndexer
-                : IndexerOption.OnlyUseIndexerAndOptimizeForIndexedProperties;
+			query.IndexerOption = SearchUnindexedItems
+				? IndexerOption.DoNotUseIndexer
+				: IndexerOption.OnlyUseIndexerAndOptimizeForIndexedProperties;
 
-            query.SortOrder.Clear();
-            query.SortOrder.Add(new SortEntry { PropertyName = "System.Search.Rank", AscendingOrder = false });
+			query.SortOrder.Clear();
+			query.SortOrder.Add(new SortEntry { PropertyName = "System.Search.Rank", AscendingOrder = false });
 
-            query.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, null);
-            query.SetThumbnailPrefetch(ThumbnailMode.ListView, 24, ThumbnailOptions.UseCurrentScale);
+			query.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, null);
+			query.SetThumbnailPrefetch(ThumbnailMode.ListView, 24, ThumbnailOptions.UseCurrentScale);
 
-            return query;
-        }
+			return query;
+		}
 
-        private static Task<FilesystemResult<BaseStorageFolder>> GetStorageFolderAsync(string path)
-            => FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
+		private static Task<FilesystemResult<BaseStorageFolder>> GetStorageFolderAsync(string path)
+			=> FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
 
-        private static Task<FilesystemResult<BaseStorageFile>> GetStorageFileAsync(string path)
-            => FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path));
-    }
+		private static Task<FilesystemResult<BaseStorageFile>> GetStorageFileAsync(string path)
+			=> FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path));
+	}
 }

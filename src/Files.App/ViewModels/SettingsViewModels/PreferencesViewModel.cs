@@ -35,17 +35,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 		private bool disposed;
 		private ReadOnlyCollection<IMenuFlyoutItemViewModel> addFlyoutItemsSource;
 
-
-
 		// Commands
 
-		public AsyncRelayCommand EditTerminalApplicationsCommand { get; }
 		public AsyncRelayCommand OpenFilesAtStartupCommand { get; }
 		public AsyncRelayCommand ChangePageCommand { get; }
 		public RelayCommand RemovePageCommand { get; }
 		public RelayCommand<string> AddPageCommand { get; }
-
-
 
 		// Properties
 
@@ -106,30 +101,13 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		private Terminal selectedTerminal;
-		public Terminal SelectedTerminal
-		{
-			get { return selectedTerminal; }
-			set
-			{
-				if (value is not null && SetProperty(ref selectedTerminal, value))
-				{
-					App.TerminalController.Model.DefaultTerminalName = value.Name;
-					App.TerminalController.SaveModel();
-				}
-			}
-		}
-
-
 		// Lists
 
 		public List<DateTimeFormatItem> DateFormats { get; set; }
-		public ObservableCollection<Terminal> Terminals { get; set; }
 		public ObservableCollection<AppLanguageItem> AppLanguages { get; set; }
 
 		public PreferencesViewModel()
 		{
-			EditTerminalApplicationsCommand = new AsyncRelayCommand(LaunchTerminalsConfigFile);
 			OpenFilesAtStartupCommand = new AsyncRelayCommand(OpenFilesAtStartup);
 			ChangePageCommand = new AsyncRelayCommand(ChangePage);
 			RemovePageCommand = new RelayCommand(RemovePage);
@@ -137,15 +115,10 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 			AddSupportedAppLanguages();
 
-			Terminals = App.TerminalController.Model.Terminals;
-			SelectedTerminal = App.TerminalController.Model.GetDefaultTerminal();
-
 			AddDateTimeOptions();
 			SelectedDateTimeFormatIndex = (int)Enum.Parse(typeof(DateTimeFormats), DateTimeFormat.ToString());
 
 			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
-
-			App.TerminalController.ModelChanged += ReloadTerminals;
 
 			if (UserSettingsService.PreferencesSettingsService.TabsOnStartupList is not null)
 				PagesOnStartupList = new ObservableCollection<PageOnStartupViewModel>(UserSettingsService.PreferencesSettingsService.TabsOnStartupList.Select((p) => new PageOnStartupViewModel(p)));
@@ -349,21 +322,10 @@ namespace Files.App.ViewModels.SettingsViewModels
 				PagesOnStartupList.Add(new PageOnStartupViewModel(path));
 		}
 
-		private void ReloadTerminals(TerminalController controller)
-		{
-			dispatcherQueue.EnqueueAsync(() =>
-			{
-				Terminals = controller.Model.Terminals;
-				SelectedTerminal = controller.Model.GetDefaultTerminal();
-			});
-		}
-
 		public string DateFormatSample
 			=> string.Format("DateFormatSample".GetLocalizedResource(), DateFormats[SelectedDateTimeFormatIndex].Sample1, DateFormats[SelectedDateTimeFormatIndex].Sample2);
 
-
 		private DispatcherQueue dispatcherQueue;
-
 
 		public bool ShowConfirmDeleteDialog
 		{
@@ -389,14 +351,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 					OnPropertyChanged();
 				}
 			}
-		}
-
-		private async Task LaunchTerminalsConfigFile()
-		{
-			var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/terminal.json"));
-
-			if (!await Launcher.LaunchFileAsync(configFile))
-				await ContextMenu.InvokeVerb("open", configFile.Path);
 		}
 
 		private bool openInLogin;
@@ -543,7 +497,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 		{
 			if (!disposed)
 			{
-				App.TerminalController.ModelChanged -= ReloadTerminals;
 				disposed = true;
 				GC.SuppressFinalize(this);
 			}

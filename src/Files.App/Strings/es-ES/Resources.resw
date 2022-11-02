@@ -2856,4 +2856,13 @@
   <data name="LoadingThemes" xml:space="preserve">
     <value>Cargando temas</value>
   </data>
+  <data name="EmptyingRecycleBin" xml:space="preserve">
+    <value>Vaciando papelera de reciclaje</value>
+  </data>
+  <data name="BinEmptyingSucceded" xml:space="preserve">
+    <value>Papelera de reciclaje vaciada correctamente</value>
+  </data>
+  <data name="BinEmptyingFailed" xml:space="preserve">
+    <value>No se pudo vaciar la papelera de reciclaje</value>
+  </data>
 </root>

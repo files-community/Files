@@ -42,18 +42,6 @@ namespace Files.App.Helpers
 			await Launcher.LaunchUriAsync(filesUWPUri);
 		}
 
-		public static async Task OpenDirectoryInTerminal(string workingDir)
-		{
-			var terminal = App.TerminalController.Model.GetDefaultTerminal();
-			if (terminal is null)
-			{
-				return;
-			}
-
-			await LaunchHelper.LaunchAppAsync(terminal.Path, string.Format(terminal.Arguments,
-					   Helpers.PathNormalization.NormalizePath(workingDir)), workingDir);
-		}
-
 		public static async void OpenSelectedItems(IShellPage associatedInstance, bool openViaApplicationPicker = false)
 		{
 			// Don't open files and folders inside recycle bin

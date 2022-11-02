@@ -4,7 +4,6 @@ using System.Linq;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media.Imaging;
 
-
 namespace Files.App.ValueConverters
 {
     internal sealed class ImageModelToImageConverter : IValueConverter
@@ -17,12 +16,12 @@ namespace Files.App.ValueConverters
                 return bitmapImageModel.GetImage<BitmapImage>();
             }
 
-            return null;
-        }
+			return null;
+		}
 
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            throw new NotImplementedException();
-        }
-    }
+		public object ConvertBack(object value, Type targetType, object parameter, string language)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

@@ -9,22 +9,22 @@ using System;
 
 namespace Files.App.DataModels.NavigationControlItems
 {
-    public class LocationItem : ObservableObject, INavigationControlItem
-    {
-        public BitmapImage icon;
+	public class LocationItem : ObservableObject, INavigationControlItem
+	{
+		public BitmapImage icon;
 
-        public BitmapImage Icon
-        {
-            get => icon;
-            set => SetProperty(ref icon, value);
-        }
+		public BitmapImage Icon
+		{
+			get => icon;
+			set => SetProperty(ref icon, value);
+		}
 
-        //public Uri IconSource { get; set; }
-        public byte[] IconData { get; set; }
+		//public Uri IconSource { get; set; }
+		public byte[] IconData { get; set; }
 
-        public string Text { get; set; } = "";
+		public string Text { get; set; } = "";
 
-        private string path;
+		private string path;
 
         public string Path
         {
@@ -36,27 +36,27 @@ namespace Files.App.DataModels.NavigationControlItems
             }
         }
 
-        public string ToolTipText { get; private set; }
-        public FontFamily Font { get; set; }
-        public NavigationControlItemType ItemType => NavigationControlItemType.Location;
-        public bool IsDefaultLocation { get; set; }
-        public BulkConcurrentObservableCollection<INavigationControlItem> ChildItems { get; set; }
+		public string ToolTipText { get; private set; }
+		public FontFamily Font { get; set; }
+		public NavigationControlItemType ItemType => NavigationControlItemType.Location;
+		public bool IsDefaultLocation { get; set; }
+		public BulkConcurrentObservableCollection<INavigationControlItem> ChildItems { get; set; }
 
-        public bool SelectsOnInvoked { get; set; } = true;
+		public bool SelectsOnInvoked { get; set; } = true;
 
-        private bool isExpanded;
-        public bool IsExpanded
-        {
-            get => isExpanded;
-            set => SetProperty(ref isExpanded, value);
-        }
+		private bool isExpanded;
+		public bool IsExpanded
+		{
+			get => isExpanded;
+			set => SetProperty(ref isExpanded, value);
+		}
 
-        public bool IsInvalid { get; set; } = false;
+		public bool IsInvalid { get; set; } = false;
 
-        public SectionType Section { get; set; }
+		public SectionType Section { get; set; }
 
-        public ContextMenuOptions MenuOptions { get; set; }
+		public ContextMenuOptions MenuOptions { get; set; }
 
-        public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
-    }
+		public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
+	}
 }

@@ -13,34 +13,34 @@ using Vanara.Windows.Shell;
 
 namespace Files.App.Shell
 {
-    public static class LaunchHelper
-    {
-        public static void LaunchSettings(string page)
-        {
-            var appActiveManager = new Shell32.IApplicationActivationManager();
-            appActiveManager.ActivateApplication("windows.immersivecontrolpanel_cw5n1h2txyewy!microsoft.windows.immersivecontrolpanel",
-                page, Shell32.ACTIVATEOPTIONS.AO_NONE, out _);
-        }
+	public static class LaunchHelper
+	{
+		public static void LaunchSettings(string page)
+		{
+			var appActiveManager = new Shell32.IApplicationActivationManager();
+			appActiveManager.ActivateApplication("windows.immersivecontrolpanel_cw5n1h2txyewy!microsoft.windows.immersivecontrolpanel",
+				page, Shell32.ACTIVATEOPTIONS.AO_NONE, out _);
+		}
 
-        public static Task<bool> LaunchAppAsync(string application, string arguments, string workingDirectory)
-            => HandleApplicationLaunch(application, arguments, workingDirectory);
+		public static Task<bool> LaunchAppAsync(string application, string arguments, string workingDirectory)
+			=> HandleApplicationLaunch(application, arguments, workingDirectory);
 
-        public static Task<bool> RunCompatibilityTroubleshooterAsync(string filePath)
-        {
-            var afPath = Path.Combine(Path.GetTempPath(), "CompatibilityTroubleshooterAnswerFile.xml");
-            File.WriteAllText(afPath, string.Format("<?xml version=\"1.0\" encoding=\"UTF-8\"?><Answers Version=\"1.0\"><Interaction ID=\"IT_LaunchMethod\"><Value>CompatTab</Value></Interaction><Interaction ID=\"IT_BrowseForFile\"><Value>{0}</Value></Interaction></Answers>", filePath));
-            return HandleApplicationLaunch("msdt.exe", $"/id PCWDiagnostic /af \"{afPath}\"", "");
-        }
+		public static Task<bool> RunCompatibilityTroubleshooterAsync(string filePath)
+		{
+			var afPath = Path.Combine(Path.GetTempPath(), "CompatibilityTroubleshooterAnswerFile.xml");
+			File.WriteAllText(afPath, string.Format("<?xml version=\"1.0\" encoding=\"UTF-8\"?><Answers Version=\"1.0\"><Interaction ID=\"IT_LaunchMethod\"><Value>CompatTab</Value></Interaction><Interaction ID=\"IT_BrowseForFile\"><Value>{0}</Value></Interaction></Answers>", filePath));
+			return HandleApplicationLaunch("msdt.exe", $"/id PCWDiagnostic /af \"{afPath}\"", "");
+		}
 
-        private static async Task<bool> HandleApplicationLaunch(string application, string arguments, string workingDirectory)
-        {
-            var currentWindows = Win32API.GetDesktopWindows();
+		private static async Task<bool> HandleApplicationLaunch(string application, string arguments, string workingDirectory)
+		{
+			var currentWindows = Win32API.GetDesktopWindows();
 
-            if (new[] { ".vhd", ".vhdx" }.Contains(Path.GetExtension(application).ToLowerInvariant()))
-            {
-                // Use powershell to mount vhds as this requires admin rights
-                return Win32API.MountVhdDisk(application);
-            }
+			if (new[] { ".vhd", ".vhdx" }.Contains(Path.GetExtension(application).ToLowerInvariant()))
+			{
+				// Use powershell to mount vhds as this requires admin rights
+				return Win32API.MountVhdDisk(application);
+			}
 
             try
             {
@@ -158,61 +158,61 @@ namespace Files.App.Shell
                                 var basePath = Path.Combine(Environment.GetEnvironmentVariable("TEMP"), Guid.NewGuid().ToString("n"));
                                 Kernel32.CreateDirectory(basePath);
 
-                                var tempPath = Path.Combine(basePath, new string(Path.GetFileName(application).SkipWhile(x => x != ':').Skip(1).ToArray()));
-                                using var hFileSrc = Kernel32.CreateFile(application, Kernel32.FileAccess.GENERIC_READ, FileShare.ReadWrite, null, FileMode.Open, FileFlagsAndAttributes.FILE_ATTRIBUTE_NORMAL);
-                                using var hFileDst = Kernel32.CreateFile(tempPath, Kernel32.FileAccess.GENERIC_WRITE, 0, null, FileMode.Create, FileFlagsAndAttributes.FILE_ATTRIBUTE_NORMAL | FileFlagsAndAttributes.FILE_ATTRIBUTE_READONLY);
+								var tempPath = Path.Combine(basePath, new string(Path.GetFileName(application).SkipWhile(x => x != ':').Skip(1).ToArray()));
+								using var hFileSrc = Kernel32.CreateFile(application, Kernel32.FileAccess.GENERIC_READ, FileShare.ReadWrite, null, FileMode.Open, FileFlagsAndAttributes.FILE_ATTRIBUTE_NORMAL);
+								using var hFileDst = Kernel32.CreateFile(tempPath, Kernel32.FileAccess.GENERIC_WRITE, 0, null, FileMode.Create, FileFlagsAndAttributes.FILE_ATTRIBUTE_NORMAL | FileFlagsAndAttributes.FILE_ATTRIBUTE_READONLY);
 
-                                if (!hFileSrc.IsInvalid && !hFileDst.IsInvalid)
-                                {
-                                    // Copy ADS to temp folder and open
-                                    using (var inStream = new FileStream(hFileSrc.DangerousGetHandle(), FileAccess.Read))
-                                    using (var outStream = new FileStream(hFileDst.DangerousGetHandle(), FileAccess.Write))
-                                    {
-                                        await inStream.CopyToAsync(outStream);
-                                        await outStream.FlushAsync();
-                                    }
-                                    opened = await HandleApplicationLaunch(tempPath, arguments, workingDirectory);
-                                }
-                            }
-                        }
-                        return opened;
-                    }
-                    catch (Win32Exception)
-                    {
-                        // Cannot open file (e.g DLL)
-                        return false;
-                    }
-                    catch (ArgumentException)
-                    {
-                        // Cannot open file (e.g DLL)
-                        return false;
-                    }
-                }
-            }
-            catch (InvalidOperationException)
-            {
-                // Invalid file path
-                return false;
-            }
-            catch (Exception ex)
-            {
-                // Generic error, log
-                App.Logger.Warn(ex, $"Error launching: {application}");
-                return false;
-            }
-        }
+								if (!hFileSrc.IsInvalid && !hFileDst.IsInvalid)
+								{
+									// Copy ADS to temp folder and open
+									using (var inStream = new FileStream(hFileSrc.DangerousGetHandle(), FileAccess.Read))
+									using (var outStream = new FileStream(hFileDst.DangerousGetHandle(), FileAccess.Write))
+									{
+										await inStream.CopyToAsync(outStream);
+										await outStream.FlushAsync();
+									}
+									opened = await HandleApplicationLaunch(tempPath, arguments, workingDirectory);
+								}
+							}
+						}
+						return opened;
+					}
+					catch (Win32Exception)
+					{
+						// Cannot open file (e.g DLL)
+						return false;
+					}
+					catch (ArgumentException)
+					{
+						// Cannot open file (e.g DLL)
+						return false;
+					}
+				}
+			}
+			catch (InvalidOperationException)
+			{
+				// Invalid file path
+				return false;
+			}
+			catch (Exception ex)
+			{
+				// Generic error, log
+				App.Logger.Warn(ex, $"Error launching: {application}");
+				return false;
+			}
+		}
 
-        private static string GetMtpPath(string executable)
-        {
-            if (executable.StartsWith("\\\\?\\", StringComparison.Ordinal))
-            {
-                using var computer = new ShellFolder(Shell32.KNOWNFOLDERID.FOLDERID_ComputerFolder);
-                using var device = computer.FirstOrDefault(i => executable.Replace("\\\\?\\", "", StringComparison.Ordinal).StartsWith(i.Name, StringComparison.Ordinal));
-                var deviceId = device?.ParsingName;
-                var itemPath = Regex.Replace(executable, @"^\\\\\?\\[^\\]*\\?", "");
-                return deviceId is not null ? Path.Combine(deviceId, itemPath) : executable;
-            }
-            return executable;
-        }
-    }
+		private static string GetMtpPath(string executable)
+		{
+			if (executable.StartsWith("\\\\?\\", StringComparison.Ordinal))
+			{
+				using var computer = new ShellFolder(Shell32.KNOWNFOLDERID.FOLDERID_ComputerFolder);
+				using var device = computer.FirstOrDefault(i => executable.Replace("\\\\?\\", "", StringComparison.Ordinal).StartsWith(i.Name, StringComparison.Ordinal));
+				var deviceId = device?.ParsingName;
+				var itemPath = Regex.Replace(executable, @"^\\\\\?\\[^\\]*\\?", "");
+				return deviceId is not null ? Path.Combine(deviceId, itemPath) : executable;
+			}
+			return executable;
+		}
+	}
 }

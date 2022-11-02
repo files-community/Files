@@ -24,7 +24,6 @@ using System.Windows.Input;
 using Windows.Storage;
 using Windows.System;
 
-
 namespace Files.App.ViewModels
 {
 	public class MainPageViewModel : ObservableObject
@@ -35,7 +34,6 @@ namespace Files.App.ViewModels
 		public List<IMultitaskingControl> MultitaskingControls { get; } = new List<IMultitaskingControl>();
 
 		public static ObservableCollection<TabItem> AppInstances { get; private set; } = new ObservableCollection<TabItem>();
-
 
 		private TabItem? selectedTabItem;
 		public TabItem? SelectedTabItem

@@ -35,7 +35,6 @@ using SearchBox = Files.App.UserControls.SearchBox;
 using SortDirection = Files.Shared.Enums.SortDirection;
 using FocusManager = Microsoft.UI.Xaml.Input.FocusManager;
 
-
 namespace Files.App.ViewModels
 {
 	public class ToolbarViewModel : ObservableObject, IAddressToolbar, IDisposable
@@ -381,7 +380,6 @@ namespace Files.App.ViewModels
 
 			SearchBox.Escaped += SearchRegion_Escaped;
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
-			App.TerminalController.ModelChanged += OnTerminalsChanged;
 		}
 
 		private void UserSettingsService_OnSettingChangedEvent(object? sender, SettingChangedEventArgs e)
@@ -774,7 +772,7 @@ namespace Files.App.ViewModels
 		}
 
 		private void SearchRegion_Escaped(object? sender, ISearchBox searchBox) => IsSearchBoxVisible = false;
-    
+
 		public ICommand? SelectAllContentPageItemsCommand { get; set; }
 
 		public ICommand? InvertContentPageSelctionCommand { get; set; }
@@ -788,8 +786,6 @@ namespace Files.App.ViewModels
 		public ICommand? OpenNewPaneCommand { get; set; }
 
 		public ICommand? ClosePaneCommand { get; set; }
-
-		public ICommand? OpenDirectoryInDefaultTerminalCommand { get; set; }
 
 		public ICommand? CreateNewFileCommand { get; set; }
 
@@ -959,17 +955,6 @@ namespace Files.App.ViewModels
 									|| shellPage.CurrentPageType == typeof(WidgetsPage)
 								? CommonPaths.HomePath
 								: shellPage.FilesystemViewModel.WorkingDirectory;
-
-							// Launch terminal application if possible
-							foreach (var terminal in App.TerminalController.Model.Terminals)
-							{
-								if (terminal.Path.Equals(currentInput, StringComparison.OrdinalIgnoreCase)
-									|| terminal.Path.Equals(currentInput + ".exe", StringComparison.OrdinalIgnoreCase) || terminal.Name.Equals(currentInput, StringComparison.OrdinalIgnoreCase))
-								{
-									await LaunchHelper.LaunchAppAsync(terminal.Path, string.Format(terminal.Arguments, workingDir), workingDir);
-									return;
-								}
-							}
 
 							if (await LaunchApplicationFromPath(currentInput, workingDir))
 								return;
@@ -1155,18 +1140,11 @@ namespace Files.App.ViewModels
 		public bool IsFont => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
 
 		public string ExtractToText => IsSelectionArchivesOnly ? SelectedItems.Count > 1 ? string.Format("ExtractToChildFolder".GetLocalizedResource(), $"*{Path.DirectorySeparatorChar}") : string.Format("ExtractToChildFolder".GetLocalizedResource() + "\\", Path.GetFileNameWithoutExtension(selectedItems.First().Name)) : "ExtractToChildFolder".GetLocalizedResource();
-		public string OpenInTerminal => $"{"OpenIn".GetLocalizedResource()} {App.TerminalController.Model.GetDefaultTerminal()?.Name}";
-
-		private void OnTerminalsChanged(object _)
-		{
-			dispatcherQueue.EnqueueAsync(() => OnPropertyChanged(nameof(OpenInTerminal)));
-		}
 
 		public void Dispose()
 		{
 			SearchBox.Escaped -= SearchRegion_Escaped;
 			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
-			App.TerminalController.ModelChanged -= OnTerminalsChanged;
 
 			InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
 			InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;

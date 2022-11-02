@@ -29,7 +29,7 @@ namespace Files.App.ServicesImplementation.Settings
 
 		public double TagColumnWidth
 		{
-			get => Get(200d);
+			get => Get(140d);
 			set
 			{
 				if (ShowFileTagColumn)
@@ -39,7 +39,7 @@ namespace Files.App.ServicesImplementation.Settings
 
 		public double NameColumnWidth
 		{
-			get => Get(200d);
+			get => Get(240d);
 			set => Set(value);
 		}
 
@@ -55,7 +55,7 @@ namespace Files.App.ServicesImplementation.Settings
 
 		public double TypeColumnWidth
 		{
-			get => Get(200d);
+			get => Get(140d);
 			set
 			{
 				if (ShowTypeColumn)
@@ -75,7 +75,7 @@ namespace Files.App.ServicesImplementation.Settings
 
 		public double SizeColumnWidth
 		{
-			get => Get(200d);
+			get => Get(140d);
 			set
 			{
 				if (ShowSizeColumn)

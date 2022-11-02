@@ -144,20 +144,5 @@ namespace Files.App.Helpers
 				}
 			}
 		}
-
-		private static async Task CopyDirectory(BaseStorageFolder source, BaseStorageFolder destination)
-		{
-			foreach (var file in await source.GetFilesAsync())
-			{
-				await file.CopyAsync(destination);
-			}
-			foreach (var folder in await destination.GetFoldersAsync())
-			{
-				string subDirectoryPath = Path.Combine(destination.Path, folder.Name);
-				NativeFileOperationsHelper.CreateDirectoryFromApp(subDirectoryPath, IntPtr.Zero);
-				BaseStorageFolder subDirectory = await StorageHelpers.ToStorageItem<BaseStorageFolder>(subDirectoryPath);
-				await CopyDirectory(folder, subDirectory);
-			}
-		}
 	}
 }
