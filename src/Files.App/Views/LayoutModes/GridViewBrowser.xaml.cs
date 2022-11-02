@@ -350,8 +350,8 @@ namespace Files.App.Views.LayoutModes
 			}
 			else if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
 			{
-				Popup popup = gridViewItem.FindDescendant("EditPopup") as Popup;
-				popup.IsOpen = false;
+				Popup? popup = gridViewItem.FindDescendant("EditPopup") as Popup;
+				popup!.IsOpen = false;
 			}
 			else if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
 			{
