@@ -70,7 +70,7 @@ namespace Files.App.ViewModels
 
 		// only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
 		public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
-		private string folderTypeTextLocalized = "FileFolderListItem".GetLocalizedResource();
+		private string folderTypeTextLocalized = "Folder".GetLocalizedResource();
 		private FolderSettingsViewModel folderSettings = null;
 		private DispatcherQueue dispatcherQueue;
 
@@ -1365,7 +1365,7 @@ namespace Files.App.ViewModels
 						   path.StartsWith(CommonPaths.NetworkFolderPath, StringComparison.Ordinal) ? "Network".GetLocalizedResource() : isFtp ? "FTP" : "Unknown",
 				ItemDateModifiedReal = DateTimeOffset.Now, // Fake for now
 				ItemDateCreatedReal = DateTimeOffset.Now, // Fake for now
-				ItemType = "FileFolderListItem".GetLocalizedResource(),
+				ItemType = "Folder".GetLocalizedResource(),
 				FileImage = null,
 				LoadFileIcon = false,
 				ItemPath = path,
