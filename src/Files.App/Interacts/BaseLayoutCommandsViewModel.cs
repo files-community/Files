@@ -57,7 +57,6 @@ namespace Files.App.Interacts
 			CreateNewFileCommand = new RelayCommand<ShellNewEntry>(CommandsModel.CreateNewFile);
 			PasteItemsFromClipboardCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.PasteItemsFromClipboard);
 			CopyPathOfSelectedItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.CopyPathOfSelectedItem);
-			OpenDirectoryInDefaultTerminalCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenDirectoryInDefaultTerminal);
 			ShareItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.ShareItem);
 			PinDirectoryToFavoritesCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.PinDirectoryToFavorites);
 			ItemPointerPressedCommand = new RelayCommand<PointerRoutedEventArgs>(CommandsModel.ItemPointerPressed);
@@ -146,8 +145,6 @@ namespace Files.App.Interacts
 		public ICommand PasteItemsFromClipboardCommand { get; private set; }
 
 		public ICommand CopyPathOfSelectedItemCommand { get; private set; }
-
-		public ICommand OpenDirectoryInDefaultTerminalCommand { get; private set; }
 
 		public ICommand ShareItemCommand { get; private set; }
 

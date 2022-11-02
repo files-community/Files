@@ -1,16 +1,16 @@
-using Files.Shared.Enums;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Files.Shared.Enums;
 
 namespace Files.App.ViewModels
 {
 	public class CurrentInstanceViewModel : ObservableObject
 	{
 		/*
-         * TODO:
-         * In the future, we should consolidate these public variables into
-         * a single enum property providing simplified customization of the
-         * values being manipulated inside the setter blocks.
-         */
+		 * TODO:
+		 * In the future, we should consolidate these public variables into
+		 * a single enum property providing simplified customization of the
+		 * values being manipulated inside the setter blocks.
+		 */
 
 		public FolderSettingsViewModel FolderSettings { get; }
 
@@ -35,7 +35,6 @@ namespace Files.App.ViewModels
 				OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
 				OnPropertyChanged(nameof(CanCreateFileInPage));
 				OnPropertyChanged(nameof(CanPasteInPage));
-				OnPropertyChanged(nameof(CanOpenTerminalInPage));
 				OnPropertyChanged(nameof(CanCopyPathInPage));
 				OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
 				OnPropertyChanged(nameof(CanShareInPage));
@@ -81,7 +80,6 @@ namespace Files.App.ViewModels
 				OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
 				OnPropertyChanged(nameof(CanCreateFileInPage));
 				OnPropertyChanged(nameof(CanPasteInPage));
-				OnPropertyChanged(nameof(CanOpenTerminalInPage));
 				OnPropertyChanged(nameof(CanCopyPathInPage));
 				OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
 				OnPropertyChanged(nameof(CanShareInPage));
@@ -100,7 +98,6 @@ namespace Files.App.ViewModels
 				OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
 				OnPropertyChanged(nameof(CanCreateFileInPage));
 				OnPropertyChanged(nameof(CanPasteInPage));
-				OnPropertyChanged(nameof(CanOpenTerminalInPage));
 				OnPropertyChanged(nameof(CanCopyPathInPage));
 				OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
 				OnPropertyChanged(nameof(CanShareInPage));
@@ -119,7 +116,6 @@ namespace Files.App.ViewModels
 				OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
 				OnPropertyChanged(nameof(CanCreateFileInPage));
 				OnPropertyChanged(nameof(CanPasteInPage));
-				OnPropertyChanged(nameof(CanOpenTerminalInPage));
 				OnPropertyChanged(nameof(CanCopyPathInPage));
 				OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
 				OnPropertyChanged(nameof(CanShareInPage));
@@ -138,7 +134,6 @@ namespace Files.App.ViewModels
 				OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
 				OnPropertyChanged(nameof(CanCreateFileInPage));
 				OnPropertyChanged(nameof(CanPasteInPage));
-				OnPropertyChanged(nameof(CanOpenTerminalInPage));
 				OnPropertyChanged(nameof(CanCopyPathInPage));
 				OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
 				OnPropertyChanged(nameof(CanShareInPage));
@@ -157,7 +152,6 @@ namespace Files.App.ViewModels
 				OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
 				OnPropertyChanged(nameof(CanCreateFileInPage));
 				OnPropertyChanged(nameof(CanPasteInPage));
-				OnPropertyChanged(nameof(CanOpenTerminalInPage));
 				OnPropertyChanged(nameof(CanCopyPathInPage));
 				OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
 				OnPropertyChanged(nameof(CanShareInPage));
@@ -176,7 +170,6 @@ namespace Files.App.ViewModels
 				OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
 				OnPropertyChanged(nameof(CanCreateFileInPage));
 				OnPropertyChanged(nameof(CanPasteInPage));
-				OnPropertyChanged(nameof(CanOpenTerminalInPage));
 				OnPropertyChanged(nameof(CanCopyPathInPage));
 				OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
 				OnPropertyChanged(nameof(CanShareInPage));
@@ -195,7 +188,6 @@ namespace Files.App.ViewModels
 				OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
 				OnPropertyChanged(nameof(CanCreateFileInPage));
 				OnPropertyChanged(nameof(CanPasteInPage));
-				OnPropertyChanged(nameof(CanOpenTerminalInPage));
 				OnPropertyChanged(nameof(CanCopyPathInPage));
 				OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
 				OnPropertyChanged(nameof(CanShareInPage));
@@ -214,11 +206,6 @@ namespace Files.App.ViewModels
 		}
 
 		public bool CanCreateFileInPage
-		{
-			get => !isPageTypeMtpDevice && !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeSearchResults && !isPageTypeFtp && !isPageTypeZipFolder;
-		}
-
-		public bool CanOpenTerminalInPage
 		{
 			get => !isPageTypeMtpDevice && !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeSearchResults && !isPageTypeFtp && !isPageTypeZipFolder;
 		}
