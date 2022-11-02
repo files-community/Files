@@ -147,23 +147,5 @@ namespace Files.App.Helpers
 			}
 			catch { }
 		}
-
-		private Task RefreshAsync()
-		{
-			if (instance is not null)
-			{
-				// Clear all items to avoid localization issues
-				instance.Items.Clear();
-
-				foreach (string path in JumpListItemPaths)
-				{
-					AddFolder(path);
-				}
-
-				return instance.SaveAsync().AsTask();
-			}
-
-			return Task.CompletedTask;
-		}
 	}
 }

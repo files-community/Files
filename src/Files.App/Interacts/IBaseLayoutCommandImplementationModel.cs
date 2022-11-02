@@ -70,8 +70,6 @@ namespace Files.App.Interacts
 
 		void CopyPathOfSelectedItem(RoutedEventArgs e);
 
-		void OpenDirectoryInDefaultTerminal(RoutedEventArgs e);
-
 		void ShareItem(RoutedEventArgs e);
 
 		void PinDirectoryToFavorites(RoutedEventArgs e);
