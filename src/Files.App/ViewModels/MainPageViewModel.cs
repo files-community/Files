@@ -49,6 +49,8 @@ namespace Files.App.ViewModels
 			set => SetProperty(ref isWindowCompactOverlay, value);
 		}
 
+		private bool canCreateNewTabThroughAccelerator = true;
+
 		public ICommand NavigateToNumberedTabKeyboardAcceleratorCommand { get; private set; }
 
 		public ICommand OpenNewWindowAcceleratorCommand { get; private set; }
@@ -165,7 +167,12 @@ namespace Files.App.ViewModels
 
 		private async void AddNewInstanceAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
 		{
-			await AddNewTabAsync();
+			if (canCreateNewTabThroughAccelerator)
+			{
+				canCreateNewTabThroughAccelerator = false;
+				await AddNewTabAsync();
+				canCreateNewTabThroughAccelerator = true;
+			}
 			e!.Handled = true;
 		}
 
