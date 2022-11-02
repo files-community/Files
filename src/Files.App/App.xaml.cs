@@ -158,6 +158,8 @@ namespace Files.App
 			WSLDistroManager ??= new WSLDistroManager();
 			FileTagsManager ??= new FileTagsManager();
 			SidebarPinnedController ??= new SidebarPinnedController();
+
+			FileOperationsHelpers.Init();
 		}
 
 		private static async Task StartAppCenter()

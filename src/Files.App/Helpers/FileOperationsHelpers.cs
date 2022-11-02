@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.IO;
 using System.IO.Pipes;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Text;
 using System.Text.Json;
@@ -29,7 +30,13 @@ namespace Files.App.Helpers
 {
 	public class FileOperationsHelpers
 	{
-		private static readonly ProgressHandler progressHandler = new();
+		private static ProgressHandler progressHandler;
+
+		public static void Init()
+		{
+			// Dummy method used to force initialization of static variables.
+			progressHandler = new ProgressHandler();
+		}
 
 		public static Task SetClipboard(string[] filesToCopy, DataPackageOperation operation)
 		{
@@ -793,7 +800,7 @@ namespace Files.App.Helpers
 		public static void WaitForCompletion()
 			=> progressHandler.WaitForCompletion();
 
-		private class ProgressHandler : IDisposable
+		private class ProgressHandler : Disposable
 		{
 			private readonly ManualResetEvent operationsCompletedEvent;
 
@@ -887,9 +894,13 @@ namespace Files.App.Helpers
 				operationsCompletedEvent.WaitOne();
 			}
 
-			public void Dispose()
+			protected override void Dispose(bool disposing)
 			{
-				operationsCompletedEvent?.Dispose();
+				if (disposing)
+				{
+					operationsCompletedEvent?.Dispose();
+					Marshal.ReleaseComObject(taskbar);
+				}
 			}
 		}
 	}
