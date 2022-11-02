@@ -217,11 +217,11 @@ namespace Files.App.Shell
 
 		private static readonly ConcurrentDictionary<string, ConcurrentDictionary<int, IconAndOverlayCacheEntry>> _iconAndOverlayCache = new();
 
-        private static readonly object _lock = new object();
-        public static (byte[]? icon, byte[]? overlay) GetFileIconAndOverlay(string path, int thumbnailSize, bool isFolder, bool getOverlay = true, bool onlyGetOverlay = false)
-        {
-            byte[]? iconData = null, overlayData = null;
-            var entry = _iconAndOverlayCache.GetOrAdd(path, _ => new());
+		private static readonly object _lock = new object();
+		public static (byte[]? icon, byte[]? overlay) GetFileIconAndOverlay(string path, int thumbnailSize, bool isFolder, bool getOverlay = true, bool onlyGetOverlay = false)
+		{
+			byte[]? iconData = null, overlayData = null;
+			var entry = _iconAndOverlayCache.GetOrAdd(path, _ => new());
 
 			if (entry.TryGetValue(thumbnailSize, out var cacheEntry))
 			{
@@ -269,80 +269,80 @@ namespace Files.App.Shell
 
 					User32.DestroyIcon(shfi.hIcon);
 
-                    var imageListSize = thumbnailSize switch
-                    {
-                        <= 16 => Shell32.SHIL.SHIL_SMALL,
-                        <= 32 => Shell32.SHIL.SHIL_LARGE,
-                        <= 48 => Shell32.SHIL.SHIL_EXTRALARGE,
-                        _ => Shell32.SHIL.SHIL_JUMBO,
-                    };
-                    lock (_lock)
-                    {
-                        if (!Shell32.SHGetImageList(imageListSize, typeof(ComCtl32.IImageList).GUID, out var imageListOut).Succeeded)
-                            return (iconData, null);
+					var imageListSize = thumbnailSize switch
+					{
+						<= 16 => Shell32.SHIL.SHIL_SMALL,
+						<= 32 => Shell32.SHIL.SHIL_LARGE,
+						<= 48 => Shell32.SHIL.SHIL_EXTRALARGE,
+						_ => Shell32.SHIL.SHIL_JUMBO,
+					};
+					lock (_lock)
+					{
+						if (!Shell32.SHGetImageList(imageListSize, typeof(ComCtl32.IImageList).GUID, out var imageListOut).Succeeded)
+							return (iconData, null);
 
-                        var imageList = (ComCtl32.IImageList)imageListOut;
+						var imageList = (ComCtl32.IImageList)imageListOut;
 
-                        if (!onlyGetOverlay && iconData is null)
-                        {
-                            var iconIdx = shfi.iIcon & 0xFFFFFF;
-                            if (iconIdx != 0)
-                            {
-                                // Could not fetch thumbnail, load simple icon
-                                using var hIcon = imageList.GetIcon(iconIdx, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
-                                if (!hIcon.IsNull && !hIcon.IsInvalid)
-                                {
-                                    using (var icon = hIcon.ToIcon())
-                                    using (var image = icon.ToBitmap())
-                                    {
-                                        iconData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
-                                    }
-                                }
-                            }
-                            else if (isFolder)
-                            {
-                                // Could not icon, load generic icon
-                                var icons = ExtractSelectedIconsFromDLL(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "imageres.dll"), new[] { 2 }, thumbnailSize);
-                                var generic = icons.SingleOrDefault(x => x.Index == 2);
-                                iconData = generic?.IconData;
-                            }
-                            else
-                            {
-                                // Could not icon, load generic icon
-                                var icons = ExtractSelectedIconsFromDLL(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "shell32.dll"), new[] { 1 }, thumbnailSize);
-                                var generic = icons.SingleOrDefault(x => x.Index == 1);
-                                iconData = generic?.IconData;
-                            }
-                        }
+						if (!onlyGetOverlay && iconData is null)
+						{
+							var iconIdx = shfi.iIcon & 0xFFFFFF;
+							if (iconIdx != 0)
+							{
+								// Could not fetch thumbnail, load simple icon
+								using var hIcon = imageList.GetIcon(iconIdx, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
+								if (!hIcon.IsNull && !hIcon.IsInvalid)
+								{
+									using (var icon = hIcon.ToIcon())
+									using (var image = icon.ToBitmap())
+									{
+										iconData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
+									}
+								}
+							}
+							else if (isFolder)
+							{
+								// Could not icon, load generic icon
+								var icons = ExtractSelectedIconsFromDLL(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "imageres.dll"), new[] { 2 }, thumbnailSize);
+								var generic = icons.SingleOrDefault(x => x.Index == 2);
+								iconData = generic?.IconData;
+							}
+							else
+							{
+								// Could not icon, load generic icon
+								var icons = ExtractSelectedIconsFromDLL(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "shell32.dll"), new[] { 1 }, thumbnailSize);
+								var generic = icons.SingleOrDefault(x => x.Index == 1);
+								iconData = generic?.IconData;
+							}
+						}
 
-                        var overlayIdx = shfi.iIcon >> 24;
-                        if (overlayIdx != 0 && getOverlay)
-                        {
-                            var overlayImage = imageList.GetOverlayImage(overlayIdx);
-                            using var hOverlay = imageList.GetIcon(overlayImage, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
-                            if (!hOverlay.IsNull && !hOverlay.IsInvalid)
-                            {
-                                using var icon = hOverlay.ToIcon();
-                                using var image = icon.ToBitmap();
+						var overlayIdx = shfi.iIcon >> 24;
+						if (overlayIdx != 0 && getOverlay)
+						{
+							var overlayImage = imageList.GetOverlayImage(overlayIdx);
+							using var hOverlay = imageList.GetIcon(overlayImage, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
+							if (!hOverlay.IsNull && !hOverlay.IsInvalid)
+							{
+								using var icon = hOverlay.ToIcon();
+								using var image = icon.ToBitmap();
 
-                                overlayData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
-                            }
-                        }
+								overlayData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
+							}
+						}
 
-                        Marshal.ReleaseComObject(imageList);
-                    }
-                    return (iconData, overlayData);
-                }
-                else
-                {
-                    return (iconData, null);
-                }
-            }
-            finally
-            {
-                cacheEntry = new IconAndOverlayCacheEntry();
-                if (iconData is not null)
-                    cacheEntry.Icon = iconData;
+						Marshal.ReleaseComObject(imageList);
+					}
+					return (iconData, overlayData);
+				}
+				else
+				{
+					return (iconData, null);
+				}
+			}
+			finally
+			{
+				cacheEntry = new IconAndOverlayCacheEntry();
+				if (iconData is not null)
+					cacheEntry.Icon = iconData;
 
 				if (overlayData is not null)
 					cacheEntry.Overlay = overlayData;
