@@ -257,8 +257,6 @@ namespace Files.App
 			{
 				ShowErrorNotification = true;
 				ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = -Process.GetCurrentProcess().Id;
-				if (AppModel is not null)
-					AppModel.Clipboard_ContentChanged(null, null);
 			}
 		}
 
