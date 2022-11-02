@@ -99,6 +99,8 @@
     <ProjectReference Include="..\BackgroundTasks\BackgroundTasks.csproj" />
     <ProjectReference Include="..\Files.App.Storage\Files.App.Storage.csproj" />
     <ProjectReference Include="..\Files.Backend\Files.Backend.csproj" />
+    <ProjectReference Include="..\Files.OpenDialog\CustomOpenDialog\CustomOpenDialog.vcxproj" />
+    <ProjectReference Include="..\Files.OpenDialog\FilesLauncher\FilesLauncher.vcxproj" />
     <ProjectReference Include="..\Files.Sdk.Storage\Files.Sdk.Storage.csproj" />
     <ProjectReference Include="..\Files.Shared\Files.Shared.csproj" />
   </ItemGroup>
