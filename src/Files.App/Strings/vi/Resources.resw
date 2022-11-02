@@ -816,12 +816,6 @@
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Ngôn ngữ</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>Ứng dụng Terminal</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>Chỉnh sửa ứng dụng terminal</value>
-  </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Di chuyển những mục chảy ra vào một thực đơn con</value>
   </data>
@@ -2426,9 +2420,6 @@
   </data>
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Hiển thị phần WSL trong thanh bên</value>
-  </data>
-  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Ứng dụng Terminal</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Công việc đang thực hiện</value>

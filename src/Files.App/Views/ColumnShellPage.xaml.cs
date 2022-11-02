@@ -242,7 +242,7 @@ namespace Files.App.Views
 					{
 						path = SlimContentPage.SelectedItem.ItemPath;
 					}
-					await NavigationHelpers.OpenDirectoryInTerminal(path);
+					// TODO open path in Windows Terminal
 					args.Handled = true;
 					break;
 
@@ -279,7 +279,6 @@ namespace Files.App.Views
 			ToolbarViewModel.OpenNewWindowCommand = new RelayCommand(NavigationHelpers.LaunchNewWindow);
 			ToolbarViewModel.OpenNewPaneCommand = new RelayCommand(() => PaneHolder?.OpenPathInNewPane("Home".GetLocalizedResource()));
 			ToolbarViewModel.ClosePaneCommand = new RelayCommand(() => PaneHolder?.CloseActivePane());
-			ToolbarViewModel.OpenDirectoryInDefaultTerminalCommand = new RelayCommand(async () => await NavigationHelpers.OpenDirectoryInTerminal(this.FilesystemViewModel.WorkingDirectory));
 			ToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.File, x, this));
 			ToolbarViewModel.CreateNewFolderCommand = new RelayCommand(() => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.Folder, null, this));
 			ToolbarViewModel.CopyCommand = new RelayCommand(async () => await UIFilesystemHelpers.CopyItem(this));
@@ -398,6 +397,8 @@ namespace Files.App.Views
 		{
 			base.OnNavigatedTo(eventArgs);
 			ColumnParams = eventArgs.Parameter as ColumnParam;
+			if (ColumnParams?.IsLayoutSwitch ?? false)
+				FilesystemViewModel_DirectoryInfoUpdated(this, EventArgs.Empty);
 		}
 
 		private void AppSettings_SortDirectionPreferenceUpdated(object sender, SortDirection e)

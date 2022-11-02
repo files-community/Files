@@ -816,12 +816,6 @@
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>言語</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>ターミナル アプリケーション</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>ターミナル アプリケーションの編集</value>
-  </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>オーバーフロー項目をサブメニューに移動</value>
   </data>
@@ -2427,9 +2421,6 @@
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>WSL セクションを表示</value>
   </data>
-  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>ターミナル アプリケーション</value>
-  </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>進行中のタスク</value>
   </data>
@@ -2854,15 +2845,15 @@
     <value>参照先の項目 {0} が見つかりません。このショートカットを削除しますか?</value>
   </data>
   <data name="LoadingThemes" xml:space="preserve">
-    <value>Loading Themes</value>
+    <value>テーマを読み込んでいます</value>
   </data>
   <data name="EmptyingRecycleBin" xml:space="preserve">
-    <value>Emptying recycle bin</value>
+    <value>ゴミ箱を空にしています</value>
   </data>
   <data name="BinEmptyingSucceded" xml:space="preserve">
-    <value>Successfully emptied recycle bin</value>
+    <value>ゴミ箱を正常に空にしました</value>
   </data>
   <data name="BinEmptyingFailed" xml:space="preserve">
-    <value>Failed to empty recycle bin</value>
+    <value>ゴミ箱を空にするのに失敗しました</value>
   </data>
 </root>

@@ -513,12 +513,6 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = $"{"OpenIn".GetLocalizedResource()} {App.TerminalController.Model.GetDefaultTerminal()?.Name}",
-					Glyph = "\uE756",
-					Command = commandsViewModel.OpenDirectoryInDefaultTerminalCommand,
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
 					ItemType = ItemType.Separator,
 					ShowInFtpPage = true,
 					ShowInZipPage = true,

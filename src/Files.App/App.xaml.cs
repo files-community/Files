@@ -59,7 +59,6 @@ namespace Files.App
 		public static JumpListManager JumpList { get; private set; }
 		public static RecentItems RecentItemsManager { get; private set; }
 		public static SidebarPinnedController SidebarPinnedController { get; private set; }
-		public static TerminalController TerminalController { get; private set; }
 		public static CloudDrivesManager CloudDrivesManager { get; private set; }
 		public static NetworkDrivesManager NetworkDrivesManager { get; private set; }
 		public static DrivesManager DrivesManager { get; private set; }
@@ -159,7 +158,6 @@ namespace Files.App
 			WSLDistroManager ??= new WSLDistroManager();
 			FileTagsManager ??= new FileTagsManager();
 			SidebarPinnedController ??= new SidebarPinnedController();
-			TerminalController ??= new TerminalController();
 		}
 
 		private static async Task StartAppCenter()
@@ -200,7 +198,6 @@ namespace Files.App
 					SidebarPinnedController.InitializeAsync()
 				);
 				await Task.WhenAll(
-					TerminalController.InitializeAsync(),
 					JumpList.InitializeAsync(),
 					ContextFlyoutItemHelper.CachedNewContextMenuEntries
 				);

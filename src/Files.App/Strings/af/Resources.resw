@@ -816,12 +816,6 @@
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Taal</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>Terminaaltoepassings</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>Redigeer terminaaltoepassings</value>
-  </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Skuif oorloopitems in 'n subkieslys</value>
   </data>
@@ -2427,9 +2421,6 @@
   </data>
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Wys WSL-afdeling</value>
-  </data>
-  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Terminaaltoepassing</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Deurlopende Take</value>
