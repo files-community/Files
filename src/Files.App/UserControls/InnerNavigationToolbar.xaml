@@ -907,17 +907,6 @@
 							Modifiers="Menu,Control" />
 					</AppBarButton.KeyboardAccelerators>
 				</AppBarButton>
-				<AppBarSeparator x:Name="SeparatorBar" x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
-				<AppBarButton
-					x:Name="OpenInTerminalButton"
-					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
-					Command="{x:Bind ViewModel.OpenDirectoryInDefaultTerminalCommand, Mode=OneWay}"
-					IsEnabled="{x:Bind ViewModel.InstanceViewModel.CanOpenTerminalInPage, Mode=OneWay}"
-					Label="{x:Bind ViewModel.OpenInTerminal, Mode=OneWay}">
-					<AppBarButton.Icon>
-						<FontIcon Glyph="&#xE756;" />
-					</AppBarButton.Icon>
-				</AppBarButton>
 			</CommandBar.SecondaryCommands>
 		</CommandBar>
 	</Grid>

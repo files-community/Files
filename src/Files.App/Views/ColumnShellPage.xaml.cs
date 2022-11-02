@@ -242,7 +242,7 @@ namespace Files.App.Views
 					{
 						path = SlimContentPage.SelectedItem.ItemPath;
 					}
-					await NavigationHelpers.OpenDirectoryInTerminal(path);
+					// TODO open path in Windows Terminal
 					args.Handled = true;
 					break;
 
@@ -279,7 +279,6 @@ namespace Files.App.Views
 			ToolbarViewModel.OpenNewWindowCommand = new RelayCommand(NavigationHelpers.LaunchNewWindow);
 			ToolbarViewModel.OpenNewPaneCommand = new RelayCommand(() => PaneHolder?.OpenPathInNewPane("Home".GetLocalizedResource()));
 			ToolbarViewModel.ClosePaneCommand = new RelayCommand(() => PaneHolder?.CloseActivePane());
-			ToolbarViewModel.OpenDirectoryInDefaultTerminalCommand = new RelayCommand(async () => await NavigationHelpers.OpenDirectoryInTerminal(this.FilesystemViewModel.WorkingDirectory));
 			ToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.File, x, this));
 			ToolbarViewModel.CreateNewFolderCommand = new RelayCommand(() => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.Folder, null, this));
 			ToolbarViewModel.CopyCommand = new RelayCommand(async () => await UIFilesystemHelpers.CopyItem(this));
@@ -460,30 +459,13 @@ namespace Files.App.Views
 				: FilesystemViewModel.WorkingDirectory;
 		}
 
-		private void ColumnShellPage_BackRequested(object sender, BackRequestedEventArgs e)
-		{
-			if (IsCurrentInstance)
-			{
-				var browser = this.FindAscendant<ColumnViewBrowser>();
-				if (browser.ParentShellPageInstance.CanNavigateBackward)
-				{
-					e.Handled = true;
-					Back_Click();
-				}
-				else
-				{
-					e.Handled = false;
-				}
-			}
-		}
-
-		private void DrivesManager_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-		{
-			if (e.PropertyName == "ShowUserConsentOnInit")
-			{
-				DisplayFilesystemConsentDialog();
-			}
-		}
+        private void DrivesManager_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "ShowUserConsentOnInit")
+            {
+                DisplayFilesystemConsentDialog();
+            }
+        }
 
 		private async Task<BaseLayout> GetContentOrNullAsync()
 		{

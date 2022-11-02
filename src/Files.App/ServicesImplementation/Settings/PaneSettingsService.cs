@@ -51,21 +51,7 @@ namespace Files.App.ServicesImplementation.Settings
 				Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
 			}
 
-			base.RaiseOnSettingChangedEvent(sender, e);
-		}
-
-		private void RaiseOnSettingChangedEvent(string propertyName, object newValue)
-		{
-			string settingName = propertyName switch
-			{
-				nameof(Content) => Constants.PaneContent.ContentKey,
-				nameof(HorizontalSizePx) => Constants.PaneContent.HorizontalSizePxKey,
-				nameof(VerticalSizePx) => Constants.PaneContent.VerticalSizePxKey,
-				nameof(MediaVolume) => Constants.PaneContent.MediaVolumeKey,
-				nameof(ShowPreviewOnly) => Constants.PaneContent.ShowPreviewOnlyKey,
-				_ => throw new InvalidOperationException(),
-			};
-			base.RaiseOnSettingChangedEvent(this, new SettingChangedEventArgs(settingName, newValue));
-		}
-	}
+            base.RaiseOnSettingChangedEvent(sender, e);
+        }
+    }
 }

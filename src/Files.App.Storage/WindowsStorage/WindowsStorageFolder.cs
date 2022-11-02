@@ -150,30 +150,18 @@ namespace Files.App.Storage.WindowsStorage
 			};
 		}
 
-		private static Windows.Storage.NameCollisionOption GetWindowsNameCollisionOption(
-			NameCollisionOption options)
-		{
-			return options switch
-			{
-				NameCollisionOption.GenerateUniqueName => Windows.Storage.NameCollisionOption.GenerateUniqueName,
-				NameCollisionOption.ReplaceExisting => Windows.Storage.NameCollisionOption.ReplaceExisting,
-				NameCollisionOption.FailIfExists => Windows.Storage.NameCollisionOption.FailIfExists,
-				_ => throw new ArgumentOutOfRangeException(nameof(options))
-			};
-		}
-
-		private static Windows.Storage.CreationCollisionOption GetWindowsCreationCollisionOption(
-			CreationCollisionOption options)
-		{
-			return options switch
-			{
-				CreationCollisionOption.GenerateUniqueName => Windows.Storage.CreationCollisionOption.GenerateUniqueName,
-				CreationCollisionOption.ReplaceExisting => Windows.Storage.CreationCollisionOption.ReplaceExisting,
-				CreationCollisionOption.OpenIfExists => Windows.Storage.CreationCollisionOption.OpenIfExists,
-				CreationCollisionOption.FailIfExists => Windows.Storage.CreationCollisionOption.FailIfExists,
-				_ => throw new ArgumentOutOfRangeException(nameof(options))
-			};
-		}
+        private static Windows.Storage.CreationCollisionOption GetWindowsCreationCollisionOption(
+            CreationCollisionOption options)
+        {
+            return options switch
+            {
+                CreationCollisionOption.GenerateUniqueName => Windows.Storage.CreationCollisionOption.GenerateUniqueName,
+                CreationCollisionOption.ReplaceExisting => Windows.Storage.CreationCollisionOption.ReplaceExisting,
+                CreationCollisionOption.OpenIfExists => Windows.Storage.CreationCollisionOption.OpenIfExists,
+                CreationCollisionOption.FailIfExists => Windows.Storage.CreationCollisionOption.FailIfExists,
+                _ => throw new ArgumentOutOfRangeException(nameof(options))
+            };
+        }
 
 		/// <inheritdoc/>
 		public override async Task<ILocatableFolder?> GetParentAsync(CancellationToken cancellationToken = default)
