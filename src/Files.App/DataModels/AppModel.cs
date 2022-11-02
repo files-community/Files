@@ -27,8 +27,6 @@ namespace Files.App.DataModels
 		{
 			try
 			{
-				// Clipboard.GetContent() will throw UnauthorizedAccessException
-				// if the app window is not in the foreground and active
 				DataPackageView packageView = Clipboard.GetContent();
 				if (packageView.Contains(StandardDataFormats.StorageItems) || packageView.Contains(StandardDataFormats.Bitmap))
 				{
