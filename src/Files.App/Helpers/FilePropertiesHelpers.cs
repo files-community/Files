@@ -127,7 +127,7 @@ namespace Files.App.Helpers
 		private static string GetFilesLogoPath()
 		{
 			var appTilesPath = Path.Combine(Package.Current.InstalledLocation.Path, "Assets/AppTiles");
-			return GetLogoPaths(appTilesPath).FirstOrDefault(path => Directory.Exists(path))
+			return GetLogoPaths(appTilesPath).FirstOrDefault(path => File.Exists(path))
 				?? throw new InvalidOperationException("Cannot find Logo.ico from Assets/AppTiles.");
 
 			static IEnumerable<string> GetLogoPaths(string appTilesPath)
