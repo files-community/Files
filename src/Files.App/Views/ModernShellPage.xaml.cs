@@ -648,6 +648,8 @@ namespace Files.App.Views
 				InitialPageType = typeof(ModernShellPage),
 				NavigationArg = parameters.IsSearchResultPage && !isTagSearch ? parameters.SearchPathParam : parameters.NavPathParam
 			};
+			if (parameters.IsLayoutSwitch)
+				FilesystemViewModel_DirectoryInfoUpdated(sender, EventArgs.Empty);
 		}
 
 		private async void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
