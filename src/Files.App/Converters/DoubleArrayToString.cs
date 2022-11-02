@@ -10,18 +10,18 @@ namespace Files.App.Converters
 		{
 			var array = value as double[];
 
-            if (array is null)
-                return string.Empty;
+			if (array is null)
+				return string.Empty;
 
-            var str = new StringBuilder();
+			var str = new StringBuilder();
 
-            foreach (var i in array)
-            {
-                str.Append(string.Format("{0}; ", i));
-            }
+			foreach (var i in array)
+			{
+				str.Append(string.Format("{0}; ", i));
+			}
 
-            return str.ToString();
-        }
+			return str.ToString();
+		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, string language)
 		{

@@ -34,16 +34,16 @@ namespace Files.App.Dialogs
 			UpdateDialogLayout();
 		}
 
-        private void UpdateDialogLayout()
-        {
-            ContainerGrid.Height = App.Window.Bounds.Height <= 710 ? App.Window.Bounds.Height - 70 : 640;
-            ContainerGrid.Width = App.Window.Bounds.Width <= 800 ? App.Window.Bounds.Width : 800;
-        }
+		private void UpdateDialogLayout()
+		{
+			ContainerGrid.Height = App.Window.Bounds.Height <= 710 ? App.Window.Bounds.Height - 70 : 640;
+			ContainerGrid.Width = App.Window.Bounds.Width <= 800 ? App.Window.Bounds.Width : 800;
+		}
 
-        private void SettingsPane_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
-        {
-            var selectedItem = (NavigationViewItem)args.SelectedItem;
-            int selectedItemTag = Convert.ToInt32(selectedItem.Tag);
+		private void SettingsPane_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+		{
+			var selectedItem = (NavigationViewItem)args.SelectedItem;
+			int selectedItemTag = Convert.ToInt32(selectedItem.Tag);
 
 			_ = selectedItemTag switch
 			{

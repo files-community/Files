@@ -57,23 +57,23 @@ namespace Files.App.Views
 
 		private IUpdateService UpdateSettingsService { get; } = Ioc.Default.GetRequiredService<IUpdateService>();
 
-        private bool isCurrentInstance = false;
-        public bool IsCurrentInstance
-        {
-            get => isCurrentInstance;
-            set
-            {
-                if (isCurrentInstance != value)
-                {
-                    isCurrentInstance = value;
-                    if (isCurrentInstance)
-                        ContentPage?.ItemManipulationModel.FocusFileList();
-                    else
-                        ToolbarViewModel.IsEditModeEnabled = false;
-                    NotifyPropertyChanged(nameof(IsCurrentInstance));
-                }
-            }
-        }
+		private bool isCurrentInstance = false;
+		public bool IsCurrentInstance
+		{
+			get => isCurrentInstance;
+			set
+			{
+				if (isCurrentInstance != value)
+				{
+					isCurrentInstance = value;
+					if (isCurrentInstance)
+						ContentPage?.ItemManipulationModel.FocusFileList();
+					else
+						ToolbarViewModel.IsEditModeEnabled = false;
+					NotifyPropertyChanged(nameof(IsCurrentInstance));
+				}
+			}
+		}
 
 		public bool IsColumnView => SlimContentPage is ColumnViewBrowser;
 
@@ -81,19 +81,19 @@ namespace Files.App.Views
 		public CurrentInstanceViewModel InstanceViewModel { get; }
 		private BaseLayout contentPage = null;
 
-        public BaseLayout ContentPage
-        {
-            get => contentPage;
-            set
-            {
-                if (value != contentPage)
-                {
-                    contentPage = value;
-                    NotifyPropertyChanged(nameof(ContentPage));
-                    NotifyPropertyChanged(nameof(SlimContentPage));
-                }
-            }
-        }
+		public BaseLayout ContentPage
+		{
+			get => contentPage;
+			set
+			{
+				if (value != contentPage)
+				{
+					contentPage = value;
+					NotifyPropertyChanged(nameof(ContentPage));
+					NotifyPropertyChanged(nameof(SlimContentPage));
+				}
+			}
+		}
 
 		private bool isPageMainPane;
 
@@ -288,29 +288,29 @@ namespace Files.App.Views
          * whenever the path changes. We will get the individual directories from
          * the updated, most-current path and add them to the UI.
          */
-        public void UpdatePathUIToWorkingDirectory(string newWorkingDir, string singleItemOverride = null)
-        {
-            if (string.IsNullOrWhiteSpace(singleItemOverride))
-            {
-                var components = StorageFileExtensions.GetDirectoryPathComponents(newWorkingDir);
-                var lastCommonItemIndex = ToolbarViewModel.PathComponents
-                    .Select((value, index) => new { value, index })
-                    .LastOrDefault(x => x.index < components.Count && x.value.Path == components[x.index].Path)?.index ?? 0;
-                while (ToolbarViewModel.PathComponents.Count > lastCommonItemIndex)
-                {
-                    ToolbarViewModel.PathComponents.RemoveAt(lastCommonItemIndex);
-                }
-                foreach (var component in components.Skip(lastCommonItemIndex))
-                {
-                    ToolbarViewModel.PathComponents.Add(component);
-                }
-            }
-            else
-            {
-                ToolbarViewModel.PathComponents.Clear(); // Clear the path UI
-                ToolbarViewModel.PathComponents.Add(new PathBoxItem() { Path = null, Title = singleItemOverride });
-            }
-        }
+		public void UpdatePathUIToWorkingDirectory(string newWorkingDir, string singleItemOverride = null)
+		{
+			if (string.IsNullOrWhiteSpace(singleItemOverride))
+			{
+				var components = StorageFileExtensions.GetDirectoryPathComponents(newWorkingDir);
+				var lastCommonItemIndex = ToolbarViewModel.PathComponents
+					.Select((value, index) => new { value, index })
+					.LastOrDefault(x => x.index < components.Count && x.value.Path == components[x.index].Path)?.index ?? 0;
+				while (ToolbarViewModel.PathComponents.Count > lastCommonItemIndex)
+				{
+					ToolbarViewModel.PathComponents.RemoveAt(lastCommonItemIndex);
+				}
+				foreach (var component in components.Skip(lastCommonItemIndex))
+				{
+					ToolbarViewModel.PathComponents.Add(component);
+				}
+			}
+			else
+			{
+				ToolbarViewModel.PathComponents.Clear(); // Clear the path UI
+				ToolbarViewModel.PathComponents.Add(new PathBoxItem() { Path = null, Title = singleItemOverride });
+			}
+		}
 
 		private async void ModernShellPage_TextChanged(ISearchBox sender, SearchBoxTextChangedEventArgs e)
 		{
@@ -456,11 +456,11 @@ namespace Files.App.Views
 				: FilesystemViewModel.WorkingDirectory;
 		}
 
-        private void DrivesManager_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "ShowUserConsentOnInit")
-                DisplayFilesystemConsentDialog();
-        }
+		private void DrivesManager_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == "ShowUserConsentOnInit")
+				DisplayFilesystemConsentDialog();
+		}
 
 		// WINUI3
 		private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
@@ -892,13 +892,13 @@ namespace Files.App.Views
 			{
 				string parentDirectoryOfPath = FilesystemViewModel.WorkingDirectory.TrimEnd('\\', '/');
 
-                var lastSlashIndex = parentDirectoryOfPath.LastIndexOf("\\", StringComparison.Ordinal);
-                if (lastSlashIndex == -1)
-                    lastSlashIndex = parentDirectoryOfPath.LastIndexOf("/", StringComparison.Ordinal);
-                if (lastSlashIndex != -1)
-                    parentDirectoryOfPath = FilesystemViewModel.WorkingDirectory.Remove(lastSlashIndex);
-                if (parentDirectoryOfPath.EndsWith(':'))
-                    parentDirectoryOfPath += '\\';
+				var lastSlashIndex = parentDirectoryOfPath.LastIndexOf("\\", StringComparison.Ordinal);
+				if (lastSlashIndex == -1)
+					lastSlashIndex = parentDirectoryOfPath.LastIndexOf("/", StringComparison.Ordinal);
+				if (lastSlashIndex != -1)
+					parentDirectoryOfPath = FilesystemViewModel.WorkingDirectory.Remove(lastSlashIndex);
+				if (parentDirectoryOfPath.EndsWith(':'))
+					parentDirectoryOfPath += '\\';
 
 				SelectSidebarItemFromPath();
 				ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(parentDirectoryOfPath),

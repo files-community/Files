@@ -67,23 +67,23 @@ namespace Files.App.Helpers
 			return path?.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
 		}
 
-        public static string GetParentDir(string path)
-        {
-            if (string.IsNullOrEmpty(path))
-            {
-                return string.Empty;
-            }
-            var index = path.Contains('/', StringComparison.Ordinal) ? path.LastIndexOf("/", StringComparison.Ordinal) : path.LastIndexOf("\\", StringComparison.Ordinal);
-            return path.Substring(0, index != -1 ? index : path.Length);
-        }
+		public static string GetParentDir(string path)
+		{
+			if (string.IsNullOrEmpty(path))
+			{
+				return string.Empty;
+			}
+			var index = path.Contains('/', StringComparison.Ordinal) ? path.LastIndexOf("/", StringComparison.Ordinal) : path.LastIndexOf("\\", StringComparison.Ordinal);
+			return path.Substring(0, index != -1 ? index : path.Length);
+		}
 
-        public static string Combine(string folder, string name)
-        {
-            if (string.IsNullOrEmpty(folder))
-            {
-                return name;
-            }
-            return folder.Contains('/', StringComparison.Ordinal) ? Path.Combine(folder, name).Replace("\\", "/", StringComparison.Ordinal) : Path.Combine(folder, name);
-        }
-    }
+		public static string Combine(string folder, string name)
+		{
+			if (string.IsNullOrEmpty(folder))
+			{
+				return name;
+			}
+			return folder.Contains('/', StringComparison.Ordinal) ? Path.Combine(folder, name).Replace("\\", "/", StringComparison.Ordinal) : Path.Combine(folder, name);
+		}
+	}
 }

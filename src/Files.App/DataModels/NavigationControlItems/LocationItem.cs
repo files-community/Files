@@ -26,15 +26,15 @@ namespace Files.App.DataModels.NavigationControlItems
 
 		private string path;
 
-        public string Path
-        {
-            get => path;
-            set
-            {
-                path = value;
-                ToolTipText = string.IsNullOrEmpty(Path) || Path.Contains('?', StringComparison.Ordinal) || Path.StartsWith("shell:", StringComparison.OrdinalIgnoreCase) || Path.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase) || Path == "Home".GetLocalizedResource() ? Text : Path;
-            }
-        }
+		public string Path
+		{
+			get => path;
+			set
+			{
+				path = value;
+				ToolTipText = string.IsNullOrEmpty(Path) || Path.Contains('?', StringComparison.Ordinal) || Path.StartsWith("shell:", StringComparison.OrdinalIgnoreCase) || Path.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase) || Path == "Home".GetLocalizedResource() ? Text : Path;
+			}
+		}
 
 		public string ToolTipText { get; private set; }
 		public FontFamily Font { get; set; }

@@ -85,13 +85,13 @@ namespace Files.App.Filesystem
 			var sourceRename = sourceNoSkip.Zip(collisionsNoSkip, (src, coll) => new { src, coll }).Where(item => item.coll != FileNameConflictResolveOptionType.ReplaceExisting).Select(item => item.src);
 			var destinationRename = destinationNoSkip.Zip(collisionsNoSkip, (src, coll) => new { src, coll }).Where(item => item.coll != FileNameConflictResolveOptionType.ReplaceExisting).Select(item => item.src);
 
-            var result = (FilesystemResult)true;
-            var copyResult = new ShellOperationResult();
-            if (sourceRename.Any())
-            {
-                var resultItem = await FileOperationsHelpers.CopyItemAsync(sourceRename.Select(s => s.Path).ToArray(), destinationRename.ToArray(), false, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID);
+			var result = (FilesystemResult)true;
+			var copyResult = new ShellOperationResult();
+			if (sourceRename.Any())
+			{
+				var resultItem = await FileOperationsHelpers.CopyItemAsync(sourceRename.Select(s => s.Path).ToArray(), destinationRename.ToArray(), false, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID);
 
-                result &= (FilesystemResult)resultItem.Item1;
+				result &= (FilesystemResult)resultItem.Item1;
 
 				copyResult.Items.AddRange(resultItem.Item2?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
 			}
@@ -193,34 +193,34 @@ namespace Files.App.Filesystem
 			var createResult = new ShellOperationResult();
 			(var success, var response) = (false, new ShellOperationResult());
 
-            switch (source.ItemType)
-            {
-                case FilesystemItemType.File:
-                    {
-                        var newEntryInfo = await ShellNewEntryExtensions.GetNewContextMenuEntryForType(Path.GetExtension(source.Path));
-                        if (newEntryInfo?.Command is not null)
-                        {
-                            var args = CommandLine.CommandLineParser.SplitArguments(newEntryInfo.Command);
-                            if (args.Any())
-                            {
-                                if (await LaunchHelper.LaunchAppAsync(args[0].Replace("\"", "", StringComparison.Ordinal),
-                                        string.Join(' ', args.Skip(1)).Replace("%1", source.Path),
-                                        PathNormalization.GetParentDir(source.Path)))
-                                {
-                                    success = true;
-                                }
-                            }
-                        }
-                        else
-                            (success, response) = await FileOperationsHelpers.CreateItemAsync(source.Path, "CreateFile", newEntryInfo?.Template, newEntryInfo?.Data);
-                        break;
-                    }
-                case FilesystemItemType.Directory:
-                    {
-                        (success, response) = await FileOperationsHelpers.CreateItemAsync(source.Path, "CreateFolder");
-                        break;
-                    }
-            }
+			switch (source.ItemType)
+			{
+				case FilesystemItemType.File:
+					{
+						var newEntryInfo = await ShellNewEntryExtensions.GetNewContextMenuEntryForType(Path.GetExtension(source.Path));
+						if (newEntryInfo?.Command is not null)
+						{
+							var args = CommandLine.CommandLineParser.SplitArguments(newEntryInfo.Command);
+							if (args.Any())
+							{
+								if (await LaunchHelper.LaunchAppAsync(args[0].Replace("\"", "", StringComparison.Ordinal),
+										string.Join(' ', args.Skip(1)).Replace("%1", source.Path),
+										PathNormalization.GetParentDir(source.Path)))
+								{
+									success = true;
+								}
+							}
+						}
+						else
+							(success, response) = await FileOperationsHelpers.CreateItemAsync(source.Path, "CreateFile", newEntryInfo?.Template, newEntryInfo?.Data);
+						break;
+					}
+				case FilesystemItemType.Directory:
+					{
+						(success, response) = await FileOperationsHelpers.CreateItemAsync(source.Path, "CreateFolder");
+						break;
+					}
+			}
 
 			var result = (FilesystemResult)success;
 			var shellOpResult = response;
@@ -314,9 +314,9 @@ namespace Files.App.Filesystem
 				return await filesystemOperations.DeleteItemsAsync(source, progress, errorCode, permanently, cancellationToken);
 			}
 
-            var deleleFilePaths = source.Select(s => s.Path).Distinct();
-            var deleteFromRecycleBin = source.Any() && recycleBinHelpers.IsPathUnderRecycleBin(source.ElementAt(0).Path);
-            permanently |= deleteFromRecycleBin;
+			var deleleFilePaths = source.Select(s => s.Path).Distinct();
+			var deleteFromRecycleBin = source.Any() && recycleBinHelpers.IsPathUnderRecycleBin(source.ElementAt(0).Path);
+			permanently |= deleteFromRecycleBin;
 
 			if (deleteFromRecycleBin)
 			{

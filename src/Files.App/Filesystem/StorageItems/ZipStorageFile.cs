@@ -27,18 +27,18 @@ namespace Files.App.Filesystem.StorageItems
 		public override string FileType => IO.Path.GetExtension(Name);
 		public override string FolderRelativeId => $"0\\{Name}";
 
-        public override string DisplayType
-        {
-            get
-            {
-                var itemType = "ItemTypeFile".GetLocalizedResource();
-                if (Name.Contains('.', StringComparison.Ordinal))
-                {
-                    itemType = FileType.Trim('.') + " " + itemType;
-                }
-                return itemType;
-            }
-        }
+		public override string DisplayType
+		{
+			get
+			{
+				var itemType = "ItemTypeFile".GetLocalizedResource();
+				if (Name.Contains('.', StringComparison.Ordinal))
+				{
+					itemType = FileType.Trim('.') + " " + itemType;
+				}
+				return itemType;
+			}
+		}
 
 		public override DateTimeOffset DateCreated { get; }
 		public override Windows.Storage.FileAttributes Attributes => Windows.Storage.FileAttributes.Normal | Windows.Storage.FileAttributes.ReadOnly;

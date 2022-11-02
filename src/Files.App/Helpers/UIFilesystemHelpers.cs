@@ -233,24 +233,24 @@ namespace Files.App.Helpers
 			}
 		}
 
-        public static async Task<bool> RenameFileItemAsync(ListedItem item, string newName, IShellPage associatedInstance)
-        {
-            if (item is AlternateStreamItem ads) // For alternate streams Name is not a substring ItemNameRaw
-            {
-                newName = item.ItemNameRaw.Replace(
-                    item.Name.Substring(item.Name.LastIndexOf(':') + 1),
-                    newName.Substring(newName.LastIndexOf(':') + 1),
-                    StringComparison.Ordinal);
-                newName = $"{ads.MainStreamName}:{newName}";
-            }
-            else if (string.IsNullOrEmpty(item.Name))
-            {
-                newName = string.Concat(newName, item.FileExtension);
-            }
-            else
-            {
-                newName = item.ItemNameRaw.Replace(item.Name, newName, StringComparison.Ordinal);
-            }
+		public static async Task<bool> RenameFileItemAsync(ListedItem item, string newName, IShellPage associatedInstance)
+		{
+			if (item is AlternateStreamItem ads) // For alternate streams Name is not a substring ItemNameRaw
+			{
+				newName = item.ItemNameRaw.Replace(
+					item.Name.Substring(item.Name.LastIndexOf(':') + 1),
+					newName.Substring(newName.LastIndexOf(':') + 1),
+					StringComparison.Ordinal);
+				newName = $"{ads.MainStreamName}:{newName}";
+			}
+			else if (string.IsNullOrEmpty(item.Name))
+			{
+				newName = string.Concat(newName, item.FileExtension);
+			}
+			else
+			{
+				newName = item.ItemNameRaw.Replace(item.Name, newName, StringComparison.Ordinal);
+			}
 
 			if (item.ItemNameRaw == newName || string.IsNullOrEmpty(newName))
 			{

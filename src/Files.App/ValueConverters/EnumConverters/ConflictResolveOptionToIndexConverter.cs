@@ -18,15 +18,15 @@ namespace Files.App.ValueConverters.EnumConverters
 			};
 		}
 
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            return value switch
-            {
-                0 => FileNameConflictResolveOptionType.GenerateNewName,
-                1 => FileNameConflictResolveOptionType.ReplaceExisting,
-                2 => FileNameConflictResolveOptionType.Skip,
-                _ => FileNameConflictResolveOptionType.None
+		public object ConvertBack(object value, Type targetType, object parameter, string language)
+		{
+			return value switch
+			{
+				0 => FileNameConflictResolveOptionType.GenerateNewName,
+				1 => FileNameConflictResolveOptionType.ReplaceExisting,
+				2 => FileNameConflictResolveOptionType.Skip,
+				_ => FileNameConflictResolveOptionType.None
 			};
-        }
-    }
+		}
+	}
 }

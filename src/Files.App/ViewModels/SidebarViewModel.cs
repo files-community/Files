@@ -323,8 +323,8 @@ namespace Files.App.ViewModels
 		{
 			if (elem is LibraryLocationItem lib)
 			{
-				if (IsLibraryOnSidebar(lib) && 
-					await lib.CheckDefaultSaveFolderAccess() && 
+				if (IsLibraryOnSidebar(lib) &&
+					await lib.CheckDefaultSaveFolderAccess() &&
 					!section.ChildItems.Any(x => x.Path == lib.Path))
 				{
 					lib.Font = App.AppModel.SymbolFontFamily;

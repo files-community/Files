@@ -52,7 +52,7 @@ namespace Files.App.Filesystem.StorageItems
 
 		public override DateTimeOffset DateCreated { get; }
 
-        public override FileAttributes Attributes => FileAttributes.Normal | FileAttributes.ReadOnly;
+		public override FileAttributes Attributes => FileAttributes.Normal | FileAttributes.ReadOnly;
 
 		private IStorageItemExtraProperties properties;
 		public override IStorageItemExtraProperties Properties => properties ??= new BaseBasicStorageItemExtraProperties(this);
@@ -83,12 +83,12 @@ namespace Files.App.Filesystem.StorageItems
 			}
 		}
 
-        public static IAsyncOperation<BaseStorageFile> FromPathAsync(string path)
-        {
-            if (ShellStorageFolder.IsShellPath(path) && GetFile(path) is ShellFileItem file)
-                    return Task.FromResult<BaseStorageFile>(FromShellItem(file)).AsAsyncOperation();
-            return Task.FromResult<BaseStorageFile>(null).AsAsyncOperation();
-        }
+		public static IAsyncOperation<BaseStorageFile> FromPathAsync(string path)
+		{
+			if (ShellStorageFolder.IsShellPath(path) && GetFile(path) is ShellFileItem file)
+				return Task.FromResult<BaseStorageFile>(FromShellItem(file)).AsAsyncOperation();
+			return Task.FromResult<BaseStorageFile>(null).AsAsyncOperation();
+		}
 
 		private static ShellFileItem GetFile(string path)
 		{

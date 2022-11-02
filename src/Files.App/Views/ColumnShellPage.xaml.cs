@@ -67,45 +67,45 @@ namespace Files.App.Views
 
 		private IUpdateService UpdateSettingsService { get; } = Ioc.Default.GetRequiredService<IUpdateService>();
 
-        private bool isCurrentInstance = false;
-        public bool IsCurrentInstance
-        {
-            get => isCurrentInstance;
-            set
-            {
-                if (isCurrentInstance != value)
-                {
-                    isCurrentInstance = value;
-                    if (isCurrentInstance)
-                    {
-                        ContentPage?.ItemManipulationModel.FocusFileList();
-                    }
-                    //else
-                    //{
-                    //    NavigationToolbar.IsEditModeEnabled = false;
-                    //}
-                    NotifyPropertyChanged(nameof(IsCurrentInstance));
-                }
-            }
-        }
+		private bool isCurrentInstance = false;
+		public bool IsCurrentInstance
+		{
+			get => isCurrentInstance;
+			set
+			{
+				if (isCurrentInstance != value)
+				{
+					isCurrentInstance = value;
+					if (isCurrentInstance)
+					{
+						ContentPage?.ItemManipulationModel.FocusFileList();
+					}
+					//else
+					//{
+					//    NavigationToolbar.IsEditModeEnabled = false;
+					//}
+					NotifyPropertyChanged(nameof(IsCurrentInstance));
+				}
+			}
+		}
 
 		public ItemViewModel FilesystemViewModel { get; private set; } = null;
 		public CurrentInstanceViewModel InstanceViewModel { get; }
 		private BaseLayout contentPage = null;
 
-        public BaseLayout ContentPage
-        {
-            get => contentPage;
-            set
-            {
-                if (value != contentPage)
-                {
-                    contentPage = value;
-                    NotifyPropertyChanged(nameof(ContentPage));
-                    NotifyPropertyChanged(nameof(SlimContentPage));
-                }
-            }
-        }
+		public BaseLayout ContentPage
+		{
+			get => contentPage;
+			set
+			{
+				if (value != contentPage)
+				{
+					contentPage = value;
+					NotifyPropertyChanged(nameof(ContentPage));
+					NotifyPropertyChanged(nameof(SlimContentPage));
+				}
+			}
+		}
 
 		private bool isPageMainPane;
 
@@ -308,30 +308,30 @@ namespace Files.App.Views
          * the updated, most-current path and add them to the UI.
          */
 
-        public void UpdatePathUIToWorkingDirectory(string newWorkingDir, string singleItemOverride = null)
-        {
-            if (string.IsNullOrWhiteSpace(singleItemOverride))
-            {
-                var components = StorageFileExtensions.GetDirectoryPathComponents(newWorkingDir);
-                var lastCommonItemIndex = ToolbarViewModel.PathComponents
-                    .Select((value, index) => new { value, index })
-                    .LastOrDefault(x => x.index < components.Count && x.value.Path == components[x.index].Path)?.index ?? 0;
-                while (ToolbarViewModel.PathComponents.Count > lastCommonItemIndex)
-                {
-                    ToolbarViewModel.PathComponents.RemoveAt(lastCommonItemIndex);
-                }
-                foreach (var component in components.Skip(lastCommonItemIndex))
-                {
-                    ToolbarViewModel.PathComponents.Add(component);
-                }
-            }
-            else
-            {
-                ToolbarViewModel.PathComponents.Clear(); // Clear the path UI
-                ToolbarViewModel.IsSingleItemOverride = true;
-                ToolbarViewModel.PathComponents.Add(new PathBoxItem() { Path = null, Title = singleItemOverride });
-            }
-        }
+		public void UpdatePathUIToWorkingDirectory(string newWorkingDir, string singleItemOverride = null)
+		{
+			if (string.IsNullOrWhiteSpace(singleItemOverride))
+			{
+				var components = StorageFileExtensions.GetDirectoryPathComponents(newWorkingDir);
+				var lastCommonItemIndex = ToolbarViewModel.PathComponents
+					.Select((value, index) => new { value, index })
+					.LastOrDefault(x => x.index < components.Count && x.value.Path == components[x.index].Path)?.index ?? 0;
+				while (ToolbarViewModel.PathComponents.Count > lastCommonItemIndex)
+				{
+					ToolbarViewModel.PathComponents.RemoveAt(lastCommonItemIndex);
+				}
+				foreach (var component in components.Skip(lastCommonItemIndex))
+				{
+					ToolbarViewModel.PathComponents.Add(component);
+				}
+			}
+			else
+			{
+				ToolbarViewModel.PathComponents.Clear(); // Clear the path UI
+				ToolbarViewModel.IsSingleItemOverride = true;
+				ToolbarViewModel.PathComponents.Add(new PathBoxItem() { Path = null, Title = singleItemOverride });
+			}
+		}
 
 		private async void ColumnShellPage_TextChanged(ISearchBox sender, SearchBoxTextChangedEventArgs e)
 		{
@@ -453,13 +453,13 @@ namespace Files.App.Views
 				: FilesystemViewModel.WorkingDirectory;
 		}
 
-        private void DrivesManager_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "ShowUserConsentOnInit")
-            {
-                DisplayFilesystemConsentDialog();
-            }
-        }
+		private void DrivesManager_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == "ShowUserConsentOnInit")
+			{
+				DisplayFilesystemConsentDialog();
+			}
+		}
 
 		private async Task<BaseLayout> GetContentOrNullAsync()
 		{

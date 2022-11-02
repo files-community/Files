@@ -9,15 +9,15 @@ namespace Files.App.DataModels.NavigationControlItems
 
 		private string path;
 
-        public string Path
-        {
-            get => path;
-            set
-            {
-                path = value;
-                ToolTipText = Path.Contains('?', StringComparison.Ordinal) ? Text : Path;
-            }
-        }
+		public string Path
+		{
+			get => path;
+			set
+			{
+				path = value;
+				ToolTipText = Path.Contains('?', StringComparison.Ordinal) ? Text : Path;
+			}
+		}
 
 		public string ToolTipText { get; private set; }
 

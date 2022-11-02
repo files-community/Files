@@ -553,7 +553,7 @@ namespace Files.App.ViewModels
 				}
 			}
 
-			if (!FilesystemHelpers.HasDraggedStorageItems(e.DataView) 
+			if (!FilesystemHelpers.HasDraggedStorageItems(e.DataView)
 				|| string.IsNullOrEmpty(pathBoxItem.Path))  // In search page
 			{
 				e.AcceptedOperation = DataPackageOperation.None;

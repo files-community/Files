@@ -1,9 +1,7 @@
 using Files.Shared.Extensions;
-using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
-using Files.App.UserControls;
 using Files.App.Views;
 using System;
 using System.Collections.Generic;
@@ -109,17 +107,17 @@ namespace Files.App.Filesystem
 		{
 			List<PathBoxItem> pathBoxItems = new();
 
-            if (value.Contains('/', StringComparison.Ordinal))
-            {
-                if (!value.EndsWith('/'))
-                {
-                    value += "/";
-                }
-            }
-            else if (!value.EndsWith('\\'))
-            {
-                value += "\\";
-            }
+			if (value.Contains('/', StringComparison.Ordinal))
+			{
+				if (!value.EndsWith('/'))
+				{
+					value += "/";
+				}
+			}
+			else if (!value.EndsWith('\\'))
+			{
+				value += "\\";
+			}
 
 			int lastIndex = 0;
 
@@ -296,35 +294,35 @@ namespace Files.App.Filesystem
 				.Select(x => new StorageFolderWithPath(x, string.IsNullOrEmpty(x.Path) ? PathNormalization.Combine(parentFolder.Path, x.Name) : x.Path)).ToList();
 		}
 
-        private static PathBoxItem GetPathItem(string component, string path)
-        {
-            if (component.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
-            {
-                // Handle the recycle bin: use the localized folder name
-                return new PathBoxItem()
-                {
-                    Title = ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
-                    Path = path,
-                };
-            }
-            else if (component.Contains(':', StringComparison.Ordinal))
-            {
-                var drives = App.DrivesManager.Drives.Concat(App.NetworkDrivesManager.Drives).Concat(App.CloudDrivesManager.Drives);
-                var drive = drives.FirstOrDefault(y => y.ItemType is NavigationControlItemType.Drive && y.Path.Contains(component, StringComparison.OrdinalIgnoreCase));
-                return new PathBoxItem()
-                {
-                    Title = drive is not null ? drive.Text : $@"Drive ({component})",
-                    Path = path,
-                };
-            }
-            else
-            {
-                return new PathBoxItem
-                {
-                    Title = component,
-                    Path = path
-                };
-            }
-        }
-    }
+		private static PathBoxItem GetPathItem(string component, string path)
+		{
+			if (component.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
+			{
+				// Handle the recycle bin: use the localized folder name
+				return new PathBoxItem()
+				{
+					Title = ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
+					Path = path,
+				};
+			}
+			else if (component.Contains(':', StringComparison.Ordinal))
+			{
+				var drives = App.DrivesManager.Drives.Concat(App.NetworkDrivesManager.Drives).Concat(App.CloudDrivesManager.Drives);
+				var drive = drives.FirstOrDefault(y => y.ItemType is NavigationControlItemType.Drive && y.Path.Contains(component, StringComparison.OrdinalIgnoreCase));
+				return new PathBoxItem()
+				{
+					Title = drive is not null ? drive.Text : $@"Drive ({component})",
+					Path = path,
+				};
+			}
+			else
+			{
+				return new PathBoxItem
+				{
+					Title = component,
+					Path = path
+				};
+			}
+		}
+	}
 }

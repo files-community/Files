@@ -10,14 +10,14 @@ namespace Files.App.Converters
 		{
 			var array = value as string[];
 
-            if (array is null || !(array is string[]))
-                return string.Empty;
+			if (array is null || !(array is string[]))
+				return string.Empty;
 
-            var str = new StringBuilder();
-            foreach (var i in array)
-            {
-                str.Append(string.Format("{0}; ", i));
-            }
+			var str = new StringBuilder();
+			foreach (var i in array)
+			{
+				str.Append(string.Format("{0}; ", i));
+			}
 
 			return str.ToString();
 		}

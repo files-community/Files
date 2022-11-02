@@ -154,7 +154,7 @@ namespace Files.App.Helpers
 			if (string.IsNullOrEmpty(path) || path.StartsWith(@"\\?\", StringComparison.Ordinal))
 				return false;
 
-            var result = await FileOperationsHelpers.TestRecycleAsync(path.Split('|'));
+			var result = await FileOperationsHelpers.TestRecycleAsync(path.Split('|'));
 
 			return result.Item1 &= result.Item2 is not null && result.Item2.Items.All(x => x.Succeeded);
 		}

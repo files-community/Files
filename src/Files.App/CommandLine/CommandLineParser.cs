@@ -142,33 +142,33 @@ namespace Files.App.CommandLine
 				}
 			}
 
-            if (parsedArgs.Count == 0 && args.Length >= 2)
-            {
-                parsedArgs.Add(new KeyValuePair<string, string[]>("Cmdless", new[] { string.Join(' ', args.Skip(1)).TrimStart() }));
-            }
+			if (parsedArgs.Count == 0 && args.Length >= 2)
+			{
+				parsedArgs.Add(new KeyValuePair<string, string[]>("Cmdless", new[] { string.Join(' ', args.Skip(1)).TrimStart() }));
+			}
 
 			return parsedArgs;
 		}
 
-        private static KeyValuePair<string, string[]> ParseData(string[] args, int index)
-        {
-            string? key = null;
-            var val = new List<string>();
-            if (args[index].StartsWith('-') || args[index].StartsWith('/'))
-            {
-                if (args[index].Contains(':', StringComparison.Ordinal))
-                {
-                    string argument = args[index];
-                    int endIndex = argument.IndexOf(':');
-                    key = argument.Substring(1, endIndex - 1);   // trim the '/' and the ':'.
-                    int valueStart = endIndex + 1;
-                    val.Add(valueStart < argument.Length ? argument.Substring(
-                        valueStart, argument.Length - valueStart) : null);
-                }
-                else
-                {
-                    key = args[index].Substring(1);
-                }
+		private static KeyValuePair<string, string[]> ParseData(string[] args, int index)
+		{
+			string? key = null;
+			var val = new List<string>();
+			if (args[index].StartsWith('-') || args[index].StartsWith('/'))
+			{
+				if (args[index].Contains(':', StringComparison.Ordinal))
+				{
+					string argument = args[index];
+					int endIndex = argument.IndexOf(':');
+					key = argument.Substring(1, endIndex - 1);   // trim the '/' and the ':'.
+					int valueStart = endIndex + 1;
+					val.Add(valueStart < argument.Length ? argument.Substring(
+						valueStart, argument.Length - valueStart) : null);
+				}
+				else
+				{
+					key = args[index].Substring(1);
+				}
 
 				int argIndex = 1 + index;
 				while (argIndex < args.Length && !(args[argIndex].StartsWith('-') || args[argIndex].StartsWith('/')))

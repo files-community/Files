@@ -5,7 +5,6 @@ using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -38,79 +37,79 @@ namespace Files.App.Filesystem.StorageEnumerators
 				IReadOnlyList<IStorageItem> items;
 				uint maxItemsToRetrieve = 300;
 
-                if (intermediateAction is null)
-                {
-                    // without intermediate action increase batches significantly
-                    maxItemsToRetrieve = 1000;
-                }
-                else if (firstRound)
-                {
-                    maxItemsToRetrieve = 32;
-                    firstRound = false;
-                }
-                try
-                {
-                    items = await rootFolder.GetItemsAsync(count, maxItemsToRetrieve);
-                    if (items is null || items.Count == 0)
-                    {
-                        break;
-                    }
-                }
-                catch (NotImplementedException)
-                {
-                    break;
-                }
-                catch (Exception ex) when (
-                    ex is UnauthorizedAccessException
-                    || ex is FileNotFoundException
-                    || (uint)ex.HResult == 0x80070490) // ERROR_NOT_FOUND
-                {
-                    // If some unexpected exception is thrown - enumerate this folder file by file - just to be sure
-                    items = await EnumerateFileByFile(rootFolder, count, maxItemsToRetrieve);
-                }
-                foreach (var item in items)
-                {
-                    var startWithDot = item.Name.StartsWith('.');
-                    if (!startWithDot || userSettingsService.FoldersSettingsService.ShowDotFiles)
-                    {
-                        if (item.IsOfType(StorageItemTypes.Folder))
-                        {
-                            var folder = await AddFolderAsync(item.AsBaseStorageFolder(), currentStorageFolder, cancellationToken);
-                            if (folder is not null)
-                            {
-                                if (defaultIconPairs?.ContainsKey(string.Empty) ?? false)
-                                {
-                                    folder.SetDefaultIcon(defaultIconPairs[string.Empty]);
-                                }
-                                tempList.Add(folder);
-                            }
-                        }
-                        else
-                        {
-                            var fileEntry = await AddFileAsync(item.AsBaseStorageFile(), currentStorageFolder, cancellationToken);
-                            if (fileEntry is not null)
-                            {
-                                if (defaultIconPairs is not null)
-                                {
-                                    if (!string.IsNullOrEmpty(fileEntry.FileExtension))
-                                    {
-                                        var lowercaseExtension = fileEntry.FileExtension.ToLowerInvariant();
-                                        if (defaultIconPairs.ContainsKey(lowercaseExtension))
-                                        {
-                                            fileEntry.SetDefaultIcon(defaultIconPairs[lowercaseExtension]);
-                                        }
-                                    }
-                                }
-                                tempList.Add(fileEntry);
-                            }
-                        }
-                    }
-                    if (cancellationToken.IsCancellationRequested)
-                    {
-                        break;
-                    }
-                }
-                count += maxItemsToRetrieve;
+				if (intermediateAction is null)
+				{
+					// without intermediate action increase batches significantly
+					maxItemsToRetrieve = 1000;
+				}
+				else if (firstRound)
+				{
+					maxItemsToRetrieve = 32;
+					firstRound = false;
+				}
+				try
+				{
+					items = await rootFolder.GetItemsAsync(count, maxItemsToRetrieve);
+					if (items is null || items.Count == 0)
+					{
+						break;
+					}
+				}
+				catch (NotImplementedException)
+				{
+					break;
+				}
+				catch (Exception ex) when (
+					ex is UnauthorizedAccessException
+					|| ex is FileNotFoundException
+					|| (uint)ex.HResult == 0x80070490) // ERROR_NOT_FOUND
+				{
+					// If some unexpected exception is thrown - enumerate this folder file by file - just to be sure
+					items = await EnumerateFileByFile(rootFolder, count, maxItemsToRetrieve);
+				}
+				foreach (var item in items)
+				{
+					var startWithDot = item.Name.StartsWith('.');
+					if (!startWithDot || userSettingsService.FoldersSettingsService.ShowDotFiles)
+					{
+						if (item.IsOfType(StorageItemTypes.Folder))
+						{
+							var folder = await AddFolderAsync(item.AsBaseStorageFolder(), currentStorageFolder, cancellationToken);
+							if (folder is not null)
+							{
+								if (defaultIconPairs?.ContainsKey(string.Empty) ?? false)
+								{
+									folder.SetDefaultIcon(defaultIconPairs[string.Empty]);
+								}
+								tempList.Add(folder);
+							}
+						}
+						else
+						{
+							var fileEntry = await AddFileAsync(item.AsBaseStorageFile(), currentStorageFolder, cancellationToken);
+							if (fileEntry is not null)
+							{
+								if (defaultIconPairs is not null)
+								{
+									if (!string.IsNullOrEmpty(fileEntry.FileExtension))
+									{
+										var lowercaseExtension = fileEntry.FileExtension.ToLowerInvariant();
+										if (defaultIconPairs.ContainsKey(lowercaseExtension))
+										{
+											fileEntry.SetDefaultIcon(defaultIconPairs[lowercaseExtension]);
+										}
+									}
+								}
+								tempList.Add(fileEntry);
+							}
+						}
+					}
+					if (cancellationToken.IsCancellationRequested)
+					{
+						break;
+					}
+				}
+				count += maxItemsToRetrieve;
 
 				if (countLimit > -1 && count >= countLimit)
 				{

@@ -47,21 +47,21 @@ namespace Files.App.Views
 
 		private bool _windowIsCompact = App.Window.Bounds.Width <= 750;
 
-        private bool windowIsCompact
-        {
-            get => _windowIsCompact;
-            set
-            {
-                if (value != _windowIsCompact)
-                {
-                    _windowIsCompact = value;
-                    IsRightPaneVisible = !value;
-                    NotifyPropertyChanged(nameof(IsMultiPaneEnabled));
-                }
-            }
-        }
+		private bool windowIsCompact
+		{
+			get => _windowIsCompact;
+			set
+			{
+				if (value != _windowIsCompact)
+				{
+					_windowIsCompact = value;
+					IsRightPaneVisible = !value;
+					NotifyPropertyChanged(nameof(IsMultiPaneEnabled));
+				}
+			}
+		}
 
-        public bool IsMultiPaneActive => IsRightPaneVisible;
+		public bool IsMultiPaneActive => IsRightPaneVisible;
 
 		public bool IsMultiPaneEnabled
 		{
@@ -210,25 +210,25 @@ namespace Files.App.Views
 		{
 			base.OnNavigatedTo(eventArgs);
 
-            if (eventArgs.Parameter is string navPath)
-            {
-                NavParamsLeft = new NavigationParams { NavPath = navPath };
-                NavParamsRight = new NavigationParams { NavPath = "Home".GetLocalizedResource() };
-            }
-            else if (eventArgs.Parameter is PaneNavigationArguments paneArgs)
-            {
-                NavParamsLeft = new NavigationParams
-                {
-                    NavPath = paneArgs.LeftPaneNavPathParam,
-                    SelectItem = paneArgs.LeftPaneSelectItemParam
-                };
-                NavParamsRight = new NavigationParams
-                {
-                    NavPath = paneArgs.RightPaneNavPathParam,
-                    SelectItem = paneArgs.RightPaneSelectItemParam
-                };
-                IsRightPaneVisible = IsMultiPaneEnabled && paneArgs.RightPaneNavPathParam is not null;
-            }
+			if (eventArgs.Parameter is string navPath)
+			{
+				NavParamsLeft = new NavigationParams { NavPath = navPath };
+				NavParamsRight = new NavigationParams { NavPath = "Home".GetLocalizedResource() };
+			}
+			else if (eventArgs.Parameter is PaneNavigationArguments paneArgs)
+			{
+				NavParamsLeft = new NavigationParams
+				{
+					NavPath = paneArgs.LeftPaneNavPathParam,
+					SelectItem = paneArgs.LeftPaneSelectItemParam
+				};
+				NavParamsRight = new NavigationParams
+				{
+					NavPath = paneArgs.RightPaneNavPathParam,
+					SelectItem = paneArgs.RightPaneSelectItemParam
+				};
+				IsRightPaneVisible = IsMultiPaneEnabled && paneArgs.RightPaneNavPathParam is not null;
+			}
 
 			TabItemArguments = new TabItemArguments()
 			{

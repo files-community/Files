@@ -46,34 +46,34 @@ namespace Files.App.Filesystem.StorageEnumerators
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 			bool CalculateFolderSizes = userSettingsService.FoldersSettingsService.CalculateFolderSizes;
 
-            do
-            {
-                var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
-                var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-                var startWithDot = findData.cFileName.StartsWith('.');
-                if ((!isHidden ||
-                   (userSettingsService.FoldersSettingsService.ShowHiddenItems &&
-                   (!isSystem || userSettingsService.FoldersSettingsService.ShowProtectedSystemFiles))) &&
-                   (!startWithDot || userSettingsService.FoldersSettingsService.ShowDotFiles))
-                {
-                    if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
-                    {
-                        var file = await GetFile(findData, path, cancellationToken);
-                        if (file is not null)
-                        {
-                            if (defaultIconPairs is not null)
-                            {
-                                if (!string.IsNullOrEmpty(file.FileExtension))
-                                {
-                                    var lowercaseExtension = file.FileExtension.ToLowerInvariant();
-                                    if (defaultIconPairs.ContainsKey(lowercaseExtension))
-                                    {
-                                        file.SetDefaultIcon(defaultIconPairs[lowercaseExtension]);
-                                    }
-                                }
-                            }
-                            tempList.Add(file);
-                            ++count;
+			do
+			{
+				var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
+				var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
+				var startWithDot = findData.cFileName.StartsWith('.');
+				if ((!isHidden ||
+				   (userSettingsService.FoldersSettingsService.ShowHiddenItems &&
+				   (!isSystem || userSettingsService.FoldersSettingsService.ShowProtectedSystemFiles))) &&
+				   (!startWithDot || userSettingsService.FoldersSettingsService.ShowDotFiles))
+				{
+					if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
+					{
+						var file = await GetFile(findData, path, cancellationToken);
+						if (file is not null)
+						{
+							if (defaultIconPairs is not null)
+							{
+								if (!string.IsNullOrEmpty(file.FileExtension))
+								{
+									var lowercaseExtension = file.FileExtension.ToLowerInvariant();
+									if (defaultIconPairs.ContainsKey(lowercaseExtension))
+									{
+										file.SetDefaultIcon(defaultIconPairs[lowercaseExtension]);
+									}
+								}
+							}
+							tempList.Add(file);
+							++count;
 
 							if (userSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
 							{

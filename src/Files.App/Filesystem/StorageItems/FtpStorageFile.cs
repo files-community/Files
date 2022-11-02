@@ -24,18 +24,18 @@ namespace Files.App.Filesystem.StorageItems
 		public string FtpPath { get; }
 		public override string FolderRelativeId => $"0\\{Name}";
 
-        public override string DisplayType
-        {
-            get
-            {
-                var itemType = "ItemTypeFile".GetLocalizedResource();
-                if (Name.Contains('.', StringComparison.Ordinal))
-                {
-                    itemType = IO.Path.GetExtension(Name).Trim('.') + " " + itemType;
-                }
-                return itemType;
-            }
-        }
+		public override string DisplayType
+		{
+			get
+			{
+				var itemType = "ItemTypeFile".GetLocalizedResource();
+				if (Name.Contains('.', StringComparison.Ordinal))
+				{
+					itemType = IO.Path.GetExtension(Name).Trim('.') + " " + itemType;
+				}
+				return itemType;
+			}
+		}
 
 		public override DateTimeOffset DateCreated { get; }
 		public override Windows.Storage.FileAttributes Attributes { get; } = Windows.Storage.FileAttributes.Normal;

@@ -346,9 +346,9 @@ namespace Files.App.ViewModels.Widgets.Bundles
 					string itemPath = null;
 					string originBundle = null;
 
-                    if (itemText.Contains('|', StringComparison.Ordinal))
-                    {
-                        dragFromBundle = true;
+					if (itemText.Contains('|', StringComparison.Ordinal))
+					{
+						dragFromBundle = true;
 
 						originBundle = itemText.Split('|')[0];
 						itemPath = itemText.Split('|')[1];

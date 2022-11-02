@@ -14,9 +14,9 @@ namespace Files.App.ViewModels
 		bool IsPreviewSelected { get; set; }
 	}
 
-    public class PaneViewModel : ObservableObject, IPaneViewModel
-    {
-        private readonly IPaneSettingsService settings = Ioc.Default.GetRequiredService<IPaneSettingsService>();
+	public class PaneViewModel : ObservableObject, IPaneViewModel
+	{
+		private readonly IPaneSettingsService settings = Ioc.Default.GetRequiredService<IPaneSettingsService>();
 
 		private PaneContents content = PaneContents.None;
 

@@ -36,10 +36,10 @@ namespace Files.App.Helpers
 			return false;
 		}
 
-        public static bool VerifyFtpPath(string path)
-        {
-            var authority = GetFtpAuthority(path);
-            var index = authority.IndexOf(':', StringComparison.Ordinal);
+		public static bool VerifyFtpPath(string path)
+		{
+			var authority = GetFtpAuthority(path);
+			var index = authority.IndexOf(':', StringComparison.Ordinal);
 
 			if (index == -1)
 			{
@@ -49,10 +49,10 @@ namespace Files.App.Helpers
 			return ushort.TryParse(authority.Substring(index + 1), out _);
 		}
 
-        public static string GetFtpHost(string path)
-        {
-            var authority = GetFtpAuthority(path);
-            var index = authority.IndexOf(':', StringComparison.Ordinal);
+		public static string GetFtpHost(string path)
+		{
+			var authority = GetFtpAuthority(path);
+			var index = authority.IndexOf(':', StringComparison.Ordinal);
 
 			if (index == -1)
 			{
@@ -62,10 +62,10 @@ namespace Files.App.Helpers
 			return authority.Substring(0, index);
 		}
 
-        public static ushort GetFtpPort(string path)
-        {
-            var authority = GetFtpAuthority(path);
-            var index = authority.IndexOf(':', StringComparison.Ordinal);
+		public static ushort GetFtpPort(string path)
+		{
+			var authority = GetFtpAuthority(path);
+			var index = authority.IndexOf(':', StringComparison.Ordinal);
 
 			if (index == -1)
 			{

@@ -26,10 +26,10 @@ namespace Files.App.Storage.FtpStorage
 			return ftpClient.Connect(cancellationToken);
 		}
 
-        public static string GetFtpHost(string path)
-        {
-            var authority = GetFtpAuthority(path);
-            var index = authority.IndexOf(':', StringComparison.Ordinal);
+		public static string GetFtpHost(string path)
+		{
+			var authority = GetFtpAuthority(path);
+			var index = authority.IndexOf(':', StringComparison.Ordinal);
 
 			if (index == -1)
 				return authority;
@@ -37,10 +37,10 @@ namespace Files.App.Storage.FtpStorage
 			return authority.Substring(0, index);
 		}
 
-        public static ushort GetFtpPort(string path)
-        {
-            var authority = GetFtpAuthority(path);
-            var index = authority.IndexOf(':', StringComparison.Ordinal);
+		public static ushort GetFtpPort(string path)
+		{
+			var authority = GetFtpAuthority(path);
+			var index = authority.IndexOf(':', StringComparison.Ordinal);
 
 			if (index != -1)
 				return ushort.Parse(authority.Substring(index + 1));

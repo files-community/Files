@@ -54,11 +54,11 @@ namespace Files.App.Dialogs
 			UpdateDialogLayout();
 		}
 
-        private void UpdateDialogLayout()
-        {
-            if (ViewModel.FileSystemDialogMode.ConflictsExist)
-                ContainerGrid.Width = App.Window.Bounds.Width <= 700 ? App.Window.Bounds.Width - 50 : 650;
-        }
+		private void UpdateDialogLayout()
+		{
+			if (ViewModel.FileSystemDialogMode.ConflictsExist)
+				ContainerGrid.Width = App.Window.Bounds.Width <= 700 ? App.Window.Bounds.Width - 50 : 650;
+		}
 
 		protected override void OnApplyTemplate()
 		{
@@ -110,11 +110,11 @@ namespace Files.App.Dialogs
 				return;
 			}
 
-            if (((sender as MenuFlyout)?.Target as ListViewItem)?.Content is BaseFileSystemDialogItemViewModel li &&
-                !DetailsGrid.SelectedItems.Contains(li))
-            {
-                DetailsGrid.SelectedItems.Add(li);
-            }
+			if (((sender as MenuFlyout)?.Target as ListViewItem)?.Content is BaseFileSystemDialogItemViewModel li &&
+				!DetailsGrid.SelectedItems.Contains(li))
+			{
+				DetailsGrid.SelectedItems.Add(li);
+			}
 
 			if (DetailsGrid.Items.Count > 1 && DetailsGrid.SelectedItems.Count == 1 && !DetailsGrid.SelectedItems.Any(x => (x as FileSystemDialogConflictItemViewModel).IsDefault))
 			{
