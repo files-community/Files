@@ -310,11 +310,6 @@ namespace Files.App.Interacts
             }
         }
 
-        public virtual async void OpenDirectoryInDefaultTerminal(RoutedEventArgs e)
-        {
-            await NavigationHelpers.OpenDirectoryInTerminal(associatedInstance.FilesystemViewModel.WorkingDirectory);
-        }
-
         public virtual void ShareItem(RoutedEventArgs e)
         {
             var interop = DataTransferManager.As<UWPToWinAppSDKUpgradeHelpers.IDataTransferManagerInterop>();
