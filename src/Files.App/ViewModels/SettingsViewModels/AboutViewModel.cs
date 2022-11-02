@@ -77,9 +77,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 					// Export pinned items
 					var pinnedItems = await BaseStorageFile.GetFileFromPathAsync(Path.Combine(localFolderPath, Constants.LocalSettings.SettingsFolderName, App.SidebarPinnedController.JsonFileName));
 					await pinnedItems.CopyAsync(zipFolder, pinnedItems.Name, NameCollisionOption.ReplaceExisting);
-					// Export terminals config
-					var terminals = await BaseStorageFile.GetFileFromPathAsync(Path.Combine(localFolderPath, Constants.LocalSettings.SettingsFolderName, App.TerminalController.JsonFileName));
-					await terminals.CopyAsync(zipFolder, terminals.Name, NameCollisionOption.ReplaceExisting);
 					// Export file tags list and DB
 					var exportTags = UTF8Encoding.UTF8.GetBytes((string)FileTagsSettingsService.ExportSettings());
 					await zipFolder.CreateFileAsync(new MemoryStream(exportTags), Constants.LocalSettings.FileTagSettingsFileName, CreationCollisionOption.ReplaceExisting);
@@ -140,9 +137,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 					var pinnedItems = await zipFolder.GetFileAsync(App.SidebarPinnedController.JsonFileName);
 					await pinnedItems.CopyAsync(settingsFolder, pinnedItems.Name, NameCollisionOption.ReplaceExisting);
 					await App.SidebarPinnedController.ReloadAsync();
-					// Import terminals config
-					var terminals = await zipFolder.GetFileAsync(App.TerminalController.JsonFileName);
-					await terminals.CopyAsync(settingsFolder, terminals.Name, NameCollisionOption.ReplaceExisting);
 					// Import file tags list and DB
 					var fileTagsList = await zipFolder.GetFileAsync(Constants.LocalSettings.FileTagSettingsFileName);
 					string importTags = await fileTagsList.ReadTextAsync();
