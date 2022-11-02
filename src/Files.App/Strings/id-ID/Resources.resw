@@ -816,12 +816,6 @@
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Bahasa</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>Aplikasi terminal</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>Edit aplikasi terminal</value>
-  </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Pindah item yang berlebih ke dalam sub menu</value>
   </data>
@@ -2427,9 +2421,6 @@
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Tampilkan bagian WSL</value>
   </data>
-  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Aplikasi terminal</value>
-  </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Tugas yang Berjalan</value>
   </data>
@@ -2857,12 +2848,12 @@
     <value>Memuat Tema</value>
   </data>
   <data name="EmptyingRecycleBin" xml:space="preserve">
-    <value>Emptying recycle bin</value>
+    <value>Mengosongkan keranjang sampah</value>
   </data>
   <data name="BinEmptyingSucceded" xml:space="preserve">
-    <value>Successfully emptied recycle bin</value>
+    <value>Keranjang sampah telah dikosongkan</value>
   </data>
   <data name="BinEmptyingFailed" xml:space="preserve">
-    <value>Failed to empty recycle bin</value>
+    <value>Keranjang sampah gagal dikosongkan</value>
   </data>
 </root>
