@@ -106,7 +106,7 @@ namespace Files.App.Filesystem.StorageItems
 				charsToRead = maxLength < 0 ? 4096 : Math.Min(maxLength, 4096);
 				var data = new char[charsToRead];
 				charsRead = await dataReader.ReadAsync(data);
-				builder.Append(data);
+				builder.Append(data, 0, charsRead);
 			} while (charsRead > 0 && inputStream.Position < inputStream.Size);
 			return builder.ToString();
 		}
