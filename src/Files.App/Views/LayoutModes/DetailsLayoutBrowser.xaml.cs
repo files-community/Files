@@ -411,7 +411,6 @@ namespace Files.App.Views.LayoutModes
 				TextBlock? textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
 				textBox.Visibility = Visibility.Collapsed;
 				textBlock!.Visibility = Visibility.Visible;
-
 			}
 
 			textBox!.LostFocus -= RenameTextBox_LostFocus;
