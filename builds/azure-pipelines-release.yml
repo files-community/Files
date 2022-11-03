@@ -119,7 +119,7 @@ jobs:
       platform: 'x64'
       solution: '$(solution)'
       configuration: '$(sideloadBuildConfiguration)'
-      msbuildArguments: '/t:restore /p:RestorePackagesConfig=true;Configuration="$(sideloadBuildConfiguration)";Platform="$(buildPlatform)";PublishReadyToRun=true'
+      msbuildArguments: '/t:restore /p:Configuration="$(sideloadBuildConfiguration)";Platform="$(buildPlatform)";PublishReadyToRun=true'
       maximumCpuCount: true
 
   - task: DownloadSecureFile@1
@@ -237,7 +237,7 @@ jobs:
       platform: 'x64'
       solution: '$(solution)'
       configuration: '$(buildConfiguration)'
-      msbuildArguments: '/t:restore /p:RestorePackagesConfig=true;Configuration="$(buildConfiguration)";Platform="$(buildPlatform)";PublishReadyToRun=true'
+      msbuildArguments: '/t:restore /p:Configuration="$(buildConfiguration)";Platform="$(buildPlatform)";PublishReadyToRun=true'
       maximumCpuCount: true
 
   - task: MSBuild@1
