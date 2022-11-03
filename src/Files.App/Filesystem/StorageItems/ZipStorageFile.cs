@@ -1,5 +1,5 @@
-using Files.App.Helpers;
 using Files.App.Extensions;
+using Files.App.Helpers;
 using SevenZip;
 using System;
 using System.Collections.Generic;

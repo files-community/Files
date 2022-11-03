@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
-using Vanara.Extensions.Reflection;
 using Windows.Storage;
 
 namespace Files.App.Filesystem.Cloud

@@ -1,6 +1,6 @@
+using Microsoft.UI.Xaml.Data;
 using System;
 using System.Text;
-using Microsoft.UI.Xaml.Data;
 
 namespace Files.App.Converters
 {

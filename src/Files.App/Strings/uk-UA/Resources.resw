@@ -816,12 +816,6 @@
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Мови</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>Програма термінала</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>Редагування програм терміналу</value>
-  </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Переміщення додаткових елементів у підменю</value>
   </data>
@@ -2426,9 +2420,6 @@
   </data>
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Показати розділ WSL</value>
-  </data>
-  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Програма термінала</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Поточні завдання</value>

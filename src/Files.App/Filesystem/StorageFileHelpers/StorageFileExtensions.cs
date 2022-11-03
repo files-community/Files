@@ -1,8 +1,8 @@
-using Files.Shared.Extensions;
 using Files.App.Extensions;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.Views;
+using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;

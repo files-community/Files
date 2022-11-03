@@ -1,8 +1,8 @@
 ﻿using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Windows;
 using System;
-using System.IO;
 using System.Diagnostics;
+using System.IO;
 using System.Threading;
 
 namespace Files.InteractionTests

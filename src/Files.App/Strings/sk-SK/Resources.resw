@@ -816,12 +816,6 @@
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Jazyk</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>Terminálové aplikácie</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>Upraviť terminálové aplikácie</value>
-  </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Presunúť položky "navyše" do podponuky</value>
   </data>
@@ -2429,9 +2423,6 @@
   </data>
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Zobraziť sekciu WSL</value>
-  </data>
-  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Aplikácia terminálu</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Prebiehajúce úlohy</value>

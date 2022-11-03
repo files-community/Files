@@ -1,24 +1,24 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Backend.Extensions;
-using Files.Backend.Services.Settings;
-using Files.Backend.Services.SizeProvider;
-using Files.Shared;
 using Files.App.Extensions;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.Helpers.FileListCache;
+using Files.App.Shell;
+using Files.Backend.Extensions;
+using Files.Backend.Services.Settings;
+using Files.Backend.Services.SizeProvider;
+using Files.Shared;
+using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using Vanara.PInvoke;
+using Vanara.Windows.Shell;
 using Windows.Storage;
-using Microsoft.UI.Xaml.Media.Imaging;
 using static Files.Backend.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
-using Files.App.Shell;
-using Vanara.Windows.Shell;
-using Vanara.PInvoke;
 
 namespace Files.App.Filesystem.StorageEnumerators
 {

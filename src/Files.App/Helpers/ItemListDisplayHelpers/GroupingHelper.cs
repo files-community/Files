@@ -1,9 +1,8 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Shared.Enums;
-using Files.Shared.Services.DateTimeFormatter;
 using Files.App.Extensions;
 using Files.App.Filesystem;
-using CommunityToolkit.WinUI;
+using Files.Shared.Enums;
+using Files.Shared.Services.DateTimeFormatter;
 using System;
 using System.Linq;
 using Windows.Storage;

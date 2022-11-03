@@ -1,9 +1,9 @@
 using Files.App.Dialogs;
+using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Interacts;
 using Files.App.ViewModels;
-using Files.App.Extensions;
 using Files.Backend.Enums;
 using Files.Shared;
 using Files.Shared.Enums;

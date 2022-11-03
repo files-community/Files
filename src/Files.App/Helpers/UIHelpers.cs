@@ -1,18 +1,17 @@
+using CommunityToolkit.WinUI.Notifications;
+using Files.App.Extensions;
+using Files.App.Shell;
 using Files.Shared;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Files.App.Shell;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
-using CommunityToolkit.WinUI.Notifications;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using Windows.UI.Notifications;
-using Files.App.Extensions;
 
 namespace Files.App.Helpers
 {

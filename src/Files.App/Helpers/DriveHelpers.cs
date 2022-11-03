@@ -1,6 +1,6 @@
 using Files.App.Interacts;
-using System.Threading.Tasks;
 using Microsoft.Management.Infrastructure;
+using System.Threading.Tasks;
 
 namespace Files.App.Helpers
 {

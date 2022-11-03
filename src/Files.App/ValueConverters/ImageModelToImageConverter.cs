@@ -1,8 +1,8 @@
 using Files.App.Imaging;
-using System;
-using System.Linq;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media.Imaging;
+using System;
+using System.Linq;
 
 namespace Files.App.ValueConverters
 {
