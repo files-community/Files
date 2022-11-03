@@ -363,11 +363,7 @@ namespace Files.App.ViewModels
 
 		private async Task<LocationItem> GetOrCreateSection(SectionType sectionType)
 		{
-			LocationItem? section = GetSection(sectionType);
-			if (section is null)
-			{
-				section = await CreateSection(sectionType);
-			}
+			LocationItem? section = GetSection(sectionType) ?? await CreateSection(sectionType);
 			return section;
 		}
 

@@ -158,10 +158,7 @@ namespace Files.App.Filesystem
 			set
 			{
 				// For some reason this being null will cause a crash with bindings
-				if (value is null)
-				{
-					value = new CloudDriveSyncStatusUI();
-				}
+				value ??= new CloudDriveSyncStatusUI();
 				if (SetProperty(ref syncStatusUI, value))
 				{
 					OnPropertyChanged(nameof(SyncStatusString));

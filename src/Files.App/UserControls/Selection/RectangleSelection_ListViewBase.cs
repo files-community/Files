@@ -216,10 +216,7 @@ namespace Files.App.UserControls.Selection
 
 		private void RectangleSelection_SizeChanged(object sender, object e)
 		{
-			if (scrollViewer is null)
-			{
-				scrollViewer = DependencyObjectHelpers.FindChild<ScrollViewer>(uiElement, sv => sv.VerticalScrollMode != ScrollMode.Disabled);
-			}
+			scrollViewer ??= DependencyObjectHelpers.FindChild<ScrollViewer>(uiElement, sv => sv.VerticalScrollMode != ScrollMode.Disabled);
 
 			if (scrollViewer is not null)
 			{
