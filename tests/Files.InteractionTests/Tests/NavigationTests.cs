@@ -1,8 +1,4 @@
-﻿using System;
-using System.Threading;
-using OpenQA.Selenium.Interactions;
-
-namespace Files.InteractionTests.Tests
+﻿namespace Files.InteractionTests.Tests
 {
 	[TestClass]
 	public class NavigationsTests

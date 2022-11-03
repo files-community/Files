@@ -1,15 +1,14 @@
+using Files.Sdk.Storage;
+using Files.Sdk.Storage.Enums;
+using Files.Sdk.Storage.LocatableStorage;
+using Files.Sdk.Storage.ModifiableStorage;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Files.Sdk.Storage;
-using Files.Sdk.Storage.Enums;
-using Files.Sdk.Storage.LocatableStorage;
-using Files.Sdk.Storage.ModifiableStorage;
 using CreationCollisionOption = Files.Sdk.Storage.Enums.CreationCollisionOption;
-using NameCollisionOption = Files.Sdk.Storage.Enums.NameCollisionOption;
 
 namespace Files.App.Storage.WindowsStorage
 {
