@@ -60,7 +60,7 @@ namespace Files.App.Views
 						wasRightPaneVisible = isRightPaneVisible;
 						IsRightPaneVisible = false;
 					}
-					else if (_wasRightPaneVisible)
+					else if (wasRightPaneVisible)
 					{
 						IsRightPaneVisible = true;
 						wasRightPaneVisible = false;
