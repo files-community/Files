@@ -1,21 +1,21 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
-using Files.Backend.Services.Settings;
-using Files.Shared.Cloud;
-using Files.Shared.EventArguments;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.UserControls.FilePreviews;
 using Files.App.ViewModels.Previews;
+using Files.Backend.Services.Settings;
+using Files.Shared.Cloud;
+using Files.Shared.EventArguments;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.ViewModels
 {

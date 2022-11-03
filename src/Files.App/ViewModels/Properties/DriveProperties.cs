@@ -1,8 +1,8 @@
 using Files.App.DataModels.NavigationControlItems;
+using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
-using Files.App.Extensions;
 using System;
 using Windows.Storage.FileProperties;
 

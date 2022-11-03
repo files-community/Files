@@ -10,6 +10,7 @@ namespace Files.App.UserControls.Selection
 		public ExtendPreviousItemSelectionStrategy(ICollection<object> selectedItems, List<object> prevSelectedItems) : base(selectedItems)
 		{
 			this.prevSelectedItems = prevSelectedItems;
+			this.prevSelectedItems = prevSelectedItems;
 		}
 
 		public override void HandleIntersectionWithItem(object item)
