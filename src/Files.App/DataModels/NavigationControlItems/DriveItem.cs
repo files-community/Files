@@ -120,16 +120,11 @@ namespace Files.App.DataModels.NavigationControlItems
 			get => percentageUsed;
 			set
 			{
-				if (SetProperty(ref percentageUsed, value))
-				{
-					if (Type == DriveType.Fixed)
-					{
-						if (percentageUsed >= Constants.Widgets.Drives.LowStorageSpacePercentageThreshold)
-							ShowStorageSense = true;
-						else
-							ShowStorageSense = false;
-					}
-				}
+				if (!SetProperty(ref percentageUsed, value)) 
+					return;
+
+				if (Type == DriveType.Fixed)
+					ShowStorageSense = percentageUsed >= Constants.Widgets.Drives.LowStorageSpacePercentageThreshold;
 			}
 		}
 

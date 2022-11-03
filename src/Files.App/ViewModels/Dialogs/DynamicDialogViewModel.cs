@@ -124,14 +124,7 @@ namespace Files.App.ViewModels.Dialogs
 			{
 				if (SetProperty(ref subtitleText, value))
 				{
-					if (!string.IsNullOrWhiteSpace(value))
-					{
-						SubtitleLoad = true;
-					}
-					else
-					{
-						SubtitleLoad = false;
-					}
+					SubtitleLoad = !string.IsNullOrWhiteSpace(value);
 				}
 			}
 		}
