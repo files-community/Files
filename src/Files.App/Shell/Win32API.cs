@@ -635,10 +635,11 @@ namespace Files.App.Shell
 
 				for (ushort Count = 1; Directory.Exists(uniquePath); Count++)
 				{
-					if (countMatch.Success)
-						uniquePath = Path.Combine(directory, $"{Name[..countMatch.Index]}({Count})");
-					else
-						uniquePath = Path.Combine(directory, $"{Name} ({Count})");
+					var pathSuffix = (countMatch.Success) ?
+						$"{Name[..countMatch.Index]}({Count})"
+						: $"{Name} ({Count})";
+
+					uniquePath = Path.Combine(directory, pathSuffix);
 				}
 			}
 
