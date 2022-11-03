@@ -232,23 +232,8 @@ namespace Files.App.ViewModels.Dialogs
 						return;
 					}
 
-					if (!value.HasFlag(DynamicDialogButtons.Primary))
-					{
-						IsPrimaryButtonEnabled = false; // Hides this option
-					}
-					else
-					{
-						IsPrimaryButtonEnabled = true;
-					}
-
-					if (!value.HasFlag(DynamicDialogButtons.Secondary))
-					{
-						IsSecondaryButtonEnabled = false; // Hides this option
-					}
-					else
-					{
-						IsSecondaryButtonEnabled = true;
-					}
+					IsPrimaryButtonEnabled = value.HasFlag(DynamicDialogButtons.Primary); // Hides this option
+					IsSecondaryButtonEnabled = value.HasFlag(DynamicDialogButtons.Secondary); // Hides this option
 				}
 			}
 		}
