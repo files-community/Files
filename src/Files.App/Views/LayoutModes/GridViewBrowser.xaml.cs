@@ -342,22 +342,22 @@ namespace Files.App.Views.LayoutModes
 
 		private void EndRename(TextBox textBox)
 		{
-			if (textBox is null || textBox.Parent is null)
+			GridViewItem? gridViewItem = FileList.ContainerFromItem(RenamingItem) as GridViewItem;
+
+			if (textBox is null || gridViewItem is null)
 			{
 				// Navigating away, do nothing
 			}
 			else if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
 			{
-				Popup popup = (Popup)textBox.Parent;
-				TextBlock textBlock = (TextBlock)((Grid)popup.Parent).Children[1];
-				popup.IsOpen = false;
+				Popup? popup = gridViewItem.FindDescendant("EditPopup") as Popup;
+				popup!.IsOpen = false;
 			}
 			else if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
 			{
-				Grid grid = (Grid)textBox.Parent;
-				TextBlock textBlock = (TextBlock)grid.Children[0];
+				TextBlock? textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
 				textBox.Visibility = Visibility.Collapsed;
-				textBlock.Visibility = Visibility.Visible;
+				textBlock!.Visibility = Visibility.Visible;
 			}
 
 			textBox!.LostFocus -= RenameTextBox_LostFocus;
@@ -366,7 +366,6 @@ namespace Files.App.Views.LayoutModes
 			IsRenamingItem = false;
 
 			// Re-focus selected list item
-			GridViewItem? gridViewItem = FileList.ContainerFromItem(RenamingItem) as GridViewItem;
 			gridViewItem?.Focus(FocusState.Programmatic);
 		}
 
