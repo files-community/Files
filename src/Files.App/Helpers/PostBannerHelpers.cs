@@ -1,7 +1,7 @@
-using Files.Shared.Enums;
+using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.ViewModels;
-using Files.App.Extensions;
+using Files.Shared.Enums;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;

@@ -1,15 +1,15 @@
+using CommunityToolkit.WinUI;
 using Files.App.Dialogs;
-using Files.Shared.Enums;
-using Files.Shared.Extensions;
+using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.ViewModels.Dialogs;
-using Files.App.Extensions;
-using CommunityToolkit.WinUI;
-using System;
-using Windows.System;
+using Files.Shared.Enums;
+using Files.Shared.Extensions;
 using Microsoft.UI.Xaml.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using Windows.System;
 
 namespace Files.App.Helpers
 {

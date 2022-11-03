@@ -1,10 +1,10 @@
 using Files.App.Filesystem;
 using Files.App.ViewModels.Properties;
+using Microsoft.UI.Xaml;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.Media.Core;
-using Microsoft.UI.Xaml;
 
 namespace Files.App.ViewModels.Previews
 {

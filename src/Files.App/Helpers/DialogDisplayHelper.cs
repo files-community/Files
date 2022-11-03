@@ -1,10 +1,9 @@
 using Files.App.Dialogs;
-using Files.Shared.Enums;
 using Files.App.ViewModels.Dialogs;
+using Files.Shared.Enums;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Threading.Tasks;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Helpers
 {

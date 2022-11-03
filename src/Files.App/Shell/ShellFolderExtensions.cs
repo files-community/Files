@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
-using static Vanara.PInvoke.Shell32;
 
 namespace Files.App.Shell
 {

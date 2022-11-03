@@ -1,7 +1,7 @@
-using Files.Shared.Extensions;
-using Files.App.Helpers;
-using FluentFTP;
 using Files.App.Extensions;
+using Files.App.Helpers;
+using Files.Shared.Extensions;
+using FluentFTP;
 using System;
 using System.Collections.Generic;
 using System.IO;

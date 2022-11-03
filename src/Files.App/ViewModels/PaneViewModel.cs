@@ -1,7 +1,7 @@
-using Files.Shared.Enums;
-using Files.Backend.Services.Settings;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services.Settings;
+using Files.Shared.Enums;
 using System;
 using System.ComponentModel;
 

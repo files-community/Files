@@ -1,5 +1,5 @@
-using Files.Shared.Enums;
 using Files.App.ViewModels;
+using Files.Shared.Enums;
 using System;
 using System.Threading;
 

@@ -1,4 +1,3 @@
-
 namespace Files.App.Serialization
 {
 	internal interface IJsonSettingsDatabase

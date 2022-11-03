@@ -1,8 +1,8 @@
+using CommunityToolkit.WinUI;
+using Files.Backend.Services;
+using Microsoft.UI.Dispatching;
 using System;
 using System.Threading.Tasks;
-using Files.Backend.Services;
-using CommunityToolkit.WinUI;
-using Microsoft.UI.Dispatching;
 
 namespace Files.App.ServicesImplementation
 {

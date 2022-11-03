@@ -1,11 +1,10 @@
 using Files.App.Extensions;
 using Files.App.Helpers;
 using Files.Shared.Extensions;
-using CommunityToolkit.WinUI;
 using SevenZip;
 using System;
-using System.Collections.Generic;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;

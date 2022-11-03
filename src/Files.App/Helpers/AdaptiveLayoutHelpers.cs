@@ -3,7 +3,6 @@ using Files.App.Filesystem;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Previews;
 using Files.Backend.Services.Settings;
-using Files.Shared.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;

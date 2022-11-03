@@ -8,7 +8,6 @@ using Files.App.Views;
 using Files.Backend.Services.Settings;
 using Files.Shared.Extensions;
 using Microsoft.UI;
-using Microsoft.UI.Dispatching;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;

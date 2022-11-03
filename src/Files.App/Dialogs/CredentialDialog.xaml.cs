@@ -1,10 +1,10 @@
-using Files.Backend.ViewModels.Dialogs;
 using Files.Backend.SecureStore;
+using Files.Backend.ViewModels.Dialogs;
 using Files.Shared.Enums;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.UI.Xaml.Controls;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
