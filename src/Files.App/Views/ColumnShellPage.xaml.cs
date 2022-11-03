@@ -397,6 +397,8 @@ namespace Files.App.Views
 		{
 			base.OnNavigatedTo(eventArgs);
 			ColumnParams = eventArgs.Parameter as ColumnParam;
+			if (ColumnParams?.IsLayoutSwitch ?? false)
+				FilesystemViewModel_DirectoryInfoUpdated(this, EventArgs.Empty);
 		}
 
 		private void AppSettings_SortDirectionPreferenceUpdated(object sender, SortDirection e)
