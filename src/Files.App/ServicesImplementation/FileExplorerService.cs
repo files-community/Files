@@ -40,10 +40,7 @@ namespace Files.App.ServicesImplementation
 			var fileTask = filePicker.PickSingleFileAsync().AsTask(cancellationToken);
 			var file = await fileTask;
 
-			if (file is null)
-				return null;
-
-			return new WindowsStorageFile(file);
+			return file is null ? null : new WindowsStorageFile(file);
 		}
 
 		// WINUI3
@@ -63,10 +60,7 @@ namespace Files.App.ServicesImplementation
 			var folderTask = folderPicker.PickSingleFolderAsync().AsTask(cancellationToken);
 			var folder = await folderTask;
 
-			if (folder is null)
-				return null;
-
-			return new WindowsStorageFolder(folder);
+			return folder is null ? null : new WindowsStorageFolder(folder);
 		}
 
 		// WINUI3

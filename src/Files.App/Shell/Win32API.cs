@@ -154,10 +154,7 @@ namespace Files.App.Shell
 			async Task<string?> GetUwpAssoc()
 			{
 				var uwpApps = await Launcher.FindFileHandlersAsync(Path.GetExtension(filename));
-				if (uwpApps.Any())
-					return uwpApps[0].PackageFamilyName;
-
-				return null;
+				return uwpApps.Any() ? uwpApps[0].PackageFamilyName : null;
 			}
 
 			// Find desktop apps
@@ -165,16 +162,14 @@ namespace Files.App.Shell
 			{
 				var lpResult = new StringBuilder(2048);
 				var hResult = Shell32.FindExecutable(filename, null, lpResult);
-				if (hResult.ToInt64() > 32)
-					return lpResult.ToString();
 
-				return null;
+				return hResult.ToInt64() > 32 ? lpResult.ToString() : null;
 			}
 
 			if (checkDesktopFirst)
 				return GetDesktopAssoc() ?? await GetUwpAssoc();
-			else
-				return await GetUwpAssoc() ?? GetDesktopAssoc();
+
+			return await GetUwpAssoc() ?? GetDesktopAssoc();
 		}
 
 		public static string ExtractStringFromDLL(string file, int number)

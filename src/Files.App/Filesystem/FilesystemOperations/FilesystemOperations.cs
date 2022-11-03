@@ -113,11 +113,9 @@ namespace Files.App.Filesystem
 				}
 
 				errorCode?.Report(fsResult);
-				if (item is not null)
-				{
-					return (new StorageHistory(FileOperationType.CreateNew, item.CreateList(), null), item.Item);
-				}
-				return (null, null);
+				return item is not null 
+					? (new StorageHistory(FileOperationType.CreateNew, item.CreateList(), null), item.Item)
+					: (null, null);
 			}
 			catch (Exception e)
 			{

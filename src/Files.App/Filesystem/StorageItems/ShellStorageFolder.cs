@@ -133,11 +133,7 @@ namespace Files.App.Filesystem.StorageItems
 			return AsyncInfo.Run(async (cancellationToken) =>
 			{
 				var res = await GetFolderAndItems(Path, false);
-				if (res.Folder is not null)
-				{
-					return new ShellFolderBasicProperties(res.Folder);
-				}
-				return new BaseBasicProperties();
+				return res.Folder is not null ? new ShellFolderBasicProperties(res.Folder) : new BaseBasicProperties();
 			});
 		}
 

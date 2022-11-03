@@ -41,9 +41,7 @@ namespace Files.App.Helpers
 
 		public bool IsPathUnderRecycleBin(string path)
 		{
-			if (string.IsNullOrWhiteSpace(path))
-				return false;
-			return recycleBinPathRegex.IsMatch(path);
+			return !string.IsNullOrWhiteSpace(path) && recycleBinPathRegex.IsMatch(path);
 		}
 
 		public static async Task S_EmptyRecycleBin()

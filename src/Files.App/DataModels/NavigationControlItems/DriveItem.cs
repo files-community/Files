@@ -216,10 +216,7 @@ namespace Files.App.DataModels.NavigationControlItems
 		public int CompareTo(INavigationControlItem other)
 		{
 			var result = Type.CompareTo((other as DriveItem)?.Type ?? Type);
-			if (result == 0)
-				return Text.CompareTo(other.Text);
-
-			return result;
+			return result == 0 ? Text.CompareTo(other.Text) : result;
 		}
 
 		public async Task LoadDriveIcon()

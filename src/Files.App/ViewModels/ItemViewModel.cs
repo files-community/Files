@@ -1977,20 +1977,15 @@ namespace Files.App.ViewModels
 
 		public Task<ListedItem> AddFileOrFolderFromShellFile(ShellFileItem item)
 		{
-			if (item.IsFolder)
-			{
-				return UniversalStorageEnumerator.AddFolderAsync(ShellStorageFolder.FromShellItem(item), currentStorageFolder, addFilesCTS.Token);
-			}
-
-			return UniversalStorageEnumerator.AddFileAsync(ShellStorageFile.FromShellItem(item), currentStorageFolder, addFilesCTS.Token);
+			return item.IsFolder
+				? UniversalStorageEnumerator.AddFolderAsync(ShellStorageFolder.FromShellItem(item), currentStorageFolder, addFilesCTS.Token)
+				: UniversalStorageEnumerator.AddFileAsync(ShellStorageFile.FromShellItem(item), currentStorageFolder, addFilesCTS.Token);
 		}
 
 		private async Task AddFileOrFolderAsync(ListedItem item)
 		{
 			if (item is null)
-			{
 				return;
-			}
 
 			try
 			{
