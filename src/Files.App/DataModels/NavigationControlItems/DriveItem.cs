@@ -46,11 +46,23 @@ namespace Files.App.DataModels.NavigationControlItems
 		public bool IsNetwork => Type == DriveType.Network;
 		public bool IsPinned => App.SidebarPinnedController.Model.FavoriteItems.Contains(path);
 
+		public string MaxSpaceText => MaxSpace.ToSizeString();
+		public string FreeSpaceText => FreeSpace.ToSizeString();
+		public string UsedSpaceText => SpaceUsed.ToSizeString();
+
 		private ByteSize maxSpace;
 		public ByteSize MaxSpace
 		{
 			get => maxSpace;
-			set => SetProperty(ref maxSpace, value);
+			set
+			{
+				if (SetProperty(ref maxSpace, value))
+				{
+					ToolTipText = GetSizeString();
+					OnPropertyChanged(nameof(MaxSpaceText));
+					OnPropertyChanged(nameof(ShowDriveDetails));
+				}
+			}
 		}
 
 		private ByteSize freeSpace;
@@ -59,8 +71,11 @@ namespace Files.App.DataModels.NavigationControlItems
 			get => freeSpace;
 			set
 			{
-				SetProperty(ref freeSpace, value);
-				ToolTipText = GetSizeString();
+				if (SetProperty(ref freeSpace, value))
+				{
+					ToolTipText = GetSizeString();
+					OnPropertyChanged(nameof(FreeSpaceText));
+				}
 			}
 		}
 
@@ -70,24 +85,16 @@ namespace Files.App.DataModels.NavigationControlItems
 			get => spaceUsed;
 			set
 			{
-				SetProperty(ref spaceUsed, value);
+				if (SetProperty(ref spaceUsed, value))
+				{
+					OnPropertyChanged(nameof(UsedSpaceText));
+				}
 			}
 		}
 
-		public bool ShowDriveDetails
-		{
-			get => MaxSpace.Bytes > 0d ? true : false;
-		}
+		public bool ShowDriveDetails => MaxSpace.Bytes > 0d;
 
-		private DriveType type;
-		public DriveType Type
-		{
-			get => type;
-			set
-			{
-				type = value;
-			}
-		}
+		public DriveType Type { get; set; }
 
 		private string text;
 		public string Text
@@ -142,10 +149,10 @@ namespace Files.App.DataModels.NavigationControlItems
 		{
 			var item = new DriveItem();
 
-			if (imageStream != null)
+			if (imageStream is not null)
 				item.IconData = await imageStream.ToByteArrayAsync();
 
-			item.Text = root.DisplayName;
+			item.Text = type is DriveType.Network ? $"{root.DisplayName} ({deviceId})" : root.DisplayName;
 			item.Type = type;
 			item.MenuOptions = new ContextMenuOptions
 			{
@@ -183,7 +190,7 @@ namespace Files.App.DataModels.NavigationControlItems
 				var properties = await Root.Properties.RetrievePropertiesAsync(new[] { "System.FreeSpace", "System.Capacity" })
 					.AsTask().WithTimeoutAsync(TimeSpan.FromSeconds(5));
 
-				if (properties != null && properties["System.Capacity"] != null && properties["System.FreeSpace"] != null)
+				if (properties is not null && properties["System.Capacity"] is not null && properties["System.FreeSpace"] is not null)
 				{
 					MaxSpace = ByteSize.FromBytes((ulong)properties["System.Capacity"]);
 					FreeSpace = ByteSize.FromBytes((ulong)properties["System.FreeSpace"]);
@@ -199,11 +206,15 @@ namespace Files.App.DataModels.NavigationControlItems
 					SpaceText = "DriveCapacityUnknown".GetLocalizedResource();
 					MaxSpace = SpaceUsed = FreeSpace = ByteSize.FromBytes(0);
 				}
+
+				OnPropertyChanged(nameof(ShowDriveDetails));
 			}
 			catch (Exception)
 			{
 				SpaceText = "DriveCapacityUnknown".GetLocalizedResource();
 				MaxSpace = SpaceUsed = FreeSpace = ByteSize.FromBytes(0);
+
+				OnPropertyChanged(nameof(ShowDriveDetails));
 			}
 		}
 
@@ -218,12 +229,12 @@ namespace Files.App.DataModels.NavigationControlItems
 
 		public async Task LoadDriveIcon()
 		{
-			if (IconData == null)
+			if (IconData is null)
 			{
 				if (!string.IsNullOrEmpty(DeviceID))
 					IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, 24);
 
-				if (IconData == null)
+				if (IconData is null)
 				{
 					var resource = UIHelpers.GetIconResourceInfo(Constants.ImageRes.Folder);
 					IconData = resource?.IconData;

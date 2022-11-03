@@ -1,6 +1,6 @@
+using Files.App.Serialization;
 using Files.Backend.Services.Settings;
 using Files.Shared.EventArguments;
-using Files.App.Serialization;
 using Microsoft.AppCenter.Analytics;
 
 namespace Files.App.ServicesImplementation.Settings
@@ -18,7 +18,7 @@ namespace Files.App.ServicesImplementation.Settings
 			get => Get(true);
 			set => Set(value);
 		}
-		
+
 		public bool RestoreTabsOnStartup
 		{
 			get => Get(false);

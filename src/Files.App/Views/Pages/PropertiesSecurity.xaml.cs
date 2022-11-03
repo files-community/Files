@@ -11,145 +11,142 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.IO;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
 using Windows.Foundation.Metadata;
 using Windows.Graphics;
 using static Files.App.Views.PropertiesSecurityAdvanced;
 
 namespace Files.App.Views
 {
-    public sealed partial class PropertiesSecurity : PropertiesTab
-    {
-        public RelayCommand OpenAdvancedPropertiesCommand { get; set; }
+	public sealed partial class PropertiesSecurity : PropertiesTab
+	{
+		public RelayCommand OpenAdvancedPropertiesCommand { get; set; }
 
-        public SecurityProperties SecurityProperties { get; set; }
+		public SecurityProperties SecurityProperties { get; set; }
 
-        private AppWindow? propsView;
+		private AppWindow? propsView;
 
-        public PropertiesSecurity()
-        {
-            this.InitializeComponent();
+		public PropertiesSecurity()
+		{
+			this.InitializeComponent();
 
-            OpenAdvancedPropertiesCommand = new RelayCommand(() => OpenAdvancedProperties());
-        }
+			OpenAdvancedPropertiesCommand = new RelayCommand(() => OpenAdvancedProperties());
+		}
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            var np = e.Parameter as Views.Properties.PropertyNavParam;
+		protected override void OnNavigatedTo(NavigationEventArgs e)
+		{
+			var np = e.Parameter as Views.Properties.PropertyNavParam;
 
-            if (np.navParameter is ListedItem listedItem)
-            {
-                SecurityProperties = new SecurityProperties(listedItem);
-            }
-            else if (np.navParameter is DriveItem driveitem)
-            {
-                SecurityProperties = new SecurityProperties(driveitem);
-            }
+			if (np.navParameter is ListedItem listedItem)
+			{
+				SecurityProperties = new SecurityProperties(listedItem);
+			}
+			else if (np.navParameter is DriveItem driveitem)
+			{
+				SecurityProperties = new SecurityProperties(driveitem);
+			}
 
-            base.OnNavigatedTo(e);
-        }
+			base.OnNavigatedTo(e);
+		}
 
-        public async override Task<bool> SaveChangesAsync(ListedItem item)
-        {
-            if (SecurityProperties != null)
-            {
-                return await SecurityProperties.SetFilePermissions();
-            }
-            return true;
-        }
+		public async override Task<bool> SaveChangesAsync(ListedItem item)
+		{
+			if (SecurityProperties is not null)
+			{
+				return SecurityProperties.SetFilePermissions();
+			}
+			return true;
+		}
 
-        protected override void Properties_Loaded(object sender, RoutedEventArgs e)
-        {
-            base.Properties_Loaded(sender, e);
+		protected override void Properties_Loaded(object sender, RoutedEventArgs e)
+		{
+			base.Properties_Loaded(sender, e);
 
-            if (SecurityProperties != null)
-            {
-                SecurityProperties.GetFilePermissions();
-            }
-        }
+			if (SecurityProperties is not null)
+			{
+				SecurityProperties.GetFilePermissions();
+			}
+		}
 
-        public override void Dispose()
-        {
+		public override void Dispose()
+		{
 
-        }
+		}
 
-        private void OpenAdvancedProperties()
-        {
-            if (SecurityProperties == null)
-            {
-                return;
-            }
+		private void OpenAdvancedProperties()
+		{
+			if (SecurityProperties is null)
+			{
+				return;
+			}
 
-            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-            {
-                if (propsView == null)
-                {
-                    var frame = new Frame();
-                    frame.RequestedTheme = ThemeHelper.RootTheme;
-                    frame.Navigate(typeof(PropertiesSecurityAdvanced), new PropertiesPageNavigationArguments()
-                    {
-                        Item = SecurityProperties.Item
-                    }, new SuppressNavigationTransitionInfo());
+			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+			{
+				if (propsView is null)
+				{
+					var frame = new Frame();
+					frame.RequestedTheme = ThemeHelper.RootTheme;
+					frame.Navigate(typeof(PropertiesSecurityAdvanced), new PropertiesPageNavigationArguments()
+					{
+						Item = SecurityProperties.Item
+					}, new SuppressNavigationTransitionInfo());
 
-                    // Initialize window
-                    var propertiesWindow = new WinUIEx.WindowEx()
-                    {
-                        IsMinimizable = false,
-                        IsMaximizable = false
-                    };
-                    var appWindow = propertiesWindow.AppWindow;
+					// Initialize window
+					var propertiesWindow = new WinUIEx.WindowEx()
+					{
+						IsMinimizable = false,
+						IsMaximizable = false
+					};
+					var appWindow = propertiesWindow.AppWindow;
 
-                    // Set icon
-                    appWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, "Assets/AppTiles/Dev/Logo.ico"));
+					// Set icon
+					appWindow.SetIcon(FilePropertiesHelpers.GetFilesLogoPath());
 
-                    // Set content
-                    propertiesWindow.Content = frame;
-                    if (frame.Content is PropertiesSecurityAdvanced properties)
-                        properties.appWindow = appWindow;
+					// Set content
+					propertiesWindow.Content = frame;
+					if (frame.Content is PropertiesSecurityAdvanced properties)
+						properties.appWindow = appWindow;
 
-                    // Set min size
-                    propertiesWindow.MinWidth = 850;
-                    propertiesWindow.MinHeight = 550;
+					// Set min size
+					propertiesWindow.MinWidth = 850;
+					propertiesWindow.MinHeight = 550;
 
-                    // Set backdrop
-                    propertiesWindow.Backdrop = new WinUIEx.MicaSystemBackdrop() { DarkTintOpacity = 0.8 };
+					// Set backdrop
+					propertiesWindow.Backdrop = new WinUIEx.MicaSystemBackdrop() { DarkTintOpacity = 0.8 };
 
-                    appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+					appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
 
-                    // Set window buttons background to transparent
-                    appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
-                    appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+					// Set window buttons background to transparent
+					appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+					appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
-                    appWindow.Title = string.Format("SecurityAdvancedPermissionsTitle".GetLocalizedResource(), SecurityProperties.Item.Name);
-                    appWindow.Resize(new SizeInt32(850, 550));
-                    appWindow.Destroying += AppWindow_Destroying;
-                    appWindow.Show();
+					appWindow.Title = string.Format("SecurityAdvancedPermissionsTitle".GetLocalizedResource(), SecurityProperties.Item.Name);
+					appWindow.Resize(new SizeInt32(850, 550));
+					appWindow.Destroying += AppWindow_Destroying;
+					appWindow.Show();
 
-                    propsView = appWindow;
-                }
-                else
-                {
-                    propsView.Show(true);
-                }
-            }
-            else
-            {
-                // Unsupported
-            }
-        }
+					propsView = appWindow;
+				}
+				else
+				{
+					propsView.Show(true);
+				}
+			}
+			else
+			{
+				// Unsupported
+			}
+		}
 
-        private async void AppWindow_Destroying(AppWindow sender, object args)
-        {
-            sender.Destroying -= AppWindow_Destroying;
-            propsView = null;
+		private async void AppWindow_Destroying(AppWindow sender, object args)
+		{
+			sender.Destroying -= AppWindow_Destroying;
+			propsView = null;
 
-            if (SecurityProperties != null)
-            {
-                await DispatcherQueue.EnqueueAsync(() => SecurityProperties.GetFilePermissions()); // Reload permissions
-            }
-        }
-    }
+			if (SecurityProperties is not null)
+			{
+				await DispatcherQueue.EnqueueAsync(() => SecurityProperties.GetFilePermissions()); // Reload permissions
+			}
+		}
+	}
 }

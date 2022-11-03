@@ -97,40 +97,39 @@ namespace Files.App.Behaviors
 		{
 			StopAnimation();
 
-			if (AssociatedObject == null)
+			if (AssociatedObject is null)
 				return false;
 
-			if (_scrollViewer == null)
+			if (_scrollViewer is null)
 				_scrollViewer = AssociatedObject as ScrollViewer ?? AssociatedObject.FindDescendant<ScrollViewer>();
 
-			if (_scrollViewer == null)
+			if (_scrollViewer is null)
 				return false;
 
 			var listView = AssociatedObject as ListViewBase ?? AssociatedObject.FindDescendant<ListViewBase>();
 
-			if (listView != null && listView.ItemsPanelRoot != null)
+			if (listView is not null && listView.ItemsPanelRoot is not null)
 				Canvas.SetZIndex(listView.ItemsPanelRoot, -1);
 
-			if (_scrollProperties == null)
+			if (_scrollProperties is null)
 				_scrollProperties = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(_scrollViewer);
 
-
-			if (_scrollProperties == null)
+			if (_scrollProperties is null)
 				return false;
 
 			// Implicit operation: Find the Header object of the control if it uses ListViewBase
-			if (HeaderElement == null && listView != null)
+			if (HeaderElement is null && listView is not null)
 				HeaderElement = listView.Header as UIElement;
 
 			var headerElement = HeaderElement as FrameworkElement;
 
-			if (headerElement == null || headerElement.RenderSize.Height == 0)
+			if (headerElement is null || headerElement.RenderSize.Height == 0)
 				return false;
 
-			if (_headerVisual == null)
+			if (_headerVisual is null)
 				_headerVisual = ElementCompositionPreview.GetElementVisual(headerElement);
 
-			if (_headerVisual == null)
+			if (_headerVisual is null)
 				return false;
 
 			headerElement.SizeChanged -= ScrollHeader_SizeChanged;
@@ -141,7 +140,7 @@ namespace Files.App.Behaviors
 
 			var compositor = _scrollProperties.Compositor;
 
-			if (_animationProperties == null)
+			if (_animationProperties is null)
 			{
 				_animationProperties = compositor.CreatePropertySet();
 				_animationProperties.InsertScalar("OffsetY", 0.0f);
@@ -156,10 +155,10 @@ namespace Files.App.Behaviors
 			// Mod: clip items panel below header
 			var itemsPanel = listView.ItemsPanelRoot;
 
-			if (itemsPanel == null)
+			if (itemsPanel is null)
 				return true;
 
-			if (_itemsPanelVisual == null)
+			if (_itemsPanelVisual is null)
 			{
 				_itemsPanelVisual = ElementCompositionPreview.GetElementVisual(itemsPanel);
 				_contentClip = compositor.CreateInsetClip();
@@ -181,7 +180,7 @@ namespace Files.App.Behaviors
 			if (HeaderElement is FrameworkElement element)
 				element.SizeChanged -= ScrollHeader_SizeChanged;
 
-			if (_scrollViewer != null)
+			if (_scrollViewer is not null)
 				_scrollViewer.GotFocus -= ScrollViewer_GotFocus;
 
 			StopAnimation();
@@ -198,7 +197,7 @@ namespace Files.App.Behaviors
 
 			_contentClip?.StopAnimation("TopInset");
 
-			if (_headerVisual == null)
+			if (_headerVisual is null)
 				return;
 
 			var offset = _headerVisual.Offset;
@@ -216,7 +215,7 @@ namespace Files.App.Behaviors
 			var scroller = (ScrollViewer)sender;
 
 			object focusedElement;
-			if (IsXamlRootAvailable && scroller.XamlRoot != null)
+			if (IsXamlRootAvailable && scroller.XamlRoot is not null)
 			{
 				focusedElement = FocusManager.GetFocusedElement(scroller.XamlRoot);
 			}
@@ -227,7 +226,7 @@ namespace Files.App.Behaviors
 
 			// To prevent Popups (Flyouts...) from triggering the autoscroll, we check if the focused element has a valid parent.
 			// Popups have no parents, whereas a normal Item would have the ListView as a parent.
-			if (focusedElement is UIElement element && VisualTreeHelper.GetParent(element) != null)
+			if (focusedElement is UIElement element && VisualTreeHelper.GetParent(element) is not null)
 			{
 				// Mod: ignore if element is child of header
 				if (!element.FindAscendants().Any(x => x == HeaderElement))

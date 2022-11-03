@@ -1,25 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	<TargetFramework>netstandard2.0</TargetFramework>
-	<Platforms>x86;x64;arm64</Platforms>
-	<RuntimeIdentifiers>win-arm64;win-x86;win-x64</RuntimeIdentifiers>
-	<LangVersion>9</LangVersion>
-	<Nullable>enable</Nullable>
-	<Configurations>Debug;Release;Sideload</Configurations>
-	<PublishReadyToRun>true</PublishReadyToRun>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <IsTrimmable>true</IsTrimmable>
+    <Configurations>Debug;Release;Sideload</Configurations>
+    <Platforms>x86;x64;arm64</Platforms>
+    <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="ByteSize" Version="2.1.1" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
-    <PackageReference Include="System.Collections.Immutable" Version="6.0.0" />
-    <PackageReference Include="System.Text.Json" Version="6.0.6" />
   </ItemGroup>
 
   <ItemGroup>
-	<ProjectReference Include="..\Files.Sdk.Storage\Files.Sdk.Storage.csproj" />
-	<ProjectReference Include="..\Files.Shared\Files.Shared.csproj" />
+    <ProjectReference Include="..\Files.Sdk.Storage\Files.Sdk.Storage.csproj" />
+    <ProjectReference Include="..\Files.Shared\Files.Shared.csproj" />
   </ItemGroup>
 
 </Project>

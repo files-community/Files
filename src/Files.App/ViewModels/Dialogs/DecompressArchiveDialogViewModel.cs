@@ -9,66 +9,66 @@ using Windows.Storage.Pickers;
 
 namespace Files.App.ViewModels.Dialogs
 {
-    public class DecompressArchiveDialogViewModel : ObservableObject
-    {
-        private readonly IStorageFile archive;
+	public class DecompressArchiveDialogViewModel : ObservableObject
+	{
+		private readonly IStorageFile archive;
 
-        public StorageFolder DestinationFolder { get; private set; }
+		public StorageFolder DestinationFolder { get; private set; }
 
-        private string destinationFolderPath;
+		private string destinationFolderPath;
 
-        public string DestinationFolderPath
-        {
-            get => destinationFolderPath;
-            private set => SetProperty(ref destinationFolderPath, value);
-        }
+		public string DestinationFolderPath
+		{
+			get => destinationFolderPath;
+			private set => SetProperty(ref destinationFolderPath, value);
+		}
 
-        private bool openDestinationFolderOnCompletion;
+		private bool openDestinationFolderOnCompletion;
 
-        public bool OpenDestinationFolderOnCompletion
-        {
-            get => openDestinationFolderOnCompletion;
-            set => SetProperty(ref openDestinationFolderOnCompletion, value);
-        }
+		public bool OpenDestinationFolderOnCompletion
+		{
+			get => openDestinationFolderOnCompletion;
+			set => SetProperty(ref openDestinationFolderOnCompletion, value);
+		}
 
-        public ICommand SelectDestinationCommand { get; private set; }
+		public ICommand SelectDestinationCommand { get; private set; }
 
-        public DecompressArchiveDialogViewModel(IStorageFile archive)
-        {
-            this.archive = archive;
-            this.destinationFolderPath = DefaultDestinationFolderPath();
+		public DecompressArchiveDialogViewModel(IStorageFile archive)
+		{
+			this.archive = archive;
+			this.destinationFolderPath = DefaultDestinationFolderPath();
 
-            // Create commands
-            SelectDestinationCommand = new AsyncRelayCommand(SelectDestination);
-        }
+			// Create commands
+			SelectDestinationCommand = new AsyncRelayCommand(SelectDestination);
+		}
 
-        private async Task SelectDestination()
-        {
-            FolderPicker folderPicker = this.InitializeWithWindow(new FolderPicker());
-            folderPicker.FileTypeFilter.Add("*");
+		private async Task SelectDestination()
+		{
+			FolderPicker folderPicker = this.InitializeWithWindow(new FolderPicker());
+			folderPicker.FileTypeFilter.Add("*");
 
-            DestinationFolder = await folderPicker.PickSingleFolderAsync();
+			DestinationFolder = await folderPicker.PickSingleFolderAsync();
 
-            if (DestinationFolder != null)
-            {
-                DestinationFolderPath = DestinationFolder.Path;
-            }
-            else
-            {
-                DestinationFolderPath = DefaultDestinationFolderPath();
-            }
-        }
+			if (DestinationFolder is not null)
+			{
+				DestinationFolderPath = DestinationFolder.Path;
+			}
+			else
+			{
+				DestinationFolderPath = DefaultDestinationFolderPath();
+			}
+		}
 
-        // WINUI3
-        private FolderPicker InitializeWithWindow(FolderPicker obj)
-        {
-            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
-            return obj;
-        }
+		// WINUI3
+		private FolderPicker InitializeWithWindow(FolderPicker obj)
+		{
+			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+			return obj;
+		}
 
-        private string DefaultDestinationFolderPath()
-        {
-            return Path.Combine(Path.GetDirectoryName(archive.Path), Path.GetFileNameWithoutExtension(archive.Path));
-        }
-    }
+		private string DefaultDestinationFolderPath()
+		{
+			return Path.Combine(Path.GetDirectoryName(archive.Path), Path.GetFileNameWithoutExtension(archive.Path));
+		}
+	}
 }

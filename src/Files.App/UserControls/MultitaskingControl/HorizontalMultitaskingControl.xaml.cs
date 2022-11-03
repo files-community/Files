@@ -1,12 +1,12 @@
+using Files.App.Extensions;
 using Files.App.Helpers;
 using Files.App.ViewModels;
-using Files.App.Extensions;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Linq;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
-using Microsoft.UI.Xaml;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -45,7 +45,7 @@ namespace Files.App.UserControls.MultitaskingControl
 			{
 				CurrentSelectedAppInstance = GetCurrentSelectedTabInstance();
 
-				if (CurrentSelectedAppInstance != null)
+				if (CurrentSelectedAppInstance is not null)
 				{
 					OnCurrentInstanceChanged(new CurrentInstanceChangedEventArgs()
 					{
@@ -86,7 +86,7 @@ namespace Files.App.UserControls.MultitaskingControl
 		private void TabHoverSelected(object sender, object e)
 		{
 			tabHoverTimer.Stop();
-			if (hoveredTabViewItem != null)
+			if (hoveredTabViewItem is not null)
 			{
 				App.AppModel.TabStripSelectedIndex = Items.IndexOf(hoveredTabViewItem.DataContext as TabItem);
 			}

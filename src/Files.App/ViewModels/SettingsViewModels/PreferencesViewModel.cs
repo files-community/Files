@@ -1,12 +1,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.WinUI;
-using Files.App.Controllers;
-using Files.App.DataModels;
 using Files.App.Extensions;
 using Files.App.Helpers;
-using Files.App.Shell;
 using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
@@ -22,7 +18,6 @@ using Windows.ApplicationModel;
 using Windows.Globalization;
 using Windows.Storage;
 using Windows.Storage.Pickers;
-using Windows.System;
 using static Files.App.Helpers.MenuFlyoutHelper;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 
@@ -35,17 +30,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 		private bool disposed;
 		private ReadOnlyCollection<IMenuFlyoutItemViewModel> addFlyoutItemsSource;
 
-
-
 		// Commands
 
-		public AsyncRelayCommand EditTerminalApplicationsCommand { get; }
 		public AsyncRelayCommand OpenFilesAtStartupCommand { get; }
 		public AsyncRelayCommand ChangePageCommand { get; }
 		public RelayCommand RemovePageCommand { get; }
 		public RelayCommand<string> AddPageCommand { get; }
-
-
 
 		// Properties
 
@@ -106,30 +96,13 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		private Terminal selectedTerminal;
-		public Terminal SelectedTerminal
-		{
-			get { return selectedTerminal; }
-			set
-			{
-				if (value is not null && SetProperty(ref selectedTerminal, value))
-				{
-					App.TerminalController.Model.DefaultTerminalName = value.Name;
-					App.TerminalController.SaveModel();
-				}
-			}
-		}
-
-
 		// Lists
 
 		public List<DateTimeFormatItem> DateFormats { get; set; }
-		public ObservableCollection<Terminal> Terminals { get; set; }
 		public ObservableCollection<AppLanguageItem> AppLanguages { get; set; }
 
 		public PreferencesViewModel()
 		{
-			EditTerminalApplicationsCommand = new AsyncRelayCommand(LaunchTerminalsConfigFile);
 			OpenFilesAtStartupCommand = new AsyncRelayCommand(OpenFilesAtStartup);
 			ChangePageCommand = new AsyncRelayCommand(ChangePage);
 			RemovePageCommand = new RelayCommand(RemovePage);
@@ -137,17 +110,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 			AddSupportedAppLanguages();
 
-			Terminals = App.TerminalController.Model.Terminals;
-			SelectedTerminal = App.TerminalController.Model.GetDefaultTerminal();
-
 			AddDateTimeOptions();
 			SelectedDateTimeFormatIndex = (int)Enum.Parse(typeof(DateTimeFormats), DateTimeFormat.ToString());
 
 			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
-			App.TerminalController.ModelChanged += ReloadTerminals;
-
-			if (UserSettingsService.PreferencesSettingsService.TabsOnStartupList != null)
+			if (UserSettingsService.PreferencesSettingsService.TabsOnStartupList is not null)
 				PagesOnStartupList = new ObservableCollection<PageOnStartupViewModel>(UserSettingsService.PreferencesSettingsService.TabsOnStartupList.Select((p) => new PageOnStartupViewModel(p)));
 			else
 				PagesOnStartupList = new ObservableCollection<PageOnStartupViewModel>();
@@ -306,7 +274,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			folderPicker.FileTypeFilter.Add("*");
 			StorageFolder folder = await folderPicker.PickSingleFolderAsync();
 
-			if (folder != null)
+			if (folder is not null)
 			{
 				if (SelectedPageIndex >= 0)
 					PagesOnStartupList[SelectedPageIndex] = new PageOnStartupViewModel(folder.Path);
@@ -341,48 +309,18 @@ namespace Files.App.ViewModels.SettingsViewModels
 				folderPicker.FileTypeFilter.Add("*");
 
 				var folder = await folderPicker.PickSingleFolderAsync();
-				if (folder != null)
+				if (folder is not null)
 					path = folder.Path;
 			}
 
-			if (path != null && PagesOnStartupList != null)
+			if (path is not null && PagesOnStartupList is not null)
 				PagesOnStartupList.Add(new PageOnStartupViewModel(path));
-		}
-
-		public class PageOnStartupViewModel
-		{
-			public string Text
-			{
-				get
-				{
-					if (Path == "Home".GetLocalizedResource())
-						return "Home".GetLocalizedResource();
-					if (Path == CommonPaths.RecycleBinPath)
-						return ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
-					return Path;
-				}
-			}
-
-			public string Path { get; }
-
-			internal PageOnStartupViewModel(string path) => Path = path;
-		}
-
-		private void ReloadTerminals(TerminalController controller)
-		{
-			dispatcherQueue.EnqueueAsync(() =>
-			{
-				Terminals = controller.Model.Terminals;
-				SelectedTerminal = controller.Model.GetDefaultTerminal();
-			});
 		}
 
 		public string DateFormatSample
 			=> string.Format("DateFormatSample".GetLocalizedResource(), DateFormats[SelectedDateTimeFormatIndex].Sample1, DateFormats[SelectedDateTimeFormatIndex].Sample2);
 
-
 		private DispatcherQueue dispatcherQueue;
-
 
 		public bool ShowConfirmDeleteDialog
 		{
@@ -408,14 +346,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 					OnPropertyChanged();
 				}
 			}
-		}
-
-		private async Task LaunchTerminalsConfigFile()
-		{
-			var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/terminal.json"));
-
-			if (!await Launcher.LaunchFileAsync(configFile))
-				await ContextMenu.InvokeVerb("open", configFile.Path);
 		}
 
 		private bool openInLogin;
@@ -562,7 +492,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 		{
 			if (!disposed)
 			{
-				App.TerminalController.ModelChanged -= ReloadTerminals;
 				disposed = true;
 				GC.SuppressFinalize(this);
 			}
@@ -572,6 +501,25 @@ namespace Files.App.ViewModels.SettingsViewModels
 		{
 			Dispose();
 		}
+	}
+
+	public class PageOnStartupViewModel
+	{
+		public string Text
+		{
+			get
+			{
+				if (Path == "Home".GetLocalizedResource())
+					return "Home".GetLocalizedResource();
+				if (Path == CommonPaths.RecycleBinPath)
+					return ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
+				return Path;
+			}
+		}
+
+		public string Path { get; }
+
+		internal PageOnStartupViewModel(string path) => Path = path;
 	}
 
 	public class AppLanguageItem

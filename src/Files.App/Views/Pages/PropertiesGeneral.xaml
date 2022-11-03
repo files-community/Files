@@ -21,11 +21,9 @@
 				<ResourceDictionary x:Key="Light">
 					<SolidColorBrush x:Key="ProgressRingBackgroundThemeBrush" Color="#c3c3c3" />
 				</ResourceDictionary>
-
 				<ResourceDictionary x:Key="Dark">
 					<SolidColorBrush x:Key="ProgressRingBackgroundThemeBrush" Color="#191919" />
 				</ResourceDictionary>
-
 				<ResourceDictionary x:Key="HighContrast">
 					<SolidColorBrush x:Key="ProgressRingBackgroundThemeBrush" Color="#c3c3c3" />
 				</ResourceDictionary>
@@ -80,6 +78,8 @@
 				<TextBox
 					x:Name="ItemFileName"
 					x:Load="{x:Bind ViewModel.ItemNameVisibility, Mode=OneWay}"
+					GettingFocus="ItemFileName_GettingFocus"
+					LosingFocus="ItemFileName_LosingFocus"
 					PlaceholderText="{helpers:ResourceString Name=PropertiesItemFileName/PlaceholderText}"
 					Text="{x:Bind ViewModel.ItemName, Mode=TwoWay}" />
 				<TextBlock
@@ -299,6 +299,7 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
+
 			<!--  Space used progress  -->
 			<ProgressRing
 				x:Name="SpaceUserProgressRing"
@@ -309,6 +310,7 @@
 				Height="60"
 				HorizontalAlignment="Left"
 				x:Load="{x:Bind ViewModel.DriveCapacityVisibility, Mode=OneWay}"
+				Background="{ThemeResource ProgressRingBackgroundThemeBrush}"
 				IsIndeterminate="False"
 				Value="{x:Bind ViewModel.DrivePercentageValue, Mode=OneWay}">
 
@@ -357,10 +359,10 @@
 				x:Load="{x:Bind ViewModel.DriveUsedSpaceVisibility, Mode=OneWay}"
 				Orientation="Horizontal">
 				<Rectangle
-					Width="15"
-					Height="15"
-					Margin="0,0,10,0"
-					Fill="{ThemeResource SystemAccentColorLight2}"
+					Width="16"
+					Height="16"
+					Margin="0,0,12,0"
+					Fill="{Binding Foreground, ElementName=SpaceUserProgressRing}"
 					RadiusX="2"
 					RadiusY="2"
 					Stroke="{ThemeResource TextControlElevationBorderBrush}" />
@@ -392,7 +394,6 @@
 				</Button.Flyout>
 			</Button>
 
-
 			<!--  Disk free space  -->
 			<StackPanel
 				x:Name="DiskSpaceStackPanel"
@@ -401,9 +402,9 @@
 				x:Load="{x:Bind ViewModel.DriveFreeSpaceVisibility, Mode=OneWay}"
 				Orientation="Horizontal">
 				<Rectangle
-					Width="15"
-					Height="15"
-					Margin="0,0,10,0"
+					Width="16"
+					Height="16"
+					Margin="0,0,12,0"
 					Fill="{ThemeResource ProgressRingBackgroundThemeBrush}"
 					RadiusX="2"
 					RadiusY="2"
@@ -442,8 +443,9 @@
 				Grid.Row="2"
 				Grid.Column="1"
 				Padding="28,0,0,0"
+				VerticalAlignment="Center"
 				x:Load="{x:Bind ViewModel.DriveCapacityVisibility, Mode=OneWay}"
-				Style="{StaticResource PropertyName}"
+				FontWeight="SemiBold"
 				Text="{helpers:ResourceString Name=PropertiesDriveCapacity/Text}" />
 			<TextBlock
 				x:Name="DriveCapacityValue"

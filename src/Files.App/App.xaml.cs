@@ -38,8 +38,6 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Notifications;
 
-#nullable enable
-
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
@@ -59,9 +57,8 @@ namespace Files.App
 		public static PaneViewModel PaneViewModel { get; private set; }
 		public static PreviewPaneViewModel PreviewPaneViewModel { get; private set; }
 		public static JumpListManager JumpList { get; private set; }
-		public static RecentItemsManager RecentItemsManager { get; private set; }
+		public static RecentItems RecentItemsManager { get; private set; }
 		public static SidebarPinnedController SidebarPinnedController { get; private set; }
-		public static TerminalController TerminalController { get; private set; }
 		public static CloudDrivesManager CloudDrivesManager { get; private set; }
 		public static NetworkDrivesManager NetworkDrivesManager { get; private set; }
 		public static DrivesManager DrivesManager { get; private set; }
@@ -142,16 +139,15 @@ namespace Files.App
 
 				; // End of service configuration
 
-
 			return services.BuildServiceProvider();
 		}
 
-		private static async Task EnsureSettingsAndConfigurationAreBootstrapped()
+		private static void EnsureSettingsAndConfigurationAreBootstrapped()
 		{
 			AppSettings ??= new SettingsViewModel();
 			ExternalResourcesHelper ??= new ExternalResourcesHelper();
 			JumpList ??= new JumpListManager();
-			RecentItemsManager ??= new RecentItemsManager();
+			RecentItemsManager ??= new RecentItems();
 			AppModel ??= new AppModel();
 			PaneViewModel ??= new PaneViewModel();
 			PreviewPaneViewModel ??= new PreviewPaneViewModel();
@@ -162,7 +158,6 @@ namespace Files.App
 			WSLDistroManager ??= new WSLDistroManager();
 			FileTagsManager ??= new FileTagsManager();
 			SidebarPinnedController ??= new SidebarPinnedController();
-			TerminalController ??= new TerminalController();
 		}
 
 		private static async Task StartAppCenter()
@@ -203,11 +198,10 @@ namespace Files.App
 					SidebarPinnedController.InitializeAsync()
 				);
 				await Task.WhenAll(
-					TerminalController.InitializeAsync(),
 					JumpList.InitializeAsync(),
-					ExternalResourcesHelper.LoadOtherThemesAsync(),
 					ContextFlyoutItemHelper.CachedNewContextMenuEntries
 				);
+				FileTagsHelper.UpdateTagsDb();
 			});
 
 			// Check for required updates
@@ -227,11 +221,11 @@ namespace Files.App
 		/// will be used such as when the application is launched to open a specific file.
 		/// </summary>
 		/// <param name="args">Details about the launch request and process.</param>
-		protected override async void OnLaunched(LaunchActivatedEventArgs e)
+		protected override void OnLaunched(LaunchActivatedEventArgs e)
 		{
 			var activatedEventArgs = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
 
-			await logWriter.InitializeAsync("debug.log");
+			Task.Run(async () => await logWriter.InitializeAsync("debug.log"));
 			Logger.Info($"App launched. Launch args type: {activatedEventArgs.Data.GetType().Name}");
 
 			//start tracking app usage
@@ -241,10 +235,11 @@ namespace Files.App
 			// Initialize MainWindow here
 			EnsureWindowIsInitialized();
 
-			await EnsureSettingsAndConfigurationAreBootstrapped();
+			EnsureSettingsAndConfigurationAreBootstrapped();
+
 			_ = InitializeAppComponentsAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
 
-			await Window.InitializeApplication(activatedEventArgs);
+			_ = Window.InitializeApplication(activatedEventArgs);
 		}
 
 		private void EnsureWindowIsInitialized()
@@ -262,16 +257,14 @@ namespace Files.App
 			{
 				ShowErrorNotification = true;
 				ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = -Process.GetCurrentProcess().Id;
-				if (AppModel != null)
-					AppModel.Clipboard_ContentChanged(null, null);
 			}
 		}
 
-		public async void OnActivated(AppActivationArguments activatedEventArgs)
+		public void OnActivated(AppActivationArguments activatedEventArgs)
 		{
 			Logger.Info($"App activated. Activated args type: {activatedEventArgs.Data.GetType().Name}");
-
-			await Window.DispatcherQueue.EnqueueAsync(() => Window.InitializeApplication(activatedEventArgs));
+			// InitializeApplication accesses UI, needs to be called on UI thread
+			_ = Window.DispatcherQueue.EnqueueAsync(() => Window.InitializeApplication(activatedEventArgs));
 		}
 
 		/// <summary>
@@ -283,17 +276,19 @@ namespace Files.App
 		{
 			// Save application state and stop any background activity
 
+			await Task.Yield(); // Method can take a long time, make sure the window is hidden
+
 			SaveSessionTabs();
 
-			if (OutputPath != null)
+			if (OutputPath is not null)
 			{
 				await SafetyExtensions.IgnoreExceptions(async () =>
 				{
 					var instance = MainPageViewModel.AppInstances.FirstOrDefault(x => x.Control.TabItemContent.IsCurrentInstance);
-					if (instance == null)
+					if (instance is null)
 						return;
 					var items = (instance.Control.TabItemContent as PaneHolderPage)?.ActivePane?.SlimContentPage?.SelectedItems;
-					if (items == null)
+					if (items is null)
 						return;
 					await FileIO.WriteLinesAsync(await StorageFile.GetFileFromPathAsync(OutputPath), items.Select(x => x.ItemPath));
 				}, Logger);
@@ -313,6 +308,9 @@ namespace Files.App
 						Clipboard.Flush();
 				}
 			}, Logger);
+
+			// Wait for ongoing file operations
+			FileOperationsHelpers.WaitForCompletion();
 		}
 
 		public static void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages
@@ -320,14 +318,14 @@ namespace Files.App
 			IUserSettingsService? userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
 			IBundlesSettingsService? bundlesSettingsService = Ioc.Default.GetService<IBundlesSettingsService>();
 
-			if (bundlesSettingsService != null)
+			if (bundlesSettingsService is not null)
 				bundlesSettingsService.FlushSettings();
 			if (userSettingsService?.PreferencesSettingsService is null)
 				return;
 
 			userSettingsService.PreferencesSettingsService.LastSessionTabList = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>
 			{
-				if (tab != null && tab.TabItemArguments != null)
+				if (tab is not null && tab.TabItemArguments is not null)
 				{
 					return tab.TabItemArguments.Serialize();
 				}
@@ -351,25 +349,25 @@ namespace Files.App
 			string formattedException = string.Empty;
 
 			formattedException += "--------- UNHANDLED EXCEPTION ---------";
-			if (ex != null)
+			if (ex is not null)
 			{
 				formattedException += $"\n>>>> HRESULT: {ex.HResult}\n";
-				if (ex.Message != null)
+				if (ex.Message is not null)
 				{
 					formattedException += "\n--- MESSAGE ---";
 					formattedException += ex.Message;
 				}
-				if (ex.StackTrace != null)
+				if (ex.StackTrace is not null)
 				{
 					formattedException += "\n--- STACKTRACE ---";
 					formattedException += ex.StackTrace;
 				}
-				if (ex.Source != null)
+				if (ex.Source is not null)
 				{
 					formattedException += "\n--- SOURCE ---";
 					formattedException += ex.Source;
 				}
-				if (ex.InnerException != null)
+				if (ex.InnerException is not null)
 				{
 					formattedException += "\n--- INNER ---";
 					formattedException += ex.InnerException;

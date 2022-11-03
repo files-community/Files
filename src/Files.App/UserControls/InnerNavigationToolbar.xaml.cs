@@ -14,8 +14,6 @@ using System.Windows.Input;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
-#nullable enable
-
 namespace Files.App.UserControls
 {
 	public sealed partial class InnerNavigationToolbar : UserControl
@@ -98,7 +96,7 @@ namespace Files.App.UserControls
 				return;
 			}
 			var cachedNewContextMenuEntries = ContextFlyoutItemHelper.CachedNewContextMenuEntries.IsCompletedSuccessfully ? ContextFlyoutItemHelper.CachedNewContextMenuEntries.Result : null;
-			if (cachedNewContextMenuEntries == null)
+			if (cachedNewContextMenuEntries is null)
 				return;
 			if (!NewEmptySpace.Items.Any(x => (x.Tag as string) == "CreateNewFile"))
 			{

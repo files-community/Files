@@ -23,12 +23,9 @@ namespace Files.App.DataModels
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-		private SidebarPinnedController controller;
+		private SidebarPinnedController? controller;
 
-		private SemaphoreSlim addSyncSemaphore;
-
-		[JsonIgnore]
-		public AppModel AppModel => App.AppModel;
+		private readonly SemaphoreSlim addSyncSemaphore = new SemaphoreSlim(1, 1);
 
 		[JsonPropertyName("items")]
 		public List<string> FavoriteItems { get; set; } = new List<string>();
@@ -50,11 +47,6 @@ namespace Files.App.DataModels
 		public void SetController(SidebarPinnedController controller)
 		{
 			this.controller = controller;
-		}
-
-		public SidebarPinnedModel()
-		{
-			addSyncSemaphore = new SemaphoreSlim(1, 1);
 		}
 
 		/// <summary>
@@ -141,7 +133,7 @@ namespace Files.App.DataModels
 					favoriteList.Insert(newIndex, locationItem);
 				}
 				var e = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, locationItem, newIndex, oldIndex);
-				controller.DataChanged?.Invoke(SectionType.Favorites, e);
+				controller?.DataChanged?.Invoke(SectionType.Favorites, e);
 				Save();
 				return true;
 			}
@@ -162,7 +154,7 @@ namespace Files.App.DataModels
 		/// <param name="secondLocationItem">The second location item</param>
 		public void SwapItems(INavigationControlItem firstLocationItem, INavigationControlItem secondLocationItem)
 		{
-			if (firstLocationItem == null || secondLocationItem == null)
+			if (firstLocationItem is null || secondLocationItem is null)
 			{
 				return;
 			}
@@ -214,7 +206,7 @@ namespace Files.App.DataModels
 			var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
 			var locationItem = new LocationItem
 			{
-				Font = AppModel.SymbolFontFamily,
+				Font = App.AppModel.SymbolFontFamily,
 				Path = path,
 				Section = SectionType.Favorites,
 				MenuOptions = new ContextMenuOptions
@@ -239,11 +231,11 @@ namespace Files.App.DataModels
 					locationItem.Icon = await App.Window.DispatcherQueue.EnqueueAsync(() => locationItem.IconData.ToBitmapAsync());
 				}
 
-				if (locationItem.IconData == null)
+				if (locationItem.IconData is null)
 				{
 					locationItem.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(path, 96u);
 
-					if (locationItem.IconData != null)
+					if (locationItem.IconData is not null)
 						locationItem.Icon = await App.Window.DispatcherQueue.EnqueueAsync(() => locationItem.IconData.ToBitmapAsync());
 				}
 			}
@@ -273,7 +265,7 @@ namespace Files.App.DataModels
 				insertIndex = lastItem is not null ? favoriteList.IndexOf(lastItem) + 1 : 0;
 				favoriteList.Insert(insertIndex, locationItem);
 			}
-			controller.DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, locationItem, insertIndex));
+			controller?.DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, locationItem, insertIndex));
 		}
 
 		/// <summary>
@@ -306,13 +298,13 @@ namespace Files.App.DataModels
 						{
 							favoriteList.Remove(item);
 						}
-						controller.DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
+						controller?.DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
 					}
 				}
 			}
 
 			// Remove unpinned items from sidebar
-			controller.DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+			controller?.DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 		}
 	}
 }

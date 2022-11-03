@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="Files Logo" src="src/Files.App/Assets/AppTiles/Release/StoreLogo.scale-400.png" width="100px" />
+  <img alt="Files Logo" src="src/Files.App%20(Package)/Assets/AppTiles/Release/StoreLogo.scale-400.png" width="100px" />
   <h1 align="center">Files</h1>
 </p>
 
@@ -32,10 +32,12 @@ Have any questions? Check out our [documentation site](https://files.community/d
 ### 1: Prerequisites
 
 - [Git](https://git-scm.com)
-- [Visual Studio 2022](https://visualstudio.microsoft.com/vs/) with the UWP Development Kit and following individual components:
+- [Visual Studio 2022](https://visualstudio.microsoft.com/vs/) with the following individual components:
     - Windows 11 SDK (10.0.22000)
     - MSVC v143 - VS 2022 C++ x64/x86 build tools
     - C++ ATL for latest v143 build tools (x86 & x64)
+    - [.Net7 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
+    - [WinApp SDK Runtime 1.2](https://learn.microsoft.com/en-us/windows/apps/windows-app-sdk/downloads#current-releases)
 
 ### 2: Clone the repository.
 

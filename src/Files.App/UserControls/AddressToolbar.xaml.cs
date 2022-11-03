@@ -16,7 +16,6 @@ namespace Files.App.UserControls
 	{
 		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-
 		public ISearchBox SearchBox => ViewModel.SearchBox;
 
 		public AddressToolbar()
@@ -69,7 +68,7 @@ namespace Files.App.UserControls
 
 			var element = FocusManager.GetFocusedElement();
 			var elementAsControl = element as Control;
-			if (elementAsControl == null)
+			if (elementAsControl is null)
 				return;
 
 			if (elementAsControl.FocusState != FocusState.Programmatic && elementAsControl.FocusState != FocusState.Keyboard)
@@ -113,7 +112,6 @@ namespace Files.App.UserControls
 			set => SetValue(ShowOngoingTasksProperty, value);
 		}
 
-
 		// Using a DependencyProperty as the backing store for ShowSettingsButton.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ShowSettingsButtonProperty =
 			DependencyProperty.Register(nameof(ShowSettingsButton), typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
@@ -122,7 +120,6 @@ namespace Files.App.UserControls
 			get => (bool)GetValue(dp: ShowSettingsButtonProperty);
 			set => SetValue(ShowSettingsButtonProperty, value);
 		}
-
 
 		// Using a DependencyProperty as the backing store for CollapseSearchBox.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ShowSearchBoxProperty =
@@ -133,7 +130,6 @@ namespace Files.App.UserControls
 			set { SetValue(ShowSearchBoxProperty, value); }
 		}
 
-
 		public static readonly DependencyProperty SettingsButtonCommandProperty =
 			DependencyProperty.Register(nameof(SettingsButtonCommand), typeof(ICommand), typeof(AddressToolbar), new PropertyMetadata(null));
 		public ICommand SettingsButtonCommand
@@ -142,7 +138,6 @@ namespace Files.App.UserControls
 			set => SetValue(SettingsButtonCommandProperty, value);
 		}
 
-
 		public static readonly DependencyProperty CanPasteInPageProperty =
 			DependencyProperty.Register("CanPasteInPage", typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
 		public bool CanPasteInPage
@@ -150,7 +145,6 @@ namespace Files.App.UserControls
 			get => (bool)GetValue(dp: CanPasteInPageProperty);
 			set => SetValue(CanPasteInPageProperty, value);
 		}
-
 
 		// Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ViewModelProperty =

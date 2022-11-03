@@ -261,26 +261,19 @@
 										IsEnabled="False"
 										Modifiers="Control" />
 								</MenuFlyoutItem.KeyboardAccelerators>
-								<MenuFlyoutItem.Icon>
-									<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF11A;" />
-								</MenuFlyoutItem.Icon>
 							</MenuFlyoutItem>
 							<MenuFlyoutItem
+								x:Name="ExtractHere"
+								x:Load="{x:Bind ViewModel.IsArchiveOpened, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 								Command="{x:Bind ViewModel.ExtractHereCommand, Mode=OneWay}"
-								IsEnabled="{x:Bind ViewModel.CanExtract, Mode=OneWay, FallbackValue=False}"
-								Text="{helpers:ResourceString Name=ExtractHere}">
-								<MenuFlyoutItem.Icon>
-									<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF11A;" />
-								</MenuFlyoutItem.Icon>
-							</MenuFlyoutItem>
+								IsEnabled="{x:Bind ViewModel.IsSelectionArchivesOnly, Mode=OneWay, FallbackValue=False}"
+								Text="{helpers:ResourceString Name=ExtractHere}" />
 							<MenuFlyoutItem
+								x:Name="ExtractTo"
+								x:Load="{x:Bind ViewModel.IsArchiveOpened, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 								Command="{x:Bind ViewModel.ExtractToCommand, Mode=OneWay}"
-								IsEnabled="{x:Bind ViewModel.CanExtract, Mode=OneWay, FallbackValue=False}"
-								Text="{x:Bind ViewModel.ExtractToText, Mode=OneWay}">
-								<MenuFlyoutItem.Icon>
-									<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF11A;" />
-								</MenuFlyoutItem.Icon>
-							</MenuFlyoutItem>
+								IsEnabled="{x:Bind ViewModel.IsSelectionArchivesOnly, Mode=OneWay, FallbackValue=False}"
+								Text="{x:Bind ViewModel.ExtractToText, Mode=OneWay}" />
 						</MenuFlyout>
 					</AppBarButton.Flyout>
 				</AppBarButton>
@@ -913,17 +906,6 @@
 							IsEnabled="False"
 							Modifiers="Menu,Control" />
 					</AppBarButton.KeyboardAccelerators>
-				</AppBarButton>
-				<AppBarSeparator x:Name="SeparatorBar" x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
-				<AppBarButton
-					x:Name="OpenInTerminalButton"
-					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
-					Command="{x:Bind ViewModel.OpenDirectoryInDefaultTerminalCommand, Mode=OneWay}"
-					IsEnabled="{x:Bind ViewModel.InstanceViewModel.CanOpenTerminalInPage, Mode=OneWay}"
-					Label="{x:Bind ViewModel.OpenInTerminal, Mode=OneWay}">
-					<AppBarButton.Icon>
-						<FontIcon Glyph="&#xE756;" />
-					</AppBarButton.Icon>
 				</AppBarButton>
 			</CommandBar.SecondaryCommands>
 		</CommandBar>

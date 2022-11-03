@@ -3,7 +3,6 @@ using Files.App.Filesystem;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Previews;
 using Files.Backend.Services.Settings;
-using Files.Shared.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,13 +38,13 @@ namespace Files.App.Helpers
 					var parser = new IniParser.Parser.IniDataParser();
 					parser.Configuration.ThrowExceptionsOnError = false;
 					var data = parser.Parse(iniContents);
-					if (data != null)
+					if (data is not null)
 					{
 						var viewModeSection = data.Sections.FirstOrDefault(x => "ViewState".Equals(x.SectionName, StringComparison.OrdinalIgnoreCase));
-						if (viewModeSection != null)
+						if (viewModeSection is not null)
 						{
 							var folderTypeKey = viewModeSection.Keys.FirstOrDefault(s => "FolderType".Equals(s.KeyName, StringComparison.OrdinalIgnoreCase));
-							if (folderTypeKey != null)
+							if (folderTypeKey is not null)
 							{
 								var setLayout = (folderTypeKey.Value) switch
 								{

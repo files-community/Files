@@ -3,17 +3,17 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using Files.App.DataModels.NavigationControlItems;
+using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.UserControls;
-using Files.App.Extensions;
 using Files.Backend.Services.Settings;
 using Files.Shared.EventArguments;
 using Files.Shared.Extensions;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Microsoft.UI.Dispatching;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -88,7 +88,7 @@ namespace Files.App.ViewModels
 			INavigationControlItem? item = null;
 			List<INavigationControlItem> sidebarItems = SideBarItems
 				.Where(x => !string.IsNullOrWhiteSpace(x.Path))
-				.Concat(SideBarItems.Where(x => (x as LocationItem)?.ChildItems != null).SelectMany(x => ((LocationItem)x).ChildItems).Where(x => !string.IsNullOrWhiteSpace(x.Path)))
+				.Concat(SideBarItems.Where(x => (x as LocationItem)?.ChildItems is not null).SelectMany(x => ((LocationItem)x).ChildItems).Where(x => !string.IsNullOrWhiteSpace(x.Path)))
 				.ToList();
 
 			if (string.IsNullOrEmpty(value))
@@ -98,19 +98,19 @@ namespace Files.App.ViewModels
 			}
 
 			item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value, StringComparison.OrdinalIgnoreCase));
-			if (item == null)
+			if (item is null)
 			{
 				item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value + "\\", StringComparison.OrdinalIgnoreCase));
 			}
-			if (item == null)
+			if (item is null)
 			{
 				item = sidebarItems.FirstOrDefault(x => value.StartsWith(x.Path, StringComparison.OrdinalIgnoreCase));
 			}
-			if (item == null)
+			if (item is null)
 			{
 				item = sidebarItems.FirstOrDefault(x => x.Path.Equals(Path.GetPathRoot(value), StringComparison.OrdinalIgnoreCase));
 			}
-			if (item == null)
+			if (item is null)
 			{
 				if (value == "Home".GetLocalizedResource())
 				{
@@ -282,7 +282,7 @@ namespace Files.App.ViewModels
 
 		private async Task SyncSidebarItems(LocationItem section, Func<IReadOnlyList<INavigationControlItem>> getElements, NotifyCollectionChangedEventArgs e)
 		{
-			if (section == null)
+			if (section is null)
 			{
 				return;
 			}
@@ -331,7 +331,7 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		private bool IsLibraryOnSidebar(LibraryLocationItem item) => item != null && !item.IsEmpty && item.IsDefaultLocation;
+		private bool IsLibraryOnSidebar(LibraryLocationItem item) => item is not null && !item.IsEmpty && item.IsDefaultLocation;
 
 		private async Task AddElementToSection(INavigationControlItem elem, LocationItem section, int index = -1)
 		{
@@ -349,9 +349,15 @@ namespace Files.App.ViewModels
 			}
 			else if (elem is DriveItem drive)
 			{
-				if (!section.ChildItems.Any(x => x.Path == drive.Path))
+				string drivePath = drive.Path;
+				IList<string> paths = section.ChildItems.Select(item => item.Path).ToList();
+
+				if (!paths.Contains(drivePath))
 				{
-					section.ChildItems.Insert(index < 0 ? section.ChildItems.Count : Math.Min(index, section.ChildItems.Count), drive);
+					paths.AddSorted(drivePath);
+					int position = paths.IndexOf(drivePath);
+
+					section.ChildItems.Insert(position, drive);
 					await drive.LoadDriveIcon();
 				}
 			}
@@ -373,7 +379,7 @@ namespace Files.App.ViewModels
 		private async Task<LocationItem> GetOrCreateSection(SectionType sectionType)
 		{
 			LocationItem? section = GetSection(sectionType);
-			if (section == null)
+			if (section is null)
 			{
 				section = await CreateSection(sectionType);
 			}
@@ -391,7 +397,7 @@ namespace Files.App.ViewModels
 			BitmapImage icon = null;
 			int iconIdex = -1;
 
-			switch(sectionType)
+			switch (sectionType)
 			{
 				case SectionType.Home:
 					{
@@ -475,9 +481,9 @@ namespace Files.App.ViewModels
 					}
 			}
 
-			if (section != null)
+			if (section is not null)
 			{
-				if (icon != null)
+				if (icon is not null)
 				{
 					section.Icon = icon;
 				}

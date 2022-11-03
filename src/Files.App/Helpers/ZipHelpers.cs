@@ -53,7 +53,7 @@ namespace Files.App.Helpers
 				return arch?.ArchiveFileData is null ? null : arch; // Force load archive (1665013614u)
 			}))
 			{
-				if (zipFile == null)
+				if (zipFile is null)
 					return;
 				//zipFile.IsStreamOwner = true;
 				List<ArchiveFileInfo> directoryEntries = new List<ArchiveFileInfo>();
@@ -142,21 +142,6 @@ namespace Files.App.Helpers
 					float percentage = (float)((float)entriesFinished / (float)entriesAmount) * 100.0f;
 					progressDelegate?.Report(percentage);
 				}
-			}
-		}
-
-		private static async Task CopyDirectory(BaseStorageFolder source, BaseStorageFolder destination)
-		{
-			foreach (var file in await source.GetFilesAsync())
-			{
-				await file.CopyAsync(destination);
-			}
-			foreach (var folder in await destination.GetFoldersAsync())
-			{
-				string subDirectoryPath = Path.Combine(destination.Path, folder.Name);
-				NativeFileOperationsHelper.CreateDirectoryFromApp(subDirectoryPath, IntPtr.Zero);
-				BaseStorageFolder subDirectory = await StorageHelpers.ToStorageItem<BaseStorageFolder>(subDirectoryPath);
-				await CopyDirectory(folder, subDirectory);
 			}
 		}
 	}

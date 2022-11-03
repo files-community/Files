@@ -19,7 +19,7 @@
 		<ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
 	</Page.Resources>
 	<Page.DataContext>
-		<settingsviewmodels:PreferencesViewModel />
+		<settingsviewmodels:PreferencesViewModel x:Name="ViewModel" />
 	</Page.DataContext>
 
 	<Grid>
@@ -42,8 +42,8 @@
 				<ComboBox
 					HorizontalAlignment="Left"
 					AutomationProperties.Name="{helpers:ResourceString Name=SettingsPreferencesAppLanguageComboBox/AutomationProperties/Name}"
-					ItemsSource="{Binding AppLanguages}"
-					SelectedIndex="{Binding SelectedAppLanguageIndex, Mode=TwoWay}">
+					ItemsSource="{x:Bind ViewModel.AppLanguages}"
+					SelectedIndex="{x:Bind ViewModel.SelectedAppLanguageIndex, Mode=TwoWay}">
 					<ComboBox.ItemTemplate>
 						<DataTemplate x:DataType="settingsviewmodels:AppLanguageItem">
 							<TextBlock Text="{x:Bind LanguageName}" />
@@ -57,7 +57,7 @@
 			<local:SettingsBlockControl
 				Title="{helpers:ResourceString Name=DateFormat}"
 				HorizontalAlignment="Stretch"
-				Description="{Binding DateFormatSample}">
+				Description="{x:Bind ViewModel.DateFormatSample}">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xEC92;" />
 				</local:SettingsBlockControl.Icon>
@@ -65,8 +65,8 @@
 					x:Name="DateFormatChooser"
 					Grid.Column="1"
 					AutomationProperties.Name="{helpers:ResourceString Name=DateFormat}"
-					ItemsSource="{Binding DateFormats}"
-					SelectedIndex="{Binding SelectedDateTimeFormatIndex, Mode=TwoWay}">
+					ItemsSource="{x:Bind ViewModel.DateFormats}"
+					SelectedIndex="{x:Bind ViewModel.SelectedDateTimeFormatIndex, Mode=TwoWay}">
 					<ComboBox.ItemTemplate>
 						<DataTemplate x:DataType="settingsviewmodels:DateTimeFormatItem">
 							<StackPanel Orientation="Vertical">
@@ -87,46 +87,6 @@
 				</ComboBox>
 			</local:SettingsBlockControl>
 
-
-			<!--  Terminal settings  -->
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsPreferencesTerminalApplications/Title}" HorizontalAlignment="Stretch">
-				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE756;" />
-				</local:SettingsBlockControl.Icon>
-				<ComboBox
-					x:Name="TerminalApplicationsComboBox"
-					AutomationProperties.Name="{helpers:ResourceString Name=TerminalApplicationsComboBox/AutomationProperties/Name}"
-					ItemsSource="{Binding Terminals, Mode=OneWay}"
-					SelectedItem="{Binding SelectedTerminal, Mode=TwoWay}">
-					<ComboBox.ItemTemplate>
-						<DataTemplate x:DataType="datamodels:Terminal">
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="{x:Bind Name}" />
-							</StackPanel>
-						</DataTemplate>
-					</ComboBox.ItemTemplate>
-				</ComboBox>
-				<local:SettingsBlockControl.ExpandableContent>
-					<local:SettingsBlockControl
-						Title="{helpers:ResourceString Name=SettingsPreferencesEditTerminalApplicationsExpander/Title}"
-						ButtonCommand="{Binding EditTerminalApplicationsCommand}"
-						IsClickable="True">
-						<local:SettingsBlockControl.Icon>
-							<FontIcon
-								FontSize="14"
-								Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-								Glyph="&#xE104;" />
-						</local:SettingsBlockControl.Icon>
-
-						<FontIcon
-							FontSize="14"
-							Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-							Glyph="&#xE2B4;" />
-					</local:SettingsBlockControl>
-				</local:SettingsBlockControl.ExpandableContent>
-			</local:SettingsBlockControl>
-
-
 			<!--  File and folder settings  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=FilesAndFolders}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
@@ -138,35 +98,35 @@
 							<ToggleSwitch
 								x:Name="ShowConfirmDeleteDialogSwitch"
 								AutomationProperties.Name="{helpers:ResourceString Name=SettingsShowConfirmDeleteDialogToggleSwitch/AutomationProperties/Name}"
-								IsOn="{Binding ShowConfirmDeleteDialog, Mode=TwoWay}"
+								IsOn="{x:Bind ViewModel.ShowConfirmDeleteDialog, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsFilesAndFoldersShowFileExtensions}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersShowFileExtensions}"
-								IsOn="{Binding ShowFileExtensions, Mode=TwoWay}"
+								IsOn="{x:Bind ViewModel.ShowFileExtensions, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsFilesAndFoldersShowThumbnails}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersShowThumbnails}"
-								IsOn="{Binding ShowThumbnails, Mode=TwoWay}"
+								IsOn="{x:Bind ViewModel.ShowThumbnails, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsListAndSortDirectoriesAlongsideFiles}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=SettingsListAndSortDirectoriesAlongsideFiles}"
-								IsOn="{Binding ListAndSortDirectoriesAlongsideFiles, Mode=TwoWay}"
+								IsOn="{x:Bind ViewModel.ListAndSortDirectoriesAlongsideFiles, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SelectFilesAndFoldersOnHover}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=SelectFilesAndFoldersOnHover}"
-								IsOn="{Binding SelectFilesOnHover, Mode=TwoWay}"
+								IsOn="{x:Bind ViewModel.SelectFilesOnHover, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 					</StackPanel>
@@ -182,7 +142,7 @@
 				</local:SettingsBlockControl.Icon>
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=SettingsSearchUnindexedItems}"
-					IsOn="{Binding SearchUnindexedItems, Mode=TwoWay}"
+					IsOn="{x:Bind ViewModel.SearchUnindexedItems, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</local:SettingsBlockControl>
 
@@ -191,19 +151,19 @@
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE7E8;" />
 				</local:SettingsBlockControl.Icon>
-				<ComboBox SelectedIndex="{Binding SelectedStartupSettingIndex, Mode=OneWay}">
-					<ComboBoxItem Content="{helpers:ResourceString Name=SettingsOnStartupOpenANewTab/Content}" IsSelected="{Binding OpenNewTabPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+				<ComboBox SelectedIndex="{x:Bind ViewModel.SelectedStartupSettingIndex, Mode=OneWay}">
+					<ComboBoxItem Content="{helpers:ResourceString Name=SettingsOnStartupOpenANewTab/Content}" IsSelected="{x:Bind ViewModel.OpenNewTabPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-					<ComboBoxItem Content="{helpers:ResourceString Name=SettingsOnStartupContinueWhereYouLeftOff/Content}" IsSelected="{Binding ContinueLastSessionOnStartUp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+					<ComboBoxItem Content="{helpers:ResourceString Name=SettingsOnStartupContinueWhereYouLeftOff/Content}" IsSelected="{x:Bind ViewModel.ContinueLastSessionOnStartUp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
 					<ComboBoxItem
 						x:Name="OpenSpecificPage"
 						Content="{helpers:ResourceString Name=SettingsOnStartupOpenASpecificPage/Content}"
-						IsSelected="{Binding OpenASpecificPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+						IsSelected="{x:Bind ViewModel.OpenASpecificPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 				</ComboBox>
 				<local:SettingsBlockControl.ExpandableContent>
 					<StackPanel>
-						<local:SettingsBlockControl HorizontalAlignment="Stretch" Visibility="{Binding OpenASpecificPageOnStartup, Mode=OneWay}">
+						<local:SettingsBlockControl HorizontalAlignment="Stretch" Visibility="{x:Bind ViewModel.OpenASpecificPageOnStartup, Mode=OneWay}">
 							<Grid HorizontalAlignment="Stretch">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="*" />
@@ -225,18 +185,18 @@
 									IsOpen="False">
 									<AppBarButton Icon="Add" Label="{helpers:ResourceString Name=Add}">
 										<AppBarButton.Flyout>
-											<MenuFlyout helpers:MenuFlyoutHelper.ItemsSource="{Binding AddFlyoutItemsSource}" Placement="Bottom" />
+											<MenuFlyout helpers:MenuFlyoutHelper.ItemsSource="{x:Bind ViewModel.AddFlyoutItemsSource}" Placement="Bottom" />
 										</AppBarButton.Flyout>
 									</AppBarButton>
 									<AppBarButton
-										Command="{Binding ChangePageCommand}"
+										Command="{x:Bind ViewModel.ChangePageCommand}"
 										Icon="Edit"
-										IsEnabled="{Binding IsPageListEditEnabled}"
+										IsEnabled="{x:Bind ViewModel.IsPageListEditEnabled}"
 										Label="{helpers:ResourceString Name=Edit}" />
 									<AppBarButton
-										Command="{Binding RemovePageCommand}"
+										Command="{x:Bind ViewModel.RemovePageCommand}"
 										Icon="Delete"
-										IsEnabled="{Binding IsPageListEditEnabled}"
+										IsEnabled="{x:Bind ViewModel.IsPageListEditEnabled}"
 										Label="{helpers:ResourceString Name=Remove}" />
 								</CommandBar>
 
@@ -249,15 +209,15 @@
 									AllowDrop="True"
 									CanReorderItems="True"
 									IsItemClickEnabled="True"
-									ItemsSource="{Binding PagesOnStartupList, Mode=TwoWay}"
-									SelectedIndex="{Binding SelectedPageIndex, Mode=TwoWay}"
+									ItemsSource="{x:Bind ViewModel.PagesOnStartupList, Mode=TwoWay}"
+									SelectedIndex="{x:Bind ViewModel.SelectedPageIndex, Mode=TwoWay}"
 									SelectionMode="Single">
 									<ListView.ItemTemplate>
-										<DataTemplate>
+										<DataTemplate xmlns:vm="using:Files.App.ViewModels.SettingsViewModels" x:DataType="vm:PageOnStartupViewModel">
 											<TextBlock
-												Text="{Binding Text}"
+												Text="{x:Bind Text}"
 												TextTrimming="CharacterEllipsis"
-												ToolTipService.ToolTip="{Binding Text}" />
+												ToolTipService.ToolTip="{x:Bind Text}" />
 										</DataTemplate>
 									</ListView.ItemTemplate>
 								</ListView>
@@ -267,19 +227,19 @@
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=OpenNewInstance}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=OpenNewInstance}"
-								IsOn="{Binding AlwaysOpenANewInstance, Mode=TwoWay}"
+								IsOn="{x:Bind ViewModel.AlwaysOpenANewInstance, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsOpenInLogin}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenInLogin}"
-								IsEnabled="{Binding CanOpenInLogin, Mode=OneWay}"
-								IsOn="{Binding OpenInLogin, Mode=TwoWay}"
+								IsEnabled="{x:Bind ViewModel.CanOpenInLogin, Mode=OneWay}"
+								IsOn="{x:Bind ViewModel.OpenInLogin, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}">
 								<i:Interaction.Behaviors>
 									<icore:EventTriggerBehavior EventName="Toggled">
-										<icore:InvokeCommandAction Command="{Binding OpenFilesAtStartupCommand, Mode=OneWay}" />
+										<icore:InvokeCommandAction Command="{x:Bind ViewModel.OpenFilesAtStartupCommand, Mode=OneWay}" />
 									</icore:EventTriggerBehavior>
 								</i:Interaction.Behaviors>
 							</ToggleSwitch>
@@ -292,6 +252,6 @@
 		<UserControls:RestartControl
 			x:Name="RestartControl"
 			VerticalAlignment="Bottom"
-			ShowDialog="{Binding ShowRestartControl, Mode=TwoWay}" />
+			ShowDialog="{x:Bind ViewModel.ShowRestartControl, Mode=TwoWay}" />
 	</Grid>
 </Page>

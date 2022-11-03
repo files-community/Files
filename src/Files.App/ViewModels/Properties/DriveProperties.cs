@@ -1,8 +1,8 @@
 using Files.App.DataModels.NavigationControlItems;
+using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
-using Files.App.Extensions;
 using System;
 using Windows.Storage.FileProperties;
 
@@ -22,13 +22,13 @@ namespace Files.App.ViewModels.Properties
 
 		public override void GetBaseProperties()
 		{
-			if (Drive == null)
+			if (Drive is null)
 				return;
 
 			ViewModel.CustomIconSource = null; //Drive.IconSource;
 			ViewModel.IconData = Drive.IconData;
-			ViewModel.LoadCustomIcon = false; //Drive.IconSource != null && Drive.IconData == null;
-			ViewModel.LoadFileIcon = Drive.IconData != null;
+			ViewModel.LoadCustomIcon = false; //Drive.IconSource is not null && Drive.IconData is null;
+			ViewModel.LoadFileIcon = Drive.IconData is not null;
 			ViewModel.ItemName = Drive.Text;
 			ViewModel.OriginalItemName = Drive.Text;
 			// Note: if DriveType enum changes, the corresponding resource keys should change too
@@ -43,7 +43,7 @@ namespace Files.App.ViewModels.Properties
 
 			if (ViewModel.LoadFileIcon)
 			{
-				if (diskRoot != null)
+				if (diskRoot is not null)
 				{
 					ViewModel.IconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(diskRoot, 80, ThumbnailMode.SingleItem);
 				}
@@ -54,7 +54,7 @@ namespace Files.App.ViewModels.Properties
 				ViewModel.IconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Drive.DeviceID, 80); // For network shortcuts
 			}
 
-			if (diskRoot == null || diskRoot.Properties == null)
+			if (diskRoot is null || diskRoot.Properties is null)
 			{
 				ViewModel.LastSeparatorVisibility = false;
 				return;

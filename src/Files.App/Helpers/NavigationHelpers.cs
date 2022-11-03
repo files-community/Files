@@ -43,25 +43,13 @@ namespace Files.App.Helpers
 			await Launcher.LaunchUriAsync(filesUWPUri);
 		}
 
-		public static async Task OpenDirectoryInTerminal(string workingDir)
-		{
-			var terminal = App.TerminalController.Model.GetDefaultTerminal();
-			if (terminal == null)
-			{
-				return;
-			}
-
-			await LaunchHelper.LaunchAppAsync(terminal.Path, string.Format(terminal.Arguments,
-					   Helpers.PathNormalization.NormalizePath(workingDir)), workingDir);
-		}
-
 		public static async void OpenSelectedItems(IShellPage associatedInstance, bool openViaApplicationPicker = false)
 		{
 			// Don't open files and folders inside recycle bin
 			if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
 				return;
 
-			if (associatedInstance.SlimContentPage == null)
+			if (associatedInstance.SlimContentPage is null)
 				return;
 
 			bool forceOpenInNewTab = false;
@@ -100,7 +88,7 @@ namespace Files.App.Helpers
 			if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
 				return;
 
-			if (associatedInstance.SlimContentPage == null)
+			if (associatedInstance.SlimContentPage is null)
 				return;
 
 			foreach (var item in items)
@@ -137,13 +125,13 @@ namespace Files.App.Helpers
 			FilesystemResult opened = (FilesystemResult)false;
 
 			var shortcutInfo = new ShellLinkItem();
-			if (itemType == null || isShortcut || isHiddenItem || isReparsePoint)
+			if (itemType is null || isShortcut || isHiddenItem || isReparsePoint)
 			{
 				if (isShortcut)
 				{
 					var shInfo = await Win32Shell.ParseLink(path);
 
-					if (shInfo == null)
+					if (shInfo is null)
 						return false;
 
 					itemType = shInfo.IsFolder ? FilesystemItemType.Directory : FilesystemItemType.File;
@@ -372,7 +360,7 @@ namespace Files.App.Helpers
 					if (!path.EndsWith(".url", StringComparison.Ordinal))
 					{
 						StorageFileWithPath childFile = await associatedInstance.FilesystemViewModel.GetFileWithPathFromPathAsync(shortcutInfo.TargetPath);
-						if (childFile != null)
+						if (childFile is not null)
 						{
 							// Add location to Recent Items List
 							if (childFile.Item is SystemStorageFile)
@@ -421,7 +409,7 @@ namespace Files.App.Helpers
 							//Get folder to create a file query (to pass to apps like Photos, Movies & TV..., needed to scroll through the folder like what Windows Explorer does)
 							BaseStorageFolder currentFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(path));
 
-							if (currentFolder != null)
+							if (currentFolder is not null)
 							{
 								QueryOptions queryOptions = new QueryOptions(CommonFileQuery.DefaultQuery, null);
 
@@ -486,7 +474,7 @@ namespace Files.App.Helpers
 								// Now launch file with options.
 								var storageItem = (StorageFile)await FilesystemTasks.Wrap(() => childFile.Item.ToStorageFileAsync().AsTask());
 
-								if (storageItem != null)
+								if (storageItem is not null)
 									launchSuccess = await Launcher.LaunchFileAsync(storageItem, options);
 							}
 

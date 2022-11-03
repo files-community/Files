@@ -1,105 +1,103 @@
 using FluentFTP;
 using System;
 using System.Threading.Tasks;
-using Files.Shared.Extensions;
-using Files.App.Filesystem;
 
 namespace Files.App.Helpers
 {
-    public static class FtpHelpers
-    {
-        public static async Task<bool> EnsureConnectedAsync(this FtpClient ftpClient)
-        {
-            if (!ftpClient.IsConnected)
-            {
-                try
-                {
-                    await ftpClient.ConnectAsync();
-                }
-                catch
-                {
-                    return false;
-                }
-            }
+	public static class FtpHelpers
+	{
+		public static async Task<bool> EnsureConnectedAsync(this AsyncFtpClient ftpClient)
+		{
+			if (!ftpClient.IsConnected)
+			{
+				try
+				{
+					await ftpClient.Connect();
+				}
+				catch
+				{
+					return false;
+				}
+			}
 
-            return true;
-        }
+			return true;
+		}
 
-        public static bool IsFtpPath(string path)
-        {
-            if (!string.IsNullOrEmpty(path))
-            {
-                return path.StartsWith("ftp://", StringComparison.OrdinalIgnoreCase)
-                    || path.StartsWith("ftps://", StringComparison.OrdinalIgnoreCase)
-                    || path.StartsWith("ftpes://", StringComparison.OrdinalIgnoreCase);
-            }
-            return false;
-        }
+		public static bool IsFtpPath(string path)
+		{
+			if (!string.IsNullOrEmpty(path))
+			{
+				return path.StartsWith("ftp://", StringComparison.OrdinalIgnoreCase)
+					|| path.StartsWith("ftps://", StringComparison.OrdinalIgnoreCase)
+					|| path.StartsWith("ftpes://", StringComparison.OrdinalIgnoreCase);
+			}
+			return false;
+		}
 
-        public static bool VerifyFtpPath(string path)
-        {
-            var authority = GetFtpAuthority(path);
-            var index = authority.IndexOf(":", StringComparison.Ordinal);
+		public static bool VerifyFtpPath(string path)
+		{
+			var authority = GetFtpAuthority(path);
+			var index = authority.IndexOf(":", StringComparison.Ordinal);
 
-            if (index == -1)
-            {
-                return true;
-            }
+			if (index == -1)
+			{
+				return true;
+			}
 
-            return ushort.TryParse(authority.Substring(index + 1), out _);
-        }
+			return ushort.TryParse(authority.Substring(index + 1), out _);
+		}
 
-        public static string GetFtpHost(string path)
-        {
-            var authority = GetFtpAuthority(path);
-            var index = authority.IndexOf(":", StringComparison.Ordinal);
+		public static string GetFtpHost(string path)
+		{
+			var authority = GetFtpAuthority(path);
+			var index = authority.IndexOf(":", StringComparison.Ordinal);
 
-            if (index == -1)
-            {
-                return authority;
-            }
+			if (index == -1)
+			{
+				return authority;
+			}
 
-            return authority.Substring(0, index);
-        }
+			return authority.Substring(0, index);
+		}
 
-        public static ushort GetFtpPort(string path)
-        {
-            var authority = GetFtpAuthority(path);
-            var index = authority.IndexOf(":", StringComparison.Ordinal);
+		public static ushort GetFtpPort(string path)
+		{
+			var authority = GetFtpAuthority(path);
+			var index = authority.IndexOf(":", StringComparison.Ordinal);
 
-            if (index == -1)
-            {
-                if (path.StartsWith("ftps://", StringComparison.OrdinalIgnoreCase))
-                {
-                    return 990;
-                }
+			if (index == -1)
+			{
+				if (path.StartsWith("ftps://", StringComparison.OrdinalIgnoreCase))
+				{
+					return 990;
+				}
 
-                return 21;
-            }
+				return 21;
+			}
 
-            return ushort.Parse(authority.Substring(index + 1));
-        }
+			return ushort.Parse(authority.Substring(index + 1));
+		}
 
-        public static string GetFtpAuthority(string path)
-        {
-            path = path.Replace("\\", "/", StringComparison.Ordinal);
-            var schemaIndex = path.IndexOf("://", StringComparison.Ordinal) + 3;
-            var hostIndex = path.IndexOf("/", schemaIndex, StringComparison.Ordinal);
+		public static string GetFtpAuthority(string path)
+		{
+			path = path.Replace("\\", "/", StringComparison.Ordinal);
+			var schemaIndex = path.IndexOf("://", StringComparison.Ordinal) + 3;
+			var hostIndex = path.IndexOf("/", schemaIndex, StringComparison.Ordinal);
 
-            if (hostIndex == -1)
-            {
-                hostIndex = path.Length;
-            }
+			if (hostIndex == -1)
+			{
+				hostIndex = path.Length;
+			}
 
-            return path.Substring(schemaIndex, hostIndex - schemaIndex);
-        }
+			return path.Substring(schemaIndex, hostIndex - schemaIndex);
+		}
 
-        public static string GetFtpPath(string path)
-        {
-            path = path.Replace("\\", "/", StringComparison.Ordinal);
-            var schemaIndex = path.IndexOf("://", StringComparison.Ordinal) + 3;
-            var hostIndex = path.IndexOf("/", schemaIndex, StringComparison.Ordinal);
-            return hostIndex == -1 ? "/" : path.Substring(hostIndex);
-        }
-    }
+		public static string GetFtpPath(string path)
+		{
+			path = path.Replace("\\", "/", StringComparison.Ordinal);
+			var schemaIndex = path.IndexOf("://", StringComparison.Ordinal) + 3;
+			var hostIndex = path.IndexOf("/", schemaIndex, StringComparison.Ordinal);
+			return hostIndex == -1 ? "/" : path.Substring(hostIndex);
+		}
+	}
 }
