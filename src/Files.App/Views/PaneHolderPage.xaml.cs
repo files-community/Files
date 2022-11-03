@@ -55,11 +55,22 @@ namespace Files.App.Views
 				if (value != _windowIsCompact)
 				{
 					_windowIsCompact = value;
-					IsRightPaneVisible = !value;
+					if (value)
+					{
+						wasRightPaneVisible = isRightPaneVisible;
+						IsRightPaneVisible = false;
+					}
+					else if (_wasRightPaneVisible)
+					{
+						IsRightPaneVisible = true;
+						wasRightPaneVisible = false;
+					}
 					NotifyPropertyChanged(nameof(IsMultiPaneEnabled));
 				}
 			}
 		}
+
+		private bool wasRightPaneVisible;
 
 		public bool IsMultiPaneActive => IsRightPaneVisible;
 
