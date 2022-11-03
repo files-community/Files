@@ -1,10 +1,10 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Backend.Services.Settings;
-using Files.Shared.Extensions;
+using CommunityToolkit.WinUI;
 using Files.App.Extensions;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
-using CommunityToolkit.WinUI;
+using Files.Backend.Services.Settings;
+using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
