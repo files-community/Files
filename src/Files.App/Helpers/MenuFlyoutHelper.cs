@@ -1,8 +1,8 @@
-using System;
-using System.Collections.Generic;
+using CommunityToolkit.WinUI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using CommunityToolkit.WinUI;
+using System;
+using System.Collections.Generic;
 using System.Windows.Input;
 
 namespace Files.App.Helpers

@@ -1,19 +1,19 @@
-using Files.Shared.Enums;
-using Files.App.Helpers;
-using Files.App.Interacts;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Files.App.Extensions;
+using Files.App.Helpers;
+using Files.App.Interacts;
+using Files.Shared.Enums;
+using Microsoft.UI;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Windows.Input;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI;
 
 namespace Files.App.ViewModels
 {

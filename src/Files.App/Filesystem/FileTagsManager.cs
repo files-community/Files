@@ -1,7 +1,7 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.App.DataModels.NavigationControlItems;
 using Files.Backend.Services.Settings;
 using Files.Shared;
-using Files.App.DataModels.NavigationControlItems;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Files.Shared.Enums
+﻿namespace Files.Shared.Enums
 {
 	/// <summary>
 	/// Type of operation on Files filesystem that took place

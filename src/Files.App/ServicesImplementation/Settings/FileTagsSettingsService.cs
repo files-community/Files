@@ -1,8 +1,8 @@
-using Files.Backend.Services.Settings;
-using Files.Backend.ViewModels.FileTags;
+using Files.App.Extensions;
 using Files.App.Serialization;
 using Files.App.Serialization.Implementation;
-using Files.App.Extensions;
+using Files.Backend.Services.Settings;
+using Files.Backend.ViewModels.FileTags;
 using System;
 using System.Collections.Generic;
 using System.IO;

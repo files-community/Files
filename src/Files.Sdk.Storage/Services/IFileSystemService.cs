@@ -1,6 +1,6 @@
-﻿using System.Threading;
+﻿using Files.Sdk.Storage.LocatableStorage;
+using System.Threading;
 using System.Threading.Tasks;
-using Files.Sdk.Storage.LocatableStorage;
 
 namespace Files.Sdk.Storage.Services
 {

@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Runtime.CompilerServices;
-using System.Threading;
-using System.Threading.Tasks;
 using Files.Sdk.Storage;
 using Files.Sdk.Storage.Enums;
 using Files.Sdk.Storage.Extensions;
@@ -11,6 +5,12 @@ using Files.Sdk.Storage.LocatableStorage;
 using Files.Sdk.Storage.ModifiableStorage;
 using Files.Shared.Helpers;
 using FluentFTP;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Files.App.Storage.FtpStorage
 {

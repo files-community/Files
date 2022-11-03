@@ -1,3 +1,7 @@
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services;
+using Files.Shared;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -5,10 +9,6 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Backend.Services;
-using Files.Shared;
 using Windows.ApplicationModel;
 using Windows.Management.Deployment;
 using Windows.Storage;

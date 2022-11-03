@@ -1,18 +1,15 @@
-using Files.Shared;
 using Files.App.DataModels.NavigationControlItems;
-using Files.App.Helpers;
 using Files.App.Extensions;
+using Files.App.Helpers;
+using Files.App.Shell;
+using Files.Shared;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.AppService;
-using Windows.Foundation.Collections;
-using Files.App.Shell;
-using Vanara.Windows.Shell;
 using Vanara.PInvoke;
+using Vanara.Windows.Shell;
 
 namespace Files.App.Filesystem
 {

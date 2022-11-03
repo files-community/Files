@@ -1,8 +1,8 @@
 using Files.App.UserControls;
-using System.Collections.Generic;
-using System.Windows.Input;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
+using System.Collections.Generic;
+using System.Windows.Input;
 
 namespace Files.App.ViewModels
 {

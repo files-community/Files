@@ -1,8 +1,9 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.WinUI;
+using Files.App.Extensions;
 using Files.Backend.Extensions;
 using Files.Shared.Services.DateTimeFormatter;
-using Files.App.Extensions;
-using CommunityToolkit.WinUI;
+using Microsoft.UI.Dispatching;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,7 +12,6 @@ using System.Threading.Tasks;
 using Windows.Storage.FileProperties;
 using static Files.Backend.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
-using Microsoft.UI.Dispatching;
 
 namespace Files.App.ViewModels.Properties
 {

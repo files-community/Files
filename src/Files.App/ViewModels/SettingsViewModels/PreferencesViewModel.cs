@@ -1,12 +1,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.WinUI;
-using Files.App.Controllers;
-using Files.App.DataModels;
 using Files.App.Extensions;
 using Files.App.Helpers;
-using Files.App.Shell;
 using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
@@ -22,7 +18,6 @@ using Windows.ApplicationModel;
 using Windows.Globalization;
 using Windows.Storage;
 using Windows.Storage.Pickers;
-using Windows.System;
 using static Files.App.Helpers.MenuFlyoutHelper;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 
