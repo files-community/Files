@@ -2845,15 +2845,15 @@
     <value>O destino não pode ser encontrado {0}. Deseja excluir este atalho?</value>
   </data>
   <data name="LoadingThemes" xml:space="preserve">
-    <value>Loading Themes</value>
+    <value>Carregando Temas</value>
   </data>
   <data name="EmptyingRecycleBin" xml:space="preserve">
-    <value>Emptying recycle bin</value>
+    <value>Esvaziando lixeira</value>
   </data>
   <data name="BinEmptyingSucceded" xml:space="preserve">
-    <value>Successfully emptied recycle bin</value>
+    <value>Lixeira esvaziada com sucesso</value>
   </data>
   <data name="BinEmptyingFailed" xml:space="preserve">
-    <value>Failed to empty recycle bin</value>
+    <value>Falha ao esvaziar a lixeira</value>
   </data>
 </root>
