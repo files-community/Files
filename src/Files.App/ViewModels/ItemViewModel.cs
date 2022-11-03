@@ -1038,12 +1038,12 @@ namespace Files.App.ViewModels
 									var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFile);
 									var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFile);
 									var fileTag = FileTagsHelper.ReadFileTag(item.ItemPath);
-
+									var itemType = (item.ItemType == "Folder".GetLocalizedResource()) ? item.ItemType : matchingStorageFile.DisplayType;
 									cts.Token.ThrowIfCancellationRequested();
 									await dispatcherQueue.EnqueueAsync(() =>
 									{
 										item.FolderRelativeId = matchingStorageFile.FolderRelativeId;
-										item.ItemType = matchingStorageFile.DisplayType;
+										item.ItemType = itemType;
 										item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
 										item.FileFRN = fileFRN;
 										item.FileTags = fileTag;
@@ -1085,11 +1085,12 @@ namespace Files.App.ViewModels
 									var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
 									var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFolder);
 									var fileTag = FileTagsHelper.ReadFileTag(item.ItemPath);
+									var itemType = (item.ItemType == "Folder".GetLocalizedResource()) ? item.ItemType : matchingStorageFolder.DisplayType;
 									cts.Token.ThrowIfCancellationRequested();
 									await dispatcherQueue.EnqueueAsync(() =>
 									{
 										item.FolderRelativeId = matchingStorageFolder.FolderRelativeId;
-										item.ItemType = matchingStorageFolder.DisplayType;
+										item.ItemType = itemType;
 										item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
 										item.FileFRN = fileFRN;
 										item.FileTags = fileTag;
