@@ -1,7 +1,6 @@
+using Files.App.Helpers;
 using Files.Backend.Models;
 using Files.Backend.Services;
-using Files.App.Helpers;
-using System.Threading.Tasks;
 
 namespace Files.App.ServicesImplementation
 {
