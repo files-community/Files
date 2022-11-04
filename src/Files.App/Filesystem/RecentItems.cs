@@ -1,11 +1,11 @@
 using Files.App.Helpers;
+using Files.App.Shell;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Files.App.Shell;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 

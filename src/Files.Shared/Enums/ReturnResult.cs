@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Files.Shared.Enums
+﻿namespace Files.Shared.Enums
 {
 	/// <summary>
 	/// Contains all kinds of return status

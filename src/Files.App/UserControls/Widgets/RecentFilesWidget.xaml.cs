@@ -2,27 +2,18 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
 using Files.App.Extensions;
 using Files.App.Filesystem;
-using Files.App.Filesystem.StorageItems;
-using Files.App.ViewModels;
 using Files.App.ViewModels.Widgets;
 using Files.Backend.Services.Settings;
-using Files.Shared.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media.Imaging;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.Storage;
-using Windows.Storage.AccessCache;
-using Windows.UI.Core;
 
 namespace Files.App.UserControls.Widgets
 {

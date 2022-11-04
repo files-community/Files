@@ -3,9 +3,6 @@ using System;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.Foundation.Collections;
-using Windows.Foundation.Metadata;
-using Windows.System;
 
 namespace Files.App.Helpers
 {

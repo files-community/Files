@@ -1,11 +1,13 @@
-using Files.Shared;
-using Files.Shared.Enums;
-using Files.Shared.Extensions;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Extensions;
 using Files.App.Filesystem.FilesystemHistory;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
-using CommunityToolkit.WinUI;
+using Files.Backend.Services;
+using Files.Shared;
+using Files.Shared.Enums;
+using Files.Shared.Extensions;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,10 +16,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Microsoft.UI.Xaml.Controls;
 using FileAttributes = System.IO.FileAttributes;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Backend.Services;
 
 namespace Files.App.Filesystem
 {

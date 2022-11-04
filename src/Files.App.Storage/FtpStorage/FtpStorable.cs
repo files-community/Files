@@ -1,7 +1,7 @@
-using System.Threading;
-using System.Threading.Tasks;
 using Files.Sdk.Storage.LocatableStorage;
 using FluentFTP;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Files.App.Storage.FtpStorage
 {

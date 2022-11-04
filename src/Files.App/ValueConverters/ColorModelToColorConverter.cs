@@ -1,8 +1,8 @@
-using Files.Backend.Models.Coloring;
 using Files.App.Helpers;
-using System;
+using Files.Backend.Models.Coloring;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
+using System;
 
 namespace Files.App.ValueConverters
 {

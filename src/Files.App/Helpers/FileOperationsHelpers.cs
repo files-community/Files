@@ -1,18 +1,3 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.IO.Pipes;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Security.Principal;
-using System.Text;
-using System.Text.Json;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Common;
 using Files.App.DataModels;
 using Files.App.Filesystem;
 using Files.App.Filesystem.Permissions;
@@ -20,11 +5,21 @@ using Files.App.Shell;
 using Files.Shared;
 using Files.Shared.Extensions;
 using Microsoft.Win32;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Security.Principal;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 using Tulpep.ActiveDirectoryObjectPicker;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Foundation.Collections;
 
 namespace Files.App.Helpers
 {

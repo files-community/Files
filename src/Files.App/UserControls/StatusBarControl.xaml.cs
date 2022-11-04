@@ -1,9 +1,9 @@
+using Files.App.DataModels;
 using Files.App.ViewModels;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Files.App.DataModels;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace Files.App.UserControls
 {

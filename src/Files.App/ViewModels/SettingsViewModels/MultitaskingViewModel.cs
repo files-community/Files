@@ -1,6 +1,6 @@
-using Files.Backend.Services.Settings;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services.Settings;
 
 namespace Files.App.ViewModels.SettingsViewModels
 {

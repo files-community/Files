@@ -1,6 +1,6 @@
+using Files.App.Extensions;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.ViewModels;
-using Files.App.Extensions;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Linq;

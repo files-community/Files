@@ -1,3 +1,4 @@
+using Files.App.Shell;
 using Files.Shared;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,6 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
-using Files.App.Shell;
 
 namespace Files.App.Filesystem.StorageItems
 {

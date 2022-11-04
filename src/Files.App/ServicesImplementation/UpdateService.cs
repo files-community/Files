@@ -1,13 +1,13 @@
+using CommunityToolkit.Mvvm.ComponentModel;
+using Files.App.Extensions;
+using Files.Backend.Services;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Services.Store;
-using Microsoft.UI.Xaml.Controls;
-using CommunityToolkit.Mvvm.ComponentModel;
-using Files.Backend.Services;
-using Files.App.Extensions;
 
 namespace Files.App.ServicesImplementation
 {

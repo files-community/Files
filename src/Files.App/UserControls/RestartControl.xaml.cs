@@ -1,10 +1,10 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services.Settings;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Diagnostics;
 using Windows.System;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Backend.Services.Settings;
 
 namespace Files.App.UserControls
 {

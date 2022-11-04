@@ -1,5 +1,5 @@
-using System;
 using Microsoft.UI.Xaml.Controls;
+using System;
 
 namespace Files.App.UserControls.MultitaskingControl
 {
