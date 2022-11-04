@@ -146,8 +146,9 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 				else
 				{
 					descriptionText = (nonConflictingItems.Count > 0)
-						? string.Format("ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts".ToLocalized(), nonConflictingItems.Count) // There is one conflicting file name, and {0} outgoing item(s)
-						: string.Format("ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts".ToLocalized(), conflictingItems.Count) // There is one conflicting file name
+						? string.Format(
+							"ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts".ToLocalized(), nonConflictingItems.Count) // There is one conflicting file name, and {0} outgoing item(s)
+						: string.Format("ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts".ToLocalized(), conflictingItems.Count); // There is one conflicting file name
 				}
 
 				titleText = "ConflictingItemsDialogTitle".ToLocalized();
