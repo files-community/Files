@@ -194,7 +194,9 @@ namespace Files.App.Views
 			}
 		}
 
-		public PaneHolderPage()
+        public readonly VirtualKey PlusKey = (VirtualKey)187;
+
+        public PaneHolderPage()
 		{
 			this.InitializeComponent();
 			App.Window.SizeChanged += Current_SizeChanged;
@@ -322,6 +324,7 @@ namespace Files.App.Views
 					break;
 
 				case (false, true, true, VirtualKey.Add): // alt + shift + "+" open pane
+				case (false, true, true, (VirtualKey)187):
 					if (UserSettingsService.MultitaskingSettingsService.IsDualPaneEnabled)
 					{
 						if (string.IsNullOrEmpty(NavParamsRight?.NavPath))
