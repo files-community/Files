@@ -2851,12 +2851,12 @@
     <value>Načítavanie tém</value>
   </data>
   <data name="EmptyingRecycleBin" xml:space="preserve">
-    <value>Emptying recycle bin</value>
+    <value>Vysypovanie koša</value>
   </data>
   <data name="BinEmptyingSucceded" xml:space="preserve">
-    <value>Successfully emptied recycle bin</value>
+    <value>Kôš bol úspešne vyprázdnený</value>
   </data>
   <data name="BinEmptyingFailed" xml:space="preserve">
-    <value>Failed to empty recycle bin</value>
+    <value>Nepodarilo sa vyprázdniť kôš</value>
   </data>
 </root>
