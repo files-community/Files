@@ -37,7 +37,7 @@ namespace Files.InteractionTests.Tests
 				{
 					try
 					{
-						Console.WriteLine("Inoking button:" + item);
+						Console.WriteLine("Invoking button:" + item);
 						Thread.Sleep(2000);
 						TestHelper.InvokeButtonById(item);
 						i = 1000;
