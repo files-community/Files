@@ -151,7 +151,7 @@
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE7E8;" />
 				</local:SettingsBlockControl.Icon>
-				<ComboBox SelectedIndex="{x:Bind ViewModel.SelectedStartupSettingIndex, Mode=OneWay}">
+				<ComboBox SelectedIndex="{x:Bind ViewModel.SelectedStartupSettingIndex, Mode=OneWay}" AutomationProperties.Name="{helpers:ResourceString Name=StartupSettings}">
 					<ComboBoxItem Content="{helpers:ResourceString Name=SettingsOnStartupOpenANewTab/Content}" IsSelected="{x:Bind ViewModel.OpenNewTabPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
 					<ComboBoxItem Content="{helpers:ResourceString Name=SettingsOnStartupContinueWhereYouLeftOff/Content}" IsSelected="{x:Bind ViewModel.ContinueLastSessionOnStartUp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
