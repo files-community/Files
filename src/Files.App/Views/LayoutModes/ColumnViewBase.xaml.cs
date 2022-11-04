@@ -399,20 +399,37 @@ namespace Files.App.Views.LayoutModes
 			}
 			else if (e.Key == VirtualKey.Left) // Left arrow: select parent folder (previous column)
 			{
-				if (!IsRenamingItem && !ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
+				if (IsRenamingItem || ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled) 
+					return;
+
+				if ((ParentShellPageInstance as ColumnShellPage)?.ColumnParams.Column == 0)
+					return;
+
+				try
 				{
-					if ((ParentShellPageInstance as ColumnShellPage)?.ColumnParams.Column > 0)
-						FocusManager.TryMoveFocus(FocusNavigationDirection.Previous);
-					e.Handled = true;
+					FocusManager.TryMoveFocus(FocusNavigationDirection.Previous);
 				}
+				catch (Exception exception)
+				{
+
+				}
+
+				e.Handled = true;
 			}
 			else if (e.Key == VirtualKey.Right) // Right arrow: switch focus to next column
 			{
-				if (!IsRenamingItem && !ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
+				if (IsRenamingItem || ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled) 
+					return;
+
+				try
 				{
 					FocusManager.TryMoveFocus(FocusNavigationDirection.Next);
-					e.Handled = true;
 				}
+				catch(Exception ex)
+				{
+
+				}
+				e.Handled = true;
 			}
 		}
 
