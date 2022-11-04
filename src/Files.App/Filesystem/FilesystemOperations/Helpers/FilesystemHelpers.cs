@@ -567,11 +567,8 @@ namespace Files.App.Filesystem
 					break;
 
 				case FilesystemItemType.File:
-
-					/* Only prompt user when extension has changed,
-                       not when file name has changed */
 					if (showExtensionDialog &&
-						Path.GetExtension(source.Path) != Path.GetExtension(newName))
+						Path.GetExtension(source.Path) != Path.GetExtension(newName)) // Only prompt user when extension has changed, not when file name has changed
 					{
 						var yesSelected = await DialogDisplayHelper.ShowDialogAsync("RenameFileDialogTitle".GetLocalizedResource(), "RenameFileDialog/Text".GetLocalizedResource(), "Yes".GetLocalizedResource(), "No".GetLocalizedResource());
 						if (yesSelected)
