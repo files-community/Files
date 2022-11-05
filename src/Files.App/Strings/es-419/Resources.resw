@@ -457,7 +457,7 @@
     <value>El archivo al que está intentando acceder está siendo utilizado actualmente por otra aplicación</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
-    <value>El archivo se está utilizando</value>
+    <value>Archivo en uso</value>
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>Diseño</value>
