@@ -182,7 +182,7 @@
 			Invoked="KeyboardAccelerator_Invoked"
 			Modifiers="Menu,Shift" />
         <KeyboardAccelerator
-			Key="{x:Bind PlusKey}"
+			Key="{x:Bind local:PaneHolderPage.PlusKey}"
 			Invoked="KeyboardAccelerator_Invoked"
 			Modifiers="Menu,Shift" />
     </Page.KeyboardAccelerators>
