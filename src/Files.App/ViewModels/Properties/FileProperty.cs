@@ -1,8 +1,10 @@
+using CommunityToolkit.Mvvm.ComponentModel;
 using Files.App.Converters;
+using Files.App.Extensions;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
-using CommunityToolkit.Mvvm.ComponentModel;
-using Files.App.Extensions;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Data;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,8 +12,6 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Data;
 
 namespace Files.App.ViewModels.Properties
 {

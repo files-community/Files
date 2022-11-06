@@ -11,7 +11,6 @@ using Files.Shared.Enums;
 using Files.Shared.Extensions;
 using System;
 using System.Text.Json;
-using System.Threading;
 using System.Windows.Input;
 using Windows.Storage;
 using IO = System.IO;

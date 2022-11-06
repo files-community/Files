@@ -1,9 +1,9 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Shared;
-using Files.Shared.Cloud;
+using CommunityToolkit.WinUI;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Helpers;
-using CommunityToolkit.WinUI;
+using Files.Shared;
+using Files.Shared.Cloud;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;

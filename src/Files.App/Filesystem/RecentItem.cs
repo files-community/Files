@@ -1,12 +1,12 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using Files.Shared;
 using Files.App.Helpers;
+using Files.Shared;
+using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
-using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace Files.App.Filesystem
 {

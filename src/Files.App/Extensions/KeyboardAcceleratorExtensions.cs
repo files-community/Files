@@ -1,7 +1,6 @@
+using Microsoft.UI.Xaml.Input;
 using Windows.System;
 using Windows.UI.Core;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Input;
 
 namespace Files.App.Extensions
 {

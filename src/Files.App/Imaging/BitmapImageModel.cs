@@ -1,6 +1,6 @@
 using Files.Backend.Models.Imaging;
-using System.Collections.Generic;
 using Microsoft.UI.Xaml.Media.Imaging;
+using System.Collections.Generic;
 
 namespace Files.App.Imaging
 {

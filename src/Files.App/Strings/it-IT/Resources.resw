@@ -816,12 +816,6 @@
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Lingua</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>Applicazioni Terminale</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>Modifica applicazioni terminale</value>
-  </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Sposta gli elementi in eccesso in un sottomenu</value>
   </data>
@@ -2426,9 +2420,6 @@
   </data>
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Mostra sezione WSL</value>
-  </data>
-  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Applicazioni terminale</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Operazioni in corso</value>

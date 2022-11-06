@@ -1,15 +1,14 @@
+using CommunityToolkit.WinUI.UI;
+using Files.App.Filesystem;
 using Files.Backend.ViewModels.Dialogs;
 using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
 using Files.Shared.Enums;
-using CommunityToolkit.WinUI.UI;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
-using Files.App.Helpers.XamlHelpers;
-using Files.App.Filesystem;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 

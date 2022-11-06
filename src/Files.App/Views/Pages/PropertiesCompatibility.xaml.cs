@@ -1,8 +1,8 @@
 using Files.App.Filesystem;
 using Files.App.ViewModels.Properties;
-using System.Threading.Tasks;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Navigation;
+using System.Threading.Tasks;
 
 namespace Files.App.Views
 {

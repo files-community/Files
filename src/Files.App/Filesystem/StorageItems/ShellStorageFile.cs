@@ -1,3 +1,4 @@
+using Files.App.Shell;
 using Files.Shared;
 using System;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -7,7 +8,6 @@ using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
 using IO = System.IO;
-using Files.App.Shell;
 
 namespace Files.App.Filesystem.StorageItems
 {

@@ -1,4 +1,3 @@
-using Files.Shared;
 using Files.App.Filesystem;
 using Files.Shared.Extensions;
 using System;

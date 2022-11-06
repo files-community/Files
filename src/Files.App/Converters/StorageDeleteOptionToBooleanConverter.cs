@@ -1,6 +1,6 @@
+using Microsoft.UI.Xaml.Data;
 using System;
 using Windows.Storage;
-using Microsoft.UI.Xaml.Data;
 
 namespace Files.App.Converters
 {

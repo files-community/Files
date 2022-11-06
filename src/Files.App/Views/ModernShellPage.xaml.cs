@@ -648,6 +648,8 @@ namespace Files.App.Views
 				InitialPageType = typeof(ModernShellPage),
 				NavigationArg = parameters.IsSearchResultPage && !isTagSearch ? parameters.SearchPathParam : parameters.NavPathParam
 			};
+			if (parameters.IsLayoutSwitch)
+				FilesystemViewModel_DirectoryInfoUpdated(sender, EventArgs.Empty);
 		}
 
 		private async void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
@@ -776,7 +778,7 @@ namespace Files.App.Views
 					break;
 
 				case (false, false, false, _, VirtualKey.F1): // F1, open Files wiki
-					await Launcher.LaunchUriAsync(new Uri(@"https://files.community/docs"));
+					await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.DocumentationUrl));
 					break;
 
 				case (true, true, false, _, VirtualKey.Number1): // ctrl+shift+1, details view

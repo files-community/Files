@@ -2,7 +2,6 @@ using Files.App.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Markup;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;

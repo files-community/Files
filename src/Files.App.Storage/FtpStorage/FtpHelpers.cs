@@ -1,8 +1,8 @@
+using Files.Shared.Extensions;
+using FluentFTP;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Files.Shared.Extensions;
-using FluentFTP;
 
 namespace Files.App.Storage.FtpStorage
 {
