@@ -6,9 +6,7 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Foundation.Metadata;
@@ -125,6 +123,6 @@ namespace Files.App.Helpers
 		}
 
 		private static string GetFilesLogoPath()
-			=> Path.Combine(Package.Current.InstalledLocation.Path, "Assets/AppTiles/Dev/Logo.ico");
+			=> Path.Combine(Package.Current.InstalledLocation.Path, Constants.AssetPaths.Logo);
 	}
 }
