@@ -5,6 +5,7 @@ using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Helpers.XamlHelpers;
 using Files.App.Interacts;
+using Files.App.Keyboard;
 using Files.App.UserControls.Selection;
 using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
@@ -352,6 +353,15 @@ namespace Files.App.Views.LayoutModes
 		{
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+
+			if (ctrlPressed && e.Key is VirtualKey.A)
+			{
+				var manager = Ioc.Default.GetRequiredService<IKeyboardManager>();
+				var shortKey = new ShortKey(VirtualKey.A, VirtualKeyModifiers.Control);
+				manager[shortKey].Execute();
+				e.Handled = true;
+				return;
+			}
 
 			if (e.Key == VirtualKey.Enter && !e.KeyStatus.IsMenuKeyDown)
 			{

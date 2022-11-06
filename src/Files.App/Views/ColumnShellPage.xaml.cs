@@ -743,14 +743,6 @@ namespace Files.App.Views
 
 					break;
 
-				case (true, false, false, true, VirtualKey.A): // ctrl + a, select all
-					if (!ToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem)
-					{
-						this.SlimContentPage.ItemManipulationModel.SelectAllItems();
-					}
-
-					break;
-
 				case (true, false, false, true, VirtualKey.D): // ctrl + d, delete item
 				case (false, false, false, true, VirtualKey.Delete): // delete, delete item
 					if (ContentPage.IsItemSelected && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults)
@@ -785,10 +777,6 @@ namespace Files.App.Views
 
 				case (true, false, false, true, VirtualKey.H): // ctrl + h, toggle hidden folder visibility
 					UserSettingsService.FoldersSettingsService.ShowHiddenItems ^= true; // flip bool
-					break;
-
-				case (false, false, false, _, VirtualKey.F1): // F1, open Files wiki
-					await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.DocumentationUrl));
 					break;
 			}
 

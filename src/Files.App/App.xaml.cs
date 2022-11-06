@@ -9,6 +9,7 @@ using Files.App.Filesystem;
 using Files.App.Filesystem.Cloud;
 using Files.App.Filesystem.FilesystemHistory;
 using Files.App.Helpers;
+using Files.App.Keyboard;
 using Files.App.ServicesImplementation;
 using Files.App.ServicesImplementation.DateTimeFormatter;
 using Files.App.ServicesImplementation.Settings;
@@ -123,6 +124,7 @@ namespace Files.App
 				.AddSingleton<IThreadingService, ThreadingService>()
 				.AddSingleton<ILocalizationService, LocalizationService>()
 				.AddSingleton<ICloudDetector, CloudDetector>()
+				.AddSingleton<IKeyboardManager, KeyboardManager>()
 #if SIDELOAD
 				.AddSingleton<IUpdateService, SideloadUpdateService>()
 #else

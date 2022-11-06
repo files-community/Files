@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.DataModels;
 using Files.App.Helpers;
+using Files.App.Keyboard;
 using Files.App.ViewModels;
 using Files.Backend.Services.Settings;
 using Microsoft.UI.Xaml;
@@ -18,6 +19,8 @@ namespace Files.App.UserControls
 {
 	public sealed partial class InnerNavigationToolbar : UserControl
 	{
+		private readonly IKeyboardManager keyboardManager = Ioc.Default.GetRequiredService<IKeyboardManager>();
+
 		public InnerNavigationToolbar()
 		{
 			this.InitializeComponent();
@@ -133,6 +136,32 @@ namespace Files.App.UserControls
 					menuLayoutItem.CommandParameter = newEntry;
 					NewEmptySpace.Items.Insert(separatorIndex + 1, menuLayoutItem);
 				}
+			}
+		}
+
+		private void SelectionFlyout_Opening(object sender, object e)
+		{
+			keyboardManager.FillMenu(MultiselectMFI, KeyboardActionCodes.ToggleMultiSelection);
+			keyboardManager.FillMenu(SelectAllMFI, KeyboardActionCodes.SelectAll);
+			keyboardManager.FillMenu(InvertSelectionMFI, KeyboardActionCodes.InvertSelection);
+			keyboardManager.FillMenu(ClearSelectionMFI, KeyboardActionCodes.ClearSelection);
+		}
+
+		private void LayoutFlyout_Opening(object sender, object e)
+		{
+			SetToolTip(LayoutDetailsButton, KeyboardActionCodes.ToggleLayoutDetails);
+			SetToolTip(LayoutTilesButton, KeyboardActionCodes.ToggleLayoutTiles);
+			SetToolTip(LayoutGridSmallButton, KeyboardActionCodes.ToggleLayoutGridSmall);
+			SetToolTip(LayoutGridMediumButton, KeyboardActionCodes.ToggleLayoutGridMedium);
+			SetToolTip(LayoutGridLargeButton, KeyboardActionCodes.ToggleLayoutGridLarge);
+			SetToolTip(LayoutColumnsButton, KeyboardActionCodes.ToggleLayoutColumns);
+			SetToolTip(LayoutAdaptiveButton, KeyboardActionCodes.ToggleLayoutAdaptive);
+
+			void SetToolTip(UIElement element, KeyboardActionCodes code)
+			{
+				var action = keyboardManager[code];
+				string text = action.ShortKey.IsNone ? action.Label : $"{action.Label} ({action.ShortKey})";
+				ToolTipService.SetToolTip(element, new ToolTip { Content = text });
 			}
 		}
 

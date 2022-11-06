@@ -734,12 +734,6 @@ namespace Files.App.Views
 
 					break;
 
-				case (true, false, false, true, VirtualKey.A): // ctrl + a, select all
-					if (!ToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem)
-						this.SlimContentPage.ItemManipulationModel.SelectAllItems();
-
-					break;
-
 				case (true, false, false, true, VirtualKey.D): // ctrl + d, delete item
 				case (false, false, false, true, VirtualKey.Delete): // delete, delete item
 					if (ContentPage.IsItemSelected && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults)
@@ -775,38 +769,6 @@ namespace Files.App.Views
 
 				case (true, false, false, true, VirtualKey.H): // ctrl + h, toggle hidden folder visibility
 					UserSettingsService.FoldersSettingsService.ShowHiddenItems ^= true; // flip bool
-					break;
-
-				case (false, false, false, _, VirtualKey.F1): // F1, open Files wiki
-					await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.DocumentationUrl));
-					break;
-
-				case (true, true, false, _, VirtualKey.Number1): // ctrl+shift+1, details view
-					InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView(true);
-					break;
-
-				case (true, true, false, _, VirtualKey.Number2): // ctrl+shift+2, tiles view
-					InstanceViewModel.FolderSettings.ToggleLayoutModeTiles(true);
-					break;
-
-				case (true, true, false, _, VirtualKey.Number3): // ctrl+shift+3, grid small view
-					InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall(true);
-					break;
-
-				case (true, true, false, _, VirtualKey.Number4): // ctrl+shift+4, grid medium view
-					InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium(true);
-					break;
-
-				case (true, true, false, _, VirtualKey.Number5): // ctrl+shift+5, grid large view
-					InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge(true);
-					break;
-
-				case (true, true, false, _, VirtualKey.Number6): // ctrl+shift+6, column view
-					InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView(true);
-					break;
-
-				case (true, true, false, _, VirtualKey.Number7): // ctrl+shift+7, adaptive
-					InstanceViewModel.FolderSettings.ToggleLayoutModeAdaptive();
 					break;
 			}
 

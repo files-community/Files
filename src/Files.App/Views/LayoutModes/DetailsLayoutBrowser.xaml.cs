@@ -1,3 +1,4 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
 using Files.App.EventArguments;
@@ -5,6 +6,7 @@ using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Helpers.XamlHelpers;
 using Files.App.Interacts;
+using Files.App.Keyboard;
 using Files.App.UserControls;
 using Files.App.UserControls.Selection;
 using Files.App.ViewModels;
@@ -429,6 +431,15 @@ namespace Files.App.Views.LayoutModes
 			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement();
 			var isHeaderFocused = DependencyObjectHelpers.FindParent<DataGridHeader>(focusedElement) is not null;
 			var isFooterFocused = focusedElement is HyperlinkButton;
+
+			if (ctrlPressed && e.Key is VirtualKey.A)
+			{
+				var manager = Ioc.Default.GetRequiredService<IKeyboardManager>();
+				var shortKey = new ShortKey(VirtualKey.A, VirtualKeyModifiers.Control);
+				manager[shortKey].Execute();
+				e.Handled = true;
+				return;
+			}
 
 			if (e.Key == VirtualKey.Enter && !e.KeyStatus.IsMenuKeyDown)
 			{

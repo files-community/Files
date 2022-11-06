@@ -413,7 +413,10 @@
 				Style="{StaticResource ToolBarAppBarButtonFlyoutStyle}"
 				ToolTipService.ToolTip="{helpers:ResourceString Name=NavToolbarSelectionOptions/ToolTipService/ToolTip}">
 				<AppBarButton.Flyout>
-					<MenuFlyout Placement="Bottom">
+					<MenuFlyout
+						x:Name="SelectionFlyout"
+						Opening="SelectionFlyout_Opening"
+						Placement="Bottom">
 						<ToggleMenuFlyoutItem
 							x:Name="MultiselectMFI"
 							IsChecked="{x:Bind AppModel.MultiselectEnabled, Mode=TwoWay}"
@@ -429,12 +432,6 @@
 							<MenuFlyoutItem.Icon>
 								<FontIcon Glyph="&#xE8B3;" />
 							</MenuFlyoutItem.Icon>
-							<MenuFlyoutItem.KeyboardAccelerators>
-								<KeyboardAccelerator
-									Key="A"
-									IsEnabled="False"
-									Modifiers="Control" />
-							</MenuFlyoutItem.KeyboardAccelerators>
 						</MenuFlyoutItem>
 						<MenuFlyoutItem
 							x:Name="InvertSelectionMFI"
@@ -541,7 +538,11 @@
 					<FontIcon FontSize="10" Glyph="&#xE152;" />
 				</AppBarButton.Icon>
 				<AppBarButton.Flyout>
-					<Flyout contract8Present:ShouldConstrainToRootBounds="False" Placement="Bottom">
+					<Flyout
+						x:Name="LayoutFlyout"
+						contract8Present:ShouldConstrainToRootBounds="False"
+						Opening="LayoutFlyout_Opening"
+						Placement="Bottom">
 						<StackPanel Spacing="12">
 							<TextBlock FontWeight="Medium" Text="{helpers:ResourceString Name=NavToolbarLayout/Text}" />
 
@@ -561,6 +562,7 @@
 								</Grid.ColumnDefinitions>
 
 								<RadioButton
+									x:Name="LayoutDetailsButton"
 									Grid.Row="0"
 									Grid.Column="0"
 									Width="36"
@@ -574,8 +576,7 @@
 									CommandParameter="{xh:SystemTypeToXaml Bool=True}"
 									CornerRadius="{StaticResource ControlCornerRadius}"
 									IsChecked="{x:Bind ViewModel.IsLayoutDetailsView, Mode=OneWay}"
-									Style="{StaticResource DefaultToggleButtonStyle}"
-									ToolTipService.ToolTip="{helpers:ResourceString Name=NavToolbarDetails/ToolTipService/ToolTip}">
+									Style="{StaticResource DefaultToggleButtonStyle}">
 									<FontIcon FontSize="16" Glyph="&#xE179;" />
 								</RadioButton>
 
@@ -588,6 +589,7 @@
 									Text="{helpers:ResourceString Name=Details}" />
 
 								<RadioButton
+									x:Name="LayoutTilesButton"
 									Grid.Row="1"
 									Grid.Column="0"
 									Width="36"
@@ -601,8 +603,7 @@
 									CommandParameter="{xh:SystemTypeToXaml Bool=True}"
 									CornerRadius="{StaticResource ControlCornerRadius}"
 									IsChecked="{x:Bind ViewModel.IsLayoutTilesView, Mode=OneWay}"
-									Style="{StaticResource DefaultToggleButtonStyle}"
-									ToolTipService.ToolTip="{helpers:ResourceString Name=NavToolbarTiles/ToolTipService/ToolTip}">
+									Style="{StaticResource DefaultToggleButtonStyle}">
 									<FontIcon FontSize="16" Glyph="&#xE15C;" />
 								</RadioButton>
 
@@ -615,6 +616,7 @@
 									Text="{helpers:ResourceString Name=Tiles}" />
 
 								<RadioButton
+									x:Name="LayoutGridSmallButton"
 									Grid.Row="2"
 									Grid.Column="0"
 									Width="36"
@@ -628,8 +630,7 @@
 									CommandParameter="{xh:SystemTypeToXaml Bool=True}"
 									CornerRadius="{StaticResource ControlCornerRadius}"
 									IsChecked="{x:Bind ViewModel.IsLayoutGridViewSmall, Mode=OneWay}"
-									Style="{StaticResource DefaultToggleButtonStyle}"
-									ToolTipService.ToolTip="{helpers:ResourceString Name=NavToolbarSmallIcons/ToolTipService/ToolTip}">
+									Style="{StaticResource DefaultToggleButtonStyle}">
 									<FontIcon FontSize="16" Glyph="&#xE80A;" />
 								</RadioButton>
 
@@ -642,6 +643,7 @@
 									Text="{helpers:ResourceString Name=SmallIcons}" />
 
 								<RadioButton
+									x:Name="LayoutGridMediumButton"
 									Grid.Row="3"
 									Grid.Column="0"
 									Width="36"
@@ -655,8 +657,7 @@
 									CommandParameter="{xh:SystemTypeToXaml Bool=True}"
 									CornerRadius="{StaticResource ControlCornerRadius}"
 									IsChecked="{x:Bind ViewModel.IsLayoutGridViewMedium, Mode=OneWay}"
-									Style="{StaticResource DefaultToggleButtonStyle}"
-									ToolTipService.ToolTip="{helpers:ResourceString Name=NavToolbarMediumIcons/ToolTipService/ToolTip}">
+									Style="{StaticResource DefaultToggleButtonStyle}">
 									<FontIcon FontSize="16" Glyph="&#xF0E2;" />
 								</RadioButton>
 
@@ -678,6 +679,7 @@
 									BorderThickness="1" />
 
 								<RadioButton
+									x:Name="LayoutGridLargeButton"
 									Grid.Row="0"
 									Grid.Column="3"
 									Width="36"
@@ -691,8 +693,7 @@
 									CommandParameter="{xh:SystemTypeToXaml Bool=True}"
 									CornerRadius="{StaticResource ControlCornerRadius}"
 									IsChecked="{x:Bind ViewModel.IsLayoutGridViewLarge, Mode=OneWay}"
-									Style="{StaticResource DefaultToggleButtonStyle}"
-									ToolTipService.ToolTip="{helpers:ResourceString Name=NavToolbarLargeIcons/ToolTipService/ToolTip}">
+									Style="{StaticResource DefaultToggleButtonStyle}">
 									<FontIcon FontSize="16" Glyph="&#xE739;" />
 								</RadioButton>
 
@@ -705,6 +706,7 @@
 									Text="{helpers:ResourceString Name=LargeIcons}" />
 
 								<RadioButton
+									x:Name="LayoutColumnsButton"
 									Grid.Row="1"
 									Grid.Column="3"
 									Width="36"
@@ -718,8 +720,7 @@
 									CommandParameter="{xh:SystemTypeToXaml Bool=True}"
 									CornerRadius="{StaticResource ControlCornerRadius}"
 									IsChecked="{x:Bind ViewModel.IsLayoutColumnsView, Mode=OneWay}"
-									Style="{StaticResource DefaultToggleButtonStyle}"
-									ToolTipService.ToolTip="{helpers:ResourceString Name=ColumnsShortcutTooltip}">
+									Style="{StaticResource DefaultToggleButtonStyle}">
 									<FontIcon
 										FontFamily="{StaticResource CustomGlyph}"
 										FontSize="16"
@@ -735,6 +736,7 @@
 									Text="{helpers:ResourceString Name=Columns}" />
 
 								<RadioButton
+									x:Name="LayoutAdaptiveButton"
 									Grid.Row="2"
 									Grid.Column="3"
 									Width="36"
@@ -748,8 +750,7 @@
 									CornerRadius="{StaticResource ControlCornerRadius}"
 									IsChecked="{x:Bind ViewModel.IsLayoutAdaptive, Mode=OneWay}"
 									IsEnabled="{x:Bind ViewModel.IsAdaptiveLayoutEnabled, Mode=OneWay}"
-									Style="{StaticResource DefaultToggleButtonStyle}"
-									ToolTipService.ToolTip="{helpers:ResourceString Name=AdaptiveShortcutTooltip}">
+									Style="{StaticResource DefaultToggleButtonStyle}">
 									<FontIcon FontSize="16" Glyph="&#xF576;" />
 								</RadioButton>
 

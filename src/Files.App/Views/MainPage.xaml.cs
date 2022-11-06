@@ -7,6 +7,8 @@ using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
+using Files.App.Keyboard;
+using Files.App.Keyboard.Actions;
 using Files.App.UserControls;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.ViewModels;
@@ -21,6 +23,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -347,6 +350,28 @@ namespace Files.App.Views
 			FindName(nameof(InnerNavigationToolbar));
 			FindName(nameof(horizontalMultitaskingControl));
 			FindName(nameof(NavToolbar));
+
+			var actions = new List<IKeyboardAction>
+			{
+				new HelpAction(),
+				new ToggleMultiSelectionAction(AppModel),
+				new SelectAllAction(SidebarAdaptiveViewModel),
+				new InvertSelectionAction(SidebarAdaptiveViewModel),
+				new ClearSelectionAction(SidebarAdaptiveViewModel),
+				new ToggleLayoutDetailsAction(SidebarAdaptiveViewModel),
+				new ToggleLayoutTilesAction(SidebarAdaptiveViewModel),
+				new ToggleLayoutGridSmallAction(SidebarAdaptiveViewModel),
+				new ToggleLayoutGridMediumAction(SidebarAdaptiveViewModel),
+				new ToggleLayoutGridLargeAction(SidebarAdaptiveViewModel),
+				new ToggleLayoutColumnsAction(SidebarAdaptiveViewModel),
+				new ToggleLayoutAdaptiveAction(SidebarAdaptiveViewModel),
+				new ToggleShowHiddenItemsAction(),
+				new ToggleShowFileExtensionsAction(),
+			};
+
+			var manager = Ioc.Default.GetRequiredService<IKeyboardManager>();
+			manager.Initialize(actions);
+			manager.RegisterKeyboard(this);
 		}
 
 		private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
