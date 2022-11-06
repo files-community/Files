@@ -64,7 +64,7 @@ namespace Files.App.Views
 				newName = $"{newName}{ShellLibraryItem.EXTENSION}";
 
 				var file = new StorageFileWithPath(null, library.ItemPath);
-				var renamed = await AppInstance!.FilesystemHelpers.RenameAsync(file, newName, NameCollisionOption.FailIfExists, false);
+				var renamed = await AppInstance!.FilesystemHelpers.RenameAsync(file, newName, NameCollisionOption.FailIfExists, false, false);
 				if (renamed is ReturnResult.Success)
 				{
 					var newPath = Path.Combine(Path.GetDirectoryName(library.ItemPath)!, newName);
@@ -109,7 +109,7 @@ namespace Files.App.Views
 					return true;
 
 				return await App.Window.DispatcherQueue.EnqueueAsync(() =>
-					UIFilesystemHelpers.RenameFileItemAsync(item, ViewModel.ItemName, AppInstance)
+					UIFilesystemHelpers.RenameFileItemAsync(item, ViewModel.ItemName, AppInstance, false)
 				);
 			}
 		}
