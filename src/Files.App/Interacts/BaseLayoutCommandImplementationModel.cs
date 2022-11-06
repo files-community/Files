@@ -634,26 +634,38 @@ namespace Files.App.Interacts
 			if (archive is null)
 				return;
 
+			var isArchiveEncrypted = await FilesystemTasks.Wrap(() => ZipHelpers.IsArchiveEncrypted(archive));
+			var password = string.Empty;
+
 			DecompressArchiveDialog decompressArchiveDialog = new();
-			DecompressArchiveDialogViewModel decompressArchiveViewModel = new(archive);
+			DecompressArchiveDialogViewModel decompressArchiveViewModel = new(archive)
+			{
+				IsArchiveEncrypted = isArchiveEncrypted,
+				ShowPathSelection = true
+			};
 			decompressArchiveDialog.ViewModel = decompressArchiveViewModel;
 
 			ContentDialogResult option = await decompressArchiveDialog.TryShowAsync();
 			if (option != ContentDialogResult.Primary)
 				return;
 
+			if (isArchiveEncrypted)
+				password = Encoding.UTF8.GetString(decompressArchiveViewModel.Password);
+
 			// Check if archive still exists
 			if (!StorageHelpers.Exists(archive.Path))
 				return;
 
-			BaseStorageFolder parentFolder = null;
 			BaseStorageFolder destinationFolder = decompressArchiveViewModel.DestinationFolder;
 			string destinationFolderPath = decompressArchiveViewModel.DestinationFolderPath;
 
 			if (destinationFolder is null)
-				parentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(Path.GetDirectoryName(archive.Path));
+			{
+				BaseStorageFolder parentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(Path.GetDirectoryName(archive.Path));
+				destinationFolder = await FilesystemTasks.Wrap(() => parentFolder.CreateFolderAsync(Path.GetFileName(destinationFolderPath), CreationCollisionOption.GenerateUniqueName).AsTask());
+			}
 
-			await ExtractArchive(archive, destinationFolder, parentFolder, Path.GetFileName(destinationFolderPath));
+			await ExtractArchive(archive, destinationFolder, password);
 
 			if (decompressArchiveViewModel.OpenDestinationFolderOnCompletion)
 				await NavigationHelpers.OpenPath(destinationFolderPath, associatedInstance, FilesystemItemType.Directory);
@@ -663,10 +675,27 @@ namespace Files.App.Interacts
 		{
 			foreach (var selectedItem in associatedInstance.SlimContentPage.SelectedItems)
 			{
+				var password = string.Empty;
 				BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(selectedItem.ItemPath);
 				BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
 
-				await ExtractArchive(archive, currentFolder);
+				if (await FilesystemTasks.Wrap(() => ZipHelpers.IsArchiveEncrypted(archive)))
+				{
+					DecompressArchiveDialog decompressArchiveDialog = new();
+					DecompressArchiveDialogViewModel decompressArchiveViewModel = new(archive)
+					{
+						IsArchiveEncrypted = true,
+						ShowPathSelection = false
+					};
+					decompressArchiveDialog.ViewModel = decompressArchiveViewModel;
+
+					ContentDialogResult option = await decompressArchiveDialog.TryShowAsync();
+					if (option != ContentDialogResult.Primary)
+						return;
+					password = Encoding.UTF8.GetString(decompressArchiveViewModel.Password);
+				}
+
+				await ExtractArchive(archive, currentFolder, password);
 			}
 		}
 
@@ -674,42 +703,38 @@ namespace Files.App.Interacts
 		{
 			foreach (var selectedItem in associatedInstance.SlimContentPage.SelectedItems)
 			{
+				var password = string.Empty;
 				BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(selectedItem.ItemPath);
 				BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
-				string? destinationFolderPath = null;
+				BaseStorageFolder destinationFolder = null;
+
+				if (await FilesystemTasks.Wrap(() => ZipHelpers.IsArchiveEncrypted(archive)))
+				{
+					DecompressArchiveDialog decompressArchiveDialog = new();
+					DecompressArchiveDialogViewModel decompressArchiveViewModel = new(archive)
+					{
+						IsArchiveEncrypted = true,
+						ShowPathSelection = false
+					};
+					decompressArchiveDialog.ViewModel = decompressArchiveViewModel;
+
+					ContentDialogResult option = await decompressArchiveDialog.TryShowAsync();
+					if (option != ContentDialogResult.Primary)
+						return;
+					password = Encoding.UTF8.GetString(decompressArchiveViewModel.Password);
+				}
 
 				if (currentFolder is not null)
-					destinationFolderPath = Path.GetFileNameWithoutExtension(archive.Path);
+					destinationFolder = await FilesystemTasks.Wrap(() => currentFolder.CreateFolderAsync(Path.GetFileNameWithoutExtension(archive.Path), CreationCollisionOption.GenerateUniqueName).AsTask());
 
-				await ExtractArchive(archive, null, currentFolder, destinationFolderPath);
+				await ExtractArchive(archive, destinationFolder, password);
 			}
 		}
 
-		private static async Task ExtractArchive(BaseStorageFile archive, BaseStorageFolder? destinationFolder, BaseStorageFolder? destinationParent = null, string? destinationPath = null)
+		private static async Task ExtractArchive(BaseStorageFile archive, BaseStorageFolder? destinationFolder, string password)
 		{
-			if (archive is null)
+			if (archive is null || destinationFolder is null)
 				return;
-
-			var password = string.Empty;
-			if (await FilesystemTasks.Wrap(() => ZipHelpers.IsArchiveEncrypted(archive)))
-			{
-				ArchivePasswordDialog dialog = new();
-				ArchivePasswordDialogViewModel viewModel = new();
-				dialog.ViewModel = viewModel;
-				ContentDialogResult result = await dialog.TryShowAsync();
-				if (result != ContentDialogResult.Primary)
-					return;
-
-				password = Encoding.UTF8.GetString(viewModel.Password);
-			}
-
-			if (destinationFolder is null && destinationParent is not null)
-			{
-				destinationFolder = await FilesystemTasks.Wrap(() => destinationParent.CreateFolderAsync(destinationPath, CreationCollisionOption.GenerateUniqueName).AsTask());
-
-				if (destinationFolder is null)
-					return;
-			}
 
 			CancellationTokenSource extractCancellation = new();
 			PostedStatusBanner banner = App.OngoingTasksViewModel.PostOperationBanner(

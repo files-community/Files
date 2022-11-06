@@ -8,6 +8,7 @@
 	Title="{helpers:ResourceString Name=DecompressArchiveDialog/Title}"
 	CornerRadius="{StaticResource OverlayCornerRadius}"
 	DefaultButton="Primary"
+	PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
 	PrimaryButtonText="{helpers:ResourceString Name=Extract}"
 	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
 	SecondaryButtonText="{helpers:ResourceString Name=Cancel}"
@@ -22,6 +23,8 @@
 		<Grid.RowDefinitions>
 			<RowDefinition />
 			<RowDefinition Height="Auto" />
+			<RowDefinition />
+			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition />
@@ -29,12 +32,16 @@
 		</Grid.ColumnDefinitions>
 
 		<TextBox
+			x:Name="DestinationFolderPath"
+			x:Load="{x:Bind ViewModel.ShowPathSelection}"
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Center"
 			IsReadOnly="True"
 			Text="{x:Bind ViewModel.DestinationFolderPath, Mode=OneWay}" />
 
 		<Button
+			x:Name="SelectDestination"
+			x:Load="{x:Bind ViewModel.ShowPathSelection}"
 			Grid.Column="1"
 			VerticalAlignment="Center"
 			Background="Transparent"
@@ -42,8 +49,25 @@
 			Content="{helpers:ResourceString Name=Browse}" />
 
 		<CheckBox
+			x:Name="OpenDestination"
+			x:Load="{x:Bind ViewModel.ShowPathSelection}"
 			Grid.Row="1"
 			Content="{helpers:ResourceString Name=DecompressArchiveDialogOpenDestinationWhenComplete/Content}"
 			IsChecked="{x:Bind ViewModel.OpenDestinationFolderOnCompletion, Mode=TwoWay}" />
+
+		<TextBlock
+			x:Name="PasswordDescription"
+			x:Load="{x:Bind ViewModel.IsArchiveEncrypted}"
+			Grid.Row="2"
+			HorizontalAlignment="Stretch"
+			VerticalAlignment="Center"
+			Text="{helpers:ResourceString Name=ArchivePasswordDialogDescription}" />
+
+		<PasswordBox
+			x:Name="Password"
+			x:Load="{x:Bind ViewModel.IsArchiveEncrypted}"
+			Grid.Row="3"
+			Margin="4"
+			PlaceholderText="{helpers:ResourceString Name=CredentialDialogPassword/PlaceholderText}" />
 	</Grid>
 </ContentDialog>
