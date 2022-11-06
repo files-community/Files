@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
@@ -645,16 +646,14 @@ namespace Files.App.Interacts
 			if (!StorageHelpers.Exists(archive.Path))
 				return;
 
+			BaseStorageFolder parentFolder = null;
 			BaseStorageFolder destinationFolder = decompressArchiveViewModel.DestinationFolder;
 			string destinationFolderPath = decompressArchiveViewModel.DestinationFolderPath;
 
 			if (destinationFolder is null)
-			{
-				BaseStorageFolder parentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(Path.GetDirectoryName(archive.Path));
-				destinationFolder = await FilesystemTasks.Wrap(() => parentFolder.CreateFolderAsync(Path.GetFileName(destinationFolderPath), CreationCollisionOption.GenerateUniqueName).AsTask());
-			}
+				parentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(Path.GetDirectoryName(archive.Path));
 
-			await ExtractArchive(archive, destinationFolder);
+			await ExtractArchive(archive, destinationFolder, parentFolder, Path.GetFileName(destinationFolderPath));
 
 			if (decompressArchiveViewModel.OpenDestinationFolderOnCompletion)
 				await NavigationHelpers.OpenPath(destinationFolderPath, associatedInstance, FilesystemItemType.Directory);
@@ -677,19 +676,40 @@ namespace Files.App.Interacts
 			{
 				BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(selectedItem.ItemPath);
 				BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
-				BaseStorageFolder destinationFolder = null;
+				string? destinationFolderPath = null;
 
 				if (currentFolder is not null)
-					destinationFolder = await FilesystemTasks.Wrap(() => currentFolder.CreateFolderAsync(Path.GetFileNameWithoutExtension(archive.Path), CreationCollisionOption.GenerateUniqueName).AsTask());
+					destinationFolderPath = Path.GetFileNameWithoutExtension(archive.Path);
 
-				await ExtractArchive(archive, destinationFolder);
+				await ExtractArchive(archive, null, currentFolder, destinationFolderPath);
 			}
 		}
 
-		private static async Task ExtractArchive(BaseStorageFile archive, BaseStorageFolder destinationFolder)
+		private static async Task ExtractArchive(BaseStorageFile archive, BaseStorageFolder? destinationFolder, BaseStorageFolder? destinationParent = null, string? destinationPath = null)
 		{
-			if (archive is null || destinationFolder is null)
+			if (archive is null)
 				return;
+
+			var password = string.Empty;
+			if (await FilesystemTasks.Wrap(() => ZipHelpers.IsArchiveEncrypted(archive)))
+			{
+				ArchivePasswordDialog dialog = new();
+				ArchivePasswordDialogViewModel viewModel = new();
+				dialog.ViewModel = viewModel;
+				ContentDialogResult result = await dialog.TryShowAsync();
+				if (result != ContentDialogResult.Primary)
+					return;
+
+				password = Encoding.UTF8.GetString(viewModel.Password);
+			}
+
+			if (destinationFolder is null && destinationParent is not null)
+			{
+				destinationFolder = await FilesystemTasks.Wrap(() => destinationParent.CreateFolderAsync(destinationPath, CreationCollisionOption.GenerateUniqueName).AsTask());
+
+				if (destinationFolder is null)
+					return;
+			}
 
 			CancellationTokenSource extractCancellation = new();
 			PostedStatusBanner banner = App.OngoingTasksViewModel.PostOperationBanner(
@@ -703,7 +723,7 @@ namespace Files.App.Interacts
 			Stopwatch sw = new();
 			sw.Start();
 
-			await FilesystemTasks.Wrap(() => ZipHelpers.ExtractArchive(archive, destinationFolder, banner.Progress, extractCancellation.Token));
+			await FilesystemTasks.Wrap(() => ZipHelpers.ExtractArchive(archive, destinationFolder, password, banner.Progress, extractCancellation.Token));
 
 			sw.Stop();
 			banner.Remove();

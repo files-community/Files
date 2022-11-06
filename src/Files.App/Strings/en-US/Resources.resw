@@ -2856,4 +2856,7 @@
   <data name="BinEmptyingFailed" xml:space="preserve">
     <value>Failed to empty recycle bin</value>
   </data>
+  <data name="ArchivePasswordDialogTitle" xml:space="preserve">
+    <value>Insert archive password</value>
+  </data>
 </root>

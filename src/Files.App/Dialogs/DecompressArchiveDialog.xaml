@@ -8,7 +8,7 @@
 	Title="{helpers:ResourceString Name=DecompressArchiveDialog/Title}"
 	CornerRadius="{StaticResource OverlayCornerRadius}"
 	DefaultButton="Primary"
-	PrimaryButtonText="Extract"
+	PrimaryButtonText="{helpers:ResourceString Name=Extract}"
 	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
 	SecondaryButtonText="{helpers:ResourceString Name=Cancel}"
 	Style="{StaticResource DefaultContentDialogStyle}"
