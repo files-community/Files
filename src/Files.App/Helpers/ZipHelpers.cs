@@ -29,7 +29,7 @@ namespace Files.App.Helpers
 				EventSynchronization = EventSynchronizationStrategy.AlwaysAsynchronous,
 				FastCompression = true,
 				IncludeEmptyDirectories = true,
-				PreserveDirectoryRoot = sourceFolders.Length > 1,
+				PreserveDirectoryRoot = sourceFolders.Length > 1
 			};
 
 			bool noErrors = true;
