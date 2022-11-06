@@ -9,7 +9,7 @@ namespace Files.App.Keyboard.Actions
 		public string Description => "Opens the help in the web browser.";
 
 		public KeyboardActionCodes Code => KeyboardActionCodes.Help;
-		public ShortKey ShortKey => new(VirtualKey.F1);
+		public HotKey HotKey => new(VirtualKey.F1);
 
 		public async void Execute()
 		{

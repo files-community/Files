@@ -6,10 +6,10 @@ namespace Files.App.Keyboard
 	public interface IKeyboardManager
 	{
 		IKeyboardAction this[KeyboardActionCodes code] { get; }
-		IKeyboardAction this[ShortKey shortKey] { get; }
+		IKeyboardAction this[HotKey hotKey] { get; }
 
-		ShortKeyStatus GetStatus(ShortKey shortKey);
-		void SetShortKey(KeyboardActionCodes code, ShortKey shortKey);
+		HotKeyStatus GetStatus(HotKey hotKey);
+		void SetHotKey(KeyboardActionCodes code, HotKey hotKey);
 
 		void Initialize(IEnumerable<IKeyboardAction> actions);
 

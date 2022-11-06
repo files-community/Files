@@ -357,8 +357,8 @@ namespace Files.App.Views.LayoutModes
 			if (ctrlPressed && e.Key is VirtualKey.A)
 			{
 				var manager = Ioc.Default.GetRequiredService<IKeyboardManager>();
-				var shortKey = new ShortKey(VirtualKey.A, VirtualKeyModifiers.Control);
-				manager[shortKey].Execute();
+				var hotKey = new HotKey(VirtualKey.A, VirtualKeyModifiers.Control);
+				manager[hotKey].Execute();
 				e.Handled = true;
 				return;
 			}

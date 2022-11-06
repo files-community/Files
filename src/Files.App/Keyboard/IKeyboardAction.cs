@@ -6,7 +6,7 @@
 		string Description { get; }
 
 		KeyboardActionCodes Code { get; }
-		ShortKey ShortKey { get; }
+		HotKey HotKey { get; }
 
 		void Execute();
 	}

@@ -5,17 +5,17 @@ using Windows.System;
 
 namespace Files.App.Keyboard
 {
-	public struct ShortKey : IEquatable<ShortKey>
+	public struct HotKey : IEquatable<HotKey>
 	{
-		public static ShortKey None { get; } = new ShortKey(VirtualKey.None, VirtualKeyModifiers.None);
+		public static HotKey None { get; } = new HotKey(VirtualKey.None, VirtualKeyModifiers.None);
 
 		public bool IsNone => Key is VirtualKey.None;
 
 		public VirtualKey Key { get; } = VirtualKey.None;
 		public VirtualKeyModifiers Modifiers { get; } = VirtualKeyModifiers.None;
 
-		public ShortKey(VirtualKey key) : this(key, VirtualKeyModifiers.None) { }
-		public ShortKey(VirtualKey key, VirtualKeyModifiers modifiers)
+		public HotKey(VirtualKey key) : this(key, VirtualKeyModifiers.None) { }
+		public HotKey(VirtualKey key, VirtualKeyModifiers modifiers)
 		{
 			if (key is VirtualKey.None)
 				return;
@@ -36,18 +36,18 @@ namespace Files.App.Keyboard
 		public void Deconstruct(out VirtualKey key, out VirtualKeyModifiers modifiers)
 			=> (key, modifiers) = (Key, Modifiers);
 
-		public static explicit operator ShortKey(string shortKey) => Parse(shortKey);
-		public static implicit operator string(ShortKey shortKey) => shortKey.ToString();
+		public static explicit operator HotKey(string hotKey) => Parse(hotKey);
+		public static implicit operator string(HotKey hotKey) => hotKey.ToString();
 
-		public static bool operator ==(ShortKey a, ShortKey b) => a.Equals(b);
-		public static bool operator !=(ShortKey a, ShortKey b) => !a.Equals(b);
+		public static bool operator ==(HotKey a, HotKey b) => a.Equals(b);
+		public static bool operator !=(HotKey a, HotKey b) => !a.Equals(b);
 
-		public static ShortKey Parse(string shortKey)
+		public static HotKey Parse(string hotKey)
 		{
 			var key = VirtualKey.None;
 			var modifiers = VirtualKeyModifiers.None;
 
-			var parts = shortKey.Split('+').Select(item => item.Trim().ToLower());
+			var parts = hotKey.Split('+').Select(item => item.Trim().ToLower());
 			foreach (string part in parts)
 			{
 				var m = ToModifiers(part);
@@ -59,7 +59,7 @@ namespace Files.App.Keyboard
 					key = k;
 			}
 
-			return new ShortKey(key, modifiers);
+			return new HotKey(key, modifiers);
 
 			static VirtualKeyModifiers ToModifiers(string modifiers) => modifiers switch
 			{
@@ -140,7 +140,7 @@ namespace Files.App.Keyboard
 		}
 
 		public override int GetHashCode() => (Key, Modifiers).GetHashCode();
-		public override bool Equals(object? other) => other is ShortKey shortKey && Equals(shortKey);
-		public bool Equals(ShortKey other) => (other.Key, other.Modifiers).Equals((Key, Modifiers));
+		public override bool Equals(object? other) => other is HotKey hotKey && Equals(hotKey);
+		public bool Equals(HotKey other) => (other.Key, other.Modifiers).Equals((Key, Modifiers));
 	}
 }

@@ -10,7 +10,7 @@ namespace Files.App.Keyboard.Actions
 		public string Description => string.Empty;
 
 		public KeyboardActionCodes Code => KeyboardActionCodes.InvertSelection;
-		public ShortKey ShortKey => ShortKey.None;
+		public HotKey HotKey => HotKey.None;
 
 		public InvertSelectionAction(SidebarViewModel viewModel) => this.viewModel = viewModel;
 

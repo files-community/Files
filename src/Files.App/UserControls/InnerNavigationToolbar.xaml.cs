@@ -160,7 +160,7 @@ namespace Files.App.UserControls
 			void SetToolTip(UIElement element, KeyboardActionCodes code)
 			{
 				var action = keyboardManager[code];
-				string text = action.ShortKey.IsNone ? action.Label : $"{action.Label} ({action.ShortKey})";
+				string text = action.HotKey.IsNone ? action.Label : $"{action.Label} ({action.HotKey})";
 				ToolTipService.SetToolTip(element, new ToolTip { Content = text });
 			}
 		}

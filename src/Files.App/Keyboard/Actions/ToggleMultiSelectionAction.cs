@@ -10,7 +10,7 @@ namespace Files.App.Keyboard.Actions
 		public string Description => string.Empty;
 
 		public KeyboardActionCodes Code => KeyboardActionCodes.ToggleMultiSelection;
-		public ShortKey ShortKey => ShortKey.None;
+		public HotKey HotKey => HotKey.None;
 
 		public ToggleMultiSelectionAction(AppModel model) => this.model = model;
 

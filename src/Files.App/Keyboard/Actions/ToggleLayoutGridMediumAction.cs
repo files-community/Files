@@ -12,7 +12,7 @@ namespace Files.App.Keyboard.Actions
 		public string Description => string.Empty;
 
 		public KeyboardActionCodes Code => KeyboardActionCodes.ToggleLayoutGridMedium;
-		public ShortKey ShortKey => new(VirtualKey.Number4, VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift);
+		public HotKey HotKey => new(VirtualKey.Number4, VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift);
 
 		public ToggleLayoutGridMediumAction(SidebarViewModel viewModel) => this.viewModel = viewModel;
 

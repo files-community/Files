@@ -12,7 +12,7 @@ namespace Files.App.Keyboard.Actions
 		public string Description => string.Empty;
 
 		public KeyboardActionCodes Code => KeyboardActionCodes.ToggleLayoutTiles;
-		public ShortKey ShortKey => new(VirtualKey.Number2, VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift);
+		public HotKey HotKey => new(VirtualKey.Number2, VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift);
 
 		public ToggleLayoutTilesAction(SidebarViewModel viewModel) => this.viewModel = viewModel;
 

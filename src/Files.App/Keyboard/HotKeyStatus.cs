@@ -1,6 +1,6 @@
 ﻿namespace Files.App.Keyboard
 {
-	public enum ShortKeyStatus : ushort
+	public enum HotKeyStatus : ushort
 	{
 		Invalid,
 		Available,

@@ -11,7 +11,7 @@ namespace Files.App.Keyboard.Actions
 		public string Description => string.Empty;
 
 		public KeyboardActionCodes Code => KeyboardActionCodes.SelectAll;
-		public ShortKey ShortKey => new(VirtualKey.A, VirtualKeyModifiers.Control);
+		public HotKey HotKey => new(VirtualKey.A, VirtualKeyModifiers.Control);
 
 		public SelectAllAction(SidebarViewModel viewModel) => this.viewModel = viewModel;
 
