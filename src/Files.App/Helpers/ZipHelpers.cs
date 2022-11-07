@@ -58,7 +58,7 @@ namespace Files.App.Helpers
 		{
 			using SevenZipExtractor? zipFile = await GetZipFile(archive);
 			if (zipFile is null)
-				return false;
+				return true;
 
 			return zipFile.ArchiveFileData.Any(file => file.Encrypted || file.Method.Contains("Crypto") || file.Method.Contains("AES"));
 		}
