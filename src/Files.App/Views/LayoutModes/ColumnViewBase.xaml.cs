@@ -406,7 +406,7 @@ namespace Files.App.Views.LayoutModes
 				if (currentBladeIndex == 0)
 					return;
 
-				this.FindAscendant<ColumnViewBrowser>()?.MoveFocusToPreviousBlade(currentBladeIndex - 1, string.Empty);
+				this.FindAscendant<ColumnViewBrowser>()?.MoveFocusToPreviousBlade(currentBladeIndex - 1);
 				e.Handled = true;
 			}
 			else if (e.Key == VirtualKey.Right) // Right arrow: switch focus to next column
