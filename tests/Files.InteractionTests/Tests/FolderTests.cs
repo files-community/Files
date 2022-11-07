@@ -12,34 +12,7 @@ namespace Files.InteractionTests.Tests
 
 		[TestCleanup]
 		public void Cleanup()
-		{
-			var action = new Actions(SessionManager.Session);
-
-			// Select the "Renamed Folder" folder and click the delete button
-			TestHelper.InvokeButtonByName("Renamed Folder");
-			TestHelper.InvokeButtonById("Delete");
-
-			// Wait for prompt to show
-			Thread.Sleep(1000);
-
-			// Press the enter key
-			action.SendKeys(Keys.Enter).Perform();
-
-			// Select the "Renamed Folder - Copy"  folder and click the delete button
-			TestHelper.InvokeButtonByName("Renamed Folder - Copy");
-			TestHelper.InvokeButtonById("Delete");
-
-			// Wait for prompt to show
-			Thread.Sleep(1000);
-
-			// Press the enter key
-			action = new Actions(SessionManager.Session);
-			action.SendKeys(Keys.Enter).Perform();
-
-			// Wait for items to be deleted
-			Thread.Sleep(1000);
-
-
+		{			
 			// Navigate back home
 			TestHelper.InvokeButtonById("Home");
 		}
@@ -54,6 +27,8 @@ namespace Files.InteractionTests.Tests
 			RenameFolderTest();
 
 			CopyPasteFolderTest();
+
+			DeleteFolderTest();
 		}
 
 		/// <summary>
@@ -91,7 +66,7 @@ namespace Files.InteractionTests.Tests
 			// Wait for folder to be created
 			Thread.Sleep(1000);
 
-			// Check for accessibility issues in the new file area
+			// Check for accessibility issues in the file area
 			AxeHelper.AssertNoAccessibilityErrors();
 		}
 
@@ -131,6 +106,46 @@ namespace Files.InteractionTests.Tests
 
 			// Wait for folder to be pasted
 			Thread.Sleep(1000);
+		}
+
+		/// <summary>
+		/// Tests deleting folders
+		/// </summary>
+		private void DeleteFolderTest()
+		{
+			// Select the "Renamed Folder" folder and clicks the "delete" button on the toolbar
+			TestHelper.InvokeButtonByName("Renamed Folder");
+			TestHelper.InvokeButtonById("Delete");
+
+			// Wait for prompt to show
+			Thread.Sleep(1000);
+
+			// Check for accessibility issues in the confirm delete prompt
+			AxeHelper.AssertNoAccessibilityErrors();
+
+			// Press the enter key to confirm
+			var action = new Actions(SessionManager.Session);
+			action.SendKeys(Keys.Enter).Perform();
+
+
+			// Select the "Renamed Folder - Copy" folder and clicks the "delete" button on the toolbar
+			TestHelper.InvokeButtonByName("Renamed Folder - Copy");
+			TestHelper.InvokeButtonById("Delete");
+
+			// Wait for prompt to show
+			Thread.Sleep(1000);
+
+			// Check for accessibility issues in the confirm delete prompt
+			AxeHelper.AssertNoAccessibilityErrors();
+
+			// Press the enter key to confirm
+			action = new Actions(SessionManager.Session);
+			action.SendKeys(Keys.Enter).Perform();
+
+			// Wait for items finish being deleted
+			Thread.Sleep(1000);
+
+
 		}
 	}
 }
