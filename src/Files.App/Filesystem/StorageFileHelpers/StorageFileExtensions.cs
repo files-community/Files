@@ -107,7 +107,7 @@ namespace Files.App.Filesystem
 		{
 			List<PathBoxItem> pathBoxItems = new();
 
-			if (value.Contains("/", StringComparison.Ordinal))
+			if (value.Contains('/', StringComparison.Ordinal))
 			{
 				if (!value.EndsWith('/'))
 				{
@@ -305,7 +305,7 @@ namespace Files.App.Filesystem
 					Path = path,
 				};
 			}
-			else if (component.Contains(":", StringComparison.Ordinal))
+			else if (component.Contains(':', StringComparison.Ordinal))
 			{
 				var drives = App.DrivesManager.Drives.Concat(App.NetworkDrivesManager.Drives).Concat(App.CloudDrivesManager.Drives);
 				var drive = drives.FirstOrDefault(y => y.ItemType is NavigationControlItemType.Drive && y.Path.Contains(component, StringComparison.OrdinalIgnoreCase));

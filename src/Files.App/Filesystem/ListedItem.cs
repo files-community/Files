@@ -481,7 +481,7 @@ namespace Files.App.Filesystem
 			ItemPropertiesInitialized = false;
 
 			var itemType = isFile ? "ItemTypeFile".GetLocalizedResource() : "Folder".GetLocalizedResource();
-			if (isFile && Name.Contains(".", StringComparison.Ordinal))
+			if (isFile && Name.Contains('.', StringComparison.Ordinal))
 			{
 				itemType = FileExtension.Trim('.') + " " + itemType;
 			}
@@ -591,7 +591,7 @@ namespace Files.App.Filesystem
 
 	public class AlternateStreamItem : ListedItem
 	{
-		public string MainStreamPath => ItemPath.Substring(0, ItemPath.LastIndexOf(":"));
+		public string MainStreamPath => ItemPath.Substring(0, ItemPath.LastIndexOf(':'));
 		public string MainStreamName => Path.GetFileName(MainStreamPath);
 
 		public override string Name
