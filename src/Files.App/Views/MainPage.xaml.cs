@@ -269,7 +269,7 @@ namespace Files.App.Views
 					ItemPath = locationItem.Path,
 					ItemNameRaw = locationItem.Text,
 					PrimaryItemAttribute = StorageItemTypes.Folder,
-					ItemType = "FileFolderListItem".GetLocalizedResource(),
+					ItemType = "Folder".GetLocalizedResource(),
 				};
 				await FilePropertiesHelpers.OpenPropertiesWindowAsync(listedItem, SidebarAdaptiveViewModel.PaneHolder.ActivePane);
 			}
