@@ -423,7 +423,7 @@ namespace Files.App.Views.LayoutModes
 
 				try
 				{
-					FocusManager.TryMoveFocus(FocusNavigationDirection.Next);
+					this.FindAscendant<ColumnViewBrowser>()?.MoveFocusToNextBlade();
 				}
 				catch(Exception ex)
 				{
