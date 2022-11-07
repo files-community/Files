@@ -34,13 +34,13 @@ namespace Files.App.Filesystem.StorageItems
 			return AsyncInfo.Run<IReadOnlyList<IStorageItem>>(async (cancellationToken) =>
 			{
 				var items = await Folder.GetItemsAsync();
-				var query = string.Join(" ", Options.ApplicationSearchFilter, Options.UserSearchFilter).Trim();
+				var query = string.Join(' ', Options.ApplicationSearchFilter, Options.UserSearchFilter).Trim();
 				if (!string.IsNullOrEmpty(query))
 				{
 					var spaceSplit = Regex.Split(query, "(?<=^[^\"]*(?:\"[^\"]*\"[^\"]*)*) (?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
 					foreach (var split in spaceSplit)
 					{
-						var colonSplit = split.Split(":");
+						var colonSplit = split.Split(':');
 						if (colonSplit.Length == 2)
 						{
 							if (colonSplit[0] == "System.FileName" || colonSplit[0] == "fileName" || colonSplit[0] == "name")
@@ -86,13 +86,13 @@ namespace Files.App.Filesystem.StorageItems
 			return AsyncInfo.Run<IReadOnlyList<BaseStorageFile>>(async (cancellationToken) =>
 			{
 				var items = await Folder.GetFilesAsync();
-				var query = string.Join(" ", Options.ApplicationSearchFilter, Options.UserSearchFilter).Trim();
+				var query = string.Join(' ', Options.ApplicationSearchFilter, Options.UserSearchFilter).Trim();
 				if (!string.IsNullOrEmpty(query))
 				{
 					var spaceSplit = Regex.Split(query, "(?<=^[^\"]*(?:\"[^\"]*\"[^\"]*)*) (?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
 					foreach (var split in spaceSplit)
 					{
-						var colonSplit = split.Split(":");
+						var colonSplit = split.Split(':');
 						if (colonSplit.Length == 2)
 						{
 							if (colonSplit[0] == "System.FileName" || colonSplit[0] == "fileName" || colonSplit[0] == "name")
@@ -138,13 +138,13 @@ namespace Files.App.Filesystem.StorageItems
 			return AsyncInfo.Run<IReadOnlyList<BaseStorageFolder>>(async (cancellationToken) =>
 			{
 				var items = await Folder.GetFoldersAsync();
-				var query = string.Join(" ", Options.ApplicationSearchFilter, Options.UserSearchFilter).Trim();
+				var query = string.Join(' ', Options.ApplicationSearchFilter, Options.UserSearchFilter).Trim();
 				if (!string.IsNullOrEmpty(query))
 				{
 					var spaceSplit = Regex.Split(query, "(?<=^[^\"]*(?:\"[^\"]*\"[^\"]*)*) (?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
 					foreach (var split in spaceSplit)
 					{
-						var colonSplit = split.Split(":");
+						var colonSplit = split.Split(':');
 						if (colonSplit.Length == 2)
 						{
 							if (colonSplit[0] == "System.FileName" || colonSplit[0] == "fileName" || colonSplit[0] == "name")

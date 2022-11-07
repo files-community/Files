@@ -32,7 +32,7 @@ namespace Files.App.Filesystem.StorageItems
 			get
 			{
 				var itemType = "ItemTypeFile".GetLocalizedResource();
-				if (Name.Contains(".", StringComparison.Ordinal))
+				if (Name.Contains('.', StringComparison.Ordinal))
 				{
 					itemType = FileType.Trim('.') + " " + itemType;
 				}

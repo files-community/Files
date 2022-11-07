@@ -50,7 +50,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 			{
 				var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
 				var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-				var startWithDot = findData.cFileName.StartsWith(".");
+				var startWithDot = findData.cFileName.StartsWith('.');
 				if ((!isHidden ||
 				   (userSettingsService.FoldersSettingsService.ShowHiddenItems &&
 				   (!isSystem || userSettingsService.FoldersSettingsService.ShowProtectedSystemFiles))) &&
