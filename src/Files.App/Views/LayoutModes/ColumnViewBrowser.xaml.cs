@@ -216,8 +216,12 @@ namespace Files.App.Views.LayoutModes
 			activeBlade.Focus(FocusState.Programmatic);
 
 			var activeBladeColumnViewBase = RetrieveBladeColumnViewBase(activeBlade);
-			if (activeBladeColumnViewBase != null)
-				activeBladeColumnViewBase.FileList.SelectedIndex = 0;
+			if (activeBladeColumnViewBase == null)
+				return;
+
+			var selectedItem = activeBladeColumnViewBase.FileList.SelectedItem;
+			activeBladeColumnViewBase.FileList.SelectedItem = null;
+			activeBladeColumnViewBase.FileList.SelectedItem = selectedItem;
 		}
 
 		public void MoveFocusToNextBlade(int index)
