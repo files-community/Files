@@ -194,9 +194,9 @@ namespace Files.App.Views
 			}
 		}
 
-        public const VirtualKey PlusKey = (VirtualKey)187;
+		public const VirtualKey PlusKey = (VirtualKey)187;
 
-        public PaneHolderPage()
+		public PaneHolderPage()
 		{
 			this.InitializeComponent();
 			App.Window.SizeChanged += Current_SizeChanged;

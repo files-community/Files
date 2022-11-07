@@ -181,9 +181,9 @@
 			Key="Add"
 			Invoked="KeyboardAccelerator_Invoked"
 			Modifiers="Menu,Shift" />
-        <KeyboardAccelerator
+		<KeyboardAccelerator
 			Key="{x:Bind local:PaneHolderPage.PlusKey}"
 			Invoked="KeyboardAccelerator_Invoked"
 			Modifiers="Menu,Shift" />
-    </Page.KeyboardAccelerators>
+	</Page.KeyboardAccelerators>
 </Page>
