@@ -26,7 +26,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 	{
 		private static readonly ISizeProvider folderSizeProvider = Ioc.Default.GetService<ISizeProvider>();
 
-		private static readonly string folderTypeTextLocalized = "FileFolderListItem".GetLocalizedResource();
+		private static readonly string folderTypeTextLocalized = "Folder".GetLocalizedResource();
 		private static readonly IFileListCache fileListCache = FileListCacheController.GetInstance();
 
 		public static async Task<List<ListedItem>> ListEntries(

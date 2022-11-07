@@ -233,7 +233,7 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public static async Task<bool> RenameFileItemAsync(ListedItem item, string newName, IShellPage associatedInstance)
+		public static async Task<bool> RenameFileItemAsync(ListedItem item, string newName, IShellPage associatedInstance, bool showExtensionDialog = true)
 		{
 			if (item is AlternateStreamItem ads) // For alternate streams Name is not a substring ItemNameRaw
 			{
@@ -260,7 +260,7 @@ namespace Files.App.Helpers
 			FilesystemItemType itemType = (item.PrimaryItemAttribute == StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File;
 
 			ReturnResult renamed = ReturnResult.InProgress;
-			renamed = await associatedInstance.FilesystemHelpers.RenameAsync(StorageHelpers.FromPathAndType(item.ItemPath, itemType), newName, NameCollisionOption.FailIfExists, true);
+			renamed = await associatedInstance.FilesystemHelpers.RenameAsync(StorageHelpers.FromPathAndType(item.ItemPath, itemType), newName, NameCollisionOption.FailIfExists, true, showExtensionDialog);
 
 			if (renamed == ReturnResult.Success)
 			{

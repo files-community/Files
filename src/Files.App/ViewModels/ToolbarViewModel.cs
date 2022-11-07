@@ -1132,7 +1132,7 @@ namespace Files.App.ViewModels
 		public bool CanCopy => SelectedItems is not null && SelectedItems.Any();
 		public bool CanShare => SelectedItems is not null && SelectedItems.Any() && DataTransferManager.IsSupported() && !SelectedItems.Any(x => (x.IsShortcut && !x.IsLinkItem) || x.IsHiddenItem || (x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsArchive));
 		public bool CanRename => SelectedItems is not null && SelectedItems.Count == 1;
-		public bool CanViewProperties => SelectedItems is not null && SelectedItems.Any();
+		public bool CanViewProperties => true;
 		public bool CanEmptyRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem;
 		public bool CanRestoreRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem && (SelectedItems is null || SelectedItems.Count == 0);
 		public bool CanRestoreSelectionRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem && SelectedItems is not null && SelectedItems.Count > 0;

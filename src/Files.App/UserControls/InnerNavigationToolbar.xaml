@@ -55,6 +55,7 @@
 				<AppBarButton
 					x:Name="NewEmptySpaceAppBarButton"
 					AccessKey="W"
+					AutomationProperties.AutomationId="New"
 					IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsCreateButtonEnabledInPage, Mode=OneWay, FallbackValue=False}"
 					KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=BaseLayoutContextFlyoutNew/KeyboardAcceleratorTextOverride}"
 					Label="{helpers:ResourceString Name=BaseLayoutContextFlyoutNew/Label}"
@@ -69,6 +70,7 @@
 						<MenuFlyout x:Name="NewEmptySpace" Opening="NewEmptySpace_Opening">
 							<MenuFlyoutItem
 								x:Name="ToolbarNewFolderItem"
+								AutomationProperties.AutomationId="Folder"
 								Command="{x:Bind ViewModel.CreateNewFolderCommand, Mode=OneWay}"
 								Text="{helpers:ResourceString Name=Folder}">
 								<MenuFlyoutItem.Icon>
@@ -77,6 +79,7 @@
 							</MenuFlyoutItem>
 							<MenuFlyoutItem
 								x:Name="NewFile"
+								AutomationProperties.AutomationId="File"
 								Command="{x:Bind ViewModel.CreateNewFileCommand, Mode=OneWay}"
 								CommandParameter="{x:Null}"
 								IsEnabled="{x:Bind ViewModel.InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
@@ -143,6 +146,7 @@
 					Width="Auto"
 					MinWidth="40"
 					AccessKey="M"
+					AutomationProperties.AutomationId="Rename"
 					Command="{x:Bind ViewModel.Rename, Mode=OneWay}"
 					IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanRename, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay, FallbackValue=False}"
 					Label="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutRename/Text}"
@@ -170,6 +174,7 @@
 					x:Name="DeleteButton"
 					Width="Auto"
 					MinWidth="40"
+					AutomationProperties.AutomationId="Delete"
 					Command="{x:Bind ViewModel.DeleteCommand, Mode=OneWay}"
 					IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanCopy, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay, FallbackValue=False}"
 					Label="{helpers:ResourceString Name=Delete}"

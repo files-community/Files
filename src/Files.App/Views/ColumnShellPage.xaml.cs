@@ -154,11 +154,11 @@ namespace Files.App.Views
 			DisplayFilesystemConsentDialog();
 
 			var flowDirectionSetting = /*
-                TODO ResourceContext.GetForCurrentView and ResourceContext.GetForViewIndependentUse do not exist in Windows App SDK
-                Use your ResourceManager instance to create a ResourceContext as below. If you already have a ResourceManager instance,
-                replace the new instance created below with correct instance.
-                Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/mrtcore
-            */new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
+				TODO ResourceContext.GetForCurrentView and ResourceContext.GetForViewIndependentUse do not exist in Windows App SDK
+				Use your ResourceManager instance to create a ResourceContext as below. If you already have a ResourceManager instance,
+				replace the new instance created below with correct instance.
+				Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/mrtcore
+			*/new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
 
 			if (flowDirectionSetting == "RTL")
 			{
@@ -179,11 +179,11 @@ namespace Files.App.Views
 			ToolbarViewModel.PathBoxItemDropped += ColumnShellPage_PathBoxItemDropped;
 
 			/*
-            TODO UA307 Default back button in the title bar does not exist in WinUI3 apps.
-            The tool has generated a custom back button in the MainWindow.xaml.cs file.
-            Feel free to edit its position, behavior and use the custom back button instead.
-            Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/case-study-1#restoring-back-button-functionality
-            */
+			TODO UA307 Default back button in the title bar does not exist in WinUI3 apps.
+			The tool has generated a custom back button in the MainWindow.xaml.cs file.
+			Feel free to edit its position, behavior and use the custom back button instead.
+			Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/case-study-1#restoring-back-button-functionality
+			*/
 			ToolbarViewModel.BackRequested += ColumnShellPage_BackNavRequested;
 			ToolbarViewModel.UpRequested += ColumnShellPage_UpNavRequested;
 			ToolbarViewModel.RefreshRequested += ColumnShellPage_RefreshRequested;
@@ -207,11 +207,11 @@ namespace Files.App.Views
 
 			/*
 
-            TODO UA307 Default back button in the title bar does not exist in WinUI3 apps.
-            The tool has generated a custom back button in the MainWindow.xaml.cs file.
-            Feel free to edit its position, behavior and use the custom back button instead.
-            Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/case-study-1#restoring-back-button-functionality
-            */
+			TODO UA307 Default back button in the title bar does not exist in WinUI3 apps.
+			The tool has generated a custom back button in the MainWindow.xaml.cs file.
+			Feel free to edit its position, behavior and use the custom back button instead.
+			Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/case-study-1#restoring-back-button-functionality
+			*/
 			//SystemNavigationManager.GetForCurrentView().BackRequested += ColumnShellPage_BackRequested;
 
 			App.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
@@ -220,9 +220,9 @@ namespace Files.App.Views
 		}
 
 		/**
-         * Some keys are overriden by control built-in defaults (e.g. 'Space').
-         * They must be handled here since they're not propagated to KeyboardAccelerator.
-         */
+		 * Some keys are overriden by control built-in defaults (e.g. 'Space').
+		 * They must be handled here since they're not propagated to KeyboardAccelerator.
+		 */
 		private async void ColumnShellPage_PreviewKeyDown(object sender, KeyRoutedEventArgs args)
 		{
 			var ctrl = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
@@ -309,10 +309,10 @@ namespace Files.App.Views
 		}
 
 		/*
-         * Ensure that the path bar gets updated for user interaction
-         * whenever the path changes. We will get the individual directories from
-         * the updated, most-current path and add them to the UI.
-         */
+		 * Ensure that the path bar gets updated for user interaction
+		 * whenever the path changes. We will get the individual directories from
+		 * the updated, most-current path and add them to the UI.
+		 */
 
 		public void UpdatePathUIToWorkingDirectory(string newWorkingDir, string singleItemOverride = null)
 		{
@@ -461,13 +461,13 @@ namespace Files.App.Views
 				: FilesystemViewModel.WorkingDirectory;
 		}
 
-        private void DrivesManager_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "ShowUserConsentOnInit")
-            {
-                DisplayFilesystemConsentDialog();
-            }
-        }
+		private void DrivesManager_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == "ShowUserConsentOnInit")
+			{
+				DisplayFilesystemConsentDialog();
+			}
+		}
 
 		private async Task<BaseLayout> GetContentOrNullAsync()
 		{
@@ -788,7 +788,7 @@ namespace Files.App.Views
 					break;
 
 				case (false, false, false, _, VirtualKey.F1): // F1, open Files wiki
-					await Launcher.LaunchUriAsync(new Uri(@"https://files.community/docs"));
+					await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.DocumentationUrl));
 					break;
 			}
 
