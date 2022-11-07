@@ -13,7 +13,8 @@ namespace Files.InteractionTests.Tests
 		{
 			var action = new Actions(SessionManager.Session);
 
-			// Click the delete button in the toolbar
+			// Select the "Renamed Folder" folder and click the delete button
+			TestHelper.InvokeButtonByName("Renamed Folder");
 			TestHelper.InvokeButtonById("Delete");
 
 			// Wait for prompt to show
@@ -22,9 +23,22 @@ namespace Files.InteractionTests.Tests
 			// Press the enter key
 			action.SendKeys(Keys.Enter).Perform();
 
-			// Wait for item to be deleted
+			// Select the "Renamed Folder - Copy"  folder and click the delete button
+			TestHelper.InvokeButtonByName("Renamed Folder - Copy");
+			TestHelper.InvokeButtonById("Delete");
+
+			// Wait for prompt to show
 			Thread.Sleep(1000);
 
+			// Press the enter key
+			action = new Actions(SessionManager.Session);
+			action.SendKeys(Keys.Enter).Perform();
+
+			// Wait for items to be deleted
+			Thread.Sleep(1000);
+
+
+			// Navigate back home
 			TestHelper.InvokeButtonById("Home");
 		}
 
@@ -43,8 +57,8 @@ namespace Files.InteractionTests.Tests
 			// Create folder test
 
 			// User toolbar buttons to click the new folder option
-			TestHelper.InvokeButtonById("New");
-			TestHelper.InvokeButtonById("Folder");
+			TestHelper.InvokeButtonById("InnerNavigationToolbarNewButton");
+			TestHelper.InvokeButtonById("InnerNavigationToolbarNewFolderButton");
 
 			// Check for axe issues in the prompt
 			AxeHelper.AssertNoAccessibilityErrors();
@@ -66,8 +80,8 @@ namespace Files.InteractionTests.Tests
 
 			// Reanme folder test
 
-			// Click on rename button
-			TestHelper.InvokeButtonById("Rename");
+			// Click on the rename button
+			TestHelper.InvokeButtonById("InnerNavigationToolbarRenameButton");
 
 			// Type the folder name
 			action = new Actions(SessionManager.Session);
@@ -78,6 +92,22 @@ namespace Files.InteractionTests.Tests
 			action.SendKeys(Keys.Enter).Perform();
 
 			// Wait for item to be renamed
+			Thread.Sleep(1000);
+
+
+
+			// Copy and paste folder test
+
+			// Click on the copy button
+			TestHelper.InvokeButtonById("InnerNavigationToolbarCopyButton");
+
+			// Wait for item to be copied
+			Thread.Sleep(1000);
+
+			// Click on the paste button
+			TestHelper.InvokeButtonById("InnerNavigationToolbarPasteButton");
+
+			// Wait for item to be pasted
 			Thread.Sleep(1000);
 		}
 	}
