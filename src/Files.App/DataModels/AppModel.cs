@@ -28,14 +28,7 @@ namespace Files.App.DataModels
 			try
 			{
 				DataPackageView packageView = Clipboard.GetContent();
-				if (packageView.Contains(StandardDataFormats.StorageItems) || packageView.Contains(StandardDataFormats.Bitmap))
-				{
-					IsPasteEnabled = true;
-				}
-				else
-				{
-					IsPasteEnabled = false;
-				}
+				IsPasteEnabled = packageView.Contains(StandardDataFormats.StorageItems) || packageView.Contains(StandardDataFormats.Bitmap);
 			}
 			catch
 			{
@@ -109,14 +102,7 @@ namespace Files.App.DataModels
 			var newIconsMinVersion = new Version(10, 0, 21327, 1000);
 			bool isRunningNewIconsVersion = currentVersion >= newIconsMinVersion;
 
-			if (isRunningNewIconsVersion)
-			{
-				SymbolFontFamily = new FontFamily("Segoe Fluent Icons");
-			}
-			else
-			{
-				SymbolFontFamily = new FontFamily("Segoe MDL2 Assets");
-			}
+			SymbolFontFamily = isRunningNewIconsVersion ? new FontFamily("Segoe Fluent Icons") : new FontFamily("Segoe MDL2 Assets");
 		}
 	}
 }

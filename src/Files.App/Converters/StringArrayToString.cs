@@ -1,5 +1,6 @@
 using Microsoft.UI.Xaml.Data;
 using System;
+using System.Text;
 
 namespace Files.App.Converters
 {
@@ -10,17 +11,15 @@ namespace Files.App.Converters
 			var array = value as string[];
 
 			if (array is null || !(array is string[]))
-			{
-				return "";
-			}
+				return string.Empty;
 
-			var str = "";
+			var str = new StringBuilder();
 			foreach (var i in array)
 			{
-				str += string.Format("{0}; ", i);
+				str.Append(string.Format("{0}; ", i));
 			}
 
-			return str;
+			return str.ToString();
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, string language)
