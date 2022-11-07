@@ -142,7 +142,7 @@ namespace Files.InteractionTests.Tests
 			action = new Actions(SessionManager.Session);
 			action.SendKeys(Keys.Enter).Perform();
 
-			// Wait for items finish being deleted
+			// Wait for items to finish being deleted
 			Thread.Sleep(1000);
 
 
