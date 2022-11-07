@@ -399,15 +399,16 @@ namespace Files.App.Views.LayoutModes
 			}
 			else if (e.Key == VirtualKey.Left) // Left arrow: select parent folder (previous column)
 			{
-				if (IsRenamingItem || ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled) 
+				if (IsRenamingItem || (ParentShellPageInstance is not null && ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled) )
 					return;
 
-				if ((ParentShellPageInstance as ColumnShellPage)?.ColumnParams.Column == 0)
+				var currentBladeIndex = (ParentShellPageInstance as ColumnShellPage)?.ColumnParams.Column;
+				if (currentBladeIndex == null || currentBladeIndex == 0)
 					return;
 
 				try
 				{
-					FocusManager.TryMoveFocus(FocusNavigationDirection.Previous);
+					this.FindAscendant<ColumnViewBrowser>()?.MoveFocusToBlade( (int)currentBladeIndex - 1);
 				}
 				catch (Exception exception)
 				{
@@ -418,12 +419,14 @@ namespace Files.App.Views.LayoutModes
 			}
 			else if (e.Key == VirtualKey.Right) // Right arrow: switch focus to next column
 			{
-				if (IsRenamingItem || ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled) 
+				if (IsRenamingItem || (ParentShellPageInstance is not null && ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)) 
 					return;
 
 				try
 				{
-					this.FindAscendant<ColumnViewBrowser>()?.MoveFocusToBlade((ParentShellPageInstance as ColumnShellPage).ColumnParams.Column + 1);
+					var associatedColumnShellPage = (ParentShellPageInstance as ColumnShellPage);
+					var currentBladeIndex = (associatedColumnShellPage is not null) ? associatedColumnShellPage.ColumnParams.Column : 0;
+					this.FindAscendant<ColumnViewBrowser>()?.MoveFocusToBlade((int) currentBladeIndex + 1);
 				}
 				catch(Exception ex)
 				{
