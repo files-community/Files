@@ -10,6 +10,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Linq;
+using Microsoft.UI.Xaml.Input;
 using static Files.App.Constants;
 
 namespace Files.App.Views.LayoutModes
@@ -205,12 +206,14 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		public void MoveFocusToBlade(int index)
+		public void MoveFocusToBlade(int index, FocusNavigationDirection direction)
 		{
 			if (index < 0 || index >= ColumnHost.ActiveBlades.Count)
 				return;
 
-			DismissOtherBlades(index);
+			if (direction == FocusNavigationDirection.Previous)
+				DismissOtherBlades(index + 1);
+
 			ColumnHost.ActiveBlades[index].Focus(FocusState.Programmatic);
 		}
 
