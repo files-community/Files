@@ -177,10 +177,7 @@ namespace Files.App.Interacts
 			await RecycleBinHelpers.S_DeleteItem(associatedInstance);
 		}
 
-		public virtual void ShowFolderProperties(RoutedEventArgs e)
-		{
-			SlimContentPage.ItemContextMenuFlyout.Closed += OpenProperties;
-		}
+		public virtual void ShowFolderProperties(RoutedEventArgs e) => ShowProperties(e);
 
 		public virtual void ShowProperties(RoutedEventArgs e)
 		{
@@ -328,7 +325,7 @@ namespace Files.App.Interacts
 				DataRequest dataRequest = args.Request;
 
 				/*dataRequest.Data.Properties.Title = "Data Shared From Files";
-                dataRequest.Data.Properties.Description = "The items you selected will be shared";*/
+				dataRequest.Data.Properties.Description = "The items you selected will be shared";*/
 
 				foreach (ListedItem item in SlimContentPage.SelectedItems)
 				{

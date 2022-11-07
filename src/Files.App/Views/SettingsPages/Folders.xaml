@@ -126,7 +126,7 @@
 					<FontIcon Glyph="&#xE152;" />
 				</local:SettingsBlockControl.Icon>
 
-				<ComboBox SelectedIndex="{x:Bind ViewModel.SelectedDefaultLayoutModeIndex, Mode=TwoWay}">
+				<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=LayoutMode}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultLayoutModeIndex, Mode=TwoWay}">
 					<ComboBoxItem Content="{helpers:ResourceString Name=Details}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Tiles}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Columns}" />
@@ -204,7 +204,7 @@
 					</StackPanel>
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
-			
+
 			<!--  Calculate folder sizes  -->
 			<local:SettingsBlockControl
 				Title="{helpers:ResourceString Name=CalculateFolderSizes}"

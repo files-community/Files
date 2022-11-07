@@ -480,7 +480,7 @@ namespace Files.App.Filesystem
 			PrimaryItemAttribute = isFile ? StorageItemTypes.File : StorageItemTypes.Folder;
 			ItemPropertiesInitialized = false;
 
-			var itemType = isFile ? "ItemTypeFile".GetLocalizedResource() : "FileFolderListItem".GetLocalizedResource();
+			var itemType = isFile ? "ItemTypeFile".GetLocalizedResource() : "Folder".GetLocalizedResource();
 			if (isFile && Name.Contains('.', StringComparison.Ordinal))
 			{
 				itemType = FileExtension.Trim('.') + " " + itemType;
