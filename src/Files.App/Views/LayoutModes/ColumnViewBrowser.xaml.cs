@@ -207,9 +207,11 @@ namespace Files.App.Views.LayoutModes
 
 		public void MoveFocusToBlade(int index)
 		{
-			var activeBlades = ColumnHost.ActiveBlades;
+			if (index < 0 || index >= ColumnHost.ActiveBlades.Count)
+				return;
+
 			DismissOtherBlades(index);
-			activeBlades[index].Focus(FocusState.Programmatic);
+			ColumnHost.ActiveBlades[index].Focus(FocusState.Programmatic);
 		}
 
 		public void SetSelectedPathOrNavigate(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null)

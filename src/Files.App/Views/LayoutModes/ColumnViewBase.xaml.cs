@@ -403,18 +403,10 @@ namespace Files.App.Views.LayoutModes
 					return;
 
 				var currentBladeIndex = (ParentShellPageInstance as ColumnShellPage)?.ColumnParams.Column;
-				if (currentBladeIndex == null || currentBladeIndex == 0)
+				if (currentBladeIndex is null or 0)
 					return;
 
-				try
-				{
-					this.FindAscendant<ColumnViewBrowser>()?.MoveFocusToBlade( (int)currentBladeIndex - 1);
-				}
-				catch (Exception exception)
-				{
-
-				}
-
+				this.FindAscendant<ColumnViewBrowser>()?.MoveFocusToBlade((int)currentBladeIndex - 1);
 				e.Handled = true;
 			}
 			else if (e.Key == VirtualKey.Right) // Right arrow: switch focus to next column
@@ -422,15 +414,11 @@ namespace Files.App.Views.LayoutModes
 				if (IsRenamingItem || (ParentShellPageInstance is not null && ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)) 
 					return;
 
-				try
+				var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
+				this.FindAscendant<ColumnViewBrowser>()?.MoveFocusToBlade((int)currentBladeIndex + 1);
+				if (!IsItemSelected)
 				{
-					var associatedColumnShellPage = (ParentShellPageInstance as ColumnShellPage);
-					var currentBladeIndex = (associatedColumnShellPage is not null) ? associatedColumnShellPage.ColumnParams.Column : 0;
-					this.FindAscendant<ColumnViewBrowser>()?.MoveFocusToBlade((int) currentBladeIndex + 1);
-				}
-				catch(Exception ex)
-				{
-
+					FileList.SelectedIndex = 0;
 				}
 				e.Handled = true;
 			}
