@@ -416,10 +416,6 @@ namespace Files.App.Views.LayoutModes
 
 				var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
 				this.FindAscendant<ColumnViewBrowser>()?.MoveFocusToBlade((int)currentBladeIndex + 1);
-				if (!IsItemSelected)
-				{
-					FileList.SelectedIndex = 0;
-				}
 				e.Handled = true;
 			}
 		}
