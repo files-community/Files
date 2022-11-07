@@ -402,11 +402,11 @@ namespace Files.App.Views.LayoutModes
 				if (IsRenamingItem || (ParentShellPageInstance is not null && ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled) )
 					return;
 
-				var currentBladeIndex = (ParentShellPageInstance as ColumnShellPage)?.ColumnParams.Column;
-				if (currentBladeIndex is null or 0)
+				var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
+				if (currentBladeIndex == 0)
 					return;
 
-				this.FindAscendant<ColumnViewBrowser>()?.MoveFocusToBlade((int)currentBladeIndex - 1);
+				this.FindAscendant<ColumnViewBrowser>()?.MoveFocusToBlade(currentBladeIndex - 1);
 				e.Handled = true;
 			}
 			else if (e.Key == VirtualKey.Right) // Right arrow: switch focus to next column
@@ -415,7 +415,7 @@ namespace Files.App.Views.LayoutModes
 					return;
 
 				var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
-				this.FindAscendant<ColumnViewBrowser>()?.MoveFocusToBlade((int)currentBladeIndex + 1);
+				this.FindAscendant<ColumnViewBrowser>()?.MoveFocusToBlade(currentBladeIndex + 1);
 				e.Handled = true;
 			}
 		}
@@ -433,7 +433,7 @@ namespace Files.App.Views.LayoutModes
 
 			if
 			(
-				Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Enter) == CoreVirtualKeyStates.Down ||
+				InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Enter) == CoreVirtualKeyStates.Down ||
 				focusedElement is Button ||
 				focusedElement is TextBox ||
 				focusedElement is PasswordBox ||
