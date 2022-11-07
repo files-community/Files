@@ -5,7 +5,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	Title="{helpers:ResourceString Name=DecompressArchiveDialog/Title}"
+	Title="{helpers:ResourceString Name=ExtractArchive}"
 	CornerRadius="{StaticResource OverlayCornerRadius}"
 	DefaultButton="Primary"
 	PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
@@ -48,10 +48,19 @@
 			Command="{x:Bind ViewModel.SelectDestinationCommand}"
 			Content="{helpers:ResourceString Name=Browse}" />
 
+		<TextBlock 
+			x:Name="PasswordHeader" 
+			x:Load="{x:Bind ViewModel.IsArchiveEncrypted}"
+			Grid.Row="1"
+			Margin="4"
+			HorizontalAlignment="Stretch"
+			VerticalAlignment="Stretch" 
+			Text="{helpers:ResourceString Name=ArchivePassword}" />
+
 		<PasswordBox
 			x:Name="Password"
 			x:Load="{x:Bind ViewModel.IsArchiveEncrypted}"
-			Grid.Row="1"
+			Grid.Row="2"
 			VerticalAlignment="Stretch"
 			HorizontalAlignment="Stretch"
 			PlaceholderText="{helpers:ResourceString Name=CredentialDialogPassword/PlaceholderText}" />
@@ -59,7 +68,7 @@
 		<CheckBox
 			x:Name="OpenDestination"
 			x:Load="{x:Bind ViewModel.ShowPathSelection}"
-			Grid.Row="2"
+			Grid.Row="3"
 			Content="{helpers:ResourceString Name=DecompressArchiveDialogOpenDestinationWhenComplete/Content}"
 			IsChecked="{x:Bind ViewModel.OpenDestinationFolderOnCompletion, Mode=TwoWay}" />
 	</Grid>

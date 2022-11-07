@@ -2007,7 +2007,7 @@
   <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>View documentation.</value>
   </data>
-  <data name="DecompressArchiveDialog.Title" xml:space="preserve">
+  <data name="ExtractArchive" xml:space="preserve">
     <value>Extract Archive</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
@@ -2856,7 +2856,7 @@
   <data name="BinEmptyingFailed" xml:space="preserve">
     <value>Failed to empty recycle bin</value>
   </data>
-  <data name="ArchivePasswordDialogDescription" xml:space="preserve">
-    <value>Insert archive password</value>
+  <data name="ArchivePassword" xml:space="preserve">
+    <value>Archive password</value>
   </data>
 </root>
