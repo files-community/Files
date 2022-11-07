@@ -205,14 +205,14 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		public void MoveFocusToPreviousBlade(int index)
+		public void MoveFocusToPreviousBlade(int currentBladeIndex)
 		{
-			if (index < 0)
+			if (currentBladeIndex <= 0)
 				return;
 
-			DismissOtherBlades(index + 1);
+			DismissOtherBlades(currentBladeIndex);
 
-			var activeBlade = ColumnHost.ActiveBlades[index];
+			var activeBlade = ColumnHost.ActiveBlades[currentBladeIndex - 1];
 			activeBlade.Focus(FocusState.Programmatic);
 
 			var activeBladeColumnViewBase = RetrieveBladeColumnViewBase(activeBlade);
@@ -226,12 +226,12 @@ namespace Files.App.Views.LayoutModes
 			activeBladeColumnViewBase.FileList.SelectedItem = selectedItem;
 		}
 
-		public void MoveFocusToNextBlade(int index)
+		public void MoveFocusToNextBlade(int currentBladeIndex)
 		{
-			if (index >= ColumnHost.ActiveBlades.Count)
+			if (currentBladeIndex >= ColumnHost.ActiveBlades.Count)
 				return;
 
-			var activeBlade = ColumnHost.ActiveBlades[index];
+			var activeBlade = ColumnHost.ActiveBlades[currentBladeIndex];
 			activeBlade.Focus(FocusState.Programmatic);
 
 			var activeBladeColumnViewBase = RetrieveBladeColumnViewBase(activeBlade);
