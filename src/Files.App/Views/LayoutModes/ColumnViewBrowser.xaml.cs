@@ -10,7 +10,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Linq;
-using Microsoft.UI.Xaml.Input;
 using static Files.App.Constants;
 
 namespace Files.App.Views.LayoutModes
@@ -206,30 +205,45 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		public void MoveFocusToBlade(int index, FocusNavigationDirection direction)
+		public void MoveFocusToPreviousBlade(int index, string parentFolder)
 		{
-			if (index < 0 || index >= ColumnHost.ActiveBlades.Count)
+			if (index < 0)
 				return;
 
-			if (direction == FocusNavigationDirection.Previous)
-				DismissOtherBlades(index + 1);
+			DismissOtherBlades(index + 1);
 
 			var activeBlade = ColumnHost.ActiveBlades[index];
 			activeBlade.Focus(FocusState.Programmatic);
 
-			var activeBladeFrame = activeBlade.Content as Frame;
-			if (activeBladeFrame == null)
+			var activeBladeColumnViewBase = RetrieveBladeColumnViewBase(activeBlade);
+			if (activeBladeColumnViewBase != null)
+				activeBladeColumnViewBase.FileList.SelectedIndex = 0;
+		}
+
+		public void MoveFocusToNextBlade(int index)
+		{
+			if (index >= ColumnHost.ActiveBlades.Count)
 				return;
+
+			var activeBlade = ColumnHost.ActiveBlades[index];
+			activeBlade.Focus(FocusState.Programmatic);
+
+			var activeBladeColumnViewBase = RetrieveBladeColumnViewBase(activeBlade);
+			if (activeBladeColumnViewBase != null)
+				activeBladeColumnViewBase.FileList.SelectedIndex = 0;
+		}
+
+		private ColumnViewBase? RetrieveBladeColumnViewBase(BladeItem blade)
+		{
+			var activeBladeFrame = blade.Content as Frame;
+			if (activeBladeFrame == null)
+				return null;
 
 			var activeBladePage = activeBladeFrame.Content as ColumnShellPage;
 			if (activeBladePage == null)
-				return;
+				return null;
 
-			var activeBladeColumnViewBase = activeBladePage.SlimContentPage as ColumnViewBase;
-			if (activeBladeColumnViewBase == null)
-				return;
-
-			activeBladeColumnViewBase.FileList.SelectedIndex = 0;
+			return activeBladePage.SlimContentPage as ColumnViewBase;
 		}
 
 		public void SetSelectedPathOrNavigate(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null)

@@ -406,7 +406,7 @@ namespace Files.App.Views.LayoutModes
 				if (currentBladeIndex == 0)
 					return;
 
-				this.FindAscendant<ColumnViewBrowser>()?.MoveFocusToBlade(currentBladeIndex - 1, FocusNavigationDirection.Previous);
+				this.FindAscendant<ColumnViewBrowser>()?.MoveFocusToPreviousBlade(currentBladeIndex - 1, string.Empty);
 				e.Handled = true;
 			}
 			else if (e.Key == VirtualKey.Right) // Right arrow: switch focus to next column
@@ -415,7 +415,7 @@ namespace Files.App.Views.LayoutModes
 					return;
 
 				var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
-				this.FindAscendant<ColumnViewBrowser>()?.MoveFocusToBlade(currentBladeIndex + 1, FocusNavigationDirection.Next);
+				this.FindAscendant<ColumnViewBrowser>()?.MoveFocusToNextBlade(currentBladeIndex + 1);
 				e.Handled = true;
 			}
 		}
