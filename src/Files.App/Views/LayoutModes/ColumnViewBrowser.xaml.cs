@@ -204,9 +204,12 @@ namespace Files.App.Views.LayoutModes
 				(ParentShellPageInstance as ModernShellPage)?.Up_Click();
 			}
 		}
-		public void MoveFocusToNextBlade()
+
+		public void MoveFocusToBlade(int index)
 		{
-			ColumnHost.ActiveBlades[^1].Focus(FocusState.Keyboard);
+			var activeBlades = ColumnHost.ActiveBlades;
+			DismissOtherBlades(index);
+			activeBlades[index].Focus(FocusState.Programmatic);
 		}
 
 		public void SetSelectedPathOrNavigate(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null)

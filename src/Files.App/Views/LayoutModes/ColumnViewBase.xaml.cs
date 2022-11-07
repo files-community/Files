@@ -423,7 +423,7 @@ namespace Files.App.Views.LayoutModes
 
 				try
 				{
-					this.FindAscendant<ColumnViewBrowser>()?.MoveFocusToNextBlade();
+					this.FindAscendant<ColumnViewBrowser>()?.MoveFocusToBlade((ParentShellPageInstance as ColumnShellPage).ColumnParams.Column + 1);
 				}
 				catch(Exception ex)
 				{
