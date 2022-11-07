@@ -214,7 +214,22 @@ namespace Files.App.Views.LayoutModes
 			if (direction == FocusNavigationDirection.Previous)
 				DismissOtherBlades(index + 1);
 
-			ColumnHost.ActiveBlades[index].Focus(FocusState.Programmatic);
+			var activeBlade = ColumnHost.ActiveBlades[index];
+			activeBlade.Focus(FocusState.Programmatic);
+
+			var activeBladeFrame = activeBlade.Content as Frame;
+			if (activeBladeFrame == null)
+				return;
+
+			var activeBladePage = activeBladeFrame.Content as ColumnShellPage;
+			if (activeBladePage == null)
+				return;
+
+			var activeBladeColumnViewBase = activeBladePage.SlimContentPage as ColumnViewBase;
+			if (activeBladeColumnViewBase == null)
+				return;
+
+			activeBladeColumnViewBase.FileList.SelectedIndex = 0;
 		}
 
 		public void SetSelectedPathOrNavigate(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null)
