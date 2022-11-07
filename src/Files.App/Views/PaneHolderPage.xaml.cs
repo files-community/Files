@@ -49,10 +49,7 @@ namespace Files.App.Views
 
 		private bool windowIsCompact
 		{
-			get
-			{
-				return _windowIsCompact;
-			}
+			get => _windowIsCompact;
 			set
 			{
 				if (value != _windowIsCompact)
@@ -229,7 +226,7 @@ namespace Files.App.Views
 				NavParamsLeft = new NavigationParams { NavPath = navPath };
 				NavParamsRight = new NavigationParams { NavPath = "Home".GetLocalizedResource() };
 			}
-			if (eventArgs.Parameter is PaneNavigationArguments paneArgs)
+			else if (eventArgs.Parameter is PaneNavigationArguments paneArgs)
 			{
 				NavParamsLeft = new NavigationParams
 				{

@@ -2036,7 +2036,7 @@ namespace Files.App.ViewModels
 
 			var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
 			var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-			var startWithDot = findData.cFileName.StartsWith(".");
+			var startWithDot = findData.cFileName.StartsWith('.');
 			if ((isHidden &&
 			   (!UserSettingsService.FoldersSettingsService.ShowHiddenItems ||
 			   (isSystem && !UserSettingsService.FoldersSettingsService.ShowProtectedSystemFiles))) ||
@@ -2183,10 +2183,7 @@ namespace Files.App.ViewModels
 		public async Task AddSearchResultsToCollection(ObservableCollection<ListedItem> searchItems, string currentSearchPath)
 		{
 			filesAndFolders.Clear();
-			foreach (ListedItem li in searchItems)
-			{
-				filesAndFolders.Add(li);
-			}
+			filesAndFolders.AddRange(searchItems);
 			await OrderFilesAndFoldersAsync();
 			await ApplyFilesAndFoldersChangesAsync();
 		}

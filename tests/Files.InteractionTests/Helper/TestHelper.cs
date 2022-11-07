@@ -1,4 +1,4 @@
-﻿using OpenQA.Selenium.Appium.Windows;
+using OpenQA.Selenium.Appium.Windows;
 using System;
 using System.Collections.Generic;
 
@@ -30,7 +30,6 @@ namespace Files.InteractionTests.Helper
 					if (child.Text.Contains(content, StringComparison.OrdinalIgnoreCase))
 					{
 						elementsToReturn.Add(element);
-						continue;
 					}
 				}
 			}
