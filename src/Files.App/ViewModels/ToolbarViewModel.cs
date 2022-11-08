@@ -771,7 +771,7 @@ namespace Files.App.ViewModels
 			CloseSearchBox();
 		}
 
-		private void SearchRegion_Escaped(object? sender, ISearchBox searchBox) => IsSearchBoxVisible = false;
+		private void SearchRegion_Escaped(object? sender, ISearchBox searchBox) => CloseSearchBox();
 
 		public ICommand? SelectAllContentPageItemsCommand { get; set; }
 
