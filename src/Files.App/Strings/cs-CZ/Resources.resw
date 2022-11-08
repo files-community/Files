@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Chcete-li začít, musíte nám udělit oprávnění k zobrazení vašich souborů. Toto otevře stránku s nastavením, kde nám můžete toto oprávnění udělit. Po dokončení tohoto kroku budete muset aplikaci znovu otevřít. </value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Složka souborů</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Soubor</value>
   </data>
