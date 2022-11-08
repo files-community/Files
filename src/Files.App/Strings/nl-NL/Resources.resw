@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Om aan de slag te gaan, moet u toestemming geven om uw bestanden weer te geven. Hiermee wordt er een pagina in Instellingen geopend waar u toestemming kunt geven. U moet de app hierna opnieuw starten.</value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Bestandsmap</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Bestand</value>
   </data>
