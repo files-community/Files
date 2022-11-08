@@ -471,6 +471,7 @@ namespace Files.App.Filesystem
 			}
 			else
 			{
+				errorCode?.Report(CopyEngineResult.Convert(moveResult.Items.FirstOrDefault(x => !x.Succeeded)?.HResult));
 				if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.Unauthorized))
 				{
 					if (await RequestAdminOperation())
@@ -530,7 +531,6 @@ namespace Files.App.Filesystem
 						await sourceMatch.Select(x => x.dest).ToListAsync(),
 						await sourceMatch.Select(x => x.coll).ToListAsync(), progress, errorCode, cancellationToken);
 				}
-				errorCode?.Report(CopyEngineResult.Convert(moveResult.Items.FirstOrDefault(x => !x.Succeeded)?.HResult));
 				return null;
 			}
 		}
