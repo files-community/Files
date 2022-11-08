@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>使用を開始する前に、ファイル システムへのアクセスを許可してください。Windows の設定が開き、アクセス許可の付与を選択できます。設定が完了したら、アプリケーションを再起動する必要があります。</value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>フォルダー</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>ファイル</value>
   </data>
