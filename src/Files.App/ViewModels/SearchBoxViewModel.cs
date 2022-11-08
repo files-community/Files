@@ -71,6 +71,8 @@ namespace Files.App.ViewModels
 
 		public void SearchRegion_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs e)
 		{
+			if (e.ChosenSuggestion is null && string.IsNullOrWhiteSpace(e.QueryText))
+				return;
 			WasQuerySubmitted = true;
 			if (e.ChosenSuggestion is SuggestionModel chosen && chosen.ItemPath is null)
 			{
