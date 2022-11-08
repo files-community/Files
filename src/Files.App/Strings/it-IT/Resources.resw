@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Per iniziare, devi concedere l'autorizzazione per visualizzare i tuoi file. Si aprirà una pagina Impostazioni in cui puoi concedere questa autorizzazione. Sarà necessario riaprire l'app quando avrai concesso l'autorizzazione.</value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Cartella di file</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>File</value>
   </data>
