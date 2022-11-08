@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Kezdésként, engedélyt kell adnia a fájljai megjelenítéséhez. Ez meg fogja nyitni a Gépházat ahol ezt elvégezheti. Az engedély megadása és a Gépház bezárása után nyissa meg újra a Files-t.</value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Fájlmappa</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Fájl</value>
   </data>
