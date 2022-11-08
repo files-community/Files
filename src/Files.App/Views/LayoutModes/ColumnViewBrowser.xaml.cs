@@ -219,8 +219,7 @@ namespace Files.App.Views.LayoutModes
 			if (activeBladeColumnViewBase == null)
 				return;
 
-			// QMK - This allows to deselect and reselect the parent folder, hence forcing the refocus.
-			// QMK - This is dirty as well, need to find better.
+			//This allows to deselect and reselect the parent folder, hence forcing the refocus.
 			var selectedItem = activeBladeColumnViewBase.FileList.SelectedItem;
 			activeBladeColumnViewBase.FileList.SelectedItem = null;
 			activeBladeColumnViewBase.FileList.SelectedItem = selectedItem;
