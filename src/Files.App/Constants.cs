@@ -74,6 +74,11 @@ namespace Files.App
 			public const string UbuntuIcon = "ms-appx:///Assets/WSL/ubuntupng.png";
 		}
 
+		public static class AssetPaths
+		{
+			public const string Logo = "Assets/AppTiles/Dev/Logo.ico";
+		}
+
 		public static class UI
 		{
 			public const float DimItemOpacity = 0.4f;

@@ -104,9 +104,8 @@ namespace Files.App.Filesystem
 		/// </summary>
 		public async Task<List<RecentItem>> ListRecentFilesAsync()
 		{
-			var items = (await Win32Shell.GetShellFolderAsync(QuickAccessGuid, "Enumerate", 0, int.MaxValue)).Enumerate
-								   .Select(link => new RecentItem(link)).ToList();
-			return items;
+			return (await Win32Shell.GetShellFolderAsync(QuickAccessGuid, "Enumerate", 0, int.MaxValue)).Enumerate
+				.Select(link => new RecentItem(link)).ToList();
 		}
 
 		/// <summary>
@@ -203,6 +202,14 @@ namespace Files.App.Filesystem
 			}
 		}
 
+		/// <summary>
+		/// Returns whether two RecentItem enumerables have the same order.
+		/// This function depends on `RecentItem` implementing IEquatable.
+		/// </summary>
+		private bool RecentItemsOrderEquals(IEnumerable<RecentItem> oldOrder, IEnumerable<RecentItem> newOrder)
+		{
+			return oldOrder != null && newOrder != null && oldOrder.SequenceEqual(newOrder);
+		}
 		public void Dispose()
 		{
 			RecentItemsManager.Default.RecentItemsChanged -= OnRecentItemsChanged;

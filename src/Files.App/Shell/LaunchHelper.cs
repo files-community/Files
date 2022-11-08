@@ -75,7 +75,7 @@ namespace Files.App.Shell
 						process.StartInfo.EnvironmentVariables[(string)ent.Key] = (string)ent.Value;
 					foreach (DictionaryEntry ent in Environment.GetEnvironmentVariables(EnvironmentVariableTarget.User))
 						process.StartInfo.EnvironmentVariables[(string)ent.Key] = (string)ent.Value;
-					process.StartInfo.EnvironmentVariables["PATH"] = string.Join(";",
+					process.StartInfo.EnvironmentVariables["PATH"] = string.Join(';',
 						Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Machine),
 						Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.User));
 				}
