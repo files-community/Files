@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>要开始使用，请授予我们访问文件系统的权限。你可以在稍后打开的设置窗口中授权。完成设置后，需要重新打开应用程序。 </value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>文件夹</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>文件</value>
   </data>

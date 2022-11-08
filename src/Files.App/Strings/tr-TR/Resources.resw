@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Başlamak için uygulamaya dosyalarınızı görüntüleme izni vermelisiniz. Bu aşamada bu izni verebileceğiniz bir Ayarlar sayfası açılacak. Bu adımı tamamladıktan sonra uygulamayı yeniden başlatmalısınız. </value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Dosya klasörü</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Dosya</value>
   </data>

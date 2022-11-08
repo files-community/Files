@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Lietotnei nepieciešama atļauja, lai piekļūtu Jūsu failiem. Tiks atvērta Iestatījumu lapa, kurā Jūs varēsiet to piešķirt. Pēc tam lietotne būs jāatver atkārtoti.</value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Failu mape</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Fails</value>
   </data>
