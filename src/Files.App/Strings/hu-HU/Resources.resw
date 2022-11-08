@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Kezdésként, engedélyt kell adnia a fájljai megjelenítéséhez. Ez meg fogja nyitni a Gépházat ahol ezt elvégezheti. Az engedély megadása és a Gépház bezárása után nyissa meg újra a Files-t.</value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Fájlmappa</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Fájl</value>
   </data>
@@ -815,12 +812,6 @@
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Nyelv</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>Terminál alkalmazások</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>Terminál alkalmazások szerkesztése</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Túlcsorduló elemek almenübe helyezése</value>
@@ -2427,9 +2418,6 @@
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>WSL megjelenítése</value>
   </data>
-  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Terminál alkalmazások</value>
-  </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Folyamatban lévő műveletek</value>
   </data>
@@ -2485,7 +2473,7 @@
     <value>Hiba történt az importálás közben</value>
   </data>
   <data name="EmptyRecycleBin" xml:space="preserve">
-    <value>Lomtár kiürítése</value>
+    <value>Lomtár ürítése</value>
   </data>
   <data name="Sidebar" xml:space="preserve">
     <value>Oldalsáv</value>
@@ -2857,12 +2845,12 @@
     <value>Témák betöltése</value>
   </data>
   <data name="EmptyingRecycleBin" xml:space="preserve">
-    <value>Emptying recycle bin</value>
+    <value>Lomtár ürítése</value>
   </data>
   <data name="BinEmptyingSucceded" xml:space="preserve">
-    <value>Successfully emptied recycle bin</value>
+    <value>Lomtár kiürítve</value>
   </data>
   <data name="BinEmptyingFailed" xml:space="preserve">
-    <value>Failed to empty recycle bin</value>
+    <value>A Lomtár kiürítése sikertelen</value>
   </data>
 </root>

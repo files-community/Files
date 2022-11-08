@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>要开始使用，请授予我们访问文件系统的权限。你可以在稍后打开的设置窗口中授权。完成设置后，需要重新打开应用程序。 </value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>文件夹</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>文件</value>
   </data>
@@ -815,12 +812,6 @@
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>语言</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>终端应用程序</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>编辑终端应用程序</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>将溢出项移动到子菜单内</value>
@@ -2427,9 +2418,6 @@
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>显示 WSL</value>
   </data>
-  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>终端应用</value>
-  </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>进行中的任务</value>
   </data>
@@ -2854,15 +2842,15 @@
     <value>在目标位置找不到 {0}。要删除此快捷方式吗？</value>
   </data>
   <data name="LoadingThemes" xml:space="preserve">
-    <value>Loading Themes</value>
+    <value>正在加载主题</value>
   </data>
   <data name="EmptyingRecycleBin" xml:space="preserve">
-    <value>Emptying recycle bin</value>
+    <value>正在清空回收站</value>
   </data>
   <data name="BinEmptyingSucceded" xml:space="preserve">
-    <value>Successfully emptied recycle bin</value>
+    <value>已成功清空回收站</value>
   </data>
   <data name="BinEmptyingFailed" xml:space="preserve">
-    <value>Failed to empty recycle bin</value>
+    <value>清空回收站失败</value>
   </data>
 </root>

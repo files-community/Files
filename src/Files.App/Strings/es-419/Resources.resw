@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Para comenzar, deberá otorgarnos permiso para mostrar sus archivos. Esto abrirá una página de Configuración donde puede otorgarnos este permiso. Deberá reiniciar la aplicación una vez que haya completado este paso.</value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Carpeta de archivos</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Archivo</value>
   </data>
@@ -457,7 +454,7 @@
     <value>El archivo al que está intentando acceder está siendo utilizado actualmente por otra aplicación</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
-    <value>El archivo se está utilizando</value>
+    <value>Archivo en uso</value>
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>Diseño</value>
@@ -815,12 +812,6 @@
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Idioma</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>Aplicaciones de terminal</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>Editar las aplicaciones de terminal</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Mover elementos de desbordamiento a un submenú</value>
@@ -2426,9 +2417,6 @@
   </data>
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Mostrar WSL</value>
-  </data>
-  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Aplicación de terminal</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Tareas en curso</value>

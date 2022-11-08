@@ -1,6 +1,6 @@
+using Files.App.Serialization;
 using Files.Backend.Services.Settings;
 using Files.Shared.EventArguments;
-using Files.App.Serialization;
 using Microsoft.AppCenter.Analytics;
 
 namespace Files.App.ServicesImplementation.Settings

@@ -1,4 +1,3 @@
-using Files.Shared.Extensions;
 using Microsoft.Win32.SafeHandles;
 using System;
 using System.Collections.Generic;
@@ -6,10 +5,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
-using System.Text.Json;
 using System.Threading;
-using System.Threading.Tasks;
-using Windows.Foundation.Collections;
 
 namespace Files.App.Helpers
 {

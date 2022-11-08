@@ -1,10 +1,10 @@
+using Files.Shared.Extensions;
 using LiteDB;
 using System;
-using Files.Shared.Extensions;
-using JsonSerializer = System.Text.Json.JsonSerializer;
-using System.Threading;
 using System.Collections;
 using System.Collections.Concurrent;
+using System.Threading;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Files.App.Helpers.LayoutPreferences
 {

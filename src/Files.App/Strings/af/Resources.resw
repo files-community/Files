@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Om te begin, moet jy ons toestemming gee om jou lêers te vertoon. Dit sal 'n Instellingsbladsy oopmaak waar jy ons hierdie toestemming kan gee. Jy sal die program moet heropen sodra jy hierdie stap voltooi het.</value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Lêer omslag</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Lêer</value>
   </data>
@@ -815,12 +812,6 @@
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Taal</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>Terminaaltoepassings</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>Redigeer terminaaltoepassings</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Skuif oorloopitems in 'n subkieslys</value>
@@ -2427,9 +2418,6 @@
   </data>
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Wys WSL-afdeling</value>
-  </data>
-  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Terminaaltoepassing</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Deurlopende Take</value>

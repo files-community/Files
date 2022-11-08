@@ -6,7 +6,6 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
-using System.Threading;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Windows.Storage;

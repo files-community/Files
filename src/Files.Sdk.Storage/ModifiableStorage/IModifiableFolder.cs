@@ -1,6 +1,6 @@
-﻿using System.Threading;
+﻿using Files.Sdk.Storage.Enums;
+using System.Threading;
 using System.Threading.Tasks;
-using Files.Sdk.Storage.Enums;
 
 namespace Files.Sdk.Storage.ModifiableStorage
 {

@@ -4,12 +4,9 @@ using Files.App.EventArguments.Bundles;
 using Files.App.Helpers;
 using Files.App.ViewModels.Widgets;
 using Files.App.ViewModels.Widgets.Bundles;
-using Files.Shared.Extensions;
 using Microsoft.UI.Xaml;
 using System;
-using System.Collections.Generic;
 using System.Text.Json;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Files.App.ViewModels.Pages

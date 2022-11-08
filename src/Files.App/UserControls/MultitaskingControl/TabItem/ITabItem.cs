@@ -1,6 +1,6 @@
+using Microsoft.UI.Xaml;
 using System;
 using System.Threading.Tasks;
-using Microsoft.UI.Xaml;
 
 namespace Files.App.UserControls.MultitaskingControl
 {

@@ -157,13 +157,13 @@
     <value>ნივთის სახელი</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Path:</value>
+    <value>გზა:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>ზომა:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed Size:</value>
+    <value>შეუკუმშავი ზომა:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>ეს მოქმედება ვერ განხორციელდება</value>
@@ -232,7 +232,7 @@
     <value>დამალული ფაილების და საქაღალდეების ჩვენება</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Show dot files</value>
+    <value>წერტილოვანი ფაილების ჩვენება</value>
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>ექსპერიმენტალური</value>
@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>დასაწყებად, თქვენ ჩვენ ნებართვა უნდა მოგვანიჭოთ, რათა გამოვაჩინოთ თქვენი ფაილები. ეს მოქმედება გახსნის პარამეტრების გვერდს, საიდანაც თქვენ შეგეძლებათ ჩვენთვის ნებართვის მონიჭება. ამ ნაბიჯების შესრულების შემდეგ კი აპლიკაციის ხელახლა გახსნა მოგიწევთ.</value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>ფაილის საქაღალდე</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>ფაილი</value>
   </data>
@@ -451,13 +448,13 @@
     <value>თქვენ წაშალეთ ეს საქაღალდე?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by {0}</value>
+    <value>ფაილზე, რომელზეც წვდომას ცდილობთ, ამჟამად იყენებს {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by an another application</value>
+    <value>ფაილზე, რომელზეც წვდომას ცდილობთ, ამჟამად გამოიყენება სხვა აპლიკაციის მიერ</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
-    <value>File is in use</value>
+    <value>ფაილი გამოიყენება</value>
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>განლაგება</value>
@@ -550,7 +547,7 @@
     <value>სანაგვე ყუთის გასუფთავება</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
-    <value>bytes</value>
+    <value>ბაიტი</value>
   </data>
   <data name="KiloByteSymbol" xml:space="preserve">
     <value>KB</value>
@@ -815,12 +812,6 @@
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>ენა</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>ტერმინალის აპლიკაციები</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>ტერმინალის აპლიკაციების შეცვლა</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>გადავსებული ნივთების ქვემენიუში გადატანა</value>
@@ -1225,10 +1216,10 @@
     <value>განახლებები ხელმისაწვდომია</value>
   </data>
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
-    <value>Show protected system files</value>
+    <value>დაცული სისტემის ფაილების ჩვენება</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Include unindexed items in search results</value>
+    <value>ძიების შედეგებში არაინდექსირებული ელემენტების ჩართვა</value>
   </data>
   <data name="ResetFolderPreferencesOverrides" xml:space="preserve">
     <value>Reset folder overrides</value>
@@ -2426,9 +2417,6 @@
   </data>
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>WSL განყოფილების ჩვენება</value>
-  </data>
-  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>ტერმინალის აპლიკაცია</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>მიმდინარე დავალებები</value>

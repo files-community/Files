@@ -146,7 +146,7 @@ namespace Files.App.Views
 				App.Window.SetTitleBar(horizontalMultitaskingControl.DragArea);
 			}
 
-			if (!(ViewModel.MultitaskingControl is HorizontalMultitaskingControl))
+			if (ViewModel.MultitaskingControl is not HorizontalMultitaskingControl)
 			{
 				ViewModel.MultitaskingControl = horizontalMultitaskingControl;
 				ViewModel.MultitaskingControls.Add(horizontalMultitaskingControl);
@@ -269,7 +269,7 @@ namespace Files.App.Views
 					ItemPath = locationItem.Path,
 					ItemNameRaw = locationItem.Text,
 					PrimaryItemAttribute = StorageItemTypes.Folder,
-					ItemType = "FileFolderListItem".GetLocalizedResource(),
+					ItemType = "Folder".GetLocalizedResource(),
 				};
 				await FilePropertiesHelpers.OpenPropertiesWindowAsync(listedItem, SidebarAdaptiveViewModel.PaneHolder.ActivePane);
 			}
@@ -500,15 +500,13 @@ namespace Files.App.Views
 		private void SetCompactOverlay(bool isCompact)
 		{
 			var view = App.GetAppWindow(App.Window);
-
+			ViewModel.IsWindowCompactOverlay = isCompact;
 			if (!isCompact)
 			{
-				ViewModel.IsWindowCompactOverlay = false;
 				view.SetPresenter(AppWindowPresenterKind.Overlapped);
 			}
 			else
 			{
-				ViewModel.IsWindowCompactOverlay = true;
 				view.SetPresenter(AppWindowPresenterKind.CompactOverlay);
 				view.Resize(new SizeInt32(400, 350));
 			}

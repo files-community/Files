@@ -5,7 +5,6 @@ using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Microsoft.UI.Dispatching;
-using Microsoft.UI.Xaml;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,12 +14,8 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Devices.Geolocation;
-using Windows.Foundation.Collections;
-using Windows.Security.Cryptography;
-using Windows.Security.Cryptography.Core;
 using Windows.Services.Maps;
 using Windows.Storage;
-using Windows.Storage.Streams;
 
 namespace Files.App.ViewModels.Properties
 {

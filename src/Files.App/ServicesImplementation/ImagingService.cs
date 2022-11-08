@@ -1,7 +1,7 @@
-using Files.Backend.Models.Imaging;
-using Files.Backend.Services;
 using Files.App.Helpers;
 using Files.App.Imaging;
+using Files.Backend.Models.Imaging;
+using Files.Backend.Services;
 using System.Threading.Tasks;
 using Windows.Storage.FileProperties;
 

@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Para começar, você precisa nos conceder permissão para exibir seus arquivos. Isso abrirá uma página de configurações onde você pode nos conceder essa permissão. Você precisará reabrir o aplicativo depois de concluído. </value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Pasta de arquivos</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Arquivo</value>
   </data>
@@ -815,12 +812,6 @@
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Idioma</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>Aplicativo de terminal</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>Editar aplicativos de terminal</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Mova os itens restantes para um submenu</value>
@@ -2427,9 +2418,6 @@
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Mostrar seção WSL</value>
   </data>
-  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Aplicativo de terminal</value>
-  </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Tarefas em andamento</value>
   </data>
@@ -2854,15 +2842,15 @@
     <value>O destino não pode ser encontrado {0}. Deseja excluir este atalho?</value>
   </data>
   <data name="LoadingThemes" xml:space="preserve">
-    <value>Loading Themes</value>
+    <value>Carregando Temas</value>
   </data>
   <data name="EmptyingRecycleBin" xml:space="preserve">
-    <value>Emptying recycle bin</value>
+    <value>Esvaziando lixeira</value>
   </data>
   <data name="BinEmptyingSucceded" xml:space="preserve">
-    <value>Successfully emptied recycle bin</value>
+    <value>Lixeira esvaziada com sucesso</value>
   </data>
   <data name="BinEmptyingFailed" xml:space="preserve">
-    <value>Failed to empty recycle bin</value>
+    <value>Falha ao esvaziar a lixeira</value>
   </data>
 </root>

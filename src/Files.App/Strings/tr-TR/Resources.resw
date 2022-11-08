@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Başlamak için uygulamaya dosyalarınızı görüntüleme izni vermelisiniz. Bu aşamada bu izni verebileceğiniz bir Ayarlar sayfası açılacak. Bu adımı tamamladıktan sonra uygulamayı yeniden başlatmalısınız. </value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Dosya klasörü</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Dosya</value>
   </data>
@@ -815,12 +812,6 @@
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Dilim</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>Terminal uygulamaları</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>Terminal uygulamalarını düzenleyin</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Taşma öğelerini bir alt menüye taşı</value>
@@ -2426,9 +2417,6 @@
   </data>
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Kenar çubuğunda WSL bölümünü göster</value>
-  </data>
-  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Terminal uygulaması</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Devam Eden Görevler</value>

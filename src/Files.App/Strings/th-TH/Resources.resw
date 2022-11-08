@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>ก่อนเริ่มต้นใช้งาน, เราต้องได้รับสิทธิ์การเข้าถึงไฟล์จากคุณก่อน. เราจะพาคุณไปยังหน้าการตั้งค่าสิทธิ์การเข้าถึงไฟล์เพื่อให้คุณอนุญาตโปรแกรมเราได้เข้าถึงสิทธิ์นั้น. เมื่อยกสิทธิ์การเข้าถึงแล้วปิดโปรแกรมแล้วเปิดใหม่อีกครั้งเพื่อให้การอนุญาตสิทธิ์เสร็จสมบูรณ์.</value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>โฟลเดอร์แฟ้ม</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>ไฟล์</value>
   </data>
@@ -815,12 +812,6 @@
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>ภาษา</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>โปรแกรมเทอมินอล</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>แก้ไขโปรแกรมเทอมินอล</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>ย้ายรายการไปไว้ในเมนูย่อย</value>
@@ -2426,9 +2417,6 @@
   </data>
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>แสดงกลุ่ม WSL</value>
-  </data>
-  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>โปรแกรมเทอมินอล</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>งานที่กำลังดำเนินอยู่</value>

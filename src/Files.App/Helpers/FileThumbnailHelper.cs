@@ -1,14 +1,10 @@
-using Files.Shared;
 using Files.App.Extensions;
 using Files.App.Filesystem;
-using Files.Shared.Extensions;
+using Files.App.Shell;
 using System;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.AppService;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
-using Files.App.Shell;
 
 namespace Files.App.Helpers
 {

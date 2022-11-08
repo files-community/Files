@@ -1,14 +1,13 @@
-using Files.App.Filesystem;
-using Files.App.DataModels;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Files.App.DataModels;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Windows.Foundation;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
 
 namespace Files.App.ViewModels
 {
@@ -72,6 +71,9 @@ namespace Files.App.ViewModels
 
 		public void SearchRegion_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs e)
 		{
+			if (e.ChosenSuggestion is null && string.IsNullOrWhiteSpace(e.QueryText))
+				return;
+
 			WasQuerySubmitted = true;
 			if (e.ChosenSuggestion is SuggestionModel chosen && chosen.ItemPath is null)
 			{

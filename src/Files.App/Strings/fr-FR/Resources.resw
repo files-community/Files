@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Pour commencer, vous devez nous permettre d'afficher vos fichiers. Une fenêtre de configuration va s'ouvrir où vous pourrez nous donner la permission. Vous devrez relancer l'application une fois cette étape terminée. </value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Dossier de fichiers</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Fichier</value>
   </data>
@@ -815,12 +812,6 @@
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Langue</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>Applications de terminal</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>Éditer les applications de terminal</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Déplacer les éléments de débordement dans un sous-menu</value>
@@ -2427,9 +2418,6 @@
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Afficher la section WSL</value>
   </data>
-  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Application de terminal</value>
-  </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Tâches en cours</value>
   </data>
@@ -2857,12 +2845,12 @@
     <value>Chargement des thèmes</value>
   </data>
   <data name="EmptyingRecycleBin" xml:space="preserve">
-    <value>Emptying recycle bin</value>
+    <value>Vidage de la corbeille en cours</value>
   </data>
   <data name="BinEmptyingSucceded" xml:space="preserve">
-    <value>Successfully emptied recycle bin</value>
+    <value>Corbeille vidée avec succès</value>
   </data>
   <data name="BinEmptyingFailed" xml:space="preserve">
-    <value>Failed to empty recycle bin</value>
+    <value>Échec de vidage de la corbeille</value>
   </data>
 </root>

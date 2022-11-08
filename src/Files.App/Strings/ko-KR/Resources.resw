@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>시작하기 위해서는 파일들을 표시 가능한 권한을 부여해야 합니다. 권한을 얻기 위한 설정 페이지가 열립니다. 이 단계를 완료하려면 앱을 재시작 하면 됩니다.</value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>파일 폴더</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>파일</value>
   </data>
@@ -815,12 +812,6 @@
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>언어</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>터미널 프로그램</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>터미널 프로그램 변경</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>넘어간 항목을 더보기 메뉴로 이동</value>
@@ -2426,9 +2417,6 @@
   </data>
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>WSL 섹션 표시</value>
-  </data>
-  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>터미널 프로그램</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>진행 중인 작업</value>

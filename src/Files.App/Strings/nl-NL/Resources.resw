@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Om aan de slag te gaan, moet u toestemming geven om uw bestanden weer te geven. Hiermee wordt er een pagina in Instellingen geopend waar u toestemming kunt geven. U moet de app hierna opnieuw starten.</value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Bestandsmap</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Bestand</value>
   </data>
@@ -815,12 +812,6 @@
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Taal</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>Terminal toepassingen</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>Bewerk terminal toepassingen</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Verplaats overlopende items naar een sub menu</value>
@@ -2426,9 +2417,6 @@
   </data>
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Toon WSL sectie op de zijbalk</value>
-  </data>
-  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Terminal applicatie</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Lopende taken</value>

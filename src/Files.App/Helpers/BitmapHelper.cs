@@ -1,12 +1,12 @@
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
+using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace Files.App.Helpers
 {

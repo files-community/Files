@@ -1,8 +1,8 @@
-using System.Threading;
+using Files.Sdk.Storage;
 using Files.Sdk.Storage.LocatableStorage;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Files.Sdk.Storage;
 
 namespace Files.App.Storage.WindowsStorage
 {

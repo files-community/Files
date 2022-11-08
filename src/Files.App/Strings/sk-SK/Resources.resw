@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Na začiatok nám musíte udeliť oprávnenie k zobrazeniu vašich súborov. Otvorí sa stránka Nastavenia, kde nám môžete toto oprávnenie udeliť. Po dokončení tohto kroku budete musieť aplikáciu znovu otvoriť.</value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Priečinok súborov</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Súbor</value>
   </data>
@@ -815,12 +812,6 @@
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Jazyk</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>Terminálové aplikácie</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>Upraviť terminálové aplikácie</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Presunúť položky "navyše" do podponuky</value>
@@ -2430,9 +2421,6 @@
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Zobraziť sekciu WSL</value>
   </data>
-  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Aplikácia terminálu</value>
-  </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Prebiehajúce úlohy</value>
   </data>
@@ -2860,12 +2848,12 @@
     <value>Načítavanie tém</value>
   </data>
   <data name="EmptyingRecycleBin" xml:space="preserve">
-    <value>Emptying recycle bin</value>
+    <value>Vysypovanie koša</value>
   </data>
   <data name="BinEmptyingSucceded" xml:space="preserve">
-    <value>Successfully emptied recycle bin</value>
+    <value>Kôš bol úspešne vyprázdnený</value>
   </data>
   <data name="BinEmptyingFailed" xml:space="preserve">
-    <value>Failed to empty recycle bin</value>
+    <value>Nepodarilo sa vyprázdniť kôš</value>
   </data>
 </root>

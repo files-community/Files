@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Để bắt đầu, bạn sẽ cần cho chúng tôi quyền phép để hiển thị những tệp của bạn. Điều này sẽ mở một trang Cài đặt mà bạn có thể cho quyền phép này đến chúng tôi. Bạn sẽ cần khởi động lại ứng dụng khi bạn làm bước này xong. </value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Tệp thư mục</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Tệp</value>
   </data>
@@ -815,12 +812,6 @@
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Ngôn ngữ</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>Ứng dụng Terminal</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>Chỉnh sửa ứng dụng terminal</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Di chuyển những mục chảy ra vào một thực đơn con</value>
@@ -2426,9 +2417,6 @@
   </data>
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Hiển thị phần WSL trong thanh bên</value>
-  </data>
-  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Ứng dụng Terminal</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Công việc đang thực hiện</value>

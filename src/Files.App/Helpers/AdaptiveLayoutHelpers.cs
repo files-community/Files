@@ -3,7 +3,6 @@ using Files.App.Filesystem;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Previews;
 using Files.Backend.Services.Settings;
-using Files.Shared.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +21,6 @@ namespace Files.App.Helpers
 				&& !folderSettings.IsLayoutModeFixed)
 			{
 				Action layoutDetails = () => folderSettings.ToggleLayoutModeDetailsView(false);
-				Action layoutTiles = () => folderSettings.ToggleLayoutModeTiles(false);
 				Action layoutGridView = () => folderSettings.ToggleLayoutModeGridView(folderSettings.GridViewSize);
 
 				bool desktopIniFound = false;
@@ -113,14 +111,6 @@ namespace Files.App.Helpers
 						&& (miscFilesPercentage + foldersPercentage) < Constants.AdaptiveLayout.ExtraSmallThreshold))
 				{
 					layoutGridView();
-				}
-				// Mostly media i.e. sound files, videos
-				else if (mediaPercentage > Constants.AdaptiveLayout.ExtraLargeThreshold
-					|| (mediaPercentage > Constants.AdaptiveLayout.MediumThreshold
-					&& (imagesPercentage + miscFilesPercentage + foldersPercentage) > Constants.AdaptiveLayout.SmallThreshold
-					&& (miscFilesPercentage + foldersPercentage) < Constants.AdaptiveLayout.ExtraSmallThreshold))
-				{
-					layoutDetails();
 				}
 				else
 				{
