@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Para começar, terá de nos conceder permissão para mostrar os seus ficheiros. Isto abrirá uma página de Definições, na qual pode conceder esta permissão. Terá de reabrir a aplicação assim que terminar esta etapa. </value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Pasta de ficheiros</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Ficheiro</value>
   </data>

@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Om te begin, moet jy ons toestemming gee om jou lêers te vertoon. Dit sal 'n Instellingsbladsy oopmaak waar jy ons hierdie toestemming kan gee. Jy sal die program moet heropen sodra jy hierdie stap voltooi het.</value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Lêer omslag</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Lêer</value>
   </data>

@@ -49,7 +49,10 @@ namespace Files.App.Filesystem
 			{
 				return $"{"ToolTipDescriptionName".GetLocalizedResource()} {Name}{Environment.NewLine}" +
 					$"{"ToolTipDescriptionType".GetLocalizedResource()} {itemType}{Environment.NewLine}" +
-					$"{"ToolTipDescriptionDate".GetLocalizedResource()} {ItemDateModified}";
+					$"{"ToolTipDescriptionDate".GetLocalizedResource()} {ItemDateModified}" +
+					(SyncStatusUI.LoadSyncStatus 
+						? $"{Environment.NewLine}{"syncStatusColumn/Header".GetLocalizedResource()}: {syncStatusUI.SyncStatusString}" 
+						: string.Empty);
 			}
 		}
 
@@ -165,6 +168,7 @@ namespace Files.App.Filesystem
 				if (SetProperty(ref syncStatusUI, value))
 				{
 					OnPropertyChanged(nameof(SyncStatusString));
+					OnPropertyChanged(nameof(ItemTooltipText));
 				}
 			}
 		}

@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Um loslegen zu können, müssen Sie uns die Erlaubnis geben, Ihre Dateien anzeigen zu dürfen. Es wird eine Einstellungensseite geöffnet, auf der Sie diese Erlaubnis erteilen können. Wenn Sie diesen Schritt erledigt haben, müssen Sie die Anwendung neustarten.</value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Dateiordner</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Datei</value>
   </data>

@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Per començar hauràs de concedir-nos permís per enseyar els teus arxius. Això obrirà una pàgina de configuració on pots concedir-nos permís. Hauràs de tancar i obrir el programa perquè els canvis tinguin efecte.</value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Carpeta de l'arxiu</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Arxiu</value>
   </data>
