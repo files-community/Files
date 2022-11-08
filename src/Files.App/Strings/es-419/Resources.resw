@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Para comenzar, deberá otorgarnos permiso para mostrar sus archivos. Esto abrirá una página de Configuración donde puede otorgarnos este permiso. Deberá reiniciar la aplicación una vez que haya completado este paso.</value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Carpeta de archivos</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Archivo</value>
   </data>
