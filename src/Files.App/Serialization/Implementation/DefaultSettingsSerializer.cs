@@ -1,7 +1,6 @@
+using Files.Shared.Extensions;
 using System;
 using System.IO;
-using Files.Shared.Extensions;
-
 using static Files.App.Helpers.NativeFileOperationsHelper;
 
 namespace Files.App.Serialization.Implementation

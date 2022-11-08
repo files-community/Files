@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Untuk memulai, Anda harus memberi kami izin untuk menampilkan file Anda. Ini akan membuka halaman Pengaturan di mana Anda dapat memberi kami izin ini. Anda harus membuka kembali aplikasi setelah menyelesaikan langkah ini. </value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Folder file</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>File</value>
   </data>

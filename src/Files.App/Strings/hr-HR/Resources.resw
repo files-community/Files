@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Za početak, morat ćete nam dati dopuštenje za prikaz vaših datoteka. Ovo će otvoriti stranicu Postavki na kojoj nam možete dodijeliti ovo dopuštenje. Nakon što dovršite ovaj korak, morate ponovno pokrenuti aplikaciju.</value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Mapa datoteka</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Datoteka</value>
   </data>

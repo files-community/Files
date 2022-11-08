@@ -1,17 +1,3 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.IO.Pipes;
-using System.Linq;
-using System.Security.Principal;
-using System.Text;
-using System.Text.Json;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Common;
 using Files.App.DataModels;
 using Files.App.Filesystem;
 using Files.App.Filesystem.Permissions;
@@ -19,17 +5,27 @@ using Files.App.Shell;
 using Files.Shared;
 using Files.Shared.Extensions;
 using Microsoft.Win32;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Security.Principal;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 using Tulpep.ActiveDirectoryObjectPicker;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Foundation.Collections;
 
 namespace Files.App.Helpers
 {
 	public class FileOperationsHelpers
 	{
-		private static readonly ProgressHandler progressHandler = new();
+		private static ProgressHandler? progressHandler; // Warning: must be initialized from a MTA thread
 
 		public static Task SetClipboard(string[] filesToCopy, DataPackageOperation operation)
 		{
@@ -224,6 +220,8 @@ namespace Files.App.Helpers
 		{
 			operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
+			progressHandler ??= new();
+
 			return Win32API.StartSTATask(async () =>
 			{
 				using var op = new ShellFileOperations();
@@ -308,6 +306,8 @@ namespace Files.App.Helpers
 		{
 			operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
+			progressHandler ??= new();
+
 			return Win32API.StartSTATask(async () =>
 			{
 				using var op = new ShellFileOperations();
@@ -366,6 +366,8 @@ namespace Files.App.Helpers
 		public static Task<(bool, ShellOperationResult)> MoveItemAsync(string[] fileToMovePath, string[] moveDestination, bool overwriteOnMove, long ownerHwnd, string operationID = "", IProgress<float>? progress = default)
 		{
 			operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
+
+			progressHandler ??= new();
 
 			return Win32API.StartSTATask(async () =>
 			{
@@ -443,6 +445,8 @@ namespace Files.App.Helpers
 		{
 			operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
+			progressHandler ??= new();
+
 			return Win32API.StartSTATask(async () =>
 			{
 				using var op = new ShellFileOperations();
@@ -517,7 +521,7 @@ namespace Files.App.Helpers
 		}
 
 		public static void TryCancelOperation(string operationId)
-			=> progressHandler.TryCancel(operationId);
+			=> progressHandler?.TryCancel(operationId);
 
 		public static IEnumerable<Win32Process>? CheckFileInUse(string[] fileToCheckPath)
 		{
@@ -791,9 +795,9 @@ namespace Files.App.Helpers
 		}
 
 		public static void WaitForCompletion()
-			=> progressHandler.WaitForCompletion();
+			=> progressHandler?.WaitForCompletion();
 
-		private class ProgressHandler : IDisposable
+		private class ProgressHandler : Disposable
 		{
 			private readonly ManualResetEvent operationsCompletedEvent;
 
@@ -887,9 +891,13 @@ namespace Files.App.Helpers
 				operationsCompletedEvent.WaitOne();
 			}
 
-			public void Dispose()
+			protected override void Dispose(bool disposing)
 			{
-				operationsCompletedEvent?.Dispose();
+				if (disposing)
+				{
+					operationsCompletedEvent?.Dispose();
+					Marshal.ReleaseComObject(taskbar);
+				}
 			}
 		}
 	}

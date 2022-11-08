@@ -1,5 +1,5 @@
-using Files.App.Helpers;
 using Files.App.Extensions;
+using Files.App.Helpers;
 using SevenZip;
 using System;
 using System.Collections.Generic;
@@ -32,7 +32,7 @@ namespace Files.App.Filesystem.StorageItems
 			get
 			{
 				var itemType = "ItemTypeFile".GetLocalizedResource();
-				if (Name.Contains(".", StringComparison.Ordinal))
+				if (Name.Contains('.', StringComparison.Ordinal))
 				{
 					itemType = FileType.Trim('.') + " " + itemType;
 				}

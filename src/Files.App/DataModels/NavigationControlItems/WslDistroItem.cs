@@ -15,7 +15,7 @@ namespace Files.App.DataModels.NavigationControlItems
 			set
 			{
 				path = value;
-				ToolTipText = Path.Contains("?", StringComparison.Ordinal) ? Text : Path;
+				ToolTipText = Path.Contains('?', StringComparison.Ordinal) ? Text : Path;
 			}
 		}
 

@@ -198,7 +198,7 @@ namespace Files.App.DataModels.NavigationControlItems
 
 					SpaceText = GetSizeString();
 
-					if (FreeSpace.Bytes > 0 && MaxSpace.Bytes > 0) // Make sure we don't divide by 0
+					if (MaxSpace.Bytes > 0 && FreeSpace.Bytes > 0) // Make sure we don't divide by 0
 						PercentageUsed = 100.0f - ((float)(FreeSpace.Bytes / MaxSpace.Bytes) * 100.0f);
 				}
 				else

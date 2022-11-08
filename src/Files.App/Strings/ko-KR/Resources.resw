@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>시작하기 위해서는 파일들을 표시 가능한 권한을 부여해야 합니다. 권한을 얻기 위한 설정 페이지가 열립니다. 이 단계를 완료하려면 앱을 재시작 하면 됩니다.</value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>파일 폴더</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>파일</value>
   </data>

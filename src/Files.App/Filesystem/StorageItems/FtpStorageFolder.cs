@@ -1,7 +1,7 @@
-using Files.Shared.Extensions;
-using Files.App.Helpers;
-using FluentFTP;
 using Files.App.Extensions;
+using Files.App.Helpers;
+using Files.Shared.Extensions;
+using FluentFTP;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,7 +20,7 @@ namespace Files.App.Filesystem.StorageItems
 		public override string Path { get; }
 		public override string Name { get; }
 		public override string DisplayName => Name;
-		public override string DisplayType => "FileFolderListItem".GetLocalizedResource();
+		public override string DisplayType => "Folder".GetLocalizedResource();
 		public string FtpPath { get; }
 		public override string FolderRelativeId => $"0\\{Name}";
 

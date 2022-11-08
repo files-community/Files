@@ -1,5 +1,4 @@
-﻿using System;
-using CommunityToolkit.Mvvm.DependencyInjection;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Files.Backend.Extensions;
@@ -7,6 +6,7 @@ using Files.Backend.Messages;
 using Files.Backend.Services;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;

@@ -1,14 +1,13 @@
-using Files.App.Filesystem;
-using Files.App.DataModels;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Files.App.DataModels;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Windows.Foundation;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
 
 namespace Files.App.ViewModels
 {

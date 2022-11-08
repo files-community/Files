@@ -13,7 +13,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -89,7 +88,7 @@ namespace Files.App.Filesystem
 			var copyResult = new ShellOperationResult();
 			if (sourceRename.Any())
 			{
-				var resultItem = await FileOperationsHelpers.CopyItemAsync(sourceRename.Select(s => s.Path).ToArray(), destinationRename.ToArray(), false, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID, progress);
+				var resultItem = await FileOperationsHelpers.CopyItemAsync(sourceRename.Select(s => s.Path).ToArray(), destinationRename.ToArray(), false, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID);
 
 				result &= (FilesystemResult)resultItem.Item1;
 
@@ -204,7 +203,7 @@ namespace Files.App.Filesystem
 							if (args.Any())
 							{
 								if (await LaunchHelper.LaunchAppAsync(args[0].Replace("\"", "", StringComparison.Ordinal),
-										string.Join(" ", args.Skip(1)).Replace("%1", source.Path),
+										string.Join(' ', args.Skip(1)).Replace("%1", source.Path),
 										PathNormalization.GetParentDir(source.Path)))
 								{
 									success = true;
@@ -315,7 +314,7 @@ namespace Files.App.Filesystem
 			}
 
 			var deleleFilePaths = source.Select(s => s.Path).Distinct();
-			var deleteFromRecycleBin = source.Any() ? recycleBinHelpers.IsPathUnderRecycleBin(source.ElementAt(0).Path) : false;
+			var deleteFromRecycleBin = source.Any() && recycleBinHelpers.IsPathUnderRecycleBin(source.ElementAt(0).Path);
 			permanently |= deleteFromRecycleBin;
 
 			if (deleteFromRecycleBin)

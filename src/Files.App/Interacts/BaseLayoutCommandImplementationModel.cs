@@ -1,16 +1,21 @@
 #nullable disable warnings
 
-using Files.Shared;
+using CommunityToolkit.WinUI;
 using Files.App.Dialogs;
-using Files.Shared.Enums;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
+using Files.App.Shell;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Dialogs;
 using Files.App.Views;
-using CommunityToolkit.WinUI;
+using Files.Backend.Enums;
+using Files.Shared;
+using Files.Shared.Enums;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -21,15 +26,9 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.System;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
-using Files.Backend.Enums;
-using Files.App.Shell;
 
 namespace Files.App.Interacts
 {
@@ -178,10 +177,7 @@ namespace Files.App.Interacts
 			await RecycleBinHelpers.S_DeleteItem(associatedInstance);
 		}
 
-		public virtual void ShowFolderProperties(RoutedEventArgs e)
-		{
-			SlimContentPage.ItemContextMenuFlyout.Closed += OpenProperties;
-		}
+		public virtual void ShowFolderProperties(RoutedEventArgs e) => ShowProperties(e);
 
 		public virtual void ShowProperties(RoutedEventArgs e)
 		{
@@ -329,7 +325,7 @@ namespace Files.App.Interacts
 				DataRequest dataRequest = args.Request;
 
 				/*dataRequest.Data.Properties.Title = "Data Shared From Files";
-                dataRequest.Data.Properties.Description = "The items you selected will be shared";*/
+				dataRequest.Data.Properties.Description = "The items you selected will be shared";*/
 
 				foreach (ListedItem item in SlimContentPage.SelectedItems)
 				{

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Files.Backend.Services.Settings
+﻿namespace Files.Backend.Services.Settings
 {
 	public interface IApplicationSettingsService : IBaseSettingsService
 	{

@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>शुरू करने के लिए, आपको अपनी फ़ाइलों को प्रदर्शित करने की अनुमति हमें प्रदान करनी होगी। यह एक सेटिंग पेज खोलेगा जहां आप हमें यह अनुमति दे सकते हैं। एक बार पूरा होने के बाद आपको ऐप को फिर से खोलना होगा।</value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>फाइल फ़ोल्डर</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>फ़ाइल</value>
   </data>

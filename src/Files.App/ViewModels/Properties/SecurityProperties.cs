@@ -5,13 +5,10 @@ using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.Permissions;
 using Files.App.Helpers;
-using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
-using Windows.Foundation.Collections;
 
 namespace Files.App.ViewModels.Properties
 {

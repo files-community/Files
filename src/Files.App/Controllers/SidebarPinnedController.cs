@@ -1,16 +1,16 @@
 using Files.App.DataModels;
-using Files.Shared.Enums;
 using Files.App.Filesystem;
+using Files.App.Serialization.Implementation;
+using Files.Shared.Enums;
+using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Search;
-using Files.Shared.Extensions;
-using System.Collections.Specialized;
-using Files.App.Serialization.Implementation;
 
 namespace Files.App.Controllers
 {

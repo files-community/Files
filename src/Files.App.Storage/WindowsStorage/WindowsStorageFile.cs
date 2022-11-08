@@ -1,11 +1,11 @@
+using Files.Sdk.Storage;
+using Files.Sdk.Storage.LocatableStorage;
+using Files.Sdk.Storage.ModifiableStorage;
 using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Files.Sdk.Storage;
-using Files.Sdk.Storage.LocatableStorage;
-using Files.Sdk.Storage.ModifiableStorage;
 
 namespace Files.App.Storage.WindowsStorage
 {

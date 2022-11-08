@@ -32,6 +32,7 @@ using Microsoft.Windows.AppLifecycle;
 using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
@@ -257,8 +258,6 @@ namespace Files.App
 			{
 				ShowErrorNotification = true;
 				ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = -Process.GetCurrentProcess().Id;
-				if (AppModel is not null)
-					AppModel.Clipboard_ContentChanged(null, null);
 			}
 		}
 
@@ -317,13 +316,10 @@ namespace Files.App
 
 		public static void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages
 		{
-			IUserSettingsService? userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
-			IBundlesSettingsService? bundlesSettingsService = Ioc.Default.GetService<IBundlesSettingsService>();
-
-			if (bundlesSettingsService is not null)
-				bundlesSettingsService.FlushSettings();
-			if (userSettingsService?.PreferencesSettingsService is null)
-				return;
+			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+			IBundlesSettingsService bundlesSettingsService = Ioc.Default.GetRequiredService<IBundlesSettingsService>();
+			
+			bundlesSettingsService.FlushSettings();
 
 			userSettingsService.PreferencesSettingsService.LastSessionTabList = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>
 			{
@@ -348,41 +344,41 @@ namespace Files.App
 
 		private static void AppUnhandledException(Exception ex)
 		{
-			string formattedException = string.Empty;
+			StringBuilder formattedException = new StringBuilder() { Capacity = 200 };
 
-			formattedException += "--------- UNHANDLED EXCEPTION ---------";
+			formattedException.Append("--------- UNHANDLED EXCEPTION ---------");
 			if (ex is not null)
 			{
-				formattedException += $"\n>>>> HRESULT: {ex.HResult}\n";
+				formattedException.Append($"\n>>>> HRESULT: {ex.HResult}\n");
 				if (ex.Message is not null)
 				{
-					formattedException += "\n--- MESSAGE ---";
-					formattedException += ex.Message;
+					formattedException.Append("\n--- MESSAGE ---");
+					formattedException.Append(ex.Message);
 				}
 				if (ex.StackTrace is not null)
 				{
-					formattedException += "\n--- STACKTRACE ---";
-					formattedException += ex.StackTrace;
+					formattedException.Append("\n--- STACKTRACE ---");
+					formattedException.Append(ex.StackTrace);
 				}
 				if (ex.Source is not null)
 				{
-					formattedException += "\n--- SOURCE ---";
-					formattedException += ex.Source;
+					formattedException.Append("\n--- SOURCE ---");
+					formattedException.Append(ex.Source);
 				}
 				if (ex.InnerException is not null)
 				{
-					formattedException += "\n--- INNER ---";
-					formattedException += ex.InnerException;
+					formattedException.Append("\n--- INNER ---");
+					formattedException.Append(ex.InnerException);
 				}
 			}
 			else
 			{
-				formattedException += "\nException is null!\n";
+				formattedException.Append("\nException is null!\n");
 			}
 
-			formattedException += "---------------------------------------";
+			formattedException.Append("---------------------------------------");
 
-			Debug.WriteLine(formattedException);
+			Debug.WriteLine(formattedException.ToString());
 
 			Debugger.Break(); // Please check "Output Window" for exception details (View -> Output Window) (CTRL + ALT + O)
 

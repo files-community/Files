@@ -1,15 +1,15 @@
+using CommunityToolkit.WinUI.UI;
+using CommunityToolkit.WinUI.UI.Controls;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Interacts;
-using Files.Shared.Extensions;
 using Files.App.UserControls;
-using CommunityToolkit.WinUI.UI;
-using CommunityToolkit.WinUI.UI.Controls;
-using System;
-using System.Linq;
+using Files.Shared.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
+using System;
+using System.Linq;
 using static Files.App.Constants;
 
 namespace Files.App.Views.LayoutModes

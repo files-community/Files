@@ -1,9 +1,9 @@
 using Files.App.Dialogs;
+using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Interacts;
 using Files.App.ViewModels;
-using Files.App.Extensions;
 using Files.Backend.Enums;
 using Files.Shared;
 using Files.Shared.Enums;
@@ -233,13 +233,13 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public static async Task<bool> RenameFileItemAsync(ListedItem item, string newName, IShellPage associatedInstance)
+		public static async Task<bool> RenameFileItemAsync(ListedItem item, string newName, IShellPage associatedInstance, bool showExtensionDialog = true)
 		{
 			if (item is AlternateStreamItem ads) // For alternate streams Name is not a substring ItemNameRaw
 			{
 				newName = item.ItemNameRaw.Replace(
-					item.Name.Substring(item.Name.LastIndexOf(":") + 1),
-					newName.Substring(newName.LastIndexOf(":") + 1),
+					item.Name.Substring(item.Name.LastIndexOf(':') + 1),
+					newName.Substring(newName.LastIndexOf(':') + 1),
 					StringComparison.Ordinal);
 				newName = $"{ads.MainStreamName}:{newName}";
 			}
@@ -260,7 +260,7 @@ namespace Files.App.Helpers
 			FilesystemItemType itemType = (item.PrimaryItemAttribute == StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File;
 
 			ReturnResult renamed = ReturnResult.InProgress;
-			renamed = await associatedInstance.FilesystemHelpers.RenameAsync(StorageHelpers.FromPathAndType(item.ItemPath, itemType), newName, NameCollisionOption.FailIfExists, true);
+			renamed = await associatedInstance.FilesystemHelpers.RenameAsync(StorageHelpers.FromPathAndType(item.ItemPath, itemType), newName, NameCollisionOption.FailIfExists, true, showExtensionDialog);
 
 			if (renamed == ReturnResult.Success)
 			{

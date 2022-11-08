@@ -8,7 +8,6 @@ using Files.App.Views;
 using Files.Backend.Services.Settings;
 using Files.Shared.Extensions;
 using Microsoft.UI;
-using Microsoft.UI.Dispatching;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
@@ -49,7 +48,7 @@ namespace Files.App
 			AppWindow.Title = "Files";
 
 			// Set icon
-			AppWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, "Assets/AppTiles/Dev/Logo.ico"));
+			AppWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, Constants.AssetPaths.Logo));
 
 			// Extend title bar
 			AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;

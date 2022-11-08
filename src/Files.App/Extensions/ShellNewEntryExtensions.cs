@@ -1,14 +1,14 @@
-using Files.Shared;
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
+using Files.App.Shell;
+using Files.Shared;
+using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Files.Shared.Extensions;
-using Files.App.Shell;
 
 namespace Files.App.Extensions
 {
@@ -53,13 +53,11 @@ namespace Files.App.Extensions
 				createdFile = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(shellEntry.Template))
 					.OnSuccess(t => t.CopyAsync(parentFolder, fileName, NameCollisionOption.GenerateUniqueName).AsTask());
 			}
-			if (createdFile)
+			if (createdFile &&
+				shellEntry.Data is not null)
 			{
-				if (shellEntry.Data is not null)
-				{
-					//await FileIO.WriteBytesAsync(createdFile.Result, shellEntry.Data); // Calls unsupported OpenTransactedWriteAsync
-					await createdFile.Result.WriteBytesAsync(shellEntry.Data);
-				}
+				//await FileIO.WriteBytesAsync(createdFile.Result, shellEntry.Data); // Calls unsupported OpenTransactedWriteAsync
+				await createdFile.Result.WriteBytesAsync(shellEntry.Data);
 			}
 			return createdFile;
 		}

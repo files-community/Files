@@ -1,19 +1,18 @@
 using Files.App.CommandLine;
 using Files.App.Helpers;
+using Files.App.Shell;
 using Files.Shared.Extensions;
+using Microsoft.UI.Dispatching;
+using Microsoft.UI.Xaml;
+using Microsoft.Windows.AppLifecycle;
 using System;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
-using Microsoft.UI.Xaml;
-using Microsoft.Windows.AppLifecycle;
-using System.Threading;
-using Microsoft.UI.Dispatching;
-using System.Runtime.InteropServices;
 using static UWPToWinAppSDKUpgradeHelpers.InteropHelpers;
-using Files.App.Shell;
-using System.Diagnostics;
 
 namespace Files.App
 {

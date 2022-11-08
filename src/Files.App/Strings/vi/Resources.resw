@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Để bắt đầu, bạn sẽ cần cho chúng tôi quyền phép để hiển thị những tệp của bạn. Điều này sẽ mở một trang Cài đặt mà bạn có thể cho quyền phép này đến chúng tôi. Bạn sẽ cần khởi động lại ứng dụng khi bạn làm bước này xong. </value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Tệp thư mục</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Tệp</value>
   </data>

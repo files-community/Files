@@ -1,11 +1,10 @@
 using Files.App.Extensions;
 using Files.App.Helpers;
 using Files.Shared.Extensions;
-using CommunityToolkit.WinUI;
 using SevenZip;
 using System;
-using System.Collections.Generic;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -27,7 +26,7 @@ namespace Files.App.Filesystem.StorageItems
 		public override string Path { get; }
 		public override string Name { get; }
 		public override string DisplayName => Name;
-		public override string DisplayType => "FileFolderListItem".GetLocalizedResource();
+		public override string DisplayType => "Folder".GetLocalizedResource();
 		public override string FolderRelativeId => $"0\\{Name}";
 
 		public override DateTimeOffset DateCreated { get; }
