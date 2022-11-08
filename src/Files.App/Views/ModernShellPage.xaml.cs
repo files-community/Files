@@ -60,10 +60,7 @@ namespace Files.App.Views
 		private bool isCurrentInstance = false;
 		public bool IsCurrentInstance
 		{
-			get
-			{
-				return isCurrentInstance;
-			}
+			get => isCurrentInstance;
 			set
 			{
 				if (isCurrentInstance != value)
@@ -86,10 +83,7 @@ namespace Files.App.Views
 
 		public BaseLayout ContentPage
 		{
-			get
-			{
-				return contentPage;
-			}
+			get => contentPage;
 			set
 			{
 				if (value != contentPage)
@@ -314,7 +308,7 @@ namespace Files.App.Views
 			else
 			{
 				ToolbarViewModel.PathComponents.Clear(); // Clear the path UI
-				ToolbarViewModel.PathComponents.Add(new Views.PathBoxItem() { Path = null, Title = singleItemOverride });
+				ToolbarViewModel.PathComponents.Add(new PathBoxItem() { Path = null, Title = singleItemOverride });
 			}
 		}
 
@@ -462,11 +456,11 @@ namespace Files.App.Views
 				: FilesystemViewModel.WorkingDirectory;
 		}
 
-        private void DrivesManager_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "ShowUserConsentOnInit")
-                DisplayFilesystemConsentDialog();
-        }
+		private void DrivesManager_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == "ShowUserConsentOnInit")
+				DisplayFilesystemConsentDialog();
+		}
 
 		// WINUI3
 		private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
@@ -906,7 +900,7 @@ namespace Files.App.Views
 					lastSlashIndex = parentDirectoryOfPath.LastIndexOf("/", StringComparison.Ordinal);
 				if (lastSlashIndex != -1)
 					parentDirectoryOfPath = FilesystemViewModel.WorkingDirectory.Remove(lastSlashIndex);
-				if (parentDirectoryOfPath.EndsWith(":"))
+				if (parentDirectoryOfPath.EndsWith(':'))
 					parentDirectoryOfPath += '\\';
 
 				SelectSidebarItemFromPath();

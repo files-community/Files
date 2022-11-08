@@ -28,14 +28,7 @@ namespace Files.App.DataModels
 			try
 			{
 				DataPackageView packageView = Clipboard.GetContent();
-				if (packageView.Contains(StandardDataFormats.StorageItems) || packageView.Contains(StandardDataFormats.Bitmap))
-				{
-					IsPasteEnabled = true;
-				}
-				else
-				{
-					IsPasteEnabled = false;
-				}
+				IsPasteEnabled = packageView.Contains(StandardDataFormats.StorageItems) || packageView.Contains(StandardDataFormats.Bitmap);
 			}
 			catch
 			{

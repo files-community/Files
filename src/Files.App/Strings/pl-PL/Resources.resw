@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Przed rozpoczęciem, będziesz musiał przyznać uprawnienia do odczytu plików. Otworzymy dla Ciebie kartę z ustawieniami gdzie będziesz mógł przyznać te uprawnienia. Będzie wymagany restart aplikacji po wprowadzeniu zmian.</value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Folder</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Plik</value>
   </data>

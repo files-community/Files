@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>使用を開始する前に、ファイル システムへのアクセスを許可してください。Windows の設定が開き、アクセス許可の付与を選択できます。設定が完了したら、アプリケーションを再起動する必要があります。</value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>フォルダー</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>ファイル</value>
   </data>
@@ -538,7 +535,7 @@
     <value>ファイルを貼り付けています</value>
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
-    <value>ごみ箱に移動</value>
+    <value>ごみ箱に移動中</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>実行</value>
@@ -2854,6 +2851,6 @@
     <value>ゴミ箱を正常に空にしました</value>
   </data>
   <data name="BinEmptyingFailed" xml:space="preserve">
-    <value>ゴミ箱を空にするのに失敗しました</value>
+    <value>ゴミ箱を空にする操作に失敗しました</value>
   </data>
 </root>

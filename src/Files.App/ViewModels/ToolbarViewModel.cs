@@ -553,12 +553,8 @@ namespace Files.App.ViewModels
 				}
 			}
 
-			if (!FilesystemHelpers.HasDraggedStorageItems(e.DataView))
-			{
-				e.AcceptedOperation = DataPackageOperation.None;
-				return;
-			}
-			if (string.IsNullOrEmpty(pathBoxItem.Path)) // In search page
+			if (!FilesystemHelpers.HasDraggedStorageItems(e.DataView)
+				|| string.IsNullOrEmpty(pathBoxItem.Path))  // In search page
 			{
 				e.AcceptedOperation = DataPackageOperation.None;
 				return;
@@ -567,15 +563,15 @@ namespace Files.App.ViewModels
 			e.Handled = true;
 			var deferral = e.GetDeferral();
 
-			var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
-			var storageItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
-
+			var handledByFtp = await FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
 			if (handledByFtp)
 			{
 				e.AcceptedOperation = DataPackageOperation.None;
 				deferral.Complete();
 				return;
 			}
+
+			var storageItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
 			if (!storageItems.Any(storageItem =>
 				!string.IsNullOrEmpty(storageItem?.Path) &&
@@ -899,7 +895,7 @@ namespace Files.App.ViewModels
 
 		public async Task CheckPathInput(string currentInput, string currentSelectedPath, IShellPage shellPage)
 		{
-			if (currentInput.Contains("/") && !FtpHelpers.IsFtpPath(currentInput))
+			if (currentInput.Contains('/') && !FtpHelpers.IsFtpPath(currentInput))
 				currentInput = currentInput.Replace("/", "\\", StringComparison.Ordinal);
 
 			currentInput = currentInput.Replace("\\\\", "\\", StringComparison.Ordinal);
@@ -986,7 +982,7 @@ namespace Files.App.ViewModels
 		{
 			var trimmedInput = currentInput.Trim();
 			var fileName = trimmedInput;
-			var arguments = "";
+			var arguments = string.Empty;
 			if (trimmedInput.Contains(' '))
 			{
 				var positionOfBlank = trimmedInput.IndexOf(' ');

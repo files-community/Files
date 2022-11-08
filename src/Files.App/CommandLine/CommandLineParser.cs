@@ -139,7 +139,7 @@ namespace Files.App.CommandLine
 
 			if (parsedArgs.Count == 0 && args.Length >= 2)
 			{
-				parsedArgs.Add(new KeyValuePair<string, string[]>("Cmdless", new[] { string.Join(" ", args.Skip(1)).TrimStart() }));
+				parsedArgs.Add(new KeyValuePair<string, string[]>("Cmdless", new[] { string.Join(' ', args.Skip(1)).TrimStart() }));
 			}
 
 			return parsedArgs;
@@ -151,7 +151,7 @@ namespace Files.App.CommandLine
 			var val = new List<string>();
 			if (args[index].StartsWith('-') || args[index].StartsWith('/'))
 			{
-				if (args[index].Contains(":", StringComparison.Ordinal))
+				if (args[index].Contains(':', StringComparison.Ordinal))
 				{
 					string argument = args[index];
 					int endIndex = argument.IndexOf(':');

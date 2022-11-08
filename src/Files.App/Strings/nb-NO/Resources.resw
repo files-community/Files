@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>For å komme i gang, trenger vi din tillatelse til å vise filene dine. Dette vil åpne en side med innstillinger der du kan gi oss denne tillatelsen. Etter du har fullført dette steget, må du starte appen på nytt.</value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Filmappe</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Fil</value>
   </data>

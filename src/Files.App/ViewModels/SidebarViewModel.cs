@@ -26,7 +26,7 @@ namespace Files.App.ViewModels
 {
 	public class SidebarViewModel : ObservableObject, IDisposable
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public ICommand EmptyRecycleBinCommand { get; private set; }
 
@@ -61,7 +61,7 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		SectionType[] SectionOrder = new SectionType[] {
+		private readonly SectionType[] SectionOrder = new SectionType[] {
 				SectionType.Home,
 				SectionType.Favorites,
 				SectionType.Library,
@@ -101,7 +101,7 @@ namespace Files.App.ViewModels
 			item ??= sidebarItems.FirstOrDefault(x => x.Path.Equals(value + "\\", StringComparison.OrdinalIgnoreCase));
 			item ??= sidebarItems.FirstOrDefault(x => value.StartsWith(x.Path, StringComparison.OrdinalIgnoreCase));
 			item ??= sidebarItems.FirstOrDefault(x => x.Path.Equals(Path.GetPathRoot(value), StringComparison.OrdinalIgnoreCase));
-			if (item is null&& value == "Home".GetLocalizedResource())
+			if (item is null && value == "Home".GetLocalizedResource())
 				item = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home".GetLocalizedResource()));
 
 			if (SidebarSelectedItem != item)
@@ -322,14 +322,13 @@ namespace Files.App.ViewModels
 		{
 			if (elem is LibraryLocationItem lib)
 			{
-				if (IsLibraryOnSidebar(lib) && await lib.CheckDefaultSaveFolderAccess())
+				if (IsLibraryOnSidebar(lib) &&
+					await lib.CheckDefaultSaveFolderAccess() &&
+					!section.ChildItems.Any(x => x.Path == lib.Path))
 				{
-					if (!section.ChildItems.Any(x => x.Path == lib.Path))
-					{
-						lib.Font = App.AppModel.SymbolFontFamily;
-						section.ChildItems.AddSorted(elem);
-						await lib.LoadLibraryIcon();
-					}
+					lib.Font = App.AppModel.SymbolFontFamily;
+					section.ChildItems.AddSorted(elem);
+					await lib.LoadLibraryIcon();
 				}
 			}
 			else if (elem is DriveItem drive)

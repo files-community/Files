@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>請授權我們使用您的檔案系统。待「設定」開啟後您就可以授權給我們。您需要在完成設定後重新啟動應用程式。 </value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>資料夾</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>檔案</value>
   </data>

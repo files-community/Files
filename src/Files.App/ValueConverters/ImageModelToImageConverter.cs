@@ -10,12 +10,10 @@ namespace Files.App.ValueConverters
 	{
 		public object? Convert(object value, Type targetType, object parameter, string language)
 		{
-			if (value is BitmapImageModel bitmapImageModel)
+			if (value is BitmapImageModel bitmapImageModel &&
+				bitmapImageModel.Formats.Contains(Constants.KnownImageFormats.BITMAP_IMAGE_FORMAT))
 			{
-				if (bitmapImageModel.Formats.Contains(Constants.KnownImageFormats.BITMAP_IMAGE_FORMAT))
-				{
-					return bitmapImageModel.GetImage<BitmapImage>();
-				}
+				return bitmapImageModel.GetImage<BitmapImage>();
 			}
 
 			return null;
