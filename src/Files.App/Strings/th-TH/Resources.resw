@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>ก่อนเริ่มต้นใช้งาน, เราต้องได้รับสิทธิ์การเข้าถึงไฟล์จากคุณก่อน. เราจะพาคุณไปยังหน้าการตั้งค่าสิทธิ์การเข้าถึงไฟล์เพื่อให้คุณอนุญาตโปรแกรมเราได้เข้าถึงสิทธิ์นั้น. เมื่อยกสิทธิ์การเข้าถึงแล้วปิดโปรแกรมแล้วเปิดใหม่อีกครั้งเพื่อให้การอนุญาตสิทธิ์เสร็จสมบูรณ์.</value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>โฟลเดอร์แฟ้ม</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>ไฟล์</value>
   </data>
