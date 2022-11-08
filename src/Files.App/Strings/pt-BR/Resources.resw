@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Para começar, você precisa nos conceder permissão para exibir seus arquivos. Isso abrirá uma página de configurações onde você pode nos conceder essa permissão. Você precisará reabrir o aplicativo depois de concluído. </value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Pasta de arquivos</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Arquivo</value>
   </data>
@@ -2845,15 +2842,15 @@
     <value>O destino não pode ser encontrado {0}. Deseja excluir este atalho?</value>
   </data>
   <data name="LoadingThemes" xml:space="preserve">
-    <value>Loading Themes</value>
+    <value>Carregando Temas</value>
   </data>
   <data name="EmptyingRecycleBin" xml:space="preserve">
-    <value>Emptying recycle bin</value>
+    <value>Esvaziando lixeira</value>
   </data>
   <data name="BinEmptyingSucceded" xml:space="preserve">
-    <value>Successfully emptied recycle bin</value>
+    <value>Lixeira esvaziada com sucesso</value>
   </data>
   <data name="BinEmptyingFailed" xml:space="preserve">
-    <value>Failed to empty recycle bin</value>
+    <value>Falha ao esvaziar a lixeira</value>
   </data>
 </root>

@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Для початку вам потрібно надати нам дозвіл на показ ваших файлів. Це відкриє сторінку налаштувань, де ви можете надати нам цей дозвіл. Вам потрібно буде знову відкрити додаток після завершення.</value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Папка з файлами</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Файл</value>
   </data>

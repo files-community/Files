@@ -68,7 +68,7 @@ namespace Files.App.ViewModels
 
 		// only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
 		public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
-		private string folderTypeTextLocalized = "FileFolderListItem".GetLocalizedResource();
+		private string folderTypeTextLocalized = "Folder".GetLocalizedResource();
 		private FolderSettingsViewModel folderSettings = null;
 		private DispatcherQueue dispatcherQueue;
 
@@ -1036,12 +1036,12 @@ namespace Files.App.ViewModels
 									var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFile);
 									var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFile);
 									var fileTag = FileTagsHelper.ReadFileTag(item.ItemPath);
-
+									var itemType = (item.ItemType == "Folder".GetLocalizedResource()) ? item.ItemType : matchingStorageFile.DisplayType;
 									cts.Token.ThrowIfCancellationRequested();
 									await dispatcherQueue.EnqueueAsync(() =>
 									{
 										item.FolderRelativeId = matchingStorageFile.FolderRelativeId;
-										item.ItemType = matchingStorageFile.DisplayType;
+										item.ItemType = itemType;
 										item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
 										item.FileFRN = fileFRN;
 										item.FileTags = fileTag;
@@ -1083,11 +1083,12 @@ namespace Files.App.ViewModels
 									var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
 									var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFolder);
 									var fileTag = FileTagsHelper.ReadFileTag(item.ItemPath);
+									var itemType = (item.ItemType == "Folder".GetLocalizedResource()) ? item.ItemType : matchingStorageFolder.DisplayType;
 									cts.Token.ThrowIfCancellationRequested();
 									await dispatcherQueue.EnqueueAsync(() =>
 									{
 										item.FolderRelativeId = matchingStorageFolder.FolderRelativeId;
-										item.ItemType = matchingStorageFolder.DisplayType;
+										item.ItemType = itemType;
 										item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
 										item.FileFRN = fileFRN;
 										item.FileTags = fileTag;
@@ -1363,7 +1364,7 @@ namespace Files.App.ViewModels
 						   path.StartsWith(CommonPaths.NetworkFolderPath, StringComparison.Ordinal) ? "Network".GetLocalizedResource() : isFtp ? "FTP" : "Unknown",
 				ItemDateModifiedReal = DateTimeOffset.Now, // Fake for now
 				ItemDateCreatedReal = DateTimeOffset.Now, // Fake for now
-				ItemType = "FileFolderListItem".GetLocalizedResource(),
+				ItemType = "Folder".GetLocalizedResource(),
 				FileImage = null,
 				LoadFileIcon = false,
 				ItemPath = path,
@@ -2035,7 +2036,7 @@ namespace Files.App.ViewModels
 
 			var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
 			var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-			var startWithDot = findData.cFileName.StartsWith(".");
+			var startWithDot = findData.cFileName.StartsWith('.');
 			if ((isHidden &&
 			   (!UserSettingsService.FoldersSettingsService.ShowHiddenItems ||
 			   (isSystem && !UserSettingsService.FoldersSettingsService.ShowProtectedSystemFiles))) ||
@@ -2182,10 +2183,7 @@ namespace Files.App.ViewModels
 		public async Task AddSearchResultsToCollection(ObservableCollection<ListedItem> searchItems, string currentSearchPath)
 		{
 			filesAndFolders.Clear();
-			foreach (ListedItem li in searchItems)
-			{
-				filesAndFolders.Add(li);
-			}
+			filesAndFolders.AddRange(searchItems);
 			await OrderFilesAndFoldersAsync();
 			await ApplyFilesAndFoldersChangesAsync();
 		}

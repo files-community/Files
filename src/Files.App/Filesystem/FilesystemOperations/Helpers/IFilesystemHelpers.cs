@@ -247,8 +247,9 @@ namespace Files.App.Filesystem
 		/// <param name="newName">Desired new name</param>
 		/// <param name="collision">Determines what to do if item already exists</param>
 		/// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
+		/// <param name="showExtensionDialog">Determines wheteher the Extension Modified Dialog is shown</param>
 		/// <returns><see cref="ReturnResult"/> of performed operation</returns>
-		Task<ReturnResult> RenameAsync(IStorageItem source, string newName, NameCollisionOption collision, bool registerHistory);
+		Task<ReturnResult> RenameAsync(IStorageItem source, string newName, NameCollisionOption collision, bool registerHistory, bool showExtensionDialog = true);
 
 		/// <summary>
 		/// Renames <paramref name="source"/> fullPath with <paramref name="newName"/>
@@ -257,7 +258,8 @@ namespace Files.App.Filesystem
 		/// <param name="newName">Desired new name</param>
 		/// <param name="collision">Determines what to do if item already exists</param>
 		/// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
+		/// <param name="showExtensionDialog">Determines wheteher the Extension Modified Dialog is shown</param>
 		/// <returns><see cref="ReturnResult"/> of performed operation</returns>
-		Task<ReturnResult> RenameAsync(IStorageItemWithPath source, string newName, NameCollisionOption collision, bool registerHistory);
+		Task<ReturnResult> RenameAsync(IStorageItemWithPath source, string newName, NameCollisionOption collision, bool registerHistory, bool showExtensionDialog = true);
 	}
 }

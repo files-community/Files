@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Για να ξεκινήσετε, θα πρέπει να μας δώσετε την άδεια να προβάλλουμε τα αρχεία σας. Αυτό θα ανοίξει μια σελίδα ρυθμίσεων όπου μπορείτε να μας δώσετε αυτή την άδεια. Μόλις ολοκληρώσετε αυτό το βήμα, θα πρέπει να ανοίξετε ξανά την εφαρμογή. </value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Φάκελος αρχείων</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Αρχείο</value>
   </data>

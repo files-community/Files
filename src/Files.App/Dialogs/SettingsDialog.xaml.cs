@@ -36,28 +36,13 @@ namespace Files.App.Dialogs
 
 		private void UpdateDialogLayout()
 		{
-			if (App.Window.Bounds.Height <= 710)
-			{
-				ContainerGrid.Height = App.Window.Bounds.Height - 70;
-			}
-			else
-			{
-				ContainerGrid.Height = 640;
-			}
-
-			if (App.Window.Bounds.Width <= 800)
-			{
-				ContainerGrid.Width = App.Window.Bounds.Width;
-			}
-			else
-			{
-				ContainerGrid.Width = 800;
-			}
+			ContainerGrid.Height = App.Window.Bounds.Height <= 710 ? App.Window.Bounds.Height - 70 : 640;
+			ContainerGrid.Width = App.Window.Bounds.Width <= 800 ? App.Window.Bounds.Width : 800;
 		}
 
-		private void SettingsPane_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
+		private void SettingsPane_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
 		{
-			var selectedItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)args.SelectedItem;
+			var selectedItem = (NavigationViewItem)args.SelectedItem;
 			int selectedItemTag = Convert.ToInt32(selectedItem.Tag);
 
 			_ = selectedItemTag switch

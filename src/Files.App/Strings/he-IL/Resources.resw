@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>על מנת להתחיל, תצטרכו לתת לנו הרשאה להציג את הקבצים שלכם. זה יפתח עמוד הגדרות שבו תוכלו לתת לנו את ההרשאה. לאחר השלמת שלב זה, תצטרכו לפתוח מחדש את האפליקציה. </value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>תיקיית קבצים</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>קובץ</value>
   </data>

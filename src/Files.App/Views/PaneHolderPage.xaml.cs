@@ -49,10 +49,7 @@ namespace Files.App.Views
 
 		private bool windowIsCompact
 		{
-			get
-			{
-				return _windowIsCompact;
-			}
+			get => _windowIsCompact;
 			set
 			{
 				if (value != _windowIsCompact)
@@ -194,6 +191,8 @@ namespace Files.App.Views
 			}
 		}
 
+		public const VirtualKey PlusKey = (VirtualKey)187;
+
 		public PaneHolderPage()
 		{
 			this.InitializeComponent();
@@ -229,7 +228,7 @@ namespace Files.App.Views
 				NavParamsLeft = new NavigationParams { NavPath = navPath };
 				NavParamsRight = new NavigationParams { NavPath = "Home".GetLocalizedResource() };
 			}
-			if (eventArgs.Parameter is PaneNavigationArguments paneArgs)
+			else if (eventArgs.Parameter is PaneNavigationArguments paneArgs)
 			{
 				NavParamsLeft = new NavigationParams
 				{
@@ -322,6 +321,7 @@ namespace Files.App.Views
 					break;
 
 				case (false, true, true, VirtualKey.Add): // alt + shift + "+" open pane
+				case (false, true, true, PlusKey):
 					if (UserSettingsService.MultitaskingSettingsService.IsDualPaneEnabled)
 					{
 						if (string.IsNullOrEmpty(NavParamsRight?.NavPath))
