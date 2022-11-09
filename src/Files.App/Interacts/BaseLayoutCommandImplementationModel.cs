@@ -238,7 +238,7 @@ namespace Files.App.Interacts
 
 		public virtual void OpenItemWithApplicationPicker(RoutedEventArgs e)
 		{
-            _ = NavigationHelpers.OpenSelectedItems(associatedInstance, true);
+			_ = NavigationHelpers.OpenSelectedItems(associatedInstance, true);
 		}
 
 		public virtual async void OpenDirectoryInNewTab(RoutedEventArgs e)
