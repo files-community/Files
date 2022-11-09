@@ -20,16 +20,8 @@ using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.App.Filesystem
 {
-	public enum ImpossibleActionResponseTypes
-	{
-		Skip,
-		Abort
-	}
-
 	public class FilesystemOperations : IFilesystemOperations
 	{
-		private IDialogService DialogService { get; } = Ioc.Default.GetRequiredService<IDialogService>();
-
 		private IShellPage associatedInstance;
 
 		private RecycleBinHelpers recycleBinHelpers;
