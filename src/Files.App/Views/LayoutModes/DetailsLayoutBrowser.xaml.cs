@@ -447,6 +447,7 @@ namespace Files.App.Views.LayoutModes
 				else
 				{
 					await NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+					FileList.SelectedIndex = 0;
 				}
 				e.Handled = true;
 			}
