@@ -73,7 +73,6 @@ namespace Files.App.ViewModels
 		private DispatcherQueue dispatcherQueue;
 
 		public ListedItem CurrentFolder { get; private set; }
-		public CollectionViewSource viewSource;
 
 		private FileSystemWatcher watcher;
 		private CancellationTokenSource addFilesCTS, semaphoreCTS, loadPropsCTS, watcherCTS, searchCTS;
@@ -91,8 +90,6 @@ namespace Files.App.ViewModels
 
 		private StorageFolderWithPath currentStorageFolder;
 		private StorageFolderWithPath workingRoot;
-
-		private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
 
 		public delegate void WorkingDirectoryModifiedEventHandler(object sender, WorkingDirectoryModifiedEventArgs e);
 
@@ -2177,14 +2174,6 @@ namespace Files.App.ViewModels
 				enumFolderSemaphore.Release();
 			}
 			return null;
-		}
-
-		public async Task AddSearchResultsToCollection(ObservableCollection<ListedItem> searchItems, string currentSearchPath)
-		{
-			filesAndFolders.Clear();
-			filesAndFolders.AddRange(searchItems);
-			await OrderFilesAndFoldersAsync();
-			await ApplyFilesAndFoldersChangesAsync();
 		}
 
 		public async Task SearchAsync(FolderSearch search)

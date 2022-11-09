@@ -145,25 +145,6 @@ namespace Files.App.Shell
 			});
 		}
 
-		public async static Task<ContextMenu> GetContextMenuForFolder(string folderPath, Shell32.CMF flags, Func<string, bool> itemFilter = null)
-		{
-			ShellFolder fsi = null;
-			try
-			{
-				fsi = new ShellFolder(folderPath);
-				return await GetContextMenuForFolder(fsi, flags, itemFilter);
-			}
-			catch (Exception ex) when (ex is ArgumentException || ex is FileNotFoundException)
-			{
-				// Return empty context menu
-				return null;
-			}
-			finally
-			{
-				fsi?.Dispose();
-			}
-		}
-
 		private async static Task<ContextMenu> GetContextMenuForFolder(ShellFolder shellFolder, Shell32.CMF flags, Func<string, bool> itemFilter = null)
 		{
 			if (shellFolder is null)
