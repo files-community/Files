@@ -1524,7 +1524,7 @@ namespace Files.App.ViewModels
 					currentFolder.ItemDateCreatedReal = rootFolder.DateCreated;
 
 				CurrentFolder = currentFolder;
-				await EnumFromStorageFolderAsync(path, currentFolder, rootFolder, currentStorageFolder, cancellationToken);
+				await EnumFromStorageFolderAsync(path, rootFolder, currentStorageFolder, cancellationToken);
 				return isBoxFolder || isNetworkFolder ? 2 : 1; // Workaround for #7428
 			}
 			else
@@ -1581,7 +1581,7 @@ namespace Files.App.ViewModels
 				}
 				else if (hFile.ToInt64() == -1)
 				{
-					await EnumFromStorageFolderAsync(path, currentFolder, rootFolder, currentStorageFolder, cancellationToken);
+					await EnumFromStorageFolderAsync(path, rootFolder, currentStorageFolder, cancellationToken);
 					return 1;
 				}
 				else
@@ -1605,13 +1605,14 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		private async Task EnumFromStorageFolderAsync(string path, ListedItem currentFolder, BaseStorageFolder rootFolder, StorageFolderWithPath currentStorageFolder, CancellationToken cancellationToken)
+		private async Task EnumFromStorageFolderAsync(string path, BaseStorageFolder rootFolder, StorageFolderWithPath currentStorageFolder, CancellationToken cancellationToken)
 		{
 			if (rootFolder is null)
 				return;
 
 			Stopwatch stopwatch = new Stopwatch();
 			stopwatch.Start();
+
 
 			await Task.Run(async () =>
 			{
@@ -1632,6 +1633,7 @@ namespace Files.App.ViewModels
 			});
 
 			stopwatch.Stop();
+
 			Debug.WriteLine($"Enumerating items in {path} (device) completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
 		}
 

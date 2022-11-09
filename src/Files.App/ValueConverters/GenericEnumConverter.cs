@@ -9,17 +9,17 @@ namespace Files.App.ValueConverters
 	{
 		public object Convert(object value, Type targetType, object parameter, string language)
 		{
-			return ConvertInternal(value, targetType, parameter, language,
+			return ConvertInternal(value, targetType, parameter,
 				s => s.Split(',').ToDictionary(k => System.Convert.ToInt64(k.Split('-')[0]), v => System.Convert.ToInt64(v.Split('-')[1])));
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, string language)
 		{
-			return ConvertInternal(value, targetType, parameter, language,
+			return ConvertInternal(value, targetType, parameter,
 				s => s.Split(',').ToDictionary(k => System.Convert.ToInt64(k.Split('-')[1]), v => System.Convert.ToInt64(v.Split('-')[0])));
 		}
 
-		private object ConvertInternal(object value, Type targetType, object parameter, string language, Func<string, Dictionary<long, long>> enumConversion)
+		private object ConvertInternal(object value, Type targetType, object parameter, Func<string, Dictionary<long, long>> enumConversion)
 		{
 			var enumValue = System.Convert.ToInt64(value);
 
@@ -43,6 +43,7 @@ namespace Files.App.ValueConverters
 				}
 			}
 			catch { }
+
 			try
 			{
 				return System.Convert.ChangeType(enumValue, targetType);

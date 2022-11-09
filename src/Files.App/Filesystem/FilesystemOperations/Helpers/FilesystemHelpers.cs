@@ -164,9 +164,6 @@ namespace Files.App.Filesystem
 
 			var token = banner.CancellationToken;
 
-			var sw = new Stopwatch();
-			sw.Start();
-
 			IStorageHistory history = await filesystemOperations.DeleteItemsAsync((IList<IStorageItemWithPath>)source, banner.Progress, banner.ErrorCode, permanently, token);
 			((IProgress<float>)banner.Progress).Report(100.0f);
 			await Task.Yield();
@@ -180,7 +177,6 @@ namespace Files.App.Filesystem
 			source.ForEach(x => App.JumpList.RemoveFolder(x.Path)); // Remove items from jump list
 
 			banner.Remove();
-			sw.Stop();
 
 			PostBannerHelpers.PostBanner_Delete(source, returnStatus, permanently, token.IsCancellationRequested, itemsDeleted);
 
@@ -218,9 +214,6 @@ namespace Files.App.Filesystem
 			var errorCode = new Progress<FileSystemStatusCode>();
 			errorCode.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.ToStatus() : returnStatus;
 
-			var sw = new Stopwatch();
-			sw.Start();
-
 			IStorageHistory history = await filesystemOperations.RestoreItemsFromTrashAsync((IList<IStorageItemWithPath>)source, (IList<string>)destination, null, errorCode, cancellationToken);
 			await Task.Yield();
 
@@ -229,8 +222,6 @@ namespace Files.App.Filesystem
 				App.HistoryWrapper.AddHistory(history);
 			}
 			int itemsMoved = history?.Source.Count ?? 0;
-
-			sw.Stop();
 
 			return returnStatus;
 		}
@@ -457,9 +448,6 @@ namespace Files.App.Filesystem
 				return ReturnResult.Cancelled;
 			}
 
-			var sw = new Stopwatch();
-			sw.Start();
-
 			itemManipulationModel?.ClearSelection();
 
 			IStorageHistory history = await filesystemOperations.MoveItemsAsync((IList<IStorageItemWithPath>)source, (IList<string>)destination, collisions, banner.Progress, banner.ErrorCode, token);
@@ -486,7 +474,6 @@ namespace Files.App.Filesystem
 			source.ForEach(x => App.JumpList.RemoveFolder(x.Path)); // Remove items from jump list
 
 			banner.Remove();
-			sw.Stop();
 
 			PostBannerHelpers.PostBanner_Move(source, destination, returnStatus, token.IsCancellationRequested, itemsMoved);
 

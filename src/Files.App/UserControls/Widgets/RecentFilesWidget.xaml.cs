@@ -134,7 +134,7 @@ namespace Files.App.UserControls.Widgets
 		/// Add the RecentItem to the ObservableCollection for the UI to render.
 		/// </summary>
 		/// <param name="recentItem">The recent item to be added</param>
-		private async Task AddItemToRecentListAsync(RecentItem recentItem, bool sortInsert = false)
+		private async Task AddItemToRecentListAsync(RecentItem recentItem)
 		{
 			await recentItem.LoadRecentItemIcon();
 			recentItemsCollection.Add(recentItem);
