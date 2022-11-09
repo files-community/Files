@@ -89,8 +89,6 @@ namespace Files.App
 									return; // Exit
 								}
 								break;
-							default:
-								break;
 						}
 					}
 				}
