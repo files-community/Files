@@ -1391,10 +1391,9 @@ namespace Files.App.ViewModels
 					}
 					catch (FtpAuthenticationException)
 					{
+						// throw new InvalidOperationException();
 						return null;
 					}
-
-					throw new InvalidOperationException();
 				}
 
 				await Task.Run(async () =>
