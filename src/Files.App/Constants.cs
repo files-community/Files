@@ -50,12 +50,6 @@ namespace Files.App
 			public const int Folder = 3;
 		}
 
-		public static class Shell32
-		{
-			// See shell32.dll for more icon indexes to add
-			public const int QuickAccess = 51380;
-		}
-
 		public static class FluentIconsPaths
 		{
 			public const string CloudDriveIcon = "ms-appx:///Assets/FluentIcons/CloudDrive.png";
@@ -179,19 +173,6 @@ namespace Files.App
 			/// The number of thumbnails that will be shown for FolderPreviews
 			/// </summary>
 			public const int FolderPreviewThumbnailCount = 10;
-		}
-
-		public static class PaneContent
-		{
-			public const string ContentKey = "PaneContent";
-
-			public const string HorizontalSizePxKey = "PaneHorizontalSizePx";
-
-			public const string VerticalSizePxKey = "PaneVerticalSizePx";
-
-			public const string MediaVolumeKey = "PaneMediaVolume";
-
-			public const string ShowPreviewOnlyKey = "ShowPreviewOnly";
 		}
 
 		public static class ResourceFilePaths

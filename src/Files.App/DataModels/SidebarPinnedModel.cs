@@ -180,17 +180,6 @@ namespace Files.App.DataModels
 		}
 
 		/// <summary>
-		/// Returns the index of the location item in the collection containing Navigation control items
-		/// </summary>
-		/// <param name="locationItem">The location item</param>
-		/// <param name="collection">The collection in which to find the location item</param>
-		/// <returns>Index of the item</returns>
-		public int IndexOfItem(INavigationControlItem locationItem, List<INavigationControlItem> collection)
-		{
-			return collection.IndexOf(locationItem);
-		}
-
-		/// <summary>
 		/// Saves the model
 		/// </summary>
 		public void Save() => controller?.SaveModel();
