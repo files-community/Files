@@ -188,16 +188,16 @@ namespace Files.App.Views.LayoutModes
 			if (FolderSettings.ColumnsViewModel is not null)
 			{
 				ColumnsViewModel.DateCreatedColumn = FolderSettings.ColumnsViewModel.DateCreatedColumn;
-                ColumnsViewModel.DateDeletedColumn = FolderSettings.ColumnsViewModel.DateDeletedColumn;
-                ColumnsViewModel.DateModifiedColumn = FolderSettings.ColumnsViewModel.DateModifiedColumn;
-                ColumnsViewModel.IconColumn = FolderSettings.ColumnsViewModel.IconColumn;
-                ColumnsViewModel.ItemTypeColumn = FolderSettings.ColumnsViewModel.ItemTypeColumn;
-                ColumnsViewModel.NameColumn = FolderSettings.ColumnsViewModel.NameColumn;
-                ColumnsViewModel.OriginalPathColumn = FolderSettings.ColumnsViewModel.OriginalPathColumn;
-                ColumnsViewModel.SizeColumn = FolderSettings.ColumnsViewModel.SizeColumn;
-                ColumnsViewModel.StatusColumn = FolderSettings.ColumnsViewModel.StatusColumn;
-                ColumnsViewModel.TagColumn = FolderSettings.ColumnsViewModel.TagColumn;
-            }
+				ColumnsViewModel.DateDeletedColumn = FolderSettings.ColumnsViewModel.DateDeletedColumn;
+				ColumnsViewModel.DateModifiedColumn = FolderSettings.ColumnsViewModel.DateModifiedColumn;
+				ColumnsViewModel.IconColumn = FolderSettings.ColumnsViewModel.IconColumn;
+				ColumnsViewModel.ItemTypeColumn = FolderSettings.ColumnsViewModel.ItemTypeColumn;
+				ColumnsViewModel.NameColumn = FolderSettings.ColumnsViewModel.NameColumn;
+				ColumnsViewModel.OriginalPathColumn = FolderSettings.ColumnsViewModel.OriginalPathColumn;
+				ColumnsViewModel.SizeColumn = FolderSettings.ColumnsViewModel.SizeColumn;
+				ColumnsViewModel.StatusColumn = FolderSettings.ColumnsViewModel.StatusColumn;
+				ColumnsViewModel.TagColumn = FolderSettings.ColumnsViewModel.TagColumn;
+			}
 
 			currentIconSize = FolderSettings.GetIconSize();
 			FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
@@ -285,8 +285,8 @@ namespace Files.App.Views.LayoutModes
 			base.OnNavigatingFrom(e);
 			FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
 			FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
-            FolderSettings.GroupOptionPreferenceUpdated -= ZoomIn;
-            FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
+			FolderSettings.GroupOptionPreferenceUpdated -= ZoomIn;
+			FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
 			FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
 			ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
 		}
