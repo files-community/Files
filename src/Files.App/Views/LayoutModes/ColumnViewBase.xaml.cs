@@ -403,9 +403,6 @@ namespace Files.App.Views.LayoutModes
 					return;
 
 				var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
-				if (currentBladeIndex == 0)
-					return;
-
 				this.FindAscendant<ColumnViewBrowser>()?.MoveFocusToPreviousBlade(currentBladeIndex);
 				e.Handled = true;
 			}

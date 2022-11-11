@@ -216,7 +216,7 @@ namespace Files.App.Views.LayoutModes
 			activeBlade.Focus(FocusState.Programmatic);
 
 			var activeBladeColumnViewBase = RetrieveBladeColumnViewBase(activeBlade);
-			if (activeBladeColumnViewBase == null)
+			if (activeBladeColumnViewBase is null)
 				return;
 
 			//This allows to deselect and reselect the parent folder, hence forcing the refocus.
@@ -234,18 +234,16 @@ namespace Files.App.Views.LayoutModes
 			activeBlade.Focus(FocusState.Programmatic);
 
 			var activeBladeColumnViewBase = RetrieveBladeColumnViewBase(activeBlade);
-			if (activeBladeColumnViewBase != null)
+			if (activeBladeColumnViewBase is not null)
 				activeBladeColumnViewBase.FileList.SelectedIndex = 0;
 		}
 
 		private ColumnViewBase? RetrieveBladeColumnViewBase(BladeItem blade)
 		{
-			var activeBladeFrame = blade.Content as Frame;
-			if (activeBladeFrame == null)
+			if (blade.Content is not Frame activeBladeFrame)
 				return null;
 
-			var activeBladePage = activeBladeFrame.Content as ColumnShellPage;
-			if (activeBladePage == null)
+			if (activeBladeFrame.Content is not ColumnShellPage activeBladePage)
 				return null;
 
 			return activeBladePage.SlimContentPage as ColumnViewBase;
