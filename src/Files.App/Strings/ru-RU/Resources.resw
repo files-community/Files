@@ -2851,6 +2851,6 @@
     <value>Successfully emptied recycle bin</value>
   </data>
   <data name="BinEmptyingFailed" xml:space="preserve">
-    <value>Failed to empty recycle bin</value>
+    <value>Не удалось очистить корзину</value>
   </data>
 </root>
