@@ -161,10 +161,7 @@ namespace Files.App.Filesystem
 			set
 			{
 				// For some reason this being null will cause a crash with bindings
-				if (value is null)
-				{
-					value = new CloudDriveSyncStatusUI();
-				}
+				value ??= new CloudDriveSyncStatusUI();
 				if (SetProperty(ref syncStatusUI, value))
 				{
 					OnPropertyChanged(nameof(SyncStatusString));
@@ -520,19 +517,8 @@ namespace Files.App.Filesystem
 		// For shortcut elements (.lnk and .url)
 		public string TargetPath { get; set; }
 
-		public override string Name
-		{
-			get
-			{
-				if (IsSymLink)
-				{
-					return base.Name;
-				}
-
-				// Always hide extension for shortcuts
-				return Path.GetFileNameWithoutExtension(ItemNameRaw);
-			}
-		}
+		public override string Name 
+			=> IsSymLink ? base.Name : Path.GetFileNameWithoutExtension(ItemNameRaw); // Always hide extension for shortcuts
 
 		public string Arguments { get; set; }
 		public string WorkingDirectory { get; set; }
