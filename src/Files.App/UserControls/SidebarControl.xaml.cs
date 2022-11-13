@@ -403,85 +403,37 @@ namespace Files.App.UserControls
 
 		private void MoveItemToTop()
 		{
-			if (rightClickedItem.Section == SectionType.Favorites)
-			{
-				bool isSelectedSidebarItem = false;
-
-				if (SelectedSidebarItem == rightClickedItem)
-				{
-					isSelectedSidebarItem = true;
-				}
-
-				int oldIndex = App.SidebarPinnedController.Model.IndexOfItem(rightClickedItem);
-				App.SidebarPinnedController.Model.MoveItem(rightClickedItem, oldIndex, 0);
-
-				if (isSelectedSidebarItem)
-				{
-					SetValue(SelectedSidebarItemProperty, rightClickedItem);
-				}
-			}
+			MoveItemToNewIndex(0);
 		}
 
 		private void MoveItemUp()
 		{
-			if (rightClickedItem.Section == SectionType.Favorites)
-			{
-				bool isSelectedSidebarItem = false;
-
-				if (SelectedSidebarItem == rightClickedItem)
-				{
-					isSelectedSidebarItem = true;
-				}
-
-				int oldIndex = App.SidebarPinnedController.Model.IndexOfItem(rightClickedItem);
-				App.SidebarPinnedController.Model.MoveItem(rightClickedItem, oldIndex, oldIndex - 1);
-
-				if (isSelectedSidebarItem)
-				{
-					SetValue(SelectedSidebarItemProperty, rightClickedItem);
-				}
-			}
+			MoveItemToNewIndex(App.SidebarPinnedController.Model.IndexOfItem(rightClickedItem) - 1);
 		}
 
 		private void MoveItemDown()
 		{
-			if (rightClickedItem.Section == SectionType.Favorites)
-			{
-				bool isSelectedSidebarItem = false;
-
-				if (SelectedSidebarItem == rightClickedItem)
-				{
-					isSelectedSidebarItem = true;
-				}
-
-				int oldIndex = App.SidebarPinnedController.Model.IndexOfItem(rightClickedItem);
-				App.SidebarPinnedController.Model.MoveItem(rightClickedItem, oldIndex, oldIndex + 1);
-
-				if (isSelectedSidebarItem)
-				{
-					SetValue(SelectedSidebarItemProperty, rightClickedItem);
-				}
-			}
+			MoveItemToNewIndex(App.SidebarPinnedController.Model.IndexOfItem(rightClickedItem) + 1);
 		}
 
 		private void MoveItemToBottom()
 		{
-			if (rightClickedItem.Section == SectionType.Favorites)
+			MoveItemToNewIndex(App.SidebarPinnedController.Model.FavoriteItems.Count - 1);
+		}
+
+		private void MoveItemToNewIndex(int newIndex)
+		{
+			if (rightClickedItem.Section != SectionType.Favorites) 
+				return;
+
+			bool isSelectedSidebarItem = false || SelectedSidebarItem == rightClickedItem;
+
+			int oldIndex = App.SidebarPinnedController.Model.IndexOfItem(rightClickedItem);
+			App.SidebarPinnedController.Model.MoveItem(rightClickedItem, oldIndex, newIndex);
+
+			if (isSelectedSidebarItem)
 			{
-				bool isSelectedSidebarItem = false;
-
-				if (SelectedSidebarItem == rightClickedItem)
-				{
-					isSelectedSidebarItem = true;
-				}
-
-				int oldIndex = App.SidebarPinnedController.Model.IndexOfItem(rightClickedItem);
-				App.SidebarPinnedController.Model.MoveItem(rightClickedItem, oldIndex, App.SidebarPinnedController.Model.FavoriteItems.Count - 1);
-
-				if (isSelectedSidebarItem)
-				{
-					SetValue(SelectedSidebarItemProperty, rightClickedItem);
-				}
+				SetValue(SelectedSidebarItemProperty, rightClickedItem);
 			}
 		}
 
