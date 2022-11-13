@@ -528,40 +528,51 @@ namespace Files.App.UserControls
 		{
 			VisualStateManager.GoToState(sender as NavigationViewItem, "DragEnter", false);
 
-			if ((sender as NavigationViewItem).DataContext is INavigationControlItem iNavItem)
+			if ((sender as NavigationViewItem)?.DataContext is not INavigationControlItem iNavItem) 
+				return;
+
+			if (string.IsNullOrEmpty(iNavItem.Path))
 			{
-				if (string.IsNullOrEmpty(iNavItem.Path))
-				{
-					dragOverSection = sender;
-					dragOverSectionTimer.Stop();
-					dragOverSectionTimer.Debounce(() =>
-					{
-						if (dragOverSection is not null)
-						{
-							dragOverSectionTimer.Stop();
-							if ((dragOverSection as NavigationViewItem).DataContext is LocationItem section)
-							{
-								section.IsExpanded = true;
-							}
-							dragOverSection = null;
-						}
-					}, TimeSpan.FromMilliseconds(1000), false);
-				}
-				else
-				{
-					dragOverItem = sender;
-					dragOverItemTimer.Stop();
-					dragOverItemTimer.Debounce(() =>
-					{
-						if (dragOverItem is not null)
-						{
-							dragOverItemTimer.Stop();
-							SidebarItemInvoked?.Invoke(this, new SidebarItemInvokedEventArgs(dragOverItem as NavigationViewItemBase));
-							dragOverItem = null;
-						}
-					}, TimeSpan.FromMilliseconds(1000), false);
-				}
+				HandleDragOverSection(sender);
 			}
+			else
+			{
+				HandleDragOverItem(sender);
+			}
+		}
+
+		private void HandleDragOverItem(object sender)
+		{
+			dragOverItem = sender;
+			dragOverItemTimer.Stop();
+			dragOverItemTimer.Debounce(() =>
+			{
+				if (dragOverItem is null)
+					return;
+
+				dragOverItemTimer.Stop();
+				SidebarItemInvoked?.Invoke(this, new SidebarItemInvokedEventArgs(dragOverItem as NavigationViewItemBase));
+				dragOverItem = null;
+			}, TimeSpan.FromMilliseconds(1000), false);
+		}
+
+		private void HandleDragOverSection(object sender)
+		{
+			dragOverSection = sender;
+			dragOverSectionTimer.Stop();
+			dragOverSectionTimer.Debounce(() =>
+			{
+				if (dragOverSection is null)
+					return;
+
+				dragOverSectionTimer.Stop();
+				if ((dragOverSection as NavigationViewItem)?.DataContext is LocationItem section)
+				{
+					section.IsExpanded = true;
+				}
+
+				dragOverSection = null;
+			}, TimeSpan.FromMilliseconds(1000), false);
 		}
 
 		private void NavigationViewItem_DragLeave(object sender, DragEventArgs e)
