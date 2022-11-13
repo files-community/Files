@@ -2119,7 +2119,7 @@
     <value>실행 파일</value>
   </data>
   <data name="SecurityReadAttributesLabel.Text" xml:space="preserve">
-    <value>특성 읽기</value>
+    <value>속성 읽기</value>
   </data>
   <data name="SecurityReadDataLabel.Text" xml:space="preserve">
     <value>데이터 읽기</value>
@@ -2467,7 +2467,7 @@
     <value>설정 관리</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
-    <value>설정을 불러올 수 없습니다. 설정 파일이 손상되었습니다.</value>
+    <value>설정을 불러올지 못했어요. 설정 파일이 손상된 것 같아요.</value>
   </data>
   <data name="SettingsImportErrorTitle" xml:space="preserve">
     <value>설정 불러오기 오류</value>
