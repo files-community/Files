@@ -1225,7 +1225,7 @@
     <value>Reset folder overrides</value>
   </data>
   <data name="EnableOverridingFolderPreferencesDescription" xml:space="preserve">
-    <value>Changing the layout in a directory when this setting is turned off will update the layout for all directories.</value>
+    <value>Изменение макета в каталоге, когда этот параметр выключен, обновит макет для всех каталогов.</value>
   </data>
   <data name="EnableOverridingFolderPreferences" xml:space="preserve">
     <value>Enable overriding folder preferences in individual directories</value>
@@ -1672,7 +1672,7 @@
     <value>Показать виджет папок</value>
   </data>
   <data name="ShowRecentFilesWidget" xml:space="preserve">
-    <value>Виджет Недавние файлы</value>
+    <value>Показывать виджет Последние файлы</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>Не нашли то, что искали?</value>
@@ -2761,22 +2761,22 @@
     <value>Установить по умолчанию</value>
   </data>
   <data name="DateColumn" xml:space="preserve">
-    <value>Столбец даты</value>
+    <value>Дата</value>
   </data>
   <data name="DateCreatedColumn" xml:space="preserve">
-    <value>Date Created column</value>
+    <value>Дата создания</value>
   </data>
   <data name="SizeColumn" xml:space="preserve">
-    <value>Size column</value>
+    <value>Размер</value>
   </data>
   <data name="TagColumn" xml:space="preserve">
-    <value>Tag column</value>
+    <value>Метка</value>
   </data>
   <data name="TypeColumn" xml:space="preserve">
-    <value>Type column</value>
+    <value>Тип</value>
   </data>
   <data name="DetailsLayoutColumns" xml:space="preserve">
-    <value>Details layout columns</value>
+    <value>Макет подробной разметки</value>
   </data>
   <data name="Reset" xml:space="preserve">
     <value>Сбросить</value>
@@ -2794,40 +2794,40 @@
     <value>Open folders with a single click in the Columns Layout</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
-    <value>Opening items</value>
+    <value>Открытие объектов</value>
   </data>
   <data name="AddSingleItemToArchive" xml:space="preserve">
-    <value>Add to {0}.zip</value>
+    <value>Добавить в {0}.zip</value>
   </data>
   <data name="AddToArchive" xml:space="preserve">
     <value>Добавить в архив</value>
   </data>
   <data name="CompressionCompleted" xml:space="preserve">
-    <value>Compression completed</value>
+    <value>Сжатие завершено</value>
   </data>
   <data name="CompressionSucceded" xml:space="preserve">
-    <value>{0} has been compressed</value>
+    <value>{0} был сжат</value>
   </data>
   <data name="CompressionFailed" xml:space="preserve">
     <value>{0} не может быть сжат</value>
   </data>
   <data name="CompressionInProgress" xml:space="preserve">
-    <value>Compressing archive</value>
+    <value>Сжатие архива</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
-    <value>Select files and folders when hovering over them</value>
+    <value>Выделение файлов и папок при наведении на них курсора мыши</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
-    <value>Are you sure you want to restore all items in the recycle bin?</value>
+    <value>Вы уверены, что хотите восстановить все элементы в корзине?</value>
   </data>
   <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
     <value>Восстановить все элементы</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
-    <value>Do you want to restore the {0} selected item(s)?</value>
+    <value>Вы хотите восстановить {0} выбранный(выбранные) элемент(ы)?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
-    <value>Восстановить выбранное</value>
+    <value>Восстановить выделенное</value>
   </data>
   <data name="RestoreAllItems" xml:space="preserve">
     <value>Восстановить все элементы</value>
@@ -2842,13 +2842,13 @@
     <value>Целевой адресат не может быть найден {0}. Вы хотите удалить этот ярлык?</value>
   </data>
   <data name="LoadingThemes" xml:space="preserve">
-    <value>Loading Themes</value>
+    <value>Загрузка Тем</value>
   </data>
   <data name="EmptyingRecycleBin" xml:space="preserve">
-    <value>Emptying recycle bin</value>
+    <value>Очистить корзину</value>
   </data>
   <data name="BinEmptyingSucceded" xml:space="preserve">
-    <value>Successfully emptied recycle bin</value>
+    <value>Корзина успешно очищена</value>
   </data>
   <data name="BinEmptyingFailed" xml:space="preserve">
     <value>Не удалось очистить корзину</value>
