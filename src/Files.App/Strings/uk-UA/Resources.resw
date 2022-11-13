@@ -451,7 +451,7 @@
     <value>Файл, до якого ви намагаєтеся отримати доступ, зараз використовується {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>Файл, який ви намагаєтеся отримати доступ, зараз використовується іншою програмою</value>
+    <value>Файл, до якого ви намагаєтеся отримати доступ, використовується іншою програмою</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
     <value>Файл зараз використовується</value>
@@ -1225,7 +1225,7 @@
     <value>Скинути налаштування перезапису директорій</value>
   </data>
   <data name="EnableOverridingFolderPreferencesDescription" xml:space="preserve">
-    <value>Changing the layout in a directory when this setting is turned off will update the layout for all directories.</value>
+    <value>Зміна розкладки в каталозі, коли цей параметр вимкнуто, оновить розкладку для всіх каталогів.</value>
   </data>
   <data name="EnableOverridingFolderPreferences" xml:space="preserve">
     <value>Ввімкнути перезапис налаштувань директорій в окремих директоріях</value>
@@ -2815,7 +2815,7 @@
     <value>Стиснення архіву</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
-    <value>Виділити файли та папки при наведенні на них</value>
+    <value>Вибрати файли та папки при наведенні на них</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
     <value>Ви впевнені, що хочете відновити всі елементи з кошика?</value>

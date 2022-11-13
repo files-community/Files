@@ -111,11 +111,7 @@ namespace Files.App.Helpers
 		public static IconFileInfo GetIconResourceInfo(int index)
 		{
 			var icons = UIHelpers.IconResources;
-			if (icons is not null)
-			{
-				return icons.FirstOrDefault(x => x.Index == index);
-			}
-			return null;
+			return icons is not null ? icons.FirstOrDefault(x => x.Index == index) : null;
 		}
 
 		public static async Task<BitmapImage> GetIconResource(int index)

@@ -303,10 +303,7 @@ namespace Files.App.ViewModels
 				else if (PathNormalization.NormalizePath(PathNormalization.GetPathRoot(currentPath)) == PathNormalization.NormalizePath(currentPath)) // If path is a drive's root
 				{
 					var matchingNetDrive = App.NetworkDrivesManager.Drives.FirstOrDefault(x => PathNormalization.NormalizePath(currentPath).Contains(PathNormalization.NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
-					if (matchingNetDrive is not null)
-						tabLocationHeader = matchingNetDrive.Text;
-					else
-						tabLocationHeader = PathNormalization.NormalizePath(currentPath);
+					tabLocationHeader = matchingNetDrive is not null ? matchingNetDrive.Text : PathNormalization.NormalizePath(currentPath);
 				}
 				else
 				{

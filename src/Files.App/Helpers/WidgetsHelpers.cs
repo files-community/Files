@@ -53,14 +53,9 @@ namespace Files.App.Helpers
 			{
 				return appearanceSettingsService.ShowRecentFilesWidget;
 			}
-			// A custom widget it is - TWidget implements ICustomWidgetItemModel
-			if (typeof(ICustomWidgetItemModel).IsAssignableFrom(typeof(TWidget)))
-			{
-				// Return true for custom widgets - they're always enabled
-				return true;
-			}
 
-			return false;
+			// A custom widget it is - TWidget implements ICustomWidgetItemModel
+			return typeof(ICustomWidgetItemModel).IsAssignableFrom(typeof(TWidget)); // Return true for custom widgets - they're always enabled
 		}
 	}
 }

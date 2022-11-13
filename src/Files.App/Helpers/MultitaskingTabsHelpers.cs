@@ -48,12 +48,9 @@ namespace Files.App.Helpers
 
 			multitaskingControl?.CloseTab(MainPageViewModel.AppInstances[index]);
 
-			if (tabItemArguments is not null)
-			{
-				return NavigationHelpers.OpenTabInNewWindowAsync(tabItemArguments.Serialize());
-			}
-
-			return NavigationHelpers.OpenPathInNewWindowAsync("Home".GetLocalizedResource());
+			return tabItemArguments is not null
+				? NavigationHelpers.OpenTabInNewWindowAsync(tabItemArguments.Serialize())
+				: NavigationHelpers.OpenPathInNewWindowAsync("Home".GetLocalizedResource());
 		}
 
 		public static async Task AddNewTab(Type type, object tabViewItemArgs, int atIndex = -1)

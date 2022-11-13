@@ -72,14 +72,8 @@ namespace Files.App.UserControls.Settings
 			if (e.NewSize.Width == e.PreviousSize.Width || ActionableElement is null)
 				return;
 
-			if (ActionableElement.ActualWidth > e.NewSize.Width / 3)
-			{
-				VisualStateManager.GoToState(this, "CompactState", false);
-			}
-			else
-			{
-				VisualStateManager.GoToState(this, "NormalState", false);
-			}
+			var stateToGoName = (ActionableElement.ActualWidth > e.NewSize.Width / 3) ? "CompactState" : "NormalState";
+			VisualStateManager.GoToState(this, stateToGoName, false);
 		}
 	}
 }

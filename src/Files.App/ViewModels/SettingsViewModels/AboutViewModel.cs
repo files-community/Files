@@ -212,12 +212,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				"ReleaseNotes" => Constants.GitHub.ReleaseNotesUrl,
 				_ => null,
 			};
-			if (uri is not null)
-			{
-				return Launcher.LaunchUriAsync(new Uri(uri)).AsTask();
-			}
-
-			return Task.CompletedTask;
+			return uri is not null ? Launcher.LaunchUriAsync(new Uri(uri)).AsTask() : Task.CompletedTask;
 		}
 	}
 }
