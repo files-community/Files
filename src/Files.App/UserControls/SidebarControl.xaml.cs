@@ -720,9 +720,7 @@ namespace Files.App.UserControls
 			}
 			else
 			{
-				e.AcceptedOperation = DataPackageOperation.Move;
-				e.DragUIOverride.IsCaptionVisible = true;
-				e.DragUIOverride.Caption = "PinToSidebarByDraggingCaptionText".GetLocalizedResource();
+				CompleteDragEventArgs(e, "PinToSidebarByDraggingCaptionText".GetLocalizedResource(), DataPackageOperation.Move);
 			}
 		}
 
@@ -784,59 +782,61 @@ namespace Files.App.UserControls
 
 		private async void NavigationViewDriveItem_DragOver(object sender, DragEventArgs e)
 		{
-			if ((sender as NavigationViewItem).DataContext is not DriveItem driveItem ||
+			if ((sender as NavigationViewItem)?.DataContext is not DriveItem driveItem ||
 				!FilesystemHelpers.HasDraggedStorageItems(e.DataView))
 				return;
 
 			var deferral = e.GetDeferral();
 			e.Handled = true;
 
-			var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
-			var storageItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+			var handledByFtp = await FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
+			var storageItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+			var hasStorageItems = storageItems.Any();
 
 			if ("DriveCapacityUnknown".GetLocalizedResource().Equals(driveItem.SpaceText, StringComparison.OrdinalIgnoreCase) ||
-				(storageItems.Any() && storageItems.AreItemsAlreadyInFolder(driveItem.Path)))
+				(hasStorageItems && storageItems.AreItemsAlreadyInFolder(driveItem.Path)))
 			{
 				e.AcceptedOperation = DataPackageOperation.None;
 			}
 			else if (handledByFtp)
 			{
-				e.DragUIOverride.IsCaptionVisible = true;
-				e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
-				e.AcceptedOperation = DataPackageOperation.Copy;
+				var captionText = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
+				CompleteDragEventArgs(e, captionText, DataPackageOperation.Copy);
 			}
-			else if (!storageItems.Any())
+			else if (hasStorageItems)
 			{
 				e.AcceptedOperation = DataPackageOperation.None;
 			}
 			else
 			{
-				e.DragUIOverride.IsCaptionVisible = true;
+				string captionText;
+				DataPackageOperation operationType;
 				if (e.Modifiers.HasFlag(DragDropModifiers.Alt) || e.Modifiers.HasFlag(DragDropModifiers.Control | DragDropModifiers.Shift))
 				{
-					e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
-					e.AcceptedOperation = DataPackageOperation.Link;
+					captionText = string.Format("LinkToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
+					operationType = DataPackageOperation.Link;
 				}
 				else if (e.Modifiers.HasFlag(DragDropModifiers.Control))
 				{
-					e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
-					e.AcceptedOperation = DataPackageOperation.Copy;
+					captionText = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
+					operationType = DataPackageOperation.Copy;
 				}
 				else if (e.Modifiers.HasFlag(DragDropModifiers.Shift))
 				{
-					e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
-					e.AcceptedOperation = DataPackageOperation.Move;
+					captionText = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
+					operationType = DataPackageOperation.Move;
 				}
 				else if (storageItems.AreItemsInSameDrive(driveItem.Path))
 				{
-					e.AcceptedOperation = DataPackageOperation.Move;
-					e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
+					captionText = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
+					operationType = DataPackageOperation.Move;
 				}
 				else
 				{
-					e.AcceptedOperation = DataPackageOperation.Copy;
-					e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
+					captionText = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
+					operationType = DataPackageOperation.Copy;
 				}
+				CompleteDragEventArgs(e, captionText, operationType);
 			}
 
 			deferral.Complete();
