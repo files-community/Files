@@ -361,7 +361,7 @@ namespace Files.App.Views.LayoutModes
 				if (IsItemSelected && SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
 					ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
 				else
-					NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+					_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
 
 				e.Handled = true;
 			}
@@ -450,15 +450,11 @@ namespace Files.App.Views.LayoutModes
 				{
 					case StorageItemTypes.File:
 						if (!UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
-						{
-							NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
-						}
+							_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
 						break;
 					case StorageItemTypes.Folder:
 						if (!UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
-						{
 							ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
-						}
 						break;
 					default:
 						ParentShellPageInstance.Up_Click();
@@ -511,7 +507,7 @@ namespace Files.App.Views.LayoutModes
 				&& (UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File))
 			{
 				ResetRenameDoubleClick();
-				NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
 			}
 			else
 			{
