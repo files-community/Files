@@ -129,7 +129,7 @@ namespace Files.App.Interacts
 
 		public virtual void OpenItem(RoutedEventArgs e)
 		{
-			NavigationHelpers.OpenSelectedItems(associatedInstance, false);
+			_ = NavigationHelpers.OpenSelectedItems(associatedInstance, false);
 		}
 
 		public virtual void UnpinDirectoryFromFavorites(RoutedEventArgs e)
@@ -238,7 +238,7 @@ namespace Files.App.Interacts
 
 		public virtual void OpenItemWithApplicationPicker(RoutedEventArgs e)
 		{
-			NavigationHelpers.OpenSelectedItems(associatedInstance, true);
+			_ = NavigationHelpers.OpenSelectedItems(associatedInstance, true);
 		}
 
 		public virtual async void OpenDirectoryInNewTab(RoutedEventArgs e)
