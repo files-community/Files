@@ -426,9 +426,9 @@ namespace Files.App.UserControls
 			if (rightClickedItem.Section != SectionType.Favorites) 
 				return;
 
-			bool isSelectedSidebarItem = false || SelectedSidebarItem == rightClickedItem;
+			var isSelectedSidebarItem = SelectedSidebarItem == rightClickedItem;
 
-			int oldIndex = App.SidebarPinnedController.Model.IndexOfItem(rightClickedItem);
+			var oldIndex = App.SidebarPinnedController.Model.IndexOfItem(rightClickedItem);
 			App.SidebarPinnedController.Model.MoveItem(rightClickedItem, oldIndex, newIndex);
 
 			if (isSelectedSidebarItem)
