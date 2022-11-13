@@ -566,7 +566,7 @@ namespace Files.App.UserControls
 					return;
 
 				dragOverSectionTimer.Stop();
-				if ((dragOverSection as NavigationViewItem)?.DataContext is LocationItem section)
+				if ((dragOverSection as NavigationViewItem).DataContext is LocationItem section)
 				{
 					section.IsExpanded = true;
 				}
@@ -603,21 +603,13 @@ namespace Files.App.UserControls
 				e.Handled = true;
 				isDropOnProcess = true;
 
-				var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
-				var storageItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+				var handledByFtp = await FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
+				var storageItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+				var hasStorageItems = storageItems.Any();
 
-				if (string.IsNullOrEmpty(locationItem.Path) && SectionType.Favorites.Equals(locationItem.Section) && storageItems.Any())
+				if (string.IsNullOrEmpty(locationItem.Path) && SectionType.Favorites.Equals(locationItem.Section) && hasStorageItems)
 				{
-					bool haveFoldersToPin = false;
-
-					foreach (var item in storageItems)
-					{
-						if (item.ItemType == FilesystemItemType.Directory && !SidebarPinnedModel.FavoriteItems.Contains(item.Path))
-						{
-							haveFoldersToPin = true;
-							break;
-						}
-					}
+					var haveFoldersToPin = storageItems.Any(item => item.ItemType == FilesystemItemType.Directory && !SidebarPinnedModel.FavoriteItems.Contains(item.Path));
 
 					if (!haveFoldersToPin)
 					{
@@ -625,14 +617,13 @@ namespace Files.App.UserControls
 					}
 					else
 					{
-						e.DragUIOverride.IsCaptionVisible = true;
-						e.DragUIOverride.Caption = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalizedResource();
-						e.AcceptedOperation = DataPackageOperation.Move;
+						var captionText = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalizedResource();
+						CompleteDragEventArgs(e, captionText, DataPackageOperation.Move);
 					}
 				}
 				else if (string.IsNullOrEmpty(locationItem.Path) ||
-					(storageItems.Any() && storageItems.AreItemsAlreadyInFolder(locationItem.Path))
-					|| locationItem.Path.StartsWith("Home".GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
+					(hasStorageItems && storageItems.AreItemsAlreadyInFolder(locationItem.Path)) ||
+					locationItem.Path.StartsWith("Home".GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
 				{
 					e.AcceptedOperation = DataPackageOperation.None;
 				}
@@ -644,54 +635,55 @@ namespace Files.App.UserControls
 					}
 					else
 					{
-						e.DragUIOverride.IsCaptionVisible = true;
-						e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
-						e.AcceptedOperation = DataPackageOperation.Copy;
+						var captionText = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
+						CompleteDragEventArgs(e, captionText, DataPackageOperation.Copy);
 					}
 				}
-				else if (!storageItems.Any())
+				else if (hasStorageItems == false)
 				{
 					e.AcceptedOperation = DataPackageOperation.None;
 				}
 				else
 				{
-					e.DragUIOverride.IsCaptionVisible = true;
+					string captionText;
+					DataPackageOperation operationType;
 					if (locationItem.Path.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
 					{
-						e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
-						e.AcceptedOperation = DataPackageOperation.Move;
+						captionText = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
+						operationType = DataPackageOperation.Move;
 					}
 					else if (e.Modifiers.HasFlag(DragDropModifiers.Alt) || e.Modifiers.HasFlag(DragDropModifiers.Control | DragDropModifiers.Shift))
 					{
-						e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
-						e.AcceptedOperation = DataPackageOperation.Link;
+						captionText = string.Format("LinkToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
+						operationType = DataPackageOperation.Link;
 					}
 					else if (e.Modifiers.HasFlag(DragDropModifiers.Control))
 					{
-						e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
-						e.AcceptedOperation = DataPackageOperation.Copy;
+						captionText = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
+						operationType = DataPackageOperation.Copy;
 					}
 					else if (e.Modifiers.HasFlag(DragDropModifiers.Shift))
 					{
-						e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
-						e.AcceptedOperation = DataPackageOperation.Move;
+						captionText = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
+						operationType = DataPackageOperation.Move;
 					}
 					else if (storageItems.Any(x => x.Item is ZipStorageFile || x.Item is ZipStorageFolder)
 						|| ZipStorageFolder.IsZipPath(locationItem.Path))
 					{
-						e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
-						e.AcceptedOperation = DataPackageOperation.Copy;
+						captionText = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
+						operationType = DataPackageOperation.Copy;
 					}
 					else if (storageItems.AreItemsInSameDrive(locationItem.Path) || locationItem.IsDefaultLocation)
 					{
-						e.AcceptedOperation = DataPackageOperation.Move;
-						e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
+						captionText = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
+						operationType = DataPackageOperation.Move;
 					}
 					else
 					{
-						e.AcceptedOperation = DataPackageOperation.Copy;
-						e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
+						captionText = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
+						operationType = DataPackageOperation.Copy;
 					}
+					CompleteDragEventArgs(e, captionText, operationType);
 				}
 			}
 			else if ((e.DataView.Properties["sourceLocationItem"] as NavigationViewItem)?.DataContext is LocationItem sourceLocationItem)
@@ -701,6 +693,14 @@ namespace Files.App.UserControls
 			}
 
 			deferral.Complete();
+		}
+
+		private DragEventArgs CompleteDragEventArgs(DragEventArgs e, string captionText, DataPackageOperation operationType)
+		{
+			e.DragUIOverride.IsCaptionVisible = true;
+			e.DragUIOverride.Caption = captionText;
+			e.AcceptedOperation = operationType;
+			return e;
 		}
 
 		/// <summary>
