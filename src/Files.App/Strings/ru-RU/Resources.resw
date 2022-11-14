@@ -2761,19 +2761,19 @@
     <value>Установить по умолчанию</value>
   </data>
   <data name="DateColumn" xml:space="preserve">
-    <value>Дата</value>
+    <value>Столбец даты изменения</value>
   </data>
   <data name="DateCreatedColumn" xml:space="preserve">
-    <value>Дата создания</value>
+    <value>Столбец даты создания</value>
   </data>
   <data name="SizeColumn" xml:space="preserve">
-    <value>Размер</value>
+    <value>Столбец размера</value>
   </data>
   <data name="TagColumn" xml:space="preserve">
-    <value>Метка</value>
+    <value>Столбец метки</value>
   </data>
   <data name="TypeColumn" xml:space="preserve">
-    <value>Тип</value>
+    <value>Столбец типа файла</value>
   </data>
   <data name="DetailsLayoutColumns" xml:space="preserve">
     <value>Макет подробной разметки</value>
