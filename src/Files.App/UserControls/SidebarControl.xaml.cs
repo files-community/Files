@@ -67,9 +67,6 @@ namespace Files.App.UserControls
 
 		private bool lockFlag = false;
 
-		/// <summary>
-		/// The Model for the pinned sidebar items
-		/// </summary>
 		public SidebarPinnedModel SidebarPinnedModel => App.SidebarPinnedController.Model;
 
 		public static readonly DependencyProperty EmptyRecycleBinCommandProperty = DependencyProperty.Register(nameof(EmptyRecycleBinCommand), typeof(ICommand), typeof(SidebarControl), new PropertyMetadata(null));
@@ -360,7 +357,7 @@ namespace Files.App.UserControls
 
 		private async void OpenInNewPane()
 		{
-			if (await CheckEmptyDrive((rightClickedItem as INavigationControlItem)?.Path))
+			if (await CheckEmptyDrive((rightClickedItem as INavigationControlItem).Path))
 				return;
 
 			SidebarItemNewPaneInvoked?.Invoke(this, new SidebarItemNewPaneInvokedEventArgs(rightClickedItem));
@@ -470,7 +467,7 @@ namespace Files.App.UserControls
 		private async void Sidebar_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
 			var properties = e.GetCurrentPoint(null).Properties;
-			var context = (sender as NavigationViewItem).DataContext;
+			var context = (sender as NavigationViewItem)?.DataContext;
 
 			if (!properties.IsMiddleButtonPressed || context is not INavigationControlItem item || item.Path is null)
 				return;
@@ -567,10 +564,8 @@ namespace Files.App.UserControls
 					return;
 
 				dragOverSectionTimer.Stop();
-				if ((dragOverSection as NavigationViewItem).DataContext is LocationItem section)
-				{
+				if ((dragOverSection as NavigationViewItem)?.DataContext is LocationItem section)
 					section.IsExpanded = true;
-				}
 
 				dragOverSection = null;
 			}, TimeSpan.FromMilliseconds(1000), false);
@@ -582,7 +577,7 @@ namespace Files.App.UserControls
 
 			isDropOnProcess = false;
 
-			if ((sender as NavigationViewItem).DataContext is not INavigationControlItem)
+			if ((sender as NavigationViewItem)?.DataContext is not INavigationControlItem)
 				return;
 
 			if (sender == dragOverItem)
@@ -771,8 +766,6 @@ namespace Files.App.UserControls
 			}
 			else if ((e.DataView.Properties["sourceLocationItem"] as NavigationViewItem)?.DataContext is LocationItem sourceLocationItem)
 			{
-				// Else if the dropped item is a location item
-				// Swap the two items
 				SidebarPinnedModel.SwapItems(sourceLocationItem, locationItem);
 			}
 
@@ -1066,17 +1059,16 @@ namespace Files.App.UserControls
 				return false;
 
 			var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => drivePath.StartsWith(x.Path, StringComparison.Ordinal));
-			if (matchingDrive is not null && matchingDrive.Type == DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
-			{
-				var ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalizedResource(), string.Format("InsertDiscDialog/Text".GetLocalizedResource(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalizedResource(), "Close".GetLocalizedResource());
-				if (ejectButton)
-				{
-					var result = await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
-					await UIHelpers.ShowDeviceEjectResultAsync(result);
-				}
+			if (matchingDrive is null || matchingDrive.Type != DriveType.CDRom || matchingDrive.MaxSpace != ByteSizeLib.ByteSize.FromBytes(0)) 
+				return false;
+
+			var ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalizedResource(), string.Format("InsertDiscDialog/Text".GetLocalizedResource(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalizedResource(), "Close".GetLocalizedResource());
+			if (!ejectButton)
 				return true;
-			}
-			return false;
+
+			var result = await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
+			await UIHelpers.ShowDeviceEjectResultAsync(result);
+			return true;
 		}
 
 		private async void LoadShellMenuItems(CommandBarFlyout itemContextMenuFlyout, ContextMenuOptions options)
@@ -1131,13 +1123,10 @@ namespace Files.App.UserControls
 
 		public static GridLength GetSidebarCompactSize()
 		{
-			if (App.Current.Resources.TryGetValue("NavigationViewCompactPaneLength", out object paneLength))
-			{
-				if (paneLength is double paneLengthDouble)
-				{
-					return new GridLength(paneLengthDouble);
-				}
-			}
+			if (App.Current.Resources.TryGetValue("NavigationViewCompactPaneLength", out object paneLength) &&
+			    paneLength is double paneLengthDouble)
+				return new GridLength(paneLengthDouble);
+
 			return new GridLength(200);
 		}
 
@@ -1148,11 +1137,7 @@ namespace Files.App.UserControls
 			if (args.ExpandingItem is not LocationItem loc || loc.ChildItems is null) 
 				return;
 
-			await Task.Delay(50); // Wait a little so IsPaneOpen tells the truth when in minimal mode
-			if (sender.IsPaneOpen) // Don't store expanded state if sidebar pane is closed
-			{
-				App.AppSettings.Set(true, $"section:{loc.Text.Replace('\\', '_')}");
-			}
+			await SetNavigationViewCollapse(sender, loc, true);
 		}
 
 		private async void NavigationView_Collapsed(NavigationView sender, NavigationViewItemCollapsedEventArgs args)
@@ -1160,10 +1145,15 @@ namespace Files.App.UserControls
 			if (args.CollapsedItem is not LocationItem loc || loc.ChildItems is null) 
 				return;
 
+			await SetNavigationViewCollapse(sender, loc, false);
+		}
+
+		private static async Task SetNavigationViewCollapse(NavigationView sender, LocationItem loc, bool isCollapsed)
+		{
 			await Task.Delay(50); // Wait a little so IsPaneOpen tells the truth when in minimal mode
 			if (sender.IsPaneOpen) // Don't store expanded state if sidebar pane is closed
 			{
-				App.AppSettings.Set(false, $"section:{loc.Text.Replace('\\', '_')}");
+				App.AppSettings.Set(isCollapsed, $"section:{loc.Text.Replace('\\', '_')}");
 			}
 		}
 
@@ -1239,24 +1229,15 @@ namespace Files.App.UserControls
 			if (item is null || item is not INavigationControlItem navControlItem)
 				return null;
 
-			switch (navControlItem?.ItemType)
+			return navControlItem?.ItemType switch
 			{
-				case NavigationControlItemType.Location:
-					return LocationNavItemTemplate;
-
-				case NavigationControlItemType.Drive:
-					return DriveNavItemTemplate;
-
-				case NavigationControlItemType.CloudDrive:
-					return DriveNavItemTemplate;
-
-				case NavigationControlItemType.LinuxDistro:
-					return LinuxNavItemTemplate;
-
-				case NavigationControlItemType.FileTag:
-					return FileTagNavItemTemplate;
-			}
-			return null;
+				NavigationControlItemType.Location => LocationNavItemTemplate,
+				NavigationControlItemType.Drive => DriveNavItemTemplate,
+				NavigationControlItemType.CloudDrive => DriveNavItemTemplate,
+				NavigationControlItemType.LinuxDistro => LinuxNavItemTemplate,
+				NavigationControlItemType.FileTag => FileTagNavItemTemplate,
+				_ => null
+			};
 		}
 	}
 }
