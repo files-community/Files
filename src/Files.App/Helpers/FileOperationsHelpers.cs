@@ -856,9 +856,7 @@ namespace Files.App.Helpers
 
 			public bool CheckCanceled(string uid)
 			{
-				if (operations.TryGetValue(uid, out var op))
-					return op.Canceled;
-				return true;
+				return !operations.TryGetValue(uid, out var op) || op.Canceled;
 			}
 
 			public void TryCancel(string uid)
