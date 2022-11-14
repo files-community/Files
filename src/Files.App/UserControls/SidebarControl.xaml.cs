@@ -734,7 +734,7 @@ namespace Files.App.UserControls
 			dragOverItem = null; // Reset dragged over item
 			dragOverSection = null; // Reset dragged over section
 
-			if ((sender as NavigationViewItem).DataContext is not LocationItem locationItem)
+			if ((sender as NavigationViewItem)?.DataContext is not LocationItem locationItem)
 				return;
 
 			// If the dropped item is a folder or file from a file system
@@ -944,7 +944,7 @@ namespace Files.App.UserControls
 
 		private void SidebarNavView_Loaded(object sender, RoutedEventArgs e)
 		{
-			(this.FindDescendant("TabContentBorder") as Border).Child = TabContent;
+			((this.FindDescendant("TabContentBorder") as Border)!).Child = TabContent;
 		}
 
 		private void SidebarControl_DisplayModeChanged(NavigationView sender, NavigationViewDisplayModeChangedEventArgs args)
@@ -997,18 +997,20 @@ namespace Files.App.UserControls
 
 		private void Border_PointerExited(object sender, PointerRoutedEventArgs e)
 		{
-			if (dragging) return; // keep showing pressed event if currently resizing the sidebar
-			(sender as Grid).ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
-			VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerNormal", true);
+			if (dragging)
+				return; // keep showing pressed event if currently resizing the sidebar
+
+			(sender as Grid)?.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
+			VisualStateManager.GoToState((sender as Grid)?.FindAscendant<SplitView>(), "ResizerNormal", true);
 		}
 
 		private void Border_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
-			if (DisplayMode == NavigationViewDisplayMode.Expanded)
-			{
-				(sender as Grid).ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
-				VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerPointerOver", true);
-			}
+			if (DisplayMode != NavigationViewDisplayMode.Expanded)
+				return;
+
+			(sender as Grid)?.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
+			VisualStateManager.GoToState((sender as Grid)?.FindAscendant<SplitView>(), "ResizerPointerOver", true);
 		}
 
 		private void SetSize(double val, bool closeImmediatleyOnOversize = false)
@@ -1019,18 +1021,18 @@ namespace Files.App.UserControls
 				if (newSize <= Constants.UI.MaximumSidebarWidth && newSize >= Constants.UI.MinimumSidebarWidth)
 					OpenPaneLength = newSize; // passing a negative value will cause an exception
 
-
 				if (newSize < Constants.UI.MinimumSidebarWidth &&
 				    (Constants.UI.MinimumSidebarWidth + val <= CompactPaneLength || closeImmediatleyOnOversize)) // if the new size is below the minimum, check whether to toggle the pane
 					IsPaneOpen = false; // collapse the sidebar
 			}
 			else
 			{
-				if (val >= Constants.UI.MinimumSidebarWidth - CompactPaneLength || closeImmediatleyOnOversize)
-				{
-					OpenPaneLength = Constants.UI.MinimumSidebarWidth + (val + CompactPaneLength - Constants.UI.MinimumSidebarWidth); // set open sidebar length to minimum value to keep it smooth
-					IsPaneOpen = true;
-				}
+				if (val >= Constants.UI.MinimumSidebarWidth - CompactPaneLength &&
+				    !closeImmediatleyOnOversize)
+					return;
+
+				OpenPaneLength = Constants.UI.MinimumSidebarWidth + (val + CompactPaneLength - Constants.UI.MinimumSidebarWidth); // set open sidebar length to minimum value to keep it smooth
+				IsPaneOpen = true;
 			}
 		}
 
@@ -1090,38 +1092,38 @@ namespace Files.App.UserControls
 						emptyRecycleBinItem.IsEnabled = binHasItems;
 					}
 				}
-				if (options.IsLocationItem)
-				{
-					var shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
-					var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(currentInstanceViewModel: null, workingDir: null,
-						new List<ListedItem>() { new ListedItem(null) { ItemPath = rightClickedItem.Path } }, shiftPressed: shiftPressed, showOpenMenu: false, default);
-					if (!UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu)
-					{
-						var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(shellMenuItems);
-						if (secondaryElements.Any())
-						{
-							var openedPopups = Microsoft.UI.Xaml.Media.VisualTreeHelper.GetOpenPopups(App.Window);
-							var secondaryMenu = openedPopups.FirstOrDefault(popup => popup.Name == "OverflowPopup");
-							var itemsControl = secondaryMenu?.Child.FindDescendant<ItemsControl>();
-							if (itemsControl is not null)
-							{
-								secondaryElements.OfType<FrameworkElement>().ForEach(x => x.MaxWidth = itemsControl.ActualWidth - Constants.UI.ContextMenuLabelMargin); // Set items max width to current menu width (#5555)
-							}
 
-							itemContextMenuFlyout.SecondaryCommands.Add(new AppBarSeparator());
-							secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
-						}
-					}
-					else
-					{
-						var overflowItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(shellMenuItems);
-						var overflowItem = itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") as AppBarButton;
-						if (overflowItem is not null)
-						{
-							overflowItems.ForEach(i => (overflowItem.Flyout as MenuFlyout).Items.Add(i));
-							overflowItem.Visibility = overflowItems.Any() ? Visibility.Visible : Visibility.Collapsed;
-						}
-					}
+				if (!options.IsLocationItem)
+					return;
+
+				var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+				var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(currentInstanceViewModel: null, workingDir: null,
+					new List<ListedItem>() { new ListedItem(null) { ItemPath = rightClickedItem.Path } }, shiftPressed: shiftPressed, showOpenMenu: false, default);
+				if (!UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu)
+				{
+					var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(shellMenuItems);
+					if (!secondaryElements.Any())
+						return;
+
+					var openedPopups = Microsoft.UI.Xaml.Media.VisualTreeHelper.GetOpenPopups(App.Window);
+					var secondaryMenu = openedPopups.FirstOrDefault(popup => popup.Name == "OverflowPopup");
+
+					var itemsControl = secondaryMenu?.Child.FindDescendant<ItemsControl>();
+					if (itemsControl is not null)
+						secondaryElements.OfType<FrameworkElement>()
+										 .ForEach(x => x.MaxWidth = itemsControl.ActualWidth - Constants.UI.ContextMenuLabelMargin); // Set items max width to current menu width (#5555)
+
+					itemContextMenuFlyout.SecondaryCommands.Add(new AppBarSeparator());
+					secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
+				}
+				else
+				{
+					var overflowItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(shellMenuItems);
+					if (itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") is not AppBarButton overflowItem) 
+						return;
+
+					overflowItems.ForEach(i => (overflowItem.Flyout as MenuFlyout).Items.Add(i));
+					overflowItem.Visibility = overflowItems.Any() ? Visibility.Visible : Visibility.Collapsed;
 				}
 			}
 			catch { }
