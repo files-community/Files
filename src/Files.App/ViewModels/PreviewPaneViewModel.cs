@@ -219,12 +219,7 @@ namespace Files.App.ViewModels
 			}
 
 			var control = await TextPreviewViewModel.TryLoadAsTextAsync(item);
-			if (control is not null)
-			{
-				return control;
-			}
-
-			return null;
+			return control ?? null;
 		}
 
 		public async void UpdateSelectedItemPreview(bool downloadItem = false)

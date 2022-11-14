@@ -43,12 +43,9 @@ namespace Files.App.Filesystem
 			get
 			{
 				var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-				if (userSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
-				{
-					// Allow ":" char
-					return new[] { '\\', '/', '*', '?', '"', '<', '>', '|' };
-				}
-				return new[] { '\\', '/', ':', '*', '?', '"', '<', '>', '|' };
+				return userSettingsService.FoldersSettingsService.AreAlternateStreamsVisible
+					? new[] { '\\', '/', '*', '?', '"', '<', '>', '|' } // Allow ":" char
+					: new[] { '\\', '/', ':', '*', '?', '"', '<', '>', '|' };
 			}
 		}
 
@@ -706,20 +703,14 @@ namespace Files.App.Filesystem
 			}
 
 			// Since collisions are scrambled, we need to sort them PATH--PATH
-			List<FileNameConflictResolveOptionType> newCollisions = new List<FileNameConflictResolveOptionType>();
+			var newCollisions = new List<FileNameConflictResolveOptionType>();
 
 			foreach (var src in source)
 			{
 				var itemPathOrName = string.IsNullOrEmpty(src.Path) ? src.Item.Name : src.Path;
 				var match = collisions.SingleOrDefault(x => x.Key == itemPathOrName);
-				if (match.Key is not null)
-				{
-					newCollisions.Add(match.Value);
-				}
-				else
-				{
-					newCollisions.Add(FileNameConflictResolveOptionType.Skip);
-				}
+				var fileNameConflictResolveOptionType = (match.Key is not null) ? match.Value : FileNameConflictResolveOptionType.Skip; 
+				newCollisions.Add(fileNameConflictResolveOptionType);
 			}
 
 			return (newCollisions, false, itemsResult ?? new List<IFileSystemDialogConflictItemViewModel>());

@@ -136,11 +136,7 @@ namespace Files.App.Shell
 
 		public static ShellItem GetShellItemFromPathOrPidl(string pathOrPidl)
 		{
-			if (GetStringAsPidl(pathOrPidl, out var pidl))
-			{
-				return ShellItem.Open(pidl);
-			}
-			return ShellItem.Open(pathOrPidl);
+			return GetStringAsPidl(pathOrPidl, out var pidl) ? ShellItem.Open(pidl) : ShellItem.Open(pathOrPidl);
 		}
 	}
 }

@@ -368,10 +368,10 @@ namespace Files.App.Views
 		{
 			var view = App.GetAppWindow(App.Window);
 
-			if (view.Presenter.Kind == AppWindowPresenterKind.FullScreen)
-				view.SetPresenter(AppWindowPresenterKind.Overlapped);
-			else
-				view.SetPresenter(AppWindowPresenterKind.FullScreen);
+			view.SetPresenter(view.Presenter.Kind == AppWindowPresenterKind.FullScreen
+				? AppWindowPresenterKind.Overlapped
+				: AppWindowPresenterKind.FullScreen);
+
 			if (e is not null)
 				e.Handled = true;
 		}

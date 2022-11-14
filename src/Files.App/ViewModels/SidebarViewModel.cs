@@ -84,7 +84,7 @@ namespace Files.App.ViewModels
 			var value = arg;
 
 			INavigationControlItem? item = null;
-			List<INavigationControlItem> sidebarItems = SideBarItems
+			var sidebarItems = SideBarItems
 				.Where(x => !string.IsNullOrWhiteSpace(x.Path))
 				.Concat(SideBarItems.Where(x => (x as LocationItem)?.ChildItems is not null).SelectMany(x => ((LocationItem)x).ChildItems).Where(x => !string.IsNullOrWhiteSpace(x.Path)))
 				.ToList();
@@ -103,9 +103,8 @@ namespace Files.App.ViewModels
 				item = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home".GetLocalizedResource()));
 
 			if (SidebarSelectedItem != item)
-			{
 				SidebarSelectedItem = item;
-			}
+
 		}
 
 		public bool IsSidebarOpen
@@ -113,11 +112,11 @@ namespace Files.App.ViewModels
 			get => UserSettingsService.AppearanceSettingsService.IsSidebarOpen;
 			set
 			{
-				if (value != UserSettingsService.AppearanceSettingsService.IsSidebarOpen)
-				{
-					UserSettingsService.AppearanceSettingsService.IsSidebarOpen = value;
-					OnPropertyChanged();
-				}
+				if (value == UserSettingsService.AppearanceSettingsService.IsSidebarOpen)
+					return;
+
+				UserSettingsService.AppearanceSettingsService.IsSidebarOpen = value;
+				OnPropertyChanged();
 			}
 		}
 
@@ -126,10 +125,10 @@ namespace Files.App.ViewModels
 			get => UserSettingsService.AppearanceSettingsService.ShowFavoritesSection;
 			set
 			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowFavoritesSection)
-				{
-					UserSettingsService.AppearanceSettingsService.ShowFavoritesSection = value;
-				}
+				if (value == UserSettingsService.AppearanceSettingsService.ShowFavoritesSection)
+					return;
+
+				UserSettingsService.AppearanceSettingsService.ShowFavoritesSection = value;
 			}
 		}
 
@@ -138,10 +137,10 @@ namespace Files.App.ViewModels
 			get => UserSettingsService.AppearanceSettingsService.ShowLibrarySection;
 			set
 			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowLibrarySection)
-				{
-					UserSettingsService.AppearanceSettingsService.ShowLibrarySection = value;
-				}
+				if (value == UserSettingsService.AppearanceSettingsService.ShowLibrarySection)
+					return;
+
+				UserSettingsService.AppearanceSettingsService.ShowLibrarySection = value;
 			}
 		}
 
@@ -150,10 +149,10 @@ namespace Files.App.ViewModels
 			get => UserSettingsService.AppearanceSettingsService.ShowDrivesSection;
 			set
 			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowDrivesSection)
-				{
-					UserSettingsService.AppearanceSettingsService.ShowDrivesSection = value;
-				}
+				if (value == UserSettingsService.AppearanceSettingsService.ShowDrivesSection)
+					return;
+
+				UserSettingsService.AppearanceSettingsService.ShowDrivesSection = value;
 			}
 		}
 
@@ -162,10 +161,10 @@ namespace Files.App.ViewModels
 			get => UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection;
 			set
 			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection)
-				{
-					UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection = value;
-				}
+				if (value == UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection)
+					return;
+
+				UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection = value;
 			}
 		}
 
@@ -174,10 +173,10 @@ namespace Files.App.ViewModels
 			get => UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection;
 			set
 			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection)
-				{
-					UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection = value;
-				}
+				if (value == UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection)
+					return;
+
+				UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection = value;
 			}
 		}
 
@@ -186,10 +185,10 @@ namespace Files.App.ViewModels
 			get => UserSettingsService.AppearanceSettingsService.ShowWslSection;
 			set
 			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowWslSection)
-				{
-					UserSettingsService.AppearanceSettingsService.ShowWslSection = value;
-				}
+				if (value == UserSettingsService.AppearanceSettingsService.ShowWslSection) 
+					return;
+
+				UserSettingsService.AppearanceSettingsService.ShowWslSection = value;
 			}
 		}
 
@@ -198,10 +197,10 @@ namespace Files.App.ViewModels
 			get => UserSettingsService.AppearanceSettingsService.ShowFileTagsSection;
 			set
 			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowFileTagsSection)
-				{
-					UserSettingsService.AppearanceSettingsService.ShowFileTagsSection = value;
-				}
+				if (value == UserSettingsService.AppearanceSettingsService.ShowFileTagsSection) 
+					return;
+
+				UserSettingsService.AppearanceSettingsService.ShowFileTagsSection = value;
 			}
 		}
 
@@ -361,8 +360,7 @@ namespace Files.App.ViewModels
 
 		private async Task<LocationItem> GetOrCreateSection(SectionType sectionType)
 		{
-			LocationItem? section = GetSection(sectionType);
-			section ??= await CreateSection(sectionType);
+			LocationItem? section = GetSection(sectionType) ?? await CreateSection(sectionType);
 			return section;
 		}
 

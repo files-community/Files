@@ -1747,8 +1747,8 @@ namespace Files.App.ViewModels
 
 			var hasSyncStatus = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown;
 
-			if (aProcessQueueAction is null) // Only start one ProcessOperationQueue
-				aProcessQueueAction = Task.Factory.StartNew(() => ProcessOperationQueue(watcherCTS.Token, hasSyncStatus), default, TaskCreationOptions.LongRunning, TaskScheduler.Default);
+			aProcessQueueAction ??= Task.Factory.StartNew(() => ProcessOperationQueue(watcherCTS.Token, hasSyncStatus), default,
+				TaskCreationOptions.LongRunning, TaskScheduler.Default);
 
 			var aWatcherAction = Windows.System.Threading.ThreadPool.RunAsync((x) =>
 			{
@@ -1974,20 +1974,15 @@ namespace Files.App.ViewModels
 
 		public Task<ListedItem> AddFileOrFolderFromShellFile(ShellFileItem item)
 		{
-			if (item.IsFolder)
-			{
-				return UniversalStorageEnumerator.AddFolderAsync(ShellStorageFolder.FromShellItem(item), currentStorageFolder, addFilesCTS.Token);
-			}
-
-			return UniversalStorageEnumerator.AddFileAsync(ShellStorageFile.FromShellItem(item), currentStorageFolder, addFilesCTS.Token);
+			return item.IsFolder
+				? UniversalStorageEnumerator.AddFolderAsync(ShellStorageFolder.FromShellItem(item), currentStorageFolder, addFilesCTS.Token)
+				: UniversalStorageEnumerator.AddFileAsync(ShellStorageFile.FromShellItem(item), currentStorageFolder, addFilesCTS.Token);
 		}
 
 		private async Task AddFileOrFolderAsync(ListedItem item)
 		{
 			if (item is null)
-			{
 				return;
-			}
 
 			try
 			{

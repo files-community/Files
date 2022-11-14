@@ -782,7 +782,7 @@ namespace Files.App
 							dragOverTimer.Stop();
 							ItemManipulationModel.SetSelectedItem(dragOverItem);
 							dragOverItem = null;
-							NavigationHelpers.OpenSelectedItems(ParentShellPageInstance!, false);
+							_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance!, false);
 						}
 					}, TimeSpan.FromMilliseconds(1000), false);
 				}

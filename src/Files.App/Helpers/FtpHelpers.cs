@@ -39,12 +39,7 @@ namespace Files.App.Helpers
 			var authority = GetFtpAuthority(path);
 			var index = authority.IndexOf(':', StringComparison.Ordinal);
 
-			if (index == -1)
-			{
-				return true;
-			}
-
-			return ushort.TryParse(authority.Substring(index + 1), out _);
+			return index == -1 || ushort.TryParse(authority.Substring(index + 1), out _);
 		}
 
 		public static string GetFtpHost(string path)
@@ -52,12 +47,7 @@ namespace Files.App.Helpers
 			var authority = GetFtpAuthority(path);
 			var index = authority.IndexOf(':', StringComparison.Ordinal);
 
-			if (index == -1)
-			{
-				return authority;
-			}
-
-			return authority.Substring(0, index);
+			return index == -1 ? authority : authority.Substring(0, index);
 		}
 
 		public static ushort GetFtpPort(string path)
@@ -67,12 +57,7 @@ namespace Files.App.Helpers
 
 			if (index == -1)
 			{
-				if (path.StartsWith("ftps://", StringComparison.OrdinalIgnoreCase))
-				{
-					return 990;
-				}
-
-				return 21;
+				return path.StartsWith("ftps://", StringComparison.OrdinalIgnoreCase) ? (ushort)990 : (ushort)21;
 			}
 
 			return ushort.Parse(authority.Substring(index + 1));

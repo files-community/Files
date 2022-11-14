@@ -682,11 +682,11 @@ namespace Files.App.ViewModels
 
 		public void PathBoxItem_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
-			if (e.Pointer.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Mouse)
-			{
-				var ptrPt = e.GetCurrentPoint(AddressToolbar);
-				pointerRoutedEventArgs = ptrPt.Properties.IsMiddleButtonPressed ? e : null;
-			}
+			if (e.Pointer.PointerDeviceType != Microsoft.UI.Input.PointerDeviceType.Mouse)
+				return;
+
+			var ptrPt = e.GetCurrentPoint(AddressToolbar);
+			pointerRoutedEventArgs = ptrPt.Properties.IsMiddleButtonPressed ? e : null;
 		}
 
 		public async void PathBoxItem_Tapped(object sender, TappedRoutedEventArgs e)
