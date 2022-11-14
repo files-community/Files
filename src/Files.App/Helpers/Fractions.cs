@@ -55,8 +55,7 @@ namespace Files.App.Helpers
 
 		private static int GCD(int a, int b)
 		{
-			if (b == 0) return a;
-			else return GCD(b, a % b);
+			return b == 0 ? a : GCD(b, a % b);
 		}
 	}
 }

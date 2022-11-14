@@ -77,11 +77,7 @@ namespace Files.App.Filesystem
 			{
 				return new Uri(WslIconsPaths.OpenSuse);
 			}
-			if (Contains(displayName, "alpine"))
-			{
-				return new Uri(WslIconsPaths.Alpine);
-			}
-			return new Uri(WslIconsPaths.GenericIcon);
+			return Contains(displayName, "alpine") ? new Uri(WslIconsPaths.Alpine) : new Uri(WslIconsPaths.GenericIcon);
 
 			static bool Contains(string displayName, string distroName)
 				=> displayName.Contains(distroName, StringComparison.OrdinalIgnoreCase);

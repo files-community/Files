@@ -98,14 +98,9 @@ namespace Files.App.CommandLine
 				}
 			}
 
-			if (trimQuotes)
-			{
-				return new string(commandLineCharArray).Replace("\"", "", StringComparison.Ordinal).Split('\n');
-			}
-			else
-			{
-				return new string(commandLineCharArray).Split('\n');
-			}
+			return trimQuotes
+				? new string(commandLineCharArray).Replace("\"", "", StringComparison.Ordinal).Split('\n')
+				: new string(commandLineCharArray).Split('\n');
 		}
 
 		public static List<KeyValuePair<string, string[]>> Parse(string[] args = null)

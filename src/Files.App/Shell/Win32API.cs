@@ -151,10 +151,7 @@ namespace Files.App.Shell
 			async Task<string?> GetUwpAssoc()
 			{
 				var uwpApps = await Launcher.FindFileHandlersAsync(Path.GetExtension(filename));
-				if (uwpApps.Any())
-					return uwpApps[0].PackageFamilyName;
-
-				return null;
+				return uwpApps.Any() ? uwpApps[0].PackageFamilyName : null;
 			}
 
 			// Find desktop apps
@@ -162,16 +159,14 @@ namespace Files.App.Shell
 			{
 				var lpResult = new StringBuilder(2048);
 				var hResult = Shell32.FindExecutable(filename, null, lpResult);
-				if (hResult.ToInt64() > 32)
-					return lpResult.ToString();
 
-				return null;
+				return hResult.ToInt64() > 32 ? lpResult.ToString() : null;
 			}
 
 			if (checkDesktopFirst)
 				return GetDesktopAssoc() ?? await GetUwpAssoc();
-			else
-				return await GetUwpAssoc() ?? GetDesktopAssoc();
+
+			return await GetUwpAssoc() ?? GetDesktopAssoc();
 		}
 
 		public static string ExtractStringFromDLL(string file, int number)
@@ -632,10 +627,11 @@ namespace Files.App.Shell
 
 				for (ushort Count = 1; Directory.Exists(uniquePath); Count++)
 				{
-					if (countMatch.Success)
-						uniquePath = Path.Combine(directory, $"{Name[..countMatch.Index]}({Count})");
-					else
-						uniquePath = Path.Combine(directory, $"{Name} ({Count})");
+					var pathSuffix = (countMatch.Success) ?
+						$"{Name[..countMatch.Index]}({Count})"
+						: $"{Name} ({Count})";
+
+					uniquePath = Path.Combine(directory, pathSuffix);
 				}
 			}
 
