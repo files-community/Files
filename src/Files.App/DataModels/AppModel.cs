@@ -27,17 +27,8 @@ namespace Files.App.DataModels
 		{
 			try
 			{
-				// Clipboard.GetContent() will throw UnauthorizedAccessException
-				// if the app window is not in the foreground and active
 				DataPackageView packageView = Clipboard.GetContent();
-				if (packageView.Contains(StandardDataFormats.StorageItems) || packageView.Contains(StandardDataFormats.Bitmap))
-				{
-					IsPasteEnabled = true;
-				}
-				else
-				{
-					IsPasteEnabled = false;
-				}
+				IsPasteEnabled = packageView.Contains(StandardDataFormats.StorageItems) || packageView.Contains(StandardDataFormats.Bitmap);
 			}
 			catch
 			{
@@ -60,8 +51,8 @@ namespace Files.App.DataModels
 
 					if (value < MainPageViewModel.AppInstances.Count)
 					{
-						Frame rootFrame = App.Window.Content as Frame;
-						var mainView = rootFrame.Content as MainPage;
+						Frame rootFrame = (Frame)App.Window.Content;
+						var mainView = (MainPage)rootFrame.Content;
 						mainView.ViewModel.SelectedTabItem = MainPageViewModel.AppInstances[value];
 					}
 				}
@@ -89,11 +80,11 @@ namespace Files.App.DataModels
 			set => SetProperty(ref multiselectEnabled, value);
 		}
 
-		private bool isQuickLookSupported;
-		public bool IsQuickLookSupported
+		private bool isQuickLookAvailable;
+		public bool IsQuickLookAvailable
 		{
-			get => isQuickLookSupported;
-			set => SetProperty(ref isQuickLookSupported, value);
+			get => isQuickLookAvailable;
+			set => SetProperty(ref isQuickLookAvailable, value);
 		}
 
 		private FontFamily symbolFontFamily;
@@ -109,16 +100,9 @@ namespace Files.App.DataModels
 			var rawVersion = ulong.Parse(AnalyticsInfo.VersionInfo.DeviceFamilyVersion);
 			var currentVersion = new Version((int)((rawVersion & 0xFFFF000000000000) >> 48), (int)((rawVersion & 0x0000FFFF00000000) >> 32), (int)((rawVersion & 0x00000000FFFF0000) >> 16), (int)(rawVersion & 0x000000000000FFFF));
 			var newIconsMinVersion = new Version(10, 0, 21327, 1000);
-			bool isRunningNewIconsVersion = currentVersion >= newIconsMinVersion;
+			bool isWindows11 = currentVersion >= newIconsMinVersion;
 
-			if (isRunningNewIconsVersion)
-			{
-				SymbolFontFamily = new FontFamily("Segoe Fluent Icons");
-			}
-			else
-			{
-				SymbolFontFamily = new FontFamily("Segoe MDL2 Assets");
-			}
+			SymbolFontFamily = (isWindows11) ? new FontFamily("Segoe Fluent Icons") : new FontFamily("Segoe MDL2 Assets");
 		}
 	}
 }

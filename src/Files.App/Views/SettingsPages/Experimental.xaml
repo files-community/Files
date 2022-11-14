@@ -37,7 +37,7 @@
 			<local:SettingsBlockControl
 				Title="{helpers:ResourceString Name=SettingsEditFileTagsExpander/Title}"
 				HorizontalAlignment="Stretch"
-				ButtonCommand="{Binding EditFileTagsCommand}"
+				ButtonCommand="{x:Bind viewModel.EditFileTagsCommand}"
 				IsClickable="True">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon
@@ -50,28 +50,6 @@
 					FontSize="14"
 					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
 					Glyph="&#xE2B4;" />
-			</local:SettingsBlockControl>
-
-			<local:SettingsBlockControl
-				Title="{helpers:ResourceString Name=ShowFolderSize}"
-				HorizontalAlignment="Stretch"
-				IsExpanded="True">
-				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE2B2;" />
-				</local:SettingsBlockControl.Icon>
-				<ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=ShowFolderSize}"
-					IsOn="{Binding ShowFolderSize, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-				<local:SettingsBlockControl.ExpandableContent>
-					<InfoBar
-						CornerRadius="0,0,2,2"
-						IsClosable="False"
-						IsIconVisible="True"
-						IsOpen="True"
-						Message="{helpers:ResourceString Name=ShowFolderSizesWarning}"
-						Severity="Warning" />
-				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
 
 			<TextBlock
@@ -91,11 +69,11 @@
 				</local:SettingsBlockControl.Icon>
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=SettingsSetAsDefaultFileManager}"
-					IsOn="{Binding IsSetAsDefaultFileManager, Mode=TwoWay}"
+					IsOn="{x:Bind viewModel.IsSetAsDefaultFileManager, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedToggleSwitchStyle}">
 					<i:Interaction.Behaviors>
 						<icore:EventTriggerBehavior EventName="Toggled">
-							<icore:InvokeCommandAction Command="{Binding SetAsDefaultExplorerCommand, Mode=OneWay}" />
+							<icore:InvokeCommandAction Command="{x:Bind viewModel.SetAsDefaultExplorerCommand, Mode=OneWay}" />
 						</icore:EventTriggerBehavior>
 					</i:Interaction.Behaviors>
 				</ToggleSwitch>
@@ -109,12 +87,12 @@
 					<FontIcon Glyph="&#xE1A5;" />
 				</local:SettingsBlockControl.Icon>
 				<ToggleSwitch
-					IsEnabled="{Binding IsSetAsDefaultFileManager, Mode=OneWay}"
-					IsOn="{Binding IsSetAsOpenFileDialog, Mode=TwoWay}"
+					IsEnabled="{x:Bind viewModel.IsSetAsDefaultFileManager, Mode=OneWay}"
+					IsOn="{x:Bind viewModel.IsSetAsOpenFileDialog, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedToggleSwitchStyle}">
 					<i:Interaction.Behaviors>
 						<icore:EventTriggerBehavior EventName="Toggled">
-							<icore:InvokeCommandAction Command="{Binding SetAsOpenFileDialogCommand, Mode=OneWay}" />
+							<icore:InvokeCommandAction Command="{x:Bind viewModel.SetAsOpenFileDialogCommand, Mode=OneWay}" />
 						</icore:EventTriggerBehavior>
 					</i:Interaction.Behaviors>
 				</ToggleSwitch>

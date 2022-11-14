@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
+  <!--
+    Microsoft ResX Schema
+
     Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
     associated with the data types.
-    
+
     Example:
-    
+
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,36 +26,36 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-                
-    There are any number of "resheader" rows that contain simple 
+
+    There are any number of "resheader" rows that contain simple
     name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
     mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
     extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-    
+
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
+    value   : The object must be serialized into a byte array
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Ad</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>Tür</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>Boyut</value>
   </data>
@@ -159,14 +156,14 @@
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>Öge Adı</value>
   </data>
-  <data name="PropertiesItemPath.Text" xml:space="preserve">
+  <data name="Path" xml:space="preserve">
     <value>Yol:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Boyut:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed Size:</value>
+    <value>Sıkıştırılmamış Boyut:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Bu işlem yapılamaz</value>
@@ -347,9 +344,6 @@
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Başlamak için uygulamaya dosyalarınızı görüntüleme izni vermelisiniz. Bu aşamada bu izni verebileceğiniz bir Ayarlar sayfası açılacak. Bu adımı tamamladıktan sonra uygulamayı yeniden başlatmalısınız. </value>
-  </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Dosya klasörü</value>
   </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Dosya</value>
@@ -801,6 +795,9 @@
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Görünüm kipi</value>
   </data>
+  <data name="LayoutMode" xml:space="preserve">
+    <value>Görünüm kipi</value>
+  </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
     <value>Geri git</value>
   </data>
@@ -816,17 +813,8 @@
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Dilim</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>Terminal uygulamaları</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>Terminal uygulamalarını düzenleyin</value>
-  </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Taşma öğelerini bir alt menüye taşı</value>
-  </data>
-  <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
-    <value>Geri Dönüşüm Kutusu'nu Sık Kullanılanlara Sabitle</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
     <value>Dosyaları veya klasörleri silerken bir onay iletişim kutusu göster</value>
@@ -1128,9 +1116,6 @@
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Seçme</value>
   </data>
-  <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
-    <value>Öğeleri tek bir tıklamayla açın</value>
-  </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>Dosya</value>
   </data>
@@ -1230,14 +1215,20 @@
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Güncelleştirmeler Var</value>
   </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
-    <value>Korunan işletim sistemi dosyalarını gizle (Önerilen)</value>
+  <data name="ShowProtectedSystemFiles" xml:space="preserve">
+    <value>Show protected system files</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Dosya ve klasör ararken dizine eklenmemiş öğeleri göster (aramalar daha uzun sürebilir)</value>
+    <value>Include unindexed items in search results</value>
   </data>
-  <data name="ForceThesePreferencesOnAllDirectories" xml:space="preserve">
-    <value>Force these preferences on all directories</value>
+  <data name="ResetFolderPreferencesOverrides" xml:space="preserve">
+    <value>Reset folder overrides</value>
+  </data>
+  <data name="EnableOverridingFolderPreferencesDescription" xml:space="preserve">
+    <value>Changing the layout in a directory when this setting is turned off will update the layout for all directories.</value>
+  </data>
+  <data name="EnableOverridingFolderPreferences" xml:space="preserve">
+    <value>Enable overriding folder preferences in individual directories</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Sağ tık menüsünü özelleştir</value>
@@ -1671,32 +1662,23 @@
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
     <value>Klasörleri yeni sekmede aç</value>
   </data>
-  <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
-    <value>Paketler widget'ını göster</value>
+  <data name="ShowBundlesWidget" xml:space="preserve">
+    <value>Show Bundles widget</value>
   </data>
-  <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
-    <value>Sürücüler widget'ını göster</value>
+  <data name="ShowDrivesWidget" xml:space="preserve">
+    <value>Show Drives widget</value>
   </data>
-  <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
-    <value>Klasörler widget'ını göster</value>
+  <data name="ShowFolderWidget" xml:space="preserve">
+    <value>Show Folders widget</value>
   </data>
-  <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
-    <value>Son Dosyalar widget'ını göster</value>
-  </data>
-  <data name="NavToolbarWidgets.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Widget'ları Yönet</value>
-  </data>
-  <data name="NavToolbarWidgetsManager.AutomationProperties.Name" xml:space="preserve">
-    <value>Widget'ları yönet</value>
+  <data name="ShowRecentFilesWidget" xml:space="preserve">
+    <value>Show Recent Files widget</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>Aradığınızı bulamadınız mı?</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
     <value>Dizine eklenmemiş öğeleri arayın.</value>
-  </data>
-  <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
-    <value>Widget'ları Yönet</value>
   </data>
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>Temalar klasörünü aç</value>
@@ -1956,8 +1938,8 @@
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Azletmek</value>
   </data>
-  <data name="NavToolbarWidgets.Label" xml:space="preserve">
-    <value>Widget'lar</value>
+  <data name="Widgets" xml:space="preserve">
+    <value>Widgets</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>Senkronizasyon durumu</value>
@@ -2316,24 +2298,6 @@
   <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+N</value>
   </data>
-  <data name="SettingsPrivacy.Title" xml:space="preserve">
-    <value>Gizlilik Politikası</value>
-  </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
-    <value>Fluent UI Sistem Simgeleri</value>
-  </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Fluent UI Sistem Simgeleri</value>
-  </data>
-  <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
-    <value>
-*Kişisel Bilgi Toplama* 
-Files hiçbir kişisel bilgiyi toplamaz, saklamaz, paylaşmaz veya yayınlamaz.
-
-*Kişisel Olmayan Bilgi Toplama*
-
-Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek için App Center kullanıyoruz. App Center'a gönderilen tüm bilgiler anonimdir ve herhangi bir kullanıcı veya bağlamsal veri içermez.</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Ana klasörü aç</value>
   </data>
@@ -2433,9 +2397,6 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Klasörleri yeni sekmede aç</value>
   </data>
-  <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Geri Dönüşüm Kutusu'nu Sık Kullanılanlara Sabitle</value>
-  </data>
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Dilim</value>
   </data>
@@ -2456,9 +2417,6 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
   </data>
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Kenar çubuğunda WSL bölümünü göster</value>
-  </data>
-  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Terminal uygulaması</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Devam Eden Görevler</value>
@@ -2493,8 +2451,8 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
   <data name="Tag" xml:space="preserve">
     <value>Dosya etiketi</value>
   </data>
-  <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
-    <value>Tek bir tıklama ile klasörleri açma</value>
+  <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
+    <value>Open items with a single click</value>
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
     <value>Klasör yolu</value>
@@ -2622,8 +2580,8 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>Kütüphane ismi girin</value>
   </data>
-  <data name="ShowFolderSize" xml:space="preserve">
-    <value>Dosya boyutunu göster</value>
+  <data name="CalculateFolderSizes" xml:space="preserve">
+    <value>Calculate folder sizes</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
     <value>Son Dosyalar</value>
@@ -2650,7 +2608,10 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
     <value>Disk temizleme</value>
   </data>
   <data name="Type" xml:space="preserve">
-    <value>Tip:</value>
+    <value>Tür</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Icon Grid</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Bayt</value>
@@ -2737,7 +2698,7 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
     <value>Etiketler bölümünü göster</value>
   </data>
   <data name="UseCompactStyles" xml:space="preserve">
-    <value>Ayrıntılı görünümde kompakt düzen kullan</value>
+    <value>Ayrıntılı görünümde kompakt stil kullan</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Evrensel</value>
@@ -2752,10 +2713,10 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
     <value>Yeniden Dene</value>
   </data>
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
-    <value>Taşıma işlemi bu durumda desteklenmiyor. Bunun yerine ögeleri kopyalamak ister misiniz?</value>
+    <value>Taşıma işlemi bu amaç için kullanılamaz. Bunun yerine öğeleri kopyalamak ister misiniz?</value>
   </data>
-  <data name="HiddenFilesAndFolders" xml:space="preserve">
-    <value>Gizli dosya ve klasörler</value>
+  <data name="HiddenItems" xml:space="preserve">
+    <value>Hidden items</value>
   </data>
   <data name="Custom" xml:space="preserve">
     <value>Özel</value>
@@ -2770,16 +2731,16 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
     <value>Katkıda Bulunanlar</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Uyumlu</value>
+    <value>Uyarlanabilir</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>Uyumlu (Ctrl+Shift+7)</value>
+    <value>Uyarlanabilir (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>Alternatif Veri Akışlarını Göster</value>
+    <value>Alternatif Veri Akışını Göster</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
     <value>Files'ı Değerlendir</value>
@@ -2788,45 +2749,108 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
     <value>Files'ı değerlendirmek ister misiniz?</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
-    <value>Set as background</value>
+    <value>Arka plan olarak ayarla</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Set as lockscreen</value>
+    <value>Kilit ekranı olarak ayarla</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>Masaüstü arka planı olarak ayarla</value>
   </data>
   <data name="SetAsDefault" xml:space="preserve">
-    <value>Set as default</value>
+    <value>Varsayılan olarak ayarla</value>
   </data>
-  <data name="FolderPreferences" xml:space="preserve">
-    <value>Folder preferences</value>
+  <data name="DateColumn" xml:space="preserve">
+    <value>Date column</value>
   </data>
-  <data name="DisplayDateColumn" xml:space="preserve">
-    <value>Display Date column</value>
+  <data name="DateCreatedColumn" xml:space="preserve">
+    <value>Date Created column</value>
   </data>
-  <data name="DisplayDateCreatedColumn" xml:space="preserve">
-    <value>Display Date Created column</value>
+  <data name="SizeColumn" xml:space="preserve">
+    <value>Size column</value>
   </data>
-  <data name="DisplaySizeColumn" xml:space="preserve">
-    <value>Display Size column</value>
+  <data name="TagColumn" xml:space="preserve">
+    <value>Tag column</value>
   </data>
-  <data name="DisplayTagColumn" xml:space="preserve">
-    <value>Display Tag column</value>
+  <data name="TypeColumn" xml:space="preserve">
+    <value>Type column</value>
   </data>
-  <data name="DisplayTypeColumn" xml:space="preserve">
-    <value>Display Type column</value>
+  <data name="DetailsLayoutColumns" xml:space="preserve">
+    <value>Details layout columns</value>
   </data>
   <data name="Reset" xml:space="preserve">
-    <value>Reset</value>
+    <value>Sıfırla</value>
   </data>
   <data name="ResetLayoutPreferences" xml:space="preserve">
-    <value>This action will reset all directories back to your default preferences.</value>
+    <value>Bu eylem tüm dizinleri varsayılan tercihlerinize geri döndürecektir.</value>
   </data>
   <data name="AreYouSure" xml:space="preserve">
-    <value>Are you sure?</value>
+    <value>Emin misin?</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
-    <value>Lockscreen</value>
+    <value>Kilit Ekranı</value>
+  </data>
+  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
+    <value>Sütunlar Düzeninde tek bir tıklama ile klasörleri aç</value>
+  </data>
+  <data name="OpeningItems" xml:space="preserve">
+    <value>Opening items</value>
+  </data>
+  <data name="AddSingleItemToArchive" xml:space="preserve">
+    <value>Add to {0}.zip</value>
+  </data>
+  <data name="AddToArchive" xml:space="preserve">
+    <value>Add to archive</value>
+  </data>
+  <data name="CompressionCompleted" xml:space="preserve">
+    <value>Compression completed</value>
+  </data>
+  <data name="CompressionSucceded" xml:space="preserve">
+    <value>{0} has been compressed</value>
+  </data>
+  <data name="CompressionFailed" xml:space="preserve">
+    <value>{0} couldn't be compressed</value>
+  </data>
+  <data name="CompressionInProgress" xml:space="preserve">
+    <value>Compressing archive</value>
+  </data>
+  <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
+    <value>Üzerine getirildiğinde dosyaları ve klasörleri seçin</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
+    <value>Are you sure you want to restore all items in the recycle bin?</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
+    <value>Restore all items</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
+    <value>Do you want to restore the {0} selected item(s)?</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
+    <value>Restore selection</value>
+  </data>
+  <data name="RestoreAllItems" xml:space="preserve">
+    <value>Restore All Items</value>
+  </data>
+  <data name="RestoreSelection" xml:space="preserve">
+    <value>Geri yükle</value>
+  </data>
+  <data name="ShortcutCannotBeOpened" xml:space="preserve">
+    <value>Shortcut cannot be opened</value>
+  </data>
+  <data name="DeleteShortcutDescription" xml:space="preserve">
+    <value>The target destination cannot be found {0}. Do you want to delete this shortcut?</value>
+  </data>
+  <data name="LoadingThemes" xml:space="preserve">
+    <value>Loading Themes</value>
+  </data>
+  <data name="EmptyingRecycleBin" xml:space="preserve">
+    <value>Emptying recycle bin</value>
+  </data>
+  <data name="BinEmptyingSucceded" xml:space="preserve">
+    <value>Successfully emptied recycle bin</value>
+  </data>
+  <data name="BinEmptyingFailed" xml:space="preserve">
+    <value>Failed to empty recycle bin</value>
   </data>
 </root>

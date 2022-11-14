@@ -1,52 +1,56 @@
-using Files.App.Filesystem;
+using Files.App.DataModels;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using Windows.Foundation;
-using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App
 {
-    public interface ISearchBox
-    {
-        event TypedEventHandler<ISearchBox, SearchBoxTextChangedEventArgs> TextChanged;
-        event TypedEventHandler<ISearchBox, SearchBoxQuerySubmittedEventArgs> QuerySubmitted;
-        event EventHandler<ISearchBox> Escaped;
+	public interface ISearchBox
+	{
+		event TypedEventHandler<ISearchBox, SearchBoxTextChangedEventArgs> TextChanged;
+		event TypedEventHandler<ISearchBox, SearchBoxQuerySubmittedEventArgs> QuerySubmitted;
+		event EventHandler<ISearchBox> Escaped;
 
-        string Query { get; set; }
+		bool WasQuerySubmitted { get; set; }
 
-        void ClearSuggestions();
+		string Query { get; set; }
 
-        void SetSuggestions(IEnumerable<ListedItem> suggestions);
-    }
+		void ClearSuggestions();
 
-    public class SearchBoxTextChangedEventArgs
-    {
-        public SearchBoxTextChangeReason Reason { get; }
+		void SetSuggestions(IEnumerable<SuggestionModel> suggestions);
 
-        public SearchBoxTextChangedEventArgs(SearchBoxTextChangeReason reason) => Reason = reason;
+		void AddRecentQueries();
+	}
 
-        public SearchBoxTextChangedEventArgs(AutoSuggestionBoxTextChangeReason reason)
-        {
-            Reason = reason switch
-            {
-                AutoSuggestionBoxTextChangeReason.UserInput => SearchBoxTextChangeReason.UserInput,
-                AutoSuggestionBoxTextChangeReason.SuggestionChosen => SearchBoxTextChangeReason.SuggestionChosen,
-                _ => SearchBoxTextChangeReason.ProgrammaticChange
-            };
-        }
-    }
+	public class SearchBoxTextChangedEventArgs
+	{
+		public SearchBoxTextChangeReason Reason { get; }
 
-    public class SearchBoxQuerySubmittedEventArgs
-    {
-        public ListedItem ChosenSuggestion { get; }
+		public SearchBoxTextChangedEventArgs(SearchBoxTextChangeReason reason) => Reason = reason;
 
-        public SearchBoxQuerySubmittedEventArgs(ListedItem chosenSuggestion) => ChosenSuggestion = chosenSuggestion;
-    }
+		public SearchBoxTextChangedEventArgs(AutoSuggestionBoxTextChangeReason reason)
+		{
+			Reason = reason switch
+			{
+				AutoSuggestionBoxTextChangeReason.UserInput => SearchBoxTextChangeReason.UserInput,
+				AutoSuggestionBoxTextChangeReason.SuggestionChosen => SearchBoxTextChangeReason.SuggestionChosen,
+				_ => SearchBoxTextChangeReason.ProgrammaticChange
+			};
+		}
+	}
 
-    public enum SearchBoxTextChangeReason : ushort
-    {
-        UserInput,
-        ProgrammaticChange,
-        SuggestionChosen,
-    }
+	public class SearchBoxQuerySubmittedEventArgs
+	{
+		public SuggestionModel ChosenSuggestion { get; }
+
+		public SearchBoxQuerySubmittedEventArgs(SuggestionModel chosenSuggestion) => ChosenSuggestion = chosenSuggestion;
+	}
+
+	public enum SearchBoxTextChangeReason : ushort
+	{
+		UserInput,
+		ProgrammaticChange,
+		SuggestionChosen,
+	}
 }

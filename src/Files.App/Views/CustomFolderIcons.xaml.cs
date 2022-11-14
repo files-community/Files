@@ -1,124 +1,117 @@
-using Files.Shared;
-using Files.App.Helpers;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Windows.ApplicationModel.AppService;
-using Windows.Foundation.Collections;
-using Windows.UI.Core;
+using Files.App.Shell;
+using Files.Shared;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
+using System;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using static Files.App.Views.PropertiesCustomization;
-using Files.Shared.Extensions;
-using Files.App.Shell;
 
 namespace Files.App.Views
 {
-    public sealed partial class CustomFolderIcons : Page
-    {
-        private string selectedItemPath;
-        private string iconResourceItemPath;
-        private IShellPage appInstance;
+	public sealed partial class CustomFolderIcons : Page
+	{
+		private string? selectedItemPath;
+		private string? iconResourceItemPath;
+		private IShellPage? appInstance;
 
-        public ICommand RestoreDefaultIconCommand { get; private set; }
-        public bool IsShortcutItem { get; private set; }
+		public ICommand RestoreDefaultIconCommand { get; private set; }
+		public bool IsShortcut { get; private set; }
 
-        public CustomFolderIcons()
-        {
-            this.InitializeComponent();
-            RestoreDefaultIconCommand = new AsyncRelayCommand(RestoreDefaultIcon);
-        }
+		public CustomFolderIcons()
+		{
+			this.InitializeComponent();
+			RestoreDefaultIconCommand = new AsyncRelayCommand(RestoreDefaultIcon);
+		}
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-            if (e.Parameter is IconSelectorInfo selectorInfo)
-            {
-                selectedItemPath = selectorInfo.SelectedItem;
-                IsShortcutItem = selectorInfo.IsShortcut;
-                iconResourceItemPath = selectorInfo.InitialPath;
-                appInstance = selectorInfo.AppInstance;
-                ItemDisplayedPath.Text = iconResourceItemPath;
+		protected override void OnNavigatedTo(NavigationEventArgs e)
+		{
+			base.OnNavigatedTo(e);
+			if (e.Parameter is not IconSelectorInfo selectorInfo)
+				return;
 
-                LoadIconsForPath(iconResourceItemPath);
-            }
-        }
+			selectedItemPath = selectorInfo.SelectedItem;
+			IsShortcut = selectorInfo.IsShortcut;
+			iconResourceItemPath = selectorInfo.InitialPath;
+			appInstance = selectorInfo.AppInstance;
+			ItemDisplayedPath.Text = iconResourceItemPath;
 
-        private async void PickDllButton_Click(object sender, RoutedEventArgs e)
-        {
-            Windows.Storage.Pickers.FileOpenPicker picker = new Windows.Storage.Pickers.FileOpenPicker();
-            picker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.ComputerFolder;
-            picker.ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail;
-            picker.FileTypeFilter.Add(".dll");
-            picker.FileTypeFilter.Add(".exe");
-            picker.FileTypeFilter.Add(".ico");
+			LoadIconsForPath(iconResourceItemPath);
+		}
 
-            var file = await picker.PickSingleFileAsync();
-            if (file != null)
-            {
-                iconResourceItemPath = file.Path;
-                ItemDisplayedPath.Text = iconResourceItemPath;
-                LoadIconsForPath(file.Path);
-            }
-        }
+		private async void PickDllButton_Click(object sender, RoutedEventArgs e)
+		{
+			Windows.Storage.Pickers.FileOpenPicker picker = new Windows.Storage.Pickers.FileOpenPicker();
+			var parentWindowId = ((Properties)((Frame)XamlRoot.Content).Content).appWindow.Id;
+			var handle = Microsoft.UI.Win32Interop.GetWindowFromWindowId(parentWindowId);
+			WinRT.Interop.InitializeWithWindow.Initialize(picker, handle);
+			picker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.ComputerFolder;
+			picker.ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail;
+			picker.FileTypeFilter.Add(".dll");
+			picker.FileTypeFilter.Add(".exe");
+			picker.FileTypeFilter.Add(".ico");
 
-        private async void LoadIconsForPath(string path)
-        {
-            var icons = Win32API.ExtractIconsFromDLL(path);
-            IconSelectionGrid.ItemsSource = icons;
-        }
+			var file = await picker.PickSingleFileAsync();
+			if (file is null)
+				return;
 
-        private async void IconSelectionGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var selectedIconInfo = (sender as GridView).SelectedItem as IconFileInfo;
-            if (selectedIconInfo == null)
-            {
-                return;
-            }
-            var setIconResult = IsShortcutItem ?
-                await SetCustomFileIcon(selectedItemPath, iconResourceItemPath, selectedIconInfo.Index) :
-                SetCustomFolderIcon(selectedItemPath, iconResourceItemPath, selectedIconInfo.Index);
-            if (setIconResult)
-            {
-                await App.Window.DispatcherQueue.EnqueueAsync(() =>
-                {
-                    appInstance?.FilesystemViewModel?.RefreshItems(null);
-                });
-            }
-        }
+			iconResourceItemPath = file.Path;
+			ItemDisplayedPath.Text = iconResourceItemPath;
+			LoadIconsForPath(file.Path);
+		}
 
-        private async Task RestoreDefaultIcon()
-        {
-            RestoreDefaultButton.IsEnabled = false;
+		private void LoadIconsForPath(string path)
+		{
+			var icons = Win32API.ExtractIconsFromDLL(path);
+			IconSelectionGrid.ItemsSource = icons;
+		}
 
-            var setIconResult = IsShortcutItem ?
-                await SetCustomFileIcon(selectedItemPath, null) :
-                SetCustomFolderIcon(selectedItemPath, null);
-            if (setIconResult)
-            {
-                await App.Window.DispatcherQueue.EnqueueAsync(() =>
-                {
-                    appInstance?.FilesystemViewModel?.RefreshItems(null, async () =>
-                    {
-                        await DispatcherQueue.EnqueueAsync(() => RestoreDefaultButton.IsEnabled = true);
-                    });
-                });
-            }
-        }
+		private async void IconSelectionGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			var selectedIconInfo = ((GridView)sender).SelectedItem as IconFileInfo;
+			if (selectedIconInfo is null)
+				return;
 
-        private bool SetCustomFolderIcon(string folderPath, string iconFile, int iconIndex = 0)
-        {
-            return Win32API.SetCustomDirectoryIcon(folderPath, iconFile, iconIndex);
-        }
+			var setIconResult = IsShortcut ?
+				SetCustomFileIcon(selectedItemPath, iconResourceItemPath, selectedIconInfo.Index) :
+				SetCustomFolderIcon(selectedItemPath, iconResourceItemPath, selectedIconInfo.Index);
+			if (setIconResult)
+			{
+				await App.Window.DispatcherQueue.EnqueueAsync(() =>
+				{
+					appInstance?.FilesystemViewModel?.RefreshItems(null);
+				});
+			}
+		}
 
-        private async Task<bool> SetCustomFileIcon(string filePath, string iconFile, int iconIndex = 0)
-        {
-            return await Win32API.SetCustomFileIconAsync(filePath, iconFile, iconIndex);
-        }
-    }
+		private async Task RestoreDefaultIcon()
+		{
+			RestoreDefaultButton.IsEnabled = false;
+
+			var setIconResult = IsShortcut ?
+				SetCustomFileIcon(selectedItemPath, null) :
+				SetCustomFolderIcon(selectedItemPath, null);
+			if (setIconResult)
+			{
+				await App.Window.DispatcherQueue.EnqueueAsync(() =>
+				{
+					appInstance?.FilesystemViewModel?.RefreshItems(null, async () =>
+					{
+						await DispatcherQueue.EnqueueAsync(() => RestoreDefaultButton.IsEnabled = true);
+					});
+				});
+			}
+		}
+
+		private bool SetCustomFolderIcon(string? folderPath, string? iconFile, int iconIndex = 0)
+		{
+			return Win32API.SetCustomDirectoryIcon(folderPath, iconFile, iconIndex);
+		}
+
+		private bool SetCustomFileIcon(string? filePath, string? iconFile, int iconIndex = 0)
+			=> Win32API.SetCustomFileIcon(filePath, iconFile, iconIndex);
+	}
 }

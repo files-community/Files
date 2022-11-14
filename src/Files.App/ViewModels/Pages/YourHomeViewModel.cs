@@ -1,137 +1,87 @@
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Files.App.EventArguments.Bundles;
 using Files.App.Helpers;
 using Files.App.ViewModels.Widgets;
 using Files.App.ViewModels.Widgets.Bundles;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using System;
-using System.Windows.Input;
 using Microsoft.UI.Xaml;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using Newtonsoft.Json;
-using Files.Shared;
-using Files.Shared.Extensions;
+using System;
+using System.Text.Json;
+using System.Windows.Input;
 
 namespace Files.App.ViewModels.Pages
 {
-    public class YourHomeViewModel : ObservableObject, IDisposable
-    {
-        private BundlesViewModel bundlesViewModel;
+	public class YourHomeViewModel : ObservableObject, IDisposable
+	{
+		private BundlesViewModel bundlesViewModel;
 
-        private readonly WidgetsListControlViewModel widgetsViewModel;
+		private readonly WidgetsListControlViewModel widgetsViewModel;
 
-        private IShellPage associatedInstance;
+		private IShellPage associatedInstance;
 
-        public event EventHandler<RoutedEventArgs> YourHomeLoadedInvoked;
+		private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
 
-        public ICommand YourHomeLoadedCommand { get; private set; }
+		public event EventHandler<RoutedEventArgs> YourHomeLoadedInvoked;
 
-        public ICommand LoadBundlesCommand { get; private set; }
+		public ICommand YourHomeLoadedCommand { get; private set; }
 
-        private NamedPipeAsAppServiceConnection connection;
+		public ICommand LoadBundlesCommand { get; private set; }
 
-        private NamedPipeAsAppServiceConnection Connection
-        {
-            get => connection;
-            set
-            {
-                if (connection != null)
-                {
-                    connection.RequestReceived -= Connection_RequestReceived;
-                }
-                connection = value;
-                if (connection != null)
-                {
-                    connection.RequestReceived += Connection_RequestReceived;
-                }
-            }
-        }
+		public YourHomeViewModel(WidgetsListControlViewModel widgetsViewModel, IShellPage associatedInstance)
+		{
+			this.widgetsViewModel = widgetsViewModel;
+			this.associatedInstance = associatedInstance;
 
-        public YourHomeViewModel(WidgetsListControlViewModel widgetsViewModel, IShellPage associatedInstance)
-        {
-            this.widgetsViewModel = widgetsViewModel;
-            this.associatedInstance = associatedInstance;
+			// Create commands
+			YourHomeLoadedCommand = new RelayCommand<RoutedEventArgs>(YourHomeLoaded);
+			LoadBundlesCommand = new RelayCommand<BundlesViewModel>(LoadBundles);
+		}
 
-            // Create commands
-            YourHomeLoadedCommand = new RelayCommand<RoutedEventArgs>(YourHomeLoaded);
-            LoadBundlesCommand = new RelayCommand<BundlesViewModel>(LoadBundles);
+		public void ChangeAppInstance(IShellPage associatedInstance)
+		{
+			this.associatedInstance = associatedInstance;
+		}
 
-            _ = InitializeConnectionAsync(); // fire and forget
-            AppServiceConnectionHelper.ConnectionChanged += AppServiceConnectionHelper_ConnectionChanged;
-        }
+		private void YourHomeLoaded(RoutedEventArgs e)
+		{
+			YourHomeLoadedInvoked?.Invoke(this, e);
+		}
 
-        private async Task InitializeConnectionAsync()
-        {
-            Connection ??= await AppServiceConnectionHelper.Instance;
-        }
+		private async void LoadBundles(BundlesViewModel viewModel)
+		{
+			bundlesViewModel = viewModel;
 
-        public void ChangeAppInstance(IShellPage associatedInstance)
-        {
-            this.associatedInstance = associatedInstance;
-        }
+			bundlesViewModel.OpenPathEvent -= BundlesViewModel_OpenPathEvent;
+			bundlesViewModel.OpenPathInNewPaneEvent -= BundlesViewModel_OpenPathInNewPaneEvent;
+			bundlesViewModel.OpenPathEvent += BundlesViewModel_OpenPathEvent;
+			bundlesViewModel.OpenPathInNewPaneEvent += BundlesViewModel_OpenPathInNewPaneEvent;
 
-        private void YourHomeLoaded(RoutedEventArgs e)
-        {
-            YourHomeLoadedInvoked?.Invoke(this, e);
-        }
+			await bundlesViewModel.Initialize();
+		}
 
-        private async void LoadBundles(BundlesViewModel viewModel)
-        {
-            bundlesViewModel = viewModel;
+		private void BundlesViewModel_OpenPathInNewPaneEvent(object sender, string e)
+		{
+			associatedInstance.PaneHolder.OpenPathInNewPane(e);
+		}
 
-            bundlesViewModel.OpenPathEvent -= BundlesViewModel_OpenPathEvent;
-            bundlesViewModel.OpenPathInNewPaneEvent -= BundlesViewModel_OpenPathInNewPaneEvent;
-            bundlesViewModel.OpenPathEvent += BundlesViewModel_OpenPathEvent;
-            bundlesViewModel.OpenPathInNewPaneEvent += BundlesViewModel_OpenPathInNewPaneEvent;
+		private async void BundlesViewModel_OpenPathEvent(object sender, BundlesOpenPathEventArgs e)
+		{
+			await NavigationHelpers.OpenPath(e.path, associatedInstance, e.itemType, e.openSilent, e.openViaApplicationPicker, e.selectItems);
+		}
 
-            await bundlesViewModel.Initialize();
-        }
+		#region IDisposable
 
-        private void BundlesViewModel_OpenPathInNewPaneEvent(object sender, string e)
-        {
-            associatedInstance.PaneHolder.OpenPathInNewPane(e);
-        }
+		public void Dispose()
+		{
+			if (bundlesViewModel is not null)
+			{
+				bundlesViewModel.OpenPathEvent -= BundlesViewModel_OpenPathEvent;
+				bundlesViewModel.OpenPathInNewPaneEvent -= BundlesViewModel_OpenPathInNewPaneEvent;
+			}
 
-        private async void BundlesViewModel_OpenPathEvent(object sender, BundlesOpenPathEventArgs e)
-        {
-            await NavigationHelpers.OpenPath(e.path, associatedInstance, e.itemType, e.openSilent, e.openViaApplicationPicker, e.selectItems);
-        }
+			widgetsViewModel?.Dispose();
+		}
 
-        private async void AppServiceConnectionHelper_ConnectionChanged(object sender, Task<NamedPipeAsAppServiceConnection> e)
-        {
-            Connection = await e;
-        }
-
-        private async void Connection_RequestReceived(object sender, Dictionary<string, object> message)
-        {
-            if (message.ContainsKey("RecentItems"))
-            {
-                var changeType = message.Get("ChangeType", "");
-                await App.RecentItemsManager.HandleWin32RecentItemsEvent(changeType);
-            }
-        }
-
-        #region IDisposable
-
-        public void Dispose()
-        {
-            if (bundlesViewModel != null)
-            {
-                bundlesViewModel.OpenPathEvent -= BundlesViewModel_OpenPathEvent;
-                bundlesViewModel.OpenPathInNewPaneEvent -= BundlesViewModel_OpenPathInNewPaneEvent;
-            }
-
-            widgetsViewModel?.Dispose();
-
-            if (connection != null)
-            {
-                connection.RequestReceived -= Connection_RequestReceived;
-            }
-
-            AppServiceConnectionHelper.ConnectionChanged -= AppServiceConnectionHelper_ConnectionChanged;
-        }
-
-        #endregion IDisposable
-    }
+		#endregion IDisposable
+	}
 }

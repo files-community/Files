@@ -5,14 +5,14 @@ using System.Threading.Tasks;
 
 namespace Files.Sdk.Storage.StorageProperties
 {
-    public interface IStoragePropertiesCollection
-    {
-        DateTime DateCreated { get; }
+	public interface IStoragePropertiesCollection
+	{
+		DateTime DateCreated { get; }
 
-        DateTime DateModified { get; }
+		DateTime DateModified { get; }
 
-        ulong? Size { get; }
+		ulong? Size { get; }
 
-        Task<IEnumerable<IStorageProperty>?> GetStoragePropertiesAsync(CancellationToken cancellationToken = default);
-    }
+		Task<IEnumerable<IStorageProperty>?> GetStoragePropertiesAsync(CancellationToken cancellationToken = default);
+	}
 }

@@ -1,11 +1,11 @@
 ﻿namespace Files.Shared.Enums
 {
-    public enum FolderLayoutModes
-    {
-        DetailsView = 1,
-        TilesView = 2,
-        ColumnView = 3,
-        GridView = 4,
-        Adaptive = 5
-    }
+	public enum FolderLayoutModes
+	{
+		DetailsView = 0,
+		TilesView = 1,
+		ColumnView = 2,
+		GridView = 3,
+		Adaptive = 4
+	}
 }

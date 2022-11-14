@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Files.Backend.SecureStore;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -9,66 +10,80 @@ using Windows.Storage.Pickers;
 
 namespace Files.App.ViewModels.Dialogs
 {
-    public class DecompressArchiveDialogViewModel : ObservableObject
-    {
-        private readonly IStorageFile archive;
+	public class DecompressArchiveDialogViewModel : ObservableObject
+	{
+		private readonly IStorageFile archive;
 
-        public StorageFolder DestinationFolder { get; private set; }
+		public StorageFolder DestinationFolder { get; private set; }
 
-        private string destinationFolderPath;
+		private string destinationFolderPath;
 
-        public string DestinationFolderPath
-        {
-            get => destinationFolderPath;
-            private set => SetProperty(ref destinationFolderPath, value);
-        }
+		public string DestinationFolderPath
+		{
+			get => destinationFolderPath;
+			private set => SetProperty(ref destinationFolderPath, value);
+		}
 
-        private bool openDestinationFolderOnCompletion;
+		private bool openDestinationFolderOnCompletion;
 
-        public bool OpenDestinationFolderOnCompletion
-        {
-            get => openDestinationFolderOnCompletion;
-            set => SetProperty(ref openDestinationFolderOnCompletion, value);
-        }
+		public bool OpenDestinationFolderOnCompletion
+		{
+			get => openDestinationFolderOnCompletion;
+			set => SetProperty(ref openDestinationFolderOnCompletion, value);
+		}
 
-        public ICommand SelectDestinationCommand { get; private set; }
+		private bool isArchiveEncrypted;
+		
+		public bool IsArchiveEncrypted
+		{
+			get => isArchiveEncrypted;
+			set => SetProperty(ref isArchiveEncrypted, value);
+		}
 
-        public DecompressArchiveDialogViewModel(IStorageFile archive)
-        {
-            this.archive = archive;
-            this.destinationFolderPath = DefaultDestinationFolderPath();
+		private bool showPathSelection;
 
-            // Create commands
-            SelectDestinationCommand = new AsyncRelayCommand(SelectDestination);
-        }
+		public bool ShowPathSelection
+		{
+			get => showPathSelection;
+			set => SetProperty(ref showPathSelection, value);
+		}
 
-        private async Task SelectDestination()
-        {
-            FolderPicker folderPicker = this.InitializeWithWindow(new FolderPicker());
-            folderPicker.FileTypeFilter.Add("*");
+		public DisposableArray? Password { get; private set; }
 
-            DestinationFolder = await folderPicker.PickSingleFolderAsync();
+		public IRelayCommand PrimaryButtonClickCommand { get; private set; }
 
-            if (DestinationFolder != null)
-            {
-                DestinationFolderPath = DestinationFolder.Path;
-            }
-            else
-            {
-                DestinationFolderPath = DefaultDestinationFolderPath();
-            }
-        }
+		public ICommand SelectDestinationCommand { get; private set; }
 
-        // WINUI3
-        private FolderPicker InitializeWithWindow(FolderPicker obj)
-        {
-            WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
-            return obj;
-        }
+		public DecompressArchiveDialogViewModel(IStorageFile archive)
+		{
+			this.archive = archive;
+			this.destinationFolderPath = DefaultDestinationFolderPath();
 
-        private string DefaultDestinationFolderPath()
-        {
-            return Path.Combine(Path.GetDirectoryName(archive.Path), Path.GetFileNameWithoutExtension(archive.Path));
-        }
-    }
+			// Create commands
+			SelectDestinationCommand = new AsyncRelayCommand(SelectDestination);
+			PrimaryButtonClickCommand = new RelayCommand<DisposableArray>(password => Password = password);
+		}
+
+		private async Task SelectDestination()
+		{
+			FolderPicker folderPicker = this.InitializeWithWindow(new FolderPicker());
+			folderPicker.FileTypeFilter.Add("*");
+
+			DestinationFolder = await folderPicker.PickSingleFolderAsync();
+
+			DestinationFolderPath = (DestinationFolder is not null) ? DestinationFolder.Path : DefaultDestinationFolderPath();
+		}
+
+		// WINUI3
+		private FolderPicker InitializeWithWindow(FolderPicker obj)
+		{
+			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+			return obj;
+		}
+
+		private string DefaultDestinationFolderPath()
+		{
+			return Path.Combine(Path.GetDirectoryName(archive.Path), Path.GetFileNameWithoutExtension(archive.Path));
+		}
+	}
 }

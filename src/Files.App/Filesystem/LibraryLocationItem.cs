@@ -1,65 +1,63 @@
-using Files.Shared;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Helpers;
+using Files.Shared;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace Files.App.Filesystem
 {
-    public class LibraryLocationItem : LocationItem
-    {
-        public string DefaultSaveFolder { get; }
+	public class LibraryLocationItem : LocationItem
+	{
+		public string DefaultSaveFolder { get; }
 
-        public ReadOnlyCollection<string> Folders { get; }
+		public ReadOnlyCollection<string> Folders { get; }
 
-        public bool IsEmpty => DefaultSaveFolder is null || Folders is null || Folders.Count is 0;
+		public bool IsEmpty => DefaultSaveFolder is null || Folders is null || Folders.Count is 0;
 
-        public LibraryLocationItem(ShellLibraryItem shellLibrary)
-        {
-            Section = SectionType.Library;
-            MenuOptions = new ContextMenuOptions
-            {
-                IsLocationItem = true,
-                ShowProperties = true,
-                ShowShellItems = true,
-                ShowUnpinItem = !shellLibrary.IsPinned,
-            };
-            Text = shellLibrary.DisplayName;
-            Path = shellLibrary.FullPath;
-            DefaultSaveFolder = shellLibrary.DefaultSaveFolder;
-            Folders = shellLibrary.Folders is null ? null : new ReadOnlyCollection<string>(shellLibrary.Folders);
-            IsDefaultLocation = shellLibrary.IsPinned;
-        }
+		public LibraryLocationItem(ShellLibraryItem shellLibrary)
+		{
+			Section = SectionType.Library;
+			MenuOptions = new ContextMenuOptions
+			{
+				IsLocationItem = true,
+				ShowProperties = true,
+				ShowShellItems = true,
+				ShowUnpinItem = !shellLibrary.IsPinned,
+			};
+			Text = shellLibrary.DisplayName is not null ? shellLibrary.DisplayName : "";
+			Path = shellLibrary.FullPath;
+			DefaultSaveFolder = shellLibrary.DefaultSaveFolder;
+			Folders = shellLibrary.Folders is null ? null : new ReadOnlyCollection<string>(shellLibrary.Folders);
+			IsDefaultLocation = shellLibrary.IsPinned;
+		}
 
+		public async Task<bool> CheckDefaultSaveFolderAccess()
+		{
+			if (IsEmpty)
+				return false;
 
+			var res = (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(DefaultSaveFolder);
 
-        public async Task<bool> CheckDefaultSaveFolderAccess()
-        {
-            if (IsEmpty)
-            {
-                return false;
-            }
-            var res = (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(DefaultSaveFolder);
-            if (!res)
-            {
-                var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(DefaultSaveFolder));
-                res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(DefaultSaveFolder, item));
-            }
-            return res;
-        }
+			if (!res)
+			{
+				var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(DefaultSaveFolder));
+				res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(DefaultSaveFolder, item));
+			}
 
-        public async Task LoadLibraryIcon()
-        {
-            IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Path, 24u);
-            if (IconData != null)
-            {
-                Icon = await IconData.ToBitmapAsync();
-            }
-        }
+			return res;
+		}
 
-        public override int GetHashCode() => Path.GetHashCode(System.StringComparison.OrdinalIgnoreCase);
+		public async Task LoadLibraryIcon()
+		{
+			IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Path, 24u);
 
-        public override bool Equals(object obj)
-            => obj is LibraryLocationItem other && GetType() == obj.GetType() && string.Equals(Path, other.Path, System.StringComparison.OrdinalIgnoreCase);
-    }
+			if (IconData is not null)
+				Icon = await IconData.ToBitmapAsync();
+		}
+
+		public override int GetHashCode() => Path.GetHashCode(System.StringComparison.OrdinalIgnoreCase);
+
+		public override bool Equals(object obj)
+			=> obj is LibraryLocationItem other && GetType() == obj.GetType() && string.Equals(Path, other.Path, System.StringComparison.OrdinalIgnoreCase);
+	}
 }

@@ -25,17 +25,17 @@
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Sideload|x64">
+    <ProjectConfiguration Include="Sideload|arm64">
       <Configuration>Sideload</Configuration>
-      <Platform>x64</Platform>
+      <Platform>arm64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Sideload|Win32">
       <Configuration>Sideload</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Sideload|arm64">
+    <ProjectConfiguration Include="Sideload|x64">
       <Configuration>Sideload</Configuration>
-      <Platform>arm64</Platform>
+      <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -81,13 +81,13 @@
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|arm64'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Sideload|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Sideload|x64'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|arm64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
@@ -110,7 +110,7 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Sideload|Win32'">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Sideload|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -122,10 +122,10 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|arm64'" Label="PropertySheets">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Sideload|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Sideload|x64'">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|arm64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Sideload|arm64'" Label="PropertySheets">
@@ -160,20 +160,6 @@
     <IntermediateOutputPath>..\..\..\artifacts\intermediates\$(Platform)\$(MSBuildProjectName)\</IntermediateOutputPath>
     <TargetName>CustomOpenDialog$(PlatformArchitecture)</TargetName>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IgnoreImportLibrary>true</IgnoreImportLibrary>
-    <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\..\..\artifacts\$(Configuration)\$(Platform)\$(MSBuildProjectName)\</OutDir>
-    <IntermediateOutputPath>..\..\..\artifacts\intermediates\$(Platform)\$(MSBuildProjectName)\</IntermediateOutputPath>
-    <TargetName>CustomOpenDialog$(PlatformArchitecture)</TargetName>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|arm64'">
-    <IgnoreImportLibrary>true</IgnoreImportLibrary>
-    <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\..\..\artifacts\$(Configuration)\$(Platform)\$(MSBuildProjectName)\</OutDir>
-    <IntermediateOutputPath>..\..\..\artifacts\intermediates\$(Platform)\$(MSBuildProjectName)\</IntermediateOutputPath>
-    <TargetName>CustomOpenDialog$(PlatformArchitecture)</TargetName>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Sideload|Win32'">
     <IgnoreImportLibrary>true</IgnoreImportLibrary>
     <LinkIncremental>false</LinkIncremental>
@@ -181,7 +167,21 @@
     <IntermediateOutputPath>..\..\..\artifacts\intermediates\$(Platform)\$(MSBuildProjectName)\</IntermediateOutputPath>
     <TargetName>CustomOpenDialog$(PlatformArchitecture)</TargetName>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IgnoreImportLibrary>true</IgnoreImportLibrary>
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\..\..\artifacts\$(Configuration)\$(Platform)\$(MSBuildProjectName)\</OutDir>
+    <IntermediateOutputPath>..\..\..\artifacts\intermediates\$(Platform)\$(MSBuildProjectName)\</IntermediateOutputPath>
+    <TargetName>CustomOpenDialog$(PlatformArchitecture)</TargetName>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Sideload|x64'">
+    <IgnoreImportLibrary>true</IgnoreImportLibrary>
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\..\..\artifacts\$(Configuration)\$(Platform)\$(MSBuildProjectName)\</OutDir>
+    <IntermediateOutputPath>..\..\..\artifacts\intermediates\$(Platform)\$(MSBuildProjectName)\</IntermediateOutputPath>
+    <TargetName>CustomOpenDialog$(PlatformArchitecture)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|arm64'">
     <IgnoreImportLibrary>true</IgnoreImportLibrary>
     <LinkIncremental>false</LinkIncremental>
     <OutDir>..\..\..\artifacts\$(Configuration)\$(Platform)\$(MSBuildProjectName)\</OutDir>
@@ -229,7 +229,7 @@
       <OutputFile>$(OutDir)CustomOpenDialog$(PlatformArchitecture)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.dll" "$(ProjectDir)..\..\..\src\Files.FullTrust\Assets\FilesOpenDialog"</Command>
+      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.dll" "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -265,7 +265,7 @@
       <OutputFile>$(OutDir)CustomOpenDialog$(PlatformArchitecture)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.dll" "$(ProjectDir)..\..\..\src\Files.FullTrust\Assets\FilesOpenDialog"</Command>
+      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.dll" "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|arm64'">
@@ -302,7 +302,7 @@
       <OutputFile>$(OutDir)CustomOpenDialog$(PlatformArchitecture)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.dll" "$(ProjectDir)..\..\..\src\Files.FullTrust\Assets\FilesOpenDialog"</Command>
+      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.dll" "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -341,7 +341,47 @@
       <OutputFile>$(OutDir)CustomOpenDialog$(PlatformArchitecture)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.dll" "$(ProjectDir)..\..\..\src\Files.FullTrust\Assets\FilesOpenDialog"</Command>
+      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.dll" "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Sideload|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <HeaderFileName>CustomOpenDialog_i.h</HeaderFileName>
+      <InterfaceIdentifierFileName>CustomOpenDialog_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>CustomOpenDialog_p.c</ProxyFileName>
+      <GenerateStublessProxies>true</GenerateStublessProxies>
+      <TypeLibraryName>$(IntDir)CustomOpenDialog.tlb</TypeLibraryName>
+      <DllDataFileName>
+      </DllDataFileName>
+      <ValidateAllParameters>true</ValidateAllParameters>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0410</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <ModuleDefinitionFile>.\CustomOpenDialog.def</ModuleDefinitionFile>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <RegisterOutput>false</RegisterOutput>
+      <PerUserRedirection>true</PerUserRedirection>
+      <OutputFile>$(OutDir)CustomOpenDialog$(PlatformArchitecture)$(TargetExt)</OutputFile>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.dll" "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -379,7 +419,46 @@
       <OutputFile>$(OutDir)CustomOpenDialog$(PlatformArchitecture)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.dll" "$(ProjectDir)..\..\..\src\Files.FullTrust\Assets\FilesOpenDialog"</Command>
+      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.dll" "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Sideload|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <PreprocessorDefinitions>_WINDOWS;NDEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <HeaderFileName>CustomOpenDialog_i.h</HeaderFileName>
+      <InterfaceIdentifierFileName>CustomOpenDialog_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>CustomOpenDialog_p.c</ProxyFileName>
+      <GenerateStublessProxies>true</GenerateStublessProxies>
+      <TypeLibraryName>$(IntDir)CustomOpenDialog.tlb</TypeLibraryName>
+      <DllDataFileName>
+      </DllDataFileName>
+      <ValidateAllParameters>true</ValidateAllParameters>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0410</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <ModuleDefinitionFile>.\CustomOpenDialog.def</ModuleDefinitionFile>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <RegisterOutput>false</RegisterOutput>
+      <PerUserRedirection>true</PerUserRedirection>
+      <OutputFile>$(OutDir)CustomOpenDialog$(PlatformArchitecture)$(TargetExt)</OutputFile>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.dll" "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|arm64'">
@@ -418,84 +497,7 @@
       <OutputFile>$(OutDir)CustomOpenDialog$(PlatformArchitecture)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.dll" "$(ProjectDir)..\..\..\src\Files.FullTrust\Assets\FilesOpenDialog"</Command>
-    </PostBuildEvent>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Sideload|Win32'">
-    <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <SDLCheck>true</SDLCheck>
-    </ClCompile>
-    <Midl>
-      <MkTypLibCompatible>false</MkTypLibCompatible>
-      <TargetEnvironment>Win32</TargetEnvironment>
-      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <HeaderFileName>CustomOpenDialog_i.h</HeaderFileName>
-      <InterfaceIdentifierFileName>CustomOpenDialog_i.c</InterfaceIdentifierFileName>
-      <ProxyFileName>CustomOpenDialog_p.c</ProxyFileName>
-      <GenerateStublessProxies>true</GenerateStublessProxies>
-      <TypeLibraryName>$(IntDir)CustomOpenDialog.tlb</TypeLibraryName>
-      <DllDataFileName />
-      <ValidateAllParameters>true</ValidateAllParameters>
-    </Midl>
-    <ResourceCompile>
-      <Culture>0x0410</Culture>
-      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ResourceCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <ModuleDefinitionFile>.\CustomOpenDialog.def</ModuleDefinitionFile>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-      <RegisterOutput>false</RegisterOutput>
-      <PerUserRedirection>true</PerUserRedirection>
-      <OutputFile>$(OutDir)CustomOpenDialog$(PlatformArchitecture)$(TargetExt)</OutputFile>
-    </Link>
-    <PostBuildEvent>
-      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.dll" "$(ProjectDir)..\..\..\src\Files.FullTrust\Assets\FilesOpenDialog"</Command>
-    </PostBuildEvent>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Sideload|x64'">
-    <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
-      <PreprocessorDefinitions>_WINDOWS;NDEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <SDLCheck>true</SDLCheck>
-    </ClCompile>
-    <Midl>
-      <MkTypLibCompatible>false</MkTypLibCompatible>
-      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <HeaderFileName>CustomOpenDialog_i.h</HeaderFileName>
-      <InterfaceIdentifierFileName>CustomOpenDialog_i.c</InterfaceIdentifierFileName>
-      <ProxyFileName>CustomOpenDialog_p.c</ProxyFileName>
-      <GenerateStublessProxies>true</GenerateStublessProxies>
-      <TypeLibraryName>$(IntDir)CustomOpenDialog.tlb</TypeLibraryName>
-      <DllDataFileName />
-      <ValidateAllParameters>true</ValidateAllParameters>
-    </Midl>
-    <ResourceCompile>
-      <Culture>0x0410</Culture>
-      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ResourceCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <ModuleDefinitionFile>.\CustomOpenDialog.def</ModuleDefinitionFile>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-      <RegisterOutput>false</RegisterOutput>
-      <PerUserRedirection>true</PerUserRedirection>
-      <OutputFile>$(OutDir)CustomOpenDialog$(PlatformArchitecture)$(TargetExt)</OutputFile>
-    </Link>
-    <PostBuildEvent>
-      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.dll" "$(ProjectDir)..\..\..\src\Files.FullTrust\Assets\FilesOpenDialog"</Command>
+      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.dll" "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Sideload|arm64'">
@@ -534,7 +536,7 @@
       <OutputFile>$(OutDir)CustomOpenDialog$(PlatformArchitecture)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.dll" "$(ProjectDir)..\..\..\src\Files.FullTrust\Assets\FilesOpenDialog"</Command>
+      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.dll" "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -554,10 +556,10 @@
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|arm64'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsManaged>
-      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</CompileAsManaged>
-      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|arm64'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Sideload|Win32'">false</CompileAsManaged>
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Sideload|x64'">false</CompileAsManaged>
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|arm64'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Sideload|arm64'">false</CompileAsManaged>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </PrecompiledHeader>
@@ -567,13 +569,13 @@
       </PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
       </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|arm64'">
-      </PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Sideload|Win32'">
       </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Sideload|x64'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|arm64'">
       </PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Sideload|arm64'">
       </PrecompiledHeader>
@@ -583,10 +585,10 @@
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|arm64'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsManaged>
-      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</CompileAsManaged>
-      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|arm64'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Sideload|Win32'">false</CompileAsManaged>
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Sideload|x64'">false</CompileAsManaged>
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|arm64'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Sideload|arm64'">false</CompileAsManaged>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </PrecompiledHeader>
@@ -596,13 +598,13 @@
       </PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
       </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|arm64'">
-      </PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Sideload|Win32'">
       </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Sideload|x64'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|arm64'">
       </PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Sideload|arm64'">
       </PrecompiledHeader>
@@ -613,10 +615,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|arm64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|arm64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Sideload|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Sideload|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|arm64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Sideload|arm64'">Create</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>

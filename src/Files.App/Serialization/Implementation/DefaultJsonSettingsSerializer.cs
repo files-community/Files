@@ -1,19 +1,22 @@
-using Newtonsoft.Json;
-
-#nullable enable
+using System.Text.Json;
 
 namespace Files.App.Serialization.Implementation
 {
-    internal sealed class DefaultJsonSettingsSerializer : IJsonSettingsSerializer
-    {
-        public string? SerializeToJson(object? obj)
-        {
-            return JsonConvert.SerializeObject(obj, Formatting.Indented);
-        }
+	internal sealed class DefaultJsonSettingsSerializer : IJsonSettingsSerializer
+	{
+		public static readonly JsonSerializerOptions Options = new JsonSerializerOptions
+		{
+			WriteIndented = true
+		};
 
-        public T? DeserializeFromJson<T>(string json)
-        {
-            return JsonConvert.DeserializeObject<T?>(json);
-        }
-    }
+		public string? SerializeToJson(object? obj)
+		{
+			return JsonSerializer.Serialize(obj, Options);
+		}
+
+		public T? DeserializeFromJson<T>(string json)
+		{
+			return JsonSerializer.Deserialize<T?>(json);
+		}
+	}
 }

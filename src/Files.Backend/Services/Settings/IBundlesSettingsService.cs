@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 namespace Files.Backend.Services.Settings
 {
-    public interface IBundlesSettingsService : IBaseSettingsService
-    {
-        event EventHandler OnSettingImportedEvent;
+	public interface IBundlesSettingsService : IBaseSettingsService
+	{
+		event EventHandler OnSettingImportedEvent;
 
-        bool FlushSettings();
+		bool FlushSettings();
 
-        object ExportSettings();
+		object ExportSettings();
 
-        bool ImportSettings(object import);
+		bool ImportSettings(object import);
 
-        Dictionary<string, List<string>> SavedBundles { get; set; }
-    }
+		Dictionary<string, List<string>> SavedBundles { get; set; }
+	}
 }

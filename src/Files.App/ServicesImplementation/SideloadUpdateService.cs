@@ -1,241 +1,210 @@
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.Backend.Services;
+using Files.Shared;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Net;
+using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Windows.ApplicationModel;
 using Windows.Management.Deployment;
 using Windows.Storage;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Backend.Services;
-using Files.Shared;
 
 namespace Files.App.ServicesImplementation
 {
-    public class SideloadUpdateService : ObservableObject, IUpdateService
-    {
-        private const string SideloadStable = "https://cdn.files.community/files/stable/Files.Package.appinstaller";
-        private const string SideloadPreview = "https://cdn.files.community/files/preview/Files.Package.appinstaller";
+	public sealed class SideloadUpdateService : ObservableObject, IUpdateService, IDisposable
+	{
+		private const string SIDELOAD_STABLE = "https://cdn.files.community/files/stable/Files.Package.appinstaller";
+		private const string SIDELOAD_PREVIEW = "https://cdn.files.community/files/preview/Files.Package.appinstaller";
 
-        private bool _isUpdateAvailable;
-        private bool _isUpdating;
-        private int _downloadPercentage;
+		private bool _isUpdateAvailable;
+		private bool _isUpdating;
 
-        private readonly Dictionary<string, string> _sideloadVersion = new()
-        {
-            { "Files", SideloadStable },
-            { "FilesPreview", SideloadPreview }
-        };
+		private readonly HttpClient _client = new(new SocketsHttpHandler { PooledConnectionLifetime = TimeSpan.FromMinutes(1) });
 
-        private const string TemporaryUpdatePackageName = "UpdatePackage.msix";
+		private readonly Dictionary<string, string> _sideloadVersion = new()
+		{
+			{ "Files", SIDELOAD_STABLE },
+			{ "FilesPreview", SIDELOAD_PREVIEW }
+		};
 
-        private ILogger Logger { get; } = Ioc.Default.GetService<ILogger>();
+		private const string TEMPORARY_UPDATE_PACKAGE_NAME = "UpdatePackage.msix";
 
-        private string PackageName { get; } = Package.Current.Id.Name;
+		private ILogger? Logger { get; } = Ioc.Default.GetService<ILogger>();
 
-        private Version PackageVersion { get; } = new(Package.Current.Id.Version.Major,
-            Package.Current.Id.Version.Minor, Package.Current.Id.Version.Build, Package.Current.Id.Version.Revision);
+		private string PackageName { get; } = Package.Current.Id.Name;
 
-        private Uri DownloadUri { get; set; }
+		private Version PackageVersion { get; } = new(Package.Current.Id.Version.Major,
+			Package.Current.Id.Version.Minor, Package.Current.Id.Version.Build, Package.Current.Id.Version.Revision);
 
-        public bool IsUpdateAvailable
-        {
-            get => _isUpdateAvailable;
-            private set => SetProperty(ref _isUpdateAvailable, value);
-        }
+		private Uri? DownloadUri { get; set; }
 
-        public bool IsUpdating
-        {
-            get => _isUpdating;
-            private set => SetProperty(ref _isUpdating, value);
-        }
+		public bool IsUpdateAvailable
+		{
+			get => _isUpdateAvailable;
+			private set => SetProperty(ref _isUpdateAvailable, value);
+		}
 
-        public int DownloadPercentage
-        {
-            get => _downloadPercentage;
-            private set => SetProperty(ref _downloadPercentage, value);
-        }
+		public bool IsUpdating
+		{
+			get => _isUpdating;
+			private set => SetProperty(ref _isUpdating, value);
+		}
 
-        public async Task DownloadUpdates()
-        {
-            await ApplyPackageUpdate();
-        }
+		public async Task DownloadUpdates()
+		{
+			await ApplyPackageUpdate();
+		}
 
-        public Task DownloadMandatoryUpdates()
-        {
-            return Task.CompletedTask;
-        }
+		public Task DownloadMandatoryUpdates()
+		{
+			return Task.CompletedTask;
+		}
 
-        public async Task CheckForUpdates()
-        {
-            Logger.Info($"SIDELOAD: Checking for updates...");
-            await CheckForRemoteUpdate(_sideloadVersion[PackageName]);
-        }
+		public async Task CheckForUpdates()
+		{
+			try
+			{
+				Logger?.Info($"SIDELOAD: Checking for updates...");
 
-        private async Task CheckForRemoteUpdate(string uri)
-        {
-            if (string.IsNullOrEmpty(uri))
-            {
-                throw new ArgumentNullException(nameof(uri));
-            }
+				await using var stream = await _client.GetStreamAsync(_sideloadVersion[PackageName]);
 
-            try
-            {
-                using var client = new WebClient();
-                using var stream = await client.OpenReadTaskAsync(uri);
+				// Deserialize AppInstaller.
+				XmlSerializer xml = new XmlSerializer(typeof(AppInstaller));
+				var appInstaller = (AppInstaller?)xml.Deserialize(stream);
 
-                // Deserialize AppInstaller.
-                XmlSerializer xml = new XmlSerializer(typeof(AppInstaller));
-                var appInstaller = (AppInstaller)xml.Deserialize(stream);
+				if (appInstaller is null)
+					throw new ArgumentNullException(nameof(appInstaller));
 
-                if (appInstaller == null)
-                {
-                    throw new ArgumentNullException(nameof(appInstaller));
-                }
+				var remoteVersion = new Version(appInstaller.Version);
 
-                var remoteVersion = new Version(appInstaller.Version);
+				Logger?.Info($"SIDELOAD: Current Package Name: {PackageName}");
+				Logger?.Info($"SIDELOAD: Remote Package Name: {appInstaller.MainBundle.Name}");
+				Logger?.Info($"SIDELOAD: Current Version: {PackageVersion}");
+				Logger?.Info($"SIDELOAD: Remote Version: {remoteVersion}");
 
-                Logger.Info($"SIDELOAD: Current Package Name: {PackageName}");
-                Logger.Info($"SIDELOAD: Remote Package Name: {appInstaller.MainBundle.Name}");
-                Logger.Info($"SIDELOAD: Current Version: {PackageVersion}");
-                Logger.Info($"SIDELOAD: Remote Version: {remoteVersion}");
+				// Check details and version number.
+				if (appInstaller.MainBundle.Name.Equals(PackageName) && remoteVersion.CompareTo(PackageVersion) > 0)
+				{
+					Logger?.Info("SIDELOAD: Update found.");
+					Logger?.Info("SIDELOAD: Starting background download.");
+					DownloadUri = new Uri(appInstaller.MainBundle.Uri);
+					await StartBackgroundDownload();
+				}
+				else
+				{
+					Logger?.Warn("SIDELOAD: Update not found.");
+					IsUpdateAvailable = false;
+				}
+			}
+			catch (Exception e)
+			{
+				Logger?.Error(e, e.Message);
+			}
+		}
 
-                // Check details and version number.
-                if (appInstaller.MainBundle.Name.Equals(PackageName) && remoteVersion.CompareTo(PackageVersion) > 0)
-                {
-                    Logger.Info("SIDELOAD: Update found.");
-                    Logger.Info("SIDELOAD: Starting background download.");
-                    DownloadUri = new Uri(appInstaller.MainBundle.Uri);
-                    await StartBackgroundDownload();
-                }
-                else
-                {
-                    Logger.Warn("SIDELOAD: Update not found.");
-                    IsUpdateAvailable = false;
-                }
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e, e.Message);
-            }
-        }
+		private async Task StartBackgroundDownload()
+		{
+			try
+			{
+				var tempDownloadPath = ApplicationData.Current.LocalFolder.Path + "\\" + TEMPORARY_UPDATE_PACKAGE_NAME;
 
-        private async Task StartBackgroundDownload()
-        {
-            try
-            {
-                using var client = new WebClient();
-                client.DownloadFileCompleted += BackgroundDownloadCompleted;
-                client.DownloadProgressChanged += BackgroundDownloadProgressChanged;
+				Stopwatch timer = Stopwatch.StartNew();
 
-                // Use temp folder instead?
-                var tempDownloadPath = ApplicationData.Current.LocalFolder.Path + "\\" + TemporaryUpdatePackageName;
+				await using (var stream = await _client.GetStreamAsync(DownloadUri))
+				await using (var fileStream = new FileStream(tempDownloadPath, FileMode.OpenOrCreate))
+					await stream.CopyToAsync(fileStream);
 
-                Stopwatch timer = Stopwatch.StartNew();
+				timer.Stop();
+				var timespan = timer.Elapsed;
 
-                await client.DownloadFileTaskAsync(DownloadUri, tempDownloadPath);
+				Logger?.Info($"Download time taken: {timespan.Hours:00}:{timespan.Minutes:00}:{timespan.Seconds:00}");
 
-                timer.Stop();
-                var timespan = timer.Elapsed;
+				IsUpdateAvailable = true;
+			}
+			catch (Exception e)
+			{
+				Logger?.Error(e, e.Message);
+			}
+		}
 
-                Logger.Info($"Download time taken: {timespan.Hours:00}:{timespan.Minutes:00}:{timespan.Seconds:00}");
+		private async Task ApplyPackageUpdate()
+		{
+			if (!IsUpdateAvailable)
+				return;
 
-                client.DownloadFileCompleted -= BackgroundDownloadCompleted;
-                client.DownloadProgressChanged -= BackgroundDownloadProgressChanged;
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e, e.Message);
-            }
-        }
+			IsUpdating = true;
 
-        private void BackgroundDownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
-        {
-            DownloadPercentage = e.ProgressPercentage;
-        }
+			PackageManager pm = new PackageManager();
+			DeploymentResult? result = null;
 
-        private void BackgroundDownloadCompleted(object sender, AsyncCompletedEventArgs e)
-        {
-            IsUpdateAvailable = true;
-        }
+			try
+			{
+				await Task.Run(async () =>
+				{
+					var bundlePath = new Uri(ApplicationData.Current.LocalFolder.Path + "\\" + TEMPORARY_UPDATE_PACKAGE_NAME);
 
-        private async Task ApplyPackageUpdate()
-        {
-            if (!IsUpdateAvailable)
-            {
-                return;
-            }
+					var deployment = pm.RequestAddPackageAsync(
+						bundlePath,
+						null,
+						DeploymentOptions.ForceTargetApplicationShutdown,
+						pm.GetDefaultPackageVolume(),
+						null,
+						null);
 
-            IsUpdating = true;
+					result = await deployment;
+				});
+			}
+			catch (Exception e)
+			{
+				if (result?.ExtendedErrorCode is not null)
+					Logger?.Info(result.ErrorText);
 
-            PackageManager pm = new PackageManager();
-            DeploymentResult result = null;
+				Logger?.Error(e, e.Message);
+			}
+			finally
+			{
+				// Reset fields.
+				IsUpdating = false;
+				IsUpdateAvailable = false;
+				DownloadUri = null;
+			}
+		}
 
-            try
-            {
-                await Task.Run(async () =>
-                {
-                    var bundlePath = new Uri(ApplicationData.Current.LocalFolder.Path + "\\" + TemporaryUpdatePackageName);
+		public void Dispose()
+		{
+			_client?.Dispose();
+		}
+	}
 
-                    var deployment = pm.RequestAddPackageAsync(
-                        bundlePath,
-                        null,
-                        DeploymentOptions.ForceTargetApplicationShutdown,
-                        pm.GetDefaultPackageVolume(),
-                        null,
-                        null);
+	/// <summary>
+	/// AppInstaller class to hold information about remote updates.
+	/// </summary>
+	[XmlRoot(ElementName = "AppInstaller", Namespace = "http://schemas.microsoft.com/appx/appinstaller/2018")]
+	public sealed class AppInstaller
+	{
+		[XmlElement("MainBundle")]
+		public MainBundle MainBundle { get; set; }
 
-                    result = await deployment;
-                });
-            }
-            catch (Exception e)
-            {
-                if (result?.ExtendedErrorCode != null)
-                {
-                    Logger.Info(result.ErrorText);
-                }
+		[XmlAttribute("Uri")]
+		public string Uri { get; set; }
 
-                Logger.Error(e, e.Message);
-            }
-            finally
-            {
-                // Reset fields.
-                IsUpdating = false;
-                IsUpdateAvailable = false;
-                DownloadPercentage = 0;
-                DownloadUri = null;
-            }
-        }
-    }
+		[XmlAttribute("Version")]
+		public string Version { get; set; }
+	}
 
-    /// <summary>
-    /// AppInstaller class to hold information about remote updates.
-    /// </summary>
-    [XmlRoot(ElementName = "AppInstaller", Namespace = "http://schemas.microsoft.com/appx/appinstaller/2018")]
-    public class AppInstaller
-    {
-        [XmlElement("MainBundle")]
-        public MainBundle MainBundle { get; set; }
+	public sealed class MainBundle
+	{
+		[XmlAttribute("Name")]
+		public string Name { get; set; }
 
-        [XmlAttribute("Uri")]
-        public string Uri { get; set; }
+		[XmlAttribute("Version")]
+		public string Version { get; set; }
 
-        [XmlAttribute("Version")]
-        public string Version { get; set; }
-    }
-
-    public class MainBundle
-    {
-        [XmlAttribute("Name")]
-        public string Name { get; set; }
-
-        [XmlAttribute("Version")]
-        public string Version { get; set; }
-
-        [XmlAttribute("Uri")]
-        public string Uri { get; set; }
-    }
+		[XmlAttribute("Uri")]
+		public string Uri { get; set; }
+	}
 }

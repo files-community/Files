@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
+  <!--
+    Microsoft ResX Schema
+
     Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
     associated with the data types.
-    
+
     Example:
-    
+
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,36 +26,36 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-                
-    There are any number of "resheader" rows that contain simple 
+
+    There are any number of "resheader" rows that contain simple
     name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
     mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
     extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-    
+
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
+    value   : The object must be serialized into a byte array
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Nazwa</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>Typ</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>Rozmiar</value>
   </data>
@@ -159,14 +156,14 @@
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>Nazwa</value>
   </data>
-  <data name="PropertiesItemPath.Text" xml:space="preserve">
+  <data name="Path" xml:space="preserve">
     <value>Lokalizacja:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Rozmiar:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed Size:</value>
+    <value>Rozmiar nieskompresowany:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Ta akcja nie może być wykonana</value>
@@ -347,9 +344,6 @@
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Przed rozpoczęciem, będziesz musiał przyznać uprawnienia do odczytu plików. Otworzymy dla Ciebie kartę z ustawieniami gdzie będziesz mógł przyznać te uprawnienia. Będzie wymagany restart aplikacji po wprowadzeniu zmian.</value>
-  </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Folder</value>
   </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Plik</value>
@@ -801,6 +795,9 @@
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Układ</value>
   </data>
+  <data name="LayoutMode" xml:space="preserve">
+    <value>Układ</value>
+  </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
     <value>Nawiguj do tyłu</value>
   </data>
@@ -816,17 +813,8 @@
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Język</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>Aplikacja terminala</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>Edytuj aplikacje terminala</value>
-  </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Przenieś przepełnione elementy do podmenu</value>
-  </data>
-  <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
-    <value>Przypnij Kosz do ulubionych</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
     <value>Pokaż okno dialogowe potwierdzenia podczas usuwania plików lub folderów</value>
@@ -1128,9 +1116,6 @@
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Wybierz</value>
   </data>
-  <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
-    <value>Otwieraj pliki jednym kliknięciem</value>
-  </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>Plik</value>
   </data>
@@ -1230,14 +1215,20 @@
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Dostępne aktualizacje</value>
   </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
-    <value>Ukryj chronione pliki systemu operacyjnego (zalecane)</value>
+  <data name="ShowProtectedSystemFiles" xml:space="preserve">
+    <value>Pokaż chronione pliki systemu operacyjnego</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Pokaż niezindeksowane elementy podczas wyszukiwania plików i folderów</value>
+    <value>Include unindexed items in search results</value>
   </data>
-  <data name="ForceThesePreferencesOnAllDirectories" xml:space="preserve">
-    <value>Force these preferences on all directories</value>
+  <data name="ResetFolderPreferencesOverrides" xml:space="preserve">
+    <value>Reset folder overrides</value>
+  </data>
+  <data name="EnableOverridingFolderPreferencesDescription" xml:space="preserve">
+    <value>Changing the layout in a directory when this setting is turned off will update the layout for all directories.</value>
+  </data>
+  <data name="EnableOverridingFolderPreferences" xml:space="preserve">
+    <value>Enable overriding folder preferences in individual directories</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Dostosuj menu kontekstowe prawego przycisku myszy</value>
@@ -1671,32 +1662,23 @@
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
     <value>Otwieraj foldery w nowej karcie</value>
   </data>
-  <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
+  <data name="ShowBundlesWidget" xml:space="preserve">
     <value>Pokaż widżet Paczek</value>
   </data>
-  <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
-    <value>Pokaż widżet dysków</value>
+  <data name="ShowDrivesWidget" xml:space="preserve">
+    <value>Pokaż widżet Dysków</value>
   </data>
-  <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
-    <value>Pokaż widżet folderów</value>
+  <data name="ShowFolderWidget" xml:space="preserve">
+    <value>Pokaż widżet Folderów</value>
   </data>
-  <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
+  <data name="ShowRecentFilesWidget" xml:space="preserve">
     <value>Pokaż widżet ostatnich plików</value>
-  </data>
-  <data name="NavToolbarWidgets.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Zarządzaj widżetami</value>
-  </data>
-  <data name="NavToolbarWidgetsManager.AutomationProperties.Name" xml:space="preserve">
-    <value>Zarządzaj widżetami</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>Nie możesz znaleźć tego, czego szukasz?</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
     <value>Wyszukaj niezindeksowane elementy.</value>
-  </data>
-  <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
-    <value>Zarządzaj widżetami</value>
   </data>
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>Otwórz folder motywów</value>
@@ -1956,7 +1938,7 @@
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Odrzuć</value>
   </data>
-  <data name="NavToolbarWidgets.Label" xml:space="preserve">
+  <data name="Widgets" xml:space="preserve">
     <value>Widżety</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
@@ -2242,7 +2224,7 @@
     <value>Dodaj folder</value>
   </data>
   <data name="BundleOptionsFlyoutAddItemMenuItem.Text" xml:space="preserve">
-    <value>&amp;Dodaj element</value>
+    <value>Dodaj element</value>
   </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
     <value>Dostępne aktualizacje</value>
@@ -2315,20 +2297,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+N</value>
-  </data>
-  <data name="SettingsPrivacy.Title" xml:space="preserve">
-    <value>Polityka prywatności</value>
-  </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
-    <value>Fluent UI System Icons</value>
-  </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Fluent UI System Icons</value>
-  </data>
-  <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
-    <value>
-Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błędy i naprawiać awarie. Informacje przesyłane do App Center są anonimowe i wolne od jakichkolwiek danych użytkownika bądź danych kontekstowych.
-  </value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Otwórz folder nadrzędny</value>
@@ -2429,9 +2397,6 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Otwieraj foldery w nowej karcie</value>
   </data>
-  <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Przypnij Kosz do ulubionych</value>
-  </data>
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Język</value>
   </data>
@@ -2452,9 +2417,6 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
   </data>
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Pokaż sekcję WSL</value>
-  </data>
-  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Aplikacja terminala</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Zadania w toku</value>
@@ -2489,8 +2451,8 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
   <data name="Tag" xml:space="preserve">
     <value>Tag pliku</value>
   </data>
-  <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
-    <value>Otwieraj foldery pojedynczym kliknięciem</value>
+  <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
+    <value>Open items with a single click</value>
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
     <value>Lokalizacja folderu</value>
@@ -2618,8 +2580,8 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>Podaj nazwę biblioteki</value>
   </data>
-  <data name="ShowFolderSize" xml:space="preserve">
-    <value>Pokaż rozmiar folderu</value>
+  <data name="CalculateFolderSizes" xml:space="preserve">
+    <value>Calculate folder sizes</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
     <value>Ostatnio używane pliki</value>
@@ -2646,7 +2608,10 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
     <value>Oczyszczanie dysku</value>
   </data>
   <data name="Type" xml:space="preserve">
-    <value>Typ:</value>
+    <value>Typ</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>Siatka ikon</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Bajty</value>
@@ -2750,8 +2715,8 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
     <value>Operacja przenoszenia nie jest obsługiwana w tym kontekście. Czy chcesz zamiast tego skopiować elementy?</value>
   </data>
-  <data name="HiddenFilesAndFolders" xml:space="preserve">
-    <value>Ukryte pliki i foldery</value>
+  <data name="HiddenItems" xml:space="preserve">
+    <value>Ukryte elementy</value>
   </data>
   <data name="Custom" xml:space="preserve">
     <value>Niestandardowy</value>
@@ -2784,45 +2749,108 @@ Korzystamy z App Center, aby monitotować używane ustawienia, znajdować błęd
     <value>Czy chcesz ocenić Files?</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
-    <value>Set as background</value>
+    <value>Ustaw tło</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Set as lockscreen</value>
+    <value>Ustaw jako ekran blokady</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>Ustaw jako tło pulpitu</value>
   </data>
   <data name="SetAsDefault" xml:space="preserve">
-    <value>Set as default</value>
+    <value>Ustaw jako domyślną</value>
   </data>
-  <data name="FolderPreferences" xml:space="preserve">
-    <value>Folder preferences</value>
+  <data name="DateColumn" xml:space="preserve">
+    <value>Kolumna daty</value>
   </data>
-  <data name="DisplayDateColumn" xml:space="preserve">
-    <value>Display Date column</value>
+  <data name="DateCreatedColumn" xml:space="preserve">
+    <value>Kolumna daty utworzenia</value>
   </data>
-  <data name="DisplayDateCreatedColumn" xml:space="preserve">
-    <value>Display Date Created column</value>
+  <data name="SizeColumn" xml:space="preserve">
+    <value>Kolumna rozmiaru</value>
   </data>
-  <data name="DisplaySizeColumn" xml:space="preserve">
-    <value>Display Size column</value>
+  <data name="TagColumn" xml:space="preserve">
+    <value>Kolumna tagów</value>
   </data>
-  <data name="DisplayTagColumn" xml:space="preserve">
-    <value>Display Tag column</value>
+  <data name="TypeColumn" xml:space="preserve">
+    <value>Kolumna typu</value>
   </data>
-  <data name="DisplayTypeColumn" xml:space="preserve">
-    <value>Display Type column</value>
+  <data name="DetailsLayoutColumns" xml:space="preserve">
+    <value>Details layout columns</value>
   </data>
   <data name="Reset" xml:space="preserve">
-    <value>Reset</value>
+    <value>Resetuj</value>
   </data>
   <data name="ResetLayoutPreferences" xml:space="preserve">
-    <value>This action will reset all directories back to your default preferences.</value>
+    <value>Ta akcja zresetuje wszystkie katalogi z powrotem do ustawień domyślnych.</value>
   </data>
   <data name="AreYouSure" xml:space="preserve">
-    <value>Are you sure?</value>
+    <value>Jesteś pewny?</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Lockscreen</value>
+  </data>
+  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
+    <value>Open folders with a single click in the Columns Layout</value>
+  </data>
+  <data name="OpeningItems" xml:space="preserve">
+    <value>Otwieranie elementów</value>
+  </data>
+  <data name="AddSingleItemToArchive" xml:space="preserve">
+    <value>Add to {0}.zip</value>
+  </data>
+  <data name="AddToArchive" xml:space="preserve">
+    <value>Add to archive</value>
+  </data>
+  <data name="CompressionCompleted" xml:space="preserve">
+    <value>Compression completed</value>
+  </data>
+  <data name="CompressionSucceded" xml:space="preserve">
+    <value>{0} has been compressed</value>
+  </data>
+  <data name="CompressionFailed" xml:space="preserve">
+    <value>{0} couldn't be compressed</value>
+  </data>
+  <data name="CompressionInProgress" xml:space="preserve">
+    <value>Compressing archive</value>
+  </data>
+  <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
+    <value>Select files and folders when hovering over them</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
+    <value>Are you sure you want to restore all items in the recycle bin?</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
+    <value>Przywróć wszystkie elementy</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
+    <value>Do you want to restore the {0} selected item(s)?</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
+    <value>Przywróć zaznaczone</value>
+  </data>
+  <data name="RestoreAllItems" xml:space="preserve">
+    <value>Przywróć wszystkie elementy</value>
+  </data>
+  <data name="RestoreSelection" xml:space="preserve">
+    <value>Przywróć</value>
+  </data>
+  <data name="ShortcutCannotBeOpened" xml:space="preserve">
+    <value>Shortcut cannot be opened</value>
+  </data>
+  <data name="DeleteShortcutDescription" xml:space="preserve">
+    <value>The target destination cannot be found {0}. Do you want to delete this shortcut?</value>
+  </data>
+  <data name="LoadingThemes" xml:space="preserve">
+    <value>Loading Themes</value>
+  </data>
+  <data name="EmptyingRecycleBin" xml:space="preserve">
+    <value>Emptying recycle bin</value>
+  </data>
+  <data name="BinEmptyingSucceded" xml:space="preserve">
+    <value>Successfully emptied recycle bin</value>
+  </data>
+  <data name="BinEmptyingFailed" xml:space="preserve">
+    <value>Failed to empty recycle bin</value>
   </data>
 </root>

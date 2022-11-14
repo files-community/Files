@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
+  <!--
+    Microsoft ResX Schema
+
     Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
     associated with the data types.
-    
+
     Example:
-    
+
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,36 +26,36 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-                
-    There are any number of "resheader" rows that contain simple 
+
+    There are any number of "resheader" rows that contain simple
     name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
     mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
     extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-    
+
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
+    value   : The object must be serialized into a byte array
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -144,9 +144,6 @@
   <data name="nameColumn.Header" xml:space="preserve">
     <value>名称</value>
   </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>类型</value>
-  </data>
   <data name="Size" xml:space="preserve">
     <value>大小</value>
   </data>
@@ -159,7 +156,7 @@
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>项目名称</value>
   </data>
-  <data name="PropertiesItemPath.Text" xml:space="preserve">
+  <data name="Path" xml:space="preserve">
     <value>路径:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
@@ -347,9 +344,6 @@
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>要开始使用，请授予我们访问文件系统的权限。你可以在稍后打开的设置窗口中授权。完成设置后，需要重新打开应用程序。 </value>
-  </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>文件夹</value>
   </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>文件</value>
@@ -801,6 +795,9 @@
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>布局模式</value>
   </data>
+  <data name="LayoutMode" xml:space="preserve">
+    <value>布局模式</value>
+  </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
     <value>向后导航</value>
   </data>
@@ -816,17 +813,8 @@
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>语言</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>终端应用程序</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>编辑终端应用程序</value>
-  </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>将溢出项移动到子菜单内</value>
-  </data>
-  <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
-    <value>将回收站固定到收藏夹</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
     <value>删除文件或文件夹时显示确认对话框</value>
@@ -1128,9 +1116,6 @@
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>选择</value>
   </data>
-  <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
-    <value>用单击来打开文件</value>
-  </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>文件</value>
   </data>
@@ -1230,14 +1215,20 @@
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>有更新可用</value>
   </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
-    <value>隐藏受保护的操作系统文件 (推荐)</value>
+  <data name="ShowProtectedSystemFiles" xml:space="preserve">
+    <value>显示受保护的操作系统文件</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>搜索文件和文件夹时，显示未建立索引的项</value>
+    <value>在搜索结果中包含未建立索引的项</value>
   </data>
-  <data name="ForceThesePreferencesOnAllDirectories" xml:space="preserve">
-    <value>强制对所有目录应用这些首选项</value>
+  <data name="ResetFolderPreferencesOverrides" xml:space="preserve">
+    <value>重置所有文件夹的首选项覆盖</value>
+  </data>
+  <data name="EnableOverridingFolderPreferencesDescription" xml:space="preserve">
+    <value>此设置关闭时，对文件夹布局的更改将应用到所有文件夹。</value>
+  </data>
+  <data name="EnableOverridingFolderPreferences" xml:space="preserve">
+    <value>允许单个文件夹的首选项覆盖默认值</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>自定义右键菜单</value>
@@ -1671,32 +1662,23 @@
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
     <value>在新标签页中打开文件夹</value>
   </data>
-  <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
-    <value>显示 包 小组件</value>
+  <data name="ShowBundlesWidget" xml:space="preserve">
+    <value>显示“文件筐”组件</value>
   </data>
-  <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
-    <value>显示 驱动器 小组件</value>
+  <data name="ShowDrivesWidget" xml:space="preserve">
+    <value>显示“驱动器”组件</value>
   </data>
-  <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
-    <value>显示 文件夹 小组件</value>
+  <data name="ShowFolderWidget" xml:space="preserve">
+    <value>显示“文件夹”组件</value>
   </data>
-  <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
-    <value>显示 最近使用的文件 小组件</value>
-  </data>
-  <data name="NavToolbarWidgets.ToolTipService.ToolTip" xml:space="preserve">
-    <value>管理小组件</value>
-  </data>
-  <data name="NavToolbarWidgetsManager.AutomationProperties.Name" xml:space="preserve">
-    <value>管理小组件</value>
+  <data name="ShowRecentFilesWidget" xml:space="preserve">
+    <value>显示“最近使用的文件”组件</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>没有找到你想要的内容?</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
     <value>搜索未编入索引的项。</value>
-  </data>
-  <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
-    <value>管理小组件</value>
   </data>
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>打开主题文件夹</value>
@@ -1956,8 +1938,8 @@
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>消除</value>
   </data>
-  <data name="NavToolbarWidgets.Label" xml:space="preserve">
-    <value>小组件</value>
+  <data name="Widgets" xml:space="preserve">
+    <value>组件</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>同步状态</value>
@@ -2316,18 +2298,6 @@
   <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+N</value>
   </data>
-  <data name="SettingsPrivacy.Title" xml:space="preserve">
-    <value>隐私政策</value>
-  </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
-    <value>Fluent UI 系统图标</value>
-  </data>
-  <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Fluent UI 系统图标</value>
-  </data>
-  <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
-    <value>我们使用 App Center 来跟踪正在使用的设置、查找漏洞和修复崩溃。 发送到 App Center 的信息是匿名的，不涉及任何用户数据或上下文数据。</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>打开上级目录</value>
   </data>
@@ -2427,9 +2397,6 @@
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>在新标签页中打开文件夹</value>
   </data>
-  <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>将回收站固定到收藏夹</value>
-  </data>
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>语言</value>
   </data>
@@ -2450,9 +2417,6 @@
   </data>
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>显示 WSL</value>
-  </data>
-  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>终端应用</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>进行中的任务</value>
@@ -2487,8 +2451,8 @@
   <data name="Tag" xml:space="preserve">
     <value>文件标签</value>
   </data>
-  <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
-    <value>单击打开文件夹</value>
+  <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
+    <value>通过单击打开项目</value>
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
     <value>文件夹路径</value>
@@ -2616,8 +2580,8 @@
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>输入库名</value>
   </data>
-  <data name="ShowFolderSize" xml:space="preserve">
-    <value>显示文件夹大小</value>
+  <data name="CalculateFolderSizes" xml:space="preserve">
+    <value>计算文件夹大小</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
     <value>最近使用的文件</value>
@@ -2644,7 +2608,10 @@
     <value>磁盘清理</value>
   </data>
   <data name="Type" xml:space="preserve">
-    <value>类型:</value>
+    <value>类型</value>
+  </data>
+  <data name="IconGrid" xml:space="preserve">
+    <value>图标网格</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>字节</value>
@@ -2748,8 +2715,8 @@
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
     <value>当前无法执行移动操作。要复制此项目吗？</value>
   </data>
-  <data name="HiddenFilesAndFolders" xml:space="preserve">
-    <value>隐藏的文件和文件夹</value>
+  <data name="HiddenItems" xml:space="preserve">
+    <value>隐藏的项目</value>
   </data>
   <data name="Custom" xml:space="preserve">
     <value>自定义</value>
@@ -2793,23 +2760,23 @@
   <data name="SetAsDefault" xml:space="preserve">
     <value>设为默认</value>
   </data>
-  <data name="FolderPreferences" xml:space="preserve">
-    <value>文件夹首选项</value>
+  <data name="DateColumn" xml:space="preserve">
+    <value>“日期”栏</value>
   </data>
-  <data name="DisplayDateColumn" xml:space="preserve">
-    <value>显示“日期”列</value>
+  <data name="DateCreatedColumn" xml:space="preserve">
+    <value>“创建日期”栏</value>
   </data>
-  <data name="DisplayDateCreatedColumn" xml:space="preserve">
-    <value>显示“创建日期”列</value>
+  <data name="SizeColumn" xml:space="preserve">
+    <value>“大小”列</value>
   </data>
-  <data name="DisplaySizeColumn" xml:space="preserve">
-    <value>显示“大小”列</value>
+  <data name="TagColumn" xml:space="preserve">
+    <value>“标签”列</value>
   </data>
-  <data name="DisplayTagColumn" xml:space="preserve">
-    <value>显示“标签”列</value>
+  <data name="TypeColumn" xml:space="preserve">
+    <value>“类型”列</value>
   </data>
-  <data name="DisplayTypeColumn" xml:space="preserve">
-    <value>显示“类型”列</value>
+  <data name="DetailsLayoutColumns" xml:space="preserve">
+    <value>“详细信息”布局 列</value>
   </data>
   <data name="Reset" xml:space="preserve">
     <value>重置首选项</value>
@@ -2822,5 +2789,68 @@
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>锁屏界面</value>
+  </data>
+  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
+    <value>在“列视图”布局下，通过单击打开文件夹</value>
+  </data>
+  <data name="OpeningItems" xml:space="preserve">
+    <value>正在打开项目</value>
+  </data>
+  <data name="AddSingleItemToArchive" xml:space="preserve">
+    <value>添加到 {0}.zip</value>
+  </data>
+  <data name="AddToArchive" xml:space="preserve">
+    <value>添加到压缩包</value>
+  </data>
+  <data name="CompressionCompleted" xml:space="preserve">
+    <value>压缩完成</value>
+  </data>
+  <data name="CompressionSucceded" xml:space="preserve">
+    <value>已压缩 {0}</value>
+  </data>
+  <data name="CompressionFailed" xml:space="preserve">
+    <value>无法压缩 {0}</value>
+  </data>
+  <data name="CompressionInProgress" xml:space="preserve">
+    <value>正在压缩</value>
+  </data>
+  <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
+    <value>鼠标指向项目时自动选定</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
+    <value>是否确实要还原回收站中的所有项目？</value>
+  </data>
+  <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
+    <value>还原所有项目</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
+    <value>是否还原选中的 {0} 个项目？</value>
+  </data>
+  <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
+    <value>还原选定的项目</value>
+  </data>
+  <data name="RestoreAllItems" xml:space="preserve">
+    <value>还原所有项目</value>
+  </data>
+  <data name="RestoreSelection" xml:space="preserve">
+    <value>还原</value>
+  </data>
+  <data name="ShortcutCannotBeOpened" xml:space="preserve">
+    <value>无法打开快捷方式</value>
+  </data>
+  <data name="DeleteShortcutDescription" xml:space="preserve">
+    <value>在目标位置找不到 {0}。要删除此快捷方式吗？</value>
+  </data>
+  <data name="LoadingThemes" xml:space="preserve">
+    <value>正在加载主题</value>
+  </data>
+  <data name="EmptyingRecycleBin" xml:space="preserve">
+    <value>正在清空回收站</value>
+  </data>
+  <data name="BinEmptyingSucceded" xml:space="preserve">
+    <value>已成功清空回收站</value>
+  </data>
+  <data name="BinEmptyingFailed" xml:space="preserve">
+    <value>清空回收站失败</value>
   </data>
 </root>

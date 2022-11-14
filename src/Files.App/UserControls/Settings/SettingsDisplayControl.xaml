@@ -6,7 +6,6 @@
 	xmlns:local="using:Files.App.UserControls.Settings"
 	xmlns:local1="using:Files.App.Converters"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	MinHeight="40"
 	d:DesignHeight="300"
 	d:DesignWidth="400"
 	SizeChanged="MainPanel_SizeChanged"
@@ -31,7 +30,7 @@
 		HorizontalAlignment="Stretch"
 		VerticalAlignment="Center">
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="42" />
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="Auto" />
 		</Grid.ColumnDefinitions>
@@ -43,7 +42,7 @@
 
 		<ContentPresenter
 			x:Name="SettingsIconElement"
-			Margin="2,0,20,0"
+			Margin="2,20,20,20"
 			x:Load="{x:Bind Icon, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
 			Content="{x:Bind Icon, Mode=OneWay}" />
 

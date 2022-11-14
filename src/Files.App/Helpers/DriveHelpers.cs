@@ -1,62 +1,29 @@
 using Files.App.Interacts;
-using Files.App.Extensions;
-using System.Diagnostics;
+using Microsoft.Management.Infrastructure;
 using System.Threading.Tasks;
-using Windows.UI.Notifications;
-using CommunityToolkit.WinUI.Notifications;
 
 namespace Files.App.Helpers
 {
-    public static class DriveHelpers
-    {
-        public static async Task EjectDeviceAsync(string path)
-        {
-            var removableDevice = new RemovableDevice(path);
-            bool result = await removableDevice.EjectAsync();
-            if (result)
-            {
-                Debug.WriteLine("Device successfully ejected");
+	public static class DriveHelpers
+	{
+		public static async Task<bool> EjectDeviceAsync(string path)
+		{
+			var removableDevice = new RemovableDevice(path);
+			return await removableDevice.EjectAsync();
+		}
 
-                var toastContent = new ToastContent()
-                {
-                    Visual = new ToastVisual()
-                    {
-                        BindingGeneric = new ToastBindingGeneric()
-                        {
-                            Children =
-                            {
-                                new AdaptiveText()
-                                {
-                                    Text = "EjectNotificationHeader".GetLocalizedResource()
-                                },
-                                new AdaptiveText()
-                                {
-                                    Text = "EjectNotificationBody".GetLocalizedResource()
-                                }
-                            },
-                            Attribution = new ToastGenericAttributionText()
-                            {
-                                Text = "SettingsAboutAppName".GetLocalizedResource()
-                            }
-                        }
-                    },
-                    ActivationType = ToastActivationType.Protocol
-                };
+		public static string GetVolumeId(string driveName)
+		{
+			string name = driveName.ToUpperInvariant();
+			string query = $"SELECT DeviceID FROM Win32_Volume WHERE DriveLetter = '{name}'";
 
-                // Create the toast notification
-                var toastNotif = new ToastNotification(toastContent.GetXml());
+			using var cimSession = CimSession.Create(null);
+			foreach (var item in cimSession.QueryInstances(@"root\cimv2", "WQL", query)) // max 1 result because DriveLetter is unique.
+			{
+				return (string)item.CimInstanceProperties["DeviceID"]?.Value ?? string.Empty;
+			}
 
-                // And send the notification
-                ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
-            }
-            else
-            {
-                Debug.WriteLine("Can't eject device");
-
-                await DialogDisplayHelper.ShowDialogAsync(
-                    "EjectNotificationErrorDialogHeader".GetLocalizedResource(),
-                    "EjectNotificationErrorDialogBody".GetLocalizedResource());
-            }
-        }
-    }
+			return string.Empty;
+		}
+	}
 }

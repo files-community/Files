@@ -1,113 +1,117 @@
+using CommunityToolkit.Mvvm.ComponentModel;
+using Files.App.Helpers;
 using Files.App.ViewModels;
 using Files.App.Views;
-using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Files.App.Helpers;
+using System.Text.Json;
 
 namespace Files.App.UserControls.MultitaskingControl
 {
-    public class TabItem : ObservableObject, ITabItem, ITabItemControl, IDisposable
-    {
-        private string header;
+	public class TabItem : ObservableObject, ITabItem, ITabItemControl, IDisposable
+	{
+		private string header;
 
-        public string Header
-        {
-            get => header;
-            set => SetProperty(ref header, value);
-        }
+		public string Header
+		{
+			get => header;
+			set => SetProperty(ref header, value);
+		}
 
-        private string description = null;
+		private string description = null;
 
-        public string Description
-        {
-            get => description;
-            set => SetProperty(ref description, value);
-        }
+		public string Description
+		{
+			get => description;
+			set => SetProperty(ref description, value);
+		}
 
-        private string hoverDisplayText;
+		private string toolTipText;
 
-        /// <summary>
-        /// The text that should be displayed in the tooltip when hovering the tab item.
-        /// </summary>
-        public string HoverDisplayText
-        {
-            get => hoverDisplayText;
-            set => SetProperty(ref hoverDisplayText, value);
-        }
+		/// <summary>
+		/// The text that should be displayed in the tooltip when hovering the tab item.
+		/// </summary>
+		public string ToolTipText
+		{
+			get => toolTipText;
+			set => SetProperty(ref toolTipText, value);
+		}
 
-        private IconSource iconSource;
+		private IconSource iconSource;
 
-        public IconSource IconSource
-        {
-            get => iconSource;
-            set => SetProperty(ref iconSource, value);
-        }
+		public IconSource IconSource
+		{
+			get => iconSource;
+			set => SetProperty(ref iconSource, value);
+		}
 
-        public TabItemControl Control { get; private set; }
+		public TabItemControl Control { get; private set; }
 
-        private bool allowStorageItemDrop;
+		private bool allowStorageItemDrop;
 
-        public bool AllowStorageItemDrop
-        {
-            get => allowStorageItemDrop;
-            set => SetProperty(ref allowStorageItemDrop, value);
-        }
+		public bool AllowStorageItemDrop
+		{
+			get => allowStorageItemDrop;
+			set => SetProperty(ref allowStorageItemDrop, value);
+		}
 
-        private TabItemArguments tabItemArguments;
+		private TabItemArguments tabItemArguments;
 
-        public TabItemArguments TabItemArguments
-        {
-            get => Control?.NavigationArguments ?? tabItemArguments;
-        }
+		public TabItemArguments TabItemArguments
+		{
+			get => Control?.NavigationArguments ?? tabItemArguments;
+		}
 
-        public TabItem()
-        {
-            Control = new TabItemControl();
-        }
+		public TabItem()
+		{
+			Control = new TabItemControl();
+		}
 
-        public void Unload()
-        {
-            Control.ContentChanged -= MainPageViewModel.Control_ContentChanged;
-            tabItemArguments = Control?.NavigationArguments;
-            Dispose();
-        }
+		public void Unload()
+		{
+			Control.ContentChanged -= MainPageViewModel.Control_ContentChanged;
+			tabItemArguments = Control?.NavigationArguments;
+			Dispose();
+		}
 
-        #region IDisposable
+		#region IDisposable
 
-        public void Dispose()
-        {
-            Control?.Dispose();
-            Control = null;
-        }
+		public void Dispose()
+		{
+			Control?.Dispose();
+			Control = null;
+		}
 
-        #endregion IDisposable
-    }
+		#endregion IDisposable
+	}
 
-    public class TabItemArguments
-    {
-        private static KnownTypesBinder TypesBinder = new KnownTypesBinder
-        {
-            KnownTypes = { typeof(PaneNavigationArguments) }
-        };
+	public class TabItemArguments
+	{
+		private static readonly KnownTypesConverter TypesConverter = new KnownTypesConverter();
 
-        public Type InitialPageType { get; set; }
-        public object NavigationArg { get; set; }
+		public Type InitialPageType { get; set; }
+		public object NavigationArg { get; set; }
 
-        public string Serialize() => JsonConvert.SerializeObject(this, new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.Auto,
-            SerializationBinder = TypesBinder
-        });
+		public string Serialize() => JsonSerializer.Serialize(this, TypesConverter.Options);
 
-        public static TabItemArguments Deserialize(string obj) => JsonConvert.DeserializeObject<TabItemArguments>(obj, new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.Auto,
-            SerializationBinder = TypesBinder
-        });
-    }
+		public static TabItemArguments Deserialize(string obj)
+		{
+			var tabArgs = new TabItemArguments();
+
+			var tempArgs = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(obj);
+			tabArgs.InitialPageType = Type.GetType(tempArgs["InitialPageType"].GetString());
+
+			try
+			{
+				tabArgs.NavigationArg = JsonSerializer.Deserialize<PaneNavigationArguments>(tempArgs["NavigationArg"].GetRawText());
+			}
+			catch (JsonException)
+			{
+				tabArgs.NavigationArg = tempArgs["NavigationArg"].GetString();
+			}
+
+			return tabArgs;
+		}
+	}
 }
