@@ -205,6 +205,50 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
+		public void MoveFocusToPreviousBlade(int currentBladeIndex)
+		{
+			if (currentBladeIndex <= 0)
+				return;
+
+			DismissOtherBlades(currentBladeIndex);
+
+			var activeBlade = ColumnHost.ActiveBlades[currentBladeIndex - 1];
+			activeBlade.Focus(FocusState.Programmatic);
+
+			var activeBladeColumnViewBase = RetrieveBladeColumnViewBase(activeBlade);
+			if (activeBladeColumnViewBase is null)
+				return;
+
+			//This allows to deselect and reselect the parent folder, hence forcing the refocus.
+			var selectedItem = activeBladeColumnViewBase.FileList.SelectedItem;
+			activeBladeColumnViewBase.FileList.SelectedItem = null;
+			activeBladeColumnViewBase.FileList.SelectedItem = selectedItem;
+		}
+
+		public void MoveFocusToNextBlade(int currentBladeIndex)
+		{
+			if (currentBladeIndex >= ColumnHost.ActiveBlades.Count)
+				return;
+
+			var activeBlade = ColumnHost.ActiveBlades[currentBladeIndex];
+			activeBlade.Focus(FocusState.Programmatic);
+
+			var activeBladeColumnViewBase = RetrieveBladeColumnViewBase(activeBlade);
+			if (activeBladeColumnViewBase is not null)
+				activeBladeColumnViewBase.FileList.SelectedIndex = 0;
+		}
+
+		private ColumnViewBase? RetrieveBladeColumnViewBase(BladeItem blade)
+		{
+			if (blade.Content is not Frame activeBladeFrame)
+				return null;
+
+			if (activeBladeFrame.Content is not ColumnShellPage activeBladePage)
+				return null;
+
+			return activeBladePage.SlimContentPage as ColumnViewBase;
+		}
+
 		public void SetSelectedPathOrNavigate(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null)
 		{
 			var destPath = navArgs is not null ? (navArgs.IsSearchResultPage ? navArgs.SearchPathParam : navArgs.NavPathParam) : navigationPath;
