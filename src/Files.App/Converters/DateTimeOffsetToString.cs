@@ -11,11 +11,9 @@ namespace Files.App.Converters
 
 		public object Convert(object value, Type targetType, object parameter, string language)
 		{
-			if (value is null)
-			{
-				return string.Empty;
-			}
-			return formatter.ToLongLabel((DateTimeOffset)value);
+			return value is null
+				? string.Empty
+				: formatter.ToLongLabel((DateTimeOffset)value);
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, string language)

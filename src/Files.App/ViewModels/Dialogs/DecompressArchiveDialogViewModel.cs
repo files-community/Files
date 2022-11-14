@@ -71,14 +71,7 @@ namespace Files.App.ViewModels.Dialogs
 
 			DestinationFolder = await folderPicker.PickSingleFolderAsync();
 
-			if (DestinationFolder is not null)
-			{
-				DestinationFolderPath = DestinationFolder.Path;
-			}
-			else
-			{
-				DestinationFolderPath = DefaultDestinationFolderPath();
-			}
+			DestinationFolderPath = (DestinationFolder is not null) ? DestinationFolder.Path : DefaultDestinationFolderPath();
 		}
 
 		// WINUI3

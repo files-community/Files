@@ -18,11 +18,8 @@ namespace Files.Shared.Extensions
 			{
 				throw new ArgumentOutOfRangeException(nameof(length), length, "Length is less than zero");
 			}
-			if (length > value.Length)
-			{
-				return value;
-			}
-			return value.Substring(0, length);
+
+			return length > value.Length ? value : value.Substring(0, length);
 		}
 
 		/// <summary>Gets the rightmost <paramref name="length" /> characters from a string.</summary>
@@ -39,11 +36,8 @@ namespace Files.Shared.Extensions
 			{
 				throw new ArgumentOutOfRangeException(nameof(length), length, "Length is less than zero");
 			}
-			if (length > value.Length)
-			{
-				return value;
-			}
-			return value.Substring(value.Length - length);
+
+			return length > value.Length ? value : value.Substring(value.Length - length);
 		}
 	}
 }

@@ -24,14 +24,9 @@ namespace Files.App.UserControls.MultitaskingControl
 			tabHoverTimer.Tick += TabHoverSelected;
 
 			var flowDirectionSetting = new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
-			if (flowDirectionSetting == "RTL")
-			{
-				RightPaddingColumn.Width = new GridLength(App.GetAppWindow(App.Window).TitleBar.LeftInset);
-			}
-			else
-			{
-				RightPaddingColumn.Width = new GridLength(App.GetAppWindow(App.Window).TitleBar.RightInset);
-			}
+
+			var appWindowTitleBar = App.GetAppWindow(App.Window).TitleBar;
+			RightPaddingColumn.Width = (flowDirectionSetting == "RTL") ? new GridLength(appWindowTitleBar.LeftInset) : new GridLength(appWindowTitleBar.RightInset);
 		}
 
 		private void HorizontalTabView_TabItemsChanged(TabView sender, Windows.Foundation.Collections.IVectorChangedEventArgs args)

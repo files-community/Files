@@ -129,10 +129,9 @@ namespace Files.Shared.Extensions
 			if (!list.Any())
 				return list;
 
-			if (index <= 0)
-				return new List<T>(0);
-
-			return list.Take(index - 1).ToList();
+			return index <= 0
+				? new List<T>(0)
+				: list.Take(index - 1).ToList();
 		}
 	}
 }

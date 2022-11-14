@@ -598,15 +598,16 @@ namespace Files.App.Views
 
 		private void FilesystemViewModel_DirectoryInfoUpdated(object sender, EventArgs e)
 		{
-			if (ContentPage is not null)
-			{
-				if (FilesystemViewModel.FilesAndFolders.Count == 1)
-					ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {"ItemCount/Text".GetLocalizedResource()}";
-				else
-					ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {"ItemsCount/Text".GetLocalizedResource()}";
+			if (ContentPage is null)
+				return;
 
-				ContentPage.UpdateSelectionSize();
-			}
+
+			var directoryItemCountLocalization = (FilesystemViewModel.FilesAndFolders.Count == 1)
+				? "ItemCount/Text".GetLocalizedResource()
+				: "ItemsCount/Text".GetLocalizedResource();
+
+			ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {directoryItemCountLocalization}";
+			ContentPage.UpdateSelectionSize();
 		}
 
 		private void ViewModel_WorkingDirectoryModified(object sender, WorkingDirectoryModifiedEventArgs e)

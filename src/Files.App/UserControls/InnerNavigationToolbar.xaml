@@ -55,7 +55,7 @@
 				<AppBarButton
 					x:Name="NewEmptySpaceAppBarButton"
 					AccessKey="W"
-					AutomationProperties.AutomationId="New"
+					AutomationProperties.AutomationId="InnerNavigationToolbarNewButton"
 					IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsCreateButtonEnabledInPage, Mode=OneWay, FallbackValue=False}"
 					KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=BaseLayoutContextFlyoutNew/KeyboardAcceleratorTextOverride}"
 					Label="{helpers:ResourceString Name=BaseLayoutContextFlyoutNew/Label}"
@@ -70,7 +70,7 @@
 						<MenuFlyout x:Name="NewEmptySpace" Opening="NewEmptySpace_Opening">
 							<MenuFlyoutItem
 								x:Name="ToolbarNewFolderItem"
-								AutomationProperties.AutomationId="Folder"
+								AutomationProperties.AutomationId="InnerNavigationToolbarNewFolderButton"
 								Command="{x:Bind ViewModel.CreateNewFolderCommand, Mode=OneWay}"
 								Text="{helpers:ResourceString Name=Folder}">
 								<MenuFlyoutItem.Icon>
@@ -103,6 +103,7 @@
 					Width="Auto"
 					MinWidth="40"
 					AccessKey="X"
+					AutomationProperties.AutomationId="InnerNavigationToolbarCutButton"
 					Command="{x:Bind ViewModel.CutCommand, Mode=OneWay}"
 					IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanCopy, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay, FallbackValue=False}"
 					Label="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutCut/Text}"
@@ -116,6 +117,7 @@
 					Width="Auto"
 					MinWidth="40"
 					AccessKey="C"
+					AutomationProperties.AutomationId="InnerNavigationToolbarCopyButton"
 					Command="{x:Bind ViewModel.CopyCommand, Mode=OneWay}"
 					IsEnabled="{x:Bind ViewModel.CanCopy, Mode=OneWay, FallbackValue=False}"
 					Label="{helpers:ResourceString Name=Copy}"
@@ -128,6 +130,7 @@
 					Width="Auto"
 					MinWidth="40"
 					AccessKey="P"
+					AutomationProperties.AutomationId="InnerNavigationToolbarPasteButton"
 					Command="{x:Bind ViewModel.PasteItemsFromClipboardCommand, Mode=OneWay}"
 					IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.InstanceViewModel.CanPasteInPage, local1:App.AppModel.IsPasteEnabled), Mode=OneWay, FallbackValue=False}"
 					Label="{helpers:ResourceString Name=NavigationToolbarPaste/Label}"
@@ -146,7 +149,7 @@
 					Width="Auto"
 					MinWidth="40"
 					AccessKey="M"
-					AutomationProperties.AutomationId="Rename"
+					AutomationProperties.AutomationId="InnerNavigationToolbarRenameButton"
 					Command="{x:Bind ViewModel.Rename, Mode=OneWay}"
 					IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanRename, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay, FallbackValue=False}"
 					Label="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutRename/Text}"

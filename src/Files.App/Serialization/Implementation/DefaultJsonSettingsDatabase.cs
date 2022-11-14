@@ -71,12 +71,7 @@ namespace Files.App.Serialization.Implementation
 		{
 			var data = GetFreshSettings();
 
-			if (data.Remove(key))
-			{
-				return SaveSettings(data);
-			}
-
-			return false;
+			return data.Remove(key) && SaveSettings(data);
 		}
 
 		public bool FlushSettings()

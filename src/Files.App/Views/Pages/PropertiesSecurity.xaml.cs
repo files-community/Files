@@ -51,11 +51,7 @@ namespace Files.App.Views
 
 		public async override Task<bool> SaveChangesAsync(ListedItem item)
 		{
-			if (SecurityProperties is not null)
-			{
-				return SecurityProperties.SetFilePermissions();
-			}
-			return true;
+			return SecurityProperties is null || SecurityProperties.SetFilePermissions();
 		}
 
 		protected override void Properties_Loaded(object sender, RoutedEventArgs e)
