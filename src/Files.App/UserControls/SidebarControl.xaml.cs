@@ -699,12 +699,6 @@ namespace Files.App.UserControls
 			return e;
 		}
 
-		/// <summary>
-		/// Sets the captions when dragging a location item over another location item
-		/// </summary>
-		/// <param name="senderLocationItem">The location item which fired the DragOver event</param>
-		/// <param name="sourceLocationItem">The source location item</param>
-		/// <param name="e">DragEvent args</param>
 		private void NavigationViewLocationItem_DragOver_SetCaptions(LocationItem senderLocationItem, LocationItem sourceLocationItem, DragEventArgs e)
 		{
 			// If the location item is the same as the original dragged item
