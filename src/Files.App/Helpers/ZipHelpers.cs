@@ -31,7 +31,12 @@ namespace Files.App.Helpers
 					if (i > 0)
 						compressor.CompressionMode = CompressionMode.Append;
 
-					await compressor.CompressDirectoryAsync(sourceFolders[i], archive);
+					var item = sourceFolders[i];
+					if (File.Exists(item))
+						await compressor.CompressFilesAsync(archive, item);
+					else if (Directory.Exists(item))
+						await compressor.CompressDirectoryAsync(item, archive);
+
 					float percentage = (i + 1.0f) / sourceFolders.Length * 100.0f;
 					progressDelegate?.Report(percentage);
 				}
