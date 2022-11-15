@@ -102,7 +102,10 @@
 	</None>
 	<None Update="Assets\terminal\terminal.json">
 	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	</None>    
+	</None>
+	<Page Update="UserControls\Widgets\TagsWidget.xaml">
+	  <Generator>MSBuild:Compile</Generator>
+	</Page>    
 	<Content Include="Resources\AppCenterKey.txt" />
 	<Content Include="Resources\BingMapsKey.txt" />
 	<Content Include="Resources\PreviewPanePropertiesInformation.json">
@@ -138,6 +141,7 @@
   <ItemGroup>
     <None Remove="Resources\PreviewPanePropertiesInformation.json" />
     <None Remove="Resources\PropertiesInformation.json" />
+    <None Remove="UserControls\Widgets\TagsWidget.xaml" />
     <None Remove="Views\SettingsPages\Folders.xaml" />
   </ItemGroup>
   <ItemGroup>
