@@ -7,7 +7,7 @@ using Windows.Storage.FileProperties;
 
 namespace Files.App.ServicesImplementation
 {
-    internal sealed class ImagingService : IImagingService
+    internal sealed class ImagingService : IImageService
     {
         public async Task<ImageModel?> GetImageModelFromDataAsync(byte[] rawData)
         {

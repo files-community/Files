@@ -122,7 +122,7 @@ namespace Files.App
 				// Other services
 				.AddSingleton(Logger)
 				.AddSingleton<IDialogService, DialogService>()
-				.AddSingleton<IImagingService, ImagingService>()
+				.AddSingleton<IImageService, ImagingService>()
 				.AddSingleton<IThreadingService, ThreadingService>()
 				.AddSingleton<ILocalizationService, LocalizationService>()
 				.AddSingleton<ICloudDetector, CloudDetector>()
