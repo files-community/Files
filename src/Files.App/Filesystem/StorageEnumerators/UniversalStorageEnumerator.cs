@@ -245,9 +245,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 			var itemThumbnailImgVis = false;
 
 			if (cancellationToken.IsCancellationRequested)
-			{
 				return null;
-			}
 
 			// TODO: is this needed to be handled here?
 			if (App.LibraryManager.TryGetLibrary(file.Path, out LibraryLocationItem library))
@@ -258,76 +256,72 @@ namespace Files.App.Filesystem.StorageEnumerators
 					ItemDateCreatedReal = itemCreatedDate,
 				};
 			}
-			else
+
+			if (file is ShortcutStorageFile linkFile)
 			{
-				if (file is ShortcutStorageFile linkFile)
+				var isUrl = linkFile.Name.EndsWith(".url", StringComparison.OrdinalIgnoreCase);
+				return new ShortcutItem(file.FolderRelativeId)
 				{
-					var isUrl = linkFile.Name.EndsWith(".url", StringComparison.OrdinalIgnoreCase);
-					return new ShortcutItem(file.FolderRelativeId)
-					{
-						PrimaryItemAttribute = StorageItemTypes.File,
-						FileExtension = itemFileExtension,
-						IsHiddenItem = false,
-						Opacity = 1,
-						FileImage = null,
-						LoadFileIcon = itemThumbnailImgVis,
-						LoadWebShortcutGlyph = isUrl,
-						ItemNameRaw = itemName,
-						ItemDateModifiedReal = itemModifiedDate,
-						ItemDateCreatedReal = itemCreatedDate,
-						ItemType = itemType,
-						ItemPath = itemPath,
-						FileSize = itemSize,
-						FileSizeBytes = (long)itemSizeBytes,
-						TargetPath = linkFile.TargetPath,
-						Arguments = linkFile.Arguments,
-						WorkingDirectory = linkFile.WorkingDirectory,
-						RunAsAdmin = linkFile.RunAsAdmin,
-						IsUrl = isUrl,
-					};
-				}
-				else if (file is BinStorageFile binFile)
-				{
-					return new RecycleBinItem(file.FolderRelativeId)
-					{
-						PrimaryItemAttribute = StorageItemTypes.File,
-						FileExtension = itemFileExtension,
-						IsHiddenItem = false,
-						Opacity = 1,
-						FileImage = null,
-						LoadFileIcon = itemThumbnailImgVis,
-						ItemNameRaw = itemName,
-						ItemDateModifiedReal = itemModifiedDate,
-						ItemDateCreatedReal = itemCreatedDate,
-						ItemType = itemType,
-						ItemPath = itemPath,
-						FileSize = itemSize,
-						FileSizeBytes = (long)itemSizeBytes,
-						ItemDateDeletedReal = binFile.DateDeleted,
-						ItemOriginalPath = binFile.OriginalPath
-					};
-				}
-				else
-				{
-					return new ListedItem(file.FolderRelativeId)
-					{
-						PrimaryItemAttribute = StorageItemTypes.File,
-						FileExtension = itemFileExtension,
-						IsHiddenItem = false,
-						Opacity = 1,
-						FileImage = null,
-						LoadFileIcon = itemThumbnailImgVis,
-						ItemNameRaw = itemName,
-						ItemDateModifiedReal = itemModifiedDate,
-						ItemDateCreatedReal = itemCreatedDate,
-						ItemType = itemType,
-						ItemPath = itemPath,
-						FileSize = itemSize,
-						FileSizeBytes = (long)itemSizeBytes,
-					};
-				}
+					PrimaryItemAttribute = StorageItemTypes.File,
+					FileExtension = itemFileExtension,
+					IsHiddenItem = false,
+					Opacity = 1,
+					FileImage = null,
+					LoadFileIcon = itemThumbnailImgVis,
+					LoadWebShortcutGlyph = isUrl,
+					ItemNameRaw = itemName,
+					ItemDateModifiedReal = itemModifiedDate,
+					ItemDateCreatedReal = itemCreatedDate,
+					ItemType = itemType,
+					ItemPath = itemPath,
+					FileSize = itemSize,
+					FileSizeBytes = (long)itemSizeBytes,
+					TargetPath = linkFile.TargetPath,
+					Arguments = linkFile.Arguments,
+					WorkingDirectory = linkFile.WorkingDirectory,
+					RunAsAdmin = linkFile.RunAsAdmin,
+					IsUrl = isUrl,
+				};
 			}
-			return null;
+
+			if (file is BinStorageFile binFile)
+			{
+				return new RecycleBinItem(file.FolderRelativeId)
+				{
+					PrimaryItemAttribute = StorageItemTypes.File,
+					FileExtension = itemFileExtension,
+					IsHiddenItem = false,
+					Opacity = 1,
+					FileImage = null,
+					LoadFileIcon = itemThumbnailImgVis,
+					ItemNameRaw = itemName,
+					ItemDateModifiedReal = itemModifiedDate,
+					ItemDateCreatedReal = itemCreatedDate,
+					ItemType = itemType,
+					ItemPath = itemPath,
+					FileSize = itemSize,
+					FileSizeBytes = (long)itemSizeBytes,
+					ItemDateDeletedReal = binFile.DateDeleted,
+					ItemOriginalPath = binFile.OriginalPath
+				};
+			}
+
+			return new ListedItem(file.FolderRelativeId)
+			{
+				PrimaryItemAttribute = StorageItemTypes.File,
+				FileExtension = itemFileExtension,
+				IsHiddenItem = false,
+				Opacity = 1,
+				FileImage = null,
+				LoadFileIcon = itemThumbnailImgVis,
+				ItemNameRaw = itemName,
+				ItemDateModifiedReal = itemModifiedDate,
+				ItemDateCreatedReal = itemCreatedDate,
+				ItemType = itemType,
+				ItemPath = itemPath,
+				FileSize = itemSize,
+				FileSizeBytes = (long)itemSizeBytes,
+			};
 		}
 	}
 }

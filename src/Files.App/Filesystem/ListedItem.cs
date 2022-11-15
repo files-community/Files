@@ -422,15 +422,6 @@ namespace Files.App.Filesystem
 
 		public string Key { get; set; }
 
-		/// <summary>
-		/// Manually check if a folder path contains child items,
-		/// updating the ContainsFilesOrFolders property from its default value of true
-		/// </summary>
-		public void UpdateContainsFilesFolders()
-		{
-			ContainsFilesOrFolders = FolderHelpers.CheckForFilesFolders(ItemPath);
-		}
-
 		public void SetDefaultIcon(BitmapImage img)
 		{
 			NeedsPlaceholderGlyph = false;

@@ -36,26 +36,12 @@ namespace Files.App
 				{
 					var launchArgs = activatedArgs.Data as ILaunchActivatedEventArgs;
 
-					if (false)
+					var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
+					var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
+					if (!instance.IsCurrent && !string.IsNullOrWhiteSpace(launchArgs.Arguments))
 					{
-						// WINUI3: remove
-					}
-					else
-					{
-						if (false)
-						{
-							// WINUI3: remove
-						}
-						else
-						{
-							var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
-							var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
-							if (!instance.IsCurrent && !string.IsNullOrWhiteSpace(launchArgs.Arguments))
-							{
-								RedirectActivationTo(instance, activatedArgs);
-								return;
-							}
-						}
+						RedirectActivationTo(instance, activatedArgs);
+						return;
 					}
 				}
 				else if (activatedArgs.Data is IProtocolActivatedEventArgs protocolArgs)
@@ -102,8 +88,6 @@ namespace Files.App
 									OpenShellCommandInExplorer(command.Payload, proc.Id);
 									return; // Exit
 								}
-								break;
-							default:
 								break;
 						}
 					}

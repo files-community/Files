@@ -18,8 +18,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 {
 	public class ExperimentalViewModel : ObservableObject
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
 		public ICommand EditFileTagsCommand { get; }
 
 		public ICommand SetAsDefaultExplorerCommand { get; }
