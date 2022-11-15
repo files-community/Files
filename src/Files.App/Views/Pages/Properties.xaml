@@ -39,7 +39,7 @@
 		<NavigationView
 			x:Name="NavigationView"
 			Grid.Row="0"
-			Margin="8,8,120,8"
+			Margin="8"
 			HorizontalAlignment="Left"
 			AllowDrop="False"
 			Canvas.ZIndex="100"
