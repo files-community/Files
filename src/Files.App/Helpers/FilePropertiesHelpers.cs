@@ -7,110 +7,122 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using System;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Foundation.Metadata;
 using Windows.Graphics;
 using static Files.App.Views.Properties;
 
-#nullable enable
-
 namespace Files.App.Helpers
 {
-    public static class FilePropertiesHelpers
-    {
-        public static async void ShowProperties(IShellPage associatedInstance)
-        {
-            if (associatedInstance.SlimContentPage.IsItemSelected)
-            {
-                if (associatedInstance.SlimContentPage.SelectedItems.Count > 1)
-                    await OpenPropertiesWindowAsync(associatedInstance.SlimContentPage.SelectedItems, associatedInstance);
-                else
-                    await OpenPropertiesWindowAsync(associatedInstance.SlimContentPage.SelectedItem, associatedInstance);
-            }
-            else
-            {
-                var path = System.IO.Path.GetPathRoot(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
-                if (path is not null && path.Equals(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath, StringComparison.OrdinalIgnoreCase))
-                    await OpenPropertiesWindowAsync(associatedInstance.FilesystemViewModel.CurrentFolder, associatedInstance);
-                else
-                    await OpenPropertiesWindowAsync(App.DrivesManager.Drives
-                        .Single(x => x.Path.Equals(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath)), associatedInstance);
-            }
-        }
+	public static class FilePropertiesHelpers
+	{
+		private static readonly bool isUniversal =
+			ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", majorVersion: 8);
 
-        public static async Task OpenPropertiesWindowAsync(object item, IShellPage associatedInstance)
-        {
-            if (item == null)
-                return;
+		private static readonly Lazy<string> logoPath = new(GetFilesLogoPath);
+		public static string LogoPath => logoPath.Value;
 
-            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-            {
-                var frame = new Frame();
-                frame.RequestedTheme = ThemeHelper.RootTheme;
-                frame.Navigate(typeof(Properties), new PropertiesPageNavigationArguments()
-                {
-                    Item = item,
-                    AppInstanceArgument = associatedInstance
-                }, new SuppressNavigationTransitionInfo());
+		public static async void ShowProperties(IShellPage associatedInstance)
+		{
+			var item = GetItem(associatedInstance);
+			await OpenPropertiesWindowAsync(item, associatedInstance);
 
-                // Initialize window
-                var propertiesWindow = new WinUIEx.WindowEx()
-                {
-                    IsMaximizable = false,
-                    IsMinimizable = false
-                };
-                var appWindow = propertiesWindow.AppWindow;
+			static object GetItem(IShellPage instance)
+			{
+				var page = instance.SlimContentPage;
+				if (page.IsItemSelected)
+				{
+					return page.SelectedItems?.Count is 1
+						? page.SelectedItem!
+						: page.SelectedItems!;
+				}
 
-                // Set icon
-                appWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, "Assets/AppTiles/Dev/Logo.ico"));
+				var folder = instance.FilesystemViewModel.CurrentFolder;
 
-                // Set content
-                propertiesWindow.Content = frame;
-                if (frame.Content is Properties properties)
-                    properties.appWindow = appWindow;
+				var drives = App.DrivesManager.Drives;
+				foreach (var drive in drives)
+				{
+					if (drive.Path.Equals(folder.ItemPath))
+						return drive;
+				}
 
-                // Set min size
-                propertiesWindow.MinWidth = 460;
-                propertiesWindow.MinHeight = 550;
+				return folder;
+			}
+		}
 
-                // Set backdrop
-                propertiesWindow.Backdrop = new WinUIEx.MicaSystemBackdrop() { DarkTintOpacity = 0.8 };
+		public static async Task OpenPropertiesWindowAsync(object item, IShellPage associatedInstance)
+		{
+			if (item is null)
+				return;
 
-                appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+			if (isUniversal)
+			{
+				var frame = new Frame
+				{
+					RequestedTheme = ThemeHelper.RootTheme
+				};
+				Navigate(frame);
 
-                // Set window buttons background to transparent
-                appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
-                appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+				var propertiesWindow = new WinUIEx.WindowEx
+				{
+					IsAlwaysOnTop = true,
+					IsMinimizable = false,
+					IsMaximizable = false,
+					MinWidth = 460,
+					MinHeight = 550,
+					Content = frame,
+					Backdrop = new WinUIEx.MicaSystemBackdrop{ DarkTintOpacity = 0.8 },
+				};
 
-                appWindow.Title = "PropertiesTitle".GetLocalizedResource();
-                appWindow.Resize(new SizeInt32(460, 550));
-                appWindow.Show();
+				var appWindow = propertiesWindow.AppWindow;
+				appWindow.Title = "PropertiesTitle".GetLocalizedResource();
+				appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+				appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+				appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
-                if (true) // WINUI3: move window to cursor position
-                {
-                    UWPToWinAppSDKUpgradeHelpers.InteropHelpers.GetCursorPos(out var pointerPosition);
-                    var displayArea = DisplayArea.GetFromPoint(new PointInt32(pointerPosition.X, pointerPosition.Y), DisplayAreaFallback.Nearest);
-                    var appWindowPos = new PointInt32()
-                    {
-                        X = displayArea.WorkArea.X + Math.Max(0, Math.Min(displayArea.WorkArea.Width - appWindow.Size.Width, pointerPosition.X - displayArea.WorkArea.X)),
-                        Y = displayArea.WorkArea.Y + Math.Max(0, Math.Min(displayArea.WorkArea.Height - appWindow.Size.Height, pointerPosition.Y - displayArea.WorkArea.Y))
-                    };
-                    appWindow.Move(appWindowPos);
-                }
-            }
-            else
-            {
-                var propertiesDialog = new PropertiesDialog();
-                propertiesDialog.propertiesFrame.Tag = propertiesDialog;
-                propertiesDialog.propertiesFrame.Navigate(typeof(Properties), new PropertiesPageNavigationArguments()
-                {
-                    Item = item,
-                    AppInstanceArgument = associatedInstance
-                }, new SuppressNavigationTransitionInfo());
-                await propertiesDialog.ShowAsync(ContentDialogPlacement.Popup);
-            }
-        }
-    }
+				appWindow.Resize(new SizeInt32(460, 550));
+				appWindow.SetIcon(LogoPath);
+
+				if (frame.Content is Properties properties)
+					properties.appWindow = appWindow;
+
+				appWindow.Show();
+
+				if (true) // WINUI3: move window to cursor position
+				{
+					UWPToWinAppSDKUpgradeHelpers.InteropHelpers.GetCursorPos(out var pointerPosition);
+					var displayArea = DisplayArea.GetFromPoint(new PointInt32(pointerPosition.X, pointerPosition.Y), DisplayAreaFallback.Nearest);
+					var appWindowPos = new PointInt32
+					{
+						X = displayArea.WorkArea.X
+							+ Math.Max(0, Math.Min(displayArea.WorkArea.Width - appWindow.Size.Width, pointerPosition.X - displayArea.WorkArea.X)),
+						Y = displayArea.WorkArea.Y
+							+ Math.Max(0, Math.Min(displayArea.WorkArea.Height - appWindow.Size.Height, pointerPosition.Y - displayArea.WorkArea.Y)),
+					};
+					appWindow.Move(appWindowPos);
+				}
+			}
+			else
+			{
+				var dialog = new PropertiesDialog();
+				dialog.propertiesFrame.Tag = dialog;
+				Navigate(dialog.propertiesFrame);
+				await dialog.ShowAsync(ContentDialogPlacement.Popup);
+			}
+
+			void Navigate(Frame frame)
+			{
+				var argument = new PropertiesPageNavigationArguments
+				{
+					Item = item,
+					AppInstanceArgument = associatedInstance,
+				};
+				frame.Navigate(typeof(Properties), argument, new SuppressNavigationTransitionInfo());
+			}
+		}
+
+		private static string GetFilesLogoPath()
+			=> Path.Combine(Package.Current.InstalledLocation.Path, Constants.AssetPaths.Logo);
+	}
 }

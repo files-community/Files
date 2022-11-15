@@ -1,8 +1,8 @@
 ﻿using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Windows;
 using System;
-using System.IO;
 using System.Diagnostics;
+using System.IO;
 using System.Threading;
 
 namespace Files.InteractionTests
@@ -23,7 +23,7 @@ namespace Files.InteractionTests
 		{
 			get
 			{
-				if (_session == null)
+				if (_session is null)
 				{
 					CreateSession(null);
 				}
@@ -57,13 +57,13 @@ namespace Files.InteractionTests
 		[AssemblyInitialize]
 		public static void CreateSession(TestContext _)
 		{
-			if (_session == null)
+			if (_session is null)
 			{
 
 				int timeoutCount = 50;
 
-                tryInitializeSession();
-				if (_session == null)
+				tryInitializeSession();
+				if (_session is null)
 				{
 					// WinAppDriver is probably not running, so lets start it!
 					if (File.Exists(@"C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe"))
@@ -80,17 +80,17 @@ namespace Files.InteractionTests
 					}
 
 					Thread.Sleep(10000);
-                    tryInitializeSession();
+					tryInitializeSession();
 				}
 
-                while (_session == null && timeoutCount < 1000 * 4)
+				while (_session is null && timeoutCount < 1000 * 4)
 				{
-                    tryInitializeSession();
+					tryInitializeSession();
 					Thread.Sleep(timeoutCount);
 					timeoutCount *= 2;
 				}
 
-                Thread.Sleep(3000);
+				Thread.Sleep(3000);
 				Assert.IsNotNull(_session);
 				Assert.IsNotNull(_session.SessionId);
 
@@ -118,7 +118,7 @@ namespace Files.InteractionTests
 
 		public static void TearDown()
 		{
-			if (_session != null)
+			if (_session is not null)
 			{
 				_session.CloseApp();
 				_session.Quit();

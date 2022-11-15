@@ -3,7 +3,6 @@ using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
 using Files.Shared.EventArguments;
 using Microsoft.AppCenter.Analytics;
-using System;
 
 namespace Files.App.ServicesImplementation.Settings
 {
@@ -29,38 +28,58 @@ namespace Files.App.ServicesImplementation.Settings
 
 		public double TagColumnWidth
 		{
-			get => Get(200d);
-			set => Set(value);
+			get => Get(140d);
+			set
+			{
+				if (ShowFileTagColumn)
+					Set(value);
+			}
 		}
 
 		public double NameColumnWidth
 		{
-			get => Get(200d);
+			get => Get(240d);
 			set => Set(value);
 		}
 
 		public double DateModifiedColumnWidth
 		{
 			get => Get(200d);
-			set => Set(value);
+			set
+			{
+				if (ShowDateColumn)
+					Set(value);
+			}
 		}
 
 		public double TypeColumnWidth
 		{
-			get => Get(200d);
-			set => Set(value);
+			get => Get(140d);
+			set
+			{
+				if (ShowTypeColumn)
+					Set(value);
+			}
 		}
 
 		public double DateCreatedColumnWidth
 		{
 			get => Get(200d);
-			set => Set(value);
+			set
+			{
+				if (ShowDateCreatedColumn)
+					Set(value);
+			}
 		}
 
 		public double SizeColumnWidth
 		{
-			get => Get(200d);
-			set => Set(value);
+			get => Get(140d);
+			set
+			{
+				if (ShowSizeColumn)
+					Set(value);
+			}
 		}
 
 		public bool ShowDateColumn
@@ -117,13 +136,7 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
-		public bool OpenFilesWithOneClick
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
-		public bool OpenFoldersWithOneClick
+		public bool OpenItemsWithOneClick
 		{
 			get => Get(false);
 			set => Set(value);
@@ -167,8 +180,7 @@ namespace Files.App.ServicesImplementation.Settings
 				case nameof(ShowProtectedSystemFiles):
 				case nameof(AreAlternateStreamsVisible):
 				case nameof(ShowDotFiles):
-				case nameof(OpenFilesWithOneClick):
-				case nameof(OpenFoldersWithOneClick):
+				case nameof(OpenItemsWithOneClick):
 				case nameof(ColumnLayoutOpenFoldersWithOneClick):
 				case nameof(OpenFoldersInNewTab):
 				case nameof(CalculateFolderSizes):

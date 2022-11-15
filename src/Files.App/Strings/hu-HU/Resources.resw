@@ -157,7 +157,7 @@
     <value>Név</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Path:</value>
+    <value>Elérési út:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Méret:</value>
@@ -344,9 +344,6 @@
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Kezdésként, engedélyt kell adnia a fájljai megjelenítéséhez. Ez meg fogja nyitni a Gépházat ahol ezt elvégezheti. Az engedély megadása és a Gépház bezárása után nyissa meg újra a Files-t.</value>
-  </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Fájlmappa</value>
   </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Fájl</value>
@@ -816,12 +813,6 @@
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Nyelv</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>Terminál alkalmazások</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>Terminál alkalmazások szerkesztése</value>
-  </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Túlcsorduló elemek almenübe helyezése</value>
   </data>
@@ -1124,9 +1115,6 @@
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Kiválasztás</value>
-  </data>
-  <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
-    <value>Fájlok megnyitása egy kattintással</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>Fájl</value>
@@ -2016,8 +2004,8 @@
   <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>Dokumentáció megtekintése.</value>
   </data>
-  <data name="DecompressArchiveDialog.Title" xml:space="preserve">
-    <value>Válasszon egy célhelyet, és csomagolja ki a fájlokat</value>
+  <data name="ExtractArchive" xml:space="preserve">
+    <value>Archívum kicsomagolása</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>Célhely megnyitása amikor kész</value>
@@ -2430,9 +2418,6 @@
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>WSL megjelenítése</value>
   </data>
-  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Terminál alkalmazások</value>
-  </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Folyamatban lévő műveletek</value>
   </data>
@@ -2466,8 +2451,8 @@
   <data name="Tag" xml:space="preserve">
     <value>Címke</value>
   </data>
-  <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
-    <value>Mappák megnyitása egy kattintással</value>
+  <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
+    <value>Elemek megnyitása egy kattintással</value>
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
     <value>Mappa útvonala</value>
@@ -2488,7 +2473,7 @@
     <value>Hiba történt az importálás közben</value>
   </data>
   <data name="EmptyRecycleBin" xml:space="preserve">
-    <value>Lomtár kiürítése</value>
+    <value>Lomtár ürítése</value>
   </data>
   <data name="Sidebar" xml:space="preserve">
     <value>Oldalsáv</value>
@@ -2623,7 +2608,7 @@
     <value>Tárterület kezelése</value>
   </data>
   <data name="Type" xml:space="preserve">
-    <value>Típus:</value>
+    <value>Típus</value>
   </data>
   <data name="IconGrid" xml:space="preserve">
     <value>Ikonrács</value>
@@ -2809,10 +2794,28 @@
     <value>Mappák megnyitása egy kattintással Oszlopok nézetben</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
-    <value>Opening items</value>
+    <value>Elemek megnyitása</value>
+  </data>
+  <data name="AddSingleItemToArchive" xml:space="preserve">
+    <value>Tömörítés {0}.zip-be</value>
+  </data>
+  <data name="AddToArchive" xml:space="preserve">
+    <value>Tömörítés</value>
+  </data>
+  <data name="CompressionCompleted" xml:space="preserve">
+    <value>A tömörítés befejeződött</value>
+  </data>
+  <data name="CompressionSucceded" xml:space="preserve">
+    <value>{0} tömörítése kész</value>
+  </data>
+  <data name="CompressionFailed" xml:space="preserve">
+    <value>{0} tömörítése nem sikerült</value>
+  </data>
+  <data name="CompressionInProgress" xml:space="preserve">
+    <value>Tömörítés folyamatban</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
-    <value>Select files and folders when hovering over them</value>
+    <value>Fájlok és mappák kiválasztása kattintás nélkül</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
     <value>Biztosan vissza szeretné állítani a Lomtárban lévő összes elemet?</value>
@@ -2833,9 +2836,27 @@
     <value>Visszaállítás</value>
   </data>
   <data name="ShortcutCannotBeOpened" xml:space="preserve">
-    <value>Shortcut cannot be opened</value>
+    <value>A parancsikon nem nyitható meg</value>
   </data>
   <data name="DeleteShortcutDescription" xml:space="preserve">
-    <value>The target destination cannot be found {0}. Do you want to delete this shortcut?</value>
+    <value>Nem található az elem, amire a parancsikon mutat ({0}). Szeretné eltávolítani a parancsikont?</value>
+  </data>
+  <data name="LoadingThemes" xml:space="preserve">
+    <value>Témák betöltése</value>
+  </data>
+  <data name="EmptyingRecycleBin" xml:space="preserve">
+    <value>Lomtár ürítése</value>
+  </data>
+  <data name="BinEmptyingSucceded" xml:space="preserve">
+    <value>Lomtár kiürítve</value>
+  </data>
+  <data name="BinEmptyingFailed" xml:space="preserve">
+    <value>A Lomtár kiürítése sikertelen</value>
+  </data>
+  <data name="ArchivePassword" xml:space="preserve">
+    <value>Jelszó</value>
+  </data>
+  <data name="ExtractToPath" xml:space="preserve">
+    <value>Célmappa</value>
   </data>
 </root>

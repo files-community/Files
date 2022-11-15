@@ -1,19 +1,19 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using Files.Shared;
 using Files.App.Helpers;
+using Files.Shared;
+using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
-using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace Files.App.Filesystem
 {
 	public class RecentItem : ObservableObject, IEquatable<RecentItem>
 	{
 		private BitmapImage _fileImg;
-		public BitmapImage FileImg 
+		public BitmapImage FileImg
 		{
 			get => _fileImg;
 			set => SetProperty(ref _fileImg, value);
@@ -28,7 +28,7 @@ namespace Files.App.Filesystem
 		public bool IsFile { get => Type == StorageItemTypes.File; }
 		public DateTime LastModified { get; set; }
 
-		public RecentItem() 
+		public RecentItem()
 		{
 			EmptyImgVis = true; // defer icon load to LoadRecentItemIcon()
 		}
@@ -75,7 +75,7 @@ namespace Files.App.Filesystem
 		public async Task LoadRecentItemIcon()
 		{
 			var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(RecentPath, 96u, ThumbnailMode.SingleItem);
-			if (iconData == null)
+			if (iconData is null)
 			{
 				EmptyImgVis = true;
 			}
@@ -91,7 +91,7 @@ namespace Files.App.Filesystem
 		/// </summary>
 		public bool Equals(RecentItem other)
 		{
-			if (other == null)
+			if (other is null)
 			{
 				return false;
 			}
@@ -104,7 +104,7 @@ namespace Files.App.Filesystem
 
 		/**
 		 * Strips a name from an extension while aware of some edge cases.
-		 * 
+		 *
 		 *   example.min.js => example.min
 		 *   example.js     => example
 		 *   .gitignore     => .gitignore

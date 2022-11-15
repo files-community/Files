@@ -13,132 +13,132 @@ using Windows.Storage;
 
 namespace Files.App.Shell
 {
-    [SupportedOSPlatform("Windows10.0.10240")]
-    public static class ShellNewMenuHelper
-    {
-        public static async Task<List<ShellNewEntry>> GetNewContextMenuEntries()
-        {
-            var newMenuItems = new List<ShellNewEntry>();
-            foreach (var keyName in Registry.ClassesRoot.GetSubKeyNames().Where(x => x.StartsWith('.') && !new string[] { ShellLibraryItem.EXTENSION, ".url", ".lnk" }.Contains(x, StringComparer.OrdinalIgnoreCase)))
-            {
-                using var key = Registry.ClassesRoot.OpenSubKeySafe(keyName);
+	[SupportedOSPlatform("Windows10.0.10240")]
+	public static class ShellNewMenuHelper
+	{
+		public static async Task<List<ShellNewEntry>> GetNewContextMenuEntries()
+		{
+			var newMenuItems = new List<ShellNewEntry>();
+			foreach (var keyName in Registry.ClassesRoot.GetSubKeyNames().Where(x => x.StartsWith('.') && !new string[] { ShellLibraryItem.EXTENSION, ".url", ".lnk" }.Contains(x, StringComparer.OrdinalIgnoreCase)))
+			{
+				using var key = Registry.ClassesRoot.OpenSubKeySafe(keyName);
 
-                if (key != null)
-                {
-                    var ret = await GetShellNewRegistryEntries(key, key);
-                    if (ret != null)
-                    {
-                        newMenuItems.Add(ret);
-                    }
-                }
-            }
-            return newMenuItems;
-        }
+				if (key is not null)
+				{
+					var ret = await GetShellNewRegistryEntries(key, key);
+					if (ret is not null)
+					{
+						newMenuItems.Add(ret);
+					}
+				}
+			}
+			return newMenuItems;
+		}
 
-        public static async Task<ShellNewEntry> GetNewContextMenuEntryForType(string extension)
-        {
-            if (string.IsNullOrEmpty(extension))
-                return null;
+		public static async Task<ShellNewEntry> GetNewContextMenuEntryForType(string extension)
+		{
+			if (string.IsNullOrEmpty(extension))
+				return null;
 
-            using var key = Registry.ClassesRoot.OpenSubKeySafe(extension);
-            return key != null ? await GetShellNewRegistryEntries(key, key) : null;
-        }
+			using var key = Registry.ClassesRoot.OpenSubKeySafe(extension);
+			return key is not null ? await GetShellNewRegistryEntries(key, key) : null;
+		}
 
-        private static async Task<ShellNewEntry> GetShellNewRegistryEntries(RegistryKey current, RegistryKey root)
-        {
-            foreach (var keyName in current.GetSubKeyNames())
-            {
-                using var key = current.OpenSubKeySafe(keyName);
+		private static async Task<ShellNewEntry> GetShellNewRegistryEntries(RegistryKey current, RegistryKey root)
+		{
+			foreach (var keyName in current.GetSubKeyNames())
+			{
+				using var key = current.OpenSubKeySafe(keyName);
 
-                if (key == null)
-                    continue;
+				if (key is null)
+					continue;
 
-                if (keyName == "ShellNew")
-                {
-                    return await ParseShellNewRegistryEntry(key, root);
-                }
-                else
-                {
-                    var ret = await GetShellNewRegistryEntries(key, root);
-                    if (ret != null)
-                        return ret;
-                }
-            }
+				if (keyName == "ShellNew")
+				{
+					return await ParseShellNewRegistryEntry(key, root);
+				}
+				else
+				{
+					var ret = await GetShellNewRegistryEntries(key, root);
+					if (ret is not null)
+						return ret;
+				}
+			}
 
-            return null;
-        }
+			return null;
+		}
 
-        private static async Task<ShellNewEntry> ParseShellNewRegistryEntry(RegistryKey key, RegistryKey root)
-        {
-            var valueNames = key.GetValueNames();
+		private static async Task<ShellNewEntry> ParseShellNewRegistryEntry(RegistryKey key, RegistryKey root)
+		{
+			var valueNames = key.GetValueNames();
 
-            if (!valueNames.Contains("NullFile", StringComparer.OrdinalIgnoreCase) &&
-                !valueNames.Contains("Name", StringComparer.OrdinalIgnoreCase) &&
-                !valueNames.Contains("FileName", StringComparer.OrdinalIgnoreCase) &&
-                !valueNames.Contains("Command", StringComparer.OrdinalIgnoreCase))
-            {
-                return null;
-            }
+			if (!valueNames.Contains("NullFile", StringComparer.OrdinalIgnoreCase) &&
+				!valueNames.Contains("Name", StringComparer.OrdinalIgnoreCase) &&
+				!valueNames.Contains("FileName", StringComparer.OrdinalIgnoreCase) &&
+				!valueNames.Contains("Command", StringComparer.OrdinalIgnoreCase))
+			{
+				return null;
+			}
 
-            var extension = root.Name.Substring(root.Name.LastIndexOf('\\') + 1);
-            var fileName = (string)key.GetValue("FileName");
+			var extension = root.Name.Substring(root.Name.LastIndexOf('\\') + 1);
+			var fileName = (string)key.GetValue("FileName");
 
-            byte[] data = null;
-            var dataObj = key.GetValue("Data");
+			byte[] data = null;
+			var dataObj = key.GetValue("Data");
 
-            if (dataObj != null)
-            {
-                switch (key.GetValueKind("Data"))
-                {
-                    case RegistryValueKind.Binary:
-                        data = (byte[])dataObj;
-                        break;
+			if (dataObj is not null)
+			{
+				switch (key.GetValueKind("Data"))
+				{
+					case RegistryValueKind.Binary:
+						data = (byte[])dataObj;
+						break;
 
-                    case RegistryValueKind.String:
-                        data = UTF8Encoding.UTF8.GetBytes((string)dataObj);
-                        break;
-                }
-            }
+					case RegistryValueKind.String:
+						data = UTF8Encoding.UTF8.GetBytes((string)dataObj);
+						break;
+				}
+			}
 
-            var folder = await SafetyExtensions.IgnoreExceptions(() => ApplicationData.Current.LocalFolder.CreateFolderAsync("extensions", CreationCollisionOption.OpenIfExists).AsTask());
-            var sampleFile = folder != null ? await SafetyExtensions.IgnoreExceptions(() => folder.CreateFileAsync("file" + extension, CreationCollisionOption.OpenIfExists).AsTask()) : null;
+			var folder = await SafetyExtensions.IgnoreExceptions(() => ApplicationData.Current.LocalFolder.CreateFolderAsync("extensions", CreationCollisionOption.OpenIfExists).AsTask());
+			var sampleFile = folder is not null ? await SafetyExtensions.IgnoreExceptions(() => folder.CreateFileAsync("file" + extension, CreationCollisionOption.OpenIfExists).AsTask()) : null;
 
-            var displayType = sampleFile != null ? sampleFile.DisplayType : string.Format("{0} {1}", "file", extension);
-            var thumbnail = sampleFile != null ? await SafetyExtensions.IgnoreExceptions(() => sampleFile.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 24, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale).AsTask()) : null;
+			var displayType = sampleFile is not null ? sampleFile.DisplayType : string.Format("{0} {1}", "file", extension);
+			var thumbnail = sampleFile is not null ? await SafetyExtensions.IgnoreExceptions(() => sampleFile.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 24, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale).AsTask()) : null;
 
-            string iconString = null;
+			string iconString = null;
 
-            if (thumbnail != null)
-            {
-                var readStream = thumbnail.AsStreamForRead();
-                var bitmapData = new byte[readStream.Length];
-                await readStream.ReadAsync(bitmapData, 0, bitmapData.Length);
-                iconString = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
-            }
+			if (thumbnail is not null)
+			{
+				var readStream = thumbnail.AsStreamForRead();
+				var bitmapData = new byte[readStream.Length];
+				await readStream.ReadAsync(bitmapData, 0, bitmapData.Length);
+				iconString = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
+			}
 
-            var entry = new ShellNewEntry()
-            {
-                Extension = extension,
-                Template = fileName,
-                Name = displayType,
-                Command = (string)key.GetValue("Command"),
-                IconBase64 = iconString,
-                Data = data
-            };
+			var entry = new ShellNewEntry()
+			{
+				Extension = extension,
+				Template = fileName,
+				Name = displayType,
+				Command = (string)key.GetValue("Command"),
+				IconBase64 = iconString,
+				Data = data
+			};
 
-            return entry;
-        }
+			return entry;
+		}
 
-        private static RegistryKey OpenSubKeySafe(this RegistryKey root, string keyName)
-        {
-            try
-            {
-                return root.OpenSubKey(keyName);
-            }
-            catch (SecurityException)
-            {
-                return null;
-            }
-        }
-    }
+		private static RegistryKey OpenSubKeySafe(this RegistryKey root, string keyName)
+		{
+			try
+			{
+				return root.OpenSubKey(keyName);
+			}
+			catch (SecurityException)
+			{
+				return null;
+			}
+		}
+	}
 }

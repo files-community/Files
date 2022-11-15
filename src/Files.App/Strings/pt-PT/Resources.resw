@@ -151,7 +151,7 @@
     <value>Abrir em</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
-    <value>Criado em:</value>
+    <value>Criado:</value>
   </data>
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>Nome do item</value>
@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Para começar, terá de nos conceder permissão para mostrar os seus ficheiros. Isto abrirá uma página de Definições, na qual pode conceder esta permissão. Terá de reabrir a aplicação assim que terminar esta etapa. </value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Pasta de ficheiros</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Ficheiro</value>
   </data>
@@ -448,13 +445,13 @@
     <value>A pasta a que está a tentar aceder pode ter sido movida ou apagada.</value>
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
-    <value>Deseja eliminar esta pasta?</value>
+    <value>Será que eliminou esta pasta?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
     <value>O ficheiro a que está a tentar aceder está a ser utilizado por {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>O ficheiro que está a tentar aceder está a ser utilizado por uma outra aplicação</value>
+    <value>O ficheiro que está a tentar aceder está a ser utilizado por outra aplicação</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
     <value>Ficheiro em utilização</value>
@@ -816,12 +813,6 @@
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Idioma</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>Linha de comandos</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>Editar aplicações terminal</value>
-  </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Mover itens de sobreposição para um submenu</value>
   </data>
@@ -955,7 +946,7 @@
     <value>Compositor</value>
   </data>
   <data name="Conductor" xml:space="preserve">
-    <value>Condutor</value>
+    <value>Maestro</value>
   </data>
   <data name="PropertyDiscNumber" xml:space="preserve">
     <value>Número do disco</value>
@@ -1009,7 +1000,7 @@
     <value>Caminho da miniatura grande</value>
   </data>
   <data name="PropertyThumbnailLargeUri" xml:space="preserve">
-    <value>URL da miniatura grande</value>
+    <value>URI da miniatura grande</value>
   </data>
   <data name="PropertyThumbnailSmallPath" xml:space="preserve">
     <value>Caminho da miniatura pequena</value>
@@ -1125,9 +1116,6 @@
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Selecionar</value>
   </data>
-  <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
-    <value>Abrir ficheiros com um clique</value>
-  </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>Ficheiro</value>
   </data>
@@ -1147,7 +1135,7 @@
     <value>Pode remover o dispositivo</value>
   </data>
   <data name="EjectNotificationBody" xml:space="preserve">
-    <value>O dispositivo pode ser removido com segurança do computador.</value>
+    <value>O dispositivo pode agora ser removido do computador.</value>
   </data>
   <data name="EjectNotificationErrorDialogHeader" xml:space="preserve">
     <value>Problema ao ejetar o dispositivo</value>
@@ -1243,7 +1231,7 @@
     <value>Permitir alterar as preferências padrão das pastas para diretórios específicos</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
-    <value>Personalize o menu de contexto do botão direito do rato</value>
+    <value>Personalizar menu de contexto do botão direito do rato</value>
   </data>
   <data name="originalPathColumn.Header" xml:space="preserve">
     <value>Caminho original</value>
@@ -1318,7 +1306,7 @@
     <value>Mosaicos (Ctrl+Shift+2)</value>
   </data>
   <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
-    <value>Mostrar extensões dos ficheiros</value>
+    <value>Mostrar extensão dos ficheiros</value>
   </data>
   <data name="NavToolbarShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
     <value>Mostrar itens ocultos</value>
@@ -1327,7 +1315,7 @@
     <value>Data de eliminação</value>
   </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
-    <value>Unidades de nuvem</value>
+    <value>Unidades na nuvem</value>
   </data>
   <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Mais opções...</value>
@@ -1456,7 +1444,7 @@
     <value>Unidade CD-ROM</value>
   </data>
   <data name="DriveTypeCloudDrive" xml:space="preserve">
-    <value>Unidade de nuvem</value>
+    <value>Unidade na nuvem</value>
   </data>
   <data name="DriveTypeFixed" xml:space="preserve">
     <value>Unidade de disco fixa</value>
@@ -1474,7 +1462,7 @@
     <value>Unidade de RAM</value>
   </data>
   <data name="DriveTypeRemovable" xml:space="preserve">
-    <value>Dispositivo de armazenamento amovível</value>
+    <value>Unidade amovível</value>
   </data>
   <data name="DriveTypeUnknown" xml:space="preserve">
     <value>Desconhecido</value>
@@ -1603,7 +1591,7 @@
     <value>O nome não pode conter os seguintes carateres: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="ErrorNameInputRestricted" xml:space="preserve">
-    <value>Não é permitido utilizar este nome!</value>
+    <value>Não pode utilizar este nome!</value>
   </data>
   <data name="CreateLibraryErrorAlreadyExists" xml:space="preserve">
     <value>Já existe uma biblioteca com este nome!</value>
@@ -1846,7 +1834,7 @@
     <value>Mudar nome</value>
   </data>
   <data name="StatusMoveCanceled" xml:space="preserve">
-    <value>Movimentação cancelada</value>
+    <value>Mover cancelado</value>
   </data>
   <data name="StatusCopyCanceled" xml:space="preserve">
     <value>Cópia cancelada</value>
@@ -1867,10 +1855,10 @@
     <value>A mover {0} itens de {1} para {2}</value>
   </data>
   <data name="StatusMovedItemsDetails_Singular" xml:space="preserve">
-    <value>Movido {0} item de {1} para {2} com sucesso</value>
+    <value>Movido com sucesso {0} item de {1} para {2}</value>
   </data>
   <data name="StatusMovedItemsDetails_Plural" xml:space="preserve">
-    <value>Movido {0} itens de {1} para {2} com sucesso</value>
+    <value>Movido com sucesso {0} itens de {1} para {2}</value>
   </data>
   <data name="StatusMoveFailedDetails_Singular" xml:space="preserve">
     <value>Falha ao mover {0} item de {1} para {2}</value>
@@ -1996,7 +1984,7 @@
     <value>Conta desconhecida</value>
   </data>
   <data name="SecurityCannotReadProperties.Text" xml:space="preserve">
-    <value>Você não tem permissões para ver as propriedades de segurança deste objeto. Clique em "Permissões avançadas" para continuar.</value>
+    <value>Não tem permissões para ver as propriedades de segurança deste objeto. Clique em "Permissões avançadas" para continuar.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
     <value>Proprietário</value>
@@ -2016,8 +2004,8 @@
   <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>Ver documentação.</value>
   </data>
-  <data name="DecompressArchiveDialog.Title" xml:space="preserve">
-    <value>Selecione o destino e extraia os ficheiros</value>
+  <data name="ExtractArchive" xml:space="preserve">
+    <value>Extract Archive</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>Abrir pasta de destino ao terminar</value>
@@ -2086,7 +2074,7 @@
     <value>Tipo</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
-    <value>Você não tem permissões para ver as propriedades de segurança deste objeto. Pode tentar obter a titularidade deste objeto.</value>
+    <value>Não tem permissões para ver as propriedades de segurança deste objeto. Pode tentar obter a titularidade deste objeto.</value>
   </data>
   <data name="SecurityAdvancedSpecialLabel.Text" xml:space="preserve">
     <value>Especial</value>
@@ -2116,7 +2104,7 @@
     <value>Anexar dados</value>
   </data>
   <data name="SecurityChangePermissionsLabel.Text" xml:space="preserve">
-    <value>Mudar permissão</value>
+    <value>Alterar permissão</value>
   </data>
   <data name="SecurityCreateDirectoriesLabel.Text" xml:space="preserve">
     <value>Criar pastas</value>
@@ -2167,7 +2155,7 @@
     <value>Remover todas as permissões herdadas</value>
   </data>
   <data name="SecurityAdvancedReplaceChildPermissions.Text" xml:space="preserve">
-    <value>Redefinir permissões filho</value>
+    <value>Repor permissões dependentes</value>
   </data>
   <data name="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" xml:space="preserve">
     <value>Substituir todas as entradas de permissão do objeto filho por entradas de permissão herdáveis deste objeto</value>
@@ -2398,7 +2386,7 @@
     <value>Mosaicos</value>
   </data>
   <data name="NavToolbarShowFileExtensions.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar extensões dos ficheiros</value>
+    <value>Mostrar extensão dos ficheiros</value>
   </data>
   <data name="NavToolbarShowHiddenItemsHeader.Text" xml:space="preserve">
     <value>Mostrar itens ocultos</value>
@@ -2413,7 +2401,7 @@
     <value>Idioma</value>
   </data>
   <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar secção Unidade de nuvem</value>
+    <value>Mostrar secção Unidades na nuvem</value>
   </data>
   <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Mostrar diálogo de confirmação antes de eliminar ficheiros ou pastas</value>
@@ -2429,9 +2417,6 @@
   </data>
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Mostrar secção WSL</value>
-  </data>
-  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Aplicação de terminal</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Tarefas em curso</value>
@@ -2466,8 +2451,8 @@
   <data name="Tag" xml:space="preserve">
     <value>Etiqueta</value>
   </data>
-  <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
-    <value>Abrir pastas com um clique</value>
+  <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
+    <value>Abrir itens com um clique</value>
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
     <value>Caminho da pasta</value>
@@ -2548,7 +2533,7 @@
     <value>Cores de 16 Bits (65536)</value>
   </data>
   <data name="ReducedColorMode_Color8Bit" xml:space="preserve">
-    <value>Cor de 8 Bits (256)</value>
+    <value>Cores de 8 Bits (256)</value>
   </data>
   <data name="CompatibilityMode" xml:space="preserve">
     <value>Modo de compatibilidade</value>
@@ -2596,7 +2581,7 @@
     <value>Insira o nome da biblioteca</value>
   </data>
   <data name="CalculateFolderSizes" xml:space="preserve">
-    <value>Calcular tamanhos das pastas</value>
+    <value>Calcular tamanho das pastas</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
     <value>Ficheiros recentes</value>
@@ -2623,7 +2608,7 @@
     <value>Limpeza do disco</value>
   </data>
   <data name="Type" xml:space="preserve">
-    <value>Tipo:</value>
+    <value>Tipo</value>
   </data>
   <data name="IconGrid" xml:space="preserve">
     <value>Grelha de ícones</value>
@@ -2653,7 +2638,7 @@
     <value>Executar com PowerShell</value>
   </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
-    <value>O cálculo do tamanho das pastas exige muitos recursos e pode  aumentar a utilização do CPU.</value>
+    <value>Esta operação exige muitos recursos e pode  aumentar a utilização do CPU.</value>
   </data>
   <data name="RotateLeft" xml:space="preserve">
     <value>Rodar à esquerda</value>
@@ -2695,10 +2680,10 @@
     <value>Falha ao copiar</value>
   </data>
   <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
-    <value>Falha em copiar {0} itens de {1} para {2}</value>
+    <value>Falha ao copiar {0} itens de {1} para {2}</value>
   </data>
   <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
-    <value>Falha em copiar {0} item de {1} para {2}</value>
+    <value>Falha ao copiar {0} item de {1} para {2}</value>
   </data>
   <data name="StatusMoveFailed" xml:space="preserve">
     <value>Falha ao mover</value>
@@ -2811,6 +2796,24 @@
   <data name="OpeningItems" xml:space="preserve">
     <value>Abrir itens</value>
   </data>
+  <data name="AddSingleItemToArchive" xml:space="preserve">
+    <value>Adicionar a {0}.zip</value>
+  </data>
+  <data name="AddToArchive" xml:space="preserve">
+    <value>Adicionar ao arquivo</value>
+  </data>
+  <data name="CompressionCompleted" xml:space="preserve">
+    <value>Compressão terminada</value>
+  </data>
+  <data name="CompressionSucceded" xml:space="preserve">
+    <value>{0} foi compactado</value>
+  </data>
+  <data name="CompressionFailed" xml:space="preserve">
+    <value>Não foi possível compactar {0}</value>
+  </data>
+  <data name="CompressionInProgress" xml:space="preserve">
+    <value>Compressão terminada</value>
+  </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Selecionar ficheiros e pastas ao passar com o rato por cima</value>
   </data>
@@ -2824,7 +2827,7 @@
     <value>Deseja restaurar os {0} itens selecionados?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
-    <value>Restaurar selecionados</value>
+    <value>Restaurar seleção</value>
   </data>
   <data name="RestoreAllItems" xml:space="preserve">
     <value>Restaurar todos os itens</value>
@@ -2837,5 +2840,23 @@
   </data>
   <data name="DeleteShortcutDescription" xml:space="preserve">
     <value>Não foi possível encontrar o objeto de destino {0}. Deseja eliminar este atalho?</value>
+  </data>
+  <data name="LoadingThemes" xml:space="preserve">
+    <value>A carregar temas</value>
+  </data>
+  <data name="EmptyingRecycleBin" xml:space="preserve">
+    <value>Limpeza de reciclagem</value>
+  </data>
+  <data name="BinEmptyingSucceded" xml:space="preserve">
+    <value>Reciclagem limpa com sucesso</value>
+  </data>
+  <data name="BinEmptyingFailed" xml:space="preserve">
+    <value>Falha ao limpar a reciclagem</value>
+  </data>
+  <data name="ArchivePassword" xml:space="preserve">
+    <value>Archive password</value>
+  </data>
+  <data name="ExtractToPath" xml:space="preserve">
+    <value>Path</value>
   </data>
 </root>

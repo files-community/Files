@@ -70,7 +70,6 @@ namespace Files.Backend.Services.Settings
 		/// </summary>
 		bool EnableOverridingFolderPreferences { get; set; }
 
-
 		/// <summary>
 		/// Gets or sets a value indicating whether or not hidden items should be visible.
 		/// </summary>
@@ -92,14 +91,9 @@ namespace Files.Backend.Services.Settings
 		bool ShowDotFiles { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating whether or not files should open with one click.
+		/// Gets or sets a value indicating whether or not items should open with one click.
 		/// </summary>
-		bool OpenFilesWithOneClick { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating whether or not folders should open with one click.
-		/// </summary>
-		bool OpenFoldersWithOneClick { get; set; }
+		bool OpenItemsWithOneClick { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether or not folders should open with two clicks in ColumnsLayout.

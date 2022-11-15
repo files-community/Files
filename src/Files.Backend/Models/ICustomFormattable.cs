@@ -2,10 +2,10 @@
 
 namespace Files.Backend.Models
 {
-    public interface ICustomFormattable
-    {
-        IReadOnlyCollection<string>? Formats { get; }
+	public interface ICustomFormattable
+	{
+		IReadOnlyCollection<string>? Formats { get; }
 
-        bool AppendFormat(string formatInfo);
-    }
+		bool AppendFormat(string formatInfo);
+	}
 }

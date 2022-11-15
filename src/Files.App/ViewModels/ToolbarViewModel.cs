@@ -3,8 +3,6 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.UI;
-using Files.Backend.Services;
-using Files.Backend.Services.Settings;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
@@ -12,10 +10,16 @@ using Files.App.Helpers;
 using Files.App.Shell;
 using Files.App.UserControls;
 using Files.App.Views;
+using Files.Backend.Services;
+using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
 using Files.Shared.EventArguments;
 using Files.Shared.Extensions;
 using Microsoft.UI.Dispatching;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -26,16 +30,10 @@ using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Text;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Input;
 using static Files.App.UserControls.IAddressToolbar;
+using FocusManager = Microsoft.UI.Xaml.Input.FocusManager;
 using SearchBox = Files.App.UserControls.SearchBox;
 using SortDirection = Files.Shared.Enums.SortDirection;
-using FocusManager = Microsoft.UI.Xaml.Input.FocusManager;
-
-#nullable enable
 
 namespace Files.App.ViewModels
 {
@@ -345,7 +343,7 @@ namespace Files.App.ViewModels
 			{
 				if (instanceViewModel != value)
 				{
-					if (instanceViewModel != null)
+					if (instanceViewModel is not null)
 					{
 						InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
 						InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
@@ -356,7 +354,7 @@ namespace Files.App.ViewModels
 
 					SetProperty(ref instanceViewModel, value);
 
-					if (instanceViewModel != null)
+					if (instanceViewModel is not null)
 					{
 						InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated += FolderSettings_SortDirectionPreferenceUpdated;
 						InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated += FolderSettings_SortOptionPreferenceUpdated;
@@ -382,7 +380,6 @@ namespace Files.App.ViewModels
 
 			SearchBox.Escaped += SearchRegion_Escaped;
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
-			App.TerminalController.ModelChanged += OnTerminalsChanged;
 		}
 
 		private void UserSettingsService_OnSettingChangedEvent(object? sender, SettingChangedEventArgs e)
@@ -543,7 +540,7 @@ namespace Files.App.ViewModels
 				{
 					dragOverTimer.Debounce(() =>
 					{
-						if (dragOverPath != null)
+						if (dragOverPath is not null)
 						{
 							dragOverTimer.Stop();
 							ItemDraggedOverPathItem?.Invoke(this, new PathNavigationEventArgs()
@@ -556,12 +553,8 @@ namespace Files.App.ViewModels
 				}
 			}
 
-			if (!FilesystemHelpers.HasDraggedStorageItems(e.DataView))
-			{
-				e.AcceptedOperation = DataPackageOperation.None;
-				return;
-			}
-			if (string.IsNullOrEmpty(pathBoxItem.Path)) // In search page
+			if (!FilesystemHelpers.HasDraggedStorageItems(e.DataView)
+				|| string.IsNullOrEmpty(pathBoxItem.Path))  // In search page
 			{
 				e.AcceptedOperation = DataPackageOperation.None;
 				return;
@@ -570,15 +563,15 @@ namespace Files.App.ViewModels
 			e.Handled = true;
 			var deferral = e.GetDeferral();
 
-			var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
-			var storageItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
-
+			var handledByFtp = await FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
 			if (handledByFtp)
 			{
 				e.AcceptedOperation = DataPackageOperation.None;
 				deferral.Complete();
 				return;
 			}
+
+			var storageItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
 			if (!storageItems.Any(storageItem =>
 				!string.IsNullOrEmpty(storageItem?.Path) &&
@@ -660,7 +653,7 @@ namespace Files.App.ViewModels
 		public void PathItemSeparator_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
 		{
 			var pathSeparatorIcon = sender as FontIcon;
-			if (pathSeparatorIcon == null || pathSeparatorIcon.DataContext == null)
+			if (pathSeparatorIcon is null || pathSeparatorIcon.DataContext is null)
 				return;
 			ToolbarPathItemLoaded?.Invoke(pathSeparatorIcon, new ToolbarPathItemLoadedEventArgs()
 			{
@@ -689,14 +682,11 @@ namespace Files.App.ViewModels
 
 		public void PathBoxItem_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
-			if (e.Pointer.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Mouse)
-			{
-				var ptrPt = e.GetCurrentPoint(AddressToolbar);
-				if (ptrPt.Properties.IsMiddleButtonPressed)
-					pointerRoutedEventArgs = e;
-				else
-					pointerRoutedEventArgs = null;
-			}
+			if (e.Pointer.PointerDeviceType != Microsoft.UI.Input.PointerDeviceType.Mouse)
+				return;
+
+			var ptrPt = e.GetCurrentPoint(AddressToolbar);
+			pointerRoutedEventArgs = ptrPt.Properties.IsMiddleButtonPressed ? e : null;
 		}
 
 		public async void PathBoxItem_Tapped(object sender, TappedRoutedEventArgs e)
@@ -705,7 +695,7 @@ namespace Files.App.ViewModels
 			if (itemTappedPath is null)
 				return;
 
-			if (pointerRoutedEventArgs != null)
+			if (pointerRoutedEventArgs is not null)
 			{
 				await App.Window.DispatcherQueue.EnqueueAsync(async () =>
 				{
@@ -781,8 +771,8 @@ namespace Files.App.ViewModels
 			CloseSearchBox();
 		}
 
-		private void SearchRegion_Escaped(object? sender, ISearchBox searchBox) => IsSearchBoxVisible = false;
-    
+		private void SearchRegion_Escaped(object? sender, ISearchBox searchBox) => CloseSearchBox();
+
 		public ICommand? SelectAllContentPageItemsCommand { get; set; }
 
 		public ICommand? InvertContentPageSelctionCommand { get; set; }
@@ -796,8 +786,6 @@ namespace Files.App.ViewModels
 		public ICommand? OpenNewPaneCommand { get; set; }
 
 		public ICommand? ClosePaneCommand { get; set; }
-
-		public ICommand? OpenDirectoryInDefaultTerminalCommand { get; set; }
 
 		public ICommand? CreateNewFileCommand { get; set; }
 
@@ -851,12 +839,12 @@ namespace Files.App.ViewModels
 			IList<StorageFolderWithPath>? childFolders = null;
 
 			StorageFolderWithPath folder = await shellPage.FilesystemViewModel.GetFolderWithPathFromPathAsync(pathItem.Path);
-			if (folder != null)
+			if (folder is not null)
 				childFolders = (await FilesystemTasks.Wrap(() => folder.GetFoldersWithPathAsync(string.Empty))).Result;
 
 			flyout.Items?.Clear();
 
-			if (childFolders == null || childFolders.Count == 0)
+			if (childFolders is null || childFolders.Count == 0)
 			{
 				var flyoutItem = new MenuFlyoutItem
 				{
@@ -907,7 +895,7 @@ namespace Files.App.ViewModels
 
 		public async Task CheckPathInput(string currentInput, string currentSelectedPath, IShellPage shellPage)
 		{
-			if (currentInput.Contains("/") && !FtpHelpers.IsFtpPath(currentInput))
+			if (currentInput.Contains('/') && !FtpHelpers.IsFtpPath(currentInput))
 				currentInput = currentInput.Replace("/", "\\", StringComparison.Ordinal);
 
 			currentInput = currentInput.Replace("\\\\", "\\", StringComparison.Ordinal);
@@ -936,7 +924,7 @@ namespace Files.App.ViewModels
 					if (resFolder || FolderHelpers.CheckFolderAccessWithWin32(currentInput))
 					{
 						var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => PathNormalization.NormalizePath(currentInput).StartsWith(PathNormalization.NormalizePath(x.Path), StringComparison.Ordinal));
-						if (matchingDrive != null && matchingDrive.Type == DataModels.NavigationControlItems.DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
+						if (matchingDrive is not null && matchingDrive.Type == DataModels.NavigationControlItems.DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
 						{
 							bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalizedResource(), string.Format("InsertDiscDialog/Text".GetLocalizedResource(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalizedResource(), "Close".GetLocalizedResource());
 							if (ejectButton)
@@ -968,17 +956,6 @@ namespace Files.App.ViewModels
 								? CommonPaths.HomePath
 								: shellPage.FilesystemViewModel.WorkingDirectory;
 
-							// Launch terminal application if possible
-							foreach (var terminal in App.TerminalController.Model.Terminals)
-							{
-								if (terminal.Path.Equals(currentInput, StringComparison.OrdinalIgnoreCase)
-									|| terminal.Path.Equals(currentInput + ".exe", StringComparison.OrdinalIgnoreCase) || terminal.Name.Equals(currentInput, StringComparison.OrdinalIgnoreCase))
-								{
-									await LaunchHelper.LaunchAppAsync(terminal.Path, string.Format(terminal.Arguments, workingDir), workingDir);
-									return;
-								}
-							}
-
 							if (await LaunchApplicationFromPath(currentInput, workingDir))
 								return;
 
@@ -1005,7 +982,7 @@ namespace Files.App.ViewModels
 		{
 			var trimmedInput = currentInput.Trim();
 			var fileName = trimmedInput;
-			var arguments = "";
+			var arguments = string.Empty;
 			if (trimmedInput.Contains(' '))
 			{
 				var positionOfBlank = trimmedInput.IndexOf(' ');
@@ -1017,7 +994,7 @@ namespace Files.App.ViewModels
 
 		public async void SetAddressBarSuggestions(AutoSuggestBox sender, IShellPage shellpage, int maxSuggestions = 7)
 		{
-			if (!string.IsNullOrWhiteSpace(sender.Text) && shellpage.FilesystemViewModel != null)
+			if (!string.IsNullOrWhiteSpace(sender.Text) && shellpage.FilesystemViewModel is not null)
 			{
 				if (!await SafetyExtensions.IgnoreExceptions(async () =>
 				{
@@ -1025,7 +1002,7 @@ namespace Files.App.ViewModels
 					var expandedPath = StorageFileExtensions.GetPathWithoutEnvironmentVariable(sender.Text);
 					var folderPath = PathNormalization.GetParentDir(expandedPath) ?? expandedPath;
 					StorageFolderWithPath folder = await shellpage.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
-					if (folder == null) return false;
+					if (folder is null) return false;
 					var currPath = await folder.GetFoldersWithPathAsync(Path.GetFileName(expandedPath), (uint)maxSuggestions);
 					if (currPath.Count >= maxSuggestions)
 					{
@@ -1128,6 +1105,8 @@ namespace Files.App.ViewModels
 					OnPropertyChanged(nameof(CanViewProperties));
 					OnPropertyChanged(nameof(CanExtract));
 					OnPropertyChanged(nameof(ExtractToText));
+					OnPropertyChanged(nameof(IsArchiveOpened));
+					OnPropertyChanged(nameof(IsSelectionArchivesOnly));
 					OnPropertyChanged(nameof(IsMultipleArchivesSelected));
 					OnPropertyChanged(nameof(IsInfFile));
 					OnPropertyChanged(nameof(IsPowerShellScript));
@@ -1146,31 +1125,26 @@ namespace Files.App.ViewModels
 		public bool CanCopy => SelectedItems is not null && SelectedItems.Any();
 		public bool CanShare => SelectedItems is not null && SelectedItems.Any() && DataTransferManager.IsSupported() && !SelectedItems.Any(x => (x.IsShortcut && !x.IsLinkItem) || x.IsHiddenItem || (x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsArchive));
 		public bool CanRename => SelectedItems is not null && SelectedItems.Count == 1;
-		public bool CanViewProperties => SelectedItems is not null && SelectedItems.Any();
+		public bool CanViewProperties => true;
 		public bool CanEmptyRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem;
 		public bool CanRestoreRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem && (SelectedItems is null || SelectedItems.Count == 0);
 		public bool CanRestoreSelectionRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem && SelectedItems is not null && SelectedItems.Count > 0;
-		public bool CanExtract => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsZipFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
-		public string ExtractToText => CanExtract ? SelectedItems.Count > 1 ? string.Format("ExtractToChildFolder".GetLocalizedResource(), $"*{Path.DirectorySeparatorChar}") : string.Format("ExtractToChildFolder".GetLocalizedResource() + "\\", Path.GetFileNameWithoutExtension(selectedItems.First().Name)) : "ExtractToChildFolder".GetLocalizedResource();
-		public bool IsMultipleArchivesSelected => CanExtract && SelectedItems.Count > 1;
+		public bool CanExtract => IsArchiveOpened ? (SelectedItems is null || !SelectedItems.Any()) : IsSelectionArchivesOnly;
+		public bool IsArchiveOpened => FileExtensionHelpers.IsZipFile(Path.GetExtension(pathControlDisplayText));
+		public bool IsSelectionArchivesOnly => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsZipFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
+		public bool IsMultipleArchivesSelected => IsSelectionArchivesOnly && SelectedItems.Count > 1;
 		public bool IsPowerShellScript => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsPowerShellFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
 		public bool IsImage => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
 		public bool IsMultipleImageSelected => SelectedItems is not null && SelectedItems.Count > 1 && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
 		public bool IsInfFile => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsInfFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
 		public bool IsFont => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
 
-		public string OpenInTerminal => $"{"OpenIn".GetLocalizedResource()} {App.TerminalController.Model.GetDefaultTerminal()?.Name}";
-
-		private void OnTerminalsChanged(object _)
-		{
-			dispatcherQueue.EnqueueAsync(() => OnPropertyChanged(nameof(OpenInTerminal)));
-		}
+		public string ExtractToText => IsSelectionArchivesOnly ? SelectedItems.Count > 1 ? string.Format("ExtractToChildFolder".GetLocalizedResource(), $"*{Path.DirectorySeparatorChar}") : string.Format("ExtractToChildFolder".GetLocalizedResource() + "\\", Path.GetFileNameWithoutExtension(selectedItems.First().Name)) : "ExtractToChildFolder".GetLocalizedResource();
 
 		public void Dispose()
 		{
 			SearchBox.Escaped -= SearchRegion_Escaped;
 			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
-			App.TerminalController.ModelChanged -= OnTerminalsChanged;
 
 			InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
 			InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;

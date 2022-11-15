@@ -2,7 +2,7 @@ using Files.App.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Markup;
 using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -13,7 +13,7 @@ namespace Files.App.Helpers
 {
 	public class ExternalResourcesHelper
 	{
-		public List<AppTheme> Themes = new List<AppTheme>()
+		public readonly ObservableCollection<AppTheme> Themes = new()
 		{
 			new AppTheme
 			{
@@ -32,7 +32,7 @@ namespace Files.App.Helpers
 			ThemeFolder = await StorageFolder.GetFolderFromPathAsync(bundledThemesPath);
 			ImportedThemesFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Themes", CreationCollisionOption.OpenIfExists);
 
-			if (App.AppSettings.SelectedTheme.Path != null)
+			if (App.AppSettings.SelectedTheme.Path is not null)
 			{
 				await TryLoadThemeAsync(App.AppSettings.SelectedTheme);
 			}
@@ -71,13 +71,13 @@ namespace Files.App.Helpers
 
 		private async Task AddThemesAsync(StorageFolder folder)
 		{
-			foreach (var file in (await folder.GetFilesAsync()).Where(x => x.FileType == ".xaml"))
+			foreach (var file in (await folder.GetFilesAsync()).Where(x => string.Equals(x.FileType, ".xaml", StringComparison.InvariantCultureIgnoreCase)))
 			{
-				if (!Themes.Exists(t => t.AbsolutePath == file.Path))
+				if (!Themes.Any(t => t.AbsolutePath == file.Path))
 				{
 					Themes.Add(new AppTheme()
 					{
-						Name = file.Name.Replace(".xaml", "", StringComparison.Ordinal),
+						Name = file.Name[..^5],
 						Path = file.Name,
 						AbsolutePath = file.Path,
 					});
@@ -90,9 +90,13 @@ namespace Files.App.Helpers
 			try
 			{
 				var xaml = await TryLoadResourceDictionary(theme);
-				if (xaml != null)
+				if (xaml is not null)
 				{
 					App.Current.Resources.MergedDictionaries.Add(xaml);
+					if (!Themes.Any(t => t.AbsolutePath == theme.AbsolutePath))
+					{
+						Themes.Add(theme);
+					}
 					return true;
 				}
 				return false;
@@ -107,7 +111,7 @@ namespace Files.App.Helpers
 		public async Task<ResourceDictionary> TryLoadResourceDictionary(AppTheme theme)
 		{
 			StorageFile file;
-			if (theme?.Path == null)
+			if (theme?.Path is null)
 			{
 				return null;
 			}
@@ -131,12 +135,12 @@ namespace Files.App.Helpers
 
 		public async Task UpdateTheme(AppTheme OldTheme, AppTheme NewTheme)
 		{
-			if (OldTheme.Path != null)
+			if (OldTheme.Path is not null)
 			{
 				RemoveTheme(OldTheme);
 			}
 
-			if (NewTheme.Path != null)
+			if (NewTheme.Path is not null)
 			{
 				await TryLoadThemeAsync(NewTheme);
 			}

@@ -55,6 +55,7 @@
 				<AppBarButton
 					x:Name="NewEmptySpaceAppBarButton"
 					AccessKey="W"
+					AutomationProperties.AutomationId="InnerNavigationToolbarNewButton"
 					IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsCreateButtonEnabledInPage, Mode=OneWay, FallbackValue=False}"
 					KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=BaseLayoutContextFlyoutNew/KeyboardAcceleratorTextOverride}"
 					Label="{helpers:ResourceString Name=BaseLayoutContextFlyoutNew/Label}"
@@ -69,6 +70,7 @@
 						<MenuFlyout x:Name="NewEmptySpace" Opening="NewEmptySpace_Opening">
 							<MenuFlyoutItem
 								x:Name="ToolbarNewFolderItem"
+								AutomationProperties.AutomationId="InnerNavigationToolbarNewFolderButton"
 								Command="{x:Bind ViewModel.CreateNewFolderCommand, Mode=OneWay}"
 								Text="{helpers:ResourceString Name=Folder}">
 								<MenuFlyoutItem.Icon>
@@ -77,6 +79,7 @@
 							</MenuFlyoutItem>
 							<MenuFlyoutItem
 								x:Name="NewFile"
+								AutomationProperties.AutomationId="File"
 								Command="{x:Bind ViewModel.CreateNewFileCommand, Mode=OneWay}"
 								CommandParameter="{x:Null}"
 								IsEnabled="{x:Bind ViewModel.InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
@@ -100,6 +103,7 @@
 					Width="Auto"
 					MinWidth="40"
 					AccessKey="X"
+					AutomationProperties.AutomationId="InnerNavigationToolbarCutButton"
 					Command="{x:Bind ViewModel.CutCommand, Mode=OneWay}"
 					IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanCopy, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay, FallbackValue=False}"
 					Label="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutCut/Text}"
@@ -113,6 +117,7 @@
 					Width="Auto"
 					MinWidth="40"
 					AccessKey="C"
+					AutomationProperties.AutomationId="InnerNavigationToolbarCopyButton"
 					Command="{x:Bind ViewModel.CopyCommand, Mode=OneWay}"
 					IsEnabled="{x:Bind ViewModel.CanCopy, Mode=OneWay, FallbackValue=False}"
 					Label="{helpers:ResourceString Name=Copy}"
@@ -125,6 +130,7 @@
 					Width="Auto"
 					MinWidth="40"
 					AccessKey="P"
+					AutomationProperties.AutomationId="InnerNavigationToolbarPasteButton"
 					Command="{x:Bind ViewModel.PasteItemsFromClipboardCommand, Mode=OneWay}"
 					IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.InstanceViewModel.CanPasteInPage, local1:App.AppModel.IsPasteEnabled), Mode=OneWay, FallbackValue=False}"
 					Label="{helpers:ResourceString Name=NavigationToolbarPaste/Label}"
@@ -143,6 +149,7 @@
 					Width="Auto"
 					MinWidth="40"
 					AccessKey="M"
+					AutomationProperties.AutomationId="InnerNavigationToolbarRenameButton"
 					Command="{x:Bind ViewModel.Rename, Mode=OneWay}"
 					IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanRename, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay, FallbackValue=False}"
 					Label="{helpers:ResourceString Name=BaseLayoutItemContextFlyoutRename/Text}"
@@ -170,6 +177,7 @@
 					x:Name="DeleteButton"
 					Width="Auto"
 					MinWidth="40"
+					AutomationProperties.AutomationId="Delete"
 					Command="{x:Bind ViewModel.DeleteCommand, Mode=OneWay}"
 					IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanCopy, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay, FallbackValue=False}"
 					Label="{helpers:ResourceString Name=Delete}"
@@ -261,26 +269,19 @@
 										IsEnabled="False"
 										Modifiers="Control" />
 								</MenuFlyoutItem.KeyboardAccelerators>
-								<MenuFlyoutItem.Icon>
-									<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF11A;" />
-								</MenuFlyoutItem.Icon>
 							</MenuFlyoutItem>
 							<MenuFlyoutItem
+								x:Name="ExtractHere"
+								x:Load="{x:Bind ViewModel.IsArchiveOpened, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 								Command="{x:Bind ViewModel.ExtractHereCommand, Mode=OneWay}"
-								IsEnabled="{x:Bind ViewModel.CanExtract, Mode=OneWay, FallbackValue=False}"
-								Text="{helpers:ResourceString Name=ExtractHere}">
-								<MenuFlyoutItem.Icon>
-									<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF11A;" />
-								</MenuFlyoutItem.Icon>
-							</MenuFlyoutItem>
+								IsEnabled="{x:Bind ViewModel.IsSelectionArchivesOnly, Mode=OneWay, FallbackValue=False}"
+								Text="{helpers:ResourceString Name=ExtractHere}" />
 							<MenuFlyoutItem
+								x:Name="ExtractTo"
+								x:Load="{x:Bind ViewModel.IsArchiveOpened, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 								Command="{x:Bind ViewModel.ExtractToCommand, Mode=OneWay}"
-								IsEnabled="{x:Bind ViewModel.CanExtract, Mode=OneWay, FallbackValue=False}"
-								Text="{x:Bind ViewModel.ExtractToText, Mode=OneWay}">
-								<MenuFlyoutItem.Icon>
-									<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF11A;" />
-								</MenuFlyoutItem.Icon>
-							</MenuFlyoutItem>
+								IsEnabled="{x:Bind ViewModel.IsSelectionArchivesOnly, Mode=OneWay, FallbackValue=False}"
+								Text="{x:Bind ViewModel.ExtractToText, Mode=OneWay}" />
 						</MenuFlyout>
 					</AppBarButton.Flyout>
 				</AppBarButton>
@@ -913,17 +914,6 @@
 							IsEnabled="False"
 							Modifiers="Menu,Control" />
 					</AppBarButton.KeyboardAccelerators>
-				</AppBarButton>
-				<AppBarSeparator x:Name="SeparatorBar" x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
-				<AppBarButton
-					x:Name="OpenInTerminalButton"
-					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
-					Command="{x:Bind ViewModel.OpenDirectoryInDefaultTerminalCommand, Mode=OneWay}"
-					IsEnabled="{x:Bind ViewModel.InstanceViewModel.CanOpenTerminalInPage, Mode=OneWay}"
-					Label="{x:Bind ViewModel.OpenInTerminal, Mode=OneWay}">
-					<AppBarButton.Icon>
-						<FontIcon Glyph="&#xE756;" />
-					</AppBarButton.Icon>
 				</AppBarButton>
 			</CommandBar.SecondaryCommands>
 		</CommandBar>

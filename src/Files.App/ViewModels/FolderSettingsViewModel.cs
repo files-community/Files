@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using Files.App.EventArguments;
+using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Helpers.LayoutPreferences;
 using Files.App.Views.LayoutModes;
@@ -19,9 +20,10 @@ namespace Files.App.ViewModels
 	public class FolderSettingsViewModel : ObservableObject
 	{
 		public static string LayoutSettingsDbPath => IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, "user_settings.db");
-
-		private static readonly Lazy<LayoutPrefsDb> dbInstance = new(() => new LayoutPrefsDb(LayoutSettingsDbPath, true));
-		public static LayoutPrefsDb DbInstance => dbInstance.Value;
+		public static LayoutPrefsDb GetDbInstance()
+		{
+			return new LayoutPrefsDb(LayoutSettingsDbPath);
+		}
 
 		public event EventHandler<LayoutPreferenceEventArgs>? LayoutPreferencesUpdateRequired;
 
@@ -326,7 +328,7 @@ namespace Files.App.ViewModels
 				}
 				userSettingsService.LayoutSettingsService.DefaultDirectorySortDirection = prefs.DirectorySortDirection;
 				userSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles = prefs.SortDirectoriesAlongsideFiles;
-			   
+
 				userSettingsService.FoldersSettingsService.ShowDateColumn = !prefs.ColumnsViewModel.DateModifiedColumn.UserCollapsed;
 				userSettingsService.FoldersSettingsService.ShowDateCreatedColumn = !prefs.ColumnsViewModel.DateCreatedColumn.UserCollapsed;
 				userSettingsService.FoldersSettingsService.ShowTypeColumn = !prefs.ColumnsViewModel.ItemTypeColumn.UserCollapsed;
@@ -356,8 +358,8 @@ namespace Files.App.ViewModels
 		{
 			if (string.IsNullOrEmpty(folderPath))
 				return null;
-
-			return DbInstance.GetPreferences(folderPath, frn);
+			using var dbInstance = GetDbInstance();
+			return dbInstance.GetPreferences(folderPath, frn);
 		}
 
 		private static LayoutPreferences GetDefaultLayoutPreferences(string folderPath)
@@ -368,7 +370,7 @@ namespace Files.App.ViewModels
 			if (folderPath == CommonPaths.DownloadsPath)
 				// Default for downloads folder is to group by date created
 				return new LayoutPreferences() { DirectoryGroupOption = GroupOption.DateCreated };
-			else if (LibraryHelper.IsLibraryPath(folderPath))
+			else if (LibraryManager.IsLibraryPath(folderPath))
 				// Default for libraries is to group by folder path
 				return new LayoutPreferences() { DirectoryGroupOption = GroupOption.FolderPath };
 			else
@@ -380,12 +382,13 @@ namespace Files.App.ViewModels
 			if (string.IsNullOrEmpty(folderPath))
 				return;
 
-			if (DbInstance.GetPreferences(folderPath, frn) is null)
+			using var dbInstance = GetDbInstance();
+			if (dbInstance.GetPreferences(folderPath, frn) is null)
 			{
 				if (LayoutPreferences.DefaultLayoutPreferences.Equals(prefs))
 					return; // Do not create setting if it's default
 			}
-			DbInstance.SetPreferences(folderPath, frn, prefs);
+			dbInstance.SetPreferences(folderPath, frn, prefs);
 		}
 
 		private LayoutPreferences layoutPreference;
@@ -506,7 +509,7 @@ namespace Files.App.ViewModels
 		public void SetDefaultLayoutPreferences(ColumnsViewModel columns)
 		{
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		   
+
 			userSettingsService.FoldersSettingsService.ShowDateColumn = !columns.DateModifiedColumn.UserCollapsed;
 			userSettingsService.FoldersSettingsService.ShowDateCreatedColumn = !columns.DateCreatedColumn.UserCollapsed;
 			userSettingsService.FoldersSettingsService.ShowTypeColumn = !columns.ItemTypeColumn.UserCollapsed;

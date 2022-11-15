@@ -3,17 +3,17 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using Files.App.DataModels.NavigationControlItems;
+using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.UserControls;
-using Files.App.Extensions;
 using Files.Backend.Services.Settings;
 using Files.Shared.EventArguments;
 using Files.Shared.Extensions;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Microsoft.UI.Dispatching;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -26,7 +26,7 @@ namespace Files.App.ViewModels
 {
 	public class SidebarViewModel : ObservableObject, IDisposable
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public ICommand EmptyRecycleBinCommand { get; private set; }
 
@@ -61,7 +61,7 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		SectionType[] SectionOrder = new SectionType[] {
+		private readonly SectionType[] SectionOrder = new SectionType[] {
 				SectionType.Home,
 				SectionType.Favorites,
 				SectionType.Library,
@@ -86,9 +86,9 @@ namespace Files.App.ViewModels
 			var value = arg;
 
 			INavigationControlItem? item = null;
-			List<INavigationControlItem> sidebarItems = SideBarItems
+			var sidebarItems = SideBarItems
 				.Where(x => !string.IsNullOrWhiteSpace(x.Path))
-				.Concat(SideBarItems.Where(x => (x as LocationItem)?.ChildItems != null).SelectMany(x => ((LocationItem)x).ChildItems).Where(x => !string.IsNullOrWhiteSpace(x.Path)))
+				.Concat(SideBarItems.Where(x => (x as LocationItem)?.ChildItems is not null).SelectMany(x => ((LocationItem)x).ChildItems).Where(x => !string.IsNullOrWhiteSpace(x.Path)))
 				.ToList();
 
 			if (string.IsNullOrEmpty(value))
@@ -98,30 +98,15 @@ namespace Files.App.ViewModels
 			}
 
 			item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value, StringComparison.OrdinalIgnoreCase));
-			if (item == null)
-			{
-				item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value + "\\", StringComparison.OrdinalIgnoreCase));
-			}
-			if (item == null)
-			{
-				item = sidebarItems.FirstOrDefault(x => value.StartsWith(x.Path, StringComparison.OrdinalIgnoreCase));
-			}
-			if (item == null)
-			{
-				item = sidebarItems.FirstOrDefault(x => x.Path.Equals(Path.GetPathRoot(value), StringComparison.OrdinalIgnoreCase));
-			}
-			if (item == null)
-			{
-				if (value == "Home".GetLocalizedResource())
-				{
-					item = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home".GetLocalizedResource()));
-				}
-			}
+			item ??= sidebarItems.FirstOrDefault(x => x.Path.Equals(value + "\\", StringComparison.OrdinalIgnoreCase));
+			item ??= sidebarItems.FirstOrDefault(x => value.StartsWith(x.Path, StringComparison.OrdinalIgnoreCase));
+			item ??= sidebarItems.FirstOrDefault(x => x.Path.Equals(Path.GetPathRoot(value), StringComparison.OrdinalIgnoreCase));
+			if (item is null && value == "Home".GetLocalizedResource())
+				item = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home".GetLocalizedResource()));
 
 			if (SidebarSelectedItem != item)
-			{
 				SidebarSelectedItem = item;
-			}
+
 		}
 
 		public bool IsSidebarOpen
@@ -129,11 +114,11 @@ namespace Files.App.ViewModels
 			get => UserSettingsService.AppearanceSettingsService.IsSidebarOpen;
 			set
 			{
-				if (value != UserSettingsService.AppearanceSettingsService.IsSidebarOpen)
-				{
-					UserSettingsService.AppearanceSettingsService.IsSidebarOpen = value;
-					OnPropertyChanged();
-				}
+				if (value == UserSettingsService.AppearanceSettingsService.IsSidebarOpen)
+					return;
+
+				UserSettingsService.AppearanceSettingsService.IsSidebarOpen = value;
+				OnPropertyChanged();
 			}
 		}
 
@@ -142,10 +127,10 @@ namespace Files.App.ViewModels
 			get => UserSettingsService.AppearanceSettingsService.ShowFavoritesSection;
 			set
 			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowFavoritesSection)
-				{
-					UserSettingsService.AppearanceSettingsService.ShowFavoritesSection = value;
-				}
+				if (value == UserSettingsService.AppearanceSettingsService.ShowFavoritesSection)
+					return;
+
+				UserSettingsService.AppearanceSettingsService.ShowFavoritesSection = value;
 			}
 		}
 
@@ -154,10 +139,10 @@ namespace Files.App.ViewModels
 			get => UserSettingsService.AppearanceSettingsService.ShowLibrarySection;
 			set
 			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowLibrarySection)
-				{
-					UserSettingsService.AppearanceSettingsService.ShowLibrarySection = value;
-				}
+				if (value == UserSettingsService.AppearanceSettingsService.ShowLibrarySection)
+					return;
+
+				UserSettingsService.AppearanceSettingsService.ShowLibrarySection = value;
 			}
 		}
 
@@ -166,10 +151,10 @@ namespace Files.App.ViewModels
 			get => UserSettingsService.AppearanceSettingsService.ShowDrivesSection;
 			set
 			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowDrivesSection)
-				{
-					UserSettingsService.AppearanceSettingsService.ShowDrivesSection = value;
-				}
+				if (value == UserSettingsService.AppearanceSettingsService.ShowDrivesSection)
+					return;
+
+				UserSettingsService.AppearanceSettingsService.ShowDrivesSection = value;
 			}
 		}
 
@@ -178,10 +163,10 @@ namespace Files.App.ViewModels
 			get => UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection;
 			set
 			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection)
-				{
-					UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection = value;
-				}
+				if (value == UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection)
+					return;
+
+				UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection = value;
 			}
 		}
 
@@ -190,10 +175,10 @@ namespace Files.App.ViewModels
 			get => UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection;
 			set
 			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection)
-				{
-					UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection = value;
-				}
+				if (value == UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection)
+					return;
+
+				UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection = value;
 			}
 		}
 
@@ -202,10 +187,10 @@ namespace Files.App.ViewModels
 			get => UserSettingsService.AppearanceSettingsService.ShowWslSection;
 			set
 			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowWslSection)
-				{
-					UserSettingsService.AppearanceSettingsService.ShowWslSection = value;
-				}
+				if (value == UserSettingsService.AppearanceSettingsService.ShowWslSection) 
+					return;
+
+				UserSettingsService.AppearanceSettingsService.ShowWslSection = value;
 			}
 		}
 
@@ -214,10 +199,10 @@ namespace Files.App.ViewModels
 			get => UserSettingsService.AppearanceSettingsService.ShowFileTagsSection;
 			set
 			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowFileTagsSection)
-				{
-					UserSettingsService.AppearanceSettingsService.ShowFileTagsSection = value;
-				}
+				if (value == UserSettingsService.AppearanceSettingsService.ShowFileTagsSection) 
+					return;
+
+				UserSettingsService.AppearanceSettingsService.ShowFileTagsSection = value;
 			}
 		}
 
@@ -282,7 +267,7 @@ namespace Files.App.ViewModels
 
 		private async Task SyncSidebarItems(LocationItem section, Func<IReadOnlyList<INavigationControlItem>> getElements, NotifyCollectionChangedEventArgs e)
 		{
-			if (section == null)
+			if (section is null)
 			{
 				return;
 			}
@@ -331,27 +316,32 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		private bool IsLibraryOnSidebar(LibraryLocationItem item) => item != null && !item.IsEmpty && item.IsDefaultLocation;
+		private bool IsLibraryOnSidebar(LibraryLocationItem item) => item is not null && !item.IsEmpty && item.IsDefaultLocation;
 
 		private async Task AddElementToSection(INavigationControlItem elem, LocationItem section, int index = -1)
 		{
 			if (elem is LibraryLocationItem lib)
 			{
-				if (IsLibraryOnSidebar(lib) && await lib.CheckDefaultSaveFolderAccess())
+				if (IsLibraryOnSidebar(lib) &&
+					await lib.CheckDefaultSaveFolderAccess() &&
+					!section.ChildItems.Any(x => x.Path == lib.Path))
 				{
-					if (!section.ChildItems.Any(x => x.Path == lib.Path))
-					{
-						lib.Font = App.AppModel.SymbolFontFamily;
-						section.ChildItems.AddSorted(elem);
-						await lib.LoadLibraryIcon();
-					}
+					lib.Font = App.AppModel.SymbolFontFamily;
+					section.ChildItems.AddSorted(elem);
+					await lib.LoadLibraryIcon();
 				}
 			}
 			else if (elem is DriveItem drive)
 			{
-				if (!section.ChildItems.Any(x => x.Path == drive.Path))
+				string drivePath = drive.Path;
+				IList<string> paths = section.ChildItems.Select(item => item.Path).ToList();
+
+				if (!paths.Contains(drivePath))
 				{
-					section.ChildItems.Insert(index < 0 ? section.ChildItems.Count : Math.Min(index, section.ChildItems.Count), drive);
+					paths.AddSorted(drivePath);
+					int position = paths.IndexOf(drivePath);
+
+					section.ChildItems.Insert(position, drive);
 					await drive.LoadDriveIcon();
 				}
 			}
@@ -372,11 +362,7 @@ namespace Files.App.ViewModels
 
 		private async Task<LocationItem> GetOrCreateSection(SectionType sectionType)
 		{
-			LocationItem? section = GetSection(sectionType);
-			if (section == null)
-			{
-				section = await CreateSection(sectionType);
-			}
+			LocationItem? section = GetSection(sectionType) ?? await CreateSection(sectionType);
 			return section;
 		}
 
@@ -391,7 +377,7 @@ namespace Files.App.ViewModels
 			BitmapImage icon = null;
 			int iconIdex = -1;
 
-			switch(sectionType)
+			switch (sectionType)
 			{
 				case SectionType.Home:
 					{
@@ -475,9 +461,9 @@ namespace Files.App.ViewModels
 					}
 			}
 
-			if (section != null)
+			if (section is not null)
 			{
-				if (icon != null)
+				if (icon is not null)
 				{
 					section.Icon = icon;
 				}

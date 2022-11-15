@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Per iniziare, devi concedere l'autorizzazione per visualizzare i tuoi file. Si aprirà una pagina Impostazioni in cui puoi concedere questa autorizzazione. Sarà necessario riaprire l'app quando avrai concesso l'autorizzazione.</value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Cartella di file</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>File</value>
   </data>
@@ -816,12 +813,6 @@
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Lingua</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>Applicazioni Terminale</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>Modifica applicazioni terminale</value>
-  </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Sposta gli elementi in eccesso in un sottomenu</value>
   </data>
@@ -1124,9 +1115,6 @@
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Seleziona</value>
-  </data>
-  <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
-    <value>Apri i file con un solo click</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>File</value>
@@ -2016,8 +2004,8 @@
   <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>Guarda la documentazione.</value>
   </data>
-  <data name="DecompressArchiveDialog.Title" xml:space="preserve">
-    <value>Seleziona una destinazione ed estrai i file</value>
+  <data name="ExtractArchive" xml:space="preserve">
+    <value>Extract Archive</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>Mostra i file estratti al termine</value>
@@ -2430,9 +2418,6 @@
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Mostra sezione WSL</value>
   </data>
-  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Applicazioni terminale</value>
-  </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Operazioni in corso</value>
   </data>
@@ -2466,8 +2451,8 @@
   <data name="Tag" xml:space="preserve">
     <value>Etichetta</value>
   </data>
-  <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
-    <value>Apri le cartelle con un solo click</value>
+  <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
+    <value>Open items with a single click</value>
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
     <value>Percorso</value>
@@ -2623,7 +2608,7 @@
     <value>Pulizia disco</value>
   </data>
   <data name="Type" xml:space="preserve">
-    <value>Tipo:</value>
+    <value>Tipo</value>
   </data>
   <data name="IconGrid" xml:space="preserve">
     <value>Griglia icone</value>
@@ -2811,6 +2796,24 @@
   <data name="OpeningItems" xml:space="preserve">
     <value>Apertura elementi</value>
   </data>
+  <data name="AddSingleItemToArchive" xml:space="preserve">
+    <value>Add to {0}.zip</value>
+  </data>
+  <data name="AddToArchive" xml:space="preserve">
+    <value>Add to archive</value>
+  </data>
+  <data name="CompressionCompleted" xml:space="preserve">
+    <value>Compression completed</value>
+  </data>
+  <data name="CompressionSucceded" xml:space="preserve">
+    <value>{0} has been compressed</value>
+  </data>
+  <data name="CompressionFailed" xml:space="preserve">
+    <value>{0} couldn't be compressed</value>
+  </data>
+  <data name="CompressionInProgress" xml:space="preserve">
+    <value>Compressing archive</value>
+  </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Seleziona i file e le cartelle quando si passa con il mouse</value>
   </data>
@@ -2837,5 +2840,23 @@
   </data>
   <data name="DeleteShortcutDescription" xml:space="preserve">
     <value>Impossibile trovare la destinazione {0}. Vuoi eliminare questo collegamento?</value>
+  </data>
+  <data name="LoadingThemes" xml:space="preserve">
+    <value>Loading Themes</value>
+  </data>
+  <data name="EmptyingRecycleBin" xml:space="preserve">
+    <value>Emptying recycle bin</value>
+  </data>
+  <data name="BinEmptyingSucceded" xml:space="preserve">
+    <value>Successfully emptied recycle bin</value>
+  </data>
+  <data name="BinEmptyingFailed" xml:space="preserve">
+    <value>Failed to empty recycle bin</value>
+  </data>
+  <data name="ArchivePassword" xml:space="preserve">
+    <value>Archive password</value>
+  </data>
+  <data name="ExtractToPath" xml:space="preserve">
+    <value>Path</value>
   </data>
 </root>

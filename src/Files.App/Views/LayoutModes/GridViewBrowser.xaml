@@ -341,7 +341,7 @@
 						HorizontalAlignment="Left"
 						FontSize="12px"
 						Opacity="0.6"
-						Text="{Binding ItemType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+						Text="{x:Bind ItemType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 						TextTrimming="CharacterEllipsis"
 						TextWrapping="NoWrap" />
 					<TextBlock
@@ -497,6 +497,7 @@
 			Visibility="Collapsed" />
 
 		<SemanticZoom
+			x:Name="RootGridZoom"
 			CanChangeViews="{x:Bind CollectionViewSource.IsSourceGrouped, Mode=OneWay}"
 			ViewChangeStarted="SemanticZoom_ViewChangeStarted"
 			Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">

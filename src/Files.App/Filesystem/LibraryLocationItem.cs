@@ -24,14 +24,12 @@ namespace Files.App.Filesystem
 				ShowShellItems = true,
 				ShowUnpinItem = !shellLibrary.IsPinned,
 			};
-			Text = shellLibrary.DisplayName != null ? shellLibrary.DisplayName : "";
+			Text = shellLibrary.DisplayName is not null ? shellLibrary.DisplayName : "";
 			Path = shellLibrary.FullPath;
 			DefaultSaveFolder = shellLibrary.DefaultSaveFolder;
 			Folders = shellLibrary.Folders is null ? null : new ReadOnlyCollection<string>(shellLibrary.Folders);
 			IsDefaultLocation = shellLibrary.IsPinned;
 		}
-
-
 
 		public async Task<bool> CheckDefaultSaveFolderAccess()
 		{
@@ -53,7 +51,7 @@ namespace Files.App.Filesystem
 		{
 			IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Path, 24u);
 
-			if (IconData != null)
+			if (IconData is not null)
 				Icon = await IconData.ToBitmapAsync();
 		}
 

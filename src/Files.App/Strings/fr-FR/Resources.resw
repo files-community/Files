@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Pour commencer, vous devez nous permettre d'afficher vos fichiers. Une fenêtre de configuration va s'ouvrir où vous pourrez nous donner la permission. Vous devrez relancer l'application une fois cette étape terminée. </value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Dossier de fichiers</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Fichier</value>
   </data>
@@ -816,12 +813,6 @@
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Langue</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>Applications de terminal</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>Éditer les applications de terminal</value>
-  </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Déplacer les éléments de débordement dans un sous-menu</value>
   </data>
@@ -1124,9 +1115,6 @@
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Sélectionner</value>
-  </data>
-  <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
-    <value>Ouvrir les éléments d'un seul clic</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>Fichier</value>
@@ -1546,7 +1534,7 @@
     <value>L'opération est terminée.</value>
   </data>
   <data name="StatusRecycleComplete" xml:space="preserve">
-    <value>La Corbeille est vide</value>
+    <value>Vidage de la corbeille terminée</value>
   </data>
   <data name="StatusMoveComplete" xml:space="preserve">
     <value>Déplacement terminé</value>
@@ -2016,8 +2004,8 @@
   <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>Afficher la documentation</value>
   </data>
-  <data name="DecompressArchiveDialog.Title" xml:space="preserve">
-    <value>Sélectionner une destination et extraire les fichiers</value>
+  <data name="ExtractArchive" xml:space="preserve">
+    <value>Extraire l'archive</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>Ouvrir le dossier de destination quand l'opération est terminée</value>
@@ -2430,9 +2418,6 @@
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Afficher la section WSL</value>
   </data>
-  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Application de terminal</value>
-  </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Tâches en cours</value>
   </data>
@@ -2466,8 +2451,8 @@
   <data name="Tag" xml:space="preserve">
     <value>Étiquette</value>
   </data>
-  <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
-    <value>Ouvrir les dossiers d'un seul clic</value>
+  <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
+    <value>Ouvrir les éléments d'un seul clic</value>
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
     <value>Chemin du dossier</value>
@@ -2623,7 +2608,7 @@
     <value>Nettoyer le disque</value>
   </data>
   <data name="Type" xml:space="preserve">
-    <value>Type :</value>
+    <value>Type</value>
   </data>
   <data name="IconGrid" xml:space="preserve">
     <value>Grille d'icône</value>
@@ -2811,6 +2796,24 @@
   <data name="OpeningItems" xml:space="preserve">
     <value>Ouverture d'objets</value>
   </data>
+  <data name="AddSingleItemToArchive" xml:space="preserve">
+    <value>Ajouter à {0}.zip</value>
+  </data>
+  <data name="AddToArchive" xml:space="preserve">
+    <value>Ajouter à l'archive</value>
+  </data>
+  <data name="CompressionCompleted" xml:space="preserve">
+    <value>Compression terminée</value>
+  </data>
+  <data name="CompressionSucceded" xml:space="preserve">
+    <value>{0} a été compressé</value>
+  </data>
+  <data name="CompressionFailed" xml:space="preserve">
+    <value>{0} n'a pas pu être compressé</value>
+  </data>
+  <data name="CompressionInProgress" xml:space="preserve">
+    <value>Compression de l'archive</value>
+  </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Sélectionnez les fichiers et dossiers lorsque vous les survolez</value>
   </data>
@@ -2837,5 +2840,23 @@
   </data>
   <data name="DeleteShortcutDescription" xml:space="preserve">
     <value>La cible est introuvable {0}. Voulez-vous supprimer ce raccourci ?</value>
+  </data>
+  <data name="LoadingThemes" xml:space="preserve">
+    <value>Chargement des thèmes</value>
+  </data>
+  <data name="EmptyingRecycleBin" xml:space="preserve">
+    <value>Vidage de la corbeille en cours</value>
+  </data>
+  <data name="BinEmptyingSucceded" xml:space="preserve">
+    <value>Corbeille vidée avec succès</value>
+  </data>
+  <data name="BinEmptyingFailed" xml:space="preserve">
+    <value>Échec de vidage de la corbeille</value>
+  </data>
+  <data name="ArchivePassword" xml:space="preserve">
+    <value>Mot de passe d'archive</value>
+  </data>
+  <data name="ExtractToPath" xml:space="preserve">
+    <value>Chemin</value>
   </data>
 </root>

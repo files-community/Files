@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>For å komme i gang, trenger vi din tillatelse til å vise filene dine. Dette vil åpne en side med innstillinger der du kan gi oss denne tillatelsen. Etter du har fullført dette steget, må du starte appen på nytt.</value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Filmappe</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Fil</value>
   </data>
@@ -816,12 +813,6 @@
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Språk</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>Terminal-applikasjoner</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>Regiger terminal-applikasjoner</value>
-  </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Flytt overskytende elementer til en undermeny</value>
   </data>
@@ -1124,9 +1115,6 @@
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Velg</value>
-  </data>
-  <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
-    <value>Åpne filer med enkeltklikk</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>Fil</value>
@@ -2016,8 +2004,8 @@
   <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>Vis dokumentasjon</value>
   </data>
-  <data name="DecompressArchiveDialog.Title" xml:space="preserve">
-    <value>Velg en destinasjon og pakk ut filer</value>
+  <data name="ExtractArchive" xml:space="preserve">
+    <value>Extract Archive</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>Åpne destinasjonsmappen når fullført</value>
@@ -2430,9 +2418,6 @@
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Vis seksjon for WSL</value>
   </data>
-  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Terminal-applikasjon</value>
-  </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Pågående operasjoner</value>
   </data>
@@ -2466,8 +2451,8 @@
   <data name="Tag" xml:space="preserve">
     <value>Fil-merkelapp</value>
   </data>
-  <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
-    <value>Åpne mapper med enkeltklikk</value>
+  <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
+    <value>Open items with a single click</value>
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
     <value>Mappesti</value>
@@ -2623,7 +2608,7 @@
     <value>Disk-opprydding</value>
   </data>
   <data name="Type" xml:space="preserve">
-    <value>Type:</value>
+    <value>Type</value>
   </data>
   <data name="IconGrid" xml:space="preserve">
     <value>Icon Grid</value>
@@ -2811,6 +2796,24 @@
   <data name="OpeningItems" xml:space="preserve">
     <value>Opening items</value>
   </data>
+  <data name="AddSingleItemToArchive" xml:space="preserve">
+    <value>Add to {0}.zip</value>
+  </data>
+  <data name="AddToArchive" xml:space="preserve">
+    <value>Add to archive</value>
+  </data>
+  <data name="CompressionCompleted" xml:space="preserve">
+    <value>Compression completed</value>
+  </data>
+  <data name="CompressionSucceded" xml:space="preserve">
+    <value>{0} has been compressed</value>
+  </data>
+  <data name="CompressionFailed" xml:space="preserve">
+    <value>{0} couldn't be compressed</value>
+  </data>
+  <data name="CompressionInProgress" xml:space="preserve">
+    <value>Compressing archive</value>
+  </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Select files and folders when hovering over them</value>
   </data>
@@ -2837,5 +2840,23 @@
   </data>
   <data name="DeleteShortcutDescription" xml:space="preserve">
     <value>The target destination cannot be found {0}. Do you want to delete this shortcut?</value>
+  </data>
+  <data name="LoadingThemes" xml:space="preserve">
+    <value>Loading Themes</value>
+  </data>
+  <data name="EmptyingRecycleBin" xml:space="preserve">
+    <value>Emptying recycle bin</value>
+  </data>
+  <data name="BinEmptyingSucceded" xml:space="preserve">
+    <value>Successfully emptied recycle bin</value>
+  </data>
+  <data name="BinEmptyingFailed" xml:space="preserve">
+    <value>Failed to empty recycle bin</value>
+  </data>
+  <data name="ArchivePassword" xml:space="preserve">
+    <value>Archive password</value>
+  </data>
+  <data name="ExtractToPath" xml:space="preserve">
+    <value>Path</value>
   </data>
 </root>

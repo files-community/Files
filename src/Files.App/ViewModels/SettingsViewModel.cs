@@ -1,21 +1,13 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Files.App.DataModels;
-using Files.App.Helpers;
-using Files.Shared.Enums;
-using Files.Shared.Extensions;
 using Files.App.Extensions;
+using Files.App.Helpers;
 using System;
-using System.Collections.ObjectModel;
-using System.Linq;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.ApplicationModel.AppService;
-using Windows.Foundation.Collections;
-using Windows.Globalization;
 using Windows.Storage;
 
 namespace Files.App.ViewModels
@@ -24,7 +16,6 @@ namespace Files.App.ViewModels
 	public class SettingsViewModel : ObservableObject
 	{
 		private readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-		private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
 
 		public SettingsViewModel()
 		{
@@ -38,10 +29,7 @@ namespace Files.App.ViewModels
 		/// </summary>
 		public AppTheme SelectedTheme
 		{
-			get => JsonSerializer.Deserialize<AppTheme>(Get(JsonSerializer.Serialize(new AppTheme()
-			{
-				Name = "Default".GetLocalizedResource()
-			})));
+			get => JsonSerializer.Deserialize<AppTheme>(Get(JsonSerializer.Serialize(new AppTheme() { Name = "Default".GetLocalizedResource() })));
 			set => Set(JsonSerializer.Serialize(value));
 		}
 
@@ -55,7 +43,7 @@ namespace Files.App.ViewModels
 
 		public bool Set<TValue>(TValue value, [CallerMemberName] string propertyName = null)
 		{
-			propertyName = propertyName != null && propertyName.StartsWith("set_", StringComparison.OrdinalIgnoreCase)
+			propertyName = propertyName is not null && propertyName.StartsWith("set_", StringComparison.OrdinalIgnoreCase)
 				? propertyName.Substring(4)
 				: propertyName;
 
@@ -79,7 +67,7 @@ namespace Files.App.ViewModels
 			return true;
 		}
 
-		public TValue Get<TValue>(TValue defaultValue, [CallerMemberName] string propertyName = null)
+		public TValue Get<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods)] TValue>(TValue defaultValue, [CallerMemberName] string propertyName = null)
 		{
 			var name = propertyName ??
 					   throw new ArgumentNullException(nameof(propertyName), "Cannot store property of unnamed.");
@@ -103,7 +91,7 @@ namespace Files.App.ViewModels
 						var valueType = value.GetType();
 						var tryParse = typeof(TValue).GetMethod("TryParse", BindingFlags.Instance | BindingFlags.Public);
 
-						if (tryParse == null)
+						if (tryParse is null)
 						{
 							return default;
 						}

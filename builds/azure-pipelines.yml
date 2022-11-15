@@ -15,12 +15,12 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      [xml]$xmlDoc = Get-Content $(Build.SourcesDirectory)\src\Files.Package\Package.appxmanifest
+      [xml]$xmlDoc = Get-Content '$(Build.SourcesDirectory)\src\Files.App (Package)\Package.appxmanifest'
       $xmlDoc.Package.Identity.Name="49306atecsolution.FilesUWP"
       $xmlDoc.Package.Identity.Publisher="CN=53EC4384-7F5B-4CF6-8C23-513FFE9D1AB7"
       $xmlDoc.Package.Properties.DisplayName="Files"
       $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files"
-      $xmlDoc.Save('$(Build.SourcesDirectory)\src\Files.Package\Package.appxmanifest')
+      $xmlDoc.Save('$(Build.SourcesDirectory)\src\Files.App (Package)\Package.appxmanifest')
     failOnStderr: true
 
 - task: PowerShell@2
@@ -62,15 +62,21 @@ steps:
 - task: UseDotNet@2
   inputs:
     packageType: sdk
-    version: 6.0.400
+    version: 7.0.x
+    includePreviewVersions: true
 
-- task: NuGetToolInstaller@1
-
-- task: NuGetCommand@2
+- task: CmdLine@2
   inputs:
-    feedsToUse: config
-    nugetConfigPath: nuget.config
-    restoreSolution: '$(solution)'
+    script: |
+      for /f %%a in ('dir /b /a:d %localappdata%\Microsoft\VisualStudio\17*') do echo UsePreviews=True>%localappdata%\Microsoft\VisualStudio\%%a\sdk.txt
+
+- task: MSBuild@1
+  inputs:
+    platform: 'x64'
+    solution: '**/*.sln'
+    configuration: '$(buildConfiguration)'
+    msbuildArguments: '/t:restore /p:Configuration=Debug;Platform="$(buildPlatform)";PublishReadyToRun=true'
+    maximumCpuCount: true
 
 - task: MSBuild@1
   inputs:
@@ -111,7 +117,7 @@ steps:
 #  inputs:
 #    testSelector: 'testAssemblies'
 #    testAssemblyVer2: |
-#      **\$(buildConfiguration)\Files.InteractionTests\net6.0\Files.InteractionTests.dll
+#      **\$(buildConfiguration)\Files.InteractionTests\net7.0\Files.InteractionTests.dll
 #      !**\*TestAdapter.dll
 #      !**\obj\**
 #    searchFolder: '$(System.DefaultWorkingDirectory)'

@@ -2,14 +2,14 @@
 
 namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 {
-    public interface IFileSystemDialogConflictItemViewModel
-    {
-        string? SourcePath { get; }
+	public interface IFileSystemDialogConflictItemViewModel
+	{
+		string? SourcePath { get; }
 
-        string? DestinationPath { get; }
+		string? DestinationPath { get; }
 
-        string? CustomName { get; }
+		string? CustomName { get; }
 
-        FileNameConflictResolveOptionType ConflictResolveOption { get; }
-    }
+		FileNameConflictResolveOptionType ConflictResolveOption { get; }
+	}
 }
