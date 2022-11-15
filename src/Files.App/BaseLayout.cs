@@ -534,22 +534,10 @@ namespace Files.App
 				BaseContextMenuFlyout.PrimaryCommands.Clear();
 				BaseContextMenuFlyout.SecondaryCommands.Clear();
 				var (primaryElements, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(items);
+				AddCloseHandler(primaryElements, secondaryElements);
 				primaryElements.ForEach(i => BaseContextMenuFlyout.PrimaryCommands.Add(i));
 				secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width
 				secondaryElements.ForEach(i => BaseContextMenuFlyout.SecondaryCommands.Add(i));
-
-				// Workaround for WinUI (#5508)
-				var closeHandler = new RoutedEventHandler((s, e) => ItemContextMenuFlyout.Hide());
-				primaryElements
-					.OfType<AppBarButton>()
-					.ForEach(button => button.Click += closeHandler);
-				secondaryElements
-					.OfType<AppBarButton>()
-					.Select(item => item.Flyout)
-					.OfType<MenuFlyout>()
-					.SelectMany(menu => menu.Items)
-					.OfType<MenuFlyoutItem>()
-					.ForEach(button => button.Click += closeHandler);
 
 				if (!InstanceViewModel!.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeZipFolder)
 				{
@@ -596,22 +584,10 @@ namespace Files.App
 			ItemContextMenuFlyout.PrimaryCommands.Clear();
 			ItemContextMenuFlyout.SecondaryCommands.Clear();
 			var (primaryElements, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(items);
+			AddCloseHandler(primaryElements, secondaryElements);
 			primaryElements.ForEach(i => ItemContextMenuFlyout.PrimaryCommands.Add(i));
 			secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width
 			secondaryElements.ForEach(i => ItemContextMenuFlyout.SecondaryCommands.Add(i));
-
-			// Workaround for WinUI (#5508)
-			var closeHandler = new RoutedEventHandler((s, e) => ItemContextMenuFlyout.Hide());
-			primaryElements
-				.OfType<AppBarButton>()
-				.ForEach(button => button.Click += closeHandler);
-			secondaryElements
-				.OfType<AppBarButton>()
-				.Select(item => item.Flyout)
-				.OfType<MenuFlyout>()
-				.SelectMany(menu => menu.Items)
-				.OfType<MenuFlyoutItem>()
-				.ForEach(button => button.Click += closeHandler);
 
 			if (InstanceViewModel!.CanTagFilesInPage)
 				AddNewFileTagsToMenu(ItemContextMenuFlyout);
@@ -622,6 +598,24 @@ namespace Files.App
 				if (shellMenuItems.Any())
 					AddShellItemsToMenu(shellMenuItems, ItemContextMenuFlyout, shiftPressed);
 			}
+		}
+
+		private void AddCloseHandler(IList<ICommandBarElement> primaryElements, IList<ICommandBarElement> secondaryElements)
+		{
+			// Workaround for WinUI (#5508)
+			var closeHandler = new RoutedEventHandler((s, e) => ItemContextMenuFlyout.Hide());
+
+			primaryElements
+				.OfType<AppBarButton>()
+				.ForEach(button => button.Click += closeHandler);
+
+			secondaryElements
+				.OfType<AppBarButton>()
+				.Select(item => item.Flyout)
+				.OfType<MenuFlyout>()
+				.SelectMany(menu => menu.Items)
+				.OfType<MenuFlyoutItem>()
+				.ForEach(button => button.Click += closeHandler);
 		}
 
 		private void AddNewFileTagsToMenu(CommandBarFlyout contextMenu)
