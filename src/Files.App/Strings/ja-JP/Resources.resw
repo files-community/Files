@@ -694,7 +694,7 @@
     <value>この問題を報告</value>
   </data>
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
-    <value>共同作成者</value>
+    <value>共同開発者</value>
   </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
     <value>リリース ノート</value>
@@ -2005,7 +2005,7 @@
     <value>ドキュメントを見る</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
-    <value>Extract Archive</value>
+    <value>アーカイブを展開</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>完了したら展開されたファイルを表示する</value>
@@ -2728,7 +2728,7 @@
     <value>すべての列のサイズを合わせる</value>
   </data>
   <data name="Contributors" xml:space="preserve">
-    <value>共同作成者</value>
+    <value>共同開発者</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
     <value>自動</value>
@@ -2794,7 +2794,7 @@
     <value>列レイアウトでシングル クリックでフォルダーを開く</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
-    <value>ファイルを開いています</value>
+    <value>ファイルを開くとき</value>
   </data>
   <data name="AddSingleItemToArchive" xml:space="preserve">
     <value>{0}.zip に追加</value>
@@ -2854,9 +2854,9 @@
     <value>ゴミ箱を空にする操作に失敗しました</value>
   </data>
   <data name="ArchivePassword" xml:space="preserve">
-    <value>Archive password</value>
+    <value>書庫のパスワード</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
-    <value>Path</value>
+    <value>パス</value>
   </data>
 </root>
