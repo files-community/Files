@@ -2005,7 +2005,7 @@
     <value>Dokumentation anzeigen.</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
-    <value>Extract Archive</value>
+    <value>Archiv extrahieren</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>Zielordner nach Abschluss öffnen</value>
@@ -2854,9 +2854,9 @@
     <value>Fehler beim Leeren des Papierkorbs</value>
   </data>
   <data name="ArchivePassword" xml:space="preserve">
-    <value>Archive password</value>
+    <value>Archiv-Passwort</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
-    <value>Path</value>
+    <value>Pfad</value>
   </data>
 </root>

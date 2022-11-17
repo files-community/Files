@@ -2005,7 +2005,7 @@
     <value>Ver a documentação.</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
-    <value>Extract Archive</value>
+    <value>Extrair arquivo</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>Abrir pasta de destino quando completo</value>
@@ -2854,9 +2854,9 @@
     <value>Falha ao esvaziar a lixeira</value>
   </data>
   <data name="ArchivePassword" xml:space="preserve">
-    <value>Archive password</value>
+    <value>Senha do arquivo</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
-    <value>Path</value>
+    <value>Caminho</value>
   </data>
 </root>
