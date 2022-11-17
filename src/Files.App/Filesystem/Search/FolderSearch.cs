@@ -194,11 +194,11 @@ namespace Files.App.Filesystem.Search
 			{
 				return;
 			}
-			IEnumerable<Common.FileTagsDb.TaggedFile>? matches;
+			List<Common.FileTagsDb.TaggedFile>? matches;
 			using (var dbInstance = FileTagsHelper.GetDbInstance())
 			{
 				matches = dbInstance.GetAllUnderPath(folder)
-								.Where(x => tags.All(x.Tags.Contains));
+								.Where(x => tags.All(x.Tags.Contains)).ToList();
 			}
 
 			foreach (var match in matches)
