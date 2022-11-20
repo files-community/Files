@@ -44,6 +44,8 @@ namespace Files.App.ViewModels
 
 		public BulkConcurrentObservableCollection<INavigationControlItem> SideBarItems { get; init; }
 
+		public static readonly GridLength CompactSidebarWidth = SidebarControl.GetSidebarCompactSize();
+
 		private NavigationViewDisplayMode sidebarDisplayMode;
 
 		public NavigationViewDisplayMode SidebarDisplayMode

@@ -1,3 +1,5 @@
+using System;
+
 namespace Files.App.Filesystem
 {
 	public enum FilesystemItemType : byte
@@ -11,6 +13,12 @@ namespace Files.App.Filesystem
 		/// The item is a file
 		/// </summary>
 		File = 1,
+
+		/// <summary>
+		/// The item is a symlink
+		/// </summary>
+		[Obsolete("The symlink has no use for now here.")]
+		Symlink = 2,
 
 		/// <summary>
 		/// The item is a library

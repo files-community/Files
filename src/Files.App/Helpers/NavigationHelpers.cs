@@ -181,7 +181,7 @@ namespace Files.App.Helpers
 					break;
 
 				case FilesystemItemType.File:
-					opened = await OpenFile(path, associatedInstance, shortcutInfo, openViaApplicationPicker, args);
+					opened = await OpenFile(path, associatedInstance, selectItems, shortcutInfo, openViaApplicationPicker, args);
 					break;
 			};
 
@@ -335,7 +335,7 @@ namespace Files.App.Helpers
 			return opened;
 		}
 
-		private static async Task<FilesystemResult> OpenFile(string path, IShellPage associatedInstance, ShellLinkItem shortcutInfo, bool openViaApplicationPicker = false, string args = default)
+		private static async Task<FilesystemResult> OpenFile(string path, IShellPage associatedInstance, IEnumerable<string> selectItems, ShellLinkItem shortcutInfo, bool openViaApplicationPicker = false, string args = default)
 		{
 			var opened = (FilesystemResult)false;
 			bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);

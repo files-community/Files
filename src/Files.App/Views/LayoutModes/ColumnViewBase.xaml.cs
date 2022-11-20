@@ -171,7 +171,18 @@ namespace Files.App.Views.LayoutModes
 			FileList.Focus(FocusState.Programmatic);
 		}
 
-		override public void StartRenameItem()
+        private async void ReloadItemIcons()
+        {
+            ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
+            foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
+            {
+                listedItem.ItemPropertiesInitialized = false;
+                if (FileList.ContainerFromItem(listedItem) is not null)
+                    await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, 24);
+            }
+        }
+
+        override public void StartRenameItem()
         {
             RenamingItem = FileList.SelectedItem as ListedItem;
             if (RenamingItem is null)
