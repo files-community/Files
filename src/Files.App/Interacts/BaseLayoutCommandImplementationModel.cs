@@ -4,6 +4,7 @@ using CommunityToolkit.WinUI;
 using Files.App.Dialogs;
 using Files.App.Extensions;
 using Files.App.Filesystem;
+using Files.App.Filesystem.Archive;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.Shell;
@@ -576,52 +577,129 @@ namespace Files.App.Interacts
 
 		public async Task CompressIntoArchive()
 		{
-			string archivePath;
 			string[] sources = associatedInstance.SlimContentPage.SelectedItems
 				.Select(item => item.ItemPath)
 				.ToArray();
 
-			if (sources.Length == 1)
-				archivePath = sources[0] + ".zip";
-			else
+			if (sources.Length is 0)
+				return;
+
+			string directory = associatedInstance.FilesystemViewModel.WorkingDirectory;
+			string fileName = Path.GetFileName(sources.Length is 1 ? sources[0] : directory);
+
+			var dialog = new CompressArchiveDialog
 			{
-				DynamicDialog archiveDialog = DynamicDialogFactory.GetFor_RenameDialog();
-				await archiveDialog.ShowAsync();
-				if (archiveDialog.DynamicResult != DynamicDialogResult.Primary)
-					return;
-				archivePath = Path.Combine(
-					associatedInstance.FilesystemViewModel.WorkingDirectory,
-					$"{(string)archiveDialog.ViewModel.AdditionalData}.zip");
-			}
+				FileName = fileName,
+			};
+			await dialog.ShowAsync();
+
+			if (!dialog.CanCreate)
+				return;
+
+			var creator = new ArchiveCreator
+			{
+				Sources = sources,
+				Directory = directory,
+				FileName = dialog.FileName,
+				Password = dialog.Password,
+				FileFormat = dialog.FileFormat,
+				CompressionLevel = dialog.CompressionLevel,
+				SplittingSize = dialog.SplittingSize,
+			};
+
+			await CompressArchiveAsync(creator);
+		}
+
+		public async Task CompressIntoZip()
+		{
+			string[] sources = associatedInstance.SlimContentPage.SelectedItems
+				.Select(item => item.ItemPath)
+				.ToArray();
+
+			if (sources.Length is 0)
+				return;
+
+			string directory = associatedInstance.FilesystemViewModel.WorkingDirectory;
+			string fileName = Path.GetFileName(sources.Length is 1 ? sources[0] : directory);
+
+			var creator = new ArchiveCreator
+			{
+				Sources = sources,
+				Directory = directory,
+				FileName = fileName,
+				FileFormat = ArchiveFormats.Zip,
+			};
+
+			await CompressArchiveAsync(creator);
+		}
+
+		public async Task CompressIntoSevenZip()
+		{
+			string[] sources = associatedInstance.SlimContentPage.SelectedItems
+				.Select(item => item.ItemPath)
+				.ToArray();
+
+			if (sources.Length is 0)
+				return;
+
+			string directory = associatedInstance.FilesystemViewModel.WorkingDirectory;
+			string fileName = Path.GetFileName(sources.Length is 1 ? sources[0] : directory);
+
+			var creator = new ArchiveCreator
+			{
+				Sources = sources,
+				Directory = directory,
+				FileName = fileName,
+				FileFormat = ArchiveFormats.SevenZip,
+			};
+
+			await CompressArchiveAsync(creator);
+		}
+
+		private static async Task CompressArchiveAsync(IArchiveCreator creator)
+		{
+			var archiveName = creator.ArchiveName;
 
 			CancellationTokenSource compressionToken = new();
-			PostedStatusBanner banner = App.OngoingTasksViewModel.PostOperationBanner(
+			PostedStatusBanner banner = App.OngoingTasksViewModel.PostOperationBanner
+			(
 				"CompressionInProgress".GetLocalizedResource(),
-				archivePath,
+				archiveName,
 				0,
 				ReturnResult.InProgress,
 				FileOperationType.Compressed,
-				compressionToken);
+				compressionToken
+			);
 
-			bool result = await ZipHelpers.CompressMultipleToArchive(sources, archivePath, banner.Progress);
+			creator.Progress = banner.Progress;
+			bool isSuccess = await creator.RunCreationAsync();
 
 			banner.Remove();
-			if (result)
-				App.OngoingTasksViewModel.PostBanner(
+			if (isSuccess)
+			{
+				App.OngoingTasksViewModel.PostBanner
+				(
 					"CompressionCompleted".GetLocalizedResource(),
-					string.Format("CompressionSucceded".GetLocalizedResource(), archivePath),
+					string.Format("CompressionSucceded".GetLocalizedResource(), archiveName),
 					0,
 					ReturnResult.Success,
-					FileOperationType.Compressed);
+					FileOperationType.Compressed
+				);
+			}
 			else
-				App.OngoingTasksViewModel.PostBanner(
+			{
+				NativeFileOperationsHelper.DeleteFileFromApp(archiveName);
+
+				App.OngoingTasksViewModel.PostBanner
+				(
 					"CompressionCompleted".GetLocalizedResource(),
-					string.Format("CompressionFailed".GetLocalizedResource(), archivePath),
+					string.Format("CompressionFailed".GetLocalizedResource(), archiveName),
 					0,
 					ReturnResult.Failed,
-					FileOperationType.Compressed);
+					FileOperationType.Compressed
+				);
+			}
 		}
-
 		public async Task DecompressArchive()
 		{
 			BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(associatedInstance.SlimContentPage.SelectedItems.Count != 0

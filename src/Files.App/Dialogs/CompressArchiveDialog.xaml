@@ -1,0 +1,164 @@
+﻿<ContentDialog
+	x:Class="Files.App.Dialogs.CompressArchiveDialog"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:converters="using:Files.App.Converters"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:settings="using:Files.App.UserControls.Settings"
+	Title="{helpers:ResourceString Name=CreateArchive}"
+	d:DesignHeight="300"
+	d:DesignWidth="400"
+	CloseButtonText="{helpers:ResourceString Name=Cancel}"
+	Closing="ContentDialog_Closing"
+	CornerRadius="{StaticResource OverlayCornerRadius}"
+	DefaultButton="Primary"
+	IsPrimaryButtonEnabled="True"
+	Loaded="ContentDialog_Loaded"
+	PrimaryButtonText="{helpers:ResourceString Name=Create}"
+	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
+	Style="{StaticResource DefaultContentDialogStyle}"
+	mc:Ignorable="d">
+
+	<ContentDialog.Resources>
+		<ResourceDictionary>
+			<converters:VisibilityInvertConverter x:Key="VisibilityInvertConverter" />
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</ContentDialog.Resources>
+
+	<Grid Margin="0,16,0,0" ColumnSpacing="8">
+
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="Auto" />
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" MinHeight="244" />
+		</Grid.RowDefinitions>
+
+		<TextBox
+			x:Name="FileNameBox"
+			Width="340"
+			VerticalAlignment="Bottom"
+			Header="{helpers:ResourceString Name=ArchiveName}"
+			PlaceholderText="{helpers:ResourceString Name=EnterName}"
+			Text="{x:Bind FileName, Mode=TwoWay}" />
+
+		<ComboBox
+			x:Name="FileFormatSelector"
+			Grid.Column="1"
+			MinWidth="100"
+			VerticalAlignment="Bottom"
+			ItemsSource="{x:Bind FileFormats}"
+			SelectedValue="{x:Bind FileFormat, Mode=TwoWay}"
+			SelectedValuePath="Key"
+			SelectionChanged="FileFormatSelector_SelectionChanged">
+			<ComboBox.ItemTemplate>
+				<DataTemplate>
+					<Grid ColumnSpacing="24">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+						<TextBlock Text="{Binding Label}" />
+						<TextBlock
+							Grid.Column="1"
+							VerticalAlignment="Bottom"
+							FontSize="12"
+							FontWeight="Light"
+							Text="{Binding Description}"
+							TextWrapping="Wrap"
+							Visibility="{Binding IsDropDownOpen, ElementName=FileFormatSelector}" />
+					</Grid>
+				</DataTemplate>
+			</ComboBox.ItemTemplate>
+		</ComboBox>
+
+		<StackPanel
+			Grid.Row="1"
+			Grid.ColumnSpan="2"
+			Height="264"
+			Margin="0,24,0,0"
+			HorizontalAlignment="Stretch"
+			VerticalAlignment="Stretch"
+			Spacing="4">
+			<StackPanel.ChildrenTransitions>
+				<TransitionCollection>
+					<EntranceThemeTransition />
+				</TransitionCollection>
+			</StackPanel.ChildrenTransitions>
+
+			<settings:SettingsBlockControl Title="{helpers:ResourceString Name=CompressionLevel}" HorizontalAlignment="Stretch">
+				<settings:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE73F;" />
+				</settings:SettingsBlockControl.Icon>
+				<ComboBox
+					x:Name="CompressionLevelSelector"
+					DisplayMemberPath="Label"
+					ItemsSource="{x:Bind CompressionLevels}"
+					SelectedValue="{x:Bind CompressionLevel, Mode=TwoWay}"
+					SelectedValuePath="Key" />
+			</settings:SettingsBlockControl>
+
+			<settings:SettingsBlockControl Title="{helpers:ResourceString Name=SplittingSize}" HorizontalAlignment="Stretch">
+				<settings:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE8C6;" />
+				</settings:SettingsBlockControl.Icon>
+				<ComboBox
+					x:Name="SplittingSizeSelector"
+					DisplayMemberPath="Label"
+					IsEnabled="False"
+					ItemsSource="{x:Bind SplittingSizes}"
+					SelectedValue="{x:Bind SplittingSize, Mode=TwoWay}"
+					SelectedValuePath="Key" />
+			</settings:SettingsBlockControl>
+
+			<settings:SettingsBlockControl Title="{helpers:ResourceString Name=Encryption}" HorizontalAlignment="Stretch">
+				<settings:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE72E;" />
+				</settings:SettingsBlockControl.Icon>
+				<ToggleSwitch
+					x:Name="UseEncryption"
+					HorizontalAlignment="Right"
+					Style="{StaticResource RightAlignedToggleSwitchStyle}"
+					Toggled="UseEncryption_Toggled" />
+			</settings:SettingsBlockControl>
+
+			<Grid
+				Margin="1,-4,1,0"
+				Background="{StaticResource ExpanderDropDownBackground}"
+				BorderBrush="{StaticResource ExpanderDropDownBorderBrush}"
+				CornerRadius="4"
+				Visibility="{Binding IsOn, ElementName=UseEncryption, Mode=OneWay}">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+				<TextBlock
+					Margin="24,0"
+					VerticalAlignment="Center"
+					Text="{helpers:ResourceString Name=Password}" />
+				<PasswordBox
+					x:Name="PasswordBox"
+					Grid.Column="1"
+					MinWidth="160"
+					MaxWidth="280"
+					Margin="16,8"
+					HorizontalAlignment="Right"
+					IsPasswordRevealButtonEnabled="True"
+					Password="{x:Bind Password, Mode=TwoWay}"
+					PasswordChanging="PasswordBox_PasswordChanging"
+					PasswordRevealMode="Peek"
+					PlaceholderText="{helpers:ResourceString Name=Password}" />
+			</Grid>
+
+		</StackPanel>
+
+	</Grid>
+
+</ContentDialog>

@@ -98,6 +98,10 @@ namespace Files.App.Interacts
 
 		Task CompressIntoArchive();
 
+		Task CompressIntoZip();
+
+		Task CompressIntoSevenZip();
+
 		Task DecompressArchive();
 
 		Task DecompressArchiveHere();
