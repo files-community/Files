@@ -93,16 +93,15 @@
 				</TransitionCollection>
 			</StackPanel.ChildrenTransitions>
 
-			<settings:SettingsBlockControl Title="{helpers:ResourceString Name=CompressionLevel}" HorizontalAlignment="Stretch">
+			<settings:SettingsBlockControl Title="{helpers:ResourceString Name=DoNotCompress}" HorizontalAlignment="Stretch">
 				<settings:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE73F;" />
 				</settings:SettingsBlockControl.Icon>
-				<ComboBox
-					x:Name="CompressionLevelSelector"
-					DisplayMemberPath="Label"
-					ItemsSource="{x:Bind CompressionLevels}"
-					SelectedValue="{x:Bind CompressionLevel, Mode=TwoWay}"
-					SelectedValuePath="Key" />
+				<ToggleSwitch
+					x:Name="DoNotCompressSwitch"
+					HorizontalAlignment="Right"
+					IsOn="{x:Bind DoNotCompress, Mode=TwoWay}"
+					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</settings:SettingsBlockControl>
 
 			<settings:SettingsBlockControl Title="{helpers:ResourceString Name=SplittingSize}" HorizontalAlignment="Stretch">
@@ -123,10 +122,10 @@
 					<FontIcon Glyph="&#xE72E;" />
 				</settings:SettingsBlockControl.Icon>
 				<ToggleSwitch
-					x:Name="UseEncryption"
+					x:Name="EncryptionSwitch"
 					HorizontalAlignment="Right"
 					Style="{StaticResource RightAlignedToggleSwitchStyle}"
-					Toggled="UseEncryption_Toggled" />
+					Toggled="EncryptionSwitch_Toggled" />
 			</settings:SettingsBlockControl>
 
 			<Grid

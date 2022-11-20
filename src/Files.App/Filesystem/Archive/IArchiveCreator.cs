@@ -15,7 +15,7 @@ namespace Files.App.Filesystem.Archive
 		IEnumerable<string> Sources { get; set; }
 
 		ArchiveFormats FileFormat { get; set; }
-		ArchiveCompressionLevels CompressionLevel { get; set; }
+		bool DoNotCompress { get; set; }
 		ArchiveSplittingSizes SplittingSize { get; set; }
 
 		IProgress<float> Progress { get; set; }

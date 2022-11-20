@@ -21,7 +21,7 @@ namespace Files.App.Filesystem.Archive
 		public IEnumerable<string> Sources { get; set; } = Enumerable.Empty<string>();
 
 		public ArchiveFormats FileFormat { get; set; } = ArchiveFormats.Zip;
-		public ArchiveCompressionLevels CompressionLevel { get; set; } = ArchiveCompressionLevels.Normal;
+		public bool DoNotCompress { get; set; } = false;
 		public ArchiveSplittingSizes SplittingSize { get; set; } = ArchiveSplittingSizes.None;
 
 		public IProgress<float> Progress { get; set; } = new Progress<float>();
@@ -37,16 +37,6 @@ namespace Files.App.Filesystem.Archive
 			ArchiveFormats.Zip => OutArchiveFormat.Zip,
 			ArchiveFormats.SevenZip => OutArchiveFormat.SevenZip,
 			_ => throw new ArgumentOutOfRangeException(nameof(FileFormat)),
-		};
-		private CompressionLevel SevenZipCompressionLevel => CompressionLevel switch
-		{
-			ArchiveCompressionLevels.High => SevenZip.CompressionLevel.High,
-			ArchiveCompressionLevels.Ultra => SevenZip.CompressionLevel.Ultra,
-			ArchiveCompressionLevels.Normal => SevenZip.CompressionLevel.Normal,
-			ArchiveCompressionLevels.Low => SevenZip.CompressionLevel.Low,
-			ArchiveCompressionLevels.Fast => SevenZip.CompressionLevel.Fast,
-			ArchiveCompressionLevels.None => SevenZip.CompressionLevel.None,
-			_ => throw new ArgumentOutOfRangeException(nameof(CompressionLevel)),
 		};
 		private long SevenZipVolumeSize => SplittingSize switch
 		{
@@ -78,8 +68,8 @@ namespace Files.App.Filesystem.Archive
 			var compressor = new SevenZipCompressor
 			{
 				ArchiveFormat = SevenZipArchiveFormat,
-				CompressionLevel = FileFormat is ArchiveFormats.SevenZip ? SevenZipCompressionLevel : 0,
-				VolumeSize = SevenZipVolumeSize,
+				CompressionLevel = !DoNotCompress ? CompressionLevel.Ultra : CompressionLevel.None,
+				VolumeSize = FileFormat is ArchiveFormats.SevenZip ? SevenZipVolumeSize : 0,
 				FastCompression = false,
 				IncludeEmptyDirectories = true,
 				EncryptHeaders = true,

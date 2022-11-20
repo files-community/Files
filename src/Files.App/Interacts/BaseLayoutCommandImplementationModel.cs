@@ -603,7 +603,7 @@ namespace Files.App.Interacts
 				FileName = dialog.FileName,
 				Password = dialog.Password,
 				FileFormat = dialog.FileFormat,
-				CompressionLevel = dialog.CompressionLevel,
+				DoNotCompress = dialog.DoNotCompress,
 				SplittingSize = dialog.SplittingSize,
 			};
 

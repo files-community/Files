@@ -23,8 +23,8 @@ namespace Files.App.Dialogs
 		public static readonly DependencyProperty FileFormatProperty = DependencyProperty
 			.Register(nameof(FileFormat), typeof(ArchiveFormats), typeof(CompressArchiveDialog), new(ArchiveFormats.Zip));
 
-		public static readonly DependencyProperty CompressionLevelProperty = DependencyProperty
-			.Register(nameof(CompressionLevel), typeof(ArchiveCompressionLevels), typeof(CompressArchiveDialog), new(ArchiveCompressionLevels.Normal));
+		public static readonly DependencyProperty DoNotCompressProperty = DependencyProperty
+			.Register(nameof(DoNotCompress), typeof(bool), typeof(CompressArchiveDialog), new(false));
 
 		public static readonly DependencyProperty SplittingSizeProperty = DependencyProperty
 			.Register(nameof(SplittingSize), typeof(ArchiveSplittingSizes), typeof(CompressArchiveDialog), new(ArchiveSplittingSizes.None));
@@ -49,11 +49,13 @@ namespace Files.App.Dialogs
 			get => (ArchiveFormats)GetValue(FileFormatProperty);
 			set => SetValue(FileFormatProperty, (int)value);
 		}
-		public ArchiveCompressionLevels CompressionLevel
+
+		public bool DoNotCompress
 		{
-			get => (ArchiveCompressionLevels)GetValue(CompressionLevelProperty);
-			set => SetValue(CompressionLevelProperty, (int)value);
+			get => (bool)GetValue(DoNotCompressProperty);
+			set => SetValue(DoNotCompressProperty, value);
 		}
+
 		public ArchiveSplittingSizes SplittingSize
 		{
 			get => (ArchiveSplittingSizes)GetValue(SplittingSizeProperty);
@@ -64,16 +66,6 @@ namespace Files.App.Dialogs
 		{
 			new(ArchiveFormats.Zip, ".zip", "CompressionFormatZipDescription".GetLocalizedResource()),
 			new(ArchiveFormats.SevenZip, ".7z", "CompressionFormatSevenZipDescription".GetLocalizedResource()),
-		}.ToImmutableList();
-
-		private IImmutableList<CompressionLevelItem> CompressionLevels { get; } = new List<CompressionLevelItem>
-		{
-			new(ArchiveCompressionLevels.Ultra, "CompressionLevelUltra".GetLocalizedResource()),
-			new(ArchiveCompressionLevels.High, "CompressionLevelHigh".GetLocalizedResource()),
-			new(ArchiveCompressionLevels.Normal, "CompressionLevelNormal".GetLocalizedResource()),
-			new(ArchiveCompressionLevels.Low, "CompressionLevelLow".GetLocalizedResource()),
-			new(ArchiveCompressionLevels.Fast, "CompressionLevelFast".GetLocalizedResource()),
-			new(ArchiveCompressionLevels.None, "CompressionLevelNone".GetLocalizedResource()),
 		}.ToImmutableList();
 
 		private IImmutableList<SplittingSizeItem> SplittingSizes { get; } = new List<SplittingSizeItem>
@@ -110,10 +102,9 @@ namespace Files.App.Dialogs
 			Loaded -= ContentDialog_Loaded;
 
 			FileFormatSelector.SelectedItem = FileFormats.First(format => format.Key == FileFormat);
-			CompressionLevelSelector.SelectedItem = CompressionLevels.First(level => level.Key == CompressionLevel);
+			DoNotCompressSwitch.IsOn = DoNotCompress;
 			SplittingSizeSelector.SelectedItem = SplittingSizes.First(size => size.Key == SplittingSize);
-
-			UseEncryption.IsOn = Password.Length > 0;
+			EncryptionSwitch.IsOn = Password.Length > 0;
 			FileNameBox.SelectionStart = FileNameBox.Text.Length;
 			FileNameBox.Focus(FocusState.Programmatic);
 		}
@@ -130,9 +121,9 @@ namespace Files.App.Dialogs
 		{
 			SplittingSizeSelector.IsEnabled = FileFormat is ArchiveFormats.SevenZip;
 		}
-		private void UseEncryption_Toggled(object _, RoutedEventArgs e)
+		private void EncryptionSwitch_Toggled(object _, RoutedEventArgs e)
 		{
-			if (UseEncryption.IsOn)
+			if (EncryptionSwitch.IsOn)
 				PasswordBox.Focus(FocusState.Programmatic);
 			else
 				Password = string.Empty;
@@ -140,11 +131,10 @@ namespace Files.App.Dialogs
 		private void PasswordBox_PasswordChanging(PasswordBox _, PasswordBoxPasswordChangingEventArgs e)
 		{
 			if (PasswordBox.Password.Length > 0)
-				UseEncryption.IsOn = true;
+				EncryptionSwitch.IsOn = true;
 		}
 
 		private record FileFormatItem(ArchiveFormats Key, string Label, string Description);
-		private record CompressionLevelItem(ArchiveCompressionLevels Key, string Label);
 		private record SplittingSizeItem(ArchiveSplittingSizes Key, string Label);
 	}
 }
