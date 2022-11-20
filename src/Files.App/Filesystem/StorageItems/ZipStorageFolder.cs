@@ -502,6 +502,19 @@ namespace Files.App.Filesystem.StorageItems
 			});
 		}
 
+		public static Task<bool> InitArchive(string path, OutArchiveFormat format)
+		{
+			return SafetyExtensions.IgnoreExceptions(() =>
+			{
+				var hFile = NativeFileOperationsHelper.OpenFileForRead(path, true);
+				if (hFile.IsInvalid)
+				{
+					return Task.FromResult(false);
+				}
+				using var stream = new FileStream(hFile, FileAccess.ReadWrite);
+				return InitArchive(stream, format);
+			});
+		}
 		public static Task<bool> InitArchive(IStorageFile file, OutArchiveFormat format)
 		{
 			return SafetyExtensions.IgnoreExceptions(async () =>
@@ -511,7 +524,6 @@ namespace Files.App.Filesystem.StorageItems
 				return await InitArchive(stream, format);
 			});
 		}
-
 		private static async Task<bool> InitArchive(Stream stream, OutArchiveFormat format)
 		{
 			if (stream.Length == 0) // File is empty

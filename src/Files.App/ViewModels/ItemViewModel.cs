@@ -73,6 +73,7 @@ namespace Files.App.ViewModels
 		private DispatcherQueue dispatcherQueue;
 
 		public ListedItem CurrentFolder { get; private set; }
+		public CollectionViewSource viewSource;
 
 		private FileSystemWatcher watcher;
 		private CancellationTokenSource addFilesCTS, semaphoreCTS, loadPropsCTS, watcherCTS, searchCTS;
@@ -90,6 +91,8 @@ namespace Files.App.ViewModels
 
 		private StorageFolderWithPath currentStorageFolder;
 		private StorageFolderWithPath workingRoot;
+
+		private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
 
 		public delegate void WorkingDirectoryModifiedEventHandler(object sender, WorkingDirectoryModifiedEventArgs e);
 
@@ -1388,9 +1391,10 @@ namespace Files.App.ViewModels
 					}
 					catch (FtpAuthenticationException)
 					{
-						// throw new InvalidOperationException();
 						return null;
 					}
+
+					throw new InvalidOperationException();
 				}
 
 				await Task.Run(async () =>
@@ -1524,7 +1528,7 @@ namespace Files.App.ViewModels
 					currentFolder.ItemDateCreatedReal = rootFolder.DateCreated;
 
 				CurrentFolder = currentFolder;
-				await EnumFromStorageFolderAsync(path, rootFolder, currentStorageFolder, cancellationToken);
+				await EnumFromStorageFolderAsync(path, currentFolder, rootFolder, currentStorageFolder, cancellationToken);
 				return isBoxFolder || isNetworkFolder ? 2 : 1; // Workaround for #7428
 			}
 			else
@@ -1581,7 +1585,7 @@ namespace Files.App.ViewModels
 				}
 				else if (hFile.ToInt64() == -1)
 				{
-					await EnumFromStorageFolderAsync(path, rootFolder, currentStorageFolder, cancellationToken);
+					await EnumFromStorageFolderAsync(path, currentFolder, rootFolder, currentStorageFolder, cancellationToken);
 					return 1;
 				}
 				else
@@ -1605,14 +1609,13 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		private async Task EnumFromStorageFolderAsync(string path, BaseStorageFolder rootFolder, StorageFolderWithPath currentStorageFolder, CancellationToken cancellationToken)
+		private async Task EnumFromStorageFolderAsync(string path, ListedItem currentFolder, BaseStorageFolder rootFolder, StorageFolderWithPath currentStorageFolder, CancellationToken cancellationToken)
 		{
 			if (rootFolder is null)
 				return;
 
 			Stopwatch stopwatch = new Stopwatch();
 			stopwatch.Start();
-
 
 			await Task.Run(async () =>
 			{
@@ -1633,7 +1636,6 @@ namespace Files.App.ViewModels
 			});
 
 			stopwatch.Stop();
-
 			Debug.WriteLine($"Enumerating items in {path} (device) completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
 		}
 
@@ -2171,6 +2173,14 @@ namespace Files.App.ViewModels
 				enumFolderSemaphore.Release();
 			}
 			return null;
+		}
+
+		public async Task AddSearchResultsToCollection(ObservableCollection<ListedItem> searchItems, string currentSearchPath)
+		{
+			filesAndFolders.Clear();
+			filesAndFolders.AddRange(searchItems);
+			await OrderFilesAndFoldersAsync();
+			await ApplyFilesAndFoldersChangesAsync();
 		}
 
 		public async Task SearchAsync(FolderSearch search)
