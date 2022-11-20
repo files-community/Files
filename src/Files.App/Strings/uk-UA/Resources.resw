@@ -1228,7 +1228,7 @@
     <value>Зміна розкладки в каталозі, коли цей параметр вимкнуто, оновить розкладку для всіх каталогів.</value>
   </data>
   <data name="EnableOverridingFolderPreferences" xml:space="preserve">
-    <value>Ввімкнути перезапис налаштувань директорій в окремих директоріях</value>
+    <value>Увімкнути перезапис налаштувань в окремих директорій</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Налаштування контекстного меню</value>
