@@ -30,134 +30,140 @@
 		</ResourceDictionary>
 	</ContentDialog.Resources>
 
-	<Grid Margin="0,16,0,0" ColumnSpacing="8">
+	<StackPanel Spacing="24">
 
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="Auto" />
-		</Grid.ColumnDefinitions>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" MinHeight="244" />
-		</Grid.RowDefinitions>
+		<Grid Margin="12,16,12,0" ColumnSpacing="8">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="Auto" />
+			</Grid.ColumnDefinitions>
+			<TextBox
+				x:Name="FileNameBox"
+				Width="340"
+				VerticalAlignment="Bottom"
+				Header="{helpers:ResourceString Name=ArchiveName}"
+				PlaceholderText="{helpers:ResourceString Name=EnterName}"
+				Text="{x:Bind FileName, Mode=TwoWay}" />
+			<ComboBox
+				x:Name="FileFormatSelector"
+				Grid.Column="1"
+				MinWidth="100"
+				VerticalAlignment="Bottom"
+				ItemsSource="{x:Bind FileFormats}"
+				SelectedValue="{x:Bind FileFormat, Mode=TwoWay}"
+				SelectedValuePath="Key"
+				SelectionChanged="FileFormatSelector_SelectionChanged">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<Grid ColumnSpacing="24">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+							<TextBlock Text="{Binding Label}" />
+							<TextBlock
+								Grid.Column="1"
+								VerticalAlignment="Bottom"
+								FontSize="12"
+								FontWeight="Light"
+								Text="{Binding Description}"
+								TextWrapping="Wrap"
+								Visibility="{Binding IsDropDownOpen, ElementName=FileFormatSelector}" />
+						</Grid>
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
+		</Grid>
 
-		<TextBox
-			x:Name="FileNameBox"
-			Width="340"
-			VerticalAlignment="Bottom"
-			Header="{helpers:ResourceString Name=ArchiveName}"
-			PlaceholderText="{helpers:ResourceString Name=EnterName}"
-			Text="{x:Bind FileName, Mode=TwoWay}" />
+		<ScrollViewer
+			Height="268"
+			Margin="0"
+			Padding="12,0"
+			HorizontalAlignment="Stretch"
+			VerticalScrollBarVisibility="Visible"
+			VerticalScrollMode="Enabled">
+			<StackPanel
+				Grid.Row="1"
+				Grid.ColumnSpan="2"
+				Spacing="4">
+				<StackPanel.ChildrenTransitions>
+					<TransitionCollection>
+						<EntranceThemeTransition />
+					</TransitionCollection>
+				</StackPanel.ChildrenTransitions>
 
-		<ComboBox
-			x:Name="FileFormatSelector"
-			Grid.Column="1"
-			MinWidth="100"
-			VerticalAlignment="Bottom"
-			ItemsSource="{x:Bind FileFormats}"
-			SelectedValue="{x:Bind FileFormat, Mode=TwoWay}"
-			SelectedValuePath="Key"
-			SelectionChanged="FileFormatSelector_SelectionChanged">
-			<ComboBox.ItemTemplate>
-				<DataTemplate>
-					<Grid ColumnSpacing="24">
+				<settings:SettingsBlockControl Title="{helpers:ResourceString Name=DoNotCompress}" HorizontalAlignment="Stretch">
+					<settings:SettingsBlockControl.Icon>
+						<FontIcon Glyph="&#xE73F;" />
+					</settings:SettingsBlockControl.Icon>
+					<ToggleSwitch
+						x:Name="DoNotCompressSwitch"
+						HorizontalAlignment="Right"
+						IsOn="{x:Bind DoNotCompress, Mode=TwoWay}"
+						Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+				</settings:SettingsBlockControl>
+
+				<settings:SettingsBlockControl
+					Title="{helpers:ResourceString Name=SplittingSize}"
+					HorizontalAlignment="Stretch"
+					Description="{helpers:ResourceString Name=SplitArchiveDescription}">
+					<settings:SettingsBlockControl.Icon>
+						<FontIcon Glyph="&#xE8C6;" />
+					</settings:SettingsBlockControl.Icon>
+					<ComboBox
+						x:Name="SplittingSizeSelector"
+						IsEnabled="False"
+						HorizontalAlignment="Right"
+						DisplayMemberPath="Label"
+						ItemsSource="{x:Bind SplittingSizes}"
+						SelectedValue="{x:Bind SplittingSize, Mode=TwoWay}"
+						SelectedValuePath="Key" />
+				</settings:SettingsBlockControl>
+
+				<StackPanel>
+					<settings:SettingsBlockControl Title="{helpers:ResourceString Name=Encryption}" HorizontalAlignment="Stretch">
+						<settings:SettingsBlockControl.Icon>
+							<FontIcon Glyph="&#xE72E;" />
+						</settings:SettingsBlockControl.Icon>
+						<ToggleSwitch
+							x:Name="EncryptionSwitch"
+							HorizontalAlignment="Right"
+							Style="{StaticResource RightAlignedToggleSwitchStyle}"
+							Toggled="EncryptionSwitch_Toggled" />
+					</settings:SettingsBlockControl>
+					<Grid
+						Margin="1,0"
+						HorizontalAlignment="Stretch"
+						Background="{StaticResource ExpanderDropDownBackground}"
+						BorderBrush="{StaticResource ExpanderDropDownBorderBrush}"
+						CornerRadius="{StaticResource ControlCornerRadius}"
+						Visibility="{Binding IsOn, ElementName=EncryptionSwitch, Mode=OneWay}">
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="Auto" />
 							<ColumnDefinition Width="*" />
 						</Grid.ColumnDefinitions>
-						<TextBlock Text="{Binding Label}" />
 						<TextBlock
+							Margin="24,0"
+							VerticalAlignment="Center"
+							Text="{helpers:ResourceString Name=Password}" />
+						<PasswordBox
+							x:Name="PasswordBox"
 							Grid.Column="1"
-							VerticalAlignment="Bottom"
-							FontSize="12"
-							FontWeight="Light"
-							Text="{Binding Description}"
-							TextWrapping="Wrap"
-							Visibility="{Binding IsDropDownOpen, ElementName=FileFormatSelector}" />
+							MinWidth="160"
+							MaxWidth="280"
+							Margin="16,8"
+							HorizontalAlignment="Right"
+							IsPasswordRevealButtonEnabled="True"
+							Password="{x:Bind Password, Mode=TwoWay}"
+							PasswordChanging="PasswordBox_PasswordChanging"
+							PasswordRevealMode="Peek"
+							PlaceholderText="{helpers:ResourceString Name=Password}" />
 					</Grid>
-				</DataTemplate>
-			</ComboBox.ItemTemplate>
-		</ComboBox>
+				</StackPanel>
 
-		<StackPanel
-			Grid.Row="1"
-			Grid.ColumnSpan="2"
-			Height="264"
-			Margin="0,24,0,0"
-			HorizontalAlignment="Stretch"
-			VerticalAlignment="Stretch"
-			Spacing="4">
-			<StackPanel.ChildrenTransitions>
-				<TransitionCollection>
-					<EntranceThemeTransition />
-				</TransitionCollection>
-			</StackPanel.ChildrenTransitions>
+			</StackPanel>
+		</ScrollViewer>
 
-			<settings:SettingsBlockControl Title="{helpers:ResourceString Name=DoNotCompress}" HorizontalAlignment="Stretch">
-				<settings:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE73F;" />
-				</settings:SettingsBlockControl.Icon>
-				<ToggleSwitch
-					x:Name="DoNotCompressSwitch"
-					HorizontalAlignment="Right"
-					IsOn="{x:Bind DoNotCompress, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-			</settings:SettingsBlockControl>
-
-			<settings:SettingsBlockControl Title="{helpers:ResourceString Name=SplittingSize}" HorizontalAlignment="Stretch">
-				<settings:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE8C6;" />
-				</settings:SettingsBlockControl.Icon>
-				<ComboBox
-					x:Name="SplittingSizeSelector"
-					DisplayMemberPath="Label"
-					IsEnabled="False"
-					ItemsSource="{x:Bind SplittingSizes}"
-					SelectedValue="{x:Bind SplittingSize, Mode=TwoWay}"
-					SelectedValuePath="Key" />
-			</settings:SettingsBlockControl>
-
-			<settings:SettingsBlockControl Title="{helpers:ResourceString Name=Encryption}" HorizontalAlignment="Stretch">
-				<settings:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE72E;" />
-				</settings:SettingsBlockControl.Icon>
-				<ToggleSwitch
-					x:Name="EncryptionSwitch"
-					HorizontalAlignment="Right"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}"
-					Toggled="EncryptionSwitch_Toggled" />
-			</settings:SettingsBlockControl>
-
-			<Grid
-				Margin="1,-4,1,0"
-				Background="{StaticResource ExpanderDropDownBackground}"
-				BorderBrush="{StaticResource ExpanderDropDownBorderBrush}"
-				CornerRadius="4"
-				Visibility="{Binding IsOn, ElementName=UseEncryption, Mode=OneWay}">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="Auto" />
-					<ColumnDefinition Width="*" />
-				</Grid.ColumnDefinitions>
-				<TextBlock
-					Margin="24,0"
-					VerticalAlignment="Center"
-					Text="{helpers:ResourceString Name=Password}" />
-				<PasswordBox
-					x:Name="PasswordBox"
-					Grid.Column="1"
-					MinWidth="160"
-					MaxWidth="280"
-					Margin="16,8"
-					HorizontalAlignment="Right"
-					IsPasswordRevealButtonEnabled="True"
-					Password="{x:Bind Password, Mode=TwoWay}"
-					PasswordChanging="PasswordBox_PasswordChanging"
-					PasswordRevealMode="Peek"
-					PlaceholderText="{helpers:ResourceString Name=Password}" />
-			</Grid>
-
-		</StackPanel>
-
-	</Grid>
+	</StackPanel>
 
 </ContentDialog>

@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Windows.Foundation.Metadata;
 
 namespace Files.App.Dialogs
@@ -104,7 +105,9 @@ namespace Files.App.Dialogs
 			FileFormatSelector.SelectedItem = FileFormats.First(format => format.Key == FileFormat);
 			DoNotCompressSwitch.IsOn = DoNotCompress;
 			SplittingSizeSelector.SelectedItem = SplittingSizes.First(size => size.Key == SplittingSize);
+			SplittingSizeSelector.IsEnabled = FileFormat is ArchiveFormats.SevenZip;
 			EncryptionSwitch.IsOn = Password.Length > 0;
+
 			FileNameBox.SelectionStart = FileNameBox.Text.Length;
 			FileNameBox.Focus(FocusState.Programmatic);
 		}
