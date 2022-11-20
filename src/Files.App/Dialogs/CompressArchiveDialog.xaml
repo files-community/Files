@@ -112,9 +112,9 @@
 					</settings:SettingsBlockControl.Icon>
 					<ComboBox
 						x:Name="SplittingSizeSelector"
-						IsEnabled="False"
 						HorizontalAlignment="Right"
 						DisplayMemberPath="Label"
+						IsEnabled="False"
 						ItemsSource="{x:Bind SplittingSizes}"
 						SelectedValue="{x:Bind SplittingSize, Mode=TwoWay}"
 						SelectedValuePath="Key" />
@@ -132,10 +132,10 @@
 							Toggled="EncryptionSwitch_Toggled" />
 					</settings:SettingsBlockControl>
 					<Grid
-						Margin="1,0"
 						HorizontalAlignment="Stretch"
 						Background="{StaticResource ExpanderDropDownBackground}"
 						BorderBrush="{StaticResource ExpanderDropDownBorderBrush}"
+						BorderThickness="{StaticResource ExpanderDropdownDownBorderThickness}"
 						CornerRadius="{StaticResource ControlCornerRadius}"
 						Visibility="{Binding IsOn, ElementName=EncryptionSwitch, Mode=OneWay}">
 						<Grid.ColumnDefinitions>
