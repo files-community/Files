@@ -58,7 +58,6 @@ namespace Files.App.Filesystem.Archive
 		{
 			var path = Path.Combine(Directory, FileName + ArchiveExtension);
 			string[] sources = Sources.ToArray();
-			bool hasPassword = !string.IsNullOrEmpty(Password);
 
 			int index = 1;
 			while (File.Exists(path) || System.IO.Directory.Exists(path))
@@ -78,22 +77,22 @@ namespace Files.App.Filesystem.Archive
 			};
 
 			compressor.Compressing += Compressor_Compressing;
-
 			try
 			{
-				for (int i = 0; i < sources.Length; ++i)
-				{
-					if (i > 0)
-						compressor.CompressionMode = CompressionMode.Append;
+				var files = sources.Where(source => File.Exists(source)).ToArray();
+				var directories = sources.Where(source => System.IO.Directory.Exists(source)).ToArray();
 
-					var item = sources[i];
-					if (hasPassword)
-						await compressor.CompressFilesEncryptedAsync(path, Password, item);
-					else if (File.Exists(item))
-						await compressor.CompressFilesAsync(path, item);
-					else if (System.IO.Directory.Exists(item))
-						await compressor.CompressDirectoryAsync(item, path);
+				foreach (string directory in directories)
+				{
+					await compressor.CompressDirectoryAsync(directory, path, Password);
+					compressor.CompressionMode = CompressionMode.Append;
 				}
+
+				if (string.IsNullOrEmpty(Password))
+					await compressor.CompressFilesAsync(path, files);
+				else
+					await compressor.CompressFilesEncryptedAsync(path, Password, files);
+
 				return true;
 			}
 			catch (Exception ex)
