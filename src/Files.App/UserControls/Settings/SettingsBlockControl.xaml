@@ -7,7 +7,6 @@
 	xmlns:local1="using:Files.App.Converters"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	Loaded="SettingsBlockControl_Loaded"
-	Padding="20,4"
 	d:DesignHeight="300"
 	d:DesignWidth="400"
 	mc:Ignorable="d">
@@ -31,6 +30,7 @@
 			<Setter Property="BorderBrush" Value="{ThemeResource ExpanderHeaderBorderBrush}" />
 			<Setter Property="BorderThickness" Value="{ThemeResource ExpanderHeaderBorderThickness}" />
 			<Setter Property="HorizontalAlignment" Value="Stretch" />
+			<Setter Property="Padding" Value="20,4" />
 			<Setter Property="MinHeight" Value="{StaticResource ExpanderMinHeight}" />
 			<Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
 		</Style>
@@ -44,6 +44,7 @@
 			<Setter Property="BorderThickness" Value="{ThemeResource ExpanderHeaderBorderThickness}" />
 			<Setter Property="HorizontalAlignment" Value="Stretch" />
 			<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+			<Setter Property="Padding" Value="20,4" />
 			<Setter Property="MinHeight" Value="{StaticResource ExpanderMinHeight}" />
 			<Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
 		</Style>
@@ -98,7 +99,6 @@
 			<Grid
 				x:Name="StaticGrid"
 				x:Load="{x:Bind IsClickable, Mode=OneWay, Converter={StaticResource InverseBooleanConverter}}"
-				Padding="{x:Bind Padding, Mode=OneWay}"
 				Style="{StaticResource GridSettingsBlockStyle}">
 				<local:SettingsDisplayControl
 					Title="{x:Bind Title, Mode=OneWay}"

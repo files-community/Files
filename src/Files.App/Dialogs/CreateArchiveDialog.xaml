@@ -24,6 +24,17 @@
 	<ContentDialog.Resources>
 		<ResourceDictionary>
 			<converters:VisibilityInvertConverter x:Key="VisibilityInvertConverter" />
+
+			<Style x:Key="GridSettingStyle" TargetType="Grid">
+				<Setter Property="Background" Value="{ThemeResource ExpanderHeaderBackground}" />
+				<Setter Property="BorderBrush" Value="{ThemeResource ExpanderHeaderBorderBrush}" />
+				<Setter Property="BorderThickness" Value="{ThemeResource ExpanderHeaderBorderThickness}" />
+				<Setter Property="HorizontalAlignment" Value="Stretch" />
+				<Setter Property="Padding" Value="-24,4,20,4" />
+				<Setter Property="MinHeight" Value="{StaticResource ExpanderMinHeight}" />
+				<Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
+			</Style>
+
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
 			</ResourceDictionary.MergedDictionaries>
@@ -77,41 +88,46 @@
 		</Grid>
 
 		<StackPanel Spacing="4">
-			<settings:SettingsBlockControl
-				Padding="-24,4,20,4"
-				Title="{helpers:ResourceString Name=DoNotCompress}"
-				HorizontalAlignment="Stretch">
-				<ToggleSwitch
-					x:Name="DoNotCompressSwitch"
-					HorizontalAlignment="Right"
-					IsOn="{x:Bind DoNotCompress, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-			</settings:SettingsBlockControl>
-			<settings:SettingsBlockControl
-				x:Name="SplittingSizeLayout"
-				Padding="-24,4,20,4"
-				HorizontalAlignment="Stretch"
-				Title="{helpers:ResourceString Name=SplittingSize}"
-				Visibility="Collapsed">
-				<ComboBox
-					x:Name="SplittingSizeSelector"
-					HorizontalAlignment="Right"
-					DisplayMemberPath="Label"
-					ItemsSource="{x:Bind SplittingSizes}"
-					SelectedValue="{x:Bind SplittingSize, Mode=TwoWay}"
-					SelectedValuePath="Key" />
-			</settings:SettingsBlockControl>
-			<StackPanel>
-				<settings:SettingsBlockControl
-					Padding="-24,4,20,4"
-					HorizontalAlignment="Stretch"
-					Title="{helpers:ResourceString Name=Encryption}">
+			<Grid Style="{StaticResource GridSettingStyle}">
+				<settings:SettingsDisplayControl
+					Title="{helpers:ResourceString Name=DoNotCompress}"
+					HorizontalAlignment="Stretch">
 					<ToggleSwitch
-						x:Name="EncryptionSwitch"
+						x:Name="DoNotCompressSwitch"
 						HorizontalAlignment="Right"
-						Style="{StaticResource RightAlignedToggleSwitchStyle}"
-						Toggled="EncryptionSwitch_Toggled" />
-				</settings:SettingsBlockControl>
+						IsOn="{x:Bind DoNotCompress, Mode=TwoWay}"
+						Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+				</settings:SettingsDisplayControl>
+			</Grid>
+			<Grid
+				x:Name="SplittingSizeLayout"
+				Style="{StaticResource GridSettingStyle}"
+				Visibility="Collapsed">
+				<settings:SettingsDisplayControl
+					HorizontalAlignment="Stretch"
+					Title="{helpers:ResourceString Name=SplittingSize}">
+					<ComboBox
+						x:Name="SplittingSizeSelector"
+						HorizontalAlignment="Right"
+						DisplayMemberPath="Label"
+						ItemsSource="{x:Bind SplittingSizes}"
+						SelectedValue="{x:Bind SplittingSize, Mode=TwoWay}"
+						SelectedValuePath="Key" />
+				</settings:SettingsDisplayControl>
+			</Grid>
+			<StackPanel>
+				<Grid Style="{StaticResource GridSettingStyle}">
+					<settings:SettingsDisplayControl
+						Padding="-24,4,20,4"
+						HorizontalAlignment="Stretch"
+						Title="{helpers:ResourceString Name=Encryption}">
+						<ToggleSwitch
+							x:Name="EncryptionSwitch"
+							HorizontalAlignment="Right"
+							Style="{StaticResource RightAlignedToggleSwitchStyle}"
+							Toggled="EncryptionSwitch_Toggled" />
+					</settings:SettingsDisplayControl>
+				</Grid>
 				<Grid
 					x:Name="PasswordLayout"
 					HorizontalAlignment="Stretch"
