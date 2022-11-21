@@ -13,22 +13,22 @@ using Windows.Foundation.Metadata;
 
 namespace Files.App.Dialogs
 {
-	public sealed partial class CompressArchiveDialog : ContentDialog
+	public sealed partial class CreateArchiveDialog : ContentDialog
 	{
 		public static readonly DependencyProperty FileNameProperty = DependencyProperty
-			.Register(nameof(FileName), typeof(string), typeof(CompressArchiveDialog), new(string.Empty));
+			.Register(nameof(FileName), typeof(string), typeof(CreateArchiveDialog), new(string.Empty));
 
 		public static readonly DependencyProperty PasswordProperty = DependencyProperty
-			.Register(nameof(Password), typeof(string), typeof(CompressArchiveDialog), new(string.Empty));
+			.Register(nameof(Password), typeof(string), typeof(CreateArchiveDialog), new(string.Empty));
 
 		public static readonly DependencyProperty FileFormatProperty = DependencyProperty
-			.Register(nameof(FileFormat), typeof(ArchiveFormats), typeof(CompressArchiveDialog), new(ArchiveFormats.Zip));
+			.Register(nameof(FileFormat), typeof(ArchiveFormats), typeof(CreateArchiveDialog), new(ArchiveFormats.Zip));
 
 		public static readonly DependencyProperty DoNotCompressProperty = DependencyProperty
-			.Register(nameof(DoNotCompress), typeof(bool), typeof(CompressArchiveDialog), new(false));
+			.Register(nameof(DoNotCompress), typeof(bool), typeof(CreateArchiveDialog), new(false));
 
 		public static readonly DependencyProperty SplittingSizeProperty = DependencyProperty
-			.Register(nameof(SplittingSize), typeof(ArchiveSplittingSizes), typeof(CompressArchiveDialog), new(ArchiveSplittingSizes.None));
+			.Register(nameof(SplittingSize), typeof(ArchiveSplittingSizes), typeof(CreateArchiveDialog), new(ArchiveSplittingSizes.None));
 
 		private bool canCreate = false;
 		public bool CanCreate => canCreate;
@@ -84,7 +84,7 @@ namespace Files.App.Dialogs
 			new(ArchiveSplittingSizes.Bd23040, ToSizeText(23040, "Bluray".GetLocalizedResource())),
 		}.ToImmutableList();
 
-		public CompressArchiveDialog() => InitializeComponent();
+		public CreateArchiveDialog() => InitializeComponent();
 
 		public new Task<ContentDialogResult> ShowAsync() => SetContentDialogRoot(this).ShowAsync().AsTask();
 
@@ -104,8 +104,10 @@ namespace Files.App.Dialogs
 
 			FileFormatSelector.SelectedItem = FileFormats.First(format => format.Key == FileFormat);
 			DoNotCompressSwitch.IsOn = DoNotCompress;
+			if (FileFormat is ArchiveFormats.SevenZip)
+				FindName(nameof(SplittingSizeLayout));
+			SplittingSizeLayout.Visibility = FileFormat is ArchiveFormats.SevenZip ? Visibility.Visible : Visibility.Collapsed;
 			SplittingSizeSelector.SelectedItem = SplittingSizes.First(size => size.Key == SplittingSize);
-			SplittingSizeSelector.IsEnabled = FileFormat is ArchiveFormats.SevenZip;
 			EncryptionSwitch.IsOn = Password.Length > 0;
 
 			FileNameBox.SelectionStart = FileNameBox.Text.Length;
@@ -122,12 +124,18 @@ namespace Files.App.Dialogs
 
 		private void FileFormatSelector_SelectionChanged(object _, SelectionChangedEventArgs e)
 		{
+			if (FileFormat is ArchiveFormats.SevenZip)
+				FindName(nameof(SplittingSizeLayout));
+			SplittingSizeLayout.Visibility = FileFormat is ArchiveFormats.SevenZip ? Visibility.Visible : Visibility.Collapsed;
 			SplittingSizeSelector.IsEnabled = FileFormat is ArchiveFormats.SevenZip;
 		}
 		private void EncryptionSwitch_Toggled(object _, RoutedEventArgs e)
 		{
 			if (EncryptionSwitch.IsOn)
+			{
+				FindName(nameof(PasswordLayout));
 				PasswordBox.Focus(FocusState.Programmatic);
+			}
 			else
 				Password = string.Empty;
 		}

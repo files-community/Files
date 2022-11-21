@@ -67,7 +67,7 @@
     <Content Remove="Assets\FilesHome.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="Dialogs\CompressArchiveDialog.xaml" />
+    <None Remove="Dialogs\CreateArchiveDialog.xaml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ByteSize" Version="2.1.1" />
@@ -124,7 +124,7 @@
     <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Primitives" />
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Dialogs\CompressArchiveDialog.xaml">
+    <Page Update="Dialogs\CreateArchiveDialog.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
   </ItemGroup>

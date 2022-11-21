@@ -621,9 +621,10 @@ namespace Files.App.Helpers
 		{
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-			bool isArchive = selectedItems.Any() && selectedItems.All(x => x.IsArchive)
+			bool canDecompress = selectedItems.Any() && selectedItems.All(x => x.IsArchive)
 				|| selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.File && FileExtensionHelpers.IsZipFile(x.FileExtension));
-			string archiveName =
+			bool canCompress = !canDecompress || selectedItems.Count > 1;
+			string newArchiveName =
 				Path.GetFileName(selectedItems.Count is 1 ? selectedItems[0].ItemPath : Path.GetDirectoryName(selectedItems[0].ItemPath))
 				?? string.Empty;
 
@@ -1004,19 +1005,19 @@ namespace Files.App.Helpers
 						new ContextMenuFlyoutItemViewModel
 						{
 							Text = "BaseLayoutItemContextFlyoutExtractFilesOption".GetLocalizedResource(),
-							ShowItem = isArchive,
-							Command = commandsViewModel.DecompressArchiveCommand,
 							Glyph = "\xF11A",
 							GlyphFontFamilyName = "CustomGlyph",
+							Command = commandsViewModel.DecompressArchiveCommand,
+							ShowItem = canDecompress,
 							ShowInSearchPage = true,
 						},
 						new ContextMenuFlyoutItemViewModel
 						{
 							Text = "BaseLayoutItemContextFlyoutExtractHereOption".GetLocalizedResource(),
-							ShowItem = isArchive,
-							Command = commandsViewModel.DecompressArchiveHereCommand,
 							Glyph = "\xF11A",
 							GlyphFontFamilyName = "CustomGlyph",
+							Command = commandsViewModel.DecompressArchiveHereCommand,
+							ShowItem = canDecompress,
 							ShowInSearchPage = true,
 						},
 						new ContextMenuFlyoutItemViewModel
@@ -1025,37 +1026,40 @@ namespace Files.App.Helpers
 								? string.Format("BaseLayoutItemContextFlyoutExtractToChildFolder".GetLocalizedResource(), "*")
 								: string.Format("BaseLayoutItemContextFlyoutExtractToChildFolder".GetLocalizedResource(),
 									Path.GetFileNameWithoutExtension(selectedItems.First().Name)),
-							Command = commandsViewModel.DecompressArchiveToChildFolderCommand,
 							Glyph = "\xF11A",
 							GlyphFontFamilyName = "CustomGlyph",
+							Command = commandsViewModel.DecompressArchiveToChildFolderCommand,
 							ShowInSearchPage = true,
-							ShowItem = isArchive,
+							ShowItem = canDecompress,
 						},
 						new ContextMenuFlyoutItemViewModel
 						{
-							ShowItem = isArchive,
+							ShowItem = canDecompress && canCompress,
 							ItemType = ItemType.Separator,
 						},
 						new ContextMenuFlyoutItemViewModel
 						{
 							Text = "CreateArchive".GetLocalizedResource(),
 							Glyph = "\uE8DE",
-							ShowInSearchPage = true,
 							Command = commandsViewModel.CompressIntoArchiveCommand,
+							ShowItem = canCompress,
+							ShowInSearchPage = true,
 						},
 						new ContextMenuFlyoutItemViewModel
 						{
-							Text = string.Format("CreateNamedArchive".GetLocalizedResource(), $"{archiveName}.zip"),
+							Text = string.Format("CreateNamedArchive".GetLocalizedResource(), $"{newArchiveName}.zip"),
 							Glyph = "\uE8DE",
-							ShowInSearchPage = true,
 							Command = commandsViewModel.CompressIntoZipCommand,
+							ShowItem = canCompress,
+							ShowInSearchPage = true,
 						},
 						new ContextMenuFlyoutItemViewModel
 						{
-							Text = string.Format("CreateNamedArchive".GetLocalizedResource(), $"{archiveName}.7z"),
+							Text = string.Format("CreateNamedArchive".GetLocalizedResource(), $"{newArchiveName}.7z"),
 							Glyph = "\uE8DE",
-							ShowInSearchPage = true,
 							Command = commandsViewModel.CompressIntoSevenZipCommand,
+							ShowItem = canCompress,
+							ShowInSearchPage = true,
 						},
 					},
 				},

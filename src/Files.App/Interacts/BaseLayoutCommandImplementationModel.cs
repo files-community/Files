@@ -587,7 +587,7 @@ namespace Files.App.Interacts
 			string directory = associatedInstance.FilesystemViewModel.WorkingDirectory;
 			string fileName = Path.GetFileName(sources.Length is 1 ? sources[0] : directory);
 
-			var dialog = new CompressArchiveDialog
+			var dialog = new CreateArchiveDialog
 			{
 				FileName = fileName,
 			};
