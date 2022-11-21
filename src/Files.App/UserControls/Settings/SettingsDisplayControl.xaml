@@ -91,7 +91,7 @@
 					<VisualState.Setters>
 						<Setter Target="ActionableElement.(Grid.Row)" Value="0" />
 						<Setter Target="ActionableElement.(Grid.Column)" Value="2" />
-						<Setter Target="ActionableElement.Margin" Value="24,0,0,0" />
+						<Setter Target="ActionableElement.Margin" Value="4,0,0,0" />
 					</VisualState.Setters>
 				</VisualState>
 				<VisualState x:Name="CompactState">

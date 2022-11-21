@@ -39,7 +39,7 @@ namespace Files.App.Shell
 		public ThreadWithMessageQueue()
 		{
 			messageQueue = new BlockingCollection<Internal>(new ConcurrentQueue<Internal>());
-			thread = new Thread(new ThreadStart(() =>
+			/*thread = new Thread(new ThreadStart(() =>
 			{
 				foreach (var message in messageQueue.GetConsumingEnumerable())
 				{
@@ -49,7 +49,7 @@ namespace Files.App.Shell
 			}));
 			thread.SetApartmentState(ApartmentState.STA);
 			thread.IsBackground = true; // Do not prevent app from closing
-			thread.Start();
+			thread.Start();*/
 		}
 
 		private class Internal

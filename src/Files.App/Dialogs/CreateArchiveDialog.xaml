@@ -30,13 +30,14 @@
 		</ResourceDictionary>
 	</ContentDialog.Resources>
 
-	<StackPanel Spacing="24">
+	<StackPanel Spacing="24" Padding="0,8,0,0">
 
-		<Grid Margin="12,0" ColumnSpacing="8">
+		<Grid ColumnSpacing="8">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
+
 			<TextBox
 				x:Name="FileNameBox"
 				Width="340"
@@ -62,46 +63,36 @@
 							</Grid.ColumnDefinitions>
 							<TextBlock Text="{Binding Label}" />
 							<TextBlock
-								Grid.Column="1"
-								VerticalAlignment="Bottom"
-								FontSize="12"
-								FontWeight="Light"
-								Text="{Binding Description}"
-								TextWrapping="Wrap"
-								Visibility="{Binding IsDropDownOpen, ElementName=FileFormatSelector}" />
+							Grid.Column="1"
+							VerticalAlignment="Bottom"
+							FontSize="12"
+							FontWeight="Light"
+							Text="{Binding Description}"
+							TextWrapping="Wrap"
+							Visibility="{Binding IsDropDownOpen, ElementName=FileFormatSelector}" />
 						</Grid>
 					</DataTemplate>
 				</ComboBox.ItemTemplate>
 			</ComboBox>
 		</Grid>
 
-		<StackPanel Margin="0" Padding="12,0" Spacing="4">
-			<StackPanel.ChildrenTransitions>
-				<TransitionCollection>
-					<EntranceThemeTransition />
-				</TransitionCollection>
-			</StackPanel.ChildrenTransitions>
-
-			<settings:SettingsBlockControl Title="{helpers:ResourceString Name=DoNotCompress}" HorizontalAlignment="Stretch">
-				<settings:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE73F;" />
-				</settings:SettingsBlockControl.Icon>
+		<StackPanel Spacing="4">
+			<settings:SettingsBlockControl
+				Padding="-24,4,20,4"
+				Title="{helpers:ResourceString Name=DoNotCompress}"
+				HorizontalAlignment="Stretch">
 				<ToggleSwitch
 					x:Name="DoNotCompressSwitch"
 					HorizontalAlignment="Right"
 					IsOn="{x:Bind DoNotCompress, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</settings:SettingsBlockControl>
-
 			<settings:SettingsBlockControl
 				x:Name="SplittingSizeLayout"
-				Title="{helpers:ResourceString Name=SplittingSize}"
+				Padding="-24,4,20,4"
 				HorizontalAlignment="Stretch"
-				Description="{helpers:ResourceString Name=SplitArchiveDescription}"
+				Title="{helpers:ResourceString Name=SplittingSize}"
 				Visibility="Collapsed">
-				<settings:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE8C6;" />
-				</settings:SettingsBlockControl.Icon>
 				<ComboBox
 					x:Name="SplittingSizeSelector"
 					HorizontalAlignment="Right"
@@ -110,12 +101,11 @@
 					SelectedValue="{x:Bind SplittingSize, Mode=TwoWay}"
 					SelectedValuePath="Key" />
 			</settings:SettingsBlockControl>
-
 			<StackPanel>
-				<settings:SettingsBlockControl Title="{helpers:ResourceString Name=Encryption}" HorizontalAlignment="Stretch">
-					<settings:SettingsBlockControl.Icon>
-						<FontIcon Glyph="&#xE72E;" />
-					</settings:SettingsBlockControl.Icon>
+				<settings:SettingsBlockControl
+					Padding="-24,4,20,4"
+					HorizontalAlignment="Stretch"
+					Title="{helpers:ResourceString Name=Encryption}">
 					<ToggleSwitch
 						x:Name="EncryptionSwitch"
 						HorizontalAlignment="Right"
@@ -136,7 +126,7 @@
 						<ColumnDefinition Width="*" />
 					</Grid.ColumnDefinitions>
 					<TextBlock
-						Margin="24,0"
+						Margin="36,0,0,0"
 						VerticalAlignment="Center"
 						Text="{helpers:ResourceString Name=Password}" />
 					<PasswordBox
@@ -153,7 +143,6 @@
 						PlaceholderText="{helpers:ResourceString Name=Password}" />
 				</Grid>
 			</StackPanel>
-
 		</StackPanel>
 
 	</StackPanel>

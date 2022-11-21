@@ -2889,9 +2889,6 @@
   <data name="SplitArchive" xml:space="preserve">
     <value>Split the archive</value>
   </data>
-  <data name="SplitArchiveDescription" xml:space="preserve">
-    <value>Only for .7z</value>
-  </data>
   <data name="SplittingSize" xml:space="preserve">
     <value>Splitting size</value>
   </data>
