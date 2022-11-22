@@ -41,7 +41,7 @@
 		</ResourceDictionary>
 	</ContentDialog.Resources>
 
-	<StackPanel Spacing="24" Padding="0,8,0,0">
+	<StackPanel Padding="0,8,0,0" Spacing="24">
 
 		<Grid ColumnSpacing="8">
 			<Grid.ColumnDefinitions>
@@ -74,13 +74,13 @@
 							</Grid.ColumnDefinitions>
 							<TextBlock Text="{Binding Label}" />
 							<TextBlock
-							Grid.Column="1"
-							VerticalAlignment="Bottom"
-							FontSize="12"
-							FontWeight="Light"
-							Text="{Binding Description}"
-							TextWrapping="Wrap"
-							Visibility="{Binding IsDropDownOpen, ElementName=FileFormatSelector}" />
+								Grid.Column="1"
+								VerticalAlignment="Bottom"
+								FontSize="12"
+								FontWeight="Light"
+								Text="{Binding Description}"
+								TextWrapping="Wrap"
+								Visibility="{Binding IsDropDownOpen, ElementName=FileFormatSelector}" />
 						</Grid>
 					</DataTemplate>
 				</ComboBox.ItemTemplate>
@@ -89,40 +89,36 @@
 
 		<StackPanel Spacing="4">
 			<Grid Style="{StaticResource GridSettingStyle}">
-				<settings:SettingsDisplayControl
-					Title="{helpers:ResourceString Name=CompressionLevel}"
-					HorizontalAlignment="Stretch">
+				<settings:SettingsDisplayControl Title="{helpers:ResourceString Name=CompressionLevel}" HorizontalAlignment="Stretch">
 					<ComboBox
 						x:Name="CompressionLevelSelector"
 						HorizontalAlignment="Right"
-						SelectedValuePath="Key"
 						DisplayMemberPath="Label"
 						ItemsSource="{x:Bind CompressionLevels}"
-						SelectedValue="{x:Bind CompressionLevel, Mode=TwoWay}" />
+						SelectedValue="{x:Bind CompressionLevel, Mode=TwoWay}"
+						SelectedValuePath="Key" />
 				</settings:SettingsDisplayControl>
 			</Grid>
 			<Grid
 				x:Name="SplittingSizeLayout"
 				Style="{StaticResource GridSettingStyle}"
 				Visibility="Collapsed">
-				<settings:SettingsDisplayControl
-					HorizontalAlignment="Stretch"
-					Title="{helpers:ResourceString Name=SplittingSize}">
+				<settings:SettingsDisplayControl Title="{helpers:ResourceString Name=SplittingSize}" HorizontalAlignment="Stretch">
 					<ComboBox
 						x:Name="SplittingSizeSelector"
 						HorizontalAlignment="Right"
-						SelectedValuePath="Key"
 						DisplayMemberPath="Label"
 						ItemsSource="{x:Bind SplittingSizes}"
-						SelectedValue="{x:Bind SplittingSize, Mode=TwoWay}" />
+						SelectedValue="{x:Bind SplittingSize, Mode=TwoWay}"
+						SelectedValuePath="Key" />
 				</settings:SettingsDisplayControl>
 			</Grid>
 			<StackPanel>
 				<Grid Style="{StaticResource GridSettingStyle}">
 					<settings:SettingsDisplayControl
+						Title="{helpers:ResourceString Name=Encryption}"
 						Padding="-24,4,20,4"
-						HorizontalAlignment="Stretch"
-						Title="{helpers:ResourceString Name=Encryption}">
+						HorizontalAlignment="Stretch">
 						<ToggleSwitch
 							x:Name="EncryptionSwitch"
 							HorizontalAlignment="Right"
