@@ -238,12 +238,14 @@ namespace Files.App.Views.LayoutModes
 
 		private async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
-			if (SelectedItems.Count == 1 && App.AppModel.IsQuickLookAvailable)
+            SelectedItems?.ForEach(x => x.Selected = false);
+            SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
+            if (SelectedItems.Count == 1 && App.AppModel.IsQuickLookAvailable)
 			{
 				await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance, true);
 			}
-		}
+			SelectedItems.ForEach(x => x.Selected = true);
+        }
 
 		override public void StartRenameItem()
 		{
@@ -522,7 +524,7 @@ namespace Files.App.Views.LayoutModes
 			else
 			{
 				var clickedItem = e.OriginalSource as FrameworkElement;
-				if (clickedItem is TextBlock textBlock && textBlock.Name == "ItemName")
+				if (clickedItem is TextBlock textBlock && (textBlock.Name == "ItemName" || textBlock.Name == "FullItemName"))
 				{
 					CheckRenameDoubleClick(clickedItem?.DataContext);
 				}

@@ -24,413 +24,420 @@ using Windows.Storage;
 
 namespace Files.App.Filesystem
 {
-	public class ListedItem : ObservableObject, IGroupableItem
-	{
-		protected static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+    public class ListedItem : ObservableObject, IGroupableItem
+    {
+        protected static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-		protected static IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
+        protected static IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
-		protected static IDateTimeFormatter DateTimeFormatter { get; } = Ioc.Default.GetRequiredService<IDateTimeFormatter>();
+        protected static IDateTimeFormatter DateTimeFormatter { get; } = Ioc.Default.GetRequiredService<IDateTimeFormatter>();
 
-		public bool IsHiddenItem { get; set; } = false;
+        public bool IsHiddenItem { get; set; } = false;
 
-		public StorageItemTypes PrimaryItemAttribute { get; set; }
+        public StorageItemTypes PrimaryItemAttribute { get; set; }
 
-		private volatile int itemPropertiesInitialized = 0;
-		public bool ItemPropertiesInitialized
-		{
-			get => itemPropertiesInitialized == 1;
-			set => Interlocked.Exchange(ref itemPropertiesInitialized, value ? 1 : 0);
-		}
+        private volatile int itemPropertiesInitialized = 0;
+        public bool ItemPropertiesInitialized
+        {
+            get => itemPropertiesInitialized == 1;
+            set => Interlocked.Exchange(ref itemPropertiesInitialized, value ? 1 : 0);
+        }
 
-		public string ItemTooltipText
-		{
-			get
-			{
-				return $"{"ToolTipDescriptionName".GetLocalizedResource()} {Name}{Environment.NewLine}" +
-					$"{"ToolTipDescriptionType".GetLocalizedResource()} {itemType}{Environment.NewLine}" +
-					$"{"ToolTipDescriptionDate".GetLocalizedResource()} {ItemDateModified}" +
-					(SyncStatusUI.LoadSyncStatus 
-						? $"{Environment.NewLine}{"syncStatusColumn/Header".GetLocalizedResource()}: {syncStatusUI.SyncStatusString}" 
-						: string.Empty);
-			}
-		}
+        public string ItemTooltipText
+        {
+            get
+            {
+                return $"{"ToolTipDescriptionName".GetLocalizedResource()} {Name}{Environment.NewLine}" +
+                    $"{"ToolTipDescriptionType".GetLocalizedResource()} {itemType}{Environment.NewLine}" +
+                    $"{"ToolTipDescriptionDate".GetLocalizedResource()} {ItemDateModified}" +
+                    (SyncStatusUI.LoadSyncStatus
+                        ? $"{Environment.NewLine}{"syncStatusColumn/Header".GetLocalizedResource()}: {syncStatusUI.SyncStatusString}"
+                        : string.Empty);
+            }
+        }
 
-		public string FolderRelativeId { get; set; }
+        public string FolderRelativeId { get; set; }
 
-		public bool ContainsFilesOrFolders { get; set; } = true;
+        public bool ContainsFilesOrFolders { get; set; } = true;
 
-		private bool needsPlaceholderGlyph = true;
-		public bool NeedsPlaceholderGlyph
-		{
-			get => needsPlaceholderGlyph;
-			set => SetProperty(ref needsPlaceholderGlyph, value);
-		}
+        private bool selected = false;
+        public bool Selected
+        {
+            get => selected;
+            set => SetProperty(ref selected, value);
+        }
 
-		private bool loadFileIcon;
-		public bool LoadFileIcon
-		{
-			get => loadFileIcon;
-			set => SetProperty(ref loadFileIcon, value);
-		}
+        private bool needsPlaceholderGlyph = true;
+        public bool NeedsPlaceholderGlyph
+        {
+            get => needsPlaceholderGlyph;
+            set => SetProperty(ref needsPlaceholderGlyph, value);
+        }
 
-		private bool loadDefaultIcon = false;
-		public bool LoadDefaultIcon
-		{
-			get => loadDefaultIcon;
-			[Obsolete("The set accessor is used internally and should not be used outside ListedItem and derived classes.")]
-			set => SetProperty(ref loadDefaultIcon, value);
-		}
+        private bool loadFileIcon;
+        public bool LoadFileIcon
+        {
+            get => loadFileIcon;
+            set => SetProperty(ref loadFileIcon, value);
+        }
 
-		private bool loadWebShortcutGlyph;
-		public bool LoadWebShortcutGlyph
-		{
-			get => loadWebShortcutGlyph;
-			set
-			{
-				if (SetProperty(ref loadWebShortcutGlyph, value))
-				{
-					LoadDefaultIcon = !value;
-				}
-			}
-		}
+        private bool loadDefaultIcon = false;
+        public bool LoadDefaultIcon
+        {
+            get => loadDefaultIcon;
+            [Obsolete("The set accessor is used internally and should not be used outside ListedItem and derived classes.")]
+            set => SetProperty(ref loadDefaultIcon, value);
+        }
 
-		private bool loadCustomIcon;
-		public bool LoadCustomIcon
-		{
-			get => loadCustomIcon;
-			set => SetProperty(ref loadCustomIcon, value);
-		}
+        private bool loadWebShortcutGlyph;
+        public bool LoadWebShortcutGlyph
+        {
+            get => loadWebShortcutGlyph;
+            set
+            {
+                if (SetProperty(ref loadWebShortcutGlyph, value))
+                {
+                    LoadDefaultIcon = !value;
+                }
+            }
+        }
 
-		// Note: Never attempt to call this from a secondary window or another thread, create a new instance from CustomIconSource instead
-		// TODO: eventually we should remove this b/c it's not thread safe
-		private BitmapImage customIcon;
-		public BitmapImage CustomIcon
-		{
-			get => customIcon;
-			set
-			{
-				LoadCustomIcon = true;
-				SetProperty(ref customIcon, value);
-			}
-		}
+        private bool loadCustomIcon;
+        public bool LoadCustomIcon
+        {
+            get => loadCustomIcon;
+            set => SetProperty(ref loadCustomIcon, value);
+        }
 
-		public ulong? FileFRN { get; set; }
+        // Note: Never attempt to call this from a secondary window or another thread, create a new instance from CustomIconSource instead
+        // TODO: eventually we should remove this b/c it's not thread safe
+        private BitmapImage customIcon;
+        public BitmapImage CustomIcon
+        {
+            get => customIcon;
+            set
+            {
+                LoadCustomIcon = true;
+                SetProperty(ref customIcon, value);
+            }
+        }
 
-		private string[] fileTags; // TODO: initialize to empty array after UI is done
-		public string[] FileTags
-		{
-			get => fileTags;
-			set
-			{
-				if (SetProperty(ref fileTags, value))
-				{
-					using (var dbInstance = FileTagsHelper.GetDbInstance())
-					{
-						dbInstance.SetTags(ItemPath, FileFRN, value);
-					}
-					FileTagsHelper.WriteFileTag(ItemPath, value);
-					OnPropertyChanged(nameof(FileTagsUI));
-				}
-			}
-		}
+        public ulong? FileFRN { get; set; }
 
-		public IList<FileTagViewModel> FileTagsUI
-		{
-			get => FileTagsSettingsService.GetTagsByIds(FileTags);
-		}
+        private string[] fileTags; // TODO: initialize to empty array after UI is done
+        public string[] FileTags
+        {
+            get => fileTags;
+            set
+            {
+                if (SetProperty(ref fileTags, value))
+                {
+                    using (var dbInstance = FileTagsHelper.GetDbInstance())
+                    {
+                        dbInstance.SetTags(ItemPath, FileFRN, value);
+                    }
+                    FileTagsHelper.WriteFileTag(ItemPath, value);
+                    OnPropertyChanged(nameof(FileTagsUI));
+                }
+            }
+        }
 
-		private Uri customIconSource;
-		public Uri CustomIconSource
-		{
-			get => customIconSource;
-			set => SetProperty(ref customIconSource, value);
-		}
+        public IList<FileTagViewModel> FileTagsUI
+        {
+            get => FileTagsSettingsService.GetTagsByIds(FileTags);
+        }
 
-		private double opacity;
-		public double Opacity
-		{
-			get => opacity;
-			set => SetProperty(ref opacity, value);
-		}
+        private Uri customIconSource;
+        public Uri CustomIconSource
+        {
+            get => customIconSource;
+            set => SetProperty(ref customIconSource, value);
+        }
 
-		private CloudDriveSyncStatusUI syncStatusUI = new();
-		public CloudDriveSyncStatusUI SyncStatusUI
-		{
-			get => syncStatusUI;
-			set
-			{
-				// For some reason this being null will cause a crash with bindings
-				value ??= new CloudDriveSyncStatusUI();
-				if (SetProperty(ref syncStatusUI, value))
-				{
-					OnPropertyChanged(nameof(SyncStatusString));
-					OnPropertyChanged(nameof(ItemTooltipText));
-				}
-			}
-		}
+        private double opacity;
+        public double Opacity
+        {
+            get => opacity;
+            set => SetProperty(ref opacity, value);
+        }
 
-		// This is used to avoid passing a null value to AutomationProperties.Name, which causes a crash
-		public string SyncStatusString
-		{
-			get => string.IsNullOrEmpty(SyncStatusUI?.SyncStatusString) ? "CloudDriveSyncStatus_Unknown".GetLocalizedResource() : SyncStatusUI.SyncStatusString;
-		}
+        private CloudDriveSyncStatusUI syncStatusUI = new();
+        public CloudDriveSyncStatusUI SyncStatusUI
+        {
+            get => syncStatusUI;
+            set
+            {
+                // For some reason this being null will cause a crash with bindings
+                value ??= new CloudDriveSyncStatusUI();
+                if (SetProperty(ref syncStatusUI, value))
+                {
+                    OnPropertyChanged(nameof(SyncStatusString));
+                    OnPropertyChanged(nameof(ItemTooltipText));
+                }
+            }
+        }
 
-		private BitmapImage fileImage;
-		public BitmapImage FileImage
-		{
-			get => fileImage;
-			set
-			{
-				if (fileImage is BitmapImage imgOld)
-				{
-					imgOld.ImageOpened -= Img_ImageOpened;
-				}
-				if (SetProperty(ref fileImage, value))
-				{
-					if (value is BitmapImage img)
-					{
-						if (img.PixelWidth > 0)
-						{
-							Img_ImageOpened(img, null);
-						}
-						else
-						{
-							img.ImageOpened += Img_ImageOpened;
-						}
-					}
-				}
-			}
-		}
+        // This is used to avoid passing a null value to AutomationProperties.Name, which causes a crash
+        public string SyncStatusString
+        {
+            get => string.IsNullOrEmpty(SyncStatusUI?.SyncStatusString) ? "CloudDriveSyncStatus_Unknown".GetLocalizedResource() : SyncStatusUI.SyncStatusString;
+        }
 
-		private void Img_ImageOpened(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
-		{
-			if (sender is BitmapImage image)
-			{
-				image.ImageOpened -= Img_ImageOpened;
+        private BitmapImage fileImage;
+        public BitmapImage FileImage
+        {
+            get => fileImage;
+            set
+            {
+                if (fileImage is BitmapImage imgOld)
+                {
+                    imgOld.ImageOpened -= Img_ImageOpened;
+                }
+                if (SetProperty(ref fileImage, value))
+                {
+                    if (value is BitmapImage img)
+                    {
+                        if (img.PixelWidth > 0)
+                        {
+                            Img_ImageOpened(img, null);
+                        }
+                        else
+                        {
+                            img.ImageOpened += Img_ImageOpened;
+                        }
+                    }
+                }
+            }
+        }
 
-				if (image.PixelWidth > 0)
-				{
-					SafetyExtensions.IgnoreExceptions(() =>
-					{
-						LoadFileIcon = true;
-						PlaceholderDefaultIcon = null;
-						NeedsPlaceholderGlyph = false;
-						LoadDefaultIcon = false;
-						LoadWebShortcutGlyph = false;
-					}, App.Logger); // 2009482836u
-				}
-			}
-		}
+        private void Img_ImageOpened(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        {
+            if (sender is BitmapImage image)
+            {
+                image.ImageOpened -= Img_ImageOpened;
 
-		public bool IsItemPinnedToStart => App.SecondaryTileHelper.CheckFolderPinned(ItemPath);
+                if (image.PixelWidth > 0)
+                {
+                    SafetyExtensions.IgnoreExceptions(() =>
+                    {
+                        LoadFileIcon = true;
+                        PlaceholderDefaultIcon = null;
+                        NeedsPlaceholderGlyph = false;
+                        LoadDefaultIcon = false;
+                        LoadWebShortcutGlyph = false;
+                    }, App.Logger); // 2009482836u
+                }
+            }
+        }
 
-		private BitmapImage iconOverlay;
-		public BitmapImage IconOverlay
-		{
-			get => iconOverlay;
-			set
-			{
-				if (value is not null)
-				{
-					SetProperty(ref iconOverlay, value);
-				}
-			}
-		}
+        public bool IsItemPinnedToStart => App.SecondaryTileHelper.CheckFolderPinned(ItemPath);
 
-		private BitmapImage placeholderDefaultIcon;
-		public BitmapImage PlaceholderDefaultIcon
-		{
-			get => placeholderDefaultIcon;
-			set => SetProperty(ref placeholderDefaultIcon, value);
-		}
+        private BitmapImage iconOverlay;
+        public BitmapImage IconOverlay
+        {
+            get => iconOverlay;
+            set
+            {
+                if (value is not null)
+                {
+                    SetProperty(ref iconOverlay, value);
+                }
+            }
+        }
 
-		private string itemPath;
-		public string ItemPath
-		{
-			get => itemPath;
-			set => SetProperty(ref itemPath, value);
-		}
+        private BitmapImage placeholderDefaultIcon;
+        public BitmapImage PlaceholderDefaultIcon
+        {
+            get => placeholderDefaultIcon;
+            set => SetProperty(ref placeholderDefaultIcon, value);
+        }
 
-		private string itemNameRaw;
-		public string ItemNameRaw
-		{
-			get => itemNameRaw;
-			set
-			{
-				if (SetProperty(ref itemNameRaw, value))
-				{
-					OnPropertyChanged(nameof(Name));
-				}
-			}
-		}
+        private string itemPath;
+        public string ItemPath
+        {
+            get => itemPath;
+            set => SetProperty(ref itemPath, value);
+        }
 
-		public virtual string Name
-		{
-			get
-			{
-				if (PrimaryItemAttribute == StorageItemTypes.File)
-				{
-					var nameWithoutExtension = Path.GetFileNameWithoutExtension(itemNameRaw);
-					if (!string.IsNullOrEmpty(nameWithoutExtension) && !UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
-					{
-						return nameWithoutExtension;
-					}
-				}
-				return itemNameRaw;
-			}
-		}
+        private string itemNameRaw;
+        public string ItemNameRaw
+        {
+            get => itemNameRaw;
+            set
+            {
+                if (SetProperty(ref itemNameRaw, value))
+                {
+                    OnPropertyChanged(nameof(Name));
+                }
+            }
+        }
 
-		private string itemType;
-		public string ItemType
-		{
-			get => itemType;
-			set
-			{
-				if (value is not null)
-				{
-					SetProperty(ref itemType, value);
-				}
-			}
-		}
+        public virtual string Name
+        {
+            get
+            {
+                if (PrimaryItemAttribute == StorageItemTypes.File)
+                {
+                    var nameWithoutExtension = Path.GetFileNameWithoutExtension(itemNameRaw);
+                    if (!string.IsNullOrEmpty(nameWithoutExtension) && !UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
+                    {
+                        return nameWithoutExtension;
+                    }
+                }
+                return itemNameRaw;
+            }
+        }
 
-		public string FileExtension { get; set; }
+        private string itemType;
+        public string ItemType
+        {
+            get => itemType;
+            set
+            {
+                if (value is not null)
+                {
+                    SetProperty(ref itemType, value);
+                }
+            }
+        }
 
-		private string fileSize;
-		public string FileSize
-		{
-			get => fileSize;
-			set
-			{
-				SetProperty(ref fileSize, value);
-				OnPropertyChanged(nameof(FileSizeDisplay));
-			}
-		}
+        public string FileExtension { get; set; }
 
-		public string FileSizeDisplay => string.IsNullOrEmpty(FileSize) ? "ItemSizeNotCalculated".GetLocalizedResource() : FileSize;
+        private string fileSize;
+        public string FileSize
+        {
+            get => fileSize;
+            set
+            {
+                SetProperty(ref fileSize, value);
+                OnPropertyChanged(nameof(FileSizeDisplay));
+            }
+        }
 
-		public long FileSizeBytes { get; set; }
+        public string FileSizeDisplay => string.IsNullOrEmpty(FileSize) ? "ItemSizeNotCalculated".GetLocalizedResource() : FileSize;
 
-		public string ItemDateModified { get; private set; }
+        public long FileSizeBytes { get; set; }
 
-		public string ItemDateCreated { get; private set; }
+        public string ItemDateModified { get; private set; }
 
-		public string ItemDateAccessed { get; private set; }
+        public string ItemDateCreated { get; private set; }
 
-		private DateTimeOffset itemDateModifiedReal;
-		public DateTimeOffset ItemDateModifiedReal
-		{
-			get => itemDateModifiedReal;
-			set
-			{
-				ItemDateModified = DateTimeFormatter.ToShortLabel(value);
-				itemDateModifiedReal = value;
-				OnPropertyChanged(nameof(ItemDateModified));
-			}
-		}
+        public string ItemDateAccessed { get; private set; }
 
-		private DateTimeOffset itemDateCreatedReal;
-		public DateTimeOffset ItemDateCreatedReal
-		{
-			get => itemDateCreatedReal;
-			set
-			{
-				ItemDateCreated = DateTimeFormatter.ToShortLabel(value);
-				itemDateCreatedReal = value;
-				OnPropertyChanged(nameof(ItemDateCreated));
-			}
-		}
+        private DateTimeOffset itemDateModifiedReal;
+        public DateTimeOffset ItemDateModifiedReal
+        {
+            get => itemDateModifiedReal;
+            set
+            {
+                ItemDateModified = DateTimeFormatter.ToShortLabel(value);
+                itemDateModifiedReal = value;
+                OnPropertyChanged(nameof(ItemDateModified));
+            }
+        }
 
-		private DateTimeOffset itemDateAccessedReal;
-		public DateTimeOffset ItemDateAccessedReal
-		{
-			get => itemDateAccessedReal;
-			set
-			{
-				ItemDateAccessed = DateTimeFormatter.ToShortLabel(value);
-				itemDateAccessedReal = value;
-				OnPropertyChanged(nameof(ItemDateAccessed));
-			}
-		}
+        private DateTimeOffset itemDateCreatedReal;
+        public DateTimeOffset ItemDateCreatedReal
+        {
+            get => itemDateCreatedReal;
+            set
+            {
+                ItemDateCreated = DateTimeFormatter.ToShortLabel(value);
+                itemDateCreatedReal = value;
+                OnPropertyChanged(nameof(ItemDateCreated));
+            }
+        }
 
-		private ObservableCollection<FileProperty> itemProperties;
-		public ObservableCollection<FileProperty> ItemProperties
-		{
-			get => itemProperties;
-			set => SetProperty(ref itemProperties, value);
-		}
+        private DateTimeOffset itemDateAccessedReal;
+        public DateTimeOffset ItemDateAccessedReal
+        {
+            get => itemDateAccessedReal;
+            set
+            {
+                ItemDateAccessed = DateTimeFormatter.ToShortLabel(value);
+                itemDateAccessedReal = value;
+                OnPropertyChanged(nameof(ItemDateAccessed));
+            }
+        }
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="ListedItem" /> class.
-		/// </summary>
-		/// <param name="folderRelativeId"></param>
-		public ListedItem(string folderRelativeId) => FolderRelativeId = folderRelativeId;
+        private ObservableCollection<FileProperty> itemProperties;
+        public ObservableCollection<FileProperty> ItemProperties
+        {
+            get => itemProperties;
+            set => SetProperty(ref itemProperties, value);
+        }
 
-		// Parameterless constructor for JsonConvert
-		public ListedItem() { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ListedItem" /> class.
+        /// </summary>
+        /// <param name="folderRelativeId"></param>
+        public ListedItem(string folderRelativeId) => FolderRelativeId = folderRelativeId;
 
-		private ObservableCollection<FileProperty> fileDetails;
-		public ObservableCollection<FileProperty> FileDetails
-		{
-			get => fileDetails;
-			set => SetProperty(ref fileDetails, value);
-		}
+        // Parameterless constructor for JsonConvert
+        public ListedItem() { }
 
-		public override string ToString()
-		{
-			string suffix;
-			if (IsRecycleBinItem)
-			{
-				suffix = "RecycleBinItemAutomation".GetLocalizedResource();
-			}
-			else if (IsShortcut)
-			{
-				suffix = "ShortcutItemAutomation".GetLocalizedResource();
-			}
-			else if (IsLibrary)
-			{
-				suffix = "LibraryItemAutomation".GetLocalizedResource();
-			}
-			else
-			{
-				suffix = PrimaryItemAttribute == StorageItemTypes.File ? "Folder".GetLocalizedResource() : "FolderItemAutomation".GetLocalizedResource();
-			}
+        private ObservableCollection<FileProperty> fileDetails;
+        public ObservableCollection<FileProperty> FileDetails
+        {
+            get => fileDetails;
+            set => SetProperty(ref fileDetails, value);
+        }
 
-			return $"{Name}, {suffix}";
-		}
+        public override string ToString()
+        {
+            string suffix;
+            if (IsRecycleBinItem)
+            {
+                suffix = "RecycleBinItemAutomation".GetLocalizedResource();
+            }
+            else if (IsShortcut)
+            {
+                suffix = "ShortcutItemAutomation".GetLocalizedResource();
+            }
+            else if (IsLibrary)
+            {
+                suffix = "LibraryItemAutomation".GetLocalizedResource();
+            }
+            else
+            {
+                suffix = PrimaryItemAttribute == StorageItemTypes.File ? "Folder".GetLocalizedResource() : "FolderItemAutomation".GetLocalizedResource();
+            }
 
-		public bool IsFolder => PrimaryItemAttribute is StorageItemTypes.Folder;
-		public bool IsRecycleBinItem => this is RecycleBinItem;
-		public bool IsShortcut => this is ShortcutItem;
-		public bool IsLibrary => this is LibraryItem;
-		public bool IsLinkItem => IsShortcut && ((ShortcutItem)this).IsUrl;
-		public bool IsFtpItem => this is FtpItem;
-		public bool IsArchive => this is ZipItem;
-		public bool IsAlternateStream => this is AlternateStreamItem;
-		public virtual bool IsExecutable => new[] { ".exe", ".bat", ".cmd" }.Contains(Path.GetExtension(ItemPath), StringComparer.OrdinalIgnoreCase);
-		public bool IsPinned => App.SidebarPinnedController.Model.FavoriteItems.Contains(itemPath);
+            return $"{Name}, {suffix}";
+        }
 
-		private BaseStorageFile itemFile;
-		public BaseStorageFile ItemFile
-		{
-			get => itemFile;
-			set => SetProperty(ref itemFile, value);
-		}
+        public bool IsFolder => PrimaryItemAttribute is StorageItemTypes.Folder;
+        public bool IsRecycleBinItem => this is RecycleBinItem;
+        public bool IsShortcut => this is ShortcutItem;
+        public bool IsLibrary => this is LibraryItem;
+        public bool IsLinkItem => IsShortcut && ((ShortcutItem)this).IsUrl;
+        public bool IsFtpItem => this is FtpItem;
+        public bool IsArchive => this is ZipItem;
+        public bool IsAlternateStream => this is AlternateStreamItem;
+        public virtual bool IsExecutable => new[] { ".exe", ".bat", ".cmd" }.Contains(Path.GetExtension(ItemPath), StringComparer.OrdinalIgnoreCase);
+        public bool IsPinned => App.SidebarPinnedController.Model.FavoriteItems.Contains(itemPath);
 
-		// This is a hack used because x:Bind casting did not work properly
-		public RecycleBinItem AsRecycleBinItem => this as RecycleBinItem;
+        private BaseStorageFile itemFile;
+        public BaseStorageFile ItemFile
+        {
+            get => itemFile;
+            set => SetProperty(ref itemFile, value);
+        }
 
-		public string Key { get; set; }
+        // This is a hack used because x:Bind casting did not work properly
+        public RecycleBinItem AsRecycleBinItem => this as RecycleBinItem;
 
-		public void SetDefaultIcon(BitmapImage img)
-		{
-			NeedsPlaceholderGlyph = false;
-			LoadDefaultIcon = true;
-			PlaceholderDefaultIcon = img;
-		}
-	}
+        public string Key { get; set; }
 
-	public class RecycleBinItem : ListedItem
+        public void SetDefaultIcon(BitmapImage img)
+        {
+            NeedsPlaceholderGlyph = false;
+            LoadDefaultIcon = true;
+            PlaceholderDefaultIcon = img;
+        }
+    }
+
+    public class RecycleBinItem : ListedItem
 	{
 		public RecycleBinItem(string folderRelativeId) : base(folderRelativeId)
 		{

@@ -144,18 +144,18 @@
 							Glyph="&#xF10A;" />
 					</Border>
 				</Grid>
-				<Grid
+                <Grid
 					Grid.Row="1"
 					MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
 					Margin="4,0,4,8"
 					HorizontalAlignment="Center"
 					VerticalAlignment="Stretch">
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="Auto" />
-						<ColumnDefinition Width="Auto" />
-						<ColumnDefinition Width="*" />
-					</Grid.ColumnDefinitions>
-					<FontIcon
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <FontIcon
 						x:Name="CloudDriveSyncStatusGlyph"
 						Grid.Column="0"
 						Margin="0,0,4,0"
@@ -164,7 +164,7 @@
 						x:Phase="2"
 						FontSize="12"
 						Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}" />
-					<Ellipse
+                    <Ellipse
 						Grid.Column="1"
 						Width="12"
 						Height="12"
@@ -173,21 +173,41 @@
 						Fill="{x:Bind FileTagsUI[0].ColorModel, Mode=OneWay, Converter={StaticResource ColorModelToColorConverter}}"
 						ToolTipService.ToolTip="{x:Bind FileTagsUI[0].TagName, Mode=OneWay}"
 						Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
-					<TextBlock
+                    <TextBlock
 						x:Name="ItemName"
-						Grid.Column="2"
+                        Grid.Column="2"
+                        Height="60"
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Stretch"
+                        Visibility="{x:Bind Selected, Converter={StaticResource NegatedBoolToVisibilityConverter}, Mode=OneWay}"
 						Opacity="{Binding IsOpen, ElementName=EditPopup, Converter={StaticResource NegatedBoolToOpacityConverter}}"
 						Text="{x:Bind Name, Mode=OneWay}"
-						TextTrimming="CharacterEllipsis"
-						TextWrapping="Wrap" />
-				</Grid>
-				<Popup
+						TextTrimming="WordEllipsis"
+						TextWrapping="Wrap"/>
+                    <ScrollViewer 
+                        x:Name="FullItemNameScrollView"
+                        Grid.Column="2"
+                        MinHeight="60"
+                        VerticalScrollBarVisibility="Auto"
+                        HorizontalScrollMode="Disabled"
+                        HorizontalScrollBarVisibility="Disabled"
+                        Opacity="{Binding IsOpen, ElementName=EditPopup, Converter={StaticResource NegatedBoolToOpacityConverter}}"
+                        Visibility="{Binding Selected, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+                        <TextBlock
+							x:Name="FullItemName"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="Stretch"
+							Text="{x:Bind Name, Mode=OneWay}"
+							TextAlignment="DetectFromContent"
+							TextTrimming="None"
+							TextWrapping="WrapWholeWords"/>
+                    </ScrollViewer>
+                </Grid>
+                <Popup
 					x:Name="EditPopup"
 					Grid.Row="1"
 					x:Load="False">
-					<TextBox
+                    <TextBox
 						x:Name="GridViewTextBoxItemName"
 						Width="{Binding ElementName=GridViewBrowserListedItem, Path=(tui:FrameworkElementExtensions.ActualWidth)}"
 						Margin="0"
@@ -502,10 +522,10 @@
 			ViewChangeStarted="SemanticZoom_ViewChangeStarted"
 			Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
 			<SemanticZoom.ZoomedInView>
-				<controls:AdaptiveGridView
+                <controls:AdaptiveGridView
 					x:Name="FileList"
-					Padding="8"
-					VerticalContentAlignment="Stretch"
+					Padding="8"                    
+                    VerticalContentAlignment="Stretch"
 					animations:ItemsReorderAnimation.Duration="0:0:0.350"
 					tui:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
 					x:FieldModifier="public"
@@ -526,7 +546,7 @@
 					ShowsScrollingPlaceholders="True"
 					StretchContentForSingleRow="False"
 					Tapped="FileList_ItemTapped">
-					<controls:AdaptiveGridView.GroupStyle>
+                    <controls:AdaptiveGridView.GroupStyle>
 						<GroupStyle>
 							<GroupStyle.HeaderTemplate>
 								<DataTemplate x:DataType="helpers:IGroupedCollectionHeader">
