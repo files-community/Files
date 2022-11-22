@@ -577,15 +577,7 @@ namespace Files.App.Interacts
 
 		public async Task CompressIntoArchive()
 		{
-			string[] sources = associatedInstance.SlimContentPage.SelectedItems
-				.Select(item => item.ItemPath)
-				.ToArray();
-
-			if (sources.Length is 0)
-				return;
-
-			string directory = associatedInstance.FilesystemViewModel.WorkingDirectory;
-			string fileName = Path.GetFileName(sources.Length is 1 ? sources[0] : directory);
+			var (sources, directory, fileName) = GetCompressDestination();
 
 			var dialog = new CreateArchiveDialog
 			{
@@ -612,15 +604,7 @@ namespace Files.App.Interacts
 
 		public async Task CompressIntoZip()
 		{
-			string[] sources = associatedInstance.SlimContentPage.SelectedItems
-				.Select(item => item.ItemPath)
-				.ToArray();
-
-			if (sources.Length is 0)
-				return;
-
-			string directory = associatedInstance.FilesystemViewModel.WorkingDirectory;
-			string fileName = Path.GetFileName(sources.Length is 1 ? sources[0] : directory);
+			var (sources, directory, fileName) = GetCompressDestination();
 
 			var creator = new ArchiveCreator
 			{
@@ -635,15 +619,7 @@ namespace Files.App.Interacts
 
 		public async Task CompressIntoSevenZip()
 		{
-			string[] sources = associatedInstance.SlimContentPage.SelectedItems
-				.Select(item => item.ItemPath)
-				.ToArray();
-
-			if (sources.Length is 0)
-				return;
-
-			string directory = associatedInstance.FilesystemViewModel.WorkingDirectory;
-			string fileName = Path.GetFileName(sources.Length is 1 ? sources[0] : directory);
+			var (sources, directory, fileName) = GetCompressDestination();
 
 			var creator = new ArchiveCreator
 			{
@@ -654,6 +630,21 @@ namespace Files.App.Interacts
 			};
 
 			await CompressArchiveAsync(creator);
+		}
+
+		private (string[] Sources, string directory, string fileName) GetCompressDestination()
+		{
+			string[] sources = associatedInstance.SlimContentPage.SelectedItems
+				.Select(item => item.ItemPath)
+				.ToArray();
+
+			if (sources.Length is 0)
+				return (sources, string.Empty, string.Empty);
+
+			string directory = associatedInstance.FilesystemViewModel.WorkingDirectory.Normalize();
+			string fileName = Path.GetFileName(sources.Length is 1 ? sources[0] : directory);
+
+			return (sources, directory, fileName);
 		}
 
 		private static async Task CompressArchiveAsync(IArchiveCreator creator)
