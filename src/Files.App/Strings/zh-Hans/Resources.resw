@@ -2005,7 +2005,7 @@
     <value>查看文档。</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
-    <value>Extract Archive</value>
+    <value>解压缩</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>完成后打开目标文件夹</value>
@@ -2854,9 +2854,9 @@
     <value>清空回收站失败</value>
   </data>
   <data name="ArchivePassword" xml:space="preserve">
-    <value>Archive password</value>
+    <value>压缩包密码</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
-    <value>Path</value>
+    <value>路径</value>
   </data>
 </root>
