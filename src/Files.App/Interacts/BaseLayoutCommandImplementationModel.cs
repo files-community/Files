@@ -595,7 +595,7 @@ namespace Files.App.Interacts
 				FileName = dialog.FileName,
 				Password = dialog.Password,
 				FileFormat = dialog.FileFormat,
-				DoNotCompress = dialog.DoNotCompress,
+				CompressionLevel = dialog.CompressionLevel,
 				SplittingSize = dialog.SplittingSize,
 			};
 

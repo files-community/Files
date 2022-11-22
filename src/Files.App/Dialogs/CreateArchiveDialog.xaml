@@ -90,13 +90,15 @@
 		<StackPanel Spacing="4">
 			<Grid Style="{StaticResource GridSettingStyle}">
 				<settings:SettingsDisplayControl
-					Title="{helpers:ResourceString Name=DoNotCompress}"
+					Title="{helpers:ResourceString Name=CompressionLevel}"
 					HorizontalAlignment="Stretch">
-					<ToggleSwitch
-						x:Name="DoNotCompressSwitch"
+					<ComboBox
+						x:Name="CompressionLevelSelector"
 						HorizontalAlignment="Right"
-						IsOn="{x:Bind DoNotCompress, Mode=TwoWay}"
-						Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						SelectedValuePath="Key"
+						DisplayMemberPath="Label"
+						ItemsSource="{x:Bind CompressionLevels}"
+						SelectedValue="{x:Bind CompressionLevel, Mode=TwoWay}" />
 				</settings:SettingsDisplayControl>
 			</Grid>
 			<Grid
@@ -109,10 +111,10 @@
 					<ComboBox
 						x:Name="SplittingSizeSelector"
 						HorizontalAlignment="Right"
+						SelectedValuePath="Key"
 						DisplayMemberPath="Label"
 						ItemsSource="{x:Bind SplittingSizes}"
-						SelectedValue="{x:Bind SplittingSize, Mode=TwoWay}"
-						SelectedValuePath="Key" />
+						SelectedValue="{x:Bind SplittingSize, Mode=TwoWay}" />
 				</settings:SettingsDisplayControl>
 			</Grid>
 			<StackPanel>

@@ -21,7 +21,7 @@ namespace Files.App.Filesystem.Archive
 		public IEnumerable<string> Sources { get; set; } = Enumerable.Empty<string>();
 
 		public ArchiveFormats FileFormat { get; set; } = ArchiveFormats.Zip;
-		public bool DoNotCompress { get; set; } = false;
+		public ArchiveCompressionLevels CompressionLevel { get; set; } = ArchiveCompressionLevels.Normal;
 		public ArchiveSplittingSizes SplittingSize { get; set; } = ArchiveSplittingSizes.None;
 
 		public IProgress<float> Progress { get; set; } = new Progress<float>();
@@ -37,6 +37,16 @@ namespace Files.App.Filesystem.Archive
 			ArchiveFormats.Zip => OutArchiveFormat.Zip,
 			ArchiveFormats.SevenZip => OutArchiveFormat.SevenZip,
 			_ => throw new ArgumentOutOfRangeException(nameof(FileFormat)),
+		};
+		private CompressionLevel SevenZipCompressionLevel => CompressionLevel switch
+		{
+			ArchiveCompressionLevels.Ultra => SevenZip.CompressionLevel.Ultra,
+			ArchiveCompressionLevels.High => SevenZip.CompressionLevel.High,
+			ArchiveCompressionLevels.Normal => SevenZip.CompressionLevel.Normal,
+			ArchiveCompressionLevels.Low => SevenZip.CompressionLevel.Low,
+			ArchiveCompressionLevels.Fast => SevenZip.CompressionLevel.Fast,
+			ArchiveCompressionLevels.None => SevenZip.CompressionLevel.None,
+			_ => throw new ArgumentOutOfRangeException(nameof(CompressionLevel)),
 		};
 		private long SevenZipVolumeSize => SplittingSize switch
 		{
@@ -67,7 +77,7 @@ namespace Files.App.Filesystem.Archive
 			var compressor = new SevenZipCompressor
 			{
 				ArchiveFormat = SevenZipArchiveFormat,
-				CompressionLevel = !DoNotCompress ? CompressionLevel.Ultra : CompressionLevel.None,
+				CompressionLevel = SevenZipCompressionLevel,
 				VolumeSize = FileFormat is ArchiveFormats.SevenZip ? SevenZipVolumeSize : 0,
 				FastCompression = false,
 				IncludeEmptyDirectories = true,
@@ -75,8 +85,8 @@ namespace Files.App.Filesystem.Archive
 				PreserveDirectoryRoot = sources.Length > 1,
 				EventSynchronization = EventSynchronizationStrategy.AlwaysAsynchronous,
 			};
-
 			compressor.Compressing += Compressor_Compressing;
+
 			try
 			{
 				var files = sources.Where(source => File.Exists(source)).ToArray();

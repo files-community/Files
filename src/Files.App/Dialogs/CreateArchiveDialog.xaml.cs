@@ -24,8 +24,8 @@ namespace Files.App.Dialogs
 		public static readonly DependencyProperty FileFormatProperty = DependencyProperty
 			.Register(nameof(FileFormat), typeof(ArchiveFormats), typeof(CreateArchiveDialog), new(ArchiveFormats.Zip));
 
-		public static readonly DependencyProperty DoNotCompressProperty = DependencyProperty
-			.Register(nameof(DoNotCompress), typeof(bool), typeof(CreateArchiveDialog), new(false));
+		public static readonly DependencyProperty CompressionLevelProperty = DependencyProperty
+			.Register(nameof(CompressionLevel), typeof(ArchiveCompressionLevels), typeof(CreateArchiveDialog), new(ArchiveCompressionLevels.Normal));
 
 		public static readonly DependencyProperty SplittingSizeProperty = DependencyProperty
 			.Register(nameof(SplittingSize), typeof(ArchiveSplittingSizes), typeof(CreateArchiveDialog), new(ArchiveSplittingSizes.None));
@@ -51,10 +51,10 @@ namespace Files.App.Dialogs
 			set => SetValue(FileFormatProperty, (int)value);
 		}
 
-		public bool DoNotCompress
+		public ArchiveCompressionLevels CompressionLevel
 		{
-			get => (bool)GetValue(DoNotCompressProperty);
-			set => SetValue(DoNotCompressProperty, value);
+			get => (ArchiveCompressionLevels)GetValue(CompressionLevelProperty);
+			set => SetValue(CompressionLevelProperty, (int)value);
 		}
 
 		public ArchiveSplittingSizes SplittingSize
@@ -67,6 +67,16 @@ namespace Files.App.Dialogs
 		{
 			new(ArchiveFormats.Zip, ".zip", "CompressionFormatZipDescription".GetLocalizedResource()),
 			new(ArchiveFormats.SevenZip, ".7z", "CompressionFormatSevenZipDescription".GetLocalizedResource()),
+		}.ToImmutableList();
+
+		private IImmutableList<CompressionLevelItem> CompressionLevels { get; } = new List<CompressionLevelItem>
+		{
+			new(ArchiveCompressionLevels.Ultra, "CompressionLevelUltra".GetLocalizedResource()),
+			new(ArchiveCompressionLevels.High, "CompressionLevelHigh".GetLocalizedResource()),
+			new(ArchiveCompressionLevels.Normal, "CompressionLevelNormal".GetLocalizedResource()),
+			new(ArchiveCompressionLevels.Low, "CompressionLevelLow".GetLocalizedResource()),
+			new(ArchiveCompressionLevels.Fast, "CompressionLevelFast".GetLocalizedResource()),
+			new(ArchiveCompressionLevels.None, "CompressionLevelNone".GetLocalizedResource()),
 		}.ToImmutableList();
 
 		private IImmutableList<SplittingSizeItem> SplittingSizes { get; } = new List<SplittingSizeItem>
@@ -102,11 +112,14 @@ namespace Files.App.Dialogs
 		{
 			Loaded -= ContentDialog_Loaded;
 
-			FileFormatSelector.SelectedItem = FileFormats.First(format => format.Key == FileFormat);
-			DoNotCompressSwitch.IsOn = DoNotCompress;
 			if (FileFormat is ArchiveFormats.SevenZip)
+			{
 				FindName(nameof(SplittingSizeLayout));
-			SplittingSizeLayout.Visibility = FileFormat is ArchiveFormats.SevenZip ? Visibility.Visible : Visibility.Collapsed;
+				SplittingSizeLayout.Visibility = Visibility.Visible;
+			}
+
+			FileFormatSelector.SelectedItem = FileFormats.First(format => format.Key == FileFormat);
+			CompressionLevelSelector.SelectedItem = CompressionLevels.First(level => level.Key == CompressionLevel);
 			SplittingSizeSelector.SelectedItem = SplittingSizes.First(size => size.Key == SplittingSize);
 			EncryptionSwitch.IsOn = Password.Length > 0;
 
@@ -146,6 +159,7 @@ namespace Files.App.Dialogs
 		}
 
 		private record FileFormatItem(ArchiveFormats Key, string Label, string Description);
+		private record CompressionLevelItem(ArchiveCompressionLevels Key, string Label);
 		private record SplittingSizeItem(ArchiveSplittingSizes Key, string Label);
 	}
 }

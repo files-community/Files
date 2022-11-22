@@ -2883,8 +2883,26 @@
   <data name="CompressionFormatSevenZipDescription" xml:space="preserve">
     <value>Smaller archives but requires compatible software.</value>
   </data>
-  <data name="DoNotCompress" xml:space="preserve">
-    <value>Do not compress</value>
+  <data name="CompressionLevel" xml:space="preserve">
+    <value>Compression level</value>
+  </data>
+  <data name="CompressionLevelUltra" xml:space="preserve">
+    <value>Ultra</value>
+  </data>
+  <data name="CompressionLevelHigh" xml:space="preserve">
+    <value>High</value>
+  </data>
+  <data name="CompressionLevelNormal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="CompressionLevelLow" xml:space="preserve">
+    <value>Low</value>
+  </data>
+  <data name="CompressionLevelFast" xml:space="preserve">
+    <value>Fast</value>
+  </data>
+  <data name="CompressionLevelNone" xml:space="preserve">
+    <value>None</value>
   </data>
   <data name="SplitArchive" xml:space="preserve">
     <value>Split the archive</value>
