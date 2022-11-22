@@ -7,27 +7,17 @@ namespace Files.App.UserControls.Settings
 	[ContentProperty(Name = nameof(SettingsActionableElement))]
 	public sealed partial class SettingsDisplayControl : UserControl
 	{
-		public FrameworkElement SettingsActionableElement { get; set; }
+		public static readonly DependencyProperty TitleProperty = DependencyProperty
+			.Register(nameof(Title), typeof(string), typeof(SettingsDisplayControl), new(null));
 
-		public static readonly DependencyProperty AdditionalDescriptionContentProperty = DependencyProperty.Register(
-		  "AdditionalDescriptionContent",
-		  typeof(FrameworkElement),
-		  typeof(SettingsDisplayControl),
-		  new PropertyMetadata(null)
-		);
+		public static readonly DependencyProperty DescriptionProperty = DependencyProperty
+			.Register(nameof(Description), typeof(string), typeof(SettingsDisplayControl), new(null));
 
-		public FrameworkElement AdditionalDescriptionContent
-		{
-			get => (FrameworkElement)GetValue(AdditionalDescriptionContentProperty);
-			set => SetValue(AdditionalDescriptionContentProperty, value);
-		}
+		public static readonly DependencyProperty AdditionalDescriptionContentProperty = DependencyProperty
+			.Register(nameof(AdditionalDescriptionContent), typeof(FrameworkElement), typeof(SettingsDisplayControl), new(null));
 
-		public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(
-		  "Title",
-		  typeof(string),
-		  typeof(SettingsDisplayControl),
-		  new PropertyMetadata(null)
-		);
+		public static readonly DependencyProperty IconProperty = DependencyProperty
+			.Register(nameof(Icon), typeof(IconElement), typeof(SettingsDisplayControl), new(null));
 
 		public string Title
 		{
@@ -35,25 +25,17 @@ namespace Files.App.UserControls.Settings
 			set => SetValue(TitleProperty, value);
 		}
 
-		public static readonly DependencyProperty DescriptionProperty = DependencyProperty.Register(
-		  "Description",
-		  typeof(string),
-		  typeof(SettingsDisplayControl),
-		  new PropertyMetadata(null)
-		);
-
 		public string Description
 		{
 			get => (string)GetValue(DescriptionProperty);
 			set => SetValue(DescriptionProperty, value);
 		}
 
-		public static readonly DependencyProperty IconProperty = DependencyProperty.Register(
-		  "Icon",
-		  typeof(IconElement),
-		  typeof(SettingsDisplayControl),
-		  new PropertyMetadata(null)
-		);
+		public FrameworkElement AdditionalDescriptionContent
+		{
+			get => (FrameworkElement)GetValue(AdditionalDescriptionContentProperty);
+			set => SetValue(AdditionalDescriptionContentProperty, value);
+		}
 
 		public IconElement Icon
 		{
@@ -61,15 +43,17 @@ namespace Files.App.UserControls.Settings
 			set => SetValue(IconProperty, value);
 		}
 
+		public FrameworkElement? SettingsActionableElement { get; set; }
+
 		public SettingsDisplayControl()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 			VisualStateManager.GoToState(this, "NormalState", false);
 		}
 
-		private void MainPanel_SizeChanged(object sender, SizeChangedEventArgs e)
+		private void MainPanel_SizeChanged(object _, SizeChangedEventArgs e)
 		{
-			if (e.NewSize.Width == e.PreviousSize.Width || ActionableElement is null)
+			if (ActionableElement is null || e.NewSize.Width == e.PreviousSize.Width)
 				return;
 
 			var stateToGoName = (ActionableElement.ActualWidth > e.NewSize.Width / 3) ? "CompactState" : "NormalState";
