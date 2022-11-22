@@ -2863,7 +2863,7 @@
     <value>Archive</value>
   </data>
   <data name="CreateArchive" xml:space="preserve">
-    <value>Create a archive</value>
+    <value>Create archive</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>Create</value>
