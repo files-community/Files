@@ -55,16 +55,15 @@
 				VerticalAlignment="Bottom"
 				Header="{helpers:ResourceString Name=ArchiveName}"
 				PlaceholderText="{helpers:ResourceString Name=EnterName}"
-				Text="{x:Bind FileName, Mode=TwoWay}" />
+				Text="{x:Bind ViewModel.FileName, Mode=TwoWay}" />
 			<ComboBox
 				x:Name="FileFormatSelector"
 				Grid.Column="1"
 				MinWidth="100"
 				VerticalAlignment="Bottom"
-				ItemsSource="{x:Bind FileFormats}"
-				SelectedValue="{x:Bind FileFormat, Mode=TwoWay}"
-				SelectedValuePath="Key"
-				SelectionChanged="FileFormatSelector_SelectionChanged">
+				ItemsSource="{x:Bind ViewModel.FileFormats}"
+				SelectedItem="{x:Bind ViewModel.FileFormat, Mode=TwoWay}"
+				SelectedValuePath="Key">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
 						<Grid ColumnSpacing="24">
@@ -94,22 +93,23 @@
 						x:Name="CompressionLevelSelector"
 						HorizontalAlignment="Right"
 						DisplayMemberPath="Label"
-						ItemsSource="{x:Bind CompressionLevels}"
-						SelectedValue="{x:Bind CompressionLevel, Mode=TwoWay}"
+						ItemsSource="{x:Bind ViewModel.CompressionLevels}"
+						SelectedItem="{x:Bind ViewModel.CompressionLevel, Mode=TwoWay}"
 						SelectedValuePath="Key" />
 				</settings:SettingsDisplayControl>
 			</Grid>
 			<Grid
 				x:Name="SplittingSizeLayout"
+				x:Load="{x:Bind ViewModel.CanSplit, Mode=OneWay}"
 				Style="{StaticResource GridSettingStyle}"
-				Visibility="Collapsed">
+				Visibility="{x:Bind ViewModel.CanSplit, Mode=OneWay}">
 				<settings:SettingsDisplayControl Title="{helpers:ResourceString Name=SplittingSize}" HorizontalAlignment="Stretch">
 					<ComboBox
 						x:Name="SplittingSizeSelector"
 						HorizontalAlignment="Right"
 						DisplayMemberPath="Label"
-						ItemsSource="{x:Bind SplittingSizes}"
-						SelectedValue="{x:Bind SplittingSize, Mode=TwoWay}"
+						ItemsSource="{x:Bind ViewModel.SplittingSizes}"
+						SelectedItem="{x:Bind ViewModel.SplittingSize, Mode=TwoWay}"
 						SelectedValuePath="Key" />
 				</settings:SettingsDisplayControl>
 			</Grid>
@@ -122,19 +122,19 @@
 						<ToggleSwitch
 							x:Name="EncryptionSwitch"
 							HorizontalAlignment="Right"
-							Style="{StaticResource RightAlignedToggleSwitchStyle}"
-							Toggled="EncryptionSwitch_Toggled" />
+							IsOn="{x:Bind ViewModel.UseEncryption, Mode=TwoWay}"
+							Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 					</settings:SettingsDisplayControl>
 				</Grid>
 				<Grid
 					x:Name="PasswordLayout"
 					HorizontalAlignment="Stretch"
-					x:Load="False"
+					x:Load="{x:Bind ViewModel.UseEncryption, Mode=OneWay}"
 					Background="{StaticResource ExpanderDropDownBackground}"
 					BorderBrush="{StaticResource ExpanderDropDownBorderBrush}"
 					BorderThickness="{StaticResource ExpanderDropdownDownBorderThickness}"
 					CornerRadius="{StaticResource ControlCornerRadius}"
-					Visibility="{Binding IsOn, ElementName=EncryptionSwitch, Mode=OneWay}">
+					Visibility="{x:Bind ViewModel.UseEncryption, Mode=OneWay}">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="Auto" />
 						<ColumnDefinition Width="*" />
@@ -151,8 +151,8 @@
 						Margin="16,8"
 						HorizontalAlignment="Right"
 						IsPasswordRevealButtonEnabled="True"
-						Password="{x:Bind Password, Mode=TwoWay}"
-						PasswordChanging="PasswordBox_PasswordChanging"
+						Loading="PasswordBox_Loading"
+						Password="{x:Bind ViewModel.Password, Mode=TwoWay}"
 						PasswordRevealMode="Peek"
 						PlaceholderText="{helpers:ResourceString Name=Password}" />
 				</Grid>

@@ -11,18 +11,18 @@ namespace Files.App.Filesystem.Archive
 {
 	public class ArchiveCreator : IArchiveCreator
 	{
-		private string archiveName = string.Empty;
-		public string ArchiveName => archiveName;
+		private string archivePath = string.Empty;
+		public string ArchivePath => archivePath;
 
-		public string Directory { get; set; } = string.Empty;
-		public string FileName { get; set; } = string.Empty;
-		public string Password { get; set; } = string.Empty;
+		public string Directory { get; init; } = string.Empty;
+		public string FileName { get; init; } = string.Empty;
+		public string Password { get; init; } = string.Empty;
 
-		public IEnumerable<string> Sources { get; set; } = Enumerable.Empty<string>();
+		public IEnumerable<string> Sources { get; init; } = Enumerable.Empty<string>();
 
-		public ArchiveFormats FileFormat { get; set; } = ArchiveFormats.Zip;
-		public ArchiveCompressionLevels CompressionLevel { get; set; } = ArchiveCompressionLevels.Normal;
-		public ArchiveSplittingSizes SplittingSize { get; set; } = ArchiveSplittingSizes.None;
+		public ArchiveFormats FileFormat { get; init; } = ArchiveFormats.Zip;
+		public ArchiveCompressionLevels CompressionLevel { get; init; } = ArchiveCompressionLevels.Normal;
+		public ArchiveSplittingSizes SplittingSize { get; init; } = ArchiveSplittingSizes.None;
 
 		public IProgress<float> Progress { get; set; } = new Progress<float>();
 
@@ -72,7 +72,7 @@ namespace Files.App.Filesystem.Archive
 			int index = 1;
 			while (File.Exists(path) || System.IO.Directory.Exists(path))
 				path = Path.Combine(Directory, $"{FileName} ({++index}){ArchiveExtension}");
-			archiveName = path;
+			archivePath = path;
 
 			var compressor = new SevenZipCompressor
 			{

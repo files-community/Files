@@ -588,7 +588,7 @@ namespace Files.App.Interacts
 			if (!dialog.CanCreate)
 				return;
 
-			var creator = new ArchiveCreator
+			IArchiveCreator creator = new ArchiveCreator
 			{
 				Sources = sources,
 				Directory = directory,
@@ -606,7 +606,7 @@ namespace Files.App.Interacts
 		{
 			var (sources, directory, fileName) = GetCompressDestination();
 
-			var creator = new ArchiveCreator
+			IArchiveCreator creator = new ArchiveCreator
 			{
 				Sources = sources,
 				Directory = directory,
@@ -621,7 +621,7 @@ namespace Files.App.Interacts
 		{
 			var (sources, directory, fileName) = GetCompressDestination();
 
-			var creator = new ArchiveCreator
+			IArchiveCreator creator = new ArchiveCreator
 			{
 				Sources = sources,
 				Directory = directory,
@@ -649,20 +649,20 @@ namespace Files.App.Interacts
 
 		private static async Task CompressArchiveAsync(IArchiveCreator creator)
 		{
-			var archiveName = creator.ArchiveName;
+			var archivePath = creator.ArchivePath;
 
 			CancellationTokenSource compressionToken = new();
 			PostedStatusBanner banner = App.OngoingTasksViewModel.PostOperationBanner
 			(
 				"CompressionInProgress".GetLocalizedResource(),
-				archiveName,
+				archivePath,
 				0,
 				ReturnResult.InProgress,
 				FileOperationType.Compressed,
 				compressionToken
 			);
-
 			creator.Progress = banner.Progress;
+
 			bool isSuccess = await creator.RunCreationAsync();
 
 			banner.Remove();
@@ -671,7 +671,7 @@ namespace Files.App.Interacts
 				App.OngoingTasksViewModel.PostBanner
 				(
 					"CompressionCompleted".GetLocalizedResource(),
-					string.Format("CompressionSucceded".GetLocalizedResource(), archiveName),
+					string.Format("CompressionSucceded".GetLocalizedResource(), archivePath),
 					0,
 					ReturnResult.Success,
 					FileOperationType.Compressed
@@ -679,12 +679,12 @@ namespace Files.App.Interacts
 			}
 			else
 			{
-				NativeFileOperationsHelper.DeleteFileFromApp(archiveName);
+				NativeFileOperationsHelper.DeleteFileFromApp(archivePath);
 
 				App.OngoingTasksViewModel.PostBanner
 				(
 					"CompressionCompleted".GetLocalizedResource(),
-					string.Format("CompressionFailed".GetLocalizedResource(), archiveName),
+					string.Format("CompressionFailed".GetLocalizedResource(), archivePath),
 					0,
 					ReturnResult.Failed,
 					FileOperationType.Compressed

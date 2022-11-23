@@ -6,17 +6,17 @@ namespace Files.App.Filesystem.Archive
 {
 	public interface IArchiveCreator
 	{
-		string ArchiveName { get; }
+		string ArchivePath { get; }
 
-		string Directory { get; set; }
-		string FileName { get; set; }
-		string Password { get; set; }
+		string Directory { get; }
+		string FileName { get; }
+		string Password { get; }
 
-		IEnumerable<string> Sources { get; set; }
+		IEnumerable<string> Sources { get; }
 
-		ArchiveFormats FileFormat { get; set; }
-		ArchiveCompressionLevels CompressionLevel { get; set; }
-		ArchiveSplittingSizes SplittingSize { get; set; }
+		ArchiveFormats FileFormat { get; }
+		ArchiveCompressionLevels CompressionLevel { get; }
+		ArchiveSplittingSizes SplittingSize { get; }
 
 		IProgress<float> Progress { get; set; }
 
