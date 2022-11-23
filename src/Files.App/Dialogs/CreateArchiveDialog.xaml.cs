@@ -145,8 +145,8 @@ namespace Files.App.Dialogs
 
 			public IImmutableList<FileFormatItem> FileFormats { get; } = new List<FileFormatItem>
 			{
-				new(ArchiveFormats.Zip, ".zip", "CompressionFormatZipDescription".GetLocalizedResource()),
-				new(ArchiveFormats.SevenZip, ".7z", "CompressionFormatSevenZipDescription".GetLocalizedResource()),
+				new(ArchiveFormats.Zip, ".zip"),
+				new(ArchiveFormats.SevenZip, ".7z"),
 			}.ToImmutableList();
 
 			public IImmutableList<CompressionLevelItem> CompressionLevels { get; } = new List<CompressionLevelItem>
@@ -184,7 +184,7 @@ namespace Files.App.Dialogs
 			private static string ToSizeText(ulong size) => ByteSize.FromMebiBytes(size).ShortString;
 			private static string ToSizeText(ulong size, string labelKey) => $"{ToSizeText(size)} - {labelKey}";
 
-			public record FileFormatItem(ArchiveFormats Key, string Label, string Description);
+			public record FileFormatItem(ArchiveFormats Key, string Label);
 			public record CompressionLevelItem(ArchiveCompressionLevels Key, string Label);
 			public record SplittingSizeItem(ArchiveSplittingSizes Key, string Label);
 		}

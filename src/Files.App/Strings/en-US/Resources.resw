@@ -2871,17 +2871,8 @@
   <data name="CreateNamedArchive" xml:space="preserve">
     <value>Create {0}</value>
   </data>
-  <data name="ArchiveName" xml:space="preserve">
-    <value>Archive name</value>
-  </data>
   <data name="EnterName" xml:space="preserve">
     <value>Enter a name</value>
-  </data>
-  <data name="CompressionFormatZipDescription" xml:space="preserve">
-    <value>Works natively with Windows.</value>
-  </data>
-  <data name="CompressionFormatSevenZipDescription" xml:space="preserve">
-    <value>Smaller archives but requires compatible software.</value>
   </data>
   <data name="CompressionLevel" xml:space="preserve">
     <value>Compression level</value>
@@ -2930,5 +2921,8 @@
   </data>
   <data name="Password" xml:space="preserve">
     <value>Password</value>
+  </data>
+  <data name="Format" xml:space="preserve">
+    <value>Format</value>
   </data>
 </root>
