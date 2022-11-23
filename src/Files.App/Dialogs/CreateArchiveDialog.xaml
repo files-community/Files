@@ -23,8 +23,6 @@
 
 	<ContentDialog.Resources>
 		<ResourceDictionary>
-			<converters:VisibilityInvertConverter x:Key="VisibilityInvertConverter" />
-
 			<Style x:Key="GridSettingStyle" TargetType="Grid">
 				<Setter Property="Background" Value="{ThemeResource ExpanderHeaderBackground}" />
 				<Setter Property="BorderBrush" Value="{ThemeResource ExpanderHeaderBorderBrush}" />
@@ -101,8 +99,7 @@
 			<Grid
 				x:Name="SplittingSizeLayout"
 				x:Load="{x:Bind ViewModel.CanSplit, Mode=OneWay}"
-				Style="{StaticResource GridSettingStyle}"
-				Visibility="{x:Bind ViewModel.CanSplit, Mode=OneWay}">
+				Style="{StaticResource GridSettingStyle}">
 				<settings:SettingsDisplayControl Title="{helpers:ResourceString Name=SplittingSize}" HorizontalAlignment="Stretch">
 					<ComboBox
 						x:Name="SplittingSizeSelector"
@@ -133,8 +130,7 @@
 					Background="{StaticResource ExpanderDropDownBackground}"
 					BorderBrush="{StaticResource ExpanderDropDownBorderBrush}"
 					BorderThickness="{StaticResource ExpanderDropdownDownBorderThickness}"
-					CornerRadius="{StaticResource ControlCornerRadius}"
-					Visibility="{x:Bind ViewModel.UseEncryption, Mode=OneWay}">
+					CornerRadius="{StaticResource ControlCornerRadius}">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="Auto" />
 						<ColumnDefinition Width="*" />
