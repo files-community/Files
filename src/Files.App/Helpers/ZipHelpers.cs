@@ -74,8 +74,8 @@ namespace Files.App.Helpers
 			if (zipFile is null)
 				return;
 			//zipFile.IsStreamOwner = true;
-			List<ArchiveFileInfo> directoryEntries = new List<ArchiveFileInfo>();
-			List<ArchiveFileInfo> fileEntries = new List<ArchiveFileInfo>();
+			var directoryEntries = new List<ArchiveFileInfo>();
+			var fileEntries = new List<ArchiveFileInfo>();
 			foreach (ArchiveFileInfo entry in zipFile.ArchiveFileData)
 			{
 				if (!entry.IsDirectory)
@@ -112,6 +112,8 @@ namespace Files.App.Helpers
 						NativeFileOperationsHelper.CreateDirectoryFromApp(dirName, IntPtr.Zero);
 					}
 				}
+
+				fileEntries.RemoveAll(file => file.FileName == dir);
 
 				if (cancellationToken.IsCancellationRequested) // Check if canceled
 					return;

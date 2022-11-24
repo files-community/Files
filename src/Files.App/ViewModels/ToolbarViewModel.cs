@@ -763,8 +763,8 @@ namespace Files.App.ViewModels
 
 		public void SearchRegion_LostFocus(object sender, RoutedEventArgs e)
 		{
-			var focusedElement = FocusManager.GetFocusedElement();
-			if ((focusedElement is Button bttn && bttn.Name == "SearchButton") || focusedElement is FlyoutBase || focusedElement is AppBarButton)
+			var element = FocusManager.GetFocusedElement();
+			if (element is FlyoutBase or AppBarButton)
 				return;
 
 			SearchHasFocus = false;

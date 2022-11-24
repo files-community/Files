@@ -10,7 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="FluentFTP">
-      <Version>42.0.1</Version>
+      <Version>42.0.2</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
