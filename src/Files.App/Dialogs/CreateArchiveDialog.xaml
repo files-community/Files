@@ -1,12 +1,10 @@
-﻿<ContentDialog
+﻿ <ContentDialog
 	x:Class="Files.App.Dialogs.CreateArchiveDialog"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:settings="using:Files.App.UserControls.Settings"
 	Title="{helpers:ResourceString Name=CreateArchive}"
 	d:DesignHeight="300"
 	d:DesignWidth="400"
@@ -21,7 +19,7 @@
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">
 	<StackPanel Width="440" Spacing="8">
-		
+
 		<!--  Archive Name  -->
 		<Grid
 			Padding="12"
@@ -123,7 +121,10 @@
 		</Grid>
 
 		<!--  Encryption Options  -->
-		<Expander HorizontalAlignment="Stretch" Header="{helpers:ResourceString Name=Encryption}">
+		<Expander
+			HorizontalAlignment="Stretch"
+			Header="{helpers:ResourceString Name=Encryption}"
+			IsExpanded="{x:Bind ViewModel.UseEncryption, Mode=TwoWay}">
 			<Expander.Content>
 				<Grid Width="400">
 					<Grid.ColumnDefinitions>
@@ -138,8 +139,8 @@
 						x:Name="PasswordBox"
 						Grid.Column="1"
 						Width="260"
-						IsPasswordRevealButtonEnabled="True"
 						Loading="PasswordBox_Loading"
+						IsPasswordRevealButtonEnabled="True"
 						Password="{x:Bind ViewModel.Password, Mode=TwoWay}"
 						PasswordRevealMode="Peek"
 						PlaceholderText="{helpers:ResourceString Name=Password}" />

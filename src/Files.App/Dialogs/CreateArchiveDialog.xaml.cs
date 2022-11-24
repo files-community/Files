@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Foundation.Metadata;
@@ -56,7 +57,11 @@ namespace Files.App.Dialogs
 
 		private DialogViewModel ViewModel { get; } = new();
 
-		public CreateArchiveDialog() => InitializeComponent();
+		public CreateArchiveDialog()
+		{
+			InitializeComponent();
+			ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+		}
 
 		public new Task<ContentDialogResult> ShowAsync() => SetContentDialogRoot(this).ShowAsync().AsTask();
 
@@ -77,6 +82,7 @@ namespace Files.App.Dialogs
 		private void ContentDialog_Closing(ContentDialog _, ContentDialogClosingEventArgs e)
 		{
 			Closing -= ContentDialog_Closing;
+			ViewModel.PropertyChanged -= ViewModel_PropertyChanged;
 
 			if (e.Result is ContentDialogResult.Primary)
 				canCreate = true;
@@ -84,6 +90,12 @@ namespace Files.App.Dialogs
 
 		private void PasswordBox_Loading(FrameworkElement _, object e)
 			=> PasswordBox.Focus(FocusState.Programmatic);
+
+		private void ViewModel_PropertyChanged(object? _, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName is nameof(DialogViewModel.UseEncryption) && ViewModel.UseEncryption)
+				PasswordBox.Focus(FocusState.Programmatic);
+		}
 
 		private class DialogViewModel : ObservableObject
 		{
