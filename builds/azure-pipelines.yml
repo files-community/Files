@@ -91,36 +91,36 @@ steps:
     command: 'build'
     arguments: './tests/Files.InteractionTests/Files.InteractionTests.csproj --configuration $(buildConfiguration)'
 
-#- task: PowerShell@2
-#  inputs:
-#    targetType: 'inline'
-#    script: |
-#      # Find correct folder and run app install script.
-#      cd $(appxPackageDir)
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      # Find correct folder and run app install script.
+      cd $(appxPackageDir)
 
-#      $AppBundle = Get-ChildItem -Filter Files*Test -Name
-#      echo $AppBundle
-#      cd $AppBundle
-#      ./Install.ps1 -Force
-#      Get-AppxPackage
-#    errorActionPreference: 'continue'
-#    failOnStderr: true
-#    workingDirectory: '$(System.DefaultWorkingDirectory)'
+      $AppBundle = Get-ChildItem -Filter Files*Test -Name
+      echo $AppBundle
+      cd $AppBundle
+      ./Install.ps1 -Force
+      Get-AppxPackage
+    errorActionPreference: 'continue'
+    failOnStderr: true
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
 
 
-#- task: Windows Application Driver@0
-#  inputs:
-#    OperationType: 'Start'
-#    AgentResolution: '1080p'
+- task: Windows Application Driver@0
+  inputs:
+    OperationType: 'Start'
+    AgentResolution: '1080p'
 
-#- task: VSTest@2
-#  inputs:
-#    testSelector: 'testAssemblies'
-#    testAssemblyVer2: |
-#      **\$(buildConfiguration)\Files.InteractionTests\net7.0\Files.InteractionTests.dll
-#      !**\*TestAdapter.dll
-#      !**\obj\**
-#    searchFolder: '$(System.DefaultWorkingDirectory)'
+- task: VSTest@2
+  inputs:
+    testSelector: 'testAssemblies'
+    testAssemblyVer2: |
+      **\$(buildConfiguration)\Files.InteractionTests\net7.0\Files.InteractionTests.dll
+      !**\*TestAdapter.dll
+      !**\obj\**
+    searchFolder: '$(System.DefaultWorkingDirectory)'
 
 - task: CopyFiles@2
   displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
