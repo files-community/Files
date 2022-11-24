@@ -1,4 +1,4 @@
-﻿ <ContentDialog
+﻿<ContentDialog
 	x:Class="Files.App.Dialogs.CreateArchiveDialog"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -73,7 +73,7 @@
 				x:Name="FileFormatSelector"
 				Grid.Row="0"
 				Grid.Column="1"
-				Width="140"
+				MinWidth="140"
 				ItemsSource="{x:Bind ViewModel.FileFormats}"
 				SelectedItem="{x:Bind ViewModel.FileFormat, Mode=TwoWay}"
 				SelectedValuePath="Key">
@@ -94,7 +94,7 @@
 				x:Name="CompressionLevelSelector"
 				Grid.Row="1"
 				Grid.Column="1"
-				Width="140"
+				MinWidth="140"
 				HorizontalAlignment="Right"
 				DisplayMemberPath="Label"
 				ItemsSource="{x:Bind ViewModel.CompressionLevels}"
@@ -111,13 +111,22 @@
 				x:Name="SplittingSizeSelector"
 				Grid.Row="2"
 				Grid.Column="1"
-				Width="140"
+				MinWidth="140"
 				HorizontalAlignment="Right"
-				DisplayMemberPath="Label"
 				IsEnabled="{x:Bind ViewModel.CanSplit, Mode=OneWay}"
 				ItemsSource="{x:Bind ViewModel.SplittingSizes}"
 				SelectedItem="{x:Bind ViewModel.SplittingSize, Mode=TwoWay}"
-				SelectedValuePath="Key" />
+				SelectedValuePath="Key">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Horizontal" Spacing="4">
+							<TextBlock Text="{Binding Label}" />
+							<TextBlock Text="{Binding Separator}" Visibility="{Binding IsDropDownOpen, ElementName=SplittingSizeSelector}" />
+							<TextBlock Text="{Binding Description}" Visibility="{Binding IsDropDownOpen, ElementName=SplittingSizeSelector}" />
+						</StackPanel>
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
 		</Grid>
 
 		<!--  Encryption Options  -->
@@ -139,8 +148,8 @@
 						x:Name="PasswordBox"
 						Grid.Column="1"
 						Width="260"
-						Loading="PasswordBox_Loading"
 						IsPasswordRevealButtonEnabled="True"
+						Loading="PasswordBox_Loading"
 						Password="{x:Bind ViewModel.Password, Mode=TwoWay}"
 						PasswordRevealMode="Peek"
 						PlaceholderText="{helpers:ResourceString Name=Password}" />

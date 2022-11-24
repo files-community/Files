@@ -176,14 +176,14 @@ namespace Files.App.Dialogs
 				new(ArchiveSplittingSizes.None, "Do not split".GetLocalizedResource()),
 				new(ArchiveSplittingSizes.Mo10, ToSizeText(10)),
 				new(ArchiveSplittingSizes.Mo100, ToSizeText(100)),
-				new(ArchiveSplittingSizes.Cd650, ToSizeText(650, "CD".GetLocalizedResource())),
-				new(ArchiveSplittingSizes.Cd700, ToSizeText(700, "CD".GetLocalizedResource())),
+				new(ArchiveSplittingSizes.Cd650, ToSizeText(650), "CD".GetLocalizedResource()),
+				new(ArchiveSplittingSizes.Cd700, ToSizeText(700), "CD".GetLocalizedResource()),
 				new(ArchiveSplittingSizes.Mo1024, ToSizeText(1024)),
-				new(ArchiveSplittingSizes.Fat4092, ToSizeText(4092, "FAT".GetLocalizedResource())),
-				new(ArchiveSplittingSizes.Dvd4480, ToSizeText(4480, "DVD".GetLocalizedResource())),
+				new(ArchiveSplittingSizes.Fat4092, ToSizeText(4092), "FAT".GetLocalizedResource()),
+				new(ArchiveSplittingSizes.Dvd4480, ToSizeText(4480), "DVD".GetLocalizedResource()),
 				new(ArchiveSplittingSizes.Mo5120, ToSizeText(5120)),
-				new(ArchiveSplittingSizes.Dvd8128, ToSizeText(8128, "DVD".GetLocalizedResource())),
-				new(ArchiveSplittingSizes.Bd23040, ToSizeText(23040, "Bluray".GetLocalizedResource())),
+				new(ArchiveSplittingSizes.Dvd8128, ToSizeText(8128), "DVD".GetLocalizedResource()),
+				new(ArchiveSplittingSizes.Bd23040, ToSizeText(23040), "Bluray".GetLocalizedResource()),
 			}.ToImmutableList();
 
 			public DialogViewModel()
@@ -193,12 +193,16 @@ namespace Files.App.Dialogs
 				splittingSize = SplittingSizes.First(size => size.Key is ArchiveSplittingSizes.None);
 			}
 
-			private static string ToSizeText(ulong size) => ByteSize.FromMebiBytes(size).ShortString;
-			private static string ToSizeText(ulong size, string labelKey) => $"{ToSizeText(size)} - {labelKey}";
+			private static string ToSizeText(ulong megaBytes) => ByteSize.FromMebiBytes(megaBytes).ShortString;
 
 			public record FileFormatItem(ArchiveFormats Key, string Label);
+
 			public record CompressionLevelItem(ArchiveCompressionLevels Key, string Label);
-			public record SplittingSizeItem(ArchiveSplittingSizes Key, string Label);
+
+			public record SplittingSizeItem(ArchiveSplittingSizes Key, string Label, string Description = "")
+			{
+				public string Separator => string.IsNullOrEmpty(Description) ? string.Empty : "-";
+			}
 		}
 	}
 }
