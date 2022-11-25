@@ -67,9 +67,6 @@
     <Content Remove="Assets\FilesHome.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="Dialogs\CreateArchiveDialog.xaml" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="ByteSize" Version="2.1.1" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
     <PackageReference Include="FluentFTP" Version="42.0.2" />
@@ -122,10 +119,5 @@
     <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Markdown" />
     <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Media" />
     <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Primitives" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Dialogs\CreateArchiveDialog.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
   </ItemGroup>
 </Project>
