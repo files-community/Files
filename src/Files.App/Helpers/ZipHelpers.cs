@@ -113,8 +113,6 @@ namespace Files.App.Helpers
 					}
 				}
 
-				fileEntries.RemoveAll(file => file.FileName == dir);
-
 				if (cancellationToken.IsCancellationRequested) // Check if canceled
 					return;
 			}
