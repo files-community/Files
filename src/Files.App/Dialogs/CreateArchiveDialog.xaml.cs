@@ -159,10 +159,8 @@ namespace Files.App.Dialogs
 			{
 				new(ArchiveFormats.Zip, ".zip"),
 				new(ArchiveFormats.SevenZip, ".7z"),
-				new(ArchiveFormats.GZip, ".gz"),
-				new(ArchiveFormats.BZip2, ".bz2"),
 				new(ArchiveFormats.Tar, ".tar"),
-				new(ArchiveFormats.XZ, ".xz"),
+				new(ArchiveFormats.GZip, ".gz"),
 			}.ToImmutableList();
 
 			public IImmutableList<CompressionLevelItem> CompressionLevels { get; } = new List<CompressionLevelItem>
