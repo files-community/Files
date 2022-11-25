@@ -98,7 +98,7 @@ namespace Files.App.Filesystem.Archive
 			try
 			{
 				var files = sources.Where(source => File.Exists(source)).ToArray();
-				var directories = sources.Where(source => System.IO.Directory.Exists(source)).ToArray();
+				var directories = sources.Where(source => System.IO.Directory.Exists(source));
 
 				foreach (string directory in directories)
 				{
