@@ -4,5 +4,9 @@
 	{
 		Zip,
 		SevenZip,
+		GZip,
+		BZip2,
+		Tar,
+		XZ,
 	}
 }

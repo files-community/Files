@@ -30,12 +30,20 @@ namespace Files.App.Filesystem.Archive
 		{
 			ArchiveFormats.Zip => ".zip",
 			ArchiveFormats.SevenZip => ".7z",
+			ArchiveFormats.GZip => ".gz",
+			ArchiveFormats.BZip2 => ".bz2",
+			ArchiveFormats.Tar => ".tar",
+			ArchiveFormats.XZ => ".xz",
 			_ => throw new ArgumentOutOfRangeException(nameof(FileFormat)),
 		};
 		private OutArchiveFormat SevenZipArchiveFormat => FileFormat switch
 		{
 			ArchiveFormats.Zip => OutArchiveFormat.Zip,
 			ArchiveFormats.SevenZip => OutArchiveFormat.SevenZip,
+			ArchiveFormats.GZip => OutArchiveFormat.GZip,
+			ArchiveFormats.BZip2 => OutArchiveFormat.BZip2,
+			ArchiveFormats.Tar => OutArchiveFormat.Tar,
+			ArchiveFormats.XZ => OutArchiveFormat.XZ,
 			_ => throw new ArgumentOutOfRangeException(nameof(FileFormat)),
 		};
 		private CompressionLevel SevenZipCompressionLevel => CompressionLevel switch
