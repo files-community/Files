@@ -16,7 +16,6 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.System;
-using Files.App.ViewModels.Properties;
 
 namespace Files.App.Helpers
 {
@@ -249,16 +248,9 @@ namespace Files.App.Helpers
 
 			var opened = (FilesystemResult)false;
 			bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
-			bool isShortcut = path.EndsWith(".lnk", StringComparison.Ordinal) || path.EndsWith(".url", StringComparison.Ordinal); // Determine
+			bool IsShortcut = path.EndsWith(".lnk", StringComparison.Ordinal) || path.EndsWith(".url", StringComparison.Ordinal); // Determine
 
-			// Check for folder permission
-			if (!FolderHelpers.CheckFolderAccessWithWin32(path))
-			{
-				await DialogDisplayHelper.ShowDialogAsync(DynamicDialogFactory.GetFor_FolderNoPermission());
-				return (FilesystemResult)false;
-			}
-
-			if (isShortcut)
+			if (IsShortcut)
 			{
 				if (string.IsNullOrEmpty(shortcutInfo.TargetPath))
 				{

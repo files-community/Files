@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Windows.System;
 using CommunityToolkit.WinUI;
 using Files.App.Dialogs;
 using Files.App.Extensions;
@@ -10,6 +6,10 @@ using Files.App.ViewModels.Dialogs;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
 using Microsoft.UI.Xaml.Controls;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Windows.System;
 
 namespace Files.App.Helpers
 {
@@ -55,18 +55,6 @@ namespace Files.App.Helpers
 			return dialog;
 		}
 
-        public static DynamicDialog GetFor_FolderNoPermission()
-        {
-            DynamicDialog dialog = new(new DynamicDialogViewModel
-            {
-                TitleText = "AccessDenied".GetLocalizedResource(),
-                SubtitleText = "AccessDeniedToFolder".GetLocalizedResource(),
-                PrimaryButtonText = "Close".GetLocalizedResource(),
-                DynamicButtons = DynamicDialogButtons.Primary
-            });
-            return dialog;
-        }
-        
 		public static DynamicDialog GetFor_RenameDialog()
 		{
 			DynamicDialog dialog = null;
