@@ -13,6 +13,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Navigation;
 using System;
+using System.Linq;
 using System.Threading;
 using Windows.Foundation.Metadata;
 using Windows.Graphics;
@@ -95,31 +96,23 @@ namespace Files.App.Views
 			 This code calculates the sum of all the visible tabs' widths.
 			 If a tab is visible and its width is 0, it is shown in the overflow menu. In this case we add the overflow's size to the total.
 			 */
-			int navigationViewWidth = 0;
-			bool overflowAdded = false;
-			foreach (NavigationViewItem item in NavigationView.MenuItems)
-			{
-				if (item.Visibility == Visibility.Visible)
-				{
-					if (item.ActualWidth != 0)
-					{
-						navigationViewWidth += (int)item.ActualWidth;
-					}
-					else if (!overflowAdded)
-					{
-						navigationViewWidth += (int)item.CompactPaneLength;
-						overflowAdded = true;
-					}
-				}
-			}
+			int navigationViewWidth = (int)NavigationView.MenuItems.Cast<NavigationViewItem>()
+				.Where(item => item.Visibility == Visibility.Visible)
+				.GroupBy(item => item.ActualWidth != 0)
+				.Select(group => group.Key ? group.Select(item => item.ActualWidth).Sum() : group.First().CompactPaneLength)
+				.Sum();
+
+			var scaleAdjustment = XamlRoot.RasterizationScale;
+			int x = (int)(navigationViewWidth * scaleAdjustment);
+			var y = 0;
+			var width = (int)((TitlebarArea.ActualWidth - navigationViewWidth) * scaleAdjustment);
+			var height = (int)(TitlebarArea.ActualHeight * scaleAdjustment);
 
 			// Sets properties window drag region.
 			appWindow.TitleBar.SetDragRectangles(new RectInt32[]
 			{
-				// This area is over the top margin of NavigationView.
-				new RectInt32(0, 0, navigationViewWidth, (int)NavigationView.ActualOffset.Y),
 				// This area is on the right of NavigationView and stretches for all the remaining space.
-				new RectInt32(navigationViewWidth, 0, (int)(TitleBarDragArea.ActualSize.X - navigationViewWidth), (int)TitleBarDragArea.ActualSize.Y)
+				new RectInt32(x, y, width, height)
 			});
 		}
 
