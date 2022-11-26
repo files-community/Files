@@ -361,7 +361,7 @@ namespace Files.App.Views.LayoutModes
 				if (IsItemSelected && SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
 					ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
 				else
-					NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+					_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
 
 				e.Handled = true;
 			}
@@ -399,20 +399,21 @@ namespace Files.App.Views.LayoutModes
 			}
 			else if (e.Key == VirtualKey.Left) // Left arrow: select parent folder (previous column)
 			{
-				if (!IsRenamingItem && !ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
-				{
-					if ((ParentShellPageInstance as ColumnShellPage)?.ColumnParams.Column > 0)
-						FocusManager.TryMoveFocus(FocusNavigationDirection.Previous);
-					e.Handled = true;
-				}
+				if (IsRenamingItem || (ParentShellPageInstance is not null && ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled) )
+					return;
+
+				var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
+				this.FindAscendant<ColumnViewBrowser>()?.MoveFocusToPreviousBlade(currentBladeIndex);
+				e.Handled = true;
 			}
 			else if (e.Key == VirtualKey.Right) // Right arrow: switch focus to next column
 			{
-				if (!IsRenamingItem && !ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
-				{
-					FocusManager.TryMoveFocus(FocusNavigationDirection.Next);
-					e.Handled = true;
-				}
+				if (IsRenamingItem || (ParentShellPageInstance is not null && ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)) 
+					return;
+
+				var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
+				this.FindAscendant<ColumnViewBrowser>()?.MoveFocusToNextBlade(currentBladeIndex + 1);
+				e.Handled = true;
 			}
 		}
 
@@ -429,7 +430,7 @@ namespace Files.App.Views.LayoutModes
 
 			if
 			(
-				Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Enter) == CoreVirtualKeyStates.Down ||
+				InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Enter) == CoreVirtualKeyStates.Down ||
 				focusedElement is Button ||
 				focusedElement is TextBox ||
 				focusedElement is PasswordBox ||
@@ -450,15 +451,11 @@ namespace Files.App.Views.LayoutModes
 				{
 					case StorageItemTypes.File:
 						if (!UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
-						{
-							NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
-						}
+							_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
 						break;
 					case StorageItemTypes.Folder:
 						if (!UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
-						{
 							ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
-						}
 						break;
 					default:
 						ParentShellPageInstance.Up_Click();
@@ -511,7 +508,7 @@ namespace Files.App.Views.LayoutModes
 				&& (UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File))
 			{
 				ResetRenameDoubleClick();
-				NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
 			}
 			else
 			{

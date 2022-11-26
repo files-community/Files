@@ -30,14 +30,9 @@ namespace Files.App.Helpers
 			{
 				var savedTheme = ApplicationData.Current.LocalSettings.Values[selectedAppThemeKey]?.ToString();
 
-				if (!string.IsNullOrEmpty(savedTheme))
-				{
-					return EnumExtensions.GetEnum<ElementTheme>(savedTheme);
-				}
-				else
-				{
-					return ElementTheme.Default;
-				}
+				return !string.IsNullOrEmpty(savedTheme)
+					? EnumExtensions.GetEnum<ElementTheme>(savedTheme)
+					: ElementTheme.Default;
 			}
 			set
 			{

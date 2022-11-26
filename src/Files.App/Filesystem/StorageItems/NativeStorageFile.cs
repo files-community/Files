@@ -36,7 +36,7 @@ namespace Files.App.Filesystem.StorageItems
 			{
 				var itemType = "ItemTypeFile".GetLocalizedResource();
 
-				if (Name.Contains(".", StringComparison.Ordinal))
+				if (Name.Contains('.', StringComparison.Ordinal))
 					itemType = IO.Path.GetExtension(Name).Trim('.') + " " + itemType;
 
 				return itemType;
@@ -147,13 +147,10 @@ namespace Files.App.Filesystem.StorageItems
 		{
 			return AsyncInfo.Run<BaseStorageFile>(async (cancellationToken) =>
 			{
-				if (NativeStorageFile.IsNativePath(path))
+				if (IsNativePath(path) && CheckAccess(path))
 				{
-					if (CheckAccess(path))
-					{
-						var name = IO.Path.GetFileName(path);
-						return new NativeStorageFile(path, name.Substring(name.LastIndexOf(":") + 1), DateTime.Now);
-					}
+					var name = IO.Path.GetFileName(path);
+					return new NativeStorageFile(path, name.Substring(name.LastIndexOf(":") + 1), DateTime.Now);
 				}
 				return null;
 			});

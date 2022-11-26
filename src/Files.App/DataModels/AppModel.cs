@@ -28,14 +28,7 @@ namespace Files.App.DataModels
 			try
 			{
 				DataPackageView packageView = Clipboard.GetContent();
-				if (packageView.Contains(StandardDataFormats.StorageItems) || packageView.Contains(StandardDataFormats.Bitmap))
-				{
-					IsPasteEnabled = true;
-				}
-				else
-				{
-					IsPasteEnabled = false;
-				}
+				IsPasteEnabled = packageView.Contains(StandardDataFormats.StorageItems) || packageView.Contains(StandardDataFormats.Bitmap);
 			}
 			catch
 			{
@@ -107,16 +100,9 @@ namespace Files.App.DataModels
 			var rawVersion = ulong.Parse(AnalyticsInfo.VersionInfo.DeviceFamilyVersion);
 			var currentVersion = new Version((int)((rawVersion & 0xFFFF000000000000) >> 48), (int)((rawVersion & 0x0000FFFF00000000) >> 32), (int)((rawVersion & 0x00000000FFFF0000) >> 16), (int)(rawVersion & 0x000000000000FFFF));
 			var newIconsMinVersion = new Version(10, 0, 21327, 1000);
-			bool isRunningNewIconsVersion = currentVersion >= newIconsMinVersion;
+			bool isWindows11 = currentVersion >= newIconsMinVersion;
 
-			if (isRunningNewIconsVersion)
-			{
-				SymbolFontFamily = new FontFamily("Segoe Fluent Icons");
-			}
-			else
-			{
-				SymbolFontFamily = new FontFamily("Segoe MDL2 Assets");
-			}
+			SymbolFontFamily = (isWindows11) ? new FontFamily("Segoe Fluent Icons") : new FontFamily("Segoe MDL2 Assets");
 		}
 	}
 }

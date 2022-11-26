@@ -13,6 +13,7 @@
 	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
 	xmlns:uc="using:Files.App.UserControls"
 	x:Name="NavToolbar"
+	Loading="NavToolbar_Loading"
 	Height="50"
 	d:DesignHeight="50"
 	d:DesignWidth="800"
@@ -492,9 +493,6 @@
 				LostFocus="SearchRegion_LostFocus"
 				SearchBoxViewModel="{x:Bind ViewModel.SearchBoxViewModel, Mode=OneWay}"
 				Visibility="{x:Bind converters:MultiBooleanConverter.OrConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}">
-				<uc:SearchBox.KeyboardAccelerators>
-					<KeyboardAccelerator Key="Escape" Invoked="SearchBox_Escaped" />
-				</uc:SearchBox.KeyboardAccelerators>
 			</uc:SearchBox>
 
 			<StackPanel Grid.Column="3" Orientation="Horizontal">

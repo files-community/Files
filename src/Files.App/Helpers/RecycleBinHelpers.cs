@@ -41,9 +41,7 @@ namespace Files.App.Helpers
 
 		public bool IsPathUnderRecycleBin(string path)
 		{
-			if (string.IsNullOrWhiteSpace(path))
-				return false;
-			return recycleBinPathRegex.IsMatch(path);
+			return !string.IsNullOrWhiteSpace(path) && recycleBinPathRegex.IsMatch(path);
 		}
 
 		public static async Task S_EmptyRecycleBin()
@@ -154,7 +152,7 @@ namespace Files.App.Helpers
 			if (string.IsNullOrEmpty(path) || path.StartsWith(@"\\?\", StringComparison.Ordinal))
 				return false;
 
-			var result = await FileOperationsHelpers.TestRecycleAsync(path.Split("|"));
+			var result = await FileOperationsHelpers.TestRecycleAsync(path.Split('|'));
 
 			return result.Item1 &= result.Item2 is not null && result.Item2.Items.All(x => x.Succeeded);
 		}
