@@ -723,7 +723,7 @@ namespace Files.App.Filesystem
 			return false;
 		}
 
-		private Task<DialogResult> GetFileInUseDialog(IEnumerable<string> source, List<Win32Process> lockingProcess = null)
+		private Task<DialogResult> GetFileInUseDialog(IEnumerable<string> source, IEnumerable<Win32Process> lockingProcess = null)
 		{
 			var titleText = "FileInUseDialog/Title".GetLocalizedResource();
 			var subtitleText = lockingProcess.IsEmpty() ? "FileInUseDialog/Text".GetLocalizedResource() :
@@ -760,8 +760,8 @@ namespace Files.App.Filesystem
 			return await dialogService.ShowDialogAsync(dialogViewModel);
 		}
 
-		private List<Win32Process> WhoIsLocking(IEnumerable<string> filesToCheck)
-			=> FileOperationsHelpers.CheckFileInUse(filesToCheck.ToArray()).ToList();
+		private IEnumerable<Win32Process> WhoIsLocking(IEnumerable<string> filesToCheck)
+			=> FileOperationsHelpers.CheckFileInUse(filesToCheck.ToArray());
 
 		#region IDisposable
 
