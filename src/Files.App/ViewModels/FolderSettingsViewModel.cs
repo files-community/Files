@@ -20,10 +20,10 @@ namespace Files.App.ViewModels
 	public class FolderSettingsViewModel : ObservableObject
 	{
 		public static string LayoutSettingsDbPath => IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, "user_settings.db");
-		public static LayoutPrefsDb GetDbInstance()
-		{
-			return new LayoutPrefsDb(LayoutSettingsDbPath);
-		}
+
+		private static readonly Lazy<LayoutPrefsDb> dbInstance = new(() => new LayoutPrefsDb(LayoutSettingsDbPath, true));
+
+		public static LayoutPrefsDb GetDbInstance() => dbInstance.Value;
 
 		public event EventHandler<LayoutPreferenceEventArgs>? LayoutPreferencesUpdateRequired;
 
@@ -364,7 +364,8 @@ namespace Files.App.ViewModels
 		{
 			if (string.IsNullOrEmpty(folderPath))
 				return null;
-			using var dbInstance = GetDbInstance();
+
+			var dbInstance = GetDbInstance();
 			return dbInstance.GetPreferences(folderPath, frn);
 		}
 
@@ -388,7 +389,7 @@ namespace Files.App.ViewModels
 			if (string.IsNullOrEmpty(folderPath))
 				return;
 
-			using var dbInstance = GetDbInstance();
+			var dbInstance = GetDbInstance();
 			if (dbInstance.GetPreferences(folderPath, frn) is null)
 			{
 				if (LayoutPreferences.DefaultLayoutPreferences.Equals(prefs))
