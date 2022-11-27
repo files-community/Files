@@ -2,6 +2,8 @@ using Files.Shared.Extensions;
 using LiteDB;
 using System;
 using System.Linq;
+using System.Text;
+using IO = System.IO;
 
 namespace Files.App.Helpers.LayoutPreferences
 {
@@ -11,6 +13,7 @@ namespace Files.App.Helpers.LayoutPreferences
 
 		public LayoutPrefsDb(string connection, bool shared = false)
 		{
+			SafetyExtensions.IgnoreExceptions(() => CheckDbVersion(connection));
 			db = new LiteDatabase(new ConnectionString(connection)
 			{
 				Mode = shared ? LiteDB.FileMode.Shared : LiteDB.FileMode.Exclusive
@@ -138,6 +141,25 @@ namespace Files.App.Helpers.LayoutPreferences
 		public string Export()
 		{
 			return JsonSerializer.Serialize(new BsonArray(db.GetCollection("layoutprefs").FindAll()));
+		}
+
+		// https://github.com/mbdavid/LiteDB/blob/master/LiteDB/Engine/Engine/Upgrade.cs
+		private void CheckDbVersion(string filename)
+		{
+			var buffer = new byte[8192 * 2];
+			using (var stream = new IO.FileStream(filename, IO.FileMode.Open, IO.FileAccess.Read, IO.FileShare.ReadWrite))
+			{
+				// read first 16k
+				stream.Read(buffer, 0, buffer.Length);
+
+				// checks if v7 (plain or encrypted)
+				if (Encoding.UTF8.GetString(buffer, 25, "** This is a LiteDB file **".Length) == "** This is a LiteDB file **" &&
+					buffer[52] == 7)
+				{
+					return; // version 4.1.4
+				}
+			}
+			IO.File.Delete(filename); // recreate DB with correct version
 		}
 
 		public class LayoutDbPrefs
