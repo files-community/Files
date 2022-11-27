@@ -1,13 +1,11 @@
 using Common;
 using Files.App.Filesystem.StorageItems;
+using Files.App.Helpers;
 using Files.App.Shell;
 using Files.Shared.Extensions;
 using System;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
-using Vanara.PInvoke;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using IO = System.IO;
@@ -18,76 +16,45 @@ namespace Files.App.Filesystem
 	{
 		public static string FileTagsDbPath => IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, "filetags.db");
 
-		public static FileTagsDb GetDbInstance()
-		{
-			return new FileTagsDb(FileTagsDbPath);
-		}
+		private static readonly Lazy<FileTagsDb> dbInstance = new(() => new FileTagsDb(FileTagsDbPath, true));
+
+		public static FileTagsDb GetDbInstance() => dbInstance.Value;
 
 		public static string[] ReadFileTag(string filePath)
 		{
-			using var hStream = Kernel32.CreateFile($"{filePath}:files",
-				Kernel32.FileAccess.GENERIC_READ, 0, null, FileMode.Open, FileFlagsAndAttributes.FILE_FLAG_BACKUP_SEMANTICS, IntPtr.Zero);
-			if (hStream.IsInvalid)
-			{
-				return null;
-			}
-			var bytes = new byte[4096];
-			var ret = Kernel32.ReadFile(hStream, bytes, (uint)bytes.Length, out var read, IntPtr.Zero);
-			if (!ret)
-			{
-				return null;
-			}
-			var tagString = System.Text.Encoding.UTF8.GetString(bytes, 0, (int)read);
-			return tagString.Split(',');
+			var tagString = NativeFileOperationsHelper.ReadStringFromFile($"{filePath}:files");
+			return tagString?.Split(',');
 		}
 
-		public static bool WriteFileTag(string filePath, string[] tag)
+		public static void WriteFileTag(string filePath, string[] tag)
 		{
-			var dateOk = GetFileDateModified(filePath, out var dateModified); // Backup date modified
-			bool result = false;
+			var isDateOk = NativeFileOperationsHelper.GetFileDateModified(filePath, out var dateModified); // Backup date modified
+			var isReadOnly = NativeFileOperationsHelper.HasFileAttribute(filePath, IO.FileAttributes.ReadOnly);
+			if (isReadOnly) // Unset read-only attribute (#7534)
+			{
+				NativeFileOperationsHelper.UnsetFileAttribute(filePath, IO.FileAttributes.ReadOnly);
+			}
 			if (tag is null || !tag.Any())
 			{
-				result = Kernel32.DeleteFile($"{filePath}:files");
+				NativeFileOperationsHelper.DeleteFileFromApp($"{filePath}:files");
 			}
-			else
+			else if (ReadFileTag(filePath) is not string[] arr || !tag.SequenceEqual(arr))
 			{
-				using var hStream = Kernel32.CreateFile($"{filePath}:files",
-					Kernel32.FileAccess.GENERIC_WRITE, 0, null, FileMode.Create, FileFlagsAndAttributes.FILE_FLAG_BACKUP_SEMANTICS, IntPtr.Zero);
-				if (hStream.IsInvalid)
-				{
-					return false;
-				}
-				byte[] buff = System.Text.Encoding.UTF8.GetBytes(string.Join(',', tag));
-				result = Kernel32.WriteFile(hStream, buff, (uint)buff.Length, out var written, IntPtr.Zero);
+				NativeFileOperationsHelper.WriteStringToFile($"{filePath}:files", string.Join(',', tag));
 			}
-			if (dateOk)
+			if (isReadOnly) // Restore read-only attribute (#7534)
 			{
-				SetFileDateModified(filePath, dateModified); // Restore date modified
+				NativeFileOperationsHelper.SetFileAttribute(filePath, IO.FileAttributes.ReadOnly);
 			}
-			return result;
-		}
-
-		public static ulong? GetFileFRN(string filePath)
-		{
-			//using var si = new ShellItem(filePath);
-			//return (ulong?)si.Properties["System.FileFRN"]; // Leaves open file handles
-			using var hFile = Kernel32.CreateFile(filePath, Kernel32.FileAccess.GENERIC_READ, FileShare.ReadWrite, null, FileMode.Open, FileFlagsAndAttributes.FILE_FLAG_BACKUP_SEMANTICS);
-			if (hFile.IsInvalid)
+			if (isDateOk)
 			{
-				return null;
+				NativeFileOperationsHelper.SetFileDateModified(filePath, dateModified); // Restore date modified
 			}
-			ulong? frn = null;
-			SafetyExtensions.IgnoreExceptions(() =>
-			{
-				var fileID = Kernel32.GetFileInformationByHandleEx<Kernel32.FILE_ID_INFO>(hFile, Kernel32.FILE_INFO_BY_HANDLE_CLASS.FileIdInfo);
-				frn = BitConverter.ToUInt64(fileID.FileId.Identifier, 0);
-			});
-			return frn;
 		}
 
 		public static void UpdateTagsDb()
 		{
-			using var dbInstance = GetDbInstance();
+			var dbInstance = GetDbInstance();
 			foreach (var file in dbInstance.GetAll())
 			{
 				var pathFromFrn = Win32API.PathFromFileId(file.Frn ?? 0, file.FilePath);
@@ -128,17 +95,7 @@ namespace Files.App.Filesystem
 			}
 		}
 
-		private static bool GetFileDateModified(string filePath, out FILETIME dateModified)
-		{
-			using var hFile = Kernel32.CreateFile(filePath, Kernel32.FileAccess.GENERIC_READ, FileShare.Read, null, FileMode.Open, FileFlagsAndAttributes.FILE_FLAG_BACKUP_SEMANTICS);
-			return Kernel32.GetFileTime(hFile, out _, out _, out dateModified);
-		}
-
-		private static bool SetFileDateModified(string filePath, FILETIME dateModified)
-		{
-			using var hFile = Kernel32.CreateFile(filePath, Kernel32.FileAccess.FILE_WRITE_ATTRIBUTES, FileShare.None, null, FileMode.Open, FileFlagsAndAttributes.FILE_FLAG_BACKUP_SEMANTICS);
-			return Kernel32.SetFileTime(hFile, new(), new(), dateModified);
-		}
+		public static ulong? GetFileFRN(string filePath) => NativeFileOperationsHelper.GetFileFRN(filePath);
 
 		public static Task<ulong?> GetFileFRN(IStorageItem item)
 		{

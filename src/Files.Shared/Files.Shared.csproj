@@ -10,7 +10,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="LiteDB" Version="5.0.12" />
+    <!-- Do not update LiteDB to version 5 -->
+    <PackageReference Include="LiteDB" Version="4.1.4" />
     <PackageReference Include="System.Threading.Tasks.Dataflow" Version="7.0.0" />
   </ItemGroup>
 
