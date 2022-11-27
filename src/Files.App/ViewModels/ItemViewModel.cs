@@ -983,10 +983,8 @@ namespace Files.App.ViewModels
 
 		private static void SetFileTag(ListedItem item)
 		{
-			using (var dbInstance = FileTagsHelper.GetDbInstance())
-			{
-				dbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
-			}
+			var dbInstance = FileTagsHelper.GetDbInstance();
+			dbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
 		}
 
 		// This works for recycle bin as well as GetFileFromPathAsync/GetFolderFromPathAsync work
