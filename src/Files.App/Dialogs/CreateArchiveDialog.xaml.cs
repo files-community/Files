@@ -198,11 +198,11 @@ namespace Files.App.Dialogs
 			public record FileFormatItem(ArchiveFormats Key, string Label);
 
 			public record CompressionLevelItem(ArchiveCompressionLevels Key, string Label);
-
-			public record SplittingSizeItem(ArchiveSplittingSizes Key, string Label, string Description = "")
-			{
-				public string Separator => string.IsNullOrEmpty(Description) ? string.Empty : "-";
-			}
 		}
+	}
+
+	internal record SplittingSizeItem(ArchiveSplittingSizes Key, string Label, string Description = "")
+	{
+		public string Separator => string.IsNullOrEmpty(Description) ? string.Empty : "-";
 	}
 }
