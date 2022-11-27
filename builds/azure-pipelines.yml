@@ -75,7 +75,7 @@ steps:
     platform: 'x64'
     solution: '**/*.sln'
     configuration: '$(buildConfiguration)'
-    msbuildArguments: '/t:restore /p:RestorePackagesConfig=true;Configuration=Debug;Platform="$(buildPlatform)";PublishReadyToRun=true'
+    msbuildArguments: '/t:restore /p:Configuration=Debug;Platform="$(buildPlatform)";PublishReadyToRun=true'
     maximumCpuCount: true
 
 - task: MSBuild@1
