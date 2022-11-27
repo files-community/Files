@@ -1,15 +1,18 @@
-using Files.Backend.Services.Settings;
-using Files.App.Filesystem;
-using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers;
-using Files.App.Extensions;
-using Files.Shared.Extensions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.Helpers;
+using Files.App.Extensions;
+using Files.App.Filesystem;
+using Files.App.Filesystem.StorageItems;
+using Files.App.Helpers;
+using Files.Backend.Services.Settings;
+using Files.Shared.Extensions;
+using Microsoft.UI.Xaml.Controls;
+using SevenZip;
 using System;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel;
@@ -17,9 +20,6 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;
-using Microsoft.UI.Xaml.Controls;
-using System.Text;
-using SevenZip;
 
 namespace Files.App.ViewModels.SettingsViewModels
 {
@@ -212,12 +212,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				"ReleaseNotes" => Constants.GitHub.ReleaseNotesUrl,
 				_ => null,
 			};
-			if (uri is not null)
-			{
-				return Launcher.LaunchUriAsync(new Uri(uri)).AsTask();
-			}
-
-			return Task.CompletedTask;
+			return uri is not null ? Launcher.LaunchUriAsync(new Uri(uri)).AsTask() : Task.CompletedTask;
 		}
 	}
 }

@@ -1,20 +1,18 @@
-using Files.Shared.Extensions;
-using Files.App.Helpers;
-using Files.Backend.Services.Settings;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
+using Files.App.Shell;
+using Files.Backend.Services.Settings;
+using Files.Shared.Extensions;
+using Microsoft.Win32;
 using System;
+using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
-using Files.App.Shell;
-using System.IO;
-using System.Diagnostics;
-using Microsoft.Win32;
 
 namespace Files.App.ViewModels.SettingsViewModels
 {

@@ -1,8 +1,8 @@
 ﻿using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Windows;
 using System;
-using System.IO;
 using System.Diagnostics;
+using System.IO;
 using System.Threading;
 
 namespace Files.InteractionTests
@@ -62,7 +62,7 @@ namespace Files.InteractionTests
 
 				int timeoutCount = 50;
 
-                tryInitializeSession();
+				tryInitializeSession();
 				if (_session is null)
 				{
 					// WinAppDriver is probably not running, so lets start it!
@@ -80,17 +80,17 @@ namespace Files.InteractionTests
 					}
 
 					Thread.Sleep(10000);
-                    tryInitializeSession();
+					tryInitializeSession();
 				}
 
-                while (_session is null && timeoutCount < 1000 * 4)
+				while (_session is null && timeoutCount < 1000 * 4)
 				{
-                    tryInitializeSession();
+					tryInitializeSession();
 					Thread.Sleep(timeoutCount);
 					timeoutCount *= 2;
 				}
 
-                Thread.Sleep(3000);
+				Thread.Sleep(3000);
 				Assert.IsNotNull(_session);
 				Assert.IsNotNull(_session.SessionId);
 

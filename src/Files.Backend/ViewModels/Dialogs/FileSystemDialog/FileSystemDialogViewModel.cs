@@ -1,5 +1,4 @@
-﻿using System;
-using CommunityToolkit.Mvvm.DependencyInjection;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Files.Backend.Extensions;
@@ -7,6 +6,7 @@ using Files.Backend.Messages;
 using Files.Backend.Services;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -137,29 +137,18 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 				// Subtitle text
 				if (conflictingItems.Count > 1)
 				{
-					if (nonConflictingItems.Count > 0)
-					{
-						// There are {0} conflicting file names, and {1} outgoing item(s)
-						descriptionText = string.Format("ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts".ToLocalized(), conflictingItems.Count, nonConflictingItems.Count);
-					}
-					else
-					{
-						// There are {0} conflicting file names
-						descriptionText = string.Format("ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts".ToLocalized(), conflictingItems.Count);
-					}
+					var descriptionLocalized = (nonConflictingItems.Count > 0)
+						? "ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts".ToLocalized() // There are {0} conflicting file names, and {1} outgoing item(s)
+						: "ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts".ToLocalized(); // There are {0} conflicting file names
+
+					descriptionText = string.Format(descriptionLocalized, conflictingItems.Count, nonConflictingItems.Count);
 				}
 				else
 				{
-					if (nonConflictingItems.Count > 0)
-					{
-						// There is one conflicting file name, and {0} outgoing item(s)
-						descriptionText = string.Format("ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts".ToLocalized(), nonConflictingItems.Count);
-					}
-					else
-					{
-						// There is one conflicting file name
-						descriptionText = string.Format("ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts".ToLocalized(), conflictingItems.Count);
-					}
+					descriptionText = (nonConflictingItems.Count > 0)
+						? string.Format(
+							"ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts".ToLocalized(), nonConflictingItems.Count) // There is one conflicting file name, and {0} outgoing item(s)
+						: string.Format("ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts".ToLocalized(), conflictingItems.Count); // There is one conflicting file name
 				}
 
 				titleText = "ConflictingItemsDialogTitle".ToLocalized();
@@ -173,7 +162,9 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 					case FilesystemOperationType.Copy:
 						{
 							titleText = "CopyItemsDialogTitle".ToLocalized();
-							descriptionText = nonConflictingItems.Count + conflictingItems.Count == 1 ? "CopyItemsDialogSubtitleSingle".ToLocalized() : string.Format("CopyItemsDialogSubtitleMultiple".ToLocalized(), nonConflictingItems.Count + conflictingItems.Count);
+							descriptionText = (nonConflictingItems.Count + conflictingItems.Count == 1)
+								? "CopyItemsDialogSubtitleSingle".ToLocalized()
+								: string.Format("CopyItemsDialogSubtitleMultiple".ToLocalized(), nonConflictingItems.Count + conflictingItems.Count);
 							primaryButtonText = "Copy".ToLocalized();
 							secondaryButtonText = "Cancel".ToLocalized();
 							break;
@@ -182,7 +173,9 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 					case FilesystemOperationType.Move:
 						{
 							titleText = "MoveItemsDialogTitle".ToLocalized();
-							descriptionText = nonConflictingItems.Count + conflictingItems.Count == 1 ? "MoveItemsDialogSubtitleSingle".ToLocalized() : string.Format("MoveItemsDialogSubtitleMultiple".ToLocalized(), nonConflictingItems.Count + conflictingItems.Count);
+							descriptionText = (nonConflictingItems.Count + conflictingItems.Count == 1)
+								? "MoveItemsDialogSubtitleSingle".ToLocalized()
+								: string.Format("MoveItemsDialogSubtitleMultiple".ToLocalized(), nonConflictingItems.Count + conflictingItems.Count);
 							primaryButtonText = "MoveItemsDialogPrimaryButtonText".ToLocalized();
 							secondaryButtonText = "Cancel".ToLocalized();
 							break;
@@ -191,7 +184,9 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 					case FilesystemOperationType.Delete:
 						{
 							titleText = "DeleteItemsDialogTitle".ToLocalized();
-							descriptionText = nonConflictingItems.Count + conflictingItems.Count == 1 ? "DeleteItemsDialogSubtitleSingle".ToLocalized() : string.Format("DeleteItemsDialogSubtitleMultiple".ToLocalized(), nonConflictingItems.Count);
+							descriptionText = (nonConflictingItems.Count + conflictingItems.Count == 1)
+								? "DeleteItemsDialogSubtitleSingle".ToLocalized()
+								: string.Format("DeleteItemsDialogSubtitleMultiple".ToLocalized(), nonConflictingItems.Count);
 							primaryButtonText = "Delete".ToLocalized();
 							secondaryButtonText = "Cancel".ToLocalized();
 							isInDeleteMode = true;

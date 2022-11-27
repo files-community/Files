@@ -1,11 +1,13 @@
-using Files.Shared;
-using Files.Shared.Enums;
-using Files.Shared.Extensions;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Extensions;
 using Files.App.Filesystem.FilesystemHistory;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
-using CommunityToolkit.WinUI;
+using Files.Backend.Services;
+using Files.Shared;
+using Files.Shared.Enums;
+using Files.Shared.Extensions;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,10 +16,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Microsoft.UI.Xaml.Controls;
 using FileAttributes = System.IO.FileAttributes;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Backend.Services;
 
 namespace Files.App.Filesystem
 {
@@ -113,11 +112,9 @@ namespace Files.App.Filesystem
 				}
 
 				errorCode?.Report(fsResult);
-				if (item is not null)
-				{
-					return (new StorageHistory(FileOperationType.CreateNew, item.CreateList(), null), item.Item);
-				}
-				return (null, null);
+				return item is not null 
+					? (new StorageHistory(FileOperationType.CreateNew, item.CreateList(), null), item.Item)
+					: (null, null);
 			}
 			catch (Exception e)
 			{
@@ -936,18 +933,9 @@ namespace Files.App.Filesystem
 			for (int i = 0; i < source.Count; i++)
 			{
 				if (token.IsCancellationRequested)
-				{
 					break;
-				}
 
-				if (recycleBinHelpers.IsPathUnderRecycleBin(source[i].Path))
-				{
-					permanently = true;
-				}
-				else
-				{
-					permanently = originalPermanently;
-				}
+				permanently = recycleBinHelpers.IsPathUnderRecycleBin(source[i].Path) || originalPermanently;
 
 				rawStorageHistory.Add(await DeleteAsync(source[i], null, errorCode, permanently, token));
 				progress?.Report(i / (float)source.Count * 100.0f);

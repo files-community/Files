@@ -1,3 +1,4 @@
+using Files.App.Shell;
 using Files.Shared;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,6 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
-using Files.App.Shell;
 
 namespace Files.App.Filesystem.StorageItems
 {
@@ -133,11 +133,7 @@ namespace Files.App.Filesystem.StorageItems
 			return AsyncInfo.Run(async (cancellationToken) =>
 			{
 				var res = await GetFolderAndItems(Path, false);
-				if (res.Folder is not null)
-				{
-					return new ShellFolderBasicProperties(res.Folder);
-				}
-				return new BaseBasicProperties();
+				return res.Folder is not null ? new ShellFolderBasicProperties(res.Folder) : new BaseBasicProperties();
 			});
 		}
 

@@ -103,6 +103,7 @@ namespace Files.App.ViewModels
 			set => SetProperty(ref sizeColumn, value);
 		}
 
+		[LiteDB.BsonIgnore]
 		public double TotalWidth => IconColumn.Length.Value + TagColumn.Length.Value + NameColumn.Length.Value + DateModifiedColumn.Length.Value + OriginalPathColumn.Length.Value
 			+ ItemTypeColumn.Length.Value + DateDeletedColumn.Length.Value + DateCreatedColumn.Length.Value + SizeColumn.Length.Value + StatusColumn.Length.Value;
 
@@ -228,6 +229,7 @@ namespace Files.App.ViewModels
 			}
 		}
 
+		[LiteDB.BsonIgnore]
 		public GridLength Length
 		{
 			get => IsHidden || UserCollapsed ? new GridLength(0) : UserLength;
@@ -235,6 +237,7 @@ namespace Files.App.ViewModels
 
 		private const int gridSplitterWidth = 8;
 
+		[LiteDB.BsonIgnore]
 		public GridLength LengthIncludingGridSplitter
 		{
 			get => IsHidden || UserCollapsed ? new GridLength(0) : new GridLength(UserLength.Value + (IsResizeable ? gridSplitterWidth : 0));
@@ -245,6 +248,7 @@ namespace Files.App.ViewModels
 
 		private GridLength userLength = new GridLength(200, GridUnitType.Pixel);
 
+		[LiteDB.BsonIgnore]
 		public GridLength UserLength
 		{
 			get => userLength;

@@ -1,5 +1,6 @@
 using Files.App.Helpers;
 using Files.App.ViewModels;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
@@ -7,8 +8,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.UserControls.MultitaskingControl
 {
@@ -153,20 +152,11 @@ namespace Files.App.UserControls.MultitaskingControl
 
 		public void SetLoadingIndicatorStatus(ITabItem item, bool loading)
 		{
-			var tabItem = ContainerFromItem(item) as Control;
-			if (tabItem is null)
-			{
+			if (ContainerFromItem(item) is not Control tabItem)
 				return;
-			}
 
-			if (loading)
-			{
-				VisualStateManager.GoToState(tabItem, "Loading", false);
-			}
-			else
-			{
-				VisualStateManager.GoToState(tabItem, "NotLoading", false);
-			}
+			var stateToGoName = (loading) ? "Loading" : "NotLoading";
+			VisualStateManager.GoToState(tabItem, stateToGoName, false);
 		}
 	}
 }

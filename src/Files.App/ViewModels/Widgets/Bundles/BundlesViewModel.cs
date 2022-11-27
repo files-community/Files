@@ -1,14 +1,17 @@
-using Files.App.Dialogs;
-using Files.Shared.Enums;
-using Files.App.EventArguments.Bundles;
-using Files.App.Filesystem;
-using Files.App.Helpers;
-using Files.Backend.Services.Settings;
-using Files.App.ViewModels.Dialogs;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
+using Files.App.Dialogs;
+using Files.App.EventArguments.Bundles;
 using Files.App.Extensions;
+using Files.App.Filesystem;
+using Files.App.Helpers;
+using Files.App.ViewModels.Dialogs;
+using Files.Backend.Services.Settings;
+using Files.Shared.Enums;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,9 +22,6 @@ using System.Windows.Input;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
 
 namespace Files.App.ViewModels.Widgets.Bundles
 {
@@ -373,60 +373,49 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
 		public async Task Load()
 		{
-			if (BundlesSettingsService.SavedBundles is not null)
-			{
-				Items.Clear();
-
-				// For every bundle in saved bundle collection:
-				foreach (var bundle in BundlesSettingsService.SavedBundles)
-				{
-					List<BundleItemViewModel> bundleItems = new List<BundleItemViewModel>();
-
-					// For every bundleItem in current bundle
-					foreach (var bundleItem in bundle.Value)
-					{
-						if (bundleItems.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle)
-						{
-							if (bundleItem is not null)
-							{
-								bundleItems.Add(new BundleItemViewModel(bundleItem, await StorageHelpers.GetTypeFromPath(bundleItem))
-								{
-									ParentBundleName = bundle.Key,
-									NotifyItemRemoved = NotifyBundleItemRemovedHandle,
-									OpenPath = OpenPathHandle,
-									OpenPathInNewPane = OpenPathInNewPaneHandle,
-								});
-							}
-						}
-					}
-
-					// Fill current bundle with collected bundle items
-					itemAddedInternally = true;
-					Items.Add(await new BundleContainerViewModel()
-					{
-						BundleName = bundle.Key,
-						NotifyItemRemoved = NotifyItemRemovedHandle,
-						NotifyBundleItemRemoved = NotifyBundleItemRemovedHandle,
-						OpenPath = OpenPathHandle,
-						OpenPathInNewPane = OpenPathInNewPaneHandle,
-					}.SetBundleItems(bundleItems));
-
-					itemAddedInternally = false;
-				}
-
-				if (Items.Count == 0)
-				{
-					NoBundlesAddItemLoad = true;
-				}
-				else
-				{
-					NoBundlesAddItemLoad = false;
-				}
-			}
-			else // Null, therefore no items :)
+			if (BundlesSettingsService.SavedBundles is null) // Null, therefore no items :)
 			{
 				NoBundlesAddItemLoad = true;
+				return;
 			}
+
+			Items.Clear();
+
+			// For every bundle in saved bundle collection:
+			foreach (var bundle in BundlesSettingsService.SavedBundles)
+			{
+				var bundleItems = new List<BundleItemViewModel>();
+
+				// For every bundleItem in current bundle
+				foreach (var bundleItem in bundle.Value)
+				{
+					if (bundleItems.Count >= Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle || bundleItem is null)
+						continue;
+
+					bundleItems.Add(new BundleItemViewModel(bundleItem, await StorageHelpers.GetTypeFromPath(bundleItem))
+					{
+						ParentBundleName = bundle.Key,
+						NotifyItemRemoved = NotifyBundleItemRemovedHandle,
+						OpenPath = OpenPathHandle,
+						OpenPathInNewPane = OpenPathInNewPaneHandle,
+					});
+				}
+
+				// Fill current bundle with collected bundle items
+				itemAddedInternally = true;
+				Items.Add(await new BundleContainerViewModel()
+				{
+					BundleName = bundle.Key,
+					NotifyItemRemoved = NotifyItemRemovedHandle,
+					NotifyBundleItemRemoved = NotifyBundleItemRemovedHandle,
+					OpenPath = OpenPathHandle,
+					OpenPathInNewPane = OpenPathInNewPaneHandle,
+				}.SetBundleItems(bundleItems));
+
+				itemAddedInternally = false;
+			}
+
+			NoBundlesAddItemLoad = Items.Count == 0;
 		}
 
 		public Task Initialize()

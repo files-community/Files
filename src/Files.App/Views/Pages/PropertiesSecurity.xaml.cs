@@ -11,9 +11,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
-using System.IO;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
 using Windows.Foundation.Metadata;
 using Windows.Graphics;
 using static Files.App.Views.PropertiesSecurityAdvanced;
@@ -53,11 +51,7 @@ namespace Files.App.Views
 
 		public async override Task<bool> SaveChangesAsync(ListedItem item)
 		{
-			if (SecurityProperties is not null)
-			{
-				return SecurityProperties.SetFilePermissions();
-			}
-			return true;
+			return SecurityProperties is null || SecurityProperties.SetFilePermissions();
 		}
 
 		protected override void Properties_Loaded(object sender, RoutedEventArgs e)
@@ -102,7 +96,7 @@ namespace Files.App.Views
 					var appWindow = propertiesWindow.AppWindow;
 
 					// Set icon
-					appWindow.SetIcon(FilePropertiesHelpers.GetFilesLogoPath());
+					appWindow.SetIcon(FilePropertiesHelpers.LogoPath);
 
 					// Set content
 					propertiesWindow.Content = frame;

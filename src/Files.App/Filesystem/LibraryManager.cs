@@ -1,9 +1,10 @@
+using Files.App.Dialogs;
+using Files.App.Extensions;
+using Files.App.Shell;
+using Files.App.ViewModels.Dialogs;
 using Files.Shared;
 using Files.Shared.Enums;
-using Files.App.Extensions;
-using Files.App.ViewModels.Dialogs;
-using Files.App.Dialogs;
-using Files.App.Shell;
+using Files.Shared.Extensions;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
@@ -11,15 +12,10 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.System;
-using Visibility = Microsoft.UI.Xaml.Visibility;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
-using Files.Shared.Extensions;
-using static Vanara.PInvoke.CM_PARTIAL_RESOURCE_DESCRIPTOR;
-using Windows.Foundation.Collections;
-using System.Text.Json;
-using Files.App.Helpers;
+using Windows.System;
+using Visibility = Microsoft.UI.Xaml.Visibility;
 
 namespace Files.App.Filesystem
 {

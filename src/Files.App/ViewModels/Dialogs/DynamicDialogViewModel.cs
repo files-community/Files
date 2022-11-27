@@ -1,14 +1,14 @@
-using Files.Shared.Enums;
-using Files.App.Helpers.XamlHelpers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Files.App.Helpers.XamlHelpers;
+using Files.Shared.Enums;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using System;
 using System.Diagnostics;
 using System.Windows.Input;
 using Windows.System;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
 
 namespace Files.App.ViewModels.Dialogs
 {
@@ -124,14 +124,7 @@ namespace Files.App.ViewModels.Dialogs
 			{
 				if (SetProperty(ref subtitleText, value))
 				{
-					if (!string.IsNullOrWhiteSpace(value))
-					{
-						SubtitleLoad = true;
-					}
-					else
-					{
-						SubtitleLoad = false;
-					}
+					SubtitleLoad = !string.IsNullOrWhiteSpace(value);
 				}
 			}
 		}
@@ -239,23 +232,8 @@ namespace Files.App.ViewModels.Dialogs
 						return;
 					}
 
-					if (!value.HasFlag(DynamicDialogButtons.Primary))
-					{
-						IsPrimaryButtonEnabled = false; // Hides this option
-					}
-					else
-					{
-						IsPrimaryButtonEnabled = true;
-					}
-
-					if (!value.HasFlag(DynamicDialogButtons.Secondary))
-					{
-						IsSecondaryButtonEnabled = false; // Hides this option
-					}
-					else
-					{
-						IsSecondaryButtonEnabled = true;
-					}
+					IsPrimaryButtonEnabled = value.HasFlag(DynamicDialogButtons.Primary); // Hides this option
+					IsSecondaryButtonEnabled = value.HasFlag(DynamicDialogButtons.Secondary); // Hides this option
 				}
 			}
 		}
@@ -420,13 +398,7 @@ namespace Files.App.ViewModels.Dialogs
 			};
 			DisplayControlOnLoaded = (vm, e) =>
 			{
-				Control control = (vm.DisplayControl as Control);
-
-				if (control is null)
-				{
-					control = DependencyObjectHelpers.FindChild<Control>(vm.DisplayControl as DependencyObject);
-				}
-
+				Control control = (vm.DisplayControl as Control) ?? DependencyObjectHelpers.FindChild<Control>(vm.DisplayControl as DependencyObject);
 				control?.Focus(FocusState.Programmatic);
 			};
 

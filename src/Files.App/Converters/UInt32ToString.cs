@@ -1,5 +1,5 @@
-using System;
 using Microsoft.UI.Xaml.Data;
+using System;
 
 namespace Files.App.Converters
 {
@@ -7,12 +7,7 @@ namespace Files.App.Converters
 	{
 		public object Convert(object value, Type targetType, object parameter, string language)
 		{
-			if (value is not null)
-			{
-				return value.ToString();
-			}
-
-			return "";
+			return value is not null ? value.ToString() : string.Empty;
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, string language)

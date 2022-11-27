@@ -1,6 +1,6 @@
 using CommunityToolkit.WinUI.UI;
-using System;
 using Microsoft.UI.Xaml.Data;
+using System;
 
 namespace Files.App.Converters
 {

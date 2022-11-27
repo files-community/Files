@@ -1,35 +1,35 @@
 #nullable disable warnings
 
-using Files.Shared;
+using CommunityToolkit.WinUI;
 using Files.App.Dialogs;
-using Files.Shared.Enums;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
+using Files.App.Shell;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Dialogs;
 using Files.App.Views;
-using CommunityToolkit.WinUI;
+using Files.Backend.Enums;
+using Files.Shared;
+using Files.Shared.Enums;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.System;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
-using Files.Backend.Enums;
-using Files.App.Shell;
 
 namespace Files.App.Interacts
 {
@@ -130,7 +130,7 @@ namespace Files.App.Interacts
 
 		public virtual void OpenItem(RoutedEventArgs e)
 		{
-			NavigationHelpers.OpenSelectedItems(associatedInstance, false);
+			_ = NavigationHelpers.OpenSelectedItems(associatedInstance, false);
 		}
 
 		public virtual void UnpinDirectoryFromFavorites(RoutedEventArgs e)
@@ -178,10 +178,7 @@ namespace Files.App.Interacts
 			await RecycleBinHelpers.S_DeleteItem(associatedInstance);
 		}
 
-		public virtual void ShowFolderProperties(RoutedEventArgs e)
-		{
-			SlimContentPage.ItemContextMenuFlyout.Closed += OpenProperties;
-		}
+		public virtual void ShowFolderProperties(RoutedEventArgs e) => ShowProperties(e);
 
 		public virtual void ShowProperties(RoutedEventArgs e)
 		{
@@ -242,7 +239,7 @@ namespace Files.App.Interacts
 
 		public virtual void OpenItemWithApplicationPicker(RoutedEventArgs e)
 		{
-			NavigationHelpers.OpenSelectedItems(associatedInstance, true);
+			_ = NavigationHelpers.OpenSelectedItems(associatedInstance, true);
 		}
 
 		public virtual async void OpenDirectoryInNewTab(RoutedEventArgs e)
@@ -329,7 +326,7 @@ namespace Files.App.Interacts
 				DataRequest dataRequest = args.Request;
 
 				/*dataRequest.Data.Properties.Title = "Data Shared From Files";
-                dataRequest.Data.Properties.Description = "The items you selected will be shared";*/
+				dataRequest.Data.Properties.Description = "The items you selected will be shared";*/
 
 				foreach (ListedItem item in SlimContentPage.SelectedItems)
 				{
@@ -634,13 +631,23 @@ namespace Files.App.Interacts
 			if (archive is null)
 				return;
 
+			var isArchiveEncrypted = await FilesystemTasks.Wrap(() => ZipHelpers.IsArchiveEncrypted(archive));
+			var password = string.Empty;
+
 			DecompressArchiveDialog decompressArchiveDialog = new();
-			DecompressArchiveDialogViewModel decompressArchiveViewModel = new(archive);
+			DecompressArchiveDialogViewModel decompressArchiveViewModel = new(archive)
+			{
+				IsArchiveEncrypted = isArchiveEncrypted,
+				ShowPathSelection = true
+			};
 			decompressArchiveDialog.ViewModel = decompressArchiveViewModel;
 
 			ContentDialogResult option = await decompressArchiveDialog.TryShowAsync();
 			if (option != ContentDialogResult.Primary)
 				return;
+
+			if (isArchiveEncrypted)
+				password = Encoding.UTF8.GetString(decompressArchiveViewModel.Password);
 
 			// Check if archive still exists
 			if (!StorageHelpers.Exists(archive.Path))
@@ -655,7 +662,7 @@ namespace Files.App.Interacts
 				destinationFolder = await FilesystemTasks.Wrap(() => parentFolder.CreateFolderAsync(Path.GetFileName(destinationFolderPath), CreationCollisionOption.GenerateUniqueName).AsTask());
 			}
 
-			await ExtractArchive(archive, destinationFolder);
+			await ExtractArchive(archive, destinationFolder, password);
 
 			if (decompressArchiveViewModel.OpenDestinationFolderOnCompletion)
 				await NavigationHelpers.OpenPath(destinationFolderPath, associatedInstance, FilesystemItemType.Directory);
@@ -665,10 +672,27 @@ namespace Files.App.Interacts
 		{
 			foreach (var selectedItem in associatedInstance.SlimContentPage.SelectedItems)
 			{
+				var password = string.Empty;
 				BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(selectedItem.ItemPath);
 				BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
 
-				await ExtractArchive(archive, currentFolder);
+				if (await FilesystemTasks.Wrap(() => ZipHelpers.IsArchiveEncrypted(archive)))
+				{
+					DecompressArchiveDialog decompressArchiveDialog = new();
+					DecompressArchiveDialogViewModel decompressArchiveViewModel = new(archive)
+					{
+						IsArchiveEncrypted = true,
+						ShowPathSelection = false
+					};
+					decompressArchiveDialog.ViewModel = decompressArchiveViewModel;
+
+					ContentDialogResult option = await decompressArchiveDialog.TryShowAsync();
+					if (option != ContentDialogResult.Primary)
+						return;
+					password = Encoding.UTF8.GetString(decompressArchiveViewModel.Password);
+				}
+
+				await ExtractArchive(archive, currentFolder, password);
 			}
 		}
 
@@ -676,18 +700,35 @@ namespace Files.App.Interacts
 		{
 			foreach (var selectedItem in associatedInstance.SlimContentPage.SelectedItems)
 			{
+				var password = string.Empty;
 				BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(selectedItem.ItemPath);
 				BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
 				BaseStorageFolder destinationFolder = null;
 
+				if (await FilesystemTasks.Wrap(() => ZipHelpers.IsArchiveEncrypted(archive)))
+				{
+					DecompressArchiveDialog decompressArchiveDialog = new();
+					DecompressArchiveDialogViewModel decompressArchiveViewModel = new(archive)
+					{
+						IsArchiveEncrypted = true,
+						ShowPathSelection = false
+					};
+					decompressArchiveDialog.ViewModel = decompressArchiveViewModel;
+
+					ContentDialogResult option = await decompressArchiveDialog.TryShowAsync();
+					if (option != ContentDialogResult.Primary)
+						return;
+					password = Encoding.UTF8.GetString(decompressArchiveViewModel.Password);
+				}
+
 				if (currentFolder is not null)
 					destinationFolder = await FilesystemTasks.Wrap(() => currentFolder.CreateFolderAsync(Path.GetFileNameWithoutExtension(archive.Path), CreationCollisionOption.GenerateUniqueName).AsTask());
 
-				await ExtractArchive(archive, destinationFolder);
+				await ExtractArchive(archive, destinationFolder, password);
 			}
 		}
 
-		private static async Task ExtractArchive(BaseStorageFile archive, BaseStorageFolder destinationFolder)
+		private static async Task ExtractArchive(BaseStorageFile archive, BaseStorageFolder? destinationFolder, string password)
 		{
 			if (archive is null || destinationFolder is null)
 				return;
@@ -704,7 +745,7 @@ namespace Files.App.Interacts
 			Stopwatch sw = new();
 			sw.Start();
 
-			await FilesystemTasks.Wrap(() => ZipHelpers.ExtractArchive(archive, destinationFolder, banner.Progress, extractCancellation.Token));
+			await FilesystemTasks.Wrap(() => ZipHelpers.ExtractArchive(archive, destinationFolder, password, banner.Progress, extractCancellation.Token));
 
 			sw.Stop();
 			banner.Remove();

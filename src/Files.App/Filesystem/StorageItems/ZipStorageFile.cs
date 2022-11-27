@@ -1,5 +1,5 @@
-using Files.App.Helpers;
 using Files.App.Extensions;
+using Files.App.Helpers;
 using SevenZip;
 using System;
 using System.Collections.Generic;
@@ -32,7 +32,7 @@ namespace Files.App.Filesystem.StorageItems
 			get
 			{
 				var itemType = "ItemTypeFile".GetLocalizedResource();
-				if (Name.Contains(".", StringComparison.Ordinal))
+				if (Name.Contains('.', StringComparison.Ordinal))
 				{
 					itemType = FileType.Trim('.') + " " + itemType;
 				}
@@ -106,12 +106,7 @@ namespace Files.App.Filesystem.StorageItems
 					}
 
 					var file = NativeFileOperationsHelper.OpenFileForRead(containerPath, rw);
-					if (file.IsInvalid)
-					{
-						return null;
-					}
-
-					return new FileStream(file, rw ? FileAccess.ReadWrite : FileAccess.Read).AsRandomAccessStream();
+					return file.IsInvalid ? null : new FileStream(file, rw ? FileAccess.ReadWrite : FileAccess.Read).AsRandomAccessStream();
 				}
 
 				if (!rw)
@@ -156,12 +151,7 @@ namespace Files.App.Filesystem.StorageItems
 					}
 
 					var hFile = NativeFileOperationsHelper.OpenFileForRead(containerPath);
-					if (hFile.IsInvalid)
-					{
-						return null;
-					}
-
-					return new StreamWithContentType(new FileStream(hFile, FileAccess.Read).AsRandomAccessStream());
+					return hFile.IsInvalid ? null : new StreamWithContentType(new FileStream(hFile, FileAccess.Read).AsRandomAccessStream());
 				}
 
 				SevenZipExtractor zipFile = await OpenZipFileAsync();
@@ -200,12 +190,7 @@ namespace Files.App.Filesystem.StorageItems
 					}
 
 					var hFile = NativeFileOperationsHelper.OpenFileForRead(containerPath);
-					if (hFile.IsInvalid)
-					{
-						return null;
-					}
-
-					return new FileStream(hFile, FileAccess.Read).AsInputStream();
+					return hFile.IsInvalid ? null : new FileStream(hFile, FileAccess.Read).AsInputStream();
 				}
 
 				SevenZipExtractor zipFile = await OpenZipFileAsync();
@@ -532,7 +517,7 @@ namespace Files.App.Filesystem.StorageItems
 
 			public ZipFileBasicProperties(ArchiveFileInfo entry) => this.entry = entry;
 
-			public override DateTimeOffset DateModified => entry.CreationTime == DateTime.MinValue ? DateTimeOffset.MinValue : entry.CreationTime;
+			public override DateTimeOffset DateModified => entry.LastWriteTime == DateTime.MinValue ? DateTimeOffset.MinValue : entry.LastWriteTime;
 
 			public override DateTimeOffset ItemDate => entry.CreationTime == DateTime.MinValue ? DateTimeOffset.MinValue : entry.CreationTime;
 

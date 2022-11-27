@@ -1,18 +1,18 @@
-using Files.Shared.Extensions;
-using Files.App.Filesystem;
-using Files.App.Helpers;
-using Files.Backend.Services.Settings;
-using Files.App.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
+using Files.App.Filesystem;
+using Files.App.Helpers;
+using Files.App.Views;
+using Files.Backend.Services.Settings;
+using Files.Shared.Extensions;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage.FileProperties;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace Files.App.ViewModels.Widgets.Bundles
 {

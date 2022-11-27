@@ -3,7 +3,8 @@ using System;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.Foundation.Collections;
+using Windows.Foundation.Metadata;
+using Windows.System;
 
 namespace Files.App.Helpers
 {
@@ -248,17 +249,13 @@ namespace Files.App.Helpers
 		{
 			get
 			{
-				if (isHasThreadAccessPropertyPresent is null)
-				{
-					isHasThreadAccessPropertyPresent =
-						Windows.Foundation.Metadata.ApiInformation.IsPropertyPresent(typeof(Windows.System.DispatcherQueue).FullName, "HasThreadAccess");
-				}
+				isHasThreadAccessPropertyPresent ??= ApiInformation.IsPropertyPresent(typeof(DispatcherQueue).FullName,"HasThreadAccess");
 				return isHasThreadAccessPropertyPresent ?? false;
 			}
 		}
 
 		// https://www.travelneil.com/wndproc-in-uwp.html
-		[ComImport, Guid("45D64A29-A63E-4CB6-B498-5781D298CB4F")]
+		[ComImport, System.Runtime.InteropServices.Guid("45D64A29-A63E-4CB6-B498-5781D298CB4F")]
 		[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 		internal interface ICoreWindowInterop
 		{

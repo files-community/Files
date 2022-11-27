@@ -1,12 +1,11 @@
+using CommunityToolkit.WinUI;
 using Files.App.Extensions;
-using System;
+using Microsoft.UI;
+using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.ViewManagement;
-using Microsoft.UI.Xaml;
-using CommunityToolkit.WinUI;
-using Microsoft.UI;
-using Microsoft.UI.Windowing;
 
 namespace Files.App.Helpers
 {
@@ -31,14 +30,9 @@ namespace Files.App.Helpers
 			{
 				var savedTheme = ApplicationData.Current.LocalSettings.Values[selectedAppThemeKey]?.ToString();
 
-				if (!string.IsNullOrEmpty(savedTheme))
-				{
-					return EnumExtensions.GetEnum<ElementTheme>(savedTheme);
-				}
-				else
-				{
-					return ElementTheme.Default;
-				}
+				return !string.IsNullOrEmpty(savedTheme)
+					? EnumExtensions.GetEnum<ElementTheme>(savedTheme)
+					: ElementTheme.Default;
 			}
 			set
 			{

@@ -1,23 +1,14 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Files.App.DataModels;
-using Files.App.Helpers;
-using Files.Shared.Enums;
-using Files.Shared.Extensions;
 using Files.App.Extensions;
+using Files.App.Helpers;
 using System;
-using System.Collections.ObjectModel;
-using System.Linq;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.ApplicationModel.AppService;
-using Windows.Foundation.Collections;
-using Windows.Globalization;
 using Windows.Storage;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Files.App.ViewModels
 {

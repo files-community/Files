@@ -1,19 +1,19 @@
-using Files.App.Filesystem;
-using Files.Backend.Services.Settings;
-using Files.App.UserControls.MultitaskingControl;
-using Files.App.Views.LayoutModes;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Extensions;
+using Files.App.Filesystem;
+using Files.App.UserControls.MultitaskingControl;
+using Files.App.Views.LayoutModes;
+using Files.Backend.Services.Settings;
+using Files.Shared.EventArguments;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.System;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Navigation;
-using Files.Shared.EventArguments;
 
 namespace Files.App.Views
 {
@@ -49,10 +49,7 @@ namespace Files.App.Views
 
 		private bool windowIsCompact
 		{
-			get
-			{
-				return _windowIsCompact;
-			}
+			get => _windowIsCompact;
 			set
 			{
 				if (value != _windowIsCompact)
@@ -194,6 +191,8 @@ namespace Files.App.Views
 			}
 		}
 
+		public const VirtualKey PlusKey = (VirtualKey)187;
+
 		public PaneHolderPage()
 		{
 			this.InitializeComponent();
@@ -229,7 +228,7 @@ namespace Files.App.Views
 				NavParamsLeft = new NavigationParams { NavPath = navPath };
 				NavParamsRight = new NavigationParams { NavPath = "Home".GetLocalizedResource() };
 			}
-			if (eventArgs.Parameter is PaneNavigationArguments paneArgs)
+			else if (eventArgs.Parameter is PaneNavigationArguments paneArgs)
 			{
 				NavParamsLeft = new NavigationParams
 				{
@@ -322,6 +321,7 @@ namespace Files.App.Views
 					break;
 
 				case (false, true, true, VirtualKey.Add): // alt + shift + "+" open pane
+				case (false, true, true, PlusKey):
 					if (UserSettingsService.MultitaskingSettingsService.IsDualPaneEnabled)
 					{
 						if (string.IsNullOrEmpty(NavParamsRight?.NavPath))

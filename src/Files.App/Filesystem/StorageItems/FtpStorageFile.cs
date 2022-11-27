@@ -1,7 +1,7 @@
-using Files.Shared.Extensions;
-using Files.App.Helpers;
-using FluentFTP;
 using Files.App.Extensions;
+using Files.App.Helpers;
+using Files.Shared.Extensions;
+using FluentFTP;
 using System;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -29,7 +29,7 @@ namespace Files.App.Filesystem.StorageItems
 			get
 			{
 				var itemType = "ItemTypeFile".GetLocalizedResource();
-				if (Name.Contains(".", StringComparison.Ordinal))
+				if (Name.Contains('.', StringComparison.Ordinal))
 				{
 					itemType = IO.Path.GetExtension(Name).Trim('.') + " " + itemType;
 				}

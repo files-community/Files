@@ -1,8 +1,8 @@
 using Files.App.DataModels;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using Windows.Foundation;
-using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App
 {

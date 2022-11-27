@@ -1,17 +1,16 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Backend.Services.Settings;
 using Files.App.Extensions;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
+using Files.Backend.Services.Settings;
+using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace Files.App.Filesystem.StorageEnumerators
 {
@@ -70,7 +69,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 				}
 				foreach (var item in items)
 				{
-					var startWithDot = item.Name.StartsWith(".");
+					var startWithDot = item.Name.StartsWith('.');
 					if (!startWithDot || userSettingsService.FoldersSettingsService.ShowDotFiles)
 					{
 						if (item.IsOfType(StorageItemTypes.Folder))

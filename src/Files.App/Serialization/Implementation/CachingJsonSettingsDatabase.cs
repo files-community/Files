@@ -75,12 +75,7 @@ namespace Files.App.Serialization.Implementation
 		{
 			_settingsCache ??= GetFreshSettings();
 
-			if (_settingsCache.Remove(key))
-			{
-				return SaveSettings(_settingsCache);
-			}
-
-			return false;
+			return _settingsCache.Remove(key) && SaveSettings(_settingsCache);
 		}
 
 		public override bool ImportSettings(object? import)

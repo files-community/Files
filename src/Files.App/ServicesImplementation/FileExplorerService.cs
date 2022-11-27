@@ -1,3 +1,7 @@
+using Files.App.Storage.WindowsStorage;
+using Files.Backend.Services;
+using Files.Sdk.Storage.LocatableStorage;
+using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -5,10 +9,6 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;
-using Files.Backend.Services;
-using Files.Sdk.Storage.LocatableStorage;
-using Files.Shared.Extensions;
-using Files.App.Storage.WindowsStorage;
 
 namespace Files.App.ServicesImplementation
 {
@@ -40,10 +40,7 @@ namespace Files.App.ServicesImplementation
 			var fileTask = filePicker.PickSingleFileAsync().AsTask(cancellationToken);
 			var file = await fileTask;
 
-			if (file is null)
-				return null;
-
-			return new WindowsStorageFile(file);
+			return file is null ? null : new WindowsStorageFile(file);
 		}
 
 		// WINUI3
@@ -63,10 +60,7 @@ namespace Files.App.ServicesImplementation
 			var folderTask = folderPicker.PickSingleFolderAsync().AsTask(cancellationToken);
 			var folder = await folderTask;
 
-			if (folder is null)
-				return null;
-
-			return new WindowsStorageFolder(folder);
+			return folder is null ? null : new WindowsStorageFolder(folder);
 		}
 
 		// WINUI3

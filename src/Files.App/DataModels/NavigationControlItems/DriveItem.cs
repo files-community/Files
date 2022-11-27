@@ -120,16 +120,11 @@ namespace Files.App.DataModels.NavigationControlItems
 			get => percentageUsed;
 			set
 			{
-				if (SetProperty(ref percentageUsed, value))
-				{
-					if (Type == DriveType.Fixed)
-					{
-						if (percentageUsed >= Constants.Widgets.Drives.LowStorageSpacePercentageThreshold)
-							ShowStorageSense = true;
-						else
-							ShowStorageSense = false;
-					}
-				}
+				if (!SetProperty(ref percentageUsed, value)) 
+					return;
+
+				if (Type == DriveType.Fixed)
+					ShowStorageSense = percentageUsed >= Constants.Widgets.Drives.LowStorageSpacePercentageThreshold;
 			}
 		}
 
@@ -198,7 +193,7 @@ namespace Files.App.DataModels.NavigationControlItems
 
 					SpaceText = GetSizeString();
 
-					if (FreeSpace.Bytes > 0 && MaxSpace.Bytes > 0) // Make sure we don't divide by 0
+					if (MaxSpace.Bytes > 0 && FreeSpace.Bytes > 0) // Make sure we don't divide by 0
 						PercentageUsed = 100.0f - ((float)(FreeSpace.Bytes / MaxSpace.Bytes) * 100.0f);
 				}
 				else
@@ -221,10 +216,7 @@ namespace Files.App.DataModels.NavigationControlItems
 		public int CompareTo(INavigationControlItem other)
 		{
 			var result = Type.CompareTo((other as DriveItem)?.Type ?? Type);
-			if (result == 0)
-				return Text.CompareTo(other.Text);
-
-			return result;
+			return result == 0 ? Text.CompareTo(other.Text) : result;
 		}
 
 		public async Task LoadDriveIcon()
