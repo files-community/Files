@@ -77,13 +77,8 @@
 				Width="160"
 				ItemsSource="{x:Bind ViewModel.FileFormats}"
 				SelectedItem="{x:Bind ViewModel.FileFormat, Mode=TwoWay}"
-				SelectedValuePath="Key">
-				<ComboBox.ItemTemplate>
-					<DataTemplate>
-						<TextBlock Text="{Binding Label}" />
-					</DataTemplate>
-				</ComboBox.ItemTemplate>
-			</ComboBox>
+				DisplayMemberPath="Label"
+				SelectedValuePath="Key" />
 
 			<!--  Compression Level  -->
 			<TextBlock
