@@ -721,7 +721,7 @@ namespace Files.App.Helpers
 
 		private static void UpdateFileTagsDb(ShellFileOperations.ShellFileOpEventArgs e, string operationType)
 		{
-			using var dbInstance = FileTagsHelper.GetDbInstance();
+			var dbInstance = FileTagsHelper.GetDbInstance();
 			if (e.Result.Succeeded)
 			{
 				var sourcePath = e.SourceItem.GetParsingPath();
