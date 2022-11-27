@@ -2925,4 +2925,7 @@
   <data name="Format" xml:space="preserve">
     <value>Format</value>
   </data>
+  <data name="DetailsViewHeaderFlyout_ShowSyncStatus.Text" xml:space="preserve">
+    <value>Sync status column</value>
+  </data>
 </root>
