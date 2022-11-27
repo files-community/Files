@@ -13,8 +13,7 @@ namespace Files.App.Helpers.LayoutPreferences
 		{
 			db = new LiteDatabase(new ConnectionString(connection)
 			{
-				Mode = shared ? LiteDB.FileMode.Shared : LiteDB.FileMode.Exclusive,
-				Upgrade = true
+				Mode = shared ? LiteDB.FileMode.Shared : LiteDB.FileMode.Exclusive
 			}, new BsonMapper() { IncludeFields = true });
 		}
 
