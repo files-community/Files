@@ -2859,4 +2859,7 @@
   <data name="ExtractToPath" xml:space="preserve">
     <value>Path</value>
   </data>
+	<data name="DetailsViewHeaderFlyout_ShowSyncStatus.Text" xml:space="preserve">
+    <value>Sync status column</value>
+  </data>
 </root>
