@@ -1228,7 +1228,7 @@
     <value>Bu ayar kapatıldığında bir dizindeki düzeni değiştirmek, tüm dizinlerin düzenini güncelleyecektir.</value>
   </data>
   <data name="EnableOverridingFolderPreferences" xml:space="preserve">
-    <value>Enable overriding folder preferences in individual directories</value>
+    <value>Her bir dizin için klasör ayarlarının üzerine yazmayı etkinleştir</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Sağ tık menüsünü özelleştir</value>
@@ -2765,19 +2765,19 @@
     <value>Tarih sütunu</value>
   </data>
   <data name="DateCreatedColumn" xml:space="preserve">
-    <value>Date Created column</value>
+    <value>Oluşturulma Tarihi sütunu</value>
   </data>
   <data name="SizeColumn" xml:space="preserve">
-    <value>Size column</value>
+    <value>Boyut sütunu</value>
   </data>
   <data name="TagColumn" xml:space="preserve">
-    <value>Tag column</value>
+    <value>Etiket sütunu</value>
   </data>
   <data name="TypeColumn" xml:space="preserve">
-    <value>Type column</value>
+    <value>Tip sütunu</value>
   </data>
   <data name="DetailsLayoutColumns" xml:space="preserve">
-    <value>Details layout columns</value>
+    <value>Ayrıntılar düzeni sütunu</value>
   </data>
   <data name="Reset" xml:space="preserve">
     <value>Sıfırla</value>
@@ -2828,7 +2828,7 @@
     <value>Seçilen {0} öğeyi(öğeleri) geri yüklemek istiyor musunuz?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
-    <value>Restore selection</value>
+    <value>Seçimi geri yükle</value>
   </data>
   <data name="RestoreAllItems" xml:space="preserve">
     <value>Bütün öğeleri geri yükle</value>
@@ -2843,7 +2843,7 @@
     <value>Hedef yol {0} bulunamadı. Bu kısayolu silmek ister misiniz?</value>
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
-    <value>You don't have permission to access this folder.</value>
+    <value>Bu dosyaya erişim izniniz yok.</value>
   </data>
   <data name="LoadingThemes" xml:space="preserve">
     <value>Temalar Yükleniyor</value>
@@ -2861,7 +2861,7 @@
     <value>Arşiv şifresi</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
-    <value>Path</value>
+    <value>Yol</value>
   </data>
   <data name="Archive" xml:space="preserve">
     <value>Arşiv</value>
@@ -2930,6 +2930,6 @@
     <value>Biçim</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowSyncStatus.Text" xml:space="preserve">
-    <value>Sync status column</value>
+    <value>Senkronizasyon durumu sütunu</value>
   </data>
 </root>
