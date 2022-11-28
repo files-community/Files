@@ -12,6 +12,12 @@ namespace Files.App.ServicesImplementation.Settings
 			RegisterSettingsContext(settingsSharingContext);
 		}
 
+		public bool EnableOverridingSortingPreferences
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
 		public int DefaultGridViewSize
 		{
 			get => (int)Get((long)Constants.Browser.GridViewBrowser.GridViewSizeSmall);

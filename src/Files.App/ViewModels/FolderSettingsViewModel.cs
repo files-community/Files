@@ -287,31 +287,76 @@ namespace Files.App.ViewModels
 		private static LayoutPreferences GetLayoutPreferencesForPath(string folderPath)
 		{
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-			if (userSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences)
+
+			var layout = LayoutPreferences.DefaultLayoutPreferences;
+
+			if (userSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences || userSettingsService.LayoutSettingsService.EnableOverridingSortingPreferences)
 			{
 				folderPath = folderPath.TrimPath();
 				var folderFRN = NativeFileOperationsHelper.GetFolderFRN(folderPath);
-				return ReadLayoutPreferencesFromDb(folderPath, folderFRN)
+
+				layout = ReadLayoutPreferencesFromDb(folderPath, folderFRN)
 					?? ReadLayoutPreferencesFromAds(folderPath, folderFRN)
 					?? GetDefaultLayoutPreferences(folderPath);
+
+				if (!userSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences)
+				{
+					var defaultLayout = userSettingsService.FoldersSettingsService.DefaultLayoutMode;
+					layout.LayoutMode = defaultLayout is FolderLayoutModes.Adaptive ? FolderLayoutModes.DetailsView : defaultLayout;
+					layout.IsAdaptiveLayoutOverridden = defaultLayout is not FolderLayoutModes.Adaptive;
+					layout.GridViewSize = userSettingsService.LayoutSettingsService.DefaultGridViewSize;
+					layout.ColumnsViewModel = new ColumnsViewModel();
+					layout.ColumnsViewModel.DateCreatedColumn.UserCollapsed = !userSettingsService.FoldersSettingsService.ShowDateCreatedColumn;
+					layout.ColumnsViewModel.DateModifiedColumn.UserCollapsed = !userSettingsService.FoldersSettingsService.ShowDateColumn;
+					layout.ColumnsViewModel.ItemTypeColumn.UserCollapsed = !userSettingsService.FoldersSettingsService.ShowTypeColumn;
+					layout.ColumnsViewModel.SizeColumn.UserCollapsed = !userSettingsService.FoldersSettingsService.ShowSizeColumn;
+					layout.ColumnsViewModel.TagColumn.UserCollapsed = !userSettingsService.FoldersSettingsService.ShowFileTagColumn;
+
+					layout.ColumnsViewModel.NameColumn.UserLengthPixels = userSettingsService.FoldersSettingsService.NameColumnWidth;
+					layout.ColumnsViewModel.DateModifiedColumn.UserLengthPixels = userSettingsService.FoldersSettingsService.DateModifiedColumnWidth;
+					layout.ColumnsViewModel.DateCreatedColumn.UserLengthPixels = userSettingsService.FoldersSettingsService.DateCreatedColumnWidth;
+					layout.ColumnsViewModel.ItemTypeColumn.UserLengthPixels = userSettingsService.FoldersSettingsService.TypeColumnWidth;
+					layout.ColumnsViewModel.SizeColumn.UserLengthPixels = userSettingsService.FoldersSettingsService.SizeColumnWidth;
+					layout.ColumnsViewModel.TagColumn.UserLengthPixels = userSettingsService.FoldersSettingsService.TagColumnWidth;
+				}
+
+				if (!userSettingsService.LayoutSettingsService.EnableOverridingSortingPreferences)
+				{
+					layout.DirectorySortOption = userSettingsService.LayoutSettingsService.DefaultDirectorySortOption;
+					layout.DirectorySortDirection = userSettingsService.LayoutSettingsService.DefaultDirectorySortDirection;
+					layout.DirectoryGroupOption = userSettingsService.LayoutSettingsService.DefaultDirectoryGroupOption;
+					layout.SortDirectoriesAlongsideFiles = userSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles;
+				}
 			}
 
-			return LayoutPreferences.DefaultLayoutPreferences;
+			return layout;
 		}
 
 		public static void SetLayoutPreferencesForPath(string folderPath, LayoutPreferences prefs)
 		{
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-			if (userSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences)
-			{
-				var folderFRN = NativeFileOperationsHelper.GetFolderFRN(folderPath);
-				WriteLayoutPreferencesToDb(folderPath.TrimPath(), folderFRN, prefs);
-			}
-			else
+			if(!userSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences)
 			{
 				userSettingsService.FoldersSettingsService.DefaultLayoutMode = prefs.LayoutMode;
 				userSettingsService.LayoutSettingsService.DefaultGridViewSize = prefs.GridViewSize;
+
+				userSettingsService.FoldersSettingsService.ShowDateColumn = !prefs.ColumnsViewModel.DateModifiedColumn.UserCollapsed;
+				userSettingsService.FoldersSettingsService.ShowDateCreatedColumn = !prefs.ColumnsViewModel.DateCreatedColumn.UserCollapsed;
+				userSettingsService.FoldersSettingsService.ShowTypeColumn = !prefs.ColumnsViewModel.ItemTypeColumn.UserCollapsed;
+				userSettingsService.FoldersSettingsService.ShowSizeColumn = !prefs.ColumnsViewModel.SizeColumn.UserCollapsed;
+				userSettingsService.FoldersSettingsService.ShowFileTagColumn = !prefs.ColumnsViewModel.TagColumn.UserCollapsed;
+
+				userSettingsService.FoldersSettingsService.NameColumnWidth = prefs.ColumnsViewModel.NameColumn.UserLengthPixels;
+				userSettingsService.FoldersSettingsService.DateModifiedColumnWidth = prefs.ColumnsViewModel.DateModifiedColumn.UserLengthPixels;
+				userSettingsService.FoldersSettingsService.DateCreatedColumnWidth = prefs.ColumnsViewModel.DateCreatedColumn.UserLengthPixels;
+				userSettingsService.FoldersSettingsService.TypeColumnWidth = prefs.ColumnsViewModel.ItemTypeColumn.UserLengthPixels;
+				userSettingsService.FoldersSettingsService.SizeColumnWidth = prefs.ColumnsViewModel.SizeColumn.UserLengthPixels;
+				userSettingsService.FoldersSettingsService.TagColumnWidth = prefs.ColumnsViewModel.TagColumn.UserLengthPixels;
+			}
+
+			if (!userSettingsService.LayoutSettingsService.EnableOverridingSortingPreferences)
+			{
 				// Do not save OriginalPath as global sort option (only works in recycle bin)
 				if (prefs.DirectorySortOption != SortOption.OriginalFolder &&
 					prefs.DirectorySortOption != SortOption.DateDeleted &&
@@ -328,19 +373,12 @@ namespace Files.App.ViewModels
 				}
 				userSettingsService.LayoutSettingsService.DefaultDirectorySortDirection = prefs.DirectorySortDirection;
 				userSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles = prefs.SortDirectoriesAlongsideFiles;
+			}
 
-				userSettingsService.FoldersSettingsService.ShowDateColumn = !prefs.ColumnsViewModel.DateModifiedColumn.UserCollapsed;
-				userSettingsService.FoldersSettingsService.ShowDateCreatedColumn = !prefs.ColumnsViewModel.DateCreatedColumn.UserCollapsed;
-				userSettingsService.FoldersSettingsService.ShowTypeColumn = !prefs.ColumnsViewModel.ItemTypeColumn.UserCollapsed;
-				userSettingsService.FoldersSettingsService.ShowSizeColumn = !prefs.ColumnsViewModel.SizeColumn.UserCollapsed;
-				userSettingsService.FoldersSettingsService.ShowFileTagColumn = !prefs.ColumnsViewModel.TagColumn.UserCollapsed;
-
-				userSettingsService.FoldersSettingsService.NameColumnWidth = prefs.ColumnsViewModel.NameColumn.UserLengthPixels;
-				userSettingsService.FoldersSettingsService.DateModifiedColumnWidth = prefs.ColumnsViewModel.DateModifiedColumn.UserLengthPixels;
-				userSettingsService.FoldersSettingsService.DateCreatedColumnWidth = prefs.ColumnsViewModel.DateCreatedColumn.UserLengthPixels;
-				userSettingsService.FoldersSettingsService.TypeColumnWidth = prefs.ColumnsViewModel.ItemTypeColumn.UserLengthPixels;
-				userSettingsService.FoldersSettingsService.SizeColumnWidth = prefs.ColumnsViewModel.SizeColumn.UserLengthPixels;
-				userSettingsService.FoldersSettingsService.TagColumnWidth = prefs.ColumnsViewModel.TagColumn.UserLengthPixels;
+			if(userSettingsService.LayoutSettingsService.EnableOverridingSortingPreferences || userSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences)
+			{
+				var folderFRN = NativeFileOperationsHelper.GetFolderFRN(folderPath);
+				WriteLayoutPreferencesToDb(folderPath.TrimPath(), folderFRN, prefs);
 			}
 		}
 
@@ -499,9 +537,21 @@ namespace Files.App.ViewModels
 				case nameof(UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles):
 					SortDirectoriesAlongsideFiles = prefs.SortDirectoriesAlongsideFiles;
 					break;
+				case nameof(UserSettingsService.LayoutSettingsService.DefaultDirectorySortOption):
+					DirectorySortOption = prefs.DirectorySortOption;
+					break;
+				case nameof(UserSettingsService.LayoutSettingsService.DefaultDirectorySortDirection):
+					DirectorySortDirection = prefs.DirectorySortDirection;
+					break;
+				case nameof(UserSettingsService.LayoutSettingsService.DefaultDirectoryGroupOption):
+					DirectoryGroupOption = prefs.DirectoryGroupOption;
+					break;
 				case nameof(UserSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences):
 					LayoutPreference = prefs;
 					// TODO: update layout
+					break;
+				case nameof(UserSettingsService.LayoutSettingsService.EnableOverridingSortingPreferences):
+					LayoutPreference = prefs;
 					break;
 			}
 		}
