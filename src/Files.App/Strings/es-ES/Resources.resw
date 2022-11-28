@@ -2842,7 +2842,7 @@
     <value>No se puede encontrar el destino {0}. ¿Desea eliminar este acceso directo?</value>
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
-    <value>You don't have permission to access this folder.</value>
+    <value>No tiene permiso para acceder a esta carpeta.</value>
   </data>
   <data name="LoadingThemes" xml:space="preserve">
     <value>Cargando temas</value>
@@ -2929,6 +2929,6 @@
     <value>Formato</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowSyncStatus.Text" xml:space="preserve">
-    <value>Sync status column</value>
+    <value>Columna de estado de sincronización</value>
   </data>
 </root>
