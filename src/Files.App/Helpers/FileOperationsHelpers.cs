@@ -9,6 +9,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -178,7 +179,7 @@ namespace Files.App.Helpers
 				}
 
 				var deleteTcs = new TaskCompletionSource<bool>();
-				op.PreDeleteItem += (s, e) =>
+				op.PreDeleteItem += [DebuggerHidden] (s, e) =>
 				{
 					if (!e.Flags.HasFlag(ShellFileOperations.TransferFlags.DeleteRecycleIfPossible))
 					{
