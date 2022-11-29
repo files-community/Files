@@ -20,9 +20,9 @@ namespace Files.App.ViewModels.SettingsViewModels
 			ShowResetLayoutPreferencesTipCommand = new RelayCommand(() => IsResetLayoutPreferencesTipOpen = true);
 
 			SelectedDefaultLayoutModeIndex = (int)DefaultLayoutMode;
-			SelectedDefaultSortingIndex = DefaultSortOption == SortOption.FileTag ? 5 : (int)DefaultSortOption;
+			SelectedDefaultSortingIndex = (int)DefaultSortOption;
 			SelectedDefaultSortDirectionIndex = (int)DefaultSortDirection;
-			SelectedDefaultGroupingIndex = DefaultGroupOption == GroupOption.FileTag ? 6 : (int)DefaultGroupOption;
+			SelectedDefaultGroupingIndex = (int)DefaultGroupOption;
 		}
 
 		// Properties
@@ -251,7 +251,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (SetProperty(ref selectedDefaultSortingIndex, value))
 				{
 					OnPropertyChanged(nameof(SelectedDefaultSortingIndex));
-					DefaultSortOption = value < 5 ? (SortOption)value : SortOption.FileTag;
+					DefaultSortOption = (SortOption)value;
 				}
 			}
 		}
@@ -279,7 +279,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (SetProperty(ref selectedDefaultGroupingIndex, value))
 				{
 					OnPropertyChanged(nameof(SelectedDefaultGroupingIndex));
-					DefaultGroupOption = value < 6 ? (GroupOption)value : GroupOption.FileTag;
+					DefaultGroupOption = (GroupOption)value;
 				}
 			}
 		}

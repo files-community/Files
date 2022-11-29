@@ -276,19 +276,19 @@ namespace Files.App.Helpers
 						},
 						new ContextMenuFlyoutItemViewModel()
 						{
-							Text = "SyncStatus".GetLocalizedResource(),
-							IsChecked = itemViewModel.IsSortedBySyncStatus,
-							Command = new RelayCommand(() => itemViewModel.IsSortedBySyncStatus = true),
-							ShowItem = currentInstanceViewModel.IsPageTypeCloudDrive,
-							ItemType = ItemType.Toggle
-						},
-						new ContextMenuFlyoutItemViewModel()
-						{
 							Text = "FileTags".GetLocalizedResource(),
 							IsChecked = itemViewModel.IsSortedByFileTag,
 							Command = new RelayCommand(() => itemViewModel.IsSortedByFileTag = true),
 							ShowInRecycleBin = true,
 							ShowInSearchPage = true,
+							ItemType = ItemType.Toggle
+						},
+						new ContextMenuFlyoutItemViewModel()
+						{
+							Text = "SyncStatus".GetLocalizedResource(),
+							IsChecked = itemViewModel.IsSortedBySyncStatus,
+							Command = new RelayCommand(() => itemViewModel.IsSortedBySyncStatus = true),
+							ShowItem = currentInstanceViewModel.IsPageTypeCloudDrive,
 							ItemType = ItemType.Toggle
 						},
 						new ContextMenuFlyoutItemViewModel()
