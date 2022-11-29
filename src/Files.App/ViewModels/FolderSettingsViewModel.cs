@@ -312,7 +312,7 @@ namespace Files.App.ViewModels
 			{
 				userSettingsService.FoldersSettingsService.DefaultLayoutMode = prefs.LayoutMode;
 				userSettingsService.LayoutSettingsService.DefaultGridViewSize = prefs.GridViewSize;
-				// Do not save OriginalPath as global sort option (only works in recycle bin)
+				// Do not save options which only work in recycle bin or cloud folders as global
 				if (prefs.DirectorySortOption != SortOption.OriginalFolder &&
 					prefs.DirectorySortOption != SortOption.DateDeleted &&
 					prefs.DirectorySortOption != SortOption.SyncStatus)
