@@ -4,17 +4,17 @@ namespace Files.App.Filesystem
 {
 	public interface INavigationControlItem : IComparable<INavigationControlItem>
 	{
-		public string Text { get; }
+		public string? Text { get; }
 
-		public string Path { get; }
+		public string? Path { get; }
 
-		public SectionType Section { get; }
+		public SectionType? Section { get; }
 
-		public string ToolTipText { get; }
+		public string? ToolTipText { get; }
 
-		public NavigationControlItemType ItemType { get; }
+		public NavigationControlItemType? ItemType { get; }
 
-		public ContextMenuOptions MenuOptions { get; }
+		public ContextMenuOptions? MenuOptions { get; }
 	}
 
 	public enum NavigationControlItemType

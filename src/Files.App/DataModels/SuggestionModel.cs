@@ -41,7 +41,7 @@ namespace Files.App.DataModels
 			}
 		}
 
-		private void Img_ImageOpened(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+		private void Img_ImageOpened(object sender, Microsoft.UI.Xaml.RoutedEventArgs? e)
 		{
 			if (sender is BitmapImage image)
 			{

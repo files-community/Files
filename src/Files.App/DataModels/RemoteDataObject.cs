@@ -18,7 +18,7 @@ namespace Files.App.DataModels
 		/// <summary>
 		/// Holds the <see cref="System.Windows.IDataObject"/> that this class is wrapping
 		/// </summary>
-		private readonly System.Windows.Forms.IDataObject underlyingDataObject;
+		private readonly System.Windows.Forms.IDataObject? underlyingDataObject;
 
 		/// <summary>
 		/// Holds the <see cref="System.Runtime.InteropServices.ComTypes.IDataObject"/> interface to the <see cref="System.Windows.IDataObject"/> that this class is wrapping.
@@ -28,12 +28,12 @@ namespace Files.App.DataModels
 		/// <summary>
 		/// Holds the internal ole <see cref="System.Windows.IDataObject"/> to the <see cref="System.Windows.IDataObject"/> that this class is wrapping.
 		/// </summary>
-		private readonly System.Windows.Forms.IDataObject oleUnderlyingDataObject;
+		private readonly System.Windows.Forms.IDataObject? oleUnderlyingDataObject;
 
 		/// <summary>
 		/// Holds the <see cref="MethodInfo"/> of the "GetDataFromHGLOBAL" method of the internal ole <see cref="System.Windows.IDataObject"/>.
 		/// </summary>
-		private readonly MethodInfo getDataFromHGLOBALMethod;
+		private readonly MethodInfo? getDataFromHGLOBALMethod;
 
 		/// <summary>
 		/// Initializes a new instance of the class.
@@ -46,12 +46,12 @@ namespace Files.App.DataModels
 			comUnderlyingDataObject = (System.Runtime.InteropServices.ComTypes.IDataObject)this.underlyingDataObject;
 
 			//get the internal ole dataobject and its GetDataFromHGLOBAL so it can be called later
-			FieldInfo innerDataField = this.underlyingDataObject.GetType().GetField("innerData", BindingFlags.NonPublic | BindingFlags.Instance);
-			oleUnderlyingDataObject = (System.Windows.Forms.IDataObject)innerDataField.GetValue(this.underlyingDataObject);
-			getDataFromHGLOBALMethod = oleUnderlyingDataObject.GetType().GetMethod("GetDataFromHGLOBAL", BindingFlags.NonPublic | BindingFlags.Instance);
+			FieldInfo? innerDataField = this.underlyingDataObject.GetType().GetField("innerData", BindingFlags.NonPublic | BindingFlags.Instance);
+			oleUnderlyingDataObject = (System.Windows.Forms.IDataObject?)(innerDataField is not null ? innerDataField.GetValue(this.underlyingDataObject) : null);
+			getDataFromHGLOBALMethod = oleUnderlyingDataObject is not null ? (oleUnderlyingDataObject.GetType().GetMethod("GetDataFromHGLOBAL", BindingFlags.NonPublic | BindingFlags.Instance)) : null;
 		}
 
-		public IEnumerable<DataPackage> GetRemoteData()
+		public IEnumerable<DataPackage>? GetRemoteData()
 		{
 			string FormatName = string.Empty;
 
@@ -70,7 +70,7 @@ namespace Files.App.DataModels
 			}
 			else
 			{
-				if (underlyingDataObject.GetData(FormatName, true) is MemoryStream FileGroupDescriptorStream)
+				if ((underlyingDataObject is not null ? (underlyingDataObject.GetData(FormatName, true)) : null) is MemoryStream FileGroupDescriptorStream)
 				{
 					try
 					{
@@ -127,7 +127,7 @@ namespace Files.App.DataModels
 		/// <returns>
 		/// A <see cref="MemoryStream"/> containing the raw data for the specified data format at the specified index.
 		/// </returns>
-		private MemoryStream GetContentData(string Format, int Index)
+		private MemoryStream? GetContentData(string Format, int Index)
 		{
 			//create a FORMATETC struct to request the data with
 			FORMATETC Formatetc = new FORMATETC
@@ -238,7 +238,7 @@ namespace Files.App.DataModels
 
 						try
 						{
-							return (MemoryStream)getDataFromHGLOBALMethod.Invoke(oleUnderlyingDataObject, new object[] { DataFormats.GetFormat(Formatetc.cfFormat).Name, Medium.unionmember });
+							return (MemoryStream?)(getDataFromHGLOBALMethod is not null ? getDataFromHGLOBALMethod.Invoke(oleUnderlyingDataObject, new object[] { DataFormats.GetFormat(Formatetc.cfFormat).Name, Medium.unionmember }) : null);
 						}
 						finally
 						{
@@ -261,7 +261,7 @@ namespace Files.App.DataModels
 		/// </returns>
 		public bool GetDataPresent(string format)
 		{
-			return underlyingDataObject.GetDataPresent(format);
+			return underlyingDataObject is not null && underlyingDataObject.GetDataPresent(format);
 		}
 
 		public sealed class DataPackage : IDisposable
@@ -272,12 +272,12 @@ namespace Files.App.DataModels
 
 			public string Name { get; }
 
-			public DataPackage(string Name, StorageType ItemType, MemoryStream ContentStream)
+			public DataPackage(string Name, StorageType ItemType, MemoryStream? ContentStream)
 			{
 				this.Name = Name;
 				this.ItemType = ItemType;
-				this.ContentStream = ContentStream;
-			}
+                this.ContentStream = ContentStream ?? new MemoryStream();
+            }
 
 			public void Dispose()
 			{

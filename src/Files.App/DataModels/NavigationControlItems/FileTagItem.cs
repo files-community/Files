@@ -5,11 +5,11 @@ namespace Files.App.DataModels.NavigationControlItems
 {
 	public class FileTagItem : INavigationControlItem
 	{
-		public string Text { get; set; }
+		public string? Text { get; set; }
 
-		private string path;
+		private string? path;
 
-		public string Path
+		public string? Path
 		{
 			get => path;
 			set
@@ -19,16 +19,16 @@ namespace Files.App.DataModels.NavigationControlItems
 			}
 		}
 
-		public string ToolTipText { get; private set; }
+		public string? ToolTipText { get; private set; }
 
-		public SectionType Section { get; set; }
+		public SectionType? Section { get; set; }
 
-		public ContextMenuOptions MenuOptions { get; set; }
+		public ContextMenuOptions? MenuOptions { get; set; }
 
-		public NavigationControlItemType ItemType => NavigationControlItemType.FileTag;
+		public NavigationControlItemType? ItemType => NavigationControlItemType.FileTag;
 
-		public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
+		public int CompareTo(INavigationControlItem? other) => (Text is not null ? Text.CompareTo(other?.Text) : 0);
 
-		public FileTagViewModel FileTag { get; set; }
+		public FileTagViewModel? FileTag { get; set; }
 	}
 }

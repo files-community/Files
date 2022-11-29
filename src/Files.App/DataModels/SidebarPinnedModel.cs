@@ -126,8 +126,8 @@ namespace Files.App.DataModels
 			try
 			{
 				FavoriteItems.RemoveAt(oldIndex);
-				FavoriteItems.Insert(newIndex, locationItem.Path);
-				lock (favoriteList)
+                FavoriteItems.Insert(newIndex, locationItem.Path ?? string.Empty);
+                lock (favoriteList)
 				{
 					favoriteList.RemoveAt(oldIndex);
 					favoriteList.Insert(newIndex, locationItem);
@@ -290,13 +290,13 @@ namespace Files.App.DataModels
 			// Remove unpinned items from favoriteList
 			foreach (var childItem in Favorites)
 			{
-				if (childItem is LocationItem item && !item.IsDefaultLocation && !FavoriteItems.Contains(item.Path))
+				if (childItem is LocationItem item && !item.IsDefaultLocation && !FavoriteItems.Contains(item.Path ?? string.Empty))
 				{
 					lock (favoriteList)
 					{
 						favoriteList.Remove(item);
 					}
-					controller.DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
+					if (controller is not null) controller.DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
 				}
 			}
 

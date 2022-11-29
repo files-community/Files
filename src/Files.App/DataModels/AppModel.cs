@@ -12,7 +12,7 @@ namespace Files.App.DataModels
 	public class AppModel : ObservableObject
 	{
 		// todo: refactor PaneViewModel, this doesn't belong here
-		public IPaneViewModel PaneViewModel { get; } = new PaneViewModel();
+		public IPaneViewModel? PaneViewModel { get; } = new PaneViewModel();
 
 		public AppModel()
 		{
@@ -23,7 +23,7 @@ namespace Files.App.DataModels
 		}
 
 		//todo: refactor this method
-		public void Clipboard_ContentChanged(object sender, object e)
+		public void Clipboard_ContentChanged(object? sender, object e)
 		{
 			try
 			{
@@ -87,8 +87,8 @@ namespace Files.App.DataModels
 			set => SetProperty(ref isQuickLookAvailable, value);
 		}
 
-		private FontFamily symbolFontFamily;
-		public FontFamily SymbolFontFamily
+		private FontFamily? symbolFontFamily;
+		public FontFamily? SymbolFontFamily
 		{
 			get => symbolFontFamily;
 			set => SetProperty(ref symbolFontFamily, value);

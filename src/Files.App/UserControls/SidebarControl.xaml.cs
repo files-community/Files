@@ -201,7 +201,7 @@ namespace Files.App.UserControls
 			bool showMoveItemDown = isFavoriteItem && favoriteIndex < favoriteCount - 1;
 
 			bool isDriveItem = item is DriveItem;
-			bool isDriveItemPinned = isDriveItem && (item as DriveItem).IsPinned;
+			bool isDriveItemPinned = isDriveItem && ((DriveItem)item).IsPinned;
 
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{

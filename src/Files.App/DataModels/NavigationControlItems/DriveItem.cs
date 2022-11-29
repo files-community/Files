@@ -16,18 +16,18 @@ namespace Files.App.DataModels.NavigationControlItems
 {
 	public class DriveItem : ObservableObject, INavigationControlItem
 	{
-		private BitmapImage icon;
-		public BitmapImage Icon
+		private BitmapImage? icon;
+		public BitmapImage? Icon
 		{
 			get => icon;
 			set => SetProperty(ref icon, value);
 		}
 
 		//public Uri IconSource { get; set; }
-		public byte[] IconData { get; set; }
+		public byte[]? IconData { get; set; }
 
-		private string path;
-		public string Path
+		private string? path;
+		public string? Path
 		{
 			get => path;
 			set
@@ -36,15 +36,15 @@ namespace Files.App.DataModels.NavigationControlItems
 			}
 		}
 
-		public string ToolTipText { get; private set; }
-		public string DeviceID { get; set; }
-		public StorageFolder Root { get; set; }
-		public NavigationControlItemType ItemType { get; set; } = NavigationControlItemType.Drive;
+		public string? ToolTipText { get; private set; }
+		public string? DeviceID { get; set; }
+		public StorageFolder? Root { get; set; }
+		public NavigationControlItemType? ItemType { get; set; } = NavigationControlItemType.Drive;
 		public Visibility ItemVisibility { get; set; } = Visibility.Visible;
 
 		public bool IsRemovable => Type == DriveType.Removable || Type == DriveType.CDRom;
 		public bool IsNetwork => Type == DriveType.Network;
-		public bool IsPinned => App.SidebarPinnedController.Model.FavoriteItems.Contains(path);
+		public bool IsPinned => App.SidebarPinnedController.Model is not null ? App.SidebarPinnedController.Model.FavoriteItems.Contains(path is not null ? path : string.Empty) : false;
 
 		public string MaxSpaceText => MaxSpace.ToSizeString();
 		public string FreeSpaceText => FreeSpace.ToSizeString();
@@ -96,23 +96,23 @@ namespace Files.App.DataModels.NavigationControlItems
 
 		public DriveType Type { get; set; }
 
-		private string text;
-		public string Text
+		private string? text;
+		public string? Text
 		{
 			get => text;
 			set => SetProperty(ref text, value);
 		}
 
-		private string spaceText;
-		public string SpaceText
+		private string? spaceText;
+		public string? SpaceText
 		{
 			get => spaceText;
 			set => SetProperty(ref spaceText, value);
 		}
 
-		public SectionType Section { get; set; }
+		public SectionType? Section { get; set; }
 
-		public ContextMenuOptions MenuOptions { get; set; }
+		public ContextMenuOptions? MenuOptions { get; set; }
 
 		private float percentageUsed = 0.0f;
 		public float PercentageUsed
@@ -169,9 +169,9 @@ namespace Files.App.DataModels.NavigationControlItems
 		{
 			try
 			{
-				var properties = await Root.Properties.RetrievePropertiesAsync(new[] { "System.ItemNameDisplay" })
-					.AsTask().WithTimeoutAsync(TimeSpan.FromSeconds(5));
-				Text = (string)properties["System.ItemNameDisplay"];
+				var properties = Root is not null ? await Root.Properties.RetrievePropertiesAsync(new[] { "System.ItemNameDisplay" })
+                    .AsTask().WithTimeoutAsync(TimeSpan.FromSeconds(5)) : null;
+                Text = (string?)properties?["System.ItemNameDisplay"];
 			}
 			catch (NullReferenceException)
 			{
@@ -182,8 +182,8 @@ namespace Files.App.DataModels.NavigationControlItems
 		{
 			try
 			{
-				var properties = await Root.Properties.RetrievePropertiesAsync(new[] { "System.FreeSpace", "System.Capacity" })
-					.AsTask().WithTimeoutAsync(TimeSpan.FromSeconds(5));
+				var properties = Root is not null ? await Root.Properties.RetrievePropertiesAsync(new[] { "System.FreeSpace", "System.Capacity" })
+					.AsTask().WithTimeoutAsync(TimeSpan.FromSeconds(5)) : null;
 
 				if (properties is not null && properties["System.Capacity"] is not null && properties["System.FreeSpace"] is not null)
 				{
@@ -213,10 +213,10 @@ namespace Files.App.DataModels.NavigationControlItems
 			}
 		}
 
-		public int CompareTo(INavigationControlItem other)
+		public int CompareTo(INavigationControlItem? other)
 		{
 			var result = Type.CompareTo((other as DriveItem)?.Type ?? Type);
-			return result == 0 ? Text.CompareTo(other.Text) : result;
+			return result == 0 ? (Text is not null ? Text.CompareTo(other?.Text) : 0) : result;
 		}
 
 		public async Task LoadDriveIcon()

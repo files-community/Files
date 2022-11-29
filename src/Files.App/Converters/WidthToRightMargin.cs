@@ -11,7 +11,7 @@ namespace Files.App.Converters
 			return new Thickness(0, 0, (double)value, 0);
 		}
 
-		public object ConvertBack(object value, Type targetType, object parameter, string language)
+		public object? ConvertBack(object value, Type targetType, object parameter, string language)
 		{
 			return null;
 		}

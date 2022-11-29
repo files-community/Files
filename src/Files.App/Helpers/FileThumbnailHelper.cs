@@ -23,9 +23,9 @@ namespace Files.App.Helpers
 			return (await Win32API.StartSTATask(() => Win32API.GetFileIconAndOverlay(filePath, (int)thumbnailSize, isFolder, false))).icon;
 		}
 
-		public static async Task<byte[]> LoadIconFromStorageItemAsync(IStorageItem item, uint thumbnailSize, ThumbnailMode thumbnailMode)
+		public static async Task<byte[]?> LoadIconFromStorageItemAsync(IStorageItem? item, uint thumbnailSize, ThumbnailMode thumbnailMode)
 		{
-			if (item.IsOfType(StorageItemTypes.File))
+			if (item is not null && item.IsOfType(StorageItemTypes.File))
 			{
 				using var thumbnail = (StorageItemThumbnail)await FilesystemTasks.Wrap(
 					() => item.AsBaseStorageFile().GetThumbnailAsync(thumbnailMode, thumbnailSize, ThumbnailOptions.ResizeThumbnail).AsTask());
@@ -34,7 +34,7 @@ namespace Files.App.Helpers
 					return await thumbnail.ToByteArrayAsync();
 				}
 			}
-			else if (item.IsOfType(StorageItemTypes.Folder))
+			else if (item is not null && item.IsOfType(StorageItemTypes.Folder))
 			{
 				using var thumbnail = (StorageItemThumbnail)await FilesystemTasks.Wrap(
 					() => item.AsBaseStorageFolder().GetThumbnailAsync(thumbnailMode, thumbnailSize, ThumbnailOptions.ResizeThumbnail).AsTask());
