@@ -1014,7 +1014,7 @@ namespace Files.App.UserControls
 			}
 			else
 			{
-				if (val >= Constants.UI.MinimumSidebarWidth - CompactPaneLength &&
+				if (val < Constants.UI.MinimumSidebarWidth - CompactPaneLength &&
 				    !closeImmediatleyOnOversize)
 					return;
 
