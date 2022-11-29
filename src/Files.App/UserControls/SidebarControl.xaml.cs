@@ -790,7 +790,7 @@ namespace Files.App.UserControls
 				var captionText = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
 				CompleteDragEventArgs(e, captionText, DataPackageOperation.Copy);
 			}
-			else if (hasStorageItems)
+			else if (!hasStorageItems)
 			{
 				e.AcceptedOperation = DataPackageOperation.None;
 			}
