@@ -22,13 +22,13 @@ namespace Files.App.Views
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-		private IShellPage AppInstance = null;
-		public FolderSettingsViewModel FolderSettings => AppInstance?.InstanceViewModel.FolderSettings;
+		private IShellPage? AppInstance = null;
+		public FolderSettingsViewModel? FolderSettings => AppInstance?.InstanceViewModel.FolderSettings;
 
-		private FolderWidget folderWidget;
-		private DrivesWidget drivesWidget;
-		private BundlesWidget bundlesWidget;
-		private RecentFilesWidget recentFilesWidget;
+		private FolderWidget? folderWidget;
+		private DrivesWidget? drivesWidget;
+		private BundlesWidget? bundlesWidget;
+		private RecentFilesWidget? recentFilesWidget;
 
 		public YourHomeViewModel ViewModel
 		{
@@ -112,11 +112,11 @@ namespace Files.App.Views
 			ReloadWidgets();
 		}
 
-		private void FolderWidget_FolderWidgethowMultiPaneControlsInvoked(object sender, EventArgs e)
+		private void FolderWidget_FolderWidgethowMultiPaneControlsInvoked(object? sender, EventArgs e)
 		{
-			FolderWidget FolderWidget = (FolderWidget)sender;
+			FolderWidget? FolderWidget = (FolderWidget?)sender;
 
-			FolderWidget.ShowMultiPaneControls = AppInstance.PaneHolder?.IsMultiPaneEnabled ?? false;
+			FolderWidget.ShowMultiPaneControls = AppInstance?.PaneHolder?.IsMultiPaneEnabled ?? false;
 		}
 
 		// WINUI3
@@ -241,9 +241,9 @@ namespace Files.App.Views
 
 			// Clear the path UI and replace with Favorites
 			AppInstance.ToolbarViewModel.PathComponents.Clear();
-			string componentLabel = parameters.NavPathParam;
-			string tag = parameters.NavPathParam;
-			PathBoxItem item = new PathBoxItem()
+			string? componentLabel = parameters.NavPathParam;
+			string? tag = parameters.NavPathParam;
+			PathBoxItem? item = new()
 			{
 				Title = componentLabel,
 				Path = tag,

@@ -7,20 +7,20 @@ namespace Files.App.Converters
 {
 	internal class DateTimeOffsetToString : IValueConverter
 	{
-		private static readonly IDateTimeFormatter formatter = Ioc.Default.GetService<IDateTimeFormatter>();
+		private static readonly IDateTimeFormatter? formatter = Ioc.Default.GetService<IDateTimeFormatter>();
 
-		public object Convert(object value, Type targetType, object parameter, string language)
+		public object? Convert(object value, Type targetType, object parameter, string language)
 		{
 			return value is null
 				? string.Empty
-				: formatter.ToLongLabel((DateTimeOffset)value);
+				: formatter?.ToLongLabel((DateTimeOffset)value);
 		}
 
-		public object ConvertBack(object value, Type targetType, object parameter, string language)
+		public object? ConvertBack(object value, Type targetType, object parameter, string language)
 		{
 			try
 			{
-				return DateTimeOffset.Parse(value as string);
+				return DateTimeOffset.Parse((string)value);
 			}
 			catch (FormatException)
 			{

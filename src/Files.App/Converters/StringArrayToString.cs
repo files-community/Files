@@ -24,7 +24,7 @@ namespace Files.App.Converters
 
 		public object ConvertBack(object value, Type targetType, object parameter, string language)
 		{
-			return (value as string).Split("; ");
+			return ((string) value).Split("; ");
 		}
 	}
 }

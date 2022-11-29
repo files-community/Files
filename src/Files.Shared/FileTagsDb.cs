@@ -13,6 +13,7 @@ namespace Common
 		private readonly LiteDatabase db;
 		private const string TaggedFiles = "taggedfiles";
 
+		[Obsolete]
 		public FileTagsDb(string connection, bool shared = false)
 		{
 			SafetyExtensions.IgnoreExceptions(() => CheckDbVersion(connection));

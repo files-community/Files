@@ -14,7 +14,7 @@ namespace Files.App.ViewModels.Dialogs
 	{
 		private readonly IStorageFile archive;
 
-		public StorageFolder DestinationFolder { get; private set; }
+		public StorageFolder? DestinationFolder { get; private set; }
 
 		private string destinationFolderPath;
 

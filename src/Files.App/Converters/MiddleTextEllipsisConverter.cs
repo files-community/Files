@@ -7,7 +7,7 @@ namespace Files.App.Converters
 	{
 		public object Convert(object value, Type targetType, object parameter, string language)
 		{
-			string text = value as string;
+			string? text = value as string;
 			int maxLength = parameter is null ? 15 : System.Convert.ToInt32(parameter);
 
 			if (string.IsNullOrWhiteSpace(text))

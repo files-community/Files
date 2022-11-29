@@ -57,11 +57,11 @@ namespace Files.App.Behaviors
 		public static readonly DependencyProperty HeaderElementProperty = DependencyProperty.Register(
 			nameof(HeaderElement), typeof(UIElement), typeof(StickyHeaderBehavior), new PropertyMetadata(null, PropertyChangedCallback));
 
-		private ScrollViewer _scrollViewer;
-		private CompositionPropertySet _scrollProperties;
-		private CompositionPropertySet _animationProperties;
-		private Visual _headerVisual, _itemsPanelVisual;
-		private InsetClip _contentClip;
+		private ScrollViewer? _scrollViewer;
+		private CompositionPropertySet? _scrollProperties;
+		private CompositionPropertySet? _animationProperties;
+		private Visual? _headerVisual, _itemsPanelVisual;
+		private InsetClip? _contentClip;
 
 		/// <summary>
 		/// Gets or sets the target element for the ScrollHeader behavior.
@@ -117,9 +117,9 @@ namespace Files.App.Behaviors
 
 			// Implicit operation: Find the Header object of the control if it uses ListViewBase
 			if (HeaderElement is null && listView is not null)
-				HeaderElement = listView.Header as UIElement;
+				HeaderElement = (UIElement)listView.Header;
 
-			var headerElement = HeaderElement as FrameworkElement;
+			FrameworkElement? headerElement = HeaderElement as FrameworkElement;
 
 			if (headerElement is null || headerElement.RenderSize.Height == 0)
 				return false;
@@ -150,7 +150,7 @@ namespace Files.App.Behaviors
 			_headerVisual.StartAnimation("Offset.Y", expressionAnimation);
 
 			// Mod: clip items panel below header
-			var itemsPanel = listView.ItemsPanelRoot;
+			var itemsPanel = listView?.ItemsPanelRoot;
 
 			if (itemsPanel is null)
 				return true;

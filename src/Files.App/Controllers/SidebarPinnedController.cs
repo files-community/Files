@@ -16,13 +16,13 @@ namespace Files.App.Controllers
 {
 	public class SidebarPinnedController : IJson
 	{
-		public SidebarPinnedModel Model { get; set; }
+		public SidebarPinnedModel? Model { get; set; }
 
-		public EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
+		public EventHandler<NotifyCollectionChangedEventArgs>? DataChanged;
 
-		private StorageFileQueryResult query;
+		private StorageFileQueryResult? query;
 
-		private string configContent;
+		private string? configContent;
 
 		public string JsonFileName { get; } = "PinnedItems.json";
 
@@ -43,7 +43,7 @@ namespace Files.App.Controllers
 		public async Task ReloadAsync()
 		{
 			await LoadAsync();
-			Model.RemoveStaleSidebarItems();
+			Model?.RemoveStaleSidebarItems();
 		}
 
 		private async Task LoadAsync()
@@ -51,9 +51,12 @@ namespace Files.App.Controllers
 			StorageFolder Folder = await FilesystemTasks.Wrap(() => ApplicationData.Current.LocalFolder.CreateFolderAsync("settings", CreationCollisionOption.OpenIfExists).AsTask());
 			if (Folder is null)
 			{
-				Model.AddDefaultItems();
-				await Model.AddAllItemsToSidebar();
-				return;
+				Model?.AddDefaultItems();
+                if (Model is not null)
+                {
+                    await Model.AddAllItemsToSidebar();
+                }
+                return;
 			}
 
 			var JsonFile = await FilesystemTasks.Wrap(() => Folder.GetFileAsync(JsonFileName).AsTask());
@@ -66,25 +69,34 @@ namespace Files.App.Controllers
 					{
 						foreach (var item in oldItems)
 						{
-							if (!Model.FavoriteItems.Contains(item))
+							if (Model is not null)
 							{
-								Model.FavoriteItems.Add(item);
+								if (!Model.FavoriteItems.Contains(item))
+								{
+									Model.FavoriteItems.Add(item);
+								}
 							}
 						}
 					}
 					else
 					{
-						Model.AddDefaultItems();
+						Model?.AddDefaultItems();
 					}
 
-					Model.Save();
-					await Model.AddAllItemsToSidebar();
-					return;
+					Model?.Save();
+                    if (Model is not null)
+                    {
+                        await Model.AddAllItemsToSidebar();
+                    }
+                    return;
 				}
 				else
 				{
-					Model.AddDefaultItems();
-					await Model.AddAllItemsToSidebar();
+					Model?.AddDefaultItems();
+					if (Model is not null)
+					{
+						await Model.AddAllItemsToSidebar();
+					}					
 					return;
 				}
 			}
@@ -163,7 +175,8 @@ namespace Files.App.Controllers
 			}
 		}
 
-		private async Task<IEnumerable<string>> ReadV1PinnedItemsFile()
+		[Obsolete]
+		private static async Task<IEnumerable<string>?> ReadV1PinnedItemsFile()
 		{
 			return await SafetyExtensions.IgnoreExceptions(async () =>
 			{
@@ -174,14 +187,15 @@ namespace Files.App.Controllers
 			});
 		}
 
-		private async Task<IEnumerable<string>> ReadV2PinnedItemsFile()
+        [Obsolete]
+        private static async Task<IEnumerable<string>?> ReadV2PinnedItemsFile()
 		{
 			return await SafetyExtensions.IgnoreExceptions(async () =>
 			{
 				var oldPinnedItemsFile = await ApplicationData.Current.LocalCacheFolder.GetFileAsync("PinnedItems.json");
 				var model = JsonSerializer.Deserialize<SidebarPinnedModel>(await FileIO.ReadTextAsync(oldPinnedItemsFile));
 				await oldPinnedItemsFile.DeleteAsync();
-				return model.FavoriteItems;
+				return model?.FavoriteItems;
 			});
 		}
 	}

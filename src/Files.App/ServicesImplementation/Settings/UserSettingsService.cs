@@ -12,49 +12,49 @@ namespace Files.App.ServicesImplementation.Settings
 {
 	internal sealed class UserSettingsService : BaseJsonSettings, IUserSettingsService
 	{
-		private IPreferencesSettingsService _PreferencesSettingsService;
+		private IPreferencesSettingsService? _PreferencesSettingsService;
 		public IPreferencesSettingsService PreferencesSettingsService
 		{
 			get => GetSettingsService(ref _PreferencesSettingsService);
 		}
 
-		private IFoldersSettingsService _FoldersSettingsService;
+		private IFoldersSettingsService? _FoldersSettingsService;
 		public IFoldersSettingsService FoldersSettingsService
 		{
 			get => GetSettingsService(ref _FoldersSettingsService);
 		}
 
-		private IMultitaskingSettingsService _MultitaskingSettingsService;
+		private IMultitaskingSettingsService? _MultitaskingSettingsService;
 		public IMultitaskingSettingsService MultitaskingSettingsService
 		{
 			get => GetSettingsService(ref _MultitaskingSettingsService);
 		}
 
-		private IAppearanceSettingsService _AppearanceSettingsService;
+		private IAppearanceSettingsService? _AppearanceSettingsService;
 		public IAppearanceSettingsService AppearanceSettingsService
 		{
 			get => GetSettingsService(ref _AppearanceSettingsService);
 		}
 
-		private IPaneSettingsService _PaneSettingsService;
+		private IPaneSettingsService? _PaneSettingsService;
 		public IPaneSettingsService PaneSettingsService
 		{
 			get => GetSettingsService(ref _PaneSettingsService);
 		}
 
-		private ILayoutSettingsService _LayoutSettingsService;
+		private ILayoutSettingsService? _LayoutSettingsService;
 		public ILayoutSettingsService LayoutSettingsService
 		{
 			get => GetSettingsService(ref _LayoutSettingsService);
 		}
 
-		private IApplicationSettingsService _ApplicationSettingsService;
+		private IApplicationSettingsService? _ApplicationSettingsService;
 		public IApplicationSettingsService ApplicationSettingsService
 		{
 			get => GetSettingsService(ref _ApplicationSettingsService);
 		}
 
-		private IAppSettingsService _AppSettingsService;
+		private IAppSettingsService? _AppSettingsService;
 		public IAppSettingsService AppSettingsService
 		{
 			get => GetSettingsService(ref _AppSettingsService);
@@ -101,7 +101,7 @@ namespace Files.App.ServicesImplementation.Settings
 			return false;
 		}
 
-		private TSettingsService GetSettingsService<TSettingsService>(ref TSettingsService settingsServiceMember)
+		private static TSettingsService GetSettingsService<TSettingsService>(ref TSettingsService? settingsServiceMember)
 			where TSettingsService : class, IBaseSettingsService
 		{
 			settingsServiceMember ??= Ioc.Default.GetService<TSettingsService>()!;

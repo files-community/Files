@@ -103,7 +103,7 @@ namespace Files.App.CommandLine
 				: new string(commandLineCharArray).Split('\n');
 		}
 
-		public static List<KeyValuePair<string, string[]>> Parse(string[] args = null)
+		public static List<KeyValuePair<string, string[]>> Parse(string[]? args = null)
 		{
 			var parsedArgs = new List<KeyValuePair<string, string[]>>();
 			//Environment.GetCommandLineArgs() IS better but... I haven't tested this enough.
@@ -137,7 +137,7 @@ namespace Files.App.CommandLine
 				}
 			}
 
-			if (parsedArgs.Count == 0 && args.Length >= 2)
+			if (parsedArgs.Count == 0 && args?.Length >= 2)
 			{
 				parsedArgs.Add(new KeyValuePair<string, string[]>("Cmdless", new[] { string.Join(' ', args.Skip(1)).TrimStart() }));
 			}
@@ -157,12 +157,14 @@ namespace Files.App.CommandLine
 					int endIndex = argument.IndexOf(':');
 					key = argument.Substring(1, endIndex - 1);   // trim the '/' and the ':'.
 					int valueStart = endIndex + 1;
-					val.Add(valueStart < argument.Length ? argument.Substring(
-						valueStart, argument.Length - valueStart) : null);
+                    if (valueStart < argument.Length)
+                    {
+                        val.Add(argument[valueStart..]);
+                    }
 				}
 				else
 				{
-					key = args[index].Substring(1);
+					key = args[index][1..];
 				}
 
 				int argIndex = 1 + index;
