@@ -244,10 +244,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 		public void ResetLayoutPreferences()
 		{
 			// Is this proper practice?
-			using (var dbInstance = FolderSettingsViewModel.GetDbInstance())
-			{
-				dbInstance.ResetAll();
-			}
+			var dbInstance = FolderSettingsViewModel.GetDbInstance();
+			dbInstance.ResetAll();
 			IsResetLayoutPreferencesTipOpen = false;
 		}
 	}

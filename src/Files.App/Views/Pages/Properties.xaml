@@ -28,113 +28,110 @@
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 
-		<Grid
-			x:Name="TitleBarDragArea"
-			Grid.Row="0"
-			Height="32"
+		<Border
+			x:Name="TitlebarArea"
 			HorizontalAlignment="Stretch"
-			VerticalAlignment="Top"
-			Background="Transparent" />
-
-		<NavigationView
-			x:Name="NavigationView"
 			Grid.Row="0"
-			Margin="8,8,120,8"
-			HorizontalAlignment="Left"
-			AllowDrop="False"
-			Canvas.ZIndex="100"
-			IsBackButtonVisible="Collapsed"
-			IsPaneOpen="False"
-			IsPaneToggleButtonVisible="False"
-			IsSettingsVisible="False"
-			IsTitleBarAutoPaddingEnabled="False"
-			PaneDisplayMode="Top"
-			SelectedItem="{x:Bind TabGeneral}"
-			SelectionChanged="NavigationView_SelectionChanged"
-			SelectionFollowsFocus="Disabled">
-			<NavigationView.Resources>
-				<Style TargetType="NavigationViewItem">
-					<Setter Target="SelectionIndicator" Property="Margin" Value="0,-8,0,0" />
-				</Style>
-			</NavigationView.Resources>
-			<!--  SelectionFollowsFocus disabled to fix #5387  -->
+			Background="Transparent">
+			<NavigationView
+				x:Name="NavigationView"
+				Margin="8,8,120,8"
+				HorizontalAlignment="Left"
+				AllowDrop="False"
+				Canvas.ZIndex="100"
+				IsBackButtonVisible="Collapsed"
+				IsPaneOpen="False"
+				IsPaneToggleButtonVisible="False"
+				IsSettingsVisible="False"
+				IsTitleBarAutoPaddingEnabled="False"
+				PaneDisplayMode="Top"
+				SelectedItem="{x:Bind TabGeneral}"
+				SelectionChanged="NavigationView_SelectionChanged"
+				SelectionFollowsFocus="Disabled">
+				<NavigationView.Resources>
+					<Style TargetType="NavigationViewItem">
+						<Setter Target="SelectionIndicator" Property="Margin" Value="0,-8,0,0" />
+					</Style>
+				</NavigationView.Resources>
+				<!--  SelectionFollowsFocus disabled to fix #5387  -->
 
-			<!--  Tabs  -->
-			<NavigationView.MenuItems>
-				<NavigationViewItem
+				<!--  Tabs  -->
+				<NavigationView.MenuItems>
+					<NavigationViewItem
 					x:Name="TabGeneral"
 					AccessKey="G"
 					Content="{helpers:ResourceString Name=General}"
 					CornerRadius="0"
 					Tag="General">
-					<NavigationViewItem.Icon>
-						<FontIcon Glyph="&#xE7C3;" />
-					</NavigationViewItem.Icon>
-				</NavigationViewItem>
-				<NavigationViewItem
+						<NavigationViewItem.Icon>
+							<FontIcon Glyph="&#xE7C3;" />
+						</NavigationViewItem.Icon>
+					</NavigationViewItem>
+					<NavigationViewItem
 					x:Name="TabSecurity"
 					Content="{helpers:ResourceString Name=Security}"
 					CornerRadius="0"
 					Tag="Security">
-					<NavigationViewItem.Icon>
-						<FontIcon Glyph="&#xE730;" />
-					</NavigationViewItem.Icon>
-				</NavigationViewItem>
-				<NavigationViewItem
+						<NavigationViewItem.Icon>
+							<FontIcon Glyph="&#xE730;" />
+						</NavigationViewItem.Icon>
+					</NavigationViewItem>
+					<NavigationViewItem
 					x:Name="TabShorcut"
 					AccessKey="S"
 					Content="{helpers:ResourceString Name=Shortcut}"
 					CornerRadius="0"
 					Tag="Shortcut"
 					Visibility="Collapsed">
-					<NavigationViewItem.Icon>
-						<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF10A;" />
-					</NavigationViewItem.Icon>
-				</NavigationViewItem>
-				<NavigationViewItem
+						<NavigationViewItem.Icon>
+							<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF10A;" />
+						</NavigationViewItem.Icon>
+					</NavigationViewItem>
+					<NavigationViewItem
 					x:Name="TabLibrary"
 					AccessKey="L"
 					Content="{helpers:ResourceString Name=Library}"
 					CornerRadius="0"
 					Tag="Library"
 					Visibility="Collapsed">
-					<NavigationViewItem.Icon>
-						<FontIcon Glyph="&#xE1D3;" />
-					</NavigationViewItem.Icon>
-				</NavigationViewItem>
-				<NavigationViewItem
+						<NavigationViewItem.Icon>
+							<FontIcon Glyph="&#xE1D3;" />
+						</NavigationViewItem.Icon>
+					</NavigationViewItem>
+					<NavigationViewItem
 					x:Name="TabDetails"
 					AccessKey="D"
 					Content="{helpers:ResourceString Name=Details}"
 					CornerRadius="0"
 					Tag="Details"
 					Visibility="Collapsed">
-					<NavigationViewItem.Icon>
-						<FontIcon Glyph="&#xE946;" />
-					</NavigationViewItem.Icon>
-				</NavigationViewItem>
-				<NavigationViewItem
+						<NavigationViewItem.Icon>
+							<FontIcon Glyph="&#xE946;" />
+						</NavigationViewItem.Icon>
+					</NavigationViewItem>
+					<NavigationViewItem
 					x:Name="TabCustomization"
 					Content="{helpers:ResourceString Name=Customization}"
 					CornerRadius="0"
 					Tag="Customization"
 					Visibility="Collapsed">
-					<NavigationViewItem.Icon>
-						<FontIcon Glyph="&#xE771;" />
-					</NavigationViewItem.Icon>
-				</NavigationViewItem>
-				<NavigationViewItem
+						<NavigationViewItem.Icon>
+							<FontIcon Glyph="&#xE771;" />
+						</NavigationViewItem.Icon>
+					</NavigationViewItem>
+					<NavigationViewItem
 					x:Name="TabCompatibility"
 					Content="{helpers:ResourceString Name=Compatibility}"
 					CornerRadius="0"
 					Tag="Compatibility"
 					Visibility="Collapsed">
-					<NavigationViewItem.Icon>
-						<FontIcon Glyph="&#xECAA;" />
-					</NavigationViewItem.Icon>
-				</NavigationViewItem>
-			</NavigationView.MenuItems>
-		</NavigationView>
+						<NavigationViewItem.Icon>
+							<FontIcon Glyph="&#xECAA;" />
+						</NavigationViewItem.Icon>
+					</NavigationViewItem>
+				</NavigationView.MenuItems>
+			</NavigationView>
+		</Border>
 
 		<ScrollViewer Grid.Row="1">
 			<Frame x:Name="contentFrame" IsNavigationStackEnabled="False" />
