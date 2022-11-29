@@ -1053,15 +1053,15 @@ namespace Files.App.UserControls
 				return false;
 
 			var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => drivePath.StartsWith(x.Path, StringComparison.Ordinal));
-			if (matchingDrive is null || matchingDrive.Type != DriveType.CDRom || matchingDrive.MaxSpace != ByteSizeLib.ByteSize.FromBytes(0)) 
+			if (matchingDrive is null || matchingDrive.Type != DriveType.CDRom || matchingDrive.MaxSpace != ByteSizeLib.ByteSize.FromBytes(0))
 				return false;
 
 			var ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalizedResource(), string.Format("InsertDiscDialog/Text".GetLocalizedResource(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalizedResource(), "Close".GetLocalizedResource());
-			if (!ejectButton)
-				return true;
-
-			var result = await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
-			await UIHelpers.ShowDeviceEjectResultAsync(result);
+			if (ejectButton)
+			{
+				var result = await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
+				await UIHelpers.ShowDeviceEjectResultAsync(result);
+			}
 			return true;
 		}
 
