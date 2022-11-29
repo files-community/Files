@@ -138,7 +138,6 @@ namespace Files.App.UserControls
 		public SidebarControl()
 		{
 			InitializeComponent();
-			Loaded += SidebarNavView_Loaded;
 
 			dragOverSectionTimer = DispatcherQueue.CreateTimer();
 			dragOverItemTimer = DispatcherQueue.CreateTimer();
