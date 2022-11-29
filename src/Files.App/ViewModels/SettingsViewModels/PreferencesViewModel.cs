@@ -112,9 +112,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 			AddDateTimeOptions();
 			SelectedDateTimeFormatIndex = (int)Enum.Parse(typeof(DateTimeFormats), DateTimeFormat.ToString());
-			SelectedDefaultSortingIndex = DefaultSortOption == SortOption.FileTag ? 5 : (int)DefaultSortOption;
-			SelectedDefaultSortDirectionIndex = (int)DefaultSortDirection;
-			SelectedDefaultGroupingIndex = DefaultGroupOption == GroupOption.FileTag ? 6 : (int)DefaultGroupOption;
 
 			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
@@ -465,19 +462,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		public bool EnableOverridingSortingPreferences
-		{
-			get => UserSettingsService.LayoutSettingsService.EnableOverridingSortingPreferences;
-			set
-			{
-				if (value != UserSettingsService.LayoutSettingsService.EnableOverridingSortingPreferences)
-				{
-					UserSettingsService.LayoutSettingsService.EnableOverridingSortingPreferences = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
 		public bool ListAndSortDirectoriesAlongsideFiles
 		{
 			get => UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles;
@@ -486,87 +470,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles)
 				{
 					UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		private int selectedDefaultSortingIndex;
-		public int SelectedDefaultSortingIndex
-		{
-			get => selectedDefaultSortingIndex;
-			set
-			{
-				if (SetProperty(ref selectedDefaultSortingIndex, value))
-				{
-					OnPropertyChanged(nameof(SelectedDefaultSortingIndex));
-					DefaultSortOption = value < 5 ? (SortOption)value : SortOption.FileTag;
-				}
-			}
-		}
-
-		private int selectedDefaultSortDirectionIndex;
-		public int SelectedDefaultSortDirectionIndex
-		{
-			get => selectedDefaultSortDirectionIndex;
-			set
-			{
-				if (SetProperty(ref selectedDefaultSortDirectionIndex, value))
-				{
-					OnPropertyChanged(nameof(SelectedDefaultSortDirectionIndex));
-					DefaultSortDirection = (SortDirection)value;
-				}
-			}
-		}
-
-		private int selectedDefaultGroupingIndex;
-		public int SelectedDefaultGroupingIndex
-		{
-			get => selectedDefaultGroupingIndex;
-			set
-			{
-				if (SetProperty(ref selectedDefaultGroupingIndex, value))
-				{
-					OnPropertyChanged(nameof(SelectedDefaultGroupingIndex));
-					DefaultGroupOption = value < 6 ? (GroupOption)value : GroupOption.FileTag;
-				}
-			}
-		}
-
-		public SortOption DefaultSortOption
-		{
-			get => UserSettingsService.LayoutSettingsService.DefaultDirectorySortOption;
-			set
-			{
-				if (value != UserSettingsService.LayoutSettingsService.DefaultDirectorySortOption)
-				{
-					UserSettingsService.LayoutSettingsService.DefaultDirectorySortOption = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public SortDirection DefaultSortDirection
-		{
-			get => UserSettingsService.LayoutSettingsService.DefaultDirectorySortDirection;
-			set
-			{
-				if (value != UserSettingsService.LayoutSettingsService.DefaultDirectorySortDirection)
-				{
-					UserSettingsService.LayoutSettingsService.DefaultDirectorySortDirection = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public GroupOption DefaultGroupOption
-		{
-			get => UserSettingsService.LayoutSettingsService.DefaultDirectoryGroupOption;
-			set
-			{
-				if (value != UserSettingsService.LayoutSettingsService.DefaultDirectoryGroupOption)
-				{
-					UserSettingsService.LayoutSettingsService.DefaultDirectoryGroupOption = value;
 					OnPropertyChanged();
 				}
 			}
@@ -608,7 +511,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			{
 				if (Path == "Home".GetLocalizedResource())
 					return "Home".GetLocalizedResource();
-				return (Path == CommonPaths.RecycleBinPath) 
+				return (Path == CommonPaths.RecycleBinPath)
 					   ? ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin")
 					   : Path;
 			}
@@ -663,4 +566,3 @@ namespace Files.App.ViewModels.SettingsViewModels
 		}
 	}
 }
-

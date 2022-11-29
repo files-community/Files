@@ -139,5 +139,20 @@ namespace Files.Backend.Services.Settings
 		/// Gets or sets a value indicating whether or not to show folder size.
 		/// </summary>
 		bool CalculateFolderSizes { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating the default sorting option.
+		/// </summary>
+		SortOption DefaultDirectorySortOption { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating the default sort direction (ascending / descending).
+		/// </summary>
+		SortDirection DefaultDirectorySortDirection { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating the default grouping option.
+		/// </summary>
+		GroupOption DefaultDirectoryGroupOption { get; set; }
 	}
 }

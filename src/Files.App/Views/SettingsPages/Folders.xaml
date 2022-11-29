@@ -120,6 +120,46 @@
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
 
+			<!-- Default sorting and grouping options -->
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SortingAndGrouping}" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE8CB;" />
+				</local:SettingsBlockControl.Icon>
+				<local:SettingsBlockControl.ExpandableContent>
+					<StackPanel>
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=NavToolbarSortByRadioButtons/Text}" HorizontalAlignment="Stretch">
+							<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=NavToolbarSortByRadioButtons/Text}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultSortingIndex, Mode=TwoWay}">
+								<ComboBoxItem Content="{helpers:ResourceString Name=Name}" />
+								<ComboBoxItem Content="{helpers:ResourceString Name=DateModifiedLowerCase}" />
+								<ComboBoxItem Content="{helpers:ResourceString Name=DateCreated}" />
+								<ComboBoxItem Content="{helpers:ResourceString Name=Size}" />
+								<ComboBoxItem Content="{helpers:ResourceString Name=BaseLayoutContextFlyoutSortByType/Text}" />
+								<ComboBoxItem Content="{helpers:ResourceString Name=Tag}" />
+							</ComboBox>
+						</local:SettingsBlockControl>
+
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=NavToolbarSortDirectionRadioButtons/Header}" HorizontalAlignment="Stretch">
+							<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=NavToolbarSortDirectionRadioButtons/Header}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultSortDirectionIndex, Mode=TwoWay}">
+								<ComboBoxItem Content="{helpers:ResourceString Name=Ascending}" />
+								<ComboBoxItem Content="{helpers:ResourceString Name=Descending}" />
+							</ComboBox>
+						</local:SettingsBlockControl>
+
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=NavToolbarGroupByRadioButtons/Text}" HorizontalAlignment="Stretch">
+							<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=NavToolbarGroupByRadioButtons/Text}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultGroupingIndex, Mode=TwoWay}">
+								<ComboBoxItem Content="{helpers:ResourceString Name=None}" />
+								<ComboBoxItem Content="{helpers:ResourceString Name=Name}" />
+								<ComboBoxItem Content="{helpers:ResourceString Name=DateModifiedLowerCase}" />
+								<ComboBoxItem Content="{helpers:ResourceString Name=DateCreated}" />
+								<ComboBoxItem Content="{helpers:ResourceString Name=Size}" />
+								<ComboBoxItem Content="{helpers:ResourceString Name=BaseLayoutContextFlyoutSortByType/Text}" />
+								<ComboBoxItem Content="{helpers:ResourceString Name=Tag}" />
+							</ComboBox>
+						</local:SettingsBlockControl>
+					</StackPanel>
+				</local:SettingsBlockControl.ExpandableContent>
+			</local:SettingsBlockControl>
+
 			<!--  Layout mode  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=LayoutMode}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>

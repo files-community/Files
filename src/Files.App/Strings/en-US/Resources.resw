@@ -2865,9 +2865,6 @@
   <data name="SortingAndGrouping" xml:space="preserve">
     <value>Sorting and grouping</value>
   </data>
-  <data name="EnableOverridingSortingPreferences" xml:space="preserve">
-    <value>Enable overriding sorting preferences in individual directories</value>
-  </data>
   <data name="Archive" xml:space="preserve">
     <value>Archive</value>
   </data>

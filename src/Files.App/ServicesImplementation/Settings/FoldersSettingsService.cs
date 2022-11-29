@@ -207,6 +207,25 @@ namespace Files.App.ServicesImplementation.Settings
 			get => Get(false);
 			set => Set(value);
 		}
+
+		public SortDirection DefaultDirectorySortDirection
+		{
+			get => (SortDirection)Get((long)SortDirection.Ascending);
+			set => Set((long)value);
+		}
+
+		public SortOption DefaultDirectorySortOption
+		{
+			get => (SortOption)Get((long)SortOption.Name);
+			set => Set((long)value);
+		}
+
+		public GroupOption DefaultDirectoryGroupOption
+		{
+			get => (GroupOption)Get((long)GroupOption.None);
+			set => Set((long)value);
+		}
+
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			switch (e.SettingName)

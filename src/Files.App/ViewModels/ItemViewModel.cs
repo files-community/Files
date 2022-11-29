@@ -497,11 +497,10 @@ namespace Files.App.ViewModels
 							RefreshItems(null);
 					});
 					break;
-				case nameof(UserSettingsService.LayoutSettingsService.EnableOverridingSortingPreferences):
-				case nameof(UserSettingsService.LayoutSettingsService.DefaultDirectorySortOption):
-				case nameof(UserSettingsService.LayoutSettingsService.DefaultDirectorySortDirection):
+				case nameof(UserSettingsService.FoldersSettingsService.DefaultDirectorySortOption):
+				case nameof(UserSettingsService.FoldersSettingsService.DefaultDirectorySortDirection):
+				case nameof(UserSettingsService.FoldersSettingsService.DefaultDirectoryGroupOption):
 				case nameof(UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles):
-				case nameof(UserSettingsService.LayoutSettingsService.DefaultDirectoryGroupOption):
 				case nameof(UserSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences):
 					await dispatcherQueue.EnqueueAsync(() =>
 					{

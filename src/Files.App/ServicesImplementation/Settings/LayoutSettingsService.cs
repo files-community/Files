@@ -12,27 +12,9 @@ namespace Files.App.ServicesImplementation.Settings
 			RegisterSettingsContext(settingsSharingContext);
 		}
 
-		public bool EnableOverridingSortingPreferences
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
 		public int DefaultGridViewSize
 		{
 			get => (int)Get((long)Constants.Browser.GridViewBrowser.GridViewSizeSmall);
-			set => Set((long)value);
-		}
-
-		public SortDirection DefaultDirectorySortDirection
-		{
-			get => (SortDirection)Get((long)SortDirection.Ascending);
-			set => Set((long)value);
-		}
-
-		public SortOption DefaultDirectorySortOption
-		{
-			get => (SortOption)Get((long)SortOption.Name);
 			set => Set((long)value);
 		}
 
@@ -40,12 +22,6 @@ namespace Files.App.ServicesImplementation.Settings
 		{
 			get => Get(false);
 			set => Set(value);
-		}
-
-		public GroupOption DefaultDirectoryGroupOption
-		{
-			get => (GroupOption)Get((long)GroupOption.None);
-			set => Set((long)value);
 		}
 	}
 }

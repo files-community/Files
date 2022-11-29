@@ -20,6 +20,9 @@ namespace Files.App.ViewModels.SettingsViewModels
 			ShowResetLayoutPreferencesTipCommand = new RelayCommand(() => IsResetLayoutPreferencesTipOpen = true);
 
 			SelectedDefaultLayoutModeIndex = (int)DefaultLayoutMode;
+			SelectedDefaultSortingIndex = DefaultSortOption == SortOption.FileTag ? 5 : (int)DefaultSortOption;
+			SelectedDefaultSortDirectionIndex = (int)DefaultSortDirection;
+			SelectedDefaultGroupingIndex = DefaultGroupOption == GroupOption.FileTag ? 6 : (int)DefaultGroupOption;
 		}
 
 		// Properties
@@ -234,6 +237,87 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.FoldersSettingsService.CalculateFolderSizes)
 				{
 					UserSettingsService.FoldersSettingsService.CalculateFolderSizes = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		private int selectedDefaultSortingIndex;
+		public int SelectedDefaultSortingIndex
+		{
+			get => selectedDefaultSortingIndex;
+			set
+			{
+				if (SetProperty(ref selectedDefaultSortingIndex, value))
+				{
+					OnPropertyChanged(nameof(SelectedDefaultSortingIndex));
+					DefaultSortOption = value < 5 ? (SortOption)value : SortOption.FileTag;
+				}
+			}
+		}
+
+		private int selectedDefaultSortDirectionIndex;
+		public int SelectedDefaultSortDirectionIndex
+		{
+			get => selectedDefaultSortDirectionIndex;
+			set
+			{
+				if (SetProperty(ref selectedDefaultSortDirectionIndex, value))
+				{
+					OnPropertyChanged(nameof(SelectedDefaultSortDirectionIndex));
+					DefaultSortDirection = (SortDirection)value;
+				}
+			}
+		}
+
+		private int selectedDefaultGroupingIndex;
+		public int SelectedDefaultGroupingIndex
+		{
+			get => selectedDefaultGroupingIndex;
+			set
+			{
+				if (SetProperty(ref selectedDefaultGroupingIndex, value))
+				{
+					OnPropertyChanged(nameof(SelectedDefaultGroupingIndex));
+					DefaultGroupOption = value < 6 ? (GroupOption)value : GroupOption.FileTag;
+				}
+			}
+		}
+
+		public SortOption DefaultSortOption
+		{
+			get => UserSettingsService.FoldersSettingsService.DefaultDirectorySortOption;
+			set
+			{
+				if (value != UserSettingsService.FoldersSettingsService.DefaultDirectorySortOption)
+				{
+					UserSettingsService.FoldersSettingsService.DefaultDirectorySortOption = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public SortDirection DefaultSortDirection
+		{
+			get => UserSettingsService.FoldersSettingsService.DefaultDirectorySortDirection;
+			set
+			{
+				if (value != UserSettingsService.FoldersSettingsService.DefaultDirectorySortDirection)
+				{
+					UserSettingsService.FoldersSettingsService.DefaultDirectorySortDirection = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public GroupOption DefaultGroupOption
+		{
+			get => UserSettingsService.FoldersSettingsService.DefaultDirectoryGroupOption;
+			set
+			{
+				if (value != UserSettingsService.FoldersSettingsService.DefaultDirectoryGroupOption)
+				{
+					UserSettingsService.FoldersSettingsService.DefaultDirectoryGroupOption = value;
 					OnPropertyChanged();
 				}
 			}
