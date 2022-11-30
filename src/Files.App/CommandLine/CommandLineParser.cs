@@ -157,10 +157,10 @@ namespace Files.App.CommandLine
 					int endIndex = argument.IndexOf(':');
 					key = argument.Substring(1, endIndex - 1);   // trim the '/' and the ':'.
 					int valueStart = endIndex + 1;
-                    if (valueStart < argument.Length)
-                    {
-                        val.Add(argument[valueStart..]);
-                    }
+					if (valueStart < argument.Length)
+					{
+						val.Add(argument[valueStart..]);
+					}
 				}
 				else
 				{
