@@ -20,45 +20,6 @@ namespace Files.App.Helpers
 			});
 		}
 
-		public static async Task<bool> CompressMultipleToArchive(string[] sourceFolders, string archive, IProgress<float> progressDelegate)
-		{
-			SevenZipCompressor compressor = new()
-			{
-				ArchiveFormat = OutArchiveFormat.Zip,
-				CompressionLevel = CompressionLevel.High,
-				EventSynchronization = EventSynchronizationStrategy.AlwaysAsynchronous,
-				FastCompression = true,
-				IncludeEmptyDirectories = true,
-				PreserveDirectoryRoot = sourceFolders.Length > 1
-			};
-
-			bool noErrors = true;
-			try
-			{
-				for (int i = 0; i < sourceFolders.Length; i++)
-				{
-					if (i > 0)
-						compressor.CompressionMode = CompressionMode.Append;
-
-					var item = sourceFolders[i];
-					if (File.Exists(item))
-						await compressor.CompressFilesAsync(archive, item);
-					else if (Directory.Exists(item))
-						await compressor.CompressDirectoryAsync(item, archive);
-
-					float percentage = (i + 1.0f) / sourceFolders.Length * 100.0f;
-					progressDelegate?.Report(percentage);
-				}
-			}
-			catch (Exception ex)
-			{
-				App.Logger.Warn(ex, $"Error compressing folder: {archive}");
-				NativeFileOperationsHelper.DeleteFileFromApp(archive);
-				noErrors = false;
-			}
-			return noErrors;
-		}
-
 		public static async Task<bool> IsArchiveEncrypted(BaseStorageFile archive)
 		{
 			using SevenZipExtractor? zipFile = await GetZipFile(archive);
@@ -112,8 +73,6 @@ namespace Files.App.Helpers
 						NativeFileOperationsHelper.CreateDirectoryFromApp(dirName, IntPtr.Zero);
 					}
 				}
-
-				fileEntries.RemoveAll(file => file.FileName == dir);
 
 				if (cancellationToken.IsCancellationRequested) // Check if canceled
 					return;

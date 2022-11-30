@@ -132,10 +132,8 @@ namespace Files.App.Filesystem
 			{
 				if (SetProperty(ref fileTags, value))
 				{
-					using (var dbInstance = FileTagsHelper.GetDbInstance())
-					{
-						dbInstance.SetTags(ItemPath, FileFRN, value);
-					}
+					var dbInstance = FileTagsHelper.GetDbInstance();
+					dbInstance.SetTags(ItemPath, FileFRN, value);
 					FileTagsHelper.WriteFileTag(ItemPath, value);
 					OnPropertyChanged(nameof(FileTagsUI));
 				}
@@ -428,6 +426,15 @@ namespace Files.App.Filesystem
 		public RecycleBinItem AsRecycleBinItem => this as RecycleBinItem;
 
 		public string Key { get; set; }
+
+		/// <summary>
+		/// Manually check if a folder path contains child items,
+		/// updating the ContainsFilesOrFolders property from its default value of true
+		/// </summary>
+		public void UpdateContainsFilesFolders()
+		{
+			ContainsFilesOrFolders = FolderHelpers.CheckForFilesFolders(ItemPath);
+		}
 
 		public void SetDefaultIcon(BitmapImage img)
 		{

@@ -101,67 +101,70 @@ namespace Files.App.Shell
 
 		public async static Task<ContextMenu> GetContextMenuForFiles(string[] filePathList, Shell32.CMF flags, Func<string, bool> itemFilter = null)
 		{
-			List<ShellItem> shellItems = new List<ShellItem>();
-			try
-			{
-				foreach (var fp in filePathList.Where(x => !string.IsNullOrEmpty(x)))
-				{
-					shellItems.Add(ShellFolderExtensions.GetShellItemFromPathOrPidl(fp));
-				}
-
-				return await GetContextMenuForFiles(shellItems.ToArray(), flags, itemFilter);
-			}
-			catch (Exception ex) when (ex is ArgumentException || ex is FileNotFoundException)
-			{
-				// Return empty context menu
-				return null;
-			}
-			finally
-			{
-				foreach (var si in shellItems)
-				{
-					si.Dispose();
-				}
-			}
-		}
-
-		public async static Task<ContextMenu> GetContextMenuForFiles(ShellItem[] shellItems, Shell32.CMF flags, Func<string, bool> itemFilter = null)
-		{
-			if (shellItems is null || !shellItems.Any())
-			{
-				return null;
-			}
-
 			var owningThread = new ThreadWithMessageQueue();
 			return await owningThread.PostMethod<ContextMenu>(() =>
 			{
-				using var sf = shellItems[0].Parent; // HP: the items are all in the same folder
-				Shell32.IContextMenu menu = sf.GetChildrenUIObjects<Shell32.IContextMenu>(default, shellItems);
-				var hMenu = User32.CreatePopupMenu();
-				menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, flags);
-				var contextMenu = new ContextMenu(menu, hMenu, shellItems.Select(x => x.ParsingName), owningThread);
-				ContextMenu.EnumMenuItems(menu, hMenu, contextMenu.Items, itemFilter);
-				return contextMenu;
+				List<ShellItem> shellItems = new List<ShellItem>();
+				try
+				{
+					foreach (var fp in filePathList.Where(x => !string.IsNullOrEmpty(x)))
+					{
+						shellItems.Add(ShellFolderExtensions.GetShellItemFromPathOrPidl(fp));
+					}
+					if (!shellItems.Any())
+					{
+						return null;
+					}
+
+					using var sf = shellItems[0].Parent; // HP: the items are all in the same folder
+					Shell32.IContextMenu menu = sf.GetChildrenUIObjects<Shell32.IContextMenu>(default, shellItems.ToArray());
+					var hMenu = User32.CreatePopupMenu();
+					menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, flags);
+					var contextMenu = new ContextMenu(menu, hMenu, shellItems.Select(x => x.ParsingName), owningThread);
+					ContextMenu.EnumMenuItems(menu, hMenu, contextMenu.Items, itemFilter);
+					return contextMenu;
+				}
+				catch (Exception ex) when (ex is ArgumentException || ex is FileNotFoundException)
+				{
+					// Return empty context menu
+					return null;
+				}
+				finally
+				{
+					foreach (var si in shellItems)
+					{
+						si.Dispose();
+					}
+				}
 			});
 		}
 
-		private async static Task<ContextMenu> GetContextMenuForFolder(ShellFolder shellFolder, Shell32.CMF flags, Func<string, bool> itemFilter = null)
+		public async static Task<ContextMenu> GetContextMenuForFolder(string folderPath, Shell32.CMF flags, Func<string, bool> itemFilter = null)
 		{
-			if (shellFolder is null)
-			{
-				return null;
-			}
-
 			var owningThread = new ThreadWithMessageQueue();
 			return await owningThread.PostMethod<ContextMenu>(() =>
 			{
-				var sv = shellFolder.GetViewObject<Shell32.IShellView>(default);
-				Shell32.IContextMenu menu = sv.GetItemObject<Shell32.IContextMenu>(Shell32.SVGIO.SVGIO_BACKGROUND);
-				var hMenu = User32.CreatePopupMenu();
-				menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, flags);
-				var contextMenu = new ContextMenu(menu, hMenu, new[] { shellFolder.ParsingName }, owningThread);
-				ContextMenu.EnumMenuItems(menu, hMenu, contextMenu.Items, itemFilter);
-				return contextMenu;
+				ShellFolder shellFolder = null;
+				try
+				{
+					shellFolder = new ShellFolder(folderPath);
+					var sv = shellFolder.GetViewObject<Shell32.IShellView>(default);
+					Shell32.IContextMenu menu = sv.GetItemObject<Shell32.IContextMenu>(Shell32.SVGIO.SVGIO_BACKGROUND);
+					var hMenu = User32.CreatePopupMenu();
+					menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, flags);
+					var contextMenu = new ContextMenu(menu, hMenu, new[] { shellFolder.ParsingName }, owningThread);
+					ContextMenu.EnumMenuItems(menu, hMenu, contextMenu.Items, itemFilter);
+					return contextMenu;
+				}
+				catch (Exception ex) when (ex is ArgumentException || ex is FileNotFoundException)
+				{
+					// Return empty context menu
+					return null;
+				}
+				finally
+				{
+					shellFolder?.Dispose();
+				}
 			});
 		}
 

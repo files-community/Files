@@ -202,6 +202,14 @@ namespace Files.App.Filesystem
 			}
 		}
 
+		/// <summary>
+		/// Returns whether two RecentItem enumerables have the same order.
+		/// This function depends on `RecentItem` implementing IEquatable.
+		/// </summary>
+		private bool RecentItemsOrderEquals(IEnumerable<RecentItem> oldOrder, IEnumerable<RecentItem> newOrder)
+		{
+			return oldOrder != null && newOrder != null && oldOrder.SequenceEqual(newOrder);
+		}
 		public void Dispose()
 		{
 			RecentItemsManager.Default.RecentItemsChanged -= OnRecentItemsChanged;

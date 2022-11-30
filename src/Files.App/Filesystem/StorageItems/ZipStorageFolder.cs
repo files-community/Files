@@ -101,6 +101,7 @@ namespace Files.App.Filesystem.StorageItems
 				if (assoc is not null)
 				{
 					return assoc == Package.Current.Id.FamilyName
+						|| assoc.EndsWith("Files.App\\Files.exe", StringComparison.OrdinalIgnoreCase)
 						|| assoc.Equals(IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "explorer.exe"), StringComparison.OrdinalIgnoreCase);
 				}
 				return true;
@@ -502,6 +503,19 @@ namespace Files.App.Filesystem.StorageItems
 			});
 		}
 
+		public static Task<bool> InitArchive(string path, OutArchiveFormat format)
+		{
+			return SafetyExtensions.IgnoreExceptions(() =>
+			{
+				var hFile = NativeFileOperationsHelper.OpenFileForRead(path, true);
+				if (hFile.IsInvalid)
+				{
+					return Task.FromResult(false);
+				}
+				using var stream = new FileStream(hFile, FileAccess.ReadWrite);
+				return InitArchive(stream, format);
+			});
+		}
 		public static Task<bool> InitArchive(IStorageFile file, OutArchiveFormat format)
 		{
 			return SafetyExtensions.IgnoreExceptions(async () =>
@@ -511,7 +525,6 @@ namespace Files.App.Filesystem.StorageItems
 				return await InitArchive(stream, format);
 			});
 		}
-
 		private static async Task<bool> InitArchive(Stream stream, OutArchiveFormat format)
 		{
 			if (stream.Length == 0) // File is empty
@@ -617,7 +630,7 @@ namespace Files.App.Filesystem.StorageItems
 
 			public ZipFolderBasicProperties(ArchiveFileInfo entry) => this.entry = entry;
 
-			public override DateTimeOffset DateModified => entry.CreationTime == DateTime.MinValue ? DateTimeOffset.MinValue : entry.CreationTime;
+			public override DateTimeOffset DateModified => entry.LastWriteTime == DateTime.MinValue ? DateTimeOffset.MinValue : entry.LastWriteTime;
 
 			public override DateTimeOffset ItemDate => entry.CreationTime == DateTime.MinValue ? DateTimeOffset.MinValue : entry.CreationTime;
 

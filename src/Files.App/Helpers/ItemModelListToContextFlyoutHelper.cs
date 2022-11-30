@@ -66,7 +66,7 @@ namespace Files.App.Helpers.ContextFlyouts
 			};
 		}
 
-		private static MenuFlyoutItemBase GetMenuFlyoutItem(ContextMenuFlyoutItemViewModel item)
+		private static MenuFlyoutItemBase GetMenuFlyoutItem(ContextMenuFlyoutItemViewModel item, bool isToggle = false)
 		{
 			if (item.Items?.Count > 0)
 			{
@@ -81,8 +81,10 @@ namespace Files.App.Helpers.ContextFlyouts
 				});
 				return flyoutSubItem;
 			}
-
-			return GetItem(item);
+			else
+			{
+				return GetItem(item);
+			}
 		}
 
 		private static MenuFlyoutItemBase GetItem(ContextMenuFlyoutItemViewModel i)

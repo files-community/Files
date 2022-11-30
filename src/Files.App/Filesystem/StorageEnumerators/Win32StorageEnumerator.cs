@@ -268,7 +268,9 @@ namespace Files.App.Filesystem.StorageEnumerators
 			bool itemEmptyImgVis = true;
 
 			if (cancellationToken.IsCancellationRequested)
+			{
 				return null;
+			}
 
 			bool isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
 			double opacity = isHidden ? Constants.UI.DimItemOpacity : 1;
@@ -301,14 +303,14 @@ namespace Files.App.Filesystem.StorageEnumerators
 					IsSymLink = true
 				};
 			}
-
-			if (findData.cFileName.EndsWith(".lnk", StringComparison.Ordinal) || findData.cFileName.EndsWith(".url", StringComparison.Ordinal))
+			else if (findData.cFileName.EndsWith(".lnk", StringComparison.Ordinal) || findData.cFileName.EndsWith(".url", StringComparison.Ordinal))
 			{
 				var isUrl = findData.cFileName.EndsWith(".url", StringComparison.OrdinalIgnoreCase);
 				var shInfo = await ParseLinkAsync(itemPath);
 				if (shInfo is null)
+				{
 					return null;
-
+				}
 				return new ShortcutItem(null)
 				{
 					PrimaryItemAttribute = shInfo.IsFolder ? StorageItemTypes.Folder : StorageItemTypes.File,
@@ -333,50 +335,58 @@ namespace Files.App.Filesystem.StorageEnumerators
 					IsUrl = isUrl,
 				};
 			}
-
-			if (App.LibraryManager.TryGetLibrary(itemPath, out LibraryLocationItem library))
+			else if (App.LibraryManager.TryGetLibrary(itemPath, out LibraryLocationItem library))
+			{
 				return new LibraryItem(library)
 				{
 					ItemDateModifiedReal = itemModifiedDate,
 					ItemDateCreatedReal = itemCreatedDate,
 				};
-
-			if (ZipStorageFolder.IsZipPath(itemPath) && await ZipStorageFolder.CheckDefaultZipApp(itemPath))
-				return new ZipItem(null)
-				{
-					PrimaryItemAttribute = StorageItemTypes.Folder, // Treat zip files as folders
-					FileExtension = itemFileExtension,
-					FileImage = null,
-					LoadFileIcon = itemThumbnailImgVis,
-					ItemNameRaw = itemName,
-					IsHiddenItem = isHidden,
-					Opacity = opacity,
-					ItemDateModifiedReal = itemModifiedDate,
-					ItemDateAccessedReal = itemLastAccessDate,
-					ItemDateCreatedReal = itemCreatedDate,
-					ItemType = itemType,
-					ItemPath = itemPath,
-					FileSize = itemSize,
-					FileSizeBytes = itemSizeBytes
-				};
-
-			return new ListedItem(null)
+			}
+			else
 			{
-				PrimaryItemAttribute = StorageItemTypes.File,
-				FileExtension = itemFileExtension,
-				FileImage = null,
-				LoadFileIcon = itemThumbnailImgVis,
-				ItemNameRaw = itemName,
-				IsHiddenItem = isHidden,
-				Opacity = opacity,
-				ItemDateModifiedReal = itemModifiedDate,
-				ItemDateAccessedReal = itemLastAccessDate,
-				ItemDateCreatedReal = itemCreatedDate,
-				ItemType = itemType,
-				ItemPath = itemPath,
-				FileSize = itemSize,
-				FileSizeBytes = itemSizeBytes
-			};
+				if (ZipStorageFolder.IsZipPath(itemPath) && await ZipStorageFolder.CheckDefaultZipApp(itemPath))
+				{
+					return new ZipItem(null)
+					{
+						PrimaryItemAttribute = StorageItemTypes.Folder, // Treat zip files as folders
+						FileExtension = itemFileExtension,
+						FileImage = null,
+						LoadFileIcon = itemThumbnailImgVis,
+						ItemNameRaw = itemName,
+						IsHiddenItem = isHidden,
+						Opacity = opacity,
+						ItemDateModifiedReal = itemModifiedDate,
+						ItemDateAccessedReal = itemLastAccessDate,
+						ItemDateCreatedReal = itemCreatedDate,
+						ItemType = itemType,
+						ItemPath = itemPath,
+						FileSize = itemSize,
+						FileSizeBytes = itemSizeBytes
+					};
+				}
+				else
+				{
+					return new ListedItem(null)
+					{
+						PrimaryItemAttribute = StorageItemTypes.File,
+						FileExtension = itemFileExtension,
+						FileImage = null,
+						LoadFileIcon = itemThumbnailImgVis,
+						ItemNameRaw = itemName,
+						IsHiddenItem = isHidden,
+						Opacity = opacity,
+						ItemDateModifiedReal = itemModifiedDate,
+						ItemDateAccessedReal = itemLastAccessDate,
+						ItemDateCreatedReal = itemCreatedDate,
+						ItemType = itemType,
+						ItemPath = itemPath,
+						FileSize = itemSize,
+						FileSizeBytes = itemSizeBytes
+					};
+				}
+			}
+			return null;
 		}
 
 		private async static Task<ShellLinkItem> ParseLinkAsync(string linkPath)

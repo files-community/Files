@@ -19,6 +19,8 @@ namespace Files.App.ViewModels.Pages
 
 		private IShellPage associatedInstance;
 
+		private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
+
 		public event EventHandler<RoutedEventArgs> YourHomeLoadedInvoked;
 
 		public ICommand YourHomeLoadedCommand { get; private set; }

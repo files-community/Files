@@ -62,7 +62,8 @@ namespace Files.App.Filesystem
 				return false;
 			}
 		}
-
+		public static bool AreItemsInSameDrive(this IEnumerable<IStorageItem> storageItems, string destinationPath)
+			=> storageItems.Select(x => x.Path).AreItemsInSameDrive(destinationPath);
 		public static bool AreItemsInSameDrive(this IEnumerable<IStorageItemWithPath> storageItems, string destinationPath)
 			=> storageItems.Select(x => x.Path).AreItemsInSameDrive(destinationPath);
 

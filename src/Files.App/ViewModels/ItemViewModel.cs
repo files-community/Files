@@ -34,6 +34,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
 using System.Threading;
@@ -73,6 +74,7 @@ namespace Files.App.ViewModels
 		private DispatcherQueue dispatcherQueue;
 
 		public ListedItem CurrentFolder { get; private set; }
+		public CollectionViewSource viewSource;
 
 		private FileSystemWatcher watcher;
 		private CancellationTokenSource addFilesCTS, semaphoreCTS, loadPropsCTS, watcherCTS, searchCTS;
@@ -90,6 +92,8 @@ namespace Files.App.ViewModels
 
 		private StorageFolderWithPath currentStorageFolder;
 		private StorageFolderWithPath workingRoot;
+
+		private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
 
 		public delegate void WorkingDirectoryModifiedEventHandler(object sender, WorkingDirectoryModifiedEventArgs e);
 
@@ -980,10 +984,8 @@ namespace Files.App.ViewModels
 
 		private static void SetFileTag(ListedItem item)
 		{
-			using (var dbInstance = FileTagsHelper.GetDbInstance())
-			{
-				dbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
-			}
+			var dbInstance = FileTagsHelper.GetDbInstance();
+			dbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
 		}
 
 		// This works for recycle bin as well as GetFileFromPathAsync/GetFolderFromPathAsync work
@@ -1388,9 +1390,10 @@ namespace Files.App.ViewModels
 					}
 					catch (FtpAuthenticationException)
 					{
-						// throw new InvalidOperationException();
 						return null;
 					}
+
+					throw new InvalidOperationException();
 				}
 
 				await Task.Run(async () =>
@@ -1476,10 +1479,9 @@ namespace Files.App.ViewModels
 				}
 				else if (res == FileSystemStatusCode.Unauthorized)
 				{
-					//TODO: proper dialog
 					await DialogDisplayHelper.ShowDialogAsync(
 						"AccessDenied".GetLocalizedResource(),
-						"SubDirectoryAccessDenied".GetLocalizedResource());
+						"AccessDeniedToFolder".GetLocalizedResource());
 					return -1;
 				}
 				else if (res == FileSystemStatusCode.NotFound)
@@ -1524,18 +1526,18 @@ namespace Files.App.ViewModels
 					currentFolder.ItemDateCreatedReal = rootFolder.DateCreated;
 
 				CurrentFolder = currentFolder;
-				await EnumFromStorageFolderAsync(path, rootFolder, currentStorageFolder, cancellationToken);
+				await EnumFromStorageFolderAsync(path, currentFolder, rootFolder, currentStorageFolder, cancellationToken);
 				return isBoxFolder || isNetworkFolder ? 2 : 1; // Workaround for #7428
 			}
 			else
 			{
-				(IntPtr hFile, WIN32_FIND_DATA findData) = await Task.Run(() =>
+				(IntPtr hFile, WIN32_FIND_DATA findData, int errorCode) = await Task.Run(() =>
 				{
 					FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
 					int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
 					IntPtr hFileTsk = FindFirstFileExFromApp(path + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findDataTsk, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
 						additionalFlags);
-					return (hFileTsk, findDataTsk);
+					return (hFileTsk, findDataTsk, hFileTsk.ToInt64() == -1 ? Marshal.GetLastWin32Error() : 0);
 				}).WithTimeoutAsync(TimeSpan.FromSeconds(5));
 
 				var itemModifiedDate = DateTime.Now;
@@ -1581,7 +1583,18 @@ namespace Files.App.ViewModels
 				}
 				else if (hFile.ToInt64() == -1)
 				{
-					await EnumFromStorageFolderAsync(path, rootFolder, currentStorageFolder, cancellationToken);
+					await EnumFromStorageFolderAsync(path, currentFolder, rootFolder, currentStorageFolder, cancellationToken);
+					if (!filesAndFolders.Any())
+					{
+						// https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-
+						if (errorCode == 0x5) // ERROR_ACCESS_DENIED
+						{
+							await DialogDisplayHelper.ShowDialogAsync(
+								"AccessDenied".GetLocalizedResource(),
+								"AccessDeniedToFolder".GetLocalizedResource());
+							return -1;
+						}
+					}
 					return 1;
 				}
 				else
@@ -1605,14 +1618,13 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		private async Task EnumFromStorageFolderAsync(string path, BaseStorageFolder rootFolder, StorageFolderWithPath currentStorageFolder, CancellationToken cancellationToken)
+		private async Task EnumFromStorageFolderAsync(string path, ListedItem currentFolder, BaseStorageFolder rootFolder, StorageFolderWithPath currentStorageFolder, CancellationToken cancellationToken)
 		{
 			if (rootFolder is null)
 				return;
 
 			Stopwatch stopwatch = new Stopwatch();
 			stopwatch.Start();
-
 
 			await Task.Run(async () =>
 			{
@@ -1633,7 +1645,6 @@ namespace Files.App.ViewModels
 			});
 
 			stopwatch.Stop();
-
 			Debug.WriteLine($"Enumerating items in {path} (device) completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
 		}
 
@@ -2171,6 +2182,14 @@ namespace Files.App.ViewModels
 				enumFolderSemaphore.Release();
 			}
 			return null;
+		}
+
+		public async Task AddSearchResultsToCollection(ObservableCollection<ListedItem> searchItems, string currentSearchPath)
+		{
+			filesAndFolders.Clear();
+			filesAndFolders.AddRange(searchItems);
+			await OrderFilesAndFoldersAsync();
+			await ApplyFilesAndFoldersChangesAsync();
 		}
 
 		public async Task SearchAsync(FolderSearch search)

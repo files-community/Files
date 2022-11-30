@@ -24,6 +24,11 @@ namespace Files.App.ViewModels.Widgets
 			WidgetListRefreshRequestedInvoked?.Invoke(this, EventArgs.Empty);
 		}
 
+		public bool AddWidget(WidgetsListControlItemViewModel widgetModel)
+		{
+			return InsertWidget(widgetModel, Widgets.Count + 1);
+		}
+
 		public bool InsertWidget(WidgetsListControlItemViewModel widgetModel, int atIndex)
 		{
 			// The widget must not be null and must implement IWidgetItemModel
@@ -81,6 +86,12 @@ namespace Files.App.ViewModels.Widgets
 			}
 
 			RemoveWidgetAt(indexToRemove);
+		}
+
+		public void ReorderWidget(WidgetsListControlItemViewModel widgetModel, int place)
+		{
+			int widgetIndex = Widgets.IndexOf(widgetModel);
+			Widgets.Move(widgetIndex, place);
 		}
 
 		public void Dispose()
