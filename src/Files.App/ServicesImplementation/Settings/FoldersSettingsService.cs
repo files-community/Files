@@ -82,6 +82,36 @@ namespace Files.App.ServicesImplementation.Settings
 			}
 		}
 
+		public double DateDeletedColumnWidth
+		{
+			get => Get(200d);
+			set
+			{
+				if (ShowDateDeletedColumn)
+					Set(value);
+			}
+		}
+
+		public double OriginalPathColumnWidth
+		{
+			get => Get(200d);
+			set
+			{
+				if (ShowOriginalPathColumn)
+					Set(value);
+			}
+		}
+
+		public double SyncStatusColumnWidth
+		{
+			get => Get(50d);
+			set
+			{
+				if (ShowSyncStatusColumn)
+					Set(value);
+			}
+		}
+
 		public bool ShowDateColumn
 		{
 			get => Get(true);
@@ -107,6 +137,24 @@ namespace Files.App.ServicesImplementation.Settings
 		}
 
 		public bool ShowFileTagColumn
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowDateDeletedColumn
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowOriginalPathColumn
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowSyncStatusColumn
 		{
 			get => Get(true);
 			set => Set(value);
