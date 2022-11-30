@@ -13,3 +13,6 @@
     </windowsSettings>
   </application>
 </assembly>
+<security>
+  <requestedExecutionLevel level="requireAdministrator" uiAccess="false" />
+</security>
