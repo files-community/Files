@@ -296,7 +296,8 @@ namespace Files.App.DataModels
 					{
 						favoriteList.Remove(item);
 					}
-					if (controller is not null) controller.DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
+					if (controller is not null) 
+						controller.DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
 				}
 			}
 

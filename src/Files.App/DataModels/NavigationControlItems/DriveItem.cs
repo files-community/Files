@@ -44,7 +44,7 @@ namespace Files.App.DataModels.NavigationControlItems
 
 		public bool IsRemovable => Type == DriveType.Removable || Type == DriveType.CDRom;
 		public bool IsNetwork => Type == DriveType.Network;
-		public bool IsPinned => App.SidebarPinnedController.Model is not null ? App.SidebarPinnedController.Model.FavoriteItems.Contains(path is not null ? path : string.Empty) : false;
+		public bool IsPinned => App.SidebarPinnedController.Model is not null && App.SidebarPinnedController.Model.FavoriteItems.Contains(path ?? string.Empty);
 
 		public string MaxSpaceText => MaxSpace.ToSizeString();
 		public string FreeSpaceText => FreeSpace.ToSizeString();
