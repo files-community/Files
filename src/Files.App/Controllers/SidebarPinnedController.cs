@@ -52,11 +52,11 @@ namespace Files.App.Controllers
 			if (Folder is null)
 			{
 				Model?.AddDefaultItems();
-                if (Model is not null)
-                {
-                    await Model.AddAllItemsToSidebar();
-                }
-                return;
+                        	if (Model is not null)
+                        	{
+                    			await Model.AddAllItemsToSidebar();
+                        	}
+                        	return;
 			}
 
 			var JsonFile = await FilesystemTasks.Wrap(() => Folder.GetFileAsync(JsonFileName).AsTask());
@@ -84,11 +84,11 @@ namespace Files.App.Controllers
 					}
 
 					Model?.Save();
-                    if (Model is not null)
-                    {
-                        await Model.AddAllItemsToSidebar();
-                    }
-                    return;
+					if (Model is not null)
+					{
+						await Model.AddAllItemsToSidebar();
+					}
+					return;
 				}
 				else
 				{
