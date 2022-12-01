@@ -126,8 +126,8 @@ namespace Files.App.DataModels
 			try
 			{
 				FavoriteItems.RemoveAt(oldIndex);
-                FavoriteItems.Insert(newIndex, locationItem.Path ?? string.Empty);
-                lock (favoriteList)
+				FavoriteItems.Insert(newIndex, locationItem.Path ?? string.Empty);
+				lock (favoriteList)
 				{
 					favoriteList.RemoveAt(oldIndex);
 					favoriteList.Insert(newIndex, locationItem);
