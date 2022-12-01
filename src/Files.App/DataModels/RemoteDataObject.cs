@@ -276,8 +276,8 @@ namespace Files.App.DataModels
 			{
 				this.Name = Name;
 				this.ItemType = ItemType;
-                this.ContentStream = ContentStream ?? new MemoryStream();
-            }
+                		this.ContentStream = ContentStream ?? new MemoryStream();
+            		}
 
 			public void Dispose()
 			{
