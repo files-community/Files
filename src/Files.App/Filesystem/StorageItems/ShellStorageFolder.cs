@@ -88,7 +88,7 @@ namespace Files.App.Filesystem.StorageItems
 			{
 				return new ShortcutStorageFolder(linkItem);
 			}
-			else if (item.RecyclePath.Contains("$Recycle.Bin", StringComparison.Ordinal))
+			else if (item.RecyclePath.Contains("$Recycle.Bin", StringComparison.OrdinalIgnoreCase))
 			{
 				return new BinStorageFolder(item);
 			}
