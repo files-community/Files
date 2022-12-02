@@ -70,17 +70,12 @@ namespace Files.App.Filesystem.StorageItems
 		public static ShellStorageFile FromShellItem(ShellFileItem item)
 		{
 			if (item is ShellLinkItem linkItem)
-			{
 				return new ShortcutStorageFile(linkItem);
-			}
-			else if (item.RecyclePath.Contains("$Recycle.Bin", StringComparison.OrdinalIgnoreCase))
-			{
+
+			if (item.RecyclePath.Contains("$Recycle.Bin", StringComparison.OrdinalIgnoreCase))
 				return new BinStorageFile(item);
-			}
-			else
-			{
-				return new ShellStorageFile(item);
-			}
+
+			return new ShellStorageFile(item);
 		}
 
 		public static IAsyncOperation<BaseStorageFile> FromPathAsync(string path)
