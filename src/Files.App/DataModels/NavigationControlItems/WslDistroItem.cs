@@ -30,6 +30,6 @@ namespace Files.App.DataModels.NavigationControlItems
 
 		public ContextMenuOptions? MenuOptions { get; set; }
 
-        public int CompareTo(INavigationControlItem? other) => Text is not null ? Text.CompareTo(other?.Text) : 0;
+                public int CompareTo(INavigationControlItem? other) => Text is not null ? Text.CompareTo(other?.Text) : 0;
     }
 }
