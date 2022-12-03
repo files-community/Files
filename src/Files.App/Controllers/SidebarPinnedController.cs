@@ -175,7 +175,6 @@ namespace Files.App.Controllers
 			}
 		}
 
-		[Obsolete]
 		private static async Task<IEnumerable<string>?> ReadV1PinnedItemsFile()
 		{
 			return await SafetyExtensions.IgnoreExceptions(async () =>
@@ -187,7 +186,6 @@ namespace Files.App.Controllers
 			});
 		}
 
-        [Obsolete]
         private static async Task<IEnumerable<string>?> ReadV2PinnedItemsFile()
 		{
 			return await SafetyExtensions.IgnoreExceptions(async () =>
