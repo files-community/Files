@@ -15,7 +15,7 @@ namespace Files.App.Filesystem
 		private readonly ILogger logger = Ioc.Default.GetService<ILogger>();
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetService<IFileTagsSettingsService>();
 
-		public EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
+		public EventHandler<NotifyCollectionChangedEventArgs>? DataChanged;
 
 		private readonly List<FileTagItem> fileTags = new();
 		public IReadOnlyList<FileTagItem> FileTags

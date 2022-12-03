@@ -76,7 +76,7 @@ namespace Files.App.UserControls
 
 		// Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ViewModelProperty =
-			DependencyProperty.Register(nameof(ViewModel), typeof(SidebarViewModel), typeof(SidebarControl), new PropertyMetadata(null));
+			DependencyProperty.Register(nameof(ViewModel), typeof(ISidebarViewModel), typeof(SidebarControl), new PropertyMetadata(null));
 
 		public static readonly DependencyProperty SelectedSidebarItemProperty = DependencyProperty.Register(nameof(SelectedSidebarItem), typeof(INavigationControlItem), typeof(SidebarControl), new PropertyMetadata(null));
 
@@ -160,9 +160,9 @@ namespace Files.App.UserControls
 			OpenPropertiesCommand = new RelayCommand<CommandBarFlyout>(OpenProperties);
 		}
 
-		public SidebarViewModel ViewModel
+		public ISidebarViewModel ViewModel
 		{
-			get => (SidebarViewModel)GetValue(ViewModelProperty);
+			get => (ISidebarViewModel)GetValue(ViewModelProperty);
 			set => SetValue(ViewModelProperty, value);
 		}
 

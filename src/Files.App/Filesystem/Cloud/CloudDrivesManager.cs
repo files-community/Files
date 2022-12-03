@@ -18,7 +18,7 @@ namespace Files.App.Filesystem.Cloud
 		private readonly ILogger logger = Ioc.Default.GetService<ILogger>();
 		private readonly ICloudDetector detector = Ioc.Default.GetService<ICloudDetector>();
 
-		public EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
+		public EventHandler<NotifyCollectionChangedEventArgs>? DataChanged;
 
 		private readonly List<DriveItem> drives = new();
 		public IReadOnlyList<DriveItem> Drives

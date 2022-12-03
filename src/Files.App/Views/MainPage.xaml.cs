@@ -47,7 +47,7 @@ namespace Files.App.Views
 			set => DataContext = value;
 		}
 
-		public SidebarViewModel SidebarAdaptiveViewModel = new SidebarViewModel();
+		public ISidebarViewModel SidebarAdaptiveViewModel = new SidebarViewModel();
 
 		public OngoingTasksViewModel OngoingTasksViewModel => App.OngoingTasksViewModel;
 
@@ -227,9 +227,10 @@ namespace Files.App.Views
 			SidebarControl.SidebarItemNewPaneInvoked += SidebarControl_SidebarItemNewPaneInvoked;
 		}
 
-		private async void SidebarControl_SidebarItemDropped(object sender, SidebarItemDroppedEventArgs e)
+		private async void SidebarControl_SidebarItemDropped(object _, SidebarItemDroppedEventArgs e)
 		{
-			await SidebarAdaptiveViewModel.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.Package, e.ItemPath, false, true);
+			await SidebarAdaptiveViewModel.PaneHolder.FilesystemHelpers
+				.PerformOperationTypeAsync(e.AcceptedOperation, e.Package, e.ItemPath, false, true);
 			e.SignalEvent?.Set();
 		}
 
@@ -361,11 +362,6 @@ namespace Files.App.Views
 		{
 			SidebarAdaptiveViewModel.IsSidebarOpen = !SidebarAdaptiveViewModel.IsSidebarOpen;
 			e!.Handled = true;
-		}
-
-		private void SidebarControl_Loaded(object sender, RoutedEventArgs e)
-		{
-			SidebarAdaptiveViewModel.UpdateTabControlMargin(); // Set the correct tab margin on startup
 		}
 
 		private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e) => LoadPaneChanged();

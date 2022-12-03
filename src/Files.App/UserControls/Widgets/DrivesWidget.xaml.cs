@@ -325,7 +325,7 @@ namespace Files.App.UserControls.Widgets
 
 		public void Dispose()
 		{
-
+			App.DrivesManager.DataChanged -= Manager_DataChanged;
 		}
 	}
 }

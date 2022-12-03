@@ -229,7 +229,6 @@
 			EmptyRecycleBinCommand="{x:Bind SidebarAdaptiveViewModel.EmptyRecycleBinCommand, Mode=OneWay}"
 			IsPaneOpen="{x:Bind SidebarAdaptiveViewModel.IsSidebarOpen, Mode=TwoWay}"
 			IsPaneToggleButtonVisible="False"
-			Loaded="SidebarControl_Loaded"
 			PaneDisplayMode="Left"
 			SelectedSidebarItem="{x:Bind SidebarAdaptiveViewModel.SidebarSelectedItem, Mode=TwoWay}"
 			ViewModel="{x:Bind SidebarAdaptiveViewModel}">

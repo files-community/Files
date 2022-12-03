@@ -18,7 +18,7 @@ namespace Files.App.Controllers
 	{
 		public SidebarPinnedModel Model { get; set; }
 
-		public EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
+		public EventHandler<NotifyCollectionChangedEventArgs>? DataChanged;
 
 		private StorageFileQueryResult query;
 
