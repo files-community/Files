@@ -198,7 +198,24 @@
 			Canvas.ZIndex="0"
 			EmptyTextType="{x:Bind ParentShellPageInstance.FilesystemViewModel.EmptyTextType, Mode=OneWay}" />
 
-		<TeachingTip
+        <Border>
+            <StackPanel
+            x:Name="SearchUnindexedItemsPanel"
+			HorizontalAlignment="Center"
+            VerticalAlignment="Bottom"
+			x:Load="{x:Bind InstanceViewModel.ShowSearchUnindexedItemsMessage, Mode=OneWay}"
+			Orientation="Vertical">
+                <TextBlock Visibility="Visible" Text="{helpers:ResourceString Name=SearchUnindexedItemsLabel/Text}" />
+                <HyperlinkButton
+				x:Name="SearchUnindexedItemsButton"
+				Visibility="Visible"
+				Command="{x:Bind CommandsViewModel.SearchUnindexedItems}"
+				Content="{helpers:ResourceString Name=SearchUnindexedItemsButton/Content}" />
+            </StackPanel>
+        </Border>
+        
+
+        <TeachingTip
 			x:Name="FileNameTeachingTip"
 			CloseButtonContent="{helpers:ResourceString Name=FileNameTeachingTip/CloseButtonContent}"
 			PreferredPlacement="Auto"
@@ -911,26 +928,12 @@
 							<Setter Property="Height" Value="{ThemeResource ListItemHeight}" />
 						</Style>
 					</ListView.ItemContainerStyle>
-					<ListView.ItemsPanel>
-						<ItemsPanelTemplate>
-							<ItemsStackPanel AreStickyGroupHeadersEnabled="False" Orientation="Vertical" />
-						</ItemsPanelTemplate>
-					</ListView.ItemsPanel>
-					<ListView.Footer>
-						<StackPanel
-							x:Name="SearchUnindexedItemsPanel"
-							HorizontalAlignment="Stretch"
-							x:Load="{x:Bind InstanceViewModel.ShowSearchUnindexedItemsMessage, Mode=OneWay}"
-							Orientation="Vertical">
-							<TextBlock Visibility="Collapsed" Text="{helpers:ResourceString Name=SearchUnindexedItemsLabel/Text}" />
-							<HyperlinkButton
-								x:Name="SearchUnindexedItemsButton"
-								Visibility="Collapsed"
-								Command="{x:Bind CommandsViewModel.SearchUnindexedItems}"
-								Content="{helpers:ResourceString Name=SearchUnindexedItemsButton/Content}" />
-						</StackPanel>
-					</ListView.Footer>
-				</ListView>
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsStackPanel AreStickyGroupHeadersEnabled="False" Orientation="Vertical" />
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                </ListView>
 			</SemanticZoom.ZoomedInView>
 
 			<SemanticZoom.ZoomedOutView>
