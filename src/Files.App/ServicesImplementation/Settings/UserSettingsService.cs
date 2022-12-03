@@ -101,7 +101,7 @@ namespace Files.App.ServicesImplementation.Settings
 			return false;
 		}
 
-		private static TSettingsService GetSettingsService<TSettingsService>(ref TSettingsService? settingsServiceMember)
+		private TSettingsService GetSettingsService<TSettingsService>(ref TSettingsService? settingsServiceMember)
 			where TSettingsService : class, IBaseSettingsService
 		{
 			settingsServiceMember ??= Ioc.Default.GetService<TSettingsService>()!;
