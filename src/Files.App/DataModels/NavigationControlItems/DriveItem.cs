@@ -170,8 +170,8 @@ namespace Files.App.DataModels.NavigationControlItems
 			try
 			{
 				var properties = Root is not null ? await Root.Properties.RetrievePropertiesAsync(new[] { "System.ItemNameDisplay" })
-                    .AsTask().WithTimeoutAsync(TimeSpan.FromSeconds(5)) : null;
-                Text = (string?)properties?["System.ItemNameDisplay"];
+                                                 .AsTask().WithTimeoutAsync(TimeSpan.FromSeconds(5)) : null;
+                                Text = (string?)properties?["System.ItemNameDisplay"];
 			}
 			catch (NullReferenceException)
 			{
