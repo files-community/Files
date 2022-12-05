@@ -1,32 +1,62 @@
-﻿using ABI.System;
+﻿using Files.App.Helpers;
 using Files.Shared.Enums;
+using System;
 
 namespace Files.App.Filesystem
 {
-    public struct FileSystemProgress
+    public class FileSystemProgress
     {
-        public float Progress { get; set; }
-        public FileSystemStatusCode? Status { get; set; }
-        public string? FileName { get; set; }
-        public long? TotalSize { get; set; }
-        public long? ProcessedSize { get; set; }
-        public long? FileCount { get; set; }
-        public long? ProcessedFileCount { get; set; }
-        public long? DirectoryCount { get; set; }
-        public long? ProcessedDirectoryCount { get; set; }
-        public float? ItemSpeed { get; set; }
-        public float? SizeSpeed { get; set; }
-        public TimeSpan EstimatedArrivalTime { get; set; }
-        public TimeSpan CostedTime { get; set; }
+        private readonly IProgress<FileSystemProgress> progress;
+        private readonly IntervalSampler sampler;
+        private FileSystemStatusCode? status;
+        private bool criticalReport;
+        private bool enumerationCompleted;
 
-        public static implicit operator FileSystemProgress(float progress)
+        public FileSystemStatusCode? Status
         {
-            return new() { Progress = progress };
+            get => status;
+            set
+            {
+                if (status != value)
+                {
+                    criticalReport = true;
+                }
+                status = value;
+            }
+        }
+        public string? FileName { get; set; }
+        public long TotalSize { get; set; }
+        public long ProcessedSize { get; set; }
+        public long ItemsCount { get; set; }
+        public long ProcessedItemsCount { get; set; }
+        public DateTimeOffset StartTime { get; }
+        public bool EnumerationCompleted
+        {
+            get => enumerationCompleted;
+            set
+            {
+                if (enumerationCompleted != value)
+                {
+                    criticalReport = true;
+                }
+                enumerationCompleted = value;
+            }
         }
 
-        public static implicit operator FileSystemProgress(FileSystemStatusCode status)
+        public FileSystemProgress(IProgress<FileSystemProgress> progress, int samplerInterval = 100)
         {
-            return new() { Status = status };
+            this.StartTime = DateTimeOffset.Now;
+            this.progress = progress;
+            this.sampler = new(samplerInterval);
+        }
+
+        public void Report()
+        {
+            if (criticalReport || sampler.CheckNow())
+            {
+                progress.Report(this);
+                criticalReport = false;
+            }
         }
     }
 }
