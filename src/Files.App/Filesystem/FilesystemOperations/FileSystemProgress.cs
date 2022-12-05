@@ -6,7 +6,7 @@ namespace Files.App.Filesystem
 {
     public class FileSystemProgress
     {
-        private readonly IProgress<FileSystemProgress> progress;
+        private readonly IProgress<FileSystemProgress>? progress;
         private readonly IntervalSampler sampler;
         private FileSystemStatusCode? status;
         private bool criticalReport;
@@ -43,7 +43,7 @@ namespace Files.App.Filesystem
             }
         }
 
-        public FileSystemProgress(IProgress<FileSystemProgress> progress, int samplerInterval = 100)
+        public FileSystemProgress(IProgress<FileSystemProgress>? progress, int samplerInterval = 100)
         {
             this.StartTime = DateTimeOffset.Now;
             this.progress = progress;
@@ -52,11 +52,17 @@ namespace Files.App.Filesystem
 
         public void Report()
         {
-            if (criticalReport || sampler.CheckNow())
+            if (progress is not null && (criticalReport || sampler.CheckNow()))
             {
                 progress.Report(this);
                 criticalReport = false;
             }
+        }
+
+        public void ReportStatus(FileSystemStatusCode status)
+        {
+            Status = status;
+            Report();
         }
     }
 }
