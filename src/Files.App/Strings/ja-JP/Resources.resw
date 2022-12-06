@@ -1099,7 +1099,7 @@
     <value>オーディオ</value>
   </data>
   <data name="PropertySectionMusic" xml:space="preserve">
-    <value>音楽</value>
+    <value>ミュージック</value>
   </data>
   <data name="PropertySectionVideo" xml:space="preserve">
     <value>ビデオ</value>
@@ -2659,7 +2659,7 @@
     <value>他のタブを閉じる</value>
   </data>
   <data name="Music" xml:space="preserve">
-    <value>音楽</value>
+    <value>ミュージック</value>
   </data>
   <data name="Pictures" xml:space="preserve">
     <value>ピクチャ</value>
