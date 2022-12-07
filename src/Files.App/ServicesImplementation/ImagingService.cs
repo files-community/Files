@@ -1,15 +1,24 @@
+using System.Threading;
 using Files.App.Helpers;
 using Files.App.Imaging;
 using Files.Backend.Models.Imaging;
 using Files.Backend.Services;
 using System.Threading.Tasks;
 using Windows.Storage.FileProperties;
+using Files.Backend.Models;
+using Files.Sdk.Storage;
 
 namespace Files.App.ServicesImplementation
 {
 	internal sealed class ImagingService : IImageService
 	{
-		public async Task<ImageModel?> GetImageModelFromDataAsync(byte[] rawData)
+		/// <inheritdoc/>
+        public Task<IImageModel?> GetIconAsync(IStorable storable, CancellationToken cancellationToken)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public async Task<ImageModel?> GetImageModelFromDataAsync(byte[] rawData)
 		{
 			return new BitmapImageModel(await BitmapHelper.ToBitmapAsync(rawData));
 		}

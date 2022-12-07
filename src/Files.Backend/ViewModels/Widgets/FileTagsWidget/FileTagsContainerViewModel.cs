@@ -13,6 +13,9 @@ namespace Files.Backend.ViewModels.Widgets.FileTagsWidget
 
         public ObservableCollection<FileTagsItemViewModel> Tags { get; }
 
+        [ObservableProperty]
+        private IColorModel? _TagColor;
+
         public FileTagsContainerViewModel(IFileTagsModel fileTagsModel)
         {
             _fileTagsModel = fileTagsModel;
