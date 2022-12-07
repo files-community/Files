@@ -36,10 +36,10 @@ namespace Files.App.Helpers
 			return Launcher.LaunchUriAsync(folderUri).AsTask();
 		}
 
-		public static async void LaunchNewWindow()
+		public static Task LaunchNewWindow()
 		{
 			var filesUWPUri = new Uri("files-uwp:");
-			await Launcher.LaunchUriAsync(filesUWPUri);
+			return Launcher.LaunchUriAsync(filesUWPUri).AsTask();
 		}
 
 		public static async Task OpenSelectedItems(IShellPage associatedInstance, bool openViaApplicationPicker = false)
