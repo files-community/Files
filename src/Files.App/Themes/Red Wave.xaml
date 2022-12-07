@@ -15,8 +15,6 @@
 			<SolidColorBrush x:Key="SolidBackgroundFillColorSecondaryBrush" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
 			<SolidColorBrush x:Key="SolidBackgroundFillColorTertiaryBrush" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
 			<SolidColorBrush x:Key="SolidBackgroundFillColorQuarternaryBrush" Color="{ThemeResource SolidBackgroundFillColorQuarternary}" />
-			<!--  Acrylic Resources  -->
-			<Color x:Key="SolidBackgroundAcrylic">#952f15</Color>
 		</ResourceDictionary>
 
 		<ResourceDictionary x:Key="Light">
@@ -30,8 +28,6 @@
 			<SolidColorBrush x:Key="SolidBackgroundFillColorSecondaryBrush" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
 			<SolidColorBrush x:Key="SolidBackgroundFillColorTertiaryBrush" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
 			<SolidColorBrush x:Key="SolidBackgroundFillColorQuarternaryBrush" Color="{ThemeResource SolidBackgroundFillColorQuarternary}" />
-			<!--  Acrylic Resources  -->
-			<Color x:Key="SolidBackgroundAcrylic">#C9401D</Color>
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>
