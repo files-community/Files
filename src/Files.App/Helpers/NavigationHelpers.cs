@@ -36,7 +36,7 @@ namespace Files.App.Helpers
 			return Launcher.LaunchUriAsync(folderUri).AsTask();
 		}
 
-		public static Task LaunchNewWindow()
+		public static Task LaunchNewWindowAsync()
 		{
 			var filesUWPUri = new Uri("files-uwp:");
 			return Launcher.LaunchUriAsync(filesUWPUri).AsTask();
