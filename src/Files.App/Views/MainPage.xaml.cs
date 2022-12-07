@@ -133,18 +133,7 @@ namespace Files.App.Views
 
 		private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
 		{
-			// WINUI3: bad workaround to be removed asap!
-			// SetDragRectangles() does not work on windows 10 with winappsdk "1.2.220902.1-preview1"
-			if (Environment.OSVersion.Version.Build >= 22000)
-			{
-				horizontalMultitaskingControl.DragArea.SizeChanged += (_, _) => SetRectDragRegion();
-			}
-			else
-			{
-				App.Window.AppWindow.TitleBar.ExtendsContentIntoTitleBar = false;
-				App.Window.ExtendsContentIntoTitleBar = true;
-				App.Window.SetTitleBar(horizontalMultitaskingControl.DragArea);
-			}
+			horizontalMultitaskingControl.DragArea.SizeChanged += (_, _) => SetRectDragRegion();
 
 			if (ViewModel.MultitaskingControl is not HorizontalMultitaskingControl)
 			{
@@ -156,14 +145,6 @@ namespace Files.App.Views
 
 		private void SetRectDragRegion()
 		{
-			const uint MDT_Effective_DPI = 0;
-
-			var displayArea = DisplayArea.GetFromWindowId(App.Window.AppWindow.Id, DisplayAreaFallback.Primary);
-			var hMonitor = Win32Interop.GetMonitorFromDisplayId(displayArea.DisplayId);
-			var hr = NativeWinApiHelper.GetDpiForMonitor(hMonitor, MDT_Effective_DPI, out var dpiX, out _);
-			if (hr != 0)
-				return;
-
 			var scaleAdjustment = XamlRoot.RasterizationScale;
 			var dragArea = horizontalMultitaskingControl.DragArea;
 

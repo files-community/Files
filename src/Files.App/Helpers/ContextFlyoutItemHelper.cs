@@ -105,8 +105,8 @@ namespace Files.App.Helpers
 					ShowInZipPage = true,
 					Items = new List<ContextMenuFlyoutItemViewModel>()
 					{
-                        // Details view
-                        new ContextMenuFlyoutItemViewModel()
+						// Details view
+						new ContextMenuFlyoutItemViewModel()
 						{
 							Text = "Details".GetLocalizedResource(),
 							Glyph = "\uE179",
@@ -119,8 +119,8 @@ namespace Files.App.Helpers
 							KeyboardAcceleratorTextOverride = "BaseLayoutContextFlyoutDetails/KeyboardAcceleratorTextOverride".GetLocalizedResource(),
 							KeyboardAccelerator = new KeyboardAccelerator{Key = VirtualKey.Number1, Modifiers = VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift, IsEnabled = false}
 						},
-                        // Tiles view
-                        new ContextMenuFlyoutItemViewModel()
+						// Tiles view
+						new ContextMenuFlyoutItemViewModel()
 						{
 							Text = "Tiles".GetLocalizedResource(),
 							Glyph = "\uE15C",
@@ -133,8 +133,8 @@ namespace Files.App.Helpers
 							KeyboardAcceleratorTextOverride = "BaseLayoutContextFlyoutTiles/KeyboardAcceleratorTextOverride".GetLocalizedResource(),
 							KeyboardAccelerator = new KeyboardAccelerator{Key = VirtualKey.Number2, Modifiers = VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift, IsEnabled = false}
 						},
-                        // Grid view small
-                        new ContextMenuFlyoutItemViewModel()
+						// Grid view small
+						new ContextMenuFlyoutItemViewModel()
 						{
 							Text = "BaseLayoutContextFlyoutSmallIcons/Text".GetLocalizedResource(),
 							Glyph = "\uE80A",
@@ -147,8 +147,8 @@ namespace Files.App.Helpers
 							KeyboardAcceleratorTextOverride = "BaseLayoutContextFlyoutSmallIcons/KeyboardAcceleratorTextOverride".GetLocalizedResource(),
 							KeyboardAccelerator = new KeyboardAccelerator{Key = VirtualKey.Number3, Modifiers = VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift, IsEnabled = false}
 						},
-                        // Grid view medium
-                        new ContextMenuFlyoutItemViewModel()
+						// Grid view medium
+						new ContextMenuFlyoutItemViewModel()
 						{
 							Text = "BaseLayoutContextFlyoutMediumIcons/Text".GetLocalizedResource(),
 							Glyph = "\uF0E2",
@@ -161,8 +161,8 @@ namespace Files.App.Helpers
 							KeyboardAcceleratorTextOverride = "BaseLayoutContextFlyoutMediumIcons/KeyboardAcceleratorTextOverride".GetLocalizedResource(),
 							KeyboardAccelerator = new KeyboardAccelerator{Key = VirtualKey.Number4, Modifiers = VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift, IsEnabled = false}
 						},
-                        // Grid view large
-                        new ContextMenuFlyoutItemViewModel()
+						// Grid view large
+						new ContextMenuFlyoutItemViewModel()
 						{
 							Text = "BaseLayoutContextFlyoutLargeIcons/Text".GetLocalizedResource(),
 							Glyph = "\uE739",
@@ -175,8 +175,8 @@ namespace Files.App.Helpers
 							KeyboardAcceleratorTextOverride = "BaseLayoutContextFlyoutLargeIcons/KeyboardAcceleratorTextOverride".GetLocalizedResource(),
 							KeyboardAccelerator = new KeyboardAccelerator{Key = VirtualKey.Number5, Modifiers = VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift, IsEnabled = false}
 						},
-                        // Column view
-                        new ContextMenuFlyoutItemViewModel()
+						// Column view
+						new ContextMenuFlyoutItemViewModel()
 						{
 							Text = "Columns".GetLocalizedResource(),
 							Glyph = "\uF115",
@@ -190,8 +190,8 @@ namespace Files.App.Helpers
 							KeyboardAcceleratorTextOverride = "BaseLayoutContextFlyoutColumn/KeyboardAcceleratorTextOverride".GetLocalizedResource(),
 							KeyboardAccelerator = new KeyboardAccelerator{Key = VirtualKey.Number6, Modifiers = VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift, IsEnabled = false}
 						},
-                        // Column view
-                        new ContextMenuFlyoutItemViewModel()
+						// Column view
+						new ContextMenuFlyoutItemViewModel()
 						{
 							Text = "Adaptive".GetLocalizedResource(),
 							Glyph = "\uF576",
@@ -492,8 +492,8 @@ namespace Files.App.Helpers
 				{
 					Text = "BaseLayoutContextFlyoutPaste/Text".GetLocalizedResource(),
 					IsPrimary = true,
-                    // Glyph = "\uF16D",
-                    ShowInFtpPage = true,
+					// Glyph = "\uF16D",
+					ShowInFtpPage = true,
 					ShowInZipPage = true,
 					ColoredIcon = new ColoredIconModel()
 					{
@@ -620,6 +620,13 @@ namespace Files.App.Helpers
 		public static List<ContextMenuFlyoutItemViewModel> GetBaseItemMenuItems(BaseLayoutCommandsViewModel commandsViewModel, List<ListedItem> selectedItems, SelectedItemsPropertiesViewModel selectedItemsPropertiesViewModel, CurrentInstanceViewModel currentInstanceViewModel)
 		{
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
+			bool canDecompress = selectedItems.Any() && selectedItems.All(x => x.IsArchive)
+				|| selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.File && FileExtensionHelpers.IsZipFile(x.FileExtension));
+			bool canCompress = !canDecompress || selectedItems.Count > 1;
+			string newArchiveName =
+				Path.GetFileName(selectedItems.Count is 1 ? selectedItems[0].ItemPath : Path.GetDirectoryName(selectedItems[0].ItemPath))
+				?? string.Empty;
 
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{
@@ -792,8 +799,8 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "Copy".GetLocalizedResource(),
-                    //Glyph = "\uF8C8",
-                    ColoredIcon = new ColoredIconModel()
+					//Glyph = "\uF8C8",
+					ColoredIcon = new ColoredIconModel()
 					{
 						BaseLayerGlyph = "\uF021",
 						OverlayLayerGlyph = "\uF022",
@@ -828,8 +835,8 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutContextFlyoutPaste/Text".GetLocalizedResource(),
-                    //Glyph = "\uF16D",
-                    IsPrimary = true,
+					//Glyph = "\uF16D",
+					IsPrimary = true,
 					ColoredIcon = new ColoredIconModel()
 					{
 						BaseLayerGlyph = "\uF023",
@@ -872,8 +879,8 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutItemContextFlyoutRename/Text".GetLocalizedResource(),
-                    //Glyph = "\uF8AC",
-                    IsPrimary = true,
+					//Glyph = "\uF8AC",
+					IsPrimary = true,
 					ColoredIcon = new ColoredIconModel()
 					{
 						BaseLayerGlyph = "\uF027",
@@ -893,8 +900,8 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutItemContextFlyoutShare/Text".GetLocalizedResource(),
-                    //Glyph = "\uF72D",
-                    IsPrimary = true,
+					//Glyph = "\uF72D",
+					IsPrimary = true,
 					ColoredIcon = new ColoredIconModel()
 					{
 						BaseLayerGlyph = "\uF025",
@@ -906,8 +913,8 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "Delete".GetLocalizedResource(),
-                    //Glyph = "\uF74D",
-                    IsPrimary = true,
+					//Glyph = "\uF74D",
+					IsPrimary = true,
 					ColoredIcon = new ColoredIconModel()
 					{
 						BaseLayerGlyph = "\uF035",
@@ -927,8 +934,8 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutItemContextFlyoutProperties/Text".GetLocalizedResource(),
-                    //Glyph = "\uF946",
-                    IsPrimary = true,
+					//Glyph = "\uF946",
+					IsPrimary = true,
 					ColoredIcon = new ColoredIconModel()
 					{
 						BaseLayerGlyph = "\uF031",
@@ -939,44 +946,6 @@ namespace Files.App.Helpers
 					ShowInSearchPage = true,
 					ShowInFtpPage = true,
 					ShowInZipPage = true,
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "BaseLayoutItemContextFlyoutExtractionOptions".GetLocalizedResource(),
-					Glyph = "\xF11A",
-					ShowItem = selectedItems.Any() && selectedItems.All(x => x.IsArchive) || selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.File && FileExtensionHelpers.IsZipFile(x.FileExtension)),
-					ShowInSearchPage = true,
-					GlyphFontFamilyName = "CustomGlyph",
-					Items = new List<ContextMenuFlyoutItemViewModel>()
-					{
-						new ContextMenuFlyoutItemViewModel()
-						{
-							Text = "BaseLayoutItemContextFlyoutExtractFilesOption".GetLocalizedResource(),
-							ShowItem = selectedItems.Count == 1,
-							Command = commandsViewModel.DecompressArchiveCommand,
-							Glyph = "\xF11A",
-							GlyphFontFamilyName = "CustomGlyph",
-							ShowInSearchPage = true,
-						},
-						new ContextMenuFlyoutItemViewModel()
-						{
-							Text = "BaseLayoutItemContextFlyoutExtractHereOption".GetLocalizedResource(),
-							Command = commandsViewModel.DecompressArchiveHereCommand,
-							Glyph = "\xF11A",
-							GlyphFontFamilyName = "CustomGlyph",
-							ShowInSearchPage = true,
-						},
-						new ContextMenuFlyoutItemViewModel()
-						{
-							Text = selectedItems.Count > 1
-								? string.Format("BaseLayoutItemContextFlyoutExtractToChildFolder".GetLocalizedResource(), "*")
-								: string.Format("BaseLayoutItemContextFlyoutExtractToChildFolder".GetLocalizedResource(), Path.GetFileNameWithoutExtension(selectedItems.First().Name)),
-							Command = commandsViewModel.DecompressArchiveToChildFolderCommand,
-							Glyph = "\xF11A",
-							GlyphFontFamilyName = "CustomGlyph",
-							ShowInSearchPage = true,
-						}
-					}
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -1027,28 +996,79 @@ namespace Files.App.Helpers
 					ShowInFtpPage = true,
 					SingleItemOnly = true,
 				},
+				new ContextMenuFlyoutItemViewModel
+				{
+					Text = "Archive".GetLocalizedResource(),
+					ShowInSearchPage = true,
+					Items = new List<ContextMenuFlyoutItemViewModel>
+					{
+						new ContextMenuFlyoutItemViewModel
+						{
+							Text = "BaseLayoutItemContextFlyoutExtractFilesOption".GetLocalizedResource(),
+							Glyph = "\xF11A",
+							GlyphFontFamilyName = "CustomGlyph",
+							Command = commandsViewModel.DecompressArchiveCommand,
+							ShowItem = canDecompress,
+							ShowInSearchPage = true,
+						},
+						new ContextMenuFlyoutItemViewModel
+						{
+							Text = "BaseLayoutItemContextFlyoutExtractHereOption".GetLocalizedResource(),
+							Glyph = "\xF11A",
+							GlyphFontFamilyName = "CustomGlyph",
+							Command = commandsViewModel.DecompressArchiveHereCommand,
+							ShowItem = canDecompress,
+							ShowInSearchPage = true,
+						},
+						new ContextMenuFlyoutItemViewModel
+						{
+							Text = selectedItems.Count > 1
+								? string.Format("BaseLayoutItemContextFlyoutExtractToChildFolder".GetLocalizedResource(), "*")
+								: string.Format("BaseLayoutItemContextFlyoutExtractToChildFolder".GetLocalizedResource(),
+									Path.GetFileNameWithoutExtension(selectedItems.First().Name)),
+							Glyph = "\xF11A",
+							GlyphFontFamilyName = "CustomGlyph",
+							Command = commandsViewModel.DecompressArchiveToChildFolderCommand,
+							ShowInSearchPage = true,
+							ShowItem = canDecompress,
+						},
+						new ContextMenuFlyoutItemViewModel
+						{
+							ShowItem = canDecompress && canCompress,
+							ItemType = ItemType.Separator,
+						},
+						new ContextMenuFlyoutItemViewModel
+						{
+							Text = "CreateArchive".GetLocalizedResource(),
+							Glyph = "\uE8DE",
+							Command = commandsViewModel.CompressIntoArchiveCommand,
+							ShowItem = canCompress,
+							ShowInSearchPage = true,
+						},
+						new ContextMenuFlyoutItemViewModel
+						{
+							Text = string.Format("CreateNamedArchive".GetLocalizedResource(), $"{newArchiveName}.zip"),
+							Glyph = "\uE8DE",
+							Command = commandsViewModel.CompressIntoZipCommand,
+							ShowItem = canCompress,
+							ShowInSearchPage = true,
+						},
+						new ContextMenuFlyoutItemViewModel
+						{
+							Text = string.Format("CreateNamedArchive".GetLocalizedResource(), $"{newArchiveName}.7z"),
+							Glyph = "\uE8DE",
+							Command = commandsViewModel.CompressIntoSevenZipCommand,
+							ShowItem = canCompress,
+							ShowInSearchPage = true,
+						},
+					},
+				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					ItemType = ItemType.Separator,
 					Tag = "OverflowSeparator",
 					ShowInSearchPage = true,
 					IsHidden = true,
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Command = commandsViewModel.CompressIntoArchiveCommand,
-					Glyph = "\uE8DE",
-					Text = string.Format("AddSingleItemToArchive".GetLocalizedResource(), selectedItems.First().Name),
-					ShowInSearchPage = true,
-					ShowItem = selectedItems.Count == 1 && !selectedItems.First().IsArchive,
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Command = commandsViewModel.CompressIntoArchiveCommand,
-					Glyph = "\uE8DE",
-					Text = "AddToArchive".GetLocalizedResource(),
-					ShowInSearchPage = true,
-					ShowItem = selectedItems.Count > 1 && !selectedItems.First().IsArchive,
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{

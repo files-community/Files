@@ -62,16 +62,26 @@ namespace Files.App
 			base.MinWidth = 516;
 		}
 
-		public async Task InitializeApplication(AppActivationArguments activatedEventArgs)
+		public async Task InitializeApplication(object activatedEventArgs)
 		{
 			var rootFrame = EnsureWindowIsInitialized();
 			Activate();
 
 			// WINUI3: port activation args from App.xaml.cs.old: OnActivated, OnFileActivated
-			switch (activatedEventArgs.Data)
+			switch (activatedEventArgs)
 			{
 				case ILaunchActivatedEventArgs launchArgs:
-					if (rootFrame.Content is null)
+					if (launchArgs.Arguments is not null && launchArgs.Arguments.Contains($"{Package.Current.Id.FamilyName}\\files.exe", StringComparison.OrdinalIgnoreCase))
+					{
+						// WINUI3 bug: when launching from commandline the argument is not ICommandLineActivatedEventArgs (#10370)
+						var ppm = CommandLineParser.ParseUntrustedCommands(launchArgs.Arguments);
+						if (ppm.IsEmpty())
+						{
+							ppm = new ParsedCommands() { new ParsedCommand() { Type = ParsedCommandType.Unknown, Args = new() { "." } } };
+						}
+						await InitializeFromCmdLineArgs(rootFrame, ppm);
+					}
+					else if (rootFrame.Content is null)
 					{
 						// When the navigation stack isn't restored navigate to the first page,
 						// configuring the new page by passing required information as a navigation
@@ -251,7 +261,7 @@ namespace Files.App
 							if (fileFRN is not null)
 							{
 								var tagUid = tag is not null ? new[] { tag.Uid } : null;
-								using var dbInstance = FileTagsHelper.GetDbInstance();
+								var dbInstance = FileTagsHelper.GetDbInstance();
 								dbInstance.SetTags(file, fileFRN, tagUid);
 								FileTagsHelper.WriteFileTag(file, tagUid);
 							}
@@ -265,9 +275,9 @@ namespace Files.App
 						}
 						else
 						{
-							var target = IO.Path.GetFullPath(IO.Path.Combine(activationPath, command.Payload));
 							if (!string.IsNullOrEmpty(command.Payload))
 							{
+								var target = IO.Path.GetFullPath(IO.Path.Combine(activationPath, command.Payload));
 								await PerformNavigation(target);
 							}
 							else

@@ -240,7 +240,7 @@ namespace Files.App
 
 			_ = InitializeAppComponentsAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
 
-			_ = Window.InitializeApplication(activatedEventArgs);
+			_ = Window.InitializeApplication(activatedEventArgs.Data);
 		}
 
 		private void EnsureWindowIsInitialized()
@@ -264,8 +264,9 @@ namespace Files.App
 		public void OnActivated(AppActivationArguments activatedEventArgs)
 		{
 			Logger.Info($"App activated. Activated args type: {activatedEventArgs.Data.GetType().Name}");
+			var data = activatedEventArgs.Data;
 			// InitializeApplication accesses UI, needs to be called on UI thread
-			_ = Window.DispatcherQueue.EnqueueAsync(() => Window.InitializeApplication(activatedEventArgs));
+			_ = Window.DispatcherQueue.EnqueueAsync(() => Window.InitializeApplication(data));
 		}
 
 		/// <summary>

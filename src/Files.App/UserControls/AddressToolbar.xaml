@@ -13,6 +13,7 @@
 	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
 	xmlns:uc="using:Files.App.UserControls"
 	x:Name="NavToolbar"
+	Loading="NavToolbar_Loading"
 	Height="50"
 	d:DesignHeight="50"
 	d:DesignWidth="800"
