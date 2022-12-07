@@ -8,7 +8,7 @@
 	mc:Ignorable="d">
 
 	<winuiex:WindowEx.Backdrop>
-		<winuiex:MicaSystemBackdrop DarkTintOpacity="0.8" />
+		<winuiex:MicaSystemBackdrop DarkTintOpacity="0.8" LightTintColor="#CCf3f3f3"/>
 	</winuiex:WindowEx.Backdrop>
 
 	<Grid />
