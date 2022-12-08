@@ -8,8 +8,8 @@
 		DateCreated,
 		Size,
 		FileType,
-		FileTag,
 		SyncStatus, // Cloud drive
+		FileTag,
 		OriginalFolder, // Recycle bin
 		DateDeleted, // Recycle bin
 		FolderPath, // Libraries

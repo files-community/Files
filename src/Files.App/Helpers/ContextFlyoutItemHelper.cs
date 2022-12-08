@@ -285,20 +285,20 @@ namespace Files.App.Helpers
 						},
 						new ContextMenuFlyoutItemViewModel()
 						{
-							Text = "SyncStatus".GetLocalizedResource(),
-							IsChecked = itemViewModel.IsSortedBySyncStatus,
-							Command = new RelayCommand(() => itemViewModel.IsSortedBySyncStatus = true),
-							ShowItem = currentInstanceViewModel.IsPageTypeCloudDrive,
-							ItemType = ItemType.Toggle
-						},
-						new ContextMenuFlyoutItemViewModel()
-						{
 							Text = "BaseLayoutContextFlyoutSortByOriginalPath/Text".GetLocalizedResource(),
 							IsChecked = itemViewModel.IsSortedByOriginalPath,
 							ShowInRecycleBin = true,
 							Command = new RelayCommand(() => itemViewModel.IsSortedByOriginalPath = true),
 							ShowItem = currentInstanceViewModel.IsPageTypeRecycleBin,
 							ItemType = ItemType.Toggle,
+						},
+						new ContextMenuFlyoutItemViewModel()
+						{
+							Text = "SyncStatus".GetLocalizedResource(),
+							IsChecked = itemViewModel.IsSortedBySyncStatus,
+							Command = new RelayCommand(() => itemViewModel.IsSortedBySyncStatus = true),
+							ShowItem = currentInstanceViewModel.IsPageTypeCloudDrive,
+							ItemType = ItemType.Toggle
 						},
 						new ContextMenuFlyoutItemViewModel()
 						{
