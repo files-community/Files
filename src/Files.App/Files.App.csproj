@@ -74,8 +74,8 @@
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
     <PackageReference Include="FluentFTP" Version="42.1.0" />
     <PackageReference Include="ini-parser-netstandard" Version="2.5.2" />
-    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="5.0.0" />
-    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="5.0.0" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="5.0.1" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="5.0.1" />
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
@@ -89,7 +89,7 @@
     <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
     <PackageReference Include="Tulpep.ActiveDirectoryObjectPicker" Version="3.0.11" />
     <PackageReference Include="Vanara.Windows.Extensions" Version="3.4.11" />
-    <PackageReference Include="WinUIEx" Version="1.8.0" />
+    <PackageReference Include="WinUIEx" Version="2.0.0" />
     <PackageReference Include="Vanara.PInvoke.Mpr" Version="3.4.11" />
     <PackageReference Include="Vanara.Windows.Shell" Version="3.4.11" />
     <PackageReference Include="Microsoft.Management.Infrastructure" Version="2.0.0" />

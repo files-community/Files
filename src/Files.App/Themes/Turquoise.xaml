@@ -15,8 +15,8 @@
 			<SolidColorBrush x:Key="SolidBackgroundFillColorSecondaryBrush" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
 			<SolidColorBrush x:Key="SolidBackgroundFillColorTertiaryBrush" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
 			<SolidColorBrush x:Key="SolidBackgroundFillColorQuarternaryBrush" Color="{ThemeResource SolidBackgroundFillColorQuarternary}" />
-			<!--  Acrylic Resources  -->
-			<Color x:Key="SolidBackgroundAcrylic">#26A594</Color>
+			<!-- Content Background -->
+			<StaticResource x:Key="SidebarContentBackgroundBrush" ResourceKey="CardBackgroundFillColorDefault" />
 			<!--  Accent Color  -->
 			<Color x:Key="SystemAccentColor">#26A594</Color>
 			<Color x:Key="SystemAccentColorDark1">#26A594</Color>
@@ -37,8 +37,6 @@
 			<SolidColorBrush x:Key="SolidBackgroundFillColorSecondaryBrush" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
 			<SolidColorBrush x:Key="SolidBackgroundFillColorTertiaryBrush" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
 			<SolidColorBrush x:Key="SolidBackgroundFillColorQuarternaryBrush" Color="{ThemeResource SolidBackgroundFillColorQuarternary}" />
-			<!--  Acrylic Resources  -->
-			<Color x:Key="SolidBackgroundAcrylic">#3C837A</Color>
 			<!--  Accent Color  -->
 			<Color x:Key="SystemAccentColor">#3C837A</Color>
 			<Color x:Key="SystemAccentColorDark1">#3C837A</Color>
