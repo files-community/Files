@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Pour commencer, vous devez nous permettre d'afficher vos fichiers. Une fenêtre de configuration va s'ouvrir où vous pourrez nous donner la permission. Vous devrez relancer l'application une fois cette étape terminée. </value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Dossier de fichiers</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Fichier</value>
   </data>
@@ -2007,8 +2004,8 @@
   <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>Afficher la documentation</value>
   </data>
-  <data name="DecompressArchiveDialog.Title" xml:space="preserve">
-    <value>Sélectionner une destination et extraire les fichiers</value>
+  <data name="ExtractArchive" xml:space="preserve">
+    <value>Extraire l'archive</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>Ouvrir le dossier de destination quand l'opération est terminée</value>
@@ -2844,6 +2841,9 @@
   <data name="DeleteShortcutDescription" xml:space="preserve">
     <value>La cible est introuvable {0}. Voulez-vous supprimer ce raccourci ?</value>
   </data>
+  <data name="AccessDeniedToFolder" xml:space="preserve">
+    <value>Vous n'avez pas l'autorisation pour accéder à ce dossier.</value>
+  </data>
   <data name="LoadingThemes" xml:space="preserve">
     <value>Chargement des thèmes</value>
   </data>
@@ -2855,5 +2855,80 @@
   </data>
   <data name="BinEmptyingFailed" xml:space="preserve">
     <value>Échec de vidage de la corbeille</value>
+  </data>
+  <data name="ArchivePassword" xml:space="preserve">
+    <value>Mot de passe d'archive</value>
+  </data>
+  <data name="ExtractToPath" xml:space="preserve">
+    <value>Chemin</value>
+  </data>
+  <data name="Archive" xml:space="preserve">
+    <value>Archiver</value>
+  </data>
+  <data name="CreateArchive" xml:space="preserve">
+    <value>Créer une archive</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Créer</value>
+  </data>
+  <data name="CreateNamedArchive" xml:space="preserve">
+    <value>Créer {0}</value>
+  </data>
+  <data name="EnterName" xml:space="preserve">
+    <value>Saisir un nom</value>
+  </data>
+  <data name="CompressionLevel" xml:space="preserve">
+    <value>Niveau de compression</value>
+  </data>
+  <data name="CompressionLevelUltra" xml:space="preserve">
+    <value>Ultra</value>
+  </data>
+  <data name="CompressionLevelHigh" xml:space="preserve">
+    <value>Élevé</value>
+  </data>
+  <data name="CompressionLevelNormal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="CompressionLevelLow" xml:space="preserve">
+    <value>Faible</value>
+  </data>
+  <data name="CompressionLevelFast" xml:space="preserve">
+    <value>Rapide</value>
+  </data>
+  <data name="CompressionLevelNone" xml:space="preserve">
+    <value>Aucun</value>
+  </data>
+  <data name="SplitArchive" xml:space="preserve">
+    <value>Découper l'archive</value>
+  </data>
+  <data name="SplittingSize" xml:space="preserve">
+    <value>Taille de découpage</value>
+  </data>
+  <data name="Do not split" xml:space="preserve">
+    <value>Ne pas découper</value>
+  </data>
+  <data name="CD" xml:space="preserve">
+    <value>CD</value>
+  </data>
+  <data name="DVD" xml:space="preserve">
+    <value>DVD</value>
+  </data>
+  <data name="FAT" xml:space="preserve">
+    <value>FAT</value>
+  </data>
+  <data name="Bluray" xml:space="preserve">
+    <value>Blu-ray</value>
+  </data>
+  <data name="Encryption" xml:space="preserve">
+    <value>Chiffrement</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Mot de passe</value>
+  </data>
+  <data name="Format" xml:space="preserve">
+    <value>Format</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowSyncStatus.Text" xml:space="preserve">
+    <value>Synchroniser la colonne de statuts</value>
   </data>
 </root>

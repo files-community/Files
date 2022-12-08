@@ -28,8 +28,8 @@ namespace Files.App.Filesystem.Search
 
 		private const uint defaultStepSize = 500;
 
-		public string Query { get; set; }
-		public string Folder { get; set; }
+		public string? Query { get; set; }
+		public string? Folder { get; set; }
 
 		public uint MaxItemCount { get; set; } = 0; // 0: no limit
 		public uint ThumbnailSize { get; set; } = 24;
@@ -37,9 +37,9 @@ namespace Files.App.Filesystem.Search
 
 		private uint UsedMaxItemCount => MaxItemCount > 0 ? MaxItemCount : uint.MaxValue;
 
-		public EventHandler SearchTick;
+		public EventHandler? SearchTick;
 
-		private bool IsAQSQuery => Query is not null && (Query.StartsWith('$') || Query.Contains(":", StringComparison.Ordinal));
+		private bool IsAQSQuery => Query is not null && (Query.StartsWith('$') || Query.Contains(':', StringComparison.Ordinal));
 
 		private string QueryWithWildcard
 		{
@@ -65,7 +65,7 @@ namespace Files.App.Filesystem.Search
 				{
 					return Query.Substring(1);
 				}
-				else if (Query is not null && Query.Contains(":", StringComparison.Ordinal))
+				else if (Query is not null && Query.Contains(':', StringComparison.Ordinal))
 				{
 					return Query;
 				}
@@ -157,12 +157,8 @@ namespace Files.App.Filesystem.Search
 
 					try
 					{
-						var startWithDot = item.Name.StartsWith(".");
-						bool shouldBeListed = !startWithDot || UserSettingsService.FoldersSettingsService.ShowDotFiles;
-						if (shouldBeListed)
-						{
+						if (!item.Name.StartsWith('.') || UserSettingsService.FoldersSettingsService.ShowDotFiles)
 							results.Add(await GetListedItemAsync(item));
-						}
 					}
 					catch (Exception ex)
 					{
@@ -192,18 +188,16 @@ namespace Files.App.Filesystem.Search
 		private async Task SearchTagsAsync(string folder, IList<ListedItem> results, CancellationToken token)
 		{
 			//var sampler = new IntervalSampler(500);
-			var tags = AQSQuery.Substring("tag:".Length)?.Split(",").Where(t => !string.IsNullOrWhiteSpace(t))
+			var tags = AQSQuery.Substring("tag:".Length)?.Split(',').Where(t => !string.IsNullOrWhiteSpace(t))
 				.SelectMany(t => FileTagsSettingsService.GetTagsByName(t), (_, t) => t.Uid).ToHashSet();
 			if (tags?.Any() != true)
 			{
 				return;
 			}
-			IEnumerable<Common.FileTagsDb.TaggedFile>? matches;
-			using (var dbInstance = FileTagsHelper.GetDbInstance())
-			{
-				matches = dbInstance.GetAllUnderPath(folder)
-								.Where(x => tags.All(x.Tags.Contains));
-			}
+
+			var dbInstance = FileTagsHelper.GetDbInstance();
+			var matches = dbInstance.GetAllUnderPath(folder)
+				.Where(x => tags.All(x.Tags.Contains));
 
 			foreach (var match in matches)
 			{
@@ -219,7 +213,7 @@ namespace Files.App.Filesystem.Search
 				{
 					var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
 					var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-					var startWithDot = findData.cFileName.StartsWith(".");
+					var startWithDot = findData.cFileName.StartsWith('.');
 
 					bool shouldBeListed = (!isHidden ||
 						(UserSettingsService.FoldersSettingsService.ShowHiddenItems &&
@@ -243,12 +237,8 @@ namespace Files.App.Filesystem.Search
 					{
 						IStorageItem item = (BaseStorageFile)await GetStorageFileAsync(match.FilePath);
 						item ??= (BaseStorageFolder)await GetStorageFolderAsync(match.FilePath);
-						var startWithDot = item.Name.StartsWith(".");
-						bool shouldBeListed = !startWithDot || UserSettingsService.FoldersSettingsService.ShowDotFiles;
-						if (shouldBeListed)
-						{
+						if (!item.Name.StartsWith('.') || UserSettingsService.FoldersSettingsService.ShowDotFiles)
 							results.Add(await GetListedItemAsync(item));
-						}
 					}
 					catch (Exception ex)
 					{
@@ -257,9 +247,7 @@ namespace Files.App.Filesystem.Search
 				}
 
 				if (token.IsCancellationRequested)
-				{
-					break;
-				}
+					return;
 
 				if (results.Count == 32 || results.Count % 300 == 0 /*|| sampler.CheckNow()*/)
 				{
@@ -318,7 +306,7 @@ namespace Files.App.Filesystem.Search
 
 						var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
 						var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-						var startWithDot = findData.cFileName.StartsWith(".");
+						var startWithDot = findData.cFileName.StartsWith('.');
 
 						bool shouldBeListed = (hiddenOnly ?
 							isHidden && (!isSystem || !UserSettingsService.FoldersSettingsService.ShowProtectedSystemFiles) :
@@ -361,7 +349,7 @@ namespace Files.App.Filesystem.Search
 			{
 				string itemFileExtension = null;
 				string itemType = null;
-				if (findData.cFileName.Contains(".", StringComparison.Ordinal))
+				if (findData.cFileName.Contains('.', StringComparison.Ordinal))
 				{
 					itemFileExtension = Path.GetExtension(itemPath);
 					itemType = itemFileExtension.Trim('.') + " " + itemType;
@@ -453,7 +441,7 @@ namespace Files.App.Filesystem.Search
 				var props = await file.GetBasicPropertiesAsync();
 				string itemFileExtension = null;
 				string itemType = null;
-				if (file.Name.Contains(".", StringComparison.Ordinal))
+				if (file.Name.Contains('.', StringComparison.Ordinal))
 				{
 					itemFileExtension = Path.GetExtension(file.Path);
 					itemType = itemFileExtension.Trim('.') + " " + itemType;

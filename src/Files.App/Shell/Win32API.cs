@@ -151,10 +151,7 @@ namespace Files.App.Shell
 			async Task<string?> GetUwpAssoc()
 			{
 				var uwpApps = await Launcher.FindFileHandlersAsync(Path.GetExtension(filename));
-				if (uwpApps.Any())
-					return uwpApps[0].PackageFamilyName;
-
-				return null;
+				return uwpApps.Any() ? uwpApps[0].PackageFamilyName : null;
 			}
 
 			// Find desktop apps
@@ -162,16 +159,14 @@ namespace Files.App.Shell
 			{
 				var lpResult = new StringBuilder(2048);
 				var hResult = Shell32.FindExecutable(filename, null, lpResult);
-				if (hResult.ToInt64() > 32)
-					return lpResult.ToString();
 
-				return null;
+				return hResult.ToInt64() > 32 ? lpResult.ToString() : null;
 			}
 
 			if (checkDesktopFirst)
 				return GetDesktopAssoc() ?? await GetUwpAssoc();
-			else
-				return await GetUwpAssoc() ?? GetDesktopAssoc();
+
+			return await GetUwpAssoc() ?? GetDesktopAssoc();
 		}
 
 		public static string ExtractStringFromDLL(string file, int number)
@@ -217,6 +212,7 @@ namespace Files.App.Shell
 
 		private static readonly ConcurrentDictionary<string, ConcurrentDictionary<int, IconAndOverlayCacheEntry>> _iconAndOverlayCache = new();
 
+		private static readonly object _lock = new object();
 		public static (byte[]? icon, byte[]? overlay) GetFileIconAndOverlay(string path, int thumbnailSize, bool isFolder, bool getOverlay = true, bool onlyGetOverlay = false)
 		{
 			byte[]? iconData = null, overlayData = null;
@@ -275,58 +271,61 @@ namespace Files.App.Shell
 						<= 48 => Shell32.SHIL.SHIL_EXTRALARGE,
 						_ => Shell32.SHIL.SHIL_JUMBO,
 					};
-					if (!Shell32.SHGetImageList(imageListSize, typeof(ComCtl32.CImageList).GUID, out var imageListOut).Succeeded)
-						return (iconData, null);
-
-					var imageList = (ComCtl32.IImageList)imageListOut;
-
-					if (!onlyGetOverlay && iconData is null)
+					lock (_lock)
 					{
-						var iconIdx = shfi.iIcon & 0xFFFFFF;
-						if (iconIdx != 0)
+						if (!Shell32.SHGetImageList(imageListSize, typeof(ComCtl32.IImageList).GUID, out var imageListOut).Succeeded)
+							return (iconData, null);
+
+						var imageList = (ComCtl32.IImageList)imageListOut;
+
+						if (!onlyGetOverlay && iconData is null)
 						{
-							// Could not fetch thumbnail, load simple icon
-							using var hIcon = imageList.GetIcon(iconIdx, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
-							if (!hIcon.IsNull && !hIcon.IsInvalid)
+							var iconIdx = shfi.iIcon & 0xFFFFFF;
+							if (iconIdx != 0)
 							{
-								using (var icon = hIcon.ToIcon())
-								using (var image = icon.ToBitmap())
+								// Could not fetch thumbnail, load simple icon
+								using var hIcon = imageList.GetIcon(iconIdx, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
+								if (!hIcon.IsNull && !hIcon.IsInvalid)
 								{
-									iconData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
+									using (var icon = hIcon.ToIcon())
+									using (var image = icon.ToBitmap())
+									{
+										iconData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
+									}
 								}
 							}
+							else if (isFolder)
+							{
+								// Could not icon, load generic icon
+								var icons = ExtractSelectedIconsFromDLL(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "imageres.dll"), new[] { 2 }, thumbnailSize);
+								var generic = icons.SingleOrDefault(x => x.Index == 2);
+								iconData = generic?.IconData;
+							}
+							else
+							{
+								// Could not icon, load generic icon
+								var icons = ExtractSelectedIconsFromDLL(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "shell32.dll"), new[] { 1 }, thumbnailSize);
+								var generic = icons.SingleOrDefault(x => x.Index == 1);
+								iconData = generic?.IconData;
+							}
 						}
-						else if (isFolder)
+
+						var overlayIdx = shfi.iIcon >> 24;
+						if (overlayIdx != 0 && getOverlay)
 						{
-							// Could not icon, load generic icon
-							var icons = ExtractSelectedIconsFromDLL(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "imageres.dll"), new[] { 2 }, thumbnailSize);
-							var generic = icons.SingleOrDefault(x => x.Index == 2);
-							iconData = generic?.IconData;
+							var overlayImage = imageList.GetOverlayImage(overlayIdx);
+							using var hOverlay = imageList.GetIcon(overlayImage, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
+							if (!hOverlay.IsNull && !hOverlay.IsInvalid)
+							{
+								using var icon = hOverlay.ToIcon();
+								using var image = icon.ToBitmap();
+
+								overlayData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
+							}
 						}
-						else
-						{
-							// Could not icon, load generic icon
-							var icons = ExtractSelectedIconsFromDLL(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "shell32.dll"), new[] { 1 }, thumbnailSize);
-							var generic = icons.SingleOrDefault(x => x.Index == 1);
-							iconData = generic?.IconData;
-						}
+
+						Marshal.ReleaseComObject(imageList);
 					}
-
-					var overlayIdx = shfi.iIcon >> 24;
-					if (overlayIdx != 0 && getOverlay)
-					{
-						var overlayImage = imageList.GetOverlayImage(overlayIdx);
-						using var hOverlay = imageList.GetIcon(overlayImage, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
-						if (!hOverlay.IsNull && !hOverlay.IsInvalid)
-						{
-							using var icon = hOverlay.ToIcon();
-							using var image = icon.ToBitmap();
-
-							overlayData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
-						}
-					}
-
-					Marshal.ReleaseComObject(imageList);
 					return (iconData, overlayData);
 				}
 				else
@@ -632,10 +631,11 @@ namespace Files.App.Shell
 
 				for (ushort Count = 1; Directory.Exists(uniquePath); Count++)
 				{
-					if (countMatch.Success)
-						uniquePath = Path.Combine(directory, $"{Name[..countMatch.Index]}({Count})");
-					else
-						uniquePath = Path.Combine(directory, $"{Name} ({Count})");
+					var pathSuffix = (countMatch.Success) ?
+						$"{Name[..countMatch.Index]}({Count})"
+						: $"{Name} ({Count})";
+
+					uniquePath = Path.Combine(directory, pathSuffix);
 				}
 			}
 

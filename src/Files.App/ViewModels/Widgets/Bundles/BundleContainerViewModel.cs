@@ -346,7 +346,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 					string itemPath = null;
 					string originBundle = null;
 
-					if (itemText.Contains("|", StringComparison.Ordinal))
+					if (itemText.Contains('|', StringComparison.Ordinal))
 					{
 						dragFromBundle = true;
 
@@ -484,14 +484,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
 		private void UpdateAddItemOption()
 		{
-			if (Contents.Count >= Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle)
-			{
-				IsAddItemOptionEnabled = false;
-			}
-			else
-			{
-				IsAddItemOptionEnabled = true;
-			}
+			IsAddItemOptionEnabled = Contents.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle;
 		}
 
 		#endregion Private Helpers

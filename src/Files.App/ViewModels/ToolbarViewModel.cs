@@ -553,12 +553,8 @@ namespace Files.App.ViewModels
 				}
 			}
 
-			if (!FilesystemHelpers.HasDraggedStorageItems(e.DataView))
-			{
-				e.AcceptedOperation = DataPackageOperation.None;
-				return;
-			}
-			if (string.IsNullOrEmpty(pathBoxItem.Path)) // In search page
+			if (!FilesystemHelpers.HasDraggedStorageItems(e.DataView)
+				|| string.IsNullOrEmpty(pathBoxItem.Path))  // In search page
 			{
 				e.AcceptedOperation = DataPackageOperation.None;
 				return;
@@ -567,15 +563,15 @@ namespace Files.App.ViewModels
 			e.Handled = true;
 			var deferral = e.GetDeferral();
 
-			var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
-			var storageItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
-
+			var handledByFtp = await FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
 			if (handledByFtp)
 			{
 				e.AcceptedOperation = DataPackageOperation.None;
 				deferral.Complete();
 				return;
 			}
+
+			var storageItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
 			if (!storageItems.Any(storageItem =>
 				!string.IsNullOrEmpty(storageItem?.Path) &&
@@ -686,14 +682,11 @@ namespace Files.App.ViewModels
 
 		public void PathBoxItem_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
-			if (e.Pointer.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Mouse)
-			{
-				var ptrPt = e.GetCurrentPoint(AddressToolbar);
-				if (ptrPt.Properties.IsMiddleButtonPressed)
-					pointerRoutedEventArgs = e;
-				else
-					pointerRoutedEventArgs = null;
-			}
+			if (e.Pointer.PointerDeviceType != Microsoft.UI.Input.PointerDeviceType.Mouse)
+				return;
+
+			var ptrPt = e.GetCurrentPoint(AddressToolbar);
+			pointerRoutedEventArgs = ptrPt.Properties.IsMiddleButtonPressed ? e : null;
 		}
 
 		public async void PathBoxItem_Tapped(object sender, TappedRoutedEventArgs e)
@@ -770,15 +763,15 @@ namespace Files.App.ViewModels
 
 		public void SearchRegion_LostFocus(object sender, RoutedEventArgs e)
 		{
-			var focusedElement = FocusManager.GetFocusedElement();
-			if ((focusedElement is Button bttn && bttn.Name == "SearchButton") || focusedElement is FlyoutBase || focusedElement is AppBarButton)
+			var element = FocusManager.GetFocusedElement();
+			if (element is FlyoutBase or AppBarButton)
 				return;
 
 			SearchHasFocus = false;
 			CloseSearchBox();
 		}
 
-		private void SearchRegion_Escaped(object? sender, ISearchBox searchBox) => IsSearchBoxVisible = false;
+		private void SearchRegion_Escaped(object? sender, ISearchBox searchBox) => CloseSearchBox();
 
 		public ICommand? SelectAllContentPageItemsCommand { get; set; }
 
@@ -788,7 +781,7 @@ namespace Files.App.ViewModels
 
 		public ICommand? PasteItemsFromClipboardCommand { get; set; }
 
-		public ICommand? OpenNewWindowCommand { get; set; }
+		public IAsyncRelayCommand? OpenNewWindowCommand { get; set; }
 
 		public ICommand? OpenNewPaneCommand { get; set; }
 
@@ -902,7 +895,7 @@ namespace Files.App.ViewModels
 
 		public async Task CheckPathInput(string currentInput, string currentSelectedPath, IShellPage shellPage)
 		{
-			if (currentInput.Contains("/") && !FtpHelpers.IsFtpPath(currentInput))
+			if (currentInput.Contains('/') && !FtpHelpers.IsFtpPath(currentInput))
 				currentInput = currentInput.Replace("/", "\\", StringComparison.Ordinal);
 
 			currentInput = currentInput.Replace("\\\\", "\\", StringComparison.Ordinal);
@@ -989,7 +982,7 @@ namespace Files.App.ViewModels
 		{
 			var trimmedInput = currentInput.Trim();
 			var fileName = trimmedInput;
-			var arguments = "";
+			var arguments = string.Empty;
 			if (trimmedInput.Contains(' '))
 			{
 				var positionOfBlank = trimmedInput.IndexOf(' ');
@@ -1132,7 +1125,7 @@ namespace Files.App.ViewModels
 		public bool CanCopy => SelectedItems is not null && SelectedItems.Any();
 		public bool CanShare => SelectedItems is not null && SelectedItems.Any() && DataTransferManager.IsSupported() && !SelectedItems.Any(x => (x.IsShortcut && !x.IsLinkItem) || x.IsHiddenItem || (x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsArchive));
 		public bool CanRename => SelectedItems is not null && SelectedItems.Count == 1;
-		public bool CanViewProperties => SelectedItems is not null && SelectedItems.Any();
+		public bool CanViewProperties => true;
 		public bool CanEmptyRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem;
 		public bool CanRestoreRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem && (SelectedItems is null || SelectedItems.Count == 0);
 		public bool CanRestoreSelectionRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem && SelectedItems is not null && SelectedItems.Count > 0;

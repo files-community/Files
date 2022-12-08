@@ -1,3 +1,4 @@
+using System;
 using Files.App.ViewModels.Previews;
 using Microsoft.UI.Xaml.Controls;
 
@@ -7,8 +8,6 @@ namespace Files.App.UserControls.FilePreviews
 {
 	public sealed partial class HtmlPreview : UserControl
 	{
-		// TODO: Move to WebView2 on WinUI 3.0 release
-
 		public HtmlPreview(HtmlPreviewViewModel model)
 		{
 			ViewModel = model;
@@ -17,8 +16,9 @@ namespace Files.App.UserControls.FilePreviews
 
 		public HtmlPreviewViewModel ViewModel { get; set; }
 
-		private void WebViewControl_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+		private async void WebViewControl_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
 		{
+			await WebViewControl.EnsureCoreWebView2Async();
 			WebViewControl.NavigateToString(ViewModel.TextValue);
 		}
 	}

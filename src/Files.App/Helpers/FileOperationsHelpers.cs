@@ -721,7 +721,7 @@ namespace Files.App.Helpers
 
 		private static void UpdateFileTagsDb(ShellFileOperations.ShellFileOpEventArgs e, string operationType)
 		{
-			using var dbInstance = FileTagsHelper.GetDbInstance();
+			var dbInstance = FileTagsHelper.GetDbInstance();
 			if (e.Result.Succeeded)
 			{
 				var sourcePath = e.SourceItem.GetParsingPath();
@@ -856,9 +856,7 @@ namespace Files.App.Helpers
 
 			public bool CheckCanceled(string uid)
 			{
-				if (operations.TryGetValue(uid, out var op))
-					return op.Canceled;
-				return true;
+				return !operations.TryGetValue(uid, out var op) || op.Canceled;
 			}
 
 			public void TryCancel(string uid)

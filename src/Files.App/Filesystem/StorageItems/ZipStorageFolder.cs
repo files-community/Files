@@ -26,7 +26,7 @@ namespace Files.App.Filesystem.StorageItems
 		public override string Path { get; }
 		public override string Name { get; }
 		public override string DisplayName => Name;
-		public override string DisplayType => "FileFolderListItem".GetLocalizedResource();
+		public override string DisplayType => "Folder".GetLocalizedResource();
 		public override string FolderRelativeId => $"0\\{Name}";
 
 		public override DateTimeOffset DateCreated { get; }
@@ -101,6 +101,7 @@ namespace Files.App.Filesystem.StorageItems
 				if (assoc is not null)
 				{
 					return assoc == Package.Current.Id.FamilyName
+						|| assoc.EndsWith("Files.App\\Files.exe", StringComparison.OrdinalIgnoreCase)
 						|| assoc.Equals(IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "explorer.exe"), StringComparison.OrdinalIgnoreCase);
 				}
 				return true;
@@ -629,7 +630,7 @@ namespace Files.App.Filesystem.StorageItems
 
 			public ZipFolderBasicProperties(ArchiveFileInfo entry) => this.entry = entry;
 
-			public override DateTimeOffset DateModified => entry.CreationTime == DateTime.MinValue ? DateTimeOffset.MinValue : entry.CreationTime;
+			public override DateTimeOffset DateModified => entry.LastWriteTime == DateTime.MinValue ? DateTimeOffset.MinValue : entry.LastWriteTime;
 
 			public override DateTimeOffset ItemDate => entry.CreationTime == DateTime.MinValue ? DateTimeOffset.MinValue : entry.CreationTime;
 

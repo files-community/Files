@@ -74,6 +74,11 @@ namespace Files.App
 			public const string UbuntuIcon = "ms-appx:///Assets/WSL/ubuntupng.png";
 		}
 
+		public static class AssetPaths
+		{
+			public const string Logo = "Assets/AppTiles/Dev/Logo.ico";
+		}
+
 		public static class UI
 		{
 			public const float DimItemOpacity = 0.4f;
@@ -216,7 +221,7 @@ namespace Files.App
 			public const string FeedbackUrl = @"https://github.com/files-community/Files/issues/new/choose";
 			public const string PrivacyPolicyUrl = @"https://github.com/files-community/Files/blob/main/Privacy.md";
 			public const string ReleaseNotesUrl = @"https://github.com/files-community/Files/releases";
-			public const string SupportUsUrl = @"https://github.com/sponsors/yaichenbaum";
+			public const string SupportUsUrl = @"https://github.com/sponsors/yaira2";
 		}
 	}
 }

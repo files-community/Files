@@ -52,7 +52,7 @@ namespace Files.App.Filesystem.StorageItems
 
 		public override DateTimeOffset DateCreated { get; }
 
-		public override Windows.Storage.FileAttributes Attributes => Windows.Storage.FileAttributes.Normal | Windows.Storage.FileAttributes.ReadOnly;
+		public override FileAttributes Attributes => FileAttributes.Normal | FileAttributes.ReadOnly;
 
 		private IStorageItemExtraProperties properties;
 		public override IStorageItemExtraProperties Properties => properties ??= new BaseBasicStorageItemExtraProperties(this);
@@ -70,28 +70,18 @@ namespace Files.App.Filesystem.StorageItems
 		public static ShellStorageFile FromShellItem(ShellFileItem item)
 		{
 			if (item is ShellLinkItem linkItem)
-			{
 				return new ShortcutStorageFile(linkItem);
-			}
-			else if (item.RecyclePath.Contains("$Recycle.Bin", StringComparison.Ordinal))
-			{
+
+			if (item.RecyclePath.Contains("$Recycle.Bin", StringComparison.OrdinalIgnoreCase))
 				return new BinStorageFile(item);
-			}
-			else
-			{
-				return new ShellStorageFile(item);
-			}
+
+			return new ShellStorageFile(item);
 		}
 
 		public static IAsyncOperation<BaseStorageFile> FromPathAsync(string path)
 		{
-			if (ShellStorageFolder.IsShellPath(path))
-			{
-				if (GetFile(path) is ShellFileItem file)
-				{
-					return Task.FromResult<BaseStorageFile>(FromShellItem(file)).AsAsyncOperation();
-				}
-			}
+			if (ShellStorageFolder.IsShellPath(path) && GetFile(path) is ShellFileItem file)
+				return Task.FromResult<BaseStorageFile>(FromShellItem(file)).AsAsyncOperation();
 			return Task.FromResult<BaseStorageFile>(null).AsAsyncOperation();
 		}
 

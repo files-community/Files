@@ -20,36 +20,26 @@ namespace Files.App.Storage.FtpStorage
 
 		public static Task EnsureConnectedAsync(this AsyncFtpClient ftpClient, CancellationToken cancellationToken = default)
 		{
-			if (ftpClient.IsConnected)
-				return Task.CompletedTask;
-
-			return ftpClient.Connect(cancellationToken);
+			return ftpClient.IsConnected ? Task.CompletedTask : ftpClient.Connect(cancellationToken);
 		}
 
 		public static string GetFtpHost(string path)
 		{
 			var authority = GetFtpAuthority(path);
-			var index = authority.IndexOf(":", StringComparison.Ordinal);
+			var index = authority.IndexOf(':', StringComparison.Ordinal);
 
-			if (index == -1)
-				return authority;
-
-			return authority.Substring(0, index);
+			return index == -1 ? authority : authority.Substring(0, index);
 		}
 
 		public static ushort GetFtpPort(string path)
 		{
 			var authority = GetFtpAuthority(path);
-			var index = authority.IndexOf(":", StringComparison.Ordinal);
+			var index = authority.IndexOf(':', StringComparison.Ordinal);
 
 			if (index != -1)
 				return ushort.Parse(authority.Substring(index + 1));
 
-			if (path.StartsWith("ftps://", StringComparison.OrdinalIgnoreCase))
-				return 990;
-
-			return 21;
-
+			return path.StartsWith("ftps://", StringComparison.OrdinalIgnoreCase) ? (ushort)990 : (ushort)21;
 		}
 
 		public static string GetFtpAuthority(string path)

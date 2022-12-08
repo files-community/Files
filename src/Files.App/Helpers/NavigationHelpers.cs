@@ -36,13 +36,13 @@ namespace Files.App.Helpers
 			return Launcher.LaunchUriAsync(folderUri).AsTask();
 		}
 
-		public static async void LaunchNewWindow()
+		public static Task LaunchNewWindowAsync()
 		{
 			var filesUWPUri = new Uri("files-uwp:");
-			await Launcher.LaunchUriAsync(filesUWPUri);
+			return Launcher.LaunchUriAsync(filesUWPUri).AsTask();
 		}
 
-		public static async void OpenSelectedItems(IShellPage associatedInstance, bool openViaApplicationPicker = false)
+		public static async Task OpenSelectedItems(IShellPage associatedInstance, bool openViaApplicationPicker = false)
 		{
 			// Don't open files and folders inside recycle bin
 			if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
@@ -60,7 +60,6 @@ namespace Files.App.Helpers
 				selectedItems.Count > 1 &&
 				selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.File && !x.IsExecutable && !x.IsShortcut))
 			{
-
 				opened = await Win32Helpers.InvokeWin32ComponentAsync(string.Join('|', selectedItems.Select(x => x.ItemPath)), associatedInstance);
 			}
 

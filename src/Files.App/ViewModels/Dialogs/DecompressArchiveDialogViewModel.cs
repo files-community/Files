@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Files.Backend.SecureStore;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -31,6 +32,26 @@ namespace Files.App.ViewModels.Dialogs
 			set => SetProperty(ref openDestinationFolderOnCompletion, value);
 		}
 
+		private bool isArchiveEncrypted;
+		
+		public bool IsArchiveEncrypted
+		{
+			get => isArchiveEncrypted;
+			set => SetProperty(ref isArchiveEncrypted, value);
+		}
+
+		private bool showPathSelection;
+
+		public bool ShowPathSelection
+		{
+			get => showPathSelection;
+			set => SetProperty(ref showPathSelection, value);
+		}
+
+		public DisposableArray? Password { get; private set; }
+
+		public IRelayCommand PrimaryButtonClickCommand { get; private set; }
+
 		public ICommand SelectDestinationCommand { get; private set; }
 
 		public DecompressArchiveDialogViewModel(IStorageFile archive)
@@ -40,6 +61,7 @@ namespace Files.App.ViewModels.Dialogs
 
 			// Create commands
 			SelectDestinationCommand = new AsyncRelayCommand(SelectDestination);
+			PrimaryButtonClickCommand = new RelayCommand<DisposableArray>(password => Password = password);
 		}
 
 		private async Task SelectDestination()
@@ -49,14 +71,7 @@ namespace Files.App.ViewModels.Dialogs
 
 			DestinationFolder = await folderPicker.PickSingleFolderAsync();
 
-			if (DestinationFolder is not null)
-			{
-				DestinationFolderPath = DestinationFolder.Path;
-			}
-			else
-			{
-				DestinationFolderPath = DefaultDestinationFolderPath();
-			}
+			DestinationFolderPath = (DestinationFolder is not null) ? DestinationFolder.Path : DefaultDestinationFolderPath();
 		}
 
 		// WINUI3

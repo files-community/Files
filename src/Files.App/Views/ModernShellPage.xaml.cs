@@ -60,10 +60,7 @@ namespace Files.App.Views
 		private bool isCurrentInstance = false;
 		public bool IsCurrentInstance
 		{
-			get
-			{
-				return isCurrentInstance;
-			}
+			get => isCurrentInstance;
 			set
 			{
 				if (isCurrentInstance != value)
@@ -86,10 +83,7 @@ namespace Files.App.Views
 
 		public BaseLayout ContentPage
 		{
-			get
-			{
-				return contentPage;
-			}
+			get => contentPage;
 			set
 			{
 				if (value != contentPage)
@@ -245,7 +239,7 @@ namespace Files.App.Views
 			ToolbarViewModel.InvertContentPageSelctionCommand = new RelayCommand(() => SlimContentPage?.ItemManipulationModel.InvertSelection());
 			ToolbarViewModel.ClearContentPageSelectionCommand = new RelayCommand(() => SlimContentPage?.ItemManipulationModel.ClearSelection());
 			ToolbarViewModel.PasteItemsFromClipboardCommand = new RelayCommand(async () => await UIFilesystemHelpers.PasteItemAsync(FilesystemViewModel.WorkingDirectory, this));
-			ToolbarViewModel.OpenNewWindowCommand = new RelayCommand(NavigationHelpers.LaunchNewWindow);
+			ToolbarViewModel.OpenNewWindowCommand = new AsyncRelayCommand(NavigationHelpers.LaunchNewWindowAsync);
 			ToolbarViewModel.OpenNewPaneCommand = new RelayCommand(() => PaneHolder?.OpenPathInNewPane("Home".GetLocalizedResource()));
 			ToolbarViewModel.ClosePaneCommand = new RelayCommand(() => PaneHolder?.CloseActivePane());
 			ToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.File, x, this));
@@ -314,7 +308,7 @@ namespace Files.App.Views
 			else
 			{
 				ToolbarViewModel.PathComponents.Clear(); // Clear the path UI
-				ToolbarViewModel.PathComponents.Add(new Views.PathBoxItem() { Path = null, Title = singleItemOverride });
+				ToolbarViewModel.PathComponents.Add(new PathBoxItem() { Path = null, Title = singleItemOverride });
 			}
 		}
 
@@ -462,11 +456,11 @@ namespace Files.App.Views
 				: FilesystemViewModel.WorkingDirectory;
 		}
 
-        private void DrivesManager_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "ShowUserConsentOnInit")
-                DisplayFilesystemConsentDialog();
-        }
+		private void DrivesManager_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == "ShowUserConsentOnInit")
+				DisplayFilesystemConsentDialog();
+		}
 
 		// WINUI3
 		private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
@@ -604,15 +598,16 @@ namespace Files.App.Views
 
 		private void FilesystemViewModel_DirectoryInfoUpdated(object sender, EventArgs e)
 		{
-			if (ContentPage is not null)
-			{
-				if (FilesystemViewModel.FilesAndFolders.Count == 1)
-					ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {"ItemCount/Text".GetLocalizedResource()}";
-				else
-					ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {"ItemsCount/Text".GetLocalizedResource()}";
+			if (ContentPage is null)
+				return;
 
-				ContentPage.UpdateSelectionSize();
-			}
+
+			var directoryItemCountLocalization = (FilesystemViewModel.FilesAndFolders.Count == 1)
+				? "ItemCount/Text".GetLocalizedResource()
+				: "ItemsCount/Text".GetLocalizedResource();
+
+			ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {directoryItemCountLocalization}";
+			ContentPage.UpdateSelectionSize();
 		}
 
 		private void ViewModel_WorkingDirectoryModified(object sender, WorkingDirectoryModifiedEventArgs e)
@@ -867,7 +862,7 @@ namespace Files.App.Views
 					lastSlashIndex = parentDirectoryOfPath.LastIndexOf("/", StringComparison.Ordinal);
 				if (lastSlashIndex != -1)
 					parentDirectoryOfPath = FilesystemViewModel.WorkingDirectory.Remove(lastSlashIndex);
-				if (parentDirectoryOfPath.EndsWith(":"))
+				if (parentDirectoryOfPath.EndsWith(':'))
 					parentDirectoryOfPath += '\\';
 
 				SelectSidebarItemFromPath();

@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Για να ξεκινήσετε, θα πρέπει να μας δώσετε την άδεια να προβάλλουμε τα αρχεία σας. Αυτό θα ανοίξει μια σελίδα ρυθμίσεων όπου μπορείτε να μας δώσετε αυτή την άδεια. Μόλις ολοκληρώσετε αυτό το βήμα, θα πρέπει να ανοίξετε ξανά την εφαρμογή. </value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Φάκελος αρχείων</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Αρχείο</value>
   </data>
@@ -2007,8 +2004,8 @@
   <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>Προβολή τεκμηρίωσης.</value>
   </data>
-  <data name="DecompressArchiveDialog.Title" xml:space="preserve">
-    <value>Επιλέξτε έναν προορισμό και εξαγάγετε τα αρχεία</value>
+  <data name="ExtractArchive" xml:space="preserve">
+    <value>Extract Archive</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>Άνοιγμα φακέλου προορισμού όταν ολοκληρωθεί</value>
@@ -2844,6 +2841,9 @@
   <data name="DeleteShortcutDescription" xml:space="preserve">
     <value>Ο προορισμός της συντόμευσης δε βρέθηκε {0}. Θέλετε να διαγράψετε αυτήν τη συντόμευση;</value>
   </data>
+  <data name="AccessDeniedToFolder" xml:space="preserve">
+    <value>You don't have permission to access this folder.</value>
+  </data>
   <data name="LoadingThemes" xml:space="preserve">
     <value>Loading Themes</value>
   </data>
@@ -2855,5 +2855,80 @@
   </data>
   <data name="BinEmptyingFailed" xml:space="preserve">
     <value>Failed to empty recycle bin</value>
+  </data>
+  <data name="ArchivePassword" xml:space="preserve">
+    <value>Archive password</value>
+  </data>
+  <data name="ExtractToPath" xml:space="preserve">
+    <value>Path</value>
+  </data>
+  <data name="Archive" xml:space="preserve">
+    <value>Archive</value>
+  </data>
+  <data name="CreateArchive" xml:space="preserve">
+    <value>Create archive</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Δημιουργία</value>
+  </data>
+  <data name="CreateNamedArchive" xml:space="preserve">
+    <value>Create {0}</value>
+  </data>
+  <data name="EnterName" xml:space="preserve">
+    <value>Enter a name</value>
+  </data>
+  <data name="CompressionLevel" xml:space="preserve">
+    <value>Compression level</value>
+  </data>
+  <data name="CompressionLevelUltra" xml:space="preserve">
+    <value>Ultra</value>
+  </data>
+  <data name="CompressionLevelHigh" xml:space="preserve">
+    <value>High</value>
+  </data>
+  <data name="CompressionLevelNormal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="CompressionLevelLow" xml:space="preserve">
+    <value>Low</value>
+  </data>
+  <data name="CompressionLevelFast" xml:space="preserve">
+    <value>Fast</value>
+  </data>
+  <data name="CompressionLevelNone" xml:space="preserve">
+    <value>Κανένα</value>
+  </data>
+  <data name="SplitArchive" xml:space="preserve">
+    <value>Split the archive</value>
+  </data>
+  <data name="SplittingSize" xml:space="preserve">
+    <value>Splitting size</value>
+  </data>
+  <data name="Do not split" xml:space="preserve">
+    <value>Do not split</value>
+  </data>
+  <data name="CD" xml:space="preserve">
+    <value>CD</value>
+  </data>
+  <data name="DVD" xml:space="preserve">
+    <value>DVD</value>
+  </data>
+  <data name="FAT" xml:space="preserve">
+    <value>FAT</value>
+  </data>
+  <data name="Bluray" xml:space="preserve">
+    <value>Blu-ray</value>
+  </data>
+  <data name="Encryption" xml:space="preserve">
+    <value>Encryption</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Κωδικός πρόσβασης</value>
+  </data>
+  <data name="Format" xml:space="preserve">
+    <value>Μορφή</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowSyncStatus.Text" xml:space="preserve">
+    <value>Sync status column</value>
   </data>
 </root>

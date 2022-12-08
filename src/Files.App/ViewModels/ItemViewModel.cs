@@ -34,6 +34,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
 using System.Threading;
@@ -68,7 +69,7 @@ namespace Files.App.ViewModels
 
 		// only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
 		public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
-		private string folderTypeTextLocalized = "FileFolderListItem".GetLocalizedResource();
+		private string folderTypeTextLocalized = "Folder".GetLocalizedResource();
 		private FolderSettingsViewModel folderSettings = null;
 		private DispatcherQueue dispatcherQueue;
 
@@ -983,10 +984,8 @@ namespace Files.App.ViewModels
 
 		private static void SetFileTag(ListedItem item)
 		{
-			using (var dbInstance = FileTagsHelper.GetDbInstance())
-			{
-				dbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
-			}
+			var dbInstance = FileTagsHelper.GetDbInstance();
+			dbInstance.SetTags(item.ItemPath, item.FileFRN, item.FileTags);
 		}
 
 		// This works for recycle bin as well as GetFileFromPathAsync/GetFolderFromPathAsync work
@@ -1036,12 +1035,12 @@ namespace Files.App.ViewModels
 									var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFile);
 									var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFile);
 									var fileTag = FileTagsHelper.ReadFileTag(item.ItemPath);
-
+									var itemType = (item.ItemType == "Folder".GetLocalizedResource()) ? item.ItemType : matchingStorageFile.DisplayType;
 									cts.Token.ThrowIfCancellationRequested();
 									await dispatcherQueue.EnqueueAsync(() =>
 									{
 										item.FolderRelativeId = matchingStorageFile.FolderRelativeId;
-										item.ItemType = matchingStorageFile.DisplayType;
+										item.ItemType = itemType;
 										item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
 										item.FileFRN = fileFRN;
 										item.FileTags = fileTag;
@@ -1083,11 +1082,12 @@ namespace Files.App.ViewModels
 									var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
 									var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFolder);
 									var fileTag = FileTagsHelper.ReadFileTag(item.ItemPath);
+									var itemType = (item.ItemType == "Folder".GetLocalizedResource()) ? item.ItemType : matchingStorageFolder.DisplayType;
 									cts.Token.ThrowIfCancellationRequested();
 									await dispatcherQueue.EnqueueAsync(() =>
 									{
 										item.FolderRelativeId = matchingStorageFolder.FolderRelativeId;
-										item.ItemType = matchingStorageFolder.DisplayType;
+										item.ItemType = itemType;
 										item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
 										item.FileFRN = fileFRN;
 										item.FileTags = fileTag;
@@ -1363,7 +1363,7 @@ namespace Files.App.ViewModels
 						   path.StartsWith(CommonPaths.NetworkFolderPath, StringComparison.Ordinal) ? "Network".GetLocalizedResource() : isFtp ? "FTP" : "Unknown",
 				ItemDateModifiedReal = DateTimeOffset.Now, // Fake for now
 				ItemDateCreatedReal = DateTimeOffset.Now, // Fake for now
-				ItemType = "FileFolderListItem".GetLocalizedResource(),
+				ItemType = "Folder".GetLocalizedResource(),
 				FileImage = null,
 				LoadFileIcon = false,
 				ItemPath = path,
@@ -1479,10 +1479,9 @@ namespace Files.App.ViewModels
 				}
 				else if (res == FileSystemStatusCode.Unauthorized)
 				{
-					//TODO: proper dialog
 					await DialogDisplayHelper.ShowDialogAsync(
 						"AccessDenied".GetLocalizedResource(),
-						"SubDirectoryAccessDenied".GetLocalizedResource());
+						"AccessDeniedToFolder".GetLocalizedResource());
 					return -1;
 				}
 				else if (res == FileSystemStatusCode.NotFound)
@@ -1532,13 +1531,13 @@ namespace Files.App.ViewModels
 			}
 			else
 			{
-				(IntPtr hFile, WIN32_FIND_DATA findData) = await Task.Run(() =>
+				(IntPtr hFile, WIN32_FIND_DATA findData, int errorCode) = await Task.Run(() =>
 				{
 					FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
 					int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
 					IntPtr hFileTsk = FindFirstFileExFromApp(path + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findDataTsk, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
 						additionalFlags);
-					return (hFileTsk, findDataTsk);
+					return (hFileTsk, findDataTsk, hFileTsk.ToInt64() == -1 ? Marshal.GetLastWin32Error() : 0);
 				}).WithTimeoutAsync(TimeSpan.FromSeconds(5));
 
 				var itemModifiedDate = DateTime.Now;
@@ -1585,6 +1584,17 @@ namespace Files.App.ViewModels
 				else if (hFile.ToInt64() == -1)
 				{
 					await EnumFromStorageFolderAsync(path, currentFolder, rootFolder, currentStorageFolder, cancellationToken);
+					if (!filesAndFolders.Any())
+					{
+						// https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-
+						if (errorCode == 0x5) // ERROR_ACCESS_DENIED
+						{
+							await DialogDisplayHelper.ShowDialogAsync(
+								"AccessDenied".GetLocalizedResource(),
+								"AccessDeniedToFolder".GetLocalizedResource());
+							return -1;
+						}
+					}
 					return 1;
 				}
 				else
@@ -1748,8 +1758,8 @@ namespace Files.App.ViewModels
 
 			var hasSyncStatus = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown;
 
-			if (aProcessQueueAction is null) // Only start one ProcessOperationQueue
-				aProcessQueueAction = Task.Factory.StartNew(() => ProcessOperationQueue(watcherCTS.Token, hasSyncStatus), default, TaskCreationOptions.LongRunning, TaskScheduler.Default);
+			aProcessQueueAction ??= Task.Factory.StartNew(() => ProcessOperationQueue(watcherCTS.Token, hasSyncStatus), default,
+				TaskCreationOptions.LongRunning, TaskScheduler.Default);
 
 			var aWatcherAction = Windows.System.Threading.ThreadPool.RunAsync((x) =>
 			{
@@ -1975,20 +1985,15 @@ namespace Files.App.ViewModels
 
 		public Task<ListedItem> AddFileOrFolderFromShellFile(ShellFileItem item)
 		{
-			if (item.IsFolder)
-			{
-				return UniversalStorageEnumerator.AddFolderAsync(ShellStorageFolder.FromShellItem(item), currentStorageFolder, addFilesCTS.Token);
-			}
-
-			return UniversalStorageEnumerator.AddFileAsync(ShellStorageFile.FromShellItem(item), currentStorageFolder, addFilesCTS.Token);
+			return item.IsFolder
+				? UniversalStorageEnumerator.AddFolderAsync(ShellStorageFolder.FromShellItem(item), currentStorageFolder, addFilesCTS.Token)
+				: UniversalStorageEnumerator.AddFileAsync(ShellStorageFile.FromShellItem(item), currentStorageFolder, addFilesCTS.Token);
 		}
 
 		private async Task AddFileOrFolderAsync(ListedItem item)
 		{
 			if (item is null)
-			{
 				return;
-			}
 
 			try
 			{
@@ -2035,7 +2040,7 @@ namespace Files.App.ViewModels
 
 			var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
 			var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-			var startWithDot = findData.cFileName.StartsWith(".");
+			var startWithDot = findData.cFileName.StartsWith('.');
 			if ((isHidden &&
 			   (!UserSettingsService.FoldersSettingsService.ShowHiddenItems ||
 			   (isSystem && !UserSettingsService.FoldersSettingsService.ShowProtectedSystemFiles))) ||
@@ -2182,10 +2187,7 @@ namespace Files.App.ViewModels
 		public async Task AddSearchResultsToCollection(ObservableCollection<ListedItem> searchItems, string currentSearchPath)
 		{
 			filesAndFolders.Clear();
-			foreach (ListedItem li in searchItems)
-			{
-				filesAndFolders.Add(li);
-			}
+			filesAndFolders.AddRange(searchItems);
 			await OrderFilesAndFoldersAsync();
 			await ApplyFilesAndFoldersChangesAsync();
 		}

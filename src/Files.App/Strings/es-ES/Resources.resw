@@ -345,9 +345,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Para comenzar, deberá otorgar permisos para mostrar sus archivos. Se abrirá una página de Configuración donde puede otorgar dicho permiso. Deberá volver a abrir la aplicación una vez haya completado este paso. </value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Carpeta de archivos</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Archivo</value>
   </data>
@@ -2007,8 +2004,8 @@
   <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>Consultar documentación.</value>
   </data>
-  <data name="DecompressArchiveDialog.Title" xml:space="preserve">
-    <value>Seleccionar destino y extraer archivos</value>
+  <data name="ExtractArchive" xml:space="preserve">
+    <value>Extraer Archivo</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>Abrir carpeta de destino al finalizar</value>
@@ -2844,6 +2841,9 @@
   <data name="DeleteShortcutDescription" xml:space="preserve">
     <value>No se puede encontrar el destino {0}. ¿Desea eliminar este acceso directo?</value>
   </data>
+  <data name="AccessDeniedToFolder" xml:space="preserve">
+    <value>No tiene permiso para acceder a esta carpeta.</value>
+  </data>
   <data name="LoadingThemes" xml:space="preserve">
     <value>Cargando temas</value>
   </data>
@@ -2855,5 +2855,80 @@
   </data>
   <data name="BinEmptyingFailed" xml:space="preserve">
     <value>No se pudo vaciar la papelera de reciclaje</value>
+  </data>
+  <data name="ArchivePassword" xml:space="preserve">
+    <value>Contraseña de archivo</value>
+  </data>
+  <data name="ExtractToPath" xml:space="preserve">
+    <value>Ruta</value>
+  </data>
+  <data name="Archive" xml:space="preserve">
+    <value>Archivo</value>
+  </data>
+  <data name="CreateArchive" xml:space="preserve">
+    <value>Crear archivo</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Crear</value>
+  </data>
+  <data name="CreateNamedArchive" xml:space="preserve">
+    <value>Crear {0}</value>
+  </data>
+  <data name="EnterName" xml:space="preserve">
+    <value>Introducir nombre</value>
+  </data>
+  <data name="CompressionLevel" xml:space="preserve">
+    <value>Nivel de compresión</value>
+  </data>
+  <data name="CompressionLevelUltra" xml:space="preserve">
+    <value>Máximo</value>
+  </data>
+  <data name="CompressionLevelHigh" xml:space="preserve">
+    <value>Alto</value>
+  </data>
+  <data name="CompressionLevelNormal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="CompressionLevelLow" xml:space="preserve">
+    <value>Bajo</value>
+  </data>
+  <data name="CompressionLevelFast" xml:space="preserve">
+    <value>Rápido</value>
+  </data>
+  <data name="CompressionLevelNone" xml:space="preserve">
+    <value>Ninguno</value>
+  </data>
+  <data name="SplitArchive" xml:space="preserve">
+    <value>Dividir el archivo</value>
+  </data>
+  <data name="SplittingSize" xml:space="preserve">
+    <value>Tamaño de la división</value>
+  </data>
+  <data name="Do not split" xml:space="preserve">
+    <value>No dividir</value>
+  </data>
+  <data name="CD" xml:space="preserve">
+    <value>CD</value>
+  </data>
+  <data name="DVD" xml:space="preserve">
+    <value>DVD</value>
+  </data>
+  <data name="FAT" xml:space="preserve">
+    <value>FAT</value>
+  </data>
+  <data name="Bluray" xml:space="preserve">
+    <value>Blu-ray</value>
+  </data>
+  <data name="Encryption" xml:space="preserve">
+    <value>Cifrado</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Contraseña</value>
+  </data>
+  <data name="Format" xml:space="preserve">
+    <value>Formato</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowSyncStatus.Text" xml:space="preserve">
+    <value>Columna de estado de sincronización</value>
   </data>
 </root>

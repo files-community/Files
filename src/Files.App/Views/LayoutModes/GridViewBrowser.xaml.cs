@@ -403,7 +403,7 @@ namespace Files.App.Views.LayoutModes
 				}
 				else
 				{
-					NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+					_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
 				}
 				e.Handled = true;
 			}
@@ -528,7 +528,7 @@ namespace Files.App.Views.LayoutModes
 				&& UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 			{
 				ResetRenameDoubleClick();
-				NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
 			}
 			else
 			{
@@ -563,7 +563,7 @@ namespace Files.App.Views.LayoutModes
 			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item
 				 && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 			{
-				NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
 			}
 			else
 			{

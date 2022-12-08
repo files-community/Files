@@ -88,7 +88,7 @@ namespace Files.App.Filesystem
 			var copyResult = new ShellOperationResult();
 			if (sourceRename.Any())
 			{
-				var resultItem = await FileOperationsHelpers.CopyItemAsync(sourceRename.Select(s => s.Path).ToArray(), destinationRename.ToArray(), false, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID, progress);
+				var resultItem = await FileOperationsHelpers.CopyItemAsync(sourceRename.Select(s => s.Path).ToArray(), destinationRename.ToArray(), false, NativeWinApiHelper.CoreWindowHandle.ToInt64(), operationID);
 
 				result &= (FilesystemResult)resultItem.Item1;
 
@@ -203,7 +203,7 @@ namespace Files.App.Filesystem
 							if (args.Any())
 							{
 								if (await LaunchHelper.LaunchAppAsync(args[0].Replace("\"", "", StringComparison.Ordinal),
-										string.Join(" ", args.Skip(1)).Replace("%1", source.Path),
+										string.Join(' ', args.Skip(1)).Replace("%1", source.Path),
 										PathNormalization.GetParentDir(source.Path)))
 								{
 									success = true;
@@ -314,7 +314,7 @@ namespace Files.App.Filesystem
 			}
 
 			var deleleFilePaths = source.Select(s => s.Path).Distinct();
-			var deleteFromRecycleBin = source.Any() ? recycleBinHelpers.IsPathUnderRecycleBin(source.ElementAt(0).Path) : false;
+			var deleteFromRecycleBin = source.Any() && recycleBinHelpers.IsPathUnderRecycleBin(source.ElementAt(0).Path);
 			permanently |= deleteFromRecycleBin;
 
 			if (deleteFromRecycleBin)
@@ -471,6 +471,7 @@ namespace Files.App.Filesystem
 			}
 			else
 			{
+				errorCode?.Report(CopyEngineResult.Convert(moveResult.Items.FirstOrDefault(x => !x.Succeeded)?.HResult));
 				if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.Unauthorized))
 				{
 					if (await RequestAdminOperation())
@@ -530,7 +531,6 @@ namespace Files.App.Filesystem
 						await sourceMatch.Select(x => x.dest).ToListAsync(),
 						await sourceMatch.Select(x => x.coll).ToListAsync(), progress, errorCode, cancellationToken);
 				}
-				errorCode?.Report(CopyEngineResult.Convert(moveResult.Items.FirstOrDefault(x => !x.Succeeded)?.HResult));
 				return null;
 			}
 		}
@@ -723,7 +723,7 @@ namespace Files.App.Filesystem
 			return false;
 		}
 
-		private Task<DialogResult> GetFileInUseDialog(IEnumerable<string> source, List<Win32Process> lockingProcess = null)
+		private Task<DialogResult> GetFileInUseDialog(IEnumerable<string> source, IEnumerable<Win32Process> lockingProcess = null)
 		{
 			var titleText = "FileInUseDialog/Title".GetLocalizedResource();
 			var subtitleText = lockingProcess.IsEmpty() ? "FileInUseDialog/Text".GetLocalizedResource() :
@@ -760,8 +760,8 @@ namespace Files.App.Filesystem
 			return await dialogService.ShowDialogAsync(dialogViewModel);
 		}
 
-		private List<Win32Process> WhoIsLocking(IEnumerable<string> filesToCheck)
-			=> FileOperationsHelpers.CheckFileInUse(filesToCheck.ToArray()).ToList();
+		private IEnumerable<Win32Process> WhoIsLocking(IEnumerable<string> filesToCheck)
+			=> FileOperationsHelpers.CheckFileInUse(filesToCheck.ToArray());
 
 		#region IDisposable
 

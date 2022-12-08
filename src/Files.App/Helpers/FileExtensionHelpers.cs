@@ -30,12 +30,8 @@ namespace Files.App.Helpers
 		/// otherwise, <c>false</c>.</returns>
 		public static bool IsPowerShellFile(string fileExtensionToCheck)
 		{
-			if (string.IsNullOrEmpty(fileExtensionToCheck))
-			{
-				return false;
-			}
-
-			return fileExtensionToCheck.Equals(".ps1", StringComparison.OrdinalIgnoreCase);
+			return !string.IsNullOrEmpty(fileExtensionToCheck) &&
+			       fileExtensionToCheck.Equals(".ps1", StringComparison.OrdinalIgnoreCase);
 		}
 
 		/// <summary>
@@ -68,10 +64,8 @@ namespace Files.App.Helpers
 
 		public static bool IsInfFile(string? fileExtensionToCheck)
 		{
-			if (string.IsNullOrWhiteSpace(fileExtensionToCheck))
-				return false;
-
-			return fileExtensionToCheck.Equals(".inf", StringComparison.OrdinalIgnoreCase);
+			return !string.IsNullOrWhiteSpace(fileExtensionToCheck) &&
+			       fileExtensionToCheck.Equals(".inf", StringComparison.OrdinalIgnoreCase);
 		}
 
 		/// <summary>
@@ -101,10 +95,8 @@ namespace Files.App.Helpers
 		/// <remarks>Font file type is .lnkf</remarks>
 		public static bool IsShortcutFile(string? fileExtensionToCheck)
 		{
-			if (string.IsNullOrWhiteSpace(fileExtensionToCheck))
-				return false;
-
-			return fileExtensionToCheck.Equals(".lnk", StringComparison.OrdinalIgnoreCase);
+			return !string.IsNullOrWhiteSpace(fileExtensionToCheck) &&
+			       fileExtensionToCheck.Equals(".lnk", StringComparison.OrdinalIgnoreCase);
 		}
 	}
 }
