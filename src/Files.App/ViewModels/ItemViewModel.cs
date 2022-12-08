@@ -497,8 +497,8 @@ namespace Files.App.ViewModels
 							RefreshItems(null);
 					});
 					break;
-				case nameof(UserSettingsService.FoldersSettingsService.DefaultDirectorySortOption):
-				case nameof(UserSettingsService.FoldersSettingsService.DefaultDirectoryGroupOption):
+				case nameof(UserSettingsService.FoldersSettingsService.DefaultSortOption):
+				case nameof(UserSettingsService.FoldersSettingsService.DefaultGroupOption):
 				case nameof(UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles):
 				case nameof(UserSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences):
 					await dispatcherQueue.EnqueueAsync(() =>

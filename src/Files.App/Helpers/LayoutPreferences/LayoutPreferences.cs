@@ -28,8 +28,8 @@ namespace Files.App.Helpers.LayoutPreferences
 
 			this.LayoutMode = defaultLayout is FolderLayoutModes.Adaptive ? FolderLayoutModes.DetailsView : defaultLayout;
 			this.GridViewSize = UserSettingsService.LayoutSettingsService.DefaultGridViewSize;
-			this.DirectorySortOption = UserSettingsService.FoldersSettingsService.DefaultDirectorySortOption;
-			this.DirectoryGroupOption = UserSettingsService.FoldersSettingsService.DefaultDirectoryGroupOption;
+			this.DirectorySortOption = UserSettingsService.FoldersSettingsService.DefaultSortOption;
+			this.DirectoryGroupOption = UserSettingsService.FoldersSettingsService.DefaultGroupOption;
 			this.DirectorySortDirection = UserSettingsService.LayoutSettingsService.DefaultDirectorySortDirection;
 			this.SortDirectoriesAlongsideFiles = UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles;
 			this.IsAdaptiveLayoutOverridden = defaultLayout is not FolderLayoutModes.Adaptive;

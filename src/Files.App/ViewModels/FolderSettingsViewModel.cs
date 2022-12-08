@@ -317,14 +317,14 @@ namespace Files.App.ViewModels
 					prefs.DirectorySortOption != SortOption.DateDeleted &&
 					prefs.DirectorySortOption != SortOption.SyncStatus)
 				{
-					userSettingsService.FoldersSettingsService.DefaultDirectorySortOption = prefs.DirectorySortOption;
+					userSettingsService.FoldersSettingsService.DefaultSortOption = prefs.DirectorySortOption;
 				}
 				if (prefs.DirectoryGroupOption != GroupOption.OriginalFolder &&
 					prefs.DirectoryGroupOption != GroupOption.DateDeleted &&
 					prefs.DirectoryGroupOption != GroupOption.FolderPath &&
 					prefs.DirectoryGroupOption != GroupOption.SyncStatus)
 				{
-					userSettingsService.FoldersSettingsService.DefaultDirectoryGroupOption = prefs.DirectoryGroupOption;
+					userSettingsService.FoldersSettingsService.DefaultGroupOption = prefs.DirectoryGroupOption;
 				}
 				userSettingsService.LayoutSettingsService.DefaultDirectorySortDirection = prefs.DirectorySortDirection;
 				userSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles = prefs.SortDirectoriesAlongsideFiles;

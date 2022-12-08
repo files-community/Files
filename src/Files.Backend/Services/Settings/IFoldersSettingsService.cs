@@ -143,11 +143,11 @@ namespace Files.Backend.Services.Settings
 		/// <summary>
 		/// Gets or sets a value indicating the default sorting option.
 		/// </summary>
-		SortOption DefaultDirectorySortOption { get; set; }
+		SortOption DefaultSortOption { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating the default grouping option.
 		/// </summary>
-		GroupOption DefaultDirectoryGroupOption { get; set; }
+		GroupOption DefaultGroupOption { get; set; }
 	}
 }

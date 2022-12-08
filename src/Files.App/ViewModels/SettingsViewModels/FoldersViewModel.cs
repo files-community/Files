@@ -274,12 +274,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public SortOption DefaultSortOption
 		{
-			get => UserSettingsService.FoldersSettingsService.DefaultDirectorySortOption;
+			get => UserSettingsService.FoldersSettingsService.DefaultSortOption;
 			set
 			{
-				if (value != UserSettingsService.FoldersSettingsService.DefaultDirectorySortOption)
+				if (value != UserSettingsService.FoldersSettingsService.DefaultSortOption)
 				{
-					UserSettingsService.FoldersSettingsService.DefaultDirectorySortOption = value;
+					UserSettingsService.FoldersSettingsService.DefaultSortOption = value;
 					OnPropertyChanged();
 				}
 			}
@@ -287,12 +287,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public GroupOption DefaultGroupOption
 		{
-			get => UserSettingsService.FoldersSettingsService.DefaultDirectoryGroupOption;
+			get => UserSettingsService.FoldersSettingsService.DefaultGroupOption;
 			set
 			{
-				if (value != UserSettingsService.FoldersSettingsService.DefaultDirectoryGroupOption)
+				if (value != UserSettingsService.FoldersSettingsService.DefaultGroupOption)
 				{
-					UserSettingsService.FoldersSettingsService.DefaultDirectoryGroupOption = value;
+					UserSettingsService.FoldersSettingsService.DefaultGroupOption = value;
 					OnPropertyChanged();
 				}
 			}
