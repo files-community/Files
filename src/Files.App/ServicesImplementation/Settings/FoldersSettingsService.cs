@@ -208,7 +208,7 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
-		public SortOption DefaultDirectorySortOption
+		public SortOption DefaultSortOption
 		{
 			get => (SortOption)Get((long)SortOption.Name);
 			set => Set((long)value);
