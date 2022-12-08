@@ -21,7 +21,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 			SelectedDefaultLayoutModeIndex = (int)DefaultLayoutMode;
 			SelectedDefaultSortingIndex = (int)DefaultSortOption;
-			SelectedDefaultSortDirectionIndex = (int)DefaultSortDirection;
 			SelectedDefaultGroupingIndex = (int)DefaultGroupOption;
 		}
 
@@ -256,20 +255,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		private int selectedDefaultSortDirectionIndex;
-		public int SelectedDefaultSortDirectionIndex
-		{
-			get => selectedDefaultSortDirectionIndex;
-			set
-			{
-				if (SetProperty(ref selectedDefaultSortDirectionIndex, value))
-				{
-					OnPropertyChanged(nameof(SelectedDefaultSortDirectionIndex));
-					DefaultSortDirection = (SortDirection)value;
-				}
-			}
-		}
-
 		private int selectedDefaultGroupingIndex;
 		public int SelectedDefaultGroupingIndex
 		{
@@ -292,19 +277,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (value != UserSettingsService.FoldersSettingsService.DefaultDirectorySortOption)
 				{
 					UserSettingsService.FoldersSettingsService.DefaultDirectorySortOption = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public SortDirection DefaultSortDirection
-		{
-			get => UserSettingsService.FoldersSettingsService.DefaultDirectorySortDirection;
-			set
-			{
-				if (value != UserSettingsService.FoldersSettingsService.DefaultDirectorySortDirection)
-				{
-					UserSettingsService.FoldersSettingsService.DefaultDirectorySortDirection = value;
 					OnPropertyChanged();
 				}
 			}

@@ -146,11 +146,6 @@ namespace Files.Backend.Services.Settings
 		SortOption DefaultDirectorySortOption { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating the default sort direction (ascending / descending).
-		/// </summary>
-		SortDirection DefaultDirectorySortDirection { get; set; }
-
-		/// <summary>
 		/// Gets or sets a value indicating the default grouping option.
 		/// </summary>
 		GroupOption DefaultDirectoryGroupOption { get; set; }

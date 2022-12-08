@@ -7,6 +7,8 @@ namespace Files.Backend.Services.Settings
 	{
 		int DefaultGridViewSize { get; set; }
 
+		SortDirection DefaultDirectorySortDirection { get; set; }
+
 		bool DefaultSortDirectoriesAlongsideFiles { get; set; }
 	}
 }

@@ -138,13 +138,6 @@
 							</ComboBox>
 						</local:SettingsBlockControl>
 
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=NavToolbarSortDirectionRadioButtons/Header}" HorizontalAlignment="Stretch">
-							<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=NavToolbarSortDirectionRadioButtons/Header}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultSortDirectionIndex, Mode=TwoWay}">
-								<ComboBoxItem Content="{helpers:ResourceString Name=Ascending}" />
-								<ComboBoxItem Content="{helpers:ResourceString Name=Descending}" />
-							</ComboBox>
-						</local:SettingsBlockControl>
-
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=NavToolbarGroupByRadioButtons/Text}" HorizontalAlignment="Stretch">
 							<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=NavToolbarGroupByRadioButtons/Text}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultGroupingIndex, Mode=TwoWay}">
 								<ComboBoxItem Content="{helpers:ResourceString Name=None}" />

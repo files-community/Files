@@ -276,6 +276,14 @@ namespace Files.App.Helpers
 						},
 						new ContextMenuFlyoutItemViewModel()
 						{
+							Text = "SyncStatus".GetLocalizedResource(),
+							IsChecked = itemViewModel.IsSortedBySyncStatus,
+							Command = new RelayCommand(() => itemViewModel.IsSortedBySyncStatus = true),
+							ShowItem = currentInstanceViewModel.IsPageTypeCloudDrive,
+							ItemType = ItemType.Toggle
+						},
+						new ContextMenuFlyoutItemViewModel()
+						{
 							Text = "FileTags".GetLocalizedResource(),
 							IsChecked = itemViewModel.IsSortedByFileTag,
 							Command = new RelayCommand(() => itemViewModel.IsSortedByFileTag = true),
@@ -291,14 +299,6 @@ namespace Files.App.Helpers
 							Command = new RelayCommand(() => itemViewModel.IsSortedByOriginalPath = true),
 							ShowItem = currentInstanceViewModel.IsPageTypeRecycleBin,
 							ItemType = ItemType.Toggle,
-						},
-						new ContextMenuFlyoutItemViewModel()
-						{
-							Text = "SyncStatus".GetLocalizedResource(),
-							IsChecked = itemViewModel.IsSortedBySyncStatus,
-							Command = new RelayCommand(() => itemViewModel.IsSortedBySyncStatus = true),
-							ShowItem = currentInstanceViewModel.IsPageTypeCloudDrive,
-							ItemType = ItemType.Toggle
 						},
 						new ContextMenuFlyoutItemViewModel()
 						{
@@ -425,21 +425,21 @@ namespace Files.App.Helpers
 						},
 						new ContextMenuFlyoutItemViewModel()
 						{
+							Text = "SyncStatus".GetLocalizedResource(),
+							IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.SyncStatus,
+							ShowItem = currentInstanceViewModel.IsPageTypeCloudDrive,
+							Command = currentInstanceViewModel.FolderSettings.ChangeGroupOptionCommand,
+							CommandParameter = GroupOption.SyncStatus,
+							ItemType = ItemType.Toggle,
+						},
+						new ContextMenuFlyoutItemViewModel()
+						{
 							Text = "FileTags".GetLocalizedResource(),
 							IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.FileTag,
 							ShowInRecycleBin = true,
 							ShowInSearchPage = true,
 							Command = currentInstanceViewModel.FolderSettings.ChangeGroupOptionCommand,
 							CommandParameter = GroupOption.FileTag,
-							ItemType = ItemType.Toggle,
-						},
-						new ContextMenuFlyoutItemViewModel()
-						{
-							Text = "SyncStatus".GetLocalizedResource(),
-							IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.SyncStatus,
-							ShowItem = currentInstanceViewModel.IsPageTypeCloudDrive,
-							Command = currentInstanceViewModel.FolderSettings.ChangeGroupOptionCommand,
-							CommandParameter = GroupOption.SyncStatus,
 							ItemType = ItemType.Toggle,
 						},
 						new ContextMenuFlyoutItemViewModel()

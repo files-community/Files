@@ -498,7 +498,6 @@ namespace Files.App.ViewModels
 					});
 					break;
 				case nameof(UserSettingsService.FoldersSettingsService.DefaultDirectorySortOption):
-				case nameof(UserSettingsService.FoldersSettingsService.DefaultDirectorySortDirection):
 				case nameof(UserSettingsService.FoldersSettingsService.DefaultDirectoryGroupOption):
 				case nameof(UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles):
 				case nameof(UserSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences):

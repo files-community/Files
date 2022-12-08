@@ -208,12 +208,6 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
-		public SortDirection DefaultDirectorySortDirection
-		{
-			get => (SortDirection)Get((long)SortDirection.Ascending);
-			set => Set((long)value);
-		}
-
 		public SortOption DefaultDirectorySortOption
 		{
 			get => (SortOption)Get((long)SortOption.Name);

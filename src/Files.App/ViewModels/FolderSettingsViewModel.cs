@@ -326,7 +326,7 @@ namespace Files.App.ViewModels
 				{
 					userSettingsService.FoldersSettingsService.DefaultDirectoryGroupOption = prefs.DirectoryGroupOption;
 				}
-				userSettingsService.FoldersSettingsService.DefaultDirectorySortDirection = prefs.DirectorySortDirection;
+				userSettingsService.LayoutSettingsService.DefaultDirectorySortDirection = prefs.DirectorySortDirection;
 				userSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles = prefs.SortDirectoriesAlongsideFiles;
 
 				userSettingsService.FoldersSettingsService.ShowDateColumn = !prefs.ColumnsViewModel.DateModifiedColumn.UserCollapsed;
