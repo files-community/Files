@@ -120,15 +120,16 @@
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
 
-			<!-- Default sorting and grouping options -->
+			<!--  Default sorting and grouping options  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SortingAndGrouping}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE8CB;" />
 				</local:SettingsBlockControl.Icon>
 				<local:SettingsBlockControl.ExpandableContent>
 					<StackPanel>
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=NavToolbarSortByRadioButtons/Text}" HorizontalAlignment="Stretch">
-							<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=NavToolbarSortByRadioButtons/Text}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultSortingIndex, Mode=TwoWay}">
+						<!-- Sorting Options -->
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SortBy}" HorizontalAlignment="Stretch">
+							<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=SortBy}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultSortingIndex, Mode=TwoWay}">
 								<ComboBoxItem Content="{helpers:ResourceString Name=Name}" />
 								<ComboBoxItem Content="{helpers:ResourceString Name=DateModifiedLowerCase}" />
 								<ComboBoxItem Content="{helpers:ResourceString Name=DateCreated}" />
@@ -138,8 +139,9 @@
 							</ComboBox>
 						</local:SettingsBlockControl>
 
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=NavToolbarGroupByRadioButtons/Text}" HorizontalAlignment="Stretch">
-							<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=NavToolbarGroupByRadioButtons/Text}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultGroupingIndex, Mode=TwoWay}">
+						<!-- Grouping Options -->
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=GroupBy}" HorizontalAlignment="Stretch">
+							<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=GroupBy}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultGroupingIndex, Mode=TwoWay}">
 								<ComboBoxItem Content="{helpers:ResourceString Name=None}" />
 								<ComboBoxItem Content="{helpers:ResourceString Name=Name}" />
 								<ComboBoxItem Content="{helpers:ResourceString Name=DateModifiedLowerCase}" />
