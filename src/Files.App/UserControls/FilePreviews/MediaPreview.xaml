@@ -17,18 +17,17 @@
 			Modifiers="Control" />
 	</UserControl.KeyboardAccelerators>
 	<Border CornerRadius="{StaticResource ControlCornerRadius}">
-		<winex:MediaPlayerElement
+		<MediaPlayerElement
 			x:Name="PlayerContext"
 			AreTransportControlsEnabled="True"
 			Background="Transparent"
 			Foreground="Transparent"
 			Source="{x:Bind ViewModel.Source, Mode=OneWay}">
-			<winex:MediaPlayerElement.TransportControls>
-				<winex:MediaTransportControls
-					IsFullWindowButtonVisible="False"
+			<MediaPlayerElement.TransportControls>
+				<MediaTransportControls
 					IsPlaybackRateButtonVisible="False"
 					IsZoomButtonVisible="False" />
-			</winex:MediaPlayerElement.TransportControls>
-		</winex:MediaPlayerElement>
+			</MediaPlayerElement.TransportControls>
+		</MediaPlayerElement>
 	</Border>
 </UserControl>
