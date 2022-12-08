@@ -253,3 +253,4 @@
 			ShowDialog="{x:Bind ViewModel.ShowRestartControl, Mode=TwoWay}" />
 	</Grid>
 </Page>
+	

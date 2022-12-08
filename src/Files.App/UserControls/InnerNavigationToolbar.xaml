@@ -503,11 +503,11 @@
 							<ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsGroupedByDateCreated, Mode=TwoWay}" Text="{helpers:ResourceString Name=DateCreated}" />
 							<ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsGroupedBySize, Mode=TwoWay}" Text="{helpers:ResourceString Name=Size}" />
 							<ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsGroupedByType, Mode=TwoWay}" Text="{helpers:ResourceString Name=NavToolbarArrangementOptionType/Text}" />
-							<ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsGroupedByFileTag, Mode=TwoWay}" Text="{helpers:ResourceString Name=FileTags}" />
 							<ToggleMenuFlyoutItem
 								IsChecked="{x:Bind ViewModel.IsGroupedBySyncStatus, Mode=TwoWay}"
 								IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeCloudDrive, Mode=OneWay}"
 								Text="{helpers:ResourceString Name=SyncStatus}" />
+							<ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.IsGroupedByFileTag, Mode=TwoWay}" Text="{helpers:ResourceString Name=FileTags}" />
 							<ToggleMenuFlyoutItem
 								IsChecked="{x:Bind ViewModel.IsGroupedByOriginalFolder, Mode=TwoWay}"
 								IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}"

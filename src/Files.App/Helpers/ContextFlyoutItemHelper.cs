@@ -425,21 +425,21 @@ namespace Files.App.Helpers
 						},
 						new ContextMenuFlyoutItemViewModel()
 						{
-							Text = "SyncStatus".GetLocalizedResource(),
-							IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.SyncStatus,
-							ShowItem = currentInstanceViewModel.IsPageTypeCloudDrive,
-							Command = currentInstanceViewModel.FolderSettings.ChangeGroupOptionCommand,
-							CommandParameter = GroupOption.SyncStatus,
-							ItemType = ItemType.Toggle,
-						},
-						new ContextMenuFlyoutItemViewModel()
-						{
 							Text = "FileTags".GetLocalizedResource(),
 							IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.FileTag,
 							ShowInRecycleBin = true,
 							ShowInSearchPage = true,
 							Command = currentInstanceViewModel.FolderSettings.ChangeGroupOptionCommand,
 							CommandParameter = GroupOption.FileTag,
+							ItemType = ItemType.Toggle,
+						},
+						new ContextMenuFlyoutItemViewModel()
+						{
+							Text = "SyncStatus".GetLocalizedResource(),
+							IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.SyncStatus,
+							ShowItem = currentInstanceViewModel.IsPageTypeCloudDrive,
+							Command = currentInstanceViewModel.FolderSettings.ChangeGroupOptionCommand,
+							CommandParameter = GroupOption.SyncStatus,
 							ItemType = ItemType.Toggle,
 						},
 						new ContextMenuFlyoutItemViewModel()
