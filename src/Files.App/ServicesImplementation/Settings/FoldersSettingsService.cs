@@ -214,7 +214,7 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set((long)value);
 		}
 
-		public GroupOption DefaultDirectoryGroupOption
+		public GroupOption DefaultGroupOption
 		{
 			get => (GroupOption)Get((long)GroupOption.None);
 			set => Set((long)value);
