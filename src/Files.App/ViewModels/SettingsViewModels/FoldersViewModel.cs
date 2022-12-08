@@ -10,6 +10,9 @@ namespace Files.App.ViewModels.SettingsViewModels
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
+		private readonly int FileTagSortingIndex = 5;
+		private readonly int FileTagGroupingIndex = 6;
+
 		// Commands
 		public RelayCommand ResetLayoutPreferencesCommand { get; }
 		public RelayCommand ShowResetLayoutPreferencesTipCommand { get; }
@@ -20,8 +23,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 			ShowResetLayoutPreferencesTipCommand = new RelayCommand(() => IsResetLayoutPreferencesTipOpen = true);
 
 			SelectedDefaultLayoutModeIndex = (int)DefaultLayoutMode;
-			SelectedDefaultSortingIndex = (int)DefaultSortOption;
-			SelectedDefaultGroupingIndex = (int)DefaultGroupOption;
+			SelectedDefaultSortingIndex = DefaultSortOption == SortOption.FileTag ? FileTagSortingIndex : (int)DefaultSortOption;
+			SelectedDefaultGroupingIndex = DefaultGroupOption == GroupOption.FileTag ? FileTagGroupingIndex : (int)DefaultGroupOption;
 		}
 
 		// Properties
@@ -250,7 +253,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (SetProperty(ref selectedDefaultSortingIndex, value))
 				{
 					OnPropertyChanged(nameof(SelectedDefaultSortingIndex));
-					DefaultSortOption = (SortOption)value;
+					DefaultSortOption = value == FileTagSortingIndex ? SortOption.FileTag : (SortOption)value;
 				}
 			}
 		}
@@ -264,7 +267,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (SetProperty(ref selectedDefaultGroupingIndex, value))
 				{
 					OnPropertyChanged(nameof(SelectedDefaultGroupingIndex));
-					DefaultGroupOption = (GroupOption)value;
+					DefaultGroupOption = value == FileTagGroupingIndex ? GroupOption.FileTag : (GroupOption)value;
 				}
 			}
 		}
