@@ -15,7 +15,7 @@ namespace Files.App.SettingsPages
 		{
 			InitializeComponent();
 
-			this.ViewModel = new AboutViewModel();
+			ViewModel = new AboutViewModel();
 		}
 	}
 }

@@ -13,11 +13,9 @@ namespace Files.App.Views
 	public sealed partial class PropertiesDetails : PropertiesTab
 	{
 		public PropertiesDetails()
-		{
-			InitializeComponent();
-		}
+            => InitializeComponent();
 
-		protected override void Properties_Loaded(object sender, RoutedEventArgs e)
+        protected override void Properties_Loaded(object sender, RoutedEventArgs e)
 		{
 			base.Properties_Loaded(sender, e);
 
@@ -30,13 +28,14 @@ namespace Files.App.Views
 			}
 		}
 
-		// WINUI3
+		// WinUI3
 		private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
 		{
 			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
 			{
 				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
 			}
+
 			return contentDialog;
 		}
 
@@ -51,6 +50,7 @@ namespace Files.App.Views
 					{
 						await fileProps.SyncPropertyChangesAsync();
 					}
+
 					return true;
 				}
 				catch
@@ -74,6 +74,7 @@ namespace Files.App.Views
 		private async void ClearPropertiesConfirmation_Click(object sender, RoutedEventArgs e)
 		{
 			ClearPropertiesFlyout.Hide();
+
 			if (BaseProperties is FileProperties fileProps)
 			{
 				await fileProps.ClearPropertiesAsync();

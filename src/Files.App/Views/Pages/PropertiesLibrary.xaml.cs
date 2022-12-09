@@ -19,15 +19,15 @@ namespace Files.App.Views
 	public sealed partial class PropertiesLibrary : PropertiesTab, INotifyPropertyChanged
 	{
 		public event PropertyChangedEventHandler PropertyChanged;
-
 		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
-		public ObservableCollection<LibraryFolder> Folders { get; } = new ObservableCollection<LibraryFolder>();
+		public ObservableCollection<LibraryFolder> Folders { get; } = new();
 
-		public bool IsLibraryEmpty => Folders.Count == 0;
+		public bool IsLibraryEmpty
+			=> Folders.Count == 0;
 
 		private int selectedFolderIndex = -1;
 		public int SelectedFolderIndex
@@ -38,16 +38,17 @@ namespace Files.App.Views
 				if (selectedFolderIndex != value)
 				{
 					selectedFolderIndex = value;
+
 					NotifyPropertyChanged(nameof(SelectedFolderIndex));
 					NotifyPropertyChanged(nameof(IsNotDefaultFolderSelected));
 				}
 			}
 		}
 
-		public bool IsNotDefaultFolderSelected => selectedFolderIndex >= 0 && !Folders[selectedFolderIndex].IsDefault;
+		public bool IsNotDefaultFolderSelected
+			=> selectedFolderIndex >= 0 && !Folders[selectedFolderIndex].IsDefault;
 
 		private bool isPinned;
-
 		public bool IsPinned
 		{
 			get => isPinned;
@@ -56,6 +57,7 @@ namespace Files.App.Views
 				if (isPinned != value)
 				{
 					isPinned = value;
+
 					NotifyPropertyChanged(nameof(IsPinned));
 				}
 			}
@@ -81,6 +83,7 @@ namespace Files.App.Views
 			if (BaseProperties is LibraryProperties props)
 			{
 				Folders.Clear();
+
 				if (!props.Library.IsEmpty)
 				{
 					foreach (var path in props.Library.Folders)
@@ -91,6 +94,7 @@ namespace Files.App.Views
 							IsDefault = string.Equals(path, props.Library.DefaultSaveFolder, StringComparison.OrdinalIgnoreCase),
 						});
 					}
+
 					NotifyPropertyChanged(nameof(IsLibraryEmpty));
 				}
 			}
@@ -106,6 +110,7 @@ namespace Files.App.Views
 			{
 				bool isDefault = Folders.Count == 0;
 				Folders.Add(new LibraryFolder { Path = folder.Path, IsDefault = isDefault });
+
 				if (isDefault)
 				{
 					NotifyPropertyChanged(nameof(IsLibraryEmpty));
@@ -113,10 +118,11 @@ namespace Files.App.Views
 			}
 		}
 
-		// WINUI3
+		// WinUI3
 		private FolderPicker InitializeWithWindow(FolderPicker obj)
 		{
 			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+
 			return obj;
 		}
 
@@ -129,6 +135,7 @@ namespace Files.App.Views
 				{
 					f.IsDefault = false;
 				}
+
 				Folders[index].IsDefault = true;
 			}
 		}
@@ -139,6 +146,7 @@ namespace Files.App.Views
 			if (index >= 0)
 			{
 				Folders.RemoveAt(index);
+
 				if (index > 0)
 				{
 					SelectedFolderIndex = index - 1;
@@ -180,13 +188,14 @@ namespace Files.App.Views
 			return isChanged;
 		}
 
-		// WINUI3
+		// WinUI3
 		private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
 		{
 			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
 			{
 				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
 			}
+
 			return contentDialog;
 		}
 
@@ -211,9 +220,11 @@ namespace Files.App.Views
 						if (library is not null)
 						{
 							props.UpdateLibrary(new LibraryItem(library));
+
 							return true;
 						}
-						// TODO: show / throw error about the failure?
+
+						// TODO: show/throw error about the failure?
 						return false;
 					}
 					catch
@@ -223,14 +234,17 @@ namespace Files.App.Views
 						{
 							case DynamicDialogResult.Primary:
 								break;
+
 							case DynamicDialogResult.Secondary:
 								return true;
+
 							case DynamicDialogResult.Cancel:
 								return false;
 						}
 					}
 				}
 			}
+
 			return false;
 		}
 
@@ -239,6 +253,7 @@ namespace Files.App.Views
 		}
 
 	}
+
 	public class LibraryFolder
 	{
 		public string Path { get; set; }

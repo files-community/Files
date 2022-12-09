@@ -20,7 +20,8 @@ namespace Files.App.Views
 	{
 		private readonly Regex letterRegex = new(@"\s*\(\w:\)$");
 
-		public PropertiesGeneral() => InitializeComponent();
+		public PropertiesGeneral()
+			=> InitializeComponent();
 
 		public override async Task<bool> SaveChangesAsync(ListedItem item)
 		{

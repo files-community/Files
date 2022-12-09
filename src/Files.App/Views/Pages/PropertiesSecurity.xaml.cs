@@ -66,15 +66,12 @@ namespace Files.App.Views
 
 		public override void Dispose()
 		{
-
 		}
 
 		private void OpenAdvancedProperties()
 		{
 			if (SecurityProperties is null)
-			{
 				return;
-			}
 
 			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
 			{

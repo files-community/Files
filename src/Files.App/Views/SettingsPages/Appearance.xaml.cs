@@ -12,6 +12,7 @@ namespace Files.App.SettingsPages
 		public Appearance()
 		{
 			InitializeComponent();
+
 			Loaded += Appearance_Loaded;
 		}
 
@@ -34,7 +35,9 @@ namespace Files.App.SettingsPages
 		private async void OpenThemesFolderButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
 		{
 			ThemesTeachingTip.IsOpen = false;
+
 			this.FindAscendant<SettingsDialog>()?.Hide();
+
 			await ViewModel.OpenThemesFolder();
 		}
 
@@ -60,6 +63,7 @@ namespace Files.App.SettingsPages
 		private void AppThemeSelectionGridView_Loaded(object sender, RoutedEventArgs e)
 		{
 			ViewModel.IsLoadingThemes = true;
+
 			DispatcherQueue.TryEnqueue(async () =>
 			{
 				await App.ExternalResourcesHelper.LoadOtherThemesAsync();

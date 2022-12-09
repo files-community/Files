@@ -12,21 +12,21 @@ namespace Files.App.Views
 	public sealed partial class PropertiesCustomization : PropertiesTab
 	{
 		public PropertiesCustomization()
-		{
-			this.InitializeComponent();
-		}
+            => InitializeComponent();
 
-		private void CustomIconsSelectorFrame_Loaded(object sender, RoutedEventArgs e)
+        private void CustomIconsSelectorFrame_Loaded(object sender, RoutedEventArgs e)
 		{
 			string initialPath = Path.Combine(CommonPaths.SystemRootPath, "System32", "SHELL32.dll");
 			var item = (BaseProperties as FileProperties)?.Item ?? (BaseProperties as FolderProperties)?.Item;
+
 			(sender as Frame).Navigate(typeof(CustomFolderIcons), new IconSelectorInfo
 			{
 				AppInstance = AppInstance,
 				InitialPath = initialPath,
 				SelectedItem = item.ItemPath,
 				IsShortcut = item.IsShortcut
-			}, new SuppressNavigationTransitionInfo());
+			},
+			new SuppressNavigationTransitionInfo());
 		}
 
 		public override Task<bool> SaveChangesAsync(ListedItem item)
@@ -41,8 +41,11 @@ namespace Files.App.Views
 		public class IconSelectorInfo
 		{
 			public IShellPage AppInstance;
+
 			public string SelectedItem;
+
 			public bool IsShortcut;
+
 			public string InitialPath;
 		}
 	}

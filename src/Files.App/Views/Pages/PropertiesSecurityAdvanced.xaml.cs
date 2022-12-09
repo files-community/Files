@@ -19,18 +19,14 @@ using Windows.Foundation.Metadata;
 using Windows.System;
 using Windows.UI;
 
-// Il modello di elemento Pagina vuota è documentato all'indirizzo https://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace Files.App.Views
 {
-	/// <summary>
-	/// Pagina vuota che può essere usata autonomamente oppure per l'esplorazione all'interno di un frame.
-	/// </summary>
 	public sealed partial class PropertiesSecurityAdvanced : Page
 	{
 		private object navParameterItem;
 
-		public string DialogTitle => string.Format("SecurityAdvancedPermissionsTitle".GetLocalizedResource(), ViewModel.Item.Name);
+		public string DialogTitle
+			=> string.Format("SecurityAdvancedPermissionsTitle".GetLocalizedResource(), ViewModel.Item.Name);
 
 		public SecurityProperties ViewModel { get; set; }
 
@@ -40,17 +36,15 @@ namespace Files.App.Views
 		{
 			this.InitializeComponent();
 
-			var flowDirectionSetting = /*
-                TODO ResourceContext.GetForCurrentView and ResourceContext.GetForViewIndependentUse do not exist in Windows App SDK
-                Use your ResourceManager instance to create a ResourceContext as below. If you already have a ResourceManager instance,
-                replace the new instance created below with correct instance.
-                Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/mrtcore
-            */new ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
+
+			// TODO ResourceContext.GetForCurrentView and ResourceContext.GetForViewIndependentUse do not exist in Windows App SDK
+			//  Use your ResourceManager instance to create a ResourceContext as below.If you already have a ResourceManager instance,
+			//  replace the new instance created below with correct instance.
+			//  Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/mrtcore
+			var flowDirectionSetting = new ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
 
 			if (flowDirectionSetting == "RTL")
-			{
 				FlowDirection = FlowDirection.RightToLeft;
-			}
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -194,6 +188,7 @@ namespace Files.App.Views
 					(item as FileSystemAccessRuleForUI).IsSelected = true;
 				}
 			}
+
 			if (e.RemovedItems is not null)
 			{
 				foreach (var item in e.RemovedItems)

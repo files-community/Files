@@ -25,14 +25,17 @@ namespace Files.App.Views
 	public sealed partial class Properties : Page
 	{
 		private CancellationTokenSource? tokenSource = new CancellationTokenSource();
+
 		private ContentDialog propertiesDialog;
 
 		private object navParameterItem;
+
 		private IShellPage AppInstance;
 
 		private ListedItem listedItem;
 
-		public SettingsViewModel AppSettings => App.AppSettings;
+		public SettingsViewModel AppSettings
+			=> App.AppSettings;
 
 		public AppWindow appWindow;
 

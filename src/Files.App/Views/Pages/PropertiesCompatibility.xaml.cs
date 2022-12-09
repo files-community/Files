@@ -11,11 +11,9 @@ namespace Files.App.Views
 		public CompatibilityProperties CompatibilityProperties { get; set; }
 
 		public PropertiesCompatibility()
-		{
-			this.InitializeComponent();
-		}
+            => InitializeComponent();
 
-		protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
 			var np = e.Parameter as Views.Properties.PropertyNavParam;
 
