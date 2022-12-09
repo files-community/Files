@@ -75,7 +75,7 @@ namespace Files.App.Views
 				(listedItem.IsShortcut && !listedItem.IsLinkItem)) ? Visibility.Visible : Visibility.Collapsed;
 
 			TabCompatibility.Visibility = listedItem is not null &&
-				(".exe".Equals(listedItem is ShortcutItem sht ? System.IO.Path.GetExtension(sht.TargetPath) : listedItem.FileExtension, StringComparison.OrdinalIgnoreCase))) ? Visibility.Visible : Visibility.Collapsed;
+				(".exe".Equals(listedItem is ShortcutItem sht ? System.IO.Path.GetExtension(sht.TargetPath) : listedItem.FileExtension, StringComparison.OrdinalIgnoreCase)) ? Visibility.Visible : Visibility.Collapsed;
 
 			base.OnNavigatedTo(e);
 		}
