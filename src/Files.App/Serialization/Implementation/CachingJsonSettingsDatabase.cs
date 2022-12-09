@@ -27,6 +27,7 @@ namespace Files.App.Serialization.Implementation
 				{
 					_settingsCache.Add(key, defaultValue);
 				}
+
 				return defaultValue;
 			}
 		}
@@ -38,6 +39,7 @@ namespace Files.App.Serialization.Implementation
 			if (!_settingsCache.ContainsKey(key))
 			{
 				_settingsCache.Add(key, newValue);
+
 				return SaveSettings(_settingsCache);
 			}
 			else
@@ -48,6 +50,7 @@ namespace Files.App.Serialization.Implementation
 			bool UpdateValueInCache(object? value)
 			{
 				bool isDifferent;
+
 				if (newValue is IEnumerable enumerableNewValue && value is IEnumerable enumerableValue)
 				{
 					isDifferent = !enumerableValue.Cast<object>().SequenceEqual(enumerableNewValue.Cast<object>());
@@ -61,6 +64,7 @@ namespace Files.App.Serialization.Implementation
 				{
 					// Values are different, update the value and reload the cache.
 					_settingsCache[key] = newValue;
+
 					return SaveSettings(_settingsCache);
 				}
 				else
@@ -85,6 +89,7 @@ namespace Files.App.Serialization.Implementation
 				_settingsCache = GetFreshSettings();
 				return true;
 			}
+
 			return false;
 		}
 	}

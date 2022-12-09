@@ -16,7 +16,9 @@ namespace Files.App.Helpers
 	public class UniversalLogWriter : ILogWriter
 	{
 		private StorageFile? logFile;
+
 		private bool initialized = false;
+
 		private readonly ConcurrentQueue<string> logsBeforeInit = new();
 
 		public async Task InitializeAsync(string name)
@@ -29,14 +31,18 @@ namespace Files.App.Helpers
 				if (logsBeforeInit.Count > 0)
 				{
 					using var stream = await OpenFileWithRetryAsync(logFile, FileAccessMode.ReadWrite, StorageOpenOptions.AllowOnlyReaders);
+
 					if (stream is null)
 						return;
+
 					using var outputStream = stream.GetOutputStreamAt(stream.Size);
 					using var dataWriter = new DataWriter(outputStream);
+
 					while (logsBeforeInit.TryDequeue(out var text))
 					{
 						dataWriter.WriteString("\n" + text);
 					}
+
 					await dataWriter.StoreAsync();
 					await outputStream.FlushAsync();
 				}
@@ -50,12 +56,17 @@ namespace Files.App.Helpers
 				logsBeforeInit.Enqueue(text);
 				return;
 			}
+
 			using var stream = await OpenFileWithRetryAsync(logFile, FileAccessMode.ReadWrite, StorageOpenOptions.AllowOnlyReaders);
+
 			if (stream is null)
 				return;
+
 			using var outputStream = stream.GetOutputStreamAt(stream.Size);
 			using var dataWriter = new DataWriter(outputStream);
+
 			dataWriter.WriteString("\n" + text);
+
 			await dataWriter.StoreAsync();
 			await outputStream.FlushAsync();
 
@@ -69,12 +80,16 @@ namespace Files.App.Helpers
 				logsBeforeInit.Enqueue(text);
 				return;
 			}
+
 			IntPtr hStream = CreateFileFromApp(logFile.Path,
 				GENERIC_WRITE, FILE_SHARE_READ, IntPtr.Zero, OPEN_EXISTING, (uint)File_Attributes.BackupSemantics, IntPtr.Zero);
+
 			if (hStream.ToInt64() == -1)
 				return;
+
 			byte[] buff = Encoding.UTF8.GetBytes("\n" + text);
 			int dwBytesWritten;
+
 			unsafe
 			{
 				fixed (byte* pBuff = buff)
@@ -83,6 +98,7 @@ namespace Files.App.Helpers
 					WriteFile(hStream, pBuff, buff.Length, &dwBytesWritten, IntPtr.Zero);
 				}
 			}
+
 			CloseHandle(hStream);
 
 			Debug.WriteLine($"Logged event: {text}");
@@ -93,6 +109,7 @@ namespace Files.App.Helpers
 			for (int numTries = 0; numTries < maxRetries; numTries++)
 			{
 				IRandomAccessStream? fs = null;
+
 				try
 				{
 					fs = await file.OpenAsync(mode, share);
@@ -101,6 +118,7 @@ namespace Files.App.Helpers
 				catch (System.IO.IOException)
 				{
 					fs?.Dispose();
+
 					await Task.Delay(50);
 				}
 			}

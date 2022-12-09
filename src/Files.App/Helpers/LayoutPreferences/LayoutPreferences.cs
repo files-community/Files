@@ -10,11 +10,17 @@ namespace Files.App.Helpers.LayoutPreferences
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public SortOption DirectorySortOption;
+
 		public SortDirection DirectorySortDirection;
+
 		public bool SortDirectoriesAlongsideFiles;
+
 		public GroupOption DirectoryGroupOption;
+
 		public FolderLayoutModes LayoutMode;
+
 		public int GridViewSize;
+
 		public bool IsAdaptiveLayoutOverridden;
 
 		public ColumnsViewModel ColumnsViewModel;
@@ -88,6 +94,7 @@ namespace Files.App.Helpers.LayoutPreferences
 			hashCode = (hashCode * 397) ^ SortDirectoriesAlongsideFiles.GetHashCode();
 			hashCode = (hashCode * 397) ^ IsAdaptiveLayoutOverridden.GetHashCode();
 			hashCode = (hashCode * 397) ^ ColumnsViewModel.GetHashCode();
+
 			return hashCode;
 		}
 	}

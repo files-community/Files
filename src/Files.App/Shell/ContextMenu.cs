@@ -38,6 +38,7 @@ namespace Files.App.Shell
 			{
 				return await cMenu.InvokeVerb(verb);
 			}
+
 			return false;
 		}
 
@@ -51,22 +52,24 @@ namespace Files.App.Shell
 			try
 			{
 				var currentWindows = Win32API.GetDesktopWindows();
+
 				var pici = new Shell32.CMINVOKECOMMANDINFOEX
 				{
 					lpVerb = new SafeResourceId(verb, CharSet.Ansi),
 					nShow = ShowWindowCommand.SW_SHOWNORMAL,
-				};
-				pici.cbSize = (uint)Marshal.SizeOf(pici);
+                    cbSize = (uint)Marshal.SizeOf(pici),
+                };
+
 				await owningThread.PostMethod(() => cMenu.InvokeCommand(pici));
 				Win32API.BringToForeground(currentWindows);
+
 				return true;
 			}
-			catch (Exception ex) when (
-				ex is COMException
-				|| ex is UnauthorizedAccessException)
+			catch (Exception ex) when (ex is COMException || ex is UnauthorizedAccessException)
 			{
 				Debug.WriteLine(ex);
 			}
+
 			return false;
 		}
 
@@ -84,14 +87,13 @@ namespace Files.App.Shell
 				{
 					lpVerb = Macros.MAKEINTRESOURCE(itemID),
 					nShow = ShowWindowCommand.SW_SHOWNORMAL,
-				};
-				pici.cbSize = (uint)Marshal.SizeOf(pici);
+                    cbSize = (uint)Marshal.SizeOf(pici),
+                };
+
 				await owningThread.PostMethod(() => cMenu.InvokeCommand(pici));
 				Win32API.BringToForeground(currentWindows);
 			}
-			catch (Exception ex) when (
-				ex is COMException
-				|| ex is UnauthorizedAccessException)
+			catch (Exception ex) when (ex is COMException || ex is UnauthorizedAccessException)
 			{
 				Debug.WriteLine(ex);
 			}
@@ -177,36 +179,48 @@ namespace Files.App.Shell
 			Func<string, bool> itemFilter = null)
 		{
 			var itemCount = User32.GetMenuItemCount(hMenu);
-			var mii = new User32.MENUITEMINFO();
-			mii.cbSize = (uint)Marshal.SizeOf(mii);
-			mii.fMask = User32.MenuItemInfoMask.MIIM_BITMAP
-				| User32.MenuItemInfoMask.MIIM_FTYPE
-				| User32.MenuItemInfoMask.MIIM_STRING
-				| User32.MenuItemInfoMask.MIIM_ID
-				| User32.MenuItemInfoMask.MIIM_SUBMENU;
+            User32.MENUITEMINFO mii = new()
+			{
+                cbSize = (uint)Marshal.SizeOf(mii)
+                fMask = User32.MenuItemInfoMask.MIIM_BITMAP |
+                User32.MenuItemInfoMask.MIIM_FTYPE |
+                User32.MenuItemInfoMask.MIIM_STRING |
+                User32.MenuItemInfoMask.MIIM_ID |
+                User32.MenuItemInfoMask.MIIM_SUBMENU,
+            };
+
 			for (uint ii = 0; ii < itemCount; ii++)
 			{
 				var menuItem = new ContextMenuItem();
 				var container = new SafeCoTaskMemString(512);
+
 				mii.dwTypeData = (IntPtr)container;
-				mii.cch = (uint)container.Capacity - 1; // https://devblogs.microsoft.com/oldnewthing/20040928-00/?p=37723
+				// https://devblogs.microsoft.com/oldnewthing/20040928-00/?p=37723
+				mii.cch = (uint)container.Capacity - 1;
+
 				var retval = User32.GetMenuItemInfo(hMenu, ii, true, ref mii);
 				if (!retval)
 				{
 					container.Dispose();
 					continue;
 				}
+
 				menuItem.Type = (MenuItemType)mii.fType;
-				menuItem.ID = (int)(mii.wID - 1); // wID - idCmdFirst
+				// wID - idCmdFirst
+				menuItem.ID = (int)(mii.wID - 1);
+
 				if (menuItem.Type == MenuItemType.MFT_STRING)
 				{
 					Debug.WriteLine("Item {0} ({1}): {2}", ii, mii.wID, mii.dwTypeData);
+
 					menuItem.Label = mii.dwTypeData;
 					menuItem.CommandString = GetCommandString(cMenu, mii.wID - 1);
+
 					if (itemFilter is not null && (itemFilter(menuItem.CommandString) || itemFilter(menuItem.Label)))
 					{
 						// Skip items implemented in UWP
 						container.Dispose();
+
 						continue;
 					}
 					if (mii.hbmpItem != HBITMAP.NULL && !Enum.IsDefined(typeof(HBITMAP_HMENU), ((IntPtr)mii.hbmpItem).ToInt64()))
@@ -222,6 +236,7 @@ namespace Files.App.Shell
 					{
 						Debug.WriteLine("Item {0}: has submenu", ii);
 						var subItems = new List<Win32ContextMenuItem>();
+
 						try
 						{
 							(cMenu as Shell32.IContextMenu2)?.HandleMenuMsg((uint)User32.WindowMessage.WM_INITMENUPOPUP, (IntPtr)mii.hSubMenu, new IntPtr(ii));
@@ -230,8 +245,10 @@ namespace Files.App.Shell
 						{
 							// Only for dynamic/owner drawn? (open with, etc)
 						}
+
 						EnumMenuItems(cMenu, mii.hSubMenu, subItems, itemFilter);
 						menuItem.SubItems = subItems;
+
 						Debug.WriteLine("Item {0}: done submenu", ii);
 					}
 				}
@@ -239,6 +256,7 @@ namespace Files.App.Shell
 				{
 					Debug.WriteLine("Item {0}: {1}", ii, mii.fType.ToString());
 				}
+
 				container.Dispose();
 				menuItemsResult.Add(menuItem);
 			}
@@ -252,18 +270,22 @@ namespace Files.App.Shell
 				// notably the "Run with graphic processor" menu item of NVidia cards
 				return null;
 			}
+
 			SafeCoTaskMemString commandString = null;
+
 			try
 			{
 				commandString = new SafeCoTaskMemString(512);
 				cMenu.GetCommandString(new IntPtr(offset), flags, IntPtr.Zero, commandString, (uint)commandString.Capacity - 1);
 				Debug.WriteLine("Verb {0}: {1}", offset, commandString);
+
 				return commandString.ToString();
 			}
 			catch (Exception ex) when (ex is InvalidCastException || ex is ArgumentException)
 			{
 				// TODO: investigate this..
 				Debug.WriteLine(ex);
+
 				return null;
 			}
 			catch (Exception ex) when (ex is COMException || ex is NotImplementedException)
@@ -278,8 +300,8 @@ namespace Files.App.Shell
 		}
 
 		#region IDisposable Support
-
-		private bool disposedValue = false; // To detect redundant calls
+		// To detect redundant calls
+		private bool disposedValue = false;
 
 		protected virtual void Dispose(bool disposing)
 		{
@@ -327,21 +349,30 @@ namespace Files.App.Shell
 			Dispose(true);
 			GC.SuppressFinalize(this);
 		}
-
 		#endregion IDisposable Support
 
 		public enum HBITMAP_HMENU : long
 		{
 			HBMMENU_CALLBACK = -1,
+
 			HBMMENU_MBAR_CLOSE = 5,
+
 			HBMMENU_MBAR_CLOSE_D = 6,
+
 			HBMMENU_MBAR_MINIMIZE = 3,
+
 			HBMMENU_MBAR_MINIMIZE_D = 7,
+
 			HBMMENU_MBAR_RESTORE = 2,
+
 			HBMMENU_POPUP_CLOSE = 8,
+
 			HBMMENU_POPUP_MAXIMIZE = 10,
+
 			HBMMENU_POPUP_MINIMIZE = 11,
+
 			HBMMENU_POPUP_RESTORE = 9,
+
 			HBMMENU_SYSTEM = 1
 		}
 	}

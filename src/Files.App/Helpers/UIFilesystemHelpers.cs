@@ -29,6 +29,7 @@ namespace Files.App.Helpers
 			{
 				RequestedOperation = DataPackageOperation.Move
 			};
+
 			ConcurrentBag<IStorageItem> items = new ConcurrentBag<IStorageItem>();
 
 			if (associatedInstance.SlimContentPage.IsItemSelected)
@@ -37,12 +38,16 @@ namespace Files.App.Helpers
 				associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
 
 				var itemsCount = associatedInstance.SlimContentPage.SelectedItems.Count;
-				PostedStatusBanner banner = itemsCount > 50 ? App.OngoingTasksViewModel.PostOperationBanner(
-					string.Empty,
-					string.Format("StatusPreparingItemsDetails_Plural".GetLocalizedResource(), itemsCount),
-					0,
-					ReturnResult.InProgress,
-					FileOperationType.Prepare, new CancellationTokenSource()) : null;
+
+				PostedStatusBanner banner = itemsCount > 50
+					? App.OngoingTasksViewModel.PostOperationBanner(
+						string.Empty,
+						string.Format("StatusPreparingItemsDetails_Plural".GetLocalizedResource(), itemsCount),
+						0,
+						ReturnResult.InProgress,
+						FileOperationType.Prepare,
+						new CancellationTokenSource())
+					: null;
 
 				try
 				{
@@ -63,6 +68,7 @@ namespace Files.App.Helpers
 								listedItem.Opacity = Constants.UI.DimItemOpacity;
 							});
 						}
+
 						if (listedItem is FtpItem ftpItem)
 						{
 							if (ftpItem.PrimaryItemAttribute is StorageItemTypes.File or StorageItemTypes.Folder)
@@ -74,6 +80,7 @@ namespace Files.App.Helpers
 						{
 							var result = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(listedItem.ItemPath)
 								.OnSuccess(t => items.Add(t));
+
 							if (!result)
 							{
 								throw new IOException($"Failed to process {listedItem.ItemPath}.", (int)result.ErrorCode);
@@ -83,12 +90,15 @@ namespace Files.App.Helpers
 						{
 							var result = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(listedItem.ItemPath)
 								.OnSuccess(t => items.Add(t));
+
 							if (!result)
 							{
 								throw new IOException($"Failed to process {listedItem.ItemPath}.", (int)result.ErrorCode);
 							}
 						}
-					}, 10, banner?.CancellationToken ?? default);
+					},
+					10,
+					banner?.CancellationToken ?? default);
 				}
 				catch (Exception ex)
 				{
@@ -99,10 +109,13 @@ namespace Files.App.Helpers
 						await FileOperationsHelpers.SetClipboard(filePaths, DataPackageOperation.Move);
 
 						banner?.Remove();
+
 						return;
 					}
+
 					associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
 					banner?.Remove();
+
 					return;
 				}
 
@@ -114,12 +127,15 @@ namespace Files.App.Helpers
 			{
 				items = new ConcurrentBag<IStorageItem>(await items.ToStandardStorageItemsAsync());
 			}
+
 			if (!items.Any())
 			{
 				return;
 			}
+
 			dataPackage.Properties.PackageFamilyName = Windows.ApplicationModel.Package.Current.Id.FamilyName;
 			dataPackage.SetStorageItems(items, false);
+
 			try
 			{
 				Clipboard.SetContent(dataPackage);
@@ -136,17 +152,21 @@ namespace Files.App.Helpers
 			{
 				RequestedOperation = DataPackageOperation.Copy
 			};
+
 			ConcurrentBag<IStorageItem> items = new ConcurrentBag<IStorageItem>();
 
 			if (associatedInstance.SlimContentPage.IsItemSelected)
 			{
 				var itemsCount = associatedInstance.SlimContentPage.SelectedItems.Count;
-				PostedStatusBanner banner = itemsCount > 50 ? App.OngoingTasksViewModel.PostOperationBanner(
-					string.Empty,
-					string.Format("StatusPreparingItemsDetails_Plural".GetLocalizedResource(), itemsCount),
-					0,
-					ReturnResult.InProgress,
-					FileOperationType.Prepare, new CancellationTokenSource()) : null;
+				PostedStatusBanner banner = itemsCount > 50
+					? App.OngoingTasksViewModel.PostOperationBanner(
+						string.Empty,
+						string.Format("StatusPreparingItemsDetails_Plural".GetLocalizedResource(), itemsCount),
+						0,
+						ReturnResult.InProgress,
+						FileOperationType.Prepare,
+						new CancellationTokenSource())
+					: null;
 
 				try
 				{
@@ -168,6 +188,7 @@ namespace Files.App.Helpers
 						{
 							var result = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(listedItem.ItemPath)
 								.OnSuccess(t => items.Add(t));
+
 							if (!result)
 							{
 								throw new IOException($"Failed to process {listedItem.ItemPath}.", (int)result.ErrorCode);
@@ -177,12 +198,15 @@ namespace Files.App.Helpers
 						{
 							var result = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(listedItem.ItemPath)
 								.OnSuccess(t => items.Add(t));
+
 							if (!result)
 							{
 								throw new IOException($"Failed to process {listedItem.ItemPath}.", (int)result.ErrorCode);
 							}
 						}
-					}, 10, banner?.CancellationToken ?? default);
+					},
+					10,
+					banner?.CancellationToken ?? default);
 				}
 				catch (Exception ex)
 				{
@@ -193,9 +217,12 @@ namespace Files.App.Helpers
 						await FileOperationsHelpers.SetClipboard(filePaths, DataPackageOperation.Copy);
 
 						banner?.Remove();
+
 						return;
 					}
+
 					banner?.Remove();
+
 					return;
 				}
 
@@ -207,12 +234,15 @@ namespace Files.App.Helpers
 			{
 				items = new ConcurrentBag<IStorageItem>(await items.ToStandardStorageItemsAsync());
 			}
+
 			if (!items.Any())
 			{
 				return;
 			}
+
 			dataPackage.Properties.PackageFamilyName = Windows.ApplicationModel.Package.Current.Id.FamilyName;
 			dataPackage.SetStorageItems(items, false);
+
 			try
 			{
 				Clipboard.SetContent(dataPackage);
@@ -235,7 +265,8 @@ namespace Files.App.Helpers
 
 		public static async Task<bool> RenameFileItemAsync(ListedItem item, string newName, IShellPage associatedInstance, bool showExtensionDialog = true)
 		{
-			if (item is AlternateStreamItem ads) // For alternate streams Name is not a substring ItemNameRaw
+			// For alternate streams Name is not a substring ItemNameRaw
+			if (item is AlternateStreamItem ads)
 			{
 				newName = item.ItemNameRaw.Replace(
 					item.Name.Substring(item.Name.LastIndexOf(':') + 1),
@@ -267,6 +298,7 @@ namespace Files.App.Helpers
 				associatedInstance.ToolbarViewModel.CanGoForward = false;
 				return true;
 			}
+
 			return false;
 		}
 
@@ -275,13 +307,14 @@ namespace Files.App.Helpers
 			await CreateFileFromDialogResultTypeForResult(itemType, itemInfo, associatedInstance);
 		}
 
-		// WINUI3
+		// WinUI3
 		private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
 		{
 			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
 			{
 				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
 			}
+
 			return contentDialog;
 		}
 
@@ -321,14 +354,18 @@ namespace Files.App.Helpers
 				case AddItemDialogItemType.Folder:
 					userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : "NewFolder".GetLocalizedResource();
 					created = await associatedInstance.FilesystemHelpers.CreateAsync(
-						StorageHelpers.FromPathAndType(PathNormalization.Combine(currentPath, userInput), FilesystemItemType.Directory),
+						StorageHelpers.FromPathAndType(
+							PathNormalization.Combine(currentPath, userInput),
+							FilesystemItemType.Directory),
 						true);
 					break;
 
 				case AddItemDialogItemType.File:
 					userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : itemInfo?.Name ?? "NewFile".GetLocalizedResource();
 					created = await associatedInstance.FilesystemHelpers.CreateAsync(
-						StorageHelpers.FromPathAndType(PathNormalization.Combine(currentPath, userInput + itemInfo?.Extension), FilesystemItemType.File),
+						StorageHelpers.FromPathAndType(
+							PathNormalization.Combine(currentPath, userInput + itemInfo?.Extension),
+							FilesystemItemType.File),
 						true);
 					break;
 			}
@@ -345,15 +382,21 @@ namespace Files.App.Helpers
 		{
 			try
 			{
-				var items = associatedInstance.SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
-					item.ItemPath,
-					item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
+				var items = associatedInstance.SlimContentPage.SelectedItems.ToList().Select((item)
+					=> StorageHelpers.FromPathAndType(
+						item.ItemPath,
+						item.PrimaryItemAttribute == StorageItemTypes.File
+						? FilesystemItemType.File
+						: FilesystemItemType.Directory));
+
 				var folder = await CreateFileFromDialogResultTypeForResult(AddItemDialogItemType.Folder, null, associatedInstance);
 				if (folder is null)
 				{
 					return;
 				}
-				await associatedInstance.FilesystemHelpers.MoveItemsAsync(items, items.Select(x => PathNormalization.Combine(folder.Path, x.Name)), false, true);
+
+				await associatedInstance.FilesystemHelpers.MoveItemsAsync(items, items.Select(x
+					=> PathNormalization.Combine(folder.Path, x.Name)), false, true);
 			}
 			catch (Exception ex)
 			{

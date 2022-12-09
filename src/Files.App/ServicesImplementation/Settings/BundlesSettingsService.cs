@@ -42,6 +42,7 @@ namespace Files.App.ServicesImplementation.Settings
 			{
 				FlushSettings();
 				OnSettingImportedEvent?.Invoke(this, null);
+
 				return true;
 			}
 

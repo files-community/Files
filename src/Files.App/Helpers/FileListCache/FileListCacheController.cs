@@ -21,7 +21,9 @@ namespace Files.App.Helpers.FileListCache
 
 		public ValueTask<string> ReadFileDisplayNameFromCache(string path, CancellationToken cancellationToken)
 		{
-			return fileNamesCache.TryGetValue(path, out var displayName) ? ValueTask.FromResult(displayName) : ValueTask.FromResult(string.Empty);
+			return fileNamesCache.TryGetValue(path, out var displayName)
+				? ValueTask.FromResult(displayName)
+				: ValueTask.FromResult(string.Empty);
 		}
 
 		public ValueTask SaveFileDisplayNameToCache(string path, string displayName)
@@ -32,6 +34,7 @@ namespace Files.App.Helpers.FileListCache
 			}
 
 			fileNamesCache[path] = displayName;
+
 			return ValueTask.CompletedTask;
 		}
 	}

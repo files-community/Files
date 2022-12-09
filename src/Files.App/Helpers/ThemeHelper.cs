@@ -37,6 +37,7 @@ namespace Files.App.Helpers
 			set
 			{
 				ApplicationData.Current.LocalSettings.Values[selectedAppThemeKey] = value.ToString();
+
 				ApplyTheme();
 			}
 		}
@@ -102,6 +103,7 @@ namespace Files.App.Helpers
 						break;
 				}
 			}
+
 			App.AppSettings.UpdateThemeElements.Execute(null);
 		}
 	}

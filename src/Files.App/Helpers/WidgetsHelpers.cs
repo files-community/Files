@@ -17,7 +17,8 @@ namespace Files.App.Helpers
 				shouldReload = true;
 				return new TWidget();
 			}
-			else if (!canAddWidget && !isWidgetSettingEnabled) // The widgets exists but the setting has been disabled for it
+			// The widgets exists but the setting has been disabled for it
+			else if (!canAddWidget && !isWidgetSettingEnabled)
 			{
 				// Remove the widget
 				widgetsViewModel.RemoveWidget<TWidget>();
@@ -55,7 +56,8 @@ namespace Files.App.Helpers
 			}
 
 			// A custom widget it is - TWidget implements ICustomWidgetItemModel
-			return typeof(ICustomWidgetItemModel).IsAssignableFrom(typeof(TWidget)); // Return true for custom widgets - they're always enabled
+			// Return true for custom widgets - they're always enabled
+			return typeof(ICustomWidgetItemModel).IsAssignableFrom(typeof(TWidget));
 		}
 	}
 }

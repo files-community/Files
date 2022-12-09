@@ -20,22 +20,25 @@ namespace Files.App.Helpers
 				&& folderSettings.IsAdaptiveLayoutEnabled
 				&& !folderSettings.IsLayoutModeFixed)
 			{
-				Action layoutDetails = () => folderSettings.ToggleLayoutModeDetailsView(false);
-				Action layoutGridView = () => folderSettings.ToggleLayoutModeGridView(folderSettings.GridViewSize);
+				Action layoutDetails = ()
+					=> folderSettings.ToggleLayoutModeDetailsView(false);
+
+				Action layoutGridView = ()
+					=> folderSettings.ToggleLayoutModeGridView(folderSettings.GridViewSize);
 
 				bool desktopIniFound = false;
 
 				if (string.IsNullOrWhiteSpace(path))
-				{
 					return false;
-				}
 
 				var iniPath = System.IO.Path.Combine(path, "desktop.ini");
 				var iniContents = NativeFileOperationsHelper.ReadStringFromFile(iniPath)?.Trim();
+
 				if (!string.IsNullOrEmpty(iniContents))
 				{
 					var parser = new IniParser.Parser.IniDataParser();
 					parser.Configuration.ThrowExceptionsOnError = false;
+
 					var data = parser.Parse(iniContents);
 					if (data is not null)
 					{
@@ -53,6 +56,7 @@ namespace Files.App.Helpers
 									"Videos" => layoutGridView,
 									_ => layoutDetails
 								};
+
 								setLayout();
 								desktopIniFound = true;
 							}
@@ -64,6 +68,7 @@ namespace Files.App.Helpers
 				{
 					return true;
 				}
+
 				if (filesAndFolders.Count == 0)
 				{
 					return false;
@@ -85,10 +90,12 @@ namespace Files.App.Helpers
 				{
 					return !string.IsNullOrEmpty(item.FileExtension) && MediaPreviewViewModel.ContainsExtension(item.FileExtension.ToLowerInvariant());
 				}).Count();
+
 				imagesCount = filesAndFolders.Where((item) =>
 				{
 					return !string.IsNullOrEmpty(item.FileExtension) && ImagePreviewViewModel.ContainsExtension(item.FileExtension.ToLowerInvariant());
 				}).Count();
+
 				foldersCount = filesAndFolders.Where((item) => item.PrimaryItemAttribute == StorageItemTypes.Folder).Count();
 				miscFilesCount = allItemsCount - (mediaCount + imagesCount + foldersCount);
 
@@ -104,11 +111,12 @@ namespace Files.App.Helpers
 				{
 					layoutDetails();
 				}
+
 				// Mostly images, probably an images folder
-				else if (imagesPercentage > Constants.AdaptiveLayout.ExtraLargeThreshold
-					|| (imagesPercentage > Constants.AdaptiveLayout.MediumThreshold
-						&& (mediaPercentage + miscFilesPercentage + foldersPercentage) > Constants.AdaptiveLayout.SmallThreshold
-						&& (miscFilesPercentage + foldersPercentage) < Constants.AdaptiveLayout.ExtraSmallThreshold))
+				else if (imagesPercentage > Constants.AdaptiveLayout.ExtraLargeThreshold ||
+					(imagesPercentage > Constants.AdaptiveLayout.MediumThreshold &&
+					(mediaPercentage + miscFilesPercentage + foldersPercentage) > Constants.AdaptiveLayout.SmallThreshold &&
+					(miscFilesPercentage + foldersPercentage) < Constants.AdaptiveLayout.ExtraSmallThreshold))
 				{
 					layoutGridView();
 				}

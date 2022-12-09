@@ -19,25 +19,36 @@ namespace Files.App.MMI
 		internal enum CimWatcherStatus
 		{
 			Default,
+
 			Started,
+
 			Stopped
 		}
 
-		//Events
 		public event EventArrivedEventHandler EventArrived = delegate { };
 
-		//Fields
 		private object _myLock;
+
 		private bool _isDisposed;
+
 		private CimWatcherStatus _cimWatcherStatus;
+
 		private readonly string _computerName;
+
 		private readonly string _nameSpace;
+
 		private readonly string _queryDialect;
+
+
 		private readonly string _queryExpression;
 		private CimSession _cimSession;
+
 		private CimAsyncMultipleResults<CimSubscriptionResult> _cimObservable;
+
 		private IDisposable _subscription;
+
 		internal static readonly string DefaultNameSpace = @"root\cimv2";
+
 		internal static readonly string DefaultQueryDialect = "WQL";
 
 		/// <summary>
@@ -211,6 +222,7 @@ namespace Files.App.MMI
 		{
 			// Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
 			Dispose(disposing: true);
+
 			GC.SuppressFinalize(this);
 		}
 	}

@@ -24,6 +24,7 @@ public static class QuickLookHelpers
 		string message = switchPreview ? "QuickLook.App.PipeMessages.Switch" : "QuickLook.App.PipeMessages.Toggle";
 
 		await using var client = new NamedPipeClientStream(".", pipeName, PipeDirection.Out);
+
 		try
 		{
 			await client.ConnectAsync(TIMEOUT);
@@ -67,12 +68,15 @@ public static class QuickLookHelpers
 		try
 		{
 			var result = await QuickLookServerAvailable();
+
 			App.Logger.Info($"QuickLook detected: {result != 0}");
+
 			return result != 0;
 		}
 		catch (Exception ex)
 		{
 			App.Logger.Info(ex, ex.Message);
+
 			return false;
 		}
 	}

@@ -15,6 +15,7 @@ namespace Files.App.Shell
 		internal IShellLibrary lib;
 
 		private ShellLibraryFolders folders;
+
 		private string name;
 
 		/// <summary>Initializes a new instance of the <see cref="ShellLibrary"/> class.</summary>
@@ -24,6 +25,7 @@ namespace Files.App.Shell
 		{
 			lib = new IShellLibrary();
 			lib.LoadLibraryFromKnownFolder(knownFolderId.Guid(), readOnly ? STGM.STGM_READ : STGM.STGM_READWRITE);
+
 			Init(knownFolderId.GetIShellItem());
 		}
 
@@ -36,6 +38,7 @@ namespace Files.App.Shell
 			lib = new IShellLibrary();
 			name = libraryName;
 			var item = lib.SaveInKnownFolder(kf.Guid(), libraryName, overwrite ? LIBRARYSAVEFLAGS.LSF_OVERRIDEEXISTING : LIBRARYSAVEFLAGS.LSF_FAILIFTHERE);
+
 			Init(item);
 		}
 
@@ -48,6 +51,7 @@ namespace Files.App.Shell
 			lib = new IShellLibrary();
 			name = libraryName;
 			var item = lib.Save(parent.IShellItem, libraryName, overwrite ? LIBRARYSAVEFLAGS.LSF_OVERRIDEEXISTING : LIBRARYSAVEFLAGS.LSF_FAILIFTHERE);
+
 			Init(item);
 		}
 
@@ -58,6 +62,7 @@ namespace Files.App.Shell
 		{
 			lib = new IShellLibrary();
 			lib.LoadLibraryFromItem(iItem, readOnly ? STGM.STGM_READ : STGM.STGM_READWRITE);
+
 			Init(iItem);
 		}
 
@@ -85,12 +90,20 @@ namespace Files.App.Shell
 		/// <value>The default icon location.</value>
 		public IconLocation IconLocation
 		{
-			get { _ = IconLocation.TryParse(lib.GetIcon(), out var l); return l; }
+			get
+			{
+				_ = IconLocation.TryParse(lib.GetIcon(), out var l);
+				return l;
+			}
 			set => lib.SetIcon(value.ToString());
 		}
 
 		/// <summary>Gets the name relative to the parent for the item.</summary>
-		public override string Name { get => name; protected set => name = value; }
+		public override string Name
+		{
+			get => name;
+			protected set => name = value;
+		}
 
 		/// <summary>Gets or sets a value indicating whether to pin the library to the navigation pane.</summary>
 		/// <value><c>true</c> if pinned to the navigation pane; otherwise, <c>false</c>.</value>
@@ -105,7 +118,11 @@ namespace Files.App.Shell
 		public LibraryViewTemplate ViewTemplate
 		{
 			get => (LibraryViewTemplate)ShlGuidExt.Lookup<FOLDERTYPEID>(ViewTemplateId);
-			set { if (value != LibraryViewTemplate.Custom) ViewTemplateId = ((FOLDERTYPEID)value).Guid(); }
+			set
+			{
+				if (value != LibraryViewTemplate.Custom)
+					ViewTemplateId = ((FOLDERTYPEID)value).Guid();
+			}
 		}
 
 		/// <summary>Gets or sets the library's View Template identifier.</summary>
@@ -117,7 +134,8 @@ namespace Files.App.Shell
 		}
 
 		/// <summary>Commits library updates.</summary>
-		public void Commit() => lib.Commit();
+		public void Commit()
+			=> lib.Commit();
 
 		/// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
 		public override void Dispose()
@@ -134,8 +152,8 @@ namespace Files.App.Shell
 		/// <summary>Gets the set of child folders that are contained in the library.</summary>
 		/// <param name="filter">A value that determines the folders to get.</param>
 		/// <returns>A <see cref="ShellItemArray"/> containing the child folders.</returns>
-		public ShellLibraryFolders GetFilteredFolders(LibraryFolderFilter filter = LibraryFolderFilter.AllItems) =>
-			new ShellLibraryFolders(lib, lib.GetFolders<IShellItemArray>((LIBRARYFOLDERFILTER)filter));
+		public ShellLibraryFolders GetFilteredFolders(LibraryFolderFilter filter = LibraryFolderFilter.AllItems)
+			=> new ShellLibraryFolders(lib, lib.GetFolders<IShellItemArray>((LIBRARYFOLDERFILTER)filter));
 
 		/// <summary>Resolves the target location of a library folder, even if the folder has been moved or renamed.</summary>
 		/// <param name="item">A ShellItem object that represents the library folder to locate.</param>
@@ -144,7 +162,8 @@ namespace Files.App.Shell
 		/// specified time elapses, an error is returned.
 		/// </param>
 		/// <returns>The resulting target location.</returns>
-		public ShellItem ResolveFolder(ShellItem item, TimeSpan timeout) => Open(lib.ResolveFolder<IShellItem>(item.IShellItem, Convert.ToUInt32(timeout.TotalMilliseconds)));
+		public ShellItem ResolveFolder(ShellItem item, TimeSpan timeout)
+			=> Open(lib.ResolveFolder<IShellItem>(item.IShellItem, Convert.ToUInt32(timeout.TotalMilliseconds)));
 
 		/// <summary>Shows the library management dialog box, which enables users to manage the library folders and default save location.</summary>
 		/// <param name="parentWindow">
@@ -218,7 +237,8 @@ namespace Files.App.Shell
 
 			/// <summary>Removes all items from the <see cref="ICollection{ShellItem}"/>.</summary>
 			/// <exception cref="NotImplementedException"></exception>
-			void ICollection<ShellItem>.Clear() => throw new NotImplementedException();
+			void ICollection<ShellItem>.Clear()
+				=> throw new NotImplementedException();
 		}
 	}
 }

@@ -12,14 +12,17 @@ namespace Files.App.Helpers
 {
 	[DebuggerTypeProxy(typeof(CollectionDebugView<>))]
 	[DebuggerDisplay("Count = {Count}")]
-	public class BulkConcurrentObservableCollection<T> : INotifyCollectionChanged, INotifyPropertyChanged, ICollection<T>, IList<T>, ICollection, IList
+	public class BulkConcurrentObservableCollection<T> : INotifyCollectionChanged, INotifyPropertyChanged , ICollection<T>, IList<T>, ICollection, IList
 	{
 		protected bool isBulkOperationStarted;
-		private readonly object syncRoot = new object();
-		private readonly List<T> collection = new List<T>();
+
+		private readonly object syncRoot = new();
+
+		private readonly List<T> collection = new();
 
 		// When 'GroupOption' is set to 'None' or when a folder is opened, 'GroupedCollection' is assigned 'null' by 'ItemGroupKeySelector'
 		public BulkConcurrentObservableCollection<GroupedCollection<T>>? GroupedCollection { get; private set; }
+
 		public bool IsSorted { get; set; }
 
 		public int Count
@@ -33,15 +36,20 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public bool IsReadOnly => false;
+		public bool IsReadOnly
+			=> false;
 
-		public bool IsFixedSize => false;
+		public bool IsFixedSize
+			=> false;
 
-		public bool IsSynchronized => true;
+		public bool IsSynchronized
+			=> true;
 
-		public object SyncRoot => syncRoot;
+		public object SyncRoot
+			=> syncRoot;
 
-		public bool IsGrouped => ItemGroupKeySelector is not null;
+		public bool IsGrouped
+			=> ItemGroupKeySelector is not null;
 
 		object? IList.this[int index]
 		{
@@ -90,6 +98,7 @@ namespace Files.App.Helpers
 			set
 			{
 				itemGroupKeySelector = value;
+
 				if (value is not null)
 					GroupedCollection ??= new BulkConcurrentObservableCollection<GroupedCollection<T>>();
 				else
@@ -98,7 +107,6 @@ namespace Files.App.Helpers
 		}
 
 		private Func<T, object>? itemSortKeySelector;
-
 		public Func<T, object>? ItemSortKeySelector
 		{
 			get => itemSortKeySelector;
@@ -106,6 +114,7 @@ namespace Files.App.Helpers
 		}
 
 		public Action<GroupedCollection<T>>? GetGroupHeaderInfo { get; set; }
+
 		public Action<GroupedCollection<T>>? GetExtendedGroupHeaderInfo { get; set; }
 
 		public BulkConcurrentObservableCollection()
@@ -120,6 +129,7 @@ namespace Files.App.Helpers
 		public virtual void BeginBulkOperation()
 		{
 			isBulkOperationStarted = true;
+
 			GroupedCollection?.ForEach(gp => gp.BeginBulkOperation());
 			GroupedCollection?.BeginBulkOperation();
 		}
@@ -153,6 +163,7 @@ namespace Files.App.Helpers
 			// Prevents any unwanted errors caused by bindings updating
 			GroupedCollection?.ForEach(x => x.Model.PausePropertyChangedNotifications());
 			GroupedCollection?.Clear();
+
 			AddItemsToGroup(collection, token);
 		}
 
@@ -189,8 +200,7 @@ namespace Files.App.Helpers
 					};
 
 					group.GetExtendedGroupHeaderInfo = GetExtendedGroupHeaderInfo;
-					if (GetGroupHeaderInfo is not null)
-						GetGroupHeaderInfo.Invoke(group);
+					GetGroupHeaderInfo?.Invoke(group);
 
 					GroupedCollection?.Add(group);
 					GroupedCollection!.IsSorted = false;
@@ -400,6 +410,7 @@ namespace Files.App.Helpers
 			{
 				oldItems = collection.Skip(index).Take(count).ToList();
 				newItems = items.ToList();
+
 				collection.InsertRange(index, newItems);
 				collection.RemoveRange(index + count, count);
 			}
@@ -461,24 +472,35 @@ namespace Files.App.Helpers
 			}
 
 			OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, value, collection.Count - 1));
+
 			return index;
 		}
 
-		bool IList.Contains(object? value) => Contains((T?)value);
+		bool IList.Contains(object? value)
+			=> Contains((T?)value);
 
-		int IList.IndexOf(object? value) => IndexOf((T?)value);
+		int IList.IndexOf(object? value)
+			=> IndexOf((T?)value);
 
-		void IList.Insert(int index, object? value) => Insert(index, (T?)value);
+		void IList.Insert(int index, object? value)
+			=> Insert(index, (T?)value);
 
-		void IList.Remove(object? value) => Remove((T?)value);
+		void IList.Remove(object? value)
+			=> Remove((T?)value);
 
-		void ICollection.CopyTo(Array array, int index) => CopyTo((T[])array, index);
+		void ICollection.CopyTo(Array array, int index)
+			=> CopyTo((T[])array, index);
 
 		private static class EventArgsCache
 		{
-			internal static readonly PropertyChangedEventArgs CountPropertyChanged = new PropertyChangedEventArgs("Count");
-			internal static readonly PropertyChangedEventArgs IndexerPropertyChanged = new PropertyChangedEventArgs("Item[]");
-			internal static readonly NotifyCollectionChangedEventArgs ResetCollectionChanged = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
+			internal static readonly PropertyChangedEventArgs CountPropertyChanged
+				= new PropertyChangedEventArgs("Count");
+
+			internal static readonly PropertyChangedEventArgs IndexerPropertyChanged
+				= new PropertyChangedEventArgs("Item[]");
+
+			internal static readonly NotifyCollectionChangedEventArgs ResetCollectionChanged
+				= new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
 		}
 	}
 }

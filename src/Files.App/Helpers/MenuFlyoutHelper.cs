@@ -10,10 +10,13 @@ namespace Files.App.Helpers
 	public class MenuFlyoutHelper : DependencyObject
 	{
 		#region View Models
+		public interface IMenuFlyoutItemViewModel
+		{
+		}
 
-		public interface IMenuFlyoutItemViewModel { }
-
-		public class MenuFlyoutSeparatorViewModel : IMenuFlyoutItemViewModel { }
+		public class MenuFlyoutSeparatorViewModel : IMenuFlyoutItemViewModel
+		{
+		}
 
 		public class MenuFlyoutItemViewModel : IMenuFlyoutItemViewModel
 		{
@@ -50,11 +53,9 @@ namespace Files.App.Helpers
 			public MenuFlyoutFactoryItemViewModel(Func<MenuFlyoutItemBase> factoryFunc)
 				=> Build = factoryFunc;
 		}
-
 		#endregion View Models
 
 		#region ItemsSource
-
 		public static IEnumerable<IMenuFlyoutItemViewModel> GetItemsSource(DependencyObject obj) => obj.GetValue(ItemsSourceProperty) as IEnumerable<IMenuFlyoutItemViewModel>;
 
 		public static void SetItemsSource(DependencyObject obj, IEnumerable<IMenuFlyoutItemViewModel> value) => obj.SetValue(ItemsSourceProperty, value);
@@ -62,11 +63,9 @@ namespace Files.App.Helpers
 		public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.RegisterAttached("ItemsSource", typeof(IEnumerable<IMenuFlyoutItemViewModel>), typeof(MenuFlyoutHelper), new PropertyMetadata(null, ItemsSourceChanged));
 
 		private static void ItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) => SetupItems(d as MenuFlyout);
-
 		#endregion ItemsSource
 
 		#region IsVisible
-
 		public static bool GetIsVisible(DependencyObject d) => (bool)d.GetValue(IsVisibleProperty);
 
 		public static void SetIsVisible(DependencyObject d, bool value) => d.SetValue(IsVisibleProperty, value);
@@ -86,7 +85,6 @@ namespace Files.App.Helpers
 			if (!boolValue)
 				flyout.Hide();
 		}
-
 		#endregion IsVisible
 
 		private static async void SetupItems(MenuFlyout menu)
@@ -95,6 +93,7 @@ namespace Files.App.Helpers
 			{
 				return;
 			}
+
 			var itemSource = GetItemsSource(menu);
 			if (itemSource is null)
 			{
@@ -125,10 +124,12 @@ namespace Files.App.Helpers
 						CommandParameter = vm.CommandParameter,
 						IsEnabled = vm.IsEnabled,
 					};
+
 					if (!string.IsNullOrEmpty(vm.Tooltip))
 					{
 						ToolTipService.SetToolTip(mfi, vm.Tooltip);
 					}
+
 					menu.Add(mfi);
 				}
 				else if (item is MenuFlyoutSubItemViewModel svm)
@@ -138,6 +139,7 @@ namespace Files.App.Helpers
 						Text = svm.Text,
 						IsEnabled = svm.IsEnabled && svm.Items.Count > 0,
 					};
+
 					AddItems(mfsi.Items, svm.Items);
 					menu.Add(mfsi);
 				}

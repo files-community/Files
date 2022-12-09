@@ -12,21 +12,30 @@ namespace Files.App.Helpers
 		struct RM_UNIQUE_PROCESS
 		{
 			public int dwProcessId;
+
 			public System.Runtime.InteropServices.ComTypes.FILETIME ProcessStartTime;
 		}
 
 		const int RmRebootReasonNone = 0;
+
 		const int CCH_RM_MAX_APP_NAME = 255;
+
 		const int CCH_RM_MAX_SVC_NAME = 63;
 
 		enum RM_APP_TYPE
 		{
 			RmUnknownApp = 0,
+
 			RmMainWindow = 1,
+
 			RmOtherWindow = 2,
+
 			RmService = 3,
+
 			RmExplorer = 4,
+
 			RmConsole = 5,
+
 			RmCritical = 1000
 		}
 
@@ -42,20 +51,24 @@ namespace Files.App.Helpers
 			public string strServiceShortName;
 
 			public RM_APP_TYPE ApplicationType;
+
 			public uint AppStatus;
+
 			public uint TSSessionId;
+
 			[MarshalAs(UnmanagedType.Bool)]
 			public bool bRestartable;
 		}
 
 		[DllImport("rstrtmgr.dll", CharSet = CharSet.Unicode)]
-		static extern int RmRegisterResources(uint pSessionHandle,
-											  UInt32 nFiles,
-											  string[] rgsFilenames,
-											  UInt32 nApplications,
-											  [In] RM_UNIQUE_PROCESS[] rgApplications,
-											  UInt32 nServices,
-											  string[] rgsServiceNames);
+		static extern int RmRegisterResources(
+			uint pSessionHandle,
+			UInt32 nFiles,
+			string[] rgsFilenames,
+			UInt32 nApplications,
+			[In] RM_UNIQUE_PROCESS[] rgApplications,
+			UInt32 nServices,
+			string[] rgsServiceNames);
 
 		[DllImport("rstrtmgr.dll", CharSet = CharSet.Unicode)]
 		static extern int RmStartSession(out uint pSessionHandle, int dwSessionFlags, string strSessionKey);
@@ -64,11 +77,12 @@ namespace Files.App.Helpers
 		static extern int RmEndSession(uint pSessionHandle);
 
 		[DllImport("rstrtmgr.dll")]
-		static extern int RmGetList(uint dwSessionHandle,
-									out uint pnProcInfoNeeded,
-									ref uint pnProcInfo,
-									[In, Out] RM_PROCESS_INFO[] rgAffectedApps,
-									ref uint lpdwRebootReasons);
+		static extern int RmGetList(
+			uint dwSessionHandle,
+            out uint pnProcInfoNeeded,
+            ref uint pnProcInfo,
+            [In, Out] RM_PROCESS_INFO[] rgAffectedApps,
+            ref uint lpdwRebootReasons);
 
 		/// <summary>
 		/// Find out what process(es) have a lock on the specified file.
@@ -78,7 +92,6 @@ namespace Files.App.Helpers
 		/// <remarks>See also:
 		/// http://msdn.microsoft.com/en-us/library/windows/desktop/aa373661(v=vs.85).aspx
 		/// http://wyupdate.googlecode.com/svn-history/r401/trunk/frmFilesInUse.cs (no copyright in code at time of viewing)
-		///
 		/// </remarks>
 		public static List<Process> WhoIsLocking(string[] resources)
 		{
@@ -99,8 +112,8 @@ namespace Files.App.Helpers
 				if (res != 0) throw new Exception("Could not register resource.");
 
 				//Note: there's a race condition here -- the first call to RmGetList() returns
-				//      the total number of process. However, when we call RmGetList() again to get
-				//      the actual processes this number may have increased.
+				// the total number of process. However, when we call RmGetList() again to get
+				// the actual processes this number may have increased.
 				res = RmGetList(handle, out uint pnProcInfoNeeded, ref pnProcInfo, null, ref lpdwRebootReasons);
 
 				if (res == ERROR_MORE_DATA)
@@ -115,21 +128,25 @@ namespace Files.App.Helpers
 					{
 						processes = new List<Process>((int)pnProcInfo);
 
-						// Enumerate all of the results and add them to the
-						// list to be returned
+						// Enumerate all of the results and add them to the list to be returned
 						for (int i = 0; i < pnProcInfo; i++)
 						{
 							try
 							{
 								processes.Add(Process.GetProcessById(processInfo[i].Process.dwProcessId));
 							}
-							// catch the error -- in case the process is no longer running
-							catch (ArgumentException) { }
+
+							// Catch the error -- in case the process is no longer running
+							catch (ArgumentException)
+							{
+							}
 						}
 					}
-					else throw new Exception("Could not list processes locking resource.");
+					else
+						throw new Exception("Could not list processes locking resource.");
 				}
-				else if (res != 0) throw new Exception("Could not list processes locking resource. Failed to get size of result.");
+				else if (res != 0)
+					throw new Exception("Could not list processes locking resource. Failed to get size of result.");
 			}
 			finally
 			{

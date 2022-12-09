@@ -20,6 +20,7 @@ namespace Files.App.Helpers
 		public GroupedCollection(string key) : base()
 		{
 			AddEvents();
+
 			Model = new GroupedHeaderViewModel()
 			{
 				Key = key,
@@ -30,6 +31,7 @@ namespace Files.App.Helpers
 		public GroupedCollection(string key, string text) : base()
 		{
 			AddEvents();
+
 			Model = new GroupedHeaderViewModel()
 			{
 				Key = key,
@@ -53,18 +55,15 @@ namespace Files.App.Helpers
 		public void InitializeExtendedGroupHeaderInfoAsync()
 		{
 			if (GetExtendedGroupHeaderInfo is null)
-			{
 				return;
-			}
 
 			Model.ResumePropertyChangedNotifications(false);
 
 			GetExtendedGroupHeaderInfo.Invoke(this);
 			Model.Initialized = true;
+
 			if (isBulkOperationStarted)
-			{
 				Model.PausePropertyChangedNotifications();
-			}
 		}
 
 		public override void BeginBulkOperation()
@@ -94,19 +93,20 @@ namespace Files.App.Helpers
 	public class GroupedHeaderViewModel : ObservableObject
 	{
 		public string Key { get; set; }
+
 		public bool Initialized { get; set; }
+
 		public int SortIndexOverride { get; set; }
 
 		private string text;
-
 		public string Text
 		{
-			get => text ?? ""; // Text is bound to AutomationProperties.Name and can't be null
+			// Text is bound to AutomationProperties.Name and can't be null
+			get => text ?? "";
 			set => SetPropertyWithUpdateDelay(ref text, value);
 		}
 
 		private string subtext;
-
 		public string Subtext
 		{
 			get => subtext;
@@ -114,7 +114,6 @@ namespace Files.App.Helpers
 		}
 
 		private string countText;
-
 		public string CountText
 		{
 			get => countText;
@@ -122,7 +121,6 @@ namespace Files.App.Helpers
 		}
 
 		private bool showCountTextBelow;
-
 		public bool ShowCountTextBelow
 		{
 			get => showCountTextBelow;
@@ -130,7 +128,6 @@ namespace Files.App.Helpers
 		}
 
 		private ImageSource imageSource;
-
 		public ImageSource ImageSource
 		{
 			get => imageSource;
@@ -138,7 +135,6 @@ namespace Files.App.Helpers
 		}
 
 		private string icon;
-
 		public string Icon
 		{
 			get => icon;
@@ -151,17 +147,20 @@ namespace Files.App.Helpers
 			{
 				return;
 			}
-			var name = propName.StartsWith("get_", StringComparison.OrdinalIgnoreCase)
-				? propName.Substring(4)
-				: propName;
 
-			if (!deferPropChangedNotifs)
+			var name =
+                propName.StartsWith("get_", StringComparison.OrdinalIgnoreCase)
+				? propName.Substring(4)
+                : propName;
+
+            if (!deferPropChangedNotifs)
 			{
 				SetProperty<T>(ref field, newVal, name);
 			}
 			else
 			{
 				field = newVal;
+
 				if (!changedPropQueue.Contains(name))
 				{
 					changedPropQueue.Add(name);
@@ -180,7 +179,9 @@ namespace Files.App.Helpers
 			{
 				return;
 			}
+
 			deferPropChangedNotifs = false;
+
 			if (triggerUpdates)
 			{
 				changedPropQueue.ForEach(prop => OnPropertyChanged(prop));
@@ -188,7 +189,7 @@ namespace Files.App.Helpers
 			}
 		}
 
-		private List<string> changedPropQueue = new List<string>();
+		private List<string> changedPropQueue = new();
 
 		// This is true by default to make it easier to initialize groups from a different thread
 		private bool deferPropChangedNotifs = true;

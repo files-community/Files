@@ -17,9 +17,9 @@ namespace Files.App.Helpers
 				return false;
 
 			return fileExtensionToCheck.Equals(".png", StringComparison.OrdinalIgnoreCase) ||
-				   fileExtensionToCheck.Equals(".jpg", StringComparison.OrdinalIgnoreCase) ||
-				   fileExtensionToCheck.Equals(".bmp", StringComparison.OrdinalIgnoreCase) ||
-				   fileExtensionToCheck.Equals(".jpeg", StringComparison.OrdinalIgnoreCase);
+				fileExtensionToCheck.Equals(".jpg", StringComparison.OrdinalIgnoreCase) ||
+				fileExtensionToCheck.Equals(".bmp", StringComparison.OrdinalIgnoreCase) ||
+				fileExtensionToCheck.Equals(".jpeg", StringComparison.OrdinalIgnoreCase);
 		}
 
 		/// <summary>
@@ -31,7 +31,7 @@ namespace Files.App.Helpers
 		public static bool IsPowerShellFile(string fileExtensionToCheck)
 		{
 			return !string.IsNullOrEmpty(fileExtensionToCheck) &&
-			       fileExtensionToCheck.Equals(".ps1", StringComparison.OrdinalIgnoreCase);
+				fileExtensionToCheck.Equals(".ps1", StringComparison.OrdinalIgnoreCase);
 		}
 
 		/// <summary>
@@ -54,18 +54,20 @@ namespace Files.App.Helpers
 			if (string.IsNullOrWhiteSpace(filePath))
 			{
 				ext = null;
+
 				return false;
 			}
 
 			ext = new[] { ".zip", ".7z", ".rar", ".tar" } // Only ext we want to browse
 				.FirstOrDefault(x => filePath.Contains(x, StringComparison.OrdinalIgnoreCase));
+
 			return ext is not null;
 		}
 
 		public static bool IsInfFile(string? fileExtensionToCheck)
 		{
 			return !string.IsNullOrWhiteSpace(fileExtensionToCheck) &&
-			       fileExtensionToCheck.Equals(".inf", StringComparison.OrdinalIgnoreCase);
+				fileExtensionToCheck.Equals(".inf", StringComparison.OrdinalIgnoreCase);
 		}
 
 		/// <summary>
@@ -81,9 +83,9 @@ namespace Files.App.Helpers
 				return false;
 
 			return fileExtensionToCheck.Equals(".fon", StringComparison.OrdinalIgnoreCase) ||
-					 fileExtensionToCheck.Equals(".otf", StringComparison.OrdinalIgnoreCase) ||
-					 fileExtensionToCheck.Equals(".ttc", StringComparison.OrdinalIgnoreCase) ||
-					 fileExtensionToCheck.Equals(".ttf", StringComparison.OrdinalIgnoreCase);
+				fileExtensionToCheck.Equals(".otf", StringComparison.OrdinalIgnoreCase) ||
+				fileExtensionToCheck.Equals(".ttc", StringComparison.OrdinalIgnoreCase) ||
+				fileExtensionToCheck.Equals(".ttf", StringComparison.OrdinalIgnoreCase);
 		}
 
 		/// <summary>
@@ -96,7 +98,7 @@ namespace Files.App.Helpers
 		public static bool IsShortcutFile(string? fileExtensionToCheck)
 		{
 			return !string.IsNullOrWhiteSpace(fileExtensionToCheck) &&
-			       fileExtensionToCheck.Equals(".lnk", StringComparison.OrdinalIgnoreCase);
+				fileExtensionToCheck.Equals(".lnk", StringComparison.OrdinalIgnoreCase);
 		}
 	}
 }

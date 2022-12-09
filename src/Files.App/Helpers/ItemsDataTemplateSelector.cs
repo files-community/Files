@@ -8,6 +8,7 @@ namespace Files.App.Helpers
 	public class ItemsDataTemplateSelector : DataTemplateSelector
 	{
 		public DataTemplate ParentItems { get; set; }
+
 		public DataTemplate CurrentItem { get; set; }
 
 		protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)

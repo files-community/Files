@@ -7,12 +7,12 @@ namespace Files.App.Serialization
 	{
 		public event PropertyChangedEventHandler? PropertyChanged;
 
-		protected override bool Set<TValue>(TValue? value, [CallerMemberName] string propertyName = "")
-			where TValue : default
+		protected override bool Set<TValue>(TValue? value, [CallerMemberName] string propertyName = "") where TValue : default
 		{
 			if (base.Set<TValue>(value, propertyName))
 			{
 				OnPropertyChanged(propertyName);
+
 				return true;
 			}
 

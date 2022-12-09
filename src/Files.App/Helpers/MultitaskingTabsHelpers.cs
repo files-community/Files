@@ -65,14 +65,21 @@ namespace Files.App.Helpers
 				Description = null,
 				ToolTipText = null
 			};
+
 			tabItem.Control.NavigationArguments = new TabItemArguments()
 			{
 				InitialPageType = type,
 				NavigationArg = tabViewItemArgs
 			};
+
 			tabItem.Control.ContentChanged += MainPageViewModel.Control_ContentChanged;
 			await MainPageViewModel.UpdateTabInfo(tabItem, tabViewItemArgs);
-			MainPageViewModel.AppInstances.Insert(atIndex == -1 ? MainPageViewModel.AppInstances.Count : atIndex, tabItem);
+
+			MainPageViewModel.AppInstances.Insert(
+				atIndex == -1
+					? MainPageViewModel.AppInstances.Count
+					: atIndex,
+				tabItem);
 		}
 	}
 }

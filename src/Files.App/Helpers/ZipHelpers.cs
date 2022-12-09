@@ -32,11 +32,15 @@ namespace Files.App.Helpers
 		public static async Task ExtractArchive(BaseStorageFile archive, BaseStorageFolder destinationFolder, string password, IProgress<float> progressDelegate, CancellationToken cancellationToken)
 		{
 			using SevenZipExtractor? zipFile = await GetZipFile(archive, password);
+
 			if (zipFile is null)
 				return;
+
 			//zipFile.IsStreamOwner = true;
+
 			var directoryEntries = new List<ArchiveFileInfo>();
 			var fileEntries = new List<ArchiveFileInfo>();
+
 			foreach (ArchiveFileInfo entry in zipFile.ArchiveFileData)
 			{
 				if (!entry.IsDirectory)
@@ -44,11 +48,13 @@ namespace Files.App.Helpers
 				else
 					directoryEntries.Add(entry);
 			}
-
-			if (cancellationToken.IsCancellationRequested) // Check if cancelled
+ 
+			// Check if cancelled
+			if (cancellationToken.IsCancellationRequested)
 				return;
 
 			var directories = new List<string>();
+
 			try
 			{
 				directories.AddRange(directoryEntries.Select((entry) => entry.FileName));
@@ -59,6 +65,7 @@ namespace Files.App.Helpers
 				App.Logger.Warn(ex, $"Error transforming zip names into: {destinationFolder.Path}\n" +
 					$"Directories: {string.Join(", ", directoryEntries.Select(x => x.FileName))}\n" +
 					$"Files: {string.Join(", ", fileEntries.Select(x => x.FileName))}");
+
 				return;
 			}
 
@@ -74,11 +81,13 @@ namespace Files.App.Helpers
 					}
 				}
 
-				if (cancellationToken.IsCancellationRequested) // Check if canceled
+				// Check if canceled
+				if (cancellationToken.IsCancellationRequested)
 					return;
 			}
-
-			if (cancellationToken.IsCancellationRequested) // Check if canceled
+ 
+			// Check if canceled
+			if (cancellationToken.IsCancellationRequested)
 				return;
 
 			// Fill files
@@ -89,14 +98,16 @@ namespace Files.App.Helpers
 
 			foreach (var entry in fileEntries)
 			{
-				if (cancellationToken.IsCancellationRequested) // Check if canceled
+				// Check if canceled
+				if (cancellationToken.IsCancellationRequested)
 					return;
 
 				string filePath = Path.Combine(destinationFolder.Path, entry.FileName);
 
 				var hFile = NativeFileOperationsHelper.CreateFileForWrite(filePath);
 				if (hFile.IsInvalid)
-					return; // TODO: handle error
+					// TODO: handle error
+					return;
 
 				// We don't close hFile because FileStream.Dispose() already does that
 				using (FileStream destinationStream = new FileStream(hFile, FileAccess.Write))
@@ -108,11 +119,13 @@ namespace Files.App.Helpers
 					catch (Exception ex)
 					{
 						App.Logger.Warn(ex, $"Error extracting file: {filePath}");
-						return; // TODO: handle error
+						// TODO: handle error
+						return; 
 					}
 				}
 
 				entriesFinished++;
+
 				float percentage = (float)((float)entriesFinished / (float)entriesAmount) * 100.0f;
 				progressDelegate?.Report(percentage);
 			}

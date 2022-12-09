@@ -6,8 +6,11 @@ namespace Files.App.Helpers
 	public class BlockingListEnumerator<T> : IEnumerator<T>
 	{
 		private readonly IList<T> m_Inner;
+
 		private readonly object m_Lock;
+
 		private T m_Current;
+
 		private int m_Pos;
 
 		public BlockingListEnumerator(IList<T> inner, object @lock)
@@ -28,7 +31,8 @@ namespace Files.App.Helpers
 			}
 		}
 
-		object IEnumerator.Current => Current;
+		object IEnumerator.Current
+			=> Current;
 
 		public void Dispose()
 		{
@@ -39,11 +43,13 @@ namespace Files.App.Helpers
 			lock (m_Lock)
 			{
 				m_Pos++;
+
 				var hasNext = m_Pos < m_Inner.Count;
 				if (hasNext)
 				{
 					m_Current = m_Inner[m_Pos];
 				}
+
 				return hasNext;
 			}
 		}

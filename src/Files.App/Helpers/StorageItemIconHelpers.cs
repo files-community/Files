@@ -20,6 +20,7 @@ namespace Files.App.Helpers
 			if (string.IsNullOrEmpty(fileExtension))
 			{
 				StorageFolder localFolder = ApplicationData.Current.RoamingFolder;
+
 				return await localFolder.GetThumbnailAsync(ThumbnailMode.ListView, requestedSize, ThumbnailOptions.UseCurrentScale);
 			}
 			else

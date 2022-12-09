@@ -1,3 +1,4 @@
+
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Extensions;
 using Files.App.Filesystem;
@@ -27,18 +28,21 @@ namespace Files.App.Helpers
 		public static Task<bool> OpenPathInNewWindowAsync(string path)
 		{
 			var folderUri = new Uri($"files-uwp:?folder={Uri.EscapeDataString(path)}");
+
 			return Launcher.LaunchUriAsync(folderUri).AsTask();
 		}
 
 		public static Task<bool> OpenTabInNewWindowAsync(string tabArgs)
 		{
 			var folderUri = new Uri($"files-uwp:?tab={Uri.EscapeDataString(tabArgs)}");
+
 			return Launcher.LaunchUriAsync(folderUri).AsTask();
 		}
 
 		public static Task LaunchNewWindowAsync()
 		{
 			var filesUWPUri = new Uri("files-uwp:");
+
 			return Launcher.LaunchUriAsync(filesUWPUri).AsTask();
 		}
 
@@ -200,6 +204,7 @@ namespace Files.App.Helpers
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 			var opened = (FilesystemResult)false;
+
 			bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
 			if (isHiddenItem)
 			{
@@ -216,6 +221,7 @@ namespace Files.App.Helpers
 						AssociatedTabInstance = associatedInstance
 					});
 				}
+
 				opened = (FilesystemResult)true;
 			}
 			else if (App.LibraryManager.TryGetLibrary(path, out LibraryLocationItem library))
@@ -239,6 +245,7 @@ namespace Files.App.Helpers
 					}
 				}
 			}
+
 			return opened;
 		}
 
@@ -306,6 +313,7 @@ namespace Files.App.Helpers
 							App.RecentItemsManager.AddToRecentItems(childFolder.Path);
 						}
 					});
+
 				if (!opened)
 				{
 					opened = (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path);
@@ -332,6 +340,7 @@ namespace Files.App.Helpers
 					await Win32Helpers.InvokeWin32ComponentAsync(path, associatedInstance);
 				}
 			}
+
 			return opened;
 		}
 
@@ -340,6 +349,7 @@ namespace Files.App.Helpers
 			var opened = (FilesystemResult)false;
 			bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
 			bool IsShortcut = path.EndsWith(".lnk", StringComparison.Ordinal) || path.EndsWith(".url", StringComparison.Ordinal) || !string.IsNullOrEmpty(shortcutInfo.TargetPath);
+
 			if (IsShortcut)
 			{
 				if (string.IsNullOrEmpty(shortcutInfo.TargetPath))
@@ -463,7 +473,8 @@ namespace Files.App.Helpers
 								}
 
 								// Now launch file with options.
-								var storageItem = (StorageFile)await FilesystemTasks.Wrap(() => childFile.Item.ToStorageFileAsync().AsTask());
+								var storageItem = (StorageFile)await FilesystemTasks.Wrap(()
+									=> childFile.Item.ToStorageFileAsync().AsTask());
 
 								if (storageItem is not null)
 									launchSuccess = await Launcher.LaunchFileAsync(storageItem, options);
@@ -474,6 +485,7 @@ namespace Files.App.Helpers
 						}
 					});
 			}
+
 			return opened;
 		}
 
@@ -481,6 +493,7 @@ namespace Files.App.Helpers
 		private static LauncherOptions InitializeWithWindow(LauncherOptions obj)
 		{
 			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+
 			return obj;
 		}
 	}

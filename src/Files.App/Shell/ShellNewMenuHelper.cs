@@ -32,6 +32,7 @@ namespace Files.App.Shell
 					}
 				}
 			}
+
 			return newMenuItems;
 		}
 
@@ -41,7 +42,10 @@ namespace Files.App.Shell
 				return null;
 
 			using var key = Registry.ClassesRoot.OpenSubKeySafe(extension);
-			return key is not null ? await GetShellNewRegistryEntries(key, key) : null;
+
+			return key is not null
+				? await GetShellNewRegistryEntries(key, key)
+				: null;
 		}
 
 		private static async Task<ShellNewEntry> GetShellNewRegistryEntries(RegistryKey current, RegistryKey root)
@@ -60,6 +64,7 @@ namespace Files.App.Shell
 				else
 				{
 					var ret = await GetShellNewRegistryEntries(key, root);
+
 					if (ret is not null)
 						return ret;
 				}
@@ -76,9 +81,7 @@ namespace Files.App.Shell
 				!valueNames.Contains("Name", StringComparer.OrdinalIgnoreCase) &&
 				!valueNames.Contains("FileName", StringComparer.OrdinalIgnoreCase) &&
 				!valueNames.Contains("Command", StringComparer.OrdinalIgnoreCase))
-			{
 				return null;
-			}
 
 			var extension = root.Name.Substring(root.Name.LastIndexOf('\\') + 1);
 			var fileName = (string)key.GetValue("FileName");
@@ -100,11 +103,23 @@ namespace Files.App.Shell
 				}
 			}
 
-			var folder = await SafetyExtensions.IgnoreExceptions(() => ApplicationData.Current.LocalFolder.CreateFolderAsync("extensions", CreationCollisionOption.OpenIfExists).AsTask());
-			var sampleFile = folder is not null ? await SafetyExtensions.IgnoreExceptions(() => folder.CreateFileAsync("file" + extension, CreationCollisionOption.OpenIfExists).AsTask()) : null;
+			var folder = await SafetyExtensions.IgnoreExceptions(()
+				=> ApplicationData.Current.LocalFolder.CreateFolderAsync("extensions", CreationCollisionOption.OpenIfExists).AsTask());
 
-			var displayType = sampleFile is not null ? sampleFile.DisplayType : string.Format("{0} {1}", "file", extension);
-			var thumbnail = sampleFile is not null ? await SafetyExtensions.IgnoreExceptions(() => sampleFile.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 24, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale).AsTask()) : null;
+			var sampleFile = folder is not null ? await SafetyExtensions.IgnoreExceptions(()
+				=> folder.CreateFileAsync("file" + extension, CreationCollisionOption.OpenIfExists).AsTask()) : null;
+
+			var displayType = sampleFile is not null
+				? sampleFile.DisplayType
+				: string.Format("{0} {1}", "file", extension);
+
+			var thumbnail = sampleFile is not null
+				? await SafetyExtensions.IgnoreExceptions(()
+					=> sampleFile.GetThumbnailAsync(
+						Windows.Storage.FileProperties.ThumbnailMode.ListView,
+						24,
+						Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale).AsTask())
+				: null;
 
 			string iconString = null;
 
@@ -112,7 +127,9 @@ namespace Files.App.Shell
 			{
 				var readStream = thumbnail.AsStreamForRead();
 				var bitmapData = new byte[readStream.Length];
+
 				await readStream.ReadAsync(bitmapData, 0, bitmapData.Length);
+
 				iconString = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
 			}
 

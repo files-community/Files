@@ -50,8 +50,10 @@ namespace Files.App.Shell
 				IsBackground = true,
 				Priority = ThreadPriority.Normal
 			};
+
 			thread.SetApartmentState(ApartmentState.STA);
 			thread.Start();
+
 			return taskCompletionSource.Task;
 		}
 
@@ -80,8 +82,10 @@ namespace Files.App.Shell
 				IsBackground = true,
 				Priority = ThreadPriority.Normal
 			};
+
 			thread.SetApartmentState(ApartmentState.STA);
 			thread.Start();
+
 			return taskCompletionSource.Task;
 		}
 
@@ -110,8 +114,10 @@ namespace Files.App.Shell
 				IsBackground = true,
 				Priority = ThreadPriority.Normal
 			};
+
 			thread.SetApartmentState(ApartmentState.STA);
 			thread.Start();
+
 			return taskCompletionSource.Task;
 		}
 
@@ -140,8 +146,10 @@ namespace Files.App.Shell
 				IsBackground = true,
 				Priority = ThreadPriority.Normal
 			};
+
 			thread.SetApartmentState(ApartmentState.STA);
 			thread.Start();
+
 			return taskCompletionSource.Task;
 		}
 
@@ -151,7 +159,10 @@ namespace Files.App.Shell
 			async Task<string?> GetUwpAssoc()
 			{
 				var uwpApps = await Launcher.FindFileHandlersAsync(Path.GetExtension(filename));
-				return uwpApps.Any() ? uwpApps[0].PackageFamilyName : null;
+
+				return uwpApps.Any()
+					? uwpApps[0].PackageFamilyName
+					: null;
 			}
 
 			// Find desktop apps
@@ -160,7 +171,9 @@ namespace Files.App.Shell
 				var lpResult = new StringBuilder(2048);
 				var hResult = Shell32.FindExecutable(filename, null, lpResult);
 
-				return hResult.ToInt64() > 32 ? lpResult.ToString() : null;
+				return hResult.ToInt64() > 32
+					? lpResult.ToString()
+					: null;
 			}
 
 			if (checkDesktopFirst)
@@ -173,8 +186,10 @@ namespace Files.App.Shell
 		{
 			var lib = Kernel32.LoadLibrary(file);
 			StringBuilder result = new StringBuilder(2048);
+
 			_ = User32.LoadString(lib, number, result, result.Capacity);
 			Kernel32.FreeLibrary(lib);
+
 			return result.ToString();
 		}
 
@@ -207,12 +222,14 @@ namespace Files.App.Shell
 		private class IconAndOverlayCacheEntry
 		{
 			public byte[]? Icon { get; set; }
+
 			public byte[]? Overlay { get; set; }
 		}
 
 		private static readonly ConcurrentDictionary<string, ConcurrentDictionary<int, IconAndOverlayCacheEntry>> _iconAndOverlayCache = new();
 
 		private static readonly object _lock = new object();
+
 		public static (byte[]? icon, byte[]? overlay) GetFileIconAndOverlay(string path, int thumbnailSize, bool isFolder, bool getOverlay = true, bool onlyGetOverlay = false)
 		{
 			byte[]? iconData = null, overlayData = null;
@@ -226,9 +243,7 @@ namespace Files.App.Shell
 				if ((onlyGetOverlay && overlayData is not null) ||
 					(!getOverlay && iconData is not null) ||
 					(overlayData is not null && iconData is not null))
-				{
 					return (iconData, overlayData);
-				}
 			}
 
 			try
@@ -239,7 +254,10 @@ namespace Files.App.Shell
 					if (shellItem is not null && shellItem.IShellItem is Shell32.IShellItemImageFactory fctry)
 					{
 						var flags = Shell32.SIIGBF.SIIGBF_BIGGERSIZEOK;
-						if (thumbnailSize < 80) flags |= Shell32.SIIGBF.SIIGBF_ICONONLY;
+
+						if (thumbnailSize < 80)
+							flags |= Shell32.SIIGBF.SIIGBF_ICONONLY;
+
 						var hres = fctry.GetImage(new SIZE(thumbnailSize, thumbnailSize), flags, out var hbitmap);
 						if (hres == HRESULT.S_OK)
 						{
@@ -247,6 +265,7 @@ namespace Files.App.Shell
 							if (image is not null)
 								iconData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
 						}
+
 						//Marshal.ReleaseComObject(fctry);
 					}
 				}
@@ -259,6 +278,7 @@ namespace Files.App.Shell
 					var ret = ShellFolderExtensions.GetStringAsPidl(path, out var pidl) ?
 						Shell32.SHGetFileInfo(pidl, 0, ref shfi, Shell32.SHFILEINFO.Size, Shell32.SHGFI.SHGFI_PIDL | flags) :
 						Shell32.SHGetFileInfo(path, isFolder ? FileAttributes.Directory : 0, ref shfi, Shell32.SHFILEINFO.Size, flags | (useFileAttibutes ? Shell32.SHGFI.SHGFI_USEFILEATTRIBUTES : 0));
+
 					if (ret == IntPtr.Zero)
 						return (iconData, null);
 
@@ -271,6 +291,7 @@ namespace Files.App.Shell
 						<= 48 => Shell32.SHIL.SHIL_EXTRALARGE,
 						_ => Shell32.SHIL.SHIL_JUMBO,
 					};
+
 					lock (_lock)
 					{
 						if (!Shell32.SHGetImageList(imageListSize, typeof(ComCtl32.IImageList).GUID, out var imageListOut).Succeeded)
@@ -326,6 +347,7 @@ namespace Files.App.Shell
 
 						Marshal.ReleaseComObject(imageList);
 					}
+
 					return (iconData, overlayData);
 				}
 				else
@@ -356,11 +378,13 @@ namespace Files.App.Shell
 					process.StartInfo.UseShellExecute = true;
 					process.StartInfo.Verb = "runas";
 				}
+
 				process.StartInfo.FileName = "powershell.exe";
 				process.StartInfo.CreateNoWindow = true;
 				process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
 				process.StartInfo.Arguments = command;
 				process.Start();
+
 				if (process.WaitForExit(30 * 1000))
 					return process.ExitCode == 0;
 
@@ -399,6 +423,7 @@ namespace Files.App.Shell
 					}
 				}
 			}
+
 			return iconsList;
 		}
 
@@ -461,6 +486,7 @@ namespace Files.App.Shell
 
 			var success = FileOperationsHelpers.SetLinkIcon(filePath, iconFile, iconIndex);
 			if (success) _iconAndOverlayCache[filePath] = new();
+
 			return success;
 		}
 
@@ -507,6 +533,7 @@ namespace Files.App.Shell
 				}
 
 				bmp.UnlockBits(bmpData);
+
 				return bmp;
 			}
 			catch
@@ -519,6 +546,7 @@ namespace Files.App.Shell
 		{
 			var taskbar2 = new Shell32.ITaskbarList2();
 			taskbar2.HrInit();
+
 			return taskbar2 as Shell32.ITaskbarList4;
 		}
 
@@ -530,6 +558,7 @@ namespace Files.App.Shell
 			{
 				gr.DrawImage(tmp, new Rectangle(0, 0, clone.Width, clone.Height));
 			}
+
 			return clone;
 		}
 
@@ -558,7 +587,9 @@ namespace Files.App.Shell
 		public struct SHQUERYRBINFO
 		{
 			public int cbSize;
+
 			public long i64Size;
+
 			public long i64NumItems;
 		}
 
@@ -566,6 +597,7 @@ namespace Files.App.Shell
 		{
 			HWND prevHwnd = HWND.NULL;
 			var windowsList = new List<HWND>();
+
 			while (true)
 			{
 				prevHwnd = User32.FindWindowEx(HWND.NULL, prevHwnd, null, null);
@@ -574,6 +606,7 @@ namespace Files.App.Shell
 
 				windowsList.Add(prevHwnd);
 			}
+
 			return windowsList;
 		}
 
@@ -654,13 +687,17 @@ namespace Files.App.Shell
 			using var volumeHandle = Kernel32.CreateFile(volumePath, Kernel32.FileAccess.GENERIC_READ, FileShare.Read, null, FileMode.Open, FileFlagsAndAttributes.FILE_FLAG_BACKUP_SEMANTICS);
 			if (volumeHandle.IsInvalid)
 				return null;
+
 			var fileId = new Kernel32.FILE_ID_DESCRIPTOR() { Type = 0, Id = new Kernel32.FILE_ID_DESCRIPTOR.DUMMYUNIONNAME() { FileId = (long)frn } };
 			fileId.dwSize = (uint)Marshal.SizeOf(fileId);
+
 			using var hFile = Kernel32.OpenFileById(volumeHandle, fileId, Kernel32.FileAccess.GENERIC_READ, FileShare.Read, null, FileFlagsAndAttributes.FILE_FLAG_BACKUP_SEMANTICS);
 			if (hFile.IsInvalid)
 				return null;
+
 			var sb = new StringBuilder(4096);
 			var ret = Kernel32.GetFinalPathNameByHandle(hFile, sb, 4095, 0);
+
 			return (ret != 0) ? sb.ToString() : null;
 		}
 
@@ -687,6 +724,7 @@ namespace Files.App.Shell
 				for (int i = 0; i < shellWindows.Count; i++)
 				{
 					var item = shellWindows.Item(i);
+
 					var serv = (Shell32.IServiceProvider)item;
 					if (serv is not null)
 					{
@@ -694,6 +732,7 @@ namespace Files.App.Shell
 						{
 							var pUnk = Marshal.GetObjectForIUnknown(ppv);
 							var shellBrowser = (Shell32.IShellBrowser)pUnk;
+
 							using var targetFolder = SafetyExtensions.IgnoreExceptions(() => new Vanara.Windows.Shell.ShellItem(folderPath));
 							if (targetFolder is not null)
 							{
@@ -714,17 +753,21 @@ namespace Files.App.Shell
 											}
 										}
 									}
+
 									folderPidl.Dispose();
 									Marshal.ReleaseComObject(folder);
 									Marshal.ReleaseComObject(folderView);
 									Marshal.ReleaseComObject(shellView);
 								}
 							}
+
 							Marshal.ReleaseComObject(shellBrowser);
 							Marshal.ReleaseComObject(pUnk);
 						}
+
 						Marshal.ReleaseComObject(serv);
 					}
+
 					Marshal.ReleaseComObject(item);
 				}
 
@@ -734,7 +777,8 @@ namespace Files.App.Shell
 
 			if (!opened)
 			{
-				Shell32.ShellExecute(HWND.NULL,
+				Shell32.ShellExecute(
+					HWND.NULL,
 					"open",
 					Environment.ExpandEnvironmentVariables("%windir%\\explorer.exe"),
 					folderPath,
@@ -745,7 +789,8 @@ namespace Files.App.Shell
 
 		// Get information from recycle bin.
 		[DllImport(Lib.Shell32, SetLastError = false, CharSet = CharSet.Unicode)]
-		public static extern int SHQueryRecycleBin(string pszRootPath,
+		public static extern int SHQueryRecycleBin(
+			string pszRootPath,
 			ref SHQUERYRBINFO pSHQueryRBInfo);
 
 		public static async Task<bool> InstallInf(string filePath)
@@ -753,6 +798,7 @@ namespace Files.App.Shell
 			try
 			{
 				var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(30 * 1000));
+
 				using Process process = new Process();
 				process.StartInfo.FileName = "InfDefaultInstall.exe";
 				process.StartInfo.Verb = "runas";
@@ -760,7 +806,9 @@ namespace Files.App.Shell
 				process.StartInfo.CreateNoWindow = true;
 				process.StartInfo.Arguments = $"{filePath}";
 				process.Start();
+
 				await process.WaitForExitAsync(cts.Token);
+
 				return true;
 			}
 			catch (Win32Exception)

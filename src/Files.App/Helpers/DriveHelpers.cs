@@ -9,6 +9,7 @@ namespace Files.App.Helpers
 		public static async Task<bool> EjectDeviceAsync(string path)
 		{
 			var removableDevice = new RemovableDevice(path);
+
 			return await removableDevice.EjectAsync();
 		}
 
@@ -18,7 +19,9 @@ namespace Files.App.Helpers
 			string query = $"SELECT DeviceID FROM Win32_Volume WHERE DriveLetter = '{name}'";
 
 			using var cimSession = CimSession.Create(null);
-			foreach (var item in cimSession.QueryInstances(@"root\cimv2", "WQL", query)) // max 1 result because DriveLetter is unique.
+
+			// Max 1 result because DriveLetter is unique.
+			foreach (var item in cimSession.QueryInstances(@"root\cimv2", "WQL", query))
 			{
 				return (string)item.CimInstanceProperties["DeviceID"]?.Value ?? string.Empty;
 			}

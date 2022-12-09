@@ -14,6 +14,7 @@ namespace Files.App.Helpers.LayoutPreferences
 		public LayoutPrefsDb(string connection, bool shared = false)
 		{
 			SafetyExtensions.IgnoreExceptions(() => CheckDbVersion(connection));
+
 			db = new LiteDatabase(new ConnectionString(connection)
 			{
 				Mode = shared ? LiteDB.FileMode.Shared : LiteDB.FileMode.Exclusive
@@ -37,6 +38,7 @@ namespace Files.App.Helpers.LayoutPreferences
 						Frn = frn,
 						Prefs = prefs
 					};
+
 					col.Insert(newPref);
 					col.EnsureIndex(x => x.Frn);
 					col.EnsureIndex(x => x.FilePath);
@@ -79,6 +81,7 @@ namespace Files.App.Helpers.LayoutPreferences
 						tmp.Frn = frn;
 						col.Update(tmp);
 					}
+
 					return tmp;
 				}
 			}
@@ -93,15 +96,18 @@ namespace Files.App.Helpers.LayoutPreferences
 						tmp.FilePath = filePath;
 						col.Update(tmp);
 					}
+
 					return tmp;
 				}
 			}
+
 			return null;
 		}
 
 		public void ResetAll(Func<LayoutDbPrefs, bool>? predicate = null)
 		{
 			var col = db.GetCollection<LayoutDbPrefs>("layoutprefs");
+
 			if (predicate is null)
 			{
 				col.Delete(Query.All());
@@ -133,6 +139,7 @@ namespace Files.App.Helpers.LayoutPreferences
 		public void Import(string json)
 		{
 			var dataValues = JsonSerializer.DeserializeArray(json);
+
 			var col = db.GetCollection("layoutprefs");
 			col.Delete(Query.All());
 			col.InsertBulk(dataValues.Select(x => x.AsDocument));
@@ -156,18 +163,24 @@ namespace Files.App.Helpers.LayoutPreferences
 				if (Encoding.UTF8.GetString(buffer, 25, "** This is a LiteDB file **".Length) == "** This is a LiteDB file **" &&
 					buffer[52] == 7)
 				{
-					return; // version 4.1.4
+					// version 4.1.4
+					return;
 				}
 			}
-			IO.File.Delete(filename); // recreate DB with correct version
+
+			// recreate DB with correct version
+			IO.File.Delete(filename);
 		}
 
 		public class LayoutDbPrefs
 		{
 			[BsonId]
 			public int Id { get; set; }
+
 			public ulong? Frn { get; set; }
+
 			public string FilePath { get; set; } = string.Empty;
+
 			public LayoutPreferences Prefs { get; set; } = LayoutPreferences.DefaultLayoutPreferences;
 		}
 	}

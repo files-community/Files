@@ -37,7 +37,8 @@ namespace Files.App.Serialization
 			set => _JsonSettingsDatabase = value;
 		}
 
-		BaseJsonSettings ISettingsSharingContext.Instance => this;
+		BaseJsonSettings ISettingsSharingContext.Instance
+			=> this;
 
 		public event EventHandler<SettingChangedEventArgs>? OnSettingChangedEvent;
 
@@ -63,6 +64,7 @@ namespace Files.App.Serialization
 				// Can register only once
 				_settingsSharingContext = settingsSharingContext;
 				IsAvailable = settingsSharingContext.Instance.IsAvailable;
+
 				return true;
 			}
 

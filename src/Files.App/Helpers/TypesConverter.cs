@@ -16,7 +16,10 @@ namespace Files.App.Helpers
 
 	public class TypesConverter : JsonConverter<Type>
 	{
-		public override Type Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) => typeToConvert;
-		public override void Write(Utf8JsonWriter writer, Type value, JsonSerializerOptions options) => writer.WriteStringValue(value.FullName);
+		public override Type Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+			=> typeToConvert;
+
+		public override void Write(Utf8JsonWriter writer, Type value, JsonSerializerOptions options)
+			=> writer.WriteStringValue(value.FullName);
 	}
 }

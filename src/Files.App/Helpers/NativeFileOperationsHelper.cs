@@ -78,14 +78,30 @@ namespace Files.App.Helpers
 
 		public static SafeFileHandle CreateFileForWrite(string filePath, bool overwrite = true)
 		{
-			return new SafeFileHandle(CreateFileFromApp(filePath,
-				GENERIC_WRITE, 0, IntPtr.Zero, overwrite ? CREATE_ALWAYS : OPEN_ALWAYS, (uint)File_Attributes.BackupSemantics, IntPtr.Zero), true);
+			return new SafeFileHandle(
+				CreateFileFromApp(
+					filePath,
+					GENERIC_WRITE,
+					0,
+					IntPtr.Zero,
+					overwrite ? CREATE_ALWAYS : OPEN_ALWAYS,
+					(uint)File_Attributes.BackupSemantics,
+					IntPtr.Zero),
+				true);
 		}
 
 		public static SafeFileHandle OpenFileForRead(string filePath, bool readWrite = false, uint flags = 0)
 		{
-			return new SafeFileHandle(CreateFileFromApp(filePath,
-				GENERIC_READ | (readWrite ? GENERIC_WRITE : 0), FILE_SHARE_READ | (readWrite ? 0 : FILE_SHARE_WRITE), IntPtr.Zero, OPEN_EXISTING, (uint)File_Attributes.BackupSemantics | flags, IntPtr.Zero), true);
+			return new SafeFileHandle(
+				CreateFileFromApp(
+					filePath,
+					GENERIC_READ | (readWrite ? GENERIC_WRITE : 0),
+					FILE_SHARE_READ | (readWrite ? 0 : FILE_SHARE_WRITE),
+					IntPtr.Zero,
+					OPEN_EXISTING,
+					(uint)File_Attributes.BackupSemantics | flags,
+					IntPtr.Zero),
+				true);
 		}
 
 		private const int MAXIMUM_REPARSE_DATA_BUFFER_SIZE = 16 * 1024;
@@ -97,12 +113,19 @@ namespace Files.App.Helpers
 		private struct REPARSE_DATA_BUFFER
 		{
 			public uint ReparseTag;
+
 			public short ReparseDataLength;
+
 			public short Reserved;
+
 			public short SubsNameOffset;
+
 			public short SubsNameLength;
+
 			public short PrintNameOffset;
+
 			public short PrintNameLength;
+
 			[MarshalAs(UnmanagedType.ByValArray, SizeConst = MAXIMUM_REPARSE_DATA_BUFFER_SIZE)]
 			public char[] PathBuffer;
 		}
@@ -118,7 +141,8 @@ namespace Files.App.Helpers
 			out REPARSE_DATA_BUFFER outBuffer,
 			uint nOutBufferSize,
 			out uint lpBytesReturned,
-			IntPtr lpOverlapped);
+			IntPtr lpOverlapped
+		);
 
 		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
 		CallingConvention = CallingConvention.StdCall,
@@ -236,10 +260,15 @@ namespace Files.App.Helpers
 		public struct WIN32_FILE_ATTRIBUTE_DATA
 		{
 			public FileAttributes dwFileAttributes;
+
 			public FILETIME ftCreationTime;
+
 			public FILETIME ftLastAccessTime;
+
 			public FILETIME ftLastWriteTime;
+
 			public uint nFileSizeHigh;
+
 			public uint nFileSizeLow;
 		}
 
@@ -261,16 +290,16 @@ namespace Files.App.Helpers
 			FileStreamInfo = 7,
 			FileCompressionInfo = 8,
 			FileAttributeTagInfo = 9,
-			FileIdBothDirectoryInfo = 10,// 0x0A
+			FileIdBothDirectoryInfo = 10,        // 0x0A
 			FileIdBothDirectoryRestartInfo = 11, // 0xB
-			FileIoPriorityHintInfo = 12, // 0xC
-			FileRemoteProtocolInfo = 13, // 0xD
-			FileFullDirectoryInfo = 14, // 0xE
-			FileFullDirectoryRestartInfo = 15, // 0xF
-			FileStorageInfo = 16, // 0x10
-			FileAlignmentInfo = 17, // 0x11
-			FileIdInfo = 18, // 0x12
-			FileIdExtdDirectoryInfo = 19, // 0x13
+			FileIoPriorityHintInfo = 12,         // 0xC
+			FileRemoteProtocolInfo = 13,         // 0xD
+			FileFullDirectoryInfo = 14,          // 0xE
+			FileFullDirectoryRestartInfo = 15,   // 0xF
+			FileStorageInfo = 16,                // 0x10
+			FileAlignmentInfo = 17,              // 0x11
+            FileIdInfo = 18,                     // 0x12
+            FileIdExtdDirectoryInfo = 19,        // 0x13
 			FileIdExtdDirectoryRestartInfo = 20, // 0x14
 			MaximumFileInfoByHandlesClass
 		}
@@ -279,21 +308,35 @@ namespace Files.App.Helpers
 		private struct FILE_ID_BOTH_DIR_INFO
 		{
 			public uint NextEntryOffset;
+
 			public uint FileIndex;
+
 			public long CreationTime;
+
 			public long LastAccessTime;
+
 			public long LastWriteTime;
+
 			public long ChangeTime;
+
 			public long EndOfFile;
+
 			public long AllocationSize;
+
 			public uint FileAttributes;
+
 			public uint FileNameLength;
+
 			public uint EaSize;
+
 			public char ShortNameLength;
-			[MarshalAsAttribute(UnmanagedType.ByValTStr, SizeConst = 12)]
+
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 12)]
 			public string ShortName;
+
 			public long FileId;
-			[MarshalAsAttribute(UnmanagedType.ByValTStr, SizeConst = 1)]
+
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 1)]
 			public string FileName;
 		}
 
@@ -304,9 +347,13 @@ namespace Files.App.Helpers
 		private struct FILE_STREAM_INFO
 		{
 			public uint NextEntryOffset;
+
 			public uint StreamNameLength;
+
 			public long StreamSize;
+
 			public long StreamAllocationSize;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 1024)]
 			public string StreamName;
 		}
@@ -317,12 +364,14 @@ namespace Files.App.Helpers
 		public static bool GetFileDateModified(string filePath, out FILETIME dateModified)
 		{
 			using var hFile = new SafeFileHandle(CreateFileFromApp(filePath, GENERIC_READ, FILE_SHARE_READ, IntPtr.Zero, OPEN_EXISTING, (uint)File_Attributes.BackupSemantics, IntPtr.Zero), true);
+
 			return GetFileTime(hFile.DangerousGetHandle(), out _, out _, out dateModified);
 		}
 
 		public static bool SetFileDateModified(string filePath, FILETIME dateModified)
 		{
 			using var hFile = new SafeFileHandle(CreateFileFromApp(filePath, FILE_WRITE_ATTRIBUTES, 0, IntPtr.Zero, OPEN_EXISTING, (uint)File_Attributes.BackupSemantics, IntPtr.Zero), true);
+
 			return SetFileTime(hFile.DangerousGetHandle(), new(), new(), dateModified);
 		}
 
@@ -333,6 +382,7 @@ namespace Files.App.Helpers
 			{
 				return (lpFileInfo.dwFileAttributes & dwAttrs) == dwAttrs;
 			}
+
 			return false;
 		}
 
@@ -343,6 +393,7 @@ namespace Files.App.Helpers
 			{
 				return false;
 			}
+
 			return SetFileAttributesFromApp(lpFileName, lpFileInfo.dwFileAttributes | dwAttrs);
 		}
 
@@ -353,12 +404,14 @@ namespace Files.App.Helpers
 			{
 				return false;
 			}
+
 			return SetFileAttributesFromApp(lpFileName, lpFileInfo.dwFileAttributes & ~dwAttrs);
 		}
 
 		public static string ReadStringFromFile(string filePath)
 		{
-			IntPtr hFile = CreateFileFromApp(filePath,
+			IntPtr hFile = CreateFileFromApp(
+				filePath,
 				GENERIC_READ,
 				FILE_SHARE_READ,
 				IntPtr.Zero,
@@ -367,9 +420,7 @@ namespace Files.App.Helpers
 				IntPtr.Zero);
 
 			if (hFile.ToInt64() == -1)
-			{
 				return null;
-			}
 
 			const int BUFFER_LENGTH = 4096;
 			byte[] buffer = new byte[BUFFER_LENGTH];
@@ -395,6 +446,7 @@ namespace Files.App.Helpers
 							}
 						}
 					}
+
 					ms.Position = 0;
 					szRead = reader.ReadToEnd();
 				}
@@ -407,14 +459,23 @@ namespace Files.App.Helpers
 
 		public static bool WriteStringToFile(string filePath, string str, File_Attributes flags = 0)
 		{
-			IntPtr hStream = CreateFileFromApp(filePath,
-				GENERIC_WRITE, 0, IntPtr.Zero, CREATE_ALWAYS, (uint)(File_Attributes.BackupSemantics | flags), IntPtr.Zero);
+			IntPtr hStream = CreateFileFromApp(
+				filePath,
+				GENERIC_WRITE,
+				0,
+				IntPtr.Zero,
+				CREATE_ALWAYS,
+				(uint)(File_Attributes.BackupSemantics | flags),
+				IntPtr.Zero);
+
 			if (hStream.ToInt64() == -1)
 			{
 				return false;
 			}
+
 			byte[] buff = Encoding.UTF8.GetBytes(str);
 			int dwBytesWritten;
+
 			unsafe
 			{
 				fixed (byte* pBuff = buff)
@@ -422,7 +483,9 @@ namespace Files.App.Helpers
 					WriteFile(hStream, pBuff, buff.Length, &dwBytesWritten, IntPtr.Zero);
 				}
 			}
+
 			CloseHandle(hStream);
+
 			return true;
 		}
 
@@ -453,11 +516,13 @@ namespace Files.App.Helpers
 			if (!handle.IsInvalid)
 			{
 				var fileStruct = new FILE_ID_BOTH_DIR_INFO();
+
 				if (GetFileInformationByHandleEx(handle.DangerousGetHandle(), FILE_INFO_BY_HANDLE_CLASS.FileIdBothDirectoryInfo, out fileStruct, (uint)Marshal.SizeOf(fileStruct)))
 				{
 					return (ulong)fileStruct.FileId;
 				}
 			}
+
 			return null;
 		}
 
@@ -469,10 +534,14 @@ namespace Files.App.Helpers
 				try
 				{
 					var fileID = Kernel32.GetFileInformationByHandleEx<Kernel32.FILE_ID_INFO>(handle, Kernel32.FILE_INFO_BY_HANDLE_CLASS.FileIdInfo);
+
 					return BitConverter.ToUInt64(fileID.FileId.Identifier, 0);
 				}
-				catch { }
+				catch
+				{
+				}
 			}
+
 			return null;
 		}
 
@@ -488,6 +557,7 @@ namespace Files.App.Helpers
 					var subsString = new string(buffer.PathBuffer, ((buffer.SubsNameOffset / 2) + 2), buffer.SubsNameLength / 2);
 					var printString = new string(buffer.PathBuffer, ((buffer.PrintNameOffset / 2) + 2), buffer.PrintNameLength / 2);
 					var normalisedTarget = printString ?? subsString;
+
 					if (string.IsNullOrEmpty(normalisedTarget))
 					{
 						normalisedTarget = subsString;
@@ -503,9 +573,11 @@ namespace Files.App.Helpers
 						path = path.TrimEnd(Path.DirectorySeparatorChar);
 						normalisedTarget = Path.GetFullPath(Path.Combine(path.Substring(0, path.LastIndexOf(Path.DirectorySeparatorChar)), normalisedTarget));
 					}
+
 					return normalisedTarget;
 				}
 			}
+
 			return null;
 		}
 
@@ -516,21 +588,26 @@ namespace Files.App.Helpers
 			{
 				var bufferSize = Marshal.SizeOf(typeof(FILE_STREAM_INFO)) * 10;
 				var mem = Marshal.AllocHGlobal(bufferSize);
+
 				if (GetFileInformationByHandleEx(handle.DangerousGetHandle(), FILE_INFO_BY_HANDLE_CLASS.FileStreamInfo, mem, (uint)bufferSize))
 				{
 					uint offset = 0;
 					FILE_STREAM_INFO fileStruct;
+
 					do
 					{
 						fileStruct = Marshal.PtrToStructure<FILE_STREAM_INFO>(new IntPtr(mem.ToInt64() + offset));
+
 						var name = fileStruct.StreamName.Substring(0, (int)fileStruct.StreamNameLength / 2);
 						if (name.EndsWith(":$DATA") && name != "::$DATA")
 						{
 							yield return (name, fileStruct.StreamSize);
 						}
 						offset += fileStruct.NextEntryOffset;
-					} while (fileStruct.NextEntryOffset != 0);
+					}
+					while (fileStruct.NextEntryOffset != 0);
 				}
+
 				Marshal.FreeHGlobal(mem);
 			}
 		}

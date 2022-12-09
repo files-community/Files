@@ -13,6 +13,7 @@ namespace Files.App.Helpers
 	public sealed class JumpListManager
 	{
 		private JumpList instance = null;
+
 		private List<string> JumpListItemPaths { get; set; }
 
 		public JumpListManager()
@@ -36,6 +37,7 @@ namespace Files.App.Helpers
 			catch (Exception ex)
 			{
 				App.Logger.Warn(ex, ex.Message);
+
 				instance = null;
 			}
 		}
@@ -52,7 +54,9 @@ namespace Files.App.Helpers
 					await instance.SaveAsync();
 				}
 			}
-			catch { }
+			catch
+			{
+			}
 		}
 
 		private void AddFolder(string path)
@@ -65,9 +69,7 @@ namespace Files.App.Helpers
 					// Jumplist item argument can't end with a slash so append a character that can't exist in a directory name to support listing drives.
 					var drive = App.DrivesManager.Drives.Where(drive => drive.Path == path).FirstOrDefault();
 					if (drive is null)
-					{
 						return;
-					}
 
 					displayName = drive.Text;
 					path += '?';
@@ -133,9 +135,7 @@ namespace Files.App.Helpers
 			try
 			{
 				if (instance is null)
-				{
 					return;
-				}
 
 				if (JumpListItemPaths.Remove(path))
 				{
@@ -144,7 +144,9 @@ namespace Files.App.Helpers
 					await instance.SaveAsync();
 				}
 			}
-			catch { }
+			catch
+			{
+			}
 		}
 	}
 }

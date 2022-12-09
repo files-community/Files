@@ -14,12 +14,13 @@ namespace Files.App.ServicesImplementation
 	internal sealed class UpdateService : ObservableObject, IUpdateService
 	{
 		private StoreContext? _storeContext;
+
 		private IList<StorePackageUpdate>? _updatePackages;
 
-		private bool IsMandatory => _updatePackages?.Where(e => e.Mandatory).ToList().Count >= 1;
+		private bool IsMandatory
+			=> _updatePackages?.Where(e => e.Mandatory).ToList().Count >= 1;
 
 		private bool _isUpdateAvailable;
-
 		public bool IsUpdateAvailable
 		{
 			get => _isUpdateAvailable;
@@ -27,7 +28,6 @@ namespace Files.App.ServicesImplementation
 		}
 
 		private bool _isUpdating;
-
 		public bool IsUpdating
 		{
 			get => _isUpdating;
@@ -44,9 +44,7 @@ namespace Files.App.ServicesImplementation
 			OnUpdateInProgress();
 
 			if (!HasUpdates())
-			{
 				return;
-			}
 
 			// double check for Mandatory
 			if (IsMandatory)
@@ -57,11 +55,13 @@ namespace Files.App.ServicesImplementation
 				{
 					// User rejected mandatory update.
 					OnUpdateCancelled();
+
 					return;
 				}
 			}
 
 			await DownloadAndInstall();
+
 			OnUpdateCompleted();
 		}
 
@@ -75,7 +75,9 @@ namespace Files.App.ServicesImplementation
 				{
 					App.Logger.Info("STORE: Downloading updates...");
 					OnUpdateInProgress();
+
 					await DownloadAndInstall();
+
 					OnUpdateCompleted();
 				}
 			}
@@ -90,6 +92,7 @@ namespace Files.App.ServicesImplementation
 			if (_updatePackages is not null && _updatePackages.Count > 0)
 			{
 				App.Logger.Info("STORE: Update found.");
+
 				IsUpdateAvailable = true;
 			}
 		}
@@ -97,7 +100,9 @@ namespace Files.App.ServicesImplementation
 		private async Task DownloadAndInstall()
 		{
 			App.SaveSessionTabs();
+
 			var downloadOperation = _storeContext?.RequestDownloadAndInstallStorePackageUpdatesAsync(_updatePackages);
+
 			await downloadOperation.AsTask();
 		}
 
@@ -126,18 +131,20 @@ namespace Files.App.ServicesImplementation
 				CloseButtonText = "Close".GetLocalizedResource(),
 				PrimaryButtonText = "ConsentDialogPrimaryButtonText".GetLocalizedResource()
 			};
+
 			ContentDialogResult result = await SetContentDialogRoot(dialog).ShowAsync();
 
 			return result == ContentDialogResult.Primary;
 		}
 
-		// WINUI3
+		// WinUI3
 		private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
 		{
 			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
 			{
 				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
 			}
+
 			return contentDialog;
 		}
 

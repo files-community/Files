@@ -81,12 +81,12 @@ namespace Files.App.Helpers
 
 		private static bool Check(ContextMenuFlyoutItemViewModel item, CurrentInstanceViewModel currentInstanceViewModel, List<ListedItem> selectedItems, bool shiftPressed)
 		{
-			return (item.ShowInRecycleBin || !currentInstanceViewModel.IsPageTypeRecycleBin)
-				&& (item.ShowInSearchPage || !currentInstanceViewModel.IsPageTypeSearchResults)
-				&& (item.ShowInFtpPage || !currentInstanceViewModel.IsPageTypeFtp)
-				&& (item.ShowInZipPage || !currentInstanceViewModel.IsPageTypeZipFolder)
-				&& (!item.SingleItemOnly || selectedItems.Count == 1)
-				&& item.ShowItem;
+			return (item.ShowInRecycleBin || !currentInstanceViewModel.IsPageTypeRecycleBin) &&
+				(item.ShowInSearchPage || !currentInstanceViewModel.IsPageTypeSearchResults) &&
+				(item.ShowInFtpPage || !currentInstanceViewModel.IsPageTypeFtp) &&
+				(item.ShowInZipPage || !currentInstanceViewModel.IsPageTypeZipFolder) &&
+				(!item.SingleItemOnly || selectedItems.Count == 1) &&
+				item.ShowItem;
 		}
 
 		public static List<ContextMenuFlyoutItemViewModel> GetBaseLayoutMenuItems(CurrentInstanceViewModel currentInstanceViewModel, ItemViewModel itemViewModel, BaseLayoutCommandsViewModel commandsViewModel)
@@ -484,7 +484,7 @@ namespace Files.App.Helpers
 					Command = commandsViewModel.RefreshCommand,
 					KeyboardAccelerator = new KeyboardAccelerator
 					{
-						Key = Windows.System.VirtualKey.F5,
+						Key = VirtualKey.F5,
 						IsEnabled = false,
 					}
 				},
@@ -504,8 +504,8 @@ namespace Files.App.Helpers
 					IsEnabled = currentInstanceViewModel.CanPasteInPage && App.AppModel.IsPasteEnabled,
 					KeyboardAccelerator = new KeyboardAccelerator
 					{
-						Key = Windows.System.VirtualKey.V,
-						Modifiers = Windows.System.VirtualKeyModifiers.Control,
+						Key = VirtualKey.V,
+						Modifiers = VirtualKeyModifiers.Control,
 						IsEnabled = false,
 					}
 				},
@@ -525,8 +525,8 @@ namespace Files.App.Helpers
 					},
 					KeyboardAccelerator = new KeyboardAccelerator
 					{
-						Key = Windows.System.VirtualKey.N,
-						Modifiers = Windows.System.VirtualKeyModifiers.Control,
+						Key = VirtualKey.N,
+						Modifiers = VirtualKeyModifiers.Control,
 						IsEnabled = false,
 					},
 					Items = GetNewItemItems(commandsViewModel, currentInstanceViewModel.CanCreateFileInPage),
@@ -623,7 +623,9 @@ namespace Files.App.Helpers
 
 			bool canDecompress = selectedItems.Any() && selectedItems.All(x => x.IsArchive)
 				|| selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.File && FileExtensionHelpers.IsZipFile(x.FileExtension));
+
 			bool canCompress = !canDecompress || selectedItems.Count > 1;
+
 			string newArchiveName =
 				Path.GetFileName(selectedItems.Count is 1 ? selectedItems[0].ItemPath : Path.GetDirectoryName(selectedItems[0].ItemPath))
 				?? string.Empty;
@@ -788,8 +790,8 @@ namespace Files.App.Helpers
 					IsPrimary = true,
 					KeyboardAccelerator = new KeyboardAccelerator
 					{
-						Key = Windows.System.VirtualKey.X,
-						Modifiers = Windows.System.VirtualKeyModifiers.Control,
+						Key = VirtualKey.X,
+						Modifiers = VirtualKeyModifiers.Control,
 						IsEnabled = false,
 					},
 					ShowInSearchPage = true,
@@ -813,8 +815,8 @@ namespace Files.App.Helpers
 					IsPrimary = true,
 					KeyboardAccelerator = new KeyboardAccelerator
 					{
-						Key = Windows.System.VirtualKey.C,
-						Modifiers = Windows.System.VirtualKeyModifiers.Control,
+						Key = VirtualKey.C,
+						Modifiers = VirtualKeyModifiers.Control,
 						IsEnabled = false,
 					},
 				},
@@ -851,8 +853,8 @@ namespace Files.App.Helpers
 					IsEnabled = App.AppModel.IsPasteEnabled,
 					KeyboardAccelerator = new KeyboardAccelerator
 					{
-						Key = Windows.System.VirtualKey.V,
-						Modifiers = Windows.System.VirtualKeyModifiers.Control,
+						Key = VirtualKey.V,
+						Modifiers = VirtualKeyModifiers.Control,
 						IsEnabled = false,
 					},
 				},
@@ -893,7 +895,7 @@ namespace Files.App.Helpers
 					ShowInZipPage = true,
 					KeyboardAccelerator = new KeyboardAccelerator
 					{
-						Key = Windows.System.VirtualKey.F2,
+						Key = VirtualKey.F2,
 						IsEnabled = false,
 					},
 				},
@@ -927,7 +929,7 @@ namespace Files.App.Helpers
 					ShowInZipPage = true,
 					KeyboardAccelerator = new KeyboardAccelerator
 					{
-						Key = Windows.System.VirtualKey.Delete,
+						Key = VirtualKey.Delete,
 						IsEnabled = false,
 					},
 				},
@@ -1121,8 +1123,10 @@ namespace Files.App.Helpers
 						// loading the bitmaps takes a while, so this caches them
 						byte[] bitmapData = Convert.FromBase64String(i.IconBase64);
 						using var ms = new MemoryStream(bitmapData);
+
 						var bitmap = new BitmapImage();
 						_ = bitmap.SetSourceAsync(ms.AsRandomAccessStream());
+
 						list.Add(new ContextMenuFlyoutItemViewModel()
 						{
 							Text = i.Name,

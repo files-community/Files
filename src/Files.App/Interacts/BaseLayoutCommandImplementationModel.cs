@@ -41,42 +41,35 @@ namespace Files.App.Interacts
 	public class BaseLayoutCommandImplementationModel : IBaseLayoutCommandImplementationModel
 	{
 		#region Singleton
+		private IBaseLayout SlimContentPage
+			=> associatedInstance?.SlimContentPage;
 
-		private IBaseLayout SlimContentPage => associatedInstance?.SlimContentPage;
-
-		private IFilesystemHelpers FilesystemHelpers => associatedInstance?.FilesystemHelpers;
-
+		private IFilesystemHelpers FilesystemHelpers
+			=> associatedInstance?.FilesystemHelpers;
 		#endregion Singleton
 
 		#region Private Members
-
 		private readonly IShellPage associatedInstance;
 
 		private readonly ItemManipulationModel itemManipulationModel;
-
 		#endregion Private Members
 
 		#region Constructor
-
 		public BaseLayoutCommandImplementationModel(IShellPage associatedInstance, ItemManipulationModel itemManipulationModel)
 		{
 			this.associatedInstance = associatedInstance;
 			this.itemManipulationModel = itemManipulationModel;
 		}
-
 		#endregion Constructor
 
 		#region IDisposable
-
 		public void Dispose()
 		{
 			//associatedInstance = null;
 		}
-
 		#endregion IDisposable
 
 		#region Command Implementation
-
 		public virtual void RenameItem(RoutedEventArgs e)
 		{
 			itemManipulationModel.StartRenameItem();
@@ -86,8 +79,10 @@ namespace Files.App.Interacts
 		{
 			foreach (ListedItem selectedItem in SlimContentPage.SelectedItems)
 			{
-				var filePath = Path.Combine(associatedInstance.FilesystemViewModel.WorkingDirectory,
-								string.Format("ShortcutCreateNewSuffix".GetLocalizedResource(), selectedItem.Name) + ".lnk");
+				var filePath = Path.Combine(
+					associatedInstance.FilesystemViewModel.WorkingDirectory,
+					string.Format("ShortcutCreateNewSuffix".GetLocalizedResource(),
+					selectedItem.Name) + ".lnk");
 
 				await FileOperationsHelpers.CreateOrUpdateLinkAsync(filePath, selectedItem.ItemPath);
 			}
@@ -106,6 +101,7 @@ namespace Files.App.Interacts
 		public virtual void SetAsSlideshowItem(RoutedEventArgs e)
 		{
 			var images = (from o in SlimContentPage.SelectedItems select o.ItemPath).ToArray();
+
 			WallpaperHelpers.SetSlideshow(images);
 		}
 
@@ -230,6 +226,7 @@ namespace Files.App.Interacts
 		{
 			var item = SlimContentPage.SelectedItem;
 			var folderPath = Path.GetDirectoryName(item.ItemPath.TrimEnd('\\'));
+
 			associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
 			{
 				NavPathParam = folderPath,
@@ -268,6 +265,7 @@ namespace Files.App.Interacts
 			{
 				var selectedItemPath = (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath;
 				var folderUri = new Uri($"files-uwp:?folder={@selectedItemPath}");
+
 				await Launcher.LaunchUriAsync(folderUri);
 			}
 		}
@@ -296,11 +294,16 @@ namespace Files.App.Interacts
 			{
 				if (SlimContentPage is not null)
 				{
-					var path = SlimContentPage.SelectedItem is not null ? SlimContentPage.SelectedItem.ItemPath : associatedInstance.FilesystemViewModel.WorkingDirectory;
+					var path = SlimContentPage.SelectedItem is not null
+						? SlimContentPage.SelectedItem.ItemPath
+						: associatedInstance.FilesystemViewModel.WorkingDirectory;
+
 					if (FtpHelpers.IsFtpPath(path))
 						path = path.Replace("\\", "/", StringComparison.Ordinal);
+
 					DataPackage data = new();
 					data.SetText(path);
+
 					Clipboard.SetContent(data);
 					Clipboard.Flush();
 				}
@@ -326,8 +329,8 @@ namespace Files.App.Interacts
 				List<IStorageItem> items = new();
 				DataRequest dataRequest = args.Request;
 
-				/*dataRequest.Data.Properties.Title = "Data Shared From Files";
-				dataRequest.Data.Properties.Description = "The items you selected will be shared";*/
+				//dataRequest.Data.Properties.Title = "Data Shared From Files";
+				//dataRequest.Data.Properties.Description = "The items you selected will be shared";
 
 				foreach (ListedItem item in SlimContentPage.SelectedItems)
 				{
@@ -339,6 +342,7 @@ namespace Files.App.Interacts
 							dataRequest.Data.Properties.Description = "ShareDialogSingleItemDescription".GetLocalizedResource();
 							dataRequest.Data.SetWebLink(new Uri(shItem.TargetPath));
 							dataRequestDeferral.Complete();
+
 							return;
 						}
 					}
@@ -432,9 +436,11 @@ namespace Files.App.Interacts
 		{
 			if (e.KeyModifiers == VirtualKeyModifiers.Control)
 			{
-				if (e.GetCurrentPoint(null).Properties.MouseWheelDelta < 0) // Mouse wheel down
+				// Mouse wheel down
+				if (e.GetCurrentPoint(null).Properties.MouseWheelDelta < 0)
 					GridViewSizeDecrease(null);
-				else // Mouse wheel up
+				// Mouse wheel up
+				else
 					GridViewSizeIncrease(null);
 
 				e.Handled = true;
@@ -444,7 +450,11 @@ namespace Files.App.Interacts
 		public virtual void GridViewSizeDecrease(KeyboardAcceleratorInvokedEventArgs e)
 		{
 			if (associatedInstance.IsCurrentInstance)
-				associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize - Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Smaller
+				// Make Smaller
+				associatedInstance.InstanceViewModel.FolderSettings.GridViewSize =
+					associatedInstance.InstanceViewModel.FolderSettings.GridViewSize -
+					Constants.Browser.GridViewBrowser.GridViewIncrement;
+
 			if (e is not null)
 				e.Handled = true;
 		}
@@ -452,7 +462,11 @@ namespace Files.App.Interacts
 		public virtual void GridViewSizeIncrease(KeyboardAcceleratorInvokedEventArgs e)
 		{
 			if (associatedInstance.IsCurrentInstance)
-				associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize + Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Larger
+				// Make Larger
+				associatedInstance.InstanceViewModel.FolderSettings.GridViewSize =
+					associatedInstance.InstanceViewModel.FolderSettings.GridViewSize +
+					Constants.Browser.GridViewBrowser.GridViewIncrement;
+
 			if (e is not null)
 				e.Handled = true;
 		}
@@ -583,6 +597,7 @@ namespace Files.App.Interacts
 			{
 				FileName = fileName,
 			};
+
 			await dialog.ShowAsync();
 
 			if (!dialog.CanCreate)
@@ -691,11 +706,13 @@ namespace Files.App.Interacts
 				);
 			}
 		}
+
 		public async Task DecompressArchive()
 		{
-			BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(associatedInstance.SlimContentPage.SelectedItems.Count != 0
-				? associatedInstance.SlimContentPage.SelectedItem.ItemPath
-				: associatedInstance.FilesystemViewModel.WorkingDirectory);
+			BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(
+				associatedInstance.SlimContentPage.SelectedItems.Count != 0
+					? associatedInstance.SlimContentPage.SelectedItem.ItemPath
+					: associatedInstance.FilesystemViewModel.WorkingDirectory);
 
 			if (archive is null)
 				return;
@@ -709,6 +726,7 @@ namespace Files.App.Interacts
 				IsArchiveEncrypted = isArchiveEncrypted,
 				ShowPathSelection = true
 			};
+
 			decompressArchiveDialog.ViewModel = decompressArchiveViewModel;
 
 			ContentDialogResult option = await decompressArchiveDialog.TryShowAsync();
@@ -748,16 +766,19 @@ namespace Files.App.Interacts
 				if (await FilesystemTasks.Wrap(() => ZipHelpers.IsArchiveEncrypted(archive)))
 				{
 					DecompressArchiveDialog decompressArchiveDialog = new();
+
 					DecompressArchiveDialogViewModel decompressArchiveViewModel = new(archive)
 					{
 						IsArchiveEncrypted = true,
 						ShowPathSelection = false
 					};
+
 					decompressArchiveDialog.ViewModel = decompressArchiveViewModel;
 
 					ContentDialogResult option = await decompressArchiveDialog.TryShowAsync();
 					if (option != ContentDialogResult.Primary)
 						return;
+
 					password = Encoding.UTF8.GetString(decompressArchiveViewModel.Password);
 				}
 
@@ -777,16 +798,19 @@ namespace Files.App.Interacts
 				if (await FilesystemTasks.Wrap(() => ZipHelpers.IsArchiveEncrypted(archive)))
 				{
 					DecompressArchiveDialog decompressArchiveDialog = new();
+
 					DecompressArchiveDialogViewModel decompressArchiveViewModel = new(archive)
 					{
 						IsArchiveEncrypted = true,
 						ShowPathSelection = false
 					};
+
 					decompressArchiveDialog.ViewModel = decompressArchiveViewModel;
 
 					ContentDialogResult option = await decompressArchiveDialog.TryShowAsync();
 					if (option != ContentDialogResult.Primary)
 						return;
+
 					password = Encoding.UTF8.GetString(decompressArchiveViewModel.Password);
 				}
 
@@ -814,7 +838,14 @@ namespace Files.App.Interacts
 			Stopwatch sw = new();
 			sw.Start();
 
-			await FilesystemTasks.Wrap(() => ZipHelpers.ExtractArchive(archive, destinationFolder, password, banner.Progress, extractCancellation.Token));
+			await FilesystemTasks.Wrap(()
+				=> ZipHelpers.ExtractArchive(
+					archive,
+					destinationFolder,
+					password,
+					banner.Progress,
+					extractCancellation.Token)
+				);
 
 			sw.Stop();
 			banner.Remove();
@@ -861,7 +892,6 @@ namespace Files.App.Interacts
 
 			return Task.CompletedTask;
 		}
-
 		#endregion Command Implementation
 	}
 }

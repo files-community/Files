@@ -77,6 +77,7 @@ namespace Files.App.Helpers
 				if (FilesystemHelpers.ContainsRestrictedCharacters(args.NewText))
 				{
 					args.Cancel = true;
+
 					await inputText.DispatcherQueue.EnqueueAsync(() =>
 					{
 						var oldSelection = textBox.SelectionStart + textBox.SelectionLength;
@@ -105,7 +106,7 @@ namespace Files.App.Helpers
 
 			inputText.Loaded += (s, e) =>
 			{
-				// dispatching to the ui thread fixes an issue where the primary dialog button would steal focus
+				// Dispatching to the ui thread fixes an issue where the primary dialog button would steal focus
 				_ = inputText.DispatcherQueue.EnqueueAsync(() => inputText.Focus(Microsoft.UI.Xaml.FocusState.Programmatic));
 			};
 
@@ -131,7 +132,8 @@ namespace Files.App.Helpers
 				},
 				PrimaryButtonAction = (vm, e) =>
 				{
-					vm.HideDialog(); // Rename successful
+					// Rename successful
+					vm.HideDialog();
 				},
 				PrimaryButtonText = "RenameDialog/PrimaryButtonText".GetLocalizedResource(),
 				CloseButtonText = "Cancel".GetLocalizedResource(),
@@ -147,11 +149,13 @@ namespace Files.App.Helpers
 			DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
 			{
 				TitleText = "FileInUseDialog/Title".GetLocalizedResource(),
-				SubtitleText = lockingProcess.IsEmpty() ? "FileInUseDialog/Text".GetLocalizedResource() :
-					string.Format("FileInUseByDialog/Text".GetLocalizedResource(), string.Join(", ", lockingProcess.Select(x => $"{x.AppName ?? x.Name} (PID: {x.Pid})"))),
-				PrimaryButtonText = "OK",
+                SubtitleText = lockingProcess.IsEmpty()
+                    ? "FileInUseDialog/Text".GetLocalizedResource()
+                    : string.Format("FileInUseByDialog/Text".GetLocalizedResource(), string.Join(", ", lockingProcess.Select(x => $"{x.AppName ?? x.Name} (PID: {x.Pid})"))),
+                PrimaryButtonText = "OK",
 				DynamicButtons = DynamicDialogButtons.Primary
 			});
+
 			return dialog;
 		}
 	}

@@ -27,10 +27,11 @@ namespace Files.App.Helpers
 		{
 			if (!string.IsNullOrEmpty(path))
 			{
-				return path.StartsWith("ftp://", StringComparison.OrdinalIgnoreCase)
-					|| path.StartsWith("ftps://", StringComparison.OrdinalIgnoreCase)
-					|| path.StartsWith("ftpes://", StringComparison.OrdinalIgnoreCase);
+				return path.StartsWith("ftp://", StringComparison.OrdinalIgnoreCase) ||
+					path.StartsWith("ftps://", StringComparison.OrdinalIgnoreCase) ||
+					path.StartsWith("ftpes://", StringComparison.OrdinalIgnoreCase);
 			}
+
 			return false;
 		}
 

@@ -89,7 +89,8 @@ namespace Files.App.Helpers
 
 				appWindow.Show();
 
-				if (true) // WINUI3: move window to cursor position
+				// WINUI3: move window to cursor position
+				if (true)
 				{
 					UWPToWinAppSDKUpgradeHelpers.InteropHelpers.GetCursorPos(out var pointerPosition);
 					var displayArea = DisplayArea.GetFromPoint(new PointInt32(pointerPosition.X, pointerPosition.Y), DisplayAreaFallback.Nearest);
@@ -100,6 +101,7 @@ namespace Files.App.Helpers
 						Y = displayArea.WorkArea.Y
 							+ Math.Max(0, Math.Min(displayArea.WorkArea.Height - appWindow.Size.Height, pointerPosition.Y - displayArea.WorkArea.Y)),
 					};
+
 					appWindow.Move(appWindowPos);
 				}
 			}
@@ -118,6 +120,7 @@ namespace Files.App.Helpers
 					Item = item,
 					AppInstanceArgument = associatedInstance,
 				};
+
 				frame.Navigate(typeof(Properties), argument, new SuppressNavigationTransitionInfo());
 			}
 		}

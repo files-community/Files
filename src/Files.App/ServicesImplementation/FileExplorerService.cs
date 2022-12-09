@@ -43,10 +43,11 @@ namespace Files.App.ServicesImplementation
 			return file is null ? null : new WindowsStorageFile(file);
 		}
 
-		// WINUI3
+		// WinUI3
 		private FileOpenPicker InitializeWithWindow(FileOpenPicker obj)
 		{
 			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+
 			return obj;
 		}
 
@@ -63,10 +64,11 @@ namespace Files.App.ServicesImplementation
 			return folder is null ? null : new WindowsStorageFolder(folder);
 		}
 
-		// WINUI3
+		// WinUI3
 		private FolderPicker InitializeWithWindow(FolderPicker obj)
 		{
 			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+
 			return obj;
 		}
 	}

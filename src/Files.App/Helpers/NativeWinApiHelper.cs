@@ -42,7 +42,8 @@ namespace Files.App.Helpers
 			IntPtr pvReserved,
 			IntPtr pPromptStruct,
 			CryptProtectFlags dwFlags,
-			out CRYPTOAPI_BLOB pDataOut);
+			out CRYPTOAPI_BLOB pDataOut
+		);
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct TOKEN_USER
@@ -209,9 +210,10 @@ namespace Files.App.Helpers
 
 		[DllImport("api-ms-win-core-wow64-l1-1-1.dll", SetLastError = true)]
 		private static extern bool IsWow64Process2(
-				IntPtr process,
-				out ushort processMachine,
-				out ushort nativeMachine);
+			IntPtr process,
+			out ushort processMachine,
+			out ushort nativeMachine
+		);
 
 		// https://stackoverflow.com/questions/54456140/how-to-detect-were-running-under-the-arm64-version-of-windows-10-in-net
 		// https://docs.microsoft.com/en-us/windows/win32/sysinfo/image-file-machine-constants
@@ -224,8 +226,10 @@ namespace Files.App.Helpers
 				if (isRunningOnArm is null)
 				{
 					isRunningOnArm = IsArmProcessor();
+
 					App.Logger.Info("Running on ARM: {0}", isRunningOnArm);
 				}
+
 				return isRunningOnArm ?? false;
 			}
 		}
@@ -237,10 +241,11 @@ namespace Files.App.Helpers
 			{
 				return false;
 			}
+
 			return (nativeMachine == 0xaa64 ||
-					nativeMachine == 0x01c0 ||
-					nativeMachine == 0x01c2 ||
-					nativeMachine == 0x01c4);
+				nativeMachine == 0x01c0 ||
+				nativeMachine == 0x01c2 ||
+				nativeMachine == 0x01c4);
 		}
 
 		private static bool? isHasThreadAccessPropertyPresent = null;
@@ -250,6 +255,7 @@ namespace Files.App.Helpers
 			get
 			{
 				isHasThreadAccessPropertyPresent ??= ApiInformation.IsPropertyPresent(typeof(DispatcherQueue).FullName,"HasThreadAccess");
+
 				return isHasThreadAccessPropertyPresent ?? false;
 			}
 		}

@@ -10,9 +10,7 @@ namespace Files.App.Helpers
 	public class SecondaryTileHelper
 	{
 		public bool CheckFolderPinned(string path)
-		{
-			return SecondaryTile.Exists(GetTileID(path));
-		}
+			=> SecondaryTile.Exists(GetTileID(path));
 
 		/// <summary>
 		/// Gets a unique tile-id to be used from a folder path
@@ -28,12 +26,14 @@ namespace Files.App.Helpers
 				// if the id string is too long, Windows will throw an error, so remove every other character
 				str = new string(str.Where((x, i) => i % 2 == 0).ToArray());
 			}
+
 			return str;
 		}
 
 		public async Task<bool> TryPinFolderAsync(string path, string name)
 		{
 			var result = false;
+
 			try
 			{
 				Uri Path150x150 = new Uri("ms-appx:///Assets/tile-0-300x300.png");
@@ -61,12 +61,11 @@ namespace Files.App.Helpers
 		private SecondaryTile InitializeWithWindow(SecondaryTile obj)
 		{
 			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+
 			return obj;
 		}
 
 		public async Task<bool> UnpinFromStartAsync(string path)
-		{
-			return await StartScreenManager.GetDefault().TryRemoveSecondaryTileAsync(GetTileID(path));
-		}
+			=> await StartScreenManager.GetDefault().TryRemoveSecondaryTileAsync(GetTileID(path));
 	}
 }

@@ -16,11 +16,7 @@ namespace Files.App.Helpers
 {
 	public class RecycleBinHelpers
 	{
-		#region Private Members
-
 		private static readonly Regex recycleBinPathRegex = new Regex(@"^[A-Z]:\\\$Recycle\.Bin\\", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
-
-		#endregion Private Members
 
 		public async Task<List<ShellFileItem>> EnumerateRecycleBin()
 		{
@@ -30,12 +26,14 @@ namespace Files.App.Helpers
 		public async Task<bool> IsRecycleBinItem(IStorageItem item)
 		{
 			List<ShellFileItem> recycleBinItems = await EnumerateRecycleBin();
+
 			return recycleBinItems.Any((shellItem) => shellItem.RecyclePath == item.Path);
 		}
 
 		public async Task<bool> IsRecycleBinItem(string path)
 		{
 			List<ShellFileItem> recycleBinItems = await EnumerateRecycleBin();
+
 			return recycleBinItems.Any((shellItem) => shellItem.RecyclePath == path);
 		}
 
@@ -59,6 +57,7 @@ namespace Files.App.Helpers
 				SecondaryButtonText = "Cancel".GetLocalizedResource(),
 				DefaultButton = ContentDialogButton.Primary
 			};
+
 			ContentDialogResult result = await this.SetContentDialogRoot(ConfirmEmptyBinDialog).ShowAsync();
 
 			if (result == ContentDialogResult.Primary)
@@ -73,6 +72,7 @@ namespace Files.App.Helpers
 
 				bool opSucceded = Shell32.SHEmptyRecycleBin(IntPtr.Zero, null, Shell32.SHERB.SHERB_NOCONFIRMATION | Shell32.SHERB.SHERB_NOPROGRESSUI).Succeeded;
 				banner.Remove();
+
 				if (opSucceded)
 					App.OngoingTasksViewModel.PostBanner(
 						bannerTitle,
@@ -137,13 +137,14 @@ namespace Files.App.Helpers
 				await this.RestoreItem(associatedInstance);
 		}
 
-		//WINUI3
+		// WinUI3
 		private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
 		{
 			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
 			{
 				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
 			}
+
 			return contentDialog;
 		}
 
@@ -176,6 +177,7 @@ namespace Files.App.Helpers
 					item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory),
 				Dest = ((RecycleBinItem)item).ItemOriginalPath
 			});
+
 			await associatedInstance.FilesystemHelpers.RestoreItemsFromTrashAsync(items.Select(x => x.Source), items.Select(x => x.Dest), true);
 		}
 
@@ -189,6 +191,7 @@ namespace Files.App.Helpers
 			var items = associatedInstance.SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
 				item.ItemPath,
 				item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
+
 			await associatedInstance.FilesystemHelpers.DeleteItemsAsync(items, true, false, true);
 		}
 	}

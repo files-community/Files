@@ -35,11 +35,13 @@ namespace Files.App.Helpers
 				}
 
 				Debug.WriteLine($"App {packageName}, query status: {result}, installed: {appInstalled}");
+
 				return appInstalled;
 			}
 			catch (Exception ex)
 			{
 				Debug.WriteLine($"Error checking if app {packageName} is installed. Error: {ex}");
+
 				return false;
 			}
 		}

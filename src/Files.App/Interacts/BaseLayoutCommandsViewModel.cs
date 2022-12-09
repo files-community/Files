@@ -10,20 +10,17 @@ namespace Files.App.Interacts
 	public class BaseLayoutCommandsViewModel : IDisposable
 	{
 		#region Constructor
-
 		public BaseLayoutCommandsViewModel(IBaseLayoutCommandImplementationModel commandsModel)
 		{
 			this.CommandsModel = commandsModel;
 
 			InitializeCommands();
 		}
-
 		#endregion Constructor
 
 		public IBaseLayoutCommandImplementationModel CommandsModel { get; }
 
 		#region Command Initialization
-
 		private void InitializeCommands()
 		{
 			RenameItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RenameItem);
@@ -81,11 +78,9 @@ namespace Files.App.Interacts
 			RotateImageRightCommand = new AsyncRelayCommand(CommandsModel.RotateImageRight);
 			InstallFontCommand = new AsyncRelayCommand(CommandsModel.InstallFont);
 		}
-
 		#endregion Command Initialization
 
 		#region Commands
-
 		public ICommand RenameItemCommand { get; private set; }
 
 		public ICommand CreateShortcutCommand { get; private set; }
@@ -193,16 +188,13 @@ namespace Files.App.Interacts
 		public ICommand RotateImageRightCommand { get; private set; }
 
 		public ICommand InstallFontCommand { get; private set; }
-
 		#endregion Commands
 
 		#region IDisposable
-
 		public void Dispose()
 		{
 			CommandsModel?.Dispose();
 		}
-
 		#endregion IDisposable
 	}
 }

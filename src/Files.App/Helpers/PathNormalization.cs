@@ -8,14 +8,15 @@ namespace Files.App.Helpers
 		public static string GetPathRoot(string path)
 		{
 			if (string.IsNullOrEmpty(path))
-			{
 				return "";
-			}
+
 			string rootPath = "";
+
 			try
 			{
 				var pathAsUri = new Uri(path.Replace("\\", "/", StringComparison.Ordinal));
 				rootPath = pathAsUri.GetLeftPart(UriPartial.Authority);
+
 				if (pathAsUri.IsFile && !string.IsNullOrEmpty(rootPath))
 				{
 					rootPath = new Uri(rootPath).LocalPath;
@@ -24,10 +25,12 @@ namespace Files.App.Helpers
 			catch (UriFormatException)
 			{
 			}
+
 			if (string.IsNullOrEmpty(rootPath))
 			{
 				rootPath = Path.GetPathRoot(path);
 			}
+
 			return rootPath;
 		}
 
@@ -37,6 +40,7 @@ namespace Files.App.Helpers
 			{
 				return path;
 			}
+
 			if (path.StartsWith("\\\\", StringComparison.Ordinal) || path.StartsWith("//", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(path))
 			{
 				return path.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar).ToUpperInvariant();
@@ -73,6 +77,7 @@ namespace Files.App.Helpers
 			{
 				return string.Empty;
 			}
+
 			var index = path.Contains('/', StringComparison.Ordinal) ? path.LastIndexOf("/", StringComparison.Ordinal) : path.LastIndexOf("\\", StringComparison.Ordinal);
 			return path.Substring(0, index != -1 ? index : path.Length);
 		}
@@ -83,6 +88,7 @@ namespace Files.App.Helpers
 			{
 				return name;
 			}
+
 			return folder.Contains('/', StringComparison.Ordinal) ? Path.Combine(folder, name).Replace("\\", "/", StringComparison.Ordinal) : Path.Combine(folder, name);
 		}
 	}

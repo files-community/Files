@@ -23,8 +23,9 @@ namespace Files.App.Helpers
 
 			var menuItemsList = new List<ContextMenuFlyoutItemViewModel>();
 
-			var filePaths = IsItemSelected ?
-				selectedItems.Select(x => x.ItemPath).ToArray() : new[] { workingDirectory };
+			var filePaths = IsItemSelected
+				? selectedItems.Select(x => x.ItemPath).ToArray()
+				: new[] { workingDirectory };
 
 			Func<string, bool> FilterMenuItems(bool showOpenMenu)
 			{
@@ -37,44 +38,43 @@ namespace Files.App.Helpers
 					"eject", "rename", "explore", "openinfiles", "extract",
 					"copyaspath", "undelete", "empty",
 					Win32API.ExtractStringFromDLL("shell32.dll", 30312), // SendTo menu
-                    Win32API.ExtractStringFromDLL("shell32.dll", 34593), // Add to collection
-                };
+					Win32API.ExtractStringFromDLL("shell32.dll", 34593), // Add to collection
+				};
 
-				bool filterMenuItemsImpl(string menuItem) => !string.IsNullOrEmpty(menuItem)
-					&& (knownItems.Contains(menuItem) || (!showOpenMenu && menuItem.Equals("open", StringComparison.OrdinalIgnoreCase)));
+				bool filterMenuItemsImpl(string menuItem) => !string.IsNullOrEmpty(menuItem) &&
+					(knownItems.Contains(menuItem) || (!showOpenMenu &&
+					menuItem.Equals("open", StringComparison.OrdinalIgnoreCase)));
 
 				return filterMenuItemsImpl;
 			}
 
-			var contextMenu = await ContextMenu.GetContextMenuForFiles(filePaths,
-				(shiftPressed ? Shell32.CMF.CMF_EXTENDEDVERBS : Shell32.CMF.CMF_NORMAL) | Shell32.CMF.CMF_SYNCCASCADEMENU, FilterMenuItems(showOpenMenu));
+			var contextMenu = await ContextMenu.GetContextMenuForFiles(
+				filePaths,
+				(shiftPressed ? Shell32.CMF.CMF_EXTENDEDVERBS : Shell32.CMF.CMF_NORMAL) | Shell32.CMF.CMF_SYNCCASCADEMENU,
+				FilterMenuItems(showOpenMenu));
 
 			if (contextMenu is not null)
-			{
 				LoadMenuFlyoutItem(menuItemsList, contextMenu, contextMenu.Items, cancellationToken, true);
-			}
 
 			if (cancellationToken.IsCancellationRequested)
-			{
 				menuItemsList.Clear();
-			}
 
 			return menuItemsList;
 		}
 
-		public static void LoadMenuFlyoutItem(IList<ContextMenuFlyoutItemViewModel> menuItemsListLocal,
-								ContextMenu contextMenu,
-								IEnumerable<Win32ContextMenuItem> menuFlyoutItems,
-								CancellationToken cancellationToken,
-								bool showIcons = true,
-								int itemsBeforeOverflow = int.MaxValue)
+		public static void LoadMenuFlyoutItem(
+			IList<ContextMenuFlyoutItemViewModel> menuItemsListLocal,
+			ContextMenu contextMenu,
+			IEnumerable<Win32ContextMenuItem> menuFlyoutItems,
+			CancellationToken cancellationToken,
+			bool showIcons = true,
+			int itemsBeforeOverflow = int.MaxValue)
 		{
 			if (cancellationToken.IsCancellationRequested)
-			{
 				return;
-			}
 
-			var itemsCount = 0; // Separators do not count for reaching the overflow threshold
+			// Separators do not count for reaching the overflow threshold
+			var itemsCount = 0;
 			var menuItems = menuFlyoutItems.TakeWhile(x => x.Type == MenuItemType.MFT_SEPARATOR || ++itemsCount <= itemsBeforeOverflow).ToList();
 			var overflowItems = menuFlyoutItems.Except(menuItems).ToList();
 
@@ -88,6 +88,7 @@ namespace Files.App.Helpers
 						Text = "ContextMenuMoreItemsLabel".GetLocalizedResource(),
 						Glyph = "\xE712",
 					};
+
 					LoadMenuFlyoutItem(menuLayoutSubItem.Items, contextMenu, overflowItems, cancellationToken, showIcons);
 					menuItemsListLocal.Insert(0, menuLayoutSubItem);
 				}
@@ -96,29 +97,28 @@ namespace Files.App.Helpers
 					LoadMenuFlyoutItem(moreItem.Items, contextMenu, overflowItems, cancellationToken, showIcons);
 				}
 			}
+
 			foreach (var menuFlyoutItem in menuItems
 				.SkipWhile(x => x.Type == MenuItemType.MFT_SEPARATOR) // Remove leading separators
 				.Reverse()
 				.SkipWhile(x => x.Type == MenuItemType.MFT_SEPARATOR)) // Remove trailing separators
 			{
 				if (cancellationToken.IsCancellationRequested)
-				{
 					break;
-				}
 
 				if ((menuFlyoutItem.Type == MenuItemType.MFT_SEPARATOR) && (menuItemsListLocal.FirstOrDefault().ItemType == ItemType.Separator))
-				{
 					// Avoid duplicate separators
 					continue;
-				}
 
 				BitmapImage image = null;
+
 				if (showIcons)
 				{
 					if (menuFlyoutItem.Icon is { Length: > 0 })
 					{
 						image = new BitmapImage();
 						using var ms = new MemoryStream(menuFlyoutItem.Icon);
+
 						image.SetSourceAsync(ms.AsRandomAccessStream()).AsTask().Wait(10);
 					}
 				}
@@ -130,10 +130,12 @@ namespace Files.App.Helpers
 						ItemType = ItemType.Separator,
 						Tag = menuFlyoutItem
 					};
+
 					menuItemsListLocal.Insert(0, menuLayoutItem);
 				}
-				else if (menuFlyoutItem.SubItems.Where(x => x.Type != MenuItemType.MFT_SEPARATOR).Any()
-					&& !string.IsNullOrEmpty(menuFlyoutItem.Label))
+				else if (menuFlyoutItem.SubItems.Where(x
+					=> x.Type != MenuItemType.MFT_SEPARATOR).Any() &&
+					!string.IsNullOrEmpty(menuFlyoutItem.Label))
 				{
 					var menuLayoutSubItem = new ContextMenuFlyoutItemViewModel()
 					{
@@ -141,6 +143,7 @@ namespace Files.App.Helpers
 						Tag = menuFlyoutItem,
 						Items = new List<ContextMenuFlyoutItemViewModel>(),
 					};
+
 					LoadMenuFlyoutItem(menuLayoutSubItem.Items, contextMenu, menuFlyoutItem.SubItems, cancellationToken, showIcons);
 					menuItemsListLocal.Insert(0, menuLayoutSubItem);
 				}
@@ -152,6 +155,7 @@ namespace Files.App.Helpers
 						Tag = menuFlyoutItem,
 						BitmapIcon = image
 					};
+
 					menuLayoutItem.Command = new RelayCommand<object>(x => InvokeShellMenuItem(contextMenu, x));
 					menuLayoutItem.CommandParameter = menuFlyoutItem;
 					menuItemsListLocal.Insert(0, menuLayoutItem);
@@ -164,6 +168,7 @@ namespace Files.App.Helpers
 
 				var menuId = menuItem.ID;
 				var isFont = new[] { ".fon", ".otf", ".ttc", ".ttf" }.Contains(Path.GetExtension(contextMenu.ItemsPath[0]), StringComparer.OrdinalIgnoreCase);
+
 				var verb = menuItem.CommandString;
 				switch (verb)
 				{
@@ -197,7 +202,8 @@ namespace Files.App.Helpers
 						break;
 				}
 
-				//contextMenu.Dispose(); // Prevents some menu items from working (TBC)
+				// Prevents some menu items from working (TBC)
+				//contextMenu.Dispose();
 			}
 		}
 
@@ -205,6 +211,7 @@ namespace Files.App.Helpers
 		{
 			var item = flyout.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "openas" });
 			flyout.Remove(item);
+
 			return item?.Items;
 		}
 	}

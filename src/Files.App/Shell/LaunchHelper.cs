@@ -27,6 +27,7 @@ namespace Files.App.Shell
 		{
 			var afPath = Path.Combine(Path.GetTempPath(), "CompatibilityTroubleshooterAnswerFile.xml");
 			File.WriteAllText(afPath, string.Format("<?xml version=\"1.0\" encoding=\"UTF-8\"?><Answers Version=\"1.0\"><Interaction ID=\"IT_LaunchMethod\"><Value>CompatTab</Value></Interaction><Interaction ID=\"IT_BrowseForFile\"><Value>{0}</Value></Interaction></Answers>", filePath));
+
 			return HandleApplicationLaunch("msdt.exe", $"/id PCWDiagnostic /af \"{afPath}\"", "");
 		}
 
@@ -47,10 +48,12 @@ namespace Files.App.Shell
 				process.StartInfo.FileName = application;
 				// Show window if workingDirectory (opening terminal)
 				process.StartInfo.CreateNoWindow = string.IsNullOrEmpty(workingDirectory);
+
 				if (arguments == "runas")
 				{
 					process.StartInfo.UseShellExecute = true;
 					process.StartInfo.Verb = "runas";
+
 					if (string.Equals(Path.GetExtension(application), ".msi", StringComparison.OrdinalIgnoreCase))
 					{
 						process.StartInfo.FileName = "msiexec.exe";
@@ -61,6 +64,7 @@ namespace Files.App.Shell
 				{
 					process.StartInfo.UseShellExecute = true;
 					process.StartInfo.Verb = "runasuser";
+
 					if (string.Equals(Path.GetExtension(application), ".msi", StringComparison.OrdinalIgnoreCase))
 					{
 						process.StartInfo.FileName = "msiexec.exe";
@@ -70,18 +74,24 @@ namespace Files.App.Shell
 				else
 				{
 					process.StartInfo.Arguments = arguments;
+
 					// Refresh env variables for the child process
 					foreach (DictionaryEntry ent in Environment.GetEnvironmentVariables(EnvironmentVariableTarget.Machine))
 						process.StartInfo.EnvironmentVariables[(string)ent.Key] = (string)ent.Value;
+
 					foreach (DictionaryEntry ent in Environment.GetEnvironmentVariables(EnvironmentVariableTarget.User))
 						process.StartInfo.EnvironmentVariables[(string)ent.Key] = (string)ent.Value;
-					process.StartInfo.EnvironmentVariables["PATH"] = string.Join(';',
+
+					process.StartInfo.EnvironmentVariables["PATH"] = string.Join(
+						';',
 						Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Machine),
 						Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.User));
 				}
+
 				process.StartInfo.WorkingDirectory = workingDirectory;
 				process.Start();
 				Win32API.BringToForeground(currentWindows);
+
 				return true;
 			}
 			catch (Win32Exception)
@@ -92,10 +102,12 @@ namespace Files.App.Shell
 				process.StartInfo.CreateNoWindow = true;
 				process.StartInfo.Arguments = arguments;
 				process.StartInfo.WorkingDirectory = workingDirectory;
+
 				try
 				{
 					process.Start();
 					Win32API.BringToForeground(currentWindows);
+
 					return true;
 				}
 				catch (Win32Exception)
@@ -117,12 +129,12 @@ namespace Files.App.Shell
 									Dir = Path.GetDirectoryName(x),
 									Prog = Win32API.GetFileAssociationAsync(x).Result ?? Path.GetExtension(x)
 								});
+
 								foreach (var group in groups)
 								{
 									if (!group.Any())
-									{
 										continue;
-									}
+
 									using var cMenu = await ContextMenu.GetContextMenuForFiles(group.ToArray(), Shell32.CMF.CMF_DEFAULTONLY);
 									if (cMenu is not null)
 									{
@@ -130,8 +142,10 @@ namespace Files.App.Shell
 									}
 								}
 							}
+
 							return true;
 						});
+
 						if (!opened)
 						{
 							if (application.StartsWith(@"\\SHELL\", StringComparison.Ordinal))
@@ -143,10 +157,12 @@ namespace Files.App.Shell
 									{
 										await cMenu.InvokeItem(cMenu.Items.FirstOrDefault()?.ID ?? -1);
 									}
+
 									return true;
 								});
 							}
 						}
+
 						if (!opened)
 						{
 							var isAlternateStream = Regex.IsMatch(application, @"\w:\w");
@@ -168,10 +184,12 @@ namespace Files.App.Shell
 										await inStream.CopyToAsync(outStream);
 										await outStream.FlushAsync();
 									}
+
 									opened = await HandleApplicationLaunch(tempPath, arguments, workingDirectory);
 								}
 							}
 						}
+
 						return opened;
 					}
 					catch (Win32Exception)
@@ -207,8 +225,10 @@ namespace Files.App.Shell
 				using var device = computer.FirstOrDefault(i => executable.Replace("\\\\?\\", "", StringComparison.Ordinal).StartsWith(i.Name, StringComparison.Ordinal));
 				var deviceId = device?.ParsingName;
 				var itemPath = Regex.Replace(executable, @"^\\\\\?\\[^\\]*\\?", "");
+
 				return deviceId is not null ? Path.Combine(deviceId, itemPath) : executable;
 			}
+
 			return executable;
 		}
 	}

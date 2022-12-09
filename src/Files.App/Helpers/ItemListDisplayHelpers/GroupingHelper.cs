@@ -40,23 +40,25 @@ namespace Files.App.Helpers
 					var first = x.First();
 					x.Model.Text = first.ItemType;
 					x.Model.Subtext = first.FileExtension;
+
 					if (first.IsShortcut)
 					{
 						x.Model.Icon = "\uE71B";
 					}
+
 					if (first.PrimaryItemAttribute != StorageItemTypes.Folder)
 					{
 						// Always show file sections below folders
 						x.Model.SortIndexOverride = 1;
 					}
-				}, x =>
+				},
+				x =>
 				{
 					ListedItem first = x.First();
 					var model = x.Model;
 
 					model.Text = first.ItemType;
-				}
-				),
+				}),
 				GroupOption.Size => (x =>
 				{
 					var first = x.First();
@@ -77,13 +79,12 @@ namespace Files.App.Helpers
 					x.Model.SortIndexOverride = vals.Index;
 				}, null),
 				GroupOption.DateModified => (x =>
-					{
-						var vals = dateTimeFormatter.ToTimeSpanLabel(x.First().ItemDateModifiedReal);
-						x.Model.Subtext = vals.Text;
-						x.Model.Icon = vals.Glyph;
-						x.Model.SortIndexOverride = vals.Index;
-					}, null),
-
+				{
+					var vals = dateTimeFormatter.ToTimeSpanLabel(x.First().ItemDateModifiedReal);
+					x.Model.Subtext = vals.Text;
+					x.Model.Icon = vals.Glyph;
+					x.Model.SortIndexOverride = vals.Index;
+				}, null),
 				GroupOption.SyncStatus => (x =>
 				{
 					ListedItem first = x.First();
@@ -91,7 +92,6 @@ namespace Files.App.Helpers
 					x.Model.Text = first.SyncStatusString;
 					x.Model.Icon = first?.SyncStatusUI.Glyph;
 				}, null),
-
 				GroupOption.FileTag => (x =>
 				{
 					ListedItem first = x.First();
@@ -99,25 +99,22 @@ namespace Files.App.Helpers
 					x.Model.Text = first.FileTagsUI?.FirstOrDefault()?.TagName ?? "None".GetLocalizedResource();
 					//x.Model.Icon = first.FileTagsUI?.FirstOrDefault()?.Color;
 				}, null),
-
 				GroupOption.DateDeleted => (x =>
-					{
-						var vals = dateTimeFormatter.ToTimeSpanLabel((x.First() as RecycleBinItem)?.ItemDateDeletedReal ?? DateTimeOffset.Now);
-						x.Model.Subtext = vals?.Text;
-						x.Model.Icon = vals?.Glyph;
-						x.Model.SortIndexOverride = vals?.Index ?? 0;
-					}, null),
-
+				{
+					var vals = dateTimeFormatter.ToTimeSpanLabel((x.First() as RecycleBinItem)?.ItemDateDeletedReal ?? DateTimeOffset.Now);
+					x.Model.Subtext = vals?.Text;
+					x.Model.Icon = vals?.Glyph;
+					x.Model.SortIndexOverride = vals?.Index ?? 0;
+				}, null),
 				GroupOption.OriginalFolder => (x =>
-					{
-						ListedItem first = x.First();
-						var model = x.Model;
-						model.ShowCountTextBelow = true;
+				{
+					ListedItem first = x.First();
+					var model = x.Model;
+					model.ShowCountTextBelow = true;
 
-						model.Text = (first as RecycleBinItem)?.ItemOriginalFolderName;
-						model.Subtext = (first as RecycleBinItem)?.ItemOriginalFolder;
-					}, null),
-
+					model.Text = (first as RecycleBinItem)?.ItemOriginalFolderName;
+					model.Subtext = (first as RecycleBinItem)?.ItemOriginalFolder;
+				}, null),
 				GroupOption.FolderPath => (x =>
 				{
 					ListedItem first = x.First();
@@ -140,8 +137,10 @@ namespace Files.App.Helpers
 				if (size > sizeGp.size)
 				{
 					var rangeStr = i > 0 ? $"{sizeGp.sizeText} - {sizeGroups[i - 1].sizeText}" : $"{sizeGp.sizeText} +";
+
 					return (sizeGp.size.ToString(), sizeGp.text, rangeStr, i + 1); //i +1 is so that other groups always show below "unspecified"
 				}
+
 				lastSizeStr = sizeGp.sizeText;
 			}
 
@@ -158,6 +157,7 @@ namespace Files.App.Helpers
 					return sizeGp.size.ToString();
 				}
 			}
+
 			return "0";
 		}
 

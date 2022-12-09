@@ -14,17 +14,20 @@ namespace Files.App.Helpers.XamlHelpers
 			for (int i = 0; i < count; i++)
 			{
 				DependencyObject current = VisualTreeHelper.GetChild(startNode, i);
+
 				if (current.GetType().Equals(typeof(T)) || current.GetType().GetTypeInfo().IsSubclassOf(typeof(T)))
 				{
 					T asType = (T)current;
 					return asType;
 				}
+
 				var retVal = FindChild<T>(current);
 				if (retVal is not null)
 				{
 					return retVal;
 				}
 			}
+
 			return null;
 		}
 
@@ -34,6 +37,7 @@ namespace Files.App.Helpers.XamlHelpers
 			for (int i = 0; i < count; i++)
 			{
 				DependencyObject current = VisualTreeHelper.GetChild(startNode, i);
+
 				if (current.GetType().Equals(typeof(T)) || current.GetType().GetTypeInfo().IsSubclassOf(typeof(T)))
 				{
 					T asType = (T)current;
@@ -42,12 +46,14 @@ namespace Files.App.Helpers.XamlHelpers
 						return asType;
 					}
 				}
+
 				var retVal = FindChild<T>(current, predicate);
 				if (retVal is not null)
 				{
 					return retVal;
 				}
 			}
+
 			return null;
 		}
 
@@ -57,11 +63,13 @@ namespace Files.App.Helpers.XamlHelpers
 			for (int i = 0; i < count; i++)
 			{
 				DependencyObject current = VisualTreeHelper.GetChild(startNode, i);
+
 				if (current.GetType().Equals(typeof(T)) || (current.GetType().GetTypeInfo().IsSubclassOf(typeof(T))))
 				{
 					T asType = (T)current;
 					yield return asType;
 				}
+
 				foreach (var item in FindChildren<T>(current))
 				{
 					yield return item;
@@ -76,7 +84,9 @@ namespace Files.App.Helpers.XamlHelpers
 			{
 				return parent;
 			}
+
 			DependencyObject CurrentParent = VisualTreeHelper.GetParent(child);
+
 			while (CurrentParent is not null)
 			{
 				if (CurrentParent is T)
@@ -84,8 +94,10 @@ namespace Files.App.Helpers.XamlHelpers
 					parent = (T)CurrentParent;
 					break;
 				}
+
 				CurrentParent = VisualTreeHelper.GetParent(CurrentParent);
 			}
+
 			return parent;
 		}
 	}

@@ -22,6 +22,7 @@ namespace Files.App.Helpers
 		};
 
 		public StorageFolder ThemeFolder { get; set; }
+
 		public StorageFolder ImportedThemesFolder { get; set; }
 
 		public string CurrentThemeResources { get; set; }
@@ -93,18 +94,23 @@ namespace Files.App.Helpers
 				if (xaml is not null)
 				{
 					App.Current.Resources.MergedDictionaries.Add(xaml);
+
 					if (!Themes.Any(t => t.AbsolutePath == theme.AbsolutePath))
 					{
 						Themes.Add(theme);
 					}
+
 					ForceReloadResourceFile();
+
 					return true;
 				}
+
 				return false;
 			}
 			catch (Exception ex)
 			{
 				App.Logger.Warn(ex, $"Error loading theme: {theme?.Path}");
+
 				return false;
 			}
 		}
@@ -128,6 +134,7 @@ namespace Files.App.Helpers
 		public async Task<ResourceDictionary> TryLoadResourceDictionary(AppTheme theme)
 		{
 			StorageFile file;
+
 			if (theme?.Path is null)
 			{
 				return null;
@@ -147,6 +154,7 @@ namespace Files.App.Helpers
 			var code = await FileIO.ReadTextAsync(file);
 			var xaml = XamlReader.Load(code) as ResourceDictionary;
 			xaml.Add("CustomThemeID", theme.Key);
+
 			return xaml;
 		}
 
@@ -180,9 +188,13 @@ namespace Files.App.Helpers
 	public class AppTheme
 	{
 		public string Name { get; set; }
+
 		public string Path { get; set; }
+
 		public string AbsolutePath { get; set; }
+
 		public string Key => $"{Name}";
+
 		public bool IsImportedTheme { get; set; }
 	}
 }

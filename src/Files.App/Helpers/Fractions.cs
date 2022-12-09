@@ -13,6 +13,7 @@ namespace Files.App.Helpers
 			int w, n, d;
 			RoundToMixedFraction(number, precision, out w, out n, out d);
 			var ret = $"{w}";
+
 			if (w > 0)
 			{
 				if (n > 0)
@@ -23,6 +24,7 @@ namespace Files.App.Helpers
 				if (n > 0)
 					ret = $"{n}/{d}";
 			}
+
 			return ret;
 		}
 
@@ -30,6 +32,7 @@ namespace Files.App.Helpers
 		{
 			double dblAccuracy = (double)accuracy;
 			whole = (int)(Math.Truncate(input));
+
 			var fraction = Math.Abs(input - whole);
 			if (fraction == 0)
 			{
@@ -37,10 +40,14 @@ namespace Files.App.Helpers
 				denominator = 1;
 				return;
 			}
+
 			var n = Enumerable.Range(0, accuracy + 1).SkipWhile(e => (e / dblAccuracy) < fraction).First();
 			var hi = n / dblAccuracy;
 			var lo = (n - 1) / dblAccuracy;
-			if ((fraction - lo) < (hi - fraction)) n--;
+
+			if ((fraction - lo) < (hi - fraction))
+				n--;
+
 			if (n == accuracy)
 			{
 				whole++;
@@ -48,6 +55,7 @@ namespace Files.App.Helpers
 				denominator = 1;
 				return;
 			}
+
 			var gcd = GCD(n, accuracy);
 			numerator = n / gcd;
 			denominator = accuracy / gcd;

@@ -25,7 +25,8 @@ namespace Files.App.Helpers
 {
 	public class FileOperationsHelpers
 	{
-		private static ProgressHandler? progressHandler; // Warning: must be initialized from a MTA thread
+		// Warning: must be initialized from a MTA thread
+		private static ProgressHandler? progressHandler;
 
 		public static Task SetClipboard(string[] filesToCopy, DataPackageOperation operation)
 		{
@@ -34,8 +35,9 @@ namespace Files.App.Helpers
 				System.Windows.Forms.Clipboard.Clear();
 				var fileList = new System.Collections.Specialized.StringCollection();
 				fileList.AddRange(filesToCopy);
-				MemoryStream dropEffect = new MemoryStream(operation == DataPackageOperation.Copy ?
-					new byte[] { 5, 0, 0, 0 } : new byte[] { 2, 0, 0, 0 });
+				MemoryStream dropEffect = new MemoryStream(operation == DataPackageOperation.Copy
+					? new byte[] { 5, 0, 0, 0 }
+					: new byte[] { 2, 0, 0, 0 });
 				var data = new System.Windows.Forms.DataObject();
 				data.SetFileDropList(fileList);
 				data.SetData("Preferred DropEffect", dropEffect);
@@ -79,6 +81,7 @@ namespace Files.App.Helpers
 						package.Dispose();
 					}
 				}
+
 				return true;
 			});
 		}
@@ -89,10 +92,10 @@ namespace Files.App.Helpers
 			{
 				using var op = new ShellFileOperations();
 
-				op.Options = ShellFileOperations.OperationFlags.Silent
-							| ShellFileOperations.OperationFlags.NoConfirmMkDir
-							| ShellFileOperations.OperationFlags.RenameOnCollision
-							| ShellFileOperations.OperationFlags.NoErrorUI;
+				op.Options = ShellFileOperations.OperationFlags.Silent |
+					ShellFileOperations.OperationFlags.NoConfirmMkDir |
+					ShellFileOperations.OperationFlags.RenameOnCollision |
+					ShellFileOperations.OperationFlags.NoErrorUI;
 
 				var shellOperationResult = new ShellOperationResult();
 
@@ -121,6 +124,7 @@ namespace Files.App.Helpers
 						HResult = (int)e.Result
 					});
 				};
+
 				op.FinishOperations += (s, e) => createTcs.TrySetResult(e.Result.Succeeded);
 
 				try
@@ -139,7 +143,8 @@ namespace Files.App.Helpers
 						using var fs = new FileStream(shellOperationResult.Items.Single().Destination, FileMode.Open);
 						fs.Write(dataBytes, 0, dataBytes.Length);
 						fs.Flush();
-					}, App.Logger);
+					},
+					App.Logger);
 				}
 
 				return (await createTcs.Task, shellOperationResult);
@@ -152,9 +157,9 @@ namespace Files.App.Helpers
 			{
 				using var op = new ShellFileOperations();
 
-				op.Options = ShellFileOperations.OperationFlags.Silent
-							| ShellFileOperations.OperationFlags.NoConfirmation
-							| ShellFileOperations.OperationFlags.NoErrorUI;
+				op.Options = ShellFileOperations.OperationFlags.Silent |
+					ShellFileOperations.OperationFlags.NoConfirmation |
+					ShellFileOperations.OperationFlags.NoErrorUI;
 				op.Options |= ShellFileOperations.OperationFlags.RecycleOnDelete;
 
 				var shellOperationResult = new ShellOperationResult();
@@ -165,6 +170,7 @@ namespace Files.App.Helpers
 					{
 						using var shi = new ShellItem(fileToDeletePath[i]);
 						var file = SafetyExtensions.IgnoreExceptions(() => GetFirstFile(shi)) ?? shi;
+
 						op.QueueDeleteOperation(file);
 					}))
 					{
@@ -188,6 +194,7 @@ namespace Files.App.Helpers
 							Source = e.SourceItem.GetParsingPath(),
 							HResult = (int)HRESULT.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND
 						});
+
 						throw new Win32Exception(HRESULT.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND); // E_FAIL, stops operation
 					}
 					else
@@ -198,9 +205,11 @@ namespace Files.App.Helpers
 							Source = e.SourceItem.GetParsingPath(),
 							HResult = (int)HRESULT.COPYENGINE_E_USER_CANCELLED
 						});
+
 						throw new Win32Exception(HRESULT.COPYENGINE_E_USER_CANCELLED); // E_FAIL, stops operation
 					}
 				};
+
 				op.FinishOperations += (s, e) => deleteTcs.TrySetResult(e.Result.Succeeded);
 
 				try
@@ -225,14 +234,15 @@ namespace Files.App.Helpers
 			return Win32API.StartSTATask(async () =>
 			{
 				using var op = new ShellFileOperations();
-				op.Options = ShellFileOperations.OperationFlags.Silent
-							| ShellFileOperations.OperationFlags.NoConfirmation
-							| ShellFileOperations.OperationFlags.NoErrorUI;
+				op.Options = ShellFileOperations.OperationFlags.Silent |
+					ShellFileOperations.OperationFlags.NoConfirmation |
+					ShellFileOperations.OperationFlags.NoErrorUI;
+
 				op.OwnerWindow = (IntPtr)ownerHwnd;
+
 				if (!permanently)
 				{
-					op.Options |= ShellFileOperations.OperationFlags.RecycleOnDelete
-								| ShellFileOperations.OperationFlags.WantNukeWarning;
+					op.Options |= ShellFileOperations.OperationFlags.RecycleOnDelete | ShellFileOperations.OperationFlags.WantNukeWarning;
 				}
 
 				var shellOperationResult = new ShellOperationResult();
@@ -242,6 +252,7 @@ namespace Files.App.Helpers
 					if (!SafetyExtensions.IgnoreExceptions(() =>
 					{
 						using var shi = new ShellItem(fileToDeletePath[i]);
+
 						op.QueueDeleteOperation(shi);
 					}))
 					{
@@ -265,6 +276,7 @@ namespace Files.App.Helpers
 						throw new Win32Exception(HRESULT.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND); // E_FAIL, stops operation
 					}
 				};
+
 				op.PostDeleteItem += (s, e) =>
 				{
 					shellOperationResult.Items.Add(new ShellOperationItemResult()
@@ -275,13 +287,15 @@ namespace Files.App.Helpers
 						HResult = (int)e.Result
 					});
 				};
+
 				op.PostDeleteItem += (_, e) => UpdateFileTagsDb(e, "delete");
 				op.FinishOperations += (s, e) => deleteTcs.TrySetResult(e.Result.Succeeded);
 				op.UpdateProgress += (s, e) =>
 				{
 					if (progressHandler.CheckCanceled(operationID))
 					{
-						throw new Win32Exception(unchecked((int)0x80004005)); // E_FAIL, stops operation
+						// E_FAIL, stops operation
+						throw new Win32Exception(unchecked((int)0x80004005));
 					}
 					progress?.Report(e.ProgressPercentage);
 					progressHandler.UpdateOperation(operationID, e.ProgressPercentage);
@@ -313,13 +327,14 @@ namespace Files.App.Helpers
 				using var op = new ShellFileOperations();
 				var shellOperationResult = new ShellOperationResult();
 
-				op.Options = ShellFileOperations.OperationFlags.Silent
-						  | ShellFileOperations.OperationFlags.NoErrorUI;
+				op.Options = ShellFileOperations.OperationFlags.Silent |
+					ShellFileOperations.OperationFlags.NoErrorUI;
 				op.Options |= !overwriteOnRename ? ShellFileOperations.OperationFlags.RenameOnCollision : 0;
 
 				if (!SafetyExtensions.IgnoreExceptions(() =>
 				{
 					using var shi = new ShellItem(fileToRenamePath);
+
 					op.QueueRenameOperation(shi, newName);
 				}))
 				{
@@ -327,7 +342,7 @@ namespace Files.App.Helpers
 					{
 						Succeeded = false,
 						Source = fileToRenamePath,
-						HResult = (int)-1
+						HResult = -1
 					});
 				}
 
@@ -335,16 +350,20 @@ namespace Files.App.Helpers
 				progressHandler.AddOperation(operationID);
 
 				var renameTcs = new TaskCompletionSource<bool>();
+
 				op.PostRenameItem += (s, e) =>
 				{
 					shellOperationResult.Items.Add(new ShellOperationItemResult()
 					{
 						Succeeded = e.Result.Succeeded,
 						Source = e.SourceItem.GetParsingPath(),
-						Destination = !string.IsNullOrEmpty(e.Name) ? Path.Combine(Path.GetDirectoryName(e.SourceItem.GetParsingPath()), e.Name) : null,
+						Destination = !string.IsNullOrEmpty(e.Name)
+							? Path.Combine(Path.GetDirectoryName(e.SourceItem.GetParsingPath()), e.Name)
+							: null,
 						HResult = (int)e.Result
 					});
 				};
+
 				op.PostRenameItem += (_, e) => UpdateFileTagsDb(e, "rename");
 				op.FinishOperations += (s, e) => renameTcs.TrySetResult(e.Result.Succeeded);
 
@@ -374,11 +393,14 @@ namespace Files.App.Helpers
 				using var op = new ShellFileOperations();
 				var shellOperationResult = new ShellOperationResult();
 
-				op.Options = ShellFileOperations.OperationFlags.NoConfirmMkDir
-							| ShellFileOperations.OperationFlags.Silent
-							| ShellFileOperations.OperationFlags.NoErrorUI;
+				op.Options = ShellFileOperations.OperationFlags.NoConfirmMkDir |
+					ShellFileOperations.OperationFlags.Silent |
+					ShellFileOperations.OperationFlags.NoErrorUI;
+
 				op.OwnerWindow = (IntPtr)ownerHwnd;
-				op.Options |= !overwriteOnMove ? ShellFileOperations.OperationFlags.PreserveFileExtensions | ShellFileOperations.OperationFlags.RenameOnCollision
+
+				op.Options |= !overwriteOnMove
+					? ShellFileOperations.OperationFlags.PreserveFileExtensions | ShellFileOperations.OperationFlags.RenameOnCollision
 					: ShellFileOperations.OperationFlags.NoConfirmation;
 
 				for (var i = 0; i < fileToMovePath.Length; i++)
@@ -387,6 +409,7 @@ namespace Files.App.Helpers
 					{
 						using ShellItem shi = new ShellItem(fileToMovePath[i]);
 						using ShellFolder shd = new ShellFolder(Path.GetDirectoryName(moveDestination[i]));
+
 						op.QueueMoveOperation(shi, shd, Path.GetFileName(moveDestination[i]));
 					}))
 					{
@@ -404,6 +427,7 @@ namespace Files.App.Helpers
 				progressHandler.AddOperation(operationID);
 
 				var moveTcs = new TaskCompletionSource<bool>();
+
 				op.PostMoveItem += (s, e) =>
 				{
 					shellOperationResult.Items.Add(new ShellOperationItemResult()
@@ -414,13 +438,15 @@ namespace Files.App.Helpers
 						HResult = (int)e.Result
 					});
 				};
+
 				op.PostMoveItem += (_, e) => UpdateFileTagsDb(e, "move");
 				op.FinishOperations += (s, e) => moveTcs.TrySetResult(e.Result.Succeeded);
 				op.UpdateProgress += (s, e) =>
 				{
 					if (progressHandler.CheckCanceled(operationID))
 					{
-						throw new Win32Exception(unchecked((int)0x80004005)); // E_FAIL, stops operation
+						// E_FAIL, stops operation
+						throw new Win32Exception(unchecked((int)0x80004005));
 					}
 					progress?.Report(e.ProgressPercentage);
 					progressHandler.UpdateOperation(operationID, e.ProgressPercentage);
@@ -453,10 +479,12 @@ namespace Files.App.Helpers
 
 				var shellOperationResult = new ShellOperationResult();
 
-				op.Options = ShellFileOperations.OperationFlags.NoConfirmMkDir
-							| ShellFileOperations.OperationFlags.Silent
-							| ShellFileOperations.OperationFlags.NoErrorUI;
+				op.Options = ShellFileOperations.OperationFlags.NoConfirmMkDir |
+					ShellFileOperations.OperationFlags.Silent |
+					ShellFileOperations.OperationFlags.NoErrorUI;
+
 				op.OwnerWindow = (IntPtr)ownerHwnd;
+
 				op.Options |= !overwriteOnCopy ? ShellFileOperations.OperationFlags.PreserveFileExtensions | ShellFileOperations.OperationFlags.RenameOnCollision
 					: ShellFileOperations.OperationFlags.NoConfirmation;
 
@@ -466,6 +494,7 @@ namespace Files.App.Helpers
 					{
 						using ShellItem shi = new ShellItem(fileToCopyPath[i]);
 						using ShellFolder shd = new ShellFolder(Path.GetDirectoryName(copyDestination[i]));
+
 						op.QueueCopyOperation(shi, shd, Path.GetFileName(copyDestination[i]));
 					}))
 					{
@@ -483,6 +512,7 @@ namespace Files.App.Helpers
 				progressHandler.AddOperation(operationID);
 
 				var copyTcs = new TaskCompletionSource<bool>();
+
 				op.PostCopyItem += (s, e) =>
 				{
 					shellOperationResult.Items.Add(new ShellOperationItemResult()
@@ -493,13 +523,15 @@ namespace Files.App.Helpers
 						HResult = (int)e.Result
 					});
 				};
+
 				op.PostCopyItem += (_, e) => UpdateFileTagsDb(e, "copy");
 				op.FinishOperations += (s, e) => copyTcs.TrySetResult(e.Result.Succeeded);
 				op.UpdateProgress += (s, e) =>
 				{
 					if (progressHandler.CheckCanceled(operationID))
 					{
-						throw new Win32Exception(unchecked((int)0x80004005)); // E_FAIL, stops operation
+						// E_FAIL, stops operation
+						throw new Win32Exception(unchecked((int)0x80004005));
 					}
 					progress?.Report(e.ProgressPercentage);
 					progressHandler.UpdateOperation(operationID, e.ProgressPercentage);
@@ -536,6 +568,7 @@ namespace Files.App.Helpers
 					FileName = x.MainModule?.FileName,
 					AppName = SafetyExtensions.IgnoreExceptions(() => x.MainModule?.FileVersionInfo?.FileDescription)
 				}).ToList();
+
 				processes.ForEach(x => x.Dispose());
 
 				return win32proc;
@@ -553,6 +586,7 @@ namespace Files.App.Helpers
 				if (linkPath.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase))
 				{
 					using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, default, TimeSpan.FromMilliseconds(100));
+
 					return Task.FromResult((string.Empty, ShellFolderExtensions.GetShellLinkItem(link)));
 				}
 				else if (linkPath.EndsWith(".url", StringComparison.OrdinalIgnoreCase))
@@ -562,6 +596,7 @@ namespace Files.App.Helpers
 						var ipf = new Url.IUniformResourceLocator();
 						(ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Load(linkPath, 0);
 						ipf.GetUrl(out var retVal);
+
 						return Task.FromResult<(string, ShellLinkItem)>((retVal, null));
 					});
 				}
@@ -583,7 +618,10 @@ namespace Files.App.Helpers
 				{
 					using var newLink = new ShellLink(targetPath, arguments, workingDirectory);
 					newLink.RunAsAdministrator = runAsAdmin;
-					newLink.SaveAs(linkSavePath); // Overwrite if exists
+					
+					// Overwrite if exists
+					newLink.SaveAs(linkSavePath);
+
 					return Task.FromResult(true);
 				}
 				else if (linkSavePath.EndsWith(".url", StringComparison.Ordinal))
@@ -592,7 +630,10 @@ namespace Files.App.Helpers
 					{
 						var ipf = new Url.IUniformResourceLocator();
 						ipf.SetUrl(targetPath, Url.IURL_SETURL_FLAGS.IURL_SETURL_FL_GUESS_PROTOCOL);
-						(ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Save(linkSavePath, false); // Overwrite if exists
+						
+						// Overwrite if exists
+						(ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Save(linkSavePath, false);
+
 						return true;
 					});
 				}
@@ -612,7 +653,10 @@ namespace Files.App.Helpers
 			{
 				using var link = new ShellLink(filePath, LinkResolution.NoUIWithMsgPump, default, TimeSpan.FromMilliseconds(100));
 				link.IconLocation = new IconLocation(iconFile, iconIndex);
-				link.SaveAs(filePath); // Overwrite if exists
+				
+				// Overwrite if exists
+				link.SaveAs(filePath);
+
 				return true;
 			}
 			catch (Exception ex)
@@ -630,12 +674,14 @@ namespace Files.App.Helpers
 		public static bool SetFileOwner(string filePath, bool isFolder, string ownerSid)
 		{
 			var fp = FilePermissions.FromFilePath(filePath, isFolder);
+
 			return fp.SetOwner(ownerSid);
 		}
 
 		public static bool SetAccessRuleProtection(string filePath, bool isFolder, bool isProtected, bool preserveInheritance)
 		{
 			var fp = FilePermissions.FromFilePath(filePath, isFolder);
+
 			return fp.SetAccessRuleProtection(isProtected, preserveInheritance);
 		}
 
@@ -652,6 +698,7 @@ namespace Files.App.Helpers
 					MultiSelect = false,
 					ShowAdvancedView = true
 				};
+
 				picker.AttributesToFetch.Add("objectSid");
 
 				using (picker)
@@ -684,8 +731,10 @@ namespace Files.App.Helpers
 				{
 					return null;
 				}
+
 				return (string?)compatKey.GetValue(filePath, null);
-			}, App.Logger);
+			},
+				App.Logger);
 
 		public static bool SetCompatOptions(string filePath, string options)
 		{
@@ -703,11 +752,13 @@ namespace Files.App.Helpers
 			{
 				return shi;
 			}
+
 			using var shf = new ShellFolder(shi);
 			if (shf.FirstOrDefault(x => !x.IsFolder || x.Attributes.HasFlag(ShellItemAttribute.Stream)) is ShellItem item)
 			{
 				return item;
 			}
+
 			foreach (var shsfi in shf.Where(x => x.IsFolder && !x.Attributes.HasFlag(ShellItemAttribute.Stream)))
 			{
 				using var shsf = new ShellFolder(shsfi);
@@ -716,6 +767,7 @@ namespace Files.App.Helpers
 					return item2;
 				}
 			}
+
 			return null;
 		}
 
@@ -733,9 +785,11 @@ namespace Files.App.Helpers
 					"copy" => destPath is not null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(destPath, e.Name) : null,
 					_ => destPath is not null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(destPath, e.Name) : null
 				};
+
 				if (destination is null)
 				{
-					dbInstance.SetTags(sourcePath, null, null); // remove tag from deleted files
+					// remove tag from deleted files
+					dbInstance.SetTags(sourcePath, null, null);
 				}
 				else
 				{
@@ -744,10 +798,13 @@ namespace Files.App.Helpers
 						if (operationType == "copy")
 						{
 							var tag = dbInstance.GetTags(sourcePath);
-
-							dbInstance.SetTags(destination, FileTagsHelper.GetFileFRN(destination), tag); // copy tag to new files
+							
+							// copy tag to new files
+							dbInstance.SetTags(destination, FileTagsHelper.GetFileFRN(destination), tag);
 							using var si = new ShellItem(destination);
-							if (si.IsFolder) // File tag is not copied automatically for folders
+							
+							// File tag is not copied automatically for folders
+							if (si.IsFolder)
 							{
 								FileTagsHelper.WriteFileTag(destination, tag);
 							}
@@ -756,18 +813,22 @@ namespace Files.App.Helpers
 						{
 							dbInstance.UpdateTag(sourcePath, FileTagsHelper.GetFileFRN(destination), destination); // move tag to new files
 						}
-					}, App.Logger);
+					},
+					App.Logger);
 				}
-				if (e.Result == HRESULT.COPYENGINE_S_DONT_PROCESS_CHILDREN) // child items not processed, update manually
+				// Child items not processed, update manually
+				if (e.Result == HRESULT.COPYENGINE_S_DONT_PROCESS_CHILDREN)
 				{
 					var tags = dbInstance.GetAllUnderPath(sourcePath).ToList();
-					if (destination is null) // remove tag for items contained in the folder
+					// Remove tag for items contained in the folder
+					if (destination is null)
 					{
 						tags.ForEach(t => dbInstance.SetTags(t.FilePath, null, null));
 					}
 					else
 					{
-						if (operationType == "copy") // copy tag for items contained in the folder
+						// Copy tag for items contained in the folder
+						if (operationType == "copy")
 						{
 							tags.ForEach(t =>
 							{
@@ -778,7 +839,8 @@ namespace Files.App.Helpers
 								}, App.Logger);
 							});
 						}
-						else // move tag to new files
+						// Move tag to new files
+						else
 						{
 							tags.ForEach(t =>
 							{
@@ -786,7 +848,8 @@ namespace Files.App.Helpers
 								{
 									var subPath = t.FilePath.Replace(sourcePath, destination, StringComparison.Ordinal);
 									dbInstance.UpdateTag(t.FilePath, FileTagsHelper.GetFileFRN(subPath), subPath);
-								}, App.Logger);
+								},
+								App.Logger);
 							});
 						}
 					}
@@ -804,10 +867,12 @@ namespace Files.App.Helpers
 			private class OperationWithProgress
 			{
 				public int Progress { get; set; }
+
 				public bool Canceled { get; set; }
 			}
 
 			private readonly Shell32.ITaskbarList4 taskbar;
+
 			private readonly ConcurrentDictionary<string, OperationWithProgress> operations;
 
 			public HWND OwnerWindow { get; set; }
@@ -824,6 +889,7 @@ namespace Files.App.Helpers
 				get
 				{
 					var ongoing = operations.ToArray().Where(x => !x.Value.Canceled);
+
 					return ongoing.Any() ? (int)ongoing.Average(x => x.Value.Progress) : 0;
 				}
 			}
@@ -832,13 +898,16 @@ namespace Files.App.Helpers
 			{
 				operations.TryAdd(uid, new OperationWithProgress());
 				UpdateTaskbarProgress();
+
 				operationsCompletedEvent.Reset();
 			}
 
 			public void RemoveOperation(string uid)
 			{
 				operations.TryRemove(uid, out _);
+
 				UpdateTaskbarProgress();
+
 				if (!operations.Any())
 				{
 					operationsCompletedEvent.Set();
@@ -850,6 +919,7 @@ namespace Files.App.Helpers
 				if (operations.TryGetValue(uid, out var op))
 				{
 					op.Progress = progress;
+
 					UpdateTaskbarProgress();
 				}
 			}
@@ -864,6 +934,7 @@ namespace Files.App.Helpers
 				if (operations.TryGetValue(uid, out var op))
 				{
 					op.Canceled = true;
+
 					UpdateTaskbarProgress();
 				}
 			}
@@ -874,6 +945,7 @@ namespace Files.App.Helpers
 				{
 					return;
 				}
+
 				if (operations.Any())
 				{
 					taskbar.SetProgressValue(OwnerWindow, (ulong)Progress, 100);
@@ -894,6 +966,7 @@ namespace Files.App.Helpers
 				if (disposing)
 				{
 					operationsCompletedEvent?.Dispose();
+
 					Marshal.ReleaseComObject(taskbar);
 				}
 			}

@@ -13,15 +13,22 @@ namespace Files.App.Serialization.Implementation
 		{
 			CreateDirectoryFromApp(Path.GetDirectoryName(path), IntPtr.Zero);
 
-			var hFile = CreateFileFromApp(path, GENERIC_READ, FILE_SHARE_READ, IntPtr.Zero, OPEN_ALWAYS, (uint)File_Attributes.BackupSemantics, IntPtr.Zero);
+			var hFile = CreateFileFromApp(
+				path,
+				GENERIC_READ,
+				FILE_SHARE_READ,
+				IntPtr.Zero,
+				OPEN_ALWAYS,
+				(uint)File_Attributes.BackupSemantics,
+				IntPtr.Zero);
+
 			if (hFile.IsHandleInvalid())
-			{
 				return false;
-			}
 
 			CloseHandle(hFile);
 
 			_filePath = path;
+
 			return true;
 		}
 

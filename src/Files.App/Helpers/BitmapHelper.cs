@@ -15,18 +15,19 @@ namespace Files.App.Helpers
 		public static async Task<BitmapImage> ToBitmapAsync(this byte[]? data, int decodeSize = -1)
 		{
 			if (data is null)
-			{
 				return null;
-			}
 
 			using var ms = new MemoryStream(data);
 			var image = new BitmapImage();
+
 			if (decodeSize > 0)
 			{
 				image.DecodePixelWidth = decodeSize;
 				image.DecodePixelHeight = decodeSize;
 			}
+
 			await image.SetSourceAsync(ms.AsRandomAccessStream());
+
 			return image;
 		}
 
@@ -42,22 +43,16 @@ namespace Files.App.Helpers
 		public static async Task Rotate(string filePath, BitmapRotation rotation)
 		{
 			if (string.IsNullOrEmpty(filePath))
-			{
 				return;
-			}
 
 			var file = await StorageHelpers.ToStorageItem<IStorageFile>(filePath);
 			if (file is null)
-			{
 				return;
-			}
 
 			var fileStreamRes = await FilesystemTasks.Wrap(() => file.OpenAsync(FileAccessMode.ReadWrite).AsTask());
 			using IRandomAccessStream fileStream = fileStreamRes.Result;
 			if (fileStream is null)
-			{
 				return;
-			}
 
 			BitmapDecoder decoder = await BitmapDecoder.CreateAsync(fileStream);
 			using var memStream = new InMemoryRandomAccessStream();

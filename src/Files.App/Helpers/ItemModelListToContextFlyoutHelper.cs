@@ -20,10 +20,12 @@ namespace Files.App.Helpers.ContextFlyouts
 			}
 
 			var flyout = new List<MenuFlyoutItemBase>();
+
 			items.ForEach(i =>
 			{
 				flyout.Add(GetMenuItem(i));
 			});
+
 			return flyout;
 		}
 
@@ -39,6 +41,7 @@ namespace Files.App.Helpers.ContextFlyouts
 
 			var primary = new List<ICommandBarElement>();
 			primaryModels.ForEach(i => primary.Add(GetCommandBarItem(i)));
+
 			var secondary = new List<ICommandBarElement>();
 			secondaryModels.ForEach(i => secondary.Add(GetCommandBarItem(i)));
 
@@ -54,6 +57,7 @@ namespace Files.App.Helpers.ContextFlyouts
 		{
 			var elements = new List<ICommandBarElement>();
 			items.ForEach(i => elements.Add(GetCommandBarItem(i)));
+
 			return elements;
 		}
 
@@ -75,10 +79,12 @@ namespace Files.App.Helpers.ContextFlyouts
 					Text = item.Text,
 					Tag = item.Tag,
 				};
+
 				item.Items?.ForEach(i =>
 				{
 					flyoutSubItem.Items.Add(GetMenuItem(i));
 				});
+
 				return flyoutSubItem;
 			}
 			else
@@ -175,6 +181,7 @@ namespace Files.App.Helpers.ContextFlyouts
 		{
 			ICommandBarElement element;
 			FontIcon icon = null;
+
 			if (!string.IsNullOrEmpty(item.Glyph))
 			{
 				icon = new FontIcon

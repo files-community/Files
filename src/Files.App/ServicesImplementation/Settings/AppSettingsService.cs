@@ -32,6 +32,7 @@ namespace Files.App.ServicesImplementation.Settings
 				case nameof(ShowStatusCenterTeachingTip):
 					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
 					break;
+
 				case nameof(RestoreTabsOnStartup):
 					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
 					break;

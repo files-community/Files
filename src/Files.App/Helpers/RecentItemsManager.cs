@@ -46,6 +46,7 @@ namespace Files.App.Helpers
 				Filter = QuickAccessJumpListFileName,
 				NotifyFilter = NotifyFilters.DirectoryName | NotifyFilters.FileName | NotifyFilters.LastWrite,
 			};
+
 			quickAccessJumpListWatcher.Changed += QuickAccessJumpList_Changed;
 			quickAccessJumpListWatcher.Deleted += QuickAccessJumpList_Changed;
 			quickAccessJumpListWatcher.EnableRaisingEvents = true;

@@ -77,19 +77,21 @@ namespace Files.App.Helpers
 			{
 				return await SetContentDialogRoot(dialog).ShowAsync();
 			}
-			catch // A content dialog is already open
+			catch
 			{
+				// A content dialog is already open
 				return ContentDialogResult.None;
 			}
 		}
 
-		// WINUI3
+		// WinUI3
 		private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
 		{
 			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
 			{
 				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
 			}
+
 			return contentDialog;
 		}
 
@@ -111,6 +113,7 @@ namespace Files.App.Helpers
 		public static IconFileInfo GetIconResourceInfo(int index)
 		{
 			var icons = UIHelpers.IconResources;
+
 			return icons is not null ? icons.FirstOrDefault(x => x.Index == index) : null;
 		}
 
@@ -121,6 +124,7 @@ namespace Files.App.Helpers
 			{
 				return await iconInfo.IconData.ToBitmapAsync();
 			}
+
 			return null;
 		}
 

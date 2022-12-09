@@ -19,10 +19,7 @@ namespace Files.App
 
 		public static DeviceManager Default
 		{
-			get
-			{
-				return lazy.Value;
-			}
+			get => lazy.Value;
 		}
 
 		private DeviceManager()
@@ -56,6 +53,7 @@ namespace Files.App
 			var volumeName = (string)obj.CimInstanceProperties["VolumeName"]?.Value;
 			var eventType = volumeName is not null ? DeviceEvent.Inserted : DeviceEvent.Ejected;
 			System.Diagnostics.Debug.WriteLine($"Drive modify event: {deviceName}, {deviceId}, {eventType}");
+
 			if (eventType == DeviceEvent.Inserted)
 			{
 				DeviceInserted?.Invoke(sender, new DeviceEventArgs(deviceName, deviceId));
@@ -89,6 +87,7 @@ namespace Files.App
 			insertWatcher?.Dispose();
 			removeWatcher?.Dispose();
 			modifyWatcher?.Dispose();
+
 			insertWatcher = null;
 			removeWatcher = null;
 			modifyWatcher = null;

@@ -31,6 +31,7 @@ namespace Files.App.Shell
 			{
 				var flc = new List<ShellFileItem>();
 				var folder = (ShellFileItem)null;
+
 				try
 				{
 					using var shellFolder = ShellFolderExtensions.GetShellItemFromPathOrPidl(path) as ShellFolder;
@@ -48,9 +49,9 @@ namespace Files.App.Shell
 						{
 							try
 							{
-								var shellFileItem = folderItem is ShellLink link ?
-									ShellFolderExtensions.GetShellLinkItem(link) :
-									ShellFolderExtensions.GetShellFileItem(folderItem);
+								var shellFileItem = folderItem is ShellLink link
+									? ShellFolderExtensions.GetShellLinkItem(link) 
+									: ShellFolderExtensions.GetShellFileItem(folderItem);
 								flc.Add(shellFileItem);
 							}
 							catch (FileNotFoundException)
@@ -67,6 +68,7 @@ namespace Files.App.Shell
 				catch
 				{
 				}
+
 				return (folder, flc);
 			});
 		}
@@ -75,11 +77,13 @@ namespace Files.App.Shell
 		{
 			Win32API.SHQUERYRBINFO queryBinInfo = new Win32API.SHQUERYRBINFO();
 			queryBinInfo.cbSize = Marshal.SizeOf(queryBinInfo);
+
 			var res = Win32API.SHQueryRecycleBin(drive, ref queryBinInfo);
 			if (res == HRESULT.S_OK)
 			{
 				var numItems = queryBinInfo.i64NumItems;
 				var binSize = queryBinInfo.i64Size;
+
 				return (true, numItems, binSize);
 			}
 			else
@@ -101,6 +105,7 @@ namespace Files.App.Shell
 				{
 					using var link = new ShellLink(filePath, LinkResolution.NoUIWithMsgPump, default, TimeSpan.FromMilliseconds(100));
 					targetPath = link.TargetPath;
+
 					return ShellFolderExtensions.GetShellLinkItem(link);
 				}
 
@@ -111,16 +116,20 @@ namespace Files.App.Shell
 						var ipf = new Url.IUniformResourceLocator();
 						(ipf as System.Runtime.InteropServices.ComTypes.IPersistFile)?.Load(filePath, 0);
 						ipf.GetUrl(out var retVal);
+
 						return retVal;
 					});
 
-					return string.IsNullOrEmpty(targetPath) ? null : new ShellLinkItem { TargetPath = targetPath };
+					return string.IsNullOrEmpty(targetPath)
+						? null
+						: new ShellLinkItem { TargetPath = targetPath };
 				}
 			}
 			catch (FileNotFoundException ex) // Could not parse shortcut
 			{
 				App.Logger?.Warn(ex, ex.Message);
 				// Return a item containing the invalid target path
+
 				return new ShellLinkItem
 				{
 					TargetPath = string.IsNullOrEmpty(targetPath) ? string.Empty : targetPath,
@@ -131,6 +140,7 @@ namespace Files.App.Shell
 			{
 				App.Logger?.Warn(ex, ex.Message);
 			}
+
 			return null;
 		}
 	}

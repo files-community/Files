@@ -18,12 +18,18 @@ namespace Files.App.ServicesImplementation
 	public sealed class SideloadUpdateService : ObservableObject, IUpdateService, IDisposable
 	{
 		private const string SIDELOAD_STABLE = "https://cdn.files.community/files/stable/Files.Package.appinstaller";
+
 		private const string SIDELOAD_PREVIEW = "https://cdn.files.community/files/preview/Files.Package.appinstaller";
 
 		private bool _isUpdateAvailable;
+
 		private bool _isUpdating;
 
-		private readonly HttpClient _client = new(new SocketsHttpHandler { PooledConnectionLifetime = TimeSpan.FromMinutes(1) });
+		private readonly HttpClient _client = new(
+			new SocketsHttpHandler
+			{
+				PooledConnectionLifetime = TimeSpan.FromMinutes(1)
+			});
 
 		private readonly Dictionary<string, string> _sideloadVersion = new()
 		{
@@ -37,8 +43,11 @@ namespace Files.App.ServicesImplementation
 
 		private string PackageName { get; } = Package.Current.Id.Name;
 
-		private Version PackageVersion { get; } = new(Package.Current.Id.Version.Major,
-			Package.Current.Id.Version.Minor, Package.Current.Id.Version.Build, Package.Current.Id.Version.Revision);
+		private Version PackageVersion { get; } = new(
+			Package.Current.Id.Version.Major,
+			Package.Current.Id.Version.Minor,
+			Package.Current.Id.Version.Build,
+			Package.Current.Id.Version.Revision);
 
 		private Uri? DownloadUri { get; set; }
 
@@ -92,6 +101,7 @@ namespace Files.App.ServicesImplementation
 					Logger?.Info("SIDELOAD: Update found.");
 					Logger?.Info("SIDELOAD: Starting background download.");
 					DownloadUri = new Uri(appInstaller.MainBundle.Uri);
+
 					await StartBackgroundDownload();
 				}
 				else

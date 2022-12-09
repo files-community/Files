@@ -87,9 +87,7 @@ namespace Files.App.Serialization.Implementation
 				// Try convert
 				var data = (Dictionary<string, object?>?)import;
 				if (data is null)
-				{
 					return false;
-				}
 
 				// Serialize
 				var serialized = JsonSettingsSerializer.SerializeToJson(data);

@@ -10,7 +10,8 @@ namespace Files.App.Helpers
 
 		public string Name
 		{
-			get; set;
+			get;
+			set;
 		}
 
 		protected override object ProvideValue()

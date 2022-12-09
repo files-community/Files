@@ -92,10 +92,9 @@ namespace Files.App.Helpers
 						"Jottacloud" => CloudProviders.Jottacloud,
 						_ => null,
 					};
+
 					if (driveID is null)
-					{
 						continue;
-					}
 
 					string nextCloudValue = (string)namespaceSubKey?.GetValue(string.Empty);
 					results.Add(new CloudProvider(driveID.Value)
@@ -166,9 +165,7 @@ namespace Files.App.Helpers
 				using (var mountPointsKey = Registry.CurrentUser.OpenSubKey(mountPointKeyName))
 				{
 					if (mountPointsKey is null)
-					{
 						continue;
-					}
 
 					var valueNames = mountPointsKey.GetValueNames();
 					foreach (var valueName in valueNames)

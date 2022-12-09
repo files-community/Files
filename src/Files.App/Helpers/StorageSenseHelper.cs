@@ -9,8 +9,8 @@ namespace Files.App.Helpers
 	{
 		public static async void OpenStorageSense(string path)
 		{
-			if (!path.StartsWith("C:", StringComparison.OrdinalIgnoreCase)
-				&& ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+			if (!path.StartsWith("C:", StringComparison.OrdinalIgnoreCase) &&
+				ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
 			{
 				LaunchHelper.LaunchSettings("page=SettingsPageStorageSenseStorageOverview&target=SystemSettings_StorageSense_VolumeListLink");
 			}

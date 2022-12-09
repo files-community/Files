@@ -13,7 +13,9 @@ namespace Files.App.ServicesImplementation.DateTimeFormatter
 		public abstract string Name { get; }
 
 		public abstract string ToShortLabel(DateTimeOffset offset);
-		public virtual string ToLongLabel(DateTimeOffset offset) => ToShortLabel(offset);
+
+		public virtual string ToLongLabel(DateTimeOffset offset)
+			=> ToShortLabel(offset);
 
 		public ITimeSpanLabel ToTimeSpanLabel(DateTimeOffset offset)
 		{
@@ -37,7 +39,8 @@ namespace Files.App.ServicesImplementation.DateTimeFormatter
 			};
 		}
 
-		protected static string ToString(DateTimeOffset offset, string format) => offset.ToLocalTime().ToString(format, cultureInfo);
+		protected static string ToString(DateTimeOffset offset, string format)
+			=> offset.ToLocalTime().ToString(format, cultureInfo);
 
 		private static int GetWeekOfYear(DateTimeOffset t)
 		{
