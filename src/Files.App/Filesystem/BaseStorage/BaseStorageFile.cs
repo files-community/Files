@@ -107,7 +107,7 @@ namespace Files.App.Filesystem.StorageItems
 				var data = new char[charsToRead];
 				charsRead = await dataReader.ReadAsync(data);
 				builder.Append(data, 0, charsRead);
-			} while (charsRead > 0 && inputStream.Position < inputStream.Size);
+			} while (charsRead > 0 && stream.Position < stream.Length);
 			return builder.ToString();
 		}
 
