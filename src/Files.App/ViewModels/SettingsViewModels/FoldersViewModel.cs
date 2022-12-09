@@ -23,7 +23,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			ShowResetLayoutPreferencesTipCommand = new RelayCommand(() => IsResetLayoutPreferencesTipOpen = true);
 
 			SelectedDefaultLayoutModeIndex = (int)DefaultLayoutMode;
-			SelectedDefaultSortingIndex = DefaultSortOption == SortOption.FileTag ? FileTagSortingIndex : (int)DefaultSortOption;
+			SelectedDefaultSortingIndex = UserSettingsService.FoldersSettingsService.DefaultSortOption == SortOption.FileTag ? FileTagSortingIndex : (int)UserSettingsService.FoldersSettingsService.DefaultSortOption;
 			SelectedDefaultGroupingIndex = UserSettingsService.FoldersSettingsService.DefaultGroupOption == GroupOption.FileTag ? FileTagGroupingIndex : (int)UserSettingsService.FoldersSettingsService.DefaultGroupOption;
 		}
 
@@ -253,7 +253,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				if (SetProperty(ref selectedDefaultSortingIndex, value))
 				{
 					OnPropertyChanged(nameof(SelectedDefaultSortingIndex));
-					DefaultSortOption = value == FileTagSortingIndex ? SortOption.FileTag : (SortOption)value;
+					UserSettingsService.FoldersSettingsService.DefaultSortOption = value == FileTagSortingIndex ? SortOption.FileTag : (SortOption)value;
 				}
 			}
 		}
@@ -271,20 +271,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				}
 			}
 		}
-
-		public SortOption DefaultSortOption
-		{
-			get => UserSettingsService.FoldersSettingsService.DefaultSortOption;
-			set
-			{
-				if (value != UserSettingsService.FoldersSettingsService.DefaultSortOption)
-				{
-					UserSettingsService.FoldersSettingsService.DefaultSortOption = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
+		
 		// Local methods
 
 		public void ResetLayoutPreferences()
