@@ -8,7 +8,9 @@ namespace Files.App.Converters
 	{
 		public object Convert(object value, Type targetType, object parameter, string language)
 		{
-			return (value as bool?) ?? false ? ListViewSelectionMode.Multiple : ListViewSelectionMode.Extended;
+			return (value as bool?) ?? false
+				? ListViewSelectionMode.Multiple
+				: ListViewSelectionMode.Extended;
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, string language)

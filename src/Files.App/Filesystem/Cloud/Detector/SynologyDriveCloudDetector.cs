@@ -11,15 +11,14 @@ namespace Files.App.Filesystem.Cloud
 	{
 		protected override async IAsyncEnumerable<ICloudProvider> GetProviders()
 		{
-			/* Synology Drive stores its information on some files, but we only need sys.sqlite, which is placed on %LocalAppData%\SynologyDrive\data\db
-             * In this database we need "connection_table" and "session_table" tables:
-             * connection_table has the ids of each connection in the field "id", and the type of connection in the field "conn_type" (1 for sync tasks and 2 for backups)
-             * Also it has "host_name" field where it's placed the name of each server.
-             * session_table has the next fields:
-             * "conn_id", which has the id that we check on connection_table to see if it's a sync or backup task
-             * "remote_path", which has the server folder. Currently it's not needed, just adding in case in the future is needed.
-             * "sync_folder", which has the local folder to sync.
-            */
+			// Synology Drive stores its information on some files, but we only need sys.sqlite, which is placed on %LocalAppData%\SynologyDrive\data\db
+			// In this database we need "connection_table" and "session_table" tables:
+			// connection_table has the ids of each connection in the field "id", and the type of connection in the field "conn_type" (1 for sync tasks and 2 for backups)
+			// Also it has "host_name" field where it's placed the name of each server.
+			// session_table has the next fields:
+			// "conn_id", which has the id that we check on connection_table to see if it's a sync or backup task
+			// "remote_path", which has the server folder. Currently it's not needed, just adding in case in the future is needed.
+			// "sync_folder", which has the local folder to sync.
 			string appDataPath = UserDataPaths.GetDefault().LocalAppData;
 			var configFile = await StorageFile.GetFileFromPathAsync(Path.Combine(appDataPath, @"SynologyDrive\data\db\sys.sqlite"));
 			await configFile.CopyAsync(ApplicationData.Current.TemporaryFolder, "synology_drive.db", NameCollisionOption.ReplaceExisting);
@@ -43,6 +42,7 @@ namespace Files.App.Filesystem.Cloud
 					ConnectionType: reader["conn_type"]?.ToString(),
 					HostName: reader["host_name"]?.ToString()
 				);
+
 				connections.Add(reader["id"]?.ToString(), connection);
 			}
 

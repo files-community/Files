@@ -14,11 +14,13 @@ namespace Files.App.Filesystem
 {
 	public static class FileTagsHelper
 	{
-		public static string FileTagsDbPath => IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, "filetags.db");
+		public static string FileTagsDbPath
+			=> IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, "filetags.db");
 
 		private static readonly Lazy<FileTagsDb> dbInstance = new(() => new FileTagsDb(FileTagsDbPath, true));
 
-		public static FileTagsDb GetDbInstance() => dbInstance.Value;
+		public static FileTagsDb GetDbInstance()
+			=> dbInstance.Value;
 
 		public static string[] ReadFileTag(string filePath)
 		{
@@ -28,9 +30,12 @@ namespace Files.App.Filesystem
 
 		public static void WriteFileTag(string filePath, string[] tag)
 		{
-			var isDateOk = NativeFileOperationsHelper.GetFileDateModified(filePath, out var dateModified); // Backup date modified
+			// Backup date modified
+			var isDateOk = NativeFileOperationsHelper.GetFileDateModified(filePath, out var dateModified);
 			var isReadOnly = NativeFileOperationsHelper.HasFileAttribute(filePath, IO.FileAttributes.ReadOnly);
-			if (isReadOnly) // Unset read-only attribute (#7534)
+
+            // Unset read-only attribute https://github.com/files-community/Files/issues/7534
+            if (isReadOnly)
 			{
 				NativeFileOperationsHelper.UnsetFileAttribute(filePath, IO.FileAttributes.ReadOnly);
 			}
@@ -42,13 +47,17 @@ namespace Files.App.Filesystem
 			{
 				NativeFileOperationsHelper.WriteStringToFile($"{filePath}:files", string.Join(',', tag));
 			}
-			if (isReadOnly) // Restore read-only attribute (#7534)
+
+            // Restore read-only attribute https://github.com/files-community/Files/issues/7534
+            if (isReadOnly)
 			{
 				NativeFileOperationsHelper.SetFileAttribute(filePath, IO.FileAttributes.ReadOnly);
 			}
+
 			if (isDateOk)
 			{
-				NativeFileOperationsHelper.SetFileDateModified(filePath, dateModified); // Restore date modified
+				// Restore date modified
+				NativeFileOperationsHelper.SetFileDateModified(filePath, dateModified);
 			}
 		}
 
@@ -82,7 +91,8 @@ namespace Files.App.Filesystem
 							var frn = GetFileFRN(file.FilePath);
 							dbInstance.UpdateTag(file.FilePath, frn, null);
 							dbInstance.SetTags(file.FilePath, (ulong?)frn, tag);
-						}, App.Logger))
+						},
+						App.Logger))
 						{
 							dbInstance.SetTags(file.FilePath, null, null);
 						}
@@ -95,7 +105,8 @@ namespace Files.App.Filesystem
 			}
 		}
 
-		public static ulong? GetFileFRN(string filePath) => NativeFileOperationsHelper.GetFileFRN(filePath);
+		public static ulong? GetFileFRN(string filePath)
+			=> NativeFileOperationsHelper.GetFileFRN(filePath);
 
 		public static Task<ulong?> GetFileFRN(IStorageItem item)
 		{
@@ -103,12 +114,14 @@ namespace Files.App.Filesystem
 			{
 				BaseStorageFolder { Properties: not null } folder => GetFileFRN(folder.Properties),
 				BaseStorageFile { Properties: not null } file => GetFileFRN(file.Properties),
+
 				_ => Task.FromResult<ulong?>(null),
 			};
 
 			static async Task<ulong?> GetFileFRN(IStorageItemExtraProperties properties)
 			{
 				var extra = await properties.RetrievePropertiesAsync(new string[] { "System.FileFRN" });
+
 				return (ulong?)extra["System.FileFRN"];
 			}
 		}

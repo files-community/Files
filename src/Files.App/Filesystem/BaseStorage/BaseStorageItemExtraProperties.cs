@@ -16,6 +16,7 @@ namespace Files.App.Filesystem.StorageItems
 			{
 				var props = new Dictionary<string, object>();
 				propertiesToRetrieve.ForEach(x => props[x] = null);
+
 				return Task.FromResult<IDictionary<string, object>>(props);
 			});
 

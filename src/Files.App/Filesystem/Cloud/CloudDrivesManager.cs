@@ -36,19 +36,19 @@ namespace Files.App.Filesystem.Cloud
 		{
 			var providers = await detector?.DetectCloudProvidersAsync();
 			if (providers is null)
-			{
 				return;
-			}
 
 			foreach (var provider in providers)
 			{
 				logger?.Info($"Adding cloud provider \"{provider.Name}\" mapped to {provider.SyncFolder}");
+
 				var cloudProviderItem = new DriveItem
 				{
 					Text = provider.Name,
 					Path = provider.SyncFolder,
 					Type = DriveType.CloudDrive,
 				};
+
 				try
 				{
 					cloudProviderItem.Root = await StorageFolder.GetFolderFromPathAsync(cloudProviderItem.Path);
@@ -66,6 +66,7 @@ namespace Files.App.Filesystem.Cloud
 					ShowShellItems = true,
 					ShowProperties = true,
 				};
+
 				var iconData = provider.IconData ?? await FileThumbnailHelper.LoadIconWithoutOverlayAsync(provider.SyncFolder, 24);
 				if (iconData is not null)
 				{
@@ -77,9 +78,8 @@ namespace Files.App.Filesystem.Cloud
 				lock (drives)
 				{
 					if (drives.Any(x => x.Path == cloudProviderItem.Path))
-					{
 						continue;
-					}
+
 					drives.Add(cloudProviderItem);
 				}
 

@@ -7,8 +7,6 @@ using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Threading.Tasks;
 
-// The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace Files.App.Dialogs
 {
 	public sealed partial class AddItemDialog : ContentDialog, IDialog<AddItemDialogViewModel>
@@ -24,7 +22,8 @@ namespace Files.App.Dialogs
 			InitializeComponent();
 		}
 
-		public new async Task<DialogResult> ShowAsync() => (DialogResult)await base.ShowAsync();
+		public new async Task<DialogResult> ShowAsync()
+			=> (DialogResult)await base.ShowAsync();
 
 		private void ListView_ItemClick(object sender, ItemClickEventArgs e)
 		{
@@ -35,7 +34,9 @@ namespace Files.App.Dialogs
 		private async void AddItemDialog_Loaded(object sender, RoutedEventArgs e)
 		{
 			var itemTypes = await ShellNewEntryExtensions.GetNewContextMenuEntries();
-			await ViewModel.AddItemsToList(itemTypes); // TODO(i): This is a very cheap way of doing it, consider adding a service to retrieve the itemTypes list.
+
+            // TODO(i): This is a very cheap way of doing it, consider adding a service to retrieve the itemTypes list.
+            await ViewModel.AddItemsToList(itemTypes);
 
 			// Focus on the list view so users can use keyboard navigation
 			AddItemsListView.Focus(FocusState.Programmatic);

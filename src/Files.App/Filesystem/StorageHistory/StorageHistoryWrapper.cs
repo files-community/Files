@@ -9,8 +9,11 @@ namespace Files.App.Filesystem.FilesystemHistory
 
 		private List<IStorageHistory> histories = new();
 
-		public bool CanRedo() => index + 1 < histories.Count;
-		public bool CanUndo() => index >= 0 && histories.Count > 0;
+		public bool CanRedo()
+			=> index + 1 < histories.Count;
+
+		public bool CanUndo()
+			=> index >= 0 && histories.Count > 0;
 
 		public IStorageHistory GetCurrentHistory() => histories[index];
 
@@ -29,10 +32,12 @@ namespace Files.App.Filesystem.FilesystemHistory
 			if (history is not null)
 			{
 				histories.RemoveRange(index + 1, histories.Count - index - 1);
+
 				if (decreaseIndex)
 				{
 					--index;
 				}
+
 				histories.Remove(history);
 			}
 		}
@@ -40,8 +45,11 @@ namespace Files.App.Filesystem.FilesystemHistory
 		public void ModifyCurrentHistory(IStorageHistory newHistory)
 			=> histories[index].Modify(newHistory);
 
-		public void DecreaseIndex() => --index;
-		public void IncreaseIndex() => ++index;
+		public void DecreaseIndex()
+			=> --index;
+
+		public void IncreaseIndex()
+			=> ++index;
 
 		public void Dispose()
 		{

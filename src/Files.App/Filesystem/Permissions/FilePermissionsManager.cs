@@ -7,6 +7,7 @@ namespace Files.App.Filesystem.Permissions
 	public class FilePermissionsManager
 	{
 		public string FilePath { get; set; }
+
 		public bool IsFolder { get; set; }
 
 		public bool CanReadFilePermissions { get; set; }

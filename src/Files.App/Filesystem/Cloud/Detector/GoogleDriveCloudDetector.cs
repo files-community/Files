@@ -15,11 +15,14 @@ namespace Files.App.Filesystem.Cloud
 		{
 			// Google Drive's sync database can be in a couple different locations. Go find it.
 			string appDataPath = UserDataPaths.GetDefault().LocalAppData;
+
 			await StorageFile.GetFileFromPathAsync(Path.Combine(appDataPath, @"Google\DriveFS\root_preference_sqlite.db")).AsTask()
 				.AndThen(c => c.CopyAsync(ApplicationData.Current.TemporaryFolder, "google_drive.db", NameCollisionOption.ReplaceExisting).AsTask());
+
 			// The wal file may not exist but that's ok
 			await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(Path.Combine(appDataPath, @"Google\DriveFS\root_preference_sqlite.db-wal")).AsTask()
 				.AndThen(c => c.CopyAsync(ApplicationData.Current.TemporaryFolder, "google_drive.db-wal", NameCollisionOption.ReplaceExisting).AsTask()));
+
 			var syncDbPath = Path.Combine(ApplicationData.Current.TemporaryFolder.Path, "google_drive.db");
 
 			// Build the connection and sql command
@@ -37,9 +40,7 @@ namespace Files.App.Filesystem.Cloud
 				// Extract the data from the reader
 				string? path = reader["last_seen_absolute_path"]?.ToString();
 				if (string.IsNullOrWhiteSpace(path))
-				{
 					continue;
-				}
 
 				// By default, the path will be prefixed with "\\?\" (unless another app has explicitly changed it).
 				// \\?\ indicates to Win32 that the filename may be longer than MAX_PATH (see MSDN).
@@ -75,9 +76,9 @@ namespace Files.App.Filesystem.Cloud
 
 				yield return new CloudProvider(CloudProviders.GoogleDrive)
 				{
+					IconData = iconFile is not null ? await iconFile.ToByteArrayAsync() : null,
 					Name = title,
 					SyncFolder = path,
-					IconData = iconFile is not null ? await iconFile.ToByteArrayAsync() : null,
 				};
 			}
 		}

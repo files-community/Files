@@ -25,7 +25,6 @@ namespace Files.App.Filesystem
 	public class FilesystemHelpers : IFilesystemHelpers
 	{
 		#region Private Members
-
 		private IShellPage associatedInstance;
 
 		private IFilesystemOperations filesystemOperations;
@@ -37,7 +36,6 @@ namespace Files.App.Filesystem
 		private readonly CancellationToken cancellationToken;
 
 		#region Helpers Members
-
 		private static char[] RestrictedCharacters
 		{
 			get
@@ -59,19 +57,14 @@ namespace Files.App.Filesystem
 				"LPT3", "LPT4", "LPT5",
 				"LPT6", "LPT7", "LPT8", "LPT9"
 		};
-
 		#endregion Helpers Members
-
 		#endregion Private Members
 
 		#region Properties
-
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
 		#endregion
 
 		#region Constructor
-
 		public FilesystemHelpers(IShellPage associatedInstance, CancellationToken cancellationToken)
 		{
 			this.associatedInstance = associatedInstance;
@@ -79,7 +72,6 @@ namespace Files.App.Filesystem
 			this.filesystemOperations = new ShellFilesystemOperations(this.associatedInstance);
 			this.recycleBinHelpers = new RecycleBinHelpers();
 		}
-
 		#endregion Constructor
 
 		#region IFilesystemHelpers
@@ -234,19 +226,19 @@ namespace Files.App.Filesystem
 
 		#endregion Restore
 
-		public async Task<ReturnResult> PerformOperationTypeAsync(DataPackageOperation operation,
-																  DataPackageView packageView,
-																  string destination,
-																  bool showDialog,
-																  bool registerHistory,
-																  bool isTargetExecutable = false)
+		public async Task<ReturnResult> PerformOperationTypeAsync(
+			DataPackageOperation operation,
+			DataPackageView packageView,
+			string destination,
+			bool showDialog,
+			bool registerHistory,
+			bool isTargetExecutable = false)
 		{
 			try
 			{
 				if (destination is null)
-				{
 					return default;
-				}
+
 				if (destination.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
 				{
 					showDialog |= UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog;
@@ -271,6 +263,7 @@ namespace Files.App.Filesystem
 							var items = await GetDraggedStorageItems(packageView);
 							NavigationHelpers.OpenItemsWithExecutable(associatedInstance, items, destination);
 						}
+
 						return ReturnResult.Success;
 					}
 					else
@@ -294,13 +287,12 @@ namespace Files.App.Filesystem
 		}
 
 		#region Copy
-
 		public Task<ReturnResult> CopyItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool showDialog, bool registerHistory)
 			=> CopyItemsAsync(source.Select((item) => item.FromStorageItem()), destination, showDialog, registerHistory);
-
+		
 		public Task<ReturnResult> CopyItemAsync(IStorageItem source, string destination, bool showDialog, bool registerHistory)
 			=> CopyItemAsync(source.FromStorageItem(), destination, showDialog, registerHistory);
-
+		
 		public async Task<ReturnResult> CopyItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool showDialog, bool registerHistory)
 		{
 			source = await source.ToListAsync();
@@ -325,6 +317,7 @@ namespace Files.App.Filesystem
 
 			IStorageHistory history = await filesystemOperations.CopyItemsAsync((IList<IStorageItemWithPath>)source, (IList<string>)destination, collisions, banner.Progress, banner.ErrorCode, token);
 			((IProgress<float>)banner.Progress).Report(100.0f);
+
 			await Task.Yield();
 
 			if (registerHistory && history is not null && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
@@ -340,8 +333,10 @@ namespace Files.App.Filesystem
 						}
 					}
 				}
+
 				App.HistoryWrapper.AddHistory(history);
 			}
+
 			var itemsCopied = history?.Source.Count ?? 0;
 
 			banner.Remove();
@@ -368,6 +363,7 @@ namespace Files.App.Filesystem
 
 				var destinations = new List<string>();
 				List<ShellFileItem> binItems = null;
+
 				foreach (var item in source)
 				{
 					if (recycleBinHelpers.IsPathUnderRecycleBin(item.Path))
@@ -409,6 +405,7 @@ namespace Files.App.Filesystem
 					softwareBitmap = await decoder.GetSoftwareBitmapAsync();
 
 					await BitmapHelper.SaveSoftwareBitmapToFile(softwareBitmap, file, BitmapEncoder.PngEncoderId);
+
 					return ReturnResult.Success;
 				}
 				catch (Exception)
@@ -420,11 +417,9 @@ namespace Files.App.Filesystem
 			// Happens if you copy some text and then you Ctrl+V in Files
 			return ReturnResult.BadArgumentException;
 		}
-
 		#endregion Copy
 
 		#region Move
-
 		public Task<ReturnResult> MoveItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool showDialog, bool registerHistory)
 			=> MoveItemsAsync(source.Select((item) => item.FromStorageItem()), destination, showDialog, registerHistory);
 
@@ -461,6 +456,7 @@ namespace Files.App.Filesystem
 
 			IStorageHistory history = await filesystemOperations.MoveItemsAsync((IList<IStorageItemWithPath>)source, (IList<string>)destination, collisions, banner.Progress, banner.ErrorCode, token);
 			((IProgress<float>)banner.Progress).Report(100.0f);
+
 			await Task.Yield();
 
 			if (registerHistory && history is not null && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
@@ -476,8 +472,10 @@ namespace Files.App.Filesystem
 						}
 					}
 				}
+
 				App.HistoryWrapper.AddHistory(history);
 			}
+
 			int itemsMoved = history?.Source.Count ?? 0;
 
 			source.ForEach(x => App.JumpList.RemoveFolder(x.Path)); // Remove items from jump list
@@ -513,6 +511,7 @@ namespace Files.App.Filesystem
 
 			var destinations = new List<string>();
 			List<ShellFileItem> binItems = null;
+
 			foreach (var item in source)
 			{
 				if (recycleBinHelpers.IsPathUnderRecycleBin(item.Path))
@@ -534,11 +533,9 @@ namespace Files.App.Filesystem
 
 			return returnStatus;
 		}
-
 		#endregion Move
 
 		#region Rename
-
 		public Task<ReturnResult> RenameAsync(IStorageItem source, string newName, NameCollisionOption collision, bool registerHistory, bool showExtensionDialog = true)
 			=> RenameAsync(source.FromStorageItem(), newName, collision, registerHistory, showExtensionDialog);
 
@@ -558,7 +555,8 @@ namespace Files.App.Filesystem
 
 				case FilesystemItemType.File:
 					if (showExtensionDialog &&
-						Path.GetExtension(source.Path) != Path.GetExtension(newName)) // Only prompt user when extension has changed, not when file name has changed
+                        // Only prompt user when extension has changed, not when file name has changed
+                        Path.GetExtension(source.Path) != Path.GetExtension(newName))
 					{
 						var yesSelected = await DialogDisplayHelper.ShowDialogAsync("RenameFileDialogTitle".GetLocalizedResource(), "RenameFileDialog/Text".GetLocalizedResource(), "Yes".GetLocalizedResource(), "No".GetLocalizedResource());
 						if (yesSelected)
@@ -586,18 +584,16 @@ namespace Files.App.Filesystem
 			App.JumpList.RemoveFolder(source.Path); // Remove items from jump list
 
 			await Task.Yield();
+
 			return returnStatus;
 		}
-
 		#endregion Rename
 
 		public async Task<ReturnResult> CreateShortcutFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
 		{
 			if (!HasDraggedStorageItems(packageView))
-			{
 				// Happens if you copy some text and then you Ctrl+V in Files
 				return ReturnResult.BadArgumentException;
-			}
 
 			var handledByFtp = await CheckDragNeedsFulltrust(packageView);
 			if (handledByFtp)
@@ -605,6 +601,7 @@ namespace Files.App.Filesystem
 				// Not supported
 				return ReturnResult.Failed;
 			}
+
 			var source = await GetDraggedStorageItems(packageView);
 
 			var returnStatus = ReturnResult.InProgress;
@@ -626,16 +623,15 @@ namespace Files.App.Filesystem
 			}
 
 			await Task.Yield();
+
 			return returnStatus;
 		}
 
 		public async Task<ReturnResult> RecycleItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
 		{
 			if (!HasDraggedStorageItems(packageView))
-			{
 				// Happens if you copy some text and then you Ctrl+V in Files
 				return ReturnResult.BadArgumentException;
-			}
 
 			var handledByFtp = await CheckDragNeedsFulltrust(packageView);
 			if (handledByFtp)
@@ -652,7 +648,6 @@ namespace Files.App.Filesystem
 
 			return returnStatus;
 		}
-
 		#endregion IFilesystemHelpers
 
 		private static async Task<(List<FileNameConflictResolveOptionType> collisions, bool cancelOperation, IEnumerable<IFileSystemDialogConflictItemViewModel>)> GetCollision(FilesystemOperationType operationType, IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool forceDialog)
@@ -665,12 +660,14 @@ namespace Files.App.Filesystem
 			{
 				var itemPathOrName = string.IsNullOrEmpty(item.src.Path) ? item.src.Item.Name : item.src.Path;
 				incomingItems.Add(new FileSystemDialogConflictItemViewModel() { ConflictResolveOption = FileNameConflictResolveOptionType.None, SourcePath = itemPathOrName, DestinationPath = item.dest, DestinationDisplayName = Path.GetFileName(item.dest) });
+
 				if (collisions.ContainsKey(incomingItems.ElementAt(item.index).SourcePath))
 				{
 					// Something strange happened, log
 					App.Logger.Warn($"Duplicate key when resolving conflicts: {incomingItems.ElementAt(item.index).SourcePath}, {item.src.Name}\n" +
 						$"Source: {string.Join(", ", source.Select(x => string.IsNullOrEmpty(x.Path) ? x.Item.Name : x.Path))}");
 				}
+
 				collisions.AddIfNotPresent(incomingItems.ElementAt(item.index).SourcePath, FileNameConflictResolveOptionType.GenerateNewName);
 
 				// Assume GenerateNewName when source and destination are the same
@@ -700,9 +697,12 @@ namespace Files.App.Filesystem
 
 				var result = await dialogService.ShowDialogAsync(dialogViewModel);
 				itemsResult = dialogViewModel.GetItemsResult();
-				if (mustResolveConflicts) // If there were conflicts, result buttons are different
+
+                // If there were conflicts, result buttons are different
+                if (mustResolveConflicts)
 				{
-					if (result != DialogResult.Primary) // Operation was cancelled
+                    // Operation was cancelled
+                    if (result != DialogResult.Primary)
 					{
 						return (new(), true, itemsResult);
 					}
@@ -723,6 +723,7 @@ namespace Files.App.Filesystem
 				var itemPathOrName = string.IsNullOrEmpty(src.Path) ? src.Item.Name : src.Path;
 				var match = collisions.SingleOrDefault(x => x.Key == itemPathOrName);
 				var fileNameConflictResolveOptionType = (match.Key is not null) ? match.Value : FileNameConflictResolveOptionType.Skip; 
+
 				newCollisions.Add(fileNameConflictResolveOptionType);
 			}
 
@@ -730,7 +731,6 @@ namespace Files.App.Filesystem
 		}
 
 		#region Public Helpers
-
 		public static bool HasDraggedStorageItems(DataPackageView packageView)
 		{
 			return packageView is not null && (packageView.Contains(StandardDataFormats.StorageItems) || (packageView.Properties.TryGetValue("FileDrop", out _)));
@@ -743,6 +743,7 @@ namespace Files.App.Filesystem
 				try
 				{
 					_ = await packageView.GetStorageItemsAsync();
+
 					return false;
 				}
 				catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
@@ -755,12 +756,14 @@ namespace Files.App.Filesystem
 					return false;
 				}
 			}
+
 			return false;
 		}
 
 		public static async Task<IEnumerable<IStorageItemWithPath>> GetDraggedStorageItems(DataPackageView packageView)
 		{
 			var itemsList = new List<IStorageItemWithPath>();
+
 			if (packageView.Contains(StandardDataFormats.StorageItems))
 			{
 				try
@@ -775,9 +778,11 @@ namespace Files.App.Filesystem
 				catch (Exception ex)
 				{
 					App.Logger.Warn(ex, ex.Message);
+
 					return itemsList;
 				}
 			}
+
 			if (packageView.Properties.TryGetValue("FileDrop", out var data))
 			{
 				if (data is List<IStorageItemWithPath> source)
@@ -785,7 +790,9 @@ namespace Files.App.Filesystem
 					itemsList.AddRange(source);
 				}
 			}
+
 			itemsList = itemsList.DistinctBy(x => string.IsNullOrEmpty(x.Path) ? x.Item.Name : x.Path).ToList();
+
 			return itemsList;
 		}
 
@@ -796,6 +803,7 @@ namespace Files.App.Filesystem
 			{
 				input = input.Remove(invalidCharIndex, 1);
 			}
+
 			return input;
 		}
 
@@ -814,11 +822,9 @@ namespace Files.App.Filesystem
 
 			return false;
 		}
-
 		#endregion Public Helpers
 
 		#region IDisposable
-
 		public void Dispose()
 		{
 			filesystemOperations?.Dispose();
@@ -827,7 +833,6 @@ namespace Files.App.Filesystem
 			filesystemOperations = null;
 			recycleBinHelpers = null;
 		}
-
 		#endregion IDisposable
 	}
 }

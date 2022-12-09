@@ -8,7 +8,6 @@ namespace Files.App.DataModels.NavigationControlItems
 		public string Text { get; set; }
 
 		private string path;
-
 		public string Path
 		{
 			get => path;

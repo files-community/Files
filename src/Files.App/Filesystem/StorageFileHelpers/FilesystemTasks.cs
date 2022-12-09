@@ -54,6 +54,7 @@ namespace Files.App.Filesystem
 			{
 				func(res.Result);
 			}
+
 			return res;
 		}
 		public async static Task<FilesystemResult> OnSuccess<T>(this Task<FilesystemResult<T>> wrapped, Func<T, Task> func)
@@ -63,6 +64,7 @@ namespace Files.App.Filesystem
 			{
 				return await Wrap(() => func(res.Result));
 			}
+
 			return res;
 		}
 		public async static Task<FilesystemResult<V>> OnSuccess<V, T>(this Task<FilesystemResult<T>> wrapped, Func<T, Task<V>> func)
@@ -72,6 +74,7 @@ namespace Files.App.Filesystem
 			{
 				return await Wrap(() => func(res.Result));
 			}
+
 			return new FilesystemResult<V>(default, res.ErrorCode);
 		}
 

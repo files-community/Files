@@ -18,6 +18,7 @@ namespace Files.App.Filesystem.Cloud
 			{
 				configFile = await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(configPathBoxSync).AsTask());
 			}
+
 			if (configFile is not null)
 			{
 				string syncPath = await FileIO.ReadTextAsync(configFile);

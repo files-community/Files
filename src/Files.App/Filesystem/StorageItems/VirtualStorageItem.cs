@@ -44,6 +44,7 @@ namespace Files.App.Filesystem.StorageItems
 		{
 			FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
 			int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
+
 			IntPtr hFile = FindFirstFileExFromApp(path, findInfoLevel, out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, additionalFlags);
 			if (hFile.ToInt64() != -1)
 			{
@@ -91,6 +92,7 @@ namespace Files.App.Filesystem.StorageItems
 				{
 					await stream.FlushAsync();
 				}
+
 				request.Dispose();
 			}
 			catch (Exception)
@@ -100,24 +102,15 @@ namespace Files.App.Filesystem.StorageItems
 		}
 
 		public IAsyncAction RenameAsync(string desiredName)
-		{
-			throw new NotImplementedException();
-		}
-
+			=> throw new NotImplementedException();
 		public IAsyncAction RenameAsync(string desiredName, NameCollisionOption option)
-		{
-			throw new NotImplementedException();
-		}
+			=> throw new NotImplementedException();
 
 		public IAsyncAction DeleteAsync()
-		{
-			throw new NotImplementedException();
-		}
+            => throw new NotImplementedException();
 
 		public IAsyncAction DeleteAsync(StorageDeleteOption option)
-		{
-			throw new NotImplementedException();
-		}
+            => throw new NotImplementedException();
 
 		public IAsyncOperation<BasicProperties> GetBasicPropertiesAsync()
 		{
@@ -128,13 +121,15 @@ namespace Files.App.Filesystem.StorageItems
 					var streamedFile = await StorageFile.CreateStreamedFileAsync(Name, StreamedFileWriter, null);
 					return await streamedFile.GetBasicPropertiesAsync();
 				}
-				return props ?? (props = await GetFakeBasicProperties());
+				return props ??= await GetFakeBasicProperties();
 			});
 		}
 
 		public bool IsOfType(StorageItemTypes type)
 		{
-			return Attributes.HasFlag(Windows.Storage.FileAttributes.Directory) ? type == StorageItemTypes.Folder : type == StorageItemTypes.File;
+			return Attributes.HasFlag(Windows.Storage.FileAttributes.Directory)
+				? type == StorageItemTypes.Folder
+				: type == StorageItemTypes.File;
 		}
 	}
 }

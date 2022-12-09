@@ -10,8 +10,6 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-// The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace Files.App.Dialogs
 {
 	public sealed partial class FilesystemOperationDialog : ContentDialog, IDialog<FileSystemDialogViewModel>
@@ -39,13 +37,14 @@ namespace Files.App.Dialogs
 
 		public new async Task<DialogResult> ShowAsync() => (DialogResult)await this.SetContentDialogRoot(this).ShowAsync();
 
-		// WINUI3
 		private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
 		{
-			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+            // WinUI3: https://github.com/microsoft/microsoft-ui-xaml/issues/2504
+            if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
 			{
 				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
 			}
+
 			return contentDialog;
 		}
 
@@ -63,6 +62,7 @@ namespace Files.App.Dialogs
 		protected override void OnApplyTemplate()
 		{
 			base.OnApplyTemplate();
+
 			var primaryButton = this.FindDescendant("PrimaryButton") as Button;
 			if (primaryButton is not null)
 			{
@@ -73,10 +73,12 @@ namespace Files.App.Dialogs
 		private void PrimaryButton_GotFocus(object sender, RoutedEventArgs e)
 		{
 			(sender as Button).GotFocus -= PrimaryButton_GotFocus;
+
 			if (chkPermanentlyDelete is not null)
 			{
 				chkPermanentlyDelete.IsEnabled = ViewModel.IsDeletePermanentlyEnabled;
 			}
+
 			DetailsGrid.IsEnabled = true;
 		}
 
@@ -94,6 +96,7 @@ namespace Files.App.Dialogs
 			}
 
 			var op = (FileNameConflictResolveOptionType)int.Parse(t);
+
 			foreach (var item in DetailsGrid.SelectedItems)
 			{
 				if (item is FileSystemDialogConflictItemViewModel conflictItem)
@@ -131,6 +134,7 @@ namespace Files.App.Dialogs
 		private void RootDialog_Closing(ContentDialog sender, ContentDialogClosingEventArgs args)
 		{
 			App.Window.SizeChanged -= Current_SizeChanged;
+
 			ViewModel.CancelCts();
 		}
 

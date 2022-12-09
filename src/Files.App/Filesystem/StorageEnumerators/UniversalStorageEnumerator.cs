@@ -81,6 +81,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 								{
 									folder.SetDefaultIcon(defaultIconPairs[string.Empty]);
 								}
+
 								tempList.Add(folder);
 							}
 						}
@@ -100,15 +101,18 @@ namespace Files.App.Filesystem.StorageEnumerators
 										}
 									}
 								}
+
 								tempList.Add(fileEntry);
 							}
 						}
 					}
+
 					if (cancellationToken.IsCancellationRequested)
 					{
 						break;
 					}
 				}
+
 				count += maxItemsToRetrieve;
 
 				if (countLimit > -1 && count >= countLimit)
@@ -119,10 +123,12 @@ namespace Files.App.Filesystem.StorageEnumerators
 				if (intermediateAction is not null && (items.Count == maxItemsToRetrieve || sampler.CheckNow()))
 				{
 					await intermediateAction(tempList);
-					// clear the temporary list every time we do an intermediate action
+
+					// Clear the temporary list every time we do an intermediate action
 					tempList.Clear();
 				}
 			}
+
 			return tempList;
 		}
 
@@ -135,6 +141,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 				try
 				{
 					var results = await rootFolder.GetItemsAsync(i, 1);
+
 					item = results?.FirstOrDefault();
 					if (item is null)
 					{
@@ -152,14 +159,17 @@ namespace Files.App.Filesystem.StorageEnumerators
 				{
 					continue;
 				}
+
 				tempList.Add(item);
 			}
+
 			return tempList;
 		}
 
 		public static async Task<ListedItem> AddFolderAsync(BaseStorageFolder folder, StorageFolderWithPath currentStorageFolder, CancellationToken cancellationToken)
 		{
 			var basicProperties = await folder.GetBasicPropertiesAsync();
+
 			if (!cancellationToken.IsCancellationRequested)
 			{
 				if (folder is ShortcutStorageFolder linkFolder)
@@ -223,6 +233,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 					};
 				}
 			}
+
 			return null;
 		}
 
@@ -249,7 +260,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 				return null;
 			}
 
-			// TODO: is this needed to be handled here?
+			// TODO: Is this needed to be handled here?
 			if (App.LibraryManager.TryGetLibrary(file.Path, out LibraryLocationItem library))
 			{
 				return new LibraryItem(library)
@@ -263,6 +274,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 				if (file is ShortcutStorageFile linkFile)
 				{
 					var isUrl = linkFile.Name.EndsWith(".url", StringComparison.OrdinalIgnoreCase);
+
 					return new ShortcutItem(file.FolderRelativeId)
 					{
 						PrimaryItemAttribute = StorageItemTypes.File,
@@ -327,7 +339,6 @@ namespace Files.App.Filesystem.StorageEnumerators
 					};
 				}
 			}
-			return null;
 		}
 	}
 }

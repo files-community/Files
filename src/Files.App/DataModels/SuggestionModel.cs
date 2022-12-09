@@ -14,7 +14,6 @@ namespace Files.App.DataModels
 		public string Name { get; set; }
 
 		private BitmapImage? fileImage;
-
 		public BitmapImage? FileImage
 		{
 			get => fileImage;

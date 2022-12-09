@@ -10,10 +10,12 @@ namespace Files.App.Filesystem.Cloud
 		public async Task<IEnumerable<ICloudProvider>> DetectCloudProvidersAsync()
 		{
 			var tasks = new List<Task<IEnumerable<ICloudProvider>>>();
+
 			foreach (var detector in EnumerateDetectors())
 			{
 				tasks.Add(detector.DetectCloudProvidersAsync());
 			}
+
 			await Task.WhenAll(tasks);
 
 			return tasks

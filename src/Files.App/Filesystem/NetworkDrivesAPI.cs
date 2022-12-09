@@ -18,6 +18,7 @@ namespace Files.App.Filesystem
 		public class NetworkConnectionDialog : CommonDialog
 		{
 			private readonly NETRESOURCE nres = new NETRESOURCE();
+
 			private CONNECTDLGSTRUCT opts;
 
 			/// <summary>Initializes a new instance of the <see cref="NetworkConnectionDialog"/> class.</summary>
@@ -78,6 +79,7 @@ namespace Files.App.Filesystem
 				{
 					if (value && !string.IsNullOrEmpty(RemoteNetworkName))
 						throw new InvalidOperationException($"{nameof(UseMostRecentPath)} cannot be set to true if {nameof(RemoteNetworkName)} has a value.");
+
 					opts.dwFlags = opts.dwFlags.SetFlags(CONN_DLG.CONNDLG_USE_MRU, value);
 				}
 			}
@@ -95,14 +97,20 @@ namespace Files.App.Filesystem
 			protected override bool RunDialog(IntPtr hwndOwner)
 			{
 				using var lpnres = SafeCoTaskMemHandle.CreateFromStructure(nres);
+
 				opts.hwndOwner = hwndOwner;
 				opts.lpConnRes = lpnres.DangerousGetHandle();
+
 				if (ReadOnlyPath && !string.IsNullOrEmpty(nres.lpRemoteName))
 					opts.dwFlags |= CONN_DLG.CONNDLG_RO_PATH;
+
 				var ret = WNetConnectionDialog1(opts);
 				opts.lpConnRes = IntPtr.Zero;
-				if (ret == unchecked((uint)-1)) return false;
+
+				if (ret == unchecked((uint)-1))
+					return false;
 				ret.ThrowIfFailed();
+
 				return true;
 			}
 		}
@@ -111,15 +119,18 @@ namespace Files.App.Filesystem
 		{
 			return Win32API.StartSTATask(() =>
 			{
-				using var ncd = new NetworkConnectionDialog { UseMostRecentPath = true };
+				using var ncd = new NetworkConnectionDialog
+				{
+					UseMostRecentPath = true
+				};
+
 				ncd.HideRestoreConnectionCheckBox = false;
+
 				return ncd.ShowDialog(Win32API.Win32Window.FromLong(hwnd)) == DialogResult.OK;
 			});
 		}
 
 		public static bool DisconnectNetworkDrive(string drive)
-		{
-			return WNetCancelConnection2(drive.TrimEnd('\\'), CONNECT.CONNECT_UPDATE_PROFILE, true).Succeeded;
-		}
+			=> WNetCancelConnection2(drive.TrimEnd('\\'), CONNECT.CONNECT_UPDATE_PROFILE, true).Succeeded;
 	}
 }

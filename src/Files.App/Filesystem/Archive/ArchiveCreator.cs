@@ -34,6 +34,7 @@ namespace Files.App.Filesystem.Archive
 			ArchiveFormats.GZip => ".gz",
 			_ => throw new ArgumentOutOfRangeException(nameof(FileFormat)),
 		};
+
 		private OutArchiveFormat SevenZipArchiveFormat => FileFormat switch
 		{
 			ArchiveFormats.Zip => OutArchiveFormat.Zip,
@@ -42,6 +43,7 @@ namespace Files.App.Filesystem.Archive
 			ArchiveFormats.GZip => OutArchiveFormat.GZip,
 			_ => throw new ArgumentOutOfRangeException(nameof(FileFormat)),
 		};
+
 		private CompressionLevel SevenZipCompressionLevel => CompressionLevel switch
 		{
 			ArchiveCompressionLevels.Ultra => SevenZip.CompressionLevel.Ultra,
@@ -52,6 +54,7 @@ namespace Files.App.Filesystem.Archive
 			ArchiveCompressionLevels.None => SevenZip.CompressionLevel.None,
 			_ => throw new ArgumentOutOfRangeException(nameof(CompressionLevel)),
 		};
+
 		private long SevenZipVolumeSize => SplittingSize switch
 		{
 			ArchiveSplittingSizes.None => 0L,
@@ -76,6 +79,7 @@ namespace Files.App.Filesystem.Archive
 			int index = 1;
 			while (File.Exists(path) || System.IO.Directory.Exists(path))
 				path = Path.Combine(Directory, $"{FileName} ({++index}){ArchiveExtension}");
+
 			archivePath = path;
 
 			var compressor = new SevenZipCompressor
@@ -89,6 +93,7 @@ namespace Files.App.Filesystem.Archive
 				PreserveDirectoryRoot = sources.Length > 1,
 				EventSynchronization = EventSynchronizationStrategy.AlwaysAsynchronous,
 			};
+
 			compressor.Compressing += Compressor_Compressing;
 
 			try

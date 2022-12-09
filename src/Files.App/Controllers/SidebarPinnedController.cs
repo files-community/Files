@@ -53,6 +53,7 @@ namespace Files.App.Controllers
 			{
 				Model.AddDefaultItems();
 				await Model.AddAllItemsToSidebar();
+
 				return;
 			}
 
@@ -93,10 +94,12 @@ namespace Files.App.Controllers
 			{
 				configContent = await FileIO.ReadTextAsync(JsonFile.Result);
 				Model = JsonSerializer.Deserialize<SidebarPinnedModel>(configContent);
+
 				if (Model is null)
 				{
 					throw new ArgumentException($"{JsonFileName} is empty, regenerating...");
 				}
+
 				Model.SetController(this);
 			}
 			catch (Exception)
@@ -112,8 +115,10 @@ namespace Files.App.Controllers
 
 		private async Task StartWatchConfigChangeAsync()
 		{
-			var queryOptions = new QueryOptions();
-			queryOptions.ApplicationSearchFilter = "System.FileName:" + JsonFileName;
+			QueryOptions queryOptions = new QueryOptions
+			{
+				ApplicationSearchFilter = "System.FileName:" + JsonFileName
+			};
 
 			var settingsFolder = await ApplicationData.Current.LocalFolder.GetFolderAsync("settings");
 			query = settingsFolder.CreateFileQueryWithOptions(queryOptions);
@@ -170,6 +175,7 @@ namespace Files.App.Controllers
 				var oldPinnedItemsFile = await ApplicationData.Current.LocalCacheFolder.GetFileAsync("PinnedItems.txt");
 				var oldPinnedItems = await FileIO.ReadLinesAsync(oldPinnedItemsFile);
 				await oldPinnedItemsFile.DeleteAsync();
+
 				return oldPinnedItems;
 			});
 		}
@@ -181,6 +187,7 @@ namespace Files.App.Controllers
 				var oldPinnedItemsFile = await ApplicationData.Current.LocalCacheFolder.GetFileAsync("PinnedItems.json");
 				var model = JsonSerializer.Deserialize<SidebarPinnedModel>(await FileIO.ReadTextAsync(oldPinnedItemsFile));
 				await oldPinnedItemsFile.DeleteAsync();
+
 				return model.FavoriteItems;
 			});
 		}

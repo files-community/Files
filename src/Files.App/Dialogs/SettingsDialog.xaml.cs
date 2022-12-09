@@ -17,17 +17,22 @@ namespace Files.App.Dialogs
 		}
 
 		// for some reason the requested theme wasn't being set on the content dialog, so this is used to manually bind to the requested app theme
-		private FrameworkElement RootAppElement => App.Window.Content as FrameworkElement;
+		private FrameworkElement RootAppElement
+			=> App.Window.Content as FrameworkElement;
 
 		public SettingsDialog()
 		{
 			this.InitializeComponent();
+
 			SettingsPane.SelectedItem = SettingsPane.MenuItems[0];
+
 			App.Window.SizeChanged += Current_SizeChanged;
+
 			UpdateDialogLayout();
 		}
 
-		public new async Task<DialogResult> ShowAsync() => (DialogResult)await base.ShowAsync();
+		public new async Task<DialogResult> ShowAsync()
+			=> (DialogResult)await base.ShowAsync();
 
 		private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
 		{

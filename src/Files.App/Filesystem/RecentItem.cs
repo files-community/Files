@@ -18,19 +18,31 @@ namespace Files.App.Filesystem
 			get => _fileImg;
 			set => SetProperty(ref _fileImg, value);
 		}
-		public string LinkPath { get; set; }    // path of shortcut item (this is unique)
-		public string RecentPath { get; set; }  // path to target item
+
+		// path of shortcut item (this is unique)
+		public string LinkPath { get; set; }
+
+		// path to target item
+		public string RecentPath { get; set; }
+
 		public string Name { get; set; }
+
 		public StorageItemTypes Type { get; set; }
+
 		public bool FolderImg { get; set; }
+
 		public bool EmptyImgVis { get; set; }
+
 		public bool FileIconVis { get; set; }
+
 		public bool IsFile { get => Type == StorageItemTypes.File; }
+
 		public DateTime LastModified { get; set; }
 
 		public RecentItem()
 		{
-			EmptyImgVis = true; // defer icon load to LoadRecentItemIcon()
+			// Defer icon load to LoadRecentItemIcon()
+			EmptyImgVis = true; 
 		}
 
 		/// <summary>
@@ -92,26 +104,22 @@ namespace Files.App.Filesystem
 		public bool Equals(RecentItem other)
 		{
 			if (other is null)
-			{
 				return false;
-			}
 
-			// do not include LastModified or anything else here; otherwise, Remove(...) will fail since we lose metadata on deletion!
+			// Do not include LastModified or anything else here; otherwise, Remove(...) will fail since we lose metadata on deletion!
 			// when constructing a RecentItem from a deleted link, the only thing we have is the LinkPath (where the link use to be)
-			return LinkPath == other.LinkPath &&
-				   RecentPath == other.RecentPath;
+			return LinkPath == other.LinkPath && RecentPath == other.RecentPath;
 		}
 
-		/**
-		 * Strips a name from an extension while aware of some edge cases.
-		 *
-		 *   example.min.js => example.min
-		 *   example.js     => example
-		 *   .gitignore     => .gitignore
-		 */
-		private static string NameOrPathWithoutExtension(string nameOrPath)
+        // Strips a name from an extension while aware of some edge cases.
+        //
+        //   example.min.js => example.min
+        //   example.js     => example
+        //   .gitignore     => .gitignore
+        private static string NameOrPathWithoutExtension(string nameOrPath)
 		{
 			string strippedExtension = Path.GetFileNameWithoutExtension(nameOrPath);
+
 			return string.IsNullOrEmpty(strippedExtension) ? Path.GetFileName(nameOrPath) : strippedExtension;
 		}
 	}

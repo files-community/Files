@@ -25,9 +25,11 @@ namespace Files.App.Filesystem
 	public class DrivesManager : ObservableObject
 	{
 		private readonly ILogger logger = Ioc.Default.GetService<ILogger>();
+
 		private readonly ISizeProvider folderSizeProvider = Ioc.Default.GetService<ISizeProvider>();
 
 		private bool isDriveEnumInProgress;
+
 		private DeviceWatcher watcher;
 
 		public EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
@@ -51,7 +53,8 @@ namespace Files.App.Filesystem
 			set => SetProperty(ref showUserConsentOnInit, value);
 		}
 
-		public DrivesManager() => SetupWatcher();
+		public DrivesManager()
+			=> SetupWatcher();
 
 		public static async Task<StorageFolderWithPath> GetRootFromPathAsync(string devicePath)
 		{
@@ -59,16 +62,20 @@ namespace Files.App.Filesystem
 				return null;
 
 			var rootPath = Path.GetPathRoot(devicePath);
-			if (devicePath.StartsWith(@"\\?\", StringComparison.Ordinal)) // USB device
+
+			// USB device
+			if (devicePath.StartsWith(@"\\?\", StringComparison.Ordinal))
 			{
 				// Check among already discovered drives
 				StorageFolder matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x =>
 					Helpers.PathNormalization.NormalizePath(x.Path) == Helpers.PathNormalization.NormalizePath(rootPath))?.Root;
+
 				if (matchingDrive is null)
 				{
 					// Check on all removable drives
 					var remDevices = await DeviceInformation.FindAllAsync(StorageDevice.GetDeviceSelector());
 					string normalizedRootPath = Helpers.PathNormalization.NormalizePath(rootPath).Replace(@"\\?\", string.Empty, StringComparison.Ordinal);
+
 					foreach (var item in remDevices)
 					{
 						try
@@ -86,17 +93,23 @@ namespace Files.App.Filesystem
 						}
 					}
 				}
+
 				if (matchingDrive is not null)
 				{
 					return new StorageFolderWithPath(matchingDrive, rootPath);
 				}
 			}
-			else if (devicePath.StartsWith(@"\\", StringComparison.Ordinal)) // Network share
+			// Network share
+			else if (devicePath.StartsWith(@"\\", StringComparison.Ordinal))
 			{
 				int lastSepIndex = rootPath.LastIndexOf(@"\", StringComparison.Ordinal);
-				rootPath = lastSepIndex > 1 ? rootPath.Substring(0, lastSepIndex) : rootPath; // Remove share name
+
+				// Remove share name
+				rootPath = lastSepIndex > 1 ? rootPath.Substring(0, lastSepIndex) : rootPath;
+
 				return new StorageFolderWithPath(await StorageFolder.GetFolderFromPathAsync(rootPath), rootPath);
 			}
+
 			// It's ok to return null here, on normal drives StorageFolder.GetFolderFromPathAsync works
 			return null;
 		}
@@ -114,6 +127,7 @@ namespace Files.App.Filesystem
 					ShowUserConsentOnInit = true;
 				}
 			}
+
 			StartWatcher();
 
 			isDriveEnumInProgress = false;
@@ -132,14 +146,11 @@ namespace Files.App.Filesystem
 			switch (eventType)
 			{
 				case DeviceEvent.Added:
-
 					break;
 				case DeviceEvent.Removed:
-
 					break;
 				case DeviceEvent.Inserted:
 				case DeviceEvent.Ejected:
-
 					break;
 			}
 		}
@@ -178,6 +189,7 @@ namespace Files.App.Filesystem
 			}
 
 			DataChanged?.Invoke(SectionType.Drives, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+
 			Watcher_EnumerationCompleted();
 		}
 
@@ -185,12 +197,14 @@ namespace Files.App.Filesystem
 		{
 			var rootModified = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(e.DeviceId).AsTask());
 			DriveItem matchingDriveEjected = Drives.FirstOrDefault(x => x.DeviceID == e.DeviceId);
+
 			if (rootModified && matchingDriveEjected is not null)
 			{
 				_ = App.Window.DispatcherQueue.EnqueueAsync(() =>
 				{
 					matchingDriveEjected.Root = rootModified.Result;
 					matchingDriveEjected.Text = rootModified.Result.DisplayName;
+
 					return matchingDriveEjected.UpdatePropertiesAsync();
 				});
 			}
@@ -200,14 +214,16 @@ namespace Files.App.Filesystem
 		{
 			var driveAdded = new DriveInfo(e.DeviceId);
 			var rootAdded = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(e.DeviceId).AsTask());
+
 			if (!rootAdded)
 			{
-				logger.Warn($"{rootAdded.ErrorCode}: Attempting to add the device, {e.DeviceId},"
-					+ " failed at the StorageFolder initialization step. This device will be ignored.");
+				logger.Warn($"{rootAdded.ErrorCode}: Attempting to add the device, {e.DeviceId}, failed at the StorageFolder initialization step. This device will be ignored.");
+
 				return;
 			}
 
 			DriveItem driveItem;
+
 			using (var thumbnail = await GetThumbnailAsync(rootAdded.Result))
 			{
 				var type = GetDriveType(driveAdded);
@@ -220,19 +236,22 @@ namespace Files.App.Filesystem
 				var matchingDrive = drives.FirstOrDefault(x => x.DeviceID == e.DeviceId ||
 					string.IsNullOrEmpty(rootAdded.Result.Path)
 						? x.Path.Contains(rootAdded.Result.Name, StringComparison.OrdinalIgnoreCase)
-						: x.Path == rootAdded.Result.Path
-				);
+						: x.Path == rootAdded.Result.Path);
+
 				if (matchingDrive is not null)
 				{
 					// Update device id to match drive letter
 					matchingDrive.DeviceID = e.DeviceId;
 					return;
 				}
+
 				logger.Info($"Drive added from fulltrust process: {driveItem.Path}, {driveItem.Type}");
+
 				drives.Add(driveItem);
 			}
 
 			DataChanged?.Invoke(SectionType.Drives, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, driveItem));
+
 			Watcher_EnumerationCompleted();
 		}
 
@@ -252,18 +271,20 @@ namespace Files.App.Filesystem
 		{
 			string deviceId = info.Id;
 			StorageFolder root = null;
+
 			try
 			{
 				root = StorageDevice.FromId(deviceId);
 			}
 			catch (Exception ex) when (ex is ArgumentException or UnauthorizedAccessException)
 			{
-				logger.Warn($"{ex.GetType()}: Attempting to add the device, {info.Name},"
-					+ $" failed at the StorageFolder initialization step. This device will be ignored. Device ID: {deviceId}");
+				logger.Warn($"{ex.GetType()}: Attempting to add the device, {info.Name}, failed at the StorageFolder initialization step. This device will be ignored. Device ID: {deviceId}");
+
 				return;
 			}
 
 			DriveType type;
+
 			try
 			{
 				// Check if this drive is associated with a drive letter
@@ -282,12 +303,15 @@ namespace Files.App.Filesystem
 			{
 				// If drive already in list, skip.
 				if (drives.Any(x => x.DeviceID == deviceId ||
-					string.IsNullOrEmpty(root.Path) ? x.Path.Contains(root.Name, StringComparison.OrdinalIgnoreCase) : x.Path == root.Path))
+					string.IsNullOrEmpty(root.Path)
+					? x.Path.Contains(root.Name, StringComparison.OrdinalIgnoreCase)
+					: x.Path == root.Path))
 				{
 					return;
 				}
 
 				logger.Info($"Drive added: {driveItem.Path}, {driveItem.Type}");
+
 				drives.Add(driveItem);
 			}
 
@@ -300,6 +324,7 @@ namespace Files.App.Filesystem
 		private void Watcher_Removed(DeviceWatcher sender, DeviceInformationUpdate args)
 		{
 			logger.Info($"Drive removed: {args.Id}");
+
 			lock (drives)
 			{
 				drives.RemoveAll(x => x.DeviceID == args.Id);
@@ -330,14 +355,14 @@ namespace Files.App.Filesystem
 				if (res.ErrorCode is FileSystemStatusCode.Unauthorized)
 				{
 					unauthorizedAccessDetected = true;
-					logger.Warn($"{res.ErrorCode}: Attempting to add the device, {drive.Name},"
-						+ " failed at the StorageFolder initialization step. This device will be ignored.");
+					logger.Warn($"{res.ErrorCode}: Attempting to add the device, {drive.Name}, failed at the StorageFolder initialization step. This device will be ignored.");
+
 					continue;
 				}
 				else if (!res)
 				{
-					logger.Warn($"{res.ErrorCode}: Attempting to add the device, {drive.Name},"
-						+ " failed at the StorageFolder initialization step. This device will be ignored.");
+					logger.Warn($"{res.ErrorCode}: Attempting to add the device, {drive.Name}, failed at the StorageFolder initialization step. This device will be ignored.");
+
 					continue;
 				}
 
@@ -349,11 +374,10 @@ namespace Files.App.Filesystem
 				{
 					// If drive already in list, skip.
 					if (drives.Any(x => x.Path == drive.Name))
-					{
 						continue;
-					}
 
 					logger.Info($"Drive added: {driveItem.Path}, {driveItem.Type}");
+
 					drives.Add(driveItem);
 				}
 
@@ -387,7 +411,6 @@ namespace Files.App.Filesystem
 
 		private static async Task<StorageItemThumbnail> GetThumbnailAsync(StorageFolder folder)
 			=> (StorageItemThumbnail)await FilesystemTasks.Wrap(()
-				=> folder.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale).AsTask()
-			);
+				=> folder.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale).AsTask());
 	}
 }

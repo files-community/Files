@@ -50,6 +50,7 @@ namespace Files.App.Filesystem
 						}
 						distros.Add(distro);
 					}
+
 					DataChanged?.Invoke(SectionType.WSL, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, distro));
 				}
 			}
@@ -65,19 +66,25 @@ namespace Files.App.Filesystem
 			{
 				return new Uri(WslIconsPaths.UbuntuIcon);
 			}
+
 			if (Contains(displayName, "kali"))
 			{
 				return new Uri(WslIconsPaths.KaliIcon);
 			}
+
 			if (Contains(displayName, "debian"))
 			{
 				return new Uri(WslIconsPaths.DebianIcon);
 			}
+
 			if (Contains(displayName, "opensuse"))
 			{
 				return new Uri(WslIconsPaths.OpenSuse);
 			}
-			return Contains(displayName, "alpine") ? new Uri(WslIconsPaths.Alpine) : new Uri(WslIconsPaths.GenericIcon);
+
+			return Contains(displayName, "alpine")
+				? new Uri(WslIconsPaths.Alpine)
+				: new Uri(WslIconsPaths.GenericIcon);
 
 			static bool Contains(string displayName, string distroName)
 				=> displayName.Contains(distroName, StringComparison.OrdinalIgnoreCase);

@@ -11,7 +11,9 @@ namespace Files.App.Filesystem.StorageItems
 	public class InputStreamWithDisposeCallback : IInputStream
 	{
 		private Stream stream;
+
 		private IInputStream iStream;
+
 		public Action DisposeCallback { get; set; }
 
 		public InputStreamWithDisposeCallback(Stream stream)
@@ -36,9 +38,13 @@ namespace Files.App.Filesystem.StorageItems
 	public class NonSeekableRandomAccessStreamForWrite : IRandomAccessStream
 	{
 		private Stream stream;
+
 		private IOutputStream oStream;
+
 		private IRandomAccessStream imrac;
+
 		private ulong byteSize;
+
 		private bool isWritten;
 
 		public Action DisposeCallback { get; set; }
@@ -61,6 +67,7 @@ namespace Files.App.Filesystem.StorageItems
 			{
 				throw new NotSupportedException();
 			}
+
 			return this;
 		}
 
@@ -72,7 +79,8 @@ namespace Files.App.Filesystem.StorageItems
 			}
 		}
 
-		public IRandomAccessStream CloneStream() => throw new NotSupportedException();
+		public IRandomAccessStream CloneStream()
+			=> throw new NotSupportedException();
 
 		public bool CanRead => false;
 
@@ -98,6 +106,7 @@ namespace Files.App.Filesystem.StorageItems
 				{
 					var res = await oStream.WriteAsync(buffer);
 					byteSize += res;
+
 					return res;
 				};
 
@@ -116,6 +125,7 @@ namespace Files.App.Filesystem.StorageItems
 			return AsyncInfo.Run<bool>(async (cancellationToken) =>
 			{
 				await stream.FlushAsync();
+
 				return true;
 			});
 		}
@@ -132,9 +142,13 @@ namespace Files.App.Filesystem.StorageItems
 	public class NonSeekableRandomAccessStreamForRead : IRandomAccessStream
 	{
 		private Stream stream;
+
 		private IRandomAccessStream imrac;
+
 		private ulong virtualPosition;
+
 		private ulong readToByte;
+
 		private ulong byteSize;
 
 		public Action DisposeCallback { get; set; }
@@ -151,6 +165,7 @@ namespace Files.App.Filesystem.StorageItems
 		public IInputStream GetInputStreamAt(ulong position)
 		{
 			Seek(position);
+
 			return this;
 		}
 
@@ -187,6 +202,7 @@ namespace Files.App.Filesystem.StorageItems
 					int read;
 					var tempBuffer = new byte[16384];
 					imrac.Seek(readToByte);
+
 					while (imrac.Position < virtualPosition + count)
 					{
 						read = await stream.ReadAsync(tempBuffer, 0, tempBuffer.Length);
@@ -196,11 +212,13 @@ namespace Files.App.Filesystem.StorageItems
 						}
 						await imrac.WriteAsync(tempBuffer.AsBuffer(0, read));
 					}
+
 					readToByte = imrac.Position;
 
 					imrac.Seek(virtualPosition);
 					var res = await imrac.ReadAsync(buffer, count, options);
 					virtualPosition = imrac.Position;
+
 					return res;
 				};
 
@@ -234,13 +252,17 @@ namespace Files.App.Filesystem.StorageItems
 			baseStream = stream;
 		}
 
-		public IInputStream GetInputStreamAt(ulong position) => baseStream.GetInputStreamAt(position);
+		public IInputStream GetInputStreamAt(ulong position)
+			=> baseStream.GetInputStreamAt(position);
 
-		public IOutputStream GetOutputStreamAt(ulong position) => baseStream.GetOutputStreamAt(position);
+		public IOutputStream GetOutputStreamAt(ulong position)
+			=> baseStream.GetOutputStreamAt(position);
 
-		public void Seek(ulong position) => baseStream.Seek(position);
+		public void Seek(ulong position)
+			=> baseStream.Seek(position);
 
-		public IRandomAccessStream CloneStream() => baseStream.CloneStream();
+		public IRandomAccessStream CloneStream()
+			=> baseStream.CloneStream();
 
 		public bool CanRead => baseStream.CanRead;
 
@@ -248,7 +270,11 @@ namespace Files.App.Filesystem.StorageItems
 
 		public ulong Position => baseStream.Position;
 
-		public ulong Size { get => baseStream.Size; set => baseStream.Size = value; }
+		public ulong Size
+		{
+			get => baseStream.Size;
+			set => baseStream.Size = value;
+		}
 
 		public IAsyncOperationWithProgress<IBuffer, uint> ReadAsync(IBuffer buffer, uint count, InputStreamOptions options)
 		{

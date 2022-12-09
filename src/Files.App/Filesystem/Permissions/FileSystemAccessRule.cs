@@ -16,6 +16,7 @@ namespace Files.App.Filesystem.Permissions
 	public class FilePermissions
 	{
 		public string FilePath { get; set; }
+
 		public bool IsFolder { get; set; }
 
 		public bool CanReadFilePermissions { get; set; }
@@ -36,12 +37,13 @@ namespace Files.App.Filesystem.Permissions
 		public static FilePermissions FromFilePath(string filePath, bool isFolder)
 		{
 			var filePermissions = new FilePermissions() { FilePath = filePath, IsFolder = isFolder };
+
 			var acsResult = GetAccessControl(filePath, isFolder, out var acs);
 			if (acsResult)
 			{
-				var accessRules = acs.GetAccessRules(true, true, typeof(SecurityIdentifier));
-
 				var rules = new List<FileSystemAccessRule2>();
+
+				var accessRules = acs.GetAccessRules(true, true, typeof(SecurityIdentifier));
 				foreach (var accessRule in accessRules)
 				{
 					rules.Add(FileSystemAccessRule2.FromFileSystemAccessRule((System.Security.AccessControl.FileSystemAccessRule)accessRule));
@@ -51,7 +53,9 @@ namespace Files.App.Filesystem.Permissions
 				filePermissions.OwnerSID = acs.GetOwner(typeof(SecurityIdentifier)).Value;
 				filePermissions.AreAccessRulesProtected = acs.AreAccessRulesProtected;
 			}
+
 			filePermissions.CanReadFilePermissions = acsResult;
+
 			return filePermissions;
 		}
 
@@ -67,10 +71,12 @@ namespace Files.App.Filesystem.Permissions
 					{
 						acs.RemoveAccessRule(existingRule);
 					}
+
 					foreach (var rule in AccessRules.Where(x => !x.IsInherited))
 					{
 						acs.AddAccessRule(rule.ToFileSystemAccessRule());
 					}
+
 					if (IsFolder)
 					{
 						FileSystemAclExtensions.SetAccessControl(new DirectoryInfo(FilePath), acs as DirectorySecurity);
@@ -79,6 +85,7 @@ namespace Files.App.Filesystem.Permissions
 					{
 						FileSystemAclExtensions.SetAccessControl(new FileInfo(FilePath), acs as FileSecurity);
 					}
+
 					return true;
 				}
 				catch (UnauthorizedAccessException)
@@ -91,6 +98,7 @@ namespace Files.App.Filesystem.Permissions
 					return false;
 				}
 			}
+
 			return false;
 		}
 
@@ -102,6 +110,7 @@ namespace Files.App.Filesystem.Permissions
 				try
 				{
 					acs.SetAccessRuleProtection(isProtected, preserveInheritance);
+
 					if (IsFolder)
 					{
 						FileSystemAclExtensions.SetAccessControl(new DirectoryInfo(FilePath), acs as DirectorySecurity);
@@ -110,6 +119,7 @@ namespace Files.App.Filesystem.Permissions
 					{
 						FileSystemAclExtensions.SetAccessControl(new FileInfo(FilePath), acs as FileSecurity);
 					}
+
 					return true;
 				}
 				catch (UnauthorizedAccessException)
@@ -122,6 +132,7 @@ namespace Files.App.Filesystem.Permissions
 					return false;
 				}
 			}
+
 			return false;
 		}
 
@@ -133,6 +144,7 @@ namespace Files.App.Filesystem.Permissions
 				try
 				{
 					acs.SetOwner(new SecurityIdentifier(ownerSid));
+
 					if (IsFolder)
 					{
 						FileSystemAclExtensions.SetAccessControl(new DirectoryInfo(FilePath), acs as DirectorySecurity);
@@ -141,6 +153,7 @@ namespace Files.App.Filesystem.Permissions
 					{
 						FileSystemAclExtensions.SetAccessControl(new FileInfo(FilePath), acs as FileSecurity);
 					}
+
 					return true;
 				}
 				catch (UnauthorizedAccessException)
@@ -203,7 +216,9 @@ namespace Files.App.Filesystem.Permissions
 					MultiSelect = false,
 					ShowAdvancedView = true
 				};
+
 				picker.AttributesToFetch.Add("objectSid");
+
 				using (picker)
 				{
 					if (picker.ShowDialog(Win32API.Win32Window.FromLong(hwnd)) == DialogResult.OK)
@@ -221,11 +236,13 @@ namespace Files.App.Filesystem.Permissions
 						}
 					}
 				}
+
 				return null;
 			});
 		}
 
-		public bool HasPermission(FileSystemRights perm) => GetEffectiveRights().HasFlag(perm);
+		public bool HasPermission(FileSystemRights perm)
+			=> GetEffectiveRights().HasFlag(perm);
 
 		public System.Security.AccessControl.FileSystemRights GetEffectiveRights()
 		{

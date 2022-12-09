@@ -24,7 +24,9 @@ namespace Files.App.Filesystem
 		public EventHandler<NotifyCollectionChangedEventArgs>? DataChanged;
 
 		private FileSystemWatcher librariesWatcher;
+
 		private readonly List<LibraryLocationItem> libraries = new();
+
 		private static readonly Lazy<LibraryManager> lazy = new(() => new LibraryManager());
 
 		public static LibraryManager Default
@@ -79,7 +81,6 @@ namespace Files.App.Filesystem
 				case "SavedPictures":
 				case "Videos":
 					return true;
-
 				default:
 					return false;
 			}
@@ -96,6 +97,7 @@ namespace Files.App.Filesystem
 				try
 				{
 					var libraryItems = new List<ShellLibraryItem>();
+
 					// https://docs.microsoft.com/en-us/windows/win32/search/-search-win7-development-scenarios#library-descriptions
 					var libFiles = Directory.EnumerateFiles(ShellLibraryItem.LibrariesPath, "*" + ShellLibraryItem.EXTENSION);
 					foreach (var libFile in libFiles)
@@ -106,6 +108,7 @@ namespace Files.App.Filesystem
 							libraryItems.Add(ShellFolderExtensions.GetShellLibraryItem(library, libFile));
 						}
 					}
+
 					return libraryItems;
 				}
 				catch (Exception e)
@@ -125,26 +128,32 @@ namespace Files.App.Filesystem
 			{
 				libraries.Clear();
 			}
+
 			var libs = await ListUserLibraries();
 			if (libs is not null)
 			{
 				libs.Sort();
+
 				lock (libraries)
 				{
 					libraries.AddRange(libs);
 				}
 			}
+
 			DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 		}
 
 		public bool TryGetLibrary(string path, out LibraryLocationItem library)
 		{
-			if (string.IsNullOrWhiteSpace(path) || !path.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase))
+			if (string.IsNullOrWhiteSpace(path) ||
+				!path.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase))
 			{
 				library = null;
 				return false;
 			}
+
 			library = Libraries.FirstOrDefault(l => string.Equals(path, l.Path, StringComparison.OrdinalIgnoreCase));
+
 			return library is not null;
 		}
 
@@ -166,6 +175,7 @@ namespace Files.App.Filesystem
 					library.Folders.Add(ShellItem.Open(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))); // Add default folder so it's not empty
 					library.Commit();
 					library.Reload();
+
 					return Task.FromResult(ShellFolderExtensions.GetShellLibraryItem(library, library.GetDisplayName(ShellItemDisplayString.DesktopAbsoluteParsing)));
 				}
 				catch (Exception e)
@@ -182,9 +192,12 @@ namespace Files.App.Filesystem
 				{
 					libraries.Add(newLib);
 				}
+
 				DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, newLib));
+
 				return true;
 			}
+
 			return false;
 		}
 
@@ -198,7 +211,8 @@ namespace Files.App.Filesystem
 		/// <returns>The new library if successfully updated</returns>
 		public async Task<LibraryLocationItem> UpdateLibrary(string libraryPath, string defaultSaveFolder = null, string[] folders = null, bool? isPinned = null)
 		{
-			if (string.IsNullOrWhiteSpace(libraryPath) || (defaultSaveFolder is null && folders is null && isPinned is null))
+			if (string.IsNullOrWhiteSpace(libraryPath) ||
+				(defaultSaveFolder is null && folders is null && isPinned is null))
 				// Nothing to update
 				return null;
 
@@ -208,6 +222,7 @@ namespace Files.App.Filesystem
 				{
 					bool updated = false;
 					using var library = new ShellLibrary2(Shell32.ShellUtil.GetShellItemForPath(libraryPath), false);
+
 					if (folders is not null)
 					{
 						if (folders.Length > 0)
@@ -218,34 +233,44 @@ namespace Files.App.Filesystem
 								library.Folders.Remove(toRemove);
 								updated = true;
 							}
-							var foldersToAdd = folders.Distinct(StringComparer.OrdinalIgnoreCase)
-													  .Where(folderPath => !library.Folders.Any(f => string.Equals(folderPath, f.FileSystemPath, StringComparison.OrdinalIgnoreCase)))
-													  .Select(ShellItem.Open);
+
+							var foldersToAdd = folders.Distinct(
+								StringComparer.OrdinalIgnoreCase)
+									.Where(folderPath => !library.Folders.Any(f => string.Equals(folderPath, f.FileSystemPath, StringComparison.OrdinalIgnoreCase)))
+                                    .Select(ShellItem.Open);
+
 							foreach (var toAdd in foldersToAdd)
 							{
 								library.Folders.Add(toAdd);
 								updated = true;
 							}
+
 							foreach (var toAdd in foldersToAdd)
 							{
 								toAdd.Dispose();
 							}
 						}
 					}
+
 					if (defaultSaveFolder is not null)
 					{
 						library.DefaultSaveFolder = ShellItem.Open(defaultSaveFolder);
 						updated = true;
 					}
+
 					if (isPinned is not null)
 					{
 						library.PinnedToNavigationPane = isPinned == true;
 						updated = true;
 					}
+
 					if (updated)
 					{
 						library.Commit();
-						library.Reload(); // Reload folders list
+
+						// Reload folders list
+						library.Reload();
+
 						ShellFolderExtensions.GetShellLibraryItem(library, libraryPath);
 					}
 				}
@@ -267,8 +292,10 @@ namespace Files.App.Filesystem
 					{
 						libraries[libraries.IndexOf(libItem)] = newLib;
 					}
+
 					DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, newLib, libItem));
 				}
+
 				return newLib;
 			}
 			return null;
@@ -280,19 +307,23 @@ namespace Files.App.Filesystem
 			{
 				return (false, "ErrorInputEmpty".GetLocalizedResource());
 			}
+
 			if (FilesystemHelpers.ContainsRestrictedCharacters(name))
 			{
 				return (false, "ErrorNameInputRestrictedCharacters".GetLocalizedResource());
 			}
+
 			if (FilesystemHelpers.ContainsRestrictedFileName(name))
 			{
 				return (false, "ErrorNameInputRestricted".GetLocalizedResource());
 			}
+
 			if (Libraries.Any((item) => string.Equals(name, item.Text, StringComparison.OrdinalIgnoreCase) ||
 				string.Equals(name, Path.GetFileNameWithoutExtension(item.Path), StringComparison.OrdinalIgnoreCase)))
 			{
 				return (false, "CreateLibraryErrorAlreadyExists".GetLocalizedResource());
 			}
+
 			return (true, string.Empty);
 		}
 
@@ -319,6 +350,7 @@ namespace Files.App.Filesystem
 				},
 				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
 			});
+
 			await dialog.ShowAsync();
 		}
 
@@ -328,6 +360,7 @@ namespace Files.App.Filesystem
 			{
 				PlaceholderText = "FolderWidgetCreateNewLibraryInputPlaceholderText".GetLocalizedResource()
 			};
+
 			var tipText = new TextBlock
 			{
 				Text = string.Empty,
@@ -384,14 +417,18 @@ namespace Files.App.Filesystem
 				},
 				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
 			});
+
 			await dialog.ShowAsync();
 		}
 
 		private async void OnLibraryChanged(WatcherChangeTypes changeType, string oldPath, string newPath)
 		{
-			if (newPath is not null && (!newPath.ToLowerInvariant().EndsWith(ShellLibraryItem.EXTENSION, StringComparison.Ordinal) || !File.Exists(newPath)))
+			if (newPath is not null &&
+				(!newPath.ToLowerInvariant().EndsWith(ShellLibraryItem.EXTENSION, StringComparison.Ordinal) ||
+				!File.Exists(newPath)))
 			{
 				System.Diagnostics.Debug.WriteLine($"Ignored library event: {changeType}, {oldPath} -> {newPath}");
+
 				return;
 			}
 
@@ -413,6 +450,7 @@ namespace Files.App.Filesystem
 				{
 					path = library1?.FullPath;
 				}
+
 				var changedLibrary = Libraries.FirstOrDefault(l => string.Equals(l.Path, path, StringComparison.OrdinalIgnoreCase));
 				if (changedLibrary is not null)
 				{
@@ -420,8 +458,10 @@ namespace Files.App.Filesystem
 					{
 						libraries.Remove(changedLibrary);
 					}
+
 					DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, changedLibrary));
 				}
+
 				// library is null in case it was deleted
 				if (library is not null && !Libraries.Any(x => x.Path == library1?.FullPath))
 				{
@@ -430,6 +470,7 @@ namespace Files.App.Filesystem
 					{
 						libraries.Add(libItem);
 					}
+
 					DataChanged?.Invoke(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, libItem));
 				}
 

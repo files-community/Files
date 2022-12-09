@@ -67,8 +67,10 @@ namespace Files.App.Dialogs
 
 		private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
 		{
+			// WinUI3: https://github.com/microsoft/microsoft-ui-xaml/issues/2504
 			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-				contentDialog.XamlRoot = App.Window.Content.XamlRoot; // WinUi3
+				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
+
 			return contentDialog;
 		}
 
@@ -193,7 +195,8 @@ namespace Files.App.Dialogs
 				splittingSize = SplittingSizes.First(size => size.Key is ArchiveSplittingSizes.None);
 			}
 
-			private static string ToSizeText(ulong megaBytes) => ByteSize.FromMebiBytes(megaBytes).ShortString;
+			private static string ToSizeText(ulong megaBytes)
+				=> ByteSize.FromMebiBytes(megaBytes).ShortString;
 
 			public record FileFormatItem(ArchiveFormats Key, string Label);
 

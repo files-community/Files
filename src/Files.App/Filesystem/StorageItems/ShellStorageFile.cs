@@ -14,8 +14,11 @@ namespace Files.App.Filesystem.StorageItems
 	public class ShortcutStorageFile : ShellStorageFile, IShortcutStorageItem
 	{
 		public string TargetPath { get; }
+
 		public string Arguments { get; }
+
 		public string WorkingDirectory { get; }
+
 		public bool RunAsAdmin { get; }
 
 		public ShortcutStorageFile(ShellLinkItem item) : base(item)
@@ -30,6 +33,7 @@ namespace Files.App.Filesystem.StorageItems
 	public class BinStorageFile : ShellStorageFile, IBinStorageItem
 	{
 		public string OriginalPath { get; }
+
 		public DateTimeOffset DateDeleted { get; }
 
 		public BinStorageFile(ShellFileItem item) : base(item)
@@ -42,10 +46,15 @@ namespace Files.App.Filesystem.StorageItems
 	public class ShellStorageFile : BaseStorageFile
 	{
 		public override string Path { get; }
+
 		public override string Name { get; }
+
 		public override string DisplayName => Name;
+
 		public override string ContentType => "application/octet-stream";
+
 		public override string FileType => IO.Path.GetExtension(Name);
+
 		public override string FolderRelativeId => $"0\\{Name}";
 
 		public override string DisplayType { get; }
@@ -55,7 +64,8 @@ namespace Files.App.Filesystem.StorageItems
 		public override FileAttributes Attributes => FileAttributes.Normal | FileAttributes.ReadOnly;
 
 		private IStorageItemExtraProperties properties;
-		public override IStorageItemExtraProperties Properties => properties ??= new BaseBasicStorageItemExtraProperties(this);
+		public override IStorageItemExtraProperties Properties
+			=> properties ??= new BaseBasicStorageItemExtraProperties(this);
 
 		public ShellStorageFile(ShellFileItem item)
 		{
@@ -65,7 +75,8 @@ namespace Files.App.Filesystem.StorageItems
 			DisplayType = item.FileType;
 		}
 
-		public override IAsyncOperation<StorageFile> ToStorageFileAsync() => throw new NotSupportedException();
+		public override IAsyncOperation<StorageFile> ToStorageFileAsync()
+			=> throw new NotSupportedException();
 
 		public static ShellStorageFile FromShellItem(ShellFileItem item)
 		{
@@ -82,28 +93,43 @@ namespace Files.App.Filesystem.StorageItems
 		{
 			if (ShellStorageFolder.IsShellPath(path) && GetFile(path) is ShellFileItem file)
 				return Task.FromResult<BaseStorageFile>(FromShellItem(file)).AsAsyncOperation();
+
 			return Task.FromResult<BaseStorageFile>(null).AsAsyncOperation();
 		}
 
 		private static ShellFileItem GetFile(string path)
 		{
 			using var shellItem = ShellFolderExtensions.GetShellItemFromPathOrPidl(path);
+
 			return ShellFolderExtensions.GetShellFileItem(shellItem);
 		}
 
-		public override bool IsEqual(IStorageItem item) => item?.Path == Path;
-		public override bool IsOfType(StorageItemTypes type) => type is StorageItemTypes.File;
+		public override bool IsEqual(IStorageItem item)
+			=> item?.Path == Path;
 
-		public override IAsyncOperation<BaseStorageFolder> GetParentAsync() => throw new NotSupportedException();
-		public override IAsyncOperation<BaseBasicProperties> GetBasicPropertiesAsync() => GetBasicProperties().AsAsyncOperation();
+		public override bool IsOfType(StorageItemTypes type)
+			=> type is StorageItemTypes.File;
 
-		public override IAsyncAction CopyAndReplaceAsync(IStorageFile fileToReplace) => throw new NotSupportedException();
-		public override IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder) => throw new NotSupportedException();
-		public override IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName) => throw new NotSupportedException();
-		public override IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option) => throw new NotSupportedException();
+		public override IAsyncOperation<BaseStorageFolder> GetParentAsync()
+			=> throw new NotSupportedException();
 
-		public override IAsyncAction DeleteAsync() => throw new NotSupportedException();
-		public override IAsyncAction DeleteAsync(StorageDeleteOption option) => throw new NotSupportedException();
+		public override IAsyncOperation<BaseBasicProperties> GetBasicPropertiesAsync()
+			=> GetBasicProperties().AsAsyncOperation();
+
+		public override IAsyncAction CopyAndReplaceAsync(IStorageFile fileToReplace)
+			=> throw new NotSupportedException();
+
+		public override IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder)
+			=> throw new NotSupportedException();
+		public override IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName)
+			=> throw new NotSupportedException();
+		public override IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option)
+			=> throw new NotSupportedException();
+
+		public override IAsyncAction DeleteAsync()
+			=> throw new NotSupportedException();
+		public override IAsyncAction DeleteAsync(StorageDeleteOption option)
+			=> throw new NotSupportedException();
 
 		public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode)
 		{
@@ -113,10 +139,13 @@ namespace Files.App.Filesystem.StorageItems
 				{
 					return null;
 				}
+
 				var zipFile = await StorageFile.GetFileFromPathAsync(Path);
+
 				return await zipFile.GetThumbnailAsync(mode);
 			});
 		}
+
 		public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize)
 		{
 			return AsyncInfo.Run(async (cancellationToken) =>
@@ -125,10 +154,13 @@ namespace Files.App.Filesystem.StorageItems
 				{
 					return null;
 				}
+
 				var zipFile = await StorageFile.GetFileFromPathAsync(Path);
+
 				return await zipFile.GetThumbnailAsync(mode, requestedSize);
 			});
 		}
+
 		public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize, ThumbnailOptions options)
 		{
 			return AsyncInfo.Run(async (cancellationToken) =>
@@ -137,26 +169,40 @@ namespace Files.App.Filesystem.StorageItems
 				{
 					return null;
 				}
+
 				var zipFile = await StorageFile.GetFileFromPathAsync(Path);
+
 				return await zipFile.GetThumbnailAsync(mode, requestedSize, options);
 			});
 		}
 
-		public override IAsyncAction MoveAndReplaceAsync(IStorageFile fileToReplace) => throw new NotSupportedException();
-		public override IAsyncAction MoveAsync(IStorageFolder destinationFolder) => throw new NotSupportedException();
-		public override IAsyncAction MoveAsync(IStorageFolder destinationFolder, string desiredNewName) => throw new NotSupportedException();
-		public override IAsyncAction MoveAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option) => throw new NotSupportedException();
+		public override IAsyncAction MoveAndReplaceAsync(IStorageFile fileToReplace)
+			=> throw new NotSupportedException();
+		public override IAsyncAction MoveAsync(IStorageFolder destinationFolder)
+			=> throw new NotSupportedException();
+		public override IAsyncAction MoveAsync(IStorageFolder destinationFolder, string desiredNewName)
+			=> throw new NotSupportedException();
+		public override IAsyncAction MoveAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option)
+			=> throw new NotSupportedException();
 
-		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode) => throw new NotSupportedException();
-		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode, StorageOpenOptions options) => throw new NotSupportedException();
-		public override IAsyncOperation<IRandomAccessStreamWithContentType> OpenReadAsync() => throw new NotSupportedException();
-		public override IAsyncOperation<IInputStream> OpenSequentialReadAsync() => throw new NotSupportedException();
+		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode)
+			=> throw new NotSupportedException();
+		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode, StorageOpenOptions options)
+			=> throw new NotSupportedException();
+		public override IAsyncOperation<IRandomAccessStreamWithContentType> OpenReadAsync()
+			=> throw new NotSupportedException();
+		public override IAsyncOperation<IInputStream> OpenSequentialReadAsync()
+			=> throw new NotSupportedException();
 
-		public override IAsyncOperation<StorageStreamTransaction> OpenTransactedWriteAsync() => throw new NotSupportedException();
-		public override IAsyncOperation<StorageStreamTransaction> OpenTransactedWriteAsync(StorageOpenOptions options) => throw new NotSupportedException();
+		public override IAsyncOperation<StorageStreamTransaction> OpenTransactedWriteAsync()
+			=> throw new NotSupportedException();
+		public override IAsyncOperation<StorageStreamTransaction> OpenTransactedWriteAsync(StorageOpenOptions options)
+			=> throw new NotSupportedException();
 
-		public override IAsyncAction RenameAsync(string desiredName) => throw new NotSupportedException();
-		public override IAsyncAction RenameAsync(string desiredName, NameCollisionOption option) => throw new NotSupportedException();
+		public override IAsyncAction RenameAsync(string desiredName)
+			=> throw new NotSupportedException();
+		public override IAsyncAction RenameAsync(string desiredName, NameCollisionOption option)
+			=> throw new NotSupportedException();
 
 		private Task<BaseBasicProperties> GetBasicProperties()
 		{
@@ -164,6 +210,7 @@ namespace Files.App.Filesystem.StorageItems
 			{
 				return Task.FromResult<BaseBasicProperties>(new ShellFileBasicProperties(file));
 			}
+
 			return Task.FromResult(new BaseBasicProperties());
 		}
 

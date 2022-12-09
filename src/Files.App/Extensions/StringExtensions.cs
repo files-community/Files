@@ -17,11 +17,9 @@ namespace Files.App.Extensions
 		/// </summary>
 		public static bool IsSubPathOf(this string path, string baseDirPath)
 		{
-			string normalizedPath = Path.GetFullPath(path.Replace('/', '\\')
-				.WithEnding("\\"));
+			string normalizedPath = Path.GetFullPath(path.Replace('/', '\\').WithEnding("\\"));
 
-			string normalizedBaseDirPath = Path.GetFullPath(baseDirPath.Replace('/', '\\')
-				.WithEnding("\\"));
+			string normalizedBaseDirPath = Path.GetFullPath(baseDirPath.Replace('/', '\\').WithEnding("\\"));
 
 			return normalizedPath.StartsWith(normalizedBaseDirPath, StringComparison.OrdinalIgnoreCase);
 		}
@@ -34,9 +32,7 @@ namespace Files.App.Extensions
 		public static string WithEnding(this string str, string ending)
 		{
 			if (str is null)
-			{
 				return ending;
-			}
 
 			string result = str;
 
@@ -94,7 +90,9 @@ namespace Files.App.Extensions
 			{
 				return value;
 			}
+
 			value = resourcesTree?.TryGetValue(resourceKey)?.ValueAsString;
+
 			return cachedResources[resourceKey] = value ?? string.Empty;
 		}
 	}

@@ -99,15 +99,19 @@ namespace Files.App.Filesystem.StorageItems
 			using var inputStream = await OpenReadAsync();
 			using var stream = inputStream.AsStreamForRead();
 			using var dataReader = new StreamReader(stream, true);
+
 			StringBuilder builder = new();
 			int charsRead, charsToRead;
+
 			do
 			{
 				charsToRead = maxLength < 0 ? 4096 : Math.Min(maxLength, 4096);
 				var data = new char[charsToRead];
 				charsRead = await dataReader.ReadAsync(data);
 				builder.Append(data, 0, charsRead);
-			} while (charsRead > 0 && inputStream.Position < inputStream.Size);
+			}
+			while (charsRead > 0 && inputStream.Position < inputStream.Size);
+
 			return builder.ToString();
 		}
 
@@ -116,16 +120,21 @@ namespace Files.App.Filesystem.StorageItems
 			using var stream = await OpenAsync(FileAccessMode.ReadWrite, StorageOpenOptions.AllowOnlyReaders);
 			using var outputStream = stream.GetOutputStreamAt(0);
 			using var dataWriter = new DataWriter(outputStream);
+
 			dataWriter.WriteString(text);
+
 			await dataWriter.StoreAsync();
 			await stream.FlushAsync();
 		}
+
 		public async Task WriteBytesAsync(byte[] dataBytes)
 		{
 			using var stream = await OpenAsync(FileAccessMode.ReadWrite, StorageOpenOptions.AllowOnlyReaders);
 			using var outputStream = stream.GetOutputStreamAt(0);
 			using var dataWriter = new DataWriter(outputStream);
+
 			dataWriter.WriteBytes(dataBytes);
+
 			await dataWriter.StoreAsync();
 			await stream.FlushAsync();
 		}

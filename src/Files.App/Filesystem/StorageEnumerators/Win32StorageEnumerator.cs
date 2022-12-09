@@ -51,6 +51,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 				var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
 				var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
 				var startWithDot = findData.cFileName.StartsWith('.');
+
 				if ((!isHidden ||
 				   (userSettingsService.FoldersSettingsService.ShowHiddenItems &&
 				   (!isSystem || userSettingsService.FoldersSettingsService.ShowProtectedSystemFiles))) &&
@@ -72,6 +73,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 									}
 								}
 							}
+
 							tempList.Add(file);
 							++count;
 
@@ -93,6 +95,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 									// Set folder icon (found by empty extension string)
 									folder.SetDefaultIcon(defaultIconPairs[string.Empty]);
 								}
+
 								tempList.Add(folder);
 								++count;
 
@@ -114,6 +117,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 						}
 					}
 				}
+
 				if (cancellationToken.IsCancellationRequested || count == countLimit)
 				{
 					break;
@@ -125,9 +129,11 @@ namespace Files.App.Filesystem.StorageEnumerators
 					// clear the temporary list every time we do an intermediate action
 					tempList.Clear();
 				}
-			} while (FindNextFile(hFile, out findData));
+			}
+			while (FindNextFile(hFile, out findData));
 
 			FindClose(hFile);
+
 			return tempList;
 		}
 
@@ -143,12 +149,15 @@ namespace Files.App.Filesystem.StorageEnumerators
 		{
 			string itemType = "ItemTypeFile".GetLocalizedResource();
 			string itemFileExtension = null;
+
 			if (ads.Name.Contains('.'))
 			{
 				itemFileExtension = Path.GetExtension(ads.Name);
 				itemType = itemFileExtension.Trim('.') + " " + itemType;
 			}
-			string adsName = ads.Name.Substring(1, ads.Name.Length - 7); // Remove ":" and ":$DATA"
+
+			// Remove ":" and ":$DATA"
+			string adsName = ads.Name.Substring(1, ads.Name.Length - 7);
 
 			return new AlternateStreamItem()
 			{
@@ -182,6 +191,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 
 			DateTime itemModifiedDate;
 			DateTime itemCreatedDate;
+
 			try
 			{
 				FileTimeToSystemTime(ref findData.ftLastWriteTime, out Backend.Helpers.NativeFindStorageItemHelper.SYSTEMTIME systemModifiedTimeOutput);
@@ -195,12 +205,15 @@ namespace Files.App.Filesystem.StorageEnumerators
 				// Invalid date means invalid findData, do not add to list
 				return null;
 			}
+
 			var itemPath = Path.Combine(pathRoot, findData.cFileName);
 			string itemName = await fileListCache.ReadFileDisplayNameFromCache(itemPath, cancellationToken);
+
 			if (string.IsNullOrEmpty(itemName))
 			{
 				itemName = findData.cFileName;
 			}
+
 			bool isHidden = (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden);
 			double opacity = 1;
 
@@ -236,6 +249,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 			var itemName = findData.cFileName;
 
 			DateTime itemModifiedDate, itemCreatedDate, itemLastAccessDate;
+
 			try
 			{
 				FileTimeToSystemTime(ref findData.ftLastWriteTime, out Backend.Helpers.NativeFindStorageItemHelper.SYSTEMTIME systemModifiedDateOutput);
@@ -306,11 +320,11 @@ namespace Files.App.Filesystem.StorageEnumerators
 			else if (findData.cFileName.EndsWith(".lnk", StringComparison.Ordinal) || findData.cFileName.EndsWith(".url", StringComparison.Ordinal))
 			{
 				var isUrl = findData.cFileName.EndsWith(".url", StringComparison.OrdinalIgnoreCase);
+
 				var shInfo = await ParseLinkAsync(itemPath);
 				if (shInfo is null)
-				{
 					return null;
-				}
+
 				return new ShortcutItem(null)
 				{
 					PrimaryItemAttribute = shInfo.IsFolder ? StorageItemTypes.Folder : StorageItemTypes.File,
@@ -386,7 +400,6 @@ namespace Files.App.Filesystem.StorageEnumerators
 					};
 				}
 			}
-			return null;
 		}
 
 		private async static Task<ShellLinkItem> ParseLinkAsync(string linkPath)
@@ -407,7 +420,8 @@ namespace Files.App.Filesystem.StorageEnumerators
 						ipf.GetUrl(out var retVal);
 						return retVal;
 					});
-					return new ShellLinkItem() { TargetPath = linkUrl };
+
+					return new() { TargetPath = linkUrl };
 				}
 				else
 				{

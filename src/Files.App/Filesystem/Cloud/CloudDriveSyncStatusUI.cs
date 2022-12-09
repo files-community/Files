@@ -12,8 +12,13 @@ namespace Files.App.Filesystem.Cloud
 		public bool LoadSyncStatus { get; }
 		public string SyncStatusString { get; } = "CloudDriveSyncStatus_Unknown".GetLocalizedResource();
 
-		public CloudDriveSyncStatusUI() { }
-		private CloudDriveSyncStatusUI(CloudDriveSyncStatus syncStatus) => SyncStatus = syncStatus;
+		public CloudDriveSyncStatusUI()
+		{
+		}
+
+		private CloudDriveSyncStatusUI(CloudDriveSyncStatus syncStatus)
+			=> SyncStatus = syncStatus;
+
 		private CloudDriveSyncStatusUI(string glyph, CloudDriveSyncStatus syncStatus, string SyncStatusStringKey)
 		{
 			SyncStatus = syncStatus;

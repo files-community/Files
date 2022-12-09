@@ -39,6 +39,7 @@ namespace Files.App.Filesystem
 				Type = DriveType.Network,
 				ItemType = NavigationControlItemType.Drive,
 			};
+
 			networkItem.MenuOptions = new ContextMenuOptions
 			{
 				IsLocationItem = true,
@@ -51,6 +52,7 @@ namespace Files.App.Filesystem
 			{
 				drives.Add(networkItem);
 			}
+
 			DataChanged?.Invoke(SectionType.Network, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, networkItem));
 		}
 
@@ -84,6 +86,7 @@ namespace Files.App.Filesystem
 						}
 					}
 				}
+
 				return locations;
 			});
 
@@ -97,6 +100,7 @@ namespace Files.App.Filesystem
 					Type = DriveType.Network,
 					ItemType = NavigationControlItemType.Drive,
 				};
+
 				networkItem.MenuOptions = new ContextMenuOptions
 				{
 					IsLocationItem = true,
@@ -118,6 +122,7 @@ namespace Files.App.Filesystem
 			var orderedDrives = Drives
 				.OrderByDescending(o => string.Equals(o.Text, "Network".GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
 				.ThenBy(o => o.Text);
+
 			foreach (var drive in orderedDrives)
 			{
 				DataChanged?.Invoke(SectionType.Network, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, drive));

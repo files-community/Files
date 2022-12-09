@@ -127,22 +127,27 @@ namespace Files.App.DataModels
 			{
 				FavoriteItems.RemoveAt(oldIndex);
 				FavoriteItems.Insert(newIndex, locationItem.Path);
+
 				lock (favoriteList)
 				{
 					favoriteList.RemoveAt(oldIndex);
 					favoriteList.Insert(newIndex, locationItem);
 				}
+
 				var e = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, locationItem, newIndex, oldIndex);
 				controller?.DataChanged?.Invoke(SectionType.Favorites, e);
 				Save();
+
 				return true;
 			}
 			catch (Exception ex)
 			{
 				Debug.WriteLine($"An error occurred while moving pinned items in the Favorites sidebar section. {ex.Message}");
+
 				FavoriteItems = sidebarItemsBackup;
 				RemoveStaleSidebarItems();
 				_ = AddAllItemsToSidebar();
+
 				return false;
 			}
 		}
@@ -155,9 +160,7 @@ namespace Files.App.DataModels
 		public void SwapItems(INavigationControlItem firstLocationItem, INavigationControlItem secondLocationItem)
 		{
 			if (firstLocationItem is null || secondLocationItem is null)
-			{
 				return;
-			}
 
 			var indexOfFirstItemInMainPage = IndexOfItem(firstLocationItem);
 			var indexOfSecondItemInMainPage = IndexOfItem(secondLocationItem);
@@ -256,6 +259,7 @@ namespace Files.App.DataModels
 		private void AddLocationItemToSidebar(LocationItem locationItem)
 		{
 			int insertIndex = -1;
+
 			lock (favoriteList)
 			{
 				if (favoriteList.Any(x => x.Path == locationItem.Path))
@@ -265,6 +269,7 @@ namespace Files.App.DataModels
 				insertIndex = lastItem is not null ? favoriteList.IndexOf(lastItem) + 1 : 0;
 				favoriteList.Insert(insertIndex, locationItem);
 			}
+
 			controller?.DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, locationItem, insertIndex));
 		}
 
@@ -296,6 +301,7 @@ namespace Files.App.DataModels
 					{
 						favoriteList.Remove(item);
 					}
+
 					controller.DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
 				}
 			}

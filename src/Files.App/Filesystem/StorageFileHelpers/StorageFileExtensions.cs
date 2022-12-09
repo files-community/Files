@@ -21,12 +21,14 @@ namespace Files.App.Filesystem
 			{
 				return null;
 			}
+
 			return item is StorageFile file ? (BaseStorageFile)file : item as BaseStorageFile;
 		}
 
 		public static async Task<List<IStorageItem>> ToStandardStorageItemsAsync(this IEnumerable<IStorageItem> items)
 		{
 			var newItems = new List<IStorageItem>();
+
 			foreach (var item in items)
 			{
 				try
@@ -48,6 +50,7 @@ namespace Files.App.Filesystem
 					// Ignore items that can't be converted
 				}
 			}
+
 			return newItems;
 		}
 
@@ -62,6 +65,7 @@ namespace Files.App.Filesystem
 				return false;
 			}
 		}
+
 		public static bool AreItemsInSameDrive(this IEnumerable<IStorageItem> storageItems, string destinationPath)
 			=> storageItems.Select(x => x.Path).AreItemsInSameDrive(destinationPath);
 		public static bool AreItemsInSameDrive(this IEnumerable<IStorageItemWithPath> storageItems, string destinationPath)
@@ -78,6 +82,7 @@ namespace Files.App.Filesystem
 				return false;
 			}
 		}
+
 		public static bool AreItemsAlreadyInFolder(this IEnumerable<IStorageItem> storageItems, string destinationPath)
 			=> storageItems.Select(x => x.Path).AreItemsAlreadyInFolder(destinationPath);
 		public static bool AreItemsAlreadyInFolder(this IEnumerable<IStorageItemWithPath> storageItems, string destinationPath)
@@ -100,6 +105,7 @@ namespace Files.App.Filesystem
 					return item as BaseStorageFolder;
 				}
 			}
+
 			return null;
 		}
 
@@ -123,7 +129,9 @@ namespace Files.App.Filesystem
 
 			for (var i = 0; i < value.Length; i++)
 			{
-				if (value[i] is '?' || value[i] == Path.DirectorySeparatorChar || value[i] == Path.AltDirectorySeparatorChar)
+				if (value[i] is '?' ||
+					value[i] == Path.DirectorySeparatorChar ||
+					value[i] == Path.AltDirectorySeparatorChar)
 				{
 					if (lastIndex == i)
 					{
@@ -132,6 +140,7 @@ namespace Files.App.Filesystem
 					}
 
 					var component = value.Substring(lastIndex, i - lastIndex);
+
 					var path = value.Substring(0, i + 1);
 					if (!new[] { "ftp:/", "ftps:/", "ftpes:/" }.Contains(path, StringComparer.OrdinalIgnoreCase))
 					{
@@ -167,14 +176,20 @@ namespace Files.App.Filesystem
 			{
 				path = path.Replace("%homepath%", CommonPaths.HomePath, StringComparison.OrdinalIgnoreCase);
 			}
+
 			return Environment.ExpandEnvironmentVariables(path);
 		}
 
-		public async static Task<BaseStorageFile> DangerousGetFileFromPathAsync
-			(string value, StorageFolderWithPath rootFolder = null, StorageFolderWithPath parentFolder = null)
+		public async static Task<BaseStorageFile> DangerousGetFileFromPathAsync(
+			string value,
+			StorageFolderWithPath rootFolder = null,
+			StorageFolderWithPath parentFolder = null)
 				=> (await DangerousGetFileWithPathFromPathAsync(value, rootFolder, parentFolder)).Item;
-		public async static Task<StorageFileWithPath> DangerousGetFileWithPathFromPathAsync
-			(string value, StorageFolderWithPath rootFolder = null, StorageFolderWithPath parentFolder = null)
+
+		public async static Task<StorageFileWithPath> DangerousGetFileWithPathFromPathAsync(
+			string value,
+			StorageFolderWithPath rootFolder = null,
+			StorageFolderWithPath parentFolder = null)
 		{
 			if (rootFolder is not null)
 			{
@@ -185,26 +200,32 @@ namespace Files.App.Filesystem
 					var folder = parentFolder.Item;
 					var prevComponents = GetDirectoryPathComponents(parentFolder.Path);
 					var path = parentFolder.Path;
+
 					foreach (var component in currComponents.ExceptBy(prevComponents, c => c.Path).SkipLast(1))
 					{
 						folder = await folder.GetFolderAsync(component.Title);
 						path = PathNormalization.Combine(path, folder.Name);
 					}
+
 					var file = await folder.GetFileAsync(currComponents.Last().Title);
 					path = PathNormalization.Combine(path, file.Name);
+
 					return new StorageFileWithPath(file, path);
 				}
 				else if (value.IsSubPathOf(rootFolder.Path))
 				{
 					var folder = rootFolder.Item;
 					var path = rootFolder.Path;
+
 					foreach (var component in currComponents.Skip(1).SkipLast(1))
 					{
 						folder = await folder.GetFolderAsync(component.Title);
 						path = PathNormalization.Combine(path, folder.Name);
 					}
+
 					var file = await folder.GetFileAsync(currComponents.Last().Title);
 					path = PathNormalization.Combine(path, file.Name);
+
 					return new StorageFileWithPath(file, path);
 				}
 			}
@@ -215,18 +236,25 @@ namespace Files.App.Filesystem
 				var fullPath = Path.GetFullPath(Path.Combine(parentFolder.Path, value));
 				return new StorageFileWithPath(await BaseStorageFile.GetFileFromPathAsync(fullPath));
 			}
+
 			return new StorageFileWithPath(await BaseStorageFile.GetFileFromPathAsync(value));
 		}
-		public async static Task<IList<StorageFileWithPath>> GetFilesWithPathAsync
-			(this StorageFolderWithPath parentFolder, uint maxNumberOfItems = uint.MaxValue)
+
+		public async static Task<IList<StorageFileWithPath>> GetFilesWithPathAsync(
+			this StorageFolderWithPath parentFolder,
+			uint maxNumberOfItems = uint.MaxValue)
 				=> (await parentFolder.Item.GetFilesAsync(CommonFileQuery.DefaultQuery, 0, maxNumberOfItems))
 					.Select(x => new StorageFileWithPath(x, string.IsNullOrEmpty(x.Path) ? PathNormalization.Combine(parentFolder.Path, x.Name) : x.Path)).ToList();
 
-		public async static Task<BaseStorageFolder> DangerousGetFolderFromPathAsync
-			(string value, StorageFolderWithPath rootFolder = null, StorageFolderWithPath parentFolder = null)
+		public async static Task<BaseStorageFolder> DangerousGetFolderFromPathAsync(string value,
+			StorageFolderWithPath rootFolder = null,
+			StorageFolderWithPath parentFolder = null)
 				=> (await DangerousGetFolderWithPathFromPathAsync(value, rootFolder, parentFolder)).Item;
-		public async static Task<StorageFolderWithPath> DangerousGetFolderWithPathFromPathAsync
-			(string value, StorageFolderWithPath rootFolder = null, StorageFolderWithPath parentFolder = null)
+
+		public async static Task<StorageFolderWithPath> DangerousGetFolderWithPathFromPathAsync(
+			string value,
+			StorageFolderWithPath rootFolder = null,
+			StorageFolderWithPath parentFolder = null)
 		{
 			if (rootFolder is not null)
 			{
@@ -241,22 +269,26 @@ namespace Files.App.Filesystem
 					var folder = parentFolder.Item;
 					var prevComponents = GetDirectoryPathComponents(parentFolder.Path);
 					var path = parentFolder.Path;
+
 					foreach (var component in currComponents.ExceptBy(prevComponents, c => c.Path))
 					{
 						folder = await folder.GetFolderAsync(component.Title);
 						path = PathNormalization.Combine(path, folder.Name);
 					}
+
 					return new StorageFolderWithPath(folder, path);
 				}
 				else if (value.IsSubPathOf(rootFolder.Path))
 				{
 					var folder = rootFolder.Item;
 					var path = rootFolder.Path;
+
 					foreach (var component in currComponents.Skip(1))
 					{
 						folder = await folder.GetFolderAsync(component.Title);
 						path = PathNormalization.Combine(path, folder.Name);
 					}
+
 					return new StorageFolderWithPath(folder, path);
 				}
 			}
@@ -265,6 +297,7 @@ namespace Files.App.Filesystem
 			{
 				// Relative path
 				var fullPath = Path.GetFullPath(Path.Combine(parentFolder.Path, value));
+
 				return new StorageFolderWithPath(await BaseStorageFolder.GetFolderFromPathAsync(fullPath));
 			}
 			else
@@ -272,12 +305,16 @@ namespace Files.App.Filesystem
 				return new StorageFolderWithPath(await BaseStorageFolder.GetFolderFromPathAsync(value));
 			}
 		}
-		public async static Task<IList<StorageFolderWithPath>> GetFoldersWithPathAsync
-			(this StorageFolderWithPath parentFolder, uint maxNumberOfItems = uint.MaxValue)
+		public async static Task<IList<StorageFolderWithPath>> GetFoldersWithPathAsync(
+			this StorageFolderWithPath parentFolder,
+			uint maxNumberOfItems = uint.MaxValue)
 				=> (await parentFolder.Item.GetFoldersAsync(CommonFolderQuery.DefaultQuery, 0, maxNumberOfItems))
 					.Select(x => new StorageFolderWithPath(x, string.IsNullOrEmpty(x.Path) ? PathNormalization.Combine(parentFolder.Path, x.Name) : x.Path)).ToList();
-		public async static Task<IList<StorageFolderWithPath>> GetFoldersWithPathAsync
-			(this StorageFolderWithPath parentFolder, string nameFilter, uint maxNumberOfItems = uint.MaxValue)
+
+		public async static Task<IList<StorageFolderWithPath>> GetFoldersWithPathAsync(
+			this StorageFolderWithPath parentFolder,
+			string nameFilter,
+			uint maxNumberOfItems = uint.MaxValue)
 		{
 			if (parentFolder is null)
 			{
@@ -288,6 +325,7 @@ namespace Files.App.Filesystem
 			{
 				ApplicationSearchFilter = $"System.FileName:{nameFilter}*"
 			};
+
 			BaseStorageFolderQueryResult queryResult = parentFolder.Item.CreateFolderQueryWithOptions(queryOptions);
 
 			return (await queryResult.GetFoldersAsync(0, maxNumberOfItems))
@@ -309,7 +347,8 @@ namespace Files.App.Filesystem
 			{
 				var drives = App.DrivesManager.Drives.Concat(App.NetworkDrivesManager.Drives).Concat(App.CloudDrivesManager.Drives);
 				var drive = drives.FirstOrDefault(y => y.ItemType is NavigationControlItemType.Drive && y.Path.Contains(component, StringComparison.OrdinalIgnoreCase));
-				return new PathBoxItem()
+
+				return new()
 				{
 					Title = drive is not null ? drive.Text : $@"Drive ({component})",
 					Path = path,
@@ -317,7 +356,7 @@ namespace Files.App.Filesystem
 			}
 			else
 			{
-				return new PathBoxItem
+				return new()
 				{
 					Title = component,
 					Path = path

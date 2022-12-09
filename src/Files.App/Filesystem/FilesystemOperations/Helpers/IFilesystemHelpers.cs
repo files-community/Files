@@ -19,7 +19,6 @@ namespace Files.App.Filesystem
 		Task<(ReturnResult, IStorageItem)> CreateAsync(IStorageItemWithPath source, bool registerHistory);
 
 		#region Delete
-
 		/// <summary>
 		/// Deletes provided <paramref name="source"/>
 		/// </summary>
@@ -59,11 +58,9 @@ namespace Files.App.Filesystem
 		/// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
 		/// <returns><see cref="ReturnResult"/> of performed operation</returns>
 		Task<ReturnResult> DeleteItemAsync(IStorageItemWithPath source, bool showDialog, bool permanently, bool registerHistory);
-
 		#endregion Delete
 
 		#region Restore
-
 		/// <summary>
 		/// Restores <paramref name="source"/> from the RecycleBin to <paramref name="destination"/> fullPath
 		/// </summary>
@@ -99,7 +96,6 @@ namespace Files.App.Filesystem
 		/// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
 		/// <returns><see cref="ReturnResult"/> of performed operation</returns>
 		Task<ReturnResult> RestoreItemsFromTrashAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool registerHistory);
-
 		#endregion Restore
 
 		/// <summary>
@@ -119,7 +115,6 @@ namespace Files.App.Filesystem
 		Task<ReturnResult> PerformOperationTypeAsync(DataPackageOperation operation, DataPackageView packageView, string destination, bool showDialog, bool registerHistory, bool isDestinationExecutable = false);
 
 		#region Copy
-
 		/// <summary>
 		/// Copies <paramref name="source"/> to <paramref name="destination"/> fullPath
 		/// </summary>
@@ -178,11 +173,9 @@ namespace Files.App.Filesystem
 		Task<ReturnResult> RecycleItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory);
 
 		Task<ReturnResult> CreateShortcutFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory);
-
 		#endregion Copy
 
 		#region Move
-
 		/// <summary>
 		/// Moves <paramref name="source"/> to <paramref name="destination"/> fullPath
 		/// </summary>
@@ -237,7 +230,6 @@ namespace Files.App.Filesystem
 		/// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
 		/// <returns><see cref="ReturnResult"/> of performed operation</returns>
 		Task<ReturnResult> MoveItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory);
-
 		#endregion Move
 
 		/// <summary>

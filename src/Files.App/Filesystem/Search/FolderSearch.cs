@@ -45,13 +45,16 @@ namespace Files.App.Filesystem.Search
 		{
 			get
 			{
-				if (!string.IsNullOrEmpty(Query) && Query.Contains('.')) // ".docx" -> "*.docx"
+				// Convert ".docx" -> "*.docx"
+				if (!string.IsNullOrEmpty(Query) && Query.Contains('.')) 
 				{
 					var split = Query.Split('.');
 					var leading = string.Join('.', split.SkipLast(1));
 					var query = $"{leading}*.{split.Last()}";
+
 					return $"{query}*";
 				}
+
 				return $"{Query}*";
 			}
 		}
@@ -60,7 +63,7 @@ namespace Files.App.Filesystem.Search
 		{
 			get
 			{
-				// if the query starts with a $, assume the query is in aqs format, otherwise assume the user is searching for the file name
+				// If the query starts with a $, assume the query is in aqs format, otherwise assume the user is searching for the file name
 				if (Query is not null && Query.StartsWith('$'))
 				{
 					return Query.Substring(1);
@@ -112,9 +115,11 @@ namespace Files.App.Filesystem.Search
 		public async Task<ObservableCollection<ListedItem>> SearchAsync()
 		{
 			ObservableCollection<ListedItem> results = new ObservableCollection<ListedItem>();
+
 			try
 			{
 				var token = CancellationToken.None;
+
 				if (App.LibraryManager.TryGetLibrary(Folder, out var library))
 				{
 					await AddItemsAsyncForLibrary(library, results, token);
@@ -151,9 +156,7 @@ namespace Files.App.Filesystem.Search
 				foreach (IStorageItem item in items)
 				{
 					if (token.IsCancellationRequested)
-					{
 						return;
-					}
 
 					try
 					{
@@ -191,9 +194,7 @@ namespace Files.App.Filesystem.Search
 			var tags = AQSQuery.Substring("tag:".Length)?.Split(',').Where(t => !string.IsNullOrWhiteSpace(t))
 				.SelectMany(t => FileTagsSettingsService.GetTagsByName(t), (_, t) => t.Uid).ToHashSet();
 			if (tags?.Any() != true)
-			{
 				return;
-			}
 
 			var dbInstance = FileTagsHelper.GetDbInstance();
 			var matches = dbInstance.GetAllUnderPath(folder)
@@ -206,6 +207,7 @@ namespace Files.App.Filesystem.Search
 					int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
 					IntPtr hFileTsk = FindFirstFileExFromApp(match.FilePath, FINDEX_INFO_LEVELS.FindExInfoBasic,
 						out WIN32_FIND_DATA findDataTsk, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, additionalFlags);
+
 					return (hFileTsk, findDataTsk);
 				}).WithTimeoutAsync(TimeSpan.FromSeconds(5));
 
@@ -267,6 +269,7 @@ namespace Files.App.Filesystem.Search
 				var workingFolder = await GetStorageFolderAsync(folder);
 
 				var hiddenOnlyFromWin32 = false;
+
 				if (workingFolder)
 				{
 					await SearchAsync(workingFolder, results, token);
@@ -288,6 +291,7 @@ namespace Files.App.Filesystem.Search
 				int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
 				IntPtr hFileTsk = FindFirstFileExFromApp($"{folder}\\{QueryWithWildcard}", FINDEX_INFO_LEVELS.FindExInfoBasic,
 					out WIN32_FIND_DATA findDataTsk, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, additionalFlags);
+
 				return (hFileTsk, findDataTsk);
 			}).WithTimeoutAsync(TimeSpan.FromSeconds(5));
 
@@ -333,7 +337,8 @@ namespace Files.App.Filesystem.Search
 						}
 
 						hasNextFile = FindNextFile(hFile, out findData);
-					} while (hasNextFile);
+					}
+					while (hasNextFile);
 
 					FindClose(hFile);
 				});
@@ -344,11 +349,13 @@ namespace Files.App.Filesystem.Search
 		{
 			ListedItem listedItem = null;
 			var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
+
 			var isFolder = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory;
 			if (!isFolder)
 			{
 				string itemFileExtension = null;
 				string itemType = null;
+
 				if (findData.cFileName.Contains('.', StringComparison.Ordinal))
 				{
 					itemFileExtension = Path.GetExtension(itemPath);
@@ -382,7 +389,9 @@ namespace Files.App.Filesystem.Search
 					};
 				}
 			}
-			if (listedItem is not null && MaxItemCount > 0) // Only load icon for searchbox suggestions
+
+			// Only load icon for searchbox suggestions
+			if (listedItem is not null && MaxItemCount > 0)
 			{
 				_ = FileThumbnailHelper.LoadIconFromPathAsync(listedItem.ItemPath, ThumbnailSize, ThumbnailMode.ListView, isFolder)
 					.ContinueWith((t) =>
@@ -392,20 +401,24 @@ namespace Files.App.Filesystem.Search
 							_ = FilesystemTasks.Wrap(() => App.Window.DispatcherQueue.EnqueueAsync(async () =>
 							{
 								listedItem.FileImage = await t.Result.ToBitmapAsync();
-							}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low));
+							},
+							Microsoft.UI.Dispatching.DispatcherQueuePriority.Low));
 						}
 					});
 			}
+
 			return listedItem;
 		}
 
 		private async Task<ListedItem> GetListedItemAsync(IStorageItem item)
 		{
 			ListedItem listedItem = null;
+
 			if (item.IsOfType(StorageItemTypes.Folder))
 			{
 				var folder = item.AsBaseStorageFolder();
 				var props = await folder.GetBasicPropertiesAsync();
+
 				if (folder is BinStorageFolder binFolder)
 				{
 					listedItem = new RecycleBinItem(null)
@@ -441,6 +454,7 @@ namespace Files.App.Filesystem.Search
 				var props = await file.GetBasicPropertiesAsync();
 				string itemFileExtension = null;
 				string itemType = null;
+
 				if (file.Name.Contains('.', StringComparison.Ordinal))
 				{
 					itemFileExtension = Path.GetExtension(file.Path);
@@ -488,7 +502,9 @@ namespace Files.App.Filesystem.Search
 					};
 				}
 			}
-			if (listedItem is not null && MaxItemCount > 0) // Only load icon for searchbox suggestions
+
+			// Only load icon for searchbox suggestions
+			if (listedItem is not null && MaxItemCount > 0)
 			{
 				var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(item, ThumbnailSize, ThumbnailMode.ListView);
 				if (iconData is not null)
@@ -500,6 +516,7 @@ namespace Files.App.Filesystem.Search
 					listedItem.NeedsPlaceholderGlyph = true;
 				}
 			}
+
 			return listedItem;
 		}
 

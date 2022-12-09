@@ -18,6 +18,7 @@ namespace Files.App.Extensions
 			}
 
 			using var readStream = stream.AsStreamForRead();
+
 			return await readStream.ToByteArrayAsync();
 		}
 
@@ -32,6 +33,7 @@ namespace Files.App.Extensions
 			{
 				var bytes = new byte[fileStream.Size];
 				await fileStream.ReadAsync(bytes.AsBuffer(), (uint)fileStream.Size, InputStreamOptions.None);
+
 				return bytes;
 			}
 		}
@@ -52,6 +54,7 @@ namespace Files.App.Extensions
 			using (memoryStream)
 			{
 				await stream.CopyToAsync(memoryStream, bufferSize: 81920, cancellationToken).ConfigureAwait(false);
+
 				return memoryStream.ToArray();
 			}
 		}

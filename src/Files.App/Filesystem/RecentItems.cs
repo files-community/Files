@@ -16,12 +16,13 @@ namespace Files.App.Filesystem
 		private const string QuickAccessGuid = "::{679f85cb-0220-4080-b29b-5540cc05aab6}";
 
 		public EventHandler<NotifyCollectionChangedEventArgs>? RecentFilesChanged;
+
 		public EventHandler<NotifyCollectionChangedEventArgs>? RecentFoldersChanged;
 
-		// recent files
 		private readonly List<RecentItem> recentFiles = new();
-		public IReadOnlyList<RecentItem> RecentFiles    // already sorted
+		public IReadOnlyList<RecentItem> RecentFiles
 		{
+			// Already sorted
 			get
 			{
 				lock (recentFiles)
@@ -31,10 +32,10 @@ namespace Files.App.Filesystem
 			}
 		}
 
-		// recent folders
 		private readonly List<RecentItem> recentFolders = new();
-		public IReadOnlyList<RecentItem> RecentFolders  // already sorted
+		public IReadOnlyList<RecentItem> RecentFolders
 		{
+			// Already sorted
 			get
 			{
 				lock (recentFolders)
@@ -67,11 +68,12 @@ namespace Files.App.Filesystem
 				{
 					recentFiles.Clear();
 					recentFiles.AddRange(enumeratedFiles);
-					// do not sort here, enumeration order *is* the correct order since we get it from Quick Access
+
+					// Do not sort here, enumeration order *is* the correct order since we get it from Quick Access
 				}
 
-				// todo: potentially optimize this and figure out if list changed by either (1) Add (2) Remove (3) Move
-				// this way the UI doesn't have to refresh the entire list everytime a change occurs
+				// TODO: Potentially optimize this and figure out if list changed by either (1) Add (2) Remove (3) Move
+				// This way the UI doesn't have to refresh the entire list everytime a change occurs
 				RecentFilesChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 			}
 		}
@@ -90,8 +92,8 @@ namespace Files.App.Filesystem
 					recentFolders.Clear();
 					recentFolders.AddRange(enumeratedFolders);
 
-					// shortcut modifications in `Windows\Recent` consist of a delete + add operation;
-					// thus, last modify date is reset and we can sort off it
+					// Shortcut modifications in `Windows\Recent` consist of a delete + add operation;
+					// Thus, last modify date is reset and we can sort off it
 					recentFolders.Sort((x, y) => y.LastModified.CompareTo(x.LastModified));
 				}
 
@@ -154,11 +156,13 @@ namespace Files.App.Filesystem
 			try
 			{
 				Shell32.SHAddToRecentDocs(Shell32.SHARD.SHARD_PATHW, path);
+
 				return true;
 			}
 			catch (Exception ex)
 			{
 				App.Logger.Warn(ex, ex.Message);
+
 				return false;
 			}
 		}
@@ -173,11 +177,13 @@ namespace Files.App.Filesystem
 			try
 			{
 				Shell32.SHAddToRecentDocs(Shell32.SHARD.SHARD_PIDL, (string)null);
+
 				return true;
 			}
 			catch (Exception ex)
 			{
 				App.Logger.Warn(ex, ex.Message);
+
 				return false;
 			}
 		}
@@ -191,13 +197,16 @@ namespace Files.App.Filesystem
 		{
 			try
 			{
-				var command = $"-command \"((New-Object -ComObject Shell.Application).Namespace('shell:{QuickAccessGuid}\').Items() " +
-							  $"| Where-Object {{ $_.Path -eq '{path}' }}).InvokeVerb('remove')\"";
+				var command =
+					$"-command \"((New-Object -ComObject Shell.Application).Namespace('shell:{QuickAccessGuid}\').Items() " +
+					$"| Where-Object {{ $_.Path -eq '{path}' }}).InvokeVerb('remove')\"";
+
 				return Win32API.RunPowershellCommand(command, false);
 			}
 			catch (Exception ex)
 			{
 				App.Logger.Warn(ex, ex.Message);
+
 				return false;
 			}
 		}
@@ -207,9 +216,8 @@ namespace Files.App.Filesystem
 		/// This function depends on `RecentItem` implementing IEquatable.
 		/// </summary>
 		private bool RecentItemsOrderEquals(IEnumerable<RecentItem> oldOrder, IEnumerable<RecentItem> newOrder)
-		{
-			return oldOrder != null && newOrder != null && oldOrder.SequenceEqual(newOrder);
-		}
+			=> oldOrder != null && newOrder != null && oldOrder.SequenceEqual(newOrder);
+
 		public void Dispose()
 		{
 			RecentItemsManager.Default.RecentItemsChanged -= OnRecentItemsChanged;

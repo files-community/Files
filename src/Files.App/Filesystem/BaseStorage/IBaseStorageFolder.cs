@@ -43,7 +43,6 @@ namespace Files.App.Filesystem.StorageItems
 	public interface ICreateFileWithStream
 	{
 		IAsyncOperation<BaseStorageFile> CreateFileAsync(Stream contents, string desiredName);
-
 		IAsyncOperation<BaseStorageFile> CreateFileAsync(Stream contents, string desiredName, CreationCollisionOption options);
 	}
 }

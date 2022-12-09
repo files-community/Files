@@ -7,6 +7,7 @@ namespace Files.App.Filesystem.StorageItems
 		public virtual ulong Size => 0;
 
 		public virtual DateTimeOffset ItemDate => DateTimeOffset.Now;
+
 		public virtual DateTimeOffset DateModified => DateTimeOffset.Now;
 	}
 }

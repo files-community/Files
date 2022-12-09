@@ -12,7 +12,6 @@ namespace Files.App.DataModels.NavigationControlItems
 	public class LocationItem : ObservableObject, INavigationControlItem
 	{
 		public BitmapImage icon;
-
 		public BitmapImage Icon
 		{
 			get => icon;
@@ -25,7 +24,6 @@ namespace Files.App.DataModels.NavigationControlItems
 		public string Text { get; set; } = "";
 
 		private string path;
-
 		public string Path
 		{
 			get => path;

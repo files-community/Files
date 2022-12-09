@@ -13,6 +13,7 @@ namespace Files.App.Filesystem
 	public class FileTagsManager
 	{
 		private readonly ILogger logger = Ioc.Default.GetService<ILogger>();
+
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetService<IFileTagsSettingsService>();
 
 		public EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
@@ -51,6 +52,7 @@ namespace Files.App.Filesystem
 						}
 						fileTags.Add(tagItem);
 					}
+
 					DataChanged?.Invoke(SectionType.FileTag, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, tagItem));
 				}
 			}

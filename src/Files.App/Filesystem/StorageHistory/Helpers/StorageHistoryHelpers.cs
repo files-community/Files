@@ -22,6 +22,7 @@ namespace Files.App.Filesystem.FilesystemHistory
 				{
 					return ReturnResult.InProgress;
 				}
+
 				try
 				{
 					return await operations.Undo(App.HistoryWrapper.GetCurrentHistory());
@@ -44,6 +45,7 @@ namespace Files.App.Filesystem.FilesystemHistory
 				{
 					return ReturnResult.InProgress;
 				}
+
 				try
 				{
 					App.HistoryWrapper.IncreaseIndex();

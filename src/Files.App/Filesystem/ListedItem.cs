@@ -20,7 +20,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-#pragma warning disable CS0618 // Type or member is obsolete
+// Type or member is obsolete
+#pragma warning disable CS0618
 
 namespace Files.App.Filesystem
 {
@@ -117,7 +118,8 @@ namespace Files.App.Filesystem
 
 		public ulong? FileFRN { get; set; }
 
-		private string[] fileTags; // TODO: initialize to empty array after UI is done
+		// TODO: initialize to empty array after UI is done
+		private string[] fileTags;
 		public string[] FileTags
 		{
 			get => fileTags;
@@ -160,6 +162,7 @@ namespace Files.App.Filesystem
 			{
 				// For some reason this being null will cause a crash with bindings
 				value ??= new CloudDriveSyncStatusUI();
+
 				if (SetProperty(ref syncStatusUI, value))
 				{
 					OnPropertyChanged(nameof(SyncStatusString));
@@ -171,7 +174,9 @@ namespace Files.App.Filesystem
 		// This is used to avoid passing a null value to AutomationProperties.Name, which causes a crash
 		public string SyncStatusString
 		{
-			get => string.IsNullOrEmpty(SyncStatusUI?.SyncStatusString) ? "CloudDriveSyncStatus_Unknown".GetLocalizedResource() : SyncStatusUI.SyncStatusString;
+			get => string.IsNullOrEmpty(SyncStatusUI?.SyncStatusString)
+				? "CloudDriveSyncStatus_Unknown".GetLocalizedResource()
+				: SyncStatusUI.SyncStatusString;
 		}
 
 		private BitmapImage fileImage;
@@ -184,6 +189,7 @@ namespace Files.App.Filesystem
 				{
 					imgOld.ImageOpened -= Img_ImageOpened;
 				}
+
 				if (SetProperty(ref fileImage, value))
 				{
 					if (value is BitmapImage img)
@@ -216,12 +222,14 @@ namespace Files.App.Filesystem
 						NeedsPlaceholderGlyph = false;
 						LoadDefaultIcon = false;
 						LoadWebShortcutGlyph = false;
-					}, App.Logger); // 2009482836u
+					},
+					App.Logger); // 2009482836u
 				}
 			}
 		}
 
-		public bool IsItemPinnedToStart => App.SecondaryTileHelper.CheckFolderPinned(ItemPath);
+		public bool IsItemPinnedToStart
+			=> App.SecondaryTileHelper.CheckFolderPinned(ItemPath);
 
 		private BitmapImage iconOverlay;
 		public BitmapImage IconOverlay
@@ -270,11 +278,13 @@ namespace Files.App.Filesystem
 				if (PrimaryItemAttribute == StorageItemTypes.File)
 				{
 					var nameWithoutExtension = Path.GetFileNameWithoutExtension(itemNameRaw);
-					if (!string.IsNullOrEmpty(nameWithoutExtension) && !UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
+					if (!string.IsNullOrEmpty(nameWithoutExtension) &&
+						!UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
 					{
 						return nameWithoutExtension;
 					}
 				}
+
 				return itemNameRaw;
 			}
 		}
@@ -305,7 +315,8 @@ namespace Files.App.Filesystem
 			}
 		}
 
-		public string FileSizeDisplay => string.IsNullOrEmpty(FileSize) ? "ItemSizeNotCalculated".GetLocalizedResource() : FileSize;
+		public string FileSizeDisplay
+			=> string.IsNullOrEmpty(FileSize) ? "ItemSizeNotCalculated".GetLocalizedResource() : FileSize;
 
 		public long FileSizeBytes { get; set; }
 
@@ -323,6 +334,7 @@ namespace Files.App.Filesystem
 			{
 				ItemDateModified = DateTimeFormatter.ToShortLabel(value);
 				itemDateModifiedReal = value;
+
 				OnPropertyChanged(nameof(ItemDateModified));
 			}
 		}
@@ -335,6 +347,7 @@ namespace Files.App.Filesystem
 			{
 				ItemDateCreated = DateTimeFormatter.ToShortLabel(value);
 				itemDateCreatedReal = value;
+
 				OnPropertyChanged(nameof(ItemDateCreated));
 			}
 		}
@@ -347,6 +360,7 @@ namespace Files.App.Filesystem
 			{
 				ItemDateAccessed = DateTimeFormatter.ToShortLabel(value);
 				itemDateAccessedReal = value;
+
 				OnPropertyChanged(nameof(ItemDateAccessed));
 			}
 		}
@@ -365,7 +379,9 @@ namespace Files.App.Filesystem
 		public ListedItem(string folderRelativeId) => FolderRelativeId = folderRelativeId;
 
 		// Parameterless constructor for JsonConvert
-		public ListedItem() { }
+		public ListedItem()
+		{
+		}
 
 		private ObservableCollection<FileProperty> fileDetails;
 		public ObservableCollection<FileProperty> FileDetails
@@ -377,6 +393,7 @@ namespace Files.App.Filesystem
 		public override string ToString()
 		{
 			string suffix;
+
 			if (IsRecycleBinItem)
 			{
 				suffix = "RecycleBinItemAutomation".GetLocalizedResource();
@@ -397,16 +414,35 @@ namespace Files.App.Filesystem
 			return $"{Name}, {suffix}";
 		}
 
-		public bool IsFolder => PrimaryItemAttribute is StorageItemTypes.Folder;
-		public bool IsRecycleBinItem => this is RecycleBinItem;
-		public bool IsShortcut => this is ShortcutItem;
-		public bool IsLibrary => this is LibraryItem;
-		public bool IsLinkItem => IsShortcut && ((ShortcutItem)this).IsUrl;
-		public bool IsFtpItem => this is FtpItem;
-		public bool IsArchive => this is ZipItem;
-		public bool IsAlternateStream => this is AlternateStreamItem;
-		public virtual bool IsExecutable => new[] { ".exe", ".bat", ".cmd" }.Contains(Path.GetExtension(ItemPath), StringComparer.OrdinalIgnoreCase);
-		public bool IsPinned => App.SidebarPinnedController.Model.FavoriteItems.Contains(itemPath);
+		public bool IsFolder
+			=> PrimaryItemAttribute is StorageItemTypes.Folder;
+
+		public bool IsRecycleBinItem
+			=> this is RecycleBinItem;
+
+		public bool IsShortcut
+			=> this is ShortcutItem;
+
+		public bool IsLibrary
+			=> this is LibraryItem;
+
+		public bool IsLinkItem
+			=> IsShortcut && ((ShortcutItem)this).IsUrl;
+
+		public bool IsFtpItem
+			=> this is FtpItem;
+
+		public bool IsArchive
+			=> this is ZipItem;
+
+		public bool IsAlternateStream
+			=> this is AlternateStreamItem;
+
+		public virtual bool IsExecutable
+			=> new[] { ".exe", ".bat", ".cmd" }.Contains(Path.GetExtension(ItemPath), StringComparer.OrdinalIgnoreCase);
+
+		public bool IsPinned
+			=> App.SidebarPinnedController.Model.FavoriteItems.Contains(itemPath);
 
 		private BaseStorageFile itemFile;
 		public BaseStorageFile ItemFile
@@ -461,9 +497,11 @@ namespace Files.App.Filesystem
 		public string ItemOriginalPath { get; set; }
 
 		// For recycle bin elements (path)
-		public string ItemOriginalFolder => Path.IsPathRooted(ItemOriginalPath) ? Path.GetDirectoryName(ItemOriginalPath) : ItemOriginalPath;
+		public string ItemOriginalFolder
+			=> Path.IsPathRooted(ItemOriginalPath) ? Path.GetDirectoryName(ItemOriginalPath) : ItemOriginalPath;
 
-		public string ItemOriginalFolderName => Path.GetFileName(ItemOriginalFolder);
+		public string ItemOriginalFolderName
+			=> Path.GetFileName(ItemOriginalFolder);
 	}
 
 	public class FtpItem : ListedItem
@@ -480,6 +518,7 @@ namespace Files.App.Filesystem
 			ItemPropertiesInitialized = false;
 
 			var itemType = isFile ? "ItemTypeFile".GetLocalizedResource() : "Folder".GetLocalizedResource();
+
 			if (isFile && Name.Contains('.', StringComparison.Ordinal))
 			{
 				itemType = FileExtension.Trim('.') + " " + itemType;
@@ -510,20 +549,28 @@ namespace Files.App.Filesystem
 
 		// Parameterless constructor for JsonConvert
 		public ShortcutItem() : base()
-		{ }
+		{
+		}
 
 		// For shortcut elements (.lnk and .url)
 		public string TargetPath { get; set; }
 
-		public override string Name 
-			=> IsSymLink ? base.Name : Path.GetFileNameWithoutExtension(ItemNameRaw); // Always hide extension for shortcuts
+		public override string Name
+			// Always hide extension for shortcuts
+			=> IsSymLink ? base.Name : Path.GetFileNameWithoutExtension(ItemNameRaw);
 
 		public string Arguments { get; set; }
+
 		public string WorkingDirectory { get; set; }
+
 		public bool RunAsAdmin { get; set; }
+
 		public bool IsUrl { get; set; }
+
 		public bool IsSymLink { get; set; }
-		public override bool IsExecutable => string.Equals(Path.GetExtension(TargetPath), ".exe", StringComparison.OrdinalIgnoreCase);
+
+		public override bool IsExecutable
+			=> string.Equals(Path.GetExtension(TargetPath), ".exe", StringComparison.OrdinalIgnoreCase);
 	}
 
 	public class ZipItem : ListedItem
@@ -537,17 +584,20 @@ namespace Files.App.Filesystem
 			get
 			{
 				var nameWithoutExtension = Path.GetFileNameWithoutExtension(ItemNameRaw);
-				if (!string.IsNullOrEmpty(nameWithoutExtension) && !UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
+				if (!string.IsNullOrEmpty(nameWithoutExtension) &&
+					!UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
 				{
 					return nameWithoutExtension;
 				}
+
 				return ItemNameRaw;
 			}
 		}
 
 		// Parameterless constructor for JsonConvert
 		public ZipItem() : base()
-		{ }
+		{
+		}
 	}
 
 	public class LibraryItem : ListedItem
@@ -579,8 +629,11 @@ namespace Files.App.Filesystem
 
 	public class AlternateStreamItem : ListedItem
 	{
-		public string MainStreamPath => ItemPath.Substring(0, ItemPath.LastIndexOf(':'));
-		public string MainStreamName => Path.GetFileName(MainStreamPath);
+		public string MainStreamPath
+			=> ItemPath.Substring(0, ItemPath.LastIndexOf(':'));
+
+		public string MainStreamName
+			=> Path.GetFileName(MainStreamPath);
 
 		public override string Name
 		{
@@ -588,10 +641,12 @@ namespace Files.App.Filesystem
 			{
 				var nameWithoutExtension = Path.GetFileNameWithoutExtension(ItemNameRaw);
 				var mainStreamNameWithoutExtension = Path.GetFileNameWithoutExtension(MainStreamName);
+
 				if (!UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
 				{
 					return $"{(string.IsNullOrEmpty(mainStreamNameWithoutExtension) ? MainStreamName : mainStreamNameWithoutExtension)}:{(string.IsNullOrEmpty(nameWithoutExtension) ? ItemNameRaw : nameWithoutExtension)}";
 				}
+
 				return $"{MainStreamName}:{ItemNameRaw}";
 			}
 		}
