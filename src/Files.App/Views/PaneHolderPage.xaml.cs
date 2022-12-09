@@ -271,7 +271,7 @@ namespace Files.App.Views
 				InitialPageType = typeof(PaneHolderPage),
 				NavigationArg = new PaneNavigationArguments()
 				{
-					LeftPaneNavPathParam = e?.NavigationArg as string ?? PaneLeft.TabItemArguments?.NavigationArg as string,
+					LeftPaneNavPathParam = PaneLeft.TabItemArguments?.NavigationArg as string ?? e?.NavigationArg as string,
 					RightPaneNavPathParam = IsRightPaneVisible ? PaneRight?.TabItemArguments?.NavigationArg as string : null
 				}
 			};
