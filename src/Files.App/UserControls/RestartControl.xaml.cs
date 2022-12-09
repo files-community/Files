@@ -17,8 +17,13 @@ namespace Files.App.UserControls
 			InitializeComponent();
 		}
 
-		public static readonly DependencyProperty ShowDialogProperty = DependencyProperty.Register(
-		  "ShowDialog", typeof(bool), typeof(RestartControl), new PropertyMetadata(false, new PropertyChangedCallback(OnShowDialogPropertyChanged)));
+		public static readonly DependencyProperty ShowDialogProperty =
+			DependencyProperty.Register(
+				nameof(ShowDialog),
+				typeof(bool),
+				typeof(RestartControl),
+				new PropertyMetadata(false, new PropertyChangedCallback(OnShowDialogPropertyChanged)));
+
 		public bool ShowDialog
 		{
 			get => (bool)GetValue(dp: ShowDialogProperty);
@@ -28,6 +33,7 @@ namespace Files.App.UserControls
 		private static void OnShowDialogPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
 		{
 			var dialog = (RestartControl)sender;
+
 			if ((bool)e.NewValue)
 			{
 				dialog.RestartNotification.Show(10000);
@@ -50,10 +56,14 @@ namespace Files.App.UserControls
 
 		private async void YesButton_Click(object sender, RoutedEventArgs e)
 		{
-			UserSettingsService.AppSettingsService.RestoreTabsOnStartup = true; // Tells the app to restore tabs when it's next launched
-			App.SaveSessionTabs(); // Saves the open tabs
-			await Launcher.LaunchUriAsync(new Uri("files-uwp:")); // Launches a new instance of Files
-			Process.GetCurrentProcess().Kill(); // Closes the current instance
+			// Tells the app to restore tabs when it's next launched
+			UserSettingsService.AppSettingsService.RestoreTabsOnStartup = true;
+			// Saves the open tabs
+			App.SaveSessionTabs();
+			// Launches a new instance of Files
+			await Launcher.LaunchUriAsync(new Uri("files-uwp:"));
+			// Closes the current instance
+			Process.GetCurrentProcess().Kill();
 		}
 
 		private void NoButton_Click(object sender, RoutedEventArgs e)

@@ -22,6 +22,7 @@ namespace Files.App.UserControls.MultitaskingControl
 	public class CurrentInstanceChangedEventArgs : EventArgs
 	{
 		public ITabItemContent CurrentInstance { get; set; }
+
 		public List<ITabItemContent> PageInstances { get; set; }
 	}
 }

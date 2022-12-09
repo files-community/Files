@@ -15,6 +15,7 @@ namespace Files.App.UserControls.Selection
 		private readonly double MinSelectionDelta = 5;
 
 		protected Rectangle selectionRectangle;
+
 		protected SelectionState selectionState;
 
 		protected RectangleSelection()
@@ -59,7 +60,9 @@ namespace Files.App.UserControls.Selection
 		public enum SelectionState
 		{
 			Inactive,
+
 			Starting,
+
 			Active
 		}
 
@@ -111,6 +114,7 @@ namespace Files.App.UserControls.Selection
 		{
 			var deltaX = Math.Abs(originalX - currentX);
 			var deltaY = Math.Abs(originalY - currentY);
+
 			return deltaX > MinSelectionDelta || deltaY > MinSelectionDelta;
 		}
 	}

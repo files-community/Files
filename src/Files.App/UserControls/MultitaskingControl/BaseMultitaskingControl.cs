@@ -13,7 +13,8 @@ namespace Files.App.UserControls.MultitaskingControl
 {
 	public class BaseMultitaskingControl : UserControl, IMultitaskingControl, INotifyPropertyChanged
 	{
-		private static bool isRestoringClosedTab = false; // Avoid reopening two tabs
+		// Avoid reopening two tabs
+		private static bool isRestoringClosedTab = false; 
 
 		protected ITabItemContent CurrentSelectedAppInstance;
 
@@ -30,7 +31,8 @@ namespace Files.App.UserControls.MultitaskingControl
 			return null;
 		}
 
-		public void SelectionChanged() => TabStrip_SelectionChanged(null, null);
+		public void SelectionChanged()
+			=> TabStrip_SelectionChanged(null, null);
 
 		public BaseMultitaskingControl()
 		{
@@ -116,10 +118,12 @@ namespace Files.App.UserControls.MultitaskingControl
 				isRestoringClosedTab = true;
 				var lastTab = RecentlyClosedTabs.Last();
 				RecentlyClosedTabs.Remove(lastTab);
+
 				foreach (var item in lastTab)
 				{
 					await MainPageViewModel.AddNewTabByParam(item.InitialPageType, item.NavigationArg);
 				}
+
 				isRestoringClosedTab = false;
 			}
 		}
@@ -137,8 +141,9 @@ namespace Files.App.UserControls.MultitaskingControl
 			}
 			else if (Items.Count > 1)
 			{
+				// Dispose and save tab arguments
 				Items.Remove(tabItem);
-				tabItem?.Unload(); // Dispose and save tab arguments
+				tabItem?.Unload();
 				RecentlyClosedTabs.Add(new TabItemArguments[] {
 					tabItem.TabItemArguments
 				});

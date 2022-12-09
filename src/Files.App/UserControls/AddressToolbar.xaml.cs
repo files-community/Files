@@ -17,35 +17,53 @@ namespace Files.App.UserControls
 	{
 		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-		// Using a DependencyProperty as the backing store for ShowOngoingTasks.  This enables animation, styling, binding, etc...
-		public static readonly DependencyProperty ShowOngoingTasksProperty =
-			DependencyProperty.Register(nameof(ShowOngoingTasks), typeof(bool), typeof(AddressToolbar), new(null));
+        #region propdp
+        public static readonly DependencyProperty ShowOngoingTasksProperty =
+			DependencyProperty.Register(
+				nameof(ShowOngoingTasks),
+				typeof(bool),
+				typeof(AddressToolbar),
+				new(null));
+
 		public bool ShowOngoingTasks
 		{
 			get => (bool)GetValue(ShowOngoingTasksProperty);
 			set => SetValue(ShowOngoingTasksProperty, value);
 		}
 
-		// Using a DependencyProperty as the backing store for ShowSettingsButton.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ShowSettingsButtonProperty =
-			DependencyProperty.Register(nameof(ShowSettingsButton), typeof(bool), typeof(AddressToolbar), new(null));
+			DependencyProperty.Register(
+				nameof(ShowSettingsButton),
+				typeof(bool),
+				typeof(AddressToolbar),
+				new(null));
+
 		public bool ShowSettingsButton
 		{
 			get => (bool)GetValue(dp: ShowSettingsButtonProperty);
 			set => SetValue(ShowSettingsButtonProperty, value);
 		}
 
-		// Using a DependencyProperty as the backing store for CollapseSearchBox.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ShowSearchBoxProperty =
-			DependencyProperty.Register(nameof(ShowSearchBox), typeof(bool), typeof(AddressToolbar), new(null));
+			DependencyProperty.Register(
+				nameof(ShowSearchBox),
+				typeof(bool),
+				typeof(AddressToolbar),
+				new(null));
+
 		public bool ShowSearchBox
 		{
-			get { return (bool)GetValue(ShowSearchBoxProperty); }
-			set { SetValue(ShowSearchBoxProperty, value); }
+			get => (bool)GetValue(ShowSearchBoxProperty);
+			set => SetValue(ShowSearchBoxProperty, value);
 		}
 
 		public static readonly DependencyProperty SettingsButtonCommandProperty =
-			DependencyProperty.Register(nameof(SettingsButtonCommand), typeof(ICommand), typeof(AddressToolbar), new(null));
+			DependencyProperty.Register(
+				nameof(SettingsButtonCommand),
+				typeof(ICommand),
+				typeof(AddressToolbar),
+				new(null));
+
 		public ICommand SettingsButtonCommand
 		{
 			get => (ICommand)GetValue(SettingsButtonCommandProperty);
@@ -53,25 +71,37 @@ namespace Files.App.UserControls
 		}
 
 		public static readonly DependencyProperty CanPasteInPageProperty =
-			DependencyProperty.Register("CanPasteInPage", typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
+			DependencyProperty.Register(
+				"CanPasteInPage",
+				typeof(bool),
+				typeof(AddressToolbar),
+				new PropertyMetadata(null));
+
 		public bool CanPasteInPage
 		{
 			get => (bool)GetValue(dp: CanPasteInPageProperty);
 			set => SetValue(CanPasteInPageProperty, value);
 		}
 
-		// Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ViewModelProperty =
-			DependencyProperty.Register(nameof(ViewModel), typeof(ToolbarViewModel), typeof(AddressToolbar), new PropertyMetadata(null));
+			DependencyProperty.Register(
+				nameof(ViewModel),
+				typeof(ToolbarViewModel),
+				typeof(AddressToolbar),
+				new PropertyMetadata(null));
+
 		public ToolbarViewModel ViewModel
 		{
 			get => (ToolbarViewModel)GetValue(ViewModelProperty);
 			set => SetValue(ViewModelProperty, value);
 		}
+        #endregion
 
-		public OngoingTasksViewModel? OngoingTasksViewModel { get; set; }
 
-		public AddressToolbar() => InitializeComponent();
+        public OngoingTasksViewModel? OngoingTasksViewModel { get; set; }
+
+		public AddressToolbar()
+			=> InitializeComponent();
 
 		private void NavToolbar_Loading(FrameworkElement _, object e)
 		{

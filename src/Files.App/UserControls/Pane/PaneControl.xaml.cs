@@ -12,13 +12,15 @@ namespace Files.App.UserControls
 
 		private IPaneSettingsService PaneSettingsService { get; } = Ioc.Default.GetService<IPaneSettingsService>();
 
-		public PanePositions Position => Panel.Content is IPane pane ? pane.Position : PanePositions.Right;
+		public PanePositions Position
+			=> Panel.Content is IPane pane ? pane.Position : PanePositions.Right;
 
 		public PaneControl()
 		{
 			InitializeComponent();
 
 			PaneSettingsService.PropertyChanged += PaneService_PropertyChanged;
+
 			Update();
 		}
 
@@ -28,6 +30,7 @@ namespace Files.App.UserControls
 			{
 				pane.UpdatePosition(panelWidth, panelHeight);
 			}
+
 			if (Panel.Content is Control control)
 			{
 				MinWidth = control.MinWidth;

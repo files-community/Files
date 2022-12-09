@@ -10,7 +10,7 @@ namespace Files.App.UserControls.Settings
 	{
 		public AppTheme SampleTheme
 		{
-			get { return (AppTheme)GetValue(SampleThemeProperty); }
+			get => (AppTheme)GetValue(SampleThemeProperty);
 			set
 			{
 				SetValue(SampleThemeProperty, value);
@@ -18,13 +18,17 @@ namespace Files.App.UserControls.Settings
 			}
 		}
 
-		// Using a DependencyProperty as the backing store for SampleTheme.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty SampleThemeProperty =
-			DependencyProperty.Register("SampleTheme", typeof(AppTheme), typeof(ThemeSampleDisplayControl), new PropertyMetadata(null));
+			DependencyProperty.Register(
+				"SampleTheme",
+				typeof(AppTheme),
+				typeof(ThemeSampleDisplayControl),
+				new PropertyMetadata(null));
 
 		public ThemeSampleDisplayControl()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
+
 			Loaded += ThemeSampleDisplayControl_Loaded;
 		}
 
@@ -44,13 +48,16 @@ namespace Files.App.UserControls.Settings
 					RequestedTheme = ElementTheme.Dark;
 					RequestedTheme = ElementTheme.Light;
 					RequestedTheme = ThemeHelper.RootTheme;
+
 					return true;
 				}
+
 				return false;
 			}
 			catch (Exception ex)
 			{
 				App.Logger.Warn(ex, $"Error loading theme: {SampleTheme?.Path}");
+
 				return false;
 			}
 		}

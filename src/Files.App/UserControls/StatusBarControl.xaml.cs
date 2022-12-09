@@ -9,7 +9,8 @@ namespace Files.App.UserControls
 {
 	public sealed partial class StatusBarControl : UserControl, INotifyPropertyChanged
 	{
-		public AppModel AppModel => App.AppModel;
+		public AppModel AppModel
+			=> App.AppModel;
 
 		public DirectoryPropertiesViewModel DirectoryPropertiesViewModel
 		{
@@ -17,9 +18,12 @@ namespace Files.App.UserControls
 			set => SetValue(DirectoryPropertiesViewModelProperty, value);
 		}
 
-		// Using a DependencyProperty as the backing store for DirectoryPropertiesViewModel.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty DirectoryPropertiesViewModelProperty =
-			DependencyProperty.Register(nameof(DirectoryPropertiesViewModel), typeof(DirectoryPropertiesViewModel), typeof(StatusBarControl), new PropertyMetadata(null));
+			DependencyProperty.Register(
+				nameof(DirectoryPropertiesViewModel),
+				typeof(DirectoryPropertiesViewModel),
+				typeof(StatusBarControl),
+				new PropertyMetadata(null));
 
 		public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel
 		{
@@ -28,7 +32,11 @@ namespace Files.App.UserControls
 		}
 
 		public static readonly DependencyProperty SelectedItemsPropertiesViewModelProperty =
-			DependencyProperty.Register(nameof(SelectedItemsPropertiesViewModel), typeof(SelectedItemsPropertiesViewModel), typeof(StatusBarControl), new PropertyMetadata(null));
+			DependencyProperty.Register(
+				nameof(SelectedItemsPropertiesViewModel),
+				typeof(SelectedItemsPropertiesViewModel),
+				typeof(StatusBarControl),
+				new PropertyMetadata(null));
 
 		public bool ShowInfoText
 		{
@@ -36,9 +44,12 @@ namespace Files.App.UserControls
 			set => SetValue(ShowInfoTextProperty, value);
 		}
 
-		// Using a DependencyProperty as the backing store for HideInfoText.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ShowInfoTextProperty =
-			DependencyProperty.Register(nameof(ShowInfoText), typeof(bool), typeof(StatusBarControl), new PropertyMetadata(null));
+			DependencyProperty.Register(
+				nameof(ShowInfoText),
+				typeof(bool),
+				typeof(StatusBarControl),
+				new PropertyMetadata(null));
 
 		public StatusBarControl()
 		{

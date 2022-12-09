@@ -10,7 +10,9 @@ namespace Files.App.UserControls
 	public enum PanePositions : ushort
 	{
 		None,
+
 		Right,
+
 		Bottom,
 	}
 }

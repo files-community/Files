@@ -8,25 +8,28 @@ using System.Linq;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
-
 namespace Files.App.UserControls.MultitaskingControl
 {
 	public sealed partial class HorizontalMultitaskingControl : BaseMultitaskingControl
 	{
 		private readonly DispatcherTimer tabHoverTimer = new DispatcherTimer();
+
 		private TabViewItem? hoveredTabViewItem;
 
 		public HorizontalMultitaskingControl()
 		{
 			InitializeComponent();
+
 			tabHoverTimer.Interval = TimeSpan.FromMilliseconds(500);
 			tabHoverTimer.Tick += TabHoverSelected;
 
 			var flowDirectionSetting = new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
 
 			var appWindowTitleBar = App.GetAppWindow(App.Window).TitleBar;
-			RightPaddingColumn.Width = (flowDirectionSetting == "RTL") ? new GridLength(appWindowTitleBar.LeftInset) : new GridLength(appWindowTitleBar.RightInset);
+
+			RightPaddingColumn.Width = (flowDirectionSetting == "RTL")
+				? new GridLength(appWindowTitleBar.LeftInset)
+				: new GridLength(appWindowTitleBar.RightInset);
 		}
 
 		private void HorizontalTabView_TabItemsChanged(TabView sender, Windows.Foundation.Collections.IVectorChangedEventArgs args)
@@ -56,6 +59,7 @@ namespace Files.App.UserControls.MultitaskingControl
 		private async void TabViewItem_Drop(object sender, DragEventArgs e)
 		{
 			await ((sender as TabViewItem).DataContext as TabItem).Control.TabItemContent.TabItemDrop(sender, e);
+
 			HorizontalTabView.CanReorderTabs = true;
 			tabHoverTimer.Stop();
 		}
@@ -63,6 +67,7 @@ namespace Files.App.UserControls.MultitaskingControl
 		private async void TabViewItem_DragEnter(object sender, DragEventArgs e)
 		{
 			await ((sender as TabViewItem).DataContext as TabItem).Control.TabItemContent.TabItemDragOver(sender, e);
+
 			if (e.AcceptedOperation != DataPackageOperation.None)
 			{
 				HorizontalTabView.CanReorderTabs = false;
@@ -74,6 +79,7 @@ namespace Files.App.UserControls.MultitaskingControl
 		private void TabViewItem_DragLeave(object sender, DragEventArgs e)
 		{
 			tabHoverTimer.Stop();
+
 			hoveredTabViewItem = null;
 		}
 
@@ -81,10 +87,9 @@ namespace Files.App.UserControls.MultitaskingControl
 		private void TabHoverSelected(object sender, object e)
 		{
 			tabHoverTimer.Stop();
+
 			if (hoveredTabViewItem is not null)
-			{
 				App.AppModel.TabStripSelectedIndex = Items.IndexOf(hoveredTabViewItem.DataContext as TabItem);
-			}
 		}
 
 		private void TabStrip_TabDragStarting(TabView sender, TabViewTabDragStartingEventArgs args)
@@ -118,18 +123,15 @@ namespace Files.App.UserControls.MultitaskingControl
 		private async void TabStrip_TabStripDrop(object sender, DragEventArgs e)
 		{
 			HorizontalTabView.CanReorderTabs = true;
-			if (!(sender is TabView tabStrip))
-			{
-				return;
-			}
 
-			if (!e.DataView.Properties.TryGetValue(TabPathIdentifier, out object tabViewItemPathObj) || !(tabViewItemPathObj is string tabViewItemString))
-			{
+			if (!(sender is TabView tabStrip))
 				return;
-			}
+
+			if (!e.DataView.Properties.TryGetValue(TabPathIdentifier, out object tabViewItemPathObj) ||
+				!(tabViewItemPathObj is string tabViewItemString))
+				return;
 
 			var index = -1;
-
 			for (int i = 0; i < tabStrip.TabItems.Count; i++)
 			{
 				var item = tabStrip.ContainerFromIndex(i) as TabViewItem;
@@ -143,6 +145,7 @@ namespace Files.App.UserControls.MultitaskingControl
 
 			var tabViewItemArgs = TabItemArguments.Deserialize(tabViewItemString);
 			ApplicationData.Current.LocalSettings.Values[TabDropHandledIdentifier] = true;
+
 			await MainPageViewModel.AddNewTabByParam(tabViewItemArgs.InitialPageType, tabViewItemArgs.NavigationArg, index);
 		}
 
@@ -167,14 +170,13 @@ namespace Files.App.UserControls.MultitaskingControl
 		private async void TabStrip_TabDroppedOutside(TabView sender, TabViewTabDroppedOutsideEventArgs args)
 		{
 			if (sender.TabItems.Count == 1)
-			{
 				return;
-			}
 
 			var indexOfTabViewItem = sender.TabItems.IndexOf(args.Item);
 			var tabViewItemArgs = (args.Item as TabItem).TabItemArguments;
 			var selectedTabViewItemIndex = sender.SelectedIndex;
 			Items.Remove(args.Item as TabItem);
+
 			if (!await NavigationHelpers.OpenTabInNewWindowAsync(tabViewItemArgs.Serialize()))
 			{
 				Items.Insert(indexOfTabViewItem, args.Item as TabItem);
@@ -182,7 +184,8 @@ namespace Files.App.UserControls.MultitaskingControl
 			}
 			else
 			{
-				(args.Item as TabItem)?.Unload(); // Dispose tab arguments
+				// Dispose tab arguments
+				(args.Item as TabItem)?.Unload();
 			}
 		}
 
@@ -210,28 +213,36 @@ namespace Files.App.UserControls.MultitaskingControl
 			MenuItemCloseOtherTabs.IsEnabled = MainPageViewModel.AppInstances.Count > 1;
 		}
 
-		public override DependencyObject ContainerFromItem(ITabItem item) => HorizontalTabView.ContainerFromItem(item);
+		public override DependencyObject ContainerFromItem(ITabItem item)
+			=> HorizontalTabView.ContainerFromItem(item);
 
 		public UIElement ActionsControl
 		{
-			get { return (UIElement)GetValue(ActionsControlProperty); }
-			set { SetValue(ActionsControlProperty, value); }
+			get => (UIElement)GetValue(ActionsControlProperty);
+			set => SetValue(ActionsControlProperty, value);
 		}
 
-		// Using a DependencyProperty as the backing store for ActionsControl.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ActionsControlProperty =
-			DependencyProperty.Register("ActionsControl", typeof(UIElement), typeof(HorizontalMultitaskingControl), new PropertyMetadata(null));
+			DependencyProperty.Register(
+				nameof(ActionsControl),
+				typeof(UIElement),
+				typeof(HorizontalMultitaskingControl),
+				new PropertyMetadata(null));
 
 		public Visibility TabStripVisibility
 		{
-			get { return (Visibility)GetValue(TabStripVisibilityProperty); }
-			set { SetValue(TabStripVisibilityProperty, value); }
+			get => (Visibility)GetValue(TabStripVisibilityProperty);
+			set => SetValue(TabStripVisibilityProperty, value);
 		}
 
-		// Using a DependencyProperty as the backing store for TabStripVisibility.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty TabStripVisibilityProperty =
-			DependencyProperty.Register("TabStripVisibility", typeof(Visibility), typeof(HorizontalMultitaskingControl), new PropertyMetadata(Visibility.Visible));
+			DependencyProperty.Register(
+				nameof(TabStripVisibility,
+				typeof(Visibility),
+				typeof(HorizontalMultitaskingControl),
+				new PropertyMetadata(Visibility.Visible));
 
-		public Grid DragArea => DragAreaGrid;
+		public Grid DragArea
+			=> DragAreaGrid;
 	}
 }

@@ -7,22 +7,22 @@ using Microsoft.UI.Xaml.Input;
 using System;
 using Windows.Media.Playback;
 
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
-
 namespace Files.App.UserControls.FilePreviews
 {
 	public sealed partial class MediaPreview : UserControl
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
+		public MediaPreviewViewModel ViewModel { get; set; }
+
 		public MediaPreview(MediaPreviewViewModel model)
 		{
 			ViewModel = model;
+
 			InitializeComponent();
+
 			PlayerContext.Loaded += PlayerContext_Loaded;
 		}
-
-		public MediaPreviewViewModel ViewModel { get; set; }
 
 		private void PlayerContext_Loaded(object sender, RoutedEventArgs e)
 		{

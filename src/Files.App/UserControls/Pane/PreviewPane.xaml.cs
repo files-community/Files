@@ -15,11 +15,13 @@ namespace Files.App.UserControls
 
 		private IPaneSettingsService PaneSettingsService { get; } = Ioc.Default.GetService<IPaneSettingsService>();
 
-		private PreviewPaneViewModel ViewModel => App.PreviewPaneViewModel;
+		private PreviewPaneViewModel ViewModel
+			=> App.PreviewPaneViewModel;
 
 		private ObservableContext Context { get; } = new();
 
-		public PreviewPane() => InitializeComponent();
+		public PreviewPane()
+			=> InitializeComponent();
 
 		public void UpdatePosition(double panelWidth, double panelHeight)
 		{
@@ -35,15 +37,18 @@ namespace Files.App.UserControls
 			}
 		}
 
-		private string GetLocalizedResource(string resName) => resName.GetLocalizedResource();
+		private string GetLocalizedResource(string resName)
+			=> resName.GetLocalizedResource();
 
 		private void Root_Loading(FrameworkElement sender, object args)
 			=> ViewModel.UpdateSelectedItemPreview();
+
 		private void Root_Unloaded(object sender, RoutedEventArgs e)
 		{
 			PreviewControlPresenter.Content = null;
 			Bindings.StopTracking();
 		}
+
 		private void Root_SizeChanged(object sender, SizeChangedEventArgs e)
 			=> Context.IsHorizontal = Root.ActualWidth >= Root.ActualHeight;
 

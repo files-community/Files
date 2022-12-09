@@ -70,15 +70,30 @@ namespace Files.App.UserControls
 		/// <summary>
 		/// The Model for the pinned sidebar items
 		/// </summary>
-		public SidebarPinnedModel SidebarPinnedModel => App.SidebarPinnedController.Model;
+		public SidebarPinnedModel SidebarPinnedModel
+			=> App.SidebarPinnedController.Model;
 
-		public static readonly DependencyProperty EmptyRecycleBinCommandProperty = DependencyProperty.Register(nameof(EmptyRecycleBinCommand), typeof(ICommand), typeof(SidebarControl), new PropertyMetadata(null));
+		public static readonly DependencyProperty EmptyRecycleBinCommandProperty =
+			DependencyProperty.Register(
+				nameof(EmptyRecycleBinCommand),
+				typeof(ICommand),
+				typeof(SidebarControl),
+				new PropertyMetadata(null));
 
 		// Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ViewModelProperty =
-			DependencyProperty.Register(nameof(ViewModel), typeof(SidebarViewModel), typeof(SidebarControl), new PropertyMetadata(null));
+			DependencyProperty.Register(
+				nameof(ViewModel),
+				typeof(SidebarViewModel),
+				typeof(SidebarControl),
+				new PropertyMetadata(null));
 
-		public static readonly DependencyProperty SelectedSidebarItemProperty = DependencyProperty.Register(nameof(SelectedSidebarItem), typeof(INavigationControlItem), typeof(SidebarControl), new PropertyMetadata(null));
+		public static readonly DependencyProperty SelectedSidebarItemProperty =
+			DependencyProperty.Register(
+				nameof(SelectedSidebarItem),
+				typeof(INavigationControlItem),
+				typeof(SidebarControl),
+				new PropertyMetadata(null));
 
 		public INavigationControlItem SelectedSidebarItem
 		{
@@ -86,13 +101,16 @@ namespace Files.App.UserControls
 			set
 			{
 				if (this.IsLoaded)
-				{
 					SetValue(SelectedSidebarItemProperty, value);
-				}
 			}
 		}
 
-		public static readonly DependencyProperty TabContentProperty = DependencyProperty.Register(nameof(TabContent), typeof(UIElement), typeof(SidebarControl), new PropertyMetadata(null));
+		public static readonly DependencyProperty TabContentProperty =
+			DependencyProperty.Register(
+				nameof(TabContent),
+				typeof(UIElement),
+				typeof(SidebarControl),
+				new PropertyMetadata(null));
 
 		public UIElement TabContent
 		{
@@ -167,7 +185,6 @@ namespace Files.App.UserControls
 		}
 
 		private bool canOpenInNewPane;
-
 		public bool CanOpenInNewPane
 		{
 			get => canOpenInNewPane;
@@ -182,7 +199,6 @@ namespace Files.App.UserControls
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
-
 		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -337,21 +353,27 @@ namespace Files.App.UserControls
 				case SectionType.Favorites:
 					UserSettingsService.AppearanceSettingsService.ShowFavoritesSection = false;
 					break;
+
 				case SectionType.Library:
 					UserSettingsService.AppearanceSettingsService.ShowLibrarySection = false;
 					break;
+
 				case SectionType.CloudDrives:
 					UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection = false;
 					break;
+
 				case SectionType.Drives:
 					UserSettingsService.AppearanceSettingsService.ShowDrivesSection = false;
 					break;
+
 				case SectionType.Network:
 					UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection = false;
 					break;
+
 				case SectionType.WSL:
 					UserSettingsService.AppearanceSettingsService.ShowWslSection = false;
 					break;
+
 				case SectionType.FileTag:
 					UserSettingsService.AppearanceSettingsService.ShowFileTagsSection = false;
 					break;
@@ -361,27 +383,24 @@ namespace Files.App.UserControls
 		private async void OpenInNewPane()
 		{
 			if (await CheckEmptyDrive((rightClickedItem as INavigationControlItem)?.Path))
-			{
 				return;
-			}
+
 			SidebarItemNewPaneInvoked?.Invoke(this, new SidebarItemNewPaneInvokedEventArgs(rightClickedItem));
 		}
 
 		private async void OpenInNewTab()
 		{
 			if (await CheckEmptyDrive(rightClickedItem.Path))
-			{
 				return;
-			}
+
 			await NavigationHelpers.OpenPathInNewTab(rightClickedItem.Path);
 		}
 
 		private async void OpenInNewWindow()
 		{
 			if (await CheckEmptyDrive(rightClickedItem.Path))
-			{
 				return;
-			}
+
 			await NavigationHelpers.OpenPathInNewWindowAsync(rightClickedItem.Path);
 		}
 
@@ -493,6 +512,7 @@ namespace Files.App.UserControls
 				menu.Closed -= flyoutClosed;
 				SidebarItemPropertiesInvoked?.Invoke(this, new SidebarItemPropertiesInvokedEventArgs(rightClickedItem));
 			};
+
 			menu.Closed += flyoutClosed;
 		}
 
@@ -513,9 +533,7 @@ namespace Files.App.UserControls
 			string navigationPath = args.InvokedItemContainer.Tag?.ToString();
 
 			if (await CheckEmptyDrive(navigationPath))
-			{
 				return;
-			}
 
 			var ctrlPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			if (ctrlPressed && navigationPath is not null)
@@ -534,11 +552,11 @@ namespace Files.App.UserControls
 			if (properties.IsMiddleButtonPressed && context is INavigationControlItem item && item.Path is not null)
 			{
 				if (await CheckEmptyDrive(item.Path))
-				{
 					return;
-				}
+
 				IsInPointerPressed = true;
 				e.Handled = true;
+
 				await NavigationHelpers.OpenPathInNewTab(item.Path);
 			}
 		}
@@ -581,9 +599,7 @@ namespace Files.App.UserControls
 		private void NavigationViewItem_DragStarting(UIElement sender, DragStartingEventArgs args)
 		{
 			if (!((sender as NavigationViewItem).DataContext is LocationItem locationItem))
-			{
 				return;
-			}
 
 			// Adding the original Location item dragged to the DragEvents data view
 			var navItem = (sender as NavigationViewItem);
@@ -611,7 +627,8 @@ namespace Files.App.UserControls
 							}
 							dragOverSection = null;
 						}
-					}, TimeSpan.FromMilliseconds(1000), false);
+					},
+					TimeSpan.FromMilliseconds(1000), false);
 				}
 				else
 				{
@@ -625,7 +642,8 @@ namespace Files.App.UserControls
 							SidebarItemInvoked?.Invoke(this, new SidebarItemInvokedEventArgs(dragOverItem as NavigationViewItemBase));
 							dragOverItem = null;
 						}
-					}, TimeSpan.FromMilliseconds(1000), false);
+					},
+					TimeSpan.FromMilliseconds(1000), false);
 				}
 			}
 		}
@@ -643,6 +661,7 @@ namespace Files.App.UserControls
 					// Reset dragged over item
 					dragOverItem = null;
 				}
+
 				if (sender == dragOverSection)
 				{
 					// Reset dragged over item
@@ -654,9 +673,7 @@ namespace Files.App.UserControls
 		private async void NavigationViewLocationItem_DragOver(object sender, DragEventArgs e)
 		{
 			if (!((sender as NavigationViewItem)?.DataContext is LocationItem locationItem))
-			{
 				return;
-			}
 
 			var deferral = e.GetDeferral();
 
@@ -693,8 +710,8 @@ namespace Files.App.UserControls
 					}
 				}
 				else if (string.IsNullOrEmpty(locationItem.Path) ||
-					(storageItems.Any() && storageItems.AreItemsAlreadyInFolder(locationItem.Path))
-					|| locationItem.Path.StartsWith("Home".GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
+					(storageItems.Any() && storageItems.AreItemsAlreadyInFolder(locationItem.Path)) ||
+					locationItem.Path.StartsWith("Home".GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
 				{
 					e.AcceptedOperation = DataPackageOperation.None;
 				}
@@ -718,6 +735,7 @@ namespace Files.App.UserControls
 				else
 				{
 					e.DragUIOverride.IsCaptionVisible = true;
+
 					if (locationItem.Path.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
 					{
 						e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
@@ -790,18 +808,18 @@ namespace Files.App.UserControls
 		private async void NavigationViewLocationItem_Drop(object sender, DragEventArgs e)
 		{
 			if (lockFlag)
-			{
 				return;
-			}
+
 			lockFlag = true;
 
-			dragOverItem = null; // Reset dragged over item
-			dragOverSection = null; // Reset dragged over section
+			// Reset dragged over item
+			dragOverItem = null;
+
+			// Reset dragged over section
+			dragOverSection = null;
 
 			if (!((sender as NavigationViewItem).DataContext is LocationItem locationItem))
-			{
 				return;
-			}
 
 			// If the dropped item is a folder or file from a file system
 			if (FilesystemHelpers.HasDraggedStorageItems(e.DataView))
@@ -831,6 +849,7 @@ namespace Files.App.UserControls
 						AcceptedOperation = e.AcceptedOperation,
 						SignalEvent = signal
 					});
+
 					await signal.WaitAsync();
 				}
 
@@ -846,6 +865,7 @@ namespace Files.App.UserControls
 			}
 
 			await Task.Yield();
+
 			lockFlag = false;
 		}
 
@@ -853,9 +873,7 @@ namespace Files.App.UserControls
 		{
 			if (!((sender as NavigationViewItem).DataContext is DriveItem driveItem) ||
 				!Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
-			{
 				return;
-			}
 
 			var deferral = e.GetDeferral();
 			e.Handled = true;
@@ -881,6 +899,7 @@ namespace Files.App.UserControls
 			else
 			{
 				e.DragUIOverride.IsCaptionVisible = true;
+
 				if (e.Modifiers.HasFlag(DragDropModifiers.Alt) || e.Modifiers.HasFlag(DragDropModifiers.Control | DragDropModifiers.Shift))
 				{
 					e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
@@ -914,18 +933,18 @@ namespace Files.App.UserControls
 		private async void NavigationViewDriveItem_Drop(object sender, DragEventArgs e)
 		{
 			if (lockFlag)
-			{
 				return;
-			}
+
 			lockFlag = true;
 
-			dragOverItem = null; // Reset dragged over item
-			dragOverSection = null; // Reset dragged over section
+            // Reset dragged over item
+            dragOverItem = null;
 
-			if (!((sender as NavigationViewItem).DataContext is DriveItem driveItem))
-			{
+            // Reset dragged over section
+            dragOverSection = null;
+
+            if (!((sender as NavigationViewItem).DataContext is DriveItem driveItem))
 				return;
-			}
 
 			VisualStateManager.GoToState(sender as NavigationViewItem, "Drop", false);
 
@@ -939,10 +958,13 @@ namespace Files.App.UserControls
 				AcceptedOperation = e.AcceptedOperation,
 				SignalEvent = signal
 			});
+
 			await signal.WaitAsync();
 
 			deferral.Complete();
+
 			await Task.Yield();
+
 			lockFlag = false;
 		}
 
@@ -950,9 +972,7 @@ namespace Files.App.UserControls
 		{
 			if (!((sender as NavigationViewItem).DataContext is FileTagItem fileTagItem) ||
 				!Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
-			{
 				return;
-			}
 
 			var deferral = e.GetDeferral();
 			e.Handled = true;
@@ -981,18 +1001,18 @@ namespace Files.App.UserControls
 		private async void NavigationViewFileTag_Drop(object sender, DragEventArgs e)
 		{
 			if (lockFlag)
-			{
 				return;
-			}
+
 			lockFlag = true;
 
-			dragOverItem = null; // Reset dragged over item
-			dragOverSection = null; // Reset dragged over section
+            // Reset dragged over item
+            dragOverItem = null;
 
-			if (!((sender as NavigationViewItem).DataContext is FileTagItem fileTagItem))
-			{
+            // Reset dragged over section
+            dragOverSection = null;
+
+            if (!((sender as NavigationViewItem).DataContext is FileTagItem fileTagItem))
 				return;
-			}
 
 			VisualStateManager.GoToState(sender as NavigationViewItem, "Drop", false);
 
@@ -1002,9 +1022,7 @@ namespace Files.App.UserControls
 			var storageItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
 			if (handledByFtp)
-			{
 				return;
-			}
 
 			foreach (var item in storageItems.Where(x => !string.IsNullOrEmpty(x.Path)))
 			{
@@ -1014,7 +1032,9 @@ namespace Files.App.UserControls
 			}
 
 			deferral.Complete();
+
 			await Task.Yield();
+
 			lockFlag = false;
 		}
 
@@ -1042,6 +1062,7 @@ namespace Files.App.UserControls
 			if (e.Key == VirtualKey.Space || e.Key == VirtualKey.Enter)
 			{
 				IsPaneOpen = !IsPaneOpen;
+
 				return;
 			}
 
@@ -1050,17 +1071,20 @@ namespace Files.App.UserControls
 				if (e.Key == VirtualKey.Left)
 				{
 					SetSize(-step, true);
+
 					e.Handled = true;
 				}
 				else if (e.Key == VirtualKey.Right)
 				{
 					SetSize(step, true);
+
 					e.Handled = true;
 				}
 			}
 			else if (e.Key == VirtualKey.Right)
 			{
 				IsPaneOpen = !IsPaneOpen;
+
 				return;
 			}
 
@@ -1100,12 +1124,14 @@ namespace Files.App.UserControls
 				var newSize = originalSize + val;
 				if (newSize <= Constants.UI.MaximumSidebarWidth && newSize >= Constants.UI.MinimumSidebarWidth)
 				{
-					OpenPaneLength = newSize; // passing a negative value will cause an exception
+					// passing a negative value will cause an exception
+					OpenPaneLength = newSize;
 				}
-
-				if (newSize < Constants.UI.MinimumSidebarWidth) // if the new size is below the minimum, check whether to toggle the pane
+				// if the new size is below the minimum, check whether to toggle the pane
+				if (newSize < Constants.UI.MinimumSidebarWidth)
 				{
-					if (Constants.UI.MinimumSidebarWidth + val <= CompactPaneLength || closeImmediatleyOnOversize) // collapse the sidebar
+					// Collapse the sidebar
+					if (Constants.UI.MinimumSidebarWidth + val <= CompactPaneLength || closeImmediatleyOnOversize)
 					{
 						IsPaneOpen = false;
 					}
@@ -1115,7 +1141,8 @@ namespace Files.App.UserControls
 			{
 				if (val >= Constants.UI.MinimumSidebarWidth - CompactPaneLength || closeImmediatleyOnOversize)
 				{
-					OpenPaneLength = Constants.UI.MinimumSidebarWidth + (val + CompactPaneLength - Constants.UI.MinimumSidebarWidth); // set open sidebar length to minimum value to keep it smooth
+					// Set open sidebar length to minimum value to keep it smooth
+					OpenPaneLength = Constants.UI.MinimumSidebarWidth + (val + CompactPaneLength - Constants.UI.MinimumSidebarWidth);
 					IsPaneOpen = true;
 				}
 			}
@@ -1158,9 +1185,11 @@ namespace Files.App.UserControls
 						var result = await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
 						await UIHelpers.ShowDeviceEjectResultAsync(result);
 					}
+
 					return true;
 				}
 			}
+
 			return false;
 		}
 
@@ -1177,11 +1206,13 @@ namespace Files.App.UserControls
 						emptyRecycleBinItem.IsEnabled = binHasItems;
 					}
 				}
+
 				if (options.IsLocationItem)
 				{
 					var shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
 					var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(currentInstanceViewModel: null, workingDir: null,
 						new List<ListedItem>() { new ListedItem(null) { ItemPath = rightClickedItem.Path } }, shiftPressed: shiftPressed, showOpenMenu: false, default);
+
 					if (!UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu)
 					{
 						var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(shellMenuItems);
@@ -1189,6 +1220,7 @@ namespace Files.App.UserControls
 						{
 							var openedPopups = Microsoft.UI.Xaml.Media.VisualTreeHelper.GetOpenPopups(App.Window);
 							var secondaryMenu = openedPopups.FirstOrDefault(popup => popup.Name == "OverflowPopup");
+
 							var itemsControl = secondaryMenu?.Child.FindDescendant<ItemsControl>();
 							if (itemsControl is not null)
 							{
@@ -1211,7 +1243,9 @@ namespace Files.App.UserControls
 					}
 				}
 			}
-			catch { }
+			catch
+			{
+			}
 		}
 
 		public static GridLength GetSidebarCompactSize()
@@ -1223,19 +1257,22 @@ namespace Files.App.UserControls
 					return new GridLength(paneLengthDouble);
 				}
 			}
+
 			return new GridLength(200);
 		}
 
 		#region Sidebar sections expanded state management
-
 		private async void NavigationView_Expanding(NavigationView sender, NavigationViewItemExpandingEventArgs args)
 		{
 			if (args.ExpandingItem is LocationItem loc && loc.ChildItems is not null)
 			{
-				await Task.Delay(50); // Wait a little so IsPaneOpen tells the truth when in minimal mode
-				if (sender.IsPaneOpen) // Don't store expanded state if sidebar pane is closed
-				{
-					App.AppSettings.Set(true, $"section:{loc.Text.Replace('\\', '_')}");
+                // Wait a little so IsPaneOpen tells the truth when in minimal mode
+                await Task.Delay(50);
+
+                // Don't store expanded state if sidebar pane is closed
+                if (sender.IsPaneOpen)
+                {
+                    App.AppSettings.Set(true, $"section:{loc.Text.Replace('\\', '_')}");
 				}
 			}
 		}
@@ -1244,8 +1281,11 @@ namespace Files.App.UserControls
 		{
 			if (args.CollapsedItem is LocationItem loc && loc.ChildItems is not null)
 			{
-				await Task.Delay(50); // Wait a little so IsPaneOpen tells the truth when in minimal mode
-				if (sender.IsPaneOpen) // Don't store expanded state if sidebar pane is closed
+				// Wait a little so IsPaneOpen tells the truth when in minimal mode
+				await Task.Delay(50);
+				
+				// Don't store expanded state if sidebar pane is closed
+				if (sender.IsPaneOpen)
 				{
 					App.AppSettings.Set(false, $"section:{loc.Text.Replace('\\', '_')}");
 				}
@@ -1269,15 +1309,17 @@ namespace Files.App.UserControls
 				loc.IsExpanded = false;
 			}
 		}
-
 		#endregion
 	}
 
 	public class SidebarItemDroppedEventArgs : EventArgs
 	{
 		public DataPackageView Package { get; set; }
+
 		public string ItemPath { get; set; }
+
 		public DataPackageOperation AcceptedOperation { get; set; }
+
 		public AsyncManualResetEvent SignalEvent { get; set; }
 	}
 
@@ -1314,9 +1356,13 @@ namespace Files.App.UserControls
 	public class NavItemDataTemplateSelector : DataTemplateSelector
 	{
 		public DataTemplate LocationNavItemTemplate { get; set; }
+
 		public DataTemplate DriveNavItemTemplate { get; set; }
+
 		public DataTemplate LinuxNavItemTemplate { get; set; }
+
 		public DataTemplate FileTagNavItemTemplate { get; set; }
+
 		public DataTemplate HeaderNavItemTemplate { get; set; }
 
 		protected override DataTemplate SelectTemplateCore(object item)
@@ -1342,6 +1388,7 @@ namespace Files.App.UserControls
 						return FileTagNavItemTemplate;
 				}
 			}
+
 			return null;
 		}
 	}

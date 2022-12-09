@@ -181,7 +181,7 @@ namespace Files.App.Shell
 			var itemCount = User32.GetMenuItemCount(hMenu);
             User32.MENUITEMINFO mii = new()
 			{
-                cbSize = (uint)Marshal.SizeOf(mii)
+                cbSize = (uint)Marshal.SizeOf(mii),
                 fMask = User32.MenuItemInfoMask.MIIM_BITMAP |
                 User32.MenuItemInfoMask.MIIM_FTYPE |
                 User32.MenuItemInfoMask.MIIM_STRING |

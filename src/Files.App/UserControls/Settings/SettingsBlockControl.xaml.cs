@@ -14,18 +14,22 @@ namespace Files.App.UserControls.Settings
 
 		public ICommand ButtonCommand
 		{
-			get { return (ICommand)GetValue(ButtonCommandProperty); }
-			set { SetValue(ButtonCommandProperty, value); }
+			get => (ICommand)GetValue(ButtonCommandProperty);
+			set => SetValue(ButtonCommandProperty, value);
 		}
 		public static readonly DependencyProperty ButtonCommandProperty =
-			DependencyProperty.Register("ButtonCommand", typeof(ICommand), typeof(SettingsBlockControl), new PropertyMetadata(null));
+			DependencyProperty.Register(
+				"ButtonCommand",
+				typeof(ICommand),
+				typeof(SettingsBlockControl),
+				new PropertyMetadata(null));
 
-		public static readonly DependencyProperty ExpandableContentProperty = DependencyProperty.Register(
-		  "ExpandableContent",
-		  typeof(FrameworkElement),
-		  typeof(SettingsBlockControl),
-		  new PropertyMetadata(null)
-		);
+		public static readonly DependencyProperty ExpandableContentProperty =
+			DependencyProperty.Register(
+				"ExpandableContent",
+				typeof(FrameworkElement),
+				typeof(SettingsBlockControl),
+				new PropertyMetadata(null));
 
 		public FrameworkElement ExpandableContent
 		{
@@ -33,12 +37,12 @@ namespace Files.App.UserControls.Settings
 			set => SetValue(ExpandableContentProperty, value);
 		}
 
-		public static readonly DependencyProperty AdditionalDescriptionContentProperty = DependencyProperty.Register(
-		  "AdditionalDescriptionContent",
-		  typeof(FrameworkElement),
-		  typeof(SettingsBlockControl),
-		  new PropertyMetadata(null)
-		);
+		public static readonly DependencyProperty AdditionalDescriptionContentProperty =
+			DependencyProperty.Register(
+				"AdditionalDescriptionContent",
+				typeof(FrameworkElement),
+				typeof(SettingsBlockControl),
+				new PropertyMetadata(null));
 
 		public FrameworkElement AdditionalDescriptionContent
 		{
@@ -46,12 +50,12 @@ namespace Files.App.UserControls.Settings
 			set => SetValue(AdditionalDescriptionContentProperty, value);
 		}
 
-		public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(
-		  "Title",
-		  typeof(string),
-		  typeof(SettingsBlockControl),
-		  new PropertyMetadata(null)
-		);
+		public static readonly DependencyProperty TitleProperty =
+			DependencyProperty.Register(
+				"Title",
+				typeof(string),
+				typeof(SettingsBlockControl),
+				new PropertyMetadata(null));
 
 		public string Title
 		{
@@ -59,12 +63,12 @@ namespace Files.App.UserControls.Settings
 			set => SetValue(TitleProperty, value);
 		}
 
-		public static readonly DependencyProperty DescriptionProperty = DependencyProperty.Register(
-		  "Description",
-		  typeof(string),
-		  typeof(SettingsBlockControl),
-		  new PropertyMetadata(null)
-		);
+		public static readonly DependencyProperty DescriptionProperty =
+			DependencyProperty.Register(
+				"Description",
+				typeof(string),
+				typeof(SettingsBlockControl),
+				new PropertyMetadata(null));
 
 		public string Description
 		{
@@ -72,12 +76,12 @@ namespace Files.App.UserControls.Settings
 			set => SetValue(DescriptionProperty, value);
 		}
 
-		public static readonly DependencyProperty IconProperty = DependencyProperty.Register(
-		  "Icon",
-		  typeof(IconElement),
-		  typeof(SettingsBlockControl),
-		  new PropertyMetadata(null)
-		);
+		public static readonly DependencyProperty IconProperty =
+			DependencyProperty.Register(
+				"Icon",
+				typeof(IconElement),
+				typeof(SettingsBlockControl),
+				new PropertyMetadata(null));
 
 		public IconElement Icon
 		{
@@ -85,12 +89,12 @@ namespace Files.App.UserControls.Settings
 			set => SetValue(IconProperty, value);
 		}
 
-		public static readonly DependencyProperty IsClickableProperty = DependencyProperty.Register(
-		  "IsClickable",
-		  typeof(bool),
-		  typeof(SettingsBlockControl),
-		  new PropertyMetadata(false)
-		);
+		public static readonly DependencyProperty IsClickableProperty =
+			DependencyProperty.Register(
+				"IsClickable",
+				typeof(bool),
+				typeof(SettingsBlockControl),
+				new PropertyMetadata(false));
 
 		public bool IsClickable
 		{
@@ -98,12 +102,12 @@ namespace Files.App.UserControls.Settings
 			set => SetValue(IsClickableProperty, value);
 		}
 
-		public static readonly DependencyProperty IsExpandedProperty = DependencyProperty.Register(
-		  "IsExpanded",
-		  typeof(bool),
-		  typeof(SettingsBlockControl),
-		  new PropertyMetadata(false)
-		);
+		public static readonly DependencyProperty IsExpandedProperty =
+			DependencyProperty.Register(
+				"IsExpanded",
+				typeof(bool),
+				typeof(SettingsBlockControl),
+				new PropertyMetadata(false));
 
 		public bool IsExpanded
 		{
@@ -111,15 +115,14 @@ namespace Files.App.UserControls.Settings
 			set => SetValue(IsExpandedProperty, value);
 		}
 
-		//
-		// Summary:
-		//     Occurs when a button control is clicked.
+		// Occurs when a button control is clicked.
 		public event EventHandler<bool> Click;
 
 		public SettingsBlockControl()
 		{
-			this.InitializeComponent();
-			this.Loaded += SettingsBlockControl_Loaded;
+			nitializeComponent();
+
+			Loaded += SettingsBlockControl_Loaded;
 		}
 
 		private void SettingsBlockControl_Loaded(object sender, RoutedEventArgs e)
@@ -130,12 +133,12 @@ namespace Files.App.UserControls.Settings
 			}
 		}
 
-		private void Expander_Expanding(Microsoft.UI.Xaml.Controls.Expander sender, Microsoft.UI.Xaml.Controls.ExpanderExpandingEventArgs args)
+		private void Expander_Expanding(Expander sender, ExpanderExpandingEventArgs args)
 		{
 			Click?.Invoke(this, true);
 		}
 
-		private void Expander_Collapsed(Microsoft.UI.Xaml.Controls.Expander sender, Microsoft.UI.Xaml.Controls.ExpanderCollapsedEventArgs args)
+		private void Expander_Collapsed(Expander sender, ExpanderCollapsedEventArgs args)
 		{
 			Click?.Invoke(this, false);
 		}

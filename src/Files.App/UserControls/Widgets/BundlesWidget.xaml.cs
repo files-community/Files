@@ -7,8 +7,6 @@ using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Threading.Tasks;
 
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
-
 namespace Files.App.UserControls.Widgets
 {
 	public sealed partial class BundlesWidget : UserControl, IWidgetItemModel, IDisposable
@@ -21,17 +19,21 @@ namespace Files.App.UserControls.Widgets
 			private set => DataContext = value;
 		}
 
-		public string WidgetName => nameof(BundlesWidget);
+		public string WidgetName
+			=> nameof(BundlesWidget);
 
-		public string AutomationProperties => "BundlesWidgetAutomationProperties/Name".GetLocalizedResource();
+		public string AutomationProperties
+			=> "BundlesWidgetAutomationProperties/Name".GetLocalizedResource();
 
-		public string WidgetHeader => "Bundles".GetLocalizedResource();
+		public string WidgetHeader
+			=> "Bundles".GetLocalizedResource();
 
-		public bool IsWidgetSettingEnabled => UserSettingsService.AppearanceSettingsService.ShowBundlesWidget;
+		public bool IsWidgetSettingEnabled
+			=> UserSettingsService.AppearanceSettingsService.ShowBundlesWidget;
 
 		public BundlesWidget()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 
 			this.ViewModel = new BundlesViewModel();
 		}
@@ -42,15 +44,12 @@ namespace Files.App.UserControls.Widgets
 		}
 
 		#region IDisposable
-
 		public void Dispose()
 		{
 			// We need dispose to unhook events to avoid memory leaks
 			this.ViewModel?.Dispose();
-
 			this.ViewModel = null;
 		}
-
 		#endregion IDisposable
 	}
 }

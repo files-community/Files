@@ -6,13 +6,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
 
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
-
 namespace Files.App.UserControls
 {
-	/// <summary>
-	/// This control allows preview extensions to send images in their xaml in the form of a base64 string
-	/// </summary>
 	public sealed partial class StringEncodedImage : UserControl
 	{
 		public StringEncodedImage()

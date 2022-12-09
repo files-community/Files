@@ -7,7 +7,8 @@ namespace Files.App.UserControls.Selection
 	{
 		private readonly List<object> prevSelectedItems;
 
-		public ExtendPreviousItemSelectionStrategy(ICollection<object> selectedItems, List<object> prevSelectedItems) : base(selectedItems)
+		public ExtendPreviousItemSelectionStrategy(ICollection<object> selectedItems, List<object> prevSelectedItems)
+			: base(selectedItems)
 		{
 			this.prevSelectedItems = prevSelectedItems;
 			this.prevSelectedItems = prevSelectedItems;
@@ -22,8 +23,9 @@ namespace Files.App.UserControls.Selection
 					selectedItems.Add(item);
 				}
 			}
-			catch (COMException) // List is being modified
+			catch (COMException)
 			{
+				// List is being modified
 			}
 		}
 
@@ -37,8 +39,9 @@ namespace Files.App.UserControls.Selection
 					selectedItems.Remove(item);
 				}
 			}
-			catch (COMException) // List is being modified
+			catch (COMException)
 			{
+				// List is being modified
 			}
 		}
 	}

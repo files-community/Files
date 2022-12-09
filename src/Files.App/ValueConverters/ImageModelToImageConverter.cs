@@ -20,8 +20,6 @@ namespace Files.App.ValueConverters
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, string language)
-		{
-			throw new NotImplementedException();
-		}
+			=>throw new NotImplementedException();
 	}
 }

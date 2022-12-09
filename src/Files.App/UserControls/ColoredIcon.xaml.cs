@@ -2,8 +2,6 @@ using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
-
 namespace Files.App.UserControls
 {
 	public sealed partial class ColoredIcon : UserControl
@@ -20,18 +18,22 @@ namespace Files.App.UserControls
 			set => SetValue(OverlayLayerPathProperty, value);
 		}
 
-		// Using a DependencyProperty as the backing store for OverlayLayerPath.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty OverlayLayerPathProperty =
-			DependencyProperty.Register(nameof(OverlayLayerGlyph), typeof(string), typeof(ColoredIcon), new PropertyMetadata(null));
+			DependencyProperty.Register(
+				nameof(OverlayLayerGlyph),
+				typeof(string),
+				typeof(ColoredIcon),
+				new PropertyMetadata(null));
 
-		// Using a DependencyProperty as the backing store for BaseLayerPath.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty BaseLayerPathProperty =
-			DependencyProperty.Register(nameof(BaseLayerGlyph), typeof(string), typeof(ColoredIcon), new PropertyMetadata(null));
+			DependencyProperty.Register(
+				nameof(BaseLayerGlyph),
+				typeof(string),
+				typeof(ColoredIcon),
+				new PropertyMetadata(null));
 
 		public ColoredIcon()
-		{
-			this.InitializeComponent();
-		}
+            => InitializeComponent();
 
 		private void ForegroundChanged(DependencyObject sender, DependencyProperty dp)
 		{

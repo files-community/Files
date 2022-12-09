@@ -5,17 +5,15 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
-// Il modello di elemento Controllo utente è documentato all'indirizzo https://go.microsoft.com/fwlink/?LinkId=234236
-
 namespace Files.App.UserControls
 {
 	public sealed partial class DataGridHeader : UserControl, INotifyPropertyChanged
 	{
 		public ICommand Command { get; set; }
+
 		public object CommandParameter { get; set; }
 
 		private string header;
-
 		public string Header
 		{
 			get { return header; }
@@ -30,7 +28,6 @@ namespace Files.App.UserControls
 		}
 
 		private bool canBeSorted = true;
-
 		public bool CanBeSorted
 		{
 			get { return canBeSorted; }
@@ -45,10 +42,9 @@ namespace Files.App.UserControls
 		}
 
 		private SortDirection? columnSortOption;
-
 		public SortDirection? ColumnSortOption
 		{
-			get { return columnSortOption; }
+			get => columnSortOption;
 			set
 			{
 				if (value != columnSortOption)
@@ -73,12 +69,9 @@ namespace Files.App.UserControls
 		}
 
 		public DataGridHeader()
-		{
-			this.InitializeComponent();
-		}
+            => InitializeComponent();
 
 		public event PropertyChangedEventHandler PropertyChanged;
-
 		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

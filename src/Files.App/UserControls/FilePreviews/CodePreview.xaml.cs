@@ -3,8 +3,6 @@ using Files.App.ViewModels.Previews;
 using Microsoft.UI.Xaml.Controls;
 using System;
 
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
-
 namespace Files.App.UserControls.FilePreviews
 {
 	public sealed partial class CodePreview : UserControl
@@ -25,7 +23,6 @@ namespace Files.App.UserControls.FilePreviews
 			{
 				codeView.Blocks?.Clear();
 				formatter = new RichTextBlockFormatter(ActualTheme);
-
 				formatter.FormatRichTextBlock(ViewModel.TextValue, ViewModel.CodeLanguage, codeView);
 			}
 		}

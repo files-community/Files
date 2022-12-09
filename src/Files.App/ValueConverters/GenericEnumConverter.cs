@@ -9,8 +9,13 @@ namespace Files.App.ValueConverters
 	{
 		public object Convert(object value, Type targetType, object parameter, string language)
 		{
-			return ConvertInternal(value, targetType, parameter, language,
-				s => s.Split(',').ToDictionary(k => System.Convert.ToInt64(k.Split('-')[0]), v => System.Convert.ToInt64(v.Split('-')[1])));
+			return ConvertInternal(
+				value,
+				targetType,
+				parameter,
+				language,
+				s => s.Split(',').ToDictionary(k => System.Convert.ToInt64(k.Split('-')[0]),
+				v => System.Convert.ToInt64(v.Split('-')[1])));
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, string language)
@@ -25,14 +30,14 @@ namespace Files.App.ValueConverters
 
 			if (parameter is string strParam)
 			{
-				// enumValue-convertedValue: 0-1,1-2
+				// EnumValue-convertedValue: 0-1,1-2
 				var enumConversionValues = enumConversion(strParam);
 
 				if (enumConversionValues.TryGetValue(enumValue, out var convertedValue))
 				{
 					enumValue = convertedValue;
 				}
-				// else.. use value from the cast above
+				//else {} Use value from the cast above
 			}
 
 			try
@@ -42,12 +47,16 @@ namespace Files.App.ValueConverters
 					return Enum.Parse(targetType, enumName);
 				}
 			}
-			catch { }
+			catch
+			{
+			}
 			try
 			{
 				return System.Convert.ChangeType(enumValue, targetType);
 			}
-			catch { }
+			catch
+			{
+			}
 
 			return enumValue;
 		}

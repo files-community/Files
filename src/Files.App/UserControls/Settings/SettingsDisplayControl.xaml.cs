@@ -9,12 +9,12 @@ namespace Files.App.UserControls.Settings
 	{
 		public FrameworkElement SettingsActionableElement { get; set; }
 
-		public static readonly DependencyProperty AdditionalDescriptionContentProperty = DependencyProperty.Register(
-		  "AdditionalDescriptionContent",
-		  typeof(FrameworkElement),
-		  typeof(SettingsDisplayControl),
-		  new PropertyMetadata(null)
-		);
+		public static readonly DependencyProperty AdditionalDescriptionContentProperty =
+			DependencyProperty.Register(
+				"AdditionalDescriptionContent",
+				typeof(FrameworkElement),
+				typeof(SettingsDisplayControl),
+				new PropertyMetadata(null));
 
 		public FrameworkElement AdditionalDescriptionContent
 		{
@@ -22,12 +22,12 @@ namespace Files.App.UserControls.Settings
 			set => SetValue(AdditionalDescriptionContentProperty, value);
 		}
 
-		public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(
-		  "Title",
-		  typeof(string),
-		  typeof(SettingsDisplayControl),
-		  new PropertyMetadata(null)
-		);
+		public static readonly DependencyProperty TitleProperty =
+			DependencyProperty.Register(
+				"Title",
+				typeof(string),
+				typeof(SettingsDisplayControl),
+				new PropertyMetadata(null));
 
 		public string Title
 		{
@@ -35,12 +35,12 @@ namespace Files.App.UserControls.Settings
 			set => SetValue(TitleProperty, value);
 		}
 
-		public static readonly DependencyProperty DescriptionProperty = DependencyProperty.Register(
-		  "Description",
-		  typeof(string),
-		  typeof(SettingsDisplayControl),
-		  new PropertyMetadata(null)
-		);
+		public static readonly DependencyProperty DescriptionProperty =
+			DependencyProperty.Register(
+				"Description",
+				typeof(string),
+				typeof(SettingsDisplayControl),
+				new PropertyMetadata(null));
 
 		public string Description
 		{
@@ -48,12 +48,12 @@ namespace Files.App.UserControls.Settings
 			set => SetValue(DescriptionProperty, value);
 		}
 
-		public static readonly DependencyProperty IconProperty = DependencyProperty.Register(
-		  "Icon",
-		  typeof(IconElement),
-		  typeof(SettingsDisplayControl),
-		  new PropertyMetadata(null)
-		);
+		public static readonly DependencyProperty IconProperty =
+			DependencyProperty.Register(
+				"Icon",
+				typeof(IconElement),
+				typeof(SettingsDisplayControl),
+				new PropertyMetadata(null));
 
 		public IconElement Icon
 		{
@@ -64,6 +64,7 @@ namespace Files.App.UserControls.Settings
 		public SettingsDisplayControl()
 		{
 			this.InitializeComponent();
+
 			VisualStateManager.GoToState(this, "NormalState", false);
 		}
 
@@ -72,7 +73,10 @@ namespace Files.App.UserControls.Settings
 			if (e.NewSize.Width == e.PreviousSize.Width || ActionableElement is null)
 				return;
 
-			var stateToGoName = (ActionableElement.ActualWidth > e.NewSize.Width / 3) ? "CompactState" : "NormalState";
+			var stateToGoName = (ActionableElement.ActualWidth > e.NewSize.Width / 3)
+				? "CompactState"
+				: "NormalState";
+
 			VisualStateManager.GoToState(this, stateToGoName, false);
 		}
 	}

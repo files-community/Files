@@ -28,11 +28,14 @@ namespace Files.App.UserControls.Widgets
 {
 	public class DriveCardItem : ObservableObject, IWidgetCardItem<DriveItem>, IComparable<DriveCardItem>
 	{
-		private BitmapImage thumbnail;
 		private byte[] thumbnailData;
 
 		public DriveItem Item { get; private set; }
-		public bool HasThumbnail => thumbnail is not null && thumbnailData is not null;
+
+		public bool HasThumbnail
+			=> thumbnail is not null && thumbnailData is not null;
+
+		private BitmapImage thumbnail;
 		public BitmapImage Thumbnail
 		{
 			get => thumbnail;
@@ -63,7 +66,8 @@ namespace Files.App.UserControls.Widgets
 			}
 		}
 
-		public int CompareTo(DriveCardItem? other) => Item.Path.CompareTo(other?.Item?.Path);
+		public int CompareTo(DriveCardItem? other)
+			=> Item.Path.CompareTo(other?.Item?.Path);
 	}
 
 	public sealed partial class DrivesWidget : UserControl, IWidgetItemModel, INotifyPropertyChanged
@@ -97,13 +101,17 @@ namespace Files.App.UserControls.Widgets
 			}
 		}
 
-		public string WidgetName => nameof(DrivesWidget);
+		public string WidgetName
+			=> nameof(DrivesWidget);
 
-		public string AutomationProperties => "DrivesWidgetAutomationProperties/Name".GetLocalizedResource();
+		public string AutomationProperties
+			=> "DrivesWidgetAutomationProperties/Name".GetLocalizedResource();
 
-		public string WidgetHeader => "Drives".GetLocalizedResource();
+		public string WidgetHeader
+			=> "Drives".GetLocalizedResource();
 
-		public bool IsWidgetSettingEnabled => UserSettingsService.AppearanceSettingsService.ShowDrivesWidget;
+		public bool IsWidgetSettingEnabled
+			=> UserSettingsService.AppearanceSettingsService.ShowDrivesWidget;
 
 		public DrivesWidget()
 		{
@@ -126,7 +134,9 @@ namespace Files.App.UserControls.Widgets
 						{
 							var cardItem = new DriveCardItem(drive);
 							ItemsAdded.AddSorted(cardItem);
-							await cardItem.LoadCardThumbnailAsync(); // After add
+
+							// After add
+							await cardItem.LoadCardThumbnailAsync();
 						}
 					}
 				}
@@ -156,40 +166,40 @@ namespace Files.App.UserControls.Widgets
 		private async void OpenInNewTab_Click(object sender, RoutedEventArgs e)
 		{
 			var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
+
 			if (await CheckEmptyDrive(item.Path))
-			{
 				return;
-			}
+
 			await NavigationHelpers.OpenPathInNewTab(item.Path);
 		}
 
 		private async void OpenInNewWindow_Click(object sender, RoutedEventArgs e)
 		{
 			var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
+
 			if (await CheckEmptyDrive(item.Path))
-			{
 				return;
-			}
+
 			await NavigationHelpers.OpenPathInNewWindowAsync(item.Path);
 		}
 
 		private async void PinToFavorites_Click(object sender, RoutedEventArgs e)
 		{
 			var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
+
 			if (await CheckEmptyDrive(item.Path))
-			{
 				return;
-			}
+
 			App.SidebarPinnedController.Model.AddItem(item.Path);
 		}
 
 		private async void UnpinFromFavorites_Click(object sender, RoutedEventArgs e)
 		{
 			var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
+
 			if (await CheckEmptyDrive(item.Path))
-			{
 				return;
-			}
+
 			App.SidebarPinnedController.Model.RemoveItem(item.Path);
 		}
 
@@ -197,23 +207,28 @@ namespace Files.App.UserControls.Widgets
 		{
 			var presenter = DependencyObjectHelpers.FindParent<MenuFlyoutPresenter>((MenuFlyoutItem)sender);
 			var flyoutParent = presenter?.Parent as Popup;
+
 			var propertiesItem = ((MenuFlyoutItem)sender).DataContext as DriveItem;
 			if (propertiesItem is null || flyoutParent is null)
 				return;
 
 			EventHandler<object> flyoutClosed = null!;
+
 			flyoutClosed = async (s, e) =>
 			{
 				flyoutParent.Closed -= flyoutClosed;
 				await FilePropertiesHelpers.OpenPropertiesWindowAsync(propertiesItem, associatedInstance);
 			};
+
 			flyoutParent.Closed += flyoutClosed;
 		}
 
 		private async void Button_Click(object sender, RoutedEventArgs e)
 		{
 			string ClickedCard = (sender as Button).Tag.ToString();
-			string NavigationPath = ClickedCard; // path to navigate
+
+			// Path to navigate
+			string NavigationPath = ClickedCard;
 
 			if (await CheckEmptyDrive(NavigationPath))
 			{
@@ -224,6 +239,7 @@ namespace Files.App.UserControls.Widgets
 			if (ctrlPressed)
 			{
 				await NavigationHelpers.OpenPathInNewTab(NavigationPath);
+
 				return;
 			}
 
@@ -235,13 +251,16 @@ namespace Files.App.UserControls.Widgets
 
 		private async void Button_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
-			if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed) // check middle click
+			// Check middle click
+			if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
 			{
 				string navigationPath = (sender as Button).Tag.ToString();
+
 				if (await CheckEmptyDrive(navigationPath))
 				{
 					return;
 				}
+
 				await NavigationHelpers.OpenPathInNewTab(navigationPath);
 			}
 		}
@@ -259,10 +278,10 @@ namespace Files.App.UserControls.Widgets
 		private async void OpenInNewPane_Click(object sender, RoutedEventArgs e)
 		{
 			var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
+
 			if (await CheckEmptyDrive(item.Path))
-			{
 				return;
-			}
+
 			DrivesWidgetNewPaneInvoked?.Invoke(this, new DrivesWidgetInvokedEventArgs()
 			{
 				Path = item.Path
@@ -309,6 +328,7 @@ namespace Files.App.UserControls.Widgets
 						var result = await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
 						await UIHelpers.ShowDeviceEjectResultAsync(result);
 					}
+
 					return true;
 				}
 			}
@@ -325,7 +345,6 @@ namespace Files.App.UserControls.Widgets
 
 		public void Dispose()
 		{
-
 		}
 	}
 }

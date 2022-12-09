@@ -17,7 +17,11 @@ namespace Files.App.UserControls
 		}
 
 		public static readonly DependencyProperty SourceBytesProperty =
-			DependencyProperty.RegisterAttached("SourceBytes", typeof(byte[]), typeof(ImageFromBytes), new PropertyMetadata(null, OnSourceBytesChanged));
+			DependencyProperty.RegisterAttached(
+				"SourceBytes",
+				typeof(byte[]),
+				typeof(ImageFromBytes),
+				new PropertyMetadata(null, OnSourceBytesChanged));
 
 		private static async void OnSourceBytesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{

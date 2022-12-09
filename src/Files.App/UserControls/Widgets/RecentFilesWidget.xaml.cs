@@ -37,13 +37,17 @@ namespace Files.App.UserControls.Widgets
 
 		private EmptyRecentsText Empty { get; set; } = new EmptyRecentsText();
 
-		public string WidgetName => nameof(RecentFilesWidget);
+		public string WidgetName
+			=> nameof(RecentFilesWidget);
 
-		public string AutomationProperties => "RecentFilesWidgetAutomationProperties/Name".GetLocalizedResource();
+		public string AutomationProperties
+			=> "RecentFilesWidgetAutomationProperties/Name".GetLocalizedResource();
 
-		public string WidgetHeader => "RecentFiles".GetLocalizedResource();
+		public string WidgetHeader
+			=> "RecentFiles".GetLocalizedResource();
 
-		public bool IsWidgetSettingEnabled => UserSettingsService.AppearanceSettingsService.ShowRecentFilesWidget;
+		public bool IsWidgetSettingEnabled
+			=> UserSettingsService.AppearanceSettingsService.ShowRecentFilesWidget;
 
 		public RecentFilesWidget()
 		{
@@ -76,8 +80,8 @@ namespace Files.App.UserControls.Widgets
 				var targetPath = clickedOnItem.RecentPath;
 				RecentFilesOpenLocationInvoked?.Invoke(this, new PathNavigationEventArgs()
 				{
-					ItemPath = Directory.GetParent(targetPath).FullName,    // parent directory
-					ItemName = Path.GetFileName(targetPath),                // file name w extension
+					ItemPath = Directory.GetParent(targetPath).FullName,  // parent directory
+					ItemName = Path.GetFileName(targetPath),              // file name w extension
 				});
 			}
 		}
@@ -95,7 +99,7 @@ namespace Files.App.UserControls.Widgets
 
 			try
 			{
-				// drop other waiting instances
+				// Drop other waiting instances
 				refreshRecentsCTS.Cancel();
 				refreshRecentsCTS = new CancellationTokenSource();
 
@@ -103,10 +107,12 @@ namespace Files.App.UserControls.Widgets
 
 				switch (args.Action)
 				{
-					// currently everything falls under Reset
+					// Currently everything falls under Reset
 					default:
 						recentItemsCollection.Clear();
-						var recentFiles = App.RecentItemsManager.RecentFiles; // already sorted, add all in order
+						
+						// Already sorted, add all in order
+						var recentFiles = App.RecentItemsManager.RecentFiles;
 						foreach (var recentFile in recentFiles)
 						{
 							await AddItemToRecentListAsync(recentFile);
@@ -202,26 +208,21 @@ namespace Files.App.UserControls.Widgets
 
 	public class EmptyRecentsText : INotifyPropertyChanged
 	{
-		private Visibility visibility;
-
+		private Visibility _visibility;
 		public Visibility Visibility
 		{
-			get
-			{
-				return visibility;
-			}
+			get => _visibility;
 			set
 			{
-				if (value != visibility)
+				if (value != _visibility)
 				{
-					visibility = value;
+                    _visibility = value;
 					NotifyPropertyChanged(nameof(Visibility));
 				}
 			}
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
-
 		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

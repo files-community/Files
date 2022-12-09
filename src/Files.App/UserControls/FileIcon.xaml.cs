@@ -20,19 +20,14 @@ namespace Files.App.UserControls
 				viewModel = value;
 
 				if (value is null)
-				{
 					return;
-				}
 
 				if (ViewModel?.CustomIconSource is not null)
-				{
 					CustomIconImageSource = new SvgImageSource(ViewModel.CustomIconSource);
-				}
 			}
 		}
 
 		private double itemSize;
-
 		public double ItemSize
 		{
 			get => itemSize;
@@ -45,7 +40,12 @@ namespace Files.App.UserControls
 
 		private double LargerItemSize { get; set; }
 
-		private static DependencyProperty FileIconImageSourceProperty { get; } = DependencyProperty.Register(nameof(FileIconImageSource), typeof(BitmapImage), typeof(FileIcon), null);
+		private static DependencyProperty FileIconImageSourceProperty { get; } =
+			DependencyProperty.Register(
+				nameof(FileIconImageSource),
+				typeof(BitmapImage),
+				typeof(FileIcon),
+				null);
 
 		private BitmapImage FileIconImageSource
 		{
@@ -53,7 +53,12 @@ namespace Files.App.UserControls
 			set => SetValue(FileIconImageSourceProperty, value);
 		}
 
-		public static DependencyProperty FileIconImageDataProperty { get; } = DependencyProperty.Register(nameof(FileIconImageData), typeof(byte[]), typeof(FileIcon), null);
+		public static DependencyProperty FileIconImageDataProperty { get; } =
+			DependencyProperty.Register(
+				nameof(FileIconImageData),
+				typeof(byte[]),
+				typeof(FileIcon),
+				null);
 
 		public byte[] FileIconImageData
 		{
@@ -61,28 +66,28 @@ namespace Files.App.UserControls
 			set
 			{
 				SetValue(FileIconImageDataProperty, value);
+
 				if (value is not null)
-				{
 					UpdateImageSourceAsync();
-				}
 			}
 		}
 
 		private SvgImageSource CustomIconImageSource { get; set; }
 
 		public FileIcon()
-		{
-			this.InitializeComponent();
-		}
+			=> InitializeComponent();
 
 		public async void UpdateImageSourceAsync()
 		{
 			if (FileIconImageData is not null)
 			{
 				FileIconImageSource = new BitmapImage();
+
 				using InMemoryRandomAccessStream stream = new InMemoryRandomAccessStream();
 				await stream.WriteAsync(FileIconImageData.AsBuffer());
+
 				stream.Seek(0);
+
 				await FileIconImageSource.SetSourceAsync(stream);
 			}
 		}

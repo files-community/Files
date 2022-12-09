@@ -12,7 +12,6 @@ namespace Files.App.UserControls.MultitaskingControl
 	public class TabItem : ObservableObject, ITabItem, ITabItemControl, IDisposable
 	{
 		private string header;
-
 		public string Header
 		{
 			get => header;
@@ -20,7 +19,6 @@ namespace Files.App.UserControls.MultitaskingControl
 		}
 
 		private string description = null;
-
 		public string Description
 		{
 			get => description;
@@ -28,10 +26,6 @@ namespace Files.App.UserControls.MultitaskingControl
 		}
 
 		private string toolTipText;
-
-		/// <summary>
-		/// The text that should be displayed in the tooltip when hovering the tab item.
-		/// </summary>
 		public string ToolTipText
 		{
 			get => toolTipText;
@@ -39,7 +33,6 @@ namespace Files.App.UserControls.MultitaskingControl
 		}
 
 		private IconSource iconSource;
-
 		public IconSource IconSource
 		{
 			get => iconSource;
@@ -49,7 +42,6 @@ namespace Files.App.UserControls.MultitaskingControl
 		public TabItemControl Control { get; private set; }
 
 		private bool allowStorageItemDrop;
-
 		public bool AllowStorageItemDrop
 		{
 			get => allowStorageItemDrop;
@@ -57,7 +49,6 @@ namespace Files.App.UserControls.MultitaskingControl
 		}
 
 		private TabItemArguments tabItemArguments;
-
 		public TabItemArguments TabItemArguments
 		{
 			get => Control?.NavigationArguments ?? tabItemArguments;
@@ -76,13 +67,11 @@ namespace Files.App.UserControls.MultitaskingControl
 		}
 
 		#region IDisposable
-
 		public void Dispose()
 		{
 			Control?.Dispose();
 			Control = null;
 		}
-
 		#endregion IDisposable
 	}
 
@@ -91,9 +80,11 @@ namespace Files.App.UserControls.MultitaskingControl
 		private static readonly KnownTypesConverter TypesConverter = new KnownTypesConverter();
 
 		public Type InitialPageType { get; set; }
+
 		public object NavigationArg { get; set; }
 
-		public string Serialize() => JsonSerializer.Serialize(this, TypesConverter.Options);
+		public string Serialize()
+			=> JsonSerializer.Serialize(this, TypesConverter.Options);
 
 		public static TabItemArguments Deserialize(string obj)
 		{

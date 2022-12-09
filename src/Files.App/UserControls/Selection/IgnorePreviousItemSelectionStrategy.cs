@@ -5,7 +5,8 @@ namespace Files.App.UserControls.Selection
 {
 	public class IgnorePreviousItemSelectionStrategy : ItemSelectionStrategy
 	{
-		public IgnorePreviousItemSelectionStrategy(ICollection<object> selectedItems) : base(selectedItems)
+		public IgnorePreviousItemSelectionStrategy(ICollection<object> selectedItems)
+			: base(selectedItems)
 		{
 		}
 
@@ -19,8 +20,9 @@ namespace Files.App.UserControls.Selection
 					selectedItems.Add(item);
 				}
 			}
-			catch (COMException) // List is being modified
+			catch (COMException)
 			{
+				// List is being modified
 			}
 		}
 
@@ -30,8 +32,9 @@ namespace Files.App.UserControls.Selection
 			{
 				selectedItems.Remove(item);
 			}
-			catch (COMException) // List is being modified
+			catch (COMException)
 			{
+				// List is being modified
 			}
 		}
 

@@ -39,22 +39,35 @@ namespace Files.App.UserControls.Widgets
 
 	public class FolderCardItem : ObservableObject, IWidgetCardItem<LocationItem>
 	{
-		private BitmapImage thumbnail;
 		private byte[] thumbnailData;
 
 		public string AutomationProperties { get; set; }
-		public bool HasPath => !string.IsNullOrEmpty(Path);
-		public bool HasThumbnail => thumbnail is not null && thumbnailData is not null;
+
+		public bool HasPath
+			=> !string.IsNullOrEmpty(Path);
+
+		public bool HasThumbnail
+			=> thumbnail is not null && thumbnailData is not null;
+
+		private BitmapImage thumbnail;
 		public BitmapImage Thumbnail
 		{
 			get => thumbnail;
 			set => SetProperty(ref thumbnail, value);
 		}
-		public bool IsLibrary => Item is LibraryLocationItem;
-		public bool IsUserCreatedLibrary => IsLibrary && !LibraryManager.IsDefaultLibrary(Item.Path);
+
+		public bool IsLibrary
+			=> Item is LibraryLocationItem;
+
+		public bool IsUserCreatedLibrary
+			=> IsLibrary && !LibraryManager.IsDefaultLibrary(Item.Path);
+
 		public LocationItem Item { get; private set; }
+
 		public string Path { get; set; }
+
 		public ICommand SelectCommand { get; set; }
+
 		public string Text { get; set; }
 
 		public FolderCardItem(LocationItem item = null, string text = null) : this(text)
@@ -77,6 +90,7 @@ namespace Files.App.UserControls.Widgets
 			{
 				thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Path, Convert.ToUInt32(Constants.Widgets.WidgetIconSize), Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
 			}
+
 			if (thumbnailData is not null && thumbnailData.Length > 0)
 			{
 				Thumbnail = await App.Window.DispatcherQueue.EnqueueAsync(() => thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize));
@@ -118,7 +132,8 @@ namespace Files.App.UserControls.Widgets
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		public bool IsWidgetSettingEnabled => UserSettingsService.AppearanceSettingsService.ShowFoldersWidget;
+		public bool IsWidgetSettingEnabled
+			=> UserSettingsService.AppearanceSettingsService.ShowFoldersWidget;
 
 		public ICommand LibraryCardCommand { get; }
 
@@ -144,11 +159,14 @@ namespace Files.App.UserControls.Widgets
 			}
 		}
 
-		public string WidgetName => nameof(FolderWidget);
+		public string WidgetName
+			=> nameof(FolderWidget);
 
-		public string AutomationProperties => "FolderWidgetAutomationProperties/Name".GetLocalizedResource();
+		public string AutomationProperties
+			=> "FolderWidgetAutomationProperties/Name".GetLocalizedResource();
 
-		public string WidgetHeader => "Folders".GetLocalizedResource();
+		public string WidgetHeader
+			=> "Folders".GetLocalizedResource();
 
 		private async void FolderWidget_Loaded(object sender, RoutedEventArgs e)
 		{
@@ -197,7 +215,8 @@ namespace Files.App.UserControls.Widgets
 		private void MenuFlyout_Opening(object sender, object e)
 		{
 			var newPaneMenuItem = (sender as MenuFlyout).Items.SingleOrDefault(x => x.Name == "OpenInNewPane");
-			// eg. an empty library doesn't have OpenInNewPane context menu item
+
+			// e.g. an empty library doesn't have OpenInNewPane context menu item
 			if (newPaneMenuItem is not null)
 			{
 				newPaneMenuItem.Visibility = ShowMultiPaneControls ? Visibility.Visible : Visibility.Collapsed;
@@ -212,18 +231,21 @@ namespace Files.App.UserControls.Widgets
 		private void OpenInNewPane_Click(object sender, RoutedEventArgs e)
 		{
 			var item = ((MenuFlyoutItem)sender).DataContext as FolderCardItem;
+
 			LibraryCardNewPaneInvoked?.Invoke(this, new LibraryCardInvokedEventArgs { Path = item.Path });
 		}
 
 		private async void OpenInNewTab_Click(object sender, RoutedEventArgs e)
 		{
 			var item = ((MenuFlyoutItem)sender).DataContext as FolderCardItem;
+
 			await NavigationHelpers.OpenPathInNewTab(item.Path);
 		}
 
 		private async void Button_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
-			if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed) // check middle click
+			// Check middle click
+			if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
 			{
 				string navigationPath = ((Button)sender).Tag.ToString()!;
 				await NavigationHelpers.OpenPathInNewTab(navigationPath);
@@ -233,6 +255,7 @@ namespace Files.App.UserControls.Widgets
 		private async void OpenInNewWindow_Click(object sender, RoutedEventArgs e)
 		{
 			var item = ((MenuFlyoutItem)sender).DataContext as FolderCardItem;
+
 			await NavigationHelpers.OpenPathInNewWindowAsync(item.Path);
 		}
 
@@ -240,16 +263,19 @@ namespace Files.App.UserControls.Widgets
 		{
 			var presenter = DependencyObjectHelpers.FindParent<MenuFlyoutPresenter>((MenuFlyoutItem)sender);
 			var flyoutParent = presenter?.Parent as Popup;
+
 			var propertiesItem = ((MenuFlyoutItem)sender).DataContext as FolderCardItem;
 			if (propertiesItem is null || !propertiesItem.IsLibrary || flyoutParent is null)
 				return;
 
 			EventHandler<object> flyoutClosed = null!;
+
 			flyoutClosed = (s, e) =>
 			{
 				flyoutParent.Closed -= flyoutClosed;
 				LibraryCardPropertiesInvoked?.Invoke(this, new LibraryCardEventArgs { Library = (propertiesItem.Item as LibraryLocationItem)! });
 			};
+
 			flyoutParent.Closed += flyoutClosed;
 		}
 
@@ -259,6 +285,7 @@ namespace Files.App.UserControls.Widgets
 			{
 				return Task.CompletedTask;
 			}
+
 			if (item.Item is LibraryLocationItem lli && lli.IsEmpty)
 			{
 				// TODO: show message?
@@ -283,7 +310,6 @@ namespace Files.App.UserControls.Widgets
 
 		public void Dispose()
 		{
-
 		}
 	}
 }

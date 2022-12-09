@@ -4,8 +4,6 @@ using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Threading.Tasks;
 
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
-
 namespace Files.App.UserControls
 {
 	public sealed partial class OngoingTasksFlyout : UserControl
@@ -14,7 +12,7 @@ namespace Files.App.UserControls
 
 		public OngoingTasksFlyout()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 		}
 
 		// Dismiss banner button event handler
