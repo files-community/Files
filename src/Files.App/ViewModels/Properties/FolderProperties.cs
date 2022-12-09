@@ -18,8 +18,12 @@ namespace Files.App.ViewModels.Properties
 	{
 		public ListedItem Item { get; }
 
-		public FolderProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource,
-			DispatcherQueue coreDispatcher, ListedItem item, IShellPage instance)
+		public FolderProperties(
+			SelectedItemsPropertiesViewModel viewModel,
+			CancellationTokenSource tokenSource,
+			DispatcherQueue coreDispatcher,
+			ListedItem item,
+			IShellPage instance)
 		{
 			ViewModel = viewModel;
 			TokenSource = tokenSource;
@@ -131,6 +135,7 @@ namespace Files.App.ViewModels.Properties
 				{
 					ViewModel.FilesAndFoldersCountVisibility = false;
 				}
+
 				ViewModel.ItemCreatedTimestampVisibility = false;
 				ViewModel.ItemAccessedTimestampVisibility = false;
 				ViewModel.ItemModifiedTimestampVisibility = false;
@@ -169,6 +174,7 @@ namespace Files.App.ViewModels.Properties
 			{
 				App.Logger.Warn(ex, ex.Message);
 			}
+
 			ViewModel.ItemSizeProgressVisibility = false;
 
 			SetItemsCountString();

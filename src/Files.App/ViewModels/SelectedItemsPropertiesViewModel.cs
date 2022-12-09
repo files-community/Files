@@ -67,6 +67,7 @@ namespace Files.App.ViewModels
 			set
 			{
 				ItemNameVisibility = true;
+
 				SetProperty(ref itemName, value);
 			}
 		}
@@ -78,6 +79,7 @@ namespace Files.App.ViewModels
 			set
 			{
 				ItemNameVisibility = true;
+
 				SetProperty(ref originalItemName, value);
 			}
 		}
@@ -96,6 +98,7 @@ namespace Files.App.ViewModels
 			set
 			{
 				ItemTypeVisibility = true;
+
 				SetProperty(ref itemType, value);
 			}
 		}
@@ -114,6 +117,7 @@ namespace Files.App.ViewModels
 			set
 			{
 				DriveFileSystemVisibility = true;
+
 				SetProperty(ref driveFileSystem, value);
 			}
 		}
@@ -132,6 +136,7 @@ namespace Files.App.ViewModels
 			set
 			{
 				ItemPathVisibility = true;
+
 				SetProperty(ref itemPath, value);
 			}
 		}
@@ -157,6 +162,7 @@ namespace Files.App.ViewModels
 			set
 			{
 				IsUncompressedItemSizeVisibile = true;
+
 				SetProperty(ref uncompresseditemSize, value);
 			}
 		}
@@ -228,6 +234,7 @@ namespace Files.App.ViewModels
 				{
 					FilesAndFoldersCountVisibility = true;
 				}
+
 				SetProperty(ref filesAndFoldersCountString, value);
 			}
 		}
@@ -246,8 +253,10 @@ namespace Files.App.ViewModels
 			set
 			{
 				SetProperty(ref driveUsedSpaceValue, value);
+
 				DriveUsedSpace = DriveUsedSpaceValue.ToSizeString();
 				DriveUsedSpaceLongSize = DriveUsedSpaceValue.ToLongSizeString();
+
 				OnPropertyChanged(nameof(DrivePercentageValue));
 			}
 		}
@@ -259,6 +268,7 @@ namespace Files.App.ViewModels
 			set
 			{
 				DriveUsedSpaceVisibility = true;
+
 				SetProperty(ref driveUsedSpace, value);
 			}
 		}
@@ -287,6 +297,7 @@ namespace Files.App.ViewModels
 			set
 			{
 				SetProperty(ref driveFreeSpaceValue, value);
+
 				DriveFreeSpace = DriveFreeSpaceValue.ToSizeString();
 				DriveFreeSpaceLongSize = DriveFreeSpaceValue.ToLongSizeString();
 
@@ -300,6 +311,7 @@ namespace Files.App.ViewModels
 			set
 			{
 				DriveFreeSpaceVisibility = true;
+
 				SetProperty(ref driveFreeSpace, value);
 			}
 		}
@@ -328,6 +340,7 @@ namespace Files.App.ViewModels
 			set
 			{
 				ItemCreatedTimestampVisibility = true;
+
 				SetProperty(ref itemCreatedTimestamp, value);
 			}
 		}
@@ -346,6 +359,7 @@ namespace Files.App.ViewModels
 			set
 			{
 				ItemModifiedTimestampVisibility = true;
+
 				SetProperty(ref itemModifiedTimestamp, value);
 			}
 		}
@@ -364,6 +378,7 @@ namespace Files.App.ViewModels
 			set
 			{
 				ItemAccessedTimestampVisibility = true;
+
 				SetProperty(ref itemAccessedTimestamp, value);
 			}
 		}
@@ -389,8 +404,10 @@ namespace Files.App.ViewModels
 			set
 			{
 				SetProperty(ref driveCapacityValue, value);
+
 				DriveCapacity = DriveCapacityValue.ToSizeString();
 				DriveCapacityLongSize = DriveCapacityValue.ToLongSizeString();
+
 				OnPropertyChanged(nameof(DrivePercentageValue));
 			}
 		}
@@ -402,6 +419,7 @@ namespace Files.App.ViewModels
 			set
 			{
 				DriveCapacityVisibility = true;
+
 				SetProperty(ref driveCapacity, value);
 			}
 		}
@@ -410,10 +428,7 @@ namespace Files.App.ViewModels
 		public string DriveCapacityLongSize
 		{
 			get => driveCapacityLongSize;
-			set
-			{
-				SetProperty(ref driveCapacityLongSize, value);
-			}
+			set => SetProperty(ref driveCapacityLongSize, value);
 		}
 
 		public bool driveCapacityVisibility = false;
@@ -521,10 +536,7 @@ namespace Files.App.ViewModels
 		public string ShortcutItemArguments
 		{
 			get => shortcutItemArguments;
-			set
-			{
-				SetProperty(ref shortcutItemArguments, value);
-			}
+			set => SetProperty(ref shortcutItemArguments, value);
 		}
 
 		private bool shortcutItemArgumentsVisibility = false;
@@ -546,23 +558,20 @@ namespace Files.App.ViewModels
 		public RelayCommand ShortcutItemOpenLinkCommand
 		{
 			get => shortcutItemOpenLinkCommand;
-			set
-			{
-				SetProperty(ref shortcutItemOpenLinkCommand, value);
-			}
+			set => SetProperty(ref shortcutItemOpenLinkCommand, value);
 		}
 
 		public bool ContainsFilesOrFolders { get; set; }
 
 		public Uri FolderIconSource
 		{
-			get
-			{
-				return ContainsFilesOrFolders ? new Uri("ms-appx:///Assets/FolderIcon2.svg") : new Uri("ms-appx:///Assets/FolderIcon.svg");
-			}
+			get => ContainsFilesOrFolders
+				? new Uri("ms-appx:///Assets/FolderIcon2.svg")
+				: new Uri("ms-appx:///Assets/FolderIcon.svg");
 		}
 
-		private ObservableCollection<FilePropertySection> propertySections = new ObservableCollection<FilePropertySection>();
+		private ObservableCollection<FilePropertySection> propertySections
+			= new ObservableCollection<FilePropertySection>();
 
 		public ObservableCollection<FilePropertySection> PropertySections
 		{

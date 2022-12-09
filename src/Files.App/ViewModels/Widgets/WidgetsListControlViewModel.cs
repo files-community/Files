@@ -63,9 +63,7 @@ namespace Files.App.ViewModels.Widgets
 		public void RemoveWidgetAt(int index)
 		{
 			if (index < 0)
-			{
 				return;
-			}
 
 			Widgets[index].Dispose();
 			Widgets.RemoveAt(index);

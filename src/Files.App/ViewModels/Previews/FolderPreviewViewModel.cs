@@ -26,7 +26,8 @@ namespace Files.App.ViewModels.Previews
 
 		public FolderPreviewViewModel(ListedItem item) => Item = item;
 
-		public Task LoadAsync() => LoadPreviewAndDetailsAsync();
+		public Task LoadAsync()
+			=> LoadPreviewAndDetailsAsync();
 
 		private async Task LoadPreviewAndDetailsAsync()
 		{
@@ -41,6 +42,7 @@ namespace Files.App.ViewModels.Previews
 				Thumbnail = await iconData.ToBitmapAsync();
 
 			var info = await Folder.GetBasicPropertiesAsync();
+
 			Item.FileDetails = new()
 			{
 				GetFileProperty("PropertyItemCount", items.Count),

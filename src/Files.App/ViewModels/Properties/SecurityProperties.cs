@@ -63,7 +63,6 @@ namespace Files.App.ViewModels.Properties
 		public RelayCommand ReplaceChildPermissionsCommand { get; set; }
 
 		private FilePermissionsManager filePermissions;
-
 		public FilePermissionsManager FilePermissions
 		{
 			get => filePermissions;
@@ -83,7 +82,6 @@ namespace Files.App.ViewModels.Properties
 		}
 
 		private RulesForUser selectedRuleForUser;
-
 		public RulesForUser SelectedRuleForUser
 		{
 			get => selectedRuleForUser;
@@ -97,7 +95,6 @@ namespace Files.App.ViewModels.Properties
 		}
 
 		private List<FileSystemAccessRuleForUI> selectedAccessRules;
-
 		public List<FileSystemAccessRuleForUI> SelectedAccessRules
 		{
 			get => selectedAccessRules;
@@ -111,10 +108,10 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
-		public FileSystemAccessRuleForUI SelectedAccessRule => SelectedAccessRules?.FirstOrDefault();
+		public FileSystemAccessRuleForUI SelectedAccessRule
+			=> SelectedAccessRules?.FirstOrDefault();
 
 		private bool isFolder;
-
 		public bool IsFolder
 		{
 			get => isFolder;
@@ -122,6 +119,7 @@ namespace Files.App.ViewModels.Properties
 		}
 
 		private bool isProtected;
+
 		private bool preserveInheritance;
 
 		public string DisableInheritanceOption
@@ -147,7 +145,8 @@ namespace Files.App.ViewModels.Properties
 		{
 			if (SetAccessRuleProtection(isProtected, preserveInheritance))
 			{
-				GetFilePermissions(); // Refresh file permissions
+				// Refresh file permissions
+				GetFilePermissions();
 			}
 		}
 
@@ -160,7 +159,8 @@ namespace Files.App.ViewModels.Properties
 		}
 
 		private void ReplaceChildPermissions()
-		{ }
+		{
+		}
 
 		private async void AddAccessRule()
 		{
@@ -196,7 +196,8 @@ namespace Files.App.ViewModels.Properties
 			{
 				if (SetFileOwner(pickedObject))
 				{
-					GetFilePermissions(); // Refresh file permissions
+					// Refresh file permissions
+					GetFilePermissions();
 				}
 			}
 		}

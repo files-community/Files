@@ -16,8 +16,11 @@ namespace Files.App.Views.LayoutModes
 {
 	public sealed partial class ColumnViewBrowser : BaseLayout
 	{
-		protected override uint IconSize => Browser.ColumnViewBrowser.ColumnViewSizeSmall;
-		protected override ItemsControl ItemsControl => ColumnHost;
+		protected override uint IconSize
+			=> Browser.ColumnViewBrowser.ColumnViewSizeSmall;
+
+		protected override ItemsControl ItemsControl
+			=> ColumnHost;
 
 		public ColumnViewBrowser() : base()
 		{
@@ -74,7 +77,9 @@ namespace Files.App.Views.LayoutModes
 			base.OnNavigatedTo(eventArgs);
 
 			var navigationArguments = (NavigationArguments)eventArgs.Parameter;
+
 			MainPageFrame.Navigated += Frame_Navigated;
+
 			MainPageFrame.Navigate(typeof(ColumnShellPage), new ColumnParam
 			{
 				Column = 0,
@@ -94,22 +99,23 @@ namespace Files.App.Views.LayoutModes
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
 		{
 			base.OnNavigatingFrom(e);
+
 			this.Dispose();
 		}
 
 		#region IDisposable
-
 		public override void Dispose()
 		{
 			base.Dispose();
+
 			ColumnHost.Items.OfType<BladeItem>().Select(x => ((x.Content as Frame)?.Content as ColumnShellPage).SlimContentPage as ColumnViewBase).Where(x => x is not null).ForEach(x => x.ItemInvoked -= ColumnViewBase_ItemInvoked);
 			ColumnHost.Items.OfType<BladeItem>().ForEach(x => ((x.Content as Frame)?.Content as ColumnShellPage).ContentChanged -= ColumnViewBrowser_ContentChanged);
 			ColumnHost.Items.OfType<BladeItem>().ForEach(x => ((x.Content as Frame)?.Content as UIElement).GotFocus -= ColumnViewBrowser_GotFocus);
 			ColumnHost.Items.OfType<BladeItem>().Select(x => (x.Content as Frame)?.Content).OfType<IDisposable>().ForEach(x => x.Dispose());
+
 			UnhookEvents();
 			CommandsViewModel?.Dispose();
 		}
-
 		#endregion IDisposable
 
 		private void DismissOtherBlades(ListView listView)
@@ -138,13 +144,16 @@ namespace Files.App.Views.LayoutModes
 						{
 							columnLayout.ItemInvoked -= ColumnViewBase_ItemInvoked;
 						}
+
 						((ColumnHost.ActiveBlades[index + 1].Content as Frame).Content as UIElement).GotFocus -= ColumnViewBrowser_GotFocus;
 						((ColumnHost.ActiveBlades[index + 1].Content as Frame).Content as ColumnShellPage).ContentChanged -= ColumnViewBrowser_ContentChanged;
+
 						ColumnHost.Items.RemoveAt(index + 1);
 						ColumnHost.ActiveBlades.RemoveAt(index + 1);
 					}
 				});
 			}
+
 			ContentChanged(ActiveColumnShellPage);
 		}
 
@@ -152,6 +161,7 @@ namespace Files.App.Views.LayoutModes
 		{
 			var f = sender as Frame;
 			f.Navigated -= Frame_Navigated;
+
 			(f.Content as IShellPage).ContentChanged += ColumnViewBrowser_ContentChanged;
 			(f.Content as UIElement).GotFocus += ColumnViewBrowser_GotFocus;
 		}
@@ -162,6 +172,7 @@ namespace Files.App.Views.LayoutModes
 			{
 				var currentBlade = ColumnHost.ActiveBlades.Single(x => (x.Content as Frame)?.Content == sender);
 				currentBlade.StartBringIntoView();
+
 				if (ColumnHost.ActiveBlades is not null)
 				{
 					ColumnHost.ActiveBlades.ForEach(x =>
@@ -170,6 +181,7 @@ namespace Files.App.Views.LayoutModes
 						shellPage.IsCurrentInstance = false;
 					});
 				}
+
 				(sender as IShellPage).IsCurrentInstance = true;
 				ContentChanged(sender as IShellPage);
 			}
@@ -178,8 +190,10 @@ namespace Files.App.Views.LayoutModes
 		private void ColumnViewBrowser_ContentChanged(object sender, UserControls.MultitaskingControl.TabItemArguments e)
 		{
 			var c = sender as IShellPage;
+
 			(c.SlimContentPage as ColumnViewBase).ItemInvoked -= ColumnViewBase_ItemInvoked;
 			(c.SlimContentPage as ColumnViewBase).ItemInvoked += ColumnViewBase_ItemInvoked;
+
 			ContentChanged(c);
 		}
 
@@ -221,6 +235,7 @@ namespace Files.App.Views.LayoutModes
 
 			//This allows to deselect and reselect the parent folder, hence forcing the refocus.
 			var selectedItem = activeBladeColumnViewBase.FileList.SelectedItem;
+
 			activeBladeColumnViewBase.FileList.SelectedItem = null;
 			activeBladeColumnViewBase.FileList.SelectedItem = selectedItem;
 		}
@@ -345,6 +360,7 @@ namespace Files.App.Views.LayoutModes
 				{
 					var shellPages = ColumnHost.ActiveBlades.Select(x => (x.Content as Frame).Content as IShellPage);
 					var activeInstance = shellPages.SingleOrDefault(x => x.IsCurrentInstance);
+
 					return activeInstance ?? shellPages.Last();
 				}
 

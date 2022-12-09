@@ -31,6 +31,7 @@ namespace Files.App.ViewModels
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public IMultitaskingControl? MultitaskingControl { get; set; }
+
 		public List<IMultitaskingControl> MultitaskingControls { get; } = new List<IMultitaskingControl>();
 
 		public static ObservableCollection<TabItem> AppInstances { get; private set; } = new ObservableCollection<TabItem>();
@@ -117,15 +118,15 @@ namespace Files.App.ViewModels
 				case VirtualKey.Tab:
 					bool shift = e.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
 
-					if (!shift) // ctrl + tab, select next tab
+					if (!shift) // Ctrl + Tab, select next tab
 					{
 						if ((App.AppModel.TabStripSelectedIndex + 1) < AppInstances.Count)
 							indexToSelect = App.AppModel.TabStripSelectedIndex + 1;
 						else
 							indexToSelect = 0;
 					}
-					else // ctrl + shift + tab, select previous tab
-					{
+                    else // Ctrl + Shift + Tab, select previous tab
+                    {
 						if ((App.AppModel.TabStripSelectedIndex - 1) >= 0)
 							indexToSelect = App.AppModel.TabStripSelectedIndex - 1;
 						else
@@ -135,9 +136,10 @@ namespace Files.App.ViewModels
 					break;
 			}
 
-			// Only select the tab if it is in the list
+			// Only select the tab if it's in the list
 			if (indexToSelect < AppInstances.Count)
 				App.AppModel.TabStripSelectedIndex = indexToSelect;
+
 			e.Handled = true;
 		}
 
@@ -145,6 +147,7 @@ namespace Files.App.ViewModels
 		{
 			Uri filesUWPUri = new Uri("files-uwp:");
 			await Launcher.LaunchUriAsync(filesUWPUri);
+
 			e!.Handled = true;
 		}
 
@@ -160,18 +163,21 @@ namespace Files.App.ViewModels
 				TabItem tabItem = AppInstances[App.AppModel.TabStripSelectedIndex];
 				MultitaskingControl?.CloseTab(tabItem);
 			}
+
 			e!.Handled = true;
 		}
 
 		private async Task AddNewInstanceAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
 		{
 			await AddNewTabAsync();
+
 			e!.Handled = true;
 		}
 
 		private void ReopenClosedTabAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
 		{
 			(MultitaskingControl as BaseMultitaskingControl)?.ReopenClosedTab(null, null);
+
 			e!.Handled = true;
 		}
 
@@ -198,13 +204,16 @@ namespace Files.App.ViewModels
 				Description = null,
 				ToolTipText = null
 			};
+
 			tabItem.Control.NavigationArguments = new TabItemArguments()
 			{
 				InitialPageType = type,
 				NavigationArg = path
 			};
+
 			tabItem.Control.ContentChanged += Control_ContentChanged;
 			await UpdateTabInfo(tabItem, path);
+
 			var index = atIndex == -1 ? AppInstances.Count : atIndex;
 			AppInstances.Insert(index, tabItem);
 			App.AppModel.TabStripSelectedIndex = index;
@@ -219,6 +228,7 @@ namespace Files.App.ViewModels
 				{
 					var leftTabInfo = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
 					var rightTabInfo = await GetSelectedTabInfoAsync(paneArgs.RightPaneNavPathParam);
+
 					windowTitle = $"{leftTabInfo.tabLocationHeader} | {rightTabInfo.tabLocationHeader}";
 				}
 				else
@@ -230,8 +240,10 @@ namespace Files.App.ViewModels
 			{
 				(windowTitle, _, _) = await GetSelectedTabInfoAsync(pathArgs);
 			}
+
 			if (AppInstances.Count > 1)
 				windowTitle = $"{windowTitle} ({AppInstances.Count})";
+
 			if (navigationArg == SelectedTabItem?.TabItemArguments?.NavigationArg)
 				App.GetAppWindow(App.Window).Title = windowTitle;
 		}
@@ -245,6 +257,7 @@ namespace Files.App.ViewModels
 				{
 					var leftTabInfo = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
 					var rightTabInfo = await GetSelectedTabInfoAsync(paneArgs.RightPaneNavPathParam);
+
 					tabItem.Header = $"{leftTabInfo.tabLocationHeader} | {rightTabInfo.tabLocationHeader}";
 					tabItem.IconSource = leftTabInfo.tabIcon;
 				}
@@ -334,15 +347,15 @@ namespace Files.App.ViewModels
 			if (e.NavigationMode == NavigationMode.Back)
 				return;
 
-			//Initialize the static theme helper to capture a reference to this window
-			//to handle theme changes without restarting the app
+			// Initialize the static theme helper to capture a reference to this window
+			// to handle theme changes without restarting the app
 			ThemeHelper.Initialize();
 
 			if (e.Parameter is null || (e.Parameter is string eventStr && string.IsNullOrEmpty(eventStr)))
 			{
 				try
 				{
-					// add last session tabs to closed tabs stack if those tabs are not about to be opened
+					// Add last session tabs to closed tabs stack if those tabs are not about to be opened
 					if (!UserSettingsService.AppSettingsService.RestoreTabsOnStartup && !UserSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp && UserSettingsService.PreferencesSettingsService.LastSessionTabList != null)
 					{
 						var items = new TabItemArguments[UserSettingsService.PreferencesSettingsService.LastSessionTabList.Count];
@@ -350,6 +363,7 @@ namespace Files.App.ViewModels
 						{
 							items[i] = TabItemArguments.Deserialize(UserSettingsService.PreferencesSettingsService.LastSessionTabList[i]);
 						}
+
 						BaseMultitaskingControl.RecentlyClosedTabs.Add(items);
 					}
 
@@ -453,6 +467,7 @@ namespace Files.App.ViewModels
 
 			tabItem.Control.ContentChanged += Control_ContentChanged;
 			await UpdateTabInfo(tabItem, tabViewItemArgs);
+
 			var index = atIndex == -1 ? AppInstances.Count : atIndex;
 			AppInstances.Insert(index, tabItem);
 			App.AppModel.TabStripSelectedIndex = index;

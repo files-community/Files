@@ -28,16 +28,14 @@ namespace Files.App.ViewModels.SettingsViewModels
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		private bool disposed;
-		private ReadOnlyCollection<IMenuFlyoutItemViewModel> addFlyoutItemsSource;
 
-		// Commands
+		private ReadOnlyCollection<IMenuFlyoutItemViewModel> addFlyoutItemsSource;
 
 		public AsyncRelayCommand OpenFilesAtStartupCommand { get; }
 		public AsyncRelayCommand ChangePageCommand { get; }
+
 		public RelayCommand RemovePageCommand { get; }
 		public RelayCommand<string> AddPageCommand { get; }
-
-		// Properties
 
 		private bool showRestartControl;
 		public bool ShowRestartControl
@@ -95,8 +93,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 				}
 			}
 		}
-
-		// Lists
 
 		public List<DateTimeFormatItem> DateFormats { get; set; }
 		public ObservableCollection<AppLanguageItem> AppLanguages { get; set; }
@@ -174,7 +170,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			{
 				var recentFolders = App.RecentItemsManager.RecentFolders;
 
-				// add separator
+				// Add separator
 				if (recentFolders.Any())
 					menu.Items.Add(new MenuFlyoutSeparatorViewModel());
 
@@ -281,7 +277,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		// WINUI3
+		// WinUI3
 		private FolderPicker InitializeWithWindow(FolderPicker obj)
 		{
 			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
@@ -294,6 +290,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			if (index >= 0)
 			{
 				PagesOnStartupList.RemoveAt(index);
+
 				if (index > 0)
 					SelectedPageIndex = index - 1;
 				else if (PagesOnStartupList.Count > 0)
@@ -349,7 +346,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 		}
 
 		private bool openInLogin;
-
 		public bool OpenInLogin
 		{
 			get => openInLogin;
@@ -357,7 +353,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 		}
 
 		private bool canOpenInLogin;
-
 		public bool CanOpenInLogin
 		{
 			get => canOpenInLogin;
@@ -398,18 +393,22 @@ namespace Files.App.ViewModels.SettingsViewModels
 					CanOpenInLogin = true;
 					OpenInLogin = false;
 					break;
+
 				case StartupTaskState.Enabled:
 					CanOpenInLogin = true;
 					OpenInLogin = true;
 					break;
+
 				case StartupTaskState.DisabledByPolicy:
 					CanOpenInLogin = false;
 					OpenInLogin = false;
 					break;
+
 				case StartupTaskState.DisabledByUser:
 					CanOpenInLogin = false;
 					OpenInLogin = false;
 					break;
+
 				case StartupTaskState.EnabledByPolicy:
 					CanOpenInLogin = false;
 					OpenInLogin = true;
@@ -566,4 +565,3 @@ namespace Files.App.ViewModels.SettingsViewModels
 		}
 	}
 }
-

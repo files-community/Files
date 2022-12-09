@@ -30,21 +30,16 @@ namespace Files.App.ViewModels.Widgets.Bundles
 	public class BundleContainerViewModel : ObservableObject, IDisposable
 	{
 		#region Singleton
-
 		private IBundlesSettingsService BundlesSettingsService { get; } = Ioc.Default.GetService<IBundlesSettingsService>();
-
 		#endregion Singleton
 
 		#region Private Members
-
 		private bool itemAddedInternally;
 
 		private int internalCollectionCount;
-
 		#endregion Private Members
 
 		#region Actions
-
 		public Action<BundleContainerViewModel> NotifyItemRemoved { get; set; }
 
 		public Action<string, string> NotifyBundleItemRemoved { get; set; }
@@ -52,18 +47,15 @@ namespace Files.App.ViewModels.Widgets.Bundles
 		public Action<string, FilesystemItemType, bool, bool, IEnumerable<string>> OpenPath { get; set; }
 
 		public Action<string> OpenPathInNewPane { get; set; }
-
 		#endregion Actions
 
 		#region Public Properties
-
 		/// <summary>
 		/// A list of Bundle's contents
 		/// </summary>
 		public ObservableCollection<BundleItemViewModel> Contents { get; private set; } = new ObservableCollection<BundleItemViewModel>();
 
 		private string bundleName = "DefaultBundle";
-
 		public string BundleName
 		{
 			get => bundleName;
@@ -71,7 +63,6 @@ namespace Files.App.ViewModels.Widgets.Bundles
 		}
 
 		private bool noBundleContentsTextLoad;
-
 		public bool NoBundleContentsTextLoad
 		{
 			get => noBundleContentsTextLoad;
@@ -79,17 +70,14 @@ namespace Files.App.ViewModels.Widgets.Bundles
 		}
 
 		private bool isAddItemOptionEnabled = true;
-
 		public bool IsAddItemOptionEnabled
 		{
 			get => isAddItemOptionEnabled;
 			set => SetProperty(ref isAddItemOptionEnabled, value);
 		}
-
 		#endregion Public Properties
 
 		#region Commands
-
 		public ICommand OpenItemCommand { get; private set; }
 
 		public ICommand RemoveBundleCommand { get; private set; }
@@ -105,11 +93,9 @@ namespace Files.App.ViewModels.Widgets.Bundles
 		public ICommand AddFileCommand { get; private set; }
 
 		public ICommand AddFolderCommand { get; private set; }
-
 		#endregion Commands
 
 		#region Constructor
-
 		public BundleContainerViewModel()
 		{
 			internalCollectionCount = Contents.Count;
@@ -128,11 +114,9 @@ namespace Files.App.ViewModels.Widgets.Bundles
 			AddFileCommand = new AsyncRelayCommand(AddFile);
 			AddFolderCommand = new AsyncRelayCommand(AddFolder);
 		}
-
 		#endregion Constructor
 
 		#region Command Implementation
-
 		private async Task AddFolder()
 		{
 			FolderPicker folderPicker = this.InitializeWithWindow(new FolderPicker());
@@ -143,14 +127,16 @@ namespace Files.App.ViewModels.Widgets.Bundles
 			if (folder is not null)
 			{
 				await AddItemFromPath(folder.Path, FilesystemItemType.Directory);
+
 				SaveBundle();
 			}
 		}
 
-		// WINUI3
+		// WinUI3
 		private FolderPicker InitializeWithWindow(FolderPicker obj)
 		{
 			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+
 			return obj;
 		}
 
@@ -164,14 +150,16 @@ namespace Files.App.ViewModels.Widgets.Bundles
 			if (file is not null)
 			{
 				await AddItemFromPath(file.Path, FilesystemItemType.File);
+
 				SaveBundle();
 			}
 		}
 
-		// WINUI3
+		// WinUI3
 		private FileOpenPicker InitializeWithWindow(FileOpenPicker obj)
 		{
 			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+
 			return obj;
 		}
 
@@ -254,6 +242,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 				},
 				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
 			});
+
 			await dialog.ShowAsync();
 
 			bool CanAddBundleSetErrorMessage()
@@ -278,7 +267,8 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
 					foreach (var item in allBundles)
 					{
-						if (item.Key == BundleName) // Item matches to-rename name
+						// Item matches to-rename name
+						if (item.Key == BundleName)
 						{
 							newBundles.Add(bundleRenameText, item.Value);
 
@@ -288,7 +278,8 @@ namespace Files.App.ViewModels.Widgets.Bundles
 								bundleItem.ParentBundleName = bundleRenameText;
 							}
 						}
-						else // Ignore, and add existing values
+						// Ignore, and add existing values
+						else
 						{
 							newBundles.Add(item.Key, item.Value);
 						}
@@ -304,7 +295,8 @@ namespace Files.App.ViewModels.Widgets.Bundles
 		{
 			if (Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView) || e.DataView.Contains(StandardDataFormats.Text))
 			{
-				if (Contents.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle) // Don't exceed the limit!
+				// Don't exceed the limit!
+				if (Contents.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle)
 				{
 					e.AcceptedOperation = DataPackageOperation.Move;
 				}
@@ -338,9 +330,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 					string itemText = await e.DataView.GetTextAsync();
 
 					if (string.IsNullOrWhiteSpace(itemText))
-					{
 						return;
-					}
 
 					bool dragFromBundle = false;
 					string itemPath = null;
@@ -403,11 +393,9 @@ namespace Files.App.ViewModels.Widgets.Bundles
 			string itemPathAndData = $"{BundleName}|{(e.Items.First() as BundleItemViewModel).Path}";
 			e.Data.SetData(StandardDataFormats.Text, itemPathAndData);
 		}
-
 		#endregion Command Implementation
 
 		#region Handlers
-
 		/// <summary>
 		/// This function gets called when an item is removed to update the collection
 		/// </summary>
@@ -418,9 +406,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 			item?.Dispose();
 
 			if (Contents.Count == 0)
-			{
 				NoBundleContentsTextLoad = true;
-			}
 		}
 
 		private void Contents_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -434,11 +420,9 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
 			UpdateAddItemOption();
 		}
-
 		#endregion Handlers
 
 		#region Private Helpers
-
 		private bool SaveBundle()
 		{
 			if (BundlesSettingsService.SavedBundles.ContainsKey(BundleName))
@@ -486,11 +470,9 @@ namespace Files.App.ViewModels.Widgets.Bundles
 		{
 			IsAddItemOptionEnabled = Contents.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle;
 		}
-
 		#endregion Private Helpers
 
 		#region Public Helpers
-
 		public async Task<bool> AddBundleItem(BundleItemViewModel bundleItem)
 		{
 			// Make sure we don't exceed maximum amount && make sure we don't make duplicates
@@ -547,11 +529,9 @@ namespace Files.App.ViewModels.Widgets.Bundles
 				return (false, "BundlesWidgetAddBundleErrorAlreadyExists".GetLocalizedResource());
 			}
 		}
-
 		#endregion Public Helpers
 
 		#region IDisposable
-
 		public void Dispose()
 		{
 			foreach (var item in Contents)
@@ -566,7 +546,6 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
 			Contents.CollectionChanged -= Contents_CollectionChanged;
 		}
-
 		#endregion IDisposable
 	}
 }

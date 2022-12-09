@@ -96,7 +96,7 @@ namespace Files.App.ViewModels
 		public bool AreDirectoriesSortedAlongsideFiles
 		{
 			get => InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFiles;
-			set { InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFiles = value; }
+			set => InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFiles = value;
 		}
 
 		// Sort by
@@ -238,22 +238,21 @@ namespace Files.App.ViewModels
 			&& InstanceViewModel.FolderSettings.GridViewSizeKind == GridViewSizeKind.Medium && !IsLayoutAdaptive;
 
 		public bool IsLayoutGridViewLarge
-			=> InstanceViewModel.FolderSettings.LayoutMode == FolderLayoutModes.GridView
-			&& InstanceViewModel.FolderSettings.GridViewSizeKind == GridViewSizeKind.Large && !IsLayoutAdaptive;
+			=> InstanceViewModel.FolderSettings.LayoutMode == FolderLayoutModes.GridView &&
+			InstanceViewModel.FolderSettings.GridViewSizeKind == GridViewSizeKind.Large && !IsLayoutAdaptive;
 
 		public bool IsLayoutColumnsView
 			=> InstanceViewModel.FolderSettings.LayoutMode == FolderLayoutModes.ColumnView && !IsLayoutAdaptive;
 
 		public bool IsLayoutAdaptive
-			=> InstanceViewModel.FolderSettings.IsAdaptiveLayoutEnabled
-			&& !InstanceViewModel.FolderSettings.IsLayoutModeFixed
-			&& IsAdaptiveLayoutEnabled;
+			=> InstanceViewModel.FolderSettings.IsAdaptiveLayoutEnabled &&
+			!InstanceViewModel.FolderSettings.IsLayoutModeFixed &&
+			IsAdaptiveLayoutEnabled;
 
 		public bool IsAdaptiveLayoutEnabled
 			=> UserSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences;
 
 		private bool canCopyPathInPage;
-
 		public bool CanCopyPathInPage
 		{
 			get => canCopyPathInPage;
@@ -261,7 +260,6 @@ namespace Files.App.ViewModels
 		}
 
 		private bool canGoBack;
-
 		public bool CanGoBack
 		{
 			get => canGoBack;
@@ -269,7 +267,6 @@ namespace Files.App.ViewModels
 		}
 
 		private bool canGoForward;
-
 		public bool CanGoForward
 		{
 			get => canGoForward;
@@ -277,7 +274,6 @@ namespace Files.App.ViewModels
 		}
 
 		private bool canNavigateToParent;
-
 		public bool CanNavigateToParent
 		{
 			get => canNavigateToParent;
@@ -285,7 +281,6 @@ namespace Files.App.ViewModels
 		}
 
 		private bool previewPaneEnabled;
-
 		public bool PreviewPaneEnabled
 		{
 			get => previewPaneEnabled;
@@ -293,7 +288,6 @@ namespace Files.App.ViewModels
 		}
 
 		private bool canRefresh;
-
 		public bool CanRefresh
 		{
 			get => canRefresh;
@@ -301,7 +295,6 @@ namespace Files.App.ViewModels
 		}
 
 		private string searchButtonGlyph = "\uE721";
-
 		public string SearchButtonGlyph
 		{
 			get => searchButtonGlyph;
@@ -309,7 +302,6 @@ namespace Files.App.ViewModels
 		}
 
 		private bool isSearchBoxVisible;
-
 		public bool IsSearchBoxVisible
 		{
 			get => isSearchBoxVisible;
@@ -321,7 +313,6 @@ namespace Files.App.ViewModels
 		}
 
 		private string? pathText;
-
 		public string? PathText
 		{
 			get => pathText;
@@ -332,10 +323,9 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		public ObservableCollection<ListedItem> NavigationBarSuggestions = new ObservableCollection<ListedItem>();
+		public ObservableCollection<ListedItem> NavigationBarSuggestions = new();
 
 		private CurrentInstanceViewModel instanceViewModel;
-
 		public CurrentInstanceViewModel InstanceViewModel
 		{
 			get => instanceViewModel;
@@ -393,6 +383,7 @@ namespace Files.App.ViewModels
 					RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
 					OnPropertyChanged(e.SettingName);
 					break;
+
 				case nameof(UserSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences):
 					FolderSettings_LayoutPreferencesUpdateRequired(null, 0);
 					break;
@@ -400,17 +391,18 @@ namespace Files.App.ViewModels
 		}
 
 		private DispatcherQueue dispatcherQueue;
+
 		private DispatcherQueueTimer dragOverTimer;
 
 		private ISearchBox searchBox = new SearchBoxViewModel();
-
 		public ISearchBox SearchBox
 		{
 			get => searchBox;
 			set => SetProperty(ref searchBox, value);
 		}
 
-		public SearchBoxViewModel SearchBoxViewModel => (SearchBoxViewModel)SearchBox;
+		public SearchBoxViewModel SearchBoxViewModel
+			=> (SearchBoxViewModel)SearchBox;
 
 		public bool IsSingleItemOverride { get; set; } = false;
 
@@ -498,7 +490,8 @@ namespace Files.App.ViewModels
 
 			lockFlag = true;
 
-			dragOverPath = null; // Reset dragged over pathbox item
+			// Reset dragged over pathbox item
+			dragOverPath = null;
 
 			if (((StackPanel)sender).DataContext is not PathBoxItem pathBoxItem ||
 				pathBoxItem.Path == "Home".GetLocalizedResource())
@@ -516,6 +509,7 @@ namespace Files.App.ViewModels
 				Path = pathBoxItem.Path,
 				SignalEvent = signal
 			});
+
 			await signal.WaitAsync();
 
 			deferral.Complete();
@@ -536,6 +530,7 @@ namespace Files.App.ViewModels
 			{
 				dragOverPath = pathBoxItem.Path;
 				dragOverTimer.Stop();
+
 				if (dragOverPath != (this as IAddressToolbar).PathComponents.LastOrDefault()?.Path)
 				{
 					dragOverTimer.Debounce(() =>
@@ -549,7 +544,8 @@ namespace Files.App.ViewModels
 							});
 							dragOverPath = null;
 						}
-					}, TimeSpan.FromMilliseconds(1000), false);
+					},
+					TimeSpan.FromMilliseconds(1000), false);
 				}
 			}
 
@@ -561,6 +557,7 @@ namespace Files.App.ViewModels
 			}
 
 			e.Handled = true;
+
 			var deferral = e.GetDeferral();
 
 			var handledByFtp = await FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
@@ -568,6 +565,7 @@ namespace Files.App.ViewModels
 			{
 				e.AcceptedOperation = DataPackageOperation.None;
 				deferral.Complete();
+
 				return;
 			}
 
@@ -581,7 +579,7 @@ namespace Files.App.ViewModels
 			{
 				e.AcceptedOperation = DataPackageOperation.None;
 			}
-			// copy be default when dragging from zip
+			// Copy be default when dragging from zip
 			else if (storageItems.Any(x => x.Item is ZipStorageFile || x.Item is ZipStorageFolder)
 				|| ZipStorageFolder.IsZipPath(pathBoxItem.Path))
 			{
@@ -622,7 +620,6 @@ namespace Files.App.ViewModels
 		}
 
 		private bool manualEntryBoxLoaded;
-
 		public bool ManualEntryBoxLoaded
 		{
 			get => manualEntryBoxLoaded;
@@ -630,7 +627,6 @@ namespace Files.App.ViewModels
 		}
 
 		private bool clickablePathLoaded = true;
-
 		public bool ClickablePathLoaded
 		{
 			get => clickablePathLoaded;
@@ -638,7 +634,6 @@ namespace Files.App.ViewModels
 		}
 
 		private string pathControlDisplayText;
-
 		public string PathControlDisplayText
 		{
 			get => pathControlDisplayText;
@@ -653,8 +648,10 @@ namespace Files.App.ViewModels
 		public void PathItemSeparator_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
 		{
 			var pathSeparatorIcon = sender as FontIcon;
+
 			if (pathSeparatorIcon is null || pathSeparatorIcon.DataContext is null)
 				return;
+
 			ToolbarPathItemLoaded?.Invoke(pathSeparatorIcon, new ToolbarPathItemLoadedEventArgs()
 			{
 				Item = (PathBoxItem)pathSeparatorIcon.DataContext,
@@ -703,6 +700,7 @@ namespace Files.App.ViewModels
 				}, DispatcherQueuePriority.Low);
 				e.Handled = true;
 				pointerRoutedEventArgs = null;
+
 				return;
 			}
 
@@ -726,6 +724,7 @@ namespace Files.App.ViewModels
 				// Given that binding and layouting might take a few cycles, when calling UpdateLayout
 				// we can guarantee that the focus call will be able to find an open ASB
 				var searchbox = AddressToolbar?.FindDescendant("SearchRegion") as SearchBox;
+
 				searchbox?.UpdateLayout();
 				searchbox?.Focus(FocusState.Programmatic);
 			}
@@ -771,7 +770,8 @@ namespace Files.App.ViewModels
 			CloseSearchBox();
 		}
 
-		private void SearchRegion_Escaped(object? sender, ISearchBox searchBox) => CloseSearchBox();
+		private void SearchRegion_Escaped(object? sender, ISearchBox searchBox)
+			=> CloseSearchBox();
 
 		public ICommand? SelectAllContentPageItemsCommand { get; set; }
 
@@ -853,16 +853,16 @@ namespace Files.App.ViewModels
 					//Foreground = (SolidColorBrush)Application.Current.Resources["SystemControlErrorTextForegroundBrush"],
 					FontSize = 12
 				};
+
 				flyout.Items?.Add(flyoutItem);
+
 				return;
 			}
 
 			var boldFontWeight = new FontWeight { Weight = 800 };
 			var normalFontWeight = new FontWeight { Weight = 400 };
 
-			var workingPath = PathComponents
-					[PathComponents.Count - 1].
-					Path?.TrimEnd(Path.DirectorySeparatorChar);
+			var workingPath = PathComponents[PathComponents.Count - 1].Path?.TrimEnd(Path.DirectorySeparatorChar);
 
 			foreach (var childFolder in childFolders)
 			{
@@ -932,8 +932,10 @@ namespace Files.App.ViewModels
 								var result = await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
 								await UIHelpers.ShowDeviceEjectResultAsync(result);
 							}
+
 							return;
 						}
+
 						var pathToNavigate = resFolder.Result?.Path ?? currentInput;
 						shellPage.NavigateToPath(pathToNavigate);
 					}
@@ -951,8 +953,8 @@ namespace Files.App.ViewModels
 						}
 						else // Not a file or not accessible
 						{
-							var workingDir = string.IsNullOrEmpty(shellPage.FilesystemViewModel.WorkingDirectory)
-									|| shellPage.CurrentPageType == typeof(WidgetsPage)
+							var workingDir = string.IsNullOrEmpty(shellPage.FilesystemViewModel.WorkingDirectory) ||
+								shellPage.CurrentPageType == typeof(WidgetsPage)
 								? CommonPaths.HomePath
 								: shellPage.FilesystemViewModel.WorkingDirectory;
 
@@ -983,12 +985,15 @@ namespace Files.App.ViewModels
 			var trimmedInput = currentInput.Trim();
 			var fileName = trimmedInput;
 			var arguments = string.Empty;
+
 			if (trimmedInput.Contains(' '))
 			{
 				var positionOfBlank = trimmedInput.IndexOf(' ');
 				fileName = trimmedInput.Substring(0, positionOfBlank);
 				arguments = currentInput.Substring(currentInput.IndexOf(' '));
 			}
+
+
 			return await LaunchHelper.LaunchAppAsync(fileName, arguments, workingDir);
 		}
 
@@ -1002,7 +1007,10 @@ namespace Files.App.ViewModels
 					var expandedPath = StorageFileExtensions.GetPathWithoutEnvironmentVariable(sender.Text);
 					var folderPath = PathNormalization.GetParentDir(expandedPath) ?? expandedPath;
 					StorageFolderWithPath folder = await shellpage.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
-					if (folder is null) return false;
+
+					if (folder is null)
+						return false;
+
 					var currPath = await folder.GetFoldersWithPathAsync(Path.GetFileName(expandedPath), (uint)maxSuggestions);
 					if (currPath.Count >= maxSuggestions)
 					{
@@ -1019,12 +1027,12 @@ namespace Files.App.ViewModels
 						{
 							ItemPath = x.Path,
 							ItemNameRaw = x.Item.DisplayName
-						}).Concat(
-							subPath.Select(x => new ListedItem(null!)
-							{
-								ItemPath = x.Path,
-								ItemNameRaw = PathNormalization.Combine(currPath.First().Item.DisplayName, x.Item.DisplayName)
-							})).ToList();
+						})
+						.Concat(subPath.Select(x => new ListedItem(null!)
+                        {
+                            ItemPath = x.Path,
+							ItemNameRaw = PathNormalization.Combine(currPath.First().Item.DisplayName, x.Item.DisplayName)
+						})).ToList();
 					}
 					else
 					{
@@ -1050,6 +1058,7 @@ namespace Files.App.ViewModels
 								NavigationBarSuggestions.Add(suggestions[si]);
 							}
 						}
+
 						while (NavigationBarSuggestions.Count > suggestions.Count)
 							NavigationBarSuggestions.RemoveAt(NavigationBarSuggestions.Count - 1);
 					}
@@ -1062,6 +1071,7 @@ namespace Files.App.ViewModels
 						foreach (var s in suggestions.ExceptBy(NavigationBarSuggestions, x => x.ItemNameRaw).ToList())
 							NavigationBarSuggestions.Insert(suggestions.IndexOf(s), s);
 					}
+
 					return true;
 				}))
 				{
@@ -1091,7 +1101,6 @@ namespace Files.App.ViewModels
 		}
 
 		private List<ListedItem>? selectedItems;
-
 		public List<ListedItem> SelectedItems
 		{
 			get => selectedItems;
@@ -1121,25 +1130,59 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		public bool HasAdditionalAction => InstanceViewModel.IsPageTypeRecycleBin || IsPowerShellScript || CanExtract || IsImage || IsFont || IsInfFile;
-		public bool CanCopy => SelectedItems is not null && SelectedItems.Any();
-		public bool CanShare => SelectedItems is not null && SelectedItems.Any() && DataTransferManager.IsSupported() && !SelectedItems.Any(x => (x.IsShortcut && !x.IsLinkItem) || x.IsHiddenItem || (x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsArchive));
-		public bool CanRename => SelectedItems is not null && SelectedItems.Count == 1;
-		public bool CanViewProperties => true;
-		public bool CanEmptyRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem;
-		public bool CanRestoreRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem && (SelectedItems is null || SelectedItems.Count == 0);
-		public bool CanRestoreSelectionRecycleBin => InstanceViewModel.IsPageTypeRecycleBin && HasItem && SelectedItems is not null && SelectedItems.Count > 0;
-		public bool CanExtract => IsArchiveOpened ? (SelectedItems is null || !SelectedItems.Any()) : IsSelectionArchivesOnly;
-		public bool IsArchiveOpened => FileExtensionHelpers.IsZipFile(Path.GetExtension(pathControlDisplayText));
-		public bool IsSelectionArchivesOnly => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsZipFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
-		public bool IsMultipleArchivesSelected => IsSelectionArchivesOnly && SelectedItems.Count > 1;
-		public bool IsPowerShellScript => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsPowerShellFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
-		public bool IsImage => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
-		public bool IsMultipleImageSelected => SelectedItems is not null && SelectedItems.Count > 1 && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
-		public bool IsInfFile => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsInfFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
-		public bool IsFont => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
+		public bool HasAdditionalAction
+			=> InstanceViewModel.IsPageTypeRecycleBin || IsPowerShellScript || CanExtract || IsImage || IsFont || IsInfFile;
 
-		public string ExtractToText => IsSelectionArchivesOnly ? SelectedItems.Count > 1 ? string.Format("ExtractToChildFolder".GetLocalizedResource(), $"*{Path.DirectorySeparatorChar}") : string.Format("ExtractToChildFolder".GetLocalizedResource() + "\\", Path.GetFileNameWithoutExtension(selectedItems.First().Name)) : "ExtractToChildFolder".GetLocalizedResource();
+		public bool CanCopy
+			=> SelectedItems is not null && SelectedItems.Any();
+
+		public bool CanShare
+			=> SelectedItems is not null && SelectedItems.Any() && DataTransferManager.IsSupported() && !SelectedItems.Any(x => (x.IsShortcut && !x.IsLinkItem) || x.IsHiddenItem || (x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsArchive));
+
+		public bool CanRename
+			=> SelectedItems is not null && SelectedItems.Count == 1;
+
+		public bool CanViewProperties
+			=> true;
+
+		public bool CanEmptyRecycleBin
+			=> InstanceViewModel.IsPageTypeRecycleBin && HasItem;
+
+		public bool CanRestoreRecycleBin
+			=> InstanceViewModel.IsPageTypeRecycleBin && HasItem && (SelectedItems is null || SelectedItems.Count == 0);
+
+		public bool CanRestoreSelectionRecycleBin
+			=> InstanceViewModel.IsPageTypeRecycleBin && HasItem && SelectedItems is not null && SelectedItems.Count > 0;
+
+		public bool CanExtract
+			=> IsArchiveOpened ? (SelectedItems is null || !SelectedItems.Any()) : IsSelectionArchivesOnly;
+
+		public bool IsArchiveOpened
+			=> FileExtensionHelpers.IsZipFile(Path.GetExtension(pathControlDisplayText));
+
+		public bool IsSelectionArchivesOnly
+			=> SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsZipFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
+
+		public bool IsMultipleArchivesSelected
+			=> IsSelectionArchivesOnly && SelectedItems.Count > 1;
+
+		public bool IsPowerShellScript
+			=> SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsPowerShellFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
+
+		public bool IsImage
+			=> SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
+
+		public bool IsMultipleImageSelected
+			=> SelectedItems is not null && SelectedItems.Count > 1 && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
+
+		public bool IsInfFile
+			=> SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsInfFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
+
+		public bool IsFont
+			=> SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
+
+		public string ExtractToText
+			=> IsSelectionArchivesOnly ? SelectedItems.Count > 1 ? string.Format("ExtractToChildFolder".GetLocalizedResource(), $"*{Path.DirectorySeparatorChar}") : string.Format("ExtractToChildFolder".GetLocalizedResource() + "\\", Path.GetFileNameWithoutExtension(selectedItems.First().Name)) : "ExtractToChildFolder".GetLocalizedResource();
 
 		public void Dispose()
 		{

@@ -16,6 +16,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		private int selectedThemeIndex = (int)Enum.Parse(typeof(ElementTheme), ThemeHelper.RootTheme.ToString());
+
 		private AppTheme selectedTheme = App.AppSettings.SelectedTheme;
 
 		public AppearanceViewModel()
@@ -29,7 +30,9 @@ namespace Files.App.ViewModels.SettingsViewModels
 		}
 
 		public List<string> Themes { get; private set; }
-		public ObservableCollection<AppTheme> CustomThemes => App.ExternalResourcesHelper.Themes;
+
+		public ObservableCollection<AppTheme> CustomThemes
+			=> App.ExternalResourcesHelper.Themes;
 
 		public int SelectedThemeIndex
 		{
@@ -44,10 +47,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		public ElementTheme SelectedElementTheme
-		{
-			get => (ElementTheme)selectedThemeIndex;
-		}
+		public ElementTheme SelectedElementTheme { get => (ElementTheme)selectedThemeIndex; }
 
 		public bool MoveOverflowMenuItemsToSubMenu
 		{
@@ -64,10 +64,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public AppTheme SelectedTheme
 		{
-			get
-			{
-				return selectedTheme;
-			}
+			get => selectedTheme;
 			set
 			{
 				if (SetProperty(ref selectedTheme, value))
@@ -264,7 +261,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public Task OpenThemesFolder()
 		{
-			//await CoreApplication.MainView.Dispatcher.YieldAsync(); // WINUI3
+			// WinUI3
+			//await CoreApplication.MainView.Dispatcher.YieldAsync();
 			return NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.ImportedThemesFolder.Path);
 		}
 	}

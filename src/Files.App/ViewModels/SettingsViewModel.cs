@@ -23,7 +23,6 @@ namespace Files.App.ViewModels
 		}
 
 		#region Appearance
-
 		/// <summary>
 		/// Gets or sets the user's current selected skin
 		/// </summary>
@@ -32,7 +31,6 @@ namespace Files.App.ViewModels
 			get => JsonSerializer.Deserialize<AppTheme>(Get(JsonSerializer.Serialize(new AppTheme() { Name = "Default".GetLocalizedResource() })));
 			set => Set(JsonSerializer.Serialize(value));
 		}
-
 		#endregion Appearance
 
 		public event EventHandler ThemeModeChanged;
@@ -40,7 +38,6 @@ namespace Files.App.ViewModels
 		public ICommand UpdateThemeElements { get; }
 
 		#region ReadAndSaveSettings
-
 		public bool Set<TValue>(TValue value, [CallerMemberName] string propertyName = null)
 		{
 			propertyName = propertyName is not null && propertyName.StartsWith("set_", StringComparison.OrdinalIgnoreCase)
@@ -54,10 +51,9 @@ namespace Files.App.ViewModels
 				originalValue = Get(originalValue, propertyName);
 
 				localSettings.Values[propertyName] = value;
+
 				if (!SetProperty(ref originalValue, value, propertyName))
-				{
 					return false;
-				}
 			}
 			else
 			{
@@ -70,7 +66,7 @@ namespace Files.App.ViewModels
 		public TValue Get<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods)] TValue>(TValue defaultValue, [CallerMemberName] string propertyName = null)
 		{
 			var name = propertyName ??
-					   throw new ArgumentNullException(nameof(propertyName), "Cannot store property of unnamed.");
+				throw new ArgumentNullException(nameof(propertyName), "Cannot store property of unnamed.");
 
 			name = name.StartsWith("get_", StringComparison.OrdinalIgnoreCase)
 				? propertyName.Substring(4)
@@ -92,9 +88,7 @@ namespace Files.App.ViewModels
 						var tryParse = typeof(TValue).GetMethod("TryParse", BindingFlags.Instance | BindingFlags.Public);
 
 						if (tryParse is null)
-						{
 							return default;
-						}
 
 						var stringValue = value.ToString();
 						tValue = default;
@@ -104,10 +98,13 @@ namespace Files.App.ViewModels
 
 						tValue = (tryParseDelegate?.Invoke(stringValue, out tValue) ?? false) ? tValue : default;
 					}
+					
+					// Put the corrected value in settings.
+					Set(tValue, propertyName);
 
-					Set(tValue, propertyName); // Put the corrected value in settings.
 					return tValue;
 				}
+
 				return tValue;
 			}
 
@@ -117,7 +114,6 @@ namespace Files.App.ViewModels
 		}
 
 		private delegate bool TryParseDelegate<TValue>(string inValue, out TValue parsedValue);
-
 		#endregion ReadAndSaveSettings
 	}
 }

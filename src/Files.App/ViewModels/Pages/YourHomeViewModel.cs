@@ -70,7 +70,6 @@ namespace Files.App.ViewModels.Pages
 		}
 
 		#region IDisposable
-
 		public void Dispose()
 		{
 			if (bundlesViewModel is not null)
@@ -81,7 +80,6 @@ namespace Files.App.ViewModels.Pages
 
 			widgetsViewModel?.Dispose();
 		}
-
 		#endregion IDisposable
 	}
 }

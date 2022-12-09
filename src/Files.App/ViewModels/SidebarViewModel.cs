@@ -38,7 +38,8 @@ namespace Files.App.ViewModels
 			set => SetProperty(ref paneHolder, value);
 		}
 
-		public IFilesystemHelpers FilesystemHelpers => PaneHolder?.FilesystemHelpers;
+		public IFilesystemHelpers FilesystemHelpers
+			=> PaneHolder?.FilesystemHelpers;
 
 		private DispatcherQueue dispatcherQueue;
 
@@ -56,23 +57,26 @@ namespace Files.App.ViewModels
 				if (SetProperty(ref sidebarDisplayMode, value))
 				{
 					OnPropertyChanged(nameof(IsSidebarCompactSize));
+
 					UpdateTabControlMargin();
 				}
 			}
 		}
 
-		private readonly SectionType[] SectionOrder = new SectionType[] {
-				SectionType.Home,
-				SectionType.Favorites,
-				SectionType.Library,
-				SectionType.Drives,
-				SectionType.CloudDrives,
-				SectionType.Network,
-				SectionType.WSL,
-				SectionType.FileTag
+		private readonly SectionType[] SectionOrder = new SectionType[]
+		{
+			SectionType.Home,
+			SectionType.Favorites,
+			SectionType.Library,
+			SectionType.Drives,
+			SectionType.CloudDrives,
+			SectionType.Network,
+			SectionType.WSL,
+			SectionType.FileTag
 		};
 
-		public bool IsSidebarCompactSize => SidebarDisplayMode == NavigationViewDisplayMode.Compact || SidebarDisplayMode == NavigationViewDisplayMode.Minimal;
+		public bool IsSidebarCompactSize
+			=> SidebarDisplayMode == NavigationViewDisplayMode.Compact || SidebarDisplayMode == NavigationViewDisplayMode.Minimal;
 
 		public void NotifyInstanceRelatedPropertiesChanged(string arg)
 		{
@@ -101,6 +105,7 @@ namespace Files.App.ViewModels
 			item ??= sidebarItems.FirstOrDefault(x => x.Path.Equals(value + "\\", StringComparison.OrdinalIgnoreCase));
 			item ??= sidebarItems.FirstOrDefault(x => value.StartsWith(x.Path, StringComparison.OrdinalIgnoreCase));
 			item ??= sidebarItems.FirstOrDefault(x => x.Path.Equals(Path.GetPathRoot(value), StringComparison.OrdinalIgnoreCase));
+
 			if (item is null && value == "Home".GetLocalizedResource())
 				item = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home".GetLocalizedResource()));
 
@@ -118,6 +123,7 @@ namespace Files.App.ViewModels
 					return;
 
 				UserSettingsService.AppearanceSettingsService.IsSidebarOpen = value;
+
 				OnPropertyChanged();
 			}
 		}
@@ -207,7 +213,6 @@ namespace Files.App.ViewModels
 		}
 
 		private INavigationControlItem selectedSidebarItem;
-
 		public INavigationControlItem SidebarSelectedItem
 		{
 			get => selectedSidebarItem;
@@ -261,6 +266,7 @@ namespace Files.App.ViewModels
 					SectionType.FileTag => App.FileTagsManager.FileTags,
 					_ => null
 				};
+
 				await SyncSidebarItems(section, getElements, e);
 			});
 		}
@@ -268,9 +274,7 @@ namespace Files.App.ViewModels
 		private async Task SyncSidebarItems(LocationItem section, Func<IReadOnlyList<INavigationControlItem>> getElements, NotifyCollectionChangedEventArgs e)
 		{
 			if (section is null)
-			{
 				return;
-			}
 
 			switch (e.Action)
 			{
@@ -281,8 +285,9 @@ namespace Files.App.ViewModels
 							var index = e.NewStartingIndex < 0 ? -1 : i + e.NewStartingIndex;
 							await AddElementToSection((INavigationControlItem)e.NewItems[i], section, index);
 						}
-						break;
 					}
+					break;
+
 				case NotifyCollectionChangedAction.Move:
 				case NotifyCollectionChangedAction.Remove:
 				case NotifyCollectionChangedAction.Replace:
@@ -292,18 +297,21 @@ namespace Files.App.ViewModels
 							var match = section.ChildItems.FirstOrDefault(x => x.Path == elem.Path);
 							section.ChildItems.Remove(match);
 						}
+
 						if (e.Action != NotifyCollectionChangedAction.Remove)
 						{
 							goto case NotifyCollectionChangedAction.Add;
 						}
-						break;
 					}
+					break;
+
 				case NotifyCollectionChangedAction.Reset:
 					{
 						foreach (INavigationControlItem elem in getElements())
 						{
 							await AddElementToSection(elem, section);
 						}
+
 						foreach (INavigationControlItem elem in section.ChildItems.ToList())
 						{
 							if (!getElements().Any(x => x.Path == elem.Path))
@@ -311,8 +319,8 @@ namespace Files.App.ViewModels
 								section.ChildItems.Remove(elem);
 							}
 						}
-						break;
 					}
+					break;
 			}
 		}
 
@@ -363,6 +371,7 @@ namespace Files.App.ViewModels
 		private async Task<LocationItem> GetOrCreateSection(SectionType sectionType)
 		{
 			LocationItem? section = GetSection(sectionType) ?? await CreateSection(sectionType);
+
 			return section;
 		}
 
@@ -385,71 +394,71 @@ namespace Files.App.ViewModels
 						section.Path = "Home".GetLocalizedResource();
 						section.Font = App.AppModel.SymbolFontFamily;
 						section.Icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
-						break;
 					}
+					break;
+
 				case SectionType.Favorites:
 					{
 						if (ShowFavoritesSection == false)
-						{
 							break;
-						}
 
 						section = BuildSection("SidebarFavorites".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						section.Font = App.AppModel.SymbolFontFamily;
 						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.FavoritesIcon));
-						break;
 					}
+					break;
+
 				case SectionType.Library:
 					{
 						if (ShowLibrarySection == false)
-						{
 							break;
-						}
+
 						section = BuildSection("SidebarLibraries".GetLocalizedResource(), sectionType, new ContextMenuOptions { IsLibrariesHeader = true, ShowHideSection = true }, false);
 						iconIdex = Constants.ImageRes.Libraries;
-						break;
 					}
+					break;
+
 				case SectionType.Drives:
 					{
 						if (ShowDrivesSection == false)
-						{
 							break;
-						}
+
 						section = BuildSection("Drives".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						iconIdex = Constants.ImageRes.ThisPC;
-						break;
 					}
+					break;
+
 				case SectionType.CloudDrives:
 					{
 						if (ShowCloudDrivesSection == false || App.CloudDrivesManager.Drives.Any() == false)
-						{
 							break;
-						}
+
 						section = BuildSection("SidebarCloudDrives".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.CloudDriveIcon));
-						break;
 					}
+					break;
+
 				case SectionType.Network:
 					{
 						if (!ShowNetworkDrivesSection)
-						{
 							break;
-						}
+
 						section = BuildSection("SidebarNetworkDrives".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						iconIdex = Constants.ImageRes.NetworkDrives;
-						break;
 					}
+					break;
+
 				case SectionType.WSL:
 					{
 						if (ShowWslSection == false || App.WSLDistroManager.Distros.Any() == false)
-						{
 							break;
-						}
+
 						section = BuildSection("WSL".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						icon = new BitmapImage(new Uri(Constants.WslIconsPaths.GenericIcon));
-						break;
-					}
-				case SectionType.FileTag:
+                    }
+                    break;
+
+                case SectionType.FileTag:
 					{
 						if (!ShowFileTagsSection)
 						{
@@ -457,16 +466,14 @@ namespace Files.App.ViewModels
 						}
 						section = BuildSection("FileTags".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.FileTagsIcon));
-						break;
-					}
-			}
+                    }
+                    break;
+            }
 
-			if (section is not null)
+            if (section is not null)
 			{
 				if (icon is not null)
-				{
 					section.Icon = icon;
-				}
 
 				AddSectionToSideBar(section);
 
@@ -514,6 +521,7 @@ namespace Files.App.ViewModels
 					SectionType.Favorites => App.SidebarPinnedController.Model.AddAllItemsToSidebar,
 					_ => () => Task.CompletedTask
 				};
+
 				Manager_DataChanged(sectionType, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 				await action();
 			}
@@ -538,30 +546,37 @@ namespace Files.App.ViewModels
 						OnPropertyChanged(nameof(IsSidebarOpen));
 					}
 					break;
+
 				case nameof(UserSettingsService.AppearanceSettingsService.ShowFavoritesSection):
 					UpdateSectionVisibility(SectionType.Favorites, ShowFavoritesSection);
 					OnPropertyChanged(nameof(ShowFavoritesSection));
 					break;
+
 				case nameof(UserSettingsService.AppearanceSettingsService.ShowLibrarySection):
 					UpdateSectionVisibility(SectionType.Library, ShowLibrarySection);
 					OnPropertyChanged(nameof(ShowLibrarySection));
 					break;
+
 				case nameof(UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection):
 					UpdateSectionVisibility(SectionType.CloudDrives, ShowCloudDrivesSection);
 					OnPropertyChanged(nameof(ShowCloudDrivesSection));
 					break;
+
 				case nameof(UserSettingsService.AppearanceSettingsService.ShowDrivesSection):
 					UpdateSectionVisibility(SectionType.Drives, ShowDrivesSection);
 					OnPropertyChanged(nameof(ShowDrivesSection));
 					break;
+
 				case nameof(UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection):
 					UpdateSectionVisibility(SectionType.Network, ShowNetworkDrivesSection);
 					OnPropertyChanged(nameof(ShowNetworkDrivesSection));
 					break;
+
 				case nameof(UserSettingsService.AppearanceSettingsService.ShowWslSection):
 					UpdateSectionVisibility(SectionType.WSL, ShowWslSection);
 					OnPropertyChanged(nameof(ShowWslSection));
 					break;
+
 				case nameof(UserSettingsService.AppearanceSettingsService.ShowFileTagsSection):
 					UpdateSectionVisibility(SectionType.FileTag, ShowFileTagsSection);
 					OnPropertyChanged(nameof(ShowFileTagsSection));
@@ -598,7 +613,6 @@ namespace Files.App.ViewModels
 		}
 
 		private GridLength tabControlMargin;
-
 		public GridLength TabControlMargin
 		{
 			get => tabControlMargin;

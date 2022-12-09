@@ -19,11 +19,14 @@ namespace Files.App.ViewModels
 {
 	public class FolderSettingsViewModel : ObservableObject
 	{
-		public static string LayoutSettingsDbPath => IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, "user_settings.db");
+		public static string LayoutSettingsDbPath
+			=> IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, "user_settings.db");
 
-		private static readonly Lazy<LayoutPrefsDb> dbInstance = new(() => new LayoutPrefsDb(LayoutSettingsDbPath, true));
+		private static readonly Lazy<LayoutPrefsDb> dbInstance
+			= new(() => new LayoutPrefsDb(LayoutSettingsDbPath, true));
 
-		public static LayoutPrefsDb GetDbInstance() => dbInstance.Value;
+		public static LayoutPrefsDb GetDbInstance()
+			=> dbInstance.Value;
 
 		public event EventHandler<LayoutPreferenceEventArgs>? LayoutPreferencesUpdateRequired;
 
@@ -44,12 +47,14 @@ namespace Files.App.ViewModels
 
 			ChangeGroupOptionCommand = new RelayCommand<GroupOption>(ChangeGroupOption);
 		}
+
 		public FolderSettingsViewModel(FolderLayoutModes modeOverride) : this()
 			=> (rootLayoutMode, LayoutPreference.IsAdaptiveLayoutOverridden) = (modeOverride, true);
 
 		private readonly FolderLayoutModes? rootLayoutMode;
 
-		public bool IsLayoutModeFixed => rootLayoutMode is not null;
+		public bool IsLayoutModeFixed
+			=> rootLayoutMode is not null;
 
 		public bool IsAdaptiveLayoutEnabled
 		{
@@ -91,7 +96,6 @@ namespace Files.App.ViewModels
 		}
 
 		private bool isLayoutModeChanging;
-
 		public bool IsLayoutModeChanging
 		{
 			get => isLayoutModeChanging;
@@ -395,6 +399,7 @@ namespace Files.App.ViewModels
 				if (LayoutPreferences.DefaultLayoutPreferences.Equals(prefs))
 					return; // Do not create setting if it's default
 			}
+
 			dbInstance.SetPreferences(folderPath, frn, prefs);
 		}
 
@@ -506,6 +511,7 @@ namespace Files.App.ViewModels
 				case nameof(UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles):
 					SortDirectoriesAlongsideFiles = prefs.SortDirectoriesAlongsideFiles;
 					break;
+
 				case nameof(UserSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences):
 					LayoutPreference = prefs;
 					// TODO: update layout

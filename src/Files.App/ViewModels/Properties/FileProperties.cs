@@ -23,8 +23,12 @@ namespace Files.App.ViewModels.Properties
 	{
 		public ListedItem Item { get; }
 
-		public FileProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource,
-			DispatcherQueue coreDispatcher, ListedItem item, IShellPage instance)
+		public FileProperties(
+			SelectedItemsPropertiesViewModel viewModel,
+			CancellationTokenSource tokenSource,
+			DispatcherQueue coreDispatcher,
+			ListedItem item,
+			IShellPage instance)
 		{
 			ViewModel = viewModel;
 			TokenSource = tokenSource;
@@ -84,7 +88,8 @@ namespace Files.App.ViewModels.Properties
 					await App.Window.DispatcherQueue.EnqueueAsync(
 						() => NavigationHelpers.OpenPathInNewTab(Path.GetDirectoryName(ViewModel.ShortcutItemPath)));
 				}
-			}, () =>
+			},
+			() =>
 			{
 				return !string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath);
 			});
@@ -156,8 +161,10 @@ namespace Files.App.ViewModels.Properties
 
 			var list = await FileProperty.RetrieveAndInitializePropertiesAsync(file);
 
-			list.Find(x => x.ID == "address").Value = await GetAddressFromCoordinatesAsync((double?)list.Find(x => x.Property == "System.GPS.LatitudeDecimal").Value,
-																						   (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
+			list.Find(x => x.ID == "address").Value =
+				await GetAddressFromCoordinatesAsync(
+					(double?)list.Find(x => x.Property == "System.GPS.LatitudeDecimal").Value,
+					(double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
 
 			var query = list
 				.Where(fileProp => !(fileProp.Value is null && fileProp.IsReadOnly))
@@ -165,6 +172,7 @@ namespace Files.App.ViewModels.Properties
 				.Select(group => new FilePropertySection(group) { Key = group.Key })
 				.Where(section => !section.All(fileProp => fileProp.Value is null))
 				.OrderBy(group => group.Priority);
+
 			ViewModel.PropertySections = new ObservableCollection<FilePropertySection>(query);
 			ViewModel.FileProperties = new ObservableCollection<FileProperty>(list.Where(i => i.Value is not null));
 		}
@@ -320,9 +328,9 @@ namespace Files.App.ViewModels.Properties
 					if (string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath))
 						return;
 
-                    await FileOperationsHelpers.CreateOrUpdateLinkAsync(Item.ItemPath, ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, ViewModel.ShortcutItemWorkingDir, tmpItem.RunAsAdmin);
-                    break;
-            }
-        }
-    }
+					await FileOperationsHelpers.CreateOrUpdateLinkAsync(Item.ItemPath, ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, ViewModel.ShortcutItemWorkingDir, tmpItem.RunAsAdmin);
+					break;
+			}
+		}
+	}
 }

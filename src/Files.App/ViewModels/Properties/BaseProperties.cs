@@ -20,6 +20,7 @@ namespace Files.App.ViewModels.Properties
 		protected static readonly IDateTimeFormatter dateTimeFormatter = Ioc.Default.GetService<IDateTimeFormatter>();
 
 		public IShellPage AppInstance { get; set; } = null;
+
 		public SelectedItemsPropertiesViewModel ViewModel { get; set; }
 
 		public CancellationTokenSource TokenSource { get; set; }
@@ -54,8 +55,13 @@ namespace Files.App.ViewModels.Properties
 			FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
 			int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
 
-			IntPtr hFile = FindFirstFileExFromApp(path + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
-												  additionalFlags);
+			IntPtr hFile = FindFirstFileExFromApp(
+				path + "\\*.*",
+				findInfoLevel,
+				out WIN32_FIND_DATA findData,
+				FINDEX_SEARCH_OPS.FindExSearchNameMatch,
+				IntPtr.Zero,
+				additionalFlags);
 
 			var count = 0;
 			if (hFile.ToInt64() != -1)
@@ -94,8 +100,11 @@ namespace Files.App.ViewModels.Properties
 					{
 						break;
 					}
-				} while (FindNextFile(hFile, out findData));
+				}
+				while (FindNextFile(hFile, out findData));
+
 				FindClose(hFile);
+
 				return size;
 			}
 			else

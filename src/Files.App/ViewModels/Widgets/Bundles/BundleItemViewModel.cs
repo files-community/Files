@@ -19,17 +19,14 @@ namespace Files.App.ViewModels.Widgets.Bundles
 	public class BundleItemViewModel : ObservableObject, IDisposable
 	{
 		#region Actions
-
 		public Action<string, FilesystemItemType, bool, bool, IEnumerable<string>> OpenPath { get; set; }
 
 		public Action<string> OpenPathInNewPane { get; set; }
 
 		public Action<BundleItemViewModel> NotifyItemRemoved { get; set; }
-
 		#endregion Actions
 
 		#region Properties
-
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		private IBundlesSettingsService BundlesSettingsService { get; } = Ioc.Default.GetRequiredService<IBundlesSettingsService>();
@@ -74,7 +71,6 @@ namespace Files.App.ViewModels.Widgets.Bundles
 		public FilesystemItemType TargetType { get; set; } = FilesystemItemType.File;
 
 		private ImageSource icon;
-
 		public ImageSource Icon
 		{
 			get => icon;
@@ -97,11 +93,9 @@ namespace Files.App.ViewModels.Widgets.Bundles
 		{
 			get => UserSettingsService.MultitaskingSettingsService.IsDualPaneEnabled && TargetType == FilesystemItemType.Directory;
 		}
-
 		#endregion Properties
 
 		#region Commands
-
 		public ICommand OpenInNewTabCommand { get; private set; }
 
 		public ICommand OpenInNewPaneCommand { get; private set; }
@@ -109,11 +103,9 @@ namespace Files.App.ViewModels.Widgets.Bundles
 		public ICommand OpenItemLocationCommand { get; private set; }
 
 		public ICommand RemoveItemCommand { get; private set; }
-
 		#endregion Commands
 
 		#region Constructor
-
 		public BundleItemViewModel(string path, FilesystemItemType targetType)
 		{
 			this.Path = path;
@@ -125,11 +117,9 @@ namespace Files.App.ViewModels.Widgets.Bundles
 			OpenItemLocationCommand = new RelayCommand(OpenItemLocation);
 			RemoveItemCommand = new RelayCommand(RemoveItem);
 		}
-
 		#endregion Constructor
 
 		#region Command Implementation
-
 		private async void OpenInNewTab()
 		{
 			await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), Path);
@@ -144,18 +134,18 @@ namespace Files.App.ViewModels.Widgets.Bundles
 		{
 			OpenPath(System.IO.Path.GetDirectoryName(Path), FilesystemItemType.Directory, false, false, System.IO.Path.GetFileName(Path).CreateEnumerable());
 		}
-
 		#endregion Command Implementation
 
 		#region Public Helpers
-
 		public async Task UpdateIcon()
 		{
-			if (TargetType == FilesystemItemType.Directory) // OpenDirectory
+			// OpenDirectory
+			if (TargetType == FilesystemItemType.Directory)
 			{
 				Icon = FolderIcon;
 			}
-			else // NotADirectory
+			// Not a directory
+			else
 			{
 				var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(Path, 24u, ThumbnailMode.ListView);
 				if (iconData is not null)
@@ -181,11 +171,9 @@ namespace Files.App.ViewModels.Widgets.Bundles
 				NotifyItemRemoved(this);
 			}
 		}
-
 		#endregion Public Helpers
 
 		#region IDisposable
-
 		public void Dispose()
 		{
 			Icon = null;
@@ -193,7 +181,6 @@ namespace Files.App.ViewModels.Widgets.Bundles
 			OpenPath = null;
 			OpenPathInNewPane = null;
 		}
-
 		#endregion IDisposable
 	}
 }

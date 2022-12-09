@@ -29,7 +29,9 @@ namespace Files.App.ViewModels.Previews
 			private set => SetProperty(ref codeLanguage, value);
 		}
 
-		public CodePreviewViewModel(ListedItem item) : base(item) { }
+		public CodePreviewViewModel(ListedItem item) : base(item)
+		{
+		}
 
 		public static bool ContainsExtension(string extension)
 			=> extensions.Value.ContainsKey(extension);
@@ -84,6 +86,7 @@ namespace Files.App.ViewModels.Previews
 					dictionary.Add(extension, item.Key);
 				}
 			}
+
 			return new ReadOnlyDictionary<string, ILanguage>(dictionary);
 		}
 	}

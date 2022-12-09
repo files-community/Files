@@ -14,6 +14,7 @@ namespace Files.App.ViewModels.Previews
 		public async override Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
 		{
 			var item = Item as ShortcutItem;
+
 			var details = new List<FileProperty>
 			{
 				GetFileProperty("PropertyItemPathDisplay", item.ItemPath),
@@ -22,13 +23,16 @@ namespace Files.App.ViewModels.Previews
 				GetFileProperty("PropertyItemTarget", item.TargetPath),
 				GetFileProperty("Arguments", item.Arguments),
 			};
+
 			await LoadItemThumbnail();
+
 			return details;
 		}
 
 		public override async Task LoadAsync()
 		{
 			var details = await LoadPreviewAndDetailsAsync();
+
 			Item.FileDetails?.Clear();
 			Item.FileDetails = new(details.OfType<FileProperty>());
 		}

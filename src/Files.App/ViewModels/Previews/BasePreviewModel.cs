@@ -37,7 +37,8 @@ namespace Files.App.ViewModels.Previews
 		/// </summary>
 		public CancellationTokenSource LoadCancelledTokenSource { get; } = new CancellationTokenSource();
 
-		public BasePreviewModel(ListedItem item) : base() => Item = item;
+		public BasePreviewModel(ListedItem item) : base()
+			=> Item = item;
 
 		public delegate void LoadedEventHandler(object sender, EventArgs e);
 
@@ -63,6 +64,7 @@ namespace Files.App.ViewModels.Previews
 				var rootItem = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(Item.ItemPath));
 				Item.ItemFile = await StorageFileExtensions.DangerousGetFileFromPathAsync(Item.ItemPath, rootItem);
 			}
+
 			await Task.Run(async () =>
 			{
 				DetailsFromPreview = await LoadPreviewAndDetailsAsync();
@@ -124,8 +126,7 @@ namespace Files.App.ViewModels.Previews
 
 			list.Find(x => x.ID is "address").Value = await FileProperties.GetAddressFromCoordinatesAsync(
 				(double?)list.Find(x => x.Property is "System.GPS.LatitudeDecimal").Value,
-				(double?)list.Find(x => x.Property is "System.GPS.LongitudeDecimal").Value
-			);
+				(double?)list.Find(x => x.Property is "System.GPS.LongitudeDecimal").Value);
 
 			// adds the value for the file tag
 			list.FirstOrDefault(x => x.ID is "filetag").Value =
@@ -136,9 +137,12 @@ namespace Files.App.ViewModels.Previews
 
 		private class DetailsOnlyPreviewModel : BasePreviewModel
 		{
-			public DetailsOnlyPreviewModel(ListedItem item) : base(item) { }
+			public DetailsOnlyPreviewModel(ListedItem item) : base(item)
+			{
+			}
 
-			public override Task<List<FileProperty>> LoadPreviewAndDetailsAsync() => Task.FromResult(DetailsFromPreview);
+			public override Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
+				=> Task.FromResult(DetailsFromPreview);
 		}
 	}
 }

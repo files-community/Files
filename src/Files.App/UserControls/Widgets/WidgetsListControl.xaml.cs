@@ -24,3 +24,4 @@ namespace Files.App.UserControls.Widgets
 			ViewModel?.Dispose();
 		}
 	}
+}

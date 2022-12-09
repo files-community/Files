@@ -20,7 +20,8 @@ namespace Files.App.ViewModels
 
 		private PaneContents content = PaneContents.None;
 
-		public bool HasContent => content is not PaneContents.None;
+		public bool HasContent
+			=> content is not PaneContents.None;
 
 		public bool IsPreviewSelected
 		{

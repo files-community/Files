@@ -23,12 +23,15 @@ namespace Files.App.ViewModels
 		public bool WasQuerySubmitted { get; set; } = false;
 
 		public event TypedEventHandler<ISearchBox, SearchBoxTextChangedEventArgs>? TextChanged;
+
 		public event TypedEventHandler<ISearchBox, SearchBoxQuerySubmittedEventArgs>? QuerySubmitted;
+
 		public event EventHandler<ISearchBox>? Escaped;
 
 		private readonly SuggestionComparer suggestionComparer = new SuggestionComparer();
 
 		public ObservableCollection<SuggestionModel> Suggestions { get; } = new ObservableCollection<SuggestionModel>();
+
 		private readonly List<SuggestionModel> oldQueries = new List<SuggestionModel>();
 
 		public void ClearSuggestions()
@@ -52,6 +55,7 @@ namespace Files.App.ViewModels
 			foreach (var newSuggestion in newSuggestions)
 			{
 				var indexSuggestion = Suggestions.FirstOrDefault(suggestion => suggestionComparer.Compare(suggestion, newSuggestion) < 1);
+
 				if (!(indexSuggestion is null))
 				{
 					int index = Suggestions.IndexOf(indexSuggestion);
@@ -75,6 +79,7 @@ namespace Files.App.ViewModels
 				return;
 
 			WasQuerySubmitted = true;
+
 			if (e.ChosenSuggestion is SuggestionModel chosen && chosen.ItemPath is null)
 			{
 				Query = chosen.Name;

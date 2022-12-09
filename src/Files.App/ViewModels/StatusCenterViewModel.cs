@@ -20,8 +20,7 @@ namespace Files.App.ViewModels
 	public class OngoingTasksViewModel : ObservableObject, IOngoingTasksActions
 	{
 		#region Public Properties
-
-		public ObservableCollection<StatusBanner> StatusBannersSource { get; private set; } = new ObservableCollection<StatusBanner>();
+		public ObservableCollection<StatusBanner> StatusBannersSource { get; private set; } = new();
 
 		private float medianOperationProgressValue = 0.0f;
 
@@ -72,10 +71,10 @@ namespace Files.App.ViewModels
 
 				return (anyFailure, AnyOperationsOngoing) switch
 				{
-					(false, false) => 0, // all success
-					(false, true) => 1, // ongoing
-					(true, true) => 2, // onging with failure
-					(true, false) => 3 // completed with failure
+					(false, false) => 0, // All success
+					(false, true) => 1,  // Ongoing
+					(true, true) => 2,   // Onging with failure
+					(true, false) => 3   // Completed with failure
 				};
 			}
 		}
@@ -84,24 +83,22 @@ namespace Files.App.ViewModels
 		{
 			get => OngoingOperationsCount > 0 ? OngoingOperationsCount : -1;
 		}
-
 		#endregion Public Properties
 
 		#region Events
-
 		public event EventHandler<PostedStatusBanner> ProgressBannerPosted;
-
 		#endregion Events
 
 		#region IOngoingTasksActions
-
 		public PostedStatusBanner PostBanner(string title, string message, float initialProgress, ReturnResult status, FileOperationType operation)
 		{
 			StatusBanner banner = new StatusBanner(message, title, initialProgress, status, operation);
 			PostedStatusBanner postedBanner = new PostedStatusBanner(banner, this);
 			StatusBannersSource.Insert(0, banner);
+
 			ProgressBannerPosted?.Invoke(this, postedBanner);
 			UpdateBanner(banner);
+
 			return postedBanner;
 		}
 
@@ -111,20 +108,26 @@ namespace Files.App.ViewModels
 			{
 				CancellationTokenSource = cancellationTokenSource,
 			};
+
 			PostedStatusBanner postedBanner = new PostedStatusBanner(banner, this, cancellationTokenSource);
 			StatusBannersSource.Insert(0, banner);
+
 			ProgressBannerPosted?.Invoke(this, postedBanner);
 			UpdateBanner(banner);
+
 			return postedBanner;
 		}
 
 		public PostedStatusBanner PostActionBanner(string title, string message, string primaryButtonText, string cancelButtonText, Action primaryAction)
 		{
 			StatusBanner banner = new StatusBanner(message, title, primaryButtonText, cancelButtonText, primaryAction);
+
 			PostedStatusBanner postedBanner = new PostedStatusBanner(banner, this);
 			StatusBannersSource.Insert(0, banner);
+
 			ProgressBannerPosted?.Invoke(this, postedBanner);
 			UpdateBanner(banner);
+
 			return postedBanner;
 		}
 
@@ -137,6 +140,7 @@ namespace Files.App.ViewModels
 
 			StatusBannersSource.Remove(banner);
 			UpdateBanner(banner);
+
 			return true;
 		}
 
@@ -155,34 +159,28 @@ namespace Files.App.ViewModels
 				MedianOperationProgressValue = StatusBannersSource.Where((item) => item.IsProgressing).Average(x => x.Progress);
 			}
 		}
-
 		#endregion IOngoingTasksActions
 	}
 
 	public class PostedStatusBanner
 	{
 		#region Private Members
-
 		private readonly IOngoingTasksActions OngoingTasksActions;
 
 		private readonly StatusBanner Banner;
 
 		private readonly CancellationTokenSource cancellationTokenSource;
-
 		#endregion Private Members
 
 		#region Public Members
-
 		public readonly Progress<float> Progress;
 
 		public readonly Progress<FileSystemStatusCode> ErrorCode;
 
 		public CancellationToken CancellationToken => cancellationTokenSource?.Token ?? default;
-
 		#endregion Public Members
 
 		#region Constructor
-
 		public PostedStatusBanner(StatusBanner banner, IOngoingTasksActions OngoingTasksActions)
 		{
 			this.Banner = banner;
@@ -201,29 +199,28 @@ namespace Files.App.ViewModels
 			this.Progress = new Progress<float>(ReportProgressToBanner);
 			this.ErrorCode = new Progress<FileSystemStatusCode>((errorCode) => ReportProgressToBanner(errorCode.ToStatus()));
 		}
-
 		#endregion Constructor
 
 		#region Private Helpers
-
 		private void ReportProgressToBanner(float value)
 		{
-			if (CancellationToken.IsCancellationRequested) // file operation has been cancelled, so don't update the progress text
-			{
+			// File operation has been cancelled, so don't update the progress text
+			if (CancellationToken.IsCancellationRequested)
 				return;
-			}
 
 			if (value <= 100.0f)
 			{
 				Banner.IsProgressing = value < 100.0f;
 				Banner.Progress = value;
 				Banner.FullTitle = $"{Banner.Title} ({value:0.00}%)";
+
 				OngoingTasksActions.UpdateBanner(Banner);
 				OngoingTasksActions.UpdateMedianProgress();
 			}
 			else
 			{
-				Debugger.Break(); // Argument out of range :(
+				// Argument out of range
+				Debugger.Break();
 			}
 		}
 
@@ -232,11 +229,9 @@ namespace Files.App.ViewModels
 			Banner.Status = value;
 			OngoingTasksActions.UpdateBanner(Banner);
 		}
-
 		#endregion Private Helpers
 
 		#region Public Helpers
-
 		public void Remove()
 		{
 			OngoingTasksActions.CloseBanner(Banner);
@@ -246,57 +241,37 @@ namespace Files.App.ViewModels
 		{
 			cancellationTokenSource?.Cancel();
 		}
-
 		#endregion Public Helpers
 	}
 
 	public class StatusBanner : ObservableObject
 	{
 		#region Private Members
-
 		private readonly float initialProgress = 0.0f;
-
-		private string fullTitle;
-
-		private bool isCancelled;
-
 		#endregion Private Members
 
 		#region Public Properties
-
 		private float progress = 0.0f;
-
 		public float Progress
 		{
 			get => progress;
-			set
-			{
-				SetProperty(ref progress, value);
-			}
+			set => SetProperty(ref progress, value);
 		}
 
 		private bool isProgressing = false;
-
 		public bool IsProgressing
 		{
 			get => isProgressing;
-			set
-			{
-				SetProperty(ref isProgressing, value);
-			}
+			set => SetProperty(ref isProgressing, value);
 		}
 
 		public string Title { get; private set; }
 
 		private ReturnResult status = ReturnResult.InProgress;
-
 		public ReturnResult Status
 		{
 			get => status;
-			set
-			{
-				SetProperty(ref status, value);
-			}
+			set => SetProperty(ref status, value);
 		}
 
 		public FileOperationType Operation { get; private set; }
@@ -317,22 +292,24 @@ namespace Files.App.ViewModels
 
 		public bool SolutionButtonsVisible { get; } = false;
 
-		public bool CancelButtonVisible => CancellationTokenSource is not null;
+		public bool CancelButtonVisible
+			=> CancellationTokenSource is not null;
 
 		public CancellationTokenSource CancellationTokenSource { get; set; }
 
-		public string FullTitle
+        private string fullTitle;
+        public string FullTitle
 		{
 			get => fullTitle;
 			set => SetProperty(ref fullTitle, value ?? string.Empty);
 		}
 
-		public bool IsCancelled
+        private bool isCancelled;
+        public bool IsCancelled
 		{
 			get => isCancelled;
 			set => SetProperty(ref isCancelled, value);
 		}
-
 		#endregion Public Properties
 
 		public StatusBanner(string message, string title, float progress, ReturnResult status, FileOperationType operation)
@@ -420,7 +397,7 @@ namespace Files.App.ViewModels
 						StrokeColor = new SolidColorBrush(Colors.Green);
 						GlyphSource = new FontIconSource()
 						{
-							Glyph = "\xE73E"    // CheckMark glyph
+							Glyph = "\xE73E" // CheckMark glyph
 						};
 					}
 					break;
@@ -439,7 +416,7 @@ namespace Files.App.ViewModels
 						StrokeColor = new SolidColorBrush(Colors.Red);
 						GlyphSource = new FontIconSource()
 						{
-							Glyph = "\xE783"    // Error glyph
+							Glyph = "\xE783" // Error glyph
 						};
 					}
 					break;

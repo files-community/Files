@@ -16,15 +16,21 @@ namespace Files.App.ViewModels.Properties
 	{
 		public List<ListedItem> List { get; }
 
-		public CombinedProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource,
-			DispatcherQueue coreDispatcher, List<ListedItem> listedItems, IShellPage instance)
+		public CombinedProperties(
+			SelectedItemsPropertiesViewModel viewModel,
+			CancellationTokenSource tokenSource,
+			DispatcherQueue coreDispatcher,
+			List<ListedItem> listedItems,
+			IShellPage instance)
 		{
 			ViewModel = viewModel;
 			TokenSource = tokenSource;
 			Dispatcher = coreDispatcher;
 			List = listedItems;
 			AppInstance = instance;
+
 			GetBaseProperties();
+
 			ViewModel.PropertyChanged += ViewModel_PropertyChanged;
 		}
 
@@ -41,8 +47,10 @@ namespace Files.App.ViewModels.Properties
 				{
 					ViewModel.ItemType = "PropertiesDriveItemTypeDifferent".GetLocalizedResource();
 				}
+
 				var itemsPath = List.Select(Item => (Item as RecycleBinItem)?.ItemOriginalFolder ??
 					(Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath));
+
 				if (itemsPath.Distinct().Count() == 1)
 				{
 					ViewModel.ItemPath = string.Format("PropertiesCombinedItemPath".GetLocalizedResource(), itemsPath.First());
@@ -56,6 +64,7 @@ namespace Files.App.ViewModels.Properties
 			{
 				ViewModel.IsReadOnly = List.All(x => NativeFileOperationsHelper.HasFileAttribute(x.ItemPath, System.IO.FileAttributes.ReadOnly));
 			}
+
 			ViewModel.IsHidden = List.All(x => NativeFileOperationsHelper.HasFileAttribute(x.ItemPath, System.IO.FileAttributes.Hidden));
 
 			ViewModel.LastSeparatorVisibility = false;
@@ -78,6 +87,7 @@ namespace Files.App.ViewModels.Properties
 						var size = await CalculateFolderSizeAsync(item.ItemPath, TokenSource.Token);
 						return size;
 					});
+
 					try
 					{
 						foldersSize += await fileSizeTask;
@@ -88,10 +98,12 @@ namespace Files.App.ViewModels.Properties
 					}
 				}
 			}
+
 			ViewModel.ItemSizeProgressVisibility = false;
 
 			totalSize = filesSize + foldersSize;
 			ViewModel.ItemSize = totalSize.ToLongSizeString();
+
 			SetItemsCountString();
 		}
 

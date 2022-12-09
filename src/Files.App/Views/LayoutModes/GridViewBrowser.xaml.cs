@@ -26,17 +26,18 @@ namespace Files.App.Views.LayoutModes
 	{
 		private uint currentIconSize;
 
-		protected override uint IconSize => currentIconSize;
+		protected override uint IconSize
+			=> currentIconSize;
 
-		protected override ItemsControl ItemsControl => FileList;
+		protected override ItemsControl ItemsControl
+			=> FileList;
 
 		/// <summary>
 		/// The minimum item width for items. Used in the StretchedGridViewItems behavior.
 		/// </summary>
 		public int GridViewItemMinWidth => FolderSettings.LayoutMode == FolderLayoutModes.TilesView ? Constants.Browser.GridViewBrowser.TilesView : FolderSettings.GridViewSize;
 
-		public GridViewBrowser()
-			: base()
+		public GridViewBrowser() : base()
 		{
 			InitializeComponent();
 			this.DataContext = this;
@@ -48,6 +49,7 @@ namespace Files.App.Views.LayoutModes
 		protected override void HookEvents()
 		{
 			UnhookEvents();
+
 			ItemManipulationModel.FocusFileListInvoked += ItemManipulationModel_FocusFileListInvoked;
 			ItemManipulationModel.SelectAllItemsInvoked += ItemManipulationModel_SelectAllItemsInvoked;
 			ItemManipulationModel.ClearSelectionInvoked += ItemManipulationModel_ClearSelectionInvoked;
@@ -178,9 +180,13 @@ namespace Files.App.Views.LayoutModes
 			FolderSettings.GroupOptionPreferenceUpdated += ZoomIn;
 			FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
 			FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
-			SetItemTemplate(); // Set ItemTemplate
+
+			// Set ItemTemplate
+			SetItemTemplate();
+
 			FileList.ItemsSource ??= ParentShellPageInstance.FilesystemViewModel.FilesAndFolders;
 			var parameters = (NavigationArguments)eventArgs.Parameter;
+
 			if (parameters.IsLayoutSwitch)
 				ReloadItemIcons();
 		}
@@ -288,6 +294,7 @@ namespace Files.App.Views.LayoutModes
 			int selectedTextLength = SelectedItem.Name.Length;
 			if (!SelectedItem.IsShortcut && UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
 				selectedTextLength -= extensionLength;
+
 			textBox.Select(0, selectedTextLength);
 			IsRenamingItem = true;
 		}
@@ -311,14 +318,18 @@ namespace Files.App.Views.LayoutModes
 				TextBox textBox = (TextBox)sender;
 				textBox.LostFocus -= RenameTextBox_LostFocus;
 				textBox.Text = OldItemName;
+
 				EndRename(textBox);
+
 				e.Handled = true;
 			}
 			else if (e.Key == VirtualKey.Enter)
 			{
 				TextBox textBox = (TextBox)sender;
 				textBox.LostFocus -= RenameTextBox_LostFocus;
+
 				CommitRename(textBox);
+
 				e.Handled = true;
 			}
 		}
@@ -394,11 +405,13 @@ namespace Files.App.Views.LayoutModes
 				{
 					_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
 				}
+
 				e.Handled = true;
 			}
 			else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
 			{
 				FilePropertiesHelpers.ShowProperties(ParentShellPageInstance);
+
 				e.Handled = true;
 			}
 			else if (e.Key == VirtualKey.Space)
@@ -406,6 +419,7 @@ namespace Files.App.Views.LayoutModes
 				if (!IsRenamingItem && !isFooterFocused && !ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
 				{
 					e.Handled = true;
+
 					await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
 				}
 			}
@@ -426,6 +440,7 @@ namespace Files.App.Views.LayoutModes
 					return;
 
 				FileList.SelectedIndex = 0;
+
 				e.Handled = true;
 			}
 		}
@@ -439,11 +454,11 @@ namespace Files.App.Views.LayoutModes
 			{
 				// Don't block the various uses of enter key (key 13)
 				var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement();
-				if (InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Enter) == CoreVirtualKeyStates.Down
-					|| focusedElement is Button
-					|| focusedElement is TextBox
-					|| focusedElement is PasswordBox
-					|| DependencyObjectHelpers.FindParent<ContentDialog>(focusedElement) is not null)
+				if (InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Enter) == CoreVirtualKeyStates.Down ||
+					focusedElement is Button ||
+					focusedElement is TextBox ||
+					focusedElement is PasswordBox ||
+					DependencyObjectHelpers.FindParent<ContentDialog>(focusedElement) is not null)
 				{
 					return;
 				}
@@ -458,12 +473,15 @@ namespace Files.App.Views.LayoutModes
 		private void FolderSettings_GridViewSizeChangeRequested(object? sender, EventArgs e)
 		{
 			SetItemMinWidth();
-			var requestedIconSize = FolderSettings.GetIconSize(); // Get new icon size
+
+			// Get new icon size
+			var requestedIconSize = FolderSettings.GetIconSize();
 
 			// Prevents reloading icons when the icon size hasn't changed
 			if (requestedIconSize != currentIconSize)
 			{
-				currentIconSize = requestedIconSize; // Update icon size before refreshing
+				// Update icon size before refreshing
+				currentIconSize = requestedIconSize;
 				ReloadItemIcons();
 			}
 		}
@@ -513,8 +531,7 @@ namespace Files.App.Views.LayoutModes
 				return;
 
 			// Check if the setting to open items with a single click is turned on
-			if (item is not null
-				&& UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
+			if (item is not null && UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 			{
 				ResetRenameDoubleClick();
 				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
@@ -549,8 +566,8 @@ namespace Files.App.Views.LayoutModes
 		private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
 			// Skip opening selected items if the double tap doesn't capture an item
-			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item
-				 && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
+			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item &&
+				!UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 			{
 				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
 			}
@@ -562,14 +579,13 @@ namespace Files.App.Views.LayoutModes
 		}
 
 		#region IDisposable
-
 		public override void Dispose()
 		{
 			base.Dispose();
+
 			UnhookEvents();
 			CommandsViewModel?.Dispose();
 		}
-
 		#endregion IDisposable
 
 		private void Grid_Loaded(object sender, RoutedEventArgs e)
@@ -577,8 +593,10 @@ namespace Files.App.Views.LayoutModes
 			// This is the best way I could find to set the context flyout, as doing it in the styles isn't possible
 			// because you can't use bindings in the setters
 			DependencyObject item = VisualTreeHelper.GetParent(sender as Grid);
+
 			while (item is not GridViewItem)
 				item = VisualTreeHelper.GetParent(item);
+
 			if (item is GridViewItem itemContainer)
 				itemContainer.ContextFlyout = ItemContextMenuFlyout;
 		}

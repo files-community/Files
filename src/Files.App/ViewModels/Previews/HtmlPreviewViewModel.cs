@@ -14,7 +14,9 @@ namespace Files.App.ViewModels.Previews
 			private set => SetProperty(ref textValue, value);
 		}
 
-		public HtmlPreviewViewModel(ListedItem item) : base(item) { }
+		public HtmlPreviewViewModel(ListedItem item) : base(item)
+		{
+		}
 
 		public static bool ContainsExtension(string extension)
 			=> extension is ".htm" or ".html" or ".svg";

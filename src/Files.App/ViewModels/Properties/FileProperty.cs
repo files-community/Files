@@ -23,7 +23,8 @@ namespace Files.App.ViewModels.Properties
 		/// <summary>
 		/// The name to display
 		/// </summary>
-		public string Name => LocalizedName ?? NameResource.GetLocalizedResource();
+		public string Name
+			=> LocalizedName ?? NameResource.GetLocalizedResource();
 
 		/// <summary>
 		/// The name of the string resource for the property name
@@ -35,7 +36,8 @@ namespace Files.App.ViewModels.Properties
 		/// <summary>
 		/// The name of the section to display
 		/// </summary>
-		public string Section => SectionResource?.GetLocalizedResource();
+		public string Section
+			=> SectionResource?.GetLocalizedResource();
 
 		/// <summary>
 		/// The name of the string resource for the section name
@@ -83,7 +85,8 @@ namespace Files.App.ViewModels.Properties
 		/// <summary>
 		/// The converter used to convert the property to a string, and vice versa if needed
 		/// </summary>
-		public IValueConverter Converter => GetConverter();
+		public IValueConverter Converter
+			=> GetConverter();
 
 		public bool IsReadOnly { get; set; } = true;
 
@@ -135,6 +138,7 @@ namespace Files.App.ViewModels.Properties
 		public void InitializeProperty()
 		{
 			Func<object, string> displayFunction;
+
 			if (!string.IsNullOrEmpty(DisplayFunctionName) && DisplayFuncs.TryGetValue(DisplayFunctionName, out displayFunction))
 			{
 				DisplayFunction = displayFunction;
@@ -155,6 +159,7 @@ namespace Files.App.ViewModels.Properties
 
 			var propsToSave = new Dictionary<string, object>();
 			propsToSave.Add(Property, Converter.ConvertBack(Value, null, null, null));
+
 			return file.Properties.SavePropertiesAsync(propsToSave).AsTask();
 		}
 

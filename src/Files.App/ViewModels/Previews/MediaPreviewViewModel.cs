@@ -31,12 +31,14 @@ namespace Files.App.ViewModels.Previews
 		public override Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
 		{
 			Source = MediaSource.CreateFromStorageFile(Item.ItemFile);
+
 			return Task.FromResult(new List<FileProperty>());
 		}
 
 		public override void PreviewControlBase_Unloaded(object sender, RoutedEventArgs e)
 		{
 			Source = null;
+
 			base.PreviewControlBase_Unloaded(sender, e);
 		}
 	}

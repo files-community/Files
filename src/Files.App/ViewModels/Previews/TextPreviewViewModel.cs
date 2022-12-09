@@ -18,9 +18,12 @@ namespace Files.App.ViewModels.Previews
 			private set => SetProperty(ref textValue, value);
 		}
 
-		public TextPreviewViewModel(ListedItem item) : base(item) { }
+		public TextPreviewViewModel(ListedItem item) : base(item)
+		{
+		}
 
-		public static bool ContainsExtension(string extension) => extension is ".txt";
+		public static bool ContainsExtension(string extension)
+			=> extension is ".txt";
 
 		public async override Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
 		{
@@ -46,7 +49,8 @@ namespace Files.App.ViewModels.Previews
 		public static async Task<TextPreview> TryLoadAsTextAsync(ListedItem item)
 		{
 			string extension = item.FileExtension?.ToLowerInvariant();
-			if (ExcludedExtensions(extension) || item.FileSizeBytes is 0 or > Constants.PreviewPane.TryLoadAsTextSizeLimit)
+			if (ExcludedExtensions(extension) ||
+				item.FileSizeBytes is 0 or > Constants.PreviewPane.TryLoadAsTextSizeLimit)
 				return null;
 
 			try

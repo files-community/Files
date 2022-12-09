@@ -27,7 +27,7 @@ namespace Files.App.ViewModels.Properties
 
 			ViewModel.CustomIconSource = null; //Drive.IconSource;
 			ViewModel.IconData = Drive.IconData;
-			ViewModel.LoadCustomIcon = false; //Drive.IconSource is not null && Drive.IconData is null;
+			ViewModel.LoadCustomIcon = false;  //Drive.IconSource is not null && Drive.IconData is null;
 			ViewModel.LoadFileIcon = Drive.IconData is not null;
 			ViewModel.ItemName = Drive.Text;
 			ViewModel.OriginalItemName = Drive.Text;

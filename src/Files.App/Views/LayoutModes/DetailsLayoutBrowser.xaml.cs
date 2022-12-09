@@ -24,7 +24,6 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
-
 using SortDirection = Files.Shared.Enums.SortDirection;
 
 namespace Files.App.Views.LayoutModes
@@ -37,14 +36,15 @@ namespace Files.App.Views.LayoutModes
 
 		private InputCursor resizeCursor = InputCursor.CreateFromCoreCursor(new CoreCursor(CoreCursorType.SizeWestEast, 1));
 
-		protected override uint IconSize => currentIconSize;
+		protected override uint IconSize
+			=> currentIconSize;
 
-		protected override ItemsControl ItemsControl => FileList;
+		protected override ItemsControl ItemsControl
+			=> FileList;
 
 		public ColumnsViewModel ColumnsViewModel { get; } = new();
 
 		private double maxWidthForRenameTextbox;
-
 		public double MaxWidthForRenameTextbox
 		{
 			get => maxWidthForRenameTextbox;
@@ -53,6 +53,7 @@ namespace Files.App.Views.LayoutModes
 				if (value != maxWidthForRenameTextbox)
 				{
 					maxWidthForRenameTextbox = value;
+
 					NotifyPropertyChanged(nameof(MaxWidthForRenameTextbox));
 				}
 			}
@@ -74,6 +75,7 @@ namespace Files.App.Views.LayoutModes
 		protected override void HookEvents()
 		{
 			UnhookEvents();
+
 			ItemManipulationModel.FocusFileListInvoked += ItemManipulationModel_FocusFileListInvoked;
 			ItemManipulationModel.SelectAllItemsInvoked += ItemManipulationModel_SelectAllItemsInvoked;
 			ItemManipulationModel.ClearSelectionInvoked += ItemManipulationModel_ClearSelectionInvoked;
@@ -88,6 +90,7 @@ namespace Files.App.Views.LayoutModes
 		private void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e)
 		{
 			FileList.ScrollIntoView(e);
+
 			ContentScroller?.ChangeView(null, FileList.Items.IndexOf(e) * Convert.ToInt32(Application.Current.Resources["ListItemHeight"]), null, true); // Scroll to index * item height
 		}
 
@@ -312,19 +315,25 @@ namespace Files.App.Views.LayoutModes
 		override public void StartRenameItem()
 		{
 			RenamingItem = SelectedItem;
+
 			if (RenamingItem is null)
 				return;
+
 			int extensionLength = RenamingItem.FileExtension?.Length ?? 0;
 			ListViewItem? listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
 			TextBox? textBox = null;
+
 			if (listViewItem is null)
 				return;
+
 			TextBlock? textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
 			textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
 			textBox!.Text = textBlock!.Text;
 			OldItemName = textBlock.Text;
+
 			textBlock.Visibility = Visibility.Collapsed;
 			textBox.Visibility = Visibility.Visible;
+
 			Grid.SetColumnSpan(textBox.FindParent<Grid>(), 8);
 
 			textBox.Focus(FocusState.Pointer);
@@ -334,6 +343,7 @@ namespace Files.App.Views.LayoutModes
 			int selectedTextLength = SelectedItem.Name.Length;
 			if (!SelectedItem.IsShortcut && UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
 				selectedTextLength -= extensionLength;
+
 			textBox.Select(0, selectedTextLength);
 			IsRenamingItem = true;
 		}
@@ -357,16 +367,22 @@ namespace Files.App.Views.LayoutModes
 				TextBox? textBox = sender as TextBox;
 				textBox!.LostFocus -= RenameTextBox_LostFocus;
 				textBox.Text = OldItemName;
+
 				EndRename(textBox);
+
 				e.Handled = true;
 			}
 			else if (e.Key == VirtualKey.Enter)
 			{
 				TextBox? textBox = sender as TextBox;
+
 				if (textBox is null)
 					return;
+
 				textBox.LostFocus -= RenameTextBox_LostFocus;
+
 				CommitRename(textBox);
+
 				e.Handled = true;
 			}
 		}
@@ -385,6 +401,7 @@ namespace Files.App.Views.LayoutModes
 		{
 			EndRename(textBox);
 			string newItemName = textBox.Text.Trim().TrimEnd('.');
+
 			await UIFilesystemHelpers.RenameFileItemAsync(RenamingItem, newItemName, ParentShellPageInstance);
 		}
 
@@ -442,11 +459,13 @@ namespace Files.App.Views.LayoutModes
 					await NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
 					FileList.SelectedIndex = 0;
 				}
+
 				e.Handled = true;
 			}
 			else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
 			{
 				FilePropertiesHelpers.ShowProperties(ParentShellPageInstance);
+
 				e.Handled = true;
 			}
 			else if (e.Key == VirtualKey.Space)
@@ -454,6 +473,7 @@ namespace Files.App.Views.LayoutModes
 				if (!IsRenamingItem && !isHeaderFocused && !isFooterFocused && !ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
 				{
 					e.Handled = true;
+
 					await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
 				}
 			}
@@ -478,6 +498,7 @@ namespace Files.App.Views.LayoutModes
 						item.Focus(FocusState.Programmatic);
 						if (!IsItemSelected)
 							FileList.SelectedIndex = 0;
+
 						e.Handled = true;
 					}
 				}
@@ -493,11 +514,12 @@ namespace Files.App.Views.LayoutModes
 				// Don't block the various uses of enter key (key 13)
 				var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement();
 				var isHeaderFocused = DependencyObjectHelpers.FindParent<DataGridHeader>(focusedElement) is not null;
-				if (Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Enter) == CoreVirtualKeyStates.Down
-					|| (focusedElement is Button && !isHeaderFocused) // Allow jumpstring when header is focused
-					|| focusedElement is TextBox
-					|| focusedElement is PasswordBox
-					|| DependencyObjectHelpers.FindParent<ContentDialog>(focusedElement) is not null)
+
+				if (Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Enter) == CoreVirtualKeyStates.Down ||
+					(focusedElement is Button && !isHeaderFocused) || // Allow jumpstring when header is focused
+					focusedElement is TextBox ||
+					focusedElement is PasswordBox ||
+					DependencyObjectHelpers.FindParent<ContentDialog>(focusedElement) is not null)
 				{
 					return;
 				}
@@ -511,12 +533,14 @@ namespace Files.App.Views.LayoutModes
 
 		private void FolderSettings_GridViewSizeChangeRequested(object? sender, EventArgs e)
 		{
-			var requestedIconSize = FolderSettings.GetIconSize(); // Get new icon size
+			// Get new icon size
+			var requestedIconSize = FolderSettings.GetIconSize();
 
 			// Prevents reloading icons when the icon size hasn't changed
 			if (requestedIconSize != currentIconSize)
 			{
-				currentIconSize = requestedIconSize; // Update icon size before refreshing
+				// Update icon size before refreshing
+				currentIconSize = requestedIconSize;
 				ReloadItemIcons();
 			}
 		}
@@ -537,15 +561,16 @@ namespace Files.App.Views.LayoutModes
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 			var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
+
 			if (item is null)
 				return;
+
 			// Skip code if the control or shift key is pressed or if the user is using multiselect
 			if (ctrlPressed || shiftPressed || AppModel.MultiselectEnabled)
 				return;
 
 			// Check if the setting to open items with a single click is turned on
-			if (item is not null
-				&& UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
+			if (item is not null && UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 			{
 				ResetRenameDoubleClick();
 				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
@@ -572,8 +597,8 @@ namespace Files.App.Views.LayoutModes
 		private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
 			// Skip opening selected items if the double tap doesn't capture an item
-			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item
-				 && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
+			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item &&
+				!UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 			{
 				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
 			}
@@ -581,18 +606,17 @@ namespace Files.App.Views.LayoutModes
 			{
 				ParentShellPageInstance.Up_Click();
 			}
+
 			ResetRenameDoubleClick();
 		}
 
 		#region IDisposable
-
 		public override void Dispose()
 		{
 			base.Dispose();
 			UnhookEvents();
 			CommandsViewModel?.Dispose();
 		}
-
 		#endregion IDisposable
 
 		private void Grid_Loaded(object sender, RoutedEventArgs e)
@@ -600,8 +624,10 @@ namespace Files.App.Views.LayoutModes
 			// This is the best way I could find to set the context flyout, as doing it in the styles isn't possible
 			// because you can't use bindings in the setters
 			DependencyObject item = VisualTreeHelper.GetParent(sender as Grid);
+
 			while (item is not ListViewItem)
 				item = VisualTreeHelper.GetParent(item);
+
 			if (item is ListViewItem itemContainer)
 				itemContainer.ContextFlyout = ItemContextMenuFlyout;
 		}
@@ -671,6 +697,7 @@ namespace Files.App.Views.LayoutModes
 		{
 			var columnToResize = (Grid.GetColumn(sender as CommunityToolkit.WinUI.UI.Controls.GridSplitter) - 1) / 2;
 			ResizeColumnToFit(columnToResize);
+
 			e.Handled = true;
 		}
 
@@ -765,6 +792,7 @@ namespace Files.App.Views.LayoutModes
 
 			// take weighted avg between mean and max since width is an estimate
 			var weightedAvg = (widthPerLetter.Average() + widthPerLetter.Max()) / 2;
+
 			return weightedAvg * maxItemLength;
 		}
 

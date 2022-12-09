@@ -237,7 +237,7 @@ namespace Files.App.UserControls.MultitaskingControl
 
 		public static readonly DependencyProperty TabStripVisibilityProperty =
 			DependencyProperty.Register(
-				nameof(TabStripVisibility,
+				nameof(TabStripVisibility),
 				typeof(Visibility),
 				typeof(HorizontalMultitaskingControl),
 				new PropertyMetadata(Visibility.Visible));

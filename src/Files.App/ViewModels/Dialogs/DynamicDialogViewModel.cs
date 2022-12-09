@@ -15,7 +15,6 @@ namespace Files.App.ViewModels.Dialogs
 	public class DynamicDialogViewModel : ObservableObject, IDisposable
 	{
 		#region Public Properties
-
 		/// <summary>
 		/// Stores any additional data that could be written to, read from.
 		/// </summary>
@@ -76,9 +75,9 @@ namespace Files.App.ViewModels.Dialogs
 				{
 					if (value.HasFlag(DynamicDialogButtons.None))
 					{
-						PrimaryButtonText = null; // Hides this option
+						PrimaryButtonText = null;   // Hides this option
 						SecondaryButtonText = null; // Hides this option
-						CloseButtonText = null; // Hides this option
+						CloseButtonText = null;     // Hides this option
 
 						return;
 					}
@@ -226,13 +225,13 @@ namespace Files.App.ViewModels.Dialogs
 
 					if (value.HasFlag(DynamicDialogButtons.None))
 					{
-						IsPrimaryButtonEnabled = false; // Hides this option
+						IsPrimaryButtonEnabled = false;   // Hides this option
 						IsSecondaryButtonEnabled = false; // Hides this option
 
 						return;
 					}
 
-					IsPrimaryButtonEnabled = value.HasFlag(DynamicDialogButtons.Primary); // Hides this option
+					IsPrimaryButtonEnabled = value.HasFlag(DynamicDialogButtons.Primary);     // Hides this option
 					IsSecondaryButtonEnabled = value.HasFlag(DynamicDialogButtons.Secondary); // Hides this option
 				}
 			}
@@ -242,11 +241,9 @@ namespace Files.App.ViewModels.Dialogs
 		/// The result of the dialog, value of this property is automatically handled.
 		/// </summary>
 		public DynamicDialogResult DynamicResult { get; set; } = DynamicDialogResult.Cancel;
-
 		#endregion Public Properties
 
 		#region Actions
-
 		/// <summary>
 		/// Hides the dialog.
 		/// <br/>
@@ -362,11 +359,9 @@ namespace Files.App.ViewModels.Dialogs
 				}
 			}
 		}
-
 		#endregion Actions
 
 		#region Commands
-
 		public ICommand PrimaryButtonCommand { get; private set; }
 
 		public ICommand SecondaryButtonCommand { get; private set; }
@@ -376,11 +371,9 @@ namespace Files.App.ViewModels.Dialogs
 		public ICommand KeyDownCommand { get; private set; }
 
 		public ICommand DisplayControlOnLoadedCommand { get; private set; }
-
 		#endregion Commands
 
 		#region Constructor
-
 		public DynamicDialogViewModel()
 		{
 			// Create default implementation
@@ -396,6 +389,7 @@ namespace Files.App.ViewModels.Dialogs
 					HideDialog();
 				}
 			};
+
 			DisplayControlOnLoaded = (vm, e) =>
 			{
 				Control control = (vm.DisplayControl as Control) ?? DependencyObjectHelpers.FindChild<Control>(vm.DisplayControl as DependencyObject);
@@ -405,11 +399,9 @@ namespace Files.App.ViewModels.Dialogs
 			DynamicButtons = DynamicDialogButtons.Primary;
 			DynamicButtonsEnabled = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary | DynamicDialogButtons.Cancel;
 		}
-
 		#endregion Constructor
 
 		#region IDisposable
-
 		public void Dispose()
 		{
 			(displayControl as IDisposable)?.Dispose();
@@ -435,7 +427,6 @@ namespace Files.App.ViewModels.Dialogs
 			KeyDownCommand = null;
 			DisplayControlOnLoadedCommand = null;
 		}
-
 		#endregion IDisposable
 	}
 }

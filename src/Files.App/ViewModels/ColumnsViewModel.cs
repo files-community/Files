@@ -19,30 +19,20 @@ namespace Files.App.ViewModels
 		}
 
 		private ColumnViewModel tagColumn = new ColumnViewModel();
-
 		public ColumnViewModel TagColumn
 		{
 			get => tagColumn;
 			set => SetProperty(ref tagColumn, value);
 		}
 
-		private ColumnViewModel nameColumn = new ColumnViewModel()
-		{
-			NormalMaxLength = 1000d
-		};
-
+		private ColumnViewModel nameColumn = new ColumnViewModel() { NormalMaxLength = 1000d };
 		public ColumnViewModel NameColumn
 		{
 			get => nameColumn;
 			set => SetProperty(ref nameColumn, value);
 		}
 
-		private ColumnViewModel statusColumn = new ColumnViewModel()
-		{
-			UserLength = new GridLength(50),
-			NormalMaxLength = 80,
-		};
-
+		private ColumnViewModel statusColumn = new ColumnViewModel() { UserLength = new GridLength(50), NormalMaxLength };
 		public ColumnViewModel StatusColumn
 		{
 			get => statusColumn;
@@ -50,18 +40,13 @@ namespace Files.App.ViewModels
 		}
 
 		private ColumnViewModel dateModifiedColumn = new ColumnViewModel();
-
 		public ColumnViewModel DateModifiedColumn
 		{
 			get => dateModifiedColumn;
 			set => SetProperty(ref dateModifiedColumn, value);
 		}
 
-		private ColumnViewModel originalPathColumn = new ColumnViewModel()
-		{
-			NormalMaxLength = 500,
-		};
-
+		private ColumnViewModel originalPathColumn = new ColumnViewModel() { NormalMaxLength = 500, };
 		public ColumnViewModel OriginalPathColumn
 		{
 			get => originalPathColumn;
@@ -69,7 +54,6 @@ namespace Files.App.ViewModels
 		}
 
 		private ColumnViewModel itemTypeColumn = new ColumnViewModel();
-
 		public ColumnViewModel ItemTypeColumn
 		{
 			get => itemTypeColumn;
@@ -77,18 +61,13 @@ namespace Files.App.ViewModels
 		}
 
 		private ColumnViewModel dateDeletedColumn = new ColumnViewModel();
-
 		public ColumnViewModel DateDeletedColumn
 		{
 			get => dateDeletedColumn;
 			set => SetProperty(ref dateDeletedColumn, value);
 		}
 
-		private ColumnViewModel dateCreatedColumn = new ColumnViewModel()
-		{
-			UserCollapsed = true
-		};
-
+		private ColumnViewModel dateCreatedColumn = new ColumnViewModel() { UserCollapsed = true };
 		public ColumnViewModel DateCreatedColumn
 		{
 			get => dateCreatedColumn;
@@ -96,7 +75,6 @@ namespace Files.App.ViewModels
 		}
 
 		private ColumnViewModel sizeColumn = new ColumnViewModel();
-
 		public ColumnViewModel SizeColumn
 		{
 			get => sizeColumn;
@@ -232,7 +210,9 @@ namespace Files.App.ViewModels
 		[LiteDB.BsonIgnore]
 		public GridLength Length
 		{
-			get => IsHidden || UserCollapsed ? new GridLength(0) : UserLength;
+			get => IsHidden || UserCollapsed
+				? new GridLength(0)
+				: UserLength;
 		}
 
 		private const int gridSplitterWidth = 8;

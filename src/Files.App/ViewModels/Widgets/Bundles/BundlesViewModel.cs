@@ -31,11 +31,9 @@ namespace Files.App.ViewModels.Widgets.Bundles
 	public class BundlesViewModel : ObservableObject, IDisposable
 	{
 		#region Private Members
-
 		private bool itemAddedInternally;
 
 		private int internalCollectionCount;
-
 		#endregion Private Members
 
 		public event EventHandler<BundlesOpenPathEventArgs> OpenPathEvent;
@@ -43,7 +41,6 @@ namespace Files.App.ViewModels.Widgets.Bundles
 		public event EventHandler<string> OpenPathInNewPaneEvent;
 
 		#region Properties
-
 		private IBundlesSettingsService BundlesSettingsService { get; } = Ioc.Default.GetService<IBundlesSettingsService>();
 
 		/// <summary>
@@ -60,7 +57,6 @@ namespace Files.App.ViewModels.Widgets.Bundles
 		}
 
 		private string addBundleErrorText = string.Empty;
-
 		public string AddBundleErrorText
 		{
 			get => addBundleErrorText;
@@ -68,17 +64,14 @@ namespace Files.App.ViewModels.Widgets.Bundles
 		}
 
 		public bool noBundlesAddItemLoad = false;
-
 		public bool NoBundlesAddItemLoad
 		{
 			get => noBundlesAddItemLoad;
 			set => SetProperty(ref noBundlesAddItemLoad, value);
 		}
-
 		#endregion Properties
 
 		#region Commands
-
 		public ICommand InputTextKeyDownCommand { get; private set; }
 
 		public ICommand OpenAddBundleDialogCommand { get; private set; }
@@ -88,11 +81,9 @@ namespace Files.App.ViewModels.Widgets.Bundles
 		public ICommand ImportBundlesCommand { get; private set; }
 
 		public ICommand ExportBundlesCommand { get; private set; }
-
 		#endregion Commands
 
 		#region Constructor
-
 		public BundlesViewModel()
 		{
 			Items.CollectionChanged += Items_CollectionChanged;
@@ -106,11 +97,9 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
 			BundlesSettingsService.OnSettingImportedEvent += BundlesSettingsService_OnSettingImportedEvent;
 		}
-
 		#endregion Constructor
 
 		#region Command Implementation
-
 		private void InputTextKeyDown(KeyRoutedEventArgs e)
 		{
 			if (e.Key == VirtualKey.Enter)
@@ -186,6 +175,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 				},
 				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
 			});
+
 			await dialog.ShowAsync();
 		}
 
@@ -236,14 +226,17 @@ namespace Files.App.ViewModels.Widgets.Bundles
 					string data = NativeFileOperationsHelper.ReadStringFromFile(file.Path);
 					BundlesSettingsService.ImportSettings(data);
 				}
-				catch // Couldn't deserialize, data is corrupted
+				// Couldn't deserialize, data is corrupted
+				catch
 				{
 				}
 			}
 		}
+
 		private FileOpenPicker InitializeWithWindow(FileOpenPicker obj)
 		{
 			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+
 			return obj;
 		}
 
@@ -258,16 +251,16 @@ namespace Files.App.ViewModels.Widgets.Bundles
 				NativeFileOperationsHelper.WriteStringToFile(file.Path, (string)BundlesSettingsService.ExportSettings());
 			}
 		}
+
 		private FileSavePicker InitializeWithWindow(FileSavePicker obj)
 		{
 			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+
 			return obj;
 		}
-
 		#endregion Command Implementation
 
 		#region Handlers
-
 		private async void BundlesSettingsService_OnSettingImportedEvent(object sender, EventArgs e)
 		{
 			await Load();
@@ -277,7 +270,6 @@ namespace Files.App.ViewModels.Widgets.Bundles
 		{
 			OpenPathEvent?.Invoke(this, new BundlesOpenPathEventArgs(path, itemType, openSilent, openViaApplicationPicker, selectItems));
 		}
-
 		private void OpenPathInNewPaneHandle(string path)
 		{
 			OpenPathInNewPaneEvent?.Invoke(this, path);
@@ -339,11 +331,9 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
 			internalCollectionCount = Items.Count;
 		}
-
 		#endregion Handlers
 
 		#region Public Helpers
-
 		public void Save()
 		{
 			if (BundlesSettingsService.SavedBundles is not null)
@@ -367,13 +357,15 @@ namespace Files.App.ViewModels.Widgets.Bundles
 					bundles.Add(bundle.BundleName, bundleItems);
 				}
 
-				BundlesSettingsService.SavedBundles = bundles; // Calls Set()
+				// Calls Set()
+				BundlesSettingsService.SavedBundles = bundles;
 			}
 		}
 
 		public async Task Load()
 		{
-			if (BundlesSettingsService.SavedBundles is null) // Null, therefore no items :)
+			// Null, therefore no items :)
+			if (BundlesSettingsService.SavedBundles is null)
 			{
 				NoBundlesAddItemLoad = true;
 				return;
@@ -426,25 +418,26 @@ namespace Files.App.ViewModels.Widgets.Bundles
 			if (string.IsNullOrWhiteSpace(name))
 			{
 				AddBundleErrorText = "BundlesWidgetAddBundleErrorInputEmpty".GetLocalizedResource();
+
 				return (false, "BundlesWidgetAddBundleErrorInputEmpty".GetLocalizedResource());
 			}
 
 			if (!Items.Any((item) => item.BundleName == name))
 			{
 				AddBundleErrorText = string.Empty;
+
 				return (true, string.Empty);
 			}
 			else
 			{
 				AddBundleErrorText = "BundlesWidgetAddBundleErrorAlreadyExists".GetLocalizedResource();
+
 				return (false, "BundlesWidgetAddBundleErrorAlreadyExists".GetLocalizedResource());
 			}
 		}
-
 		#endregion Public Helpers
 
 		#region IDisposable
-
 		public void Dispose()
 		{
 			foreach (var item in Items)
@@ -455,7 +448,6 @@ namespace Files.App.ViewModels.Widgets.Bundles
 			Items.CollectionChanged -= Items_CollectionChanged;
 			BundlesSettingsService.OnSettingImportedEvent -= BundlesSettingsService_OnSettingImportedEvent;
 		}
-
 		#endregion IDisposable
 	}
 }

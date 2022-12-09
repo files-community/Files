@@ -5,12 +5,11 @@ namespace Files.App.ViewModels
 {
 	public class CurrentInstanceViewModel : ObservableObject
 	{
-		/*
-		 * TODO:
-		 * In the future, we should consolidate these public variables into
-		 * a single enum property providing simplified customization of the
-		 * values being manipulated inside the setter blocks.
-		 */
+		// TODO:
+		//
+		// In the future, we should consolidate these public variables into
+		// a single enum property providing simplified customization of the
+		// values being manipulated inside the setter blocks.
 
 		public FolderSettingsViewModel FolderSettings { get; }
 
@@ -32,6 +31,7 @@ namespace Files.App.ViewModels
 			set
 			{
 				SetProperty(ref isPageTypeSearchResults, value);
+
 				OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
 				OnPropertyChanged(nameof(CanCreateFileInPage));
 				OnPropertyChanged(nameof(CanPasteInPage));
@@ -43,7 +43,6 @@ namespace Files.App.ViewModels
 		}
 
 		private string currentSearchQuery;
-
 		public string CurrentSearchQuery
 		{
 			get => currentSearchQuery;
@@ -51,7 +50,6 @@ namespace Files.App.ViewModels
 		}
 
 		private bool searchedUnindexedItems;
-
 		public bool SearchedUnindexedItems
 		{
 			get => searchedUnindexedItems;
@@ -70,13 +68,13 @@ namespace Files.App.ViewModels
 		}
 
 		private bool isPageTypeNotHome = false;
-
 		public bool IsPageTypeNotHome
 		{
 			get => isPageTypeNotHome;
 			set
 			{
 				SetProperty(ref isPageTypeNotHome, value);
+
 				OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
 				OnPropertyChanged(nameof(CanCreateFileInPage));
 				OnPropertyChanged(nameof(CanPasteInPage));
@@ -88,13 +86,13 @@ namespace Files.App.ViewModels
 		}
 
 		private bool isPageTypeMtpDevice = false;
-
 		public bool IsPageTypeMtpDevice
 		{
 			get => isPageTypeMtpDevice;
 			set
 			{
 				SetProperty(ref isPageTypeMtpDevice, value);
+
 				OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
 				OnPropertyChanged(nameof(CanCreateFileInPage));
 				OnPropertyChanged(nameof(CanPasteInPage));
@@ -106,13 +104,13 @@ namespace Files.App.ViewModels
 		}
 
 		private bool isPageTypeRecycleBin = false;
-
 		public bool IsPageTypeRecycleBin
 		{
 			get => isPageTypeRecycleBin;
 			set
 			{
 				SetProperty(ref isPageTypeRecycleBin, value);
+
 				OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
 				OnPropertyChanged(nameof(CanCreateFileInPage));
 				OnPropertyChanged(nameof(CanPasteInPage));
@@ -124,13 +122,13 @@ namespace Files.App.ViewModels
 		}
 
 		private bool isPageTypeFtp = false;
-
 		public bool IsPageTypeFtp
 		{
 			get => isPageTypeFtp;
 			set
 			{
 				SetProperty(ref isPageTypeFtp, value);
+
 				OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
 				OnPropertyChanged(nameof(CanCreateFileInPage));
 				OnPropertyChanged(nameof(CanPasteInPage));
@@ -142,13 +140,13 @@ namespace Files.App.ViewModels
 		}
 
 		private bool isPageTypeCloudDrive = false;
-
 		public bool IsPageTypeCloudDrive
 		{
 			get => isPageTypeCloudDrive;
 			set
 			{
 				SetProperty(ref isPageTypeCloudDrive, value);
+
 				OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
 				OnPropertyChanged(nameof(CanCreateFileInPage));
 				OnPropertyChanged(nameof(CanPasteInPage));
@@ -160,13 +158,13 @@ namespace Files.App.ViewModels
 		}
 
 		private bool isPageTypeZipFolder = false;
-
 		public bool IsPageTypeZipFolder
 		{
 			get => isPageTypeZipFolder;
 			set
 			{
 				SetProperty(ref isPageTypeZipFolder, value);
+
 				OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
 				OnPropertyChanged(nameof(CanCreateFileInPage));
 				OnPropertyChanged(nameof(CanPasteInPage));
@@ -178,13 +176,13 @@ namespace Files.App.ViewModels
 		}
 
 		private bool isPageTypeLibrary = false;
-
 		public bool IsPageTypeLibrary
 		{
 			get => isPageTypeLibrary;
 			set
 			{
 				SetProperty(ref isPageTypeLibrary, value);
+
 				OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
 				OnPropertyChanged(nameof(CanCreateFileInPage));
 				OnPropertyChanged(nameof(CanPasteInPage));

@@ -18,8 +18,12 @@ namespace Files.App.ViewModels.Properties
 
 		public LibraryItem Library { get; private set; }
 
-		public LibraryProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource,
-			DispatcherQueue coreDispatcher, LibraryItem item, IShellPage instance)
+		public LibraryProperties(
+			SelectedItemsPropertiesViewModel viewModel,
+			CancellationTokenSource tokenSource,
+			DispatcherQueue coreDispatcher,
+			LibraryItem item,
+			IShellPage instance)
 		{
 			ViewModel = viewModel;
 			TokenSource = tokenSource;
@@ -115,10 +119,12 @@ namespace Files.App.ViewModels.Properties
 			try
 			{
 				long librarySize = 0;
+
 				foreach (var folder in storageFolders)
 				{
 					librarySize += await Task.Run(async () => await CalculateFolderSizeAsync(folder.Path, token));
 				}
+
 				ViewModel.ItemSizeBytes = librarySize;
 				ViewModel.ItemSize = librarySize.ToLongSizeString();
 			}

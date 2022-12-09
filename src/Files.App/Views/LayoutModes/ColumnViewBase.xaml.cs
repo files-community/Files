@@ -44,6 +44,7 @@ namespace Files.App.Views.LayoutModes
 		protected override void HookEvents()
 		{
 			UnhookEvents();
+
 			ItemManipulationModel.FocusFileListInvoked += ItemManipulationModel_FocusFileListInvoked;
 			ItemManipulationModel.SelectAllItemsInvoked += ItemManipulationModel_SelectAllItemsInvoked;
 			ItemManipulationModel.ClearSelectionInvoked += ItemManipulationModel_ClearSelectionInvoked;
@@ -177,6 +178,7 @@ namespace Files.App.Views.LayoutModes
             foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
             {
                 listedItem.ItemPropertiesInitialized = false;
+
                 if (FileList.ContainerFromItem(listedItem) is not null)
                     await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, 24);
             }
@@ -185,17 +187,23 @@ namespace Files.App.Views.LayoutModes
         override public void StartRenameItem()
         {
             RenamingItem = FileList.SelectedItem as ListedItem;
+
             if (RenamingItem is null)
                 return;
+
             int extensionLength = RenamingItem.FileExtension?.Length ?? 0;
             ListViewItem? listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
+
             TextBox? textBox = null;
+
             if (listViewItem is null)
                 return;
+
             TextBlock? textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
             textBox = listViewItem.FindDescendant("ListViewTextBoxItemName") as TextBox;
             textBox!.Text = textBlock!.Text;
             OldItemName = textBlock.Text;
+
             textBlock.Visibility = Visibility.Collapsed;
             textBox.Visibility = Visibility.Visible;
 
@@ -206,6 +214,7 @@ namespace Files.App.Views.LayoutModes
 			int selectedTextLength = SelectedItem.Name.Length;
 			if (!SelectedItem.IsShortcut && UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
 				selectedTextLength -= extensionLength;
+
 			textBox.Select(0, selectedTextLength);
 			IsRenamingItem = true;
 		}
@@ -229,14 +238,18 @@ namespace Files.App.Views.LayoutModes
 				TextBox textBox = (TextBox)sender;
 				textBox.LostFocus -= RenameTextBox_LostFocus;
 				textBox.Text = OldItemName;
+
 				EndRename(textBox);
+
 				e.Handled = true;
 			}
 			else if (e.Key == VirtualKey.Enter)
 			{
 				TextBox textBox = (TextBox)sender;
 				textBox.LostFocus -= RenameTextBox_LostFocus;
+
 				CommitRename(textBox);
+
 				e.Handled = true;
 			}
 		}
@@ -255,6 +268,7 @@ namespace Files.App.Views.LayoutModes
 		{
 			EndRename(textBox);
 			string newItemName = textBox.Text.Trim().TrimEnd('.');
+
 			await UIFilesystemHelpers.RenameFileItemAsync(RenamingItem, newItemName, ParentShellPageInstance);
 		}
 
@@ -290,14 +304,12 @@ namespace Files.App.Views.LayoutModes
 			=> element is ListViewItem;
 
 		#region IDisposable
-
 		public override void Dispose()
 		{
 			base.Dispose();
 			UnhookEvents();
 			CommandsViewModel?.Dispose();
 		}
-
 		#endregion IDisposable
 
 		private async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -319,6 +331,7 @@ namespace Files.App.Views.LayoutModes
 			var objectPressed = ((FrameworkElement)e.OriginalSource).DataContext as ListedItem;
 			if (objectPressed is not null)
 				return;
+
 			// Check if RightTapped row is currently selected
 			if (IsItemSelected)
 			{
@@ -343,8 +356,10 @@ namespace Files.App.Views.LayoutModes
 				{
 					if (currItem == SelectedItem)
 						ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
+
 					tapDebounceTimer.Stop();
-				}, TimeSpan.FromMilliseconds(200));
+				},
+				TimeSpan.FromMilliseconds(200));
 			}
 		}
 
@@ -453,10 +468,12 @@ namespace Files.App.Views.LayoutModes
 						if (!UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 							_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
 						break;
+
 					case StorageItemTypes.Folder:
 						if (!UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
 							ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
 						break;
+
 					default:
 						ParentShellPageInstance.Up_Click();
 						break;
@@ -504,8 +521,9 @@ namespace Files.App.Views.LayoutModes
 				return;
 
 			// Check if the setting to open items with a single click is turned on
-			if (item is not null
-				&& (UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File))
+			if (item is not null &&
+				(UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick &&
+				item.PrimaryItemAttribute == StorageItemTypes.File))
 			{
 				ResetRenameDoubleClick();
 				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
@@ -519,8 +537,8 @@ namespace Files.App.Views.LayoutModes
 				}
 				else if (IsRenamingItem)
 				{
-					if (FileList.ContainerFromItem(RenamingItem) is ListViewItem listViewItem
-						&& listViewItem.FindDescendant("ListViewTextBoxItemName") is TextBox textBox)
+					if (FileList.ContainerFromItem(RenamingItem) is ListViewItem listViewItem &&
+						listViewItem.FindDescendant("ListViewTextBoxItemName") is TextBox textBox)
 					{
 						CommitRename(textBox);
 					}
@@ -554,15 +572,19 @@ namespace Files.App.Views.LayoutModes
 			{
 				case FolderLayoutModes.ColumnView:
 					break;
+
 				case FolderLayoutModes.DetailsView:
 					parent.FolderSettings.ToggleLayoutModeDetailsView(true);
 					break;
+
 				case FolderLayoutModes.TilesView:
 					parent.FolderSettings.ToggleLayoutModeTiles(true);
 					break;
+
 				case FolderLayoutModes.GridView:
 					parent.FolderSettings.ToggleLayoutModeGridView(e.GridViewSize);
 					break;
+
 				case FolderLayoutModes.Adaptive:
 					parent.FolderSettings.ToggleLayoutModeAdaptive();
 					break;

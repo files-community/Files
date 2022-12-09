@@ -40,12 +40,11 @@ namespace Files.App.Views
 		{
 			InitializeComponent();
 
-			var flowDirectionSetting = /*
-				TODO ResourceContext.GetForCurrentView and ResourceContext.GetForViewIndependentUse do not exist in Windows App SDK
-				Use your ResourceManager instance to create a ResourceContext as below. If you already have a ResourceManager instance,
-				replace the new instance created below with correct instance.
-				Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/mrtcore
-			*/new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
+			// TODO: ResourceContext.GetForCurrentView and ResourceContext.GetForViewIndependentUse do not exist in Windows App SDK
+			//  Use your ResourceManager instance to create a ResourceContext as below.If you already have a ResourceManager instance,
+			//  replace the new instance created below with correct instance.
+			//  Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/mrtcore
+			var flowDirectionSetting = new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
 
 			if (flowDirectionSetting == "RTL")
 				FlowDirection = FlowDirection.RightToLeft;
@@ -59,17 +58,22 @@ namespace Files.App.Views
 			AppInstance = args.AppInstanceArgument;
 			navParameterItem = args.Item;
 			listedItem = args.Item as ListedItem;
+
 			TabShorcut.Visibility = listedItem is not null && listedItem.IsShortcut ? Visibility.Visible : Visibility.Collapsed;
+
 			TabLibrary.Visibility = listedItem is not null && listedItem.IsLibrary ? Visibility.Visible : Visibility.Collapsed;
+
 			TabDetails.Visibility = listedItem is not null && listedItem.FileExtension is not null && !listedItem.IsShortcut && !listedItem.IsLibrary ? Visibility.Visible : Visibility.Collapsed;
-			TabSecurity.Visibility = args.Item is DriveItem ||
-				(listedItem is not null && !listedItem.IsLibrary && !listedItem.IsRecycleBinItem) ? Visibility.Visible : Visibility.Collapsed;
-			TabCustomization.Visibility = listedItem is not null && !listedItem.IsLibrary && (
-				(listedItem.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !listedItem.IsArchive) ||
+
+			TabSecurity.Visibility = args.Item is DriveItem || (listedItem is not null && !listedItem.IsLibrary && !listedItem.IsRecycleBinItem) ? Visibility.Visible : Visibility.Collapsed;
+
+			TabCustomization.Visibility = listedItem is not null && !listedItem.IsLibrary && 
+				((listedItem.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !listedItem.IsArchive) ||
 				(listedItem.IsShortcut && !listedItem.IsLinkItem)) ? Visibility.Visible : Visibility.Collapsed;
-			TabCompatibility.Visibility = listedItem is not null && (
-					".exe".Equals(listedItem is ShortcutItem sht ? System.IO.Path.GetExtension(sht.TargetPath) : listedItem.FileExtension, StringComparison.OrdinalIgnoreCase)
-				) ? Visibility.Visible : Visibility.Collapsed;
+
+			TabCompatibility.Visibility = listedItem is not null &&
+				(".exe".Equals(listedItem is ShortcutItem sht ? System.IO.Path.GetExtension(sht.TargetPath) : listedItem.FileExtension, StringComparison.OrdinalIgnoreCase))) ? Visibility.Visible : Visibility.Collapsed;
+
 			base.OnNavigatedTo(e);
 		}
 
@@ -91,11 +95,9 @@ namespace Files.App.Views
 
 		private void TitlebarArea_SizeChanged(object? sender, SizeChangedEventArgs? e)
 		{
-			/*
-			 We have to calculate the width of NavigationView as 'ActualWidth' is bigger than the real size occupied by the control.
-			 This code calculates the sum of all the visible tabs' widths.
-			 If a tab is visible and its width is 0, it is shown in the overflow menu. In this case we add the overflow's size to the total.
-			 */
+			// We have to calculate the width of NavigationView as 'ActualWidth' is bigger than the real size occupied by the control.
+			// This code calculates the sum of all the visible tabs' widths.
+			// If a tab is visible and its width is 0, it is shown in the overflow menu.In this case we add the overflow's size to the total.
 			int navigationViewWidth = (int)NavigationView.MenuItems.Cast<NavigationViewItem>()
 				.Where(item => item.Visibility == Visibility.Visible)
 				.GroupBy(item => item.ActualWidth != 0)
@@ -103,8 +105,10 @@ namespace Files.App.Views
 				.Sum();
 
 			var scaleAdjustment = XamlRoot.RasterizationScale;
+
 			int x = (int)(navigationViewWidth * scaleAdjustment);
 			var y = 0;
+
 			var width = (int)((TitlebarArea.ActualWidth - navigationViewWidth) * scaleAdjustment);
 			var height = (int)(TitlebarArea.ActualHeight * scaleAdjustment);
 
@@ -146,11 +150,13 @@ namespace Files.App.Views
 		{
 			AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
 			sender.Closed -= PropertiesDialog_Closed;
+
 			if (tokenSource is not null && !tokenSource.IsCancellationRequested)
 			{
 				tokenSource.Cancel();
 				tokenSource = null;
 			}
+
 			propertiesDialog.Hide();
 		}
 

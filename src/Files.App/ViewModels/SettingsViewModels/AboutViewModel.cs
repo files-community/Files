@@ -26,7 +26,9 @@ namespace Files.App.ViewModels.SettingsViewModels
 	public class AboutViewModel : ObservableObject
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
 		private IBundlesSettingsService BundlesSettingsService { get; } = Ioc.Default.GetRequiredService<IBundlesSettingsService>();
+
 		protected IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
 		public ICommand OpenLogLocationCommand { get; }
@@ -68,21 +70,26 @@ namespace Files.App.ViewModels.SettingsViewModels
 						return;
 					}
 					var localFolderPath = ApplicationData.Current.LocalFolder.Path;
+
 					// Export user settings
 					var exportSettings = UTF8Encoding.UTF8.GetBytes((string)UserSettingsService.ExportSettings());
 					await zipFolder.CreateFileAsync(new MemoryStream(exportSettings), Constants.LocalSettings.UserSettingsFileName, CreationCollisionOption.ReplaceExisting);
+
 					// Export bundles
 					var exportBundles = UTF8Encoding.UTF8.GetBytes((string)BundlesSettingsService.ExportSettings());
 					await zipFolder.CreateFileAsync(new MemoryStream(exportBundles), Constants.LocalSettings.BundlesSettingsFileName, CreationCollisionOption.ReplaceExisting);
+
 					// Export pinned items
 					var pinnedItems = await BaseStorageFile.GetFileFromPathAsync(Path.Combine(localFolderPath, Constants.LocalSettings.SettingsFolderName, App.SidebarPinnedController.JsonFileName));
 					await pinnedItems.CopyAsync(zipFolder, pinnedItems.Name, NameCollisionOption.ReplaceExisting);
+
 					// Export file tags list and DB
 					var exportTags = UTF8Encoding.UTF8.GetBytes((string)FileTagsSettingsService.ExportSettings());
 					await zipFolder.CreateFileAsync(new MemoryStream(exportTags), Constants.LocalSettings.FileTagSettingsFileName, CreationCollisionOption.ReplaceExisting);
 					var tagDbInstance = FileTagsHelper.GetDbInstance();
 					byte[] exportTagsDB = UTF8Encoding.UTF8.GetBytes(tagDbInstance.Export());
 					await zipFolder.CreateFileAsync(new MemoryStream(exportTagsDB), Path.GetFileName(FileTagsHelper.FileTagsDbPath), CreationCollisionOption.ReplaceExisting);
+
 					// Export layout preferences DB
 					var layoutDbInstance = FolderSettingsViewModel.GetDbInstance();
 					byte[] exportPrefsDB = UTF8Encoding.UTF8.GetBytes(layoutDbInstance.Export());
@@ -95,10 +102,11 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		// WINUI3
+		// WinUI3
 		private FileSavePicker InitializeWithWindow(FileSavePicker obj)
 		{
 			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+
 			return obj;
 		}
 
@@ -114,23 +122,26 @@ namespace Files.App.ViewModels.SettingsViewModels
 				{
 					var zipFolder = await ZipStorageFolder.FromStorageFileAsync(file);
 					if (zipFolder is null)
-					{
 						return;
-					}
+
 					var localFolderPath = ApplicationData.Current.LocalFolder.Path;
 					var settingsFolder = await StorageFolder.GetFolderFromPathAsync(Path.Combine(localFolderPath, Constants.LocalSettings.SettingsFolderName));
+
 					// Import user settings
 					var userSettingsFile = await zipFolder.GetFileAsync(Constants.LocalSettings.UserSettingsFileName);
 					string importSettings = await userSettingsFile.ReadTextAsync();
 					UserSettingsService.ImportSettings(importSettings);
+
 					// Import bundles
 					var bundles = await zipFolder.GetFileAsync(Constants.LocalSettings.BundlesSettingsFileName);
 					string importBundles = await bundles.ReadTextAsync();
 					BundlesSettingsService.ImportSettings(importBundles);
+
 					// Import pinned items
 					var pinnedItems = await zipFolder.GetFileAsync(App.SidebarPinnedController.JsonFileName);
 					await pinnedItems.CopyAsync(settingsFolder, pinnedItems.Name, NameCollisionOption.ReplaceExisting);
 					await App.SidebarPinnedController.ReloadAsync();
+
 					// Import file tags list and DB
 					var fileTagsList = await zipFolder.GetFileAsync(Constants.LocalSettings.FileTagSettingsFileName);
 					string importTags = await fileTagsList.ReadTextAsync();
@@ -139,6 +150,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 					string importTagsDB = await fileTagsDB.ReadTextAsync();
 					var tagDbInstance = FileTagsHelper.GetDbInstance();
 					tagDbInstance.Import(importTagsDB);
+
 					// Import layout preferences and DB
 					var layoutPrefsDB = await zipFolder.GetFileAsync(Path.GetFileName(FolderSettingsViewModel.LayoutSettingsDbPath));
 					string importPrefsDB = await layoutPrefsDB.ReadTextAsync();
@@ -154,10 +166,11 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		// WINUI3
+		// WinUI3
 		private FileOpenPicker InitializeWithWindow(FileOpenPicker obj)
 		{
 			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+
 			return obj;
 		}
 
@@ -188,7 +201,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		public string AppName => Package.Current.DisplayName;
+		public string AppName
+			=> Package.Current.DisplayName;
 
 		private Task ClickAboutFeedbackItem(ItemClickEventArgs e)
 		{
@@ -202,7 +216,10 @@ namespace Files.App.ViewModels.SettingsViewModels
 				"ReleaseNotes" => Constants.GitHub.ReleaseNotesUrl,
 				_ => null,
 			};
-			return uri is not null ? Launcher.LaunchUriAsync(new Uri(uri)).AsTask() : Task.CompletedTask;
+
+			return uri is not null
+				? Launcher.LaunchUriAsync(new Uri(uri)).AsTask()
+				: Task.CompletedTask;
 		}
 	}
 }

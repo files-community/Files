@@ -12,6 +12,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		// Commands
 		public RelayCommand ResetLayoutPreferencesCommand { get; }
+
 		public RelayCommand ShowResetLayoutPreferencesTipCommand { get; }
 
 		public FoldersViewModel()
@@ -21,8 +22,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 			SelectedDefaultLayoutModeIndex = (int)DefaultLayoutMode;
 		}
-
-		// Properties
 
 		private bool isResetLayoutPreferencesTipOpen;
 		public bool IsResetLayoutPreferencesTipOpen
@@ -239,13 +238,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		// Local methods
-
 		public void ResetLayoutPreferences()
 		{
 			// Is this proper practice?
 			var dbInstance = FolderSettingsViewModel.GetDbInstance();
 			dbInstance.ResetAll();
+
 			IsResetLayoutPreferencesTipOpen = false;
 		}
 	}
