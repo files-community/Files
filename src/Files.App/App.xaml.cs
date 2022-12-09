@@ -39,9 +39,6 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Notifications;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
-
 namespace Files.App
 {
 	/// <summary>
@@ -49,7 +46,8 @@ namespace Files.App
 	/// </summary>
 	public partial class App : Application
 	{
-		private static bool ShowErrorNotification = false;
+        #region Properties and Fields
+        private static bool ShowErrorNotification = false;
 
 		public static string OutputPath { get; set; }
 		public static StorageHistoryWrapper HistoryWrapper = new StorageHistoryWrapper();
@@ -78,11 +76,16 @@ namespace Files.App
 
 		public IServiceProvider Services { get; private set; }
 
-		/// <summary>
-		/// Initializes the singleton application object.  This is the first line of authored code
-		/// executed, and as such is the logical equivalent of main() or WinMain().
-		/// </summary>
-		public App()
+        public static MainWindow Window { get; set; } = null!;
+
+        public static IntPtr WindowHandle { get; private set; }
+        #endregion
+
+        /// <summary>
+        /// Initializes the singleton application object. This is the first line of authored code
+        /// executed, and as such is the logical equivalent of main() or WinMain().
+        /// </summary>
+        public App()
 		{
 			// Initialize logger
 			Logger = new Logger(logWriter);
@@ -198,10 +201,12 @@ namespace Files.App
 					OptionalTask(FileTagsManager.UpdateFileTagsAsync(), appearanceSettingsService.ShowFileTagsSection),
 					SidebarPinnedController.InitializeAsync()
 				);
+
 				await Task.WhenAll(
 					JumpList.InitializeAsync(),
 					ContextFlyoutItemHelper.CachedNewContextMenuEntries
 				);
+
 				FileTagsHelper.UpdateTagsDb();
 			});
 
@@ -264,7 +269,9 @@ namespace Files.App
 		public void OnActivated(AppActivationArguments activatedEventArgs)
 		{
 			Logger.Info($"App activated. Activated args type: {activatedEventArgs.Data.GetType().Name}");
+
 			var data = activatedEventArgs.Data;
+
 			// InitializeApplication accesses UI, needs to be called on UI thread
 			_ = Window.DispatcherQueue.EnqueueAsync(() => Window.InitializeApplication(data));
 		}
@@ -276,9 +283,10 @@ namespace Files.App
 		/// <param name="args">Details about the suspend request.</param>
 		private async void Window_Closed(object sender, WindowEventArgs args)
 		{
-			// Save application state and stop any background activity
+            // Save application state and stop any background activity
 
-			await Task.Yield(); // Method can take a long time, make sure the window is hidden
+            // Method can take a long time, make sure the window is hidden
+            await Task.Yield();
 
 			SaveSessionTabs();
 
@@ -289,11 +297,14 @@ namespace Files.App
 					var instance = MainPageViewModel.AppInstances.FirstOrDefault(x => x.Control.TabItemContent.IsCurrentInstance);
 					if (instance is null)
 						return;
+
 					var items = (instance.Control.TabItemContent as PaneHolderPage)?.ActivePane?.SlimContentPage?.SelectedItems;
 					if (items is null)
 						return;
+
 					await FileIO.WriteLinesAsync(await StorageFile.GetFileFromPathAsync(OutputPath), items.Select(x => x.ItemPath));
-				}, Logger);
+				},
+				Logger);
 			}
 
 			DrivesManager?.Dispose();
@@ -309,13 +320,15 @@ namespace Files.App
 					if (dataPackage.Contains(StandardDataFormats.StorageItems))
 						Clipboard.Flush();
 				}
-			}, Logger);
+			},
+			Logger);
 
 			// Wait for ongoing file operations
 			FileOperationsHelpers.WaitForCompletion();
 		}
 
-		public static void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages
+        // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages
+        public static void SaveSessionTabs()
 		{
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 			IBundlesSettingsService bundlesSettingsService = Ioc.Default.GetRequiredService<IBundlesSettingsService>();
@@ -445,9 +458,5 @@ namespace Files.App
 			return
 				AppWindow.GetFromWindowId(windowId);
 		}
-
-		public static MainWindow Window { get; set; } = null!;
-
-		public static IntPtr WindowHandle { get; private set; }
 	}
 }

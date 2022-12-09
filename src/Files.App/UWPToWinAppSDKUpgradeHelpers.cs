@@ -8,8 +8,7 @@ namespace UWPToWinAppSDKUpgradeHelpers
 {
 	[ComImport]
 	[Guid("3A3DCD6C-3EAB-43DC-BCDE-45671CE800C8")]
-	[InterfaceType(
-		ComInterfaceType.InterfaceIsIUnknown)]
+	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	interface IDataTransferManagerInterop
 	{
 		IntPtr GetForWindow([In] IntPtr appWindow,
@@ -28,8 +27,8 @@ namespace UWPToWinAppSDKUpgradeHelpers
 
 		[DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
 		public static extern IntPtr CreateEvent(
-				IntPtr lpEventAttributes, bool bManualReset,
-				bool bInitialState, string lpName);
+			IntPtr lpEventAttributes, bool bManualReset,
+			bool bInitialState, string lpName);
 
 		[DllImport("kernel32.dll")]
 		public static extern bool SetEvent(IntPtr hEvent);

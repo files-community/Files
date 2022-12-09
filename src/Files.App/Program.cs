@@ -18,10 +18,12 @@ namespace Files.App
 {
 	internal class Program
 	{
-		// Note: We can't declare Main to be async because in a WinUI app
-		// this prevents Narrator from reading XAML elements.
-		// https://github.com/microsoft/WindowsAppSDK-Samples/blob/main/Samples/AppLifecycle/Instancing/cs-winui-packaged/CsWinUiDesktopInstancing/CsWinUiDesktopInstancing/Program.cs
-		[STAThread] // STAThread has no effect if main is async, needed for Clipboard
+        // Note: We can't declare Main to be async because in a WinUI app
+        // this prevents Narrator from reading XAML elements.
+        // https://github.com/microsoft/WindowsAppSDK-Samples/blob/main/Samples/AppLifecycle/Instancing/cs-winui-packaged/CsWinUiDesktopInstancing/CsWinUiDesktopInstancing/Program.cs
+
+        // STAThread has no effect if main is async, needed for Clipboard
+        [STAThread]
 		private static void Main()
 		{
 			WinRT.ComWrappersSupport.InitializeComWrappers();
@@ -38,13 +40,13 @@ namespace Files.App
 
 					if (false)
 					{
-						// WINUI3: remove
+						// WinUI3: Removed
 					}
 					else
 					{
 						if (false)
 						{
-							// WINUI3: remove
+							// WinUI3: Removed
 						}
 						else
 						{
@@ -61,7 +63,9 @@ namespace Files.App
 				else if (activatedArgs.Data is IProtocolActivatedEventArgs protocolArgs)
 				{
 					var parsedArgs = protocolArgs.Uri.Query.TrimStart('?').Split('=');
-					if (parsedArgs.Length == 2 && parsedArgs[0] == "cmd") // Treat as command line launch
+
+					// Treat as command line launch
+					if (parsedArgs.Length == 2 && parsedArgs[0] == "cmd")
 					{
 						var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
 						var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
@@ -100,9 +104,12 @@ namespace Files.App
 								if (!CommonPaths.ShellPlaces.ContainsKey(command.Payload.ToUpperInvariant()))
 								{
 									OpenShellCommandInExplorer(command.Payload, proc.Id);
-									return; // Exit
+
+									// Exit
+									return;
 								}
 								break;
+
 							default:
 								break;
 						}
@@ -143,7 +150,7 @@ namespace Files.App
 		{
 			if (App.Current is App thisApp)
 			{
-				// WINUI3: verify if needed or OnLaunched is called
+				// WinUI3: Verify if needed or OnLaunched is called
 				thisApp.OnActivated(args);
 			}
 		}
@@ -171,11 +178,16 @@ namespace Files.App
 				keyInstance.RedirectActivationToAsync(args).AsTask().Wait();
 				SetEvent(redirectEventHandle);
 			});
+
 			uint CWMO_DEFAULT = 0;
 			uint INFINITE = 0xFFFFFFFF;
+
 			_ = CoWaitForMultipleObjects(
-			   CWMO_DEFAULT, INFINITE, 1,
-			   new IntPtr[] { redirectEventHandle }, out uint handleIndex);
+				CWMO_DEFAULT,
+				INFINITE,
+				1,
+				new IntPtr[] { redirectEventHandle },
+				out uint handleIndex);
 		}
 	}
 }

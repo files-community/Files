@@ -53,7 +53,7 @@ namespace Files.App.UserControls
 
 		public StatusBarControl()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 		}
 
 		private void FullTrustStatus_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)

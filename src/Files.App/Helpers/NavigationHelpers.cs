@@ -489,7 +489,7 @@ namespace Files.App.Helpers
 			return opened;
 		}
 
-		// WINUI3
+		// WinUI3
 		private static LauncherOptions InitializeWithWindow(LauncherOptions obj)
 		{
 			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);

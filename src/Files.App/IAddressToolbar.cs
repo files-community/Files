@@ -10,14 +10,23 @@ namespace Files.App.UserControls
 	public interface IAddressToolbar
 	{
 		public bool IsSearchBoxVisible { get; set; }
+
 		public bool IsEditModeEnabled { get; set; }
+
 		public bool CanRefresh { get; set; }
+
 		public bool CanCopyPathInPage { get; set; }
+
 		public bool CanNavigateToParent { get; set; }
+
 		public bool CanGoBack { get; set; }
+
 		public bool CanGoForward { get; set; }
+
 		public bool IsSingleItemOverride { get; set; }
+
 		public string PathControlDisplayText { get; set; }
+
 		public ObservableCollection<PathBoxItem> PathComponents { get; }
 
 		public delegate void ToolbarQuerySubmittedEventHandler(object sender, ToolbarQuerySubmittedEventArgs e);
@@ -53,6 +62,7 @@ namespace Files.App.UserControls
 	public class PathNavigationEventArgs
 	{
 		public string ItemPath { get; set; }
+
 		public string ItemName { get; set; }
 	}
 
@@ -64,6 +74,7 @@ namespace Files.App.UserControls
 	public class ToolbarPathItemLoadedEventArgs
 	{
 		public MenuFlyout OpenedFlyout { get; set; }
+
 		public PathBoxItem Item { get; set; }
 	}
 
@@ -75,8 +86,11 @@ namespace Files.App.UserControls
 	public class PathBoxItemDroppedEventArgs
 	{
 		public DataPackageView Package { get; set; }
+
 		public string Path { get; set; }
+
 		public DataPackageOperation AcceptedOperation { get; set; }
+
 		public AsyncManualResetEvent SignalEvent { get; set; }
 	}
 }

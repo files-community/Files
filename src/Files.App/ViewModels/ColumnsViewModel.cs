@@ -5,7 +5,7 @@ namespace Files.App.ViewModels
 {
 	public class ColumnsViewModel : ObservableObject
 	{
-		private ColumnViewModel iconColumn = new ColumnViewModel()
+		private ColumnViewModel iconColumn = new()
 		{
 			UserLength = new GridLength(24, GridUnitType.Pixel),
 			IsResizeable = false,
@@ -18,63 +18,63 @@ namespace Files.App.ViewModels
 			set => SetProperty(ref iconColumn, value);
 		}
 
-		private ColumnViewModel tagColumn = new ColumnViewModel();
+		private ColumnViewModel tagColumn = new();
 		public ColumnViewModel TagColumn
 		{
 			get => tagColumn;
 			set => SetProperty(ref tagColumn, value);
 		}
 
-		private ColumnViewModel nameColumn = new ColumnViewModel() { NormalMaxLength = 1000d };
+		private ColumnViewModel nameColumn = new() { NormalMaxLength = 1000d };
 		public ColumnViewModel NameColumn
 		{
 			get => nameColumn;
 			set => SetProperty(ref nameColumn, value);
 		}
 
-		private ColumnViewModel statusColumn = new ColumnViewModel() { UserLength = new GridLength(50), NormalMaxLength };
+		private ColumnViewModel statusColumn = new() { UserLength = new GridLength(50), NormalMaxLength = 80d };
 		public ColumnViewModel StatusColumn
 		{
 			get => statusColumn;
 			set => SetProperty(ref statusColumn, value);
 		}
 
-		private ColumnViewModel dateModifiedColumn = new ColumnViewModel();
+		private ColumnViewModel dateModifiedColumn = new();
 		public ColumnViewModel DateModifiedColumn
 		{
 			get => dateModifiedColumn;
 			set => SetProperty(ref dateModifiedColumn, value);
 		}
 
-		private ColumnViewModel originalPathColumn = new ColumnViewModel() { NormalMaxLength = 500, };
+		private ColumnViewModel originalPathColumn = new() { NormalMaxLength = 500d, };
 		public ColumnViewModel OriginalPathColumn
 		{
 			get => originalPathColumn;
 			set => SetProperty(ref originalPathColumn, value);
 		}
 
-		private ColumnViewModel itemTypeColumn = new ColumnViewModel();
+		private ColumnViewModel itemTypeColumn = new();
 		public ColumnViewModel ItemTypeColumn
 		{
 			get => itemTypeColumn;
 			set => SetProperty(ref itemTypeColumn, value);
 		}
 
-		private ColumnViewModel dateDeletedColumn = new ColumnViewModel();
+		private ColumnViewModel dateDeletedColumn = new();
 		public ColumnViewModel DateDeletedColumn
 		{
 			get => dateDeletedColumn;
 			set => SetProperty(ref dateDeletedColumn, value);
 		}
 
-		private ColumnViewModel dateCreatedColumn = new ColumnViewModel() { UserCollapsed = true };
+		private ColumnViewModel dateCreatedColumn = new() { UserCollapsed = true };
 		public ColumnViewModel DateCreatedColumn
 		{
 			get => dateCreatedColumn;
 			set => SetProperty(ref dateCreatedColumn, value);
 		}
 
-		private ColumnViewModel sizeColumn = new ColumnViewModel();
+		private ColumnViewModel sizeColumn = new();
 		public ColumnViewModel SizeColumn
 		{
 			get => sizeColumn;

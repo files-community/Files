@@ -30,7 +30,7 @@ namespace Files.App.Dialogs
 
 		public FilesystemOperationDialog()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 
 			App.Window.SizeChanged += Current_SizeChanged;
 		}

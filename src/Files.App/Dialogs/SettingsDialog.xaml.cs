@@ -22,7 +22,7 @@ namespace Files.App.Dialogs
 
 		public SettingsDialog()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 
 			SettingsPane.SelectedItem = SettingsPane.MenuItems[0];
 

@@ -11,7 +11,7 @@ namespace Files.App.UserControls.FilePreviews
 		{
 			Model = model;
 
-			this.InitializeComponent();
+			InitializeComponent();
 		}
 	}
 }

@@ -17,6 +17,7 @@ namespace Files.App.UserControls.Settings
 			get => (ICommand)GetValue(ButtonCommandProperty);
 			set => SetValue(ButtonCommandProperty, value);
 		}
+
 		public static readonly DependencyProperty ButtonCommandProperty =
 			DependencyProperty.Register(
 				"ButtonCommand",
@@ -120,7 +121,7 @@ namespace Files.App.UserControls.Settings
 
 		public SettingsBlockControl()
 		{
-			nitializeComponent();
+			InitializeComponent();
 
 			Loaded += SettingsBlockControl_Loaded;
 		}

@@ -314,7 +314,7 @@ namespace Files.App.Filesystem
 			return new StorageHistory(FileOperationType.Copy, source, pathWithType);
 		}
 
-		// WINUI3
+		// WinUI3
 		private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
 		{
 			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))

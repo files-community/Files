@@ -23,9 +23,6 @@ using Windows.Storage;
 using WinUIEx;
 using IO = System.IO;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
-
 namespace Files.App
 {
 	/// <summary>
@@ -67,88 +64,96 @@ namespace Files.App
 			var rootFrame = EnsureWindowIsInitialized();
 			Activate();
 
-			// WINUI3: port activation args from App.xaml.cs.old: OnActivated, OnFileActivated
+			// WinUI3: Port activation args from App.xaml.cs.old: OnActivated, OnFileActivated
 			switch (activatedEventArgs)
 			{
 				case ILaunchActivatedEventArgs launchArgs:
-					if (launchArgs.Arguments is not null && launchArgs.Arguments.Contains($"{Package.Current.Id.FamilyName}\\files.exe", StringComparison.OrdinalIgnoreCase))
 					{
-						// WINUI3 bug: when launching from commandline the argument is not ICommandLineActivatedEventArgs (#10370)
-						var ppm = CommandLineParser.ParseUntrustedCommands(launchArgs.Arguments);
-						if (ppm.IsEmpty())
+						if (launchArgs.Arguments is not null && launchArgs.Arguments.Contains($"{Package.Current.Id.FamilyName}\\files.exe", StringComparison.OrdinalIgnoreCase))
 						{
-							ppm = new ParsedCommands() { new ParsedCommand() { Type = ParsedCommandType.Unknown, Args = new() { "." } } };
+							// WinUI3 Bug: When launching from commandline the argument is not ICommandLineActivatedEventArgs (#10370)
+							var ppm = CommandLineParser.ParseUntrustedCommands(launchArgs.Arguments);
+							if (ppm.IsEmpty())
+							{
+								ppm = new ParsedCommands() { new ParsedCommand() { Type = ParsedCommandType.Unknown, Args = new() { "." } } };
+							}
+							await InitializeFromCmdLineArgs(rootFrame, ppm);
 						}
-						await InitializeFromCmdLineArgs(rootFrame, ppm);
-					}
-					else if (rootFrame.Content is null)
-					{
-						// When the navigation stack isn't restored navigate to the first page,
-						// configuring the new page by passing required information as a navigation
-						// parameter
-						rootFrame.Navigate(typeof(MainPage), launchArgs.Arguments, new SuppressNavigationTransitionInfo());
-					}
-					else
-					{
-						if (!(string.IsNullOrEmpty(launchArgs.Arguments) && MainPageViewModel.AppInstances.Count > 0))
+						else if (rootFrame.Content is null)
 						{
-							await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), launchArgs.Arguments);
+							// When the navigation stack isn't restored navigate to the first page,
+							// configuring the new page by passing required information as a navigation
+							// parameter
+							rootFrame.Navigate(typeof(MainPage), launchArgs.Arguments, new SuppressNavigationTransitionInfo());
+						}
+						else
+						{
+							if (!(string.IsNullOrEmpty(launchArgs.Arguments) && MainPageViewModel.AppInstances.Count > 0))
+							{
+								await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), launchArgs.Arguments);
+							}
 						}
 					}
 					break;
 
 				case IProtocolActivatedEventArgs eventArgs:
-					if (eventArgs.Uri.AbsoluteUri == "files-uwp:")
 					{
-						rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
-					}
-					else
-					{
-						var parsedArgs = eventArgs.Uri.Query.TrimStart('?').Split('=');
-						var unescapedValue = Uri.UnescapeDataString(parsedArgs[1]);
-						var folder = (StorageFolder)await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(unescapedValue).AsTask());
-						if (folder is not null && !string.IsNullOrEmpty(folder.Path))
+						if (eventArgs.Uri.AbsoluteUri == "files-uwp:")
 						{
-							unescapedValue = folder.Path; // Convert short name to long name (#6190)
+							rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
 						}
-						switch (parsedArgs[0])
+						else
 						{
-							case "tab":
-								rootFrame.Navigate(typeof(MainPage), TabItemArguments.Deserialize(unescapedValue), new SuppressNavigationTransitionInfo());
-								break;
+							var parsedArgs = eventArgs.Uri.Query.TrimStart('?').Split('=');
+							var unescapedValue = Uri.UnescapeDataString(parsedArgs[1]);
+							var folder = (StorageFolder)await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(unescapedValue).AsTask());
+							if (folder is not null && !string.IsNullOrEmpty(folder.Path))
+							{
+								unescapedValue = folder.Path; // Convert short name to long name (#6190)
+							}
+							switch (parsedArgs[0])
+							{
+								case "tab":
+									rootFrame.Navigate(typeof(MainPage), TabItemArguments.Deserialize(unescapedValue), new SuppressNavigationTransitionInfo());
+									break;
 
-							case "folder":
-								rootFrame.Navigate(typeof(MainPage), unescapedValue, new SuppressNavigationTransitionInfo());
-								break;
+								case "folder":
+									rootFrame.Navigate(typeof(MainPage), unescapedValue, new SuppressNavigationTransitionInfo());
+									break;
 
-							case "cmd":
-								var ppm = CommandLineParser.ParseUntrustedCommands(unescapedValue);
-								if (ppm.IsEmpty())
-								{
-									ppm = new ParsedCommands() { new ParsedCommand() { Type = ParsedCommandType.Unknown, Args = new() { "." } } };
-								}
-								await InitializeFromCmdLineArgs(rootFrame, ppm);
-								break;
+								case "cmd":
+									var ppm = CommandLineParser.ParseUntrustedCommands(unescapedValue);
+									if (ppm.IsEmpty())
+									{
+										ppm = new ParsedCommands() { new ParsedCommand() { Type = ParsedCommandType.Unknown, Args = new() { "." } } };
+									}
+									await InitializeFromCmdLineArgs(rootFrame, ppm);
+									break;
+							}
 						}
 					}
 					break;
 
 				case ICommandLineActivatedEventArgs cmdLineArgs:
-					var operation = cmdLineArgs.Operation;
-					var cmdLineString = operation.Arguments;
-					var activationPath = operation.CurrentDirectoryPath;
-
-					var parsedCommands = CommandLineParser.ParseUntrustedCommands(cmdLineString);
-					if (parsedCommands is not null && parsedCommands.Count > 0)
 					{
-						await InitializeFromCmdLineArgs(rootFrame, parsedCommands, activationPath);
+						var operation = cmdLineArgs.Operation;
+						var cmdLineString = operation.Arguments;
+						var activationPath = operation.CurrentDirectoryPath;
+
+						var parsedCommands = CommandLineParser.ParseUntrustedCommands(cmdLineString);
+						if (parsedCommands is not null && parsedCommands.Count > 0)
+						{
+							await InitializeFromCmdLineArgs(rootFrame, parsedCommands, activationPath);
+						}
 					}
 					break;
 
 				case IToastNotificationActivatedEventArgs eventArgsForNotification:
-					if (eventArgsForNotification.Argument == "report")
 					{
-						await Windows.System.Launcher.LaunchUriAsync(new Uri(Constants.GitHub.FeedbackUrl));
+						if (eventArgsForNotification.Argument == "report")
+						{
+							await Windows.System.Launcher.LaunchUriAsync(new Uri(Constants.GitHub.FeedbackUrl));
+						}
 					}
 					break;
 
@@ -156,18 +161,20 @@ namespace Files.App
 					break;
 
 				case IFileActivatedEventArgs fileArgs:
-					var index = 0;
-					if (rootFrame.Content is null)
 					{
-						// When the navigation stack isn't restored navigate to the first page,
-						// configuring the new page by passing required information as a navigation
-						// parameter
-						rootFrame.Navigate(typeof(MainPage), fileArgs.Files.First().Path, new SuppressNavigationTransitionInfo());
-						index = 1;
-					}
-					for (; index < fileArgs.Files.Count; index++)
-					{
-						await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), fileArgs.Files[index].Path);
+						var index = 0;
+						if (rootFrame.Content is null)
+						{
+							// When the navigation stack isn't restored navigate to the first page,
+							// configuring the new page by passing required information as a navigation
+							// parameter
+							rootFrame.Navigate(typeof(MainPage), fileArgs.Files.First().Path, new SuppressNavigationTransitionInfo());
+							index = 1;
+						}
+						for (; index < fileArgs.Files.Count; index++)
+						{
+							await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), fileArgs.Files[index].Path);
+						}
 					}
 					break;
 			}
@@ -214,16 +221,20 @@ namespace Files.App
 				{
 					payload = CommonPaths.ShellPlaces.Get(payload.ToUpperInvariant(), payload);
 					var folder = (StorageFolder)await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(payload).AsTask());
+
 					if (folder is not null && !string.IsNullOrEmpty(folder.Path))
 					{
-						payload = folder.Path; // Convert short name to long name (#6190)
+						// Convert short name to long name https://github.com/files-community/Files/issues/6190
+						payload = folder.Path;
 					}
 				}
+
 				var paneNavigationArgs = new PaneNavigationArguments
 				{
 					LeftPaneNavPathParam = payload,
 					LeftPaneSelectItemParam = selectItem,
 				};
+
 				if (rootFrame.Content is not null)
 				{
 					await MainPageViewModel.AddNewTabByParam(typeof(PaneHolderPage), paneNavigationArgs);
@@ -233,6 +244,7 @@ namespace Files.App
 					rootFrame.Navigate(typeof(MainPage), paneNavigationArgs, new SuppressNavigationTransitionInfo());
 				}
 			}
+
 			foreach (var command in parsedCommands)
 			{
 				switch (command.Type)

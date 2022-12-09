@@ -35,7 +35,8 @@ namespace Files.App.Views.LayoutModes
 
 		public ColumnViewBase() : base()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
+
 			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 			tapDebounceTimer = DispatcherQueue.CreateTimer();

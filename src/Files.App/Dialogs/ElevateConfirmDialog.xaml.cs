@@ -16,7 +16,7 @@ namespace Files.App.Dialogs
 
 		public ElevateConfirmDialog()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 		}
 
 		public new async Task<DialogResult> ShowAsync()

@@ -24,7 +24,7 @@ namespace Files.App.Views.LayoutModes
 
 		public ColumnViewBrowser() : base()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 		}
 
 		protected override void HookEvents()

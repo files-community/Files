@@ -89,7 +89,7 @@ namespace Files.App.Helpers
 
 				appWindow.Show();
 
-				// WINUI3: move window to cursor position
+				// WinUI3: move window to cursor position
 				if (true)
 				{
 					UWPToWinAppSDKUpgradeHelpers.InteropHelpers.GetCursorPos(out var pointerPosition);

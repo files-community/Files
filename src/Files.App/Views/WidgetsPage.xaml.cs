@@ -23,11 +23,16 @@ namespace Files.App.Views
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		private IShellPage AppInstance = null;
-		public FolderSettingsViewModel FolderSettings => AppInstance?.InstanceViewModel.FolderSettings;
+
+		public FolderSettingsViewModel FolderSettings
+			=> AppInstance?.InstanceViewModel.FolderSettings;
 
 		private FolderWidget folderWidget;
+
 		private DrivesWidget drivesWidget;
+
 		private BundlesWidget bundlesWidget;
+
 		private RecentFilesWidget recentFilesWidget;
 
 		public YourHomeViewModel ViewModel
@@ -52,7 +57,8 @@ namespace Files.App.Views
 			base.OnNavigatedFrom(e);
 		}
 
-		public void RefreshWidgetList() => Widgets.ViewModel.RefreshWidgetList();
+		public void RefreshWidgetList()
+			=> Widgets.ViewModel.RefreshWidgetList();
 
 		private void ViewModel_WidgetListRefreshRequestedInvoked(object? sender, EventArgs e)
 		{
@@ -79,6 +85,7 @@ namespace Files.App.Views
 				folderWidget.LibraryCardPropertiesInvoked += FolderWidget_LibraryCardPropertiesInvoked;
 				folderWidget.FolderWidgethowMultiPaneControlsInvoked += FolderWidget_FolderWidgethowMultiPaneControlsInvoked;
 			}
+
 			if (shouldReloadDrivesWidget && drivesWidget is not null)
 			{
 				Widgets.ViewModel.InsertWidget(new(drivesWidget, (value) => UserSettingsService.AppearanceSettingsService.DrivesWidgetExpanded = value, () => UserSettingsService.AppearanceSettingsService.DrivesWidgetExpanded), 1);
@@ -89,11 +96,13 @@ namespace Files.App.Views
 				drivesWidget.DrivesWidgetInvoked += DrivesWidget_DrivesWidgetInvoked;
 				drivesWidget.DrivesWidgetNewPaneInvoked += DrivesWidget_DrivesWidgetNewPaneInvoked;
 			}
+
 			if (shouldReloadBundles && bundlesWidget is not null)
 			{
 				Widgets.ViewModel.InsertWidget(new(bundlesWidget, (value) => UserSettingsService.AppearanceSettingsService.BundlesWidgetExpanded = value, () => UserSettingsService.AppearanceSettingsService.BundlesWidgetExpanded), 2);
 				ViewModel.LoadBundlesCommand.Execute(bundlesWidget.ViewModel);
 			}
+
 			if (shouldReloadRecentFiles && recentFilesWidget is not null)
 			{
 				Widgets.ViewModel.InsertWidget(new(recentFilesWidget, (value) => UserSettingsService.AppearanceSettingsService.RecentFilesWidgetExpanded = value, () => UserSettingsService.AppearanceSettingsService.RecentFilesWidgetExpanded), 3);
@@ -109,6 +118,7 @@ namespace Files.App.Views
 		{
 			// We must change the associatedInstance because only now it has loaded and not null
 			ViewModel.ChangeAppInstance(AppInstance);
+
 			ReloadWidgets();
 		}
 
@@ -119,13 +129,14 @@ namespace Files.App.Views
 			FolderWidget.ShowMultiPaneControls = AppInstance.PaneHolder?.IsMultiPaneEnabled ?? false;
 		}
 
-		// WINUI3
+		// WinUI3
 		private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
 		{
 			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
 			{
 				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
 			}
+
 			return contentDialog;
 		}
 
@@ -160,6 +171,7 @@ namespace Files.App.Views
 							{
 								NavPathParam = e.ItemPath
 							});
+
 							return;
 						}
 					}
@@ -189,7 +201,9 @@ namespace Files.App.Views
 			{
 				NavPathParam = e.Path
 			});
-			AppInstance.InstanceViewModel.IsPageTypeNotHome = true;     // show controls that were hidden on the home page
+
+            // Show controls that were hidden on the home page
+            AppInstance.InstanceViewModel.IsPageTypeNotHome = true;
 		}
 
 		private void FolderWidget_LibraryCardNewPaneInvoked(object sender, LibraryCardInvokedEventArgs e)
@@ -213,7 +227,9 @@ namespace Files.App.Views
 			{
 				NavPathParam = e.Path
 			});
-			AppInstance.InstanceViewModel.IsPageTypeNotHome = true;     // show controls that were hidden on the home page
+
+            // Show controls that were hidden on the home page
+            AppInstance.InstanceViewModel.IsPageTypeNotHome = true;
 		}
 
 		protected override async void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -249,12 +265,14 @@ namespace Files.App.Views
 				Path = tag,
 			};
 			AppInstance.ToolbarViewModel.PathComponents.Add(item);
+
 			base.OnNavigatedTo(eventArgs);
 		}
 
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
 		{
 			base.OnNavigatingFrom(e);
+
 			AppInstance.ToolbarViewModel.RefreshRequested -= ToolbarViewModel_RefreshRequested;
 		}
 
@@ -270,6 +288,7 @@ namespace Files.App.Views
 			ViewModel.YourHomeLoadedInvoked -= ViewModel_YourHomeLoadedInvoked;
 			Widgets.ViewModel.WidgetListRefreshRequestedInvoked -= ViewModel_WidgetListRefreshRequestedInvoked;
 			AppInstance.ToolbarViewModel.RefreshRequested -= ToolbarViewModel_RefreshRequested;
+
 			ViewModel?.Dispose();
 		}
 	}

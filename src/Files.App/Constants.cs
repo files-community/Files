@@ -90,11 +90,11 @@ namespace Files.App
 
 			public const double MaximumSidebarWidth = 500;
 
-			public const double ContextMenuMaxHeight = 480; // For contextmenu hacks, must match WinUI style
+			public const double ContextMenuMaxHeight = 480;           // For contextmenu hacks, must match WinUI style
 			public const double ContextMenuSecondaryItemsHeight = 32; // For contextmenu hacks, must match WinUI style
-			public const double ContextMenuPrimaryItemsHeight = 48; // For contextmenu hacks, must match WinUI style
-			public const double ContextMenuLabelMargin = 10; // For contextmenu hacks
-			public const double ContextMenuItemsMaxWidth = 250; // For contextmenu hacks
+			public const double ContextMenuPrimaryItemsHeight = 48;   // For contextmenu hacks, must match WinUI style
+			public const double ContextMenuLabelMargin = 10;          // For contextmenu hacks
+			public const double ContextMenuItemsMaxWidth = 250;       // For contextmenu hacks
 		}
 
 		public static class Browser
@@ -103,7 +103,7 @@ namespace Files.App
 			{
 				public const int GridViewIncrement = 20;
 
-				public const int GridViewSizeMax = 300; // Max achievable ctrl + scroll, not a default layout size.
+				public const int GridViewSizeMax = 300; // Max achievable Ctrl + Scroll, not a default layout size.
 
 				public const int GridViewSizeLarge = 220;
 

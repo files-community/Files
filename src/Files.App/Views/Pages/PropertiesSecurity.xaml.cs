@@ -28,7 +28,7 @@ namespace Files.App.Views
 
 		public PropertiesSecurity()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 
 			OpenAdvancedPropertiesCommand = new RelayCommand(() => OpenAdvancedProperties());
 		}

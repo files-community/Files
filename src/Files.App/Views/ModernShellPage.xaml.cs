@@ -43,13 +43,25 @@ namespace Files.App.Views
 	public sealed partial class ModernShellPage : Page, IShellPage, INotifyPropertyChanged
 	{
 		private readonly StorageHistoryHelpers storageHistoryHelpers;
-		public IBaseLayout SlimContentPage => ContentPage;
+
+		public IBaseLayout SlimContentPage
+			=> ContentPage;
+
 		public IFilesystemHelpers FilesystemHelpers { get; private set; }
+
 		private readonly CancellationTokenSource cancellationTokenSource;
-		public bool CanNavigateBackward => ItemDisplayFrame.CanGoBack;
-		public bool CanNavigateForward => ItemDisplayFrame.CanGoForward;
-		public FolderSettingsViewModel FolderSettings => InstanceViewModel?.FolderSettings;
-		public AppModel AppModel => App.AppModel;
+
+		public bool CanNavigateBackward
+			=> ItemDisplayFrame.CanGoBack;
+
+		public bool CanNavigateForward
+			=> ItemDisplayFrame.CanGoForward;
+
+		public FolderSettingsViewModel FolderSettings
+			=> InstanceViewModel?.FolderSettings;
+
+		public AppModel AppModel
+			=> App.AppModel;
 
 		private IDialogService DialogService { get; } = Ioc.Default.GetRequiredService<IDialogService>();
 
@@ -66,19 +78,24 @@ namespace Files.App.Views
 				if (isCurrentInstance != value)
 				{
 					isCurrentInstance = value;
+
 					if (isCurrentInstance)
 						ContentPage?.ItemManipulationModel.FocusFileList();
 					else
 						ToolbarViewModel.IsEditModeEnabled = false;
+
 					NotifyPropertyChanged(nameof(IsCurrentInstance));
 				}
 			}
 		}
 
-		public bool IsColumnView => SlimContentPage is ColumnViewBrowser;
+		public bool IsColumnView
+			=> SlimContentPage is ColumnViewBrowser;
 
 		public ItemViewModel FilesystemViewModel { get; private set; } = null;
+
 		public CurrentInstanceViewModel InstanceViewModel { get; }
+
 		private BaseLayout contentPage = null;
 
 		public BaseLayout ContentPage
@@ -89,6 +106,7 @@ namespace Files.App.Views
 				if (value != contentPage)
 				{
 					contentPage = value;
+
 					NotifyPropertyChanged(nameof(ContentPage));
 					NotifyPropertyChanged(nameof(SlimContentPage));
 				}
@@ -96,7 +114,6 @@ namespace Files.App.Views
 		}
 
 		private bool isPageMainPane;
-
 		public bool IsPageMainPane
 		{
 			get => isPageMainPane;
@@ -105,6 +122,7 @@ namespace Files.App.Views
 				if (value != isPageMainPane)
 				{
 					isPageMainPane = value;
+
 					NotifyPropertyChanged(nameof(IsPageMainPane));
 				}
 			}
@@ -112,26 +130,34 @@ namespace Files.App.Views
 
 		public SolidColorBrush CurrentInstanceBorderBrush
 		{
-			get { return (SolidColorBrush)GetValue(CurrentInstanceBorderBrushProperty); }
-			set { SetValue(CurrentInstanceBorderBrushProperty, value); }
+			get => (SolidColorBrush)GetValue(CurrentInstanceBorderBrushProperty);
+			set => SetValue(CurrentInstanceBorderBrushProperty, value);
 		}
 
 		public Thickness CurrentInstanceBorderThickness
 		{
-			get { return (Thickness)GetValue(CurrentInstanceBorderThicknessProperty); }
-			set { SetValue(CurrentInstanceBorderThicknessProperty, value); }
+			get => (Thickness)GetValue(CurrentInstanceBorderThicknessProperty);
+			set => SetValue(CurrentInstanceBorderThicknessProperty, value);
 		}
 
-		// Using a DependencyProperty as the backing store for CurrentInstanceBorderThickness.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty CurrentInstanceBorderThicknessProperty =
-			DependencyProperty.Register("CurrentInstanceBorderThickness", typeof(Thickness), typeof(ModernShellPage), new PropertyMetadata(null));
+			DependencyProperty.Register(
+				"CurrentInstanceBorderThickness",
+				typeof(Thickness),
+				typeof(ModernShellPage),
+				new PropertyMetadata(null));
 
 		public static readonly DependencyProperty CurrentInstanceBorderBrushProperty =
-			DependencyProperty.Register("CurrentInstanceBorderBrush", typeof(SolidColorBrush), typeof(ModernShellPage), new PropertyMetadata(null));
+			DependencyProperty.Register(
+				"CurrentInstanceBorderBrush",
+				typeof(SolidColorBrush),
+				typeof(ModernShellPage),
+				new PropertyMetadata(null));
 
-		public Type CurrentPageType => ItemDisplayFrame.SourcePageType;
+		public Type CurrentPageType
+			=> ItemDisplayFrame.SourcePageType;
 
-		public ToolbarViewModel ToolbarViewModel { get; } = new ToolbarViewModel();
+		public ToolbarViewModel ToolbarViewModel { get; } = new();
 
 		public ModernShellPage()
 		{
@@ -150,13 +176,11 @@ namespace Files.App.Views
 
 			DisplayFilesystemConsentDialog();
 
-			/*TODO ResourceContext.GetForCurrentView and ResourceContext.GetForViewIndependentUse do not exist in Windows App SDK
-              Use your ResourceManager instance to create a ResourceContext as below.If you already have a ResourceManager instance,
-              replace the new instance created below with correct instance.
-              Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/mrtcore
-            */
+			// TODO: ResourceContext.GetForCurrentView and ResourceContext.GetForViewIndependentUse do not exist in Windows App SDK
+			//  Use your ResourceManager instance to create a ResourceContext as below.If you already have a ResourceManager instance,
+			//  replace the new instance created below with correct instance.
+			//  Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/mrtcore
 			var flowDirectionSetting = new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
-
 			if (flowDirectionSetting == "RTL")
 				FlowDirection = FlowDirection.RightToLeft;
 
@@ -183,12 +207,11 @@ namespace Files.App.Views
 
 			this.PointerPressed += CoreWindow_PointerPressed;
 
-			/*
-            TODO UA307 Default back button in the title bar does not exist in WinUI3 apps.
-            The tool has generated a custom back button in the MainWindow.xaml.cs file.
-            Feel free to edit its position, behavior and use the custom back button instead.
-            Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/case-study-1#restoring-back-button-functionality
-            */
+
+			// TODO: UA307 Default back button in the title bar does not exist in WinUI3 apps.
+			//  The tool has generated a custom back button in the MainWindow.xaml.cs file.
+			//  Feel free to edit its position, behavior and use the custom back button instead.
+			//  Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/case-study-1#restoring-back-button-functionality
 			//SystemNavigationManager.GetForCurrentView().BackRequested += ModernShellPage_BackRequested;
 
 			App.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
@@ -196,22 +219,22 @@ namespace Files.App.Views
 			PreviewKeyDown += ModernShellPage_PreviewKeyDown;
 		}
 
-		/**
-         * Some keys are overriden by control built-in defaults (e.g. 'Space').
-         * They must be handled here since they're not propagated to KeyboardAccelerator.
-         */
+		// Some keys are overriden by control built-in defaults(e.g. 'Space').
+		// They must be handled here since they're not propagated to KeyboardAccelerator.
 		private async void ModernShellPage_PreviewKeyDown(object sender, KeyRoutedEventArgs args)
 		{
 			var ctrl = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shift = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 			var alt = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down);
-			var tabInstance = CurrentPageType == typeof(DetailsLayoutBrowser) ||
-							  CurrentPageType == typeof(GridViewBrowser);
+			var tabInstance =
+				CurrentPageType == typeof(DetailsLayoutBrowser) ||
+				CurrentPageType == typeof(GridViewBrowser);
 
 			switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.Key)
 			{
-				case (true, false, false, true, (VirtualKey)192): // ctrl + ` (accent key), open terminal
-																  // Check if there is a folder selected, if not use the current directory.
+				// ctrl + ` (accent key), open terminal
+				// Check if there is a folder selected, if not use the current directory.
+				case (true, false, false, true, (VirtualKey)192):
 					string path = FilesystemViewModel.WorkingDirectory;
 					if (SlimContentPage?.SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder)
 						path = SlimContentPage.SelectedItem.ItemPath;
@@ -219,11 +242,13 @@ namespace Files.App.Views
 					// TODO open path in Windows Terminal
 					break;
 
-				case (false, false, false, true, VirtualKey.Space): // space, quick look
-																	// handled in `CurrentPageType`::FileList_PreviewKeyDown
+				// Space, quick look
+				// Handled in `CurrentPageType`::FileList_PreviewKeyDown
+				case (false, false, false, true, VirtualKey.Space):
 					break;
 
-				case (true, false, false, true, VirtualKey.Space): // ctrl + space, toggle media playback
+				// Ctrl + Space, toggle media playback
+				case (true, false, false, true, VirtualKey.Space):
 					if (App.PreviewPaneViewModel.PreviewPaneContent is UserControls.FilePreviews.MediaPreview mediaPreviewContent)
 					{
 						mediaPreviewContent.ViewModel.TogglePlayback();
@@ -283,11 +308,10 @@ namespace Files.App.Views
 				AdaptiveLayoutHelpers.PredictLayoutMode(InstanceViewModel.FolderSettings, FilesystemViewModel.WorkingDirectory, FilesystemViewModel.FilesAndFolders);
 		}
 
-		/*
-         * Ensure that the path bar gets updated for user interaction
-         * whenever the path changes. We will get the individual directories from
-         * the updated, most-current path and add them to the UI.
-         */
+		
+		// Ensure that the path bar gets updated for user interaction
+		// whenever the path changes.We will get the individual directories from
+		// the updated, most-current path and add them to the UI.
 		public void UpdatePathUIToWorkingDirectory(string newWorkingDir, string singleItemOverride = null)
 		{
 			if (string.IsNullOrWhiteSpace(singleItemOverride))
@@ -296,10 +320,12 @@ namespace Files.App.Views
 				var lastCommonItemIndex = ToolbarViewModel.PathComponents
 					.Select((value, index) => new { value, index })
 					.LastOrDefault(x => x.index < components.Count && x.value.Path == components[x.index].Path)?.index ?? 0;
+
 				while (ToolbarViewModel.PathComponents.Count > lastCommonItemIndex)
 				{
 					ToolbarViewModel.PathComponents.RemoveAt(lastCommonItemIndex);
 				}
+
 				foreach (var component in components.Skip(lastCommonItemIndex))
 				{
 					ToolbarViewModel.PathComponents.Add(component);
@@ -307,7 +333,8 @@ namespace Files.App.Views
 			}
 			else
 			{
-				ToolbarViewModel.PathComponents.Clear(); // Clear the path UI
+				// Clear the path UI
+				ToolbarViewModel.PathComponents.Clear();
 				ToolbarViewModel.PathComponents.Add(new PathBoxItem() { Path = null, Title = singleItemOverride });
 			}
 		}
@@ -325,6 +352,7 @@ namespace Files.App.Views
 						MaxItemCount = 10,
 						SearchUnindexedItems = UserSettingsService.PreferencesSettingsService.SearchUnindexedItems
 					};
+
 					sender.SetSuggestions((await search.SearchAsync()).Select(suggestion => new SuggestionModel(suggestion)));
 				}
 				else
@@ -380,6 +408,7 @@ namespace Files.App.Views
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
 		{
 			base.OnNavigatedTo(eventArgs);
+
 			if (eventArgs.Parameter is string navPath)
 				NavParams = new NavigationParams { NavPath = navPath };
 			else if (eventArgs.Parameter is NavigationParams navParams)
@@ -415,6 +444,7 @@ namespace Files.App.Views
 		private async void ModernShellPage_PathBoxItemDropped(object sender, PathBoxItemDroppedEventArgs e)
 		{
 			await FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.Package, e.Path, false, true);
+
 			e.SignalEvent?.Set();
 		}
 
@@ -462,7 +492,7 @@ namespace Files.App.Views
 				DisplayFilesystemConsentDialog();
 		}
 
-		// WINUI3
+		// WinUI3
 		private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
 		{
 			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
@@ -473,12 +503,13 @@ namespace Files.App.Views
 
 		private async Task<BaseLayout> GetContentOrNullAsync()
 		{
-			// WINUI3: make sure not to run this synchronously, do not use EnqueueAsync
+			// WinUI3: Make sure not to run this synchronously, do not use EnqueueAsync
 			var tcs = new TaskCompletionSource<object?>();
 			DispatcherQueue.TryEnqueue(() =>
 			{
 				tcs.SetResult(ItemDisplayFrame.Content);
 			});
+
 			return await tcs.Task as BaseLayout;
 		}
 
@@ -496,7 +527,6 @@ namespace Files.App.Views
 		}
 
 		private NavigationParams navParams;
-
 		public NavigationParams NavParams
 		{
 			get => navParams;
@@ -505,6 +535,7 @@ namespace Files.App.Views
 				if (value != navParams)
 				{
 					navParams = value;
+
 					if (IsLoaded)
 						OnNavigationParamsChanged();
 				}
@@ -531,10 +562,13 @@ namespace Files.App.Views
 		}
 
 		public static readonly DependencyProperty NavParamsProperty =
-			DependencyProperty.Register("NavParams", typeof(NavigationParams), typeof(ModernShellPage), new PropertyMetadata(null));
+			DependencyProperty.Register(
+				"NavParams",
+				typeof(NavigationParams),
+				typeof(ModernShellPage),
+				new PropertyMetadata(null));
 
 		private TabItemArguments tabItemArguments;
-
 		public TabItemArguments TabItemArguments
 		{
 			get => tabItemArguments;
@@ -543,13 +577,13 @@ namespace Files.App.Views
 				if (tabItemArguments != value)
 				{
 					tabItemArguments = value;
+
 					ContentChanged?.Invoke(this, value);
 				}
 			}
 		}
 
 		private IPaneHolder paneHolder;
-
 		public IPaneHolder PaneHolder
 		{
 			get => paneHolder;
@@ -558,6 +592,7 @@ namespace Files.App.Views
 				if (value != paneHolder)
 				{
 					paneHolder = value;
+
 					NotifyPropertyChanged(nameof(PaneHolder));
 				}
 			}
@@ -591,7 +626,7 @@ namespace Files.App.Views
 
 		private void FilesystemViewModel_OnSelectionRequestedEvent(object sender, List<ListedItem> e)
 		{
-			// set focus since selection might occur before the UI finishes updating
+			// Set focus since selection might occur before the UI finishes updating
 			ContentPage.ItemManipulationModel.FocusFileList();
 			ContentPage.ItemManipulationModel.SetSelectedItems(e);
 		}
@@ -600,7 +635,6 @@ namespace Files.App.Views
 		{
 			if (ContentPage is null)
 				return;
-
 
 			var directoryItemCountLocalization = (FilesystemViewModel.FilesAndFolders.Count == 1)
 				? "ItemCount/Text".GetLocalizedResource()
@@ -624,25 +658,31 @@ namespace Files.App.Views
 		private async void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e)
 		{
 			ContentPage = await GetContentOrNullAsync();
+
 			if (!ToolbarViewModel.SearchBox.WasQuerySubmitted)
 			{
 				ToolbarViewModel.SearchBox.Query = string.Empty;
 				ToolbarViewModel.IsSearchBoxVisible = false;
 			}
+
 			ToolbarViewModel.UpdateAdditionalActions();
+
 			if (ItemDisplayFrame.CurrentSourcePageType == (typeof(DetailsLayoutBrowser))
 				|| ItemDisplayFrame.CurrentSourcePageType == typeof(GridViewBrowser))
 			{
 				// Reset DataGrid Rows that may be in "cut" command mode
 				ContentPage.ResetItemOpacity();
 			}
+
 			var parameters = e.Parameter as NavigationArguments;
 			var isTagSearch = parameters.NavPathParam is not null && parameters.NavPathParam.StartsWith("tag:");
+
 			TabItemArguments = new TabItemArguments()
 			{
 				InitialPageType = typeof(ModernShellPage),
 				NavigationArg = parameters.IsSearchResultPage && !isTagSearch ? parameters.SearchPathParam : parameters.NavPathParam
 			};
+
 			if (parameters.IsLayoutSwitch)
 				FilesystemViewModel_DirectoryInfoUpdated(sender, EventArgs.Empty);
 		}
@@ -650,44 +690,50 @@ namespace Files.App.Views
 		private async void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
 		{
 			args.Handled = true;
+
 			var ctrl = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Control);
 			var shift = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
 			var alt = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Menu);
-			var tabInstance = CurrentPageType == typeof(DetailsLayoutBrowser) ||
-							  CurrentPageType == typeof(GridViewBrowser);
+			var tabInstance =
+				CurrentPageType == typeof(DetailsLayoutBrowser) ||
+				CurrentPageType == typeof(GridViewBrowser);
 
 			switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
 			{
-				case (true, false, false, true, VirtualKey.E): // ctrl + e, extract
+				// Ctrl + E, extract
+				case (true, false, false, true, VirtualKey.E):
 					if (ToolbarViewModel.CanExtract)
 						ToolbarViewModel.ExtractCommand.Execute(null);
-
 					break;
 
-				case (true, false, false, true, VirtualKey.Z): // ctrl + z, undo
+				// Ctrl + Z, undo
+				case (true, false, false, true, VirtualKey.Z):
 					if (!InstanceViewModel.IsPageTypeSearchResults)
 						await storageHistoryHelpers.TryUndo();
-
 					break;
 
-				case (true, false, false, true, VirtualKey.Y): // ctrl + y, redo
+				// Ctrl + Y, redo
+				case (true, false, false, true, VirtualKey.Y):
 					if (!InstanceViewModel.IsPageTypeSearchResults)
 						await storageHistoryHelpers.TryRedo();
-
 					break;
 
+				// Ctrl + C, copy path
 				case (true, true, false, true, VirtualKey.C):
 					SlimContentPage?.CommandsViewModel.CopyPathOfSelectedItemCommand.Execute(null);
 					break;
 
-				case (false, false, false, _, VirtualKey.F3): //f3
-				case (true, false, false, _, VirtualKey.F): // ctrl + f
+				// F3
+				case (false, false, false, _, VirtualKey.F3):
+				// Ctrl + F
+				case (true, false, false, _, VirtualKey.F):
 					if (tabInstance || CurrentPageType == typeof(WidgetsPage))
 						ToolbarViewModel.SwitchSearchBoxVisibility();
 
 					break;
 
-				case (true, true, false, true, VirtualKey.N): // ctrl + shift + n, new item
+				// Ctrl + Shift + N, new item
+				case (true, true, false, true, VirtualKey.N):
 					if (InstanceViewModel.CanCreateFileInPage)
 					{
 						var addItemDialogViewModel = new AddItemDialogViewModel();
@@ -700,7 +746,8 @@ namespace Files.App.Views
 					}
 					break;
 
-				case (false, true, false, true, VirtualKey.Delete): // shift + delete, PermanentDelete
+				// Shift + Delete, PermanentDelete
+				case (false, true, false, true, VirtualKey.Delete):
 					if (ContentPage.IsItemSelected && !ToolbarViewModel.IsEditModeEnabled && !InstanceViewModel.IsPageTypeSearchResults)
 					{
 						var items = SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
@@ -708,108 +755,124 @@ namespace Files.App.Views
 							item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
 						await FilesystemHelpers.DeleteItemsAsync(items, true, true, true);
 					}
-
 					break;
 
-				case (true, false, false, true, VirtualKey.C): // ctrl + c, copy
+				// Ctrl + C, copy
+				case (true, false, false, true, VirtualKey.C):
 					if (!ToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem)
 						await UIFilesystemHelpers.CopyItem(this);
-
 					break;
 
-				case (true, false, false, true, VirtualKey.V): // ctrl + v, paste
+				// Ctrl + V, paste
+				case (true, false, false, true, VirtualKey.V):
 					if (!ToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults && !ToolbarViewModel.SearchHasFocus)
 						await UIFilesystemHelpers.PasteItemAsync(FilesystemViewModel.WorkingDirectory, this);
-
 					break;
 
-				case (true, false, false, true, VirtualKey.X): // ctrl + x, cut
+				// Ctrl + X, cut
+				case (true, false, false, true, VirtualKey.X):
 					if (!ToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem)
 						UIFilesystemHelpers.CutItem(this);
-
 					break;
 
-				case (true, false, false, true, VirtualKey.A): // ctrl + a, select all
+				// Ctrl + A, select all
+				case (true, false, false, true, VirtualKey.A):
 					if (!ToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem)
 						this.SlimContentPage.ItemManipulationModel.SelectAllItems();
-
 					break;
 
-				case (true, false, false, true, VirtualKey.D): // ctrl + d, delete item
-				case (false, false, false, true, VirtualKey.Delete): // delete, delete item
+				// Ctrl + D, delete item
+				case (true, false, false, true, VirtualKey.D):
+				// Delete, delete item
+				case (false, false, false, true, VirtualKey.Delete):
 					if (ContentPage.IsItemSelected && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults)
 					{
 						var items = SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
 							item.ItemPath,
 							item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
+
 						await FilesystemHelpers.DeleteItemsAsync(items, true, false, true);
 					}
-
 					break;
 
-				case (true, false, false, true, VirtualKey.P): // ctrl + p, toggle preview pane
+				// Ctrl + P, toggle preview pane
+				case (true, false, false, true, VirtualKey.P):
 					App.PaneViewModel.IsPreviewSelected = !App.PaneViewModel.IsPreviewSelected;
 					break;
 
-				case (true, false, false, true, VirtualKey.R): // ctrl + r, refresh
+				// Ctrl + R, refresh
+				case (true, false, false, true, VirtualKey.R):
 					if (ToolbarViewModel.CanRefresh)
 						Refresh_Click();
-
 					break;
 
-				case (false, false, true, _, VirtualKey.D): // alt + d, select address bar (english)
-				case (true, false, false, _, VirtualKey.L): // ctrl + l, select address bar
+				// alt + D, select address bar (english)
+				case (false, false, true, _, VirtualKey.D):
+				// Ctrl + L, select address bar
+				case (true, false, false, _, VirtualKey.L):
 					if (tabInstance || CurrentPageType == typeof(WidgetsPage))
 						ToolbarViewModel.IsEditModeEnabled = true;
 
 					break;
 
-				case (true, true, false, true, VirtualKey.K): // ctrl + shift + k, duplicate tab
+				// Ctrl + Shift + K, duplicate tab
+				case (true, true, false, true, VirtualKey.K):
 					await NavigationHelpers.OpenPathInNewTab(this.FilesystemViewModel.WorkingDirectory);
 					break;
 
-				case (true, false, false, true, VirtualKey.H): // ctrl + h, toggle hidden folder visibility
-					UserSettingsService.FoldersSettingsService.ShowHiddenItems ^= true; // flip bool
+				// Ctrl + H, toggle hidden folder visibility
+				case (true, false, false, true, VirtualKey.H):
+					// flip bool
+					UserSettingsService.FoldersSettingsService.ShowHiddenItems ^= true;
 					break;
 
-				case (false, false, false, _, VirtualKey.F1): // F1, open Files wiki
+				// F1, open Files wiki
+				case (false, false, false, _, VirtualKey.F1):
 					await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.DocumentationUrl));
 					break;
 
-				case (true, true, false, _, VirtualKey.Number1): // ctrl+shift+1, details view
+				// Ctrl + Shift + 1, details view
+				case (true, true, false, _, VirtualKey.Number1):
 					InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView(true);
 					break;
 
-				case (true, true, false, _, VirtualKey.Number2): // ctrl+shift+2, tiles view
+				// Ctrl + Shift + 2, tiles view
+				case (true, true, false, _, VirtualKey.Number2):
 					InstanceViewModel.FolderSettings.ToggleLayoutModeTiles(true);
 					break;
 
-				case (true, true, false, _, VirtualKey.Number3): // ctrl+shift+3, grid small view
+				// Ctrl + Shift + 3, grid small view
+				case (true, true, false, _, VirtualKey.Number3):
 					InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall(true);
 					break;
 
-				case (true, true, false, _, VirtualKey.Number4): // ctrl+shift+4, grid medium view
+				// Ctrl + Shift + 4, grid medium view
+				case (true, true, false, _, VirtualKey.Number4): 
 					InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium(true);
 					break;
 
-				case (true, true, false, _, VirtualKey.Number5): // ctrl+shift+5, grid large view
+				// Ctrl + Shift + 5, grid large view
+				case (true, true, false, _, VirtualKey.Number5):
 					InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge(true);
 					break;
 
-				case (true, true, false, _, VirtualKey.Number6): // ctrl+shift+6, column view
+				// Ctrl + Shift + 6, column view
+				case (true, true, false, _, VirtualKey.Number6):
 					InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView(true);
 					break;
 
-				case (true, true, false, _, VirtualKey.Number7): // ctrl+shift+7, adaptive
+				// Ctrl + Shift + 7, adaptive
+				case (true, true, false, _, VirtualKey.Number7):
 					InstanceViewModel.FolderSettings.ToggleLayoutModeAdaptive();
 					break;
 			}
 
 			switch (args.KeyboardAccelerator.Key)
 			{
-				case VirtualKey.F2: //F2, rename
-					if (CurrentPageType == typeof(DetailsLayoutBrowser)
-						|| CurrentPageType == typeof(GridViewBrowser))
+				// F2, rename
+				case VirtualKey.F2:
+					if (CurrentPageType == typeof(DetailsLayoutBrowser) ||
+						CurrentPageType == typeof(GridViewBrowser))
 					{
 						if (ContentPage.IsItemSelected)
 							ContentPage.ItemManipulationModel.StartRenameItem();
@@ -830,6 +893,7 @@ namespace Files.App.Views
 					ThumbnailSize = InstanceViewModel.FolderSettings.GetIconSize(),
 					SearchUnindexedItems = InstanceViewModel.SearchedUnindexedItems
 				};
+
 				await FilesystemViewModel.SearchAsync(searchInstance);
 			}
 			else if (CurrentPageType != typeof(WidgetsPage))
@@ -848,8 +912,10 @@ namespace Files.App.Views
 			var previousPageContent = ItemDisplayFrame.BackStack[ItemDisplayFrame.BackStack.Count - 1];
 			var previousPageNavPath = previousPageContent.Parameter as NavigationArguments;
 			previousPageNavPath.IsLayoutSwitch = false;
+
 			if (previousPageContent.SourcePageType != typeof(WidgetsPage))
 				InstanceViewModel.FolderSettings.GetLayoutType(previousPageNavPath.IsSearchResultPage ? previousPageNavPath.SearchPathParam : previousPageNavPath.NavPathParam); // Update layout type
+
 			SelectSidebarItemFromPath(previousPageContent.SourcePageType);
 
 			if (previousPageContent.SourcePageType == typeof(WidgetsPage))
@@ -866,10 +932,13 @@ namespace Files.App.Views
 
 			var incomingPageContent = ItemDisplayFrame.ForwardStack[ItemDisplayFrame.ForwardStack.Count - 1];
 			var incomingPageNavPath = incomingPageContent.Parameter as NavigationArguments;
+
 			incomingPageNavPath.IsLayoutSwitch = false;
 			if (incomingPageContent.SourcePageType != typeof(WidgetsPage))
 				InstanceViewModel.FolderSettings.GetLayoutType(incomingPageNavPath.IsSearchResultPage ? incomingPageNavPath.SearchPathParam : incomingPageNavPath.NavPathParam); // Update layout type
+
 			SelectSidebarItemFromPath(incomingPageContent.SourcePageType);
+
 			ItemDisplayFrame.GoForward();
 		}
 
@@ -883,34 +952,39 @@ namespace Files.App.Views
 
 			if (isPathRooted)
 			{
-				ItemDisplayFrame.Navigate(typeof(WidgetsPage),
-										  new NavigationArguments()
-										  {
-											  NavPathParam = "Home".GetLocalizedResource(),
-											  AssociatedTabInstance = this
-										  },
-										  new SuppressNavigationTransitionInfo());
+				ItemDisplayFrame.Navigate(
+					typeof(WidgetsPage),
+					new NavigationArguments()
+					{
+						NavPathParam = "Home".GetLocalizedResource(),
+					  AssociatedTabInstance = this
+					},
+					new SuppressNavigationTransitionInfo());
 			}
 			else
 			{
 				string parentDirectoryOfPath = FilesystemViewModel.WorkingDirectory.TrimEnd('\\', '/');
 
 				var lastSlashIndex = parentDirectoryOfPath.LastIndexOf("\\", StringComparison.Ordinal);
+
 				if (lastSlashIndex == -1)
 					lastSlashIndex = parentDirectoryOfPath.LastIndexOf("/", StringComparison.Ordinal);
+
 				if (lastSlashIndex != -1)
 					parentDirectoryOfPath = FilesystemViewModel.WorkingDirectory.Remove(lastSlashIndex);
+
 				if (parentDirectoryOfPath.EndsWith(':'))
 					parentDirectoryOfPath += '\\';
 
 				SelectSidebarItemFromPath();
-				ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(parentDirectoryOfPath),
-											  new NavigationArguments()
-											  {
-												  NavPathParam = parentDirectoryOfPath,
-												  AssociatedTabInstance = this
-											  },
-											  new SuppressNavigationTransitionInfo());
+				ItemDisplayFrame.Navigate(
+					InstanceViewModel.FolderSettings.GetLayoutType(parentDirectoryOfPath),
+					new NavigationArguments()
+					{
+						NavPathParam = parentDirectoryOfPath,
+						AssociatedTabInstance = this
+					},
+					new SuppressNavigationTransitionInfo());
 			}
 		}
 
@@ -924,7 +998,7 @@ namespace Files.App.Views
 		{
 			PreviewKeyDown -= ModernShellPage_PreviewKeyDown;
 			this.PointerPressed -= CoreWindow_PointerPressed;
-			//SystemNavigationManager.GetForCurrentView().BackRequested -= ModernShellPage_BackRequested; //WINUI3
+			//SystemNavigationManager.GetForCurrentView().BackRequested -= ModernShellPage_BackRequested; //WinUI3
 			App.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;
 
 			ToolbarViewModel.ToolbarPathItemInvoked -= ModernShellPage_NavigationRequested;
@@ -946,7 +1020,8 @@ namespace Files.App.Views
 			InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated -= AppSettings_SortOptionPreferenceUpdated;
 			InstanceViewModel.FolderSettings.SortDirectoriesAlongsideFilesPreferenceUpdated -= AppSettings_SortDirectoriesAlongsideFilesPreferenceUpdated;
 
-			if (FilesystemViewModel is not null) // Prevent weird case of this being null when many tabs are opened/closed quickly
+            // Prevent weird case of this being null when many tabs are opened/closed quickly
+            if (FilesystemViewModel is not null)
 			{
 				FilesystemViewModel.WorkingDirectoryModified -= ViewModel_WorkingDirectoryModified;
 				FilesystemViewModel.ItemLoadStatusChanged -= FilesystemViewModel_ItemLoadStatusChanged;
@@ -1072,7 +1147,7 @@ namespace Files.App.Views
 						StringComparison.OrdinalIgnoreCase)) &&
 					(TabItemArguments.NavigationArg is not string navArg ||
 					string.IsNullOrEmpty(navArg) ||
-					!navArg.StartsWith("tag:"))) // return if already selected
+					!navArg.StartsWith("tag:"))) // Return if already selected
 				{
 					if (InstanceViewModel?.FolderSettings is FolderSettingsViewModel fsModel)
 						fsModel.IsLayoutModeChanging = false;
@@ -1082,9 +1157,10 @@ namespace Files.App.Views
 
 				NavigationTransitionInfo transition = new SuppressNavigationTransitionInfo();
 
-				if (sourcePageType == typeof(WidgetsPage)
-					|| ItemDisplayFrame.Content.GetType() == typeof(WidgetsPage) &&
-					(sourcePageType == typeof(DetailsLayoutBrowser) || sourcePageType == typeof(GridViewBrowser)))
+				if (sourcePageType == typeof(WidgetsPage) ||
+					ItemDisplayFrame.Content.GetType() == typeof(WidgetsPage) &&
+					(sourcePageType == typeof(DetailsLayoutBrowser) ||
+					sourcePageType == typeof(GridViewBrowser)))
 				{
 					transition = new SuppressNavigationTransitionInfo();
 				}
@@ -1116,25 +1192,35 @@ namespace Files.App.Views
 	public class PathBoxItem
 	{
 		public string? Title { get; set; }
+
 		public string? Path { get; set; }
 	}
 
 	public class NavigationParams
 	{
 		public string? NavPath { get; set; }
+
 		public string? SelectItem { get; set; }
 	}
 
 	public class NavigationArguments
 	{
 		public bool FocusOnNavigation { get; set; } = false;
+
 		public string? NavPathParam { get; set; } = null;
+
 		public IShellPage? AssociatedTabInstance { get; set; }
+
 		public bool IsSearchResultPage { get; set; } = false;
+
 		public string? SearchPathParam { get; set; } = null;
+
 		public string? SearchQuery { get; set; } = null;
+
 		public bool SearchUnindexedItems { get; set; } = false;
+
 		public bool IsLayoutSwitch { get; set; } = false;
+
 		public IEnumerable<string>? SelectItems { get; set; }
 	}
 }

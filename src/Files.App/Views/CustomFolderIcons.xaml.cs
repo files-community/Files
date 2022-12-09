@@ -15,21 +15,26 @@ namespace Files.App.Views
 	public sealed partial class CustomFolderIcons : Page
 	{
 		private string? selectedItemPath;
+
 		private string? iconResourceItemPath;
+
 		private IShellPage? appInstance;
 
 		public ICommand RestoreDefaultIconCommand { get; private set; }
+
 		public bool IsShortcut { get; private set; }
 
 		public CustomFolderIcons()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
+
 			RestoreDefaultIconCommand = new AsyncRelayCommand(RestoreDefaultIcon);
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
 			base.OnNavigatedTo(e);
+
 			if (e.Parameter is not IconSelectorInfo selectorInfo)
 				return;
 
@@ -48,8 +53,10 @@ namespace Files.App.Views
 			var parentWindowId = ((Properties)((Frame)XamlRoot.Content).Content).appWindow.Id;
 			var handle = Microsoft.UI.Win32Interop.GetWindowFromWindowId(parentWindowId);
 			WinRT.Interop.InitializeWithWindow.Initialize(picker, handle);
+
 			picker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.ComputerFolder;
 			picker.ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail;
+
 			picker.FileTypeFilter.Add(".dll");
 			picker.FileTypeFilter.Add(".exe");
 			picker.FileTypeFilter.Add(".ico");
@@ -78,6 +85,7 @@ namespace Files.App.Views
 			var setIconResult = IsShortcut ?
 				SetCustomFileIcon(selectedItemPath, iconResourceItemPath, selectedIconInfo.Index) :
 				SetCustomFolderIcon(selectedItemPath, iconResourceItemPath, selectedIconInfo.Index);
+
 			if (setIconResult)
 			{
 				await App.Window.DispatcherQueue.EnqueueAsync(() =>
@@ -91,9 +99,10 @@ namespace Files.App.Views
 		{
 			RestoreDefaultButton.IsEnabled = false;
 
-			var setIconResult = IsShortcut ?
-				SetCustomFileIcon(selectedItemPath, null) :
-				SetCustomFolderIcon(selectedItemPath, null);
+			var setIconResult = IsShortcut
+				? SetCustomFileIcon(selectedItemPath, null)
+				: SetCustomFolderIcon(selectedItemPath, null);
+
 			if (setIconResult)
 			{
 				await App.Window.DispatcherQueue.EnqueueAsync(() =>
@@ -107,9 +116,7 @@ namespace Files.App.Views
 		}
 
 		private bool SetCustomFolderIcon(string? folderPath, string? iconFile, int iconIndex = 0)
-		{
-			return Win32API.SetCustomDirectoryIcon(folderPath, iconFile, iconIndex);
-		}
+			=> Win32API.SetCustomDirectoryIcon(folderPath, iconFile, iconIndex);
 
 		private bool SetCustomFileIcon(string? filePath, string? iconFile, int iconIndex = 0)
 			=> Win32API.SetCustomFileIcon(filePath, iconFile, iconIndex);

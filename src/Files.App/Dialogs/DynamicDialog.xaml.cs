@@ -34,7 +34,7 @@ namespace Files.App.Dialogs
 
 		public DynamicDialog(DynamicDialogViewModel dynamicDialogViewModel)
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 
 			dynamicDialogViewModel.HideDialog = this.Hide;
 			this.ViewModel = dynamicDialogViewModel;
