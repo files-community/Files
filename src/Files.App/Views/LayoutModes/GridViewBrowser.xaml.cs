@@ -1,4 +1,7 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI.UI;
+using Files.App.Commands;
+using Files.App.DataModels;
 using Files.App.EventArguments;
 using Files.App.Filesystem;
 using Files.App.Helpers;
@@ -375,6 +378,24 @@ namespace Files.App.Views.LayoutModes
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 			var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;
 			var isFooterFocused = focusedElement is HyperlinkButton;
+
+			if (ctrlPressed && e.Key is VirtualKey.A)
+			{
+				var commands = Ioc.Default.GetService<ICommandManager>();
+				var hotKeys = Ioc.Default.GetService<IHotKeyManager>();
+				if (commands is not null && hotKeys is not null)
+				{
+					e.Handled = true;
+
+					var hotKey = new HotKey(VirtualKey.A, VirtualKeyModifiers.Control);
+					var command = commands[hotKeys[hotKey]];
+
+					if (command.IsExecutable)
+						await command.ExecuteAsync();
+
+					return;
+				}
+			}
 
 			if (e.Key == VirtualKey.Enter && !isFooterFocused && !e.KeyStatus.IsMenuKeyDown)
 			{

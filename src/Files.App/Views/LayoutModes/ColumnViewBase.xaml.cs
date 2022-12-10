@@ -1,5 +1,7 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI.UI;
+using Files.App.Commands;
+using Files.App.DataModels;
 using Files.App.EventArguments;
 using Files.App.Filesystem;
 using Files.App.Helpers;
@@ -353,6 +355,24 @@ namespace Files.App.Views.LayoutModes
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 
+			if (ctrlPressed && e.Key is VirtualKey.A)
+			{
+				var commands = Ioc.Default.GetService<ICommandManager>();
+				var hotKeys = Ioc.Default.GetService<IHotKeyManager>();
+				if (commands is not null && hotKeys is not null)
+				{
+					e.Handled = true;
+
+					var hotKey = new HotKey(VirtualKey.A, VirtualKeyModifiers.Control);
+					var command = commands[hotKeys[hotKey]];
+
+					if (command.IsExecutable)
+						await command.ExecuteAsync();
+
+					return;
+				}
+			}
+
 			if (e.Key == VirtualKey.Enter && !e.KeyStatus.IsMenuKeyDown)
 			{
 				if (IsRenamingItem)
@@ -408,7 +428,7 @@ namespace Files.App.Views.LayoutModes
 			}
 			else if (e.Key == VirtualKey.Right) // Right arrow: switch focus to next column
 			{
-				if (IsRenamingItem || (ParentShellPageInstance is not null && ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)) 
+				if (IsRenamingItem || (ParentShellPageInstance is not null && ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled))
 					return;
 
 				var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;

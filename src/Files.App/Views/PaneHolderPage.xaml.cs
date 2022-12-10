@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.App.Commands;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.UserControls.MultitaskingControl;
@@ -19,6 +20,8 @@ namespace Files.App.Views
 {
 	public sealed partial class PaneHolderPage : Page, IPaneHolder, ITabItemContent
 	{
+		private ICommandContextWriter? commandContextWriter = Ioc.Default.GetService<ICommandContextWriter>();
+
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public bool IsLeftPaneActive => ActivePane == PaneLeft;
@@ -133,6 +136,9 @@ namespace Files.App.Views
 					NotifyPropertyChanged(nameof(IsRightPaneActive));
 					NotifyPropertyChanged(nameof(ActivePaneOrColumn));
 					NotifyPropertyChanged(nameof(FilesystemHelpers));
+
+					if (commandContextWriter is not null)
+						commandContextWriter.ShellPage = value;
 				}
 			}
 		}

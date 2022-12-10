@@ -1,3 +1,4 @@
+using Files.App.Commands;
 using Files.App.UserControls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -69,6 +70,35 @@ namespace Files.App.ViewModels
 		public bool ShowLoadingIndicator { get; set; }
 
 		public bool IsHidden { get; set; }
+
+		public ContextMenuFlyoutItemViewModel()
+		{
+		}
+		public ContextMenuFlyoutItemViewModel(IRichCommand command)
+		{
+			Text = command.Label;
+			Command = command;
+
+			if (string.IsNullOrEmpty(command.Glyph.Overlay))
+			{
+				Glyph = command.Glyph.Base;
+				GlyphFontFamilyName = command.Glyph.Family;
+			}
+			else
+			{
+				ColoredIcon = new ColoredIconModel
+				{
+					BaseLayerGlyph = command.Glyph.Base,
+					OverlayLayerGlyph = command.Glyph.Overlay,
+				};
+			}
+
+			ShowItem = command.IsExecutable;
+			ShowInRecycleBin = ShowInSearchPage = ShowInFtpPage = ShowInZipPage = true;
+
+			if (!command.UserHotKey.IsNone)
+				KeyboardAcceleratorTextOverride = command.UserHotKey.ToString();
+		}
 	}
 
 	public enum ItemType

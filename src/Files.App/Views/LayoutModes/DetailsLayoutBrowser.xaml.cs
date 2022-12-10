@@ -1,5 +1,8 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
+using Files.App.Commands;
+using Files.App.DataModels;
 using Files.App.EventArguments;
 using Files.App.Filesystem;
 using Files.App.Helpers;
@@ -422,6 +425,24 @@ namespace Files.App.Views.LayoutModes
 			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement();
 			var isHeaderFocused = DependencyObjectHelpers.FindParent<DataGridHeader>(focusedElement) is not null;
 			var isFooterFocused = focusedElement is HyperlinkButton;
+
+			if (ctrlPressed && e.Key is VirtualKey.A)
+			{
+				var commands = Ioc.Default.GetService<ICommandManager>();
+				var hotKeys = Ioc.Default.GetService<IHotKeyManager>();
+				if (commands is not null && hotKeys is not null)
+				{
+					e.Handled = true;
+
+					var hotKey = new HotKey(VirtualKey.A, VirtualKeyModifiers.Control);
+					var command = commands[hotKeys[hotKey]];
+
+					if (command.IsExecutable)
+						await command.ExecuteAsync();
+
+					return;
+				}
+			}
 
 			if (e.Key == VirtualKey.Enter && !e.KeyStatus.IsMenuKeyDown)
 			{

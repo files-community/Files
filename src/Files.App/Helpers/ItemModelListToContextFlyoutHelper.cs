@@ -268,6 +268,9 @@ namespace Files.App.Helpers.ContextFlyouts
 				}
 			}
 
+			if (element is AppBarButton button && !string.IsNullOrEmpty(item.KeyboardAcceleratorTextOverride))
+				button.KeyboardAcceleratorTextOverride = item.KeyboardAcceleratorTextOverride;
+
 			return element;
 		}
 	}

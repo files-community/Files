@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.UI.Controls;
+using Files.App.Commands;
 using Files.App.DataModels;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
@@ -14,7 +15,6 @@ using Files.Backend.Extensions;
 using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
 using Files.Shared.EventArguments;
-using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -37,6 +37,8 @@ namespace Files.App.Views
 	/// </summary>
 	public sealed partial class MainPage : Page, INotifyPropertyChanged
 	{
+		private readonly ICommandContextWriter commandContextWriter = Ioc.Default.GetRequiredService<ICommandContextWriter>();
+
 		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public AppModel AppModel => App.AppModel;
@@ -82,6 +84,10 @@ namespace Files.App.Views
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 
 			DispatcherQueue.TryEnqueue(async () => await LoadSelectedTheme());
+
+			var hotKeyAccelerator = Ioc.Default.GetService<IHotKeyAccelerator>();
+			if (hotKeyAccelerator is not null)
+				hotKeyAccelerator.Initialize(KeyboardAccelerators);
 		}
 
 		private async Task LoadSelectedTheme()
@@ -216,6 +222,9 @@ namespace Files.App.Views
 				InnerNavigationToolbar.ShowMultiPaneControls = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneEnabled ?? false;
 				InnerNavigationToolbar.IsMultiPaneActive = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
 			}
+
+			if (commandContextWriter is not null)
+				commandContextWriter.ToolbarViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.ToolbarViewModel;
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)

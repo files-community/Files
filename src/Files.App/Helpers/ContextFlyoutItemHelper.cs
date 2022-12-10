@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
+using Files.App.Commands;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Interacts;
@@ -17,12 +18,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
-using Windows.System;
 
 namespace Files.App.Helpers
 {
 	public static class ContextFlyoutItemHelper
 	{
+		private static readonly ICommandManager commands = Ioc.Default.GetRequiredService<ICommandManager>();
+
 		public static Task<List<ShellNewEntry>> CachedNewContextMenuEntries = ShellNewEntryExtensions.GetNewContextMenuEntries();
 
 		public static List<ContextMenuFlyoutItemViewModel> GetItemContextCommandsWithoutShellItems(CurrentInstanceViewModel currentInstanceViewModel, string workingDir, List<ListedItem> selectedItems, BaseLayoutCommandsViewModel commandsViewModel, bool shiftPressed, bool showOpenMenu, SelectedItemsPropertiesViewModel selectedItemsPropertiesViewModel)
@@ -105,104 +107,13 @@ namespace Files.App.Helpers
 					ShowInZipPage = true,
 					Items = new List<ContextMenuFlyoutItemViewModel>()
 					{
-						// Details view
-						new ContextMenuFlyoutItemViewModel()
-						{
-							Text = "Details".GetLocalizedResource(),
-							Glyph = "\uE179",
-							ShowInRecycleBin = true,
-							ShowInSearchPage = true,
-							ShowInFtpPage = true,
-							ShowInZipPage = true,
-							Command = currentInstanceViewModel.FolderSettings.ToggleLayoutModeDetailsViewCommand,
-							CommandParameter = true,
-							KeyboardAcceleratorTextOverride = "BaseLayoutContextFlyoutDetails/KeyboardAcceleratorTextOverride".GetLocalizedResource(),
-							KeyboardAccelerator = new KeyboardAccelerator{Key = VirtualKey.Number1, Modifiers = VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift, IsEnabled = false}
-						},
-						// Tiles view
-						new ContextMenuFlyoutItemViewModel()
-						{
-							Text = "Tiles".GetLocalizedResource(),
-							Glyph = "\uE15C",
-							ShowInRecycleBin = true,
-							ShowInSearchPage = true,
-							ShowInFtpPage = true,
-							ShowInZipPage = true,
-							Command =  currentInstanceViewModel.FolderSettings.ToggleLayoutModeTilesCommand,
-							CommandParameter = true,
-							KeyboardAcceleratorTextOverride = "BaseLayoutContextFlyoutTiles/KeyboardAcceleratorTextOverride".GetLocalizedResource(),
-							KeyboardAccelerator = new KeyboardAccelerator{Key = VirtualKey.Number2, Modifiers = VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift, IsEnabled = false}
-						},
-						// Grid view small
-						new ContextMenuFlyoutItemViewModel()
-						{
-							Text = "BaseLayoutContextFlyoutSmallIcons/Text".GetLocalizedResource(),
-							Glyph = "\uE80A",
-							ShowInRecycleBin = true,
-							ShowInSearchPage = true,
-							ShowInFtpPage = true,
-							ShowInZipPage = true,
-							Command =  currentInstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmallCommand,
-							CommandParameter = true,
-							KeyboardAcceleratorTextOverride = "BaseLayoutContextFlyoutSmallIcons/KeyboardAcceleratorTextOverride".GetLocalizedResource(),
-							KeyboardAccelerator = new KeyboardAccelerator{Key = VirtualKey.Number3, Modifiers = VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift, IsEnabled = false}
-						},
-						// Grid view medium
-						new ContextMenuFlyoutItemViewModel()
-						{
-							Text = "BaseLayoutContextFlyoutMediumIcons/Text".GetLocalizedResource(),
-							Glyph = "\uF0E2",
-							ShowInRecycleBin = true,
-							ShowInSearchPage = true,
-							ShowInFtpPage = true,
-							ShowInZipPage = true,
-							Command =  currentInstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMediumCommand,
-							CommandParameter = true,
-							KeyboardAcceleratorTextOverride = "BaseLayoutContextFlyoutMediumIcons/KeyboardAcceleratorTextOverride".GetLocalizedResource(),
-							KeyboardAccelerator = new KeyboardAccelerator{Key = VirtualKey.Number4, Modifiers = VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift, IsEnabled = false}
-						},
-						// Grid view large
-						new ContextMenuFlyoutItemViewModel()
-						{
-							Text = "BaseLayoutContextFlyoutLargeIcons/Text".GetLocalizedResource(),
-							Glyph = "\uE739",
-							ShowInRecycleBin = true,
-							ShowInSearchPage = true,
-							ShowInFtpPage = true,
-							ShowInZipPage = true,
-							Command =  currentInstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLargeCommand,
-							CommandParameter = true,
-							KeyboardAcceleratorTextOverride = "BaseLayoutContextFlyoutLargeIcons/KeyboardAcceleratorTextOverride".GetLocalizedResource(),
-							KeyboardAccelerator = new KeyboardAccelerator{Key = VirtualKey.Number5, Modifiers = VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift, IsEnabled = false}
-						},
-						// Column view
-						new ContextMenuFlyoutItemViewModel()
-						{
-							Text = "Columns".GetLocalizedResource(),
-							Glyph = "\uF115",
-							GlyphFontFamilyName = "CustomGlyph",
-							ShowInRecycleBin = true,
-							ShowInSearchPage = true,
-							ShowInFtpPage = true,
-							ShowInZipPage = true,
-							Command = currentInstanceViewModel.FolderSettings.ToggleLayoutModeColumnViewCommand,
-							CommandParameter = true,
-							KeyboardAcceleratorTextOverride = "BaseLayoutContextFlyoutColumn/KeyboardAcceleratorTextOverride".GetLocalizedResource(),
-							KeyboardAccelerator = new KeyboardAccelerator{Key = VirtualKey.Number6, Modifiers = VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift, IsEnabled = false}
-						},
-						// Column view
-						new ContextMenuFlyoutItemViewModel()
-						{
-							Text = "Adaptive".GetLocalizedResource(),
-							Glyph = "\uF576",
-							ShowInRecycleBin = true,
-							ShowInSearchPage = true,
-							ShowInFtpPage = true,
-							ShowInZipPage = true,
-							Command = currentInstanceViewModel.FolderSettings.ToggleLayoutModeAdaptiveCommand,
-							KeyboardAcceleratorTextOverride = "BaseLayoutContextFlyoutAdaptive/KeyboardAcceleratorTextOverride".GetLocalizedResource(),
-							KeyboardAccelerator = new KeyboardAccelerator{Key = VirtualKey.Number7, Modifiers = VirtualKeyModifiers.Control | VirtualKeyModifiers.Shift, IsEnabled = false}
-						},
+						new ContextMenuFlyoutItemViewModel(commands.LayoutDetails),
+						new ContextMenuFlyoutItemViewModel(commands.LayoutTiles),
+						new ContextMenuFlyoutItemViewModel(commands.LayoutGridSmall),
+						new ContextMenuFlyoutItemViewModel(commands.LayoutGridMedium),
+						new ContextMenuFlyoutItemViewModel(commands.LayoutGridLarge),
+						new ContextMenuFlyoutItemViewModel(commands.LayoutColumns),
+						new ContextMenuFlyoutItemViewModel(commands.LayoutAdaptive),
 					}
 				},
 				new ContextMenuFlyoutItemViewModel()
@@ -569,19 +480,7 @@ namespace Files.App.Helpers
 					ShowOnShift = true,
 					ShowItem = itemViewModel.CurrentFolder.IsItemPinnedToStart,
 				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "BaseLayoutContextFlyoutPropertiesFolder/Text".GetLocalizedResource(),
-					IsPrimary = true,
-					ColoredIcon = new ColoredIconModel()
-					{
-						BaseLayerGlyph = "\uF031",
-						OverlayLayerGlyph = "\uF032"
-					},
-					Command = commandsViewModel.ShowFolderPropertiesCommand,
-					ShowInFtpPage = true,
-					ShowInZipPage = true,
-				},
+				new ContextMenuFlyoutItemViewModel(commands.Properties){ IsPrimary = true },
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutContextFlyoutEmptyRecycleBin/Text".GetLocalizedResource(),
@@ -695,17 +594,7 @@ namespace Files.App.Helpers
 					ShowInFtpPage = true,
 					ShowInZipPage = true,
 				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "BaseLayoutItemContextFlyoutOpenInNewTab/Text".GetLocalizedResource(),
-					Glyph = "\uF113",
-					GlyphFontFamilyName = "CustomGlyph",
-					Command = commandsViewModel.OpenDirectoryInNewTabCommand,
-					ShowItem = selectedItems.Count < 5 && selectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder),
-					ShowInSearchPage = true,
-					ShowInFtpPage = true,
-					ShowInZipPage = true,
-				},
+				new ContextMenuFlyoutItemViewModel(commands.OpenFolderInNewTab),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutItemContextFlyoutOpenInNewWindow/Text".GetLocalizedResource(),
@@ -876,27 +765,7 @@ namespace Files.App.Helpers
 					SingleItemOnly = true,
 					ShowInSearchPage = true,
 				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "BaseLayoutItemContextFlyoutRename/Text".GetLocalizedResource(),
-					//Glyph = "\uF8AC",
-					IsPrimary = true,
-					ColoredIcon = new ColoredIconModel()
-					{
-						BaseLayerGlyph = "\uF027",
-						OverlayLayerGlyph = "\uF028",
-					},
-					Command = commandsViewModel.RenameItemCommand,
-					SingleItemOnly = true,
-					ShowInSearchPage = true,
-					ShowInFtpPage = true,
-					ShowInZipPage = true,
-					KeyboardAccelerator = new KeyboardAccelerator
-					{
-						Key = Windows.System.VirtualKey.F2,
-						IsEnabled = false,
-					},
-				},
+				new ContextMenuFlyoutItemViewModel(commands.Rename){ IsPrimary = true, Text = commands.Rename.LabelWithHotKey },
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutItemContextFlyoutShare/Text".GetLocalizedResource(),
@@ -931,22 +800,7 @@ namespace Files.App.Helpers
 						IsEnabled = false,
 					},
 				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "BaseLayoutItemContextFlyoutProperties/Text".GetLocalizedResource(),
-					//Glyph = "\uF946",
-					IsPrimary = true,
-					ColoredIcon = new ColoredIconModel()
-					{
-						BaseLayerGlyph = "\uF031",
-						OverlayLayerGlyph = "\uF032"
-					},
-					Command = commandsViewModel.ShowPropertiesCommand,
-					ShowInRecycleBin = true,
-					ShowInSearchPage = true,
-					ShowInFtpPage = true,
-					ShowInZipPage = true,
-				},
+				new ContextMenuFlyoutItemViewModel(commands.Properties){ IsPrimary = true },
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutItemContextFlyoutOpenParentFolder/Text".GetLocalizedResource(),

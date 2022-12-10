@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.Notifications;
+using Files.App.Commands;
 using Files.App.Controllers;
 using Files.App.DataModels;
 using Files.App.Extensions;
@@ -137,6 +138,12 @@ namespace Files.App
 				// (IFilesystemHelpersService, IFilesystemOperationsService)
 				// (IStorageEnumerator, IFallbackStorageEnumerator)
 				.AddSingleton<ISizeProvider, UserSizeProvider>()
+
+				.AddSingleton<IHotKeyManager, HotKeyManager>()
+				.AddSingleton<IHotKeyAccelerator, HotKeyAccelerator>()
+				.AddSingleton<ICommandManager, CommandManager>()
+				.AddSingleton<ICommandContext, CommandContext>()
+				.AddSingleton<ICommandContextWriter, CommandContext>((sp) => (CommandContext)sp.GetRequiredService<ICommandContext>())
 
 				; // End of service configuration
 
@@ -319,7 +326,7 @@ namespace Files.App
 		{
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 			IBundlesSettingsService bundlesSettingsService = Ioc.Default.GetRequiredService<IBundlesSettingsService>();
-			
+
 			bundlesSettingsService.FlushSettings();
 
 			userSettingsService.PreferencesSettingsService.LastSessionTabList = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>
