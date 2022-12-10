@@ -38,6 +38,10 @@ namespace Files.App.Helpers
 					"copyaspath", "undelete", "empty",
 					Win32API.ExtractStringFromDLL("shell32.dll", 30312), // SendTo menu
                     Win32API.ExtractStringFromDLL("shell32.dll", 34593), // Add to collection
+					Win32API.ExtractStringFromDLL("shell32.dll", 5384), // Pin to Start
+					Win32API.ExtractStringFromDLL("shell32.dll", 5385), // Unpin from Start
+					Win32API.ExtractStringFromDLL("shell32.dll", 5386), // Pin to taskbar
+					Win32API.ExtractStringFromDLL("shell32.dll", 5387), // Unpin from taskbar
                 };
 
 				bool filterMenuItemsImpl(string menuItem) => !string.IsNullOrEmpty(menuItem)
