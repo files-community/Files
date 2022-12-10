@@ -352,7 +352,7 @@ namespace Files.App.Views.LayoutModes
 
 		private void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
 		{
-			if (e.Key == VirtualKey.Escape)
+			if (e.Key is VirtualKey.Escape or VirtualKey.F2)
 			{
 				TextBox? textBox = sender as TextBox;
 				textBox!.LostFocus -= RenameTextBox_LostFocus;
@@ -360,7 +360,7 @@ namespace Files.App.Views.LayoutModes
 				EndRename(textBox);
 				e.Handled = true;
 			}
-			else if (e.Key == VirtualKey.Enter)
+			else if (e.Key is VirtualKey.Enter)
 			{
 				TextBox? textBox = sender as TextBox;
 				if (textBox is null)
