@@ -138,8 +138,7 @@ namespace Files.App.Shell
 							{
 								opened = await Win32API.StartSTATask(async () =>
 								{
-									using var si = ShellFolderExtensions.GetShellItemFromPathOrPidl(application);
-									using var cMenu = await ContextMenu.GetContextMenuForFiles(new[] { si }, Shell32.CMF.CMF_DEFAULTONLY);
+									using var cMenu = await ContextMenu.GetContextMenuForFiles(new[] { application }, Shell32.CMF.CMF_DEFAULTONLY);
 									if (cMenu is not null)
 									{
 										await cMenu.InvokeItem(cMenu.Items.FirstOrDefault()?.ID ?? -1);

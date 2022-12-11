@@ -53,11 +53,11 @@ namespace Files.App.ViewModels
 
 		public ICommand NavigateToNumberedTabKeyboardAcceleratorCommand { get; private set; }
 
-		public ICommand OpenNewWindowAcceleratorCommand { get; private set; }
+		public IAsyncRelayCommand OpenNewWindowAcceleratorCommand { get; private set; }
 
 		public ICommand CloseSelectedTabKeyboardAcceleratorCommand { get; private set; }
 
-		public ICommand AddNewInstanceAcceleratorCommand { get; private set; }
+		public IAsyncRelayCommand AddNewInstanceAcceleratorCommand { get; private set; }
 
 		public ICommand ReopenClosedTabAcceleratorCommand { get; private set; }
 
@@ -67,9 +67,9 @@ namespace Files.App.ViewModels
 		{
 			// Create commands
 			NavigateToNumberedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(NavigateToNumberedTabKeyboardAccelerator);
-			OpenNewWindowAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(OpenNewWindowAccelerator);
+			OpenNewWindowAcceleratorCommand = new AsyncRelayCommand<KeyboardAcceleratorInvokedEventArgs>(OpenNewWindowAccelerator);
 			CloseSelectedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(CloseSelectedTabKeyboardAccelerator);
-			AddNewInstanceAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(AddNewInstanceAccelerator);
+			AddNewInstanceAcceleratorCommand = new AsyncRelayCommand<KeyboardAcceleratorInvokedEventArgs>(AddNewInstanceAccelerator);
 			ReopenClosedTabAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(ReopenClosedTabAccelerator);
 			OpenSettingsCommand = new RelayCommand(OpenSettings);
 		}
@@ -143,7 +143,7 @@ namespace Files.App.ViewModels
 			e.Handled = true;
 		}
 
-		private async void OpenNewWindowAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
+		private async Task OpenNewWindowAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
 		{
 			Uri filesUWPUri = new Uri("files-uwp:");
 			await Launcher.LaunchUriAsync(filesUWPUri);
@@ -165,7 +165,7 @@ namespace Files.App.ViewModels
 			e!.Handled = true;
 		}
 
-		private async void AddNewInstanceAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
+		private async Task AddNewInstanceAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
 		{
 			if (canCreateNewTabThroughAccelerator)
 			{

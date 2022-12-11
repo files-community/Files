@@ -108,7 +108,7 @@ namespace Files.App.Views
 					propertiesWindow.MinHeight = 550;
 
 					// Set backdrop
-					propertiesWindow.Backdrop = new WinUIEx.MicaSystemBackdrop() { DarkTintOpacity = 0.8 };
+					propertiesWindow.Backdrop = new WinUIEx.MicaSystemBackdrop();
 
 					appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
 

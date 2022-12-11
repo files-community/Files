@@ -763,8 +763,8 @@ namespace Files.App.ViewModels
 
 		public void SearchRegion_LostFocus(object sender, RoutedEventArgs e)
 		{
-			var focusedElement = FocusManager.GetFocusedElement();
-			if ((focusedElement is Button bttn && bttn.Name == "SearchButton") || focusedElement is FlyoutBase || focusedElement is AppBarButton)
+			var element = FocusManager.GetFocusedElement();
+			if (element is FlyoutBase or AppBarButton)
 				return;
 
 			SearchHasFocus = false;
@@ -781,7 +781,7 @@ namespace Files.App.ViewModels
 
 		public ICommand? PasteItemsFromClipboardCommand { get; set; }
 
-		public ICommand? OpenNewWindowCommand { get; set; }
+		public IAsyncRelayCommand? OpenNewWindowCommand { get; set; }
 
 		public ICommand? OpenNewPaneCommand { get; set; }
 
