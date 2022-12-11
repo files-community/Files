@@ -10,6 +10,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
+
+		//FileTag combobox indexes (required to hide SyncStatus)
 		private readonly int FileTagSortingIndex = 5;
 		private readonly int FileTagGroupingIndex = 6;
 
