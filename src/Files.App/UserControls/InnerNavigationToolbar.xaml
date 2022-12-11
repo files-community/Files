@@ -152,7 +152,7 @@
 					IsEnabled="{x:Bind Commands.Rename.IsExecutable, Mode=OneWay, FallbackValue=False}"
 					Label="{x:Bind Commands.Rename.Label}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{x:Bind Commands.Rename.LabelWithHotKey}">
+					ToolTipService.ToolTip="{x:Bind Commands.Rename.LabelWithHotKey, Mode=OneWay}">
 					<AppBarButton.Content>
 						<local:ColoredIcon BaseLayerGlyph="{x:Bind Commands.Rename.Glyph.Base}" OverlayLayerGlyph="{x:Bind Commands.Rename.Glyph.Overlay}" />
 					</AppBarButton.Content>
@@ -194,7 +194,7 @@
 					IsEnabled="{x:Bind Commands.Properties.IsExecutable, Mode=OneWay, FallbackValue=False}"
 					Label="{x:Bind Commands.Properties.Label}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{x:Bind Commands.Properties.LabelWithHotKey}">
+					ToolTipService.ToolTip="{x:Bind Commands.Properties.LabelWithHotKey, Mode=OneWay}">
 					<AppBarButton.Content>
 						<local:ColoredIcon BaseLayerGlyph="{x:Bind Commands.Properties.Glyph.Base}" OverlayLayerGlyph="{x:Bind Commands.Properties.Glyph.Overlay}" />
 					</AppBarButton.Content>
@@ -745,6 +745,7 @@
 									HorizontalContentAlignment="Center"
 									VerticalContentAlignment="Center"
 									AutomationProperties.Name="{x:Bind Commands.LayoutAdaptive.Label}"
+									CornerRadius="{StaticResource ControlCornerRadius}"
 									IsChecked="{x:Bind Commands.LayoutAdaptive.IsOn, Mode=TwoWay}"
 									IsEnabled="{x:Bind Commands.LayoutAdaptive.IsExecutable, Mode=OneWay}"
 									Style="{StaticResource DefaultToggleButtonStyle}"
