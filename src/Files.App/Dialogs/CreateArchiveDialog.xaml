@@ -19,7 +19,7 @@
 	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">
-	<StackPanel Width="440" Spacing="8">
+	<StackPanel Width="440" Spacing="4">
 
 		<!--  Archive Name  -->
 		<Grid
@@ -53,7 +53,7 @@
 			BorderThickness="1"
 			ColumnSpacing="8"
 			CornerRadius="4"
-			RowSpacing="8">
+			RowSpacing="12">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="Auto" />
