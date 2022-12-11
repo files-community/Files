@@ -16,11 +16,10 @@ using System.Windows.Input;
 
 namespace Files.App.Commands
 {
-    internal class CommandManager : ICommandManager
+	internal class CommandManager : ICommandManager
 	{
-		private readonly IImmutableDictionary<CommandCodes, Command> commands = new List<IAction>
+		private readonly IImmutableDictionary<CommandCodes, IHotKeyCommand> commands = new List<IAction>
 		{
-			new NoneAction(),
 			new HelpAction(),
 			new FullScreenAction(),
 			new ShowHiddenItemsAction(),
@@ -39,7 +38,11 @@ namespace Files.App.Commands
 			new OpenFolderInNewTabAction(),
 			new RenameAction(),
 			new PropertiesAction(),
-		}.ToImmutableDictionary(action => action.Code, action => new Command(action));
+		}
+		.Select(action => new ActionCommand(action))
+		.Cast<IHotKeyCommand>()
+		.Append(new NoneCommand())
+		.ToImmutableDictionary(action => action.Code);
 
 		public IRichCommand this[CommandCodes commandCode]
 			=> commands.TryGetValue(commandCode, out var command) ? command : None;
@@ -99,8 +102,40 @@ namespace Files.App.Commands
 			commands[e.NewCommandCode].UpdateUserHotKey(manager[e.NewCommandCode]);
 		}
 
+		private interface IHotKeyCommand : IRichCommand
+		{
+			void InitializeUserHotKey(HotKey newUserHotKey);
+			void UpdateUserHotKey(HotKey newUserHotKey);
+		}
+
+		[DebuggerDisplay("Command None")]
+		private class NoneCommand : IHotKeyCommand
+		{
+			public event EventHandler? CanExecuteChanged;
+			public event PropertyChangingEventHandler? PropertyChanging;
+			public event PropertyChangedEventHandler? PropertyChanged;
+
+			public CommandCodes Code => CommandCodes.None;
+			public string Label => string.Empty;
+			public string LabelWithHotKey => string.Empty;
+			public IGlyph Glyph => Commands.Glyph.None;
+			public HotKey UserHotKey => HotKey.None;
+			public HotKey DefaultHotKey => HotKey.None;
+			public string? HotKeyOverride => null;
+			public bool IsOn { get => false; set {} }
+			public bool IsExecutable => false;
+
+			public bool CanExecute(object? _) => false;
+			public void Execute(object? _) {}
+			public Task ExecuteAsync() => Task.CompletedTask;
+			public void ExecuteTapped(object _, TappedRoutedEventArgs e) {}
+
+			public void InitializeUserHotKey(HotKey _) {}
+			public void UpdateUserHotKey(HotKey _) {}
+		}
+
 		[DebuggerDisplay("Command {Code}")]
-		public class Command : ObservableObject, IRichCommand
+		private class ActionCommand : ObservableObject, IHotKeyCommand
 		{
 			public event EventHandler? CanExecuteChanged;
 
@@ -132,7 +167,7 @@ namespace Files.App.Commands
 
 			public bool IsExecutable => action.IsExecutable;
 
-			public Command(IAction action)
+			public ActionCommand(IAction action)
 			{
 				this.action = action;
 				userHotKey = action.HotKey;
@@ -156,6 +191,18 @@ namespace Files.App.Commands
 			}
 
 			public async void ExecuteTapped(object _, TappedRoutedEventArgs e) => await action.ExecuteAsync();
+
+			public void InitializeUserHotKey(HotKey newUserHotKey)
+				=> userHotKey = newUserHotKey;
+			public void UpdateUserHotKey(HotKey newUserHotKey)
+			{
+				if (userHotKey != newUserHotKey)
+				{
+					userHotKey = newUserHotKey;
+					OnPropertyChanged(nameof(UserHotKey));
+					OnPropertyChanged(nameof(LabelWithHotKey));
+				}
+			}
 
 			private void Action_PropertyChanging(object? sender, PropertyChangingEventArgs e)
 			{
@@ -198,18 +245,6 @@ namespace Files.App.Commands
 						OnPropertyChanged(nameof(IsExecutable));
 						CanExecuteChanged?.Invoke(this, EventArgs.Empty);
 						break;
-				}
-			}
-
-			public void InitializeUserHotKey(HotKey newUserHotKey)
-				=> userHotKey = newUserHotKey;
-			public void UpdateUserHotKey(HotKey newUserHotKey)
-			{
-				if (userHotKey != newUserHotKey)
-				{
-					userHotKey = newUserHotKey;
-					OnPropertyChanged(nameof(UserHotKey));
-					OnPropertyChanged(nameof(LabelWithHotKey));
 				}
 			}
 		}
