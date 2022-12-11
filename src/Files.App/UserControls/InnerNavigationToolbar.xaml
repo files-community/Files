@@ -426,7 +426,7 @@
 						<MenuFlyoutItem
 							x:Name="SelectAllMFI"
 							Command="{x:Bind Commands.SelectAll}"
-							KeyboardAcceleratorTextOverride="{x:Bind Commands.SelectAll.HotKeyOverride}"
+							KeyboardAcceleratorTextOverride="{x:Bind Commands.SelectAll.HotKeyOverride, Mode=OneWay}"
 							Text="{x:Bind Commands.SelectAll.Label}">
 							<MenuFlyoutItem.Icon>
 								<FontIcon FontFamily="{x:Bind Commands.SelectAll.Glyph.FontFamily}" Glyph="{x:Bind Commands.SelectAll.Glyph.Base}" />
@@ -435,7 +435,7 @@
 						<MenuFlyoutItem
 							x:Name="InvertSelectionMFI"
 							Command="{x:Bind Commands.InvertSelection}"
-							KeyboardAcceleratorTextOverride="{x:Bind Commands.InvertSelection.HotKeyOverride}"
+							KeyboardAcceleratorTextOverride="{x:Bind Commands.InvertSelection.HotKeyOverride, Mode=OneWay}"
 							Text="{x:Bind Commands.InvertSelection.Label}">
 							<MenuFlyoutItem.Icon>
 								<FontIcon FontFamily="{x:Bind Commands.InvertSelection.Glyph.FontFamily}" Glyph="{x:Bind Commands.InvertSelection.Glyph.Base}" />
@@ -444,7 +444,7 @@
 						<MenuFlyoutItem
 							x:Name="ClearSelectionMFI"
 							Command="{x:Bind Commands.ClearSelection}"
-							KeyboardAcceleratorTextOverride="{x:Bind Commands.ClearSelection.HotKeyOverride}"
+							KeyboardAcceleratorTextOverride="{x:Bind Commands.ClearSelection.HotKeyOverride, Mode=OneWay}"
 							Text="{x:Bind Commands.ClearSelection.Label}">
 							<MenuFlyoutItem.Icon>
 								<FontIcon FontFamily="{x:Bind Commands.ClearSelection.Glyph.FontFamily}" Glyph="{x:Bind Commands.ClearSelection.Glyph.Base}" />
