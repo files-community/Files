@@ -19,7 +19,7 @@
 	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">
-	<StackPanel Width="440" Spacing="8">
+	<StackPanel Width="440" Spacing="4">
 
 		<!--  Archive Name  -->
 		<Grid
