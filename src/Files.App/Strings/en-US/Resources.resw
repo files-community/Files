@@ -9,7 +9,6 @@
     that is mostly human readable. The generation and parsing of the
     various data types are done through the TypeConverter classes
     associated with the data types.
-    
     Example:
     
     ... ado.net/XML headers & schema ...
