@@ -53,7 +53,7 @@
 			BorderThickness="1"
 			ColumnSpacing="8"
 			CornerRadius="4"
-			RowSpacing="12">
+			RowSpacing="8">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="Auto" />
