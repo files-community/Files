@@ -2851,16 +2851,16 @@
     <value>Emptying recycle bin</value>
   </data>
   <data name="BinEmptyingSucceded" xml:space="preserve">
-    <value>Successfully emptied recycle bin</value>
+    <value>성공적으로 휴지통을 비웠습니다.</value>
   </data>
   <data name="BinEmptyingFailed" xml:space="preserve">
-    <value>Failed to empty recycle bin</value>
+    <value>휴지통을 비우는 데 실패했습니다.</value>
   </data>
   <data name="ArchivePassword" xml:space="preserve">
     <value>Archive password</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
-    <value>Path</value>
+    <value>경로</value>
   </data>
   <data name="Archive" xml:space="preserve">
     <value>Archive</value>
@@ -2878,22 +2878,22 @@
     <value>Enter a name</value>
   </data>
   <data name="CompressionLevel" xml:space="preserve">
-    <value>Compression level</value>
+    <value>압축 수준</value>
   </data>
   <data name="CompressionLevelUltra" xml:space="preserve">
-    <value>Ultra</value>
+    <value>최상</value>
   </data>
   <data name="CompressionLevelHigh" xml:space="preserve">
-    <value>High</value>
+    <value>높음</value>
   </data>
   <data name="CompressionLevelNormal" xml:space="preserve">
-    <value>Normal</value>
+    <value>일반</value>
   </data>
   <data name="CompressionLevelLow" xml:space="preserve">
-    <value>Low</value>
+    <value>낮음</value>
   </data>
   <data name="CompressionLevelFast" xml:space="preserve">
-    <value>Fast</value>
+    <value>빠름</value>
   </data>
   <data name="CompressionLevelNone" xml:space="preserve">
     <value>없음</value>
@@ -2905,7 +2905,7 @@
     <value>Splitting size</value>
   </data>
   <data name="Do not split" xml:space="preserve">
-    <value>Do not split</value>
+    <value>분할하지 않음</value>
   </data>
   <data name="CD" xml:space="preserve">
     <value>CD</value>
@@ -2917,10 +2917,10 @@
     <value>FAT</value>
   </data>
   <data name="Bluray" xml:space="preserve">
-    <value>Blu-ray</value>
+    <value>블루레이</value>
   </data>
   <data name="Encryption" xml:space="preserve">
-    <value>Encryption</value>
+    <value>암호화</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>비밀번호</value>
