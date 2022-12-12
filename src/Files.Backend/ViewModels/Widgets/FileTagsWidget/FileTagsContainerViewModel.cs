@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Models;
+using Files.Backend.Services;
 using Files.Shared.Utils;
 using System.Collections.ObjectModel;
 using System.Threading;
@@ -9,23 +11,22 @@ namespace Files.Backend.ViewModels.Widgets.FileTagsWidget
 {
     public sealed partial class FileTagsContainerViewModel : ObservableObject, IAsyncInitialize
     {
-        private readonly IFileTagsModel _fileTagsModel;
+        private IFileTagsService FileTagsService { get; } = Ioc.Default.GetRequiredService<IFileTagsService>();
 
         public ObservableCollection<FileTagsItemViewModel> Tags { get; }
 
         [ObservableProperty]
         private IColorModel? _TagColor;
 
-        public FileTagsContainerViewModel(IFileTagsModel fileTagsModel)
+        public FileTagsContainerViewModel()
         {
-            _fileTagsModel = fileTagsModel;
             Tags = new();
         }
 
         /// <inheritdoc/>
         public Task InitAsync(CancellationToken cancellationToken = default)
         {
-            _ = _fileTagsModel;
+            //FileTagsService.GetAllFileTagsAsync();
             return Task.CompletedTask;
         }
     }

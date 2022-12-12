@@ -19,8 +19,4 @@
     <ProjectReference Include="..\Files.Shared\Files.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="AppModels\" />
-  </ItemGroup>
-
 </Project>

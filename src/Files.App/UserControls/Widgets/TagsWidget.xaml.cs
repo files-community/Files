@@ -17,7 +17,7 @@ namespace Files.App.UserControls.Widgets
         {
             this.InitializeComponent();
 
-            ViewModel = new(null);
+            ViewModel = new();
         }
     }
 }

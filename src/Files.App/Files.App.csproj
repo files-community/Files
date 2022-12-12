@@ -123,4 +123,7 @@
     <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Media" />
     <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Primitives" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="AppModels\" />
+  </ItemGroup>
 </Project>

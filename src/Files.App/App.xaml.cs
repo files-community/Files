@@ -124,6 +124,7 @@ namespace Files.App
 				.AddSingleton<IThreadingService, ThreadingService>()
 				.AddSingleton<ILocalizationService, LocalizationService>()
 				.AddSingleton<ICloudDetector, CloudDetector>()
+                .AddSingleton<IFileTagsService, FileTagsService>()
 #if SIDELOAD
 				.AddSingleton<IUpdateService, SideloadUpdateService>()
 #else
