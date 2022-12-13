@@ -207,6 +207,19 @@ namespace Files.App.ServicesImplementation.Settings
 			get => Get(false);
 			set => Set(value);
 		}
+
+		public SortOption DefaultSortOption
+		{
+			get => (SortOption)Get((long)SortOption.Name);
+			set => Set((long)value);
+		}
+
+		public GroupOption DefaultGroupOption
+		{
+			get => (GroupOption)Get((long)GroupOption.None);
+			set => Set((long)value);
+		}
+
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			switch (e.SettingName)
