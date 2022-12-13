@@ -2858,7 +2858,7 @@
     <value>Ruta</value>
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
-    <value>Sorting and grouping</value>
+    <value>Ordenación y agrupación</value>
   </data>
   <data name="Archive" xml:space="preserve">
     <value>Archivo</value>
@@ -2930,7 +2930,7 @@
     <value>Columna de estado de sincronización</value>
   </data>
   <data name="GroupBy" xml:space="preserve">
-    <value>Group by</value>
+    <value>Agrupar por</value>
   </data>
   <data name="SortBy" xml:space="preserve">
     <value>Ordenar por</value>
