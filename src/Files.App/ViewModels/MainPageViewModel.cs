@@ -165,7 +165,8 @@ namespace Files.App.ViewModels
 
 		private async Task AddNewInstanceAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
 		{
-			await AddNewTabAsync();
+			Task addTabTask = AddNewTabAsync();
+			await addTabTask.ConfigureAwait(false);
 			e!.Handled = true;
 		}
 
