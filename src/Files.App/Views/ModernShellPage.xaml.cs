@@ -1089,6 +1089,9 @@ namespace Files.App.Views
 					return;
 				}
 
+				if (string.IsNullOrEmpty(navigationPath))
+					return;
+
 				NavigationTransitionInfo transition = new SuppressNavigationTransitionInfo();
 
 				if (sourcePageType == typeof(WidgetsPage)
