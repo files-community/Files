@@ -7,9 +7,9 @@
 		DateCreated,
 		Size,
 		FileType,
-		SyncStatus,
+		SyncStatus, // Cloud drive
 		FileTag,
-		OriginalFolder,
-		DateDeleted
+		OriginalFolder, // Recycle bin
+		DateDeleted // Recycle bin
 	}
 }

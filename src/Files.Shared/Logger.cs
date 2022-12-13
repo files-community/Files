@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -57,19 +56,6 @@ namespace Files.Shared
 			try
 			{
 				await writer.WriteLineToLogAsync($"{DateTime.Now:yyyy-MM-dd HH:mm:ss.ffff}|{type}|{caller}|{message}");
-			}
-			catch (IOException e) when (e is not FileNotFoundException)
-			{
-				if (attemptNumber < 5) // check the attempt count to prevent a stack overflow exception
-				{
-					// Log is likely in use by another process instance, so wait then try again
-					await Task.Delay(50);
-					LogAsync(type, caller, message, attemptNumber + 1);
-				}
-				else
-				{
-					Debug.WriteLine($"Writing to log file failed after 5 attempts with the following exception:\n{e}");
-				}
 			}
 			catch (Exception e)
 			{
