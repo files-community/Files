@@ -409,17 +409,7 @@ namespace Files.App.Views.LayoutModes
 					await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
 				}
 			}
-			else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
-			{
-				// Unfocus the GridView so keyboard shortcut can be handled
-				this.Focus(FocusState.Pointer);
-			}
-			else if (e.KeyStatus.IsMenuKeyDown && shiftPressed && e.Key == VirtualKey.Add)
-			{
-				// Unfocus the ListView so keyboard shortcut can be handled (alt + shift + "+")
-				this.Focus(FocusState.Pointer);
-			}
-			else if (e.Key == VirtualKey.Up || e.Key == VirtualKey.Down)
+			else if (!e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Up || e.Key == VirtualKey.Down))
 			{
 				// If list has only one item, select it on arrow down/up (#5681)
 				if (IsItemSelected)
@@ -427,6 +417,29 @@ namespace Files.App.Views.LayoutModes
 
 				FileList.SelectedIndex = 0;
 				e.Handled = true;
+			}
+			else if (e.KeyStatus.IsMenuKeyDown)
+			{
+				if (shiftPressed && e.Key == VirtualKey.Add)
+				{
+					// Unfocus the ListView so keyboard shortcut can be handled (alt + shift + "+")
+					this.Focus(FocusState.Pointer);
+					return;
+				}
+
+				// Unfocus the GridView so keyboard shortcut can be handled
+				switch (e.Key)
+				{
+					case VirtualKey.Up:
+						NavToolbar?.Up.Focus(FocusState.Pointer);
+						return;
+					case VirtualKey.Left:
+						NavToolbar?.Back.Focus(FocusState.Pointer);
+						return;
+					case VirtualKey.Right:
+						NavToolbar?.Forward.Focus(FocusState.Pointer);
+						return;
+				}
 			}
 		}
 
