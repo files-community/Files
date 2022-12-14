@@ -2858,7 +2858,7 @@
     <value>Percorso</value>
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
-    <value>Sorting and grouping</value>
+    <value>Ordina e raggruppa</value>
   </data>
   <data name="Archive" xml:space="preserve">
     <value>Archivio</value>
@@ -2930,7 +2930,7 @@
     <value>Stato sincronizzazione</value>
   </data>
   <data name="GroupBy" xml:space="preserve">
-    <value>Group by</value>
+    <value>Raggruppa per</value>
   </data>
   <data name="SortBy" xml:space="preserve">
     <value>Ordina per</value>
