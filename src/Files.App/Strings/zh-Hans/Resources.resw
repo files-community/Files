@@ -2858,7 +2858,7 @@
     <value>路径</value>
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
-    <value>Sorting and grouping</value>
+    <value>排序和分组</value>
   </data>
   <data name="Archive" xml:space="preserve">
     <value>压缩文件</value>
@@ -2930,7 +2930,7 @@
     <value>“同步状态”列</value>
   </data>
   <data name="GroupBy" xml:space="preserve">
-    <value>Group by</value>
+    <value>分组依据</value>
   </data>
   <data name="SortBy" xml:space="preserve">
     <value>排序方式</value>
