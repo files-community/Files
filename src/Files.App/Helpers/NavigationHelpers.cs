@@ -119,7 +119,7 @@ namespace Files.App.Helpers
 			bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
 			bool isDirectory = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Directory);
 			bool isReparsePoint = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.ReparsePoint);
-			bool isShortcut = associatedInstance.SlimContentPage.SelectedItem is { IsShortcut: true };
+			bool isShortcut = path.EndsWith(".lnk", StringComparison.Ordinal) || path.EndsWith(".url", StringComparison.Ordinal);
 			FilesystemResult opened = (FilesystemResult)false;
 
 			var shortcutInfo = new ShellLinkItem();
