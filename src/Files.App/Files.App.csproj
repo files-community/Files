@@ -70,6 +70,13 @@
     <Content Remove="Assets\FilesHome.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Themes\Fake Mica" />
+    <None Remove="Themes\Fake Mica.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Remove="Themes\Fake Mica.xaml" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="ByteSize" Version="2.1.1" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
     <PackageReference Include="FluentFTP" Version="42.1.0" />
