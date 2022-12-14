@@ -364,7 +364,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 					if (item is not null || FileExtensionHelpers.IsShortcutOrUrlFile(itemPath))
 					{
 						if (await AddItemFromPath(itemPath,
-                            FileExtensionHelpers.IsShortcutOrUrlFile(itemPath) ? FilesystemItemType.File : (item.IsOfType(StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File)))
+							FileExtensionHelpers.IsShortcutOrUrlFile(itemPath) ? FilesystemItemType.File : (item.IsOfType(StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File)))
 						{
 							itemsAdded = true;
 						}

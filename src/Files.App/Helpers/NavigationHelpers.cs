@@ -339,7 +339,7 @@ namespace Files.App.Helpers
 		{
 			var opened = (FilesystemResult)false;
 			bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
-			bool isShortcut = FileExtensionHelpers.IsShortcutOrUrlFile(path);
+			bool isShortcut = FileExtensionHelpers.IsShortcutOrUrlFile(path) || !string.IsNullOrEmpty(shortcutInfo.TargetPath);
 
 			if (isShortcut)
 			{
