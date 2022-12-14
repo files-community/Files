@@ -51,16 +51,17 @@ namespace Files.App.Controllers
 			StorageFolder Folder = await FilesystemTasks.Wrap(() => ApplicationData.Current.LocalFolder.CreateFolderAsync("settings", CreationCollisionOption.OpenIfExists).AsTask());
 			if (Folder is null)
 			{
-				Model?.AddDefaultItems();
                         	if (Model is not null)
                         	{
+                                        Model.AddDefaultItems(); 
                     			await Model.AddAllItemsToSidebar();
                         	}
                         	return;
 			}
 
 			var JsonFile = await FilesystemTasks.Wrap(() => Folder.GetFileAsync(JsonFileName).AsTask());
-			if (!JsonFile)
+			if (Model is null) return;
+                        if (!JsonFile)
 			{
 				if (JsonFile == FileSystemStatusCode.NotFound)
 				{
@@ -69,34 +70,25 @@ namespace Files.App.Controllers
 					{
 						foreach (var item in oldItems)
 						{
-							if (Model is not null)
+							if (!Model.FavoriteItems.Contains(item))
 							{
-								if (!Model.FavoriteItems.Contains(item))
-								{
-									Model.FavoriteItems.Add(item);
-								}
+								Model.FavoriteItems.Add(item);
 							}
 						}
 					}
 					else
 					{
-						Model?.AddDefaultItems();
+						Model.AddDefaultItems();
 					}
 
-					Model?.Save();
-					if (Model is not null)
-					{
-						await Model.AddAllItemsToSidebar();
-					}
+					Model.Save();
+					await Model.AddAllItemsToSidebar();
 					return;
 				}
 				else
 				{
-					Model?.AddDefaultItems();
-					if (Model is not null)
-					{
-						await Model.AddAllItemsToSidebar();
-					}					
+					Model.AddDefaultItems();
+					await Model.AddAllItemsToSidebar();		
 					return;
 				}
 			}
@@ -175,7 +167,6 @@ namespace Files.App.Controllers
 			}
 		}
 
-		[Obsolete]
 		private static async Task<IEnumerable<string>?> ReadV1PinnedItemsFile()
 		{
 			return await SafetyExtensions.IgnoreExceptions(async () =>
@@ -187,7 +178,6 @@ namespace Files.App.Controllers
 			});
 		}
 
-        [Obsolete]
         private static async Task<IEnumerable<string>?> ReadV2PinnedItemsFile()
 		{
 			return await SafetyExtensions.IgnoreExceptions(async () =>

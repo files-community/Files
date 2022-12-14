@@ -44,7 +44,7 @@ namespace Files.App.DataModels.NavigationControlItems
 
 		public bool IsRemovable => Type == DriveType.Removable || Type == DriveType.CDRom;
 		public bool IsNetwork => Type == DriveType.Network;
-		public bool IsPinned => App.SidebarPinnedController.Model is not null && App.SidebarPinnedController.Model.FavoriteItems.Contains(path ?? string.Empty);
+		public bool IsPinned => path is not null && App.SidebarPinnedController.Model is not null && App.SidebarPinnedController.Model.FavoriteItems.Contains(path);
 
 		public string MaxSpaceText => MaxSpace.ToSizeString();
 		public string FreeSpaceText => FreeSpace.ToSizeString();
@@ -170,8 +170,8 @@ namespace Files.App.DataModels.NavigationControlItems
 			try
 			{
 				var properties = Root is not null ? await Root.Properties.RetrievePropertiesAsync(new[] { "System.ItemNameDisplay" })
-                    .AsTask().WithTimeoutAsync(TimeSpan.FromSeconds(5)) : null;
-                Text = (string?)properties?["System.ItemNameDisplay"];
+                                                 .AsTask().WithTimeoutAsync(TimeSpan.FromSeconds(5)) : null;
+                                Text = (string?)properties?["System.ItemNameDisplay"];
 			}
 			catch (NullReferenceException)
 			{
