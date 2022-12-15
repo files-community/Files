@@ -85,10 +85,17 @@ namespace Files.App.Filesystem.StorageItems
 			return Task.FromResult<BaseStorageFile>(null).AsAsyncOperation();
 		}
 
-		private static ShellFileItem GetFile(string path)
+		private static ShellFileItem? GetFile(string path)
 		{
-			using var shellItem = ShellFolderExtensions.GetShellItemFromPathOrPidl(path);
-			return ShellFolderExtensions.GetShellFileItem(shellItem);
+			try
+			{
+				using var shellItem = ShellFolderExtensions.GetShellItemFromPathOrPidl(path);
+				return ShellFolderExtensions.GetShellFileItem(shellItem);
+			}
+			catch
+			{
+				return default;
+			}
 		}
 
 		public override bool IsEqual(IStorageItem item) => item?.Path == Path;
