@@ -92,8 +92,6 @@ namespace Files.App.Filesystem.StorageItems
 				using var shellItem = ShellFolderExtensions.GetShellItemFromPathOrPidl(path);
 				return ShellFolderExtensions.GetShellFileItem(shellItem);
 			}
-			// May happen when a path cannot be interpreted, such as when switching from Network Overview to Recycle Bin on the Sidebar
-			// See https://github.com/files-community/Files/issues/10715
 			catch
 			{
 				return default;
