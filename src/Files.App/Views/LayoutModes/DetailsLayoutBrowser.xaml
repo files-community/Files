@@ -226,6 +226,7 @@
 					DragOver="ItemsLayout_DragOver"
 					Drop="ItemsLayout_Drop"
 					IsDoubleTapEnabled="True"
+					IsTabStop="True"
 					ItemsSource="{x:Bind CollectionViewSource.View, Mode=OneWay}"
 					Loaded="FileList_Loaded"
 					PreviewKeyDown="FileList_PreviewKeyDown"
