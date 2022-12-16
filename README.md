@@ -16,7 +16,7 @@
     <img src="https://img.shields.io/badge/Preview-Download-blue.svg?style=flat-round" alt="Preview link" />
 </a>
 
-Organize your files and folders easily. Robust multitasking experiences, helpful tags, and deep integrations add to an intuitive design – openly developed right here.
+Files is a file manager that lets you easily organize content on your device. Robust multitasking experiences, helpful tags, and deep integrations add to an intuitive design – openly developed right here.
 
 We welcome feedback items and approved community contributions! Vague ideas are difficult to act on, so you'll need to fill out the correct issue template with detailed information such as related links or screenshots. Keep discussions constructive by reading our [code of conduct](https://github.com/files-community/Files/blob/main/CODE_OF_CONDUCT.md).
 
