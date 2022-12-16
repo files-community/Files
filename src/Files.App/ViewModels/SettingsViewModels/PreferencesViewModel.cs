@@ -511,7 +511,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			{
 				if (Path == "Home".GetLocalizedResource())
 					return "Home".GetLocalizedResource();
-				return (Path == CommonPaths.RecycleBinPath) 
+				return (Path == CommonPaths.RecycleBinPath)
 					   ? ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin")
 					   : Path;
 			}
