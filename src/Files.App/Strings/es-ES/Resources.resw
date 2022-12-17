@@ -167,13 +167,13 @@
     <value>Carpeta de destino</value>
   </data>
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
-    <value>es una subcarpeta de la carpeta origen</value>
+    <value>es una subcarpeta de la carpeta de origen</value>
   </data>
   <data name="Skip" xml:space="preserve">
     <value>Omitir</value>
   </data>
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
-    <value>Seleccionar Todo</value>
+    <value>Seleccionar todo</value>
   </data>
   <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>Invertir selección</value>
@@ -197,7 +197,7 @@
     <value>Buscar</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
-    <value>Los archivos a los que previamente haya accedido se mostrarán aquí</value>
+    <value>Los archivos a los que hayas accedido anteriormente aparecerán aquí</value>
   </data>
   <data name="RecentItemOpenFileLocation.Text" xml:space="preserve">
     <value>Abrir ubicación del archivo</value>
@@ -338,7 +338,7 @@
     <value>Conceder permiso</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>Para comenzar, deberá otorgar permisos para mostrar sus archivos. Se abrirá una página de Configuración donde puede otorgar dicho permiso. Deberá volver a abrir la aplicación una vez haya completado este paso. </value>
+    <value>Para empezar, tendrás que darnos permiso para mostrar tus archivos. Se abrirá una página de Configuración en la que podrás concedernos este permiso. Tendrás que volver a abrir la aplicación cuando hayas completado este paso. </value>
   </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Archivo</value>
@@ -353,10 +353,10 @@
     <value>Establecer nombre</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
-    <value>Claro</value>
+    <value>Tema Claro</value>
   </data>
   <data name="DarkTheme" xml:space="preserve">
-    <value>Oscuro</value>
+    <value>Tema Oscuro</value>
   </data>
   <data name="Application" xml:space="preserve">
     <value>Aplicación</value>
