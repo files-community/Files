@@ -2935,4 +2935,7 @@
   <data name="SortBy" xml:space="preserve">
     <value>Sort by</value>
   </data>
+  <data name="FileList" xml:space="preserve">
+    <value>File list</value>
+  </data>
 </root>
