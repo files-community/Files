@@ -2822,7 +2822,7 @@
     <value>Вы хотите восстановить {0} выбранный(ые) элемент(ы)?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
-    <value>Восстановить выделенное</value>
+    <value>Восстановить выбранное</value>
   </data>
   <data name="RestoreAllItems" xml:space="preserve">
     <value>Восстановить все элементы</value>
