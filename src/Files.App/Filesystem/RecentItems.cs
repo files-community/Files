@@ -106,6 +106,7 @@ namespace Files.App.Filesystem
 		public async Task<List<RecentItem>> ListRecentFilesAsync()
 		{
 			return (await Win32Shell.GetShellFolderAsync(QuickAccessGuid, "Enumerate", 0, int.MaxValue)).Enumerate
+				.Where(link => !link.IsFolder)
 				.Select(link => new RecentItem(link)).ToList();
 		}
 
@@ -194,7 +195,7 @@ namespace Files.App.Filesystem
 			{
 				using var pidl = new Shell32.PIDL(item.PIDL);
 				using var shellItem = ShellItem.Open(pidl);
-				using var cMenu = await ContextMenu.GetContextMenuForFiles(new[] { shellItem }, Shell32.CMF.CMF_DEFAULTONLY);
+				using var cMenu = await ContextMenu.GetContextMenuForFiles(new[] { shellItem }, Shell32.CMF.CMF_NORMAL);
 				if (cMenu is not null)
 				{
 					return await cMenu.InvokeVerb("remove");
