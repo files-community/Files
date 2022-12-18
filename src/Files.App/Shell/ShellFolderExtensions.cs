@@ -53,7 +53,8 @@ namespace Files.App.Shell
 					"::{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}" => "Shell:NetworkPlacesFolder",
 					"::{208D2C60-3AEA-1069-A2D7-08002B30309D}" => "Shell:NetworkPlacesFolder",
 					// Use PIDL as path
-					_ => $@"\\SHELL\{string.Join("\\", folderItem.PIDL.Select(x => x.GetBytes()).Select(x => Convert.ToBase64String(x, 0, x.Length)))}"
+					// Replace "/" with "_" to avoid confusion with path separator
+					_ => $@"\\SHELL\{string.Join("\\", folderItem.PIDL.Select(x => x.GetBytes()).Select(x => Convert.ToBase64String(x, 0, x.Length).Replace("/", "_")))}"
 				};
 			}
 			var fileName = folderItem.Properties.TryGetProperty<string>(Ole32.PROPERTYKEY.System.ItemNameDisplay);
@@ -122,8 +123,9 @@ namespace Files.App.Shell
 			if (pathOrPidl.StartsWith(@"\\SHELL\", StringComparison.Ordinal))
 			{
 				pidl = pathOrPidl.Replace(@"\\SHELL\", "", StringComparison.Ordinal)
+					.Replace("_", "/") // Avoid confusion with path separator
 					.Split('\\', StringSplitOptions.RemoveEmptyEntries)
-					.Select(pathSegment => new Shell32.PIDL(pathSegment))
+					.Select(pathSegment => new Shell32.PIDL(Convert.FromBase64String(pathSegment)))
 					.Aggregate((x, y) => Shell32.PIDL.Combine(x, y));
 				return true;
 			}

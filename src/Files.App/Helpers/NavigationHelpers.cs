@@ -36,10 +36,10 @@ namespace Files.App.Helpers
 			return Launcher.LaunchUriAsync(folderUri).AsTask();
 		}
 
-		public static async void LaunchNewWindow()
+		public static Task LaunchNewWindowAsync()
 		{
 			var filesUWPUri = new Uri("files-uwp:");
-			await Launcher.LaunchUriAsync(filesUWPUri);
+			return Launcher.LaunchUriAsync(filesUWPUri).AsTask();
 		}
 
 		public static async Task OpenSelectedItems(IShellPage associatedInstance, bool openViaApplicationPicker = false)
@@ -119,7 +119,7 @@ namespace Files.App.Helpers
 			bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
 			bool isDirectory = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Directory);
 			bool isReparsePoint = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.ReparsePoint);
-			bool isShortcut = associatedInstance.SlimContentPage.SelectedItem is { IsShortcut: true };
+			bool isShortcut = path.EndsWith(".lnk", StringComparison.Ordinal) || path.EndsWith(".url", StringComparison.Ordinal);
 			FilesystemResult opened = (FilesystemResult)false;
 
 			var shortcutInfo = new ShellLinkItem();

@@ -24,15 +24,14 @@
 				<ResourceDictionary>
 					<ResourceDictionary.ThemeDictionaries>
 						<ResourceDictionary x:Key="Light">
-							<Color x:Key="SolidBackgroundAcrylic">#FFFFFF</Color>
 							<SolidColorBrush x:Key="TabViewItemHeaderBackground" Color="{StaticResource SubtleFillColorTransparent}" />
-							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="{StaticResource LayerFillColorDefault}" />
+							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="{StaticResource LayerOnMicaBaseAltFillColorDefault}" />
 							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="{StaticResource SubtleFillColorTertiary}" />
 							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver" Color="{StaticResource SubtleFillColorSecondary}" />
 							<SolidColorBrush x:Key="TabViewItemSeparator" Color="{StaticResource DividerStrokeColorDefault}" />
 							<SolidColorBrush x:Key="TabContainerFillColorPrimary" Color="{StaticResource SolidBackgroundFillColorTertiary}" />
 							<SolidColorBrush x:Key="TabContainerFillColorSecondary" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
-							<SolidColorBrush x:Key="NavigationToolbarBackgroundBrush" Color="{StaticResource LayerFillColorDefault}" />
+							<SolidColorBrush x:Key="NavigationToolbarBackgroundBrush" Color="{StaticResource LayerOnMicaBaseAltFillColorDefault}" />
 							<SolidColorBrush x:Key="NavigationToolbarBreadcrumbBackgroundBrush" Color="Transparent" />
 							<SolidColorBrush x:Key="FileBrowserHeaderBackgroundBrush" Color="Transparent" />
 							<SolidColorBrush x:Key="RootBackgroundBrush" Color="Transparent" />
@@ -41,24 +40,22 @@
 							<SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
 						</ResourceDictionary>
 						<ResourceDictionary x:Key="Dark">
-							<Color x:Key="SolidBackgroundAcrylic">#2C2C2C</Color>
 							<SolidColorBrush x:Key="TabViewItemHeaderBackground" Color="{StaticResource SubtleFillColorTransparent}" />
-							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="{StaticResource LayerFillColorDefault}" />
+							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="{StaticResource LayerOnMicaBaseAltFillColorDefault}" />
 							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="{StaticResource SubtleFillColorTertiary}" />
 							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver" Color="{StaticResource SubtleFillColorSecondary}" />
 							<SolidColorBrush x:Key="TabViewItemSeparator" Color="{StaticResource DividerStrokeColorDefault}" />
 							<SolidColorBrush x:Key="TabContainerFillColorPrimary" Color="{StaticResource SolidBackgroundFillColorTertiary}" />
 							<SolidColorBrush x:Key="TabContainerFillColorSecondary" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
-							<SolidColorBrush x:Key="NavigationToolbarBackgroundBrush" Color="{StaticResource LayerFillColorDefault}" />
+							<SolidColorBrush x:Key="NavigationToolbarBackgroundBrush" Color="{StaticResource LayerOnMicaBaseAltFillColorDefault}" />
 							<SolidColorBrush x:Key="NavigationToolbarBreadcrumbBackgroundBrush" Color="Transparent" />
 							<SolidColorBrush x:Key="FileBrowserHeaderBackgroundBrush" Color="Transparent" />
 							<SolidColorBrush x:Key="RootBackgroundBrush" Color="Transparent" />
-							<StaticResource x:Key="SidebarContentBackgroundBrush" ResourceKey="CardBackgroundFillColorDefault" />
+							<SolidColorBrush x:Key="SidebarContentBackgroundBrush" Color="#993A3A3A" />
 							<SolidColorBrush x:Key="TitlebarContentBackgroundBrush" Color="Transparent" />
 							<SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
 						</ResourceDictionary>
 						<ResourceDictionary x:Key="HighContrast">
-							<Color x:Key="SolidBackgroundAcrylic">#2C2C2C</Color>
 							<SolidColorBrush x:Key="TabViewItemHeaderBackground" Color="{StaticResource SystemColorWindowColor}" />
 							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="{StaticResource LayerFillColorDefault}" />
 							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="{StaticResource SystemColorHighlightColor}" />

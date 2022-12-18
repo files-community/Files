@@ -120,6 +120,41 @@
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
 
+			<!--  Default sorting and grouping options  -->
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SortingAndGrouping}" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE8CB;" />
+				</local:SettingsBlockControl.Icon>
+				<local:SettingsBlockControl.ExpandableContent>
+					<StackPanel>
+						<!-- Sorting Options -->
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SortBy}" HorizontalAlignment="Stretch">
+							<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=SortBy}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultSortingIndex, Mode=TwoWay}">
+								<ComboBoxItem Content="{helpers:ResourceString Name=Name}" />
+								<ComboBoxItem Content="{helpers:ResourceString Name=DateModifiedLowerCase}" />
+								<ComboBoxItem Content="{helpers:ResourceString Name=DateCreated}" />
+								<ComboBoxItem Content="{helpers:ResourceString Name=Size}" />
+								<ComboBoxItem Content="{helpers:ResourceString Name=BaseLayoutContextFlyoutSortByType/Text}" />
+								<ComboBoxItem Content="{helpers:ResourceString Name=Tag}" />
+							</ComboBox>
+						</local:SettingsBlockControl>
+
+						<!-- Grouping Options -->
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=GroupBy}" HorizontalAlignment="Stretch">
+							<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=GroupBy}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultGroupingIndex, Mode=TwoWay}">
+								<ComboBoxItem Content="{helpers:ResourceString Name=None}" />
+								<ComboBoxItem Content="{helpers:ResourceString Name=Name}" />
+								<ComboBoxItem Content="{helpers:ResourceString Name=DateModifiedLowerCase}" />
+								<ComboBoxItem Content="{helpers:ResourceString Name=DateCreated}" />
+								<ComboBoxItem Content="{helpers:ResourceString Name=Size}" />
+								<ComboBoxItem Content="{helpers:ResourceString Name=BaseLayoutContextFlyoutSortByType/Text}" />
+								<ComboBoxItem Content="{helpers:ResourceString Name=Tag}" />
+							</ComboBox>
+						</local:SettingsBlockControl>
+					</StackPanel>
+				</local:SettingsBlockControl.ExpandableContent>
+			</local:SettingsBlockControl>
+
 			<!--  Layout mode  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=LayoutMode}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>

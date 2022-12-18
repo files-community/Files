@@ -538,7 +538,7 @@ namespace Files.App.Helpers
 					Text = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalizedResource(),
 					Glyph = "\uE840",
 					Command = commandsViewModel.PinDirectoryToFavoritesCommand,
-					ShowItem = !itemViewModel.CurrentFolder.IsPinned & userSettingsService.AppearanceSettingsService.ShowFavoritesSection,
+					ShowItem = itemViewModel.CurrentFolder is not null && !itemViewModel.CurrentFolder.IsPinned & userSettingsService.AppearanceSettingsService.ShowFavoritesSection,
 					ShowInFtpPage = true,
 					ShowInRecycleBin = true,
 				},
@@ -547,7 +547,7 @@ namespace Files.App.Helpers
 					Text = "BaseLayoutContextFlyoutUnpinFromFavorites/Text".GetLocalizedResource(),
 					Glyph = "\uE77A",
 					Command = commandsViewModel.UnpinDirectoryFromFavoritesCommand,
-					ShowItem = itemViewModel.CurrentFolder.IsPinned & userSettingsService.AppearanceSettingsService.ShowFavoritesSection,
+					ShowItem = itemViewModel.CurrentFolder is not null && itemViewModel.CurrentFolder.IsPinned & userSettingsService.AppearanceSettingsService.ShowFavoritesSection,
 					ShowInFtpPage = true,
 					ShowInRecycleBin = true,
 				},
@@ -558,7 +558,7 @@ namespace Files.App.Helpers
 					Command = commandsViewModel.PinItemToStartCommand,
 					ShowInFtpPage = true,
 					ShowOnShift = true,
-					ShowItem = !itemViewModel.CurrentFolder.IsItemPinnedToStart,
+					ShowItem = itemViewModel.CurrentFolder is not null && !itemViewModel.CurrentFolder.IsItemPinnedToStart,
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -567,7 +567,7 @@ namespace Files.App.Helpers
 					Command = commandsViewModel.UnpinItemFromStartCommand,
 					ShowInFtpPage = true,
 					ShowOnShift = true,
-					ShowItem = itemViewModel.CurrentFolder.IsItemPinnedToStart,
+					ShowItem = itemViewModel.CurrentFolder is not null && itemViewModel.CurrentFolder.IsItemPinnedToStart,
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
