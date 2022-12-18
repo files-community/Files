@@ -142,10 +142,11 @@ namespace Files.App.UserControls.Widgets
 
 		private void RecentsView_ItemClick(object sender, ItemClickEventArgs e)
 		{
-			var path = (e.ClickedItem as RecentItem).RecentPath;
+			var recentItem = e.ClickedItem as RecentItem;
 			RecentFileInvoked?.Invoke(this, new PathNavigationEventArgs()
 			{
-				ItemPath = path
+				ItemPath = recentItem.RecentPath,
+				IsFile = recentItem.IsFile
 			});
 		}
 

@@ -133,39 +133,25 @@ namespace Files.App.Views
 		{
 			try
 			{
-				var directoryName = Path.GetDirectoryName(e.ItemPath);
-				await Win32Helpers.InvokeWin32ComponentAsync(e.ItemPath, AppInstance, workingDirectory: directoryName);
-			}
-			catch (UnauthorizedAccessException)
-			{
-				DynamicDialog dialog = DynamicDialogFactory.GetFor_ConsentDialog();
-				await SetContentDialogRoot(dialog).ShowAsync();
-			}
-			catch (ArgumentException)
-			{
-				if (new DirectoryInfo(e.ItemPath).Root.ToString().Contains(@"C:\", StringComparison.Ordinal))
+				if (e.IsFile)
+				{
+					var directoryName = Path.GetDirectoryName(e.ItemPath);
+					await Win32Helpers.InvokeWin32ComponentAsync(e.ItemPath, AppInstance, workingDirectory: directoryName);
+				}
+				else
 				{
 					AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
 					{
 						NavPathParam = e.ItemPath
 					});
 				}
-				else
-				{
-					foreach (DriveItem drive in Enumerable.Concat(App.DrivesManager.Drives, App.CloudDrivesManager.Drives))
-					{
-						if (drive.Path == new DirectoryInfo(e.ItemPath).Root.ToString())
-						{
-							AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
-							{
-								NavPathParam = e.ItemPath
-							});
-							return;
-						}
-					}
-				}
 			}
-			catch (COMException)
+			catch (UnauthorizedAccessException)
+			{
+				DynamicDialog dialog = DynamicDialogFactory.GetFor_ConsentDialog();
+				await SetContentDialogRoot(dialog).ShowAsync();
+			}
+			catch (Exception ex) when (ex is COMException || ex is ArgumentException)
 			{
 				await DialogDisplayHelper.ShowDialogAsync(
 					"DriveUnpluggedDialog/Title".GetLocalizedResource(),
