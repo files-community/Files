@@ -77,10 +77,10 @@ namespace Files.App.Views
 
 		public bool IsColumnView => SlimContentPage is ColumnViewBrowser;
 
-		public ItemViewModel FilesystemViewModel { get; private set; } = null;
+		public ItemViewModel FilesystemViewModel { get; private set; }
 		public CurrentInstanceViewModel InstanceViewModel { get; }
-		private BaseLayout contentPage = null;
 
+		private BaseLayout contentPage;
 		public BaseLayout ContentPage
 		{
 			get => contentPage;
@@ -96,7 +96,6 @@ namespace Files.App.Views
 		}
 
 		private bool isPageMainPane;
-
 		public bool IsPageMainPane
 		{
 			get => isPageMainPane;
@@ -142,6 +141,13 @@ namespace Files.App.Views
 			cancellationTokenSource = new CancellationTokenSource();
 			FilesystemHelpers = new FilesystemHelpers(this, cancellationTokenSource.Token);
 			storageHistoryHelpers = new StorageHistoryHelpers(new StorageHistoryOperations(this, cancellationTokenSource.Token));
+
+			FilesystemViewModel = new ItemViewModel(InstanceViewModel.FolderSettings);
+			FilesystemViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
+			FilesystemViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
+			FilesystemViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;
+			FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
+			FilesystemViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
 
 			ToolbarViewModel.SearchBox.TextChanged += ModernShellPage_TextChanged;
 			ToolbarViewModel.SearchBox.QuerySubmitted += ModernShellPage_QuerySubmitted;
@@ -514,20 +520,29 @@ namespace Files.App.Views
 		private void OnNavigationParamsChanged()
 		{
 			if (string.IsNullOrEmpty(NavParams?.NavPath) || NavParams.NavPath == "Home".GetLocalizedResource())
+			{
 				ItemDisplayFrame.Navigate(typeof(WidgetsPage),
 					new NavigationArguments()
 					{
 						NavPathParam = NavParams?.NavPath,
 						AssociatedTabInstance = this
 					}, new EntranceNavigationTransitionInfo());
+			}
 			else
+			{
+				var isTagSearch = NavParams.NavPath.StartsWith("tag:");
+
 				ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(NavParams.NavPath),
 					new NavigationArguments()
 					{
 						NavPathParam = NavParams.NavPath,
 						SelectItems = !string.IsNullOrWhiteSpace(NavParams?.SelectItem) ? new[] { NavParams.SelectItem } : null,
+						IsSearchResultPage = isTagSearch,
+						SearchPathParam = isTagSearch ? "Home".GetLocalizedResource() : null,
+						SearchQuery = isTagSearch ? navParams.NavPath : null,
 						AssociatedTabInstance = this
 					});
+			}
 		}
 
 		public static readonly DependencyProperty NavParamsProperty =
@@ -574,12 +589,6 @@ namespace Files.App.Views
 
 		private void Page_Loaded(object sender, RoutedEventArgs e)
 		{
-			FilesystemViewModel = new ItemViewModel(InstanceViewModel?.FolderSettings);
-			FilesystemViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
-			FilesystemViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
-			FilesystemViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;
-			FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
-			FilesystemViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
 			OnNavigationParamsChanged();
 			this.Loaded -= Page_Loaded;
 		}
@@ -1079,6 +1088,9 @@ namespace Files.App.Views
 
 					return;
 				}
+
+				if (string.IsNullOrEmpty(navigationPath))
+					return;
 
 				NavigationTransitionInfo transition = new SuppressNavigationTransitionInfo();
 
