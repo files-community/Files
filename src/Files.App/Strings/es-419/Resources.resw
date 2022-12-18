@@ -992,16 +992,16 @@
     <value>Editora</value>
   </data>
   <data name="PropertyThumbnailLargePath" xml:space="preserve">
-    <value>Ruta de miniatura grande</value>
+    <value>Ruta de miniatura larga</value>
   </data>
   <data name="PropertyThumbnailLargeUri" xml:space="preserve">
-    <value>URL de miniatura grande</value>
+    <value>Ruta de miniatura grande</value>
   </data>
   <data name="PropertyThumbnailSmallPath" xml:space="preserve">
     <value>Ruta de miniatura pequeña</value>
   </data>
   <data name="PropertyThumbnailSmallUri" xml:space="preserve">
-    <value>URL de miniatura pequeña</value>
+    <value>Ruta de miniatura pequeña</value>
   </data>
   <data name="PropertyUserWebUrl" xml:space="preserve">
     <value>Dirección URL</value>
@@ -2687,10 +2687,10 @@
     <value>Etiquetas</value>
   </data>
   <data name="SettingsShowFileTagsSection.Title" xml:space="preserve">
-    <value>Mostrar sección Etiquetas</value>
+    <value>Mostrar Etiquetas</value>
   </data>
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar sección Etiquetas</value>
+    <value>Mostrar Etiquetas</value>
   </data>
   <data name="UseCompactStyles" xml:space="preserve">
     <value>Utilizar estilos compactos en el diseño de detalles</value>
@@ -2741,7 +2741,7 @@
     <value>Revisar Files</value>
   </data>
   <data name="ReviewFilesContent" xml:space="preserve">
-    <value>¿Desea escribir una reseña sobre Files?</value>
+    <value>¿Le gustaría hacer una reseña de Files?</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
     <value>Establecer como fondo de pantalla</value>

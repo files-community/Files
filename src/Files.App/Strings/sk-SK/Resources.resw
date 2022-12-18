@@ -2003,7 +2003,7 @@
     <value>Pozrite si dokumentáciu.</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
-    <value>Extract Archive</value>
+    <value>Rozbaliť archív</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>Po dokončení otvoriť cieľový priečinok</value>
@@ -2840,7 +2840,7 @@
     <value>Cieľová destinácia nebola nájdená {0}. Chcete zmazať tento odkaz?</value>
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
-    <value>You don't have permission to access this folder.</value>
+    <value>Nemáte povolenie na prístup k tomuto priečinku.</value>
   </data>
   <data name="LoadingThemes" xml:space="preserve">
     <value>Načítavanie tém</value>
@@ -2855,58 +2855,58 @@
     <value>Nepodarilo sa vyprázdniť kôš</value>
   </data>
   <data name="ArchivePassword" xml:space="preserve">
-    <value>Archive password</value>
+    <value>Heslo archívu</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
-    <value>Path</value>
+    <value>Cesta</value>
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
-    <value>Sorting and grouping</value>
+    <value>Zoraďovanie a zoskupovanie</value>
   </data>
   <data name="Archive" xml:space="preserve">
-    <value>Archive</value>
+    <value>Archív</value>
   </data>
   <data name="CreateArchive" xml:space="preserve">
-    <value>Create archive</value>
+    <value>Vytvoriť archív</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>Vytvoriť</value>
   </data>
   <data name="CreateNamedArchive" xml:space="preserve">
-    <value>Create {0}</value>
+    <value>Vytvoriť {0}</value>
   </data>
   <data name="EnterName" xml:space="preserve">
-    <value>Enter a name</value>
+    <value>Zadajte názov</value>
   </data>
   <data name="CompressionLevel" xml:space="preserve">
-    <value>Compression level</value>
+    <value>Úroveň kompresie</value>
   </data>
   <data name="CompressionLevelUltra" xml:space="preserve">
     <value>Ultra</value>
   </data>
   <data name="CompressionLevelHigh" xml:space="preserve">
-    <value>High</value>
+    <value>Vysoká</value>
   </data>
   <data name="CompressionLevelNormal" xml:space="preserve">
-    <value>Normal</value>
+    <value>Normálna</value>
   </data>
   <data name="CompressionLevelLow" xml:space="preserve">
-    <value>Low</value>
+    <value>Nízka</value>
   </data>
   <data name="CompressionLevelFast" xml:space="preserve">
-    <value>Fast</value>
+    <value>Rýchla</value>
   </data>
   <data name="CompressionLevelNone" xml:space="preserve">
     <value>Žiadne</value>
   </data>
   <data name="SplitArchive" xml:space="preserve">
-    <value>Split the archive</value>
+    <value>Rozdeliť archív</value>
   </data>
   <data name="SplittingSize" xml:space="preserve">
-    <value>Splitting size</value>
+    <value>Rozdeľovacia veľkosť</value>
   </data>
   <data name="Do not split" xml:space="preserve">
-    <value>Do not split</value>
+    <value>Nerozdeľovať</value>
   </data>
   <data name="CD" xml:space="preserve">
     <value>CD</value>
@@ -2921,7 +2921,7 @@
     <value>Blu-ray</value>
   </data>
   <data name="Encryption" xml:space="preserve">
-    <value>Encryption</value>
+    <value>Šifrovanie</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>Zadajte heslo</value>
@@ -2930,10 +2930,10 @@
     <value>Formát</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowSyncStatus.Text" xml:space="preserve">
-    <value>Sync status column</value>
+    <value>Synchronizovať stĺpec stavu</value>
   </data>
   <data name="GroupBy" xml:space="preserve">
-    <value>Group by</value>
+    <value>Zoskupiť podľa</value>
   </data>
   <data name="SortBy" xml:space="preserve">
     <value>Zoradiť podľa</value>
