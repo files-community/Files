@@ -160,7 +160,7 @@ namespace Files.App.UserControls.Widgets
 				{
 					// evict it from the recent items shortcut list
 					// this operation invokes RecentFilesChanged which we handle to update the visible collection
-					App.RecentItemsManager.UnpinFromRecentFiles(vm.LinkPath);
+					await App.RecentItemsManager.UnpinFromRecentFiles(vm.LinkPath);
 				}
 			}
 			finally

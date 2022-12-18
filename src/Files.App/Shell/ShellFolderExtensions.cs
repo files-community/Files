@@ -42,7 +42,9 @@ namespace Files.App.Shell
 			{
 				return null;
 			}
-			bool isFolder = folderItem.IsFolder && !folderItem.Attributes.HasFlag(ShellItemAttribute.Stream);
+			// Zip archives are also shell folders, check for STREAM attribute
+			// Do not use folderItem's Attributes property, throws unimplemented for some shell folders
+			bool isFolder = folderItem.IsFolder && folderItem.IShellItem?.GetAttributes(Shell32.SFGAO.SFGAO_STREAM) is 0;
 			var parsingPath = folderItem.GetDisplayName(ShellItemDisplayString.DesktopAbsoluteParsing);
 			parsingPath ??= folderItem.FileSystemPath; // True path on disk
 			if (parsingPath is null || !Path.IsPathRooted(parsingPath))
@@ -61,8 +63,8 @@ namespace Files.App.Shell
 			fileName ??= Path.GetFileName(folderItem.Name); // Original file name
 			fileName ??= folderItem.GetDisplayName(ShellItemDisplayString.ParentRelativeParsing);
 			var itemNameOrOriginalPath = folderItem.Name ?? fileName;
-			string filePath = string.IsNullOrEmpty(Path.GetDirectoryName(parsingPath)) ? // Null if root
-				parsingPath : Path.Combine(Path.GetDirectoryName(parsingPath), itemNameOrOriginalPath); // In recycle bin "Name" contains original file path + name
+			string filePath = Path.IsPathRooted(itemNameOrOriginalPath) ? 
+				itemNameOrOriginalPath : parsingPath; // In recycle bin "Name" contains original file path + name
 			if (!isFolder && !string.IsNullOrEmpty(parsingPath) && Path.GetExtension(parsingPath) is string realExtension && !string.IsNullOrEmpty(realExtension))
 			{
 				if (!string.IsNullOrEmpty(fileName) && !fileName.EndsWith(realExtension, StringComparison.OrdinalIgnoreCase))

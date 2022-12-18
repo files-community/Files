@@ -1,5 +1,6 @@
 using Files.App.Helpers;
 using Files.App.Shell;
+using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -51,7 +52,7 @@ namespace Files.App.Filesystem
 
 		private async void OnRecentItemsChanged(object? sender, EventArgs e)
 		{
-			await ListRecentFilesAsync();
+			await UpdateRecentFilesAsync();
 		}
 
 		/// <summary>
@@ -187,19 +188,14 @@ namespace Files.App.Filesystem
 		/// This will also unpin the item from the Recent Files in File Explorer.
 		/// </summary>
 		/// <returns>Whether the action was successfully handled or not</returns>
-		public bool UnpinFromRecentFiles(string path)
+		public Task<bool> UnpinFromRecentFiles(string path)
 		{
-			try
+			return Task.Run(() =>
 			{
 				var command = $"-command \"((New-Object -ComObject Shell.Application).Namespace('shell:{QuickAccessGuid}\').Items() " +
-							  $"| Where-Object {{ $_.Path -eq '{path}' }}).InvokeVerb('remove')\"";
-				return Win32API.RunPowershellCommand(command, false);
-			}
-			catch (Exception ex)
-			{
-				App.Logger.Warn(ex, ex.Message);
-				return false;
-			}
+				              $"| Where-Object {{ $_.Path -eq '{path}' }}).InvokeVerb('remove')\"";
+				return SafetyExtensions.IgnoreExceptions(() => Win32API.RunPowershellCommand(command, false), App.Logger);
+			});
 		}
 
 		/// <summary>
