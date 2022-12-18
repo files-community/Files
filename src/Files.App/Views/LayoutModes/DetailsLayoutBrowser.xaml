@@ -220,6 +220,7 @@
 					x:FieldModifier="public"
 					AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 					AutomationProperties.Name="{helpers:ResourceString Name=FilesAndFolders}"
+					AutomationProperties.AccessibilityView="Raw"
 					CanDragItems="True"
 					ContainerContentChanging="FileList_ContainerContentChanging"
 					DoubleTapped="FileList_DoubleTapped"
