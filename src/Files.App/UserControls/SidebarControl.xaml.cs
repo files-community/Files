@@ -169,7 +169,7 @@ namespace Files.App.UserControls
 			get => canOpenInNewPane;
 			set
 			{
-				if (value == canOpenInNewPane) 
+				if (value == true) 
 					return;
 
 				canOpenInNewPane = value;
