@@ -1,5 +1,6 @@
 using Files.App.Shell;
 using Files.Shared;
+using Files.Shared.Extensions;
 using System;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
@@ -87,8 +88,15 @@ namespace Files.App.Filesystem.StorageItems
 
 		private static ShellFileItem? GetFile(string path)
 		{
-			using var shellItem = ShellFolderExtensions.GetShellItemFromPathOrPidl(path);
-			return ShellFolderExtensions.GetShellFileItem(shellItem);
+			try
+			{
+				using var shellItem = ShellFolderExtensions.GetShellItemFromPathOrPidl(path);
+				return ShellFolderExtensions.GetShellFileItem(shellItem);
+			}
+			catch // Can happen when file is not found
+			{
+				return default;
+			}
 		}
 
 		public override bool IsEqual(IStorageItem item) => item?.Path == Path;
