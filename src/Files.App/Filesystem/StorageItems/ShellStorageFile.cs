@@ -93,8 +93,9 @@ namespace Files.App.Filesystem.StorageItems
 				using var shellItem = ShellFolderExtensions.GetShellItemFromPathOrPidl(path);
 				return ShellFolderExtensions.GetShellFileItem(shellItem);
 			}
-			catch // Can happen when file is not found
+			catch
 			{
+				// Can happen when dealing with recent items or when browsing shell:::{679f85cb-0220-4080-b29b-5540cc05aab6}
 				return default;
 			}
 		}
