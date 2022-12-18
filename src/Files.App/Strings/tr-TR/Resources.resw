@@ -1658,8 +1658,7 @@
     <value>Klasörleri yeni sekmede aç</value>
   </data>
   <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>Paketler arac
-ını göster</value>
+    <value>Paketler aracını göster</value>
   </data>
   <data name="ShowDrivesWidget" xml:space="preserve">
     <value>Sürücüler aracını göster</value>
@@ -2607,7 +2606,7 @@
     <value>Tür</value>
   </data>
   <data name="IconGrid" xml:space="preserve">
-    <value>Icon Grid</value>
+    <value>Simge Kılavuzu</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Bayt</value>
@@ -2790,7 +2789,7 @@
     <value>Sütunlar Düzeninde tek bir tıklama ile klasörleri aç</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
-    <value>Opening items</value>
+    <value>Açılış öğeleri</value>
   </data>
   <data name="AddSingleItemToArchive" xml:space="preserve">
     <value>{0}.zip arşivine ekle</value>
@@ -2859,7 +2858,7 @@
     <value>Yol</value>
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
-    <value>Sorting and grouping</value>
+    <value>Sıralama ve gruplama</value>
   </data>
   <data name="Archive" xml:space="preserve">
     <value>Arşiv</value>
@@ -2931,7 +2930,7 @@
     <value>Senkronizasyon durumu sütunu</value>
   </data>
   <data name="GroupBy" xml:space="preserve">
-    <value>Group by</value>
+    <value>Gruplandır</value>
   </data>
   <data name="SortBy" xml:space="preserve">
     <value>Sıralama</value>
