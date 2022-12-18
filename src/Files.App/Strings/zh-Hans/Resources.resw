@@ -1934,7 +1934,7 @@
     <value>消除</value>
   </data>
   <data name="Widgets" xml:space="preserve">
-    <value>组件</value>
+    <value>要在主页上显示的组件</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>同步状态</value>
@@ -2771,7 +2771,7 @@
     <value>“类型”列</value>
   </data>
   <data name="DetailsLayoutColumns" xml:space="preserve">
-    <value>“详细信息”布局 列</value>
+    <value>“详细信息”布局下要显示的列</value>
   </data>
   <data name="Reset" xml:space="preserve">
     <value>重置首选项</value>
@@ -2789,7 +2789,7 @@
     <value>在“列视图”布局下，通过单击打开文件夹</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
-    <value>正在打开项目</value>
+    <value>打开项目</value>
   </data>
   <data name="AddSingleItemToArchive" xml:space="preserve">
     <value>添加到 {0}.zip</value>
@@ -2858,7 +2858,7 @@
     <value>路径</value>
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
-    <value>Sorting and grouping</value>
+    <value>排序和分组</value>
   </data>
   <data name="Archive" xml:space="preserve">
     <value>压缩文件</value>
@@ -2930,7 +2930,7 @@
     <value>“同步状态”列</value>
   </data>
   <data name="GroupBy" xml:space="preserve">
-    <value>Group by</value>
+    <value>分组依据</value>
   </data>
   <data name="SortBy" xml:space="preserve">
     <value>排序方式</value>
