@@ -81,10 +81,10 @@ namespace Files.App.Shell
 			var recycleDate = fileTime?.ToDateTime().ToLocalTime() ?? DateTime.Now; // This is LocalTime
 			fileTime = folderItem.Properties.TryGetProperty<System.Runtime.InteropServices.ComTypes.FILETIME?>(
 				Ole32.PROPERTYKEY.System.DateModified);
-			var modifiedDate = fileTime?.ToDateTime().ToLocalTime() ?? folderItem.FileInfo?.LastWriteTime ?? DateTime.Now; // This is LocalTime
+			var modifiedDate = fileTime?.ToDateTime().ToLocalTime() ?? SafetyExtensions.IgnoreExceptions(() => folderItem.FileInfo?.LastWriteTime) ?? DateTime.Now; // This is LocalTime
 			fileTime = folderItem.Properties.TryGetProperty<System.Runtime.InteropServices.ComTypes.FILETIME?>(
 				Ole32.PROPERTYKEY.System.DateCreated);
-			var createdDate = fileTime?.ToDateTime().ToLocalTime() ?? folderItem.FileInfo?.CreationTime ?? DateTime.Now; // This is LocalTime
+			var createdDate = fileTime?.ToDateTime().ToLocalTime() ?? SafetyExtensions.IgnoreExceptions(() => folderItem.FileInfo?.CreationTime) ?? DateTime.Now; // This is LocalTime
 			var fileSizeBytes = folderItem.Properties.TryGetProperty<ulong?>(Ole32.PROPERTYKEY.System.Size);
 			string fileSize = fileSizeBytes is not null ? folderItem.Properties.GetPropertyString(Ole32.PROPERTYKEY.System.Size) : null;
 			var fileType = folderItem.Properties.TryGetProperty<string>(Ole32.PROPERTYKEY.System.ItemTypeText);
