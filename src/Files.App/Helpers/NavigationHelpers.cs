@@ -127,7 +127,7 @@ namespace Files.App.Helpers
 			{
 				if (isShortcut)
 				{
-					var shInfo = await Win32Shell.ParseLink(path);
+					var shInfo = await FileOperationsHelpers.ParseLinkAsync(path);
 
 					if (shInfo is null)
 						return false;

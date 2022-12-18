@@ -188,14 +188,19 @@ namespace Files.App.Filesystem
 		/// This will also unpin the item from the Recent Files in File Explorer.
 		/// </summary>
 		/// <returns>Whether the action was successfully handled or not</returns>
-		public Task<bool> UnpinFromRecentFiles(string path)
+		public Task<bool> UnpinFromRecentFiles(RecentItem item)
 		{
-			return Task.Run(() =>
+			return SafetyExtensions.IgnoreExceptions(() => Task.Run(async () =>
 			{
-				var command = $"-command \"((New-Object -ComObject Shell.Application).Namespace('shell:{QuickAccessGuid}\').Items() " +
-				              $"| Where-Object {{ $_.Path -eq '{path}' }}).InvokeVerb('remove')\"";
-				return SafetyExtensions.IgnoreExceptions(() => Win32API.RunPowershellCommand(command, false), App.Logger);
-			});
+				using var pidl = new Shell32.PIDL(item.PIDL);
+				using var shellItem = ShellItem.Open(pidl);
+				using var cMenu = await ContextMenu.GetContextMenuForFiles(new[] { shellItem }, Shell32.CMF.CMF_DEFAULTONLY);
+				if (cMenu is not null)
+				{
+					return await cMenu.InvokeVerb("remove");
+				}
+				return false;
+			}));
 		}
 
 		/// <summary>
