@@ -448,7 +448,7 @@ namespace Files.App.UserControls
 				return;
 			}
 
-			var navigationPath = args.InvokedItemContainer.Tag?.ToString();
+			var navigationPath = args.InvokedItemContainer.Tag.ToString();
 
 			if (await CheckEmptyDrive(navigationPath))
 				return;
@@ -513,7 +513,7 @@ namespace Files.App.UserControls
 
 		private void NavigationViewItem_DragStarting(UIElement sender, DragStartingEventArgs args)
 		{
-			if ((sender as NavigationViewItem)?.DataContext is not LocationItem locationItem)
+			if ((sender as NavigationViewItem).DataContext is not LocationItem locationItem)
 				return;
 
 			// Adding the original Location item dragged to the DragEvents data view
@@ -525,7 +525,7 @@ namespace Files.App.UserControls
 		{
 			VisualStateManager.GoToState(sender as NavigationViewItem, "DragEnter", false);
 
-			if ((sender as NavigationViewItem)?.DataContext is not INavigationControlItem iNavItem) 
+			if ((sender as NavigationViewItem).DataContext is not INavigationControlItem iNavItem) 
 				return;
 
 			if (string.IsNullOrEmpty(iNavItem.Path))
@@ -576,7 +576,7 @@ namespace Files.App.UserControls
 
 			isDropOnProcess = false;
 
-			if ((sender as NavigationViewItem)?.DataContext is not INavigationControlItem)
+			if ((sender as NavigationViewItem).DataContext is not INavigationControlItem)
 				return;
 
 			if (sender == dragOverItem)
@@ -588,7 +588,7 @@ namespace Files.App.UserControls
 
 		private async void NavigationViewLocationItem_DragOver(object sender, DragEventArgs e)
 		{
-			if ((sender as NavigationViewItem)?.DataContext is not LocationItem locationItem)
+			if ((sender as NavigationViewItem).DataContext is not LocationItem locationItem)
 				return;
 
 			var deferral = e.GetDeferral();
@@ -722,7 +722,7 @@ namespace Files.App.UserControls
 			dragOverItem = null; // Reset dragged over item
 			dragOverSection = null; // Reset dragged over section
 
-			if ((sender as NavigationViewItem)?.DataContext is not LocationItem locationItem)
+			if ((sender as NavigationViewItem).DataContext is not LocationItem locationItem)
 				return;
 
 			// If the dropped item is a folder or file from a file system
@@ -768,7 +768,7 @@ namespace Files.App.UserControls
 
 		private async void NavigationViewDriveItem_DragOver(object sender, DragEventArgs e)
 		{
-			if ((sender as NavigationViewItem)?.DataContext is not DriveItem driveItem ||
+			if ((sender as NavigationViewItem).DataContext is not DriveItem driveItem ||
 				!FilesystemHelpers.HasDraggedStorageItems(e.DataView))
 				return;
 
@@ -838,7 +838,7 @@ namespace Files.App.UserControls
 			dragOverItem = null; // Reset dragged over item
 			dragOverSection = null; // Reset dragged over section
 
-			if ((sender as NavigationViewItem)?.DataContext is not DriveItem driveItem)
+			if ((sender as NavigationViewItem).DataContext is not DriveItem driveItem)
 				return;
 
 			VisualStateManager.GoToState(sender as NavigationViewItem, "Drop", false);
@@ -862,7 +862,7 @@ namespace Files.App.UserControls
 
 		private async void NavigationViewFileTagItem_DragOver(object sender, DragEventArgs e)
 		{
-			if ((sender as NavigationViewItem)?.DataContext is not FileTagItem fileTagItem ||
+			if ((sender as NavigationViewItem).DataContext is not FileTagItem fileTagItem ||
 				!FilesystemHelpers.HasDraggedStorageItems(e.DataView))
 				return;
 
@@ -900,7 +900,7 @@ namespace Files.App.UserControls
 			dragOverItem = null; // Reset dragged over item
 			dragOverSection = null; // Reset dragged over section
 
-			if ((sender as NavigationViewItem)?.DataContext is not FileTagItem fileTagItem)
+			if ((sender as NavigationViewItem).DataContext is not FileTagItem fileTagItem)
 				return;
 
 			VisualStateManager.GoToState(sender as NavigationViewItem, "Drop", false);
@@ -987,7 +987,7 @@ namespace Files.App.UserControls
 				return; // keep showing pressed event if currently resizing the sidebar
 
 			(sender as Grid)?.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
-			VisualStateManager.GoToState((sender as Grid)?.FindAscendant<SplitView>(), "ResizerNormal", true);
+			VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerNormal", true);
 		}
 
 		private void Border_PointerEntered(object sender, PointerRoutedEventArgs e)
@@ -996,7 +996,7 @@ namespace Files.App.UserControls
 				return;
 
 			(sender as Grid)?.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
-			VisualStateManager.GoToState((sender as Grid)?.FindAscendant<SplitView>(), "ResizerPointerOver", true);
+			VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerPointerOver", true);
 		}
 
 		private void SetSize(double val, bool closeImmediatleyOnOversize = false)
@@ -1024,8 +1024,8 @@ namespace Files.App.UserControls
 
 		private void ResizeElementBorder_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
 		{
-			(sender as Grid)?.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
-			VisualStateManager.GoToState((sender as Grid)?.FindAscendant<SplitView>(), "ResizerNormal", true);
+			(sender as Grid).ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
+			VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerNormal", true);
 			UserSettingsService.AppearanceSettingsService.SidebarWidth = OpenPaneLength;
 			dragging = false;
 		}
@@ -1041,8 +1041,8 @@ namespace Files.App.UserControls
 				return;
 
 			originalSize = IsPaneOpen ? UserSettingsService.AppearanceSettingsService.SidebarWidth : CompactPaneLength;
-			(sender as Grid)?.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
-			VisualStateManager.GoToState((sender as Grid)?.FindAscendant<SplitView>(), "ResizerPressed", true);
+			(sender as Grid).ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
+			VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerPressed", true);
 			dragging = true;
 		}
 
@@ -1217,7 +1217,7 @@ namespace Files.App.UserControls
 		public DataTemplate FileTagNavItemTemplate { get; set; }
 		public DataTemplate HeaderNavItemTemplate { get; set; }
 
-		protected override DataTemplate? SelectTemplateCore(object item)
+		protected override DataTemplate SelectTemplateCore(object item)
 		{
 			if (item is null || item is not INavigationControlItem navControlItem)
 				return null;
