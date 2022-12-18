@@ -31,60 +31,6 @@ namespace Files.App
 			var alwaysOpenNewInstance = ApplicationData.Current.LocalSettings.Values.Get("AlwaysOpenANewInstance", false);
 			var activatedArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
 
-			if (!alwaysOpenNewInstance)
-			{
-				if (activatedArgs.Kind is ExtendedActivationKind.Launch)
-				{
-					var launchArgs = activatedArgs.Data as ILaunchActivatedEventArgs;
-
-					if (false)
-					{
-						// WINUI3: remove
-					}
-					else
-					{
-						if (false)
-						{
-							// WINUI3: remove
-						}
-						else
-						{
-							var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
-							var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
-							if (!instance.IsCurrent && !string.IsNullOrWhiteSpace(launchArgs.Arguments))
-							{
-								RedirectActivationTo(instance, activatedArgs);
-								return;
-							}
-						}
-					}
-				}
-				else if (activatedArgs.Data is IProtocolActivatedEventArgs protocolArgs)
-				{
-					var parsedArgs = protocolArgs.Uri.Query.TrimStart('?').Split('=');
-					if (parsedArgs.Length == 2 && parsedArgs[0] == "cmd") // Treat as command line launch
-					{
-						var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
-						var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
-						if (!instance.IsCurrent)
-						{
-							RedirectActivationTo(instance, activatedArgs);
-							return;
-						}
-					}
-				}
-				else if (activatedArgs.Data is IFileActivatedEventArgs)
-				{
-					var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
-					var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
-					if (!instance.IsCurrent)
-					{
-						RedirectActivationTo(instance, activatedArgs);
-						return;
-					}
-				}
-			}
-
 			if (activatedArgs.Data is ICommandLineActivatedEventArgs cmdLineArgs)
 			{
 				var operation = cmdLineArgs.Operation;
@@ -126,13 +72,51 @@ namespace Files.App
 
 			if (activatedArgs.Data is ILaunchActivatedEventArgs tileArgs)
 			{
-				if (tileArgs.Arguments is not null && 
+				if (tileArgs.Arguments is not null &&
 					!tileArgs.Arguments.Contains($"files.exe", StringComparison.OrdinalIgnoreCase) &&
 					new[] { ".exe", ".bat", ".cmd" }.Contains(Path.GetExtension(tileArgs.Arguments), StringComparer.OrdinalIgnoreCase))
 				{
 					if (File.Exists(tileArgs.Arguments))
 					{
 						OpenFileFromTile(tileArgs.Arguments);
+						return;
+					}
+				}
+			}
+
+			if (!alwaysOpenNewInstance)
+			{
+				if (activatedArgs.Data is ILaunchActivatedEventArgs launchArgs)
+				{
+					var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
+					var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
+					if (!instance.IsCurrent && !string.IsNullOrWhiteSpace(launchArgs.Arguments))
+					{
+						RedirectActivationTo(instance, activatedArgs);
+						return;
+					}
+				}
+				else if (activatedArgs.Data is IProtocolActivatedEventArgs protocolArgs)
+				{
+					var parsedArgs = protocolArgs.Uri.Query.TrimStart('?').Split('=');
+					if (parsedArgs.Length == 2 && parsedArgs[0] == "cmd") // Treat as command line launch
+					{
+						var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
+						var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
+						if (!instance.IsCurrent)
+						{
+							RedirectActivationTo(instance, activatedArgs);
+							return;
+						}
+					}
+				}
+				else if (activatedArgs.Data is IFileActivatedEventArgs)
+				{
+					var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
+					var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
+					if (!instance.IsCurrent)
+					{
+						RedirectActivationTo(instance, activatedArgs);
 						return;
 					}
 				}
