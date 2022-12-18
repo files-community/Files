@@ -312,19 +312,19 @@ namespace Files.App.ViewModels
 			{
 				userSettingsService.FoldersSettingsService.DefaultLayoutMode = prefs.LayoutMode;
 				userSettingsService.LayoutSettingsService.DefaultGridViewSize = prefs.GridViewSize;
-				// Do not save OriginalPath as global sort option (only works in recycle bin)
+				// Do not save options which only work in recycle bin or cloud folders as global
 				if (prefs.DirectorySortOption != SortOption.OriginalFolder &&
 					prefs.DirectorySortOption != SortOption.DateDeleted &&
 					prefs.DirectorySortOption != SortOption.SyncStatus)
 				{
-					userSettingsService.LayoutSettingsService.DefaultDirectorySortOption = prefs.DirectorySortOption;
+					userSettingsService.FoldersSettingsService.DefaultSortOption = prefs.DirectorySortOption;
 				}
 				if (prefs.DirectoryGroupOption != GroupOption.OriginalFolder &&
 					prefs.DirectoryGroupOption != GroupOption.DateDeleted &&
 					prefs.DirectoryGroupOption != GroupOption.FolderPath &&
 					prefs.DirectoryGroupOption != GroupOption.SyncStatus)
 				{
-					userSettingsService.LayoutSettingsService.DefaultDirectoryGroupOption = prefs.DirectoryGroupOption;
+					userSettingsService.FoldersSettingsService.DefaultGroupOption = prefs.DirectoryGroupOption;
 				}
 				userSettingsService.LayoutSettingsService.DefaultDirectorySortDirection = prefs.DirectorySortDirection;
 				userSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles = prefs.SortDirectoriesAlongsideFiles;
