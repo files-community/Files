@@ -491,7 +491,7 @@ namespace Files.App.UserControls
 		{
 			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
 			var sidebarItem = sender as NavigationViewItem;
-			var item = sidebarItem?.DataContext as INavigationControlItem;
+			var item = sidebarItem.DataContext as INavigationControlItem;
 
 			rightClickedItem = item;
 
