@@ -25,7 +25,7 @@ namespace Files.App.Helpers
 			FilesystemResult<BaseStorageFile> file = null;
 			FilesystemResult<BaseStorageFolder> folder = null;
 
-			if (path.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase) || path.EndsWith(".url", StringComparison.OrdinalIgnoreCase))
+			if (FileExtensionHelpers.IsShortcutOrUrlFile(path))
 			{
 				// TODO: In the future, when IStorageItemWithPath will inherit from IStorageItem,
 				// we could implement this code here for getting .lnk files

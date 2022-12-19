@@ -361,10 +361,10 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
 					IStorageItem item = await StorageHelpers.ToStorageItem<IStorageItem>(itemPath);
 
-					if (item is not null || (itemPath.EndsWith(".lnk", StringComparison.Ordinal) || itemPath.EndsWith(".url", StringComparison.Ordinal)))
+					if (item is not null || FileExtensionHelpers.IsShortcutOrUrlFile(itemPath))
 					{
 						if (await AddItemFromPath(itemPath,
-							itemPath.EndsWith(".lnk", StringComparison.Ordinal) || itemPath.EndsWith(".url", StringComparison.Ordinal) ? FilesystemItemType.File : (item.IsOfType(StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File)))
+							FileExtensionHelpers.IsShortcutOrUrlFile(itemPath) ? FilesystemItemType.File : (item.IsOfType(StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File)))
 						{
 							itemsAdded = true;
 						}

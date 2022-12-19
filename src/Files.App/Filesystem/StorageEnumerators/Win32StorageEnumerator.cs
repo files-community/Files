@@ -303,9 +303,9 @@ namespace Files.App.Filesystem.StorageEnumerators
 					IsSymLink = true
 				};
 			}
-			else if (findData.cFileName.EndsWith(".lnk", StringComparison.Ordinal) || findData.cFileName.EndsWith(".url", StringComparison.Ordinal))
+			else if (FileExtensionHelpers.IsShortcutOrUrlFile(findData.cFileName))
 			{
-				var isUrl = findData.cFileName.EndsWith(".url", StringComparison.OrdinalIgnoreCase);
+				var isUrl = FileExtensionHelpers.IsWebLinkFile(findData.cFileName);
 				var shInfo = await ParseLinkAsync(itemPath);
 				if (shInfo is null)
 				{
@@ -393,12 +393,12 @@ namespace Files.App.Filesystem.StorageEnumerators
 		{
 			try
 			{
-				if (linkPath.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase))
+				if (FileExtensionHelpers.IsShortcutFile(linkPath))
 				{
 					using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, default, TimeSpan.FromMilliseconds(100));
 					return ShellFolderExtensions.GetShellLinkItem(link);
 				}
-				else if (linkPath.EndsWith(".url", StringComparison.OrdinalIgnoreCase))
+				else if (FileExtensionHelpers.IsWebLinkFile(linkPath))
 				{
 					var linkUrl = await Win32API.StartSTATask(() =>
 					{
