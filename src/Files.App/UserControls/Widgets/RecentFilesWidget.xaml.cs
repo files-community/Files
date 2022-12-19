@@ -108,16 +108,20 @@ namespace Files.App.UserControls.Widgets
 					default:
 						{
 							var recentFiles = App.RecentItemsManager.RecentFiles; // already sorted, add all in order
-							foreach (RecentItem elem in recentItemsCollection.ToList())
+							int idx = 0;
+							for (; idx < recentFiles.Count; idx++) // Add new items (top of the list)
 							{
-								if (!recentFiles.Any(x => x.Equals(elem)))
-								{
-									recentItemsCollection.Remove(elem);
-								}
+								if (idx >= recentItemsCollection.Count || !recentFiles[idx].Equals(recentItemsCollection[idx]))
+									await AddItemToRecentListAsync(recentFiles[idx], idx);
+								else
+									break;
 							}
-							for (int i = 0; i < recentFiles.Count; i++)
+							while (idx < recentItemsCollection.Count) // Remove old items
 							{
-								await AddItemToRecentListAsync(recentFiles[i], i);
+								if (idx >= recentFiles.Count || !recentFiles[idx].Equals(recentItemsCollection[idx]))
+									recentItemsCollection.RemoveAt(idx);
+								else
+									idx++;
 							}
 							break;
 						}
