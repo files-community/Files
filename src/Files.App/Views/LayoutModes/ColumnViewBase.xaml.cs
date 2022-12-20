@@ -13,6 +13,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
@@ -35,6 +36,7 @@ namespace Files.App.Views.LayoutModes
         protected override ItemsControl ItemsControl => FileList;
 
         private ColumnViewBrowser? columnsOwner;
+        private Control? openedFolderPresenter;
 
         public ColumnViewBase() : base()
         {
@@ -42,6 +44,21 @@ namespace Files.App.Views.LayoutModes
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
             tapDebounceTimer = DispatcherQueue.CreateTimer();
+            this.ItemInvoked += ColumnViewBase_ItemInvoked;
+        }
+
+        private void ColumnViewBase_ItemInvoked(object? sender, EventArgs e)
+        {
+            var selectedUIElement = FileList.ContainerFromItem(FileList.SelectedItem);
+            if(openedFolderPresenter != null)
+            {
+                openedFolderPresenter.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
+            }
+            openedFolderPresenter = selectedUIElement as ListViewItem;
+            if(openedFolderPresenter != null)
+            {
+                openedFolderPresenter.Background = this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush;
+            }
         }
 
         protected override void HookEvents()
