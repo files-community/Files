@@ -1,5 +1,6 @@
 using Files.App.Helpers;
 using Files.App.Shell;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -202,6 +203,17 @@ namespace Files.App.Filesystem
 			}
 		}
 
+		public bool CheckIsRecentFilesEnabled()
+		{
+			using var subkey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer");
+			if (subkey is null)
+			{
+				return false;
+			}
+
+			return Convert.ToBoolean(subkey.GetValue("ShowRecent", false));
+		}
+
 		/// <summary>
 		/// Returns whether two RecentItem enumerables have the same order.
 		/// This function depends on `RecentItem` implementing IEquatable.
@@ -210,6 +222,7 @@ namespace Files.App.Filesystem
 		{
 			return oldOrder != null && newOrder != null && oldOrder.SequenceEqual(newOrder);
 		}
+
 		public void Dispose()
 		{
 			RecentItemsManager.Default.RecentItemsChanged -= OnRecentItemsChanged;

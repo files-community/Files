@@ -5,7 +5,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:fs="using:Files.App.Filesystem"
 	xmlns:helpers="using:Files.App.Helpers"
-	xmlns:local="using:Files.App.UserControls.Widgets"
+	xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
 	mc:Ignorable="d">
@@ -15,6 +15,14 @@
 		MinHeight="200"
 		Orientation="Vertical"
 		Spacing="4">
+		<muxc:InfoBar
+			Margin="0,0,0,12"
+			IsClosable="False"
+			IsIconVisible="True"
+			IsOpen="True"
+			Message="{helpers:ResourceString Name=RecentFilesDisabledOnWindowsWarning}"
+			Severity="Warning"
+			Visibility="{x:Bind IsRecentFilesDisabledInWindows, Mode=OneWay}" />
 		<TextBlock
 			x:Name="RecentItemDescription"
 			HorizontalAlignment="Stretch"

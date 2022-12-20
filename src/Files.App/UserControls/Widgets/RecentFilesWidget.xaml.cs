@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace Files.App.UserControls.Widgets
 {
-	public sealed partial class RecentFilesWidget : UserControl, IWidgetItemModel
+	public sealed partial class RecentFilesWidget : UserControl, IWidgetItemModel, INotifyPropertyChanged
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
@@ -28,6 +28,8 @@ namespace Files.App.UserControls.Widgets
 		public delegate void RecentFileInvokedEventHandler(object sender, PathNavigationEventArgs e);
 
 		public event RecentFileInvokedEventHandler RecentFileInvoked;
+
+		public event PropertyChangedEventHandler PropertyChanged;
 
 		private ObservableCollection<RecentItem> recentItemsCollection = new ObservableCollection<RecentItem>();
 
@@ -45,6 +47,20 @@ namespace Files.App.UserControls.Widgets
 
 		public bool IsWidgetSettingEnabled => UserSettingsService.AppearanceSettingsService.ShowRecentFilesWidget;
 
+		private bool isRecentFilesDisabledInWindows = false;
+		public bool IsRecentFilesDisabledInWindows
+		{
+			get => isRecentFilesDisabledInWindows;
+			internal set
+			{
+				if (isRecentFilesDisabledInWindows != value)
+				{
+					isRecentFilesDisabledInWindows = value;
+					NotifyPropertyChanged(nameof(IsRecentFilesDisabledInWindows));
+				}
+			}
+		}
+
 		public RecentFilesWidget()
 		{
 			InitializeComponent();
@@ -53,9 +69,15 @@ namespace Files.App.UserControls.Widgets
 			refreshRecentsCTS = new CancellationTokenSource();
 
 			// recent files could have changed while widget wasn't loaded
-			_ = App.RecentItemsManager.UpdateRecentFilesAsync();
+			 _ = RefreshWidget();
 
 			App.RecentItemsManager.RecentFilesChanged += Manager_RecentFilesChanged;
+		}
+
+		public async Task RefreshWidget()
+		{
+			await App.RecentItemsManager.UpdateRecentFilesAsync();
+			IsRecentFilesDisabledInWindows = App.RecentItemsManager.CheckIsRecentFilesEnabled() is false;
 		}
 
 		private async void Manager_RecentFilesChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -188,10 +210,9 @@ namespace Files.App.UserControls.Widgets
 			}
 		}
 
-		public Task RefreshWidget()
+		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
 		{
-			// if files changed, event is fired to update widget
-			return App.RecentItemsManager.UpdateRecentFilesAsync();
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
 		public void Dispose()
