@@ -147,13 +147,11 @@ namespace Files.App.Views.LayoutModes
 
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
 		{
-			if (eventArgs.Parameter is NavigationArguments navArgs)
-				navArgs.FocusOnNavigation = (navArgs.AssociatedTabInstance as ColumnShellPage)?.ColumnParams?.Column == 0; // Focus filelist only if first column
-
 			base.OnNavigatedTo(eventArgs);
 
 			FolderSettings.GroupOptionPreferenceUpdated -= ZoomIn;
 			FolderSettings.GroupOptionPreferenceUpdated += ZoomIn;
+			ParentShellPageInstance.FilesystemViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
 		}
 
 		protected override void InitializeCommandsViewModel()
@@ -164,6 +162,13 @@ namespace Files.App.Views.LayoutModes
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
 		{
 			base.OnNavigatingFrom(e);
+			ParentShellPageInstance.FilesystemViewModel.ItemLoadStatusChanged -= FilesystemViewModel_ItemLoadStatusChanged;
+		}
+
+		private void FilesystemViewModel_ItemLoadStatusChanged(object sender, ViewModels.ItemLoadStatusChangedEventArgs e)
+		{
+			if (e.Status == ViewModels.ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete)
+				FileList.Focus(FocusState.Programmatic);
 		}
 
 		private void SelectionRectangle_SelectionEnded(object sender, EventArgs e)

@@ -1139,7 +1139,6 @@ namespace Files.App.Views
 
 	public class NavigationArguments
 	{
-		public bool FocusOnNavigation { get; set; } = false;
 		public string? NavPathParam { get; set; } = null;
 		public IShellPage? AssociatedTabInstance { get; set; }
 		public bool IsSearchResultPage { get; set; } = false;

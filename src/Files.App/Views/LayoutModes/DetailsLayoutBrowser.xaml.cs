@@ -180,9 +180,6 @@ namespace Files.App.Views.LayoutModes
 
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
 		{
-			if (eventArgs.Parameter is NavigationArguments navArgs)
-				navArgs.FocusOnNavigation = true;
-
 			base.OnNavigatedTo(eventArgs);
 
 			if (FolderSettings.ColumnsViewModel is not null)
@@ -206,6 +203,7 @@ namespace Files.App.Views.LayoutModes
 			FolderSettings.SortDirectionPreferenceUpdated += FolderSettings_SortDirectionPreferenceUpdated;
 			FolderSettings.SortOptionPreferenceUpdated += FolderSettings_SortOptionPreferenceUpdated;
 			ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
+			ParentShellPageInstance.FilesystemViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
 
 			var parameters = (NavigationArguments)eventArgs.Parameter;
 			if (parameters.IsLayoutSwitch)
@@ -233,6 +231,12 @@ namespace Files.App.Views.LayoutModes
 			});
 
 			RootGrid_SizeChanged(null, null);
+		}
+
+		private void FilesystemViewModel_ItemLoadStatusChanged(object sender, ItemLoadStatusChangedEventArgs e)
+		{
+			if (e.Status == ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete)
+				FileList.Focus(FocusState.Programmatic);
 		}
 
 		private void FolderSettings_SortOptionPreferenceUpdated(object? sender, SortOption e)
@@ -289,6 +293,7 @@ namespace Files.App.Views.LayoutModes
 			FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
 			FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
 			ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
+			ParentShellPageInstance.FilesystemViewModel.ItemLoadStatusChanged -= FilesystemViewModel_ItemLoadStatusChanged;
 		}
 
 		private void SelectionRectangle_SelectionEnded(object? sender, EventArgs e)

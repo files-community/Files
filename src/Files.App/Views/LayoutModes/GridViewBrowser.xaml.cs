@@ -168,9 +168,6 @@ namespace Files.App.Views.LayoutModes
 
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
 		{
-			if (eventArgs.Parameter is NavigationArguments navArgs)
-				navArgs.FocusOnNavigation = true;
-
 			base.OnNavigatedTo(eventArgs);
 
 			currentIconSize = FolderSettings.GetIconSize();
@@ -178,6 +175,7 @@ namespace Files.App.Views.LayoutModes
 			FolderSettings.GroupOptionPreferenceUpdated += ZoomIn;
 			FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
 			FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
+			ParentShellPageInstance.FilesystemViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
 			SetItemTemplate(); // Set ItemTemplate
 			FileList.ItemsSource ??= ParentShellPageInstance.FilesystemViewModel.FilesAndFolders;
 			var parameters = (NavigationArguments)eventArgs.Parameter;
@@ -190,6 +188,13 @@ namespace Files.App.Views.LayoutModes
 			base.OnNavigatingFrom(e);
 			FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
 			FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
+			ParentShellPageInstance.FilesystemViewModel.ItemLoadStatusChanged -= FilesystemViewModel_ItemLoadStatusChanged;
+		}
+
+		private void FilesystemViewModel_ItemLoadStatusChanged(object sender, ViewModels.ItemLoadStatusChangedEventArgs e)
+		{
+			if (e.Status == ViewModels.ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete)
+				FileList.Focus(FocusState.Programmatic);
 		}
 
 		private void SelectionRectangle_SelectionEnded(object? sender, EventArgs e)
