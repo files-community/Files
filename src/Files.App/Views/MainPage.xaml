@@ -2,7 +2,6 @@
 	x:Class="Files.App.Views.MainPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:contract8Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,8)"
 	xmlns:controls="using:Files.App.UserControls"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:converters1="using:CommunityToolkit.WinUI.UI.Converters"
@@ -377,10 +376,7 @@
 						<Setter Target="horizontalMultitaskingControl.TabStripVisibility" Value="Collapsed" />
 
 						<!--  Update the button size to match the pane toggle button size  -->
-						<Setter Target="VerticalTabStripInvokeButton.Height" Value="36" />
-						<Setter Target="VerticalTabStripInvokeButton.Width" Value="36" />
 						<Setter Target="HorizontalMultitaskingControlAddButton.Visibility" Value="Collapsed" />
-						<Setter Target="VerticalTabStripInvokeButtonIcon.FontSize" Value="16" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>
