@@ -112,6 +112,18 @@ namespace Files.App.Views.LayoutModes
 
         #endregion IDisposable
 
+        public void HandleSelectionChange(ColumnViewBase initiator)
+        {
+            foreach(var blade in ColumnHost.ActiveBlades)
+            {
+                var columnView = blade.FindDescendant<ColumnViewBase>();
+                if (columnView != null && columnView != initiator)
+                {
+                    columnView.ClearSelectionIndicator();
+                }
+            }
+        }
+
         private void DismissOtherBlades(ListView listView)
         {
             DismissOtherBlades(listView.FindAscendant<BladeItem>());
