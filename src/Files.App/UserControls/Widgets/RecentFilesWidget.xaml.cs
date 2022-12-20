@@ -37,8 +37,6 @@ namespace Files.App.UserControls.Widgets
 
 		private CancellationTokenSource refreshRecentsCTS;
 
-		private EmptyRecentsText Empty { get; set; } = new EmptyRecentsText();
-
 		public string WidgetName => nameof(RecentFilesWidget);
 
 		public string AutomationProperties => "RecentFilesWidgetAutomationProperties/Name".GetLocalizedResource();
@@ -46,6 +44,20 @@ namespace Files.App.UserControls.Widgets
 		public string WidgetHeader => "RecentFiles".GetLocalizedResource();
 
 		public bool IsWidgetSettingEnabled => UserSettingsService.AppearanceSettingsService.ShowRecentFilesWidget;
+
+		private Visibility emptyRecentsTextVisibility = Visibility.Collapsed;
+		public Visibility EmptyRecentsTextVisibility
+		{
+			get => emptyRecentsTextVisibility;
+			internal set
+			{
+				if (emptyRecentsTextVisibility != value)
+				{
+					emptyRecentsTextVisibility = value;
+					NotifyPropertyChanged(nameof(EmptyRecentsTextVisibility));
+				}
+			}
+		}
 
 		private bool isRecentFilesDisabledInWindows = false;
 		public bool IsRecentFilesDisabledInWindows
@@ -121,7 +133,7 @@ namespace Files.App.UserControls.Widgets
 				refreshRecentsCTS.Cancel();
 				refreshRecentsCTS = new CancellationTokenSource();
 
-				Empty.Visibility = Visibility.Collapsed;
+				EmptyRecentsTextVisibility = Visibility.Collapsed;
 
 				switch (args.Action)
 				{
@@ -139,7 +151,7 @@ namespace Files.App.UserControls.Widgets
 				// update chevron if there aren't any items
 				if (recentItemsCollection.Count == 0)
 				{
-					Empty.Visibility = Visibility.Visible;
+					EmptyRecentsTextVisibility = Visibility.Visible;
 				}
 			}
 			catch (Exception ex)
@@ -201,7 +213,7 @@ namespace Files.App.UserControls.Widgets
 
 				if (success)
 				{
-					Empty.Visibility = Visibility.Visible;
+					EmptyRecentsTextVisibility = Visibility.Visible;
 				}
 			}
 			finally
@@ -218,34 +230,6 @@ namespace Files.App.UserControls.Widgets
 		public void Dispose()
 		{
 			App.RecentItemsManager.RecentFilesChanged -= Manager_RecentFilesChanged;
-		}
-	}
-
-	public class EmptyRecentsText : INotifyPropertyChanged
-	{
-		private Visibility visibility;
-
-		public Visibility Visibility
-		{
-			get
-			{
-				return visibility;
-			}
-			set
-			{
-				if (value != visibility)
-				{
-					visibility = value;
-					NotifyPropertyChanged(nameof(Visibility));
-				}
-			}
-		}
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 	}
 }
