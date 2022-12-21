@@ -30,7 +30,7 @@
 			Text="{helpers:ResourceString Name=RecentItemDescription/Text}"
 			TextAlignment="Center"
 			TextWrapping="WrapWholeWords"
-			Visibility="{x:Bind EmptyRecentsTextVisibility, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+			Visibility="{x:Bind EmptyRecentsTextVisibility, Mode=OneWay}" />
 		<ListView
 			x:Name="RecentsView"
 			HorizontalAlignment="Stretch"
