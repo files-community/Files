@@ -108,8 +108,7 @@ namespace Files.App.ServicesImplementation
 			{
 				_storeContext ??= await Task.Run(StoreContext.GetDefault);
 
-				var hwnd = WindowNative.GetWindowHandle(App.Window);
-				InitializeWithWindow.Initialize(_storeContext, hwnd);
+				InitializeWithWindow.Initialize(_storeContext, App.WindowHandle);
 
 				var updateList = await _storeContext.GetAppAndOptionalStorePackageUpdatesAsync();
 				_updatePackages = updateList?.ToList();
