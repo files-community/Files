@@ -362,6 +362,9 @@
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
 						<Setter Target="horizontalMultitaskingControl.TabStripVisibility" Value="Collapsed" />
+
+						<!--  Update the button size to match the pane toggle button size  -->
+						<Setter Target="HorizontalMultitaskingControlAddButton.Visibility" Value="Collapsed" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>
