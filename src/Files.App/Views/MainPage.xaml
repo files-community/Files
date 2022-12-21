@@ -350,24 +350,6 @@
 		</controls:SidebarControl>
 
 		<VisualStateManager.VisualStateGroups>
-			<VisualStateGroup x:Name="MultitaskingControlStates">
-				<VisualState x:Name="NormalWindowWidth">
-					<VisualState.StateTriggers>
-						<AdaptiveTrigger x:Name="CollapseHorizontalTabViewTrigger" MinWindowWidth="500" />
-					</VisualState.StateTriggers>
-				</VisualState>
-				<VisualState x:Name="HorizontalTabViewCollapsed">
-					<VisualState.StateTriggers>
-						<AdaptiveTrigger MinWindowWidth="0" />
-					</VisualState.StateTriggers>
-					<VisualState.Setters>
-						<Setter Target="horizontalMultitaskingControl.TabStripVisibility" Value="Collapsed" />
-
-						<!--  Update the button size to match the pane toggle button size  -->
-						<Setter Target="HorizontalMultitaskingControlAddButton.Visibility" Value="Collapsed" />
-					</VisualState.Setters>
-				</VisualState>
-			</VisualStateGroup>
 			<VisualStateGroup>
 				<VisualState>
 					<VisualState.StateTriggers>
@@ -398,6 +380,9 @@
 						<Setter Target="SidebarControl.PaneDisplayMode" Value="LeftMinimal" />
 						<Setter Target="SidebarControl.IsPaneToggleButtonVisible" Value="True" />
 						<Setter Target="horizontalMultitaskingControl.Margin" Value="48,0,0,0" />
+						
+						<!--  Update the button size to match the pane toggle button size  -->
+						<Setter Target="HorizontalMultitaskingControlAddButton.Visibility" Value="Collapsed" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>
