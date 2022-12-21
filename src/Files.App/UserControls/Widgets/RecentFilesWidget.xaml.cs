@@ -89,7 +89,12 @@ namespace Files.App.UserControls.Widgets
 		public async Task RefreshWidget()
 		{
 			await App.RecentItemsManager.UpdateRecentFilesAsync();
+
 			IsRecentFilesDisabledInWindows = App.RecentItemsManager.CheckIsRecentFilesEnabled() is false;
+			if (IsRecentFilesDisabledInWindows)
+			{
+				EmptyRecentsTextVisibility = Visibility.Collapsed;
+			}
 		}
 
 		private async void Manager_RecentFilesChanged(object sender, NotifyCollectionChangedEventArgs e)
