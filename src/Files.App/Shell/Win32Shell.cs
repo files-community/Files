@@ -1,4 +1,5 @@
-﻿using Files.Shared;
+﻿using Files.App.Helpers;
+using Files.Shared;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -97,14 +98,14 @@ namespace Files.App.Shell
 
 			try
 			{
-				if (filePath.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase))
+				if (FileExtensionHelpers.IsShortcutFile(filePath))
 				{
 					using var link = new ShellLink(filePath, LinkResolution.NoUIWithMsgPump, default, TimeSpan.FromMilliseconds(100));
 					targetPath = link.TargetPath;
 					return ShellFolderExtensions.GetShellLinkItem(link);
 				}
 
-				if (filePath.EndsWith(".url", StringComparison.OrdinalIgnoreCase))
+				if (FileExtensionHelpers.IsWebLinkFile(filePath))
 				{
 					targetPath = await Win32API.StartSTATask(() =>
 					{

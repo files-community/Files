@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,63 +27,9 @@ namespace Files.App
 		{
 			WinRT.ComWrappersSupport.InitializeComWrappers();
 
-			var proc = System.Diagnostics.Process.GetCurrentProcess();
+			var proc = Process.GetCurrentProcess();
 			var alwaysOpenNewInstance = ApplicationData.Current.LocalSettings.Values.Get("AlwaysOpenANewInstance", false);
 			var activatedArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
-
-			if (!alwaysOpenNewInstance)
-			{
-				if (activatedArgs.Kind is ExtendedActivationKind.Launch)
-				{
-					var launchArgs = activatedArgs.Data as ILaunchActivatedEventArgs;
-
-					if (false)
-					{
-						// WINUI3: remove
-					}
-					else
-					{
-						if (false)
-						{
-							// WINUI3: remove
-						}
-						else
-						{
-							var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
-							var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
-							if (!instance.IsCurrent && !string.IsNullOrWhiteSpace(launchArgs.Arguments))
-							{
-								RedirectActivationTo(instance, activatedArgs);
-								return;
-							}
-						}
-					}
-				}
-				else if (activatedArgs.Data is IProtocolActivatedEventArgs protocolArgs)
-				{
-					var parsedArgs = protocolArgs.Uri.Query.TrimStart('?').Split('=');
-					if (parsedArgs.Length == 2 && parsedArgs[0] == "cmd") // Treat as command line launch
-					{
-						var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
-						var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
-						if (!instance.IsCurrent)
-						{
-							RedirectActivationTo(instance, activatedArgs);
-							return;
-						}
-					}
-				}
-				else if (activatedArgs.Data is IFileActivatedEventArgs)
-				{
-					var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
-					var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
-					if (!instance.IsCurrent)
-					{
-						RedirectActivationTo(instance, activatedArgs);
-						return;
-					}
-				}
-			}
 
 			if (activatedArgs.Data is ICommandLineActivatedEventArgs cmdLineArgs)
 			{
@@ -123,6 +70,58 @@ namespace Files.App
 				}
 			}
 
+			if (activatedArgs.Data is ILaunchActivatedEventArgs tileArgs)
+			{
+				if (tileArgs.Arguments is not null &&
+					!tileArgs.Arguments.Contains($"files.exe", StringComparison.OrdinalIgnoreCase) &&
+					new[] { ".exe", ".bat", ".cmd" }.Contains(Path.GetExtension(tileArgs.Arguments), StringComparer.OrdinalIgnoreCase))
+				{
+					if (File.Exists(tileArgs.Arguments))
+					{
+						OpenFileFromTile(tileArgs.Arguments);
+						return;
+					}
+				}
+			}
+
+			if (!alwaysOpenNewInstance)
+			{
+				if (activatedArgs.Data is ILaunchActivatedEventArgs launchArgs)
+				{
+					var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
+					var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
+					if (!instance.IsCurrent && !string.IsNullOrWhiteSpace(launchArgs.Arguments))
+					{
+						RedirectActivationTo(instance, activatedArgs);
+						return;
+					}
+				}
+				else if (activatedArgs.Data is IProtocolActivatedEventArgs protocolArgs)
+				{
+					var parsedArgs = protocolArgs.Uri.Query.TrimStart('?').Split('=');
+					if (parsedArgs.Length == 2 && parsedArgs[0] == "cmd") // Treat as command line launch
+					{
+						var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
+						var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
+						if (!instance.IsCurrent)
+						{
+							RedirectActivationTo(instance, activatedArgs);
+							return;
+						}
+					}
+				}
+				else if (activatedArgs.Data is IFileActivatedEventArgs)
+				{
+					var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
+					var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
+					if (!instance.IsCurrent)
+					{
+						RedirectActivationTo(instance, activatedArgs);
+						return;
+					}
+				}
+			}
+
 			var currentInstance = AppInstance.FindOrRegisterForKey((-proc.Id).ToString());
 			if (currentInstance.IsCurrent)
 			{
@@ -148,34 +147,39 @@ namespace Files.App
 			}
 		}
 
-		public static void OpenShellCommandInExplorer(string shellCommand, int pid)
-		{
-			Win32API.OpenFolderInExistingShellWindow(shellCommand);
-			SafetyExtensions.IgnoreExceptions(() =>
-			{
-				using var process = Process.GetProcessById(pid);
-				process?.Kill();
-			});
-		}
-
-		private static IntPtr redirectEventHandle = IntPtr.Zero;
+		private const uint CWMO_DEFAULT = 0;
+		private const uint INFINITE = 0xFFFFFFFF;
 
 		// Do the redirection on another thread, and use a non-blocking
 		// wait method to wait for the redirection to complete.
 		public static void RedirectActivationTo(
 			AppInstance keyInstance, AppActivationArguments args)
 		{
-			redirectEventHandle = CreateEvent(IntPtr.Zero, true, false, null);
+			IntPtr eventHandle = CreateEvent(IntPtr.Zero, true, false, null);
 			Task.Run(() =>
 			{
 				keyInstance.RedirectActivationToAsync(args).AsTask().Wait();
-				SetEvent(redirectEventHandle);
+				SetEvent(eventHandle);
 			});
-			uint CWMO_DEFAULT = 0;
-			uint INFINITE = 0xFFFFFFFF;
 			_ = CoWaitForMultipleObjects(
 			   CWMO_DEFAULT, INFINITE, 1,
-			   new IntPtr[] { redirectEventHandle }, out uint handleIndex);
+			   new IntPtr[] { eventHandle }, out uint handleIndex);
+		}
+
+		public static void OpenShellCommandInExplorer(string shellCommand, int pid)
+			=> Win32API.OpenFolderInExistingShellWindow(shellCommand);
+
+		public static void OpenFileFromTile(string filePath)
+		{
+			IntPtr eventHandle = CreateEvent(IntPtr.Zero, true, false, null);
+			Task.Run(() =>
+			{
+				LaunchHelper.LaunchAppAsync(filePath, null, null).Wait();
+				SetEvent(eventHandle);
+			});
+			_ = CoWaitForMultipleObjects(
+			   CWMO_DEFAULT, INFINITE, 1,
+			   new IntPtr[] { eventHandle }, out uint handleIndex);
 		}
 	}
 }
