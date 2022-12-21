@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Services.Store;
+using WinRT.Interop;
 
 namespace Files.App.ServicesImplementation
 {
@@ -106,6 +107,10 @@ namespace Files.App.ServicesImplementation
 			try
 			{
 				_storeContext ??= await Task.Run(StoreContext.GetDefault);
+
+				var hwnd = WindowNative.GetWindowHandle(App.Window);
+				InitializeWithWindow.Initialize(_storeContext, hwnd);
+
 				var updateList = await _storeContext.GetAppAndOptionalStorePackageUpdatesAsync();
 				_updatePackages = updateList?.ToList();
 			}
