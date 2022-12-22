@@ -18,6 +18,9 @@ namespace Files.Backend.ViewModels.Widgets.FileTagsWidget
         [ObservableProperty]
         private IColorModel? _TagColor;
 
+        [ObservableProperty]
+        private string _TagName;
+
         public FileTagsContainerViewModel()
         {
             Tags = new();

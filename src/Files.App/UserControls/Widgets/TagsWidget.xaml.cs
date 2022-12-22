@@ -19,5 +19,9 @@ namespace Files.App.UserControls.Widgets
 
             ViewModel = new();
         }
+
+        private void BundleItem_ItemClick(object sender, ItemClickEventArgs e)
+        {
+        }
     }
 }

@@ -5,14 +5,15 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.App.UserControls.Widgets"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vc="using:Files.App.ValueConverters"
     xmlns:vm="using:Files.Backend.ViewModels.Widgets.FileTagsWidget"
     d:DesignHeight="300"
-    xmlns:vc="using:Files.App.ValueConverters"
     d:DesignWidth="400"
     mc:Ignorable="d">
 
     <UserControl.Resources>
-        <vc:ColorModelToColorConverter x:Key="ColorModelToColorConverter"/>
+        <vc:ColorModelToColorConverter x:Key="ColorModelToColorConverter" />
+        <vc:ImageModelToImageConverter x:Key="ImageModelToImageConverter" />
     </UserControl.Resources>
 
     <Grid>
@@ -25,22 +26,52 @@
                     <Grid
                         Width="256"
                         Height="302"
+                        Padding="4"
                         AllowDrop="True"
                         Background="{ThemeResource ControlFillColorDefaultBrush}"
                         ColumnSpacing="8"
                         CornerRadius="{StaticResource ControlCornerRadius}">
                         <Grid.RowDefinitions>
-                            <!-- Title -->
+                            <!--  Title  -->
                             <RowDefinition Height="Auto" />
-                            <!-- Contents -->
+                            <!--  Contents  -->
                             <RowDefinition />
                         </Grid.RowDefinitions>
 
-                        <!-- Title -->
+                        <!--  Title  -->
                         <StackPanel Grid.Row="0" Spacing="8">
-                            <Ellipse Fill="{x:Bind TagColor, Converter={StaticResource ColorModelToColorConverter}}"></Ellipse>
+                            <Ellipse Fill="{x:Bind TagColor, Converter={StaticResource ColorModelToColorConverter}}" />
+                            <TextBlock Text="{x:Bind TagName, Mode=OneWay}" />
                         </StackPanel>
 
+                        <!--  Contents  -->
+                        <GridView
+                            Grid.Row="1"
+                            IsItemClickEnabled="True"
+                            ItemClick="BundleItem_ItemClick"
+                            ItemsSource="{x:Bind Tags}"
+                            SelectionMode="None">
+                            <GridView.ItemTemplate>
+                                <DataTemplate x:DataType="vm:FileTagsItemViewModel">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <!--  Icon  -->
+                                            <ColumnDefinition Width="Auto" />
+                                            <!--  Name  -->
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <!--  Icon  -->
+                                        <Image
+                                            Grid.Column="0"
+                                            Width="20"
+                                            Height="20"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            Source="{x:Bind Icon, Mode=OneWay, Converter={StaticResource ImageModelToImageConverter}}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </GridView.ItemTemplate>
+                        </GridView>
                     </Grid>
                 </DataTemplate>
             </GridView.ItemTemplate>
