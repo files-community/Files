@@ -186,7 +186,7 @@
                             <Grid x:Name="FilesRootGrid"
 								Height="30"
 								Margin="0"
-								Padding="8,0,8,0"
+								Padding="20,0,12,0"
 								HorizontalAlignment="Stretch"
 								VerticalAlignment="Stretch"
 								CornerRadius="{StaticResource ControlCornerRadius}"
@@ -388,7 +388,8 @@
 							<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 							<Setter Property="MinHeight" Value="1" />
 							<Setter Property="Height" Value="{ThemeResource ListItemHeight}" />
-						</Style>
+                            <Setter Property="Padding" Value="4,0"/>
+                        </Style>
 					</ListView.ItemContainerStyle>
 					<ListView.ItemsPanel>
 						<ItemsPanelTemplate>
