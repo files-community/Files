@@ -30,6 +30,7 @@ namespace Files.App.Filesystem
         public long ItemsCount { get; set; }
         public long ProcessedItemsCount { get; set; }
         public DateTimeOffset StartTime { get; }
+        public DateTimeOffset CompletedTime { get; private set; }
         public bool EnumerationCompleted
         {
             get => enumerationCompleted;
@@ -42,6 +43,10 @@ namespace Files.App.Filesystem
                 enumerationCompleted = value;
             }
         }
+        /// <summary>
+        /// Only used when detailed count isn't available.
+        /// </summary>
+        public float? Percentage { get; set; }
 
         public FileSystemProgress(IProgress<FileSystemProgress>? progress, int samplerInterval = 100)
         {
@@ -50,8 +55,20 @@ namespace Files.App.Filesystem
             this.sampler = new(samplerInterval);
         }
 
-        public void Report()
+        public void Report(float? percentage = null)
         {
+            Percentage = percentage;
+            if ((EnumerationCompleted && (ProcessedItemsCount == ItemsCount || ProcessedSize == TotalSize)) ||
+                (percentage is float f && MathF.Abs(f - 100f) <= float.Epsilon))
+            {
+                if (status is FileSystemStatusCode.InProgress or null)
+                {
+                    status = FileSystemStatusCode.Success;
+                    CompletedTime = DateTimeOffset.Now;
+                }
+            }
+            if (status is FileSystemStatusCode.Success) CompletedTime = DateTimeOffset.Now;
+
             if (progress is not null && (criticalReport || sampler.CheckNow()))
             {
                 progress.Report(this);

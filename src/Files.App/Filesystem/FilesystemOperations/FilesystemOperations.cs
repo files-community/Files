@@ -673,11 +673,11 @@ namespace Files.App.Filesystem
 
 					if (result == ContentDialogResult.Primary)
 					{
-						return await RenameAsync(source, newName, NameCollisionOption.GenerateUniqueName, errorCode, cancellationToken);
+						return await RenameAsync(source, newName, NameCollisionOption.GenerateUniqueName, progress, cancellationToken);
 					}
 					else if (result == ContentDialogResult.Secondary)
 					{
-						return await RenameAsync(source, newName, NameCollisionOption.ReplaceExisting, cancellationToken);
+						return await RenameAsync(source, newName, NameCollisionOption.ReplaceExisting, progress, cancellationToken);
 					}
 				}
                 fsProgress.ReportStatus(renamed);
