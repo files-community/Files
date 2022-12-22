@@ -2930,7 +2930,7 @@
     <value>同期ステータス</value>
   </data>
   <data name="GroupBy" xml:space="preserve">
-    <value>Group by</value>
+    <value>グループで表示</value>
   </data>
   <data name="SortBy" xml:space="preserve">
     <value>並べ替え</value>
