@@ -36,7 +36,7 @@ namespace Files.App.Views.LayoutModes
         protected override ItemsControl ItemsControl => FileList;
 
         private ColumnViewBrowser? columnsOwner;
-        private Control? openedFolderPresenter;
+        private ListViewItem? openedFolderPresenter;
 
         public ColumnViewBase() : base()
         {
@@ -49,15 +49,11 @@ namespace Files.App.Views.LayoutModes
 
         private void ColumnViewBase_ItemInvoked(object? sender, EventArgs e)
         {
-            var selectedUIElement = FileList.ContainerFromItem(FileList.SelectedItem);
-            if(openedFolderPresenter != null)
+            if (openedFolderPresenter != null)
             {
                 openedFolderPresenter.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
-            }
-            openedFolderPresenter = selectedUIElement as ListViewItem;
-            if(openedFolderPresenter != null)
-            {
-                openedFolderPresenter.Background = this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush;
+                var presenter = openedFolderPresenter.FindDescendant<ListViewItemPresenter>()!;
+                presenter.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
             }
         }
 
@@ -331,9 +327,22 @@ namespace Files.App.Views.LayoutModes
             if (SelectedItems.Count == 1 && App.AppModel.IsQuickLookAvailable)
                 await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance, true);
 
-            if(e != null && e.AddedItems.Count > 0)
+            if (e != null)
             {
-                columnsOwner?.HandleSelectionChange(this);
+                if (e.AddedItems.Count > 0)
+                {
+                    columnsOwner?.HandleSelectionChange(this);
+                }
+
+                if (e.RemovedItems.Count > 0)
+                {
+                    var selectedUIElement = FileList.ContainerFromItem(e.RemovedItems[0]);
+                    openedFolderPresenter = selectedUIElement as ListViewItem;
+                    if (openedFolderPresenter != null)
+                    {
+                        openedFolderPresenter.Background = this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush;
+                    }
+                }
             }
         }
 
