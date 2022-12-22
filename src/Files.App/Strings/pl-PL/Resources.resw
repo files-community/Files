@@ -9,9 +9,7 @@
     that is mostly human readable. The generation and parsing of the
     various data types are done through the TypeConverter classes
     associated with the data types.
-
     Example:
-
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,7 +24,6 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-
     There are any number of "resheader" rows that contain simple
     name/value pairs.
 
@@ -43,12 +40,10 @@
     Note - application/x-microsoft.net.object.binary.base64 is the format
     that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-
     mimetype: application/x-microsoft.net.object.soap.base64
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
@@ -344,9 +339,6 @@
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Przed rozpoczęciem, będziesz musiał przyznać uprawnienia do odczytu plików. Otworzymy dla Ciebie kartę z ustawieniami gdzie będziesz mógł przyznać te uprawnienia. Będzie wymagany restart aplikacji po wprowadzeniu zmian.</value>
-  </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Folder</value>
   </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Plik</value>
@@ -816,12 +808,6 @@
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Język</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>Aplikacja terminala</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>Edytuj aplikacje terminala</value>
-  </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Przenieś przepełnione elementy do podmenu</value>
   </data>
@@ -1228,16 +1214,16 @@
     <value>Pokaż chronione pliki systemu operacyjnego</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Include unindexed items in search results</value>
+    <value>Dołącz nieindeksowane pliki w wynikach wyszukiwania</value>
   </data>
   <data name="ResetFolderPreferencesOverrides" xml:space="preserve">
-    <value>Reset folder overrides</value>
+    <value>Zresetuj indywidualne preferencje folderów</value>
   </data>
   <data name="EnableOverridingFolderPreferencesDescription" xml:space="preserve">
-    <value>Changing the layout in a directory when this setting is turned off will update the layout for all directories.</value>
+    <value>Zmiana układu w folderze po wyłączeniu tej opcji zaktualizuje układy dla wszystkich folderów.</value>
   </data>
   <data name="EnableOverridingFolderPreferences" xml:space="preserve">
-    <value>Enable overriding folder preferences in individual directories</value>
+    <value>Włącz indywidualne preferencje dla poszczególnych katalogów</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Dostosuj menu kontekstowe prawego przycisku myszy</value>
@@ -2013,8 +1999,8 @@
   <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>Wyświetl dokumentację.</value>
   </data>
-  <data name="DecompressArchiveDialog.Title" xml:space="preserve">
-    <value>Wybierz miejsce docelowe i wypakuj pliki</value>
+  <data name="ExtractArchive" xml:space="preserve">
+    <value>Wypakuj archiwum</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>Po zakończeniu otwórz folder docelowy</value>
@@ -2427,9 +2413,6 @@
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Pokaż sekcję WSL</value>
   </data>
-  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Aplikacja terminala</value>
-  </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Zadania w toku</value>
   </data>
@@ -2464,7 +2447,7 @@
     <value>Tag pliku</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Open items with a single click</value>
+    <value>Otwórz elementy jednym kliknięciem</value>
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
     <value>Lokalizacja folderu</value>
@@ -2593,7 +2576,7 @@
     <value>Podaj nazwę biblioteki</value>
   </data>
   <data name="CalculateFolderSizes" xml:space="preserve">
-    <value>Calculate folder sizes</value>
+    <value>Oblicz rozmiar folderu</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
     <value>Ostatnio używane pliki</value>
@@ -2788,7 +2771,7 @@
     <value>Kolumna typu</value>
   </data>
   <data name="DetailsLayoutColumns" xml:space="preserve">
-    <value>Details layout columns</value>
+    <value>Układ kolumn: szczegóły</value>
   </data>
   <data name="Reset" xml:space="preserve">
     <value>Resetuj</value>
@@ -2803,40 +2786,40 @@
     <value>Lockscreen</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Open folders with a single click in the Columns Layout</value>
+    <value>Otwórz foldery jednym za pomocą pojedynczego kliknięcia w kolumnę szczegóły</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Otwieranie elementów</value>
   </data>
   <data name="AddSingleItemToArchive" xml:space="preserve">
-    <value>Add to {0}.zip</value>
+    <value>Dodaj do {0}.zip</value>
   </data>
   <data name="AddToArchive" xml:space="preserve">
-    <value>Add to archive</value>
+    <value>Dodaj do archiwum</value>
   </data>
   <data name="CompressionCompleted" xml:space="preserve">
-    <value>Compression completed</value>
+    <value>Kompresja ukończona</value>
   </data>
   <data name="CompressionSucceded" xml:space="preserve">
-    <value>{0} has been compressed</value>
+    <value>{0} został skompresowany</value>
   </data>
   <data name="CompressionFailed" xml:space="preserve">
-    <value>{0} couldn't be compressed</value>
+    <value>{0} nie może zostać skompresowany</value>
   </data>
   <data name="CompressionInProgress" xml:space="preserve">
-    <value>Compressing archive</value>
+    <value>Kompresowanie archiwum</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
-    <value>Select files and folders when hovering over them</value>
+    <value>Zaznacz pliki i foldery w trakcie trzymania kursora nad nimi</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
-    <value>Are you sure you want to restore all items in the recycle bin?</value>
+    <value>Czy jesteś pewien, że chcesz przywrócić wszystkie rzeczy z kosza?</value>
   </data>
   <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
     <value>Przywróć wszystkie elementy</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
-    <value>Do you want to restore the {0} selected item(s)?</value>
+    <value>Czy chcesz przywrócić {0} element(ów)?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
     <value>Przywróć zaznaczone</value>
@@ -2848,12 +2831,108 @@
     <value>Przywróć</value>
   </data>
   <data name="ShortcutCannotBeOpened" xml:space="preserve">
-    <value>Shortcut cannot be opened</value>
+    <value>Skrót nie może zostać otworzony</value>
   </data>
   <data name="DeleteShortcutDescription" xml:space="preserve">
-    <value>The target destination cannot be found {0}. Do you want to delete this shortcut?</value>
+    <value>Nie można odnaleźć docelowego elementu {0}. Czy chcesz usunąć ten skrót?</value>
+  </data>
+  <data name="AccessDeniedToFolder" xml:space="preserve">
+    <value>Nie masz wystarczających uprawnień do tego pliku.</value>
   </data>
   <data name="LoadingThemes" xml:space="preserve">
-    <value>Loading Themes</value>
+    <value>Ładowanie motywów</value>
+  </data>
+  <data name="EmptyingRecycleBin" xml:space="preserve">
+    <value>Opróżnianie kosza</value>
+  </data>
+  <data name="BinEmptyingSucceded" xml:space="preserve">
+    <value>Pomyślnie opróżniono kosz</value>
+  </data>
+  <data name="BinEmptyingFailed" xml:space="preserve">
+    <value>Nie udało się opróżnić kosza</value>
+  </data>
+  <data name="ArchivePassword" xml:space="preserve">
+    <value>Hasło do archiwum</value>
+  </data>
+  <data name="ExtractToPath" xml:space="preserve">
+    <value>Ścieżka</value>
+  </data>
+  <data name="SortingAndGrouping" xml:space="preserve">
+    <value>Sorting and grouping</value>
+  </data>
+  <data name="Archive" xml:space="preserve">
+    <value>Archiwum</value>
+  </data>
+  <data name="CreateArchive" xml:space="preserve">
+    <value>Utwórz archiwum</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Utwórz</value>
+  </data>
+  <data name="CreateNamedArchive" xml:space="preserve">
+    <value>Utwórz {0}</value>
+  </data>
+  <data name="EnterName" xml:space="preserve">
+    <value>Wprowadź nazwę</value>
+  </data>
+  <data name="CompressionLevel" xml:space="preserve">
+    <value>Poziom kompresji</value>
+  </data>
+  <data name="CompressionLevelUltra" xml:space="preserve">
+    <value>Maksymalny</value>
+  </data>
+  <data name="CompressionLevelHigh" xml:space="preserve">
+    <value>Wysoki</value>
+  </data>
+  <data name="CompressionLevelNormal" xml:space="preserve">
+    <value>Zwykły</value>
+  </data>
+  <data name="CompressionLevelLow" xml:space="preserve">
+    <value>Niski</value>
+  </data>
+  <data name="CompressionLevelFast" xml:space="preserve">
+    <value>Szybki</value>
+  </data>
+  <data name="CompressionLevelNone" xml:space="preserve">
+    <value>Brak</value>
+  </data>
+  <data name="SplitArchive" xml:space="preserve">
+    <value>Podziel archiwum</value>
+  </data>
+  <data name="SplittingSize" xml:space="preserve">
+    <value>Rozmiar po podziale</value>
+  </data>
+  <data name="Do not split" xml:space="preserve">
+    <value>Nie dziel</value>
+  </data>
+  <data name="CD" xml:space="preserve">
+    <value>CD</value>
+  </data>
+  <data name="DVD" xml:space="preserve">
+    <value>DVD</value>
+  </data>
+  <data name="FAT" xml:space="preserve">
+    <value>FAT</value>
+  </data>
+  <data name="Bluray" xml:space="preserve">
+    <value>Blu-ray</value>
+  </data>
+  <data name="Encryption" xml:space="preserve">
+    <value>Szyfrowanie</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Hasło</value>
+  </data>
+  <data name="Format" xml:space="preserve">
+    <value>Formatuj</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowSyncStatus.Text" xml:space="preserve">
+    <value>Kolumna statusu synchronizacji</value>
+  </data>
+  <data name="GroupBy" xml:space="preserve">
+    <value>Group by</value>
+  </data>
+  <data name="SortBy" xml:space="preserve">
+    <value>Sortuj według</value>
   </data>
 </root>

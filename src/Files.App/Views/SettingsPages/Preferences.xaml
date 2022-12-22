@@ -87,46 +87,6 @@
 				</ComboBox>
 			</local:SettingsBlockControl>
 
-
-			<!--  Terminal settings  -->
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsPreferencesTerminalApplications/Title}" HorizontalAlignment="Stretch">
-				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE756;" />
-				</local:SettingsBlockControl.Icon>
-				<ComboBox
-					x:Name="TerminalApplicationsComboBox"
-					AutomationProperties.Name="{helpers:ResourceString Name=TerminalApplicationsComboBox/AutomationProperties/Name}"
-					ItemsSource="{x:Bind ViewModel.Terminals, Mode=OneWay}"
-					SelectedItem="{x:Bind ViewModel.SelectedTerminal, Mode=TwoWay}">
-					<ComboBox.ItemTemplate>
-						<DataTemplate x:DataType="datamodels:Terminal">
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="{x:Bind Name}" />
-							</StackPanel>
-						</DataTemplate>
-					</ComboBox.ItemTemplate>
-				</ComboBox>
-				<local:SettingsBlockControl.ExpandableContent>
-					<local:SettingsBlockControl
-						Title="{helpers:ResourceString Name=SettingsPreferencesEditTerminalApplicationsExpander/Title}"
-						ButtonCommand="{x:Bind ViewModel.EditTerminalApplicationsCommand}"
-						IsClickable="True">
-						<local:SettingsBlockControl.Icon>
-							<FontIcon
-								FontSize="14"
-								Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-								Glyph="&#xE104;" />
-						</local:SettingsBlockControl.Icon>
-
-						<FontIcon
-							FontSize="14"
-							Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-							Glyph="&#xE2B4;" />
-					</local:SettingsBlockControl>
-				</local:SettingsBlockControl.ExpandableContent>
-			</local:SettingsBlockControl>
-
-
 			<!--  File and folder settings  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=FilesAndFolders}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
@@ -174,9 +134,7 @@
 			</local:SettingsBlockControl>
 
 			<!--  Search settings  -->
-			<local:SettingsBlockControl
-				Title="{helpers:ResourceString Name=SettingsSearchUnindexedItems}"
-				HorizontalAlignment="Stretch">
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsSearchUnindexedItems}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE721;" />
 				</local:SettingsBlockControl.Icon>
@@ -191,7 +149,7 @@
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE7E8;" />
 				</local:SettingsBlockControl.Icon>
-				<ComboBox SelectedIndex="{x:Bind ViewModel.SelectedStartupSettingIndex, Mode=OneWay}">
+				<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=StartupSettings}" SelectedIndex="{x:Bind ViewModel.SelectedStartupSettingIndex, Mode=OneWay}">
 					<ComboBoxItem Content="{helpers:ResourceString Name=SettingsOnStartupOpenANewTab/Content}" IsSelected="{x:Bind ViewModel.OpenNewTabPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
 					<ComboBoxItem Content="{helpers:ResourceString Name=SettingsOnStartupContinueWhereYouLeftOff/Content}" IsSelected="{x:Bind ViewModel.ContinueLastSessionOnStartUp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />

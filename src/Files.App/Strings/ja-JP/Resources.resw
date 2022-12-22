@@ -9,9 +9,7 @@
     that is mostly human readable. The generation and parsing of the
     various data types are done through the TypeConverter classes
     associated with the data types.
-
     Example:
-
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,7 +24,6 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-
     There are any number of "resheader" rows that contain simple
     name/value pairs.
 
@@ -43,12 +40,10 @@
     Note - application/x-microsoft.net.object.binary.base64 is the format
     that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-
     mimetype: application/x-microsoft.net.object.soap.base64
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
@@ -345,9 +340,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>使用を開始する前に、ファイル システムへのアクセスを許可してください。Windows の設定が開き、アクセス許可の付与を選択できます。設定が完了したら、アプリケーションを再起動する必要があります。</value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>フォルダー</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>ファイル</value>
   </data>
@@ -538,7 +530,7 @@
     <value>ファイルを貼り付けています</value>
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
-    <value>ごみ箱に移動</value>
+    <value>ごみ箱に移動中</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>実行</value>
@@ -697,7 +689,7 @@
     <value>この問題を報告</value>
   </data>
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
-    <value>共同作成者</value>
+    <value>共同開発者</value>
   </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
     <value>リリース ノート</value>
@@ -815,12 +807,6 @@
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>言語</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>ターミナル アプリケーション</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>ターミナル アプリケーションの編集</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>オーバーフロー項目をサブメニューに移動</value>
@@ -1108,7 +1094,7 @@
     <value>オーディオ</value>
   </data>
   <data name="PropertySectionMusic" xml:space="preserve">
-    <value>音楽</value>
+    <value>ミュージック</value>
   </data>
   <data name="PropertySectionVideo" xml:space="preserve">
     <value>ビデオ</value>
@@ -2013,8 +1999,8 @@
   <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>ドキュメントを見る</value>
   </data>
-  <data name="DecompressArchiveDialog.Title" xml:space="preserve">
-    <value>展開先を選択してファイルを展開</value>
+  <data name="ExtractArchive" xml:space="preserve">
+    <value>アーカイブを展開</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>完了したら展開されたファイルを表示する</value>
@@ -2427,9 +2413,6 @@
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>WSL セクションを表示</value>
   </data>
-  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>ターミナル アプリケーション</value>
-  </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>進行中のタスク</value>
   </data>
@@ -2671,7 +2654,7 @@
     <value>他のタブを閉じる</value>
   </data>
   <data name="Music" xml:space="preserve">
-    <value>音楽</value>
+    <value>ミュージック</value>
   </data>
   <data name="Pictures" xml:space="preserve">
     <value>ピクチャ</value>
@@ -2740,7 +2723,7 @@
     <value>すべての列のサイズを合わせる</value>
   </data>
   <data name="Contributors" xml:space="preserve">
-    <value>共同作成者</value>
+    <value>共同開発者</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
     <value>自動</value>
@@ -2806,7 +2789,7 @@
     <value>列レイアウトでシングル クリックでフォルダーを開く</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
-    <value>ファイルを開いています</value>
+    <value>ファイルを開くとき</value>
   </data>
   <data name="AddSingleItemToArchive" xml:space="preserve">
     <value>{0}.zip に追加</value>
@@ -2853,7 +2836,103 @@
   <data name="DeleteShortcutDescription" xml:space="preserve">
     <value>参照先の項目 {0} が見つかりません。このショートカットを削除しますか?</value>
   </data>
+  <data name="AccessDeniedToFolder" xml:space="preserve">
+    <value>このフォルダーにアクセスする権限がありません。</value>
+  </data>
   <data name="LoadingThemes" xml:space="preserve">
-    <value>Loading Themes</value>
+    <value>テーマを読み込んでいます</value>
+  </data>
+  <data name="EmptyingRecycleBin" xml:space="preserve">
+    <value>ゴミ箱を空にしています</value>
+  </data>
+  <data name="BinEmptyingSucceded" xml:space="preserve">
+    <value>ゴミ箱を正常に空にしました</value>
+  </data>
+  <data name="BinEmptyingFailed" xml:space="preserve">
+    <value>ゴミ箱を空にする操作に失敗しました</value>
+  </data>
+  <data name="ArchivePassword" xml:space="preserve">
+    <value>書庫のパスワード</value>
+  </data>
+  <data name="ExtractToPath" xml:space="preserve">
+    <value>パス</value>
+  </data>
+  <data name="SortingAndGrouping" xml:space="preserve">
+    <value>並べ替えとグループ化</value>
+  </data>
+  <data name="Archive" xml:space="preserve">
+    <value>アーカイブ</value>
+  </data>
+  <data name="CreateArchive" xml:space="preserve">
+    <value>アーカイブを作成</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>作成</value>
+  </data>
+  <data name="CreateNamedArchive" xml:space="preserve">
+    <value>{0} を作成</value>
+  </data>
+  <data name="EnterName" xml:space="preserve">
+    <value>名前を入力</value>
+  </data>
+  <data name="CompressionLevel" xml:space="preserve">
+    <value>圧縮レベル</value>
+  </data>
+  <data name="CompressionLevelUltra" xml:space="preserve">
+    <value>最高品質</value>
+  </data>
+  <data name="CompressionLevelHigh" xml:space="preserve">
+    <value>高品質</value>
+  </data>
+  <data name="CompressionLevelNormal" xml:space="preserve">
+    <value>標準品質</value>
+  </data>
+  <data name="CompressionLevelLow" xml:space="preserve">
+    <value>低品質</value>
+  </data>
+  <data name="CompressionLevelFast" xml:space="preserve">
+    <value>最低品質 (高速)</value>
+  </data>
+  <data name="CompressionLevelNone" xml:space="preserve">
+    <value>なし</value>
+  </data>
+  <data name="SplitArchive" xml:space="preserve">
+    <value>アーカイブを分割</value>
+  </data>
+  <data name="SplittingSize" xml:space="preserve">
+    <value>分割サイズ</value>
+  </data>
+  <data name="Do not split" xml:space="preserve">
+    <value>分割しない</value>
+  </data>
+  <data name="CD" xml:space="preserve">
+    <value>CD</value>
+  </data>
+  <data name="DVD" xml:space="preserve">
+    <value>DVD</value>
+  </data>
+  <data name="FAT" xml:space="preserve">
+    <value>FAT</value>
+  </data>
+  <data name="Bluray" xml:space="preserve">
+    <value>ブルーレイ</value>
+  </data>
+  <data name="Encryption" xml:space="preserve">
+    <value>暗号化</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>パスワード</value>
+  </data>
+  <data name="Format" xml:space="preserve">
+    <value>フォーマット</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowSyncStatus.Text" xml:space="preserve">
+    <value>同期ステータス</value>
+  </data>
+  <data name="GroupBy" xml:space="preserve">
+    <value>グループで表示</value>
+  </data>
+  <data name="SortBy" xml:space="preserve">
+    <value>並べ替え</value>
   </data>
 </root>

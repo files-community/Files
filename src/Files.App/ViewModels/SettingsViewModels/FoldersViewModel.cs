@@ -10,11 +10,14 @@ namespace Files.App.ViewModels.SettingsViewModels
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
+
+		//FileTag combobox indexes (required to hide SyncStatus)
+		private readonly int FileTagSortingIndex = 5;
+		private readonly int FileTagGroupingIndex = 6;
+
 		// Commands
 		public RelayCommand ResetLayoutPreferencesCommand { get; }
 		public RelayCommand ShowResetLayoutPreferencesTipCommand { get; }
-
-
 
 		public FoldersViewModel()
 		{
@@ -22,6 +25,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 			ShowResetLayoutPreferencesTipCommand = new RelayCommand(() => IsResetLayoutPreferencesTipOpen = true);
 
 			SelectedDefaultLayoutModeIndex = (int)DefaultLayoutMode;
+			SelectedDefaultSortingIndex = UserSettingsService.FoldersSettingsService.DefaultSortOption == SortOption.FileTag ? FileTagSortingIndex : (int)UserSettingsService.FoldersSettingsService.DefaultSortOption;
+			SelectedDefaultGroupingIndex = UserSettingsService.FoldersSettingsService.DefaultGroupOption == GroupOption.FileTag ? FileTagGroupingIndex : (int)UserSettingsService.FoldersSettingsService.DefaultGroupOption;
 		}
 
 		// Properties
@@ -241,16 +246,41 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
+		private int selectedDefaultSortingIndex;
+		public int SelectedDefaultSortingIndex
+		{
+			get => selectedDefaultSortingIndex;
+			set
+			{
+				if (SetProperty(ref selectedDefaultSortingIndex, value))
+				{
+					OnPropertyChanged(nameof(SelectedDefaultSortingIndex));
+					UserSettingsService.FoldersSettingsService.DefaultSortOption = value == FileTagSortingIndex ? SortOption.FileTag : (SortOption)value;
+				}
+			}
+		}
 
+		private int selectedDefaultGroupingIndex;
+		public int SelectedDefaultGroupingIndex
+		{
+			get => selectedDefaultGroupingIndex;
+			set
+			{
+				if (SetProperty(ref selectedDefaultGroupingIndex, value))
+				{
+					OnPropertyChanged(nameof(SelectedDefaultGroupingIndex));
+					UserSettingsService.FoldersSettingsService.DefaultGroupOption = value == FileTagGroupingIndex ? GroupOption.FileTag : (GroupOption)value;
+				}
+			}
+		}
+		
 		// Local methods
 
 		public void ResetLayoutPreferences()
 		{
 			// Is this proper practice?
-			using (var dbInstance = FolderSettingsViewModel.GetDbInstance())
-			{
-				dbInstance.ResetAll();
-			}
+			var dbInstance = FolderSettingsViewModel.GetDbInstance();
+			dbInstance.ResetAll();
 			IsResetLayoutPreferencesTipOpen = false;
 		}
 	}

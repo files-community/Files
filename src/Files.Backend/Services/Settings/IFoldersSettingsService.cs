@@ -31,6 +31,21 @@ namespace Files.Backend.Services.Settings
 		bool ShowFileTagColumn { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating whether or not the date deleted column should be visible by default.
+		/// </summary>
+		bool ShowDateDeletedColumn { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not the original path column should be visible by default.
+		/// </summary>
+		bool ShowOriginalPathColumn { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not the sync status column should be visible by default.
+		/// </summary>
+		bool ShowSyncStatusColumn { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating the default layout mode.
 		/// </summary>
 		FolderLayoutModes DefaultLayoutMode { get; set; }
@@ -66,10 +81,24 @@ namespace Files.Backend.Services.Settings
 		double SizeColumnWidth { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating date deleted column's default width
+		/// </summary>
+		double DateDeletedColumnWidth { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating sync status column's default width
+		/// </summary>
+		double SyncStatusColumnWidth { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating original path column's default width
+		/// </summary>
+		double OriginalPathColumnWidth { get; set; }
+
+		/// <summary>
 		/// Enable overriding folder preferencess in individual directories
 		/// </summary>
 		bool EnableOverridingFolderPreferences { get; set; }
-
 
 		/// <summary>
 		/// Gets or sets a value indicating whether or not hidden items should be visible.
@@ -110,5 +139,15 @@ namespace Files.Backend.Services.Settings
 		/// Gets or sets a value indicating whether or not to show folder size.
 		/// </summary>
 		bool CalculateFolderSizes { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating the default sorting option.
+		/// </summary>
+		SortOption DefaultSortOption { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating the default grouping option.
+		/// </summary>
+		GroupOption DefaultGroupOption { get; set; }
 	}
 }

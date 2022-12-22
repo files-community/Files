@@ -49,7 +49,10 @@ namespace Files.App.Filesystem
 			{
 				return $"{"ToolTipDescriptionName".GetLocalizedResource()} {Name}{Environment.NewLine}" +
 					$"{"ToolTipDescriptionType".GetLocalizedResource()} {itemType}{Environment.NewLine}" +
-					$"{"ToolTipDescriptionDate".GetLocalizedResource()} {ItemDateModified}";
+					$"{"ToolTipDescriptionDate".GetLocalizedResource()} {ItemDateModified}" +
+					(SyncStatusUI.LoadSyncStatus 
+						? $"{Environment.NewLine}{"syncStatusColumn/Header".GetLocalizedResource()}: {syncStatusUI.SyncStatusString}" 
+						: string.Empty);
 			}
 		}
 
@@ -122,10 +125,8 @@ namespace Files.App.Filesystem
 			{
 				if (SetProperty(ref fileTags, value))
 				{
-					using (var dbInstance = FileTagsHelper.GetDbInstance())
-					{
-						dbInstance.SetTags(ItemPath, FileFRN, value);
-					}
+					var dbInstance = FileTagsHelper.GetDbInstance();
+					dbInstance.SetTags(ItemPath, FileFRN, value);
 					FileTagsHelper.WriteFileTag(ItemPath, value);
 					OnPropertyChanged(nameof(FileTagsUI));
 				}
@@ -158,13 +159,11 @@ namespace Files.App.Filesystem
 			set
 			{
 				// For some reason this being null will cause a crash with bindings
-				if (value is null)
-				{
-					value = new CloudDriveSyncStatusUI();
-				}
+				value ??= new CloudDriveSyncStatusUI();
 				if (SetProperty(ref syncStatusUI, value))
 				{
 					OnPropertyChanged(nameof(SyncStatusString));
+					OnPropertyChanged(nameof(ItemTooltipText));
 				}
 			}
 		}
@@ -480,8 +479,8 @@ namespace Files.App.Filesystem
 			PrimaryItemAttribute = isFile ? StorageItemTypes.File : StorageItemTypes.Folder;
 			ItemPropertiesInitialized = false;
 
-			var itemType = isFile ? "ItemTypeFile".GetLocalizedResource() : "FileFolderListItem".GetLocalizedResource();
-			if (isFile && Name.Contains(".", StringComparison.Ordinal))
+			var itemType = isFile ? "ItemTypeFile".GetLocalizedResource() : "Folder".GetLocalizedResource();
+			if (isFile && Name.Contains('.', StringComparison.Ordinal))
 			{
 				itemType = FileExtension.Trim('.') + " " + itemType;
 			}
@@ -516,19 +515,8 @@ namespace Files.App.Filesystem
 		// For shortcut elements (.lnk and .url)
 		public string TargetPath { get; set; }
 
-		public override string Name
-		{
-			get
-			{
-				if (IsSymLink)
-				{
-					return base.Name;
-				}
-
-				// Always hide extension for shortcuts
-				return Path.GetFileNameWithoutExtension(ItemNameRaw);
-			}
-		}
+		public override string Name 
+			=> IsSymLink ? base.Name : Path.GetFileNameWithoutExtension(ItemNameRaw); // Always hide extension for shortcuts
 
 		public string Arguments { get; set; }
 		public string WorkingDirectory { get; set; }
@@ -591,7 +579,7 @@ namespace Files.App.Filesystem
 
 	public class AlternateStreamItem : ListedItem
 	{
-		public string MainStreamPath => ItemPath.Substring(0, ItemPath.LastIndexOf(":"));
+		public string MainStreamPath => ItemPath.Substring(0, ItemPath.LastIndexOf(':'));
 		public string MainStreamName => Path.GetFileName(MainStreamPath);
 
 		public override string Name

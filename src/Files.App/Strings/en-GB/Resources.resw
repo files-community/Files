@@ -9,9 +9,7 @@
     that is mostly human readable. The generation and parsing of the
     various data types are done through the TypeConverter classes
     associated with the data types.
-
     Example:
-
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,7 +24,6 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-
     There are any number of "resheader" rows that contain simple
     name/value pairs.
 
@@ -43,12 +40,10 @@
     Note - application/x-microsoft.net.object.binary.base64 is the format
     that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-
     mimetype: application/x-microsoft.net.object.soap.base64
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
@@ -344,9 +339,6 @@
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once you've completed this step. </value>
-  </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Folder</value>
   </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>File</value>
@@ -815,12 +807,6 @@
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Language</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>Terminal applications</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>Edit terminal applications</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Move overflow items into a sub menu</value>
@@ -2013,8 +1999,8 @@
   <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>View documentation.</value>
   </data>
-  <data name="DecompressArchiveDialog.Title" xml:space="preserve">
-    <value>Select a destination and extract files</value>
+  <data name="ExtractArchive" xml:space="preserve">
+    <value>Extract Archive</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>Open destination folder when complete</value>
@@ -2426,9 +2412,6 @@
   </data>
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Show WSL section on the sidebar</value>
-  </data>
-  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Terminal application</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Ongoing Tasks</value>
@@ -2853,7 +2836,103 @@
   <data name="DeleteShortcutDescription" xml:space="preserve">
     <value>The target destination cannot be found {0}. Do you want to delete this shortcut?</value>
   </data>
+  <data name="AccessDeniedToFolder" xml:space="preserve">
+    <value>You don't have permission to access this folder.</value>
+  </data>
   <data name="LoadingThemes" xml:space="preserve">
     <value>Loading Themes</value>
+  </data>
+  <data name="EmptyingRecycleBin" xml:space="preserve">
+    <value>Emptying recycle bin</value>
+  </data>
+  <data name="BinEmptyingSucceded" xml:space="preserve">
+    <value>Successfully emptied recycle bin</value>
+  </data>
+  <data name="BinEmptyingFailed" xml:space="preserve">
+    <value>Failed to empty recycle bin</value>
+  </data>
+  <data name="ArchivePassword" xml:space="preserve">
+    <value>Archive password</value>
+  </data>
+  <data name="ExtractToPath" xml:space="preserve">
+    <value>Path</value>
+  </data>
+  <data name="SortingAndGrouping" xml:space="preserve">
+    <value>Sorting and grouping</value>
+  </data>
+  <data name="Archive" xml:space="preserve">
+    <value>Archive</value>
+  </data>
+  <data name="CreateArchive" xml:space="preserve">
+    <value>Create archive</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="CreateNamedArchive" xml:space="preserve">
+    <value>Create {0}</value>
+  </data>
+  <data name="EnterName" xml:space="preserve">
+    <value>Enter a name</value>
+  </data>
+  <data name="CompressionLevel" xml:space="preserve">
+    <value>Compression level</value>
+  </data>
+  <data name="CompressionLevelUltra" xml:space="preserve">
+    <value>Ultra</value>
+  </data>
+  <data name="CompressionLevelHigh" xml:space="preserve">
+    <value>High</value>
+  </data>
+  <data name="CompressionLevelNormal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="CompressionLevelLow" xml:space="preserve">
+    <value>Low</value>
+  </data>
+  <data name="CompressionLevelFast" xml:space="preserve">
+    <value>Fast</value>
+  </data>
+  <data name="CompressionLevelNone" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="SplitArchive" xml:space="preserve">
+    <value>Split the archive</value>
+  </data>
+  <data name="SplittingSize" xml:space="preserve">
+    <value>Splitting size</value>
+  </data>
+  <data name="Do not split" xml:space="preserve">
+    <value>Do not split</value>
+  </data>
+  <data name="CD" xml:space="preserve">
+    <value>CD</value>
+  </data>
+  <data name="DVD" xml:space="preserve">
+    <value>DVD</value>
+  </data>
+  <data name="FAT" xml:space="preserve">
+    <value>FAT</value>
+  </data>
+  <data name="Bluray" xml:space="preserve">
+    <value>Blu-ray</value>
+  </data>
+  <data name="Encryption" xml:space="preserve">
+    <value>Encryption</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Format" xml:space="preserve">
+    <value>Format</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowSyncStatus.Text" xml:space="preserve">
+    <value>Sync status column</value>
+  </data>
+  <data name="GroupBy" xml:space="preserve">
+    <value>Group by</value>
+  </data>
+  <data name="SortBy" xml:space="preserve">
+    <value>Sort by</value>
   </data>
 </root>

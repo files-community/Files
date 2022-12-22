@@ -9,9 +9,7 @@
     that is mostly human readable. The generation and parsing of the
     various data types are done through the TypeConverter classes
     associated with the data types.
-
     Example:
-
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,7 +24,6 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-
     There are any number of "resheader" rows that contain simple
     name/value pairs.
 
@@ -43,12 +40,10 @@
     Note - application/x-microsoft.net.object.binary.base64 is the format
     that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-
     mimetype: application/x-microsoft.net.object.soap.base64
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
@@ -344,9 +339,6 @@
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Başlamak için uygulamaya dosyalarınızı görüntüleme izni vermelisiniz. Bu aşamada bu izni verebileceğiniz bir Ayarlar sayfası açılacak. Bu adımı tamamladıktan sonra uygulamayı yeniden başlatmalısınız. </value>
-  </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Dosya klasörü</value>
   </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Dosya</value>
@@ -816,12 +808,6 @@
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Dilim</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>Terminal uygulamaları</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>Terminal uygulamalarını düzenleyin</value>
-  </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Taşma öğelerini bir alt menüye taşı</value>
   </data>
@@ -1225,19 +1211,19 @@
     <value>Güncelleştirmeler Var</value>
   </data>
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
-    <value>Show protected system files</value>
+    <value>Korunan sistem dosyalarını göster</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Include unindexed items in search results</value>
+    <value>Dizine alınmamış öğeleri arama sonuçlarına dahil et</value>
   </data>
   <data name="ResetFolderPreferencesOverrides" xml:space="preserve">
-    <value>Reset folder overrides</value>
+    <value>Klasör geçersiz kılmayı sıfırla</value>
   </data>
   <data name="EnableOverridingFolderPreferencesDescription" xml:space="preserve">
-    <value>Changing the layout in a directory when this setting is turned off will update the layout for all directories.</value>
+    <value>Bu ayar kapatıldığında bir dizindeki düzeni değiştirmek, tüm dizinlerin düzenini güncelleyecektir.</value>
   </data>
   <data name="EnableOverridingFolderPreferences" xml:space="preserve">
-    <value>Enable overriding folder preferences in individual directories</value>
+    <value>Her bir dizin için klasör ayarlarının üzerine yazmayı etkinleştir</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Sağ tık menüsünü özelleştir</value>
@@ -1672,16 +1658,16 @@
     <value>Klasörleri yeni sekmede aç</value>
   </data>
   <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>Show Bundles widget</value>
+    <value>Paketler aracını göster</value>
   </data>
   <data name="ShowDrivesWidget" xml:space="preserve">
-    <value>Show Drives widget</value>
+    <value>Sürücüler aracını göster</value>
   </data>
   <data name="ShowFolderWidget" xml:space="preserve">
-    <value>Show Folders widget</value>
+    <value>Klasörler aracını göster</value>
   </data>
   <data name="ShowRecentFilesWidget" xml:space="preserve">
-    <value>Show Recent Files widget</value>
+    <value>Son Dosyalar aracını göster</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>Aradığınızı bulamadınız mı?</value>
@@ -1948,7 +1934,7 @@
     <value>Azletmek</value>
   </data>
   <data name="Widgets" xml:space="preserve">
-    <value>Widgets</value>
+    <value>Araçlar</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>Senkronizasyon durumu</value>
@@ -2013,8 +1999,8 @@
   <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>Belgeleri görüntüleyin.</value>
   </data>
-  <data name="DecompressArchiveDialog.Title" xml:space="preserve">
-    <value>Bir hedef seçin ve dosyaları çıkarın</value>
+  <data name="ExtractArchive" xml:space="preserve">
+    <value>Arşivi Ayıkla</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>Tamamlandığında hedef klasörü aç</value>
@@ -2427,9 +2413,6 @@
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Kenar çubuğunda WSL bölümünü göster</value>
   </data>
-  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Terminal uygulaması</value>
-  </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Devam Eden Görevler</value>
   </data>
@@ -2464,7 +2447,7 @@
     <value>Dosya etiketi</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Open items with a single click</value>
+    <value>Öğeleri tek bir tıklamayla açın</value>
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
     <value>Klasör yolu</value>
@@ -2593,7 +2576,7 @@
     <value>Kütüphane ismi girin</value>
   </data>
   <data name="CalculateFolderSizes" xml:space="preserve">
-    <value>Calculate folder sizes</value>
+    <value>Dosya boyutunu hesapla</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
     <value>Son Dosyalar</value>
@@ -2623,7 +2606,7 @@
     <value>Tür</value>
   </data>
   <data name="IconGrid" xml:space="preserve">
-    <value>Icon Grid</value>
+    <value>Simge Kılavuzu</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Bayt</value>
@@ -2728,7 +2711,7 @@
     <value>Taşıma işlemi bu amaç için kullanılamaz. Bunun yerine öğeleri kopyalamak ister misiniz?</value>
   </data>
   <data name="HiddenItems" xml:space="preserve">
-    <value>Hidden items</value>
+    <value>Gizli öğeler</value>
   </data>
   <data name="Custom" xml:space="preserve">
     <value>Özel</value>
@@ -2773,22 +2756,22 @@
     <value>Varsayılan olarak ayarla</value>
   </data>
   <data name="DateColumn" xml:space="preserve">
-    <value>Date column</value>
+    <value>Tarih sütunu</value>
   </data>
   <data name="DateCreatedColumn" xml:space="preserve">
-    <value>Date Created column</value>
+    <value>Oluşturulma Tarihi sütunu</value>
   </data>
   <data name="SizeColumn" xml:space="preserve">
-    <value>Size column</value>
+    <value>Boyut sütunu</value>
   </data>
   <data name="TagColumn" xml:space="preserve">
-    <value>Tag column</value>
+    <value>Etiket sütunu</value>
   </data>
   <data name="TypeColumn" xml:space="preserve">
-    <value>Type column</value>
+    <value>Tip sütunu</value>
   </data>
   <data name="DetailsLayoutColumns" xml:space="preserve">
-    <value>Details layout columns</value>
+    <value>Ayrıntılar düzeni sütunu</value>
   </data>
   <data name="Reset" xml:space="preserve">
     <value>Sıfırla</value>
@@ -2806,54 +2789,150 @@
     <value>Sütunlar Düzeninde tek bir tıklama ile klasörleri aç</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
-    <value>Opening items</value>
+    <value>Açılış öğeleri</value>
   </data>
   <data name="AddSingleItemToArchive" xml:space="preserve">
-    <value>Add to {0}.zip</value>
+    <value>{0}.zip arşivine ekle</value>
   </data>
   <data name="AddToArchive" xml:space="preserve">
-    <value>Add to archive</value>
+    <value>Arşive ekle</value>
   </data>
   <data name="CompressionCompleted" xml:space="preserve">
-    <value>Compression completed</value>
+    <value>Sıkıştırma tamamlandı</value>
   </data>
   <data name="CompressionSucceded" xml:space="preserve">
-    <value>{0} has been compressed</value>
+    <value>{0} sıkıştırıldı</value>
   </data>
   <data name="CompressionFailed" xml:space="preserve">
-    <value>{0} couldn't be compressed</value>
+    <value>{0} sıkıştırılamadı</value>
   </data>
   <data name="CompressionInProgress" xml:space="preserve">
-    <value>Compressing archive</value>
+    <value>Arşiv sıkıştırılıyor</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Üzerine getirildiğinde dosyaları ve klasörleri seçin</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
-    <value>Are you sure you want to restore all items in the recycle bin?</value>
+    <value>Geri dönüşüm kutusundaki tüm öğeleri geri yüklemek istediğinizden emin misiniz?</value>
   </data>
   <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
-    <value>Restore all items</value>
+    <value>Bütün öğeleri geri yükle</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
-    <value>Do you want to restore the {0} selected item(s)?</value>
+    <value>Seçilen {0} öğeyi(öğeleri) geri yüklemek istiyor musunuz?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
-    <value>Restore selection</value>
+    <value>Seçimi geri yükle</value>
   </data>
   <data name="RestoreAllItems" xml:space="preserve">
-    <value>Restore All Items</value>
+    <value>Bütün öğeleri geri yükle</value>
   </data>
   <data name="RestoreSelection" xml:space="preserve">
     <value>Geri yükle</value>
   </data>
   <data name="ShortcutCannotBeOpened" xml:space="preserve">
-    <value>Shortcut cannot be opened</value>
+    <value>Kısayol açılamadı</value>
   </data>
   <data name="DeleteShortcutDescription" xml:space="preserve">
-    <value>The target destination cannot be found {0}. Do you want to delete this shortcut?</value>
+    <value>Hedef yol {0} bulunamadı. Bu kısayolu silmek ister misiniz?</value>
+  </data>
+  <data name="AccessDeniedToFolder" xml:space="preserve">
+    <value>Bu dosyaya erişim izniniz yok.</value>
   </data>
   <data name="LoadingThemes" xml:space="preserve">
-    <value>Loading Themes</value>
+    <value>Temalar Yükleniyor</value>
+  </data>
+  <data name="EmptyingRecycleBin" xml:space="preserve">
+    <value>Geri dönüşüm kutusu boşaltılıyor</value>
+  </data>
+  <data name="BinEmptyingSucceded" xml:space="preserve">
+    <value>Geri dönüşüm kutusu başarıyla boşaltıldı</value>
+  </data>
+  <data name="BinEmptyingFailed" xml:space="preserve">
+    <value>Geri dönüşüm kutusu boşaltılamadı</value>
+  </data>
+  <data name="ArchivePassword" xml:space="preserve">
+    <value>Arşiv şifresi</value>
+  </data>
+  <data name="ExtractToPath" xml:space="preserve">
+    <value>Yol</value>
+  </data>
+  <data name="SortingAndGrouping" xml:space="preserve">
+    <value>Sıralama ve gruplama</value>
+  </data>
+  <data name="Archive" xml:space="preserve">
+    <value>Arşiv</value>
+  </data>
+  <data name="CreateArchive" xml:space="preserve">
+    <value>Arşiv oluştur</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Yaratmak</value>
+  </data>
+  <data name="CreateNamedArchive" xml:space="preserve">
+    <value>{0} oluştur</value>
+  </data>
+  <data name="EnterName" xml:space="preserve">
+    <value>Bir isim girin</value>
+  </data>
+  <data name="CompressionLevel" xml:space="preserve">
+    <value>Sıkıştırma seviyesi</value>
+  </data>
+  <data name="CompressionLevelUltra" xml:space="preserve">
+    <value>Ultra</value>
+  </data>
+  <data name="CompressionLevelHigh" xml:space="preserve">
+    <value>Yüksek</value>
+  </data>
+  <data name="CompressionLevelNormal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="CompressionLevelLow" xml:space="preserve">
+    <value>Düşük</value>
+  </data>
+  <data name="CompressionLevelFast" xml:space="preserve">
+    <value>Hızlı</value>
+  </data>
+  <data name="CompressionLevelNone" xml:space="preserve">
+    <value>Hiçbiri</value>
+  </data>
+  <data name="SplitArchive" xml:space="preserve">
+    <value>Arşivi böl</value>
+  </data>
+  <data name="SplittingSize" xml:space="preserve">
+    <value>Bölme boyutu</value>
+  </data>
+  <data name="Do not split" xml:space="preserve">
+    <value>Bölme yapma</value>
+  </data>
+  <data name="CD" xml:space="preserve">
+    <value>CD</value>
+  </data>
+  <data name="DVD" xml:space="preserve">
+    <value>DVD</value>
+  </data>
+  <data name="FAT" xml:space="preserve">
+    <value>FAT</value>
+  </data>
+  <data name="Bluray" xml:space="preserve">
+    <value>Blu-ray</value>
+  </data>
+  <data name="Encryption" xml:space="preserve">
+    <value>Şifreleme</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Parola</value>
+  </data>
+  <data name="Format" xml:space="preserve">
+    <value>Biçim</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowSyncStatus.Text" xml:space="preserve">
+    <value>Senkronizasyon durumu sütunu</value>
+  </data>
+  <data name="GroupBy" xml:space="preserve">
+    <value>Gruplandır</value>
+  </data>
+  <data name="SortBy" xml:space="preserve">
+    <value>Sıralama</value>
   </data>
 </root>

@@ -9,9 +9,7 @@
     that is mostly human readable. The generation and parsing of the
     various data types are done through the TypeConverter classes
     associated with the data types.
-
     Example:
-
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,7 +24,6 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-
     There are any number of "resheader" rows that contain simple
     name/value pairs.
 
@@ -43,12 +40,10 @@
     Note - application/x-microsoft.net.object.binary.base64 is the format
     that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-
     mimetype: application/x-microsoft.net.object.soap.base64
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
@@ -345,9 +340,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Para comenzar, deberá otorgarnos permiso para mostrar sus archivos. Esto abrirá una página de Configuración donde puede otorgarnos este permiso. Deberá reiniciar la aplicación una vez que haya completado este paso.</value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Carpeta de archivos</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Archivo</value>
   </data>
@@ -457,7 +449,7 @@
     <value>El archivo al que está intentando acceder está siendo utilizado actualmente por otra aplicación</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
-    <value>El archivo se está utilizando</value>
+    <value>Archivo en uso</value>
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>Diseño</value>
@@ -816,12 +808,6 @@
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Idioma</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>Aplicaciones de terminal</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>Editar las aplicaciones de terminal</value>
-  </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Mover elementos de desbordamiento a un submenú</value>
   </data>
@@ -1006,16 +992,16 @@
     <value>Editora</value>
   </data>
   <data name="PropertyThumbnailLargePath" xml:space="preserve">
-    <value>Ruta de miniatura grande</value>
+    <value>Ruta de miniatura larga</value>
   </data>
   <data name="PropertyThumbnailLargeUri" xml:space="preserve">
-    <value>URL de miniatura grande</value>
+    <value>Ruta de miniatura grande</value>
   </data>
   <data name="PropertyThumbnailSmallPath" xml:space="preserve">
     <value>Ruta de miniatura pequeña</value>
   </data>
   <data name="PropertyThumbnailSmallUri" xml:space="preserve">
-    <value>URL de miniatura pequeña</value>
+    <value>Ruta de miniatura pequeña</value>
   </data>
   <data name="PropertyUserWebUrl" xml:space="preserve">
     <value>Dirección URL</value>
@@ -2013,8 +1999,8 @@
   <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>Ver documentación.</value>
   </data>
-  <data name="DecompressArchiveDialog.Title" xml:space="preserve">
-    <value>Seleccionar un destino y extraer archivos</value>
+  <data name="ExtractArchive" xml:space="preserve">
+    <value>Extraer Archivo</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>Mostrar los archivos extraídos al completar</value>
@@ -2427,9 +2413,6 @@
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Mostrar WSL</value>
   </data>
-  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Aplicación de terminal</value>
-  </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Tareas en curso</value>
   </data>
@@ -2704,10 +2687,10 @@
     <value>Etiquetas</value>
   </data>
   <data name="SettingsShowFileTagsSection.Title" xml:space="preserve">
-    <value>Mostrar sección Etiquetas</value>
+    <value>Mostrar Etiquetas</value>
   </data>
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar sección Etiquetas</value>
+    <value>Mostrar Etiquetas</value>
   </data>
   <data name="UseCompactStyles" xml:space="preserve">
     <value>Utilizar estilos compactos en el diseño de detalles</value>
@@ -2758,7 +2741,7 @@
     <value>Revisar Files</value>
   </data>
   <data name="ReviewFilesContent" xml:space="preserve">
-    <value>¿Desea escribir una reseña sobre Files?</value>
+    <value>¿Le gustaría hacer una reseña de Files?</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
     <value>Establecer como fondo de pantalla</value>
@@ -2853,7 +2836,103 @@
   <data name="DeleteShortcutDescription" xml:space="preserve">
     <value>No se puede encontrar el destino {0}. ¿Desea eliminar este acceso directo?</value>
   </data>
+  <data name="AccessDeniedToFolder" xml:space="preserve">
+    <value>No tiene permiso para acceder a esta carpeta.</value>
+  </data>
   <data name="LoadingThemes" xml:space="preserve">
     <value>Cargando temas</value>
+  </data>
+  <data name="EmptyingRecycleBin" xml:space="preserve">
+    <value>Vaciando papelera de reciclaje</value>
+  </data>
+  <data name="BinEmptyingSucceded" xml:space="preserve">
+    <value>Papelera de reciclaje vaciada correctamente</value>
+  </data>
+  <data name="BinEmptyingFailed" xml:space="preserve">
+    <value>No se pudo vaciar la papelera de reciclaje</value>
+  </data>
+  <data name="ArchivePassword" xml:space="preserve">
+    <value>Contraseña de archivo</value>
+  </data>
+  <data name="ExtractToPath" xml:space="preserve">
+    <value>Ruta</value>
+  </data>
+  <data name="SortingAndGrouping" xml:space="preserve">
+    <value>Ordenación y agrupación</value>
+  </data>
+  <data name="Archive" xml:space="preserve">
+    <value>Archivo</value>
+  </data>
+  <data name="CreateArchive" xml:space="preserve">
+    <value>Crear archivo</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Crear</value>
+  </data>
+  <data name="CreateNamedArchive" xml:space="preserve">
+    <value>Crear {0}</value>
+  </data>
+  <data name="EnterName" xml:space="preserve">
+    <value>Introducir nombre</value>
+  </data>
+  <data name="CompressionLevel" xml:space="preserve">
+    <value>Nivel de compresión</value>
+  </data>
+  <data name="CompressionLevelUltra" xml:space="preserve">
+    <value>Máximo</value>
+  </data>
+  <data name="CompressionLevelHigh" xml:space="preserve">
+    <value>Alto</value>
+  </data>
+  <data name="CompressionLevelNormal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="CompressionLevelLow" xml:space="preserve">
+    <value>Bajo</value>
+  </data>
+  <data name="CompressionLevelFast" xml:space="preserve">
+    <value>Rápido</value>
+  </data>
+  <data name="CompressionLevelNone" xml:space="preserve">
+    <value>Ninguno</value>
+  </data>
+  <data name="SplitArchive" xml:space="preserve">
+    <value>Dividir el archivo</value>
+  </data>
+  <data name="SplittingSize" xml:space="preserve">
+    <value>Tamaño de la división</value>
+  </data>
+  <data name="Do not split" xml:space="preserve">
+    <value>No dividir</value>
+  </data>
+  <data name="CD" xml:space="preserve">
+    <value>CD</value>
+  </data>
+  <data name="DVD" xml:space="preserve">
+    <value>DVD</value>
+  </data>
+  <data name="FAT" xml:space="preserve">
+    <value>FAT</value>
+  </data>
+  <data name="Bluray" xml:space="preserve">
+    <value>Blu-ray</value>
+  </data>
+  <data name="Encryption" xml:space="preserve">
+    <value>Cifrado</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Contraseña</value>
+  </data>
+  <data name="Format" xml:space="preserve">
+    <value>Formato</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowSyncStatus.Text" xml:space="preserve">
+    <value>Columna de estado de sincronización</value>
+  </data>
+  <data name="GroupBy" xml:space="preserve">
+    <value>Agrupar por</value>
+  </data>
+  <data name="SortBy" xml:space="preserve">
+    <value>Ordenar por</value>
   </data>
 </root>

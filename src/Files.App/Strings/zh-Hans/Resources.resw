@@ -9,9 +9,7 @@
     that is mostly human readable. The generation and parsing of the
     various data types are done through the TypeConverter classes
     associated with the data types.
-
     Example:
-
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,7 +24,6 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-
     There are any number of "resheader" rows that contain simple
     name/value pairs.
 
@@ -43,12 +40,10 @@
     Note - application/x-microsoft.net.object.binary.base64 is the format
     that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-
     mimetype: application/x-microsoft.net.object.soap.base64
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
@@ -344,9 +339,6 @@
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>要开始使用，请授予我们访问文件系统的权限。你可以在稍后打开的设置窗口中授权。完成设置后，需要重新打开应用程序。 </value>
-  </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>文件夹</value>
   </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>文件</value>
@@ -815,12 +807,6 @@
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>语言</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>终端应用程序</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>编辑终端应用程序</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>将溢出项移动到子菜单内</value>
@@ -1948,7 +1934,7 @@
     <value>消除</value>
   </data>
   <data name="Widgets" xml:space="preserve">
-    <value>组件</value>
+    <value>要在主页上显示的组件</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>同步状态</value>
@@ -2013,8 +1999,8 @@
   <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>查看文档。</value>
   </data>
-  <data name="DecompressArchiveDialog.Title" xml:space="preserve">
-    <value>选择目标位置并提取文件</value>
+  <data name="ExtractArchive" xml:space="preserve">
+    <value>解压缩</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>完成后打开目标文件夹</value>
@@ -2427,9 +2413,6 @@
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>显示 WSL</value>
   </data>
-  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>终端应用</value>
-  </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>进行中的任务</value>
   </data>
@@ -2773,10 +2756,10 @@
     <value>设为默认</value>
   </data>
   <data name="DateColumn" xml:space="preserve">
-    <value>“日期”栏</value>
+    <value>“日期”列</value>
   </data>
   <data name="DateCreatedColumn" xml:space="preserve">
-    <value>“创建日期”栏</value>
+    <value>“创建日期”列</value>
   </data>
   <data name="SizeColumn" xml:space="preserve">
     <value>“大小”列</value>
@@ -2788,7 +2771,7 @@
     <value>“类型”列</value>
   </data>
   <data name="DetailsLayoutColumns" xml:space="preserve">
-    <value>“详细信息”布局 列</value>
+    <value>“详细信息”布局下要显示的列</value>
   </data>
   <data name="Reset" xml:space="preserve">
     <value>重置首选项</value>
@@ -2806,7 +2789,7 @@
     <value>在“列视图”布局下，通过单击打开文件夹</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
-    <value>正在打开项目</value>
+    <value>打开项目</value>
   </data>
   <data name="AddSingleItemToArchive" xml:space="preserve">
     <value>添加到 {0}.zip</value>
@@ -2853,7 +2836,103 @@
   <data name="DeleteShortcutDescription" xml:space="preserve">
     <value>在目标位置找不到 {0}。要删除此快捷方式吗？</value>
   </data>
+  <data name="AccessDeniedToFolder" xml:space="preserve">
+    <value>你没有访问此服务器的权限。</value>
+  </data>
   <data name="LoadingThemes" xml:space="preserve">
-    <value>Loading Themes</value>
+    <value>正在加载主题</value>
+  </data>
+  <data name="EmptyingRecycleBin" xml:space="preserve">
+    <value>正在清空回收站</value>
+  </data>
+  <data name="BinEmptyingSucceded" xml:space="preserve">
+    <value>已成功清空回收站</value>
+  </data>
+  <data name="BinEmptyingFailed" xml:space="preserve">
+    <value>清空回收站失败</value>
+  </data>
+  <data name="ArchivePassword" xml:space="preserve">
+    <value>压缩包密码</value>
+  </data>
+  <data name="ExtractToPath" xml:space="preserve">
+    <value>路径</value>
+  </data>
+  <data name="SortingAndGrouping" xml:space="preserve">
+    <value>排序和分组</value>
+  </data>
+  <data name="Archive" xml:space="preserve">
+    <value>压缩文件</value>
+  </data>
+  <data name="CreateArchive" xml:space="preserve">
+    <value>创建压缩文件</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>创建</value>
+  </data>
+  <data name="CreateNamedArchive" xml:space="preserve">
+    <value>创建 {0}</value>
+  </data>
+  <data name="EnterName" xml:space="preserve">
+    <value>输入名称</value>
+  </data>
+  <data name="CompressionLevel" xml:space="preserve">
+    <value>压缩级别</value>
+  </data>
+  <data name="CompressionLevelUltra" xml:space="preserve">
+    <value>最高</value>
+  </data>
+  <data name="CompressionLevelHigh" xml:space="preserve">
+    <value>高</value>
+  </data>
+  <data name="CompressionLevelNormal" xml:space="preserve">
+    <value>正常</value>
+  </data>
+  <data name="CompressionLevelLow" xml:space="preserve">
+    <value>低</value>
+  </data>
+  <data name="CompressionLevelFast" xml:space="preserve">
+    <value>快速</value>
+  </data>
+  <data name="CompressionLevelNone" xml:space="preserve">
+    <value>无</value>
+  </data>
+  <data name="SplitArchive" xml:space="preserve">
+    <value>分卷压缩</value>
+  </data>
+  <data name="SplittingSize" xml:space="preserve">
+    <value>分卷大小</value>
+  </data>
+  <data name="Do not split" xml:space="preserve">
+    <value>不分卷</value>
+  </data>
+  <data name="CD" xml:space="preserve">
+    <value>CD</value>
+  </data>
+  <data name="DVD" xml:space="preserve">
+    <value>DVD</value>
+  </data>
+  <data name="FAT" xml:space="preserve">
+    <value>FAT</value>
+  </data>
+  <data name="Bluray" xml:space="preserve">
+    <value>蓝光</value>
+  </data>
+  <data name="Encryption" xml:space="preserve">
+    <value>加密</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>密码</value>
+  </data>
+  <data name="Format" xml:space="preserve">
+    <value>格式</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowSyncStatus.Text" xml:space="preserve">
+    <value>“同步状态”列</value>
+  </data>
+  <data name="GroupBy" xml:space="preserve">
+    <value>分组依据</value>
+  </data>
+  <data name="SortBy" xml:space="preserve">
+    <value>排序方式</value>
   </data>
 </root>

@@ -1,19 +1,20 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using Files.Shared;
+using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
+using Files.Shared;
+using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
-using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace Files.App.Filesystem
 {
 	public class RecentItem : ObservableObject, IEquatable<RecentItem>
 	{
 		private BitmapImage _fileImg;
-		public BitmapImage FileImg 
+		public BitmapImage FileImg
 		{
 			get => _fileImg;
 			set => SetProperty(ref _fileImg, value);
@@ -27,8 +28,9 @@ namespace Files.App.Filesystem
 		public bool FileIconVis { get; set; }
 		public bool IsFile { get => Type == StorageItemTypes.File; }
 		public DateTime LastModified { get; set; }
+		public byte[] PIDL { get; set; }
 
-		public RecentItem() 
+		public RecentItem()
 		{
 			EmptyImgVis = true; // defer icon load to LoadRecentItemIcon()
 		}
@@ -55,6 +57,7 @@ namespace Files.App.Filesystem
 			FolderImg = linkItem.IsFolder;
 			FileIconVis = !linkItem.IsFolder;
 			LastModified = linkItem.ModifiedDate;
+			PIDL = linkItem.PIDL;
 		}
 
 		/// <summary>
@@ -63,13 +66,14 @@ namespace Files.App.Filesystem
 		/// <param name="fileItem">The shell file item</param>
 		public RecentItem(ShellFileItem fileItem) : base()
 		{
-			LinkPath = fileItem.FilePath;   // intentionally the same
-			RecentPath = fileItem.FilePath; // intentionally the same
+			LinkPath = ShellStorageFolder.IsShellPath(fileItem.FilePath) ? fileItem.RecyclePath : fileItem.FilePath; // use true path on disk for shell items
+			RecentPath = LinkPath; // intentionally the same
 			Name = NameOrPathWithoutExtension(fileItem.FileName);
 			Type = fileItem.IsFolder ? StorageItemTypes.Folder : StorageItemTypes.File;
 			FolderImg = fileItem.IsFolder;
 			FileIconVis = !fileItem.IsFolder;
 			LastModified = fileItem.ModifiedDate;
+			PIDL = fileItem.PIDL;
 		}
 
 		public async Task LoadRecentItemIcon()
@@ -104,7 +108,7 @@ namespace Files.App.Filesystem
 
 		/**
 		 * Strips a name from an extension while aware of some edge cases.
-		 * 
+		 *
 		 *   example.min.js => example.min
 		 *   example.js     => example
 		 *   .gitignore     => .gitignore

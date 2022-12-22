@@ -9,9 +9,7 @@
     that is mostly human readable. The generation and parsing of the
     various data types are done through the TypeConverter classes
     associated with the data types.
-
     Example:
-
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,7 +24,6 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-
     There are any number of "resheader" rows that contain simple
     name/value pairs.
 
@@ -43,12 +40,10 @@
     Note - application/x-microsoft.net.object.binary.base64 is the format
     that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-
     mimetype: application/x-microsoft.net.object.soap.base64
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
@@ -344,9 +339,6 @@
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Om aan de slag te gaan, moet u toestemming geven om uw bestanden weer te geven. Hiermee wordt er een pagina in Instellingen geopend waar u toestemming kunt geven. U moet de app hierna opnieuw starten.</value>
-  </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Bestandsmap</value>
   </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Bestand</value>
@@ -815,12 +807,6 @@
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Taal</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>Terminal toepassingen</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>Bewerk terminal toepassingen</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Verplaats overlopende items naar een sub menu</value>
@@ -2013,8 +1999,8 @@
   <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>Documentatie weergeven.</value>
   </data>
-  <data name="DecompressArchiveDialog.Title" xml:space="preserve">
-    <value>Kies een bestemming en pak de bestanden uit</value>
+  <data name="ExtractArchive" xml:space="preserve">
+    <value>Archief uitpakken</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>Open doelmap na voltooiing</value>
@@ -2426,9 +2412,6 @@
   </data>
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Toon WSL sectie op de zijbalk</value>
-  </data>
-  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Terminal applicatie</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Lopende taken</value>
@@ -2853,7 +2836,103 @@
   <data name="DeleteShortcutDescription" xml:space="preserve">
     <value>De bestemming kan niet worden gevonden {0}. Wilt u deze snelkoppeling verwijderen?</value>
   </data>
+  <data name="AccessDeniedToFolder" xml:space="preserve">
+    <value>U heeft geen rechten om in deze folder te zijn.</value>
+  </data>
   <data name="LoadingThemes" xml:space="preserve">
-    <value>Loading Themes</value>
+    <value>Thema's laden</value>
+  </data>
+  <data name="EmptyingRecycleBin" xml:space="preserve">
+    <value>Prullenbak leegmaken</value>
+  </data>
+  <data name="BinEmptyingSucceded" xml:space="preserve">
+    <value>Prullenbak succesvol leeggemaakt</value>
+  </data>
+  <data name="BinEmptyingFailed" xml:space="preserve">
+    <value>Prullenbak leegmaken is mislukt</value>
+  </data>
+  <data name="ArchivePassword" xml:space="preserve">
+    <value>Archief wachtwoord</value>
+  </data>
+  <data name="ExtractToPath" xml:space="preserve">
+    <value>Pad</value>
+  </data>
+  <data name="SortingAndGrouping" xml:space="preserve">
+    <value>Sorteren en groeperen</value>
+  </data>
+  <data name="Archive" xml:space="preserve">
+    <value>Archief</value>
+  </data>
+  <data name="CreateArchive" xml:space="preserve">
+    <value>ZIP-bestand maken</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Maken</value>
+  </data>
+  <data name="CreateNamedArchive" xml:space="preserve">
+    <value>Maak {0}</value>
+  </data>
+  <data name="EnterName" xml:space="preserve">
+    <value>Naam invoeren</value>
+  </data>
+  <data name="CompressionLevel" xml:space="preserve">
+    <value>Compressie niveau</value>
+  </data>
+  <data name="CompressionLevelUltra" xml:space="preserve">
+    <value>Zeer hoog</value>
+  </data>
+  <data name="CompressionLevelHigh" xml:space="preserve">
+    <value>Hoog</value>
+  </data>
+  <data name="CompressionLevelNormal" xml:space="preserve">
+    <value>Normaal</value>
+  </data>
+  <data name="CompressionLevelLow" xml:space="preserve">
+    <value>Laag</value>
+  </data>
+  <data name="CompressionLevelFast" xml:space="preserve">
+    <value>Snel</value>
+  </data>
+  <data name="CompressionLevelNone" xml:space="preserve">
+    <value>Geen</value>
+  </data>
+  <data name="SplitArchive" xml:space="preserve">
+    <value>Split het archief</value>
+  </data>
+  <data name="SplittingSize" xml:space="preserve">
+    <value>Splits grootte</value>
+  </data>
+  <data name="Do not split" xml:space="preserve">
+    <value>Niet splitsen</value>
+  </data>
+  <data name="CD" xml:space="preserve">
+    <value>CD</value>
+  </data>
+  <data name="DVD" xml:space="preserve">
+    <value>DVD</value>
+  </data>
+  <data name="FAT" xml:space="preserve">
+    <value>FAT</value>
+  </data>
+  <data name="Bluray" xml:space="preserve">
+    <value>Blu-ray</value>
+  </data>
+  <data name="Encryption" xml:space="preserve">
+    <value>Versleuteling</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Wachtwoord</value>
+  </data>
+  <data name="Format" xml:space="preserve">
+    <value>Formaat</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowSyncStatus.Text" xml:space="preserve">
+    <value>Synchroniseer statuskolom</value>
+  </data>
+  <data name="GroupBy" xml:space="preserve">
+    <value>Groepeer</value>
+  </data>
+  <data name="SortBy" xml:space="preserve">
+    <value>Sorteren op</value>
   </data>
 </root>

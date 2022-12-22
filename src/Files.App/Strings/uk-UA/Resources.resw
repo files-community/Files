@@ -9,9 +9,7 @@
     that is mostly human readable. The generation and parsing of the
     various data types are done through the TypeConverter classes
     associated with the data types.
-
     Example:
-
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,7 +24,6 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-
     There are any number of "resheader" rows that contain simple
     name/value pairs.
 
@@ -43,12 +40,10 @@
     Note - application/x-microsoft.net.object.binary.base64 is the format
     that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-
     mimetype: application/x-microsoft.net.object.soap.base64
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
@@ -345,9 +340,6 @@
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Для початку вам потрібно надати нам дозвіл на показ ваших файлів. Це відкриє сторінку налаштувань, де ви можете надати нам цей дозвіл. Вам потрібно буде знову відкрити додаток після завершення.</value>
   </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Папка з файлами</value>
-  </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Файл</value>
   </data>
@@ -454,7 +446,7 @@
     <value>Файл, до якого ви намагаєтеся отримати доступ, зараз використовується {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>Файл, який ви намагаєтеся отримати доступ, зараз використовується іншою програмою</value>
+    <value>Файл, до якого ви намагаєтеся отримати доступ, використовується іншою програмою</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
     <value>Файл зараз використовується</value>
@@ -815,12 +807,6 @@
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Мови</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>Програма термінала</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>Редагування програм терміналу</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Переміщення додаткових елементів у підменю</value>
@@ -1234,10 +1220,10 @@
     <value>Скинути налаштування перезапису директорій</value>
   </data>
   <data name="EnableOverridingFolderPreferencesDescription" xml:space="preserve">
-    <value>Changing the layout in a directory when this setting is turned off will update the layout for all directories.</value>
+    <value>Зміна розкладки в каталозі, коли цей параметр вимкнуто, оновить розкладку для всіх каталогів.</value>
   </data>
   <data name="EnableOverridingFolderPreferences" xml:space="preserve">
-    <value>Ввімкнути перезапис налаштувань директорій в окремих директоріях</value>
+    <value>Увімкнути перезапис налаштувань в окремих директорій</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Налаштування контекстного меню</value>
@@ -2013,8 +1999,8 @@
   <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>Переглянути документацію</value>
   </data>
-  <data name="DecompressArchiveDialog.Title" xml:space="preserve">
-    <value>Виберіть місце призначення та розпакуйте файли</value>
+  <data name="ExtractArchive" xml:space="preserve">
+    <value>Розпакувати архів</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>Після завершення відкрийте папку призначення</value>
@@ -2427,9 +2413,6 @@
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Показати розділ WSL</value>
   </data>
-  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Програма термінала</value>
-  </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Поточні завдання</value>
   </data>
@@ -2827,7 +2810,7 @@
     <value>Стиснення архіву</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
-    <value>Виділити файли та папки при наведенні на них</value>
+    <value>Вибрати файли та папки при наведенні на них</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
     <value>Ви впевнені, що хочете відновити всі елементи з кошика?</value>
@@ -2853,7 +2836,103 @@
   <data name="DeleteShortcutDescription" xml:space="preserve">
     <value>Неможливо знайти цільовий об’єкт {0}. Бажаєте видалити цей ярлик?</value>
   </data>
+  <data name="AccessDeniedToFolder" xml:space="preserve">
+    <value>Ви не маєте дозволу на доступ до цієї папки.</value>
+  </data>
   <data name="LoadingThemes" xml:space="preserve">
     <value>Завантаження тем</value>
+  </data>
+  <data name="EmptyingRecycleBin" xml:space="preserve">
+    <value>Очищення кошика</value>
+  </data>
+  <data name="BinEmptyingSucceded" xml:space="preserve">
+    <value>Успішно очищено кошик</value>
+  </data>
+  <data name="BinEmptyingFailed" xml:space="preserve">
+    <value>Не вдалося очистити кошик</value>
+  </data>
+  <data name="ArchivePassword" xml:space="preserve">
+    <value>Пароль архіву</value>
+  </data>
+  <data name="ExtractToPath" xml:space="preserve">
+    <value>Шлях</value>
+  </data>
+  <data name="SortingAndGrouping" xml:space="preserve">
+    <value>Сортування та групування</value>
+  </data>
+  <data name="Archive" xml:space="preserve">
+    <value>Архів</value>
+  </data>
+  <data name="CreateArchive" xml:space="preserve">
+    <value>Створити архів</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Створити</value>
+  </data>
+  <data name="CreateNamedArchive" xml:space="preserve">
+    <value>Створити {0}</value>
+  </data>
+  <data name="EnterName" xml:space="preserve">
+    <value>Вкажіть назву</value>
+  </data>
+  <data name="CompressionLevel" xml:space="preserve">
+    <value>Рівень стиснення</value>
+  </data>
+  <data name="CompressionLevelUltra" xml:space="preserve">
+    <value>Ультра</value>
+  </data>
+  <data name="CompressionLevelHigh" xml:space="preserve">
+    <value>Високий</value>
+  </data>
+  <data name="CompressionLevelNormal" xml:space="preserve">
+    <value>Звичайний</value>
+  </data>
+  <data name="CompressionLevelLow" xml:space="preserve">
+    <value>Низький</value>
+  </data>
+  <data name="CompressionLevelFast" xml:space="preserve">
+    <value>Швидкий</value>
+  </data>
+  <data name="CompressionLevelNone" xml:space="preserve">
+    <value>Немає</value>
+  </data>
+  <data name="SplitArchive" xml:space="preserve">
+    <value>Розділити архів</value>
+  </data>
+  <data name="SplittingSize" xml:space="preserve">
+    <value>Розмір розділення</value>
+  </data>
+  <data name="Do not split" xml:space="preserve">
+    <value>Не розділяти</value>
+  </data>
+  <data name="CD" xml:space="preserve">
+    <value>CD</value>
+  </data>
+  <data name="DVD" xml:space="preserve">
+    <value>DVD</value>
+  </data>
+  <data name="FAT" xml:space="preserve">
+    <value>FAT</value>
+  </data>
+  <data name="Bluray" xml:space="preserve">
+    <value>Blu-ray</value>
+  </data>
+  <data name="Encryption" xml:space="preserve">
+    <value>Шифрування</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Пароль:</value>
+  </data>
+  <data name="Format" xml:space="preserve">
+    <value>Формат</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowSyncStatus.Text" xml:space="preserve">
+    <value>Синхронізувати стовпець стану</value>
+  </data>
+  <data name="GroupBy" xml:space="preserve">
+    <value>Групувати за</value>
+  </data>
+  <data name="SortBy" xml:space="preserve">
+    <value>Сортування</value>
   </data>
 </root>

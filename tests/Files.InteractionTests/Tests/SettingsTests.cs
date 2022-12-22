@@ -1,6 +1,6 @@
-﻿using System;
+﻿using OpenQA.Selenium.Interactions;
+using System;
 using System.Threading;
-using OpenQA.Selenium.Interactions;
 
 namespace Files.InteractionTests.Tests
 {
@@ -37,8 +37,8 @@ namespace Files.InteractionTests.Tests
 				{
 					try
 					{
-						Console.WriteLine("Inoking button:" + item);
-						Thread.Sleep(2000);
+						Console.WriteLine("Invoking button:" + item);
+						Thread.Sleep(1000);
 						TestHelper.InvokeButtonById(item);
 						i = 1000;
 					}

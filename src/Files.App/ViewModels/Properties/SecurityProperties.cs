@@ -5,13 +5,10 @@ using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.Permissions;
 using Files.App.Helpers;
-using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
-using Windows.Foundation.Collections;
 
 namespace Files.App.ViewModels.Properties
 {
@@ -146,13 +143,13 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
-        private async void DisableInheritance()
-        {
-            if (SetAccessRuleProtection(isProtected, preserveInheritance))
-            {
-                GetFilePermissions(); // Refresh file permissions
-            }
-        }
+		private async void DisableInheritance()
+		{
+			if (SetAccessRuleProtection(isProtected, preserveInheritance))
+			{
+				GetFilePermissions(); // Refresh file permissions
+			}
+		}
 
 		private void SetDisableInheritanceOption(string options)
 		{
@@ -162,8 +159,8 @@ namespace Files.App.ViewModels.Properties
 			DisableInheritanceCommand.NotifyCanExecuteChanged();
 		}
 
-        private void ReplaceChildPermissions()
-        { }
+		private void ReplaceChildPermissions()
+		{ }
 
 		private async void AddAccessRule()
 		{
@@ -192,17 +189,17 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
-        private async void EditOwner()
-        {
-            var pickedObject = await OpenObjectPicker();
-            if (pickedObject is not null)
-            {
-                if (SetFileOwner(pickedObject))
-                {
-                    GetFilePermissions(); // Refresh file permissions
-                }
-            }
-        }
+		private async void EditOwner()
+		{
+			var pickedObject = await OpenObjectPicker();
+			if (pickedObject is not null)
+			{
+				if (SetFileOwner(pickedObject))
+				{
+					GetFilePermissions(); // Refresh file permissions
+				}
+			}
+		}
 
 		private async void AddRulesForUser()
 		{
@@ -232,33 +229,33 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
-        public void GetFilePermissions()
-        {
-            bool isFolder = Item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !Item.IsShortcut;
-            FilePermissions = new FilePermissionsManager(FileOperationsHelpers.GetFilePermissions(Item.ItemPath, isFolder));
-        }
+		public void GetFilePermissions()
+		{
+			bool isFolder = Item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !Item.IsShortcut;
+			FilePermissions = new FilePermissionsManager(FileOperationsHelpers.GetFilePermissions(Item.ItemPath, isFolder));
+		}
 
-        public bool SetFilePermissions()
-        {
-            if (FilePermissions is null || !FilePermissions.CanReadFilePermissions)
-                return true;
+		public bool SetFilePermissions()
+		{
+			if (FilePermissions is null || !FilePermissions.CanReadFilePermissions)
+				return true;
 
-            return FilePermissions.ToFilePermissions().SetPermissions();
-        }
+			return FilePermissions.ToFilePermissions().SetPermissions();
+		}
 
-        public bool SetFileOwner(string ownerSid)
-        {
-            bool isFolder = Item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !Item.IsShortcut;
-            return FileOperationsHelpers.SetFileOwner(Item.ItemPath, isFolder, ownerSid);
-        }
+		public bool SetFileOwner(string ownerSid)
+		{
+			bool isFolder = Item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !Item.IsShortcut;
+			return FileOperationsHelpers.SetFileOwner(Item.ItemPath, isFolder, ownerSid);
+		}
 
-        public Task<string?> OpenObjectPicker()
-            => FileOperationsHelpers.OpenObjectPickerAsync(NativeWinApiHelper.CoreWindowHandle.ToInt64());
+		public Task<string?> OpenObjectPicker()
+			=> FileOperationsHelpers.OpenObjectPickerAsync(NativeWinApiHelper.CoreWindowHandle.ToInt64());
 
-        public bool SetAccessRuleProtection(bool isProtected, bool preserveInheritance)
-        {
-            bool isFolder = Item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !Item.IsShortcut;
-            return FileOperationsHelpers.SetAccessRuleProtection(Item.ItemPath, isFolder, isProtected, preserveInheritance);
-        }
-    }
+		public bool SetAccessRuleProtection(bool isProtected, bool preserveInheritance)
+		{
+			bool isFolder = Item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !Item.IsShortcut;
+			return FileOperationsHelpers.SetAccessRuleProtection(Item.ItemPath, isFolder, isProtected, preserveInheritance);
+		}
+	}
 }

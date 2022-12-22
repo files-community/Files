@@ -32,12 +32,12 @@ using Microsoft.Windows.AppLifecycle;
 using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Notifications;
-
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -60,7 +60,6 @@ namespace Files.App
 		public static JumpListManager JumpList { get; private set; }
 		public static RecentItems RecentItemsManager { get; private set; }
 		public static SidebarPinnedController SidebarPinnedController { get; private set; }
-		public static TerminalController TerminalController { get; private set; }
 		public static CloudDrivesManager CloudDrivesManager { get; private set; }
 		public static NetworkDrivesManager NetworkDrivesManager { get; private set; }
 		public static DrivesManager DrivesManager { get; private set; }
@@ -141,7 +140,6 @@ namespace Files.App
 
 				; // End of service configuration
 
-
 			return services.BuildServiceProvider();
 		}
 
@@ -161,10 +159,6 @@ namespace Files.App
 			WSLDistroManager ??= new WSLDistroManager();
 			FileTagsManager ??= new FileTagsManager();
 			SidebarPinnedController ??= new SidebarPinnedController();
-			TerminalController ??= new TerminalController();
-
-			//FileTagsHelpers.UpdateTagsDb();
-			FileOperationsHelpers.WaitForCompletion();
 		}
 
 		private static async Task StartAppCenter()
@@ -205,10 +199,10 @@ namespace Files.App
 					SidebarPinnedController.InitializeAsync()
 				);
 				await Task.WhenAll(
-					TerminalController.InitializeAsync(),
 					JumpList.InitializeAsync(),
 					ContextFlyoutItemHelper.CachedNewContextMenuEntries
 				);
+				FileTagsHelper.UpdateTagsDb();
 			});
 
 			// Check for required updates
@@ -243,19 +237,10 @@ namespace Files.App
 			EnsureWindowIsInitialized();
 
 			EnsureSettingsAndConfigurationAreBootstrapped();
-			Task.Run(async () =>
-			{
-				try
-				{
-					await InitializeAppComponentsAsync();
-				}
-				catch (Exception ex)
-				{
-					Logger.Warn(ex, "Error during InitializeAppComponentsAsync()");
-				}
-			});
 
-			_ = Window.InitializeApplication(activatedEventArgs);
+			_ = InitializeAppComponentsAsync().ContinueWith(t => Logger.Warn(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
+
+			_ = Window.InitializeApplication(activatedEventArgs.Data);
 		}
 
 		private void EnsureWindowIsInitialized()
@@ -273,16 +258,15 @@ namespace Files.App
 			{
 				ShowErrorNotification = true;
 				ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = -Process.GetCurrentProcess().Id;
-				if (AppModel is not null)
-					AppModel.Clipboard_ContentChanged(null, null);
 			}
 		}
 
 		public void OnActivated(AppActivationArguments activatedEventArgs)
 		{
 			Logger.Info($"App activated. Activated args type: {activatedEventArgs.Data.GetType().Name}");
+			var data = activatedEventArgs.Data;
 			// InitializeApplication accesses UI, needs to be called on UI thread
-			_ = Window.DispatcherQueue.EnqueueAsync(() => Window.InitializeApplication(activatedEventArgs));
+			_ = Window.DispatcherQueue.EnqueueAsync(() => Window.InitializeApplication(data));
 		}
 
 		/// <summary>
@@ -293,6 +277,8 @@ namespace Files.App
 		private async void Window_Closed(object sender, WindowEventArgs args)
 		{
 			// Save application state and stop any background activity
+
+			await Task.Yield(); // Method can take a long time, make sure the window is hidden
 
 			SaveSessionTabs();
 
@@ -324,17 +310,17 @@ namespace Files.App
 						Clipboard.Flush();
 				}
 			}, Logger);
+
+			// Wait for ongoing file operations
+			FileOperationsHelpers.WaitForCompletion();
 		}
 
 		public static void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages
 		{
-			IUserSettingsService? userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
-			IBundlesSettingsService? bundlesSettingsService = Ioc.Default.GetService<IBundlesSettingsService>();
-
-			if (bundlesSettingsService is not null)
-				bundlesSettingsService.FlushSettings();
-			if (userSettingsService?.PreferencesSettingsService is null)
-				return;
+			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+			IBundlesSettingsService bundlesSettingsService = Ioc.Default.GetRequiredService<IBundlesSettingsService>();
+			
+			bundlesSettingsService.FlushSettings();
 
 			userSettingsService.PreferencesSettingsService.LastSessionTabList = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>
 			{
@@ -359,41 +345,41 @@ namespace Files.App
 
 		private static void AppUnhandledException(Exception ex)
 		{
-			string formattedException = string.Empty;
+			StringBuilder formattedException = new StringBuilder() { Capacity = 200 };
 
-			formattedException += "--------- UNHANDLED EXCEPTION ---------";
+			formattedException.Append("--------- UNHANDLED EXCEPTION ---------");
 			if (ex is not null)
 			{
-				formattedException += $"\n>>>> HRESULT: {ex.HResult}\n";
+				formattedException.Append($"\n>>>> HRESULT: {ex.HResult}\n");
 				if (ex.Message is not null)
 				{
-					formattedException += "\n--- MESSAGE ---";
-					formattedException += ex.Message;
+					formattedException.Append("\n--- MESSAGE ---");
+					formattedException.Append(ex.Message);
 				}
 				if (ex.StackTrace is not null)
 				{
-					formattedException += "\n--- STACKTRACE ---";
-					formattedException += ex.StackTrace;
+					formattedException.Append("\n--- STACKTRACE ---");
+					formattedException.Append(ex.StackTrace);
 				}
 				if (ex.Source is not null)
 				{
-					formattedException += "\n--- SOURCE ---";
-					formattedException += ex.Source;
+					formattedException.Append("\n--- SOURCE ---");
+					formattedException.Append(ex.Source);
 				}
 				if (ex.InnerException is not null)
 				{
-					formattedException += "\n--- INNER ---";
-					formattedException += ex.InnerException;
+					formattedException.Append("\n--- INNER ---");
+					formattedException.Append(ex.InnerException);
 				}
 			}
 			else
 			{
-				formattedException += "\nException is null!\n";
+				formattedException.Append("\nException is null!\n");
 			}
 
-			formattedException += "---------------------------------------";
+			formattedException.Append("---------------------------------------");
 
-			Debug.WriteLine(formattedException);
+			Debug.WriteLine(formattedException.ToString());
 
 			Debugger.Break(); // Please check "Output Window" for exception details (View -> Output Window) (CTRL + ALT + O)
 

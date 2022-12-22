@@ -24,7 +24,6 @@ using System.Windows.Input;
 using Windows.Storage;
 using Windows.System;
 
-
 namespace Files.App.ViewModels
 {
 	public class MainPageViewModel : ObservableObject
@@ -35,7 +34,6 @@ namespace Files.App.ViewModels
 		public List<IMultitaskingControl> MultitaskingControls { get; } = new List<IMultitaskingControl>();
 
 		public static ObservableCollection<TabItem> AppInstances { get; private set; } = new ObservableCollection<TabItem>();
-
 
 		private TabItem? selectedTabItem;
 		public TabItem? SelectedTabItem
@@ -53,11 +51,11 @@ namespace Files.App.ViewModels
 
 		public ICommand NavigateToNumberedTabKeyboardAcceleratorCommand { get; private set; }
 
-		public ICommand OpenNewWindowAcceleratorCommand { get; private set; }
+		public IAsyncRelayCommand OpenNewWindowAcceleratorCommand { get; private set; }
 
 		public ICommand CloseSelectedTabKeyboardAcceleratorCommand { get; private set; }
 
-		public ICommand AddNewInstanceAcceleratorCommand { get; private set; }
+		public IAsyncRelayCommand AddNewInstanceAcceleratorCommand { get; private set; }
 
 		public ICommand ReopenClosedTabAcceleratorCommand { get; private set; }
 
@@ -67,9 +65,9 @@ namespace Files.App.ViewModels
 		{
 			// Create commands
 			NavigateToNumberedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(NavigateToNumberedTabKeyboardAccelerator);
-			OpenNewWindowAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(OpenNewWindowAccelerator);
+			OpenNewWindowAcceleratorCommand = new AsyncRelayCommand<KeyboardAcceleratorInvokedEventArgs>(OpenNewWindowAccelerator);
 			CloseSelectedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(CloseSelectedTabKeyboardAccelerator);
-			AddNewInstanceAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(AddNewInstanceAccelerator);
+			AddNewInstanceAcceleratorCommand = new AsyncRelayCommand<KeyboardAcceleratorInvokedEventArgs>(AddNewInstanceAccelerator);
 			ReopenClosedTabAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(ReopenClosedTabAccelerator);
 			OpenSettingsCommand = new RelayCommand(OpenSettings);
 		}
@@ -143,7 +141,7 @@ namespace Files.App.ViewModels
 			e.Handled = true;
 		}
 
-		private async void OpenNewWindowAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
+		private async Task OpenNewWindowAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
 		{
 			Uri filesUWPUri = new Uri("files-uwp:");
 			await Launcher.LaunchUriAsync(filesUWPUri);
@@ -165,7 +163,7 @@ namespace Files.App.ViewModels
 			e!.Handled = true;
 		}
 
-		private async void AddNewInstanceAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
+		private async Task AddNewInstanceAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
 		{
 			await AddNewTabAsync();
 			e!.Handled = true;
@@ -183,7 +181,6 @@ namespace Files.App.ViewModels
 			var dialog = dialogService.GetDialog(new SettingsDialogViewModel());
 			await dialog.TryShowAsync();
 		}
-
 
 		public static async Task AddNewTabByPathAsync(Type type, string path, int atIndex = -1)
 		{
@@ -236,7 +233,6 @@ namespace Files.App.ViewModels
 			if (AppInstances.Count > 1)
 				windowTitle = $"{windowTitle} ({AppInstances.Count})";
 			if (navigationArg == SelectedTabItem?.TabItemArguments?.NavigationArg)
-
 				App.GetAppWindow(App.Window).Title = windowTitle;
 		}
 
@@ -307,10 +303,7 @@ namespace Files.App.ViewModels
 				else if (PathNormalization.NormalizePath(PathNormalization.GetPathRoot(currentPath)) == PathNormalization.NormalizePath(currentPath)) // If path is a drive's root
 				{
 					var matchingNetDrive = App.NetworkDrivesManager.Drives.FirstOrDefault(x => PathNormalization.NormalizePath(currentPath).Contains(PathNormalization.NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
-					if (matchingNetDrive is not null)
-						tabLocationHeader = matchingNetDrive.Text;
-					else
-						tabLocationHeader = PathNormalization.NormalizePath(currentPath);
+					tabLocationHeader = matchingNetDrive is not null ? matchingNetDrive.Text : PathNormalization.NormalizePath(currentPath);
 				}
 				else
 				{
@@ -350,13 +343,12 @@ namespace Files.App.ViewModels
 				try
 				{
 					// add last session tabs to closed tabs stack if those tabs are not about to be opened
-					if (!UserSettingsService.AppSettingsService.RestoreTabsOnStartup && !UserSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp && UserSettingsService.PreferencesSettingsService.LastSessionTabList is not null)
+					if (!UserSettingsService.AppSettingsService.RestoreTabsOnStartup && !UserSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp && UserSettingsService.PreferencesSettingsService.LastSessionTabList != null)
 					{
 						var items = new TabItemArguments[UserSettingsService.PreferencesSettingsService.LastSessionTabList.Count];
 						for (int i = 0; i < items.Length; i++)
 						{
-							var tabArgs = TabItemArguments.Deserialize(UserSettingsService.PreferencesSettingsService.LastSessionTabList[i]);
-							items[i] = tabArgs;
+							items[i] = TabItemArguments.Deserialize(UserSettingsService.PreferencesSettingsService.LastSessionTabList[i]);
 						}
 						BaseMultitaskingControl.RecentlyClosedTabs.Add(items);
 					}
@@ -378,34 +370,22 @@ namespace Files.App.ViewModels
 							UserSettingsService.PreferencesSettingsService.LastSessionTabList = null;
 						}
 					}
-					else if (UserSettingsService.PreferencesSettingsService.OpenSpecificPageOnStartup)
+					else if (UserSettingsService.PreferencesSettingsService.OpenSpecificPageOnStartup &&
+						UserSettingsService.PreferencesSettingsService.TabsOnStartupList is not null)
 					{
-						if (UserSettingsService.PreferencesSettingsService.TabsOnStartupList is not null)
-						{
-							foreach (string path in UserSettingsService.PreferencesSettingsService.TabsOnStartupList)
-								await AddNewTabByPathAsync(typeof(PaneHolderPage), path);
-						}
-						else
-						{
-							await AddNewTabAsync();
-						}
+						foreach (string path in UserSettingsService.PreferencesSettingsService.TabsOnStartupList)
+							await AddNewTabByPathAsync(typeof(PaneHolderPage), path);
 					}
-					else if (UserSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp)
+					else if (UserSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp &&
+						UserSettingsService.PreferencesSettingsService.LastSessionTabList is not null)
 					{
-						if (UserSettingsService.PreferencesSettingsService.LastSessionTabList is not null)
+						foreach (string tabArgsString in UserSettingsService.PreferencesSettingsService.LastSessionTabList)
 						{
-							foreach (string tabArgsString in UserSettingsService.PreferencesSettingsService.LastSessionTabList)
-							{
-								var tabArgs = TabItemArguments.Deserialize(tabArgsString);
-								await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
-							}
-							var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home".GetLocalizedResource() };
-							UserSettingsService.PreferencesSettingsService.LastSessionTabList = new List<string> { defaultArg.Serialize() };
+							var tabArgs = TabItemArguments.Deserialize(tabArgsString);
+							await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
 						}
-						else
-						{
-							await AddNewTabAsync();
-						}
+						var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home".GetLocalizedResource() };
+						UserSettingsService.PreferencesSettingsService.LastSessionTabList = new List<string> { defaultArg.Serialize() };
 					}
 					else
 					{
@@ -428,11 +408,11 @@ namespace Files.App.ViewModels
 			}
 		}
 
-        public static Task AddNewTabAsync()
-            => AddNewTabByPathAsync(typeof(PaneHolderPage), "Home".GetLocalizedResource());
+		public static Task AddNewTabAsync()
+			=> AddNewTabByPathAsync(typeof(PaneHolderPage), "Home".GetLocalizedResource());
 
-        public void AddNewTab()
-            => AddNewTabAsync();
+		public void AddNewTab()
+			=> AddNewTabAsync();
 
 		public static async void AddNewTabAtIndex(object sender, RoutedEventArgs e)
 		{

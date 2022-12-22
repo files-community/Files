@@ -11,7 +11,6 @@ using Files.Shared.Enums;
 using Files.Shared.Extensions;
 using System;
 using System.Text.Json;
-using System.Threading;
 using System.Windows.Input;
 using Windows.Storage;
 using IO = System.IO;
@@ -21,10 +20,10 @@ namespace Files.App.ViewModels
 	public class FolderSettingsViewModel : ObservableObject
 	{
 		public static string LayoutSettingsDbPath => IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, "user_settings.db");
-		public static LayoutPrefsDb GetDbInstance()
-		{
-			return new LayoutPrefsDb(LayoutSettingsDbPath);
-		}
+
+		private static readonly Lazy<LayoutPrefsDb> dbInstance = new(() => new LayoutPrefsDb(LayoutSettingsDbPath, true));
+
+		public static LayoutPrefsDb GetDbInstance() => dbInstance.Value;
 
 		public event EventHandler<LayoutPreferenceEventArgs>? LayoutPreferencesUpdateRequired;
 
@@ -313,28 +312,31 @@ namespace Files.App.ViewModels
 			{
 				userSettingsService.FoldersSettingsService.DefaultLayoutMode = prefs.LayoutMode;
 				userSettingsService.LayoutSettingsService.DefaultGridViewSize = prefs.GridViewSize;
-				// Do not save OriginalPath as global sort option (only works in recycle bin)
+				// Do not save options which only work in recycle bin or cloud folders as global
 				if (prefs.DirectorySortOption != SortOption.OriginalFolder &&
 					prefs.DirectorySortOption != SortOption.DateDeleted &&
 					prefs.DirectorySortOption != SortOption.SyncStatus)
 				{
-					userSettingsService.LayoutSettingsService.DefaultDirectorySortOption = prefs.DirectorySortOption;
+					userSettingsService.FoldersSettingsService.DefaultSortOption = prefs.DirectorySortOption;
 				}
 				if (prefs.DirectoryGroupOption != GroupOption.OriginalFolder &&
 					prefs.DirectoryGroupOption != GroupOption.DateDeleted &&
 					prefs.DirectoryGroupOption != GroupOption.FolderPath &&
 					prefs.DirectoryGroupOption != GroupOption.SyncStatus)
 				{
-					userSettingsService.LayoutSettingsService.DefaultDirectoryGroupOption = prefs.DirectoryGroupOption;
+					userSettingsService.FoldersSettingsService.DefaultGroupOption = prefs.DirectoryGroupOption;
 				}
 				userSettingsService.LayoutSettingsService.DefaultDirectorySortDirection = prefs.DirectorySortDirection;
 				userSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles = prefs.SortDirectoriesAlongsideFiles;
-			   
+
 				userSettingsService.FoldersSettingsService.ShowDateColumn = !prefs.ColumnsViewModel.DateModifiedColumn.UserCollapsed;
 				userSettingsService.FoldersSettingsService.ShowDateCreatedColumn = !prefs.ColumnsViewModel.DateCreatedColumn.UserCollapsed;
 				userSettingsService.FoldersSettingsService.ShowTypeColumn = !prefs.ColumnsViewModel.ItemTypeColumn.UserCollapsed;
 				userSettingsService.FoldersSettingsService.ShowSizeColumn = !prefs.ColumnsViewModel.SizeColumn.UserCollapsed;
 				userSettingsService.FoldersSettingsService.ShowFileTagColumn = !prefs.ColumnsViewModel.TagColumn.UserCollapsed;
+				userSettingsService.FoldersSettingsService.ShowDateDeletedColumn = !prefs.ColumnsViewModel.DateDeletedColumn.UserCollapsed;
+				userSettingsService.FoldersSettingsService.ShowOriginalPathColumn = !prefs.ColumnsViewModel.OriginalPathColumn.UserCollapsed;
+				userSettingsService.FoldersSettingsService.ShowSyncStatusColumn = !prefs.ColumnsViewModel.StatusColumn.UserCollapsed;
 
 				userSettingsService.FoldersSettingsService.NameColumnWidth = prefs.ColumnsViewModel.NameColumn.UserLengthPixels;
 				userSettingsService.FoldersSettingsService.DateModifiedColumnWidth = prefs.ColumnsViewModel.DateModifiedColumn.UserLengthPixels;
@@ -342,6 +344,9 @@ namespace Files.App.ViewModels
 				userSettingsService.FoldersSettingsService.TypeColumnWidth = prefs.ColumnsViewModel.ItemTypeColumn.UserLengthPixels;
 				userSettingsService.FoldersSettingsService.SizeColumnWidth = prefs.ColumnsViewModel.SizeColumn.UserLengthPixels;
 				userSettingsService.FoldersSettingsService.TagColumnWidth = prefs.ColumnsViewModel.TagColumn.UserLengthPixels;
+				userSettingsService.FoldersSettingsService.DateDeletedColumnWidth = prefs.ColumnsViewModel.DateDeletedColumn.UserLengthPixels;
+				userSettingsService.FoldersSettingsService.OriginalPathColumnWidth = prefs.ColumnsViewModel.OriginalPathColumn.UserLengthPixels;
+				userSettingsService.FoldersSettingsService.SyncStatusColumnWidth = prefs.ColumnsViewModel.StatusColumn.UserLengthPixels;
 			}
 		}
 
@@ -359,7 +364,8 @@ namespace Files.App.ViewModels
 		{
 			if (string.IsNullOrEmpty(folderPath))
 				return null;
-			using var dbInstance = GetDbInstance();
+
+			var dbInstance = GetDbInstance();
 			return dbInstance.GetPreferences(folderPath, frn);
 		}
 
@@ -383,7 +389,7 @@ namespace Files.App.ViewModels
 			if (string.IsNullOrEmpty(folderPath))
 				return;
 
-			using var dbInstance = GetDbInstance();
+			var dbInstance = GetDbInstance();
 			if (dbInstance.GetPreferences(folderPath, frn) is null)
 			{
 				if (LayoutPreferences.DefaultLayoutPreferences.Equals(prefs))
@@ -510,12 +516,15 @@ namespace Files.App.ViewModels
 		public void SetDefaultLayoutPreferences(ColumnsViewModel columns)
 		{
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		   
+
 			userSettingsService.FoldersSettingsService.ShowDateColumn = !columns.DateModifiedColumn.UserCollapsed;
 			userSettingsService.FoldersSettingsService.ShowDateCreatedColumn = !columns.DateCreatedColumn.UserCollapsed;
 			userSettingsService.FoldersSettingsService.ShowTypeColumn = !columns.ItemTypeColumn.UserCollapsed;
 			userSettingsService.FoldersSettingsService.ShowSizeColumn = !columns.SizeColumn.UserCollapsed;
 			userSettingsService.FoldersSettingsService.ShowFileTagColumn = !columns.TagColumn.UserCollapsed;
+			userSettingsService.FoldersSettingsService.ShowDateDeletedColumn = !columns.DateDeletedColumn.UserCollapsed;
+			userSettingsService.FoldersSettingsService.ShowOriginalPathColumn = !columns.OriginalPathColumn.UserCollapsed;
+			userSettingsService.FoldersSettingsService.ShowSyncStatusColumn = !columns.StatusColumn.UserCollapsed;
 
 			userSettingsService.FoldersSettingsService.NameColumnWidth = columns.NameColumn.UserLengthPixels;
 			userSettingsService.FoldersSettingsService.DateModifiedColumnWidth = columns.DateModifiedColumn.UserLengthPixels;
@@ -523,6 +532,9 @@ namespace Files.App.ViewModels
 			userSettingsService.FoldersSettingsService.TypeColumnWidth = columns.ItemTypeColumn.UserLengthPixels;
 			userSettingsService.FoldersSettingsService.SizeColumnWidth = columns.SizeColumn.UserLengthPixels;
 			userSettingsService.FoldersSettingsService.TagColumnWidth = columns.TagColumn.UserLengthPixels;
+			userSettingsService.FoldersSettingsService.DateDeletedColumnWidth = columns.DateDeletedColumn.UserLengthPixels;
+			userSettingsService.FoldersSettingsService.OriginalPathColumnWidth = columns.OriginalPathColumn.UserLengthPixels;
+			userSettingsService.FoldersSettingsService.SyncStatusColumnWidth = columns.StatusColumn.UserLengthPixels;
 		}
 	}
 }

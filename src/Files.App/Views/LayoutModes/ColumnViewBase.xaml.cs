@@ -25,172 +25,172 @@ using Windows.UI.Core;
 using static Files.App.Constants;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 
-
 namespace Files.App.Views.LayoutModes
 {
     public sealed partial class ColumnViewBase : BaseLayout
     {
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-        protected override uint IconSize => Browser.ColumnViewBrowser.ColumnViewSizeSmall;
+		protected override uint IconSize => Browser.ColumnViewBrowser.ColumnViewSizeSmall;
 
-        protected override ItemsControl ItemsControl => FileList;
+		protected override ItemsControl ItemsControl => FileList;
 
-        private ColumnViewBrowser? columnsOwner;
-        private ListViewItem? openedFolderPresenter;
+    private ColumnViewBrowser? columnsOwner;
+    private ListViewItem? openedFolderPresenter;
 
-        public ColumnViewBase() : base()
+    public ColumnViewBase() : base()
+    {
+        this.InitializeComponent();
+        var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
+        selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
+        tapDebounceTimer = DispatcherQueue.CreateTimer();
+        this.ItemInvoked += ColumnViewBase_ItemInvoked;
+    }
+
+    private void ColumnViewBase_ItemInvoked(object? sender, EventArgs e)
+    {
+        if (openedFolderPresenter != null)
         {
-            this.InitializeComponent();
-            var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
-            selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
-            tapDebounceTimer = DispatcherQueue.CreateTimer();
-            this.ItemInvoked += ColumnViewBase_ItemInvoked;
+            openedFolderPresenter.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
+            var presenter = openedFolderPresenter.FindDescendant<Grid>()!;
+            presenter!.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
         }
+        openedFolderPresenter = FileList.ContainerFromItem(FileList.SelectedItem) as ListViewItem;
+    }
 
-        private void ColumnViewBase_ItemInvoked(object? sender, EventArgs e)
-        {
-            if (openedFolderPresenter != null)
-            {
-                openedFolderPresenter.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
-                var presenter = openedFolderPresenter.FindDescendant<Grid>()!;
-                presenter!.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
-            }
-            openedFolderPresenter = FileList.ContainerFromItem(FileList.SelectedItem) as ListViewItem;
-        }
 
-        protected override void HookEvents()
-        {
-            UnhookEvents();
-            ItemManipulationModel.FocusFileListInvoked += ItemManipulationModel_FocusFileListInvoked;
-            ItemManipulationModel.SelectAllItemsInvoked += ItemManipulationModel_SelectAllItemsInvoked;
-            ItemManipulationModel.ClearSelectionInvoked += ItemManipulationModel_ClearSelectionInvoked;
-            ItemManipulationModel.InvertSelectionInvoked += ItemManipulationModel_InvertSelectionInvoked;
-            ItemManipulationModel.AddSelectedItemInvoked += ItemManipulationModel_AddSelectedItemInvoked;
-            ItemManipulationModel.RemoveSelectedItemInvoked += ItemManipulationModel_RemoveSelectedItemInvoked;
-            ItemManipulationModel.FocusSelectedItemsInvoked += ItemManipulationModel_FocusSelectedItemsInvoked;
-            ItemManipulationModel.StartRenameItemInvoked += ItemManipulationModel_StartRenameItemInvoked;
-            ItemManipulationModel.ScrollIntoViewInvoked += ItemManipulationModel_ScrollIntoViewInvoked;
-        }
+		protected override void HookEvents()
+		{
+			UnhookEvents();
+			ItemManipulationModel.FocusFileListInvoked += ItemManipulationModel_FocusFileListInvoked;
+			ItemManipulationModel.SelectAllItemsInvoked += ItemManipulationModel_SelectAllItemsInvoked;
+			ItemManipulationModel.ClearSelectionInvoked += ItemManipulationModel_ClearSelectionInvoked;
+			ItemManipulationModel.InvertSelectionInvoked += ItemManipulationModel_InvertSelectionInvoked;
+			ItemManipulationModel.AddSelectedItemInvoked += ItemManipulationModel_AddSelectedItemInvoked;
+			ItemManipulationModel.RemoveSelectedItemInvoked += ItemManipulationModel_RemoveSelectedItemInvoked;
+			ItemManipulationModel.FocusSelectedItemsInvoked += ItemManipulationModel_FocusSelectedItemsInvoked;
+			ItemManipulationModel.StartRenameItemInvoked += ItemManipulationModel_StartRenameItemInvoked;
+			ItemManipulationModel.ScrollIntoViewInvoked += ItemManipulationModel_ScrollIntoViewInvoked;
+		}
 
-        private void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e)
-        {
-            try
-            {
-                FileList.ScrollIntoView(e, ScrollIntoViewAlignment.Default);
-            }
-            catch (Exception)
-            {
-                // Catch error where row index could not be found
-            }
-        }
+		private void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e)
+		{
+			try
+			{
+				FileList.ScrollIntoView(e, ScrollIntoViewAlignment.Default);
+			}
+			catch (Exception)
+			{
+				// Catch error where row index could not be found
+			}
+		}
 
-        private void ItemManipulationModel_StartRenameItemInvoked(object? sender, EventArgs e)
-        {
-            StartRenameItem();
-        }
+		private void ItemManipulationModel_StartRenameItemInvoked(object? sender, EventArgs e)
+		{
+			StartRenameItem();
+		}
 
-        private void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e)
-        {
-            FileList.ScrollIntoView(FileList.Items.Last());
-        }
+		private void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e)
+		{
+			FileList.ScrollIntoView(FileList.Items.Last());
+		}
 
-        private void ItemManipulationModel_AddSelectedItemInvoked(object? sender, ListedItem e)
-        {
-            FileList?.SelectedItems.Add(e);
-        }
+		private void ItemManipulationModel_AddSelectedItemInvoked(object? sender, ListedItem e)
+		{
+			FileList?.SelectedItems.Add(e);
+		}
 
-        private void ItemManipulationModel_RemoveSelectedItemInvoked(object? sender, ListedItem e)
-        {
-            FileList?.SelectedItems.Remove(e);
-        }
+		private void ItemManipulationModel_RemoveSelectedItemInvoked(object? sender, ListedItem e)
+		{
+			FileList?.SelectedItems.Remove(e);
+		}
 
-        private void ItemManipulationModel_InvertSelectionInvoked(object? sender, EventArgs e)
-        {
-            if (SelectedItems.Count < GetAllItems().Count() / 2)
-            {
-                var oldSelectedItems = SelectedItems.ToList();
-                ItemManipulationModel.SelectAllItems();
-                ItemManipulationModel.RemoveSelectedItems(oldSelectedItems);
-            }
-            else
-            {
-                List<ListedItem> newSelectedItems = GetAllItems()
-                    .Cast<ListedItem>()
-                    .Except(SelectedItems)
-                    .ToList();
+		private void ItemManipulationModel_InvertSelectionInvoked(object? sender, EventArgs e)
+		{
+			if (SelectedItems.Count < GetAllItems().Count() / 2)
+			{
+				var oldSelectedItems = SelectedItems.ToList();
+				ItemManipulationModel.SelectAllItems();
+				ItemManipulationModel.RemoveSelectedItems(oldSelectedItems);
+			}
+			else
+			{
+				List<ListedItem> newSelectedItems = GetAllItems()
+					.Cast<ListedItem>()
+					.Except(SelectedItems)
+					.ToList();
 
-                ItemManipulationModel.SetSelectedItems(newSelectedItems);
-            }
-        }
+				ItemManipulationModel.SetSelectedItems(newSelectedItems);
+			}
+		}
 
-        private void ItemManipulationModel_ClearSelectionInvoked(object? sender, EventArgs e)
-        {
-            FileList.SelectedItems.Clear();
-        }
+		private void ItemManipulationModel_ClearSelectionInvoked(object? sender, EventArgs e)
+		{
+			FileList.SelectedItems.Clear();
+		}
 
-        private void ItemManipulationModel_SelectAllItemsInvoked(object? sender, EventArgs e)
-        {
-            FileList.SelectAll();
-        }
+		private void ItemManipulationModel_SelectAllItemsInvoked(object? sender, EventArgs e)
+		{
+			FileList.SelectAll();
+		}
 
-        private void ItemManipulationModel_FocusFileListInvoked(object? sender, EventArgs e)
-        {
-            FileList.Focus(FocusState.Programmatic);
-        }
+		private void ItemManipulationModel_FocusFileListInvoked(object? sender, EventArgs e)
+		{
+			FileList.Focus(FocusState.Programmatic);
+		}
 
-        private void ZoomIn(object? sender, GroupOption option)
-        {
-            if (option == GroupOption.None)
-                RootGridZoom.IsZoomedInViewActive = true;
-        }
+		private void ZoomIn(object? sender, GroupOption option)
+		{
+			if (option == GroupOption.None)
+				RootGridZoom.IsZoomedInViewActive = true;
+		}
 
-        protected override void UnhookEvents()
-        {
-            if (ItemManipulationModel is null)
-                return;
+		protected override void UnhookEvents()
+		{
+			if (ItemManipulationModel is null)
+				return;
 
-            ItemManipulationModel.FocusFileListInvoked -= ItemManipulationModel_FocusFileListInvoked;
-            ItemManipulationModel.SelectAllItemsInvoked -= ItemManipulationModel_SelectAllItemsInvoked;
-            ItemManipulationModel.ClearSelectionInvoked -= ItemManipulationModel_ClearSelectionInvoked;
-            ItemManipulationModel.InvertSelectionInvoked -= ItemManipulationModel_InvertSelectionInvoked;
-            ItemManipulationModel.AddSelectedItemInvoked -= ItemManipulationModel_AddSelectedItemInvoked;
-            ItemManipulationModel.RemoveSelectedItemInvoked -= ItemManipulationModel_RemoveSelectedItemInvoked;
-            ItemManipulationModel.FocusSelectedItemsInvoked -= ItemManipulationModel_FocusSelectedItemsInvoked;
-            ItemManipulationModel.StartRenameItemInvoked -= ItemManipulationModel_StartRenameItemInvoked;
-            ItemManipulationModel.ScrollIntoViewInvoked -= ItemManipulationModel_ScrollIntoViewInvoked;
-        }
+			ItemManipulationModel.FocusFileListInvoked -= ItemManipulationModel_FocusFileListInvoked;
+			ItemManipulationModel.SelectAllItemsInvoked -= ItemManipulationModel_SelectAllItemsInvoked;
+			ItemManipulationModel.ClearSelectionInvoked -= ItemManipulationModel_ClearSelectionInvoked;
+			ItemManipulationModel.InvertSelectionInvoked -= ItemManipulationModel_InvertSelectionInvoked;
+			ItemManipulationModel.AddSelectedItemInvoked -= ItemManipulationModel_AddSelectedItemInvoked;
+			ItemManipulationModel.RemoveSelectedItemInvoked -= ItemManipulationModel_RemoveSelectedItemInvoked;
+			ItemManipulationModel.FocusSelectedItemsInvoked -= ItemManipulationModel_FocusSelectedItemsInvoked;
+			ItemManipulationModel.StartRenameItemInvoked -= ItemManipulationModel_StartRenameItemInvoked;
+			ItemManipulationModel.ScrollIntoViewInvoked -= ItemManipulationModel_ScrollIntoViewInvoked;
+		}
 
-        public event EventHandler? ItemInvoked;
+		public event EventHandler? ItemInvoked;
 
-        protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
-        {
-            if (eventArgs.Parameter is NavigationArguments navArgs)
-            {
-                navArgs.FocusOnNavigation = (navArgs.AssociatedTabInstance as ColumnShellPage)?.ColumnParams?.Column == 0; // Focus filelist only if first column
-                columnsOwner = (navArgs.AssociatedTabInstance as FrameworkElement)?.FindAscendant<ColumnViewBrowser>();
-            }
+    protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
+    {
+      if (eventArgs.Parameter is NavigationArguments navArgs)
+      {
+          navArgs.FocusOnNavigation = (navArgs.AssociatedTabInstance as ColumnShellPage)?.ColumnParams?.Column == 0; // Focus filelist only if first column
+          columnsOwner = (navArgs.AssociatedTabInstance as FrameworkElement)?.FindAscendant<ColumnViewBrowser>();
+      }
 
-            base.OnNavigatedTo(eventArgs);
+			base.OnNavigatedTo(eventArgs);
 
-            FolderSettings.GroupOptionPreferenceUpdated -= ZoomIn;
-            FolderSettings.GroupOptionPreferenceUpdated += ZoomIn;
-        }
+			FolderSettings.GroupOptionPreferenceUpdated -= ZoomIn;
+			FolderSettings.GroupOptionPreferenceUpdated += ZoomIn;
+		}
 
-        protected override void InitializeCommandsViewModel()
-        {
-            CommandsViewModel = new BaseLayoutCommandsViewModel(new BaseLayoutCommandImplementationModel(ParentShellPageInstance, ItemManipulationModel));
-        }
+		protected override void InitializeCommandsViewModel()
+		{
+			CommandsViewModel = new BaseLayoutCommandsViewModel(new BaseLayoutCommandImplementationModel(ParentShellPageInstance, ItemManipulationModel));
+		}
 
-        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
-        {
-            base.OnNavigatingFrom(e);
-        }
+		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+		{
+			base.OnNavigatingFrom(e);
+		}
 
-        private void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
-        {
-            FileList.Focus(FocusState.Programmatic);
-        }
+		private void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
+		{
+			FileList.Focus(FocusState.Programmatic);
+		}
 
         private async void ReloadItemIcons()
         {
@@ -220,370 +220,369 @@ namespace Files.App.Views.LayoutModes
             textBlock.Visibility = Visibility.Collapsed;
             textBox.Visibility = Visibility.Visible;
 
-            textBox.Focus(FocusState.Pointer);
-            textBox.LostFocus += RenameTextBox_LostFocus;
-            textBox.KeyDown += RenameTextBox_KeyDown;
+			textBox.Focus(FocusState.Pointer);
+			textBox.LostFocus += RenameTextBox_LostFocus;
+			textBox.KeyDown += RenameTextBox_KeyDown;
 
-            int selectedTextLength = SelectedItem.Name.Length;
-            if (!SelectedItem.IsShortcut && UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
-                selectedTextLength -= extensionLength;
-            textBox.Select(0, selectedTextLength);
-            IsRenamingItem = true;
-        }
+			int selectedTextLength = SelectedItem.Name.Length;
+			if (!SelectedItem.IsShortcut && UserSettingsService.PreferencesSettingsService.ShowFileExtensions)
+				selectedTextLength -= extensionLength;
+			textBox.Select(0, selectedTextLength);
+			IsRenamingItem = true;
+		}
 
-        private void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
+		private void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
+		{
+			if (IsRenamingItem)
+			{
+				ValidateItemNameInputText(textBox, args, (showError) =>
+				{
+					FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
+					FileNameTeachingTip.IsOpen = showError;
+				});
+			}
+		}
+
+		private void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
+		{
+			if (e.Key == VirtualKey.Escape)
+			{
+				TextBox textBox = (TextBox)sender;
+				textBox.LostFocus -= RenameTextBox_LostFocus;
+				textBox.Text = OldItemName;
+				EndRename(textBox);
+				e.Handled = true;
+			}
+			else if (e.Key == VirtualKey.Enter)
+			{
+				TextBox textBox = (TextBox)sender;
+				textBox.LostFocus -= RenameTextBox_LostFocus;
+				CommitRename(textBox);
+				e.Handled = true;
+			}
+		}
+
+		private void RenameTextBox_LostFocus(object sender, RoutedEventArgs e)
+		{
+			// This check allows the user to use the text box context menu without ending the rename
+			if (!(FocusManager.GetFocusedElement() is AppBarButton or Popup))
+			{
+				TextBox textBox = (TextBox)e.OriginalSource;
+				CommitRename(textBox);
+			}
+		}
+
+		private async void CommitRename(TextBox textBox)
+		{
+			EndRename(textBox);
+			string newItemName = textBox.Text.Trim().TrimEnd('.');
+			await UIFilesystemHelpers.RenameFileItemAsync(RenamingItem, newItemName, ParentShellPageInstance);
+		}
+
+		private void EndRename(TextBox textBox)
+		{
+			if (textBox is null || textBox.Parent is null)
+			{
+				// Navigating away, do nothing
+			}
+			else
+			{
+				// Re-focus selected list item
+				ListViewItem? listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
+				listViewItem?.Focus(FocusState.Programmatic);
+
+				TextBlock? textBlock = listViewItem?.FindDescendant("ItemName") as TextBlock;
+				textBox!.Visibility = Visibility.Collapsed;
+				textBlock!.Visibility = Visibility.Visible;
+			}
+
+			textBox!.LostFocus -= RenameTextBox_LostFocus;
+			textBox.KeyDown -= RenameTextBox_KeyDown;
+			FileNameTeachingTip.IsOpen = false;
+			IsRenamingItem = false;
+		}
+
+		public override void ResetItemOpacity()
+		{
+			// throw new NotImplementedException();
+		}
+
+		protected override bool CanGetItemFromElement(object element)
+			=> element is ListViewItem;
+
+		#region IDisposable
+
+    public override void Dispose()
+    {
+        base.Dispose();
+        UnhookEvents();
+        CommandsViewModel?.Dispose();
+        columnsOwner = null;
+    }
+
+		#endregion IDisposable
+
+		private async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
+
+      if (SelectedItems.Count == 1 && App.AppModel.IsQuickLookAvailable)
+          await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance, true);
+
+      if (e != null)
+      {
+        if (e.AddedItems.Count > 0)
         {
-            if (IsRenamingItem)
-            {
-                ValidateItemNameInputText(textBox, args, (showError) =>
-                {
-                    FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
-                    FileNameTeachingTip.IsOpen = showError;
-                });
-            }
+            columnsOwner?.HandleSelectionChange(this);
         }
 
-        private void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
+        if (e.RemovedItems.Count > 0)
         {
-            if (e.Key == VirtualKey.Escape)
-            {
-                TextBox textBox = (TextBox)sender;
-                textBox.LostFocus -= RenameTextBox_LostFocus;
-                textBox.Text = OldItemName;
-                EndRename(textBox);
-                e.Handled = true;
-            }
-            else if (e.Key == VirtualKey.Enter)
-            {
-                TextBox textBox = (TextBox)sender;
-                textBox.LostFocus -= RenameTextBox_LostFocus;
-                CommitRename(textBox);
-                e.Handled = true;
-            }
+          if (openedFolderPresenter != null)
+          {
+              var presenter = openedFolderPresenter.FindDescendant<Grid>()!;
+              presenter!.Background = this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush;
+          }
         }
+      }
+    }
 
-        private void RenameTextBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            // This check allows the user to use the text box context menu without ending the rename
-            if (!(FocusManager.GetFocusedElement() is AppBarButton or Popup))
-            {
-                TextBox textBox = (TextBox)e.OriginalSource;
-                CommitRename(textBox);
-            }
-        }
 
-        private async void CommitRename(TextBox textBox)
-        {
-            EndRename(textBox);
-            string newItemName = textBox.Text.Trim().TrimEnd('.');
-            await UIFilesystemHelpers.RenameFileItemAsync(RenamingItem, newItemName, ParentShellPageInstance);
-        }
+		private void FileList_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		{
+			if (!IsRenamingItem)
+				HandleRightClick(sender, e);
+		}
 
-        private void EndRename(TextBox textBox)
-        {
-            if (textBox is null || textBox.Parent is null)
-            {
-                // Navigating away, do nothing
-            }
-            else
-            {
-                // Re-focus selected list item
-                ListViewItem? listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
-                listViewItem?.Focus(FocusState.Programmatic);
+		private void HandleRightClick(object sender, RightTappedRoutedEventArgs e)
+		{
+			var objectPressed = ((FrameworkElement)e.OriginalSource).DataContext as ListedItem;
+			if (objectPressed is not null)
+				return;
+			// Check if RightTapped row is currently selected
+			if (IsItemSelected)
+			{
+				if (SelectedItems.Contains(objectPressed))
+					return;
+			}
 
-                TextBlock? textBlock = listViewItem?.FindDescendant("ItemName") as TextBlock;
-                textBox!.Visibility = Visibility.Collapsed;
-                textBlock!.Visibility = Visibility.Visible;
-            }
+			// The following code is only reachable when a user RightTapped an unselected row
+			ItemManipulationModel.SetSelectedItem(objectPressed);
+		}
 
-            textBox!.LostFocus -= RenameTextBox_LostFocus;
-            textBox.KeyDown -= RenameTextBox_KeyDown;
-            FileNameTeachingTip.IsOpen = false;
-            IsRenamingItem = false;
-        }
+		private DispatcherQueueTimer tapDebounceTimer;
 
-        public override void ResetItemOpacity()
-        {
-            // throw new NotImplementedException();
-        }
+		private void FileList_PreviewKeyUp(object sender, KeyRoutedEventArgs e)
+		{
+			// Open selected directory
+			tapDebounceTimer.Stop();
+			if (IsItemSelected && SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
+			{
+				var currItem = SelectedItem;
+				tapDebounceTimer.Debounce(() =>
+				{
+					if (currItem == SelectedItem)
+						ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
+					tapDebounceTimer.Stop();
+				}, TimeSpan.FromMilliseconds(200));
+			}
+		}
 
-        protected override bool CanGetItemFromElement(object element)
-            => element is ListViewItem;
+		private async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+		{
+			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 
-        #region IDisposable
+			if (e.Key == VirtualKey.Enter && !e.KeyStatus.IsMenuKeyDown)
+			{
+				if (IsRenamingItem)
+					return;
 
-        public override void Dispose()
-        {
-            base.Dispose();
-            UnhookEvents();
-            CommandsViewModel?.Dispose();
-            columnsOwner = null;
-        }
+				if (IsItemSelected && SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
+					ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
+				else
+					_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
 
-        #endregion IDisposable
+				e.Handled = true;
+			}
+			else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
+			{
+				FilePropertiesHelpers.ShowProperties(ParentShellPageInstance);
+				e.Handled = true;
+			}
+			else if (e.Key == VirtualKey.Space)
+			{
+				if (!IsRenamingItem && !ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
+				{
+					e.Handled = true;
+					await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
+				}
+			}
+			else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
+			{
+				// Unfocus the GridView so keyboard shortcut can be handled
+				NavToolbar?.Focus(FocusState.Pointer);
+			}
+			else if (e.KeyStatus.IsMenuKeyDown && shiftPressed && e.Key == VirtualKey.Add)
+			{
+				// Unfocus the ListView so keyboard shortcut can be handled (alt + shift + "+")
+				NavToolbar?.Focus(FocusState.Pointer);
+			}
+			else if (e.Key == VirtualKey.Up || e.Key == VirtualKey.Down)
+			{
+				// If list has only one item, select it on arrow down/up (#5681)
+				if (!IsItemSelected)
+				{
+					FileList.SelectedIndex = 0;
+					e.Handled = true;
+				}
+			}
+			else if (e.Key == VirtualKey.Left) // Left arrow: select parent folder (previous column)
+			{
+				if (IsRenamingItem || (ParentShellPageInstance is not null && ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled) )
+					return;
 
-        private async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
+				var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
+				this.FindAscendant<ColumnViewBrowser>()?.MoveFocusToPreviousBlade(currentBladeIndex);
+				e.Handled = true;
+			}
+			else if (e.Key == VirtualKey.Right) // Right arrow: switch focus to next column
+			{
+				if (IsRenamingItem || (ParentShellPageInstance is not null && ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)) 
+					return;
 
-            if (SelectedItems.Count == 1 && App.AppModel.IsQuickLookAvailable)
-                await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance, true);
+				var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
+				this.FindAscendant<ColumnViewBrowser>()?.MoveFocusToNextBlade(currentBladeIndex + 1);
+				e.Handled = true;
+			}
+		}
 
-            if (e != null)
-            {
-                if (e.AddedItems.Count > 0)
-                {
-                    columnsOwner?.HandleSelectionChange(this);
-                }
+		protected override void Page_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
+		{
+			if (ParentShellPageInstance is null)
+				return;
 
-                if (e.RemovedItems.Count > 0)
-                {
-                    if (openedFolderPresenter != null)
-                    {
-                        var presenter = openedFolderPresenter.FindDescendant<Grid>()!;
-                        presenter!.Background = this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush;
-                    }
-                }
-            }
-        }
+			if (ParentShellPageInstance.CurrentPageType != typeof(ColumnViewBase) || IsRenamingItem)
+				return;
 
-        private void FileList_RightTapped(object sender, RightTappedRoutedEventArgs e)
-        {
-            if (!IsRenamingItem)
-                HandleRightClick(sender, e);
-        }
+			// Don't block the various uses of enter key (key 13)
+			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement();
 
-        private void HandleRightClick(object sender, RightTappedRoutedEventArgs e)
-        {
-            var objectPressed = ((FrameworkElement)e.OriginalSource).DataContext as ListedItem;
-            if (objectPressed is not null)
-                return;
-            // Check if RightTapped row is currently selected
-            if (IsItemSelected)
-            {
-                if (SelectedItems.Contains(objectPressed))
-                    return;
-            }
+			if
+			(
+				InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Enter) == CoreVirtualKeyStates.Down ||
+				focusedElement is Button ||
+				focusedElement is TextBox ||
+				focusedElement is PasswordBox ||
+				DependencyObjectHelpers.FindParent<ContentDialog>(focusedElement) is not null
+			)
+				return;
 
-            // The following code is only reachable when a user RightTapped an unselected row
-            ItemManipulationModel.SetSelectedItem(objectPressed);
-        }
+			base.Page_CharacterReceived(sender, args);
+		}
 
-        private DispatcherQueueTimer tapDebounceTimer;
+		private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+		{
+			var clickedItem = e.OriginalSource as FrameworkElement;
 
-        private void FileList_PreviewKeyUp(object sender, KeyRoutedEventArgs e)
-        {
-            // Open selected directory
-            tapDebounceTimer.Stop();
-            if (IsItemSelected && SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
-            {
-                var currItem = SelectedItem;
-                tapDebounceTimer.Debounce(() =>
-                {
-                    if (currItem == SelectedItem)
-                        ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
-                    tapDebounceTimer.Stop();
-                }, TimeSpan.FromMilliseconds(200));
-            }
-        }
+			if (clickedItem?.DataContext is ListedItem item)
+			{
+				switch (item.PrimaryItemAttribute)
+				{
+					case StorageItemTypes.File:
+						if (!UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
+							_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+						break;
+					case StorageItemTypes.Folder:
+						if (!UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
+							ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
+						break;
+					default:
+						ParentShellPageInstance.Up_Click();
+						break;
+				}
+			}
+			else
+			{
+				ParentShellPageInstance.Up_Click();
+			}
 
-        private async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
-        {
-            var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-            var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+			ResetRenameDoubleClick();
+		}
 
-            if (e.Key == VirtualKey.Enter && !e.KeyStatus.IsMenuKeyDown)
-            {
-                if (IsRenamingItem)
-                    return;
+		private void FileList_Holding(object sender, HoldingRoutedEventArgs e)
+		{
+			HandleRightClick(sender, e);
+		}
 
-                if (IsItemSelected && SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
-                    ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
-                else
-                    NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+		private void HandleRightClick(object sender, HoldingRoutedEventArgs e)
+		{
+			var objectPressed = ((FrameworkElement)e.OriginalSource).DataContext as ListedItem;
 
-                e.Handled = true;
-            }
-            else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
-            {
-                FilePropertiesHelpers.ShowProperties(ParentShellPageInstance);
-                e.Handled = true;
-            }
-            else if (e.Key == VirtualKey.Space)
-            {
-                if (!IsRenamingItem && !ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
-                {
-                    e.Handled = true;
-                    await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
-                }
-            }
-            else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
-            {
-                // Unfocus the GridView so keyboard shortcut can be handled
-                NavToolbar?.Focus(FocusState.Pointer);
-            }
-            else if (e.KeyStatus.IsMenuKeyDown && shiftPressed && e.Key == VirtualKey.Add)
-            {
-                // Unfocus the ListView so keyboard shortcut can be handled (alt + shift + "+")
-                NavToolbar?.Focus(FocusState.Pointer);
-            }
-            else if (e.Key == VirtualKey.Up || e.Key == VirtualKey.Down)
-            {
-                // If list has only one item, select it on arrow down/up (#5681)
-                if (!IsItemSelected)
-                {
-                    FileList.SelectedIndex = 0;
-                    e.Handled = true;
-                }
-            }
-            else if (e.Key == VirtualKey.Left) // Left arrow: select parent folder (previous column)
-            {
-                if (!IsRenamingItem && !ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
-                {
-                    if ((ParentShellPageInstance as ColumnShellPage)?.ColumnParams.Column > 0)
-                        FocusManager.TryMoveFocus(FocusNavigationDirection.Previous);
-                    e.Handled = true;
-                }
-            }
-            else if (e.Key == VirtualKey.Right) // Right arrow: switch focus to next column
-            {
-                if (!IsRenamingItem && !ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
-                {
-                    FocusManager.TryMoveFocus(FocusNavigationDirection.Next);
-                    e.Handled = true;
-                }
-            }
-        }
+			if (objectPressed is not null)
+				return;
 
-        protected override void Page_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
-        {
-            if (ParentShellPageInstance is null)
-                return;
+			// Check if RightTapped row is currently selected
+			if (IsItemSelected)
+			{
+				if (SelectedItems.Contains(objectPressed))
+					return;
+			}
 
-            if (ParentShellPageInstance.CurrentPageType != typeof(ColumnViewBase) || IsRenamingItem)
-                return;
+			// The following code is only reachable when a user RightTapped an unselected row
+			ItemManipulationModel.SetSelectedItem(objectPressed);
+		}
 
-            // Don't block the various uses of enter key (key 13)
-            var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement();
+		private void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
+		{
+			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+			var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
 
-            if
-            (
-                Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Enter) == CoreVirtualKeyStates.Down ||
-                focusedElement is Button ||
-                focusedElement is TextBox ||
-                focusedElement is PasswordBox ||
-                DependencyObjectHelpers.FindParent<ContentDialog>(focusedElement) is not null
-            )
-                return;
 
-            base.Page_CharacterReceived(sender, args);
-        }
+			// Allow for Ctrl+Shift selection
+			if (ctrlPressed || shiftPressed)
+				return;
 
-        private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
-        {
-            var clickedItem = e.OriginalSource as FrameworkElement;
+			// Check if the setting to open items with a single click is turned on
+			if (item is not null
+				&& (UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File))
+			{
+				ResetRenameDoubleClick();
+				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+			}
+			else
+			{
+				var clickedItem = e.OriginalSource as FrameworkElement;
+				if (clickedItem is TextBlock textBlock && textBlock.Name == "ItemName")
+				{
+					CheckRenameDoubleClick(clickedItem.DataContext);
+				}
+				else if (IsRenamingItem)
+				{
+					if (FileList.ContainerFromItem(RenamingItem) is ListViewItem listViewItem
+						&& listViewItem.FindDescendant("ListViewTextBoxItemName") is TextBox textBox)
+					{
+						CommitRename(textBox);
+					}
+				}
+				if (item is not null && item.PrimaryItemAttribute == StorageItemTypes.Folder &&
+					UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
+				{
+					ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
+				}
+			}
+		}
 
-            if (clickedItem?.DataContext is ListedItem item)
-            {
-                switch (item.PrimaryItemAttribute)
-                {
-                    case StorageItemTypes.File:
-                        if (!UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
-                        {
-                            NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
-                        }
-                        break;
-                    case StorageItemTypes.Folder:
-                        if (!UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
-                        {
-                            ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
-                        }
-                        break;
-                    default:
-                        ParentShellPageInstance.Up_Click();
-                        break;
-                }
-            }
-            else
-            {
-                ParentShellPageInstance.Up_Click();
-            }
+		private void Grid_Loaded(object sender, RoutedEventArgs e)
+		{
+			var itemContainer = (sender as Grid)?.FindAscendant<ListViewItem>();
 
-            ResetRenameDoubleClick();
-        }
+			if (itemContainer is null)
+				return;
 
-        private void FileList_Holding(object sender, HoldingRoutedEventArgs e)
-        {
-            HandleRightClick(sender, e);
-        }
-
-        private void HandleRightClick(object sender, HoldingRoutedEventArgs e)
-        {
-            var objectPressed = ((FrameworkElement)e.OriginalSource).DataContext as ListedItem;
-
-            if (objectPressed is not null)
-                return;
-
-            // Check if RightTapped row is currently selected
-            if (IsItemSelected)
-            {
-                if (SelectedItems.Contains(objectPressed))
-                    return;
-            }
-
-            // The following code is only reachable when a user RightTapped an unselected row
-            ItemManipulationModel.SetSelectedItem(objectPressed);
-        }
-
-        private void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
-        {
-            var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-            var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-            var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
-
-            // Allow for Ctrl+Shift selection
-            if (ctrlPressed || shiftPressed)
-                return;
-
-            // Check if the setting to open items with a single click is turned on
-            if (item is not null
-                && (UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File))
-            {
-                ResetRenameDoubleClick();
-                NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
-            }
-            else
-            {
-                var clickedItem = e.OriginalSource as FrameworkElement;
-                if (clickedItem is TextBlock textBlock && textBlock.Name == "ItemName")
-                {
-                    CheckRenameDoubleClick(clickedItem.DataContext);
-                }
-                else if (IsRenamingItem)
-                {
-                    if (FileList.ContainerFromItem(RenamingItem) is ListViewItem listViewItem
-                        && listViewItem.FindDescendant("ListViewTextBoxItemName") is TextBox textBox)
-                    {
-                        CommitRename(textBox);
-                    }
-                }
-                if (item is not null && item.PrimaryItemAttribute == StorageItemTypes.Folder &&
-                    UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
-                {
-                    ItemInvoked?.Invoke(new ColumnParam { NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
-                }
-            }
-        }
-
-        private void Grid_Loaded(object sender, RoutedEventArgs e)
-        {
-            var itemContainer = (sender as Grid)?.FindAscendant<ListViewItem>();
-
-            if (itemContainer is null)
-                return;
-
-            itemContainer.ContextFlyout = ItemContextMenuFlyout;
-        }
+			itemContainer.ContextFlyout = ItemContextMenuFlyout;
+		}
 
         protected override void BaseFolderSettings_LayoutModeChangeRequested(object sender, LayoutModeEventArgs e)
         {

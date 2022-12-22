@@ -3,7 +3,6 @@ using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
 using Files.Shared.EventArguments;
 using Microsoft.AppCenter.Analytics;
-using System;
 
 namespace Files.App.ServicesImplementation.Settings
 {
@@ -29,7 +28,7 @@ namespace Files.App.ServicesImplementation.Settings
 
 		public double TagColumnWidth
 		{
-			get => Get(200d);
+			get => Get(140d);
 			set
 			{
 				if (ShowFileTagColumn)
@@ -39,7 +38,7 @@ namespace Files.App.ServicesImplementation.Settings
 
 		public double NameColumnWidth
 		{
-			get => Get(200d);
+			get => Get(240d);
 			set => Set(value);
 		}
 
@@ -55,7 +54,7 @@ namespace Files.App.ServicesImplementation.Settings
 
 		public double TypeColumnWidth
 		{
-			get => Get(200d);
+			get => Get(140d);
 			set
 			{
 				if (ShowTypeColumn)
@@ -75,10 +74,40 @@ namespace Files.App.ServicesImplementation.Settings
 
 		public double SizeColumnWidth
 		{
-			get => Get(200d);
+			get => Get(140d);
 			set
 			{
 				if (ShowSizeColumn)
+					Set(value);
+			}
+		}
+
+		public double DateDeletedColumnWidth
+		{
+			get => Get(200d);
+			set
+			{
+				if (ShowDateDeletedColumn)
+					Set(value);
+			}
+		}
+
+		public double OriginalPathColumnWidth
+		{
+			get => Get(200d);
+			set
+			{
+				if (ShowOriginalPathColumn)
+					Set(value);
+			}
+		}
+
+		public double SyncStatusColumnWidth
+		{
+			get => Get(50d);
+			set
+			{
+				if (ShowSyncStatusColumn)
 					Set(value);
 			}
 		}
@@ -108,6 +137,24 @@ namespace Files.App.ServicesImplementation.Settings
 		}
 
 		public bool ShowFileTagColumn
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowDateDeletedColumn
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowOriginalPathColumn
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowSyncStatusColumn
 		{
 			get => Get(true);
 			set => Set(value);
@@ -160,6 +207,19 @@ namespace Files.App.ServicesImplementation.Settings
 			get => Get(false);
 			set => Set(value);
 		}
+
+		public SortOption DefaultSortOption
+		{
+			get => (SortOption)Get((long)SortOption.Name);
+			set => Set((long)value);
+		}
+
+		public GroupOption DefaultGroupOption
+		{
+			get => (GroupOption)Get((long)GroupOption.None);
+			set => Set((long)value);
+		}
+
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			switch (e.SettingName)

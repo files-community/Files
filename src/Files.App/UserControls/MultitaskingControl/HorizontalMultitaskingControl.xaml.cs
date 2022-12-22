@@ -1,12 +1,13 @@
+using Files.App.Extensions;
 using Files.App.Helpers;
 using Files.App.ViewModels;
-using Files.App.Extensions;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Shapes;
 using System;
 using System.Linq;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
-using Microsoft.UI.Xaml;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -24,14 +25,9 @@ namespace Files.App.UserControls.MultitaskingControl
 			tabHoverTimer.Tick += TabHoverSelected;
 
 			var flowDirectionSetting = new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
-			if (flowDirectionSetting == "RTL")
-			{
-				RightPaddingColumn.Width = new GridLength(App.GetAppWindow(App.Window).TitleBar.LeftInset);
-			}
-			else
-			{
-				RightPaddingColumn.Width = new GridLength(App.GetAppWindow(App.Window).TitleBar.RightInset);
-			}
+
+			var appWindowTitleBar = App.GetAppWindow(App.Window).TitleBar;
+			RightPaddingColumn.Width = (flowDirectionSetting == "RTL") ? new GridLength(appWindowTitleBar.LeftInset) : new GridLength(appWindowTitleBar.RightInset);
 		}
 
 		private void HorizontalTabView_TabItemsChanged(TabView sender, Windows.Foundation.Collections.IVectorChangedEventArgs args)
@@ -237,6 +233,6 @@ namespace Files.App.UserControls.MultitaskingControl
 		public static readonly DependencyProperty TabStripVisibilityProperty =
 			DependencyProperty.Register("TabStripVisibility", typeof(Visibility), typeof(HorizontalMultitaskingControl), new PropertyMetadata(Visibility.Visible));
 
-		public Grid DragArea => DragAreaGrid;
+		public Rectangle DragArea => DragAreaRectangle;
 	}
 }

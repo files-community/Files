@@ -9,9 +9,7 @@
     that is mostly human readable. The generation and parsing of the
     various data types are done through the TypeConverter classes
     associated with the data types.
-
     Example:
-
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,7 +24,6 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-
     There are any number of "resheader" rows that contain simple
     name/value pairs.
 
@@ -43,12 +40,10 @@
     Note - application/x-microsoft.net.object.binary.base64 is the format
     that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-
     mimetype: application/x-microsoft.net.object.soap.base64
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
@@ -344,9 +339,6 @@
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Um loslegen zu können, müssen Sie uns die Erlaubnis geben, Ihre Dateien anzeigen zu dürfen. Es wird eine Einstellungensseite geöffnet, auf der Sie diese Erlaubnis erteilen können. Wenn Sie diesen Schritt erledigt haben, müssen Sie die Anwendung neustarten.</value>
-  </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Dateiordner</value>
   </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Datei</value>
@@ -815,12 +807,6 @@
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Sprache</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>Terminal-Anwendung</value>
-  </data>
-  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>Terminal-Anwendung ändern</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Einträge in ein Untermenü verschieben, wenn das Kontextmenü überläuft</value>
@@ -2013,8 +1999,8 @@
   <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>Dokumentation anzeigen.</value>
   </data>
-  <data name="DecompressArchiveDialog.Title" xml:space="preserve">
-    <value>Zielort auswählen und Dateien entpacken</value>
+  <data name="ExtractArchive" xml:space="preserve">
+    <value>Archiv extrahieren</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>Zielordner nach Abschluss öffnen</value>
@@ -2426,9 +2412,6 @@
   </data>
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Windows Subsystem for Linux (WSL) anzeigen</value>
-  </data>
-  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Terminal-Anwendung</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Laufende Aufgaben</value>
@@ -2853,7 +2836,103 @@
   <data name="DeleteShortcutDescription" xml:space="preserve">
     <value>Das Ziel {0} konnte nicht gefunden werden. Möchten Sie diese Verknüpfung löschen?</value>
   </data>
+  <data name="AccessDeniedToFolder" xml:space="preserve">
+    <value>Sie haben keine Berechtigung für den Zugriff auf diesen Ordner.</value>
+  </data>
   <data name="LoadingThemes" xml:space="preserve">
     <value>Themen werden geladen</value>
+  </data>
+  <data name="EmptyingRecycleBin" xml:space="preserve">
+    <value>Papierkorb wird geleert</value>
+  </data>
+  <data name="BinEmptyingSucceded" xml:space="preserve">
+    <value>Papierkorb erfolgreich geleert</value>
+  </data>
+  <data name="BinEmptyingFailed" xml:space="preserve">
+    <value>Fehler beim Leeren des Papierkorbs</value>
+  </data>
+  <data name="ArchivePassword" xml:space="preserve">
+    <value>Archiv-Passwort</value>
+  </data>
+  <data name="ExtractToPath" xml:space="preserve">
+    <value>Pfad</value>
+  </data>
+  <data name="SortingAndGrouping" xml:space="preserve">
+    <value>Sortierung und Gruppierung</value>
+  </data>
+  <data name="Archive" xml:space="preserve">
+    <value>Archiv</value>
+  </data>
+  <data name="CreateArchive" xml:space="preserve">
+    <value>Archiv erstellen</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Erstellen</value>
+  </data>
+  <data name="CreateNamedArchive" xml:space="preserve">
+    <value>{0} erstellen</value>
+  </data>
+  <data name="EnterName" xml:space="preserve">
+    <value>Name eingeben</value>
+  </data>
+  <data name="CompressionLevel" xml:space="preserve">
+    <value>Komprimierungsstufe</value>
+  </data>
+  <data name="CompressionLevelUltra" xml:space="preserve">
+    <value>Ultra</value>
+  </data>
+  <data name="CompressionLevelHigh" xml:space="preserve">
+    <value>Hoch</value>
+  </data>
+  <data name="CompressionLevelNormal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="CompressionLevelLow" xml:space="preserve">
+    <value>Niedrig</value>
+  </data>
+  <data name="CompressionLevelFast" xml:space="preserve">
+    <value>Schnell</value>
+  </data>
+  <data name="CompressionLevelNone" xml:space="preserve">
+    <value>Keine</value>
+  </data>
+  <data name="SplitArchive" xml:space="preserve">
+    <value>Archiv aufteilen</value>
+  </data>
+  <data name="SplittingSize" xml:space="preserve">
+    <value>Aufteilungsgröße</value>
+  </data>
+  <data name="Do not split" xml:space="preserve">
+    <value>Nicht aufteilen</value>
+  </data>
+  <data name="CD" xml:space="preserve">
+    <value>CD</value>
+  </data>
+  <data name="DVD" xml:space="preserve">
+    <value>DVD</value>
+  </data>
+  <data name="FAT" xml:space="preserve">
+    <value>FAT</value>
+  </data>
+  <data name="Bluray" xml:space="preserve">
+    <value>Blu-ray</value>
+  </data>
+  <data name="Encryption" xml:space="preserve">
+    <value>Verschlüsselung</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Passwort</value>
+  </data>
+  <data name="Format" xml:space="preserve">
+    <value>Format</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowSyncStatus.Text" xml:space="preserve">
+    <value>Statusspalte synchronisieren</value>
+  </data>
+  <data name="GroupBy" xml:space="preserve">
+    <value>Gruppieren nach</value>
+  </data>
+  <data name="SortBy" xml:space="preserve">
+    <value>Sortieren nach</value>
   </data>
 </root>

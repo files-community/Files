@@ -3,10 +3,10 @@ using System.Threading.Tasks;
 
 namespace Files.Backend.Services
 {
-    public interface IImagingService
-    {
-        Task<ImageModel?> GetImageModelFromDataAsync(byte[]? rawData);
+	public interface IImagingService
+	{
+		Task<ImageModel?> GetImageModelFromDataAsync(byte[]? rawData);
 
-        Task<ImageModel?> GetImageModelFromPathAsync(string filePath, uint thumbnailSize = 64u);
-    }
+		Task<ImageModel?> GetImageModelFromPathAsync(string filePath, uint thumbnailSize = 64u);
+	}
 }

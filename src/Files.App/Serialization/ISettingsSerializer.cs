@@ -1,12 +1,11 @@
-
 namespace Files.App.Serialization
 {
-    internal interface ISettingsSerializer
-    {
-        bool CreateFile(string path);
+	internal interface ISettingsSerializer
+	{
+		bool CreateFile(string path);
 
-        string ReadFromFile();
+		string ReadFromFile();
 
-        bool WriteToFile(string? text);
-    }
+		bool WriteToFile(string? text);
+	}
 }

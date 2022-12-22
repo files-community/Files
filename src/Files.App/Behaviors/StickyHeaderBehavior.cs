@@ -100,8 +100,7 @@ namespace Files.App.Behaviors
 			if (AssociatedObject is null)
 				return false;
 
-			if (_scrollViewer is null)
-				_scrollViewer = AssociatedObject as ScrollViewer ?? AssociatedObject.FindDescendant<ScrollViewer>();
+			_scrollViewer ??= AssociatedObject as ScrollViewer ?? AssociatedObject.FindDescendant<ScrollViewer>();
 
 			if (_scrollViewer is null)
 				return false;
@@ -111,9 +110,7 @@ namespace Files.App.Behaviors
 			if (listView is not null && listView.ItemsPanelRoot is not null)
 				Canvas.SetZIndex(listView.ItemsPanelRoot, -1);
 
-			if (_scrollProperties is null)
-				_scrollProperties = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(_scrollViewer);
-
+			_scrollProperties ??= ElementCompositionPreview.GetScrollViewerManipulationPropertySet(_scrollViewer);
 
 			if (_scrollProperties is null)
 				return false;
@@ -127,8 +124,7 @@ namespace Files.App.Behaviors
 			if (headerElement is null || headerElement.RenderSize.Height == 0)
 				return false;
 
-			if (_headerVisual is null)
-				_headerVisual = ElementCompositionPreview.GetElementVisual(headerElement);
+			_headerVisual ??= ElementCompositionPreview.GetElementVisual(headerElement);
 
 			if (_headerVisual is null)
 				return false;

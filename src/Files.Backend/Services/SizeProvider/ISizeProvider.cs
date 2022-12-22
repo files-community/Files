@@ -4,14 +4,14 @@ using System.Threading.Tasks;
 
 namespace Files.Backend.Services.SizeProvider
 {
-    public interface ISizeProvider : IDisposable
-    {
-        event EventHandler<SizeChangedEventArgs> SizeChanged;
+	public interface ISizeProvider : IDisposable
+	{
+		event EventHandler<SizeChangedEventArgs> SizeChanged;
 
-        Task CleanAsync();
-        Task ClearAsync();
+		Task CleanAsync();
+		Task ClearAsync();
 
-        Task UpdateAsync(string path, CancellationToken cancellationToken);
-        bool TryGetSize(string path, out ulong size);
-    }
+		Task UpdateAsync(string path, CancellationToken cancellationToken);
+		bool TryGetSize(string path, out ulong size);
+	}
 }

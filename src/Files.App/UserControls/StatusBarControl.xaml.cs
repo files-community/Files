@@ -1,60 +1,60 @@
+using Files.App.DataModels;
 using Files.App.ViewModels;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Files.App.DataModels;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace Files.App.UserControls
 {
-    public sealed partial class StatusBarControl : UserControl, INotifyPropertyChanged
-    {
-        public AppModel AppModel => App.AppModel;
+	public sealed partial class StatusBarControl : UserControl, INotifyPropertyChanged
+	{
+		public AppModel AppModel => App.AppModel;
 
-        public DirectoryPropertiesViewModel DirectoryPropertiesViewModel
-        {
-            get => (DirectoryPropertiesViewModel)GetValue(DirectoryPropertiesViewModelProperty);
-            set => SetValue(DirectoryPropertiesViewModelProperty, value);
-        }
+		public DirectoryPropertiesViewModel DirectoryPropertiesViewModel
+		{
+			get => (DirectoryPropertiesViewModel)GetValue(DirectoryPropertiesViewModelProperty);
+			set => SetValue(DirectoryPropertiesViewModelProperty, value);
+		}
 
-        // Using a DependencyProperty as the backing store for DirectoryPropertiesViewModel.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty DirectoryPropertiesViewModelProperty =
-            DependencyProperty.Register(nameof(DirectoryPropertiesViewModel), typeof(DirectoryPropertiesViewModel), typeof(StatusBarControl), new PropertyMetadata(null));
+		// Using a DependencyProperty as the backing store for DirectoryPropertiesViewModel.  This enables animation, styling, binding, etc...
+		public static readonly DependencyProperty DirectoryPropertiesViewModelProperty =
+			DependencyProperty.Register(nameof(DirectoryPropertiesViewModel), typeof(DirectoryPropertiesViewModel), typeof(StatusBarControl), new PropertyMetadata(null));
 
-        public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel
-        {
-            get => (SelectedItemsPropertiesViewModel)GetValue(SelectedItemsPropertiesViewModelProperty);
-            set => SetValue(SelectedItemsPropertiesViewModelProperty, value);
-        }
+		public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel
+		{
+			get => (SelectedItemsPropertiesViewModel)GetValue(SelectedItemsPropertiesViewModelProperty);
+			set => SetValue(SelectedItemsPropertiesViewModelProperty, value);
+		}
 
-        public static readonly DependencyProperty SelectedItemsPropertiesViewModelProperty =
-            DependencyProperty.Register(nameof(SelectedItemsPropertiesViewModel), typeof(SelectedItemsPropertiesViewModel), typeof(StatusBarControl), new PropertyMetadata(null));
+		public static readonly DependencyProperty SelectedItemsPropertiesViewModelProperty =
+			DependencyProperty.Register(nameof(SelectedItemsPropertiesViewModel), typeof(SelectedItemsPropertiesViewModel), typeof(StatusBarControl), new PropertyMetadata(null));
 
-        public bool ShowInfoText
-        {
-            get => (bool)GetValue(ShowInfoTextProperty);
-            set => SetValue(ShowInfoTextProperty, value);
-        }
+		public bool ShowInfoText
+		{
+			get => (bool)GetValue(ShowInfoTextProperty);
+			set => SetValue(ShowInfoTextProperty, value);
+		}
 
-        // Using a DependencyProperty as the backing store for HideInfoText.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ShowInfoTextProperty =
-            DependencyProperty.Register(nameof(ShowInfoText), typeof(bool), typeof(StatusBarControl), new PropertyMetadata(null));
+		// Using a DependencyProperty as the backing store for HideInfoText.  This enables animation, styling, binding, etc...
+		public static readonly DependencyProperty ShowInfoTextProperty =
+			DependencyProperty.Register(nameof(ShowInfoText), typeof(bool), typeof(StatusBarControl), new PropertyMetadata(null));
 
-        public StatusBarControl()
-        {
-            this.InitializeComponent();
-        }
+		public StatusBarControl()
+		{
+			this.InitializeComponent();
+		}
 
-        private void FullTrustStatus_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
-        {
-            FullTrustStatusTeachingTip.IsOpen = true;
-        }
+		private void FullTrustStatus_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+		{
+			FullTrustStatusTeachingTip.IsOpen = true;
+		}
 
-        public event PropertyChangedEventHandler PropertyChanged;
+		public event PropertyChangedEventHandler PropertyChanged;
 
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-    }
+		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
+	}
 }

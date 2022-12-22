@@ -16,28 +16,29 @@
     <img src="https://img.shields.io/badge/Preview-Download-blue.svg?style=flat-round" alt="Preview link" />
 </a>
 
-## What is Files?
-Files is a file manager for Windows with a powerful yet intuitive design. It has features like multiple tabs, panes, columns, shell extensions in the context menu and tags.
+Files is a file manager that lets you easily organize content on your device. Robust multitasking experiences, helpful tags, and deep integrations add to an intuitive design – openly developed right here.
 
-We welcome discussions and contributions to our repository, however to help maintain a healthy community, please read our [code of conduct](https://github.com/files-community/Files/blob/main/CODE_OF_CONDUCT.md).
+We welcome feedback items and approved community contributions! Vague ideas are difficult to act on, so you'll need to fill out the correct issue template with detailed information such as related links or screenshots. Keep discussions constructive by reading our [code of conduct](https://github.com/files-community/Files/blob/main/CODE_OF_CONDUCT.md).
 
 ## Privacy
-We use App Center to track which settings are being used, find bugs, and fix crashes. Information sent to App Center is anonymous and free of any user or contextual data.
+This project uses App Center to drive and inform quality improvements. We may collect anonymous information not limited to the settings in use and crash reports. All information sent is free of any user-identifying or contextual data.
 
 ## FAQ
-Have any questions? Check out our [documentation site](https://files.community/docs)!
+Have any questions? Check out our [documentation](https://files.community/docs)!
 
 ## Building from source
 
-### 1: Prerequisites
+### 1. Prerequisites
 
-- [Git](https://git-scm.com)
-- [Visual Studio 2022](https://visualstudio.microsoft.com/vs/) with the UWP Development Kit and following individual components:
-    - Windows 11 SDK (10.0.22000)
-    - MSVC v143 - VS 2022 C++ x64/x86 build tools
-    - C++ ATL for latest v143 build tools (x86 & x64)
-
-### 2: Clone the repository.
+- [Visual Studio 2022](https://visualstudio.microsoft.com/vs/) with the following individual components:
+    - Windows 11 SDK (10.0.22621.0)
+    - .NET 7 SDK
+    - MSVC v143 - VS 2022 C++ x64/x86 or ARM64 build tools (latest)
+    - C++ ATL for latest v143 build tools (x86 & x64 or ARM64)
+    - Git for Windows
+- [Windows App SDK 1.2](https://learn.microsoft.com/en-us/windows/apps/windows-app-sdk/downloads#current-releases)
+    
+### 2. Clone the repository
 
 ```ps
 git clone https://github.com/files-community/Files
@@ -45,16 +46,16 @@ git clone https://github.com/files-community/Files
 
 This will create a local copy of the repository.
 
-### 3: Build the project
+### 3. Build the project
 
-To build the app in development mode, open the sln file in Visual Studio (Files.sln) and set the Files.Package project as the startup item by right-clicking on `Files.Package` in the solution explorer & hitting ‘Set as Startup item’.
+To build Files for development, open the `Files.sln` item in Visual Studio. Right-click on the `Files.Package` packaging project in solution explorer and select ‘Set as Startup item’.
 
-In the architecture pane, select the correct architecture for your system as Debug which should look like this:
+In the top pane, select the items which correspond to your desired build mode and the processor architecture of your device like below:
 ![image](https://user-images.githubusercontent.com/39923744/148721296-2bd132d0-4a4d-4555-8f58-16b00b18ade3.png)
 
 ## Contributors
 
-Want to contribute to this project? Feel free to open an [issue](https://github.com/files-community/Files/issues) or [pull request](https://github.com/files-community/Files/pulls). View our [Contributing guidelines](https://github.com/files-community/Files/blob/main/.github/CONTRIBUTING.md) to make sure you're up to date on the latest guidelines for contributing to the Files codebase.
+Want to contribute to this project? Let us know with an [issue](https://github.com/files-community/Files/issues) that communicates your intent to create a [pull request](https://github.com/files-community/Files/pulls). Also, view our [contributing guidelines](https://github.com/files-community/Files/blob/main/.github/CONTRIBUTING.md) to make sure you're up to date on the coding conventions.
 
 ## Screenshots
 
