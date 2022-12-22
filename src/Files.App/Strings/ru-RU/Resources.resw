@@ -311,7 +311,7 @@
     <value>Открыть в новом окне</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" xml:space="preserve">
-    <value>Применить как фон рабочего стола</value>
+    <value>Сделать фоном рабочего стола</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
     <value>Поделиться</value>
@@ -320,7 +320,7 @@
     <value>Вырезать</value>
   </data>
   <data name="Delete" xml:space="preserve">
-    <value>Удаление</value>
+    <value>Удалить</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Переименовать</value>
@@ -362,7 +362,7 @@
     <value>По умолчанию</value>
   </data>
   <data name="SystemTimeStyle" xml:space="preserve">
-    <value>система</value>
+    <value>Система</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Новая папка</value>
@@ -371,7 +371,7 @@
     <value>Новый файл</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
-    <value>Эта папка пуста.</value>
+    <value>Эта папка пуста</value>
   </data>
   <data name="NavBackButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Назад (Alt+Стрелка влево)</value>
@@ -461,7 +461,7 @@
     <value>Только чтение</value>
   </data>
   <data name="PropertiesDialogHidden.Text" xml:space="preserve">
-    <value>Скрытая</value>
+    <value>Скрытый</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>Очистить корзину</value>
@@ -572,7 +572,7 @@
     <value>{0:#,##0} Файлов, {1:#,##0} Папок</value>
   </data>
   <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
-    <value>{0:#,##0} файлов, {1:#,##0} папок из {2:#,##0} локаций</value>
+    <value>{0:#,##0} файлов, {1:#,##0} папок из {2:#,##0} расположений</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Запуск от имени другого пользователя</value>
@@ -680,7 +680,7 @@
     <value>Неизвестно</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
-    <value>Files столкнулись с проблемой, к которой разработчики еще не подготовились.</value>
+    <value>Files столкнулся с проблемой, к которой разработчики еще не подготовились.</value>
   </data>
   <data name="ExceptionNotificationHeader" xml:space="preserve">
     <value>Что-то пошло не так!</value>
@@ -692,10 +692,10 @@
     <value>Авторы</value>
   </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
-    <value>Заметки о выпуске</value>
+    <value>Примечания к версии</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
-    <value>Указанный элемент недействителен или недоступен.{0}Сообщение об ошибке:{0}{1}</value>
+    <value>Указанный элемент недействителен или недоступен. {0} Сообщение об ошибке:{0}{1}</value>
   </data>
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>Неверный элемент</value>
@@ -827,7 +827,7 @@
     <value>Рейтинг</value>
   </data>
   <data name="PropertyItemPathDisplay" xml:space="preserve">
-    <value>Путь элемента</value>
+    <value>Путь к элементу</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
     <value>Тип файла</value>
@@ -2480,13 +2480,13 @@
     <value>Персонализация</value>
   </data>
   <data name="RestoreDefault" xml:space="preserve">
-    <value>Сбросить до заводских</value>
+    <value>Восстановить умолчания</value>
   </data>
   <data name="FilesAndFolders" xml:space="preserve">
     <value>Файлы и папки</value>
   </data>
   <data name="OpenNewInstance" xml:space="preserve">
-    <value>Открывать новый экземпляр при открытии папок из выскакивающего меню в панели задач</value>
+    <value>Открывать новый экземпляр при открытии из контекстного меню Windows</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Настройки запуска</value>
@@ -2495,7 +2495,7 @@
     <value>Совместимость</value>
   </data>
   <data name="None" xml:space="preserve">
-    <value>Никак</value>
+    <value>Нет</value>
   </data>
   <data name="HighDpiOption_UseDPIOnLogin" xml:space="preserve">
     <value>При входе в Windows</value>
@@ -2504,7 +2504,7 @@
     <value>При запуске программы</value>
   </data>
   <data name="HighDpiOverride_System" xml:space="preserve">
-    <value>система</value>
+    <value>Система</value>
   </data>
   <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
     <value>Система (продвинутый)</value>
@@ -2588,7 +2588,7 @@
     <value>Аттрибуты</value>
   </data>
   <data name="Hidden" xml:space="preserve">
-    <value>Скрытая</value>
+    <value>Скрытый</value>
   </data>
   <data name="MoreDetails" xml:space="preserve">
     <value>Больше информации</value>
@@ -2693,7 +2693,7 @@
     <value>Показать Секцию Меток</value>
   </data>
   <data name="UseCompactStyles" xml:space="preserve">
-    <value>Использовать компактный стиль макета боковой панели</value>
+    <value>Использовать компактный стиль списков</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Универсальная</value>
@@ -2717,7 +2717,7 @@
     <value>Пользовательский</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
-    <value>Установить как слад-шоу рабочего стола</value>
+    <value>Установить как слайд-шоу рабочего стола</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
     <value>Столбцы по размеру содержимого</value>
@@ -2858,52 +2858,52 @@
     <value>Путь</value>
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
-    <value>Sorting and grouping</value>
+    <value>Сортировка и группировка</value>
   </data>
   <data name="Archive" xml:space="preserve">
-    <value>Archive</value>
+    <value>Архивация</value>
   </data>
   <data name="CreateArchive" xml:space="preserve">
-    <value>Create archive</value>
+    <value>Создать архив</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>Создать</value>
   </data>
   <data name="CreateNamedArchive" xml:space="preserve">
-    <value>Create {0}</value>
+    <value>Создать {0}</value>
   </data>
   <data name="EnterName" xml:space="preserve">
-    <value>Enter a name</value>
+    <value>Введите имя</value>
   </data>
   <data name="CompressionLevel" xml:space="preserve">
-    <value>Compression level</value>
+    <value>Степень сжатия</value>
   </data>
   <data name="CompressionLevelUltra" xml:space="preserve">
-    <value>Ultra</value>
+    <value>Ультра</value>
   </data>
   <data name="CompressionLevelHigh" xml:space="preserve">
-    <value>High</value>
+    <value>Высокий</value>
   </data>
   <data name="CompressionLevelNormal" xml:space="preserve">
-    <value>Normal</value>
+    <value>Нормальный</value>
   </data>
   <data name="CompressionLevelLow" xml:space="preserve">
-    <value>Low</value>
+    <value>Низкий</value>
   </data>
   <data name="CompressionLevelFast" xml:space="preserve">
-    <value>Fast</value>
+    <value>Быстрый</value>
   </data>
   <data name="CompressionLevelNone" xml:space="preserve">
-    <value>Никак</value>
+    <value>Без сжатия</value>
   </data>
   <data name="SplitArchive" xml:space="preserve">
-    <value>Split the archive</value>
+    <value>Многотомный архив</value>
   </data>
   <data name="SplittingSize" xml:space="preserve">
-    <value>Splitting size</value>
+    <value>Размер тома</value>
   </data>
   <data name="Do not split" xml:space="preserve">
-    <value>Do not split</value>
+    <value>Не разбивать</value>
   </data>
   <data name="CD" xml:space="preserve">
     <value>CD</value>
@@ -2918,7 +2918,7 @@
     <value>Blu-ray</value>
   </data>
   <data name="Encryption" xml:space="preserve">
-    <value>Encryption</value>
+    <value>Шифрование</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>Пароль</value>
@@ -2927,10 +2927,10 @@
     <value>Формат</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowSyncStatus.Text" xml:space="preserve">
-    <value>Sync status column</value>
+    <value>Синхр. колонки статусов</value>
   </data>
   <data name="GroupBy" xml:space="preserve">
-    <value>Group by</value>
+    <value>Группирока по...</value>
   </data>
   <data name="SortBy" xml:space="preserve">
     <value>Сортировка</value>
