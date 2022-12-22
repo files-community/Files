@@ -26,7 +26,7 @@ namespace Files.App.Views.LayoutModes
 
 		public void HandleSelectionChange(ColumnViewBase initiator)
 		{
-			foreach(var blade in ColumnHost.ActiveBlades)
+			foreach (var blade in ColumnHost.ActiveBlades)
 			{
 				var columnView = blade.FindDescendant<ColumnViewBase>();
 				if (columnView != null && columnView != initiator)

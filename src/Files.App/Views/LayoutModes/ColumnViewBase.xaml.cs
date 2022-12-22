@@ -18,7 +18,6 @@ using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
@@ -27,9 +26,9 @@ using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 
 namespace Files.App.Views.LayoutModes
 {
-    public sealed partial class ColumnViewBase : BaseLayout
-    {
-        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+	public sealed partial class ColumnViewBase : BaseLayout
+	{
+		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		protected override uint IconSize => Browser.ColumnViewBrowser.ColumnViewSizeSmall;
 
@@ -192,33 +191,33 @@ namespace Files.App.Views.LayoutModes
 			FileList.Focus(FocusState.Programmatic);
 		}
 
-        private async void ReloadItemIcons()
-        {
-            ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
-            foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
-            {
-                listedItem.ItemPropertiesInitialized = false;
-                if (FileList.ContainerFromItem(listedItem) is not null)
-                    await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, 24);
-            }
-        }
+		private async void ReloadItemIcons()
+		{
+			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
+			foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
+			{
+				listedItem.ItemPropertiesInitialized = false;
+				if (FileList.ContainerFromItem(listedItem) is not null)
+					await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, 24);
+			}
+		}
 
-        override public void StartRenameItem()
-        {
-            RenamingItem = FileList.SelectedItem as ListedItem;
-            if (RenamingItem is null)
-                return;
-            int extensionLength = RenamingItem.FileExtension?.Length ?? 0;
-            ListViewItem? listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
-            TextBox? textBox = null;
-            if (listViewItem is null)
-                return;
-            TextBlock? textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
-            textBox = listViewItem.FindDescendant("ListViewTextBoxItemName") as TextBox;
-            textBox!.Text = textBlock!.Text;
-            OldItemName = textBlock.Text;
-            textBlock.Visibility = Visibility.Collapsed;
-            textBox.Visibility = Visibility.Visible;
+		override public void StartRenameItem()
+		{
+			RenamingItem = FileList.SelectedItem as ListedItem;
+			if (RenamingItem is null)
+				return;
+			int extensionLength = RenamingItem.FileExtension?.Length ?? 0;
+			ListViewItem? listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
+			TextBox? textBox = null;
+			if (listViewItem is null)
+				return;
+			TextBlock? textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
+			textBox = listViewItem.FindDescendant("ListViewTextBoxItemName") as TextBox;
+			textBox!.Text = textBlock!.Text;
+			OldItemName = textBlock.Text;
+			textBlock.Visibility = Visibility.Collapsed;
+			textBox.Visibility = Visibility.Visible;
 
 			textBox.Focus(FocusState.Pointer);
 			textBox.LostFocus += RenameTextBox_LostFocus;
@@ -439,7 +438,7 @@ namespace Files.App.Views.LayoutModes
 			}
 			else if (e.Key == VirtualKey.Left) // Left arrow: select parent folder (previous column)
 			{
-				if (IsRenamingItem || (ParentShellPageInstance is not null && ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled) )
+				if (IsRenamingItem || (ParentShellPageInstance is not null && ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled))
 					return;
 
 				var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
@@ -448,7 +447,7 @@ namespace Files.App.Views.LayoutModes
 			}
 			else if (e.Key == VirtualKey.Right) // Right arrow: switch focus to next column
 			{
-				if (IsRenamingItem || (ParentShellPageInstance is not null && ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)) 
+				if (IsRenamingItem || (ParentShellPageInstance is not null && ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled))
 					return;
 
 				var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
@@ -584,35 +583,35 @@ namespace Files.App.Views.LayoutModes
 			itemContainer.ContextFlyout = ItemContextMenuFlyout;
 		}
 
-        protected override void BaseFolderSettings_LayoutModeChangeRequested(object sender, LayoutModeEventArgs e)
-        {
-            var parent = this.FindAscendant<ModernShellPage>();
+		protected override void BaseFolderSettings_LayoutModeChangeRequested(object sender, LayoutModeEventArgs e)
+		{
+			var parent = this.FindAscendant<ModernShellPage>();
 
-            if (parent is null)
-                return;
+			if (parent is null)
+				return;
 
-            switch (e.LayoutMode)
-            {
-                case FolderLayoutModes.ColumnView:
-                    break;
-                case FolderLayoutModes.DetailsView:
-                    parent.FolderSettings.ToggleLayoutModeDetailsView(true);
-                    break;
-                case FolderLayoutModes.TilesView:
-                    parent.FolderSettings.ToggleLayoutModeTiles(true);
-                    break;
-                case FolderLayoutModes.GridView:
-                    parent.FolderSettings.ToggleLayoutModeGridView(e.GridViewSize);
-                    break;
-                case FolderLayoutModes.Adaptive:
-                    parent.FolderSettings.ToggleLayoutModeAdaptive();
-                    break;
-            }
-        }
+			switch (e.LayoutMode)
+			{
+				case FolderLayoutModes.ColumnView:
+					break;
+				case FolderLayoutModes.DetailsView:
+					parent.FolderSettings.ToggleLayoutModeDetailsView(true);
+					break;
+				case FolderLayoutModes.TilesView:
+					parent.FolderSettings.ToggleLayoutModeTiles(true);
+					break;
+				case FolderLayoutModes.GridView:
+					parent.FolderSettings.ToggleLayoutModeGridView(e.GridViewSize);
+					break;
+				case FolderLayoutModes.Adaptive:
+					parent.FolderSettings.ToggleLayoutModeAdaptive();
+					break;
+			}
+		}
 
-        internal void ClearSelectionIndicator()
-        {
-            FileList.SelectedItem = null;
-        }
-    }
+		internal void ClearSelectionIndicator()
+		{
+			FileList.SelectedItem = null;
+		}
+	}
 }
