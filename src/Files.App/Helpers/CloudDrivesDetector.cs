@@ -21,6 +21,7 @@ namespace Files.App.Helpers
 				SafetyExtensions.IgnoreExceptions(DetectSharepoint, App.Logger),
 				SafetyExtensions.IgnoreExceptions(DetectGenericCloudDrive, App.Logger),
 				SafetyExtensions.IgnoreExceptions(DetectYandexDisk, App.Logger),
+				SafetyExtensions.IgnoreExceptions(DetectpCloudDrive, App.Logger),
 			};
 
 			await Task.WhenAll(tasks);
@@ -198,6 +199,24 @@ namespace Files.App.Helpers
 			}
 
 			return Task.FromResult<IEnumerable<ICloudProvider>>(sharepointAccounts);
+		}
+
+		private static Task<IEnumerable<ICloudProvider>> DetectpCloudDrive()
+		{
+			var results = new List<ICloudProvider>();
+			using var pCloudDriveKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\pCloud");
+
+			var syncedFolder = (string)pCloudDriveKey?.GetValue("SyncDrive");
+			if (syncedFolder is not null)
+			{
+				results.Add(new CloudProvider(CloudProviders.pCloud)
+				{
+					Name = $"pCloud Drive",
+					SyncFolder = syncedFolder,
+				});
+			}
+
+			return Task.FromResult<IEnumerable<ICloudProvider>>(results);
 		}
 	}
 }
