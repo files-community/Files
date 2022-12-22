@@ -152,8 +152,8 @@ namespace Files.App.UserControls.Widgets
 			if (!recentItemsCollection.Any(x => x.Equals(recentItem)))
 			{
 				recentItemsCollection.Insert(index < 0 ? recentItemsCollection.Count : Math.Min(index, recentItemsCollection.Count), recentItem);
+				await recentItem.LoadRecentItemIcon();
 			}
-			await recentItem.LoadRecentItemIcon();
 		}
 
 		private void RecentsView_ItemClick(object sender, ItemClickEventArgs e)
