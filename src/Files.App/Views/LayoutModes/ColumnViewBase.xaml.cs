@@ -35,28 +35,28 @@ namespace Files.App.Views.LayoutModes
 
 		protected override ItemsControl ItemsControl => FileList;
 
-    private ColumnViewBrowser? columnsOwner;
-    private ListViewItem? openedFolderPresenter;
+		private ColumnViewBrowser? columnsOwner;
+		private ListViewItem? openedFolderPresenter;
 
-    public ColumnViewBase() : base()
-    {
-        this.InitializeComponent();
-        var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
-        selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
-        tapDebounceTimer = DispatcherQueue.CreateTimer();
-        this.ItemInvoked += ColumnViewBase_ItemInvoked;
-    }
+		public ColumnViewBase() : base()
+		{
+			this.InitializeComponent();
+			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
+			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
+			tapDebounceTimer = DispatcherQueue.CreateTimer();
+			this.ItemInvoked += ColumnViewBase_ItemInvoked;
+		}
 
-    private void ColumnViewBase_ItemInvoked(object? sender, EventArgs e)
-    {
-        if (openedFolderPresenter != null)
-        {
-            openedFolderPresenter.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
-            var presenter = openedFolderPresenter.FindDescendant<Grid>()!;
-            presenter!.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
-        }
-        openedFolderPresenter = FileList.ContainerFromItem(FileList.SelectedItem) as ListViewItem;
-    }
+		private void ColumnViewBase_ItemInvoked(object? sender, EventArgs e)
+		{
+			if (openedFolderPresenter != null)
+			{
+				openedFolderPresenter.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
+				var presenter = openedFolderPresenter.FindDescendant<Grid>()!;
+				presenter!.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
+			}
+			openedFolderPresenter = FileList.ContainerFromItem(FileList.SelectedItem) as ListViewItem;
+		}
 
 
 		protected override void HookEvents()
@@ -163,13 +163,13 @@ namespace Files.App.Views.LayoutModes
 
 		public event EventHandler? ItemInvoked;
 
-    protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
-    {
-      if (eventArgs.Parameter is NavigationArguments navArgs)
-      {
-          navArgs.FocusOnNavigation = (navArgs.AssociatedTabInstance as ColumnShellPage)?.ColumnParams?.Column == 0; // Focus filelist only if first column
-          columnsOwner = (navArgs.AssociatedTabInstance as FrameworkElement)?.FindAscendant<ColumnViewBrowser>();
-      }
+		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
+		{
+			if (eventArgs.Parameter is NavigationArguments navArgs)
+			{
+				navArgs.FocusOnNavigation = (navArgs.AssociatedTabInstance as ColumnShellPage)?.ColumnParams?.Column == 0; // Focus filelist only if first column
+				columnsOwner = (navArgs.AssociatedTabInstance as FrameworkElement)?.FindAscendant<ColumnViewBrowser>();
+			}
 
 			base.OnNavigatedTo(eventArgs);
 
@@ -312,13 +312,13 @@ namespace Files.App.Views.LayoutModes
 
 		#region IDisposable
 
-    public override void Dispose()
-    {
-        base.Dispose();
-        UnhookEvents();
-        CommandsViewModel?.Dispose();
-        columnsOwner = null;
-    }
+		public override void Dispose()
+		{
+			base.Dispose();
+			UnhookEvents();
+			CommandsViewModel?.Dispose();
+			columnsOwner = null;
+		}
 
 		#endregion IDisposable
 
@@ -326,26 +326,26 @@ namespace Files.App.Views.LayoutModes
 		{
 			SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
 
-      if (SelectedItems.Count == 1 && App.AppModel.IsQuickLookAvailable)
-          await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance, true);
+			if (SelectedItems.Count == 1 && App.AppModel.IsQuickLookAvailable)
+				await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance, true);
 
-      if (e != null)
-      {
-        if (e.AddedItems.Count > 0)
-        {
-            columnsOwner?.HandleSelectionChange(this);
-        }
+			if (e != null)
+			{
+				if (e.AddedItems.Count > 0)
+				{
+					columnsOwner?.HandleSelectionChange(this);
+				}
 
-        if (e.RemovedItems.Count > 0)
-        {
-          if (openedFolderPresenter != null)
-          {
-              var presenter = openedFolderPresenter.FindDescendant<Grid>()!;
-              presenter!.Background = this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush;
-          }
-        }
-      }
-    }
+				if (e.RemovedItems.Count > 0)
+				{
+					if (openedFolderPresenter != null)
+					{
+						var presenter = openedFolderPresenter.FindDescendant<Grid>()!;
+						presenter!.Background = this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush;
+					}
+				}
+			}
+		}
 
 
 		private void FileList_RightTapped(object sender, RightTappedRoutedEventArgs e)

@@ -24,17 +24,17 @@ namespace Files.App.Views.LayoutModes
 			this.InitializeComponent();
 		}
 
-    public void HandleSelectionChange(ColumnViewBase initiator)
-    {
-      foreach(var blade in ColumnHost.ActiveBlades)
-      {
-        var columnView = blade.FindDescendant<ColumnViewBase>();
-        if (columnView != null && columnView != initiator)
-        {
-            columnView.ClearSelectionIndicator();
-        }
-      }
-    }
+		public void HandleSelectionChange(ColumnViewBase initiator)
+		{
+			foreach(var blade in ColumnHost.ActiveBlades)
+			{
+				var columnView = blade.FindDescendant<ColumnViewBase>();
+				if (columnView != null && columnView != initiator)
+				{
+					columnView.ClearSelectionIndicator();
+				}
+			}
+		}
 
 		protected override void HookEvents()
 		{
