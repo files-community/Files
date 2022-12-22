@@ -1,3 +1,4 @@
+using Files.App.Shell;
 using Files.Shared.Cloud;
 using Files.Shared.Extensions;
 using Microsoft.Win32;
@@ -209,10 +210,14 @@ namespace Files.App.Helpers
 			var syncedFolder = (string)pCloudDriveKey?.GetValue("SyncDrive");
 			if (syncedFolder is not null)
 			{
+				string iconPath = Path.Combine(Environment.GetEnvironmentVariable("ProgramFiles"), "pCloud Drive", "pCloud.exe");
+				var iconFile = Win32API.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 32512 }, 32).FirstOrDefault();
+
 				results.Add(new CloudProvider(CloudProviders.pCloud)
 				{
 					Name = $"pCloud Drive",
 					SyncFolder = syncedFolder,
+					IconData = iconFile?.IconData
 				});
 			}
 
