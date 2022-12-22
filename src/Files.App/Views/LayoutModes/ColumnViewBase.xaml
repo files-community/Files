@@ -461,9 +461,9 @@
 				Width="0"
 				Height="0"
 				Fill="{ThemeResource SystemAccentColor}"
-				Opacity="0"
+				Opacity="0.5"
 				Stroke="{ThemeResource SystemAccentColorLight1}"
-				StrokeThickness="0" />
+				StrokeThickness="1" />
 		</Canvas>
 	</Grid>
 </local:BaseLayout>
