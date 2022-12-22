@@ -555,13 +555,13 @@ namespace Files.App.Helpers
 
 			try
 			{
-				if (linkPath.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase))
+				if (FileExtensionHelpers.IsShortcutFile(linkPath))
 				{
 					using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, default, TimeSpan.FromMilliseconds(100));
 					targetPath = link.TargetPath;
 					return ShellFolderExtensions.GetShellLinkItem(link);
 				}
-				else if (linkPath.EndsWith(".url", StringComparison.OrdinalIgnoreCase))
+				else if (FileExtensionHelpers.IsWebLinkFile(linkPath))
 				{
 					targetPath = await Win32API.StartSTATask(() =>
 					{
@@ -596,14 +596,14 @@ namespace Files.App.Helpers
 		{
 			try
 			{
-				if (linkSavePath.EndsWith(".lnk", StringComparison.Ordinal))
+				if (FileExtensionHelpers.IsShortcutFile(linkSavePath))
 				{
 					using var newLink = new ShellLink(targetPath, arguments, workingDirectory);
 					newLink.RunAsAdministrator = runAsAdmin;
 					newLink.SaveAs(linkSavePath); // Overwrite if exists
 					return Task.FromResult(true);
 				}
-				else if (linkSavePath.EndsWith(".url", StringComparison.Ordinal))
+				else if (FileExtensionHelpers.IsWebLinkFile(linkSavePath))
 				{
 					return Win32API.StartSTATask(() =>
 					{

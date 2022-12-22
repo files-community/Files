@@ -119,7 +119,7 @@ namespace Files.App.Helpers
 			bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
 			bool isDirectory = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Directory);
 			bool isReparsePoint = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.ReparsePoint);
-			bool isShortcut = path.EndsWith(".lnk", StringComparison.Ordinal) || path.EndsWith(".url", StringComparison.Ordinal);
+			bool isShortcut = FileExtensionHelpers.IsShortcutOrUrlFile(path);
 			FilesystemResult opened = (FilesystemResult)false;
 
 			var shortcutInfo = new ShellLinkItem();
@@ -248,9 +248,9 @@ namespace Files.App.Helpers
 
 			var opened = (FilesystemResult)false;
 			bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
-			bool IsShortcut = path.EndsWith(".lnk", StringComparison.Ordinal) || path.EndsWith(".url", StringComparison.Ordinal); // Determine
+			bool isShortcut = FileExtensionHelpers.IsShortcutOrUrlFile(path);
 
-			if (IsShortcut)
+			if (isShortcut)
 			{
 				if (string.IsNullOrEmpty(shortcutInfo.TargetPath))
 				{
@@ -339,8 +339,9 @@ namespace Files.App.Helpers
 		{
 			var opened = (FilesystemResult)false;
 			bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
-			bool IsShortcut = path.EndsWith(".lnk", StringComparison.Ordinal) || path.EndsWith(".url", StringComparison.Ordinal) || !string.IsNullOrEmpty(shortcutInfo.TargetPath);
-			if (IsShortcut)
+			bool isShortcut = FileExtensionHelpers.IsShortcutOrUrlFile(path) || !string.IsNullOrEmpty(shortcutInfo.TargetPath);
+
+			if (isShortcut)
 			{
 				if (string.IsNullOrEmpty(shortcutInfo.TargetPath))
 				{
@@ -348,7 +349,7 @@ namespace Files.App.Helpers
 				}
 				else
 				{
-					if (!path.EndsWith(".url", StringComparison.Ordinal))
+					if (!FileExtensionHelpers.IsWebLinkFile(path))
 					{
 						StorageFileWithPath childFile = await associatedInstance.FilesystemViewModel.GetFileWithPathFromPathAsync(shortcutInfo.TargetPath);
 						if (childFile is not null)

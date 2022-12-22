@@ -303,9 +303,9 @@ namespace Files.App.Filesystem.StorageEnumerators
 					IsSymLink = true
 				};
 			}
-			else if (findData.cFileName.EndsWith(".lnk", StringComparison.Ordinal) || findData.cFileName.EndsWith(".url", StringComparison.Ordinal))
+			else if (FileExtensionHelpers.IsShortcutOrUrlFile(findData.cFileName))
 			{
-				var isUrl = findData.cFileName.EndsWith(".url", StringComparison.OrdinalIgnoreCase);
+				var isUrl = FileExtensionHelpers.IsWebLinkFile(findData.cFileName);
 				var shInfo = await FileOperationsHelpers.ParseLinkAsync(itemPath);
 				if (shInfo is null)
 				{

@@ -62,7 +62,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 					fileName = System.IO.Path.GetFileName(this.Path);
 				}
 
-				if (fileName.EndsWith(".lnk", StringComparison.Ordinal) || fileName.EndsWith(".url", StringComparison.Ordinal))
+				if (FileExtensionHelpers.IsShortcutOrUrlFile(fileName))
 				{
 					fileName = fileName.Remove(fileName.Length - 4);
 				}

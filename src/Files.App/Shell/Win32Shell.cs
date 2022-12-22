@@ -1,4 +1,5 @@
-﻿using Files.Shared;
+﻿using Files.App.Helpers;
+using Files.Shared;
 using System;
 using System.Collections.Generic;
 using System.IO;

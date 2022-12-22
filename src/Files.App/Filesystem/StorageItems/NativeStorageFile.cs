@@ -27,7 +27,7 @@ namespace Files.App.Filesystem.StorageItems
 		public override string FileType => IO.Path.GetExtension(Name);
 		public override string FolderRelativeId => $"0\\{Name}";
 
-		public bool IsShortcut => FileType.Equals(".lnk", StringComparison.OrdinalIgnoreCase) || FileType.Equals(".url", StringComparison.OrdinalIgnoreCase);
+		public bool IsShortcut => FileExtensionHelpers.IsShortcutOrUrlFile(FileType);
 		public bool IsAlternateStream => System.Text.RegularExpressions.Regex.IsMatch(Path, @"\w:\w");
 
 		public override string DisplayType
@@ -164,7 +164,7 @@ namespace Files.App.Filesystem.StorageItems
 
 		private static bool IsNativePath(string path)
 		{
-			var isShortcut = path.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase) || path.EndsWith(".url", StringComparison.OrdinalIgnoreCase);
+			var isShortcut = FileExtensionHelpers.IsShortcutOrUrlFile(path);
 			var isAlternateStream = System.Text.RegularExpressions.Regex.IsMatch(path, @"\w:\w");
 			return isShortcut || isAlternateStream;
 		}
