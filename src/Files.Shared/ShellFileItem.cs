@@ -14,6 +14,7 @@ namespace Files.Shared
 		public string FileSize { get; set; }
 		public ulong FileSizeBytes { get; set; }
 		public string FileType { get; set; }
+		public byte[] PIDL { get; set; } // Low level shell item identifier
 
 		public ShellFileItem()
 		{
@@ -21,7 +22,7 @@ namespace Files.Shared
 
 		public ShellFileItem(
 			bool isFolder, string recyclePath, string fileName, string filePath,
-			DateTime recycleDate, DateTime modifiedDate, DateTime createdDate, string fileSize, ulong fileSizeBytes, string fileType)
+			DateTime recycleDate, DateTime modifiedDate, DateTime createdDate, string fileSize, ulong fileSizeBytes, string fileType, byte[] pidl)
 		{
 			this.IsFolder = isFolder;
 			this.RecyclePath = recyclePath;
@@ -33,6 +34,7 @@ namespace Files.Shared
 			this.FileSize = fileSize;
 			this.FileSizeBytes = fileSizeBytes;
 			this.FileType = fileType;
+			this.PIDL = pidl;
 		}
 	}
 }

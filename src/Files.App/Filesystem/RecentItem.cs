@@ -28,6 +28,7 @@ namespace Files.App.Filesystem
 		public bool FileIconVis { get; set; }
 		public bool IsFile { get => Type == StorageItemTypes.File; }
 		public DateTime LastModified { get; set; }
+		public byte[] PIDL { get; set; }
 
 		public RecentItem()
 		{
@@ -56,6 +57,7 @@ namespace Files.App.Filesystem
 			FolderImg = linkItem.IsFolder;
 			FileIconVis = !linkItem.IsFolder;
 			LastModified = linkItem.ModifiedDate;
+			PIDL = linkItem.PIDL;
 		}
 
 		/// <summary>
@@ -71,6 +73,7 @@ namespace Files.App.Filesystem
 			FolderImg = fileItem.IsFolder;
 			FileIconVis = !fileItem.IsFolder;
 			LastModified = fileItem.ModifiedDate;
+			PIDL = fileItem.PIDL;
 		}
 
 		public async Task LoadRecentItemIcon()
