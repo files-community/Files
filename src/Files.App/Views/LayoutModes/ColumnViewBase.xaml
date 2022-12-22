@@ -183,13 +183,12 @@
 
 					<ListView.ItemTemplate>
 						<DataTemplate x:DataType="local2:ListedItem">
-							<Grid
+                            <Grid x:Name="FilesRootGrid"
 								Height="30"
 								Margin="0"
-								Padding="8,0,0,0"
+								Padding="8,0,8,0"
 								HorizontalAlignment="Stretch"
 								VerticalAlignment="Stretch"
-								Background="Transparent"
 								CornerRadius="{StaticResource ControlCornerRadius}"
 								IsRightTapEnabled="True"
 								Loaded="Grid_Loaded"

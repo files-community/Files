@@ -18,6 +18,7 @@ using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
@@ -52,9 +53,10 @@ namespace Files.App.Views.LayoutModes
             if (openedFolderPresenter != null)
             {
                 openedFolderPresenter.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
-                var presenter = openedFolderPresenter.FindDescendant<ListViewItemPresenter>()!;
-                presenter.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
+                var presenter = openedFolderPresenter.FindDescendant<Grid>()!;
+                presenter!.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
             }
+            openedFolderPresenter = FileList.ContainerFromItem(FileList.SelectedItem) as ListViewItem;
         }
 
         protected override void HookEvents()
@@ -336,11 +338,10 @@ namespace Files.App.Views.LayoutModes
 
                 if (e.RemovedItems.Count > 0)
                 {
-                    var selectedUIElement = FileList.ContainerFromItem(e.RemovedItems[0]);
-                    openedFolderPresenter = selectedUIElement as ListViewItem;
                     if (openedFolderPresenter != null)
                     {
-                        openedFolderPresenter.Background = this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush;
+                        var presenter = openedFolderPresenter.FindDescendant<Grid>()!;
+                        presenter!.Background = this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush;
                     }
                 }
             }
