@@ -92,6 +92,8 @@ namespace Files.App.Helpers
 						"Amazon Drive" => CloudProviders.AmazonDrive,
 						"Nextcloud" => CloudProviders.Nextcloud,
 						"Jottacloud" => CloudProviders.Jottacloud,
+                        "iCloudDrive!S-1-5-21-4064190285-3015957005-1528788272-1001!Personal" => CloudProviders.AppleCloudDrive,
+                        "iCloudPhotos!S-1-5-21-4064190285-3015957005-1528788272-1001!Personal" => CloudProviders.AppleCloudPhotos,
 						_ => null,
 					};
 					if (driveID is null)
@@ -108,6 +110,8 @@ namespace Files.App.Helpers
 							CloudProviders.AmazonDrive => $"Amazon Drive",
 							CloudProviders.Nextcloud => !string.IsNullOrEmpty(nextCloudValue) ? nextCloudValue : "Nextcloud",
 							CloudProviders.Jottacloud => $"Jottacloud",
+							CloudProviders.AppleCloudDrive => $"iCloud Drive",
+							CloudProviders.AppleCloudPhotos => $"iCloud Photos",
 							_ => null
 						},
 						SyncFolder = syncedFolder,
