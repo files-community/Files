@@ -1,3 +1,4 @@
+using Files.App.Shell;
 using Files.Shared.Cloud;
 using Files.Shared.Extensions;
 using Microsoft.Win32;
@@ -21,6 +22,7 @@ namespace Files.App.Helpers
 				SafetyExtensions.IgnoreExceptions(DetectSharepoint, App.Logger),
 				SafetyExtensions.IgnoreExceptions(DetectGenericCloudDrive, App.Logger),
 				SafetyExtensions.IgnoreExceptions(DetectYandexDisk, App.Logger),
+				SafetyExtensions.IgnoreExceptions(DetectpCloudDrive, App.Logger),
 			};
 
 			await Task.WhenAll(tasks);
@@ -198,6 +200,28 @@ namespace Files.App.Helpers
 			}
 
 			return Task.FromResult<IEnumerable<ICloudProvider>>(sharepointAccounts);
+		}
+
+		private static Task<IEnumerable<ICloudProvider>> DetectpCloudDrive()
+		{
+			var results = new List<ICloudProvider>();
+			using var pCloudDriveKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\pCloud");
+
+			var syncedFolder = (string)pCloudDriveKey?.GetValue("SyncDrive");
+			if (syncedFolder is not null)
+			{
+				string iconPath = Path.Combine(Environment.GetEnvironmentVariable("ProgramFiles"), "pCloud Drive", "pCloud.exe");
+				var iconFile = Win32API.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 32512 }, 32).FirstOrDefault();
+
+				results.Add(new CloudProvider(CloudProviders.pCloud)
+				{
+					Name = $"pCloud Drive",
+					SyncFolder = syncedFolder,
+					IconData = iconFile?.IconData
+				});
+			}
+
+			return Task.FromResult<IEnumerable<ICloudProvider>>(results);
 		}
 	}
 }
