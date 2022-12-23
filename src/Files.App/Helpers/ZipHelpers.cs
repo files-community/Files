@@ -92,7 +92,7 @@ namespace Files.App.Helpers
             {
                 EnumerationCompleted = true,
                 Status = Shared.Enums.FileSystemStatusCode.InProgress,
-                TotalSize = entriesAmount
+                ItemsCount = entriesAmount
             };
             fsProgress.Report();
 
