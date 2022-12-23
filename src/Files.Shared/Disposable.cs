@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Files.App.Shell
+namespace Files.Shared
 {
 	public abstract class Disposable : IDisposable
 	{

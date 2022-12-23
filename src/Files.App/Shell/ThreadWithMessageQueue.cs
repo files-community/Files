@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Files.Shared;
+using System;
 using System.Collections.Concurrent;
 using System.Runtime.Versioning;
 using System.Threading;
