@@ -89,7 +89,8 @@ namespace Files.App.ViewModels.Properties
 				ViewModel.ItemSize = Item.FileSizeBytes.ToLongSizeString();
 				ViewModel.ItemCreatedTimestamp = Item.ItemDateCreated;
 				ViewModel.ItemAccessedTimestamp = Item.ItemDateAccessed;
-				if (Item.IsLinkItem || string.IsNullOrWhiteSpace(((ShortcutItem)Item).TargetPath))
+                ViewModel.IsRunAsAdmin = ((ShortcutItem)Item).RunAsAdmin;
+                if (Item.IsLinkItem || string.IsNullOrWhiteSpace(((ShortcutItem)Item).TargetPath))
 				{
 					// Can't show any other property
 					return;

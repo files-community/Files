@@ -71,7 +71,8 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.ShortcutItemWorkingDirVisibility = Item.IsLinkItem || shortcutItem.IsSymLink ? false : true;
 			ViewModel.ShortcutItemArguments = shortcutItem.Arguments;
 			ViewModel.ShortcutItemArgumentsVisibility = Item.IsLinkItem || shortcutItem.IsSymLink ? false : true;
-			ViewModel.IsSelectedItemShortcut = FileExtensionHelpers.IsShortcutFile(Item.FileExtension);
+            ViewModel.IsRunAsAdmin = shortcutItem.RunAsAdmin;
+            ViewModel.IsSelectedItemShortcut = FileExtensionHelpers.IsShortcutFile(Item.FileExtension);
 			ViewModel.ShortcutItemOpenLinkCommand = new RelayCommand(async () =>
 			{
 				if (Item.IsLinkItem)
@@ -113,7 +114,8 @@ namespace Files.App.ViewModels.Properties
 				ViewModel.ItemCreatedTimestamp = Item.ItemDateCreated;
 				ViewModel.ItemAccessedTimestamp = Item.ItemDateAccessed;
 				ViewModel.LoadLinkIcon = Item.LoadWebShortcutGlyph;
-				if (Item.IsLinkItem || string.IsNullOrWhiteSpace(((ShortcutItem)Item).TargetPath))
+                ViewModel.IsRunAsAdmin = ((ShortcutItem)Item).RunAsAdmin;
+                if (Item.IsLinkItem || string.IsNullOrWhiteSpace(((ShortcutItem)Item).TargetPath))
 				{
 					// Can't show any other property
 					return;
@@ -313,14 +315,14 @@ namespace Files.App.ViewModels.Properties
 					}
 					break;
 
+				case "IsRunAsAdmin":
 				case "ShortcutItemPath":
 				case "ShortcutItemWorkingDir":
 				case "ShortcutItemArguments":
-					var tmpItem = (ShortcutItem)Item;
 					if (string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath))
 						return;
 
-                    await FileOperationsHelpers.CreateOrUpdateLinkAsync(Item.ItemPath, ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, ViewModel.ShortcutItemWorkingDir, tmpItem.RunAsAdmin);
+                    await FileOperationsHelpers.CreateOrUpdateLinkAsync(Item.ItemPath, ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, ViewModel.ShortcutItemWorkingDir, ViewModel.IsRunAsAdmin);
                     break;
             }
         }

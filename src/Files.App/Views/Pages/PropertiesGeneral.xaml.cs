@@ -8,6 +8,7 @@ using Files.Shared;
 using Files.Shared.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -104,8 +105,31 @@ namespace Files.App.Views
 						UIFilesystemHelpers.SetHiddenAttributeItem(item, ViewModel.IsHidden, itemMM)
 					);
 				}
+                
+                // Handles run as administrator for shortcuts
+                if (item.IsShortcut)
+                {
+                    var shortcutItem = (ShortcutItem)item;
 
-				if (!hasNewName)
+                    App.Logger.Warn("Is a shortcut file");
+
+                    var isApplication = !string.IsNullOrWhiteSpace(shortcutItem.TargetPath) &&
+                        (shortcutItem.TargetPath.EndsWith(".exe", StringComparison.OrdinalIgnoreCase)
+                            || shortcutItem.TargetPath.EndsWith(".msi", StringComparison.OrdinalIgnoreCase)
+                            || shortcutItem.TargetPath.EndsWith(".bat", StringComparison.OrdinalIgnoreCase));
+
+                    if (!isApplication)
+                        goto rename;
+
+                    App.Logger.Warn("About to set admin property");
+
+                    await App.Window.DispatcherQueue.EnqueueAsync(() =>
+                        UIFilesystemHelpers.SetShortcutIsRunAsAdmin(shortcutItem, ViewModel.IsRunAsAdmin, AppInstance)
+                    );
+                }
+
+				rename:
+                if (!hasNewName)
 					return true;
 
 				return await App.Window.DispatcherQueue.EnqueueAsync(() =>
