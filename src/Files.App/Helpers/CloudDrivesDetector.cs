@@ -78,6 +78,12 @@ namespace Files.App.Helpers
 						driveType = appName;
 					}
 
+					// iCloud specific
+					if (driveType.StartsWith("iCloudDrive"))
+						driveType = "iCloudDrive";
+					if (driveType.StartsWith("iCloudPhotos"))
+						driveType = "iCloudPhotos";
+
 					using var bagKey = clsidSubKey.OpenSubKey(@"Instance\InitPropertyBag");
 					var syncedFolder = (string)bagKey?.GetValue("TargetFolderPath");
 					if (syncedFolder is null)
@@ -92,8 +98,8 @@ namespace Files.App.Helpers
 						"Amazon Drive" => CloudProviders.AmazonDrive,
 						"Nextcloud" => CloudProviders.Nextcloud,
 						"Jottacloud" => CloudProviders.Jottacloud,
-                        "iCloudDrive!S-1-5-21-4064190285-3015957005-1528788272-1001!Personal" => CloudProviders.AppleCloudDrive,
-                        "iCloudPhotos!S-1-5-21-4064190285-3015957005-1528788272-1001!Personal" => CloudProviders.AppleCloudPhotos,
+						"iCloudDrive" => CloudProviders.AppleCloudDrive,
+						"iCloudPhotos" => CloudProviders.AppleCloudPhotos,
 						_ => null,
 					};
 					if (driveID is null)
