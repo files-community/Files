@@ -80,18 +80,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 					// Export file tags list and DB
 					var exportTags = UTF8Encoding.UTF8.GetBytes((string)FileTagsSettingsService.ExportSettings());
 					await zipFolder.CreateFileAsync(new MemoryStream(exportTags), Constants.LocalSettings.FileTagSettingsFileName, CreationCollisionOption.ReplaceExisting);
-					byte[] exportTagsDB;
-					using (var tagDbInstance = FileTagsHelper.GetDbInstance())
-					{
-						exportTagsDB = UTF8Encoding.UTF8.GetBytes(tagDbInstance.Export());
-					}
+					var tagDbInstance = FileTagsHelper.GetDbInstance();
+					byte[] exportTagsDB = UTF8Encoding.UTF8.GetBytes(tagDbInstance.Export());
 					await zipFolder.CreateFileAsync(new MemoryStream(exportTagsDB), Path.GetFileName(FileTagsHelper.FileTagsDbPath), CreationCollisionOption.ReplaceExisting);
 					// Export layout preferences DB
-					byte[] exportPrefsDB;
-					using (var layoutDbInstance = FolderSettingsViewModel.GetDbInstance())
-					{
-						exportPrefsDB = UTF8Encoding.UTF8.GetBytes(layoutDbInstance.Export());
-					}
+					var layoutDbInstance = FolderSettingsViewModel.GetDbInstance();
+					byte[] exportPrefsDB = UTF8Encoding.UTF8.GetBytes(layoutDbInstance.Export());
 					await zipFolder.CreateFileAsync(new MemoryStream(exportPrefsDB), Path.GetFileName(FolderSettingsViewModel.LayoutSettingsDbPath), CreationCollisionOption.ReplaceExisting);
 				}
 				catch (Exception ex)
@@ -143,17 +137,13 @@ namespace Files.App.ViewModels.SettingsViewModels
 					FileTagsSettingsService.ImportSettings(importTags);
 					var fileTagsDB = await zipFolder.GetFileAsync(Path.GetFileName(FileTagsHelper.FileTagsDbPath));
 					string importTagsDB = await fileTagsDB.ReadTextAsync();
-					using (var tagDbInstance = FileTagsHelper.GetDbInstance())
-					{
-						tagDbInstance.Import(importTagsDB);
-					}
+					var tagDbInstance = FileTagsHelper.GetDbInstance();
+					tagDbInstance.Import(importTagsDB);
 					// Import layout preferences and DB
 					var layoutPrefsDB = await zipFolder.GetFileAsync(Path.GetFileName(FolderSettingsViewModel.LayoutSettingsDbPath));
 					string importPrefsDB = await layoutPrefsDB.ReadTextAsync();
-					using (var layoutDbInstance = FolderSettingsViewModel.GetDbInstance())
-					{
-						layoutDbInstance.Import(importPrefsDB);
-					}
+					var layoutDbInstance = FolderSettingsViewModel.GetDbInstance();
+					layoutDbInstance.Import(importPrefsDB);
 				}
 				catch (Exception ex)
 				{

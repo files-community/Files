@@ -97,6 +97,7 @@ namespace Files.App.Helpers
 					{
 						Themes.Add(theme);
 					}
+					ForceReloadResourceFile();
 					return true;
 				}
 				return false;
@@ -106,6 +107,22 @@ namespace Files.App.Helpers
 				App.Logger.Warn(ex, $"Error loading theme: {theme?.Path}");
 				return false;
 			}
+		}
+
+		/// <summary>
+		/// Forces the application to use the correct resource styles
+		/// </summary>
+		private void ForceReloadResourceFile()
+		{
+			// Get the index of the current theme
+			var selTheme = ThemeHelper.RootTheme;
+
+			// Toggle between the themes to force the controls to use the new resource styles
+			ThemeHelper.RootTheme = ElementTheme.Dark;
+			ThemeHelper.RootTheme = ElementTheme.Light;
+
+			// Restore the theme to the correct theme
+			ThemeHelper.RootTheme = selTheme;
 		}
 
 		public async Task<ResourceDictionary> TryLoadResourceDictionary(AppTheme theme)
