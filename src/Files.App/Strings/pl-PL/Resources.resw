@@ -2858,7 +2858,7 @@
     <value>Ścieżka</value>
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
-    <value>Sorting and grouping</value>
+    <value>Sortowanie i grupowanie</value>
   </data>
   <data name="Archive" xml:space="preserve">
     <value>Archiwum</value>
@@ -2930,7 +2930,7 @@
     <value>Kolumna statusu synchronizacji</value>
   </data>
   <data name="GroupBy" xml:space="preserve">
-    <value>Group by</value>
+    <value>Grupuj według</value>
   </data>
   <data name="SortBy" xml:space="preserve">
     <value>Sortuj według</value>
