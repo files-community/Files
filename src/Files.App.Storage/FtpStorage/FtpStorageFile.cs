@@ -7,31 +7,23 @@ using System.Threading.Tasks;
 
 namespace Files.App.Storage.FtpStorage
 {
+	/// <inheritdoc cref="IFile"/>
 	public sealed class FtpStorageFile : FtpStorable, IModifiableFile, ILocatableFile
 	{
-		public FtpStorageFile(string path, string name)
-			: base(path, name)
-		{
-		}
+		public FtpStorageFile(string path, string name) : base(path, name) {}
 
 		/// <inheritdoc/>
 		public async Task<Stream> OpenStreamAsync(FileAccess access, FileShare share, CancellationToken cancellationToken = default)
 		{
-			using var ftpClient = GetFtpClient();
-			await ftpClient.EnsureConnectedAsync(cancellationToken);
+			using var ftpClient = await GetFtpClient(cancellationToken);
 
 			if (access.HasFlag(FileAccess.Write))
-			{
 				return await ftpClient.OpenWrite(Path, token: cancellationToken);
-			}
-			else if (access.HasFlag(FileAccess.Read))
-			{
+
+			if (access.HasFlag(FileAccess.Read))
 				return await ftpClient.OpenRead(Path, token: cancellationToken);
-			}
-			else
-			{
-				throw new ArgumentException($"Invalid {nameof(share)} flag.");
-			}
+
+			throw new ArgumentException($"Invalid {nameof(share)} flag.");
 		}
 	}
 }

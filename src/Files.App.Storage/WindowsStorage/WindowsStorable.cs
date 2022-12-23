@@ -10,24 +10,18 @@ namespace Files.App.Storage.WindowsStorage
 	public abstract class WindowsStorable<TStorage> : ILocatableStorable
 		where TStorage : class, IStorageItem
 	{
-		internal readonly TStorage storage;
+		/// <inheritdoc/>
+		public string Id => string.Empty;
 
 		/// <inheritdoc/>
-		public string Path { get; protected internal set; }
+		public string Name => Storage.Name;
 
 		/// <inheritdoc/>
-		public string Name { get; protected internal set; }
+		public string Path => Storage.Path;
 
-		/// <inheritdoc/>
-		public string Id { get; protected internal set; }
+		internal TStorage Storage { get; }
 
-		protected internal WindowsStorable(TStorage storage)
-		{
-			this.storage = storage;
-			this.Path = storage.Path;
-			this.Name = storage.Name;
-			this.Id = string.Empty;
-		}
+		protected internal WindowsStorable(TStorage storage) => Storage = storage;
 
 		/// <inheritdoc/>
 		public abstract Task<ILocatableFolder?> GetParentAsync(CancellationToken cancellationToken = default);

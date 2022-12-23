@@ -10,24 +10,11 @@ namespace Files.App.Storage.FtpStorage
 {
 	public sealed class FtpFileSystemService : IFileSystemService
 	{
+		/// <inheritdoc/>
 		public Task<bool> IsFileSystemAccessibleAsync(CancellationToken cancellationToken = default)
-		{
-			return Task.FromResult(true); // TODO: Check if FTP is available
-		}
+			=> Task.FromResult(true); // TODO: Check if FTP is available
 
-		public async Task<bool> FileExistsAsync(string path, CancellationToken cancellationToken = default)
-		{
-			try
-			{
-				_ = await GetFileFromPathAsync(path, cancellationToken);
-				return true;
-			}
-			catch (Exception)
-			{
-				return false;
-			}
-		}
-
+		/// <inheritdoc/>
 		public async Task<bool> DirectoryExistsAsync(string path, CancellationToken cancellationToken = default)
 		{
 			try
@@ -41,30 +28,51 @@ namespace Files.App.Storage.FtpStorage
 			}
 		}
 
+		/// <inheritdoc/>
+		public async Task<bool> FileExistsAsync(string path, CancellationToken cancellationToken = default)
+		{
+			try
+			{
+				_ = await GetFileFromPathAsync(path, cancellationToken);
+				return true;
+			}
+			catch (Exception)
+			{
+				return false;
+			}
+		}
+
+		/// <inheritdoc/>
 		public async Task<ILocatableFolder> GetFolderFromPathAsync(string path, CancellationToken cancellationToken = default)
 		{
-			using var ftpClient = FtpHelpers.GetFtpClient(path);
-			await ftpClient.EnsureConnectedAsync(cancellationToken);
+			using var ftpClient = await GetClient(path);
+			var ftpPath = path.GetFtpPath();
 
-			var ftpPath = FtpHelpers.GetFtpPath(path);
 			var item = await ftpClient.GetObjectInfo(ftpPath, token: cancellationToken);
-			if (item is null || item.Type != FtpObjectType.Directory)
+			if (item is null || item.Type is not FtpObjectType.Directory)
 				throw new DirectoryNotFoundException("Directory was not found from path.");
 
 			return new FtpStorageFolder(ftpPath, item.Name);
 		}
 
+		/// <inheritdoc/>
 		public async Task<ILocatableFile> GetFileFromPathAsync(string path, CancellationToken cancellationToken = default)
 		{
-			using var ftpClient = FtpHelpers.GetFtpClient(path);
-			await ftpClient.EnsureConnectedAsync(cancellationToken);
+			using var client = await GetClient(path, cancellationToken);
+			var ftpPath = path.GetFtpPath();
 
-			var ftpPath = FtpHelpers.GetFtpPath(path);
-			var item = await ftpClient.GetObjectInfo(ftpPath, token: cancellationToken);
-			if (item is null || item.Type != FtpObjectType.File)
+			var item = await client.GetObjectInfo(ftpPath, token: cancellationToken);
+			if (item is null || item.Type is not FtpObjectType.File)
 				throw new FileNotFoundException("File was not found from path.");
 
 			return new FtpStorageFile(ftpPath, item.Name);
+		}
+
+		private static async Task<AsyncFtpClient> GetClient(string path, CancellationToken cancellationToken = default)
+		{
+			using AsyncFtpClient client = path.GetFtpClient();
+			await client.EnsureConnectedAsync(cancellationToken);
+			return client;
 		}
 	}
 }

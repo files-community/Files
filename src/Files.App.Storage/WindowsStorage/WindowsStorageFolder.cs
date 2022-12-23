@@ -1,9 +1,11 @@
+using Files.App.Storage.Extensions;
 using Files.Sdk.Storage;
 using Files.Sdk.Storage.Enums;
 using Files.Sdk.Storage.LocatableStorage;
 using Files.Sdk.Storage.ModifiableStorage;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,87 +17,79 @@ namespace Files.App.Storage.WindowsStorage
 	/// <inheritdoc cref="IFolder"/>
 	public sealed class WindowsStorageFolder : WindowsStorable<StorageFolder>, ILocatableFolder, IModifiableFolder
 	{
-		public WindowsStorageFolder(StorageFolder storage)
-			: base(storage)
-		{
-		}
+		public WindowsStorageFolder(StorageFolder storage) : base(storage) {}
 
 		/// <inheritdoc/>
-		public async Task<IFile> GetFileAsync(string fileName, CancellationToken cancellationToken = default)
+		public override async Task<ILocatableFolder?> GetParentAsync(CancellationToken cancellationToken = default)
 		{
-			var fileTask = storage.GetFileAsync(fileName).AsTask(cancellationToken);
-			var file = await fileTask;
-
-			return new WindowsStorageFile(file);
+			var parent = await Storage.GetParentAsync().AsTask(cancellationToken);
+			return new WindowsStorageFolder(parent);
 		}
 
 		/// <inheritdoc/>
 		public async Task<IFolder> GetFolderAsync(string folderName, CancellationToken cancellationToken = default)
 		{
-			var folderTask = storage.GetFolderAsync(folderName).AsTask(cancellationToken);
-			var folder = await folderTask;
-
+			var folder = await Storage.GetFolderAsync(folderName).AsTask(cancellationToken);
 			return new WindowsStorageFolder(folder);
 		}
 
 		/// <inheritdoc/>
-		public async IAsyncEnumerable<IStorable> GetItemsAsync(StorableKind kind = StorableKind.All, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+		public async Task<IFile> GetFileAsync(string fileName, CancellationToken cancellationToken = default)
 		{
-			if (kind == StorableKind.Files)
-			{
-				var files = await storage.GetFilesAsync().AsTask(cancellationToken);
-				foreach (var item in files)
-				{
-					yield return new WindowsStorageFile(item);
-				}
-			}
-			else if (kind == StorableKind.Folders)
-			{
-				var folders = await storage.GetFoldersAsync().AsTask(cancellationToken);
-				foreach (var item in folders)
-				{
-					yield return new WindowsStorageFolder(item);
-				}
-			}
-			else
-			{
-				var items = await storage.GetItemsAsync().AsTask(cancellationToken);
-				foreach (var item in items)
-				{
-					if (item is StorageFile storageFile)
-						yield return new WindowsStorageFile(storageFile);
+			var file = await Storage.GetFileAsync(fileName).AsTask(cancellationToken);
+			return new WindowsStorageFile(file);
+		}
 
-					if (item is StorageFolder storageFolder)
-						yield return new WindowsStorageFolder(storageFolder);
-				}
+		/// <inheritdoc/>
+		public async IAsyncEnumerable<IStorable> GetItemsAsync
+			(StorableKind kind = StorableKind.All, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+		{
+			var items = await EnumerateItemsAsync();
+			foreach (var item in items)
+			{
+				if (item is StorageFile storageFile)
+					yield return new WindowsStorageFile(storageFile);
+
+				if (item is StorageFolder storageFolder)
+					yield return new WindowsStorageFolder(storageFolder);
+			}
+
+			async Task<IEnumerable<IStorageItem>> EnumerateItemsAsync()
+			{
+				var items = await Storage.GetItemsAsync().AsTask(cancellationToken);
+				if (items is null)
+					return Enumerable.Empty<IStorageItem>();
+
+				return kind switch
+				{
+					StorableKind.Folders => items.OfType<StorageFolder>(),
+					StorableKind.Files => items.OfType<StorageFile>(),
+					_ => items,
+				};
 			}
 		}
 
 		/// <inheritdoc/>
 		public async Task DeleteAsync(IStorable item, bool permanently = false, CancellationToken cancellationToken = default)
 		{
+			var option = permanently ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default;
+
 			if (item is WindowsStorable<StorageFile> storageFile)
-			{
-				await storageFile.storage.DeleteAsync(GetWindowsStorageDeleteOption(permanently)).AsTask(cancellationToken);
-			}
+				await storageFile.Storage.DeleteAsync(option).AsTask(cancellationToken);
 			else if (item is WindowsStorable<StorageFolder> storageFolder)
-			{
-				await storageFolder.storage.DeleteAsync(GetWindowsStorageDeleteOption(permanently)).AsTask(cancellationToken);
-			}
+				await storageFolder.Storage.DeleteAsync(option).AsTask(cancellationToken);
 			else
-			{
 				throw new NotImplementedException();
-			}
 		}
 
 		/// <inheritdoc/>
-		public async Task<IStorable> CreateCopyOfAsync(IStorable itemToCopy, CreationCollisionOption collisionOption = default, CancellationToken cancellationToken = default)
+		public async Task<IStorable> CreateCopyOfAsync(IStorable itemToCopy,
+			CreationCollisionOption collisionOption = default, CancellationToken cancellationToken = default)
 		{
 			if (itemToCopy is WindowsStorable<StorageFile> storageFile)
 			{
-				var copiedFileTask = storageFile.storage.CopyAsync(storage, itemToCopy.Name, GetWindowsNameCollisionOption(collisionOption)).AsTask(cancellationToken);
-				var copiedFile = await copiedFileTask;
-
+				var option = collisionOption.ToWindowsNameCollisionOption();
+				var copiedFile = await storageFile.Storage.CopyAsync(Storage, itemToCopy.Name, option).AsTask(cancellationToken);
 				return new WindowsStorageFile(copiedFile);
 			}
 
@@ -103,72 +97,35 @@ namespace Files.App.Storage.WindowsStorage
 		}
 
 		/// <inheritdoc/>
-		public async Task<IStorable> MoveFromAsync(IStorable itemToMove, IModifiableFolder source, CreationCollisionOption collisionOption = default, CancellationToken cancellationToken = default)
+		public async Task<IStorable> MoveFromAsync(IStorable itemToMove,
+			IModifiableFolder source, CreationCollisionOption collisionOption = default, CancellationToken cancellationToken = default)
 		{
 			if (itemToMove is WindowsStorable<StorageFile> storageFile)
 			{
-				await storageFile.storage.MoveAsync(storage, itemToMove.Name, GetWindowsNameCollisionOption(collisionOption)).AsTask(cancellationToken);
-				return new WindowsStorageFile(storageFile.storage);
+				var option = collisionOption.ToWindowsNameCollisionOption();
+				await storageFile.Storage.MoveAsync(Storage, itemToMove.Name, option).AsTask(cancellationToken);
+				return new WindowsStorageFile(storageFile.Storage);
 			}
 
 			throw new ArgumentException($"Could not copy type {itemToMove.GetType()}");
 		}
 
 		/// <inheritdoc/>
-		public async Task<IFile> CreateFileAsync(string desiredName, CreationCollisionOption collisionOption = default, CancellationToken cancellationToken = default)
+		public async Task<IFolder> CreateFolderAsync(string desiredName,
+			CreationCollisionOption collisionOption = default, CancellationToken cancellationToken = default)
 		{
-			var fileTask = storage.CreateFileAsync(desiredName, GetWindowsCreationCollisionOption(collisionOption)).AsTask(cancellationToken);
-			var file = await fileTask;
-
-			return new WindowsStorageFile(file);
-		}
-
-		/// <inheritdoc/>
-		public async Task<IFolder> CreateFolderAsync(string desiredName, CreationCollisionOption collisionOption = default, CancellationToken cancellationToken = default)
-		{
-			var folderTask = storage.CreateFolderAsync(desiredName, GetWindowsCreationCollisionOption(collisionOption)).AsTask(cancellationToken);
-			var folder = await folderTask;
-
+			var option = collisionOption.ToWindowsCreationCollisionOption();
+			var folder = await Storage.CreateFolderAsync(desiredName, option).AsTask(cancellationToken);
 			return new WindowsStorageFolder(folder);
 		}
 
-		private static StorageDeleteOption GetWindowsStorageDeleteOption(bool deletePermanentlyFlag)
-		{
-			return deletePermanentlyFlag ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default;
-		}
-
-		private static Windows.Storage.NameCollisionOption GetWindowsNameCollisionOption(
-			CreationCollisionOption options)
-		{
-			return options switch
-			{
-				CreationCollisionOption.GenerateUniqueName => Windows.Storage.NameCollisionOption.GenerateUniqueName,
-				CreationCollisionOption.ReplaceExisting => Windows.Storage.NameCollisionOption.ReplaceExisting,
-				CreationCollisionOption.FailIfExists => Windows.Storage.NameCollisionOption.FailIfExists,
-				_ => throw new ArgumentOutOfRangeException(nameof(options))
-			};
-		}
-
-        private static Windows.Storage.CreationCollisionOption GetWindowsCreationCollisionOption(
-            CreationCollisionOption options)
-        {
-            return options switch
-            {
-                CreationCollisionOption.GenerateUniqueName => Windows.Storage.CreationCollisionOption.GenerateUniqueName,
-                CreationCollisionOption.ReplaceExisting => Windows.Storage.CreationCollisionOption.ReplaceExisting,
-                CreationCollisionOption.OpenIfExists => Windows.Storage.CreationCollisionOption.OpenIfExists,
-                CreationCollisionOption.FailIfExists => Windows.Storage.CreationCollisionOption.FailIfExists,
-                _ => throw new ArgumentOutOfRangeException(nameof(options))
-            };
-        }
-
 		/// <inheritdoc/>
-		public override async Task<ILocatableFolder?> GetParentAsync(CancellationToken cancellationToken = default)
+		public async Task<IFile> CreateFileAsync(string desiredName,
+			CreationCollisionOption collisionOption = default, CancellationToken cancellationToken = default)
 		{
-			var parentFolderTask = storage.GetParentAsync().AsTask(cancellationToken);
-			var parentFolder = await parentFolderTask;
-
-			return new WindowsStorageFolder(parentFolder);
+			var option = collisionOption.ToWindowsCreationCollisionOption();
+			var file = await Storage.CreateFileAsync(desiredName, option).AsTask(cancellationToken);
+			return new WindowsStorageFile(file);
 		}
 	}
 }

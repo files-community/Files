@@ -8,59 +8,60 @@ namespace Files.App.Storage.FtpStorage
 {
 	internal static class FtpHelpers
 	{
-		public static string GetFtpPath(string path)
+		public static AsyncFtpClient GetFtpClient(this string path)
 		{
-			path = path.Replace("\\", "/", StringComparison.Ordinal);
+			var host = path.GetFtpHost();
+			var port = path.GetFtpPort();
+			var credentials = FtpManager.Credentials.Get(host, FtpManager.Anonymous);
 
-			var schemaIndex = path.IndexOf("://", StringComparison.Ordinal) + 3;
-			var hostIndex = path.IndexOf("/", schemaIndex, StringComparison.Ordinal);
-
-			return hostIndex == -1 ? "/" : path.Substring(hostIndex);
+			return new(host, credentials, port);
 		}
 
-		public static Task EnsureConnectedAsync(this AsyncFtpClient ftpClient, CancellationToken cancellationToken = default)
+		public static string GetFtpPath(this string path)
 		{
-			return ftpClient.IsConnected ? Task.CompletedTask : ftpClient.Connect(cancellationToken);
+			path = path.Replace("\\", "/");
+
+			var schemaIndex = path.IndexOf("://") + 3;
+			var hostIndex = path.IndexOf("/", schemaIndex);
+
+			return hostIndex is not -1 ? "/" : path[hostIndex..];
 		}
 
-		public static string GetFtpHost(string path)
+		public static string GetFtpHost(this string path)
 		{
-			var authority = GetFtpAuthority(path);
-			var index = authority.IndexOf(':', StringComparison.Ordinal);
+			var authority = path.GetFtpAuthority();
+			var index = authority.IndexOf(':');
 
-			return index == -1 ? authority : authority.Substring(0, index);
+			return index is not -1 ? authority : authority[..index];
 		}
 
-		public static ushort GetFtpPort(string path)
+		public static ushort GetFtpPort(this string path)
 		{
-			var authority = GetFtpAuthority(path);
-			var index = authority.IndexOf(':', StringComparison.Ordinal);
+			var authority = path.GetFtpAuthority();
+			var index = authority.IndexOf(':');
 
-			if (index != -1)
-				return ushort.Parse(authority.Substring(index + 1));
+			if (index is not -1)
+				return ushort.Parse(authority[(index + 1)..]);
 
 			return path.StartsWith("ftps://", StringComparison.OrdinalIgnoreCase) ? (ushort)990 : (ushort)21;
 		}
 
-		public static string GetFtpAuthority(string path)
+		public static string GetFtpAuthority(this string path)
 		{
-			path = path.Replace("\\", "/", StringComparison.Ordinal);
-			var schemaIndex = path.IndexOf("://", StringComparison.Ordinal) + 3;
-			var hostIndex = path.IndexOf("/", schemaIndex, StringComparison.Ordinal);
+			path = path.Replace("\\", "/");
+			var schemaIndex = path.IndexOf("://") + 3;
+			var hostIndex = path.IndexOf("/");
 
 			if (hostIndex == -1)
 				hostIndex = path.Length;
 
-			return path.Substring(schemaIndex, hostIndex - schemaIndex);
+			return path[schemaIndex..hostIndex];
 		}
 
-		public static AsyncFtpClient GetFtpClient(string ftpPath)
+		public static async Task EnsureConnectedAsync(this AsyncFtpClient ftpClient, CancellationToken cancellationToken = default)
 		{
-			var host = GetFtpHost(ftpPath);
-			var port = GetFtpPort(ftpPath);
-			var credentials = FtpManager.Credentials.Get(host, FtpManager.Anonymous);
-
-			return new(host, credentials, port);
+			if (!ftpClient.IsConnected)
+				await ftpClient.Connect(cancellationToken);
 		}
 	}
 }

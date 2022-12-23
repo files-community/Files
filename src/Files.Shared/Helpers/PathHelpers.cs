@@ -5,7 +5,7 @@ namespace Files.Shared.Helpers
 {
 	public static class PathHelpers
 	{
-		public static string GetParentDir(string path)
+		public static string GetParentDir(this string path)
 		{
 			if (string.IsNullOrEmpty(path))
 				return string.Empty;
@@ -14,7 +14,7 @@ namespace Files.Shared.Helpers
 			return path.Substring(0, index != -1 ? index : path.Length);
 		}
 
-		public static string Combine(string folder, string name)
+		public static string Combine(this string folder, string name)
 		{
 			if (string.IsNullOrEmpty(folder))
 				return name;

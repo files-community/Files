@@ -5,32 +5,32 @@ using System.Threading.Tasks;
 
 namespace Files.App.Storage.FtpStorage
 {
+	/// <inheritdoc cref="IStorable"/>
 	public abstract class FtpStorable : ILocatableStorable
 	{
 		/// <inheritdoc/>
-		public string Path { get; protected set; }
+		public string Id => string.Empty;
 
 		/// <inheritdoc/>
-		public string Name { get; protected set; }
+		public string Name { get; }
 
 		/// <inheritdoc/>
-		public string Id { get; protected set; }
+		public string Path { get; }
 
 		protected internal FtpStorable(string path, string name)
 		{
-			Path = FtpHelpers.GetFtpPath(path);
 			Name = name;
-			Id = string.Empty;
+			Path = path.GetFtpPath();
 		}
 
 		public virtual Task<ILocatableFolder?> GetParentAsync(CancellationToken cancellationToken = default)
-		{
-			return Task.FromResult<ILocatableFolder?>(null);
-		}
+			=> Task.FromResult<ILocatableFolder?>(null);
 
-		protected AsyncFtpClient GetFtpClient()
+		protected async Task<AsyncFtpClient> GetFtpClient(CancellationToken cancellationToken = default)
 		{
-			return FtpHelpers.GetFtpClient(Path);
+			AsyncFtpClient client = Path.GetFtpClient();
+			await client.EnsureConnectedAsync(cancellationToken);
+			return client;
 		}
 	}
 }
