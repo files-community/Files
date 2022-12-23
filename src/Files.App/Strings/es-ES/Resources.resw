@@ -197,7 +197,7 @@
     <value>Buscar</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
-    <value>Los archivos a los que hayas accedido anteriormente aparecerán aquí</value>
+    <value>Los archivos a los que previamente haya accedido se mostrarán aquí</value>
   </data>
   <data name="RecentItemOpenFileLocation.Text" xml:space="preserve">
     <value>Abrir ubicación del archivo</value>
@@ -338,7 +338,7 @@
     <value>Conceder permiso</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>Para empezar, tendrás que darnos permiso para mostrar tus archivos. Se abrirá una página de Configuración en la que podrás concedernos este permiso. Tendrás que volver a abrir la aplicación cuando hayas completado este paso. </value>
+    <value>Para comenzar, deberá otorgar permisos para mostrar sus archivos. Se abrirá una página de Configuración donde puede otorgar dicho permiso. Deberá volver a abrir la aplicación una vez haya completado este paso. </value>
   </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Archivo</value>
@@ -620,7 +620,7 @@
     <value>Sin resultados</value>
   </data>
   <data name="SubDirectoryAccessDenied" xml:space="preserve">
-    <value>No se puede acceder a ningún elemento que se pueda mostrar</value>
+    <value>No se puede acceder a ningún elemento para mostrar</value>
   </data>
   <data name="MoveToFolderCaptionText" xml:space="preserve">
     <value>Mover a {0}</value>
@@ -1217,7 +1217,7 @@
     <value>Incluir elementos no indexados en los resultados de búsqueda</value>
   </data>
   <data name="ResetFolderPreferencesOverrides" xml:space="preserve">
-    <value>Restablecer carpetas anuladas</value>
+    <value>Restablecer valores predeterminados de carpetas</value>
   </data>
   <data name="EnableOverridingFolderPreferencesDescription" xml:space="preserve">
     <value>Cuando esta opción está desactivada, cambiar el diseño de un directorio actualizará el diseño de todos los directorios.</value>
@@ -1502,7 +1502,7 @@
     <value>Abrir en nuevo panel</value>
   </data>
   <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
-    <value>Mostrar sección Bibliotecas</value>
+    <value>Mostrar sección de bibliotecas</value>
   </data>
   <data name="Default" xml:space="preserve">
     <value>Predeterminado</value>
@@ -1658,16 +1658,16 @@
     <value>Abrir carpetas en nueva pestaña</value>
   </data>
   <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>Mostrar el widget de contenedores</value>
+    <value>Mostrar widget de Contenedores</value>
   </data>
   <data name="ShowDrivesWidget" xml:space="preserve">
-    <value>Mostrar widget de unidades</value>
+    <value>Mostrar widget de Unidades</value>
   </data>
   <data name="ShowFolderWidget" xml:space="preserve">
-    <value>Mostrar widget de carpetas</value>
+    <value>Mostrar widget de Carpetas</value>
   </data>
   <data name="ShowRecentFilesWidget" xml:space="preserve">
-    <value>Mostrar widget de archivos recientes</value>
+    <value>Mostrar widget de Archivos Recientes</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
     <value>¿No encontró lo que está buscando?</value>
@@ -2195,7 +2195,7 @@
     <value>Mostrar sección de unidades en la nube</value>
   </data>
   <data name="SettingsShowDrivesSection.Title" xml:space="preserve">
-    <value>Mostrar sección de unidades</value>
+    <value>Mostrar sección de unidades de disco</value>
   </data>
   <data name="SettingsShowWslSection.Title" xml:space="preserve">
     <value>Mostrar sección WSL</value>
@@ -2387,7 +2387,7 @@
     <value>Mostrar elementos ocultos</value>
   </data>
   <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar Favoritos</value>
+    <value>Mostrar sección de favoritos</value>
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Abrir carpetas en nueva pestaña</value>
@@ -2402,16 +2402,16 @@
     <value>Mostrar un diálogo de confirmación al eliminar archivos o carpetas</value>
   </data>
   <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar sección de unidades</value>
+    <value>Mostrar sección de unidades de disco</value>
   </data>
   <data name="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar sección Bibliotecas</value>
+    <value>Mostrar sección de bibliotecas</value>
   </data>
   <data name="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Mostrar sección de unidades de red</value>
   </data>
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar sección WSL</value>
+    <value>Mostrar sección de WSL</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Tareas en curso</value>
@@ -2690,7 +2690,7 @@
     <value>Mostrar sección Etiquetas</value>
   </data>
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar sección Etiquetas</value>
+    <value>Mostrar sección de etiquetas</value>
   </data>
   <data name="UseCompactStyles" xml:space="preserve">
     <value>Utilizar estilos compactos en el diseño de detalles</value>

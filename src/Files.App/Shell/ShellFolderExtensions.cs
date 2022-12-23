@@ -42,7 +42,9 @@ namespace Files.App.Shell
 			{
 				return null;
 			}
-			bool isFolder = folderItem.IsFolder && !folderItem.Attributes.HasFlag(ShellItemAttribute.Stream);
+			// Zip archives are also shell folders, check for STREAM attribute
+			// Do not use folderItem's Attributes property, throws unimplemented for some shell folders
+			bool isFolder = folderItem.IsFolder && folderItem.IShellItem?.GetAttributes(Shell32.SFGAO.SFGAO_STREAM) is 0;
 			var parsingPath = folderItem.GetDisplayName(ShellItemDisplayString.DesktopAbsoluteParsing);
 			parsingPath ??= folderItem.FileSystemPath; // True path on disk
 			if (parsingPath is null || !Path.IsPathRooted(parsingPath))
@@ -61,8 +63,8 @@ namespace Files.App.Shell
 			fileName ??= Path.GetFileName(folderItem.Name); // Original file name
 			fileName ??= folderItem.GetDisplayName(ShellItemDisplayString.ParentRelativeParsing);
 			var itemNameOrOriginalPath = folderItem.Name ?? fileName;
-			string filePath = string.IsNullOrEmpty(Path.GetDirectoryName(parsingPath)) ? // Null if root
-				parsingPath : Path.Combine(Path.GetDirectoryName(parsingPath), itemNameOrOriginalPath); // In recycle bin "Name" contains original file path + name
+			string filePath = Path.IsPathRooted(itemNameOrOriginalPath) ? 
+				itemNameOrOriginalPath : parsingPath; // In recycle bin "Name" contains original file path + name
 			if (!isFolder && !string.IsNullOrEmpty(parsingPath) && Path.GetExtension(parsingPath) is string realExtension && !string.IsNullOrEmpty(realExtension))
 			{
 				if (!string.IsNullOrEmpty(fileName) && !fileName.EndsWith(realExtension, StringComparison.OrdinalIgnoreCase))
@@ -79,14 +81,14 @@ namespace Files.App.Shell
 			var recycleDate = fileTime?.ToDateTime().ToLocalTime() ?? DateTime.Now; // This is LocalTime
 			fileTime = folderItem.Properties.TryGetProperty<System.Runtime.InteropServices.ComTypes.FILETIME?>(
 				Ole32.PROPERTYKEY.System.DateModified);
-			var modifiedDate = fileTime?.ToDateTime().ToLocalTime() ?? folderItem.FileInfo?.LastWriteTime ?? DateTime.Now; // This is LocalTime
+			var modifiedDate = fileTime?.ToDateTime().ToLocalTime() ?? SafetyExtensions.IgnoreExceptions(() => folderItem.FileInfo?.LastWriteTime) ?? DateTime.Now; // This is LocalTime
 			fileTime = folderItem.Properties.TryGetProperty<System.Runtime.InteropServices.ComTypes.FILETIME?>(
 				Ole32.PROPERTYKEY.System.DateCreated);
-			var createdDate = fileTime?.ToDateTime().ToLocalTime() ?? folderItem.FileInfo?.CreationTime ?? DateTime.Now; // This is LocalTime
+			var createdDate = fileTime?.ToDateTime().ToLocalTime() ?? SafetyExtensions.IgnoreExceptions(() => folderItem.FileInfo?.CreationTime) ?? DateTime.Now; // This is LocalTime
 			var fileSizeBytes = folderItem.Properties.TryGetProperty<ulong?>(Ole32.PROPERTYKEY.System.Size);
 			string fileSize = fileSizeBytes is not null ? folderItem.Properties.GetPropertyString(Ole32.PROPERTYKEY.System.Size) : null;
 			var fileType = folderItem.Properties.TryGetProperty<string>(Ole32.PROPERTYKEY.System.ItemTypeText);
-			return new ShellFileItem(isFolder, parsingPath, fileName, filePath, recycleDate, modifiedDate, createdDate, fileSize, fileSizeBytes ?? 0, fileType);
+			return new ShellFileItem(isFolder, parsingPath, fileName, filePath, recycleDate, modifiedDate, createdDate, fileSize, fileSizeBytes ?? 0, fileType, folderItem.PIDL.GetBytes());
 		}
 
 		public static ShellLinkItem GetShellLinkItem(ShellLink linkItem)

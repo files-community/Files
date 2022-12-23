@@ -54,6 +54,7 @@ namespace Files.App.UserControls
 	{
 		public string ItemPath { get; set; }
 		public string ItemName { get; set; }
+		public bool IsFile { get; set; }
 	}
 
 	public class ToolbarFlyoutOpenedEventArgs

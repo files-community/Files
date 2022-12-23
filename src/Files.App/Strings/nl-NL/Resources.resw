@@ -2000,7 +2000,7 @@
     <value>Documentatie weergeven.</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
-    <value>Extract Archive</value>
+    <value>Archief uitpakken</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>Open doelmap na voltooiing</value>
@@ -2837,7 +2837,7 @@
     <value>De bestemming kan niet worden gevonden {0}. Wilt u deze snelkoppeling verwijderen?</value>
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
-    <value>You don't have permission to access this folder.</value>
+    <value>U heeft geen rechten om in deze folder te zijn.</value>
   </data>
   <data name="LoadingThemes" xml:space="preserve">
     <value>Thema's laden</value>
@@ -2852,58 +2852,58 @@
     <value>Prullenbak leegmaken is mislukt</value>
   </data>
   <data name="ArchivePassword" xml:space="preserve">
-    <value>Archive password</value>
+    <value>Archief wachtwoord</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
-    <value>Path</value>
+    <value>Pad</value>
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
-    <value>Sorting and grouping</value>
+    <value>Sorteren en groeperen</value>
   </data>
   <data name="Archive" xml:space="preserve">
-    <value>Archive</value>
+    <value>Archief</value>
   </data>
   <data name="CreateArchive" xml:space="preserve">
-    <value>Create archive</value>
+    <value>ZIP-bestand maken</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>Maken</value>
   </data>
   <data name="CreateNamedArchive" xml:space="preserve">
-    <value>Create {0}</value>
+    <value>Maak {0}</value>
   </data>
   <data name="EnterName" xml:space="preserve">
-    <value>Enter a name</value>
+    <value>Naam invoeren</value>
   </data>
   <data name="CompressionLevel" xml:space="preserve">
-    <value>Compression level</value>
+    <value>Compressie niveau</value>
   </data>
   <data name="CompressionLevelUltra" xml:space="preserve">
-    <value>Ultra</value>
+    <value>Zeer hoog</value>
   </data>
   <data name="CompressionLevelHigh" xml:space="preserve">
-    <value>High</value>
+    <value>Hoog</value>
   </data>
   <data name="CompressionLevelNormal" xml:space="preserve">
-    <value>Normal</value>
+    <value>Normaal</value>
   </data>
   <data name="CompressionLevelLow" xml:space="preserve">
-    <value>Low</value>
+    <value>Laag</value>
   </data>
   <data name="CompressionLevelFast" xml:space="preserve">
-    <value>Fast</value>
+    <value>Snel</value>
   </data>
   <data name="CompressionLevelNone" xml:space="preserve">
     <value>Geen</value>
   </data>
   <data name="SplitArchive" xml:space="preserve">
-    <value>Split the archive</value>
+    <value>Split het archief</value>
   </data>
   <data name="SplittingSize" xml:space="preserve">
-    <value>Splitting size</value>
+    <value>Splits grootte</value>
   </data>
   <data name="Do not split" xml:space="preserve">
-    <value>Do not split</value>
+    <value>Niet splitsen</value>
   </data>
   <data name="CD" xml:space="preserve">
     <value>CD</value>
@@ -2918,7 +2918,7 @@
     <value>Blu-ray</value>
   </data>
   <data name="Encryption" xml:space="preserve">
-    <value>Encryption</value>
+    <value>Versleuteling</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>Wachtwoord</value>
@@ -2927,10 +2927,10 @@
     <value>Formaat</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowSyncStatus.Text" xml:space="preserve">
-    <value>Sync status column</value>
+    <value>Synchroniseer statuskolom</value>
   </data>
   <data name="GroupBy" xml:space="preserve">
-    <value>Group by</value>
+    <value>Groepeer</value>
   </data>
   <data name="SortBy" xml:space="preserve">
     <value>Sorteren op</value>
