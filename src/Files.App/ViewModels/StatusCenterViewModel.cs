@@ -188,10 +188,7 @@ namespace Files.App.ViewModels
 			this.Banner = banner;
 			this.OngoingTasksActions = OngoingTasksActions;
 			this.ProgressEventSource = new Progress<FileSystemProgress>(ReportProgressToBanner);
-			this.Progress = new(this.ProgressEventSource)
-			{
-				Status = FileSystemStatusCode.InProgress
-			};
+			this.Progress = new(this.ProgressEventSource, status: FileSystemStatusCode.InProgress);
 		}
 
 		public PostedStatusBanner(StatusBanner banner, IOngoingTasksActions OngoingTasksActions, CancellationTokenSource cancellationTokenSource)
@@ -200,10 +197,7 @@ namespace Files.App.ViewModels
 			this.OngoingTasksActions = OngoingTasksActions;
 			this.cancellationTokenSource = cancellationTokenSource;
 			this.ProgressEventSource = new Progress<FileSystemProgress>(ReportProgressToBanner);
-			this.Progress = new(this.ProgressEventSource)
-			{
-				Status = FileSystemStatusCode.InProgress
-			};
+			this.Progress = new(this.ProgressEventSource, status: FileSystemStatusCode.InProgress);
 		}
 
 		#endregion Constructor

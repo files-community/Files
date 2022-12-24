@@ -88,12 +88,7 @@ namespace Files.App.Helpers
 			int entriesAmount = fileEntries.Count;
 			int entriesFinished = 0;
 
-			FileSystemProgress fsProgress = new(progress)
-			{
-				EnumerationCompleted = true,
-				Status = Shared.Enums.FileSystemStatusCode.InProgress,
-				ItemsCount = entriesAmount
-			};
+			FileSystemProgress fsProgress = new(progress, true, Shared.Enums.FileSystemStatusCode.InProgress, entriesAmount);
 			fsProgress.Report();
 
 			foreach (var entry in fileEntries)

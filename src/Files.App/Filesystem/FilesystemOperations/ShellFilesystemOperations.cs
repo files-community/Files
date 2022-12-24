@@ -71,11 +71,7 @@ namespace Files.App.Filesystem
 				return await filesystemOperations.CopyItemsAsync(source, destination, collisions, progress, cancellationToken);
 			}
 
-			FileSystemProgress fsProgress = new(progress)
-			{
-				EnumerationCompleted = true,
-				Status = FileSystemStatusCode.InProgress
-			};
+			FileSystemProgress fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
 			fsProgress.Report();
 
 			var sourceNoSkip = source.Zip(collisions, (src, coll) => new { src, coll }).Where(item => item.coll != FileNameConflictResolveOptionType.Skip).Select(item => item.src);
@@ -194,11 +190,7 @@ namespace Files.App.Filesystem
 				return await filesystemOperations.CreateAsync(source, progress, cancellationToken);
 			}
 
-			FileSystemProgress fsProgress = new(progress)
-			{
-				EnumerationCompleted = true,
-				Status = FileSystemStatusCode.InProgress
-			};
+			FileSystemProgress fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
 			fsProgress.Report();
 			var createResult = new ShellOperationResult();
 			(var success, var response) = (false, new ShellOperationResult());
@@ -282,12 +274,7 @@ namespace Files.App.Filesystem
 			var createdSources = new List<IStorageItemWithPath>();
 			var createdDestination = new List<IStorageItemWithPath>();
 
-			FileSystemProgress fsProgress = new(progress)
-			{
-				EnumerationCompleted = true,
-				Status = FileSystemStatusCode.InProgress,
-				ItemsCount = source.Count
-			};
+			FileSystemProgress fsProgress = new(progress, true, FileSystemStatusCode.InProgress, source.Count);
 			fsProgress.Report();
 			var items = source.Zip(destination, (src, dest, index) => new { src, dest, index }).Where(x => !string.IsNullOrEmpty(x.src.Path) && !string.IsNullOrEmpty(x.dest));
 			foreach (var item in items)
@@ -331,11 +318,7 @@ namespace Files.App.Filesystem
 				return await filesystemOperations.DeleteItemsAsync(source, progress, permanently, cancellationToken);
 			}
 
-			FileSystemProgress fsProgress = new(progress)
-			{
-				EnumerationCompleted = true,
-				Status = FileSystemStatusCode.InProgress
-			};
+			FileSystemProgress fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
 			fsProgress.Report();
 			var deleleFilePaths = source.Select(s => s.Path).Distinct();
 			var deleteFromRecycleBin = source.Any() && recycleBinHelpers.IsPathUnderRecycleBin(source.ElementAt(0).Path);
@@ -444,11 +427,7 @@ namespace Files.App.Filesystem
 				return await filesystemOperations.MoveItemsAsync(source, destination, collisions, progress, cancellationToken);
 			}
 
-			FileSystemProgress fsProgress = new(progress)
-			{
-				EnumerationCompleted = true,
-				Status = FileSystemStatusCode.InProgress
-			};
+			FileSystemProgress fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
 			fsProgress.Report();
 			var sourceNoSkip = source.Zip(collisions, (src, coll) => new { src, coll }).Where(item => item.coll != FileNameConflictResolveOptionType.Skip).Select(item => item.src);
 			var destinationNoSkip = destination.Zip(collisions, (src, coll) => new { src, coll }).Where(item => item.coll != FileNameConflictResolveOptionType.Skip).Select(item => item.src);
@@ -575,11 +554,7 @@ namespace Files.App.Filesystem
 				return await filesystemOperations.RenameAsync(source, newName, collision, progress, cancellationToken);
 			}
 
-			FileSystemProgress fsProgress = new(progress)
-			{
-				EnumerationCompleted = true,
-				Status = FileSystemStatusCode.InProgress
-			};
+			FileSystemProgress fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
 			fsProgress.Report();
 			var renameResult = new ShellOperationResult();
 
@@ -668,11 +643,7 @@ namespace Files.App.Filesystem
 				return await filesystemOperations.RestoreItemsFromTrashAsync(source, destination, progress, cancellationToken);
 			}
 
-			FileSystemProgress fsProgress = new(progress)
-			{
-				EnumerationCompleted = true,
-				Status = FileSystemStatusCode.InProgress
-			};
+			FileSystemProgress fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
 			fsProgress.Report();
 			var operationID = Guid.NewGuid().ToString();
 			using var r = cancellationToken.Register(CancelOperation, operationID, false);

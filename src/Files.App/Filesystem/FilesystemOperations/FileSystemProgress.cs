@@ -48,11 +48,21 @@ namespace Files.App.Filesystem
 		/// </summary>
 		public float? Percentage { get; set; }
 
-		public FileSystemProgress(IProgress<FileSystemProgress>? progress, int samplerInterval = 100)
+		public FileSystemProgress(
+			IProgress<FileSystemProgress>? progress,
+			bool enumerationCompleted = false,
+			FileSystemStatusCode? status = null,
+			long itemsCount = 0,
+			long totalSize = 0,
+			int samplerInterval = 100)
 		{
 			this.StartTime = DateTimeOffset.Now;
 			this.progress = progress;
 			this.sampler = new(samplerInterval);
+			this.EnumerationCompleted = enumerationCompleted;
+			this.Status = status;
+			this.ItemsCount = itemsCount;
+			this.TotalSize = totalSize;
 		}
 
 		public void Report(float? percentage = null)

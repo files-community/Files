@@ -29,11 +29,7 @@ namespace Files.App.Filesystem.Archive
 
 		public ArchiveCreator()
 		{
-			fsProgress = new(Progress)
-			{
-				EnumerationCompleted = true,
-				Status = Shared.Enums.FileSystemStatusCode.InProgress
-			};
+			fsProgress = new(Progress, true, Shared.Enums.FileSystemStatusCode.InProgress);
 			fsProgress.Report();
 		}
 

@@ -221,11 +221,7 @@ namespace Files.App.Helpers
 		{
 			operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
-			FileSystemProgress fsProgress = new(progress)
-			{
-				EnumerationCompleted = true,
-				Status = FileSystemStatusCode.InProgress
-			};
+			FileSystemProgress fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
 			fsProgress.Report();
 			progressHandler ??= new();
 
@@ -374,11 +370,7 @@ namespace Files.App.Helpers
 		{
 			operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
-			FileSystemProgress fsProgress = new(progress)
-			{
-				EnumerationCompleted = true,
-				Status = FileSystemStatusCode.InProgress
-			};
+			FileSystemProgress fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
 			fsProgress.Report();
 			progressHandler ??= new();
 
@@ -458,11 +450,7 @@ namespace Files.App.Helpers
 		{
 			operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
-			FileSystemProgress fsProgress = new(progress)
-			{
-				EnumerationCompleted = true,
-				Status = FileSystemStatusCode.InProgress
-			};
+			FileSystemProgress fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
 			fsProgress.Report();
 			progressHandler ??= new();
 

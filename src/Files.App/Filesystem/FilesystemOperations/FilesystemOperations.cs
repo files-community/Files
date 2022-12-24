@@ -50,12 +50,7 @@ namespace Files.App.Filesystem
 		{
 			IStorageItemWithPath item = null;
 			FilesystemResult fsResult = (FilesystemResult)false;
-			FileSystemProgress fsProgress = new(progress)
-			{
-				ItemsCount = 1,
-				EnumerationCompleted = true,
-				Status = FileSystemStatusCode.InProgress
-			};
+			FileSystemProgress fsProgress = new(progress, true, FileSystemStatusCode.InProgress, 1);
 			fsProgress.Report();
 
 			try
@@ -145,11 +140,7 @@ namespace Files.App.Filesystem
 													 IProgress<FileSystemProgress> progress,
 													 CancellationToken cancellationToken)
 		{
-			FileSystemProgress fsProgress = new(progress)
-			{
-				EnumerationCompleted = true,
-				Status = FileSystemStatusCode.InProgress
-			};
+			FileSystemProgress fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
 			fsProgress.Report();
 
 			if (destination.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
@@ -327,11 +318,7 @@ namespace Files.App.Filesystem
 													 IProgress<FileSystemProgress> progress,
 													 CancellationToken cancellationToken)
 		{
-			FileSystemProgress fsProgress = new(progress)
-			{
-				EnumerationCompleted = true,
-				Status = FileSystemStatusCode.InProgress
-			};
+			FileSystemProgress fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
 			fsProgress.Report();
 
 			if (source.Path == destination)
@@ -494,11 +481,7 @@ namespace Files.App.Filesystem
 													   bool permanently,
 													   CancellationToken cancellationToken)
 		{
-			FileSystemProgress fsProgress = new(progress)
-			{
-				EnumerationCompleted = true,
-				Status = FileSystemStatusCode.InProgress
-			};
+			FileSystemProgress fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
 			fsProgress.Report();
 
 			bool deleteFromRecycleBin = recycleBinHelpers.IsPathUnderRecycleBin(source.Path);
@@ -591,11 +574,7 @@ namespace Files.App.Filesystem
 													   IProgress<FileSystemProgress> progress,
 													   CancellationToken cancellationToken)
 		{
-			FileSystemProgress fsProgress = new FileSystemProgress(progress)
-			{
-				EnumerationCompleted = true,
-				Status = FileSystemStatusCode.InProgress
-			};
+			FileSystemProgress fsProgress = new FileSystemProgress(progress, true, FileSystemStatusCode.InProgress);
 			fsProgress.Report();
 
 			if (Path.GetFileName(source.Path) == newName && collision == NameCollisionOption.FailIfExists)
@@ -699,12 +678,7 @@ namespace Files.App.Filesystem
 																	 IProgress<FileSystemProgress> progress,
 																	 CancellationToken token)
 		{
-			FileSystemProgress fsProgress = new(progress)
-			{
-				ItemsCount = source.Count,
-				EnumerationCompleted = true,
-				Status = FileSystemStatusCode.InProgress
-			};
+			FileSystemProgress fsProgress = new(progress, true, FileSystemStatusCode.InProgress, source.Count);
 			fsProgress.Report();
 
 			var rawStorageHistory = new List<IStorageHistory>();
@@ -748,11 +722,7 @@ namespace Files.App.Filesystem
 																 IProgress<FileSystemProgress> progress,
 																 CancellationToken cancellationToken)
 		{
-			FileSystemProgress fsProgress = new(progress)
-			{
-				EnumerationCompleted = true,
-				Status = FileSystemStatusCode.InProgress
-			};
+			FileSystemProgress fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
 			fsProgress.Report();
 
 			FilesystemResult fsResult = FileSystemStatusCode.InProgress;
@@ -870,12 +840,7 @@ namespace Files.App.Filesystem
 
 		public async Task<IStorageHistory> CopyItemsAsync(IList<IStorageItemWithPath> source, IList<string> destination, IList<FileNameConflictResolveOptionType> collisions, IProgress<FileSystemProgress> progress, CancellationToken token)
 		{
-			FileSystemProgress fsProgress = new(progress)
-			{
-				ItemsCount = source.Count,
-				EnumerationCompleted = true,
-				Status = FileSystemStatusCode.InProgress
-			};
+			FileSystemProgress fsProgress = new(progress, true, FileSystemStatusCode.InProgress, source.Count);
 			fsProgress.Report();
 
 			var rawStorageHistory = new List<IStorageHistory>();
@@ -919,12 +884,7 @@ namespace Files.App.Filesystem
 
 		public async Task<IStorageHistory> MoveItemsAsync(IList<IStorageItemWithPath> source, IList<string> destination, IList<FileNameConflictResolveOptionType> collisions, IProgress<FileSystemProgress> progress, CancellationToken token)
 		{
-			FileSystemProgress fsProgress = new(progress)
-			{
-				ItemsCount = source.Count,
-				EnumerationCompleted = true,
-				Status = FileSystemStatusCode.InProgress
-			};
+			FileSystemProgress fsProgress = new(progress, true, FileSystemStatusCode.InProgress, source.Count);
 			fsProgress.Report();
 
 			var rawStorageHistory = new List<IStorageHistory>();
@@ -967,12 +927,7 @@ namespace Files.App.Filesystem
 
 		public async Task<IStorageHistory> DeleteItemsAsync(IList<IStorageItemWithPath> source, IProgress<FileSystemProgress> progress, bool permanently, CancellationToken token)
 		{
-			FileSystemProgress fsProgress = new(progress)
-			{
-				ItemsCount = source.Count,
-				EnumerationCompleted = true,
-				Status = FileSystemStatusCode.InProgress
-			};
+			FileSystemProgress fsProgress = new(progress, true, FileSystemStatusCode.InProgress, source.Count);
 			fsProgress.Report();
 
 			bool originalPermanently = permanently;
