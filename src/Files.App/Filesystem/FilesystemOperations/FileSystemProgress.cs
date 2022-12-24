@@ -58,16 +58,16 @@ namespace Files.App.Filesystem
 		public void Report(float? percentage = null)
 		{
 			Percentage = percentage;
-			if ((EnumerationCompleted && (ProcessedItemsCount == ItemsCount || ProcessedSize == TotalSize)) ||
-				(percentage is float f && MathF.Abs(f - 100f) <= float.Epsilon))
+			if (((EnumerationCompleted && (ProcessedItemsCount == ItemsCount || ProcessedSize == TotalSize)) ||
+				(percentage is float f && MathF.Abs(f - 100f) <= float.Epsilon)) &&
+				status is FileSystemStatusCode.InProgress or null)
 			{
-				if (status is FileSystemStatusCode.InProgress or null)
-				{
-					status = FileSystemStatusCode.Success;
-					CompletedTime = DateTimeOffset.Now;
-				}
+				status = FileSystemStatusCode.Success;
+				CompletedTime = DateTimeOffset.Now;
 			}
-			if (status is FileSystemStatusCode.Success) CompletedTime = DateTimeOffset.Now;
+
+			if (status is FileSystemStatusCode.Success)
+				CompletedTime = DateTimeOffset.Now;
 
 			if (progress is not null && (criticalReport || sampler.CheckNow()))
 			{

@@ -217,7 +217,8 @@ namespace Files.App.ViewModels
 				return;
 			}
 
-			if (value.Status is FileSystemStatusCode status) Banner.Status = status.ToStatus();
+			if (value.Status is FileSystemStatusCode status)
+				Banner.Status = status.ToStatus();
 
 			Banner.IsProgressing = (value.Status & FileSystemStatusCode.InProgress) != 0;
 
