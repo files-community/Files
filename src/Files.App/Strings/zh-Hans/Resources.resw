@@ -158,7 +158,7 @@
     <value>大小:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>原始（压缩前）大小</value>
+    <value>未压缩大小:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>操作无法完成</value>
@@ -1211,7 +1211,7 @@
     <value>有更新可用</value>
   </data>
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
-    <value>显示受保护的操作系统文件</value>
+    <value>显示受保护的系统文件</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
     <value>在搜索结果中包含未建立索引的项</value>
@@ -2447,7 +2447,7 @@
     <value>文件标签</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>通过单击打开项目</value>
+    <value>通过单击打开文件</value>
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
     <value>文件夹路径</value>
@@ -2837,7 +2837,7 @@
     <value>在目标位置找不到 {0}。要删除此快捷方式吗？</value>
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
-    <value>你没有访问此服务器的权限。</value>
+    <value>你没有访问此文件夹的权限。</value>
   </data>
   <data name="LoadingThemes" xml:space="preserve">
     <value>正在加载主题</value>
@@ -2861,7 +2861,7 @@
     <value>排序和分组</value>
   </data>
   <data name="Archive" xml:space="preserve">
-    <value>压缩文件</value>
+    <value>压缩包</value>
   </data>
   <data name="CreateArchive" xml:space="preserve">
     <value>创建压缩文件</value>
