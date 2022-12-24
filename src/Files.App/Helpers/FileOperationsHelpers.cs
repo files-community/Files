@@ -221,13 +221,13 @@ namespace Files.App.Helpers
 		{
 			operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
-            FileSystemProgress fsProgress = new(progress)
-            {
-                EnumerationCompleted = true,
-                Status = FileSystemStatusCode.InProgress
-            };
-            fsProgress.Report();
-            progressHandler ??= new();
+			FileSystemProgress fsProgress = new(progress)
+			{
+				EnumerationCompleted = true,
+				Status = FileSystemStatusCode.InProgress
+			};
+			fsProgress.Report();
+			progressHandler ??= new();
 
 			return Win32API.StartSTATask(async () =>
 			{
@@ -374,13 +374,13 @@ namespace Files.App.Helpers
 		{
 			operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
-            FileSystemProgress fsProgress = new(progress)
-            {
-                EnumerationCompleted = true,
-                Status = FileSystemStatusCode.InProgress
-            };
-            fsProgress.Report();
-            progressHandler ??= new();
+			FileSystemProgress fsProgress = new(progress)
+			{
+				EnumerationCompleted = true,
+				Status = FileSystemStatusCode.InProgress
+			};
+			fsProgress.Report();
+			progressHandler ??= new();
 
 			return Win32API.StartSTATask(async () =>
 			{
@@ -435,7 +435,7 @@ namespace Files.App.Helpers
 					{
 						throw new Win32Exception(unchecked((int)0x80004005)); // E_FAIL, stops operation
 					}
-                    fsProgress.Report(e.ProgressPercentage);
+					fsProgress.Report(e.ProgressPercentage);
 					progressHandler.UpdateOperation(operationID, e.ProgressPercentage);
 				};
 
@@ -458,13 +458,13 @@ namespace Files.App.Helpers
 		{
 			operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
-            FileSystemProgress fsProgress = new(progress)
-            {
-                EnumerationCompleted = true,
-                Status = FileSystemStatusCode.InProgress
-            };
-            fsProgress.Report();
-            progressHandler ??= new();
+			FileSystemProgress fsProgress = new(progress)
+			{
+				EnumerationCompleted = true,
+				Status = FileSystemStatusCode.InProgress
+			};
+			fsProgress.Report();
+			progressHandler ??= new();
 
 			return Win32API.StartSTATask(async () =>
 			{
@@ -520,7 +520,7 @@ namespace Files.App.Helpers
 					{
 						throw new Win32Exception(unchecked((int)0x80004005)); // E_FAIL, stops operation
 					}
-                    fsProgress.Report(e.ProgressPercentage);
+					fsProgress.Report(e.ProgressPercentage);
 					progressHandler.UpdateOperation(operationID, e.ProgressPercentage);
 				};
 

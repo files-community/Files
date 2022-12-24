@@ -53,13 +53,13 @@ namespace Files.App.Helpers
 						banner.Progress.ItemsCount = items.Count;
 						banner.Progress.ReportStatus(FileSystemStatusCode.InProgress);
 					}
-                    await associatedInstance.SlimContentPage.SelectedItems.ToList().ParallelForEachAsync(async listedItem =>
+					await associatedInstance.SlimContentPage.SelectedItems.ToList().ParallelForEachAsync(async listedItem =>
 					{
 						if (banner is not null)
 						{
 							banner.Progress.ProcessedItemsCount = itemsCount;
 							banner.Progress.Report();
-                        }
+						}
 
 						// FTP don't support cut, fallback to copy
 						if (listedItem is not FtpItem)
@@ -158,17 +158,17 @@ namespace Files.App.Helpers
 				try
 				{
 					if (banner is not null)
-                    {
-                        banner.Progress.EnumerationCompleted = true;
-                        banner.Progress.ItemsCount = items.Count;
-                        banner.Progress.ReportStatus(FileSystemStatusCode.InProgress);
-                    }
+					{
+						banner.Progress.EnumerationCompleted = true;
+						banner.Progress.ItemsCount = items.Count;
+						banner.Progress.ReportStatus(FileSystemStatusCode.InProgress);
+					}
 					await associatedInstance.SlimContentPage.SelectedItems.ToList().ParallelForEachAsync(async listedItem =>
 					{
 						if (banner is not null)
-                        {
-                            banner.Progress.ProcessedItemsCount = itemsCount;
-                            banner.Progress.Report();
+						{
+							banner.Progress.ProcessedItemsCount = itemsCount;
+							banner.Progress.Report();
 						}
 
 						if (listedItem is FtpItem ftpItem)

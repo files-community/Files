@@ -31,7 +31,7 @@ namespace Files.App.Helpers
 		public static bool IsPowerShellFile(string fileExtensionToCheck)
 		{
 			return !string.IsNullOrEmpty(fileExtensionToCheck) &&
-			       fileExtensionToCheck.Equals(".ps1", StringComparison.OrdinalIgnoreCase);
+				   fileExtensionToCheck.Equals(".ps1", StringComparison.OrdinalIgnoreCase);
 		}
 
 		/// <summary>
@@ -65,7 +65,7 @@ namespace Files.App.Helpers
 		public static bool IsInfFile(string? fileExtensionToCheck)
 		{
 			return !string.IsNullOrWhiteSpace(fileExtensionToCheck) &&
-			       fileExtensionToCheck.Equals(".inf", StringComparison.OrdinalIgnoreCase);
+				   fileExtensionToCheck.Equals(".inf", StringComparison.OrdinalIgnoreCase);
 		}
 
 		/// <summary>
@@ -96,7 +96,7 @@ namespace Files.App.Helpers
 		public static bool IsShortcutFile(string? fileExtensionToCheck)
 		{
 			return !string.IsNullOrWhiteSpace(fileExtensionToCheck) &&
-			       fileExtensionToCheck.Equals(".lnk", StringComparison.OrdinalIgnoreCase);
+				   fileExtensionToCheck.Equals(".lnk", StringComparison.OrdinalIgnoreCase);
 		}
 	}
 }

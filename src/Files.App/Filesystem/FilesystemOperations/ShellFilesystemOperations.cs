@@ -65,20 +65,20 @@ namespace Files.App.Filesystem
 
 		public async Task<IStorageHistory> CopyItemsAsync(IList<IStorageItemWithPath> source, IList<string> destination, IList<FileNameConflictResolveOptionType> collisions, IProgress<FileSystemProgress> progress, CancellationToken cancellationToken)
 		{
-            if (source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\", StringComparison.Ordinal)) || destination.Any(x => string.IsNullOrWhiteSpace(x) || x.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(x) || ZipStorageFolder.IsZipPath(x, false)))
+			if (source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\", StringComparison.Ordinal)) || destination.Any(x => string.IsNullOrWhiteSpace(x) || x.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(x) || ZipStorageFolder.IsZipPath(x, false)))
 			{
 				// Fallback to builtin file operations
 				return await filesystemOperations.CopyItemsAsync(source, destination, collisions, progress, cancellationToken);
 			}
 
-            FileSystemProgress fsProgress = new(progress)
-            {
-                EnumerationCompleted = true,
-                Status = FileSystemStatusCode.InProgress
-            };
-            fsProgress.Report();
+			FileSystemProgress fsProgress = new(progress)
+			{
+				EnumerationCompleted = true,
+				Status = FileSystemStatusCode.InProgress
+			};
+			fsProgress.Report();
 
-            var sourceNoSkip = source.Zip(collisions, (src, coll) => new { src, coll }).Where(item => item.coll != FileNameConflictResolveOptionType.Skip).Select(item => item.src);
+			var sourceNoSkip = source.Zip(collisions, (src, coll) => new { src, coll }).Where(item => item.coll != FileNameConflictResolveOptionType.Skip).Select(item => item.src);
 			var destinationNoSkip = destination.Zip(collisions, (src, coll) => new { src, coll }).Where(item => item.coll != FileNameConflictResolveOptionType.Skip).Select(item => item.src);
 			var collisionsNoSkip = collisions.Where(c => c != FileNameConflictResolveOptionType.Skip);
 
@@ -113,7 +113,7 @@ namespace Files.App.Filesystem
 
 			if (result)
 			{
-                fsProgress.ReportStatus(FileSystemStatusCode.Success);
+				fsProgress.ReportStatus(FileSystemStatusCode.Success);
 				var copiedSources = copyResult.Items.Where(x => x.Succeeded && x.Destination is not null && x.Source != x.Destination);
 				if (copiedSources.Any())
 				{
@@ -194,13 +194,13 @@ namespace Files.App.Filesystem
 				return await filesystemOperations.CreateAsync(source, progress, cancellationToken);
 			}
 
-            FileSystemProgress fsProgress = new(progress)
-            {
-                EnumerationCompleted = true,
-                Status = FileSystemStatusCode.InProgress
-            };
-            fsProgress.Report();
-            var createResult = new ShellOperationResult();
+			FileSystemProgress fsProgress = new(progress)
+			{
+				EnumerationCompleted = true,
+				Status = FileSystemStatusCode.InProgress
+			};
+			fsProgress.Report();
+			var createResult = new ShellOperationResult();
 			(var success, var response) = (false, new ShellOperationResult());
 
 			switch (source.ItemType)
@@ -282,14 +282,14 @@ namespace Files.App.Filesystem
 			var createdSources = new List<IStorageItemWithPath>();
 			var createdDestination = new List<IStorageItemWithPath>();
 
-            FileSystemProgress fsProgress = new(progress)
-            {
-                EnumerationCompleted = true,
-                Status = FileSystemStatusCode.InProgress,
+			FileSystemProgress fsProgress = new(progress)
+			{
+				EnumerationCompleted = true,
+				Status = FileSystemStatusCode.InProgress,
 				ItemsCount = source.Count
-            };
-            fsProgress.Report();
-            var items = source.Zip(destination, (src, dest, index) => new { src, dest, index }).Where(x => !string.IsNullOrEmpty(x.src.Path) && !string.IsNullOrEmpty(x.dest));
+			};
+			fsProgress.Report();
+			var items = source.Zip(destination, (src, dest, index) => new { src, dest, index }).Where(x => !string.IsNullOrEmpty(x.src.Path) && !string.IsNullOrEmpty(x.dest));
 			foreach (var item in items)
 			{
 				if (await FileOperationsHelpers.CreateOrUpdateLinkAsync(item.dest, item.src.Path))
@@ -331,13 +331,13 @@ namespace Files.App.Filesystem
 				return await filesystemOperations.DeleteItemsAsync(source, progress, permanently, cancellationToken);
 			}
 
-            FileSystemProgress fsProgress = new(progress)
-            {
-                EnumerationCompleted = true,
-                Status = FileSystemStatusCode.InProgress
-            };
-            fsProgress.Report();
-            var deleleFilePaths = source.Select(s => s.Path).Distinct();
+			FileSystemProgress fsProgress = new(progress)
+			{
+				EnumerationCompleted = true,
+				Status = FileSystemStatusCode.InProgress
+			};
+			fsProgress.Report();
+			var deleleFilePaths = source.Select(s => s.Path).Distinct();
 			var deleteFromRecycleBin = source.Any() && recycleBinHelpers.IsPathUnderRecycleBin(source.ElementAt(0).Path);
 			permanently |= deleteFromRecycleBin;
 
@@ -444,13 +444,13 @@ namespace Files.App.Filesystem
 				return await filesystemOperations.MoveItemsAsync(source, destination, collisions, progress, cancellationToken);
 			}
 
-            FileSystemProgress fsProgress = new(progress)
-            {
-                EnumerationCompleted = true,
-                Status = FileSystemStatusCode.InProgress
-            };
-            fsProgress.Report();
-            var sourceNoSkip = source.Zip(collisions, (src, coll) => new { src, coll }).Where(item => item.coll != FileNameConflictResolveOptionType.Skip).Select(item => item.src);
+			FileSystemProgress fsProgress = new(progress)
+			{
+				EnumerationCompleted = true,
+				Status = FileSystemStatusCode.InProgress
+			};
+			fsProgress.Report();
+			var sourceNoSkip = source.Zip(collisions, (src, coll) => new { src, coll }).Where(item => item.coll != FileNameConflictResolveOptionType.Skip).Select(item => item.src);
 			var destinationNoSkip = destination.Zip(collisions, (src, coll) => new { src, coll }).Where(item => item.coll != FileNameConflictResolveOptionType.Skip).Select(item => item.src);
 			var collisionsNoSkip = collisions.Where(c => c != FileNameConflictResolveOptionType.Skip);
 
@@ -575,13 +575,13 @@ namespace Files.App.Filesystem
 				return await filesystemOperations.RenameAsync(source, newName, collision, progress, cancellationToken);
 			}
 
-            FileSystemProgress fsProgress = new(progress)
-            {
-                EnumerationCompleted = true,
-                Status = FileSystemStatusCode.InProgress
-            };
-            fsProgress.Report();
-            var renameResult = new ShellOperationResult();
+			FileSystemProgress fsProgress = new(progress)
+			{
+				EnumerationCompleted = true,
+				Status = FileSystemStatusCode.InProgress
+			};
+			fsProgress.Report();
+			var renameResult = new ShellOperationResult();
 
 			var (status, response) = await FileOperationsHelpers.RenameItemAsync(source.Path, newName, collision == NameCollisionOption.ReplaceExisting);
 
@@ -592,7 +592,7 @@ namespace Files.App.Filesystem
 
 			if (result)
 			{
-                fsProgress.ReportStatus(FileSystemStatusCode.Success);
+				fsProgress.ReportStatus(FileSystemStatusCode.Success);
 				var renamedSources = renameResult.Items.Where(x => x.Succeeded && x.Destination is not null && x.Source != x.Destination)
 					.Where(x => new[] { source }.Select(s => s.Path).Contains(x.Source));
 				if (renamedSources.Any())
@@ -668,13 +668,13 @@ namespace Files.App.Filesystem
 				return await filesystemOperations.RestoreItemsFromTrashAsync(source, destination, progress, cancellationToken);
 			}
 
-            FileSystemProgress fsProgress = new(progress)
-            {
-                EnumerationCompleted = true,
-                Status = FileSystemStatusCode.InProgress
-            };
-            fsProgress.Report();
-            var operationID = Guid.NewGuid().ToString();
+			FileSystemProgress fsProgress = new(progress)
+			{
+				EnumerationCompleted = true,
+				Status = FileSystemStatusCode.InProgress
+			};
+			fsProgress.Report();
+			var operationID = Guid.NewGuid().ToString();
 			using var r = cancellationToken.Register(CancelOperation, operationID, false);
 
 			var moveResult = new ShellOperationResult();

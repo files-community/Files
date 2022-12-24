@@ -177,7 +177,7 @@ namespace Files.App.ViewModels
 		public readonly FileSystemProgress Progress;
 		public readonly Progress<FileSystemProgress> ProgressEventSource;
 
-        public CancellationToken CancellationToken => cancellationTokenSource?.Token ?? default;
+		public CancellationToken CancellationToken => cancellationTokenSource?.Token ?? default;
 
 		#endregion Public Members
 
@@ -188,7 +188,7 @@ namespace Files.App.ViewModels
 			this.Banner = banner;
 			this.OngoingTasksActions = OngoingTasksActions;
 			this.ProgressEventSource = new Progress<FileSystemProgress>(ReportProgressToBanner);
-            this.Progress = new(this.ProgressEventSource)
+			this.Progress = new(this.ProgressEventSource)
 			{
 				Status = FileSystemStatusCode.InProgress
 			};
@@ -199,12 +199,12 @@ namespace Files.App.ViewModels
 			this.Banner = banner;
 			this.OngoingTasksActions = OngoingTasksActions;
 			this.cancellationTokenSource = cancellationTokenSource;
-            this.ProgressEventSource = new Progress<FileSystemProgress>(ReportProgressToBanner);
-            this.Progress = new(this.ProgressEventSource)
-            {
-                Status = FileSystemStatusCode.InProgress
-            };
-        }
+			this.ProgressEventSource = new Progress<FileSystemProgress>(ReportProgressToBanner);
+			this.Progress = new(this.ProgressEventSource)
+			{
+				Status = FileSystemStatusCode.InProgress
+			};
+		}
 
 		#endregion Constructor
 
@@ -219,57 +219,57 @@ namespace Files.App.ViewModels
 
 			if (value.Status is FileSystemStatusCode status) Banner.Status = status.ToStatus();
 
-            Banner.IsProgressing = (value.Status & FileSystemStatusCode.InProgress) != 0;
+			Banner.IsProgressing = (value.Status & FileSystemStatusCode.InProgress) != 0;
 
-            if (value.Percentage is float f)
+			if (value.Percentage is float f)
 			{
 				Banner.Progress = f;
-                Banner.FullTitle = $"{Banner.Title} ({Banner.Progress:0.00}%)";
+				Banner.FullTitle = $"{Banner.Title} ({Banner.Progress:0.00}%)";
 				// TODO: show detailed progress if Size/Count information available
-            }
+			}
 			else if (value.EnumerationCompleted)
 			{
 				switch (value.TotalSize, value.ItemsCount)
 				{
 					case (not 0, not 0):
-                        Banner.Progress = value.ProcessedSize * 100f / value.TotalSize;
-                        Banner.FullTitle = $"{Banner.Title} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / {value.ItemsCount} ({value.TotalSize.ToSizeString()}): {Banner.Progress:0.00}%)";
+						Banner.Progress = value.ProcessedSize * 100f / value.TotalSize;
+						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / {value.ItemsCount} ({value.TotalSize.ToSizeString()}): {Banner.Progress:0.00}%)";
 						break;
 					case (not 0, _):
-                        Banner.Progress = value.ProcessedSize * 100f / value.TotalSize;
-                        Banner.FullTitle = $"{Banner.Title} ({value.ProcessedSize.ToSizeString()} / {value.TotalSize.ToSizeString()}: {Banner.Progress:0.00}%)";
+						Banner.Progress = value.ProcessedSize * 100f / value.TotalSize;
+						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedSize.ToSizeString()} / {value.TotalSize.ToSizeString()}: {Banner.Progress:0.00}%)";
 						break;
 					case (_, not 0):
-                        Banner.Progress = value.ProcessedItemsCount * 100f / value.ItemsCount;
-                        Banner.FullTitle = $"{Banner.Title} ({value.ProcessedItemsCount} / {value.ItemsCount}: {Banner.Progress:0.00}%)";
+						Banner.Progress = value.ProcessedItemsCount * 100f / value.ItemsCount;
+						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedItemsCount} / {value.ItemsCount}: {Banner.Progress:0.00}%)";
 						break;
 					default:
-                        Banner.FullTitle = $"{Banner.Title} (...)";
+						Banner.FullTitle = $"{Banner.Title} (...)";
 						break;
-                }
-            }
+				}
+			}
 			else
-            {
-                switch (value.ProcessedSize, value.ProcessedItemsCount)
-                {
-                    case (not 0, not 0):
-                        Banner.FullTitle = $"{Banner.Title} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / ...)";
+			{
+				switch (value.ProcessedSize, value.ProcessedItemsCount)
+				{
+					case (not 0, not 0):
+						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / ...)";
 						break;
-                    case (not 0, _):
-                        Banner.FullTitle = $"{Banner.Title} ({value.ProcessedSize.ToSizeString()} / ...)";
-                        break;
-                    case (_, not 0):
-                        Banner.FullTitle = $"{Banner.Title} ({value.ProcessedItemsCount} / ...)";
-                        break;
-                    default:
-                        Banner.FullTitle = $"{Banner.Title} (...)";
-                        break;
-                }
-            }
+					case (not 0, _):
+						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedSize.ToSizeString()} / ...)";
+						break;
+					case (_, not 0):
+						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedItemsCount} / ...)";
+						break;
+					default:
+						Banner.FullTitle = $"{Banner.Title} (...)";
+						break;
+				}
+			}
 
-            OngoingTasksActions.UpdateBanner(Banner);
-            OngoingTasksActions.UpdateMedianProgress();
-        }
+			OngoingTasksActions.UpdateBanner(Banner);
+			OngoingTasksActions.UpdateMedianProgress();
+		}
 
 		#endregion Private Helpers
 

@@ -8,27 +8,27 @@ using Windows.Storage;
 
 namespace Files.App.Filesystem
 {
-    /// <summary>
-    /// This interface provides Files filesystem operations
-    /// <br/>
-    /// <br/>
-    /// Each operation returns <see cref="Task{IStorageHistory}"/> and the <see cref="IStorageHistory"/> is NOT saved automatically
-    /// </summary>
-    public interface IFilesystemOperations : IDisposable
+	/// <summary>
+	/// This interface provides Files filesystem operations
+	/// <br/>
+	/// <br/>
+	/// Each operation returns <see cref="Task{IStorageHistory}"/> and the <see cref="IStorageHistory"/> is NOT saved automatically
+	/// </summary>
+	public interface IFilesystemOperations : IDisposable
 	{
-        /// <summary>
-        /// Creates an item from <paramref name="source"/>
-        /// </summary>
-        /// <param name="source">FullPath to the item</param>
-        /// <param name="process">Progress of the operation</param>
-        /// <param name="cancellationToken">Can be cancelled with <see cref="CancellationToken"/></param>
-        /// <returns><see cref="IStorageHistory"/> where:
-        /// <br/>
-        /// Source: The created item fullPath (as <see cref="PathWithType"/>)
-        /// <br/>
-        /// Destination: null
-        /// </returns>
-        Task<(IStorageHistory, IStorageItem)> CreateAsync(IStorageItemWithPath source, IProgress<FileSystemProgress> process, CancellationToken cancellationToken);
+		/// <summary>
+		/// Creates an item from <paramref name="source"/>
+		/// </summary>
+		/// <param name="source">FullPath to the item</param>
+		/// <param name="process">Progress of the operation</param>
+		/// <param name="cancellationToken">Can be cancelled with <see cref="CancellationToken"/></param>
+		/// <returns><see cref="IStorageHistory"/> where:
+		/// <br/>
+		/// Source: The created item fullPath (as <see cref="PathWithType"/>)
+		/// <br/>
+		/// Destination: null
+		/// </returns>
+		Task<(IStorageHistory, IStorageItem)> CreateAsync(IStorageItemWithPath source, IProgress<FileSystemProgress> process, CancellationToken cancellationToken);
 
 		Task<IStorageHistory> CreateShortcutItemsAsync(IList<IStorageItemWithPath> source, IList<string> destination, IProgress<FileSystemProgress> progress, CancellationToken cancellationToken);
 

@@ -82,21 +82,21 @@ namespace Files.App.Helpers
 			if (cancellationToken.IsCancellationRequested) // Check if canceled
 				return;
 
-            // Fill files
+			// Fill files
 
-            byte[] buffer = new byte[4096];
+			byte[] buffer = new byte[4096];
 			int entriesAmount = fileEntries.Count;
 			int entriesFinished = 0;
 
-            FileSystemProgress fsProgress = new(progress)
-            {
-                EnumerationCompleted = true,
-                Status = Shared.Enums.FileSystemStatusCode.InProgress,
-                ItemsCount = entriesAmount
-            };
-            fsProgress.Report();
+			FileSystemProgress fsProgress = new(progress)
+			{
+				EnumerationCompleted = true,
+				Status = Shared.Enums.FileSystemStatusCode.InProgress,
+				ItemsCount = entriesAmount
+			};
+			fsProgress.Report();
 
-            foreach (var entry in fileEntries)
+			foreach (var entry in fileEntries)
 			{
 				if (cancellationToken.IsCancellationRequested) // Check if canceled
 					return;
@@ -123,7 +123,7 @@ namespace Files.App.Helpers
 
 				entriesFinished++;
 				fsProgress.ProcessedItemsCount = entriesFinished;
-                fsProgress.Report();
+				fsProgress.Report();
 			}
 		}
 	}

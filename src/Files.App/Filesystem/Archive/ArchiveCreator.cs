@@ -35,7 +35,7 @@ namespace Files.App.Filesystem.Archive
 				Status = Shared.Enums.FileSystemStatusCode.InProgress
 			};
 			fsProgress.Report();
-        }
+		}
 
 		private string ArchiveExtension => FileFormat switch
 		{
@@ -101,7 +101,7 @@ namespace Files.App.Filesystem.Archive
 				EventSynchronization = EventSynchronizationStrategy.AlwaysAsynchronous,
 			};
 			compressor.Compressing += Compressor_Compressing;
-            compressor.CompressionFinished += Compressor_CompressionFinished;
+			compressor.CompressionFinished += Compressor_CompressionFinished;
 
 			try
 			{
@@ -130,16 +130,16 @@ namespace Files.App.Filesystem.Archive
 			}
 		}
 
-        private void Compressor_CompressionFinished(object? sender, EventArgs e)
-        {
+		private void Compressor_CompressionFinished(object? sender, EventArgs e)
+		{
 			fsProgress.Percentage = null;
-            fsProgress.ReportStatus(Shared.Enums.FileSystemStatusCode.Success);
-        }
+			fsProgress.ReportStatus(Shared.Enums.FileSystemStatusCode.Success);
+		}
 
-        private void Compressor_Compressing(object? _, ProgressEventArgs e)
+		private void Compressor_Compressing(object? _, ProgressEventArgs e)
 		{
 			fsProgress.Percentage = e.PercentDone;
 			fsProgress.Report();
-        }
+		}
 	}
 }

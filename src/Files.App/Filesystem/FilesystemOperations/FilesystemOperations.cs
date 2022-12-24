@@ -50,21 +50,21 @@ namespace Files.App.Filesystem
 		{
 			IStorageItemWithPath item = null;
 			FilesystemResult fsResult = (FilesystemResult)false;
-            FileSystemProgress fsProgress = new(progress)
-            {
-                ItemsCount = 1,
-                EnumerationCompleted = true,
+			FileSystemProgress fsProgress = new(progress)
+			{
+				ItemsCount = 1,
+				EnumerationCompleted = true,
 				Status = FileSystemStatusCode.InProgress
-            };
-            fsProgress.Report();
+			};
+			fsProgress.Report();
 
-            try
+			try
 			{
 				switch (source.ItemType)
 				{
 					case FilesystemItemType.File:
 						{
-                            var newEntryInfo = await ShellNewEntryExtensions.GetNewContextMenuEntryForType(Path.GetExtension(source.Path));
+							var newEntryInfo = await ShellNewEntryExtensions.GetNewContextMenuEntryForType(Path.GetExtension(source.Path));
 							if (newEntryInfo is null)
 							{
 								var fsFolderResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(source.Path));
@@ -98,8 +98,8 @@ namespace Files.App.Filesystem
 						}
 
 					case FilesystemItemType.Directory:
-                        {
-                            var fsFolderResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(source.Path));
+						{
+							var fsFolderResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(source.Path));
 							fsResult = fsFolderResult;
 							if (fsResult)
 							{
@@ -119,15 +119,15 @@ namespace Files.App.Filesystem
 						break;
 				}
 
-                fsProgress.ProcessedItemsCount = 1;
-                fsProgress.ReportStatus(fsResult);
-				return item is not null 
+				fsProgress.ProcessedItemsCount = 1;
+				fsProgress.ReportStatus(fsResult);
+				return item is not null
 					? (new StorageHistory(FileOperationType.CreateNew, item.CreateList(), null), item.Item)
 					: (null, null);
 			}
 			catch (Exception e)
 			{
-                fsProgress.ReportStatus(FilesystemTasks.GetErrorCode(e));
+				fsProgress.ReportStatus(FilesystemTasks.GetErrorCode(e));
 				return (null, null);
 			}
 		}
@@ -144,17 +144,17 @@ namespace Files.App.Filesystem
 													 NameCollisionOption collision,
 													 IProgress<FileSystemProgress> progress,
 													 CancellationToken cancellationToken)
-        {
+		{
 			FileSystemProgress fsProgress = new(progress)
 			{
 				EnumerationCompleted = true,
-                Status = FileSystemStatusCode.InProgress
-            };
+				Status = FileSystemStatusCode.InProgress
+			};
 			fsProgress.Report();
 
-            if (destination.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
+			if (destination.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
 			{
-                fsProgress.ReportStatus(FileSystemStatusCode.Unauthorized);
+				fsProgress.ReportStatus(FileSystemStatusCode.Unauthorized);
 
 				// Do not paste files and folders inside the recycle bin
 				await DialogDisplayHelper.ShowDialogAsync(
@@ -190,7 +190,7 @@ namespace Files.App.Filesystem
 					else
 					{
 						fsProgress.ReportStatus(FileSystemStatusCode.InProgress | FileSystemStatusCode.Generic);
-                    }
+					}
 					return null;
 				}
 				else
@@ -226,7 +226,7 @@ namespace Files.App.Filesystem
 						// Can't do anything, already tried with admin FTP
 					}
 					fsProgress.ReportStatus(fsResult.ErrorCode);
-                    if (!fsResult)
+					if (!fsResult)
 					{
 						return null;
 					}
@@ -270,7 +270,7 @@ namespace Files.App.Filesystem
 
 						if (fsResultCopy == FileSystemStatusCode.AlreadyExists)
 						{
-                            fsProgress.ReportStatus(FileSystemStatusCode.AlreadyExists);
+							fsProgress.ReportStatus(FileSystemStatusCode.AlreadyExists);
 							return null;
 						}
 
@@ -285,7 +285,7 @@ namespace Files.App.Filesystem
 						// Can't do anything, already tried with admin FTP
 					}
 				}
-                fsProgress.ReportStatus(fsResult.ErrorCode);
+				fsProgress.ReportStatus(fsResult.ErrorCode);
 				if (!fsResult)
 				{
 					return null;
@@ -294,7 +294,7 @@ namespace Files.App.Filesystem
 
 			if (collision == NameCollisionOption.ReplaceExisting)
 			{
-                fsProgress.ReportStatus(FileSystemStatusCode.Success);
+				fsProgress.ReportStatus(FileSystemStatusCode.Success);
 
 				return null; // Cannot undo overwrite operation
 			}
@@ -327,16 +327,16 @@ namespace Files.App.Filesystem
 													 IProgress<FileSystemProgress> progress,
 													 CancellationToken cancellationToken)
 		{
-            FileSystemProgress fsProgress = new(progress)
-            {
-                EnumerationCompleted = true,
-                Status = FileSystemStatusCode.InProgress
-            };
-            fsProgress.Report();
-
-            if (source.Path == destination)
+			FileSystemProgress fsProgress = new(progress)
 			{
-                fsProgress.ReportStatus(FileSystemStatusCode.Success);
+				EnumerationCompleted = true,
+				Status = FileSystemStatusCode.InProgress
+			};
+			fsProgress.Report();
+
+			if (source.Path == destination)
+			{
+				fsProgress.ReportStatus(FileSystemStatusCode.Success);
 				return null;
 			}
 
@@ -350,7 +350,7 @@ namespace Files.App.Filesystem
 
 			if (destination.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
 			{
-                fsProgress.ReportStatus(FileSystemStatusCode.Unauthorized);
+				fsProgress.ReportStatus(FileSystemStatusCode.Unauthorized);
 
 				// Do not paste files and folders inside the recycle bin
 				await DialogDisplayHelper.ShowDialogAsync(
@@ -381,11 +381,11 @@ namespace Files.App.Filesystem
 
 					if (result == ContentDialogResult.Primary)
 					{
-                        fsProgress.ReportStatus(FileSystemStatusCode.InProgress | FileSystemStatusCode.Success);
+						fsProgress.ReportStatus(FileSystemStatusCode.InProgress | FileSystemStatusCode.Success);
 					}
 					else
 					{
-                        fsProgress.ReportStatus(FileSystemStatusCode.InProgress | FileSystemStatusCode.Generic);
+						fsProgress.ReportStatus(FileSystemStatusCode.InProgress | FileSystemStatusCode.Generic);
 					}
 					return null;
 				}
@@ -413,7 +413,7 @@ namespace Files.App.Filesystem
 
 							if (fsResultMove == FileSystemStatusCode.AlreadyExists)
 							{
-                                fsProgress.ReportStatus(FileSystemStatusCode.AlreadyExists);
+								fsProgress.ReportStatus(FileSystemStatusCode.AlreadyExists);
 								return null;
 							}
 
@@ -433,7 +433,7 @@ namespace Files.App.Filesystem
 							// Can't do anything, already tried with admin FTP
 						}
 					}
-                    fsProgress.ReportStatus(fsResult.ErrorCode);
+					fsProgress.ReportStatus(fsResult.ErrorCode);
 				}
 			}
 			else if (source.ItemType == FilesystemItemType.File)
@@ -455,7 +455,7 @@ namespace Files.App.Filesystem
 
 						if (fsResultMove == FileSystemStatusCode.AlreadyExists)
 						{
-                            fsProgress.ReportStatus(FileSystemStatusCode.AlreadyExists);
+							fsProgress.ReportStatus(FileSystemStatusCode.AlreadyExists);
 							return null;
 						}
 
@@ -470,7 +470,7 @@ namespace Files.App.Filesystem
 						// Can't do anything, already tried with admin FTP
 					}
 				}
-                fsProgress.ReportStatus(fsResult.ErrorCode);
+				fsProgress.ReportStatus(fsResult.ErrorCode);
 			}
 
 			if (collision == NameCollisionOption.ReplaceExisting)
@@ -493,15 +493,15 @@ namespace Files.App.Filesystem
 													   IProgress<FileSystemProgress> progress,
 													   bool permanently,
 													   CancellationToken cancellationToken)
-        {
-            FileSystemProgress fsProgress = new(progress)
-            {
-                EnumerationCompleted = true,
-                Status = FileSystemStatusCode.InProgress
-            };
-            fsProgress.Report();
+		{
+			FileSystemProgress fsProgress = new(progress)
+			{
+				EnumerationCompleted = true,
+				Status = FileSystemStatusCode.InProgress
+			};
+			fsProgress.Report();
 
-            bool deleteFromRecycleBin = recycleBinHelpers.IsPathUnderRecycleBin(source.Path);
+			bool deleteFromRecycleBin = recycleBinHelpers.IsPathUnderRecycleBin(source.Path);
 
 			FilesystemResult fsResult = FileSystemStatusCode.InProgress;
 
@@ -523,7 +523,7 @@ namespace Files.App.Filesystem
 				}
 			}
 
-            fsProgress.ReportStatus(fsResult);
+			fsProgress.ReportStatus(fsResult);
 
 			if (fsResult == FileSystemStatusCode.Unauthorized)
 			{
@@ -542,7 +542,7 @@ namespace Files.App.Filesystem
 				await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(iFilePath)
 					.OnSuccess(iFile => iFile.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask());
 			}
-            fsProgress.ReportStatus(fsResult);
+			fsProgress.ReportStatus(fsResult);
 
 			if (fsResult)
 			{
@@ -592,15 +592,15 @@ namespace Files.App.Filesystem
 													   CancellationToken cancellationToken)
 		{
 			FileSystemProgress fsProgress = new FileSystemProgress(progress)
-            {
-                EnumerationCompleted = true,
-                Status = FileSystemStatusCode.InProgress
-            };
-            fsProgress.Report();
-
-            if (Path.GetFileName(source.Path) == newName && collision == NameCollisionOption.FailIfExists)
 			{
-                fsProgress.ReportStatus(FileSystemStatusCode.AlreadyExists);
+				EnumerationCompleted = true,
+				Status = FileSystemStatusCode.InProgress
+			};
+			fsProgress.Report();
+
+			if (Path.GetFileName(source.Path) == newName && collision == NameCollisionOption.FailIfExists)
+			{
+				fsProgress.ReportStatus(FileSystemStatusCode.AlreadyExists);
 				return null;
 			}
 
@@ -624,7 +624,7 @@ namespace Files.App.Filesystem
 
 				if (renamed)
 				{
-                    fsProgress.ReportStatus(FileSystemStatusCode.Success);
+					fsProgress.ReportStatus(FileSystemStatusCode.Success);
 					return new StorageHistory(FileOperationType.Rename, source, renamed.Result.FromStorageItem());
 				}
 				else if (renamed == FileSystemStatusCode.Unauthorized)
@@ -680,7 +680,7 @@ namespace Files.App.Filesystem
 						return await RenameAsync(source, newName, NameCollisionOption.ReplaceExisting, progress, cancellationToken);
 					}
 				}
-                fsProgress.ReportStatus(renamed);
+				fsProgress.ReportStatus(renamed);
 			}
 
 			return null;
@@ -699,15 +699,15 @@ namespace Files.App.Filesystem
 																	 IProgress<FileSystemProgress> progress,
 																	 CancellationToken token)
 		{
-            FileSystemProgress fsProgress = new(progress)
-            {
-                ItemsCount = source.Count,
-                EnumerationCompleted = true,
-                Status = FileSystemStatusCode.InProgress
-            };
+			FileSystemProgress fsProgress = new(progress)
+			{
+				ItemsCount = source.Count,
+				EnumerationCompleted = true,
+				Status = FileSystemStatusCode.InProgress
+			};
 			fsProgress.Report();
 
-            var rawStorageHistory = new List<IStorageHistory>();
+			var rawStorageHistory = new List<IStorageHistory>();
 
 			for (int i = 0; i < source.Count; i++)
 			{
@@ -725,7 +725,7 @@ namespace Files.App.Filesystem
 				fsProgress.ProcessedItemsCount++;
 				fsProgress.Report();
 
-            }
+			}
 
 			if (rawStorageHistory.Any() && rawStorageHistory.All((item) => item is not null))
 			{
@@ -747,15 +747,15 @@ namespace Files.App.Filesystem
 																 string destination,
 																 IProgress<FileSystemProgress> progress,
 																 CancellationToken cancellationToken)
-        {
-            FileSystemProgress fsProgress = new(progress)
-            {
-                EnumerationCompleted = true,
-                Status = FileSystemStatusCode.InProgress
-            };
+		{
+			FileSystemProgress fsProgress = new(progress)
+			{
+				EnumerationCompleted = true,
+				Status = FileSystemStatusCode.InProgress
+			};
 			fsProgress.Report();
 
-            FilesystemResult fsResult = FileSystemStatusCode.InProgress;
+			FilesystemResult fsResult = FileSystemStatusCode.InProgress;
 
 			fsResult = (FilesystemResult)await Task.Run(() => NativeFileOperationsHelper.MoveFileFromApp(source.Path, destination));
 
@@ -767,7 +767,7 @@ namespace Files.App.Filesystem
 					FilesystemResult<BaseStorageFolder> destinationFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination));
 
 					fsResult = sourceFolder.ErrorCode | destinationFolder.ErrorCode;
-                    fsProgress.ReportStatus(fsResult);
+					fsProgress.ReportStatus(fsResult);
 
 					if (fsResult)
 					{
@@ -779,7 +779,7 @@ namespace Files.App.Filesystem
 						}
 						// TODO: we could use here FilesystemHelpers with registerHistory false?
 					}
-                    fsProgress.ReportStatus(fsResult);
+					fsProgress.ReportStatus(fsResult);
 				}
 				else
 				{
@@ -787,13 +787,13 @@ namespace Files.App.Filesystem
 					FilesystemResult<BaseStorageFolder> destinationFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination));
 
 					fsResult = sourceFile.ErrorCode | destinationFolder.ErrorCode;
-                    fsProgress.ReportStatus(fsResult);
+					fsProgress.ReportStatus(fsResult);
 
 					if (fsResult)
 					{
 						fsResult = await FilesystemTasks.Wrap(() => sourceFile.Result.MoveAsync(destinationFolder.Result, Path.GetFileName(destination), NameCollisionOption.GenerateUniqueName).AsTask());
 					}
-                    fsProgress.ReportStatus(fsResult);
+					fsProgress.ReportStatus(fsResult);
 				}
 				if (fsResult == FileSystemStatusCode.Unauthorized || fsResult == FileSystemStatusCode.ReadOnly)
 				{
@@ -869,16 +869,16 @@ namespace Files.App.Filesystem
 		}
 
 		public async Task<IStorageHistory> CopyItemsAsync(IList<IStorageItemWithPath> source, IList<string> destination, IList<FileNameConflictResolveOptionType> collisions, IProgress<FileSystemProgress> progress, CancellationToken token)
-        {
-            FileSystemProgress fsProgress = new(progress)
-            {
-                ItemsCount = source.Count,
-                EnumerationCompleted = true,
-                Status = FileSystemStatusCode.InProgress
-            };
-            fsProgress.Report();
+		{
+			FileSystemProgress fsProgress = new(progress)
+			{
+				ItemsCount = source.Count,
+				EnumerationCompleted = true,
+				Status = FileSystemStatusCode.InProgress
+			};
+			fsProgress.Report();
 
-            var rawStorageHistory = new List<IStorageHistory>();
+			var rawStorageHistory = new List<IStorageHistory>();
 
 			for (int i = 0; i < source.Count; i++)
 			{
@@ -900,7 +900,7 @@ namespace Files.App.Filesystem
 				fsProgress.ProcessedItemsCount++;
 				fsProgress.Report();
 
-            }
+			}
 
 			if (rawStorageHistory.Any() && rawStorageHistory.All((item) => item is not null))
 			{
@@ -918,16 +918,16 @@ namespace Files.App.Filesystem
 		}
 
 		public async Task<IStorageHistory> MoveItemsAsync(IList<IStorageItemWithPath> source, IList<string> destination, IList<FileNameConflictResolveOptionType> collisions, IProgress<FileSystemProgress> progress, CancellationToken token)
-        {
-            FileSystemProgress fsProgress = new(progress)
-            {
-                ItemsCount = source.Count,
-                EnumerationCompleted = true,
-                Status = FileSystemStatusCode.InProgress
-            };
-            fsProgress.Report();
+		{
+			FileSystemProgress fsProgress = new(progress)
+			{
+				ItemsCount = source.Count,
+				EnumerationCompleted = true,
+				Status = FileSystemStatusCode.InProgress
+			};
+			fsProgress.Report();
 
-            var rawStorageHistory = new List<IStorageHistory>();
+			var rawStorageHistory = new List<IStorageHistory>();
 
 			for (int i = 0; i < source.Count; i++)
 			{
@@ -966,16 +966,16 @@ namespace Files.App.Filesystem
 		}
 
 		public async Task<IStorageHistory> DeleteItemsAsync(IList<IStorageItemWithPath> source, IProgress<FileSystemProgress> progress, bool permanently, CancellationToken token)
-        {
-            FileSystemProgress fsProgress = new(progress)
-            {
-                ItemsCount = source.Count,
-                EnumerationCompleted = true,
-                Status = FileSystemStatusCode.InProgress
-            };
-            fsProgress.Report();
+		{
+			FileSystemProgress fsProgress = new(progress)
+			{
+				ItemsCount = source.Count,
+				EnumerationCompleted = true,
+				Status = FileSystemStatusCode.InProgress
+			};
+			fsProgress.Report();
 
-            bool originalPermanently = permanently;
+			bool originalPermanently = permanently;
 			var rawStorageHistory = new List<IStorageHistory>();
 
 			for (int i = 0; i < source.Count; i++)
@@ -988,7 +988,7 @@ namespace Files.App.Filesystem
 				rawStorageHistory.Add(await DeleteAsync(source[i], null, permanently, token));
 				fsProgress.ProcessedItemsCount++;
 				fsProgress.Report();
-            }
+			}
 
 			if (rawStorageHistory.Any() && rawStorageHistory.All((item) => item is not null))
 			{

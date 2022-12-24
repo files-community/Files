@@ -722,7 +722,7 @@ namespace Files.App.Filesystem
 			{
 				var itemPathOrName = string.IsNullOrEmpty(src.Path) ? src.Item.Name : src.Path;
 				var match = collisions.SingleOrDefault(x => x.Key == itemPathOrName);
-				var fileNameConflictResolveOptionType = (match.Key is not null) ? match.Value : FileNameConflictResolveOptionType.Skip; 
+				var fileNameConflictResolveOptionType = (match.Key is not null) ? match.Value : FileNameConflictResolveOptionType.Skip;
 				newCollisions.Add(fileNameConflictResolveOptionType);
 			}
 

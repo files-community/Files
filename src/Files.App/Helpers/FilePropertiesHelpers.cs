@@ -72,7 +72,7 @@ namespace Files.App.Helpers
 					MinWidth = 460,
 					MinHeight = 550,
 					Content = frame,
-					Backdrop = new WinUIEx.MicaSystemBackdrop{ DarkTintOpacity = 0.8 },
+					Backdrop = new WinUIEx.MicaSystemBackdrop { DarkTintOpacity = 0.8 },
 				};
 
 				var appWindow = propertiesWindow.AppWindow;
