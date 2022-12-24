@@ -227,9 +227,9 @@ namespace Files.App.DataModels.NavigationControlItems
 				{
 					if (string.Equals(DeviceID, "network-folder"))
 					{
-                        Icon = await UIHelpers.GetIconResource(Constants.ImageRes.NetworkDrives);
+                        			Icon = await UIHelpers.GetIconResource(Constants.ImageRes.NetworkDrives);
 						return;
-                    }
+                    			}
 					IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, 24);
 				}
 
