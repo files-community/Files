@@ -110,10 +110,13 @@ namespace Files.App.Filesystem.Archive
 					compressor.CompressionMode = CompressionMode.Append;
 				}
 
-				if (string.IsNullOrEmpty(Password))
-					await compressor.CompressFilesAsync(path, files);
-				else
-					await compressor.CompressFilesEncryptedAsync(path, Password, files);
+				if (files.Any())
+				{
+					if (string.IsNullOrEmpty(Password))
+						await compressor.CompressFilesAsync(path, files);
+					else
+						await compressor.CompressFilesEncryptedAsync(path, Password, files);
+				}
 
 				return true;
 			}

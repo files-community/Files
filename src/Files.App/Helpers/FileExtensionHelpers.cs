@@ -31,7 +31,7 @@ namespace Files.App.Helpers
 		public static bool IsPowerShellFile(string fileExtensionToCheck)
 		{
 			return !string.IsNullOrEmpty(fileExtensionToCheck) &&
-				   fileExtensionToCheck.Equals(".ps1", StringComparison.OrdinalIgnoreCase);
+				fileExtensionToCheck.Equals(".ps1", StringComparison.OrdinalIgnoreCase);
 		}
 
 		/// <summary>
@@ -65,7 +65,7 @@ namespace Files.App.Helpers
 		public static bool IsInfFile(string? fileExtensionToCheck)
 		{
 			return !string.IsNullOrWhiteSpace(fileExtensionToCheck) &&
-				   fileExtensionToCheck.Equals(".inf", StringComparison.OrdinalIgnoreCase);
+				fileExtensionToCheck.Equals(".inf", StringComparison.OrdinalIgnoreCase);
 		}
 
 		/// <summary>
@@ -87,16 +87,25 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>
-		/// Check if the file extension is a shortcut file.
+		/// Check if the file path is a shortcut file.
 		/// </summary>
-		/// <param name="fileExtensionToCheck">The file extension to check.</param>
-		/// <returns><c>true</c> if the fileExtensionToCheck is a shortcute file;
+		/// <param name="filePathToCheck">The file path to check.</param>
+		/// <returns><c>true</c> if the filePathToCheck is a shortcut file;
 		/// otherwise <c>false</c>.</returns>
-		/// <remarks>Font file type is .lnkf</remarks>
-		public static bool IsShortcutFile(string? fileExtensionToCheck)
+		/// <remarks>Shortcut file type is .lnk</remarks>
+		public static bool IsShortcutFile(string? filePathToCheck)
 		{
-			return !string.IsNullOrWhiteSpace(fileExtensionToCheck) &&
-				   fileExtensionToCheck.Equals(".lnk", StringComparison.OrdinalIgnoreCase);
+			return !string.IsNullOrWhiteSpace(filePathToCheck) &&
+				filePathToCheck.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase);
 		}
+
+		public static bool IsWebLinkFile(string? filePathToCheck)
+		{
+			return !string.IsNullOrWhiteSpace(filePathToCheck) &&
+				filePathToCheck.EndsWith(".url", StringComparison.OrdinalIgnoreCase);
+		}
+
+		public static bool IsShortcutOrUrlFile(string? filePathToCheck)
+			=> IsShortcutFile(filePathToCheck) || IsWebLinkFile(filePathToCheck);
 	}
 }

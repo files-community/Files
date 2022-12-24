@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.Shared;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -27,6 +28,7 @@ namespace Files.App.Filesystem
 		public bool FileIconVis { get; set; }
 		public bool IsFile { get => Type == StorageItemTypes.File; }
 		public DateTime LastModified { get; set; }
+		public byte[] PIDL { get; set; }
 
 		public RecentItem()
 		{
@@ -55,6 +57,7 @@ namespace Files.App.Filesystem
 			FolderImg = linkItem.IsFolder;
 			FileIconVis = !linkItem.IsFolder;
 			LastModified = linkItem.ModifiedDate;
+			PIDL = linkItem.PIDL;
 		}
 
 		/// <summary>
@@ -63,13 +66,14 @@ namespace Files.App.Filesystem
 		/// <param name="fileItem">The shell file item</param>
 		public RecentItem(ShellFileItem fileItem) : base()
 		{
-			LinkPath = fileItem.FilePath;   // intentionally the same
-			RecentPath = fileItem.FilePath; // intentionally the same
+			LinkPath = ShellStorageFolder.IsShellPath(fileItem.FilePath) ? fileItem.RecyclePath : fileItem.FilePath; // use true path on disk for shell items
+			RecentPath = LinkPath; // intentionally the same
 			Name = NameOrPathWithoutExtension(fileItem.FileName);
 			Type = fileItem.IsFolder ? StorageItemTypes.Folder : StorageItemTypes.File;
 			FolderImg = fileItem.IsFolder;
 			FileIconVis = !fileItem.IsFolder;
 			LastModified = fileItem.ModifiedDate;
+			PIDL = fileItem.PIDL;
 		}
 
 		public async Task LoadRecentItemIcon()

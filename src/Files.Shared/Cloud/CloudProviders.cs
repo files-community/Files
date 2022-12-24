@@ -14,5 +14,6 @@
 		Box,
 		Jottacloud,
 		SynologyDrive,
+		pCloud
 	}
 }

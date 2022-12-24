@@ -24,22 +24,10 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set((long)value);
 		}
 
-		public SortOption DefaultDirectorySortOption
-		{
-			get => (SortOption)Get((long)SortOption.Name);
-			set => Set((long)value);
-		}
-
 		public bool DefaultSortDirectoriesAlongsideFiles
 		{
 			get => Get(false);
 			set => Set(value);
-		}
-
-		public GroupOption DefaultDirectoryGroupOption
-		{
-			get => (GroupOption)Get((long)GroupOption.None);
-			set => Set((long)value);
 		}
 	}
 }

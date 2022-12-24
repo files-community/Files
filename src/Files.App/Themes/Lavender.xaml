@@ -15,8 +15,6 @@
 			<SolidColorBrush x:Key="SolidBackgroundFillColorSecondaryBrush" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
 			<SolidColorBrush x:Key="SolidBackgroundFillColorTertiaryBrush" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
 			<SolidColorBrush x:Key="SolidBackgroundFillColorQuarternaryBrush" Color="{ThemeResource SolidBackgroundFillColorQuarternary}" />
-			<!--  Acrylic Resources  -->
-			<Color x:Key="SolidBackgroundAcrylic">#332041</Color>
 			<!--  Accent Color  -->
 			<Color x:Key="SystemAccentColor">#8752A8</Color>
 			<Color x:Key="SystemAccentColorDark1">#8752A8</Color>
@@ -37,8 +35,6 @@
 			<SolidColorBrush x:Key="SolidBackgroundFillColorSecondaryBrush" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
 			<SolidColorBrush x:Key="SolidBackgroundFillColorTertiaryBrush" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
 			<SolidColorBrush x:Key="SolidBackgroundFillColorQuarternaryBrush" Color="{ThemeResource SolidBackgroundFillColorQuarternary}" />
-			<!--  Acrylic Resources  -->
-			<Color x:Key="SolidBackgroundAcrylic">#C3ADCC</Color>
 			<!--  Accent Color  -->
 			<Color x:Key="SystemAccentColor">#948599</Color>
 			<Color x:Key="SystemAccentColorDark1">#948599</Color>

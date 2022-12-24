@@ -1,0 +1,20 @@
+<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:BelowWindows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract, 7)"
+	xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)">
+	<ResourceDictionary.ThemeDictionaries>
+		<ResourceDictionary x:Key="Default">
+			<ImageBrush
+				x:Key="RootBackgroundBrush"
+				ImageSource="\Assets\Themes\MicaBlurDark.jpg"
+				Stretch="UniformToFill" />
+		</ResourceDictionary>
+		<ResourceDictionary x:Key="Light">
+			<ImageBrush
+				x:Key="RootBackgroundBrush"
+				ImageSource="\Assets\Themes\MicaBlurLight.jpg"
+				Stretch="UniformToFill" />
+		</ResourceDictionary>
+	</ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>

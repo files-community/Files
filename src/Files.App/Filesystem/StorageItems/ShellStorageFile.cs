@@ -1,5 +1,6 @@
 using Files.App.Shell;
 using Files.Shared;
+using Files.Shared.Extensions;
 using System;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
@@ -85,10 +86,18 @@ namespace Files.App.Filesystem.StorageItems
 			return Task.FromResult<BaseStorageFile>(null).AsAsyncOperation();
 		}
 
-		private static ShellFileItem GetFile(string path)
+		private static ShellFileItem? GetFile(string path)
 		{
-			using var shellItem = ShellFolderExtensions.GetShellItemFromPathOrPidl(path);
-			return ShellFolderExtensions.GetShellFileItem(shellItem);
+			try
+			{
+				using var shellItem = ShellFolderExtensions.GetShellItemFromPathOrPidl(path);
+				return ShellFolderExtensions.GetShellFileItem(shellItem);
+			}
+			catch
+			{
+				// Can happen when dealing with recent items or when browsing shell:::{679f85cb-0220-4080-b29b-5540cc05aab6}
+				return default;
+			}
 		}
 
 		public override bool IsEqual(IStorageItem item) => item?.Path == Path;

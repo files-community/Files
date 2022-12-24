@@ -71,7 +71,7 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.ShortcutItemWorkingDirVisibility = Item.IsLinkItem || shortcutItem.IsSymLink ? false : true;
 			ViewModel.ShortcutItemArguments = shortcutItem.Arguments;
 			ViewModel.ShortcutItemArgumentsVisibility = Item.IsLinkItem || shortcutItem.IsSymLink ? false : true;
-			ViewModel.IsSelectedItemShortcut = ".lnk".Equals(Item.FileExtension, StringComparison.OrdinalIgnoreCase);
+			ViewModel.IsSelectedItemShortcut = FileExtensionHelpers.IsShortcutFile(Item.FileExtension);
 			ViewModel.ShortcutItemOpenLinkCommand = new RelayCommand(async () =>
 			{
 				if (Item.IsLinkItem)
