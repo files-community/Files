@@ -2717,7 +2717,7 @@
     <value>Пользовательский</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
-    <value>Установить как слад-шоу рабочего стола</value>
+    <value>Установить как слайд-шоу рабочего стола</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
     <value>Столбцы по размеру содержимого</value>
@@ -2894,7 +2894,7 @@
     <value>Быстрый</value>
   </data>
   <data name="CompressionLevelNone" xml:space="preserve">
-    <value>Никак</value>
+    <value>Отсутствует</value>
   </data>
   <data name="SplitArchive" xml:space="preserve">
     <value>Разбить архив</value>
