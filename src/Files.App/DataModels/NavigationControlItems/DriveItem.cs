@@ -224,14 +224,7 @@ namespace Files.App.DataModels.NavigationControlItems
 			if (IconData is null)
 			{
 				if (!string.IsNullOrEmpty(DeviceID))
-				{
-					if (string.Equals(DeviceID, "network-folder"))
-					{
-                        			Icon = await UIHelpers.GetIconResource(Constants.ImageRes.NetworkDrives);
-						return;
-                    			}
 					IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, 24);
-				}
 
 				if (IconData is null)
 				{
