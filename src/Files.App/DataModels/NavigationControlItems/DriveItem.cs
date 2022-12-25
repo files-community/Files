@@ -120,7 +120,7 @@ namespace Files.App.DataModels.NavigationControlItems
 			get => percentageUsed;
 			set
 			{
-				if (!SetProperty(ref percentageUsed, value)) 
+				if (!SetProperty(ref percentageUsed, value))
 					return;
 
 				if (Type == DriveType.Fixed)

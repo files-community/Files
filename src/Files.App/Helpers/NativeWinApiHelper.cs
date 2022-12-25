@@ -249,7 +249,7 @@ namespace Files.App.Helpers
 		{
 			get
 			{
-				isHasThreadAccessPropertyPresent ??= ApiInformation.IsPropertyPresent(typeof(DispatcherQueue).FullName,"HasThreadAccess");
+				isHasThreadAccessPropertyPresent ??= ApiInformation.IsPropertyPresent(typeof(DispatcherQueue).FullName, "HasThreadAccess");
 				return isHasThreadAccessPropertyPresent ?? false;
 			}
 		}
