@@ -229,7 +229,7 @@ namespace Files.App.DataModels.NavigationControlItems
 					{
                         Icon = await UIHelpers.GetIconResource(Constants.ImageRes.Folder);
 						return;
-                    }
+                    			}
 					IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, 24);
 				}
 
