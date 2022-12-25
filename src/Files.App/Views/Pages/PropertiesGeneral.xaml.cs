@@ -106,30 +106,30 @@ namespace Files.App.Views
 					);
 				}
                 
-                // Handles run as administrator for shortcuts
-                if (item.IsShortcut)
-                {
-                    var shortcutItem = (ShortcutItem)item;
+				// Handles run as administrator for shortcuts
+				if (item.IsShortcut)
+				{
+					var shortcutItem = (ShortcutItem)item;
 
-                    App.Logger.Warn("Is a shortcut file");
+					App.Logger.Warn("Is a shortcut file");
 
-                    var isApplication = !string.IsNullOrWhiteSpace(shortcutItem.TargetPath) &&
-                        (shortcutItem.TargetPath.EndsWith(".exe", StringComparison.OrdinalIgnoreCase)
-                            || shortcutItem.TargetPath.EndsWith(".msi", StringComparison.OrdinalIgnoreCase)
-                            || shortcutItem.TargetPath.EndsWith(".bat", StringComparison.OrdinalIgnoreCase));
+					 var isApplication = !string.IsNullOrWhiteSpace(shortcutItem.TargetPath) &&
+						(shortcutItem.TargetPath.EndsWith(".exe", StringComparison.OrdinalIgnoreCase)
+						|| shortcutItem.TargetPath.EndsWith(".msi", StringComparison.OrdinalIgnoreCase)
+						|| shortcutItem.TargetPath.EndsWith(".bat", StringComparison.OrdinalIgnoreCase));
 
-                    if (!isApplication)
-                        goto rename;
+					if (!isApplication)
+						goto rename;
 
-                    App.Logger.Warn("About to set admin property");
+					App.Logger.Warn("About to set admin property");
 
-                    await App.Window.DispatcherQueue.EnqueueAsync(() =>
-                        UIFilesystemHelpers.SetShortcutIsRunAsAdmin(shortcutItem, ViewModel.IsRunAsAdmin, AppInstance)
-                    );
-                }
+					await App.Window.DispatcherQueue.EnqueueAsync(() =>
+						UIFilesystemHelpers.SetShortcutIsRunAsAdmin(shortcutItem, ViewModel.IsRunAsAdmin, AppInstance)
+					);
+				}
 
 				rename:
-                if (!hasNewName)
+				if (!hasNewName)
 					return true;
 
 				return await App.Window.DispatcherQueue.EnqueueAsync(() =>
