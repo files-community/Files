@@ -28,7 +28,6 @@ namespace Files.App.Filesystem.Cloud
 			yield return new GoogleDriveCloudDetector();
 			yield return new DropBoxCloudDetector();
 			yield return new BoxCloudDetector();
-			yield return new AppleCloudDetector();
 			yield return new GenericCloudDetector();
 			yield return new SynologyDriveCloudDetector();
 		}
