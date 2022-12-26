@@ -16,7 +16,6 @@
 			<SolidColorBrush x:Key="SolidBackgroundFillColorTertiaryBrush" Color="{ThemeResource SolidBackgroundFillColorTertiary}" />
 			<SolidColorBrush x:Key="SolidBackgroundFillColorQuarternaryBrush" Color="{ThemeResource SolidBackgroundFillColorQuarternary}" />
 		</ResourceDictionary>
-
 		<ResourceDictionary x:Key="Light">
 			<!--  Background Resources  -->
 			<SolidColorBrush x:Key="RootBackgroundBrush" Color="#AAdd4220" />

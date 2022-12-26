@@ -781,7 +781,7 @@ namespace Files.App.ViewModels
 
 		public ICommand? PasteItemsFromClipboardCommand { get; set; }
 
-		public ICommand? OpenNewWindowCommand { get; set; }
+		public IAsyncRelayCommand? OpenNewWindowCommand { get; set; }
 
 		public ICommand? OpenNewPaneCommand { get; set; }
 

@@ -24,7 +24,14 @@ namespace Files.App.Filesystem.Archive
 		public ArchiveCompressionLevels CompressionLevel { get; init; } = ArchiveCompressionLevels.Normal;
 		public ArchiveSplittingSizes SplittingSize { get; init; } = ArchiveSplittingSizes.None;
 
-		public IProgress<float> Progress { get; set; } = new Progress<float>();
+		public IProgress<FileSystemProgress> Progress { get; set; } = new Progress<FileSystemProgress>();
+		private readonly FileSystemProgress fsProgress;
+
+		public ArchiveCreator()
+		{
+			fsProgress = new(Progress, true, Shared.Enums.FileSystemStatusCode.InProgress);
+			fsProgress.Report();
+		}
 
 		private string ArchiveExtension => FileFormat switch
 		{
@@ -90,6 +97,7 @@ namespace Files.App.Filesystem.Archive
 				EventSynchronization = EventSynchronizationStrategy.AlwaysAsynchronous,
 			};
 			compressor.Compressing += Compressor_Compressing;
+			compressor.CompressionFinished += Compressor_CompressionFinished;
 
 			try
 			{
@@ -102,10 +110,13 @@ namespace Files.App.Filesystem.Archive
 					compressor.CompressionMode = CompressionMode.Append;
 				}
 
-				if (string.IsNullOrEmpty(Password))
-					await compressor.CompressFilesAsync(path, files);
-				else
-					await compressor.CompressFilesEncryptedAsync(path, Password, files);
+				if (files.Any())
+				{
+					if (string.IsNullOrEmpty(Password))
+						await compressor.CompressFilesAsync(path, files);
+					else
+						await compressor.CompressFilesEncryptedAsync(path, Password, files);
+				}
 
 				return true;
 			}
@@ -118,6 +129,16 @@ namespace Files.App.Filesystem.Archive
 			}
 		}
 
-		private void Compressor_Compressing(object? _, ProgressEventArgs e) => Progress.Report(e.PercentDone);
+		private void Compressor_CompressionFinished(object? sender, EventArgs e)
+		{
+			fsProgress.Percentage = null;
+			fsProgress.ReportStatus(Shared.Enums.FileSystemStatusCode.Success);
+		}
+
+		private void Compressor_Compressing(object? _, ProgressEventArgs e)
+		{
+			fsProgress.Percentage = e.PercentDone;
+			fsProgress.Report();
+		}
 	}
 }

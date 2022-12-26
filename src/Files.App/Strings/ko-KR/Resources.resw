@@ -9,9 +9,7 @@
     that is mostly human readable. The generation and parsing of the
     various data types are done through the TypeConverter classes
     associated with the data types.
-
     Example:
-
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,7 +24,6 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-
     There are any number of "resheader" rows that contain simple
     name/value pairs.
 
@@ -43,12 +40,10 @@
     Note - application/x-microsoft.net.object.binary.base64 is the format
     that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-
     mimetype: application/x-microsoft.net.object.soap.base64
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
@@ -1225,10 +1220,10 @@
     <value>폴더 우선 설정 초기화</value>
   </data>
   <data name="EnableOverridingFolderPreferencesDescription" xml:space="preserve">
-    <value>Changing the layout in a directory when this setting is turned off will update the layout for all directories.</value>
+    <value>이 설정이 꺼져있을 때 디렉토리의 레이아웃을 변경하면 모든 디렉토리의 레이아웃이 같이 업데이트 됩니다.</value>
   </data>
   <data name="EnableOverridingFolderPreferences" xml:space="preserve">
-    <value>Enable overriding folder preferences in individual directories</value>
+    <value>개별 디렉토리의 폴더 기본 설정 덮어쓰기 활성화</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>마우스 우클릭 컨텍스트 메뉴를 설정</value>
@@ -2005,7 +2000,7 @@
     <value>설명서 보기</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
-    <value>Extract Archive</value>
+    <value>보관 파일 추출하기</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>완료 후 압축을 푼 폴더 표시</value>
@@ -2287,10 +2282,10 @@
     <value>Ctrl+Shift+T</value>
   </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
-    <value>압축 해제가 성공적으로 완료되었습니다.</value>
+    <value>보관 파일 추출이 성공적으로 완료되었습니다.</value>
   </data>
   <data name="ExtractingArchiveText" xml:space="preserve">
-    <value>보관 파일의 압축을 해제하는 중</value>
+    <value>보관 파일을 추출하는 중</value>
   </data>
   <data name="ExtractingCompleteText" xml:space="preserve">
     <value>압축 해제 완료!</value>
@@ -2452,7 +2447,7 @@
     <value>파일 태그</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Open items with a single click</value>
+    <value>한 번 클릭하여 항목 열기</value>
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
     <value>폴더 경로</value>
@@ -2581,7 +2576,7 @@
     <value>라이브러리 이름 입력</value>
   </data>
   <data name="CalculateFolderSizes" xml:space="preserve">
-    <value>Calculate folder sizes</value>
+    <value>폴더 크기 계산</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
     <value>최근에 사용한 파일</value>
@@ -2611,7 +2606,7 @@
     <value>유형</value>
   </data>
   <data name="IconGrid" xml:space="preserve">
-    <value>Icon Grid</value>
+    <value>아이콘 격자</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>바이트</value>
@@ -2698,7 +2693,7 @@
     <value>태그 섹션 보이기</value>
   </data>
   <data name="UseCompactStyles" xml:space="preserve">
-    <value>Use compact styles in the details layout</value>
+    <value>자세히 레이아웃에서 좁은 폭 스타일 사용하기</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>유니버설</value>
@@ -2713,34 +2708,34 @@
     <value>다시 시도</value>
   </data>
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
-    <value>Move operation is not supported in this context. Do you want to copy the items instead?</value>
+    <value>여기에서는 이동 작업이 지원되지 않습니다. 대신 파일을 복사하시겠습니까?</value>
   </data>
   <data name="HiddenItems" xml:space="preserve">
     <value>숨겨진 항목</value>
   </data>
   <data name="Custom" xml:space="preserve">
-    <value>Custom</value>
+    <value>사용자 지정</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
-    <value>Set as desktop slideshow</value>
+    <value>바탕화면의 슬라이드 쇼로 지정하기</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
-    <value>Size All Columns to Fit</value>
+    <value>모든 열의 크기 맞추기</value>
   </data>
   <data name="Contributors" xml:space="preserve">
     <value>기여자</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Adaptive</value>
+    <value>적응형</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>Adaptive (Ctrl+Shift+7)</value>
+    <value>적응형 (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>Show Alternate Data Streams</value>
+    <value>대체 데이터 스트림 표시</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
     <value>파일 검토</value>
@@ -2761,151 +2756,154 @@
     <value>기본값으로 설정</value>
   </data>
   <data name="DateColumn" xml:space="preserve">
-    <value>Date column</value>
+    <value>날짜 열</value>
   </data>
   <data name="DateCreatedColumn" xml:space="preserve">
-    <value>Date Created column</value>
+    <value>생성된 날짜 열</value>
   </data>
   <data name="SizeColumn" xml:space="preserve">
-    <value>Size column</value>
+    <value>크기 열</value>
   </data>
   <data name="TagColumn" xml:space="preserve">
-    <value>Tag column</value>
+    <value>태그 열</value>
   </data>
   <data name="TypeColumn" xml:space="preserve">
-    <value>Type column</value>
+    <value>유형 열</value>
   </data>
   <data name="DetailsLayoutColumns" xml:space="preserve">
-    <value>Details layout columns</value>
+    <value>자세히 레이아웃 열</value>
   </data>
   <data name="Reset" xml:space="preserve">
-    <value>Reset</value>
+    <value>초기화</value>
   </data>
   <data name="ResetLayoutPreferences" xml:space="preserve">
-    <value>This action will reset all directories back to your default preferences.</value>
+    <value>이 작업은 모든 디렉토리를 기본 설정으로 초기화합니다.</value>
   </data>
   <data name="AreYouSure" xml:space="preserve">
-    <value>Are you sure?</value>
+    <value>그래도 진행하시겠습니까?</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
-    <value>Lockscreen</value>
+    <value>잠금화면</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Open folders with a single click in the Columns Layout</value>
+    <value>열 레이아웃에서 한 번 클릭해 폴더 열기</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
-    <value>Opening items</value>
+    <value>항목 여는 중</value>
   </data>
   <data name="AddSingleItemToArchive" xml:space="preserve">
-    <value>Add to {0}.zip</value>
+    <value>{0}.zip에 추가</value>
   </data>
   <data name="AddToArchive" xml:space="preserve">
-    <value>Add to archive</value>
+    <value>보관 파일에 추가하기</value>
   </data>
   <data name="CompressionCompleted" xml:space="preserve">
-    <value>Compression completed</value>
+    <value>압축 완료됨</value>
   </data>
   <data name="CompressionSucceded" xml:space="preserve">
-    <value>{0} has been compressed</value>
+    <value>{0}가 압축되었습니다</value>
   </data>
   <data name="CompressionFailed" xml:space="preserve">
-    <value>{0} couldn't be compressed</value>
+    <value>{0}는 압축될 수 없습니다</value>
   </data>
   <data name="CompressionInProgress" xml:space="preserve">
-    <value>Compressing archive</value>
+    <value>보관 파일을 압축하는 중</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
-    <value>Select files and folders when hovering over them</value>
+    <value>파일과 폴더에 마우스를 올려 선택하기</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
-    <value>Are you sure you want to restore all items in the recycle bin?</value>
+    <value>정말 모든 항목을 휴지통에서 복원하시겠습니까?</value>
   </data>
   <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
-    <value>Restore all items</value>
+    <value>모든 항목 복원하기</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
-    <value>Do you want to restore the {0} selected item(s)?</value>
+    <value>선택된 {0}개의 항목을 복원하시겠습니까?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
-    <value>Restore selection</value>
+    <value>선택 목록 복원하기</value>
   </data>
   <data name="RestoreAllItems" xml:space="preserve">
-    <value>Restore All Items</value>
+    <value>모든 항목 복원하기</value>
   </data>
   <data name="RestoreSelection" xml:space="preserve">
     <value>복원</value>
   </data>
   <data name="ShortcutCannotBeOpened" xml:space="preserve">
-    <value>Shortcut cannot be opened</value>
+    <value>바로가기를 열 수 없음</value>
   </data>
   <data name="DeleteShortcutDescription" xml:space="preserve">
-    <value>The target destination cannot be found {0}. Do you want to delete this shortcut?</value>
+    <value>이 항목의 원본 {0}을 찾을 수 없습니다. 이 바로가기를 삭제하시겠습니까?</value>
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
-    <value>You don't have permission to access this folder.</value>
+    <value>이 폴더에 접근할 수 있는 권한이 없습니다.</value>
   </data>
   <data name="LoadingThemes" xml:space="preserve">
-    <value>Loading Themes</value>
+    <value>테마 불러오는 중</value>
   </data>
   <data name="EmptyingRecycleBin" xml:space="preserve">
-    <value>Emptying recycle bin</value>
+    <value>휴지통을 비우는 중</value>
   </data>
   <data name="BinEmptyingSucceded" xml:space="preserve">
-    <value>Successfully emptied recycle bin</value>
+    <value>성공적으로 휴지통을 비웠습니다.</value>
   </data>
   <data name="BinEmptyingFailed" xml:space="preserve">
-    <value>Failed to empty recycle bin</value>
+    <value>휴지통을 비우는 데 실패했습니다.</value>
   </data>
   <data name="ArchivePassword" xml:space="preserve">
-    <value>Archive password</value>
+    <value>보관 파일 비밀번호</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
-    <value>Path</value>
+    <value>경로</value>
+  </data>
+  <data name="SortingAndGrouping" xml:space="preserve">
+    <value>Sorting and grouping</value>
   </data>
   <data name="Archive" xml:space="preserve">
-    <value>Archive</value>
+    <value>보관</value>
   </data>
   <data name="CreateArchive" xml:space="preserve">
-    <value>Create archive</value>
+    <value>보관 파일 만들기</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>만들기</value>
   </data>
   <data name="CreateNamedArchive" xml:space="preserve">
-    <value>Create {0}</value>
+    <value>{0} 생성</value>
   </data>
   <data name="EnterName" xml:space="preserve">
-    <value>Enter a name</value>
+    <value>이름 입력</value>
   </data>
   <data name="CompressionLevel" xml:space="preserve">
-    <value>Compression level</value>
+    <value>압축 수준</value>
   </data>
   <data name="CompressionLevelUltra" xml:space="preserve">
-    <value>Ultra</value>
+    <value>최상</value>
   </data>
   <data name="CompressionLevelHigh" xml:space="preserve">
-    <value>High</value>
+    <value>높음</value>
   </data>
   <data name="CompressionLevelNormal" xml:space="preserve">
-    <value>Normal</value>
+    <value>일반</value>
   </data>
   <data name="CompressionLevelLow" xml:space="preserve">
-    <value>Low</value>
+    <value>낮음</value>
   </data>
   <data name="CompressionLevelFast" xml:space="preserve">
-    <value>Fast</value>
+    <value>빠름</value>
   </data>
   <data name="CompressionLevelNone" xml:space="preserve">
     <value>없음</value>
   </data>
   <data name="SplitArchive" xml:space="preserve">
-    <value>Split the archive</value>
+    <value>보관 파일 분할하기</value>
   </data>
   <data name="SplittingSize" xml:space="preserve">
-    <value>Splitting size</value>
+    <value>분할 크기</value>
   </data>
   <data name="Do not split" xml:space="preserve">
-    <value>Do not split</value>
+    <value>분할하지 않음</value>
   </data>
   <data name="CD" xml:space="preserve">
     <value>CD</value>
@@ -2917,10 +2915,10 @@
     <value>FAT</value>
   </data>
   <data name="Bluray" xml:space="preserve">
-    <value>Blu-ray</value>
+    <value>블루레이</value>
   </data>
   <data name="Encryption" xml:space="preserve">
-    <value>Encryption</value>
+    <value>암호화</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>비밀번호</value>
@@ -2929,6 +2927,12 @@
     <value>포맷</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowSyncStatus.Text" xml:space="preserve">
-    <value>Sync status column</value>
+    <value>상태 열 동기화</value>
+  </data>
+  <data name="GroupBy" xml:space="preserve">
+    <value>Group by</value>
+  </data>
+  <data name="SortBy" xml:space="preserve">
+    <value>정렬 기준</value>
   </data>
 </root>
