@@ -91,7 +91,7 @@ namespace Files.App.Helpers
 						continue;
 					}
 
-					// Also works for OneDrive, Box, iCloudDrive, Dropbox
+					// Also works for OneDrive, Box, Dropbox
 					CloudProviders? driveID = driveType switch
 					{
 						"MEGA" => CloudProviders.Mega,
