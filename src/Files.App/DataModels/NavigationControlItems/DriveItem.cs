@@ -223,12 +223,12 @@ namespace Files.App.DataModels.NavigationControlItems
 
 		public async Task LoadDriveIcon()
 		{
-            if (IconData is not null)
+        	if (IconData is not null)
 			{
-                Icon = await IconData.ToBitmapAsync();
+            	Icon = await IconData.ToBitmapAsync();
 				return;
-            }
-         
+        	}
+			
 			if (!string.IsNullOrEmpty(DeviceID) && !string.Equals(DeviceID, "network-folder"))            
 				IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, 24);
 
