@@ -58,9 +58,8 @@ namespace Files.App.ViewModels.Properties
 
 			var shortcutItem = (ShortcutItem)Item;
 
-			var isApplication = !string.IsNullOrWhiteSpace(shortcutItem.TargetPath) &&
-				(FileExtensionHelpers.IsExecutableFile(shortcutItem.TargetPath) ||
-				 FileExtensionHelpers.IsMsiFile(shortcutItem.TargetPath));
+			var isApplication = FileExtensionHelpers.IsExecutableFile(shortcutItem.TargetPath) ||
+								FileExtensionHelpers.IsMsiFile(shortcutItem.TargetPath);
 
 			ViewModel.ShortcutItemType = isApplication ? "Application".GetLocalizedResource() :
 				Item.IsLinkItem ? "PropertiesShortcutTypeLink".GetLocalizedResource() : "PropertiesShortcutTypeFile".GetLocalizedResource();
