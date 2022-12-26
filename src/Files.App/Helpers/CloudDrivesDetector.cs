@@ -100,6 +100,7 @@ namespace Files.App.Helpers
 						"Jottacloud" => CloudProviders.Jottacloud,
 						"iCloudDrive" => CloudProviders.AppleCloudDrive,
 						"iCloudPhotos" => CloudProviders.AppleCloudPhotos,
+						"Creative Cloud Files" => CloudProviders.AdobeCreativeCloud,
 						_ => null,
 					};
 					if (driveID is null)
@@ -118,6 +119,7 @@ namespace Files.App.Helpers
 							CloudProviders.Jottacloud => $"Jottacloud",
 							CloudProviders.AppleCloudDrive => $"iCloud Drive",
 							CloudProviders.AppleCloudPhotos => $"iCloud Photos",
+							CloudProviders.AdobeCreativeCloud => $"Creative Cloud Files",
 							_ => null
 						},
 						SyncFolder = syncedFolder,
