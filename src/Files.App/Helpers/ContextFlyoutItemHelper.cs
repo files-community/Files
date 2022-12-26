@@ -758,7 +758,7 @@ namespace Files.App.Helpers
 					Glyph = "\uE7EF",
 					Command = commandsViewModel.RunAsAdminCommand,
 					ShowInSearchPage = true,
-					ShowItem = new string[]{".bat", ".exe", ".cmd" }.Contains(selectedItems.FirstOrDefault().FileExtension, StringComparer.OrdinalIgnoreCase)
+					ShowItem = FileExtensionHelpers.IsExecutableFile(selectedItems.FirstOrDefault().FileExtension)
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -766,7 +766,7 @@ namespace Files.App.Helpers
 					Glyph = "\uE7EE",
 					Command = commandsViewModel.RunAsAnotherUserCommand,
 					ShowInSearchPage = true,
-					ShowItem = new string[]{".bat", ".exe", ".cmd" }.Contains(selectedItems.FirstOrDefault().FileExtension, StringComparer.OrdinalIgnoreCase)
+					ShowItem = FileExtensionHelpers.IsExecutableFile(selectedItems.FirstOrDefault().FileExtension)
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
