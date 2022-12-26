@@ -18,7 +18,7 @@ namespace Files.App.Filesystem.Archive
 		ArchiveCompressionLevels CompressionLevel { get; }
 		ArchiveSplittingSizes SplittingSize { get; }
 
-		IProgress<float> Progress { get; set; }
+		IProgress<FileSystemProgress> Progress { get; set; }
 
 		Task<bool> RunCreationAsync();
 	}
