@@ -232,11 +232,7 @@ namespace Files.App.DataModels.NavigationControlItems
 			if (!string.IsNullOrEmpty(DeviceID) && !string.Equals(DeviceID, "network-folder"))            
 				IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, 24);
 
-            if (IconData is null)
-			{
-				Icon = await UIHelpers.GetIconResource(Constants.ImageRes.Folder);
-				return;
-			}
+			IconData ??= UIHelpers.GetIconResourceInfo(Constants.ImageRes.Folder).IconData;
 			
 			Icon = await IconData.ToBitmapAsync();
 		}
