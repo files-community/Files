@@ -3,7 +3,7 @@
 namespace Files.Backend.AppModels
 {
     /// <summary>
-    /// Represents a file/folder tag.
+    /// Represents an item tag.
     /// </summary>
     public sealed record class TagModel(string[] Tags, ILocatableStorable Storable);
 }

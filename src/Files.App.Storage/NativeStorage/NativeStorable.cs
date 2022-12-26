@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Files.App.Storage.NativeStorage
 {
 	/// <inheritdoc cref="IStorable"/>
-	internal abstract class NativeStorable : ILocatableStorable
+	public abstract class NativeStorable : ILocatableStorable
 	{
 		private string? _computedId;
 

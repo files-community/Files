@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace Files.App.Storage.NativeStorage
 {
     /// <inheritdoc cref="IFolder"/>
-    internal sealed class NativeFolder : NativeStorable, ILocatableFolder, IModifiableFolder, IMutableFolder
+    public sealed class NativeFolder : NativeStorable, ILocatableFolder, IModifiableFolder, IMutableFolder
     {
         public NativeFolder(string path)
             : base(path)

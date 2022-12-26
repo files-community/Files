@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Files.App.Storage.NativeStorage
 {
 	/// <inheritdoc cref="IFile"/>
-	internal sealed class NativeFile : NativeStorable, ILocatableFile, IModifiableFile, IFileExtended
+    public sealed class NativeFile : NativeStorable, ILocatableFile, IModifiableFile, IFileExtended
 	{
 		public NativeFile(string path)
 			: base(path)
