@@ -100,5 +100,26 @@ namespace Files.App.Helpers
 
 		public static bool IsShortcutOrUrlFile(string? filePathToCheck)
 			=> HasExtension(filePathToCheck, ".lnk", ".url");
+
+		/// <summary>
+		/// Check if the file path is an executable file.
+		/// </summary>
+		/// <param name="filePathToCheck">The file path to check.</param>
+		/// <returns><c>true</c> if the filePathToCheck is an executable file;
+		/// otherwise <c>false</c>.</returns>
+		/// /// <remarks>Executable file types are; exe, bat, cmd</remarks>
+		public static bool IsExecutableFile(string? filePathToCheck, bool exeOnly = false)
+			=> exeOnly ?
+				HasExtension(filePathToCheck, ".exe") :
+				HasExtension(filePathToCheck, ".exe", ".bat", ".cmd");
+
+		/// <summary>
+		/// Check if the file path is an msi installer file.
+		/// </summary>
+		/// <param name="filePathToCheck">The file path to check.</param>
+		/// <returns><c>true</c> if the filePathToCheck is an msi installer file;
+		/// otherwise <c>false</c>.</returns>
+		public static bool IsMsiFile(string? filePathToCheck)
+			=> HasExtension(filePathToCheck, ".msi");
 	}
 }

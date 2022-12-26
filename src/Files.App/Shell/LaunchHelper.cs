@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Files.App.Helpers;
+using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -51,7 +52,7 @@ namespace Files.App.Shell
 				{
 					process.StartInfo.UseShellExecute = true;
 					process.StartInfo.Verb = "runas";
-					if (string.Equals(Path.GetExtension(application), ".msi", StringComparison.OrdinalIgnoreCase))
+					if (FileExtensionHelpers.IsMsiFile(application))
 					{
 						process.StartInfo.FileName = "msiexec.exe";
 						process.StartInfo.Arguments = $"/a \"{application}\"";
@@ -61,7 +62,7 @@ namespace Files.App.Shell
 				{
 					process.StartInfo.UseShellExecute = true;
 					process.StartInfo.Verb = "runasuser";
-					if (string.Equals(Path.GetExtension(application), ".msi", StringComparison.OrdinalIgnoreCase))
+					if (FileExtensionHelpers.IsMsiFile(application))
 					{
 						process.StartInfo.FileName = "msiexec.exe";
 						process.StartInfo.Arguments = $"/i \"{application}\"";
