@@ -119,12 +119,10 @@ namespace Files.App.Views
                             || shortcutItem.TargetPath.EndsWith(".bat", StringComparison.OrdinalIgnoreCase));
 
                     if (!isApplication)
-                        goto rename;
-
-                    App.Logger.Warn("About to set admin property");
-
+						goto rename;
+                    
                     await App.Window.DispatcherQueue.EnqueueAsync(() =>
-                        UIFilesystemHelpers.SetShortcutIsRunAsAdmin(shortcutItem, ViewModel.IsRunAsAdmin, AppInstance)
+                        UIFilesystemHelpers.SetShortcutIsRunAsAdmin(shortcutItem, ViewModel.RunAsAdmin, AppInstance)
                     );
                 }
 

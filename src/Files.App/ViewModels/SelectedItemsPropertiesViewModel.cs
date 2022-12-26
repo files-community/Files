@@ -603,22 +603,22 @@ namespace Files.App.ViewModels
 			set => SetProperty(ref isHidden, value);
 		}
 
-        private bool isRunAsAdmin;
-        public bool IsRunAsAdmin
+        private bool runAsAdmin;
+        public bool RunAsAdmin
         {
-            get => isRunAsAdmin;
+            get => runAsAdmin;
             set
             {
-                IsRunAsAdminEnabled = true;
-                SetProperty(ref isRunAsAdmin, value);
+                RunAsAdminEnabled = true;
+                SetProperty(ref runAsAdmin, value);
             }
         }
 
-        private bool isRunAsAdminEnabled;
-        public bool IsRunAsAdminEnabled
+        private bool runAsAdminEnabled;
+        public bool RunAsAdminEnabled
         {
-            get => isRunAsAdminEnabled;
-            set => SetProperty(ref isRunAsAdminEnabled, value);
+            get => runAsAdminEnabled;
+            set => SetProperty(ref runAsAdminEnabled, value);
         }
     }
 }

@@ -2940,7 +2940,7 @@
   <data name="SortBy" xml:space="preserve">
     <value>Sort by</value>
   </data>
-  <data name="PropertiesDialogIsRunAsAdmin.Text" xml:space="preserve">
+  <data name="PropertiesDialogRunAsAdmin.Text" xml:space="preserve">
     <value>Run as administrator</value>
   </data>
   <data name="RunAsAdmin" xml:space="preserve">

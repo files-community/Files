@@ -71,14 +71,15 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.ShortcutItemWorkingDirVisibility = Item.IsLinkItem || shortcutItem.IsSymLink ? false : true;
 			ViewModel.ShortcutItemArguments = shortcutItem.Arguments;
 			ViewModel.ShortcutItemArgumentsVisibility = Item.IsLinkItem || shortcutItem.IsSymLink ? false : true;
-            ViewModel.IsRunAsAdmin = shortcutItem.RunAsAdmin;
+            if (isApplication)
+                ViewModel.RunAsAdmin = shortcutItem.RunAsAdmin;
             ViewModel.IsSelectedItemShortcut = FileExtensionHelpers.IsShortcutFile(Item.FileExtension);
 			ViewModel.ShortcutItemOpenLinkCommand = new RelayCommand(async () =>
 			{
 				if (Item.IsLinkItem)
 				{
 					var tmpItem = (ShortcutItem)Item;
-					await Win32Helpers.InvokeWin32ComponentAsync(ViewModel.ShortcutItemPath, AppInstance, ViewModel.ShortcutItemArguments, tmpItem.RunAsAdmin, ViewModel.ShortcutItemWorkingDir);
+					await Win32Helpers.InvokeWin32ComponentAsync(ViewModel.ShortcutItemPath, AppInstance, ViewModel.ShortcutItemArguments, ViewModel.RunAsAdmin, ViewModel.ShortcutItemWorkingDir);
 				}
 				else
 				{
@@ -114,7 +115,17 @@ namespace Files.App.ViewModels.Properties
 				ViewModel.ItemCreatedTimestamp = Item.ItemDateCreated;
 				ViewModel.ItemAccessedTimestamp = Item.ItemDateAccessed;
 				ViewModel.LoadLinkIcon = Item.LoadWebShortcutGlyph;
-                ViewModel.IsRunAsAdmin = ((ShortcutItem)Item).RunAsAdmin;
+
+				var shortcutItem = (ShortcutItem)Item;
+
+                var isApplication = !string.IsNullOrWhiteSpace(shortcutItem.TargetPath) &&
+                    (shortcutItem.TargetPath.EndsWith(".exe", StringComparison.OrdinalIgnoreCase)
+                        || shortcutItem.TargetPath.EndsWith(".msi", StringComparison.OrdinalIgnoreCase)
+                        || shortcutItem.TargetPath.EndsWith(".bat", StringComparison.OrdinalIgnoreCase));
+
+				if (isApplication)
+					ViewModel.RunAsAdmin = ((ShortcutItem)Item).RunAsAdmin;
+
                 if (Item.IsLinkItem || string.IsNullOrWhiteSpace(((ShortcutItem)Item).TargetPath))
 				{
 					// Can't show any other property
@@ -315,14 +326,14 @@ namespace Files.App.ViewModels.Properties
 					}
 					break;
 
-				case "IsRunAsAdmin":
+				case "RunAsAdmin":
 				case "ShortcutItemPath":
 				case "ShortcutItemWorkingDir":
 				case "ShortcutItemArguments":
 					if (string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath))
 						return;
 
-                    await FileOperationsHelpers.CreateOrUpdateLinkAsync(Item.ItemPath, ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, ViewModel.ShortcutItemWorkingDir, ViewModel.IsRunAsAdmin);
+                    await FileOperationsHelpers.CreateOrUpdateLinkAsync(Item.ItemPath, ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, ViewModel.ShortcutItemWorkingDir, ViewModel.RunAsAdmin);
                     break;
             }
         }

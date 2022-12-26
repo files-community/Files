@@ -569,7 +569,7 @@
 						Grid.Row="4"
 						Grid.Column="0"
 						VerticalAlignment="Center"
-						Text="{helpers:ResourceString Name=PropertiesDialogIsRunAsAdmin/Text}"
+						Text="{helpers:ResourceString Name=PropertiesDialogRunAsAdmin/Text}"
 						TextWrapping="WrapWholeWords" />
                     <CheckBox
 						Grid.Row="4"
@@ -578,8 +578,8 @@
 						HorizontalAlignment="Right"
 						VerticalAlignment="Center"
 						AutomationProperties.Name="{helpers:ResourceString Name=RunAsAdmin}"
-						IsChecked="{x:Bind ViewModel.IsRunAsAdmin, Mode=TwoWay}"
-						IsEnabled="{x:Bind ViewModel.IsRunAsAdminEnabled, Mode=OneWay}"/>
+						IsChecked="{x:Bind ViewModel.RunAsAdmin, Mode=TwoWay}"
+						IsEnabled="{x:Bind ViewModel.RunAsAdminEnabled, Mode=OneWay}"/>
                 </Grid>
             </Expander.Content>
         </Expander>
