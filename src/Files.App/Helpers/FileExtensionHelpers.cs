@@ -14,7 +14,7 @@ namespace Files.App.Helpers
 		/// otherwise, <c>false</c>.</returns>
 		public static bool HasExtension(string? filePathToCheck, params string[] extensions)
 		{
-			if (string.IsNullOrEmpty(filePathToCheck))
+			if (string.IsNullOrWhiteSpace(filePathToCheck))
 				return false;
 			return extensions.Any(ext => filePathToCheck.EndsWith(ext, StringComparison.OrdinalIgnoreCase));
 		}
