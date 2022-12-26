@@ -1,5 +1,5 @@
+using Files.Sdk.Storage;
 using Files.Sdk.Storage.LocatableStorage;
-using Files.Sdk.Storage.Services;
 using FluentFTP;
 using System;
 using System.IO;
@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Files.App.Storage.FtpStorage
 {
-	public sealed class FtpFileSystemService : IFileSystemService
+    public sealed class FtpStorageService : IStorageService
 	{
-		public Task<bool> IsFileSystemAccessibleAsync(CancellationToken cancellationToken = default)
+		public Task<bool> IsAccessibleAsync(CancellationToken cancellationToken = default)
 		{
 			return Task.FromResult(true); // TODO: Check if FTP is available
 		}

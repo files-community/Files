@@ -1,12 +1,13 @@
+﻿using Files.Sdk.Storage;
 using Files.Sdk.Storage.LocatableStorage;
 using Files.Shared.Helpers;
-using FluentFTP;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.App.Storage.FtpStorage
+namespace Files.App.Storage.NativeStorage
 {
-	public abstract class FtpStorable : ILocatableStorable
+	/// <inheritdoc cref="IStorable"/>
+	internal abstract class NativeStorable : ILocatableStorable
 	{
 		private string? _computedId;
 
@@ -19,21 +20,20 @@ namespace Files.App.Storage.FtpStorage
 		/// <inheritdoc/>
 		public virtual string Id => _computedId ??= ChecksumHelpers.CalculateChecksumForPath(Path);
 
-		protected internal FtpStorable(string path, string name)
+		protected NativeStorable(string path)
 		{
-			Path = FtpHelpers.GetFtpPath(path);
-			Name = name;
+			Path = path;
+			Name = System.IO.Path.GetFileName(path);
 		}
 
 		/// <inheritdoc/>
 		public virtual Task<ILocatableFolder?> GetParentAsync(CancellationToken cancellationToken = default)
 		{
-			return Task.FromResult<ILocatableFolder?>(null);
-		}
+			var parentPath = System.IO.Path.GetDirectoryName(Path);
+			if (string.IsNullOrEmpty(parentPath))
+				return Task.FromResult<ILocatableFolder?>(null);
 
-		protected AsyncFtpClient GetFtpClient()
-		{
-			return FtpHelpers.GetFtpClient(Path);
+			return Task.FromResult<ILocatableFolder?>(new NativeFolder(parentPath));
 		}
 	}
 }
