@@ -35,7 +35,7 @@ namespace Files.App.Shell
 		{
 			var currentWindows = Win32API.GetDesktopWindows();
 
-			if (new[] { ".vhd", ".vhdx" }.Contains(Path.GetExtension(application).ToLowerInvariant()))
+			if (FileExtensionHelpers.IsVhdFile(application))
 			{
 				// Use powershell to mount vhds as this requires admin rights
 				return Win32API.MountVhdDisk(application);

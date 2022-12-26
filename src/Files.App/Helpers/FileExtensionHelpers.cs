@@ -121,5 +121,15 @@ namespace Files.App.Helpers
 		/// otherwise <c>false</c>.</returns>
 		public static bool IsMsiFile(string? filePathToCheck)
 			=> HasExtension(filePathToCheck, ".msi");
+
+		/// <summary>
+		/// Check if the file extension is a vhd disk file.
+		/// </summary>
+		/// <param name="fileExtensionToCheck">The file extension to check.</param>
+		/// <returns><c>true</c> if the fileExtensionToCheck is a vhd disk file;
+		/// otherwise <c>false</c>.</returns>
+		/// <remarks>Vhd disk file types are; vhd, vhdx</remarks>
+		public static bool IsVhdFile(string? fileExtensionToCheck)
+			=> HasExtension(fileExtensionToCheck, ".vhd", ".vhdx");
 	}
 }
