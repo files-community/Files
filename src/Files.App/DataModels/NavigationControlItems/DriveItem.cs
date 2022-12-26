@@ -9,8 +9,10 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Threading.Tasks;
+using Windows.Media.Capture;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using static Vanara.PInvoke.Shell32;
 
 namespace Files.App.DataModels.NavigationControlItems
 {
@@ -221,24 +223,21 @@ namespace Files.App.DataModels.NavigationControlItems
 
 		public async Task LoadDriveIcon()
 		{
-			if (IconData is null)
+            if (IconData is not null)
 			{
-				if (!string.IsNullOrEmpty(DeviceID))
-				{
-					if (string.Equals(DeviceID, "network-folder"))
-					{
-                        Icon = await UIHelpers.GetIconResource(Constants.ImageRes.Folder);
-						return;
-                    			}
-					IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, 24);
-				}
+                Icon = await IconData.ToBitmapAsync();
+				return;
+            }
+         
+			if (!string.IsNullOrEmpty(DeviceID) && !string.Equals(DeviceID, "network-folder"))            
+				IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, 24);
 
-				if (IconData is null)
-				{
-					var resource = UIHelpers.GetIconResourceInfo(Constants.ImageRes.Folder);
-					IconData = resource?.IconData;
-				}
+            if (IconData is null)
+			{
+				Icon = await UIHelpers.GetIconResource(Constants.ImageRes.Folder);
+				return;
 			}
+			
 			Icon = await IconData.ToBitmapAsync();
 		}
 
