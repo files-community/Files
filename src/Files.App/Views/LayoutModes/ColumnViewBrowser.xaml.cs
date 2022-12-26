@@ -30,9 +30,7 @@ namespace Files.App.Views.LayoutModes
 			{
 				var columnView = blade.FindDescendant<ColumnViewBase>();
 				if (columnView != null && columnView != initiator)
-				{
 					columnView.ClearSelectionIndicator();
-				}
 			}
 		}
 

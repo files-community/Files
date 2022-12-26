@@ -54,12 +54,12 @@ namespace Files.App.Views.LayoutModes
 
 		private void ClearOpenedFolderSelectionIndicator()
 		{
-			if (openedFolderPresenter != null)
-			{
-				openedFolderPresenter.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
-				var presenter = openedFolderPresenter.FindDescendant<Grid>()!;
-				presenter!.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
-			}
+			if (openedFolderPresenter is null)
+				return;
+
+			openedFolderPresenter.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
+			var presenter = openedFolderPresenter.FindDescendant<Grid>()!;
+			presenter!.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
 		}
 
 		protected override void HookEvents()
@@ -335,9 +335,7 @@ namespace Files.App.Views.LayoutModes
 			if (e != null)
 			{
 				if (e.AddedItems.Count > 0)
-				{
 					columnsOwner?.HandleSelectionChange(this);
-				}
 
 				if (e.RemovedItems.Count > 0 && openedFolderPresenter != null)
 				{
