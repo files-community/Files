@@ -15,6 +15,7 @@
 		Box,
 		Jottacloud,
 		SynologyDrive,
-		pCloud
+		pCloud,
+		AdobeCreativeCloud
 	}
 }

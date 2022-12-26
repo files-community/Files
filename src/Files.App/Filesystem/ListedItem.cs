@@ -50,8 +50,8 @@ namespace Files.App.Filesystem
 				return $"{"ToolTipDescriptionName".GetLocalizedResource()} {Name}{Environment.NewLine}" +
 					$"{"ToolTipDescriptionType".GetLocalizedResource()} {itemType}{Environment.NewLine}" +
 					$"{"ToolTipDescriptionDate".GetLocalizedResource()} {ItemDateModified}" +
-					(SyncStatusUI.LoadSyncStatus 
-						? $"{Environment.NewLine}{"syncStatusColumn/Header".GetLocalizedResource()}: {syncStatusUI.SyncStatusString}" 
+					(SyncStatusUI.LoadSyncStatus
+						? $"{Environment.NewLine}{"syncStatusColumn/Header".GetLocalizedResource()}: {syncStatusUI.SyncStatusString}"
 						: string.Empty);
 			}
 		}
@@ -515,7 +515,7 @@ namespace Files.App.Filesystem
 		// For shortcut elements (.lnk and .url)
 		public string TargetPath { get; set; }
 
-		public override string Name 
+		public override string Name
 			=> IsSymLink ? base.Name : Path.GetFileNameWithoutExtension(ItemNameRaw); // Always hide extension for shortcuts
 
 		public string Arguments { get; set; }

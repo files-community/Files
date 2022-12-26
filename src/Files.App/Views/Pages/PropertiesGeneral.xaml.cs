@@ -106,18 +106,19 @@ namespace Files.App.Views
 					);
 				}
                 
-                // Handles run as administrator for shortcuts
-                if (item.IsShortcut)
-                {
-                    var shortcutItem = (ShortcutItem)item;
+				// Handles run as administrator for shortcuts
+				if (item.IsShortcut)
+				{
+					var shortcutItem = (ShortcutItem)item;
 
-                    App.Logger.Warn("Is a shortcut file");
+					App.Logger.Warn("Is a shortcut file");
 
-                    var isApplication = !string.IsNullOrWhiteSpace(shortcutItem.TargetPath) &&
-                        (shortcutItem.TargetPath.EndsWith(".exe", StringComparison.OrdinalIgnoreCase)
-                            || shortcutItem.TargetPath.EndsWith(".msi", StringComparison.OrdinalIgnoreCase)
-                            || shortcutItem.TargetPath.EndsWith(".bat", StringComparison.OrdinalIgnoreCase));
+					 var isApplication = !string.IsNullOrWhiteSpace(shortcutItem.TargetPath) &&
+						(shortcutItem.TargetPath.EndsWith(".exe", StringComparison.OrdinalIgnoreCase)
+						|| shortcutItem.TargetPath.EndsWith(".msi", StringComparison.OrdinalIgnoreCase)
+						|| shortcutItem.TargetPath.EndsWith(".bat", StringComparison.OrdinalIgnoreCase));
 
+<<<<<<< HEAD
                     if (!isApplication)
 						goto rename;
                     
@@ -125,9 +126,20 @@ namespace Files.App.Views
                         UIFilesystemHelpers.SetShortcutIsRunAsAdmin(shortcutItem, ViewModel.RunAsAdmin, AppInstance)
                     );
                 }
+=======
+					if (!isApplication)
+						goto rename;
+
+					App.Logger.Warn("About to set admin property");
+
+					await App.Window.DispatcherQueue.EnqueueAsync(() =>
+						UIFilesystemHelpers.SetShortcutIsRunAsAdmin(shortcutItem, ViewModel.IsRunAsAdmin, AppInstance)
+					);
+				}
+>>>>>>> cd35091ee7bf09d4643d3db021db92d629f18fdf
 
 				rename:
-                if (!hasNewName)
+				if (!hasNewName)
 					return true;
 
 				return await App.Window.DispatcherQueue.EnqueueAsync(() =>

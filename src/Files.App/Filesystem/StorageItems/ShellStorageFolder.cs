@@ -89,7 +89,7 @@ namespace Files.App.Filesystem.StorageItems
 
 			if (item.RecyclePath.Contains("$Recycle.Bin", StringComparison.OrdinalIgnoreCase))
 				return new BinStorageFolder(item);
-			
+
 			return new ShellStorageFolder(item);
 		}
 

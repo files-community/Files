@@ -338,4 +338,5 @@ namespace Files.App.ViewModels.Properties
             }
         }
     }
+
 }
