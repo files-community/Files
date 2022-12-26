@@ -115,17 +115,6 @@ namespace Files.App.ViewModels.Properties
 				ViewModel.ItemCreatedTimestamp = Item.ItemDateCreated;
 				ViewModel.ItemAccessedTimestamp = Item.ItemDateAccessed;
 				ViewModel.LoadLinkIcon = Item.LoadWebShortcutGlyph;
-
-				var shortcutItem = (ShortcutItem)Item;
-
-                var isApplication = !string.IsNullOrWhiteSpace(shortcutItem.TargetPath) &&
-                    (shortcutItem.TargetPath.EndsWith(".exe", StringComparison.OrdinalIgnoreCase)
-                        || shortcutItem.TargetPath.EndsWith(".msi", StringComparison.OrdinalIgnoreCase)
-                        || shortcutItem.TargetPath.EndsWith(".bat", StringComparison.OrdinalIgnoreCase));
-
-				if (isApplication)
-					ViewModel.RunAsAdmin = ((ShortcutItem)Item).RunAsAdmin;
-
                 if (Item.IsLinkItem || string.IsNullOrWhiteSpace(((ShortcutItem)Item).TargetPath))
 				{
 					// Can't show any other property
