@@ -2777,7 +2777,7 @@
     <value>重置首选项</value>
   </data>
   <data name="ResetLayoutPreferences" xml:space="preserve">
-    <value>此操作将重置所有目录为默认首选项。</value>
+    <value>此操作将所有目录的设置重置为默认设置。</value>
   </data>
   <data name="AreYouSure" xml:space="preserve">
     <value>确定吗？</value>
