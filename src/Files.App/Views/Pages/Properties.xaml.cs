@@ -68,7 +68,7 @@ namespace Files.App.Views
 				(listedItem.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !listedItem.IsArchive) ||
 				(listedItem.IsShortcut && !listedItem.IsLinkItem)) ? Visibility.Visible : Visibility.Collapsed;
 			TabCompatibility.Visibility = listedItem is not null && (
-					FileExtensionHelpers.IsExecutableFile(listedItem is ShortcutItem sht ? System.IO.Path.GetExtension(sht.TargetPath) : listedItem.FileExtension, true)
+					FileExtensionHelpers.IsExecutableFile(listedItem is ShortcutItem sht ? sht.TargetPath : listedItem.FileExtension, true)
 				) ? Visibility.Visible : Visibility.Collapsed;
 			base.OnNavigatedTo(e);
 		}
