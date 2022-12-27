@@ -140,7 +140,7 @@ namespace Files.App.Filesystem.StorageItems
 		public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize, ThumbnailOptions options)
 			=> throw new NotSupportedException();
 
-		public static IAsyncOperation<BaseStorageFile>? FromPathAsync(string path)
+		public static IAsyncOperation<BaseStorageFile> FromPathAsync(string path)
 		{
 			if (IsNativePath(path) && CheckAccess(path))
 			{
