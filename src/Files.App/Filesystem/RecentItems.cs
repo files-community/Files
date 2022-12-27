@@ -208,12 +208,41 @@ namespace Files.App.Filesystem
 		public bool CheckIsRecentFilesEnabled()
 		{
 			using var subkey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer");
-			if (subkey is null)
+			if (subkey is not null)
 			{
-				return false;
+				// quick access: show recent files option
+				bool showRecentValue = Convert.ToBoolean(subkey.GetValue("ShowRecent", true)); // 1 by default
+				if (!showRecentValue)
+				{
+					return false;
+				}
 			}
 
-			return Convert.ToBoolean(subkey.GetValue("ShowRecent", false));
+			using var advSubkey = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced");
+			if (advSubkey is not null)
+			{
+				// settings: personalization > start > show recently opened items
+				bool startTrackDocsValue = Convert.ToBoolean(advSubkey.GetValue("Start_TrackDocs", true)); // 1 by default
+				if (!startTrackDocsValue)
+				{
+					return false;
+				}
+			}
+
+			// for users in group policies
+			using var userPolicySubkey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer");
+			using var sysPolicySubkey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer");
+			var policySubkey = userPolicySubkey ?? sysPolicySubkey;
+			if (policySubkey is not null)
+			{
+				bool noRecentDocsHistoryValue = Convert.ToBoolean(policySubkey.GetValue("NoRecentDocsHistory", false)); // 0 by default
+				if (noRecentDocsHistoryValue)
+				{
+					return false;
+				}
+			}
+
+			return true;
 		}
 
 		/// <summary>
