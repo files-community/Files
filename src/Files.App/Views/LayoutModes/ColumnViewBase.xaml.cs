@@ -44,6 +44,12 @@ namespace Files.App.Views.LayoutModes
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 			tapDebounceTimer = DispatcherQueue.CreateTimer();
 			this.ItemInvoked += ColumnViewBase_ItemInvoked;
+			this.GotFocus += ColumnViewBase_GotFocus;
+		}
+
+		private void ColumnViewBase_GotFocus(object sender, RoutedEventArgs e)
+		{
+			openedFolderPresenter?.Focus(FocusState.Programmatic);
 		}
 
 		private void ColumnViewBase_ItemInvoked(object? sender, EventArgs e)
@@ -60,6 +66,7 @@ namespace Files.App.Views.LayoutModes
 			openedFolderPresenter.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
 			var presenter = openedFolderPresenter.FindDescendant<Grid>()!;
 			presenter!.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
+			openedFolderPresenter = null;
 		}
 
 		protected override void HookEvents()
