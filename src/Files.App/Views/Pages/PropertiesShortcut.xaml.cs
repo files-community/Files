@@ -21,10 +21,8 @@ namespace Files.App.Views
 			App.Logger.Warn("Is a shortcut file");
 
 			var isApplication = !string.IsNullOrWhiteSpace(shortcutItem.TargetPath) &&
-			   (shortcutItem.TargetPath.EndsWith(".exe", StringComparison.OrdinalIgnoreCase)
-			   || shortcutItem.TargetPath.EndsWith(".msi", StringComparison.OrdinalIgnoreCase)
-			   || shortcutItem.TargetPath.EndsWith(".bat", StringComparison.OrdinalIgnoreCase));
-
+			   FileExtensionHelpers.IsExecutableFile(shortcutItem.TargetPath) || 
+			   FileExtensionHelpers.IsMsiFile(shortcutItem.TargetPath);
 
 			await App.Window.DispatcherQueue.EnqueueAsync(() =>
 				UIFilesystemHelpers.SetShortcutIsRunAsAdmin(shortcutItem, ViewModel.RunAsAdmin, AppInstance)

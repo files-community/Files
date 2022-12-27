@@ -105,24 +105,6 @@ namespace Files.App.Views
 						UIFilesystemHelpers.SetHiddenAttributeItem(item, ViewModel.IsHidden, itemMM)
 					);
 				}
-                
-				// Handles run as administrator for shortcuts
-				if (item.IsShortcut)
-				{
-					var shortcutItem = (ShortcutItem)item;
-
-					App.Logger.Warn("Is a shortcut file");
-
-					 var isApplication = !string.IsNullOrWhiteSpace(shortcutItem.TargetPath) &&
-						(shortcutItem.TargetPath.EndsWith(".exe", StringComparison.OrdinalIgnoreCase)
-						|| shortcutItem.TargetPath.EndsWith(".msi", StringComparison.OrdinalIgnoreCase)
-						|| shortcutItem.TargetPath.EndsWith(".bat", StringComparison.OrdinalIgnoreCase));
-
-                    
-                    await App.Window.DispatcherQueue.EnqueueAsync(() =>
-                        UIFilesystemHelpers.SetShortcutIsRunAsAdmin(shortcutItem, ViewModel.RunAsAdmin, AppInstance)
-                    );
-                }
 
 				if (!hasNewName)
 					return true;

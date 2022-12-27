@@ -63,9 +63,13 @@
 					PointerPressed="Sidebar_PointerPressed"
 					RightTapped="NavigationViewItem_RightTapped"
 					SelectsOnInvoked="{x:Bind SelectsOnInvoked}"
-					Tag="{x:Bind Path}"
-					ToolTipService.ToolTip="{x:Bind ToolTipText}">
-					<NavigationViewItem.Icon>
+					Tag="{x:Bind Path}">
+					<ToolTipService.ToolTip>
+						<ToolTip>
+							AAAAAAA
+						</ToolTip>
+					</ToolTipService.ToolTip>
+                    <NavigationViewItem.Icon>
 						<ImageIcon Source="{x:Bind Icon, Mode=OneWay}" />
 					</NavigationViewItem.Icon>
 					<!--  WINUI3  missing some styles  -->
@@ -75,7 +79,7 @@
 				</NavigationViewItem>
 			</DataTemplate>
 
-			<DataTemplate x:Key="DriveNavItem" x:DataType="navigationcontrolitems:DriveItem">
+            <DataTemplate x:Key="DriveNavItem" x:DataType="navigationcontrolitems:DriveItem">
 				<NavigationViewItem
 					Padding="0"
 					AllowDrop="True"

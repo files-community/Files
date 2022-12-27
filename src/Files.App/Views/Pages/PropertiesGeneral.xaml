@@ -516,8 +516,6 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
                     <TextBlock
@@ -557,13 +555,6 @@
 						VerticalAlignment="Center"
 						AutomationProperties.Name="{helpers:ResourceString Name=Hidden}"
 						IsChecked="{x:Bind ViewModel.IsHidden, Mode=TwoWay}" />
-
-                    <MenuFlyoutSeparator
-						Grid.Row="3"
-						Grid.Column="0"
-						Grid.ColumnSpan="3"
-						Margin="-12,0"
-						Background="{ThemeResource CardStrokeColorDefaultBrush}" />
                 </Grid>
             </Expander.Content>
         </Expander>

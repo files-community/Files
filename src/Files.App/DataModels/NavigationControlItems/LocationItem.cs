@@ -51,6 +51,8 @@ namespace Files.App.DataModels.NavigationControlItems
 			set => SetProperty(ref isExpanded, value);
 		}
 
+		public bool IsRecycleBin { get; set; } = false;
+
 		public bool IsInvalid { get; set; } = false;
 
 		public SectionType Section { get; set; }

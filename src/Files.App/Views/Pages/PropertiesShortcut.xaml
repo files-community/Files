@@ -131,6 +131,7 @@
 			x:Name="RunAsAdmin"
 			Padding="12"
 			HorizontalAlignment="Stretch"
+			x:Load="{x:Bind ViewModel.RunAsAdminEnabled, Mode=OneWay}"
 			Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 			BorderThickness="1"
@@ -146,20 +147,19 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 	        <TextBlock
-						Grid.Row="1"
-						Grid.Column="0"
-						VerticalAlignment="Center"
-						Text="{helpers:ResourceString Name=RunAsAdmin}"
-						TextWrapping="WrapWholeWords" />
+				Grid.Row="1"
+				Grid.Column="0"
+				VerticalAlignment="Center"
+				Text="{helpers:ResourceString Name=RunAsAdmin}"
+				TextWrapping="WrapWholeWords" />
             <CheckBox
-						Grid.Row="1"
-						Grid.Column="2"
-						MinWidth="0"
-						HorizontalAlignment="Right"
-						VerticalAlignment="Center"
-						AutomationProperties.Name="{helpers:ResourceString Name=RunAsAdmin}"
-						IsChecked="{x:Bind ViewModel.RunAsAdmin, Mode=TwoWay}"
-						IsEnabled="{x:Bind ViewModel.RunAsAdminEnabled, Mode=OneWay}"/>
+				Grid.Row="1"
+				Grid.Column="2"
+				MinWidth="0"
+				HorizontalAlignment="Right"
+				VerticalAlignment="Center"
+				AutomationProperties.Name="{helpers:ResourceString Name=RunAsAdmin}"
+				IsChecked="{x:Bind ViewModel.RunAsAdmin, Mode=TwoWay}" />
         </Grid>
 
         <local1:SettingsBlockControl
