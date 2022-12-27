@@ -218,7 +218,7 @@ namespace Files.App.Filesystem
 				}
 			}
 
-			using var advSubkey = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced");
+			using var advSubkey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced");
 			if (advSubkey is not null)
 			{
 				// settings: personalization > start > show recently opened items
