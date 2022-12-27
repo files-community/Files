@@ -127,7 +127,42 @@
 				Text="{x:Bind ViewModel.ShortcutItemWorkingDir, Mode=TwoWay}" />
 		</Grid>
 
-		<local1:SettingsBlockControl
+		<Grid
+			x:Name="RunAsAdmin"
+			Padding="12"
+			HorizontalAlignment="Stretch"
+			Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+			BorderThickness="1"
+			ColumnSpacing="8"
+			CornerRadius="4"
+			RowSpacing="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+	        <TextBlock
+						Grid.Row="1"
+						Grid.Column="0"
+						VerticalAlignment="Center"
+						Text="{helpers:ResourceString Name=RunAsAdmin}"
+						TextWrapping="WrapWholeWords" />
+            <CheckBox
+						Grid.Row="1"
+						Grid.Column="2"
+						MinWidth="0"
+						HorizontalAlignment="Right"
+						VerticalAlignment="Center"
+						AutomationProperties.Name="{helpers:ResourceString Name=RunAsAdmin}"
+						IsChecked="{x:Bind ViewModel.RunAsAdmin, Mode=TwoWay}"
+						IsEnabled="{x:Bind ViewModel.RunAsAdminEnabled, Mode=OneWay}"/>
+        </Grid>
+
+        <local1:SettingsBlockControl
 			x:Name="OpenFileLocation"
 			Title="{helpers:ResourceString Name=OpenFileLocation}"
 			Grid.Row="2"

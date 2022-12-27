@@ -564,22 +564,6 @@
 						Grid.ColumnSpan="3"
 						Margin="-12,0"
 						Background="{ThemeResource CardStrokeColorDefaultBrush}" />
-
-                    <TextBlock
-						Grid.Row="4"
-						Grid.Column="0"
-						VerticalAlignment="Center"
-						Text="{helpers:ResourceString Name=PropertiesDialogRunAsAdmin/Text}"
-						TextWrapping="WrapWholeWords" />
-                    <CheckBox
-						Grid.Row="4"
-						Grid.Column="2"
-						MinWidth="0"
-						HorizontalAlignment="Right"
-						VerticalAlignment="Center"
-						AutomationProperties.Name="{helpers:ResourceString Name=RunAsAdmin}"
-						IsChecked="{x:Bind ViewModel.RunAsAdmin, Mode=TwoWay}"
-						IsEnabled="{x:Bind ViewModel.RunAsAdminEnabled, Mode=OneWay}"/>
                 </Grid>
             </Expander.Content>
         </Expander>

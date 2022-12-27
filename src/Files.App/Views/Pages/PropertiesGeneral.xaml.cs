@@ -118,15 +118,12 @@ namespace Files.App.Views
 						|| shortcutItem.TargetPath.EndsWith(".msi", StringComparison.OrdinalIgnoreCase)
 						|| shortcutItem.TargetPath.EndsWith(".bat", StringComparison.OrdinalIgnoreCase));
 
-                    if (!isApplication)
-						goto rename;
                     
                     await App.Window.DispatcherQueue.EnqueueAsync(() =>
                         UIFilesystemHelpers.SetShortcutIsRunAsAdmin(shortcutItem, ViewModel.RunAsAdmin, AppInstance)
                     );
                 }
 
-				rename:
 				if (!hasNewName)
 					return true;
 
