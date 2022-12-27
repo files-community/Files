@@ -2940,7 +2940,4 @@
   <data name="SortBy" xml:space="preserve">
     <value>Sort by</value>
   </data>
-  <data name="RunAsAdmin" xml:space="preserve">
-    <value>Run as administrator</value>
-  </data>
 </root>
