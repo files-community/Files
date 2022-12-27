@@ -2,6 +2,7 @@
 	x:Class="Files.App.SettingsPages.Appearance"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
@@ -15,12 +16,11 @@
 				<ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
 				<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
 			</ResourceDictionary.MergedDictionaries>
-			<StaticResource x:Key="GridViewItemBackgroundSelected" ResourceKey="SystemAccentColor" />
 			<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
 		</ResourceDictionary>
 	</Page.Resources>
 	<Page.DataContext>
-		<settingsviewmodels:AppearanceViewModel x:Name="ViewModel" PropertyChanged="ViewModel_PropertyChanged" />
+		<settingsviewmodels:AppearanceViewModel x:Name="ViewModel" />
 	</Page.DataContext>
 
 	<Grid>
@@ -34,6 +34,7 @@
 				</TransitionCollection>
 			</StackPanel.ChildrenTransitions>
 
+
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsAppearanceTheme}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE790;" />
@@ -45,48 +46,29 @@
 					SelectedIndex="{x:Bind ViewModel.SelectedThemeIndex, Mode=TwoWay}" />
 			</local:SettingsBlockControl>
 
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsAppearanceCustomThemes}" HorizontalAlignment="Stretch">
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=Background}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE771;" />
 				</local:SettingsBlockControl.Icon>
-				<local:SettingsBlockControl.ExpandableContent>
-					<GridView
-						x:Name="AppThemeSelectionGridView"
-						Padding="8"
-						ItemsSource="{x:Bind ViewModel.CustomThemes, Mode=OneWay}"
-						Loaded="AppThemeSelectionGridView_Loaded"
-						SelectedItem="{x:Bind ViewModel.SelectedTheme, Mode=TwoWay}"
-						SelectionMode="Single">
-						<GridView.ItemTemplate>
-							<DataTemplate x:DataType="helpers:AppTheme">
-								<local:ThemeSampleDisplayControl SampleTheme="{x:Bind Mode=OneWay}" />
-							</DataTemplate>
-						</GridView.ItemTemplate>
-					</GridView>
-				</local:SettingsBlockControl.ExpandableContent>
-				<StackPanel Orientation="Horizontal">
-					<ProgressRing
-						x:Name="LoadingThemesProgressRing"
-						Width="32"
-						Height="32"
-						Padding="8"
-						VerticalAlignment="Bottom"
-						x:Load="{x:Bind ViewModel.IsLoadingThemes, Mode=OneWay}"
-						AutomationProperties.Name="{helpers:ResourceString Name=LoadingThemes}"
-						IsIndeterminate="True" />
-					<Button
-						x:Name="ThemesLearnMoreButton"
-						Height="32"
-						Padding="8,4,8,4"
-						VerticalAlignment="Bottom"
-						AutomationProperties.Name="{helpers:ResourceString Name=SettingsThemesLearnMoreButton/AutomationProperties/Name}"
-						Background="Transparent"
-						BorderBrush="Transparent"
-						Click="ThemesLearnMoreButton_Click"
-						ToolTipService.ToolTip="{helpers:ResourceString Name=SettingsThemesLearnMoreButton/ToolTipService/ToolTip}">
-						<FontIcon FontSize="14" Glyph="&#xE946;" />
-					</Button>
-				</StackPanel>
+				<Button Padding="0" AutomationProperties.Name="{helpers:ResourceString Name=Background}">
+					<StackPanel Orientation="Horizontal">
+						<Border
+							Width="24"
+							Height="24"
+							Margin="4"
+							Background="{ThemeResource RootBackgroundBrush}"
+							CornerRadius="4" />
+						<FontIcon
+							Margin="8,4,10,4"
+							FontSize="12"
+							Glyph="&#xE019;" />
+					</StackPanel>
+					<Button.Flyout>
+						<Flyout>
+							<controls:ColorPicker IsAlphaEnabled="True" Color="{x:Bind ViewModel.AppThemeRootBackgroundColor, Mode=TwoWay}" />
+						</Flyout>
+					</Button.Flyout>
+				</Button>
 			</local:SettingsBlockControl>
 
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=Sidebar}" HorizontalAlignment="Stretch">
@@ -210,25 +192,5 @@
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</local:SettingsBlockControl>
 		</StackPanel>
-
-		<TeachingTip
-			x:Name="ThemesTeachingTip"
-			IsLightDismissEnabled="True"
-			PreferredPlacement="BottomLeft"
-			Target="{x:Bind ThemesLearnMoreButton}">
-			<StackPanel Spacing="12">
-				<TextBlock TextWrapping="Wrap">
-					<Run Text="{helpers:ResourceString Name=SettingsThemesTeachingTipHeader/Text}" />
-					<Hyperlink NavigateUri="https://files.community/docs/configuring/custom-themes">
-						<Run Text="{helpers:ResourceString Name=SettingsThemesTeachingTipHyperlinkText/Text}" />
-					</Hyperlink>
-				</TextBlock>
-
-				<Button
-					x:Name="OpenThemesFolderButton"
-					Click="OpenThemesFolderButton_Click"
-					Content="{helpers:ResourceString Name=SettingsAppearanceOpenThemesFolderButton/Content}" />
-			</StackPanel>
-		</TeachingTip>
 	</Grid>
 </Page>
