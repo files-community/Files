@@ -405,7 +405,7 @@ namespace Files.App.Filesystem
 		public bool IsFtpItem => this is FtpItem;
 		public bool IsArchive => this is ZipItem;
 		public bool IsAlternateStream => this is AlternateStreamItem;
-		public virtual bool IsExecutable => new[] { ".exe", ".bat", ".cmd" }.Contains(Path.GetExtension(ItemPath), StringComparer.OrdinalIgnoreCase);
+		public virtual bool IsExecutable => FileExtensionHelpers.IsExecutableFile(ItemPath);
 		public bool IsPinned => App.SidebarPinnedController.Model.FavoriteItems.Contains(itemPath);
 
 		private BaseStorageFile itemFile;
@@ -523,7 +523,7 @@ namespace Files.App.Filesystem
 		public bool RunAsAdmin { get; set; }
 		public bool IsUrl { get; set; }
 		public bool IsSymLink { get; set; }
-		public override bool IsExecutable => string.Equals(Path.GetExtension(TargetPath), ".exe", StringComparison.OrdinalIgnoreCase);
+		public override bool IsExecutable => FileExtensionHelpers.IsExecutableFile(TargetPath, true);
 	}
 
 	public class ZipItem : ListedItem

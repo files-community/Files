@@ -112,7 +112,10 @@ namespace Files.App.UserControls.Widgets
 							for (; idx < recentFiles.Count; idx++) // Add new items (top of the list)
 							{
 								if (idx >= recentItemsCollection.Count || !recentFiles[idx].Equals(recentItemsCollection[idx]))
-									await AddItemToRecentListAsync(recentFiles[idx], idx);
+								{
+									if (!AddItemToRecentList(recentFiles[idx], idx)) // Not a new item
+										break;
+								}
 								else
 									break;
 							}
@@ -147,13 +150,16 @@ namespace Files.App.UserControls.Widgets
 		/// Add the RecentItem to the ObservableCollection for the UI to render.
 		/// </summary>
 		/// <param name="recentItem">The recent item to be added</param>
-		private async Task AddItemToRecentListAsync(RecentItem recentItem, int index = -1)
+		private bool AddItemToRecentList(RecentItem recentItem, int index = -1)
 		{
 			if (!recentItemsCollection.Any(x => x.Equals(recentItem)))
 			{
 				recentItemsCollection.Insert(index < 0 ? recentItemsCollection.Count : Math.Min(index, recentItemsCollection.Count), recentItem);
-				await recentItem.LoadRecentItemIcon();
+				_ = recentItem.LoadRecentItemIcon()
+					.ContinueWith(t => App.Logger.Warn(t.Exception), TaskContinuationOptions.OnlyOnFaulted);
+				return true;
 			}
+			return false;
 		}
 
 		private void RecentsView_ItemClick(object sender, ItemClickEventArgs e)
