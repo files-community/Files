@@ -375,30 +375,21 @@ namespace Files.App.Helpers
 			}
 		}
 
-        // Kind of a cheap fix while I figure out how to refresh a single file
-        public static void RefreshItem(ListedItem item, IShellPage associatedInstance)
-        {
-            associatedInstance.FilesystemViewModel?.RefreshItems(item.ItemPath);
-        }
-
-        /// <summary>
-        /// Set a single file or folder to hidden or unhidden an refresh the
-        /// view after setting the flag
-        /// </summary>
-        /// <param name="item"></param>
-        /// <param name="isHidden"></param>
-        public static void SetHiddenAttributeItem(ListedItem item, bool isHidden, ItemManipulationModel itemManipulationModel)
+		/// <summary>
+		/// Set a single file or folder to hidden or unhidden an refresh the
+		/// view after setting the flag
+		/// </summary>
+		/// <param name="item"></param>
+		/// <param name="isHidden"></param>
+		public static void SetHiddenAttributeItem(ListedItem item, bool isHidden, ItemManipulationModel itemManipulationModel)
 		{
 			item.IsHiddenItem = isHidden;
 			itemManipulationModel.RefreshItemsOpacity();
 		}
 
-        public static async Task SetShortcutIsRunAsAdmin(ShortcutItem item, bool isRunAsAdmin, IShellPage associatedInstance)
-        {
-            item.RunAsAdmin = isRunAsAdmin;
-            await FileOperationsHelpers.CreateOrUpdateLinkAsync(item.ItemPath, item.TargetPath, item.Arguments, item.WorkingDirectory, item.RunAsAdmin);
-            App.Logger.Warn("Refreshing item");
-            RefreshItem(item, associatedInstance);
-        }
-    }
+		public static void SetShortcutRunAsAdmin(ShortcutItem item, bool runAsAdmin, IShellPage associatedInstance)
+		{
+			item.RunAsAdmin = runAsAdmin;
+		}
+	}
 }

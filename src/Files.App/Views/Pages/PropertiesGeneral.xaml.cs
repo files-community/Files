@@ -8,7 +8,6 @@ using Files.Shared;
 using Files.Shared.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;

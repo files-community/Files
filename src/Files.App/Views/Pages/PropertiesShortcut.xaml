@@ -138,21 +138,21 @@
 			ColumnSpacing="8"
 			CornerRadius="4"
 			RowSpacing="8">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-	        <TextBlock
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="Auto" />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+			<TextBlock
 				Grid.Row="1"
 				Grid.Column="0"
 				VerticalAlignment="Center"
 				Text="{helpers:ResourceString Name=RunAsAdmin}"
 				TextWrapping="WrapWholeWords" />
-            <CheckBox
+			<CheckBox
 				Grid.Row="1"
 				Grid.Column="2"
 				MinWidth="0"
@@ -160,9 +160,9 @@
 				VerticalAlignment="Center"
 				AutomationProperties.Name="{helpers:ResourceString Name=RunAsAdmin}"
 				IsChecked="{x:Bind ViewModel.RunAsAdmin, Mode=TwoWay}" />
-        </Grid>
+		</Grid>
 
-        <local1:SettingsBlockControl
+		<local1:SettingsBlockControl
 			x:Name="OpenFileLocation"
 			Title="{helpers:ResourceString Name=OpenFileLocation}"
 			Grid.Row="2"

@@ -18,14 +18,8 @@ namespace Files.App.Views
 		{
 			var shortcutItem = (ShortcutItem)item;
 
-			App.Logger.Warn("Is a shortcut file");
-
-			var isApplication = !string.IsNullOrWhiteSpace(shortcutItem.TargetPath) &&
-			   FileExtensionHelpers.IsExecutableFile(shortcutItem.TargetPath) || 
-			   FileExtensionHelpers.IsMsiFile(shortcutItem.TargetPath);
-
 			await App.Window.DispatcherQueue.EnqueueAsync(() =>
-				UIFilesystemHelpers.SetShortcutIsRunAsAdmin(shortcutItem, ViewModel.RunAsAdmin, AppInstance)
+				UIFilesystemHelpers.SetShortcutRunAsAdmin(shortcutItem, ViewModel.RunAsAdmin, AppInstance)
 			);
 
 			return true;
