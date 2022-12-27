@@ -82,7 +82,7 @@ namespace Files.App.UserControls.Widgets
 			refreshRecentsCTS = new CancellationTokenSource();
 
 			// recent files could have changed while widget wasn't loaded
-			 _ = RefreshWidget();
+			_ = RefreshWidget();
 
 			App.RecentItemsManager.RecentFilesChanged += Manager_RecentFilesChanged;
 		}
