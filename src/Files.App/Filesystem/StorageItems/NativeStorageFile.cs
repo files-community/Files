@@ -147,7 +147,7 @@ namespace Files.App.Filesystem.StorageItems
 				var name = IO.Path.GetFileName(path);
 				return Task.FromResult((BaseStorageFile)new NativeStorageFile(path, name[(name.LastIndexOf(":") + 1)..], DateTime.Now)).AsAsyncOperation();
 			}
-            return null;
+            return Task.FromResult<BaseStorageFile>(null).AsAsyncOperation();
         }
 
 		private static bool CheckAccess(string path)

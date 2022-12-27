@@ -114,7 +114,7 @@ namespace Files.App.Filesystem.StorageItems
 		{
 			if (!FileExtensionHelpers.IsBrowsableZipFile(path, out var ext))
 			{
-				return null;
+				return Task.FromResult<BaseStorageFolder>(null).AsAsyncOperation();
 			}
 			var marker = path.IndexOf(ext, StringComparison.OrdinalIgnoreCase);
 			if (marker is not -1)
@@ -125,7 +125,7 @@ namespace Files.App.Filesystem.StorageItems
 					return Task.FromResult((BaseStorageFolder)new ZipStorageFolder(path, containerPath)).AsAsyncOperation();
 				}
 			}
-			return null;
+			return Task.FromResult<BaseStorageFolder>(null).AsAsyncOperation();
 		}
 
 		public static IAsyncOperation<BaseStorageFolder> FromStorageFileAsync(BaseStorageFile file)
