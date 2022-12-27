@@ -65,7 +65,10 @@
 					</StackPanel>
 					<Button.Flyout>
 						<Flyout>
-							<controls:ColorPicker IsAlphaEnabled="True" Color="{x:Bind ViewModel.AppThemeRootBackgroundColor, Mode=TwoWay}" />
+							<controls:ColorPicker
+								IsAlphaEnabled="True"
+								IsColorSpectrumVisible="False"
+								Color="{x:Bind ViewModel.AppThemeRootBackgroundColor, Mode=TwoWay}" />
 						</Flyout>
 					</Button.Flyout>
 				</Button>
