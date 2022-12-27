@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -121,7 +122,7 @@ namespace Files.App.UserControls.Widgets
 			}
 		}
 
-		private async Task UpdateRecentsList(NotifyCollectionChangedEventArgs args)
+		private async Task UpdateRecentsList(NotifyCollectionChangedEventArgs e)
 		{
 			try
 			{
@@ -140,17 +141,32 @@ namespace Files.App.UserControls.Widgets
 
 				EmptyRecentsTextVisibility = Visibility.Collapsed;
 
-				switch (args.Action)
+				switch (e.Action)
 				{
 					// currently everything falls under Reset
 					default:
-						recentItemsCollection.Clear();
-						var recentFiles = App.RecentItemsManager.RecentFiles; // already sorted, add all in order
-						foreach (var recentFile in recentFiles)
 						{
-							await AddItemToRecentListAsync(recentFile);
+							var recentFiles = App.RecentItemsManager.RecentFiles; // already sorted, add all in order
+							int idx = 0;
+							for (; idx < recentFiles.Count; idx++) // Add new items (top of the list)
+							{
+								if (idx >= recentItemsCollection.Count || !recentFiles[idx].Equals(recentItemsCollection[idx]))
+								{
+									if (!AddItemToRecentList(recentFiles[idx], idx)) // Not a new item
+										break;
+								}
+								else
+									break;
+							}
+							while (idx < recentItemsCollection.Count) // Remove old items
+							{
+								if (idx >= recentFiles.Count || !recentFiles[idx].Equals(recentItemsCollection[idx]))
+									recentItemsCollection.RemoveAt(idx);
+								else
+									idx++;
+							}
+							break;
 						}
-						break;
 				}
 
 				// update chevron if there aren't any items
@@ -173,18 +189,25 @@ namespace Files.App.UserControls.Widgets
 		/// Add the RecentItem to the ObservableCollection for the UI to render.
 		/// </summary>
 		/// <param name="recentItem">The recent item to be added</param>
-		private async Task AddItemToRecentListAsync(RecentItem recentItem, bool sortInsert = false)
+		private bool AddItemToRecentList(RecentItem recentItem, int index = -1)
 		{
-			await recentItem.LoadRecentItemIcon();
-			recentItemsCollection.Add(recentItem);
+			if (!recentItemsCollection.Any(x => x.Equals(recentItem)))
+			{
+				recentItemsCollection.Insert(index < 0 ? recentItemsCollection.Count : Math.Min(index, recentItemsCollection.Count), recentItem);
+				_ = recentItem.LoadRecentItemIcon()
+					.ContinueWith(t => App.Logger.Warn(t.Exception), TaskContinuationOptions.OnlyOnFaulted);
+				return true;
+			}
+			return false;
 		}
 
 		private void RecentsView_ItemClick(object sender, ItemClickEventArgs e)
 		{
-			var path = (e.ClickedItem as RecentItem).RecentPath;
+			var recentItem = e.ClickedItem as RecentItem;
 			RecentFileInvoked?.Invoke(this, new PathNavigationEventArgs()
 			{
-				ItemPath = path
+				ItemPath = recentItem.RecentPath,
+				IsFile = recentItem.IsFile
 			});
 		}
 
@@ -199,7 +222,7 @@ namespace Files.App.UserControls.Widgets
 				{
 					// evict it from the recent items shortcut list
 					// this operation invokes RecentFilesChanged which we handle to update the visible collection
-					App.RecentItemsManager.UnpinFromRecentFiles(vm.LinkPath);
+					await App.RecentItemsManager.UnpinFromRecentFiles(vm);
 				}
 			}
 			finally

@@ -1,5 +1,6 @@
 using Files.App.Helpers;
 using Files.App.Shell;
+using Files.Shared.Extensions;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -52,7 +53,7 @@ namespace Files.App.Filesystem
 
 		private async void OnRecentItemsChanged(object? sender, EventArgs e)
 		{
-			await ListRecentFilesAsync();
+			await UpdateRecentFilesAsync();
 		}
 
 		/// <summary>
@@ -106,6 +107,7 @@ namespace Files.App.Filesystem
 		public async Task<List<RecentItem>> ListRecentFilesAsync()
 		{
 			return (await Win32Shell.GetShellFolderAsync(QuickAccessGuid, "Enumerate", 0, int.MaxValue)).Enumerate
+				.Where(link => !link.IsFolder)
 				.Select(link => new RecentItem(link)).ToList();
 		}
 
@@ -188,19 +190,19 @@ namespace Files.App.Filesystem
 		/// This will also unpin the item from the Recent Files in File Explorer.
 		/// </summary>
 		/// <returns>Whether the action was successfully handled or not</returns>
-		public bool UnpinFromRecentFiles(string path)
+		public Task<bool> UnpinFromRecentFiles(RecentItem item)
 		{
-			try
+			return SafetyExtensions.IgnoreExceptions(() => Task.Run(async () =>
 			{
-				var command = $"-command \"((New-Object -ComObject Shell.Application).Namespace('shell:{QuickAccessGuid}\').Items() " +
-							  $"| Where-Object {{ $_.Path -eq '{path}' }}).InvokeVerb('remove')\"";
-				return Win32API.RunPowershellCommand(command, false);
-			}
-			catch (Exception ex)
-			{
-				App.Logger.Warn(ex, ex.Message);
+				using var pidl = new Shell32.PIDL(item.PIDL);
+				using var shellItem = ShellItem.Open(pidl);
+				using var cMenu = await ContextMenu.GetContextMenuForFiles(new[] { shellItem }, Shell32.CMF.CMF_NORMAL);
+				if (cMenu is not null)
+				{
+					return await cMenu.InvokeVerb("remove");
+				}
 				return false;
-			}
+			}));
 		}
 
 		public bool CheckIsRecentFilesEnabled()

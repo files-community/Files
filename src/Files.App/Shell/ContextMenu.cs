@@ -111,18 +111,7 @@ namespace Files.App.Shell
 					{
 						shellItems.Add(ShellFolderExtensions.GetShellItemFromPathOrPidl(fp));
 					}
-					if (!shellItems.Any())
-					{
-						return null;
-					}
-
-					using var sf = shellItems[0].Parent; // HP: the items are all in the same folder
-					Shell32.IContextMenu menu = sf.GetChildrenUIObjects<Shell32.IContextMenu>(default, shellItems.ToArray());
-					var hMenu = User32.CreatePopupMenu();
-					menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, flags);
-					var contextMenu = new ContextMenu(menu, hMenu, shellItems.Select(x => x.ParsingName), owningThread);
-					ContextMenu.EnumMenuItems(menu, hMenu, contextMenu.Items, itemFilter);
-					return contextMenu;
+					return GetContextMenuForFiles(shellItems.ToArray(), flags, owningThread, itemFilter);
 				}
 				catch (Exception ex) when (ex is ArgumentException || ex is FileNotFoundException)
 				{
@@ -137,6 +126,29 @@ namespace Files.App.Shell
 					}
 				}
 			});
+		}
+
+		public async static Task<ContextMenu> GetContextMenuForFiles(ShellItem[] shellItems, Shell32.CMF flags, Func<string, bool> itemFilter = null)
+		{
+			var owningThread = new ThreadWithMessageQueue();
+			return await owningThread.PostMethod<ContextMenu>(
+				() => GetContextMenuForFiles(shellItems, flags, owningThread, itemFilter));
+		}
+
+		private static ContextMenu GetContextMenuForFiles(ShellItem[] shellItems, Shell32.CMF flags, ThreadWithMessageQueue owningThread, Func<string, bool> itemFilter = null)
+		{
+			if (!shellItems.Any())
+			{
+				return null;
+			}
+
+			using var sf = shellItems[0].Parent; // HP: the items are all in the same folder
+			Shell32.IContextMenu menu = sf.GetChildrenUIObjects<Shell32.IContextMenu>(default, shellItems);
+			var hMenu = User32.CreatePopupMenu();
+			menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, flags);
+			var contextMenu = new ContextMenu(menu, hMenu, shellItems.Select(x => x.ParsingName), owningThread);
+			ContextMenu.EnumMenuItems(menu, hMenu, contextMenu.Items, itemFilter);
+			return contextMenu;
 		}
 
 		public async static Task<ContextMenu> GetContextMenuForFolder(string folderPath, Shell32.CMF flags, Func<string, bool> itemFilter = null)

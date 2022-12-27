@@ -88,51 +88,5 @@ namespace Files.App.Shell
 				return (false, 0, 0);
 			}
 		}
-
-		public static async Task<ShellLinkItem?> ParseLink(string filePath)
-		{
-			if (string.IsNullOrEmpty(filePath))
-				return null;
-
-			string targetPath = string.Empty;
-
-			try
-			{
-				if (FileExtensionHelpers.IsShortcutFile(filePath))
-				{
-					using var link = new ShellLink(filePath, LinkResolution.NoUIWithMsgPump, default, TimeSpan.FromMilliseconds(100));
-					targetPath = link.TargetPath;
-					return ShellFolderExtensions.GetShellLinkItem(link);
-				}
-
-				if (FileExtensionHelpers.IsWebLinkFile(filePath))
-				{
-					targetPath = await Win32API.StartSTATask(() =>
-					{
-						var ipf = new Url.IUniformResourceLocator();
-						(ipf as System.Runtime.InteropServices.ComTypes.IPersistFile)?.Load(filePath, 0);
-						ipf.GetUrl(out var retVal);
-						return retVal;
-					});
-
-					return string.IsNullOrEmpty(targetPath) ? null : new ShellLinkItem { TargetPath = targetPath };
-				}
-			}
-			catch (FileNotFoundException ex) // Could not parse shortcut
-			{
-				App.Logger?.Warn(ex, ex.Message);
-				// Return a item containing the invalid target path
-				return new ShellLinkItem
-				{
-					TargetPath = string.IsNullOrEmpty(targetPath) ? string.Empty : targetPath,
-					InvalidTarget = true
-				};
-			}
-			catch (Exception ex)
-			{
-				App.Logger?.Warn(ex, ex.Message);
-			}
-			return null;
-		}
 	}
 }

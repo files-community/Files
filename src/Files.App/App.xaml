@@ -31,8 +31,7 @@
 							<SolidColorBrush x:Key="TabViewItemSeparator" Color="{StaticResource DividerStrokeColorDefault}" />
 							<SolidColorBrush x:Key="TabContainerFillColorPrimary" Color="{StaticResource SolidBackgroundFillColorTertiary}" />
 							<SolidColorBrush x:Key="TabContainerFillColorSecondary" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
-							<SolidColorBrush x:Key="NavigationToolbarBackgroundBrush" Color="{StaticResource LayerOnMicaBaseAltFillColorDefault}" />
-							<SolidColorBrush x:Key="NavigationToolbarBreadcrumbBackgroundBrush" Color="Transparent" />
+							<SolidColorBrush x:Key="AddressToolbarBackgroundBrush" Color="{StaticResource LayerOnMicaBaseAltFillColorDefault}" />
 							<SolidColorBrush x:Key="FileBrowserHeaderBackgroundBrush" Color="Transparent" />
 							<SolidColorBrush x:Key="RootBackgroundBrush" Color="Transparent" />
 							<StaticResource x:Key="SidebarContentBackgroundBrush" ResourceKey="CardBackgroundFillColorDefault" />
@@ -47,8 +46,7 @@
 							<SolidColorBrush x:Key="TabViewItemSeparator" Color="{StaticResource DividerStrokeColorDefault}" />
 							<SolidColorBrush x:Key="TabContainerFillColorPrimary" Color="{StaticResource SolidBackgroundFillColorTertiary}" />
 							<SolidColorBrush x:Key="TabContainerFillColorSecondary" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
-							<SolidColorBrush x:Key="NavigationToolbarBackgroundBrush" Color="{StaticResource LayerOnMicaBaseAltFillColorDefault}" />
-							<SolidColorBrush x:Key="NavigationToolbarBreadcrumbBackgroundBrush" Color="Transparent" />
+							<SolidColorBrush x:Key="AddressToolbarBackgroundBrush" Color="{StaticResource LayerOnMicaBaseAltFillColorDefault}" />
 							<SolidColorBrush x:Key="FileBrowserHeaderBackgroundBrush" Color="Transparent" />
 							<SolidColorBrush x:Key="RootBackgroundBrush" Color="Transparent" />
 							<SolidColorBrush x:Key="SidebarContentBackgroundBrush" Color="#993A3A3A" />
@@ -63,8 +61,7 @@
 							<SolidColorBrush x:Key="TabViewItemSeparator" Color="{StaticResource SystemColorGrayTextColor}" />
 							<SolidColorBrush x:Key="TabContainerFillColorPrimary" Color="{StaticResource SolidBackgroundFillColorTertiary}" />
 							<SolidColorBrush x:Key="TabContainerFillColorSecondary" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
-							<SolidColorBrush x:Key="NavigationToolbarBackgroundBrush" Color="Transparent" />
-							<SolidColorBrush x:Key="NavigationToolbarBreadcrumbBackgroundBrush" Color="Transparent" />
+							<SolidColorBrush x:Key="AddressToolbarBackgroundBrush" Color="Transparent" />
 							<StaticResource x:Key="FileBrowserHeaderBackgroundBrush" ResourceKey="SolidBackgroundFillColorBaseBrush" />
 							<SolidColorBrush x:Key="RootBackgroundBrush" Color="Transparent" />
 							<StaticResource x:Key="SidebarContentBackgroundBrush" ResourceKey="CardBackgroundFillColorDefault" />
