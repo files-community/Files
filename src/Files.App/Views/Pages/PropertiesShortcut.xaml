@@ -14,6 +14,7 @@
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
+				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</local:PropertiesTab.Resources>
@@ -127,40 +128,13 @@
 				Text="{x:Bind ViewModel.ShortcutItemWorkingDir, Mode=TwoWay}" />
 		</Grid>
 
-		<Grid
-			x:Name="RunAsAdmin"
-			Padding="12"
-			HorizontalAlignment="Stretch"
-			x:Load="{x:Bind ViewModel.RunAsAdminEnabled, Mode=OneWay}"
-			Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-			BorderThickness="1"
-			ColumnSpacing="8"
-			CornerRadius="4"
-			RowSpacing="8">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="*" />
-				<ColumnDefinition Width="Auto" />
-			</Grid.ColumnDefinitions>
-			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto" />
-			</Grid.RowDefinitions>
-			<TextBlock
-				Grid.Row="1"
-				Grid.Column="0"
-				VerticalAlignment="Center"
-				Text="{helpers:ResourceString Name=RunAsAdmin}"
-				TextWrapping="WrapWholeWords" />
-			<CheckBox
-				Grid.Row="1"
-				Grid.Column="2"
-				MinWidth="0"
-				HorizontalAlignment="Right"
-				VerticalAlignment="Center"
+		<local1:SettingsBlockControl Title="{helpers:ResourceString Name=RunAsAdmin}" HorizontalAlignment="Stretch">
+			<ToggleSwitch
 				AutomationProperties.Name="{helpers:ResourceString Name=RunAsAdmin}"
-				IsChecked="{x:Bind ViewModel.RunAsAdmin, Mode=TwoWay}" />
-		</Grid>
+				IsEnabled="{x:Bind ViewModel.RunAsAdminEnabled, Mode=OneWay}"
+				IsOn="{x:Bind ViewModel.RunAsAdmin, Mode=TwoWay}"
+				Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+		</local1:SettingsBlockControl>
 
 		<local1:SettingsBlockControl
 			x:Name="OpenFileLocation"
