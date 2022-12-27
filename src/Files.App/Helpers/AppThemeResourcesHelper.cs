@@ -4,7 +4,7 @@ using Windows.UI;
 
 namespace Files.App.Helpers
 {
-	public class AppThemeResourcesHelper
+	public sealed class AppThemeResourcesHelper
 	{
 		/// <summary>
 		/// Forces the application to use the correct resource styles

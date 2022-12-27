@@ -127,6 +127,7 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
+		/// <inheritdoc/>
 		public UInt32 AppThemeRootBackgroundColor
 		{
 			get => Get(uint.MinValue);
