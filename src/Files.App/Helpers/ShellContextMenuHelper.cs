@@ -167,7 +167,7 @@ namespace Files.App.Helpers
 				if (tag is not Win32ContextMenuItem menuItem) return;
 
 				var menuId = menuItem.ID;
-				var isFont = new[] { ".fon", ".otf", ".ttc", ".ttf" }.Contains(Path.GetExtension(contextMenu.ItemsPath[0]), StringComparer.OrdinalIgnoreCase);
+				var isFont = FileExtensionHelpers.IsFontFile(contextMenu.ItemsPath[0]);
 				var verb = menuItem.CommandString;
 				switch (verb)
 				{
