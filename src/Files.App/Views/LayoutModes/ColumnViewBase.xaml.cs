@@ -49,7 +49,11 @@ namespace Files.App.Views.LayoutModes
 
 		private void ColumnViewBase_GotFocus(object sender, RoutedEventArgs e)
 		{
-			openedFolderPresenter?.Focus(FocusState.Programmatic);
+			if(FileList.SelectedItem == null && openedFolderPresenter != null)
+			{
+				openedFolderPresenter.Focus(FocusState.Programmatic);
+				FileList.SelectedItem = FileList.ItemFromContainer(openedFolderPresenter);
+			}
 		}
 
 		private void ColumnViewBase_ItemInvoked(object? sender, EventArgs e)
