@@ -112,23 +112,20 @@ namespace Files.App.Filesystem.StorageItems
 
 		public static IAsyncOperation<BaseStorageFolder> FromPathAsync(string path)
 		{
-			return AsyncInfo.Run<BaseStorageFolder>(async (cancellationToken) =>
+			if (!FileExtensionHelpers.IsBrowsableZipFile(path, out var ext))
 			{
-				if (!FileExtensionHelpers.IsBrowsableZipFile(path, out var ext))
-				{
-					return null;
-				}
-				var marker = path.IndexOf(ext, StringComparison.OrdinalIgnoreCase);
-				if (marker is not -1)
-				{
-					var containerPath = path.Substring(0, marker + ext.Length);
-					if (CheckAccess(containerPath))
-					{
-						return new ZipStorageFolder(path, containerPath);
-					}
-				}
 				return null;
-			});
+			}
+			var marker = path.IndexOf(ext, StringComparison.OrdinalIgnoreCase);
+			if (marker is not -1)
+			{
+				var containerPath = path.Substring(0, marker + ext.Length);
+				if (CheckAccess(containerPath))
+				{
+					return Task.FromResult((BaseStorageFolder)new ZipStorageFolder(path, containerPath)).AsAsyncOperation();
+				}
+			}
+			return null;
 		}
 
 		public static IAsyncOperation<BaseStorageFolder> FromStorageFileAsync(BaseStorageFile file)
