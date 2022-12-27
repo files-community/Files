@@ -51,7 +51,7 @@ namespace Files.App.ServicesImplementation.Settings
 				Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
 			}
 
-            base.RaiseOnSettingChangedEvent(sender, e);
-        }
-    }
+			base.RaiseOnSettingChangedEvent(sender, e);
+		}
+	}
 }

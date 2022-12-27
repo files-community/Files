@@ -33,7 +33,7 @@ namespace Files.App.ViewModels.Dialogs
 		}
 
 		private bool isArchiveEncrypted;
-		
+
 		public bool IsArchiveEncrypted
 		{
 			get => isArchiveEncrypted;
