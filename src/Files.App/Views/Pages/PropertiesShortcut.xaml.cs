@@ -19,7 +19,11 @@ namespace Files.App.Views
 			var shortcutItem = (ShortcutItem)item;
 
 			await App.Window.DispatcherQueue.EnqueueAsync(() =>
-				UIFilesystemHelpers.SetShortcutRunAsAdmin(shortcutItem, ViewModel.RunAsAdmin, AppInstance)
+				UIFilesystemHelpers.UpdateShortcutItemProperties(shortcutItem, 
+				ViewModel.ShortcutItemPath,
+				ViewModel.ShortcutItemArguments, 
+				ViewModel.ShortcutItemWorkingDir, 
+				ViewModel.RunAsAdmin)
 			);
 
 			return true;
