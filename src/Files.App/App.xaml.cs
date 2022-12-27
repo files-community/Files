@@ -38,6 +38,9 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Notifications;
+using Files.App.Storage.NativeStorage;
+using Files.App.Storage.WindowsStorage;
+using Files.Sdk.Storage;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -124,7 +127,12 @@ namespace Files.App
 				.AddSingleton<IThreadingService, ThreadingService>()
 				.AddSingleton<ILocalizationService, LocalizationService>()
 				.AddSingleton<ICloudDetector, CloudDetector>()
-                .AddSingleton<IFileTagsService, FileTagsService>()
+				.AddSingleton<IFileTagsService, FileTagsService>()
+#if UWP
+				.AddSingleton<IStorageService, WindowsStorageService>()
+#else
+				.AddSingleton<IStorageService, NativeStorageService>()
+#endif
 #if SIDELOAD
 				.AddSingleton<IUpdateService, SideloadUpdateService>()
 #else

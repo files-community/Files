@@ -7,7 +7,8 @@ namespace Files.App.Helpers
 {
 	public static class WidgetsHelpers
 	{
-		public static TWidget? TryGetWidget<TWidget>(IAppearanceSettingsService appearanceSettingsService, WidgetsListControlViewModel widgetsViewModel, out bool shouldReload, TWidget? defaultValue = default) where TWidget : IWidgetItemModel, new()
+		public static TWidget? TryGetWidget<TWidget>(IAppearanceSettingsService appearanceSettingsService, WidgetsListControlViewModel widgetsViewModel, out bool shouldReload, TWidget? defaultValue = default)
+			where TWidget : IWidgetItemModel, new()
 		{
 			bool canAddWidget = widgetsViewModel.CanAddWidget(typeof(TWidget).Name);
 			bool isWidgetSettingEnabled = TryGetIsWidgetSettingEnabled<TWidget>(appearanceSettingsService);
@@ -44,6 +45,10 @@ namespace Files.App.Helpers
 			if (typeof(TWidget) == typeof(DrivesWidget))
 			{
 				return appearanceSettingsService.ShowDrivesWidget;
+			}
+			if (typeof(TWidget) == typeof(FileTagsWidget))
+			{
+				return appearanceSettingsService.ShowFileTagsWidget;
 			}
 			if (typeof(TWidget) == typeof(BundlesWidget))
 			{

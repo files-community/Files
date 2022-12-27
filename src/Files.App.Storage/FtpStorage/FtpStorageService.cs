@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Files.App.Storage.FtpStorage
 {
-    public sealed class FtpStorageService : IStorageService
+	public sealed class FtpStorageService : IStorageService
 	{
 		public Task<bool> IsAccessibleAsync(CancellationToken cancellationToken = default)
 		{

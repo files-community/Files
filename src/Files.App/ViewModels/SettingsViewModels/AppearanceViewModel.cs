@@ -241,6 +241,16 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
+		public bool ShowFileTagsWidget
+		{
+			get => UserSettingsService.AppearanceSettingsService.ShowFileTagsWidget;
+			set
+			{
+				if (value != UserSettingsService.AppearanceSettingsService.ShowFileTagsWidget)
+					UserSettingsService.AppearanceSettingsService.ShowFileTagsWidget = value;
+			}
+		}
+
 		public bool ShowRecentFilesWidget
 		{
 			get => UserSettingsService.AppearanceSettingsService.ShowRecentFilesWidget;

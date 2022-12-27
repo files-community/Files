@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Files.App.Storage.NativeStorage
 {
 	/// <inheritdoc cref="IStorageService"/>
-    public sealed class NativeStorageService : IStorageService
+	public sealed class NativeStorageService : IStorageService
 	{
 		/// <inheritdoc/>
 		public Task<bool> IsAccessibleAsync(CancellationToken cancellationToken = default)

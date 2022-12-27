@@ -8,7 +8,7 @@ using Windows.Storage;
 namespace Files.App.Storage.WindowsStorage
 {
 	/// <inheritdoc cref="IStorageService"/>
-	internal sealed class WindowsStorageService : IStorageService
+	public sealed class WindowsStorageService : IStorageService
 	{
 		/// <inheritdoc/>
 		public Task<bool> IsAccessibleAsync(CancellationToken cancellationToken = default)

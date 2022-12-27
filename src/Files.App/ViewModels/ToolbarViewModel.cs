@@ -389,6 +389,7 @@ namespace Files.App.ViewModels
 				case nameof(UserSettingsService.AppearanceSettingsService.ShowFoldersWidget):
 				case nameof(UserSettingsService.AppearanceSettingsService.ShowDrivesWidget):
 				case nameof(UserSettingsService.AppearanceSettingsService.ShowBundlesWidget):
+				case nameof(UserSettingsService.AppearanceSettingsService.ShowFileTagsWidget):
 				case nameof(UserSettingsService.AppearanceSettingsService.ShowRecentFilesWidget):
 					RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
 					OnPropertyChanged(e.SettingName);
