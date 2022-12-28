@@ -40,6 +40,13 @@ namespace Files.Sdk.Storage.Extensions
 			}
 		}
 
+		/// <summary>
+		/// Copies contents of <paramref name="source"/> to <paramref name="destination"/> overwriting existing data.
+		/// </summary>
+		/// <param name="source">The source file to copy from.</param>
+		/// <param name="destination">The destination file to copy to.</param>
+		/// <param name="cancellationToken">A <see cref="CancellationToken"/> that cancels this action.</param>
+		/// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
 		public static async Task CopyContentsToAsync(this IFile source, IFile destination, CancellationToken cancellationToken = default)
 		{
 			await using var sourceStream = await source.OpenStreamAsync(FileAccess.Read, cancellationToken);
