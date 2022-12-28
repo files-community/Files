@@ -218,7 +218,7 @@
     <value>日付の形式</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>色を選択</value>
+    <value>Theme</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>既知のファイル タイプの拡張子を表示</value>
@@ -234,6 +234,9 @@
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>外観</value>
+  </data>
+  <data name="Background" xml:space="preserve">
+    <value>Background</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>実験的機能</value>
@@ -1507,9 +1510,6 @@
   <data name="Default" xml:space="preserve">
     <value>既定</value>
   </data>
-  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
-    <value>カスタム テーマ</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>ファイル数</value>
   </data>
@@ -1986,18 +1986,6 @@
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>不明な所有者</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>カスタム テーマの詳細</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>カスタム テーマの詳細</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
-    <value>カスタム テーマを使用して、自分なりの Files を作り上げることができます。</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
-    <value>ドキュメントを見る</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
     <value>アーカイブを展開</value>
