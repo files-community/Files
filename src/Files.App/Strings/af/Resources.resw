@@ -218,7 +218,7 @@
     <value>Datumformaat</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Kies jou kleur</value>
+    <value>Theme</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Wys uitbreidings vir bekende lêersoorte</value>
@@ -234,6 +234,9 @@
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Voorkoms</value>
+  </data>
+  <data name="Background" xml:space="preserve">
+    <value>Background</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Eksperimentele</value>
@@ -1508,9 +1511,6 @@
   <data name="Default" xml:space="preserve">
     <value>Verstek</value>
   </data>
-  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
-    <value>Pasgemaakte temas</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Item telling</value>
   </data>
@@ -1987,18 +1987,6 @@
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Onbekende eienaar</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Kom meer te wete oor persoonlike temas</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Kom meer te wete oor persoonlike temas</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
-    <value>Pasgemaakte temas bied 'n goeie manier vir u om Files te personaliseer.</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
-    <value>Bekyk dokumentasie.</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
     <value>Extract Archive</value>
