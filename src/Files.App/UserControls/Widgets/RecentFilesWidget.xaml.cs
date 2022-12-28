@@ -89,13 +89,8 @@ namespace Files.App.UserControls.Widgets
 
 		public async Task RefreshWidget()
 		{
-			await App.RecentItemsManager.UpdateRecentFilesAsync();
-
 			IsRecentFilesDisabledInWindows = App.RecentItemsManager.CheckIsRecentFilesEnabled() is false;
-			if (IsRecentFilesDisabledInWindows)
-			{
-				EmptyRecentsTextVisibility = Visibility.Collapsed;
-			}
+			await App.RecentItemsManager.UpdateRecentFilesAsync();
 		}
 
 		private async void Manager_RecentFilesChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -170,7 +165,7 @@ namespace Files.App.UserControls.Widgets
 				}
 
 				// update chevron if there aren't any items
-				if (recentItemsCollection.Count == 0)
+				if (recentItemsCollection.Count == 0 && !IsRecentFilesDisabledInWindows)
 				{
 					EmptyRecentsTextVisibility = Visibility.Visible;
 				}

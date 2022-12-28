@@ -16,7 +16,6 @@
 		Orientation="Vertical"
 		Spacing="4">
 		<muxc:InfoBar
-			Margin="0,0,0,12"
 			IsClosable="False"
 			IsIconVisible="True"
 			IsOpen="True"
