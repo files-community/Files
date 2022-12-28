@@ -218,7 +218,7 @@
     <value>Format tanggal</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Pilih warna Anda</value>
+    <value>Theme</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Tampilkan ekstensi untuk jenis file yang dikenal</value>
@@ -234,6 +234,9 @@
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Tampilan</value>
+  </data>
+  <data name="Background" xml:space="preserve">
+    <value>Background</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Eksperimental</value>
@@ -1507,9 +1510,6 @@
   <data name="Default" xml:space="preserve">
     <value>Bawaan</value>
   </data>
-  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
-    <value>Tema kustom</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Jumlah item</value>
   </data>
@@ -1986,18 +1986,6 @@
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Pemilik tidak diketahui</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Pelajari lebih lanjut tentang tema kustom</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Pelajari lebih lanjut tentang tema kustom</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
-    <value>Tema khusus menyediakan cara yang bagus untuk mempersonalisasi Files.</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
-    <value>Lihat dokumentasi.</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
     <value>Ekstrak Arsip</value>
