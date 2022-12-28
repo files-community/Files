@@ -331,8 +331,8 @@
 					ResizeBehavior="BasedOnAlignment"
 					Style="{StaticResource DefaultGridSplitterStyle}" />
 
-				<controls:PaneControl
-					x:Name="Pane"
+				<controls:PreviewPane
+					x:Name="PreviewPane"
 					Grid.Row="1"
 					Grid.Column="2"
 					HorizontalContentAlignment="Stretch"

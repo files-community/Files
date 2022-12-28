@@ -363,7 +363,7 @@ namespace Files.App.Views
 
 		private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
-			switch (Pane?.Position)
+			switch (PreviewPane?.Position)
 			{
 				case PanePositions.Right when ContentColumn.ActualWidth == ContentColumn.MinWidth:
 					UserSettingsService.PaneSettingsService.VerticalSizePx += e.NewSize.Width - e.PreviousSize.Width;
@@ -407,7 +407,7 @@ namespace Files.App.Views
 		/// </summary>
 		private void UpdatePositioning()
 		{
-			if (Pane is null || !IsPaneEnabled)
+			if (PreviewPane is null || !IsPaneEnabled)
 			{
 				PaneRow.MinHeight = 0;
 				PaneRow.MaxHeight = double.MaxValue;
@@ -418,8 +418,8 @@ namespace Files.App.Views
 			}
 			else
 			{
-				Pane.UpdatePosition(RootGrid.ActualWidth, RootGrid.ActualHeight);
-				switch (Pane.Position)
+				PreviewPane.UpdatePosition(RootGrid.ActualWidth, RootGrid.ActualHeight);
+				switch (PreviewPane.Position)
 				{
 					case PanePositions.None:
 						PaneRow.MinHeight = 0;
@@ -428,23 +428,23 @@ namespace Files.App.Views
 						PaneColumn.Width = new GridLength(0);
 						break;
 					case PanePositions.Right:
-						Pane.SetValue(Grid.RowProperty, 1);
-						Pane.SetValue(Grid.ColumnProperty, 2);
+						PreviewPane.SetValue(Grid.RowProperty, 1);
+						PreviewPane.SetValue(Grid.ColumnProperty, 2);
 						PaneSplitter.SetValue(Grid.RowProperty, 1);
 						PaneSplitter.SetValue(Grid.ColumnProperty, 1);
 						PaneSplitter.Width = 2;
 						PaneSplitter.Height = RootGrid.ActualHeight;
 						PaneSplitter.GripperCursor = GridSplitter.GripperCursorType.SizeWestEast;
-						PaneColumn.MinWidth = Pane.MinWidth;
-						PaneColumn.MaxWidth = Pane.MaxWidth;
+						PaneColumn.MinWidth = PreviewPane.MinWidth;
+						PaneColumn.MaxWidth = PreviewPane.MaxWidth;
 						PaneColumn.Width = new GridLength(UserSettingsService.PaneSettingsService.VerticalSizePx, GridUnitType.Pixel);
 						PaneRow.MinHeight = 0;
 						PaneRow.MaxHeight = double.MaxValue;
 						PaneRow.Height = new GridLength(0);
 						break;
 					case PanePositions.Bottom:
-						Pane.SetValue(Grid.RowProperty, 3);
-						Pane.SetValue(Grid.ColumnProperty, 0);
+						PreviewPane.SetValue(Grid.RowProperty, 3);
+						PreviewPane.SetValue(Grid.ColumnProperty, 0);
 						PaneSplitter.SetValue(Grid.RowProperty, 2);
 						PaneSplitter.SetValue(Grid.ColumnProperty, 0);
 						PaneSplitter.Height = 2;
@@ -453,8 +453,8 @@ namespace Files.App.Views
 						PaneColumn.MinWidth = 0;
 						PaneColumn.MaxWidth = double.MaxValue;
 						PaneColumn.Width = new GridLength(0);
-						PaneRow.MinHeight = Pane.MinHeight;
-						PaneRow.MaxHeight = Pane.MaxHeight;
+						PaneRow.MinHeight = PreviewPane.MinHeight;
+						PaneRow.MaxHeight = PreviewPane.MaxHeight;
 						PaneRow.Height = new GridLength(UserSettingsService.PaneSettingsService.HorizontalSizePx, GridUnitType.Pixel);
 						break;
 				}
@@ -463,13 +463,13 @@ namespace Files.App.Views
 
 		private void PaneSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
 		{
-			switch (Pane?.Position)
+			switch (PreviewPane?.Position)
 			{
 				case PanePositions.Right:
-					UserSettingsService.PaneSettingsService.VerticalSizePx = Pane.ActualWidth;
+					UserSettingsService.PaneSettingsService.VerticalSizePx = PreviewPane.ActualWidth;
 					break;
 				case PanePositions.Bottom:
-					UserSettingsService.PaneSettingsService.HorizontalSizePx = Pane.ActualHeight;
+					UserSettingsService.PaneSettingsService.HorizontalSizePx = PreviewPane.ActualHeight;
 					break;
 			}
 		}
