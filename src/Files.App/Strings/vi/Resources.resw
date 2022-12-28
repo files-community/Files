@@ -218,7 +218,7 @@
     <value>Định dạng ngày tháng</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Chọn màu của bạn</value>
+    <value>Theme</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Hiển thị phần mở rộng cho các loại tệp đã biết</value>
@@ -234,6 +234,9 @@
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Giao diện</value>
+  </data>
+  <data name="Background" xml:space="preserve">
+    <value>Background</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Thực nghiệm</value>
@@ -1507,9 +1510,6 @@
   <data name="Default" xml:space="preserve">
     <value>Mặc định</value>
   </data>
-  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
-    <value>Chủ đề tùy chỉnh</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Số lượng mục</value>
   </data>
@@ -1986,18 +1986,6 @@
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Chủ sở hữu không xác định</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Tìm hiểu thêm về chủ đề tùy chỉnh</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Tìm hiểu thêm về chủ đề tùy chỉnh</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
-    <value>Chủ đề tùy chỉnh đưa một cách tốt để cho bạn được cá nhân hóa về ứng dụng Files.</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
-    <value>Xem hướng dẫn sử dụng</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
     <value>Extract Archive</value>
