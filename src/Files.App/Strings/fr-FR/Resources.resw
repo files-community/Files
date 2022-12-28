@@ -218,7 +218,7 @@
     <value>Format de date</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Choisissez votre couleur</value>
+    <value>Theme</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Afficher les extensions des types de fichiers connus</value>
@@ -234,6 +234,9 @@
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Apparence</value>
+  </data>
+  <data name="Background" xml:space="preserve">
+    <value>Background</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Expérimental</value>
@@ -1507,9 +1510,6 @@
   <data name="Default" xml:space="preserve">
     <value>Défaut</value>
   </data>
-  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
-    <value>Thèmes personnalisés</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Nombre d'éléments</value>
   </data>
@@ -1986,18 +1986,6 @@
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Propriétaire inconnu</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>En savoir plus sur les thèmes personnalisés</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>En savoir plus sur les thèmes personnalisés</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
-    <value>Les thèmes personnalisés offrent un excellent moyen de personnaliser Files.</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
-    <value>Afficher la documentation</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
     <value>Extraire l'archive</value>
