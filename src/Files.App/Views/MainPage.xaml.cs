@@ -29,6 +29,7 @@ using Windows.ApplicationModel;
 using Windows.Graphics;
 using Windows.Services.Store;
 using Windows.Storage;
+using Windows.UI;
 
 namespace Files.App.Views
 {
@@ -89,10 +90,10 @@ namespace Files.App.Views
 			App.AppThemeResourcesHelper.SetCompactSpacing(useCompactStyles);
 			App.AppThemeResourcesHelper.SetAppThemeBackgroundColor(appThemeBackgroundColor);
 
-			if (appThemeSidebarBackgroundColor != Colors.Transparent)
+			if (appThemeSidebarBackgroundColor != Color.FromArgb(0,0,0,0))
 				App.AppThemeResourcesHelper.SetAppThemeSidebarBackgroundColor(appThemeSidebarBackgroundColor);
 
-			if (appThemeFileAreaBackgroundColor != Colors.Transparent)
+			if (appThemeFileAreaBackgroundColor != Color.FromArgb(0, 0, 0, 0))
 				App.AppThemeResourcesHelper.SetAppThemeFileAreaBackgroundColor(appThemeFileAreaBackgroundColor);
 
 			App.AppThemeResourcesHelper.ApplyResources();
