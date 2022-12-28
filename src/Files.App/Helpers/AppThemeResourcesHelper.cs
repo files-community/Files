@@ -23,12 +23,12 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>
-		/// Overrides the xaml resource for RootBackgroundBrush
+		/// Overrides the xaml resource for App.Theme.BackgroundBrush
 		/// </summary>
-		/// <param name="appThemeRootBackgroundColor"></param>
-		public void SetRootBackgroundColor(Color appThemeRootBackgroundColor)
+		/// <param name="appThemeBackgroundColor"></param>
+		public void SetRootBackgroundColor(Color appThemeBackgroundColor)
 		{
-			Application.Current.Resources["RootBackgroundBrush"] = appThemeRootBackgroundColor;
+			Application.Current.Resources["App.Theme.BackgroundBrush"] = appThemeBackgroundColor;
 		}
 
 		/// <summary>
