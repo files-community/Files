@@ -208,6 +208,10 @@ namespace Files.App.Filesystem
 		public bool CheckIsRecentFilesEnabled()
 		{
 			using var subkey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer");
+			using var advSubkey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced");
+			using var userPolicySubkey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer");
+			using var sysPolicySubkey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer");
+
 			if (subkey is not null)
 			{
 				// quick access: show recent files option
@@ -218,7 +222,6 @@ namespace Files.App.Filesystem
 				}
 			}
 
-			using var advSubkey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced");
 			if (advSubkey is not null)
 			{
 				// settings: personalization > start > show recently opened items
@@ -230,8 +233,6 @@ namespace Files.App.Filesystem
 			}
 
 			// for users in group policies
-			using var userPolicySubkey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer");
-			using var sysPolicySubkey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer");
 			var policySubkey = userPolicySubkey ?? sysPolicySubkey;
 			if (policySubkey is not null)
 			{
