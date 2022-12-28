@@ -75,13 +75,15 @@ namespace Files.App.Views
 
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 
-			DispatcherQueue.TryEnqueue(async () => await LoadSelectedTheme());
+			// Load the app theme resources
+			LoadAppResources();
 		}
 
-		private async Task LoadSelectedTheme()
+		private void LoadAppResources()
 		{
-			App.ExternalResourcesHelper.OverrideAppResources(UserSettingsService.AppearanceSettingsService.UseCompactStyles);
-			await App.ExternalResourcesHelper.LoadSelectedTheme();
+			App.AppThemeResourcesHelper.SetCompactSpacing(UserSettingsService.AppearanceSettingsService.UseCompactStyles);
+			App.AppThemeResourcesHelper.SetRootBackgroundColor(ColorHelpers.FromUint(UserSettingsService.AppearanceSettingsService.AppThemeRootBackgroundColor));
+			App.AppThemeResourcesHelper.ApplyResources();
 		}
 
 		private async Task PromptForReview()
