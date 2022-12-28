@@ -127,6 +127,13 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
+		/// <inheritdoc/>
+		public UInt32 AppThemeRootBackgroundColor
+		{
+			get => Get(uint.MinValue);
+			set => Set(value);
+		}
+
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			switch (e.SettingName)
@@ -143,6 +150,7 @@ namespace Files.App.ServicesImplementation.Settings
 				case nameof(ShowRecentFilesWidget):
 				case nameof(ShowDrivesWidget):
 				case nameof(ShowBundlesWidget):
+				case nameof(AppThemeRootBackgroundColor):
 					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
 					break;
 			}

@@ -1,3 +1,4 @@
+using Files.App.Shell;
 using Files.Shared.Cloud;
 using Files.Shared.Extensions;
 using Microsoft.Win32;
@@ -21,6 +22,7 @@ namespace Files.App.Helpers
 				SafetyExtensions.IgnoreExceptions(DetectSharepoint, App.Logger),
 				SafetyExtensions.IgnoreExceptions(DetectGenericCloudDrive, App.Logger),
 				SafetyExtensions.IgnoreExceptions(DetectYandexDisk, App.Logger),
+				SafetyExtensions.IgnoreExceptions(DetectpCloudDrive, App.Logger),
 			};
 
 			await Task.WhenAll(tasks);
@@ -76,6 +78,12 @@ namespace Files.App.Helpers
 						driveType = appName;
 					}
 
+					// iCloud specific
+					if (driveType.StartsWith("iCloudDrive"))
+						driveType = "iCloudDrive";
+					if (driveType.StartsWith("iCloudPhotos"))
+						driveType = "iCloudPhotos";
+
 					using var bagKey = clsidSubKey.OpenSubKey(@"Instance\InitPropertyBag");
 					var syncedFolder = (string)bagKey?.GetValue("TargetFolderPath");
 					if (syncedFolder is null)
@@ -83,13 +91,16 @@ namespace Files.App.Helpers
 						continue;
 					}
 
-					// Also works for OneDrive, Box, iCloudDrive, Dropbox
+					// Also works for OneDrive, Box, Dropbox
 					CloudProviders? driveID = driveType switch
 					{
 						"MEGA" => CloudProviders.Mega,
 						"Amazon Drive" => CloudProviders.AmazonDrive,
 						"Nextcloud" => CloudProviders.Nextcloud,
 						"Jottacloud" => CloudProviders.Jottacloud,
+						"iCloudDrive" => CloudProviders.AppleCloudDrive,
+						"iCloudPhotos" => CloudProviders.AppleCloudPhotos,
+						"Creative Cloud Files" => CloudProviders.AdobeCreativeCloud,
 						_ => null,
 					};
 					if (driveID is null)
@@ -106,6 +117,9 @@ namespace Files.App.Helpers
 							CloudProviders.AmazonDrive => $"Amazon Drive",
 							CloudProviders.Nextcloud => !string.IsNullOrEmpty(nextCloudValue) ? nextCloudValue : "Nextcloud",
 							CloudProviders.Jottacloud => $"Jottacloud",
+							CloudProviders.AppleCloudDrive => $"iCloud Drive",
+							CloudProviders.AppleCloudPhotos => $"iCloud Photos",
+							CloudProviders.AdobeCreativeCloud => $"Creative Cloud Files",
 							_ => null
 						},
 						SyncFolder = syncedFolder,
@@ -198,6 +212,28 @@ namespace Files.App.Helpers
 			}
 
 			return Task.FromResult<IEnumerable<ICloudProvider>>(sharepointAccounts);
+		}
+
+		private static Task<IEnumerable<ICloudProvider>> DetectpCloudDrive()
+		{
+			var results = new List<ICloudProvider>();
+			using var pCloudDriveKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\pCloud");
+
+			var syncedFolder = (string)pCloudDriveKey?.GetValue("SyncDrive");
+			if (syncedFolder is not null)
+			{
+				string iconPath = Path.Combine(Environment.GetEnvironmentVariable("ProgramFiles"), "pCloud Drive", "pCloud.exe");
+				var iconFile = Win32API.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 32512 }, 32).FirstOrDefault();
+
+				results.Add(new CloudProvider(CloudProviders.pCloud)
+				{
+					Name = $"pCloud Drive",
+					SyncFolder = syncedFolder,
+					IconData = iconFile?.IconData
+				});
+			}
+
+			return Task.FromResult<IEnumerable<ICloudProvider>>(results);
 		}
 	}
 }

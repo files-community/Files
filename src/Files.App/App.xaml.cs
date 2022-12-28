@@ -66,7 +66,7 @@ namespace Files.App
 		public static WSLDistroManager WSLDistroManager { get; private set; }
 		public static LibraryManager LibraryManager { get; private set; }
 		public static FileTagsManager FileTagsManager { get; private set; }
-		public static ExternalResourcesHelper ExternalResourcesHelper { get; private set; }
+		public static AppThemeResourcesHelper AppThemeResourcesHelper { get; private set; }
 
 		public static ILogger Logger { get; private set; }
 		private static readonly UniversalLogWriter logWriter = new UniversalLogWriter();
@@ -146,7 +146,7 @@ namespace Files.App
 		private static void EnsureSettingsAndConfigurationAreBootstrapped()
 		{
 			AppSettings ??= new SettingsViewModel();
-			ExternalResourcesHelper ??= new ExternalResourcesHelper();
+			AppThemeResourcesHelper ??= new AppThemeResourcesHelper();
 			JumpList ??= new JumpListManager();
 			RecentItemsManager ??= new RecentItems();
 			AppModel ??= new AppModel();
@@ -319,7 +319,7 @@ namespace Files.App
 		{
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 			IBundlesSettingsService bundlesSettingsService = Ioc.Default.GetRequiredService<IBundlesSettingsService>();
-			
+
 			bundlesSettingsService.FlushSettings();
 
 			userSettingsService.PreferencesSettingsService.LastSessionTabList = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>

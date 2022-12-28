@@ -174,24 +174,6 @@ namespace Files.App
 			/// The maximum file size, in bytes, that will attempted to be loaded as text if the extension is unknown.
 			/// </summary>
 			public const long TryLoadAsTextSizeLimit = 500000;
-
-			/// <summary>
-			/// The number of thumbnails that will be shown for FolderPreviews
-			/// </summary>
-			public const int FolderPreviewThumbnailCount = 10;
-		}
-
-		public static class PaneContent
-		{
-			public const string ContentKey = "PaneContent";
-
-			public const string HorizontalSizePxKey = "PaneHorizontalSizePx";
-
-			public const string VerticalSizePxKey = "PaneVerticalSizePx";
-
-			public const string MediaVolumeKey = "PaneMediaVolume";
-
-			public const string ShowPreviewOnlyKey = "ShowPreviewOnly";
 		}
 
 		public static class ResourceFilePaths
@@ -221,7 +203,7 @@ namespace Files.App
 			public const string FeedbackUrl = @"https://github.com/files-community/Files/issues/new/choose";
 			public const string PrivacyPolicyUrl = @"https://github.com/files-community/Files/blob/main/Privacy.md";
 			public const string ReleaseNotesUrl = @"https://github.com/files-community/Files/releases";
-			public const string SupportUsUrl = @"https://github.com/sponsors/yaichenbaum";
+			public const string SupportUsUrl = @"https://github.com/sponsors/yaira2";
 		}
 	}
 }

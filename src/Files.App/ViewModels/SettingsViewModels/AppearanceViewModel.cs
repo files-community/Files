@@ -1,13 +1,16 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.WinUI.Helpers;
 using Files.App.Extensions;
 using Files.App.Helpers;
 using Files.Backend.Services.Settings;
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using Windows.UI;
 
 namespace Files.App.ViewModels.SettingsViewModels
 {
@@ -15,8 +18,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-		private int selectedThemeIndex = (int)Enum.Parse(typeof(ElementTheme), ThemeHelper.RootTheme.ToString());
-		private AppTheme selectedTheme = App.AppSettings.SelectedTheme;
+		public List<string> Themes { get; private set; }
 
 		public AppearanceViewModel()
 		{
@@ -28,9 +30,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 			};
 		}
 
-		public List<string> Themes { get; private set; }
-		public ObservableCollection<AppTheme> CustomThemes => App.ExternalResourcesHelper.Themes;
-
+		private int selectedThemeIndex = (int)Enum.Parse(typeof(ElementTheme), ThemeHelper.RootTheme.ToString());
 		public int SelectedThemeIndex
 		{
 			get => selectedThemeIndex;
@@ -62,47 +62,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		public AppTheme SelectedTheme
-		{
-			get
-			{
-				return selectedTheme;
-			}
-			set
-			{
-				if (SetProperty(ref selectedTheme, value))
-				{
-					if (selectedTheme is not null)
-					{
-						// Remove the old resource file and load the new file
-						App.ExternalResourcesHelper.UpdateTheme(App.AppSettings.SelectedTheme, selectedTheme)
-							.ContinueWith(t =>
-							{
-								App.AppSettings.SelectedTheme = selectedTheme;
-								ForceReloadResourceFile(); // Force the application to use the correct resource file
-							}, TaskScheduler.FromCurrentSynchronizationContext());
-					}
-				}
-			}
-		}
-
-		/// <summary>
-		/// Forces the application to use the correct resource styles
-		/// </summary>
-		private void ForceReloadResourceFile()
-		{
-			// Get the index of the current theme
-			var selTheme = SelectedThemeIndex;
-
-			// Toggle between the themes to force the controls to use the new resource styles
-			SelectedThemeIndex = 0;
-			SelectedThemeIndex = 1;
-			SelectedThemeIndex = 2;
-
-			// Restore the theme to the correct theme
-			SelectedThemeIndex = selTheme;
-		}
-
 		public bool ShowFavoritesSection
 		{
 			get => UserSettingsService.AppearanceSettingsService.ShowFavoritesSection;
@@ -125,8 +84,8 @@ namespace Files.App.ViewModels.SettingsViewModels
 				{
 					UserSettingsService.AppearanceSettingsService.UseCompactStyles = value;
 
-					App.ExternalResourcesHelper.OverrideAppResources(UseCompactStyles); // Override the app resources the correct styles
-					ForceReloadResourceFile(); // Force the application to use the correct resource file
+					App.AppThemeResourcesHelper.SetCompactSpacing(UseCompactStyles);
+					App.AppThemeResourcesHelper.ApplyResources();
 
 					OnPropertyChanged();
 				}
@@ -251,21 +210,19 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		private bool isLoadingThemes;
-		public bool IsLoadingThemes
+		public Color AppThemeRootBackgroundColor
 		{
-			get => isLoadingThemes;
+			get => ColorHelpers.FromUint(UserSettingsService.AppearanceSettingsService.AppThemeRootBackgroundColor);
 			set
 			{
-				isLoadingThemes = value;
-				OnPropertyChanged();
-			}
-		}
+				if (ColorHelpers.ToUint(value) != UserSettingsService.AppearanceSettingsService.AppThemeRootBackgroundColor)
+				{
+					UserSettingsService.AppearanceSettingsService.AppThemeRootBackgroundColor = ColorHelpers.ToUint(value);
 
-		public Task OpenThemesFolder()
-		{
-			//await CoreApplication.MainView.Dispatcher.YieldAsync(); // WINUI3
-			return NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.ImportedThemesFolder.Path);
+					App.AppThemeResourcesHelper.SetRootBackgroundColor(AppThemeRootBackgroundColor);
+					App.AppThemeResourcesHelper.ApplyResources();
+				}
+			}
 		}
 	}
 }

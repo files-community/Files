@@ -1,5 +1,6 @@
 using Files.App.Shell;
 using Files.Shared;
+using Files.Shared.Extensions;
 using System;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
@@ -70,17 +71,12 @@ namespace Files.App.Filesystem.StorageItems
 		public static ShellStorageFile FromShellItem(ShellFileItem item)
 		{
 			if (item is ShellLinkItem linkItem)
-			{
 				return new ShortcutStorageFile(linkItem);
-			}
-			else if (item.RecyclePath.Contains("$Recycle.Bin", StringComparison.Ordinal))
-			{
+
+			if (item.RecyclePath.Contains("$Recycle.Bin", StringComparison.OrdinalIgnoreCase))
 				return new BinStorageFile(item);
-			}
-			else
-			{
-				return new ShellStorageFile(item);
-			}
+
+			return new ShellStorageFile(item);
 		}
 
 		public static IAsyncOperation<BaseStorageFile> FromPathAsync(string path)
@@ -90,10 +86,18 @@ namespace Files.App.Filesystem.StorageItems
 			return Task.FromResult<BaseStorageFile>(null).AsAsyncOperation();
 		}
 
-		private static ShellFileItem GetFile(string path)
+		private static ShellFileItem? GetFile(string path)
 		{
-			using var shellItem = ShellFolderExtensions.GetShellItemFromPathOrPidl(path);
-			return ShellFolderExtensions.GetShellFileItem(shellItem);
+			try
+			{
+				using var shellItem = ShellFolderExtensions.GetShellItemFromPathOrPidl(path);
+				return ShellFolderExtensions.GetShellFileItem(shellItem);
+			}
+			catch
+			{
+				// Can happen when dealing with recent items or when browsing shell:::{679f85cb-0220-4080-b29b-5540cc05aab6}
+				return default;
+			}
 		}
 
 		public override bool IsEqual(IStorageItem item) => item?.Path == Path;

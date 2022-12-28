@@ -15,7 +15,6 @@
 	Background="{ThemeResource RootBackgroundBrush}"
 	KeyDown="Page_KeyDown"
 	Loaded="Properties_Loaded"
-	Loading="Page_Loading"
 	Unloaded="Properties_Unloaded"
 	mc:Ignorable="d">
 

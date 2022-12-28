@@ -73,26 +73,22 @@ namespace Files.App.Views
 			ToggleCompactOverlayCommand = new RelayCommand(ToggleCompactOverlay);
 			SetCompactOverlayCommand = new RelayCommand<bool>(SetCompactOverlay);
 
-			if (SystemInformation.Instance.TotalLaunchCount >= 15 & Package.Current.Id.Name == "49306atecsolution.FilesUWP" && !UserSettingsService.ApplicationSettingsService.WasPromptedToReview)
-			{
-				PromptForReview();
-				UserSettingsService.ApplicationSettingsService.WasPromptedToReview = true;
-			}
-
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 
-			DispatcherQueue.TryEnqueue(async () => await LoadSelectedTheme());
+			// Load the app theme resources
+			LoadAppResources();
 		}
 
-		private async Task LoadSelectedTheme()
+		private void LoadAppResources()
 		{
-			App.ExternalResourcesHelper.OverrideAppResources(UserSettingsService.AppearanceSettingsService.UseCompactStyles);
-			await App.ExternalResourcesHelper.LoadSelectedTheme();
+			App.AppThemeResourcesHelper.SetCompactSpacing(UserSettingsService.AppearanceSettingsService.UseCompactStyles);
+			App.AppThemeResourcesHelper.SetRootBackgroundColor(ColorHelpers.FromUint(UserSettingsService.AppearanceSettingsService.AppThemeRootBackgroundColor));
+			App.AppThemeResourcesHelper.ApplyResources();
 		}
 
-		private async void PromptForReview()
+		private async Task PromptForReview()
 		{
-			var AskForReviewDialog = new ContentDialog
+			var promptForReviewDialog = new ContentDialog
 			{
 				Title = "ReviewFiles".ToLocalized(),
 				Content = "ReviewFilesContent".ToLocalized(),
@@ -100,7 +96,7 @@ namespace Files.App.Views
 				SecondaryButtonText = "No".ToLocalized()
 			};
 
-			var result = await this.SetContentDialogRoot(AskForReviewDialog).ShowAsync();
+			var result = await this.SetContentDialogRoot(promptForReviewDialog).ShowAsync();
 
 			if (result == ContentDialogResult.Primary)
 			{
@@ -111,6 +107,8 @@ namespace Files.App.Views
 				}
 				catch (Exception) { }
 			}
+
+			UserSettingsService.ApplicationSettingsService.WasPromptedToReview = true;
 		}
 
 		// WINUI3
@@ -328,6 +326,17 @@ namespace Files.App.Views
 			FindName(nameof(InnerNavigationToolbar));
 			FindName(nameof(horizontalMultitaskingControl));
 			FindName(nameof(NavToolbar));
+
+			// Prompt user to review app in the Store
+			if
+			(
+				SystemInformation.Instance.TotalLaunchCount >= 15 &
+				Package.Current.Id.Name == "49306atecsolution.FilesUWP" &&
+				!UserSettingsService.ApplicationSettingsService.WasPromptedToReview
+			)
+			{
+				DispatcherQueue.TryEnqueue(async () => await PromptForReview());
+			}
 		}
 
 		private void Page_SizeChanged(object sender, SizeChangedEventArgs e)

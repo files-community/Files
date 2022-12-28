@@ -85,17 +85,12 @@ namespace Files.App.Filesystem.StorageItems
 		public static ShellStorageFolder FromShellItem(ShellFileItem item)
 		{
 			if (item is ShellLinkItem linkItem)
-			{
 				return new ShortcutStorageFolder(linkItem);
-			}
-			else if (item.RecyclePath.Contains("$Recycle.Bin", StringComparison.Ordinal))
-			{
+
+			if (item.RecyclePath.Contains("$Recycle.Bin", StringComparison.OrdinalIgnoreCase))
 				return new BinStorageFolder(item);
-			}
-			else
-			{
-				return new ShellStorageFolder(item);
-			}
+
+			return new ShellStorageFolder(item);
 		}
 
 		public static IAsyncOperation<BaseStorageFolder> FromPathAsync(string path)

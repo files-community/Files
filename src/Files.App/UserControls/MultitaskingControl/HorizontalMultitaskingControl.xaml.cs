@@ -3,6 +3,7 @@ using Files.App.Helpers;
 using Files.App.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Shapes;
 using System;
 using System.Linq;
 using Windows.ApplicationModel.DataTransfer;
@@ -232,6 +233,6 @@ namespace Files.App.UserControls.MultitaskingControl
 		public static readonly DependencyProperty TabStripVisibilityProperty =
 			DependencyProperty.Register("TabStripVisibility", typeof(Visibility), typeof(HorizontalMultitaskingControl), new PropertyMetadata(Visibility.Visible));
 
-		public Grid DragArea => DragAreaGrid;
+		public Rectangle DragArea => DragAreaRectangle;
 	}
 }
