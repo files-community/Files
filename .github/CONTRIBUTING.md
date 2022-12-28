@@ -54,3 +54,19 @@ the request.
 Often, multiple iterations will be needed to responding to feedback from reviewers. Try looking at
 [past pull requests](https://github.com/files-community/Files/pulls?q=is%3Apr+is%3Aclosed) to see
 what the experience might be like.
+ 
+## ?? Development Environment Setup 
+ 
+### Required Tools 
+- Visual Studio 2022 (Community Edition or higher) 
+- Windows 10 SDK 
+- Git for Windows 
+- Windows App SDK 
+ 
+### First-Time Setup 
+1. Fork and clone the repository 
+2. Open `Files.sln` in Visual Studio 
+3. Restore NuGet packages 
+4. Build solution (Ctrl+Shift+B) 
+5. Set `Files` as startup project 
+6. Run with F5 to start debugging 
