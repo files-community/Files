@@ -7,6 +7,7 @@ using Files.Backend.Services.Settings;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -104,30 +105,43 @@ namespace Files.App.UserControls.Widgets
 
 				switch (e.Action)
 				{
-					// currently everything falls under Reset
-					default:
+					case NotifyCollectionChangedAction.Add:
+						if (e.NewItems is not null)
 						{
-							var recentFiles = App.RecentItemsManager.RecentFiles; // already sorted, add all in order
-							int idx = 0;
-							for (; idx < recentFiles.Count; idx++) // Add new items (top of the list)
-							{
-								if (idx >= recentItemsCollection.Count || !recentFiles[idx].Equals(recentItemsCollection[idx]))
-								{
-									if (!AddItemToRecentList(recentFiles[idx], idx)) // Not a new item
-										break;
-								}
-								else
-									break;
-							}
-							while (idx < recentItemsCollection.Count) // Remove old items
-							{
-								if (idx >= recentFiles.Count || !recentFiles[idx].Equals(recentItemsCollection[idx]))
-									recentItemsCollection.RemoveAt(idx);
-								else
-									idx++;
-							}
-							break;
+							var addedItem = e.NewItems.Cast<RecentItem>().Single();
+							AddItemToRecentList(addedItem, 0);
 						}
+						break;
+
+					case NotifyCollectionChangedAction.Move:
+						if (e.OldItems is not null)
+						{
+							var movedItem = e.OldItems.Cast<RecentItem>().Single();
+							recentItemsCollection.RemoveAt(e.OldStartingIndex);
+							AddItemToRecentList(movedItem, 0);
+						}
+						break;
+
+					case NotifyCollectionChangedAction.Remove:
+						if (e.OldItems is not null)
+						{
+							var removedItem = e.OldItems.Cast<RecentItem>().Single();
+							recentItemsCollection.RemoveAt(e.OldStartingIndex);
+						}
+						break;
+
+					// case NotifyCollectionChangedAction.Reset:
+					default:
+						var recentFiles = App.RecentItemsManager.RecentFiles; // already sorted, add all in order
+						if (!recentFiles.SequenceEqual(recentItemsCollection))
+						{
+							recentItemsCollection.Clear();
+							foreach (var item in recentFiles)
+							{
+								AddItemToRecentList(item);
+							}
+						}
+						break;
 				}
 
 				// update chevron if there aren't any items
