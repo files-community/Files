@@ -266,7 +266,7 @@ namespace Files.App.ViewModels.SettingsViewModels
 				{
 					UserSettingsService.AppearanceSettingsService.AppThemeBackgroundColor = ColorHelpers.ToUint(value);
 
-					App.AppThemeResourcesHelper.SetRootBackgroundColor(AppThemeBackgroundColor);
+					App.AppThemeResourcesHelper.SetAppThemeBackgroundColor(AppThemeBackgroundColor);
 					App.AppThemeResourcesHelper.ApplyResources();
 				}
 			}

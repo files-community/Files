@@ -26,9 +26,27 @@ namespace Files.App.Helpers
 		/// Overrides the xaml resource for App.Theme.BackgroundBrush
 		/// </summary>
 		/// <param name="appThemeBackgroundColor"></param>
-		public void SetRootBackgroundColor(Color appThemeBackgroundColor)
+		public void SetAppThemeBackgroundColor(Color appThemeBackgroundColor)
 		{
 			Application.Current.Resources["App.Theme.BackgroundBrush"] = appThemeBackgroundColor;
+		}
+
+		/// <summary>
+		/// Overrides the xaml resource for App.Theme.Sidebar.BackgroundBrush
+		/// </summary>
+		/// <param name="appThemeSidebarBackgroundColor"></param>
+		public void SetAppThemeSidebarBackgroundColor(Color appThemeSidebarBackgroundColor)
+		{
+			Application.Current.Resources["App.Theme.Sidebar.BackgroundBrush"] = appThemeSidebarBackgroundColor;
+		}
+
+		/// <summary>
+		/// Overrides the xaml resource for App.Theme.FileArea.BackgroundBrush
+		/// </summary>
+		/// <param name="appThemeFileAreaBackgroundColor"></param>
+		public void SetAppThemeFileAreaBackgroundColor(Color appThemeFileAreaBackgroundColor)
+		{
+			Application.Current.Resources["App.Theme.FileArea.BackgroundBrush"] = appThemeFileAreaBackgroundColor;
 		}
 
 		/// <summary>

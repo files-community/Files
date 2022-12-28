@@ -108,5 +108,15 @@ namespace Files.Backend.Services.Settings
 		/// Gets or sets a value for the app theme background color.
 		/// </summary>
 		UInt32 AppThemeBackgroundColor { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value for the app theme sidebar background color.
+		/// </summary>
+		UInt32 AppThemeSidebarBackgroundColor { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value for the app theme file area background color.
+		/// </summary>
+		UInt32 AppThemeFileAreaBackgroundColor { get; set; }
 	}
 }
