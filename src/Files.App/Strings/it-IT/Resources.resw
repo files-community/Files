@@ -218,7 +218,7 @@
     <value>Formato data</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Theme</value>
+    <value>Tema</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Mostra le estensioni per i tipi di file conosciuti</value>
@@ -236,7 +236,7 @@
     <value>Aspetto</value>
   </data>
   <data name="Background" xml:space="preserve">
-    <value>Background</value>
+    <value>Sfondo</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Funzioni sperimentali</value>
@@ -2922,5 +2922,8 @@
   </data>
   <data name="SortBy" xml:space="preserve">
     <value>Ordina per</value>
+  </data>
+  <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
+    <value>Recently used files is currently disabled in Windows File Explorer.</value>
   </data>
 </root>
