@@ -2923,4 +2923,7 @@
   <data name="SortBy" xml:space="preserve">
     <value>Pagbukud-bukurin ayon sa</value>
   </data>
+  <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
+    <value>Recently used files is currently disabled in Windows File Explorer.</value>
+  </data>
 </root>
