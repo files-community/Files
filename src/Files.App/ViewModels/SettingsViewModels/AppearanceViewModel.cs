@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.WinUI.Helpers;
 using Files.App.Extensions;
 using Files.App.Helpers;
 using Files.App.Views.SettingsPages.Appearance;
@@ -259,12 +260,12 @@ namespace Files.App.ViewModels.SettingsViewModels
 
 		public Color AppThemeBackgroundColor
 		{
-			get => ColorHelpers.FromUint(UserSettingsService.AppearanceSettingsService.AppThemeBackgroundColor);
+			get => ColorHelper.ToColor(UserSettingsService.AppearanceSettingsService.AppThemeBackgroundColor);
 			set
 			{
-				if (ColorHelpers.ToUint(value) != UserSettingsService.AppearanceSettingsService.AppThemeBackgroundColor)
+				if (value != ColorHelper.ToColor(UserSettingsService.AppearanceSettingsService.AppThemeBackgroundColor))
 				{
-					UserSettingsService.AppearanceSettingsService.AppThemeBackgroundColor = ColorHelpers.ToUint(value);
+					UserSettingsService.AppearanceSettingsService.AppThemeBackgroundColor = value.ToString();
 
 					App.AppThemeResourcesHelper.SetAppThemeBackgroundColor(AppThemeBackgroundColor);
 					App.AppThemeResourcesHelper.ApplyResources();

@@ -30,6 +30,7 @@ using Windows.Graphics;
 using Windows.Services.Store;
 using Windows.Storage;
 using Windows.UI;
+using ColorHelper = CommunityToolkit.WinUI.Helpers.ColorHelper;
 
 namespace Files.App.Views
 {
@@ -83,10 +84,10 @@ namespace Files.App.Views
 		private void LoadAppResources()
 		{
 			var useCompactStyles = UserSettingsService.AppearanceSettingsService.UseCompactStyles;
-			var appThemeBackgroundColor = ColorHelpers.FromUint(UserSettingsService.AppearanceSettingsService.AppThemeBackgroundColor);
-			var appThemeAddressBarBackgroundColor = ColorHelpers.FromUint(UserSettingsService.AppearanceSettingsService.AppThemeAddressBarBackgroundColor);
-			var appThemeSidebarBackgroundColor = ColorHelpers.FromUint(UserSettingsService.AppearanceSettingsService.AppThemeSidebarBackgroundColor);
-			var appThemeFileAreaBackgroundColor = ColorHelpers.FromUint(UserSettingsService.AppearanceSettingsService.AppThemeFileAreaBackgroundColor);
+			var appThemeBackgroundColor = ColorHelper.ToColor(UserSettingsService.AppearanceSettingsService.AppThemeBackgroundColor);
+			var appThemeAddressBarBackgroundColor = ColorHelper.ToColor(UserSettingsService.AppearanceSettingsService.AppThemeAddressBarBackgroundColor);
+			var appThemeSidebarBackgroundColor = ColorHelper.ToColor(UserSettingsService.AppearanceSettingsService.AppThemeSidebarBackgroundColor);
+			var appThemeFileAreaBackgroundColor = ColorHelper.ToColor(UserSettingsService.AppearanceSettingsService.AppThemeFileAreaBackgroundColor);
 			var appThemeFontFamily = UserSettingsService.AppearanceSettingsService.AppThemeFontFamily;
 
 			App.AppThemeResourcesHelper.SetCompactSpacing(useCompactStyles);
