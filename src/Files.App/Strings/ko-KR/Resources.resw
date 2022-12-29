@@ -2923,4 +2923,7 @@
   <data name="SortBy" xml:space="preserve">
     <value>정렬 기준</value>
   </data>
+  <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
+    <value>Recently used files is currently disabled in Windows File Explorer.</value>
+  </data>
 </root>
