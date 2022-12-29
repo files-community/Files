@@ -32,6 +32,15 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>
+		/// Overrides the xaml resource for App.Theme.AddressBar.BackgroundBrush
+		/// </summary>
+		/// <param name="appThemeAddressBarBackgroundColor"></param>
+		public void SetAppThemeAddressBarBackgroundColor(Color appThemeAddressBarBackgroundColor)
+		{
+			Application.Current.Resources["App.Theme.AddressBar.BackgroundBrush"] = appThemeAddressBarBackgroundColor;
+		}
+
+		/// <summary>
 		/// Overrides the xaml resource for App.Theme.Sidebar.BackgroundBrush
 		/// </summary>
 		/// <param name="appThemeSidebarBackgroundColor"></param>

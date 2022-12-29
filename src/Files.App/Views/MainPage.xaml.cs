@@ -84,12 +84,16 @@ namespace Files.App.Views
 		{
 			var useCompactStyles = UserSettingsService.AppearanceSettingsService.UseCompactStyles;
 			var appThemeBackgroundColor = ColorHelpers.FromUint(UserSettingsService.AppearanceSettingsService.AppThemeBackgroundColor);
+			var appThemeAddressBarBackgroundColor = ColorHelpers.FromUint(UserSettingsService.AppearanceSettingsService.AppThemeAddressBarBackgroundColor);
 			var appThemeSidebarBackgroundColor = ColorHelpers.FromUint(UserSettingsService.AppearanceSettingsService.AppThemeSidebarBackgroundColor);
 			var appThemeFileAreaBackgroundColor = ColorHelpers.FromUint(UserSettingsService.AppearanceSettingsService.AppThemeFileAreaBackgroundColor);
 
 			App.AppThemeResourcesHelper.SetCompactSpacing(useCompactStyles);
 			App.AppThemeResourcesHelper.SetAppThemeBackgroundColor(appThemeBackgroundColor);
 
+			if (appThemeAddressBarBackgroundColor != Color.FromArgb(0,0,0,0))
+				App.AppThemeResourcesHelper.SetAppThemeAddressBarBackgroundColor(appThemeAddressBarBackgroundColor);
+			
 			if (appThemeSidebarBackgroundColor != Color.FromArgb(0,0,0,0))
 				App.AppThemeResourcesHelper.SetAppThemeSidebarBackgroundColor(appThemeSidebarBackgroundColor);
 

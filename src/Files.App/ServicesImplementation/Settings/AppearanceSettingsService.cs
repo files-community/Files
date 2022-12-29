@@ -135,6 +135,13 @@ namespace Files.App.ServicesImplementation.Settings
 		}
 
 		/// <inheritdoc/>
+		public UInt32 AppThemeAddressBarBackgroundColor
+		{
+			get => Get(uint.MinValue);
+			set => Set(value);
+		}
+
+		/// <inheritdoc/>
 		public UInt32 AppThemeSidebarBackgroundColor
 		{
 			get => Get(uint.MinValue);
@@ -165,6 +172,7 @@ namespace Files.App.ServicesImplementation.Settings
 				case nameof(ShowDrivesWidget):
 				case nameof(ShowBundlesWidget):
 				case nameof(AppThemeBackgroundColor):
+				case nameof(AppThemeAddressBarBackgroundColor):
 				case nameof(AppThemeSidebarBackgroundColor):
 				case nameof(AppThemeFileAreaBackgroundColor):
 					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");

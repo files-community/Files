@@ -110,6 +110,11 @@ namespace Files.Backend.Services.Settings
 		UInt32 AppThemeBackgroundColor { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value for the app theme address bar background color.
+		/// </summary>
+		UInt32 AppThemeAddressBarBackgroundColor { get; set; }
+		
+		/// <summary>
 		/// Gets or sets a value for the app theme sidebar background color.
 		/// </summary>
 		UInt32 AppThemeSidebarBackgroundColor { get; set; }
