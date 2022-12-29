@@ -83,7 +83,7 @@ namespace Files.App.Shell
 				!valueNames.Contains("ItemName", StringComparer.OrdinalIgnoreCase) &&
 				!valueNames.Contains("Data", StringComparer.OrdinalIgnoreCase))
 			{
-				return null;
+				return Task.FromResult<ShellNewEntry>(null);
 			}
 
 			var extension = root.Name.Substring(root.Name.LastIndexOf('\\') + 1);
