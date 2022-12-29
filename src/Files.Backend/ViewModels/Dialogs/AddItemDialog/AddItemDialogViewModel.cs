@@ -47,7 +47,19 @@ namespace Files.Backend.ViewModels.Dialogs.AddItemDialog
 				ItemResult = new AddItemDialogResultModel()
 				{
 					ItemType = AddItemDialogItemType.File,
-					ItemInfo = new ShellNewEntry() // TODO(i): Make ItemInfo nullable and pass null there?
+					ItemInfo = null
+				}
+			});
+			AddItemsList.Add(new AddItemDialogListItemViewModel
+			{
+				Header = "Shortcut".ToLocalized(),
+				SubHeader = "AddDialogListShortcutSubHeader".ToLocalized(),
+				Glyph = "\uE71B",
+				IsItemEnabled = true,
+				ItemResult= new AddItemDialogResultModel()
+				{
+					ItemType = AddItemDialogItemType.Shortcut,
+					ItemInfo = null
 				}
 			});
 

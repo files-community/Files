@@ -4,6 +4,7 @@ using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Interacts;
 using Files.App.ViewModels;
+using Files.App.ViewModels.Dialogs;
 using Files.Backend.Enums;
 using Files.Shared;
 using Files.Shared.Enums;
@@ -371,6 +372,17 @@ namespace Files.App.Helpers
 		{
 			item.IsHiddenItem = isHidden;
 			itemManipulationModel.RefreshItemsOpacity();
+		}
+
+		public static async Task CreateShortcutFromDialogAsync(IShellPage associatedInstance)
+		{
+			var viewModel = new CreateShortcutDialogViewModel(associatedInstance.FilesystemViewModel.WorkingDirectory);
+			var createShortcutDialog = new CreateShortcutDialog()
+			{
+				ViewModel = viewModel
+			};
+
+			await createShortcutDialog.TryShowAsync();
 		}
 	}
 }

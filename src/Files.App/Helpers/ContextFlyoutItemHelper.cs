@@ -1105,6 +1105,15 @@ namespace Files.App.Helpers
 					ShowInZipPage = true,
 					IsEnabled = canCreateFileInPage
 				},
+				new ContextMenuFlyoutItemViewModel
+				{
+					Text = "BaseLayoutItemContextFlyoutShortcut/Text".GetLocalizedResource(),
+					Glyph = "\uF10A",
+					GlyphFontFamilyName = "CustomGlyph",
+					Command = commandsViewModel.CreateShortcutFromDialogCommand,
+					ShowInFtpPage = true,
+					ShowInZipPage = true
+				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					ItemType = ItemType.Separator,
