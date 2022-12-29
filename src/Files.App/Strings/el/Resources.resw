@@ -218,7 +218,7 @@
     <value>Μορφή ημερομηνίας</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Επιλέξτε το χρώμα σας</value>
+    <value>Theme</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Εμφάνιση επεκτάσεων για γνωστούς τύπους αρχείων</value>
@@ -234,6 +234,9 @@
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Εμφάνιση</value>
+  </data>
+  <data name="Background" xml:space="preserve">
+    <value>Background</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Πειραματικό</value>
@@ -1507,9 +1510,6 @@
   <data name="Default" xml:space="preserve">
     <value>Προεπιλογή</value>
   </data>
-  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
-    <value>Προσαρμοσμένα θέματα</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Αριθμός στοιχείων</value>
   </data>
@@ -1986,18 +1986,6 @@
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Άγνωστος ιδιοκτήτης</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Μάθετε περισσότερα για τα προσαρμοσμένα θέματα</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Μάθετε περισσότερα για τα προσαρμοσμένα θέματα</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
-    <value>Τα προσαρμοσμένα θέματα παρέχουν έναν εξαιρετικό τρόπο για να εξατομικεύσετε το Files.</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
-    <value>Προβολή τεκμηρίωσης.</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
     <value>Extract Archive</value>
@@ -2934,5 +2922,8 @@
   </data>
   <data name="SortBy" xml:space="preserve">
     <value>Ταξινόμηση κατά</value>
+  </data>
+  <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
+    <value>Recently used files is currently disabled in Windows File Explorer.</value>
   </data>
 </root>
