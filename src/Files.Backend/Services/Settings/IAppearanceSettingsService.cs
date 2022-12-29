@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
 namespace Files.Backend.Services.Settings
 {
@@ -84,7 +85,7 @@ namespace Files.Backend.Services.Settings
 		bool ShowBundlesWidget { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating whether or not the File Tags widget should be visible.
+		/// Gets or sets a value indicating whether or not the folders widget section is expanded.
 		/// </summary>
 		bool ShowFileTagsWidget { get; set; }
 
@@ -108,9 +109,34 @@ namespace Files.Backend.Services.Settings
 		/// </summary>
 		bool BundlesWidgetExpanded { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether or not the File Tags widget section is expanded.
+        /// </summary>
+        bool FileTagsWidgetExpanded { get; set; }
+
 		/// <summary>
-		/// Gets or sets a value indicating whether or not the File Tags widget section is expanded.
+		/// Gets or sets a value for the app theme background color.
 		/// </summary>
-		bool FileTagsWidgetExpanded { get; set; }
+		String AppThemeBackgroundColor { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value for the app theme address bar background color.
+		/// </summary>
+		String AppThemeAddressBarBackgroundColor { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value for the app theme sidebar background color.
+		/// </summary>
+		String AppThemeSidebarBackgroundColor { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value for the app theme file area background color.
+		/// </summary>
+		String AppThemeFileAreaBackgroundColor { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value for the app theme font family.
+		/// </summary>
+		String AppThemeFontFamily { get; set; }
 	}
 }

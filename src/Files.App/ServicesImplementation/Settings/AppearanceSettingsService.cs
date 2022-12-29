@@ -2,6 +2,7 @@ using Files.App.Serialization;
 using Files.Backend.Services.Settings;
 using Files.Shared.EventArguments;
 using Microsoft.AppCenter.Analytics;
+using Microsoft.UI.Xaml.Media;
 using System;
 
 namespace Files.App.ServicesImplementation.Settings
@@ -133,11 +134,47 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
-		public bool FileTagsWidgetExpanded 
+		/// <inheritdoc/>
+		public String AppThemeBackgroundColor
 		{
-			get => Get(true);
+			get => Get("#00000000");
 			set => Set(value);
 		}
+
+		/// <inheritdoc/>
+		public String AppThemeAddressBarBackgroundColor
+		{
+			get => Get("#00000000");
+			set => Set(value);
+		}
+
+		/// <inheritdoc/>
+		public String AppThemeSidebarBackgroundColor
+		{
+			get => Get("#00000000");
+			set => Set(value);
+		}
+
+		/// <inheritdoc/>
+		public String AppThemeFileAreaBackgroundColor
+		{
+			get => Get("#00000000");
+			set => Set(value);
+		}
+
+		/// <inheritdoc/>
+		public String AppThemeFontFamily
+		{
+			get => Get("Segoe UI Variable");
+			set => Set(value);
+		}
+
+        /// <inheritdoc/>
+        public bool FileTagsWidgetExpanded 
+        {
+            get => Get(true);
+            set => Set(value);
+        }
 
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
@@ -156,6 +193,10 @@ namespace Files.App.ServicesImplementation.Settings
 				case nameof(ShowDrivesWidget):
 				case nameof(ShowBundlesWidget):
 				case nameof(ShowFileTagsWidget):
+				case nameof(AppThemeBackgroundColor):
+				case nameof(AppThemeAddressBarBackgroundColor):
+				case nameof(AppThemeSidebarBackgroundColor):
+				case nameof(AppThemeFileAreaBackgroundColor):
 					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
 					break;
 			}
