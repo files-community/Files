@@ -87,6 +87,7 @@ namespace Files.App.Views
 			var appThemeAddressBarBackgroundColor = ColorHelpers.FromUint(UserSettingsService.AppearanceSettingsService.AppThemeAddressBarBackgroundColor);
 			var appThemeSidebarBackgroundColor = ColorHelpers.FromUint(UserSettingsService.AppearanceSettingsService.AppThemeSidebarBackgroundColor);
 			var appThemeFileAreaBackgroundColor = ColorHelpers.FromUint(UserSettingsService.AppearanceSettingsService.AppThemeFileAreaBackgroundColor);
+			var appThemeFontFamily = UserSettingsService.AppearanceSettingsService.AppThemeFontFamily;
 
 			App.AppThemeResourcesHelper.SetCompactSpacing(useCompactStyles);
 			App.AppThemeResourcesHelper.SetAppThemeBackgroundColor(appThemeBackgroundColor);
@@ -97,8 +98,11 @@ namespace Files.App.Views
 			if (appThemeSidebarBackgroundColor != Color.FromArgb(0,0,0,0))
 				App.AppThemeResourcesHelper.SetAppThemeSidebarBackgroundColor(appThemeSidebarBackgroundColor);
 
-			if (appThemeFileAreaBackgroundColor != Color.FromArgb(0, 0, 0, 0))
+			if (appThemeFileAreaBackgroundColor != Color.FromArgb(0,0,0,0))
 				App.AppThemeResourcesHelper.SetAppThemeFileAreaBackgroundColor(appThemeFileAreaBackgroundColor);
+
+			if (appThemeFontFamily != "Segoe UI Variable")
+				App.AppThemeResourcesHelper.SetAppThemeFontFamily(appThemeFontFamily);
 
 			App.AppThemeResourcesHelper.ApplyResources();
 		}

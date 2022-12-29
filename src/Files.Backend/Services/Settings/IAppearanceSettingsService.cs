@@ -123,5 +123,10 @@ namespace Files.Backend.Services.Settings
 		/// Gets or sets a value for the app theme file area background color.
 		/// </summary>
 		UInt32 AppThemeFileAreaBackgroundColor { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value for the app theme font family.
+		/// </summary>
+		String AppThemeFontFamily { get; set; }
 	}
 }

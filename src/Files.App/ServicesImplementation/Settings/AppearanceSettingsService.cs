@@ -2,6 +2,7 @@ using Files.App.Serialization;
 using Files.Backend.Services.Settings;
 using Files.Shared.EventArguments;
 using Microsoft.AppCenter.Analytics;
+using Microsoft.UI.Xaml.Media;
 using System;
 
 namespace Files.App.ServicesImplementation.Settings
@@ -152,6 +153,13 @@ namespace Files.App.ServicesImplementation.Settings
 		public UInt32 AppThemeFileAreaBackgroundColor
 		{
 			get => Get(uint.MinValue);
+			set => Set(value);
+		}
+
+		/// <inheritdoc/>
+		public String AppThemeFontFamily
+		{
+			get => Get("Segoe UI Variable");
 			set => Set(value);
 		}
 

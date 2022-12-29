@@ -38,6 +38,9 @@ namespace Files.App.Helpers
 		public void SetAppThemeAddressBarBackgroundColor(Color appThemeAddressBarBackgroundColor)
 		{
 			Application.Current.Resources["App.Theme.AddressBar.BackgroundBrush"] = appThemeAddressBarBackgroundColor;
+
+			// Overrides the selected tab background to match the address bar
+			Application.Current.Resources["TabViewItemHeaderBackgroundSelected"] = appThemeAddressBarBackgroundColor;
 		}
 
 		/// <summary>
@@ -56,6 +59,15 @@ namespace Files.App.Helpers
 		public void SetAppThemeFileAreaBackgroundColor(Color appThemeFileAreaBackgroundColor)
 		{
 			Application.Current.Resources["App.Theme.FileArea.BackgroundBrush"] = appThemeFileAreaBackgroundColor;
+		}
+
+		/// <summary>
+		/// Overrides the xaml resource for ContentControlThemeFontFamily
+		/// </summary>
+		/// <param name="contentControlThemeFontFamily"></param>
+		public void SetAppThemeFontFamily(string contentControlThemeFontFamily)
+		{
+			Application.Current.Resources["ContentControlThemeFontFamily"] = contentControlThemeFontFamily;
 		}
 
 		/// <summary>
