@@ -129,30 +129,30 @@ namespace Files.App.ServicesImplementation.Settings
 		}
 
 		/// <inheritdoc/>
-		public UInt32 AppThemeBackgroundColor
+		public String AppThemeBackgroundColor
 		{
-			get => Get(uint.MinValue);
+			get => Get("#00000000");
 			set => Set(value);
 		}
 
 		/// <inheritdoc/>
-		public UInt32 AppThemeAddressBarBackgroundColor
+		public String AppThemeAddressBarBackgroundColor
 		{
-			get => Get(uint.MinValue);
+			get => Get("#00000000");
 			set => Set(value);
 		}
 
 		/// <inheritdoc/>
-		public UInt32 AppThemeSidebarBackgroundColor
+		public String AppThemeSidebarBackgroundColor
 		{
-			get => Get(uint.MinValue);
+			get => Get("#00000000");
 			set => Set(value);
 		}
 
 		/// <inheritdoc/>
-		public UInt32 AppThemeFileAreaBackgroundColor
+		public String AppThemeFileAreaBackgroundColor
 		{
-			get => Get(uint.MinValue);
+			get => Get("#00000000");
 			set => Set(value);
 		}
 
