@@ -1,6 +1,7 @@
 using Files.App.Helpers;
 using Files.App.Shell;
 using Files.Shared.Extensions;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -246,6 +247,56 @@ namespace Files.App.Filesystem
 			}
 
 			return new(NotifyCollectionChangedAction.Reset);
+		}
+
+		public bool CheckIsRecentFilesEnabled()
+		{
+			using var subkey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer");
+			using var advSubkey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced");
+			using var userPolicySubkey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer");
+			using var sysPolicySubkey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer");
+
+			if (subkey is not null)
+			{
+				// quick access: show recent files option
+				bool showRecentValue = Convert.ToBoolean(subkey.GetValue("ShowRecent", true)); // 1 by default
+				if (!showRecentValue)
+				{
+					return false;
+				}
+			}
+
+			if (advSubkey is not null)
+			{
+				// settings: personalization > start > show recently opened items
+				bool startTrackDocsValue = Convert.ToBoolean(advSubkey.GetValue("Start_TrackDocs", true)); // 1 by default
+				if (!startTrackDocsValue)
+				{
+					return false;
+				}
+			}
+
+			// for users in group policies
+			var policySubkey = userPolicySubkey ?? sysPolicySubkey;
+			if (policySubkey is not null)
+			{
+				bool noRecentDocsHistoryValue = Convert.ToBoolean(policySubkey.GetValue("NoRecentDocsHistory", false)); // 0 by default
+				if (noRecentDocsHistoryValue)
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		/// <summary>
+		/// Returns whether two RecentItem enumerables have the same order.
+		/// This function depends on `RecentItem` implementing IEquatable.
+		/// </summary>
+		private bool RecentItemsOrderEquals(IEnumerable<RecentItem> oldOrder, IEnumerable<RecentItem> newOrder)
+		{
+			return oldOrder != null && newOrder != null && oldOrder.SequenceEqual(newOrder);
 		}
 
 		public void Dispose()
