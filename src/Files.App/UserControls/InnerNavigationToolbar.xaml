@@ -22,9 +22,6 @@
 				x:Key="NegatedBoolToVisibilityConverter"
 				FalseValue="Visible"
 				TrueValue="Collapsed" />
-			<converters:IntToGroupOption x:Key="IntToGroupOption" />
-			<converters:IntToSortOption x:Key="IntToSortOption" />
-			<converters:IntToSortDirection x:Key="IntToSortDirection" />
 			<x:Boolean x:Key="True">True</x:Boolean>
 			<x:Boolean x:Key="False">False</x:Boolean>
 			<ResourceDictionary.MergedDictionaries>

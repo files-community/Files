@@ -89,10 +89,10 @@ namespace Files.App.Filesystem
 		public async Task<(ReturnResult, IStorageItem)> CreateAsync(IStorageItemWithPath source, bool registerHistory)
 		{
 			var returnStatus = ReturnResult.InProgress;
-			var errorCode = new Progress<FileSystemStatusCode>();
-			errorCode.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.ToStatus() : returnStatus;
+			var progress = new Progress<FileSystemProgress>();
+			progress.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.Status!.Value.ToStatus() : returnStatus;
 
-			var result = await filesystemOperations.CreateAsync(source, errorCode, cancellationToken);
+			var result = await filesystemOperations.CreateAsync(source, progress, cancellationToken);
 
 			if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
 			{
@@ -157,15 +157,15 @@ namespace Files.App.Filesystem
 
 			// post the status banner
 			var banner = PostBannerHelpers.PostBanner_Delete(source, returnStatus, permanently, false, 0);
-			banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.ToStatus() : returnStatus;
+			banner.ProgressEventSource.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.Status!.Value.ToStatus() : returnStatus;
 
 			var token = banner.CancellationToken;
 
 			var sw = new Stopwatch();
 			sw.Start();
 
-			IStorageHistory history = await filesystemOperations.DeleteItemsAsync((IList<IStorageItemWithPath>)source, banner.Progress, banner.ErrorCode, permanently, token);
-			((IProgress<float>)banner.Progress).Report(100.0f);
+			IStorageHistory history = await filesystemOperations.DeleteItemsAsync((IList<IStorageItemWithPath>)source, banner.ProgressEventSource, permanently, token);
+			banner.Progress.ReportStatus(FileSystemStatusCode.Success);
 			await Task.Yield();
 
 			if (!permanently && registerHistory)
@@ -212,13 +212,13 @@ namespace Files.App.Filesystem
 			destination = await destination.ToListAsync();
 
 			var returnStatus = ReturnResult.InProgress;
-			var errorCode = new Progress<FileSystemStatusCode>();
-			errorCode.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.ToStatus() : returnStatus;
+			var progress = new Progress<FileSystemProgress>();
+			progress.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.Status!.Value.ToStatus() : returnStatus;
 
 			var sw = new Stopwatch();
 			sw.Start();
 
-			IStorageHistory history = await filesystemOperations.RestoreItemsFromTrashAsync((IList<IStorageItemWithPath>)source, (IList<string>)destination, null, errorCode, cancellationToken);
+			IStorageHistory history = await filesystemOperations.RestoreItemsFromTrashAsync((IList<IStorageItemWithPath>)source, (IList<string>)destination, progress, cancellationToken);
 			await Task.Yield();
 
 			if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
@@ -309,7 +309,7 @@ namespace Files.App.Filesystem
 			var returnStatus = ReturnResult.InProgress;
 
 			var banner = PostBannerHelpers.PostBanner_Copy(source, destination, returnStatus, false, 0);
-			banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.ToStatus() : returnStatus;
+			banner.ProgressEventSource.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.Status!.Value.ToStatus() : returnStatus;
 
 			var token = banner.CancellationToken;
 
@@ -323,8 +323,8 @@ namespace Files.App.Filesystem
 
 			itemManipulationModel?.ClearSelection();
 
-			IStorageHistory history = await filesystemOperations.CopyItemsAsync((IList<IStorageItemWithPath>)source, (IList<string>)destination, collisions, banner.Progress, banner.ErrorCode, token);
-			((IProgress<float>)banner.Progress).Report(100.0f);
+			IStorageHistory history = await filesystemOperations.CopyItemsAsync((IList<IStorageItemWithPath>)source, (IList<string>)destination, collisions, banner.ProgressEventSource, token);
+			banner.Progress.ReportStatus(FileSystemStatusCode.Success);
 			await Task.Yield();
 
 			if (registerHistory && history is not null && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
@@ -335,7 +335,7 @@ namespace Files.App.Filesystem
 					{
 						if (!string.IsNullOrEmpty(item2.CustomName) && item2.SourcePath == item.Key.Path)
 						{
-							var renameHistory = await filesystemOperations.RenameAsync(item.Value, item2.CustomName, NameCollisionOption.FailIfExists, banner.ErrorCode, token);
+							var renameHistory = await filesystemOperations.RenameAsync(item.Value, item2.CustomName, NameCollisionOption.FailIfExists, banner.ProgressEventSource, token);
 							history.Destination[history.Source.IndexOf(item.Key)] = renameHistory.Destination[0];
 						}
 					}
@@ -442,7 +442,7 @@ namespace Files.App.Filesystem
 			var destinationDir = PathNormalization.GetParentDir(destination.FirstOrDefault());
 
 			var banner = PostBannerHelpers.PostBanner_Move(source, destination, returnStatus, false, 0);
-			banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.ToStatus() : returnStatus;
+			banner.ProgressEventSource.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.Status!.Value.ToStatus() : returnStatus;
 
 			var token = banner.CancellationToken;
 
@@ -459,8 +459,8 @@ namespace Files.App.Filesystem
 
 			itemManipulationModel?.ClearSelection();
 
-			IStorageHistory history = await filesystemOperations.MoveItemsAsync((IList<IStorageItemWithPath>)source, (IList<string>)destination, collisions, banner.Progress, banner.ErrorCode, token);
-			((IProgress<float>)banner.Progress).Report(100.0f);
+			IStorageHistory history = await filesystemOperations.MoveItemsAsync((IList<IStorageItemWithPath>)source, (IList<string>)destination, collisions, banner.ProgressEventSource, token);
+			banner.Progress.ReportStatus(FileSystemStatusCode.Success);
 			await Task.Yield();
 
 			if (registerHistory && history is not null && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
@@ -471,7 +471,7 @@ namespace Files.App.Filesystem
 					{
 						if (!string.IsNullOrEmpty(item2.CustomName) && item2.SourcePath == item.Key.Path)
 						{
-							var renameHistory = await filesystemOperations.RenameAsync(item.Value, item2.CustomName, NameCollisionOption.FailIfExists, banner.ErrorCode, token);
+							var renameHistory = await filesystemOperations.RenameAsync(item.Value, item2.CustomName, NameCollisionOption.FailIfExists, banner.ProgressEventSource, token);
 							history.Destination[history.Source.IndexOf(item.Key)] = renameHistory.Destination[0];
 						}
 					}
@@ -545,15 +545,15 @@ namespace Files.App.Filesystem
 		public async Task<ReturnResult> RenameAsync(IStorageItemWithPath source, string newName, NameCollisionOption collision, bool registerHistory, bool showExtensionDialog = true)
 		{
 			var returnStatus = ReturnResult.InProgress;
-			var errorCode = new Progress<FileSystemStatusCode>();
-			errorCode.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.ToStatus() : returnStatus;
+			var progress = new Progress<FileSystemProgress>();
+			progress.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.Status!.Value.ToStatus() : returnStatus;
 
 			IStorageHistory history = null;
 
 			switch (source.ItemType)
 			{
 				case FilesystemItemType.Directory:
-					history = await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
+					history = await filesystemOperations.RenameAsync(source, newName, collision, progress, cancellationToken);
 					break;
 
 				case FilesystemItemType.File:
@@ -563,18 +563,18 @@ namespace Files.App.Filesystem
 						var yesSelected = await DialogDisplayHelper.ShowDialogAsync("RenameFileDialogTitle".GetLocalizedResource(), "RenameFileDialog/Text".GetLocalizedResource(), "Yes".GetLocalizedResource(), "No".GetLocalizedResource());
 						if (yesSelected)
 						{
-							history = await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
+							history = await filesystemOperations.RenameAsync(source, newName, collision, progress, cancellationToken);
 							break;
 						}
 
 						break;
 					}
 
-					history = await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
+					history = await filesystemOperations.RenameAsync(source, newName, collision, progress, cancellationToken);
 					break;
 
 				default:
-					history = await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
+					history = await filesystemOperations.RenameAsync(source, newName, collision, progress, cancellationToken);
 					break;
 			}
 
@@ -608,8 +608,8 @@ namespace Files.App.Filesystem
 			var source = await GetDraggedStorageItems(packageView);
 
 			var returnStatus = ReturnResult.InProgress;
-			var errorCode = new Progress<FileSystemStatusCode>();
-			errorCode.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.ToStatus() : returnStatus;
+			var progress = new Progress<FileSystemProgress>();
+			progress.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.Status!.Value.ToStatus() : returnStatus;
 
 			source = source.Where(x => !string.IsNullOrEmpty(x.Path));
 			var dest = source.Select(x => Path.Combine(destination,
@@ -618,7 +618,7 @@ namespace Files.App.Filesystem
 			source = await source.ToListAsync();
 			dest = await dest.ToListAsync();
 
-			var history = await filesystemOperations.CreateShortcutItemsAsync((IList<IStorageItemWithPath>)source, (IList<string>)dest, null, errorCode, cancellationToken);
+			var history = await filesystemOperations.CreateShortcutItemsAsync((IList<IStorageItemWithPath>)source, (IList<string>)dest, progress, cancellationToken);
 
 			if (registerHistory)
 			{
@@ -722,7 +722,7 @@ namespace Files.App.Filesystem
 			{
 				var itemPathOrName = string.IsNullOrEmpty(src.Path) ? src.Item.Name : src.Path;
 				var match = collisions.SingleOrDefault(x => x.Key == itemPathOrName);
-				var fileNameConflictResolveOptionType = (match.Key is not null) ? match.Value : FileNameConflictResolveOptionType.Skip; 
+				var fileNameConflictResolveOptionType = (match.Key is not null) ? match.Value : FileNameConflictResolveOptionType.Skip;
 				newCollisions.Add(fileNameConflictResolveOptionType);
 			}
 

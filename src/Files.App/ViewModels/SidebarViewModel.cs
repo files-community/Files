@@ -187,7 +187,7 @@ namespace Files.App.ViewModels
 			get => UserSettingsService.AppearanceSettingsService.ShowWslSection;
 			set
 			{
-				if (value == UserSettingsService.AppearanceSettingsService.ShowWslSection) 
+				if (value == UserSettingsService.AppearanceSettingsService.ShowWslSection)
 					return;
 
 				UserSettingsService.AppearanceSettingsService.ShowWslSection = value;
@@ -199,7 +199,7 @@ namespace Files.App.ViewModels
 			get => UserSettingsService.AppearanceSettingsService.ShowFileTagsSection;
 			set
 			{
-				if (value == UserSettingsService.AppearanceSettingsService.ShowFileTagsSection) 
+				if (value == UserSettingsService.AppearanceSettingsService.ShowFileTagsSection)
 					return;
 
 				UserSettingsService.AppearanceSettingsService.ShowFileTagsSection = value;

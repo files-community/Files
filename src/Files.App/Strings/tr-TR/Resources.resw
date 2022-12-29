@@ -218,7 +218,7 @@
     <value>Tarih formatı</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Renginizi seçin</value>
+    <value>Theme</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Bilinen dosya türleri için uzantıları göster</value>
@@ -234,6 +234,9 @@
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Görünüm</value>
+  </data>
+  <data name="Background" xml:space="preserve">
+    <value>Background</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Deneysel</value>
@@ -1507,9 +1510,6 @@
   <data name="Default" xml:space="preserve">
     <value>Varsayılan</value>
   </data>
-  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
-    <value>Özel temalar</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Öğe sayısı</value>
   </data>
@@ -1658,8 +1658,7 @@
     <value>Klasörleri yeni sekmede aç</value>
   </data>
   <data name="ShowBundlesWidget" xml:space="preserve">
-    <value>Paketler arac
-ını göster</value>
+    <value>Paketler aracını göster</value>
   </data>
   <data name="ShowDrivesWidget" xml:space="preserve">
     <value>Sürücüler aracını göster</value>
@@ -1987,18 +1986,6 @@
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Bilinmeyen sahip</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Özel temalar hakkında daha fazla bilgi edinin</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Özel temalar hakkında daha fazla bilgi edinin</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
-    <value>Özel temalar, Dosyaları kişiselleştirmeniz için harika bir yol sağlar.</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
-    <value>Belgeleri görüntüleyin.</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
     <value>Arşivi Ayıkla</value>
@@ -2607,7 +2594,7 @@
     <value>Tür</value>
   </data>
   <data name="IconGrid" xml:space="preserve">
-    <value>Icon Grid</value>
+    <value>Simge Kılavuzu</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Bayt</value>
@@ -2790,7 +2777,7 @@
     <value>Sütunlar Düzeninde tek bir tıklama ile klasörleri aç</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
-    <value>Opening items</value>
+    <value>Açılış öğeleri</value>
   </data>
   <data name="AddSingleItemToArchive" xml:space="preserve">
     <value>{0}.zip arşivine ekle</value>
@@ -2859,7 +2846,7 @@
     <value>Yol</value>
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
-    <value>Sorting and grouping</value>
+    <value>Sıralama ve gruplama</value>
   </data>
   <data name="Archive" xml:space="preserve">
     <value>Arşiv</value>
@@ -2931,9 +2918,12 @@
     <value>Senkronizasyon durumu sütunu</value>
   </data>
   <data name="GroupBy" xml:space="preserve">
-    <value>Group by</value>
+    <value>Gruplandır</value>
   </data>
   <data name="SortBy" xml:space="preserve">
     <value>Sıralama</value>
+  </data>
+  <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
+    <value>Recently used files is currently disabled in Windows File Explorer.</value>
   </data>
 </root>

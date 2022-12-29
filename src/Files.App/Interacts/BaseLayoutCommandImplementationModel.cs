@@ -666,7 +666,7 @@ namespace Files.App.Interacts
 				FileOperationType.Compressed,
 				compressionToken
 			);
-			creator.Progress = banner.Progress;
+			creator.Progress = banner.ProgressEventSource;
 
 			bool isSuccess = await creator.RunCreationAsync();
 
@@ -819,7 +819,7 @@ namespace Files.App.Interacts
 			Stopwatch sw = new();
 			sw.Start();
 
-			await FilesystemTasks.Wrap(() => ZipHelpers.ExtractArchive(archive, destinationFolder, password, banner.Progress, extractCancellation.Token));
+			await FilesystemTasks.Wrap(() => ZipHelpers.ExtractArchive(archive, destinationFolder, password, banner.ProgressEventSource, extractCancellation.Token));
 
 			sw.Stop();
 			banner.Remove();

@@ -7,10 +7,9 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	d:DesignHeight="700"
 	d:DesignWidth="400"
-	Background="{ThemeResource RootBackgroundBrush}"
+	Background="{ThemeResource App.Theme.BackgroundBrush}"
 	KeyDown="Page_KeyDown"
 	Loaded="Properties_Loaded"
-	Loading="Page_Loading"
 	Unloaded="Properties_Unloaded"
 	mc:Ignorable="d">
 

@@ -3,12 +3,14 @@ using Files.App.Filesystem;
 using Files.App.Filesystem.Permissions;
 using Files.App.Shell;
 using Files.Shared;
+using Files.Shared.Enums;
 using Files.Shared.Extensions;
 using Microsoft.Win32;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -178,7 +180,7 @@ namespace Files.App.Helpers
 				}
 
 				var deleteTcs = new TaskCompletionSource<bool>();
-				op.PreDeleteItem += (s, e) =>
+				op.PreDeleteItem += [DebuggerHidden] (s, e) =>
 				{
 					if (!e.Flags.HasFlag(ShellFileOperations.TransferFlags.DeleteRecycleIfPossible))
 					{
@@ -216,10 +218,12 @@ namespace Files.App.Helpers
 			});
 		}
 
-		public static Task<(bool, ShellOperationResult)> DeleteItemAsync(string[] fileToDeletePath, bool permanently, long ownerHwnd, string operationID = "", IProgress<float>? progress = default)
+		public static Task<(bool, ShellOperationResult)> DeleteItemAsync(string[] fileToDeletePath, bool permanently, long ownerHwnd, string operationID = "", IProgress<FileSystemProgress>? progress = default)
 		{
 			operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
+			FileSystemProgress fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
+			fsProgress.Report();
 			progressHandler ??= new();
 
 			return Win32API.StartSTATask(async () =>
@@ -283,7 +287,7 @@ namespace Files.App.Helpers
 					{
 						throw new Win32Exception(unchecked((int)0x80004005)); // E_FAIL, stops operation
 					}
-					progress?.Report(e.ProgressPercentage);
+					fsProgress.Report(e.ProgressPercentage);
 					progressHandler.UpdateOperation(operationID, e.ProgressPercentage);
 				};
 
@@ -363,10 +367,12 @@ namespace Files.App.Helpers
 			});
 		}
 
-		public static Task<(bool, ShellOperationResult)> MoveItemAsync(string[] fileToMovePath, string[] moveDestination, bool overwriteOnMove, long ownerHwnd, string operationID = "", IProgress<float>? progress = default)
+		public static Task<(bool, ShellOperationResult)> MoveItemAsync(string[] fileToMovePath, string[] moveDestination, bool overwriteOnMove, long ownerHwnd, string operationID = "", IProgress<FileSystemProgress>? progress = default)
 		{
 			operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
+			FileSystemProgress fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
+			fsProgress.Report();
 			progressHandler ??= new();
 
 			return Win32API.StartSTATask(async () =>
@@ -422,7 +428,7 @@ namespace Files.App.Helpers
 					{
 						throw new Win32Exception(unchecked((int)0x80004005)); // E_FAIL, stops operation
 					}
-					progress?.Report(e.ProgressPercentage);
+					fsProgress.Report(e.ProgressPercentage);
 					progressHandler.UpdateOperation(operationID, e.ProgressPercentage);
 				};
 
@@ -441,10 +447,12 @@ namespace Files.App.Helpers
 			});
 		}
 
-		public static Task<(bool, ShellOperationResult)> CopyItemAsync(string[] fileToCopyPath, string[] copyDestination, bool overwriteOnCopy, long ownerHwnd, string operationID = "", IProgress<float>? progress = default)
+		public static Task<(bool, ShellOperationResult)> CopyItemAsync(string[] fileToCopyPath, string[] copyDestination, bool overwriteOnCopy, long ownerHwnd, string operationID = "", IProgress<FileSystemProgress>? progress = default)
 		{
 			operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
+			FileSystemProgress fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
+			fsProgress.Report();
 			progressHandler ??= new();
 
 			return Win32API.StartSTATask(async () =>
@@ -501,7 +509,7 @@ namespace Files.App.Helpers
 					{
 						throw new Win32Exception(unchecked((int)0x80004005)); // E_FAIL, stops operation
 					}
-					progress?.Report(e.ProgressPercentage);
+					fsProgress.Report(e.ProgressPercentage);
 					progressHandler.UpdateOperation(operationID, e.ProgressPercentage);
 				};
 
@@ -546,47 +554,64 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public static Task<(string, ShellLinkItem)> ParseLinkAsync(string linkPath)
+		public static async Task<ShellLinkItem?> ParseLinkAsync(string linkPath)
 		{
+			if (string.IsNullOrEmpty(linkPath))
+				return null;
+
+			string targetPath = string.Empty;
+
 			try
 			{
-				if (linkPath.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase))
+				if (FileExtensionHelpers.IsShortcutFile(linkPath))
 				{
 					using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, default, TimeSpan.FromMilliseconds(100));
-					return Task.FromResult((string.Empty, ShellFolderExtensions.GetShellLinkItem(link)));
+					targetPath = link.TargetPath;
+					return ShellFolderExtensions.GetShellLinkItem(link);
 				}
-				else if (linkPath.EndsWith(".url", StringComparison.OrdinalIgnoreCase))
+				else if (FileExtensionHelpers.IsWebLinkFile(linkPath))
 				{
-					return Win32API.StartSTATask(() =>
+					targetPath = await Win32API.StartSTATask(() =>
 					{
 						var ipf = new Url.IUniformResourceLocator();
 						(ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Load(linkPath, 0);
 						ipf.GetUrl(out var retVal);
-						return Task.FromResult<(string, ShellLinkItem)>((retVal, null));
+						return retVal;
 					});
+					return string.IsNullOrEmpty(targetPath) ? null : new ShellLinkItem { TargetPath = targetPath };
 				}
+				return null;
+			}
+			catch (FileNotFoundException ex) // Could not parse shortcut
+			{
+				App.Logger?.Warn(ex, ex.Message);
+				// Return a item containing the invalid target path
+				return new ShellLinkItem
+				{
+					TargetPath = string.IsNullOrEmpty(targetPath) ? string.Empty : targetPath,
+					InvalidTarget = true
+				};
 			}
 			catch (Exception ex)
 			{
 				// Could not parse shortcut
 				App.Logger.Warn(ex, ex.Message);
+				return null;
 			}
-
-			return Task.FromResult((string.Empty, new ShellLinkItem()));
 		}
 
 		public static Task<bool> CreateOrUpdateLinkAsync(string linkSavePath, string targetPath, string arguments = "", string workingDirectory = "", bool runAsAdmin = false)
 		{
 			try
 			{
-				if (linkSavePath.EndsWith(".lnk", StringComparison.Ordinal))
+				if (FileExtensionHelpers.IsShortcutFile(linkSavePath))
 				{
 					using var newLink = new ShellLink(targetPath, arguments, workingDirectory);
 					newLink.RunAsAdministrator = runAsAdmin;
 					newLink.SaveAs(linkSavePath); // Overwrite if exists
 					return Task.FromResult(true);
 				}
-				else if (linkSavePath.EndsWith(".url", StringComparison.Ordinal))
+				else if (FileExtensionHelpers.IsWebLinkFile(linkSavePath))
 				{
 					return Win32API.StartSTATask(() =>
 					{
@@ -656,7 +681,7 @@ namespace Files.App.Helpers
 
 				using (picker)
 				{
-					if (picker.ShowDialog(Win32API.Win32Window.FromLong(hWnd)) == DialogResult.OK)
+					if (picker.ShowDialog(Win32API.Win32Window.FromLong(hWnd)) == System.Windows.Forms.DialogResult.OK)
 					{
 						try
 						{

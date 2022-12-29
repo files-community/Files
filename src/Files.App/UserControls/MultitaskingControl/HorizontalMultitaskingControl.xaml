@@ -605,13 +605,13 @@
 					<ContentPresenter Grid.Column="0" Content="{x:Bind ActionsControl, Mode=OneWay}" />
 
 					<!--  This defines the drag area for the title bar  -->
-					<Grid
-						x:Name="DragAreaGrid"
+					<Rectangle
+						x:Name="DragAreaRectangle"
 						Grid.Column="1"
 						Grid.ColumnSpan="2"
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Stretch"
-						Background="Transparent" />
+						Fill="Transparent" />
 				</Grid>
 			</TabView.TabStripFooter>
 		</TabView>
