@@ -1,5 +1,4 @@
 using CommunityToolkit.WinUI;
-using CommunityToolkit.WinUI.UI.Converters;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Filesystem;
 using Files.App.Helpers;
@@ -9,7 +8,6 @@ using Files.Shared;
 using Files.Shared.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;

@@ -15,7 +15,6 @@ using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Linq;
 using System.Threading;
-using System.Collections.Generic;
 using Windows.Foundation.Metadata;
 using Windows.Graphics;
 using Windows.System;
