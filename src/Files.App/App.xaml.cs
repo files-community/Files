@@ -385,50 +385,51 @@ namespace Files.App
 
 			SaveSessionTabs();
 			Logger.UnhandledError(ex, ex.Message);
-			if (ShowErrorNotification && shouldShowNotification)
-			{
-				var toastContent = new ToastContent()
-				{
-					Visual = new ToastVisual()
-					{
-						BindingGeneric = new ToastBindingGeneric()
-						{
-							Children =
-							{
-								new AdaptiveText()
-								{
-									Text = "ExceptionNotificationHeader".GetLocalizedResource()
-								},
-								new AdaptiveText()
-								{
-									Text = "ExceptionNotificationBody".GetLocalizedResource()
-								}
-							},
-							AppLogoOverride = new ToastGenericAppLogo()
-							{
-								Source = "ms-appx:///Assets/error.png"
-							}
-						}
-					},
-					Actions = new ToastActionsCustom()
-					{
-						Buttons =
-						{
-							new ToastButton("ExceptionNotificationReportButton".GetLocalizedResource(), "report")
-							{
-								ActivationType = ToastActivationType.Foreground
-							}
-						}
-					}
-				};
 
-				// Create the toast notification
-				var toastNotif = new ToastNotification(toastContent.GetXml());
+            if (!ShowErrorNotification || !shouldShowNotification)
+                return;
 
-				// And send the notification
-				ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
-			}
-		}
+            var toastContent = new ToastContent()
+            {
+                Visual = new ToastVisual()
+                {
+                    BindingGeneric = new ToastBindingGeneric()
+                    {
+                        Children =
+                        {
+                            new AdaptiveText()
+                            {
+                                Text = "ExceptionNotificationHeader".GetLocalizedResource()
+                            },
+                            new AdaptiveText()
+                            {
+                                Text = "ExceptionNotificationBody".GetLocalizedResource()
+                            }
+                        },
+                        AppLogoOverride = new ToastGenericAppLogo()
+                        {
+                            Source = "ms-appx:///Assets/error.png"
+                        }
+                    }
+                },
+                Actions = new ToastActionsCustom()
+                {
+                    Buttons =
+                    {
+                        new ToastButton("ExceptionNotificationReportButton".GetLocalizedResource(), "report")
+                        {
+                            ActivationType = ToastActivationType.Foreground
+                        }
+                    }
+                }
+            };
+
+            // Create the toast notification
+            var toastNotif = new ToastNotification(toastContent.GetXml());
+
+            // And send the notification
+            ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
+        }
 
 		public static void CloseApp()
 		{
