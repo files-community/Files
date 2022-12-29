@@ -337,13 +337,13 @@ namespace Files.App
 		}
 
 		// Occurs when an exception is not handled on the UI thread.
-		private static void OnUnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e) => AppUnhandledException(e.Exception);
+		private static void OnUnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e) => AppUnhandledException(e.Exception, true);
 
 		// Occurs when an exception is not handled on a background thread.
 		// ie. A task is fired and forgotten Task.Run(() => {...})
-		private static void OnUnobservedException(object sender, UnobservedTaskExceptionEventArgs e) => AppUnhandledException(e.Exception);
+		private static void OnUnobservedException(object sender, UnobservedTaskExceptionEventArgs e) => AppUnhandledException(e.Exception, false);
 
-		private static void AppUnhandledException(Exception ex)
+		private static void AppUnhandledException(Exception ex, bool shouldShowNotification)
 		{
 			StringBuilder formattedException = new StringBuilder() { Capacity = 200 };
 
@@ -385,7 +385,7 @@ namespace Files.App
 
 			SaveSessionTabs();
 			Logger.UnhandledError(ex, ex.Message);
-			if (ShowErrorNotification)
+			if (ShowErrorNotification && shouldShowNotification)
 			{
 				var toastContent = new ToastContent()
 				{
