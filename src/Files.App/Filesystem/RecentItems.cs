@@ -208,30 +208,36 @@ namespace Files.App.Filesystem
 
 		private NotifyCollectionChangedEventArgs GetChangedActionEventArgs(IReadOnlyList<RecentItem> oldItems, IList<RecentItem> newItems)
 		{
-			var intersection = oldItems.Intersect(newItems);
-			bool differsByOne = intersection.Take(2).Count() == 1;
-
 			// a single item was added
-			if ((newItems.Count == oldItems.Count + 1) && differsByOne)
+			if (newItems.Count == oldItems.Count + 1)
 			{
-				return new(NotifyCollectionChangedAction.Add, newItems.First());
+				var differences = newItems.Except(oldItems);
+				if (differences.Take(2).Count() == 1)
+				{
+					return new(NotifyCollectionChangedAction.Add, newItems.First());
+				}
 			}
 			// a single item was removed
-			else if ((newItems.Count == oldItems.Count - 1) && differsByOne)
+			else if (newItems.Count == oldItems.Count - 1)
 			{
-				for (int i = 0; i < oldItems.Count; i++)
+				var differences = oldItems.Except(newItems);
+				if (differences.Take(2).Count() == 1)
 				{
-					if (i >= newItems.Count || !newItems[i].Equals(oldItems[i]))
+					for (int i = 0; i < oldItems.Count; i++)
 					{
-						return new(NotifyCollectionChangedAction.Remove, oldItems[i], index: i);
+						if (i >= newItems.Count || !newItems[i].Equals(oldItems[i]))
+						{
+							return new(NotifyCollectionChangedAction.Remove, oldItems[i], index: i);
+						}
 					}
 				}
 			}
 			// a single item was moved
 			else if (newItems.Count == oldItems.Count)
 			{
+				var differences = oldItems.Except(newItems);
 				// desync due to skipped/batched calls, reset the list
-				if (intersection.Any())
+				if (differences.Any())
 				{
 					return new(NotifyCollectionChangedAction.Reset);
 				}
