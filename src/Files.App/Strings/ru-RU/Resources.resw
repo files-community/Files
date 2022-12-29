@@ -218,7 +218,7 @@
     <value>Формат даты</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Theme</value>
+    <value>Тема оформления</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Показывать расширения для известных типов файлов</value>
@@ -236,7 +236,7 @@
     <value>Внешний вид</value>
   </data>
   <data name="Background" xml:space="preserve">
-    <value>Background</value>
+    <value>Фон</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Экспериментально</value>
@@ -2922,5 +2922,8 @@
   </data>
   <data name="SortBy" xml:space="preserve">
     <value>Сортировка</value>
+  </data>
+  <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
+    <value>Recently used files is currently disabled in Windows File Explorer.</value>
   </data>
 </root>
