@@ -218,7 +218,7 @@
     <value>日付の形式</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Theme</value>
+    <value>テーマ</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>既知のファイル タイプの拡張子を表示</value>
@@ -236,7 +236,7 @@
     <value>外観</value>
   </data>
   <data name="Background" xml:space="preserve">
-    <value>Background</value>
+    <value>背景</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>実験的機能</value>
@@ -2922,5 +2922,8 @@
   </data>
   <data name="SortBy" xml:space="preserve">
     <value>並べ替え</value>
+  </data>
+  <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
+    <value>最近使用したファイルは、Windows のファイルエクスプローラーで現在無効になっています。</value>
   </data>
 </root>
