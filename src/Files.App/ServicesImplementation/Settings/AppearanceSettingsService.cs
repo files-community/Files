@@ -2,6 +2,7 @@ using Files.App.Serialization;
 using Files.Backend.Services.Settings;
 using Files.Shared.EventArguments;
 using Microsoft.AppCenter.Analytics;
+using Microsoft.UI.Xaml.Media;
 using System;
 
 namespace Files.App.ServicesImplementation.Settings
@@ -128,9 +129,37 @@ namespace Files.App.ServicesImplementation.Settings
 		}
 
 		/// <inheritdoc/>
-		public UInt32 AppThemeRootBackgroundColor
+		public UInt32 AppThemeBackgroundColor
 		{
 			get => Get(uint.MinValue);
+			set => Set(value);
+		}
+
+		/// <inheritdoc/>
+		public UInt32 AppThemeAddressBarBackgroundColor
+		{
+			get => Get(uint.MinValue);
+			set => Set(value);
+		}
+
+		/// <inheritdoc/>
+		public UInt32 AppThemeSidebarBackgroundColor
+		{
+			get => Get(uint.MinValue);
+			set => Set(value);
+		}
+
+		/// <inheritdoc/>
+		public UInt32 AppThemeFileAreaBackgroundColor
+		{
+			get => Get(uint.MinValue);
+			set => Set(value);
+		}
+
+		/// <inheritdoc/>
+		public String AppThemeFontFamily
+		{
+			get => Get("Segoe UI Variable");
 			set => Set(value);
 		}
 
@@ -150,7 +179,10 @@ namespace Files.App.ServicesImplementation.Settings
 				case nameof(ShowRecentFilesWidget):
 				case nameof(ShowDrivesWidget):
 				case nameof(ShowBundlesWidget):
-				case nameof(AppThemeRootBackgroundColor):
+				case nameof(AppThemeBackgroundColor):
+				case nameof(AppThemeAddressBarBackgroundColor):
+				case nameof(AppThemeSidebarBackgroundColor):
+				case nameof(AppThemeFileAreaBackgroundColor):
 					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
 					break;
 			}

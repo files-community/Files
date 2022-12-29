@@ -23,12 +23,51 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>
-		/// Overrides the xaml resource for RootBackgroundBrush
+		/// Overrides the xaml resource for App.Theme.BackgroundBrush
 		/// </summary>
-		/// <param name="appThemeRootBackgroundColor"></param>
-		public void SetRootBackgroundColor(Color appThemeRootBackgroundColor)
+		/// <param name="appThemeBackgroundColor"></param>
+		public void SetAppThemeBackgroundColor(Color appThemeBackgroundColor)
 		{
-			Application.Current.Resources["RootBackgroundBrush"] = appThemeRootBackgroundColor;
+			Application.Current.Resources["App.Theme.BackgroundBrush"] = appThemeBackgroundColor;
+		}
+
+		/// <summary>
+		/// Overrides the xaml resource for App.Theme.AddressBar.BackgroundBrush
+		/// </summary>
+		/// <param name="appThemeAddressBarBackgroundColor"></param>
+		public void SetAppThemeAddressBarBackgroundColor(Color appThemeAddressBarBackgroundColor)
+		{
+			Application.Current.Resources["App.Theme.AddressBar.BackgroundBrush"] = appThemeAddressBarBackgroundColor;
+
+			// Overrides the selected tab background to match the address bar
+			Application.Current.Resources["TabViewItemHeaderBackgroundSelected"] = appThemeAddressBarBackgroundColor;
+		}
+
+		/// <summary>
+		/// Overrides the xaml resource for App.Theme.Sidebar.BackgroundBrush
+		/// </summary>
+		/// <param name="appThemeSidebarBackgroundColor"></param>
+		public void SetAppThemeSidebarBackgroundColor(Color appThemeSidebarBackgroundColor)
+		{
+			Application.Current.Resources["App.Theme.Sidebar.BackgroundBrush"] = appThemeSidebarBackgroundColor;
+		}
+
+		/// <summary>
+		/// Overrides the xaml resource for App.Theme.FileArea.BackgroundBrush
+		/// </summary>
+		/// <param name="appThemeFileAreaBackgroundColor"></param>
+		public void SetAppThemeFileAreaBackgroundColor(Color appThemeFileAreaBackgroundColor)
+		{
+			Application.Current.Resources["App.Theme.FileArea.BackgroundBrush"] = appThemeFileAreaBackgroundColor;
+		}
+
+		/// <summary>
+		/// Overrides the xaml resource for ContentControlThemeFontFamily
+		/// </summary>
+		/// <param name="contentControlThemeFontFamily"></param>
+		public void SetAppThemeFontFamily(string contentControlThemeFontFamily)
+		{
+			Application.Current.Resources["ContentControlThemeFontFamily"] = contentControlThemeFontFamily;
 		}
 
 		/// <summary>
