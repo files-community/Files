@@ -1,4 +1,5 @@
 using CommunityToolkit.WinUI;
+using CommunityToolkit.WinUI.UI.Converters;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Filesystem;
 using Files.App.Helpers;
@@ -8,6 +9,7 @@ using Files.Shared;
 using Files.Shared.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -22,9 +24,9 @@ namespace Files.App.Views
 
 		public PropertiesGeneral() => InitializeComponent();
 
-		public override async Task<bool> SaveChangesAsync(ListedItem item)
+		public override async Task<bool> SaveChangesAsync(ListedItem? item)
 		{
-			ViewModel.ItemName = ItemFileName.Text; // Make sure Name is updated
+			if (item is not null) ViewModel.ItemName = ItemFileName.Text; // Make sure Name is updated, except if there are multiple items
 
 			string newName = ViewModel.ItemName;
 			string oldName = ViewModel.OriginalItemName;
