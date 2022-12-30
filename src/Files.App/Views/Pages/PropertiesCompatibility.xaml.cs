@@ -37,7 +37,7 @@ namespace Files.App.Views
 			}
 		}
 
-		public override Task<bool> SaveChangesAsync(ListedItem item)
+		public override Task<bool> SaveChangesAsync()
 		{
 			if (CompatibilityProperties is not null)
 				return Task.FromResult(CompatibilityProperties.SetCompatibilityOptions());

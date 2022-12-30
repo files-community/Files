@@ -30,8 +30,6 @@ namespace Files.App.Views
 		private object navParameterItem;
 		private IShellPage AppInstance;
 
-		private ListedItem listedItem;
-
 		public SettingsViewModel AppSettings => App.AppSettings;
 
 		public AppWindow appWindow;
@@ -58,7 +56,7 @@ namespace Files.App.Views
 			var args = e.Parameter as PropertiesPageNavigationArguments;
 			AppInstance = args.AppInstanceArgument;
 			navParameterItem = args.Item;
-			listedItem = args.Item as ListedItem;
+			var listedItem = args.Item as ListedItem;
 			TabShorcut.Visibility = listedItem is not null && listedItem.IsShortcut ? Visibility.Visible : Visibility.Collapsed;
 			TabLibrary.Visibility = listedItem is not null && listedItem.IsLibrary ? Visibility.Visible : Visibility.Collapsed;
 			TabDetails.Visibility = listedItem is not null && listedItem.FileExtension is not null && !listedItem.IsShortcut && !listedItem.IsLibrary ? Visibility.Visible : Visibility.Collapsed;
@@ -194,11 +192,11 @@ namespace Files.App.Views
 		{
 			if (contentFrame.Content is PropertiesGeneral propertiesGeneral)
 			{
-				await propertiesGeneral.SaveChangesAsync(listedItem);
+				await propertiesGeneral.SaveChangesAsync();
 			}
 			else
 			{
-				if (!await (contentFrame.Content as PropertiesTab).SaveChangesAsync(listedItem))
+				if (!await (contentFrame.Content as PropertiesTab).SaveChangesAsync())
 					return;
 			}
 

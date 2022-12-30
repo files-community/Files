@@ -22,27 +22,34 @@ namespace Files.App.Views
 
 		public PropertiesGeneral() => InitializeComponent();
 
-		public override async Task<bool> SaveChangesAsync(ListedItem? item)
+		public override async Task<bool> SaveChangesAsync()
 		{
-			if (item is not null)
-				ViewModel.ItemName = ItemFileName.Text; // Make sure Name is updated, except if there are multiple items
-
-			string newName = ViewModel.ItemName;
-			string oldName = ViewModel.OriginalItemName;
-			bool hasNewName = !string.IsNullOrWhiteSpace(newName) && newName != oldName;
-
 			return BaseProperties switch
 			{
 				DriveProperties properties => SaveDrive(properties.Drive),
 				LibraryProperties properties => await SaveLibraryAsync(properties.Library),
 				CombinedProperties properties => await SaveCombinedAsync(properties.List),
-				_ => await SaveBaseAsync(),
+				FileProperties properties => await SaveBaseAsync(properties.Item),
+				FolderProperties properties => await SaveBaseAsync(properties.Item),
 			};
+
+			bool GetNewName(out string newName)
+			{
+				if (ItemFileName is not null)
+				{
+					ViewModel.ItemName = ItemFileName.Text; // Make sure Name is updated
+					newName = ViewModel.ItemName;
+					string oldName = ViewModel.OriginalItemName;
+					return !string.IsNullOrWhiteSpace(newName) && newName != oldName;
+				}
+				newName = "";
+				return false;
+			}
 
 			bool SaveDrive(DriveItem drive)
 			{
 				var fsVM = AppInstance.FilesystemViewModel;
-				if (!hasNewName || fsVM is null)
+				if (!GetNewName(out var newName) || fsVM is null)
 					return false;
 
 				newName = letterRegex.Replace(newName, string.Empty); // Remove "(C:)" from the new label
@@ -59,7 +66,7 @@ namespace Files.App.Views
 			async Task<bool> SaveLibraryAsync(LibraryItem library)
 			{
 				var fsVM = AppInstance.FilesystemViewModel;
-				if (!hasNewName || fsVM is null || !App.LibraryManager.CanCreateLibrary(newName).result)
+				if (!GetNewName(out var newName) || fsVM is null || !App.LibraryManager.CanCreateLibrary(newName).result)
 					return false;
 
 				newName = $"{newName}{ShellLibraryItem.EXTENSION}";
@@ -95,7 +102,7 @@ namespace Files.App.Views
 				return true;
 			}
 
-			async Task<bool> SaveBaseAsync()
+			async Task<bool> SaveBaseAsync(ListedItem item)
 			{
 				// Handle the visibility attribute for a single file
 				var itemMM = AppInstance?.SlimContentPage?.ItemManipulationModel;
@@ -106,7 +113,7 @@ namespace Files.App.Views
 					);
 				}
 
-				if (!hasNewName)
+				if (!GetNewName(out var newName))
 					return true;
 
 				return await App.Window.DispatcherQueue.EnqueueAsync(() =>
