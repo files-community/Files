@@ -22,7 +22,7 @@ namespace Files.App.Views
 
 		public PropertiesGeneral() => InitializeComponent();
 
-		public override async Task<bool> SaveChangesAsync(ListedItem? item)
+		public override async Task<bool> SaveChangesAsync(ListedItem item)
 		{
 			ViewModel.ItemName = ItemFileName.Text; // Make sure Name is updated
 
