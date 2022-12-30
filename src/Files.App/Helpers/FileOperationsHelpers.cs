@@ -3,12 +3,14 @@ using Files.App.Filesystem;
 using Files.App.Filesystem.Permissions;
 using Files.App.Shell;
 using Files.Shared;
+using Files.Shared.Enums;
 using Files.Shared.Extensions;
 using Microsoft.Win32;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -178,7 +180,7 @@ namespace Files.App.Helpers
 				}
 
 				var deleteTcs = new TaskCompletionSource<bool>();
-				op.PreDeleteItem += (s, e) =>
+				op.PreDeleteItem += [DebuggerHidden] (s, e) =>
 				{
 					if (!e.Flags.HasFlag(ShellFileOperations.TransferFlags.DeleteRecycleIfPossible))
 					{
@@ -216,10 +218,12 @@ namespace Files.App.Helpers
 			});
 		}
 
-		public static Task<(bool, ShellOperationResult)> DeleteItemAsync(string[] fileToDeletePath, bool permanently, long ownerHwnd, string operationID = "", IProgress<float>? progress = default)
+		public static Task<(bool, ShellOperationResult)> DeleteItemAsync(string[] fileToDeletePath, bool permanently, long ownerHwnd, string operationID = "", IProgress<FileSystemProgress>? progress = default)
 		{
 			operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
+			FileSystemProgress fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
+			fsProgress.Report();
 			progressHandler ??= new();
 
 			return Win32API.StartSTATask(async () =>
@@ -283,7 +287,7 @@ namespace Files.App.Helpers
 					{
 						throw new Win32Exception(unchecked((int)0x80004005)); // E_FAIL, stops operation
 					}
-					progress?.Report(e.ProgressPercentage);
+					fsProgress.Report(e.ProgressPercentage);
 					progressHandler.UpdateOperation(operationID, e.ProgressPercentage);
 				};
 
@@ -363,10 +367,12 @@ namespace Files.App.Helpers
 			});
 		}
 
-		public static Task<(bool, ShellOperationResult)> MoveItemAsync(string[] fileToMovePath, string[] moveDestination, bool overwriteOnMove, long ownerHwnd, string operationID = "", IProgress<float>? progress = default)
+		public static Task<(bool, ShellOperationResult)> MoveItemAsync(string[] fileToMovePath, string[] moveDestination, bool overwriteOnMove, long ownerHwnd, string operationID = "", IProgress<FileSystemProgress>? progress = default)
 		{
 			operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
+			FileSystemProgress fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
+			fsProgress.Report();
 			progressHandler ??= new();
 
 			return Win32API.StartSTATask(async () =>
@@ -422,7 +428,7 @@ namespace Files.App.Helpers
 					{
 						throw new Win32Exception(unchecked((int)0x80004005)); // E_FAIL, stops operation
 					}
-					progress?.Report(e.ProgressPercentage);
+					fsProgress.Report(e.ProgressPercentage);
 					progressHandler.UpdateOperation(operationID, e.ProgressPercentage);
 				};
 
@@ -441,10 +447,12 @@ namespace Files.App.Helpers
 			});
 		}
 
-		public static Task<(bool, ShellOperationResult)> CopyItemAsync(string[] fileToCopyPath, string[] copyDestination, bool overwriteOnCopy, long ownerHwnd, string operationID = "", IProgress<float>? progress = default)
+		public static Task<(bool, ShellOperationResult)> CopyItemAsync(string[] fileToCopyPath, string[] copyDestination, bool overwriteOnCopy, long ownerHwnd, string operationID = "", IProgress<FileSystemProgress>? progress = default)
 		{
 			operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
+			FileSystemProgress fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
+			fsProgress.Report();
 			progressHandler ??= new();
 
 			return Win32API.StartSTATask(async () =>
@@ -501,7 +509,7 @@ namespace Files.App.Helpers
 					{
 						throw new Win32Exception(unchecked((int)0x80004005)); // E_FAIL, stops operation
 					}
-					progress?.Report(e.ProgressPercentage);
+					fsProgress.Report(e.ProgressPercentage);
 					progressHandler.UpdateOperation(operationID, e.ProgressPercentage);
 				};
 
@@ -673,7 +681,7 @@ namespace Files.App.Helpers
 
 				using (picker)
 				{
-					if (picker.ShowDialog(Win32API.Win32Window.FromLong(hWnd)) == DialogResult.OK)
+					if (picker.ShowDialog(Win32API.Win32Window.FromLong(hWnd)) == System.Windows.Forms.DialogResult.OK)
 					{
 						try
 						{
