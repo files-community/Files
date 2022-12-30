@@ -17,26 +17,24 @@ namespace Files.App.Helpers
 	{
 		private static readonly IFoldersSettingsService foldersSettingsService = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
 
-		public static bool PredictLayoutMode(FolderSettingsViewModel folderSettings, string path, IList<ListedItem> filesAndFolders)
+		public static void ApplyAdaptativeLayout(FolderSettingsViewModel folderSettings, string path, IList<ListedItem> filesAndFolders)
 		{
 			if (!foldersSettingsService.EnableOverridingFolderPreferences)
-				return false;
+				return;
 			if (string.IsNullOrWhiteSpace(path))
-				return false;
+				return;
 			if (folderSettings.IsLayoutModeFixed || !folderSettings.IsAdaptiveLayoutEnabled)
-				return false;
+				return;
 
 			var layout = GetAdaptiveLayout(path, filesAndFolders);
 			switch (layout)
 			{
 				case Layouts.Detail:
 					folderSettings.ToggleLayoutModeDetailsView(false);
-					return true;
+					break;
 				case Layouts.Grid:
 					folderSettings.ToggleLayoutModeGridView(folderSettings.GridViewSize);
-					return true;
-				default:
-					return false;
+					break;
 			}
 		}
 
@@ -122,9 +120,9 @@ namespace Files.App.Helpers
 
 		private enum Layouts
 		{
-			None,
-			Detail,
-			Grid,
+			None, // Don't decide. Another function to decide can be called afterwards if available.
+			Detail, // Apply the layout Detail.
+			Grid, // Apply the layout Grid.
 		}
 	}
 }
