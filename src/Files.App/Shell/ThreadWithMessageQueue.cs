@@ -1,5 +1,4 @@
-﻿using Files.Shared;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Runtime.Versioning;
 using System.Threading;
@@ -8,20 +7,10 @@ using System.Threading.Tasks;
 namespace Files.App.Shell
 {
 	[SupportedOSPlatform("Windows")]
-	public class ThreadWithMessageQueue : Disposable
+	public class ThreadWithMessageQueue : IDisposable
 	{
 		private readonly BlockingCollection<Internal> messageQueue;
 		private readonly Thread thread;
-
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing)
-			{
-				messageQueue.CompleteAdding();
-				thread.Join();
-				messageQueue.Dispose();
-			}
-		}
 
 		public async Task<V> PostMethod<V>(Func<object> payload)
 		{
@@ -51,6 +40,22 @@ namespace Files.App.Shell
 			thread.SetApartmentState(ApartmentState.STA);
 			thread.IsBackground = true; // Do not prevent app from closing
 			thread.Start();
+		}
+
+		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		private void Dispose(bool disposing)
+		{
+			if (disposing)
+			{
+				messageQueue.CompleteAdding();
+				thread.Join();
+				messageQueue.Dispose();
+			}
 		}
 
 		private class Internal

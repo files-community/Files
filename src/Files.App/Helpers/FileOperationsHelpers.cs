@@ -814,7 +814,7 @@ namespace Files.App.Helpers
 		public static void WaitForCompletion()
 			=> progressHandler?.WaitForCompletion();
 
-		private class ProgressHandler : Disposable
+		private class ProgressHandler : IDisposable
 		{
 			private readonly ManualResetEvent operationsCompletedEvent;
 
@@ -906,7 +906,13 @@ namespace Files.App.Helpers
 				operationsCompletedEvent.WaitOne();
 			}
 
-			protected override void Dispose(bool disposing)
+			public void Dispose()
+			{
+				Dispose(true);
+				GC.SuppressFinalize(this);
+			}
+
+			private void Dispose(bool disposing)
 			{
 				if (disposing)
 				{
