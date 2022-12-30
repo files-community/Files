@@ -1,13 +1,16 @@
 using Files.App.Helpers;
 using Files.App.ViewModels.Dialogs;
 using Files.Backend.Extensions;
+using Files.Backend.ViewModels.Dialogs;
+using Files.Shared.Enums;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Files.App.Dialogs
 {
-	public sealed partial class CreateShortcutDialog : ContentDialog
+	public sealed partial class CreateShortcutDialog : ContentDialog, IDialog<CreateShortcutDialogViewModel>
 	{
 		public CreateShortcutDialogViewModel ViewModel
 		{
@@ -72,5 +75,7 @@ namespace Files.App.Dialogs
 
 		private void DestinationItemPath_GotFocus(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
 			=> ViewModel.IsLocationValid = true;
+
+		public new async Task<DialogResult> ShowAsync() => (DialogResult)await base.ShowAsync();
 	}
 }

@@ -1107,7 +1107,7 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModel
 				{
-					Text = "BaseLayoutItemContextFlyoutShortcut/Text".GetLocalizedResource(),
+					Text = "Shortcut".GetLocalizedResource(),
 					Glyph = "\uF10A",
 					GlyphFontFamilyName = "CustomGlyph",
 					Command = commandsViewModel.CreateShortcutFromDialogCommand
