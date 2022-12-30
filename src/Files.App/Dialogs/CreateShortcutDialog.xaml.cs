@@ -22,22 +22,48 @@ namespace Files.App.Dialogs
 
 		private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
 		{
-			var destinationName = Path.GetFileName(ViewModel.DestinationItemPath);
-			destinationName ??= Path.GetDirectoryName(ViewModel.DestinationItemPath);
-			destinationName ??= Path.GetPathRoot(ViewModel.DestinationItemPath);
-
-			if (string.IsNullOrWhiteSpace(destinationName))
+			if (string.IsNullOrWhiteSpace(ViewModel.DestinationItemPath))
 			{
-				var uri = new Uri(ViewModel.DestinationItemPath);
-				if (!uri.IsFile)
-					destinationName = uri.Host;
+				args.Cancel = true;
+				return;
 			}
 
-			var filePath = Path.Combine(
-				ViewModel.WorkingDirectory,
-				string.Format("ShortcutCreateNewSuffix".ToLocalized(), destinationName) + ".lnk");
+			try
+			{
+				var destinationName = string.Empty;
+				var extension = ".lnk";
+				if (Path.Exists(ViewModel.DestinationItemPath))
+				{
+					destinationName = Path.GetFileName(ViewModel.DestinationItemPath);
+					destinationName ??= Path.GetDirectoryName(ViewModel.DestinationItemPath);
+					if (string.IsNullOrEmpty(destinationName))
+					{
+						args.Cancel = true;
+						return;
+					}
+				}
+				else
+				{
+					var uri = new Uri(ViewModel.DestinationItemPath);
+					if (!uri.IsWellFormedOriginalString())
+					{
+						args.Cancel = true;
+						return;
+					}
+					destinationName = uri.Host;
+					extension = ".url";
+				}
 
-			await FileOperationsHelpers.CreateOrUpdateLinkAsync(filePath, ViewModel.DestinationItemPath);
+				var filePath = Path.Combine(
+					ViewModel.WorkingDirectory,
+					string.Format("ShortcutCreateNewSuffix".ToLocalized(), destinationName) + extension);
+
+				await FileOperationsHelpers.CreateOrUpdateLinkAsync(filePath, ViewModel.DestinationItemPath);
+			}
+			catch (Exception)
+			{
+				args.Cancel = true;
+			}
 		}
 	}
 }

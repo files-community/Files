@@ -20,8 +20,8 @@
 			ColumnSpacing="8"
 			RowSpacing="8">
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="400" />
 				<ColumnDefinition />
+				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
@@ -31,6 +31,7 @@
 			
 			<!--  Header  -->
 			<TextBlock 
+				Grid.ColumnSpan="2"
 				Margin="0, 0, 0, 20"
 				Text="{helpers:ResourceString Name=NewShortcutDialogDescription}"
 				TextWrapping="Wrap" />
