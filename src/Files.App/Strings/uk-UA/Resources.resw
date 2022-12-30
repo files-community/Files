@@ -218,7 +218,7 @@
     <value>Формат дати</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Вибір кольору</value>
+    <value>Тема</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Показувати розширення для відомих типів файлів</value>
@@ -234,6 +234,9 @@
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Оформлення</value>
+  </data>
+  <data name="Background" xml:space="preserve">
+    <value>Тло</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Експериментально</value>
@@ -1223,7 +1226,7 @@
     <value>Зміна розкладки в каталозі, коли цей параметр вимкнуто, оновить розкладку для всіх каталогів.</value>
   </data>
   <data name="EnableOverridingFolderPreferences" xml:space="preserve">
-    <value>Увімкнути перезапис налаштувань в окремих директорій</value>
+    <value>Ввімкнути перезапис налаштувань директорій в окремих директоріях</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Налаштування контекстного меню</value>
@@ -1506,9 +1509,6 @@
   </data>
   <data name="Default" xml:space="preserve">
     <value>За замовчуванням</value>
-  </data>
-  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
-    <value>Користувацькі теми</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Кількість елементів</value>
@@ -1986,18 +1986,6 @@
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Невідомий власник</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Докладніше про спеціальні теми</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Докладніше про спеціальні теми</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
-    <value>Спеціальні теми — чудовий спосіб персоналізувати файли.</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
-    <value>Переглянути документацію</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
     <value>Розпакувати архів</value>
@@ -2934,5 +2922,8 @@
   </data>
   <data name="SortBy" xml:space="preserve">
     <value>Сортування</value>
+  </data>
+  <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
+    <value>Недавно використані файли наразі недоступні у провіднику Windows File Explorer.</value>
   </data>
 </root>

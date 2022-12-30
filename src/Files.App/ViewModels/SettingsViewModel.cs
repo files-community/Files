@@ -22,19 +22,6 @@ namespace Files.App.ViewModels
 			UpdateThemeElements = new RelayCommand(() => ThemeModeChanged?.Invoke(this, EventArgs.Empty));
 		}
 
-		#region Appearance
-
-		/// <summary>
-		/// Gets or sets the user's current selected skin
-		/// </summary>
-		public AppTheme SelectedTheme
-		{
-			get => JsonSerializer.Deserialize<AppTheme>(Get(JsonSerializer.Serialize(new AppTheme() { Name = "Default".GetLocalizedResource() })));
-			set => Set(JsonSerializer.Serialize(value));
-		}
-
-		#endregion Appearance
-
 		public event EventHandler ThemeModeChanged;
 
 		public ICommand UpdateThemeElements { get; }
