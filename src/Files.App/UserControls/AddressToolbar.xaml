@@ -48,7 +48,7 @@
 		x:Name="ToolbarGrid"
 		HorizontalAlignment="Stretch"
 		VerticalAlignment="Stretch"
-		Background="{ThemeResource AddressToolbarBackgroundBrush}"
+		Background="{ThemeResource App.Theme.AddressBar.BackgroundBrush}"
 		ColumnSpacing="0">
 		<Grid Padding="8" ColumnSpacing="4">
 			<Grid.ColumnDefinitions>

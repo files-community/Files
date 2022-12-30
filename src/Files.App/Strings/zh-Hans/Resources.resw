@@ -158,7 +158,7 @@
     <value>大小:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>原始（压缩前）大小</value>
+    <value>未压缩大小:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>操作无法完成</value>
@@ -218,7 +218,7 @@
     <value>日期格式</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>选择颜色</value>
+    <value>Theme</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>显示已知文件类型的扩展名</value>
@@ -234,6 +234,9 @@
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>外观</value>
+  </data>
+  <data name="Background" xml:space="preserve">
+    <value>Background</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>实验性功能</value>
@@ -1211,7 +1214,7 @@
     <value>有更新可用</value>
   </data>
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
-    <value>显示受保护的操作系统文件</value>
+    <value>显示受保护的系统文件</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
     <value>在搜索结果中包含未建立索引的项</value>
@@ -1506,9 +1509,6 @@
   </data>
   <data name="Default" xml:space="preserve">
     <value>默认</value>
-  </data>
-  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
-    <value>自定义主题</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>项数</value>
@@ -1987,18 +1987,6 @@
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>未知所有者</value>
   </data>
-  <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>了解有关自定义主题的更多信息</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>了解有关自定义主题的更多信息</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
-    <value>自定义主题提供个性化 Files 的途径。</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
-    <value>查看文档。</value>
-  </data>
   <data name="ExtractArchive" xml:space="preserve">
     <value>解压缩</value>
   </data>
@@ -2447,7 +2435,7 @@
     <value>文件标签</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>通过单击打开项目</value>
+    <value>通过单击打开文件</value>
   </data>
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
     <value>文件夹路径</value>
@@ -2777,7 +2765,7 @@
     <value>重置首选项</value>
   </data>
   <data name="ResetLayoutPreferences" xml:space="preserve">
-    <value>此操作将重置所有目录为默认首选项。</value>
+    <value>此操作将所有目录的设置重置为默认设置。</value>
   </data>
   <data name="AreYouSure" xml:space="preserve">
     <value>确定吗？</value>
@@ -2837,7 +2825,7 @@
     <value>在目标位置找不到 {0}。要删除此快捷方式吗？</value>
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
-    <value>你没有访问此服务器的权限。</value>
+    <value>你没有访问此文件夹的权限。</value>
   </data>
   <data name="LoadingThemes" xml:space="preserve">
     <value>正在加载主题</value>
@@ -2861,7 +2849,7 @@
     <value>排序和分组</value>
   </data>
   <data name="Archive" xml:space="preserve">
-    <value>压缩文件</value>
+    <value>压缩包</value>
   </data>
   <data name="CreateArchive" xml:space="preserve">
     <value>创建压缩文件</value>
@@ -2934,5 +2922,8 @@
   </data>
   <data name="SortBy" xml:space="preserve">
     <value>排序方式</value>
+  </data>
+  <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
+    <value>Recently used files is currently disabled in Windows File Explorer.</value>
   </data>
 </root>
