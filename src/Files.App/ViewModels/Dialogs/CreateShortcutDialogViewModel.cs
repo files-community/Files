@@ -18,6 +18,13 @@ namespace Files.App.ViewModels.Dialogs
 			set => SetProperty(ref _destinationItemPath, value);
 		}
 
+		private bool _isLocationValid = true;
+		public bool IsLocationValid
+		{
+			get => _isLocationValid;
+			set => SetProperty(ref _isLocationValid, value);
+		}
+
 		public ICommand SelectDestinationCommand { get; private set; }
 
 		public CreateShortcutDialogViewModel(string workingDirectory)

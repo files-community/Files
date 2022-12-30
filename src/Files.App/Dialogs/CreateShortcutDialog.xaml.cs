@@ -24,6 +24,7 @@ namespace Files.App.Dialogs
 		{
 			if (string.IsNullOrWhiteSpace(ViewModel.DestinationItemPath))
 			{
+				ViewModel.IsLocationValid = false;
 				args.Cancel = true;
 				return;
 			}
@@ -38,6 +39,7 @@ namespace Files.App.Dialogs
 					destinationName ??= Path.GetDirectoryName(ViewModel.DestinationItemPath);
 					if (string.IsNullOrEmpty(destinationName))
 					{
+						ViewModel.IsLocationValid = false;
 						args.Cancel = true;
 						return;
 					}
@@ -47,6 +49,7 @@ namespace Files.App.Dialogs
 					var uri = new Uri(ViewModel.DestinationItemPath);
 					if (!uri.IsWellFormedOriginalString())
 					{
+						ViewModel.IsLocationValid = false;
 						args.Cancel = true;
 						return;
 					}
@@ -62,8 +65,12 @@ namespace Files.App.Dialogs
 			}
 			catch (Exception)
 			{
+				ViewModel.IsLocationValid = false;
 				args.Cancel = true;
 			}
 		}
+
+		private void DestinationItemPath_GotFocus(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+			=> ViewModel.IsLocationValid = true;
 	}
 }
