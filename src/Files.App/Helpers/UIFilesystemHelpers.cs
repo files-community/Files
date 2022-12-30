@@ -1,3 +1,4 @@
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Dialogs;
 using Files.App.Extensions;
 using Files.App.Filesystem;
@@ -6,6 +7,7 @@ using Files.App.Interacts;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Dialogs;
 using Files.Backend.Enums;
+using Files.Backend.Services;
 using Files.Shared;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
@@ -391,12 +393,8 @@ namespace Files.App.Helpers
 		public static async Task CreateShortcutFromDialogAsync(IShellPage associatedInstance)
 		{
 			var viewModel = new CreateShortcutDialogViewModel(associatedInstance.FilesystemViewModel.WorkingDirectory);
-			var createShortcutDialog = new CreateShortcutDialog()
-			{
-				ViewModel = viewModel
-			};
-
-			await createShortcutDialog.TryShowAsync();
+			var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+			await dialogService.ShowDialogAsync(viewModel);
 		}
 	}
 }

@@ -1110,9 +1110,7 @@ namespace Files.App.Helpers
 					Text = "BaseLayoutItemContextFlyoutShortcut/Text".GetLocalizedResource(),
 					Glyph = "\uF10A",
 					GlyphFontFamilyName = "CustomGlyph",
-					Command = commandsViewModel.CreateShortcutFromDialogCommand,
-					ShowInFtpPage = true,
-					ShowInZipPage = true
+					Command = commandsViewModel.CreateShortcutFromDialogCommand
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
