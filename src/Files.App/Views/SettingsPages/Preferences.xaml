@@ -189,12 +189,12 @@
 									<AppBarButton
 										Command="{x:Bind ViewModel.ChangePageCommand}"
 										Icon="Edit"
-										IsEnabled="{x:Bind ViewModel.IsPageListEditEnabled}"
+										IsEnabled="{x:Bind ViewModel.IsPageListEditEnabled, Mode=OneWay}"
 										Label="{helpers:ResourceString Name=Edit}" />
 									<AppBarButton
 										Command="{x:Bind ViewModel.RemovePageCommand}"
 										Icon="Delete"
-										IsEnabled="{x:Bind ViewModel.IsPageListEditEnabled}"
+										IsEnabled="{x:Bind ViewModel.IsPageListEditEnabled, Mode=OneWay}"
 										Label="{helpers:ResourceString Name=Remove}" />
 								</CommandBar>
 

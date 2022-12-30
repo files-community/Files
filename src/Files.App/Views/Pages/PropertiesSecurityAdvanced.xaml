@@ -12,10 +12,9 @@
 	d:Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
 	d:Height="550"
 	d:Width="850"
-	Background="{ThemeResource RootBackgroundBrush}"
+	Background="{ThemeResource App.Theme.BackgroundBrush}"
 	KeyDown="Page_KeyDown"
 	Loaded="Properties_Loaded"
-	Loading="Page_Loading"
 	Unloaded="Properties_Unloaded"
 	mc:Ignorable="d">
 

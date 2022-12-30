@@ -74,7 +74,7 @@ namespace Files.App
 			{
 				if (tileArgs.Arguments is not null &&
 					!tileArgs.Arguments.Contains($"files.exe", StringComparison.OrdinalIgnoreCase) &&
-					new[] { ".exe", ".bat", ".cmd" }.Contains(Path.GetExtension(tileArgs.Arguments), StringComparer.OrdinalIgnoreCase))
+					FileExtensionHelpers.IsExecutableFile(tileArgs.Arguments))
 				{
 					if (File.Exists(tileArgs.Arguments))
 					{
