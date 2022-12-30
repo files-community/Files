@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 
 namespace Files.App.UserControls.Widgets
 {
-	public sealed partial class RecentFilesWidget : UserControl, IWidgetItemModel
+	public sealed partial class RecentFilesWidget : UserControl, IWidgetItemModel, INotifyPropertyChanged
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
@@ -30,13 +30,13 @@ namespace Files.App.UserControls.Widgets
 
 		public event RecentFileInvokedEventHandler RecentFileInvoked;
 
+		public event PropertyChangedEventHandler PropertyChanged;
+
 		private ObservableCollection<RecentItem> recentItemsCollection = new ObservableCollection<RecentItem>();
 
 		private SemaphoreSlim refreshRecentsSemaphore;
 
 		private CancellationTokenSource refreshRecentsCTS;
-
-		private EmptyRecentsText Empty { get; set; } = new EmptyRecentsText();
 
 		public string WidgetName => nameof(RecentFilesWidget);
 
@@ -46,6 +46,34 @@ namespace Files.App.UserControls.Widgets
 
 		public bool IsWidgetSettingEnabled => UserSettingsService.AppearanceSettingsService.ShowRecentFilesWidget;
 
+		private Visibility emptyRecentsTextVisibility = Visibility.Collapsed;
+		public Visibility EmptyRecentsTextVisibility
+		{
+			get => emptyRecentsTextVisibility;
+			internal set
+			{
+				if (emptyRecentsTextVisibility != value)
+				{
+					emptyRecentsTextVisibility = value;
+					NotifyPropertyChanged(nameof(EmptyRecentsTextVisibility));
+				}
+			}
+		}
+
+		private bool isRecentFilesDisabledInWindows = false;
+		public bool IsRecentFilesDisabledInWindows
+		{
+			get => isRecentFilesDisabledInWindows;
+			internal set
+			{
+				if (isRecentFilesDisabledInWindows != value)
+				{
+					isRecentFilesDisabledInWindows = value;
+					NotifyPropertyChanged(nameof(IsRecentFilesDisabledInWindows));
+				}
+			}
+		}
+
 		public RecentFilesWidget()
 		{
 			InitializeComponent();
@@ -54,9 +82,15 @@ namespace Files.App.UserControls.Widgets
 			refreshRecentsCTS = new CancellationTokenSource();
 
 			// recent files could have changed while widget wasn't loaded
-			_ = App.RecentItemsManager.UpdateRecentFilesAsync();
+			_ = RefreshWidget();
 
 			App.RecentItemsManager.RecentFilesChanged += Manager_RecentFilesChanged;
+		}
+
+		public async Task RefreshWidget()
+		{
+			IsRecentFilesDisabledInWindows = App.RecentItemsManager.CheckIsRecentFilesEnabled() is false;
+			await App.RecentItemsManager.UpdateRecentFilesAsync();
 		}
 
 		private async void Manager_RecentFilesChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -100,7 +134,7 @@ namespace Files.App.UserControls.Widgets
 				refreshRecentsCTS.Cancel();
 				refreshRecentsCTS = new CancellationTokenSource();
 
-				Empty.Visibility = Visibility.Collapsed;
+				EmptyRecentsTextVisibility = Visibility.Collapsed;
 
 				switch (e.Action)
 				{
@@ -131,9 +165,9 @@ namespace Files.App.UserControls.Widgets
 				}
 
 				// update chevron if there aren't any items
-				if (recentItemsCollection.Count == 0)
+				if (recentItemsCollection.Count == 0 && !IsRecentFilesDisabledInWindows)
 				{
-					Empty.Visibility = Visibility.Visible;
+					EmptyRecentsTextVisibility = Visibility.Visible;
 				}
 			}
 			catch (Exception ex)
@@ -202,7 +236,7 @@ namespace Files.App.UserControls.Widgets
 
 				if (success)
 				{
-					Empty.Visibility = Visibility.Visible;
+					EmptyRecentsTextVisibility = Visibility.Visible;
 				}
 			}
 			finally
@@ -211,43 +245,14 @@ namespace Files.App.UserControls.Widgets
 			}
 		}
 
-		public Task RefreshWidget()
+		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
 		{
-			// if files changed, event is fired to update widget
-			return App.RecentItemsManager.UpdateRecentFilesAsync();
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
 		public void Dispose()
 		{
 			App.RecentItemsManager.RecentFilesChanged -= Manager_RecentFilesChanged;
-		}
-	}
-
-	public class EmptyRecentsText : INotifyPropertyChanged
-	{
-		private Visibility visibility;
-
-		public Visibility Visibility
-		{
-			get
-			{
-				return visibility;
-			}
-			set
-			{
-				if (value != visibility)
-				{
-					visibility = value;
-					NotifyPropertyChanged(nameof(Visibility));
-				}
-			}
-		}
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 	}
 }
