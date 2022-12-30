@@ -245,19 +245,26 @@ namespace Files.App.Helpers
 			if (NutstoreKey is not null)
 			{
 				string iconPath = Path.Combine(Environment.GetEnvironmentVariable("ProgramFiles"), "Nutstore", "Nutstore.exe");
-				var iconFile = Win32API.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 32512 }, 32).FirstOrDefault();
+				var iconFile = Win32API.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 101 }).FirstOrDefault();
 
-				// Get Nutstore sync folder from registry
-				var syncedFolder = (string)NutstoreKey.GetValue("SyncFolder");
-
-				results.Add(new CloudProvider(CloudProviders.pCloud)
+				// get every folder under the Nutstore folder in %userprofile%
+				var mainFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Nutstore");
+				var nutstoreFolders = Directory.GetDirectories(mainFolder, "Nutstore", SearchOption.AllDirectories);
+				foreach (var nutstoreFolder in nutstoreFolders)
 				{
-					Name = $"Nutstore",
-					SyncFolder = syncedFolder,
-					IconData = iconFile?.IconData
-				});
+					var folderName = Path.GetFileName(nutstoreFolder);
+					if (folderName is not null && folderName.StartsWith("Nutstore", StringComparison.OrdinalIgnoreCase))
+					{
+						results.Add(new CloudProvider(CloudProviders.Nutstore)
+						{
+							Name = $"Nutstore",
+							SyncFolder = nutstoreFolder,
+							IconData = iconFile?.IconData
+						});
+					}
+				}
 			}
-
+	
 			return Task.FromResult<IEnumerable<ICloudProvider>>(results);
 		}
 	}
