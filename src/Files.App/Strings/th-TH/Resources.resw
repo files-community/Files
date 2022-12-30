@@ -9,9 +9,7 @@
     that is mostly human readable. The generation and parsing of the
     various data types are done through the TypeConverter classes
     associated with the data types.
-
     Example:
-
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,7 +24,6 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-
     There are any number of "resheader" rows that contain simple
     name/value pairs.
 
@@ -43,12 +40,10 @@
     Note - application/x-microsoft.net.object.binary.base64 is the format
     that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-
     mimetype: application/x-microsoft.net.object.soap.base64
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
@@ -223,7 +218,7 @@
     <value>รูปแบบวันที่</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>เลือกรูปแบบสีพื้นหลัง</value>
+    <value>Theme</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>แสดงนามสกุลสำหรับชนิดไฟล์ที่รู้จัก</value>
@@ -239,6 +234,9 @@
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>ตกแต่ง</value>
+  </data>
+  <data name="Background" xml:space="preserve">
+    <value>Background</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>ฟังก์ชั่นทดสอบ</value>
@@ -1512,9 +1510,6 @@
   <data name="Default" xml:space="preserve">
     <value>ค่าเริ่มต้น</value>
   </data>
-  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
-    <value>ธีมปรับแต่งเอง</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>จำนวนรายการ</value>
   </data>
@@ -1991,18 +1986,6 @@
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>เจ้าของไม่ทราบชื่อ</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>ศึกษาเพิ่มเติมเกี่ยวกับธีมปรับแต่ง</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>ศึกษาเพิ่มเติมเกี่ยวกับธีมปรับแต่ง</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
-    <value>ธีมปรับแต่งถือเป็นเครื่องมือปรับแต่งแอปพลิเคชั่นไฟล์ให้คุณไม่เหมือนใคร.</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
-    <value>แสดงเอกสารประกอบ</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
     <value>Extract Archive</value>
@@ -2862,6 +2845,9 @@
   <data name="ExtractToPath" xml:space="preserve">
     <value>Path</value>
   </data>
+  <data name="SortingAndGrouping" xml:space="preserve">
+    <value>Sorting and grouping</value>
+  </data>
   <data name="Archive" xml:space="preserve">
     <value>Archive</value>
   </data>
@@ -2930,5 +2916,14 @@
   </data>
   <data name="DetailsViewHeaderFlyout_ShowSyncStatus.Text" xml:space="preserve">
     <value>Sync status column</value>
+  </data>
+  <data name="GroupBy" xml:space="preserve">
+    <value>Group by</value>
+  </data>
+  <data name="SortBy" xml:space="preserve">
+    <value>เรียงลำดับตาม</value>
+  </data>
+  <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
+    <value>Recently used files is currently disabled in Windows File Explorer.</value>
   </data>
 </root>

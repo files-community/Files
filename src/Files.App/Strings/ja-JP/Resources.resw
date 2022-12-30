@@ -9,9 +9,7 @@
     that is mostly human readable. The generation and parsing of the
     various data types are done through the TypeConverter classes
     associated with the data types.
-
     Example:
-
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,7 +24,6 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-
     There are any number of "resheader" rows that contain simple
     name/value pairs.
 
@@ -43,12 +40,10 @@
     Note - application/x-microsoft.net.object.binary.base64 is the format
     that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-
     mimetype: application/x-microsoft.net.object.soap.base64
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
@@ -223,7 +218,7 @@
     <value>日付の形式</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>色を選択</value>
+    <value>テーマ</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>既知のファイル タイプの拡張子を表示</value>
@@ -239,6 +234,9 @@
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>外観</value>
+  </data>
+  <data name="Background" xml:space="preserve">
+    <value>背景</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>実験的機能</value>
@@ -1099,7 +1097,7 @@
     <value>オーディオ</value>
   </data>
   <data name="PropertySectionMusic" xml:space="preserve">
-    <value>音楽</value>
+    <value>ミュージック</value>
   </data>
   <data name="PropertySectionVideo" xml:space="preserve">
     <value>ビデオ</value>
@@ -1511,9 +1509,6 @@
   </data>
   <data name="Default" xml:space="preserve">
     <value>既定</value>
-  </data>
-  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
-    <value>カスタム テーマ</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>ファイル数</value>
@@ -1991,18 +1986,6 @@
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>不明な所有者</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>カスタム テーマの詳細</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>カスタム テーマの詳細</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
-    <value>カスタム テーマを使用して、自分なりの Files を作り上げることができます。</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
-    <value>ドキュメントを見る</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
     <value>アーカイブを展開</value>
@@ -2659,7 +2642,7 @@
     <value>他のタブを閉じる</value>
   </data>
   <data name="Music" xml:space="preserve">
-    <value>音楽</value>
+    <value>ミュージック</value>
   </data>
   <data name="Pictures" xml:space="preserve">
     <value>ピクチャ</value>
@@ -2862,6 +2845,9 @@
   <data name="ExtractToPath" xml:space="preserve">
     <value>パス</value>
   </data>
+  <data name="SortingAndGrouping" xml:space="preserve">
+    <value>並べ替えとグループ化</value>
+  </data>
   <data name="Archive" xml:space="preserve">
     <value>アーカイブ</value>
   </data>
@@ -2930,5 +2916,14 @@
   </data>
   <data name="DetailsViewHeaderFlyout_ShowSyncStatus.Text" xml:space="preserve">
     <value>同期ステータス</value>
+  </data>
+  <data name="GroupBy" xml:space="preserve">
+    <value>グループで表示</value>
+  </data>
+  <data name="SortBy" xml:space="preserve">
+    <value>並べ替え</value>
+  </data>
+  <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
+    <value>最近使用したファイルは、Windows のファイルエクスプローラーで現在無効になっています。</value>
   </data>
 </root>

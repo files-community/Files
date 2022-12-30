@@ -32,6 +32,10 @@ namespace Files.App.Shell
 					}
 				}
 			}
+			if (!newMenuItems.Any(x => ".txt".Equals(x.Extension, StringComparison.OrdinalIgnoreCase)))
+			{
+				newMenuItems.Add(await CreateShellNewEntry(".txt", null, null, null));
+			}
 			return newMenuItems;
 		}
 
@@ -68,20 +72,23 @@ namespace Files.App.Shell
 			return null;
 		}
 
-		private static async Task<ShellNewEntry> ParseShellNewRegistryEntry(RegistryKey key, RegistryKey root)
+		private static Task<ShellNewEntry> ParseShellNewRegistryEntry(RegistryKey key, RegistryKey root)
 		{
 			var valueNames = key.GetValueNames();
 
 			if (!valueNames.Contains("NullFile", StringComparer.OrdinalIgnoreCase) &&
 				!valueNames.Contains("Name", StringComparer.OrdinalIgnoreCase) &&
 				!valueNames.Contains("FileName", StringComparer.OrdinalIgnoreCase) &&
-				!valueNames.Contains("Command", StringComparer.OrdinalIgnoreCase))
+				!valueNames.Contains("Command", StringComparer.OrdinalIgnoreCase) &&
+				!valueNames.Contains("ItemName", StringComparer.OrdinalIgnoreCase) &&
+				!valueNames.Contains("Data", StringComparer.OrdinalIgnoreCase))
 			{
-				return null;
+				return Task.FromResult<ShellNewEntry>(null);
 			}
 
 			var extension = root.Name.Substring(root.Name.LastIndexOf('\\') + 1);
 			var fileName = (string)key.GetValue("FileName");
+			var command = (string)key.GetValue("Command");
 
 			byte[] data = null;
 			var dataObj = key.GetValue("Data");
@@ -100,6 +107,11 @@ namespace Files.App.Shell
 				}
 			}
 
+			return CreateShellNewEntry(extension, fileName, command, data);
+		}
+
+		private static async Task<ShellNewEntry> CreateShellNewEntry(string extension, string? fileName, string? command, byte[]? data)
+		{
 			var folder = await SafetyExtensions.IgnoreExceptions(() => ApplicationData.Current.LocalFolder.CreateFolderAsync("extensions", CreationCollisionOption.OpenIfExists).AsTask());
 			var sampleFile = folder is not null ? await SafetyExtensions.IgnoreExceptions(() => folder.CreateFileAsync("file" + extension, CreationCollisionOption.OpenIfExists).AsTask()) : null;
 
@@ -121,7 +133,7 @@ namespace Files.App.Shell
 				Extension = extension,
 				Template = fileName,
 				Name = displayType,
-				Command = (string)key.GetValue("Command"),
+				Command = command,
 				IconBase64 = iconString,
 				Data = data
 			};

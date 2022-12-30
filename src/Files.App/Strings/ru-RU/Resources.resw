@@ -9,9 +9,7 @@
     that is mostly human readable. The generation and parsing of the
     various data types are done through the TypeConverter classes
     associated with the data types.
-
     Example:
-
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,7 +24,6 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-
     There are any number of "resheader" rows that contain simple
     name/value pairs.
 
@@ -43,12 +40,10 @@
     Note - application/x-microsoft.net.object.binary.base64 is the format
     that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-
     mimetype: application/x-microsoft.net.object.soap.base64
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
@@ -223,7 +218,7 @@
     <value>Формат даты</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Выберите тему</value>
+    <value>Тема оформления</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Показывать расширения для известных типов файлов</value>
@@ -240,8 +235,11 @@
   <data name="Appearance" xml:space="preserve">
     <value>Внешний вид</value>
   </data>
+  <data name="Background" xml:space="preserve">
+    <value>Фон</value>
+  </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
-    <value>Эксперименты</value>
+    <value>Экспериментально</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Предпочтения</value>
@@ -1512,9 +1510,6 @@
   <data name="Default" xml:space="preserve">
     <value>По умолчанию</value>
   </data>
-  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
-    <value>Пользовательские темы</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Число элементов</value>
   </data>
@@ -1991,18 +1986,6 @@
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Неизвестный владелец</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Узнать больше о пользовательских темах</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Узнать больше о пользовательских темах</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
-    <value>Пользовательские темы предоставляют прекрасную возможность персонализировать Files.</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
-    <value>Посмотреть документацию.</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
     <value>Извлечь архив</value>
@@ -2722,7 +2705,7 @@
     <value>Пользовательский</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
-    <value>Установить как слад-шоу рабочего стола</value>
+    <value>Установить как слайд-шоу рабочего стола</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
     <value>Столбцы по размеру содержимого</value>
@@ -2827,7 +2810,7 @@
     <value>Вы хотите восстановить {0} выбранный(ые) элемент(ы)?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
-    <value>Восстановить выделенное</value>
+    <value>Восстановить выбранное</value>
   </data>
   <data name="RestoreAllItems" xml:space="preserve">
     <value>Восстановить все элементы</value>
@@ -2842,7 +2825,7 @@
     <value>Целевой адресат не может быть найден {0}. Вы хотите удалить этот ярлык?</value>
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
-    <value>You don't have permission to access this folder.</value>
+    <value>У вас нет прав на просмотр этой папки.</value>
   </data>
   <data name="LoadingThemes" xml:space="preserve">
     <value>Загрузка Тем</value>
@@ -2862,50 +2845,53 @@
   <data name="ExtractToPath" xml:space="preserve">
     <value>Путь</value>
   </data>
+  <data name="SortingAndGrouping" xml:space="preserve">
+    <value>Сортировка и группировка</value>
+  </data>
   <data name="Archive" xml:space="preserve">
-    <value>Archive</value>
+    <value>Архивировать</value>
   </data>
   <data name="CreateArchive" xml:space="preserve">
-    <value>Create archive</value>
+    <value>Создать архив</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>Создать</value>
   </data>
   <data name="CreateNamedArchive" xml:space="preserve">
-    <value>Create {0}</value>
+    <value>Создать {0}</value>
   </data>
   <data name="EnterName" xml:space="preserve">
-    <value>Enter a name</value>
+    <value>Введите имя</value>
   </data>
   <data name="CompressionLevel" xml:space="preserve">
-    <value>Compression level</value>
+    <value>Уровень сжатия</value>
   </data>
   <data name="CompressionLevelUltra" xml:space="preserve">
-    <value>Ultra</value>
+    <value>Ультра</value>
   </data>
   <data name="CompressionLevelHigh" xml:space="preserve">
-    <value>High</value>
+    <value>Высокий</value>
   </data>
   <data name="CompressionLevelNormal" xml:space="preserve">
-    <value>Normal</value>
+    <value>Нормальный</value>
   </data>
   <data name="CompressionLevelLow" xml:space="preserve">
-    <value>Low</value>
+    <value>Низкий</value>
   </data>
   <data name="CompressionLevelFast" xml:space="preserve">
-    <value>Fast</value>
+    <value>Быстрый</value>
   </data>
   <data name="CompressionLevelNone" xml:space="preserve">
-    <value>Никак</value>
+    <value>Отсутствует</value>
   </data>
   <data name="SplitArchive" xml:space="preserve">
-    <value>Split the archive</value>
+    <value>Разбить архив</value>
   </data>
   <data name="SplittingSize" xml:space="preserve">
-    <value>Splitting size</value>
+    <value>Размер тома</value>
   </data>
   <data name="Do not split" xml:space="preserve">
-    <value>Do not split</value>
+    <value>Не разбивать</value>
   </data>
   <data name="CD" xml:space="preserve">
     <value>CD</value>
@@ -2920,7 +2906,7 @@
     <value>Blu-ray</value>
   </data>
   <data name="Encryption" xml:space="preserve">
-    <value>Encryption</value>
+    <value>Шифрование</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>Пароль</value>
@@ -2929,6 +2915,15 @@
     <value>Формат</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowSyncStatus.Text" xml:space="preserve">
-    <value>Sync status column</value>
+    <value>Синхронизировать колонку статуса</value>
+  </data>
+  <data name="GroupBy" xml:space="preserve">
+    <value>Группировка по</value>
+  </data>
+  <data name="SortBy" xml:space="preserve">
+    <value>Сортировка</value>
+  </data>
+  <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
+    <value>Recently used files is currently disabled in Windows File Explorer.</value>
   </data>
 </root>

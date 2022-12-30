@@ -303,10 +303,10 @@ namespace Files.App.Filesystem.StorageEnumerators
 					IsSymLink = true
 				};
 			}
-			else if (findData.cFileName.EndsWith(".lnk", StringComparison.Ordinal) || findData.cFileName.EndsWith(".url", StringComparison.Ordinal))
+			else if (FileExtensionHelpers.IsShortcutOrUrlFile(findData.cFileName))
 			{
-				var isUrl = findData.cFileName.EndsWith(".url", StringComparison.OrdinalIgnoreCase);
-				var shInfo = await ParseLinkAsync(itemPath);
+				var isUrl = FileExtensionHelpers.IsWebLinkFile(findData.cFileName);
+				var shInfo = await FileOperationsHelpers.ParseLinkAsync(itemPath);
 				if (shInfo is null)
 				{
 					return null;
@@ -387,38 +387,6 @@ namespace Files.App.Filesystem.StorageEnumerators
 				}
 			}
 			return null;
-		}
-
-		private async static Task<ShellLinkItem> ParseLinkAsync(string linkPath)
-		{
-			try
-			{
-				if (linkPath.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase))
-				{
-					using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, default, TimeSpan.FromMilliseconds(100));
-					return ShellFolderExtensions.GetShellLinkItem(link);
-				}
-				else if (linkPath.EndsWith(".url", StringComparison.OrdinalIgnoreCase))
-				{
-					var linkUrl = await Win32API.StartSTATask(() =>
-					{
-						var ipf = new Url.IUniformResourceLocator();
-						(ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Load(linkPath, 0);
-						ipf.GetUrl(out var retVal);
-						return retVal;
-					});
-					return new ShellLinkItem() { TargetPath = linkUrl };
-				}
-				else
-				{
-					throw new Exception();
-				}
-			}
-			catch (Exception)
-			{
-				// TODO: Log this properly
-				return await Task.FromResult<ShellLinkItem>(null);
-			}
 		}
 	}
 }

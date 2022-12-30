@@ -9,9 +9,7 @@
     that is mostly human readable. The generation and parsing of the
     various data types are done through the TypeConverter classes
     associated with the data types.
-
     Example:
-
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,7 +24,6 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-
     There are any number of "resheader" rows that contain simple
     name/value pairs.
 
@@ -43,12 +40,10 @@
     Note - application/x-microsoft.net.object.binary.base64 is the format
     that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-
     mimetype: application/x-microsoft.net.object.soap.base64
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
@@ -223,7 +218,7 @@
     <value>Dátum formátum</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Szín</value>
+    <value>Téma</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Fájlkiterjesztések megjelenítése ismert fájltípusoknál</value>
@@ -239,6 +234,9 @@
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Megjelenés</value>
+  </data>
+  <data name="Background" xml:space="preserve">
+    <value>Background</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Kísérleti beállítások</value>
@@ -1512,9 +1510,6 @@
   <data name="Default" xml:space="preserve">
     <value>Alapértelmezett</value>
   </data>
-  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
-    <value>Egyedi témák</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Elemek száma</value>
   </data>
@@ -1991,18 +1986,6 @@
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Ismeretlen tulajdonos</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Tudjon meg többet az egyedi témákról</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Tudjon meg többet az egyedi témákról</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
-    <value>Az egyedi témák remek lehetőséget nyújtanak a Files személyre szabására.</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
-    <value>Dokumentáció megtekintése.</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
     <value>Archívum kicsomagolása</value>
@@ -2842,7 +2825,7 @@
     <value>Nem található az elem, amire a parancsikon mutat ({0}). Szeretné eltávolítani a parancsikont?</value>
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
-    <value>You don't have permission to access this folder.</value>
+    <value>Nincs engedélyed hozzáférni ehhez a mappához.</value>
   </data>
   <data name="LoadingThemes" xml:space="preserve">
     <value>Témák betöltése</value>
@@ -2862,50 +2845,53 @@
   <data name="ExtractToPath" xml:space="preserve">
     <value>Célmappa</value>
   </data>
+  <data name="SortingAndGrouping" xml:space="preserve">
+    <value>Rendezés és csoportosítás</value>
+  </data>
   <data name="Archive" xml:space="preserve">
-    <value>Archive</value>
+    <value>Archiválás</value>
   </data>
   <data name="CreateArchive" xml:space="preserve">
-    <value>Create archive</value>
+    <value>Archívum létrehozása</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>Létrehozás</value>
   </data>
   <data name="CreateNamedArchive" xml:space="preserve">
-    <value>Create {0}</value>
+    <value>{0} létrehozása</value>
   </data>
   <data name="EnterName" xml:space="preserve">
-    <value>Enter a name</value>
+    <value>Adjon meg egy nevet</value>
   </data>
   <data name="CompressionLevel" xml:space="preserve">
-    <value>Compression level</value>
+    <value>Tömörítési szint</value>
   </data>
   <data name="CompressionLevelUltra" xml:space="preserve">
-    <value>Ultra</value>
+    <value>Nagyon magas</value>
   </data>
   <data name="CompressionLevelHigh" xml:space="preserve">
-    <value>High</value>
+    <value>Magas</value>
   </data>
   <data name="CompressionLevelNormal" xml:space="preserve">
-    <value>Normal</value>
+    <value>Normál</value>
   </data>
   <data name="CompressionLevelLow" xml:space="preserve">
-    <value>Low</value>
+    <value>Alacsony</value>
   </data>
   <data name="CompressionLevelFast" xml:space="preserve">
-    <value>Fast</value>
+    <value>Gyors</value>
   </data>
   <data name="CompressionLevelNone" xml:space="preserve">
-    <value>Egyik sem</value>
+    <value>Nincs</value>
   </data>
   <data name="SplitArchive" xml:space="preserve">
-    <value>Split the archive</value>
+    <value>Archívum feldarabolása</value>
   </data>
   <data name="SplittingSize" xml:space="preserve">
-    <value>Splitting size</value>
+    <value>Max. fájlméret</value>
   </data>
   <data name="Do not split" xml:space="preserve">
-    <value>Do not split</value>
+    <value>Feldarabolás nélkül</value>
   </data>
   <data name="CD" xml:space="preserve">
     <value>CD</value>
@@ -2920,7 +2906,7 @@
     <value>Blu-ray</value>
   </data>
   <data name="Encryption" xml:space="preserve">
-    <value>Encryption</value>
+    <value>Titkosítás</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>Jelszó</value>
@@ -2929,6 +2915,15 @@
     <value>Formátum</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowSyncStatus.Text" xml:space="preserve">
-    <value>Sync status column</value>
+    <value>Szinkronizálás állapota</value>
+  </data>
+  <data name="GroupBy" xml:space="preserve">
+    <value>Csoportosítás</value>
+  </data>
+  <data name="SortBy" xml:space="preserve">
+    <value>Rendezés</value>
+  </data>
+  <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
+    <value>Recently used files is currently disabled in Windows File Explorer.</value>
   </data>
 </root>

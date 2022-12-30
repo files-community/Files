@@ -58,10 +58,8 @@ namespace Files.App.ViewModels.Properties
 
 			var shortcutItem = (ShortcutItem)Item;
 
-			var isApplication = !string.IsNullOrWhiteSpace(shortcutItem.TargetPath) &&
-				(shortcutItem.TargetPath.EndsWith(".exe", StringComparison.OrdinalIgnoreCase)
-					|| shortcutItem.TargetPath.EndsWith(".msi", StringComparison.OrdinalIgnoreCase)
-					|| shortcutItem.TargetPath.EndsWith(".bat", StringComparison.OrdinalIgnoreCase));
+			var isApplication = FileExtensionHelpers.IsExecutableFile(shortcutItem.TargetPath) ||
+								FileExtensionHelpers.IsMsiFile(shortcutItem.TargetPath);
 
 			ViewModel.ShortcutItemType = isApplication ? "Application".GetLocalizedResource() :
 				Item.IsLinkItem ? "PropertiesShortcutTypeLink".GetLocalizedResource() : "PropertiesShortcutTypeFile".GetLocalizedResource();
@@ -71,7 +69,7 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.ShortcutItemWorkingDirVisibility = Item.IsLinkItem || shortcutItem.IsSymLink ? false : true;
 			ViewModel.ShortcutItemArguments = shortcutItem.Arguments;
 			ViewModel.ShortcutItemArgumentsVisibility = Item.IsLinkItem || shortcutItem.IsSymLink ? false : true;
-			ViewModel.IsSelectedItemShortcut = ".lnk".Equals(Item.FileExtension, StringComparison.OrdinalIgnoreCase);
+			ViewModel.IsSelectedItemShortcut = FileExtensionHelpers.IsShortcutFile(Item.FileExtension);
 			ViewModel.ShortcutItemOpenLinkCommand = new RelayCommand(async () =>
 			{
 				if (Item.IsLinkItem)
@@ -320,9 +318,9 @@ namespace Files.App.ViewModels.Properties
 					if (string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath))
 						return;
 
-                    await FileOperationsHelpers.CreateOrUpdateLinkAsync(Item.ItemPath, ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, ViewModel.ShortcutItemWorkingDir, tmpItem.RunAsAdmin);
-                    break;
-            }
-        }
-    }
+					await FileOperationsHelpers.CreateOrUpdateLinkAsync(Item.ItemPath, ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, ViewModel.ShortcutItemWorkingDir, tmpItem.RunAsAdmin);
+					break;
+			}
+		}
+	}
 }

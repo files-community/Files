@@ -497,6 +497,8 @@ namespace Files.App.ViewModels
 							RefreshItems(null);
 					});
 					break;
+				case nameof(UserSettingsService.FoldersSettingsService.DefaultSortOption):
+				case nameof(UserSettingsService.FoldersSettingsService.DefaultGroupOption):
 				case nameof(UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles):
 				case nameof(UserSettingsService.FoldersSettingsService.EnableOverridingFolderPreferences):
 					await dispatcherQueue.EnqueueAsync(() =>
@@ -1448,9 +1450,7 @@ namespace Files.App.ViewModels
 			// Flag to use FindFirstFileExFromApp or StorageFolder enumeration
 			var isBoxFolder = App.CloudDrivesManager.Drives.FirstOrDefault(x => x.Text == "Box")?.Path?.TrimEnd('\\') is string boxFolder ?
 				path.StartsWith(boxFolder) : false; // Use storage folder for Box Drive (#4629)
-			var isNetworkFolder = App.DrivesManager.Drives.Any(x => x.Path == Path.GetPathRoot(path) && x.Type == DataModels.NavigationControlItems.DriveType.Network)
-				|| System.Text.RegularExpressions.Regex.IsMatch(path, @"^\\\\(?!\?)"); // Use storage folder for network drives (*FromApp methods return access denied)
-			bool enumFromStorageFolder = isBoxFolder || isNetworkFolder;
+			bool enumFromStorageFolder = isBoxFolder;
 
 			BaseStorageFolder rootFolder = null;
 
@@ -1527,7 +1527,7 @@ namespace Files.App.ViewModels
 
 				CurrentFolder = currentFolder;
 				await EnumFromStorageFolderAsync(path, currentFolder, rootFolder, currentStorageFolder, cancellationToken);
-				return isBoxFolder || isNetworkFolder ? 2 : 1; // Workaround for #7428
+				return isBoxFolder ? 2 : 1; // Workaround for #7428
 			}
 			else
 			{

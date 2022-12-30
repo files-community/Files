@@ -9,9 +9,7 @@
     that is mostly human readable. The generation and parsing of the
     various data types are done through the TypeConverter classes
     associated with the data types.
-
     Example:
-
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,7 +24,6 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-
     There are any number of "resheader" rows that contain simple
     name/value pairs.
 
@@ -43,12 +40,10 @@
     Note - application/x-microsoft.net.object.binary.base64 is the format
     that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-
     mimetype: application/x-microsoft.net.object.soap.base64
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
@@ -223,7 +218,7 @@
     <value>Formato de fecha</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Elige tu color</value>
+    <value>Tema</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Mostrar las extensiones de archivo para tipos de archivo conocidos</value>
@@ -239,6 +234,9 @@
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Apariencia</value>
+  </data>
+  <data name="Background" xml:space="preserve">
+    <value>Fondo</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Experimental</value>
@@ -997,16 +995,16 @@
     <value>Editora</value>
   </data>
   <data name="PropertyThumbnailLargePath" xml:space="preserve">
-    <value>Ruta de miniatura grande</value>
+    <value>Ruta de miniatura larga</value>
   </data>
   <data name="PropertyThumbnailLargeUri" xml:space="preserve">
-    <value>URL de miniatura grande</value>
+    <value>Ruta de miniatura grande</value>
   </data>
   <data name="PropertyThumbnailSmallPath" xml:space="preserve">
     <value>Ruta de miniatura pequeña</value>
   </data>
   <data name="PropertyThumbnailSmallUri" xml:space="preserve">
-    <value>URL de miniatura pequeña</value>
+    <value>Ruta de miniatura pequeña</value>
   </data>
   <data name="PropertyUserWebUrl" xml:space="preserve">
     <value>Dirección URL</value>
@@ -1512,9 +1510,6 @@
   <data name="Default" xml:space="preserve">
     <value>Predeterminado</value>
   </data>
-  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
-    <value>Temas personalizados</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Elementos</value>
   </data>
@@ -1991,18 +1986,6 @@
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Propietario desconocido</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Más información sobre temas personalizados</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Más información sobre temas personalizados</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
-    <value>Los temas personalizados le brindan una excelente manera de personalizar Files.</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
-    <value>Ver documentación.</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
     <value>Extraer Archivo</value>
@@ -2692,10 +2675,10 @@
     <value>Etiquetas</value>
   </data>
   <data name="SettingsShowFileTagsSection.Title" xml:space="preserve">
-    <value>Mostrar sección Etiquetas</value>
+    <value>Mostrar Etiquetas</value>
   </data>
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar sección Etiquetas</value>
+    <value>Mostrar Etiquetas</value>
   </data>
   <data name="UseCompactStyles" xml:space="preserve">
     <value>Utilizar estilos compactos en el diseño de detalles</value>
@@ -2746,7 +2729,7 @@
     <value>Revisar Files</value>
   </data>
   <data name="ReviewFilesContent" xml:space="preserve">
-    <value>¿Desea escribir una reseña sobre Files?</value>
+    <value>¿Le gustaría hacer una reseña de Files?</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
     <value>Establecer como fondo de pantalla</value>
@@ -2842,7 +2825,7 @@
     <value>No se puede encontrar el destino {0}. ¿Desea eliminar este acceso directo?</value>
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
-    <value>You don't have permission to access this folder.</value>
+    <value>No tiene permiso para acceder a esta carpeta.</value>
   </data>
   <data name="LoadingThemes" xml:space="preserve">
     <value>Cargando temas</value>
@@ -2861,6 +2844,9 @@
   </data>
   <data name="ExtractToPath" xml:space="preserve">
     <value>Ruta</value>
+  </data>
+  <data name="SortingAndGrouping" xml:space="preserve">
+    <value>Ordenación y agrupación</value>
   </data>
   <data name="Archive" xml:space="preserve">
     <value>Archivo</value>
@@ -2929,6 +2915,15 @@
     <value>Formato</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowSyncStatus.Text" xml:space="preserve">
-    <value>Sync status column</value>
+    <value>Columna de estado de sincronización</value>
+  </data>
+  <data name="GroupBy" xml:space="preserve">
+    <value>Agrupar por</value>
+  </data>
+  <data name="SortBy" xml:space="preserve">
+    <value>Ordenar por</value>
+  </data>
+  <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
+    <value>Recently used files is currently disabled in Windows File Explorer.</value>
   </data>
 </root>

@@ -11,11 +11,19 @@
 	mc:Ignorable="d">
 	<UserControl.Resources>
 		<ResourceDictionary>
-			<converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
+			<SolidColorBrush x:Key="ButtonBorderBrushDisabled" Color="Transparent" />
+			<SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent" />
 
-			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="/ResourceDictionaries/ToolbarButtonStyle.xaml" />
-			</ResourceDictionary.MergedDictionaries>
+			<Style
+				x:Key="StatusBarButtonStyle"
+				BasedOn="{StaticResource DefaultButtonStyle}"
+				TargetType="Button">
+				<Setter Property="Padding" Value="0" />
+				<Setter Property="Background" Value="Transparent" />
+				<Setter Property="BorderBrush" Value="Transparent" />
+				<Setter Property="Width" Value="32" />
+				<Setter Property="Height" Value="32" />
+			</Style>
 		</ResourceDictionary>
 	</UserControl.Resources>
 
@@ -59,15 +67,12 @@
 		<Button
 			x:Name="FullTrustStatus"
 			Grid.Column="4"
-			Width="32"
-			Height="32"
 			VerticalAlignment="Center"
 			x:Load="{x:Bind AppModel.IsAppElevated, Mode=OneWay}"
 			AccessKey="M"
-			Background="Transparent"
 			Click="FullTrustStatus_Click"
 			FontSize="16"
-			Style="{StaticResource ToolBarButtonStyle}">
+			Style="{StaticResource StatusBarButtonStyle}">
 			<FontIcon FontSize="14" Glyph="&#xEA18;" />
 		</Button>
 

@@ -7,12 +7,15 @@
 		Mega,
 		GoogleDrive,
 		DropBox,
-		AppleCloud,
+		AppleCloudDrive,
+		AppleCloudPhotos,
 		AmazonDrive,
 		Nextcloud,
 		Yandex,
 		Box,
 		Jottacloud,
 		SynologyDrive,
+		pCloud,
+		AdobeCreativeCloud
 	}
 }

@@ -1,5 +1,7 @@
 using Files.App.Helpers;
 using Files.App.Shell;
+using Files.Shared.Extensions;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -51,7 +53,7 @@ namespace Files.App.Filesystem
 
 		private async void OnRecentItemsChanged(object? sender, EventArgs e)
 		{
-			await ListRecentFilesAsync();
+			await UpdateRecentFilesAsync();
 		}
 
 		/// <summary>
@@ -105,6 +107,7 @@ namespace Files.App.Filesystem
 		public async Task<List<RecentItem>> ListRecentFilesAsync()
 		{
 			return (await Win32Shell.GetShellFolderAsync(QuickAccessGuid, "Enumerate", 0, int.MaxValue)).Enumerate
+				.Where(link => !link.IsFolder)
 				.Select(link => new RecentItem(link)).ToList();
 		}
 
@@ -187,19 +190,60 @@ namespace Files.App.Filesystem
 		/// This will also unpin the item from the Recent Files in File Explorer.
 		/// </summary>
 		/// <returns>Whether the action was successfully handled or not</returns>
-		public bool UnpinFromRecentFiles(string path)
+		public Task<bool> UnpinFromRecentFiles(RecentItem item)
 		{
-			try
+			return SafetyExtensions.IgnoreExceptions(() => Task.Run(async () =>
 			{
-				var command = $"-command \"((New-Object -ComObject Shell.Application).Namespace('shell:{QuickAccessGuid}\').Items() " +
-							  $"| Where-Object {{ $_.Path -eq '{path}' }}).InvokeVerb('remove')\"";
-				return Win32API.RunPowershellCommand(command, false);
-			}
-			catch (Exception ex)
-			{
-				App.Logger.Warn(ex, ex.Message);
+				using var pidl = new Shell32.PIDL(item.PIDL);
+				using var shellItem = ShellItem.Open(pidl);
+				using var cMenu = await ContextMenu.GetContextMenuForFiles(new[] { shellItem }, Shell32.CMF.CMF_NORMAL);
+				if (cMenu is not null)
+				{
+					return await cMenu.InvokeVerb("remove");
+				}
 				return false;
+			}));
+		}
+
+		public bool CheckIsRecentFilesEnabled()
+		{
+			using var subkey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer");
+			using var advSubkey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced");
+			using var userPolicySubkey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer");
+			using var sysPolicySubkey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer");
+
+			if (subkey is not null)
+			{
+				// quick access: show recent files option
+				bool showRecentValue = Convert.ToBoolean(subkey.GetValue("ShowRecent", true)); // 1 by default
+				if (!showRecentValue)
+				{
+					return false;
+				}
 			}
+
+			if (advSubkey is not null)
+			{
+				// settings: personalization > start > show recently opened items
+				bool startTrackDocsValue = Convert.ToBoolean(advSubkey.GetValue("Start_TrackDocs", true)); // 1 by default
+				if (!startTrackDocsValue)
+				{
+					return false;
+				}
+			}
+
+			// for users in group policies
+			var policySubkey = userPolicySubkey ?? sysPolicySubkey;
+			if (policySubkey is not null)
+			{
+				bool noRecentDocsHistoryValue = Convert.ToBoolean(policySubkey.GetValue("NoRecentDocsHistory", false)); // 0 by default
+				if (noRecentDocsHistoryValue)
+				{
+					return false;
+				}
+			}
+
+			return true;
 		}
 
 		/// <summary>
@@ -210,6 +254,7 @@ namespace Files.App.Filesystem
 		{
 			return oldOrder != null && newOrder != null && oldOrder.SequenceEqual(newOrder);
 		}
+
 		public void Dispose()
 		{
 			RecentItemsManager.Default.RecentItemsChanged -= OnRecentItemsChanged;
