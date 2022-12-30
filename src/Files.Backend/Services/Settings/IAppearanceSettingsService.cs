@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
 namespace Files.Backend.Services.Settings
 {
@@ -84,23 +85,48 @@ namespace Files.Backend.Services.Settings
 		bool ShowBundlesWidget { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating wheter or not the folders widget section is expanded.
+		/// Gets or sets a value indicating whether or not the folders widget section is expanded.
 		/// </summary>
 		bool FoldersWidgetExpanded { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating wheter or not the recent files widget section is expanded.
+		/// Gets or sets a value indicating whether or not the recent files widget section is expanded.
 		/// </summary>
 		bool RecentFilesWidgetExpanded { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating wheter or not the drives widget section is expanded.
+		/// Gets or sets a value indicating whether or not the drives widget section is expanded.
 		/// </summary>
 		bool DrivesWidgetExpanded { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating wheter or not the Bundles widget section is expanded.
+		/// Gets or sets a value indicating whether or not the Bundles widget section is expanded.
 		/// </summary>
 		bool BundlesWidgetExpanded { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value for the app theme background color.
+		/// </summary>
+		String AppThemeBackgroundColor { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value for the app theme address bar background color.
+		/// </summary>
+		String AppThemeAddressBarBackgroundColor { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value for the app theme sidebar background color.
+		/// </summary>
+		String AppThemeSidebarBackgroundColor { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value for the app theme file area background color.
+		/// </summary>
+		String AppThemeFileAreaBackgroundColor { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value for the app theme font family.
+		/// </summary>
+		String AppThemeFontFamily { get; set; }
 	}
 }
