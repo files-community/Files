@@ -23,6 +23,7 @@ namespace Files.App.Helpers
 				SafetyExtensions.IgnoreExceptions(DetectGenericCloudDrive, App.Logger),
 				SafetyExtensions.IgnoreExceptions(DetectYandexDisk, App.Logger),
 				SafetyExtensions.IgnoreExceptions(DetectpCloudDrive, App.Logger),
+				SafetyExtensions.IgnoreExceptions(DetectNutstoreDrive, App.Logger),
 			};
 
 			await Task.WhenAll(tasks);
@@ -228,6 +229,30 @@ namespace Files.App.Helpers
 				results.Add(new CloudProvider(CloudProviders.pCloud)
 				{
 					Name = $"pCloud Drive",
+					SyncFolder = syncedFolder,
+					IconData = iconFile?.IconData
+				});
+			}
+
+			return Task.FromResult<IEnumerable<ICloudProvider>>(results);
+		}
+
+		private static Task<IEnumerable<ICloudProvider>> DetectNutstoreDrive()
+		{
+			var results = new List<ICloudProvider>();
+			using var NutstoreKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Nutstore");
+
+			if (NutstoreKey is not null)
+			{
+				string iconPath = Path.Combine(Environment.GetEnvironmentVariable("ProgramFiles"), "Nutstore", "Nutstore.exe");
+				var iconFile = Win32API.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 32512 }, 32).FirstOrDefault();
+
+				// Get Nutstore sync folder from registry
+				var syncedFolder = (string)NutstoreKey.GetValue("SyncFolder");
+
+				results.Add(new CloudProvider(CloudProviders.pCloud)
+				{
+					Name = $"Nutstore",
 					SyncFolder = syncedFolder,
 					IconData = iconFile?.IconData
 				});
