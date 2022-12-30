@@ -125,7 +125,7 @@ namespace Files.App.UserControls.MultitaskingControl
 				return;
 			}
 
-			if (!e.DataView.Properties.TryGetValue(TabPathIdentifier, out object tabViewItemPathObj) || tabViewItemPathObj is not string tabViewItemString)
+			if (!e.DataView.Properties.TryGetValue(TabPathIdentifier, out object tabViewItemPathObj) || !(tabViewItemPathObj is string tabViewItemString))
 			{
 				return;
 			}
