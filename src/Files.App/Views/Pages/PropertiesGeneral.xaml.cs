@@ -24,7 +24,7 @@ namespace Files.App.Views
 
 		public override async Task<bool> SaveChangesAsync(ListedItem? item)
 		{
-			if (item is not null) ViewModel.ItemName = ItemFileName.Text; // Make sure Name is updated, except if there are multiple items
+			ViewModel.ItemName = ItemFileName.Text; // Make sure Name is updated
 
 			string newName = ViewModel.ItemName;
 			string oldName = ViewModel.OriginalItemName;
