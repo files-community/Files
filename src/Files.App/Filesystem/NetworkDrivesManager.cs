@@ -15,7 +15,7 @@ namespace Files.App.Filesystem
 {
 	public class NetworkDrivesManager
 	{
-		public EventHandler<NotifyCollectionChangedEventArgs>? DataChanged;
+		public event EventHandler<NotifyCollectionChangedEventArgs>? DataChanged;
 
 		private readonly List<DriveItem> drives = new();
 		public IReadOnlyList<DriveItem> Drives

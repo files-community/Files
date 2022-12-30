@@ -11,7 +11,7 @@ namespace Files.App.Filesystem
 {
 	public class WSLDistroManager
 	{
-		public EventHandler<NotifyCollectionChangedEventArgs>? DataChanged;
+		public event EventHandler<NotifyCollectionChangedEventArgs>? DataChanged;
 
 		private readonly List<WslDistroItem> distros = new();
 		public IReadOnlyList<WslDistroItem> Distros

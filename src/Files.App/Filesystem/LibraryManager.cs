@@ -21,7 +21,7 @@ namespace Files.App.Filesystem
 {
 	public class LibraryManager : IDisposable
 	{
-		public EventHandler<NotifyCollectionChangedEventArgs>? DataChanged;
+		public event EventHandler<NotifyCollectionChangedEventArgs>? DataChanged;
 
 		private FileSystemWatcher librariesWatcher;
 		private readonly List<LibraryLocationItem> libraries = new();
