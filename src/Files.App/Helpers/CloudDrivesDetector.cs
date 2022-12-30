@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.Versioning;
 using System.Threading.Tasks;
 
@@ -14,6 +15,8 @@ namespace Files.App.Helpers
 	[SupportedOSPlatform("Windows10.0.10240")]
 	public class CloudDrivesDetector
 	{
+		private readonly static string programFilesFolder = Environment.GetEnvironmentVariable("ProgramFiles");
+
 		public static async Task<IEnumerable<ICloudProvider>> DetectCloudDrives()
 		{
 			var tasks = new Task<IEnumerable<ICloudProvider>>[]
@@ -223,7 +226,7 @@ namespace Files.App.Helpers
 			var syncedFolder = (string)pCloudDriveKey?.GetValue("SyncDrive");
 			if (syncedFolder is not null)
 			{
-				string iconPath = Path.Combine(Environment.GetEnvironmentVariable("ProgramFiles"), "pCloud Drive", "pCloud.exe");
+				string iconPath = Path.Combine(programFilesFolder, "pCloud Drive", "pCloud.exe");
 				var iconFile = Win32API.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 32512 }, 32).FirstOrDefault();
 
 				results.Add(new CloudProvider(CloudProviders.pCloud)
@@ -244,7 +247,7 @@ namespace Files.App.Helpers
 
 			if (NutstoreKey is not null)
 			{
-				string iconPath = Path.Combine(Environment.GetEnvironmentVariable("ProgramFiles"), "Nutstore", "Nutstore.exe");
+				string iconPath = Path.Combine(programFilesFolder, "Nutstore", "Nutstore.exe");
 				var iconFile = Win32API.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 101 }).FirstOrDefault();
 
 				// get every folder under the Nutstore folder in %userprofile%
