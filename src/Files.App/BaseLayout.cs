@@ -9,6 +9,7 @@ using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.Interacts;
+using Files.App.Shell;
 using Files.App.UserControls;
 using Files.App.UserControls.Menus;
 using Files.App.ViewModels;
@@ -28,8 +29,10 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading;
 using System.Threading.Tasks;
+using Vanara.PInvoke;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.Foundation;
@@ -37,6 +40,8 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
 using static Files.App.Helpers.PathNormalization;
+using static Vanara.PInvoke.User32;
+using VA = Vanara.Windows.Shell;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 
 namespace Files.App
@@ -751,6 +756,9 @@ namespace Files.App
 		protected void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
 		{
 			SelectedItems!.AddRange(e.Items.OfType<ListedItem>());
+
+			var itemPaths = e.Items.OfType<ListedItem>().Select(x => x.ItemPath).ToList();
+
 			try
 			{
 				// Only support IStorageItem capable paths
@@ -761,6 +769,40 @@ namespace Files.App
 			{
 				e.Cancel = true;
 			}
+
+			IntPtr WndProc(HWND hwnd, uint msg, IntPtr wParam, IntPtr lParam)
+			{
+				if (msg == (uint)WindowMessage.WM_NCCREATE)
+					return (IntPtr)1;
+				else if (msg == (uint)WindowMessage.WM_LBUTTONDOWN ||
+						 msg == (uint)WindowMessage.WM_RBUTTONDOWN)
+				{
+					var itemList = itemPaths.Select(x => new VA.ShellItem(x)).ToArray();
+					var iddo = itemList[0].Parent.GetChildrenUIObjects<IDataObject>(hwnd, itemList);
+					Ole32.DROPEFFECT dwEffect = Ole32.DROPEFFECT.DROPEFFECT_NONE;
+					Shell32.SHDoDragDrop(hwnd, iddo, null, Ole32.DROPEFFECT.DROPEFFECT_COPY | Ole32.DROPEFFECT.DROPEFFECT_MOVE | Ole32.DROPEFFECT.DROPEFFECT_LINK, ref dwEffect);
+					itemList.ForEach(x => x.Dispose());
+					PostQuitMessage(0);
+				}
+				return DefWindowProc(hwnd, msg, wParam, lParam);
+			}
+
+			_ = Win32API.StartSTATask(() =>
+			{
+				HINSTANCE hInst = Kernel32.GetModuleHandle();
+				var wCls = new WindowClass($"{GetType().Name}+{Guid.NewGuid()}", hInst, WndProc);
+				var hwnd = Win32Error.ThrowLastErrorIfInvalid(CreateWindowEx(WindowStylesEx.WS_EX_OVERLAPPEDWINDOW, wCls.Atom,
+					X: CW_USEDEFAULT, Y: CW_USEDEFAULT, nWidth: 120, nHeight: 120,
+					lpWindowName: "Files Drag&Drop",
+					hWndParent: HWND.NULL, hInstance: hInst));
+				ShowWindow(hwnd, ShowWindowCommand.SW_NORMAL);
+				while (GetMessage(out MSG msg))
+				{
+					TranslateMessage(msg);
+					DispatchMessage(msg);
+				}
+				hwnd.Dispose();
+			});
 		}
 
 		private ListedItem? dragOverItem = null;
