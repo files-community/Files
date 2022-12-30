@@ -87,7 +87,7 @@
 							</MenuFlyoutItem>
 							<MenuFlyoutItem
 								x:Name="NewShortcut"
-								AutomationProperties.AccessibilityView="Raw"
+								AutomationProperties.AutomationId="InnerNavigationToolbarNewShortcutButton"
 								Command="{x:Bind ViewModel.CreateNewShortcutCommand, Mode=OneWay}"
 								Text="{helpers:ResourceString Name=Shortcut}">
 								<MenuFlyoutItem.Icon>
