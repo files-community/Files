@@ -12,7 +12,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:usercontrols="using:Files.App.UserControls.MultitaskingControl"
 	xmlns:viewmodels="using:Files.App.ViewModels"
-	Background="Transparent"
+	Background="{ThemeResource App.Theme.BackgroundBrush}"
 	KeyboardAcceleratorPlacementMode="Hidden"
 	Loaded="Page_Loaded"
 	NavigationCacheMode="Required"
@@ -210,7 +210,6 @@
 			x:Name="SidebarControl"
 			HorizontalAlignment="Stretch"
 			HorizontalContentAlignment="Stretch"
-			Background="{ThemeResource RootBackgroundBrush}"
 			CanOpenInNewPane="{x:Bind SidebarAdaptiveViewModel.PaneHolder.IsMultiPaneEnabled, Mode=OneWay}"
 			DisplayModeChanged="{x:Bind SidebarAdaptiveViewModel.SidebarControl_DisplayModeChanged}"
 			EmptyRecycleBinCommand="{x:Bind SidebarAdaptiveViewModel.EmptyRecycleBinCommand, Mode=OneWay}"
@@ -232,7 +231,7 @@
 					</Grid.RowDefinitions>
 
 					<usercontrols:HorizontalMultitaskingControl
-						x:Name="horizontalMultitaskingControl"
+						x:Name="TabControl"
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Stretch"
 						HorizontalContentAlignment="Stretch"
@@ -379,8 +378,8 @@
 					<VisualState.Setters>
 						<Setter Target="SidebarControl.PaneDisplayMode" Value="LeftMinimal" />
 						<Setter Target="SidebarControl.IsPaneToggleButtonVisible" Value="True" />
-						<Setter Target="horizontalMultitaskingControl.Margin" Value="48,0,0,0" />
-						
+						<Setter Target="TabControl.Margin" Value="48,0,0,0" />
+
 						<!--  Update the button size to match the pane toggle button size  -->
 						<Setter Target="HorizontalMultitaskingControlAddButton.Visibility" Value="Collapsed" />
 					</VisualState.Setters>

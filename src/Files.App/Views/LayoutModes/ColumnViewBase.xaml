@@ -184,12 +184,12 @@
 					<ListView.ItemTemplate>
 						<DataTemplate x:DataType="local2:ListedItem">
 							<Grid
+								x:Name="FilesRootGrid"
 								Height="30"
 								Margin="0"
-								Padding="8,0,0,0"
+								Padding="20,0,12,0"
 								HorizontalAlignment="Stretch"
 								VerticalAlignment="Stretch"
-								Background="Transparent"
 								CornerRadius="{StaticResource ControlCornerRadius}"
 								IsRightTapEnabled="True"
 								Loaded="Grid_Loaded"
@@ -389,6 +389,7 @@
 							<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 							<Setter Property="MinHeight" Value="1" />
 							<Setter Property="Height" Value="{ThemeResource ListItemHeight}" />
+							<Setter Property="Padding" Value="4,0" />
 						</Style>
 					</ListView.ItemContainerStyle>
 					<ListView.ItemsPanel>
@@ -462,7 +463,7 @@
 				Width="0"
 				Height="0"
 				Fill="{ThemeResource SystemAccentColor}"
-				Opacity=".5"
+				Opacity="0.5"
 				Stroke="{ThemeResource SystemAccentColorLight1}"
 				StrokeThickness="1" />
 		</Canvas>

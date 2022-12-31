@@ -68,7 +68,7 @@ namespace Files.App.Views
 				(listedItem.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !listedItem.IsArchive) ||
 				(listedItem.IsShortcut && !listedItem.IsLinkItem)) ? Visibility.Visible : Visibility.Collapsed;
 			TabCompatibility.Visibility = listedItem is not null && (
-					".exe".Equals(listedItem is ShortcutItem sht ? System.IO.Path.GetExtension(sht.TargetPath) : listedItem.FileExtension, StringComparison.OrdinalIgnoreCase)
+					FileExtensionHelpers.IsExecutableFile(listedItem is ShortcutItem sht ? sht.TargetPath : listedItem.FileExtension, true)
 				) ? Visibility.Visible : Visibility.Collapsed;
 			base.OnNavigatedTo(e);
 		}
@@ -278,20 +278,6 @@ namespace Files.App.Views
 			public CancellationTokenSource tokenSource;
 			public object navParameter;
 			public IShellPage AppInstanceArgument { get; set; }
-		}
-
-		private void Page_Loading(FrameworkElement sender, object args)
-		{
-			// This manually adds the user's theme resources to the page
-			// I was unable to get this to work any other way
-			try
-			{
-				var xaml = XamlReader.Load(App.ExternalResourcesHelper.CurrentThemeResources) as ResourceDictionary;
-				App.Current.Resources.MergedDictionaries.Add(xaml);
-			}
-			catch (Exception)
-			{
-			}
 		}
 	}
 }

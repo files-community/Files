@@ -218,7 +218,7 @@
     <value>Datumsformat</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Farbe auswählen</value>
+    <value>Thema</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Dateinamenerweiterung anzeigen</value>
@@ -234,6 +234,9 @@
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Aussehen</value>
+  </data>
+  <data name="Background" xml:space="preserve">
+    <value>Hintergrund</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Experimentell</value>
@@ -1507,9 +1510,6 @@
   <data name="Default" xml:space="preserve">
     <value>Standard</value>
   </data>
-  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
-    <value>Themen</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Anzahl an Objekten</value>
   </data>
@@ -1986,18 +1986,6 @@
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Unbekannter Besitzer</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Mehr über benutzerdefinierte Themes erfahren</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Mehr über benutzerdefinierte Themes erfahren</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
-    <value>Benutzerdefinierte Themes sind ein hervorragendes Mittel, um Files zu personalisieren.</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
-    <value>Dokumentation anzeigen.</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
     <value>Archiv extrahieren</value>
@@ -2934,5 +2922,8 @@
   </data>
   <data name="SortBy" xml:space="preserve">
     <value>Sortieren nach</value>
+  </data>
+  <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
+    <value>Recently used files is currently disabled in Windows File Explorer.</value>
   </data>
 </root>
