@@ -34,6 +34,8 @@ namespace Files.App.DataModels.NavigationControlItems
 			{
 				path = value;
 				ToolTipText = string.IsNullOrEmpty(Path) || Path.Contains('?', StringComparison.Ordinal) || Path.StartsWith("shell:", StringComparison.OrdinalIgnoreCase) || Path.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase) || Path == "Home".GetLocalizedResource() ? Text : Path;
+				if (string.Equals(Path, "shell:RecycleBinFolder", StringComparison.OrdinalIgnoreCase))
+					IsRecycleBin = true;
             }
 		}
 
@@ -54,7 +56,9 @@ namespace Files.App.DataModels.NavigationControlItems
 
 		public bool IsInvalid { get; set; } = false;
 
-		public SectionType Section { get; set; }
+        public bool IsRecycleBin { get; set; } = false;
+
+        public SectionType Section { get; set; }
 
 		public ContextMenuOptions MenuOptions { get; set; }
 

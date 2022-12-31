@@ -22,14 +22,14 @@ namespace Files.App.Helpers
 
 		#endregion Private Members
 
-		public async Task<List<ShellFileItem>> EnumerateRecycleBin()
+		public static async Task<List<ShellFileItem>> EnumerateRecycleBin()
 		{
 			return (await Win32Shell.GetShellFolderAsync(CommonPaths.RecycleBinPath, "Enumerate", 0, int.MaxValue)).Enumerate;
 		}
 
         public static async Task<ulong> GetSize()
         {
-            var recycleBin = await new RecycleBinHelpers().EnumerateRecycleBin();
+            var recycleBin = await EnumerateRecycleBin();
             ulong size = 0;
             foreach (var item in recycleBin)
             {
