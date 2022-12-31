@@ -7,7 +7,7 @@ using System;
 
 namespace Files.App.ServicesImplementation.Settings
 {
-	internal sealed class PaneSettingsService : BaseObservableJsonSettings, IPaneSettingsService
+	internal sealed class PreviewPaneSettingsService : BaseObservableJsonSettings, IPaneSettingsService
 	{
 		public PaneContents Content
 		{
@@ -39,7 +39,7 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
-		public PaneSettingsService(ISettingsSharingContext settingsSharingContext)
+		public PreviewPaneSettingsService(ISettingsSharingContext settingsSharingContext)
 		{
 			RegisterSettingsContext(settingsSharingContext);
 		}
