@@ -58,16 +58,19 @@ namespace Files.App.Views
 			navParameterItem = args.Item;
 			if (args.Item is ListedItem listedItem)
 			{
-				TabShorcut.Visibility = listedItem.IsShortcut ? Visibility.Visible : Visibility.Collapsed;
-				TabLibrary.Visibility = listedItem.IsLibrary ? Visibility.Visible : Visibility.Collapsed;
-				TabDetails.Visibility = listedItem.FileExtension is not null && !listedItem.IsShortcut && !listedItem.IsLibrary ? Visibility.Visible : Visibility.Collapsed;
-				TabCustomization.Visibility = !listedItem.IsLibrary && (
+				var isShortcut = listedItem.IsShortcut;
+				var isLibrary = listedItem.IsLibrary;
+				var fileExt = listedItem.FileExtension;
+				TabShorcut.Visibility = isShortcut ? Visibility.Visible : Visibility.Collapsed;
+				TabLibrary.Visibility = isLibrary ? Visibility.Visible : Visibility.Collapsed;
+				TabDetails.Visibility = fileExt is not null && !isShortcut && !isLibrary ? Visibility.Visible : Visibility.Collapsed;
+				TabCustomization.Visibility = !isLibrary && (
 					(listedItem.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !listedItem.IsArchive) ||
-					(listedItem.IsShortcut && !listedItem.IsLinkItem)) ? Visibility.Visible : Visibility.Collapsed;
+					(isShortcut && !listedItem.IsLinkItem)) ? Visibility.Visible : Visibility.Collapsed;
 				TabCompatibility.Visibility = (
-						FileExtensionHelpers.IsExecutableFile(listedItem is ShortcutItem sht ? sht.TargetPath : listedItem.FileExtension, true)
+						FileExtensionHelpers.IsExecutableFile(listedItem is ShortcutItem sht ? sht.TargetPath : fileExt, true)
 					) ? Visibility.Visible : Visibility.Collapsed;
-				TabSecurity.Visibility = !listedItem.IsLibrary && !listedItem.IsRecycleBinItem ? Visibility.Visible : Visibility.Collapsed;
+				TabSecurity.Visibility = !isLibrary && !listedItem.IsRecycleBinItem ? Visibility.Visible : Visibility.Collapsed;
 			}
 			else if (args.Item is DriveItem)
 			{
