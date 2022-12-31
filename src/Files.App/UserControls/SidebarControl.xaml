@@ -45,7 +45,7 @@
 			<mconv:StringFormatConverter x:Key="StringFormatConverter" />
 			<vc:ColorModelToColorConverter x:Key="ColorModelToColorConverter" />
 
-            <DataTemplate x:Key="LocationNavItem" x:DataType="navigationcontrolitems:LocationItem">
+			<DataTemplate x:Key="LocationNavItem" x:DataType="navigationcontrolitems:LocationItem">
 				<NavigationViewItem
 					AllowDrop="True"
 					AutomationProperties.AutomationId="{x:Bind Text}"
@@ -75,58 +75,7 @@
 				</NavigationViewItem>
 			</DataTemplate>
 
-			<DataTemplate x:Key="RecycleBinNavItem" x:DataType="navigationcontrolitems:LocationItem">
-				<NavigationViewItem
-					AllowDrop="True"
-					AutomationProperties.AutomationId="{x:Bind Text}"
-					CanDrag="False"
-					Content="{x:Bind Text}"
-					DataContext="{x:Bind}"
-					DragEnter="NavigationViewItem_DragEnter"
-					DragLeave="NavigationViewItem_DragLeave"
-					DragOver="NavigationViewLocationItem_DragOver"
-					DragStarting="NavigationViewItem_DragStarting"
-					Drop="NavigationViewLocationItem_Drop"
-					IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}"
-					IsRightTapEnabled="True"
-					MenuItemsSource="{x:Bind ChildItems}"
-					PointerPressed="Sidebar_PointerPressed"
-					RightTapped="NavigationViewItem_RightTapped"
-					SelectsOnInvoked="{x:Bind SelectsOnInvoked}"
-					Tag="{x:Bind Path}">
-                    <ToolTipService.ToolTip>
-                        <ToolTip>
-                            <Grid
-	                            x:Name="RecycleBinTooltip">
-	                            <Grid.ColumnDefinitions>
-		                            <ColumnDefinition Width="72" />
-		                            <ColumnDefinition
-			                            Width="Auto"
-			                            MinWidth="100"
-			                            MaxWidth="140" />
-		                            <ColumnDefinition Width="*" />
-		                            <ColumnDefinition Width="Auto" />
-	                            </Grid.ColumnDefinitions>
-	                            <Grid.RowDefinitions>
-		                            <RowDefinition Height="Auto" />
-		                            <RowDefinition Height="Auto" />
-		                            <RowDefinition Height="Auto" />
-		                            <RowDefinition Height="Auto" />
-	                            </Grid.RowDefinitions>
-                            </Grid>
-                        </ToolTip>
-                    </ToolTipService.ToolTip>
-					<NavigationViewItem.Icon>
-						<ImageIcon Source="{x:Bind Icon, Mode=OneWay}" />
-					</NavigationViewItem.Icon>
-					<!--  WINUI3  missing some styles  -->
-					<!--<NavigationViewItem.InfoBadge>
-						<InfoBadge Style="{ThemeResource CautionIconInfoBadgeStyle}" Visibility="{x:Bind IsInvalid, Mode=OneWay}" />
-					</NavigationViewItem.InfoBadge>-->
-				</NavigationViewItem>
-			</DataTemplate>
-
-            <DataTemplate x:Key="DriveNavItem" x:DataType="navigationcontrolitems:DriveItem">
+			<DataTemplate x:Key="DriveNavItem" x:DataType="navigationcontrolitems:DriveItem">
 				<NavigationViewItem
 					Padding="0"
 					AllowDrop="True"
@@ -1235,7 +1184,6 @@
 			DriveNavItemTemplate="{StaticResource DriveNavItem}"
 			FileTagNavItemTemplate="{StaticResource FileTagNavItem}"
 			LinuxNavItemTemplate="{StaticResource LinuxNavItem}"
-			LocationNavItemTemplate="{StaticResource LocationNavItem}"
-			RecycleBinNavItemTemplate="{StaticResource RecycleBinNavItem}"/>
+			LocationNavItemTemplate="{StaticResource LocationNavItem}" />
 	</NavigationView.MenuItemTemplateSelector>
 </NavigationView>
