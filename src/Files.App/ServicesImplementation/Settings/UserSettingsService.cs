@@ -36,8 +36,8 @@ namespace Files.App.ServicesImplementation.Settings
 			get => GetSettingsService(ref _AppearanceSettingsService);
 		}
 
-		private IPaneSettingsService _PaneSettingsService;
-		public IPaneSettingsService PaneSettingsService
+		private IPreviewPaneSettingsService _PaneSettingsService;
+		public IPreviewPaneSettingsService PaneSettingsService
 		{
 			get => GetSettingsService(ref _PaneSettingsService);
 		}

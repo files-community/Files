@@ -7,7 +7,7 @@ using System;
 
 namespace Files.App.ServicesImplementation.Settings
 {
-	internal sealed class PreviewPaneSettingsService : BaseObservableJsonSettings, IPaneSettingsService
+	internal sealed class PreviewPaneSettingsService : BaseObservableJsonSettings, IPreviewPaneSettingsService
 	{
 		public PaneContents Content
 		{

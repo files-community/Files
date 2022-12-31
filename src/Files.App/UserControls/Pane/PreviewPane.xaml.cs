@@ -20,7 +20,7 @@ namespace Files.App.UserControls
 	{
 		public PanePositions Position { get; private set; } = PanePositions.None;
 
-		private IPaneSettingsService PaneSettingsService { get; } = Ioc.Default.GetService<IPaneSettingsService>();
+		private IPreviewPaneSettingsService PaneSettingsService { get; } = Ioc.Default.GetService<IPreviewPaneSettingsService>();
 
 		private PreviewPaneViewModel ViewModel => App.PreviewPaneViewModel;
 

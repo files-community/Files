@@ -16,7 +16,7 @@ namespace Files.App.ViewModels
 
 	public class PaneViewModel : ObservableObject, IPaneViewModel
 	{
-		private readonly IPaneSettingsService settings = Ioc.Default.GetRequiredService<IPaneSettingsService>();
+		private readonly IPreviewPaneSettingsService settings = Ioc.Default.GetRequiredService<IPreviewPaneSettingsService>();
 
 		private PaneContents content = PaneContents.None;
 
@@ -38,7 +38,7 @@ namespace Files.App.ViewModels
 
 		private void Settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName is nameof(IPaneSettingsService.Content))
+			if (e.PropertyName is nameof(IPreviewPaneSettingsService.Content))
 			{
 				var newContent = settings.Content;
 				if (content != newContent)

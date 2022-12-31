@@ -145,7 +145,7 @@ namespace Files.App.Views
 		{
 			switch (e.SettingName)
 			{
-				case nameof(IPaneSettingsService.Content):
+				case nameof(IPreviewPaneSettingsService.Content):
 					LoadPaneChanged();
 					break;
 			}

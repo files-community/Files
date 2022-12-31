@@ -267,7 +267,7 @@ namespace Files.App.ViewModels
 
 		private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
-			if (e.SettingName == nameof(IPaneSettingsService.ShowPreviewOnly))
+			if (e.SettingName == nameof(IPreviewPaneSettingsService.ShowPreviewOnly))
 			{
 				// The preview will need refreshing as the file details won't be accurate
 				needsRefresh = true;

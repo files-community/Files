@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace Files.Backend.Services.Settings
 {
-	public interface IPaneSettingsService : IBaseSettingsService, INotifyPropertyChanged
+	public interface IPreviewPaneSettingsService : IBaseSettingsService, INotifyPropertyChanged
 	{
 		/// <summary>
 		/// Gets or sets the selected content.
