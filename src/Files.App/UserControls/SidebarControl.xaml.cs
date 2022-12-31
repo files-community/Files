@@ -169,11 +169,11 @@ namespace Files.App.UserControls
 			get => canOpenInNewPane;
 			set
 			{
-				if (value == true) 
-					return;
-
-				canOpenInNewPane = value;
-				NotifyPropertyChanged(nameof(CanOpenInNewPane));
+				if (value != canOpenInNewPane)
+				{
+					canOpenInNewPane = value;
+					NotifyPropertyChanged(nameof(CanOpenInNewPane));
+				}
 			}
 		}
 
@@ -356,7 +356,7 @@ namespace Files.App.UserControls
 
 		private async void OpenInNewPane()
 		{
-			if (await CheckEmptyDrive((rightClickedItem as INavigationControlItem).Path))
+			if (await CheckEmptyDrive(rightClickedItem.Path))
 				return;
 
 			SidebarItemNewPaneInvoked?.Invoke(this, new SidebarItemNewPaneInvokedEventArgs(rightClickedItem));
@@ -634,7 +634,7 @@ namespace Files.App.UserControls
 						CompleteDragEventArgs(e, captionText, DataPackageOperation.Copy);
 					}
 				}
-				else if (hasStorageItems == false)
+				else if (hasStorageItems is false)
 				{
 					e.AcceptedOperation = DataPackageOperation.None;
 				}
@@ -930,7 +930,7 @@ namespace Files.App.UserControls
 
 		private void SidebarNavView_Loaded(object sender, RoutedEventArgs e)
 		{
-			((this.FindDescendant("TabContentBorder") as Border)!).Child = TabContent;
+			(this.FindDescendant("TabContentBorder") as Border)!.Child = TabContent;
 		}
 
 		private void SidebarControl_DisplayModeChanged(NavigationView sender, NavigationViewDisplayModeChangedEventArgs args)
@@ -986,8 +986,8 @@ namespace Files.App.UserControls
 			if (dragging)
 				return; // keep showing pressed event if currently resizing the sidebar
 
-			(sender as Grid)?.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
-			VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerNormal", true);
+			((Grid)sender).ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
+			VisualStateManager.GoToState(((Grid)sender).FindAscendant<SplitView>(), "ResizerNormal", true);
 		}
 
 		private void Border_PointerEntered(object sender, PointerRoutedEventArgs e)
@@ -995,8 +995,8 @@ namespace Files.App.UserControls
 			if (DisplayMode != NavigationViewDisplayMode.Expanded)
 				return;
 
-			(sender as Grid)?.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
-			VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerPointerOver", true);
+			((Grid)sender).ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
+			VisualStateManager.GoToState(((Grid)sender).FindAscendant<SplitView>(), "ResizerPointerOver", true);
 		}
 
 		private void SetSize(double val, bool closeImmediatleyOnOversize = false)
@@ -1024,8 +1024,8 @@ namespace Files.App.UserControls
 
 		private void ResizeElementBorder_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
 		{
-			(sender as Grid).ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
-			VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerNormal", true);
+			((Grid)sender).ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
+			VisualStateManager.GoToState(((Grid)sender).FindAscendant<SplitView>(), "ResizerNormal", true);
 			UserSettingsService.AppearanceSettingsService.SidebarWidth = OpenPaneLength;
 			dragging = false;
 		}
@@ -1041,8 +1041,8 @@ namespace Files.App.UserControls
 				return;
 
 			originalSize = IsPaneOpen ? UserSettingsService.AppearanceSettingsService.SidebarWidth : CompactPaneLength;
-			(sender as Grid).ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
-			VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerPressed", true);
+			((Grid)sender).ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
+			VisualStateManager.GoToState(((Grid)sender).FindAscendant<SplitView>(), "ResizerPressed", true);
 			dragging = true;
 		}
 
@@ -1217,12 +1217,12 @@ namespace Files.App.UserControls
 		public DataTemplate FileTagNavItemTemplate { get; set; }
 		public DataTemplate HeaderNavItemTemplate { get; set; }
 
-		protected override DataTemplate SelectTemplateCore(object item)
+		protected override DataTemplate? SelectTemplateCore(object item)
 		{
 			if (item is null || item is not INavigationControlItem navControlItem)
 				return null;
 
-			return navControlItem?.ItemType switch
+			return navControlItem.ItemType switch
 			{
 				NavigationControlItemType.Location => LocationNavItemTemplate,
 				NavigationControlItemType.Drive => DriveNavItemTemplate,
