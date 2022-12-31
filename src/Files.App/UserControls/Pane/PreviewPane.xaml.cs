@@ -9,7 +9,14 @@ using Microsoft.UI.Xaml.Input;
 
 namespace Files.App.UserControls
 {
-	public sealed partial class PreviewPane : UserControl, IPane
+	public enum PanePositions : ushort
+	{
+		None,
+		Right,
+		Bottom,
+	}
+
+	public sealed partial class PreviewPane : UserControl
 	{
 		public PanePositions Position { get; private set; } = PanePositions.None;
 
