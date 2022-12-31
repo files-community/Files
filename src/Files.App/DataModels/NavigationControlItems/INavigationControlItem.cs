@@ -22,6 +22,7 @@ namespace Files.App.Filesystem
 		Drive,
 		LinuxDistro,
 		Location,
+		RecycleBin,
 		CloudDrive,
 		FileTag
 	}

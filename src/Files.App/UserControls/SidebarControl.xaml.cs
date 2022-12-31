@@ -24,6 +24,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using UWPToWinAppSDKUpgradeHelpers;
+using Vanara.InteropServices;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.System;
@@ -1318,6 +1319,7 @@ namespace Files.App.UserControls
 		public DataTemplate LinuxNavItemTemplate { get; set; }
 		public DataTemplate FileTagNavItemTemplate { get; set; }
 		public DataTemplate HeaderNavItemTemplate { get; set; }
+		public DataTemplate RecycleBinItemTemplate { get; set; }
 
 		protected override DataTemplate SelectTemplateCore(object item)
 		{
@@ -1329,6 +1331,9 @@ namespace Files.App.UserControls
 					case NavigationControlItemType.Location:
 						return LocationNavItemTemplate;
 
+					case NavigationControlItemType.RecycleBin:
+						return RecycleBinItemTemplate;
+						
 					case NavigationControlItemType.Drive:
 						return DriveNavItemTemplate;
 
