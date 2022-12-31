@@ -7,17 +7,19 @@ using Files.Backend.Services.Settings;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Files.App.UserControls.Widgets
 {
-	public sealed partial class RecentFilesWidget : UserControl, IWidgetItemModel
+	public sealed partial class RecentFilesWidget : UserControl, IWidgetItemModel, INotifyPropertyChanged
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
@@ -29,13 +31,13 @@ namespace Files.App.UserControls.Widgets
 
 		public event RecentFileInvokedEventHandler RecentFileInvoked;
 
+		public event PropertyChangedEventHandler PropertyChanged;
+
 		private ObservableCollection<RecentItem> recentItemsCollection = new ObservableCollection<RecentItem>();
 
 		private SemaphoreSlim refreshRecentsSemaphore;
 
 		private CancellationTokenSource refreshRecentsCTS;
-
-		private EmptyRecentsText Empty { get; set; } = new EmptyRecentsText();
 
 		public string WidgetName => nameof(RecentFilesWidget);
 
@@ -45,6 +47,34 @@ namespace Files.App.UserControls.Widgets
 
 		public bool IsWidgetSettingEnabled => UserSettingsService.AppearanceSettingsService.ShowRecentFilesWidget;
 
+		private Visibility emptyRecentsTextVisibility = Visibility.Collapsed;
+		public Visibility EmptyRecentsTextVisibility
+		{
+			get => emptyRecentsTextVisibility;
+			internal set
+			{
+				if (emptyRecentsTextVisibility != value)
+				{
+					emptyRecentsTextVisibility = value;
+					NotifyPropertyChanged(nameof(EmptyRecentsTextVisibility));
+				}
+			}
+		}
+
+		private bool isRecentFilesDisabledInWindows = false;
+		public bool IsRecentFilesDisabledInWindows
+		{
+			get => isRecentFilesDisabledInWindows;
+			internal set
+			{
+				if (isRecentFilesDisabledInWindows != value)
+				{
+					isRecentFilesDisabledInWindows = value;
+					NotifyPropertyChanged(nameof(IsRecentFilesDisabledInWindows));
+				}
+			}
+		}
+
 		public RecentFilesWidget()
 		{
 			InitializeComponent();
@@ -53,9 +83,15 @@ namespace Files.App.UserControls.Widgets
 			refreshRecentsCTS = new CancellationTokenSource();
 
 			// recent files could have changed while widget wasn't loaded
-			_ = App.RecentItemsManager.UpdateRecentFilesAsync();
+			_ = RefreshWidget();
 
 			App.RecentItemsManager.RecentFilesChanged += Manager_RecentFilesChanged;
+		}
+
+		public async Task RefreshWidget()
+		{
+			IsRecentFilesDisabledInWindows = App.RecentItemsManager.CheckIsRecentFilesEnabled() is false;
+			await App.RecentItemsManager.UpdateRecentFilesAsync();
 		}
 
 		private async void Manager_RecentFilesChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -82,7 +118,7 @@ namespace Files.App.UserControls.Widgets
 			}
 		}
 
-		private async Task UpdateRecentsList(NotifyCollectionChangedEventArgs args)
+		private async Task UpdateRecentsList(NotifyCollectionChangedEventArgs e)
 		{
 			try
 			{
@@ -99,25 +135,53 @@ namespace Files.App.UserControls.Widgets
 				refreshRecentsCTS.Cancel();
 				refreshRecentsCTS = new CancellationTokenSource();
 
-				Empty.Visibility = Visibility.Collapsed;
+				EmptyRecentsTextVisibility = Visibility.Collapsed;
 
-				switch (args.Action)
+				switch (e.Action)
 				{
-					// currently everything falls under Reset
-					default:
-						recentItemsCollection.Clear();
-						var recentFiles = App.RecentItemsManager.RecentFiles; // already sorted, add all in order
-						foreach (var recentFile in recentFiles)
+					case NotifyCollectionChangedAction.Add:
+						if (e.NewItems is not null)
 						{
-							await AddItemToRecentListAsync(recentFile);
+							var addedItem = e.NewItems.Cast<RecentItem>().Single();
+							AddItemToRecentList(addedItem, 0);
+						}
+						break;
+
+					case NotifyCollectionChangedAction.Move:
+						if (e.OldItems is not null)
+						{
+							var movedItem = e.OldItems.Cast<RecentItem>().Single();
+							recentItemsCollection.RemoveAt(e.OldStartingIndex);
+							AddItemToRecentList(movedItem, 0);
+						}
+						break;
+
+					case NotifyCollectionChangedAction.Remove:
+						if (e.OldItems is not null)
+						{
+							var removedItem = e.OldItems.Cast<RecentItem>().Single();
+							recentItemsCollection.RemoveAt(e.OldStartingIndex);
+						}
+						break;
+
+					// case NotifyCollectionChangedAction.Reset:
+					default:
+						var recentFiles = App.RecentItemsManager.RecentFiles; // already sorted, add all in order
+						if (!recentFiles.SequenceEqual(recentItemsCollection))
+						{
+							recentItemsCollection.Clear();
+							foreach (var item in recentFiles)
+							{
+								AddItemToRecentList(item);
+							}
 						}
 						break;
 				}
 
 				// update chevron if there aren't any items
-				if (recentItemsCollection.Count == 0)
+				if (recentItemsCollection.Count == 0 && !IsRecentFilesDisabledInWindows)
 				{
-					Empty.Visibility = Visibility.Visible;
+					EmptyRecentsTextVisibility = Visibility.Visible;
 				}
 			}
 			catch (Exception ex)
@@ -134,18 +198,25 @@ namespace Files.App.UserControls.Widgets
 		/// Add the RecentItem to the ObservableCollection for the UI to render.
 		/// </summary>
 		/// <param name="recentItem">The recent item to be added</param>
-		private async Task AddItemToRecentListAsync(RecentItem recentItem, bool sortInsert = false)
+		private bool AddItemToRecentList(RecentItem recentItem, int index = -1)
 		{
-			await recentItem.LoadRecentItemIcon();
-			recentItemsCollection.Add(recentItem);
+			if (!recentItemsCollection.Any(x => x.Equals(recentItem)))
+			{
+				recentItemsCollection.Insert(index < 0 ? recentItemsCollection.Count : Math.Min(index, recentItemsCollection.Count), recentItem);
+				_ = recentItem.LoadRecentItemIcon()
+					.ContinueWith(t => App.Logger.Warn(t.Exception), TaskContinuationOptions.OnlyOnFaulted);
+				return true;
+			}
+			return false;
 		}
 
 		private void RecentsView_ItemClick(object sender, ItemClickEventArgs e)
 		{
-			var path = (e.ClickedItem as RecentItem).RecentPath;
+			var recentItem = e.ClickedItem as RecentItem;
 			RecentFileInvoked?.Invoke(this, new PathNavigationEventArgs()
 			{
-				ItemPath = path
+				ItemPath = recentItem.RecentPath,
+				IsFile = recentItem.IsFile
 			});
 		}
 
@@ -160,7 +231,7 @@ namespace Files.App.UserControls.Widgets
 				{
 					// evict it from the recent items shortcut list
 					// this operation invokes RecentFilesChanged which we handle to update the visible collection
-					App.RecentItemsManager.UnpinFromRecentFiles(vm.LinkPath);
+					await App.RecentItemsManager.UnpinFromRecentFiles(vm);
 				}
 			}
 			finally
@@ -179,7 +250,7 @@ namespace Files.App.UserControls.Widgets
 
 				if (success)
 				{
-					Empty.Visibility = Visibility.Visible;
+					EmptyRecentsTextVisibility = Visibility.Visible;
 				}
 			}
 			finally
@@ -188,43 +259,14 @@ namespace Files.App.UserControls.Widgets
 			}
 		}
 
-		public Task RefreshWidget()
+		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
 		{
-			// if files changed, event is fired to update widget
-			return App.RecentItemsManager.UpdateRecentFilesAsync();
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
 		public void Dispose()
 		{
 			App.RecentItemsManager.RecentFilesChanged -= Manager_RecentFilesChanged;
-		}
-	}
-
-	public class EmptyRecentsText : INotifyPropertyChanged
-	{
-		private Visibility visibility;
-
-		public Visibility Visibility
-		{
-			get
-			{
-				return visibility;
-			}
-			set
-			{
-				if (value != visibility)
-				{
-					visibility = value;
-					NotifyPropertyChanged(nameof(Visibility));
-				}
-			}
-		}
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 	}
 }

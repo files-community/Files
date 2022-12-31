@@ -9,8 +9,10 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Threading.Tasks;
+using Windows.Media.Capture;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using static Vanara.PInvoke.Shell32;
 
 namespace Files.App.DataModels.NavigationControlItems
 {
@@ -120,7 +122,7 @@ namespace Files.App.DataModels.NavigationControlItems
 			get => percentageUsed;
 			set
 			{
-				if (!SetProperty(ref percentageUsed, value)) 
+				if (!SetProperty(ref percentageUsed, value))
 					return;
 
 				if (Type == DriveType.Fixed)
@@ -223,14 +225,10 @@ namespace Files.App.DataModels.NavigationControlItems
 		{
 			if (IconData is null)
 			{
-				if (!string.IsNullOrEmpty(DeviceID))
+				if (!string.IsNullOrEmpty(DeviceID) && !string.Equals(DeviceID, "network-folder"))
 					IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, 24);
-
-				if (IconData is null)
-				{
-					var resource = UIHelpers.GetIconResourceInfo(Constants.ImageRes.Folder);
-					IconData = resource?.IconData;
-				}
+				
+				IconData ??= UIHelpers.GetIconResourceInfo(Constants.ImageRes.Folder).IconData;
 			}
 			Icon = await IconData.ToBitmapAsync();
 		}

@@ -247,7 +247,6 @@
 							x:Name="HeaderGrid"
 							Height="40"
 							Padding="16,0,0,0"
-							Background="{ThemeResource FileBrowserHeaderBackgroundBrush}"
 							BorderBrush="{ThemeResource ControlStrokeColorDefault}"
 							BorderThickness="0,0,0,1"
 							PointerPressed="Grid_PointerPressed">

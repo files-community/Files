@@ -23,6 +23,7 @@
 			this.FileSize = baseItem.FileSize;
 			this.FileSizeBytes = baseItem.FileSizeBytes;
 			this.FileType = baseItem.FileType;
+			this.PIDL = baseItem.PIDL;
 		}
 	}
 }

@@ -13,6 +13,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
@@ -33,12 +34,43 @@ namespace Files.App.Views.LayoutModes
 
 		protected override ItemsControl ItemsControl => FileList;
 
+		private ColumnViewBrowser? columnsOwner;
+		private ListViewItem? openedFolderPresenter;
+
 		public ColumnViewBase() : base()
 		{
 			this.InitializeComponent();
 			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 			tapDebounceTimer = DispatcherQueue.CreateTimer();
+			this.ItemInvoked += ColumnViewBase_ItemInvoked;
+			this.GotFocus += ColumnViewBase_GotFocus;
+		}
+
+		private void ColumnViewBase_GotFocus(object sender, RoutedEventArgs e)
+		{
+			if(FileList.SelectedItem == null && openedFolderPresenter != null)
+			{
+				openedFolderPresenter.Focus(FocusState.Programmatic);
+				FileList.SelectedItem = FileList.ItemFromContainer(openedFolderPresenter);
+			}
+		}
+
+		private void ColumnViewBase_ItemInvoked(object? sender, EventArgs e)
+		{
+			ClearOpenedFolderSelectionIndicator();
+			openedFolderPresenter = FileList.ContainerFromItem(FileList.SelectedItem) as ListViewItem;
+		}
+
+		private void ClearOpenedFolderSelectionIndicator()
+		{
+			if (openedFolderPresenter is null)
+				return;
+
+			openedFolderPresenter.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
+			var presenter = openedFolderPresenter.FindDescendant<Grid>()!;
+			presenter!.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
+			openedFolderPresenter = null;
 		}
 
 		protected override void HookEvents()
@@ -147,6 +179,9 @@ namespace Files.App.Views.LayoutModes
 
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
 		{
+			if (eventArgs.Parameter is NavigationArguments navArgs)
+				columnsOwner = (navArgs.AssociatedTabInstance as FrameworkElement)?.FindAscendant<ColumnViewBrowser>();
+
 			base.OnNavigatedTo(eventArgs);
 
 			FolderSettings.GroupOptionPreferenceUpdated -= ZoomIn;
@@ -176,33 +211,33 @@ namespace Files.App.Views.LayoutModes
 			FileList.Focus(FocusState.Programmatic);
 		}
 
-        private async void ReloadItemIcons()
-        {
-            ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
-            foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
-            {
-                listedItem.ItemPropertiesInitialized = false;
-                if (FileList.ContainerFromItem(listedItem) is not null)
-                    await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, 24);
-            }
-        }
+		private async void ReloadItemIcons()
+		{
+			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
+			foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
+			{
+				listedItem.ItemPropertiesInitialized = false;
+				if (FileList.ContainerFromItem(listedItem) is not null)
+					await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, 24);
+			}
+		}
 
-        override public void StartRenameItem()
-        {
-            RenamingItem = FileList.SelectedItem as ListedItem;
-            if (RenamingItem is null)
-                return;
-            int extensionLength = RenamingItem.FileExtension?.Length ?? 0;
-            ListViewItem? listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
-            TextBox? textBox = null;
-            if (listViewItem is null)
-                return;
-            TextBlock? textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
-            textBox = listViewItem.FindDescendant("ListViewTextBoxItemName") as TextBox;
-            textBox!.Text = textBlock!.Text;
-            OldItemName = textBlock.Text;
-            textBlock.Visibility = Visibility.Collapsed;
-            textBox.Visibility = Visibility.Visible;
+		override public void StartRenameItem()
+		{
+			RenamingItem = FileList.SelectedItem as ListedItem;
+			if (RenamingItem is null)
+				return;
+			int extensionLength = RenamingItem.FileExtension?.Length ?? 0;
+			ListViewItem? listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
+			TextBox? textBox = null;
+			if (listViewItem is null)
+				return;
+			TextBlock? textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
+			textBox = listViewItem.FindDescendant("ListViewTextBoxItemName") as TextBox;
+			textBox!.Text = textBlock!.Text;
+			OldItemName = textBlock.Text;
+			textBlock.Visibility = Visibility.Collapsed;
+			textBox.Visibility = Visibility.Visible;
 
 			textBox.Focus(FocusState.Pointer);
 			textBox.LostFocus += RenameTextBox_LostFocus;
@@ -301,6 +336,7 @@ namespace Files.App.Views.LayoutModes
 			base.Dispose();
 			UnhookEvents();
 			CommandsViewModel?.Dispose();
+			columnsOwner = null;
 		}
 
 		#endregion IDisposable
@@ -311,7 +347,20 @@ namespace Files.App.Views.LayoutModes
 
 			if (SelectedItems.Count == 1 && App.AppModel.IsQuickLookAvailable)
 				await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance, true);
+
+			if (e != null)
+			{
+				if (e.AddedItems.Count > 0)
+					columnsOwner?.HandleSelectionChange(this);
+
+				if (e.RemovedItems.Count > 0 && openedFolderPresenter != null)
+				{
+					var presenter = openedFolderPresenter.FindDescendant<Grid>()!;
+					presenter!.Background = this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush;
+				}
+			}
 		}
+
 
 		private void FileList_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
@@ -404,16 +453,18 @@ namespace Files.App.Views.LayoutModes
 			}
 			else if (e.Key == VirtualKey.Left) // Left arrow: select parent folder (previous column)
 			{
-				if (IsRenamingItem || (ParentShellPageInstance is not null && ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled) )
+				if (IsRenamingItem || (ParentShellPageInstance is not null && ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled))
 					return;
 
 				var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
 				this.FindAscendant<ColumnViewBrowser>()?.MoveFocusToPreviousBlade(currentBladeIndex);
+				FileList.SelectedItem = null;
+				ClearOpenedFolderSelectionIndicator();
 				e.Handled = true;
 			}
 			else if (e.Key == VirtualKey.Right) // Right arrow: switch focus to next column
 			{
-				if (IsRenamingItem || (ParentShellPageInstance is not null && ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)) 
+				if (IsRenamingItem || (ParentShellPageInstance is not null && ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled))
 					return;
 
 				var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
@@ -504,6 +555,7 @@ namespace Files.App.Views.LayoutModes
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 			var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
 
+
 			// Allow for Ctrl+Shift selection
 			if (ctrlPressed || shiftPressed)
 				return;
@@ -572,6 +624,11 @@ namespace Files.App.Views.LayoutModes
 					parent.FolderSettings.ToggleLayoutModeAdaptive();
 					break;
 			}
+		}
+
+		internal void ClearSelectionIndicator()
+		{
+			FileList.SelectedItem = null;
 		}
 	}
 }

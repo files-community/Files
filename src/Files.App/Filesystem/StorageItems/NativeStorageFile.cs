@@ -27,7 +27,7 @@ namespace Files.App.Filesystem.StorageItems
 		public override string FileType => IO.Path.GetExtension(Name);
 		public override string FolderRelativeId => $"0\\{Name}";
 
-		public bool IsShortcut => FileType.Equals(".lnk", StringComparison.OrdinalIgnoreCase) || FileType.Equals(".url", StringComparison.OrdinalIgnoreCase);
+		public bool IsShortcut => FileExtensionHelpers.IsShortcutOrUrlFile(FileType);
 		public bool IsAlternateStream => System.Text.RegularExpressions.Regex.IsMatch(Path, @"\w:\w");
 
 		public override string DisplayType
@@ -125,10 +125,7 @@ namespace Files.App.Filesystem.StorageItems
 
 		public override IAsyncOperation<BaseBasicProperties> GetBasicPropertiesAsync()
 		{
-			return AsyncInfo.Run(async (cancellationToken) =>
-			{
-				return new BaseBasicProperties();
-			});
+			return Task.FromResult(new BaseBasicProperties()).AsAsyncOperation();
 		}
 
 		public override IAsyncOperation<BaseStorageFolder> GetParentAsync()
@@ -145,16 +142,13 @@ namespace Files.App.Filesystem.StorageItems
 
 		public static IAsyncOperation<BaseStorageFile> FromPathAsync(string path)
 		{
-			return AsyncInfo.Run<BaseStorageFile>(async (cancellationToken) =>
+			if (IsNativePath(path) && CheckAccess(path))
 			{
-				if (IsNativePath(path) && CheckAccess(path))
-				{
-					var name = IO.Path.GetFileName(path);
-					return new NativeStorageFile(path, name.Substring(name.LastIndexOf(":") + 1), DateTime.Now);
-				}
-				return null;
-			});
-		}
+				var name = IO.Path.GetFileName(path);
+				return Task.FromResult((BaseStorageFile)new NativeStorageFile(path, name[(name.LastIndexOf(":") + 1)..], DateTime.Now)).AsAsyncOperation();
+			}
+            return Task.FromResult<BaseStorageFile>(null).AsAsyncOperation();
+        }
 
 		private static bool CheckAccess(string path)
 		{
@@ -164,7 +158,7 @@ namespace Files.App.Filesystem.StorageItems
 
 		private static bool IsNativePath(string path)
 		{
-			var isShortcut = path.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase) || path.EndsWith(".url", StringComparison.OrdinalIgnoreCase);
+			var isShortcut = FileExtensionHelpers.IsShortcutOrUrlFile(path);
 			var isAlternateStream = System.Text.RegularExpressions.Regex.IsMatch(path, @"\w:\w");
 			return isShortcut || isAlternateStream;
 		}
@@ -207,11 +201,8 @@ namespace Files.App.Filesystem.StorageItems
 
 		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode)
 		{
-			return AsyncInfo.Run<IRandomAccessStream>(async (cancellationToken) =>
-			{
-				var hFile = NativeFileOperationsHelper.OpenFileForRead(Path, accessMode == FileAccessMode.ReadWrite);
-				return new FileStream(hFile, accessMode == FileAccessMode.ReadWrite ? FileAccess.ReadWrite : FileAccess.Read).AsRandomAccessStream();
-			});
+			var hFile = NativeFileOperationsHelper.OpenFileForRead(Path, accessMode == FileAccessMode.ReadWrite);
+			return Task.FromResult(new FileStream(hFile, accessMode == FileAccessMode.ReadWrite ? FileAccess.ReadWrite : FileAccess.Read).AsRandomAccessStream()).AsAsyncOperation();	
 		}
 
 		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode, StorageOpenOptions options) => OpenAsync(accessMode);
@@ -226,11 +217,8 @@ namespace Files.App.Filesystem.StorageItems
 
 		public override IAsyncOperation<IInputStream> OpenSequentialReadAsync()
 		{
-			return AsyncInfo.Run(async (cancellationToken) =>
-			{
-				var hFile = NativeFileOperationsHelper.OpenFileForRead(Path);
-				return new FileStream(hFile, FileAccess.Read).AsInputStream();
-			});
+			var hFile = NativeFileOperationsHelper.OpenFileForRead(Path);
+			return Task.FromResult(new FileStream(hFile, FileAccess.Read).AsInputStream()).AsAsyncOperation();
 		}
 
 		public override IAsyncOperation<StorageStreamTransaction> OpenTransactedWriteAsync()

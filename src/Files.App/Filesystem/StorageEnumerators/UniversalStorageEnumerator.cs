@@ -262,7 +262,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 			{
 				if (file is ShortcutStorageFile linkFile)
 				{
-					var isUrl = linkFile.Name.EndsWith(".url", StringComparison.OrdinalIgnoreCase);
+					var isUrl = FileExtensionHelpers.IsWebLinkFile(linkFile.Name);
 					return new ShortcutItem(file.FolderRelativeId)
 					{
 						PrimaryItemAttribute = StorageItemTypes.File,
