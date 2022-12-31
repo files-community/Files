@@ -29,6 +29,8 @@ using Windows.ApplicationModel;
 using Windows.Graphics;
 using Windows.Services.Store;
 using Windows.Storage;
+using Windows.UI;
+using ColorHelper = CommunityToolkit.WinUI.Helpers.ColorHelper;
 
 namespace Files.App.Views
 {
@@ -81,8 +83,28 @@ namespace Files.App.Views
 
 		private void LoadAppResources()
 		{
-			App.AppThemeResourcesHelper.SetCompactSpacing(UserSettingsService.AppearanceSettingsService.UseCompactStyles);
-			App.AppThemeResourcesHelper.SetRootBackgroundColor(ColorHelpers.FromUint(UserSettingsService.AppearanceSettingsService.AppThemeRootBackgroundColor));
+			var useCompactStyles = UserSettingsService.AppearanceSettingsService.UseCompactStyles;
+			var appThemeBackgroundColor = ColorHelper.ToColor(UserSettingsService.AppearanceSettingsService.AppThemeBackgroundColor);
+			var appThemeAddressBarBackgroundColor = ColorHelper.ToColor(UserSettingsService.AppearanceSettingsService.AppThemeAddressBarBackgroundColor);
+			var appThemeSidebarBackgroundColor = ColorHelper.ToColor(UserSettingsService.AppearanceSettingsService.AppThemeSidebarBackgroundColor);
+			var appThemeFileAreaBackgroundColor = ColorHelper.ToColor(UserSettingsService.AppearanceSettingsService.AppThemeFileAreaBackgroundColor);
+			var appThemeFontFamily = UserSettingsService.AppearanceSettingsService.AppThemeFontFamily;
+
+			App.AppThemeResourcesHelper.SetCompactSpacing(useCompactStyles);
+			App.AppThemeResourcesHelper.SetAppThemeBackgroundColor(appThemeBackgroundColor);
+
+			if (appThemeAddressBarBackgroundColor != Color.FromArgb(0,0,0,0))
+				App.AppThemeResourcesHelper.SetAppThemeAddressBarBackgroundColor(appThemeAddressBarBackgroundColor);
+			
+			if (appThemeSidebarBackgroundColor != Color.FromArgb(0,0,0,0))
+				App.AppThemeResourcesHelper.SetAppThemeSidebarBackgroundColor(appThemeSidebarBackgroundColor);
+
+			if (appThemeFileAreaBackgroundColor != Color.FromArgb(0,0,0,0))
+				App.AppThemeResourcesHelper.SetAppThemeFileAreaBackgroundColor(appThemeFileAreaBackgroundColor);
+
+			if (appThemeFontFamily != "Segoe UI Variable")
+				App.AppThemeResourcesHelper.SetAppThemeFontFamily(appThemeFontFamily);
+
 			App.AppThemeResourcesHelper.ApplyResources();
 		}
 
@@ -131,12 +153,12 @@ namespace Files.App.Views
 
 		private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
 		{
-			horizontalMultitaskingControl.DragArea.SizeChanged += (_, _) => SetRectDragRegion();
+			TabControl.DragArea.SizeChanged += (_, _) => SetRectDragRegion();
 
 			if (ViewModel.MultitaskingControl is not HorizontalMultitaskingControl)
 			{
-				ViewModel.MultitaskingControl = horizontalMultitaskingControl;
-				ViewModel.MultitaskingControls.Add(horizontalMultitaskingControl);
+				ViewModel.MultitaskingControl = TabControl;
+				ViewModel.MultitaskingControls.Add(TabControl);
 				ViewModel.MultitaskingControl.CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
 			}
 		}
@@ -144,12 +166,12 @@ namespace Files.App.Views
 		private void SetRectDragRegion()
 		{
 			var scaleAdjustment = XamlRoot.RasterizationScale;
-			var dragArea = horizontalMultitaskingControl.DragArea;
+			var dragArea = TabControl.DragArea;
 
-			var x = (int)((horizontalMultitaskingControl.ActualWidth - dragArea.ActualWidth) * scaleAdjustment);
+			var x = (int)((TabControl.ActualWidth - dragArea.ActualWidth) * scaleAdjustment);
 			var y = 0;
 			var width = (int)(dragArea.ActualWidth * scaleAdjustment);
-			var height = (int)(horizontalMultitaskingControl.TitlebarArea.ActualHeight * scaleAdjustment);
+			var height = (int)(TabControl.TitlebarArea.ActualHeight * scaleAdjustment);
 
 			var dragRect = new RectInt32(x, y, width, height);
 			App.Window.AppWindow.TitleBar.SetDragRectangles(new[] { dragRect });
@@ -324,7 +346,7 @@ namespace Files.App.Views
 			// Defers the status bar loading until after the page has loaded to improve startup perf
 			FindName(nameof(StatusBarControl));
 			FindName(nameof(InnerNavigationToolbar));
-			FindName(nameof(horizontalMultitaskingControl));
+			FindName(nameof(TabControl));
 			FindName(nameof(NavToolbar));
 
 			// Prompt user to review app in the Store

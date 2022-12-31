@@ -16,6 +16,7 @@
 		Jottacloud,
 		SynologyDrive,
 		pCloud,
-		AdobeCreativeCloud
+		AdobeCreativeCloud,
+		Nutstore
 	}
 }

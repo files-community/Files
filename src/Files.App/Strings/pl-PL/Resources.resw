@@ -218,7 +218,7 @@
     <value>Format daty</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Wybierz motyw</value>
+    <value>Theme</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Pokaż rozszerzenia dla znanych typów plików</value>
@@ -234,6 +234,9 @@
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Wygląd</value>
+  </data>
+  <data name="Background" xml:space="preserve">
+    <value>Background</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Funkcje Eksperymentalne</value>
@@ -1507,9 +1510,6 @@
   <data name="Default" xml:space="preserve">
     <value>Domyślny</value>
   </data>
-  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
-    <value>Motywy niestandardowe</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Liczba elementów</value>
   </data>
@@ -1986,18 +1986,6 @@
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Nieznany właściciel</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Dowiedz się więcej na temat niestandardowych motywów</value>
-  </data>
-  <data name="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Dowiedz się więcej na temat niestandardowych motywów</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
-    <value>Motywy niestandardowe to świetny sposób na personalizację aplikacji Files.</value>
-  </data>
-  <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
-    <value>Wyświetl dokumentację.</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
     <value>Wypakuj archiwum</value>
@@ -2858,7 +2846,7 @@
     <value>Ścieżka</value>
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
-    <value>Sorting and grouping</value>
+    <value>Sortowanie i grupowanie</value>
   </data>
   <data name="Archive" xml:space="preserve">
     <value>Archiwum</value>
@@ -2930,9 +2918,12 @@
     <value>Kolumna statusu synchronizacji</value>
   </data>
   <data name="GroupBy" xml:space="preserve">
-    <value>Group by</value>
+    <value>Grupuj według</value>
   </data>
   <data name="SortBy" xml:space="preserve">
     <value>Sortuj według</value>
+  </data>
+  <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
+    <value>Recently used files is currently disabled in Windows File Explorer.</value>
   </data>
 </root>

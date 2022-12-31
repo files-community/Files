@@ -105,8 +105,28 @@ namespace Files.Backend.Services.Settings
 		bool BundlesWidgetExpanded { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating the root background color.
+		/// Gets or sets a value for the app theme background color.
 		/// </summary>
-		UInt32 AppThemeRootBackgroundColor { get; set; }
+		String AppThemeBackgroundColor { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value for the app theme address bar background color.
+		/// </summary>
+		String AppThemeAddressBarBackgroundColor { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value for the app theme sidebar background color.
+		/// </summary>
+		String AppThemeSidebarBackgroundColor { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value for the app theme file area background color.
+		/// </summary>
+		String AppThemeFileAreaBackgroundColor { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value for the app theme font family.
+		/// </summary>
+		String AppThemeFontFamily { get; set; }
 	}
 }
