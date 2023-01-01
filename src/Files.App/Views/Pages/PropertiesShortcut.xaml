@@ -128,10 +128,13 @@
 				Text="{x:Bind ViewModel.ShortcutItemWorkingDir, Mode=TwoWay}" />
 		</Grid>
 
-		<local1:SettingsBlockControl Title="{helpers:ResourceString Name=RunAsAdministrator}" HorizontalAlignment="Stretch">
+        <local1:SettingsBlockControl 
+	        x:Name="RunAsAdminCheckbox" 
+	        Title="{helpers:ResourceString Name=RunAsAdministrator}" 
+	        HorizontalAlignment="Stretch" 
+	        x:Load="{x:Bind ViewModel.RunAsAdminEnabled, Mode=OneWay}">
 			<ToggleSwitch
 				AutomationProperties.Name="{helpers:ResourceString Name=RunAsAdministrator}"
-				IsEnabled="{x:Bind ViewModel.RunAsAdminEnabled, Mode=OneWay}"
 				IsOn="{x:Bind ViewModel.RunAsAdmin, Mode=TwoWay}"
 				Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 		</local1:SettingsBlockControl>
