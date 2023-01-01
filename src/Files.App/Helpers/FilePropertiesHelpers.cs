@@ -115,7 +115,7 @@ namespace Files.App.Helpers
 			{
 				var argument = new PropertiesPageNavigationArguments
 				{
-					Item = item,
+					Item = thing,
 					AppInstanceArgument = associatedInstance,
 				};
 				frame.Navigate(typeof(Properties), argument, new SuppressNavigationTransitionInfo());
