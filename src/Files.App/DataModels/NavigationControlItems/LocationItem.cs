@@ -7,6 +7,7 @@ using Files.Shared;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
+using System.Threading.Tasks;
 
 namespace Files.App.DataModels.NavigationControlItems
 {
@@ -34,8 +35,6 @@ namespace Files.App.DataModels.NavigationControlItems
 			{
 				path = value;
 				ToolTipText = string.IsNullOrEmpty(Path) || Path.Contains('?', StringComparison.Ordinal) || Path.StartsWith("shell:", StringComparison.OrdinalIgnoreCase) || Path.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase) || Path == "Home".GetLocalizedResource() ? Text : Path;
-				if (string.Equals(Path, "shell:RecycleBinFolder", StringComparison.OrdinalIgnoreCase))
-					IsRecycleBin = true;
             }
 		}
 
@@ -55,13 +54,30 @@ namespace Files.App.DataModels.NavigationControlItems
 		}
 
 		public bool IsInvalid { get; set; } = false;
-
-        public bool IsRecycleBin { get; set; } = false;
-
-        public SectionType Section { get; set; }
+		public bool IsRecycleBin => string.Equals(Path, "shell:RecycleBinFolder", StringComparison.OrdinalIgnoreCase);
+		public SectionType Section { get; set; }
 
 		public ContextMenuOptions MenuOptions { get; set; }
 
 		public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
+	}
+
+	public class RecycleBinLocationItem : LocationItem
+	{
+		public async Task RefreshSpaceUsed()
+		{
+			SpaceUsed = await RecycleBinHelpers.GetSize();
+		}
+
+		private ulong spaceUsed;
+		public ulong SpaceUsed
+		{
+			get => spaceUsed;
+			set {
+				SetProperty(ref spaceUsed, value);
+			}
+		}
+
+		public string SpaceUsedText => SpaceUsed.ToSizeString();
 	}
 }

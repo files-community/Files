@@ -204,22 +204,46 @@ namespace Files.App.DataModels
 		{
 			var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
 			var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
-			var locationItem = new LocationItem
-			{
-				Font = App.AppModel.SymbolFontFamily,
-				Path = path,
-				Section = SectionType.Favorites,
-				MenuOptions = new ContextMenuOptions
+			LocationItem locationItem;
+			if (path == CommonPaths.RecycleBinPath) {
+				locationItem = new RecycleBinLocationItem
 				{
-					IsLocationItem = true,
-					ShowProperties = true,
-					ShowUnpinItem = true,
-					ShowShellItems = true,
-					ShowEmptyRecycleBin = path == CommonPaths.RecycleBinPath,
-				},
-				IsDefaultLocation = false,
-				Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
-			};
+					Font = App.AppModel.SymbolFontFamily,
+					Path = path,
+					Section = SectionType.Favorites,
+					MenuOptions = new ContextMenuOptions
+					{
+						IsLocationItem = true,
+						ShowProperties = true,
+						ShowUnpinItem = true,
+						ShowShellItems = true,
+						ShowEmptyRecycleBin = true,
+					},
+					IsDefaultLocation = false,
+					Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
+				};
+
+				_ = ((RecycleBinLocationItem)locationItem).RefreshSpaceUsed();
+			}
+			else 
+			{
+				locationItem = new LocationItem
+				{
+					Font = App.AppModel.SymbolFontFamily,
+					Path = path,
+					Section = SectionType.Favorites,
+					MenuOptions = new ContextMenuOptions
+					{
+						IsLocationItem = true,
+						ShowProperties = true,
+						ShowUnpinItem = true,
+						ShowShellItems = true,
+						ShowEmptyRecycleBin = false,
+					},
+					IsDefaultLocation = false,
+					Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
+				};
+			}
 
 			if (res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path))
 			{

@@ -52,7 +52,6 @@
 					CanDrag="False"
 					Content="{x:Bind Text}"
 					DataContext="{x:Bind}"
-                    x:Load="{x:Bind IsRecycleBin}"
 					DragEnter="NavigationViewItem_DragEnter"
 					DragLeave="NavigationViewItem_DragLeave"
 					DragOver="NavigationViewLocationItem_DragOver"
@@ -76,7 +75,59 @@
 				</NavigationViewItem>
 			</DataTemplate>
 
-			<DataTemplate x:Key="DriveNavItem" x:DataType="navigationcontrolitems:DriveItem">
+            <DataTemplate x:Key="RecycleBinNavItem" x:DataType="navigationcontrolitems:RecycleBinLocationItem">
+				<NavigationViewItem
+					AllowDrop="True"
+					AutomationProperties.AutomationId="{x:Bind Text}"
+					CanDrag="False"
+					Content="{x:Bind Text}"
+					DataContext="{x:Bind}"
+					DragEnter="NavigationViewItem_DragEnter"
+					DragLeave="NavigationViewItem_DragLeave"
+					DragOver="NavigationViewLocationItem_DragOver"
+					DragStarting="NavigationViewItem_DragStarting"
+					Drop="NavigationViewLocationItem_Drop"
+					IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}"
+					IsRightTapEnabled="True"
+					MenuItemsSource="{x:Bind ChildItems}"
+					PointerPressed="Sidebar_PointerPressed"
+					RightTapped="NavigationViewItem_RightTapped"
+					SelectsOnInvoked="{x:Bind SelectsOnInvoked}"
+					Tag="{x:Bind Path}">
+                    <ToolTipService.ToolTip>
+                        <ToolTip>
+                            <Grid
+	                            x:Name="RecycleBinTooltip"
+	                            Padding="0"
+	                            HorizontalAlignment="Stretch"
+	                            ColumnSpacing="8"
+	                            CornerRadius="4"
+	                            RowSpacing="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <!-- Recycle bin used space text -->
+	                            <TextBlock
+		                            x:Name="RecycleBinSpaceUsedText"
+		                            Text="{x:Bind SpaceUsedText, Mode=OneWay}" />
+                            </Grid>
+                        </ToolTip>
+                    </ToolTipService.ToolTip>
+                    <NavigationViewItem.Icon>
+						<ImageIcon Source="{x:Bind Icon, Mode=OneWay}" />
+					</NavigationViewItem.Icon>
+					<!--  WINUI3  missing some styles  -->
+					<!--<NavigationViewItem.InfoBadge>
+						<InfoBadge Style="{ThemeResource CautionIconInfoBadgeStyle}" Visibility="{x:Bind IsInvalid, Mode=OneWay}" />
+					</NavigationViewItem.InfoBadge>-->
+				</NavigationViewItem>
+			</DataTemplate>
+
+            <DataTemplate x:Key="DriveNavItem" x:DataType="navigationcontrolitems:DriveItem">
 				<NavigationViewItem
 					Padding="0"
 					AllowDrop="True"
@@ -1185,6 +1236,7 @@
 			DriveNavItemTemplate="{StaticResource DriveNavItem}"
 			FileTagNavItemTemplate="{StaticResource FileTagNavItem}"
 			LinuxNavItemTemplate="{StaticResource LinuxNavItem}"
-			LocationNavItemTemplate="{StaticResource LocationNavItem}" />
+			LocationNavItemTemplate="{StaticResource LocationNavItem}"
+			RecycleBinNavItemTemplate="{StaticResource RecycleBinNavItem}"/>
 	</NavigationView.MenuItemTemplateSelector>
 </NavigationView>

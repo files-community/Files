@@ -35,6 +35,7 @@ namespace Files.App.Helpers
             {
                 size += item.FileSizeBytes;
             }
+			App.Logger.Info(size.ToString());
             return size;
         }
 
