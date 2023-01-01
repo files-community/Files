@@ -56,7 +56,7 @@ namespace Files.Backend.ViewModels.Dialogs.AddItemDialog
 				SubHeader = "AddDialogListShortcutSubHeader".ToLocalized(),
 				Glyph = "\uE71B",
 				IsItemEnabled = true,
-				ItemResult= new AddItemDialogResultModel()
+				ItemResult = new AddItemDialogResultModel()
 				{
 					ItemType = AddItemDialogItemType.Shortcut,
 					ItemInfo = null

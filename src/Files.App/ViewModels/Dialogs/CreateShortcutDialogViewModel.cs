@@ -18,7 +18,7 @@ namespace Files.App.ViewModels.Dialogs
 			set => SetProperty(ref _destinationItemPath, value);
 		}
 
-		private bool _isLocationValid = true;
+		private bool _isLocationValid;
 		public bool IsLocationValid
 		{
 			get => _isLocationValid;

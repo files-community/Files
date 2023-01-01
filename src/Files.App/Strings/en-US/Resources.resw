@@ -2927,7 +2927,7 @@
     <value>Create a new shortcut</value>
   </data>
   <data name="NewShortcutDialogDescription" xml:space="preserve">
-    <value>Create shortcuts to local or netowrk programs, files, folders, computers or Internet addresses.</value>
+    <value>Create shortcuts to local or network programs, files, folders, computers or Internet addresses.</value>
   </data>
   <data name="NewShortcutDialogPrompt" xml:space="preserve">
     <value>Enter the location of the item:</value>
@@ -2937,9 +2937,6 @@
   </data>
   <data name="Continue" xml:space="preserve">
     <value>Continue</value>
-  </data>
-  <data name="ShortcutLocationError" xml:space="preserve">
-	<value>Shortcut target is not valid</value>
   </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
     <value>Recently used files is currently disabled in Windows File Explorer.</value>
