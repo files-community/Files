@@ -116,10 +116,10 @@ namespace Files.App.Filesystem
 			var deleteFromRecycleBin = source.Select(item => item.Path).Any(path => recycleBinHelpers.IsPathUnderRecycleBin(path));
 			var canBeSentToBin = !deleteFromRecycleBin && await recycleBinHelpers.HasRecycleBin(source.FirstOrDefault()?.Path);
 
-			if (showDialog && ((!permanently && !canBeSentToBin && !deleteFromRecycleBin) || UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog)) // Check if the setting to show a confirmation dialog is on
+			if (showDialog && (!permanently && !canBeSentToBin) && UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog) // Check if the setting to show a confirmation dialog is on
 			{
 				var incomingItems = new List<BaseFileSystemDialogItemViewModel>();
-				List<ShellFileItem>? binItems = null;
+				List<ShellFileItem> binItems = null;
 				foreach (var src in source)
 				{
 					if (recycleBinHelpers.IsPathUnderRecycleBin(src.Path))
