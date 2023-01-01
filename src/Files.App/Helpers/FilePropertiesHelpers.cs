@@ -66,7 +66,6 @@ namespace Files.App.Helpers
 
 				var propertiesWindow = new WinUIEx.WindowEx
 				{
-					IsAlwaysOnTop = true,
 					IsMinimizable = false,
 					IsMaximizable = false,
 					MinWidth = 460,
