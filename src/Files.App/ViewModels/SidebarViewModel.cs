@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
+using Files.App.DataModels;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
 using Files.App.Filesystem;
@@ -526,8 +527,15 @@ namespace Files.App.ViewModels
 		public async void EmptyRecycleBin(RoutedEventArgs e)
 		{
 			await RecycleBinHelpers.S_EmptyRecycleBin();
-		}
+			var sidebarItems = SideBarItems
+				.Where(x => !string.IsNullOrWhiteSpace(x.Path))
+				.Concat(SideBarItems.Where(x => (x as LocationItem)?.ChildItems is not null).SelectMany(x => ((LocationItem)x).ChildItems).Where(x => !string.IsNullOrWhiteSpace(x.Path)))
+				.ToList();
 
+			var recycleBin = (RecycleBinLocationItem)sidebarItems.FirstOrDefault(x => ((LocationItem)x).IsRecycleBin);
+			recycleBin?.RefreshSpaceUsed();
+		}
+		
 		private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			switch (e.SettingName)

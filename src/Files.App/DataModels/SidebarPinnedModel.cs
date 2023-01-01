@@ -223,7 +223,7 @@ namespace Files.App.DataModels
 					Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
 				};
 
-				_ = ((RecycleBinLocationItem)locationItem).RefreshSpaceUsed();
+				((RecycleBinLocationItem)locationItem).RefreshSpaceUsed();
 			}
 			else 
 			{

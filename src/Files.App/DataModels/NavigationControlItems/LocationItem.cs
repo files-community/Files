@@ -64,20 +64,18 @@ namespace Files.App.DataModels.NavigationControlItems
 
 	public class RecycleBinLocationItem : LocationItem
 	{
-		public async Task RefreshSpaceUsed()
+		public void RefreshSpaceUsed()
 		{
-			SpaceUsed = await RecycleBinHelpers.GetSize();
+			SpaceUsed = RecycleBinHelpers.GetSize();
 		}
 
 		private ulong spaceUsed;
 		public ulong SpaceUsed
 		{
 			get => spaceUsed;
-			set {
-				SetProperty(ref spaceUsed, value);
-			}
+			set => SetProperty(ref spaceUsed, value);
 		}
 
-		public string SpaceUsedText => SpaceUsed.ToSizeString();
+		public string SpaceUsedText => "RecycleBinSizeText".GetLocalizedResource() + SpaceUsed.ToSizeString();
 	}
 }
