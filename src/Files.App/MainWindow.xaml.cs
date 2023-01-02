@@ -46,7 +46,7 @@ namespace Files.App
 		private void EnsureEarlyWindow()
 		{
 			// Set title
-			AppWindow.Title = SystemInformation.Instance.ApplicationName;
+			AppWindow.Title = "Files";
 
 			// Set icon
 			AppWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, Constants.AssetPaths.Logo));
