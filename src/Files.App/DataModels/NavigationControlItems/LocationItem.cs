@@ -66,7 +66,6 @@ namespace Files.App.DataModels.NavigationControlItems
 	{
 		public void RefreshSpaceUsed()
 		{
-			App.Logger.Warn("Refreshing Recycle Bin used space");
 			SpaceUsed = RecycleBinHelpers.GetSize();
 		}
 
