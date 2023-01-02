@@ -190,7 +190,7 @@ namespace Files.App.Filesystem
 				return await filesystemOperations.CreateAsync(source, progress, cancellationToken);
 			}
 
-			FileSystemProgress fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
+			FileSystemProgress fsProgress = new(progress, true, FileSystemStatusCode.InProgress, 1);
 			fsProgress.Report();
 			var createResult = new ShellOperationResult();
 			(var success, var response) = (false, new ShellOperationResult());

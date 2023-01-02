@@ -68,7 +68,7 @@ namespace Files.App.Filesystem
 		public void Report(float? percentage = null)
 		{
 			Percentage = percentage;
-			if (((EnumerationCompleted && (ProcessedItemsCount == ItemsCount || ProcessedSize == TotalSize)) ||
+			if (((EnumerationCompleted && ProcessedItemsCount == ItemsCount && ProcessedSize == TotalSize) ||
 				(percentage is float f && MathF.Abs(f - 100f) <= float.Epsilon)) &&
 				status is FileSystemStatusCode.InProgress or null)
 			{
