@@ -338,7 +338,6 @@ namespace Files.App.Filesystem.StorageEnumerators
 			}
 			else if (App.LibraryManager.TryGetLibrary(itemPath, out LibraryLocationItem library))
 			{
-				await App.Window.DispatcherQueue.EnqueueAsync(() => library.LoadLibraryIcon());
 				return new LibraryItem(library)
 				{
 					ItemDateModifiedReal = itemModifiedDate,
