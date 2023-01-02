@@ -2,7 +2,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
-using Files.App.DataModels;
 using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
 using Files.App.Filesystem;
@@ -528,7 +527,7 @@ namespace Files.App.ViewModels
 		{
 			await RecycleBinHelpers.S_EmptyRecycleBin();
 		}
-		
+
 		private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			switch (e.SettingName)
