@@ -1216,7 +1216,6 @@ namespace Files.App.UserControls
 		public DataTemplate LinuxNavItemTemplate { get; set; }
 		public DataTemplate FileTagNavItemTemplate { get; set; }
 		public DataTemplate HeaderNavItemTemplate { get; set; }
-		public DataTemplate RecycleBinNavItemTemplate { get; set; }
 		protected override DataTemplate SelectTemplateCore(object item)
 		{
 			if (item is null || item is not INavigationControlItem navControlItem)
@@ -1224,7 +1223,7 @@ namespace Files.App.UserControls
 
 			return navControlItem.ItemType switch
 			{
-				NavigationControlItemType.Location => ((LocationItem)item).IsRecycleBin ? RecycleBinNavItemTemplate : LocationNavItemTemplate,
+				NavigationControlItemType.Location => LocationNavItemTemplate,
 				NavigationControlItemType.Drive => DriveNavItemTemplate,
 				NavigationControlItemType.CloudDrive => DriveNavItemTemplate,
 				NavigationControlItemType.LinuxDistro => LinuxNavItemTemplate,

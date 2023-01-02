@@ -38,7 +38,7 @@ namespace Files.App.DataModels.NavigationControlItems
             }
 		}
 
-		public string ToolTipText { get; private set; }
+		public virtual string ToolTipText { get; private set; }
 		public FontFamily Font { get; set; }
 		public NavigationControlItemType ItemType => NavigationControlItemType.Location;
 		public bool IsDefaultLocation { get; set; }
@@ -76,13 +76,13 @@ namespace Files.App.DataModels.NavigationControlItems
 			get => spaceUsed;
 			set { 
 				if (SetProperty(ref spaceUsed, value))
-					OnPropertyChanged(nameof(SpaceUsedText));
+					OnPropertyChanged(nameof(ToolTipText));
 
-				App.Logger.Warn(SpaceUsedText + $", real value: {spaceUsed}");
+				App.Logger.Warn(ToolTipText + $", real value: {spaceUsed}");
 			}
 		}
 
-		public string SpaceUsedText => "RecycleBinSizeText".GetLocalizedResource() + SpaceUsed.ToSizeString();
+		public override string ToolTipText => "RecycleBinSizeText".GetLocalizedResource() + SpaceUsed.ToSizeString();
 
 		public RecycleBinLocationItem()
 		{
