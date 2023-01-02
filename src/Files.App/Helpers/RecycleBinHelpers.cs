@@ -27,7 +27,6 @@ namespace Files.App.Helpers
 
 		public static async Task<List<ShellFileItem>> EnumerateRecycleBin()
 		{
-			RefreshSidebarRecycleBin();
 			return (await Win32Shell.GetShellFolderAsync(CommonPaths.RecycleBinPath, "Enumerate", 0, int.MaxValue)).Enumerate;
 		}
 
@@ -149,7 +148,6 @@ namespace Files.App.Helpers
 
 			if (result == ContentDialogResult.Primary)
 				await this.RestoreItem(associatedInstance);
-			RefreshSidebarRecycleBin();
 		}
 
 		//WINUI3
@@ -192,8 +190,6 @@ namespace Files.App.Helpers
 				Dest = ((RecycleBinItem)item).ItemOriginalPath
 			});
 			await associatedInstance.FilesystemHelpers.RestoreItemsFromTrashAsync(items.Select(x => x.Source), items.Select(x => x.Dest), true);
-
-			RefreshSidebarRecycleBin();
 		}
 
 		public static async Task S_DeleteItem(IShellPage associatedInstance)
@@ -207,7 +203,6 @@ namespace Files.App.Helpers
 				item.ItemPath,
 				item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
 			await associatedInstance.FilesystemHelpers.DeleteItemsAsync(items, true, false, true);
-			RefreshSidebarRecycleBin();
 		}
 	}
 }

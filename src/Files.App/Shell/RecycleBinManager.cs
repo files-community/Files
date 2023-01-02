@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Files.App.Helpers;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Security.Principal;
@@ -74,6 +75,7 @@ namespace Files.App.Shell
 				// Recycle bin also stores a file starting with $I for each item
 				return;
 			}
+			RecycleBinHelpers.RefreshSidebarRecycleBin();
 
 			switch (e.ChangeType)
 			{

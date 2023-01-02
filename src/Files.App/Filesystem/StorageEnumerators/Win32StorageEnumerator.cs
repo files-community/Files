@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.WinUI;
 using Files.App.Extensions;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
@@ -337,6 +338,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 			}
 			else if (App.LibraryManager.TryGetLibrary(itemPath, out LibraryLocationItem library))
 			{
+				await App.Window.DispatcherQueue.EnqueueAsync(() => library.LoadLibraryIcon());
 				return new LibraryItem(library)
 				{
 					ItemDateModifiedReal = itemModifiedDate,
