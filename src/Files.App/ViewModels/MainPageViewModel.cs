@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.Mvvm.Input;
 using Files.App.Extensions;
 using Files.App.Filesystem;
@@ -233,7 +234,7 @@ namespace Files.App.ViewModels
 			if (AppInstances.Count > 1)
 				windowTitle = $"{windowTitle} ({AppInstances.Count})";
 			if (navigationArg == SelectedTabItem?.TabItemArguments?.NavigationArg)
-				App.GetAppWindow(App.Window).Title = windowTitle;
+				App.GetAppWindow(App.Window).Title = $"{windowTitle} - {SystemInformation.Instance.ApplicationName}";
 		}
 
 		public static async Task UpdateTabInfo(TabItem tabItem, object navigationArg)

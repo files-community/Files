@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.WinUI.Helpers;
 using Files.App.CommandLine;
 using Files.App.Filesystem;
 using Files.App.Helpers;
@@ -45,7 +46,7 @@ namespace Files.App
 		private void EnsureEarlyWindow()
 		{
 			// Set title
-			AppWindow.Title = "Files";
+			AppWindow.Title = SystemInformation.Instance.ApplicationName;
 
 			// Set icon
 			AppWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, Constants.AssetPaths.Logo));
