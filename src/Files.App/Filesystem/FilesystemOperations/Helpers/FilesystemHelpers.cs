@@ -113,6 +113,9 @@ namespace Files.App.Filesystem
 
 			var returnStatus = ReturnResult.InProgress;
 
+			var deleteFromRecycleBin = source.Select(item => item.Path).Any(path => recycleBinHelpers.IsPathUnderRecycleBin(path));
+			var canBeSentToBin = !deleteFromRecycleBin && await recycleBinHelpers.HasRecycleBin(source.FirstOrDefault()?.Path);
+
 			if (showDialog && UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog) // Check if the setting to show a confirmation dialog is on
 			{
 				var incomingItems = new List<BaseFileSystemDialogItemViewModel>();
@@ -134,8 +137,6 @@ namespace Files.App.Filesystem
 					}
 				}
 
-				var canBeSentToBin = (binItems?.IsEmpty() ?? true) && await recycleBinHelpers.HasRecycleBin(source.FirstOrDefault()?.Path);
-
 				var dialogViewModel = FileSystemDialogViewModel.GetDialogViewModel(
 					new() { IsInDeleteMode = true },
 					(canBeSentToBin ? permanently : true, canBeSentToBin),
@@ -150,6 +151,10 @@ namespace Files.App.Filesystem
 
 				// Delete selected items if the result is Yes
 				permanently = dialogViewModel.DeletePermanently;
+			}
+			else
+			{
+				permanently |= !canBeSentToBin; // delete permanently if recycle bin is not suppeorted
 			}
 
 			// post the status banner

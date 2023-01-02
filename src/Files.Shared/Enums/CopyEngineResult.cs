@@ -65,7 +65,6 @@
 				CopyEngineResult.COPYENGINE_E_NET_DISCONNECT_DEST => FileSystemStatusCode.NotFound,
 				CopyEngineResult.COPYENGINE_E_NET_DISCONNECT_SRC => FileSystemStatusCode.NotFound,
 				CopyEngineResult.COPYENGINE_E_CANT_REACH_SOURCE => FileSystemStatusCode.NotFound,
-				CopyEngineResult.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND => FileSystemStatusCode.NotFound,
 				CopyEngineResult.COPYENGINE_E_ALREADY_EXISTS_NORMAL => FileSystemStatusCode.AlreadyExists,
 				CopyEngineResult.COPYENGINE_E_ALREADY_EXISTS_READONLY => FileSystemStatusCode.AlreadyExists,
 				CopyEngineResult.COPYENGINE_E_ALREADY_EXISTS_SYSTEM => FileSystemStatusCode.AlreadyExists,
