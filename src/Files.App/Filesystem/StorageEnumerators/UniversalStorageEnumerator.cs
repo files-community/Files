@@ -252,7 +252,6 @@ namespace Files.App.Filesystem.StorageEnumerators
 			// TODO: is this needed to be handled here?
 			if (App.LibraryManager.TryGetLibrary(file.Path, out LibraryLocationItem library))
 			{
-				App.Logger.Warn("UniversalEnumerator");
 				return new LibraryItem(library)
 				{
 					ItemDateModifiedReal = itemModifiedDate,
