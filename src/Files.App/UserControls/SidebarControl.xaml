@@ -112,8 +112,7 @@
 
                                 <!-- Recycle bin used space text -->
 	                            <TextBlock
-		                            x:Name="RecycleBinSpaceUsedText"
-		                            Text="{x:Bind SpaceUsedText, Mode=OneWay}" />
+		                            Text="{Binding SpaceUsedText}" />
                             </Grid>
                         </ToolTip>
                     </ToolTipService.ToolTip>

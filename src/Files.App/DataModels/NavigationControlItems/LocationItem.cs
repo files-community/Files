@@ -66,6 +66,7 @@ namespace Files.App.DataModels.NavigationControlItems
 	{
 		public void RefreshSpaceUsed()
 		{
+			App.Logger.Warn("Refreshing Recycle Bin used space");
 			SpaceUsed = RecycleBinHelpers.GetSize();
 		}
 
@@ -73,9 +74,19 @@ namespace Files.App.DataModels.NavigationControlItems
 		public ulong SpaceUsed
 		{
 			get => spaceUsed;
-			set => SetProperty(ref spaceUsed, value);
+			set { 
+				if (SetProperty(ref spaceUsed, value))
+					OnPropertyChanged(nameof(SpaceUsedText));
+
+				App.Logger.Warn(SpaceUsedText + $", real value: {spaceUsed}");
+			}
 		}
 
 		public string SpaceUsedText => "RecycleBinSizeText".GetLocalizedResource() + SpaceUsed.ToSizeString();
+
+		public RecycleBinLocationItem()
+		{
+			RecycleBinHelpers.sidebarBin = this;
+		}
 	}
 }

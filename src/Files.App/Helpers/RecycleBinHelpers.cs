@@ -1,3 +1,4 @@
+using Files.App.DataModels.NavigationControlItems;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Shell;
@@ -22,10 +23,16 @@ namespace Files.App.Helpers
 
 		#endregion Private Members
 
+		public static RecycleBinLocationItem? sidebarBin;
+
 		public static async Task<List<ShellFileItem>> EnumerateRecycleBin()
 		{
+			RefreshSidebarRecycleBin();
 			return (await Win32Shell.GetShellFolderAsync(CommonPaths.RecycleBinPath, "Enumerate", 0, int.MaxValue)).Enumerate;
 		}
+
+		public static void RefreshSidebarRecycleBin() 
+			=> sidebarBin?.RefreshSpaceUsed();
 
         public static ulong GetSize()
         {
@@ -93,6 +100,7 @@ namespace Files.App.Helpers
 						ReturnResult.Failed,
 						FileOperationType.Delete);
 			}
+			RefreshSidebarRecycleBin();
 		}
 
 		public static async Task S_RestoreRecycleBin(IShellPage associatedInstance)
@@ -118,6 +126,7 @@ namespace Files.App.Helpers
 				associatedInstance.SlimContentPage.ItemManipulationModel.SelectAllItems();
 				await this.RestoreItem(associatedInstance);
 			}
+			RefreshSidebarRecycleBin();
 		}
 
 		public static async Task S_RestoreSelectionRecycleBin(IShellPage associatedInstance)
@@ -140,6 +149,7 @@ namespace Files.App.Helpers
 
 			if (result == ContentDialogResult.Primary)
 				await this.RestoreItem(associatedInstance);
+			RefreshSidebarRecycleBin();
 		}
 
 		//WINUI3
@@ -182,6 +192,8 @@ namespace Files.App.Helpers
 				Dest = ((RecycleBinItem)item).ItemOriginalPath
 			});
 			await associatedInstance.FilesystemHelpers.RestoreItemsFromTrashAsync(items.Select(x => x.Source), items.Select(x => x.Dest), true);
+
+			RefreshSidebarRecycleBin();
 		}
 
 		public static async Task S_DeleteItem(IShellPage associatedInstance)
@@ -195,6 +207,7 @@ namespace Files.App.Helpers
 				item.ItemPath,
 				item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
 			await associatedInstance.FilesystemHelpers.DeleteItemsAsync(items, true, false, true);
+			RefreshSidebarRecycleBin();
 		}
 	}
 }

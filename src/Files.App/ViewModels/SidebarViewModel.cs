@@ -527,13 +527,6 @@ namespace Files.App.ViewModels
 		public async void EmptyRecycleBin(RoutedEventArgs e)
 		{
 			await RecycleBinHelpers.S_EmptyRecycleBin();
-			var sidebarItems = SideBarItems
-				.Where(x => !string.IsNullOrWhiteSpace(x.Path))
-				.Concat(SideBarItems.Where(x => (x as LocationItem)?.ChildItems is not null).SelectMany(x => ((LocationItem)x).ChildItems).Where(x => !string.IsNullOrWhiteSpace(x.Path)))
-				.ToList();
-
-			var recycleBin = (RecycleBinLocationItem)sidebarItems.FirstOrDefault(x => ((LocationItem)x).IsRecycleBin);
-			recycleBin?.RefreshSpaceUsed();
 		}
 		
 		private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)

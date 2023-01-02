@@ -549,6 +549,7 @@ namespace Files.App.Filesystem
 					// Get newest file
 					ShellFileItem item = nameMatchItems.OrderBy((item) => item.RecycleDate).FirstOrDefault();
 
+					RecycleBinHelpers.RefreshSidebarRecycleBin();
 					return new StorageHistory(FileOperationType.Recycle, source, StorageHelpers.FromPathAndType(item?.RecyclePath, source.ItemType));
 				}
 
@@ -700,6 +701,7 @@ namespace Files.App.Filesystem
 				fsProgress.Report();
 
 			}
+			RecycleBinHelpers.RefreshSidebarRecycleBin();
 
 			if (rawStorageHistory.Any() && rawStorageHistory.All((item) => item is not null))
 			{
@@ -941,6 +943,7 @@ namespace Files.App.Filesystem
 				permanently = recycleBinHelpers.IsPathUnderRecycleBin(source[i].Path) || originalPermanently;
 
 				rawStorageHistory.Add(await DeleteAsync(source[i], null, permanently, token));
+				RecycleBinHelpers.RefreshSidebarRecycleBin();
 				fsProgress.ProcessedItemsCount++;
 				fsProgress.Report();
 			}

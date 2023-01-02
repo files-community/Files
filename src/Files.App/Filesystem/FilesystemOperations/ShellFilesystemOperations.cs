@@ -353,6 +353,8 @@ namespace Files.App.Filesystem
 				{
 					var sourceMatch = await recycledSources.Select(x => source.DistinctBy(x => x.Path)
 						.SingleOrDefault(s => s.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x is not null).ToListAsync();
+
+					RecycleBinHelpers.RefreshSidebarRecycleBin();
 					return new StorageHistory(FileOperationType.Recycle,
 						sourceMatch,
 						await recycledSources.Zip(sourceMatch, (rSrc, oSrc) => new { rSrc, oSrc })
@@ -669,6 +671,8 @@ namespace Files.App.Filesystem
 						.Select(src => StorageHelpers.FromPathAndType(
 							Path.Combine(Path.GetDirectoryName(src.rSrc.Source), Path.GetFileName(src.rSrc.Source).Replace("$R", "$I", StringComparison.Ordinal)),
 							src.oSrc.ItemType)).ToListAsync(), null, true, cancellationToken);
+
+					RecycleBinHelpers.RefreshSidebarRecycleBin();
 					return new StorageHistory(FileOperationType.Restore,
 						sourceMatch,
 						await movedSources.Zip(sourceMatch, (rSrc, oSrc) => new { rSrc, oSrc })
