@@ -99,7 +99,6 @@ namespace Files.App.Helpers
 						ReturnResult.Failed,
 						FileOperationType.Delete);
 			}
-			RefreshSidebarRecycleBin();
 		}
 
 		public static async Task S_RestoreRecycleBin(IShellPage associatedInstance)
@@ -125,7 +124,6 @@ namespace Files.App.Helpers
 				associatedInstance.SlimContentPage.ItemManipulationModel.SelectAllItems();
 				await this.RestoreItem(associatedInstance);
 			}
-			RefreshSidebarRecycleBin();
 		}
 
 		public static async Task S_RestoreSelectionRecycleBin(IShellPage associatedInstance)
