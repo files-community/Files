@@ -20,7 +20,7 @@ namespace Files.App.Filesystem
 			}
 			return false;
 		}
-		
+
 		public static async Task<bool> CheckBitlockerStatusAsync(BaseStorageFolder rootFolder, string path)
 		{
 			if (rootFolder?.Properties is null)
