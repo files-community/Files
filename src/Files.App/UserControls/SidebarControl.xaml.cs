@@ -1216,7 +1216,8 @@ namespace Files.App.UserControls
 		public DataTemplate LinuxNavItemTemplate { get; set; }
 		public DataTemplate FileTagNavItemTemplate { get; set; }
 		public DataTemplate HeaderNavItemTemplate { get; set; }
-		protected override DataTemplate SelectTemplateCore(object item)
+
+		protected override DataTemplate? SelectTemplateCore(object item)
 		{
 			if (item is null || item is not INavigationControlItem navControlItem)
 				return null;
