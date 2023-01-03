@@ -312,7 +312,7 @@
 					IsCompactOverlay="{x:Bind ViewModel.IsWindowCompactOverlay, Mode=OneWay}"
 					Loaded="NavToolbar_Loaded"
 					SetCompactOverlayCommand="{x:Bind SetCompactOverlayCommand}"
-					ShowPreviewPaneButton="{x:Bind IsPreviewPaneEnabled, Mode=OneWay}"
+					ShowPreviewPaneButton="{x:Bind ShouldPreviewPaneBeDisplayed, Mode=OneWay}"
 					TabIndex="2" />
 
 				<ContentPresenter

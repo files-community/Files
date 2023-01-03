@@ -474,11 +474,7 @@ namespace Files.App.Views
 			}
 		}
 
-		public bool IsPreviewPaneEnabled => UserSettingsService.PreviewPaneSettingsService.IsEnabled switch
-		{
-			true => ShouldPreviewPaneBeDisplayed,
-			false => false,
-		};
+		public bool IsPreviewPaneEnabled => UserSettingsService.PreviewPaneSettingsService.IsEnabled;
 
 		public bool ShouldPreviewPaneBeDisplayed
 		{
