@@ -1,5 +1,4 @@
-﻿using Files.App.Helpers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Security.Principal;
@@ -18,7 +17,7 @@ namespace Files.App.Shell
 		public event FileSystemEventHandler? RecycleBinItemDeleted;
 		public event FileSystemEventHandler? RecycleBinItemRenamed;
 		public event FileSystemEventHandler? RecycleBinRefreshRequested;
-		
+
 		public static RecycleBinManager Default
 		{
 			get
@@ -75,7 +74,7 @@ namespace Files.App.Shell
 				// Recycle bin also stores a file starting with $I for each item
 				return;
 			}
-			
+
 			switch (e.ChangeType)
 			{
 				case WatcherChangeTypes.Created:
