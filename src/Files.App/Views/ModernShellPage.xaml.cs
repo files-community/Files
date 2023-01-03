@@ -757,7 +757,7 @@ namespace Files.App.Views
 					break;
 
 				case (true, false, false, true, VirtualKey.P): // ctrl + p, toggle preview pane
-					App.PaneViewModel.IsPreviewSelected = !App.PaneViewModel.IsPreviewSelected;
+					App.PreviewPaneViewModel.IsEnabled = !App.PreviewPaneViewModel.IsEnabled;
 					break;
 
 				case (true, false, false, true, VirtualKey.R): // ctrl + r, refresh

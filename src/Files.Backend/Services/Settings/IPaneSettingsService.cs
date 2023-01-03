@@ -7,8 +7,6 @@ namespace Files.Backend.Services.Settings
 	{
 		bool IsEnabled { get; set; }
 
-		PaneContents Content { get; set; }
-
 		double HorizontalSizePx { get; set; }
 
 		double VerticalSizePx { get; set; }

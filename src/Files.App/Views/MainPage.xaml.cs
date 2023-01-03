@@ -145,7 +145,7 @@ namespace Files.App.Views
 		{
 			switch (e.SettingName)
 			{
-				case nameof(IPreviewPaneSettingsService.Content):
+				case nameof(IPreviewPaneSettingsService.IsEnabled):
 					LoadPaneChanged();
 					break;
 			}
@@ -366,11 +366,11 @@ namespace Files.App.Views
 			switch (PreviewPane?.Position)
 			{
 				case PanePositions.Right when ContentColumn.ActualWidth == ContentColumn.MinWidth:
-					UserSettingsService.PaneSettingsService.VerticalSizePx += e.NewSize.Width - e.PreviousSize.Width;
+					UserSettingsService.PreviewPaneSettingsService.VerticalSizePx += e.NewSize.Width - e.PreviousSize.Width;
 					UpdatePositioning();
 					break;
 				case PanePositions.Bottom when ContentRow.ActualHeight == ContentRow.MinHeight:
-					UserSettingsService.PaneSettingsService.HorizontalSizePx += e.NewSize.Height - e.PreviousSize.Height;
+					UserSettingsService.PreviewPaneSettingsService.HorizontalSizePx += e.NewSize.Height - e.PreviousSize.Height;
 					UpdatePositioning();
 					break;
 			}
@@ -407,7 +407,7 @@ namespace Files.App.Views
 		/// </summary>
 		private void UpdatePositioning()
 		{
-			if (PreviewPane is null || !IsPaneEnabled)
+			if (PreviewPane is null || !IsPreviewPaneEnabled)
 			{
 				PaneRow.MinHeight = 0;
 				PaneRow.MaxHeight = double.MaxValue;
@@ -437,7 +437,7 @@ namespace Files.App.Views
 						PaneSplitter.GripperCursor = GridSplitter.GripperCursorType.SizeWestEast;
 						PaneColumn.MinWidth = PreviewPane.MinWidth;
 						PaneColumn.MaxWidth = PreviewPane.MaxWidth;
-						PaneColumn.Width = new GridLength(UserSettingsService.PaneSettingsService.VerticalSizePx, GridUnitType.Pixel);
+						PaneColumn.Width = new GridLength(UserSettingsService.PreviewPaneSettingsService.VerticalSizePx, GridUnitType.Pixel);
 						PaneRow.MinHeight = 0;
 						PaneRow.MaxHeight = double.MaxValue;
 						PaneRow.Height = new GridLength(0);
@@ -455,7 +455,7 @@ namespace Files.App.Views
 						PaneColumn.Width = new GridLength(0);
 						PaneRow.MinHeight = PreviewPane.MinHeight;
 						PaneRow.MaxHeight = PreviewPane.MaxHeight;
-						PaneRow.Height = new GridLength(UserSettingsService.PaneSettingsService.HorizontalSizePx, GridUnitType.Pixel);
+						PaneRow.Height = new GridLength(UserSettingsService.PreviewPaneSettingsService.HorizontalSizePx, GridUnitType.Pixel);
 						break;
 				}
 			}
@@ -466,21 +466,21 @@ namespace Files.App.Views
 			switch (PreviewPane?.Position)
 			{
 				case PanePositions.Right:
-					UserSettingsService.PaneSettingsService.VerticalSizePx = PreviewPane.ActualWidth;
+					UserSettingsService.PreviewPaneSettingsService.VerticalSizePx = PreviewPane.ActualWidth;
 					break;
 				case PanePositions.Bottom:
-					UserSettingsService.PaneSettingsService.HorizontalSizePx = PreviewPane.ActualHeight;
+					UserSettingsService.PreviewPaneSettingsService.HorizontalSizePx = PreviewPane.ActualHeight;
 					break;
 			}
 		}
 
-		public bool IsPaneEnabled => UserSettingsService.PaneSettingsService.Content switch
+		public bool IsPreviewPaneEnabled => UserSettingsService.PreviewPaneSettingsService.IsEnabled switch
 		{
-			PaneContents.Preview => IsPreviewPaneEnabled,
-			_ => false,
+			true => ShouldPreviewPaneBeDisplayed,
+			false => false,
 		};
 
-		public bool IsPreviewPaneEnabled
+		public bool ShouldPreviewPaneBeDisplayed
 		{
 			get
 			{
@@ -495,8 +495,8 @@ namespace Files.App.Views
 
 		private void LoadPaneChanged()
 		{
-			OnPropertyChanged(nameof(IsPaneEnabled));
 			OnPropertyChanged(nameof(IsPreviewPaneEnabled));
+			OnPropertyChanged(nameof(ShouldPreviewPaneBeDisplayed));
 			UpdatePositioning();
 		}
 

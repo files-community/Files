@@ -15,12 +15,6 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
-		public PaneContents Content
-		{
-			get => Get(PaneContents.None);
-			set => Set(value);
-		}
-
 		public double HorizontalSizePx
 		{
 			get => Math.Max(100d, Get(300d));

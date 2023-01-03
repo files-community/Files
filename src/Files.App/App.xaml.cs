@@ -55,7 +55,6 @@ namespace Files.App
 		public static StorageHistoryWrapper HistoryWrapper = new StorageHistoryWrapper();
 		public static SettingsViewModel AppSettings { get; private set; }
 		public static AppModel AppModel { get; private set; }
-		public static PaneViewModel PaneViewModel { get; private set; }
 		public static PreviewPaneViewModel PreviewPaneViewModel { get; private set; }
 		public static JumpListManager JumpList { get; private set; }
 		public static RecentItems RecentItemsManager { get; private set; }
@@ -150,7 +149,6 @@ namespace Files.App
 			JumpList ??= new JumpListManager();
 			RecentItemsManager ??= new RecentItems();
 			AppModel ??= new AppModel();
-			PaneViewModel ??= new PaneViewModel();
 			PreviewPaneViewModel ??= new PreviewPaneViewModel();
 			LibraryManager ??= new LibraryManager();
 			DrivesManager ??= new DrivesManager();
@@ -297,7 +295,6 @@ namespace Files.App
 			}
 
 			DrivesManager?.Dispose();
-			PaneViewModel?.Dispose();
 			PreviewPaneViewModel?.Dispose();
 
 			// Try to maintain clipboard data after app close

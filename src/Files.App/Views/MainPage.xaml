@@ -326,7 +326,7 @@
 					x:Name="PaneSplitter"
 					Grid.Row="1"
 					Grid.Column="1"
-					x:Load="{x:Bind IsPaneEnabled, Mode=OneWay}"
+					x:Load="{x:Bind IsPreviewPaneEnabled, Mode=OneWay}"
 					ManipulationCompleted="PaneSplitter_ManipulationCompleted"
 					ResizeBehavior="BasedOnAlignment"
 					Style="{StaticResource DefaultGridSplitterStyle}" />
@@ -336,8 +336,8 @@
 					Grid.Row="1"
 					Grid.Column="2"
 					HorizontalContentAlignment="Stretch"
-					x:Load="{x:Bind IsPaneEnabled, Mode=OneWay}"
-					Visibility="{x:Bind IsPaneEnabled, Mode=OneWay}" />
+					x:Load="{x:Bind IsPreviewPaneEnabled, Mode=OneWay}"
+					Visibility="{x:Bind IsPreviewPaneEnabled, Mode=OneWay}" />
 
 				<controls:StatusBarControl
 					x:Name="StatusBarControl"

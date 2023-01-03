@@ -814,7 +814,7 @@
 				MinWidth="40"
 				AccessKey="P"
 				AutomationProperties.Name="{helpers:ResourceString Name=PreviewPaneToggle/AutomationProperties/Name}"
-				IsChecked="{x:Bind AppModel.PaneViewModel.IsPreviewSelected, Mode=TwoWay}"
+				IsChecked="{x:Bind AppModel.PreviewPaneViewModel.IsEnabled, Mode=TwoWay}"
 				IsEnabled="{x:Bind ShowPreviewPaneButton, Mode=OneWay}"
 				Label="{helpers:ResourceString Name=PreviewPaneToggle/Label}"
 				LabelPosition="Collapsed"
