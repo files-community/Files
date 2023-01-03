@@ -36,16 +36,11 @@ namespace Files.App.DataModels.NavigationControlItems
 			set
 			{
 				path = value;
-				ToolTipText = string.IsNullOrEmpty(Path) || Path.Contains('?', StringComparison.Ordinal) || Path.StartsWith("shell:", StringComparison.OrdinalIgnoreCase) || Path.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase) || Path == "Home".GetLocalizedResource() ? Text : Path;
-				if (this is RecycleBinLocationItem)
-					ToolTipText = "RecycleBinSizeText".GetLocalizedResource() + RecycleBinHelpers.GetSize().ToSizeString();
+				ToolTipText = string.IsNullOrEmpty(Path) || Path.Contains('?', StringComparison.Ordinal) || Path.StartsWith("shell:", StringComparison.OrdinalIgnoreCase) || Path.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase) || Path == "Home".GetLocalizedResource() ? Text : Path;	
 			}
 		}
 
-		public string ToolTipText
-		{
-			get; set;
-		}
+		public virtual string ToolTipText { get; set; }
 		public FontFamily Font { get; set; }
 		public NavigationControlItemType ItemType => NavigationControlItemType.Location;
 		public bool IsDefaultLocation { get; set; }
@@ -74,18 +69,25 @@ namespace Files.App.DataModels.NavigationControlItems
 		public void RefreshSpaceUsed(object sender, FileSystemEventArgs e)
 		{
 			SpaceUsed = RecycleBinHelpers.GetSize();
-			ToolTipText = string.Concat("RecycleBinSizeText".GetLocalizedResource(), SpaceUsed.ToSizeString());
 		}
 
 		private ulong spaceUsed;
 		public ulong SpaceUsed
 		{
 			get => spaceUsed;
-			set => SetProperty(ref spaceUsed, value);
+			set
+			{
+				SetProperty(ref spaceUsed, value);
+				App.Window.DispatcherQueue.EnqueueAsync(() => OnPropertyChanged(nameof(ToolTipText)));
+			}
 		}
 
+		public override string ToolTipText => string.Concat("RecycleBinSize".GetLocalizedResource(), SpaceUsed.ToSizeString());
+
 		public RecycleBinLocationItem()
-		{			
+		{
+			SpaceUsed = RecycleBinHelpers.GetSize();
+			
 			RecycleBinManager.Default.RecycleBinItemCreated += RefreshSpaceUsed;
 			RecycleBinManager.Default.RecycleBinItemDeleted += RefreshSpaceUsed;
 		}
