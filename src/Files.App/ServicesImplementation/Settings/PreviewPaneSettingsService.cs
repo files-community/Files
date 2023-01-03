@@ -9,6 +9,12 @@ namespace Files.App.ServicesImplementation.Settings
 {
 	internal sealed class PreviewPaneSettingsService : BaseObservableJsonSettings, IPreviewPaneSettingsService
 	{
+		public bool IsEnabled
+		{
+			get => Get(false);
+			set => Set(value);
+		}
+
 		public PaneContents Content
 		{
 			get => Get(PaneContents.None);
