@@ -815,6 +815,28 @@ namespace Files.App.Filesystem
 			return false;
 		}
 
+		public static bool IsPathInLibrary(string path)
+		{
+			return path.ToLower().Contains(".library-ms");
+		}
+
+		public static string ResolvePathInLibrary(string path)
+		{
+			if (!IsPathInLibrary(path))
+				return path;
+
+			var splitPath = path.Split(new string[] { ".library-ms" }, StringSplitOptions.None);
+			var libraryName = splitPath[0].Split('\\').Last();
+
+			var library = App.LibraryManager.Libraries.FirstOrDefault(x => x.Text == libraryName);
+			var defaultPath = library?.DefaultSaveFolder;
+
+			if (defaultPath == null)
+				return path;
+
+			return defaultPath + splitPath[1];
+		}
+
 		#endregion Public Helpers
 
 		#region IDisposable
