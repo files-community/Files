@@ -191,10 +191,10 @@
 							Grid.Column="0"
 							IsTextSelectionEnabled="True"
 							Text="{x:Bind ViewModel.ItemSize, Mode=OneWay}" />
-						<ProgressBar
+						<ProgressRing
 							x:Name="ItemSizeProgress"
 							Grid.Column="1"
-							HorizontalAlignment="Left"
+							HorizontalAlignment="Center"
 							VerticalAlignment="Center"
 							Visibility="{x:Bind ViewModel.ItemSizeProgressVisibility, Mode=OneWay}" />
 					</Grid>
