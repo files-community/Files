@@ -234,7 +234,7 @@ namespace Files.App.ViewModels
 			if (AppInstances.Count > 1)
 				windowTitle = $"{windowTitle} ({AppInstances.Count})";
 			if (navigationArg == SelectedTabItem?.TabItemArguments?.NavigationArg)
-				App.GetAppWindow(App.Window).Title = windowTitle;
+				App.GetAppWindow(App.Window).Title = $"{windowTitle} - Files";
 		}
 
 		public static async Task UpdateTabInfo(TabItem tabItem, object navigationArg)
