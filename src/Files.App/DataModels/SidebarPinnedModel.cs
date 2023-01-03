@@ -205,44 +205,26 @@ namespace Files.App.DataModels
 			var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
 			var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
 			LocationItem locationItem;
-			if (path == CommonPaths.RecycleBinPath) {
-				locationItem = new RecycleBinLocationItem
-				{
-					Font = App.AppModel.SymbolFontFamily,
-					Path = path,
-					Section = SectionType.Favorites,
-					MenuOptions = new ContextMenuOptions
-					{
-						IsLocationItem = true,
-						ShowProperties = true,
-						ShowUnpinItem = true,
-						ShowShellItems = true,
-						ShowEmptyRecycleBin = true,
-					},
-					IsDefaultLocation = false,
-					Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
-				};
-			}
-			else 
-			{
-				locationItem = new LocationItem
-				{
-					Font = App.AppModel.SymbolFontFamily,
-					Path = path,
-					Section = SectionType.Favorites,
-					MenuOptions = new ContextMenuOptions
-					{
-						IsLocationItem = true,
-						ShowProperties = true,
-						ShowUnpinItem = true,
-						ShowShellItems = true,
-						ShowEmptyRecycleBin = false,
-					},
-					IsDefaultLocation = false,
-					Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
-				};
-			}
 
+			if (string.Equals(path, CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+				locationItem = LocationItem.Create<RecycleBinLocationItem>();
+			else
+				locationItem = LocationItem.Create<LocationItem>();
+
+			locationItem.Font = App.AppModel.SymbolFontFamily;
+			locationItem.Path = path;
+			locationItem.Section = SectionType.Favorites;
+			locationItem.MenuOptions = new ContextMenuOptions
+			{
+				IsLocationItem = true,
+				ShowProperties = true,
+				ShowUnpinItem = true,
+				ShowShellItems = true,
+				ShowEmptyRecycleBin = string.Equals(path, CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase)
+			};
+			locationItem.IsDefaultLocation = false;
+			locationItem.Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'));
+			
 			if (res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path))
 			{
 				locationItem.IsInvalid = false;
@@ -325,5 +307,5 @@ namespace Files.App.DataModels
 			// Remove unpinned items from sidebar
 			controller?.DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 		}
-	}
+	}	
 }
