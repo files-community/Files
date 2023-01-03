@@ -328,6 +328,7 @@ namespace Files.App.ViewModels
 		public void Dispose()
 		{
 			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
+			PreviewSettingsService.PropertyChanged -= PreviewSettingsService_OnPropertyChangedEvent;
 		}
 	}
 
