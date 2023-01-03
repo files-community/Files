@@ -23,19 +23,19 @@ namespace Files.App.Helpers
 
 		#endregion Private Members
 
-		public static RecycleBinLocationItem? sidebarBin;
-
 		public static async Task<List<ShellFileItem>> EnumerateRecycleBin()
 		{
 			return (await Win32Shell.GetShellFolderAsync(CommonPaths.RecycleBinPath, "Enumerate", 0, int.MaxValue)).Enumerate;
 		}
 
-		public static void RefreshSidebarRecycleBin() 
-			=> sidebarBin?.RefreshSpaceUsed();
-
         public static ulong GetSize()
         {
 			return (ulong)Win32Shell.QueryRecycleBin().BinSize;
+		}
+		
+		public static bool IsRecycleBinPath(string path)
+		{
+			return recycleBinPathRegex.IsMatch(path);
 		}
 
 		public async Task<bool> IsRecycleBinItem(IStorageItem item)

@@ -222,8 +222,6 @@ namespace Files.App.DataModels
 					IsDefaultLocation = false,
 					Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
 				};
-
-				((RecycleBinLocationItem)locationItem).RefreshSpaceUsed();
 			}
 			else 
 			{

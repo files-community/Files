@@ -3,10 +3,12 @@ using CommunityToolkit.WinUI;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
+using Files.App.Shell;
 using Files.Shared;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Files.App.DataModels.NavigationControlItems
@@ -35,10 +37,15 @@ namespace Files.App.DataModels.NavigationControlItems
 			{
 				path = value;
 				ToolTipText = string.IsNullOrEmpty(Path) || Path.Contains('?', StringComparison.Ordinal) || Path.StartsWith("shell:", StringComparison.OrdinalIgnoreCase) || Path.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase) || Path == "Home".GetLocalizedResource() ? Text : Path;
-            }
+				if (this is RecycleBinLocationItem)
+					ToolTipText = "RecycleBinSizeText".GetLocalizedResource() + RecycleBinHelpers.GetSize().ToSizeString();
+			}
 		}
 
-		public virtual string ToolTipText { get; private set; }
+		public string ToolTipText
+		{
+			get; set;
+		}
 		public FontFamily Font { get; set; }
 		public NavigationControlItemType ItemType => NavigationControlItemType.Location;
 		public bool IsDefaultLocation { get; set; }
@@ -54,7 +61,7 @@ namespace Files.App.DataModels.NavigationControlItems
 		}
 
 		public bool IsInvalid { get; set; } = false;
-		public bool IsRecycleBin => string.Equals(Path, "shell:RecycleBinFolder", StringComparison.OrdinalIgnoreCase);
+		public bool IsRecycleBin => RecycleBinHelpers.IsRecycleBinPath(Path);
 		public SectionType Section { get; set; }
 
 		public ContextMenuOptions MenuOptions { get; set; }
@@ -64,28 +71,23 @@ namespace Files.App.DataModels.NavigationControlItems
 
 	public class RecycleBinLocationItem : LocationItem
 	{
-		public void RefreshSpaceUsed()
+		public void RefreshSpaceUsed(object sender, FileSystemEventArgs e)
 		{
 			SpaceUsed = RecycleBinHelpers.GetSize();
+			ToolTipText = string.Concat("RecycleBinSizeText".GetLocalizedResource(), SpaceUsed.ToSizeString());
 		}
 
 		private ulong spaceUsed;
 		public ulong SpaceUsed
 		{
 			get => spaceUsed;
-			set { 
-				if (SetProperty(ref spaceUsed, value))
-					OnPropertyChanged(nameof(ToolTipText));
-
-				App.Logger.Warn(ToolTipText + $", real value: {spaceUsed}");
-			}
+			set => SetProperty(ref spaceUsed, value);
 		}
 
-		public override string ToolTipText => "RecycleBinSizeText".GetLocalizedResource() + SpaceUsed.ToSizeString();
-
 		public RecycleBinLocationItem()
-		{
-			RecycleBinHelpers.sidebarBin = this;
+		{			
+			RecycleBinManager.Default.RecycleBinItemCreated += RefreshSpaceUsed;
+			RecycleBinManager.Default.RecycleBinItemDeleted += RefreshSpaceUsed;
 		}
 	}
 }
