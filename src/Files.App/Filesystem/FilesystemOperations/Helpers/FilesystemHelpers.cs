@@ -154,7 +154,7 @@ namespace Files.App.Filesystem
 			}
 			else
 			{
-				permanently |= !canBeSentToBin; // delete permanently if recycle bin is not suppeorted
+				permanently |= !canBeSentToBin; // delete permanently if recycle bin is not supported
 			}
 
 			// post the status banner
