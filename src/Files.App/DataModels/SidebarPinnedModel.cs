@@ -307,5 +307,5 @@ namespace Files.App.DataModels
 			// Remove unpinned items from sidebar
 			controller?.DataChanged?.Invoke(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 		}
-	}	
+	}
 }
