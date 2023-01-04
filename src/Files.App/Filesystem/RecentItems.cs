@@ -65,6 +65,8 @@ namespace Files.App.Filesystem
 			List<RecentItem> enumeratedFiles = await ListRecentFilesAsync();
 			if (enumeratedFiles is not null)
 			{
+				var recentFilesSnapshot = RecentFiles;
+
 				lock (recentFiles)
 				{
 					recentFiles.Clear();
@@ -72,9 +74,8 @@ namespace Files.App.Filesystem
 					// do not sort here, enumeration order *is* the correct order since we get it from Quick Access
 				}
 
-				// todo: potentially optimize this and figure out if list changed by either (1) Add (2) Remove (3) Move
-				// this way the UI doesn't have to refresh the entire list everytime a change occurs
-				RecentFilesChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+				var changedActionEventArgs = GetChangedActionEventArgs(recentFilesSnapshot, enumeratedFiles);
+				RecentFilesChanged?.Invoke(this, changedActionEventArgs);
 			}
 		}
 
@@ -205,6 +206,55 @@ namespace Files.App.Filesystem
 			}));
 		}
 
+		private NotifyCollectionChangedEventArgs GetChangedActionEventArgs(IReadOnlyList<RecentItem> oldItems, IList<RecentItem> newItems)
+		{
+			// a single item was added
+			if (newItems.Count == oldItems.Count + 1)
+			{
+				var differences = newItems.Except(oldItems);
+				if (differences.Take(2).Count() == 1)
+				{
+					return new(NotifyCollectionChangedAction.Add, newItems.First());
+				}
+			}
+			// a single item was removed
+			else if (newItems.Count == oldItems.Count - 1)
+			{
+				var differences = oldItems.Except(newItems);
+				if (differences.Take(2).Count() == 1)
+				{
+					for (int i = 0; i < oldItems.Count; i++)
+					{
+						if (i >= newItems.Count || !newItems[i].Equals(oldItems[i]))
+						{
+							return new(NotifyCollectionChangedAction.Remove, oldItems[i], index: i);
+						}
+					}
+				}
+			}
+			// a single item was moved
+			else if (newItems.Count == oldItems.Count)
+			{
+				var differences = oldItems.Except(newItems);
+				// desync due to skipped/batched calls, reset the list
+				if (differences.Any())
+				{
+					return new(NotifyCollectionChangedAction.Reset);
+				}
+
+				// first diff from reversed is the designated item
+				for (int i = oldItems.Count - 1; i >= 0; i--)
+				{
+					if (!oldItems[i].Equals(newItems[i]))
+					{
+						return new(NotifyCollectionChangedAction.Move, oldItems[i], index: 0, oldIndex: i);
+					}
+				}
+			}
+
+			return new(NotifyCollectionChangedAction.Reset);
+		}
+
 		public bool CheckIsRecentFilesEnabled()
 		{
 			using var subkey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer");
@@ -244,15 +294,6 @@ namespace Files.App.Filesystem
 			}
 
 			return true;
-		}
-
-		/// <summary>
-		/// Returns whether two RecentItem enumerables have the same order.
-		/// This function depends on `RecentItem` implementing IEquatable.
-		/// </summary>
-		private bool RecentItemsOrderEquals(IEnumerable<RecentItem> oldOrder, IEnumerable<RecentItem> newOrder)
-		{
-			return oldOrder != null && newOrder != null && oldOrder.SequenceEqual(newOrder);
 		}
 
 		public void Dispose()
