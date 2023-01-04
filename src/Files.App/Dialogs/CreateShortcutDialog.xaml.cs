@@ -64,13 +64,11 @@ namespace Files.App.Dialogs
 				if (_pathExists)
 				{
 					ViewModel.IsLocationValid = true;
-					return;
 				}
 				else
 				{
 					var uri = new Uri(DestinationItemPath.Text);
 					ViewModel.IsLocationValid = uri.IsWellFormedOriginalString();
-					return;
 				}
 			}
 			catch (Exception)
