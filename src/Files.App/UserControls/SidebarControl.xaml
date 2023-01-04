@@ -977,6 +977,9 @@
 												<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneRoot" Storyboard.TargetProperty="Visibility">
 													<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
 												</ObjectAnimationUsingKeyFrames>
+												<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneRoot" Storyboard.TargetProperty="Background">
+													<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{ThemeResource SystemControlPageBackgroundChromeLowBrush}" />
+												</ObjectAnimationUsingKeyFrames>
 												<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HCPaneBorder" Storyboard.TargetProperty="Visibility">
 													<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
 												</ObjectAnimationUsingKeyFrames>
