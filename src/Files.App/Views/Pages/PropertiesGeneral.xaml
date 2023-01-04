@@ -176,10 +176,12 @@
 						HorizontalAlignment="Left"
 						Style="{StaticResource PropertyName}"
 						Text="{helpers:ResourceString Name=PropertiesItemSize/Text}"
+						VerticalAlignment="Center"
 						Visibility="{x:Bind ViewModel.ItemSizeVisibility, Mode=OneWay}" />
 					<Grid
 						Grid.Row="1"
 						Grid.Column="1"
+						ColumnSpacing="8"
 						Style="{StaticResource PropertyValueGrid}"
 						Visibility="{x:Bind ViewModel.ItemSizeVisibility, Mode=OneWay}">
 						<Grid.ColumnDefinitions>
@@ -190,11 +192,13 @@
 							x:Name="itemSizeValue"
 							Grid.Column="0"
 							IsTextSelectionEnabled="True"
-							Text="{x:Bind ViewModel.ItemSize, Mode=OneWay}" />
-						<ProgressRing
+							Text="{x:Bind ViewModel.ItemSize, Mode=OneWay}"
+							VerticalAlignment="Center" />
+						<ProgressBar
 							x:Name="ItemSizeProgress"
 							Grid.Column="1"
-							HorizontalAlignment="Center"
+							HorizontalAlignment="Stretch"
+							IsIndeterminate="True"
 							VerticalAlignment="Center"
 							Visibility="{x:Bind ViewModel.ItemSizeProgressVisibility, Mode=OneWay}" />
 					</Grid>
