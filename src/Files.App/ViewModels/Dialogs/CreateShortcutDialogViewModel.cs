@@ -9,8 +9,10 @@ namespace Files.App.ViewModels.Dialogs
 {
 	public class CreateShortcutDialogViewModel : ObservableObject
 	{
+		// User's working directory
 		public readonly string WorkingDirectory;
 
+		// Destination of the shortcut chosen by the user (can be a path or a URL)
 		private string _destinationItemPath;
 		public string DestinationItemPath
 		{
@@ -18,6 +20,7 @@ namespace Files.App.ViewModels.Dialogs
 			set => SetProperty(ref _destinationItemPath, value);
 		}
 
+		// Tells if the selected destination is valid (Path exists or URL is well-formed). Used to enable primary button
 		private bool _isLocationValid;
 		public bool IsLocationValid
 		{
@@ -25,6 +28,7 @@ namespace Files.App.ViewModels.Dialogs
 			set => SetProperty(ref _isLocationValid, value);
 		}
 
+		// Command invoked when the user clicks the 'Browse' button
 		public ICommand SelectDestinationCommand { get; private set; }
 
 		public CreateShortcutDialogViewModel(string workingDirectory)
