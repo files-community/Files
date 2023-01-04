@@ -240,6 +240,13 @@
 													IsTabStop="False" />
 											</Viewbox>
 
+											<ProgressRing
+												x:Name="LoadingIndicator"
+												MaxWidth="{ThemeResource TabViewItemHeaderIconSize}"
+												MaxHeight="{ThemeResource TabViewItemHeaderIconSize}"
+												Margin="{ThemeResource TabViewItemHeaderIconMargin}"
+												Visibility="Collapsed" />
+
 											<!--
 												If we template bind the ContentPresenter's Content property to the TabViewItem.Header property
 												we unfortunately run into the following issue if the header is [null] or empty:
@@ -541,6 +548,16 @@
 												<VisualState x:Name="NoBottomBorderLine">
 													<VisualState.Setters>
 														<Setter Target="BottomBorderLine.Visibility" Value="Collapsed" />
+													</VisualState.Setters>
+												</VisualState>
+											</VisualStateGroup>
+
+											<VisualStateGroup x:Name="LoadingStates">
+												<VisualState x:Name="NotLoading" />
+												<VisualState x:Name="Loading">
+													<VisualState.Setters>
+														<Setter Target="LoadingIndicator.Visibility" Value="Visible" />
+														<Setter Target="IconBox.Visibility" Value="Collapsed" />
 													</VisualState.Setters>
 												</VisualState>
 											</VisualStateGroup>

@@ -448,7 +448,7 @@ namespace Files.App.UserControls
 				return;
 			}
 
-			var navigationPath = args.InvokedItemContainer.Tag.ToString();
+			var navigationPath = args.InvokedItemContainer.Tag?.ToString();
 
 			if (await CheckEmptyDrive(navigationPath))
 				return;
