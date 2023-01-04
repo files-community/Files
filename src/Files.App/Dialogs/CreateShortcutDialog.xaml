@@ -9,7 +9,7 @@
 	DefaultButton="Primary"
 	PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
 	IsPrimaryButtonEnabled="{x:Bind ViewModel.IsLocationValid, Mode=OneWay}"
-	PrimaryButtonText="{helpers:ResourceString Name=Continue}"
+	PrimaryButtonText="{helpers:ResourceString Name=Create}"
 	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
 	SecondaryButtonText="{helpers:ResourceString Name=Cancel}"
 	Style="{StaticResource DefaultContentDialogStyle}"

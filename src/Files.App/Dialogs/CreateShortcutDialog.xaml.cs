@@ -41,9 +41,18 @@ namespace Files.App.Dialogs
 				destinationName = uri.Host;
 			}
 
+			var shortcutName = string.Format("ShortcutCreateNewSuffix".ToLocalized(), destinationName);
 			var filePath = Path.Combine(
 				ViewModel.WorkingDirectory,
-				string.Format("ShortcutCreateNewSuffix".ToLocalized(), destinationName) + extension);
+				shortcutName + extension);
+
+			int fileNumber = 1;
+			while (Path.Exists(filePath))
+			{
+				filePath = Path.Combine(
+					ViewModel.WorkingDirectory,
+					shortcutName + $" ({++fileNumber})" + extension);
+			}
 
 			await FileOperationsHelpers.CreateOrUpdateLinkAsync(filePath, ViewModel.DestinationItemPath);
 		}
