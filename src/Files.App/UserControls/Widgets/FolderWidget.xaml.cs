@@ -118,7 +118,7 @@ namespace Files.App.UserControls.Widgets
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		public bool IsWidgetSettingEnabled => UserSettingsService.AppearanceSettingsService.ShowFoldersWidget;
+		public bool IsWidgetSettingEnabled => UserSettingsService.PreferencesSettingsService.ShowFoldersWidget;
 
 		public ICommand LibraryCardCommand { get; }
 

@@ -116,10 +116,10 @@ namespace Files.App.Filesystem
 			var deleteFromRecycleBin = source.Select(item => item.Path).Any(path => recycleBinHelpers.IsPathUnderRecycleBin(path));
 			var canBeSentToBin = !deleteFromRecycleBin && await recycleBinHelpers.HasRecycleBin(source.FirstOrDefault()?.Path);
 
-			if (showDialog && ((!permanently && !canBeSentToBin) || UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog)) // Check if the setting to show a confirmation dialog is on
+			if (showDialog && UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog) // Check if the setting to show a confirmation dialog is on
 			{
 				var incomingItems = new List<BaseFileSystemDialogItemViewModel>();
-				List<ShellFileItem> binItems = null;
+				List<ShellFileItem>? binItems = null;
 				foreach (var src in source)
 				{
 					if (recycleBinHelpers.IsPathUnderRecycleBin(src.Path))
@@ -147,12 +147,14 @@ namespace Files.App.Filesystem
 				var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
 				if (await dialogService.ShowDialogAsync(dialogViewModel) != DialogResult.Primary)
-				{
 					return ReturnResult.Cancelled; // Return if the result isn't delete
-				}
 
 				// Delete selected items if the result is Yes
 				permanently = dialogViewModel.DeletePermanently;
+			}
+			else
+			{
+				permanently |= !canBeSentToBin; // delete permanently if recycle bin is not supported
 			}
 
 			// post the status banner
@@ -169,9 +171,7 @@ namespace Files.App.Filesystem
 			await Task.Yield();
 
 			if (!permanently && registerHistory)
-			{
 				App.HistoryWrapper.AddHistory(history);
-			}
 			var itemsDeleted = history?.Source.Count ?? 0;
 
 			source.ForEach(x => App.JumpList.RemoveFolder(x.Path)); // Remove items from jump list

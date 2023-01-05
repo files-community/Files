@@ -245,6 +245,63 @@
 					</StackPanel>
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
+
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsMultitaskingEnableDualPane}" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF117;" />
+				</local:SettingsBlockControl.Icon>
+				<ToggleSwitch
+					AutomationProperties.Name="{helpers:ResourceString Name=SettingsMultitaskingEnableDualPane}"
+					IsOn="{x:Bind ViewModel.IsDualPaneEnabled, Mode=TwoWay}"
+					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+				<local:SettingsBlockControl.ExpandableContent>
+					<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsMultitaskingAlwaysOpenDualPane}" HorizontalAlignment="Stretch">
+						<ToggleSwitch
+							AutomationProperties.Name="{helpers:ResourceString Name=SettingsMultitaskingAlwaysOpenDualPane}"
+							IsEnabled="{x:Bind ViewModel.IsDualPaneEnabled, Mode=OneWay}"
+							IsOn="{x:Bind ViewModel.AlwaysOpenDualPaneInNewTab, Mode=TwoWay}"
+							Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+					</local:SettingsBlockControl>
+				</local:SettingsBlockControl.ExpandableContent>
+			</local:SettingsBlockControl>
+
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=Widgets}" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xF246;" />
+				</local:SettingsBlockControl.Icon>
+				<local:SettingsBlockControl.ExpandableContent>
+					<StackPanel>
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=Folders}" HorizontalAlignment="Stretch">
+							<ToggleSwitch
+								AutomationProperties.Name="{helpers:ResourceString Name=Folders}"
+								IsOn="{x:Bind ViewModel.ShowFoldersWidget, Mode=TwoWay}"
+								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						</local:SettingsBlockControl>
+
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=Drives}" HorizontalAlignment="Stretch">
+							<ToggleSwitch
+								AutomationProperties.Name="{helpers:ResourceString Name=Drives}"
+								IsOn="{x:Bind ViewModel.ShowDrivesWidget, Mode=TwoWay}"
+								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						</local:SettingsBlockControl>
+
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=Bundles}" HorizontalAlignment="Stretch">
+							<ToggleSwitch
+								AutomationProperties.Name="{helpers:ResourceString Name=Bundles}"
+								IsOn="{x:Bind ViewModel.ShowBundlesWidget, Mode=TwoWay}"
+								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						</local:SettingsBlockControl>
+
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=RecentFiles}" HorizontalAlignment="Stretch">
+							<ToggleSwitch
+								AutomationProperties.Name="{helpers:ResourceString Name=RecentFiles}"
+								IsOn="{x:Bind ViewModel.ShowRecentFilesWidget, Mode=TwoWay}"
+								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						</local:SettingsBlockControl>
+					</StackPanel>
+				</local:SettingsBlockControl.ExpandableContent>
+			</local:SettingsBlockControl>
+
 		</StackPanel>
 
 		<UserControls:RestartControl

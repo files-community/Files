@@ -147,7 +147,7 @@ namespace Files.App.Helpers
 			return contentDialog;
 		}
 
-		public async Task<bool> HasRecycleBin(string path)
+		public async Task<bool> HasRecycleBin(string? path)
 		{
 			if (string.IsNullOrEmpty(path) || path.StartsWith(@"\\?\", StringComparison.Ordinal))
 				return false;
