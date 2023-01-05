@@ -194,8 +194,9 @@
 						<ProgressBar
 							x:Name="ItemSizeProgress"
 							Grid.Column="1"
+							Width="100"
 							HorizontalAlignment="Left"
-							VerticalAlignment="Center"
+							IsIndeterminate="True"
 							Visibility="{x:Bind ViewModel.ItemSizeProgressVisibility, Mode=OneWay}" />
 					</Grid>
 
