@@ -691,7 +691,7 @@ namespace Files.App.Helpers
 					Glyph = "\uE117",
 					GlyphFontFamilyName = "CustomGlyph",
 					Command = commandsViewModel.OpenDirectoryInNewPaneCommand,
-					ShowItem = userSettingsService.MultitaskingSettingsService.IsDualPaneEnabled && selectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder),
+					ShowItem = userSettingsService.PreferencesSettingsService.IsDualPaneEnabled && selectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder),
 					SingleItemOnly = true,
 					ShowInSearchPage = true,
 					ShowInFtpPage = true,

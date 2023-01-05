@@ -93,6 +93,17 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
+		public bool IsDualPaneEnabled
+		{
+			get => Get(false);
+			set => Set(value);
+		}
+
+		public bool AlwaysOpenDualPaneInNewTab
+		{
+			get => Get(false);
+			set => Set(value);
+		}
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			switch (e.SettingName)
@@ -105,6 +116,8 @@ namespace Files.App.ServicesImplementation.Settings
 				case nameof(ContinueLastSessionOnStartUp):
 				case nameof(OpenNewTabOnStartup):
 				case nameof(AlwaysOpenNewInstance):
+				case nameof(IsDualPaneEnabled):
+				case nameof(AlwaysOpenDualPaneInNewTab):
 					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
 					break;
 			}

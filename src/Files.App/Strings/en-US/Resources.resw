@@ -1247,7 +1247,7 @@
     <value>Remove</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
-    <value>Always open new tabs in dual pane mode</value>
+    <value>Open tabs in dual pane mode</value>
   </data>
   <data name="SettingsMultitaskingEnableDualPane" xml:space="preserve">
     <value>Enable dual pane view</value>
@@ -1260,9 +1260,6 @@
   </data>
   <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
     <value>Open in secondary pane</value>
-  </data>
-  <data name="SettingsDualPane.Text" xml:space="preserve">
-    <value>Dual pane</value>
   </data>
   <data name="Folders" xml:space="preserve">
     <value>Folders</value>
