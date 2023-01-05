@@ -132,7 +132,10 @@
 			Header="{helpers:ResourceString Name=MoreDetails}"
 			IsExpanded="True">
 			<Expander.Content>
-				<Grid HorizontalAlignment="Stretch" RowSpacing="8">
+				<Grid
+					HorizontalAlignment="Stretch"
+					ColumnSpacing="8"
+					RowSpacing="8">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition
 							Width="Auto"
@@ -177,7 +180,6 @@
 					<Grid
 						Grid.Row="1"
 						Grid.Column="1"
-						ColumnSpacing="8"
 						Style="{StaticResource PropertyValueGrid}"
 						Visibility="{x:Bind ViewModel.ItemSizeVisibility, Mode=OneWay}">
 						<Grid.ColumnDefinitions>
