@@ -2665,8 +2665,8 @@
   <data name="SettingsShowFileTagsSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Show Tags section</value>
   </data>
-  <data name="UseCompactStyles" xml:space="preserve">
-    <value>Use compact styles in the details layout</value>
+  <data name="UseCompactSpacing" xml:space="preserve">
+    <value>Use compact spacing in the details layout</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Universal</value>
