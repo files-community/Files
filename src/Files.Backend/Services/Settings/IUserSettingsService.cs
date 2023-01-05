@@ -15,8 +15,6 @@ namespace Files.Backend.Services.Settings
 
 		IFoldersSettingsService FoldersSettingsService { get; }
 
-		IMultitaskingSettingsService MultitaskingSettingsService { get; }
-
 		IAppearanceSettingsService AppearanceSettingsService { get; }
 
 		IApplicationSettingsService ApplicationSettingsService { get; }

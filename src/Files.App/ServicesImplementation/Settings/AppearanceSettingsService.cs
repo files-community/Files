@@ -80,53 +80,6 @@ namespace Files.App.ServicesImplementation.Settings
 			get => Get(false);
 			set => Set(value);
 		}
-		public bool ShowFoldersWidget
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool ShowRecentFilesWidget
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool ShowDrivesWidget
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool ShowBundlesWidget
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
-		public bool FoldersWidgetExpanded
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool RecentFilesWidgetExpanded
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool DrivesWidgetExpanded
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool BundlesWidgetExpanded
-		{
-			get => Get(true);
-			set => Set(value);
-		}
 
 		/// <inheritdoc/>
 		public String AppThemeBackgroundColor
@@ -175,10 +128,6 @@ namespace Files.App.ServicesImplementation.Settings
 				case nameof(ShowWslSection):
 				case nameof(ShowFileTagsSection):
 				case nameof(UseCompactStyles):
-				case nameof(ShowFoldersWidget):
-				case nameof(ShowRecentFilesWidget):
-				case nameof(ShowDrivesWidget):
-				case nameof(ShowBundlesWidget):
 				case nameof(AppThemeBackgroundColor):
 				case nameof(AppThemeAddressBarBackgroundColor):
 				case nameof(AppThemeSidebarBackgroundColor):
