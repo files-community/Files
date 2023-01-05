@@ -21,7 +21,7 @@
 
 	<Grid
 		x:Name="ContainerGrid"
-		MaxHeight="640"
+		MaxHeight="690"
 		HorizontalAlignment="Stretch"
 		VerticalAlignment="Stretch"
 		Background="{ThemeResource SolidBackgroundFillColorBase}">

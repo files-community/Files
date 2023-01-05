@@ -36,7 +36,7 @@ namespace Files.App.Dialogs
 
 		private void UpdateDialogLayout()
 		{
-			ContainerGrid.Height = App.Window.Bounds.Height <= 710 ? App.Window.Bounds.Height - 70 : 640;
+			ContainerGrid.Height = App.Window.Bounds.Height <= 760 ? App.Window.Bounds.Height - 70 : 690;
 			ContainerGrid.Width = App.Window.Bounds.Width <= 800 ? App.Window.Bounds.Width : 800;
 		}
 
