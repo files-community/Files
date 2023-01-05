@@ -25,41 +25,6 @@ namespace Files.Backend.Services.Settings
 		#endregion
 
 		/// <summary>
-		/// Gets or sets a value indicating whether or not to show the Favorites section on the sidebar.
-		/// </summary>
-		bool ShowFavoritesSection { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating whether or not to show the library section on the sidebar.
-		/// </summary>
-		bool ShowLibrarySection { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating whether [show drives section].
-		/// </summary>
-		bool ShowDrivesSection { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating whether [show cloud drives section].
-		/// </summary>
-		bool ShowCloudDrivesSection { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating whether [show network drives section].
-		/// </summary>
-		bool ShowNetworkDrivesSection { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating whether [show wsl section].
-		/// </summary>
-		bool ShowWslSection { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating whether [show wsl section].
-		/// </summary>
-		bool ShowFileTagsSection { get; set; }
-
-		/// <summary>
 		/// Gets or sets a value indicating whether or not to use the compact styles.
 		/// </summary>
 		bool UseCompactStyles { get; set; }

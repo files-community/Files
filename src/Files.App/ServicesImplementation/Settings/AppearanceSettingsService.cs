@@ -27,48 +27,6 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
-		public bool ShowFavoritesSection
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool ShowLibrarySection
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
-		public bool ShowDrivesSection
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool ShowCloudDrivesSection
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool ShowNetworkDrivesSection
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool ShowWslSection
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool ShowFileTagsSection
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
 		public bool MoveOverflowMenuItemsToSubMenu
 		{
 			get => Get(true);
@@ -121,12 +79,6 @@ namespace Files.App.ServicesImplementation.Settings
 			switch (e.SettingName)
 			{
 				case nameof(MoveOverflowMenuItemsToSubMenu):
-				case nameof(ShowFavoritesSection):
-				case nameof(ShowLibrarySection):
-				case nameof(ShowCloudDrivesSection):
-				case nameof(ShowNetworkDrivesSection):
-				case nameof(ShowWslSection):
-				case nameof(ShowFileTagsSection):
 				case nameof(UseCompactStyles):
 				case nameof(AppThemeBackgroundColor):
 				case nameof(AppThemeAddressBarBackgroundColor):
