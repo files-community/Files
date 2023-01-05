@@ -14,11 +14,15 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Vanara.PInvoke;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
+using Windows.Storage.Streams;
+using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.App.Filesystem
 {
@@ -761,6 +765,7 @@ namespace Files.App.Filesystem
 		public static async Task<IEnumerable<IStorageItemWithPath>> GetDraggedStorageItems(DataPackageView packageView)
 		{
 			var itemsList = new List<IStorageItemWithPath>();
+			
 			if (packageView.Contains(StandardDataFormats.StorageItems))
 			{
 				try
@@ -778,6 +783,76 @@ namespace Files.App.Filesystem
 					return itemsList;
 				}
 			}
+
+			// workaround for GetStorageItemsAsync() bug that only yields 16 items at most
+			// https://learn.microsoft.com/en-us/windows/win32/shell/clipboard#cf_hdrop
+			if (packageView.Contains("FileDrop"))
+			{
+				var fileDropData = await packageView.GetDataAsync("FileDrop");
+				if (fileDropData is IRandomAccessStream stream)
+				{
+					stream.Seek(0);
+
+					byte[] dropBytes = new byte[stream.Size];
+					int bytesRead = await stream.AsStreamForRead().ReadAsync(dropBytes);
+
+					if (bytesRead > 0)
+					{
+						IntPtr dropStructPointer = Marshal.AllocHGlobal(dropBytes.Length);
+
+						try
+						{
+							Marshal.Copy(dropBytes, 0, dropStructPointer, dropBytes.Length);
+							HDROP dropStructHandle = new(dropStructPointer);
+
+							var itemPaths = new List<string>();
+							uint filesCount = Shell32.DragQueryFile(dropStructHandle, 0xffffffff, null, 0);
+							for (uint i = 0; i < filesCount; i++)
+							{
+								string buffer = new('\0', Kernel32.MAX_PATH);
+								uint charsCopied = Shell32.DragQueryFile(dropStructHandle, i, buffer, Kernel32.MAX_PATH);
+
+								if (charsCopied > 0)
+								{
+									string path = buffer[..(int)charsCopied];
+									itemPaths.Add(path);
+								}
+							}
+
+							// get storage items from path
+							var storageItems = await Task.WhenAll(
+								itemPaths.Select<string, Task<IStorageItem?>>(async path =>
+								{
+									try
+									{
+										if (NativeFileOperationsHelper.HasFileAttribute(path, FileAttributes.Directory))
+											return await StorageFolder.GetFolderFromPathAsync(path);
+										else
+											return await StorageFile.GetFileFromPathAsync(path);
+									}
+									catch
+									{
+										return null;
+									}
+								})
+							);
+
+							foreach (var item in storageItems)
+							{
+								if (item is null)
+									continue;
+
+								itemsList.Add(item.FromStorageItem());
+							}
+						}
+						finally
+						{
+							Marshal.FreeHGlobal(dropStructPointer);
+						}
+					}
+				}
+			}
+
 			if (packageView.Properties.TryGetValue("FileDrop", out var data))
 			{
 				if (data is List<IStorageItemWithPath> source)
