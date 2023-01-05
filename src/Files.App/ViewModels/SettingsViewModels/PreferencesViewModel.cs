@@ -268,6 +268,32 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
+		public bool IsDualPaneEnabled
+		{
+			get => UserSettingsService.PreferencesSettingsService.IsDualPaneEnabled;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.IsDualPaneEnabled)
+				{
+					UserSettingsService.PreferencesSettingsService.IsDualPaneEnabled = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool AlwaysOpenDualPaneInNewTab
+		{
+			get => UserSettingsService.PreferencesSettingsService.AlwaysOpenDualPaneInNewTab;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.AlwaysOpenDualPaneInNewTab)
+				{
+					UserSettingsService.PreferencesSettingsService.AlwaysOpenDualPaneInNewTab = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		private async Task ChangePage()
 		{
 			var folderPicker = this.InitializeWithWindow(new FolderPicker());
