@@ -595,11 +595,11 @@ namespace Files.App.Views.LayoutModes
 
 		#endregion IDisposable
 
-		private void Grid_Loaded(object sender, RoutedEventArgs e)
+		private void StackPanel_Loaded(object sender, RoutedEventArgs e)
 		{
 			// This is the best way I could find to set the context flyout, as doing it in the styles isn't possible
 			// because you can't use bindings in the setters
-			DependencyObject item = VisualTreeHelper.GetParent(sender as Grid);
+			DependencyObject item = VisualTreeHelper.GetParent(sender as StackPanel);
 			while (item is not ListViewItem)
 				item = VisualTreeHelper.GetParent(item);
 			if (item is ListViewItem itemContainer)
