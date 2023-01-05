@@ -157,10 +157,10 @@ namespace Files.App.Views
 			DisplayFilesystemConsentDialog();
 
 			/*TODO ResourceContext.GetForCurrentView and ResourceContext.GetForViewIndependentUse do not exist in Windows App SDK
-              Use your ResourceManager instance to create a ResourceContext as below.If you already have a ResourceManager instance,
-              replace the new instance created below with correct instance.
-              Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/mrtcore
-            */
+			  Use your ResourceManager instance to create a ResourceContext as below.If you already have a ResourceManager instance,
+			  replace the new instance created below with correct instance.
+			  Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/mrtcore
+			*/
 			var flowDirectionSetting = new Microsoft.Windows.ApplicationModel.Resources.ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"];
 
 			if (flowDirectionSetting == "RTL")
@@ -190,11 +190,11 @@ namespace Files.App.Views
 			this.PointerPressed += CoreWindow_PointerPressed;
 
 			/*
-            TODO UA307 Default back button in the title bar does not exist in WinUI3 apps.
-            The tool has generated a custom back button in the MainWindow.xaml.cs file.
-            Feel free to edit its position, behavior and use the custom back button instead.
-            Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/case-study-1#restoring-back-button-functionality
-            */
+			TODO UA307 Default back button in the title bar does not exist in WinUI3 apps.
+			The tool has generated a custom back button in the MainWindow.xaml.cs file.
+			Feel free to edit its position, behavior and use the custom back button instead.
+			Read: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/case-study-1#restoring-back-button-functionality
+			*/
 			//SystemNavigationManager.GetForCurrentView().BackRequested += ModernShellPage_BackRequested;
 
 			App.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
@@ -203,9 +203,9 @@ namespace Files.App.Views
 		}
 
 		/**
-         * Some keys are overriden by control built-in defaults (e.g. 'Space').
-         * They must be handled here since they're not propagated to KeyboardAccelerator.
-         */
+		 * Some keys are overriden by control built-in defaults (e.g. 'Space').
+		 * They must be handled here since they're not propagated to KeyboardAccelerator.
+		 */
 		private async void ModernShellPage_PreviewKeyDown(object sender, KeyRoutedEventArgs args)
 		{
 			var ctrl = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
@@ -291,10 +291,10 @@ namespace Files.App.Views
 		}
 
 		/*
-         * Ensure that the path bar gets updated for user interaction
-         * whenever the path changes. We will get the individual directories from
-         * the updated, most-current path and add them to the UI.
-         */
+		 * Ensure that the path bar gets updated for user interaction
+		 * whenever the path changes. We will get the individual directories from
+		 * the updated, most-current path and add them to the UI.
+		 */
 		public void UpdatePathUIToWorkingDirectory(string newWorkingDir, string singleItemOverride = null)
 		{
 			if (string.IsNullOrWhiteSpace(singleItemOverride))
@@ -527,7 +527,7 @@ namespace Files.App.Views
 					{
 						NavPathParam = NavParams?.NavPath,
 						AssociatedTabInstance = this
-					}, new EntranceNavigationTransitionInfo());
+					}, new SuppressNavigationTransitionInfo());
 			}
 			else
 			{
@@ -896,12 +896,11 @@ namespace Files.App.Views
 			if (isPathRooted)
 			{
 				ItemDisplayFrame.Navigate(typeof(WidgetsPage),
-										  new NavigationArguments()
-										  {
-											  NavPathParam = "Home".GetLocalizedResource(),
-											  AssociatedTabInstance = this
-										  },
-										  new SuppressNavigationTransitionInfo());
+					new NavigationArguments()
+					{
+						NavPathParam = "Home".GetLocalizedResource(),
+						AssociatedTabInstance = this
+					}, new SuppressNavigationTransitionInfo());
 			}
 			else
 			{
@@ -917,12 +916,11 @@ namespace Files.App.Views
 
 				SelectSidebarItemFromPath();
 				ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(parentDirectoryOfPath),
-											  new NavigationArguments()
-											  {
-												  NavPathParam = parentDirectoryOfPath,
-												  AssociatedTabInstance = this
-											  },
-											  new SuppressNavigationTransitionInfo());
+					new NavigationArguments()
+					{
+						NavPathParam = parentDirectoryOfPath,
+						AssociatedTabInstance = this
+					}, new SuppressNavigationTransitionInfo());
 			}
 		}
 
@@ -1047,8 +1045,7 @@ namespace Files.App.Views
 				{
 					NavPathParam = "Home".GetLocalizedResource(),
 					AssociatedTabInstance = this
-				},
-				new EntranceNavigationTransitionInfo());
+				}, new SuppressNavigationTransitionInfo());
 		}
 
 		public void NavigateWithArguments(Type sourcePageType, NavigationArguments navArgs)
