@@ -554,6 +554,97 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
+		public bool ShowFavoritesSection
+		{
+			get => UserSettingsService.PreferencesSettingsService.ShowFavoritesSection;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ShowFavoritesSection)
+				{
+					UserSettingsService.PreferencesSettingsService.ShowFavoritesSection = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowLibrarySection
+		{
+			get => UserSettingsService.PreferencesSettingsService.ShowLibrarySection;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ShowLibrarySection)
+				{
+					UserSettingsService.PreferencesSettingsService.ShowLibrarySection = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowDrivesSection
+		{
+			get => UserSettingsService.PreferencesSettingsService.ShowDrivesSection;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ShowDrivesSection)
+				{
+					UserSettingsService.PreferencesSettingsService.ShowDrivesSection = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowCloudDrivesSection
+		{
+			get => UserSettingsService.PreferencesSettingsService.ShowCloudDrivesSection;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ShowCloudDrivesSection)
+				{
+					UserSettingsService.PreferencesSettingsService.ShowCloudDrivesSection = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowNetworkDrivesSection
+		{
+			get => UserSettingsService.PreferencesSettingsService.ShowNetworkDrivesSection;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ShowNetworkDrivesSection)
+				{
+					UserSettingsService.PreferencesSettingsService.ShowNetworkDrivesSection = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowWslSection
+		{
+			get => UserSettingsService.PreferencesSettingsService.ShowWslSection;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ShowWslSection)
+				{
+					UserSettingsService.PreferencesSettingsService.ShowWslSection = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowFileTagsSection
+		{
+			get => UserSettingsService.PreferencesSettingsService.ShowFileTagsSection;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ShowFileTagsSection)
+				{
+					UserSettingsService.PreferencesSettingsService.ShowFileTagsSection = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		public void Dispose()
 		{
 			if (!disposed)
