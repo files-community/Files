@@ -104,6 +104,55 @@ namespace Files.App.ServicesImplementation.Settings
 			get => Get(false);
 			set => Set(value);
 		}
+
+		public bool ShowFoldersWidget
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowRecentFilesWidget
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowDrivesWidget
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowBundlesWidget
+		{
+			get => Get(false);
+			set => Set(value);
+		}
+
+		public bool FoldersWidgetExpanded
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool RecentFilesWidgetExpanded
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool DrivesWidgetExpanded
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool BundlesWidgetExpanded
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			switch (e.SettingName)
@@ -118,6 +167,14 @@ namespace Files.App.ServicesImplementation.Settings
 				case nameof(AlwaysOpenNewInstance):
 				case nameof(IsDualPaneEnabled):
 				case nameof(AlwaysOpenDualPaneInNewTab):
+				case nameof(ShowFoldersWidget):
+				case nameof(ShowRecentFilesWidget):
+				case nameof(ShowDrivesWidget):
+				case nameof(ShowBundlesWidget):
+				case nameof(FoldersWidgetExpanded):
+				case nameof(RecentFilesWidgetExpanded):
+				case nameof(BundlesWidgetExpanded):
+				case nameof(DrivesWidgetExpanded):
 					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
 					break;
 			}

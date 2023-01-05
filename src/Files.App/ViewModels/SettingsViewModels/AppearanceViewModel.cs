@@ -218,46 +218,6 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
-		public bool ShowFoldersWidget
-		{
-			get => UserSettingsService.AppearanceSettingsService.ShowFoldersWidget;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowFoldersWidget)
-					UserSettingsService.AppearanceSettingsService.ShowFoldersWidget = value;
-			}
-		}
-
-		public bool ShowDrivesWidget
-		{
-			get => UserSettingsService.AppearanceSettingsService.ShowDrivesWidget;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowDrivesWidget)
-					UserSettingsService.AppearanceSettingsService.ShowDrivesWidget = value;
-			}
-		}
-
-		public bool ShowBundlesWidget
-		{
-			get => UserSettingsService.AppearanceSettingsService.ShowBundlesWidget;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowBundlesWidget)
-					UserSettingsService.AppearanceSettingsService.ShowBundlesWidget = value;
-			}
-		}
-
-		public bool ShowRecentFilesWidget
-		{
-			get => UserSettingsService.AppearanceSettingsService.ShowRecentFilesWidget;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowRecentFilesWidget)
-					UserSettingsService.AppearanceSettingsService.ShowRecentFilesWidget = value;
-			}
-		}
-
 		public Color AppThemeBackgroundColor
 		{
 			get => ColorHelper.ToColor(UserSettingsService.AppearanceSettingsService.AppThemeBackgroundColor);
