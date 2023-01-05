@@ -514,6 +514,46 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
+		public bool ShowFoldersWidget
+		{
+			get => UserSettingsService.PreferencesSettingsService.ShowFoldersWidget;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ShowFoldersWidget)
+					UserSettingsService.PreferencesSettingsService.ShowFoldersWidget = value;
+			}
+		}
+
+		public bool ShowDrivesWidget
+		{
+			get => UserSettingsService.PreferencesSettingsService.ShowDrivesWidget;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ShowDrivesWidget)
+					UserSettingsService.PreferencesSettingsService.ShowDrivesWidget = value;
+			}
+		}
+
+		public bool ShowBundlesWidget
+		{
+			get => UserSettingsService.PreferencesSettingsService.ShowBundlesWidget;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ShowBundlesWidget)
+					UserSettingsService.PreferencesSettingsService.ShowBundlesWidget = value;
+			}
+		}
+
+		public bool ShowRecentFilesWidget
+		{
+			get => UserSettingsService.PreferencesSettingsService.ShowRecentFilesWidget;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ShowRecentFilesWidget)
+					UserSettingsService.PreferencesSettingsService.ShowRecentFilesWidget = value;
+			}
+		}
+
 		public void Dispose()
 		{
 			if (!disposed)
