@@ -350,7 +350,7 @@
     <value>Insira o nome do item</value>
   </data>
   <data name="RenameDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Insira o nome do item</value>
+    <value>Introduza o nome do item</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Definir nome</value>
@@ -512,7 +512,7 @@
     <value>OK</value>
   </data>
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
-    <value>O nome do item não pode ter os seguintes caracteres: \ / : * ? " &lt; &gt; |</value>
+    <value>O nome do item não pode conter os seguintes caracteres: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>item selecionado</value>
@@ -2282,7 +2282,7 @@
     <value>Ctrl+Shift+N</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
-    <value>Abrir pasta superior</value>
+    <value>Abrir pasta</value>
   </data>
   <data name="FileTagUnknown" xml:space="preserve">
     <value>Desconhecido</value>
@@ -2789,10 +2789,10 @@
     <value>Compressão terminada</value>
   </data>
   <data name="CompressionSucceded" xml:space="preserve">
-    <value>{0} foi compactado</value>
+    <value>{0} foi comprimido</value>
   </data>
   <data name="CompressionFailed" xml:space="preserve">
-    <value>Não foi possível compactar {0}</value>
+    <value>Não foi possível comprimir {0}</value>
   </data>
   <data name="CompressionInProgress" xml:space="preserve">
     <value>Compressão terminada</value>
@@ -2882,7 +2882,7 @@
     <value>Rápido</value>
   </data>
   <data name="CompressionLevelNone" xml:space="preserve">
-    <value>Nenhum</value>
+    <value>Sem compressão</value>
   </data>
   <data name="SplitArchive" xml:space="preserve">
     <value>Separar arquivo</value>
