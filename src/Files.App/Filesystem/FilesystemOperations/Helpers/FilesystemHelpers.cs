@@ -737,7 +737,7 @@ namespace Files.App.Filesystem
 
 		public static bool HasDraggedStorageItems(DataPackageView packageView)
 		{
-			return packageView is not null && (packageView.Contains(StandardDataFormats.StorageItems) || (packageView.Properties.TryGetValue("FileDrop", out _)));
+			return packageView is not null && packageView.Contains(StandardDataFormats.StorageItems);
 		}
 
 		public static async Task<bool> CheckDragNeedsFulltrust(DataPackageView packageView)
@@ -853,13 +853,6 @@ namespace Files.App.Filesystem
 				}
 			}
 
-			if (packageView.Properties.TryGetValue("FileDrop", out var data))
-			{
-				if (data is List<IStorageItemWithPath> source)
-				{
-					itemsList.AddRange(source);
-				}
-			}
 			itemsList = itemsList.DistinctBy(x => string.IsNullOrEmpty(x.Path) ? x.Item.Name : x.Path).ToList();
 			return itemsList;
 		}
