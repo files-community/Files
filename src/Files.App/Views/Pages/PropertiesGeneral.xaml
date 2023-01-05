@@ -132,10 +132,7 @@
 			Header="{helpers:ResourceString Name=MoreDetails}"
 			IsExpanded="True">
 			<Expander.Content>
-				<Grid
-					HorizontalAlignment="Stretch"
-					ColumnSpacing="8"
-					RowSpacing="8">
+				<Grid HorizontalAlignment="Stretch" RowSpacing="8">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition
 							Width="Auto"
@@ -176,7 +173,6 @@
 						HorizontalAlignment="Left"
 						Style="{StaticResource PropertyName}"
 						Text="{helpers:ResourceString Name=PropertiesItemSize/Text}"
-						VerticalAlignment="Center"
 						Visibility="{x:Bind ViewModel.ItemSizeVisibility, Mode=OneWay}" />
 					<Grid
 						Grid.Row="1"
@@ -192,14 +188,13 @@
 							x:Name="itemSizeValue"
 							Grid.Column="0"
 							IsTextSelectionEnabled="True"
-							Text="{x:Bind ViewModel.ItemSize, Mode=OneWay}"
-							VerticalAlignment="Center" />
+							Text="{x:Bind ViewModel.ItemSize, Mode=OneWay}" />
 						<ProgressBar
 							x:Name="ItemSizeProgress"
 							Grid.Column="1"
-							HorizontalAlignment="Stretch"
+							Width="100"
+							HorizontalAlignment="Left"
 							IsIndeterminate="True"
-							VerticalAlignment="Center"
 							Visibility="{x:Bind ViewModel.ItemSizeProgressVisibility, Mode=OneWay}" />
 					</Grid>
 
