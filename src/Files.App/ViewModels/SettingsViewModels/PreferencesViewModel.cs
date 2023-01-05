@@ -268,6 +268,32 @@ namespace Files.App.ViewModels.SettingsViewModels
 			}
 		}
 
+		public bool IsDualPaneEnabled
+		{
+			get => UserSettingsService.PreferencesSettingsService.IsDualPaneEnabled;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.IsDualPaneEnabled)
+				{
+					UserSettingsService.PreferencesSettingsService.IsDualPaneEnabled = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool AlwaysOpenDualPaneInNewTab
+		{
+			get => UserSettingsService.PreferencesSettingsService.AlwaysOpenDualPaneInNewTab;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.AlwaysOpenDualPaneInNewTab)
+				{
+					UserSettingsService.PreferencesSettingsService.AlwaysOpenDualPaneInNewTab = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		private async Task ChangePage()
 		{
 			var folderPicker = this.InitializeWithWindow(new FolderPicker());
@@ -485,6 +511,46 @@ namespace Files.App.ViewModels.SettingsViewModels
 					UserSettingsService.PreferencesSettingsService.SearchUnindexedItems = value;
 					OnPropertyChanged();
 				}
+			}
+		}
+
+		public bool ShowFoldersWidget
+		{
+			get => UserSettingsService.PreferencesSettingsService.ShowFoldersWidget;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ShowFoldersWidget)
+					UserSettingsService.PreferencesSettingsService.ShowFoldersWidget = value;
+			}
+		}
+
+		public bool ShowDrivesWidget
+		{
+			get => UserSettingsService.PreferencesSettingsService.ShowDrivesWidget;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ShowDrivesWidget)
+					UserSettingsService.PreferencesSettingsService.ShowDrivesWidget = value;
+			}
+		}
+
+		public bool ShowBundlesWidget
+		{
+			get => UserSettingsService.PreferencesSettingsService.ShowBundlesWidget;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ShowBundlesWidget)
+					UserSettingsService.PreferencesSettingsService.ShowBundlesWidget = value;
+			}
+		}
+
+		public bool ShowRecentFilesWidget
+		{
+			get => UserSettingsService.PreferencesSettingsService.ShowRecentFilesWidget;
+			set
+			{
+				if (value != UserSettingsService.PreferencesSettingsService.ShowRecentFilesWidget)
+					UserSettingsService.PreferencesSettingsService.ShowRecentFilesWidget = value;
 			}
 		}
 

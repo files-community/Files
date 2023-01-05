@@ -45,7 +45,7 @@ namespace Files.App.UserControls.Widgets
 
 		public string WidgetHeader => "RecentFiles".GetLocalizedResource();
 
-		public bool IsWidgetSettingEnabled => UserSettingsService.AppearanceSettingsService.ShowRecentFilesWidget;
+		public bool IsWidgetSettingEnabled => UserSettingsService.PreferencesSettingsService.ShowRecentFilesWidget;
 
 		private Visibility emptyRecentsTextVisibility = Visibility.Collapsed;
 		public Visibility EmptyRecentsTextVisibility
