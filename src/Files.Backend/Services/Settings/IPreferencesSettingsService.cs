@@ -70,5 +70,15 @@ namespace Files.Backend.Services.Settings
 		/// Gets or sets a value indicating which date and time format to use.
 		/// </summary>
 		DateTimeFormats DateTimeFormat { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to enable dual pane feature.
+		/// </summary>
+		bool IsDualPaneEnabled { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to always open a second pane when opening a new tab.
+		/// </summary>
+		bool AlwaysOpenDualPaneInNewTab { get; set; }
 	}
 }

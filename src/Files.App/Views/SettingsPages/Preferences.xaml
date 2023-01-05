@@ -245,6 +245,26 @@
 					</StackPanel>
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
+
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsMultitaskingEnableDualPane}" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF117;" />
+				</local:SettingsBlockControl.Icon>
+				<ToggleSwitch
+					AutomationProperties.Name="{helpers:ResourceString Name=SettingsMultitaskingEnableDualPane}"
+					IsOn="{x:Bind ViewModel.IsDualPaneEnabled, Mode=TwoWay}"
+					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+				<local:SettingsBlockControl.ExpandableContent>
+					<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsMultitaskingAlwaysOpenDualPane}" HorizontalAlignment="Stretch">
+						<ToggleSwitch
+							AutomationProperties.Name="{helpers:ResourceString Name=SettingsMultitaskingAlwaysOpenDualPane}"
+							IsEnabled="{x:Bind ViewModel.IsDualPaneEnabled, Mode=OneWay}"
+							IsOn="{x:Bind ViewModel.AlwaysOpenDualPaneInNewTab, Mode=TwoWay}"
+							Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+					</local:SettingsBlockControl>
+				</local:SettingsBlockControl.ExpandableContent>
+			</local:SettingsBlockControl>
+
 		</StackPanel>
 
 		<UserControls:RestartControl
