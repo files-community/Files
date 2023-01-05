@@ -70,7 +70,10 @@
 					SelectedIndex="{x:Bind ViewModel.SelectedThemeIndex, Mode=TwoWay}" />
 			</local:SettingsBlockControl>
 
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=Background}" HorizontalAlignment="Stretch">
+			<local:SettingsBlockControl
+				Title="{helpers:ResourceString Name=Background}"
+				HorizontalAlignment="Stretch"
+				IsExpanded="True">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE771;" />
 				</local:SettingsBlockControl.Icon>
