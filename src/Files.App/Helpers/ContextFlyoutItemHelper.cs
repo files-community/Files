@@ -538,7 +538,7 @@ namespace Files.App.Helpers
 					Text = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalizedResource(),
 					Glyph = "\uE840",
 					Command = commandsViewModel.PinDirectoryToFavoritesCommand,
-					ShowItem = itemViewModel.CurrentFolder is not null && !itemViewModel.CurrentFolder.IsPinned & userSettingsService.AppearanceSettingsService.ShowFavoritesSection,
+					ShowItem = itemViewModel.CurrentFolder is not null && !itemViewModel.CurrentFolder.IsPinned & userSettingsService.PreferencesSettingsService.ShowFavoritesSection,
 					ShowInFtpPage = true,
 					ShowInRecycleBin = true,
 				},
@@ -547,7 +547,7 @@ namespace Files.App.Helpers
 					Text = "BaseLayoutContextFlyoutUnpinFromFavorites/Text".GetLocalizedResource(),
 					Glyph = "\uE77A",
 					Command = commandsViewModel.UnpinDirectoryFromFavoritesCommand,
-					ShowItem = itemViewModel.CurrentFolder is not null && itemViewModel.CurrentFolder.IsPinned & userSettingsService.AppearanceSettingsService.ShowFavoritesSection,
+					ShowItem = itemViewModel.CurrentFolder is not null && itemViewModel.CurrentFolder.IsPinned & userSettingsService.PreferencesSettingsService.ShowFavoritesSection,
 					ShowInFtpPage = true,
 					ShowInRecycleBin = true,
 				},
@@ -963,7 +963,7 @@ namespace Files.App.Helpers
 					Text = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalizedResource(),
 					Glyph = "\uE840",
 					Command = commandsViewModel.SidebarPinItemCommand,
-					ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsArchive && !x.IsPinned) & userSettingsService.AppearanceSettingsService.ShowFavoritesSection,
+					ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsArchive && !x.IsPinned) & userSettingsService.PreferencesSettingsService.ShowFavoritesSection,
 					ShowInSearchPage = true,
 					ShowInFtpPage = true,
 				},
@@ -972,7 +972,7 @@ namespace Files.App.Helpers
 					Text = "BaseLayoutContextFlyoutUnpinFromFavorites/Text".GetLocalizedResource(),
 					Glyph = "\uE77A",
 					Command = commandsViewModel.SidebarUnpinItemCommand,
-					ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsArchive && x.IsPinned) & userSettingsService.AppearanceSettingsService.ShowFavoritesSection,
+					ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsArchive && x.IsPinned) & userSettingsService.PreferencesSettingsService.ShowFavoritesSection,
 					ShowInSearchPage = true,
 					ShowInFtpPage = true,
 				},
@@ -1108,6 +1108,13 @@ namespace Files.App.Helpers
 					ShowInFtpPage = true,
 					ShowInZipPage = true,
 					IsEnabled = canCreateFileInPage
+				},
+				new ContextMenuFlyoutItemViewModel
+				{
+					Text = "Shortcut".GetLocalizedResource(),
+					Glyph = "\uF10A",
+					GlyphFontFamilyName = "CustomGlyph",
+					Command = commandsViewModel.CreateShortcutFromDialogCommand
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
