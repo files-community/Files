@@ -256,7 +256,6 @@ namespace Files.App.ViewModels
 			{
 				if (SetProperty(ref userLength, value))
 				{
-					OnPropertyChanged(nameof(Length));
 					OnPropertyChanged(nameof(LengthIncludingGridSplitter));
 				}
 			}
