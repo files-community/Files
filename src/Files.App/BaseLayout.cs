@@ -445,6 +445,8 @@ namespace Files.App
 			UpdateCollectionViewSource();
 			FolderSettings.IsLayoutModeChanging = false;
 
+			SetSelectedItemsOnNavigation();
+
 			ItemContextMenuFlyout.Opening += ItemContextFlyout_Opening;
 			BaseContextMenuFlyout.Opening += BaseContextFlyout_Opening;
 		}
