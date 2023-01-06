@@ -170,6 +170,9 @@ namespace Files.App.Views.LayoutModes
 
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
 		{
+			if (eventArgs.Parameter is NavigationArguments navArgs)
+				navArgs.FocusOnNavigation = true;
+
 			base.OnNavigatedTo(eventArgs);
 
 			currentIconSize = FolderSettings.GetIconSize();

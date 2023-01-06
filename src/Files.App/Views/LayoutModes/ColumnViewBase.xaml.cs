@@ -183,7 +183,10 @@ namespace Files.App.Views.LayoutModes
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
 		{
 			if (eventArgs.Parameter is NavigationArguments navArgs)
+			{
+				navArgs.FocusOnNavigation = (navArgs.AssociatedTabInstance as ColumnShellPage)?.ColumnParams?.Column == 0; // Focus filelist only if first column
 				columnsOwner = (navArgs.AssociatedTabInstance as FrameworkElement)?.FindAscendant<ColumnViewBrowser>();
+			}
 
 			base.OnNavigatedTo(eventArgs);
 
