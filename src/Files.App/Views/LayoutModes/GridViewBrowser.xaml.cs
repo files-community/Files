@@ -133,7 +133,10 @@ namespace Files.App.Views.LayoutModes
 
 		private void ItemManipulationModel_FocusFileListInvoked(object? sender, EventArgs e)
 		{
-			FileList.Focus(FocusState.Programmatic);
+			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(XamlRoot);
+			var isFileListFocused = DependencyObjectHelpers.FindParent<ListViewBase>(focusedElement) == FileList;
+			if (!isFileListFocused)
+				FileList.Focus(FocusState.Programmatic);
 		}
 
 		private void ZoomIn(object? sender, GroupOption option)
@@ -322,7 +325,7 @@ namespace Files.App.Views.LayoutModes
 		private void RenameTextBox_LostFocus(object sender, RoutedEventArgs e)
 		{
 			// This check allows the user to use the text box context menu without ending the rename
-			if ((FocusManager.GetFocusedElement() is AppBarButton or Popup))
+			if ((FocusManager.GetFocusedElement(XamlRoot) is AppBarButton or Popup))
 				return;
 
 			TextBox textBox = (TextBox)e.OriginalSource;
@@ -369,7 +372,7 @@ namespace Files.App.Views.LayoutModes
 		{
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-			var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;
+			var focusedElement = FocusManager.GetFocusedElement(XamlRoot) as FrameworkElement;
 			var isFooterFocused = focusedElement is HyperlinkButton;
 
 			if (e.Key == VirtualKey.Enter && !isFooterFocused && !e.KeyStatus.IsMenuKeyDown)
@@ -434,7 +437,7 @@ namespace Files.App.Views.LayoutModes
 			if (ParentShellPageInstance.CurrentPageType == typeof(GridViewBrowser) && !IsRenamingItem)
 			{
 				// Don't block the various uses of enter key (key 13)
-				var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement();
+				var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(XamlRoot);
 				if (InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Enter) == CoreVirtualKeyStates.Down
 					|| focusedElement is Button
 					|| focusedElement is TextBox

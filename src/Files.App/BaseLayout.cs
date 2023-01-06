@@ -462,6 +462,10 @@ namespace Files.App
 					ItemManipulationModel.SetSelectedItems(liItemsToSelect);
 					ItemManipulationModel.FocusSelectedItems();
 				}
+				else if (navigationArguments is not null)
+				{
+					ItemManipulationModel.FocusFileList();
+				}
 			}
 			catch (Exception)
 			{
