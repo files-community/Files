@@ -15,7 +15,6 @@
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
-				<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
 			</ResourceDictionary.MergedDictionaries>
 
 			<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
@@ -70,7 +69,10 @@
 					SelectedIndex="{x:Bind ViewModel.SelectedThemeIndex, Mode=TwoWay}" />
 			</local:SettingsBlockControl>
 
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=Background}" HorizontalAlignment="Stretch">
+			<local:SettingsBlockControl
+				Title="{helpers:ResourceString Name=Background}"
+				HorizontalAlignment="Stretch"
+				IsExpanded="True">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE771;" />
 				</local:SettingsBlockControl.Icon>
@@ -105,108 +107,13 @@
 						SelectedItem="{x:Bind ViewModel.SelectedAppBackgroundColor, Mode=TwoWay}" />
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
-
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=Sidebar}" HorizontalAlignment="Stretch">
-				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE145;" />
-				</local:SettingsBlockControl.Icon>
-				<local:SettingsBlockControl.ExpandableContent>
-					<StackPanel>
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsShowFavoritesSection/Title}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=SettingsShowFavoritesSectionSwitch/AutomationProperties/Name}"
-								IsOn="{x:Bind ViewModel.ShowFavoritesSection, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsShowLibrarySection/Title}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=SettingsShowLibrarySectionSwitch/AutomationProperties/Name}"
-								IsOn="{x:Bind ViewModel.ShowLibrarySection, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsShowDrivesSection/Title}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=SettingsShowDrivesSectionSwitch/AutomationProperties/Name}"
-								IsOn="{x:Bind ViewModel.ShowDrivesSection, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsShowCloudDrivesSection/Title}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=SettingsShowCloudDrivesSectionSwitch/AutomationProperties/Name}"
-								IsOn="{x:Bind ViewModel.ShowCloudDrivesSection, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsShowNetworkDrivesSection/Title}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=SettingsShowNetworkDrivesSectionSwitch/AutomationProperties/Name}"
-								IsOn="{x:Bind ViewModel.ShowNetworkDrivesSection, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsShowWslSection/Title}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=SettingsShowWslSectionSwitch/AutomationProperties/Name}"
-								IsOn="{x:Bind ViewModel.ShowWslSection, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsShowFileTagsSection/Title}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=SettingsShowFileTagsSectionSwitch/AutomationProperties/Name}"
-								IsOn="{x:Bind ViewModel.ShowFileTagsSection, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-					</StackPanel>
-				</local:SettingsBlockControl.ExpandableContent>
-			</local:SettingsBlockControl>
-
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=Widgets}" HorizontalAlignment="Stretch">
-				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xF246;" />
-				</local:SettingsBlockControl.Icon>
-				<local:SettingsBlockControl.ExpandableContent>
-					<StackPanel>
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowFolderWidget}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=ShowFolderWidget}"
-								IsOn="{x:Bind ViewModel.ShowFoldersWidget, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowDrivesWidget}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=ShowDrivesWidget}"
-								IsOn="{x:Bind ViewModel.ShowDrivesWidget, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowBundlesWidget}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=ShowBundlesWidget}"
-								IsOn="{x:Bind ViewModel.ShowBundlesWidget, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowRecentFilesWidget}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=ShowRecentFilesWidget}"
-								IsOn="{x:Bind ViewModel.ShowRecentFilesWidget, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-					</StackPanel>
-				</local:SettingsBlockControl.ExpandableContent>
-			</local:SettingsBlockControl>
-
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=UseCompactStyles}" HorizontalAlignment="Stretch">
+			
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=UseCompactSpacing}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE14C;" />
 				</local:SettingsBlockControl.Icon>
 				<ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=UseCompactStyles}"
+					AutomationProperties.Name="{helpers:ResourceString Name=UseCompactSpacing}"
 					IsOn="{x:Bind ViewModel.UseCompactStyles, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</local:SettingsBlockControl>
