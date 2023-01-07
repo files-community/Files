@@ -381,6 +381,8 @@ namespace Files.App.Views.LayoutModes
 				if (IsRenamingItem)
 					return;
 
+				e.Handled = true;
+
 				if (ctrlPressed)
 				{
 					var folders = ParentShellPageInstance?.SlimContentPage.SelectedItems?.Where(file => file.PrimaryItemAttribute == StorageItemTypes.Folder);
@@ -392,9 +394,8 @@ namespace Files.App.Views.LayoutModes
 				}
 				else
 				{
-					_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+					await NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
 				}
-				e.Handled = true;
 			}
 			else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
 			{
