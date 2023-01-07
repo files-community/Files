@@ -809,8 +809,10 @@ namespace Files.App.Filesystem
 							uint filesCount = Shell32.DragQueryFile(dropStructHandle, 0xffffffff, null, 0);
 							for (uint i = 0; i < filesCount; i++)
 							{
-								string buffer = new('\0', Kernel32.MAX_PATH);
-								uint charsCopied = Shell32.DragQueryFile(dropStructHandle, i, buffer, Kernel32.MAX_PATH);
+								uint charsNeeded = Shell32.DragQueryFile(dropStructHandle, i, null, 0);
+								uint bufferSpaceRequired = charsNeeded + 1;	// include space for last null-terminator
+								string buffer = new('\0', (int)bufferSpaceRequired);
+								uint charsCopied = Shell32.DragQueryFile(dropStructHandle, i, buffer, bufferSpaceRequired);
 
 								if (charsCopied > 0)
 								{
