@@ -759,9 +759,8 @@ namespace Files.App
 			try
 			{
 				var itemList = e.Items.OfType<ListedItem>().Select(x => new VA.ShellItem(x.ItemPath)).ToArray();
-				if (itemList.IsEmpty())
-					return;
 				var iddo = itemList[0].Parent.GetChildrenUIObjects<IDataObject>(HWND.NULL, itemList);
+				itemList.ForEach(x => x.Dispose());
 				var wfdo = new System.Windows.Forms.DataObject(iddo);
 				var formats = wfdo.GetFormats(false);
 				foreach (var format in formats)
@@ -773,7 +772,6 @@ namespace Files.App
 						e.Data.SetData(format, mem);
 					}
 				}
-				itemList.ForEach(x => x.Dispose());
 			}
 			catch (Exception)
 			{
