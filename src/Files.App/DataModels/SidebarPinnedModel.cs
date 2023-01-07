@@ -74,7 +74,7 @@ namespace Files.App.DataModels
 		/// Adds the item to the navigation page
 		/// </summary>
 		/// <param name="item">Item to remove</param>
-		public async void AddItem(string item)
+		public async void AddItem(string? item)
 		{
 			// add to `FavoriteItems` and `favoritesList` must be atomic
 			await addSyncSemaphore.WaitAsync();
@@ -98,14 +98,13 @@ namespace Files.App.DataModels
 		/// Removes the item from the navigation page
 		/// </summary>
 		/// <param name="item">Item to remove</param>
-		public void RemoveItem(string item)
+		public void RemoveItem(string? item)
 		{
-			if (FavoriteItems.Contains(item))
-			{
-				FavoriteItems.Remove(item);
-				RemoveStaleSidebarItems();
-				Save();
-			}
+			if (string.IsNullOrWhiteSpace(item) || !FavoriteItems.Contains(item))
+				return;
+			FavoriteItems.Remove(item);
+			RemoveStaleSidebarItems();
+			Save();
 		}
 
 		/// <summary>
@@ -155,9 +154,7 @@ namespace Files.App.DataModels
 		public void SwapItems(INavigationControlItem firstLocationItem, INavigationControlItem secondLocationItem)
 		{
 			if (firstLocationItem is null || secondLocationItem is null)
-			{
 				return;
-			}
 
 			var indexOfFirstItemInMainPage = IndexOfItem(firstLocationItem);
 			var indexOfSecondItemInMainPage = IndexOfItem(secondLocationItem);

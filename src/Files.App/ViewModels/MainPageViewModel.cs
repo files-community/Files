@@ -1,6 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.Mvvm.Input;
 using Files.App.Extensions;
 using Files.App.Filesystem;
@@ -151,16 +150,12 @@ namespace Files.App.ViewModels
 
 		private void CloseSelectedTabKeyboardAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
 		{
-			if (App.AppModel.TabStripSelectedIndex >= AppInstances.Count)
-			{
-				TabItem tabItem = AppInstances[AppInstances.Count - 1];
-				MultitaskingControl?.CloseTab(tabItem);
-			}
-			else
-			{
-				TabItem tabItem = AppInstances[App.AppModel.TabStripSelectedIndex];
-				MultitaskingControl?.CloseTab(tabItem);
-			}
+			var index = App.AppModel.TabStripSelectedIndex >= AppInstances.Count
+				? AppInstances.Count - 1
+				: App.AppModel.TabStripSelectedIndex;
+
+			TabItem tabItem = AppInstances[index];
+			MultitaskingControl?.CloseTab(tabItem);
 			e!.Handled = true;
 		}
 
@@ -183,7 +178,7 @@ namespace Files.App.ViewModels
 			await dialog.TryShowAsync();
 		}
 
-		public static async Task AddNewTabByPathAsync(Type type, string path, int atIndex = -1)
+		public static async Task AddNewTabByPathAsync(Type type, string? path, int atIndex = -1)
 		{
 			if (string.IsNullOrEmpty(path))
 				path = "Home".GetLocalizedResource();
@@ -366,11 +361,9 @@ namespace Files.App.ViewModels
 								var tabArgs = TabItemArguments.Deserialize(tabArgsString);
 								await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
 							}
-						}
 
-						if (!UserSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp)
-						{
-							UserSettingsService.PreferencesSettingsService.LastSessionTabList = null;
+							if (!UserSettingsService.PreferencesSettingsService.ContinueLastSessionOnStartUp)
+								UserSettingsService.PreferencesSettingsService.LastSessionTabList = null;
 						}
 					}
 					else if (UserSettingsService.PreferencesSettingsService.OpenSpecificPageOnStartup &&
