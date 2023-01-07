@@ -43,6 +43,7 @@ using static Files.App.Helpers.PathNormalization;
 using static Vanara.PInvoke.User32;
 using VA = Vanara.Windows.Shell;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
+using System.IO;
 
 namespace Files.App
 {
@@ -757,52 +758,29 @@ namespace Files.App
 		{
 			SelectedItems!.AddRange(e.Items.OfType<ListedItem>());
 
-			var itemPaths = e.Items.OfType<ListedItem>().Select(x => x.ItemPath).ToList();
-
 			try
 			{
-				// Only support IStorageItem capable paths
-				var itemList = e.Items.OfType<ListedItem>().Where(x => !(x.IsHiddenItem && x.IsLinkItem && x.IsRecycleBinItem && x.IsShortcut)).Select(x => VirtualStorageItem.FromListedItem(x));
-				e.Data.SetStorageItems(itemList, false);
+				var itemList = e.Items.OfType<ListedItem>().Select(x => new VA.ShellItem(x.ItemPath)).ToArray();
+				if (itemList.IsEmpty())
+					return;
+				var iddo = itemList[0].Parent.GetChildrenUIObjects<IDataObject>(HWND.NULL, itemList);
+				var wfdo = new System.Windows.Forms.DataObject(iddo);
+				var formats = wfdo.GetFormats(false);
+				foreach (var format in formats)
+				{
+					var clipFrmtId = (uint)System.Windows.Forms.DataFormats.GetFormat(format).Id;
+					if (iddo.TryGetData<byte[]>(clipFrmtId, out var data))
+					{
+						var mem = new MemoryStream(data).AsRandomAccessStream();
+						e.Data.SetData(format, mem);
+					}
+				}
+				itemList.ForEach(x => x.Dispose());
 			}
 			catch (Exception)
 			{
 				e.Cancel = true;
 			}
-
-			IntPtr WndProc(HWND hwnd, uint msg, IntPtr wParam, IntPtr lParam)
-			{
-				if (msg == (uint)WindowMessage.WM_NCCREATE)
-					return (IntPtr)1;
-				else if (msg == (uint)WindowMessage.WM_LBUTTONDOWN ||
-						 msg == (uint)WindowMessage.WM_RBUTTONDOWN)
-				{
-					var itemList = itemPaths.Select(x => new VA.ShellItem(x)).ToArray();
-					var iddo = itemList[0].Parent.GetChildrenUIObjects<IDataObject>(hwnd, itemList);
-					Ole32.DROPEFFECT dwEffect = Ole32.DROPEFFECT.DROPEFFECT_NONE;
-					Shell32.SHDoDragDrop(hwnd, iddo, null, Ole32.DROPEFFECT.DROPEFFECT_COPY | Ole32.DROPEFFECT.DROPEFFECT_MOVE | Ole32.DROPEFFECT.DROPEFFECT_LINK, ref dwEffect);
-					itemList.ForEach(x => x.Dispose());
-					PostQuitMessage(0);
-				}
-				return DefWindowProc(hwnd, msg, wParam, lParam);
-			}
-
-			_ = Win32API.StartSTATask(() =>
-			{
-				HINSTANCE hInst = Kernel32.GetModuleHandle();
-				var wCls = new WindowClass($"{GetType().Name}+{Guid.NewGuid()}", hInst, WndProc);
-				var hwnd = Win32Error.ThrowLastErrorIfInvalid(CreateWindowEx(WindowStylesEx.WS_EX_OVERLAPPEDWINDOW, wCls.Atom,
-					X: CW_USEDEFAULT, Y: CW_USEDEFAULT, nWidth: 120, nHeight: 120,
-					lpWindowName: "Files Drag&Drop",
-					hWndParent: HWND.NULL, hInstance: hInst));
-				ShowWindow(hwnd, ShowWindowCommand.SW_NORMAL);
-				while (GetMessage(out MSG msg))
-				{
-					TranslateMessage(msg);
-					DispatchMessage(msg);
-				}
-				hwnd.Dispose();
-			});
 		}
 
 		private ListedItem? dragOverItem = null;
