@@ -819,30 +819,10 @@ namespace Files.App.Filesystem
 								}
 							}
 
-							// get storage items from path
-							var storageItems = await Task.WhenAll(
-								itemPaths.Select<string, Task<IStorageItem?>>(async path =>
-								{
-									try
-									{
-										if (NativeFileOperationsHelper.HasFileAttribute(path, FileAttributes.Directory))
-											return await StorageFolder.GetFolderFromPathAsync(path);
-										else
-											return await StorageFile.GetFileFromPathAsync(path);
-									}
-									catch
-									{
-										return null;
-									}
-								})
-							);
-
-							foreach (var item in storageItems)
+							foreach (var path in itemPaths)
 							{
-								if (item is null)
-									continue;
-
-								itemsList.Add(item.FromStorageItem());
+								var isDirectory = NativeFileOperationsHelper.HasFileAttribute(path, FileAttributes.Directory);
+								itemsList.Add(StorageHelpers.FromPathAndType(path, isDirectory ? FilesystemItemType.Directory : FilesystemItemType.File));
 							}
 						}
 						finally
