@@ -331,25 +331,25 @@ namespace Files.App.UserControls
 			switch (rightClickedItem.Section)
 			{
 				case SectionType.Favorites:
-					UserSettingsService.AppearanceSettingsService.ShowFavoritesSection = false;
+					UserSettingsService.PreferencesSettingsService.ShowFavoritesSection = false;
 					break;
 				case SectionType.Library:
-					UserSettingsService.AppearanceSettingsService.ShowLibrarySection = false;
+					UserSettingsService.PreferencesSettingsService.ShowLibrarySection = false;
 					break;
 				case SectionType.CloudDrives:
-					UserSettingsService.AppearanceSettingsService.ShowCloudDrivesSection = false;
+					UserSettingsService.PreferencesSettingsService.ShowCloudDrivesSection = false;
 					break;
 				case SectionType.Drives:
-					UserSettingsService.AppearanceSettingsService.ShowDrivesSection = false;
+					UserSettingsService.PreferencesSettingsService.ShowDrivesSection = false;
 					break;
 				case SectionType.Network:
-					UserSettingsService.AppearanceSettingsService.ShowNetworkDrivesSection = false;
+					UserSettingsService.PreferencesSettingsService.ShowNetworkDrivesSection = false;
 					break;
 				case SectionType.WSL:
-					UserSettingsService.AppearanceSettingsService.ShowWslSection = false;
+					UserSettingsService.PreferencesSettingsService.ShowWslSection = false;
 					break;
 				case SectionType.FileTag:
-					UserSettingsService.AppearanceSettingsService.ShowFileTagsSection = false;
+					UserSettingsService.PreferencesSettingsService.ShowFileTagsSection = false;
 					break;
 			}
 		}
@@ -448,7 +448,7 @@ namespace Files.App.UserControls
 				return;
 			}
 
-			var navigationPath = args.InvokedItemContainer.Tag.ToString();
+			var navigationPath = args.InvokedItemContainer.Tag?.ToString();
 
 			if (await CheckEmptyDrive(navigationPath))
 				return;

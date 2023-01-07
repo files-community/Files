@@ -76,7 +76,7 @@ namespace Files.App.Views
 
 		public bool IsMultiPaneEnabled
 		{
-			get => UserSettingsService.MultitaskingSettingsService.IsDualPaneEnabled && !(App.Window.Bounds.Width <= 750);
+			get => UserSettingsService.PreferencesSettingsService.IsDualPaneEnabled && !(App.Window.Bounds.Width <= 750);
 		}
 
 		private NavigationParams navParamsLeft;
@@ -198,7 +198,7 @@ namespace Files.App.Views
 			this.InitializeComponent();
 			App.Window.SizeChanged += Current_SizeChanged;
 			this.ActivePane = PaneLeft;
-			this.IsRightPaneVisible = IsMultiPaneEnabled && UserSettingsService.MultitaskingSettingsService.AlwaysOpenDualPaneInNewTab;
+			this.IsRightPaneVisible = IsMultiPaneEnabled && UserSettingsService.PreferencesSettingsService.AlwaysOpenDualPaneInNewTab;
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 
 			// TODO: fallback / error when failed to get NavigationViewCompactPaneLength value?
@@ -208,7 +208,7 @@ namespace Files.App.Views
 		{
 			switch (e.SettingName)
 			{
-				case nameof(UserSettingsService.MultitaskingSettingsService.IsDualPaneEnabled):
+				case nameof(UserSettingsService.PreferencesSettingsService.IsDualPaneEnabled):
 					NotifyPropertyChanged(nameof(IsMultiPaneEnabled));
 					break;
 			}
@@ -298,14 +298,14 @@ namespace Files.App.Views
 			switch (c: ctrl, s: shift, m: menu, k: args.KeyboardAccelerator.Key)
 			{
 				case (true, true, false, VirtualKey.Left): // ctrl + shift + "<-" select left pane
-					if (UserSettingsService.MultitaskingSettingsService.IsDualPaneEnabled)
+					if (UserSettingsService.PreferencesSettingsService.IsDualPaneEnabled)
 					{
 						ActivePane = PaneLeft;
 					}
 					break;
 
 				case (true, true, false, VirtualKey.Right): // ctrl + shift + "->" select right pane
-					if (UserSettingsService.MultitaskingSettingsService.IsDualPaneEnabled)
+					if (UserSettingsService.PreferencesSettingsService.IsDualPaneEnabled)
 					{
 						if (string.IsNullOrEmpty(NavParamsRight?.NavPath))
 						{
@@ -322,7 +322,7 @@ namespace Files.App.Views
 
 				case (false, true, true, VirtualKey.Add): // alt + shift + "+" open pane
 				case (false, true, true, PlusKey):
-					if (UserSettingsService.MultitaskingSettingsService.IsDualPaneEnabled)
+					if (UserSettingsService.PreferencesSettingsService.IsDualPaneEnabled)
 					{
 						if (string.IsNullOrEmpty(NavParamsRight?.NavPath))
 						{
