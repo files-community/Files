@@ -148,7 +148,10 @@ namespace Files.App.Views.LayoutModes
 
 		private void ItemManipulationModel_FocusFileListInvoked(object? sender, EventArgs e)
 		{
-			FileList.Focus(FocusState.Programmatic);
+			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(XamlRoot);
+			var isFileListFocused = DependencyObjectHelpers.FindParent<ListViewBase>(focusedElement) == FileList;
+			if (!isFileListFocused)
+				FileList.Focus(FocusState.Programmatic);
 		}
 
 		private void ZoomIn(object? sender, GroupOption option)
@@ -374,7 +377,7 @@ namespace Files.App.Views.LayoutModes
 		private void RenameTextBox_LostFocus(object sender, RoutedEventArgs e)
 		{
 			// This check allows the user to use the text box context menu without ending the rename
-			if (!(FocusManager.GetFocusedElement() is AppBarButton or Popup))
+			if (!(FocusManager.GetFocusedElement(XamlRoot) is AppBarButton or Popup))
 			{
 				TextBox? textBox = e.OriginalSource as TextBox;
 				CommitRename(textBox!);
@@ -419,7 +422,7 @@ namespace Files.App.Views.LayoutModes
 		{
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement();
+			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(XamlRoot);
 			var isHeaderFocused = DependencyObjectHelpers.FindParent<DataGridHeader>(focusedElement) is not null;
 			var isFooterFocused = focusedElement is HyperlinkButton;
 
@@ -460,12 +463,12 @@ namespace Files.App.Views.LayoutModes
 			else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
 			{
 				// Unfocus the GridView so keyboard shortcut can be handled
-				NavToolbar?.Focus(FocusState.Pointer);
+				this.Focus(FocusState.Pointer);
 			}
 			else if (e.KeyStatus.IsMenuKeyDown && shiftPressed && e.Key == VirtualKey.Add)
 			{
 				// Unfocus the ListView so keyboard shortcut can be handled (alt + shift + "+")
-				NavToolbar?.Focus(FocusState.Pointer);
+				this.Focus(FocusState.Pointer);
 			}
 			else if (e.Key == VirtualKey.Down)
 			{
@@ -491,7 +494,7 @@ namespace Files.App.Views.LayoutModes
 			if (ParentShellPageInstance.CurrentPageType == typeof(DetailsLayoutBrowser) && !IsRenamingItem)
 			{
 				// Don't block the various uses of enter key (key 13)
-				var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement();
+				var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(XamlRoot);
 				var isHeaderFocused = DependencyObjectHelpers.FindParent<DataGridHeader>(focusedElement) is not null;
 				if (Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Enter) == CoreVirtualKeyStates.Down
 					|| (focusedElement is Button && !isHeaderFocused) // Allow jumpstring when header is focused
