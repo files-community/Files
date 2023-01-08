@@ -56,7 +56,7 @@ namespace Files.App.DataModels.NavigationControlItems
 		}
 
 		public bool IsInvalid { get; set; } = false;
-		public bool IsRecycleBin => RecycleBinHelpers.IsRecycleBinPath(Path);
+
 		public SectionType Section { get; set; }
 
 		public ContextMenuOptions MenuOptions { get; set; }

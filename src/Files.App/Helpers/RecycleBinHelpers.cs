@@ -33,11 +33,6 @@ namespace Files.App.Helpers
 			return (ulong)Win32Shell.QueryRecycleBin().BinSize;
 		}
 		
-		public static bool IsRecycleBinPath(string path)
-		{
-			return recycleBinPathRegex.IsMatch(path);
-		}
-
 		public async Task<bool> IsRecycleBinItem(IStorageItem item)
 		{
 			List<ShellFileItem> recycleBinItems = await EnumerateRecycleBin();
