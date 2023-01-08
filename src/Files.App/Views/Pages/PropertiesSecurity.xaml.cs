@@ -49,7 +49,7 @@ namespace Files.App.Views
 			base.OnNavigatedTo(e);
 		}
 
-		public async override Task<bool> SaveChangesAsync(ListedItem item)
+		public async override Task<bool> SaveChangesAsync()
 		{
 			return SecurityProperties is null || SecurityProperties.SetFilePermissions();
 		}

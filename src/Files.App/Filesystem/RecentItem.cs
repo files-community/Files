@@ -106,6 +106,9 @@ namespace Files.App.Filesystem
 				   RecentPath == other.RecentPath;
 		}
 
+		public override int GetHashCode() => (LinkPath, RecentPath).GetHashCode();
+		public override bool Equals(object? o) => o is RecentItem other && Equals(other);
+
 		/**
 		 * Strips a name from an extension while aware of some edge cases.
 		 *

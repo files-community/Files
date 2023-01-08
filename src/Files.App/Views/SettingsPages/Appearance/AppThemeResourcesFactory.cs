@@ -33,24 +33,24 @@ namespace Files.App.Views.SettingsPages.Appearance
 				PreviewColor = new SolidColorBrush(Color.FromArgb(255, 247, 99, 12)), /* #F7630C */
 				Name = "Orange Bright"
 			},
-			new AppThemeResource
-			{
-				BackgroundColor = Color.FromArgb(50, 202, 80, 16), /* #CA5010 */
-				PreviewColor = new SolidColorBrush(Color.FromArgb(255, 202, 80, 16)), /* #CA5010 */
-				Name = "Orange Dark"
-			},
+			//new AppThemeResource
+			//{
+			//	BackgroundColor = Color.FromArgb(50, 202, 80, 16), /* #CA5010 */
+			//	PreviewColor = new SolidColorBrush(Color.FromArgb(255, 202, 80, 16)), /* #CA5010 */
+			//	Name = "Orange Dark"
+			//},
 			new AppThemeResource
 			{
 				BackgroundColor = Color.FromArgb(50, 218, 59, 1), /* #DA3B01 */
 				PreviewColor = new SolidColorBrush(Color.FromArgb(255, 218, 59, 1)), /* #DA3B01 */
 				Name = "Rust",
 			},
-			new AppThemeResource
-			{
-				BackgroundColor = Color.FromArgb(50, 239, 105, 80), /* #EF6950 */
-				PreviewColor = new SolidColorBrush(Color.FromArgb(255, 239, 105, 80)), /* #EF6950 */
-				Name = "Pale Rust"
-			},
+			//new AppThemeResource
+			//{
+			//	BackgroundColor = Color.FromArgb(50, 239, 105, 80), /* #EF6950 */
+			//	PreviewColor = new SolidColorBrush(Color.FromArgb(255, 239, 105, 80)), /* #EF6950 */
+			//	Name = "Pale Rust"
+			//},
 			new AppThemeResource
 			{
 				BackgroundColor = Color.FromArgb(50, 209, 52, 56), /* #D13438 */
@@ -81,36 +81,36 @@ namespace Files.App.Views.SettingsPages.Appearance
 				PreviewColor = new SolidColorBrush(Color.FromArgb(255, 234, 0, 94)), /* #EA005E */
 				Name = "Rose Bright"
 			},
-			new AppThemeResource
-			{
-				BackgroundColor = Color.FromArgb(50, 195, 0, 82), /* #C30052 */
-				PreviewColor = new SolidColorBrush(Color.FromArgb(255, 195, 0, 82)), /* #C30052 */
-				Name = "Rose"
-			},
+			//new AppThemeResource
+			//{
+			//	BackgroundColor = Color.FromArgb(50, 195, 0, 82), /* #C30052 */
+			//	PreviewColor = new SolidColorBrush(Color.FromArgb(255, 195, 0, 82)), /* #C30052 */
+			//	Name = "Rose"
+			//},
 			new AppThemeResource
 			{
 				BackgroundColor = Color.FromArgb(50, 227, 0, 140), /* #E3008C */
 				PreviewColor = new SolidColorBrush(Color.FromArgb(100, 227, 0, 140)), /* #E3008C */
 				Name = "Plum Light"
 			},
-			new AppThemeResource
-			{
-				BackgroundColor = Color.FromArgb(50, 191, 0, 119), /* #BF0077 */
-				PreviewColor = new SolidColorBrush(Color.FromArgb(100, 191, 0, 119)), /* #BF0077 */
-				Name = "Plum"
-			},
-			new AppThemeResource
-			{
-				BackgroundColor = Color.FromArgb(50, 194, 57, 179), /* #C239B3 */
-				PreviewColor = new SolidColorBrush(Color.FromArgb(255, 194, 57, 179)), /* #C239B3 */
-				Name = "Orchid Light"
-			},
-			new AppThemeResource
-			{
-				BackgroundColor = Color.FromArgb(50, 154, 0, 137), /* #9A0089 */
-				PreviewColor = new SolidColorBrush(Color.FromArgb(255, 154, 0, 137)), /* #9A0089 */
-				Name = "Orchid"
-			},
+			//new AppThemeResource
+			//{
+			//	BackgroundColor = Color.FromArgb(50, 191, 0, 119), /* #BF0077 */
+			//	PreviewColor = new SolidColorBrush(Color.FromArgb(100, 191, 0, 119)), /* #BF0077 */
+			//	Name = "Plum"
+			//},
+			//new AppThemeResource
+			//{
+			//	BackgroundColor = Color.FromArgb(50, 194, 57, 179), /* #C239B3 */
+			//	PreviewColor = new SolidColorBrush(Color.FromArgb(255, 194, 57, 179)), /* #C239B3 */
+			//	Name = "Orchid Light"
+			//},
+			//new AppThemeResource
+			//{
+			//	BackgroundColor = Color.FromArgb(50, 154, 0, 137), /* #9A0089 */
+			//	PreviewColor = new SolidColorBrush(Color.FromArgb(255, 154, 0, 137)), /* #9A0089 */
+			//	Name = "Orchid"
+			//},
 			new AppThemeResource
 			{
 				BackgroundColor = Color.FromArgb(50, 0, 120, 215), /* #0078D7 */

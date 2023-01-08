@@ -11,7 +11,7 @@ namespace Files.App.Views
 			InitializeComponent();
 		}
 
-		public override Task<bool> SaveChangesAsync(ListedItem item)
+		public override Task<bool> SaveChangesAsync()
 		{
 			return Task.FromResult(true);
 		}

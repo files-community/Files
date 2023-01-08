@@ -275,6 +275,7 @@ namespace Files.App.Views
 			ToolbarViewModel.ClosePaneCommand = new RelayCommand(() => PaneHolder?.CloseActivePane());
 			ToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.File, x, this));
 			ToolbarViewModel.CreateNewFolderCommand = new RelayCommand(() => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.Folder, null, this));
+			ToolbarViewModel.CreateNewShortcutCommand = new RelayCommand(() => CreateNewShortcutFromDialog());
 			ToolbarViewModel.CopyCommand = new RelayCommand(async () => await UIFilesystemHelpers.CopyItem(this));
 			ToolbarViewModel.Rename = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RenameItemCommand.Execute(null));
 			ToolbarViewModel.Share = new RelayCommand(() => SlimContentPage?.CommandsViewModel.ShareItemCommand.Execute(null));
@@ -689,13 +690,13 @@ namespace Files.App.Views
 					{
 						var addItemDialogViewModel = new AddItemDialogViewModel();
 						await DialogService.ShowDialogAsync(addItemDialogViewModel);
-						if (addItemDialogViewModel.ResultType.ItemType != AddItemDialogItemType.Cancel)
-						{
+						if (addItemDialogViewModel.ResultType.ItemType == AddItemDialogItemType.Shortcut)
+							CreateNewShortcutFromDialog();
+						else if (addItemDialogViewModel.ResultType.ItemType != AddItemDialogItemType.Cancel)
 							UIFilesystemHelpers.CreateFileFromDialogResultType(
 								addItemDialogViewModel.ResultType.ItemType,
 								addItemDialogViewModel.ResultType.ItemInfo,
 								this);
-						}
 					}
 					break;
 
@@ -1045,5 +1046,8 @@ namespace Files.App.Views
 			});
 			//this.FindAscendant<ColumnViewBrowser>().SetSelectedPathOrNavigate(null, typeof(ColumnViewBase), navArgs);
 		}
+
+		private async void CreateNewShortcutFromDialog() 
+			=> await UIFilesystemHelpers.CreateShortcutFromDialogAsync(this);
 	}
 }

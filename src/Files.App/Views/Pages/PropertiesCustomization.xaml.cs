@@ -29,7 +29,7 @@ namespace Files.App.Views
 			}, new SuppressNavigationTransitionInfo());
 		}
 
-		public override Task<bool> SaveChangesAsync(ListedItem item)
+		public override Task<bool> SaveChangesAsync()
 		{
 			return Task.FromResult(true);
 		}
